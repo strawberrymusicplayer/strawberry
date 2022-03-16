@@ -35,10 +35,12 @@ const char *TranscoderOptionsASF::kSettingsGroup = "Transcoder/ffenc_wmav2";
 
 TranscoderOptionsASF::TranscoderOptionsASF(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsASF) {
   ui_->setupUi(this);
+
 }
 
 TranscoderOptionsASF::~TranscoderOptionsASF() {
   delete ui_;
+
 }
 
 void TranscoderOptionsASF::Load() {
@@ -47,6 +49,7 @@ void TranscoderOptionsASF::Load() {
   s.beginGroup(kSettingsGroup + settings_postfix_);
   ui_->bitrate_slider->setValue(s.value("bitrate", 320000).toInt() / 1000);
   s.endGroup();
+
 }
 
 void TranscoderOptionsASF::Save() {
@@ -55,4 +58,5 @@ void TranscoderOptionsASF::Save() {
   s.beginGroup(kSettingsGroup + settings_postfix_);
   s.setValue("bitrate", ui_->bitrate_slider->value() * 1000);
   s.endGroup();
+
 }

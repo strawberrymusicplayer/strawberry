@@ -66,6 +66,7 @@ class StandardItemIconLoader : public QObject {
   QAbstractItemModel *model_;
 
   QMap<quint64, QStandardItem *> pending_covers_;
+
 };
 
 #endif  // STANDARDITEMICONLOADER_H

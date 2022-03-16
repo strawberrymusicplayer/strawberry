@@ -59,6 +59,7 @@ class CollectionPlaylistItem : public PlaylistItem {
 
  private:
   Q_DISABLE_COPY(CollectionPlaylistItem)
+
 };
 
 #endif  // COLLECTIONPLAYLISTITEM_H

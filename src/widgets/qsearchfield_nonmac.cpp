@@ -60,6 +60,7 @@ class QSearchFieldPrivate : public QObject {  // clazy:exclude=missing-qobject-m
 
   QPointer<QLineEdit> lineedit_;
   QPointer<QToolButton> clearbutton_;
+
 };
 
 QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
@@ -94,6 +95,7 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   layout->addWidget(lineEdit);
 
   lineEdit->installEventFilter(this);
+
 }
 
 void QSearchField::setIconSize(const int iconsize) {
@@ -106,6 +108,7 @@ void QSearchField::setIconSize(const int iconsize) {
   const int width = frame_width + qMax(pimpl->lineedit_->minimumSizeHint().width(), pimpl->clearButtonPaddedWidth());
   const int height = frame_width + qMax(pimpl->lineedit_->minimumSizeHint().height(), pimpl->clearButtonPaddedHeight());
   pimpl->lineedit_->setMinimumSize(width, height);
+
 }
 
 void QSearchField::setText(const QString &new_text) {
@@ -113,6 +116,7 @@ void QSearchField::setText(const QString &new_text) {
   Q_ASSERT(pimpl && pimpl->clearbutton_ && pimpl->lineedit_);
   if (!(pimpl && pimpl->clearbutton_ && pimpl->lineedit_)) return;
   if (new_text != text()) pimpl->lineedit_->setText(new_text);
+
 }
 
 void QSearchField::setPlaceholderText(const QString &text) {
@@ -120,24 +124,29 @@ void QSearchField::setPlaceholderText(const QString &text) {
   Q_ASSERT(pimpl && pimpl->lineedit_);
   if (!(pimpl && pimpl->lineedit_)) return;
   pimpl->lineedit_->setPlaceholderText(text);
+
 }
 
 QString QSearchField::placeholderText() const {
   return pimpl->lineedit_->placeholderText();
+
 }
 
 bool QSearchField::hasFocus() const {
   Q_ASSERT(pimpl && pimpl->lineedit_);
   return pimpl && pimpl->lineedit_ && pimpl->lineedit_->hasFocus();
+
 }
 
 void QSearchField::setFocus(Qt::FocusReason reason) {
   Q_ASSERT(pimpl && pimpl->lineedit_);
   if (pimpl && pimpl->lineedit_) pimpl->lineedit_->setFocus(reason);
+
 }
 
 void QSearchField::setFocus() {
   setFocus(Qt::OtherFocusReason);
+
 }
 
 void QSearchField::clear() {
@@ -146,6 +155,7 @@ void QSearchField::clear() {
 
   if (!(pimpl && pimpl->lineedit_)) return;
   pimpl->lineedit_->clear();
+
 }
 
 void QSearchField::selectAll() {
@@ -154,6 +164,7 @@ void QSearchField::selectAll() {
 
   if (!(pimpl && pimpl->lineedit_)) return;
   pimpl->lineedit_->selectAll();
+
 }
 
 QString QSearchField::text() const {
@@ -162,11 +173,13 @@ QString QSearchField::text() const {
 
   if (!(pimpl && pimpl->lineedit_)) return QString();
   return pimpl->lineedit_->text();
+
 }
 
 void QSearchField::showEvent(QShowEvent *e) {
 
   QWidget::showEvent(e);
+
 }
 
 void QSearchField::resizeEvent(QResizeEvent *resizeEvent) {
@@ -178,6 +191,7 @@ void QSearchField::resizeEvent(QResizeEvent *resizeEvent) {
   const int x = pimpl->lineEditFrameWidth();
   const int y = (height() - pimpl->clearbutton_->height()) / 2;
   pimpl->clearbutton_->move(x, y);
+
 }
 
 bool QSearchField::eventFilter(QObject *o, QEvent *e) {
@@ -195,4 +209,5 @@ bool QSearchField::eventFilter(QObject *o, QEvent *e) {
     }
   }
   return QWidget::eventFilter(o, e);
+
 }

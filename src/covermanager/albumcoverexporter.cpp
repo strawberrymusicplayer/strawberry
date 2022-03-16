@@ -37,15 +37,18 @@ AlbumCoverExporter::AlbumCoverExporter(QObject *parent)
       skipped_(0),
       all_(0) {
   thread_pool_->setMaxThreadCount(kMaxConcurrentRequests);
+
 }
 
 void AlbumCoverExporter::SetDialogResult(const AlbumCoverExport::DialogResult &dialog_result) {
   dialog_result_ = dialog_result;
+
 }
 
 void AlbumCoverExporter::AddExportRequest(const Song &song) {
   requests_.append(new CoverExportRunnable(dialog_result_, song));
   all_ = static_cast<int>(requests_.count());
+
 }
 
 void AlbumCoverExporter::Cancel() { requests_.clear(); }
@@ -55,6 +58,7 @@ void AlbumCoverExporter::StartExporting() {
   exported_ = 0;
   skipped_ = 0;
   AddJobsToPool();
+
 }
 
 void AlbumCoverExporter::AddJobsToPool() {
@@ -67,6 +71,7 @@ void AlbumCoverExporter::AddJobsToPool() {
 
     thread_pool_->start(runnable);
   }
+
 }
 
 void AlbumCoverExporter::CoverExported() {
@@ -74,6 +79,7 @@ void AlbumCoverExporter::CoverExported() {
   ++exported_;
   emit AlbumCoversExportUpdate(exported_, skipped_, all_);
   AddJobsToPool();
+
 }
 
 void AlbumCoverExporter::CoverSkipped() {
@@ -81,4 +87,5 @@ void AlbumCoverExporter::CoverSkipped() {
   ++skipped_;
   emit AlbumCoversExportUpdate(exported_, skipped_, all_);
   AddJobsToPool();
+
 }

@@ -71,6 +71,7 @@ class ParserBase : public QObject {
 
  private:
   CollectionBackendInterface *collection_;
+
 };
 
 #endif  // PARSERBASE_H

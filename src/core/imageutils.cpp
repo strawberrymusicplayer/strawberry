@@ -49,6 +49,7 @@ QStringList ImageUtils::SupportedImageMimeTypes() {
   }
 
   return kSupportedImageMimeTypes;
+
 }
 
 QStringList ImageUtils::SupportedImageFormats() {
@@ -60,6 +61,7 @@ QStringList ImageUtils::SupportedImageFormats() {
   }
 
   return kSupportedImageFormats;
+
 }
 
 QList<QByteArray> ImageUtils::ImageFormatsForMimeType(const QByteArray &mimetype) {
@@ -78,6 +80,7 @@ QList<QByteArray> ImageUtils::ImageFormatsForMimeType(const QByteArray &mimetype
   else
     return QList<QByteArray>();
 #endif
+
 }
 
 QPixmap ImageUtils::TryLoadPixmap(const QUrl &art_automatic, const QUrl &art_manual, const QUrl &url) {
@@ -107,6 +110,7 @@ QPixmap ImageUtils::TryLoadPixmap(const QUrl &art_automatic, const QUrl &art_man
   }
 
   return ret;
+
 }
 
 QByteArray ImageUtils::SaveImageToJpegData(const QImage &image) {
@@ -121,6 +125,7 @@ QByteArray ImageUtils::SaveImageToJpegData(const QImage &image) {
   }
 
   return image_data;
+
 }
 
 QByteArray ImageUtils::FileToJpegData(const QString &filename) {
@@ -140,6 +145,7 @@ QByteArray ImageUtils::FileToJpegData(const QString &filename) {
   }
 
   return image_data;
+
 }
 
 QImage ImageUtils::ScaleAndPad(const QImage &image, const bool scale, const bool pad, const int desired_height) {
@@ -168,6 +174,7 @@ QImage ImageUtils::ScaleAndPad(const QImage &image, const bool scale, const bool
   }
 
   return image_scaled;
+
 }
 
 QImage ImageUtils::CreateThumbnail(const QImage &image, const bool pad, const QSize size) {
@@ -191,6 +198,7 @@ QImage ImageUtils::CreateThumbnail(const QImage &image, const bool pad, const QS
   }
 
   return image_thumbnail;
+
 }
 
 QImage ImageUtils::GenerateNoCoverImage(const QSize size) {
@@ -208,4 +216,5 @@ QImage ImageUtils::GenerateNoCoverImage(const QSize size) {
   p.end();
 
   return image_square;
+
 }

@@ -101,6 +101,7 @@ class PlaylistSequence : public QWidget {
   RepeatMode repeat_mode_;
   ShuffleMode shuffle_mode_;
   bool dynamic_;
+
 };
 
 #endif  // PLAYLISTSEQUENCE_H

@@ -57,6 +57,7 @@ class RadioPlaylistItem : public PlaylistItem {
   Song metadata_;
 
   Q_DISABLE_COPY(RadioPlaylistItem)
+
 };
 
 #endif  // INTERNETPLAYLISTITEM_H

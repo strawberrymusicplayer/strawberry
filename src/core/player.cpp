@@ -101,10 +101,12 @@ Player::Player(Application *app, QObject *parent)
   Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::GStreamer)).toString().toLower());
   s.endGroup();
   CreateEngine(enginetype);
+
 }
 
 Player::~Player() {
   settings_.endGroup();
+
 }
 
 Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
@@ -154,6 +156,7 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
   emit EngineChanged(use_enginetype);
 
   return use_enginetype;
+
 }
 
 void Player::Init() {
@@ -203,6 +206,7 @@ void Player::Init() {
   }
 
   ReloadSettings();
+
 }
 
 void Player::ReloadSettings() {
@@ -225,6 +229,7 @@ void Player::ReloadSettings() {
   s.endGroup();
 
   engine_->ReloadSettings();
+
 }
 
 void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
@@ -350,6 +355,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       loading_async_ << result.original_url_;
       break;
   }
+
 }
 
 void Player::Next() { NextInternal(Engine::Manual, Playlist::AutoScroll_Always); }
@@ -362,6 +368,7 @@ void Player::NextInternal(const Engine::TrackChangeFlags change, const Playlist:
   if (HandleStopAfter(autoscroll)) return;
 
   NextItem(change, autoscroll);
+
 }
 
 void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll) {
@@ -397,10 +404,12 @@ void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::Aut
   }
 
   PlayAt(i, 0, change, autoscroll, false, true);
+
 }
 
 void Player::PlayPlaylist(const QString &playlist_name) {
   PlayPlaylistInternal(Engine::Manual, Playlist::AutoScroll_Always, playlist_name);
+
 }
 
 void Player::PlayPlaylistInternal(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const QString &playlist_name) {
@@ -430,6 +439,7 @@ void Player::PlayPlaylistInternal(const Engine::TrackChangeFlags change, const P
   if (i == -1) i = 0;
 
   PlayAt(i, 0, change, autoscroll, true);
+
 }
 
 
@@ -449,6 +459,7 @@ bool Player::HandleStopAfter(const Playlist::AutoScroll autoscroll) {
   }
 
   return false;
+
 }
 
 void Player::TrackEnded() {
@@ -460,6 +471,7 @@ void Player::TrackEnded() {
   if (HandleStopAfter(Playlist::AutoScroll_Maybe)) return;
 
   NextInternal(Engine::Auto, Playlist::AutoScroll_Maybe);
+
 }
 
 void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll autoscroll) {
@@ -496,6 +508,7 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
       break;
     }
   }
+
 }
 
 void Player::UnPause() {
@@ -517,6 +530,7 @@ void Player::UnPause() {
   play_offset_nanosec_ = 0;
 
   engine_->Unpause();
+
 }
 
 void Player::RestartOrPrevious() {
@@ -530,6 +544,7 @@ void Player::RestartOrPrevious() {
   }
 
   SeekTo(0);
+
 }
 
 void Player::Stop(const bool stop_after) {
@@ -539,16 +554,19 @@ void Player::Stop(const bool stop_after) {
   current_item_.reset();
   pause_time_ = QDateTime();
   play_offset_nanosec_ = 0;
+
 }
 
 void Player::StopAfterCurrent() {
   app_->playlist_manager()->active()->StopAfter(app_->playlist_manager()->active()->current_row());
+
 }
 
 bool Player::PreviousWouldRestartTrack() const {
 
   // Check if it has been over two seconds since previous button was pressed
   return menu_previousmode_ == BehaviourSettingsPage::PreviousBehaviour_Restart && last_pressed_previous_.isValid() && last_pressed_previous_.secsTo(QDateTime::currentDateTime()) >= 2;
+
 }
 
 void Player::Previous() { PreviousItem(Engine::Manual); }
@@ -580,6 +598,7 @@ void Player::PreviousItem(const Engine::TrackChangeFlags change) {
   }
 
   PlayAt(i, 0, change, Playlist::AutoScroll_Always, false);
+
 }
 
 void Player::EngineStateChanged(const Engine::State state) {
@@ -614,11 +633,13 @@ void Player::EngineStateChanged(const Engine::State state) {
   }
 
   last_state_ = state;
+
 }
 
 uint Player::GetVolume() const {
 
   return engine_->volume();
+
 }
 
 void Player::SetVolume(const uint value) {
@@ -632,6 +653,7 @@ void Player::SetVolume(const uint value) {
   if (volume != old_volume) {
     emit VolumeChanged(volume);
   }
+
 }
 
 void Player::VolumeUp() {
@@ -640,6 +662,7 @@ void Player::VolumeUp() {
   uint new_volume = std::min(old_volume + 5, static_cast<uint>(100));
   if (new_volume == old_volume) return;
   SetVolume(new_volume);
+
 }
 
 void Player::VolumeDown() {
@@ -648,6 +671,7 @@ void Player::VolumeDown() {
   uint new_volume = static_cast<uint>(std::max(static_cast<int>(old_volume) - 5, 0));
   if (new_volume == old_volume) return;
   SetVolume(new_volume);
+
 }
 
 void Player::PlayAt(const int index, const quint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform) {
@@ -688,12 +712,14 @@ void Player::PlayAt(const int index, const quint64 offset_nanosec, Engine::Track
     qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url << "position" << offset_nanosec;
     engine_->Play(url, current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec(), offset_nanosec);
   }
+
 }
 
 void Player::CurrentMetadataChanged(const Song &metadata) {
 
   // Those things might have changed (especially when a previously invalid song was reloaded) so we push the latest version into Engine
   engine_->RefreshMarkers(metadata.beginning_nanosec(), metadata.end_nanosec());
+
 }
 
 void Player::SeekTo(const quint64 seconds) {
@@ -716,14 +742,17 @@ void Player::SeekTo(const quint64 seconds) {
   if (seconds == 0) {
     app_->playlist_manager()->active()->InformOfCurrentSongChange(Playlist::AutoScroll_Maybe, false);
   }
+
 }
 
 void Player::SeekForward() {
   SeekTo(engine()->position_nanosec() / kNsecPerSec + seek_step_sec_);
+
 }
 
 void Player::SeekBackward() {
   SeekTo(engine()->position_nanosec() / kNsecPerSec - seek_step_sec_);
+
 }
 
 void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
@@ -750,6 +779,7 @@ void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
       }
     }
   }
+
 }
 
 PlaylistItemPtr Player::GetItemAt(const int pos) const {
@@ -757,6 +787,7 @@ PlaylistItemPtr Player::GetItemAt(const int pos) const {
   if (pos < 0 || pos >= app_->playlist_manager()->active()->rowCount())
     return PlaylistItemPtr();
   return app_->playlist_manager()->active()->item_at(pos);
+
 }
 
 void Player::Mute() {
@@ -772,6 +803,7 @@ void Player::Mute() {
     volume_before_mute_ = current_volume;
     SetVolume(0);
   }
+
 }
 
 void Player::Pause() { engine_->Pause(); }
@@ -789,14 +821,17 @@ void Player::Play(const quint64 offset_nanosec) {
       PlayPause(offset_nanosec);
       break;
   }
+
 }
 
 void Player::ShowOSD() {
   if (current_item_) emit ForceShowOSD(current_item_->Metadata(), false);
+
 }
 
 void Player::TogglePrettyOSD() {
   if (current_item_) emit ForceShowOSD(current_item_->Metadata(), true);
+
 }
 
 void Player::TrackAboutToEnd() {
@@ -858,15 +893,18 @@ void Player::TrackAboutToEnd() {
   }
 
   engine_->StartPreloading(url, next_item->Url(), next_item->Metadata().has_cue(), next_item->effective_beginning_nanosec(), next_item->effective_end_nanosec());
+
 }
 
 void Player::FatalError() {
   nb_errors_received_ = 0;
   Stop();
+
 }
 
 void Player::ValidSongRequested(const QUrl &url) {
   emit SongChangeRequestProcessed(url, true);
+
 }
 
 void Player::InvalidSongRequested(const QUrl &url) {
@@ -879,6 +917,7 @@ void Player::InvalidSongRequested(const QUrl &url) {
   }
 
   NextItem(Engine::Auto, Playlist::AutoScroll_Maybe);
+
 }
 
 void Player::RegisterUrlHandler(UrlHandler *handler) {
@@ -894,6 +933,7 @@ void Player::RegisterUrlHandler(UrlHandler *handler) {
   url_handlers_.insert(scheme, handler);
   QObject::connect(handler, &UrlHandler::destroyed, this, &Player::UrlHandlerDestroyed);
   QObject::connect(handler, &UrlHandler::AsyncLoadComplete, this, &Player::HandleLoadResult);
+
 }
 
 void Player::UnregisterUrlHandler(UrlHandler *handler) {
@@ -908,6 +948,7 @@ void Player::UnregisterUrlHandler(UrlHandler *handler) {
   url_handlers_.remove(scheme);
   QObject::disconnect(handler, &UrlHandler::destroyed, this, &Player::UrlHandlerDestroyed);
   QObject::disconnect(handler, &UrlHandler::AsyncLoadComplete, this, &Player::HandleLoadResult);
+
 }
 
 const UrlHandler *Player::HandlerForUrl(const QUrl &url) const {
@@ -917,6 +958,7 @@ const UrlHandler *Player::HandlerForUrl(const QUrl &url) const {
     return nullptr;
   }
   return *it;
+
 }
 
 void Player::UrlHandlerDestroyed(QObject *object) {
@@ -926,8 +968,10 @@ void Player::UrlHandlerDestroyed(QObject *object) {
   if (!scheme.isEmpty()) {
     url_handlers_.remove(scheme);
   }
+
 }
 
 void Player::HandleAuthentication() {
   emit Authenticated();
+
 }

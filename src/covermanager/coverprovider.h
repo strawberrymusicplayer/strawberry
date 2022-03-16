@@ -84,6 +84,7 @@ class CoverProvider : public QObject {
   float quality_;
   bool batch_;
   bool allow_missing_album_;
+
 };
 
 #endif  // COVERPROVIDER_H

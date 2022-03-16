@@ -86,6 +86,7 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent)
 
   ListenBrainzScrobbler::ReloadSettings();
   LoadSession();
+
 }
 
 ListenBrainzScrobbler::~ListenBrainzScrobbler() {
@@ -102,6 +103,7 @@ ListenBrainzScrobbler::~ListenBrainzScrobbler() {
     if (server_->isListening()) server_->close();
     server_->deleteLater();
   }
+
 }
 
 void ListenBrainzScrobbler::ReloadSettings() {
@@ -111,6 +113,7 @@ void ListenBrainzScrobbler::ReloadSettings() {
   enabled_ = s.value("enabled", false).toBool();
   user_token_ = s.value("user_token").toString();
   s.endGroup();
+
 }
 
 void ListenBrainzScrobbler::LoadSession() {
@@ -130,6 +133,7 @@ void ListenBrainzScrobbler::LoadSession() {
     refresh_login_timer_.setInterval(static_cast<int>(time * kMsecPerSec));
     refresh_login_timer_.start();
   }
+
 }
 
 void ListenBrainzScrobbler::Logout() {
@@ -147,6 +151,7 @@ void ListenBrainzScrobbler::Logout() {
   settings.remove("token_type");
   settings.remove("refresh_token");
   settings.endGroup();
+
 }
 
 void ListenBrainzScrobbler::Authenticate(const bool https) {
@@ -180,6 +185,7 @@ void ListenBrainzScrobbler::Authenticate(const bool https) {
     messagebox.setTextFormat(Qt::RichText);
     messagebox.exec();
   }
+
 }
 
 void ListenBrainzScrobbler::RedirectArrived() {
@@ -211,6 +217,7 @@ void ListenBrainzScrobbler::RedirectArrived() {
   server_->close();
   server_->deleteLater();
   server_ = nullptr;
+
 }
 
 void ListenBrainzScrobbler::RequestAccessToken(const QUrl &redirect_url, const QString &code) {
@@ -247,6 +254,7 @@ void ListenBrainzScrobbler::RequestAccessToken(const QUrl &redirect_url, const Q
   QNetworkReply *reply = network_->post(req, query);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AuthenticateReplyFinished(reply); });
+
 }
 
 void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
@@ -335,6 +343,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
   qLog(Debug) << "ListenBrainz: Authentication was successful, login expires in" << expires_in_;
 
   StartSubmit();
+
 }
 
 QNetworkReply *ListenBrainzScrobbler::CreateRequest(const QUrl &url, const QJsonDocument &json_doc) {
@@ -349,6 +358,7 @@ QNetworkReply *ListenBrainzScrobbler::CreateRequest(const QUrl &url, const QJson
   //qLog(Debug) << "ListenBrainz: Sending request" << json_doc.toJson();
 
   return reply;
+
 }
 
 QByteArray ListenBrainzScrobbler::GetReplyData(QNetworkReply *reply) {
@@ -398,6 +408,7 @@ QByteArray ListenBrainzScrobbler::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
+
 }
 
 void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
@@ -444,6 +455,7 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   QUrl url(QString("%1/1/submit-listens").arg(kApiUrl));
   QNetworkReply *reply = CreateRequest(url, doc);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { UpdateNowPlayingRequestFinished(reply); });
+
 }
 
 void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply) {
@@ -478,6 +490,7 @@ void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply
   if (status.compare("ok", Qt::CaseInsensitive) != 0) {
     Error(status);
   }
+
 }
 
 void ListenBrainzScrobbler::ClearPlaying() {
@@ -486,6 +499,7 @@ void ListenBrainzScrobbler::ClearPlaying() {
   song_playing_ = Song();
   scrobbled_ = false;
   timestamp_ = 0;
+
 }
 
 void ListenBrainzScrobbler::Scrobble(const Song &song) {
@@ -499,6 +513,7 @@ void ListenBrainzScrobbler::Scrobble(const Song &song) {
   if (app_->scrobbler()->IsOffline() || !IsAuthenticated()) return;
 
   StartSubmit();
+
 }
 
 void ListenBrainzScrobbler::StartSubmit(const bool initial) {
@@ -516,6 +531,7 @@ void ListenBrainzScrobbler::StartSubmit(const bool initial) {
       timer_submit_.start();
     }
   }
+
 }
 
 void ListenBrainzScrobbler::Submit() {
@@ -565,6 +581,7 @@ void ListenBrainzScrobbler::Submit() {
   QUrl url(QString("%1/1/submit-listens").arg(kApiUrl));
   QNetworkReply *reply = CreateRequest(url, doc);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, list]() { ScrobbleRequestFinished(reply, list); });
+
 }
 
 void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, const QList<quint64> &list) {
@@ -609,16 +626,19 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, const 
   cache_->Flush(list);
   submit_error_ = false;
   StartSubmit();
+
 }
 
 void ListenBrainzScrobbler::AuthError(const QString &error) {
   emit AuthenticationComplete(false, error);
+
 }
 
 void ListenBrainzScrobbler::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "ListenBrainz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }
 
 void ListenBrainzScrobbler::CheckScrobblePrevSong() {
@@ -631,4 +651,5 @@ void ListenBrainzScrobbler::CheckScrobblePrevSong() {
     song.set_length_nanosec(duration * kNsecPerSec);
     Scrobble(song);
   }
+
 }

@@ -48,10 +48,12 @@ ErrorDialog::ErrorDialog(QWidget *parent)
 
   ui_->messages->setPalette(messages_palette);
   ui_->icon->setPixmap(warning_pixmap);
+
 }
 
 ErrorDialog::~ErrorDialog() {
   delete ui_;
+
 }
 
 void ErrorDialog::ShowMessage(const QString &message) {
@@ -64,11 +66,13 @@ void ErrorDialog::ShowMessage(const QString &message) {
   show();
   raise();
   activateWindow();
+
 }
 
 void ErrorDialog::hideEvent(QHideEvent *) {
   current_messages_.clear();
   UpdateContent();
+
 }
 
 void ErrorDialog::UpdateContent() {
@@ -81,4 +85,5 @@ void ErrorDialog::UpdateContent() {
     html += message.toHtmlEscaped();
   }
   ui_->messages->setHtml(html);
+
 }

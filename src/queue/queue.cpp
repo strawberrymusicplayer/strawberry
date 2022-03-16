@@ -51,6 +51,7 @@ Queue::Queue(Playlist *playlist, QObject *parent) : QAbstractProxyModel(parent),
   QObject::connect(this, &Queue::TotalLengthChanged, this, &Queue::UpdateSummaryText);
 
   UpdateSummaryText();
+
 }
 
 QModelIndex Queue::mapFromSource(const QModelIndex &source_index) const {
@@ -64,6 +65,7 @@ QModelIndex Queue::mapFromSource(const QModelIndex &source_index) const {
     }
   }
   return QModelIndex();
+
 }
 
 bool Queue::ContainsSourceRow(const int source_row) const {
@@ -72,6 +74,7 @@ bool Queue::ContainsSourceRow(const int source_row) const {
     if (source_indexes_[i].row() == source_row) return true;
   }
   return false;
+
 }
 
 QModelIndex Queue::mapToSource(const QModelIndex &proxy_index) const {
@@ -79,6 +82,7 @@ QModelIndex Queue::mapToSource(const QModelIndex &proxy_index) const {
   if (!proxy_index.isValid()) return QModelIndex();
 
   return source_indexes_[proxy_index.row()];
+
 }
 
 void Queue::setSourceModel(QAbstractItemModel *source_model) {
@@ -94,6 +98,7 @@ void Queue::setSourceModel(QAbstractItemModel *source_model) {
   QObject::connect(sourceModel(), &QAbstractItemModel::dataChanged, this, &Queue::SourceDataChanged);
   QObject::connect(sourceModel(), &QAbstractItemModel::rowsRemoved, this, &Queue::SourceLayoutChanged);
   QObject::connect(sourceModel(), &QAbstractItemModel::layoutChanged, this, &Queue::SourceLayoutChanged);
+
 }
 
 void Queue::SourceDataChanged(const QModelIndex &top_left, const QModelIndex &bottom_right) {
@@ -105,6 +110,7 @@ void Queue::SourceDataChanged(const QModelIndex &top_left, const QModelIndex &bo
     emit dataChanged(proxy_index, proxy_index);
   }
   emit ItemCountChanged(ItemCount());
+
 }
 
 void Queue::SourceLayoutChanged() {
@@ -123,21 +129,25 @@ void Queue::SourceLayoutChanged() {
   signal_item_count_changed_ = QObject::connect(this, &Queue::ItemCountChanged, this, &Queue::UpdateTotalLength);
 
   emit ItemCountChanged(ItemCount());
+
 }
 
 QModelIndex Queue::index(int row, int column, const QModelIndex &parent) const {
   Q_UNUSED(parent);
   return createIndex(row, column);
+
 }
 
 QModelIndex Queue::parent(const QModelIndex &child) const {
   Q_UNUSED(child);
   return QModelIndex();
+
 }
 
 int Queue::rowCount(const QModelIndex &parent) const {
   if (parent.isValid()) return 0;
   return static_cast<int>(source_indexes_.count());
+
 }
 
 int Queue::columnCount(const QModelIndex &) const { return 1; }
@@ -161,6 +171,7 @@ QVariant Queue::data(const QModelIndex &proxy_index, int role) const {
     default:
       return QVariant();
   }
+
 }
 
 void Queue::ToggleTracks(const QModelIndexList &source_indexes) {
@@ -182,6 +193,7 @@ void Queue::ToggleTracks(const QModelIndexList &source_indexes) {
       endInsertRows();
     }
   }
+
 }
 
 void Queue::InsertFirst(const QModelIndexList &source_indexes) {
@@ -206,10 +218,12 @@ void Queue::InsertFirst(const QModelIndexList &source_indexes) {
     offset++;
   }
   endInsertRows();
+
 }
 
 int Queue::PositionOf(const QModelIndex &source_index) const {
   return mapFromSource(source_index).row();
+
 }
 
 bool Queue::is_empty() const { return source_indexes_.isEmpty(); }
@@ -234,6 +248,7 @@ void Queue::UpdateTotalLength() {
   total_length_ns_ = total;
 
   emit TotalLengthChanged(total);
+
 }
 
 void Queue::UpdateSummaryText() {
@@ -249,6 +264,7 @@ void Queue::UpdateSummaryText() {
   }
 
   emit SummaryTextChanged(summary);
+
 }
 
 void Queue::Clear() {
@@ -258,6 +274,7 @@ void Queue::Clear() {
   beginRemoveRows(QModelIndex(), 0, static_cast<int>(source_indexes_.count() - 1));
   source_indexes_.clear();
   endRemoveRows();
+
 }
 
 void Queue::Move(const QList<int> &proxy_rows, int pos) {
@@ -299,22 +316,27 @@ void Queue::Move(const QList<int> &proxy_rows, int pos) {
   }
 
   emit layoutChanged();
+
 }
 
 void Queue::MoveUp(int row) {
   Move(QList<int>() << row, row - 1);
+
 }
 
 void Queue::MoveDown(int row) {
   Move(QList<int>() << row, row + 2);
+
 }
 
 QStringList Queue::mimeTypes() const {
   return QStringList() << kRowsMimetype << Playlist::kRowsMimetype;
+
 }
 
 Qt::DropActions Queue::supportedDropActions() const {
   return Qt::MoveAction | Qt::CopyAction | Qt::LinkAction;
+
 }
 
 QMimeData *Queue::mimeData(const QModelIndexList &indexes) const {
@@ -337,6 +359,7 @@ QMimeData *Queue::mimeData(const QModelIndexList &indexes) const {
   }
 
   return data;
+
 }
 
 bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int, const QModelIndex &) {
@@ -388,6 +411,7 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, 
   }
 
   return true;
+
 }
 
 Qt::ItemFlags Queue::flags(const QModelIndex &idx) const {
@@ -402,12 +426,14 @@ Qt::ItemFlags Queue::flags(const QModelIndex &idx) const {
   }
 
   return flags;
+
 }
 
 int Queue::PeekNext() const {
 
   if (source_indexes_.isEmpty()) return -1;
   return source_indexes_.first().row();
+
 }
 
 int Queue::TakeNext() {
@@ -419,6 +445,7 @@ int Queue::TakeNext() {
   endRemoveRows();
 
   return ret;
+
 }
 
 QVariant Queue::headerData(int section, Qt::Orientation orientation, int role) const {
@@ -426,6 +453,7 @@ QVariant Queue::headerData(int section, Qt::Orientation orientation, int role) c
   Q_UNUSED(orientation);
   Q_UNUSED(role);
   return QVariant();
+
 }
 
 void Queue::Remove(QList<int> &proxy_rows) {
@@ -447,4 +475,5 @@ void Queue::Remove(QList<int> &proxy_rows) {
   }
 
   emit layoutChanged();
+
 }

@@ -55,6 +55,7 @@ class BusyIndicator : public QWidget {
  private:
   QMovie *movie_;
   QLabel *label_;
+
 };
 
 #endif  // BUSYINDICATOR_H

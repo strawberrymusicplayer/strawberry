@@ -51,6 +51,7 @@ class MusixmatchCoverProvider : public JsonCoverProvider {
 
  private:
   QList<QNetworkReply *> replies_;
+
 };
 
 #endif  // MUSIXMATCHCOVERPROVIDER_H

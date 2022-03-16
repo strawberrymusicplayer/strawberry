@@ -66,6 +66,7 @@ class LyricsProviders : public QObject {
   QMutex mutex_;
 
   QAtomicInt next_id_;
+
 };
 
 #endif  // LYRICSPROVIDERS_H

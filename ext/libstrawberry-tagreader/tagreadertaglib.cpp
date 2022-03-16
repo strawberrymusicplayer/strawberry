@@ -101,6 +101,7 @@ class FileRefFactory {
 
  private:
   Q_DISABLE_COPY(FileRefFactory)
+
 };
 
 class TagLibFileRefFactory : public FileRefFactory {
@@ -116,17 +117,21 @@ class TagLibFileRefFactory : public FileRefFactory {
 
  private:
   Q_DISABLE_COPY(TagLibFileRefFactory)
+
 };
 
 namespace {
 
 TagLib::String StdStringToTaglibString(const std::string &s) {
   return TagLib::String(s.c_str(), TagLib::String::UTF8);
+
 }
 
 TagLib::String QStringToTaglibString(const QString &s) {
   return TagLib::String(s.toUtf8().constData(), TagLib::String::UTF8);
+
 }
+
 
 }  // namespace
 
@@ -136,6 +141,7 @@ const char *kMP4_FMPS_Playcount_ID = "----:com.apple.iTunes:FMPS_Playcount";
 const char *kMP4_FMPS_Rating_ID = "----:com.apple.iTunes:FMPS_Rating";
 const char *kASF_OriginalDate_ID = "WM/OriginalReleaseTime";
 const char *kASF_OriginalYear_ID = "WM/OriginalReleaseYear";
+
 }  // namespace
 
 
@@ -143,6 +149,7 @@ TagReaderTagLib::TagReaderTagLib() : factory_(new TagLibFileRefFactory) {}
 
 TagReaderTagLib::~TagReaderTagLib() {
   delete factory_;
+
 }
 
 bool TagReaderTagLib::IsMediaFile(const QString &filename) const {
@@ -151,6 +158,7 @@ bool TagReaderTagLib::IsMediaFile(const QString &filename) const {
 
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   return fileref && !fileref->isNull() && fileref->file() && fileref->tag();
+
 }
 
 spb::tagreader::SongMetadata_FileType TagReaderTagLib::GuessFileType(TagLib::FileRef *fileref) const {
@@ -181,6 +189,7 @@ spb::tagreader::SongMetadata_FileType TagReaderTagLib::GuessFileType(TagLib::Fil
 #endif
 
   return spb::tagreader::SongMetadata_FileType_UNKNOWN;
+
 }
 
 void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
@@ -521,17 +530,20 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
   if (song->lastplayed() <= 0) {
     song->set_lastplayed(-1);
   }
+
 }
 
 void TagReaderTagLib::Decode(const TagLib::String &tag, std::string *output) {
 
   QString tmp = TStringToQString(tag).trimmed();
   output->assign(DataCommaSizeFromQString(tmp));
+
 }
 
 void TagReaderTagLib::Decode(const QString &tag, std::string *output) {
 
   output->assign(DataCommaSizeFromQString(tag));
+
 }
 
 void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const {
@@ -566,6 +578,7 @@ void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString 
     Decode(map["LYRICS"].front(), song->mutable_lyrics());
   else if (!map["UNSYNCEDLYRICS"].isEmpty())
     Decode(map["UNSYNCEDLYRICS"].front(), song->mutable_lyrics());
+
 }
 
 void TagReaderTagLib::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const {
@@ -616,6 +629,7 @@ void TagReaderTagLib::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *
       song->set_rating(rating);
     }
   }
+
 }
 
 void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, const spb::tagreader::SongMetadata &song) const {
@@ -633,6 +647,7 @@ void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment
 
   vorbis_comments->addField("LYRICS", StdStringToTaglibString(song.lyrics()), true);
   vorbis_comments->removeFields("UNSYNCEDLYRICS");
+
 }
 
 bool TagReaderTagLib::SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
@@ -717,6 +732,7 @@ bool TagReaderTagLib::SaveFile(const QString &filename, const spb::tagreader::So
 #endif  // Q_OS_LINUX
 
   return result;
+
 }
 
 void TagReaderTagLib::SaveAPETag(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const {
@@ -728,12 +744,14 @@ void TagReaderTagLib::SaveAPETag(TagLib::APE::Tag *tag, const spb::tagreader::So
   tag->setItem("performer", TagLib::APE::Item("performer", TagLib::StringList(song.performer().c_str())));
   tag->setItem("lyrics", TagLib::APE::Item("lyrics", TagLib::String(song.lyrics())));
   tag->addValue("compilation", QStringToTaglibString(song.compilation() ? QString::number(1) : QString()), true);
+
 }
 
 void TagReaderTagLib::SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const {
 
   const QByteArray utf8(value.toUtf8());
   SetTextFrame(id, std::string(utf8.constData(), utf8.length()), tag);
+
 }
 
 void TagReaderTagLib::SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const {
@@ -764,6 +782,7 @@ void TagReaderTagLib::SetTextFrame(const char *id, const std::string &value, Tag
     // add frame takes ownership and clears the memory
     tag->addFrame(frame);
   }
+
 }
 
 void TagReaderTagLib::SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const {
@@ -771,6 +790,7 @@ void TagReaderTagLib::SetUserTextFrame(const QString &description, const QString
   const QByteArray descr_utf8(description.toUtf8());
   const QByteArray value_utf8(value.toUtf8());
   SetUserTextFrame(std::string(descr_utf8.constData(), descr_utf8.length()), std::string(value_utf8.constData(), value_utf8.length()), tag);
+
 }
 
 void TagReaderTagLib::SetUserTextFrame(const std::string &description, const std::string &value, TagLib::ID3v2::Tag *tag) const {
@@ -786,6 +806,7 @@ void TagReaderTagLib::SetUserTextFrame(const std::string &description, const std
   frame->setDescription(t_description);
   frame->setText(StdStringToTaglibString(value));
   tag->addFrame(frame);
+
 }
 
 void TagReaderTagLib::SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3v2::Tag *tag) const {
@@ -817,6 +838,7 @@ void TagReaderTagLib::SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3
     // add frame takes ownership and clears the memory
     tag->addFrame(frame);
   }
+
 }
 
 QByteArray TagReaderTagLib::LoadEmbeddedArt(const QString &filename) const {
@@ -924,6 +946,7 @@ QByteArray TagReaderTagLib::LoadEmbeddedArt(const QString &filename) const {
   }
 
   return QByteArray();
+
 }
 
 QByteArray TagReaderTagLib::LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const {
@@ -941,6 +964,7 @@ QByteArray TagReaderTagLib::LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &m
   }
 
   return ret;
+
 }
 
 bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray &data) {
@@ -1025,6 +1049,7 @@ bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray 
     return false;
 
   return fileref.file()->save();
+
 }
 
 TagLib::ID3v2::PopularimeterFrame *TagReaderTagLib::GetPOPMFrameFromTag(TagLib::ID3v2::Tag *tag) {
@@ -1042,6 +1067,7 @@ TagLib::ID3v2::PopularimeterFrame *TagReaderTagLib::GetPOPMFrameFromTag(TagLib::
   }
 
   return frame;
+
 }
 
 float TagReaderTagLib::ConvertPOPMRating(const int POPM_rating) {
@@ -1058,6 +1084,7 @@ float TagReaderTagLib::ConvertPOPMRating(const int POPM_rating) {
     return 0.80F;
 
   return 1.0F;
+
 }
 
 int TagReaderTagLib::ConvertToPOPMRating(const float rating) {
@@ -1074,6 +1101,7 @@ int TagReaderTagLib::ConvertToPOPMRating(const float rating) {
     return 0xC0;
 
   return 0xFF;
+
 }
 
 bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
@@ -1162,6 +1190,7 @@ bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb
 #endif  // Q_OS_LINUX
 
   return ret;
+
 }
 
 bool TagReaderTagLib::SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
@@ -1243,4 +1272,5 @@ bool TagReaderTagLib::SaveSongRatingToFile(const QString &filename, const spb::t
 #endif  // Q_OS_LINUX
 
   return ret;
+
 }

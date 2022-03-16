@@ -98,6 +98,7 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
   QObject::connect(double_click_timer_, &QTimer::timeout, this, &AnalyzerContainer::ShowPopupMenu);
 
   Load();
+
 }
 
 void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
@@ -113,20 +114,24 @@ void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
     context_menu_->popup(e->globalPos());
 #endif
   }
+
 }
 
 void AnalyzerContainer::ShowPopupMenu() {
   context_menu_->popup(last_click_pos_);
+
 }
 
 void AnalyzerContainer::wheelEvent(QWheelEvent *e) {
   emit WheelEvent(e->angleDelta().y());
+
 }
 
 void AnalyzerContainer::SetEngine(EngineBase *engine) {
 
   if (current_analyzer_) current_analyzer_->set_engine(engine);
   engine_ = engine;
+
 }
 
 void AnalyzerContainer::DisableAnalyzer() {
@@ -134,6 +139,7 @@ void AnalyzerContainer::DisableAnalyzer() {
   current_analyzer_ = nullptr;
 
   Save();
+
 }
 
 void AnalyzerContainer::ChangeAnalyzer(const int id) {
@@ -155,6 +161,7 @@ void AnalyzerContainer::ChangeAnalyzer(const int id) {
   layout()->addWidget(current_analyzer_);
 
   Save();
+
 }
 
 void AnalyzerContainer::ChangeFramerate(int new_framerate) {
@@ -168,6 +175,7 @@ void AnalyzerContainer::ChangeFramerate(int new_framerate) {
     current_analyzer_->framerateChanged();
   }
   SaveFramerate(new_framerate);
+
 }
 
 void AnalyzerContainer::Load() {
@@ -202,6 +210,7 @@ void AnalyzerContainer::Load() {
       break;
     }
   }
+
 }
 
 void AnalyzerContainer::SaveFramerate(const int framerate) {
@@ -212,6 +221,7 @@ void AnalyzerContainer::SaveFramerate(const int framerate) {
   s.beginGroup(kSettingsGroup);
   s.setValue(kSettingsFramerate, current_framerate_);
   s.endGroup();
+
 }
 
 void AnalyzerContainer::Save() {
@@ -220,6 +230,7 @@ void AnalyzerContainer::Save() {
   s.beginGroup(kSettingsGroup);
   s.setValue("type", current_analyzer_ ? current_analyzer_->metaObject()->className() : QVariant());
   s.endGroup();
+
 }
 
 void AnalyzerContainer::AddFramerate(const QString &name, const int framerate) {
@@ -229,4 +240,5 @@ void AnalyzerContainer::AddFramerate(const QString &name, const int framerate) {
   framerate_list_ << framerate;
   action->setCheckable(true);
   QObject::connect(action, &QAction::triggered, this, [this, framerate]() { ChangeFramerate(framerate); });
+
 }

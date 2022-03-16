@@ -40,6 +40,7 @@ class NetworkAccessManager : public QNetworkAccessManager {
 
  protected:
   QNetworkReply *createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) override;
+
 };
 
 #endif  // NETWORKACCESSMANAGER_H

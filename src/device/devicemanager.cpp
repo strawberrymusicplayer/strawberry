@@ -139,6 +139,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
 #ifdef HAVE_LIBMTP
   AddDeviceClass<MtpDevice>();
 #endif
+
 }
 
 DeviceManager::~DeviceManager() {
@@ -154,10 +155,12 @@ DeviceManager::~DeviceManager() {
 
   backend_->deleteLater();
   backend_ = nullptr;
+
 }
 
 void DeviceManager::Exit() {
   CloseDevices();
+
 }
 
 void DeviceManager::CloseDevices() {
@@ -170,6 +173,7 @@ void DeviceManager::CloseDevices() {
     info->device_->Close();
   }
   if (wait_for_exit_.isEmpty()) CloseListers();
+
 }
 
 void DeviceManager::CloseListers() {
@@ -181,6 +185,7 @@ void DeviceManager::CloseListers() {
     lister->ExitAsync();
   }
   if (wait_for_exit_.isEmpty()) CloseBackend();
+
 }
 
 void DeviceManager::CloseBackend() {
@@ -189,6 +194,7 @@ void DeviceManager::CloseBackend() {
   wait_for_exit_ << backend_;
   QObject::connect(backend_, &DeviceDatabaseBackend::ExitFinished, this, &DeviceManager::BackendClosed);
   backend_->ExitAsync();
+
 }
 
 void DeviceManager::BackendClosed() {
@@ -198,6 +204,7 @@ void DeviceManager::BackendClosed() {
   qLog(Debug) << obj << "successfully closed.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
+
 }
 
 void DeviceManager::ListerClosed() {
@@ -210,6 +217,7 @@ void DeviceManager::ListerClosed() {
   wait_for_exit_.removeAll(lister);
 
   if (wait_for_exit_.isEmpty()) CloseBackend();
+
 }
 
 void DeviceManager::DeviceDestroyed() {
@@ -219,6 +227,7 @@ void DeviceManager::DeviceDestroyed() {
 
   wait_for_exit_.removeAll(device);
   if (wait_for_exit_.isEmpty()) CloseListers();
+
 }
 void DeviceManager::LoadAllDevices() {
 
@@ -233,6 +242,7 @@ void DeviceManager::LoadAllDevices() {
 
   // This is done in a concurrent thread so close the unique DB connection.
   backend_->Close();
+
 }
 
 void DeviceManager::AddDeviceFromDB(DeviceInfo *info) {
@@ -260,6 +270,7 @@ void DeviceManager::AddDeviceFromDB(DeviceInfo *info) {
     devices_ << info;
     endInsertRows();
   }
+
 }
 
 QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
@@ -380,6 +391,7 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
     default:
       return QVariant();
   }
+
 }
 
 void DeviceManager::AddLister(DeviceLister *lister) {
@@ -390,6 +402,7 @@ void DeviceManager::AddLister(DeviceLister *lister) {
   QObject::connect(lister, &DeviceLister::DeviceChanged, this, &DeviceManager::PhysicalDeviceChanged);
 
   lister->Start();
+
 }
 
 DeviceInfo *DeviceManager::FindDeviceById(const QString &id) const {
@@ -401,6 +414,7 @@ DeviceInfo *DeviceManager::FindDeviceById(const QString &id) const {
   }
 
   return nullptr;
+
 }
 
 DeviceInfo *DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
@@ -419,6 +433,7 @@ DeviceInfo *DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
   }
 
   return nullptr;
+
 }
 
 DeviceInfo *DeviceManager::FindEquivalentDevice(DeviceInfo *info) const {
@@ -428,6 +443,7 @@ DeviceInfo *DeviceManager::FindEquivalentDevice(DeviceInfo *info) const {
     if (match) return match;
   }
   return nullptr;
+
 }
 
 void DeviceManager::PhysicalDeviceAdded(const QString &id) {
@@ -477,6 +493,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
       endInsertRows();
     }
   }
+
 }
 
 void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
@@ -524,6 +541,7 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
       endRemoveRows();
     }
   }
+
 }
 
 void DeviceManager::PhysicalDeviceChanged(const QString &id) {
@@ -535,6 +553,7 @@ void DeviceManager::PhysicalDeviceChanged(const QString &id) {
   if (!info) return;
 
   // TODO
+
 }
 
 std::shared_ptr<ConnectedDevice> DeviceManager::Connect(const QModelIndex &idx) {
@@ -545,6 +564,7 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(const QModelIndex &idx) 
   if (!info) return ret;
 
   return Connect(info);
+
 }
 
 std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
@@ -652,6 +672,7 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
   QObject::connect(info->device_.get(), &ConnectedDevice::DeviceCloseFinished, this, &DeviceManager::DeviceCloseFinished);
   ret->ConnectAsync();
   return ret;
+
 }
 
 void DeviceManager::DeviceConnectFinished(const QString &id, const bool success) {
@@ -668,6 +689,7 @@ void DeviceManager::DeviceConnectFinished(const QString &id, const bool success)
   else {
     info->device_->Close();
   }
+
 }
 
 void DeviceManager::DeviceCloseFinished(const QString &id) {
@@ -690,12 +712,14 @@ void DeviceManager::DeviceCloseFinished(const QString &id) {
   if (info->forget_) {
     RemoveFromDB(info, idx);
   }
+
 }
 
 DeviceInfo *DeviceManager::GetDevice(const QModelIndex &idx) const {
 
   DeviceInfo *info = IndexToItem(idx);
   return info;
+
 }
 
 std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(const QModelIndex &idx) const {
@@ -704,6 +728,7 @@ std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(const QModelI
   DeviceInfo *info = IndexToItem(idx);
   if (!info) return ret;
   return info->device_;
+
 }
 
 std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(DeviceInfo *info) const {
@@ -711,6 +736,7 @@ std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(DeviceInfo *i
   std::shared_ptr<ConnectedDevice> ret;
   if (!info) return ret;
   return info->device_;
+
 }
 
 int DeviceManager::GetDatabaseId(const QModelIndex &idx) const {
@@ -720,6 +746,7 @@ int DeviceManager::GetDatabaseId(const QModelIndex &idx) const {
   DeviceInfo *info = IndexToItem(idx);
   if (!info) return -1;
   return info->database_id_;
+
 }
 
 DeviceLister *DeviceManager::GetLister(const QModelIndex &idx) const {
@@ -729,6 +756,7 @@ DeviceLister *DeviceManager::GetLister(const QModelIndex &idx) const {
   DeviceInfo *info = IndexToItem(idx);
   if (!info || !info->BestBackend()) return nullptr;
   return info->BestBackend()->lister_;
+
 }
 
 void DeviceManager::Disconnect(DeviceInfo *info, const QModelIndex &idx) {
@@ -736,6 +764,7 @@ void DeviceManager::Disconnect(DeviceInfo *info, const QModelIndex &idx) {
   Q_UNUSED(idx);
 
   info->device_->Close();
+
 }
 
 void DeviceManager::Forget(const QModelIndex &idx) {
@@ -754,6 +783,7 @@ void DeviceManager::Forget(const QModelIndex &idx) {
   else {
     RemoveFromDB(info, idx);
   }
+
 }
 
 void DeviceManager::RemoveFromDB(DeviceInfo *info, const QModelIndex &idx) {
@@ -774,6 +804,7 @@ void DeviceManager::RemoveFromDB(DeviceInfo *info, const QModelIndex &idx) {
     info->LoadIcon(info->BestBackend()->lister_->DeviceIcons(id), info->friendly_name_);
     emit dataChanged(idx, idx);
   }
+
 }
 
 void DeviceManager::SetDeviceOptions(const QModelIndex &idx, const QString &friendly_name, const QString &icon_name, const MusicStorage::TranscodeMode mode, const Song::FileType format) {
@@ -793,6 +824,7 @@ void DeviceManager::SetDeviceOptions(const QModelIndex &idx, const QString &frie
   if (info->database_id_ != -1) {
     backend_->SetDeviceOptions(info->database_id_, friendly_name, icon_name, mode, format);
   }
+
 }
 
 void DeviceManager::DeviceTaskStarted(const int id) {
@@ -811,6 +843,7 @@ void DeviceManager::DeviceTaskStarted(const int id) {
       return;
     }
   }
+
 }
 
 void DeviceManager::TasksChanged() {
@@ -848,10 +881,12 @@ void DeviceManager::TasksChanged() {
 
     active_tasks_.remove(active_tasks_.key(idx));
   }
+
 }
 
 void DeviceManager::UnmountAsync(const QModelIndex &idx) {
   Q_ASSERT(QMetaObject::invokeMethod(this, "Unmount", Q_ARG(QModelIndex, idx)));
+
 }
 
 void DeviceManager::Unmount(const QModelIndex &idx) {
@@ -870,6 +905,7 @@ void DeviceManager::Unmount(const QModelIndex &idx) {
   else if (info->BestBackend() && info->BestBackend()->lister_) {
     info->BestBackend()->lister_->UnmountDeviceAsync(info->BestBackend()->unique_id_);
   }
+
 }
 
 void DeviceManager::DeviceSongCountUpdated(const int count) {
@@ -886,6 +922,7 @@ void DeviceManager::DeviceSongCountUpdated(const int count) {
   if (!idx.isValid()) return;
 
   emit dataChanged(idx, idx);
+
 }
 
 QString DeviceManager::DeviceNameByID(const QString &unique_id) {
@@ -897,4 +934,5 @@ QString DeviceManager::DeviceNameByID(const QString &unique_id) {
   if (!idx.isValid()) return QString();
 
   return data(idx, DeviceManager::Role_FriendlyName).toString();
+
 }

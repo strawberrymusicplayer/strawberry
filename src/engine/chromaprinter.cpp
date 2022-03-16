@@ -67,6 +67,7 @@ GstElement *Chromaprinter::CreateElement(const QString &factory_name, GstElement
   }
 
   return ret;
+
 }
 
 QString Chromaprinter::CreateFingerprint() {
@@ -187,6 +188,7 @@ QString Chromaprinter::CreateFingerprint() {
   gst_object_unref(pipeline);
 
   return fingerprint;
+
 }
 
 void Chromaprinter::NewPadCallback(GstElement *, GstPad *pad, gpointer data) {
@@ -201,6 +203,7 @@ void Chromaprinter::NewPadCallback(GstElement *, GstPad *pad, gpointer data) {
 
   gst_pad_link(pad, audiopad);
   gst_object_unref(audiopad);
+
 }
 
 GstFlowReturn Chromaprinter::NewBufferCallback(GstAppSink *app_sink, gpointer self) {
@@ -220,4 +223,5 @@ GstFlowReturn Chromaprinter::NewBufferCallback(GstAppSink *app_sink, gpointer se
   gst_sample_unref(sample);
 
   return GST_FLOW_OK;
+
 }

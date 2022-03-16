@@ -25,9 +25,11 @@
 CollectionTask::CollectionTask(TaskManager *task_manager, const QString &message) : task_manager_(task_manager), task_id_(-1) {
 
   if (task_manager_) task_id_ = task_manager_->StartTask(message);
+
 }
 
 CollectionTask::~CollectionTask() {
 
   if (task_manager_) task_manager_->SetTaskFinished(task_id_);
+
 }

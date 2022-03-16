@@ -54,6 +54,7 @@ class TranscoderOptionsDialog : public QDialog {
  private:
   Ui_TranscoderOptionsDialog *ui_;
   TranscoderOptionsInterface *options_;
+
 };
 
 #endif  // TRANSCODEROPTIONSDIALOG_H

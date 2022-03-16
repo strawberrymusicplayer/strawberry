@@ -62,6 +62,7 @@ class Windows7ThumbBar : public QObject {
   QList<QAction *> actions_;
 
   unsigned int button_created_message_id_;
+
 };
 
 #endif  // WINDOWS7THUMBBAR_H

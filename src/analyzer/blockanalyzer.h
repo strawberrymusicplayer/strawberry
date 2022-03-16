@@ -80,6 +80,7 @@ class BlockAnalyzer : public Analyzer::Base {
   QVector<int> fade_intensity_;
 
   double step_;  // rows to fall per frame
+
 };
 
 #endif  // BLOCKANALYZER_H

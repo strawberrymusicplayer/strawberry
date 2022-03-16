@@ -154,4 +154,5 @@ void RegisterMetaTypes() {
 #ifdef HAVE_LIBMTP
   qRegisterMetaType<MtpConnection*>("MtpConnection*");
 #endif
+
 }

@@ -67,10 +67,12 @@ TranscoderOptionsDialog::TranscoderOptionsDialog(Song::FileType type, QWidget *p
     ui_->verticalLayout->insertWidget(0, options_);
     resize(width(), minimumHeight());
   }
+
 }
 
 TranscoderOptionsDialog::~TranscoderOptionsDialog() {
   delete ui_;
+
 }
 
 void TranscoderOptionsDialog::showEvent(QShowEvent *e) {
@@ -79,6 +81,7 @@ void TranscoderOptionsDialog::showEvent(QShowEvent *e) {
   if (options_) {
     options_->Load();
   }
+
 }
 
 void TranscoderOptionsDialog::accept() {
@@ -87,6 +90,7 @@ void TranscoderOptionsDialog::accept() {
     options_->Save();
   }
   QDialog::accept();
+
 }
 
 void TranscoderOptionsDialog::set_settings_postfix(const QString &settings_postfix) {
@@ -94,4 +98,5 @@ void TranscoderOptionsDialog::set_settings_postfix(const QString &settings_postf
   if (options_) {
     options_->settings_postfix_ = settings_postfix;
   }
+
 }

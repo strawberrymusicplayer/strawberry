@@ -71,6 +71,7 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
   //qLog(Debug) << "Tidal: Sending request" << url;
 
   return reply;
+
 }
 
 void TidalBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
@@ -78,6 +79,7 @@ void TidalBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
   for (const QSslError &ssl_error : ssl_errors) {
     Error(ssl_error.errorString());
   }
+
 }
 
 QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_login) {
@@ -144,6 +146,7 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
   }
 
   return data;
+
 }
 
 QJsonObject TidalBaseRequest::ExtractJsonObj(const QByteArray &data) {
@@ -173,6 +176,7 @@ QJsonObject TidalBaseRequest::ExtractJsonObj(const QByteArray &data) {
   }
 
   return json_obj;
+
 }
 
 QJsonValue TidalBaseRequest::ExtractItems(const QByteArray &data) {
@@ -180,6 +184,7 @@ QJsonValue TidalBaseRequest::ExtractItems(const QByteArray &data) {
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) return QJsonValue();
   return ExtractItems(json_obj);
+
 }
 
 QJsonValue TidalBaseRequest::ExtractItems(const QJsonObject &json_obj) {
@@ -190,6 +195,7 @@ QJsonValue TidalBaseRequest::ExtractItems(const QJsonObject &json_obj) {
   }
   QJsonValue json_items = json_obj["items"];
   return json_items;
+
 }
 
 QString TidalBaseRequest::ErrorsToHTML(const QStringList &errors) {
@@ -199,4 +205,5 @@ QString TidalBaseRequest::ErrorsToHTML(const QStringList &errors) {
     error_html += error + "<br />";
   }
   return error_html;
+
 }

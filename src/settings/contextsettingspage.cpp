@@ -56,6 +56,7 @@ const char *ContextSettingsPage::kSettingsGroupEnable[ContextSettingsOrder::NELE
   "SongLyricsEnable",
   "SearchCoverEnable",
   "SearchLyricsEnable",
+
 };
 
 const qreal ContextSettingsPage::kDefaultFontSizeHeadline = 11;
@@ -125,6 +126,7 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
   else {
     qLog(Error) << "Could not open" << file.fileName() << "for reading:" << file.errorString();
   }
+
 }
 
 ContextSettingsPage::~ContextSettingsPage() { delete ui_; }
@@ -164,6 +166,7 @@ void ContextSettingsPage::Load() {
   Init(ui_->layout_contextsettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+
 }
 
 void ContextSettingsPage::Save() {
@@ -185,20 +188,24 @@ void ContextSettingsPage::Save() {
   s.beginGroup(MainWindow::kSettingsGroup);
   s.setValue("search_for_cover_auto", ui_->checkbox_search_cover->isChecked());
   s.endGroup();
+
 }
 
 void ContextSettingsPage::InsertVariableFirstLine(QAction *action) {
   // We use action name, therefore those shouldn't be translatable
   ui_->context_custom_text1->insert(action->text());
+
 }
 
 void ContextSettingsPage::InsertVariableSecondLine(QAction *action) {
   // We use action name, therefore those shouldn't be translatable
   ui_->context_custom_text2->insert(action->text());
+
 }
 
 void ContextSettingsPage::ShowMenuTooltip(QAction *action) {
   QToolTip::showText(QCursor::pos(), action->toolTip());
+
 }
 
 void ContextSettingsPage::HeadlineFontChanged() {
@@ -208,6 +215,7 @@ void ContextSettingsPage::HeadlineFontChanged() {
     font.setPointSizeF(ui_->font_size_headline->value());
   }
   ui_->preview_headline->setFont(font);
+
 }
 
 void ContextSettingsPage::NormalFontChanged() {
@@ -217,4 +225,5 @@ void ContextSettingsPage::NormalFontChanged() {
     font.setPointSizeF(ui_->font_size_normal->value());
   }
   ui_->preview_normal->setFont(font);
+
 }

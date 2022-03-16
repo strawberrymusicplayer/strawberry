@@ -217,6 +217,7 @@ class Base : public QObject {
  private:
   bool about_to_end_emitted_;
   Q_DISABLE_COPY(Base)
+
 };
 
 struct SimpleMetaBundle {
@@ -242,7 +243,9 @@ struct SimpleMetaBundle {
   int bitdepth;
   int bitrate;
   QString lyrics;
+
 };
+
 
 }  // namespace Engine
 

@@ -110,6 +110,7 @@ bool ContextItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, 
       break;
   }
   return false;
+
 }
 
 ContextAlbumsView::ContextAlbumsView(QWidget *parent)
@@ -141,6 +142,7 @@ ContextAlbumsView::ContextAlbumsView(QWidget *parent)
   setDragDropMode(QAbstractItemView::DragOnly);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
   SetAddOnDoubleClick(false);
+
 }
 
 ContextAlbumsView::~ContextAlbumsView() = default;
@@ -177,6 +179,7 @@ void ContextAlbumsView::SaveFocus() {
   }
 
   SaveContainerPath(current);
+
 }
 
 void ContextAlbumsView::SaveContainerPath(const QModelIndex &child) {
@@ -190,6 +193,7 @@ void ContextAlbumsView::SaveContainerPath(const QModelIndex &child) {
   QString text = model()->data(current, ContextAlbumsModel::Role_SortText).toString();
   last_selected_path_ << text;
   SaveContainerPath(current);
+
 }
 
 void ContextAlbumsView::RestoreFocus() {
@@ -198,6 +202,7 @@ void ContextAlbumsView::RestoreFocus() {
     return;
   }
   RestoreLevelFocus();
+
 }
 
 bool ContextAlbumsView::RestoreLevelFocus(const QModelIndex &parent) {
@@ -223,6 +228,7 @@ bool ContextAlbumsView::RestoreLevelFocus(const QModelIndex &parent) {
     }
   }
   return false;
+
 }
 
 void ContextAlbumsView::Init(Application *app) {
@@ -236,14 +242,17 @@ void ContextAlbumsView::Init(Application *app) {
 
   QObject::connect(model_, &ContextAlbumsModel::modelAboutToBeReset, this, &ContextAlbumsView::SaveFocus);
   QObject::connect(model_, &ContextAlbumsModel::modelReset, this, &ContextAlbumsView::RestoreFocus);
+
 }
 
 void ContextAlbumsView::paintEvent(QPaintEvent *event) {
   QTreeView::paintEvent(event);
+
 }
 
 void ContextAlbumsView::mouseReleaseEvent(QMouseEvent *e) {
   QTreeView::mouseReleaseEvent(e);
+
 }
 
 void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
@@ -317,6 +326,7 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
 #endif
 
   context_menu_->popup(e->globalPos());
+
 }
 
 void ContextAlbumsView::Load() {
@@ -326,11 +336,13 @@ void ContextAlbumsView::Load() {
     mimedata->clear_first_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
+
 }
 
 void ContextAlbumsView::AddToPlaylist() {
 
   emit AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
+
 }
 
 void ContextAlbumsView::AddToPlaylistEnqueue() {
@@ -340,6 +352,7 @@ void ContextAlbumsView::AddToPlaylistEnqueue() {
     mimedata->enqueue_now_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
+
 }
 
 void ContextAlbumsView::OpenInNewPlaylist() {
@@ -349,6 +362,7 @@ void ContextAlbumsView::OpenInNewPlaylist() {
     mimedata->open_in_new_playlist_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
+
 }
 
 void ContextAlbumsView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
@@ -359,11 +373,13 @@ void ContextAlbumsView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
   else {
     QTreeView::scrollTo(idx, hint);
   }
+
 }
 
 SongList ContextAlbumsView::GetSelectedSongs() const {
   QModelIndexList selected_indexes = selectionModel()->selectedRows();
   return model_->GetChildSongs(selected_indexes);
+
 }
 
 void ContextAlbumsView::Organize() {
@@ -380,6 +396,7 @@ void ContextAlbumsView::Organize() {
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
+
 }
 
 void ContextAlbumsView::EditTracks() {
@@ -389,6 +406,7 @@ void ContextAlbumsView::EditTracks() {
   }
   edit_tag_dialog_->SetSongs(GetSelectedSongs());
   edit_tag_dialog_->show();
+
 }
 
 void ContextAlbumsView::CopyToDevice() {
@@ -402,6 +420,7 @@ void ContextAlbumsView::CopyToDevice() {
   organize_dialog_->SetSongs(GetSelectedSongs());
   organize_dialog_->show();
 #endif
+
 }
 
 void ContextAlbumsView::ShowInBrowser() const {
@@ -414,4 +433,5 @@ void ContextAlbumsView::ShowInBrowser() const {
   }
 
   Utilities::OpenInFileBrowser(urls);
+
 }

@@ -96,6 +96,7 @@ class QobuzBaseRequest : public QObject {
  private:
   QobuzService *service_;
   NetworkAccessManager *network_;
+
 };
 
 #endif  // QOBUZBASEREQUEST_H

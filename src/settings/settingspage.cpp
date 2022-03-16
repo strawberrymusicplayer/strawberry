@@ -75,15 +75,18 @@ void SettingsPage::Init(QWidget *ui_widget) {
       sliders_ << qMakePair(slider, slider->value());
     }
   }
+
 }
 
 void SettingsPage::Accept() {
   Apply();
+
 }
 
 void SettingsPage::Reject() {
   Cancel();
   changed_ = false;
+
 }
 
 void SettingsPage::Apply() {
@@ -130,6 +133,7 @@ void SettingsPage::Apply() {
     Save();
     Init(ui_widget_);
   }
+
 }
 
 void SettingsPage::ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const QString &default_value) {
@@ -138,6 +142,7 @@ void SettingsPage::ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combo
   int i = combobox->findData(value);
   if (i == -1) i = combobox->findData(default_value);
   combobox->setCurrentIndex(i);
+
 }
 
 void SettingsPage::ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value) {
@@ -146,6 +151,7 @@ void SettingsPage::ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combo
   int i = combobox->findData(value);
   if (i == -1) i = combobox->findData(default_value);
   combobox->setCurrentIndex(i);
+
 }
 
 void SettingsPage::ComboBoxLoadFromSettingsByIndex(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value) {
@@ -154,4 +160,5 @@ void SettingsPage::ComboBoxLoadFromSettingsByIndex(const QSettings &s, QComboBox
   int i = s.value(setting, default_value).toInt();
   if (i <= 0 || i >= combobox->count()) i = 0;
   combobox->setCurrentIndex(i);
+
 }

@@ -50,6 +50,7 @@ CddaSongLoader::CddaSongLoader(const QUrl &url, QObject *parent)
 
 CddaSongLoader::~CddaSongLoader() {
   if (cdio_) cdio_destroy(cdio_);
+
 }
 
 QUrl CddaSongLoader::GetUrlFromTrack(int track_number) const {
@@ -60,6 +61,7 @@ QUrl CddaSongLoader::GetUrlFromTrack(int track_number) const {
   else {
     return QUrl(QString("cdda://%1/%2").arg(url_.path()).arg(track_number));
   }
+
 }
 
 void CddaSongLoader::LoadSongs() {
@@ -208,6 +210,7 @@ void CddaSongLoader::LoadSongs() {
   gst_element_set_state(pipeline, GST_STATE_NULL);
   // This will also cause cdda_ to be unref'd.
   gst_object_unref(pipeline);
+
 }
 
 #ifdef HAVE_MUSICBRAINZ
@@ -235,6 +238,7 @@ void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &alb
     songs << song;
   }
   emit SongsMetadataLoaded(songs);
+
 }
 #endif
 
@@ -250,10 +254,12 @@ bool CddaSongLoader::HasChanged() {
   mutex_load_.unlock();
 
   return true;
+
 }
 
 void CddaSongLoader::Error(const QString &error) {
 
   qLog(Error) << error;
   emit SongsDurationLoaded(SongList(), error);
+
 }

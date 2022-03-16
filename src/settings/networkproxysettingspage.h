@@ -46,6 +46,7 @@ class NetworkProxySettingsPage : public SettingsPage {
 
  private:
   Ui_NetworkProxySettingsPage *ui_;
+
 };
 
 #endif  // NETWORKPROXYSETTINGSPAGE_H

@@ -63,6 +63,7 @@ class LyricsFetcherSearch : public QObject {
   LyricsSearchResults results_;
   QMap<int, LyricsProvider *> pending_requests_;
   bool cancel_requested_;
+
 };
 
 #endif  // LYRICSFETCHERSEARCH_H

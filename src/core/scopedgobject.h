@@ -65,6 +65,7 @@ class ScopedGObject {
 
  private:
   T *object_;
+
 };
 
 #endif  // SCOPEDGOBJECT_H

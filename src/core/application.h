@@ -130,6 +130,7 @@ class Application : public QObject {
   std::unique_ptr<ApplicationImpl> p_;
   QList<QThread *> threads_;
   QList<QObject *> wait_for_exit_;
+
 };
 
 #endif  // APPLICATION_H

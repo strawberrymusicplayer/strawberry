@@ -89,6 +89,7 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
     (void)QtConcurrent::run(this, &SongLoaderInserter::AsyncLoad);
 #endif
   }
+
 }
 
 // Load audio CD tracks:
@@ -119,6 +120,7 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
     delete loader;
   }
   // Songs will be loaded later: see AudioCDTracksLoadFinished and AudioCDTagsLoaded slots
+
 }
 
 void SongLoaderInserter::DestinationDestroyed() { destination_ = nullptr; }
@@ -134,6 +136,7 @@ void SongLoaderInserter::AudioCDTracksLoadFinished(SongLoader *loader) {
   else {
     InsertSongs();
   }
+
 }
 
 void SongLoaderInserter::AudioCDTagsLoaded(const bool success) {
@@ -149,6 +152,7 @@ void SongLoaderInserter::AudioCDTagsLoaded(const bool success) {
   }
 
   deleteLater();
+
 }
 
 void SongLoaderInserter::InsertSongs() {
@@ -157,6 +161,7 @@ void SongLoaderInserter::InsertSongs() {
   if (destination_) {
     destination_->InsertSongsOrCollectionItems(songs_, row_, play_now_, enqueue_, enqueue_next_);
   }
+
 }
 
 void SongLoaderInserter::AsyncLoad() {
@@ -210,4 +215,5 @@ void SongLoaderInserter::AsyncLoad() {
   emit EffectiveLoadFinished(songs);
 
   deleteLater();
+
 }

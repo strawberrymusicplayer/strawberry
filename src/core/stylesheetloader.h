@@ -63,6 +63,7 @@ class StyleSheetLoader : public QObject {
 
  private:
   QHash<QWidget *, std::shared_ptr<StyleSheetData>> styledata_;
+
 };
 
 #endif  // STYLESHEETLOADER_H

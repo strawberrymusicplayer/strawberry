@@ -41,6 +41,7 @@ class FileSystemWatcherInterface : public QObject {
 
  signals:
   void PathChanged(const QString &path);
+
 };
 
 #endif

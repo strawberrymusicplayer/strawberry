@@ -61,6 +61,7 @@ LocalRedirectServer::LocalRedirectServer(QObject *parent)
 
 LocalRedirectServer::~LocalRedirectServer() {
   if (isListening()) close();
+
 }
 
 bool LocalRedirectServer::GenerateCertificate() {
@@ -233,6 +234,7 @@ bool LocalRedirectServer::GenerateCertificate() {
   ssl_key_ = ssl_key;
 
   return true;
+
 }
 
 bool LocalRedirectServer::Listen() {
@@ -255,6 +257,7 @@ bool LocalRedirectServer::Listen() {
   QObject::connect(this, &QTcpServer::newConnection, this, &LocalRedirectServer::NewConnection);
 
   return true;
+
 }
 
 void LocalRedirectServer::NewConnection() {
@@ -262,6 +265,7 @@ void LocalRedirectServer::NewConnection() {
   while (hasPendingConnections()) {
     incomingConnection(nextPendingConnection()->socketDescriptor());
   }
+
 }
 
 void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
@@ -308,6 +312,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
   QObject::connect(socket_, &QAbstractSocket::connected, this, &LocalRedirectServer::Connected);
   QObject::connect(socket_, &QAbstractSocket::disconnected, this, &LocalRedirectServer::Disconnected);
   QObject::connect(socket_, &QAbstractSocket::readyRead, this, &LocalRedirectServer::ReadyRead);
+
 }
 
 void LocalRedirectServer::SSLErrors(const QList<QSslError> &errors) { Q_UNUSED(errors); }
@@ -333,6 +338,7 @@ void LocalRedirectServer::ReadyRead() {
   else {
     QObject::connect(socket_, &QAbstractSocket::readyRead, this, &LocalRedirectServer::ReadyRead);
   }
+
 }
 
 void LocalRedirectServer::WriteTemplate() const {
@@ -372,6 +378,7 @@ void LocalRedirectServer::WriteTemplate() const {
   socket_->write("\r\n\r\n");
   socket_->write(page_data.toUtf8());
   socket_->flush();
+
 }
 
 QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray &request) const {
@@ -382,4 +389,5 @@ QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray &request) const {
   QUrl base_url = url_;
   QUrl request_url(base_url.toString() + path.mid(1), QUrl::StrictMode);
   return request_url;
+
 }

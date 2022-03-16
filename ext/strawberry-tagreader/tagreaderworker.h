@@ -49,6 +49,7 @@ class TagReaderWorker : public AbstractMessageHandler<spb::tagreader::Message> {
 #elif defined(USE_TAGPARSER)
   TagReaderTagParser tag_reader_;
 #endif
+
 };
 
 #endif  // TAGREADERWORKER_H

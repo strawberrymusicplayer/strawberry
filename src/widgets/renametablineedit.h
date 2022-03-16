@@ -43,6 +43,7 @@ class RenameTabLineEdit : public QLineEdit {
  protected:
   void focusOutEvent(QFocusEvent *e) override;
   void keyPressEvent(QKeyEvent *e) override;
+
 };
 
 #endif  // RENAMETABLINEEDIT_H

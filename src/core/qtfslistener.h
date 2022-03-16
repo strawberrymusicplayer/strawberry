@@ -40,6 +40,7 @@ class QtFSListener : public FileSystemWatcherInterface {
 
  private:
   QFileSystemWatcher watcher_;
+
 };
 
 #endif  // QTFSLISTENER_H

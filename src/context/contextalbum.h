@@ -90,6 +90,7 @@ class ContextAlbum : public QWidget {
   qreal pixmap_previous_opacity_;
   std::unique_ptr<QMovie> spinner_animation_;
   int prev_width_;
+
 };
 
 #endif  // CONTEXTALBUM_H

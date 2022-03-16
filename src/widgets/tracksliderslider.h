@@ -73,6 +73,7 @@ class TrackSliderSlider : public QSlider {
 #endif
 
   int mouse_hover_seconds_;
+
 };
 
 #endif  // TRACKSLIDERSLIDER_H

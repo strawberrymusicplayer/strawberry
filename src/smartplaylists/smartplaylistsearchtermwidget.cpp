@@ -68,6 +68,7 @@ class SmartPlaylistSearchTermWidget::Overlay : public QWidget {  // clazy:exclud
   QString text_;
   QPixmap pixmap_;
   QPixmap icon_;
+
 };
 
 const int SmartPlaylistSearchTermWidget::Overlay::kSpacing = 6;
@@ -133,6 +134,7 @@ SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(CollectionBackend *
     stylesheet.replace("%base", Utilities::ColorToRgba(base));
     setStyleSheet(stylesheet);
   }
+
 }
 
 SmartPlaylistSearchTermWidget::~SmartPlaylistSearchTermWidget() { delete ui_; }
@@ -198,6 +200,7 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   }
 
   emit Changed();
+
 }
 
 void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
@@ -238,6 +241,7 @@ void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
   }
 
   emit Changed();
+
 }
 
 void SmartPlaylistSearchTermWidget::SetActive(bool active) {
@@ -254,6 +258,7 @@ void SmartPlaylistSearchTermWidget::SetActive(bool active) {
   if (!active) {
     overlay_ = new Overlay(this);
   }
+
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -268,6 +273,7 @@ void SmartPlaylistSearchTermWidget::enterEvent(QEvent *) {
   animation_->setEndValue(1.0);
   animation_->setDuration(80);
   animation_->start();
+
 }
 
 void SmartPlaylistSearchTermWidget::leaveEvent(QEvent *) {
@@ -278,6 +284,7 @@ void SmartPlaylistSearchTermWidget::leaveEvent(QEvent *) {
   animation_->setEndValue(0.0);
   animation_->setDuration(160);
   animation_->start();
+
 }
 
 void SmartPlaylistSearchTermWidget::resizeEvent(QResizeEvent *e) {
@@ -286,6 +293,7 @@ void SmartPlaylistSearchTermWidget::resizeEvent(QResizeEvent *e) {
   if (overlay_ && overlay_->isVisible()) {
     QTimer::singleShot(0, this, &SmartPlaylistSearchTermWidget::Grab);
   }
+
 }
 
 void SmartPlaylistSearchTermWidget::showEvent(QShowEvent *e) {
@@ -294,16 +302,19 @@ void SmartPlaylistSearchTermWidget::showEvent(QShowEvent *e) {
   if (overlay_) {
     QTimer::singleShot(0, this, &SmartPlaylistSearchTermWidget::Grab);
   }
+
 }
 
 void SmartPlaylistSearchTermWidget::Grab() { overlay_->Grab(); }
 
 void SmartPlaylistSearchTermWidget::set_overlay_opacity(float opacity) {
   if (overlay_) overlay_->SetOpacity(opacity);
+
 }
 
 float SmartPlaylistSearchTermWidget::overlay_opacity() const {
   return overlay_ ? overlay_->opacity() : static_cast<float>(0.0);
+
 }
 
 void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term) {
@@ -352,6 +363,7 @@ void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term)
     case SmartPlaylistSearchTerm::Type_Invalid:
       break;
   }
+
 }
 
 SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
@@ -394,6 +406,7 @@ SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
   }
 
   return ret;
+
 }
 
 void SmartPlaylistSearchTermWidget::RelativeValueChanged() {
@@ -409,6 +422,7 @@ void SmartPlaylistSearchTermWidget::RelativeValueChanged() {
   }
   // Emit the signal in any case, so the Next button will be disabled
   emit Changed();
+
 }
 
 SmartPlaylistSearchTermWidget::Overlay::Overlay(SmartPlaylistSearchTermWidget *parent)
@@ -420,12 +434,14 @@ SmartPlaylistSearchTermWidget::Overlay::Overlay(SmartPlaylistSearchTermWidget *p
 
   raise();
   setFocusPolicy(Qt::TabFocus);
+
 }
 
 void SmartPlaylistSearchTermWidget::Overlay::SetOpacity(const float opacity) {
 
   opacity_ = opacity;
   update();
+
 }
 
 void SmartPlaylistSearchTermWidget::Overlay::Grab() {
@@ -449,6 +465,7 @@ void SmartPlaylistSearchTermWidget::Overlay::Grab() {
   resize(parent_->size());
   show();
   update();
+
 }
 
 void SmartPlaylistSearchTermWidget::Overlay::paintEvent(QPaintEvent *) {
@@ -484,12 +501,15 @@ void SmartPlaylistSearchTermWidget::Overlay::paintEvent(QPaintEvent *) {
   p.setPen(palette().color(QPalette::Text));
   p.drawPixmap(icon, icon_);
   p.drawText(text, Qt::TextDontClip | Qt::AlignVCenter, text_);  // NOLINT(bugprone-suspicious-enum-usage)
+
 }
 
 void SmartPlaylistSearchTermWidget::Overlay::mouseReleaseEvent(QMouseEvent *) {
   emit parent_->Clicked();
+
 }
 
 void SmartPlaylistSearchTermWidget::Overlay::keyReleaseEvent(QKeyEvent *e) {
   if (e->key() == Qt::Key_Space) emit parent_->Clicked();
+
 }

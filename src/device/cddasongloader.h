@@ -72,6 +72,7 @@ class CddaSongLoader : public QObject {
   GstElement *cdda_;
   CdIo_t *cdio_;
   QMutex mutex_load_;
+
 };
 
 #endif  // CDDASONGLOADER_H

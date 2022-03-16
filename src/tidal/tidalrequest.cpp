@@ -95,6 +95,7 @@ TidalRequest::~TidalRequest() {
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
+
 }
 
 void TidalRequest::LoginComplete(const bool success, const QString &error) {
@@ -108,6 +109,7 @@ void TidalRequest::LoginComplete(const bool success, const QString &error) {
   }
 
   Process();
+
 }
 
 void TidalRequest::Process() {
@@ -142,11 +144,13 @@ void TidalRequest::Process() {
       Error("Invalid query type.");
       break;
   }
+
 }
 
 void TidalRequest::Search(const int query_id, const QString &search_text) {
   query_id_ = query_id;
   search_text_ = search_text;
+
 }
 
 void TidalRequest::GetArtists() {
@@ -154,6 +158,7 @@ void TidalRequest::GetArtists() {
   emit UpdateStatus(query_id_, tr("Retrieving artists..."));
   emit UpdateProgress(query_id_, 0);
   AddArtistsRequest();
+
 }
 
 void TidalRequest::AddArtistsRequest(const int offset, const int limit) {
@@ -163,6 +168,7 @@ void TidalRequest::AddArtistsRequest(const int offset, const int limit) {
   request.offset = offset;
   artists_requests_queue_.enqueue(request);
   if (artists_requests_active_ < kMaxConcurrentArtistsRequests) FlushArtistsRequests();
+
 }
 
 void TidalRequest::FlushArtistsRequests() {
@@ -187,6 +193,7 @@ void TidalRequest::FlushArtistsRequests() {
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistsReplyReceived(reply, request.limit, request.offset); });
   }
+
 }
 
 void TidalRequest::GetAlbums() {
@@ -194,6 +201,7 @@ void TidalRequest::GetAlbums() {
   emit UpdateStatus(query_id_, tr("Retrieving albums..."));
   emit UpdateProgress(query_id_, 0);
   AddAlbumsRequest();
+
 }
 
 void TidalRequest::AddAlbumsRequest(const int offset, const int limit) {
@@ -203,6 +211,7 @@ void TidalRequest::AddAlbumsRequest(const int offset, const int limit) {
   request.offset = offset;
   albums_requests_queue_.enqueue(request);
   if (albums_requests_active_ < kMaxConcurrentAlbumsRequests) FlushAlbumsRequests();
+
 }
 
 void TidalRequest::FlushAlbumsRequests() {
@@ -227,6 +236,7 @@ void TidalRequest::FlushAlbumsRequests() {
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumsReplyReceived(reply, request.limit, request.offset); });
   }
+
 }
 
 void TidalRequest::GetSongs() {
@@ -234,6 +244,7 @@ void TidalRequest::GetSongs() {
   emit UpdateStatus(query_id_, tr("Retrieving songs..."));
   emit UpdateProgress(query_id_, 0);
   AddSongsRequest();
+
 }
 
 void TidalRequest::AddSongsRequest(const int offset, const int limit) {
@@ -243,6 +254,7 @@ void TidalRequest::AddSongsRequest(const int offset, const int limit) {
   request.offset = offset;
   songs_requests_queue_.enqueue(request);
   if (songs_requests_active_ < kMaxConcurrentSongsRequests) FlushSongsRequests();
+
 }
 
 void TidalRequest::FlushSongsRequests() {
@@ -267,6 +279,7 @@ void TidalRequest::FlushSongsRequests() {
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { SongsReplyReceived(reply, request.limit, request.offset); });
   }
+
 }
 
 void TidalRequest::ArtistsSearch() {
@@ -274,11 +287,13 @@ void TidalRequest::ArtistsSearch() {
   emit UpdateStatus(query_id_, tr("Searching..."));
   emit UpdateProgress(query_id_, 0);
   AddArtistsSearchRequest();
+
 }
 
 void TidalRequest::AddArtistsSearchRequest(const int offset) {
 
   AddArtistsRequest(offset, service_->artistssearchlimit());
+
 }
 
 void TidalRequest::AlbumsSearch() {
@@ -286,11 +301,13 @@ void TidalRequest::AlbumsSearch() {
   emit UpdateStatus(query_id_, tr("Searching..."));
   emit UpdateProgress(query_id_, 0);
   AddAlbumsSearchRequest();
+
 }
 
 void TidalRequest::AddAlbumsSearchRequest(const int offset) {
 
   AddAlbumsRequest(offset, service_->albumssearchlimit());
+
 }
 
 void TidalRequest::SongsSearch() {
@@ -298,11 +315,13 @@ void TidalRequest::SongsSearch() {
   emit UpdateStatus(query_id_, tr("Searching..."));
   emit UpdateProgress(query_id_, 0);
   AddSongsSearchRequest();
+
 }
 
 void TidalRequest::AddSongsSearchRequest(const int offset) {
 
   AddSongsRequest(offset, service_->songssearchlimit());
+
 }
 
 void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
@@ -414,6 +433,7 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
   if (offset_requested != 0) emit UpdateProgress(query_id_, artists_received_);
 
   ArtistsFinishCheck(limit_requested, offset, artists_received);
+
 }
 
 void TidalRequest::ArtistsFinishCheck(const int limit, const int offset, const int artists_received) {
@@ -452,12 +472,14 @@ void TidalRequest::ArtistsFinishCheck(const int limit, const int offset, const i
   }
 
   FinishCheck();
+
 }
 
 void TidalRequest::AlbumsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
   --albums_requests_active_;
   AlbumsReceived(reply, QString(), limit_requested, offset_requested, (offset_requested == 0));
   if (!albums_requests_queue_.isEmpty() && albums_requests_active_ < kMaxConcurrentAlbumsRequests) FlushAlbumsRequests();
+
 }
 
 void TidalRequest::AddArtistAlbumsRequest(const QString &artist_id, const int offset) {
@@ -467,6 +489,7 @@ void TidalRequest::AddArtistAlbumsRequest(const QString &artist_id, const int of
   request.offset = offset;
   artist_albums_requests_queue_.enqueue(request);
   if (artist_albums_requests_active_ < kMaxConcurrentArtistAlbumsRequests) FlushArtistAlbumsRequests();
+
 }
 
 void TidalRequest::FlushArtistAlbumsRequests() {
@@ -482,6 +505,7 @@ void TidalRequest::FlushArtistAlbumsRequests() {
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist_id, request.offset); });
     replies_ << reply;
   }
+
 }
 
 void TidalRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const QString &artist_id, const int offset_requested) {
@@ -491,6 +515,7 @@ void TidalRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const QString
   emit UpdateProgress(query_id_, artist_albums_received_);
   AlbumsReceived(reply, artist_id, 0, offset_requested, false);
   if (!artist_albums_requests_queue_.isEmpty() && artist_albums_requests_active_ < kMaxConcurrentArtistAlbumsRequests) FlushArtistAlbumsRequests();
+
 }
 
 void TidalRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id_requested, const int limit_requested, const int offset_requested, const bool auto_login) {
@@ -666,6 +691,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
   }
 
   AlbumsFinishCheck(artist_id_requested, limit_requested, offset, albums_total, albums_received);
+
 }
 
 void TidalRequest::AlbumsFinishCheck(const QString &artist_id, const int limit, const int offset, const int albums_total, const int albums_received) {
@@ -717,6 +743,7 @@ void TidalRequest::AlbumsFinishCheck(const QString &artist_id, const int limit, 
   }
 
   FinishCheck();
+
 }
 
 void TidalRequest::SongsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
@@ -728,6 +755,7 @@ void TidalRequest::SongsReplyReceived(QNetworkReply *reply, const int limit_requ
   else {
     SongsReceived(reply, QString(), QString(), limit_requested, offset_requested, (offset_requested == 0));
   }
+
 }
 
 void TidalRequest::AddAlbumSongsRequest(const QString &artist_id, const QString &album_id, const QString &album_artist, const QString &album, const bool album_explicit, const int offset) {
@@ -742,6 +770,7 @@ void TidalRequest::AddAlbumSongsRequest(const QString &artist_id, const QString 
   album_songs_requests_queue_.enqueue(request);
   ++album_songs_requested_;
   if (album_songs_requests_active_ < kMaxConcurrentAlbumSongsRequests) FlushAlbumSongsRequests();
+
 }
 
 void TidalRequest::FlushAlbumSongsRequests() {
@@ -756,6 +785,7 @@ void TidalRequest::FlushAlbumSongsRequests() {
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.offset, request.album_artist, request.album, request.album_explicit); });
   }
+
 }
 
 void TidalRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const int offset_requested, const QString &album_artist, const QString &album, const bool album_explicit) {
@@ -766,6 +796,7 @@ void TidalRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QString &
     emit UpdateProgress(query_id_, album_songs_received_);
   }
   SongsReceived(reply, artist_id, album_id, 0, offset_requested, false, album_artist, album, album_explicit);
+
 }
 
 void TidalRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const int limit_requested, const int offset_requested, const bool auto_login, const QString &album_artist, const QString &album, const bool album_explicit) {
@@ -861,6 +892,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id,
   }
 
   SongsFinishCheck(artist_id, album_id, limit_requested, offset_requested, songs_total, songs_received, album_artist, album, album_explicit);
+
 }
 
 void TidalRequest::SongsFinishCheck(const QString &artist_id, const QString &album_id, const int limit, const int offset, const int songs_total, const int songs_received, const QString &album_artist, const QString &album, const bool album_explicit) {
@@ -911,6 +943,7 @@ void TidalRequest::SongsFinishCheck(const QString &artist_id, const QString &alb
   }
 
   FinishCheck();
+
 }
 
 QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested, const QString &album_id_requested, const QString &album_artist, const QString &, const bool album_explicit) {
@@ -1051,6 +1084,7 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
   song.set_valid(true);
 
   return song_id;
+
 }
 
 void TidalRequest::GetAlbumCovers() {
@@ -1067,6 +1101,7 @@ void TidalRequest::GetAlbumCovers() {
     emit UpdateStatus(query_id_, tr("Retrieving album covers for %1 albums...").arg(album_covers_requested_));
   emit ProgressSetMaximum(query_id_, album_covers_requested_);
   emit UpdateProgress(query_id_, 0);
+
 }
 
 void TidalRequest::AddAlbumCoverRequest(const Song &song) {
@@ -1086,6 +1121,7 @@ void TidalRequest::AddAlbumCoverRequest(const Song &song) {
   ++album_covers_requested_;
 
   album_cover_requests_queue_.enqueue(request);
+
 }
 
 void TidalRequest::FlushAlbumCoverRequests() {
@@ -1101,6 +1137,7 @@ void TidalRequest::FlushAlbumCoverRequests() {
     album_cover_replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumCoverReceived(reply, request.album_id, request.url, request.filename); });
   }
+
 }
 
 void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename) {
@@ -1187,6 +1224,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
   }
 
   AlbumCoverFinishCheck();
+
 }
 
 void TidalRequest::AlbumCoverFinishCheck() {
@@ -1195,6 +1233,7 @@ void TidalRequest::AlbumCoverFinishCheck() {
     FlushAlbumCoverRequests();
 
   FinishCheck();
+
 }
 
 void TidalRequest::FinishCheck() {
@@ -1237,6 +1276,7 @@ void TidalRequest::FinishCheck() {
       }
     }
   }
+
 }
 
 void TidalRequest::Error(const QString &error, const QVariant &debug) {
@@ -1249,10 +1289,12 @@ void TidalRequest::Error(const QString &error, const QVariant &debug) {
   if (debug.isValid()) qLog(Debug) << debug;
 
   FinishCheck();
+
 }
 
 void TidalRequest::Warn(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Tidal:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }

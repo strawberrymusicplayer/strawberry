@@ -132,6 +132,7 @@ class PlaylistContainer : public QWidget {
   QLabel *no_matches_label_;
 
   QTimer *filter_timer_;
+
 };
 
 #endif  // PLAYLISTCONTAINER_H

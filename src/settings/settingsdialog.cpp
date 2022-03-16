@@ -99,6 +99,7 @@ QSize SettingsItemDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
   }
 
   return ret;
+
 }
 
 void SettingsItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
@@ -111,6 +112,7 @@ void SettingsItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
   else {
     QStyledItemDelegate::paint(painter, option, idx);
   }
+
 }
 
 SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *mainwindow, QWidget *parent)
@@ -179,10 +181,12 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
 
   QObject::connect(ui_->buttonBox, &QDialogButtonBox::clicked, this, &SettingsDialog::DialogButtonClicked);
+
 }
 
 SettingsDialog::~SettingsDialog() {
   delete ui_;
+
 }
 
 void SettingsDialog::showEvent(QShowEvent *e) {
@@ -199,11 +203,13 @@ void SettingsDialog::showEvent(QShowEvent *e) {
   }
 
   QDialog::showEvent(e);
+
 }
 
 void SettingsDialog::closeEvent(QCloseEvent *) {
 
   SaveGeometry();
+
 }
 
 void SettingsDialog::accept() {
@@ -217,6 +223,7 @@ void SettingsDialog::accept() {
   SaveGeometry();
 
   QDialog::accept();
+
 }
 
 void SettingsDialog::reject() {
@@ -229,6 +236,7 @@ void SettingsDialog::reject() {
   SaveGeometry();
 
   QDialog::reject();
+
 }
 
 void SettingsDialog::LoadGeometry() {
@@ -252,6 +260,7 @@ void SettingsDialog::LoadGeometry() {
     resize(wr.size());
     move(sr.center() - wr.center());
   }
+
 }
 
 void SettingsDialog::SaveGeometry() {
@@ -260,6 +269,7 @@ void SettingsDialog::SaveGeometry() {
   s.beginGroup(kSettingsGroup);
   s.setValue("geometry", saveGeometry());
   s.endGroup();
+
 }
 
 QTreeWidgetItem *SettingsDialog::AddCategory(const QString &name) {
@@ -273,6 +283,7 @@ QTreeWidgetItem *SettingsDialog::AddCategory(const QString &name) {
   item->setExpanded(true);
 
   return item;
+
 }
 
 void SettingsDialog::AddPage(const Page id, SettingsPage *page, QTreeWidgetItem *parent) {
@@ -311,6 +322,7 @@ void SettingsDialog::AddPage(const Page id, SettingsPage *page, QTreeWidgetItem 
   page_data.scroll_area_ = area;
   page_data.page_ = page;
   pages_[id] = page_data;
+
 }
 
 void SettingsDialog::Save() {
@@ -320,6 +332,7 @@ void SettingsDialog::Save() {
     page.page_->Apply();
   }
   emit ReloadSettings();
+
 }
 
 
@@ -333,6 +346,7 @@ void SettingsDialog::DialogButtonClicked(QAbstractButton *button) {
     }
     emit ReloadSettings();
   }
+
 }
 
 void SettingsDialog::OpenAtPage(Page page) {
@@ -343,6 +357,7 @@ void SettingsDialog::OpenAtPage(Page page) {
 
   ui_->list->setCurrentItem(pages_[page].item_);
   show();
+
 }
 
 void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
@@ -362,4 +377,5 @@ void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
       break;
     }
   }
+
 }

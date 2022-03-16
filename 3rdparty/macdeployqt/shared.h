@@ -78,6 +78,7 @@ class FrameworkInfo {
   bool isDebugLibrary() const {
     return binaryName.endsWith(QStringLiteral("_debug"));
   }
+
 };
 
 class DylibInfo {
@@ -85,6 +86,7 @@ class DylibInfo {
   QString binaryPath;
   QVersionNumber currentVersion;
   QVersionNumber compatibilityVersion;
+
 };
 
 class OtoolInfo {
@@ -94,6 +96,7 @@ class OtoolInfo {
   QVersionNumber currentVersion;
   QVersionNumber compatibilityVersion;
   QList<DylibInfo> dependencies;
+
 };
 
 bool operator==(const FrameworkInfo &a, const FrameworkInfo &b);
@@ -104,6 +107,7 @@ class ApplicationBundleInfo {
   QString path;
   QString binaryPath;
   QStringList libraryPaths;
+
 };
 
 class DeploymentInfo {
@@ -117,6 +121,7 @@ class DeploymentInfo {
   bool isDebug;
 
   bool containsModule(const QString &module, const QString &libInFix) const;
+
 };
 
 inline QDebug operator<<(QDebug debug, const ApplicationBundleInfo &info);

@@ -85,6 +85,7 @@ SpotifyCoverProvider::SpotifyCoverProvider(Application *app, NetworkAccessManage
     refresh_login_timer_.setInterval(static_cast<int>(time * kMsecPerSec));
     refresh_login_timer_.start();
   }
+
 }
 
 SpotifyCoverProvider::~SpotifyCoverProvider() {
@@ -95,6 +96,7 @@ SpotifyCoverProvider::~SpotifyCoverProvider() {
     reply->abort();
     reply->deleteLater();
   }
+
 }
 
 void SpotifyCoverProvider::Authenticate() {
@@ -150,6 +152,7 @@ void SpotifyCoverProvider::Authenticate() {
     messagebox.setTextFormat(Qt::RichText);
     messagebox.exec();
   }
+
 }
 
 void SpotifyCoverProvider::Deauthenticate() {
@@ -168,6 +171,7 @@ void SpotifyCoverProvider::Deauthenticate() {
   s.endGroup();
 
   refresh_login_timer_.stop();
+
 }
 
 void SpotifyCoverProvider::RedirectArrived() {
@@ -203,6 +207,7 @@ void SpotifyCoverProvider::RedirectArrived() {
   server_->close();
   server_->deleteLater();
   server_ = nullptr;
+
 }
 
 void SpotifyCoverProvider::RequestAccessToken(const QString &code, const QUrl &redirect_url) {
@@ -243,6 +248,7 @@ void SpotifyCoverProvider::RequestAccessToken(const QString &code, const QUrl &r
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &SpotifyCoverProvider::HandleLoginSSLErrors);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AccessTokenRequestFinished(reply); });
+
 }
 
 void SpotifyCoverProvider::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
@@ -250,6 +256,7 @@ void SpotifyCoverProvider::HandleLoginSSLErrors(const QList<QSslError> &ssl_erro
   for (const QSslError &ssl_error : ssl_errors) {
     login_errors_ += ssl_error.errorString();
   }
+
 }
 
 void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
@@ -346,6 +353,7 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
 
   emit AuthenticationComplete(true);
   emit AuthenticationSuccess();
+
 }
 
 bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -393,6 +401,7 @@ bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &alb
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, extract]() { HandleSearchReply(reply, id, extract); });
 
   return true;
+
 }
 
 void SpotifyCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
@@ -441,6 +450,7 @@ QByteArray SpotifyCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
+
 }
 
 void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id, const QString &extract) {
@@ -526,6 +536,7 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
     }
   }
   emit SearchFinished(id, results);
+
 }
 
 void SpotifyCoverProvider::AuthError(const QString &error, const QVariant &debug) {
@@ -539,10 +550,12 @@ void SpotifyCoverProvider::AuthError(const QString &error, const QVariant &debug
   emit AuthenticationComplete(false, login_errors_);
 
   login_errors_.clear();
+
 }
 
 void SpotifyCoverProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Spotify:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }

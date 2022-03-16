@@ -61,6 +61,7 @@ struct CoverSearchRequest {
 
   // Is the request part of a batch (fetching all missing covers)
   bool batch;
+
 };
 
 // This structure represents a single result of some album's cover search request.
@@ -94,6 +95,7 @@ struct CoverProviderSearchResult {
 
   // Total score for this result
   float score() const { return score_provider + score_match + score_quality; }
+
 };
 Q_DECLARE_METATYPE(CoverProviderSearchResult)
 
@@ -136,6 +138,7 @@ class AlbumCoverFetcher : public QObject {
   QHash<quint64, AlbumCoverFetcherSearch *> active_requests_;
 
   QTimer *request_starter_;
+
 };
 
 #endif  // ALBUMCOVERFETCHER_H

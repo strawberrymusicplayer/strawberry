@@ -57,6 +57,7 @@ class GroupByDialog : public QDialog {
  private:
   std::unique_ptr<Ui_GroupByDialog> ui_;
   std::unique_ptr<GroupByDialogPrivate> p_;
+
 };
 
 #endif  // GROUPBYDIALOG_H

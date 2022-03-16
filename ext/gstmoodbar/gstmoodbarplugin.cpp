@@ -30,7 +30,9 @@ static gboolean gst_moodbar_plugin_init(GstPlugin *plugin) {
   }
 
   return TRUE;
+
 }
+
 
 }  // namespace
 
@@ -47,4 +49,5 @@ int gstfastspectrum_register_static() {
     "FastSpectrum",
     "FastSpectrum",
     "https://www.strawberrymusicplayer.org");
+
 }

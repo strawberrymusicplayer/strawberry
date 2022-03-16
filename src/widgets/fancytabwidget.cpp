@@ -342,6 +342,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
       }
     }
   }
+
 };
 
 class TabData : public QObject {  // clazy:exclude=missing-qobject-macro
@@ -375,6 +376,7 @@ class TabData : public QObject {  // clazy:exclude=missing-qobject-macro
   QString label_;
   int index_;
   QWidget *page_;
+
 };
 
 // Spacers are just disabled pages
@@ -383,12 +385,14 @@ void FancyTabWidget::addSpacer() {
   QWidget *spacer = new QWidget(this);
   const int idx = insertTab(count(), spacer, QIcon(), QString());
   setTabEnabled(idx, false);
+
 }
 
 void FancyTabWidget::setBackgroundPixmap(const QPixmap &pixmap) {
 
   background_pixmap_ = pixmap;
   update();
+
 }
 
 void FancyTabWidget::setCurrentIndex(int idx) {
@@ -401,6 +405,7 @@ void FancyTabWidget::setCurrentIndex(int idx) {
   QLayout *layout = currentPage->layout();
   if (bottom_widget_) layout->addWidget(bottom_widget_);
   QTabWidget::setCurrentIndex(idx);
+
 }
 
 void FancyTabWidget::currentTabChanged(const int idx) {
@@ -409,6 +414,7 @@ void FancyTabWidget::currentTabChanged(const int idx) {
   QLayout *layout = currentPage->layout();
   if (bottom_widget_) layout->addWidget(bottom_widget_);
   emit CurrentChanged(idx);
+
 }
 
 // Override QStyle::subElementRect() and use QCommonStyle to fix a problem with the adwaita style.
@@ -435,6 +441,7 @@ class FancyTabWidgetProxyStyle : public QProxyStyle {  // clazy:exclude=missing-
 
  private:
   QCommonStyle *common_style_;
+
 };
 
 FancyTabWidget::FancyTabWidget(QWidget *parent)
@@ -460,10 +467,12 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
   }
 
   QObject::connect(tabBar, &FancyTabBar::currentChanged, this, &FancyTabWidget::currentTabChanged);
+
 }
 
 FancyTabWidget::~FancyTabWidget() {
   if (style_) style_->deleteLater();
+
 }
 
 void FancyTabWidget::Load(const QString &kSettingsGroup) {
@@ -486,10 +495,12 @@ void FancyTabWidget::Load(const QString &kSettingsGroup) {
     const int idx = insertTab(i.key(), tab->page(), tab->icon(), tab->label());
     tabBar()->setTabData(idx, QVariant(tab->name()));
   }
+
 }
 
 int FancyTabWidget::insertTab(const int idx, QWidget *page, const QIcon &icon, const QString &label) {
   return QTabWidget::insertTab(idx, page, icon, label);
+
 }
 
 void FancyTabWidget::SaveSettings(const QString &kSettingsGroup) {
@@ -512,6 +523,7 @@ void FancyTabWidget::SaveSettings(const QString &kSettingsGroup) {
   }
 
   s.endGroup();
+
 }
 
 void FancyTabWidget::ReloadSettings() {
@@ -539,16 +551,19 @@ void FancyTabWidget::ReloadSettings() {
 
   update();
   tabBarUpdateGeometry();
+
 }
 
 void FancyTabWidget::addBottomWidget(QWidget *widget_view) {
   bottom_widget_ = widget_view;
+
 }
 
 void FancyTabWidget::AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label) {
 
   TabData *tab = new TabData(widget_view, name, icon, label, static_cast<int>(tabs_.count()), this);
   tabs_.insert(widget_view, tab);
+
 }
 
 bool FancyTabWidget::EnableTab(QWidget *widget_view) {
@@ -561,6 +576,7 @@ bool FancyTabWidget::EnableTab(QWidget *widget_view) {
   tabBar()->setTabData(idx, QVariant(tab->name()));
 
   return true;
+
 }
 
 bool FancyTabWidget::DisableTab(QWidget *widget_view) {
@@ -574,11 +590,13 @@ bool FancyTabWidget::DisableTab(QWidget *widget_view) {
   removeTab(idx);
 
   return true;
+
 }
 
 int FancyTabWidget::IndexOfTab(QWidget *widget) {
   if (!tabs_.contains(widget)) return -1;
   return QTabWidget::indexOf(tabs_[widget]->page());
+
 }
 
 void FancyTabWidget::paintEvent(QPaintEvent *pe) {
@@ -650,10 +668,12 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
   }
 
   painter.drawPixmap(backgroundRect.topLeft(), pixmap);
+
 }
 
 void FancyTabWidget::tabBarUpdateGeometry() {
   tabBar()->updateGeometry();
+
 }
 
 void FancyTabWidget::SetMode(FancyTabWidget::Mode mode) {
@@ -683,6 +703,7 @@ void FancyTabWidget::SetMode(FancyTabWidget::Mode mode) {
   QTimer::singleShot(1ms, this, &FancyTabWidget::tabBarUpdateGeometry);
 
   emit ModeChanged(mode);
+
 }
 
 void FancyTabWidget::addMenuItem(QActionGroup *group, const QString &text, Mode mode) {
@@ -692,6 +713,7 @@ void FancyTabWidget::addMenuItem(QActionGroup *group, const QString &text, Mode 
   QObject::connect(action, &QAction::triggered, this, [this, mode]() { SetMode(mode); });
 
   if (mode == mode_) action->setChecked(true);
+
 }
 
 void FancyTabWidget::contextMenuEvent(QContextMenuEvent *e) {
@@ -708,4 +730,5 @@ void FancyTabWidget::contextMenuEvent(QContextMenuEvent *e) {
   }
 
   menu_->popup(e->globalPos());
+
 }

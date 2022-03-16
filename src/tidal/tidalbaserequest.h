@@ -102,6 +102,7 @@ class TidalBaseRequest : public QObject {
  private:
   TidalService *service_;
   NetworkAccessManager *network_;
+
 };
 
 #endif  // TIDALBASEREQUEST_H

@@ -39,6 +39,7 @@ class ScopedTransaction : boost::noncopyable {
  private:
   QSqlDatabase *db_;
   bool pending_;
+
 };
 
 #endif  // SCOPEDTRANSACTION_H

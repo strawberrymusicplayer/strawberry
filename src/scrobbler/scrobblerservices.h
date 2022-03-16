@@ -58,6 +58,7 @@ class ScrobblerServices : public QObject {
   QMutex mutex_;
 
   QAtomicInt next_id_;
+
 };
 
 #endif  // SCROBBLERSERVICES_H

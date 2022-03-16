@@ -98,7 +98,9 @@ class StyleHelper {
   static QColor m_IconsBaseColor;
   static QColor m_IconsDisabledColor;
   static QColor m_ProgressBarTitleColor;
+
 };
+
 
 }  // namespace Utils
 

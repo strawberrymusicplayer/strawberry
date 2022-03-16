@@ -35,6 +35,7 @@ namespace PlaylistUndoCommands {
 
 enum Types {
   Type_RemoveItems = 0,
+
 };
 
 class Base : public QUndoCommand {
@@ -45,6 +46,7 @@ class Base : public QUndoCommand {
 
  protected:
   Playlist *playlist_;
+
 };
 
 class InsertItems : public Base {
@@ -63,6 +65,7 @@ class InsertItems : public Base {
   int pos_;
   bool enqueue_;
   bool enqueue_next_;
+
 };
 
 class RemoveItems : public Base {
@@ -84,6 +87,7 @@ class RemoveItems : public Base {
   };
 
   QList<Range> ranges_;
+
 };
 
 class MoveItems : public Base {
@@ -96,6 +100,7 @@ class MoveItems : public Base {
  private:
   QList<int> source_rows_;
   int pos_;
+
 };
 
 class ReOrderItems : public Base {
@@ -108,17 +113,21 @@ class ReOrderItems : public Base {
  private:
   PlaylistItemList old_items_;
   PlaylistItemList new_items_;
+
 };
 
 class SortItems : public ReOrderItems {
  public:
   explicit SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemList &new_items);
+
 };
 
 class ShuffleItems : public ReOrderItems {
  public:
   explicit ShuffleItems(Playlist *playlist, const PlaylistItemList &new_items);
+
 };
+
 
 }  // namespace PlaylistUndoCommands
 

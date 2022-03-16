@@ -173,6 +173,7 @@ QobuzService::QobuzService(Application *app, QObject *parent)
   QObject::connect(favorite_request_, &QobuzFavoriteRequest::SongsRemoved, songs_collection_backend_, &CollectionBackend::DeleteSongs);
 
   QobuzService::ReloadSettings();
+
 }
 
 QobuzService::~QobuzService() {
@@ -192,6 +193,7 @@ QobuzService::~QobuzService() {
   artists_collection_backend_->deleteLater();
   albums_collection_backend_->deleteLater();
   songs_collection_backend_->deleteLater();
+
 }
 
 void QobuzService::Exit() {
@@ -205,6 +207,7 @@ void QobuzService::Exit() {
   artists_collection_backend_->ExitAsync();
   albums_collection_backend_->ExitAsync();
   songs_collection_backend_->ExitAsync();
+
 }
 
 void QobuzService::ExitReceived() {
@@ -214,10 +217,12 @@ void QobuzService::ExitReceived() {
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
+
 }
 
 void QobuzService::ShowConfig() {
   app_->OpenSettingsDialogAtPage(SettingsDialog::Page_Qobuz);
+
 }
 
 void QobuzService::ReloadSettings() {
@@ -247,10 +252,12 @@ void QobuzService::ReloadSettings() {
   user_auth_token_ = s.value("user_auth_token").toString();
 
   s.endGroup();
+
 }
 
 void QobuzService::SendLogin() {
   SendLoginWithCredentials(app_id_, username_, password_);
+
 }
 
 void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString &username, const QString &password) {
@@ -287,6 +294,7 @@ void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { HandleAuthReply(reply); });
 
   //qLog(Debug) << "Qobuz: Sending request" << url << query;
+
 }
 
 void QobuzService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
@@ -294,6 +302,7 @@ void QobuzService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
   for (const QSslError &ssl_error : ssl_errors) {
     login_errors_ += ssl_error.errorString();
   }
+
 }
 
 void QobuzService::HandleAuthReply(QNetworkReply *reply) {
@@ -434,6 +443,7 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
 
   emit LoginComplete(true);
   emit LoginSuccess();
+
 }
 
 void QobuzService::Logout() {
@@ -450,10 +460,12 @@ void QobuzService::Logout() {
   s.remove("device_id");
   s.remove("user_auth_token");
   s.endGroup();
+
 }
 
 void QobuzService::ResetLoginAttempts() {
   login_attempts_ = 0;
+
 }
 
 void QobuzService::TryLogin() {
@@ -478,6 +490,7 @@ void QobuzService::TryLogin() {
   }
 
   emit RequestLogin();
+
 }
 
 void QobuzService::ResetArtistsRequest() {
@@ -487,6 +500,7 @@ void QobuzService::ResetArtistsRequest() {
     QObject::disconnect(this, nullptr, artists_request_.get(), nullptr);
     artists_request_.reset();
   }
+
 }
 
 void QobuzService::GetArtists() {
@@ -509,6 +523,7 @@ void QobuzService::GetArtists() {
   QObject::connect(artists_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::ArtistsUpdateProgressReceived);
 
   artists_request_->Process();
+
 }
 
 void QobuzService::ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error) {
@@ -516,21 +531,25 @@ void QobuzService::ArtistsResultsReceived(const int id, const SongMap &songs, co
   Q_UNUSED(id);
   emit ArtistsResults(songs, error);
   ResetArtistsRequest();
+
 }
 
 void QobuzService::ArtistsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit ArtistsUpdateStatus(text);
+
 }
 
 void QobuzService::ArtistsProgressSetMaximumReceived(const int id, const int max) {
   Q_UNUSED(id);
   emit ArtistsProgressSetMaximum(max);
+
 }
 
 void QobuzService::ArtistsUpdateProgressReceived(const int id, const int progress) {
   Q_UNUSED(id);
   emit ArtistsUpdateProgress(progress);
+
 }
 
 void QobuzService::ResetAlbumsRequest() {
@@ -540,6 +559,7 @@ void QobuzService::ResetAlbumsRequest() {
     QObject::disconnect(this, nullptr, albums_request_.get(), nullptr);
     albums_request_.reset();
   }
+
 }
 
 void QobuzService::GetAlbums() {
@@ -562,6 +582,7 @@ void QobuzService::GetAlbums() {
   QObject::connect(albums_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::AlbumsUpdateProgressReceived);
 
   albums_request_->Process();
+
 }
 
 void QobuzService::AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error) {
@@ -569,21 +590,25 @@ void QobuzService::AlbumsResultsReceived(const int id, const SongMap &songs, con
   Q_UNUSED(id);
   emit AlbumsResults(songs, error);
   ResetAlbumsRequest();
+
 }
 
 void QobuzService::AlbumsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit AlbumsUpdateStatus(text);
+
 }
 
 void QobuzService::AlbumsProgressSetMaximumReceived(const int id, const int max) {
   Q_UNUSED(id);
   emit AlbumsProgressSetMaximum(max);
+
 }
 
 void QobuzService::AlbumsUpdateProgressReceived(const int id, const int progress) {
   Q_UNUSED(id);
   emit AlbumsUpdateProgress(progress);
+
 }
 
 void QobuzService::ResetSongsRequest() {
@@ -593,6 +618,7 @@ void QobuzService::ResetSongsRequest() {
     QObject::disconnect(this, nullptr, songs_request_.get(), nullptr);
     songs_request_.reset();
   }
+
 }
 
 void QobuzService::GetSongs() {
@@ -615,6 +641,7 @@ void QobuzService::GetSongs() {
   QObject::connect(songs_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::SongsUpdateProgressReceived);
 
   songs_request_->Process();
+
 }
 
 void QobuzService::SongsResultsReceived(const int id, const SongMap &songs, const QString &error) {
@@ -622,21 +649,25 @@ void QobuzService::SongsResultsReceived(const int id, const SongMap &songs, cons
   Q_UNUSED(id);
   emit SongsResults(songs, error);
   ResetSongsRequest();
+
 }
 
 void QobuzService::SongsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit SongsUpdateStatus(text);
+
 }
 
 void QobuzService::SongsProgressSetMaximumReceived(const int id, const int max) {
   Q_UNUSED(id);
   emit SongsProgressSetMaximum(max);
+
 }
 
 void QobuzService::SongsUpdateProgressReceived(const int id, const int progress) {
   Q_UNUSED(id);
   emit SongsUpdateProgress(progress);
+
 }
 
 int QobuzService::Search(const QString &text, InternetSearchView::SearchType type) {
@@ -655,6 +686,7 @@ int QobuzService::Search(const QString &text, InternetSearchView::SearchType typ
   timer_search_delay_->start();
 
   return pending_search_id_;
+
 }
 
 void QobuzService::StartSearch() {
@@ -668,9 +700,11 @@ void QobuzService::StartSearch() {
   }
 
   SendSearch();
+
 }
 
 void QobuzService::CancelSearch() {
+
 }
 
 void QobuzService::SendSearch() {
@@ -698,12 +732,14 @@ void QobuzService::SendSearch() {
 
   search_request_->Search(search_id_, search_text_);
   search_request_->Process();
+
 }
 
 void QobuzService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
 
   search_request_.reset();
   emit SearchResults(id, songs, error);
+
 }
 
 uint QobuzService::GetStreamURL(const QUrl &url, QString &error) {
@@ -727,6 +763,7 @@ uint QobuzService::GetStreamURL(const QUrl &url, QString &error) {
   stream_url_req->Process();
 
   return id;
+
 }
 
 void QobuzService::HandleStreamURLFailure(const uint id, const QUrl &original_url, const QString &error) {
@@ -735,6 +772,7 @@ void QobuzService::HandleStreamURLFailure(const uint id, const QUrl &original_ur
   stream_url_requests_.remove(id);
 
   emit StreamURLFailure(id, original_url, error);
+
 }
 
 void QobuzService::HandleStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration) {
@@ -743,6 +781,7 @@ void QobuzService::HandleStreamURLSuccess(const uint id, const QUrl &original_ur
   stream_url_requests_.remove(id);
 
   emit StreamURLSuccess(id, original_url, stream_url, filetype, samplerate, bit_depth, duration);
+
 }
 
 void QobuzService::LoginError(const QString &error, const QVariant &debug) {
@@ -760,4 +799,5 @@ void QobuzService::LoginError(const QString &error, const QVariant &debug) {
   emit LoginComplete(false, error_html);
 
   login_errors_.clear();
+
 }

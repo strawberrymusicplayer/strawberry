@@ -72,6 +72,7 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject 
   QObject::connect(app, &Application::SettingsChanged, this, &MoodbarProxyStyle::ReloadSettings);
 
   ReloadSettings();
+
 }
 
 void MoodbarProxyStyle::ReloadSettings() {
@@ -93,6 +94,7 @@ void MoodbarProxyStyle::ReloadSettings() {
     moodbar_colors_dirty_ = true;
     slider_->update();
   }
+
 }
 
 void MoodbarProxyStyle::SetMoodbarData(const QByteArray &data) {
@@ -100,6 +102,7 @@ void MoodbarProxyStyle::SetMoodbarData(const QByteArray &data) {
   data_ = data;
   moodbar_colors_dirty_ = true;  // Redraw next time
   NextState();
+
 }
 
 void MoodbarProxyStyle::SetMoodbarEnabled(const bool enabled) {
@@ -113,6 +116,7 @@ void MoodbarProxyStyle::SetMoodbarEnabled(const bool enabled) {
   s.endGroup();
 
   app_->ReloadSettings();
+
 }
 
 void MoodbarProxyStyle::NextState() {
@@ -151,11 +155,13 @@ void MoodbarProxyStyle::NextState() {
   }
 
   state_ = visible ? FadingToOn : FadingToOff;
+
 }
 
 void MoodbarProxyStyle::FaderValueChanged(const qreal value) {
   Q_UNUSED(value);
   slider_->update();
+
 }
 
 bool MoodbarProxyStyle::eventFilter(QObject *object, QEvent *event) {
@@ -177,6 +183,7 @@ bool MoodbarProxyStyle::eventFilter(QObject *object, QEvent *event) {
   }
 
   return QProxyStyle::eventFilter(object, event);
+
 }
 
 void MoodbarProxyStyle::drawComplexControl(ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const {
@@ -187,6 +194,7 @@ void MoodbarProxyStyle::drawComplexControl(ComplexControl control, const QStyleO
   }
 
   const_cast<MoodbarProxyStyle *>(this)->Render(control, qstyleoption_cast<const QStyleOptionSlider *>(option), painter, widget);
+
 }
 
 void MoodbarProxyStyle::Render(ComplexControl control, const QStyleOptionSlider *option, QPainter *painter, const QWidget *widget) {
@@ -247,6 +255,7 @@ void MoodbarProxyStyle::Render(ComplexControl control, const QStyleOptionSlider 
       DrawArrow(option, painter);
       break;
   }
+
 }
 
 void MoodbarProxyStyle::EnsureMoodbarRendered(const QStyleOptionSlider *opt) {
@@ -261,6 +270,7 @@ void MoodbarProxyStyle::EnsureMoodbarRendered(const QStyleOptionSlider *opt) {
     moodbar_pixmap_ = MoodbarPixmap(moodbar_colors_, slider_->size(), slider_->palette(), opt);
     moodbar_pixmap_dirty_ = false;
   }
+
 }
 
 QRect MoodbarProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionComplex *opt, SubControl sc, const QWidget *widget) const {
@@ -304,6 +314,7 @@ QRect MoodbarProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionCom
   }
 
   return QProxyStyle::subControlRect(cc, opt, sc, widget);
+
 }
 
 void MoodbarProxyStyle::DrawArrow(const QStyleOptionSlider *option, QPainter *painter) const {
@@ -323,6 +334,7 @@ void MoodbarProxyStyle::DrawArrow(const QStyleOptionSlider *option, QPainter *pa
   painter->setBrush(slider_->palette().brush(QPalette::Active, QPalette::Base));
   painter->drawPolygon(poly);
   painter->restore();
+
 }
 
 QPixmap MoodbarProxyStyle::MoodbarPixmap(const ColorVector &colors, const QSize size, const QPalette &palette, const QStyleOptionSlider *opt) {
@@ -354,6 +366,7 @@ QPixmap MoodbarProxyStyle::MoodbarPixmap(const ColorVector &colors, const QSize 
   p.end();
 
   return ret;
+
 }
 
 void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
@@ -390,6 +403,7 @@ void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
   }
 
   context_menu_->popup(pos);
+
 }
 
 void MoodbarProxyStyle::ChangeStyle(QAction *action) {
@@ -400,4 +414,5 @@ void MoodbarProxyStyle::ChangeStyle(QAction *action) {
   s.endGroup();
 
   app_->ReloadSettings();
+
 }

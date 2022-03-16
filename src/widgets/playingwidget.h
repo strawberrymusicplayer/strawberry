@@ -150,6 +150,7 @@ class PlayingWidget : public QWidget {
   void DrawContents(QPainter *p);
   void ScaleCover();
   void GetCoverAutomatically();
+
 };
 
 #endif  // PLAYINGWIDGET_H

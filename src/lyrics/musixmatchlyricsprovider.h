@@ -52,6 +52,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
 
  private:
   QList<QNetworkReply *> replies_;
+
 };
 
 #endif  // MUSIXMATCHLYRICSPROVIDER_H

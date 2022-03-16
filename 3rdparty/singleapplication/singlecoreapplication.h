@@ -145,6 +145,7 @@ class SingleCoreApplication : public QCoreApplication {  // clazy:exclude=ctor-m
   SingleCoreApplicationPrivate *d_ptr;
   Q_DECLARE_PRIVATE(SingleCoreApplication)
   void abortSafely();
+
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(SingleCoreApplication::Options)

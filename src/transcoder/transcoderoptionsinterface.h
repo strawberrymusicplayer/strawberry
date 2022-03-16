@@ -37,6 +37,7 @@ class TranscoderOptionsInterface : public QWidget {
   virtual void Save() = 0;
 
   QString settings_postfix_;
+
 };
 
 #endif  // TRANSCODEROPTIONSINTERFACE_H

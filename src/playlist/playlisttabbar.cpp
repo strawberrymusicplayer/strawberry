@@ -91,6 +91,7 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent)
   QObject::connect(this, &PlaylistTabBar::tabMoved, this, &PlaylistTabBar::TabMoved);
   // We can't just emit Close signal, we need to extract the playlist id first
   QObject::connect(this, &PlaylistTabBar::tabCloseRequested, this, &PlaylistTabBar::CloseFromTabIndex);
+
 }
 
 void PlaylistTabBar::SetActions(QAction *new_playlist, QAction *load_playlist) {
@@ -99,6 +100,7 @@ void PlaylistTabBar::SetActions(QAction *new_playlist, QAction *load_playlist) {
   menu_->insertAction(nullptr, load_playlist);
 
   action_new_ = new_playlist;
+
 }
 
 void PlaylistTabBar::SetManager(PlaylistManager *manager) {
@@ -106,6 +108,7 @@ void PlaylistTabBar::SetManager(PlaylistManager *manager) {
   manager_ = manager;
   QObject::connect(manager_, &PlaylistManager::PlaylistFavorited, this, &PlaylistTabBar::PlaylistFavoritedSlot);
   QObject::connect(manager_, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistTabBar::PlaylistManagerInitialized);
+
 }
 
 void PlaylistTabBar::PlaylistManagerInitialized() {
@@ -113,6 +116,7 @@ void PlaylistTabBar::PlaylistManagerInitialized() {
   // Signal that we are done loading and thus further changes should be committed to the db.
   initialized_ = true;
   QObject::disconnect(manager_, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistTabBar::PlaylistManagerInitialized);
+
 }
 
 void PlaylistTabBar::contextMenuEvent(QContextMenuEvent *e) {
@@ -130,6 +134,7 @@ void PlaylistTabBar::contextMenuEvent(QContextMenuEvent *e) {
   action_save_->setEnabled(menu_index_ != -1);
 
   menu_->popup(e->globalPos());
+
 }
 
 void PlaylistTabBar::mouseReleaseEvent(QMouseEvent *e) {
@@ -141,6 +146,7 @@ void PlaylistTabBar::mouseReleaseEvent(QMouseEvent *e) {
   }
 
   QTabBar::mouseReleaseEvent(e);
+
 }
 
 void PlaylistTabBar::mouseDoubleClickEvent(QMouseEvent *e) {
@@ -164,6 +170,7 @@ void PlaylistTabBar::mouseDoubleClickEvent(QMouseEvent *e) {
   }
 
   QTabBar::mouseDoubleClickEvent(e);
+
 }
 
 void PlaylistTabBar::RenameSlot() {
@@ -177,11 +184,13 @@ void PlaylistTabBar::RenameSlot() {
   if (new_name.isEmpty()) return;
 
   emit Rename(tabData(menu_index_).toInt(), new_name);
+
 }
 
 void PlaylistTabBar::RenameInline() {
   emit Rename(tabData(menu_index_).toInt(), rename_editor_->text());
   HideEditor();
+
 }
 
 void PlaylistTabBar::HideEditor() {
@@ -191,6 +200,7 @@ void PlaylistTabBar::HideEditor() {
 
   // Hack to give back focus to playlist view
   manager_->SetCurrentPlaylist(manager_->current()->id());
+
 }
 
 void PlaylistTabBar::StarSlot() {
@@ -201,6 +211,7 @@ void PlaylistTabBar::StarSlot() {
   if (favorite_widget) {
     favorite_widget->SetFavorite(!favorite_widget->IsFavorite());
   }
+
 }
 
 void PlaylistTabBar::CloseSlot() {
@@ -266,6 +277,7 @@ void PlaylistTabBar::CloseSlot() {
 
   // Update playlist tab order/visibility
   TabMoved();
+
 }
 
 void PlaylistTabBar::CloseFromTabIndex(int index) {
@@ -273,6 +285,7 @@ void PlaylistTabBar::CloseFromTabIndex(int index) {
   // Update the global index
   menu_index_ = index;
   CloseSlot();
+
 }
 
 void PlaylistTabBar::SaveSlot() {
@@ -280,11 +293,13 @@ void PlaylistTabBar::SaveSlot() {
   if (menu_index_ == -1) return;
 
   emit Save(tabData(menu_index_).toInt());
+
 }
 
 int PlaylistTabBar::current_id() const {
   if (currentIndex() == -1) return -1;
   return tabData(currentIndex()).toInt();
+
 }
 
 int PlaylistTabBar::index_of(const int id) const {
@@ -295,6 +310,7 @@ int PlaylistTabBar::index_of(const int id) const {
     }
   }
   return -1;
+
 }
 
 void PlaylistTabBar::set_current_id(const int id) { setCurrentIndex(index_of(id)); }
@@ -306,14 +322,17 @@ int PlaylistTabBar::id_of(const int index) const {
     return 0;
   }
   return tabData(index).toInt();
+
 }
 
 void PlaylistTabBar::set_icon_by_id(const int id, const QIcon &icon) {
   setTabIcon(index_of(id), icon);
+
 }
 
 void PlaylistTabBar::RemoveTab(const int id) {
   removeTab(index_of(id));
+
 }
 
 void PlaylistTabBar::set_text_by_id(const int id, const QString &text) {
@@ -322,10 +341,12 @@ void PlaylistTabBar::set_text_by_id(const int id, const QString &text) {
   new_text = new_text.replace("&", "&&");
   setTabText(index_of(id), new_text);
   setTabToolTip(index_of(id), text);
+
 }
 
 void PlaylistTabBar::CurrentIndexChanged(const int index) {
   if (!suppress_current_changed_) emit CurrentIdChanged(tabData(index).toInt());
+
 }
 
 void PlaylistTabBar::InsertTab(const int id, const int index, const QString &text, const bool favorite) {
@@ -352,6 +373,7 @@ void PlaylistTabBar::InsertTab(const int id, const int index, const QString &tex
     // Update playlist tab order/visibility
     TabMoved();
   }
+
 }
 
 void PlaylistTabBar::TabMoved() {
@@ -362,12 +384,14 @@ void PlaylistTabBar::TabMoved() {
     ids << tabData(i).toInt();
   }
   emit PlaylistOrderChanged(ids);
+
 }
 
 void PlaylistTabBar::dragEnterEvent(QDragEnterEvent *e) {
   if (e->mimeData()->hasUrls() || e->mimeData()->hasFormat(Playlist::kRowsMimetype) || qobject_cast<const MimeData *>(e->mimeData())) {
     e->acceptProposedAction();
   }
+
 }
 
 void PlaylistTabBar::dragMoveEvent(QDragMoveEvent *e) {
@@ -389,10 +413,12 @@ void PlaylistTabBar::dragMoveEvent(QDragMoveEvent *e) {
   else {
     drag_hover_timer_.stop();
   }
+
 }
 
 void PlaylistTabBar::dragLeaveEvent(QDragLeaveEvent *) {
   drag_hover_timer_.stop();
+
 }
 
 void PlaylistTabBar::timerEvent(QTimerEvent *e) {
@@ -403,6 +429,7 @@ void PlaylistTabBar::timerEvent(QTimerEvent *e) {
     drag_hover_timer_.stop();
     if (drag_hover_tab_ != -1) setCurrentIndex(drag_hover_tab_);
   }
+
 }
 
 void PlaylistTabBar::dropEvent(QDropEvent *e) {
@@ -422,6 +449,7 @@ void PlaylistTabBar::dropEvent(QDropEvent *e) {
   }
 
   manager_->current()->dropMimeData(e->mimeData(), e->proposedAction(), -1, 0, QModelIndex());
+
 }
 
 bool PlaylistTabBar::event(QEvent *e) {
@@ -446,6 +474,7 @@ bool PlaylistTabBar::event(QEvent *e) {
     default:
       return QTabBar::event(e);
   }
+
 }
 
 void PlaylistTabBar::PlaylistFavoritedSlot(const int id, const bool favorite) {
@@ -455,4 +484,5 @@ void PlaylistTabBar::PlaylistFavoritedSlot(const int id, const bool favorite) {
   if (favorite_widget) {
     favorite_widget->SetFavorite(favorite);
   }
+
 }

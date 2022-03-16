@@ -72,6 +72,7 @@ class MoodbarPipeline : public QObject {
   bool success_;
   bool running_;
   QByteArray data_;
+
 };
 
 #endif  // MOODBARPIPELINE_H

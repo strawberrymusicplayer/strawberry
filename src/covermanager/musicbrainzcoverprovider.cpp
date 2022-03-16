@@ -57,6 +57,7 @@ MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, NetworkAcce
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(false);
   QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &MusicbrainzCoverProvider::FlushRequests);
+
 }
 
 MusicbrainzCoverProvider::~MusicbrainzCoverProvider() {
@@ -67,6 +68,7 @@ MusicbrainzCoverProvider::~MusicbrainzCoverProvider() {
     reply->abort();
     reply->deleteLater();
   }
+
 }
 
 bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -83,6 +85,7 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
   }
 
   return true;
+
 }
 
 void MusicbrainzCoverProvider::SendSearchRequest(const SearchRequest &request) {
@@ -101,6 +104,7 @@ void MusicbrainzCoverProvider::SendSearchRequest(const SearchRequest &request) {
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { HandleSearchReply(reply, request.id); });
+
 }
 
 void MusicbrainzCoverProvider::FlushRequests() {
@@ -111,6 +115,7 @@ void MusicbrainzCoverProvider::FlushRequests() {
   }
 
   timer_flush_requests_->stop();
+
 }
 
 void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int search_id) {
@@ -217,6 +222,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     results.append(cover_result);
   }
   emit SearchFinished(search_id, results);
+
 }
 
 QByteArray MusicbrainzCoverProvider::GetReplyData(QNetworkReply *reply) {
@@ -258,10 +264,12 @@ QByteArray MusicbrainzCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
+
 }
 
 void MusicbrainzCoverProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Musicbrainz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }

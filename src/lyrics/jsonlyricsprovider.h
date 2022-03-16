@@ -44,6 +44,7 @@ class JsonLyricsProvider : public LyricsProvider {
   QByteArray ExtractData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(const QByteArray &data);
   QJsonObject ExtractJsonObj(QNetworkReply *reply);
+
 };
 
 #endif  // JSONLYRICSPROVIDER_H

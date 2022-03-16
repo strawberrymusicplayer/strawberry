@@ -48,6 +48,7 @@ void SmartPlaylistSearch::Reset() {
   sort_field_ = SmartPlaylistSearchTerm::Field_Title;
   limit_ = -1;
   first_item_ = 0;
+
 }
 
 QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
@@ -102,12 +103,14 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   //qLog(Debug) << sql;
 
   return sql;
+
 }
 
 bool SmartPlaylistSearch::is_valid() const {
 
   if (search_type_ == Type_All) return true;
   return !terms_.isEmpty();
+
 }
 
 bool SmartPlaylistSearch::operator==(const SmartPlaylistSearch &other) const {
@@ -117,6 +120,7 @@ bool SmartPlaylistSearch::operator==(const SmartPlaylistSearch &other) const {
     sort_type_ == other.sort_type_ &&
     sort_field_ == other.sort_field_ &&
     limit_ == other.limit_;
+
 }
 
 QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearch &search) {
@@ -127,6 +131,7 @@ QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearch &search) {
   s << qint32(search.limit_);
   s << quint8(search.search_type_);
   return s;
+
 }
 
 QDataStream &operator>>(QDataStream &s, SmartPlaylistSearch &search) {
@@ -141,4 +146,5 @@ QDataStream &operator>>(QDataStream &s, SmartPlaylistSearch &search) {
   search.search_type_ = SmartPlaylistSearch::SearchType(search_type);
 
   return s;
+
 }

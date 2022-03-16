@@ -147,6 +147,7 @@ InternetSearchView::InternetSearchView(QWidget *parent)
   cover_loader_options_.desired_height_ = kArtHeight;
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
+
 }
 
 InternetSearchView::~InternetSearchView() { delete ui_; }
@@ -210,6 +211,7 @@ void InternetSearchView::Init(Application *app, InternetService *service) {
   QObject::connect(ui_->settings, &QToolButton::clicked, ui_->settings, &QToolButton::showMenu);
 
   ReloadSettings();
+
 }
 
 void InternetSearchView::ReloadSettings() {
@@ -256,6 +258,7 @@ void InternetSearchView::ReloadSettings() {
 
   ui_->settings->setIconSize(QSize(iconsize, iconsize));
   ui_->search->setIconSize(iconsize);
+
 }
 
 void InternetSearchView::showEvent(QShowEvent *e) {
@@ -265,6 +268,7 @@ void InternetSearchView::showEvent(QShowEvent *e) {
 #ifndef Q_OS_MACOS
   FocusSearchField();
 #endif
+
 }
 
 bool InternetSearchView::eventFilter(QObject *object, QEvent *e) {
@@ -281,6 +285,7 @@ bool InternetSearchView::eventFilter(QObject *object, QEvent *e) {
   }
 
   return QWidget::eventFilter(object, e);
+
 }
 
 bool InternetSearchView::SearchKeyEvent(QKeyEvent *e) {
@@ -308,6 +313,7 @@ bool InternetSearchView::SearchKeyEvent(QKeyEvent *e) {
 
   e->accept();
   return true;
+
 }
 
 bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
@@ -355,6 +361,7 @@ bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
   context_menu_->popup(e->globalPos());
 
   return true;
+
 }
 
 void InternetSearchView::timerEvent(QTimerEvent *e) {
@@ -367,6 +374,7 @@ void InternetSearchView::timerEvent(QTimerEvent *e) {
   }
 
   QObject::timerEvent(e);
+
 }
 
 void InternetSearchView::StartSearch(const QString &query) {
@@ -377,6 +385,7 @@ void InternetSearchView::StartSearch(const QString &query) {
   // Swap models immediately
   swap_models_timer_->stop();
   SwapModels();
+
 }
 
 void InternetSearchView::TextEdited(const QString &text) {
@@ -407,6 +416,7 @@ void InternetSearchView::TextEdited(const QString &text) {
     ui_->progressbar->reset();
     last_search_id_ = SearchAsync(trimmed, search_type_);
   }
+
 }
 
 void InternetSearchView::SwapModels() {
@@ -424,6 +434,7 @@ void InternetSearchView::SwapModels() {
   else {
     ui_->results_stack->setCurrentWidget(ui_->results_page);
   }
+
 }
 
 QStringList InternetSearchView::TokenizeQuery(const QString &query) {
@@ -442,6 +453,7 @@ QStringList InternetSearchView::TokenizeQuery(const QString &query) {
   }
 
   return tokens;
+
 }
 
 bool InternetSearchView::Matches(const QStringList &tokens, const QString &string) {
@@ -453,6 +465,7 @@ bool InternetSearchView::Matches(const QStringList &tokens, const QString &strin
   }
 
   return true;
+
 }
 
 int InternetSearchView::SearchAsync(const QString &query, const SearchType type) {
@@ -465,12 +478,14 @@ int InternetSearchView::SearchAsync(const QString &query, const SearchType type)
   delayed_searches_[timer_id].type_ = type;
 
   return id;
+
 }
 
 void InternetSearchView::SearchAsync(const int id, const QString &query, const SearchType type) {
 
   const int service_id = service_->Search(query, type);
   pending_searches_[service_id] = PendingState(id, TokenizeQuery(query));
+
 }
 
 void InternetSearchView::SearchDone(const int service_id, const SongMap &songs, const QString &error) {
@@ -500,6 +515,7 @@ void InternetSearchView::SearchDone(const int service_id, const SongMap &songs, 
   }
 
   AddResults(search_id, results);
+
 }
 
 void InternetSearchView::CancelSearch(const int id) {
@@ -513,6 +529,7 @@ void InternetSearchView::CancelSearch(const int id) {
     }
   }
   service_->CancelSearch();
+
 }
 
 void InternetSearchView::AddResults(const int id, const InternetSearchView::ResultList &results) {
@@ -523,6 +540,7 @@ void InternetSearchView::AddResults(const int id, const InternetSearchView::Resu
   ui_->progressbar->reset();
   ui_->progressbar->hide();
   current_model_->AddResults(results);
+
 }
 
 void InternetSearchView::SearchError(const int id, const QString &error) {
@@ -535,6 +553,7 @@ void InternetSearchView::SearchError(const int id, const QString &error) {
   ui_->progressbar->reset();
   ui_->progressbar->hide();
   ui_->results_stack->setCurrentWidget(ui_->help_page);
+
 }
 
 void InternetSearchView::UpdateStatus(const int service_id, const QString &text) {
@@ -545,6 +564,7 @@ void InternetSearchView::UpdateStatus(const int service_id, const QString &text)
   if (search_id != last_search_id_) return;
   ui_->progressbar->show();
   ui_->label_status->setText(text);
+
 }
 
 void InternetSearchView::ProgressSetMaximum(const int service_id, const int max) {
@@ -554,6 +574,7 @@ void InternetSearchView::ProgressSetMaximum(const int service_id, const int max)
   const int search_id = state.orig_id_;
   if (search_id != last_search_id_) return;
   ui_->progressbar->setMaximum(max);
+
 }
 
 void InternetSearchView::UpdateProgress(const int service_id, const int progress) {
@@ -563,6 +584,7 @@ void InternetSearchView::UpdateProgress(const int service_id, const int progress
   const int search_id = state.orig_id_;
   if (search_id != last_search_id_) return;
   ui_->progressbar->setValue(progress);
+
 }
 
 MimeData *InternetSearchView::SelectedMimeData() {
@@ -596,10 +618,12 @@ MimeData *InternetSearchView::SelectedMimeData() {
 
   // Get a MimeData for these items
   return front_model_->LoadTracks(front_model_->GetChildResults(items));
+
 }
 
 void InternetSearchView::AddSelectedToPlaylist() {
   emit AddToPlaylist(SelectedMimeData());
+
 }
 
 void InternetSearchView::LoadSelected() {
@@ -609,6 +633,7 @@ void InternetSearchView::LoadSelected() {
 
   mimedata->clear_first_ = true;
   emit AddToPlaylist(mimedata);
+
 }
 
 void InternetSearchView::AddSelectedToPlaylistEnqueue() {
@@ -618,6 +643,7 @@ void InternetSearchView::AddSelectedToPlaylistEnqueue() {
 
   mimedata->enqueue_now_ = true;
   emit AddToPlaylist(mimedata);
+
 }
 
 void InternetSearchView::OpenSelectedInNewPlaylist() {
@@ -627,31 +653,37 @@ void InternetSearchView::OpenSelectedInNewPlaylist() {
 
   mimedata->open_in_new_playlist_ = true;
   emit AddToPlaylist(mimedata);
+
 }
 
 void InternetSearchView::SearchForThis() {
   StartSearch(ui_->results->selectionModel()->selectedRows().first().data().toString());
+
 }
 
 bool InternetSearchView::SearchFieldHasFocus() const {
 
   return ui_->search->hasFocus();
+
 }
 
 void InternetSearchView::FocusSearchField() {
 
   ui_->search->setFocus();
   ui_->search->selectAll();
+
 }
 
 void InternetSearchView::FocusOnFilter(QKeyEvent *e) {
 
   ui_->search->setFocus();
   QApplication::sendEvent(ui_->search, e);
+
 }
 
 void InternetSearchView::OpenSettingsDialog() {
   app_->OpenSettingsDialogAtPage(service_->settings_page());
+
 }
 
 void InternetSearchView::GroupByClicked(QAction *action) {
@@ -667,6 +699,7 @@ void InternetSearchView::GroupByClicked(QAction *action) {
   }
 
   SetGroupBy(action->property("group_by").value<CollectionModel::Grouping>());
+
 }
 
 void InternetSearchView::SetGroupBy(const CollectionModel::Grouping g) {
@@ -702,18 +735,22 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping g) {
   // Check the advanced action
   QList<QAction *> actions = group_by_actions_->actions();
   actions.last()->setChecked(true);
+
 }
 
 void InternetSearchView::SearchArtistsClicked(const bool) {
   SetSearchType(InternetSearchView::SearchType_Artists);
+
 }
 
 void InternetSearchView::SearchAlbumsClicked(const bool) {
   SetSearchType(InternetSearchView::SearchType_Albums);
+
 }
 
 void InternetSearchView::SearchSongsClicked(const bool) {
   SetSearchType(InternetSearchView::SearchType_Songs);
+
 }
 
 void InternetSearchView::SetSearchType(const InternetSearchView::SearchType type) {
@@ -726,6 +763,7 @@ void InternetSearchView::SetSearchType(const InternetSearchView::SearchType type
   s.endGroup();
 
   TextEdited(ui_->search->text());
+
 }
 
 void InternetSearchView::AddArtists() {
@@ -735,6 +773,7 @@ void InternetSearchView::AddArtists() {
   if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData *>(mimedata)) {
     emit AddArtistsSignal(internet_song_data->songs.values());
   }
+
 }
 
 void InternetSearchView::AddAlbums() {
@@ -744,6 +783,7 @@ void InternetSearchView::AddAlbums() {
   if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData *>(mimedata)) {
     emit AddAlbumsSignal(internet_song_data->songs.values());
   }
+
 }
 
 void InternetSearchView::AddSongs() {
@@ -753,6 +793,7 @@ void InternetSearchView::AddSongs() {
   if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData *>(mimedata)) {
     emit AddSongsSignal(internet_song_data->songs);
   }
+
 }
 
 QString InternetSearchView::PixmapCacheKey(const InternetSearchView::Result &result) const {
@@ -766,10 +807,12 @@ QString InternetSearchView::PixmapCacheKey(const InternetSearchView::Result &res
   else {
     return Song::TextForSource(service_->source()) + "/" + result.metadata_.url().toString();
   }
+
 }
 
 bool InternetSearchView::FindCachedPixmap(const InternetSearchView::Result &result, QPixmap *pixmap) const {
   return QPixmapCache::find(result.pixmap_cache_key_, pixmap);
+
 }
 
 void InternetSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
@@ -822,6 +865,7 @@ void InternetSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
     quint64 loader_id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, result.metadata_);
     cover_loader_tasks_[loader_id] = qMakePair(source_index, result.pixmap_cache_key_);
   }
+
 }
 
 void InternetSearchView::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &albumcover_result) {
@@ -844,4 +888,5 @@ void InternetSearchView::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoad
       }
     }
   }
+
 }

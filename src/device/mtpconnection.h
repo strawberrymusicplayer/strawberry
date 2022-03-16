@@ -49,6 +49,7 @@ class MtpConnection : public QObject, public std::enable_shared_from_this<MtpCon
   Q_DISABLE_COPY(MtpConnection)
 
   LIBMTP_mtpdevice_t *device_;
+
 };
 
 #endif  // MTPCONNECTION_H

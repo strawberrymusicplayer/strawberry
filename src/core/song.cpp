@@ -251,6 +251,7 @@ struct Song::Private : public QSharedData {
   QImage image_;          // Album Cover image set by album cover loader.
   bool init_from_file_;   // Whether this song was loaded from a file using taglib.
   bool suspicious_tags_;  // Whether our encoding guesser thinks these tags might be incorrectly encoded.
+
 };
 
 Song::Private::Private(Song::Source source)
@@ -301,6 +302,7 @@ Song::~Song() = default;
 Song &Song::operator=(const Song &other) {
   d = other.d;
   return *this;
+
 }
 
 bool Song::is_valid() const { return d->valid_; }
@@ -383,6 +385,7 @@ bool Song::save_embedded_cover_supported(const FileType filetype) {
     filetype == FileType_OggOpus ||
     filetype == FileType_MPEG ||
     filetype == FileType_MP4;
+
 }
 
 const QUrl &Song::stream_url() const { return d->stream_url_; }
@@ -411,6 +414,7 @@ bool Song::art_automatic_is_valid() const {
       (d->art_automatic_.isValid() && !d->art_automatic_.isLocalFile()) ||
       (d->art_automatic_.isLocalFile() && QFile::exists(d->art_automatic_.toLocalFile())) ||
       (d->art_automatic_.scheme().isEmpty() && !d->art_automatic_.path().isEmpty() && QFile::exists(d->art_automatic_.path())));
+
 }
 
 bool Song::art_manual_is_valid() const {
@@ -420,6 +424,7 @@ bool Song::art_manual_is_valid() const {
       (d->art_manual_.isValid() && !d->art_manual_.isLocalFile()) ||
       (d->art_manual_.isLocalFile() && QFile::exists(d->art_manual_.toLocalFile())) ||
       (d->art_manual_.scheme().isEmpty() && !d->art_manual_.path().isEmpty() && QFile::exists(d->art_manual_.path())));
+
 }
 
 bool Song::has_valid_art() const { return art_automatic_is_valid() || art_manual_is_valid(); }
@@ -443,23 +448,28 @@ QString Song::sortable(const QString &v) {
   }
 
   return copy;
+
 }
 
 void Song::set_title(const QString &v) {
   d->title_sortable_ = sortable(v);
   d->title_ = v;
+
 }
 void Song::set_album(const QString &v) {
   d->album_sortable_ = sortable(v);
   d->album_ = v;
+
 }
 void Song::set_artist(const QString &v) {
   d->artist_sortable_ = sortable(v);
   d->artist_ = v;
+
 }
 void Song::set_albumartist(const QString &v) {
   d->albumartist_sortable_ = sortable(v);
   d->albumartist_ = v;
+
 }
 void Song::set_track(const int v) { d->track_ = v; }
 void Song::set_disc(const int v) { d->disc_ = v; }
@@ -513,6 +523,7 @@ void Song::set_image(const QImage &i) { d->image_ = i; }
 
 QString Song::JoinSpec(const QString &table) {
   return Utilities::Prepend(table + ".", kColumns).join(", ");
+
 }
 
 Song::Source Song::SourceFromURL(const QUrl &url) {
@@ -544,6 +555,7 @@ Song::Source Song::SourceFromURL(const QUrl &url) {
   }
   else
     return Source_Unknown;
+
 }
 
 QString Song::TextForSource(Source source) {
@@ -562,6 +574,7 @@ QString Song::TextForSource(Source source) {
     case Song::Source_Unknown: return "unknown";
   }
   return "unknown";
+
 }
 
 QString Song::DescriptionForSource(Source source) {
@@ -580,6 +593,7 @@ QString Song::DescriptionForSource(Source source) {
     case Song::Source_Unknown: return "Unknown";
   }
   return "unknown";
+
 }
 
 Song::Source Song::SourceFromText(const QString &source) {
@@ -596,6 +610,7 @@ Song::Source Song::SourceFromText(const QString &source) {
   if (source.compare("radioparadise", Qt::CaseInsensitive) == 0) return Source_RadioParadise;
 
   return Source_Unknown;
+
 }
 
 QIcon Song::IconForSource(Source source) {
@@ -614,6 +629,7 @@ QIcon Song::IconForSource(Source source) {
     case Song::Source_Unknown: return IconLoader::Load("edit-delete");
   }
   return IconLoader::Load("edit-delete");
+
 }
 
 QString Song::TextForFiletype(FileType filetype) {
@@ -645,6 +661,7 @@ QString Song::TextForFiletype(FileType filetype) {
     case Song::FileType_Unknown:
     default: return QObject::tr("Unknown");
   }
+
 }
 
 QString Song::ExtensionForFiletype(FileType filetype) {
@@ -673,6 +690,7 @@ QString Song::ExtensionForFiletype(FileType filetype) {
     case Song::FileType_Unknown:
     default: return "dat";
   }
+
 }
 
 QIcon Song::IconForFiletype(FileType filetype) {
@@ -704,6 +722,7 @@ QIcon Song::IconForFiletype(FileType filetype) {
     case Song::FileType_Unknown:
     default: return IconLoader::Load("edit-delete");
   }
+
 }
 
 bool Song::IsFileLossless() const {
@@ -723,6 +742,7 @@ bool Song::IsFileLossless() const {
     default:
       return false;
   }
+
 }
 
 Song::FileType Song::FiletypeByMimetype(const QString &mimetype) {
@@ -762,6 +782,7 @@ Song::FileType Song::FiletypeByMimetype(const QString &mimetype) {
 
   else
     return Song::FileType_Unknown;
+
 }
 
 Song::FileType Song::FiletypeByDescription(const QString &text) {
@@ -800,6 +821,7 @@ Song::FileType Song::FiletypeByDescription(const QString &text) {
     return Song::FileType_S3M;
   else
     return Song::FileType_Unknown;
+
 }
 
 Song::FileType Song::FiletypeByExtension(const QString &ext) {
@@ -846,6 +868,7 @@ Song::FileType Song::FiletypeByExtension(const QString &ext) {
 
   else
     return Song::FileType_Unknown;
+
 }
 
 QString Song::ImageCacheDir(const Song::Source source) {
@@ -871,15 +894,18 @@ QString Song::ImageCacheDir(const Song::Source source) {
   }
 
   return QString();
+
 }
 
 int Song::CompareSongsName(const Song &song1, const Song &song2) {
   return song1.PrettyTitleWithArtist().localeAwareCompare(song2.PrettyTitleWithArtist()) < 0;
+
 }
 
 void Song::SortSongsListAlphabetically(SongList *songs) {
   Q_ASSERT(songs);
   std::sort(songs->begin(), songs->end(), CompareSongsName);
+
 }
 
 void Song::Init(const QString &title, const QString &artist, const QString &album, qint64 length_nanosec) {
@@ -891,6 +917,7 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
   set_album(album);
 
   set_length_nanosec(length_nanosec);
+
 }
 
 void Song::Init(const QString &title, const QString &artist, const QString &album, qint64 beginning, qint64 end) {
@@ -903,6 +930,7 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
 
   d->beginning_ = beginning;
   d->end_ = end;
+
 }
 
 void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
@@ -955,6 +983,7 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
   d->suspicious_tags_ = pb.suspicious_tags();
 
   InitArtManual();
+
 }
 
 void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
@@ -995,6 +1024,7 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
   pb->set_art_automatic(art_automatic.constData(), art_automatic.size());
   pb->set_rating(d->rating_);
   pb->set_suspicious_tags(d->suspicious_tags_);
+
 }
 
 void Song::InitFromQuery(const SqlRow &q, const bool reliable_metadata) {
@@ -1067,6 +1097,7 @@ void Song::InitFromQuery(const SqlRow &q, const bool reliable_metadata) {
   d->init_from_file_ = reliable_metadata;
 
   InitArtManual();
+
 }
 
 void Song::InitFromFilePartial(const QString &filename, const QFileInfo &fileinfo) {
@@ -1078,6 +1109,7 @@ void Song::InitFromFilePartial(const QString &filename, const QFileInfo &fileinf
   d->basefilename_ = fileinfo.fileName();
   d->title_ = fileinfo.fileName();
   if (d->art_manual_.isEmpty()) InitArtManual();
+
 }
 
 void Song::InitArtManual() {
@@ -1093,6 +1125,7 @@ void Song::InitArtManual() {
       d->art_manual_ = QUrl::fromLocalFile(path);
     }
   }
+
 }
 
 void Song::InitArtAutomatic() {
@@ -1111,6 +1144,7 @@ void Song::InitArtAutomatic() {
       d->art_automatic_ = QUrl::fromLocalFile(file.path() + QDir::separator() + files.first());
     }
   }
+
 }
 
 #ifdef HAVE_LIBGPOD
@@ -1171,6 +1205,7 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
       g_object_unref(pixbuf);
     }
   }
+
 }
 
 void Song::ToItdb(Itdb_Track *track) const {
@@ -1203,6 +1238,7 @@ void Song::ToItdb(Itdb_Track *track) const {
   track->playcount = d->playcount_;
   track->skipcount = d->skipcount_;
   track->time_played = d->lastplayed_;
+
 }
 #endif
 
@@ -1248,6 +1284,7 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
       d->valid_ = false;
       break;
   }
+
 }
 
 void Song::ToMTP(LIBMTP_track_t *track) const {
@@ -1293,6 +1330,7 @@ void Song::ToMTP(LIBMTP_track_t *track) const {
     case FileType_WAV: track->filetype = LIBMTP_FILETYPE_WAV; break;
     default: track->filetype = LIBMTP_FILETYPE_UNDEF_AUDIO; break;
   }
+
 }
 #endif
 
@@ -1347,6 +1385,7 @@ bool Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
   if (bundle.bitrate > 0) d->bitrate_ = bundle.bitrate;
 
   return minor;
+
 }
 
 void Song::BindToQuery(SqlQuery *query) const {
@@ -1410,6 +1449,7 @@ void Song::BindToQuery(SqlQuery *query) const {
   query->BindValue(":cue_path", d->cue_path_);
 
   query->BindFloatValue(":rating", d->rating_);
+
 }
 
 void Song::BindToFtsQuery(SqlQuery *query) const {
@@ -1423,6 +1463,7 @@ void Song::BindToFtsQuery(SqlQuery *query) const {
   query->BindValue(":ftsgrouping", d->grouping_);
   query->BindValue(":ftsgenre", d->genre_);
   query->BindValue(":ftscomment", d->comment_);
+
 }
 
 QString Song::PrettyTitle() const {
@@ -1433,6 +1474,7 @@ QString Song::PrettyTitle() const {
   if (title.isEmpty()) title = d->url_.toString();
 
   return title;
+
 }
 
 QString Song::PrettyTitleWithArtist() const {
@@ -1442,6 +1484,7 @@ QString Song::PrettyTitleWithArtist() const {
   if (!d->artist_.isEmpty()) title = d->artist_ + " - " + title;
 
   return title;
+
 }
 
 QString Song::PrettyLength() const {
@@ -1449,6 +1492,7 @@ QString Song::PrettyLength() const {
   if (length_nanosec() == -1) return QString();
 
   return Utilities::PrettyTimeNanosec(length_nanosec());
+
 }
 
 QString Song::PrettyYear() const {
@@ -1456,6 +1500,7 @@ QString Song::PrettyYear() const {
   if (d->year_ == -1) return QString();
 
   return QString::number(d->year_);
+
 }
 
 QString Song::PrettyOriginalYear() const {
@@ -1463,6 +1508,7 @@ QString Song::PrettyOriginalYear() const {
   if (effective_originalyear() == -1) return QString();
 
   return QString::number(effective_originalyear());
+
 }
 
 QString Song::TitleWithCompilationArtist() const {
@@ -1474,6 +1520,7 @@ QString Song::TitleWithCompilationArtist() const {
   if (is_compilation() && !d->artist_.isEmpty() && !d->artist_.contains("various", Qt::CaseInsensitive)) title = d->artist_ + " - " + title;
 
   return title;
+
 }
 
 QString Song::SampleRateBitDepthToText() const {
@@ -1482,6 +1529,7 @@ QString Song::SampleRateBitDepthToText() const {
   if (d->bitdepth_ == -1) return QString("%1 hz").arg(d->samplerate_);
 
   return QString("%1 hz / %2 bit").arg(d->samplerate_).arg(d->bitdepth_);
+
 }
 
 QString Song::PrettyRating() const {
@@ -1491,6 +1539,7 @@ QString Song::PrettyRating() const {
   if (rating == -1.0F) return "0";
 
   return QString::number(static_cast<int>(rating * 100));
+
 }
 
 bool Song::IsMetadataEqual(const Song &other) const {
@@ -1521,6 +1570,7 @@ bool Song::IsMetadataEqual(const Song &other) const {
     d->cue_path_ == other.d->cue_path_ &&
     d->playcount_ == other.d->playcount_ &&
     d->rating_ == other.d->rating_;
+
 }
 
 bool Song::IsMetadataAndMoreEqual(const Song &other) const {
@@ -1529,18 +1579,22 @@ bool Song::IsMetadataAndMoreEqual(const Song &other) const {
     d->fingerprint_ == other.d->fingerprint_ &&
     d->art_automatic_ == other.d->art_automatic_ &&
     d->art_manual_ == other.d->art_manual_;
+
 }
 
 bool Song::IsEditable() const {
   return d->valid_ && d->url_.isValid() && (d->url_.isLocalFile() || d->source_ == Source_Stream) && !has_cue();
+
 }
 
 bool Song::operator==(const Song &other) const {
   return source() == other.source() && url() == other.url() && beginning_nanosec() == other.beginning_nanosec();
+
 }
 
 bool Song::operator!=(const Song &other) const {
   return source() != other.source() || url() != other.url() || beginning_nanosec() != other.beginning_nanosec();
+
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -1550,17 +1604,20 @@ uint qHash(const Song &song) {
 #endif
   // Should compare the same fields as operator==
   return qHash(song.url().toString()) ^ qHash(song.beginning_nanosec());
+
 }
 
 bool Song::IsSimilar(const Song &other) const {
   return title().compare(other.title(), Qt::CaseInsensitive) == 0 &&
     artist().compare(other.artist(), Qt::CaseInsensitive) == 0 &&
     album().compare(other.album(), Qt::CaseInsensitive) == 0;
+
 }
 
 size_t HashSimilar(const Song &song) {
   // Should compare the same fields as function IsSimilar
   return qHash(song.title().toLower()) ^ qHash(song.artist().toLower()) ^ qHash(song.album().toLower());
+
 }
 
 bool Song::IsOnSameAlbum(const Song &other) const {
@@ -1574,10 +1631,12 @@ bool Song::IsOnSameAlbum(const Song &other) const {
   if (is_compilation() && album() == other.album()) return true;
 
   return effective_album() == other.effective_album() && effective_albumartist() == other.effective_albumartist();
+
 }
 
 QString Song::AlbumKey() const {
   return QString("%1|%2|%3").arg(is_compilation() ? "_compilation" : effective_albumartist(), has_cue() ? cue_path() : "", effective_album());
+
 }
 
 void Song::ToXesam(QVariantMap *map) const {
@@ -1600,6 +1659,7 @@ void Song::ToXesam(QVariantMap *map) const {
   AddMetadata("xesam:lastUsed", AsMPRISDateTimeType(lastplayed()), map);
   AddMetadataAsList("xesam:composer", composer(), map);
   AddMetadata("xesam:useCount", static_cast<int>(playcount()), map);
+
 }
 
 void Song::MergeUserSetData(const Song &other, const bool merge_rating) {
@@ -1617,4 +1677,5 @@ void Song::MergeUserSetData(const Song &other, const bool merge_rating) {
   set_art_manual(other.art_manual());
   set_compilation_on(other.compilation_on());
   set_compilation_off(other.compilation_off());
+
 }

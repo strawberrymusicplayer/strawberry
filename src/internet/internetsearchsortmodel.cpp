@@ -66,4 +66,5 @@ bool InternetSearchSortModel::lessThan(const QModelIndex &left, const QModelInde
   if (ret > 0) return false;
 
   return false;
+
 }

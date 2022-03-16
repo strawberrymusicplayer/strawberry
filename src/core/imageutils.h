@@ -46,6 +46,7 @@ class ImageUtils {
   static QImage ScaleAndPad(const QImage &image, const bool scale, const bool pad, const int desired_height);
   static QImage CreateThumbnail(const QImage &image, const bool pad, const QSize size);
   static QImage GenerateNoCoverImage(const QSize size = QSize());
+
 };
 
 #endif  // IMAGEUTILS_H

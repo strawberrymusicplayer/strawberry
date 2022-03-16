@@ -14,4 +14,5 @@ TEST(SqliteTest, FTS5SupportEnabled) {
   ASSERT_EQ(0, rc) << errmsg;
 
   sqlite3_close(db);
+
 }

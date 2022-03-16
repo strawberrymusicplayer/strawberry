@@ -42,6 +42,7 @@ class CollectionItemDelegate : public QStyledItemDelegate {
 
  public slots:
   bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &idx) override;
+
 };
 
 #endif  // COLLECTIONITEMDELEGATE_H

@@ -39,6 +39,7 @@ void RenameTabLineEdit::keyPressEvent(QKeyEvent *e) {
   else {
     QLineEdit::keyPressEvent(e);
   }
+
 }
 
 void RenameTabLineEdit::focusOutEvent(QFocusEvent *e) {
@@ -48,4 +49,5 @@ void RenameTabLineEdit::focusOutEvent(QFocusEvent *e) {
   //if the user hasn't explicitly accepted, discard the value
   emit EditingCanceled();
   //we don't call the default event since it will trigger editingFished()
+
 }

@@ -70,6 +70,7 @@ struct QueryOptions {
   QString filter_;
   int max_age_;
   QueryMode query_mode_;
+
 };
 
 class CollectionQuery : public QSqlQuery {
@@ -123,6 +124,7 @@ class CollectionQuery : public QSqlQuery {
   bool join_with_fts_;
   bool duplicates_only_;
   int limit_;
+
 };
 
 #endif  // COLLECTIONQUERY_H

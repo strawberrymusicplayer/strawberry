@@ -125,6 +125,7 @@ class Udisks2Lister : public DeviceLister {
   std::unique_ptr<OrgFreedesktopDBusObjectManagerInterface> udisks2_interface_;
 
   static constexpr char udisks2_service_[] = "org.freedesktop.UDisks2";
+
 };
 
 #endif  // UDISKS2LISTER_H

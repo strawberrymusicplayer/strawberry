@@ -35,6 +35,7 @@ class OrganizeFormatTest : public ::testing::Test {
  protected:
   OrganizeFormat format_;
   Song song_;
+
 };
 
 
@@ -63,6 +64,7 @@ TEST_F(OrganizeFormatTest, BasicReplace) {
   ASSERT_TRUE(format_.IsValid());
 
   EXPECT_EQ("album_albumartist_artist_123_comment_composer_performer_grouping_789_genre_987_654_32_title_321_2010", format_.GetFilenameForSong(song_));
+
 }
 
 TEST_F(OrganizeFormatTest, BasicReplacePaths) {
@@ -78,6 +80,7 @@ TEST_F(OrganizeFormatTest, BasicReplacePaths) {
   ASSERT_TRUE(format_.IsValid());
 
   EXPECT_EQ("albumartist/album/321_albumartist_artist_album_title", format_.GetFilenameForSong(song_));
+
 }
 
 TEST_F(OrganizeFormatTest, PathOnlyFormat) {
@@ -95,6 +98,7 @@ TEST_F(OrganizeFormatTest, PathOnlyFormat) {
   ASSERT_TRUE(format_.IsValid());
 
   EXPECT_EQ("albumartist/album/321_albumartist_artist_album_title", format_.GetFilenameForSong(song_));
+
 }
 
 TEST_F(OrganizeFormatTest, Extension) {
@@ -104,6 +108,7 @@ TEST_F(OrganizeFormatTest, Extension) {
   format_.set_format("%extension");
   ASSERT_TRUE(format_.IsValid());
   EXPECT_EQ("flac", format_.GetFilenameForSong(song_));
+
 }
 
 TEST_F(OrganizeFormatTest, ArtistInitial) {
@@ -113,6 +118,7 @@ TEST_F(OrganizeFormatTest, ArtistInitial) {
   format_.set_format("%artistinitial");
   ASSERT_TRUE(format_.IsValid());
   EXPECT_EQ("B", format_.GetFilenameForSong(song_));
+
 }
 
 TEST_F(OrganizeFormatTest, AlbumArtistInitial) {
@@ -122,12 +128,14 @@ TEST_F(OrganizeFormatTest, AlbumArtistInitial) {
   format_.set_format("%artistinitial");
   ASSERT_TRUE(format_.IsValid());
   EXPECT_EQ("B", format_.GetFilenameForSong(song_));
+
 }
 
 TEST_F(OrganizeFormatTest, InvalidTag) {
 
   format_.set_format("%invalid");
   EXPECT_FALSE(format_.IsValid());
+
 }
 
 TEST_F(OrganizeFormatTest, Blocks) {
@@ -143,6 +151,7 @@ TEST_F(OrganizeFormatTest, Blocks) {
 
   song_.set_year(123);
   EXPECT_EQ("BeforeInside123After", format_.GetFilenameForSong(song_));
+
 }
 
 TEST_F(OrganizeFormatTest, ReplaceSpaces) {
@@ -154,6 +163,7 @@ TEST_F(OrganizeFormatTest, ReplaceSpaces) {
   EXPECT_EQ("The Format String The Song Title", format_.GetFilenameForSong(song_));
   format_.set_replace_spaces(true);
   EXPECT_EQ("The_Format_String_The_Song_Title", format_.GetFilenameForSong(song_));
+
 }
 
 TEST_F(OrganizeFormatTest, ReplaceNonAscii) {
@@ -169,6 +179,7 @@ TEST_F(OrganizeFormatTest, ReplaceNonAscii) {
 
   song_.set_artist(QString::fromUtf8("Владимир Высоцкий"));
   EXPECT_EQ("_________________", format_.GetFilenameForSong(song_));
+
 }
 
 TEST_F(OrganizeFormatTest, TrackNumberPadding) {
@@ -186,6 +197,7 @@ TEST_F(OrganizeFormatTest, TrackNumberPadding) {
 
   song_.set_track(0);
   EXPECT_EQ("", format_.GetFilenameForSong(song_));
+
 }
 
 TEST_F(OrganizeFormatTest, ReplaceSlashes) {
@@ -193,4 +205,5 @@ TEST_F(OrganizeFormatTest, ReplaceSlashes) {
   format_.set_format("%title");
   song_.set_title("foo/bar\\baz");
   EXPECT_EQ("foobarbaz", format_.GetFilenameForSong(song_));
+
 }

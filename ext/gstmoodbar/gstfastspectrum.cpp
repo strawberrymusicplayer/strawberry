@@ -45,7 +45,9 @@ enum {
   PROP_0,
   PROP_INTERVAL,
   PROP_BANDS
+
 };
+
 
 }  // namespace
 
@@ -102,6 +104,7 @@ static void gst_fastspectrum_class_init(GstFastSpectrumClass *klass) {
   gst_caps_unref(caps);
 
   klass->fftw_lock = new QMutex;
+
 }
 
 static void gst_fastspectrum_init(GstFastSpectrum *spectrum) {
@@ -112,6 +115,7 @@ static void gst_fastspectrum_init(GstFastSpectrum *spectrum) {
   spectrum->channel_data_initialized = false;
 
   g_mutex_init(&spectrum->lock);
+
 }
 
 static void gst_fastspectrum_alloc_channel_data(GstFastSpectrum *spectrum) {
@@ -131,6 +135,7 @@ static void gst_fastspectrum_alloc_channel_data(GstFastSpectrum *spectrum) {
     spectrum->plan = fftw_plan_dft_r2c_1d(static_cast<int>(nfft), spectrum->fft_input, spectrum->fft_output, FFTW_ESTIMATE);
   }
   spectrum->channel_data_initialized = true;
+
 }
 
 static void gst_fastspectrum_free_channel_data(GstFastSpectrum *spectrum) {
@@ -148,6 +153,7 @@ static void gst_fastspectrum_free_channel_data(GstFastSpectrum *spectrum) {
 
     spectrum->channel_data_initialized = false;
   }
+
 }
 
 static void gst_fastspectrum_flush(GstFastSpectrum *spectrum) {
@@ -156,6 +162,7 @@ static void gst_fastspectrum_flush(GstFastSpectrum *spectrum) {
   spectrum->num_fft = 0;
 
   spectrum->accumulated_error = 0;
+
 }
 
 static void gst_fastspectrum_reset_state(GstFastSpectrum *spectrum) {
@@ -164,6 +171,7 @@ static void gst_fastspectrum_reset_state(GstFastSpectrum *spectrum) {
 
   gst_fastspectrum_free_channel_data(spectrum);
   gst_fastspectrum_flush(spectrum);
+
 }
 
 static void gst_fastspectrum_finalize(GObject *object) {
@@ -174,6 +182,7 @@ static void gst_fastspectrum_finalize(GObject *object) {
   g_mutex_clear(&spectrum->lock);
 
   G_OBJECT_CLASS(parent_class)->finalize(object);
+
 }
 
 static void gst_fastspectrum_set_property(GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec) {
@@ -205,6 +214,7 @@ static void gst_fastspectrum_set_property(GObject *object, guint prop_id, const 
       G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
       break;
   }
+
 }
 
 static void gst_fastspectrum_get_property(GObject *object, guint prop_id, GValue *value, GParamSpec *pspec) {
@@ -222,6 +232,7 @@ static void gst_fastspectrum_get_property(GObject *object, guint prop_id, GValue
       G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
       break;
   }
+
 }
 
 static gboolean gst_fastspectrum_start(GstBaseTransform *trans) {
@@ -231,6 +242,7 @@ static gboolean gst_fastspectrum_start(GstBaseTransform *trans) {
   gst_fastspectrum_reset_state(spectrum);
 
   return TRUE;
+
 }
 
 static gboolean gst_fastspectrum_stop(GstBaseTransform *trans) {
@@ -240,6 +252,7 @@ static gboolean gst_fastspectrum_stop(GstBaseTransform *trans) {
   gst_fastspectrum_reset_state(spectrum);
 
   return TRUE;
+
 }
 
 // Mixing data readers
@@ -255,6 +268,7 @@ static void input_data_mixed_float(const guint8 *_in, double *out, guint len, do
     out[op] = in[ip++];
     op = (op + 1) % nfft;
   }
+
 }
 
 static void input_data_mixed_double(const guint8 *_in, double *out, guint len, double max_value, guint op, guint nfft) {
@@ -268,6 +282,7 @@ static void input_data_mixed_double(const guint8 *_in, double *out, guint len, d
     out[op] = in[ip++];
     op = (op + 1) % nfft;
   }
+
 }
 
 static void input_data_mixed_int32_max(const guint8 *_in, double *out, guint len, double max_value, guint op, guint nfft) {
@@ -279,6 +294,7 @@ static void input_data_mixed_int32_max(const guint8 *_in, double *out, guint len
     out[op] = in[ip++] / max_value;
     op = (op + 1) % nfft;
   }
+
 }
 
 static void input_data_mixed_int24_max(const guint8 *_in, double *out, guint len, double max_value, guint op, guint nfft) {
@@ -297,6 +313,7 @@ static void input_data_mixed_int24_max(const guint8 *_in, double *out, guint len
     op = (op + 1) % nfft;
     _in += 3;
   }
+
 }
 
 static void input_data_mixed_int16_max(const guint8 *_in, double *out, guint len, double max_value, guint op, guint nfft) {
@@ -308,6 +325,7 @@ static void input_data_mixed_int16_max(const guint8 *_in, double *out, guint len
     out[op] = in[ip++] / max_value;
     op = (op + 1) % nfft;
   }
+
 }
 
 static gboolean gst_fastspectrum_setup(GstAudioFilter *base, const GstAudioInfo *info) {
@@ -342,6 +360,7 @@ static gboolean gst_fastspectrum_setup(GstAudioFilter *base, const GstAudioInfo 
   g_mutex_unlock(&spectrum->lock);
 
   return TRUE;
+
 }
 
 static void gst_fastspectrum_run_fft(GstFastSpectrum *spectrum, guint input_pos) {
@@ -363,6 +382,7 @@ static void gst_fastspectrum_run_fft(GstFastSpectrum *spectrum, guint input_pos)
     val /= nfft * nfft;
     spectrum->spect_magnitude[i] += val;
   }
+
 }
 
 static GstFlowReturn gst_fastspectrum_transform_ip(GstBaseTransform *trans, GstBuffer *buffer) {
@@ -492,4 +512,5 @@ static GstFlowReturn gst_fastspectrum_transform_ip(GstBaseTransform *trans, GstB
   g_assert(size == 0);
 
   return GST_FLOW_OK;
+
 }

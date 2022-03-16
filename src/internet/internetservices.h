@@ -60,6 +60,7 @@ class InternetServices : public QObject {
  private:
   QMap<Song::Source, InternetService *> services_;
   QList<InternetService *> wait_for_exit_;
+
 };
 
 #endif  // INTERNETSERVICES_H

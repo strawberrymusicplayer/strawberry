@@ -38,6 +38,7 @@ class QWheelEvent;
 
 namespace Analyzer {
 class Base;
+
 }  // namespace Analyzer
 
 class AnalyzerContainer : public QWidget {
@@ -96,6 +97,7 @@ class AnalyzerContainer : public QWidget {
 
   Analyzer::Base *current_analyzer_;
   EngineBase *engine_;
+
 };
 
 template<typename T>
@@ -109,6 +111,7 @@ void AnalyzerContainer::AddAnalyzerType() {
   action->setCheckable(true);
   actions_ << action;
   QObject::connect(action, &QAction::triggered, [this, id]() { ChangeAnalyzer(id); });
+
 }
 
 #endif  // ANALYZERCONTAINER_H

@@ -37,20 +37,24 @@ DeviceStateFilterModel::DeviceStateFilterModel(QObject *parent, DeviceManager::S
   QObject::connect(this, &DeviceStateFilterModel::rowsInserted, this, &DeviceStateFilterModel::ProxyRowCountChanged);
   QObject::connect(this, &DeviceStateFilterModel::rowsRemoved, this, &DeviceStateFilterModel::ProxyRowCountChanged);
   QObject::connect(this, &DeviceStateFilterModel::modelReset, this, &DeviceStateFilterModel::ProxyReset);
+
 }
 
 bool DeviceStateFilterModel::filterAcceptsRow(int row, const QModelIndex &) const {
   return sourceModel()->index(row, 0).data(DeviceManager::Role_State).toInt() != state_ && sourceModel()->index(row, 0).data(DeviceManager::Role_CopyMusic).toBool();
+
 }
 
 void DeviceStateFilterModel::ProxyRowCountChanged(const QModelIndex &, const int, const int) {
 
   emit IsEmptyChanged(rowCount() == 0);
+
 }
 
 void DeviceStateFilterModel::ProxyReset() {
 
   emit IsEmptyChanged(rowCount() == 0);
+
 }
 
 void DeviceStateFilterModel::setSourceModel(QAbstractItemModel *sourceModel) {
@@ -59,4 +63,5 @@ void DeviceStateFilterModel::setSourceModel(QAbstractItemModel *sourceModel) {
   setDynamicSortFilter(true);
   setSortCaseSensitivity(Qt::CaseInsensitive);
   sort(0);
+
 }

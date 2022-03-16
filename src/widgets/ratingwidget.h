@@ -39,6 +39,7 @@ class RatingPainter {
 
  private:
   QPixmap stars_[kStarCount * 2 + 1];
+
 };
 
 class RatingWidget : public QWidget {
@@ -67,6 +68,7 @@ class RatingWidget : public QWidget {
   RatingPainter painter_;
   float rating_;
   float hover_rating_;
+
 };
 
 #endif  // RATINGWIDGET_H

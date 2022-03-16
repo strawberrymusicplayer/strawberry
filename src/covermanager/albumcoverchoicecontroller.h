@@ -196,6 +196,7 @@ class AlbumCoverChoiceController : public QWidget {
   bool cover_lowercase_;
   bool cover_replace_spaces_;
   bool save_embedded_cover_override_;
+
 };
 
 #endif  // ALBUMCOVERCHOICECONTROLLER_H

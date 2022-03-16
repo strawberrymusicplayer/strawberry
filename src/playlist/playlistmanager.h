@@ -135,6 +135,7 @@ class PlaylistManagerInterface : public QObject {
   void PlaylistChanged(Playlist *playlist);
   void EditingFinished(int playlist_id, QModelIndex idx);
   void PlayRequested(QModelIndex idx, Playlist::AutoScroll autoscroll);
+
 };
 
 class PlaylistManager : public PlaylistManagerInterface {
@@ -258,6 +259,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   int current_;
   int active_;
   int playlists_loading_;
+
 };
 
 #endif  // PLAYLISTMANAGER_H

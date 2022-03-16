@@ -61,6 +61,7 @@ class FavoriteWidget : public QWidget {
   QPixmap on_;
   QPixmap off_;
   QRect rect_;
+
 };
 
 #endif  // FAVORITEWIDGET_H

@@ -117,6 +117,7 @@ class AlbumCoverFetcherSearch : public QObject {
   NetworkAccessManager *network_;
 
   bool cancel_requested_;
+
 };
 
 #endif  // ALBUMCOVERFETCHERSEARCH_H

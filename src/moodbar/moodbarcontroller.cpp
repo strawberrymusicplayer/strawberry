@@ -41,6 +41,7 @@ MoodbarController::MoodbarController(Application *app, QObject *parent)
   QObject::connect(app_->player(), &Player::Stopped, this, &MoodbarController::PlaybackStopped);
 
   ReloadSettings();
+
 }
 
 void MoodbarController::ReloadSettings() {
@@ -49,6 +50,7 @@ void MoodbarController::ReloadSettings() {
   s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
   enabled_ = s.value("enabled", false).toBool();
   s.endGroup();
+
 }
 
 void MoodbarController::CurrentSongChanged(const Song &song) {
@@ -76,12 +78,14 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
       QObject::connect(pipeline, &MoodbarPipeline::Finished, this, [this, pipeline, song]() { AsyncLoadComplete(pipeline, song.url()); });
       break;
   }
+
 }
 
 void MoodbarController::PlaybackStopped() {
   if (enabled_) {
     emit CurrentMoodbarDataChanged(QByteArray());
   }
+
 }
 
 void MoodbarController::AsyncLoadComplete(MoodbarPipeline *pipeline, const QUrl &url) {
@@ -103,4 +107,5 @@ void MoodbarController::AsyncLoadComplete(MoodbarPipeline *pipeline, const QUrl 
   }
 
   emit CurrentMoodbarDataChanged(pipeline->data());
+
 }

@@ -83,6 +83,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
 
   QString current_id_;
   QString de_;
+
 };
 
 #endif  // GLOBALSHORTCUTSSETTINGSPAGE_H

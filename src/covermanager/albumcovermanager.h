@@ -70,6 +70,7 @@ class AlbumItem : public QListWidgetItem {
 
  private:
   Q_DISABLE_COPY(AlbumItem)
+
 };
 
 class AlbumCoverManager : public QMainWindow {
@@ -219,6 +220,7 @@ class AlbumCoverManager : public QMainWindow {
   QList<AlbumItem *> cover_save_tasks2_;
 
   QListWidgetItem *all_artists_;
+
 };
 
 #endif  // ALBUMCOVERMANAGER_H

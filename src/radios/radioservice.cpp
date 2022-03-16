@@ -53,6 +53,7 @@ QByteArray RadioService::ExtractData(QNetworkReply *reply) {
   }
 
   return reply->readAll();
+
 }
 
 QJsonObject RadioService::ExtractJsonObj(const QByteArray &data) {
@@ -86,15 +87,18 @@ QJsonObject RadioService::ExtractJsonObj(const QByteArray &data) {
   }
 
   return json_obj;
+
 }
 
 QJsonObject RadioService::ExtractJsonObj(QNetworkReply *reply) {
 
   return ExtractJsonObj(ExtractData(reply));
+
 }
 
 void RadioService::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << name_ << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }

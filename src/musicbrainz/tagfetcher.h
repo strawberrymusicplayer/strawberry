@@ -64,6 +64,7 @@ class TagFetcher : public QObject {
   MusicBrainzClient *musicbrainz_client_;
 
   SongList songs_;
+
 };
 
 #endif  // TAGFETCHER_H

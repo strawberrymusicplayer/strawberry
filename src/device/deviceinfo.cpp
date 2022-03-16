@@ -52,6 +52,7 @@ DeviceDatabaseBackend::Device DeviceInfo::SaveToDb() const {
   ret.unique_id_ = unique_ids.join(",");
 
   return ret;
+
 }
 
 void DeviceInfo::InitFromDb(const DeviceDatabaseBackend::Device &dev) {
@@ -67,6 +68,7 @@ void DeviceInfo::InitFromDb(const DeviceDatabaseBackend::Device &dev) {
   for (const QString &id : unique_ids) {
     backends_ << Backend(nullptr, id);
   }
+
 }
 
 const DeviceInfo::Backend *DeviceInfo::BestBackend() const {
@@ -83,6 +85,7 @@ const DeviceInfo::Backend *DeviceInfo::BestBackend() const {
 
   if (!ret && !backends_.isEmpty()) return &(backends_[0]);
   return ret;
+
 }
 
 void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
@@ -136,4 +139,5 @@ void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
 
   icon_name_ = "device";
   icon_ = IconLoader::Load(icon_name_);
+
 }

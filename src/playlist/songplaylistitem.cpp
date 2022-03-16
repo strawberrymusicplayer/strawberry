@@ -35,6 +35,7 @@ SongPlaylistItem::SongPlaylistItem(const Song &song) : PlaylistItem(song.source(
 bool SongPlaylistItem::InitFromQuery(const SqlRow &query) {
   song_.InitFromQuery(query, false);
   return true;
+
 }
 
 QUrl SongPlaylistItem::Url() const { return song_.url(); }
@@ -44,15 +45,18 @@ void SongPlaylistItem::Reload() {
   if (!song_.url().isLocalFile()) return;
   TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
   UpdateTemporaryMetadata(song_);
+
 }
 
 Song SongPlaylistItem::Metadata() const {
   if (HasTemporaryMetadata()) return temp_metadata_;
   return song_;
+
 }
 
 void SongPlaylistItem::SetArtManual(const QUrl &cover_url) {
 
   song_.set_art_manual(cover_url);
   if (HasTemporaryMetadata()) temp_metadata_.set_art_manual(cover_url);
+
 }

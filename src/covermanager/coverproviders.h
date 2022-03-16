@@ -76,6 +76,7 @@ class CoverProviders : public QObject {
   QMutex mutex_;
 
   QAtomicInt next_id_;
+
 };
 
 #endif  // COVERPROVIDERS_H

@@ -58,10 +58,12 @@ ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent)
   timer_flush_->setSingleShot(true);
   timer_flush_->setInterval(10min);
   QObject::connect(timer_flush_, &QTimer::timeout, this, &ScrobblerCache::WriteCache);
+
 }
 
 ScrobblerCache::~ScrobblerCache() {
   scrobbler_cache_.clear();
+
 }
 
 void ScrobblerCache::ReadCache() {
@@ -148,6 +150,7 @@ void ScrobblerCache::ReadCache() {
     if (scrobbler_cache_.contains(timestamp)) continue;
     scrobbler_cache_.insert(timestamp, std::make_shared<ScrobblerCacheItem>(artist, album, song, albumartist, track, duration, timestamp));
   }
+
 }
 
 void ScrobblerCache::WriteCache() {
@@ -194,6 +197,7 @@ void ScrobblerCache::WriteCache() {
 #endif
   stream << doc.toJson();
   file.close();
+
 }
 
 ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 timestamp) {
@@ -215,6 +219,7 @@ ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 timest
   }
 
   return item;
+
 }
 
 ScrobblerCacheItemPtr ScrobblerCache::Get(const quint64 hash) {
@@ -224,6 +229,7 @@ ScrobblerCacheItemPtr ScrobblerCache::Get(const quint64 hash) {
   }
   else
     return nullptr;
+
 }
 
 void ScrobblerCache::Remove(const quint64 hash) {
@@ -234,10 +240,12 @@ void ScrobblerCache::Remove(const quint64 hash) {
   }
 
   scrobbler_cache_.remove(hash);
+
 }
 
 void ScrobblerCache::Remove(ScrobblerCacheItemPtr item) {
   scrobbler_cache_.remove(item->timestamp_);
+
 }
 
 void ScrobblerCache::ClearSent(const QList<quint64> &list) {
@@ -247,6 +255,7 @@ void ScrobblerCache::ClearSent(const QList<quint64> &list) {
     ScrobblerCacheItemPtr item = scrobbler_cache_.value(timestamp);
     item->sent_ = false;
   }
+
 }
 
 void ScrobblerCache::Flush(const QList<quint64> &list) {
@@ -259,4 +268,5 @@ void ScrobblerCache::Flush(const QList<quint64> &list) {
   if (!timer_flush_->isActive()) {
     timer_flush_->start();
   }
+
 }

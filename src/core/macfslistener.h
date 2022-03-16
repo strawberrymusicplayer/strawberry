@@ -60,6 +60,7 @@ class MacFSListener : public FileSystemWatcherInterface {
 
   QSet<QString> paths_;
   QTimer *update_timer_;
+
 };
 
 #endif  // MACFSLISTENER_H

@@ -124,6 +124,7 @@ class PlaylistTabBar : public QTabBar {
 
   // Editor for inline renaming
   RenameTabLineEdit *rename_editor_;
+
 };
 
 #endif  // PLAYLISTTABBAR_H

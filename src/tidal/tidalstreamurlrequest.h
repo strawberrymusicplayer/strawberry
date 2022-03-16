@@ -78,6 +78,7 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   int tries_;
   bool need_login_;
   QStringList errors_;
+
 };
 
 #endif  // TIDALSTREAMURLREQUEST_H

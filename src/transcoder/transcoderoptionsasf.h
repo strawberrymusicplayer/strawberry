@@ -43,6 +43,7 @@ class TranscoderOptionsASF : public TranscoderOptionsInterface {
   static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsASF *ui_;
+
 };
 
 #endif  // TRANSCODEROPTIONSASF_H

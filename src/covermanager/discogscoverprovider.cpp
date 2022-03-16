@@ -67,6 +67,7 @@ DiscogsCoverProvider::DiscogsCoverProvider(Application *app, NetworkAccessManage
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(false);
   QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &DiscogsCoverProvider::FlushRequests);
+
 }
 
 DiscogsCoverProvider::~DiscogsCoverProvider() {
@@ -82,6 +83,7 @@ DiscogsCoverProvider::~DiscogsCoverProvider() {
   queue_search_requests_.clear();
   queue_release_requests_.clear();
   requests_search_.clear();
+
 }
 
 bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -100,11 +102,13 @@ bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &alb
   }
 
   return true;
+
 }
 
 void DiscogsCoverProvider::CancelSearch(const int id) {
 
   if (requests_search_.contains(id)) requests_search_.remove(id);
+
 }
 
 void DiscogsCoverProvider::FlushRequests() {
@@ -120,6 +124,7 @@ void DiscogsCoverProvider::FlushRequests() {
   }
 
   timer_flush_requests_->stop();
+
 }
 
 void DiscogsCoverProvider::SendSearchRequest(std::shared_ptr<DiscogsCoverSearchContext> search) {
@@ -139,6 +144,7 @@ void DiscogsCoverProvider::SendSearchRequest(std::shared_ptr<DiscogsCoverSearchC
 
   QNetworkReply *reply = CreateRequest(QUrl(kUrlSearch), params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, search]() { HandleSearchReply(reply, search->id); });
+
 }
 
 QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &params_provided) {
@@ -174,6 +180,7 @@ QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &pa
   qLog(Debug) << "Discogs: Sending request" << url;
 
   return reply;
+
 }
 
 QByteArray DiscogsCoverProvider::GetReplyData(QNetworkReply *reply) {
@@ -215,6 +222,7 @@ QByteArray DiscogsCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
+
 }
 
 void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
@@ -302,6 +310,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
       EndSearch(search);
     }
   }
+
 }
 
 void DiscogsCoverProvider::StartReleaseRequest(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url) {
@@ -313,12 +322,14 @@ void DiscogsCoverProvider::StartReleaseRequest(std::shared_ptr<DiscogsCoverSearc
   if (!timer_flush_requests_->isActive()) {
     timer_flush_requests_->start();
   }
+
 }
 
 void DiscogsCoverProvider::SendReleaseRequest(const DiscogsCoverReleaseContext &release) {
 
   QNetworkReply *reply = CreateRequest(release.url);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, release]() { HandleReleaseReply(reply, release.search_id, release.id); });
+
 }
 
 void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int search_id, const quint64 release_id) {
@@ -439,6 +450,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
   search->results.clear();
 
   EndSearch(search, release.id);
+
 }
 
 void DiscogsCoverProvider::EndSearch(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id) {
@@ -454,10 +466,12 @@ void DiscogsCoverProvider::EndSearch(std::shared_ptr<DiscogsCoverSearchContext> 
   if (queue_release_requests_.isEmpty() && queue_search_requests_.isEmpty()) {
     timer_flush_requests_->stop();
   }
+
 }
 
 void DiscogsCoverProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Discogs:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }

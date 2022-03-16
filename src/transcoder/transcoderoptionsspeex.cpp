@@ -38,10 +38,12 @@ const char *TranscoderOptionsSpeex::kSettingsGroup = "Transcoder/speexenc";
 
 TranscoderOptionsSpeex::TranscoderOptionsSpeex(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsSpeex) {
   ui_->setupUi(this);
+
 }
 
 TranscoderOptionsSpeex::~TranscoderOptionsSpeex() {
   delete ui_;
+
 }
 
 void TranscoderOptionsSpeex::Load() {
@@ -60,6 +62,7 @@ void TranscoderOptionsSpeex::Load() {
   ui_->nframes->setValue(s.value("nframes", 1).toInt());
 
   s.endGroup();
+
 }
 
 void TranscoderOptionsSpeex::Save() {
@@ -78,4 +81,5 @@ void TranscoderOptionsSpeex::Save() {
   s.setValue("nframes", ui_->nframes->value());
 
   s.endGroup();
+
 }

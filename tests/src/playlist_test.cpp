@@ -66,10 +66,12 @@ class PlaylistTest : public ::testing::Test {
 
   Playlist playlist_;          // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
   PlaylistSequence sequence_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+
 };
 
 TEST_F(PlaylistTest, Basic) {
   EXPECT_EQ(0, playlist_.rowCount(QModelIndex()));
+
 }
 
 TEST_F(PlaylistTest, InsertItems) {
@@ -87,6 +89,7 @@ TEST_F(PlaylistTest, InsertItems) {
   EXPECT_EQ("Artist", playlist_.data(playlist_.index(0, Playlist::Column_Artist)));
   EXPECT_EQ("Album", playlist_.data(playlist_.index(0, Playlist::Column_Album)));
   EXPECT_EQ(123, playlist_.data(playlist_.index(0, Playlist::Column_Length)));
+
 }
 
 TEST_F(PlaylistTest, Indexes) {
@@ -120,6 +123,7 @@ TEST_F(PlaylistTest, Indexes) {
   EXPECT_EQ("Three", playlist_.current_item()->Metadata().title());
   EXPECT_EQ(1, playlist_.previous_row());
   EXPECT_EQ(-1, playlist_.next_row());
+
 }
 
 TEST_F(PlaylistTest, RepeatPlaylist) {
@@ -137,6 +141,7 @@ TEST_F(PlaylistTest, RepeatPlaylist) {
 
   playlist_.set_current_row(2);
   EXPECT_EQ(0, playlist_.next_row());
+
 }
 
 TEST_F(PlaylistTest, RepeatTrack) {
@@ -148,6 +153,7 @@ TEST_F(PlaylistTest, RepeatTrack) {
 
   playlist_.set_current_row(0);
   EXPECT_EQ(0, playlist_.next_row());
+
 }
 
 TEST_F(PlaylistTest, RepeatAlbum) {
@@ -165,6 +171,7 @@ TEST_F(PlaylistTest, RepeatAlbum) {
 
   playlist_.set_current_row(2);
   EXPECT_EQ(0, playlist_.next_row());
+
 }
 
 TEST_F(PlaylistTest, RemoveBeforeCurrent) {
@@ -181,6 +188,7 @@ TEST_F(PlaylistTest, RemoveBeforeCurrent) {
   EXPECT_EQ(1, playlist_.last_played_row());
   EXPECT_EQ(0, playlist_.previous_row());
   EXPECT_EQ(-1, playlist_.next_row());
+
 }
 
 TEST_F(PlaylistTest, RemoveAfterCurrent) {
@@ -200,6 +208,7 @@ TEST_F(PlaylistTest, RemoveAfterCurrent) {
 
   playlist_.set_current_row(1);
   EXPECT_EQ(-1, playlist_.next_row());
+
 }
 
 TEST_F(PlaylistTest, RemoveCurrent) {
@@ -215,6 +224,7 @@ TEST_F(PlaylistTest, RemoveCurrent) {
   EXPECT_EQ(-1, playlist_.last_played_row());
   EXPECT_EQ(-1, playlist_.previous_row());
   EXPECT_EQ(0, playlist_.next_row());
+
 }
 
 TEST_F(PlaylistTest, InsertBeforeCurrent) {
@@ -234,6 +244,7 @@ TEST_F(PlaylistTest, InsertBeforeCurrent) {
 
   EXPECT_EQ("Four", playlist_.data(playlist_.index(0, Playlist::Column_Title)));
   EXPECT_EQ("One", playlist_.data(playlist_.index(1, Playlist::Column_Title)));
+
 }
 
 TEST_F(PlaylistTest, InsertAfterCurrent) {
@@ -254,6 +265,7 @@ TEST_F(PlaylistTest, InsertAfterCurrent) {
   EXPECT_EQ("Two", playlist_.data(playlist_.index(1, Playlist::Column_Title)));
   EXPECT_EQ("Four", playlist_.data(playlist_.index(2, Playlist::Column_Title)));
   EXPECT_EQ("Three", playlist_.data(playlist_.index(3, Playlist::Column_Title)));
+
 }
 
 TEST_F(PlaylistTest, Clear) {
@@ -270,6 +282,7 @@ TEST_F(PlaylistTest, Clear) {
   EXPECT_EQ(-1, playlist_.last_played_row());
   EXPECT_EQ(-1, playlist_.previous_row());
   EXPECT_EQ(-1, playlist_.next_row());
+
 }
 
 TEST_F(PlaylistTest, UndoAdd) {
@@ -293,6 +306,7 @@ TEST_F(PlaylistTest, UndoAdd) {
   EXPECT_TRUE(playlist_.undo_stack()->canUndo());
 
   EXPECT_EQ("Title", playlist_.data(playlist_.index(0, Playlist::Column_Title)));
+
 }
 
 TEST_F(PlaylistTest, UndoMultiAdd) {
@@ -314,6 +328,7 @@ TEST_F(PlaylistTest, UndoMultiAdd) {
   playlist_.undo_stack()->undo();
 
   EXPECT_FALSE(playlist_.undo_stack()->canUndo());
+
 }
 
 TEST_F(PlaylistTest, UndoRemove) {
@@ -342,6 +357,7 @@ TEST_F(PlaylistTest, UndoRemove) {
   EXPECT_EQ(0, playlist_.rowCount(QModelIndex()));
   EXPECT_FALSE(playlist_.undo_stack()->canRedo());
   EXPECT_TRUE(playlist_.undo_stack()->canUndo());
+
 }
 
 TEST_F(PlaylistTest, UndoMultiRemove) {
@@ -364,6 +380,7 @@ TEST_F(PlaylistTest, UndoMultiRemove) {
 
   playlist_.undo_stack()->undo();
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+
 }
 
 TEST_F(PlaylistTest, UndoClear) {
@@ -378,6 +395,7 @@ TEST_F(PlaylistTest, UndoClear) {
   playlist_.undo_stack()->undo();
 
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+
 }
 
 TEST_F(PlaylistTest, UndoRemoveCurrent) {
@@ -394,6 +412,7 @@ TEST_F(PlaylistTest, UndoRemoveCurrent) {
   playlist_.undo_stack()->undo();
   EXPECT_EQ(-1, playlist_.current_row());
   EXPECT_EQ(-1, playlist_.last_played_row());
+
 }
 
 TEST_F(PlaylistTest, UndoRemoveOldCurrent) {
@@ -412,6 +431,7 @@ TEST_F(PlaylistTest, UndoRemoveOldCurrent) {
   playlist_.undo_stack()->undo();
   EXPECT_EQ(-1, playlist_.current_row());
   EXPECT_EQ(-1, playlist_.last_played_row());
+
 }
 
 TEST_F(PlaylistTest, ShuffleThenNext) {
@@ -451,6 +471,7 @@ TEST_F(PlaylistTest, ShuffleThenNext) {
   EXPECT_EQ(index, playlist_.last_played_row());
   //EXPECT_EQ(-1, playlist_.next_row());
   //EXPECT_EQ(index-1, playlist_.previous_row());
+
 }
 
 TEST_F(PlaylistTest, CollectionIdMapSingle) {
@@ -471,6 +492,7 @@ TEST_F(PlaylistTest, CollectionIdMapSingle) {
   playlist_.Clear();
 
   EXPECT_EQ(0, playlist_.collection_items_by_id(1).count());
+
 }
 
 TEST_F(PlaylistTest, CollectionIdMapInvalid) {
@@ -486,6 +508,7 @@ TEST_F(PlaylistTest, CollectionIdMapInvalid) {
   EXPECT_EQ(0, playlist_.collection_items_by_id(0).count());
   EXPECT_EQ(0, playlist_.collection_items_by_id(1).count());
   EXPECT_EQ(0, playlist_.collection_items_by_id(2).count());
+
 }
 
 TEST_F(PlaylistTest, CollectionIdMapMulti) {
@@ -517,7 +540,9 @@ TEST_F(PlaylistTest, CollectionIdMapMulti) {
   playlist_.removeRow(0);  // item_one
   EXPECT_EQ(0, playlist_.collection_items_by_id(1).count());
   EXPECT_EQ(0, playlist_.collection_items_by_id(2).count());
+
 }
+
 
 
 }  // namespace

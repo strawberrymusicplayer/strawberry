@@ -86,26 +86,31 @@ ExtendedEditor::ExtendedEditor(QWidget *widget, int extra_right_padding, bool dr
   }
 
   UpdateButtonGeometry();
+
 }
 
 void ExtendedEditor::set_hint(const QString &hint) {
   hint_ = hint;
   widget_->update();
+
 }
 
 void ExtendedEditor::set_clear_button(const bool visible) {
   has_clear_button_ = visible;
   clear_button_->setVisible(visible);
   UpdateButtonGeometry();
+
 }
 
 bool ExtendedEditor::has_reset_button() const {
   return reset_button_->isVisible();
+
 }
 
 void ExtendedEditor::set_reset_button(const bool visible) {
   reset_button_->setVisible(visible);
   UpdateButtonGeometry();
+
 }
 
 void ExtendedEditor::UpdateButtonGeometry() {
@@ -118,6 +123,7 @@ void ExtendedEditor::UpdateButtonGeometry() {
 
   QSize msz = widget_->minimumSizeHint();
   widget_->setMinimumSize(msz.width() + (clear_button_->sizeHint().width() + frame_width + 1) * 2 + extra_right_padding_, qMax(msz.height(), clear_button_->sizeHint().height() + frame_width * 2 + 2));
+
 }
 
 void ExtendedEditor::Paint(QPaintDevice *device) {
@@ -145,6 +151,7 @@ void ExtendedEditor::Paint(QPaintDevice *device) {
   else {
     clear_button_->setVisible(has_clear_button_);
   }
+
 }
 
 void ExtendedEditor::Resize() {
@@ -161,11 +168,13 @@ void ExtendedEditor::Resize() {
   else {
     reset_button_->move((has_clear_button() ? sz.width() + 4 : 0) + frame_width, y);
   }
+
 }
 
 LineEdit::LineEdit(QWidget *parent) : QLineEdit(parent), ExtendedEditor(this) {
   QObject::connect(reset_button_, &QToolButton::clicked, this, &LineEdit::Reset);
   QObject::connect(this, &LineEdit::textChanged, this, &LineEdit::text_changed);
+
 }
 
 void LineEdit::text_changed(const QString &text) {
@@ -179,16 +188,19 @@ void LineEdit::text_changed(const QString &text) {
     set_rtl(QString(text.at(0)).isRightToLeft());
   }
   Resize();
+
 }
 
 void LineEdit::paintEvent(QPaintEvent *e) {
   QLineEdit::paintEvent(e);
   Paint(this);
+
 }
 
 void LineEdit::resizeEvent(QResizeEvent *e) {
   QLineEdit::resizeEvent(e);
   Resize();
+
 }
 
 
@@ -198,16 +210,19 @@ TextEdit::TextEdit(QWidget *parent)
 
   QObject::connect(reset_button_, &QToolButton::clicked, this, &TextEdit::Reset);
   QObject::connect(this, &TextEdit::textChanged, [this]() { viewport()->update(); });  // To clear the hint
+
 }
 
 void TextEdit::paintEvent(QPaintEvent *e) {
   QPlainTextEdit::paintEvent(e);
   Paint(viewport());
+
 }
 
 void TextEdit::resizeEvent(QResizeEvent *e) {
   QPlainTextEdit::resizeEvent(e);
   Resize();
+
 }
 
 
@@ -216,32 +231,38 @@ SpinBox::SpinBox(QWidget *parent)
       ExtendedEditor(this, 14, false) {
 
   QObject::connect(reset_button_, &QToolButton::clicked, this, &SpinBox::Reset);
+
 }
 
 void SpinBox::paintEvent(QPaintEvent *e) {
   QSpinBox::paintEvent(e);
   Paint(this);
+
 }
 
 void SpinBox::resizeEvent(QResizeEvent *e) {
   QSpinBox::resizeEvent(e);
   Resize();
+
 }
 
 CheckBox::CheckBox(QWidget *parent)
     : QCheckBox(parent), ExtendedEditor(this, 14, false) {
 
   QObject::connect(reset_button_, &QToolButton::clicked, this, &CheckBox::Reset);
+
 }
 
 void CheckBox::paintEvent(QPaintEvent *e) {
   QCheckBox::paintEvent(e);
   Paint(this);
+
 }
 
 void CheckBox::resizeEvent(QResizeEvent *e) {
   QCheckBox::resizeEvent(e);
   Resize();
+
 }
 
 QString SpinBox::textFromValue(int val) const {
@@ -250,6 +271,7 @@ QString SpinBox::textFromValue(int val) const {
     return "-";
   }
   return QSpinBox::textFromValue(val);
+
 }
 
 RatingBox::RatingBox(QWidget *parent)
@@ -258,4 +280,5 @@ RatingBox::RatingBox(QWidget *parent)
 
   clear_button_->hide();
   reset_button_->hide();
+
 }

@@ -51,15 +51,18 @@ SmartPlaylistSearchPreview::SmartPlaylistSearchPreview(QWidget *parent)
   bold_font.setBold(true);
   ui_->preview_label->setFont(bold_font);
   ui_->busy_container->hide();
+
 }
 
 SmartPlaylistSearchPreview::~SmartPlaylistSearchPreview() {
   delete ui_;
+
 }
 
 void SmartPlaylistSearchPreview::set_application(Application *app) {
 
   ui_->tree->Init(app);
+
 }
 
 void SmartPlaylistSearchPreview::set_collection(CollectionBackend *backend) {
@@ -70,6 +73,7 @@ void SmartPlaylistSearchPreview::set_collection(CollectionBackend *backend) {
   ui_->tree->setModel(model_);
   ui_->tree->SetPlaylist(model_);
   ui_->tree->SetItemDelegates();
+
 }
 
 void SmartPlaylistSearchPreview::Update(const SmartPlaylistSearch &search) {
@@ -86,6 +90,7 @@ void SmartPlaylistSearchPreview::Update(const SmartPlaylistSearch &search) {
   }
 
   RunSearch(search);
+
 }
 
 void SmartPlaylistSearchPreview::showEvent(QShowEvent *e) {
@@ -97,10 +102,12 @@ void SmartPlaylistSearchPreview::showEvent(QShowEvent *e) {
   }
 
   QWidget::showEvent(e);
+
 }
 
 namespace {
 PlaylistItemList DoRunSearch(PlaylistGeneratorPtr gen) { return gen->Generate(); }
+
 }  // namespace
 
 void SmartPlaylistSearchPreview::RunSearch(const SmartPlaylistSearch &search) {
@@ -115,6 +122,7 @@ void SmartPlaylistSearchPreview::RunSearch(const SmartPlaylistSearch &search) {
   QFutureWatcher<PlaylistItemList> *watcher = new QFutureWatcher<PlaylistItemList>();
   QObject::connect(watcher, &QFutureWatcher<PlaylistItemList>::finished, this, &SmartPlaylistSearchPreview::SearchFinished);
   watcher->setFuture(future);
+
 }
 
 void SmartPlaylistSearchPreview::SearchFinished() {
@@ -148,4 +156,5 @@ void SmartPlaylistSearchPreview::SearchFinished() {
 
   ui_->busy_container->hide();
   ui_->count_label->show();
+
 }

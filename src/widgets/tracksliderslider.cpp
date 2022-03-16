@@ -51,6 +51,7 @@ TrackSliderSlider::TrackSliderSlider(QWidget *parent)
   popup_->hide();
   QObject::connect(this, &TrackSliderSlider::valueChanged, this, &TrackSliderSlider::UpdateDeltaTime);
 #endif
+
 }
 
 void TrackSliderSlider::mousePressEvent(QMouseEvent *e) {
@@ -81,6 +82,7 @@ void TrackSliderSlider::mousePressEvent(QMouseEvent *e) {
   if (new_event.isAccepted()) {
     e->accept();
   }
+
 }
 
 void TrackSliderSlider::mouseReleaseEvent(QMouseEvent *e) {
@@ -93,6 +95,7 @@ void TrackSliderSlider::mouseReleaseEvent(QMouseEvent *e) {
     emit Next();
   }
   e->accept();
+
 }
 
 void TrackSliderSlider::mouseMoveEvent(QMouseEvent *e) {
@@ -116,6 +119,7 @@ void TrackSliderSlider::mouseMoveEvent(QMouseEvent *e) {
   UpdateDeltaTime();
   popup_->SetPopupPosition(mapTo(window(), QPoint(e->pos().x(), rect().center().y())));
 #endif
+
 }
 
 void TrackSliderSlider::wheelEvent(QWheelEvent *e) {
@@ -127,6 +131,7 @@ void TrackSliderSlider::wheelEvent(QWheelEvent *e) {
     emit SeekForward();
   }
   e->accept();
+
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -141,6 +146,7 @@ void TrackSliderSlider::enterEvent(QEvent *e) {
     popup_->show();
   }
 #endif
+
 }
 
 void TrackSliderSlider::leaveEvent(QEvent *e) {
@@ -151,6 +157,7 @@ void TrackSliderSlider::leaveEvent(QEvent *e) {
     popup_->hide();
   }
 #endif
+
 }
 
 void TrackSliderSlider::keyPressEvent(QKeyEvent *event) {
@@ -166,6 +173,7 @@ void TrackSliderSlider::keyPressEvent(QKeyEvent *event) {
   else {
     QSlider::keyPressEvent(event);
   }
+
 }
 
 void TrackSliderSlider::UpdateDeltaTime() {
@@ -176,4 +184,5 @@ void TrackSliderSlider::UpdateDeltaTime() {
     popup_->SetSmallText(Utilities::PrettyTimeDelta(delta_seconds));
   }
 #endif
+
 }

@@ -59,10 +59,12 @@ void TagReaderWorker::MessageArrived(const spb::tagreader::Message &message) {
   }
 
   SendReply(message, &reply);
+
 }
 
 void TagReaderWorker::DeviceClosed() {
   AbstractMessageHandler<spb::tagreader::Message>::DeviceClosed();
 
   QCoreApplication::exit();
+
 }

@@ -61,6 +61,7 @@ TidalCoverProvider::~TidalCoverProvider() {
     reply->abort();
     reply->deleteLater();
   }
+
 }
 
 bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -111,6 +112,7 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { HandleSearchReply(reply, id); });
 
   return true;
+
 }
 
 void TidalCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
@@ -161,6 +163,7 @@ QByteArray TidalCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
+
 }
 
 void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
@@ -267,10 +270,12 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     }
   }
   emit SearchFinished(id, results);
+
 }
 
 void TidalCoverProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Tidal:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }

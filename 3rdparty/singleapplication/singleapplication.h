@@ -145,6 +145,7 @@ class SingleApplication : public QApplication {  // clazy:exclude=ctor-missing-p
   SingleApplicationPrivate *d_ptr;
   Q_DECLARE_PRIVATE(SingleApplication)
   void abortSafely();
+
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(SingleApplication::Options)

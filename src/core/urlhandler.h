@@ -92,6 +92,7 @@ class UrlHandler : public QObject {
 
  signals:
   void AsyncLoadComplete(UrlHandler::LoadResult result);
+
 };
 
 #endif  // URLHANDLER_H

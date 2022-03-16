@@ -97,6 +97,7 @@ About::About(QWidget *parent) : QDialog(parent), ui_ {} {
   ui_.text_contributors->setText(ContributorsHtml());
 
   ui_.buttonBox->button(QDialogButtonBox::Close)->setShortcut(QKeySequence::Close);
+
 }
 
 QString About::MainHtml() const {
@@ -127,6 +128,7 @@ QString About::MainHtml() const {
   ret += QString("</p>");
 
   return ret;
+
 }
 
 QString About::ContributorsHtml() const {
@@ -182,6 +184,7 @@ QString About::ContributorsHtml() const {
   ret += tr("Thanks to all the other Amarok and Clementine contributors.");
   ret += QString("</p>");
   return ret;
+
 }
 
 QString About::PersonToHtml(const Person &person) {
@@ -192,4 +195,5 @@ QString About::PersonToHtml(const Person &person) {
   else {
     return QString("%1 &lt;<a href=\"mailto:%2\">%3</a>&gt;").arg(person.name, person.email, person.email);
   }
+
 }

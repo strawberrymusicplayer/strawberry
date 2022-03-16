@@ -61,6 +61,7 @@ class RadioView : public AutoExpandingTreeView {
   QAction *action_homepage_;
   QAction *action_donate_;
   bool initialized_;
+
 };
 
 #endif  // RADIOVIEW_H

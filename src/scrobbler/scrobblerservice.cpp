@@ -31,6 +31,7 @@
 ScrobblerService::ScrobblerService(const QString &name, Application *app, QObject *parent) : QObject(parent), name_(name) {
 
   Q_UNUSED(app);
+
 }
 
 QJsonObject ScrobblerService::ExtractJsonObj(const QByteArray &data, const bool ignore_empty) {
@@ -58,4 +59,5 @@ QJsonObject ScrobblerService::ExtractJsonObj(const QByteArray &data, const bool 
   }
 
   return json_obj;
+
 }

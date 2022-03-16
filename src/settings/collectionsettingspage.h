@@ -87,6 +87,7 @@ class CollectionSettingsPage : public SettingsPage {
  private:
   Ui_CollectionSettingsPage *ui_;
   bool initialized_model_;
+
 };
 
 #endif  // COLLECTIONSETTINGSPAGE_H

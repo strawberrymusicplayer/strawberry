@@ -67,4 +67,5 @@ int main(int argc, char **argv) {
   TagReaderWorker worker(&socket);
 
   return a.exec();
+
 }

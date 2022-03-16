@@ -95,6 +95,7 @@ class SystemTrayIcon : public QObject {
   bool trayicon_progress_;
   int song_progress_;
   Q_DISABLE_COPY(SystemTrayIcon);
+
 };
 
 #endif  // MACSYSTEMTRAYICON_H

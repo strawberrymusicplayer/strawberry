@@ -61,6 +61,7 @@ class MultiLoadingIndicator : public QWidget {
 
   BusyIndicator *spinner_;
   QString text_;
+
 };
 
 #endif  // MULTILOADINGINDICATOR_H

@@ -51,6 +51,7 @@ struct InstancesInfo {
   qint64 primaryPid;
   char primaryUser[128];
   quint16 checksum;
+
 };
 
 struct ConnectionInfo {
@@ -58,6 +59,7 @@ struct ConnectionInfo {
   quint64 msgLen;
   quint32 instanceId;
   quint8 stage;
+
 };
 
 class SingleApplicationPrivate : public QObject {
@@ -111,6 +113,7 @@ class SingleApplicationPrivate : public QObject {
   void slotConnectionEstablished();
   void slotDataAvailable(QLocalSocket *, const quint32);
   void slotClientConnectionClosed(QLocalSocket *, const quint32);
+
 };
 
 #endif  // SINGLEAPPLICATION_P_H

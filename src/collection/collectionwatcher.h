@@ -239,17 +239,21 @@ class CollectionWatcher : public QObject {
   SongList song_rescan_queue_;  // Set by UI thread
 
   qint64 last_scan_time_;
+
 };
 
 inline QString CollectionWatcher::NoExtensionPart(const QString &fileName) {
   return fileName.contains('.') ? fileName.section('.', 0, -2) : "";
+
 }
 // Thanks Amarok
 inline QString CollectionWatcher::ExtensionPart(const QString &fileName) {
   return fileName.contains('.') ? fileName.mid(fileName.lastIndexOf('.') + 1).toLower() : "";
+
 }
 inline QString CollectionWatcher::DirectoryPart(const QString &fileName) {
   return fileName.section('/', 0, -2);
+
 }
 
 #endif  // COLLECTIONWATCHER_H

@@ -64,6 +64,7 @@ class GlobalShortcutsBackend : public QObject {
   GlobalShortcutsManager *manager_;
   Type type_;
   bool active_;
+
 };
 
 #endif  // GLOBALSHORTCUTSBACKEND_H

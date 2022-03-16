@@ -133,7 +133,9 @@ static const QMap<Qt::Key, quint32> keymapper_win_ = {
 
   { Qt::Key(0), 0 }
 
+
 };
+
 }  // namespace KeyMapperWin
 
 #endif  // KEYMAPPER_WIN_H

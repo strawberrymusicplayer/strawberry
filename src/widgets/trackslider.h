@@ -53,7 +53,9 @@ class TrackSlider : public QWidget {
   bool event(QEvent *) override;
 
 #ifdef HAVE_MOODBAR
-  MoodbarProxyStyle *moodbar_style() const { return moodbar_style_; }
+  MoodbarProxyStyle *moodbar_style() const {
+    return moodbar_style_;
+  }
 #endif
 
   static const char *kSettingsGroup;
@@ -92,6 +94,7 @@ class TrackSlider : public QWidget {
   bool setting_value_;
   bool show_remaining_time_;
   int slider_maximum_value_;  // We cache it to avoid unnecessary updates
+
 };
 
 #endif  // TRACKSLIDER_H

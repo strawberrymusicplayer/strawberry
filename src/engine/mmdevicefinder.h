@@ -30,6 +30,7 @@ class MMDeviceFinder : public DeviceFinder {
 
   virtual bool Initialize() { return true; }
   virtual QList<Device> ListDevices();
+
 };
 
 #endif  // MMDEVICEFINDER_H

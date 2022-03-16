@@ -33,12 +33,14 @@ static inline NSString *fromQString(const QString &string) {
   const char *cString = utf8.constData();
   return [ [NSString alloc] initWithUTF8String:cString];
 
+
 }
 
 static inline QString toQString(NSString *string) {
 
   if (!string) return QString();
   return QString::fromUtf8([string UTF8String]);
+
 
 }
 
@@ -47,5 +49,6 @@ static inline NSImage *fromQPixmap(const QPixmap &pixmap) {
   QImage image = pixmap.toImage();
   CGImageRef cgImage = image.toCGImage();
   return [ [NSImage alloc] initWithCGImage:cgImage size:NSZeroSize];
+
 
 }

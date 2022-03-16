@@ -50,6 +50,7 @@ ChartLyricsProvider::~ChartLyricsProvider() {
     reply->abort();
     reply->deleteLater();
   }
+
 }
 
 bool ChartLyricsProvider::StartSearch(const QString &artist, const QString &, const QString &title, const int id) {
@@ -73,6 +74,7 @@ bool ChartLyricsProvider::StartSearch(const QString &artist, const QString &, co
   //qLog(Debug) << "ChartLyrics: Sending request for" << url;
 
   return true;
+
 }
 
 void ChartLyricsProvider::CancelSearch(const int) {}
@@ -134,10 +136,12 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
     qLog(Debug) << "ChartLyrics: Got lyrics for" << artist << title;
 
   emit SearchFinished(id, results);
+
 }
 
 void ChartLyricsProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "ChartLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }

@@ -60,6 +60,7 @@ class GlobalShortcutsBackendMacOS : public GlobalShortcutsBackend {
 
   friend class GlobalShortcutsBackendMacOSPrivate;
   std::unique_ptr<GlobalShortcutsBackendMacOSPrivate> p_;
+
 };
 
 #endif  // GLOBALSHORTCUTSBACKEND_MACOS_H

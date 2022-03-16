@@ -78,6 +78,7 @@ Rainbow::RainbowAnalyzer::RainbowAnalyzer(const RainbowType rbtype, QWidget *par
     // | band_scale(0) | ~= .5 and | band_scale(5) | ~= 32
     band_scale_[i] = -static_cast<float>(std::cos(M_PI * i / (kRainbowBands - 1))) * 0.5F * static_cast<float>(std::pow(2.3, i));
   }
+
 }
 
 void Rainbow::RainbowAnalyzer::transform(Scope &s) { fht_->spectrum(s.data()); }
@@ -90,6 +91,7 @@ void Rainbow::RainbowAnalyzer::timerEvent(QTimerEvent *e) {
   else {
     Analyzer::Base::timerEvent(e);
   }
+
 }
 
 void Rainbow::RainbowAnalyzer::resizeEvent(QResizeEvent *e) {
@@ -103,6 +105,7 @@ void Rainbow::RainbowAnalyzer::resizeEvent(QResizeEvent *e) {
   available_rainbow_width_ = width() - kWidth[rainbowtype] + kRainbowOverlap[rainbowtype];
   px_per_frame_ = available_rainbow_width_ / (kHistorySize - 1) + 1;
   x_offset_ = px_per_frame_ * (kHistorySize - 1) - available_rainbow_width_;
+
 }
 
 void Rainbow::RainbowAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) {
@@ -197,6 +200,7 @@ void Rainbow::RainbowAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bo
   else {
     p.drawPixmap(DestRect(rainbowtype), cat_dash_[rainbowtype], SourceRect(rainbowtype));
   }
+
 }
 
 Rainbow::NyanCatAnalyzer::NyanCatAnalyzer(QWidget *parent)

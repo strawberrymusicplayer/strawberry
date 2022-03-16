@@ -170,6 +170,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   QThreadPool thread_pool_;
 
   QList<QObject *> wait_for_exit_;
+
 };
 
 template<typename T>
@@ -180,6 +181,7 @@ void DeviceManager::AddDeviceClass() {
   for (const QString &scheme : schemes) {
     device_classes_.insert(scheme, obj);
   }
+
 }
 
 #endif  // DEVICEMANAGER_H

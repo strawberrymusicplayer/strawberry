@@ -43,6 +43,7 @@ class TranscoderOptionsVorbis : public TranscoderOptionsInterface {
   static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsVorbis *ui_;
+
 };
 
 #endif  // TRANSCODEROPTIONSVORBIS_H

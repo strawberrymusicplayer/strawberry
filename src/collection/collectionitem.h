@@ -53,6 +53,7 @@ class CollectionItem : public SimpleTreeItem<CollectionItem> {
 
  private:
   Q_DISABLE_COPY(CollectionItem)
+
 };
 
 #endif  // COLLECTIONITEM_H

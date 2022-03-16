@@ -43,6 +43,7 @@ class Appearance : public QObject {
  private:
   QColor foreground_color_;
   QColor background_color_;
+
 };
 
 #endif  // APPEARANCE_H

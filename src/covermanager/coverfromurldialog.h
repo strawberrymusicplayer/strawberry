@@ -56,6 +56,7 @@ class CoverFromURLDialog : public QDialog {
 
   NetworkAccessManager *network_;
   AlbumCoverImageResult last_album_cover_;
+
 };
 
 #endif  // COVERFROMURLDIALOG_H

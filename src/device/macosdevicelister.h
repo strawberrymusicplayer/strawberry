@@ -109,6 +109,7 @@ class MacOsDeviceLister : public DeviceLister {
   QMutex libmtp_mutex_;
 
   static QSet<MTPDevice> sMTPDeviceList;
+
 };
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -118,6 +119,7 @@ uint qHash(const MacOsDeviceLister::MTPDevice &device);
 #endif
 inline bool operator==(const MacOsDeviceLister::MTPDevice &a, const MacOsDeviceLister::MTPDevice &b) {
   return (a.vendor_id == b.vendor_id) && (a.product_id == b.product_id);
+
 }
 
 #endif  // MACDEVICELISTER_H

@@ -53,6 +53,7 @@ InternetSearchModel::InternetSearchModel(InternetService *service, QObject *pare
 
   QList<QSize> nocover_sizes = album_icon_.availableSizes();
   no_cover_icon_ = album_icon_.pixmap(nocover_sizes.last()).scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
 }
 
 void InternetSearchModel::AddResults(const InternetSearchView::ResultList &results) {
@@ -71,6 +72,7 @@ void InternetSearchModel::AddResults(const InternetSearchView::ResultList &resul
 
     parent->appendRow(item);
   }
+
 }
 
 QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, const int level) {
@@ -281,12 +283,14 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
 
   // Create the container for the next level.
   return BuildContainers(s, container, key, level + 1);
+
 }
 
 void InternetSearchModel::Clear() {
 
   containers_.clear();
   clear();
+
 }
 
 InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QModelIndexList &indexes) const {
@@ -297,6 +301,7 @@ InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QModel
     items << itemFromIndex(idx);
   }
   return GetChildResults(items);
+
 }
 
 InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QList<QStandardItem *> &items) const {
@@ -309,6 +314,7 @@ InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QList<
   }
 
   return results;
+
 }
 
 void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSearchView::ResultList *results, QSet<const QStandardItem *> *visited) const {
@@ -336,11 +342,13 @@ void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSea
       results->append(result.value<InternetSearchView::Result>());
     }
   }
+
 }
 
 QMimeData *InternetSearchModel::mimeData(const QModelIndexList &indexes) const {
 
   return LoadTracks(GetChildResults(indexes));
+
 }
 
 namespace {
@@ -356,7 +364,9 @@ void GatherResults(const QStandardItem *parent, InternetSearchView::ResultList *
   for (int i = 0; i < parent->rowCount(); ++i) {
     GatherResults(parent->child(i), results);
   }
+
 }
+
 
 }  // namespace
 
@@ -374,6 +384,7 @@ void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping grouping, c
     Clear();
     AddResults(results);
   }
+
 }
 
 MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &results) const {
@@ -397,4 +408,5 @@ MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &
   mime_data->setUrls(urls);
 
   return mime_data;
+
 }

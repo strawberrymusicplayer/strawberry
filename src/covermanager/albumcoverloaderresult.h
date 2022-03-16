@@ -58,6 +58,7 @@ struct AlbumCoverLoaderResult {
   bool updated;
 
   QUrl temp_cover_url;
+
 };
 
 #endif  // ALBUMCOVERLOADERRESULT_H

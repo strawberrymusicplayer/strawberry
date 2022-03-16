@@ -96,6 +96,7 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(Application *app, QWidg
   ReloadSettings();
 
   ItemsSelectedChanged();
+
 }
 
 SmartPlaylistsViewContainer::~SmartPlaylistsViewContainer() { delete ui_; }
@@ -107,6 +108,7 @@ void SmartPlaylistsViewContainer::showEvent(QShowEvent *e) {
   ItemsSelectedChanged();
 
   QWidget::showEvent(e);
+
 }
 
 void SmartPlaylistsViewContainer::ReloadSettings() {
@@ -119,12 +121,14 @@ void SmartPlaylistsViewContainer::ReloadSettings() {
   ui_->new_->setIconSize(QSize(iconsize, iconsize));
   ui_->delete_->setIconSize(QSize(iconsize, iconsize));
   ui_->edit_->setIconSize(QSize(iconsize, iconsize));
+
 }
 
 void SmartPlaylistsViewContainer::ItemsSelectedChanged() {
 
   ui_->edit_->setEnabled(ui_->view->selectionModel()->selectedRows().count() > 0);
   ui_->delete_->setEnabled(ui_->view->selectionModel()->selectedRows().count() > 0);
+
 }
 
 void SmartPlaylistsViewContainer::RightClicked(const QPoint global_pos, const QModelIndex &idx) {
@@ -136,6 +140,7 @@ void SmartPlaylistsViewContainer::RightClicked(const QPoint global_pos, const QM
   else {
     context_menu_->popup(global_pos);
   }
+
 }
 
 void SmartPlaylistsViewContainer::ReplaceCurrentPlaylist() {
@@ -145,11 +150,13 @@ void SmartPlaylistsViewContainer::ReplaceCurrentPlaylist() {
     mimedata->clear_first_ = true;
   }
   emit AddToPlaylist(q_mimedata);
+
 }
 
 void SmartPlaylistsViewContainer::AppendToPlaylist() {
 
   emit AddToPlaylist(ui_->view->model()->mimeData(ui_->view->selectionModel()->selectedIndexes()));
+
 }
 
 void SmartPlaylistsViewContainer::OpenInNewPlaylist() {
@@ -159,6 +166,7 @@ void SmartPlaylistsViewContainer::OpenInNewPlaylist() {
     mimedata->open_in_new_playlist_ = true;
   }
   emit AddToPlaylist(q_mimedata);
+
 }
 
 void SmartPlaylistsViewContainer::AddToPlaylistEnqueue() {
@@ -168,6 +176,7 @@ void SmartPlaylistsViewContainer::AddToPlaylistEnqueue() {
     mimedata->enqueue_now_ = true;
   }
   emit AddToPlaylist(q_mimedata);
+
 }
 
 void SmartPlaylistsViewContainer::AddToPlaylistEnqueueNext() {
@@ -177,6 +186,7 @@ void SmartPlaylistsViewContainer::AddToPlaylistEnqueueNext() {
     mimedata->enqueue_next_now_ = true;
   }
   emit AddToPlaylist(q_mimedata);
+
 }
 
 void SmartPlaylistsViewContainer::NewSmartPlaylist() {
@@ -186,6 +196,7 @@ void SmartPlaylistsViewContainer::NewSmartPlaylist() {
   QObject::connect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::NewSmartPlaylistFinished);
 
   wizard->show();
+
 }
 
 void SmartPlaylistsViewContainer::EditSmartPlaylist(const QModelIndex &idx) {
@@ -198,6 +209,7 @@ void SmartPlaylistsViewContainer::EditSmartPlaylist(const QModelIndex &idx) {
 
   wizard->show();
   wizard->SetGenerator(model_->CreateGenerator(idx));
+
 }
 
 void SmartPlaylistsViewContainer::EditSmartPlaylistFromContext() {
@@ -205,6 +217,7 @@ void SmartPlaylistsViewContainer::EditSmartPlaylistFromContext() {
   if (!context_menu_index_.isValid()) return;
 
   EditSmartPlaylist(context_menu_index_);
+
 }
 
 void SmartPlaylistsViewContainer::EditSmartPlaylistFromButton() {
@@ -212,18 +225,21 @@ void SmartPlaylistsViewContainer::EditSmartPlaylistFromButton() {
   if (ui_->view->selectionModel()->selectedIndexes().count() == 0) return;
 
   EditSmartPlaylist(ui_->view->selectionModel()->selectedIndexes().first());
+
 }
 
 void SmartPlaylistsViewContainer::DeleteSmartPlaylist(const QModelIndex &idx) {
 
   if (!idx.isValid()) return;
   model_->DeleteGenerator(idx);
+
 }
 
 void SmartPlaylistsViewContainer::DeleteSmartPlaylistFromContext() {
 
   if (!context_menu_index_.isValid()) return;
   DeleteSmartPlaylist(context_menu_index_);
+
 }
 
 void SmartPlaylistsViewContainer::DeleteSmartPlaylistFromButton() {
@@ -231,6 +247,7 @@ void SmartPlaylistsViewContainer::DeleteSmartPlaylistFromButton() {
   if (ui_->view->selectionModel()->selectedIndexes().count() == 0) return;
 
   DeleteSmartPlaylist(ui_->view->selectionModel()->selectedIndexes().first());
+
 }
 
 void SmartPlaylistsViewContainer::NewSmartPlaylistFinished() {
@@ -239,6 +256,7 @@ void SmartPlaylistsViewContainer::NewSmartPlaylistFinished() {
   if (!wizard) return;
   QObject::disconnect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::NewSmartPlaylistFinished);
   model_->AddGenerator(wizard->CreateGenerator());
+
 }
 
 void SmartPlaylistsViewContainer::EditSmartPlaylistFinished() {
@@ -251,6 +269,7 @@ void SmartPlaylistsViewContainer::EditSmartPlaylistFinished() {
   QObject::disconnect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFinished);
 
   model_->UpdateGenerator(context_menu_index_, wizard->CreateGenerator());
+
 }
 
 void SmartPlaylistsViewContainer::ItemDoubleClicked(const QModelIndex &idx) {
@@ -260,4 +279,5 @@ void SmartPlaylistsViewContainer::ItemDoubleClicked(const QModelIndex &idx) {
     mimedata->from_doubleclick_ = true;
   }
   emit AddToPlaylist(q_mimedata);
+
 }

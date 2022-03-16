@@ -92,6 +92,7 @@ class MoodbarItemDelegate : public QItemDelegate {
 
   bool enabled_;
   MoodbarRenderer::MoodbarStyle style_;
+
 };
 
 #endif  // MOODBARITEMDELEGATE_H

@@ -121,6 +121,7 @@ class FileView : public QWidget {
   QString lazy_set_path_;
 
   QStringList filter_list_;
+
 };
 
 #endif  // FILEVIEW_H

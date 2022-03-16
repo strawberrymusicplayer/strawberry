@@ -42,6 +42,7 @@ class RadioViewContainer : public QWidget {
 
  private:
   Ui_RadioViewContainer *ui_;
+
 };
 
 #endif  // RADIOVIEWCONTAINER_H

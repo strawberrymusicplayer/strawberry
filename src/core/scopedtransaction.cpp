@@ -28,6 +28,7 @@
 ScopedTransaction::ScopedTransaction(QSqlDatabase *db) : db_(db), pending_(true) {
 
   db->transaction();
+
 }
 
 ScopedTransaction::~ScopedTransaction() {
@@ -36,6 +37,7 @@ ScopedTransaction::~ScopedTransaction() {
     qLog(Warning) << "Rolling back transaction";
     db_->rollback();
   }
+
 }
 
 void ScopedTransaction::Commit() {
@@ -47,4 +49,5 @@ void ScopedTransaction::Commit() {
 
   db_->commit();
   pending_ = false;
+
 }

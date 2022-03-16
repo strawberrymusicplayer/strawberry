@@ -49,10 +49,12 @@ EqualizerSlider::EqualizerSlider(const QString &label, QWidget *parent)
   ui_->slider->setValue(0);
 
   QObject::connect(ui_->slider, &QSlider::valueChanged, this, &EqualizerSlider::OnValueChanged);
+
 }
 
 EqualizerSlider::~EqualizerSlider() {
   delete ui_;
+
 }
 
 void EqualizerSlider::OnValueChanged(int value) {
@@ -62,12 +64,15 @@ void EqualizerSlider::OnValueChanged(int value) {
 
   ui_->gain->setText(tr("%1 dB").arg(gain));  // Gain [dB]
   emit ValueChanged(value);
+
 }
 
 int EqualizerSlider::value() const {
   return ui_->slider->value();
+
 }
 
 void EqualizerSlider::set_value(int value) {
   ui_->slider->setValue(value);
+
 }

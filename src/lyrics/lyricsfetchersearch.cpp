@@ -42,6 +42,7 @@ LyricsFetcherSearch::LyricsFetcherSearch(const LyricsSearchRequest &request, QOb
       cancel_requested_(false) {
 
   QTimer::singleShot(kSearchTimeoutMs, this, &LyricsFetcherSearch::TerminateSearch);
+
 }
 
 void LyricsFetcherSearch::TerminateSearch() {
@@ -51,6 +52,7 @@ void LyricsFetcherSearch::TerminateSearch() {
     pending_requests_.take(id)->CancelSearch(id);
   }
   AllProvidersFinished();
+
 }
 
 void LyricsFetcherSearch::Start(LyricsProviders *lyrics_providers) {
@@ -73,6 +75,7 @@ void LyricsFetcherSearch::Start(LyricsProviders *lyrics_providers) {
   }
 
   if (pending_requests_.isEmpty()) TerminateSearch();
+
 }
 
 void LyricsFetcherSearch::ProviderSearchFinished(const int id, const LyricsSearchResults &results) {
@@ -116,6 +119,7 @@ void LyricsFetcherSearch::ProviderSearchFinished(const int id, const LyricsSearc
   }
 
   AllProvidersFinished();
+
 }
 
 void LyricsFetcherSearch::AllProvidersFinished() {
@@ -128,6 +132,7 @@ void LyricsFetcherSearch::AllProvidersFinished() {
   }
 
   emit SearchFinished(request_.id, results_);
+
 }
 
 void LyricsFetcherSearch::Cancel() {
@@ -137,12 +142,15 @@ void LyricsFetcherSearch::Cancel() {
   if (!pending_requests_.isEmpty()) {
     TerminateSearch();
   }
+
 }
 
 bool LyricsFetcherSearch::ProviderCompareOrder(LyricsProvider *a, LyricsProvider *b) {
   return a->order() < b->order();
+
 }
 
 bool LyricsFetcherSearch::LyricsSearchResultCompareScore(const LyricsSearchResult &a, const LyricsSearchResult &b) {
   return a.score < b.score;
+
 }

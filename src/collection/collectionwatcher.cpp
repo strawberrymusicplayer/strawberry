@@ -115,10 +115,12 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
 
   QObject::connect(rescan_timer_, &QTimer::timeout, this, &CollectionWatcher::RescanPathsNow);
   QObject::connect(periodic_scan_timer_, &QTimer::timeout, this, &CollectionWatcher::IncrementalScanCheck);
+
 }
 
 void CollectionWatcher::ExitAsync() {
   QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
+
 }
 
 void CollectionWatcher::Exit() {
@@ -129,11 +131,13 @@ void CollectionWatcher::Exit() {
   if (backend_) backend_->Close();
   moveToThread(original_thread_);
   emit ExitFinished();
+
 }
 
 void CollectionWatcher::ReloadSettingsAsync() {
 
   QMetaObject::invokeMethod(this, "ReloadSettings", Qt::QueuedConnection);
+
 }
 
 void CollectionWatcher::ReloadSettings() {
@@ -183,6 +187,7 @@ void CollectionWatcher::ReloadSettings() {
   else if (!mark_songs_unavailable_ && periodic_scan_timer_->isActive()) {
     periodic_scan_timer_->stop();
   }
+
 }
 
 CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, const int dir, const bool incremental, const bool ignores_mtime, const bool mark_songs_unavailable)
@@ -209,6 +214,7 @@ CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, 
 
   task_id_ = watcher_->task_manager_->StartTask(description);
   emit watcher_->ScanStarted(task_id_);
+
 }
 
 CollectionWatcher::ScanTransaction::~ScanTransaction() {
@@ -219,18 +225,21 @@ CollectionWatcher::ScanTransaction::~ScanTransaction() {
   }
 
   watcher_->task_manager_->SetTaskFinished(task_id_);
+
 }
 
 void CollectionWatcher::ScanTransaction::AddToProgress(const quint64 n) {
 
   progress_ += n;
   watcher_->task_manager_->SetTaskProgress(task_id_, progress_, progress_max_);
+
 }
 
 void CollectionWatcher::ScanTransaction::AddToProgressMax(const quint64 n) {
 
   progress_max_ += n;
   watcher_->task_manager_->SetTaskProgress(task_id_, progress_, progress_max_);
+
 }
 
 void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
@@ -289,6 +298,7 @@ void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
   if (incremental_ || ignores_mtime_) {
     emit watcher_->UpdateLastSeen(dir_, expire_unavailable_songs_days_);
   }
+
 }
 
 
@@ -308,6 +318,7 @@ SongList CollectionWatcher::ScanTransaction::FindSongsInSubdirectory(const QStri
   }
   else
     return SongList();
+
 }
 
 bool CollectionWatcher::ScanTransaction::HasSongsWithMissingFingerprint(const QString &path) {
@@ -322,12 +333,14 @@ bool CollectionWatcher::ScanTransaction::HasSongsWithMissingFingerprint(const QS
   }
 
   return cached_songs_missing_fingerprint_.contains(path);
+
 }
 
 void CollectionWatcher::ScanTransaction::SetKnownSubdirs(const SubdirectoryList &subdirs) {
 
   known_subdirs_ = subdirs;
   known_subdirs_dirty_ = false;
+
 }
 
 bool CollectionWatcher::ScanTransaction::HasSeenSubdir(const QString &path) {
@@ -337,6 +350,7 @@ bool CollectionWatcher::ScanTransaction::HasSeenSubdir(const QString &path) {
   }
 
   return std::any_of(known_subdirs_.begin(), known_subdirs_.end(), [path](const Subdirectory &subdir) { return subdir.path == path && subdir.mtime != 0; });
+
 }
 
 SubdirectoryList CollectionWatcher::ScanTransaction::GetImmediateSubdirs(const QString &path) {
@@ -353,6 +367,7 @@ SubdirectoryList CollectionWatcher::ScanTransaction::GetImmediateSubdirs(const Q
   }
 
   return ret;
+
 }
 
 SubdirectoryList CollectionWatcher::ScanTransaction::GetAllSubdirs() {
@@ -362,6 +377,7 @@ SubdirectoryList CollectionWatcher::ScanTransaction::GetAllSubdirs() {
   }
 
   return known_subdirs_;
+
 }
 
 void CollectionWatcher::AddDirectory(const Directory &dir, const SubdirectoryList &subdirs) {
@@ -398,6 +414,7 @@ void CollectionWatcher::AddDirectory(const Directory &dir, const SubdirectoryLis
   }
 
   emit CompilationsNeedUpdating();
+
 }
 
 void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory &subdir, const quint64 files_count, ScanTransaction *t, const bool force_noincremental) {
@@ -683,6 +700,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
     if (stop_requested_ || abort_requested_) return;
     ScanSubdirectory(my_new_subdir.path, my_new_subdir, 0, t, true);
   }
+
 }
 
 void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
@@ -734,6 +752,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
       t->deleted_songs << old_cue;
     }
   }
+
 }
 
 void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
@@ -764,6 +783,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
     song_on_disk.MergeUserSetData(matching_song, !overwrite_rating_);
     AddChangedSong(file, matching_song, song_on_disk, t);
   }
+
 }
 
 SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, QSet<QString> *cues_processed) {
@@ -813,6 +833,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
   }
 
   return songs;
+
 }
 
 void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching_song, const Song &new_song, ScanTransaction *t) {
@@ -859,6 +880,7 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
   else {
     t->touched_songs << new_song;
   }
+
 }
 
 quint64 CollectionWatcher::GetMtimeForCue(const QString &cue_path) {
@@ -875,6 +897,7 @@ quint64 CollectionWatcher::GetMtimeForCue(const QString &cue_path) {
   const QDateTime cue_last_modified = fileinfo.lastModified();
 
   return cue_last_modified.isValid() ? cue_last_modified.toSecsSinceEpoch() : 0;
+
 }
 
 void CollectionWatcher::AddWatch(const Directory &dir, const QString &path) {
@@ -884,6 +907,7 @@ void CollectionWatcher::AddWatch(const Directory &dir, const QString &path) {
   QObject::connect(fs_watcher_, &FileSystemWatcherInterface::PathChanged, this, &CollectionWatcher::DirectoryChanged, Qt::UniqueConnection);
   fs_watcher_->AddPath(path);
   subdir_mapping_[path] = dir;
+
 }
 
 void CollectionWatcher::RemoveWatch(const Directory &dir, const Subdirectory &subdir) {
@@ -895,6 +919,7 @@ void CollectionWatcher::RemoveWatch(const Directory &dir, const Subdirectory &su
     subdir_mapping_.remove(subdir_path);
     break;
   }
+
 }
 
 void CollectionWatcher::RemoveDirectory(const Directory &dir) {
@@ -908,6 +933,7 @@ void CollectionWatcher::RemoveDirectory(const Directory &dir) {
     fs_watcher_->RemovePath(subdir_path);
     subdir_mapping_.remove(subdir_path);
   }
+
 }
 
 bool CollectionWatcher::FindSongsByPath(const SongList &songs, const QString &path, SongList *out) {
@@ -919,6 +945,7 @@ bool CollectionWatcher::FindSongsByPath(const SongList &songs, const QString &pa
   }
 
   return !out->isEmpty();
+
 }
 
 bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const QString &fingerprint, SongList *out) {
@@ -935,6 +962,7 @@ bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const QStrin
   }
 
   return !out->isEmpty();
+
 }
 
 bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const SongList &songs, const QString &fingerprint, SongList *out) {
@@ -948,6 +976,7 @@ bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const SongLi
   }
 
   return !out->isEmpty();
+
 }
 
 void CollectionWatcher::DirectoryChanged(const QString &subdir) {
@@ -965,6 +994,7 @@ void CollectionWatcher::DirectoryChanged(const QString &subdir) {
   if (!rescan_queue_[dir.id].contains(subdir)) rescan_queue_[dir.id] << subdir;
 
   if (!rescan_paused_) rescan_timer_->start();
+
 }
 
 void CollectionWatcher::RescanPathsNow() {
@@ -994,6 +1024,7 @@ void CollectionWatcher::RescanPathsNow() {
   rescan_queue_.clear();
 
   emit CompilationsNeedUpdating();
+
 }
 
 QString CollectionWatcher::PickBestImage(const QStringList &images) {
@@ -1039,6 +1070,7 @@ QString CollectionWatcher::PickBestImage(const QStringList &images) {
   }
 
   return biggest_path;
+
 }
 
 QUrl CollectionWatcher::ImageForSong(const QString &path, QMap<QString, QStringList> &album_art) {
@@ -1056,27 +1088,32 @@ QUrl CollectionWatcher::ImageForSong(const QString &path, QMap<QString, QStringL
     }
   }
   return QUrl();
+
 }
 
 void CollectionWatcher::SetRescanPausedAsync(bool pause) {
 
   QMetaObject::invokeMethod(this, "SetRescanPaused", Qt::QueuedConnection, Q_ARG(bool, pause));
+
 }
 
 void CollectionWatcher::SetRescanPaused(bool pause) {
 
   rescan_paused_ = pause;
   if (!rescan_paused_ && !rescan_queue_.isEmpty()) RescanPathsNow();
+
 }
 
 void CollectionWatcher::IncrementalScanAsync() {
 
   QMetaObject::invokeMethod(this, "IncrementalScanNow", Qt::QueuedConnection);
+
 }
 
 void CollectionWatcher::FullScanAsync() {
 
   QMetaObject::invokeMethod(this, "FullScanNow", Qt::QueuedConnection);
+
 }
 
 void CollectionWatcher::RescanTracksAsync(const SongList &songs) {
@@ -1088,6 +1125,7 @@ void CollectionWatcher::RescanTracksAsync(const SongList &songs) {
   if (!rescan_in_progress_) {
     QMetaObject::invokeMethod(this, "RescanTracksNow", Qt::QueuedConnection);
   }
+
 }
 
 void CollectionWatcher::IncrementalScanCheck() {
@@ -1097,6 +1135,7 @@ void CollectionWatcher::IncrementalScanCheck() {
     qLog(Debug) << "Performing periodic incremental scan.";
     IncrementalScanNow();
   }
+
 }
 
 void CollectionWatcher::IncrementalScanNow() { PerformScan(true, false); }
@@ -1128,6 +1167,7 @@ void CollectionWatcher::RescanTracksNow() {
   }
   Q_ASSERT(song_rescan_queue_.isEmpty());
   rescan_in_progress_ = false;
+
 }
 
 void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mtimes) {
@@ -1162,6 +1202,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
   last_scan_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
 
   emit CompilationsNeedUpdating();
+
 }
 
 quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &path) {
@@ -1195,6 +1236,7 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
   }
 
   return i;
+
 }
 
 quint64 CollectionWatcher::FilesCountForSubdirs(ScanTransaction *t, const SubdirectoryList &subdirs, QMap<QString, quint64> &subdir_files_count) {
@@ -1208,4 +1250,5 @@ quint64 CollectionWatcher::FilesCountForSubdirs(ScanTransaction *t, const Subdir
   }
 
   return i;
+
 }

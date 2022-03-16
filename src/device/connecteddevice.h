@@ -98,6 +98,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
 
  private slots:
   void BackendTotalSongCountUpdated(int count);
+
 };
 
 #endif  // CONNECTEDDEVICE_H

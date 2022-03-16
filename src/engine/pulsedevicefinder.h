@@ -55,6 +55,7 @@ class PulseDeviceFinder : public DeviceFinder {
   pa_context *context_;
 
   Q_DISABLE_COPY(PulseDeviceFinder)
+
 };
 
 #endif  // PULSEDEVICEFINDER_H

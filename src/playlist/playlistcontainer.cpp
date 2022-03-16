@@ -125,6 +125,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   ui_->filter->installEventFilter(this);
 
   ReloadSettings();
+
 }
 
 PlaylistContainer::~PlaylistContainer() { delete ui_; }
@@ -147,6 +148,7 @@ void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist
   QObject::connect(next_playlist, &QAction::triggered, this, &PlaylistContainer::GoToNextPlaylistTab);
   QObject::connect(previous_playlist, &QAction::triggered, this, &PlaylistContainer::GoToPreviousPlaylistTab);
   QObject::connect(clear_playlist, &QAction::triggered, this, &PlaylistContainer::ClearPlaylist);
+
 }
 
 void PlaylistContainer::SetManager(PlaylistManager *manager) {
@@ -166,6 +168,7 @@ void PlaylistContainer::SetManager(PlaylistManager *manager) {
   QObject::connect(manager, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistContainer::Started);
   QObject::connect(manager, &PlaylistManager::PlaylistClosed, this, &PlaylistContainer::PlaylistClosed);
   QObject::connect(manager, &PlaylistManager::PlaylistRenamed, this, &PlaylistContainer::PlaylistRenamed);
+
 }
 
 void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_position) {
@@ -232,6 +235,7 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
   ui_->redo->setDefaultAction(redo_);
 
   emit UndoRedoActionsChanged(undo_, redo_);
+
 }
 
 void PlaylistContainer::ReloadSettings() {
@@ -261,22 +265,27 @@ void PlaylistContainer::ReloadSettings() {
   ui_->toolbar->setVisible(show_toolbar);
 
   if (!show_toolbar) ui_->filter->clear();
+
 }
 
 bool PlaylistContainer::SearchFieldHasFocus() const {
   return ui_->filter->hasFocus();
+
 }
 
 void PlaylistContainer::FocusSearchField() {
   if (ui_->toolbar->isVisible()) ui_->filter->setFocus();
+
 }
 
 void PlaylistContainer::ActivePlaying() {
   UpdateActiveIcon(QIcon(":/pictures/tiny-play.png"));
+
 }
 
 void PlaylistContainer::ActivePaused() {
   UpdateActiveIcon(QIcon(":/pictures/tiny-pause.png"));
+
 }
 
 void PlaylistContainer::ActiveStopped() { UpdateActiveIcon(QIcon()); }
@@ -290,6 +299,7 @@ void PlaylistContainer::UpdateActiveIcon(const QIcon &icon) {
 
   // Set our icon
   if (!icon.isNull()) ui_->tab_bar->set_icon_by_id(manager_->active_id(), icon);
+
 }
 
 void PlaylistContainer::PlaylistAdded(const int id, const QString &name, const bool favorite) {
@@ -316,6 +326,7 @@ void PlaylistContainer::PlaylistAdded(const int id, const QString &name, const b
       SetTabBarVisible(true);
     }
   }
+
 }
 
 void PlaylistContainer::Started() { starting_up_ = false; }
@@ -325,10 +336,12 @@ void PlaylistContainer::PlaylistClosed(const int id) {
   ui_->tab_bar->RemoveTab(id);
 
   if (ui_->tab_bar->count() <= 1) SetTabBarVisible(false);
+
 }
 
 void PlaylistContainer::PlaylistRenamed(const int id, const QString &new_name) {
   ui_->tab_bar->set_text_by_id(id, new_name);
+
 }
 
 void PlaylistContainer::NewPlaylist() { manager_->New(tr("Playlist")); }
@@ -343,6 +356,7 @@ void PlaylistContainer::LoadPlaylist() {
   settings_.setValue("last_load_playlist", filename);
 
   manager_->Load(filename);
+
 }
 
 void PlaylistContainer::SavePlaylist(const int id) {
@@ -351,6 +365,7 @@ void PlaylistContainer::SavePlaylist(const int id) {
   QString suggested_name = ui_->tab_bar->tabText(ui_->tab_bar->currentIndex());
 
   manager_->SaveWithUI(id, suggested_name);
+
 }
 
 void PlaylistContainer::ClearPlaylist() {}
@@ -361,6 +376,7 @@ void PlaylistContainer::GoToNextPlaylistTab() {
   int id_next = ui_->tab_bar->id_of((ui_->tab_bar->currentIndex() + 1) % ui_->tab_bar->count());
   // Switch to next tab
   manager_->SetCurrentPlaylist(id_next);
+
 }
 
 void PlaylistContainer::GoToPreviousPlaylistTab() {
@@ -369,6 +385,7 @@ void PlaylistContainer::GoToPreviousPlaylistTab() {
   int id_previous = ui_->tab_bar->id_of((ui_->tab_bar->currentIndex() + ui_->tab_bar->count() - 1) % ui_->tab_bar->count());
   // Switch to next tab
   manager_->SetCurrentPlaylist(id_previous);
+
 }
 
 void PlaylistContainer::Save() {
@@ -376,6 +393,7 @@ void PlaylistContainer::Save() {
   if (starting_up_) return;
 
   settings_.setValue("current_playlist", ui_->tab_bar->current_id());
+
 }
 
 void PlaylistContainer::SetTabBarVisible(const bool visible) {
@@ -385,10 +403,12 @@ void PlaylistContainer::SetTabBarVisible(const bool visible) {
 
   tab_bar_animation_->setDirection(visible ? QTimeLine::Forward : QTimeLine::Backward);
   tab_bar_animation_->start();
+
 }
 
 void PlaylistContainer::SetTabBarHeight(const int height) {
   ui_->tab_bar->setMaximumHeight(height);
+
 }
 
 void PlaylistContainer::MaybeUpdateFilter() {
@@ -400,6 +420,7 @@ void PlaylistContainer::MaybeUpdateFilter() {
   else {
     filter_timer_->start();
   }
+
 }
 
 void PlaylistContainer::UpdateFilter() {
@@ -408,6 +429,7 @@ void PlaylistContainer::UpdateFilter() {
   ui_->playlist->JumpToCurrentlyPlayingTrack();
 
   UpdateNoMatchesLabel();
+
 }
 
 void PlaylistContainer::UpdateNoMatchesLabel() {
@@ -429,11 +451,13 @@ void PlaylistContainer::UpdateNoMatchesLabel() {
   else {
     no_matches_label_->hide();
   }
+
 }
 
 void PlaylistContainer::resizeEvent(QResizeEvent *e) {
   QWidget::resizeEvent(e);
   RepositionNoMatchesLabel();
+
 }
 
 void PlaylistContainer::FocusOnFilter(QKeyEvent *event) {
@@ -451,6 +475,7 @@ void PlaylistContainer::FocusOnFilter(QKeyEvent *event) {
         break;
     }
   }
+
 }
 
 void PlaylistContainer::RepositionNoMatchesLabel(const bool force) {
@@ -466,10 +491,12 @@ void PlaylistContainer::RepositionNoMatchesLabel(const bool force) {
 
   no_matches_label_->move(pos);
   no_matches_label_->resize(size);
+
 }
 
 void PlaylistContainer::SelectionChanged() {
   manager_->SelectionChanged(view()->selectionModel()->selection());
+
 }
 
 bool PlaylistContainer::eventFilter(QObject *objectWatched, QEvent *event) {
@@ -496,4 +523,5 @@ bool PlaylistContainer::eventFilter(QObject *objectWatched, QEvent *event) {
     }
   }
   return QWidget::eventFilter(objectWatched, event);
+
 }

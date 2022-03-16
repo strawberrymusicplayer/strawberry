@@ -48,11 +48,13 @@ GlobalShortcutsBackendMate::GlobalShortcutsBackendMate(GlobalShortcutsManager *m
 bool GlobalShortcutsBackendMate::IsAvailable() const {
 
   return IsMateAvailable();
+
 }
 
 bool GlobalShortcutsBackendMate::IsMateAvailable() {
 
   return QDBusConnection::sessionBus().interface()->isServiceRegistered(kService1) || QDBusConnection::sessionBus().interface()->isServiceRegistered(kService2);
+
 }
 
 bool GlobalShortcutsBackendMate::DoRegister() {
@@ -79,6 +81,7 @@ bool GlobalShortcutsBackendMate::DoRegister() {
   QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, &GlobalShortcutsBackendMate::RegisterFinished);
 
   return true;
+
 }
 
 void GlobalShortcutsBackendMate::RegisterFinished(QDBusPendingCallWatcher *watcher) {
@@ -95,6 +98,7 @@ void GlobalShortcutsBackendMate::RegisterFinished(QDBusPendingCallWatcher *watch
   is_connected_ = true;
 
   qLog(Debug) << "Registered.";
+
 }
 
 void GlobalShortcutsBackendMate::DoUnregister() {
@@ -107,6 +111,7 @@ void GlobalShortcutsBackendMate::DoUnregister() {
 
   interface_->ReleaseMediaPlayerKeys(QCoreApplication::applicationName());
   QObject::disconnect(interface_, &OrgMateSettingsDaemonMediaKeysInterface::MediaPlayerKeyPressed, this, &GlobalShortcutsBackendMate::MateMediaKeyPressed);
+
 }
 
 void GlobalShortcutsBackendMate::MateMediaKeyPressed(const QString &, const QString &key) {
@@ -116,4 +121,5 @@ void GlobalShortcutsBackendMate::MateMediaKeyPressed(const QString &, const QStr
   if (key == "Stop") shortcuts["stop"].action->trigger();
   if (key == "Next") shortcuts["next_track"].action->trigger();
   if (key == "Previous") shortcuts["prev_track"].action->trigger();
+
 }

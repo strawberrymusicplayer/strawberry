@@ -52,6 +52,7 @@ SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *pare
       network_(new QNetworkAccessManager) {
 
   network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
+
 }
 
 QUrl SubsonicBaseRequest::CreateUrl(const QUrl &server_url, const SubsonicSettingsPage::AuthMethod auth_method, const QString &username, const QString &password, const QString &ressource_name, const ParamList &params_provided) {
@@ -91,6 +92,7 @@ QUrl SubsonicBaseRequest::CreateUrl(const QUrl &server_url, const SubsonicSettin
   url.setQuery(url_query);
 
   return url;
+
 }
 
 QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_name, const ParamList &params_provided) const {
@@ -117,6 +119,7 @@ QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_na
   //qLog(Debug) << "Subsonic: Sending request" << url;
 
   return reply;
+
 }
 
 void SubsonicBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
@@ -124,6 +127,7 @@ void SubsonicBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
   for (const QSslError &ssl_error : ssl_errors) {
     Error(ssl_error.errorString());
   }
+
 }
 
 QByteArray SubsonicBaseRequest::GetReplyData(QNetworkReply *reply) {
@@ -172,6 +176,7 @@ QByteArray SubsonicBaseRequest::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
+
 }
 
 QJsonObject SubsonicBaseRequest::ExtractJsonObj(QByteArray &data) {
@@ -213,6 +218,7 @@ QJsonObject SubsonicBaseRequest::ExtractJsonObj(QByteArray &data) {
   json_obj = json_response.toObject();
 
   return json_obj;
+
 }
 
 QString SubsonicBaseRequest::ErrorsToHTML(const QStringList &errors) {
@@ -222,4 +228,5 @@ QString SubsonicBaseRequest::ErrorsToHTML(const QStringList &errors) {
     error_html += error + "<br />";
   }
   return error_html;
+
 }

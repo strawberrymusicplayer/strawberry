@@ -72,6 +72,7 @@ class NotificationsSettingsPage : public SettingsPage {
  private:
   Ui_NotificationsSettingsPage *ui_;
   OSDPretty *pretty_popup_;
+
 };
 
 #endif  // NOTIFICATIONSSETTINGSPAGE_H

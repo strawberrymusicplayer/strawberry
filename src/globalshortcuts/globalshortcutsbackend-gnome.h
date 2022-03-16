@@ -58,6 +58,7 @@ class GlobalShortcutsBackendGnome : public GlobalShortcutsBackend {
 
   OrgGnomeSettingsDaemonMediaKeysInterface *interface_;
   bool is_connected_;
+
 };
 
 #endif  // GLOBALSHORTCUTSBACKEND_GNOME_H

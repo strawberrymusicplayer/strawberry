@@ -43,6 +43,7 @@ class DeviceViewContainer : public QWidget {
  protected:
  private:
   Ui_DeviceViewContainer *ui_;
+
 };
 
 #endif  // DEVICEVIEWCONTAINER_H

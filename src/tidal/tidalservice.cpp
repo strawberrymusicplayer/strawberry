@@ -196,6 +196,7 @@ TidalService::TidalService(Application *app, QObject *parent)
 
   TidalService::ReloadSettings();
   LoadSession();
+
 }
 
 TidalService::~TidalService() {
@@ -215,6 +216,7 @@ TidalService::~TidalService() {
   artists_collection_backend_->deleteLater();
   albums_collection_backend_->deleteLater();
   songs_collection_backend_->deleteLater();
+
 }
 
 void TidalService::Exit() {
@@ -228,6 +230,7 @@ void TidalService::Exit() {
   artists_collection_backend_->ExitAsync();
   albums_collection_backend_->ExitAsync();
   songs_collection_backend_->ExitAsync();
+
 }
 
 void TidalService::ExitReceived() {
@@ -237,10 +240,12 @@ void TidalService::ExitReceived() {
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
+
 }
 
 void TidalService::ShowConfig() {
   app_->OpenSettingsDialogAtPage(SettingsDialog::Page_Tidal);
+
 }
 
 void TidalService::LoadSession() {
@@ -266,6 +271,7 @@ void TidalService::LoadSession() {
     }
     timer_refresh_login_->start();
   }
+
 }
 
 void TidalService::ReloadSettings() {
@@ -299,6 +305,7 @@ void TidalService::ReloadSettings() {
   s.endGroup();
 
   timer_search_delay_->setInterval(static_cast<int>(search_delay));
+
 }
 
 void TidalService::StartAuthorization(const QString &client_id) {
@@ -326,6 +333,7 @@ void TidalService::StartAuthorization(const QString &client_id) {
   QUrl url = QUrl(kOAuthUrl);
   url.setQuery(url_query);
   QDesktopServices::openUrl(url);
+
 }
 
 void TidalService::AuthorizationUrlReceived(const QUrl &url) {
@@ -368,6 +376,7 @@ void TidalService::AuthorizationUrlReceived(const QUrl &url) {
     LoginError(tr("Reply from Tidal is missing query items."));
     return;
   }
+
 }
 
 void TidalService::RequestAccessToken(const QString &code) {
@@ -406,6 +415,7 @@ void TidalService::RequestAccessToken(const QString &code) {
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &TidalService::HandleLoginSSLErrors);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AccessTokenRequestFinished(reply); });
+
 }
 
 void TidalService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
@@ -413,6 +423,7 @@ void TidalService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
   for (const QSslError &ssl_error : ssl_errors) {
     login_errors_ += ssl_error.errorString();
   }
+
 }
 
 void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
@@ -523,10 +534,12 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
 
   emit LoginComplete(true);
   emit LoginSuccess();
+
 }
 
 void TidalService::SendLogin() {
   SendLoginWithCredentials(api_token_, username_, password_);
+
 }
 
 void TidalService::SendLoginWithCredentials(const QString &api_token, const QString &username, const QString &password) {
@@ -559,6 +572,7 @@ void TidalService::SendLoginWithCredentials(const QString &api_token, const QStr
   replies_ << reply;
 
   //qLog(Debug) << "Tidal: Sending request" << url << query;
+
 }
 
 void TidalService::HandleAuthReply(QNetworkReply *reply) {
@@ -662,6 +676,7 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
 
   emit LoginComplete(true);
   emit LoginSuccess();
+
 }
 
 void TidalService::Logout() {
@@ -684,10 +699,12 @@ void TidalService::Logout() {
   s.endGroup();
 
   timer_refresh_login_->stop();
+
 }
 
 void TidalService::ResetLoginAttempts() {
   login_attempts_ = 0;
+
 }
 
 void TidalService::TryLogin() {
@@ -712,6 +729,7 @@ void TidalService::TryLogin() {
   }
 
   emit RequestLogin();
+
 }
 
 void TidalService::ResetArtistsRequest() {
@@ -721,6 +739,7 @@ void TidalService::ResetArtistsRequest() {
     QObject::disconnect(this, nullptr, artists_request_.get(), nullptr);
     artists_request_.reset();
   }
+
 }
 
 void TidalService::GetArtists() {
@@ -748,6 +767,7 @@ void TidalService::GetArtists() {
   QObject::connect(this, &TidalService::LoginComplete, artists_request_.get(), &TidalRequest::LoginComplete);
 
   artists_request_->Process();
+
 }
 
 void TidalService::ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error) {
@@ -755,21 +775,25 @@ void TidalService::ArtistsResultsReceived(const int id, const SongMap &songs, co
   Q_UNUSED(id);
   emit ArtistsResults(songs, error);
   ResetArtistsRequest();
+
 }
 
 void TidalService::ArtistsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit ArtistsUpdateStatus(text);
+
 }
 
 void TidalService::ArtistsProgressSetMaximumReceived(const int id, const int max) {
   Q_UNUSED(id);
   emit ArtistsProgressSetMaximum(max);
+
 }
 
 void TidalService::ArtistsUpdateProgressReceived(const int id, const int progress) {
   Q_UNUSED(id);
   emit ArtistsUpdateProgress(progress);
+
 }
 
 void TidalService::ResetAlbumsRequest() {
@@ -779,6 +803,7 @@ void TidalService::ResetAlbumsRequest() {
     QObject::disconnect(this, nullptr, albums_request_.get(), nullptr);
     albums_request_.reset();
   }
+
 }
 
 void TidalService::GetAlbums() {
@@ -806,6 +831,7 @@ void TidalService::GetAlbums() {
   QObject::connect(this, &TidalService::LoginComplete, albums_request_.get(), &TidalRequest::LoginComplete);
 
   albums_request_->Process();
+
 }
 
 void TidalService::AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error) {
@@ -813,21 +839,25 @@ void TidalService::AlbumsResultsReceived(const int id, const SongMap &songs, con
   Q_UNUSED(id);
   emit AlbumsResults(songs, error);
   ResetAlbumsRequest();
+
 }
 
 void TidalService::AlbumsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit AlbumsUpdateStatus(text);
+
 }
 
 void TidalService::AlbumsProgressSetMaximumReceived(const int id, const int max) {
   Q_UNUSED(id);
   emit AlbumsProgressSetMaximum(max);
+
 }
 
 void TidalService::AlbumsUpdateProgressReceived(const int id, const int progress) {
   Q_UNUSED(id);
   emit AlbumsUpdateProgress(progress);
+
 }
 
 void TidalService::ResetSongsRequest() {
@@ -837,6 +867,7 @@ void TidalService::ResetSongsRequest() {
     QObject::disconnect(this, nullptr, songs_request_.get(), nullptr);
     songs_request_.reset();
   }
+
 }
 
 void TidalService::GetSongs() {
@@ -864,6 +895,7 @@ void TidalService::GetSongs() {
   QObject::connect(this, &TidalService::LoginComplete, songs_request_.get(), &TidalRequest::LoginComplete);
 
   songs_request_->Process();
+
 }
 
 void TidalService::SongsResultsReceived(const int id, const SongMap &songs, const QString &error) {
@@ -871,21 +903,25 @@ void TidalService::SongsResultsReceived(const int id, const SongMap &songs, cons
   Q_UNUSED(id);
   emit SongsResults(songs, error);
   ResetSongsRequest();
+
 }
 
 void TidalService::SongsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit SongsUpdateStatus(text);
+
 }
 
 void TidalService::SongsProgressSetMaximumReceived(const int id, const int max) {
   Q_UNUSED(id);
   emit SongsProgressSetMaximum(max);
+
 }
 
 void TidalService::SongsUpdateProgressReceived(const int id, const int progress) {
   Q_UNUSED(id);
   emit SongsUpdateProgress(progress);
+
 }
 
 int TidalService::Search(const QString &text, InternetSearchView::SearchType type) {
@@ -903,6 +939,7 @@ int TidalService::Search(const QString &text, InternetSearchView::SearchType typ
   timer_search_delay_->start();
 
   return pending_search_id_;
+
 }
 
 void TidalService::StartSearch() {
@@ -924,9 +961,11 @@ void TidalService::StartSearch() {
   search_text_ = pending_search_text_;
 
   SendSearch();
+
 }
 
 void TidalService::CancelSearch() {
+
 }
 
 void TidalService::SendSearch() {
@@ -959,12 +998,14 @@ void TidalService::SendSearch() {
 
   search_request_->Search(search_id_, search_text_);
   search_request_->Process();
+
 }
 
 void TidalService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
 
   emit SearchResults(id, songs, error);
   search_request_.reset();
+
 }
 
 uint TidalService::GetStreamURL(const QUrl &url, QString &error) {
@@ -994,6 +1035,7 @@ uint TidalService::GetStreamURL(const QUrl &url, QString &error) {
   stream_url_req->Process();
 
   return id;
+
 }
 
 void TidalService::HandleStreamURLFailure(const uint id, const QUrl &original_url, const QString &error) {
@@ -1002,6 +1044,7 @@ void TidalService::HandleStreamURLFailure(const uint id, const QUrl &original_ur
   stream_url_requests_.remove(id);
 
   emit StreamURLFailure(id, original_url, error);
+
 }
 
 void TidalService::HandleStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration) {
@@ -1010,6 +1053,7 @@ void TidalService::HandleStreamURLSuccess(const uint id, const QUrl &original_ur
   stream_url_requests_.remove(id);
 
   emit StreamURLSuccess(id, original_url, stream_url, filetype, samplerate, bit_depth, duration);
+
 }
 
 void TidalService::LoginError(const QString &error, const QVariant &debug) {
@@ -1027,4 +1071,5 @@ void TidalService::LoginError(const QString &error, const QVariant &debug) {
   emit LoginComplete(false, error_html);
 
   login_errors_.clear();
+
 }

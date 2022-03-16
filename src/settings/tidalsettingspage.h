@@ -66,6 +66,7 @@ class TidalSettingsPage : public SettingsPage {
  private:
   Ui_TidalSettingsPage *ui_;
   TidalService *service_;
+
 };
 
 #endif  // TIDALSETTINGSPAGE_H

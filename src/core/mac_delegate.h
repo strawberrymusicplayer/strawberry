@@ -12,6 +12,7 @@ class PlatformInterface;
   GlobalShortcutsBackendMacOS *shortcut_handler_;
   SPMediaKeyTap *key_tap_;
 
+
 }
 
 - (id) initWithHandler: (PlatformInterface*)handler;

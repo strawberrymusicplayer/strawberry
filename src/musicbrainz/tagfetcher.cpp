@@ -44,10 +44,12 @@ TagFetcher::TagFetcher(QObject *parent)
 
   QObject::connect(acoustid_client_, &AcoustidClient::Finished, this, &TagFetcher::PuidsFound);
   QObject::connect(musicbrainz_client_, &MusicBrainzClient::Finished, this, &TagFetcher::TagsFetched);
+
 }
 
 QString TagFetcher::GetFingerprint(const Song &song) {
   return Chromaprinter(song.url().toLocalFile()).CreateFingerprint();
+
 }
 
 void TagFetcher::StartFetch(const SongList &songs) {
@@ -77,6 +79,7 @@ void TagFetcher::StartFetch(const SongList &songs) {
       emit Progress(song, tr("Fingerprinting song"));
     }
   }
+
 }
 
 void TagFetcher::Cancel() {
@@ -91,6 +94,7 @@ void TagFetcher::Cancel() {
   acoustid_client_->CancelAll();
   musicbrainz_client_->CancelAll();
   songs_.clear();
+
 }
 
 void TagFetcher::FingerprintFound(const int index) {
@@ -108,6 +112,7 @@ void TagFetcher::FingerprintFound(const int index) {
 
   emit Progress(song, tr("Identifying song"));
   acoustid_client_->Start(index, fingerprint, static_cast<int>(song.length_nanosec() / kNsecPerMsec));
+
 }
 
 void TagFetcher::PuidsFound(const int index, const QStringList &puid_list, const QString &error) {
@@ -125,6 +130,7 @@ void TagFetcher::PuidsFound(const int index, const QStringList &puid_list, const
 
   emit Progress(song, tr("Downloading metadata"));
   musicbrainz_client_->Start(index, puid_list);
+
 }
 
 void TagFetcher::TagsFetched(const int index, const MusicBrainzClient::ResultList &results, const QString &error) {
@@ -145,4 +151,5 @@ void TagFetcher::TagsFetched(const int index, const MusicBrainzClient::ResultLis
   }
 
   emit ResultAvailable(original_song, songs_guessed, error);
+
 }

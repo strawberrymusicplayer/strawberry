@@ -89,6 +89,7 @@ class SmartPlaylistSearchTermWidget : public QWidget {
   bool initialized_;
 
   SmartPlaylistSearchTerm::Type current_field_type_;
+
 };
 
 #endif  // SMARTPLAYLISTSEARCHTERMWIDGET_H

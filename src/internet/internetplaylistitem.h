@@ -60,6 +60,7 @@ class InternetPlaylistItem : public PlaylistItem {
   Song metadata_;
 
   Q_DISABLE_COPY(InternetPlaylistItem)
+
 };
 
 #endif  // INTERNETPLAYLISTITEM_H

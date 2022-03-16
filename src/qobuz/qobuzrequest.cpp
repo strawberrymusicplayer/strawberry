@@ -91,6 +91,7 @@ QobuzRequest::~QobuzRequest() {
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
+
 }
 
 void QobuzRequest::Process() {
@@ -118,11 +119,13 @@ void QobuzRequest::Process() {
       Error("Invalid query type.");
       break;
   }
+
 }
 
 void QobuzRequest::Search(const int query_id, const QString &search_text) {
   query_id_ = query_id;
   search_text_ = search_text;
+
 }
 
 void QobuzRequest::GetArtists() {
@@ -130,6 +133,7 @@ void QobuzRequest::GetArtists() {
   emit UpdateStatus(query_id_, tr("Retrieving artists..."));
   emit UpdateProgress(query_id_, 0);
   AddArtistsRequest();
+
 }
 
 void QobuzRequest::AddArtistsRequest(const int offset, const int limit) {
@@ -139,6 +143,7 @@ void QobuzRequest::AddArtistsRequest(const int offset, const int limit) {
   request.offset = offset;
   artists_requests_queue_.enqueue(request);
   if (artists_requests_active_ < kMaxConcurrentArtistsRequests) FlushArtistsRequests();
+
 }
 
 void QobuzRequest::FlushArtistsRequests() {
@@ -168,6 +173,7 @@ void QobuzRequest::FlushArtistsRequests() {
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistsReplyReceived(reply, request.limit, request.offset); });
   }
+
 }
 
 void QobuzRequest::GetAlbums() {
@@ -175,6 +181,7 @@ void QobuzRequest::GetAlbums() {
   emit UpdateStatus(query_id_, tr("Retrieving albums..."));
   emit UpdateProgress(query_id_, 0);
   AddAlbumsRequest();
+
 }
 
 void QobuzRequest::AddAlbumsRequest(const int offset, const int limit) {
@@ -184,6 +191,7 @@ void QobuzRequest::AddAlbumsRequest(const int offset, const int limit) {
   request.offset = offset;
   albums_requests_queue_.enqueue(request);
   if (albums_requests_active_ < kMaxConcurrentAlbumsRequests) FlushAlbumsRequests();
+
 }
 
 void QobuzRequest::FlushAlbumsRequests() {
@@ -213,6 +221,7 @@ void QobuzRequest::FlushAlbumsRequests() {
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumsReplyReceived(reply, request.limit, request.offset); });
   }
+
 }
 
 void QobuzRequest::GetSongs() {
@@ -220,6 +229,7 @@ void QobuzRequest::GetSongs() {
   emit UpdateStatus(query_id_, tr("Retrieving songs..."));
   emit UpdateProgress(query_id_, 0);
   AddSongsRequest();
+
 }
 
 void QobuzRequest::AddSongsRequest(const int offset, const int limit) {
@@ -229,6 +239,7 @@ void QobuzRequest::AddSongsRequest(const int offset, const int limit) {
   request.offset = offset;
   songs_requests_queue_.enqueue(request);
   if (songs_requests_active_ < kMaxConcurrentSongsRequests) FlushSongsRequests();
+
 }
 
 void QobuzRequest::FlushSongsRequests() {
@@ -258,6 +269,7 @@ void QobuzRequest::FlushSongsRequests() {
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { SongsReplyReceived(reply, request.limit, request.offset); });
   }
+
 }
 
 void QobuzRequest::ArtistsSearch() {
@@ -265,11 +277,13 @@ void QobuzRequest::ArtistsSearch() {
   emit UpdateStatus(query_id_, tr("Searching..."));
   emit UpdateProgress(query_id_, 0);
   AddArtistsSearchRequest();
+
 }
 
 void QobuzRequest::AddArtistsSearchRequest(const int offset) {
 
   AddArtistsRequest(offset, service_->artistssearchlimit());
+
 }
 
 void QobuzRequest::AlbumsSearch() {
@@ -277,11 +291,13 @@ void QobuzRequest::AlbumsSearch() {
   emit UpdateStatus(query_id_, tr("Searching..."));
   emit UpdateProgress(query_id_, 0);
   AddAlbumsSearchRequest();
+
 }
 
 void QobuzRequest::AddAlbumsSearchRequest(const int offset) {
 
   AddAlbumsRequest(offset, service_->albumssearchlimit());
+
 }
 
 void QobuzRequest::SongsSearch() {
@@ -289,11 +305,13 @@ void QobuzRequest::SongsSearch() {
   emit UpdateStatus(query_id_, tr("Searching..."));
   emit UpdateProgress(query_id_, 0);
   AddSongsSearchRequest();
+
 }
 
 void QobuzRequest::AddSongsSearchRequest(const int offset) {
 
   AddSongsRequest(offset, service_->songssearchlimit());
+
 }
 
 void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
@@ -418,6 +436,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
   if (offset_requested != 0) emit UpdateProgress(query_id_, artists_received_);
 
   ArtistsFinishCheck(limit_requested, offset, artists_received);
+
 }
 
 void QobuzRequest::ArtistsFinishCheck(const int limit, const int offset, const int artists_received) {
@@ -456,12 +475,14 @@ void QobuzRequest::ArtistsFinishCheck(const int limit, const int offset, const i
   }
 
   FinishCheck();
+
 }
 
 void QobuzRequest::AlbumsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
   --albums_requests_active_;
   AlbumsReceived(reply, QString(), limit_requested, offset_requested);
   if (!albums_requests_queue_.isEmpty() && albums_requests_active_ < kMaxConcurrentAlbumsRequests) FlushAlbumsRequests();
+
 }
 
 void QobuzRequest::AddArtistAlbumsRequest(const QString &artist_id, const int offset) {
@@ -471,6 +492,7 @@ void QobuzRequest::AddArtistAlbumsRequest(const QString &artist_id, const int of
   request.offset = offset;
   artist_albums_requests_queue_.enqueue(request);
   if (artist_albums_requests_active_ < kMaxConcurrentArtistAlbumsRequests) FlushArtistAlbumsRequests();
+
 }
 
 void QobuzRequest::FlushArtistAlbumsRequests() {
@@ -488,6 +510,7 @@ void QobuzRequest::FlushArtistAlbumsRequests() {
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist_id, request.offset); });
     replies_ << reply;
   }
+
 }
 
 void QobuzRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const QString &artist_id, const int offset_requested) {
@@ -497,6 +520,7 @@ void QobuzRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const QString
   emit UpdateProgress(query_id_, artist_albums_received_);
   AlbumsReceived(reply, artist_id, 0, offset_requested);
   if (!artist_albums_requests_queue_.isEmpty() && artist_albums_requests_active_ < kMaxConcurrentArtistAlbumsRequests) FlushArtistAlbumsRequests();
+
 }
 
 void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id_requested, const int limit_requested, const int offset_requested) {
@@ -650,6 +674,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
   }
 
   AlbumsFinishCheck(artist_id_requested, limit_requested, offset, albums_total, albums_received);
+
 }
 
 void QobuzRequest::AlbumsFinishCheck(const QString &artist_id, const int limit, const int offset, const int albums_total, const int albums_received) {
@@ -702,12 +727,14 @@ void QobuzRequest::AlbumsFinishCheck(const QString &artist_id, const int limit, 
   }
 
   FinishCheck();
+
 }
 
 void QobuzRequest::SongsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
 
   --songs_requests_active_;
   SongsReceived(reply, QString(), QString(), limit_requested, offset_requested);
+
 }
 
 void QobuzRequest::AddAlbumSongsRequest(const QString &artist_id, const QString &album_id, const QString &album_artist, const QString &album, const int offset) {
@@ -721,6 +748,7 @@ void QobuzRequest::AddAlbumSongsRequest(const QString &artist_id, const QString 
   album_songs_requests_queue_.enqueue(request);
   ++album_songs_requested_;
   if (album_songs_requests_active_ < kMaxConcurrentAlbumSongsRequests) FlushAlbumSongsRequests();
+
 }
 
 void QobuzRequest::FlushAlbumSongsRequests() {
@@ -735,6 +763,7 @@ void QobuzRequest::FlushAlbumSongsRequests() {
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.offset, request.album_artist, request.album); });
   }
+
 }
 
 void QobuzRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const int offset_requested, const QString &album_artist, const QString &album) {
@@ -745,6 +774,7 @@ void QobuzRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QString &
     emit UpdateProgress(query_id_, album_songs_received_);
   }
   SongsReceived(reply, artist_id, album_id, 0, offset_requested, album_artist, album);
+
 }
 
 void QobuzRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id_requested, const QString &album_id_requested, const int limit_requested, const int offset_requested, const QString &album_artist_requested, const QString &album_requested) {
@@ -904,6 +934,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id_
   }
 
   SongsFinishCheck(artist_id, album_id, limit_requested, offset_requested, songs_total, songs_received, album_artist, album);
+
 }
 
 void QobuzRequest::SongsFinishCheck(const QString &artist_id, const QString &album_id, const int limit, const int offset, const int songs_total, const int songs_received, const QString &album_artist, const QString &album) {
@@ -950,6 +981,7 @@ void QobuzRequest::SongsFinishCheck(const QString &artist_id, const QString &alb
   }
 
   FinishCheck();
+
 }
 
 QString QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, QString artist_id, QString album_id, QString album_artist, QString album, QUrl cover_url) {
@@ -1103,6 +1135,7 @@ QString QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, QString
   song.set_valid(true);
 
   return song_id;
+
 }
 
 void QobuzRequest::GetAlbumCovers() {
@@ -1119,6 +1152,7 @@ void QobuzRequest::GetAlbumCovers() {
     emit UpdateStatus(query_id_, tr("Retrieving album covers for %1 albums...").arg(album_covers_requested_));
   emit ProgressSetMaximum(query_id_, album_covers_requested_);
   emit UpdateProgress(query_id_, 0);
+
 }
 
 void QobuzRequest::AddAlbumCoverRequest(const Song &song) {
@@ -1140,6 +1174,7 @@ void QobuzRequest::AddAlbumCoverRequest(const Song &song) {
   ++album_covers_requested_;
 
   album_cover_requests_queue_.enqueue(request);
+
 }
 
 void QobuzRequest::FlushAlbumCoverRequests() {
@@ -1155,6 +1190,7 @@ void QobuzRequest::FlushAlbumCoverRequests() {
     album_cover_replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumCoverReceived(reply, request.url, request.filename); });
   }
+
 }
 
 void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_url, const QString &filename) {
@@ -1240,6 +1276,7 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
   }
 
   AlbumCoverFinishCheck();
+
 }
 
 void QobuzRequest::AlbumCoverFinishCheck() {
@@ -1248,6 +1285,7 @@ void QobuzRequest::AlbumCoverFinishCheck() {
     FlushAlbumCoverRequests();
 
   FinishCheck();
+
 }
 
 void QobuzRequest::FinishCheck() {
@@ -1287,6 +1325,7 @@ void QobuzRequest::FinishCheck() {
         emit Results(query_id_, songs_, ErrorsToHTML(errors_));
     }
   }
+
 }
 
 void QobuzRequest::Error(const QString &error, const QVariant &debug) {
@@ -1297,10 +1336,12 @@ void QobuzRequest::Error(const QString &error, const QVariant &debug) {
   }
   if (debug.isValid()) qLog(Debug) << debug;
   FinishCheck();
+
 }
 
 void QobuzRequest::Warn(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Qobuz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }

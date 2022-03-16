@@ -71,6 +71,7 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
   QTimer *timer_flush_requests_;
   QQueue<SearchRequest> queue_search_requests_;
   QList<QNetworkReply *> replies_;
+
 };
 
 #endif  // MUSICBRAINZCOVERPROVIDER_H

@@ -46,6 +46,7 @@ NetworkProxySettingsPage::NetworkProxySettingsPage(SettingsDialog *dialog, QWidg
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("applications-internet"));
+
 }
 
 NetworkProxySettingsPage::~NetworkProxySettingsPage() { delete ui_; }
@@ -83,6 +84,7 @@ void NetworkProxySettingsPage::Load() {
   Init(ui_->layout_networkproxysettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+
 }
 
 void NetworkProxySettingsPage::Save() {
@@ -109,4 +111,5 @@ void NetworkProxySettingsPage::Save() {
   s.endGroup();
 
   NetworkProxyFactory::Instance()->ReloadSettings();
+
 }

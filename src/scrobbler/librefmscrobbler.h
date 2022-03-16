@@ -66,6 +66,7 @@ class LibreFMScrobbler : public ScrobblingAPI20 {
   bool submitted_;
   Song song_playing_;
   quint64 timestamp_;
+
 };
 
 #endif  // LIBREFMSCROBBLER_H

@@ -62,6 +62,7 @@ NetworkProxyFactory::NetworkProxyFactory()
 #endif
 
   ReloadSettings();
+
 }
 
 NetworkProxyFactory *NetworkProxyFactory::Instance() {
@@ -71,6 +72,7 @@ NetworkProxyFactory *NetworkProxyFactory::Instance() {
   }
 
   return sInstance;
+
 }
 
 void NetworkProxyFactory::ReloadSettings() {
@@ -89,6 +91,7 @@ void NetworkProxyFactory::ReloadSettings() {
   password_ = s.value("password").toString();
 
   s.endGroup();
+
 }
 
 QList<QNetworkProxy> NetworkProxyFactory::queryProxy(const QNetworkProxyQuery &query) {
@@ -139,4 +142,5 @@ QList<QNetworkProxy> NetworkProxyFactory::queryProxy(const QNetworkProxyQuery &q
   }
 
   return QList<QNetworkProxy>() << ret;
+
 }

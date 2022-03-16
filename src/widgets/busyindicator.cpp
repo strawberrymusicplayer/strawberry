@@ -38,6 +38,7 @@ BusyIndicator::BusyIndicator(const QString &text, QWidget *parent)
       label_(nullptr) {
 
   Init(text);
+
 }
 
 BusyIndicator::BusyIndicator(QWidget *parent)
@@ -46,6 +47,7 @@ BusyIndicator::BusyIndicator(QWidget *parent)
       label_(nullptr) {
 
   Init(QString());
+
 }
 
 void BusyIndicator::Init(const QString &text) {
@@ -67,25 +69,31 @@ void BusyIndicator::Init(const QString &text) {
   layout->addWidget(label_);
 
   set_text(text);
+
 }
 
 BusyIndicator::~BusyIndicator() {
   delete movie_;
+
 }
 
 void BusyIndicator::showEvent(QShowEvent *) {
   movie_->start();
+
 }
 
 void BusyIndicator::hideEvent(QHideEvent *) {
   movie_->stop();
+
 }
 
 void BusyIndicator::set_text(const QString &text) {
   label_->setText(text);
   label_->setVisible(!text.isEmpty());
+
 }
 
 QString BusyIndicator::text() const {
   return label_->text();
+
 }

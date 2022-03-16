@@ -56,6 +56,7 @@ class QobuzSettingsPage : public SettingsPage {
  private:
   Ui_QobuzSettingsPage *ui_;
   QobuzService *service_;
+
 };
 
 #endif  // QOBUZSETTINGSPAGE_H

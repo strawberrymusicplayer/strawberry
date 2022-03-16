@@ -68,10 +68,12 @@ QueueView::QueueView(QWidget *parent)
   QObject::connect(ui_->clear, &QToolButton::clicked, this, &QueueView::Clear);
 
   ReloadSettings();
+
 }
 
 QueueView::~QueueView() {
   delete ui_;
+
 }
 
 void QueueView::SetPlaylistManager(PlaylistManager *manager) {
@@ -80,6 +82,7 @@ void QueueView::SetPlaylistManager(PlaylistManager *manager) {
 
   QObject::connect(playlists_, &PlaylistManager::CurrentChanged, this, &QueueView::CurrentPlaylistChanged);
   CurrentPlaylistChanged(playlists_->current());
+
 }
 
 void QueueView::ReloadSettings() {
@@ -93,6 +96,7 @@ void QueueView::ReloadSettings() {
   ui_->move_up->setIconSize(QSize(iconsize, iconsize));
   ui_->remove->setIconSize(QSize(iconsize, iconsize));
   ui_->clear->setIconSize(QSize(iconsize, iconsize));
+
 }
 
 void QueueView::CurrentPlaylistChanged(Playlist *playlist) {
@@ -119,6 +123,7 @@ void QueueView::CurrentPlaylistChanged(Playlist *playlist) {
   QObject::connect(ui_->list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &QueueView::UpdateButtonState);
 
   QTimer::singleShot(0, current_playlist_->queue(), &Queue::UpdateSummaryText);
+
 }
 
 void QueueView::MoveUp() {
@@ -131,6 +136,7 @@ void QueueView::MoveUp() {
   for (const QModelIndex &idx : indexes) {
     current_playlist_->queue()->MoveUp(idx.row());
   }
+
 }
 
 void QueueView::MoveDown() {
@@ -145,10 +151,12 @@ void QueueView::MoveDown() {
   for (int i = static_cast<int>(indexes.count() - 1); i >= 0; --i) {
     current_playlist_->queue()->MoveDown(indexes[i].row());
   }
+
 }
 
 void QueueView::Clear() {
   current_playlist_->queue()->Clear();
+
 }
 
 void QueueView::Remove() {
@@ -160,6 +168,7 @@ void QueueView::Remove() {
   }
 
   current_playlist_->queue()->Remove(row_list);
+
 }
 
 void QueueView::UpdateButtonState() {
@@ -180,9 +189,11 @@ void QueueView::UpdateButtonState() {
   }
 
   ui_->clear->setEnabled(!current_playlist_->queue()->is_empty());
+
 }
 
 void QueueView::PlaylistDestroyed() {
   current_playlist_ = nullptr;
   // We'll get another CurrentPlaylistChanged() soon
+
 }

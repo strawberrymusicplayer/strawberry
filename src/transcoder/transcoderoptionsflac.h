@@ -43,6 +43,7 @@ class TranscoderOptionsFLAC : public TranscoderOptionsInterface {
   static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsFLAC *ui_;
+
 };
 
 #endif  // TRANSCODEROPTIONSFLAC_H

@@ -65,6 +65,7 @@ class SmartPlaylistQueryWizardPlugin::SearchPage : public QWizardPage {  // claz
   SmartPlaylistSearchPreview *preview_;
 
   std::unique_ptr<Ui_SmartPlaylistQuerySearchPage> ui_;
+
 };
 
 class SmartPlaylistQueryWizardPlugin::SortPage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
@@ -78,6 +79,7 @@ class SmartPlaylistQueryWizardPlugin::SortPage : public QWizardPage {  // clazy:
   int next_id_;
 
   SmartPlaylistQueryWizardPlugin *plugin_;
+
 };
 
 SmartPlaylistQueryWizardPlugin::SmartPlaylistQueryWizardPlugin(Application *app, CollectionBackend *collection, QObject *parent)
@@ -91,6 +93,7 @@ QString SmartPlaylistQueryWizardPlugin::name() const { return tr("Collection sea
 
 QString SmartPlaylistQueryWizardPlugin::description() const {
   return tr("Find songs in your collection that match the criteria you specify.");
+
 }
 
 int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page_id) {
@@ -162,6 +165,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
   const int first_page = wizard->addPage(search_page_);
   wizard->addPage(sort_page);
   return first_page;
+
 }
 
 void SmartPlaylistQueryWizardPlugin::SetGenerator(PlaylistGeneratorPtr g) {
@@ -200,6 +204,7 @@ void SmartPlaylistQueryWizardPlugin::SetGenerator(PlaylistGeneratorPtr g) {
     sort_ui_->limit_limit->setChecked(true);
     sort_ui_->limit_value->setValue(search.limit_);
   }
+
 }
 
 PlaylistGeneratorPtr SmartPlaylistQueryWizardPlugin::CreateGenerator() const {
@@ -208,6 +213,7 @@ PlaylistGeneratorPtr SmartPlaylistQueryWizardPlugin::CreateGenerator() const {
   gen->Load(MakeSearch());
 
   return std::static_pointer_cast<PlaylistGenerator>(gen);
+
 }
 
 void SmartPlaylistQueryWizardPlugin::UpdateSortOrder() {
@@ -222,6 +228,7 @@ void SmartPlaylistQueryWizardPlugin::UpdateSortOrder() {
   sort_ui_->order->addItem(asc);
   sort_ui_->order->addItem(desc);
   sort_ui_->order->setCurrentIndex(old_current_index);
+
 }
 
 void SmartPlaylistQueryWizardPlugin::AddSearchTerm() {
@@ -234,6 +241,7 @@ void SmartPlaylistQueryWizardPlugin::AddSearchTerm() {
   search_page_->terms_ << widget;
 
   UpdateTermPreview();
+
 }
 
 void SmartPlaylistQueryWizardPlugin::RemoveSearchTerm() {
@@ -246,6 +254,7 @@ void SmartPlaylistQueryWizardPlugin::RemoveSearchTerm() {
 
   search_page_->terms_.takeAt(index)->deleteLater();
   UpdateTermPreview();
+
 }
 
 void SmartPlaylistQueryWizardPlugin::UpdateTermPreview() {
@@ -259,6 +268,7 @@ void SmartPlaylistQueryWizardPlugin::UpdateTermPreview() {
   search.limit_ = -1;
 
   search_page_->preview_->Update(search);
+
 }
 
 void SmartPlaylistQueryWizardPlugin::UpdateSortPreview() {
@@ -267,6 +277,7 @@ void SmartPlaylistQueryWizardPlugin::UpdateSortPreview() {
   if (!search.is_valid()) return;
 
   sort_ui_->preview->Update(search);
+
 }
 
 SmartPlaylistSearch SmartPlaylistQueryWizardPlugin::MakeSearch() const {
@@ -301,6 +312,7 @@ SmartPlaylistSearch SmartPlaylistQueryWizardPlugin::MakeSearch() const {
   }
 
   return ret;
+
 }
 
 void SmartPlaylistQueryWizardPlugin::SearchTypeChanged() {
@@ -309,6 +321,7 @@ void SmartPlaylistQueryWizardPlugin::SearchTypeChanged() {
   search_page_->ui_->terms_scroll_area_content->setEnabled(!all);
 
   UpdateTermPreview();
+
 }
 
 void SmartPlaylistQueryWizardPlugin::MoveTermListToBottom(int min, int max) {
@@ -320,4 +333,5 @@ void SmartPlaylistQueryWizardPlugin::MoveTermListToBottom(int min, int max) {
   }
 
   previous_scrollarea_max_ = max;
+
 }

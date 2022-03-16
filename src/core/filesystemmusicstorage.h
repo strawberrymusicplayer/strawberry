@@ -45,6 +45,7 @@ class FilesystemMusicStorage : public virtual MusicStorage {
   std::optional<int> collection_directory_id_;
 
   Q_DISABLE_COPY(FilesystemMusicStorage)
+
 };
 
 #endif  // FILESYSTEMMUSICSTORAGE_H

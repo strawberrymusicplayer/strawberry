@@ -63,6 +63,7 @@ class MtpLoader : public QObject {
   std::unique_ptr<MtpConnection> connection_;
   QThread *original_thread_;
   bool abort_;
+
 };
 
 #endif  // MTPLOADER_H

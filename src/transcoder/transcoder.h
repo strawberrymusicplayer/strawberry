@@ -48,6 +48,7 @@ struct TranscoderPreset {
   QString extension_;
   QString codec_mimetype_;
   QString muxer_mimetype_;
+
 };
 Q_DECLARE_METATYPE(TranscoderPreset)
 
@@ -148,6 +149,7 @@ class Transcoder : public QObject {
   QList<Job> queued_jobs_;
   JobStateList current_jobs_;
   QString settings_postfix_;
+
 };
 
 #endif  // TRANSCODER_H

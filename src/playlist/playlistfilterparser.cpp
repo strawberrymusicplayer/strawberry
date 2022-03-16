@@ -44,6 +44,7 @@ class SearchTermComparator {
 
  private:
   Q_DISABLE_COPY(SearchTermComparator)
+
 };
 
 // "compares" by checking if the field contains the search term
@@ -58,6 +59,7 @@ class DefaultComparator : public SearchTermComparator {
   QString search_term_;
 
   Q_DISABLE_COPY(DefaultComparator)
+
 };
 
 class EqComparator : public SearchTermComparator {
@@ -69,6 +71,7 @@ class EqComparator : public SearchTermComparator {
 
  private:
   QString search_term_;
+
 };
 
 class NeComparator : public SearchTermComparator {
@@ -80,6 +83,7 @@ class NeComparator : public SearchTermComparator {
 
  private:
   QString search_term_;
+
 };
 
 class LexicalGtComparator : public SearchTermComparator {
@@ -91,6 +95,7 @@ class LexicalGtComparator : public SearchTermComparator {
 
  private:
   QString search_term_;
+
 };
 
 class LexicalGeComparator : public SearchTermComparator {
@@ -102,6 +107,7 @@ class LexicalGeComparator : public SearchTermComparator {
 
  private:
   QString search_term_;
+
 };
 
 class LexicalLtComparator : public SearchTermComparator {
@@ -113,6 +119,7 @@ class LexicalLtComparator : public SearchTermComparator {
 
  private:
   QString search_term_;
+
 };
 
 class LexicalLeComparator : public SearchTermComparator {
@@ -124,6 +131,7 @@ class LexicalLeComparator : public SearchTermComparator {
 
  private:
   QString search_term_;
+
 };
 
 class GtComparator : public SearchTermComparator {
@@ -135,6 +143,7 @@ class GtComparator : public SearchTermComparator {
 
  private:
   int search_term_;
+
 };
 
 class GeComparator : public SearchTermComparator {
@@ -146,6 +155,7 @@ class GeComparator : public SearchTermComparator {
 
  private:
   int search_term_;
+
 };
 
 class LtComparator : public SearchTermComparator {
@@ -157,6 +167,7 @@ class LtComparator : public SearchTermComparator {
 
  private:
   int search_term_;
+
 };
 
 class LeComparator : public SearchTermComparator {
@@ -168,6 +179,7 @@ class LeComparator : public SearchTermComparator {
 
  private:
   int search_term_;
+
 };
 
 // The length field of the playlist (entries) contains a song's running time in nano seconds.
@@ -188,6 +200,7 @@ class DropTailComparatorDecorator : public SearchTermComparator {
 
  private:
   QScopedPointer<SearchTermComparator> cmp_;
+
 };
 
 class RatingComparatorDecorator : public SearchTermComparator {
@@ -199,6 +212,7 @@ class RatingComparatorDecorator : public SearchTermComparator {
 
  private:
   QScopedPointer<SearchTermComparator> cmp_;
+
 };
 
 // filter that applies a SearchTermComparator to all fields of a playlist entry
@@ -218,6 +232,7 @@ class FilterTerm : public FilterTree {
  private:
   QScopedPointer<SearchTermComparator> cmp_;
   QList<int> columns_;
+
 };
 
 // filter that applies a SearchTermComparator to one specific field of a playlist entry
@@ -234,6 +249,7 @@ class FilterColumnTerm : public FilterTree {
  private:
   int col;
   QScopedPointer<SearchTermComparator> cmp_;
+
 };
 
 class NotFilter : public FilterTree {
@@ -247,6 +263,7 @@ class NotFilter : public FilterTree {
 
  private:
   QScopedPointer<const FilterTree> child_;
+
 };
 
 class OrFilter : public FilterTree {
@@ -260,6 +277,7 @@ class OrFilter : public FilterTree {
 
  private:
   QList<FilterTree *> children_;
+
 };
 
 class AndFilter : public FilterTree {
@@ -273,6 +291,7 @@ class AndFilter : public FilterTree {
 
  private:
   QList<FilterTree *> children_;
+
 };
 
 FilterParser::FilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols) : iter_ {}, end_ {}, filterstring_(filter), columns_(columns), numerical_columns_(numerical_cols) {}
@@ -281,6 +300,7 @@ FilterTree *FilterParser::parse() {
   iter_ = filterstring_.constBegin();
   end_ = filterstring_.constEnd();
   return parseOrGroup();
+
 }
 
 void FilterParser::advance() {
@@ -288,6 +308,7 @@ void FilterParser::advance() {
   while (iter_ != end_ && iter_->isSpace()) {
     ++iter_;
   }
+
 }
 
 FilterTree *FilterParser::parseOrGroup() {
@@ -303,6 +324,7 @@ FilterTree *FilterParser::parseOrGroup() {
     advance();
   }
   return group;
+
 }
 
 FilterTree *FilterParser::parseAndGroup() {
@@ -322,6 +344,7 @@ FilterTree *FilterParser::parseAndGroup() {
   } while (iter_ != end_);
 
   return group;
+
 }
 
 bool FilterParser::checkAnd() {
@@ -346,6 +369,7 @@ bool FilterParser::checkAnd() {
     }
   }
   return false;
+
 }
 
 bool FilterParser::checkOr(const bool step_over) {
@@ -379,6 +403,7 @@ bool FilterParser::checkOr(const bool step_over) {
     }
   }
   return false;
+
 }
 
 FilterTree *FilterParser::parseSearchExpression() {
@@ -406,6 +431,7 @@ FilterTree *FilterParser::parseSearchExpression() {
   else {
     return parseSearchTerm();
   }
+
 }
 
 FilterTree *FilterParser::parseSearchTerm() {
@@ -457,6 +483,7 @@ FilterTree *FilterParser::parseSearchTerm() {
   buf_.clear();
 
   return createSearchTermTreeNode(col, prefix, search);
+
 }
 
 FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const {
@@ -526,6 +553,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
   else {
     return new FilterTerm(cmp, columns_.values());
   }
+
 }
 
 // Try and parse the string as '[[h:]m:]s' (ignoring all spaces),
@@ -564,4 +592,5 @@ int FilterParser::parseTime(const QString &time_str) {
   }
   seconds = seconds * 60 + accum;
   return seconds;
+
 }

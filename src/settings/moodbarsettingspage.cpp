@@ -58,6 +58,7 @@ MoodbarSettingsPage::MoodbarSettingsPage(SettingsDialog *dialog, QWidget *parent
   setWindowIcon(IconLoader::Load("moodbar"));
 
   MoodbarSettingsPage::Load();
+
 }
 
 MoodbarSettingsPage::~MoodbarSettingsPage() { delete ui_; }
@@ -77,6 +78,7 @@ void MoodbarSettingsPage::Load() {
   Init(ui_->layout_moodbarsettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+
 }
 
 void MoodbarSettingsPage::Save() {
@@ -88,6 +90,7 @@ void MoodbarSettingsPage::Save() {
   s.setValue("style", ui_->moodbar_style->currentIndex());
   s.setValue("save", ui_->moodbar_save->isChecked());
   s.endGroup();
+
 }
 
 void MoodbarSettingsPage::Cancel() {}
@@ -123,4 +126,5 @@ void MoodbarSettingsPage::InitMoodbarPreviews() {
     ui_->moodbar_style->addItem(MoodbarRenderer::StyleName(style));
     ui_->moodbar_style->setItemData(i, pixmap, Qt::DecorationRole);
   }
+
 }

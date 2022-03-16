@@ -45,6 +45,7 @@ class Console : public QDialog {
  private:
   Ui::Console ui_;
   Application *app_;
+
 };
 
 #endif  // CONSOLE_H

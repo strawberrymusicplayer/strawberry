@@ -29,6 +29,7 @@
 QtFSListener::QtFSListener(QObject *parent) : FileSystemWatcherInterface(parent), watcher_(this) {
 
   QObject::connect(&watcher_, &QFileSystemWatcher::directoryChanged, this, &QtFSListener::PathChanged);
+
 }
 
 void QtFSListener::AddPath(const QString &path) { watcher_.addPath(path); }
@@ -38,4 +39,5 @@ void QtFSListener::RemovePath(const QString &path) { watcher_.removePath(path); 
 void QtFSListener::Clear() {
   watcher_.removePaths(watcher_.directories());
   watcher_.removePaths(watcher_.files());
+
 }

@@ -54,6 +54,7 @@ FileViewList::FileViewList(QWidget *parent)
   menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, &FileViewList::ShowInBrowser);
 
   setAttribute(Qt::WA_MacShowFocusRect, false);
+
 }
 
 void FileViewList::contextMenuEvent(QContextMenuEvent *e) {
@@ -62,6 +63,7 @@ void FileViewList::contextMenuEvent(QContextMenuEvent *e) {
 
   menu_->popup(e->globalPos());
   e->accept();
+
 }
 
 QList<QUrl> FileViewList::UrlListFromSelection() const {
@@ -76,6 +78,7 @@ QList<QUrl> FileViewList::UrlListFromSelection() const {
   std::sort(urls.begin(), urls.end());
 
   return urls;
+
 }
 
 MimeData *FileViewList::MimeDataFromSelection() const {
@@ -112,6 +115,7 @@ MimeData *FileViewList::MimeDataFromSelection() const {
   }
 
   return mimedata;
+
 }
 
 QStringList FileViewList::FilenamesFromSelection() const {
@@ -124,6 +128,7 @@ QStringList FileViewList::FilenamesFromSelection() const {
     }
   }
   return filenames;
+
 }
 
 void FileViewList::LoadSlot() {
@@ -131,10 +136,12 @@ void FileViewList::LoadSlot() {
   MimeData *mimedata = MimeDataFromSelection();
   mimedata->clear_first_ = true;
   emit AddToPlaylist(mimedata);
+
 }
 
 void FileViewList::AddToPlaylistSlot() {
   emit AddToPlaylist(MimeDataFromSelection());
+
 }
 
 void FileViewList::OpenInNewPlaylistSlot() {
@@ -142,26 +149,32 @@ void FileViewList::OpenInNewPlaylistSlot() {
   MimeData *mimedata = MimeDataFromSelection();
   mimedata->open_in_new_playlist_ = true;
   emit AddToPlaylist(mimedata);
+
 }
 
 void FileViewList::CopyToCollectionSlot() {
   emit CopyToCollection(UrlListFromSelection());
+
 }
 
 void FileViewList::MoveToCollectionSlot() {
   emit MoveToCollection(UrlListFromSelection());
+
 }
 
 void FileViewList::CopyToDeviceSlot() {
   emit CopyToDevice(UrlListFromSelection());
+
 }
 
 void FileViewList::DeleteSlot() {
   emit Delete(FilenamesFromSelection());
+
 }
 
 void FileViewList::EditTagsSlot() {
   emit EditTags(UrlListFromSelection());
+
 }
 
 void FileViewList::mousePressEvent(QMouseEvent *e) {
@@ -190,8 +203,10 @@ void FileViewList::mousePressEvent(QMouseEvent *e) {
       QListView::mousePressEvent(e);
       break;
   }
+
 }
 
 void FileViewList::ShowInBrowser() {
   Utilities::OpenInFileBrowser(UrlListFromSelection());
+
 }

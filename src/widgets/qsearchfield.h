@@ -48,6 +48,7 @@ class QSearchField : public QWidget {
  private:
   friend class QSearchFieldPrivate;
   QPointer<QSearchFieldPrivate> pimpl;
+
 };
 
 #endif  // QSEARCHFIELD_H

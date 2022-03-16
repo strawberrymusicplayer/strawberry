@@ -84,6 +84,7 @@ class SmartPlaylistsModel : public SimpleTreeModel<SmartPlaylistsItem> {
   QIcon icon_;
   DefaultGenerators default_smart_playlists_;
   QList<SmartPlaylistsItem *> items_;
+
 };
 
 #endif  // SMARTPLAYLISTSMODEL_H

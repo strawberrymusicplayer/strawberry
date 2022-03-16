@@ -37,6 +37,7 @@ class PoTranslator : public QTranslator {
     if (!ret.isEmpty()) return ret;
     return QTranslator::translate(nullptr, source_text, disambiguation);
   }
+
 };
 
 #endif  // POTRANSLATOR_H

@@ -130,6 +130,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   QMap<short, QColor> foreground_colors_;
 
   Q_DISABLE_COPY(PlaylistItem)
+
 };
 typedef std::shared_ptr<PlaylistItem> PlaylistItemPtr;
 typedef QList<PlaylistItemPtr> PlaylistItemList;

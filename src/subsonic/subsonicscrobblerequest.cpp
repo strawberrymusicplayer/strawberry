@@ -54,6 +54,7 @@ SubsonicScrobbleRequest::~SubsonicScrobbleRequest() {
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
+
 }
 
 void SubsonicScrobbleRequest::CreateScrobbleRequest(const QString &song_id, const bool submission, const QDateTime &start_time) {
@@ -64,6 +65,7 @@ void SubsonicScrobbleRequest::CreateScrobbleRequest(const QString &song_id, cons
   request.time_ms = start_time.toMSecsSinceEpoch();
   scrobble_requests_queue_.enqueue(request);
   if (scrobble_requests_active_ < kMaxConcurrentScrobbleRequests) FlushScrobbleRequests();
+
 }
 
 void SubsonicScrobbleRequest::FlushScrobbleRequests() {
@@ -81,6 +83,7 @@ void SubsonicScrobbleRequest::FlushScrobbleRequests() {
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { ScrobbleReplyReceived(reply); });
   }
+
 }
 
 void SubsonicScrobbleRequest::ScrobbleReplyReceived(QNetworkReply *reply) {
@@ -130,11 +133,13 @@ void SubsonicScrobbleRequest::ScrobbleReplyReceived(QNetworkReply *reply) {
   }
 
   FinishCheck();
+
 }
 
 void SubsonicScrobbleRequest::FinishCheck() {
 
   if (!scrobble_requests_queue_.isEmpty() && scrobble_requests_active_ < kMaxConcurrentScrobbleRequests) FlushScrobbleRequests();
+
 }
 
 void SubsonicScrobbleRequest::Error(const QString &error, const QVariant &debug) {
@@ -146,4 +151,5 @@ void SubsonicScrobbleRequest::Error(const QString &error, const QVariant &debug)
   if (debug.isValid()) qLog(Debug) << debug;
 
   FinishCheck();
+
 }

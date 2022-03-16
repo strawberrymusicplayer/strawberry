@@ -219,6 +219,7 @@ const char *MainWindow::kAllFilesFilterSpec = QT_TR_NOOP("All Files (*)");
 namespace {
 const int kTrackSliderUpdateTimeMs = 200;
 const int kTrackPositionUpdateTimeMs = 1000;
+
 }  // namespace
 
 MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent)
@@ -1029,10 +1030,12 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 
   qLog(Debug) << "Started" << QThread::currentThread();
   initialized_ = true;
+
 }
 
 MainWindow::~MainWindow() {
   delete ui_;
+
 }
 
 void MainWindow::ReloadSettings() {
@@ -1135,6 +1138,7 @@ void MainWindow::ReloadSettings() {
 #endif
 
   ui_->tabs->ReloadSettings();
+
 }
 
 void MainWindow::ReloadAllSettings() {
@@ -1172,12 +1176,14 @@ void MainWindow::ReloadAllSettings() {
 #ifdef HAVE_QOBUZ
   qobuz_view_->ReloadSettings();
 #endif
+
 }
 
 void MainWindow::RefreshStyleSheet() {
   QString contents(styleSheet());
   setStyleSheet("");
   setStyleSheet(contents);
+
 }
 
 void MainWindow::SaveSettings() {
@@ -1190,6 +1196,7 @@ void MainWindow::SaveSettings() {
 
   settings_.setValue("show_sidebar", ui_->action_toggle_show_sidebar->isChecked());
   settings_.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
+
 }
 
 void MainWindow::Exit() {
@@ -1220,18 +1227,21 @@ void MainWindow::Exit() {
     }
     DoExit();
   }
+
 }
 
 void MainWindow::DoExit() {
 
   QObject::connect(app_, &Application::ExitFinished, this, &MainWindow::ExitFinished);
   app_->Exit();
+
 }
 
 void MainWindow::ExitFinished() {
 
   exit_ = true;
   QCoreApplication::quit();
+
 }
 
 void MainWindow::EngineChanged(Engine::EngineType enginetype) {
@@ -1243,6 +1253,7 @@ void MainWindow::EngineChanged(Engine::EngineType enginetype) {
   ui_->action_open_cd->setEnabled(false);
   ui_->action_open_cd->setVisible(false);
 #endif
+
 }
 
 void MainWindow::MediaStopped() {
@@ -1271,6 +1282,7 @@ void MainWindow::MediaStopped() {
   album_cover_ = AlbumCoverImageResult();
 
   app_->scrobbler()->ClearPlaying();
+
 }
 
 void MainWindow::MediaPaused() {
@@ -1286,6 +1298,7 @@ void MainWindow::MediaPaused() {
   track_slider_timer_->stop();
 
   tray_icon_->SetPaused();
+
 }
 
 void MainWindow::MediaPlaying() {
@@ -1310,6 +1323,7 @@ void MainWindow::MediaPlaying() {
   track_position_timer_->start();
   track_slider_timer_->start();
   UpdateTrackPosition();
+
 }
 
 void MainWindow::SendNowPlaying() {
@@ -1322,11 +1336,13 @@ void MainWindow::SendNowPlaying() {
     ui_->button_love->setEnabled(true);
     tray_icon_->LoveStateChanged(true);
   }
+
 }
 
 void MainWindow::VolumeChanged(const int volume) {
   ui_->action_mute->setChecked(volume == 0);
   tray_icon_->MuteButtonStateChanged(volume == 0);
+
 }
 
 void MainWindow::SongChanged(const Song &song) {
@@ -1349,6 +1365,7 @@ void MainWindow::SongChanged(const Song &song) {
   album_cover_choice_controller_->unset_cover_action()->setEnabled(enable_change_art && !song.has_manually_unset_cover());
   album_cover_choice_controller_->clear_cover_action()->setEnabled(enable_change_art && !song.art_manual().isEmpty());
   album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && song.has_valid_art() && !song.has_manually_unset_cover());
+
 }
 
 void MainWindow::TrackSkipped(PlaylistItemPtr item) {
@@ -1369,6 +1386,7 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
       app_->collection_backend()->IncrementSkipCountAsync(song.id(), percentage);
     }
   }
+
 }
 
 void MainWindow::TabSwitched() {
@@ -1379,6 +1397,7 @@ void MainWindow::TabSwitched() {
   else {
     ui_->widget_playing->SetDisabled();
   }
+
 }
 
 void MainWindow::ToggleSidebar(const bool checked) {
@@ -1386,10 +1405,12 @@ void MainWindow::ToggleSidebar(const bool checked) {
   ui_->sidebar_layout->setVisible(checked);
   TabSwitched();
   settings_.setValue("show_sidebar", checked);
+
 }
 
 void MainWindow::ToggleSearchCoverAuto(const bool checked) {
   settings_.setValue("search_for_cover_auto", checked);
+
 }
 
 void MainWindow::SaveGeometry() {
@@ -1401,6 +1422,7 @@ void MainWindow::SaveGeometry() {
   settings_.setValue("hidden", hidden_);
   settings_.setValue("geometry", saveGeometry());
   settings_.setValue("splitter_state", ui_->splitter->saveState());
+
 }
 
 void MainWindow::SavePlaybackStatus() {
@@ -1419,6 +1441,7 @@ void MainWindow::SavePlaybackStatus() {
   }
 
   s.endGroup();
+
 }
 
 void MainWindow::LoadPlaybackStatus() {
@@ -1440,6 +1463,7 @@ void MainWindow::LoadPlaybackStatus() {
       QTimer::singleShot(400ms, this, &MainWindow::ResumePlayback);
     });
   }
+
 }
 
 void MainWindow::ResumePlayback() {
@@ -1472,6 +1496,7 @@ void MainWindow::ResumePlayback() {
   s.setValue("playback_playlist", -1);
   s.setValue("playback_position", 0);
   s.endGroup();
+
 }
 
 void MainWindow::PlayIndex(const QModelIndex &idx, Playlist::AutoScroll autoscroll) {
@@ -1486,6 +1511,7 @@ void MainWindow::PlayIndex(const QModelIndex &idx, Playlist::AutoScroll autoscro
 
   app_->playlist_manager()->SetActiveToCurrent();
   app_->player()->PlayAt(row, 0, Engine::Manual, autoscroll, true);
+
 }
 
 void MainWindow::PlaylistDoubleClick(const QModelIndex &idx) {
@@ -1512,10 +1538,12 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &idx) {
       }
       break;
   }
+
 }
 
 void MainWindow::VolumeWheelEvent(const int delta) {
   ui_->volume->setValue(ui_->volume->value() + delta / 30);
+
 }
 
 void MainWindow::ToggleShowHide() {
@@ -1543,15 +1571,18 @@ void MainWindow::ToggleShowHide() {
     activateWindow();
     raise();
   }
+
 }
 
 void MainWindow::ToggleHide() {
   if (!hidden_) SetHiddenInTray(true);
+
 }
 
 void MainWindow::StopAfterCurrent() {
   app_->playlist_manager()->current()->StopAfter(app_->playlist_manager()->current()->current_row());
   emit StopAfterToggled(app_->playlist_manager()->active()->stop_after_current());
+
 }
 
 void MainWindow::showEvent(QShowEvent *e) {
@@ -1559,6 +1590,7 @@ void MainWindow::showEvent(QShowEvent *e) {
   hidden_ = false;
 
   QMainWindow::showEvent(e);
+
 }
 
 void MainWindow::closeEvent(QCloseEvent *e) {
@@ -1573,6 +1605,7 @@ void MainWindow::closeEvent(QCloseEvent *e) {
   }
 
   QMainWindow::closeEvent(e);
+
 }
 
 void MainWindow::SetHiddenInTray(const bool hidden) {
@@ -1597,10 +1630,12 @@ void MainWindow::SetHiddenInTray(const bool hidden) {
       show();
     }
   }
+
 }
 
 void MainWindow::FilePathChanged(const QString &path) {
   settings_.setValue("file_path", path);
+
 }
 
 void MainWindow::Seeked(const qint64 microseconds) {
@@ -1608,6 +1643,7 @@ void MainWindow::Seeked(const qint64 microseconds) {
   const qint64 position = microseconds / kUsecPerSec;
   const qint64 length = app_->player()->GetCurrentItem()->Metadata().length_nanosec() / kNsecPerSec;
   tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
+
 }
 
 void MainWindow::UpdateTrackPosition() {
@@ -1633,6 +1669,7 @@ void MainWindow::UpdateTrackPosition() {
       }
     }
   }
+
 }
 
 void MainWindow::UpdateTrackSliderPosition() {
@@ -1644,6 +1681,7 @@ void MainWindow::UpdateTrackSliderPosition() {
 
   // Update the slider
   ui_->track_slider->SetValue(slider_position, slider_length);
+
 }
 
 void MainWindow::ApplyAddBehaviour(const BehaviourSettingsPage::AddBehaviour b, MimeData *mimedata) {
@@ -1668,6 +1706,7 @@ void MainWindow::ApplyAddBehaviour(const BehaviourSettingsPage::AddBehaviour b, 
       mimedata->open_in_new_playlist_ = true;
       break;
   }
+
 }
 
 void MainWindow::ApplyPlayBehaviour(const BehaviourSettingsPage::PlayBehaviour b, MimeData *mimedata) const {
@@ -1685,6 +1724,7 @@ void MainWindow::ApplyPlayBehaviour(const BehaviourSettingsPage::PlayBehaviour b
       mimedata->play_now_ = !(app_->player()->GetState() == Engine::Playing);
       break;
   }
+
 }
 
 void MainWindow::AddToPlaylist(QMimeData *q_mimedata) {
@@ -1711,6 +1751,7 @@ void MainWindow::AddToPlaylist(QMimeData *q_mimedata) {
   }
   app_->playlist_manager()->current()->dropMimeData(q_mimedata, Qt::CopyAction, -1, 0, QModelIndex());
   delete q_mimedata;
+
 }
 
 void MainWindow::AddToPlaylistFromAction(QAction *action) {
@@ -1746,6 +1787,7 @@ void MainWindow::AddToPlaylistFromAction(QAction *action) {
     // We're inserting in a existing playlist
     app_->playlist_manager()->playlist(destination)->InsertItems(items);
   }
+
 }
 
 void MainWindow::PlaylistMenuHidden() {
@@ -1753,6 +1795,7 @@ void MainWindow::PlaylistMenuHidden() {
   playlist_queue_->setVisible(true);
   playlist_queue_play_next_->setVisible(true);
   playlist_skip_->setVisible(true);
+
 }
 
 void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &index) {
@@ -1995,6 +2038,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   }
 
   playlist_menu_->popup(global_pos);
+
 }
 
 void MainWindow::PlaylistPlay() {
@@ -2005,10 +2049,12 @@ void MainWindow::PlaylistPlay() {
   else {
     PlayIndex(playlist_menu_index_, Playlist::AutoScroll_Never);
   }
+
 }
 
 void MainWindow::PlaylistStopAfter() {
   app_->playlist_manager()->current()->StopAfter(playlist_menu_index_.row());
+
 }
 
 void MainWindow::RescanSongs() {
@@ -2032,6 +2078,7 @@ void MainWindow::RescanSongs() {
   if (!songs.isEmpty()) {
     app_->collection()->Rescan(songs);
   }
+
 }
 
 void MainWindow::EditTracks() {
@@ -2056,6 +2103,7 @@ void MainWindow::EditTracks() {
   edit_tag_dialog_->SetSongs(songs, items);
   edit_tag_dialog_->show();
   edit_tag_dialog_->raise();
+
 }
 
 void MainWindow::EditTagDialogAccepted() {
@@ -2068,6 +2116,7 @@ void MainWindow::EditTagDialogAccepted() {
   ui_->playlist->view()->update();
 
   app_->playlist_manager()->current()->ScheduleSaveAsync();
+
 }
 
 void MainWindow::RenumberTracks() {
@@ -2099,6 +2148,7 @@ void MainWindow::RenumberTracks() {
     }
     ++track;
   }
+
 }
 
 void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx) {
@@ -2107,6 +2157,7 @@ void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelI
     app_->playlist_manager()->current()->ReloadItems(QList<int>() << idx.row());
   }
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+
 }
 
 void MainWindow::SelectionSetValue() {
@@ -2131,6 +2182,7 @@ void MainWindow::SelectionSetValue() {
       app_->playlist_manager()->current()->setData(source_index, column_value, 0);
     }
   }
+
 }
 
 void MainWindow::EditValue() {
@@ -2150,6 +2202,7 @@ void MainWindow::EditValue() {
   }
 
   ui_->playlist->view()->edit(current.sibling(current.row(), column));
+
 }
 
 void MainWindow::AddFile() {
@@ -2177,6 +2230,7 @@ void MainWindow::AddFile() {
   MimeData *mimedata = new MimeData;
   mimedata->setUrls(urls);
   AddToPlaylist(mimedata);
+
 }
 
 void MainWindow::AddFolder() {
@@ -2195,6 +2249,7 @@ void MainWindow::AddFolder() {
   MimeData *mimedata = new MimeData;
   mimedata->setUrls(QList<QUrl>() << QUrl::fromLocalFile(QFileInfo(directory).canonicalFilePath()));
   AddToPlaylist(mimedata);
+
 }
 
 void MainWindow::AddCDTracks() {
@@ -2204,11 +2259,13 @@ void MainWindow::AddCDTracks() {
   mimedata->open_in_new_playlist_ = true;
   mimedata->setData(Playlist::kCddaMimeType, QByteArray());
   AddToPlaylist(mimedata);
+
 }
 
 void MainWindow::AddStream() {
   add_stream_dialog_->show();
   add_stream_dialog_->raise();
+
 }
 
 void MainWindow::AddStreamAccepted() {
@@ -2216,6 +2273,7 @@ void MainWindow::AddStreamAccepted() {
   MimeData *mimedata = new MimeData;
   mimedata->setUrls(QList<QUrl>() << add_stream_dialog_->url());
   AddToPlaylist(mimedata);
+
 }
 
 void MainWindow::ShowInCollection() {
@@ -2237,10 +2295,12 @@ void MainWindow::ShowInCollection() {
     search = "artist:" + songs.first().artist() + " album:" + songs.first().album();
   }
   collection_view_->filter_widget()->ShowInCollection(search);
+
 }
 
 void MainWindow::PlaylistRemoveCurrent() {
   ui_->playlist->view()->RemoveSelected();
+
 }
 
 void MainWindow::PlaylistClearCurrent() {
@@ -2259,6 +2319,7 @@ void MainWindow::PlaylistClearCurrent() {
   }
 
   app_->playlist_manager()->ClearCurrent();
+
 }
 
 void MainWindow::PlaylistEditFinished(const int playlist_id, const QModelIndex &idx) {
@@ -2266,6 +2327,7 @@ void MainWindow::PlaylistEditFinished(const int playlist_id, const QModelIndex &
   if (app_->playlist_manager()->current() && playlist_id == app_->playlist_manager()->current()->id() && idx == playlist_menu_index_) {
     SelectionSetValue();
   }
+
 }
 
 void MainWindow::CommandlineOptionsReceived(const quint32 instanceId, const QByteArray &string_options) {
@@ -2283,6 +2345,7 @@ void MainWindow::CommandlineOptionsReceived(const quint32 instanceId, const QByt
   }
   else
     CommandlineOptionsReceived(options);
+
 }
 
 void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
@@ -2421,6 +2484,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
   if (options.show_osd()) app_->player()->ShowOSD();
 
   if (options.toggle_pretty_osd()) app_->player()->TogglePrettyOSD();
+
 }
 
 void MainWindow::ForceShowOSD(const Song &song, const bool toggle) {
@@ -2431,10 +2495,12 @@ void MainWindow::ForceShowOSD(const Song &song, const bool toggle) {
     osd_->SetPrettyOSDToggleMode(toggle);
   }
   osd_->ReshowCurrentSong();
+
 }
 
 void MainWindow::Activate() {
   show();
+
 }
 
 bool MainWindow::LoadUrl(const QString &url) {
@@ -2456,12 +2522,14 @@ bool MainWindow::LoadUrl(const QString &url) {
   }
 
   return false;
+
 }
 
 void MainWindow::PlaylistUndoRedoChanged(QAction *undo, QAction *redo) {
 
   playlist_menu_->insertAction(playlist_undoredo_, undo);
   playlist_menu_->insertAction(playlist_undoredo_, redo);
+
 }
 
 void MainWindow::AddFilesToTranscoder() {
@@ -2487,10 +2555,12 @@ void MainWindow::AddFilesToTranscoder() {
   ShowTranscodeDialog();
 
 #endif
+
 }
 
 void MainWindow::ShowCollectionConfig() {
   settings_dialog_->OpenAtPage(SettingsDialog::Page_Collection);
+
 }
 
 void MainWindow::TaskCountChanged(const int count) {
@@ -2501,6 +2571,7 @@ void MainWindow::TaskCountChanged(const int count) {
   else {
     ui_->status_bar_stack->setCurrentWidget(ui_->multi_loading_indicator);
   }
+
 }
 
 void MainWindow::PlayingWidgetPositionChanged(const bool above_status_bar) {
@@ -2512,6 +2583,7 @@ void MainWindow::PlayingWidgetPositionChanged(const bool above_status_bar) {
 
   ui_->status_bar->parentWidget()->layout()->addWidget(ui_->status_bar);
   ui_->status_bar->show();
+
 }
 
 void MainWindow::CopyFilesToCollection(const QList<QUrl> &urls) {
@@ -2521,6 +2593,7 @@ void MainWindow::CopyFilesToCollection(const QList<QUrl> &urls) {
   organize_dialog_->SetCopy(true);
   organize_dialog_->show();
   organize_dialog_->raise();
+
 }
 
 void MainWindow::MoveFilesToCollection(const QList<QUrl> &urls) {
@@ -2530,6 +2603,7 @@ void MainWindow::MoveFilesToCollection(const QList<QUrl> &urls) {
   organize_dialog_->SetCopy(false);
   organize_dialog_->show();
   organize_dialog_->raise();
+
 }
 
 void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
@@ -2547,6 +2621,7 @@ void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
 #else
   Q_UNUSED(urls);
 #endif
+
 }
 
 void MainWindow::EditFileTags(const QList<QUrl> &urls) {
@@ -2564,14 +2639,17 @@ void MainWindow::EditFileTags(const QList<QUrl> &urls) {
   edit_tag_dialog_->SetSongs(songs);
   edit_tag_dialog_->show();
   edit_tag_dialog_->raise();
+
 }
 
 void MainWindow::PlaylistCopyToCollection() {
   PlaylistOrganizeSelected(true);
+
 }
 
 void MainWindow::PlaylistMoveToCollection() {
   PlaylistOrganizeSelected(false);
+
 }
 
 void MainWindow::PlaylistOrganizeSelected(const bool copy) {
@@ -2593,6 +2671,7 @@ void MainWindow::PlaylistOrganizeSelected(const bool copy) {
   organize_dialog_->SetCopy(copy);
   organize_dialog_->show();
   organize_dialog_->raise();
+
 }
 
 void MainWindow::PlaylistOpenInBrowser() {
@@ -2605,6 +2684,7 @@ void MainWindow::PlaylistOpenInBrowser() {
   }
 
   Utilities::OpenInFileBrowser(urls);
+
 }
 
 void MainWindow::PlaylistCopyUrl() {
@@ -2623,6 +2703,7 @@ void MainWindow::PlaylistCopyUrl() {
     mime_data.setUrls(urls);
     QApplication::clipboard()->setText(mime_data.text());
   }
+
 }
 
 void MainWindow::PlaylistQueue() {
@@ -2635,6 +2716,7 @@ void MainWindow::PlaylistQueue() {
   }
 
   app_->playlist_manager()->current()->queue()->ToggleTracks(indexes);
+
 }
 
 void MainWindow::PlaylistQueuePlayNext() {
@@ -2647,6 +2729,7 @@ void MainWindow::PlaylistQueuePlayNext() {
   }
 
   app_->playlist_manager()->current()->queue()->InsertFirst(indexes);
+
 }
 
 void MainWindow::PlaylistSkip() {
@@ -2659,6 +2742,7 @@ void MainWindow::PlaylistSkip() {
   }
 
   app_->playlist_manager()->current()->SkipTracks(indexes);
+
 }
 
 void MainWindow::PlaylistCopyToDevice() {
@@ -2689,6 +2773,7 @@ void MainWindow::PlaylistCopyToDevice() {
   }
 
 #endif
+
 }
 
 void MainWindow::ChangeCollectionQueryMode(QAction *action) {
@@ -2702,18 +2787,21 @@ void MainWindow::ChangeCollectionQueryMode(QAction *action) {
   else {
     collection_view_->filter_widget()->SetQueryMode(QueryOptions::QueryMode_All);
   }
+
 }
 
 void MainWindow::ShowCoverManager() {
 
   cover_manager_->show();
   cover_manager_->raise();
+
 }
 
 void MainWindow::ShowEqualizer() {
 
   equalizer_->show();
   equalizer_->raise();
+
 }
 
 SettingsDialog *MainWindow::CreateSettingsDialog() {
@@ -2730,16 +2818,19 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
   QObject::connect(settings_dialog, &SettingsDialog::NotificationPreview, this, &MainWindow::HandleNotificationPreview);
 
   return settings_dialog;
+
 }
 
 void MainWindow::OpenSettingsDialog() {
 
   settings_dialog_->show();
   settings_dialog_->raise();
+
 }
 
 void MainWindow::OpenSettingsDialogAtPage(SettingsDialog::Page page) {
   settings_dialog_->OpenAtPage(page);
+
 }
 
 EditTagDialog *MainWindow::CreateEditTagDialog() {
@@ -2748,12 +2839,14 @@ EditTagDialog *MainWindow::CreateEditTagDialog() {
   QObject::connect(edit_tag_dialog, &EditTagDialog::accepted, this, &MainWindow::EditTagDialogAccepted);
   QObject::connect(edit_tag_dialog, &EditTagDialog::Error, this, &MainWindow::ShowErrorDialog);
   return edit_tag_dialog;
+
 }
 
 void MainWindow::ShowAboutDialog() {
 
   about_dialog_->show();
   about_dialog_->raise();
+
 }
 
 void MainWindow::ShowTranscodeDialog() {
@@ -2762,10 +2855,12 @@ void MainWindow::ShowTranscodeDialog() {
   transcode_dialog_->show();
   transcode_dialog_->raise();
 #endif
+
 }
 
 void MainWindow::ShowErrorDialog(const QString &message) {
   error_dialog_->ShowMessage(message);
+
 }
 
 void MainWindow::CheckFullRescanRevisions() {
@@ -2798,11 +2893,13 @@ void MainWindow::CheckFullRescanRevisions() {
       app_->collection()->FullScan();
     }
   }
+
 }
 
 void MainWindow::PlaylistViewSelectionModelChanged() {
 
   QObject::connect(ui_->playlist->view()->selectionModel(), &QItemSelectionModel::currentChanged, this, &MainWindow::PlaylistCurrentChanged);
+
 }
 
 void MainWindow::PlaylistCurrentChanged(const QModelIndex &proxy_current) {
@@ -2812,6 +2909,7 @@ void MainWindow::PlaylistCurrentChanged(const QModelIndex &proxy_current) {
   // If the user moves the current index using the keyboard and then presses
   // F2, we don't want that editing the last column that was right clicked on.
   if (source_current != playlist_menu_index_) playlist_menu_index_ = QModelIndex();
+
 }
 
 void MainWindow::Raise() {
@@ -2819,6 +2917,7 @@ void MainWindow::Raise() {
   show();
   activateWindow();
   hidden_ = false;
+
 }
 
 #ifdef Q_OS_WIN
@@ -2833,6 +2932,7 @@ bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *r
     thumbbar_->HandleWinEvent(msg);
   }
   return QMainWindow::nativeEvent(eventType, message, result);
+
 }
 #endif  // Q_OS_WIN
 
@@ -2877,6 +2977,7 @@ void MainWindow::AutoCompleteTags() {
   track_selection_dialog_->raise();
 
 #endif
+
 }
 
 void MainWindow::AutoCompleteTagsAccepted() {
@@ -2888,6 +2989,7 @@ void MainWindow::AutoCompleteTagsAccepted() {
 
   // This is really lame but we don't know what rows have changed
   ui_->playlist->view()->update();
+
 }
 
 void MainWindow::HandleNotificationPreview(const OSDBase::Behaviour type, const QString &line1, const QString &line2) {
@@ -2910,12 +3012,14 @@ void MainWindow::HandleNotificationPreview(const OSDBase::Behaviour type, const 
 
     osd_->ShowPreview(type, line1, line2, fake);
   }
+
 }
 
 void MainWindow::ShowConsole() {
 
   console_->show();
   console_->raise();
+
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
@@ -2935,43 +3039,53 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
   else {
     QMainWindow::keyPressEvent(e);
   }
+
 }
 
 void MainWindow::LoadCoverFromFile() {
   album_cover_choice_controller_->LoadCoverFromFile(&song_);
+
 }
 
 void MainWindow::LoadCoverFromURL() {
   album_cover_choice_controller_->LoadCoverFromURL(&song_);
+
 }
 
 void MainWindow::SearchForCover() {
   album_cover_choice_controller_->SearchForCover(&song_);
+
 }
 
 void MainWindow::SaveCoverToFile() {
   album_cover_choice_controller_->SaveCoverToFileManual(song_, album_cover_);
+
 }
 
 void MainWindow::UnsetCover() {
   album_cover_choice_controller_->UnsetCover(&song_);
+
 }
 
 void MainWindow::ClearCover() {
   album_cover_choice_controller_->ClearCover(&song_);
+
 }
 
 void MainWindow::DeleteCover() {
   album_cover_choice_controller_->DeleteCover(&song_, true);
+
 }
 
 void MainWindow::ShowCover() {
   album_cover_choice_controller_->ShowCover(song_, album_cover_.image);
+
 }
 
 void MainWindow::SearchCoverAutomatically() {
 
   GetCoverAutomatically();
+
 }
 
 void MainWindow::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
@@ -2994,6 +3108,7 @@ void MainWindow::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult
   album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
 
   GetCoverAutomatically();
+
 }
 
 void MainWindow::GetCoverAutomatically() {
@@ -3011,10 +3126,12 @@ void MainWindow::GetCoverAutomatically() {
     emit SearchCoverInProgress();
     album_cover_choice_controller_->SearchCoverAutomatically(song_);
   }
+
 }
 
 void MainWindow::ScrobblingEnabledChanged(const bool value) {
   if (app_->scrobbler()->ScrobbleButton()) SetToggleScrobblingIcon(value);
+
 }
 
 void MainWindow::ScrobbleButtonVisibilityChanged(const bool value) {
@@ -3022,6 +3139,7 @@ void MainWindow::ScrobbleButtonVisibilityChanged(const bool value) {
   ui_->button_scrobble->setVisible(value);
   ui_->action_toggle_scrobbling->setVisible(value);
   if (value) SetToggleScrobblingIcon(app_->scrobbler()->IsEnabled());
+
 }
 
 void MainWindow::LoveButtonVisibilityChanged(const bool value) {
@@ -3032,6 +3150,7 @@ void MainWindow::LoveButtonVisibilityChanged(const bool value) {
     ui_->widget_love->hide();
 
   tray_icon_->LoveVisibilityChanged(value);
+
 }
 
 void MainWindow::SetToggleScrobblingIcon(const bool value) {
@@ -3045,6 +3164,7 @@ void MainWindow::SetToggleScrobblingIcon(const bool value) {
   else {
     ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled", 22));
   }
+
 }
 
 void MainWindow::Love() {
@@ -3053,6 +3173,7 @@ void MainWindow::Love() {
   ui_->button_love->setEnabled(false);
   ui_->action_love->setEnabled(false);
   tray_icon_->LoveStateChanged(false);
+
 }
 
 void MainWindow::PlaylistDelete() {
@@ -3090,6 +3211,7 @@ void MainWindow::PlaylistDelete() {
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, true);
   //QObject::connect(delete_files, &DeleteFiles::Finished, this, &MainWindow::DeleteFinished);
   delete_files->Start(selected_songs);
+
 }
 
 void MainWindow::FocusSearchField() {
@@ -3115,4 +3237,5 @@ void MainWindow::FocusSearchField() {
   else if (!ui_->playlist->SearchFieldHasFocus()) {
     ui_->playlist->FocusSearchField();
   }
+
 }

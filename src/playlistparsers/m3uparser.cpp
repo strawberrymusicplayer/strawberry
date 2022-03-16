@@ -97,6 +97,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
   buffer.close();
 
   return ret;
+
 }
 
 bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata) {
@@ -121,6 +122,7 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
   metadata->artist = list[0].trimmed();
   metadata->title = list[1].trimmed();
   return true;
+
 }
 
 void M3UParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
@@ -143,8 +145,10 @@ void M3UParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
     device->write(URLOrFilename(song.url(), dir, path_type).toUtf8());
     device->write("\n");
   }
+
 }
 
 bool M3UParser::TryMagic(const QByteArray &data) const {
   return data.contains("#EXTM3U") || data.contains("#EXTINF");
+
 }

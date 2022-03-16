@@ -62,6 +62,7 @@ class SimpleTreeItem {
   QAbstractItemModel *child_model;
 
   SimpleTreeModel<T> *model;
+
 };
 
 template<typename T>
@@ -85,6 +86,7 @@ SimpleTreeItem<T>::SimpleTreeItem(int _type, const QString &_key, T *_parent)
     row = parent->children.count();
     parent->children << static_cast<T *>(this);
   }
+
 }
 
 template<typename T>
@@ -98,6 +100,7 @@ SimpleTreeItem<T>::SimpleTreeItem(int _type, T *_parent)
     row = parent->children.count();
     parent->children << static_cast<T *>(this);
   }
+
 }
 
 template<typename T>
@@ -109,6 +112,7 @@ void SimpleTreeItem<T>::InsertNotify(T *_parent) {
   model->BeginInsert(parent, row);
   parent->children << static_cast<T *>(this);
   model->EndInsert();
+
 }
 
 template<typename T>
@@ -119,6 +123,7 @@ void SimpleTreeItem<T>::DeleteNotify(int child_row) {
   // Adjust row numbers of those below it :(
   for (int i = child_row; i < children.count(); ++i) children[i]->row--;
   model->EndDelete();
+
 }
 
 template<typename T>
@@ -131,16 +136,19 @@ void SimpleTreeItem<T>::ClearNotify() {
 
     model->EndDelete();
   }
+
 }
 
 template<typename T>
 void SimpleTreeItem<T>::ChangedNotify() {
   model->EmitDataChanged(static_cast<T *>(this));
+
 }
 
 template<typename T>
 SimpleTreeItem<T>::~SimpleTreeItem() {
   qDeleteAll(children);
+
 }
 
 template<typename T>
@@ -149,6 +157,7 @@ void SimpleTreeItem<T>::Delete(int child_row) {
 
   // Adjust row numbers of those below it :(
   for (int i = child_row; i < children.count(); ++i) children[i]->row--;
+
 }
 
 template<typename T>
@@ -157,6 +166,7 @@ T *SimpleTreeItem<T>::ChildByKey(const QString &_key) const {
     if (child->key == _key) return child;
   }
   return nullptr;
+
 }
 
 #endif  // SIMPLETREEITEM_H

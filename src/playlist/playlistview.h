@@ -92,6 +92,7 @@ class PlaylistProxyStyle : public QProxyStyle {
 
  private:
   std::unique_ptr<QCommonStyle> common_style_;
+
 };
 
 class PlaylistView : public QTreeView {
@@ -300,6 +301,7 @@ class PlaylistView : public QTreeView {
   RatingItemDelegate *rating_delegate_;
 
   QColor playlist_playing_song_color_;
+
 };
 
 #endif  // PLAYLISTVIEW_H

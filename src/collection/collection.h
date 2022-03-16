@@ -103,6 +103,7 @@ class SCollection : public QObject {
   QThread::Priority thread_priority_;
   bool save_playcounts_to_files_;
   bool save_ratings_to_files_;
+
 };
 
 #endif

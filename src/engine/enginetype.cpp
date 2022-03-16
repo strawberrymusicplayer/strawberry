@@ -33,6 +33,7 @@ Engine::EngineType EngineTypeFromName(const QString &enginename) {
     return Engine::VLC;
   else
     return Engine::None;
+
 }
 
 QString EngineName(const Engine::EngineType enginetype) {
@@ -42,6 +43,7 @@ QString EngineName(const Engine::EngineType enginetype) {
     case Engine::None:
     default: return QString("None");
   }
+
 }
 
 QString EngineDescription(Engine::EngineType enginetype) {
@@ -51,6 +53,8 @@ QString EngineDescription(Engine::EngineType enginetype) {
     case Engine::None:
     default: return QString("None");
   }
+
 }
+
 
 }  // namespace Engine

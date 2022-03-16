@@ -70,9 +70,13 @@ class Database : public QObject {
   void ReportErrors(const SqlQuery &query);
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-  QRecursiveMutex *Mutex() { return &mutex_; }
+  QRecursiveMutex *Mutex() {
+    return &mutex_;
+  }
 #else
-  QMutex *Mutex() { return &mutex_; }
+  QMutex *Mutex() {
+    return &mutex_;
+  }
 #endif
 
   void RecreateAttachedDb(const QString &database_name);
@@ -139,6 +143,7 @@ class Database : public QObject {
   int startup_schema_version_;
 
   QThread *original_thread_;
+
 };
 
 class MemoryDatabase : public Database {
@@ -151,6 +156,7 @@ class MemoryDatabase : public Database {
     // Make sure Qt doesn't reuse the same database
     QSqlDatabase::removeDatabase(Connect().connectionName());
   }
+
 };
 
 #endif  // DATABASE_H

@@ -54,6 +54,7 @@ Windows7ThumbBar::Windows7ThumbBar(QWidget *widget)
   timer_->setSingleShot(true);
   timer_->setInterval(300);
   QObject::connect(timer_, &QTimer::timeout, this, &Windows7ThumbBar::ActionChanged);
+
 }
 
 void Windows7ThumbBar::SetActions(const QList<QAction *> &actions) {
@@ -68,6 +69,7 @@ void Windows7ThumbBar::SetActions(const QList<QAction *> &actions) {
     }
   }
   qLog(Debug) << "Done";
+
 }
 
 ITaskbarList3 *Windows7ThumbBar::CreateTaskbarList() {
@@ -92,6 +94,7 @@ ITaskbarList3 *Windows7ThumbBar::CreateTaskbarList() {
   }
 
   return taskbar_list;
+
 }
 
 void Windows7ThumbBar::SetupButton(const QAction *action, THUMBBUTTON *button) {
@@ -114,6 +117,7 @@ void Windows7ThumbBar::SetupButton(const QAction *action, THUMBBUTTON *button) {
     button->dwFlags = THBF_NOBACKGROUND;
     button->dwMask = THUMBBUTTONMASK(THB_FLAGS);
   }
+
 }
 
 void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
@@ -162,10 +166,12 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
       }
     }
   }
+
 }
 
 void Windows7ThumbBar::ActionChangedTriggered() {
   if (!timer_->isActive()) timer_->start();
+
 }
 
 void Windows7ThumbBar::ActionChanged() {
@@ -196,4 +202,5 @@ void Windows7ThumbBar::ActionChanged() {
   }
 
   taskbar_list->Release();
+
 }

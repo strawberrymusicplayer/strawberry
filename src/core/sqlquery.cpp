@@ -35,46 +35,55 @@ void SqlQuery::BindValue(const QString &placeholder, const QVariant &value) {
 #endif
 
   bindValue(placeholder, value);
+
 }
 
 void SqlQuery::BindStringValue(const QString &placeholder, const QString &value) {
 
   BindValue(placeholder, value.isNull() ? "" : value);
+
 }
 
 void SqlQuery::BindUrlValue(const QString &placeholder, const QUrl &value) {
 
   BindValue(placeholder, value.isValid() ? value.toString(QUrl::FullyEncoded) : "");
+
 }
 
 void SqlQuery::BindIntValue(const QString &placeholder, const int value) {
 
   BindValue(placeholder, value <= 0 ? -1 : value);
+
 }
 
 void SqlQuery::BindLongLongValue(const QString &placeholder, const qint64 value) {
 
   BindValue(placeholder, value <= 0 ? -1 : value);
+
 }
 
 void SqlQuery::BindFloatValue(const QString &placeholder, const float value) {
 
   BindValue(placeholder, value <= 0 ? -1 : value);
+
 }
 
 void SqlQuery::BindBoolValue(const QString &placeholder, const bool value) {
 
   BindValue(placeholder, value ? 1 : 0);
+
 }
 
 void SqlQuery::BindNotNullIntValue(const QString &placeholder, const int value) {
 
   BindValue(placeholder, value == -1 ? QVariant() : value);
+
 }
 
 void SqlQuery::BindNotNullLongLongValue(const QString &placeholder, const qint64 value) {
 
   BindValue(placeholder, value == -1 ? QVariant() : value);
+
 }
 
 bool SqlQuery::Exec() {
@@ -96,9 +105,11 @@ bool SqlQuery::Exec() {
 #endif
 
   return success;
+
 }
 
 QString SqlQuery::LastQuery() const {
 
   return last_query_;
+
 }

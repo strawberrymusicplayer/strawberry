@@ -92,6 +92,7 @@ class TrackSelectionDialog : public QDialog {
   QPushButton *next_button_;
 
   bool save_on_close_;
+
 };
 
 #endif  // TRACKSELECTIONDIALOG_H

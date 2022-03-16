@@ -63,6 +63,7 @@ LastFmCoverProvider::~LastFmCoverProvider() {
     reply->abort();
     reply->deleteLater();
   }
+
 }
 
 bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -120,6 +121,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, type]() { QueryFinished(reply, id, type); });
 
   return true;
+
 }
 
 void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, const QString &type) {
@@ -285,6 +287,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
     results << cover_result;
   }
   emit SearchFinished(id, results);
+
 }
 
 QByteArray LastFmCoverProvider::GetReplyData(QNetworkReply *reply) {
@@ -327,12 +330,14 @@ QByteArray LastFmCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
+
 }
 
 void LastFmCoverProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Last.fm:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }
 
 LastFmCoverProvider::LastFmImageSize LastFmCoverProvider::ImageSizeFromString(const QString &size) {
@@ -347,4 +352,5 @@ LastFmCoverProvider::LastFmImageSize LastFmCoverProvider::ImageSizeFromString(co
     return LastFmImageSize::ExtraLarge;
   else
     return LastFmImageSize::Unknown;
+
 }

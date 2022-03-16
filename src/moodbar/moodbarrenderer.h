@@ -70,6 +70,7 @@ class MoodbarRenderer {
     int sat_;
     int val_;
   };
+
 };
 
 Q_DECLARE_METATYPE(QVector<QColor>)

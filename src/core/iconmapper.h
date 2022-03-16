@@ -33,6 +33,7 @@ struct IconProperties {
   int min_size;
   int max_size;
   bool allow_system_icon;
+
 };
 
 static const QMap<QString, IconProperties> iconmapper_ = {  // clazy:exclude=non-pod-global-static
@@ -132,6 +133,8 @@ static const QMap<QString, IconProperties> iconmapper_ = {  // clazy:exclude=non
   { "zoom-in", { {} } },
   { "zoom-out", { {}, 0, 0 } }
 
+
 };
+
 
 }  // namespace IconMapper

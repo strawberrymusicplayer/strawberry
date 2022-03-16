@@ -124,6 +124,7 @@ class OrganizeDialog : public QDialog {
   std::unique_ptr<OrganizeErrorDialog> error_dialog_;
 
   bool devices_;
+
 };
 
 #endif  // ORGANISEDIALOG_H

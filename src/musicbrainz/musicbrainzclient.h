@@ -213,6 +213,7 @@ class MusicBrainzClient : public QObject {
   // Results we received so far, kept here until all the replies are finished
   QMap<int, QList<PendingResults>> pending_results_;
   QTimer *timer_flush_requests_;
+
 };
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -221,6 +222,7 @@ inline size_t qHash(const MusicBrainzClient::Result &result) {
 inline uint qHash(const MusicBrainzClient::Result &result) {
 #endif
   return qHash(result.album_) ^ qHash(result.artist_) ^ result.duration_msec_ ^ qHash(result.title_) ^ result.track_ ^ result.year_;
+
 }
 
 #endif  // MUSICBRAINZCLIENT_H

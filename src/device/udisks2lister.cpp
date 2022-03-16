@@ -60,6 +60,7 @@ Udisks2Lister::~Udisks2Lister() = default;
 QStringList Udisks2Lister::DeviceUniqueIDs() {
   QReadLocker locker(&device_data_lock_);
   return device_data_.keys();
+
 }
 
 QVariantList Udisks2Lister::DeviceIcons(const QString &id) {
@@ -69,6 +70,7 @@ QVariantList Udisks2Lister::DeviceIcons(const QString &id) {
   QString path = device_data_[id].mount_paths.at(0);
 
   return QVariantList() << GuessIconForPath(path) << GuessIconForModel(DeviceManufacturer(id), DeviceModel(id));
+
 }
 
 QString Udisks2Lister::DeviceManufacturer(const QString &id) {
@@ -76,6 +78,7 @@ QString Udisks2Lister::DeviceManufacturer(const QString &id) {
   QReadLocker locker(&device_data_lock_);
   if (!device_data_.contains(id)) return "";
   return device_data_[id].vendor;
+
 }
 
 QString Udisks2Lister::DeviceModel(const QString &id) {
@@ -83,6 +86,7 @@ QString Udisks2Lister::DeviceModel(const QString &id) {
   QReadLocker locker(&device_data_lock_);
   if (!device_data_.contains(id)) return "";
   return device_data_[id].model;
+
 }
 
 quint64 Udisks2Lister::DeviceCapacity(const QString &id) {
@@ -90,6 +94,7 @@ quint64 Udisks2Lister::DeviceCapacity(const QString &id) {
   QReadLocker locker(&device_data_lock_);
   if (!device_data_.contains(id)) return 0;
   return device_data_[id].capacity;
+
 }
 
 quint64 Udisks2Lister::DeviceFreeSpace(const QString &id) {
@@ -97,6 +102,7 @@ quint64 Udisks2Lister::DeviceFreeSpace(const QString &id) {
   QReadLocker locker(&device_data_lock_);
   if (!device_data_.contains(id)) return 0;
   return device_data_[id].free_space;
+
 }
 
 QVariantMap Udisks2Lister::DeviceHardwareInfo(const QString &id) {
@@ -114,6 +120,7 @@ QVariantMap Udisks2Lister::DeviceHardwareInfo(const QString &id) {
   result[QT_TR_NOOP("UUID")] = data.uuid;
 
   return result;
+
 }
 
 QString Udisks2Lister::MakeFriendlyName(const QString &id) {
@@ -121,6 +128,7 @@ QString Udisks2Lister::MakeFriendlyName(const QString &id) {
   QReadLocker locker(&device_data_lock_);
   if (!device_data_.contains(id)) return "";
   return device_data_[id].friendly_name;
+
 }
 
 QList<QUrl> Udisks2Lister::MakeDeviceUrls(const QString &id) {
@@ -130,6 +138,7 @@ QList<QUrl> Udisks2Lister::MakeDeviceUrls(const QString &id) {
   if (!device_data_.contains(id)) return ret;
   ret << MakeUrlFromLocalPath(device_data_[id].mount_paths.at(0));
   return ret;
+
 }
 
 void Udisks2Lister::UnmountDevice(const QString &id) {
@@ -162,12 +171,14 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
     device_data_.remove(id);
     emit DeviceRemoved(id);
   }
+
 }
 
 void Udisks2Lister::UpdateDeviceFreeSpace(const QString &id) {
   QWriteLocker locker(&device_data_lock_);
   device_data_[id].free_space = Utilities::FileSystemFreeSpace(device_data_[id].mount_paths.at(0));
   emit DeviceChanged(id);
+
 }
 
 bool Udisks2Lister::Init() {
@@ -202,6 +213,7 @@ bool Udisks2Lister::Init() {
   QObject::connect(udisks2_interface_.get(), &OrgFreedesktopDBusObjectManagerInterface::InterfacesRemoved, this, &Udisks2Lister::DBusInterfaceRemoved);
 
   return true;
+
 }
 
 void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const InterfacesAndProperties &interfaces) {
@@ -241,11 +253,13 @@ void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const Interf
       QObject::connect(job.get(), &OrgFreedesktopUDisks2JobInterface::Completed, this, &Udisks2Lister::JobCompleted);
     }
   }
+
 }
 
 void Udisks2Lister::DBusInterfaceRemoved(const QDBusObjectPath &path, const QStringList &interfaces) {
   Q_UNUSED(interfaces);
   if (!isPendingJob(path)) RemoveDevice(path);
+
 }
 
 bool Udisks2Lister::isPendingJob(const QDBusObjectPath &job_path) {
@@ -256,6 +270,7 @@ bool Udisks2Lister::isPendingJob(const QDBusObjectPath &job_path) {
 
   mounting_jobs_.remove(job_path);
   return true;
+
 }
 
 void Udisks2Lister::RemoveDevice(const QDBusObjectPath &device_path) {
@@ -275,6 +290,7 @@ void Udisks2Lister::RemoveDevice(const QDBusObjectPath &device_path) {
   device_data_.remove(id);
 
   emit DeviceRemoved(id);
+
 }
 
 QList<QDBusObjectPath> Udisks2Lister::GetMountedPartitionsFromDBusArgument(const QDBusArgument &input) {
@@ -290,6 +306,7 @@ QList<QDBusObjectPath> Udisks2Lister::GetMountedPartitionsFromDBusArgument(const
   input.endArray();
 
   return result;
+
 }
 
 void Udisks2Lister::JobCompleted(const bool success, const QString &message) {
@@ -311,6 +328,7 @@ void Udisks2Lister::JobCompleted(const bool success, const QString &message) {
 
     mounting_jobs_[jobPath].is_mount ? HandleFinishedMountJob(partition_data) : HandleFinishedUnmountJob(partition_data, mounted_object);
   }
+
 }
 
 void Udisks2Lister::HandleFinishedMountJob(const PartitionData &partition_data) {
@@ -320,6 +338,7 @@ void Udisks2Lister::HandleFinishedMountJob(const PartitionData &partition_data) 
   device_data_[partition_data.unique_id()] = partition_data;
 
   emit DeviceAdded(partition_data.unique_id());
+
 }
 
 void Udisks2Lister::HandleFinishedUnmountJob(const PartitionData &partition_data, const QDBusObjectPath &mounted_object) {
@@ -340,6 +359,7 @@ void Udisks2Lister::HandleFinishedUnmountJob(const PartitionData &partition_data
     device_data_.remove(id);
     emit DeviceRemoved(id);
   }
+
 }
 
 Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectPath &path) {
@@ -384,6 +404,7 @@ Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectP
   }
 
   return result;
+
 }
 
 QString Udisks2Lister::PartitionData::unique_id() const {
@@ -391,6 +412,7 @@ QString Udisks2Lister::PartitionData::unique_id() const {
     .arg(serial, vendor, model)
     .arg(capacity)
     .arg(uuid);
+
 }
 
 Udisks2Lister::Udisks2Job::Udisks2Job() : is_mount(true) {}

@@ -69,10 +69,12 @@ FreeSpaceBar::FreeSpaceBar(QWidget *parent)
       used_text_(tr("Used")) {
 
   setMinimumHeight(FreeSpaceBar::sizeHint().height());
+
 }
 
 QSize FreeSpaceBar::sizeHint() const {
   return QSize(150, kBarHeight + kLabelBoxPadding + fontMetrics().height());
+
 }
 
 void FreeSpaceBar::paintEvent(QPaintEvent *) {
@@ -117,6 +119,7 @@ void FreeSpaceBar::paintEvent(QPaintEvent *) {
   DrawBar(&p, bar_rect);
   p.drawImage(reflection_rect, reflection);
   DrawText(&p, labels_rect);
+
 }
 
 void FreeSpaceBar::DrawBar(QPainter *p, const QRect r) {
@@ -175,6 +178,7 @@ void FreeSpaceBar::DrawBar(QPainter *p, const QRect r) {
   }
 
   p->setOpacity(1.0);
+
 }
 
 void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
@@ -227,6 +231,7 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
     x += kLabelBoxSize + kLabelBoxPadding + kLabelSpacing + small_metrics.width(label.text);
 #endif
   }
+
 }
 
 QString FreeSpaceBar::TextForSize(const QString &prefix, const quint64 size) {
@@ -242,4 +247,5 @@ QString FreeSpaceBar::TextForSize(const QString &prefix, const quint64 size) {
   if (!prefix.isEmpty()) ret.prepend(prefix + " ");
 
   return ret;
+
 }

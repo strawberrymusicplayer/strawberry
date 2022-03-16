@@ -201,6 +201,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
   int discovery_finished_cb_id_;
   int discovery_discovered_cb_id_;
+
 };
 
 #endif  // GSTENGINE_H

@@ -56,6 +56,7 @@ class ThreadSafeNetworkDiskCache : public QAbstractNetworkCache {
   static QMutex sMutex;
   static int sInstances;
   static QNetworkDiskCache *sCache;
+
 };
 
 #endif  // THREADSAFENETWORKDISKCACHE_H

@@ -58,6 +58,7 @@ class Chromaprinter {
   GstElement *convert_element_;
 
   QBuffer buffer_;
+
 };
 
 #endif  // CHROMAPRINTER_H

@@ -52,6 +52,7 @@ class OVHLyricsProvider : public JsonLyricsProvider {
  private:
   static const char *kUrlSearch;
   QList<QNetworkReply *> replies_;
+
 };
 
 #endif  // OVHLYRICSPROVIDER_H

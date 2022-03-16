@@ -37,4 +37,5 @@ class Translations : public QObject {
 
  private:
   QList<QTranslator *> translations_;
+
 };

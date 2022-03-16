@@ -40,6 +40,7 @@ class UserPassDialog : public QDialog {
 
  private:
   Ui_UserPassDialog *ui_;
+
 };
 
 #endif  // USERPASSDIALOG_H

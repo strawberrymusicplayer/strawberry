@@ -57,7 +57,9 @@ std::unique_ptr<T> GetProperty(const AudioDeviceID &device_id, const AudioObject
   }
 
   return ret;
+
 }
+
 
 }  // namespace
 
@@ -108,4 +110,5 @@ QList<DeviceFinder::Device> MacOsDeviceFinder::ListDevices() {
     ret.append(dev);
   }
   return ret;
+
 }

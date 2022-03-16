@@ -71,6 +71,7 @@ class TrackSliderPopup : public QWidget {
   QFontMetrics small_font_metrics_;
   QPixmap pixmap_;
   QPixmap background_cache_;
+
 };
 
 #endif  // TRACKSLIDERPOPUP_H

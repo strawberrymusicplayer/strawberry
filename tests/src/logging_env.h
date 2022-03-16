@@ -35,6 +35,7 @@ class LoggingEnvironment : public ::testing::Environment {
 
  private:
   Q_DISABLE_COPY(LoggingEnvironment)
+
 };
 
 #endif  // LOGGING_ENV_H

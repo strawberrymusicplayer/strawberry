@@ -45,6 +45,7 @@ GPodLoader::GPodLoader(const QString &mount_point, TaskManager *task_manager, Co
       backend_(backend),
       abort_(false) {
   original_thread_ = thread();
+
 }
 
 GPodLoader::~GPodLoader() = default;
@@ -60,6 +61,7 @@ void GPodLoader::LoadDatabase() {
 
   task_manager_->SetTaskFinished(task_id);
   emit LoadFinished(db, !abort_);
+
 }
 
 Itdb_iTunesDB *GPodLoader::TryLoad() {
@@ -112,4 +114,5 @@ Itdb_iTunesDB *GPodLoader::TryLoad() {
   backend_->Close();
 
   return db;
+
 }

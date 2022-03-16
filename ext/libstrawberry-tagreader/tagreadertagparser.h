@@ -49,6 +49,7 @@ class TagReaderTagParser : public TagReaderBase {
   bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
 
   Q_DISABLE_COPY(TagReaderTagParser)
+
 };
 
 #endif  // TAGREADERTAGPARSER_H

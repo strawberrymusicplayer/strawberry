@@ -22,6 +22,7 @@ class PlatformInterface {
 
  private:
   Q_DISABLE_COPY(PlatformInterface)
+
 };
 
 namespace mac {
@@ -31,6 +32,7 @@ void SetShortcutHandler(GlobalShortcutsBackendMacOS *handler);
 void SetApplicationHandler(PlatformInterface *handler);
 
 void EnableFullScreen(const QWidget &main_window);
+
 
 }  // namespace mac
 

@@ -136,6 +136,7 @@ class InternetCollectionView : public AutoExpandingTreeView {
   Song last_selected_song_;
   QString last_selected_container_;
   QSet<QString> last_selected_path_;
+
 };
 
 #endif  // INTERNETCOLLECTIONVIEW_H

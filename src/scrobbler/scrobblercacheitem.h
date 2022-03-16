@@ -47,6 +47,7 @@ class ScrobblerCacheItem : public QObject {
   qint64 duration_;
   quint64 timestamp_;
   bool sent_;
+
 };
 
 typedef std::shared_ptr<ScrobblerCacheItem> ScrobblerCacheItemPtr;

@@ -79,6 +79,7 @@ InternetCollectionView::InternetCollectionView(QWidget *parent)
   SetAutoOpen(false);
 
   setStyleSheet("QTreeView::item{padding-top:1px;}");
+
 }
 
 void InternetCollectionView::Init(Application *app, CollectionBackend *backend, CollectionModel *model, const bool favorite) {
@@ -92,16 +93,19 @@ void InternetCollectionView::Init(Application *app, CollectionBackend *backend, 
   collection_model_->set_show_dividers(true);
 
   ReloadSettings();
+
 }
 
 void InternetCollectionView::SetFilter(CollectionFilterWidget *filter) {
 
   filter_ = filter;
+
 }
 
 void InternetCollectionView::ReloadSettings() {
 
   if (filter_) filter_->ReloadSettings();
+
 }
 
 void InternetCollectionView::SaveFocus() {
@@ -138,6 +142,7 @@ void InternetCollectionView::SaveFocus() {
   }
 
   SaveContainerPath(current);
+
 }
 
 void InternetCollectionView::SaveContainerPath(const QModelIndex &child) {
@@ -151,6 +156,7 @@ void InternetCollectionView::SaveContainerPath(const QModelIndex &child) {
   QString text = model()->data(current, CollectionModel::Role_SortText).toString();
   last_selected_path_ << text;
   SaveContainerPath(current);
+
 }
 
 void InternetCollectionView::RestoreFocus() {
@@ -159,6 +165,7 @@ void InternetCollectionView::RestoreFocus() {
     return;
   }
   RestoreLevelFocus();
+
 }
 
 bool InternetCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
@@ -207,6 +214,7 @@ bool InternetCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
     }
   }
   return false;
+
 }
 
 void InternetCollectionView::TotalSongCountUpdated(int count) {
@@ -223,6 +231,7 @@ void InternetCollectionView::TotalSongCountUpdated(int count) {
   }
 
   emit TotalSongCountUpdated_();
+
 }
 
 void InternetCollectionView::TotalArtistCountUpdated(int count) {
@@ -239,6 +248,7 @@ void InternetCollectionView::TotalArtistCountUpdated(int count) {
   }
 
   emit TotalArtistCountUpdated_();
+
 }
 
 void InternetCollectionView::TotalAlbumCountUpdated(int count) {
@@ -255,6 +265,7 @@ void InternetCollectionView::TotalAlbumCountUpdated(int count) {
   }
 
   emit TotalAlbumCountUpdated_();
+
 }
 
 void InternetCollectionView::paintEvent(QPaintEvent *event) {
@@ -286,6 +297,7 @@ void InternetCollectionView::paintEvent(QPaintEvent *event) {
   else {
     QTreeView::paintEvent(event);
   }
+
 }
 
 void InternetCollectionView::mouseReleaseEvent(QMouseEvent *e) {
@@ -295,6 +307,7 @@ void InternetCollectionView::mouseReleaseEvent(QMouseEvent *e) {
   if (total_song_count_ == 0) {
     emit GetSongs();
   }
+
 }
 
 void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
@@ -334,6 +347,7 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
   if (remove_songs_) remove_songs_->setEnabled(songs_selected > 0);
 
   context_menu_->popup(e->globalPos());
+
 }
 
 void InternetCollectionView::Load() {
@@ -343,11 +357,13 @@ void InternetCollectionView::Load() {
     mimedata->clear_first_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
+
 }
 
 void InternetCollectionView::AddToPlaylist() {
 
   emit AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
+
 }
 
 void InternetCollectionView::AddToPlaylistEnqueue() {
@@ -357,6 +373,7 @@ void InternetCollectionView::AddToPlaylistEnqueue() {
     mimedata->enqueue_now_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
+
 }
 
 void InternetCollectionView::AddToPlaylistEnqueueNext() {
@@ -366,6 +383,7 @@ void InternetCollectionView::AddToPlaylistEnqueueNext() {
     mimedata->enqueue_next_now_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
+
 }
 
 void InternetCollectionView::OpenInNewPlaylist() {
@@ -375,11 +393,13 @@ void InternetCollectionView::OpenInNewPlaylist() {
     mimedata->open_in_new_playlist_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
+
 }
 
 void InternetCollectionView::RemoveSelectedSongs() {
 
   emit RemoveSongs(GetSelectedSongs());
+
 }
 
 void InternetCollectionView::keyboardSearch(const QString &search) {
@@ -387,6 +407,7 @@ void InternetCollectionView::keyboardSearch(const QString &search) {
   is_in_keyboard_search_ = true;
   QTreeView::keyboardSearch(search);
   is_in_keyboard_search_ = false;
+
 }
 
 void InternetCollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
@@ -397,12 +418,14 @@ void InternetCollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
   else {
     QTreeView::scrollTo(idx, hint);
   }
+
 }
 
 SongList InternetCollectionView::GetSelectedSongs() const {
 
   QModelIndexList selected_indexes = qobject_cast<QSortFilterProxyModel *>(model())->mapSelectionToSource(selectionModel()->selection()).indexes();
   return collection_model_->GetChildSongs(selected_indexes);
+
 }
 
 void InternetCollectionView::FilterReturnPressed() {
@@ -421,14 +444,18 @@ void InternetCollectionView::FilterReturnPressed() {
   if (!currentIndex().isValid()) return;
 
   emit doubleClicked(currentIndex());
+
 }
 
 int InternetCollectionView::TotalSongs() const {
   return total_song_count_;
+
 }
 int InternetCollectionView::TotalArtists() const {
   return total_artist_count_;
+
 }
 int InternetCollectionView::TotalAlbums() const {
   return total_album_count_;
+
 }

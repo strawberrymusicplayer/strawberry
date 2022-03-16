@@ -93,10 +93,12 @@ class CollectionModelTest : public ::testing::Test {
   std::unique_ptr<QSortFilterProxyModel> model_sorted_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
   bool added_dir_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+
 };
 
 TEST_F(CollectionModelTest, Initialization) {
   EXPECT_EQ(0, model_->rowCount(QModelIndex()));
+
 }
 
 TEST_F(CollectionModelTest, WithInitialArtists) {
@@ -112,6 +114,7 @@ TEST_F(CollectionModelTest, WithInitialArtists) {
   EXPECT_EQ("Artist 2", model_sorted_->index(2, 0, QModelIndex()).data().toString());
   EXPECT_EQ("F", model_sorted_->index(3, 0, QModelIndex()).data().toString());
   EXPECT_EQ("Foo", model_sorted_->index(4, 0, QModelIndex()).data().toString());
+
 }
 
 TEST_F(CollectionModelTest, CompilationAlbums) {
@@ -136,6 +139,7 @@ TEST_F(CollectionModelTest, CompilationAlbums) {
   QModelIndex album_index = model_->index(0, 0, va_index);
   EXPECT_EQ(model_->data(album_index).toString(), "Album");
   EXPECT_TRUE(model_->hasChildren(album_index));
+
 }
 
 TEST_F(CollectionModelTest, NumericHeaders) {
@@ -153,6 +157,7 @@ TEST_F(CollectionModelTest, NumericHeaders) {
   EXPECT_EQ("2artist", model_sorted_->index(3, 0, QModelIndex()).data().toString());
   EXPECT_EQ("Z", model_sorted_->index(4, 0, QModelIndex()).data().toString());
   EXPECT_EQ("zartist", model_sorted_->index(5, 0, QModelIndex()).data().toString());
+
 }
 
 TEST_F(CollectionModelTest, MixedCaseHeaders) {
@@ -165,6 +170,7 @@ TEST_F(CollectionModelTest, MixedCaseHeaders) {
   EXPECT_EQ("A", model_sorted_->index(0, 0, QModelIndex()).data().toString());
   EXPECT_EQ("Artist", model_sorted_->index(1, 0, QModelIndex()).data().toString());
   EXPECT_EQ("artist", model_sorted_->index(2, 0, QModelIndex()).data().toString());
+
 }
 
 TEST_F(CollectionModelTest, UnknownArtists) {
@@ -179,6 +185,7 @@ TEST_F(CollectionModelTest, UnknownArtists) {
 
   ASSERT_EQ(1, model_->rowCount(unknown_index));
   EXPECT_EQ("Album", model_->index(0, 0, unknown_index).data().toString());
+
 }
 
 TEST_F(CollectionModelTest, UnknownAlbums) {
@@ -196,6 +203,7 @@ TEST_F(CollectionModelTest, UnknownAlbums) {
 
   EXPECT_EQ("Unknown", unknown_album_index.data().toString());
   EXPECT_EQ("Album", real_album_index.data().toString());
+
 }
 
 TEST_F(CollectionModelTest, VariousArtistSongs) {
@@ -233,6 +241,7 @@ TEST_F(CollectionModelTest, VariousArtistSongs) {
   EXPECT_EQ("Artist 2 - Title 2", model_->index(1, 0, album_index).data().toString());
   EXPECT_EQ("Artist 3 - Title 3", model_->index(2, 0, album_index).data().toString());
   EXPECT_EQ("Title 4", model_->index(3, 0, album_index).data().toString());
+
 }
 
 TEST_F(CollectionModelTest, RemoveSongsLazyLoaded) {
@@ -268,6 +277,7 @@ TEST_F(CollectionModelTest, RemoveSongsLazyLoaded) {
   album_index = model_->index(0, 0, artist_index);
   ASSERT_EQ(1, model_->rowCount(album_index));
   EXPECT_EQ("Title 3", model_->index(0, 0, album_index).data().toString());
+
 }
 
 TEST_F(CollectionModelTest, RemoveSongsNotLazyLoaded) {
@@ -288,6 +298,7 @@ TEST_F(CollectionModelTest, RemoveSongsNotLazyLoaded) {
   ASSERT_EQ(0, spy_preremove.count());
   ASSERT_EQ(0, spy_remove.count());
   ASSERT_EQ(1, spy_reset.count());
+
 }
 
 TEST_F(CollectionModelTest, RemoveEmptyAlbums) {
@@ -317,6 +328,7 @@ TEST_F(CollectionModelTest, RemoveEmptyAlbums) {
 
   ASSERT_EQ(1, model_->rowCount(album_index));
   EXPECT_EQ("Title 3", model_->index(0, 0, album_index).data().toString());
+
 }
 
 TEST_F(CollectionModelTest, RemoveEmptyArtists) {
@@ -341,6 +353,7 @@ TEST_F(CollectionModelTest, RemoveEmptyArtists) {
 
   // Everything should be gone - even the artist header
   ASSERT_EQ(0, model_->rowCount(QModelIndex()));
+
 }
 
 // Test to check that the container nodes are created identical and unique all through the model with all possible collection groupings.
@@ -690,7 +703,9 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
     }
   }
 
+
 }
 #endif
+
 
 }  // namespace

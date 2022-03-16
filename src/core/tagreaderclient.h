@@ -92,6 +92,7 @@ class TagReaderClient : public QObject {
   WorkerPool<HandlerType> *worker_pool_;
   QList<spb::tagreader::Message> message_queue_;
   QThread *original_thread_;
+
 };
 
 typedef TagReaderClient::ReplyType TagReaderReply;

@@ -72,6 +72,7 @@ DeviceProperties::DeviceProperties(QWidget *parent)
 
   // Maximum height of the icon widget
   ui_->icon->setMaximumHeight(ui_->icon->iconSize().height() + ui_->icon->horizontalScrollBar()->sizeHint().height() + ui_->icon->spacing() * 2 + 5);
+
 }
 
 DeviceProperties::~DeviceProperties() { delete ui_; }
@@ -82,6 +83,7 @@ void DeviceProperties::SetDeviceManager(DeviceManager *manager) {
   QObject::connect(manager_, &DeviceManager::dataChanged, this, &DeviceProperties::ModelChanged);
   QObject::connect(manager_, &DeviceManager::rowsInserted, this, &DeviceProperties::ModelChanged);
   QObject::connect(manager_, &DeviceManager::rowsRemoved, this, &DeviceProperties::ModelChanged);
+
 }
 
 void DeviceProperties::ShowDevice(const QModelIndex &idx) {
@@ -130,11 +132,13 @@ void DeviceProperties::ShowDevice(const QModelIndex &idx) {
   UpdateFormats();
 
   show();
+
 }
 
 void DeviceProperties::AddHardwareInfo(const int row, const QString &key, const QString &value) {
   ui_->hardware_info->setItem(row, 0, new QTableWidgetItem(key));
   ui_->hardware_info->setItem(row, 1, new QTableWidgetItem(value));
+
 }
 
 void DeviceProperties::ModelChanged() {
@@ -148,6 +152,7 @@ void DeviceProperties::ModelChanged() {
     UpdateHardwareInfo();
     UpdateFormats();
   }
+
 }
 
 void DeviceProperties::UpdateHardwareInfo() {
@@ -196,6 +201,7 @@ void DeviceProperties::UpdateHardwareInfo() {
   else {
     ui_->free_space_bar->hide();
   }
+
 }
 
 void DeviceProperties::UpdateFormats() {
@@ -251,6 +257,7 @@ void DeviceProperties::UpdateFormats() {
     ui_->formats_stack->setCurrentWidget(ui_->formats_page_loading);
     updating_formats_ = true;
   }
+
 }
 
 void DeviceProperties::accept() {
@@ -276,6 +283,7 @@ void DeviceProperties::accept() {
   }
 
   manager_->SetDeviceOptions(index_, ui_->name->text(), icon_name, mode, format);
+
 }
 
 void DeviceProperties::OpenDevice() { manager_->Connect(index_); }
@@ -320,4 +328,5 @@ void DeviceProperties::UpdateFormatsFinished() {
 #endif
 
   ui_->formats_stack->setCurrentWidget(ui_->formats_page);
+
 }

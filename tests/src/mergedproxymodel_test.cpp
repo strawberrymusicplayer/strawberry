@@ -36,6 +36,7 @@ class MergedProxyModelTest : public ::testing::Test {
 
   QStandardItemModel source_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
   MergedProxyModel merged_;    // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+
 };
 
 TEST_F(MergedProxyModelTest, Flat) {
@@ -51,6 +52,7 @@ TEST_F(MergedProxyModelTest, Flat) {
   EXPECT_EQ("two", two_i.data().toString());
   EXPECT_FALSE(merged_.parent(one_i).isValid());
   EXPECT_FALSE(merged_.hasChildren(one_i));
+
 }
 
 TEST_F(MergedProxyModelTest, Tree) {
@@ -69,6 +71,7 @@ TEST_F(MergedProxyModelTest, Tree) {
   EXPECT_EQ("one", one_i.data().toString());
   EXPECT_EQ("two", two_i.data().toString());
   EXPECT_EQ("one", two_i.parent().data().toString());
+
 }
 
 TEST_F(MergedProxyModelTest, Merged) {
@@ -92,6 +95,7 @@ TEST_F(MergedProxyModelTest, Merged) {
   EXPECT_EQ("two", merged_.data(two_i).toString());
   EXPECT_EQ(0, merged_.rowCount(two_i));
   EXPECT_FALSE(merged_.hasChildren(two_i));
+
 }
 
 TEST_F(MergedProxyModelTest, SourceInsert) {
@@ -109,6 +113,7 @@ TEST_F(MergedProxyModelTest, SourceInsert) {
   EXPECT_FALSE(after_spy[0][0].toModelIndex().isValid());
   EXPECT_EQ(0, after_spy[0][1].toInt());
   EXPECT_EQ(0, after_spy[0][2].toInt());
+
 }
 
 TEST_F(MergedProxyModelTest, SourceRemove) {
@@ -128,6 +133,7 @@ TEST_F(MergedProxyModelTest, SourceRemove) {
   EXPECT_FALSE(after_spy[0][0].toModelIndex().isValid());
   EXPECT_EQ(0, after_spy[0][1].toInt());
   EXPECT_EQ(0, after_spy[0][2].toInt());
+
 }
 
 TEST_F(MergedProxyModelTest, SubInsert) {
@@ -149,6 +155,7 @@ TEST_F(MergedProxyModelTest, SubInsert) {
   EXPECT_EQ("one", after_spy[0][0].toModelIndex().data());
   EXPECT_EQ(0, after_spy[0][1].toInt());
   EXPECT_EQ(0, after_spy[0][2].toInt());
+
 }
 
 TEST_F(MergedProxyModelTest, SubRemove) {
@@ -172,4 +179,5 @@ TEST_F(MergedProxyModelTest, SubRemove) {
   EXPECT_EQ("one", after_spy[0][0].toModelIndex().data());
   EXPECT_EQ(0, after_spy[0][1].toInt());
   EXPECT_EQ(0, after_spy[0][2].toInt());
+
 }

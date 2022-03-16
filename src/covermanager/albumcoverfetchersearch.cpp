@@ -64,11 +64,13 @@ AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(const CoverSearchRequest &reque
 
   // We will terminate the search after kSearchTimeoutMs milliseconds if we are not able to find all of the results before that point in time
   QTimer::singleShot(kSearchTimeoutMs, this, &AlbumCoverFetcherSearch::TerminateSearch);
+
 }
 
 AlbumCoverFetcherSearch::~AlbumCoverFetcherSearch() {
   pending_requests_.clear();
   Cancel();
+
 }
 
 void AlbumCoverFetcherSearch::TerminateSearch() {
@@ -79,6 +81,7 @@ void AlbumCoverFetcherSearch::TerminateSearch() {
   }
 
   AllProvidersFinished();
+
 }
 
 void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
@@ -126,6 +129,7 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
   if (pending_requests_.isEmpty()) {
     TerminateSearch();
   }
+
 }
 
 void AlbumCoverFetcherSearch::ProviderSearchResults(const int id, const CoverProviderSearchResults &results) {
@@ -133,6 +137,7 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(const int id, const CoverPro
   if (!pending_requests_.contains(id)) return;
   CoverProvider *provider = pending_requests_[id];
   ProviderSearchResults(provider, results);
+
 }
 
 void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, const CoverProviderSearchResults &results) {
@@ -179,6 +184,7 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
   // Add results from the current provider to our pool
   results_.append(results_copy);
   statistics_.total_images_by_provider_[provider->name()]++;
+
 }
 
 void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverProviderSearchResults &results) {
@@ -194,6 +200,7 @@ void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverPr
   }
 
   AllProvidersFinished();
+
 }
 
 void AlbumCoverFetcherSearch::AllProvidersFinished() {
@@ -222,6 +229,7 @@ void AlbumCoverFetcherSearch::AllProvidersFinished() {
   std::stable_sort(results_.begin(), results_.end(), CoverProviderSearchResultCompareScore);
 
   FetchMoreImages();
+
 }
 
 void AlbumCoverFetcherSearch::FetchMoreImages() {
@@ -249,6 +257,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
     // There were no more results?  Time to give up.
     SendBestImage();
   }
+
 }
 
 void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
@@ -313,6 +322,7 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
       FetchMoreImages();
     }
   }
+
 }
 
 float AlbumCoverFetcherSearch::ScoreImage(const QSize size) {
@@ -326,6 +336,7 @@ float AlbumCoverFetcherSearch::ScoreImage(const QSize size) {
   const float aspect_score = static_cast<float>(1.0) - static_cast<float>(std::max(size.width(), size.height()) - std::min(size.width(), size.height())) / static_cast<float>(std::max(size.height(), size.width()));
 
   return size_score + aspect_score;
+
 }
 
 void AlbumCoverFetcherSearch::SendBestImage() {
@@ -349,6 +360,7 @@ void AlbumCoverFetcherSearch::SendBestImage() {
   }
 
   emit AlbumCoverFetched(request_.id, result);
+
 }
 
 void AlbumCoverFetcherSearch::Cancel() {
@@ -367,16 +379,20 @@ void AlbumCoverFetcherSearch::Cancel() {
     }
     pending_image_loads_.clear();
   }
+
 }
 
 bool AlbumCoverFetcherSearch::ProviderCompareOrder(CoverProvider *a, CoverProvider *b) {
   return a->order() < b->order();
+
 }
 
 bool AlbumCoverFetcherSearch::CoverProviderSearchResultCompareScore(const CoverProviderSearchResult &a, const CoverProviderSearchResult &b) {
   return a.score() > b.score();
+
 }
 
 bool AlbumCoverFetcherSearch::CoverProviderSearchResultCompareNumber(const CoverProviderSearchResult &a, const CoverProviderSearchResult &b) {
   return a.number < b.number;
+
 }

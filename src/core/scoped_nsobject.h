@@ -66,22 +66,26 @@ class scoped_nsobject {
   NST* object_;
 
   Q_DISABLE_COPY(scoped_nsobject);
+
 };
 
 // Free functions
 template <class C>
 void swap(scoped_nsobject<C> &p1, scoped_nsobject<C> &p2) {
   p1.swap(p2);
+
 }
 
 template <class C>
 bool operator==(C* p1, const scoped_nsobject<C> &p2) {
   return p1 == p2.get();
+
 }
 
 template <class C>
 bool operator!=(C* p1, const scoped_nsobject<C> &p2) {
   return p1 != p2.get();
+
 }
 
 // Specialization to make scoped_nsobject<id> work.
@@ -128,6 +132,7 @@ class scoped_nsobject<id> {
   id object_;
 
   Q_DISABLE_COPY(scoped_nsobject);
+
 };
 
 // Do not use scoped_nsobject for NSAutoreleasePools, use
@@ -138,6 +143,7 @@ class scoped_nsobject<NSAutoreleasePool> {
  private:
   explicit scoped_nsobject(NSAutoreleasePool* object = nil);
   Q_DISABLE_COPY(scoped_nsobject);
+
 };
 
 #endif  // BASE_MEMORY_SCOPED_NSOBJECT_H_

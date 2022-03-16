@@ -42,10 +42,12 @@ TranscoderOptionsMP3::TranscoderOptionsMP3(QWidget *parent) : TranscoderOptionsI
 
   QObject::connect(ui_->quality_slider, &QSlider::valueChanged, this, &TranscoderOptionsMP3::QualitySliderChanged);
   QObject::connect(ui_->quality_spinbox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &TranscoderOptionsMP3::QualitySpinboxChanged);
+
 }
 
 TranscoderOptionsMP3::~TranscoderOptionsMP3() {
   delete ui_;
+
 }
 
 void TranscoderOptionsMP3::Load() {
@@ -67,6 +69,7 @@ void TranscoderOptionsMP3::Load() {
   ui_->mono->setChecked(s.value("mono", false).toBool());
 
   s.endGroup();
+
 }
 
 void TranscoderOptionsMP3::Save() {
@@ -82,12 +85,15 @@ void TranscoderOptionsMP3::Save() {
   s.setValue("mono", ui_->mono->isChecked());
 
   s.endGroup();
+
 }
 
 void TranscoderOptionsMP3::QualitySliderChanged(int value) {
   ui_->quality_spinbox->setValue(static_cast<float>(value) / 100);
+
 }
 
 void TranscoderOptionsMP3::QualitySpinboxChanged(double value) {
   ui_->quality_slider->setValue(static_cast<int>(value * 100));
+
 }

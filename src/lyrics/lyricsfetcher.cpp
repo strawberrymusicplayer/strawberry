@@ -42,6 +42,7 @@ LyricsFetcher::LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent)
 
   request_starter_->setInterval(500ms);
   QObject::connect(request_starter_, &QTimer::timeout, this, &LyricsFetcher::StartRequests);
+
 }
 
 quint64 LyricsFetcher::Search(const QString &artist, const QString &album, const QString &title) {
@@ -56,6 +57,7 @@ quint64 LyricsFetcher::Search(const QString &artist, const QString &album, const
   AddRequest(request);
 
   return request.id;
+
 }
 
 void LyricsFetcher::AddRequest(const LyricsSearchRequest &req) {
@@ -65,6 +67,7 @@ void LyricsFetcher::AddRequest(const LyricsSearchRequest &req) {
   if (!request_starter_->isActive()) request_starter_->start();
 
   if (active_requests_.size() < kMaxConcurrentRequests) StartRequests();
+
 }
 
 void LyricsFetcher::Clear() {
@@ -77,6 +80,7 @@ void LyricsFetcher::Clear() {
     search->deleteLater();
   }
   active_requests_.clear();
+
 }
 
 void LyricsFetcher::StartRequests() {
@@ -98,6 +102,7 @@ void LyricsFetcher::StartRequests() {
 
     search->Start(lyrics_providers_);
   }
+
 }
 
 void LyricsFetcher::SingleSearchFinished(const quint64 request_id, const LyricsSearchResults &results) {
@@ -107,6 +112,7 @@ void LyricsFetcher::SingleSearchFinished(const quint64 request_id, const LyricsS
   LyricsFetcherSearch *search = active_requests_.take(request_id);
   search->deleteLater();
   emit SearchFinished(request_id, results);
+
 }
 
 void LyricsFetcher::SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics) {
@@ -116,4 +122,5 @@ void LyricsFetcher::SingleLyricsFetched(const quint64 request_id, const QString 
   LyricsFetcherSearch *search = active_requests_.take(request_id);
   search->deleteLater();
   emit LyricsFetched(request_id, provider, lyrics);
+
 }

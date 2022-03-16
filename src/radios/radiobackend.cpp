@@ -42,10 +42,12 @@ void RadioBackend::Close() {
     QMutexLocker l(db_->Mutex());
     db_->Close();
   }
+
 }
 
 void RadioBackend::ExitAsync() {
   QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
+
 }
 
 void RadioBackend::Exit() {
@@ -54,10 +56,12 @@ void RadioBackend::Exit() {
 
   moveToThread(original_thread_);
   emit ExitFinished();
+
 }
 
 void RadioBackend::AddChannelsAsync(const RadioChannelList &channels) {
   QMetaObject::invokeMethod(this, "AddChannels", Qt::QueuedConnection, Q_ARG(RadioChannelList, channels));
+
 }
 
 void RadioBackend::AddChannels(const RadioChannelList &channels) {
@@ -80,11 +84,13 @@ void RadioBackend::AddChannels(const RadioChannelList &channels) {
   }
 
   emit NewChannels(channels);
+
 }
 
 void RadioBackend::GetChannelsAsync() {
 
   QMetaObject::invokeMethod(this, "GetChannels", Qt::QueuedConnection);
+
 }
 
 void RadioBackend::GetChannels() {
@@ -111,10 +117,12 @@ void RadioBackend::GetChannels() {
   }
 
   emit NewChannels(channels);
+
 }
 
 void RadioBackend::DeleteChannelsAsync() {
   QMetaObject::invokeMethod(this, "DeleteChannels", Qt::QueuedConnection);
+
 }
 
 void RadioBackend::DeleteChannels() {
@@ -128,4 +136,5 @@ void RadioBackend::DeleteChannels() {
   if (!q.Exec()) {
     db_->ReportErrors(q);
   }
+
 }

@@ -59,6 +59,7 @@ class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicS
   CollectionWatcher *watcher_;
   QThread *watcher_thread_;
   QList<QObject *> wait_for_exit_;
+
 };
 
 #endif  // FILESYSTEMDEVICE_H

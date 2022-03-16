@@ -31,26 +31,32 @@ void DefaultSettingsProvider::set_group(const char *group) {
   while (!backend_.group().isEmpty()) backend_.endGroup();
 
   backend_.beginGroup(group);
+
 }
 
 QVariant DefaultSettingsProvider::value(const QString &key, const QVariant &default_value) const {
   return backend_.value(key, default_value);
+
 }
 
 void DefaultSettingsProvider::setValue(const QString &key, const QVariant &value) {
   backend_.setValue(key, value);
+
 }
 
 int DefaultSettingsProvider::beginReadArray(const QString &prefix) {
   return backend_.beginReadArray(prefix);
+
 }
 
 void DefaultSettingsProvider::beginWriteArray(const QString &prefix, int size) {
   backend_.beginWriteArray(prefix, size);
+
 }
 
 void DefaultSettingsProvider::setArrayIndex(int i) {
   backend_.setArrayIndex(i);
+
 }
 
 void DefaultSettingsProvider::endArray() { backend_.endArray(); }

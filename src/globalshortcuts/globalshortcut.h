@@ -76,6 +76,7 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
   Qt::KeyboardModifiers qt_mods_;
   int native_key_;
   int native_mods_;
+
 };
 
 #endif  // GLOBALSHORTCUT_H

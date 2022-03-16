@@ -40,6 +40,7 @@ class JsonCoverProvider : public CoverProvider {
 
  protected:
   QJsonObject ExtractJsonObj(const QByteArray &data);
+
 };
 
 #endif  // JSONCOVERPROVIDER_H

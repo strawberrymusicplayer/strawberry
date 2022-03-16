@@ -42,6 +42,7 @@ struct LyricsSearchRequest {
   QString artist;
   QString album;
   QString title;
+
 };
 
 struct LyricsSearchResult {
@@ -52,6 +53,7 @@ struct LyricsSearchResult {
   QString title;
   QString lyrics;
   float score;
+
 };
 typedef QList<LyricsSearchResult> LyricsSearchResults;
 
@@ -90,6 +92,7 @@ class LyricsFetcher : public QObject {
   QHash<quint64, LyricsFetcherSearch *> active_requests_;
 
   QTimer *request_starter_;
+
 };
 
 #endif  // LYRICSFETCHER_H

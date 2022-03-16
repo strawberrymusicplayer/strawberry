@@ -131,6 +131,7 @@ class SmartPlaylistSearchTerm {
   static QString FieldColumnName(const Field field);
   static QString FieldSortOrderText(const Type type, const bool ascending);
   static QString DateName(const DateType date, const bool forQuery);
+
 };
 
 typedef QList<SmartPlaylistSearchTerm::Operator> OperatorList;

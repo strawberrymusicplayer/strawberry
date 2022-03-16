@@ -126,6 +126,7 @@ class GroupedIconView : public QListView {
   int header_indent_;
   int item_indent_;
   QString header_text_;
+
 };
 
 #endif  // GROUPEDICONVIEW_H

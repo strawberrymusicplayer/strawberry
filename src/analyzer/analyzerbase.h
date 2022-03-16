@@ -97,10 +97,12 @@ class Base : public QWidget {
 
   bool new_frame_;
   bool is_playing_;
+
 };
 
 void interpolate(const Scope &, Scope &);
 void initSin(Scope &, const uint = 6000);
+
 
 }  //  namespace Analyzer
 

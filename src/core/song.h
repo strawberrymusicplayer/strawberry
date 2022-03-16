@@ -44,12 +44,15 @@ class SqlQuery;
 
 namespace Engine {
 struct SimpleMetaBundle;
+
 }  // namespace Engine
 
 namespace spb {
 namespace tagreader {
 class SongMetadata;
+
 }  // namespace tagreader
+
 }  // namespace spb
 
 #ifdef HAVE_LIBGPOD
@@ -400,6 +403,7 @@ class Song {
   static QString sortable(const QString &v);
 
   QSharedDataPointer<Private> d;
+
 };
 
 typedef QList<Song> SongList;

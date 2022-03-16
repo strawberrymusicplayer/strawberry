@@ -34,4 +34,5 @@ void InternetSearchItemDelegate::paint(QPainter *painter, const QStyleOptionView
   const_cast<InternetSearchView *>(view_)->LazyLoadAlbumCover(idx);
 
   CollectionItemDelegate::paint(painter, option, idx);
+
 }

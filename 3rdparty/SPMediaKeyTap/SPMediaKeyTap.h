@@ -49,5 +49,6 @@ extern "C" {
 extern NSString *kIgnoreMediaKeysDefaultsKey;
 
 #ifdef __cplusplus
+
 }
 #endif

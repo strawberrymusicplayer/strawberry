@@ -74,6 +74,7 @@ class MoodbarLoader : public QObject {
   QSet<QUrl> active_requests_;
 
   bool save_;
+
 };
 
 #endif  // MOODBARLOADER_H

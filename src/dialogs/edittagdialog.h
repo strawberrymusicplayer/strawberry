@@ -209,6 +209,7 @@ class EditTagDialog : public QDialog {
   int save_art_pending_;
 
   QMap<int, Song> collection_songs_;
+
 };
 
 #endif  // EDITTAGDIALOG_H

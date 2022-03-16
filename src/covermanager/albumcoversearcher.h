@@ -66,6 +66,7 @@ class SizeOverlayDelegate : public QStyledItemDelegate {
   explicit SizeOverlayDelegate(QObject *parent = nullptr);
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
+
 };
 
 // This is a dialog that lets the user search for album covers
@@ -112,6 +113,7 @@ class AlbumCoverSearcher : public QDialog {
 
   quint64 id_;
   QMap<quint64, QStandardItem *> cover_loading_tasks_;
+
 };
 
 #endif  // ALBUMCOVERSEARCHER_H

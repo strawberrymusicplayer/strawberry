@@ -91,6 +91,7 @@ class SpotifyCoverProvider : public JsonCoverProvider {
   quint64 login_time_;
   QTimer refresh_login_timer_;
   QList<QNetworkReply *> replies_;
+
 };
 
 #endif  // SPOTIFYCOVERPROVIDER_H

@@ -75,6 +75,7 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
   SearchPage *search_page_;
 
   int previous_scrollarea_max_;
+
 };
 
 #endif  // SMARTPLAYLISTQUERYWIZARDPLUGIN_H

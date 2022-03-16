@@ -83,6 +83,7 @@ class AutoExpandingTreeView : public QTreeView {
   bool expand_on_reset_;
   bool add_on_double_click_;
   bool ignore_next_click_;
+
 };
 
 #endif  // AUTOEXPANDINGTREEVIEW_H

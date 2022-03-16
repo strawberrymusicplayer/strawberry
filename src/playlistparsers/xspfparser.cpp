@@ -60,6 +60,7 @@ SongList XSPFParser::Load(QIODevice *device, const QString &playlist_path, const
     }
   }
   return ret;
+
 }
 
 Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_search) const {
@@ -133,6 +134,7 @@ return_song:
   }
 
   return song;
+
 }
 
 void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
@@ -185,8 +187,10 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
   }
 
   writer.writeEndDocument();
+
 }
 
 bool XSPFParser::TryMagic(const QByteArray &data) const {
   return data.contains("<playlist") && data.contains("<trackList");
+
 }

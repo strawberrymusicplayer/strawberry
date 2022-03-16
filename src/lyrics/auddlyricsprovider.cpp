@@ -56,6 +56,7 @@ AuddLyricsProvider::~AuddLyricsProvider() {
     reply->abort();
     reply->deleteLater();
   }
+
 }
 
 bool AuddLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -81,6 +82,7 @@ bool AuddLyricsProvider::StartSearch(const QString &artist, const QString &album
   //qLog(Debug) << "AudDLyrics: Sending request for" << url;
 
   return true;
+
 }
 
 void AuddLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
@@ -135,6 +137,7 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
     qLog(Debug) << "AudDLyrics: Got lyrics for" << artist << title;
 
   emit SearchFinished(id, results);
+
 }
 
 QJsonArray AuddLyricsProvider::ExtractResult(QNetworkReply *reply, const QString &artist, const QString &title) {
@@ -174,10 +177,12 @@ QJsonArray AuddLyricsProvider::ExtractResult(QNetworkReply *reply, const QString
   }
 
   return json_result;
+
 }
 
 void AuddLyricsProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "AudDLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }

@@ -36,6 +36,7 @@ class SnapDialog : public QDialog {
 
  private:
   Ui_SnapDialog *ui_;
+
 };
 
 #endif  // SNAPDIALOG_H

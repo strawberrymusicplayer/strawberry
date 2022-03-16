@@ -313,6 +313,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   typedef QPair<CollectionItem *, QString> ItemAndCacheKey;
   QMap<quint64, ItemAndCacheKey> pending_art_;
   QSet<QString> pending_cache_keys_;
+
 };
 
 Q_DECLARE_METATYPE(CollectionModel::Grouping)

@@ -54,6 +54,7 @@ class AlbumCoverManagerList : public QListWidget {
 
  private:
   AlbumCoverManager *manager_;
+
 };
 
 #endif  // ALBUMCOVERMANAGERLIST_H

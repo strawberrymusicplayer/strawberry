@@ -249,7 +249,9 @@ static const QMap<Qt::Key, quint32> keymapper_x11_ = {  // clazy:exclude=non-pod
 
   { Qt::Key(0), 0 }
 
+
 };
+
 }  // namespace KeyMapperX11
 
 #endif  // KEYMAPPER_X11_H

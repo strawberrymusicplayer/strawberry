@@ -36,6 +36,7 @@ class PlaylistItemMimeData : public MimeData {
   explicit PlaylistItemMimeData(const PlaylistItemList& items, QObject* = nullptr) : MimeData(), items_(items) {}
 
   PlaylistItemList items_;
+
 };
 
 #endif  // PLAYLISTITEMMIMEDATA_H

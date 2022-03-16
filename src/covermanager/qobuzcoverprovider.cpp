@@ -63,6 +63,7 @@ QobuzCoverProvider::~QobuzCoverProvider() {
     reply->abort();
     reply->deleteLater();
   }
+
 }
 
 bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -108,6 +109,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { HandleSearchReply(reply, id); });
 
   return true;
+
 }
 
 void QobuzCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
@@ -152,6 +154,7 @@ QByteArray QobuzCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
+
 }
 
 void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
@@ -273,10 +276,12 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     results << cover_result;
   }
   emit SearchFinished(id, results);
+
 }
 
 void QobuzCoverProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Qobuz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
 }

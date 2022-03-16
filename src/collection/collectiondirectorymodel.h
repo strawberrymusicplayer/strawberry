@@ -62,6 +62,7 @@ class CollectionDirectoryModel : public QStandardItemModel {
   QIcon dir_icon_;
   CollectionBackend *backend_;
   QList<std::shared_ptr<MusicStorage>> storage_;
+
 };
 
 #endif  // COLLECTIONDIRECTORYMODEL_H

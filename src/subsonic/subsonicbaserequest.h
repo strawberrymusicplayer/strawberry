@@ -77,6 +77,7 @@ class SubsonicBaseRequest : public QObject {
  private:
   SubsonicService *service_;
   std::unique_ptr<QNetworkAccessManager> network_;
+
 };
 
 #endif  // SUBSONICBASEREQUEST_H

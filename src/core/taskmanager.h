@@ -81,6 +81,7 @@ class TaskManager : public QObject {
   int next_task_id_;
 
   Q_DISABLE_COPY(TaskManager)
+
 };
 
 #endif  // TASKMANAGER_H

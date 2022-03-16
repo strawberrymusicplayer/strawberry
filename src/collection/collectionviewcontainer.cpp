@@ -40,6 +40,7 @@ CollectionViewContainer::CollectionViewContainer(QWidget *parent) : QWidget(pare
   QObject::connect(view(), &CollectionView::FocusOnFilterSignal, filter_widget(), &CollectionFilterWidget::FocusOnFilter);
 
   ReloadSettings();
+
 }
 
 CollectionViewContainer::~CollectionViewContainer() { delete ui_; }
@@ -48,4 +49,5 @@ CollectionFilterWidget *CollectionViewContainer::filter_widget() const { return 
 void CollectionViewContainer::ReloadSettings() const {
   filter_widget()->ReloadSettings();
   view()->ReloadSettings();
+
 }

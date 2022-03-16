@@ -45,10 +45,12 @@ GlobalShortcutGrabber::GlobalShortcutGrabber(QWidget *parent)
 
   QObject::connect(ui_->buttonBox, &QDialogButtonBox::accepted, this, &GlobalShortcutGrabber::Accepted);
   QObject::connect(ui_->buttonBox, &QDialogButtonBox::rejected, this, &GlobalShortcutGrabber::Rejected);
+
 }
 
 GlobalShortcutGrabber::~GlobalShortcutGrabber() {
   delete ui_;
+
 }
 
 QKeySequence GlobalShortcutGrabber::GetKey(const QString &name) {
@@ -60,16 +62,19 @@ QKeySequence GlobalShortcutGrabber::GetKey(const QString &name) {
 
   if (exec() == QDialog::Rejected) return QKeySequence();
   return ret_;
+
 }
 
 void GlobalShortcutGrabber::showEvent(QShowEvent *e) {
   grabKeyboard();
   QDialog::showEvent(e);
+
 }
 
 void GlobalShortcutGrabber::hideEvent(QHideEvent *e) {
   releaseKeyboard();
   QDialog::hideEvent(e);
+
 }
 
 void GlobalShortcutGrabber::grabKeyboard() {
@@ -77,6 +82,7 @@ void GlobalShortcutGrabber::grabKeyboard() {
   SetupMacEventHandler();
 #endif
   QDialog::grabKeyboard();
+
 }
 
 void GlobalShortcutGrabber::releaseKeyboard() {
@@ -84,6 +90,7 @@ void GlobalShortcutGrabber::releaseKeyboard() {
   TeardownMacEventHandler();
 #endif
   QDialog::releaseKeyboard();
+
 }
 
 bool GlobalShortcutGrabber::event(QEvent *e) {
@@ -104,16 +111,20 @@ bool GlobalShortcutGrabber::event(QEvent *e) {
     return true;
   }
   return QDialog::event(e);
+
 }
 
 void GlobalShortcutGrabber::UpdateText() {
   ui_->label_key->setText("<b>" + ret_.toString(QKeySequence::NativeText) + "</b>");
+
 }
 
 void GlobalShortcutGrabber::Accepted() {
   accept();
+
 }
 
 void GlobalShortcutGrabber::Rejected() {
   if (ui_->label_key->text().isEmpty()) reject();
+
 }

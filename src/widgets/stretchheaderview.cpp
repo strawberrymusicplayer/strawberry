@@ -49,6 +49,7 @@ StretchHeaderView::StretchHeaderView(const Qt::Orientation orientation, QWidget 
   QObject::connect(this, &StretchHeaderView::sectionResized, this, &StretchHeaderView::SectionResized);
   setMinimumSectionSize(kMinimumColumnWidth);
   setTextElideMode(Qt::ElideRight);
+
 }
 
 void StretchHeaderView::setModel(QAbstractItemModel *model) {
@@ -59,6 +60,7 @@ void StretchHeaderView::setModel(QAbstractItemModel *model) {
     column_widths_.resize(count());
     std::fill(column_widths_.begin(), column_widths_.end(), 1.0 / count());
   }
+
 }
 
 void StretchHeaderView::NormaliseWidths(const QList<int> &sections) {
@@ -84,6 +86,7 @@ void StretchHeaderView::NormaliseWidths(const QList<int> &sections) {
       }
     }
   }
+
 }
 
 void StretchHeaderView::UpdateWidths(const QList<int> &sections) {
@@ -110,6 +113,7 @@ void StretchHeaderView::UpdateWidths(const QList<int> &sections) {
       resizeSection(i, pixels);
     }
   }
+
 }
 
 void StretchHeaderView::HideSection(const int logical) {
@@ -134,6 +138,7 @@ void StretchHeaderView::HideSection(const int logical) {
   column_widths_[logical] = 0.0;
   NormaliseWidths();
   UpdateWidths();
+
 }
 
 void StretchHeaderView::ShowSection(int logical) {
@@ -154,6 +159,7 @@ void StretchHeaderView::ShowSection(int logical) {
   column_widths_[logical] = visible_count == 0 ? 1.0 : 1.0 / visible_count;
   NormaliseWidths();
   UpdateWidths();
+
 }
 
 void StretchHeaderView::SetSectionHidden(const int logical, const bool hidden) {
@@ -164,6 +170,7 @@ void StretchHeaderView::SetSectionHidden(const int logical, const bool hidden) {
   else {
     ShowSection(logical);
   }
+
 }
 
 void StretchHeaderView::resizeEvent(QResizeEvent *e) {
@@ -173,6 +180,7 @@ void StretchHeaderView::resizeEvent(QResizeEvent *e) {
   if (!stretch_enabled_) return;
 
   UpdateWidths();
+
 }
 
 void StretchHeaderView::mouseMoveEvent(QMouseEvent *e) {
@@ -180,6 +188,7 @@ void StretchHeaderView::mouseMoveEvent(QMouseEvent *e) {
   in_mouse_move_event_ = true;
   QHeaderView::mouseMoveEvent(e);
   in_mouse_move_event_ = false;
+
 }
 
 void StretchHeaderView::SectionResized(const int logical, const int, const int new_size) {
@@ -207,10 +216,12 @@ void StretchHeaderView::SectionResized(const int logical, const int, const int n
       in_mouse_move_event_ = true;
     }
   }
+
 }
 
 void StretchHeaderView::ToggleStretchEnabled() {
   SetStretchEnabled(!is_stretch_enabled());
+
 }
 
 void StretchHeaderView::SetStretchEnabled(const bool enabled) {
@@ -230,6 +241,7 @@ void StretchHeaderView::SetStretchEnabled(const bool enabled) {
   }
 
   emit StretchEnabledChanged(enabled);
+
 }
 
 void StretchHeaderView::SetColumnWidth(const int logical, const ColumnWidthType width) {
@@ -246,6 +258,7 @@ void StretchHeaderView::SetColumnWidth(const int logical, const ColumnWidthType 
   }
 
   NormaliseWidths(other_columns);
+
 }
 
 bool StretchHeaderView::RestoreState(const QByteArray &sdata) {
@@ -299,6 +312,7 @@ bool StretchHeaderView::RestoreState(const QByteArray &sdata) {
   emit StretchEnabledChanged(stretch_enabled_);
 
   return true;
+
 }
 
 QByteArray StretchHeaderView::SaveState() const {
@@ -329,6 +343,7 @@ QByteArray StretchHeaderView::SaveState() const {
   s << sortIndicatorSection();
 
   return ret;
+
 }
 
 QByteArray StretchHeaderView::ResetState() {
@@ -366,4 +381,5 @@ QByteArray StretchHeaderView::ResetState() {
   RestoreState(ret);
 
   return ret;
+
 }

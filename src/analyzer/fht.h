@@ -120,6 +120,7 @@ class FHT {
   static void transform8(float *);
 
   void transform(float *);
+
 };
 
 #endif  // FHT_H

@@ -76,6 +76,7 @@ void Analyzer::Base::transform(Scope &scope) {
   fht_->scale(scope.data(), 1.0F / 20);
 
   scope.resize(fht_->size() / 2);  // second half of values are rubbish
+
 }
 
 void Analyzer::Base::paintEvent(QPaintEvent *e) {
@@ -113,6 +114,7 @@ void Analyzer::Base::paintEvent(QPaintEvent *e) {
   }
 
   new_frame_ = false;
+
 }
 
 int Analyzer::Base::resizeExponent(int exp) {
@@ -129,6 +131,7 @@ int Analyzer::Base::resizeExponent(int exp) {
     fht_ = new FHT(exp);
   }
   return exp;
+
 }
 
 int Analyzer::Base::resizeForBands(const int bands) {
@@ -155,6 +158,7 @@ int Analyzer::Base::resizeForBands(const int bands) {
 
   resizeExponent(exp);
   return fht_->size() / 2;
+
 }
 
 void Analyzer::Base::demo(QPainter &p) {
@@ -179,10 +183,12 @@ void Analyzer::Base::demo(QPainter &p) {
   }
 
   ++t;
+
 }
 
 void Analyzer::Base::polishEvent() {
   init();
+
 }
 
 void Analyzer::interpolate(const Scope &inVec, Scope &outVec) {
@@ -208,6 +214,7 @@ void Analyzer::interpolate(const Scope &inVec, Scope &outVec) {
 
     outVec[i] = inVec[indexLeft] * (1.0F - static_cast<float>(error)) + inVec[indexRight] * static_cast<float>(error);
   }
+
 }
 
 void Analyzer::initSin(Scope &v, const uint size) {
@@ -219,6 +226,7 @@ void Analyzer::initSin(Scope &v, const uint size) {
     v.push_back(static_cast<float>(sin(radian)));
     radian += step;
   }
+
 }
 
 void Analyzer::Base::timerEvent(QTimerEvent *e) {
@@ -230,4 +238,5 @@ void Analyzer::Base::timerEvent(QTimerEvent *e) {
 
   new_frame_ = true;
   update();
+
 }

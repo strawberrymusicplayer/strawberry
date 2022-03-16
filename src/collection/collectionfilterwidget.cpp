@@ -138,6 +138,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   QObject::connect(ui_->options, &QToolButton::clicked, ui_->options, &QToolButton::showMenu);
 
   ReloadSettings();
+
 }
 
 CollectionFilterWidget::~CollectionFilterWidget() { delete ui_; }
@@ -184,6 +185,7 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
     }
     s.endGroup();
   }
+
 }
 
 void CollectionFilterWidget::ReloadSettings() {
@@ -194,6 +196,7 @@ void CollectionFilterWidget::ReloadSettings() {
   s.endGroup();
   ui_->options->setIconSize(QSize(iconsize, iconsize));
   ui_->search_field->setIconSize(iconsize);
+
 }
 
 QString CollectionFilterWidget::group_by() {
@@ -204,6 +207,7 @@ QString CollectionFilterWidget::group_by() {
   else {
     return QString("%1_group_by").arg(settings_prefix_);
   }
+
 }
 
 QString CollectionFilterWidget::group_by_version() {
@@ -214,6 +218,7 @@ QString CollectionFilterWidget::group_by_version() {
   else {
     return QString("%1_group_by_version").arg(settings_prefix_);
   }
+
 }
 
 QString CollectionFilterWidget::group_by(const int number) { return group_by() + QString::number(number); }
@@ -232,6 +237,7 @@ void CollectionFilterWidget::UpdateGroupByActions() {
   if (model_) {
     CheckCurrentGrouping(model_->GetGroupBy());
   }
+
 }
 
 
@@ -293,6 +299,7 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(QObject *parent) {
   ret->addAction(CreateGroupByAction(tr("Advanced grouping..."), parent, CollectionModel::Grouping()));
 
   return ret;
+
 }
 
 QAction *CollectionFilterWidget::CreateGroupByAction(const QString &text, QObject *parent, const CollectionModel::Grouping grouping) {
@@ -305,6 +312,7 @@ QAction *CollectionFilterWidget::CreateGroupByAction(const QString &text, QObjec
   }
 
   return ret;
+
 }
 
 void CollectionFilterWidget::SaveGroupBy() {
@@ -314,6 +322,7 @@ void CollectionFilterWidget::SaveGroupBy() {
     model_->SaveGrouping(text);
     UpdateGroupByActions();
   }
+
 }
 
 void CollectionFilterWidget::ShowGroupingManager() {
@@ -324,22 +333,26 @@ void CollectionFilterWidget::ShowGroupingManager() {
   groupings_manager_->SetFilter(this);
   groupings_manager_->UpdateModel();
   groupings_manager_->show();
+
 }
 
 bool CollectionFilterWidget::SearchFieldHasFocus() const {
 
   return ui_->search_field->hasFocus();
+
 }
 
 void CollectionFilterWidget::FocusSearchField() {
 
   ui_->search_field->setFocus();
+
 }
 
 void CollectionFilterWidget::FocusOnFilter(QKeyEvent *event) {
 
   ui_->search_field->setFocus();
   QApplication::sendEvent(ui_->search_field, event);
+
 }
 
 void CollectionFilterWidget::GroupByClicked(QAction *action) {
@@ -351,6 +364,7 @@ void CollectionFilterWidget::GroupByClicked(QAction *action) {
 
   CollectionModel::Grouping g = action->property("group_by").value<CollectionModel::Grouping>();
   model_->SetGroupBy(g);
+
 }
 
 void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping g) {
@@ -368,6 +382,7 @@ void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping g) 
 
   // Now make sure the correct action is checked
   CheckCurrentGrouping(g);
+
 }
 
 void CollectionFilterWidget::CheckCurrentGrouping(const CollectionModel::Grouping g) {
@@ -385,10 +400,12 @@ void CollectionFilterWidget::CheckCurrentGrouping(const CollectionModel::Groupin
   QList<QAction *> actions = group_by_group_->actions();
   QAction *action = actions.last();
   action->setChecked(true);
+
 }
 
 void CollectionFilterWidget::SetFilterHint(const QString &hint) {
   ui_->search_field->setPlaceholderText(hint);
+
 }
 
 void CollectionFilterWidget::SetQueryMode(QueryOptions::QueryMode query_mode) {
@@ -397,22 +414,27 @@ void CollectionFilterWidget::SetQueryMode(QueryOptions::QueryMode query_mode) {
   ui_->search_field->setEnabled(query_mode == QueryOptions::QueryMode_All);
 
   model_->SetFilterQueryMode(query_mode);
+
 }
 
 void CollectionFilterWidget::ShowInCollection(const QString &search) {
   ui_->search_field->setText(search);
+
 }
 
 void CollectionFilterWidget::SetAgeFilterEnabled(bool enabled) {
   filter_age_menu_->setEnabled(enabled);
+
 }
 
 void CollectionFilterWidget::SetGroupByEnabled(bool enabled) {
   group_by_menu_->setEnabled(enabled);
+
 }
 
 void CollectionFilterWidget::AddMenuAction(QAction *action) {
   collection_menu_->addAction(action);
+
 }
 
 void CollectionFilterWidget::keyReleaseEvent(QKeyEvent *e) {
@@ -435,6 +457,7 @@ void CollectionFilterWidget::keyReleaseEvent(QKeyEvent *e) {
   }
 
   QWidget::keyReleaseEvent(e);
+
 }
 
 void CollectionFilterWidget::FilterTextChanged(const QString &text) {
@@ -451,6 +474,7 @@ void CollectionFilterWidget::FilterTextChanged(const QString &text) {
     filter_delay_->stop();
     FilterDelayTimeout();
   }
+
 }
 
 void CollectionFilterWidget::FilterDelayTimeout() {
@@ -459,4 +483,5 @@ void CollectionFilterWidget::FilterDelayTimeout() {
   if (filter_applies_to_model_) {
     model_->SetFilterText(ui_->search_field->text());
   }
+
 }

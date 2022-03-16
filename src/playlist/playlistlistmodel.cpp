@@ -38,11 +38,13 @@ PlaylistListModel::PlaylistListModel(QObject *parent) : QStandardItemModel(paren
   QObject::connect(this, &PlaylistListModel::dataChanged, this, &PlaylistListModel::RowsChanged);
   QObject::connect(this, &PlaylistListModel::rowsAboutToBeRemoved, this, &PlaylistListModel::RowsAboutToBeRemoved);
   QObject::connect(this, &PlaylistListModel::rowsInserted, this, &PlaylistListModel::RowsInserted);
+
 }
 
 void PlaylistListModel::SetIcons(const QIcon &playlist_icon, const QIcon &folder_icon) {
   playlist_icon_ = playlist_icon;
   folder_icon_ = folder_icon;
+
 }
 
 bool PlaylistListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
@@ -52,6 +54,7 @@ bool PlaylistListModel::dropMimeData(const QMimeData *data, Qt::DropAction actio
   dropping_rows_ = false;
 
   return ret;
+
 }
 
 QString PlaylistListModel::ItemPath(const QStandardItem *item) {
@@ -67,10 +70,12 @@ QString PlaylistListModel::ItemPath(const QStandardItem *item) {
   }
 
   return components.join("/");
+
 }
 
 void PlaylistListModel::RowsChanged(const QModelIndex &begin, const QModelIndex &end) {
   AddRowMappings(begin, end);
+
 }
 
 void PlaylistListModel::RowsInserted(const QModelIndex &parent, const int start, const int end) {
@@ -79,6 +84,7 @@ void PlaylistListModel::RowsInserted(const QModelIndex &parent, const int start,
   if (!dropping_rows_) {
     AddRowMappings(index(start, 0, parent), index(end, 0, parent));
   }
+
 }
 
 void PlaylistListModel::AddRowMappings(const QModelIndex &begin, const QModelIndex &end) {
@@ -90,6 +96,7 @@ void PlaylistListModel::AddRowMappings(const QModelIndex &begin, const QModelInd
     QStandardItem *item = itemFromIndex(index);
     AddRowItem(item, parent_path);
   }
+
 }
 
 void PlaylistListModel::AddRowItem(QStandardItem *item, const QString &parent_path) {
@@ -113,6 +120,7 @@ void PlaylistListModel::AddRowItem(QStandardItem *item, const QString &parent_pa
       }
       break;
   }
+
 }
 
 void PlaylistListModel::RowsAboutToBeRemoved(const QModelIndex &parent, const int start, const int end) {
@@ -135,10 +143,12 @@ void PlaylistListModel::RowsAboutToBeRemoved(const QModelIndex &parent, const in
         break;
     }
   }
+
 }
 
 QStandardItem *PlaylistListModel::PlaylistById(const int id) const {
   return playlists_by_id_[id];
+
 }
 
 QStandardItem *PlaylistListModel::FolderByPath(const QString &path) {
@@ -180,6 +190,7 @@ QStandardItem *PlaylistListModel::FolderByPath(const QString &path) {
   }
 
   return parent;
+
 }
 
 QStandardItem *PlaylistListModel::NewFolder(const QString &name) const {
@@ -190,6 +201,7 @@ QStandardItem *PlaylistListModel::NewFolder(const QString &name) const {
   ret->setIcon(folder_icon_);
   ret->setFlags(Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
   return ret;
+
 }
 
 QStandardItem *PlaylistListModel::NewPlaylist(const QString &name, const int id) const {
@@ -201,6 +213,7 @@ QStandardItem *PlaylistListModel::NewPlaylist(const QString &name, const int id)
   ret->setIcon(playlist_icon_);
   ret->setFlags(Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
   return ret;
+
 }
 
 bool PlaylistListModel::setData(const QModelIndex &idx, const QVariant &value, int role) {
@@ -221,6 +234,7 @@ bool PlaylistListModel::setData(const QModelIndex &idx, const QVariant &value, i
   }
 
   return true;
+
 }
 
 void PlaylistListModel::UpdatePathsRecursive(const QModelIndex &parent) {
@@ -236,4 +250,5 @@ void PlaylistListModel::UpdatePathsRecursive(const QModelIndex &parent) {
       }
       break;
   }
+
 }

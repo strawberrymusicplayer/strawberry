@@ -40,6 +40,7 @@ class GstBufferConsumer {
 
  private:
   Q_DISABLE_COPY(GstBufferConsumer)
+
 };
 
 #endif  // GSTBUFFERCONSUMER_H

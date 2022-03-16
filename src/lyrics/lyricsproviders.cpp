@@ -47,6 +47,7 @@ LyricsProviders::~LyricsProviders() {
   while (!lyrics_providers_.isEmpty()) {
     delete lyrics_providers_.firstKey();
   }
+
 }
 
 void LyricsProviders::ReloadSettings() {
@@ -81,6 +82,7 @@ void LyricsProviders::ReloadSettings() {
       provider->set_order(++i);
     }
   }
+
 }
 
 LyricsProvider *LyricsProviders::ProviderByName(const QString &name) const {
@@ -90,6 +92,7 @@ LyricsProvider *LyricsProviders::ProviderByName(const QString &name) const {
     if (provider->name() == name) return provider;
   }
   return nullptr;
+
 }
 
 void LyricsProviders::AddProvider(LyricsProvider *provider) {
@@ -103,6 +106,7 @@ void LyricsProviders::AddProvider(LyricsProvider *provider) {
   provider->set_order(++NextOrderId);
 
   qLog(Debug) << "Registered lyrics provider" << provider->name();
+
 }
 
 void LyricsProviders::RemoveProvider(LyricsProvider *provider) {
@@ -124,12 +128,14 @@ void LyricsProviders::RemoveProvider(LyricsProvider *provider) {
   else {
     qLog(Debug) << "Unregistered lyrics provider" << name;
   }
+
 }
 
 void LyricsProviders::ProviderDestroyed() {
 
   LyricsProvider *provider = static_cast<LyricsProvider *>(sender());
   RemoveProvider(provider);
+
 }
 
 int LyricsProviders::NextId() { return next_id_.fetchAndAddRelaxed(1); }

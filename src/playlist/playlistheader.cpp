@@ -85,6 +85,7 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
   action_rating_lock_->setChecked(s.value("rating_locked", false).toBool());
   s.endGroup();
+
 }
 
 void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
@@ -119,6 +120,7 @@ void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
   }
 
   menu_->popup(e->globalPos());
+
 }
 
 void PlaylistHeader::AddColumnAction(int index) {
@@ -137,12 +139,14 @@ void PlaylistHeader::AddColumnAction(int index) {
   show_actions_ << action;
 
   QObject::connect(action, &QAction::triggered, this, [this, index]() { ToggleVisible(index); });
+
 }
 
 void PlaylistHeader::HideCurrent() {
   if (menu_section_ == -1) return;
 
   SetSectionHidden(menu_section_, true);
+
 }
 
 void PlaylistHeader::SetColumnAlignment(QAction *action) {
@@ -154,11 +158,13 @@ void PlaylistHeader::SetColumnAlignment(QAction *action) {
   if (action == action_align_right_) alignment |= Qt::AlignRight;
 
   view_->SetColumnAlignment(menu_section_, alignment);
+
 }
 
 void PlaylistHeader::ToggleVisible(const int section) {
   SetSectionHidden(section, !isSectionHidden(section));
   emit SectionVisibilityChanged(section, !isSectionHidden(section));
+
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -167,12 +173,15 @@ void PlaylistHeader::enterEvent(QEnterEvent *) {
 void PlaylistHeader::enterEvent(QEvent *) {
 #endif
   emit MouseEntered();
+
 }
 
 void PlaylistHeader::ResetColumns() {
   view_->ResetHeaderState();
+
 }
 
 void PlaylistHeader::ToggleRatingEditStatus() {
   emit SectionRatingLockStatusChanged(action_rating_lock_->isChecked());
+
 }

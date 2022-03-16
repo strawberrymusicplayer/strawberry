@@ -57,6 +57,7 @@ CoverSearchStatisticsDialog::CoverSearchStatisticsDialog(QWidget *parent)
     "  font-weight: bold;"
     "  max-width: 100px;"
     "}");
+
 }
 
 CoverSearchStatisticsDialog::~CoverSearchStatisticsDialog() { delete ui_; }
@@ -86,6 +87,7 @@ void CoverSearchStatisticsDialog::Show(const CoverSearchStatistics &statistics) 
   details_layout_->addStretch();
 
   show();
+
 }
 
 void CoverSearchStatisticsDialog::AddLine(const QString &label, const QString &value) {
@@ -100,8 +102,10 @@ void CoverSearchStatisticsDialog::AddLine(const QString &label, const QString &v
   layout->addWidget(label1);
   layout->addWidget(label2);
   details_layout_->addLayout(layout);
+
 }
 
 void CoverSearchStatisticsDialog::AddSpacer() {
   details_layout_->addSpacing(20);
+
 }

@@ -45,6 +45,7 @@ InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent
   ui_->progressbar->hide();
 
   ReloadSettings();
+
 }
 
 InternetCollectionViewContainer::~InternetCollectionViewContainer() { delete ui_; }
@@ -53,14 +54,17 @@ void InternetCollectionViewContainer::ReloadSettings() const {
 
   ui_->filter_widget->ReloadSettings();
   ui_->view->ReloadSettings();
+
 }
 
 bool InternetCollectionViewContainer::SearchFieldHasFocus() const {
   return ui_->filter_widget->SearchFieldHasFocus();
+
 }
 
 void InternetCollectionViewContainer::FocusSearchField() {
   ui_->filter_widget->FocusSearchField();
+
 }
 
 void InternetCollectionViewContainer::contextMenuEvent(QContextMenuEvent *e) { Q_UNUSED(e); }

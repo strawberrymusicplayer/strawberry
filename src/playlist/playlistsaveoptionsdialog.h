@@ -33,6 +33,7 @@ class QWidget;
 
 namespace Ui {
 class PlaylistSaveOptionsDialog;
+
 }
 
 class PlaylistSaveOptionsDialog : public QDialog {
@@ -49,6 +50,7 @@ class PlaylistSaveOptionsDialog : public QDialog {
   static const char *kSettingsGroup;
 
   Ui::PlaylistSaveOptionsDialog *ui;
+
 };
 
 #endif  // PLAYLISTSAVEOPTIONSDIALOG_H

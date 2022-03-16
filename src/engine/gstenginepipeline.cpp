@@ -116,6 +116,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
 
   eq_band_gains_.reserve(kEqBandCount);
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
+
 }
 
 GstEnginePipeline::~GstEnginePipeline() {
@@ -154,16 +155,19 @@ GstEnginePipeline::~GstEnginePipeline() {
 
     pipeline_ = nullptr;
   }
+
 }
 
 void GstEnginePipeline::set_output_device(const QString &output, const QVariant &device) {
 
   output_ = output;
   device_ = device;
+
 }
 
 void GstEnginePipeline::set_volume_enabled(const bool enabled) {
   volume_enabled_ = enabled;
+
 }
 
 void GstEnginePipeline::set_stereo_balancer_enabled(const bool enabled) {
@@ -171,11 +175,13 @@ void GstEnginePipeline::set_stereo_balancer_enabled(const bool enabled) {
   stereo_balancer_enabled_ = enabled;
   if (!enabled) stereo_balance_ = 0.0F;
   if (pipeline_) UpdateStereoBalance();
+
 }
 
 void GstEnginePipeline::set_equalizer_enabled(const bool enabled) {
   eq_enabled_ = enabled;
   if (pipeline_) UpdateEqualizer();
+
 }
 
 void GstEnginePipeline::set_replaygain(const bool enabled, const int mode, const double preamp, const double fallbackgain, const bool compression) {
@@ -185,18 +191,22 @@ void GstEnginePipeline::set_replaygain(const bool enabled, const int mode, const
   rg_preamp_ = preamp;
   rg_fallbackgain_ = fallbackgain;
   rg_compression_ = compression;
+
 }
 
 void GstEnginePipeline::set_buffer_duration_nanosec(const quint64 buffer_duration_nanosec) {
   buffer_duration_nanosec_ = buffer_duration_nanosec;
+
 }
 
 void GstEnginePipeline::set_buffer_low_watermark(const double value) {
   buffer_low_watermark_ = value;
+
 }
 
 void GstEnginePipeline::set_buffer_high_watermark(const double value) {
   buffer_high_watermark_ = value;
+
 }
 
 void GstEnginePipeline::set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass) {
@@ -204,15 +214,18 @@ void GstEnginePipeline::set_proxy_settings(const QString &address, const bool au
   proxy_authentication_ = authentication;
   proxy_user_ = user;
   proxy_pass_ = pass;
+
 }
 
 void GstEnginePipeline::set_channels(const bool enabled, const int channels) {
   channels_enabled_ = enabled;
   channels_ = channels;
+
 }
 
 void GstEnginePipeline::set_bs2b_enabled(const bool enabled) {
   bs2b_enabled_ = enabled;
+
 }
 
 GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const {
@@ -228,6 +241,7 @@ GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const 
   if (bin && element) gst_bin_add(GST_BIN(bin), element);
 
   return element;
+
 }
 
 bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec, QString &error) {
@@ -265,6 +279,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &or
   pipeline_is_connected_ = true;
 
   return true;
+
 }
 
 bool GstEnginePipeline::InitAudioBin(QString &error) {
@@ -654,6 +669,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   logged_unsupported_analyzer_format_ = false;
 
   return true;
+
 }
 
 GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad *, GstPadProbeInfo *info, gpointer self) {
@@ -680,6 +696,7 @@ GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad *, GstPadProbeI
   }
 
   return GST_PAD_PROBE_OK;
+
 }
 
 void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec *, gpointer self) {
@@ -724,6 +741,7 @@ void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec *, gpoin
   }
 
   g_object_unref(element);
+
 }
 
 void GstEnginePipeline::NewPadCallback(GstElement *, GstPad *pad, gpointer self) {
@@ -753,6 +771,7 @@ void GstEnginePipeline::NewPadCallback(GstElement *, GstPad *pad, gpointer self)
   if (instance->pending_seek_nanosec_ != -1 && instance->pipeline_is_initialized_) {
     QMetaObject::invokeMethod(instance, "Seek", Qt::QueuedConnection, Q_ARG(qint64, instance->pending_seek_nanosec_));
   }
+
 }
 
 GstPadProbeReturn GstEnginePipeline::PlaybinProbe(GstPad *pad, GstPadProbeInfo *info, gpointer data) {
@@ -792,6 +811,7 @@ GstPadProbeReturn GstEnginePipeline::PlaybinProbe(GstPad *pad, GstPadProbeInfo *
   }
 
   return GST_PAD_PROBE_OK;
+
 }
 
 GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self) {
@@ -954,6 +974,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
   }
 
   return GST_PAD_PROBE_OK;
+
 }
 
 void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *, gpointer self) {
@@ -966,6 +987,7 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *, gpointer self) {
     instance->next_uri_set_ = true;
     g_object_set(G_OBJECT(instance->pipeline_), "uri", instance->next_stream_url_.constData(), nullptr);
   }
+
 }
 
 gboolean GstEnginePipeline::BusCallback(GstBus *, GstMessage *msg, gpointer self) {
@@ -990,6 +1012,7 @@ gboolean GstEnginePipeline::BusCallback(GstBus *, GstMessage *msg, gpointer self
   }
 
   return TRUE;
+
 }
 
 GstBusSyncReply GstEnginePipeline::BusCallbackSync(GstBus *, GstMessage *msg, gpointer self) {
@@ -1034,6 +1057,7 @@ GstBusSyncReply GstEnginePipeline::BusCallbackSync(GstBus *, GstMessage *msg, gp
   }
 
   return GST_BUS_PASS;
+
 }
 
 void GstEnginePipeline::StreamStatusMessageReceived(GstMessage *msg) {
@@ -1049,6 +1073,7 @@ void GstEnginePipeline::StreamStatusMessageReceived(GstMessage *msg) {
       gst_task_set_enter_callback(task, &TaskEnterCallback, this, nullptr);
     }
   }
+
 }
 
 void GstEnginePipeline::StreamStartMessageReceived() {
@@ -1066,6 +1091,7 @@ void GstEnginePipeline::StreamStartMessageReceived() {
 
     emit EndOfStreamReached(id(), true);
   }
+
 }
 
 void GstEnginePipeline::TaskEnterCallback(GstTask *, GThread *, gpointer) {
@@ -1079,6 +1105,7 @@ void GstEnginePipeline::TaskEnterCallback(GstTask *, GThread *, gpointer) {
   param.sched_priority = 99;
   pthread_setschedparam(pthread_self(), SCHED_RR, &param);
 #endif
+
 }
 
 void GstEnginePipeline::ElementMessageReceived(GstMessage *msg) {
@@ -1091,6 +1118,7 @@ void GstEnginePipeline::ElementMessageReceived(GstMessage *msg) {
     // Set the redirect URL.  In mmssrc redirect messages come during the initial state change to PLAYING, so callers can pick up this URL after the state change has failed.
     redirect_url_ = uri;
   }
+
 }
 
 void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
@@ -1133,6 +1161,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
 #endif
 
   emit Error(id(), message, static_cast<int>(domain), code);
+
 }
 
 void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
@@ -1183,6 +1212,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   gst_tag_list_unref(taglist);
 
   emit MetadataFound(id(), bundle);
+
 }
 
 QString GstEnginePipeline::ParseStrTag(GstTagList *list, const char *tag) {
@@ -1196,6 +1226,7 @@ QString GstEnginePipeline::ParseStrTag(GstTagList *list, const char *tag) {
     g_free(data);
   }
   return ret.trimmed();
+
 }
 
 guint GstEnginePipeline::ParseUIntTag(GstTagList *list, const char *tag) {
@@ -1206,6 +1237,7 @@ guint GstEnginePipeline::ParseUIntTag(GstTagList *list, const char *tag) {
   guint ret = 0;
   if (success && data) ret = data;
   return ret;
+
 }
 
 void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
@@ -1235,6 +1267,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
       SetState(GST_STATE_PLAYING);
     }
   }
+
 }
 
 void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
@@ -1264,6 +1297,7 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
   else if (buffering_) {
     emit BufferingProgress(percent);
   }
+
 }
 
 qint64 GstEnginePipeline::position() const {
@@ -1273,6 +1307,7 @@ qint64 GstEnginePipeline::position() const {
   }
 
   return last_known_position_ns_;
+
 }
 
 qint64 GstEnginePipeline::length() const {
@@ -1281,6 +1316,7 @@ qint64 GstEnginePipeline::length() const {
   if (pipeline_) gst_element_query_duration(pipeline_, GST_FORMAT_TIME, &value);
 
   return value;
+
 }
 
 GstState GstEnginePipeline::state() const {
@@ -1291,10 +1327,12 @@ GstState GstEnginePipeline::state() const {
   }
 
   return s;
+
 }
 
 QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) {
   return QtConcurrent::run(&set_state_threadpool_, &gst_element_set_state, pipeline_, state);
+
 }
 
 bool GstEnginePipeline::Seek(const qint64 nanosec) {
@@ -1318,6 +1356,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
   pending_seek_nanosec_ = -1;
   last_known_position_ns_ = nanosec;
   return gst_element_seek_simple(pipeline_, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, nanosec);
+
 }
 
 void GstEnginePipeline::SetVolume(const uint percent) {
@@ -1325,6 +1364,7 @@ void GstEnginePipeline::SetVolume(const uint percent) {
   if (!volume_) return;
   volume_percent_ = percent;
   UpdateVolume();
+
 }
 
 void GstEnginePipeline::SetVolumeModifier(const qreal mod) {
@@ -1332,6 +1372,7 @@ void GstEnginePipeline::SetVolumeModifier(const qreal mod) {
   if (!volume_) return;
   volume_modifier_ = mod;
   UpdateVolume();
+
 }
 
 void GstEnginePipeline::UpdateVolume() {
@@ -1339,12 +1380,14 @@ void GstEnginePipeline::UpdateVolume() {
   if (!volume_) return;
   double vol = static_cast<double>(volume_percent_) * static_cast<double>(0.01) * volume_modifier_;
   g_object_set(G_OBJECT(volume_), "volume", vol, nullptr);
+
 }
 
 void GstEnginePipeline::SetStereoBalance(const float value) {
 
   stereo_balance_ = value;
   UpdateStereoBalance();
+
 }
 
 void GstEnginePipeline::UpdateStereoBalance() {
@@ -1352,6 +1395,7 @@ void GstEnginePipeline::UpdateStereoBalance() {
   if (audiopanorama_) {
     g_object_set(G_OBJECT(audiopanorama_), "panorama", stereo_balance_, nullptr);
   }
+
 }
 
 void GstEnginePipeline::SetEqualizerParams(const int preamp, const QList<int> &band_gains) {
@@ -1359,6 +1403,7 @@ void GstEnginePipeline::SetEqualizerParams(const int preamp, const QList<int> &b
   eq_preamp_ = preamp;
   eq_band_gains_ = band_gains;
   UpdateEqualizer();
+
 }
 
 void GstEnginePipeline::UpdateEqualizer() {
@@ -1387,6 +1432,7 @@ void GstEnginePipeline::UpdateEqualizer() {
   if (eq_enabled_) preamp = static_cast<float>(eq_preamp_ + 100) * 0.01F;  // To scale from 0.0 to 2.0
 
   g_object_set(G_OBJECT(equalizer_preamp_), "volume", preamp, nullptr);
+
 }
 
 void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction, const QEasingCurve::Type shape, const bool use_fudge_timer) {
@@ -1423,6 +1469,7 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
   use_fudge_timer_ = use_fudge_timer;
 
   SetVolumeModifier(fader_->currentValue());
+
 }
 
 void GstEnginePipeline::FaderTimelineFinished() {
@@ -1439,6 +1486,7 @@ void GstEnginePipeline::FaderTimelineFinished() {
     // (You get here when the pause fading is active)
     fader_fudge_timer_.start(250, this);
   }
+
 }
 
 void GstEnginePipeline::timerEvent(QTimerEvent *e) {
@@ -1450,21 +1498,25 @@ void GstEnginePipeline::timerEvent(QTimerEvent *e) {
   }
 
   QObject::timerEvent(e);
+
 }
 
 void GstEnginePipeline::AddBufferConsumer(GstBufferConsumer *consumer) {
   QMutexLocker l(&buffer_consumers_mutex_);
   buffer_consumers_ << consumer;
+
 }
 
 void GstEnginePipeline::RemoveBufferConsumer(GstBufferConsumer *consumer) {
   QMutexLocker l(&buffer_consumers_mutex_);
   buffer_consumers_.removeAll(consumer);
+
 }
 
 void GstEnginePipeline::RemoveAllBufferConsumers() {
   QMutexLocker l(&buffer_consumers_mutex_);
   buffer_consumers_.clear();
+
 }
 
 void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 beginning_nanosec, const qint64 end_nanosec) {
@@ -1473,4 +1525,5 @@ void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &ori
   next_original_url_ = original_url;
   next_beginning_offset_nanosec_ = beginning_nanosec;
   next_end_offset_nanosec_ = end_nanosec;
+
 }

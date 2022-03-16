@@ -43,6 +43,7 @@ class TranscoderOptionsAAC : public TranscoderOptionsInterface {
   static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsAAC *ui_;
+
 };
 
 #endif  // TRANSCODEROPTIONSAAC_H

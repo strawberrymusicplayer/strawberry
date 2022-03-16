@@ -80,6 +80,7 @@ struct GstFastSpectrum {
   GstFastSpectrumInputData input_data;
 
   OutputCallback output_callback;
+
 };
 
 struct GstFastSpectrumClass {
@@ -87,6 +88,7 @@ struct GstFastSpectrumClass {
 
   // Static lock for creating & destroying FFTW plans.
   QMutex *fftw_lock;
+
 };
 
 GType gst_fastspectrum_get_type(void);

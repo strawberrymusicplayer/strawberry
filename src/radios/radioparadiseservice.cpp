@@ -41,4 +41,5 @@ void RadioParadiseService::GetChannels() {
     << RadioChannel(source_, "Mellow Mix FLAC", QUrl("http://stream.radioparadise.com/mellow-flacm"))
     << RadioChannel(source_, "Rock Mix FLAC", QUrl("http://stream.radioparadise.com/rock-flacm"))
     << RadioChannel(source_, "World/Etc Mix FLAC", QUrl("http://stream.radioparadise.com/world-etc-flacm")));
+
 }

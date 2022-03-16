@@ -58,6 +58,7 @@ class DeviceItemDelegate : public CollectionItemDelegate {
   static const int kIconPadding;
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
+
 };
 
 class DeviceView : public AutoExpandingTreeView {
@@ -122,6 +123,7 @@ class DeviceView : public AutoExpandingTreeView {
   QAction *delete_action_;
 
   QModelIndex menu_index_;
+
 };
 
 #endif  // DEVICEVIEW_H

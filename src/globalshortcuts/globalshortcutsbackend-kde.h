@@ -68,6 +68,7 @@ class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
   OrgKdeKGlobalAccelInterface *interface_;
   OrgKdeKglobalaccelComponentInterface *component_;
   QMultiHash<QString, QAction *> actions_;
+
 };
 
 #endif  // GLOBALSHORTCUTSBACKEND_KDE_H

@@ -40,4 +40,5 @@ int main(int argc, char** argv) {
   testing::AddGlobalTestEnvironment(new LoggingEnvironment);
 
   return RUN_ALL_TESTS();
+
 }

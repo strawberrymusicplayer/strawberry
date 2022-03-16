@@ -54,10 +54,12 @@ struct Mapping {
 
   CollectionModel::GroupBy group_by;
   int combo_box_index;
+
 };
 
 struct tag_index {};
 struct tag_group_by {};
+
 
 }  // namespace
 
@@ -72,6 +74,7 @@ class GroupByDialogPrivate {
 
  public:
   MappingContainer mapping_;
+
 };
 
 GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_GroupByDialog), p_(new GroupByDialogPrivate) {
@@ -103,6 +106,7 @@ GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_Grou
   QObject::connect(ui_->buttonbox->button(QDialogButtonBox::Reset), &QPushButton::clicked, this, &GroupByDialog::Reset);
 
   resize(sizeHint());
+
 }
 
 GroupByDialog::~GroupByDialog() = default;
@@ -111,6 +115,7 @@ void GroupByDialog::Reset() {
   ui_->combobox_first->setCurrentIndex(2);   // Album Artist
   ui_->combobox_second->setCurrentIndex(3);  // Album
   ui_->combobox_third->setCurrentIndex(0);   // None
+
 }
 
 void GroupByDialog::accept() {
@@ -119,10 +124,12 @@ void GroupByDialog::accept() {
     p_->mapping_.get<tag_index>().find(ui_->combobox_second->currentIndex())->group_by,
     p_->mapping_.get<tag_index>().find(ui_->combobox_third->currentIndex())->group_by));
   QDialog::accept();
+
 }
 
 void GroupByDialog::CollectionGroupingChanged(const CollectionModel::Grouping g) {
   ui_->combobox_first->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[0])->combo_box_index);
   ui_->combobox_second->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[1])->combo_box_index);
   ui_->combobox_third->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[2])->combo_box_index);
+
 }

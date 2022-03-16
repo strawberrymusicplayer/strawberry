@@ -96,6 +96,7 @@ QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
   arg.endStructure();
 
   return arg;
+
 }
 
 const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image) {
@@ -105,6 +106,7 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image) {
   // This is needed to link but shouldn't be called.
   Q_ASSERT(0);
   return arg;
+
 }
 
 OSDDBus::OSDDBus(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QObject *parent)
@@ -113,6 +115,7 @@ OSDDBus::OSDDBus(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QO
       notification_id_(0) {
 
   Init();
+
 }
 
 OSDDBus::~OSDDBus() = default;
@@ -132,6 +135,7 @@ void OSDDBus::Init() {
   else {
     qLog(Error) << "Could not retrieve notification server information." << reply.error();
   }
+
 }
 
 bool OSDDBus::SupportsNativeNotifications() { return true; }
@@ -170,6 +174,7 @@ void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, 
   QDBusPendingReply<uint> reply = interface_->Notify(app_name(), id, icon, summary_stripped, message, QStringList(), hints, timeout_msec());
   QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
   QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, &OSDDBus::CallFinished);
+
 }
 
 void OSDDBus::CallFinished(QDBusPendingCallWatcher *watcher) {
@@ -187,4 +192,5 @@ void OSDDBus::CallFinished(QDBusPendingCallWatcher *watcher) {
     notification_id_ = id;
     last_notification_time_ = QDateTime::currentDateTime();
   }
+
 }

@@ -112,6 +112,7 @@ class DeviceLister : public QObject {
 
  private:
   Q_DISABLE_COPY(DeviceLister)
+
 };
 
 #endif  // DEVICELISTER_H

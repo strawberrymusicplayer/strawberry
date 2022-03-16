@@ -36,6 +36,7 @@ class PlaylistGeneratorMimeData : public MimeData {
   PlaylistGeneratorMimeData(PlaylistGeneratorPtr generator, QObject* = nullptr) : generator_(generator) {}
 
   PlaylistGeneratorPtr generator_;
+
 };
 
 #endif  // PLAYLISTGENERATORMIMEDATA_H

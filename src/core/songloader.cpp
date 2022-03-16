@@ -96,6 +96,7 @@ SongLoader::SongLoader(CollectionBackendInterface *collection, const Player *pla
   timeout_timer_->setSingleShot(true);
 
   QObject::connect(timeout_timer_, &QTimer::timeout, this, &SongLoader::Timeout);
+
 }
 
 SongLoader::~SongLoader() {
@@ -106,6 +107,7 @@ SongLoader::~SongLoader() {
     gst_element_set_state(pipeline_.get(), GST_STATE_NULL);
   }
 #endif
+
 }
 
 SongLoader::Result SongLoader::Load(const QUrl &url) {
@@ -140,6 +142,7 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
   }
 
   return Success;
+
 }
 
 SongLoader::Result SongLoader::LoadFilenamesBlocking() {
@@ -151,6 +154,7 @@ SongLoader::Result SongLoader::LoadFilenamesBlocking() {
     errors_ << tr("Preload function was not set for blocking operation.");
     return Error;
   }
+
 }
 
 SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
@@ -182,6 +186,7 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
 
   errors_ << QObject::tr("File %1 is not recognized as a valid audio file.").arg(filename);
   return Error;
+
 }
 
 SongLoader::Result SongLoader::LoadAudioCD() {
@@ -201,6 +206,7 @@ SongLoader::Result SongLoader::LoadAudioCD() {
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
   }
 #endif
+
 }
 
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
@@ -210,6 +216,7 @@ void SongLoader::AudioCDTracksLoadFinishedSlot(const SongList &songs, const QStr
   songs_ = songs;
   errors_ << error;
   emit AudioCDTracksLoadFinished();
+
 }
 
 void SongLoader::AudioCDTracksTagsLoaded(const SongList &songs) {
@@ -218,6 +225,7 @@ void SongLoader::AudioCDTracksTagsLoaded(const SongList &songs) {
   cdda_song_loader->deleteLater();
   songs_ = songs;
   emit LoadAudioCDFinished(true);
+
 }
 #endif
 
@@ -252,6 +260,7 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   // It's not in the database, load it asynchronously.
   preload_func_ = std::bind(&SongLoader::LoadLocalAsync, this, filename);
   return BlockingLoadRequired;
+
 }
 
 SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
@@ -321,6 +330,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
 
   errors_ << QObject::tr("File %1 is not recognized as a valid audio file.").arg(filename);
   return Error;
+
 }
 
 void SongLoader::LoadMetadataBlocking() {
@@ -328,6 +338,7 @@ void SongLoader::LoadMetadataBlocking() {
   for (int i = 0; i < songs_.size(); i++) {
     EffectiveSongLoad(&songs_[i]);
   }
+
 }
 
 void SongLoader::EffectiveSongLoad(Song *song) {
@@ -349,6 +360,7 @@ void SongLoader::EffectiveSongLoad(Song *song) {
     QString filename = song->url().toLocalFile();
     TagReaderClient::Instance()->ReadFileBlocking(filename, song);
   }
+
 }
 
 void SongLoader::LoadPlaylist(ParserBase *parser, const QString &filename) {
@@ -361,6 +373,7 @@ void SongLoader::LoadPlaylist(ParserBase *parser, const QString &filename) {
   else {
     errors_ << tr("Could not open playlist file %1 for reading: %2").arg(filename, file.errorString());
   }
+
 }
 
 static bool CompareSongs(const Song &left, const Song &right) {
@@ -375,6 +388,7 @@ static bool CompareSongs(const Song &left, const Song &right) {
   if (left.track() < right.track()) return true;
   if (left.track() > right.track()) return false;
   return left.url() < right.url();
+
 }
 
 void SongLoader::LoadLocalDirectory(const QString &filename) {
@@ -392,6 +406,7 @@ void SongLoader::LoadLocalDirectory(const QString &filename) {
   // so if the user has the "Start playing when adding to playlist" preference behaviour set,
   // it can enjoy the first song being played (seek it, have moodbar, etc.)
   if (!songs_.isEmpty()) EffectiveSongLoad(&(*songs_.begin()));
+
 }
 
 void SongLoader::AddAsRawStream() {
@@ -402,12 +417,14 @@ void SongLoader::AddAsRawStream() {
   song.set_url(url_);
   song.set_title(url_.toString());
   songs_ << song;
+
 }
 
 void SongLoader::Timeout() {
   state_ = Finished;
   success_ = false;
   StopTypefind();
+
 }
 
 void SongLoader::StopTypefind() {
@@ -439,6 +456,7 @@ void SongLoader::StopTypefind() {
   }
 
   emit LoadRemoteFinished();
+
 }
 
 #ifdef HAVE_GSTREAMER
@@ -495,6 +513,7 @@ SongLoader::Result SongLoader::LoadRemote() {
   loop.exec();
 
   return Success;
+
 }
 #endif
 
@@ -516,6 +535,7 @@ void SongLoader::TypeFound(GstElement *, uint, GstCaps *caps, void *self) {
 
   // Nope, not a playlist - we're done
   instance->StopTypefindAsync(true);
+
 }
 #endif
 
@@ -543,6 +563,7 @@ GstPadProbeReturn SongLoader::DataReady(GstPad *, GstPadProbeInfo *info, gpointe
   }
 
   return GST_PAD_PROBE_OK;
+
 }
 #endif
 
@@ -561,6 +582,7 @@ gboolean SongLoader::BusCallback(GstBus *, GstMessage *msg, gpointer self) {
   }
 
   return TRUE;
+
 }
 #endif
 
@@ -582,6 +604,7 @@ GstBusSyncReply SongLoader::BusCallbackSync(GstBus *, GstMessage *msg, gpointer 
       break;
   }
   return GST_BUS_PASS;
+
 }
 #endif
 
@@ -609,6 +632,7 @@ void SongLoader::ErrorMessageReceived(GstMessage *msg) {
   }
 
   StopTypefindAsync(false);
+
 }
 #endif
 
@@ -636,6 +660,7 @@ void SongLoader::EndOfStreamReached() {
       StopTypefindAsync(false);
       break;
   }
+
 }
 #endif
 
@@ -667,6 +692,7 @@ void SongLoader::MagicReady() {
   if (!IsPipelinePlaying()) {
     EndOfStreamReached();
   }
+
 }
 #endif
 
@@ -682,6 +708,7 @@ bool SongLoader::IsPipelinePlaying() {
     return true;
   }
   return state == GST_STATE_PLAYING;
+
 }
 #endif
 
@@ -692,6 +719,7 @@ void SongLoader::StopTypefindAsync(bool success) {
   success_ = success;
 
   QMetaObject::invokeMethod(this, "StopTypefind", Qt::QueuedConnection);
+
 }
 #endif
 
@@ -704,9 +732,11 @@ void SongLoader::ScheduleTimeoutAsync() {
   else {
     QMetaObject::invokeMethod(this, "ScheduleTimeout", Qt::QueuedConnection);
   }
+
 }
 
 void SongLoader::ScheduleTimeout() {
 
   timeout_timer_->start(timeout_);
+
 }

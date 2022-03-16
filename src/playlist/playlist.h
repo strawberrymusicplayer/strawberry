@@ -68,6 +68,7 @@ class ReOrderItems;
 class RemoveItems;
 class ShuffleItems;
 class SortItems;
+
 }  // namespace PlaylistUndoCommands
 
 typedef QMap<int, Qt::Alignment> ColumnAlignmentMap;
@@ -84,6 +85,7 @@ class SongInsertVetoListener : public QObject {
   // Listener returns a list of 'invalid' songs.
   // 'old_songs' are songs that are currently in the playlist and 'new_songs' are the songs about to be added if nobody exercises a veto.
   virtual SongList AboutToInsertSongs(const SongList &old_songs, const SongList &new_songs) = 0;
+
 };
 
 class Playlist : public QAbstractListModel {
@@ -445,6 +447,7 @@ class Playlist : public QAbstractListModel {
   bool auto_sort_;
   int sort_column_;
   Qt::SortOrder sort_order_;
+
 };
 
 #endif  // PLAYLIST_H

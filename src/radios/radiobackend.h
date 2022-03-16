@@ -55,6 +55,7 @@ class RadioBackend : public QObject {
  private:
   Database *db_;
   QThread *original_thread_;
+
 };
 
 #endif  // RADIOBACKEND_H

@@ -41,6 +41,7 @@ class SmartPlaylistsView : public QListView {
  signals:
   void ItemsSelectedChanged();
   void RightClicked(QPoint global_pos, QModelIndex idx);
+
 };
 
 #endif  // SMARTPLAYLISTSVIEW_H

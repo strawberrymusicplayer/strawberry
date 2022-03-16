@@ -49,6 +49,7 @@ class GstBufferConsumer;
 
 namespace Engine {
 struct SimpleMetaBundle;
+
 }  // namespace Engine
 struct GstPlayBin;
 
@@ -294,6 +295,7 @@ class GstEnginePipeline : public QObject {
   GstSegment last_playbin_segment_ {};
 
   bool logged_unsupported_analyzer_format_;
+
 };
 
 #endif  // GSTENGINEPIPELINE_H

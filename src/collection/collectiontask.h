@@ -35,6 +35,7 @@ class CollectionTask {
   int task_id_;
 
   Q_DISABLE_COPY(CollectionTask)
+
 };
 
 #endif  // COLLECTIONTASK_H

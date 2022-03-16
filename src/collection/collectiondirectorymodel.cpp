@@ -41,6 +41,7 @@ CollectionDirectoryModel::CollectionDirectoryModel(CollectionBackend *backend, Q
 
   QObject::connect(backend_, &CollectionBackend::DirectoryDiscovered, this, &CollectionDirectoryModel::DirectoryDiscovered);
   QObject::connect(backend_, &CollectionBackend::DirectoryDeleted, this, &CollectionDirectoryModel::DirectoryDeleted);
+
 }
 
 CollectionDirectoryModel::~CollectionDirectoryModel() = default;
@@ -52,6 +53,7 @@ void CollectionDirectoryModel::DirectoryDiscovered(const Directory &dir) {
   item->setIcon(dir_icon_);
   storage_ << std::make_shared<FilesystemMusicStorage>(dir.path, dir.id);
   appendRow(item);
+
 }
 
 void CollectionDirectoryModel::DirectoryDeleted(const Directory &dir) {
@@ -63,6 +65,7 @@ void CollectionDirectoryModel::DirectoryDeleted(const Directory &dir) {
       break;
     }
   }
+
 }
 
 void CollectionDirectoryModel::AddDirectory(const QString &path) {
@@ -70,6 +73,7 @@ void CollectionDirectoryModel::AddDirectory(const QString &path) {
   if (!backend_) return;
 
   backend_->AddDirectory(path);
+
 }
 
 void CollectionDirectoryModel::RemoveDirectory(const QModelIndex &idx) {
@@ -81,6 +85,7 @@ void CollectionDirectoryModel::RemoveDirectory(const QModelIndex &idx) {
   dir.id = idx.data(kIdRole).toInt();
 
   backend_->RemoveDirectory(dir);
+
 }
 
 QVariant CollectionDirectoryModel::data(const QModelIndex &idx, int role) const {
@@ -96,4 +101,5 @@ QVariant CollectionDirectoryModel::data(const QModelIndex &idx, int role) const 
     default:
       return QStandardItemModel::data(idx, role);
   }
+
 }

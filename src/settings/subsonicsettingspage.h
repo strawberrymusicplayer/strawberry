@@ -63,6 +63,7 @@ class SubsonicSettingsPage : public SettingsPage {
  private:
   Ui_SubsonicSettingsPage *ui_;
   SubsonicService *service_;
+
 };
 
 #endif  // SUBSONICSETTINGSPAGE_H

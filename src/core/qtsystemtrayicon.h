@@ -100,6 +100,7 @@ class SystemTrayIcon : public QSystemTrayIcon {
   int song_progress_;
 
   QPixmap current_state_icon_;
+
 };
 
 #endif  // QTSYSTEMTRAYICON_H

@@ -87,6 +87,7 @@ class TagReaderTagLib : public TagReaderBase {
   FileRefFactory *factory_;
 
   Q_DISABLE_COPY(TagReaderTagLib)
+
 };
 
 #endif  // TAGREADERTAGLIB_H

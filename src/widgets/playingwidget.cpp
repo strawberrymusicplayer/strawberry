@@ -125,6 +125,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
   }
 
   UpdateHeight();
+
 }
 
 void PlayingWidget::Init(Application *app, AlbumCoverChoiceController *album_cover_choice_controller) {
@@ -148,6 +149,7 @@ void PlayingWidget::Init(Application *app, AlbumCoverChoiceController *album_cov
   QObject::connect(above_statusbar_action_, &QAction::toggled, this, &PlayingWidget::ShowAboveStatusBar);
 
   QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::AutomaticCoverSearchDone, this, &PlayingWidget::AutomaticCoverSearchDone);
+
 }
 
 void PlayingWidget::SetEnabled(const bool enabled) {
@@ -158,6 +160,7 @@ void PlayingWidget::SetEnabled(const bool enabled) {
     SetEnabled();
   else
     SetDisabled();
+
 }
 
 void PlayingWidget::SetEnabled() {
@@ -168,6 +171,7 @@ void PlayingWidget::SetEnabled() {
   if (active_) {
     SetVisible(true);
   }
+
 }
 
 void PlayingWidget::SetDisabled() {
@@ -176,6 +180,7 @@ void PlayingWidget::SetDisabled() {
   enabled_ = false;
 
   SetVisible(false);
+
 }
 
 void PlayingWidget::SetVisible(const bool visible) {
@@ -195,16 +200,19 @@ void PlayingWidget::SetVisible(const bool visible) {
     timeline_show_hide_->setDirection(visible ? QTimeLine::Forward : QTimeLine::Backward);
     timeline_show_hide_->start();
   }
+
 }
 
 void PlayingWidget::set_ideal_height(const int height) {
 
   small_ideal_height_ = height;
   UpdateHeight();
+
 }
 
 QSize PlayingWidget::sizeHint() const {
   return QSize(cover_loader_options_.desired_height_, total_height_);
+
 }
 
 void PlayingWidget::CreateModeAction(const Mode mode, const QString &text, QActionGroup *group) {
@@ -214,6 +222,7 @@ void PlayingWidget::CreateModeAction(const Mode mode, const QString &text, QActi
   QObject::connect(action, &QAction::triggered, this, [this, mode]() { SetMode(mode); });
 
   if (mode == mode_) action->setChecked(true);
+
 }
 
 void PlayingWidget::SetMode(const int mode) {
@@ -230,6 +239,7 @@ void PlayingWidget::SetMode(const int mode) {
   s.beginGroup(kSettingsGroup);
   s.setValue("mode", mode_);
   s.endGroup();
+
 }
 
 void PlayingWidget::FitCoverWidth(const bool fit) {
@@ -242,6 +252,7 @@ void PlayingWidget::FitCoverWidth(const bool fit) {
   s.beginGroup(kSettingsGroup);
   s.setValue("fit_cover_width", fit_width_);
   s.endGroup();
+
 }
 
 void PlayingWidget::ShowAboveStatusBar(const bool above) {
@@ -252,6 +263,7 @@ void PlayingWidget::ShowAboveStatusBar(const bool above) {
   s.endGroup();
 
   emit ShowAboveStatusBarChanged(above);
+
 }
 
 void PlayingWidget::Playing() {}
@@ -264,10 +276,12 @@ void PlayingWidget::Stopped() {
   song_ = Song();
   image_current_ = QImage();
   SetVisible(false);
+
 }
 
 void PlayingWidget::Error() {
   active_ = false;
+
 }
 
 void PlayingWidget::SongChanged(const Song &song) {
@@ -279,6 +293,7 @@ void PlayingWidget::SongChanged(const Song &song) {
   song_ = song;
 
   if (changed) UpdateDetailsText();
+
 }
 
 void PlayingWidget::AlbumCoverLoaded(const Song &song, const QImage &image) {
@@ -291,6 +306,7 @@ void PlayingWidget::AlbumCoverLoaded(const Song &song, const QImage &image) {
   image_current_ = image;
 
   SetImage(image);
+
 }
 
 void PlayingWidget::SetImage(const QImage &image) {
@@ -322,6 +338,7 @@ void PlayingWidget::SetImage(const QImage &image) {
       timeline_fade_->start();
     }
   }
+
 }
 
 void PlayingWidget::ScaleCover() {
@@ -332,6 +349,7 @@ void PlayingWidget::ScaleCover() {
   else
     pixmap_cover_ = QPixmap::fromImage(image);
   update();
+
 }
 
 void PlayingWidget::SetHeight(int height) {
@@ -350,6 +368,7 @@ void PlayingWidget::SetHeight(int height) {
       timeline_show_hide_->toggleDirection();
     }
   }
+
 }
 
 void PlayingWidget::UpdateHeight() {
@@ -381,6 +400,7 @@ void PlayingWidget::UpdateHeight() {
 
   // Tell Qt we've changed size
   updateGeometry();
+
 }
 
 void PlayingWidget::UpdateDetailsText() {
@@ -407,6 +427,7 @@ void PlayingWidget::UpdateDetailsText() {
   if (mode_ == LargeSongDetails) UpdateHeight();
 
   update();
+
 }
 
 void PlayingWidget::paintEvent(QPaintEvent *e) {
@@ -422,6 +443,7 @@ void PlayingWidget::paintEvent(QPaintEvent *e) {
     p.setOpacity(pixmap_previous_track_opacity_);
     p.drawPixmap(0, 0, pixmap_previous_track_);
   }
+
 }
 
 void PlayingWidget::DrawContents(QPainter *p) {
@@ -463,6 +485,7 @@ void PlayingWidget::DrawContents(QPainter *p) {
 
       break;
   }
+
 }
 
 void PlayingWidget::FadePreviousTrack(const qreal value) {
@@ -475,6 +498,7 @@ void PlayingWidget::FadePreviousTrack(const qreal value) {
   }
 
   update();
+
 }
 
 void PlayingWidget::resizeEvent(QResizeEvent *e) {
@@ -486,12 +510,14 @@ void PlayingWidget::resizeEvent(QResizeEvent *e) {
       UpdateDetailsText();
     }
   }
+
 }
 
 void PlayingWidget::contextMenuEvent(QContextMenuEvent *e) {
 
   // show the menu
   menu_->popup(mapToGlobal(e->pos()));
+
 }
 
 void PlayingWidget::mouseDoubleClickEvent(QMouseEvent *e) {
@@ -500,6 +526,7 @@ void PlayingWidget::mouseDoubleClickEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton && song_.is_valid()) {
     album_cover_choice_controller_->ShowCover(song_, image_original_);
   }
+
 }
 
 void PlayingWidget::dragEnterEvent(QDragEnterEvent *e) {
@@ -509,6 +536,7 @@ void PlayingWidget::dragEnterEvent(QDragEnterEvent *e) {
   }
 
   QWidget::dragEnterEvent(e);
+
 }
 
 void PlayingWidget::dropEvent(QDropEvent *e) {
@@ -516,6 +544,7 @@ void PlayingWidget::dropEvent(QDropEvent *e) {
   album_cover_choice_controller_->SaveCover(&song_, e);
 
   QWidget::dropEvent(e);
+
 }
 
 void PlayingWidget::SearchCoverInProgress() {
@@ -527,6 +556,7 @@ void PlayingWidget::SearchCoverInProgress() {
   QObject::connect(spinner_animation_.get(), &QMovie::updated, this, &PlayingWidget::Update);
   spinner_animation_->start();
   update();
+
 }
 
 void PlayingWidget::AutomaticCoverSearchDone() {
@@ -534,4 +564,5 @@ void PlayingWidget::AutomaticCoverSearchDone() {
   downloading_covers_ = false;
   spinner_animation_.reset();
   update();
+
 }

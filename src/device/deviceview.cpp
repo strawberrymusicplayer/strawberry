@@ -168,6 +168,7 @@ void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   painter->drawText(line2, Qt::AlignLeft | Qt::AlignTop, status_text);
 
   painter->restore();
+
 }
 
 DeviceView::DeviceView(QWidget *parent)
@@ -195,6 +196,7 @@ DeviceView::DeviceView(QWidget *parent)
   setDragEnabled(true);
   setDragDropMode(QAbstractItemView::DragOnly);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
+
 }
 
 DeviceView::~DeviceView() = default;
@@ -223,6 +225,7 @@ void DeviceView::SetApplication(Application *app) {
 
   organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
   organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
+
 }
 
 void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
@@ -274,6 +277,7 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
 
     collection_menu_->popup(e->globalPos());
   }
+
 }
 
 QModelIndex DeviceView::MapToDevice(const QModelIndex &merged_model_index) const {
@@ -281,6 +285,7 @@ QModelIndex DeviceView::MapToDevice(const QModelIndex &merged_model_index) const
   QModelIndex sort_model_index = merged_model_->mapToSource(merged_model_index);
   if (sort_model_index.model() != sort_model_) return QModelIndex();
   return sort_model_->mapToSource(sort_model_index);
+
 }
 
 QModelIndex DeviceView::FindParentDevice(const QModelIndex &merged_model_index) const {
@@ -288,6 +293,7 @@ QModelIndex DeviceView::FindParentDevice(const QModelIndex &merged_model_index) 
   QModelIndex idx = merged_model_->FindSourceParent(merged_model_index);
   if (idx.model() != sort_model_) return QModelIndex();
   return sort_model_->mapToSource(idx);
+
 }
 
 QModelIndex DeviceView::MapToCollection(const QModelIndex &merged_model_index) const {
@@ -297,11 +303,13 @@ QModelIndex DeviceView::MapToCollection(const QModelIndex &merged_model_index) c
     return sort_model->mapToSource(sort_model_index);
   }
   return QModelIndex();
+
 }
 
 void DeviceView::Connect() {
   QModelIndex device_idx = MapToDevice(menu_index_);
   app_->device_manager()->data(device_idx, MusicStorage::Role_StorageForceConnect);
+
 }
 
 void DeviceView::DeviceConnected(const QModelIndex &idx) {
@@ -322,11 +330,13 @@ void DeviceView::DeviceConnected(const QModelIndex &idx) {
   merged_model_->AddSubModel(sort_idx, sort_model);
 
   expand(menu_index_);
+
 }
 
 void DeviceView::DeviceDisconnected(const QModelIndex &idx) {
   if (!idx.isValid()) return;
   merged_model_->RemoveSubModel(sort_model_->mapFromSource(idx));
+
 }
 
 void DeviceView::Forget() {
@@ -345,10 +355,12 @@ void DeviceView::Forget() {
   }
 
   app_->device_manager()->Forget(device_idx);
+
 }
 
 void DeviceView::Properties() {
   properties_dialog_->ShowDevice(MapToDevice(menu_index_));
+
 }
 
 void DeviceView::mouseDoubleClickEvent(QMouseEvent *e) {
@@ -363,6 +375,7 @@ void DeviceView::mouseDoubleClickEvent(QMouseEvent *e) {
       Connect();
     }
   }
+
 }
 
 SongList DeviceView::GetSelectedSongs() const {
@@ -379,6 +392,7 @@ SongList DeviceView::GetSelectedSongs() const {
     songs << collection->GetChildSongs(collection_index);
   }
   return songs;
+
 }
 
 void DeviceView::Load() {
@@ -388,10 +402,12 @@ void DeviceView::Load() {
     mimedata->clear_first_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
+
 }
 
 void DeviceView::AddToPlaylist() {
   emit AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
+
 }
 
 void DeviceView::OpenInNewPlaylist() {
@@ -401,6 +417,7 @@ void DeviceView::OpenInNewPlaylist() {
     mimedata->open_in_new_playlist_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
+
 }
 
 void DeviceView::Delete() {
@@ -422,6 +439,7 @@ void DeviceView::Delete() {
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, false);
   QObject::connect(delete_files, &DeleteFiles::Finished, this, &DeviceView::DeleteFinished);
   delete_files->Start(GetSelectedSongs());
+
 }
 
 void DeviceView::Organize() {
@@ -436,11 +454,13 @@ void DeviceView::Organize() {
   organize_dialog_->SetCopy(true);
   organize_dialog_->SetFilenames(filenames);
   organize_dialog_->show();
+
 }
 
 void DeviceView::Unmount() {
   QModelIndex device_idx = MapToDevice(menu_index_);
   app_->device_manager()->Unmount(device_idx);
+
 }
 
 void DeviceView::DeleteFinished(const SongList &songs_with_errors) {
@@ -450,9 +470,11 @@ void DeviceView::DeleteFinished(const SongList &songs_with_errors) {
   OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
   dialog->Show(OrganizeErrorDialog::Type_Delete, songs_with_errors);
   // It deletes itself when the user closes it
+
 }
 
 bool DeviceView::CanRecursivelyExpand(const QModelIndex &idx) const {
   // Never expand devices
   return idx.parent().isValid();
+
 }

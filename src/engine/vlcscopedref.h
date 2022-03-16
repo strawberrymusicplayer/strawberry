@@ -40,6 +40,7 @@ class VlcScopedRef {
   VlcScopedRef &operator=(const VlcScopedRef &) { return *this; }
 
   T *ptr_;
+
 };
 
 
@@ -61,11 +62,13 @@ template<> void VlcScopedRef_Release<char>(char *ptr) { free(ptr); }
 template<typename T>
 VlcScopedRef<T>::VlcScopedRef(T *ptr)
     : ptr_(ptr) {
+
 }
 
 template<typename T>
 VlcScopedRef<T>::~VlcScopedRef() {
   VlcScopedRef_Release(ptr_);
+
 }
 
 #endif  // VLCSCOPEDREF_H

@@ -66,6 +66,7 @@ PlaylistFilter::PlaylistFilter(QObject *parent)
                      << Playlist::Column_Samplerate
                      << Playlist::Column_Bitdepth
                      << Playlist::Column_Bitrate;
+
 }
 
 PlaylistFilter::~PlaylistFilter() = default;
@@ -73,6 +74,7 @@ PlaylistFilter::~PlaylistFilter() = default;
 void PlaylistFilter::sort(int column, Qt::SortOrder order) {
   // Pass this through to the Playlist, it does sorting itself
   sourceModel()->sort(column, order);
+
 }
 
 bool PlaylistFilter::filterAcceptsRow(int row, const QModelIndex &parent) const {
@@ -98,4 +100,5 @@ bool PlaylistFilter::filterAcceptsRow(int row, const QModelIndex &parent) const 
 
   // Test the row
   return filter_tree_->accept(row, parent, sourceModel());
+
 }

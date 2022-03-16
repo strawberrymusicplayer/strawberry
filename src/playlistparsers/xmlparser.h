@@ -50,6 +50,7 @@ class XMLParser : public ParserBase {
     QXmlStreamWriter *stream_;
     Q_DISABLE_COPY(StreamElement)
   };
+
 };
 
 #endif

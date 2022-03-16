@@ -80,4 +80,5 @@ QList<DeviceFinder::Device> AlsaPCMDeviceFinder::ListDevices() {
   snd_device_name_free_hint(hints);
 
   return ret;
+
 }

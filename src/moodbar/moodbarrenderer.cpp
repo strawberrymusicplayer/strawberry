@@ -108,6 +108,7 @@ ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle s
   }
 
   return colors;
+
 }
 
 void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect rect) {
@@ -152,6 +153,7 @@ void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect
       p->drawPoint(rect.left() + x, rect.top() + rect.height() - 1 - y);
     }
   }
+
 }
 
 QImage MoodbarRenderer::RenderToImage(const ColorVector &colors, const QSize size) {
@@ -161,6 +163,7 @@ QImage MoodbarRenderer::RenderToImage(const ColorVector &colors, const QSize siz
   Render(colors, &p, image.rect());
   p.end();
   return image;
+
 }
 
 QString MoodbarRenderer::StyleName(const MoodbarStyle style) {
@@ -180,4 +183,5 @@ QString MoodbarRenderer::StyleName(const MoodbarStyle style) {
     default:
       return QString();
   }
+
 }

@@ -102,6 +102,7 @@ class MusicStorage {
 
  private:
   Q_DISABLE_COPY(MusicStorage)
+
 };
 
 Q_DECLARE_METATYPE(MusicStorage *)

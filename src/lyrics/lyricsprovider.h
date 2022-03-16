@@ -70,6 +70,7 @@ class LyricsProvider : public QObject {
   bool enabled_;
   int order_;
   bool authentication_required_;
+
 };
 
 #endif  // LYRICSPROVIDER_H

@@ -123,6 +123,7 @@ class CollectionBackendInterface : public QObject {
 
   virtual void AddDirectory(const QString &path) = 0;
   virtual void RemoveDirectory(const Directory &dir) = 0;
+
 };
 
 class CollectionBackend : public CollectionBackendInterface {
@@ -296,6 +297,7 @@ class CollectionBackend : public CollectionBackendInterface {
   QString subdirs_table_;
   QString fts_table_;
   QThread *original_thread_;
+
 };
 
 #endif  // COLLECTIONBACKEND_H

@@ -39,6 +39,7 @@ class SongMimeData : public MimeData {
 
   CollectionBackendInterface* backend;
   SongList songs;
+
 };
 
 #endif  // SONGMIMEDATA_H

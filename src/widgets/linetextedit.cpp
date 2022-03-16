@@ -38,6 +38,7 @@ LineTextEdit::LineTextEdit(QWidget *parent) : QTextEdit(parent) {
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setTabChangesFocus(true);
   setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+
 }
 
 QSize LineTextEdit::sizeHint() const {
@@ -52,10 +53,12 @@ QSize LineTextEdit::sizeHint() const {
 #endif
 
   return QSize(w, h);
+
 }
 
 QSize LineTextEdit::minimumSizeHint() const {
   return sizeHint();
+
 }
 
 void LineTextEdit::keyPressEvent(QKeyEvent *e) {
@@ -65,4 +68,5 @@ void LineTextEdit::keyPressEvent(QKeyEvent *e) {
   else {
     QTextEdit::keyPressEvent(e);
   }
+
 }

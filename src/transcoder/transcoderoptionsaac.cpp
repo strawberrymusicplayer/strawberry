@@ -36,10 +36,12 @@ const char *TranscoderOptionsAAC::kSettingsGroup = "Transcoder/faac";
 
 TranscoderOptionsAAC::TranscoderOptionsAAC(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsAAC) {
   ui_->setupUi(this);
+
 }
 
 TranscoderOptionsAAC::~TranscoderOptionsAAC() {
   delete ui_;
+
 }
 
 void TranscoderOptionsAAC::Load() {
@@ -52,6 +54,7 @@ void TranscoderOptionsAAC::Load() {
   ui_->midside->setChecked(s.value("midside", true).toBool());
   ui_->shortctl->setCurrentIndex(s.value("shortctl", 0).toInt());
   s.endGroup();
+
 }
 
 void TranscoderOptionsAAC::Save() {
@@ -64,4 +67,5 @@ void TranscoderOptionsAAC::Save() {
   s.setValue("midside", ui_->midside->isChecked());
   s.setValue("shortctl", ui_->shortctl->currentIndex());
   s.endGroup();
+
 }

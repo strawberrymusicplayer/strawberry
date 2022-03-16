@@ -114,11 +114,13 @@ enum IoPriority {
   IOPRIO_CLASS_RT,
   IOPRIO_CLASS_BE,
   IOPRIO_CLASS_IDLE,
+
 };
 enum {
   IOPRIO_WHO_PROCESS = 1,
   IOPRIO_WHO_PGRP,
   IOPRIO_WHO_USER,
+
 };
 static const int IOPRIO_CLASS_SHIFT = 13;
 
@@ -148,6 +150,7 @@ QString MimeTypeFromData(const QByteArray &data);
 void enableBlurBehindWindow(QWindow *window, const QRegion &region);
 #endif
 
+
 }  // namespace Utilities
 
 class ScopedWCharArray {
@@ -167,6 +170,7 @@ class ScopedWCharArray {
 
   qint64 chars_;
   std::unique_ptr<wchar_t[]> data_;
+
 };
 
 #endif  // UTILITIES_H

@@ -156,10 +156,12 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
 
   QObject::connect(qApp, &QApplication::screenAdded, this, &OSDPretty::ScreenAdded);
   QObject::connect(qApp, &QApplication::screenRemoved, this, &OSDPretty::ScreenRemoved);
+
 }
 
 OSDPretty::~OSDPretty() {
   delete ui_;
+
 }
 
 void OSDPretty::showEvent(QShowEvent *e) {
@@ -198,17 +200,20 @@ void OSDPretty::showEvent(QShowEvent *e) {
     // Ensures it is above when showing the preview
     raise();
   }
+
 }
 
 void OSDPretty::ScreenAdded(QScreen *screen) {
 
   screens_.insert(screen->name(), screen);
+
 }
 
 void OSDPretty::ScreenRemoved(QScreen *screen) {
 
   if (screens_.contains(screen->name())) screens_.remove(screen->name());
   if (screen == popup_screen_) popup_screen_ = current_screen();
+
 }
 
 bool OSDPretty::IsTransparencyAvailable() {
@@ -226,6 +231,7 @@ bool OSDPretty::IsTransparencyAvailable() {
 #endif
 
   return true;
+
 }
 
 void OSDPretty::Load() {
@@ -280,15 +286,18 @@ void OSDPretty::Load() {
   set_foreground_color(foreground_color());
 
   s.endGroup();
+
 }
 
 void OSDPretty::ReloadSettings() {
   Load();
   if (isVisible()) update();
+
 }
 
 QRect OSDPretty::BoxBorder() const {
   return rect().adjusted(kDropShadowSize, kDropShadowSize, -kDropShadowSize, -kDropShadowSize);
+
 }
 
 void OSDPretty::paintEvent(QPaintEvent *) {
@@ -336,6 +345,7 @@ void OSDPretty::paintEvent(QPaintEvent *) {
   p.setBrush(QBrush());
   p.setPen(QPen(background_color_.darker(150), 3));
   p.drawRoundedRect(box, kBorderRadius, kBorderRadius);
+
 }
 
 void OSDPretty::SetMessage(const QString &summary, const QString &message, const QImage &image) {
@@ -353,6 +363,7 @@ void OSDPretty::SetMessage(const QString &summary, const QString &message, const
   ui_->message->setText(message);
 
   if (isVisible()) Reposition();
+
 }
 
 // Set the desired message and then show the OSD
@@ -383,6 +394,7 @@ void OSDPretty::ShowMessage(const QString &summary, const QString &message, cons
     // The OSD is not visible, show it
     show();
   }
+
 }
 
 void OSDPretty::setVisible(bool visible) {
@@ -394,6 +406,7 @@ void OSDPretty::setVisible(bool visible) {
   else {
     QWidget::setVisible(visible);
   }
+
 }
 
 void OSDPretty::FaderFinished() {
@@ -404,10 +417,12 @@ void OSDPretty::FaderFinished() {
   else if (mode_ == Mode_Popup && !disable_duration()) {
     timeout_->start();
   }
+
 }
 
 void OSDPretty::FaderValueChanged(const qreal value) {
   setWindowOpacity(value);
+
 }
 
 void OSDPretty::Reposition() {
@@ -451,6 +466,7 @@ void OSDPretty::Reposition() {
 #ifdef Q_OS_WIN
   Utilities::enableBlurBehindWindow(windowHandle(), QRegion(mask));
 #endif
+
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -461,10 +477,12 @@ void OSDPretty::enterEvent(QEvent *) {
   if (mode_ == Mode_Popup) {
     setWindowOpacity(0.25);
   }
+
 }
 
 void OSDPretty::leaveEvent(QEvent *) {
   setWindowOpacity(1.0);
+
 }
 
 void OSDPretty::mousePressEvent(QMouseEvent *e) {
@@ -480,6 +498,7 @@ void OSDPretty::mousePressEvent(QMouseEvent *e) {
     drag_start_pos_ = e->globalPos();
 #endif
   }
+
 }
 
 void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
@@ -516,6 +535,7 @@ void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
     popup_screen_ = screen;
     popup_screen_name_ = screen->name();
   }
+
 }
 
 void OSDPretty::mouseReleaseEvent(QMouseEvent *) {
@@ -526,6 +546,7 @@ void OSDPretty::mouseReleaseEvent(QMouseEvent *) {
     popup_pos_ = current_pos();
     emit PositionChanged();
   }
+
 }
 
 QScreen *OSDPretty::current_screen(const QPoint pos) const {
@@ -540,6 +561,7 @@ QScreen *OSDPretty::current_screen(const QPoint pos) const {
   if (!screen) screen = QGuiApplication::primaryScreen();
 
   return screen;
+
 }
 
 QScreen *OSDPretty::current_screen() const { return current_screen(pos()); }
@@ -556,16 +578,19 @@ QPoint OSDPretty::current_pos() const {
   }
 
   return QPoint(0, 0);
+
 }
 
 void OSDPretty::set_background_color(const QRgb color) {
   background_color_ = color;
   if (isVisible()) update();
+
 }
 
 void OSDPretty::set_background_opacity(const qreal opacity) {
   background_opacity_ = opacity;
   if (isVisible()) update();
+
 }
 
 void OSDPretty::set_foreground_color(const QRgb color) {
@@ -577,10 +602,12 @@ void OSDPretty::set_foreground_color(const QRgb color) {
 
   ui_->summary->setPalette(p);
   ui_->message->setPalette(p);
+
 }
 
 void OSDPretty::set_popup_duration(const int msec) {
   timeout_->setInterval(msec);
+
 }
 
 void OSDPretty::set_font(const QFont &font) {
@@ -595,4 +622,5 @@ void OSDPretty::set_font(const QFont &font) {
   resize(sizeHint());
   // Update the position after font change
   Reposition();
+
 }

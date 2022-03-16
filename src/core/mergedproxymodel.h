@@ -113,6 +113,7 @@ class MergedProxyModel : public QAbstractProxyModel {
   QHash<QAbstractItemModel *, QModelIndex> old_merge_points_;
 
   std::unique_ptr<MergedProxyModelPrivate> p_;
+
 };
 
 #endif  // MERGEDPROXYMODEL_H

@@ -100,15 +100,18 @@ DeleteConfirmationDialog::DeleteConfirmationDialog(const QStringList &files, QWi
   setMinimumSize(min_width, min_height);
   adjustSize();
   setMinimumSize(0, 0);
+
 }
 
 void DeleteConfirmationDialog::ButtonClicked(QAbstractButton *button) {
 
   done(button_box_->standardButton(button));
+
 }
 
 QDialogButtonBox::StandardButton DeleteConfirmationDialog::warning(const QStringList &files, QWidget *parent) {
 
   DeleteConfirmationDialog box(files, parent);
   return static_cast<QDialogButtonBox::StandardButton>(box.exec());
+
 }

@@ -52,6 +52,7 @@ class GlobalShortcutsBackendX11 : public GlobalShortcutsBackend {
 
   QList<GlobalShortcut *> shortcuts_;
   GlobalShortcut *gshortcut_init_;
+
 };
 
 #endif  // GLOBALSHORTCUTSBACKEND_X11_H

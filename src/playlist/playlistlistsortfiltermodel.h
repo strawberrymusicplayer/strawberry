@@ -37,4 +37,5 @@ class PlaylistListSortFilterModel : public QSortFilterProxyModel {
     // Now use the source model row order to ensure we always get a deterministic sorting even when two items are named the same.
     return left.row() < right.row();
   }
+
 };

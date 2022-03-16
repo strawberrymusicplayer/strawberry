@@ -69,6 +69,7 @@ CoversSettingsPage::CoversSettingsPage(SettingsDialog *dialog, QWidget *parent)
   DisableAuthentication();
 
   dialog->installEventFilter(this);
+
 }
 
 CoversSettingsPage::~CoversSettingsPage() { delete ui_; }
@@ -90,6 +91,7 @@ void CoversSettingsPage::Load() {
   Init(ui_->layout_coverssettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+
 }
 
 void CoversSettingsPage::Save() {
@@ -104,6 +106,7 @@ void CoversSettingsPage::Save() {
   s.beginGroup(kSettingsGroup);
   s.setValue("providers", providers);
   s.endGroup();
+
 }
 
 void CoversSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous) {
@@ -150,6 +153,7 @@ void CoversSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QList
     ui_->providers_down->setEnabled(false);
     provider_selected_ = false;
   }
+
 }
 
 void CoversSettingsPage::ItemSelectionChanged() {
@@ -166,6 +170,7 @@ void CoversSettingsPage::ItemSelectionChanged() {
       CurrentItemChanged(ui_->providers->currentItem(), nullptr);
     }
   }
+
 }
 
 void CoversSettingsPage::ProvidersMoveUp() { ProvidersMove(-1); }
@@ -180,6 +185,7 @@ void CoversSettingsPage::ProvidersMove(const int d) {
   ui_->providers->setCurrentRow(row + d);
 
   set_changed();
+
 }
 
 void CoversSettingsPage::ItemChanged(QListWidgetItem *item) {
@@ -187,10 +193,12 @@ void CoversSettingsPage::ItemChanged(QListWidgetItem *item) {
   item->setForeground((item->checkState() == Qt::Checked) ? palette().color(QPalette::Active, QPalette::Text) : palette().color(QPalette::Disabled, QPalette::Text));
 
   set_changed();
+
 }
 
 void CoversSettingsPage::NoProviderSelected() {
   ui_->label_auth_info->setText(tr("No provider selected."));
+
 }
 
 void CoversSettingsPage::DisableAuthentication() {
@@ -199,12 +207,14 @@ void CoversSettingsPage::DisableAuthentication() {
   ui_->button_authenticate->setEnabled(false);
   ui_->login_state->hide();
   ui_->button_authenticate->hide();
+
 }
 
 void CoversSettingsPage::DisconnectAuthentication(CoverProvider *provider) const {
 
   QObject::disconnect(provider, &CoverProvider::AuthenticationFailure, this, &CoversSettingsPage::AuthenticationFailure);
   QObject::disconnect(provider, &CoverProvider::AuthenticationSuccess, this, &CoversSettingsPage::AuthenticationSuccess);
+
 }
 
 void CoversSettingsPage::AuthenticateClicked() {
@@ -217,6 +227,7 @@ void CoversSettingsPage::AuthenticateClicked() {
   QObject::connect(provider, &CoverProvider::AuthenticationFailure, this, &CoversSettingsPage::AuthenticationFailure);
   QObject::connect(provider, &CoverProvider::AuthenticationSuccess, this, &CoversSettingsPage::AuthenticationSuccess);
   provider->Authenticate();
+
 }
 
 void CoversSettingsPage::LogoutClicked() {
@@ -238,6 +249,7 @@ void CoversSettingsPage::LogoutClicked() {
     ui_->button_authenticate->setEnabled(true);
     ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
   }
+
 }
 
 void CoversSettingsPage::AuthenticationSuccess() {
@@ -250,6 +262,7 @@ void CoversSettingsPage::AuthenticationSuccess() {
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
   ui_->button_authenticate->setEnabled(true);
+
 }
 
 void CoversSettingsPage::AuthenticationFailure(const QStringList &errors) {
@@ -264,8 +277,10 @@ void CoversSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
   ui_->button_authenticate->setEnabled(true);
+
 }
 
 bool CoversSettingsPage::ProviderCompareOrder(CoverProvider *a, CoverProvider *b) {
   return a->order() < b->order();
+
 }

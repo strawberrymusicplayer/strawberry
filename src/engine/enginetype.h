@@ -32,11 +32,13 @@ enum EngineType {
   GStreamer,
   VLC,
   Xine
+
 };
 
 Engine::EngineType EngineTypeFromName(const QString &enginename);
 QString EngineName(const Engine::EngineType enginetype);
 QString EngineDescription(const Engine::EngineType enginetype);
+
 
 }  // namespace Engine
 

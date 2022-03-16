@@ -42,4 +42,5 @@ FileSystemWatcherInterface *FileSystemWatcherInterface::Create(QObject *parent) 
 
   ret->Init();
   return ret;
+
 }

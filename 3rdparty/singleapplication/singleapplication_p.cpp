@@ -102,6 +102,7 @@ SingleApplicationPrivate::~SingleApplicationPrivate() {
     delete memory_;
     memory_ = nullptr;
   }
+
 }
 
 QString SingleApplicationPrivate::getUsername() {
@@ -137,6 +138,7 @@ QString SingleApplicationPrivate::getUsername() {
   return QString::fromLocal8Bit(qgetenv("USERNAME"));
 #  endif
 #endif
+
 }
 
 void SingleApplicationPrivate::genBlockServerName() {
@@ -174,6 +176,7 @@ void SingleApplicationPrivate::genBlockServerName() {
 
   // Replace the backslash in RFC 2045 Base64 [a-zA-Z0-9+/=] to comply with server naming requirements.
   blockServerName_ = appData.result().toBase64().replace("/", "_");
+
 }
 
 void SingleApplicationPrivate::initializeMemoryBlock() const {
@@ -184,6 +187,7 @@ void SingleApplicationPrivate::initializeMemoryBlock() const {
   instance->primaryPid = -1;
   instance->primaryUser[0] = '\0';
   instance->checksum = blockChecksum();
+
 }
 
 void SingleApplicationPrivate::startPrimary() {
@@ -211,6 +215,7 @@ void SingleApplicationPrivate::startPrimary() {
 
   server_->listen(blockServerName_);
   QObject::connect(server_, &QLocalServer::newConnection, this, &SingleApplicationPrivate::slotConnectionEstablished);
+
 }
 
 void SingleApplicationPrivate::startSecondary() {
@@ -220,6 +225,7 @@ void SingleApplicationPrivate::startSecondary() {
   instance->secondary += 1;
   instance->checksum = blockChecksum();
   instanceNumber_ = instance->secondary;
+
 }
 
 bool SingleApplicationPrivate::connectToPrimary(const int timeout, const ConnectionType connectionType) {
@@ -273,10 +279,12 @@ bool SingleApplicationPrivate::connectToPrimary(const int timeout, const Connect
   writeStream << checksum;
 
   return writeConfirmedMessage(static_cast<int>(timeout - time.elapsed()), initMsg);
+
 }
 
 void SingleApplicationPrivate::writeAck(QLocalSocket *sock) {
   sock->putChar('\n');
+
 }
 
 bool SingleApplicationPrivate::writeConfirmedMessage(const int timeout, const QByteArray &msg) const {
@@ -296,6 +304,7 @@ bool SingleApplicationPrivate::writeConfirmedMessage(const int timeout, const QB
 
   // Frame 2: The message
   return writeConfirmedFrame(static_cast<int>(timeout - time.elapsed()), msg);
+
 }
 
 bool SingleApplicationPrivate::writeConfirmedFrame(const int timeout, const QByteArray &msg) const {
@@ -310,6 +319,7 @@ bool SingleApplicationPrivate::writeConfirmedFrame(const int timeout, const QByt
   }
 
   return false;
+
 }
 
 quint16 SingleApplicationPrivate::blockChecksum() const {
@@ -321,6 +331,7 @@ quint16 SingleApplicationPrivate::blockChecksum() const {
 #endif
 
   return checksum;
+
 }
 
 qint64 SingleApplicationPrivate::primaryPid() const {
@@ -331,6 +342,7 @@ qint64 SingleApplicationPrivate::primaryPid() const {
   memory_->unlock();
 
   return pid;
+
 }
 
 QString SingleApplicationPrivate::primaryUser() const {
@@ -341,6 +353,7 @@ QString SingleApplicationPrivate::primaryUser() const {
   memory_->unlock();
 
   return QString::fromUtf8(username);
+
 }
 
 /**
@@ -381,6 +394,7 @@ void SingleApplicationPrivate::slotConnectionEstablished() {
         break;
     };
   });
+
 }
 
 void SingleApplicationPrivate::readMessageHeader(QLocalSocket *sock, const SingleApplicationPrivate::ConnectionStage nextStage) {
@@ -404,6 +418,7 @@ void SingleApplicationPrivate::readMessageHeader(QLocalSocket *sock, const Singl
   info.msgLen = msgLen;
 
   writeAck(sock);
+
 }
 
 bool SingleApplicationPrivate::isFrameComplete(QLocalSocket *sock) {
@@ -414,6 +429,7 @@ bool SingleApplicationPrivate::isFrameComplete(QLocalSocket *sock) {
 
   const ConnectionInfo &info = connectionMap_[sock];
   return (sock->bytesAvailable() >= static_cast<qint64>(info.msgLen));
+
 }
 
 void SingleApplicationPrivate::readInitMessageBody(QLocalSocket *sock) {
@@ -469,6 +485,7 @@ void SingleApplicationPrivate::readInitMessageBody(QLocalSocket *sock) {
   }
 
   writeAck(sock);
+
 }
 
 void SingleApplicationPrivate::slotDataAvailable(QLocalSocket *dataSocket, const quint32 instanceId) {
@@ -487,6 +504,7 @@ void SingleApplicationPrivate::slotDataAvailable(QLocalSocket *dataSocket, const
   info.stage = StageConnectedHeader;
 
   emit q->receivedMessage(instanceId, message);
+
 }
 
 void SingleApplicationPrivate::slotClientConnectionClosed(QLocalSocket *closedSocket, const quint32 instanceId) {
@@ -494,6 +512,7 @@ void SingleApplicationPrivate::slotClientConnectionClosed(QLocalSocket *closedSo
   if (closedSocket->bytesAvailable() > 0) {
     slotDataAvailable(closedSocket, instanceId);
   }
+
 }
 
 void SingleApplicationPrivate::randomSleep() {
@@ -504,4 +523,5 @@ void SingleApplicationPrivate::randomSleep() {
   qsrand(QDateTime::currentMSecsSinceEpoch() % std::numeric_limits<uint>::max());
   QThread::msleep(qrand() % 11 + 8);
 #endif
+
 }

@@ -40,6 +40,7 @@ class ResourcesEnvironment : public ::testing::Environment {
 
  private:
   Q_DISABLE_COPY(ResourcesEnvironment)
+
 };
 
 #endif  // RESOURCES_ENV_H

@@ -32,6 +32,7 @@ bool _MessageReplyBase::WaitForFinished() {
   semaphore_.acquire();
   qLog(Debug) << "Acquired ID" << id();
   return success_;
+
 }
 
 void _MessageReplyBase::Abort() {
@@ -43,4 +44,5 @@ void _MessageReplyBase::Abort() {
   emit Finished();
   qLog(Debug) << "Releasing ID" << id() << "(aborted)";
   semaphore_.release();
+
 }

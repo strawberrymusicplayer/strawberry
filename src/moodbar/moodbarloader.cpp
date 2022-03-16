@@ -64,11 +64,13 @@ MoodbarLoader::MoodbarLoader(Application *app, QObject *parent)
 
   QObject::connect(app, &Application::SettingsChanged, this, &MoodbarLoader::ReloadSettings);
   ReloadSettings();
+
 }
 
 MoodbarLoader::~MoodbarLoader() {
   thread_->quit();
   thread_->wait(1000);
+
 }
 
 void MoodbarLoader::ReloadSettings() {
@@ -79,6 +81,7 @@ void MoodbarLoader::ReloadSettings() {
   s.endGroup();
 
   MaybeTakeNextRequest();
+
 }
 
 QStringList MoodbarLoader::MoodFilenames(const QString &song_filename) {
@@ -88,6 +91,7 @@ QStringList MoodbarLoader::MoodFilenames(const QString &song_filename) {
   const QString mood_filename = file_info.completeBaseName() + ".mood";
 
   return QStringList() << dir_path + "/." + mood_filename << dir_path + "/" + mood_filename;
+
 }
 
 MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, QByteArray *data, MoodbarPipeline **async_pipeline) {
@@ -144,6 +148,7 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, Q
 
   *async_pipeline = pipeline;
   return WillLoadAsync;
+
 }
 
 void MoodbarLoader::MaybeTakeNextRequest() {
@@ -159,6 +164,7 @@ void MoodbarLoader::MaybeTakeNextRequest() {
 
   qLog(Info) << "Creating moodbar data for" << url.toLocalFile();
   QMetaObject::invokeMethod(requests_[url], "Start", Qt::QueuedConnection);
+
 }
 
 void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
@@ -208,4 +214,5 @@ void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
   QTimer::singleShot(1s, request, &MoodbarLoader::deleteLater);
 
   MaybeTakeNextRequest();
+
 }

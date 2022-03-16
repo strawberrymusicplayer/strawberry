@@ -102,6 +102,7 @@ class CueParser : public ParserBase {
 
   static QStringList SplitCueLine(const QString &line);
   static qint64 IndexToMarker(const QString &index);
+
 };
 
 #endif  // CUEPARSER_H

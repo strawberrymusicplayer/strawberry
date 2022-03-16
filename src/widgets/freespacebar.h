@@ -108,6 +108,7 @@ class FreeSpaceBar : public QWidget {
   QString free_text_;
   QString additional_text_;
   QString used_text_;
+
 };
 
 #endif  // FREESPACEBAR_H

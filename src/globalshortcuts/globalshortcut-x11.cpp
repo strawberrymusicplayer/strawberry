@@ -79,6 +79,7 @@ Display *X11Display() {
 #  error "Missing Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header."
 
 #endif
+
 }
 
 quint32 AppRootWindow() {
@@ -113,7 +114,9 @@ quint32 AppRootWindow() {
 #  error "Missing Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header."
 
 #endif
+
 }
+
 
 }  // namespace
 
@@ -125,6 +128,7 @@ int GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
   if (qt_mods & Qt::AltModifier) native_mods |= Mod1Mask;
   if (qt_mods & Qt::MetaModifier) native_mods |= Mod4Mask;
   return native_mods;
+
 }
 
 int GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
@@ -141,6 +145,7 @@ int GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
     if (keysym == NoSymbol) return 0;
   }
   return XKeysymToKeycode(disp, keysym);
+
 }
 
 bool GlobalShortcut::registerShortcut(int native_key, int native_mods) {
@@ -152,6 +157,7 @@ bool GlobalShortcut::registerShortcut(int native_key, int native_mods) {
     XGrabKey(disp, native_key, (native_mods | mask_mods), AppRootWindow(), True, GrabModeAsync, GrabModeAsync);
   }
   return true;
+
 }
 
 bool GlobalShortcut::unregisterShortcut(int native_key, int native_mods) {
@@ -163,6 +169,7 @@ bool GlobalShortcut::unregisterShortcut(int native_key, int native_mods) {
     XUngrabKey(disp, native_key, native_mods | mask_mods, AppRootWindow());
   }
   return true;
+
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -189,4 +196,5 @@ bool GlobalShortcut::nativeEventFilter(const QByteArray &eventtype, void *messag
   activateShortcut(keycode, keystate & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask));
 
   return false;
+
 }

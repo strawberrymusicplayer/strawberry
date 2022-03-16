@@ -52,6 +52,7 @@ class ChartLyricsProvider : public LyricsProvider {
  private:
   static const char *kUrlSearch;
   QList<QNetworkReply *> replies_;
+
 };
 
 #endif  // CHARTLYRICSPROVIDER_H

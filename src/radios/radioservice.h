@@ -69,6 +69,7 @@ class RadioService : public QObject {
   Song::Source source_;
   QString name_;
   QIcon icon_;
+
 };
 
 Q_DECLARE_METATYPE(RadioService *)

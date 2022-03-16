@@ -40,6 +40,7 @@ PlaylistSaveOptionsDialog::PlaylistSaveOptionsDialog(QWidget *parent) : QDialog(
   ui->filePaths->addItem(tr("Automatic"), Playlist::Path_Automatic);
   ui->filePaths->addItem(tr("Relative"), Playlist::Path_Relative);
   ui->filePaths->addItem(tr("Absolute"), Playlist::Path_Absolute);
+
 }
 
 PlaylistSaveOptionsDialog::~PlaylistSaveOptionsDialog() { delete ui; }
@@ -53,8 +54,10 @@ void PlaylistSaveOptionsDialog::accept() {
   }
 
   QDialog::accept();
+
 }
 
 Playlist::Path PlaylistSaveOptionsDialog::path_type() const {
   return static_cast<Playlist::Path>(ui->filePaths->itemData(ui->filePaths->currentIndex()).toInt());
+
 }

@@ -42,6 +42,7 @@ AsxIniParser::AsxIniParser(CollectionBackendInterface *collection, QObject *pare
 
 bool AsxIniParser::TryMagic(const QByteArray &data) const {
   return data.toLower().contains("[reference]");
+
 }
 
 SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
@@ -65,6 +66,7 @@ SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, con
   }
 
   return ret;
+
 }
 
 void AsxIniParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
@@ -77,4 +79,5 @@ void AsxIniParser::Save(const SongList &songs, QIODevice *device, const QDir &di
     s << "Ref" << n << "=" << URLOrFilename(song.url(), dir, path_type) << qt_endl;
     ++n;
   }
+
 }

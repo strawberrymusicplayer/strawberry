@@ -94,6 +94,7 @@ class SmartPlaylistsViewContainer : public QWidget {
   QAction *action_add_to_playlist_enqueue_;
   QAction *action_add_to_playlist_enqueue_next_;
   QModelIndex context_menu_index_;
+
 };
 
 #endif  // SMARTPLAYLISTSVIEWCONTAINER_H

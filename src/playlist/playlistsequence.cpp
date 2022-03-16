@@ -85,10 +85,12 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
   QObject::connect(shuffle_group, &QActionGroup::triggered, this, &PlaylistSequence::ShuffleActionTriggered);
 
   Load();
+
 }
 
 PlaylistSequence::~PlaylistSequence() {
   delete ui_;
+
 }
 
 void PlaylistSequence::Load() {
@@ -97,6 +99,7 @@ void PlaylistSequence::Load() {
   SetShuffleMode(ShuffleMode(settings_->value("shuffle_mode", Shuffle_Off).toInt()));
   SetRepeatMode(RepeatMode(settings_->value("repeat_mode", Repeat_Off).toInt()));
   loading_ = false;
+
 }
 
 void PlaylistSequence::Save() {
@@ -105,6 +108,7 @@ void PlaylistSequence::Save() {
 
   settings_->setValue("shuffle_mode", shuffle_mode_);
   settings_->setValue("repeat_mode", repeat_mode_);
+
 }
 
 QIcon PlaylistSequence::AddDesaturatedIcon(const QIcon &icon) {
@@ -118,6 +122,7 @@ QIcon PlaylistSequence::AddDesaturatedIcon(const QIcon &icon) {
     ret.addPixmap(on, QIcon::Normal, QIcon::On);
   }
   return ret;
+
 }
 
 QPixmap PlaylistSequence::DesaturatedPixmap(const QPixmap &pixmap) {
@@ -131,6 +136,7 @@ QPixmap PlaylistSequence::DesaturatedPixmap(const QPixmap &pixmap) {
   p.end();
 
   return ret;
+
 }
 
 void PlaylistSequence::RepeatActionTriggered(QAction *action) {
@@ -143,6 +149,7 @@ void PlaylistSequence::RepeatActionTriggered(QAction *action) {
   if (action == ui_->action_repeat_intro) mode = Repeat_Intro;
 
   SetRepeatMode(mode);
+
 }
 
 void PlaylistSequence::ShuffleActionTriggered(QAction *action) {
@@ -153,6 +160,7 @@ void PlaylistSequence::ShuffleActionTriggered(QAction *action) {
   if (action == ui_->action_shuffle_albums) mode = Shuffle_Albums;
 
   SetShuffleMode(mode);
+
 }
 
 void PlaylistSequence::SetRepeatMode(const RepeatMode mode) {
@@ -174,6 +182,7 @@ void PlaylistSequence::SetRepeatMode(const RepeatMode mode) {
   }
 
   Save();
+
 }
 
 void PlaylistSequence::SetShuffleMode(const ShuffleMode mode) {
@@ -193,14 +202,17 @@ void PlaylistSequence::SetShuffleMode(const ShuffleMode mode) {
   }
 
   Save();
+
 }
 
 PlaylistSequence::ShuffleMode PlaylistSequence::shuffle_mode() const {
   return dynamic_ ? Shuffle_Off : shuffle_mode_;
+
 }
 
 PlaylistSequence::RepeatMode PlaylistSequence::repeat_mode() const {
   return dynamic_ ? Repeat_Off : repeat_mode_;
+
 }
 
 //called from global shortcut
@@ -216,6 +228,7 @@ void PlaylistSequence::CycleShuffleMode() {
   }
 
   SetShuffleMode(mode);
+
 }
 
 //called from global shortcut
@@ -234,4 +247,5 @@ void PlaylistSequence::CycleRepeatMode() {
   }
 
   SetRepeatMode(mode);
+
 }

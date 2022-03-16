@@ -107,10 +107,12 @@ namespace Utilities {
 
 static QString tr(const char *str) {
   return QCoreApplication::translate("", str);
+
 }
 
 QString PrettyTimeDelta(const int seconds) {
   return (seconds >= 0 ? "+" : "-") + PrettyTime(seconds);
+
 }
 
 QString PrettyTime(int seconds) {
@@ -129,10 +131,12 @@ QString PrettyTime(int seconds) {
     ret = QString::asprintf("%d:%02d", minutes, seconds);
 
   return ret;
+
 }
 
 QString PrettyTimeNanosec(const qint64 nanoseconds) {
   return PrettyTime(static_cast<int>(nanoseconds / kNsecPerSec));
+
 }
 
 QString WordyTime(const quint64 seconds) {
@@ -146,10 +150,12 @@ QString WordyTime(const quint64 seconds) {
   parts << PrettyTime(static_cast<int>(seconds - days * 60 * 60 * 24));
 
   return parts.join(" ");
+
 }
 
 QString WordyTimeNanosec(const quint64 nanoseconds) {
   return WordyTime(nanoseconds / kNsecPerSec);
+
 }
 
 QString Ago(const qint64 seconds_since_epoch, const QLocale &locale) {
@@ -164,6 +170,7 @@ QString Ago(const qint64 seconds_since_epoch, const QLocale &locale) {
   if (days_ago <= 7) return tr("%1 days ago").arg(days_ago);
 
   return then.date().toString(locale.dateFormat(QLocale::ShortFormat));
+
 }
 
 QString PrettyFutureDate(const QDate date) {
@@ -178,6 +185,7 @@ QString PrettyFutureDate(const QDate date) {
   if (delta_days <= 14) return tr("Next week");
 
   return tr("In %1 weeks").arg(delta_days / 7);
+
 }
 
 QString PrettySize(const quint64 bytes) {
@@ -199,6 +207,7 @@ QString PrettySize(const quint64 bytes) {
     }
   }
   return ret;
+
 }
 
 quint64 FileSystemCapacity(const QString &path) {
@@ -215,6 +224,7 @@ quint64 FileSystemCapacity(const QString &path) {
 #endif
 
   return 0;
+
 }
 
 quint64 FileSystemFreeSpace(const QString &path) {
@@ -231,6 +241,7 @@ quint64 FileSystemFreeSpace(const QString &path) {
 #endif
 
   return 0;
+
 }
 
 bool MoveToTrashRecursive(const QString &path) {
@@ -256,6 +267,7 @@ bool MoveToTrashRecursive(const QString &path) {
   return false;
 
 #endif
+
 }
 
 bool RemoveRecursive(const QString &path) {
@@ -274,6 +286,7 @@ bool RemoveRecursive(const QString &path) {
   }
 
   return dir.rmdir(path);
+
 }
 
 bool CopyRecursive(const QString &source, const QString &destination) {
@@ -298,6 +311,7 @@ bool CopyRecursive(const QString &source, const QString &destination) {
     }
   }
   return true;
+
 }
 
 bool Copy(QIODevice *source, QIODevice *destination) {
@@ -328,6 +342,7 @@ bool Copy(QIODevice *source, QIODevice *destination) {
   } while (bytes_written > 0 && pos != bytes);
 
   return true;
+
 }
 
 QString ColorToRgba(const QColor &c) {
@@ -337,6 +352,7 @@ QString ColorToRgba(const QColor &c) {
     .arg(c.green())
     .arg(c.blue())
     .arg(c.alpha());
+
 }
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
@@ -403,6 +419,7 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
   else {
     proc.startDetached(command, QStringList() << command_params << url.toLocalFile());
   }
+
 }
 #endif
 
@@ -410,6 +427,7 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
 // Better than openUrl(dirname(path)) - also highlights file at path
 void RevealFileInFinder(const QString &path) {
   QProcess::execute("/usr/bin/open", QStringList() << "-R" << path);
+
 }
 #endif  // Q_OS_MACOS
 
@@ -417,6 +435,7 @@ void RevealFileInFinder(const QString &path) {
 void ShowFileInExplorer(const QString &path);
 void ShowFileInExplorer(const QString &path) {
   QProcess::execute("explorer.exe", QStringList() << "/select," << QDir::toNativeSeparators(path));
+
 }
 #endif
 
@@ -466,6 +485,7 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
     ShowFileInExplorer(i.value().toLocalFile());
 #endif
   }
+
 }
 
 QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptographicHash::Algorithm method) {
@@ -490,18 +510,22 @@ QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptograp
   total.append(QCryptographicHash::hash(part, method));
 
   return QCryptographicHash::hash(total, method);
+
 }
 
 QByteArray HmacSha256(const QByteArray &key, const QByteArray &data) {
   return Hmac(key, data, QCryptographicHash::Sha256);
+
 }
 
 QByteArray HmacMd5(const QByteArray &key, const QByteArray &data) {
   return Hmac(key, data, QCryptographicHash::Md5);
+
 }
 
 QByteArray HmacSha1(const QByteArray &key, const QByteArray &data) {
   return Hmac(key, data, QCryptographicHash::Sha1);
+
 }
 
 QByteArray Sha1CoverHash(const QString &artist, const QString &album) {
@@ -511,10 +535,12 @@ QByteArray Sha1CoverHash(const QString &artist, const QString &album) {
   hash.addData(album.toLower().toUtf8().constData());
 
   return hash.result();
+
 }
 
 QString PrettySize(const QSize size) {
   return QString::number(size.width()) + "x" + QString::number(size.height());
+
 }
 
 void ConsumeCurrentElement(QXmlStreamReader *reader) {
@@ -527,6 +553,7 @@ void ConsumeCurrentElement(QXmlStreamReader *reader) {
       default: break;
     }
   }
+
 }
 
 bool ParseUntilElement(QXmlStreamReader *reader, const QString &name) {
@@ -538,6 +565,7 @@ bool ParseUntilElement(QXmlStreamReader *reader, const QString &name) {
     }
   }
   return false;
+
 }
 
 bool ParseUntilElementCI(QXmlStreamReader *reader, const QString &name) {
@@ -553,6 +581,7 @@ bool ParseUntilElementCI(QXmlStreamReader *reader, const QString &name) {
   }
 
   return false;
+
 }
 
 QDateTime ParseRFC822DateTime(const QString &text) {
@@ -601,6 +630,7 @@ QDateTime ParseRFC822DateTime(const QString &text) {
   const QTime time(re_match.captured(static_cast<int>(MatchNames::HOURS)).toInt(), re_match.captured(static_cast<int>(MatchNames::MINUTES)).toInt(), re_match.captured(static_cast<int>(MatchNames::SECONDS)).toInt());
 
   return QDateTime(date, time);
+
 }
 
 const char *EnumToString(const QMetaObject &meta, const char *name, const int value) {
@@ -611,6 +641,7 @@ const char *EnumToString(const QMetaObject &meta, const char *name, const int va
   const char *result = metaenum.valueToKey(value);
   if (!result) return "[UnknownEnumValue]";
   return result;
+
 }
 
 QStringList Prepend(const QString &text, const QStringList &list) {
@@ -618,6 +649,7 @@ QStringList Prepend(const QString &text, const QStringList &list) {
   QStringList ret(list);
   for (int i = 0; i < ret.count(); ++i) ret[i].prepend(text);
   return ret;
+
 }
 
 QStringList Updateify(const QStringList &list) {
@@ -625,6 +657,7 @@ QStringList Updateify(const QStringList &list) {
   QStringList ret(list);
   for (int i = 0; i < ret.count(); ++i) ret[i].prepend(ret[i] + " = :");
   return ret;
+
 }
 
 QString DecodeHtmlEntities(const QString &text) {
@@ -643,6 +676,7 @@ QString DecodeHtmlEntities(const QString &text) {
     .replace("&#x27;", "'");
 
   return copy;
+
 }
 
 long SetThreadIOPriority(const IoPriority priority) {
@@ -655,6 +689,7 @@ long SetThreadIOPriority(const IoPriority priority) {
   Q_UNUSED(priority);
   return 0;
 #endif
+
 }
 
 long GetThreadId() {
@@ -664,19 +699,23 @@ long GetThreadId() {
 #else
   return 0;
 #endif
+
 }
 
 QString PathWithoutFilenameExtension(const QString &filename) {
   if (filename.section('/', -1, -1).contains('.')) return filename.section('.', 0, -2);
   return filename;
+
 }
 
 QString FiddleFileExtension(const QString &filename, const QString &new_extension) {
   return PathWithoutFilenameExtension(filename) + "." + new_extension;
+
 }
 
 QString GetEnv(const QString &key) {
   return QString::fromLocal8Bit(qgetenv(key.toLocal8Bit()));
+
 }
 
 void SetEnv(const char *key, const QString &value) {
@@ -686,6 +725,7 @@ void SetEnv(const char *key, const QString &value) {
 #else
   setenv(key, value.toLocal8Bit().constData(), 1);
 #endif
+
 }
 
 void IncreaseFDLimit() {
@@ -707,21 +747,25 @@ void IncreaseFDLimit() {
     qLog(Debug) << "Max fd:" << max_fd;
   }
 #endif
+
 }
 
 QString GetRandomStringWithChars(const int len) {
   const QString UseCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
   return GetRandomString(len, UseCharacters);
+
 }
 
 QString GetRandomStringWithCharsAndNumbers(const int len) {
   const QString UseCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
   return GetRandomString(len, UseCharacters);
+
 }
 
 QString CryptographicRandomString(const int len) {
   const QString UseCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~");
   return GetRandomString(len, UseCharacters);
+
 }
 
 QString GetRandomString(const int len, const QString &UseCharacters) {
@@ -738,6 +782,7 @@ QString GetRandomString(const int len, const QString &UseCharacters) {
   }
 
   return randstr;
+
 }
 
 QString DesktopEnvironment() {
@@ -767,6 +812,7 @@ QString DesktopEnvironment() {
     return "XFCE";
 
   return "Unknown";
+
 }
 
 QString UnicodeToAscii(QString unicode) {
@@ -814,6 +860,7 @@ QString UnicodeToAscii(QString unicode) {
   return ret;
 
 #endif  // _MSC_VER
+
 }
 
 QString MacAddress() {
@@ -840,6 +887,7 @@ QString MacAddress() {
   if (ret.isEmpty()) ret = "00:00:00:00:00:00";
 
   return ret;
+
 }
 
 QString ReplaceMessage(const QString &message, const Song &song, const QString &newline, const bool html_escaped) {
@@ -861,6 +909,7 @@ QString ReplaceMessage(const QString &message, const Song &song, const QString &
   if (index_of >= 0) copy = copy.remove(index_of, 3);
 
   return copy;
+
 }
 
 QString ReplaceVariable(const QString &variable, const Song &song, const QString &newline, const bool html_escaped) {
@@ -929,10 +978,12 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
     value = value.toHtmlEscaped();
   }
   return value;
+
 }
 
 bool IsColorDark(const QColor &color) {
   return ((30 * color.red() + 59 * color.green() + 11 * color.blue()) / 100) <= 130;
+
 }
 
 QByteArray ReadDataFromFile(const QString &filename) {
@@ -947,6 +998,7 @@ QByteArray ReadDataFromFile(const QString &filename) {
     qLog(Error) << "Failed to open file" << filename << "for reading:" << file.errorString();
   }
   return data;
+
 }
 
 QString MimeTypeFromData(const QByteArray &data) {
@@ -954,6 +1006,7 @@ QString MimeTypeFromData(const QByteArray &data) {
   if (data.isEmpty()) return QString();
 
   return QMimeDatabase().mimeTypeForData(data).name();
+
 }
 
 #ifdef Q_OS_WIN
@@ -961,6 +1014,7 @@ QString MimeTypeFromData(const QByteArray &data) {
 HRGN qt_RectToHRGN(const QRect &rc);
 HRGN qt_RectToHRGN(const QRect &rc) {
   return CreateRectRgn(rc.left(), rc.top(), rc.right() + 1, rc.bottom() + 1);
+
 }
 
 HRGN toHRGN(const QRegion &region);
@@ -988,6 +1042,7 @@ HRGN toHRGN(const QRegion &region) {
   return resultRgn;
 
 #  endif  // Qt 6
+
 }
 
 void enableBlurBehindWindow(QWindow *window, const QRegion &region) {
@@ -1007,9 +1062,11 @@ void enableBlurBehindWindow(QWindow *window, const QRegion &region) {
   if (rgn) {
     DeleteObject(rgn);
   }
+
 }
 
 #endif  // Q_OS_WIN
+
 
 }  // namespace Utilities
 
@@ -1017,4 +1074,5 @@ ScopedWCharArray::ScopedWCharArray(const QString &str)
     : chars_(str.length()), data_(new wchar_t[chars_ + 1]) {
   str.toWCharArray(data_.get());
   data_[chars_] = '\0';
+
 }

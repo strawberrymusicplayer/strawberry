@@ -41,6 +41,7 @@ class ForceScrollPerPixel : public QObject {
 
  private:
   QAbstractItemView *item_view_;
+
 };
 
 #endif  // FORCESCROLLPERPIXEL_H

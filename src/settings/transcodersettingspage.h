@@ -51,6 +51,7 @@ class TranscoderSettingsPage : public SettingsPage {
 
  private:
   Ui_TranscoderSettingsPage *ui_;
+
 };
 
 #endif  // TRANSCODERSETTINGSPAGE_H

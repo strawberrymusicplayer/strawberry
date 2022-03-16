@@ -57,6 +57,7 @@ class QueueView : public QWidget {
 
   PlaylistManager *playlists_;
   Playlist *current_playlist_;
+
 };
 
 #endif  // QUEUEVIEW_H

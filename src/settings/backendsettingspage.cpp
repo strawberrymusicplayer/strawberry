@@ -99,11 +99,13 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent
   QObject::connect(ui_->checkbox_volume_control, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
   QObject::connect(ui_->checkbox_channels, &QCheckBox::toggled, ui_->widget_channels, &QSpinBox::setEnabled);
   QObject::connect(ui_->button_buffer_defaults, &QPushButton::clicked, this, &BackendSettingsPage::BufferDefaults);
+
 }
 
 BackendSettingsPage::~BackendSettingsPage() {
 
   delete ui_;
+
 }
 
 void BackendSettingsPage::Load() {
@@ -233,6 +235,7 @@ void BackendSettingsPage::Load() {
   }
 
   s.endGroup();
+
 }
 
 bool BackendSettingsPage::EngineInitialized() {
@@ -242,6 +245,7 @@ bool BackendSettingsPage::EngineInitialized() {
     return false;
   }
   return true;
+
 }
 
 void BackendSettingsPage::Load_Engine(const Engine::EngineType enginetype) {
@@ -275,6 +279,7 @@ void BackendSettingsPage::Load_Engine(const Engine::EngineType enginetype) {
   engineloaded_ = true;
 
   Load_Output(output, device);
+
 }
 
 void BackendSettingsPage::Load_Output(QString output, QVariant device) {
@@ -322,6 +327,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   if (ui_->combobox_output->count() >= 1) Load_Device(output, device);
 
   FadingOptionsChanged();
+
 }
 
 void BackendSettingsPage::Load_Device(const QString &output, const QVariant &device) {
@@ -432,6 +438,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   ui_->combobox_device->setEnabled(devices > 0 || engine()->CustomDeviceSupport(output));
 
   FadingOptionsChanged();
+
 }
 
 void BackendSettingsPage::Save() {
@@ -502,6 +509,7 @@ void BackendSettingsPage::Save() {
   s.setValue("FadeoutPauseDuration", ui_->spinbox_fadeduration_pauseresume->value());
 
   s.endGroup();
+
 }
 
 void BackendSettingsPage::Cancel() {
@@ -510,6 +518,7 @@ void BackendSettingsPage::Cancel() {
     dialog()->app()->player()->CreateEngine(enginetype_current_);
     dialog()->app()->player()->Init();
   }
+
 }
 
 void BackendSettingsPage::EngineChanged(const int index) {
@@ -529,6 +538,7 @@ void BackendSettingsPage::EngineChanged(const int index) {
 
   engineloaded_ = false;
   Load_Engine(enginetype);
+
 }
 
 void BackendSettingsPage::OutputChanged(const int index) {
@@ -537,6 +547,7 @@ void BackendSettingsPage::OutputChanged(const int index) {
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
   Load_Device(output.name, QVariant());
+
 }
 
 void BackendSettingsPage::DeviceSelectionChanged(int index) {
@@ -565,6 +576,7 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
   }
 
   FadingOptionsChanged();
+
 }
 
 void BackendSettingsPage::DeviceStringChanged() {
@@ -628,6 +640,7 @@ void BackendSettingsPage::DeviceStringChanged() {
   }
 
   FadingOptionsChanged();
+
 }
 
 void BackendSettingsPage::RgPreampChanged(const int value) {
@@ -635,6 +648,7 @@ void BackendSettingsPage::RgPreampChanged(const int value) {
   double db = static_cast<double>(value) / 10 - 60;
   QString db_str = QString::asprintf("%+.1f dB", db);
   ui_->label_replaygainpreamp->setText(db_str);
+
 }
 
 void BackendSettingsPage::RgFallbackGainChanged(const int value) {
@@ -642,6 +656,7 @@ void BackendSettingsPage::RgFallbackGainChanged(const int value) {
   double db = static_cast<double>(value) / 10 - 60;
   QString db_str = QString::asprintf("%+.1f dB", db);
   ui_->label_replaygainfallbackgain->setText(db_str);
+
 }
 
 #ifdef HAVE_ALSA
@@ -661,6 +676,7 @@ void BackendSettingsPage::SwitchALSADevices(const alsa_plugin alsaplugin) {
       view->setRowHidden(i, false);
     }
   }
+
 }
 #endif
 
@@ -690,6 +706,7 @@ void BackendSettingsPage::radiobutton_alsa_hw_clicked(const bool checked) {
   SelectDevice(device_new);
 
 #endif
+
 }
 
 void BackendSettingsPage::radiobutton_alsa_plughw_clicked(const bool checked) {
@@ -718,6 +735,7 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(const bool checked) {
   SelectDevice(device_new);
 
 #endif
+
 }
 
 void BackendSettingsPage::radiobutton_alsa_pcm_clicked(const bool checked) {
@@ -742,6 +760,7 @@ void BackendSettingsPage::radiobutton_alsa_pcm_clicked(const bool checked) {
   SelectDevice(device_new);
 
 #endif
+
 }
 
 void BackendSettingsPage::SelectDevice(const QString &device_new) {
@@ -782,6 +801,7 @@ void BackendSettingsPage::SelectDevice(const QString &device_new) {
       }
     }
   }
+
 }
 
 void BackendSettingsPage::FadingOptionsChanged() {
@@ -803,6 +823,7 @@ void BackendSettingsPage::FadingOptionsChanged() {
 
   ui_->widget_fading_options->setEnabled(ui_->checkbox_fadeout_stop->isChecked() || ui_->checkbox_fadeout_cross->isChecked() || ui_->checkbox_fadeout_auto->isChecked());
   ui_->checkbox_fadeout_samealbum->setEnabled(ui_->checkbox_fadeout_auto->isChecked());
+
 }
 
 
@@ -811,4 +832,5 @@ void BackendSettingsPage::BufferDefaults() {
   ui_->spinbox_bufferduration->setValue(kDefaultBufferDuration);
   ui_->spinbox_low_watermark->setValue(kDefaultBufferLowWatermark);
   ui_->spinbox_high_watermark->setValue(kDefaultBufferHighWatermark);
+
 }

@@ -59,6 +59,7 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
   QTemporaryFile temp_file_;                // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
   QString absolute_file_name_;              // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
   std::unique_ptr<SongPlaylistItem> item_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+
 };
 
 INSTANTIATE_TEST_SUITE_P(RealFiles, SongPlaylistItemTest, testing::Values(  // clazy:exclude=function-args-by-value,clazy-non-pod-global-static
@@ -73,7 +74,9 @@ TEST_P(SongPlaylistItemTest, Url) {
   expected.setPath(absolute_file_name_);
 
   EXPECT_EQ(expected, item_->Url());
+
 }
+
 
 
 }  //namespace

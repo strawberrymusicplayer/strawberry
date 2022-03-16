@@ -54,7 +54,9 @@ const char *BehaviourSettingsPage::kSettingsGroup = "Behaviour";
 namespace {
 bool LocaleAwareCompare(const QString &a, const QString &b) {
   return a.localeAwareCompare(b) < 0;
+
 }
+
 }  // namespace
 #endif
 
@@ -136,10 +138,12 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
 
   ui_->combobox_doubleclickplaylistaddmode->setItemData(0, PlaylistAddBehaviour_Play);
   ui_->combobox_doubleclickplaylistaddmode->setItemData(1, PlaylistAddBehaviour_Enqueue);
+
 }
 
 BehaviourSettingsPage::~BehaviourSettingsPage() {
   delete ui_;
+
 }
 
 void BehaviourSettingsPage::Load() {
@@ -227,6 +231,7 @@ void BehaviourSettingsPage::Load() {
   Init(ui_->layout_behavioursettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+
 }
 
 void BehaviourSettingsPage::Save() {
@@ -268,6 +273,7 @@ void BehaviourSettingsPage::Save() {
   s.setValue("seek_step_sec", ui_->spinbox_seekstepsec->value());
 
   s.endGroup();
+
 }
 
 void BehaviourSettingsPage::ShowTrayIconToggled(bool on) {
@@ -276,4 +282,5 @@ void BehaviourSettingsPage::ShowTrayIconToggled(bool on) {
   if (!on && ui_->radiobutton_hide->isChecked()) ui_->radiobutton_remember->setChecked(true);
   ui_->checkbox_keeprunning->setEnabled(on);
   ui_->checkbox_trayicon_progress->setEnabled(on);
+
 }

@@ -57,6 +57,7 @@ class QobuzUrlHandler : public UrlHandler {
   Application *app_;
   QobuzService *service_;
   QMap<uint, Request> requests_;
+
 };
 
 #endif  // QOBUZURLHANDLER_H

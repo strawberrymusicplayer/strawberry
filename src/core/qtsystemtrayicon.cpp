@@ -67,16 +67,19 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
   }
 
   QObject::connect(this, &QSystemTrayIcon::activated, this, &SystemTrayIcon::Clicked);
+
 }
 
 SystemTrayIcon::~SystemTrayIcon() {
   delete menu_;
+
 }
 
 void SystemTrayIcon::SetTrayiconProgress(const bool enabled) {
 
   trayicon_progress_ = enabled;
   UpdateIcon();
+
 }
 
 void SystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) {
@@ -102,6 +105,7 @@ void SystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop, 
   menu_->addAction(quit->icon(), quit->text(), quit, &QAction::trigger);
 
   if (available_) setContextMenu(menu_);
+
 }
 
 void SystemTrayIcon::Clicked(const QSystemTrayIcon::ActivationReason reason) {
@@ -119,15 +123,18 @@ void SystemTrayIcon::Clicked(const QSystemTrayIcon::ActivationReason reason) {
     default:
       break;
   }
+
 }
 
 void SystemTrayIcon::ShowPopup(const QString &summary, const QString &message, const int timeout) {
   if (available_) showMessage(summary, message, QSystemTrayIcon::NoIcon, timeout);
+
 }
 
 void SystemTrayIcon::UpdateIcon() {
 
   if (available_) setIcon(CreateIcon(normal_icon_, grey_icon_));
+
 }
 
 void SystemTrayIcon::SetPlaying(bool enable_play_pause) {
@@ -140,6 +147,7 @@ void SystemTrayIcon::SetPlaying(bool enable_play_pause) {
   action_play_pause_->setIcon(IconLoader::Load("media-playback-pause"));
   action_play_pause_->setText(tr("Pause"));
   action_play_pause_->setEnabled(enable_play_pause);
+
 }
 
 void SystemTrayIcon::SetPaused() {
@@ -153,6 +161,7 @@ void SystemTrayIcon::SetPaused() {
   action_play_pause_->setText(tr("Play"));
 
   action_play_pause_->setEnabled(true);
+
 }
 
 void SystemTrayIcon::SetStopped() {
@@ -168,30 +177,37 @@ void SystemTrayIcon::SetStopped() {
   action_play_pause_->setEnabled(true);
 
   action_love_->setEnabled(false);
+
 }
 
 void SystemTrayIcon::SetProgress(const int percentage) {
 
   song_progress_ = percentage;
   UpdateIcon();
+
 }
 
 void SystemTrayIcon::MuteButtonStateChanged(const bool value) {
   if (action_mute_) action_mute_->setChecked(value);
+
 }
 
 void SystemTrayIcon::SetNowPlaying(const Song &song, const QUrl &) {
   if (available_) setToolTip(song.PrettyTitleWithArtist());
+
 }
 
 void SystemTrayIcon::ClearNowPlaying() {
   if (available_) setToolTip(app_name_);
+
 }
 
 void SystemTrayIcon::LoveVisibilityChanged(const bool value) {
   if (action_love_) action_love_->setVisible(value);
+
 }
 
 void SystemTrayIcon::LoveStateChanged(const bool value) {
   if (action_love_) action_love_->setEnabled(value);
+
 }

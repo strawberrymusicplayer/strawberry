@@ -63,6 +63,7 @@ class DeviceFinder {
   QStringList outputs_;
 
   Q_DISABLE_COPY(DeviceFinder)
+
 };
 
 #endif  // DEVICEFINDER_H

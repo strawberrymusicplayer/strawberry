@@ -36,6 +36,7 @@ class DynamicPlaylistControls : public QWidget {
 
  private:
   Ui_DynamicPlaylistControls *ui_;
+
 };
 
 #endif  // DYNAMICPLAYLISTCONTROLS_H

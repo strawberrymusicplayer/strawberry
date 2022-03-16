@@ -48,6 +48,7 @@ CoverProviders::~CoverProviders() {
   while (!cover_providers_.isEmpty()) {
     delete cover_providers_.firstKey();
   }
+
 }
 
 void CoverProviders::ReloadSettings() {
@@ -82,6 +83,7 @@ void CoverProviders::ReloadSettings() {
       provider->set_order(++i);
     }
   }
+
 }
 
 CoverProvider *CoverProviders::ProviderByName(const QString &name) const {
@@ -91,6 +93,7 @@ CoverProvider *CoverProviders::ProviderByName(const QString &name) const {
     if (provider->name() == name) return provider;
   }
   return nullptr;
+
 }
 
 void CoverProviders::AddProvider(CoverProvider *provider) {
@@ -104,6 +107,7 @@ void CoverProviders::AddProvider(CoverProvider *provider) {
   provider->set_order(++NextOrderId);
 
   qLog(Debug) << "Registered cover provider" << provider->name();
+
 }
 
 void CoverProviders::RemoveProvider(CoverProvider *provider) {
@@ -125,12 +129,14 @@ void CoverProviders::RemoveProvider(CoverProvider *provider) {
   else {
     qLog(Debug) << "Unregistered cover provider" << name;
   }
+
 }
 
 void CoverProviders::ProviderDestroyed() {
 
   CoverProvider *provider = static_cast<CoverProvider *>(sender());
   RemoveProvider(provider);
+
 }
 
 int CoverProviders::NextId() { return next_id_.fetchAndAddRelaxed(1); }

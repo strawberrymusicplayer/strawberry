@@ -55,6 +55,7 @@ class SmartPlaylistWizardPlugin : public QObject {
 
  private:
   int start_page_;
+
 };
 
 #endif  // SMARTPLAYLISTWIZARDPLUGIN_H

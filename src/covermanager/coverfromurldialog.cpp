@@ -43,10 +43,12 @@ CoverFromURLDialog::CoverFromURLDialog(QWidget *parent) : QDialog(parent), ui_(n
 
   ui_->setupUi(this);
   ui_->busy->hide();
+
 }
 
 CoverFromURLDialog::~CoverFromURLDialog() {
   delete ui_;
+
 }
 
 AlbumCoverImageResult CoverFromURLDialog::Exec() {
@@ -60,6 +62,7 @@ AlbumCoverImageResult CoverFromURLDialog::Exec() {
 
   exec();
   return last_album_cover_;
+
 }
 
 void CoverFromURLDialog::accept() {
@@ -71,6 +74,7 @@ void CoverFromURLDialog::accept() {
 
   QNetworkReply *reply = network_->get(req);
   QObject::connect(reply, &QNetworkReply::finished, this, &CoverFromURLDialog::LoadCoverFromURLFinished);
+
 }
 
 void CoverFromURLDialog::LoadCoverFromURLFinished() {
@@ -97,4 +101,5 @@ void CoverFromURLDialog::LoadCoverFromURLFinished() {
   else {
     QMessageBox::information(this, tr("Fetching cover error"), tr("The site you requested is not an image!"));
   }
+
 }

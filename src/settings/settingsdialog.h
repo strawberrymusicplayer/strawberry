@@ -65,6 +65,7 @@ class SettingsItemDelegate : public QStyledItemDelegate {
   explicit SettingsItemDelegate(QObject *parent);
   QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
+
 };
 
 
@@ -163,6 +164,7 @@ class SettingsDialog : public QDialog {
   bool loading_settings_;
 
   QMap<Page, PageData> pages_;
+
 };
 
 #endif  // SETTINGSDIALOG_H

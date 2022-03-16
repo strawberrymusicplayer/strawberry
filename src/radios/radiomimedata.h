@@ -31,6 +31,7 @@ class RadioMimeData : public MimeData {
  public:
   explicit RadioMimeData(QObject* = nullptr) {}
   SongList songs;
+
 };
 
 #endif  // RADIOMIMEDATA_H

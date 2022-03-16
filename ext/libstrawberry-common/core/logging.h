@@ -59,6 +59,7 @@ class NullDevice : public QIODevice {
  protected:
   qint64 readData(char *, qint64) override { return -1; }
   qint64 writeData(const char *, qint64 len) override { return len; }
+
 };
 
 enum Level {
@@ -67,6 +68,7 @@ enum Level {
   Level_Warning,
   Level_Info,
   Level_Debug,
+
 };
 
 void Init();
@@ -93,6 +95,7 @@ QDebug CreateLoggerDebug(int line, const char *pretty_function, const char *cate
 void GLog(const char *domain, int level, const char *message, void *user_data);
 
 extern const char *kDefaultLogLevels;
+
 
 }  // namespace logging
 

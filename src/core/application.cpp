@@ -206,6 +206,7 @@ class ApplicationImpl {
   Lazy<MoodbarController> moodbar_controller_;
 #endif
   Lazy<LastFMImport> lastfm_import_;
+
 };
 
 Application::Application(QObject *parent)
@@ -216,6 +217,7 @@ Application::Application(QObject *parent)
   tag_reader_client();
 
   QObject::connect(database(), &Database::Error, this, &Application::ErrorAdded);
+
 }
 
 Application::~Application() {
@@ -234,6 +236,7 @@ Application::~Application() {
     thread->wait();
     thread->deleteLater();
   }
+
 }
 
 QThread *Application::MoveToNewThread(QObject *object) {
@@ -246,12 +249,14 @@ QThread *Application::MoveToNewThread(QObject *object) {
   threads_ << thread;
 
   return thread;
+
 }
 
 void Application::MoveToThread(QObject *object, QThread *thread) {
   object->setParent(nullptr);
   object->moveToThread(thread);
   qLog(Debug) << object << "moved to thread" << thread;
+
 }
 
 void Application::Exit() {
@@ -288,6 +293,7 @@ void Application::Exit() {
 
   QObject::connect(radio_services()->radio_backend(), &RadioBackend::ExitFinished, this, &Application::ExitReceived);
   radio_services()->radio_backend()->ExitAsync();
+
 }
 
 void Application::ExitReceived() {
@@ -303,6 +309,7 @@ void Application::ExitReceived() {
     QObject::connect(database(), &Database::ExitFinished, this, &Application::ExitFinished);
     database()->ExitAsync();
   }
+
 }
 
 void Application::AddError(const QString &message) { emit ErrorAdded(message); }
@@ -316,9 +323,15 @@ TaskManager *Application::task_manager() const { return p_->task_manager_.get();
 Player *Application::player() const { return p_->player_.get(); }
 DeviceFinders *Application::device_finders() const { return p_->device_finders_.get(); }
 #ifndef Q_OS_WIN
-DeviceManager *Application::device_manager() const { return p_->device_manager_.get(); }
+DeviceManager *Application::device_manager() const {
+  return p_->device_manager_.get();
+
+}
 #endif
-SCollection *Application::collection() const { return p_->collection_.get(); }
+SCollection *Application::collection() const {
+  return p_->collection_.get();
+
+}
 CollectionBackend *Application::collection_backend() const { return collection()->backend(); }
 CollectionModel *Application::collection_model() const { return collection()->model(); }
 AlbumCoverLoader *Application::album_cover_loader() const { return p_->album_cover_loader_.get(); }
@@ -332,6 +345,9 @@ RadioServices *Application::radio_services() const { return p_->radio_services_.
 AudioScrobbler *Application::scrobbler() const { return p_->scrobbler_.get(); }
 LastFMImport *Application::lastfm_import() const { return p_->lastfm_import_.get(); }
 #ifdef HAVE_MOODBAR
-MoodbarController *Application::moodbar_controller() const { return p_->moodbar_controller_.get(); }
+MoodbarController *Application::moodbar_controller() const {
+  return p_->moodbar_controller_.get();
+
+}
 MoodbarLoader *Application::moodbar_loader() const { return p_->moodbar_loader_.get(); }
 #endif

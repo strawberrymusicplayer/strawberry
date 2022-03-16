@@ -53,6 +53,7 @@ struct MprisPlaylist {
   QDBusObjectPath id;
   QString name;
   QString icon;  // Uri
+
 };
 typedef QList<MprisPlaylist> MprisPlaylistList;
 Q_DECLARE_METATYPE(MprisPlaylist)
@@ -61,6 +62,7 @@ Q_DECLARE_METATYPE(MprisPlaylistList)
 struct MaybePlaylist {
   bool valid;
   MprisPlaylist playlist;
+
 };
 Q_DECLARE_METATYPE(MaybePlaylist)
 
@@ -238,7 +240,9 @@ class Mpris2 : public QObject {
   QStringList desktop_files_;
   QString desktop_file_;
   QVariantMap last_metadata_;
+
 };
+
 
 }  // namespace mpris
 

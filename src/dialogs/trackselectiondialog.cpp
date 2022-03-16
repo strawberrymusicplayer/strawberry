@@ -89,10 +89,12 @@ TrackSelectionDialog::TrackSelectionDialog(QWidget *parent)
   ui_->results->setColumnWidth(2, 160);  // Title column
   ui_->results->setColumnWidth(3, 160);  // Artist column
   ui_->results->setColumnWidth(4, 160);  // Album column
+
 }
 
 TrackSelectionDialog::~TrackSelectionDialog() {
   delete ui_;
+
 }
 
 void TrackSelectionDialog::Init(const SongList &songs) {
@@ -117,6 +119,7 @@ void TrackSelectionDialog::Init(const SongList &songs) {
   previous_button_->setEnabled(multiple);
 
   ui_->song_list->setCurrentRow(0);
+
 }
 
 void TrackSelectionDialog::FetchTagProgress(const Song &original_song, const QString &progress) {
@@ -138,6 +141,7 @@ void TrackSelectionDialog::FetchTagProgress(const Song &original_song, const QSt
   if (ui_->song_list->currentIndex().row() == row) {
     UpdateStack();
   }
+
 }
 
 void TrackSelectionDialog::FetchTagFinished(const Song &original_song, const SongList &songs_guessed) {
@@ -164,6 +168,7 @@ void TrackSelectionDialog::FetchTagFinished(const Song &original_song, const Son
   if (ui_->song_list->currentIndex().row() == row) {
     UpdateStack();
   }
+
 }
 
 void TrackSelectionDialog::UpdateStack() {
@@ -208,6 +213,7 @@ void TrackSelectionDialog::UpdateStack() {
       break;
     }
   }
+
 }
 
 void TrackSelectionDialog::AddDivider(const QString &text, QTreeWidget *parent) const {
@@ -221,6 +227,7 @@ void TrackSelectionDialog::AddDivider(const QString &text, QTreeWidget *parent) 
   QFont bold_font(font());
   bold_font.setBold(true);
   item->setFont(0, bold_font);
+
 }
 
 void TrackSelectionDialog::AddSong(const Song &song, int result_index, QTreeWidget *parent) {
@@ -231,6 +238,7 @@ void TrackSelectionDialog::AddSong(const Song &song, int result_index, QTreeWidg
   QTreeWidgetItem *item = new QTreeWidgetItem(parent, values);
   item->setData(0, Qt::UserRole, result_index);
   item->setData(0, Qt::TextAlignmentRole, Qt::AlignCenter);
+
 }
 
 void TrackSelectionDialog::ResultSelected() {
@@ -242,6 +250,7 @@ void TrackSelectionDialog::ResultSelected() {
 
   const int result_index = ui_->results->currentItem()->data(0, Qt::UserRole).toInt();
   data_[song_row].selected_result_ = result_index;
+
 }
 
 void TrackSelectionDialog::SetLoading(const QString &message) {
@@ -252,6 +261,7 @@ void TrackSelectionDialog::SetLoading(const QString &message) {
   ui_->splitter->setEnabled(!loading);
   ui_->loading_label->setVisible(loading);
   ui_->loading_label->set_text(message);
+
 }
 
 void TrackSelectionDialog::SaveData(const QList<Data> &data) {
@@ -275,6 +285,7 @@ void TrackSelectionDialog::SaveData(const QList<Data> &data) {
       qLog(Warning) << "Failed to write new auto-tags to" << copy.url().toLocalFile();
     }
   }
+
 }
 
 void TrackSelectionDialog::accept() {
@@ -302,6 +313,7 @@ void TrackSelectionDialog::accept() {
 
     emit SongChosen(tag_data.original_song_, new_metadata);
   }
+
 }
 
 void TrackSelectionDialog::AcceptFinished() {
@@ -312,14 +324,17 @@ void TrackSelectionDialog::AcceptFinished() {
 
   SetLoading(QString());
   QDialog::accept();
+
 }
 
 void TrackSelectionDialog::NextSong() {
   int row = (ui_->song_list->currentRow() + 1) % ui_->song_list->count();
   ui_->song_list->setCurrentRow(row);
+
 }
 
 void TrackSelectionDialog::PreviousSong() {
   int row = (ui_->song_list->currentRow() - 1 + ui_->song_list->count()) % ui_->song_list->count();
   ui_->song_list->setCurrentRow(row);
+
 }

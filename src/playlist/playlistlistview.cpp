@@ -55,12 +55,15 @@ void PlaylistListView::paintEvent(QPaintEvent *event) {
   else {
     AutoExpandingTreeView::paintEvent(event);
   }
+
 }
 
 bool PlaylistListView::ItemsSelected() const {
   return selectionModel()->selectedRows().count() > 0;
+
 }
 
 void PlaylistListView::selectionChanged(const QItemSelection &, const QItemSelection &) {
   emit ItemsSelectedChanged(selectionModel()->selectedRows().count() > 0);
+
 }

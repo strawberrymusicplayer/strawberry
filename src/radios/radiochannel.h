@@ -35,6 +35,7 @@ struct RadioChannel {
   QUrl thumbnail_url;
 
   Song ToSong() const;
+
 };
 typedef QList<RadioChannel> RadioChannelList;
 

@@ -145,6 +145,7 @@ QString SmartPlaylistSearchTerm::ToSql() const {
   }
 
   return QString();
+
 }
 
 bool SmartPlaylistSearchTerm::is_valid() const {
@@ -177,12 +178,14 @@ bool SmartPlaylistSearchTerm::is_valid() const {
       return false;
   }
   return false;
+
 }
 
 bool SmartPlaylistSearchTerm::operator==(const SmartPlaylistSearchTerm &other) const {
   return field_ == other.field_ && operator_ == other.operator_ &&
     value_ == other.value_ && date_ == other.date_ &&
     second_value_ == other.second_value_;
+
 }
 
 SmartPlaylistSearchTerm::Type SmartPlaylistSearchTerm::TypeOf(const Field field) {
@@ -214,6 +217,7 @@ SmartPlaylistSearchTerm::Type SmartPlaylistSearchTerm::TypeOf(const Field field)
     default:
       return Type_Text;
   }
+
 }
 
 OperatorList SmartPlaylistSearchTerm::OperatorsForType(const Type type) {
@@ -231,6 +235,7 @@ OperatorList SmartPlaylistSearchTerm::OperatorsForType(const Type type) {
       return OperatorList() << Op_Equals << Op_NotEquals << Op_GreaterThan
                             << Op_LessThan;
   }
+
 }
 
 QString SmartPlaylistSearchTerm::OperatorText(const Type type, const Operator op) {
@@ -282,6 +287,7 @@ QString SmartPlaylistSearchTerm::OperatorText(const Type type, const Operator op
   }
 
   return QString();
+
 }
 
 QString SmartPlaylistSearchTerm::FieldColumnName(const Field field) {
@@ -343,6 +349,7 @@ QString SmartPlaylistSearchTerm::FieldColumnName(const Field field) {
       Q_ASSERT(0);
   }
   return QString();
+
 }
 
 QString SmartPlaylistSearchTerm::FieldName(const Field field) {
@@ -404,6 +411,7 @@ QString SmartPlaylistSearchTerm::FieldName(const Field field) {
       Q_ASSERT(0);
   }
   return QString();
+
 }
 
 QString SmartPlaylistSearchTerm::FieldSortOrderText(const Type type, const bool ascending) {
@@ -422,6 +430,7 @@ QString SmartPlaylistSearchTerm::FieldSortOrderText(const Type type, const bool 
       return QString();
   }
   return QString();
+
 }
 
 QString SmartPlaylistSearchTerm::DateName(const DateType date, const bool forQuery) {
@@ -440,6 +449,7 @@ QString SmartPlaylistSearchTerm::DateName(const DateType date, const bool forQue
       return (forQuery ? "years" : QObject::tr("Years"));
   }
   return QString();
+
 }
 
 QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearchTerm &term) {
@@ -450,6 +460,7 @@ QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearchTerm &term) {
   s << term.second_value_;
   s << quint8(term.date_);
   return s;
+
 }
 
 QDataStream &operator>>(QDataStream &s, SmartPlaylistSearchTerm &term) {
@@ -460,4 +471,5 @@ QDataStream &operator>>(QDataStream &s, SmartPlaylistSearchTerm &term) {
   term.operator_ = SmartPlaylistSearchTerm::Operator(op);
   term.date_ = SmartPlaylistSearchTerm::DateType(date);
   return s;
+
 }

@@ -67,6 +67,7 @@ class LyricsSettingsPage : public SettingsPage {
  private:
   Ui_LyricsSettingsPage *ui_;
   bool provider_selected_;
+
 };
 
 #endif  // LYRICSSETTINGSPAGE_H

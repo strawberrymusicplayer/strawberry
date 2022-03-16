@@ -36,6 +36,7 @@ ScrobblerServices::~ScrobblerServices() {
   while (!scrobbler_services_.isEmpty()) {
     delete scrobbler_services_.take(scrobbler_services_.firstKey());
   }
+
 }
 
 void ScrobblerServices::AddService(ScrobblerService *service) {
@@ -46,6 +47,7 @@ void ScrobblerServices::AddService(ScrobblerService *service) {
   }
 
   qLog(Debug) << "Registered scrobbler service" << service->name();
+
 }
 
 void ScrobblerServices::RemoveService(ScrobblerService *service) {
@@ -59,6 +61,7 @@ void ScrobblerServices::RemoveService(ScrobblerService *service) {
   }
 
   qLog(Debug) << "Unregistered scrobbler service" << service->name();
+
 }
 
 int ScrobblerServices::NextId() { return next_id_.fetchAndAddRelaxed(1); }
@@ -67,4 +70,5 @@ ScrobblerService *ScrobblerServices::ServiceByName(const QString &name) {
 
   if (scrobbler_services_.contains(name)) return scrobbler_services_.value(name);
   return nullptr;
+
 }

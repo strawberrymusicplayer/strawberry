@@ -51,6 +51,7 @@ class GstStartup;
 
 namespace Engine {
 struct SimpleMetaBundle;
+
 }  // namespace Engine
 
 class PlayerInterface : public QObject {
@@ -124,6 +125,7 @@ class PlayerInterface : public QObject {
   void ForceShowOSD(Song, bool toggle);
 
   void Authenticated();
+
 };
 
 class Player : public PlayerInterface {
@@ -246,6 +248,7 @@ class Player : public PlayerInterface {
 
   QDateTime pause_time_;
   quint64 play_offset_nanosec_;
+
 };
 
 #endif  // PLAYER_H

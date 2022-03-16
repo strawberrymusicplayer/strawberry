@@ -37,6 +37,7 @@ InternetServices::~InternetServices() {
   while (!services_.isEmpty()) {
     delete services_.take(services_.firstKey());
   }
+
 }
 
 void InternetServices::AddService(InternetService *service) {
@@ -48,6 +49,7 @@ void InternetServices::AddService(InternetService *service) {
     service->ReloadSettings();
 
   qLog(Debug) << "Added internet service" << service->name();
+
 }
 
 void InternetServices::RemoveService(InternetService *service) {
@@ -57,12 +59,14 @@ void InternetServices::RemoveService(InternetService *service) {
   QObject::disconnect(service, nullptr, this, nullptr);
 
   qLog(Debug) << "Removed internet service" << service->name();
+
 }
 
 InternetService *InternetServices::ServiceBySource(const Song::Source source) const {
 
   if (services_.contains(source)) return services_.value(source);
   return nullptr;
+
 }
 
 void InternetServices::ReloadSettings() {
@@ -71,6 +75,7 @@ void InternetServices::ReloadSettings() {
   for (InternetService *service : services) {
     service->ReloadSettings();
   }
+
 }
 
 void InternetServices::Exit() {
@@ -82,6 +87,7 @@ void InternetServices::Exit() {
     service->Exit();
   }
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
+
 }
 
 void InternetServices::ExitReceived() {
@@ -89,4 +95,5 @@ void InternetServices::ExitReceived() {
   InternetService *service = qobject_cast<InternetService *>(sender());
   wait_for_exit_.removeAll(service);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
+
 }

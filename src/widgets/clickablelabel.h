@@ -38,6 +38,7 @@ class ClickableLabel : public QLabel {
 
  protected:
   void mousePressEvent(QMouseEvent *event) override;
+
 };
 
 #endif  // CLICKABLELABEL_H

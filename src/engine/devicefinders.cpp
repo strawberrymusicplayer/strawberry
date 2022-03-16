@@ -50,6 +50,7 @@ DeviceFinders::DeviceFinders(QObject *parent) : QObject(parent) {}
 
 DeviceFinders::~DeviceFinders() {
   qDeleteAll(device_finders_);
+
 }
 
 void DeviceFinders::Init() {
@@ -80,4 +81,5 @@ void DeviceFinders::Init() {
 
     device_finders_.append(finder);
   }
+
 }

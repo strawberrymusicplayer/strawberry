@@ -64,11 +64,13 @@ LastFMImport::LastFMImport(QObject *parent)
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(false);
   QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &LastFMImport::FlushRequests);
+
 }
 
 LastFMImport::~LastFMImport() {
 
   AbortAll();
+
 }
 
 void LastFMImport::AbortAll() {
@@ -88,6 +90,7 @@ void LastFMImport::AbortAll() {
   recent_tracks_requests_.clear();
   top_tracks_requests_.clear();
   timer_flush_requests_->stop();
+
 }
 
 void LastFMImport::ReloadSettings() {
@@ -96,6 +99,7 @@ void LastFMImport::ReloadSettings() {
   s.beginGroup(LastFMScrobbler::kSettingsGroup);
   username_ = s.value("username").toString();
   s.endGroup();
+
 }
 
 QNetworkReply *LastFMImport::CreateRequest(const ParamList &request_params) {
@@ -126,6 +130,7 @@ QNetworkReply *LastFMImport::CreateRequest(const ParamList &request_params) {
   //qLog(Debug) << "Sending request" << url_query.toString(QUrl::FullyDecoded);
 
   return reply;
+
 }
 
 QByteArray LastFMImport::GetReplyData(QNetworkReply *reply) {
@@ -169,6 +174,7 @@ QByteArray LastFMImport::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
+
 }
 
 QJsonObject LastFMImport::ExtractJsonObj(const QByteArray &data) {
@@ -195,6 +201,7 @@ QJsonObject LastFMImport::ExtractJsonObj(const QByteArray &data) {
   }
 
   return json_obj;
+
 }
 
 void LastFMImport::ImportData(const bool lastplayed, const bool playcount) {
@@ -215,6 +222,7 @@ void LastFMImport::ImportData(const bool lastplayed, const bool playcount) {
 
   if (lastplayed) AddGetRecentTracksRequest(0);
   if (playcount) AddGetTopTracksRequest(0);
+
 }
 
 void LastFMImport::FlushRequests() {
@@ -230,6 +238,7 @@ void LastFMImport::FlushRequests() {
   }
 
   timer_flush_requests_->stop();
+
 }
 
 void LastFMImport::AddGetRecentTracksRequest(const int page) {
@@ -239,6 +248,7 @@ void LastFMImport::AddGetRecentTracksRequest(const int page) {
   if (!timer_flush_requests_->isActive()) {
     timer_flush_requests_->start();
   }
+
 }
 
 void LastFMImport::SendGetRecentTracksRequest(GetRecentTracksRequest request) {
@@ -256,6 +266,7 @@ void LastFMImport::SendGetRecentTracksRequest(GetRecentTracksRequest request) {
 
   QNetworkReply *reply = CreateRequest(params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { GetRecentTracksRequestFinished(reply, request.page); });
+
 }
 
 void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const int page) {
@@ -387,6 +398,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
   }
 
   FinishCheck();
+
 }
 
 void LastFMImport::AddGetTopTracksRequest(const int page) {
@@ -396,6 +408,7 @@ void LastFMImport::AddGetTopTracksRequest(const int page) {
   if (!timer_flush_requests_->isActive()) {
     timer_flush_requests_->start();
   }
+
 }
 
 void LastFMImport::SendGetTopTracksRequest(GetTopTracksRequest request) {
@@ -413,6 +426,7 @@ void LastFMImport::SendGetTopTracksRequest(GetTopTracksRequest request) {
 
   QNetworkReply *reply = CreateRequest(params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { GetTopTracksRequestFinished(reply, request.page); });
+
 }
 
 void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int page) {
@@ -538,20 +552,24 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
   }
 
   FinishCheck();
+
 }
 
 void LastFMImport::UpdateTotalCheck() {
 
   if ((!playcount_ || playcount_total_ > 0) && (!lastplayed_ || lastplayed_total_ > 0))
     emit UpdateTotal(lastplayed_total_, playcount_total_);
+
 }
 
 void LastFMImport::UpdateProgressCheck() {
   emit UpdateProgress(lastplayed_received_, playcount_received_);
+
 }
 
 void LastFMImport::FinishCheck() {
   if (replies_.isEmpty() && recent_tracks_requests_.isEmpty() && top_tracks_requests_.isEmpty()) emit Finished();
+
 }
 
 void LastFMImport::Error(const QString &error, const QVariant &debug) {
@@ -562,4 +580,5 @@ void LastFMImport::Error(const QString &error, const QVariant &debug) {
   emit FinishedWithError(error);
 
   AbortAll();
+
 }

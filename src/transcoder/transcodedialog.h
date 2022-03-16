@@ -101,6 +101,7 @@ class TranscodeDialog : public QDialog {
   int queued_;
   int finished_success_;
   int finished_failed_;
+
 };
 
 #endif  // TRANSCODEDIALOG_H

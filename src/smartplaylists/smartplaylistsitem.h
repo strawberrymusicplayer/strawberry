@@ -42,6 +42,7 @@ class SmartPlaylistsItem : public SimpleTreeItem<SmartPlaylistsItem> {
   QByteArray smart_playlist_data;
 
   Q_DISABLE_COPY(SmartPlaylistsItem)
+
 };
 
 #endif  // SMARTPLAYLISTSITEM_H

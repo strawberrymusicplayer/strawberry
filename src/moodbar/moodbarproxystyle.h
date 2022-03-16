@@ -112,6 +112,7 @@ class MoodbarProxyStyle : public QProxyStyle {
   QMenu *context_menu_;
   QAction *show_moodbar_action_;
   QActionGroup *style_action_group_;
+
 };
 
 #endif  // MOODBARPROXYSTYLE_H

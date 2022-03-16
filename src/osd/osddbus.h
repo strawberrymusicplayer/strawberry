@@ -67,6 +67,7 @@ class OSDDBus : public OSDBase {
   QVersionNumber version_;
   uint notification_id_;
   QDateTime last_notification_time_;
+
 };
 
 QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image);

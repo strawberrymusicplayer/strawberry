@@ -58,6 +58,7 @@ class ContextItemDelegate : public QStyledItemDelegate {
 
  public slots:
   bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &idx) override;
+
 };
 
 class ContextAlbumsView : public AutoExpandingTreeView {
@@ -131,6 +132,7 @@ class ContextAlbumsView : public AutoExpandingTreeView {
   QSet<QString> last_selected_path_;
 
   ContextAlbumsModel *model_;
+
 };
 
 #endif  // CONTEXTALBUMSVIEW_H

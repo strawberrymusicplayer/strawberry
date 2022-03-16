@@ -37,6 +37,7 @@ MultiSortFilterProxy::MultiSortFilterProxy(QObject *parent)
 
 void MultiSortFilterProxy::AddSortSpec(int role, Qt::SortOrder order) {
   sorting_ << SortSpec(role, order);
+
 }
 
 bool MultiSortFilterProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const {
@@ -53,6 +54,7 @@ bool MultiSortFilterProxy::lessThan(const QModelIndex &left, const QModelIndex &
   }
 
   return left.row() < right.row();
+
 }
 
 template<typename T>
@@ -61,6 +63,7 @@ static inline int DoCompare(T left, T right) {
   if (left < right) return -1;
   if (left > right) return 1;
   return 0;
+
 }
 
 int MultiSortFilterProxy::Compare(const QVariant &left, const QVariant &right) const {
@@ -104,4 +107,5 @@ int MultiSortFilterProxy::Compare(const QVariant &left, const QVariant &right) c
   }
 
   return 0;
+
 }

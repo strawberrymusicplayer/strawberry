@@ -166,6 +166,7 @@ class AlbumCoverLoader : public QObject {
   QThread *original_thread_;
 
   QMultiMap<quint64, TagReaderReply *> tagreader_save_embedded_art_requests_;
+
 };
 
 #endif  // ALBUMCOVERLOADER_H

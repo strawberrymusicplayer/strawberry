@@ -71,6 +71,7 @@ class ScrobblerService : public QObject {
 
  private:
   QString name_;
+
 };
 
 #endif  // SCROBBLERSERVICE_H

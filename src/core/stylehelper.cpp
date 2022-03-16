@@ -38,6 +38,7 @@
 static int clamp(float x) {
   const int val = x > 255 ? 255 : static_cast<int>(x);
   return val < 0 ? 0 : val;
+
 }
 
 // Clamps float color values within (0, 255)
@@ -45,6 +46,7 @@ static int clamp(float x) {
 static int range(float x, int min, int max) {
     int val = x > max ? max : x;
     return val < min ? min : val;
+
 }
 */
 
@@ -64,6 +66,7 @@ QColor StyleHelper::mergedColors(const QColor &colorA, const QColor &colorB, int
   tmp.setGreen((tmp.green() * factor) / maxFactor + (colorB.green() * (maxFactor - factor)) / maxFactor);
   tmp.setBlue((tmp.blue() * factor) / maxFactor + (colorB.blue() * (maxFactor - factor)) / maxFactor);
   return tmp;
+
 }
 
 QColor StyleHelper::alphaBlendedColors(const QColor &colorA, const QColor &colorB) {
@@ -75,6 +78,7 @@ QColor StyleHelper::alphaBlendedColors(const QColor &colorA, const QColor &color
     (colorA.red() * antiAlpha + colorB.red() * alpha) / 255,
     (colorA.green() * antiAlpha + colorB.green() * alpha) / 255,
     (colorA.blue() * antiAlpha + colorB.blue() * alpha) / 255);
+
 }
 
 qreal StyleHelper::sidebarFontSize() {
@@ -83,6 +87,7 @@ qreal StyleHelper::sidebarFontSize() {
 #else
   return 7.5;
 #endif
+
 }
 
 QColor StyleHelper::notTooBrightHighlightColor() {
@@ -92,6 +97,7 @@ QColor StyleHelper::notTooBrightHighlightColor() {
     highlightColor.setHsvF(highlightColor.hsvHueF(), 0.1F + highlightColor.saturationF() * 2.0F, highlightColor.valueF());
   }
   return highlightColor;
+
 }
 
 QPalette StyleHelper::sidebarFontPalette(const QPalette &original) {
@@ -101,6 +107,7 @@ QPalette StyleHelper::sidebarFontPalette(const QPalette &original) {
   palette.setColor(QPalette::WindowText, textColor);
   palette.setColor(QPalette::Text, textColor);
   return palette;
+
 }
 
 QColor StyleHelper::panelTextColor(bool lightColored) {
@@ -111,6 +118,7 @@ QColor StyleHelper::panelTextColor(bool lightColored) {
   else {
     return Qt::white;
   }
+
 }
 
 QColor StyleHelper::baseColor(bool lightColored) {
@@ -121,6 +129,7 @@ QColor StyleHelper::baseColor(bool lightColored) {
   else {
     return m_baseColor;
   }
+
 }
 
 QColor StyleHelper::highlightColor(bool lightColored) {
@@ -134,6 +143,7 @@ QColor StyleHelper::highlightColor(bool lightColored) {
   }
 
   return result;
+
 }
 
 QColor StyleHelper::shadowColor(bool lightColored) {
@@ -141,6 +151,7 @@ QColor StyleHelper::shadowColor(bool lightColored) {
   QColor result = baseColor(lightColored);
   result.setHsv(result.hue(), clamp(static_cast<float>(result.saturation()) * 1.1F), clamp(static_cast<float>(result.value()) * 0.70F));
   return result;
+
 }
 
 QColor StyleHelper::borderColor(bool lightColored) {
@@ -148,12 +159,14 @@ QColor StyleHelper::borderColor(bool lightColored) {
   QColor result = baseColor(lightColored);
   result.setHsv(result.hue(), result.saturation(), result.value() / 2);
   return result;
+
 }
 
 QColor StyleHelper::toolBarBorderColor() {
 
   const QColor base = baseColor();
   return QColor::fromHsv(base.hue(), base.saturation(), clamp(static_cast<float>(base.value()) * 0.80F));
+
 }
 
 // We try to ensure that the actual color used are within reasonalbe bounds while generating the actual baseColor from the users request.
@@ -170,6 +183,7 @@ void StyleHelper::setBaseColor(const QColor &newcolor) {
       w->update();
     }
   }
+
 }
 
 static void verticalGradientHelper(QPainter *p, const QRect spanRect, const QRect rect, bool lightColored) {
@@ -187,6 +201,7 @@ static void verticalGradientHelper(QPainter *p, const QRect spanRect, const QRec
   QColor dark(0, 0, 0, 90);
   p->setPen(dark);
   p->drawLine(rect.topLeft(), rect.bottomLeft());
+
 }
 
 void StyleHelper::verticalGradient(QPainter *painter, const QRect spanRect, const QRect clipRect, bool lightColored) {
@@ -209,6 +224,7 @@ void StyleHelper::verticalGradient(QPainter *painter, const QRect spanRect, cons
   else {
     verticalGradientHelper(painter, spanRect, clipRect, lightColored);
   }
+
 }
 
 static void horizontalGradientHelper(QPainter *p, const QRect spanRect, const QRect rect, bool lightColored) {
@@ -241,6 +257,7 @@ static void horizontalGradientHelper(QPainter *p, const QRect spanRect, const QR
   shadowGradient.setColorAt(0.7, lighterHighlight);
   shadowGradient.setColorAt(1, QColor(0, 0, 0, 40));
   p->fillRect(rect, shadowGradient);
+
 }
 
 void StyleHelper::horizontalGradient(QPainter *painter, const QRect spanRect, const QRect clipRect, bool lightColored) {
@@ -263,6 +280,7 @@ void StyleHelper::horizontalGradient(QPainter *painter, const QRect spanRect, co
   else {
     horizontalGradientHelper(painter, spanRect, clipRect, lightColored);
   }
+
 }
 
 static void menuGradientHelper(QPainter *p, const QRect spanRect, const QRect rect) {
@@ -272,6 +290,7 @@ static void menuGradientHelper(QPainter *p, const QRect spanRect, const QRect re
   grad.setColorAt(0, menuColor.lighter(112));
   grad.setColorAt(1, menuColor);
   p->fillRect(rect, grad);
+
 }
 
 void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter, const QStyleOption *option) {
@@ -319,6 +338,7 @@ void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter,
   int xOffset = r.x() + (r.width() - size) / 2;
   int yOffset = r.y() + (r.height() - size) / 2;
   painter->drawPixmap(xOffset, yOffset, pixmap);
+
 }
 
 void StyleHelper::menuGradient(QPainter *painter, const QRect spanRect, const QRect clipRect) {
@@ -340,6 +360,7 @@ void StyleHelper::menuGradient(QPainter *painter, const QRect spanRect, const QR
   else {
     menuGradientHelper(painter, spanRect, clipRect);
   }
+
 }
 
 QPixmap StyleHelper::disabledSideBarIcon(const QPixmap &enabledicon) {
@@ -356,6 +377,7 @@ QPixmap StyleHelper::disabledSideBarIcon(const QPixmap &enabledicon) {
     }
   }
   return QPixmap::fromImage(im);
+
 }
 
 // Draws a CSS-like border image where the defined borders are not stretched
@@ -397,6 +419,7 @@ void StyleHelper::drawCornerImage(const QImage &img, QPainter *painter, const QR
       painter->drawImage(QRectF(rect.left() + rect.width() - right, rect.top() + rect.height() - bottom, right, bottom), img, QRectF(size.width() - rightDIP, size.height() - bottomDIP, rightDIP, bottomDIP));
     }
   }
+
 }
 
 // Tints an image with tintColor, while preserving alpha and lightness
@@ -420,6 +443,7 @@ void StyleHelper::tintImage(QImage &img, const QColor &tintColor) {
       }
     }
   }
+
 }
 
 QLinearGradient StyleHelper::statusBarGradient(const QRect statusBarRect) {
@@ -430,6 +454,7 @@ QLinearGradient StyleHelper::statusBarGradient(const QRect statusBarRect) {
   grad.setColorAt(0, startColor);
   grad.setColorAt(1, endColor);
   return grad;
+
 }
 
 QString StyleHelper::dpiSpecificImageFile(const QString &fileName) {
@@ -442,12 +467,14 @@ QString StyleHelper::dpiSpecificImageFile(const QString &fileName) {
     }
   }
   return fileName;
+
 }
 
 QString StyleHelper::imageFileWithResolution(const QString &fileName, int dpr) {
 
   const QFileInfo fi(fileName);
   return dpr == 1 ? fileName : fi.path() + QLatin1Char('/') + fi.completeBaseName() + QLatin1Char('@') + QString::number(dpr) + QLatin1String("x.") + fi.suffix();
+
 }
 
 QList<int> StyleHelper::availableImageResolutions(const QString &fileName) {
@@ -460,6 +487,8 @@ QList<int> StyleHelper::availableImageResolutions(const QString &fileName) {
     }
   }
   return result;
+
 }
+
 
 }  // namespace Utils

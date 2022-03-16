@@ -63,6 +63,7 @@ class CddaDevice : public ConnectedDevice {
 
  private:
   CddaSongLoader cdda_song_loader_;
+
 };
 
 #endif  // CDDADEVICE_H

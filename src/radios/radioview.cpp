@@ -49,6 +49,7 @@ RadioView::RadioView(QWidget *parent)
   setSelectionMode(QAbstractItemView::ExtendedSelection);
 
   QObject::connect(this, &RadioView::doubleClicked, this, &RadioView::DoubleClicked);
+
 }
 
 RadioView::~RadioView() { delete menu_; }
@@ -59,6 +60,7 @@ void RadioView::showEvent(QShowEvent *) {
     emit GetChannels();
     initialized_ = true;
   }
+
 }
 
 void RadioView::contextMenuEvent(QContextMenuEvent *e) {
@@ -98,6 +100,7 @@ void RadioView::contextMenuEvent(QContextMenuEvent *e) {
   action_donate_->setVisible(channels_selected);
 
   menu_->popup(e->globalPos());
+
 }
 
 void RadioView::AddToPlaylist() {
@@ -106,6 +109,7 @@ void RadioView::AddToPlaylist() {
   if (selected_indexes.isEmpty()) return;
 
   emit AddToPlaylistSignal(model()->mimeData(selected_indexes));
+
 }
 
 void RadioView::ReplacePlaylist() {
@@ -119,6 +123,7 @@ void RadioView::ReplacePlaylist() {
   }
 
   emit AddToPlaylistSignal(qmimedata);
+
 }
 
 void RadioView::OpenInNewPlaylist() {
@@ -135,6 +140,7 @@ void RadioView::OpenInNewPlaylist() {
   }
 
   emit AddToPlaylistSignal(qmimedata);
+
 }
 
 void RadioView::Homepage() {
@@ -153,6 +159,7 @@ void RadioView::Homepage() {
   for (const QUrl &url : urls) {
     QDesktopServices::openUrl(url);
   }
+
 }
 
 void RadioView::Donate() {
@@ -171,6 +178,7 @@ void RadioView::Donate() {
   for (const QUrl &url : urls) {
     QDesktopServices::openUrl(url);
   }
+
 }
 
 void RadioView::DoubleClicked() {
@@ -185,4 +193,5 @@ void RadioView::DoubleClicked() {
   }
 
   AddToPlaylist();
+
 }

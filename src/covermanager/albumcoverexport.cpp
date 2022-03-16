@@ -40,6 +40,7 @@ AlbumCoverExport::AlbumCoverExport(QWidget *parent) : QDialog(parent), ui_(new U
   ui_->setupUi(this);
 
   QObject::connect(ui_->forceSize, &QCheckBox::stateChanged, this, &AlbumCoverExport::ForceSizeToggled);
+
 }
 
 AlbumCoverExport::~AlbumCoverExport() { delete ui_; }
@@ -93,9 +94,11 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
   }
 
   return result;
+
 }
 
 void AlbumCoverExport::ForceSizeToggled(int state) {
   ui_->width->setEnabled(state == Qt::Checked);
   ui_->height->setEnabled(state == Qt::Checked);
+
 }

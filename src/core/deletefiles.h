@@ -68,6 +68,7 @@ class DeleteFiles : public QObject {
   int progress_;
 
   SongList songs_with_errors_;
+
 };
 
 #endif  // DELETEFILES_H

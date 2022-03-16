@@ -37,6 +37,7 @@ _MessageHandlerBase::_MessageHandlerBase(QIODevice *device, QObject *parent)
   if (device) {
     SetDevice(device);
   }
+
 }
 
 void _MessageHandlerBase::SetDevice(QIODevice *device) {
@@ -59,6 +60,7 @@ void _MessageHandlerBase::SetDevice(QIODevice *device) {
   else {
     qFatal("Unsupported device type passed to _MessageHandlerBase");
   }
+
 }
 
 void _MessageHandlerBase::DeviceReadyRead() {
@@ -91,6 +93,7 @@ void _MessageHandlerBase::DeviceReadyRead() {
       reading_protobuf_ = false;
     }
   }
+
 }
 
 void _MessageHandlerBase::WriteMessage(const QByteArray &data) {
@@ -106,9 +109,11 @@ void _MessageHandlerBase::WriteMessage(const QByteArray &data) {
   else if (flush_local_socket_) {
     ((qobject_cast<QLocalSocket *>(device_))->*(flush_local_socket_))();
   }
+
 }
 
 void _MessageHandlerBase::DeviceClosed() {
   is_device_closed_ = true;
   AbortAll();
+
 }

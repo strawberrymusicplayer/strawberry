@@ -42,10 +42,12 @@ PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog *dialog, QWidget *pare
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("document-new"));
+
 }
 
 PlaylistSettingsPage::~PlaylistSettingsPage() {
   delete ui_;
+
 }
 
 void PlaylistSettingsPage::Load() {
@@ -101,6 +103,7 @@ void PlaylistSettingsPage::Load() {
   Init(ui_->layout_playlistsettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+
 }
 
 void PlaylistSettingsPage::Save() {
@@ -136,4 +139,5 @@ void PlaylistSettingsPage::Save() {
   s.setValue("delete_files", ui_->checkbox_delete_files->isChecked());
   s.setValue("auto_sort", ui_->checkbox_auto_sort->isChecked());
   s.endGroup();
+
 }

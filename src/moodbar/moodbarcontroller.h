@@ -46,6 +46,7 @@ class MoodbarController : public QObject {
  private:
   Application *app_;
   bool enabled_;
+
 };
 
 #endif  // MOODBARCONTROLLER_H

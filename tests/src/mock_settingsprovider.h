@@ -36,6 +36,7 @@ class MockSettingsProvider : public SettingsProvider {
   MOCK_METHOD2(beginWriteArray, void(const QString &prefix, int size));
   MOCK_METHOD1(setArrayIndex, void(int i));
   MOCK_METHOD0(endArray, void());  // clazy:exclude=returning-void-expression
+
 };
 
 class DummySettingsProvider : public SettingsProvider {
@@ -50,6 +51,7 @@ class DummySettingsProvider : public SettingsProvider {
   void beginWriteArray(const QString &, int = -1) {}
   void setArrayIndex(int) {}
   void endArray() {}
+
 };
 
 #endif  // MOCK_SETTINGSPROVIDER_H

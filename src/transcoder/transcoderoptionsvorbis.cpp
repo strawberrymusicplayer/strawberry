@@ -36,10 +36,12 @@ const char *TranscoderOptionsVorbis::kSettingsGroup = "Transcoder/vorbisenc";
 
 TranscoderOptionsVorbis::TranscoderOptionsVorbis(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsVorbis) {
   ui_->setupUi(this);
+
 }
 
 TranscoderOptionsVorbis::~TranscoderOptionsVorbis() {
   delete ui_;
+
 }
 
 void TranscoderOptionsVorbis::Load() {
@@ -63,6 +65,7 @@ void TranscoderOptionsVorbis::Load() {
   ui_->bitrate_slider->setValue(bitrate);
 
   s.endGroup();
+
 }
 
 void TranscoderOptionsVorbis::Save() {
@@ -86,4 +89,5 @@ void TranscoderOptionsVorbis::Save() {
   s.setValue("max-bitrate", max_bitrate);
 
   s.endGroup();
+
 }

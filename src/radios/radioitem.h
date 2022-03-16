@@ -43,6 +43,7 @@ class RadioItem : public SimpleTreeItem<RadioItem> {
 
  private:
   Q_DISABLE_COPY(RadioItem)
+
 };
 
 #endif  // RADIOITEM_H

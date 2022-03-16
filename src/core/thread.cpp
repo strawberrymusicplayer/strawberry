@@ -31,4 +31,5 @@ void Thread::run() {
 #endif
 
   QThread::run();
+
 }

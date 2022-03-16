@@ -67,6 +67,7 @@ class CoversSettingsPage : public SettingsPage {
  private:
   Ui_CoversSettingsPage *ui_;
   bool provider_selected_;
+
 };
 
 #endif  // COVERSSETTINGSPAGE_H

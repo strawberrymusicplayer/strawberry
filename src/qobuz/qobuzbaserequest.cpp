@@ -74,6 +74,7 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
   qLog(Debug) << "Qobuz: Sending request" << url;
 
   return reply;
+
 }
 
 void QobuzBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
@@ -81,6 +82,7 @@ void QobuzBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
   for (const QSslError &ssl_error : ssl_errors) {
     Error(ssl_error.errorString());
   }
+
 }
 
 QByteArray QobuzBaseRequest::GetReplyData(QNetworkReply *reply) {
@@ -123,6 +125,7 @@ QByteArray QobuzBaseRequest::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
+
 }
 
 QJsonObject QobuzBaseRequest::ExtractJsonObj(QByteArray &data) {
@@ -152,6 +155,7 @@ QJsonObject QobuzBaseRequest::ExtractJsonObj(QByteArray &data) {
   }
 
   return json_obj;
+
 }
 
 QJsonValue QobuzBaseRequest::ExtractItems(QByteArray &data) {
@@ -159,6 +163,7 @@ QJsonValue QobuzBaseRequest::ExtractItems(QByteArray &data) {
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) return QJsonValue();
   return ExtractItems(json_obj);
+
 }
 
 QJsonValue QobuzBaseRequest::ExtractItems(QJsonObject &json_obj) {
@@ -169,6 +174,7 @@ QJsonValue QobuzBaseRequest::ExtractItems(QJsonObject &json_obj) {
   }
   QJsonValue json_items = json_obj["items"];
   return json_items;
+
 }
 
 QString QobuzBaseRequest::ErrorsToHTML(const QStringList &errors) {
@@ -178,4 +184,5 @@ QString QobuzBaseRequest::ErrorsToHTML(const QStringList &errors) {
     error_html += error + "<br />";
   }
   return error_html;
+
 }

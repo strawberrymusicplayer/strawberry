@@ -63,6 +63,7 @@ class InternetCollectionViewContainer : public QWidget {
 
  private:
   Ui_InternetCollectionViewContainer *ui_;
+
 };
 
 #endif  // INTERNETCOLLECTIONVIEWCONTAINER_H

@@ -145,10 +145,12 @@ OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *bac
   }
 
   ui_->insert->setMenu(tag_menu);
+
 }
 
 OrganizeDialog::~OrganizeDialog() {
   delete ui_;
+
 }
 
 void OrganizeDialog::SetDestinationModel(QAbstractItemModel *model, const bool devices) {
@@ -158,17 +160,20 @@ void OrganizeDialog::SetDestinationModel(QAbstractItemModel *model, const bool d
   ui_->eject_after->setVisible(devices);
 
   devices_ = devices;
+
 }
 
 void OrganizeDialog::showEvent(QShowEvent *) {
 
   LoadGeometry();
   LoadSettings();
+
 }
 
 void OrganizeDialog::closeEvent(QCloseEvent *) {
 
   if (!devices_) SaveGeometry();
+
 }
 
 void OrganizeDialog::accept() {
@@ -193,12 +198,14 @@ void OrganizeDialog::accept() {
   organize->Start();
 
   QDialog::accept();
+
 }
 
 void OrganizeDialog::reject() {
 
   SaveGeometry();
   QDialog::reject();
+
 }
 
 void OrganizeDialog::LoadGeometry() {
@@ -229,6 +236,7 @@ void OrganizeDialog::LoadGeometry() {
       move(sr.center() - wr.center());
     }
   }
+
 }
 
 void OrganizeDialog::SaveGeometry() {
@@ -239,6 +247,7 @@ void OrganizeDialog::SaveGeometry() {
     s.setValue("geometry", saveGeometry());
     s.endGroup();
   }
+
 }
 
 void OrganizeDialog::AdjustSize() {
@@ -273,6 +282,7 @@ void OrganizeDialog::AdjustSize() {
 
   setMinimumSize(min_width, min_height);
   adjustSize();
+
 }
 
 void OrganizeDialog::RestoreDefaults() {
@@ -288,6 +298,7 @@ void OrganizeDialog::RestoreDefaults() {
   ui_->eject_after->setChecked(false);
 
   SaveSettings();
+
 }
 
 void OrganizeDialog::LoadSettings() {
@@ -313,6 +324,7 @@ void OrganizeDialog::LoadSettings() {
   s.endGroup();
 
   AllowExtASCII(ui_->remove_non_ascii->isChecked());
+
 }
 
 void OrganizeDialog::SaveSettings() {
@@ -330,6 +342,7 @@ void OrganizeDialog::SaveSettings() {
   s.setValue("destination", ui_->destination->currentText());
   s.setValue("eject_after", ui_->eject_after->isChecked());
   s.endGroup();
+
 }
 
 bool OrganizeDialog::SetSongs(const SongList &songs) {
@@ -357,6 +370,7 @@ bool OrganizeDialog::SetSongs(const SongList &songs) {
   songs_future_ = QFuture<SongList>();
 
   return !songs_.isEmpty();
+
 }
 
 bool OrganizeDialog::SetUrls(const QList<QUrl> &urls) {
@@ -371,6 +385,7 @@ bool OrganizeDialog::SetUrls(const QList<QUrl> &urls) {
   }
 
   return SetFilenames(filenames);
+
 }
 
 bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
@@ -385,6 +400,7 @@ bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
 
   SetLoadingSongs(true);
   return true;
+
 }
 
 void OrganizeDialog::SetLoadingSongs(const bool loading) {
@@ -397,6 +413,7 @@ void OrganizeDialog::SetLoadingSongs(const bool loading) {
     ui_->preview_stack->setCurrentWidget(ui_->preview_page);
     // The Ok button is enabled by UpdatePreviews
   }
+
 }
 
 SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) {
@@ -422,18 +439,22 @@ SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) {
   }
 
   return songs;
+
 }
 
 void OrganizeDialog::SetCopy(const bool copy) {
   ui_->aftercopying->setCurrentIndex(copy ? 0 : 1);
+
 }
 
 void OrganizeDialog::SetPlaylist(const QString &playlist) {
   playlist_ = playlist;
+
 }
 
 void OrganizeDialog::InsertTag(const QString &tag) {
   ui_->naming->insertPlainText("%" + tag);
+
 }
 
 Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongList &songs, const OrganizeFormat &format, const QString &extension) {
@@ -454,6 +475,7 @@ Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongLis
     new_songs_info << Organize::NewSongInfo(song, new_filename);
   }
   return new_songs_info;
+
 }
 
 void OrganizeDialog::UpdatePreviews() {
@@ -527,6 +549,7 @@ void OrganizeDialog::UpdatePreviews() {
   if (devices_) {
     AdjustSize();
   }
+
 }
 
 void OrganizeDialog::OrganizeFinished(const QStringList &files_with_errors, const QStringList &log) {
@@ -535,8 +558,10 @@ void OrganizeDialog::OrganizeFinished(const QStringList &files_with_errors, cons
 
   error_dialog_ = std::make_unique<OrganizeErrorDialog>();
   error_dialog_->Show(OrganizeErrorDialog::Type_Copy, files_with_errors, log);
+
 }
 
 void OrganizeDialog::AllowExtASCII(const bool checked) {
   ui_->allow_ascii_ext->setEnabled(checked);
+
 }

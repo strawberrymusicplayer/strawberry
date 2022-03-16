@@ -99,6 +99,7 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
   }
 
   return result;
+
 }
 
 bool FilesystemMusicStorage::DeleteFromStorage(const DeleteJob &job) {
@@ -125,4 +126,5 @@ bool FilesystemMusicStorage::DeleteFromStorage(const DeleteJob &job) {
   else {
     return QFile::remove(path);
   }
+
 }

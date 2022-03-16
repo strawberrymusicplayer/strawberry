@@ -48,6 +48,7 @@ class FilterTree {
 
  private:
   Q_DISABLE_COPY(FilterTree)
+
 };
 
 // Trivial filter that accepts *anything*
@@ -60,6 +61,7 @@ class NopFilter : public FilterTree {
     return true;
   }
   FilterType type() override { return Nop; }
+
 };
 
 
@@ -102,6 +104,7 @@ class FilterParser {
   const QString filterstring_;
   const QMap<QString, int> columns_;
   const QSet<int> numerical_columns_;
+
 };
 
 #endif  // PLAYLISTFILTERPARSER_H

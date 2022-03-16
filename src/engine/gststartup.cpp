@@ -57,6 +57,7 @@ gpointer GstStartup::GLibMainLoopThreadFunc(gpointer) {
   g_main_loop_unref(gloop);
 
   return nullptr;
+
 }
 
 GstStartup::GstStartup(QObject *parent) : QObject(parent) {
@@ -67,10 +68,12 @@ GstStartup::GstStartup(QObject *parent) : QObject(parent) {
   if (mo && strcmp(mo->className(), "QEventDispatcherGlib") != 0 && strcmp(mo->superClass()->className(), "QEventDispatcherGlib") != 0) {
     kGThread = g_thread_new(nullptr, GstStartup::GLibMainLoopThreadFunc, nullptr);
   }
+
 }
 
 GstStartup::~GstStartup() {
   if (kGThread) g_thread_unref(kGThread);
+
 }
 
 void GstStartup::InitializeGStreamer() {
@@ -98,6 +101,7 @@ void GstStartup::InitializeGStreamer() {
     if (wasapisink) gst_object_unref(wasapisink);
   }
 #endif
+
 }
 
 void GstStartup::SetEnvironment() {
@@ -172,4 +176,5 @@ void GstStartup::SetEnvironment() {
   }
 
   Utilities::SetEnv("PULSE_PROP_media.role", "music");
+
 }

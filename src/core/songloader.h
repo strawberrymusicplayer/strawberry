@@ -161,6 +161,7 @@ class SongLoader : public QObject {
   QThreadPool thread_pool_;
 
   QStringList errors_;
+
 };
 
 #endif  // SONGLOADER_H

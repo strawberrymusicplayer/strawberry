@@ -49,6 +49,7 @@ void IconLoader::Init() {
   if (dir.exists(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/icons")) {
     custom_icons_ = true;
   }
+
 }
 
 QIcon IconLoader::Load(const QString &name, const int fixed_size, const int min_size, const int max_size) {
@@ -137,4 +138,5 @@ QIcon IconLoader::Load(const QString &name, const int fixed_size, const int min_
   }
 
   return ret;
+
 }

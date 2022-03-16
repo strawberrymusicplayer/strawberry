@@ -72,12 +72,14 @@ AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
 
   original_thread_ = thread();
   ReloadSettings();
+
 }
 
 void AlbumCoverLoader::ExitAsync() {
 
   stop_requested_ = true;
   QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
+
 }
 
 void AlbumCoverLoader::Exit() {
@@ -85,6 +87,7 @@ void AlbumCoverLoader::Exit() {
   Q_ASSERT(QThread::currentThread() == thread());
   moveToThread(original_thread_);
   emit ExitFinished();
+
 }
 
 void AlbumCoverLoader::ReloadSettings() {
@@ -98,6 +101,7 @@ void AlbumCoverLoader::ReloadSettings() {
   cover_lowercase_ = s.value("cover_lowercase", false).toBool();
   cover_replace_spaces_ = s.value("cover_replace_spaces", false).toBool();
   s.endGroup();
+
 }
 
 QString AlbumCoverLoader::AlbumCoverFilename(QString artist, QString album, const QString &extension) {
@@ -118,10 +122,12 @@ QString AlbumCoverLoader::AlbumCoverFilename(QString artist, QString album, cons
   }
 
   return filename;
+
 }
 
 QString AlbumCoverLoader::CoverFilePath(const Song &song, const QString &album_dir, const QUrl &cover_url, const QString &extension) {
   return CoverFilePath(song.source(), song.effective_albumartist(), song.album(), song.album_id(), album_dir, cover_url, extension);
+
 }
 
 QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString &artist, QString album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QString &extension) {
@@ -168,6 +174,7 @@ QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString
   QString filepath(path + "/" + filename);
 
   return filepath;
+
 }
 
 QString AlbumCoverLoader::CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id, const QString &extension) {
@@ -206,6 +213,7 @@ QString AlbumCoverLoader::CoverFilenameFromSource(const Song::Source source, con
   }
 
   return filename;
+
 }
 
 QString AlbumCoverLoader::CoverFilenameFromVariable(const QString &artist, const QString &album, const QString &extension) {
@@ -219,6 +227,7 @@ QString AlbumCoverLoader::CoverFilenameFromVariable(const QString &artist, const
     filename.append(extension);
   }
   return filename;
+
 }
 
 void AlbumCoverLoader::CancelTask(const quint64 id) {
@@ -230,6 +239,7 @@ void AlbumCoverLoader::CancelTask(const quint64 id) {
       break;
     }
   }
+
 }
 
 void AlbumCoverLoader::CancelTasks(const QSet<quint64> &ids) {
@@ -243,6 +253,7 @@ void AlbumCoverLoader::CancelTasks(const QSet<quint64> &ids) {
       ++it;
     }
   }
+
 }
 
 quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, const Song &song) {
@@ -253,6 +264,7 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
   task.state = State_Manual;
 
   return EnqueueTask(task);
+
 }
 
 quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, const QUrl &art_automatic, const QUrl &art_manual, const QUrl &song_url, const Song::Source song_source) {
@@ -268,6 +280,7 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
   task.state = State_Manual;
 
   return EnqueueTask(task);
+
 }
 
 quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, const AlbumCoverImageResult &album_cover) {
@@ -277,6 +290,7 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
   task.album_cover = album_cover;
 
   return EnqueueTask(task);
+
 }
 
 quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, const QImage &image) {
@@ -286,6 +300,7 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
   task.album_cover.image = image;
 
   return EnqueueTask(task);
+
 }
 
 quint64 AlbumCoverLoader::EnqueueTask(Task &task) {
@@ -299,6 +314,7 @@ quint64 AlbumCoverLoader::EnqueueTask(Task &task) {
   QMetaObject::invokeMethod(this, "ProcessTasks", Qt::QueuedConnection);
 
   return task.id;
+
 }
 
 void AlbumCoverLoader::ProcessTasks() {
@@ -314,6 +330,7 @@ void AlbumCoverLoader::ProcessTasks() {
 
     ProcessTask(&task);
   }
+
 }
 
 void AlbumCoverLoader::ProcessTask(Task *task) {
@@ -339,6 +356,7 @@ void AlbumCoverLoader::ProcessTask(Task *task) {
   }
 
   NextState(task);
+
 }
 
 void AlbumCoverLoader::NextState(Task *task) {
@@ -352,6 +370,7 @@ void AlbumCoverLoader::NextState(Task *task) {
     // Give up
     emit AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(false, AlbumCoverLoaderResult::Type_None, AlbumCoverImageResult(task->options.default_output_image_), task->options.default_scaled_image_, task->options.default_thumbnail_image_, task->art_updated));
   }
+
 }
 
 AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
@@ -468,6 +487,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
   }
 
   return TryLoadResult(false, false, AlbumCoverLoaderResult::Type_None, AlbumCoverImageResult(cover_url, QString(), QByteArray(), task->options.default_output_image_));
+
 }
 
 void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cover_url) {
@@ -515,6 +535,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cov
   }
 
   NextState(&task);
+
 }
 
 quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QString &cover_filename) {
@@ -523,6 +544,7 @@ quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, c
   quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(quint64, id), Q_ARG(QString, song_filename), Q_ARG(QString, cover_filename));
   return id;
+
 }
 
 quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QImage &image) {
@@ -531,6 +553,7 @@ quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, c
   quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(quint64, id), Q_ARG(QString, song_filename), Q_ARG(QImage, image));
   return id;
+
 }
 
 quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, const QByteArray &image_data) {
@@ -539,6 +562,7 @@ quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QString &song_filename, c
   quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(quint64, id), Q_ARG(QString, song_filename), Q_ARG(QByteArray, image_data));
   return id;
+
 }
 
 quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QString &cover_filename) {
@@ -547,6 +571,7 @@ quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const 
   quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(quint64, id), Q_ARG(QList<QUrl>, urls), Q_ARG(QString, cover_filename));
   return id;
+
 }
 
 quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QImage &image) {
@@ -555,6 +580,7 @@ quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const 
   quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(quint64, id), Q_ARG(QList<QUrl>, urls), Q_ARG(QImage, image));
   return id;
+
 }
 
 quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const QByteArray &image_data) {
@@ -563,6 +589,7 @@ quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const 
   quint64 id = ++save_image_async_id_;
   QMetaObject::invokeMethod(this, "SaveEmbeddedCover", Qt::QueuedConnection, Q_ARG(quint64, id), Q_ARG(QList<QUrl>, urls), Q_ARG(QByteArray, image_data));
   return id;
+
 }
 
 void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QString &song_filename, const QByteArray &image_data) {
@@ -576,6 +603,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QString &song_f
     this,
     [this, id, reply, clear]() { SaveEmbeddedArtFinished(id, reply, clear); },
     Qt::QueuedConnection);
+
 }
 
 void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QString &song_filename, const QImage &image) {
@@ -591,6 +619,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QString &song_f
   }
 
   SaveEmbeddedCover(id, song_filename, image_data);
+
 }
 
 void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QString &song_filename, const QString &cover_filename) {
@@ -612,6 +641,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QString &song_f
   file.close();
 
   SaveEmbeddedCover(id, song_filename, image_data);
+
 }
 
 void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QList<QUrl> &urls, const QImage &image) {
@@ -636,6 +666,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QList<QUrl> &ur
   }
 
   emit SaveEmbeddedCoverAsyncFinished(id, false, image.isNull());
+
 }
 
 void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QList<QUrl> &urls, const QString &cover_filename) {
@@ -656,6 +687,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QList<QUrl> &ur
   QByteArray image_data = file.readAll();
   file.close();
   SaveEmbeddedCover(id, urls, image_data);
+
 }
 
 void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QList<QUrl> &urls, const QByteArray &image_data) {
@@ -663,6 +695,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QList<QUrl> &ur
   for (const QUrl &url : urls) {
     SaveEmbeddedCover(id, url.toLocalFile(), image_data);
   }
+
 }
 
 void AlbumCoverLoader::SaveEmbeddedArtFinished(const quint64 id, TagReaderReply *reply, const bool cleared) {
@@ -676,4 +709,5 @@ void AlbumCoverLoader::SaveEmbeddedArtFinished(const quint64 id, TagReaderReply 
   }
 
   QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+
 }

@@ -70,6 +70,7 @@ class SubsonicScrobbler : public ScrobblerService {
   Song song_playing_;
   QDateTime time_;
   QTimer timer_submit_;
+
 };
 
 #endif  // SUBSONICSCROBBLER_H

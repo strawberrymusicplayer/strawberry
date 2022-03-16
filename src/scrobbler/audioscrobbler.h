@@ -89,6 +89,7 @@ class AudioScrobbler : public QObject {
   bool prefer_albumartist_;
   bool show_error_dialog_;
   QList<Song::Source> sources_;
+
 };
 
 #endif  // AUDIOSCROBBLER_H

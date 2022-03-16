@@ -87,10 +87,12 @@ Equalizer::Equalizer(QWidget *parent)
 
   QShortcut *close = new QShortcut(QKeySequence::Close, this);
   QObject::connect(close, &QShortcut::activated, this, &Equalizer::close);
+
 }
 
 Equalizer::~Equalizer() {
   delete ui_;
+
 }
 
 void Equalizer::ReloadSettings() {
@@ -130,6 +132,7 @@ void Equalizer::ReloadSettings() {
   StereoBalanceSliderChanged(stereo_balance);
 
   PresetChanged(selected_preset);
+
 }
 
 void Equalizer::LoadDefaultPresets() {
@@ -153,6 +156,7 @@ void Equalizer::LoadDefaultPresets() {
   AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Soft Rock"), Params(20, 20, 10, -5, -25, -30, -20, -5, 15, 45));
   AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Techno"), Params(40, 30, 0, -30, -25, 0, 40, 50, 50, 45));
   AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Zero"), Params(0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+
 }
 
 void Equalizer::AddPreset(const QString &name, const Params &params) {
@@ -165,11 +169,13 @@ void Equalizer::AddPreset(const QString &name, const Params &params) {
       QVariant(name)                      // original name
     );
   }
+
 }
 
 void Equalizer::PresetChanged(const int index) {
 
   PresetChanged(ui_->preset->itemData(index).toString());
+
 }
 
 void Equalizer::PresetChanged(const QString &name) {
@@ -190,6 +196,7 @@ void Equalizer::PresetChanged(const QString &name) {
 
   EqualizerParametersChangedSlot();
   Save();
+
 }
 
 void Equalizer::SavePreset() {
@@ -199,6 +206,7 @@ void Equalizer::SavePreset() {
     last_preset_ = name;
     ui_->preset->setCurrentIndex(ui_->preset->findText(tr(qPrintable(name))));
   }
+
 }
 
 QString Equalizer::SaveCurrentPreset() {
@@ -211,6 +219,7 @@ QString Equalizer::SaveCurrentPreset() {
   AddPreset(name, current_params());
   Save();
   return name;
+
 }
 
 void Equalizer::DelPreset() {
@@ -229,6 +238,7 @@ void Equalizer::DelPreset() {
   presets_.remove(name);
   ui_->preset->removeItem(ui_->preset->currentIndex());
   Save();
+
 }
 
 EqualizerSlider *Equalizer::AddSlider(const QString &label) {
@@ -238,18 +248,22 @@ EqualizerSlider *Equalizer::AddSlider(const QString &label) {
   QObject::connect(ret, &EqualizerSlider::ValueChanged, this, &Equalizer::EqualizerParametersChangedSlot);
 
   return ret;
+
 }
 
 bool Equalizer::is_stereo_balancer_enabled() const {
   return ui_->enable_stereo_balancer->isChecked();
+
 }
 
 bool Equalizer::is_equalizer_enabled() const {
   return ui_->enable_equalizer->isChecked();
+
 }
 
 int Equalizer::preamp_value() const {
   return preamp_->value();
+
 }
 
 QList<int> Equalizer::gain_values() const {
@@ -260,6 +274,7 @@ QList<int> Equalizer::gain_values() const {
     ret << gain_[i]->value();
   }
   return ret;
+
 }
 
 Equalizer::Params Equalizer::current_params() const {
@@ -270,10 +285,12 @@ Equalizer::Params Equalizer::current_params() const {
   ret.preamp = preamp_value();
   std::copy(gains.begin(), gains.end(), ret.gain);
   return ret;
+
 }
 
 float Equalizer::stereo_balance() const {
   return qBound(-1.0F, static_cast<float>(ui_->stereo_balance_slider->value()) / 100.0F, 1.0F);
+
 }
 
 void Equalizer::StereoBalancerEnabledChangedSlot(const bool enabled) {
@@ -285,12 +302,14 @@ void Equalizer::StereoBalancerEnabledChangedSlot(const bool enabled) {
   ui_->stereo_balance_slider->setEnabled(enabled);
   emit StereoBalancerEnabledChanged(enabled);
   Save();
+
 }
 
 void Equalizer::StereoBalanceSliderChanged(const int) {
 
   emit StereoBalanceChanged(stereo_balance());
   Save();
+
 }
 
 void Equalizer::EqualizerEnabledChangedSlot(const bool enabled) {
@@ -298,12 +317,14 @@ void Equalizer::EqualizerEnabledChangedSlot(const bool enabled) {
   emit EqualizerEnabledChanged(enabled);
   ui_->slider_container->setEnabled(enabled);
   Save();
+
 }
 
 void Equalizer::EqualizerParametersChangedSlot() {
 
   if (loading_) return;
   emit EqualizerParametersChanged(preamp_value(), gain_values());
+
 }
 
 void Equalizer::Save() {
@@ -330,6 +351,7 @@ void Equalizer::Save() {
 
   s.setValue("enable_stereo_balancer", ui_->enable_stereo_balancer->isChecked());
   s.setValue("stereo_balance", ui_->stereo_balance_slider->value());
+
 }
 
 void Equalizer::closeEvent(QCloseEvent *) {
@@ -340,10 +362,12 @@ void Equalizer::closeEvent(QCloseEvent *) {
   if (presets_[name] == current_params()) return;
 
   SavePreset();
+
 }
 
 Equalizer::Params::Params() : preamp(0) {
   for (int i = 0; i < Equalizer::kBands; ++i) gain[i] = 0;
+
 }
 
 Equalizer::Params::Params(int g0, int g1, int g2, int g3, int g4, int g5, int g6, int g7, int g8, int g9, int pre) : preamp(pre) {
@@ -358,6 +382,7 @@ Equalizer::Params::Params(int g0, int g1, int g2, int g3, int g4, int g5, int g6
   gain[7] = g7;
   gain[8] = g8;
   gain[9] = g9;
+
 }
 
 bool Equalizer::Params::operator==(const Equalizer::Params &other) const {
@@ -367,10 +392,12 @@ bool Equalizer::Params::operator==(const Equalizer::Params &other) const {
     if (gain[i] != other.gain[i]) return false;
   }
   return true;
+
 }
 
 bool Equalizer::Params::operator!=(const Equalizer::Params &other) const {
   return !(*this == other);
+
 }
 
 QDataStream &operator<<(QDataStream &s, const Equalizer::Params &p) {
@@ -378,6 +405,7 @@ QDataStream &operator<<(QDataStream &s, const Equalizer::Params &p) {
   s << p.preamp;
   for (int i = 0; i < Equalizer::kBands; ++i) s << p.gain[i];
   return s;
+
 }
 
 QDataStream &operator>>(QDataStream &s, Equalizer::Params &p) {
@@ -385,4 +413,5 @@ QDataStream &operator>>(QDataStream &s, Equalizer::Params &p) {
   s >> p.preamp;
   for (int i = 0; i < Equalizer::kBands; ++i) s >> p.gain[i];
   return s;
+
 }

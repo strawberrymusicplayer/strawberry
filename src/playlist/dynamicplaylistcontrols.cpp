@@ -27,6 +27,7 @@ DynamicPlaylistControls::DynamicPlaylistControls(QWidget *parent)
   QObject::connect(ui_->expand, &QPushButton::clicked, this, &DynamicPlaylistControls::Expand);
   QObject::connect(ui_->repopulate, &QPushButton::clicked, this, &DynamicPlaylistControls::Repopulate);
   QObject::connect(ui_->off, &QPushButton::clicked, this, &DynamicPlaylistControls::TurnOff);
+
 }
 
 DynamicPlaylistControls::~DynamicPlaylistControls() { delete ui_; }

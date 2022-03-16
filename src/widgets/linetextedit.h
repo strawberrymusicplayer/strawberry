@@ -42,6 +42,7 @@ class LineTextEdit : public QTextEdit {
 
  protected:
   void keyPressEvent(QKeyEvent *e) override;
+
 };
 
 #endif  // LINETEXTEDIT_H

@@ -43,6 +43,7 @@ class TranscoderOptionsOpus : public TranscoderOptionsInterface {
   static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsOpus *ui_;
+
 };
 
 #endif  // TRANSCODEROPTIONSOPUS_H

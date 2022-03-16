@@ -70,6 +70,7 @@ class BoomAnalyzer : public Analyzer::Base {
 
   QPixmap barPixmap_;
   QPixmap canvas_;
+
 };
 
 #endif  // BOOMANALYZER_H

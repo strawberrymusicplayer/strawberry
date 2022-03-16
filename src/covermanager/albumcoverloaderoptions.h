@@ -49,6 +49,7 @@ struct AlbumCoverLoaderOptions {
   QImage default_output_image_;
   QImage default_scaled_image_;
   QImage default_thumbnail_image_;
+
 };
 
 #endif  // ALBUMCOVERLOADEROPTIONS_H

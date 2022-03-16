@@ -37,6 +37,7 @@ struct Directory {
 
   QString path;
   int id;
+
 };
 Q_DECLARE_METATYPE(Directory)
 
@@ -50,6 +51,7 @@ struct Subdirectory {
   int directory_id;
   QString path;
   qint64 mtime;
+
 };
 Q_DECLARE_METATYPE(Subdirectory)
 

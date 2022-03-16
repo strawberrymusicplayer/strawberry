@@ -75,6 +75,7 @@ class _MessageHandlerBase : public QObject {
   QBuffer buffer_;
 
   bool is_device_closed_;
+
 };
 
 // Reads and writes uint32 length encoded MessageType messages to a socket.
@@ -113,6 +114,7 @@ class AbstractMessageHandler : public _MessageHandlerBase {
 
  private:
   QMap<int, ReplyType *> pending_replies_;
+
 };
 
 template<typename MT>
@@ -125,24 +127,28 @@ void AbstractMessageHandler<MT>::SendMessage(const MessageType &message) {
 
   std::string data = message.SerializeAsString();
   WriteMessage(QByteArray(data.data(), data.size()));
+
 }
 
 template<typename MT>
 void AbstractMessageHandler<MT>::SendMessageAsync(const MessageType &message) {
   std::string data = message.SerializeAsString();
   QMetaObject::invokeMethod(this, "WriteMessage", Qt::QueuedConnection, Q_ARG(QByteArray, QByteArray(data.data(), data.size())));
+
 }
 
 template<typename MT>
 void AbstractMessageHandler<MT>::SendRequest(ReplyType *reply) {
   pending_replies_[reply->id()] = reply;
   SendMessage(reply->request_message());
+
 }
 
 template<typename MT>
 void AbstractMessageHandler<MT>::SendReply(const MessageType &request, MessageType *reply) {
   reply->set_id(request.id());
   SendMessage(*reply);
+
 }
 
 template<typename MT>
@@ -163,6 +169,7 @@ bool AbstractMessageHandler<MT>::RawMessageArrived(const QByteArray &data) {
   }
 
   return true;
+
 }
 
 template<typename MT>
@@ -172,6 +179,7 @@ void AbstractMessageHandler<MT>::AbortAll() {
     reply->Abort();
   }
   pending_replies_.clear();
+
 }
 
 #endif  // MESSAGEHANDLER_H

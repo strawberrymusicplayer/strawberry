@@ -123,6 +123,7 @@ class RainbowAnalyzer : public Analyzer::Base {
   int x_offset_;
 
   QBrush background_brush_;
+
 };
 
 class NyanCatAnalyzer : public RainbowAnalyzer {
@@ -132,6 +133,7 @@ class NyanCatAnalyzer : public RainbowAnalyzer {
   Q_INVOKABLE explicit NyanCatAnalyzer(QWidget *parent);
 
   static const char *kName;
+
 };
 
 class RainbowDashAnalyzer : public RainbowAnalyzer {
@@ -141,7 +143,9 @@ class RainbowDashAnalyzer : public RainbowAnalyzer {
   Q_INVOKABLE explicit RainbowDashAnalyzer(QWidget *parent);
 
   static const char *kName;
+
 };
+
 }  // namespace Rainbow
 
 #endif  // RAINBOWANALYZER_H

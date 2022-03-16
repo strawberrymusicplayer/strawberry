@@ -99,6 +99,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
   collection_sort_model_->sort(0);
 
   SubsonicService::ReloadSettings();
+
 }
 
 SubsonicService::~SubsonicService() {
@@ -111,16 +112,19 @@ SubsonicService::~SubsonicService() {
   }
 
   collection_backend_->deleteLater();
+
 }
 
 void SubsonicService::Exit() {
 
   QObject::connect(collection_backend_, &CollectionBackend::ExitFinished, this, &SubsonicService::ExitFinished);
   collection_backend_->ExitAsync();
+
 }
 
 void SubsonicService::ShowConfig() {
   app_->OpenSettingsDialogAtPage(SettingsDialog::Page_Subsonic);
+
 }
 
 void SubsonicService::ReloadSettings() {
@@ -142,10 +146,12 @@ void SubsonicService::ReloadSettings() {
   auth_method_ = static_cast<SubsonicSettingsPage::AuthMethod>(s.value("authmethod", SubsonicSettingsPage::AuthMethod_MD5).toInt());
 
   s.endGroup();
+
 }
 
 void SubsonicService::SendPing() {
   SendPingWithCredentials(server_url_, username_, password_, auth_method_, false);
+
 }
 
 void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method, const bool redirect) {
@@ -211,6 +217,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, url, username, password, auth_method]() { HandlePingReply(reply, url, username, password, auth_method); });
 
   //qLog(Debug) << "Subsonic: Sending request" << url << url.query();
+
 }
 
 void SubsonicService::HandlePingSSLErrors(const QList<QSslError> &ssl_errors) {
@@ -218,6 +225,7 @@ void SubsonicService::HandlePingSSLErrors(const QList<QSslError> &ssl_errors) {
   for (const QSslError &ssl_error : ssl_errors) {
     errors_ += ssl_error.errorString();
   }
+
 }
 
 void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method) {
@@ -363,6 +371,7 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
     PingError("Ping reply status from server is unknown", json_obj);
     return;
   }
+
 }
 
 void SubsonicService::CheckConfiguration() {
@@ -379,6 +388,7 @@ void SubsonicService::CheckConfiguration() {
     emit TestComplete(false, "Missing Subsonic password.");
     return;
   }
+
 }
 
 void SubsonicService::Scrobble(const QString &song_id, const bool submission, const QDateTime &time) {
@@ -393,6 +403,7 @@ void SubsonicService::Scrobble(const QString &song_id, const bool submission, co
   }
 
   scrobble_request_->CreateScrobbleRequest(song_id, submission, time);
+
 }
 
 void SubsonicService::ResetSongsRequest() {
@@ -402,6 +413,7 @@ void SubsonicService::ResetSongsRequest() {
     QObject::disconnect(this, nullptr, songs_request_.get(), nullptr);
     songs_request_.reset();
   }
+
 }
 
 void SubsonicService::GetSongs() {
@@ -424,11 +436,13 @@ void SubsonicService::GetSongs() {
   QObject::connect(songs_request_.get(), &SubsonicRequest::UpdateProgress, this, &SubsonicService::SongsUpdateProgress);
 
   songs_request_->GetAlbums();
+
 }
 
 void SubsonicService::DeleteSongs() {
 
   collection_backend_->DeleteAllAsync();
+
 }
 
 void SubsonicService::SongsResultsReceived(const SongMap &songs, const QString &error) {
@@ -436,6 +450,7 @@ void SubsonicService::SongsResultsReceived(const SongMap &songs, const QString &
   emit SongsResults(songs, error);
 
   ResetSongsRequest();
+
 }
 
 void SubsonicService::PingError(const QString &error, const QVariant &debug) {
@@ -453,4 +468,5 @@ void SubsonicService::PingError(const QString &error, const QVariant &debug) {
   emit TestComplete(false, error_html);
 
   errors_.clear();
+
 }

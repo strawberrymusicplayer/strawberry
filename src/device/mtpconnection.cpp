@@ -103,10 +103,12 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
   device_ = LIBMTP_Open_Raw_Device(raw_device);
 
   free(raw_devices);
+
 }
 
 MtpConnection::~MtpConnection() {
   if (device_) LIBMTP_Release_Device(device_);
+
 }
 
 bool MtpConnection::GetSupportedFiletypes(QList<Song::FileType> *ret) {
@@ -146,4 +148,5 @@ bool MtpConnection::GetSupportedFiletypes(QList<Song::FileType> *ret) {
 
   free(list);
   return true;
+
 }

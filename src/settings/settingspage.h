@@ -88,6 +88,7 @@ class SettingsPage : public QWidget {
   QList<QPair<QSpinBox *, int>> spinboxes_;
   QList<QPair<QSlider *, int>> sliders_;
   QList<QPair<QLineEdit *, QString>> lineedits_;
+
 };
 
 #endif  // SETTINGSPAGE_H

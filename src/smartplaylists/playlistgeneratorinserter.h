@@ -64,6 +64,7 @@ class PlaylistGeneratorInserter : public QObject {
   bool enqueue_;
   bool enqueue_next_;
   bool is_dynamic_;
+
 };
 
 #endif  // PLAYLISTGENERATORINSERTER_H

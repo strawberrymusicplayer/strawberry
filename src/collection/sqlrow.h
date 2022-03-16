@@ -50,6 +50,7 @@ class SqlRow {
 
   QMap<int, QVariant> columns_by_number_;
   QMap<QString, QVariant> columns_by_name_;
+
 };
 
 typedef QList<SqlRow> SqlRowList;

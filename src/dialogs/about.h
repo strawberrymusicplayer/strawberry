@@ -59,6 +59,7 @@ class About : public QDialog {
   QList<Person> strawberry_thanks_;
   QList<Person> clementine_authors_;
   QList<Person> clementine_contributors_;
+
 };
 
 #endif  // ABOUT_H

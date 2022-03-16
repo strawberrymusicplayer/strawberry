@@ -49,6 +49,7 @@ class TranscoderOptionsMP3 : public TranscoderOptionsInterface {
   static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsMP3 *ui_;
+
 };
 
 #endif  // TRANSCODEROPTIONSMP3_H

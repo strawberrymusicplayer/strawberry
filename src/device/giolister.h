@@ -146,6 +146,7 @@ class GioLister : public DeviceLister {
 
   QMutex mutex_;
   QMap<QString, DeviceInfo> devices_;
+
 };
 
 template<typename T>
@@ -154,6 +155,7 @@ T GioLister::LockAndGetDeviceInfo(const QString &id, T DeviceInfo::*field) {
   if (!devices_.contains(id)) return T();
 
   return devices_[id].*field;
+
 }
 
 #endif  // GIOLISTER_H

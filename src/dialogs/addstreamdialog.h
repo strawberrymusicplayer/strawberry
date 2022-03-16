@@ -45,6 +45,7 @@ class AddStreamDialog : public QDialog {
 
  private:
   Ui_AddStreamDialog *ui_;
+
 };
 
 #endif  // ADDSTREAMDIALOG_H

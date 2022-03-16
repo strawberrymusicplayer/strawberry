@@ -52,6 +52,7 @@ LastFMImportDialog::LastFMImportDialog(LastFMImport *lastfm_import, QWidget *par
 
   QObject::connect(ui_->checkbox_last_played, &QCheckBox::stateChanged, this, &LastFMImportDialog::UpdateGoButtonState);
   QObject::connect(ui_->checkbox_playcounts, &QCheckBox::stateChanged, this, &LastFMImportDialog::UpdateGoButtonState);
+
 }
 
 LastFMImportDialog::~LastFMImportDialog() { delete ui_; }
@@ -61,6 +62,7 @@ void LastFMImportDialog::closeEvent(QCloseEvent *e) {
   ResetFinished();
 
   QDialog::closeEvent(e);
+
 }
 
 void LastFMImportDialog::Start() {
@@ -72,6 +74,7 @@ void LastFMImportDialog::Start() {
     ui_->label_progress_top->setText(tr("Receiving initial data from last.fm..."));
     lastfm_import_->ImportData(ui_->checkbox_last_played->isChecked(), ui_->checkbox_playcounts->isChecked());
   }
+
 }
 
 void LastFMImportDialog::Cancel() {
@@ -81,12 +84,14 @@ void LastFMImportDialog::Cancel() {
     ui_->stackedWidget->setCurrentWidget(ui_->page_start);
     Reset();
   }
+
 }
 
 void LastFMImportDialog::Close() {
 
   ResetFinished();
   hide();
+
 }
 
 void LastFMImportDialog::ResetFinished() {
@@ -96,6 +101,7 @@ void LastFMImportDialog::ResetFinished() {
     Reset();
     ui_->stackedWidget->setCurrentWidget(ui_->page_start);
   }
+
 }
 
 void LastFMImportDialog::Reset() {
@@ -111,6 +117,7 @@ void LastFMImportDialog::Reset() {
   ui_->label_progress_bottom->clear();
 
   UpdateGoButtonState();
+
 }
 
 void LastFMImportDialog::UpdateTotal(const int lastplayed_total, const int playcount_total) {
@@ -134,6 +141,7 @@ void LastFMImportDialog::UpdateTotal(const int lastplayed_total, const int playc
   }
 
   ui_->label_progress_bottom->clear();
+
 }
 
 void LastFMImportDialog::UpdateProgress(const int lastplayed_received, const int playcount_received) {
@@ -154,20 +162,24 @@ void LastFMImportDialog::UpdateProgress(const int lastplayed_received, const int
   else {
     ui_->label_progress_bottom->clear();
   }
+
 }
 
 void LastFMImportDialog::Finished() {
 
   ui_->button_cancel->hide();
   finished_ = true;
+
 }
 
 void LastFMImportDialog::FinishedWithError(const QString &error) {
 
   Finished();
   ui_->label_progress_bottom->setText(error);
+
 }
 
 void LastFMImportDialog::UpdateGoButtonState() {
   ui_->button_go->setEnabled(ui_->checkbox_last_played->isChecked() || ui_->checkbox_playcounts->isChecked());
+
 }

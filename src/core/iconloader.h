@@ -32,6 +32,7 @@ class IconLoader {
   explicit IconLoader() {}
   static bool system_icons_;
   static bool custom_icons_;
+
 };
 
 #endif  // ICONLOADER_H

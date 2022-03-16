@@ -12,6 +12,7 @@
 int f();
 int f() {
   return 1337;
+
 }
 
 TEST(ConcurrentRunTest, ConcurrentRun0StartAndWait) {
@@ -24,11 +25,13 @@ TEST(ConcurrentRunTest, ConcurrentRun0StartAndWait) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(1337, watcher.result());
+
 }
 
 int g(int i);
 int g(int i) {
   return ++i;
+
 }
 
 TEST(ConcurrentRunTest, ConcurrentRun1StartAndWait) {
@@ -42,11 +45,13 @@ TEST(ConcurrentRunTest, ConcurrentRun1StartAndWait) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(1337, watcher.result());
+
 }
 
 int max(int i, int j);
 int max(int i, int j) {
   return (i > j ? i : j);
+
 }
 
 TEST(ConcurrentRunTest, ConcurrentRun2StartAndWait) {
@@ -61,11 +66,13 @@ TEST(ConcurrentRunTest, ConcurrentRun2StartAndWait) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(42, watcher.result());
+
 }
 
 int sum(int a, int b, int c);
 int sum(int a, int b, int c) {
   return a + b + c;
+
 }
 
 TEST(ConcurrentRunTest, ConcurrentRun3StartAndWait) {
@@ -81,23 +88,27 @@ TEST(ConcurrentRunTest, ConcurrentRun3StartAndWait) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(102, watcher.result());
+
 }
 
 void aFunction(int* n);
 void aFunction(int* n) {
   *n = 1337;
+
 }
 
 void bFunction(int* n, int* m);
 void bFunction(int* n, int* m) {
   aFunction(n);
   *m = 1338;
+
 }
 
 void cFunction(int* n, int* m, int* o);
 void cFunction(int* n, int* m, int* o) {
   bFunction(n, m);
   *o = 1339;
+
 }
 
 TEST(ConcurrentRunTest, ConcurrentRunVoidFunction1Start) {
@@ -112,6 +123,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction1Start) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(1337, n);
+
 }
 
 TEST(ConcurrentRunTest, ConcurrentRunVoidFunction2Start) {
@@ -127,6 +139,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction2Start) {
   loop.exec();
   EXPECT_EQ(1337, n);
   EXPECT_EQ(1338, m);
+
 }
 
 TEST(ConcurrentRunTest, ConcurrentRunVoidFunction3Start) {
@@ -143,6 +156,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction3Start) {
   EXPECT_EQ(1337, n);
   EXPECT_EQ(1338, m);
   EXPECT_EQ(1339, o);
+
 }
 
 class A {
@@ -150,6 +164,7 @@ class A {
   void f(int* i) {
     *i = *i + 1;
   }
+
 };
 
 TEST(ConcurrentRunTest, ConcurrentRunVoidBindFunctionStart) {
@@ -165,4 +180,5 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidBindFunctionStart) {
   watcher.setFuture(future);
   loop.exec();
   EXPECT_EQ(11, nb);
+
 }

@@ -110,6 +110,7 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
   ui_->label_iopriority->hide();
   ui_->combobox_iopriority->hide();
 #endif
+
 }
 
 CollectionSettingsPage::~CollectionSettingsPage() { delete ui_; }
@@ -129,16 +130,19 @@ void CollectionSettingsPage::Add() {
   s.setValue("last_path", path);
 
   set_changed();
+
 }
 
 void CollectionSettingsPage::Remove() {
 
   dialog()->collection_directory_model()->RemoveDirectory(ui_->list->currentIndex());
   set_changed();
+
 }
 
 void CollectionSettingsPage::CurrentRowChanged(const QModelIndex &idx) {
   ui_->remove->setEnabled(idx.isValid());
+
 }
 
 void CollectionSettingsPage::SongTrackingToggled() {
@@ -147,6 +151,7 @@ void CollectionSettingsPage::SongTrackingToggled() {
   if (ui_->song_tracking->isChecked()) {
     ui_->mark_songs_unavailable->setChecked(true);
   }
+
 }
 
 void CollectionSettingsPage::DiskCacheEnable(const int state) {
@@ -158,6 +163,7 @@ void CollectionSettingsPage::DiskCacheEnable(const int state) {
   ui_->label_disk_cache_in_use->setEnabled(checked);
   ui_->disk_cache_in_use->setEnabled(checked);
   ui_->button_clear_disk_cache->setEnabled(checked);
+
 }
 
 void CollectionSettingsPage::Load() {
@@ -247,6 +253,7 @@ void CollectionSettingsPage::Load() {
 
   Init(ui_->layout_collectionsettingspage->parentWidget());
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+
 }
 
 void CollectionSettingsPage::Save() {
@@ -314,6 +321,7 @@ void CollectionSettingsPage::Save() {
   s.setValue("tagreader_workers", ui_->spinbox_tagreaderworkers->value());
 
   s.endGroup();
+
 }
 
 void CollectionSettingsPage::CoverSaveInAlbumDirChanged() {
@@ -340,11 +348,13 @@ void CollectionSettingsPage::CoverSaveInAlbumDirChanged() {
       ui_->groupbox_cover_filename->setEnabled(false);
     }
   }
+
 }
 
 void CollectionSettingsPage::ClearPixmapDiskCache() {
 
   ui_->disk_cache_in_use->setText("empty");
+
 }
 
 void CollectionSettingsPage::CacheSizeUnitChanged(int index) {
@@ -357,6 +367,7 @@ void CollectionSettingsPage::CacheSizeUnitChanged(int index) {
       ui_->spinbox_cache_size->setMaximum(std::numeric_limits<int>::max());
       break;
   }
+
 }
 
 void CollectionSettingsPage::DiskCacheSizeUnitChanged(int index) {
@@ -369,6 +380,7 @@ void CollectionSettingsPage::DiskCacheSizeUnitChanged(int index) {
       ui_->spinbox_disk_cache_size->setMaximum(std::numeric_limits<int>::max());
       break;
   }
+
 }
 
 void CollectionSettingsPage::WriteAllSongsStatisticsToFiles() {
@@ -379,4 +391,5 @@ void CollectionSettingsPage::WriteAllSongsStatisticsToFiles() {
   }
 
   dialog()->app()->collection()->SyncPlaycountAndRatingToFilesAsync();
+
 }

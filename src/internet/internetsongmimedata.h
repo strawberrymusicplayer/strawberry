@@ -36,6 +36,7 @@ class InternetSongMimeData : public MimeData {
 
   InternetService *service;
   SongMap songs;
+
 };
 
 #endif  // INTERNETSONGMIMEDATA_H

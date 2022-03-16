@@ -39,6 +39,7 @@ void SqlRow::Init(const QSqlQuery &query) {
       columns_by_name_.insert(field_name, query.value(i));
     }
   }
+
 }
 
 const QVariant SqlRow::value(const int number) const {
@@ -49,6 +50,7 @@ const QVariant SqlRow::value(const int number) const {
   else {
     return QVariant();
   }
+
 }
 
 const QVariant SqlRow::value(const QString &name) const {
@@ -59,32 +61,40 @@ const QVariant SqlRow::value(const QString &name) const {
   else {
     return QVariant();
   }
+
 }
 
 QString SqlRow::ValueToString(const QString &n) const {
   return value(n).isNull() ? QString() : value(n).toString();
+
 }
 
 QUrl SqlRow::ValueToUrl(const QString &n) const {
   return value(n).isNull() ? QUrl() : QUrl(value(n).toString());
+
 }
 
 int SqlRow::ValueToInt(const QString &n) const {
   return value(n).isNull() ? -1 : value(n).toInt();
+
 }
 
 uint SqlRow::ValueToUInt(const QString &n) const {
   return value(n).isNull() || value(n).toInt() < 0 ? 0 : value(n).toInt();
+
 }
 
 qint64 SqlRow::ValueToLongLong(const QString &n) const {
   return value(n).isNull() ? -1 : value(n).toLongLong();
+
 }
 
 float SqlRow::ValueToFloat(const QString &n) const {
   return value(n).isNull() ? -1.0F : value(n).toFloat();
+
 }
 
 bool SqlRow::ValueToBool(const QString &n) const {
   return !value(n).isNull() && value(n).toInt() == 1;
+
 }

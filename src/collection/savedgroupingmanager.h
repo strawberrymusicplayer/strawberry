@@ -56,6 +56,7 @@ class SavedGroupingManager : public QDialog {
   Ui_SavedGroupingManager *ui_;
   QStandardItemModel *model_;
   CollectionFilterWidget *filter_;
+
 };
 
 #endif  // SAVEDGROUPINGMANAGER_H

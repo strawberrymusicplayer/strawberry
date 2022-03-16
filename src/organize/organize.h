@@ -135,6 +135,7 @@ class Organize : public QObject {
 
   QStringList files_with_errors_;
   QStringList log_;
+
 };
 
 #endif  // ORGANISE_H

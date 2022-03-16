@@ -70,6 +70,7 @@ GstElement *Transcoder::CreateElement(const QString &factory_name, GstElement *b
   }
 
   return ret;
+
 }
 
 struct SuitableElement {
@@ -82,6 +83,7 @@ struct SuitableElement {
 
   QString name_;
   int rank_;
+
 };
 
 GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, const QString &mime_type, GstElement *bin) {
@@ -180,6 +182,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
   else {
     return CreateElement(best.name_, bin);
   }
+
 }
 
 Transcoder::JobFinishedEvent::JobFinishedEvent(JobState *state, bool success)
@@ -192,6 +195,7 @@ void Transcoder::JobState::PostFinished(const bool success) {
   }
 
   QCoreApplication::postEvent(parent_, new Transcoder::JobFinishedEvent(this, success));
+
 }
 
 Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
@@ -212,6 +216,7 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
   if (s.value("cbr").isNull()) {
     s.setValue("cbr", false);
   }
+
 }
 
 QList<TranscoderPreset> Transcoder::GetAllPresets() {
@@ -228,6 +233,7 @@ QList<TranscoderPreset> Transcoder::GetAllPresets() {
   ret << PresetForFileType(Song::FileType_MP4);
   ret << PresetForFileType(Song::FileType_ASF);
   return ret;
+
 }
 
 TranscoderPreset Transcoder::PresetForFileType(const Song::FileType filetype) {
@@ -257,6 +263,7 @@ TranscoderPreset Transcoder::PresetForFileType(const Song::FileType filetype) {
       qLog(Warning) << "Unsupported format in PresetForFileType:" << filetype;
       return TranscoderPreset();
   }
+
 }
 
 Song::FileType Transcoder::PickBestFormat(const QList<Song::FileType> &supported) {
@@ -273,6 +280,7 @@ Song::FileType Transcoder::PickBestFormat(const QList<Song::FileType> &supported
   }
 
   return supported[0];
+
 }
 
 QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset, const QString &output) {
@@ -306,6 +314,7 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
   }
 
   return fileinfo_output.filePath();
+
 }
 
 void Transcoder::AddJob(const QString &input, const TranscoderPreset &preset, const QString &output) {
@@ -315,6 +324,7 @@ void Transcoder::AddJob(const QString &input, const TranscoderPreset &preset, co
   job.preset = preset;
   job.output = output;
   queued_jobs_ << job;
+
 }
 
 void Transcoder::Start() {
@@ -325,6 +335,7 @@ void Transcoder::Start() {
     StartJobStatus status = MaybeStartNextJob();
     if (status == AllThreadsBusy || status == NoMoreJobs) break;
   }
+
 }
 
 Transcoder::StartJobStatus Transcoder::MaybeStartNextJob() {
@@ -345,6 +356,7 @@ Transcoder::StartJobStatus Transcoder::MaybeStartNextJob() {
 
   emit JobComplete(job.input, job.output, false);
   return FailedToStart;
+
 }
 
 void Transcoder::NewPadCallback(GstElement *, GstPad *pad, gpointer data) {
@@ -359,6 +371,7 @@ void Transcoder::NewPadCallback(GstElement *, GstPad *pad, gpointer data) {
 
   gst_pad_link(pad, audiopad);
   gst_object_unref(audiopad);
+
 }
 
 GstBusSyncReply Transcoder::BusCallbackSync(GstBus *, GstMessage *msg, gpointer data) {
@@ -379,6 +392,7 @@ GstBusSyncReply Transcoder::BusCallbackSync(GstBus *, GstMessage *msg, gpointer 
   }
 
   return GST_BUS_PASS;
+
 }
 
 void Transcoder::JobState::ReportError(GstMessage *msg) const {
@@ -393,6 +407,7 @@ void Transcoder::JobState::ReportError(GstMessage *msg) const {
   g_free(debugs);
 
   emit parent_->LogLine(tr("Error processing %1: %2").arg(QDir::toNativeSeparators(job_.input), message));
+
 }
 
 bool Transcoder::StartJob(const Job &job) {
@@ -454,6 +469,7 @@ bool Transcoder::StartJob(const Job &job) {
   current_jobs_ << state;
 
   return true;
+
 }
 
 Transcoder::JobState::~JobState() {
@@ -462,6 +478,7 @@ Transcoder::JobState::~JobState() {
     gst_element_set_state(pipeline_, GST_STATE_NULL);
     gst_object_unref(pipeline_);
   }
+
 }
 
 bool Transcoder::event(QEvent *e) {
@@ -498,6 +515,7 @@ bool Transcoder::event(QEvent *e) {
   }
 
   return QObject::event(e);
+
 }
 
 void Transcoder::Cancel() {
@@ -522,6 +540,7 @@ void Transcoder::Cancel() {
     // Remove the job, this destroys the GStreamer pipeline too
     it = current_jobs_.erase(it);  // clazy:exclude=strict-iterators
   }
+
 }
 
 QMap<QString, float> Transcoder::GetProgress() const {
@@ -541,6 +560,7 @@ QMap<QString, float> Transcoder::GetProgress() const {
   }
 
   return ret;
+
 }
 
 void Transcoder::SetElementProperties(const QString &name, GObject *object) {
@@ -577,4 +597,5 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
   }
 
   g_free(properties);
+
 }

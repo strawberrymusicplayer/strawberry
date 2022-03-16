@@ -60,6 +60,7 @@ class ScopedCFTypeRef {
   CFT object_;
 
   Q_DISABLE_COPY(ScopedCFTypeRef);
+
 };
 
 #endif  // BASE_MAC_SCOPED_CFTYPEREF_H_

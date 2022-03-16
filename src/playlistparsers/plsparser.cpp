@@ -83,6 +83,7 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
   }
 
   return songs.values();
+
 }
 
 void PLSParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
@@ -99,8 +100,10 @@ void PLSParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
     s << "Length" << n << "=" << song.length_nanosec() / kNsecPerSec << qt_endl;
     ++n;
   }
+
 }
 
 bool PLSParser::TryMagic(const QByteArray &data) const {
   return data.toLower().contains("[playlist]");
+
 }

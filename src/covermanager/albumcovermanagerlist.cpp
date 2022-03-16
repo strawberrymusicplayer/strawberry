@@ -72,4 +72,5 @@ QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem *> items)
   mime_data->setData(orig_data->formats()[0], orig_data->data(orig_data->formats()[0]));
 
   return mime_data;
+
 }

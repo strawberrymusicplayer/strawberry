@@ -46,6 +46,7 @@ class DirectSoundDeviceFinder : public DeviceFinder {
 #else
     __attribute__((stdcall));
 #endif
+
 };
 
 #endif  // DIRECTSOUNDDEVICEFINDER_H

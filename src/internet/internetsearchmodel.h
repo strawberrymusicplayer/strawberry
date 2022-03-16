@@ -93,6 +93,7 @@ class InternetSearchModel : public QStandardItemModel {
   QPixmap no_cover_icon_;
   CollectionModel::Grouping group_by_;
   QMap<ContainerKey, QStandardItem *> containers_;
+
 };
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -101,6 +102,7 @@ inline size_t qHash(const InternetSearchModel::ContainerKey &key) {
 inline uint qHash(const InternetSearchModel::ContainerKey &key) {
 #endif
   return qHash(key.group_[0]) ^ qHash(key.group_[1]) ^ qHash(key.group_[2]);
+
 }
 
 inline bool operator<(const InternetSearchModel::ContainerKey &left, const InternetSearchModel::ContainerKey &right) {
@@ -114,6 +116,7 @@ inline bool operator<(const InternetSearchModel::ContainerKey &left, const Inter
   return false;
 
 #undef CMP
+
 }
 
 #endif  // INTERNETSEARCHMODEL_H

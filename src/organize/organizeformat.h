@@ -99,6 +99,7 @@ class OrganizeFormat {
   bool remove_non_ascii_;
   bool allow_ascii_ext_;
   bool replace_spaces_;
+
 };
 
 #endif  // ORGANISEFORMAT_H

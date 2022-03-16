@@ -76,6 +76,7 @@ class SliderSlider : public QSlider {
 
   SliderSlider(const SliderSlider &);             // undefined
   SliderSlider &operator=(const SliderSlider &);  // undefined
+
 };
 
 class PrettySlider : public SliderSlider {
@@ -98,6 +99,7 @@ class PrettySlider : public SliderSlider {
   PrettySlider &operator=(const PrettySlider &);  // undefined
 
   SliderMode m_mode;
+
 };
 
 class VolumeSlider : public SliderSlider {
@@ -147,6 +149,7 @@ class VolumeSlider : public SliderSlider {
   QColor previous_theme_highlight_color_;
 
   QList<QPixmap> handle_pixmaps_;
+
 };
 
 #endif  // VOLUMESLIDER_H

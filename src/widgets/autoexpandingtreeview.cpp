@@ -46,6 +46,7 @@ AutoExpandingTreeView::AutoExpandingTreeView(QWidget *parent)
   QObject::connect(this, &AutoExpandingTreeView::expanded, this, &AutoExpandingTreeView::ItemExpanded);
   QObject::connect(this, &AutoExpandingTreeView::clicked, this, &AutoExpandingTreeView::ItemClicked);
   QObject::connect(this, &AutoExpandingTreeView::doubleClicked, this, &AutoExpandingTreeView::ItemDoubleClicked);
+
 }
 
 void AutoExpandingTreeView::reset() {
@@ -55,11 +56,13 @@ void AutoExpandingTreeView::reset() {
   if (auto_open_ && expand_on_reset_) {
     RecursivelyExpandSlot(rootIndex());
   }
+
 }
 
 void AutoExpandingTreeView::RecursivelyExpandSlot(const QModelIndex &idx) {
   int rows = model()->rowCount(idx);
   RecursivelyExpand(idx, &rows);
+
 }
 
 bool AutoExpandingTreeView::RecursivelyExpand(const QModelIndex &idx, int *count) {
@@ -87,11 +90,13 @@ bool AutoExpandingTreeView::RecursivelyExpand(const QModelIndex &idx, int *count
   }
 
   return true;
+
 }
 
 void AutoExpandingTreeView::ItemExpanded(const QModelIndex &idx) {
   if (model()->rowCount(idx) == 1 && auto_open_)
     expand(model()->index(0, 0, idx));
+
 }
 
 void AutoExpandingTreeView::ItemClicked(const QModelIndex &idx) {
@@ -102,6 +107,7 @@ void AutoExpandingTreeView::ItemClicked(const QModelIndex &idx) {
   }
 
   setExpanded(idx, !isExpanded(idx));
+
 }
 
 void AutoExpandingTreeView::ItemDoubleClicked(const QModelIndex &idx) {
@@ -115,6 +121,7 @@ void AutoExpandingTreeView::ItemDoubleClicked(const QModelIndex &idx) {
     }
     emit AddToPlaylistSignal(q_mimedata);
   }
+
 }
 
 void AutoExpandingTreeView::mousePressEvent(QMouseEvent *event) {
@@ -133,6 +140,7 @@ void AutoExpandingTreeView::mousePressEvent(QMouseEvent *event) {
     }
     emit AddToPlaylistSignal(q_mimedata);
   }
+
 }
 
 void AutoExpandingTreeView::mouseDoubleClickEvent(QMouseEvent *event) {
@@ -147,6 +155,7 @@ void AutoExpandingTreeView::mouseDoubleClickEvent(QMouseEvent *event) {
   if (idx.isValid() && p_state == AnimatingState) {
     emit doubleClicked(idx);
   }
+
 }
 
 void AutoExpandingTreeView::keyPressEvent(QKeyEvent *e) {
@@ -178,14 +187,17 @@ void AutoExpandingTreeView::keyPressEvent(QKeyEvent *e) {
   }
 
   QTreeView::keyPressEvent(e);
+
 }
 
 void AutoExpandingTreeView::UpAndFocus() {
   setCurrentIndex(moveCursor(QAbstractItemView::MoveUp, Qt::NoModifier));
   setFocus();
+
 }
 
 void AutoExpandingTreeView::DownAndFocus() {
   setCurrentIndex(moveCursor(QAbstractItemView::MoveDown, Qt::NoModifier));
   setFocus();
+
 }

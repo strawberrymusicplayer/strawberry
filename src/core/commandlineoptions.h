@@ -124,6 +124,7 @@ class CommandlineOptions {
   QString window_size_;
 
   QList<QUrl> urls_;
+
 };
 
 QDataStream &operator<<(QDataStream &s, const CommandlineOptions &a);

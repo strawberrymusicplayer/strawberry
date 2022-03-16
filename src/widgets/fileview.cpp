@@ -92,10 +92,12 @@ FileView::FileView(QWidget *parent)
   filter_list_ << filter.split(" ");
 
   ReloadSettings();
+
 }
 
 FileView::~FileView() {
   delete ui_;
+
 }
 
 void FileView::ReloadSettings() {
@@ -109,6 +111,7 @@ void FileView::ReloadSettings() {
   ui_->forward->setIconSize(QSize(iconsize, iconsize));
   ui_->home->setIconSize(QSize(iconsize, iconsize));
   ui_->up->setIconSize(QSize(iconsize, iconsize));
+
 }
 
 void FileView::SetPath(const QString &path) {
@@ -119,10 +122,12 @@ void FileView::SetPath(const QString &path) {
   else {
     lazy_set_path_ = path;
   }
+
 }
 
 void FileView::SetTaskManager(TaskManager *task_manager) {
   task_manager_ = task_manager;
+
 }
 
 void FileView::FileUp() {
@@ -140,10 +145,12 @@ void FileView::FileUp() {
   }
 
   ChangeFilePath(dir.path());
+
 }
 
 void FileView::FileHome() {
   ChangeFilePath(QDir::homePath());
+
 }
 
 void FileView::ChangeFilePath(const QString &new_path_native) {
@@ -161,6 +168,7 @@ void FileView::ChangeFilePath(const QString &new_path_native) {
   }
 
   undo_stack_->push(new UndoCommand(this, new_path));
+
 }
 
 void FileView::ChangeFilePathWithoutUndo(const QString &new_path) {
@@ -172,11 +180,13 @@ void FileView::ChangeFilePathWithoutUndo(const QString &new_path) {
   ui_->up->setEnabled(dir.cdUp());
 
   emit PathChanged(new_path);
+
 }
 
 void FileView::ItemActivated(const QModelIndex &idx) {
   if (model_->isDir(idx))
     ChangeFilePath(model_->filePath(idx));
+
 }
 
 void FileView::ItemDoubleClick(const QModelIndex &idx) {
@@ -193,6 +203,7 @@ void FileView::ItemDoubleClick(const QModelIndex &idx) {
   mimedata->name_for_new_playlist_ = file_path;
 
   emit AddToPlaylist(mimedata);
+
 }
 
 
@@ -203,6 +214,7 @@ FileView::UndoCommand::UndoCommand(FileView *view, const QString &new_path) : vi
   old_state_.index = view_->ui_->list->currentIndex();
 
   new_state_.path = new_path;
+
 }
 
 void FileView::UndoCommand::redo() {
@@ -212,6 +224,7 @@ void FileView::UndoCommand::redo() {
     view_->ui_->list->setCurrentIndex(new_state_.index);
     view_->ui_->list->verticalScrollBar()->setValue(new_state_.scroll_pos);
   }
+
 }
 
 void FileView::UndoCommand::undo() {
@@ -222,6 +235,7 @@ void FileView::UndoCommand::undo() {
   view_->ChangeFilePathWithoutUndo(old_state_.path);
   view_->ui_->list->setCurrentIndex(old_state_.index);
   view_->ui_->list->verticalScrollBar()->setValue(old_state_.scroll_pos);
+
 }
 
 void FileView::Delete(const QStringList &filenames) {
@@ -238,6 +252,7 @@ void FileView::Delete(const QStringList &filenames) {
   DeleteFiles *delete_files = new DeleteFiles(task_manager_, storage_, use_trash);
   QObject::connect(delete_files, &DeleteFiles::Finished, this, &FileView::DeleteFinished);
   delete_files->Start(filenames);
+
 }
 
 void FileView::DeleteFinished(const SongList &songs_with_errors) {
@@ -247,6 +262,7 @@ void FileView::DeleteFinished(const SongList &songs_with_errors) {
   OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
   dialog->Show(OrganizeErrorDialog::Type_Delete, songs_with_errors);
   // It deletes itself when the user closes it
+
 }
 
 void FileView::showEvent(QShowEvent *e) {
@@ -265,6 +281,7 @@ void FileView::showEvent(QShowEvent *e) {
   ChangeFilePathWithoutUndo(QDir::homePath());
 
   if (!lazy_set_path_.isEmpty()) ChangeFilePathWithoutUndo(lazy_set_path_);
+
 }
 
 void FileView::keyPressEvent(QKeyEvent *e) {
@@ -281,4 +298,5 @@ void FileView::keyPressEvent(QKeyEvent *e) {
   }
 
   QWidget::keyPressEvent(e);
+
 }

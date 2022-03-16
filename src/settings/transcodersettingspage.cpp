@@ -44,10 +44,12 @@ TranscoderSettingsPage::TranscoderSettingsPage(SettingsDialog *dialog, QWidget *
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("tools-wizard"));
+
 }
 
 TranscoderSettingsPage::~TranscoderSettingsPage() {
   delete ui_;
+
 }
 
 void TranscoderSettingsPage::showEvent(QShowEvent *e) {
@@ -55,6 +57,7 @@ void TranscoderSettingsPage::showEvent(QShowEvent *e) {
   if (!e->spontaneous()) set_changed();
 
   QWidget::showEvent(e);
+
 }
 
 void TranscoderSettingsPage::Load() {
@@ -70,6 +73,7 @@ void TranscoderSettingsPage::Load() {
 
   Init(ui_->layout_transcodersettingspage->parentWidget());
   if (isVisible()) set_changed();
+
 }
 
 void TranscoderSettingsPage::Save() {
@@ -82,4 +86,5 @@ void TranscoderSettingsPage::Save() {
   ui_->transcoding_aac->Save();
   ui_->transcoding_asf->Save();
   ui_->transcoding_mp3->Save();
+
 }

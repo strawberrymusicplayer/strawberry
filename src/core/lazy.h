@@ -60,6 +60,7 @@ class Lazy {
 
   const std::function<T*()> init_;
   mutable std::shared_ptr<T> ptr_;
+
 };
 
 #endif  // LAZY_H

@@ -99,6 +99,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   SongList songs_to_add_;
   SongList songs_to_remove_;
   QList<std::shared_ptr<QTemporaryFile>> cover_files_;
+
 };
 
 #endif  // GPODDEVICE_H

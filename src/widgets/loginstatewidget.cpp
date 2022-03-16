@@ -54,6 +54,7 @@ LoginStateWidget::LoginStateWidget(QWidget *parent)
   ui_->signed_out_label->setFont(bold_font);
 
   QObject::connect(ui_->sign_out, &QPushButton::clicked, this, &LoginStateWidget::Logout);
+
 }
 
 LoginStateWidget::~LoginStateWidget() { delete ui_; }
@@ -61,14 +62,17 @@ LoginStateWidget::~LoginStateWidget() { delete ui_; }
 void LoginStateWidget::Logout() {
   SetLoggedIn(LoggedOut);
   emit LogoutClicked();
+
 }
 
 void LoginStateWidget::SetAccountTypeText(const QString &text) {
   ui_->account_type_label->setText(text);
+
 }
 
 void LoginStateWidget::SetAccountTypeVisible(const bool visible) {
   ui_->account_type->setVisible(visible);
+
 }
 
 void LoginStateWidget::SetLoggedIn(const State state, const QString &account_name) {
@@ -96,6 +100,7 @@ void LoginStateWidget::SetLoggedIn(const State state, const QString &account_nam
     // event loop because the user might have just closed a dialog and our widget might not be active yet.
     QTimer::singleShot(0, this, &LoginStateWidget::FocusLastCredentialField);
   }
+
 }
 
 void LoginStateWidget::FocusLastCredentialField() {
@@ -113,20 +118,24 @@ void LoginStateWidget::FocusLastCredentialField() {
       line_edit->selectAll();
     }
   }
+
 }
 
 void LoginStateWidget::HideLoggedInState() {
   ui_->signed_in->hide();
   ui_->signed_out->hide();
+
 }
 
 void LoginStateWidget::AddCredentialField(QWidget *widget) {
   widget->installEventFilter(this);
   credential_fields_ << widget;
+
 }
 
 void LoginStateWidget::AddCredentialGroup(QWidget *widget) {
   credential_groups_ << widget;
+
 }
 
 bool LoginStateWidget::eventFilter(QObject *object, QEvent *event) {
@@ -143,6 +152,7 @@ bool LoginStateWidget::eventFilter(QObject *object, QEvent *event) {
   }
 
   return QWidget::eventFilter(object, event);
+
 }
 
 void LoginStateWidget::SetExpires(const QDate expires) {
@@ -153,4 +163,5 @@ void LoginStateWidget::SetExpires(const QDate expires) {
     const QString expires_text = QLocale().toString(expires, QLocale::LongFormat);
     ui_->expires_label->setText(tr("Expires on %1").arg("<b>" + expires_text + "</b>"));
   }
+
 }

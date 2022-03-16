@@ -72,10 +72,12 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
 
   // Create the model
   model_ = new CollectionModel(backend_, app_, this);
+
 }
 
 ConnectedDevice::~ConnectedDevice() {
   backend_->deleteLater();
+
 }
 
 void ConnectedDevice::InitBackendDirectory(const QString &mount_point, const bool first_time, const bool rewrite_path) {
@@ -103,6 +105,7 @@ void ConnectedDevice::InitBackendDirectory(const QString &mount_point, const boo
     // Load the directory properly now
     backend_->LoadDirectoriesAsync();
   }
+
 }
 
 void ConnectedDevice::ConnectAsync() { emit DeviceConnectFinished(unique_id_, true); }
@@ -111,11 +114,13 @@ void ConnectedDevice::Close() {
 
   QObject::connect(backend_, &CollectionBackend::ExitFinished, this, &ConnectedDevice::BackendCloseFinished);
   backend_->ExitAsync();
+
 }
 
 void ConnectedDevice::BackendCloseFinished() {
 
   emit DeviceCloseFinished(unique_id_);
+
 }
 
 void ConnectedDevice::Eject() {
@@ -127,14 +132,17 @@ void ConnectedDevice::Eject() {
   if (!idx.isValid()) return;
 
   manager_->UnmountAsync(idx);
+
 }
 
 void ConnectedDevice::FinishCopy(bool) {
   lister_->UpdateDeviceFreeSpace(unique_id_);
+
 }
 
 void ConnectedDevice::FinishDelete(bool) {
   lister_->UpdateDeviceFreeSpace(unique_id_);
+
 }
 
 MusicStorage::TranscodeMode ConnectedDevice::GetTranscodeMode() const {
@@ -146,6 +154,7 @@ MusicStorage::TranscodeMode ConnectedDevice::GetTranscodeMode() const {
   if (!idx.isValid()) return MusicStorage::TranscodeMode();
 
   return MusicStorage::TranscodeMode(idx.data(DeviceManager::Role_TranscodeMode).toInt());
+
 }
 
 Song::FileType ConnectedDevice::GetTranscodeFormat() const {
@@ -157,9 +166,11 @@ Song::FileType ConnectedDevice::GetTranscodeFormat() const {
   if (!idx.isValid()) return Song::FileType_Unknown;
 
   return Song::FileType(idx.data(DeviceManager::Role_TranscodeFormat).toInt());
+
 }
 
 void ConnectedDevice::BackendTotalSongCountUpdated(int count) {
   song_count_ = count;
   emit SongCountUpdated(count);
+
 }

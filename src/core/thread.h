@@ -40,6 +40,7 @@ class Thread : public QThread {
 
  private:
   Utilities::IoPriority io_priority_;
+
 };
 
 #endif  // THREAD_H

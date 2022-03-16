@@ -39,6 +39,7 @@ class RadioParadiseService : public RadioService {
 
  public slots:
   void GetChannels() override;
+
 };
 
 #endif  // RADIOPARADISESERVICE_H

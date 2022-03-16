@@ -49,6 +49,7 @@ class StickySlider : public QSlider {
  private:
   int sticky_center_;
   int sticky_threshold_;
+
 };
 
 #endif  // STICKYSLIDER_H

@@ -51,6 +51,7 @@ class ErrorDialog : public QDialog {
   Ui_ErrorDialog *ui_;
 
   QStringList current_messages_;
+
 };
 
 #endif  // ERRORDIALOG_H

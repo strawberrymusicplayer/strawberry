@@ -45,6 +45,7 @@ std::ostream& operator<<(std::ostream& stream, const QList<T>& list) {
   }
   stream << ")";
   return stream;
+
 }
 
 void PrintTo(const ::QString& str, std::ostream& os);
@@ -65,6 +66,7 @@ class TemporaryResource : public QTemporaryFile {
 
  public:
   explicit TemporaryResource(const QString& filename, QObject* parent = nullptr);
+
 };
 
 class TestQObject : public QObject {
@@ -85,6 +87,7 @@ class TestQObject : public QObject {
 
  private:
   int invoked_;
+
 };
 
 #endif  // TEST_UTILS_H

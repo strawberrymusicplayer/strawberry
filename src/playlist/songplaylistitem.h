@@ -54,6 +54,7 @@ class SongPlaylistItem : public PlaylistItem {
   Song song_;
 
   Q_DISABLE_COPY(SongPlaylistItem)
+
 };
 
 #endif  // SONGPLAYLISTITEM_H

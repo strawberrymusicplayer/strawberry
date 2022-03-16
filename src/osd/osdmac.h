@@ -45,6 +45,7 @@ class OSDMac : public OSDBase {
 
  private:
   void ShowMessageNative(const QString &summary, const QString &message, const QString &icon, const QImage &image) override;
+
 };
 
 #endif  // OSDMAC_H

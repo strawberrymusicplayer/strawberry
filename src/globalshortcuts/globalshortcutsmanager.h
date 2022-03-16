@@ -106,6 +106,7 @@ class GlobalShortcutsManager : public QWidget {
   QSettings settings_;
   QList<GlobalShortcutsBackend::Type> backends_enabled_;
   QMap<QString, Shortcut> shortcuts_;
+
 };
 
 #endif  // GLOBALSHORTCUTSMANAGER_H

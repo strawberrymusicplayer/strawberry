@@ -51,6 +51,7 @@ QString GlobalShortcutsBackend::name() const {
   }
 
   return QString();
+
 }
 
 bool GlobalShortcutsBackend::Register() {
@@ -58,10 +59,12 @@ bool GlobalShortcutsBackend::Register() {
   bool ret = DoRegister();
   if (ret) active_ = true;
   return ret;
+
 }
 
 void GlobalShortcutsBackend::Unregister() {
 
   DoUnregister();
   active_ = false;
+
 }

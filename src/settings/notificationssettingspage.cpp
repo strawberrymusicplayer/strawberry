@@ -134,19 +134,23 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, QWi
   ui_->notifications_exp_chooser2->setIcon(IconLoader::Load("list-add"));
 
   QObject::connect(pretty_popup_, &OSDPretty::PositionChanged, this, &NotificationsSettingsPage::PrettyOSDChanged);
+
 }
 
 NotificationsSettingsPage::~NotificationsSettingsPage() {
   delete pretty_popup_;
   delete ui_;
+
 }
 
 void NotificationsSettingsPage::showEvent(QShowEvent *) {
   UpdatePopupVisible();
+
 }
 
 void NotificationsSettingsPage::hideEvent(QHideEvent *) {
   UpdatePopupVisible();
+
 }
 
 void NotificationsSettingsPage::Load() {
@@ -222,6 +226,7 @@ void NotificationsSettingsPage::Load() {
   Init(ui_->layout_notificationssettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(OSDBase::kSettingsGroup)) set_changed();
+
 }
 
 void NotificationsSettingsPage::Save() {
@@ -261,17 +266,20 @@ void NotificationsSettingsPage::Save() {
   s.setValue("disable_duration", ui_->notifications_disable_duration->isChecked());
   s.setValue("fading", ui_->notifications_fading->isChecked());
   s.endGroup();
+
 }
 
 void NotificationsSettingsPage::PrettyOpacityChanged(int value) {
 
   pretty_popup_->set_background_opacity(qreal(value) / 100.0);
   set_changed();
+
 }
 
 void NotificationsSettingsPage::UpdatePopupVisible() {
 
   pretty_popup_->setVisible(isVisible() && ui_->notifications_pretty->isChecked());
+
 }
 
 void NotificationsSettingsPage::PrettyColorPresetChanged(int index) {
@@ -294,6 +302,7 @@ void NotificationsSettingsPage::PrettyColorPresetChanged(int index) {
   }
 
   set_changed();
+
 }
 
 void NotificationsSettingsPage::ChooseBgColor() {
@@ -305,6 +314,7 @@ void NotificationsSettingsPage::ChooseBgColor() {
   ui_->notifications_bg_preset->setItemData(2, color, Qt::DecorationRole);
 
   set_changed();
+
 }
 
 void NotificationsSettingsPage::ChooseFgColor() {
@@ -315,6 +325,7 @@ void NotificationsSettingsPage::ChooseFgColor() {
   pretty_popup_->set_foreground_color(color.rgb());
 
   set_changed();
+
 }
 
 void NotificationsSettingsPage::ChooseFont() {
@@ -325,6 +336,7 @@ void NotificationsSettingsPage::ChooseFont() {
     pretty_popup_->set_font(font);
     set_changed();
   }
+
 }
 
 void NotificationsSettingsPage::NotificationCustomTextChanged(bool enabled) {
@@ -336,6 +348,7 @@ void NotificationsSettingsPage::NotificationCustomTextChanged(bool enabled) {
   ui_->notifications_preview->setEnabled(enabled);
   ui_->label_summary->setEnabled(enabled);
   ui_->label_body->setEnabled(enabled);
+
 }
 
 void NotificationsSettingsPage::PrepareNotificationPreview() {
@@ -353,20 +366,24 @@ void NotificationsSettingsPage::PrepareNotificationPreview() {
 
   // If user changes timeout or other options, that won't be reflected in the preview
   emit NotificationPreview(notificationType, ui_->notifications_custom_text1->text(), ui_->notifications_custom_text2->text());
+
 }
 
 void NotificationsSettingsPage::InsertVariableFirstLine(QAction *action) {
   // We use action name, therefore those shouldn't be translatable
   ui_->notifications_custom_text1->insert(action->text());
+
 }
 
 void NotificationsSettingsPage::InsertVariableSecondLine(QAction *action) {
   // We use action name, therefore those shouldn't be translatable
   ui_->notifications_custom_text2->insert(action->text());
+
 }
 
 void NotificationsSettingsPage::ShowMenuTooltip(QAction *action) {
   QToolTip::showText(QCursor::pos(), action->toolTip());
+
 }
 
 void NotificationsSettingsPage::NotificationTypeChanged() {
@@ -385,8 +402,10 @@ void NotificationsSettingsPage::NotificationTypeChanged() {
 #endif
   ui_->notifications_duration->setEnabled(!pretty || !ui_->notifications_disable_duration->isChecked());
   ui_->notifications_disable_duration->setEnabled(pretty);
+
 }
 
 void NotificationsSettingsPage::PrettyOSDChanged() {
   set_changed();
+
 }

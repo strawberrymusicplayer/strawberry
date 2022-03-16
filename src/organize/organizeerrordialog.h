@@ -51,6 +51,7 @@ class OrganizeErrorDialog : public QDialog {
 
  private:
   Ui_OrganizeErrorDialog *ui_;
+
 };
 
 #endif  // ORGANISEERRORDIALOG_H

@@ -121,6 +121,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   bool submit_error_;
 
   QList<QNetworkReply *> replies_;
+
 };
 
 #endif  // LISTENBRAINZSCROBBLER_H

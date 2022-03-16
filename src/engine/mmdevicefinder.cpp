@@ -120,4 +120,5 @@ QList<DeviceFinder::Device> MMDeviceFinder::ListDevices() {
   if (hr_coinit == S_OK || hr_coinit == S_FALSE) CoUninitialize();
 
   return devices;
+
 }

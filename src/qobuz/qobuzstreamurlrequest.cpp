@@ -62,6 +62,7 @@ QobuzStreamURLRequest::~QobuzStreamURLRequest() {
     if (reply_->isRunning()) reply_->abort();
     reply_->deleteLater();
   }
+
 }
 
 void QobuzStreamURLRequest::LoginComplete(const bool success, const QString &error) {
@@ -75,6 +76,7 @@ void QobuzStreamURLRequest::LoginComplete(const bool success, const QString &err
   }
 
   Process();
+
 }
 
 void QobuzStreamURLRequest::Process() {
@@ -90,6 +92,7 @@ void QobuzStreamURLRequest::Process() {
     return;
   }
   GetStreamURL();
+
 }
 
 void QobuzStreamURLRequest::Cancel() {
@@ -100,6 +103,7 @@ void QobuzStreamURLRequest::Cancel() {
   else {
     emit StreamURLFailure(id_, original_url_, tr("Cancelled."));
   }
+
 }
 
 void QobuzStreamURLRequest::GetStreamURL() {
@@ -150,6 +154,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
 
   reply_ = CreateRequest(QString("track/getFileUrl"), params);
   QObject::connect(reply_, &QNetworkReply::finished, this, &QobuzStreamURLRequest::StreamURLReceived);
+
 }
 
 void QobuzStreamURLRequest::StreamURLReceived() {
@@ -231,6 +236,7 @@ void QobuzStreamURLRequest::StreamURLReceived() {
   }
 
   emit StreamURLSuccess(id_, original_url_, url, filetype, samplerate, bit_depth, duration);
+
 }
 
 void QobuzStreamURLRequest::Error(const QString &error, const QVariant &debug) {
@@ -240,4 +246,5 @@ void QobuzStreamURLRequest::Error(const QString &error, const QVariant &debug) {
     errors_ << error;
   }
   if (debug.isValid()) qLog(Debug) << debug;
+
 }

@@ -77,6 +77,7 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
   ui_->streamurl->addItem("streamurl", StreamUrlMethod_StreamUrl);
   ui_->streamurl->addItem("urlpostpaywall", StreamUrlMethod_UrlPostPaywall);
   ui_->streamurl->addItem("playbackinfopostpaywall", StreamUrlMethod_PlaybackInfoPostPaywall);
+
 }
 
 TidalSettingsPage::~TidalSettingsPage() { delete ui_; }
@@ -122,6 +123,7 @@ void TidalSettingsPage::Load() {
   Init(ui_->layout_tidalsettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+
 }
 
 void TidalSettingsPage::Save() {
@@ -147,6 +149,7 @@ void TidalSettingsPage::Save() {
   s.setValue("streamurl", ui_->streamurl->itemData(ui_->streamurl->currentIndex()));
   s.setValue("album_explicit", ui_->checkbox_album_explicit->isChecked());
   s.endGroup();
+
 }
 
 void TidalSettingsPage::LoginClicked() {
@@ -174,6 +177,7 @@ void TidalSettingsPage::LoginClicked() {
     emit Login(ui_->api_token->text(), ui_->username->text(), ui_->password->text());
   }
   ui_->button_login->setEnabled(false);
+
 }
 
 bool TidalSettingsPage::eventFilter(QObject *object, QEvent *event) {
@@ -183,6 +187,7 @@ bool TidalSettingsPage::eventFilter(QObject *object, QEvent *event) {
   }
 
   return SettingsPage::eventFilter(object, event);
+
 }
 
 void TidalSettingsPage::OAuthClicked(const bool enabled) {
@@ -191,6 +196,7 @@ void TidalSettingsPage::OAuthClicked(const bool enabled) {
   ui_->api_token->setEnabled(!enabled);
   ui_->username->setEnabled(!enabled);
   ui_->password->setEnabled(!enabled);
+
 }
 
 void TidalSettingsPage::LogoutClicked() {
@@ -198,6 +204,7 @@ void TidalSettingsPage::LogoutClicked() {
   service_->Logout();
   ui_->button_login->setEnabled(true);
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
+
 }
 
 void TidalSettingsPage::LoginSuccess() {
@@ -205,6 +212,7 @@ void TidalSettingsPage::LoginSuccess() {
   if (!isVisible()) return;
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
   ui_->button_login->setEnabled(true);
+
 }
 
 void TidalSettingsPage::LoginFailure(const QString &failure_reason) {
@@ -212,4 +220,5 @@ void TidalSettingsPage::LoginFailure(const QString &failure_reason) {
   if (!isVisible()) return;
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
   ui_->button_login->setEnabled(true);
+
 }

@@ -130,6 +130,7 @@ class AppearanceSettingsPage : public SettingsPage {
   BackgroundImageType background_image_type_;
   QString background_image_filename_;
   QColor current_playlist_playing_song_color_;
+
 };
 
 #endif  // APPEARANCESETTINGSPAGE_H

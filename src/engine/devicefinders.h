@@ -40,6 +40,7 @@ class DeviceFinders : public QObject {
 
  private:
   QList<DeviceFinder *> device_finders_;
+
 };
 
 #endif  // DEVICEFINDERS_H

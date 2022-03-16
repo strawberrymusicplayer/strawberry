@@ -64,6 +64,7 @@ class NetworkProxyFactory : public QNetworkProxyFactory {
 #ifdef Q_OS_LINUX
   QUrl env_url_;
 #endif
+
 };
 
 #endif  // NETWORKPROXYFACTORY_H

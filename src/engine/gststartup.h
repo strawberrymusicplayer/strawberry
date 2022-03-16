@@ -46,6 +46,7 @@ class GstStartup : public QObject {
   static void SetEnvironment();
 
   QFuture<void> initializing_;
+
 };
 
 #endif  // GSTSTARTUP_H

@@ -39,10 +39,12 @@ GlobalShortcutsBackendWin::GlobalShortcutsBackendWin(GlobalShortcutsManager *man
 
 GlobalShortcutsBackendWin::~GlobalShortcutsBackendWin() {
   GlobalShortcutsBackendWin::DoUnregister();
+
 }
 
 bool GlobalShortcutsBackendWin::IsAvailable() const {
   return true;
+
 }
 
 bool GlobalShortcutsBackendWin::DoRegister() {
@@ -57,6 +59,7 @@ bool GlobalShortcutsBackendWin::DoRegister() {
   }
 
   return true;
+
 }
 
 bool GlobalShortcutsBackendWin::AddShortcut(QAction *action) {
@@ -67,6 +70,7 @@ bool GlobalShortcutsBackendWin::AddShortcut(QAction *action) {
   QObject::connect(shortcut, &GlobalShortcut::activated, action, &QAction::trigger);
   shortcuts_ << shortcut;
   return true;
+
 }
 
 void GlobalShortcutsBackendWin::DoUnregister() {
@@ -80,4 +84,5 @@ void GlobalShortcutsBackendWin::DoUnregister() {
     delete gshortcut_init_;
     gshortcut_init_ = nullptr;
   }
+
 }

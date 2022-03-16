@@ -105,6 +105,7 @@ void QueuedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
       DrawBox(painter, option.rect, option.font, QString::number(queue_pos + 1), kQueueBoxLength, opacity);
     }
   }
+
 }
 
 void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect line_rect, const QFont &font, const QString &text, int width, const float opacity) {
@@ -153,6 +154,7 @@ void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect line_rect, const
   painter->translate(-0.5, -0.5);
 
   painter->restore();
+
 }
 
 int QueuedItemDelegate::queue_indicator_size(const QModelIndex &idx) const {
@@ -164,11 +166,13 @@ int QueuedItemDelegate::queue_indicator_size(const QModelIndex &idx) const {
     }
   }
   return 0;
+
 }
 
 
 PlaylistDelegateBase::PlaylistDelegateBase(QObject *parent, const QString &suffix)
     : QueuedItemDelegate(parent), view_(qobject_cast<QTreeView *>(parent)), suffix_(suffix) {
+
 }
 
 QString PlaylistDelegateBase::displayText(const QVariant &value, const QLocale &) const {
@@ -204,6 +208,7 @@ QString PlaylistDelegateBase::displayText(const QVariant &value, const QLocale &
 
   if (!text.isNull() && !suffix_.isNull()) text += " " + suffix_;
   return text;
+
 }
 
 QSize PlaylistDelegateBase::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const {
@@ -211,6 +216,7 @@ QSize PlaylistDelegateBase::sizeHint(const QStyleOptionViewItem &option, const Q
   QSize size = QueuedItemDelegate::sizeHint(option, idx);
   if (size.height() < kMinHeight) size.setHeight(kMinHeight);
   return size;
+
 }
 
 void PlaylistDelegateBase::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
@@ -226,6 +232,7 @@ void PlaylistDelegateBase::paint(QPainter *painter, const QStyleOptionViewItem &
       DrawBox(painter, rect, option.font, tr("stop"));
     }
   }
+
 }
 
 QStyleOptionViewItem PlaylistDelegateBase::Adjusted(const QStyleOptionViewItem &option, const QModelIndex &idx) const {
@@ -246,6 +253,7 @@ QStyleOptionViewItem PlaylistDelegateBase::Adjusted(const QStyleOptionViewItem &
   }
 
   return ret;
+
 }
 
 bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &idx) {
@@ -294,6 +302,7 @@ bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view,
       break;
   }
   return false;
+
 }
 
 
@@ -304,6 +313,7 @@ QString LengthItemDelegate::displayText(const QVariant &value, const QLocale &) 
 
   if (ok && nanoseconds > 0) return Utilities::PrettyTimeNanosec(nanoseconds);
   return QString();
+
 }
 
 
@@ -314,6 +324,7 @@ QString SizeItemDelegate::displayText(const QVariant &value, const QLocale &) co
 
   if (ok && bytes > 0) return Utilities::PrettySize(static_cast<quint64>(bytes));
   return QString();
+
 }
 
 QString DateItemDelegate::displayText(const QVariant &value, const QLocale &locale) const {
@@ -328,6 +339,7 @@ QString DateItemDelegate::displayText(const QVariant &value, const QLocale &loca
   }
 
   return QDateTime::fromSecsSinceEpoch(time).toString(QLocale::system().dateTimeFormat(QLocale::ShortFormat));
+
 }
 
 QString LastPlayedItemDelegate::displayText(const QVariant &value, const QLocale &locale) const {
@@ -340,6 +352,7 @@ QString LastPlayedItemDelegate::displayText(const QVariant &value, const QLocale
   }
 
   return Utilities::Ago(time, locale);
+
 }
 
 QString FileTypeItemDelegate::displayText(const QVariant &value, const QLocale &locale) const {
@@ -352,12 +365,14 @@ QString FileTypeItemDelegate::displayText(const QVariant &value, const QLocale &
   if (!ok) return tr("Unknown");
 
   return Song::TextForFiletype(type);
+
 }
 
 QWidget *TextItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
   Q_UNUSED(option);
   Q_UNUSED(idx);
   return new QLineEdit(parent);
+
 }
 
 TagCompletionModel::TagCompletionModel(CollectionBackend *backend, const Playlist::Column column, QObject *parent) : QStringListModel(parent) {
@@ -370,6 +385,7 @@ TagCompletionModel::TagCompletionModel(CollectionBackend *backend, const Playlis
   if (QThread::currentThread() != backend->thread() && QThread::currentThread() != qApp->thread()) {
     backend->Close();
   }
+
 }
 
 QString TagCompletionModel::database_column(Playlist::Column column) {
@@ -386,11 +402,13 @@ QString TagCompletionModel::database_column(Playlist::Column column) {
       qLog(Warning) << "Unknown column" << column;
       return QString();
   }
+
 }
 
 static TagCompletionModel *InitCompletionModel(CollectionBackend *backend, Playlist::Column column) {
 
   return new TagCompletionModel(backend, column);
+
 }
 
 TagCompleter::TagCompleter(CollectionBackend *backend, Playlist::Column column, QLineEdit *editor) : QCompleter(editor), editor_(editor) {
@@ -399,10 +417,12 @@ TagCompleter::TagCompleter(CollectionBackend *backend, Playlist::Column column, 
   QFutureWatcher<TagCompletionModel *> *watcher = new QFutureWatcher<TagCompletionModel *>();
   QObject::connect(watcher, &QFutureWatcher<TagCompletionModel *>::finished, this, &TagCompleter::ModelReady);
   watcher->setFuture(future);
+
 }
 
 TagCompleter::~TagCompleter() {
   delete model();
+
 }
 
 void TagCompleter::ModelReady() {
@@ -413,6 +433,7 @@ void TagCompleter::ModelReady() {
   setModel(model);
   setCaseSensitivity(Qt::CaseInsensitive);
   editor_->setCompleter(this);
+
 }
 
 QWidget *TagCompletionItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &) const {
@@ -421,6 +442,7 @@ QWidget *TagCompletionItemDelegate::createEditor(QWidget *parent, const QStyleOp
   new TagCompleter(backend_, column_, editor);
 
   return editor;
+
 }
 
 QString NativeSeparatorsDelegate::displayText(const QVariant &value, const QLocale &) const {
@@ -446,6 +468,7 @@ QString NativeSeparatorsDelegate::displayText(const QVariant &value, const QLoca
     return QDir::toNativeSeparators(url.toLocalFile());
   }
   return string_value;
+
 }
 
 SongSourceDelegate::SongSourceDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
@@ -453,6 +476,7 @@ SongSourceDelegate::SongSourceDelegate(QObject *parent) : PlaylistDelegateBase(p
 QString SongSourceDelegate::displayText(const QVariant &value, const QLocale &) const {
   Q_UNUSED(value);
   return QString();
+
 }
 
 QPixmap SongSourceDelegate::LookupPixmap(const Song::Source source, const QSize size) const {
@@ -468,6 +492,7 @@ QPixmap SongSourceDelegate::LookupPixmap(const Song::Source source, const QSize 
   QPixmapCache::insert(cache_key, pixmap);
 
   return pixmap;
+
 }
 
 void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
@@ -489,6 +514,7 @@ void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   draw_rect.moveCenter(option_copy.rect.center());
 
   painter->drawPixmap(draw_rect, pixmap);
+
 }
 
 RatingItemDelegate::RatingItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
@@ -506,6 +532,7 @@ void RatingItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   const float rating = (hover ? RatingPainter::RatingForPos(mouse_over_pos_, option.rect) : idx.data().toFloat());
 
   painter_.Paint(painter, option.rect, rating);
+
 }
 
 QSize RatingItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const {
@@ -513,6 +540,7 @@ QSize RatingItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QMo
   QSize size = PlaylistDelegateBase::sizeHint(option, idx);
   size.setWidth(size.height() * RatingPainter::kStarCount);
   return size;
+
 }
 
 QString RatingItemDelegate::displayText(const QVariant &value, const QLocale &) const {
@@ -523,4 +551,5 @@ QString RatingItemDelegate::displayText(const QVariant &value, const QLocale &) 
   const float rating = static_cast<float>(lround(value.toFloat() * RatingPainter::kStarCount * 2)) / 2;
 
   return QString::number(rating, 'f', 1);
+
 }

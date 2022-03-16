@@ -68,6 +68,7 @@ class QobuzCoverProvider : public JsonCoverProvider {
 
   QobuzService *service_;
   QList<QNetworkReply *> replies_;
+
 };
 
 #endif  // QOBUZCOVERPROVIDER_H

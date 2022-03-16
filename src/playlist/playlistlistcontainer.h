@@ -116,6 +116,7 @@ class PlaylistListContainer : public QWidget {
   int active_playlist_id_;
 
   std::unique_ptr<OrganizeDialog> organize_dialog_;
+
 };
 
 #endif  // PLAYLISTLISTCONTAINER_H

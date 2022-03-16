@@ -79,6 +79,7 @@ class FileViewList : public QListView {
  private:
   QMenu *menu_;
   QItemSelection menu_selection_;
+
 };
 
 #endif  // FILEVIEWLIST_H

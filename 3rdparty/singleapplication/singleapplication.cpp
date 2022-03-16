@@ -166,11 +166,13 @@ SingleApplication::SingleApplication(int &argc, char *argv[], const bool allowSe
   delete d;
 
   ::exit(EXIT_SUCCESS);
+
 }
 
 SingleApplication::~SingleApplication() {
   Q_D(SingleApplication);
   delete d;
+
 }
 
 /**
@@ -180,6 +182,7 @@ SingleApplication::~SingleApplication() {
 bool SingleApplication::isPrimary() const {
   Q_D(const SingleApplication);
   return d->server_ != nullptr;
+
 }
 
 /**
@@ -189,6 +192,7 @@ bool SingleApplication::isPrimary() const {
 bool SingleApplication::isSecondary() const {
   Q_D(const SingleApplication);
   return d->server_ == nullptr;
+
 }
 
 /**
@@ -199,6 +203,7 @@ bool SingleApplication::isSecondary() const {
 quint32 SingleApplication::instanceId() const {
   Q_D(const SingleApplication);
   return d->instanceNumber_;
+
 }
 
 /**
@@ -209,6 +214,7 @@ quint32 SingleApplication::instanceId() const {
 qint64 SingleApplication::primaryPid() const {
   Q_D(const SingleApplication);
   return d->primaryPid();
+
 }
 
 /**
@@ -218,6 +224,7 @@ qint64 SingleApplication::primaryPid() const {
 QString SingleApplication::primaryUser() const {
   Q_D(const SingleApplication);
   return d->primaryUser();
+
 }
 
 /**
@@ -226,6 +233,7 @@ QString SingleApplication::primaryUser() const {
  */
 QString SingleApplication::currentUser() const {
   return SingleApplicationPrivate::getUsername();
+
 }
 
 /**
@@ -247,6 +255,7 @@ bool SingleApplication::sendMessage(const QByteArray &message, const int timeout
   }
 
   return d->writeConfirmedMessage(timeout, message);
+
 }
 
 /**
@@ -261,4 +270,5 @@ void SingleApplication::abortSafely() {
   delete d;
 
   ::exit(EXIT_FAILURE);
+
 }

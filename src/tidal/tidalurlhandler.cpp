@@ -36,6 +36,7 @@ TidalUrlHandler::TidalUrlHandler(Application *app, TidalService *service)
 
   QObject::connect(service, &TidalService::StreamURLFailure, this, &TidalUrlHandler::GetStreamURLFailure);
   QObject::connect(service, &TidalService::StreamURLSuccess, this, &TidalUrlHandler::GetStreamURLSuccess);
+
 }
 
 UrlHandler::LoadResult TidalUrlHandler::StartLoading(const QUrl &url) {
@@ -55,6 +56,7 @@ UrlHandler::LoadResult TidalUrlHandler::StartLoading(const QUrl &url) {
   ret.type_ = LoadResult::WillLoadAsynchronously;
 
   return ret;
+
 }
 
 void TidalUrlHandler::GetStreamURLFailure(const uint id, const QUrl &original_url, const QString &error) {
@@ -64,6 +66,7 @@ void TidalUrlHandler::GetStreamURLFailure(const uint id, const QUrl &original_ur
   CancelTask(req.task_id);
 
   emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Error, error));
+
 }
 
 void TidalUrlHandler::GetStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration) {
@@ -73,8 +76,10 @@ void TidalUrlHandler::GetStreamURLSuccess(const uint id, const QUrl &original_ur
   CancelTask(req.task_id);
 
   emit AsyncLoadComplete(LoadResult(original_url, LoadResult::TrackAvailable, stream_url, filetype, samplerate, bit_depth, duration));
+
 }
 
 void TidalUrlHandler::CancelTask(const int task_id) {
   app_->task_manager()->SetTaskFinished(task_id);
+
 }

@@ -115,6 +115,7 @@ class TagReaderTest : public ::testing::Test {
     song.ToProtobuf(&pb_song);
     tag_reader.SaveSongRatingToFile(filename, pb_song);
   }
+
 };
 
 TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
@@ -272,6 +273,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
     EXPECT_FALSE(sha256sum.isEmpty());
     //EXPECT_EQ(sha256sum, sha256sum_notags);
   }
+
 }
 
 TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
@@ -429,6 +431,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
     EXPECT_FALSE(sha256sum.isEmpty());
     //EXPECT_EQ(sha256sum, sha256sum_notags);
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
@@ -586,6 +589,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
     EXPECT_FALSE(sha256sum.isEmpty());
     //EXPECT_EQ(sha256sum, sha256sum_notags);
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
@@ -742,6 +746,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
     EXPECT_FALSE(sha256sum.isEmpty());
     //EXPECT_EQ(sha256sum, sha256sum_notags);
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
@@ -899,6 +904,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
     EXPECT_FALSE(sha256sum.isEmpty());
     //EXPECT_EQ(sha256sum, sha256sum_notags);
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
@@ -1056,6 +1062,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
     EXPECT_FALSE(sha256sum.isEmpty());
     //EXPECT_EQ(sha256sum, sha256sum_notags);
   }
+
 }
 
 TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
@@ -1213,6 +1220,7 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
     EXPECT_FALSE(sha256sum.isEmpty());
     EXPECT_EQ(sha256sum, sha256sum_notags);
   }
+
 }
 
 TEST_F(TagReaderTest, TestASFAudioFileTagging) {
@@ -1370,6 +1378,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     EXPECT_FALSE(sha256sum.isEmpty());
     //EXPECT_EQ(sha256sum, sha256sum_notags);
   }
+
 }
 
 TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
@@ -1527,6 +1536,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
     EXPECT_FALSE(sha256sum.isEmpty());
     //EXPECT_EQ(sha256sum, sha256sum_notags);
   }
+
 }
 
 TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
@@ -1684,6 +1694,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     EXPECT_FALSE(sha256sum.isEmpty());
     //EXPECT_EQ(sha256sum, sha256sum_notags);
   }
+
 }
 
 #ifndef USE_TAGPARSER
@@ -1702,6 +1713,7 @@ TEST_F(TagReaderTest, TestFLACAudioFilePlaycount) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(4, song.playcount());
   }
+
 }
 
 TEST_F(TagReaderTest, TestWavPackAudioFilePlaycount) {
@@ -1718,6 +1730,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFilePlaycount) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(4, song.playcount());
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggFLACAudioFilePlaycount) {
@@ -1734,6 +1747,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFilePlaycount) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(4, song.playcount());
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggVorbisAudioFilePlaycount) {
@@ -1750,6 +1764,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFilePlaycount) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(4, song.playcount());
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggOpusAudioFilePlaycount) {
@@ -1766,6 +1781,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFilePlaycount) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(4, song.playcount());
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggSpeexAudioFilePlaycount) {
@@ -1782,6 +1798,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFilePlaycount) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(4, song.playcount());
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggASFAudioFilePlaycount) {
@@ -1798,6 +1815,7 @@ TEST_F(TagReaderTest, TestOggASFAudioFilePlaycount) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(4, song.playcount());
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggMP3AudioFilePlaycount) {
@@ -1814,6 +1832,7 @@ TEST_F(TagReaderTest, TestOggMP3AudioFilePlaycount) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(4, song.playcount());
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggMP4AudioFilePlaycount) {
@@ -1830,6 +1849,7 @@ TEST_F(TagReaderTest, TestOggMP4AudioFilePlaycount) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(4, song.playcount());
   }
+
 }
 
 #endif  // USE_TAGPARSER
@@ -1848,6 +1868,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileRating) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
   }
+
 }
 
 TEST_F(TagReaderTest, TestWavPackAudioFileRating) {
@@ -1864,6 +1885,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileRating) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggFLACAudioFileRating) {
@@ -1880,6 +1902,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileRating) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggVorbisAudioFileRating) {
@@ -1896,6 +1919,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileRating) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggOpusAudioFileRating) {
@@ -1912,6 +1936,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileRating) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
   }
+
 }
 
 TEST_F(TagReaderTest, TestOggSpeexAudioFileRating) {
@@ -1928,6 +1953,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileRating) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
   }
+
 }
 
 TEST_F(TagReaderTest, TestASFAudioFileRating) {
@@ -1944,6 +1970,7 @@ TEST_F(TagReaderTest, TestASFAudioFileRating) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
   }
+
 }
 
 TEST_F(TagReaderTest, TestMP3AudioFileRating) {
@@ -1960,6 +1987,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileRating) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
   }
+
 }
 
 TEST_F(TagReaderTest, TestMP4AudioFileRating) {
@@ -1976,6 +2004,8 @@ TEST_F(TagReaderTest, TestMP4AudioFileRating) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
   }
+
 }
+
 
 }  // namespace

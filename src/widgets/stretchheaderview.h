@@ -100,6 +100,7 @@ class StretchHeaderView : public QHeaderView {
   QVector<ColumnWidthType> column_widths_;
 
   bool in_mouse_move_event_;
+
 };
 
 #endif  // STRETCHHEADERVIEW_H

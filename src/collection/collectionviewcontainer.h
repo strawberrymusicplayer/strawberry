@@ -45,6 +45,7 @@ class CollectionViewContainer : public QWidget {
 
  private:
   Ui_CollectionViewContainer *ui_;
+
 };
 
 #endif  // COLLECTIONVIEWCONTAINER_H

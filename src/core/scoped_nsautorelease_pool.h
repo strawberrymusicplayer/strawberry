@@ -34,6 +34,7 @@ class ScopedNSAutoreleasePool {
 
  private:
   Q_DISABLE_COPY(ScopedNSAutoreleasePool);
+
 };
 
 #endif  // BASE_MAC_SCOPED_NSAUTORELEASE_POOL_H_

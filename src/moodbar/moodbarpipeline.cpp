@@ -59,6 +59,7 @@ GstElement *MoodbarPipeline::CreateElement(const QString &factory_name) {
   }
 
   return ret;
+
 }
 
 void MoodbarPipeline::Start() {
@@ -114,6 +115,7 @@ void MoodbarPipeline::Start() {
   // Start playing
   running_ = true;
   gst_element_set_state(pipeline_, GST_STATE_PLAYING);
+
 }
 
 void MoodbarPipeline::ReportError(GstMessage *msg) {
@@ -128,6 +130,7 @@ void MoodbarPipeline::ReportError(GstMessage *msg) {
   g_free(debugs);
 
   qLog(Error) << "Error processing" << local_filename_ << ":" << message;
+
 }
 
 void MoodbarPipeline::NewPadCallback(GstElement *, GstPad *pad, gpointer data) {
@@ -166,6 +169,7 @@ void MoodbarPipeline::NewPadCallback(GstElement *, GstPad *pad, gpointer data) {
   else {
     qLog(Error) << "Builder does not exist";
   }
+
 }
 
 GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *, GstMessage *msg, gpointer data) {
@@ -186,6 +190,7 @@ GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *, GstMessage *msg, gpoi
       break;
   }
   return GST_BUS_PASS;
+
 }
 
 void MoodbarPipeline::Stop(const bool success) {
@@ -198,6 +203,7 @@ void MoodbarPipeline::Stop(const bool success) {
   }
 
   emit Finished(success);
+
 }
 
 void MoodbarPipeline::Cleanup() {
@@ -217,4 +223,5 @@ void MoodbarPipeline::Cleanup() {
     gst_object_unref(pipeline_);
     pipeline_ = nullptr;
   }
+
 }

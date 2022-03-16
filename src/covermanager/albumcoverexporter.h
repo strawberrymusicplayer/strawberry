@@ -65,6 +65,7 @@ class AlbumCoverExporter : public QObject {
   int exported_;
   int skipped_;
   int all_;
+
 };
 
 #endif  // ALBUMCOVEREXPORTER_H

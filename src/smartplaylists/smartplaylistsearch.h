@@ -66,6 +66,7 @@ class SmartPlaylistSearch {
 
   void Reset();
   QString ToSql(const QString &songs_table) const;
+
 };
 
 QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearch &search);

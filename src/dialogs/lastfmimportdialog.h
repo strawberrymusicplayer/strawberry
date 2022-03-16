@@ -64,6 +64,7 @@ class LastFMImportDialog : public QDialog {
   bool finished_;
   int playcount_total_;
   int lastplayed_total_;
+
 };
 
 #endif  // LASTFMIMPORTDIALOG_H

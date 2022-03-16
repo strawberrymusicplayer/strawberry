@@ -53,6 +53,7 @@ class ASXParser : public XMLParser {
 
  private:
   Song ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_search) const;
+
 };
 
 #endif

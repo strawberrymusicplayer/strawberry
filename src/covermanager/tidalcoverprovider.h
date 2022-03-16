@@ -66,6 +66,7 @@ class TidalCoverProvider : public JsonCoverProvider {
 
   TidalService *service_;
   QList<QNetworkReply *> replies_;
+
 };
 
 #endif  // TIDALCOVERPROVIDER_H

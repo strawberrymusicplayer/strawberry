@@ -40,6 +40,7 @@ class SmartPlaylistWizard::TypePage : public QWizardPage {  // clazy:exclude=mis
 
   int nextId() const override { return next_id_; }
   int next_id_;
+
 };
 
 class SmartPlaylistWizard::FinishPage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
@@ -55,6 +56,7 @@ class SmartPlaylistWizard::FinishPage : public QWizardPage {  // clazy:exclude=m
   bool isComplete() const override { return !ui_->name->text().isEmpty(); }
 
   Ui_SmartPlaylistWizardFinishPage *ui_;
+
 };
 
 SmartPlaylistWizard::SmartPlaylistWizard(Application *app, CollectionBackend *collection, QWidget *parent)
@@ -91,10 +93,12 @@ SmartPlaylistWizard::SmartPlaylistWizard(Application *app, CollectionBackend *co
 
   // Skip the type page - remove this when we have more than one type
   setStartId(2);
+
 }
 
 SmartPlaylistWizard::~SmartPlaylistWizard() {
   qDeleteAll(plugins_);
+
 }
 
 void SmartPlaylistWizard::SetGenerator(PlaylistGeneratorPtr gen) {
@@ -122,6 +126,7 @@ void SmartPlaylistWizard::SetGenerator(PlaylistGeneratorPtr gen) {
 
   // Tell the plugin to load
   plugins_[type_index_]->SetGenerator(gen);
+
 }
 
 void SmartPlaylistWizard::AddPlugin(SmartPlaylistWizardPlugin *plugin) {
@@ -142,12 +147,14 @@ void SmartPlaylistWizard::AddPlugin(SmartPlaylistWizardPlugin *plugin) {
     radio_button->setChecked(true);
     TypeChanged(0);
   }
+
 }
 
 void SmartPlaylistWizard::TypeChanged(const int index) {
 
   type_index_ = index;
   type_page_->next_id_ = plugins_[type_index_]->start_page();
+
 }
 
 PlaylistGeneratorPtr SmartPlaylistWizard::CreateGenerator() const {
@@ -161,6 +168,7 @@ PlaylistGeneratorPtr SmartPlaylistWizard::CreateGenerator() const {
   ret->set_name(finish_page_->ui_->name->text());
   ret->set_dynamic(finish_page_->ui_->dynamic->isChecked());
   return ret;
+
 }
 
 void SmartPlaylistWizard::initializePage(const int id) {
@@ -169,4 +177,5 @@ void SmartPlaylistWizard::initializePage(const int id) {
     finish_page_->ui_->dynamic_container->setEnabled(plugins_[type_index_]->is_dynamic());
   }
   QWizard::initializePage(id);
+
 }

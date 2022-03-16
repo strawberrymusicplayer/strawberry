@@ -72,6 +72,7 @@ class ContextSettingsPage : public SettingsPage {
  private:
   Ui_ContextSettingsPage *ui_;
   QCheckBox *checkboxes_[ContextSettingsOrder::NELEMS] {};
+
 };
 
 #endif  // CONTEXTSETTINGSPAGE_H

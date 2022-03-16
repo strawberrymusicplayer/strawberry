@@ -37,6 +37,7 @@ RadioPlaylistItem::RadioPlaylistItem(const Song &metadata)
       source_(metadata.source()),
       metadata_(metadata) {
   InitMetadata();
+
 }
 
 bool RadioPlaylistItem::InitFromQuery(const SqlRow &query) {
@@ -44,10 +45,12 @@ bool RadioPlaylistItem::InitFromQuery(const SqlRow &query) {
   metadata_.InitFromQuery(query, false);
   InitMetadata();
   return true;
+
 }
 
 QVariant RadioPlaylistItem::DatabaseValue(DatabaseColumn column) const {
   return PlaylistItem::DatabaseValue(column);
+
 }
 
 void RadioPlaylistItem::InitMetadata() {
@@ -56,12 +59,14 @@ void RadioPlaylistItem::InitMetadata() {
   if (metadata_.source() == Song::Source_Unknown) metadata_.set_source(Song::Source_Stream);
   if (metadata_.filetype() == Song::FileType_Unknown) metadata_.set_filetype(Song::FileType_Stream);
   metadata_.set_valid(true);
+
 }
 
 Song RadioPlaylistItem::Metadata() const {
 
   if (HasTemporaryMetadata()) return temp_metadata_;
   return metadata_;
+
 }
 
 QUrl RadioPlaylistItem::Url() const { return metadata_.url(); }
@@ -70,4 +75,5 @@ void RadioPlaylistItem::SetArtManual(const QUrl &cover_url) {
 
   metadata_.set_art_manual(cover_url);
   temp_metadata_.set_art_manual(cover_url);
+
 }

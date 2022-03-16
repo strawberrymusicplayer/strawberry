@@ -66,6 +66,7 @@ class PlaylistParser : public QObject {
  private:
   QList<ParserBase *> parsers_;
   ParserBase *default_parser_;
+
 };
 
 #endif  // PLAYLISTPARSER_H

@@ -70,6 +70,7 @@ TrackSlider::TrackSlider(QWidget *parent)
   QObject::connect(ui_->slider, &TrackSliderSlider::SeekBackward, this, &TrackSlider::SeekBackward);
   QObject::connect(ui_->slider, &TrackSliderSlider::Previous, this, &TrackSlider::Previous);
   QObject::connect(ui_->slider, &TrackSliderSlider::Next, this, &TrackSlider::Next);
+
 }
 
 TrackSlider::~TrackSlider() {
@@ -78,6 +79,7 @@ TrackSlider::~TrackSlider() {
 #ifdef HAVE_MOODBAR
   if (moodbar_style_) moodbar_style_->deleteLater();
 #endif
+
 }
 
 void TrackSlider::SetApplication(Application *app) {
@@ -87,6 +89,7 @@ void TrackSlider::SetApplication(Application *app) {
 #else
   Q_UNUSED(app);
 #endif
+
 }
 
 void TrackSlider::UpdateLabelWidth() {
@@ -94,6 +97,7 @@ void TrackSlider::UpdateLabelWidth() {
   // We set the label's minimum size so it won't resize itself when the user is dragging the slider.
   UpdateLabelWidth(ui_->elapsed, "0:00:00");
   UpdateLabelWidth(ui_->remaining, "-0:00:00");
+
 }
 
 void TrackSlider::UpdateLabelWidth(QLabel *label, const QString &text) {
@@ -105,6 +109,7 @@ void TrackSlider::UpdateLabelWidth(QLabel *label, const QString &text) {
   label->setText(old_text);
 
   label->setMinimumWidth(width);
+
 }
 
 QSize TrackSlider::sizeHint() const {
@@ -116,6 +121,7 @@ QSize TrackSlider::sizeHint() const {
   int height = qMax(ui_->slider->sizeHint().height(), ui_->elapsed->sizeHint().height());
 
   return QSize(width, height);
+
 }
 
 void TrackSlider::SetValue(const int elapsed, const int total) {
@@ -129,6 +135,7 @@ void TrackSlider::SetValue(const int elapsed, const int total) {
   setting_value_ = false;
 
   UpdateTimes(static_cast<int>(elapsed / kMsecPerSec));
+
 }
 
 void TrackSlider::UpdateTimes(const int elapsed) {
@@ -146,6 +153,7 @@ void TrackSlider::UpdateTimes(const int elapsed) {
     }
   }
   setEnabled(true);
+
 }
 
 void TrackSlider::SetStopped() {
@@ -158,10 +166,12 @@ void TrackSlider::SetStopped() {
   ui_->slider->setValue(0);
   slider_maximum_value_ = 0;
   setting_value_ = false;
+
 }
 
 void TrackSlider::SetCanSeek(const bool can_seek) {
   ui_->slider->setEnabled(can_seek);
+
 }
 
 void TrackSlider::Seek(const int gap) {
@@ -169,6 +179,7 @@ void TrackSlider::Seek(const int gap) {
   if (ui_->slider->isEnabled()) {
     ui_->slider->setValue(static_cast<int>(ui_->slider->value() + gap * kMsecPerSec));
   }
+
 }
 
 void TrackSlider::ValueMaybeChanged(const int value) {
@@ -177,6 +188,7 @@ void TrackSlider::ValueMaybeChanged(const int value) {
 
   UpdateTimes(static_cast<int>(value / kMsecPerSec));
   emit ValueChangedSeconds(static_cast<int>(value / kMsecPerSec));
+
 }
 
 bool TrackSlider::event(QEvent *e) {
@@ -191,6 +203,7 @@ bool TrackSlider::event(QEvent *e) {
   }
 
   return QWidget::event(e);
+
 }
 
 void TrackSlider::ToggleTimeDisplay() {
@@ -206,4 +219,5 @@ void TrackSlider::ToggleTimeDisplay() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("show_remaining_time", show_remaining_time_);
+
 }

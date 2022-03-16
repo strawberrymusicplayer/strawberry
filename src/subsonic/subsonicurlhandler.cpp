@@ -34,6 +34,7 @@ class Application;
 
 SubsonicUrlHandler::SubsonicUrlHandler(Application *app, SubsonicService *service) : UrlHandler(service), service_(service) {
   Q_UNUSED(app);
+
 }
 
 UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
@@ -49,4 +50,5 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
   const QUrl stream_url = SubsonicBaseRequest::CreateUrl(server_url(), auth_method(), username(), password(), "stream", ParamList() << Param("id", url.path()));
 
   return LoadResult(url, LoadResult::TrackAvailable, stream_url);
+
 }

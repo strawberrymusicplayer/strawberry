@@ -42,6 +42,7 @@ class TranscoderOptionsWavPack : public TranscoderOptionsInterface {
   static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsWavPack *ui_;
+
 };
 
 #endif  // TRANSCODEROPTIONSWAVPACK_H

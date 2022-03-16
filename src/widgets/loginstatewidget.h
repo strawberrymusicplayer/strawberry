@@ -81,6 +81,7 @@ class LoginStateWidget : public QWidget {
 
   QList<QObject *> credential_fields_;
   QList<QWidget *> credential_groups_;
+
 };
 
 #endif  // LOGINSTATEWIDGET_H

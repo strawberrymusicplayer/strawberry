@@ -116,6 +116,7 @@ void CollectionItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
   else {
     QStyledItemDelegate::paint(painter, opt, idx);
   }
+
 }
 
 bool CollectionItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &idx) {
@@ -161,4 +162,5 @@ bool CollectionItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *vie
       break;
   }
   return false;
+
 }

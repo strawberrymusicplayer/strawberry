@@ -43,6 +43,7 @@ SomaFMService::SomaFMService(Application *app, NetworkAccessManager *network, QO
 
 SomaFMService::~SomaFMService() {
   Abort();
+
 }
 
 QUrl SomaFMService::Homepage() { return QUrl("https://somafm.com/"); }
@@ -58,6 +59,7 @@ void SomaFMService::Abort() {
   }
 
   channels_.clear();
+
 }
 
 void SomaFMService::GetChannels() {
@@ -70,6 +72,7 @@ void SomaFMService::GetChannels() {
   replies_ << reply;
   const int task_id = app_->task_manager()->StartTask(tr("Getting %1 channels").arg(name_));
   QObject::connect(reply, &QNetworkReply::finished, this, [=]() { GetChannelsReply(reply, task_id); });
+
 }
 
 void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
@@ -131,6 +134,7 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
       GetStreamUrl(task_id, channel);
     }
   }
+
 }
 
 void SomaFMService::GetStreamUrl(const int task_id, const RadioChannel &channel) {
@@ -139,6 +143,7 @@ void SomaFMService::GetStreamUrl(const int task_id, const RadioChannel &channel)
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [=]() { GetStreamUrlsReply(reply, task_id, channel); });
+
 }
 
 void SomaFMService::GetStreamUrlsReply(QNetworkReply *reply, const int task_id, RadioChannel channel) {  // clazy:exclude=function-args-by-ref
@@ -159,4 +164,5 @@ void SomaFMService::GetStreamUrlsReply(QNetworkReply *reply, const int task_id, 
     emit NewChannels(channels_);
     channels_.clear();
   }
+
 }

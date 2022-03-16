@@ -289,6 +289,7 @@ ContextView::ContextView(QWidget *parent)
   QFontDatabase::addApplicationFont(":/fonts/HumongousofEternitySt.ttf");
 
   QObject::connect(widget_album_, &ContextAlbum::FadeStopFinished, this, &ContextView::FadeStopFinished);
+
 }
 
 void ContextView::resizeEvent(QResizeEvent *) {
@@ -297,6 +298,7 @@ void ContextView::resizeEvent(QResizeEvent *) {
     widget_album_->setFixedSize(width() - 15, width());
     prev_width_ = width();
   }
+
 }
 
 void ContextView::Init(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller) {
@@ -315,6 +317,7 @@ void ContextView::Init(Application *app, CollectionView *collectionview, AlbumCo
   QObject::connect(lyrics_fetcher_, &LyricsFetcher::LyricsFetched, this, &ContextView::UpdateLyrics);
 
   AddActions();
+
 }
 
 void ContextView::AddActions() {
@@ -359,6 +362,7 @@ void ContextView::AddActions() {
   QObject::connect(action_show_albums_, &QAction::triggered, this, &ContextView::ActionShowAlbums);
   QObject::connect(action_show_lyrics_, &QAction::triggered, this, &ContextView::ActionShowLyrics);
   QObject::connect(action_search_lyrics_, &QAction::triggered, this, &ContextView::ActionSearchLyrics);
+
 }
 
 void ContextView::ReloadSettings() {
@@ -387,6 +391,7 @@ void ContextView::ReloadSettings() {
   else {
     SetSong();
   }
+
 }
 
 void ContextView::Playing() {}
@@ -398,6 +403,7 @@ void ContextView::Stopped() {
   lyrics_.clear();
   image_original_ = QImage();
   widget_album_->SetImage();
+
 }
 
 void ContextView::Error() {}
@@ -417,6 +423,7 @@ void ContextView::SongChanged(const Song &song) {
   }
 
   SearchLyrics();
+
 }
 
 void ContextView::SearchLyrics() {
@@ -426,6 +433,7 @@ void ContextView::SearchLyrics() {
     lyrics_tried_ = true;
     lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song_playing_.effective_albumartist(), song_playing_.album(), song_playing_.title()));
   }
+
 }
 
 void ContextView::FadeStopFinished() {
@@ -433,14 +441,17 @@ void ContextView::FadeStopFinished() {
   widget_stacked_->setCurrentWidget(widget_stop_);
   NoSong();
   ResetSong();
+
 }
 
 void ContextView::SetLabelText(QLabel *label, int value, const QString &suffix, const QString &def) {
   label->setText(value <= 0 ? def : (QString::number(value) + " " + suffix));
+
 }
 
 void ContextView::UpdateNoSong() {
   if (widget_stacked_->currentWidget() == widget_stop_) NoSong();
+
 }
 
 void ContextView::NoSong() {
@@ -474,6 +485,7 @@ void ContextView::NoSong() {
 
   label_stop_summary_->setStyleSheet(QString("font: %1pt \"%2\"; font-weight: regular;").arg(font_size_normal_).arg(font_normal_));
   label_stop_summary_->setText(html);
+
 }
 
 void ContextView::UpdateFonts() {
@@ -482,6 +494,7 @@ void ContextView::UpdateFonts() {
     l->setStyleSheet(QString("font: %2pt \"%1\"; font-weight: regular;").arg(font_normal_).arg(font_size_normal_));
   }
   label_play_albums_->setStyleSheet(QString("background-color: #3DADE8; color: rgb(255, 255, 255); font: %1pt \"%2\"; font-weight: regular;").arg(font_size_normal_).arg(font_normal_));
+
 }
 
 void ContextView::SetSong() {
@@ -639,6 +652,7 @@ void ContextView::SetSong() {
   }
 
   widget_stacked_->setCurrentWidget(widget_play_);
+
 }
 
 void ContextView::UpdateSong(const Song &song) {
@@ -698,6 +712,7 @@ void ContextView::UpdateSong(const Song &song) {
   }
 
   song_playing_ = song;
+
 }
 
 void ContextView::ResetSong() {
@@ -705,6 +720,7 @@ void ContextView::ResetSong() {
   for (QLabel *l : labels_play_data_) {
     l->clear();
   }
+
 }
 
 void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics) {
@@ -717,10 +733,12 @@ void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const 
   }
   else
     label_play_lyrics_->clear();
+
 }
 
 void ContextView::contextMenuEvent(QContextMenuEvent *e) {
   if (menu_) menu_->popup(mapToGlobal(e->pos()));
+
 }
 
 void ContextView::dragEnterEvent(QDragEnterEvent *e) {
@@ -730,6 +748,7 @@ void ContextView::dragEnterEvent(QDragEnterEvent *e) {
   }
 
   QWidget::dragEnterEvent(e);
+
 }
 
 void ContextView::dropEvent(QDropEvent *e) {
@@ -739,6 +758,7 @@ void ContextView::dropEvent(QDropEvent *e) {
   }
 
   QWidget::dropEvent(e);
+
 }
 
 void ContextView::AlbumCoverLoaded(const Song &song, const QImage &image) {
@@ -747,6 +767,7 @@ void ContextView::AlbumCoverLoaded(const Song &song, const QImage &image) {
 
   widget_album_->SetImage(image);
   image_original_ = image;
+
 }
 
 void ContextView::ActionShowAlbum() {
@@ -756,6 +777,7 @@ void ContextView::ActionShowAlbum() {
   s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ALBUM], action_show_album_->isChecked());
   s.endGroup();
   if (song_playing_.is_valid()) SetSong();
+
 }
 
 void ContextView::ActionShowData() {
@@ -765,6 +787,7 @@ void ContextView::ActionShowData() {
   s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA], action_show_data_->isChecked());
   s.endGroup();
   if (song_playing_.is_valid()) SetSong();
+
 }
 
 void ContextView::ActionShowOutput() {
@@ -774,6 +797,7 @@ void ContextView::ActionShowOutput() {
   s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE], action_show_output_->isChecked());
   s.endGroup();
   if (song_playing_.is_valid()) SetSong();
+
 }
 
 void ContextView::ActionShowAlbums() {
@@ -784,6 +808,7 @@ void ContextView::ActionShowAlbums() {
   s.endGroup();
   song_prev_ = Song();
   if (song_playing_.is_valid()) SetSong();
+
 }
 
 void ContextView::ActionShowLyrics() {
@@ -796,6 +821,7 @@ void ContextView::ActionShowLyrics() {
   if (song_playing_.is_valid()) SetSong();
 
   SearchLyrics();
+
 }
 
 void ContextView::ActionSearchLyrics() {
@@ -808,4 +834,5 @@ void ContextView::ActionSearchLyrics() {
   if (song_playing_.is_valid()) SetSong();
 
   SearchLyrics();
+
 }

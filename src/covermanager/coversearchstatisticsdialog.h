@@ -49,6 +49,7 @@ class CoverSearchStatisticsDialog : public QDialog {
  private:
   Ui_CoverSearchStatisticsDialog *ui_;
   QVBoxLayout *details_layout_;
+
 };
 
 #endif  // COVERSEARCHSTATISTICSDIALOG_H

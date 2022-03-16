@@ -90,6 +90,7 @@ bool TagReaderTagParser::IsMediaFile(const QString &filename) const {
   }
 
   return false;
+
 }
 
 void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
@@ -255,6 +256,7 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
 
   } catch (...) {
   }
+
 }
 
 bool TagReaderTagParser::SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
@@ -324,6 +326,7 @@ bool TagReaderTagParser::SaveFile(const QString &filename, const spb::tagreader:
   }
 
   return false;
+
 }
 
 QByteArray TagReaderTagParser::LoadEmbeddedArt(const QString &filename) const {
@@ -376,6 +379,7 @@ QByteArray TagReaderTagParser::LoadEmbeddedArt(const QString &filename) const {
   }
 
   return QByteArray();
+
 }
 
 bool TagReaderTagParser::SaveEmbeddedArt(const QString &filename, const QByteArray &data) {
@@ -431,6 +435,7 @@ bool TagReaderTagParser::SaveEmbeddedArt(const QString &filename, const QByteArr
   }
 
   return false;
+
 }
 
 bool TagReaderTagParser::SaveSongPlaycountToFile(const QString &, const spb::tagreader::SongMetadata &) const { return false; }
@@ -489,4 +494,5 @@ bool TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const spb
   }
 
   return false;
+
 }

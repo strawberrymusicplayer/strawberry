@@ -22,6 +22,7 @@ enum SBSystemPreferencesSaveOptions {
   SBSystemPreferencesSaveOptionsNo = 'no  ' /* Do not save the file. */,
   SBSystemPreferencesSaveOptionsAsk =
       'ask ' /* Ask the user whether or not to save the file. */
+
 };
 typedef enum SBSystemPreferencesSaveOptions SBSystemPreferencesSaveOptions;
 
@@ -30,6 +31,7 @@ enum SBSystemPreferencesPrintingErrorHandling {
       'lwst' /* Standard PostScript error handling */,
   SBSystemPreferencesPrintingErrorHandlingDetailed =
       'lwdt' /* print a detailed report of PostScript errors */
+
 };
 
 #pragma GCC diagnostic pop

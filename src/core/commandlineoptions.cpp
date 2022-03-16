@@ -100,6 +100,7 @@ CommandlineOptions::CommandlineOptions(int argc, char **argv)
 
   // Remove the -session option that KDE passes
   RemoveArg("-session", 2);
+
 }
 
 void CommandlineOptions::RemoveArg(const QString &starts_with, int count) {
@@ -114,6 +115,7 @@ void CommandlineOptions::RemoveArg(const QString &starts_with, int count) {
       break;
     }
   }
+
 }
 
 bool CommandlineOptions::Parse() {
@@ -320,6 +322,7 @@ bool CommandlineOptions::Parse() {
   }
 
   return true;
+
 }
 
 bool CommandlineOptions::is_empty() const {
@@ -332,10 +335,12 @@ bool CommandlineOptions::is_empty() const {
     !show_osd_ &&
     !toggle_pretty_osd_ &&
     urls_.isEmpty();
+
 }
 
 bool CommandlineOptions::contains_play_options() const {
   return player_action_ != Player_None || play_track_at_ != -1 || !urls_.isEmpty();
+
 }
 
 QByteArray CommandlineOptions::Serialize() const {
@@ -348,6 +353,7 @@ QByteArray CommandlineOptions::Serialize() const {
   }
 
   return buf.data().toBase64();
+
 }
 
 void CommandlineOptions::Load(const QByteArray &serialized) {
@@ -358,10 +364,12 @@ void CommandlineOptions::Load(const QByteArray &serialized) {
     QDataStream s(&buf);
     s >> *this;
   }
+
 }
 
 QString CommandlineOptions::tr(const char *source_text) {
   return QObject::tr(source_text);  // clazy:exclude=tr-non-literal
+
 }
 
 QDataStream &operator<<(QDataStream &s, const CommandlineOptions &a) {
@@ -381,6 +389,7 @@ QDataStream &operator<<(QDataStream &s, const CommandlineOptions &a) {
     << a.window_size_;
 
   return s;
+
 }
 
 QDataStream &operator>>(QDataStream &s, CommandlineOptions &a) {
@@ -394,4 +403,5 @@ QDataStream &operator>>(QDataStream &s, CommandlineOptions &a) {
   a.url_list_action_ = CommandlineOptions::UrlListAction(url_list_action);
 
   return s;
+
 }

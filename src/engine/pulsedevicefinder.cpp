@@ -45,6 +45,7 @@ bool PulseDeviceFinder::Initialize() {
   }
 
   return Reconnect();
+
 }
 
 bool PulseDeviceFinder::Reconnect() {
@@ -79,6 +80,7 @@ bool PulseDeviceFinder::Reconnect() {
 
     pa_mainloop_iterate(mainloop_, true, nullptr);
   }
+
 }
 
 QList<DeviceFinder::Device> PulseDeviceFinder::ListDevices() {
@@ -112,6 +114,7 @@ retry:
 
     pa_mainloop_iterate(mainloop_, true, nullptr);
   }
+
 }
 
 void PulseDeviceFinder::GetSinkInfoCallback(pa_context *c, const pa_sink_info *info, int eol, void *state_voidptr) {
@@ -133,6 +136,7 @@ void PulseDeviceFinder::GetSinkInfoCallback(pa_context *c, const pa_sink_info *i
   if (eol > 0) {
     state->finished = true;
   }
+
 }
 
 PulseDeviceFinder::~PulseDeviceFinder() {
@@ -145,4 +149,5 @@ PulseDeviceFinder::~PulseDeviceFinder() {
   if (mainloop_) {
     pa_mainloop_free(mainloop_);
   }
+
 }

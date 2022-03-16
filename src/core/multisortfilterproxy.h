@@ -46,6 +46,7 @@ class MultiSortFilterProxy : public QSortFilterProxyModel {
 
   typedef QPair<int, Qt::SortOrder> SortSpec;
   QList<SortSpec> sorting_;
+
 };
 
 #endif  // MULTISORTFILTERPROXY_H

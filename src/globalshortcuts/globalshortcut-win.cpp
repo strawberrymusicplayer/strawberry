@@ -33,6 +33,7 @@ int GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
   if (qt_mods & Qt::AltModifier) native_mods |= MOD_ALT;
   if (qt_mods & Qt::MetaModifier) native_mods |= MOD_WIN;
   return native_mods;
+
 }
 
 int GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
@@ -42,14 +43,17 @@ int GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
     key_code = KeyMapperWin::keymapper_win_.value(qt_key);
   }
   return key_code;
+
 }
 
 bool GlobalShortcut::registerShortcut(int native_key, int native_mods) {
   return RegisterHotKey(0, native_mods ^ native_key, native_mods, native_key);
+
 }
 
 bool GlobalShortcut::unregisterShortcut(int native_key, int native_mods) {
   return UnregisterHotKey(0, native_mods ^ native_key);
+
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -68,4 +72,5 @@ bool GlobalShortcut::nativeEventFilter(const QByteArray &eventtype, void *messag
   quint32 modifiers = LOWORD(msg->lParam);
   activateShortcut(key_code, modifiers);
   return true;
+
 }

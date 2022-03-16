@@ -33,6 +33,7 @@ class MacOsDeviceFinder : public DeviceFinder {
 
   virtual bool Initialize() { return true; }
   virtual QList<Device> ListDevices();
+
 };
 
 #endif  // MACOSDEVICEFINDER_H

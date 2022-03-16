@@ -54,6 +54,7 @@ void CoverExportRunnable::run() {
       ExportCover();
     }
   }
+
 }
 
 QString CoverExportRunnable::GetCoverPath() {
@@ -72,6 +73,7 @@ QString CoverExportRunnable::GetCoverPath() {
   else {
     return QString();
   }
+
 }
 
 // Exports a single album cover using a "save QImage to file" approach.
@@ -154,6 +156,7 @@ void CoverExportRunnable::ProcessAndExportCover() {
   else {
     EmitCoverSkipped();
   }
+
 }
 
 // Exports a single album cover using a "copy file" approach.
@@ -196,6 +199,7 @@ void CoverExportRunnable::ExportCover() {
     }
   }
   EmitCoverExported();
+
 }
 
 void CoverExportRunnable::EmitCoverExported() { emit CoverExported(); }

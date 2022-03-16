@@ -44,6 +44,7 @@ class SettingsProvider {
 
  private:
   Q_DISABLE_COPY(SettingsProvider)
+
 };
 
 class DefaultSettingsProvider : public SettingsProvider {
@@ -63,6 +64,7 @@ class DefaultSettingsProvider : public SettingsProvider {
   QSettings backend_;
 
   Q_DISABLE_COPY(DefaultSettingsProvider)
+
 };
 
 #endif  // SETTINGSPROVIDER_H

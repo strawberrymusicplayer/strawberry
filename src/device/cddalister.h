@@ -57,6 +57,7 @@ class CddaLister : public DeviceLister {
 
  private:
   QStringList devices_list_;
+
 };
 
 #endif  // CDDALISTER_H

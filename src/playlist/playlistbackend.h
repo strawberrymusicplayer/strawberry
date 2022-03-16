@@ -116,6 +116,7 @@ class PlaylistBackend : public QObject {
   Application *app_;
   Database *db_;
   QThread *original_thread_;
+
 };
 
 #endif  // PLAYLISTBACKEND_H

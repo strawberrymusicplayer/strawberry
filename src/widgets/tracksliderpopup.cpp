@@ -58,26 +58,31 @@ TrackSliderPopup::TrackSliderPopup(QWidget *parent)
   small_font_.setPointSizeF(7.5);
   font_metrics_ = QFontMetrics(font_);
   small_font_metrics_ = QFontMetrics(small_font_);
+
 }
 
 void TrackSliderPopup::SetText(const QString &text) {
   text_ = text;
   UpdatePixmap();
+
 }
 
 void TrackSliderPopup::SetSmallText(const QString &text) {
   small_text_ = text;
   UpdatePixmap();
+
 }
 
 void TrackSliderPopup::SetPopupPosition(const QPoint pos) {
   pos_ = pos;
   UpdatePosition();
+
 }
 
 void TrackSliderPopup::paintEvent(QPaintEvent *) {
   QPainter p(this);
   p.drawPixmap(0, 0, pixmap_);
+
 }
 
 void TrackSliderPopup::UpdatePixmap() {
@@ -174,8 +179,10 @@ void TrackSliderPopup::UpdatePixmap() {
   resize(pixmap_.size());
   UpdatePosition();
   update();
+
 }
 
 void TrackSliderPopup::UpdatePosition() {
   move(pos_.x() - pixmap_.width() / 2, pos_.y() - pixmap_.height() + static_cast<int>(kBlurRadius));
+
 }

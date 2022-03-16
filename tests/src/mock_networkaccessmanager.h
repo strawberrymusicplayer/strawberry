@@ -57,6 +57,7 @@ class MockNetworkReply : public QNetworkReply {
 
   QByteArray data_;
   qint64 pos_;
+
 };
 
 
@@ -70,6 +71,7 @@ class MockNetworkAccessManager : public QNetworkAccessManager {
     const QByteArray& ret_data);           // Returned data.
  protected:
   MOCK_METHOD3(createRequest, QNetworkReply*(Operation, const QNetworkRequest&, QIODevice*));  // clazy:exclude=function-args-by-value
+
 };
 
 #endif  // MOCK_NETWORKACCESSMANAGER_H

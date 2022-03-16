@@ -54,6 +54,7 @@ SmartPlaylistsModel::SmartPlaylistsModel(CollectionBackend *backend, QObject *pa
       icon_(IconLoader::Load("view-media-playlist")) {
 
   root_->lazy_loaded = true;
+
 }
 
 SmartPlaylistsModel::~SmartPlaylistsModel() { delete root_; }
@@ -134,6 +135,7 @@ void SmartPlaylistsModel::Init() {
   }
   s.endArray();
   s.endGroup();
+
 }
 
 void SmartPlaylistsModel::ItemFromSmartPlaylist(const QSettings &s, const bool notify) {
@@ -146,6 +148,7 @@ void SmartPlaylistsModel::ItemFromSmartPlaylist(const QSettings &s, const bool n
   item->lazy_loaded = true;
 
   if (notify) item->InsertNotify(root_);
+
 }
 
 void SmartPlaylistsModel::AddGenerator(PlaylistGeneratorPtr gen) {
@@ -166,6 +169,7 @@ void SmartPlaylistsModel::AddGenerator(PlaylistGeneratorPtr gen) {
 
   s.endArray();
   s.endGroup();
+
 }
 
 void SmartPlaylistsModel::UpdateGenerator(const QModelIndex &idx, PlaylistGeneratorPtr gen) {
@@ -193,6 +197,7 @@ void SmartPlaylistsModel::UpdateGenerator(const QModelIndex &idx, PlaylistGenera
   item->smart_playlist_type = gen->type();
   item->smart_playlist_data = gen->Save();
   item->ChangedNotify();
+
 }
 
 void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
@@ -216,6 +221,7 @@ void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
   }
   s.endArray();
   s.endGroup();
+
 }
 
 void SmartPlaylistsModel::SaveGenerator(QSettings *s, const int i, PlaylistGeneratorPtr generator) {
@@ -224,6 +230,7 @@ void SmartPlaylistsModel::SaveGenerator(QSettings *s, const int i, PlaylistGener
   s->setValue("name", generator->name());
   s->setValue("type", generator->type());
   s->setValue("data", generator->Save());
+
 }
 
 PlaylistGeneratorPtr SmartPlaylistsModel::CreateGenerator(const QModelIndex &idx) const {
@@ -241,6 +248,7 @@ PlaylistGeneratorPtr SmartPlaylistsModel::CreateGenerator(const QModelIndex &idx
   ret->Load(item->smart_playlist_data);
 
   return ret;
+
 }
 
 QVariant SmartPlaylistsModel::data(const QModelIndex &idx, const int role) const {
@@ -260,10 +268,12 @@ QVariant SmartPlaylistsModel::data(const QModelIndex &idx, const int role) const
   }
 
   return QVariant();
+
 }
 
 QStringList SmartPlaylistsModel::mimeTypes() const {
   return QStringList() << "text/uri-list";
+
 }
 
 QMimeData *SmartPlaylistsModel::mimeData(const QModelIndexList &indexes) const {
@@ -277,4 +287,5 @@ QMimeData *SmartPlaylistsModel::mimeData(const QModelIndexList &indexes) const {
   mimedata->setData(kSmartPlaylistsMimeType, QByteArray());
   mimedata->name_for_new_playlist_ = data(indexes.first()).toString();
   return mimedata;
+
 }

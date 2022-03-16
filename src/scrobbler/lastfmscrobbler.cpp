@@ -48,6 +48,7 @@ LastFMScrobbler::LastFMScrobbler(Application *app, QObject *parent)
 
   ReloadSettings();
   LoadSession();
+
 }
 
 LastFMScrobbler::~LastFMScrobbler() = default;

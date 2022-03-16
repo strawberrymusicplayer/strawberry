@@ -78,6 +78,7 @@ class DeviceDatabaseBackend : public QObject {
  private:
   Database *db_;
   QThread *original_thread_;
+
 };
 
 #endif  // DEVICEDATABASEBACKEND_H

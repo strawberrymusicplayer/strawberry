@@ -45,6 +45,7 @@ DeleteFiles::DeleteFiles(TaskManager *task_manager, std::shared_ptr<MusicStorage
       task_id_(0),
       progress_(0) {
   original_thread_ = thread();
+
 }
 
 DeleteFiles::~DeleteFiles() = default;
@@ -63,6 +64,7 @@ void DeleteFiles::Start(const SongList &songs) {
 
   moveToThread(thread_);
   thread_->start();
+
 }
 
 void DeleteFiles::Start(const QStringList &filenames) {
@@ -76,6 +78,7 @@ void DeleteFiles::Start(const QStringList &filenames) {
   }
 
   Start(songs);
+
 }
 
 void DeleteFiles::ProcessSomeFiles() {
@@ -122,4 +125,5 @@ void DeleteFiles::ProcessSomeFiles() {
   }
 
   QTimer::singleShot(0, this, &DeleteFiles::ProcessSomeFiles);
+
 }

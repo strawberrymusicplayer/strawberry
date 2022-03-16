@@ -67,6 +67,7 @@ class LineEditInterface {
 
  private:
   Q_DISABLE_COPY(LineEditInterface)
+
 };
 
 class ExtendedEditor : public LineEditInterface {
@@ -108,6 +109,7 @@ class ExtendedEditor : public LineEditInterface {
   bool draw_hint_;
   qreal font_point_size_;
   bool is_rtl_;
+
 };
 
 class LineEdit : public QLineEdit, public ExtendedEditor {
@@ -144,6 +146,7 @@ class LineEdit : public QLineEdit, public ExtendedEditor {
 
  signals:
   void Reset();
+
 };
 
 class TextEdit : public QPlainTextEdit, public ExtendedEditor {
@@ -171,6 +174,7 @@ class TextEdit : public QPlainTextEdit, public ExtendedEditor {
 
  signals:
   void Reset();
+
 };
 
 class SpinBox : public QSpinBox, public ExtendedEditor {
@@ -202,6 +206,7 @@ class SpinBox : public QSpinBox, public ExtendedEditor {
 
  signals:
   void Reset();
+
 };
 
 class CheckBox : public QCheckBox, public ExtendedEditor {
@@ -231,6 +236,7 @@ class CheckBox : public QCheckBox, public ExtendedEditor {
 
  signals:
   void Reset();
+
 };
 
 class RatingBox : public RatingWidget, public ExtendedEditor {
@@ -251,6 +257,7 @@ class RatingBox : public RatingWidget, public ExtendedEditor {
  public slots:
   void set_focus() override { RatingWidget::setFocus(); }
   void clear() override {}
+
 };
 
 #endif  // LINEEDIT_H

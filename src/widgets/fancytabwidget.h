@@ -116,9 +116,12 @@ class FancyTabWidget : public QTabWidget {
   QColor bg_color_;
   int iconsize_smallsidebar_;
   int iconsize_largesidebar_;
+
 };
 
+
 }  // namespace Internal
+
 }  // namespace Core
 
 using Core::Internal::FancyTabWidget;

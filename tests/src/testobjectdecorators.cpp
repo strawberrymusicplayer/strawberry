@@ -26,4 +26,5 @@
 
 void TestObjectDecorators::initStyleOption(QProgressBar *self, QStyleOptionProgressBar *opt) {
   self->initStyleOption(opt);
+
 }

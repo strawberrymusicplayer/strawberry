@@ -33,4 +33,5 @@ SmartPlaylistWizardPlugin::SmartPlaylistWizardPlugin(Application *app, Collectio
 
 void SmartPlaylistWizardPlugin::Init(QWizard *wizard, const int finish_page_id) {
   start_page_ = CreatePages(wizard, finish_page_id);
+
 }

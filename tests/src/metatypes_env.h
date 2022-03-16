@@ -45,6 +45,7 @@ class MetatypesEnvironment : public ::testing::Environment {
 
  private:
   Q_DISABLE_COPY(MetatypesEnvironment)
+
 };
 
 #endif  // RESOURCES_ENV_H

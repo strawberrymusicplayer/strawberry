@@ -43,6 +43,7 @@ class TranscoderOptionsSpeex : public TranscoderOptionsInterface {
   static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsSpeex *ui_;
+
 };
 
 #endif  // TRANSCODEROPTIONSSPEEX_H

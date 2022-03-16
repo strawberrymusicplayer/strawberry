@@ -80,6 +80,7 @@ class PlaylistHeader : public StretchHeaderView {
   QAction *action_align_center_;
   QAction *action_align_right_;
   QList<QAction *> show_actions_;
+
 };
 
 #endif  // PLAYLISTHEADER_H

@@ -74,6 +74,7 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   int tries_;
   bool need_login_;
   QStringList errors_;
+
 };
 
 #endif  // QOBUZSTREAMURLREQUEST_H

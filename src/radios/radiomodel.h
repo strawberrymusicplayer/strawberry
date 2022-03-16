@@ -96,6 +96,7 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
   QList<RadioItem *> items_;
   QMap<quint64, ItemAndCacheKey> pending_art_;
   QSet<QString> pending_cache_keys_;
+
 };
 
 #endif  // RADIOMODEL_H

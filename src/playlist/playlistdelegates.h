@@ -75,6 +75,7 @@ class QueuedItemDelegate : public QStyledItemDelegate {
   static const float kQueueOpacityLowerBound;
 
   int indicator_column_;
+
 };
 
 class PlaylistDelegateBase : public QueuedItemDelegate {
@@ -97,6 +98,7 @@ class PlaylistDelegateBase : public QueuedItemDelegate {
  protected:
   QTreeView *view_;
   QString suffix_;
+
 };
 
 class LengthItemDelegate : public PlaylistDelegateBase {
@@ -105,6 +107,7 @@ class LengthItemDelegate : public PlaylistDelegateBase {
  public:
   explicit LengthItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
+
 };
 
 class SizeItemDelegate : public PlaylistDelegateBase {
@@ -113,6 +116,7 @@ class SizeItemDelegate : public PlaylistDelegateBase {
  public:
   explicit SizeItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
+
 };
 
 class DateItemDelegate : public PlaylistDelegateBase {
@@ -121,6 +125,7 @@ class DateItemDelegate : public PlaylistDelegateBase {
  public:
   explicit DateItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
+
 };
 
 class LastPlayedItemDelegate : public PlaylistDelegateBase {
@@ -129,6 +134,7 @@ class LastPlayedItemDelegate : public PlaylistDelegateBase {
  public:
   explicit LastPlayedItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
+
 };
 
 class FileTypeItemDelegate : public PlaylistDelegateBase {
@@ -137,6 +143,7 @@ class FileTypeItemDelegate : public PlaylistDelegateBase {
  public:
   explicit FileTypeItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
+
 };
 
 class TextItemDelegate : public PlaylistDelegateBase {
@@ -145,6 +152,7 @@ class TextItemDelegate : public PlaylistDelegateBase {
  public:
   explicit TextItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
+
 };
 
 class TagCompletionModel : public QStringListModel {
@@ -155,6 +163,7 @@ class TagCompletionModel : public QStringListModel {
 
  private:
   static QString database_column(Playlist::Column column);
+
 };
 
 class TagCompleter : public QCompleter {
@@ -169,6 +178,7 @@ class TagCompleter : public QCompleter {
 
  private:
   QLineEdit *editor_;
+
 };
 
 class TagCompletionItemDelegate : public PlaylistDelegateBase {
@@ -182,6 +192,7 @@ class TagCompletionItemDelegate : public PlaylistDelegateBase {
  private:
   CollectionBackend *backend_;
   Playlist::Column column_;
+
 };
 
 class NativeSeparatorsDelegate : public PlaylistDelegateBase {
@@ -190,6 +201,7 @@ class NativeSeparatorsDelegate : public PlaylistDelegateBase {
  public:
   explicit NativeSeparatorsDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
+
 };
 
 class SongSourceDelegate : public PlaylistDelegateBase {
@@ -202,6 +214,7 @@ class SongSourceDelegate : public PlaylistDelegateBase {
 
  private:
   QPixmap LookupPixmap(const Song::Source source, const QSize size) const;
+
 };
 
 class RatingItemDelegate : public PlaylistDelegateBase {
@@ -229,6 +242,7 @@ class RatingItemDelegate : public PlaylistDelegateBase {
   QModelIndex mouse_over_index_;
   QPoint mouse_over_pos_;
   QModelIndexList selected_indexes_;
+
 };
 
 #endif  // PLAYLISTDELEGATES_H

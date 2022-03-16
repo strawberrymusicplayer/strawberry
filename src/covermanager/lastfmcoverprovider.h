@@ -66,6 +66,7 @@ class LastFmCoverProvider : public JsonCoverProvider {
   static const char *kSecret;
 
   QList<QNetworkReply *> replies_;
+
 };
 
 #endif  // LASTFMCOVERPROVIDER_H

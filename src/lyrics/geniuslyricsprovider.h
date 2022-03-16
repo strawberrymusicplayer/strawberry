@@ -102,6 +102,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   QStringList login_errors_;
   QMap<int, std::shared_ptr<GeniusLyricsSearchContext>> requests_search_;
   QList<QNetworkReply *> replies_;
+
 };
 
 #endif  // GENIUSLYRICSPROVIDER_H

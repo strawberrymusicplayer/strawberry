@@ -175,6 +175,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
   }
 
   ReloadSettings();
+
 }
 
 InternetTabsView::~InternetTabsView() {
@@ -185,6 +186,7 @@ InternetTabsView::~InternetTabsView() {
   s.endGroup();
 
   delete ui_;
+
 }
 
 void InternetTabsView::ReloadSettings() {
@@ -199,6 +201,7 @@ void InternetTabsView::ReloadSettings() {
     ui_->songs_collection->view()->ReloadSettings();
   }
   ui_->search_view->ReloadSettings();
+
 }
 
 bool InternetTabsView::SearchFieldHasFocus() const {
@@ -207,6 +210,7 @@ bool InternetTabsView::SearchFieldHasFocus() const {
     (ui_->tabs->currentWidget() == ui_->albums && ui_->albums_collection->SearchFieldHasFocus()) ||
     (ui_->tabs->currentWidget() == ui_->songs && ui_->songs_collection->SearchFieldHasFocus()) ||
     (ui_->tabs->currentWidget() == ui_->search && ui_->search_view->SearchFieldHasFocus()));
+
 }
 
 void InternetTabsView::FocusSearchField() {
@@ -223,6 +227,7 @@ void InternetTabsView::FocusSearchField() {
   else if (ui_->tabs->currentWidget() == ui_->search) {
     ui_->search_view->FocusSearchField();
   }
+
 }
 
 void InternetTabsView::GetArtists() {
@@ -238,6 +243,7 @@ void InternetTabsView::GetArtists() {
   ui_->artists_collection->button_close()->hide();
   ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->help_page());
   service_->GetArtists();
+
 }
 
 void InternetTabsView::AbortGetArtists() {
@@ -246,6 +252,7 @@ void InternetTabsView::AbortGetArtists() {
   ui_->artists_collection->progressbar()->setValue(0);
   ui_->artists_collection->status()->clear();
   ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->internetcollection_page());
+
 }
 
 void InternetTabsView::ArtistsFinished(const SongMap &songs, const QString &error) {
@@ -262,6 +269,7 @@ void InternetTabsView::ArtistsFinished(const SongMap &songs, const QString &erro
     ui_->artists_collection->status()->clear();
     service_->artists_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }
+
 }
 
 void InternetTabsView::GetAlbums() {
@@ -277,6 +285,7 @@ void InternetTabsView::GetAlbums() {
   ui_->albums_collection->button_close()->hide();
   ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->help_page());
   service_->GetAlbums();
+
 }
 
 void InternetTabsView::AbortGetAlbums() {
@@ -285,6 +294,7 @@ void InternetTabsView::AbortGetAlbums() {
   ui_->albums_collection->progressbar()->setValue(0);
   ui_->albums_collection->status()->clear();
   ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->internetcollection_page());
+
 }
 
 void InternetTabsView::AlbumsFinished(const SongMap &songs, const QString &error) {
@@ -301,6 +311,7 @@ void InternetTabsView::AlbumsFinished(const SongMap &songs, const QString &error
     ui_->albums_collection->status()->clear();
     service_->albums_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }
+
 }
 
 void InternetTabsView::GetSongs() {
@@ -316,6 +327,7 @@ void InternetTabsView::GetSongs() {
   ui_->songs_collection->button_close()->hide();
   ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->help_page());
   service_->GetSongs();
+
 }
 
 void InternetTabsView::AbortGetSongs() {
@@ -324,6 +336,7 @@ void InternetTabsView::AbortGetSongs() {
   ui_->songs_collection->progressbar()->setValue(0);
   ui_->songs_collection->status()->clear();
   ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->internetcollection_page());
+
 }
 
 void InternetTabsView::SongsFinished(const SongMap &songs, const QString &error) {
@@ -340,8 +353,10 @@ void InternetTabsView::SongsFinished(const SongMap &songs, const QString &error)
     ui_->songs_collection->status()->clear();
     service_->songs_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }
+
 }
 
 void InternetTabsView::OpenSettingsDialog() {
   app_->OpenSettingsDialogAtPage(service_->settings_page());
+
 }

@@ -104,6 +104,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   QQueue<DiscogsCoverReleaseContext> queue_release_requests_;
   QMap<int, std::shared_ptr<DiscogsCoverSearchContext>> requests_search_;
   QList<QNetworkReply *> replies_;
+
 };
 
 Q_DECLARE_METATYPE(DiscogsCoverProvider::DiscogsCoverSearchContext)

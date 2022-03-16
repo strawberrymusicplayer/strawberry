@@ -42,11 +42,13 @@ GlobalShortcutsBackendX11::~GlobalShortcutsBackendX11() { GlobalShortcutsBackend
 
 bool GlobalShortcutsBackendX11::IsAvailable() const {
   return IsX11Available();
+
 }
 
 bool GlobalShortcutsBackendX11::IsX11Available() {
 
   return QApplication::platformName() == "xcb";
+
 }
 
 bool GlobalShortcutsBackendX11::DoRegister() {
@@ -61,6 +63,7 @@ bool GlobalShortcutsBackendX11::DoRegister() {
   }
 
   return true;
+
 }
 
 bool GlobalShortcutsBackendX11::AddShortcut(QAction *action) {
@@ -71,6 +74,7 @@ bool GlobalShortcutsBackendX11::AddShortcut(QAction *action) {
   QObject::connect(shortcut, &GlobalShortcut::activated, action, &QAction::trigger);
   shortcuts_ << shortcut;
   return true;
+
 }
 
 void GlobalShortcutsBackendX11::DoUnregister() {
@@ -84,4 +88,5 @@ void GlobalShortcutsBackendX11::DoUnregister() {
     delete gshortcut_init_;
     gshortcut_init_ = nullptr;
   }
+
 }

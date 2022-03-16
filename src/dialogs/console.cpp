@@ -53,6 +53,7 @@ Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_ {}, a
 
   ui_.output->setFont(font);
   ui_.query->setFont(font);
+
 }
 
 void Console::RunQuery() {
@@ -79,4 +80,5 @@ void Console::RunQuery() {
   }
 
   ui_.output->verticalScrollBar()->setValue(ui_.output->verticalScrollBar()->maximum());
+
 }

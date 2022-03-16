@@ -49,11 +49,13 @@ GlobalShortcutsBackendGnome::GlobalShortcutsBackendGnome(GlobalShortcutsManager 
 
 bool GlobalShortcutsBackendGnome::IsAvailable() const {
   return IsGnomeAvailable();
+
 }
 
 bool GlobalShortcutsBackendGnome::IsGnomeAvailable() {
 
   return QDBusConnection::sessionBus().interface()->isServiceRegistered(kService1) || QDBusConnection::sessionBus().interface()->isServiceRegistered(kService2);
+
 }
 
 bool GlobalShortcutsBackendGnome::DoRegister() {
@@ -80,6 +82,7 @@ bool GlobalShortcutsBackendGnome::DoRegister() {
   QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, &GlobalShortcutsBackendGnome::RegisterFinished);
 
   return true;
+
 }
 
 void GlobalShortcutsBackendGnome::RegisterFinished(QDBusPendingCallWatcher *watcher) {
@@ -96,6 +99,7 @@ void GlobalShortcutsBackendGnome::RegisterFinished(QDBusPendingCallWatcher *watc
   is_connected_ = true;
 
   qLog(Debug) << "Registered.";
+
 }
 
 void GlobalShortcutsBackendGnome::DoUnregister() {
@@ -108,6 +112,7 @@ void GlobalShortcutsBackendGnome::DoUnregister() {
 
   interface_->ReleaseMediaPlayerKeys(QCoreApplication::applicationName());
   QObject::disconnect(interface_, &OrgGnomeSettingsDaemonMediaKeysInterface::MediaPlayerKeyPressed, this, &GlobalShortcutsBackendGnome::GnomeMediaKeyPressed);
+
 }
 
 void GlobalShortcutsBackendGnome::GnomeMediaKeyPressed(const QString &, const QString &key) {
@@ -117,4 +122,5 @@ void GlobalShortcutsBackendGnome::GnomeMediaKeyPressed(const QString &, const QS
   if (key == "Stop") shortcuts["stop"].action->trigger();
   if (key == "Next") shortcuts["next_track"].action->trigger();
   if (key == "Previous") shortcuts["prev_track"].action->trigger();
+
 }
