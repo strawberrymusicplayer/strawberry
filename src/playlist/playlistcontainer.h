@@ -73,7 +73,7 @@ class PlaylistContainer : public QWidget {
 
  protected:
   // QWidget
-  void resizeEvent(QResizeEvent *) override;
+  void resizeEvent(QResizeEvent*) override;
 
  private slots:
   void NewPlaylist();
