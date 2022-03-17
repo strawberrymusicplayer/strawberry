@@ -1095,7 +1095,7 @@ msgstr "背景画像"
 msgid "Background opacity"
 msgstr "背景の不透明度"
 
-#: core/database.cpp:585
+#: core/database.cpp:591
 msgid "Backing up database"
 msgstr "データベースをバックアップ中"
 
@@ -1676,7 +1676,7 @@ msgstr "D-Bus パス"
 msgid "Dance"
 msgstr "ダンス"
 
-#: core/database.cpp:532
+#: core/database.cpp:538
 msgid "Database corruption detected."
 msgstr "データベースの不整合が検出されました。"
 
@@ -2742,7 +2742,7 @@ msgstr "挿入..."
 msgid "Install strawberry through PPA:<br />"
 msgstr ""
 
-#: core/database.cpp:515
+#: core/database.cpp:521
 msgid "Integrity check"
 msgstr "整合性の検査"
 

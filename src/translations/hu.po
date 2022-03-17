@@ -1112,7 +1112,7 @@ msgstr "Háttérkép"
 msgid "Background opacity"
 msgstr "Háttér áttetszősége"
 
-#: core/database.cpp:585
+#: core/database.cpp:591
 msgid "Backing up database"
 msgstr "Adatbázis biztonsági mentése"
 
@@ -1702,7 +1702,7 @@ msgstr "D-Bus elérési út"
 msgid "Dance"
 msgstr "Dance"
 
-#: core/database.cpp:532
+#: core/database.cpp:538
 msgid "Database corruption detected."
 msgstr "Adatbázis-sérülés észlelve."
 
@@ -2782,7 +2782,7 @@ msgstr "Beszúrás..."
 msgid "Install strawberry through PPA:<br />"
 msgstr "Strawberry telepítése PPA-ból: <br />"
 
-#: core/database.cpp:515
+#: core/database.cpp:521
 msgid "Integrity check"
 msgstr "Integritás ellenőrzése"
 
