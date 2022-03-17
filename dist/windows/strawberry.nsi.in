@@ -362,7 +362,7 @@ Section "Strawberry" Strawberry
   File "opus.dll"
   File "orc-0.4-0.dll"
   File "psl-5.dll"
-  ;File "qtsparkle-qt6.dll"
+  File "qtsparkle-qt6.dll"
   File "soup-2.4-1.dll"
   File "sqlite3.dll"
   File "tag.dll"
