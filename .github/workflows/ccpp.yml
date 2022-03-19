@@ -1759,10 +1759,13 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstbs2b.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstfaac.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstfaad.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
@@ -1771,6 +1774,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
@@ -2006,10 +2010,13 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstbs2b.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstfaac.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstfaad.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
@@ -2018,6 +2025,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
