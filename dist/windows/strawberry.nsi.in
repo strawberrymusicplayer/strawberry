@@ -38,6 +38,10 @@
   !define compiler "msvc"
 !endif
 
+!if "@CMAKE_BUILD_TYPE@" == "Release"
+  !define release
+!endif
+
 !if "@CMAKE_BUILD_TYPE@" == "Debug"
   !define debug
   !undef build_type
@@ -233,6 +237,7 @@ Section "Strawberry" Strawberry
   File "libfreetype-6.dll"
   File "libfaac-0.dll"
   File "libfaad-2.dll"
+  File "libfftw3-3.dll"
   File "libgio-2.0-0.dll"
   File "libglib-2.0-0.dll"
   File "libgmodule-2.0-0.dll"
@@ -350,14 +355,13 @@ Section "Strawberry" Strawberry
   File "gsturidownloader-1.0-0.dll"
   File "gstvideo-1.0-0.dll"
   File "gstwinrt-1.0-0.dll"
+  File "fftw3.dll"
   File "intl-8.dll"
   File "libbs2b.dll"
   File "libiconv.dll"
   File "liblzma.dll"
   File "libmp3lame.dll"
-  File "libpng16.dll"
-  File "libprotobuf.dll"
-  File "libxml2.dll"
+  File "libopenmpt.dll"
   File "mpcdec.dll"
   File "mpg123.dll"
   File "ogg.dll"
@@ -370,19 +374,41 @@ Section "Strawberry" Strawberry
   File "tag.dll"
   File "vorbis.dll"
   File "wavpackdll.dll"
+
+!ifdef release
+  File "libpng16.dll"
+  File "libprotobuf.dll"
+  ;File "libspeex.dll"
+  File "libxml2.dll"
   File "zlib.dll"
+!endif
+!ifdef debug
+  File "libpng16d.dll"
+  File "libprotobufd.dll"
+  ;File "libspeexd.dll"
+  File "libxml2d.dll"
+  File "zlibd.dll"
+!endif
 
 !endif ; MSVC
 
   ; Common files
 
-  File "libfftw3-3.dll"
+!ifdef msvc && debug
+  File "Qt6Concurrentd.dll"
+  File "Qt6Cored.dll"
+  File "Qt6Guid.dll"
+  File "Qt6Networkd.dll"
+  File "Qt6Sqld.dll"
+  File "Qt6Widgetsd.dll"
+!else
   File "Qt6Concurrent.dll"
   File "Qt6Core.dll"
   File "Qt6Gui.dll"
   File "Qt6Network.dll"
   File "Qt6Sql.dll"
   File "Qt6Widgets.dll"
+!endif
 
   ; Register Strawberry with Default Programs
   Var /GLOBAL AppIcon
@@ -430,29 +456,51 @@ SectionEnd
 
 Section "Qt Platform plugins" platforms
   SetOutPath "$INSTDIR\platforms"
+!ifdef msvc && debug
+  File "/oname=qwindowsd.dll" "platforms\qwindowsd.dll"
+!else
   File "/oname=qwindows.dll" "platforms\qwindows.dll"
+!endif
 SectionEnd
 
 Section "Qt styles" styles
   SetOutPath "$INSTDIR\styles"
+!ifdef msvc && debug
+  File "/oname=qwindowsvistastyled.dll" "styles\qwindowsvistastyled.dll"
+!else
   File "/oname=qwindowsvistastyle.dll" "styles\qwindowsvistastyle.dll"
+!endif
 SectionEnd
 
 Section "Qt TLS plugins" tls
   SetOutPath "$INSTDIR\tls"
+!ifdef msvc && debug
+  File "/oname=qopensslbackendd.dll" "tls\qopensslbackendd.dll"
+!else
   File "/oname=qopensslbackend.dll" "tls\qopensslbackend.dll"
+!endif
 SectionEnd
 
 Section "Qt SQL Drivers" sqldrivers
   SetOutPath "$INSTDIR\sqldrivers"
+!ifdef msvc && debug
+  File "/oname=qsqlited.dll" "sqldrivers\qsqlited.dll"
+!else
   File "/oname=qsqlite.dll" "sqldrivers\qsqlite.dll"
+!endif
 SectionEnd
 
 Section "Qt imageformats" imageformats
   SetOutPath "$INSTDIR\imageformats"
+!ifdef msvc && debug
+  File "/oname=qgifd.dll" "imageformats\qgifd.dll"
+  File "/oname=qicod.dll" "imageformats\qicod.dll"
+  File "/oname=qjpegd.dll" "imageformats\qjpegd.dll"
+!else
   File "/oname=qgif.dll" "imageformats\qgif.dll"
   File "/oname=qico.dll" "imageformats\qico.dll"
   File "/oname=qjpeg.dll" "imageformats\qjpeg.dll"
+!endif
 SectionEnd
 
 Section "Gstreamer plugins" gstreamer-plugins
@@ -546,12 +594,14 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=gstmpg123.dll" "gstreamer-plugins\gstmpg123.dll"
   File "/oname=gstmusepack.dll" "gstreamer-plugins\gstmusepack.dll"
   File "/oname=gstogg.dll" "gstreamer-plugins\gstogg.dll"
+  File "/oname=gstopenmpt.dll" "gstreamer-plugins\gstopenmpt.dll"
   File "/oname=gstopus.dll" "gstreamer-plugins\gstopus.dll"
   File "/oname=gstopusparse.dll" "gstreamer-plugins\gstopusparse.dll"
   File "/oname=gstplayback.dll" "gstreamer-plugins\gstplayback.dll"
   File "/oname=gstreplaygain.dll" "gstreamer-plugins\gstreplaygain.dll"
   File "/oname=gstrtp.dll" "gstreamer-plugins\gstrtp.dll"
   File "/oname=gstrtsp.dll" "gstreamer-plugins\gstrtsp.dll"
+  File "/oname=gstspeex.dll" "gstreamer-plugins\gstspeex.dll"
   File "/oname=gstsoup.dll" "gstreamer-plugins\gstsoup.dll"
   File "/oname=gstspectrum.dll" "gstreamer-plugins\gstspectrum.dll"
   File "/oname=gsttcp.dll" "gstreamer-plugins\gsttcp.dll"
@@ -643,6 +693,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libfreetype-6.dll"
   Delete "$INSTDIR\libfaac-0.dll"
   Delete "$INSTDIR\libfaad-2.dll"
+  Delete "$INSTDIR\libfftw3-3.dll"
   Delete "$INSTDIR\libgio-2.0-0.dll"
   Delete "$INSTDIR\libglib-2.0-0.dll"
   Delete "$INSTDIR\libgmodule-2.0-0.dll"
@@ -761,14 +812,13 @@ Section "Uninstall"
   Delete "$INSTDIR\gsturidownloader-1.0-0.dll"
   Delete "$INSTDIR\gstvideo-1.0-0.dll"
   Delete "$INSTDIR\gstwinrt-1.0-0.dll"
+  Delete "$INSTDIR\fftw3.dll"
   Delete "$INSTDIR\intl-8.dll"
   Delete "$INSTDIR\libbs2b.dll"
   Delete "$INSTDIR\libiconv.dll"
   Delete "$INSTDIR\liblzma.dll"
   Delete "$INSTDIR\libmp3lame.dll"
-  Delete "$INSTDIR\libpng16.dll"
-  Delete "$INSTDIR\libprotobuf.dll"
-  Delete "$INSTDIR\libxml2.dll"
+  Delete "$INSTDIR\libopenmpt.dll"
   Delete "$INSTDIR\mpcdec.dll"
   Delete "$INSTDIR\mpg123.dll"
   Delete "$INSTDIR\ogg.dll"
@@ -781,19 +831,41 @@ Section "Uninstall"
   Delete "$INSTDIR\tag.dll"
   Delete "$INSTDIR\vorbis.dll"
   Delete "$INSTDIR\wavpackdll.dll"
+
+!ifdef release
+  Delete "$INSTDIR\libpng16.dll"
+  Delete "$INSTDIR\libprotobuf.dll"
+  ;Delete "$INSTDIR\libspeex.dll"
+  Delete "$INSTDIR\libxml2.dll"
   Delete "$INSTDIR\zlib.dll"
+!endif
+!ifdef debug
+  Delete "$INSTDIR\libpng16d.dll"
+  Delete "$INSTDIR\libprotobufd.dll"
+  ;Delete "$INSTDIR\libspeexd.dll"
+  Delete "$INSTDIR\libxml2d.dll"
+  Delete "$INSTDIR\zlibd.dll"
+!endif
 
 !endif ; MSVC
 
   ; Common files
 
-  Delete "$INSTDIR\libfftw3-3.dll"
+!ifdef msvc && debug
+  Delete "$INSTDIR\Qt6Concurrentd.dll"
+  Delete "$INSTDIR\Qt6Cored.dll"
+  Delete "$INSTDIR\Qt6Guid.dll"
+  Delete "$INSTDIR\Qt6Networkd.dll"
+  Delete "$INSTDIR\Qt6Sqld.dll"
+  Delete "$INSTDIR\Qt6Widgetsd.dll"
+!else
   Delete "$INSTDIR\Qt6Concurrent.dll"
   Delete "$INSTDIR\Qt6Core.dll"
   Delete "$INSTDIR\Qt6Gui.dll"
   Delete "$INSTDIR\Qt6Network.dll"
   Delete "$INSTDIR\Qt6Sql.dll"
   Delete "$INSTDIR\Qt6Widgets.dll"
+!endif
 
 !ifdef mingw
   Delete "$INSTDIR\gio-modules\libgiognutls.dll"
@@ -804,14 +876,23 @@ Section "Uninstall"
   Delete "$INSTDIR\gio-modules\gioopenssl.dll"
 !endif
 
+!ifdef msvc && debug
+  Delete "$INSTDIR\platforms\qwindowsd.dll"
+  Delete "$INSTDIR\styles\qwindowsvistastyled.dll"
+  Delete "$INSTDIR\tls\qopensslbackend.dll"
+  Delete "$INSTDIR\sqldrivers\qsqlited.dll"
+  Delete "$INSTDIR\imageformats\qgifd.dll"
+  Delete "$INSTDIR\imageformats\qicod.dll"
+  Delete "$INSTDIR\imageformats\qjpegd.dll"
+!else
   Delete "$INSTDIR\platforms\qwindows.dll"
   Delete "$INSTDIR\styles\qwindowsvistastyle.dll"
   Delete "$INSTDIR\tls\qopensslbackend.dll"
   Delete "$INSTDIR\sqldrivers\qsqlite.dll"
-
   Delete "$INSTDIR\imageformats\qgif.dll"
   Delete "$INSTDIR\imageformats\qico.dll"
   Delete "$INSTDIR\imageformats\qjpeg.dll"
+!endif
 
   ; MinGW GStreamer plugins
 
@@ -905,12 +986,14 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\gstmpg123.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstmusepack.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstogg.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstopenmpt.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstopus.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstopusparse.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstplayback.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstreplaygain.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstrtp.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstrtsp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstspeex.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstsoup.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstspectrum.dll"
   Delete "$INSTDIR\gstreamer-plugins\gsttcp.dll"

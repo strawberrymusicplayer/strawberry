@@ -1613,7 +1613,7 @@ jobs:
       - name: Download Windows MSVC dependencies
         uses: suisei-cn/actions-download-file@v1
         with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/latest/strawberry-msvc-dependencies.tar.xz)!"
+          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/latest/strawberry-msvc-dependencies-release.tar.xz)!"
           target: downloads/
           auto-match: true
 
@@ -1658,7 +1658,7 @@ jobs:
       - name: Extract Windows MSVC dependencies
         shell: bash
         run: |
-          tar -xf /d/a/strawberry/strawberry//downloads/strawberry-msvc-dependencies.tar.xz
+          tar -xf /d/a/strawberry/strawberry/downloads/strawberry-msvc-dependencies-release.tar.xz
           mv c/msvc_x86_64 /c/
 
       - name: Update PATH
@@ -1776,6 +1776,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopenmpt.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
@@ -1783,6 +1784,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
@@ -1864,7 +1866,7 @@ jobs:
       - name: Download Windows MSVC dependencies
         uses: suisei-cn/actions-download-file@v1
         with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/latest/strawberry-msvc-dependencies.tar.xz)!"
+          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/latest/strawberry-msvc-dependencies-debug.tar.xz)!"
           target: downloads/
           auto-match: true
 
@@ -1909,7 +1911,7 @@ jobs:
       - name: Extract Windows MSVC dependencies
         shell: bash
         run: |
-          tar -xf /d/a/strawberry/strawberry//downloads/strawberry-msvc-dependencies.tar.xz
+          tar -xf /d/a/strawberry/strawberry//downloads/strawberry-msvc-dependencies-debug.tar.xz
           mv c/msvc_x86_64 /c/
 
       - name: Update PATH
@@ -1938,7 +1940,7 @@ jobs:
         env:
           CL: "/MP"
         working-directory: build
-        run: cmake --build . --config Release --parallel 4
+        run: cmake --build . --config Debug --parallel 4
 
       - name: list files
         working-directory: build
@@ -1946,7 +1948,7 @@ jobs:
 
       - name: Copy executables
         working-directory: build
-        run: copy release\*.exe .
+        run: copy debug\*.exe .
 
       - name: Copy extra binaries
         working-directory: build
@@ -1976,11 +1978,11 @@ jobs:
 
       - name: Copy Qt platform plugins
         working-directory: build
-        run: copy c:\msvc_x86_64\plugins\platforms\qwindows.dll .\platforms\
+        run: copy c:\msvc_x86_64\plugins\platforms\qwindowsd.dll .\platforms\
 
       - name: Copy Qt styles
         working-directory: build
-        run: copy c:\msvc_x86_64\plugins\styles\qwindowsvistastyle.dll .\styles\
+        run: copy c:\msvc_x86_64\plugins\styles\qwindowsvistastyled.dll .\styles\
 
       - name: Copy Qt TLS plugins
         working-directory: build
@@ -1988,7 +1990,7 @@ jobs:
 
       - name: Copy Qt SQL drivers
         working-directory: build
-        run: copy c:\msvc_x86_64\plugins\sqldrivers\qsqlite.dll .\sqldrivers\
+        run: copy c:\msvc_x86_64\plugins\sqldrivers\qsqlited.dll .\sqldrivers\
 
       - name: Copy Qt imageformats plugins
         working-directory: build
@@ -2027,6 +2029,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopenmpt.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
@@ -2034,6 +2037,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
