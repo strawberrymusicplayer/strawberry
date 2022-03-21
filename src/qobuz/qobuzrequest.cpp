@@ -584,9 +584,9 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
     return;
   }
 
-  //int limit = json_obj["limit"].toInt();
-  int offset = json_obj["offset"].toInt();
-  int albums_total = json_obj["total"].toInt();
+  //int limit = obj_albums["limit"].toInt();
+  int offset = obj_albums["offset"].toInt();
+  int albums_total = obj_albums["total"].toInt();
 
   if (offset != offset_requested) {
     Error(QString("Offset returned does not match offset requested! %1 != %2").arg(offset).arg(offset_requested));
