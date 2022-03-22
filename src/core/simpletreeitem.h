@@ -30,7 +30,7 @@
 
 #include "simpletreemodel.h"
 
-template <typename T>
+template<typename T>
 class SimpleTreeItem {
  public:
   explicit SimpleTreeItem(int _type, SimpleTreeModel<T> *_model);  // For the root item
@@ -58,13 +58,13 @@ class SimpleTreeItem {
   bool lazy_loaded;
 
   T *parent;
-  QList<T*> children;
+  QList<T *> children;
   QAbstractItemModel *child_model;
 
   SimpleTreeModel<T> *model;
 };
 
-template <typename T>
+template<typename T>
 SimpleTreeItem<T>::SimpleTreeItem(int _type, SimpleTreeModel<T> *_model)
     : type(_type),
       row(0),
@@ -73,7 +73,7 @@ SimpleTreeItem<T>::SimpleTreeItem(int _type, SimpleTreeModel<T> *_model)
       child_model(nullptr),
       model(_model) {}
 
-template <typename T>
+template<typename T>
 SimpleTreeItem<T>::SimpleTreeItem(int _type, const QString &_key, T *_parent)
     : type(_type),
       key(_key),
@@ -87,7 +87,7 @@ SimpleTreeItem<T>::SimpleTreeItem(int _type, const QString &_key, T *_parent)
   }
 }
 
-template <typename T>
+template<typename T>
 SimpleTreeItem<T>::SimpleTreeItem(int _type, T *_parent)
     : type(_type),
       lazy_loaded(false),
@@ -100,7 +100,7 @@ SimpleTreeItem<T>::SimpleTreeItem(int _type, T *_parent)
   }
 }
 
-template <typename T>
+template<typename T>
 void SimpleTreeItem<T>::InsertNotify(T *_parent) {
   parent = _parent;
   model = parent->model;
@@ -111,7 +111,7 @@ void SimpleTreeItem<T>::InsertNotify(T *_parent) {
   model->EndInsert();
 }
 
-template <typename T>
+template<typename T>
 void SimpleTreeItem<T>::DeleteNotify(int child_row) {
   model->BeginDelete(static_cast<T*>(this), child_row);
   delete children.takeAt(child_row);
@@ -121,7 +121,7 @@ void SimpleTreeItem<T>::DeleteNotify(int child_row) {
   model->EndDelete();
 }
 
-template <typename T>
+template<typename T>
 void SimpleTreeItem<T>::ClearNotify() {
   if (children.count()) {
     model->BeginDelete(static_cast<T*>(this), 0, children.count() - 1);
@@ -133,17 +133,17 @@ void SimpleTreeItem<T>::ClearNotify() {
   }
 }
 
-template <typename T>
+template<typename T>
 void SimpleTreeItem<T>::ChangedNotify() {
   model->EmitDataChanged(static_cast<T*>(this));
 }
 
-template <typename T>
+template<typename T>
 SimpleTreeItem<T>::~SimpleTreeItem() {
   qDeleteAll(children);
 }
 
-template <typename T>
+template<typename T>
 void SimpleTreeItem<T>::Delete(int child_row) {
   delete children.takeAt(child_row);
 
@@ -151,7 +151,7 @@ void SimpleTreeItem<T>::Delete(int child_row) {
   for (int i = child_row; i < children.count(); ++i) children[i]->row--;
 }
 
-template <typename T>
+template<typename T>
 T *SimpleTreeItem<T>::ChildByKey(const QString &_key) const {
   for (T *child : children) {
     if (child->key == _key) return child;

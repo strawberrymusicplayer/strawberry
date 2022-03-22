@@ -198,12 +198,11 @@ void LineEdit::resizeEvent(QResizeEvent *e) {
 
 
 TextEdit::TextEdit(QWidget *parent)
-  : QPlainTextEdit(parent),
-    ExtendedEditor(this) {
+    : QPlainTextEdit(parent),
+      ExtendedEditor(this) {
 
   QObject::connect(reset_button_, &QToolButton::clicked, this, &TextEdit::Reset);
-  QObject::connect(this, &TextEdit::textChanged, [this]() { viewport()->update(); }); // To clear the hint
-
+  QObject::connect(this, &TextEdit::textChanged, [this]() { viewport()->update(); });  // To clear the hint
 }
 
 void TextEdit::paintEvent(QPaintEvent *e) {
@@ -218,11 +217,10 @@ void TextEdit::resizeEvent(QResizeEvent *e) {
 
 
 SpinBox::SpinBox(QWidget *parent)
-  : QSpinBox(parent),
-    ExtendedEditor(this, 14, false) {
+    : QSpinBox(parent),
+      ExtendedEditor(this, 14, false) {
 
   QObject::connect(reset_button_, &QToolButton::clicked, this, &SpinBox::Reset);
-
 }
 
 void SpinBox::paintEvent(QPaintEvent *e) {
@@ -236,10 +234,9 @@ void SpinBox::resizeEvent(QResizeEvent *e) {
 }
 
 CheckBox::CheckBox(QWidget *parent)
-  : QCheckBox(parent), ExtendedEditor(this, 14, false) {
+    : QCheckBox(parent), ExtendedEditor(this, 14, false) {
 
   QObject::connect(reset_button_, &QToolButton::clicked, this, &CheckBox::Reset);
-
 }
 
 void CheckBox::paintEvent(QPaintEvent *e) {
@@ -258,14 +255,12 @@ QString SpinBox::textFromValue(int val) const {
     return "-";
   }
   return QSpinBox::textFromValue(val);
-
 }
 
 RatingBox::RatingBox(QWidget *parent)
-  : RatingWidget(parent),
-    ExtendedEditor(this) {
+    : RatingWidget(parent),
+      ExtendedEditor(this) {
 
   clear_button_->hide();
   reset_button_->hide();
-
 }

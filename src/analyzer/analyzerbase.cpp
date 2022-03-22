@@ -154,7 +154,7 @@ int Analyzer::Base::resizeForBands(const int bands) {
   }
   else {
     exp = 9;
-}
+  }
 
   resizeExponent(exp);
   return fht_->size() / 2;

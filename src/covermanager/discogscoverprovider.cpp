@@ -383,7 +383,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
       continue;
     }
     QJsonObject obj_artist = value_artist.toObject();
-    if (!obj_artist.contains("name") ) {
+    if (!obj_artist.contains("name")) {
       Error("Invalid Json reply, artists array value object is missing name.", obj_artist);
       continue;
     }

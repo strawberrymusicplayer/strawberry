@@ -70,10 +70,9 @@ bool GioLister::DeviceInfo::is_suitable() const {
   if (filesystem_type.isEmpty()) return true;
 
   return filesystem_type != "udf" && filesystem_type != "smb" && filesystem_type != "cifs" && filesystem_type != "ssh" && filesystem_type != "isofs";
-
 }
 
-template <typename T, typename F>
+template<typename T, typename F>
 void OperationFinished(F f, GObject *object, GAsyncResult *result) {
 
   T *obj = reinterpret_cast<T*>(object);

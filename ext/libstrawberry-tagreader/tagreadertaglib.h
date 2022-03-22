@@ -75,13 +75,13 @@ class TagReaderTagLib : public TagReaderBase {
   void SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const;
   void SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetUserTextFrame(const std::string &description, const std::string &value, TagLib::ID3v2::Tag *tag) const;
-  void SetUnsyncLyricsFrame(const std::string& value, TagLib::ID3v2::Tag* tag) const;
+  void SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3v2::Tag *tag) const;
 
   QByteArray LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const;
 
   static float ConvertPOPMRating(const int POPM_rating);
   static int ConvertToPOPMRating(const float rating);
-  static TagLib::ID3v2::PopularimeterFrame *GetPOPMFrameFromTag(TagLib::ID3v2::Tag* tag);
+  static TagLib::ID3v2::PopularimeterFrame *GetPOPMFrameFromTag(TagLib::ID3v2::Tag *tag);
 
  private:
   FileRefFactory *factory_;

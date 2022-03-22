@@ -85,7 +85,7 @@ void SubsonicSettingsPage::Load() {
   ui_->checkbox_server_scrobbling->setChecked(s.value("serversidescrobbling", false).toBool());
 
   AuthMethod auth_method = static_cast<AuthMethod>(s.value("authmethod", AuthMethod_MD5).toInt());
-  switch(auth_method) {
+  switch (auth_method) {
     case AuthMethod_Hex:
       ui_->auth_method_hex->setChecked(true);
       break;

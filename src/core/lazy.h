@@ -25,7 +25,7 @@
 // Usage:
 //    Lazy<Foo> my_lazy_object([]() { return new Foo; });
 
-template <typename T>
+template<typename T>
 class Lazy {
  public:
   explicit Lazy(std::function<T*()> init) : init_(init) {}

@@ -196,7 +196,7 @@ QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *any_em
   // Find any blocks first
   qint64 pos = 0;
   QRegularExpressionMatch re_match;
-  for (re_match = block_regexp.match(block, pos);  re_match.hasMatch(); re_match = block_regexp.match(block, pos)) {
+  for (re_match = block_regexp.match(block, pos); re_match.hasMatch(); re_match = block_regexp.match(block, pos)) {
     pos = re_match.capturedStart();
     // Recursively parse the block
     bool empty = false;

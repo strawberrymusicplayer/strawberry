@@ -39,11 +39,11 @@
 #include <xcb/xproto.h>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 2, 0)
-#if defined(HAVE_X11EXTRAS)
-#  include <QX11Info>
-#elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
-#  include <qpa/qplatformnativeinterface.h>
-#endif
+#  if defined(HAVE_X11EXTRAS)
+#    include <QX11Info>
+#  elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+#    include <qpa/qplatformnativeinterface.h>
+#  endif
 #endif
 
 const QVector<quint32> GlobalShortcut::mask_modifiers_ = QVector<quint32>() << 0 << Mod2Mask << LockMask << (Mod2Mask | LockMask);
@@ -57,7 +57,7 @@ Display *X11Display() {
   if (!qApp) return nullptr;
 
   if (QNativeInterface::QX11Application *x11_app = qApp->nativeInterface<QNativeInterface::QX11Application>()) {
-   return x11_app->display();
+    return x11_app->display();
   }
   return nullptr;
 

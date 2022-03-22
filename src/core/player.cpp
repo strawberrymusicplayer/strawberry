@@ -113,7 +113,7 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
   Engine::EngineType use_enginetype(Engine::None);
 
   for (int i = 0; use_enginetype == Engine::None; i++) {
-    switch(enginetype) {
+    switch (enginetype) {
       case Engine::None:
 #ifdef HAVE_GSTREAMER
       case Engine::GStreamer:{
@@ -126,18 +126,20 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
 #endif
 #ifdef HAVE_VLC
       case Engine::VLC:
-        use_enginetype=Engine::VLC;
+        use_enginetype = Engine::VLC;
         engine_ = std::make_shared<VLCEngine>(app_->task_manager());
         break;
 #endif
       default:
-        if (i > 0) { qFatal("No engine available!"); }
+        if (i > 0) {
+          qFatal("No engine available!");
+        }
         enginetype = Engine::None;
         break;
     }
   }
 
-  if (use_enginetype != enginetype) { // Engine was set to something else. Reset output and device.
+  if (use_enginetype != enginetype) {  // Engine was set to something else. Reset output and device.
     QSettings s;
     s.beginGroup(BackendSettingsPage::kSettingsGroup);
     s.setValue("engine", EngineName(use_enginetype));
@@ -167,7 +169,9 @@ void Player::Init() {
     CreateEngine(enginetype);
   }
 
-  if (!engine_->Init()) { qFatal("Error initializing audio engine"); }
+  if (!engine_->Init()) {
+    qFatal("Error initializing audio engine");
+  }
 
   analyzer_->SetEngine(engine_.get());
 
@@ -426,7 +430,7 @@ void Player::PlayPlaylistInternal(const Engine::TrackChangeFlags change, const P
   if (playlist == nullptr) {
     qLog(Warning) << "Playlist '" << playlist_name << "' not found.";
     return;
-   }
+  }
 
   app_->playlist_manager()->SetActivePlaylist(playlist->id());
   app_->playlist_manager()->SetCurrentPlaylist(playlist->id());
@@ -515,7 +519,7 @@ void Player::UnPause() {
     const Song &song = current_item_->Metadata();
     if (url_handlers_.contains(song.url().scheme()) && song.stream_url_can_expire()) {
       const quint64 time = QDateTime::currentDateTime().toSecsSinceEpoch() - pause_time_.toSecsSinceEpoch();
-      if (time >= 30) { // Stream URL might be expired.
+      if (time >= 30) {  // Stream URL might be expired.
         qLog(Debug) << "Re-requesting stream URL for" << song.url();
         play_offset_nanosec_ = engine_->position_nanosec();
         HandleLoadResult(url_handlers_[song.url().scheme()]->StartLoading(song.url()));

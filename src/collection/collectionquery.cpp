@@ -155,11 +155,11 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
     }
     else if (
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    value.metaType().id() == QMetaType::QString
+      value.metaType().id() == QMetaType::QString
 #else
-    value.type() == QVariant::String
+      value.type() == QVariant::String
 #endif
-    && value.toString().isNull()) {
+      && value.toString().isNull()) {
       where_clauses_ << QString("%1 %2 ?").arg(column, op);
       bound_values_ << QString("");
     }

@@ -34,7 +34,7 @@
 
 namespace {
 
-template <typename T>
+template<typename T>
 std::unique_ptr<T> GetProperty(const AudioDeviceID &device_id, const AudioObjectPropertyAddress &address, UInt32 *size_bytes_out = nullptr) {
 
   UInt32 size_bytes = 0;

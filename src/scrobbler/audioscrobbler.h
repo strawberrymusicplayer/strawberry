@@ -57,7 +57,7 @@ class AudioScrobbler : public QObject {
 
   ScrobblerService *ServiceByName(const QString &name) const { return scrobbler_services_->ServiceByName(name); }
 
-  template <typename T>
+  template<typename T>
   T *Service() {
     return qobject_cast<T*>(ServiceByName(T::kName));
   }

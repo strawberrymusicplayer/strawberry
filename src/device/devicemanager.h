@@ -141,7 +141,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
  private:
   void AddLister(DeviceLister *lister);
-  template <typename T> void AddDeviceClass();
+  template<typename T> void AddDeviceClass();
 
   DeviceDatabaseBackend::Device InfoToDatabaseDevice(const DeviceInfo &info) const;
 
@@ -173,7 +173,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
 };
 
-template <typename T>
+template<typename T>
 void DeviceManager::AddDeviceClass() {
   QStringList schemes = T::url_schemes();
   QMetaObject obj = T::staticMetaObject;

@@ -673,7 +673,7 @@ void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QList<QUrl> &ur
   }
 
   if (!file.open(QIODevice::ReadOnly)) {
-    qLog(Error) << "Failed to open cover file" << cover_filename  << "for reading:" << file.errorString();
+    qLog(Error) << "Failed to open cover file" << cover_filename << "for reading:" << file.errorString();
     emit SaveEmbeddedCoverAsyncFinished(id, false, false);
     return;
   }

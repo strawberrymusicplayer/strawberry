@@ -63,8 +63,7 @@ BlockAnalyzer::BlockAnalyzer(QWidget *parent)
   setMaximumWidth(kMaxColumns * (kWidth + 1) - 1);
 
   // mxcl says null pixmaps cause crashes, so let's play it safe
-  std::fill(fade_bars_.begin(), fade_bars_.end(),  QPixmap(1, 1));
-
+  std::fill(fade_bars_.begin(), fade_bars_.end(), QPixmap(1, 1));
 }
 
 void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
@@ -89,7 +88,7 @@ void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
   if (rows_ != oldRows) {
     barpixmap_ = QPixmap(kWidth, rows_ * (kHeight + 1));
 
-    std::fill(fade_bars_.begin(), fade_bars_.end(),  QPixmap(kWidth, rows_ * (kHeight + 1)));
+    std::fill(fade_bars_.begin(), fade_bars_.end(), QPixmap(kWidth, rows_ * (kHeight + 1)));
 
     yscale_.resize(rows_ + 1);
 

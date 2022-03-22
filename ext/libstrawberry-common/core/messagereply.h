@@ -56,7 +56,7 @@ class _MessageReplyBase : public QObject {
 };
 
 // A reply future class that is returned immediately for requests that will occur in the background.  Similar to QNetworkReply.
-template <typename MessageType>
+template<typename MessageType>
 class MessageReply : public _MessageReplyBase {
  public:
   explicit MessageReply(const MessageType &request_message, QObject *parent = nullptr);

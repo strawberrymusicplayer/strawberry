@@ -169,7 +169,7 @@ void ScrobblingAPI20::Authenticate(const bool https) {
   messagebox.setTextFormat(Qt::RichText);
   int result = messagebox.exec();
   switch (result) {
-  case QMessageBox::Open:{
+    case QMessageBox::Open: {
       bool openurl_result = QDesktopServices::openUrl(url);
       if (openurl_result) {
         break;
@@ -178,22 +178,21 @@ void ScrobblingAPI20::Authenticate(const bool https) {
       messagebox_error.setTextFormat(Qt::RichText);
       messagebox_error.exec();
     }
-    // fallthrough
-  case QMessageBox::Save:
-    QApplication::clipboard()->setText(url.toString());
-    break;
-  case QMessageBox::Cancel:
-    if (server_) {
-      server_->close();
-      server_->deleteLater();
-      server_ = nullptr;
-    }
-    emit AuthenticationComplete(false);
-    break;
-  default:
-    break;
+      // fallthrough
+    case QMessageBox::Save:
+      QApplication::clipboard()->setText(url.toString());
+      break;
+    case QMessageBox::Cancel:
+      if (server_) {
+        server_->close();
+        server_->deleteLater();
+        server_ = nullptr;
+      }
+      emit AuthenticationComplete(false);
+      break;
+    default:
+      break;
   }
-
 }
 
 void ScrobblingAPI20::RedirectArrived() {
@@ -533,12 +532,13 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
   if (app_->scrobbler()->IsOffline()) return;
 
   if (!IsAuthenticated()) {
-    if (app_->scrobbler()->ShowErrorDialog()) { emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_)); }
+    if (app_->scrobbler()->ShowErrorDialog()) {
+      emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_));
+    }
     return;
   }
 
   StartSubmit(true);
-
 }
 
 void ScrobblingAPI20::StartSubmit(const bool initial) {
@@ -1016,8 +1016,9 @@ void ScrobblingAPI20::Error(const QString &error, const QVariant &debug) {
   qLog(Error) << name_ << error;
   if (debug.isValid()) qLog(Debug) << debug;
 
-  if (app_->scrobbler()->ShowErrorDialog()) { emit ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_, error)); }
-
+  if (app_->scrobbler()->ShowErrorDialog()) {
+    emit ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_, error));
+  }
 }
 
 QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) {

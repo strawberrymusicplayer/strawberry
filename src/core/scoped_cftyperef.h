@@ -17,7 +17,7 @@
 // caller must own the object it gives to ScopedCFTypeRef<>, and relinquishes
 // an ownership claim to that object.  ScopedCFTypeRef<> does not call
 // CFRetain().
-template <typename CFT>
+template<typename CFT>
 class ScopedCFTypeRef {
  public:
   typedef CFT element_type;

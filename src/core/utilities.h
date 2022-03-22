@@ -115,11 +115,11 @@ enum IoPriority {
   IOPRIO_CLASS_BE,
   IOPRIO_CLASS_IDLE,
 };
-  enum {
-    IOPRIO_WHO_PROCESS = 1,
-    IOPRIO_WHO_PGRP,
-    IOPRIO_WHO_USER,
-  };
+enum {
+  IOPRIO_WHO_PROCESS = 1,
+  IOPRIO_WHO_PGRP,
+  IOPRIO_WHO_USER,
+};
 static const int IOPRIO_CLASS_SHIFT = 13;
 
 long SetThreadIOPriority(const IoPriority priority);
@@ -157,10 +157,10 @@ class ScopedWCharArray {
   QString ToString() const { return QString::fromWCharArray(data_.get()); }
 
   wchar_t *get() const { return data_.get(); }
-  explicit operator wchar_t*() const { return get(); }
+  explicit operator wchar_t *() const { return get(); }
 
   qint64 characters() const { return chars_; }
-  qint64 bytes() const { return (chars_ + 1)  *sizeof(wchar_t); }
+  qint64 bytes() const { return (chars_ + 1) * sizeof(wchar_t); }
 
  private:
   Q_DISABLE_COPY(ScopedWCharArray)

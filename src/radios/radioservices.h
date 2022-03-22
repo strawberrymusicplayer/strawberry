@@ -46,7 +46,7 @@ class RadioServices : public QObject {
 
   RadioService *ServiceBySource(const Song::Source source) const;
 
-  template <typename T>
+  template<typename T>
   T *Service() {
     return static_cast<T*>(ServiceBySource(T::source));
   }

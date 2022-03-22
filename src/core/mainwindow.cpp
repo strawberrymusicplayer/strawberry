@@ -476,9 +476,9 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(file_view_, &FileView::CopyToCollection, this, &MainWindow::CopyFilesToCollection);
   QObject::connect(file_view_, &FileView::MoveToCollection, this, &MainWindow::MoveFilesToCollection);
   QObject::connect(file_view_, &FileView::EditTags, this, &MainWindow::EditFileTags);
-#ifndef Q_OS_WIN
+#  ifndef Q_OS_WIN
   QObject::connect(file_view_, &FileView::CopyToDevice, this, &MainWindow::CopyFilesToDevice);
-#endif
+#  endif
 #endif
   file_view_->SetTaskManager(app_->task_manager());
 
@@ -536,8 +536,8 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(app_->scrobbler(), &AudioScrobbler::ErrorMessage, this, &MainWindow::ShowErrorDialog);
 
   // Playlist view actions
-  ui_->action_next_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString("Ctrl+Tab")<< QKeySequence::fromString("Ctrl+PgDown"));
-  ui_->action_previous_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString("Ctrl+Shift+Tab")<< QKeySequence::fromString("Ctrl+PgUp"));
+  ui_->action_next_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString("Ctrl+Tab") << QKeySequence::fromString("Ctrl+PgDown"));
+  ui_->action_previous_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString("Ctrl+Shift+Tab") << QKeySequence::fromString("Ctrl+PgUp"));
 
   // Actions for switching tabs will be global to the entire window, so adding them here
   addAction(ui_->action_next_playlist);
@@ -680,7 +680,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(tidal_view_->albums_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(tidal_view_->songs_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(tidal_view_->search_view(), &InternetSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
-  if (TidalService *tidalservice = qobject_cast<TidalService*> (app_->internet_services()->ServiceBySource(Song::Source_Tidal))) {
+  if (TidalService *tidalservice = qobject_cast<TidalService*>(app_->internet_services()->ServiceBySource(Song::Source_Tidal))) {
     QObject::connect(this, &MainWindow::AuthorizationUrlReceived, tidalservice, &TidalService::AuthorizationUrlReceived);
   }
 #endif
@@ -1001,11 +1001,11 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 
 #ifdef HAVE_QTSPARKLE
   QUrl sparkle_url;
-#if defined(Q_OS_MACOS)
+#  if defined(Q_OS_MACOS)
   sparkle_url.setUrl("https://www.strawberrymusicplayer.org/sparkle-macos");
-#elif defined(Q_OS_WIN)
+#  elif defined(Q_OS_WIN)
   sparkle_url.setUrl("https://www.strawberrymusicplayer.org/sparkle-windows");
-#endif
+#  endif
   if (!sparkle_url.isEmpty()) {
     qLog(Debug) << "Creating Qt Sparkle updater";
     qtsparkle::Updater *updater = new qtsparkle::Updater(sparkle_url, this);
@@ -2274,7 +2274,7 @@ void MainWindow::PlaylistRemoveCurrent() {
 void MainWindow::PlaylistClearCurrent() {
 
   if (app_->playlist_manager()->current()->rowCount() > Playlist::kUndoItemLimit) {
-    QMessageBox messagebox(QMessageBox::Warning, tr("Clear playlist"), tr("Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?").arg(app_->playlist_manager()->current()->rowCount()), QMessageBox::Ok|QMessageBox::Cancel);
+    QMessageBox messagebox(QMessageBox::Warning, tr("Clear playlist"), tr("Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?").arg(app_->playlist_manager()->current()->rowCount()), QMessageBox::Ok | QMessageBox::Cancel);
     messagebox.setTextFormat(Qt::RichText);
     int result = messagebox.exec();
     switch (result) {
@@ -2874,22 +2874,20 @@ void MainWindow::Raise() {
   show();
   activateWindow();
   hidden_ = false;
-
 }
 
 #ifdef Q_OS_WIN
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result) {
-#else
+#  else
 bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result) {
-#endif
+#  endif
 
   if (exit_count_ == 0 && message) {
     MSG *msg = static_cast<MSG*>(message);
     thumbbar_->HandleWinEvent(msg);
   }
   return QMainWindow::nativeEvent(eventType, message, result);
-
 }
 #endif  // Q_OS_WIN
 

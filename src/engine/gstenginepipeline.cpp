@@ -564,7 +564,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Link all elements
 
-  GstElement *next = audioqueue_; // The next element to link from.
+  GstElement *next = audioqueue_;  // The next element to link from.
 
   // Link replaygain elements if enabled.
   if (rg_enabled_ && rgvolume && rglimiter && rgconverter) {
@@ -645,7 +645,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     gst_caps_unref(caps);
   }
 
-  { // Add probes and handlers.
+  {  // Add probes and handlers.
     GstPad *pad = gst_element_get_static_pad(audioqueue_, "src");
     if (pad) {
       gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, HandoffCallback, this, nullptr);
@@ -894,7 +894,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     int16_t *s16 = static_cast<int16_t*>(g_malloc(buf16_size));
     memset(s16, 0, buf16_size);
     for (int i = 0; i < (samples * channels); ++i) {
-      s16[i] = *(reinterpret_cast<int16_t*>(s24+1));
+      s16[i] = *(reinterpret_cast<int16_t*>(s24 + 1));
       s24 += 3;
       if (s24 >= s24e) break;
     }
@@ -919,7 +919,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     memset(s16, 0, buf16_size);
     for (int i = 0; i < (samples * channels); ++i) {
       char *s24 = reinterpret_cast<char*>(s32p);
-      s16[i] = *(reinterpret_cast<int16_t*>(s24+1));
+      s16[i] = *(reinterpret_cast<int16_t*>(s24 + 1));
       ++s32p;
       if (s32p > s32e) break;
     }

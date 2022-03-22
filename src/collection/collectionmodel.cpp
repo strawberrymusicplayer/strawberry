@@ -476,7 +476,7 @@ QString CollectionModel::DividerDisplayText(const GroupBy type, const QString &k
     case GroupBy_Genre:
     case GroupBy_FileType:
     case GroupBy_Format:
-    if (key == "0") return "0-9";
+      if (key == "0") return "0-9";
       return key.toUpper();
 
     case GroupBy_YearAlbum:

@@ -59,7 +59,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void GetAlbums();
   void Reset();
 
-  private:
+ private:
   struct Request {
     explicit Request() : offset(0), size(0) {}
     QString artist_id;

@@ -33,7 +33,7 @@ CoverSearchStatistics::CoverSearchStatistics()
       chosen_width_(0),
       chosen_height_(0) {}
 
-CoverSearchStatistics &CoverSearchStatistics::operator +=(const CoverSearchStatistics &other) {
+CoverSearchStatistics &CoverSearchStatistics::operator+=(const CoverSearchStatistics &other) {
 
   network_requests_made_ += other.network_requests_made_;
   bytes_transferred_ += other.bytes_transferred_;

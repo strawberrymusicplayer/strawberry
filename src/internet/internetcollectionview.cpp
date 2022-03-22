@@ -390,7 +390,7 @@ void InternetCollectionView::AddToPlaylistEnqueueNext() {
 void InternetCollectionView::OpenInNewPlaylist() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
-  if (MimeData* mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->open_in_new_playlist_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);

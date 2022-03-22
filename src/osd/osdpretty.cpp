@@ -108,9 +108,9 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
 
 #ifdef Q_OS_WIN
   // Don't show the window in the taskbar.  Qt::ToolTip does this too, but it adds an extra ugly shadow.
-  int ex_style = GetWindowLong((HWND) winId(), GWL_EXSTYLE);
+  int ex_style = GetWindowLong((HWND)winId(), GWL_EXSTYLE);
   ex_style |= WS_EX_NOACTIVATE;
-  SetWindowLong((HWND) winId(), GWL_EXSTYLE, ex_style);
+  SetWindowLong((HWND)winId(), GWL_EXSTYLE, ex_style);
 #endif
 
   // Mode settings
@@ -166,7 +166,7 @@ OSDPretty::~OSDPretty() {
 void OSDPretty::showEvent(QShowEvent *e) {
 
   screens_.clear();
-  for(QScreen *screen : QGuiApplication::screens()) {
+  for (QScreen *screen : QGuiApplication::screens()) {
     screens_.insert(screen->name(), screen);
   }
 
@@ -310,10 +310,10 @@ void OSDPretty::paintEvent(QPaintEvent*) {
   p.drawPixmap(0, height() - kShadowCornerSize, shadow_corner_[3]);
 
   // Shadow edges
-  p.drawTiledPixmap(kShadowCornerSize, 0, width() - kShadowCornerSize*2, kDropShadowSize, shadow_edge_[0]);
-  p.drawTiledPixmap(width() - kDropShadowSize, kShadowCornerSize, kDropShadowSize, height() - kShadowCornerSize*2, shadow_edge_[1]);
-  p.drawTiledPixmap(kShadowCornerSize, height() - kDropShadowSize, width() - kShadowCornerSize*2, kDropShadowSize, shadow_edge_[2]);
-  p.drawTiledPixmap(0, kShadowCornerSize, kDropShadowSize, height() - kShadowCornerSize*2, shadow_edge_[3]);
+  p.drawTiledPixmap(kShadowCornerSize, 0, width() - kShadowCornerSize * 2, kDropShadowSize, shadow_edge_[0]);
+  p.drawTiledPixmap(width() - kDropShadowSize, kShadowCornerSize, kDropShadowSize, height() - kShadowCornerSize * 2, shadow_edge_[1]);
+  p.drawTiledPixmap(kShadowCornerSize, height() - kDropShadowSize, width() - kShadowCornerSize * 2, kDropShadowSize, shadow_edge_[2]);
+  p.drawTiledPixmap(0, kShadowCornerSize, kDropShadowSize, height() - kShadowCornerSize * 2, shadow_edge_[3]);
 
   // Box background
   p.setBrush(background_color_);

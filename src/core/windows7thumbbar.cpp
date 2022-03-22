@@ -30,7 +30,7 @@
 #include <QtDebug>
 
 #ifndef _WIN32_WINNT
-  #define _WIN32_WINNT 0x0600
+#  define _WIN32_WINNT 0x0600
 #endif
 
 #include <windows.h>
@@ -77,24 +77,23 @@ ITaskbarList3 *Windows7ThumbBar::CreateTaskbarList() {
   ITaskbarList3 *taskbar_list = nullptr;
 
   // Copied from win7 SDK shobjidl.h
-  static const GUID CLSID_ITaskbarList = { 0x56FDF344,0xFD6D,0x11d0,{0x95,0x8A,0x00,0x60,0x97,0xC9,0xA0,0x90}};
+  static const GUID CLSID_ITaskbarList = { 0x56FDF344, 0xFD6D, 0x11d0, { 0x95, 0x8A, 0x00, 0x60, 0x97, 0xC9, 0xA0, 0x90 } };
 
   // Create the taskbar list
   HRESULT hr = CoCreateInstance(CLSID_ITaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, reinterpret_cast<void**>(&taskbar_list));
   if (hr != S_OK) {
-    qLog(Warning) << "Error creating the ITaskbarList3 interface" << Qt::hex << DWORD (hr);
+    qLog(Warning) << "Error creating the ITaskbarList3 interface" << Qt::hex << DWORD(hr);
     return nullptr;
   }
 
   hr = taskbar_list->HrInit();
   if (hr != S_OK) {
-    qLog(Warning) << "Error initializing taskbar list" << Qt::hex << DWORD (hr);
+    qLog(Warning) << "Error initializing taskbar list" << Qt::hex << DWORD(hr);
     taskbar_list->Release();
     return nullptr;
   }
 
   return taskbar_list;
-
 }
 
 void Windows7ThumbBar::SetupButton(const QAction *action, THUMBBUTTON *button) {
@@ -145,7 +144,7 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
     qLog(Debug) << "Adding" << actions_.count() << "buttons";
     HRESULT hr = taskbar_list->ThumbBarAddButtons(reinterpret_cast<HWND>(widget_->winId()), actions_.count(), buttons);
     if (hr != S_OK) {
-      qLog(Debug) << "Failed to add buttons" << Qt::hex << DWORD (hr);
+      qLog(Debug) << "Failed to add buttons" << Qt::hex << DWORD(hr);
     }
 
     for (int i = 0; i < actions_.count(); ++i) {
@@ -188,12 +187,11 @@ void Windows7ThumbBar::ActionChanged() {
 
     button->iId = i;
     SetupButton(action, button);
-
   }
 
   HRESULT hr = taskbar_list->ThumbBarUpdateButtons(reinterpret_cast<HWND>(widget_->winId()), actions_.count(), buttons);
   if (hr != S_OK) {
-    qLog(Debug) << "Failed to update buttons" << Qt::hex << DWORD (hr);
+    qLog(Debug) << "Failed to update buttons" << Qt::hex << DWORD(hr);
   }
 
   for (int i = 0; i < actions_.count(); ++i) {

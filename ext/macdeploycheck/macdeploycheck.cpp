@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
       QRegularExpressionMatch match = regexp.match(output_line);
       if (match.hasMatch()) {
         QString library = match.captured(1);
-        if (QFileInfo(library).fileName() == QFileInfo(filepath).fileName()) { // It's this.
+        if (QFileInfo(library).fileName() == QFileInfo(filepath).fileName()) {  // It's this.
           continue;
         }
         else if (library.startsWith("@executable_path")) {
@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
         else if (library.startsWith("@rpath")) {
           QString real_path = library;
           real_path = real_path.replace("@rpath", bundle_path + "/Contents/Frameworks");
-          if (!QFile(real_path).exists() && !real_path.endsWith("QtSvg")) { // FIXME: Ignore broken svg image plugin.
+          if (!QFile(real_path).exists() && !real_path.endsWith("QtSvg")) {  // FIXME: Ignore broken svg image plugin.
             qLog(Error) << real_path << "does not exist for" << filepath;
             success = false;
           }
@@ -127,7 +127,7 @@ int main(int argc, char **argv) {
             success = false;
           }
         }
-        else if (library.startsWith("/System/Library/") || library.startsWith("/usr/lib/")) { // System library
+        else if (library.startsWith("/System/Library/") || library.startsWith("/usr/lib/")) {  // System library
           continue;
         }
         else if (library.endsWith("libgcc_s.1.dylib")) {  // fftw points to it for some reason.

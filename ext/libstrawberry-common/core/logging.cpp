@@ -61,7 +61,7 @@ static const char *kMessageHandlerMagic = "__logging_message__";
 static const size_t kMessageHandlerMagicLength = strlen(kMessageHandlerMagic);
 static QtMessageHandler sOriginalMessageHandler = nullptr;
 
-template <class T>
+template<class T>
 static T CreateLogger(Level level, const QString &class_name, int line, const char *category);
 
 void GLog(const char *domain, int level, const char *message, void*) {
@@ -85,10 +85,9 @@ void GLog(const char *domain, int level, const char *message, void*) {
       qLogCat(Debug, domain) << message;
       break;
   }
-
 }
 
-template <class T>
+template<class T>
 class DebugBase : public QDebug {
  public:
   DebugBase() : QDebug(sNullDevice) {}
@@ -314,11 +313,11 @@ QString LinuxDemangle(const QString &symbol) {
 QString DarwinDemangle(const QString &symbol);
 QString DarwinDemangle(const QString &symbol) {
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+#  if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
   QStringList split = symbol.split(' ', Qt::SkipEmptyParts);
-#else
+#  else
   QStringList split = symbol.split(' ', QString::SkipEmptyParts);
-#endif
+#  endif
   QString mangled_function = split[3];
   return CXXDemangle(mangled_function);
 
@@ -379,7 +378,7 @@ QDebug CreateLoggerError(int line, const char *pretty_function, const char *cate
 
 namespace {
 
-template <typename T>
+template<typename T>
 QString print_duration(T duration, const std::string &unit) {
   return QString("%1%2").arg(duration.count()).arg(unit.c_str());
 }

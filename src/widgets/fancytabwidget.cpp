@@ -219,7 +219,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
     if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar && tabWidget->mode() != FancyTabWidget::Mode_SmallSidebar) {
       // Cache and hide label text for IconOnlyTabs mode
       if (tabWidget->mode() == FancyTabWidget::Mode_IconOnlyTabs && labelCache.count() == 0) {
-        for(int i = 0; i < count(); ++i) {
+        for (int i = 0; i < count(); ++i) {
           labelCache[tabWidget->widget(i)] = tabText(i);
           setTabToolTip(i, tabText(i));
           setTabText(i, "");
@@ -315,7 +315,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
         p.setFont(boldFont);
 
         // Text drop shadow color
-        p.setPen(selected ? QColor(255, 255, 255, 160) : QColor(0, 0, 0, 110) );
+        p.setPen(selected ? QColor(255, 255, 255, 160) : QColor(0, 0, 0, 110));
         p.translate(0, 3);
         p.drawText(tabrectText, textFlags, tabText(index));
 
@@ -338,7 +338,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
           tabrectIcon = tabrectLabel;
           tabrectIcon.setSize(QSize(tabWidget->iconsize_largesidebar(), tabWidget->iconsize_largesidebar()));
           // Center the icon
-          const int moveRight = (QTabBar::width() - tabWidget->iconsize_largesidebar() -1) / 2;
+          const int moveRight = (QTabBar::width() - tabWidget->iconsize_largesidebar() - 1) / 2;
           tabrectIcon.translate(moveRight, 5);
         }
         tabIcon(index).paint(&p, tabrectIcon, iconFlags);
@@ -346,18 +346,17 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
       }
     }
   }
-
 };
 
 class TabData : public QObject {  // clazy:exclude=missing-qobject-macro
  public:
   TabData(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label, const int idx, QWidget *parent)
-    : QObject(parent),
-      widget_view_(widget_view),
-      name_(name), icon_(icon),
-      label_(label),
-      index_(idx),
-      page_(new QWidget()) {
+      : QObject(parent),
+        widget_view_(widget_view),
+        name_(name), icon_(icon),
+        label_(label),
+        index_(idx),
+        page_(new QWidget()) {
     // In order to achieve the same effect as the "Bottom Widget" of the old Nokia based FancyTabWidget a VBoxLayout is used on each page
     QVBoxLayout *layout = new QVBoxLayout(page_);
     layout->setSpacing(0);

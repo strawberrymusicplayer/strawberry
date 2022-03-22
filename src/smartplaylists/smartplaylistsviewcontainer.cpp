@@ -247,16 +247,14 @@ void SmartPlaylistsViewContainer::DeleteSmartPlaylistFromButton() {
   if (ui_->view->selectionModel()->selectedIndexes().count() == 0) return;
 
   DeleteSmartPlaylist(ui_->view->selectionModel()->selectedIndexes().first());
-
 }
 
 void SmartPlaylistsViewContainer::NewSmartPlaylistFinished() {
 
   SmartPlaylistWizard *wizard = qobject_cast<SmartPlaylistWizard*>(sender());
   if (!wizard) return;
-  QObject::disconnect(wizard, &SmartPlaylistWizard::accepted, this,  &SmartPlaylistsViewContainer::NewSmartPlaylistFinished);
+  QObject::disconnect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::NewSmartPlaylistFinished);
   model_->AddGenerator(wizard->CreateGenerator());
-
 }
 
 void SmartPlaylistsViewContainer::EditSmartPlaylistFinished() {

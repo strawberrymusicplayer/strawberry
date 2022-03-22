@@ -100,7 +100,7 @@ void CollectionItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     // Draw the line under the item
     QColor line_color = opt.palette.color(QPalette::Text);
     QLinearGradient grad_color(opt.rect.bottomLeft(), opt.rect.bottomRight());
-    const double fade_start_end = (opt.rect.width()/3.0)/opt.rect.width();
+    const double fade_start_end = (opt.rect.width() / 3.0) / opt.rect.width();
     line_color.setAlphaF(0.0);
     grad_color.setColorAt(0, line_color);
     line_color.setAlphaF(0.5);

@@ -39,11 +39,11 @@
 #endif
 
 #ifdef Q_OS_WIN32
-  #ifndef _WIN32_WINNT
-    #define _WIN32_WINNT 0x0600
-  #endif
-  #include <windows.h>
-  #include <iostream>
+#  ifndef _WIN32_WINNT
+#    define _WIN32_WINNT 0x0600
+#  endif
+#  include <windows.h>
+#  include <iostream>
 #endif  // Q_OS_WIN32
 
 #include <QObject>
@@ -265,19 +265,19 @@ int main(int argc, char *argv[]) {
 
   std::unique_ptr<Translations> translations(new Translations);
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   translations->LoadTranslation("qt", QLibraryInfo::path(QLibraryInfo::TranslationsPath), language);
-#else
+#  else
   translations->LoadTranslation("qt", QLibraryInfo::location(QLibraryInfo::TranslationsPath), language);
-#endif
+#  endif
   translations->LoadTranslation("strawberry", ":/translations", language);
   translations->LoadTranslation("strawberry", TRANSLATIONS_DIR, language);
   translations->LoadTranslation("strawberry", QCoreApplication::applicationDirPath(), language);
   translations->LoadTranslation("strawberry", QDir::currentPath(), language);
 
-#ifdef HAVE_QTSPARKLE
+#  ifdef HAVE_QTSPARKLE
   //qtsparkle::LoadTranslations(language);
-#endif
+#  endif
 
 #endif
 

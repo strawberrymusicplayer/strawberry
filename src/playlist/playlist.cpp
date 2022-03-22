@@ -177,7 +177,7 @@ Playlist::~Playlist() {
   collection_items_by_id_.clear();
 }
 
-template <typename T>
+template<typename T>
 void Playlist::InsertSongItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
   PlaylistItemList items;
@@ -1189,7 +1189,7 @@ void Playlist::UpdateItems(SongList songs) {
   // then we remove song from our list because we will not need to check it again.
   // And we also update undo actions.
 
-  for (int i = 0;  i < items_.size(); i++) {
+  for (int i = 0; i < items_.size(); i++) {
     // Update current items list
     QMutableListIterator<Song> it(songs);
     while (it.hasNext()) {
@@ -2168,13 +2168,12 @@ void Playlist::RemoveDeletedSongs() {
   }
 
   removeRows(rows_to_remove);
-
 }
 
 namespace {
 
 struct SongSimilarHash {
-  size_t operator() (const Song &song) const {
+  size_t operator()(const Song &song) const {
     return HashSimilar(song);
   }
 };

@@ -148,7 +148,7 @@ ContextView::ContextView(QWidget *parent)
   widget_scrollarea_->setLayout(layout_scrollarea_);
   widget_scrollarea_->setContentsMargins(0, 0, 0, 0);
 
-  label_top_->setAlignment(Qt::AlignTop|Qt::AlignLeft);
+  label_top_->setAlignment(Qt::AlignTop | Qt::AlignLeft);
   label_top_->setWordWrap(true);
   label_top_->setMinimumHeight(50);
   label_top_->setContentsMargins(0, 0, 32, 0);
@@ -262,15 +262,15 @@ ContextView::ContextView(QWidget *parent)
   layout_play_->addWidget(label_play_lyrics_);
   layout_play_->addSpacerItem(spacer_play_bottom_);
 
-  labels_play_      << label_engine_title_
-                    << label_device_title_
-                    << label_filetype_title_
-                    << label_length_title_
-                    << label_samplerate_title_
-                    << label_bitdepth_title_
-                    << label_bitrate_title_
-                    << label_play_albums_
-                    << label_play_lyrics_;
+  labels_play_ << label_engine_title_
+               << label_device_title_
+               << label_filetype_title_
+               << label_length_title_
+               << label_samplerate_title_
+               << label_bitdepth_title_
+               << label_bitrate_title_
+               << label_play_albums_
+               << label_play_lyrics_;
 
   labels_play_data_ << label_engine_icon_
                     << label_engine_
@@ -379,7 +379,7 @@ void ContextView::ReloadSettings() {
   action_search_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS], true).toBool());
   font_headline_ = s.value("font_headline", font().family()).toString();
   font_normal_ = s.value("font_normal", font().family()).toString();
-  font_size_headline_  = s.value("font_size_headline", ContextSettingsPage::kDefaultFontSizeHeadline).toReal();
+  font_size_headline_ = s.value("font_size_headline", ContextSettingsPage::kDefaultFontSizeHeadline).toReal();
   font_size_normal_ = s.value("font_size_normal", font().pointSizeF()).toReal();
   s.endGroup();
 

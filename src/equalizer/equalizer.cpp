@@ -384,11 +384,10 @@ bool Equalizer::Params::operator==(const Equalizer::Params &other) const {
     if (gain[i] != other.gain[i]) return false;
   }
   return true;
-
 }
 
 bool Equalizer::Params::operator!=(const Equalizer::Params &other) const {
-  return ! (*this == other);
+  return !(*this == other);
 }
 
 QDataStream &operator<<(QDataStream &s, const Equalizer::Params &p) {

@@ -92,7 +92,7 @@ TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
 
   ui_->setupUi(this);
 
-  setWindowFlags(windowFlags()|Qt::WindowMaximizeButtonHint);
+  setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
 
   ui_->files->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 

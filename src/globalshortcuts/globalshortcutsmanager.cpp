@@ -170,29 +170,25 @@ GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(const QStri
 bool GlobalShortcutsManager::IsKdeAvailable() {
 
   return GlobalShortcutsBackendKDE::IsKDEAvailable();
-
 }
 
 bool GlobalShortcutsManager::IsGnomeAvailable() {
 
   return GlobalShortcutsBackendGnome::IsGnomeAvailable();
-
 }
 
 bool GlobalShortcutsManager::IsMateAvailable() {
 
   return GlobalShortcutsBackendMate::IsMateAvailable();
-
 }
 
-#  endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+#endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
 
 bool GlobalShortcutsManager::IsX11Available() {
 
   return GlobalShortcutsBackendX11::IsX11Available();
-
 }
 
 #endif  // HAVE_X11_GLOBALSHORTCUTS

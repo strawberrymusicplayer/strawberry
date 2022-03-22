@@ -156,7 +156,7 @@ void CddaSongLoader::LoadSongs() {
   GstMessage *msg_tag = nullptr;
   while ((msg = gst_bus_timed_pop_filtered(GST_ELEMENT_BUS(pipeline), GST_SECOND, static_cast<GstMessageType>(GST_MESSAGE_TOC | GST_MESSAGE_TAG)))) {
     if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TOC) {
-      if (msg_toc) gst_message_unref(msg_toc); // Shouldn't happen, but just in case
+      if (msg_toc) gst_message_unref(msg_toc);  // Shouldn't happen, but just in case
       msg_toc = msg;
     }
     else if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TAG) {

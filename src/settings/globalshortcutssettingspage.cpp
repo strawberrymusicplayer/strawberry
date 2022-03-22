@@ -186,7 +186,7 @@ void GlobalShortcutsSettingsPage::Load() {
     ui_->checkbox_mate->setChecked(s.value("use_mate", true).toBool());
   }
 
-#endif // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+#endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
   if (ui_->widget_x11->isVisibleTo(this)) {

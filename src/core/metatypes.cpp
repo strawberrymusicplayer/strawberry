@@ -75,7 +75,7 @@
 #include "radios/radiochannel.h"
 
 #ifdef HAVE_LIBMTP
-  #include "device/mtpconnection.h"
+#  include "device/mtpconnection.h"
 #endif
 
 void RegisterMetaTypes() {

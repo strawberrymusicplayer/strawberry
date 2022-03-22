@@ -865,7 +865,7 @@ void GstEngine::UpdateScope(const int chunk_length) {
 
   // Make sure we don't go beyond the end of the buffer
   if (scope_chunk_ == scope_chunks_ - 1) {
-    bytes = qMin(static_cast<Engine::Scope::size_type>(map.size - (chunk_size  * scope_chunk_)), scope_.size() * sizeof(sample_type));
+    bytes = qMin(static_cast<Engine::Scope::size_type>(map.size - (chunk_size * scope_chunk_)), scope_.size() * sizeof(sample_type));
   }
   else {
     bytes = qMin(static_cast<Engine::Scope::size_type>(chunk_size), scope_.size() * sizeof(sample_type));

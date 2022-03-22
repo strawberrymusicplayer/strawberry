@@ -357,7 +357,7 @@ class Playlist : public QAbstractListModel {
   int PreviousVirtualIndex(int i, const bool ignore_repeat_track) const;
   bool FilterContainsVirtualIndex(const int i) const;
 
-  template <typename T>
+  template<typename T>
   void InsertSongItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next = false);
 
   // Modify the playlist without changing the undo stack.  These are used by our friends in PlaylistUndoCommands

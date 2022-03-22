@@ -50,7 +50,9 @@ class TidalCoverProvider : public JsonCoverProvider {
   void CancelSearch(const int id) override;
 
   bool IsAuthenticated() const override { return service_ && service_->authenticated(); }
-  void Deauthenticate() override { if (service_) service_->Logout(); }
+  void Deauthenticate() override {
+    if (service_) service_->Logout();
+  }
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const int id);

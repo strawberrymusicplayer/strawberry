@@ -113,6 +113,7 @@ class TagLibFileRefFactory : public FileRefFactory {
     return new TagLib::FileRef(QFile::encodeName(filename).constData());
 #endif
   }
+
  private:
   Q_DISABLE_COPY(TagLibFileRefFactory)
 };
@@ -130,11 +131,11 @@ TagLib::String QStringToTaglibString(const QString &s) {
 }  // namespace
 
 namespace {
-const char *kMP4_OriginalYear_ID =   "----:com.apple.iTunes:ORIGINAL YEAR";
+const char *kMP4_OriginalYear_ID = "----:com.apple.iTunes:ORIGINAL YEAR";
 const char *kMP4_FMPS_Playcount_ID = "----:com.apple.iTunes:FMPS_Playcount";
-const char *kMP4_FMPS_Rating_ID =    "----:com.apple.iTunes:FMPS_Rating";
-const char *kASF_OriginalDate_ID =   "WM/OriginalReleaseTime";
-const char *kASF_OriginalYear_ID =   "WM/OriginalReleaseYear";
+const char *kMP4_FMPS_Rating_ID = "----:com.apple.iTunes:FMPS_Rating";
+const char *kASF_OriginalDate_ID = "WM/OriginalReleaseTime";
+const char *kASF_OriginalYear_ID = "WM/OriginalReleaseYear";
 }  // namespace
 
 
@@ -265,7 +266,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
     if (tag) Decode(tag->comment(), song->mutable_comment());
   }
 
-  else if (TagLib::WavPack::File *file_wavpack = dynamic_cast<TagLib::WavPack::File *>(fileref->file())) {
+  else if (TagLib::WavPack::File *file_wavpack = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
     song->set_bitdepth(file_wavpack->audioProperties()->bitsPerSample());
     if (file_wavpack->APETag()) {
       ParseAPETag(file_wavpack->APETag()->itemListMap(), &disc, &compilation, song);
@@ -306,7 +307,9 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
       if (!map["TCMP"].isEmpty()) compilation = TStringToQString(map["TCMP"].front()->toString()).trimmed();
 
-      if (!map["TDOR"].isEmpty()) { song->set_originalyear(map["TDOR"].front()->toString().substr(0, 4).toInt()); }
+      if (!map["TDOR"].isEmpty()) {
+        song->set_originalyear(map["TDOR"].front()->toString().substr(0, 4).toInt());
+      }
       else if (!map["TORY"].isEmpty()) {
         song->set_originalyear(map["TORY"].front()->toString().substr(0, 4).toInt());
       }
@@ -321,7 +324,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
       if (!map["APIC"].isEmpty()) song->set_art_automatic(kEmbeddedCover);
 
       // Find a suitable comment tag.  For now we ignore iTunNORM comments.
-      for (uint i = 0 ; i < map["COMM"].size() ; ++i) {
+      for (uint i = 0; i < map["COMM"].size(); ++i) {
         const TagLib::ID3v2::CommentsFrame *frame = dynamic_cast<const TagLib::ID3v2::CommentsFrame*>(map["COMM"][i]);
 
         if (frame && TStringToQString(frame->description()) != "iTunNORM") {
@@ -450,7 +453,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
       }
 
       if (attributes_map.contains("FMPS/Rating")) {
-        const TagLib::ASF::AttributeList& attributes = attributes_map["FMPS/Rating"];
+        const TagLib::ASF::AttributeList &attributes = attributes_map["FMPS/Rating"];
         if (!attributes.isEmpty()) {
           float rating = TStringToQString(attributes.front().toString()).toFloat();
           if (song->rating() <= 0 && rating > 0) {
@@ -679,7 +682,7 @@ bool TagReaderTagLib::SaveFile(const QString &filename, const spb::tagreader::So
   else if (TagLib::MP4::File *file_mp4 = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
     TagLib::MP4::Tag *tag = file_mp4->tag();
     if (!tag) return false;
-    tag->setItem("disk", TagLib::MP4::Item(song.disc() <= 0 -1 ? 0 : song.disc(), 0));
+    tag->setItem("disk", TagLib::MP4::Item(song.disc() <= 0 - 1 ? 0 : song.disc(), 0));
     tag->setItem("\251wrt", TagLib::StringList(TagLib::String(song.composer(), TagLib::String::UTF8)));
     tag->setItem("\251grp", TagLib::StringList(TagLib::String(song.grouping(), TagLib::String::UTF8)));
     tag->setItem("\251lyr", TagLib::StringList(TagLib::String(song.lyrics(), TagLib::String::UTF8)));
@@ -743,7 +746,7 @@ void TagReaderTagLib::SetTextFrame(const char *id, const std::string &value, Tag
   }
 
   // Update and add the frames
-  for (int i = 0 ; i < frames_buffer.size() ; ++i) {
+  for (int i = 0; i < frames_buffer.size(); ++i) {
     TagLib::ID3v2::TextIdentificationFrame *frame = new TagLib::ID3v2::TextIdentificationFrame(frames_buffer.at(i));
     if (i == 0) {
       frame->setText(StdStringToTaglibString(value));
@@ -799,7 +802,7 @@ void TagReaderTagLib::SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3
   }
 
   // Update and add the frames
-  for (int i = 0 ; i < frames_buffer.size() ; ++i) {
+  for (int i = 0; i < frames_buffer.size(); ++i) {
     TagLib::ID3v2::UnsynchronizedLyricsFrame *frame = new TagLib::ID3v2::UnsynchronizedLyricsFrame(frames_buffer.at(i));
     if (i == 0) {
       frame->setText(StdStringToTaglibString(value));
@@ -983,7 +986,7 @@ bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray 
 
     // Remove existing covers
     TagLib::ID3v2::FrameList apiclist = tag->frameListMap()["APIC"];
-    for (TagLib::ID3v2::FrameList::ConstIterator it = apiclist.begin() ; it != apiclist.end() ; ++it ) {
+    for (TagLib::ID3v2::FrameList::ConstIterator it = apiclist.begin(); it != apiclist.end(); ++it) {
       TagLib::ID3v2::AttachedPictureFrame *frame = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(*it);
       tag->removeFrame(frame, false);
     }

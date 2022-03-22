@@ -76,11 +76,11 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
   setWindowIcon(IconLoader::Load("library-music"));
   ui_->add->setIcon(IconLoader::Load("document-open-folder"));
 
-  ui_->combobox_cache_size->addItems({"KB", "MB"});
-  ui_->combobox_disk_cache_size->addItems({"KB", "MB", "GB"});
+  ui_->combobox_cache_size->addItems({ "KB", "MB" });
+  ui_->combobox_disk_cache_size->addItems({ "KB", "MB", "GB" });
 
-  ui_->combobox_iopriority->addItems({"Auto", "Realtime", "Best effort", "Idle"});
-  ui_->combobox_threadpriority->addItems({"Idle", "Lowest", "Low", "Normal"});
+  ui_->combobox_iopriority->addItems({ "Auto", "Realtime", "Best effort", "Idle" });
+  ui_->combobox_threadpriority->addItems({ "Idle", "Lowest", "Low", "Normal" });
 
   QObject::connect(ui_->add, &QPushButton::clicked, this, &CollectionSettingsPage::Add);
   QObject::connect(ui_->remove, &QPushButton::clicked, this, &CollectionSettingsPage::Remove);

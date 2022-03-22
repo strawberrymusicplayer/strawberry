@@ -68,24 +68,23 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   QString available_fields = Song::kFtsColumns.join(", ").replace(QRegularExpression("\\bfts"), "");
 
   ui_->search_field->setToolTip(
-  QString("<html><head/><body><p>") +
-  tr("Prefix a word with a field name to limit the search to that field, e.g.:") +
-  QString(" ") +
-  QString("<span style=\"font-weight:600;\">") +
-  tr("artist") +
-  QString(":") +
-  QString("</span><span style=\"font-style:italic;\">Strawbs</span>") +
-  QString(" ") +
-  tr("searches the collection for all artists that contain the word") +
-  QString(" Strawbs.") +
-  QString("</p><p><span style=\"font-weight:600;\">") +
-  tr("Available fields") +
-  QString(": ") +
-  "</span><span style=\"font-style:italic;\">" +
-  available_fields +
-  QString("</span>.") +
-  QString("</p></body></html>")
-  );
+    QString("<html><head/><body><p>") +
+    tr("Prefix a word with a field name to limit the search to that field, e.g.:") +
+    QString(" ") +
+    QString("<span style=\"font-weight:600;\">") +
+    tr("artist") +
+    QString(":") +
+    QString("</span><span style=\"font-style:italic;\">Strawbs</span>") +
+    QString(" ") +
+    tr("searches the collection for all artists that contain the word") +
+    QString(" Strawbs.") +
+    QString("</p><p><span style=\"font-weight:600;\">") +
+    tr("Available fields") +
+    QString(": ") +
+    "</span><span style=\"font-style:italic;\">" +
+    available_fields +
+    QString("</span>.") +
+    QString("</p></body></html>"));
 
   QObject::connect(ui_->search_field, &QSearchField::returnPressed, this, &CollectionFilterWidget::ReturnPressed);
   QObject::connect(filter_delay_, &QTimer::timeout, this, &CollectionFilterWidget::FilterDelayTimeout);
@@ -177,16 +176,15 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
     if (s.contains(group_by_version())) version = s.value(group_by_version(), 0).toInt();
     if (version == 1) {
       model_->SetGroupBy(CollectionModel::Grouping(
-          CollectionModel::GroupBy(s.value(group_by(1), static_cast<int>(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-          CollectionModel::GroupBy(s.value(group_by(2), static_cast<int>(CollectionModel::GroupBy_AlbumDisc)).toInt()),
-          CollectionModel::GroupBy(s.value(group_by(3), static_cast<int>(CollectionModel::GroupBy_None)).toInt())));
+        CollectionModel::GroupBy(s.value(group_by(1), static_cast<int>(CollectionModel::GroupBy_AlbumArtist)).toInt()),
+        CollectionModel::GroupBy(s.value(group_by(2), static_cast<int>(CollectionModel::GroupBy_AlbumDisc)).toInt()),
+        CollectionModel::GroupBy(s.value(group_by(3), static_cast<int>(CollectionModel::GroupBy_None)).toInt())));
     }
     else {
       model_->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc, CollectionModel::GroupBy_None));
     }
     s.endGroup();
   }
-
 }
 
 void CollectionFilterWidget::ReloadSettings() {

@@ -376,11 +376,11 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
       QString cmd = setting.value("Exec").toString();
       if (cmd.isEmpty()) break;
       cmd = cmd.remove(QRegularExpression("[%][a-zA-Z]*( |$)", QRegularExpression::CaseInsensitiveOption));
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+#  if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
       command_params = cmd.split(' ', Qt::SkipEmptyParts);
-#else
+#  else
       command_params = cmd.split(' ', QString::SkipEmptyParts);
-#endif
+#  endif
       command = command_params.first();
       command_params.removeFirst();
     }
@@ -800,9 +800,9 @@ QString UnicodeToAscii(QString unicode) {
 
 #else
 
-#ifdef LC_ALL
+#  ifdef LC_ALL
   setlocale(LC_ALL, "");
-#endif
+#  endif
 
   iconv_t conv = iconv_open("ASCII//TRANSLIT", "UTF-8");
   if (conv == reinterpret_cast<iconv_t>(-1)) return unicode;
@@ -830,8 +830,7 @@ QString UnicodeToAscii(QString unicode) {
 
   return ret;
 
-#endif // _MSC_VER
-
+#endif  // _MSC_VER
 }
 
 QString MacAddress() {
@@ -988,9 +987,9 @@ HRGN qt_RectToHRGN(const QRect &rc) {
 HRGN toHRGN(const QRegion &region);
 HRGN toHRGN(const QRegion &region) {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   return region.toHRGN();
-#else
+#  else
 
   const int rect_count = region.rectCount();
   if (rect_count == 0) {
@@ -1009,13 +1008,12 @@ HRGN toHRGN(const QRegion &region) {
 
   return resultRgn;
 
-#endif  // Qt 6
-
+#  endif  // Qt 6
 }
 
 void enableBlurBehindWindow(QWindow *window, const QRegion &region) {
 
-  DWM_BLURBEHIND dwmbb = {0, 0, nullptr, 0};
+  DWM_BLURBEHIND dwmbb = { 0, 0, nullptr, 0 };
   dwmbb.dwFlags = DWM_BB_ENABLE;
   dwmbb.fEnable = TRUE;
   HRGN rgn = nullptr;

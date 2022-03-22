@@ -38,16 +38,14 @@ BusyIndicator::BusyIndicator(const QString &text, QWidget *parent)
       label_(nullptr) {
 
   Init(text);
-
 }
 
 BusyIndicator::BusyIndicator(QWidget *parent)
-  : QWidget(parent),
-    movie_(nullptr),
-    label_(nullptr) {
+    : QWidget(parent),
+      movie_(nullptr),
+      label_(nullptr) {
 
   Init(QString());
-
 }
 
 void BusyIndicator::Init(const QString &text) {

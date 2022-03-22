@@ -185,8 +185,8 @@ void NotificationsSettingsPage::Load() {
       break;
   }
   ui_->notifications_duration->setValue(s.value("Timeout", 5000).toInt() / 1000);
-  ui_->notifications_volume->setChecked( s.value("ShowOnVolumeChange", false).toBool());
-  ui_->notifications_play_mode->setChecked( s.value("ShowOnPlayModeChange", true).toBool());
+  ui_->notifications_volume->setChecked(s.value("ShowOnVolumeChange", false).toBool());
+  ui_->notifications_play_mode->setChecked(s.value("ShowOnPlayModeChange", true).toBool());
   ui_->notifications_pause->setChecked(s.value("ShowOnPausePlayback", true).toBool());
   ui_->notifications_resume->setChecked(s.value("ShowOnResumePlayback", false).toBool());
   ui_->notifications_art->setChecked(s.value("ShowArt", true).toBool());

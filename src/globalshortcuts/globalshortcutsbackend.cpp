@@ -33,7 +33,7 @@ GlobalShortcutsBackend::GlobalShortcutsBackend(GlobalShortcutsManager *manager, 
 
 QString GlobalShortcutsBackend::name() const {
 
-  switch(type_) {
+  switch (type_) {
     case Type_None:
       return "None";
     case Type_KDE:

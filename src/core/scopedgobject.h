@@ -27,7 +27,7 @@
 
 #include <QtDebug>
 
-template <typename T>
+template<typename T>
 class ScopedGObject {
  public:
   ScopedGObject() : object_(nullptr) {}

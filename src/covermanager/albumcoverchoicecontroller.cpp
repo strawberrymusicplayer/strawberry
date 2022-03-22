@@ -211,7 +211,7 @@ QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
 
   if (QImage(cover_file).isNull()) return QUrl();
 
-  switch(get_save_album_cover_type()) {
+  switch (get_save_album_cover_type()) {
     case CollectionSettingsPage::SaveCoverType_Embedded:
       if (song->save_embedded_cover_supported()) {
         SaveCoverEmbeddedAutomatic(*song, cover_file);

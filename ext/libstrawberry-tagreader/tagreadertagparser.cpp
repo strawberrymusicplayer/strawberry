@@ -151,7 +151,7 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
 
     const auto tracks = taginfo.tracks();
     for (const auto track : tracks) {
-      switch(track->format().general) {
+      switch (track->format().general) {
         case TagParser::GeneralMediaFormat::Flac:
           song->set_filetype(spb::tagreader::SongMetadata_FileType::SongMetadata_FileType_FLAC);
           break;
@@ -174,7 +174,7 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
           song->set_filetype(spb::tagreader::SongMetadata_FileType::SongMetadata_FileType_OGGSPEEX);
           break;
         case TagParser::GeneralMediaFormat::Mpeg1Audio:
-          switch(track->format().sub) {
+          switch (track->format().sub) {
             case TagParser::SubFormats::Mpeg1Layer3:
               song->set_filetype(spb::tagreader::SongMetadata_FileType::SongMetadata_FileType_MPEG);
               break;

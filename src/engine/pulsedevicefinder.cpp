@@ -34,7 +34,7 @@
 #include "devicefinder.h"
 #include "pulsedevicefinder.h"
 
-PulseDeviceFinder::PulseDeviceFinder() : DeviceFinder( "pulseaudio", { "pulseaudio", "pulse", "pulsesink" }), mainloop_(nullptr), context_(nullptr) {}
+PulseDeviceFinder::PulseDeviceFinder() : DeviceFinder("pulseaudio", { "pulseaudio", "pulse", "pulsesink" }), mainloop_(nullptr), context_(nullptr) {}
 
 bool PulseDeviceFinder::Initialize() {
 
@@ -97,17 +97,17 @@ retry:
     }
 
     switch (pa_context_get_state(context_)) {
-    case PA_CONTEXT_READY:
-      break;
-    case PA_CONTEXT_FAILED:
-    case PA_CONTEXT_TERMINATED:
-      // Maybe pulseaudio died.  Try reconnecting.
-      if (Reconnect()) {
-        goto retry;
-      }
-      return state.devices;
-    default:
-      return state.devices;
+      case PA_CONTEXT_READY:
+        break;
+      case PA_CONTEXT_FAILED:
+      case PA_CONTEXT_TERMINATED:
+        // Maybe pulseaudio died.  Try reconnecting.
+        if (Reconnect()) {
+          goto retry;
+        }
+        return state.devices;
+      default:
+        return state.devices;
     }
 
     pa_mainloop_iterate(mainloop_, true, nullptr);

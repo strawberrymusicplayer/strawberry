@@ -53,7 +53,7 @@ class WplParser : public XMLParser {
   SongList Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search = true) const override;
   void Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type = Playlist::Path_Automatic) const override;
 
-private:
+ private:
   void ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *songs, const bool collection_search = true) const;
   static void WriteMeta(const QString &name, const QString &content, QXmlStreamWriter *writer);
 };

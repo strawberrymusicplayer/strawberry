@@ -25,14 +25,14 @@
 
 #include <vlc/vlc.h>
 
-template <typename T>
+template<typename T>
 class VlcScopedRef {
  public:
   explicit VlcScopedRef(T *ptr);
   ~VlcScopedRef();
 
-  operator T*() const { return ptr_; }
-  operator bool () const { return ptr_; }
+  operator T *() const { return ptr_; }
+  operator bool() const { return ptr_; }
   T *operator->() const { return ptr_; }
 
  private:
@@ -49,23 +49,23 @@ class VlcScopedRef {
     }
 #define VLCSCOPEDREF_DEFINE(type) VLCSCOPEDREF_DEFINE2(type, libvlc_##type##_release)
 
-template <typename T>
+template<typename T>
 void VlcScopedRef_Release(T *ptr);
 
 VLCSCOPEDREF_DEFINE2(instance, libvlc_release)
 VLCSCOPEDREF_DEFINE(media_player)
 VLCSCOPEDREF_DEFINE(media)
 
-template <> void VlcScopedRef_Release<char>(char *ptr) { free(ptr); }
+template<> void VlcScopedRef_Release<char>(char *ptr) { free(ptr); }
 
-template <typename T>
+template<typename T>
 VlcScopedRef<T>::VlcScopedRef(T *ptr)
-  : ptr_(ptr) {
+    : ptr_(ptr) {
 }
 
-template <typename T>
+template<typename T>
 VlcScopedRef<T>::~VlcScopedRef() {
   VlcScopedRef_Release(ptr_);
 }
 
-#endif // VLCSCOPEDREF_H
+#endif  // VLCSCOPEDREF_H

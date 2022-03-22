@@ -716,19 +716,17 @@ void QobuzService::SendSearch() {
 
   search_request_->Search(search_id_, search_text_);
   search_request_->Process();
-
 }
 
 void QobuzService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
 
   search_request_.reset();
   emit SearchResults(id, songs, error);
-
 }
 
 uint QobuzService::GetStreamURL(const QUrl &url, QString &error) {
 
-  if (app_id().isEmpty() || app_secret().isEmpty()) { // Don't check for login here, because we allow automatic login.
+  if (app_id().isEmpty() || app_secret().isEmpty()) {  // Don't check for login here, because we allow automatic login.
     error = tr("Missing Qobuz app ID or secret.");
     return 0;
   }

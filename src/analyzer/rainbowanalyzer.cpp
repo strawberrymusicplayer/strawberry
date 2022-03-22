@@ -43,12 +43,12 @@
 
 using Analyzer::Scope;
 
-const int Rainbow::RainbowAnalyzer::kHeight[] = {21, 33};
-const int Rainbow::RainbowAnalyzer::kWidth[] = {34, 53};
-const int Rainbow::RainbowAnalyzer::kFrameCount[] = {6, 16};
-const int Rainbow::RainbowAnalyzer::kRainbowHeight[] = {21, 16};
-const int Rainbow::RainbowAnalyzer::kRainbowOverlap[] = {13, 15};
-const int Rainbow::RainbowAnalyzer::kSleepingHeight[] = {24, 33};
+const int Rainbow::RainbowAnalyzer::kHeight[] = { 21, 33 };
+const int Rainbow::RainbowAnalyzer::kWidth[] = { 34, 53 };
+const int Rainbow::RainbowAnalyzer::kFrameCount[] = { 6, 16 };
+const int Rainbow::RainbowAnalyzer::kRainbowHeight[] = { 21, 16 };
+const int Rainbow::RainbowAnalyzer::kRainbowOverlap[] = { 13, 15 };
+const int Rainbow::RainbowAnalyzer::kSleepingHeight[] = { 24, 33 };
 
 const char *Rainbow::NyanCatAnalyzer::kName = "Nyanalyzer Cat";
 const char *Rainbow::RainbowDashAnalyzer::kName = "Rainbow Dash";

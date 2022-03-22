@@ -74,7 +74,7 @@ class AnalyzerContainer : public QWidget {
   void Load();
   void Save();
   void SaveFramerate(const int framerate);
-  template <typename T>
+  template<typename T>
   void AddAnalyzerType();
   void AddFramerate(const QString &name, const int framerate);
 
@@ -96,10 +96,9 @@ class AnalyzerContainer : public QWidget {
 
   Analyzer::Base *current_analyzer_;
   EngineBase *engine_;
-
 };
 
-template <typename T>
+template<typename T>
 void AnalyzerContainer::AddAnalyzerType() {
 
   int id = analyzer_types_.count();

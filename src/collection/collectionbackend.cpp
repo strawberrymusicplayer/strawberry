@@ -335,8 +335,8 @@ void CollectionBackend::AddDirectory(const QString &path) {
   q.prepare(QString("INSERT INTO %1 (path, subdirs) VALUES (:path, 1)").arg(dirs_table_));
   q.BindValue(":path", db_path);
   if (!q.Exec()) {
-   db_->ReportErrors(q);
-   return;
+    db_->ReportErrors(q);
+    return;
   }
 
   Directory dir;
@@ -634,15 +634,13 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
         added_songs << new_song;
 
         continue;
-
       }
-
     }
 
     // Create new song
 
     int id = -1;
-    { // Insert the row and create a new ID
+    {  // Insert the row and create a new ID
       SqlQuery q(db);
       q.prepare(QString("INSERT INTO %1 (" + Song::kColumnSpec + ") VALUES (" + Song::kBindSpec + ")").arg(songs_table_));
       song.BindToQuery(&q);
@@ -656,7 +654,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
     if (id == -1) return;
 
-    { // Add to the FTS index
+    {  // Add to the FTS index
       SqlQuery q(db);
       q.prepare(QString("INSERT INTO %1 (ROWID, " + Song::kFtsColumnSpec + ") VALUES (:id, " + Song::kFtsBindSpec + ")").arg(fts_table_));
       q.BindValue(":id", id);
@@ -1345,7 +1343,7 @@ void CollectionBackend::CompilationsNeedUpdating() {
     if (album.isEmpty()) continue;
 
     // Find the directory the song is in
-    QString directory = url.toString(QUrl::PreferLocalFile|QUrl::RemoveFilename);
+    QString directory = url.toString(QUrl::PreferLocalFile | QUrl::RemoveFilename);
 
     CompilationInfo &info = compilation_info[directory + album];
     info.urls << url;

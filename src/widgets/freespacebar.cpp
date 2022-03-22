@@ -212,7 +212,7 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
   for (const Label &label : labels) {
     const bool light = palette().color(QPalette::Base).value() > 128;
 
-    QRect box(x, r.top() + (r.height() - kLabelBoxSize)/2, kLabelBoxSize, kLabelBoxSize);
+    QRect box(x, r.top() + (r.height() - kLabelBoxSize) / 2, kLabelBoxSize, kLabelBoxSize);
     p->setPen(label.color.darker());
     p->setBrush(label.color);
     p->drawRect(box);

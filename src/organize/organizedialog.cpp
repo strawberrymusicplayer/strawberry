@@ -88,7 +88,7 @@ OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *bac
 
   ui_->setupUi(this);
 
-  setWindowFlags(windowFlags()|Qt::WindowMaximizeButtonHint);
+  setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
 
   QPushButton *button_save = ui_->button_box->addButton("Save settings", QDialogButtonBox::ApplyRole);
   QObject::connect(button_save, &QPushButton::clicked, this, &OrganizeDialog::SaveSettings);

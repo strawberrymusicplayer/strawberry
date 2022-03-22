@@ -26,7 +26,7 @@ class PlaylistListSortFilterModel : public QSortFilterProxyModel {
 
  public:
   explicit PlaylistListSortFilterModel(QObject *parent)
-    : QSortFilterProxyModel(parent) {}
+      : QSortFilterProxyModel(parent) {}
 
   bool lessThan(const QModelIndex &left, const QModelIndex &right) const override {
     // Compare the display text first.

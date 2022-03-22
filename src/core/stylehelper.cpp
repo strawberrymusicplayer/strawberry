@@ -367,7 +367,7 @@ QPixmap StyleHelper::disabledSideBarIcon(const QPixmap &enabledicon) {
 
   for (int y = 0; y < im.height(); ++y) {
     auto scanLine = reinterpret_cast<QRgb*>(im.scanLine(y));
-    for (int x=0; x<im.width(); ++x) {
+    for (int x = 0; x < im.width(); ++x) {
       QRgb pixel = *scanLine;
       char intensity = static_cast<char>(qGray(pixel));
       *scanLine = qRgba(intensity, intensity, intensity, qAlpha(pixel));
@@ -390,34 +390,33 @@ void StyleHelper::drawCornerImage(const QImage &img, QPainter *painter, const QR
   const qreal bottomDIP = bottom * imagePixelRatio;
 
   const QSize size = img.size();
-  if (top > 0) { //top
-    painter->drawImage(QRectF(rect.left() + left, rect.top(), rect.width() -right - left, top), img, QRectF(leftDIP, 0, size.width() - rightDIP - leftDIP, topDIP));
-    if (left > 0) { //top-left
+  if (top > 0) {  //top
+    painter->drawImage(QRectF(rect.left() + left, rect.top(), rect.width() - right - left, top), img, QRectF(leftDIP, 0, size.width() - rightDIP - leftDIP, topDIP));
+    if (left > 0) {  //top-left
       painter->drawImage(QRectF(rect.left(), rect.top(), left, top), img, QRectF(0, 0, leftDIP, topDIP));
     }
-    if (right > 0) { //top-right
+    if (right > 0) {  //top-right
       painter->drawImage(QRectF(rect.left() + rect.width() - right, rect.top(), right, top), img, QRectF(size.width() - rightDIP, 0, rightDIP, topDIP));
     }
   }
   //left
   if (left > 0) {
-    painter->drawImage(QRectF(rect.left(), rect.top()+top, left, rect.height() - top - bottom), img, QRectF(0, topDIP, leftDIP, size.height() - bottomDIP - topDIP));
+    painter->drawImage(QRectF(rect.left(), rect.top() + top, left, rect.height() - top - bottom), img, QRectF(0, topDIP, leftDIP, size.height() - bottomDIP - topDIP));
   }
   //center
-  painter->drawImage(QRectF(rect.left() + left, rect.top()+top, rect.width() -right - left, rect.height() - bottom - top), img, QRectF(leftDIP, topDIP, size.width() - rightDIP - leftDIP, size.height() - bottomDIP - topDIP));
-  if (right > 0) { //right
-    painter->drawImage(QRectF(rect.left() +rect.width() - right, rect.top()+top, right, rect.height() - top - bottom), img, QRectF(size.width() - rightDIP, topDIP, rightDIP, size.height() - bottomDIP - topDIP));
+  painter->drawImage(QRectF(rect.left() + left, rect.top() + top, rect.width() - right - left, rect.height() - bottom - top), img, QRectF(leftDIP, topDIP, size.width() - rightDIP - leftDIP, size.height() - bottomDIP - topDIP));
+  if (right > 0) {  //right
+    painter->drawImage(QRectF(rect.left() + rect.width() - right, rect.top() + top, right, rect.height() - top - bottom), img, QRectF(size.width() - rightDIP, topDIP, rightDIP, size.height() - bottomDIP - topDIP));
   }
-  if (bottom > 0) { //bottom
-    painter->drawImage(QRectF(rect.left() +left, rect.top() + rect.height() - bottom, rect.width() - right - left, bottom), img, QRectF(leftDIP, size.height() - bottomDIP, size.width() - rightDIP - leftDIP, bottomDIP));
-    if (left > 0) { //bottom-left
+  if (bottom > 0) {  //bottom
+    painter->drawImage(QRectF(rect.left() + left, rect.top() + rect.height() - bottom, rect.width() - right - left, bottom), img, QRectF(leftDIP, size.height() - bottomDIP, size.width() - rightDIP - leftDIP, bottomDIP));
+    if (left > 0) {  //bottom-left
       painter->drawImage(QRectF(rect.left(), rect.top() + rect.height() - bottom, left, bottom), img, QRectF(0, size.height() - bottomDIP, leftDIP, bottomDIP));
     }
-    if (right > 0) { //bottom-right
+    if (right > 0) {  //bottom-right
       painter->drawImage(QRectF(rect.left() + rect.width() - right, rect.top() + rect.height() - bottom, right, bottom), img, QRectF(size.width() - rightDIP, size.height() - bottomDIP, rightDIP, bottomDIP));
     }
   }
-
 }
 
 // Tints an image with tintColor, while preserving alpha and lightness
@@ -485,7 +484,6 @@ QList<int> StyleHelper::availableImageResolutions(const QString &fileName) {
     }
   }
   return result;
-
 }
 
-} // namespace Utils
+}  // namespace Utils

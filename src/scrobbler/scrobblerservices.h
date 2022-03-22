@@ -46,7 +46,7 @@ class ScrobblerServices : public QObject {
   int NextId();
 
   ScrobblerService *ServiceByName(const QString &name);
-  template <typename T>
+  template<typename T>
   T *Service() {
     return qobject_cast<T*>(ServiceByName(T::kName));
   }

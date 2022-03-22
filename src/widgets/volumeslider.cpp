@@ -380,7 +380,7 @@ void VolumeSlider::paletteChange(const QPalette&) {
   generateGradient();
 }
 
-QPixmap VolumeSlider::drawVolumePixmap () const {
+QPixmap VolumeSlider::drawVolumePixmap() const {
 
   QPixmap pixmap(112, 36);
   pixmap.fill(Qt::transparent);

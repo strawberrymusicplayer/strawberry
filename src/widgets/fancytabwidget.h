@@ -72,7 +72,7 @@ class FancyTabWidget : public QTabWidget {
     Mode_Tabs,
     Mode_IconOnlyTabs,
     Mode_PlainSidebar,
-   };
+  };
 
   static const int TabSize_LargeSidebarMinWidth;
   static const int IconSize_LargeSidebar;

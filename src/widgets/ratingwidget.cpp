@@ -80,10 +80,9 @@ QRect RatingPainter::Contents(const QRect rect) {
   const int x = rect.x() + (rect.width() - width) / 2;
 
   return QRect(x, rect.y(), width, rect.height());
-
 }
 
- float RatingPainter::RatingForPos(const QPoint pos, const QRect rect) {
+float RatingPainter::RatingForPos(const QPoint pos, const QRect rect) {
 
   const QRect contents = Contents(rect);
   const float raw = static_cast<float>(pos.x() - contents.left()) / static_cast<float>(contents.width());

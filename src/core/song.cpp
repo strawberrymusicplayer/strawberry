@@ -178,7 +178,7 @@ struct Song::Private : public QSharedData {
   int year_;
   int originalyear_;
   QString genre_;
-  bool compilation_;		// From the file tag
+  bool compilation_;  // From the file tag
   QString composer_;
   QString performer_;
   QString grouping_;
@@ -1117,7 +1117,7 @@ void Song::ToItdb(Itdb_Track *track) const {
 
   track->type1 = (d->filetype_ == FileType_MPEG ? 1 : 0);
   track->type2 = (d->filetype_ == FileType_MPEG ? 1 : 0);
-  track->mediatype = 1;              // Audio
+  track->mediatype = 1;  // Audio
   track->size = static_cast<uint>(d->filesize_);
   track->time_modified = d->mtime_;
   track->time_added = d->ctime_;

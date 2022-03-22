@@ -111,7 +111,10 @@ void SpotifyCoverProvider::Authenticate() {
     bool success = false;
     forever {
       server_->set_port(port);
-      if (server_->Listen()) { success = true; break; }
+      if (server_->Listen()) {
+        success = true;
+        break;
+      }
       ++port;
       if (port > port_max) break;
     }

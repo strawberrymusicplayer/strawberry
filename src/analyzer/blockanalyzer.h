@@ -65,14 +65,14 @@ class BlockAnalyzer : public Analyzer::Base {
  private:
   QPixmap *bar() { return &barpixmap_; }
 
-  int columns_, rows_;      // number of rows and columns of blocks
-  int y_;                   // y-offset from top of widget
+  int columns_, rows_;  // number of rows and columns of blocks
+  int y_;               // y-offset from top of widget
   QPixmap barpixmap_;
   QPixmap topbarpixmap_;
   QPixmap background_;
   QPixmap canvas_;
-  Analyzer::Scope scope_;    // so we don't create a vector every frame
-  QVector<double> store_;     // current bar heights
+  Analyzer::Scope scope_;  // so we don't create a vector every frame
+  QVector<double> store_;  // current bar heights
   QVector<double> yscale_;
 
   QVector<QPixmap> fade_bars_;

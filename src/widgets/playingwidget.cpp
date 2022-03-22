@@ -318,7 +318,9 @@ void PlayingWidget::SetImage(const QImage &image) {
     DrawContents(&p);
     p.end();
   }
-  else { pixmap_previous_track_ = QPixmap(); }
+  else {
+    pixmap_previous_track_ = QPixmap();
+  }
 
   image_original_ = image;
   UpdateDetailsText();

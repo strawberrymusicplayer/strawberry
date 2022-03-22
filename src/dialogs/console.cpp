@@ -44,7 +44,7 @@ Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_{}, ap
 
   ui_.setupUi(this);
 
-  setWindowFlags(windowFlags()|Qt::WindowMaximizeButtonHint);
+  setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
 
   QObject::connect(ui_.run, &QPushButton::clicked, this, &Console::RunQuery);
 

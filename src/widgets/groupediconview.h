@@ -70,7 +70,7 @@ class GroupedIconView : public QListView {
   int header_spacing() const { return header_spacing_; }
   int header_indent() const { return header_indent_; }
   int item_indent() const { return item_indent_; }
-  const QString &header_text() const { return header_text_;}
+  const QString &header_text() const { return header_text_; }
 
   void set_header_spacing(const int value) { header_spacing_ = value; }
   void set_header_indent(const int value) { header_indent_ = value; }
