@@ -2168,6 +2168,7 @@ void Playlist::RemoveDeletedSongs() {
   }
 
   removeRows(rows_to_remove);
+
 }
 
 namespace {

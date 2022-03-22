@@ -203,6 +203,7 @@ TextEdit::TextEdit(QWidget *parent)
 
   QObject::connect(reset_button_, &QToolButton::clicked, this, &TextEdit::Reset);
   QObject::connect(this, &TextEdit::textChanged, [this]() { viewport()->update(); });  // To clear the hint
+
 }
 
 void TextEdit::paintEvent(QPaintEvent *e) {
@@ -237,6 +238,7 @@ CheckBox::CheckBox(QWidget *parent)
     : QCheckBox(parent), ExtendedEditor(this, 14, false) {
 
   QObject::connect(reset_button_, &QToolButton::clicked, this, &CheckBox::Reset);
+
 }
 
 void CheckBox::paintEvent(QPaintEvent *e) {
@@ -255,6 +257,7 @@ QString SpinBox::textFromValue(int val) const {
     return "-";
   }
   return QSpinBox::textFromValue(val);
+
 }
 
 RatingBox::RatingBox(QWidget *parent)
@@ -263,4 +266,5 @@ RatingBox::RatingBox(QWidget *parent)
 
   clear_button_->hide();
   reset_button_->hide();
+
 }

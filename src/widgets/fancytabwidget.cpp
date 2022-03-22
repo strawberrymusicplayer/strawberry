@@ -346,6 +346,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
       }
     }
   }
+
 };
 
 class TabData : public QObject {  // clazy:exclude=missing-qobject-macro

@@ -174,6 +174,7 @@ WorkerPool<HandlerType>::WorkerPool(QObject *parent)
   if (local_server_name_.isEmpty()) {
     local_server_name_ = "workerpool";
   }
+
 }
 
 template<typename HandlerType>
@@ -204,6 +205,7 @@ WorkerPool<HandlerType>::~WorkerPool() {
   for (ReplyType *reply : message_queue_) {
     reply->Abort();
   }
+
 }
 
 template<typename HandlerType>
@@ -265,6 +267,7 @@ void WorkerPool<HandlerType>::DoStart() {
 
     workers_ << worker;
   }
+
 }
 
 template<typename HandlerType>
@@ -335,6 +338,7 @@ void WorkerPool<HandlerType>::NewConnection() {
   worker->handler_ = new HandlerType(worker->local_socket_, this);
 
   SendQueuedMessages();
+
 }
 
 template<typename HandlerType>
@@ -362,6 +366,7 @@ void WorkerPool<HandlerType>::ProcessError(QProcess::ProcessError error) {
       StartOneWorker(worker);
       break;
   }
+
 }
 
 template<typename HandlerType>
@@ -374,6 +379,7 @@ void WorkerPool<HandlerType>::ProcessReadyReadStandardOutput() {
 
   fprintf(stdout, "%s", data.data());
   fflush(stdout);
+
 }
 
 template<typename HandlerType>
@@ -416,6 +422,7 @@ WorkerPool<HandlerType>::SendMessageWithReply(MessageType *message) {
   QMetaObject::invokeMethod(this, "SendQueuedMessages", Qt::QueuedConnection);
 
   return reply;
+
 }
 
 template<typename HandlerType>
@@ -437,6 +444,7 @@ void WorkerPool<HandlerType>::SendQueuedMessages() {
 
     handler->SendRequest(reply);
   }
+
 }
 
 template<typename HandlerType>

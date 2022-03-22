@@ -716,12 +716,14 @@ void QobuzService::SendSearch() {
 
   search_request_->Search(search_id_, search_text_);
   search_request_->Process();
+
 }
 
 void QobuzService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
 
   search_request_.reset();
   emit SearchResults(id, songs, error);
+
 }
 
 uint QobuzService::GetStreamURL(const QUrl &url, QString &error) {

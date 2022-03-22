@@ -94,12 +94,14 @@ bool Engine::Base::Play(const QUrl &stream_url, const QUrl &original_url, const 
   }
 
   return Play(offset_nanosec);
+
 }
 
 void Engine::Base::SetVolume(const uint value) {
 
   volume_ = value;
   SetVolumeSW(MakeVolumeLogarithmic(value));
+
 }
 
 uint Engine::Base::MakeVolumeLogarithmic(const uint volume) {

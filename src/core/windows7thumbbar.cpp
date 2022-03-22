@@ -94,6 +94,7 @@ ITaskbarList3 *Windows7ThumbBar::CreateTaskbarList() {
   }
 
   return taskbar_list;
+
 }
 
 void Windows7ThumbBar::SetupButton(const QAction *action, THUMBBUTTON *button) {

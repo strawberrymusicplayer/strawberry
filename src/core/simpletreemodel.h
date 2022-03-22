@@ -88,6 +88,7 @@ QModelIndex SimpleTreeModel<T>::index(int row, int, const QModelIndex &parent) c
     return QModelIndex();
 
   return ItemToIndex(parent_item->children[row]);
+
 }
 
 template<typename T>

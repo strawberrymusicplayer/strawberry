@@ -58,7 +58,7 @@ class SimpleTreeItem {
   bool lazy_loaded;
 
   T *parent;
-  QList<T *> children;
+  QList<T*> children;
   QAbstractItemModel *child_model;
 
   SimpleTreeModel<T> *model;

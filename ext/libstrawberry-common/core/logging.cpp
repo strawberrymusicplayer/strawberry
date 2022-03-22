@@ -85,6 +85,7 @@ void GLog(const char *domain, int level, const char *message, void*) {
       qLogCat(Debug, domain) << message;
       break;
   }
+
 }
 
 template<class T>
