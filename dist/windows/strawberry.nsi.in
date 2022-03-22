@@ -365,6 +365,7 @@ Section "Strawberry" Strawberry
   File "liblzma.dll"
   File "libmp3lame.dll"
   File "libopenmpt.dll"
+  File "libspeex.dll"
   File "mpcdec.dll"
   File "mpg123.dll"
   File "ogg.dll"
@@ -382,14 +383,12 @@ Section "Strawberry" Strawberry
 !ifdef release
   File "libpng16.dll"
   File "libprotobuf.dll"
-  File "libspeex.dll"
   File "libxml2.dll"
   File "zlib.dll"
 !endif
 !ifdef debug
   File "libpng16d.dll"
   File "libprotobufd.dll"
-  ;File "libspeexd.dll"
   File "libxml2d.dll"
   File "zlibd.dll"
 !endif
@@ -826,6 +825,7 @@ Section "Uninstall"
   Delete "$INSTDIR\liblzma.dll"
   Delete "$INSTDIR\libmp3lame.dll"
   Delete "$INSTDIR\libopenmpt.dll"
+  Delete "$INSTDIR\libspeex.dll"
   Delete "$INSTDIR\mpcdec.dll"
   Delete "$INSTDIR\mpg123.dll"
   Delete "$INSTDIR\ogg.dll"
@@ -843,14 +843,12 @@ Section "Uninstall"
 !ifdef release
   Delete "$INSTDIR\libpng16.dll"
   Delete "$INSTDIR\libprotobuf.dll"
-  Delete "$INSTDIR\libspeex.dll"
   Delete "$INSTDIR\libxml2.dll"
   Delete "$INSTDIR\zlib.dll"
 !endif
 !ifdef debug
   Delete "$INSTDIR\libpng16d.dll"
   Delete "$INSTDIR\libprotobufd.dll"
-  Delete "$INSTDIR\libspeexd.dll"
   Delete "$INSTDIR\libxml2d.dll"
   Delete "$INSTDIR\zlibd.dll"
 !endif
