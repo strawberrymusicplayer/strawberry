@@ -456,7 +456,6 @@ void PlaylistContainer::UpdateNoMatchesLabel() {
 void PlaylistContainer::resizeEvent(QResizeEvent *e) {
   QWidget::resizeEvent(e);
   RepositionNoMatchesLabel();
-
 }
 
 void PlaylistContainer::FocusOnFilter(QKeyEvent *event) {

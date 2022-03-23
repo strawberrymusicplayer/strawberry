@@ -236,7 +236,7 @@ class PlaylistManager : public PlaylistManagerInterface {
 
  private:
   Playlist *AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const bool favorite);
-  bool CreateAPlaylistsDirectory(const QString playlist_folder_path);
+  bool CreateAPlaylistsDirectory(const QString& playlist_folder_path);
 
  private:
   struct Data {

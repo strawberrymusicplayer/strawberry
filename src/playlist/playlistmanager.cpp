@@ -146,7 +146,6 @@ QList<Playlist*> PlaylistManager::GetAllPlaylists() const {
 QItemSelection PlaylistManager::selection(const int id) const {
   QMap<int, Data>::const_iterator it = playlists_.find(id);
   return it->selection;
-
 }
 
 Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const bool favorite) {
@@ -239,9 +238,9 @@ void PlaylistManager::Save(const int id, const QString &filename, const Playlist
 
 }
 
-bool PlaylistManager::CreateAPlaylistsDirectory(const QString playlist_folder_path) {
+bool PlaylistManager::CreateAPlaylistsDirectory(const QString& playlist_folder_path) {
   bool success = QDir(playlist_folder_path).mkpath(playlist_folder_path);
-  if (! success) {
+  if (!success) {
     qLog(Debug) << "Could not create folder: " << playlist_folder_path;
   }
   return success;
@@ -249,10 +248,15 @@ bool PlaylistManager::CreateAPlaylistsDirectory(const QString playlist_folder_pa
 }
 
 void PlaylistManager::SaveAllPlaylists() {
-  for (const auto playlist : GetAllPlaylists()) {
-    QString playlist_folder_path = QDir::home().path() + QDir::separator() + "Playlists";
-    if (!CreateAPlaylistsDirectory(playlist_folder_path)) {
-      break;
+
+  QString playlist_folder_path = QFileDialog::getExistingDirectory(nullptr, tr("Open Directory"),QDir::home().path(),QFileDialog::ShowDirsOnly| QFileDialog::DontResolveSymlinks);
+  if (!CreateAPlaylistsDirectory(playlist_folder_path)) {
+    return; 
+  }
+  for (const Playlist* playlist : GetAllPlaylists()) {
+    if (playlist==nullptr)
+    {
+      continue;
     }
     const auto &id = playlist->id();
     const QString playlist_file_name = playlist_folder_path + QDir::separator() + GetPlaylistName(id) + ".m3u";
@@ -420,7 +424,6 @@ void PlaylistManager::SetCurrentPlaylist(const int id) {
   current_ = id;
   emit CurrentChanged(current(), playlists_[id].scroll_position);
   UpdateSummaryText();
-
 }
 
 void PlaylistManager::SetActivePlaylist(const int id) {
@@ -580,7 +583,6 @@ void PlaylistManager::InvalidateDeletedSongs() {
   for (Playlist *playlist : GetAllPlaylists()) {
     playlist->InvalidateDeletedSongs();
   }
-
 }
 
 void PlaylistManager::RemoveDeletedSongs() {
