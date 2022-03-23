@@ -747,7 +747,7 @@ msgstr "Añadidas en los últimos tres meses"
 msgid "Advanced"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:300
+#: collection/collectionfilterwidget.cpp:298
 msgid "Advanced grouping..."
 msgstr "Agrupamiento avanzado…"
 
@@ -1819,7 +1819,7 @@ msgstr "Transmisión discontinua"
 msgid "Disk Cache Size"
 msgstr "Tamaño de antememoria de disco"
 
-#: collection/collectionfilterwidget.cpp:129
+#: collection/collectionfilterwidget.cpp:128
 #: ../build/src/ui_collectionsettingspage.h:599
 msgid "Display options"
 msgstr "Opciones de visualización"
@@ -2528,64 +2528,64 @@ msgstr ""
 msgid "Group Collection by..."
 msgstr "Agrupar colección por…"
 
-#: collection/collectionfilterwidget.cpp:121
+#: collection/collectionfilterwidget.cpp:120
 #: internet/internetsearchview.cpp:350
 msgid "Group by"
 msgstr "Agrupar por"
 
-#: collection/collectionfilterwidget.cpp:265
+#: collection/collectionfilterwidget.cpp:263
 msgid "Group by Album"
 msgstr "Agrupar por álbum"
 
-#: collection/collectionfilterwidget.cpp:262
+#: collection/collectionfilterwidget.cpp:260
 msgid "Group by Album Artist"
 msgstr "Agrupar por artista del álbum"
 
-#: collection/collectionfilterwidget.cpp:249
+#: collection/collectionfilterwidget.cpp:247
 msgid "Group by Album artist/Album"
 msgstr "Agrupar por artista del álbum/álbum"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:248
 msgid "Group by Album artist/Album - Disc"
 msgstr "Agrupar por artista del álbum/álbum - disco"
 
-#: collection/collectionfilterwidget.cpp:251
+#: collection/collectionfilterwidget.cpp:249
 msgid "Group by Album artist/Year - Album"
 msgstr "Agrupar por artista del álbum/año - álbum"
 
-#: collection/collectionfilterwidget.cpp:252
+#: collection/collectionfilterwidget.cpp:250
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Agrupar por artista del álbum/año - álbum - disco"
 
-#: collection/collectionfilterwidget.cpp:263
+#: collection/collectionfilterwidget.cpp:261
 msgid "Group by Artist"
 msgstr "Agrupar por artista"
 
-#: collection/collectionfilterwidget.cpp:254
+#: collection/collectionfilterwidget.cpp:252
 msgid "Group by Artist/Album"
 msgstr "Agrupar por artista/álbum"
 
-#: collection/collectionfilterwidget.cpp:255
+#: collection/collectionfilterwidget.cpp:253
 msgid "Group by Artist/Album - Disc"
 msgstr "Agrupar por artista/álbum - disco"
 
-#: collection/collectionfilterwidget.cpp:256
+#: collection/collectionfilterwidget.cpp:254
 msgid "Group by Artist/Year - Album"
 msgstr "Agrupar por artista/año - álbum"
 
-#: collection/collectionfilterwidget.cpp:257
+#: collection/collectionfilterwidget.cpp:255
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Agrupar por artista/año - álbum - disco"
 
-#: collection/collectionfilterwidget.cpp:266
+#: collection/collectionfilterwidget.cpp:264
 msgid "Group by Genre/Album"
 msgstr "Agrupar por género/álbum"
 
-#: collection/collectionfilterwidget.cpp:259
+#: collection/collectionfilterwidget.cpp:257
 msgid "Group by Genre/Album artist/Album"
 msgstr "Agrupar por género/artista del álbum/álbum"
 
-#: collection/collectionfilterwidget.cpp:260
+#: collection/collectionfilterwidget.cpp:258
 msgid "Group by Genre/Artist/Album"
 msgstr "Agrupar por género/artista/álbum"
 
@@ -2596,11 +2596,11 @@ msgstr "Agrupar por género/artista/álbum"
 msgid "Grouping"
 msgstr "Agrupamiento"
 
-#: collection/collectionfilterwidget.cpp:321
+#: collection/collectionfilterwidget.cpp:319
 msgid "Grouping Name"
 msgstr "Nombre de agrupamiento"
 
-#: collection/collectionfilterwidget.cpp:321
+#: collection/collectionfilterwidget.cpp:319
 msgid "Grouping name:"
 msgstr "Nombre de agrupamiento:"
 
@@ -2782,7 +2782,7 @@ msgstr "Vista de pestañas de Internet"
 msgid "Intro tracks"
 msgstr "Pistas de introducción"
 
-#: scrobbler/scrobblingapi20.cpp:212
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr "El servidor web devolvió una respuesta no válida. Falta la ficha."
 
@@ -3665,7 +3665,7 @@ msgstr "Listas"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Cierre el navegador y vuelva a Strawberry."
 
-#: covermanager/spotifycoverprovider.cpp:148
+#: covermanager/spotifycoverprovider.cpp:151
 #: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:184
 msgid "Please open this URL in your browser"
 msgstr "Abra este URL en el navegador"
@@ -3876,12 +3876,12 @@ msgid ""
 "support encrypted streams."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:197
+#: covermanager/spotifycoverprovider.cpp:200
 #: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:210
 msgid "Received invalid reply from web browser."
 msgstr "Se recibió una respuesta no válida del navegador."
 
-#: scrobbler/scrobblingapi20.cpp:216
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3915,7 +3915,7 @@ msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "Redirección Genius carece de código de elementos de búsqueda o estado."
 
-#: covermanager/spotifycoverprovider.cpp:193
+#: covermanager/spotifycoverprovider.cpp:196
 msgid "Redirect missing token code or state!"
 msgstr "¡Falta código de token o estado!"
 
@@ -4271,7 +4271,7 @@ msgstr "Tamaño de escala"
 msgid "Scrobbler"
 msgstr "Registro de reproducción"
 
-#: scrobbler/scrobblingapi20.cpp:1019
+#: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Registro de reproducción %1 error: %2\n"
@@ -4419,7 +4419,7 @@ msgstr "Atajo"
 msgid "Shortcut for %1"
 msgstr "Atajo para %1"
 
-#: collection/collectionfilterwidget.cpp:108
+#: collection/collectionfilterwidget.cpp:107
 msgid "Show"
 msgstr "Mostrar"
 
@@ -4708,7 +4708,7 @@ msgstr "Origen"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:148
+#: covermanager/spotifycoverprovider.cpp:151
 msgid "Spotify Authentication"
 msgstr "Autenticación en Spotify"
 
@@ -5253,7 +5253,7 @@ msgstr "Actualizar la colección al iniciar Strawberry"
 msgid "Updating %1"
 msgstr "Actualizando %1"
 
-#: collection/collectionbackend.cpp:696
+#: collection/collectionbackend.cpp:694
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""

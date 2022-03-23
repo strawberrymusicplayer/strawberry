@@ -757,7 +757,7 @@ msgstr "Přidána během tří měsíců"
 msgid "Advanced"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:300
+#: collection/collectionfilterwidget.cpp:298
 msgid "Advanced grouping..."
 msgstr "Pokročilé seskupování..."
 
@@ -1826,7 +1826,7 @@ msgstr "Nesouvislý přenos"
 msgid "Disk Cache Size"
 msgstr "Velikost mezipaměti na disku"
 
-#: collection/collectionfilterwidget.cpp:129
+#: collection/collectionfilterwidget.cpp:128
 #: ../build/src/ui_collectionsettingspage.h:599
 msgid "Display options"
 msgstr "Volby zobrazení"
@@ -2524,64 +2524,64 @@ msgstr "Zšednout nedostupné skladby v seznamu skladeb při startu"
 msgid "Group Collection by..."
 msgstr "Seskupovat v hudební sbírce podle..."
 
-#: collection/collectionfilterwidget.cpp:121
+#: collection/collectionfilterwidget.cpp:120
 #: internet/internetsearchview.cpp:350
 msgid "Group by"
 msgstr "Seskupovat podle"
 
-#: collection/collectionfilterwidget.cpp:265
+#: collection/collectionfilterwidget.cpp:263
 msgid "Group by Album"
 msgstr "Seskupovat podle alba"
 
-#: collection/collectionfilterwidget.cpp:262
+#: collection/collectionfilterwidget.cpp:260
 msgid "Group by Album Artist"
 msgstr "Seskupit dle Autora alba"
 
-#: collection/collectionfilterwidget.cpp:249
+#: collection/collectionfilterwidget.cpp:247
 msgid "Group by Album artist/Album"
 msgstr "Seskupovat podle umělce alba/alba"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:248
 msgid "Group by Album artist/Album - Disc"
 msgstr "Seskupit jako Autor alba/Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:251
+#: collection/collectionfilterwidget.cpp:249
 msgid "Group by Album artist/Year - Album"
 msgstr "Seskupit jako Autor alba/Rok - Album"
 
-#: collection/collectionfilterwidget.cpp:252
+#: collection/collectionfilterwidget.cpp:250
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Seskupit jako Autor alba/Rok - Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:263
+#: collection/collectionfilterwidget.cpp:261
 msgid "Group by Artist"
 msgstr "Seskupovat podle umělce"
 
-#: collection/collectionfilterwidget.cpp:254
+#: collection/collectionfilterwidget.cpp:252
 msgid "Group by Artist/Album"
 msgstr "Seskupovat podle umělce/alba"
 
-#: collection/collectionfilterwidget.cpp:255
+#: collection/collectionfilterwidget.cpp:253
 msgid "Group by Artist/Album - Disc"
 msgstr "Seskupit jako Umělec/Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:256
+#: collection/collectionfilterwidget.cpp:254
 msgid "Group by Artist/Year - Album"
 msgstr "Seskupovat podle umělce/roku - alba"
 
-#: collection/collectionfilterwidget.cpp:257
+#: collection/collectionfilterwidget.cpp:255
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Seskupit jako Umělec/Rok - Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:266
+#: collection/collectionfilterwidget.cpp:264
 msgid "Group by Genre/Album"
 msgstr "Seskupovat podle žánru/alba"
 
-#: collection/collectionfilterwidget.cpp:259
+#: collection/collectionfilterwidget.cpp:257
 msgid "Group by Genre/Album artist/Album"
 msgstr "Seskupit jako Žánr/Autor alba/Album"
 
-#: collection/collectionfilterwidget.cpp:260
+#: collection/collectionfilterwidget.cpp:258
 msgid "Group by Genre/Artist/Album"
 msgstr "Seskupovat podle žánru/umělce/alba"
 
@@ -2592,11 +2592,11 @@ msgstr "Seskupovat podle žánru/umělce/alba"
 msgid "Grouping"
 msgstr "Seskupení"
 
-#: collection/collectionfilterwidget.cpp:321
+#: collection/collectionfilterwidget.cpp:319
 msgid "Grouping Name"
 msgstr "Název seskupení"
 
-#: collection/collectionfilterwidget.cpp:321
+#: collection/collectionfilterwidget.cpp:319
 msgid "Grouping name:"
 msgstr "Název seskupení:"
 
@@ -2777,7 +2777,7 @@ msgstr "Zobrazení karet Internetu"
 msgid "Intro tracks"
 msgstr "Skladby úvodu"
 
-#: scrobbler/scrobblingapi20.cpp:212
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Špatná odpověď od prohlížeče. Token chybí."
 
@@ -3659,7 +3659,7 @@ msgstr "Seznamy skladeb"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Zavřete, prosím, svůj prohlížeč a vraťte se do Strawberry."
 
-#: covermanager/spotifycoverprovider.cpp:148
+#: covermanager/spotifycoverprovider.cpp:151
 #: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:184
 msgid "Please open this URL in your browser"
 msgstr "Prosím navštivte tuto adresu URL ve vašem prohlížeči."
@@ -3867,12 +3867,12 @@ msgid ""
 "support encrypted streams."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:197
+#: covermanager/spotifycoverprovider.cpp:200
 #: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:210
 msgid "Received invalid reply from web browser."
 msgstr "Obdržena špatná odpověď od prohlížeče."
 
-#: scrobbler/scrobblingapi20.cpp:216
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3903,7 +3903,7 @@ msgstr ""
 msgid "Redirect from Genius is missing query items code or state."
 msgstr "Přesměrování z Genius chybí kód položek dotazu nebo stav."
 
-#: covermanager/spotifycoverprovider.cpp:193
+#: covermanager/spotifycoverprovider.cpp:196
 msgid "Redirect missing token code or state!"
 msgstr "Přesměrování chybí kód tokenu nebo stav!"
 
@@ -4261,7 +4261,7 @@ msgstr "Velikost měřítka"
 msgid "Scrobbler"
 msgstr "doporučování hudby"
 
-#: scrobbler/scrobblingapi20.cpp:1019
+#: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
@@ -4410,7 +4410,7 @@ msgstr "Klávesová zkratka"
 msgid "Shortcut for %1"
 msgstr "Klávesová zkratka pro %1"
 
-#: collection/collectionfilterwidget.cpp:108
+#: collection/collectionfilterwidget.cpp:107
 msgid "Show"
 msgstr "Ukázat"
 
@@ -4702,7 +4702,7 @@ msgstr "Zdroj"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:148
+#: covermanager/spotifycoverprovider.cpp:151
 msgid "Spotify Authentication"
 msgstr "Přihlášení ke Spotify"
 
@@ -5242,7 +5242,7 @@ msgstr "Při spuštění Strawberry obnovit hudební sbírku"
 msgid "Updating %1"
 msgstr "Obnovuje se %1"
 
-#: collection/collectionbackend.cpp:696
+#: collection/collectionbackend.cpp:694
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""

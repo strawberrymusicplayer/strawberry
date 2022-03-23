@@ -757,7 +757,7 @@ msgstr "3개월 이내에 추가됨"
 msgid "Advanced"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:300
+#: collection/collectionfilterwidget.cpp:298
 msgid "Advanced grouping..."
 msgstr "고급 그룹..."
 
@@ -1818,7 +1818,7 @@ msgstr "불연속적인 전송"
 msgid "Disk Cache Size"
 msgstr "디스크 캐시 크기"
 
-#: collection/collectionfilterwidget.cpp:129
+#: collection/collectionfilterwidget.cpp:128
 #: ../build/src/ui_collectionsettingspage.h:599
 msgid "Display options"
 msgstr "옵션 표시"
@@ -2513,64 +2513,64 @@ msgstr "시작할 때 재생 목록에서 사용할 수 없는 곡을 회색으�
 msgid "Group Collection by..."
 msgstr "라이브러리 그룹 방식..."
 
-#: collection/collectionfilterwidget.cpp:121
+#: collection/collectionfilterwidget.cpp:120
 #: internet/internetsearchview.cpp:350
 msgid "Group by"
 msgstr "그룹 방식"
 
-#: collection/collectionfilterwidget.cpp:265
+#: collection/collectionfilterwidget.cpp:263
 msgid "Group by Album"
 msgstr "앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:262
+#: collection/collectionfilterwidget.cpp:260
 msgid "Group by Album Artist"
 msgstr "앨범 아티스트로 그룹"
 
-#: collection/collectionfilterwidget.cpp:249
+#: collection/collectionfilterwidget.cpp:247
 msgid "Group by Album artist/Album"
 msgstr "앨범 아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:248
 msgid "Group by Album artist/Album - Disc"
 msgstr "앨범 아티스트/앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:251
+#: collection/collectionfilterwidget.cpp:249
 msgid "Group by Album artist/Year - Album"
 msgstr "앨범 아티스트/년도 - 앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:252
+#: collection/collectionfilterwidget.cpp:250
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "앨범 아티스트/년도 - 앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:263
+#: collection/collectionfilterwidget.cpp:261
 msgid "Group by Artist"
 msgstr "아티스트로 그룹"
 
-#: collection/collectionfilterwidget.cpp:254
+#: collection/collectionfilterwidget.cpp:252
 msgid "Group by Artist/Album"
 msgstr "아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:255
+#: collection/collectionfilterwidget.cpp:253
 msgid "Group by Artist/Album - Disc"
 msgstr "아티스트/앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:256
+#: collection/collectionfilterwidget.cpp:254
 msgid "Group by Artist/Year - Album"
 msgstr "아티스트/년도 - 앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:257
+#: collection/collectionfilterwidget.cpp:255
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "아티스트/년도 - 앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:266
+#: collection/collectionfilterwidget.cpp:264
 msgid "Group by Genre/Album"
 msgstr "장르/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:259
+#: collection/collectionfilterwidget.cpp:257
 msgid "Group by Genre/Album artist/Album"
 msgstr "장르/앨범 아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:260
+#: collection/collectionfilterwidget.cpp:258
 msgid "Group by Genre/Artist/Album"
 msgstr "장르/아티스트/앨범으로 그룹"
 
@@ -2581,11 +2581,11 @@ msgstr "장르/아티스트/앨범으로 그룹"
 msgid "Grouping"
 msgstr "그룹"
 
-#: collection/collectionfilterwidget.cpp:321
+#: collection/collectionfilterwidget.cpp:319
 msgid "Grouping Name"
 msgstr "그룹 이름"
 
-#: collection/collectionfilterwidget.cpp:321
+#: collection/collectionfilterwidget.cpp:319
 msgid "Grouping name:"
 msgstr "그룹 이름:"
 
@@ -2756,7 +2756,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "인트로 트랙"
 
-#: scrobbler/scrobblingapi20.cpp:212
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr "웹 브라우저에서 잘못된 응답을 받았습니다. 토큰이 없습니다."
 
@@ -3628,7 +3628,7 @@ msgstr "재생 목록"
 msgid "Please close your browser and return to Strawberry."
 msgstr "브라우저를 닫고 Strawberry로 돌아오십시오."
 
-#: covermanager/spotifycoverprovider.cpp:148
+#: covermanager/spotifycoverprovider.cpp:151
 #: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:184
 msgid "Please open this URL in your browser"
 msgstr "웹 브라우저에서 다음 URL을 여십시오"
@@ -3832,12 +3832,12 @@ msgid ""
 "support encrypted streams."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:197
+#: covermanager/spotifycoverprovider.cpp:200
 #: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:210
 msgid "Received invalid reply from web browser."
 msgstr "웹 브라우저에서 잘못된 응답을 받았습니다."
 
-#: scrobbler/scrobblingapi20.cpp:216
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3868,7 +3868,7 @@ msgstr ""
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:193
+#: covermanager/spotifycoverprovider.cpp:196
 msgid "Redirect missing token code or state!"
 msgstr ""
 
@@ -4222,7 +4222,7 @@ msgstr "크기 조정"
 msgid "Scrobbler"
 msgstr "스크로블러"
 
-#: scrobbler/scrobblingapi20.cpp:1019
+#: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
@@ -4370,7 +4370,7 @@ msgstr "단축키"
 msgid "Shortcut for %1"
 msgstr "%1 단축키"
 
-#: collection/collectionfilterwidget.cpp:108
+#: collection/collectionfilterwidget.cpp:107
 msgid "Show"
 msgstr "표시"
 
@@ -4658,7 +4658,7 @@ msgstr "출처"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:148
+#: covermanager/spotifycoverprovider.cpp:151
 msgid "Spotify Authentication"
 msgstr ""
 
@@ -5177,7 +5177,7 @@ msgstr "Strawberry 시작 시 라이브러리 업데이트"
 msgid "Updating %1"
 msgstr "%1 업데이트 중"
 
-#: collection/collectionbackend.cpp:696
+#: collection/collectionbackend.cpp:694
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""

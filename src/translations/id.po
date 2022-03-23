@@ -755,7 +755,7 @@ msgstr "Ditambahkan pada tiga bulan terakhir"
 msgid "Advanced"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:300
+#: collection/collectionfilterwidget.cpp:298
 msgid "Advanced grouping..."
 msgstr "Pengelompokkan lanjut..."
 
@@ -1822,7 +1822,7 @@ msgstr "Transmisi putus-putus"
 msgid "Disk Cache Size"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:129
+#: collection/collectionfilterwidget.cpp:128
 #: ../build/src/ui_collectionsettingspage.h:599
 msgid "Display options"
 msgstr "Opsi tampilan"
@@ -2518,64 +2518,64 @@ msgstr "Abu-abukan lagu yang tidak tersedia di daftar putar saat membuka"
 msgid "Group Collection by..."
 msgstr "Grup Pustaka berdasarkan..."
 
-#: collection/collectionfilterwidget.cpp:121
+#: collection/collectionfilterwidget.cpp:120
 #: internet/internetsearchview.cpp:350
 msgid "Group by"
 msgstr "Grup berdasarkan"
 
-#: collection/collectionfilterwidget.cpp:265
+#: collection/collectionfilterwidget.cpp:263
 msgid "Group by Album"
 msgstr "Grup berdasarkan Album"
 
-#: collection/collectionfilterwidget.cpp:262
+#: collection/collectionfilterwidget.cpp:260
 msgid "Group by Album Artist"
 msgstr "Grup berdasarkan Artis Album"
 
-#: collection/collectionfilterwidget.cpp:249
+#: collection/collectionfilterwidget.cpp:247
 msgid "Group by Album artist/Album"
 msgstr "Grup berdasarkan Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:248
 msgid "Group by Album artist/Album - Disc"
 msgstr "Grup berdasarkan Artis album/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:251
+#: collection/collectionfilterwidget.cpp:249
 msgid "Group by Album artist/Year - Album"
 msgstr "Grup berdasarkan Artis album/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:252
+#: collection/collectionfilterwidget.cpp:250
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis album/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:263
+#: collection/collectionfilterwidget.cpp:261
 msgid "Group by Artist"
 msgstr "Grup berdasarkan Artis"
 
-#: collection/collectionfilterwidget.cpp:254
+#: collection/collectionfilterwidget.cpp:252
 msgid "Group by Artist/Album"
 msgstr "Grup berdasarkan Artis/Album"
 
-#: collection/collectionfilterwidget.cpp:255
+#: collection/collectionfilterwidget.cpp:253
 msgid "Group by Artist/Album - Disc"
 msgstr "Grup berdasarkan Artis/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:256
+#: collection/collectionfilterwidget.cpp:254
 msgid "Group by Artist/Year - Album"
 msgstr "Grup berdasarkan Artis/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:257
+#: collection/collectionfilterwidget.cpp:255
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:266
+#: collection/collectionfilterwidget.cpp:264
 msgid "Group by Genre/Album"
 msgstr "Grup berdasarkan Genre/Album"
 
-#: collection/collectionfilterwidget.cpp:259
+#: collection/collectionfilterwidget.cpp:257
 msgid "Group by Genre/Album artist/Album"
 msgstr "Grup berdasarkan Genre/Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:260
+#: collection/collectionfilterwidget.cpp:258
 msgid "Group by Genre/Artist/Album"
 msgstr "Grup berdasarkan Genre/Artis/Album"
 
@@ -2586,11 +2586,11 @@ msgstr "Grup berdasarkan Genre/Artis/Album"
 msgid "Grouping"
 msgstr "Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:321
+#: collection/collectionfilterwidget.cpp:319
 msgid "Grouping Name"
 msgstr "Nama Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:321
+#: collection/collectionfilterwidget.cpp:319
 msgid "Grouping name:"
 msgstr "Nama pengelompokan:"
 
@@ -2765,7 +2765,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Trek intro"
 
-#: scrobbler/scrobblingapi20.cpp:212
+#: scrobbler/scrobblingapi20.cpp:211
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Balasan tidak benar dari peramban web. Token tidak tersedia."
 
@@ -3641,7 +3641,7 @@ msgstr "Daftar putar"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Mohon tutup peramban Anda dan kembali ke Strawberry."
 
-#: covermanager/spotifycoverprovider.cpp:148
+#: covermanager/spotifycoverprovider.cpp:151
 #: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:184
 msgid "Please open this URL in your browser"
 msgstr ""
@@ -3845,12 +3845,12 @@ msgid ""
 "support encrypted streams."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:197
+#: covermanager/spotifycoverprovider.cpp:200
 #: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:210
 msgid "Received invalid reply from web browser."
 msgstr "Balasan yang tidak benar diterima dari peramban web."
 
-#: scrobbler/scrobblingapi20.cpp:216
+#: scrobbler/scrobblingapi20.cpp:215
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3881,7 +3881,7 @@ msgstr ""
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:193
+#: covermanager/spotifycoverprovider.cpp:196
 msgid "Redirect missing token code or state!"
 msgstr ""
 
@@ -4237,7 +4237,7 @@ msgstr "Ukuran skala"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1019
+#: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
@@ -4385,7 +4385,7 @@ msgstr "Pintasan"
 msgid "Shortcut for %1"
 msgstr "Pintasan untuk %1"
 
-#: collection/collectionfilterwidget.cpp:108
+#: collection/collectionfilterwidget.cpp:107
 msgid "Show"
 msgstr "Tampilkan"
 
@@ -4674,7 +4674,7 @@ msgstr "Sumber"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:148
+#: covermanager/spotifycoverprovider.cpp:151
 msgid "Spotify Authentication"
 msgstr ""
 
@@ -5213,7 +5213,7 @@ msgstr "Perbarui pustaka ketika memulai Strawberry"
 msgid "Updating %1"
 msgstr "Memperbarui %1"
 
-#: collection/collectionbackend.cpp:696
+#: collection/collectionbackend.cpp:694
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""
