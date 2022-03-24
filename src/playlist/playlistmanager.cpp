@@ -253,13 +253,9 @@ void PlaylistManager::SaveAllPlaylists() {
   if (!CreateAPlaylistsDirectory(playlist_folder_path)) {
     return; 
   }
-  for (const Playlist* playlist : GetAllPlaylists()) {
-    if (playlist==nullptr)
-    {
-      continue;
-    }
-    const auto &id = playlist->id();
-    const QString playlist_file_name = playlist_folder_path + QDir::separator() + GetPlaylistName(id) + ".m3u";
+  for (const PlaylistBackend::Playlist& playlist : playlist_backend_->GetAllPlaylists()) {
+    const auto &id = playlist.id;
+    const QString playlist_file_name = playlist_folder_path + QDir::separator() + playlist.name + ".m3u";
     qLog(Debug) << "Saving: " << playlist_file_name;
     Save(id, playlist_file_name, Playlist::Path_Relative);
   }
@@ -424,6 +420,7 @@ void PlaylistManager::SetCurrentPlaylist(const int id) {
   current_ = id;
   emit CurrentChanged(current(), playlists_[id].scroll_position);
   UpdateSummaryText();
+
 }
 
 void PlaylistManager::SetActivePlaylist(const int id) {
@@ -449,6 +446,7 @@ void PlaylistManager::SetActiveToCurrent() {
   if (current_id() != active_id()) {
     SetActivePlaylist(current_id());
   }
+
 }
 
 void PlaylistManager::ClearCurrent() {
@@ -518,7 +516,6 @@ void PlaylistManager::UpdateSummaryText() {
 void PlaylistManager::SelectionChanged(const QItemSelection &selection) {
   playlists_[current_id()].selection = selection;
   UpdateSummaryText();
-
 }
 
 void PlaylistManager::SongsDiscovered(const SongList &songs) {
@@ -547,7 +544,7 @@ void PlaylistManager::SongChangeRequestProcessed(const QUrl &url, const bool val
       return;
     }
   }
-  
+
 }
 
 void PlaylistManager::InsertUrls(const int id, const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue) {
@@ -576,7 +573,6 @@ void PlaylistManager::RemoveItemsWithoutUndo(const int id, const QList<int> &ind
 
 void PlaylistManager::RemoveCurrentSong() const {
   active()->removeRows(active()->current_index().row(), 1);
-
 }
 
 void PlaylistManager::InvalidateDeletedSongs() {
