@@ -2,6 +2,18 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Remove slash and backslash from filenames when saving album covers using album directory cover filenames (#903).
+    * Remove playlist file-extensions from accepted audio file extensions (#909).
+    * Fixed Qobuz requests only receiving the first 50 albums (#922).
+    * (Windows|MinGW) Fixed streaming stopping at the end of each track. libsoup downgraded from 3.0 to 2.74.
+    * (Windows|MSVC) Fixed initial database schema failure caused by CRLF line-endings in schema files.
+
+  New features
+    * Added support for bs2b (Improved headphone listening of stereo audio records using Bauer stereophonic-to-binaural DSP) (#249).
+
 Version 1.0.2 (2022.02.20)
 
   Bugfixes:
