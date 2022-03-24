@@ -66,15 +66,14 @@ It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
 To build Strawberry from source you need the following installed on your system with the additional development packages/headers:
 
 * [CMake](https://cmake.org/)
-* [GNU Make](https://www.gnu.org/software/make/)
-* [GCC](https://gcc.gnu.org/) or [clang](https://clang.llvm.org/) compiler
+* [GCC](https://gcc.gnu.org/), [Clang](https://clang.llvm.org/) or [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/) compiler
 * [Boost](https://www.boost.org/)
 * [GLib](https://developer.gnome.org/glib/)
-* [Protobuf](https://developers.google.com/protocol-buffers/)
 * [Qt 5.9 or higher (or Qt 6) with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
 * [SQLite 3.9 or newer with FTS5](https://www.sqlite.org)
-* [ALSA (Linux required)](https://www.alsa-project.org/)
-* [D-Bus (Linux required)](https://www.freedesktop.org/wiki/Software/dbus/)
+* [Protobuf](https://developers.google.com/protocol-buffers/)
+* [ALSA (Required on Linux)](https://www.alsa-project.org/)
+* [D-Bus (Required on Linux)](https://www.freedesktop.org/wiki/Software/dbus/)
 * [GStreamer](https://gstreamer.freedesktop.org/) or [VLC](https://www.videolan.org)
 * [GnuTLS](https://www.gnutls.org/)
 * [TagLib 1.11.1 or higher](https://www.taglib.org/) or [TagParser](https://github.com/Martchus/tagparser)
@@ -88,8 +87,7 @@ Optional dependencies:
 * MTP devices: [libmtp](http://libmtp.sourceforge.net/)
 * iPod Classic devices: [libgpod](http://www.gtkpod.org/libgpod/)
 
-Either GStreamer or VLC engine is required, but only GStreamer is fully implemented, and works best, it is therefore recommended to use GStreamer.
-You should also install the gstreamer plugins base and good, and optionally bad, ugly and libav.
+You should also install the gstreamer plugins base and good, and optionally bad, ugly and libav to support all audio formats.
 
 ### :wrench:	Compiling from source
 
@@ -101,13 +99,13 @@ You should also install the gstreamer plugins base and good, and optionally bad,
 
     cd strawberry
     mkdir build && cd build
-    cmake ..
+    cmake .. -DBUILD_WITH_QT6=ON
     make -j$(nproc)
     sudo make install
-    
-To compile with Qt 6 use:
 
-    cmake .. -DBUILD_WITH_QT6=ON
+Strawberry is backwards compatible with Qt 5, to compile with Qt 5 use:
+
+    cmake .. -DBUILD_WITH_QT5=ON
 
 ### :penguin:	Packaging status
 
