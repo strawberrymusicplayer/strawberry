@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.3 (2022.03.24)
 
   Bugfixes:
     * Remove slash and backslash from filenames when saving album covers using album directory cover filenames (#903).
