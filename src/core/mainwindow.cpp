@@ -221,6 +221,18 @@ const int kTrackSliderUpdateTimeMs = 200;
 const int kTrackPositionUpdateTimeMs = 1000;
 }  // namespace
 
+#ifdef HAVE_QTSPARKLE
+#  ifdef _MSC_VER
+constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-msvc-x64";
+#  else
+#    ifdef __x86_64__
+constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-mingw-x64";
+#    else
+constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-mingw-x86";
+#    endif
+#  endif
+#endif
+
 MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent)
     : QMainWindow(parent),
       ui_(new Ui_MainWindow),
@@ -1000,12 +1012,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   }
 
 #ifdef HAVE_QTSPARKLE
-  QUrl sparkle_url;
-#  if defined(Q_OS_MACOS)
-  sparkle_url.setUrl("https://www.strawberrymusicplayer.org/sparkle-macos");
-#  elif defined(Q_OS_WIN)
-  sparkle_url.setUrl("https://www.strawberrymusicplayer.org/sparkle-windows");
-#  endif
+  QUrl sparkle_url(QTSPARKLE_URL);
   if (!sparkle_url.isEmpty()) {
     qLog(Debug) << "Creating Qt Sparkle updater";
     qtsparkle::Updater *updater = new qtsparkle::Updater(sparkle_url, this);
