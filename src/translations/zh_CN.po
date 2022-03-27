@@ -259,11 +259,11 @@ msgstr "%标题 - %艺术家%"
 msgid "%url%"
 msgstr "%网址%"
 
-#: ../build/src/ui_mainwindow.h:650
+#: ../build/src/ui_mainwindow.h:654
 msgid "&About Strawberry"
 msgstr "&关于 草莓播放器"
 
-#: ../build/src/ui_mainwindow.h:658
+#: ../build/src/ui_mainwindow.h:662
 msgid "&Add file..."
 msgstr "&添加 文件..."
 
@@ -275,11 +275,11 @@ msgstr "对齐文本(&A)"
 msgid "&Center"
 msgstr "居中(&C)"
 
-#: ../build/src/ui_mainwindow.h:629
+#: ../build/src/ui_mainwindow.h:633
 msgid "&Clear playlist"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:664
+#: ../build/src/ui_mainwindow.h:668
 msgid "&Cover Manager"
 msgstr ""
 
@@ -291,11 +291,11 @@ msgstr "自定义(&C)"
 msgid "&Default"
 msgstr "&默认"
 
-#: ../build/src/ui_mainwindow.h:696
+#: ../build/src/ui_mainwindow.h:701
 msgid "&Do a full collection rescan"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:669
+#: ../build/src/ui_mainwindow.h:673
 msgid "&Equalizer"
 msgstr ""
 
@@ -308,7 +308,7 @@ msgstr "隐藏 %1(&H)"
 msgid "&Hide..."
 msgstr "隐藏(&H)..."
 
-#: ../build/src/ui_mainwindow.h:672
+#: ../build/src/ui_mainwindow.h:676
 msgid "&Jump to the currently playing track"
 msgstr ""
 
@@ -316,7 +316,7 @@ msgstr ""
 msgid "&Left"
 msgstr "左对齐(&L)"
 
-#: ../build/src/ui_mainwindow.h:684
+#: ../build/src/ui_mainwindow.h:688
 msgid "&Load playlist..."
 msgstr ""
 
@@ -328,19 +328,19 @@ msgstr ""
 msgid "&Manual proxy configuration"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:713
+#: ../build/src/ui_mainwindow.h:718
 msgid "&Music"
 msgstr "音乐(&M)"
 
-#: ../build/src/ui_mainwindow.h:692
+#: ../build/src/ui_mainwindow.h:697
 msgid "&Mute"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:676
+#: ../build/src/ui_mainwindow.h:680
 msgid "&New playlist"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:616
+#: ../build/src/ui_mainwindow.h:620
 msgid "&Next track"
 msgstr ""
 
@@ -352,19 +352,19 @@ msgstr ""
 msgid "&None"
 msgstr "无(&N)"
 
-#: ../build/src/ui_mainwindow.h:662
+#: ../build/src/ui_mainwindow.h:666
 msgid "&Open file..."
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:608
+#: ../build/src/ui_mainwindow.h:612
 msgid "&Play"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:620
+#: ../build/src/ui_mainwindow.h:624
 msgid "&Quit"
 msgstr "退出(&Q)"
 
-#: ../build/src/ui_mainwindow.h:667
+#: ../build/src/ui_mainwindow.h:671
 msgid "&Repeat mode"
 msgstr "循环模式(&R)"
 
@@ -376,15 +376,19 @@ msgstr ""
 msgid "&Right"
 msgstr "右对齐(&R)"
 
-#: ../build/src/ui_mainwindow.h:646
+#: ../build/src/ui_mainwindow.h:692
+msgid "&Save all playlists"
+msgstr ""
+
+#: ../build/src/ui_mainwindow.h:650
 msgid "&Settings..."
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:666
+#: ../build/src/ui_mainwindow.h:670
 msgid "&Shuffle mode"
 msgstr "随机播放模式(&S)"
 
-#: ../build/src/ui_mainwindow.h:612
+#: ../build/src/ui_mainwindow.h:616
 msgid "&Stop"
 msgstr "&Stop"
 
@@ -392,15 +396,15 @@ msgstr "&Stop"
 msgid "&Stretch columns to fit window"
 msgstr "拉伸栏以适应窗口(&S)"
 
-#: ../build/src/ui_mainwindow.h:716
+#: ../build/src/ui_mainwindow.h:721
 msgid "&Tools"
 msgstr "工具(&T)"
 
-#: ../build/src/ui_mainwindow.h:670
+#: ../build/src/ui_mainwindow.h:674
 msgid "&Transcode Music"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:690
+#: ../build/src/ui_mainwindow.h:695
 msgid "&Update changed collection folders"
 msgstr ""
 
@@ -527,7 +531,7 @@ msgstr ""
 msgid "Abort"
 msgstr "中止"
 
-#: ../build/src/ui_mainwindow.h:697
+#: ../build/src/ui_mainwindow.h:702
 msgid "Abort collection scan"
 msgstr ""
 
@@ -535,7 +539,7 @@ msgstr ""
 msgid "About"
 msgstr "关于"
 
-#: ../build/src/ui_mainwindow.h:691
+#: ../build/src/ui_mainwindow.h:696
 msgid "About &Qt"
 msgstr ""
 
@@ -556,7 +560,7 @@ msgctxt "Category label"
 msgid "Action"
 msgstr "操作"
 
-#: ../build/src/ui_mainwindow.h:671
+#: ../build/src/ui_mainwindow.h:675
 msgid "Add &folder..."
 msgstr ""
 
@@ -581,11 +585,11 @@ msgstr "添加目录..."
 msgid "Add file"
 msgstr "添加文件"
 
-#: ../build/src/ui_mainwindow.h:707
+#: ../build/src/ui_mainwindow.h:712
 msgid "Add file to transcoder"
 msgstr "添加文件至转码器"
 
-#: ../build/src/ui_mainwindow.h:705
+#: ../build/src/ui_mainwindow.h:710
 msgid "Add file(s) to transcoder"
 msgstr "添加文件至转码器"
 
@@ -695,7 +699,7 @@ msgstr "添加歌曲曲目标签"
 msgid "Add song year tag"
 msgstr "添加歌曲年份标签"
 
-#: ../build/src/ui_mainwindow.h:709
+#: ../build/src/ui_mainwindow.h:714
 msgid "Add stream..."
 msgstr "添加流..."
 
@@ -1181,7 +1185,7 @@ msgstr "缓冲时长"
 msgid "Buffering"
 msgstr "缓冲中"
 
-#: ../build/src/ui_mainwindow.h:665
+#: ../build/src/ui_mainwindow.h:669
 msgid "C&onsole"
 msgstr ""
 
@@ -1270,7 +1274,7 @@ msgstr ""
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2284 ../build/src/ui_mainwindow.h:631
+#: core/mainwindow.cpp:2284 ../build/src/ui_mainwindow.h:635
 msgid "Clear playlist"
 msgstr "清空播放列表"
 
@@ -1357,7 +1361,7 @@ msgstr ""
 msgid "Complete tags automatically"
 msgstr "自动补全标签"
 
-#: ../build/src/ui_mainwindow.h:698
+#: ../build/src/ui_mainwindow.h:703
 msgid "Complete tags automatically..."
 msgstr "自动补全标签..."
 
@@ -1572,7 +1576,7 @@ msgstr "自动换曲时淡入淡出"
 msgid "Cross-fade when changing tracks manually"
 msgstr "手动换曲时淡入淡出"
 
-#: ../build/src/ui_mainwindow.h:626
+#: ../build/src/ui_mainwindow.h:630
 msgid "Ctrl+Alt+V"
 msgstr ""
 
@@ -1580,51 +1584,51 @@ msgstr ""
 msgid "Ctrl+Down"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:638
+#: ../build/src/ui_mainwindow.h:642
 msgid "Ctrl+E"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:656
+#: ../build/src/ui_mainwindow.h:660
 msgid "Ctrl+H"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:674
+#: ../build/src/ui_mainwindow.h:678
 msgid "Ctrl+J"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:634 ../build/src/ui_queueview.h:144
+#: ../build/src/ui_mainwindow.h:638 ../build/src/ui_queueview.h:144
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: ../build/src/ui_mainwindow.h:694
+#: ../build/src/ui_mainwindow.h:699
 msgid "Ctrl+M"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:678
+#: ../build/src/ui_mainwindow.h:682
 msgid "Ctrl+N"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:648
+#: ../build/src/ui_mainwindow.h:652
 msgid "Ctrl+P"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:622
+#: ../build/src/ui_mainwindow.h:626
 msgid "Ctrl+Q"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:682
+#: ../build/src/ui_mainwindow.h:686
 msgid "Ctrl+S"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:660
+#: ../build/src/ui_mainwindow.h:664
 msgid "Ctrl+Shift+A"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:686
+#: ../build/src/ui_mainwindow.h:690
 msgid "Ctrl+Shift+O"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:700
+#: ../build/src/ui_mainwindow.h:705
 msgid "Ctrl+T"
 msgstr ""
 
@@ -1911,7 +1915,7 @@ msgstr ""
 msgid "Edit tag \"%1\"..."
 msgstr "编辑标签 \"%1\"..."
 
-#: ../build/src/ui_mainwindow.h:642
+#: ../build/src/ui_mainwindow.h:646
 msgid "Edit tag..."
 msgstr "编辑标签..."
 
@@ -1920,7 +1924,7 @@ msgid "Edit track information"
 msgstr "编辑曲目信息"
 
 #: context/contextalbumsview.cpp:275 collection/collectionview.cpp:364
-#: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:636
+#: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:640
 msgid "Edit track information..."
 msgstr "编辑曲目信息..."
 
@@ -2158,27 +2162,27 @@ msgstr "导出完成"
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "已导出 %1 个封面，共 %2 个(跳过 %3 个)"
 
-#: ../build/src/ui_mainwindow.h:652
+#: ../build/src/ui_mainwindow.h:656
 msgid "F1"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:644
+#: ../build/src/ui_mainwindow.h:648
 msgid "F2"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:606
+#: ../build/src/ui_mainwindow.h:610
 msgid "F5"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:610
+#: ../build/src/ui_mainwindow.h:614
 msgid "F6"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:614
+#: ../build/src/ui_mainwindow.h:618
 msgid "F7"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:618
+#: ../build/src/ui_mainwindow.h:622
 msgid "F8"
 msgstr ""
 
@@ -2476,11 +2480,11 @@ msgstr ""
 msgid "Global Shortcuts"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:688
+#: ../build/src/ui_mainwindow.h:693
 msgid "Go to next playlist tab"
 msgstr "转到下一播放列表标签"
 
-#: ../build/src/ui_mainwindow.h:689
+#: ../build/src/ui_mainwindow.h:694
 msgid "Go to previous playlist tab"
 msgstr "转到上一播放列表标签"
 
@@ -2599,7 +2603,7 @@ msgstr "硬件信息"
 msgid "Hardware information is only available while the device is connected."
 msgstr "硬件信息仅在设备连接上后可用。"
 
-#: ../build/src/ui_mainwindow.h:715
+#: ../build/src/ui_mainwindow.h:720
 msgid "Help"
 msgstr ""
 
@@ -2678,7 +2682,7 @@ msgstr "图像 (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgid "Import data from last.fm"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:711
+#: ../build/src/ui_mainwindow.h:716
 msgid "Import data from last.fm..."
 msgstr ""
 
@@ -2873,7 +2877,7 @@ msgstr "从磁盘读取封面"
 msgid "Load cover from disk..."
 msgstr "从磁盘载入封面..."
 
-#: playlist/playlistcontainer.cpp:347
+#: playlist/playlistcontainer.cpp:348
 msgid "Load playlist"
 msgstr "载入播放列表"
 
@@ -2929,7 +2933,7 @@ msgstr "登录"
 msgid "Long term prediction profile (LTP)"
 msgstr "长期预测 (LTP)"
 
-#: ../build/src/ui_mainwindow.h:628
+#: ../build/src/ui_mainwindow.h:632
 msgid "Love"
 msgstr ""
 
@@ -3244,7 +3248,7 @@ msgstr "无长块"
 msgid "No match."
 msgstr ""
 
-#: playlist/playlistcontainer.cpp:437
+#: playlist/playlistcontainer.cpp:438
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "无匹配。清空搜索框以重新显示整个播放列表。"
@@ -3359,7 +3363,7 @@ msgstr ""
 msgid "Open a directory to import music from"
 msgstr "打开目录导入音乐"
 
-#: ../build/src/ui_mainwindow.h:663
+#: ../build/src/ui_mainwindow.h:667
 msgid "Open audio &CD..."
 msgstr ""
 
@@ -3466,7 +3470,7 @@ msgstr "覆盖已存在的文件"
 msgid "Overwrite s&maller ones only"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:714
+#: ../build/src/ui_mainwindow.h:719
 msgid "P&laylist"
 msgstr ""
 
@@ -3575,7 +3579,7 @@ msgstr ""
 msgid "Player options"
 msgstr "播放器选项"
 
-#: playlist/playlistcontainer.cpp:342 playlist/playlistlistcontainer.cpp:273
+#: playlist/playlistcontainer.cpp:343 playlist/playlistlistcontainer.cpp:273
 #: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:113
 #: playlist/playlistmanager.cpp:195 playlist/playlistmanager.cpp:570
 #: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:170
@@ -3714,7 +3718,7 @@ msgstr "预览"
 msgid "Previous"
 msgstr "上一首"
 
-#: ../build/src/ui_mainwindow.h:604
+#: ../build/src/ui_mainwindow.h:608
 msgid "Previous track"
 msgstr ""
 
@@ -3897,11 +3901,11 @@ msgstr "记住我的选择"
 msgid "Remove"
 msgstr "删除"
 
-#: ../build/src/ui_mainwindow.h:703
+#: ../build/src/ui_mainwindow.h:708
 msgid "Remove &duplicates from playlist"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:704
+#: ../build/src/ui_mainwindow.h:709
 msgid "Remove &unavailable tracks from playlist"
 msgstr ""
 
@@ -3913,7 +3917,7 @@ msgstr "删除文件夹"
 msgid "Remove from favorites"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:668
+#: ../build/src/ui_mainwindow.h:672
 msgid "Remove from playlist"
 msgstr "从播放列表中移除"
 
@@ -3937,7 +3941,7 @@ msgstr "重命名播放列表"
 msgid "Rename playlist..."
 msgstr "重命名播放列表..."
 
-#: ../build/src/ui_mainwindow.h:640
+#: ../build/src/ui_mainwindow.h:644
 msgid "Renumber tracks in this order..."
 msgstr "以此顺序为曲目重新编号..."
 
@@ -4097,7 +4101,7 @@ msgstr "摇滚"
 msgid "Run"
 msgstr "运行"
 
-#: ../build/src/ui_mainwindow.h:654
+#: ../build/src/ui_mainwindow.h:658
 msgid "S&huffle playlist"
 msgstr ""
 
@@ -4124,7 +4128,7 @@ msgstr "采样率"
 msgid "Samplerate"
 msgstr "采样率"
 
-#: ../build/src/ui_mainwindow.h:680
+#: ../build/src/ui_mainwindow.h:684
 msgid "Save &playlist..."
 msgstr ""
 
@@ -4299,6 +4303,10 @@ msgstr "选择背景图片"
 msgid "Select best possible match"
 msgstr "选择最可能的匹配项"
 
+#: playlist/playlistmanager.cpp:656
+msgid "Select directory for the playlists"
+msgstr ""
+
 #: ../build/src/ui_appearancesettingspage.h:589
 msgid "Select foreground color:"
 msgstr "选择前景色:"
@@ -4340,7 +4348,7 @@ msgstr "将 %1 设置为 %2..."
 msgid "Set the volume to <value> percent"
 msgstr "设置音量为 <value>%"
 
-#: ../build/src/ui_mainwindow.h:641
+#: ../build/src/ui_mainwindow.h:645
 msgid "Set value for all selected tracks..."
 msgstr "为全部选中的曲目设置值..."
 
@@ -4483,7 +4491,7 @@ msgstr ""
 msgid "Show scrobble button"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:710
+#: ../build/src/ui_mainwindow.h:715
 msgid "Show sidebar"
 msgstr ""
 
@@ -4681,7 +4689,7 @@ msgstr "播放完每个曲目后停止"
 msgid "Stop after every track"
 msgstr "播放每个曲目前停止"
 
-#: core/mainwindow.cpp:715 ../build/src/ui_mainwindow.h:624
+#: core/mainwindow.cpp:715 ../build/src/ui_mainwindow.h:628
 msgid "Stop after this track"
 msgstr "在此曲目后停止"
 
@@ -4710,7 +4718,7 @@ msgstr ""
 msgid "Strawberry Error"
 msgstr "Strawberry 错误"
 
-#: ../build/src/ui_mainwindow.h:603
+#: ../build/src/ui_mainwindow.h:607
 msgid "Strawberry Music Player"
 msgstr ""
 
@@ -5044,7 +5052,7 @@ msgstr "今日"
 msgid "Toggle queue status"
 msgstr "切换队列状态"
 
-#: ../build/src/ui_mainwindow.h:702
+#: ../build/src/ui_mainwindow.h:707
 msgid "Toggle scrobbling"
 msgstr "切换歌曲记录"
 
