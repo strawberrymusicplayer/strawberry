@@ -1217,9 +1217,17 @@ msgstr "Cancelado."
 msgid "Change art"
 msgstr ""
 
+#: globalshortcuts/globalshortcutsmanager.cpp:79
+msgid "Change repeat mode"
+msgstr ""
+
 #: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
 msgstr "Mudar atalho..."
+
+#: globalshortcuts/globalshortcutsmanager.cpp:78
+msgid "Change shuffle mode"
+msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:315
 msgid "Change the currently playing song"
@@ -1707,6 +1715,10 @@ msgstr ""
 msgid "Decrease the volume by <value> percent"
 msgstr "Diminuir o volume por porcentagem <valor>"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:71
+msgid "Decrease volume"
+msgstr ""
+
 #: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
 msgstr ""
@@ -2005,6 +2017,10 @@ msgstr ""
 #: ../build/src/ui_backendsettingspage.h:562
 msgid "Enable volume control"
 msgstr "Habilitar o controle de volume"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:80
+msgid "Enable/disable scrobbling"
+msgstr ""
 
 #: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
@@ -2748,6 +2764,10 @@ msgstr ""
 msgid "Increase the volume by <value> percent"
 msgstr "Aumentar o volume por porcentagem <valor>"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:70
+msgid "Increase volume"
+msgstr ""
+
 #: ../build/src/ui_deviceproperties.h:374
 msgid "Information"
 msgstr "Informação"
@@ -2955,6 +2975,7 @@ msgstr "Login"
 msgid "Long term prediction profile (LTP)"
 msgstr "Perfil de previsão a longo prazo (LTP)"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:81
 #: ../build/src/ui_mainwindow.h:632
 msgid "Love"
 msgstr ""
@@ -3250,6 +3271,10 @@ msgstr ""
 msgid "Next"
 msgstr "Próximo"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:68
+msgid "Next track"
+msgstr ""
+
 #: core/utilities.cpp:179
 msgid "Next week"
 msgstr "Próxima semana"
@@ -3525,7 +3550,7 @@ msgid "Pattern"
 msgstr ""
 
 #: core/mainwindow.cpp:1313 core/mainwindow.cpp:1808
-#: core/qtsystemtrayicon.cpp:146
+#: core/qtsystemtrayicon.cpp:146 globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Pause"
 msgstr "Pausar"
 
@@ -3554,7 +3579,7 @@ msgstr "Barra lateral simples"
 
 #: core/mainwindow.cpp:713 core/mainwindow.cpp:1270 core/mainwindow.cpp:1297
 #: core/mainwindow.cpp:1812 core/qtsystemtrayicon.cpp:159
-#: core/qtsystemtrayicon.cpp:173
+#: core/qtsystemtrayicon.cpp:173 globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Play"
 msgstr "Reproduzir"
 
@@ -3590,6 +3615,10 @@ msgstr ""
 #: core/commandlineoptions.cpp:186
 msgid "Play the <n>th track in the playlist"
 msgstr "Tocar a <n>ª faixa da lista"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:65
+msgid "Play/Pause"
+msgstr ""
 
 #: dialogs/lastfmimportdialog.cpp:154
 #, qt-format
@@ -3744,6 +3773,7 @@ msgstr "Pré-visualização"
 msgid "Previous"
 msgstr "Anterior"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:69
 #: ../build/src/ui_mainwindow.h:608
 msgid "Previous track"
 msgstr ""
@@ -4309,6 +4339,14 @@ msgstr "Segundo nível"
 msgid "Second level"
 msgstr "Segundo nível"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:74
+msgid "Seek backward"
+msgstr ""
+
+#: globalshortcuts/globalshortcutsmanager.cpp:73
+msgid "Seek forward"
+msgstr ""
+
 #: core/commandlineoptions.cpp:180
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Avançar na faixa atual por um tempo relativo"
@@ -4403,6 +4441,10 @@ msgstr "Atalho para %1"
 #: collection/collectionfilterwidget.cpp:107
 msgid "Show"
 msgstr "Exibir"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:76
+msgid "Show OSD"
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
@@ -4551,6 +4593,10 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show the main window minimized"
+msgstr ""
+
+#: globalshortcuts/globalshortcutsmanager.cpp:75
+msgid "Show/Hide"
 msgstr ""
 
 #: ../build/src/ui_playlistsequence.h:122
@@ -4711,6 +4757,10 @@ msgstr "Começar conversão"
 msgid "Starting %1"
 msgstr "Iniciando %1"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:66
+msgid "Stop"
+msgstr ""
+
 #: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
 msgstr "Parar depois de cada faixa"
@@ -4730,6 +4780,10 @@ msgstr "Parar reprodução"
 #: core/commandlineoptions.cpp:171
 msgid "Stop playback after current track"
 msgstr "Parar reprodução depois da música atual"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:67
+msgid "Stop playing after current track"
+msgstr ""
 
 #: osd/osdbase.cpp:269
 #, qt-format
@@ -5096,6 +5150,10 @@ msgstr "Tí­tulo"
 #: core/utilities.cpp:162 core/utilities.cpp:176
 msgid "Today"
 msgstr "Hoje"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:77
+msgid "Toggle Pretty OSD"
+msgstr ""
 
 #: core/mainwindow.cpp:716 core/mainwindow.cpp:1913
 msgid "Toggle queue status"

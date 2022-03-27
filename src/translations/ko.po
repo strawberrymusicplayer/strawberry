@@ -1217,9 +1217,17 @@ msgstr "취소됨."
 msgid "Change art"
 msgstr ""
 
+#: globalshortcuts/globalshortcutsmanager.cpp:79
+msgid "Change repeat mode"
+msgstr ""
+
 #: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
 msgstr "단축키 변경..."
+
+#: globalshortcuts/globalshortcutsmanager.cpp:78
+msgid "Change shuffle mode"
+msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:315
 msgid "Change the currently playing song"
@@ -1701,6 +1709,10 @@ msgstr "4퍼센트만큼 음량 내리기"
 msgid "Decrease the volume by <value> percent"
 msgstr "<value>%만큼 음량 내리기"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:71
+msgid "Decrease volume"
+msgstr ""
+
 #: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
 msgstr "기본 배경 그림(&K)"
@@ -1999,6 +2011,10 @@ msgstr "스테레오 균형 맞추기 활성화"
 #: ../build/src/ui_backendsettingspage.h:562
 msgid "Enable volume control"
 msgstr "음량 제어 활성화"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:80
+msgid "Enable/disable scrobbling"
+msgstr ""
 
 #: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
@@ -2732,6 +2748,10 @@ msgstr "4퍼센트만큼 음량 올리기"
 msgid "Increase the volume by <value> percent"
 msgstr "<value>%만큼 음량 올리기"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:70
+msgid "Increase volume"
+msgstr ""
+
 #: ../build/src/ui_deviceproperties.h:374
 msgid "Information"
 msgstr "정보"
@@ -2939,6 +2959,7 @@ msgstr "로그인"
 msgid "Long term prediction profile (LTP)"
 msgstr "장기 예측 프로필(LTP)"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:81
 #: ../build/src/ui_mainwindow.h:632
 msgid "Love"
 msgstr "좋아요"
@@ -3234,6 +3255,10 @@ msgstr "새로 추가된 곡"
 msgid "Next"
 msgstr "다음"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:68
+msgid "Next track"
+msgstr ""
+
 #: core/utilities.cpp:179
 msgid "Next week"
 msgstr "다음 주"
@@ -3505,7 +3530,7 @@ msgid "Pattern"
 msgstr ""
 
 #: core/mainwindow.cpp:1313 core/mainwindow.cpp:1808
-#: core/qtsystemtrayicon.cpp:146
+#: core/qtsystemtrayicon.cpp:146 globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Pause"
 msgstr "일시 정지"
 
@@ -3534,7 +3559,7 @@ msgstr "일반 사이드바"
 
 #: core/mainwindow.cpp:713 core/mainwindow.cpp:1270 core/mainwindow.cpp:1297
 #: core/mainwindow.cpp:1812 core/qtsystemtrayicon.cpp:159
-#: core/qtsystemtrayicon.cpp:173
+#: core/qtsystemtrayicon.cpp:173 globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Play"
 msgstr "재생"
 
@@ -3570,6 +3595,10 @@ msgstr "다음 재생"
 #: core/commandlineoptions.cpp:186
 msgid "Play the <n>th track in the playlist"
 msgstr "재생 목록의 <n>번째 곡 재생"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:65
+msgid "Play/Pause"
+msgstr ""
 
 #: dialogs/lastfmimportdialog.cpp:154
 #, qt-format
@@ -3724,6 +3753,7 @@ msgstr "미리 보기"
 msgid "Previous"
 msgstr "이전"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:69
 #: ../build/src/ui_mainwindow.h:608
 msgid "Previous track"
 msgstr "이전 트랙"
@@ -4287,6 +4317,14 @@ msgstr "두 번째 단계"
 msgid "Second level"
 msgstr "두 번째 단계"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:74
+msgid "Seek backward"
+msgstr ""
+
+#: globalshortcuts/globalshortcutsmanager.cpp:73
+msgid "Seek forward"
+msgstr ""
+
 #: core/commandlineoptions.cpp:180
 msgid "Seek the currently playing track by a relative amount"
 msgstr "현재 재생 중인 트랙을 상대적 양만큼 이동"
@@ -4381,6 +4419,10 @@ msgstr "%1 단축키"
 #: collection/collectionfilterwidget.cpp:107
 msgid "Show"
 msgstr "표시"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:76
+msgid "Show OSD"
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
@@ -4530,6 +4572,10 @@ msgstr "최대화 상태로 실행"
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show the main window minimized"
 msgstr "최소화 상태로 실행"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:75
+msgid "Show/Hide"
+msgstr ""
 
 #: ../build/src/ui_playlistsequence.h:122
 msgid "Shuffle"
@@ -4691,6 +4737,10 @@ msgstr "변환 시작"
 msgid "Starting %1"
 msgstr "%1 시작 중"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:66
+msgid "Stop"
+msgstr ""
+
 #: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
 msgstr "각각 트랙이 끝난 후 정지"
@@ -4710,6 +4760,10 @@ msgstr "재생 정지"
 #: core/commandlineoptions.cpp:171
 msgid "Stop playback after current track"
 msgstr "현재 트랙 이후에 재생 정지"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:67
+msgid "Stop playing after current track"
+msgstr ""
 
 #: osd/osdbase.cpp:269
 #, qt-format
@@ -5057,6 +5111,10 @@ msgstr "제목"
 #: core/utilities.cpp:162 core/utilities.cpp:176
 msgid "Today"
 msgstr "오늘"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:77
+msgid "Toggle Pretty OSD"
+msgstr ""
 
 #: core/mainwindow.cpp:716 core/mainwindow.cpp:1913
 msgid "Toggle queue status"

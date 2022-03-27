@@ -1236,9 +1236,17 @@ msgstr "Megszakítva."
 msgid "Change art"
 msgstr "Borító módosítása"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:79
+msgid "Change repeat mode"
+msgstr ""
+
 #: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
 msgstr "Gyorsbillentyű módosítása…"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:78
+msgid "Change shuffle mode"
+msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:315
 msgid "Change the currently playing song"
@@ -1730,6 +1738,10 @@ msgstr "Hangerő csökkentése 4 százalékkal"
 msgid "Decrease the volume by <value> percent"
 msgstr "Hangerő csökkentése <value> százalékkal"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:71
+msgid "Decrease volume"
+msgstr ""
+
 #: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
 msgstr "A&lapértelmezett háttérkép"
@@ -2029,6 +2041,10 @@ msgstr "Hangegyensúly engedélyezése"
 #: ../build/src/ui_backendsettingspage.h:562
 msgid "Enable volume control"
 msgstr "Hangerőszabályzás engedélyezése"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:80
+msgid "Enable/disable scrobbling"
+msgstr ""
 
 #: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
@@ -2774,6 +2790,10 @@ msgstr "Hangerő megnövelése 4 %-kal"
 msgid "Increase the volume by <value> percent"
 msgstr "Hangerő növelése <value> százalékkal"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:70
+msgid "Increase volume"
+msgstr ""
+
 #: ../build/src/ui_deviceproperties.h:374
 msgid "Information"
 msgstr "Információ"
@@ -2983,6 +3003,7 @@ msgstr "Bejelentkezés"
 msgid "Long term prediction profile (LTP)"
 msgstr "Hosszú távú előrejelzésen alapuló profil (LTP)"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:81
 #: ../build/src/ui_mainwindow.h:632
 msgid "Love"
 msgstr "Kedvenc"
@@ -3278,6 +3299,10 @@ msgstr "Legújabb számok"
 msgid "Next"
 msgstr "Következő"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:68
+msgid "Next track"
+msgstr ""
+
 #: core/utilities.cpp:179
 msgid "Next week"
 msgstr "Következő héten"
@@ -3556,7 +3581,7 @@ msgid "Pattern"
 msgstr "Minta"
 
 #: core/mainwindow.cpp:1313 core/mainwindow.cpp:1808
-#: core/qtsystemtrayicon.cpp:146
+#: core/qtsystemtrayicon.cpp:146 globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Pause"
 msgstr "Szünet"
 
@@ -3585,7 +3610,7 @@ msgstr "Egyszerű oldalsáv"
 
 #: core/mainwindow.cpp:713 core/mainwindow.cpp:1270 core/mainwindow.cpp:1297
 #: core/mainwindow.cpp:1812 core/qtsystemtrayicon.cpp:159
-#: core/qtsystemtrayicon.cpp:173
+#: core/qtsystemtrayicon.cpp:173 globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Play"
 msgstr "Lejátszás"
 
@@ -3621,6 +3646,10 @@ msgstr "Lejátszás következőként"
 #: core/commandlineoptions.cpp:186
 msgid "Play the <n>th track in the playlist"
 msgstr "A(z) <n>. szám lejátszása a lejátszólistában"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:65
+msgid "Play/Pause"
+msgstr ""
 
 #: dialogs/lastfmimportdialog.cpp:154
 #, qt-format
@@ -3781,6 +3810,7 @@ msgstr "Előnézet"
 msgid "Previous"
 msgstr "Előző"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:69
 #: ../build/src/ui_mainwindow.h:608
 msgid "Previous track"
 msgstr "Előző szám"
@@ -4349,6 +4379,14 @@ msgstr "Második szint"
 msgid "Second level"
 msgstr "Második szinten"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:74
+msgid "Seek backward"
+msgstr ""
+
+#: globalshortcuts/globalshortcutsmanager.cpp:73
+msgid "Seek forward"
+msgstr ""
+
 #: core/commandlineoptions.cpp:180
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Tekerés hátra"
@@ -4443,6 +4481,10 @@ msgstr "Gyorsbillentyű ehhez: %1"
 #: collection/collectionfilterwidget.cpp:107
 msgid "Show"
 msgstr "Megjelenítés"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:76
+msgid "Show OSD"
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
@@ -4592,6 +4634,10 @@ msgstr "Főablak megjelenítése maximalizálva"
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show the main window minimized"
 msgstr "Főablak megjelenítése minimalizálva"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:75
+msgid "Show/Hide"
+msgstr ""
 
 #: ../build/src/ui_playlistsequence.h:122
 msgid "Shuffle"
@@ -4754,6 +4800,10 @@ msgstr "Átkódolás indítása"
 msgid "Starting %1"
 msgstr "%1 indítása"
 
+#: globalshortcuts/globalshortcutsmanager.cpp:66
+msgid "Stop"
+msgstr ""
+
 #: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
 msgstr "Leállítás a minden egyes szám után"
@@ -4773,6 +4823,10 @@ msgstr "Lejátszás leállítása"
 #: core/commandlineoptions.cpp:171
 msgid "Stop playback after current track"
 msgstr "Leállítás az aktuális szám után"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:67
+msgid "Stop playing after current track"
+msgstr ""
 
 #: osd/osdbase.cpp:269
 #, qt-format
@@ -5145,6 +5199,10 @@ msgstr "Cím"
 #: core/utilities.cpp:162 core/utilities.cpp:176
 msgid "Today"
 msgstr "Ma"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:77
+msgid "Toggle Pretty OSD"
+msgstr ""
 
 #: core/mainwindow.cpp:716 core/mainwindow.cpp:1913
 msgid "Toggle queue status"
