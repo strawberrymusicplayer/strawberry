@@ -1525,6 +1525,7 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstfdkaac.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstflac.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstgio.dll
+          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsthls.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsticydemux.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstid3demux.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstisomp4.dll
@@ -1769,6 +1770,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsthls.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
@@ -2022,6 +2024,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsthls.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
