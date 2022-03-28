@@ -997,7 +997,7 @@ bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray 
       frontcover = new TagLib::ID3v2::AttachedPictureFrame("APIC");
       frontcover->setType(TagLib::ID3v2::AttachedPictureFrame::FrontCover);
       frontcover->setMimeType("image/jpeg");
-      frontcover->setPicture(TagLib::ByteVector(data.constData(), data.count()));
+      frontcover->setPicture(TagLib::ByteVector(data.constData(), data.size()));
       tag->addFrame(frontcover);
     }
   }
@@ -1011,7 +1011,7 @@ bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray 
       if (tag->contains("covr")) tag->removeItem("covr");
     }
     else {
-      covers.append(TagLib::MP4::CoverArt(TagLib::MP4::CoverArt::JPEG, TagLib::ByteVector(data.constData(), data.count())));
+      covers.append(TagLib::MP4::CoverArt(TagLib::MP4::CoverArt::JPEG, TagLib::ByteVector(data.constData(), data.size())));
       tag->setItem("covr", covers);
     }
   }
