@@ -45,14 +45,16 @@ QList<DeviceFinder::Device> AlsaPCMDeviceFinder::ListDevices() {
   }
 
   for (void **n = hints; *n; ++n) {
-    char *io = snd_device_name_get_hint(*n, "IOID");
-    char *name = snd_device_name_get_hint(*n, "NAME");
-    char *desc = snd_device_name_get_hint(*n, "DESC");
-    if (io && name && desc && strcmp(io, "Output") == 0) {
+    char *hint_io = snd_device_name_get_hint(*n, "IOID");
+    char *hint_name = snd_device_name_get_hint(*n, "NAME");
+    char *hint_desc = snd_device_name_get_hint(*n, "DESC");
+    if (hint_io && hint_name && hint_desc && strcmp(hint_io, "Output") == 0) {
 
-      char *desc_last = desc;
+      QString name(hint_name);
+
+      char *desc_last = hint_desc;
       QString description;
-      for (char *desc_i = desc; desc_i && *desc_i != '\0'; ++desc_i) {
+      for (char *desc_i = hint_desc; desc_i && *desc_i != '\0'; ++desc_i) {
         if (*desc_i == '\n') {
           *desc_i = '\0';
           if (!description.isEmpty()) description.append(' ');
@@ -72,9 +74,9 @@ QList<DeviceFinder::Device> AlsaPCMDeviceFinder::ListDevices() {
       device.iconname = GuessIconName(device.description);
       ret << device;  // clazy:exclude=reserve-candidates
     }
-    if (io) free(io);
-    if (name) free(name);
-    if (desc) free(desc);
+    if (hint_io) free(hint_io);
+    if (hint_name) free(hint_name);
+    if (hint_desc) free(hint_desc);
   }
 
   snd_device_name_free_hint(hints);
