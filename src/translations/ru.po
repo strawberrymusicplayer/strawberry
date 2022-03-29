@@ -35,7 +35,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-03-28 12:38-0400\n"
+"PO-Revision-Date: 2022-03-29 05:27-0400\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -564,7 +564,7 @@ msgstr "Модуль ALSA:"
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
-msgstr "API токен"
+msgstr "Токен API"
 
 #: ../build/src/ui_transcodersettingspage.h:193
 msgid "ASF (WMA)"
@@ -1095,11 +1095,11 @@ msgstr "Автоматически раскрывать одиночные ка�
 
 #: ../build/src/ui_contextsettingspage.h:445
 msgid "Automatically search for album cover"
-msgstr "Автоматический поиск обложки"
+msgstr "Автоматический поиск обложки альбома"
 
 #: context/contextview.cpp:345 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
-msgstr "Автоматически искать текст песен"
+msgstr "Автоматический поиск текста песни"
 
 #: ../build/src/ui_playlistsettingspage.h:177
 msgid "Automatically select current playing track"
@@ -1198,7 +1198,7 @@ msgstr "Тип блока"
 
 #: ../build/src/ui_appearancesettingspage.h:620
 msgid "Blur amount"
-msgstr "Степень размытости"
+msgstr "Степень размытия"
 
 #: ../build/src/ui_notificationssettingspage.h:496
 msgid "Body"
@@ -1900,7 +1900,7 @@ msgstr "Не конвертировать какую-либо музыку"
 
 #: ../build/src/ui_appearancesettingspage.h:619
 msgid "Do not cut image"
-msgstr "Не вырезать изображение"
+msgstr "Не обрезать изображение"
 
 #: ../build/src/ui_albumcoverexport.h:206
 msgid "Do not overwrite"
@@ -3159,7 +3159,7 @@ msgstr "Отсутствуют токен API, имя пользователя �
 
 #: tidal/tidalservice.cpp:709
 msgid "Missing Tidal API token."
-msgstr "Отсутствует API токен Tidal."
+msgstr "Отсутствует токен API Tidal."
 
 #: settings/tidalsettingspage.cpp:157
 msgid "Missing Tidal client ID."
@@ -3492,11 +3492,11 @@ msgstr "Открыть…"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:192
 msgid "Opti&mize for bitrate"
-msgstr "&Оптимизировать для битрейта"
+msgstr "Опти&мизировать по битрейту"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Optimize for &quality"
-msgstr "&Оптимизировать для качества"
+msgstr "Оптимизировать по &качеству"
 
 #: ../build/src/ui_backendsettingspage.h:561
 msgid "Options"
@@ -3819,7 +3819,7 @@ msgstr "Нажатие кнопки «Предыдущий» осуществи�
 
 #: ../build/src/ui_notificationssettingspage.h:498
 msgid "Pretty OSD options"
-msgstr "Настройки модного экранного меню"
+msgstr "Параметры красивого экранного меню"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
 #: ../build/src/ui_contextsettingspage.h:451
@@ -4452,7 +4452,7 @@ msgstr "Выбрать основной цвет:"
 
 #: ../build/src/ui_appearancesettingspage.h:634
 msgid "Select playlist playing song color:"
-msgstr "Выберите цвет активной песни в плейлисте"
+msgstr "Выбрать цвет активной песни в плейлисте:"
 
 #: ../build/src/ui_appearancesettingspage.h:597
 msgid "Select tabbar color:"
@@ -4531,11 +4531,11 @@ msgstr "Показывать индикатор тона в полосе про�
 
 #: ../build/src/ui_notificationssettingspage.h:487
 msgid "Show a notification when I change the repeat/shuffle mode"
-msgstr "Уведомлять при смене режимов повторения/перемешивания"
+msgstr "Уведомлять о смене режимов повторения/перемешивания"
 
 #: ../build/src/ui_notificationssettingspage.h:486
 msgid "Show a notification when I change the volume"
-msgstr "Уведомлять при смене громкости"
+msgstr "Уведомлять о смене громкости"
 
 #: ../build/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I pause playback"
@@ -4551,7 +4551,7 @@ msgstr "&Показывать всплывающее окно из трея"
 
 #: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a pretty OSD"
-msgstr "Показывать модное экранное меню"
+msgstr "Показывать красивое экранное меню"
 
 #: widgets/playingwidget.cpp:143
 msgid "Show above status bar"
@@ -4563,7 +4563,7 @@ msgstr "Показать обложку альбома"
 
 #: ../build/src/ui_collectionsettingspage.h:601
 msgid "Show album cover art in collection"
-msgstr "Показать обложку альбома в фонотеке"
+msgstr "Показывать обложку альбома в фонотеке"
 
 #: context/contextview.cpp:337
 msgid "Show albums by artist"
@@ -4571,7 +4571,7 @@ msgstr "Показать альбомы артиста"
 
 #: core/mainwindow.cpp:661
 msgid "Show all songs"
-msgstr "Показать все композиции"
+msgstr "Показывать все композиции"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
@@ -4946,7 +4946,7 @@ msgstr "Прослушивание потоков"
 
 #: ../build/src/ui_appearancesettingspage.h:617
 msgid "Stretch image to fill playlist"
-msgstr "Растягивать изображение для заполнения плейлиста"
+msgstr "Подгонять изображение по размеру плейлиста"
 
 #: ../build/src/ui_appearancesettingspage.h:582
 #: ../build/src/ui_appearancesettingspage.h:583
@@ -5231,7 +5231,7 @@ msgstr "Сегодня"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:77
 msgid "Toggle Pretty OSD"
-msgstr "Переключить модное экранное меню"
+msgstr "Показать/скрыть экранное меню"
 
 #: core/mainwindow.cpp:716 core/mainwindow.cpp:1913
 msgid "Toggle queue status"
@@ -5392,7 +5392,7 @@ msgstr "Использование"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:269
 msgid "Use Gnome (GSD) shortcuts when available"
-msgstr "Использовать сочетания клавиш Gnome (GSD) по доступности"
+msgstr "Использовать сочетания клавиш Gnome (GSD) по возможности"
 
 #: ../build/src/ui_subsonicsettingspage.h:253
 msgid "Use HTTP/2 when possible"
@@ -5404,11 +5404,11 @@ msgstr "Использовать HTTPS для локального сервер�
 
 #: ../build/src/ui_globalshortcutssettingspage.h:273
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr "Использовать сочетания клавиш KDE (KGlobalAccel) по доступности"
+msgstr "Использовать сочетания клавиш KDE (KGlobalAccel) по возможности"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:271
 msgid "Use MATE shortcuts when available"
-msgstr "Использовать сочетания клавиш MATE по доступности"
+msgstr "Использовать сочетания клавиш MATE по возможности"
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
@@ -5428,7 +5428,7 @@ msgstr "Использовать настройки Tidal для аутенти�
 
 #: ../build/src/ui_globalshortcutssettingspage.h:274
 msgid "Use X11 shortcuts when available"
-msgstr "Использовать сочетания клавиш X11 по доступности"
+msgstr "Использовать сочетания клавиш X11 по возможности"
 
 #: ../build/src/ui_appearancesettingspage.h:588
 msgid "Use a custom color set"
@@ -5464,7 +5464,7 @@ msgstr "Использовать градиентный фон"
 
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
-msgstr "Использовать настройки прокси-сервера для потоковой передачи"
+msgstr "Использовать настройки прокси для потокового прослушивания"
 
 #: ../build/src/ui_appearancesettingspage.h:584
 msgid "Use system theme icons"
@@ -5549,7 +5549,7 @@ msgstr "Vorbis"
 
 #: playlist/playlisttabbar.cpp:239 ../build/src/ui_playlistsettingspage.h:173
 msgid "Warn me when closing a playlist tab"
-msgstr "Оповещать о закрытии вкладки плейлиста"
+msgstr "Спрашивать при закрытии вкладки плейлиста"
 
 #: ../build/src/ui_lastfmimportdialog.h:152
 msgid ""
@@ -5750,7 +5750,7 @@ msgstr "и"
 
 #: collection/collectionfilterwidget.cpp:75
 msgid "artist"
-msgstr "артист"
+msgstr "artist"
 
 #: ../build/src/ui_internetsearchview.h:225
 msgid "artists"
@@ -5805,7 +5805,7 @@ msgstr "пусто"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:270
 msgid "ends with"
-msgstr "заканчивается на"
+msgstr "оканчивается на"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:276
 msgid "equals"
@@ -5919,7 +5919,7 @@ msgstr "сортировку песен"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:268
 msgid "starts with"
-msgstr "начинается на"
+msgstr "начинается с"
 
 #: playlist/playlistdelegates.cpp:232
 msgid "stop"
