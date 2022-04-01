@@ -44,6 +44,7 @@ GlobalShortcut::GlobalShortcut(QObject *parent)
       qt_key_(Qt::Key(0)),
       qt_mods_(Qt::NoModifier),
       native_key_(0),
+      native_key2_(0),
       native_mods_(0) {
 
   Q_ASSERT(!initialized_);
@@ -100,16 +101,20 @@ bool GlobalShortcut::setShortcut(const QKeySequence &shortcut) {
   if (native_key_ == 0) return false;
   native_mods_ = nativeModifiers(qt_mods_);
 
-  bool result = registerShortcut(native_key_, native_mods_);
-  if (result) {
+  bool success = registerShortcut(native_key_, native_mods_);
+  if (success) {
     internal_shortcuts_.insert(qMakePair(native_key_, native_mods_), this);
     qLog(Info) << "Registered shortcut" << shortcut_.toString();
+    native_key2_ = nativeKeycode2(qt_key_);
+    if (native_key2_ > 0 && registerShortcut(native_key2_, native_mods_)) {
+      internal_shortcuts_.insert(qMakePair(native_key2_, native_mods_), this);
+    }
   }
   else {
     qLog(Error) << "Failed to register shortcut" << shortcut_.toString();
   }
 
-  return result;
+  return success;
 
 }
 
@@ -123,12 +128,22 @@ bool GlobalShortcut::unsetShortcut() {
     if (gshortcut != this) return false;
   }
 
-  bool result = unregisterShortcut(native_key_, native_mods_);
-  if (result) {
+  bool success = unregisterShortcut(native_key_, native_mods_);
+  if (success) {
     if (internal_shortcuts_.contains(hash)) {
       internal_shortcuts_.remove(hash);
     }
     qLog(Info) << "Unregister shortcut" << shortcut_.toString();
+    if (native_key2_ > 0) {
+      QPair<quint32, quint32> hash2 = qMakePair(native_key2_, native_mods_);
+      if (internal_shortcuts_.contains(hash2)) {
+        GlobalShortcut *gshortcut2 = internal_shortcuts_.value(hash);
+        if (gshortcut2 == this) {
+          unregisterShortcut(native_key2_, native_mods_);
+          internal_shortcuts_.remove(hash2);
+        }
+      }
+    }
   }
   else {
     qLog(Error) << "Failed to unregister shortcut" << shortcut_.toString();
@@ -139,11 +154,11 @@ bool GlobalShortcut::unsetShortcut() {
   native_key_ = 0;
   native_mods_ = 0;
 
-  return result;
+  return success;
 
 }
 
-void GlobalShortcut::activateShortcut(quint32 native_key, quint32 native_mod) {
+void GlobalShortcut::activateShortcut(const quint32 native_key, const quint32 native_mod) {
 
   Q_ASSERT(initialized_);
 

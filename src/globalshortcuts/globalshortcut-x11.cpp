@@ -119,7 +119,7 @@ quint32 AppRootWindow() {
 
 }  // namespace
 
-int GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
+int GlobalShortcut::nativeModifiers(const Qt::KeyboardModifiers qt_mods) {
 
   int native_mods = 0;
   if (qt_mods & Qt::ShiftModifier)    native_mods |= ShiftMask;
@@ -130,41 +130,43 @@ int GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
 
 }
 
-int GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
+int GlobalShortcut::nativeKeycode(const Qt::Key qt_keycode) {
 
   Display *disp = X11Display();
   if (!disp) return false;
 
   quint32 keysym = 0;
-  if (KeyMapperX11::keymapper_x11_.contains(qt_key)) {
-    keysym = KeyMapperX11::keymapper_x11_.value(qt_key);
+  if (KeyMapperX11::keymapper_x11_.contains(qt_keycode)) {
+    keysym = KeyMapperX11::keymapper_x11_.value(qt_keycode);
   }
   else {
-    keysym = XStringToKeysym(QKeySequence(qt_key).toString().toLatin1().data());
+    keysym = XStringToKeysym(QKeySequence(qt_keycode).toString().toLatin1().data());
     if (keysym == NoSymbol) return 0;
   }
   return XKeysymToKeycode(disp, keysym);
 
 }
 
-bool GlobalShortcut::registerShortcut(int native_key, int native_mods) {
+int GlobalShortcut::nativeKeycode2(const Qt::Key qt_keycode) { return 0; }
+
+bool GlobalShortcut::registerShortcut(const int native_key, const int native_mods) {
 
   Display *disp = X11Display();
   if (!disp) return false;
 
-  for (quint32 mask_mods : mask_modifiers_) {
+  for (const quint32 mask_mods : mask_modifiers_) {
     XGrabKey(disp, native_key, (native_mods | mask_mods), AppRootWindow(), True, GrabModeAsync, GrabModeAsync);
   }
   return true;
 
 }
 
-bool GlobalShortcut::unregisterShortcut(int native_key, int native_mods) {
+bool GlobalShortcut::unregisterShortcut(const int native_key, const int native_mods) {
 
   Display *disp = X11Display();
   if (!disp) return false;
 
-  for (quint32 mask_mods : mask_modifiers_) {
+  for (const quint32 mask_mods : mask_modifiers_) {
     XUngrabKey(disp, native_key, native_mods | mask_mods, AppRootWindow());
   }
   return true;

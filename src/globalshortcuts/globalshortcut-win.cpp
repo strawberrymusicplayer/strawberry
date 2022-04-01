@@ -25,7 +25,9 @@
 #include "globalshortcut.h"
 #include "keymapper_win.h"
 
-int GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
+#include "core/logging.h"
+
+int GlobalShortcut::nativeModifiers(const Qt::KeyboardModifiers qt_mods) {
 
   int native_mods = 0;
   if (qt_mods & Qt::ShiftModifier) native_mods |= MOD_SHIFT;
@@ -36,22 +38,57 @@ int GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
 
 }
 
-int GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
+int GlobalShortcut::nativeKeycode(const Qt::Key qt_keycode) {
 
   int key_code = 0;
-  if (KeyMapperWin::keymapper_win_.contains(qt_key)) {
-    key_code = KeyMapperWin::keymapper_win_.value(qt_key);
+  if (KeyMapperWin::keymapper_win_.contains(qt_keycode)) {
+    key_code = KeyMapperWin::keymapper_win_.value(qt_keycode);
   }
   return key_code;
 
 }
 
-bool GlobalShortcut::registerShortcut(int native_key, int native_mods) {
-  return RegisterHotKey(0, native_mods ^ native_key, native_mods, native_key);
+int GlobalShortcut::nativeKeycode2(const Qt::Key qt_keycode) {
+
+  switch (qt_keycode) {
+    case Qt::Key_0:
+      return VK_NUMPAD0;
+    case Qt::Key_1:
+      return VK_NUMPAD1;
+    case Qt::Key_2:
+      return VK_NUMPAD2;
+    case Qt::Key_3:
+      return VK_NUMPAD3;
+    case Qt::Key_4:
+      return VK_NUMPAD4;
+    case Qt::Key_5:
+      return VK_NUMPAD5;
+    case Qt::Key_6:
+      return VK_NUMPAD6;
+    case Qt::Key_7:
+      return VK_NUMPAD7;
+    case Qt::Key_8:
+      return VK_NUMPAD8;
+    case Qt::Key_9:
+      return VK_NUMPAD9;
+    default:
+      break;
+  }
+
+  return 0;
+
 }
 
-bool GlobalShortcut::unregisterShortcut(int native_key, int native_mods) {
+bool GlobalShortcut::registerShortcut(const int native_key, const int native_mods) {
+
+  return RegisterHotKey(0, native_mods ^ native_key, native_mods, native_key);
+
+}
+
+bool GlobalShortcut::unregisterShortcut(const int native_key, const int native_mods) {
+
   return UnregisterHotKey(0, native_mods ^ native_key);
+
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -69,6 +106,7 @@ bool GlobalShortcut::nativeEventFilter(const QByteArray &eventtype, void *messag
   quint32 key_code = HIWORD(msg->lParam);
   quint32 modifiers = LOWORD(msg->lParam);
   activateShortcut(key_code, modifiers);
+
   return true;
 
 }
