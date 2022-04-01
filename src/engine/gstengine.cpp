@@ -698,6 +698,9 @@ GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) 
       PluginDetails details;
       details.name = QString::fromUtf8(gst_plugin_feature_get_name(p->data));
       details.description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
+      if (details.name == "wasapi2sink" && details.description == "Stream audio to an audio capture device through WASAPI") {
+        details.description += " 2";
+      }
       ret << details;
       //qLog(Debug) << details.name << details.description;
     }
