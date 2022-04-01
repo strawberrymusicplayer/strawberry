@@ -44,8 +44,8 @@
 
 class QHideEvent;
 class QShowEvent;
-class QTimerEvent;
 class QPaintEvent;
+class QTimerEvent;
 
 namespace Analyzer {
 
@@ -55,19 +55,13 @@ class Base : public QWidget {
   Q_OBJECT
 
  public:
-  ~Base() override { delete fht_; }
+  ~Base() override;
 
   int timeout() const { return timeout_; }
 
   void set_engine(EngineBase *engine) { engine_ = engine; }
 
-  void changeTimeout(int newTimeout) {
-    timeout_ = newTimeout;
-    if (timer_.isActive()) {
-      timer_.stop();
-      timer_.start(timeout_, this);
-    }
-  }
+  void ChangeTimeout(const int timeout);
 
   virtual void framerateChanged() {}
 
@@ -76,10 +70,8 @@ class Base : public QWidget {
 
   void hideEvent(QHideEvent*) override;
   void showEvent(QShowEvent*) override;
-  void paintEvent(QPaintEvent*) override;
-  void timerEvent(QTimerEvent*) override;
-
-  void polishEvent();
+  void paintEvent(QPaintEvent *e) override;
+  void timerEvent(QTimerEvent *e) override;
 
   int resizeExponent(int);
   int resizeForBands(const int);
@@ -90,13 +82,13 @@ class Base : public QWidget {
 
  protected:
   QBasicTimer timer_;
-  int timeout_;
   FHT *fht_;
   EngineBase *engine_;
   Scope lastscope_;
 
   bool new_frame_;
   bool is_playing_;
+  int timeout_;
 };
 
 void interpolate(const Scope&, Scope&);

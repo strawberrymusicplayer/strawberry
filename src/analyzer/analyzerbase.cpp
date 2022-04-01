@@ -32,10 +32,11 @@
 #include <QVector>
 #include <QPainter>
 #include <QPalette>
+#include <QBasicTimer>
+#include <QShowEvent>
+#include <QHideEvent>
 #include <QTimerEvent>
-#include <QtEvents>
 
-#include "core/logging.h"
 #include "engine/enginebase.h"
 
 // INSTRUCTIONS Base2D
@@ -51,16 +52,34 @@
 
 Analyzer::Base::Base(QWidget *parent, const uint scopeSize)
     : QWidget(parent),
-      timeout_(40),
       fht_(new FHT(scopeSize)),
       engine_(nullptr),
       lastscope_(512),
       new_frame_(false),
-      is_playing_(false) {}
+      is_playing_(false),
+      timeout_(40) {}
 
-void Analyzer::Base::hideEvent(QHideEvent*) { timer_.stop(); }
+Analyzer::Base::~Base() {
+  delete fht_;
+}
 
-void Analyzer::Base::showEvent(QShowEvent*) { timer_.start(timeout(), this); }
+void Analyzer::Base::showEvent(QShowEvent*) {
+  timer_.start(timeout(), this);
+}
+
+void Analyzer::Base::hideEvent(QHideEvent*) {
+  timer_.stop();
+}
+
+void Analyzer::Base::ChangeTimeout(const int timeout) {
+
+  timeout_ = timeout;
+  if (timer_.isActive()) {
+    timer_.stop();
+    timer_.start(timeout_, this);
+  }
+
+}
 
 void Analyzer::Base::transform(Scope &scope) {
 
@@ -184,10 +203,6 @@ void Analyzer::Base::demo(QPainter &p) {
 
   ++t;
 
-}
-
-void Analyzer::Base::polishEvent() {
-  init();
 }
 
 void Analyzer::interpolate(const Scope &inVec, Scope &outVec) {

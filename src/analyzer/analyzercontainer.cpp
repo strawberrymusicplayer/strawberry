@@ -153,7 +153,7 @@ void AnalyzerContainer::ChangeAnalyzer(const int id) {
   current_analyzer_->set_engine(engine_);
   // Even if it is not supposed to happen, I don't want to get a dbz error
   current_framerate_ = current_framerate_ == 0 ? kMediumFramerate : current_framerate_;
-  current_analyzer_->changeTimeout(1000 / current_framerate_);
+  current_analyzer_->ChangeTimeout(1000 / current_framerate_);
 
   layout()->addWidget(current_analyzer_);
 
@@ -166,7 +166,7 @@ void AnalyzerContainer::ChangeFramerate(int new_framerate) {
   if (current_analyzer_) {
     // Even if it is not supposed to happen, I don't want to get a dbz error
     new_framerate = new_framerate == 0 ? kMediumFramerate : new_framerate;
-    current_analyzer_->changeTimeout(1000 / new_framerate);
+    current_analyzer_->ChangeTimeout(1000 / new_framerate);
 
     // notify the current analyzer that the framerate has changed
     current_analyzer_->framerateChanged();
