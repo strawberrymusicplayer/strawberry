@@ -35,7 +35,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-03-29 05:27-0400\n"
+"PO-Revision-Date: 2022-04-03 12:33-0400\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -421,7 +421,7 @@ msgstr "&Стоп"
 
 #: playlist/playlistheader.cpp:57
 msgid "&Stretch columns to fit window"
-msgstr "&Подгонять по размеру окна"
+msgstr "&Подгонять к размеру окна"
 
 #: ../build/src/ui_mainwindow.h:721
 msgid "&Tools"
@@ -644,7 +644,7 @@ msgstr "Добавить файлы для конвертирования"
 
 #: core/mainwindow.cpp:2219 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
-msgstr "Добавить папку"
+msgstr "Добавление папки"
 
 #: ../build/src/ui_collectionsettingspage.h:585
 msgid "Add new folder..."
@@ -2039,7 +2039,7 @@ msgstr "Включить эквалайзер"
 
 #: ../build/src/ui_notificationssettingspage.h:508
 msgid "Enable fading"
-msgstr "Включить затухание звука"
+msgstr "Включить исчезание"
 
 #: ../build/src/ui_playlistsettingspage.h:179
 msgid "Enable playlist clear button"
@@ -4636,7 +4636,7 @@ msgstr "Показывать кнопку скробблинга"
 
 #: ../build/src/ui_mainwindow.h:715
 msgid "Show sidebar"
-msgstr "Показать боковую панель"
+msgstr "Показывать боковую панель"
 
 #: context/contextview.cpp:341
 msgid "Show song lyrics"
@@ -4946,7 +4946,7 @@ msgstr "Прослушивание потоков"
 
 #: ../build/src/ui_appearancesettingspage.h:617
 msgid "Stretch image to fill playlist"
-msgstr "Подгонять изображение по размеру плейлиста"
+msgstr "Подгонять изображение к размеру плейлиста"
 
 #: ../build/src/ui_appearancesettingspage.h:582
 #: ../build/src/ui_appearancesettingspage.h:583
@@ -5372,7 +5372,7 @@ msgstr "Идёт обновление %1%…"
 
 #: collection/collectionwatcher.cpp:203
 msgid "Updating collection"
-msgstr "Идёт обновление фонотеки"
+msgstr "Обновляется фонотека"
 
 #: ../build/src/ui_backendsettingspage.h:563
 msgid "Upmix / downmix to"
