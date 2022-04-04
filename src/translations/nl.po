@@ -111,22 +111,22 @@ msgstr "nummers"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler authenticatie"
 
-#: context/contextview.cpp:474
+#: context/contextview.cpp:472
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:475
+#: context/contextview.cpp:473
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 albums"
 
-#: context/contextview.cpp:470
+#: context/contextview.cpp:468
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artiest"
 
-#: context/contextview.cpp:471
+#: context/contextview.cpp:469
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artiesten"
@@ -167,7 +167,7 @@ msgstr "%1 afspeellijsten (%2)"
 msgid "%1 selected of"
 msgstr "%1 geselecteerd van"
 
-#: context/contextview.cpp:466
+#: context/contextview.cpp:464
 #, qt-format
 msgid "%1 song"
 msgstr "%1 nummer"
@@ -177,7 +177,7 @@ msgstr "%1 nummer"
 msgid "%1 song%2"
 msgstr "%1 nummer%2"
 
-#: context/contextview.cpp:467
+#: context/contextview.cpp:465
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 nummers"
@@ -831,7 +831,7 @@ msgstr "Album hoes grote"
 msgid "Albums"
 msgstr "Albums"
 
-#: context/contextview.cpp:615
+#: context/contextview.cpp:613
 #, qt-format
 msgid "Albums by %1"
 msgstr ""
@@ -1066,7 +1066,7 @@ msgstr "Automatisch enkelvoudige categorieën in bibliotheekboom openen"
 msgid "Automatically search for album cover"
 msgstr ""
 
-#: context/contextview.cpp:345 ../build/src/ui_contextsettingspage.h:446
+#: context/contextview.cpp:343 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
 msgstr ""
 
@@ -3322,7 +3322,7 @@ msgstr ""
 msgid "No short blocks"
 msgstr "Geen korte blokken"
 
-#: context/contextview.cpp:463
+#: context/contextview.cpp:461
 msgid "No song playing"
 msgstr ""
 
@@ -4502,7 +4502,7 @@ msgstr "Mooi infoschermvenster weergeven"
 msgid "Show above status bar"
 msgstr "Boven statusbalk weergeven"
 
-#: context/contextview.cpp:325
+#: context/contextview.cpp:323
 msgid "Show album cover"
 msgstr "Toon albumhoes"
 
@@ -4510,7 +4510,7 @@ msgstr "Toon albumhoes"
 msgid "Show album cover art in collection"
 msgstr "Toon albumhoezen in collectie"
 
-#: context/contextview.cpp:337
+#: context/contextview.cpp:335
 msgid "Show albums by artist"
 msgstr "Toon albums op artiest"
 
@@ -4530,7 +4530,7 @@ msgstr "Toon dialoogvenster voor fouten"
 msgid "Show dividers"
 msgstr "Verdelers tonen"
 
-#: context/contextview.cpp:333
+#: context/contextview.cpp:331
 msgid "Show engine and device"
 msgstr ""
 
@@ -4583,7 +4583,7 @@ msgstr "Toon scrobble-knop"
 msgid "Show sidebar"
 msgstr "Toon zijbalk"
 
-#: context/contextview.cpp:341
+#: context/contextview.cpp:339
 msgid "Show song lyrics"
 msgstr "Songteksten weergeven"
 
@@ -4591,7 +4591,7 @@ msgstr "Songteksten weergeven"
 msgid "Show song progress on system tray icon"
 msgstr ""
 
-#: context/contextview.cpp:329
+#: context/contextview.cpp:327
 msgid "Show song technical data"
 msgstr "Technische gegevens lied weergeven"
 
@@ -5771,7 +5771,7 @@ msgstr "hardware"
 msgid "in the last"
 msgstr "als laatst"
 
-#: context/contextview.cpp:551 context/contextview.cpp:701
+#: context/contextview.cpp:549 context/contextview.cpp:699
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "kbps"

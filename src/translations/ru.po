@@ -132,22 +132,22 @@ msgstr " песен"
 msgid "%1 Scrobbler Authentication"
 msgstr "Аутентификация скробблера %1"
 
-#: context/contextview.cpp:474
+#: context/contextview.cpp:472
 #, qt-format
 msgid "%1 album"
 msgstr "%1 альбом"
 
-#: context/contextview.cpp:475
+#: context/contextview.cpp:473
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 альбомов"
 
-#: context/contextview.cpp:470
+#: context/contextview.cpp:468
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 артист"
 
-#: context/contextview.cpp:471
+#: context/contextview.cpp:469
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 артистов"
@@ -188,7 +188,7 @@ msgstr "%1 плейлистов (%2)"
 msgid "%1 selected of"
 msgstr "%1 выбрано из"
 
-#: context/contextview.cpp:466
+#: context/contextview.cpp:464
 #, qt-format
 msgid "%1 song"
 msgstr "%1 песня"
@@ -198,7 +198,7 @@ msgstr "%1 песня"
 msgid "%1 song%2"
 msgstr "%1 песня%2"
 
-#: context/contextview.cpp:467
+#: context/contextview.cpp:465
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 композиций"
@@ -861,7 +861,7 @@ msgstr "Размер обложки альбома"
 msgid "Albums"
 msgstr "Альбомы"
 
-#: context/contextview.cpp:615
+#: context/contextview.cpp:613
 #, qt-format
 msgid "Albums by %1"
 msgstr "Альбомы от %1"
@@ -1097,7 +1097,7 @@ msgstr "Автоматически раскрывать одиночные ка�
 msgid "Automatically search for album cover"
 msgstr "Автоматический поиск обложки альбома"
 
-#: context/contextview.cpp:345 ../build/src/ui_contextsettingspage.h:446
+#: context/contextview.cpp:343 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
 msgstr "Автоматический поиск текста песни"
 
@@ -3359,7 +3359,7 @@ msgstr "Поставщик не выбран."
 msgid "No short blocks"
 msgstr "Без коротких блоков"
 
-#: context/contextview.cpp:463
+#: context/contextview.cpp:461
 msgid "No song playing"
 msgstr "Ничего не играет"
 
@@ -4557,7 +4557,7 @@ msgstr "Показывать красивое экранное меню"
 msgid "Show above status bar"
 msgstr "Показать над строкой состояния"
 
-#: context/contextview.cpp:325
+#: context/contextview.cpp:323
 msgid "Show album cover"
 msgstr "Показать обложку альбома"
 
@@ -4565,7 +4565,7 @@ msgstr "Показать обложку альбома"
 msgid "Show album cover art in collection"
 msgstr "Показывать обложку альбома в фонотеке"
 
-#: context/contextview.cpp:337
+#: context/contextview.cpp:335
 msgid "Show albums by artist"
 msgstr "Показать альбомы артиста"
 
@@ -4585,7 +4585,7 @@ msgstr "Показывать окно ошибок"
 msgid "Show dividers"
 msgstr "Показывать разделители"
 
-#: context/contextview.cpp:333
+#: context/contextview.cpp:331
 msgid "Show engine and device"
 msgstr "Показать движок и устройство"
 
@@ -4638,7 +4638,7 @@ msgstr "Показывать кнопку скробблинга"
 msgid "Show sidebar"
 msgstr "Показывать боковую панель"
 
-#: context/contextview.cpp:341
+#: context/contextview.cpp:339
 msgid "Show song lyrics"
 msgstr "Показать текст песни"
 
@@ -4646,7 +4646,7 @@ msgstr "Показать текст песни"
 msgid "Show song progress on system tray icon"
 msgstr "Показывать прогресс песни на значке в трее"
 
-#: context/contextview.cpp:329
+#: context/contextview.cpp:327
 msgid "Show song technical data"
 msgstr "Показать технические данные песни"
 
@@ -5823,7 +5823,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "в последние"
 
-#: context/contextview.cpp:551 context/contextview.cpp:701
+#: context/contextview.cpp:549 context/contextview.cpp:699
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "кбит/с"

@@ -110,22 +110,22 @@ msgstr " 曲"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler 認証"
 
-#: context/contextview.cpp:474
+#: context/contextview.cpp:472
 #, qt-format
 msgid "%1 album"
 msgstr "%1 枚のアルバム"
 
-#: context/contextview.cpp:475
+#: context/contextview.cpp:473
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 枚のアルバム"
 
-#: context/contextview.cpp:470
+#: context/contextview.cpp:468
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 アーティスト"
 
-#: context/contextview.cpp:471
+#: context/contextview.cpp:469
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 アーティスト"
@@ -166,7 +166,7 @@ msgstr "%1 プレイリスト (%2)"
 msgid "%1 selected of"
 msgstr "%1 個選択中"
 
-#: context/contextview.cpp:466
+#: context/contextview.cpp:464
 #, qt-format
 msgid "%1 song"
 msgstr "%1 曲"
@@ -176,7 +176,7 @@ msgstr "%1 曲"
 msgid "%1 song%2"
 msgstr "%1 曲"
 
-#: context/contextview.cpp:467
+#: context/contextview.cpp:465
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 曲"
@@ -821,7 +821,7 @@ msgstr "アルバムカバーサイズ"
 msgid "Albums"
 msgstr "アルバム"
 
-#: context/contextview.cpp:615
+#: context/contextview.cpp:613
 #, qt-format
 msgid "Albums by %1"
 msgstr "%1 のアルバム"
@@ -1055,7 +1055,7 @@ msgstr "下位カテゴリが 1 つしかないときは、ライブラリツリ
 msgid "Automatically search for album cover"
 msgstr "アルバムカバーの自動検索"
 
-#: context/contextview.cpp:345 ../build/src/ui_contextsettingspage.h:446
+#: context/contextview.cpp:343 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
 msgstr "歌詞の自動検索"
 
@@ -3294,7 +3294,7 @@ msgstr "プロバイダーが選択されていません"
 msgid "No short blocks"
 msgstr "短いブロックなし"
 
-#: context/contextview.cpp:463
+#: context/contextview.cpp:461
 msgid "No song playing"
 msgstr "曲が再生されていません"
 
@@ -4468,7 +4468,7 @@ msgstr "Pretty OSD を表示する"
 msgid "Show above status bar"
 msgstr "ステータスバーの上に表示"
 
-#: context/contextview.cpp:325
+#: context/contextview.cpp:323
 msgid "Show album cover"
 msgstr "アルバムカバーを表示"
 
@@ -4476,7 +4476,7 @@ msgstr "アルバムカバーを表示"
 msgid "Show album cover art in collection"
 msgstr "コレクションでアルバムカバーアートを表示"
 
-#: context/contextview.cpp:337
+#: context/contextview.cpp:335
 msgid "Show albums by artist"
 msgstr "アーティストごとにアルバムを表示"
 
@@ -4496,7 +4496,7 @@ msgstr "エラーダイアログを表示"
 msgid "Show dividers"
 msgstr "区切りを表示する"
 
-#: context/contextview.cpp:333
+#: context/contextview.cpp:331
 msgid "Show engine and device"
 msgstr "エンジンとデバイスを表示"
 
@@ -4549,7 +4549,7 @@ msgstr "Scrobbleボタンを表示"
 msgid "Show sidebar"
 msgstr "サイドバーを表示"
 
-#: context/contextview.cpp:341
+#: context/contextview.cpp:339
 msgid "Show song lyrics"
 msgstr "歌詞を表示"
 
@@ -4557,7 +4557,7 @@ msgstr "歌詞を表示"
 msgid "Show song progress on system tray icon"
 msgstr "システムトレイアイコンで曲の進行状況を表示"
 
-#: context/contextview.cpp:329
+#: context/contextview.cpp:327
 msgid "Show song technical data"
 msgstr "曲のテクニカルデータを表示"
 
@@ -5691,7 +5691,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "最後の時間"
 
-#: context/contextview.cpp:551 context/contextview.cpp:701
+#: context/contextview.cpp:549 context/contextview.cpp:699
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "kbps"

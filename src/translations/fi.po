@@ -102,22 +102,22 @@ msgstr "kappaleet"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler-tunnistautuminen"
 
-#: context/contextview.cpp:474
+#: context/contextview.cpp:472
 #, qt-format
 msgid "%1 album"
 msgstr "%1 albumi"
 
-#: context/contextview.cpp:475
+#: context/contextview.cpp:473
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 albumia"
 
-#: context/contextview.cpp:470
+#: context/contextview.cpp:468
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 esittäjä"
 
-#: context/contextview.cpp:471
+#: context/contextview.cpp:469
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 esitäjää"
@@ -158,7 +158,7 @@ msgstr "%1-soittolistat (%2)"
 msgid "%1 selected of"
 msgstr "valittuna %1 /"
 
-#: context/contextview.cpp:466
+#: context/contextview.cpp:464
 #, qt-format
 msgid "%1 song"
 msgstr "%1 kappale"
@@ -168,7 +168,7 @@ msgstr "%1 kappale"
 msgid "%1 song%2"
 msgstr "%1 kappale%2"
 
-#: context/contextview.cpp:467
+#: context/contextview.cpp:465
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 kappaletta"
@@ -813,7 +813,7 @@ msgstr "Albumin kansikuvan koko"
 msgid "Albums"
 msgstr "Albumit"
 
-#: context/contextview.cpp:615
+#: context/contextview.cpp:613
 #, qt-format
 msgid "Albums by %1"
 msgstr ""
@@ -1049,7 +1049,7 @@ msgstr ""
 msgid "Automatically search for album cover"
 msgstr "Etsin kansikuvia automaattisesti"
 
-#: context/contextview.cpp:345 ../build/src/ui_contextsettingspage.h:446
+#: context/contextview.cpp:343 ../build/src/ui_contextsettingspage.h:446
 msgid "Automatically search for song lyrics"
 msgstr "Etsi laulunsanoja automaattisesti"
 
@@ -3307,7 +3307,7 @@ msgstr ""
 msgid "No short blocks"
 msgstr "Ei lyhyitä lohkoja"
 
-#: context/contextview.cpp:463
+#: context/contextview.cpp:461
 msgid "No song playing"
 msgstr ""
 
@@ -4481,7 +4481,7 @@ msgstr "Näytä kuvaruutunäyttö"
 msgid "Show above status bar"
 msgstr "Näytä tilapalkin yläpuolella"
 
-#: context/contextview.cpp:325
+#: context/contextview.cpp:323
 msgid "Show album cover"
 msgstr "Näytä kansikuva"
 
@@ -4489,7 +4489,7 @@ msgstr "Näytä kansikuva"
 msgid "Show album cover art in collection"
 msgstr ""
 
-#: context/contextview.cpp:337
+#: context/contextview.cpp:335
 msgid "Show albums by artist"
 msgstr "Näytä albumit esittäjän mukaan"
 
@@ -4509,7 +4509,7 @@ msgstr ""
 msgid "Show dividers"
 msgstr "Näytä erottimet"
 
-#: context/contextview.cpp:333
+#: context/contextview.cpp:331
 msgid "Show engine and device"
 msgstr "Näytä moottori ja laite"
 
@@ -4562,7 +4562,7 @@ msgstr "Näytä scrobble-painike"
 msgid "Show sidebar"
 msgstr "Näytä sivupalkki"
 
-#: context/contextview.cpp:341
+#: context/contextview.cpp:339
 msgid "Show song lyrics"
 msgstr "Näytä laulunsanat"
 
@@ -4570,7 +4570,7 @@ msgstr "Näytä laulunsanat"
 msgid "Show song progress on system tray icon"
 msgstr ""
 
-#: context/contextview.cpp:329
+#: context/contextview.cpp:327
 msgid "Show song technical data"
 msgstr "Näytä kappaleen tekniset tiedot"
 
@@ -5729,7 +5729,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:551 context/contextview.cpp:701
+#: context/contextview.cpp:549 context/contextview.cpp:699
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "kb/s"
