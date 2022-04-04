@@ -286,8 +286,6 @@ ContextView::ContextView(QWidget *parent)
 
   labels_play_all_ = labels_play_ << labels_play_data_;
 
-  QFontDatabase::addApplicationFont(":/fonts/HumongousofEternitySt.ttf");
-
   QObject::connect(widget_album_, &ContextAlbum::FadeStopFinished, this, &ContextView::FadeStopFinished);
 
 }
@@ -458,7 +456,7 @@ void ContextView::NoSong() {
     widget_album_->show();
   }
 
-  label_top_->setStyleSheet("font: 20pt \"Humongous of Eternity St\"; font-weight: Regular;");
+  label_top_->setStyleSheet("font: 20pt \"Liberation Serif\"; font-weight: Regular;");
 
   label_top_->setText(tr("No song playing"));
 
