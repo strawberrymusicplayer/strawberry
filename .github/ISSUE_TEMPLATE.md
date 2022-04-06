@@ -7,7 +7,8 @@ assignees: ''
 
 ---
 
-For technical issues, questions and feature suggestions/requests please use the forum on https://forum.strawberrymusicplayer.org/
+For technical issues, questions and discussion please use the forum on https://forum.strawberrymusicplayer.org/
+Any issues related to feature requests will be closed. See the README for more details.
 
 Check the Changelog to see if the issue is already fixed:
 https://github.com/strawberrymusicplayer/strawberry/blob/master/Changelog
