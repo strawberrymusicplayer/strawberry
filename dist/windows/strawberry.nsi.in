@@ -385,12 +385,14 @@ Section "Strawberry" Strawberry
   File "libpng16.dll"
   File "libprotobuf.dll"
   File "libxml2.dll"
+  File "pcre2-16.dll"
   File "zlib.dll"
 !endif
 !ifdef debug
   File "libpng16d.dll"
   File "libprotobufd.dll"
   File "libxml2d.dll"
+  File "pcre2-16d.dll"
   File "zlibd.dll"
 !endif
 
@@ -848,12 +850,14 @@ Section "Uninstall"
   Delete "$INSTDIR\libpng16.dll"
   Delete "$INSTDIR\libprotobuf.dll"
   Delete "$INSTDIR\libxml2.dll"
+  Delete "$INSTDIR\pcre2-16.dll"
   Delete "$INSTDIR\zlib.dll"
 !endif
 !ifdef debug
   Delete "$INSTDIR\libpng16d.dll"
   Delete "$INSTDIR\libprotobufd.dll"
   Delete "$INSTDIR\libxml2d.dll"
+  Delete "$INSTDIR\pcre2-16d.dll"
   Delete "$INSTDIR\zlibd.dll"
 !endif
 
