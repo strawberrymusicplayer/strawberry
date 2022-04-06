@@ -147,7 +147,7 @@ int GlobalShortcut::nativeKeycode(const Qt::Key qt_keycode) {
 
 }
 
-int GlobalShortcut::nativeKeycode2(const Qt::Key qt_keycode) { return 0; }
+int GlobalShortcut::nativeKeycode2(const Qt::Key) { return 0; }
 
 bool GlobalShortcut::registerShortcut(const int native_key, const int native_mods) {
 

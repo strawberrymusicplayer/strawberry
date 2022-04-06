@@ -61,6 +61,7 @@ GlobalShortcut::GlobalShortcut(const QKeySequence &shortcut, GlobalShortcutsBack
       qt_key_(Qt::Key(0)),
       qt_mods_(Qt::NoModifier),
       native_key_(0),
+      native_key2_(0),
       native_mods_(0) {
 
   Q_ASSERT(initialized_);
