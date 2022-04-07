@@ -618,7 +618,7 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=gstvolume.dll" "gstreamer-plugins\gstvolume.dll"
   File "/oname=gstvorbis.dll" "gstreamer-plugins\gstvorbis.dll"
   File "/oname=gstwasapi.dll" "gstreamer-plugins\gstwasapi.dll"
-  File "/oname=gstwasapi2.dll" "gstreamer-plugins\gstwasapi2.dll"
+  ;File "/oname=gstwasapi2.dll" "gstreamer-plugins\gstwasapi2.dll"
   File "/oname=gstwavpack.dll" "gstreamer-plugins\gstwavpack.dll"
   File "/oname=gstwavparse.dll" "gstreamer-plugins\gstwavparse.dll"
   File "/oname=gstxingmux.dll" "gstreamer-plugins\gstxingmux.dll"
