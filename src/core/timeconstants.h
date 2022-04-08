@@ -20,13 +20,13 @@
 #include <QtGlobal>
 
 // Use these to convert between time units
-const qint64 kMsecPerSec = 1000ll;
-const qint64 kUsecPerMsec = 1000ll;
-const qint64 kUsecPerSec = 1000000ll;
-const qint64 kNsecPerUsec = 1000ll;
-const qint64 kNsecPerMsec = 1000000ll;
-const qint64 kNsecPerSec = 1000000000ll;
+constexpr qint64 kMsecPerSec = 1000ll;
+constexpr qint64 kUsecPerMsec = 1000ll;
+constexpr qint64 kUsecPerSec = 1000000ll;
+constexpr qint64 kNsecPerUsec = 1000ll;
+constexpr qint64 kNsecPerMsec = 1000000ll;
+constexpr qint64 kNsecPerSec = 1000000000ll;
 
-const qint64 kSecsPerDay = 24 * 60 * 60;
+constexpr qint64 kSecsPerDay = 24 * 60 * 60;
 
 #endif  // TIMECONSTANTS_H
