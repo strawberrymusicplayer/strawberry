@@ -1,10 +1,11 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: strawberry
 Upstream-Contact: Jonas Kvinge <jonas@jkvinge.net>
-Source: https://www.strawberrymusicplayer.org/
+Source: https://github.com/strawberrymusicplayer/strawberry
 
 Files: *
 Copyright: 2010-2015, David Sansome <me@davidsansome.com>
+           2012-2014, 2017-2022 Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/core/timeconstants.h
@@ -13,14 +14,13 @@ Files: src/core/timeconstants.h
        ext/libstrawberry-common/core/messagehandler.cpp
        ext/libstrawberry-common/core/messagehandler.h
 Copyright: 2011, 2012, David Sansome <me@davidsansome.com>
+           2018-2022, Jonas Kvinge <jonas@jkvinge.net>
 License: Apache-2.0
 
 Files: src/core/main.h
        src/core/iconloader.cpp
        src/core/iconloader.h
        src/core/iconmapper.h
-       src/config.h.in
-       src/version.h.in
        src/context/contextview.cpp
        src/context/contextview.h
        src/context/contextalbum.cpp
@@ -29,6 +29,8 @@ Files: src/core/main.h
        src/engine/enginetype.h
        src/engine/alsadevicefinder.cpp
        src/engine/alsadevicefinder.h
+       src/engine/alsapcmdevicefinder.cpp
+       src/engine/alsapcmdevicefinder.h
        src/engine/mmdevicefinder.cpp
        src/engine/mmdevicefinder.h
        src/engine/devicefinder.cpp
@@ -69,8 +71,14 @@ Files: src/core/main.h
        src/covermanager/spotifycoverprovider.h
        src/covermanager/musixmatchcoverprovider.cpp
        src/covermanager/musixmatchcoverprovider.h
-       src/globalshortcuts/globalshortcutsbackend-system.cpp
-       src/globalshortcuts/globalshortcutsbackend-system.h
+       src/globalshortcuts/globalshortcutsbackend-kde.cpp
+       src/globalshortcuts/globalshortcutsbackend-kde.h
+       src/globalshortcuts/globalshortcutsbackend-mate.cpp
+       src/globalshortcuts/globalshortcutsbackend-mate.h
+       src/globalshortcuts/globalshortcutsbackend-x11.cpp
+       src/globalshortcuts/globalshortcutsbackend-x11.h
+       src/globalshortcuts/globalshortcutsbackend-win.cpp
+       src/globalshortcuts/globalshortcutsbackend-win.h
        src/globalshortcuts/globalshortcut.cpp
        src/globalshortcuts/globalshortcut.h
        src/globalshortcuts/globalshortcut-X11.cpp
@@ -81,127 +89,14 @@ Files: src/core/main.h
        src/scrobbler/*
        src/subsonic/*
        src/tidal/*
+       src/qobuz/*
+       src/radios/*
        src/transcoder/transcoderoptionswavpack.cpp
        src/transcoder/transcoderoptionswavpack.h
-Copyright: 2012-2014, 2017-2020, Jonas Kvinge <jonas@jkvinge.net>
-License: GPL-3+
-
-Files: src/core/main.cpp
-       src/core/mainwindow.cpp
-       src/core/mainwindow.h
-       src/core/player.cpp
-       src/core/player.h
-       src/core/song.cpp
-       src/core/song.h
-       src/core/songloader.cpp
-       src/core/songloader.h
-       src/core/urlhandler.cpp
-       src/core/urlhandler.h
-       src/core/utilities.cpp
-       src/core/utilities.h
-       src/core/networkaccessmanager.cpp
-       src/core/networkaccessmanager.h
-       src/core/threadsafenetworkdiskcache.cpp
-       src/core/threadsafenetworkdiskcache.h
-       src/core/filesystemmusicstorage.cpp
-       src/core/filesystemmusicstorage.h
-       src/core/stylesheetloader.cpp
-       src/core/stylesheetloader.h
-       src/engine/gstenginepipeline.cpp
-       src/engine/gstenginepipeline.h
-       src/engine/vlcengine.cpp
-       src/engine/vlcengine.h
-       src/collection/collectionwatcher.cpp
-       src/collection/collectionwatcher.h
-       src/collection/collectionbackend.cpp
-       src/collection/collectionbackend.h
-       src/collection/collectionmodel.cpp
-       src/collection/collectionmodel.h
-       src/context/contextalbumsmodel.cpp
-       src/context/contextalbumsview.cpp
-       src/context/contextalbumsmodel.h
-       src/context/contextalbumsview.h
-       src/widgets/playingwidget.cpp
-       src/widgets/playingwidget.h
-       src/osd/osdbase.cpp
-       src/osd/osdbase.h
-       src/osd/osdpretty.cpp
-       src/osd/osdpretty.h
-       src/osd/osddbus.cpp
-       src/osd/osddbus.h
-       src/osd/osdmac.cpp
-       src/osd/osdmac.h
-       src/dialogs/about.cpp
-       src/dialogs/about.h
-       src/playlist/playlist.cpp
-       src/playlist/playlist.h
-       src/playlist/playlistitem.cpp
-       src/playlist/playlistitem.h
-       src/playlist/playlistdelegates.cpp
-       src/playlist/playlistdelegates.h
-       src/playlist/playlistbackend.cpp
-       src/playlist/playlistbackend.h
-       src/playlist/playlistview.cpp
-       src/playlist/playlistview.h
-       src/playlist/songplaylistitem.cpp
-       src/playlist/songplaylistitem.h
-       src/internet/internetplaylistitem.cpp
-       src/internet/internetsearch.cpp
-       src/internet/internetsearch.h
-       src/internet/internetsearchview.cpp
-       src/internet/internetsearchview.h
-       src/internet/internetservices.cpp
-       src/internet/internetservices.h
-       src/internet/internetsongsview.cpp
-       src/internet/internetsongsview.h
-       src/internet/internetcollectionview.cpp
-       src/internet/internetcollectionview.h
-       ext/libstrawberry-tagreader/tagreader.cpp
-       ext/libstrawberry-tagreader/tagreader.h
-       src/device/devicemanager.cpp
-       src/device/devicemanager.h
-       src/device/deviceinfo.cpp
-       src/device/deviceinfo.h
-       src/device/deviceproperties.cpp
-       src/device/deviceproperties.h
-       src/device/deviceview.cpp
-       src/device/deviceview.h
-       src/device/connecteddevice.cpp
-       src/device/connecteddevice.h
-       src/device/mtpconnection.cpp
-       src/device/mtpconnection.h
-       src/device/mtpdevice.cpp
-       src/device/mtpdevice.h
-       src/globalshortcuts/globalshortcutsmanager.cpp
-       src/globalshortcuts/globalshortcutsmanager.h
-       src/settings/shortcutssettingspage.cpp
-       src/settings/shortcutssettingspage.h
-       src/settings/appearancesettingspage.cpp
-       src/settings/appearancesettingspage.h
-       src/organize/organize.cpp
-       src/organize/organize.h
-       src/organize/organizedialog.cpp
-       src/organize/organizedialog.h
-       src/organize/organizeerrordialog.cpp
-       src/organize/organizeerrordialog.h
-       src/transcoder/transcoder.cpp
-       src/transcoder/transcoder.h
-       src/musicbrainz/musicbrainzclient.cpp
-       src/musicbrainz/musicbrainzclient.h
-       src/covermanager/albumcoverloader.cpp
-       src/covermanager/albumcoverloader.h
-       src/covermanager/currentalbumcoverloader.cpp
-       src/covermanager/currentalbumcoverloader.h
-       src/covermanager/albumcoverchoicecontroller.cpp
-       src/covermanager/albumcoverchoicecontroller.h
-       src/covermanager/albumcoverfetchersearch.cpp
-       src/covermanager/albumcoverfetchersearch.h
-       src/covermanager/coverproviders.cpp
-       src/covermanager/coverproviders.h
-       src/covermanager/coverprovider.cpp
-       src/covermanager/coverprovider.h
-Copyright: 2010, 2012-2014 David Sansome <me@davidsansome.com>
-           2012-2014, 2017-2020 Jonas Kvinge <jonas@jkvinge.net>
+       ext/libstrawberry-tagreader/tagreadertagparser.cpp
+       ext/libstrawberry-tagreader/tagreadertagparser.h
+       ext/macdeploycheck/*
+Copyright: 2012-2014, 2017-2022, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/engine/enginebase.cpp
@@ -367,7 +262,7 @@ Copyright: 2010, Spotify AB
 License: BSD-3-clause
 
 Files: 3rdparty/singleapplication/*
-Copyright: 2015-2018, Itay Grudev
+Copyright: 2015-2022, Itay Grudev
 License: MIT
 
 
