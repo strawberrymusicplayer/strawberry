@@ -4,14 +4,14 @@ ignore:
   - Changelog
   - COPYING
   - CMakeLists.txt
-  - Dockerfile
+  - cmake_uninstall.cmake.in
+  - .clang-format
   - .gitignore
-  - .travis.yml
+  - .github
   - /debian/
   - /cmake/
   - /data/
   - /dist/
-  - /snap/
 
   suffixes:
   - jpg
