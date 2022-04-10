@@ -456,7 +456,7 @@ void ContextView::NoSong() {
     widget_album_->show();
   }
 
-  label_top_->setStyleSheet("font: 20pt \"Liberation Serif\"; font-weight: Regular;");
+  label_top_->setStyleSheet("font: 20pt 'Open Sans', 'FreeSans', 'FreeSerif', 'Liberation Serif'; font-weight: Regular;");
 
   label_top_->setText(tr("No song playing"));
 
