@@ -2,6 +2,21 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed use-after-free memory in ALSA PCM device finder.
+    * Translate global shortcuts.
+    * (Windows) Fixed registering 0-9 numpad keys in global shortcuts.
+
+  Enhancements
+    * Added save all playlists action.
+    * (Windows) Made updater support both MSVC and MinGW.
+    * (Windows) Added HLS support.
+
+  Other:
+    * Removed use of custom font in context.
+
 Version 1.0.3 (2022.03.24)
 
   Bugfixes:
