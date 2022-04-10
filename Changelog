@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.4 (2022.04.10)
 
   Bugfixes:
     * Fixed use-after-free memory in ALSA PCM device finder.
