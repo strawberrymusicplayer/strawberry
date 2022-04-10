@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-03-26 07:23-0400\n"
+"PO-Revision-Date: 2022-04-10 06:33-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -392,7 +392,7 @@ msgstr "&Höger"
 
 #: ../build/src/ui_mainwindow.h:692
 msgid "&Save all playlists"
-msgstr ""
+msgstr "&Spara alla spellistor"
 
 #: ../build/src/ui_mainwindow.h:650
 msgid "&Settings..."
@@ -440,7 +440,7 @@ msgid ""
 "submitted to the server. Setting the time to 0 seconds will submit scrobbles "
 "immediately)."
 msgstr ""
-"(Det här är fördröjningen mellan när en låt skrobblar och när skrobblingar "
+"(Det här är fördröjningen mellan när en låt skrobblas och när skrobblingar "
 "skickas till servern. Om tiden ställs in på 0 sekunder skickas skrobblingar "
 "direkt)."
 
@@ -1239,7 +1239,7 @@ msgstr "Byt omslag"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:79
 msgid "Change repeat mode"
-msgstr ""
+msgstr "Ändra upprepningsläge"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
@@ -1247,7 +1247,7 @@ msgstr "Byt genväg..."
 
 #: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Change shuffle mode"
-msgstr ""
+msgstr "Ändra blandningsläge"
 
 #: ../build/src/ui_behavioursettingspage.h:315
 msgid "Change the currently playing song"
@@ -1742,7 +1742,7 @@ msgstr "Minska volymen med <value> procent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:71
 msgid "Decrease volume"
-msgstr ""
+msgstr "Minska volymen"
 
 #: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
@@ -1950,7 +1950,7 @@ msgstr "Dynamiskt läge är på"
 
 #: smartplaylists/smartplaylistsmodel.cpp:120
 msgid "Dynamic random mix"
-msgstr "Dynamisk slumpmässig blandning"
+msgstr "Dynamisk slumpmässig mixning"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
@@ -2047,7 +2047,7 @@ msgstr "Aktivera volymkontroll"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:80
 msgid "Enable/disable scrobbling"
-msgstr ""
+msgstr "Aktivera/inaktivera skrobbling"
 
 #: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
@@ -2792,7 +2792,7 @@ msgstr "Öka volymen med <value> procent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:70
 msgid "Increase volume"
-msgstr ""
+msgstr "Öka volymen"
 
 #: ../build/src/ui_deviceproperties.h:374
 msgid "Information"
@@ -3301,7 +3301,7 @@ msgstr "Nästa"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:68
 msgid "Next track"
-msgstr ""
+msgstr "Nästa spår"
 
 #: core/utilities.cpp:179
 msgid "Next week"
@@ -3646,7 +3646,7 @@ msgstr "Spela det <n> spåret i spellistan"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:65
 msgid "Play/Pause"
-msgstr ""
+msgstr "Spela/pausa"
 
 #: dialogs/lastfmimportdialog.cpp:154
 #, qt-format
@@ -4320,7 +4320,7 @@ msgstr "Skalningsstorlek"
 
 #: ../build/src/ui_scrobblersettingspage.h:405
 msgid "Scrobbler"
-msgstr "Skrobblare"
+msgstr "Skrobbling"
 
 #: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
@@ -4385,11 +4385,11 @@ msgstr "Andra nivå"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:74
 msgid "Seek backward"
-msgstr ""
+msgstr "Sök bakåt"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:73
 msgid "Seek forward"
-msgstr ""
+msgstr "Sök framåt"
 
 #: core/commandlineoptions.cpp:180
 msgid "Seek the currently playing track by a relative amount"
@@ -4417,7 +4417,7 @@ msgstr "Välj bästa möjliga matchning"
 
 #: playlist/playlistmanager.cpp:656
 msgid "Select directory for the playlists"
-msgstr ""
+msgstr "Välj mapp för spellistorna"
 
 #: ../build/src/ui_appearancesettingspage.h:589
 msgid "Select foreground color:"
@@ -4488,7 +4488,7 @@ msgstr "Visa"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:76
 msgid "Show OSD"
-msgstr ""
+msgstr "Visa avisering"
 
 #: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
@@ -4641,7 +4641,7 @@ msgstr "Visa huvudfönstret som minimerat"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Show/Hide"
-msgstr ""
+msgstr "Visa/dölj"
 
 #: ../build/src/ui_playlistsequence.h:122
 msgid "Shuffle"
@@ -4750,9 +4750,9 @@ msgid ""
 "seconds, have been playing for at least half its duration or for 4 minutes "
 "(whichever occurs earlier)."
 msgstr ""
-"Låtar är skrobblade om de har giltiga metadata och är längre än 30 sekunder, "
-"har spelats i minst hälften av dess varaktighet eller i 4 minuter (beroende "
-"på vilket som inträffar först)."
+"Låtar skrobblas om de har giltiga metadata och är längre än 30 sekunder, har "
+"spelats under minst halva dess varaktighet eller i 4 minuter (beroende på "
+"vilket som inträffar först)."
 
 #: ../build/src/ui_tidalsettingspage.h:334
 #: ../build/src/ui_qobuzsettingspage.h:285
@@ -4806,7 +4806,7 @@ msgstr "Startar %1"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:66
 msgid "Stop"
-msgstr ""
+msgstr "Stoppa"
 
 #: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
@@ -4830,7 +4830,7 @@ msgstr "Stoppa uppspelning efter aktuellt spår"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:67
 msgid "Stop playing after current track"
-msgstr ""
+msgstr "Stoppa spelning efter aktuellt spår"
 
 #: osd/osdbase.cpp:269
 #, qt-format
@@ -5207,7 +5207,7 @@ msgstr "Idag"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:77
 msgid "Toggle Pretty OSD"
-msgstr ""
+msgstr "Växla snygg avisering"
 
 #: core/mainwindow.cpp:716 core/mainwindow.cpp:1913
 msgid "Toggle queue status"
@@ -5261,7 +5261,7 @@ msgstr "Omkodningslogg"
 
 #: ../build/src/ui_transcodersettingspage.h:185
 msgid "Transcoding"
-msgstr "Omkodare"
+msgstr "Omkodning"
 
 #: transcoder/transcoder.cpp:331
 #, qt-format
@@ -5352,7 +5352,7 @@ msgstr "Uppdaterar samlingen"
 
 #: ../build/src/ui_backendsettingspage.h:563
 msgid "Upmix / downmix to"
-msgstr "Upmix / downmix till"
+msgstr "Uppmixa / nedmixa till"
 
 #: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
