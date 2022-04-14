@@ -1181,7 +1181,7 @@ msgstr ""
 msgid "Buffer duration"
 msgstr "缓冲时长"
 
-#: engine/gstengine.cpp:669
+#: engine/gstengine.cpp:670
 msgid "Buffering"
 msgstr "缓冲中"
 

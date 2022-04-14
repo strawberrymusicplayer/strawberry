@@ -1205,7 +1205,7 @@ msgstr "Buffert"
 msgid "Buffer duration"
 msgstr "Buffert varaktighet"
 
-#: engine/gstengine.cpp:669
+#: engine/gstengine.cpp:670
 msgid "Buffering"
 msgstr "Buffrar"
 

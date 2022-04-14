@@ -1183,7 +1183,7 @@ msgstr "Buffer"
 msgid "Buffer duration"
 msgstr "Durasi Bufer"
 
-#: engine/gstengine.cpp:669
+#: engine/gstengine.cpp:670
 msgid "Buffering"
 msgstr "Membufer..."
 

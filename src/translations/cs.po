@@ -1185,7 +1185,7 @@ msgstr "Mezipaměť"
 msgid "Buffer duration"
 msgstr "Délka vyrovnávací paměti"
 
-#: engine/gstengine.cpp:669
+#: engine/gstengine.cpp:670
 msgid "Buffering"
 msgstr "Ukládá se do vyrovnávací paměti"
 
