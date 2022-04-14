@@ -113,7 +113,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
  private slots:
   void EndOfStreamReached(const int pipeline_id, const bool has_next_track);
-  void HandlePipelineError(const int pipeline_id, const QString &message, const int domain, const int error_code);
+  void HandlePipelineError(const int pipeline_id, const int domain, const int error_code, const QString &message, const QString &debugstr);
   void NewMetaData(const int pipeline_id, const Engine::SimpleMetaBundle &bundle);
   void AddBufferToScope(GstBuffer *buf, const int pipeline_id, const QString &format);
   void FadeoutFinished();

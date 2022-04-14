@@ -124,7 +124,7 @@ class GstEnginePipeline : public QObject {
   void SetVolumeModifier(qreal mod);
 
  signals:
-  void Error(int pipeline_id, QString message, const int domain, const int error_code);
+  void Error(int pipeline_id, int domain, int error_code, QString message, QString debug);
 
   void EndOfStreamReached(int pipeline_id, bool has_next_track);
   void MetadataFound(int pipeline_id, const Engine::SimpleMetaBundle &bundle);

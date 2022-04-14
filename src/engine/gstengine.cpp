@@ -538,7 +538,7 @@ void GstEngine::EndOfStreamReached(const int pipeline_id, const bool has_next_tr
 
 }
 
-void GstEngine::HandlePipelineError(const int pipeline_id, const QString &message, const int domain, const int error_code) {
+void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, const int error_code, const QString &message, const QString &debugstr) {
 
   if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id) return;
 
@@ -563,6 +563,7 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const QString &messag
   }
 
   emit Error(message);
+  emit Error(debugstr);
 
 }
 

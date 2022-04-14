@@ -1157,7 +1157,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   }
 #endif
 
-  emit Error(id(), message, static_cast<int>(domain), code);
+  emit Error(id(), static_cast<int>(domain), code, message, debugstr);
 
 }
 
