@@ -786,23 +786,11 @@ QString DesktopEnvironment() {
 
 }
 
-QString UnicodeToAscii(QString unicode) {
+QString UnicodeToAscii(const QString &unicode) {
 
-#ifdef _MSC_VER
-
-  return unicode
-    .replace(QChar(229), "a")
-    .replace(QChar(197), 'A')
-    .replace(QChar(230), "ae")
-    .replace(QChar(198), "AE")
-    .replace(QChar(248), 'o')
-    .replace(QChar(216), 'O');
-
-#else
-
-#  ifdef LC_ALL
+#ifdef LC_ALL
   setlocale(LC_ALL, "");
-#  endif
+#endif
 
   iconv_t conv = iconv_open("ASCII//TRANSLIT", "UTF-8");
   if (conv == reinterpret_cast<iconv_t>(-1)) return unicode;
@@ -829,8 +817,6 @@ QString UnicodeToAscii(QString unicode) {
   delete[] output_ptr;
 
   return ret;
-
-#endif  // _MSC_VER
 }
 
 QString MacAddress() {
