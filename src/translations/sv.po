@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-04-10 06:33-0400\n"
+"PO-Revision-Date: 2022-04-17 07:11-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -490,6 +490,16 @@ msgid ""
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
 "size:10pt;\"><br /></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" "
+"/><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Noto Sans'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt;\"><br /></p></body></html>"
 
 #: ../build/src/ui_organizedialog.h:267
 msgid ""
@@ -1734,15 +1744,15 @@ msgstr "Dagar"
 
 #: core/commandlineoptions.cpp:176
 msgid "Decrease the volume by 4 percent"
-msgstr "Minska volymen med 4 procent"
+msgstr "Sänk volymen med 4 procent"
 
 #: core/commandlineoptions.cpp:178
 msgid "Decrease the volume by <value> percent"
-msgstr "Minska volymen med <value> procent"
+msgstr "Sänk volymen med <value> procent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:71
 msgid "Decrease volume"
-msgstr "Minska volymen"
+msgstr "Sänk volymen"
 
 #: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
@@ -2784,15 +2794,15 @@ msgstr "Inkludera alla spår"
 
 #: core/commandlineoptions.cpp:175
 msgid "Increase the volume by 4 percent"
-msgstr "Öka volymen med 4 procent"
+msgstr "Höj volymen med 4 procent"
 
 #: core/commandlineoptions.cpp:177
 msgid "Increase the volume by <value> percent"
-msgstr "Öka volymen med <value> procent"
+msgstr "Höj volymen med <value> procent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:70
 msgid "Increase volume"
-msgstr "Öka volymen"
+msgstr "Höj volymen"
 
 #: ../build/src/ui_deviceproperties.h:374
 msgid "Information"
