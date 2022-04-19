@@ -38,8 +38,17 @@ QString SmartPlaylistSearchTerm::ToSql() const {
 
   QString col = FieldColumnName(field_);
   QString date = DateName(date_, true);
-  QString value = value_.toString();
+  QString value;
   value.replace('\'', "''");
+
+  value = value_.toString();
+  if (field_ == Field_Filetype) {
+    Song::FileType filetype = Song::FiletypeByExtension(value);
+    if (filetype == Song::FileType_Unknown) {
+      filetype = Song::FiletypeByDescription(value);
+    }
+    value = QString::number(static_cast<int>(filetype));
+  }
 
   QString second_value;
 
