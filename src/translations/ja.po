@@ -510,7 +510,7 @@ msgstr "これらの条件に一致する曲がプレイリストに含まれま
 msgid "A&utomatic"
 msgstr "自動"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:419
+#: smartplaylists/smartplaylistsearchterm.cpp:428
 msgid "A-Z"
 msgstr "A-Z"
 
@@ -1361,7 +1361,7 @@ msgstr "色"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "コンマ区切りの クラス:レベル のリスト、レベルは 0-3"
 
-#: playlist/playlist.cpp:1371 smartplaylists/smartplaylistsearchterm.cpp:381
+#: playlist/playlist.cpp:1371 smartplaylists/smartplaylistsearchterm.cpp:390
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:839
 msgid "Comment"
 msgstr "コメント"
@@ -1700,7 +1700,7 @@ msgstr "作成日時"
 msgid "Date modified"
 msgstr "更新日時"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:441
+#: smartplaylists/smartplaylistsearchterm.cpp:450
 msgid "Days"
 msgstr "日"
 
@@ -2652,7 +2652,7 @@ msgstr "高 (%1 fps)"
 msgid "High watermark"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:439
+#: smartplaylists/smartplaylistsearchterm.cpp:448
 msgid "Hours"
 msgstr "時間"
 
@@ -3142,7 +3142,7 @@ msgstr "モデル"
 msgid "Monitor the collection for changes"
 msgstr "ライブラリの変更を監視する"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:445
+#: smartplaylists/smartplaylistsearchterm.cpp:454
 msgid "Months"
 msgstr "月"
 
@@ -5448,7 +5448,7 @@ msgstr ""
 msgid "WavPack"
 msgstr "WavPack"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:443
+#: smartplaylists/smartplaylistsearchterm.cpp:452
 msgid "Weeks"
 msgstr "週"
 
@@ -5513,7 +5513,7 @@ msgstr "年 - アルバム"
 msgid "Year - Album - Disc"
 msgstr "年 - アルバム - ディスク"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:447
+#: smartplaylists/smartplaylistsearchterm.cpp:456
 msgid "Years"
 msgstr "年"
 
@@ -5586,7 +5586,7 @@ msgstr "言語を変更するには Strawberry の再起動が必要です。"
 msgid "Your collection is empty!"
 msgstr "ライブラリは空です!"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:419
+#: smartplaylists/smartplaylistsearchterm.cpp:428
 msgid "Z-A"
 msgstr "Z-A"
 
@@ -5600,7 +5600,7 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "%n 曲の追加"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:244
+#: smartplaylists/smartplaylistsearchterm.cpp:253
 msgid "after"
 msgstr "の後"
 
@@ -5628,15 +5628,15 @@ msgstr "アーティスト"
 msgid "automatic"
 msgstr "自動"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:246
+#: smartplaylists/smartplaylistsearchterm.cpp:255
 msgid "before"
 msgstr "以前"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:256
+#: smartplaylists/smartplaylistsearchterm.cpp:265
 msgid "between"
 msgstr "の間"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:426
+#: smartplaylists/smartplaylistsearchterm.cpp:435
 msgid "biggest first"
 msgstr "降順"
 
@@ -5644,7 +5644,7 @@ msgstr "降順"
 msgid "channels"
 msgstr "チャネル"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:264
+#: smartplaylists/smartplaylistsearchterm.cpp:273
 msgid "contains"
 msgstr "含む"
 
@@ -5663,23 +5663,23 @@ msgstr "無効"
 msgid "disc %1"
 msgstr "ディスク %1"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:266
+#: smartplaylists/smartplaylistsearchterm.cpp:275
 msgid "does not contain"
 msgstr "含まない"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:280
+#: smartplaylists/smartplaylistsearchterm.cpp:289
 msgid "empty"
 msgstr "空"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:270
+#: smartplaylists/smartplaylistsearchterm.cpp:279
 msgid "ends with"
 msgstr "で終わる"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:276
+#: smartplaylists/smartplaylistsearchterm.cpp:285
 msgid "equals"
 msgstr "等しい"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:272
+#: smartplaylists/smartplaylistsearchterm.cpp:281
 msgid "greater than"
 msgstr "より大きい"
 
@@ -5687,7 +5687,7 @@ msgstr "より大きい"
 msgid "hw"
 msgstr "hw"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:252
+#: smartplaylists/smartplaylistsearchterm.cpp:261
 msgid "in the last"
 msgstr "最後の時間"
 
@@ -5696,11 +5696,11 @@ msgstr "最後の時間"
 msgid "kbps"
 msgstr "kbps"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:274
+#: smartplaylists/smartplaylistsearchterm.cpp:283
 msgid "less than"
 msgstr "より小さい"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:423
+#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "longest first"
 msgstr "最長優先"
 
@@ -5715,31 +5715,31 @@ msgstr "%n 曲の移動"
 msgid "ms"
 msgstr "ms"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:421
+#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "newest first"
 msgstr "新しい順"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:282
+#: smartplaylists/smartplaylistsearchterm.cpp:291
 msgid "not empty"
 msgstr "が空ではない"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:278
+#: smartplaylists/smartplaylistsearchterm.cpp:287
 msgid "not equals"
 msgstr "が次と異なる"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:254
+#: smartplaylists/smartplaylistsearchterm.cpp:263
 msgid "not in the last"
 msgstr "が次の時間以前"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:250
+#: smartplaylists/smartplaylistsearchterm.cpp:259
 msgid "not on"
 msgstr "が次の日付でない"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:421
+#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "oldest first"
 msgstr "古い順"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:248
+#: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "on"
 msgstr "が次の日付"
 
@@ -5765,7 +5765,7 @@ msgstr "%n 曲の削除"
 msgid "searches the collection for all artists that contain the word"
 msgstr "単語を含むすべてのアーティストをコレクションで検索する"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:423
+#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "shortest first"
 msgstr "短い順"
 
@@ -5773,7 +5773,7 @@ msgstr "短い順"
 msgid "shuffle songs"
 msgstr "曲のシャッフル"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:426
+#: smartplaylists/smartplaylistsearchterm.cpp:435
 msgid "smallest first"
 msgstr "昇順"
 
@@ -5785,7 +5785,7 @@ msgstr "曲"
 msgid "sort songs"
 msgstr "曲の並び替え"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:268
+#: smartplaylists/smartplaylistsearchterm.cpp:277
 msgid "starts with"
 msgstr "で始まる"
 

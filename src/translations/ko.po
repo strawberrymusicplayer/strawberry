@@ -509,7 +509,7 @@ msgstr "이 조건에 맞는 곡들이 재생 목록에 들어갑니다."
 msgid "A&utomatic"
 msgstr "자동(&U)"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:419
+#: smartplaylists/smartplaylistsearchterm.cpp:428
 msgid "A-Z"
 msgstr "A-Z"
 
@@ -1360,7 +1360,7 @@ msgstr "색상"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "쉼표로 구분된 class:level 목록, level은 0-3"
 
-#: playlist/playlist.cpp:1371 smartplaylists/smartplaylistsearchterm.cpp:381
+#: playlist/playlist.cpp:1371 smartplaylists/smartplaylistsearchterm.cpp:390
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:839
 msgid "Comment"
 msgstr "설명"
@@ -1697,7 +1697,7 @@ msgstr "생성한 날짜"
 msgid "Date modified"
 msgstr "수정한 날짜"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:441
+#: smartplaylists/smartplaylistsearchterm.cpp:450
 msgid "Days"
 msgstr ""
 
@@ -2650,7 +2650,7 @@ msgstr "높음(%1 fps)"
 msgid "High watermark"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:439
+#: smartplaylists/smartplaylistsearchterm.cpp:448
 msgid "Hours"
 msgstr ""
 
@@ -3140,7 +3140,7 @@ msgstr "모델"
 msgid "Monitor the collection for changes"
 msgstr "라이브러리 변화 감지"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:445
+#: smartplaylists/smartplaylistsearchterm.cpp:454
 msgid "Months"
 msgstr ""
 
@@ -5444,7 +5444,7 @@ msgstr ""
 msgid "WavPack"
 msgstr "WavPack"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:443
+#: smartplaylists/smartplaylistsearchterm.cpp:452
 msgid "Weeks"
 msgstr ""
 
@@ -5509,7 +5509,7 @@ msgstr "년도 - 앨범"
 msgid "Year - Album - Disc"
 msgstr "년도 - 앨범 - 디스크"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:447
+#: smartplaylists/smartplaylistsearchterm.cpp:456
 msgid "Years"
 msgstr ""
 
@@ -5583,7 +5583,7 @@ msgstr "언어를 변경한 후에는 Strawberry를 다시 시작해야 합니�
 msgid "Your collection is empty!"
 msgstr "라이브러리가 비어 있습니다!"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:419
+#: smartplaylists/smartplaylistsearchterm.cpp:428
 msgid "Z-A"
 msgstr "Z-A"
 
@@ -5597,7 +5597,7 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "%n곡 추가"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:244
+#: smartplaylists/smartplaylistsearchterm.cpp:253
 msgid "after"
 msgstr ""
 
@@ -5625,15 +5625,15 @@ msgstr ""
 msgid "automatic"
 msgstr "자동"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:246
+#: smartplaylists/smartplaylistsearchterm.cpp:255
 msgid "before"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:256
+#: smartplaylists/smartplaylistsearchterm.cpp:265
 msgid "between"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:426
+#: smartplaylists/smartplaylistsearchterm.cpp:435
 msgid "biggest first"
 msgstr ""
 
@@ -5641,7 +5641,7 @@ msgstr ""
 msgid "channels"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:264
+#: smartplaylists/smartplaylistsearchterm.cpp:273
 msgid "contains"
 msgstr ""
 
@@ -5660,23 +5660,23 @@ msgstr "사용 안 함"
 msgid "disc %1"
 msgstr "디스크 %1"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:266
+#: smartplaylists/smartplaylistsearchterm.cpp:275
 msgid "does not contain"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:280
+#: smartplaylists/smartplaylistsearchterm.cpp:289
 msgid "empty"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:270
+#: smartplaylists/smartplaylistsearchterm.cpp:279
 msgid "ends with"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:276
+#: smartplaylists/smartplaylistsearchterm.cpp:285
 msgid "equals"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:272
+#: smartplaylists/smartplaylistsearchterm.cpp:281
 msgid "greater than"
 msgstr ""
 
@@ -5684,7 +5684,7 @@ msgstr ""
 msgid "hw"
 msgstr "hw"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:252
+#: smartplaylists/smartplaylistsearchterm.cpp:261
 msgid "in the last"
 msgstr ""
 
@@ -5693,11 +5693,11 @@ msgstr ""
 msgid "kbps"
 msgstr "kbps"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:274
+#: smartplaylists/smartplaylistsearchterm.cpp:283
 msgid "less than"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:423
+#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "longest first"
 msgstr ""
 
@@ -5712,31 +5712,31 @@ msgstr "%n곡 이동"
 msgid "ms"
 msgstr "ms"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:421
+#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "newest first"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:282
+#: smartplaylists/smartplaylistsearchterm.cpp:291
 msgid "not empty"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:278
+#: smartplaylists/smartplaylistsearchterm.cpp:287
 msgid "not equals"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:254
+#: smartplaylists/smartplaylistsearchterm.cpp:263
 msgid "not in the last"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:250
+#: smartplaylists/smartplaylistsearchterm.cpp:259
 msgid "not on"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:421
+#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "oldest first"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:248
+#: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "on"
 msgstr ""
 
@@ -5762,7 +5762,7 @@ msgstr "%n곡 삭제"
 msgid "searches the collection for all artists that contain the word"
 msgstr "라이브러리에서 해당 단어를 포함하는 모든 아티스트 검색"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:423
+#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "shortest first"
 msgstr ""
 
@@ -5770,7 +5770,7 @@ msgstr ""
 msgid "shuffle songs"
 msgstr "노래 섞기"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:426
+#: smartplaylists/smartplaylistsearchterm.cpp:435
 msgid "smallest first"
 msgstr ""
 
@@ -5782,7 +5782,7 @@ msgstr ""
 msgid "sort songs"
 msgstr "음악 정렬"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:268
+#: smartplaylists/smartplaylistsearchterm.cpp:277
 msgid "starts with"
 msgstr ""
 

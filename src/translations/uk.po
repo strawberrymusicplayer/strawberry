@@ -528,7 +528,7 @@ msgstr ""
 msgid "A&utomatic"
 msgstr "&Автоматично"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:419
+#: smartplaylists/smartplaylistsearchterm.cpp:428
 msgid "A-Z"
 msgstr "А-Я"
 
@@ -1388,7 +1388,7 @@ msgid "Comma separated list of class:level, level is 0-3"
 msgstr ""
 "Список, розділений комами, виду клас:рівень, рівень може бути від 0 до 3"
 
-#: playlist/playlist.cpp:1371 smartplaylists/smartplaylistsearchterm.cpp:381
+#: playlist/playlist.cpp:1371 smartplaylists/smartplaylistsearchterm.cpp:390
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:839
 msgid "Comment"
 msgstr "Коментар"
@@ -1734,7 +1734,7 @@ msgstr "Дата створення"
 msgid "Date modified"
 msgstr "Дата зміни"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:441
+#: smartplaylists/smartplaylistsearchterm.cpp:450
 msgid "Days"
 msgstr "Дні"
 
@@ -2693,7 +2693,7 @@ msgstr "Висока (%1 к/с)"
 msgid "High watermark"
 msgstr "Водяний знак зверху"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:439
+#: smartplaylists/smartplaylistsearchterm.cpp:448
 msgid "Hours"
 msgstr "Години"
 
@@ -3194,7 +3194,7 @@ msgstr "Модель"
 msgid "Monitor the collection for changes"
 msgstr "Стежити за змінами у фонотеці"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:445
+#: smartplaylists/smartplaylistsearchterm.cpp:454
 msgid "Months"
 msgstr "Місяці"
 
@@ -5558,7 +5558,7 @@ msgstr ""
 msgid "WavPack"
 msgstr "WavPack"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:443
+#: smartplaylists/smartplaylistsearchterm.cpp:452
 msgid "Weeks"
 msgstr "Тижні"
 
@@ -5625,7 +5625,7 @@ msgstr "Рік – Альбом"
 msgid "Year - Album - Disc"
 msgstr "Рік – Альбом – Диск"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:447
+#: smartplaylists/smartplaylistsearchterm.cpp:456
 msgid "Years"
 msgstr "Роки"
 
@@ -5708,7 +5708,7 @@ msgstr "Після зміни мови потрібно перезапустит
 msgid "Your collection is empty!"
 msgstr "Ваша фонотека порожня!"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:419
+#: smartplaylists/smartplaylistsearchterm.cpp:428
 msgid "Z-A"
 msgstr "Я-А"
 
@@ -5722,7 +5722,7 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "додати %n композицій"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:244
+#: smartplaylists/smartplaylistsearchterm.cpp:253
 msgid "after"
 msgstr "після"
 
@@ -5750,15 +5750,15 @@ msgstr "виконавці"
 msgid "automatic"
 msgstr "автоматично"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:246
+#: smartplaylists/smartplaylistsearchterm.cpp:255
 msgid "before"
 msgstr "до"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:256
+#: smartplaylists/smartplaylistsearchterm.cpp:265
 msgid "between"
 msgstr "поміж"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:426
+#: smartplaylists/smartplaylistsearchterm.cpp:435
 msgid "biggest first"
 msgstr "спочатку найбільші"
 
@@ -5766,7 +5766,7 @@ msgstr "спочатку найбільші"
 msgid "channels"
 msgstr "канали"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:264
+#: smartplaylists/smartplaylistsearchterm.cpp:273
 msgid "contains"
 msgstr "містить"
 
@@ -5785,23 +5785,23 @@ msgstr "вимкнено"
 msgid "disc %1"
 msgstr "диск %1"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:266
+#: smartplaylists/smartplaylistsearchterm.cpp:275
 msgid "does not contain"
 msgstr "не містить"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:280
+#: smartplaylists/smartplaylistsearchterm.cpp:289
 msgid "empty"
 msgstr "порожній"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:270
+#: smartplaylists/smartplaylistsearchterm.cpp:279
 msgid "ends with"
 msgstr "закінчується на"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:276
+#: smartplaylists/smartplaylistsearchterm.cpp:285
 msgid "equals"
 msgstr "дорівнює"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:272
+#: smartplaylists/smartplaylistsearchterm.cpp:281
 msgid "greater than"
 msgstr "більше ніж"
 
@@ -5809,7 +5809,7 @@ msgstr "більше ніж"
 msgid "hw"
 msgstr "hw"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:252
+#: smartplaylists/smartplaylistsearchterm.cpp:261
 msgid "in the last"
 msgstr "в минулому"
 
@@ -5818,11 +5818,11 @@ msgstr "в минулому"
 msgid "kbps"
 msgstr "кбіт/с"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:274
+#: smartplaylists/smartplaylistsearchterm.cpp:283
 msgid "less than"
 msgstr "менше ніж"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:423
+#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "longest first"
 msgstr "спочатку найдовші"
 
@@ -5837,31 +5837,31 @@ msgstr "пересунути %n композицій"
 msgid "ms"
 msgstr "мс"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:421
+#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "newest first"
 msgstr "спочатку найновіші"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:282
+#: smartplaylists/smartplaylistsearchterm.cpp:291
 msgid "not empty"
 msgstr "не порожній"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:278
+#: smartplaylists/smartplaylistsearchterm.cpp:287
 msgid "not equals"
 msgstr "не дорівнює"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:254
+#: smartplaylists/smartplaylistsearchterm.cpp:263
 msgid "not in the last"
 msgstr "не в минулому"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:250
+#: smartplaylists/smartplaylistsearchterm.cpp:259
 msgid "not on"
 msgstr "не на"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:421
+#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "oldest first"
 msgstr "спочатку настаріші"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:248
+#: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "on"
 msgstr "на"
 
@@ -5887,7 +5887,7 @@ msgstr "вилучити %n композицій"
 msgid "searches the collection for all artists that contain the word"
 msgstr "пошук у фонотеці всіх виконавців, що містять це слово"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:423
+#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "shortest first"
 msgstr "спочатку найкоротші"
 
@@ -5895,7 +5895,7 @@ msgstr "спочатку найкоротші"
 msgid "shuffle songs"
 msgstr "перемішати композиції"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:426
+#: smartplaylists/smartplaylistsearchterm.cpp:435
 msgid "smallest first"
 msgstr "спочатку найменші"
 
@@ -5907,7 +5907,7 @@ msgstr "композиції"
 msgid "sort songs"
 msgstr "сортувати композиції"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:268
+#: smartplaylists/smartplaylistsearchterm.cpp:277
 msgid "starts with"
 msgstr "починається з"
 

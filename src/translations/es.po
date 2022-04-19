@@ -534,7 +534,7 @@ msgstr "Se incluirá el tema si cumple estas condiciones."
 msgid "A&utomatic"
 msgstr "A&utomático"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:419
+#: smartplaylists/smartplaylistsearchterm.cpp:428
 msgid "A-Z"
 msgstr "A-Z"
 
@@ -1389,7 +1389,7 @@ msgstr "Colores"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Lista separada por comas de la clase:nivel, el nivel es 0-3"
 
-#: playlist/playlist.cpp:1371 smartplaylists/smartplaylistsearchterm.cpp:381
+#: playlist/playlist.cpp:1371 smartplaylists/smartplaylistsearchterm.cpp:390
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:839
 msgid "Comment"
 msgstr "Comentario"
@@ -1733,7 +1733,7 @@ msgstr "Fecha de creación"
 msgid "Date modified"
 msgstr "Fecha de modificación"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:441
+#: smartplaylists/smartplaylistsearchterm.cpp:450
 msgid "Days"
 msgstr "Días"
 
@@ -2702,7 +2702,7 @@ msgstr "Alta (%1 fps)"
 msgid "High watermark"
 msgstr "Marca de agua alta"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:439
+#: smartplaylists/smartplaylistsearchterm.cpp:448
 msgid "Hours"
 msgstr "Horas"
 
@@ -3203,7 +3203,7 @@ msgstr "Modelo"
 msgid "Monitor the collection for changes"
 msgstr "Vigilar cambios en la colección"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:445
+#: smartplaylists/smartplaylistsearchterm.cpp:454
 msgid "Months"
 msgstr "Meses"
 
@@ -5563,7 +5563,7 @@ msgstr ""
 msgid "WavPack"
 msgstr "WavPack"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:443
+#: smartplaylists/smartplaylistsearchterm.cpp:452
 msgid "Weeks"
 msgstr "Semanas"
 
@@ -5630,7 +5630,7 @@ msgstr "Año - álbum"
 msgid "Year - Album - Disc"
 msgstr "Año - álbum - disco"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:447
+#: smartplaylists/smartplaylistsearchterm.cpp:456
 msgid "Years"
 msgstr "Años"
 
@@ -5712,7 +5712,7 @@ msgstr "Necesitará reiniciar Strawberry si cambia el idioma."
 msgid "Your collection is empty!"
 msgstr "La colección está vacía."
 
-#: smartplaylists/smartplaylistsearchterm.cpp:419
+#: smartplaylists/smartplaylistsearchterm.cpp:428
 msgid "Z-A"
 msgstr "Z-A"
 
@@ -5726,7 +5726,7 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "añadir %n pistas"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:244
+#: smartplaylists/smartplaylistsearchterm.cpp:253
 msgid "after"
 msgstr "Después"
 
@@ -5754,15 +5754,15 @@ msgstr "artistas"
 msgid "automatic"
 msgstr "automático"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:246
+#: smartplaylists/smartplaylistsearchterm.cpp:255
 msgid "before"
 msgstr "antes"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:256
+#: smartplaylists/smartplaylistsearchterm.cpp:265
 msgid "between"
 msgstr "entre"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:426
+#: smartplaylists/smartplaylistsearchterm.cpp:435
 msgid "biggest first"
 msgstr "primero el mayor"
 
@@ -5770,7 +5770,7 @@ msgstr "primero el mayor"
 msgid "channels"
 msgstr "canales"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:264
+#: smartplaylists/smartplaylistsearchterm.cpp:273
 msgid "contains"
 msgstr "contiene"
 
@@ -5789,23 +5789,23 @@ msgstr "desactivado"
 msgid "disc %1"
 msgstr "disco %1"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:266
+#: smartplaylists/smartplaylistsearchterm.cpp:275
 msgid "does not contain"
 msgstr "no contiene"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:280
+#: smartplaylists/smartplaylistsearchterm.cpp:289
 msgid "empty"
 msgstr "vacío"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:270
+#: smartplaylists/smartplaylistsearchterm.cpp:279
 msgid "ends with"
 msgstr "termina en"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:276
+#: smartplaylists/smartplaylistsearchterm.cpp:285
 msgid "equals"
 msgstr "es igual a"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:272
+#: smartplaylists/smartplaylistsearchterm.cpp:281
 msgid "greater than"
 msgstr "mayor que"
 
@@ -5813,7 +5813,7 @@ msgstr "mayor que"
 msgid "hw"
 msgstr "hw"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:252
+#: smartplaylists/smartplaylistsearchterm.cpp:261
 msgid "in the last"
 msgstr "en el último"
 
@@ -5822,11 +5822,11 @@ msgstr "en el último"
 msgid "kbps"
 msgstr "kb/s"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:274
+#: smartplaylists/smartplaylistsearchterm.cpp:283
 msgid "less than"
 msgstr "menos de"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:423
+#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "longest first"
 msgstr "El más largo primero"
 
@@ -5841,31 +5841,31 @@ msgstr "mover %n temas"
 msgid "ms"
 msgstr "ms"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:421
+#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "newest first"
 msgstr "El más nuevo primero"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:282
+#: smartplaylists/smartplaylistsearchterm.cpp:291
 msgid "not empty"
 msgstr "no vacío"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:278
+#: smartplaylists/smartplaylistsearchterm.cpp:287
 msgid "not equals"
 msgstr "no es igual a"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:254
+#: smartplaylists/smartplaylistsearchterm.cpp:263
 msgid "not in the last"
 msgstr "no en los últimos"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:250
+#: smartplaylists/smartplaylistsearchterm.cpp:259
 msgid "not on"
 msgstr "no el"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:421
+#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "oldest first"
 msgstr "el más antiguo primero"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:248
+#: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "on"
 msgstr "el"
 
@@ -5891,7 +5891,7 @@ msgstr "quitar %n temas"
 msgid "searches the collection for all artists that contain the word"
 msgstr "busca en la colección todos los artistas que contengan la palabra"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:423
+#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "shortest first"
 msgstr "el más corto primero"
 
@@ -5899,7 +5899,7 @@ msgstr "el más corto primero"
 msgid "shuffle songs"
 msgstr "mezclar temas"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:426
+#: smartplaylists/smartplaylistsearchterm.cpp:435
 msgid "smallest first"
 msgstr "el más pequeño primero"
 
@@ -5911,7 +5911,7 @@ msgstr "temas"
 msgid "sort songs"
 msgstr "ordenar temas"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:268
+#: smartplaylists/smartplaylistsearchterm.cpp:277
 msgid "starts with"
 msgstr "comienza por"
 

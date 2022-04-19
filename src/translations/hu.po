@@ -526,7 +526,7 @@ msgstr ""
 msgid "A&utomatic"
 msgstr "A&utomatikus"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:419
+#: smartplaylists/smartplaylistsearchterm.cpp:428
 msgid "A-Z"
 msgstr "A-Z"
 
@@ -1383,7 +1383,7 @@ msgstr ""
 "Vesszővel elválasztott lista az osztály:szint pároknak, a szintek 0-3 "
 "értékeket vehetnek fel"
 
-#: playlist/playlist.cpp:1371 smartplaylists/smartplaylistsearchterm.cpp:381
+#: playlist/playlist.cpp:1371 smartplaylists/smartplaylistsearchterm.cpp:390
 #: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:839
 msgid "Comment"
 msgstr "Megjegyzés"
@@ -1726,7 +1726,7 @@ msgstr "Létrehozás dátuma"
 msgid "Date modified"
 msgstr "Módosítás dátuma"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:441
+#: smartplaylists/smartplaylistsearchterm.cpp:450
 msgid "Days"
 msgstr "Napok"
 
@@ -2684,7 +2684,7 @@ msgstr "Magas (%1 fps)"
 msgid "High watermark"
 msgstr "Magas vízjel"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:439
+#: smartplaylists/smartplaylistsearchterm.cpp:448
 msgid "Hours"
 msgstr "Óra"
 
@@ -3184,7 +3184,7 @@ msgstr "Modell"
 msgid "Monitor the collection for changes"
 msgstr "Gyűjtemény figyelése változások után"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:445
+#: smartplaylists/smartplaylistsearchterm.cpp:454
 msgid "Months"
 msgstr "Hónapok"
 
@@ -5534,7 +5534,7 @@ msgstr ""
 msgid "WavPack"
 msgstr "WavPack"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:443
+#: smartplaylists/smartplaylistsearchterm.cpp:452
 msgid "Weeks"
 msgstr "Hetek"
 
@@ -5600,7 +5600,7 @@ msgstr "Év - Album"
 msgid "Year - Album - Disc"
 msgstr "Év - Album - Lemez"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:447
+#: smartplaylists/smartplaylistsearchterm.cpp:456
 msgid "Years"
 msgstr "Évek"
 
@@ -5684,7 +5684,7 @@ msgstr "A nyelv megváltoztatásához újra kell indítani a Strawberryt."
 msgid "Your collection is empty!"
 msgstr "Az Ön gyűjteménye üres."
 
-#: smartplaylists/smartplaylistsearchterm.cpp:419
+#: smartplaylists/smartplaylistsearchterm.cpp:428
 msgid "Z-A"
 msgstr "Z-A"
 
@@ -5698,7 +5698,7 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "%n szám hozzáadása"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:244
+#: smartplaylists/smartplaylistsearchterm.cpp:253
 msgid "after"
 msgstr "utána"
 
@@ -5726,15 +5726,15 @@ msgstr "előadók"
 msgid "automatic"
 msgstr "automatikus"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:246
+#: smartplaylists/smartplaylistsearchterm.cpp:255
 msgid "before"
 msgstr "előtte"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:256
+#: smartplaylists/smartplaylistsearchterm.cpp:265
 msgid "between"
 msgstr "között"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:426
+#: smartplaylists/smartplaylistsearchterm.cpp:435
 msgid "biggest first"
 msgstr "legnagyobb először"
 
@@ -5742,7 +5742,7 @@ msgstr "legnagyobb először"
 msgid "channels"
 msgstr "csatorna"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:264
+#: smartplaylists/smartplaylistsearchterm.cpp:273
 msgid "contains"
 msgstr "tartalmazza"
 
@@ -5761,23 +5761,23 @@ msgstr "kikapcsolva"
 msgid "disc %1"
 msgstr "%1. lemez"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:266
+#: smartplaylists/smartplaylistsearchterm.cpp:275
 msgid "does not contain"
 msgstr "nem tartalmazza"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:280
+#: smartplaylists/smartplaylistsearchterm.cpp:289
 msgid "empty"
 msgstr "üres"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:270
+#: smartplaylists/smartplaylistsearchterm.cpp:279
 msgid "ends with"
 msgstr "ezzel végződik"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:276
+#: smartplaylists/smartplaylistsearchterm.cpp:285
 msgid "equals"
 msgstr "egyenlő"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:272
+#: smartplaylists/smartplaylistsearchterm.cpp:281
 msgid "greater than"
 msgstr "nagyobb mint"
 
@@ -5785,7 +5785,7 @@ msgstr "nagyobb mint"
 msgid "hw"
 msgstr "hw"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:252
+#: smartplaylists/smartplaylistsearchterm.cpp:261
 msgid "in the last"
 msgstr "a végén"
 
@@ -5794,11 +5794,11 @@ msgstr "a végén"
 msgid "kbps"
 msgstr "kb/s"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:274
+#: smartplaylists/smartplaylistsearchterm.cpp:283
 msgid "less than"
 msgstr "kisebb mint"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:423
+#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "longest first"
 msgstr "leghosszabb elöl"
 
@@ -5813,31 +5813,31 @@ msgstr "%n szám áthelyezése"
 msgid "ms"
 msgstr " ms"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:421
+#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "newest first"
 msgstr "legújabb először"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:282
+#: smartplaylists/smartplaylistsearchterm.cpp:291
 msgid "not empty"
 msgstr "nem üres"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:278
+#: smartplaylists/smartplaylistsearchterm.cpp:287
 msgid "not equals"
 msgstr "nem egyenlő"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:254
+#: smartplaylists/smartplaylistsearchterm.cpp:263
 msgid "not in the last"
 msgstr "nincs a végén"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:250
+#: smartplaylists/smartplaylistsearchterm.cpp:259
 msgid "not on"
 msgstr "nincs rajta"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:421
+#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "oldest first"
 msgstr "legrégebbi először"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:248
+#: smartplaylists/smartplaylistsearchterm.cpp:257
 msgid "on"
 msgstr "rajta van"
 
@@ -5863,7 +5863,7 @@ msgstr "%n szám eltávolítása"
 msgid "searches the collection for all artists that contain the word"
 msgstr "a szót tartalmazó előadók keresése a gyűjteményben"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:423
+#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "shortest first"
 msgstr "legrövidebb először"
 
@@ -5871,7 +5871,7 @@ msgstr "legrövidebb először"
 msgid "shuffle songs"
 msgstr "számok keverése"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:426
+#: smartplaylists/smartplaylistsearchterm.cpp:435
 msgid "smallest first"
 msgstr "legkisebb először"
 
@@ -5883,7 +5883,7 @@ msgstr "számok"
 msgid "sort songs"
 msgstr "számok rendezése"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:268
+#: smartplaylists/smartplaylistsearchterm.cpp:277
 msgid "starts with"
 msgstr "ezzel kezdődik"
 
