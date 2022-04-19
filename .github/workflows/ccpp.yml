@@ -61,6 +61,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -134,6 +137,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -216,6 +222,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -296,6 +305,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -375,6 +387,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -460,6 +475,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -542,6 +560,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -618,6 +639,9 @@ jobs:
             desktop-file-utils
             libappstream-glib
             hicolor-icon-theme
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -695,6 +719,9 @@ jobs:
             desktop-file-utils
             libappstream-glib
             hicolor-icon-theme
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -771,6 +798,9 @@ jobs:
             desktop-file-utils
             libappstream-glib
             hicolor-icon-theme
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -853,7 +883,9 @@ jobs:
           appstream
           appstream-util
           hicolor-icon-theme
-
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -922,6 +954,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -980,6 +1015,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1037,6 +1075,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1100,6 +1141,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1163,6 +1207,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1226,6 +1273,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1288,6 +1338,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1337,6 +1390,10 @@ jobs:
           cd strawberry-macos-dependencies/strawberry-macos-dependencies
           /opt/local/bin/wget https://github.com/strawberrymusicplayer/strawberry-macos-dependencies/releases/download/latest/strawberry-macos-catalina-dependencies.tar.xz
           tar -xf strawberry-macos-catalina-dependencies.tar.xz
+
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
 
       - name: Create Build Environment
         shell: bash
@@ -1436,6 +1493,10 @@ jobs:
       image: jonaski/strawberry-mxe-x86_64
     steps:
       - uses: actions/checkout@v1.2.0
+
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
 
       - name: Create Build Environment
         shell: bash
@@ -1664,6 +1725,10 @@ jobs:
 
       - name: Update PATH
         run: echo "c:\msvc_x86_64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
 
       - name: Create Build Environment
         run: cmake -E make_directory build
@@ -1919,6 +1984,10 @@ jobs:
       - name: Update PATH
         run: echo "c:\msvc_x86_64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
+
       - name: Create Build Environment
         run: cmake -E make_directory build
 
@@ -2163,6 +2232,7 @@ jobs:
         mem: 4096
         prepare: pkg install -y git cmake pkgconf gettext-tools boost-libs glib gnutls qt5-core qt5-concurrent qt5-network qt5-sql qt5-dbus qt5-gui qt5-widgets qt5-buildtools qt5-linguisttools qt5-qmake qt5-sqldrivers-sqlite3 qt5-testlib sqlite gstreamer1 gstreamer1-plugins chromaprint protobuf protobuf-c taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 googletest iconv
         run: |
+          git config --global --add safe.directory /__w/strawberry/strawberry
           cmake -E make_directory build
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Debug
