@@ -942,8 +942,8 @@ jobs:
             libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
-            qtbase5-private-dev
             qttools5-dev
+            qttools5-dev-tools
             libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -1003,8 +1003,8 @@ jobs:
             libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
-            qtbase5-private-dev
             qttools5-dev
+            qttools5-dev-tools
             libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -1061,11 +1061,11 @@ jobs:
             libasound2-dev
             libpulse-dev
             libtag1-dev
-            qtbase5-dev
-            qtbase5-dev-tools
-            qtbase5-private-dev
-            qttools5-dev
-            libqt5x11extras5-dev
+            qt6-base-dev
+            qt6-base-dev-tools
+            qt6-tools-dev
+            qt6-tools-dev-tools
+            qt6-l10n-tools
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             gstreamer1.0-alsa
@@ -1128,8 +1128,8 @@ jobs:
             libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
-            qtbase5-private-dev
             qttools5-dev
+            qttools5-dev-tools
             libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -1194,8 +1194,8 @@ jobs:
             libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
-            qtbase5-private-dev
             qttools5-dev
+            qttools5-dev-tools
             libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -1260,8 +1260,8 @@ jobs:
             libtag1-dev
             qtbase5-dev
             qtbase5-dev-tools
-            qtbase5-private-dev
             qttools5-dev
+            qttools5-dev-tools
             libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -1323,11 +1323,11 @@ jobs:
             libasound2-dev
             libpulse-dev
             libtag1-dev
-            qtbase5-dev
-            qtbase5-dev-tools
-            qtbase5-private-dev
-            qttools5-dev
-            libqt5x11extras5-dev
+            qt6-base-dev
+            qt6-base-dev-tools
+            qt6-tools-dev
+            qt6-tools-dev-tools
+            qt6-l10n-tools
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             libgstreamer-plugins-good1.0-dev
