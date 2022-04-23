@@ -1547,7 +1547,7 @@ jobs:
 
       - name: Copy Qt TLS plugins
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/tls/qopensslbackend.dll ${GITHUB_WORKSPACE}/build/tls/
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/tls/{qschannelbackend.dll,qopensslbackend.dll} ${GITHUB_WORKSPACE}/build/tls/
 
       - name: Copy Qt SQL drivers
         working-directory: build
@@ -1864,6 +1864,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
 
       - name: Download copydlldeps.sh
         shell: bash
@@ -2122,6 +2123,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
 
       - name: Download copydlldeps.sh
         shell: bash
