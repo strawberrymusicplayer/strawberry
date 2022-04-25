@@ -538,7 +538,7 @@ add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/c
 # Show a summary of what we have enabled
 summary_show()
 if(NOT HAVE_GSTREAMER AND NOT HAVE_VLC)
-  message(FATAL_ERROR "You need to have either GStreamer or VLC to compile!")
+  message(FATAL_ERROR "You need to have either GStreamer or libvlc to compile!")
 elseif(NOT HAVE_GSTREAMER)
   message(WARNING "GStreamer is the only engine that is fully implemented. Using other engines is possible but not recommended.")
 endif()
