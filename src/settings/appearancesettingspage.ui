@@ -420,7 +420,7 @@
               <number>0</number>
              </property>
              <property name="maximum">
-              <number>10</number>
+              <number>100</number>
              </property>
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -429,7 +429,7 @@
               <enum>QSlider::TicksBelow</enum>
              </property>
              <property name="tickInterval">
-              <number>1</number>
+              <number>10</number>
              </property>
             </widget>
            </item>
