@@ -200,8 +200,7 @@ qint64 VLCEngine::position_nanosec() const {
 
   if (state_ == Engine::Empty) return 0;
   const qint64 result = (position() * kNsecPerMsec);
-  return qint64(qMax(0LL, result));
-
+  return qMax(0LL, result);
 
 }
 
@@ -261,7 +260,7 @@ uint VLCEngine::position() const {
   if (!Initialized() || !libvlc_media_player_is_playing(player_)) return 0;
 
   float pos = libvlc_media_player_get_position(player_);
-  return (static_cast<uint>(pos) * length());
+  return static_cast<uint>(pos * static_cast<float>(length()));
 
 }
 
@@ -269,9 +268,7 @@ uint VLCEngine::length() const {
 
   if (!Initialized() || !libvlc_media_player_is_playing(player_)) return 0;
 
-  libvlc_time_t len = libvlc_media_player_get_length(player_);
-
-  return len;
+  return libvlc_media_player_get_length(player_);
 
 }
 
