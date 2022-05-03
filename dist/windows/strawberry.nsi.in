@@ -279,7 +279,6 @@ Section "Strawberry" Strawberry
   File "libopus-0.dll"
   File "liborc-0.4-0.dll"
   File "libpcre-1.dll"
-  File "libpcre2-16.dll"
   File "libpng16-16.dll"
   File "libprotobuf-31.dll"
   File "libpsl-5.dll"
@@ -309,8 +308,11 @@ Section "Strawberry" Strawberry
   File "libexpat-1.dll"
   File "libmman.dll"
   File "libmpfr-6.dll"
+  File "libpcre2-16d.dll"
   File "libreadline8.dll"
   File "libtermcap.dll"
+!else
+  File "libpcre2-16.dll"
 !endif
 
 !endif ; MinGW
@@ -754,7 +756,6 @@ Section "Uninstall"
   Delete "$INSTDIR\libopus-0.dll"
   Delete "$INSTDIR\liborc-0.4-0.dll"
   Delete "$INSTDIR\libpcre-1.dll"
-  Delete "$INSTDIR\libpcre2-16.dll"
   Delete "$INSTDIR\libpng16-16.dll"
   Delete "$INSTDIR\libprotobuf-31.dll"
   Delete "$INSTDIR\libpsl-5.dll"
@@ -779,14 +780,16 @@ Section "Uninstall"
   Delete "$INSTDIR\swscale-6.dll"
   Delete "$INSTDIR\zlib1.dll"
 
-
 !ifdef debug
   Delete "$INSTDIR\gdb.exe"
   Delete "$INSTDIR\libexpat-1.dll"
   Delete "$INSTDIR\libmman.dll"
   Delete "$INSTDIR\libmpfr-6.dll"
+  Delete "$INSTDIR\libpcre2-16d.dll"
   Delete "$INSTDIR\libreadline8.dll"
   Delete "$INSTDIR\libtermcap.dll"
+!else
+  Delete "$INSTDIR\libpcre2-16.dll"
 !endif
 
 !endif ; MinGW
