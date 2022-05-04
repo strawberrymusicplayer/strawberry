@@ -1228,13 +1228,15 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
       }
 
       const QStringList giomodules = QStringList() << "libgiognutls.so" << "libgioopenssl.so";
+      bool have_giomodule = false;
       for (const QString &giomodule : giomodules) {
         const QString sourcePath = giomodule_path + "/" + giomodule;
         QFileInfo fileinfo(sourcePath);
         if (!fileinfo.exists()) {
           LogError() << "Missing GIO module" << fileinfo.baseName();
-          qFatal("Missing GIO modules.");
+          continue;
         }
+        have_giomodule = true;
         const QString destinationPath = appBundleInfo.path + "/Contents/PlugIns/gio-modules/" + giomodule;
         QDir dir;
         if (dir.mkpath(QFileInfo(destinationPath).path()) && copyFilePrintStatus(sourcePath, destinationPath)) {
@@ -1243,6 +1245,11 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
           deployQtFrameworks(frameworks, appBundleInfo.path, QStringList() << destinationPath, useDebugLibs, deploymentInfo.useLoaderPath);
         }
       }
+
+      if (!have_giomodule) {
+        qFatal("Missing GIO modules.");
+      }
+
     }
 
     // gst-plugin-scanner
@@ -1336,13 +1343,16 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
       }
     }
 
+    QStringList missing_gst_plugins;
+
     for (const QString &plugin : gstreamer_plugins) {
         QFileInfo info(gstreamer_plugins_dir + "/" + plugin);
         if (!info.exists()) {
             info.setFile(gstreamer_plugins_dir + "/" + info.baseName() + QString(".so"));
             if (!info.exists()) {
                 LogError() << "Missing gstreamer plugin" << info.baseName();
-                qFatal("Missing %s", info.baseName().toUtf8().constData());
+                missing_gst_plugins << info.baseName();
+                continue;
             }
         }
         const QString &sourcePath = info.filePath();
@@ -1352,6 +1362,10 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
             QList<FrameworkInfo> frameworks = getQtFrameworks(destinationPath, appBundleInfo.path, deploymentInfo.rpathsUsed, useDebugLibs);
             deployQtFrameworks(frameworks, appBundleInfo.path, QStringList() << destinationPath, useDebugLibs, deploymentInfo.useLoaderPath);
         }
+    }
+
+    if (!missing_gst_plugins.isEmpty()) {
+      LogError() << "Missing gstreamer plugins" << missing_gst_plugins;
     }
 
 }
