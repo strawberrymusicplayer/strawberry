@@ -37,10 +37,10 @@ void RadioParadiseService::GetChannels() {
     << RadioChannel(source_, "Mellow Mix 320k AAC", QUrl("https://stream.radioparadise.com/mellow-320"))
     << RadioChannel(source_, "Rock Mix 320k AAC", QUrl("https://stream.radioparadise.com/rock-320"))
     << RadioChannel(source_, "World/Etc Mix 320k AAC", QUrl("https://stream.radioparadise.com/world-etc-320"))
-    << RadioChannel(source_, "Main Mix FLAC", QUrl("http://stream.radioparadise.com/flacm"))
-    << RadioChannel(source_, "Mellow Mix FLAC", QUrl("http://stream.radioparadise.com/mellow-flacm"))
-    << RadioChannel(source_, "Rock Mix FLAC", QUrl("http://stream.radioparadise.com/rock-flacm"))
-    << RadioChannel(source_, "World/Etc Mix FLAC", QUrl("http://stream.radioparadise.com/world-etc-flacm"))
+    << RadioChannel(source_, "Main Mix FLAC", QUrl("https://stream.radioparadise.com/flacm"))
+    << RadioChannel(source_, "Mellow Mix FLAC", QUrl("https://stream.radioparadise.com/mellow-flacm"))
+    << RadioChannel(source_, "Rock Mix FLAC", QUrl("https://stream.radioparadise.com/rock-flacm"))
+    << RadioChannel(source_, "World/Etc Mix FLAC", QUrl("https://stream.radioparadise.com/world-etc-flacm"))
   );
 
 }
