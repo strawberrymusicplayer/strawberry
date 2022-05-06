@@ -2,7 +2,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh.in ${CMAKE_CUR
 if(RPM_DISTRO AND RPM_DATE)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/unix/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/unix/strawberry.spec @ONLY)
 endif(RPM_DISTRO AND RPM_DATE)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/unix/PKGBUILD.in ${CMAKE_CURRENT_SOURCE_DIR}/unix/PKGBUILD @ONLY)
 
 if(APPLE)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist)

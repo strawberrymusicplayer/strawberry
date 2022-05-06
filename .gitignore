@@ -105,7 +105,6 @@ Thumbs.db
 # Stuff in dist
 maketarball.sh
 changelog
-PKGBUILD
 
 # Translations
 translations.pot
