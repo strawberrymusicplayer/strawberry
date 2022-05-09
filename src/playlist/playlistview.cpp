@@ -894,7 +894,7 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
 
 void PlaylistView::scrollContentsBy(int dx, int dy) {
 
-  if (dx > 0) {
+  if (dx != 0) {
     InvalidateCachedCurrentPixmap();
   }
   cached_tree_ = QPixmap();
