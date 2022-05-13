@@ -27,7 +27,7 @@
 #include <QUrl>
 
 #include "radioplaylistitem.h"
-#include "collection/sqlrow.h"
+#include "core/sqlrow.h"
 
 RadioPlaylistItem::RadioPlaylistItem(const Song::Source source)
     : PlaylistItem(source), source_(source) {}

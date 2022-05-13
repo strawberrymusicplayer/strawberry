@@ -47,10 +47,10 @@
 #include "core/database.h"
 #include "core/scopedtransaction.h"
 #include "core/song.h"
+#include "core/sqlrow.h"
 #include "smartplaylists/smartplaylistsearch.h"
 
 #include "directory.h"
-#include "sqlrow.h"
 #include "collectionbackend.h"
 #include "collectionquery.h"
 #include "collectiontask.h"

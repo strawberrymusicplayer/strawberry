@@ -27,7 +27,7 @@
 #include <QUrl>
 
 #include "core/song.h"
-#include "collection/sqlrow.h"
+#include "core/sqlrow.h"
 #include "playlistitem.h"
 
 class SongPlaylistItem : public PlaylistItem {

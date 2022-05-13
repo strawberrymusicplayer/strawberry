@@ -12,6 +12,7 @@ set(SOURCES
   core/commandlineoptions.cpp
   core/database.cpp
   core/sqlquery.cpp
+  core/sqlrow.cpp
   core/metatypes.cpp
   core/deletefiles.cpp
   core/filesystemmusicstorage.cpp
@@ -73,7 +74,6 @@ set(SOURCES
   collection/collectionfilterwidget.cpp
   collection/collectionplaylistitem.cpp
   collection/collectionquery.cpp
-  collection/sqlrow.cpp
   collection/savedgroupingmanager.cpp
   collection/groupbydialog.cpp
   collection/collectiontask.cpp

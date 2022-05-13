@@ -62,7 +62,7 @@
 #include "application.h"
 #include "sqlquery.h"
 #include "mpris_common.h"
-#include "collection/sqlrow.h"
+#include "sqlrow.h"
 #include "tagreadermessages.pb.h"
 
 const QStringList Song::kColumns = QStringList() << "title"

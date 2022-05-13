@@ -32,7 +32,7 @@
 #include "internetservices.h"
 #include "internetservice.h"
 #include "core/settingsprovider.h"
-#include "collection/sqlrow.h"
+#include "core/sqlrow.h"
 #include "playlist/playlistbackend.h"
 
 InternetPlaylistItem::InternetPlaylistItem(const Song::Source source)

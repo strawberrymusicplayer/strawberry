@@ -36,7 +36,7 @@
 
 #include "core/song.h"
 #include "core/sqlquery.h"
-#include "collection/sqlrow.h"
+#include "core/sqlrow.h"
 #include "playlistitem.h"
 #include "smartplaylists/playlistgenerator.h"
 

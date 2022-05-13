@@ -28,7 +28,7 @@
 
 #include "core/song.h"
 #include "core/settingsprovider.h"
-#include "collection/sqlrow.h"
+#include "core/sqlrow.h"
 #include "playlist/playlistitem.h"
 
 // clazy:excludeall=returning-void-expression,function-args-by-value

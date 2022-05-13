@@ -45,10 +45,10 @@
 
 #include "core/simpletreemodel.h"
 #include "core/song.h"
+#include "core/sqlrow.h"
 #include "covermanager/albumcoverloader.h"
 #include "collectionquery.h"
 #include "collectionitem.h"
-#include "sqlrow.h"
 #include "covermanager/albumcoverloaderoptions.h"
 
 class QSettings;

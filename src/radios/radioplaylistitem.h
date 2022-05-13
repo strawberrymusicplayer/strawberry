@@ -26,7 +26,7 @@
 #include <QUrl>
 
 #include "core/song.h"
-#include "collection/sqlrow.h"
+#include "core/sqlrow.h"
 #include "playlist/playlistitem.h"
 
 class RadioService;
