@@ -34,6 +34,7 @@
 #include <QUrl>
 
 #include "core/song.h"
+#include "settings/playlistsettingspage.h"
 #include "playlist.h"
 #include "smartplaylists/playlistgenerator.h"
 
@@ -83,7 +84,7 @@ class PlaylistManagerInterface : public QObject {
  public slots:
   virtual void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) = 0;
   virtual void Load(const QString &filename) = 0;
-  virtual void Save(const int id, const QString &filename, const Playlist::Path path_type) = 0;
+  virtual void Save(const int id, const QString &filename, const PlaylistSettingsPage::PathType path_type) = 0;
   virtual void Rename(const int id, const QString &new_name) = 0;
   virtual void Delete(const int id) = 0;
   virtual bool Close(const int id) = 0;
@@ -181,7 +182,7 @@ class PlaylistManager : public PlaylistManagerInterface {
  public slots:
   void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) override;
   void Load(const QString &filename) override;
-  void Save(const int id, const QString &filename, const Playlist::Path path_type) override;
+  void Save(const int id, const QString &filename, const PlaylistSettingsPage::PathType path_type) override;
   // Display a file dialog to let user choose a file before saving the file
   void SaveWithUI(const int id, const QString &playlist_name);
   void Rename(const int id, const QString &new_name) override;
@@ -232,7 +233,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   void OneOfPlaylistsChanged();
   void UpdateSummaryText();
   void SongsDiscovered(const SongList &songs);
-  void ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const Playlist::Path path_type);
+  void ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const PlaylistSettingsPage::PathType path_type);
   void PlaylistLoaded();
 
  private:

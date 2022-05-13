@@ -45,6 +45,7 @@
 #include <QScrollBar>
 #include <QSettings>
 #include <QtDebug>
+#include <QMessageBox>
 
 #include "core/application.h"
 #include "core/logging.h"
@@ -55,6 +56,7 @@
 #include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/currentalbumcoverloader.h"
 #include "organize/organizeformat.h"
+#include "settings/playlistsettingspage.h"
 #include "playlist.h"
 #include "playlistbackend.h"
 #include "playlistcontainer.h"
@@ -200,22 +202,22 @@ void PlaylistManager::New(const QString &name, const SongList &songs, const QStr
 
 void PlaylistManager::Load(const QString &filename) {
 
-  QFileInfo info(filename);
+  QFileInfo fileinfo(filename);
 
-  int id = playlist_backend_->CreatePlaylist(info.completeBaseName(), QString());
+  int id = playlist_backend_->CreatePlaylist(fileinfo.completeBaseName(), QString());
 
   if (id == -1) {
     emit Error(tr("Couldn't create playlist"));
     return;
   }
 
-  Playlist *playlist = AddPlaylist(id, info.completeBaseName(), QString(), QString(), false);
+  Playlist *playlist = AddPlaylist(id, fileinfo.completeBaseName(), QString(), QString(), false);
 
   playlist->InsertUrls(QList<QUrl>() << QUrl::fromLocalFile(filename));
 
 }
 
-void PlaylistManager::Save(const int id, const QString &filename, const Playlist::Path path_type) {
+void PlaylistManager::Save(const int id, const QString &filename, const PlaylistSettingsPage::PathType path_type) {
 
   if (playlists_.contains(id)) {
     parser_->Save(playlist(id)->GetAllSongs(), filename, path_type);
@@ -237,7 +239,7 @@ void PlaylistManager::Save(const int id, const QString &filename, const Playlist
 
 }
 
-void PlaylistManager::ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const Playlist::Path path_type) {
+void PlaylistManager::ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const PlaylistSettingsPage::PathType path_type) {
 
   parser_->Save(songs, filename, path_type);
 
@@ -245,67 +247,43 @@ void PlaylistManager::ItemsLoadedForSavePlaylist(const SongList &songs, const QS
 
 void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
 
-  QSettings settings;
-  settings.beginGroup(Playlist::kSettingsGroup);
-  QString filename = settings.value("last_save_playlist").toString();
-  QString extension = settings.value("last_save_extension", parser()->default_extension()).toString();
-  QString filter = settings.value("last_save_filter", parser()->default_filter()).toString();
+  QSettings s;
+  s.beginGroup(Playlist::kSettingsGroup);
+  QString last_save_filter = s.value("last_save_filter", parser()->default_filter()).toString();
+  QString last_save_path = s.value("last_save_path", QDir::homePath()).toString();
+  QString last_save_extension = s.value("last_save_extension", parser()->default_extension()).toString();
+  s.endGroup();
 
   QString suggested_filename = playlist_name;
-  suggested_filename = suggested_filename.remove(OrganizeFormat::kProblematicCharacters);
+  QString filename = last_save_path + "/" + suggested_filename.remove(OrganizeFormat::kProblematicCharacters) + "." + last_save_extension;
 
-  qLog(Debug) << "Using extension:" << extension;
-
-  // We want to use the playlist tab name (with disallowed characters removed)
-  // as a default filename, but in the same directory as the last saved file.
-
-  // Strip off filename components until we find something that's a folder
+  QFileInfo fileinfo;
   forever {
-    QFileInfo fileinfo(filename);
-    if (filename.isEmpty() || fileinfo.isDir()) break;
-
-    filename = filename.section('/', 0, -2);
+    filename = QFileDialog::getSaveFileName(nullptr, tr("Save playlist", "Title of the playlist save dialog."), filename, parser()->filters(PlaylistParser::Type_Save), &last_save_filter);
+    if (filename.isEmpty()) return;
+    fileinfo.setFile(filename);
+    ParserBase *parser = parser_->ParserForExtension(PlaylistParser::Type_Save, fileinfo.suffix());
+    if (parser) break;
+    QMessageBox::warning(nullptr, tr("Unknown playlist extension"), tr("Unknown file extension for playlist."));
   }
 
-  // Use the home directory as a fallback in case the path is empty.
-  if (filename.isEmpty()) filename = QDir::homePath();
-
-  // Add the suggested filename
-  filename += "/" + suggested_filename + "." + extension;
-  qLog(Debug) << "Suggested filename:" << filename;
-
-  filename = QFileDialog::getSaveFileName(nullptr, tr("Save playlist", "Title of the playlist save dialog."), filename, parser()->filters(), &filter);
-
-  if (filename.isNull()) {
-    return;
+  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
+  PlaylistSettingsPage::PathType path_type = static_cast<PlaylistSettingsPage::PathType>(s.value("path_type", PlaylistSettingsPage::PathType_Automatic).toInt());
+  s.endGroup();
+  if (path_type == PlaylistSettingsPage::PathType_Ask_User) {
+    PlaylistSaveOptionsDialog optionsdialog(nullptr);
+    optionsdialog.setModal(true);
+    if (optionsdialog.exec() != QDialog::Accepted) return;
+    path_type = optionsdialog.path_type();
   }
 
-  // Check if the file extension is valid. Fallback to the default if not.
-  QFileInfo info(filename);
-  ParserBase *parser = parser_->ParserForExtension(info.suffix());
-  if (!parser) {
-    qLog(Warning) << "Unknown file extension:" << info.suffix();
-    filename = info.absolutePath() + "/" + info.fileName() + "." + parser_->default_extension();
-    info.setFile(filename);
-    filter = info.suffix();
-  }
+  s.beginGroup(Playlist::kSettingsGroup);
+  s.setValue("last_save_filter", last_save_filter);
+  s.setValue("last_save_path", fileinfo.path());
+  s.setValue("last_save_extension", fileinfo.suffix());
+  s.endGroup();
 
-  int p = settings.value(Playlist::kPathType, Playlist::Path_Automatic).toInt();
-  Playlist::Path path = static_cast<Playlist::Path>(p);
-  if (path == Playlist::Path_Ask_User) {
-    PlaylistSaveOptionsDialog optionsDialog(nullptr);
-    optionsDialog.setModal(true);
-    if (optionsDialog.exec() != QDialog::Accepted) {
-      return;
-    }
-    path = optionsDialog.path_type();
-  }
-
-  settings.setValue("last_save_playlist", filename);
-  settings.setValue("last_save_filter", filter);
-  settings.setValue("last_save_extension", info.suffix());
-
-  Save(id == -1 ? current_id() : id, filename, path);
+  Save(id == -1 ? current_id() : id, filename, path_type);
 
 }
 
@@ -658,7 +636,7 @@ void PlaylistManager::SaveAllPlaylists() {
   for (QMap<int, Data>::const_iterator it = playlists_.constBegin(); it != playlists_.constEnd(); ++it) {
     const Data &data = *it;
     const QString filepath = path + "/" + data.name + ".m3u";
-    Save(it.key(), filepath, Playlist::Path_Absolute);
+    Save(it.key(), filepath, PlaylistSettingsPage::PathType_Absolute);
   }
 
 }

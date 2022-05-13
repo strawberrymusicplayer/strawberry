@@ -72,23 +72,23 @@ void PlaylistSettingsPage::Load() {
   ui_->checkbox_playlist_clear->setChecked(s.value("playlist_clear", true).toBool());
   ui_->checkbox_auto_sort->setChecked(s.value("auto_sort", false).toBool());
 
-  Playlist::Path path = Playlist::Path(s.value(Playlist::kPathType, Playlist::Path_Automatic).toInt());
-  switch (path) {
-    case Playlist::Path_Automatic:
+  PathType path_type = PathType(s.value("path_type", PathType_Automatic).toInt());
+  switch (path_type) {
+    case PathType_Automatic:
       ui_->radiobutton_automaticpath->setChecked(true);
       break;
-    case Playlist::Path_Absolute:
+    case PathType_Absolute:
       ui_->radiobutton_absolutepath->setChecked(true);
       break;
-    case Playlist::Path_Relative:
+    case PathType_Relative:
       ui_->radiobutton_relativepath->setChecked(true);
       break;
-    case Playlist::Path_Ask_User:
+    case PathType_Ask_User:
       ui_->radiobutton_askpath->setChecked(true);
   }
 
   ui_->checkbox_editmetadatainline->setChecked(s.value("editmetadatainline", false).toBool());
-  ui_->checkbox_writemetadata->setChecked(s.value(Playlist::kWriteMetadata, false).toBool());
+  ui_->checkbox_writemetadata->setChecked(s.value("write_metadata", false).toBool());
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   ui_->checkbox_delete_files->setChecked(s.value("delete_files", false).toBool());
@@ -107,18 +107,18 @@ void PlaylistSettingsPage::Load() {
 
 void PlaylistSettingsPage::Save() {
 
-  Playlist::Path path = Playlist::Path_Automatic;
+  PathType path_type = PathType_Automatic;
   if (ui_->radiobutton_automaticpath->isChecked()) {
-    path = Playlist::Path_Automatic;
+    path_type = PathType_Automatic;
   }
   else if (ui_->radiobutton_absolutepath->isChecked()) {
-    path = Playlist::Path_Absolute;
+    path_type = PathType_Absolute;
   }
   else if (ui_->radiobutton_relativepath->isChecked()) {
-    path = Playlist::Path_Relative;
+    path_type = PathType_Relative;
   }
   else if (ui_->radiobutton_askpath->isChecked()) {
-    path = Playlist::Path_Ask_User;
+    path_type = PathType_Ask_User;
   }
 
   QSettings s;
@@ -132,9 +132,9 @@ void PlaylistSettingsPage::Save() {
   s.setValue("select_track", ui_->checkbox_select_track->isChecked());
   s.setValue("show_toolbar", ui_->checkbox_show_toolbar->isChecked());
   s.setValue("playlist_clear", ui_->checkbox_playlist_clear->isChecked());
-  s.setValue(Playlist::kPathType, static_cast<int>(path));
+  s.setValue("path_type", static_cast<int>(path_type));
   s.setValue("editmetadatainline", ui_->checkbox_editmetadatainline->isChecked());
-  s.setValue(Playlist::kWriteMetadata, ui_->checkbox_writemetadata->isChecked());
+  s.setValue("write_metadata", ui_->checkbox_writemetadata->isChecked());
   s.setValue("delete_files", ui_->checkbox_delete_files->isChecked());
   s.setValue("auto_sort", ui_->checkbox_auto_sort->isChecked());
   s.endGroup();

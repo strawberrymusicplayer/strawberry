@@ -26,8 +26,9 @@
 #include <QString>
 #include <QTextStream>
 
+#include "settings/playlistsettingspage.h"
+#include "parserbase.h"
 #include "asxiniparser.h"
-#include "playlistparsers/parserbase.h"
 
 class CollectionBackendInterface;
 
@@ -68,7 +69,7 @@ SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, con
 
 }
 
-void AsxIniParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
+void AsxIniParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
 
   QTextStream s(device);
   s << "[Reference]" << qt_endl;

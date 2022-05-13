@@ -33,8 +33,8 @@
 
 #include "core/timeconstants.h"
 #include "core/utilities.h"
-#include "playlist/playlist.h"
-#include "playlistparsers/xmlparser.h"
+#include "settings/playlistsettingspage.h"
+#include "xmlparser.h"
 #include "xspfparser.h"
 
 class CollectionBackendInterface;
@@ -137,7 +137,7 @@ return_song:
 
 }
 
-void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
+void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
 
   QXmlStreamWriter writer(device);
   writer.setAutoFormatting(true);
@@ -148,8 +148,8 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
   writer.writeDefaultNamespace("http://xspf.org/ns/0/");
 
   QSettings s;
-  s.beginGroup(Playlist::kSettingsGroup);
-  bool write_metadata = s.value(Playlist::kWriteMetadata, true).toBool();
+  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
+  bool write_metadata = s.value("write_metadata", true).toBool();
   s.endGroup();
 
   StreamElement tracklist("trackList", &writer);

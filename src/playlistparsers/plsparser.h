@@ -21,16 +21,17 @@
 #ifndef PLSPARSER_H
 #define PLSPARSER_H
 
+#include "config.h"
+
 #include <QObject>
 #include <QDir>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
 
-#include "config.h"
 #include "core/song.h"
+#include "settings/playlistsettingspage.h"
 #include "parserbase.h"
-#include "playlist/playlist.h"
 
 class QIODevice;
 class CollectionBackendInterface;
@@ -44,11 +45,13 @@ class PLSParser : public ParserBase {
   QString name() const override { return "PLS"; }
   QStringList file_extensions() const override { return QStringList() << "pls"; }
   QString mime_type() const override { return "audio/x-scpls"; }
+  bool load_supported() const override { return true; }
+  bool save_supported() const override { return true; }
 
   bool TryMagic(const QByteArray &data) const override;
 
   SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir(), const bool collection_search = true) const override;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const override;
+  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType_Automatic) const override;
 };
 
 #endif  // PLSPARSER_H

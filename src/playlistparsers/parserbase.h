@@ -32,7 +32,7 @@
 
 #include "config.h"
 #include "core/song.h"
-#include "playlist/playlist.h"
+#include "settings/playlistsettingspage.h"
 
 class QIODevice;
 class CollectionBackendInterface;
@@ -45,6 +45,8 @@ class ParserBase : public QObject {
 
   virtual QString name() const = 0;
   virtual QStringList file_extensions() const = 0;
+  virtual bool load_supported() const = 0;
+  virtual bool save_supported() const = 0;
   virtual QString mime_type() const { return QString(); }
 
   virtual bool TryMagic(const QByteArray &data) const = 0;
@@ -55,7 +57,7 @@ class ParserBase : public QObject {
   // Any playlist parser may decide to leave out some entries if it finds them incomplete or invalid.
   // This means that the final resulting SongList should be considered valid (at least from the parser's point of view).
   virtual SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir(), const bool collection_lookup = true) const = 0;
-  virtual void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const = 0;
+  virtual void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType_Automatic) const = 0;
 
  protected:
   // Loads a song.  If filename_or_url is a URL (with a scheme other than "file") then it is set on the song and the song marked as a stream.
@@ -67,7 +69,7 @@ class ParserBase : public QObject {
 
   // If the URL is a file:// URL then returns its path, absolute or relative to the directory depending on the path_type option.
   // Otherwise returns the URL as is. This function should always be used when saving a playlist.
-  static QString URLOrFilename(const QUrl &url, const QDir &dir, Playlist::Path path_type);
+  static QString URLOrFilename(const QUrl &url, const QDir &dir, const PlaylistSettingsPage::PathType path_type);
 
  private:
   CollectionBackendInterface *collection_;

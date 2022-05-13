@@ -18,6 +18,8 @@
  *
  */
 
+#include "version.h"
+
 #include <QtGlobal>
 #include <QObject>
 #include <QIODevice>
@@ -28,8 +30,8 @@
 #include <QXmlStreamWriter>
 
 #include "core/utilities.h"
-#include "playlistparsers/xmlparser.h"
-#include "version.h"
+#include "settings/playlistsettingspage.h"
+#include "xmlparser.h"
 #include "wplparser.h"
 
 class CollectionBackendInterface;
@@ -93,7 +95,7 @@ void WplParser::ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *so
 
 }
 
-void WplParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
+void WplParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
 
   QXmlStreamWriter writer(device);
   writer.setAutoFormatting(true);

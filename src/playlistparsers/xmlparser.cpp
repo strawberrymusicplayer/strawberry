@@ -18,10 +18,10 @@
  *
  */
 
-#include "playlistparsers/parserbase.h"
-#include "xmlparser.h"
-
 #include <QObject>
+
+#include "parserbase.h"
+#include "xmlparser.h"
 
 class CollectionBackendInterface;
 

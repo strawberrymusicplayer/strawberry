@@ -29,7 +29,7 @@
 
 #include "config.h"
 #include "core/song.h"
-#include "playlist/playlist.h"
+#include "settings/playlistsettingspage.h"
 #include "xmlparser.h"
 
 class QIODevice;
@@ -45,11 +45,13 @@ class ASXParser : public XMLParser {
 
   QString name() const override { return "ASX"; }
   QStringList file_extensions() const override { return QStringList() << "asx"; }
+  bool load_supported() const override { return true; }
+  bool save_supported() const override { return true; }
 
   bool TryMagic(const QByteArray &data) const override;
 
   SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir(), const bool collection_search = true) const override;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const override;
+  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType_Automatic) const override;
 
  private:
   Song ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_search) const;

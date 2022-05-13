@@ -143,13 +143,6 @@ class Playlist : public QAbstractListModel {
     Role_CanSetRating,
   };
 
-  enum Path {
-    Path_Automatic = 0,  // Automatically select path type
-    Path_Absolute,       // Always use absolute paths
-    Path_Relative,       // Always use relative paths
-    Path_Ask_User,       // Only used in preferences: to ask user which of the previous values he wants to use.
-  };
-
   enum AutoScroll {
     AutoScroll_Never,
     AutoScroll_Maybe,
@@ -167,9 +160,6 @@ class Playlist : public QAbstractListModel {
   static const QRgb kDynamicHistoryColor;
 
   static const char *kSettingsGroup;
-
-  static const char *kPathType;
-  static const char *kWriteMetadata;
 
   static const int kUndoStackSize;
   static const int kUndoItemLimit;

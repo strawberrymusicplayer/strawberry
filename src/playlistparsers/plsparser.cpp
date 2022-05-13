@@ -30,7 +30,8 @@
 #include <QTextStream>
 
 #include "core/timeconstants.h"
-#include "playlistparsers/parserbase.h"
+#include "settings/playlistsettingspage.h"
+#include "parserbase.h"
 #include "plsparser.h"
 
 class CollectionBackendInterface;
@@ -86,7 +87,7 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
 
 }
 
-void PLSParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
+void PLSParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
 
   QTextStream s(device);
   s << "[playlist]" << qt_endl;

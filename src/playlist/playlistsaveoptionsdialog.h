@@ -27,7 +27,7 @@
 #include <QDialog>
 #include <QString>
 
-#include "playlist.h"
+#include "settings/playlistsettingspage.h"
 
 class QWidget;
 
@@ -43,7 +43,7 @@ class PlaylistSaveOptionsDialog : public QDialog {
   ~PlaylistSaveOptionsDialog() override;
 
   void accept() override;
-  Playlist::Path path_type() const;
+  PlaylistSettingsPage::PathType path_type() const;
 
  private:
   static const char *kSettingsGroup;

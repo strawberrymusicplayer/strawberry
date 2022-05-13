@@ -32,9 +32,10 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
-#include "asxparser.h"
 #include "core/utilities.h"
-#include "playlistparsers/xmlparser.h"
+#include "settings/playlistsettingspage.h"
+#include "xmlparser.h"
+#include "asxparser.h"
 
 class CollectionBackendInterface;
 
@@ -131,7 +132,7 @@ return_song:
 
 }
 
-void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir&, Playlist::Path) const {
+void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir&, const PlaylistSettingsPage::PathType) const {
 
   QXmlStreamWriter writer(device);
   writer.setAutoFormatting(true);

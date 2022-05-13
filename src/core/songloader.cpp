@@ -290,7 +290,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
   ParserBase *parser = playlist_parser_->ParserForMagic(data);
   if (!parser) {
     // Check the file extension as well, maybe the magic failed, or it was a basic M3U file which is just a plain list of filenames.
-    parser = playlist_parser_->ParserForExtension(fileinfo.suffix().toLower());
+    parser = playlist_parser_->ParserForExtension(PlaylistParser::Type_Load, fileinfo.suffix().toLower());
   }
 
   if (parser) {  // It's a playlist!

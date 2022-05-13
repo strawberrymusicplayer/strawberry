@@ -35,8 +35,9 @@
 
 #include "core/logging.h"
 #include "core/timeconstants.h"
+#include "settings/playlistsettingspage.h"
+#include "parserbase.h"
 #include "cueparser.h"
-#include "playlistparsers/parserbase.h"
 
 class CollectionBackendInterface;
 
@@ -350,7 +351,7 @@ qint64 CueParser::IndexToMarker(const QString &index) {
 
 }
 
-void CueParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
+void CueParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
 
   Q_UNUSED(songs);
   Q_UNUSED(device);

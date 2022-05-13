@@ -21,6 +21,8 @@
 #ifndef PLAYLISTPARSER_H
 #define PLAYLISTPARSER_H
 
+#include "config.h"
+
 #include <QObject>
 #include <QDir>
 #include <QByteArray>
@@ -28,9 +30,8 @@
 #include <QString>
 #include <QStringList>
 
-#include "config.h"
 #include "core/song.h"
-#include "playlist/playlist.h"
+#include "settings/playlistsettingspage.h"
 
 class QIODevice;
 class CollectionBackendInterface;
@@ -42,28 +43,34 @@ class PlaylistParser : public QObject {
  public:
   explicit PlaylistParser(CollectionBackendInterface *collection = nullptr, QObject *parent = nullptr);
 
+  enum Type {
+    Type_Load,
+    Type_Save,
+  };
+
   static const int kMagicSize;
 
-  QStringList file_extensions() const;
-  QString filters() const;
+  QStringList file_extensions(const Type type) const;
+  QString filters(const Type type) const;
 
-  QStringList mime_types() const;
+  QStringList mime_types(const Type type) const;
 
   QString default_extension() const;
   QString default_filter() const;
 
   ParserBase *ParserForMagic(const QByteArray &data, const QString &mime_type = QString()) const;
-  ParserBase *ParserForExtension(const QString &suffix) const;
-  ParserBase *ParserForMimeType(const QString &mime) const;
+  ParserBase *ParserForExtension(const Type type, const QString &suffix) const;
+  ParserBase *ParserForMimeType(const Type type, const QString &mime) const;
 
   SongList LoadFromFile(const QString &filename) const;
   SongList LoadFromDevice(QIODevice *device, const QString &path_hint = QString(), const QDir &dir_hint = QDir()) const;
-  void Save(const SongList &songs, const QString &filename, const Playlist::Path) const;
+  void Save(const SongList &songs, const QString &filename, const PlaylistSettingsPage::PathType) const;
 
-private:
+ private:
+  bool ParserIsSupported(const Type type, ParserBase *parser) const;
   static QString FilterForParser(const ParserBase *parser, QStringList *all_extensions = nullptr);
 
-private:
+ private:
   QList<ParserBase*> parsers_;
   ParserBase *default_parser_;
 };

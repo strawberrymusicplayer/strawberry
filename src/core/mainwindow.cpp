@@ -2190,7 +2190,7 @@ void MainWindow::AddFile() {
   PlaylistParser parser(app_->collection_backend());
 
   // Show dialog
-  QStringList file_names = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QString("%1 (%2);;%3;;%4").arg(tr("Music"), FileView::kFileFilter, parser.filters(), tr(kAllFilesFilterSpec)));
+  QStringList file_names = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QString("%1 (%2);;%3;;%4").arg(tr("Music"), FileView::kFileFilter, parser.filters(PlaylistParser::Type_Load), tr(kAllFilesFilterSpec)));
 
   if (file_names.isEmpty()) return;
 

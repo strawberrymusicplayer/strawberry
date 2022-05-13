@@ -31,13 +31,14 @@
 #include <QStringList>
 #include <QtDebug>
 
+#include "core/logging.h"
+#include "settings/playlistsettingspage.h"
+#include "playlistparser.h"
+#include "parserbase.h"
 #include "asxiniparser.h"
 #include "asxparser.h"
-#include "core/logging.h"
 #include "cueparser.h"
 #include "m3uparser.h"
-#include "playlistparser.h"
-#include "playlistparsers/parserbase.h"
 #include "plsparser.h"
 #include "wplparser.h"
 #include "xspfparser.h"
@@ -47,8 +48,8 @@ const int PlaylistParser::kMagicSize = 512;
 PlaylistParser::PlaylistParser(CollectionBackendInterface *collection, QObject *parent) : QObject(parent) {
 
   default_parser_ = new XSPFParser(collection, this);
-  parsers_ << new M3UParser(collection, this);
   parsers_ << default_parser_;
+  parsers_ << new M3UParser(collection, this);
   parsers_ << new PLSParser(collection, this);
   parsers_ << new ASXParser(collection, this);
   parsers_ << new AsxIniParser(collection, this);
@@ -57,12 +58,14 @@ PlaylistParser::PlaylistParser(CollectionBackendInterface *collection, QObject *
 
 }
 
-QStringList PlaylistParser::file_extensions() const {
+QStringList PlaylistParser::file_extensions(const Type type) const {
 
   QStringList ret;
 
   for (ParserBase *parser : parsers_) {
-    ret << parser->file_extensions();
+    if (ParserIsSupported(type, parser)) {
+      ret << parser->file_extensions();
+    }
   }
 
   std::stable_sort(ret.begin(), ret.end());
@@ -70,29 +73,36 @@ QStringList PlaylistParser::file_extensions() const {
 
 }
 
-QStringList PlaylistParser::mime_types() const {
+QStringList PlaylistParser::mime_types(const Type type) const {
 
   QStringList ret;
 
   for (ParserBase *parser : parsers_) {
-    if (!parser->mime_type().isEmpty()) ret << parser->mime_type();
+    if (ParserIsSupported(type, parser) && !parser->mime_type().isEmpty()) {
+      ret << parser->mime_type();
+    }
   }
 
   std::stable_sort(ret.begin(), ret.end());
+
   return ret;
 
 }
 
-QString PlaylistParser::filters() const {
+QString PlaylistParser::filters(const Type type) const {
 
   QStringList filters;
   filters.reserve(parsers_.count() + 1);
   QStringList all_extensions;
   for (ParserBase *parser : parsers_) {
-    filters << FilterForParser(parser, &all_extensions);
+    if (ParserIsSupported(type, parser)) {
+      filters << FilterForParser(parser, &all_extensions);
+    }
   }
 
-  filters.prepend(tr("All playlists (%1)").arg(all_extensions.join(" ")));
+  if (type == Type_Load) {
+    filters.prepend(tr("All playlists (%1)").arg(all_extensions.join(" ")));
+  }
 
   return filters.join(";;");
 
@@ -122,20 +132,22 @@ QString PlaylistParser::default_filter() const {
   return FilterForParser(default_parser_);
 }
 
-ParserBase *PlaylistParser::ParserForExtension(const QString &suffix) const {
+ParserBase *PlaylistParser::ParserForExtension(const Type type, const QString &suffix) const {
 
-  for (ParserBase *p : parsers_) {
-    if (p->file_extensions().contains(suffix)) return p;
+  for (ParserBase *parser : parsers_) {
+    if (ParserIsSupported(type, parser) && parser->file_extensions().contains(suffix)) {
+      return parser;
+    }
   }
   return nullptr;
 
 }
 
-ParserBase *PlaylistParser::ParserForMimeType(const QString &mime_type) const {
+ParserBase *PlaylistParser::ParserForMimeType(const Type type, const QString &mime_type) const {
 
-  for (ParserBase *p : parsers_) {
-    if (!p->mime_type().isEmpty() && (QString::compare(p->mime_type(), mime_type, Qt::CaseInsensitive) == 0)) {
-      return p;
+  for (ParserBase *parser : parsers_) {
+    if (ParserIsSupported(type, parser) && !parser->mime_type().isEmpty() && QString::compare(parser->mime_type(), mime_type, Qt::CaseInsensitive) == 0) {
+      return parser;
     }
   }
   return nullptr;
@@ -144,9 +156,9 @@ ParserBase *PlaylistParser::ParserForMimeType(const QString &mime_type) const {
 
 ParserBase *PlaylistParser::ParserForMagic(const QByteArray &data, const QString &mime_type) const {
 
-  for (ParserBase *p : parsers_) {
-    if ((!mime_type.isEmpty() && mime_type == p->mime_type()) || p->TryMagic(data)) {
-      return p;
+  for (ParserBase *parser : parsers_) {
+    if ((!mime_type.isEmpty() && mime_type == parser->mime_type()) || parser->TryMagic(data)) {
+      return parser;
     }
   }
   return nullptr;
@@ -155,10 +167,10 @@ ParserBase *PlaylistParser::ParserForMagic(const QByteArray &data, const QString
 
 SongList PlaylistParser::LoadFromFile(const QString &filename) const {
 
-  QFileInfo info(filename);
+  QFileInfo fileinfo(filename);
 
   // Find a parser that supports this file extension
-  ParserBase *parser = ParserForExtension(info.suffix());
+  ParserBase *parser = ParserForExtension(Type_Load, fileinfo.suffix());
   if (!parser) {
     qLog(Warning) << "Unknown filetype:" << filename;
     return SongList();
@@ -168,7 +180,7 @@ SongList PlaylistParser::LoadFromFile(const QString &filename) const {
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly)) return SongList();
 
-  SongList ret = parser->Load(&file, filename, info.absolutePath());
+  SongList ret = parser->Load(&file, filename, fileinfo.absolutePath());
   file.close();
 
   return ret;
@@ -187,12 +199,12 @@ SongList PlaylistParser::LoadFromDevice(QIODevice *device, const QString &path_h
 
 }
 
-void PlaylistParser::Save(const SongList &songs, const QString &filename, const Playlist::Path path_type) const {
+void PlaylistParser::Save(const SongList &songs, const QString &filename, const PlaylistSettingsPage::PathType path_type) const {
 
-  QFileInfo info(filename);
+  QFileInfo fileinfo(filename);
 
   // Find a parser that supports this file extension
-  ParserBase *parser = ParserForExtension(info.suffix());
+  ParserBase *parser = ParserForExtension(Type_Save, fileinfo.suffix());
   if (!parser) {
     qLog(Warning) << "Unknown filetype:" << filename;
     return;
@@ -202,8 +214,14 @@ void PlaylistParser::Save(const SongList &songs, const QString &filename, const 
   QFile file(filename);
   if (!file.open(QIODevice::WriteOnly)) return;
 
-  parser->Save(songs, &file, info.absolutePath(), path_type);
+  parser->Save(songs, &file, fileinfo.absolutePath(), path_type);
 
   file.close();
+
+}
+
+bool PlaylistParser::ParserIsSupported(const Type type, ParserBase *parser) const {
+
+  return ((type == Type_Load && parser->load_supported()) || (type == Type_Save && parser->save_supported()));
 
 }

@@ -33,9 +33,9 @@
 
 #include "core/logging.h"
 #include "core/timeconstants.h"
+#include "settings/playlistsettingspage.h"
+#include "parserbase.h"
 #include "m3uparser.h"
-#include "playlist/playlist.h"
-#include "playlistparsers/parserbase.h"
 
 class CollectionBackendInterface;
 
@@ -125,13 +125,13 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
 
 }
 
-void M3UParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
+void M3UParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
 
   device->write("#EXTM3U\n");
 
   QSettings s;
-  s.beginGroup(Playlist::kSettingsGroup);
-  bool write_metadata = s.value(Playlist::kWriteMetadata, true).toBool();
+  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
+  bool write_metadata = s.value("write_metadata", true).toBool();
   s.endGroup();
 
   for (const Song &song : songs) {

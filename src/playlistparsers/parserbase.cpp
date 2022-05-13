@@ -30,7 +30,7 @@
 #include "core/logging.h"
 #include "core/tagreaderclient.h"
 #include "collection/collectionbackend.h"
-#include "playlist/playlist.h"
+#include "settings/playlistsettingspage.h"
 #include "parserbase.h"
 
 ParserBase::ParserBase(CollectionBackendInterface *collection, QObject *parent)
@@ -101,19 +101,20 @@ Song ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
 
 }
 
-QString ParserBase::URLOrFilename(const QUrl &url, const QDir &dir, Playlist::Path path_type) {
+QString ParserBase::URLOrFilename(const QUrl &url, const QDir &dir, const PlaylistSettingsPage::PathType path_type) {
 
   if (!url.isLocalFile()) return url.toString();
 
   const QString filename = url.toLocalFile();
 
-  if (path_type != Playlist::Path_Absolute && QDir::isAbsolutePath(filename)) {
+  if (path_type != PlaylistSettingsPage::PathType_Absolute && QDir::isAbsolutePath(filename)) {
     const QString relative = dir.relativeFilePath(filename);
 
-    if (!relative.startsWith("../") || path_type == Playlist::Path_Relative) {
+    if (!relative.startsWith("../") || path_type == PlaylistSettingsPage::PathType_Relative) {
       return relative;
     }
   }
+
   return filename;
 
 }
