@@ -87,7 +87,7 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const boo
           album = reader->readElementText();
         }
         else if (name == "image") {
-          art = reader->readElementText();
+          art = QUrl::fromPercentEncoding(reader->readElementText().toUtf8());
         }
         else if (name == "duration") {  // in milliseconds.
           const QString duration = reader->readElementText();
@@ -180,7 +180,7 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
         if (cover_url.scheme().isEmpty()) {
           cover_url.setScheme("file");
         }
-        QString cover_filename = URLOrFilename(cover_url, dir, path_type).toUtf8();
+        QString cover_filename = QUrl::toPercentEncoding(URLOrFilename(cover_url, dir, path_type), "/ ");
         writer.writeTextElement("image", cover_filename);
       }
     }
