@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-04-17 07:11-0400\n"
+"PO-Revision-Date: 2022-05-15 05:54-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -5323,11 +5323,11 @@ msgstr "Okänt fel"
 
 #: playlist/playlistmanager.cpp:267
 msgid "Unknown file extension for playlist."
-msgstr ""
+msgstr "Okänd filändelse för spellista."
 
 #: playlist/playlistmanager.cpp:267
 msgid "Unknown playlist extension"
-msgstr ""
+msgstr "Okänd ändelse för spellista"
 
 #: dialogs/edittagdialog.cpp:766
 msgid "Unset"
