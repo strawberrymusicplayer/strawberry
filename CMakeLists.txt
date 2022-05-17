@@ -490,12 +490,13 @@ endif()
 
 # Set up definitions
 
-add_definitions(-DBOOST_BIND_NO_PLACEHOLDERS)
-add_definitions(${QT_DEFINITIONS})
-add_definitions(-DQT_STRICT_ITERATORS)
-add_definitions(-DQT_USE_QSTRINGBUILDER)
-add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
-add_definitions(-DQT_NO_CAST_TO_ASCII)
+add_definitions(
+  -DBOOST_BIND_NO_PLACEHOLDERS
+  -DQT_STRICT_ITERATORS
+  -DQT_USE_QSTRINGBUILDER
+  -DQT_NO_URL_CAST_FROM_STRING
+  -DQT_NO_CAST_TO_ASCII
+)
 
 if(WIN32)
   add_definitions(-DUNICODE)
