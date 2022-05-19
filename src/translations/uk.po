@@ -264,11 +264,11 @@ msgstr "%title - %artist%"
 msgid "%url%"
 msgstr "%url%"
 
-#: ../build/src/ui_mainwindow.h:654
+#: ../build/src/ui_mainwindow.h:656
 msgid "&About Strawberry"
 msgstr "&Про Strawberry"
 
-#: ../build/src/ui_mainwindow.h:662
+#: ../build/src/ui_mainwindow.h:664
 msgid "&Add file..."
 msgstr "&Додати файл..."
 
@@ -280,11 +280,11 @@ msgstr "&Вирівняти текст"
 msgid "&Center"
 msgstr "По &центру"
 
-#: ../build/src/ui_mainwindow.h:633
+#: ../build/src/ui_mainwindow.h:635
 msgid "&Clear playlist"
 msgstr "&Очистити список відтворення"
 
-#: ../build/src/ui_mainwindow.h:668
+#: ../build/src/ui_mainwindow.h:670
 msgid "&Cover Manager"
 msgstr "&Менеджер обкладинок"
 
@@ -296,11 +296,11 @@ msgstr "&Власний"
 msgid "&Default"
 msgstr "&Стандартний"
 
-#: ../build/src/ui_mainwindow.h:701
+#: ../build/src/ui_mainwindow.h:703
 msgid "&Do a full collection rescan"
 msgstr "&Повністю пересканувати колекцію"
 
-#: ../build/src/ui_mainwindow.h:673
+#: ../build/src/ui_mainwindow.h:675
 msgid "&Equalizer"
 msgstr "Еквалайзер"
 
@@ -313,7 +313,7 @@ msgstr "Приховати %1"
 msgid "&Hide..."
 msgstr "&Приховати..."
 
-#: ../build/src/ui_mainwindow.h:676
+#: ../build/src/ui_mainwindow.h:678
 msgid "&Jump to the currently playing track"
 msgstr "&Перейти до композиції, що відтворюється зараз"
 
@@ -321,7 +321,7 @@ msgstr "&Перейти до композиції, що відтворюєтьс
 msgid "&Left"
 msgstr "Ліворуч"
 
-#: ../build/src/ui_mainwindow.h:688
+#: ../build/src/ui_mainwindow.h:690
 msgid "&Load playlist..."
 msgstr "&Завантажити список відтворення..."
 
@@ -333,19 +333,19 @@ msgstr "&Закріпити рейтинг"
 msgid "&Manual proxy configuration"
 msgstr "&Вручну налаштувати проксі"
 
-#: ../build/src/ui_mainwindow.h:718
+#: ../build/src/ui_mainwindow.h:720
 msgid "&Music"
 msgstr "&Музика"
 
-#: ../build/src/ui_mainwindow.h:697
+#: ../build/src/ui_mainwindow.h:699
 msgid "&Mute"
 msgstr "&Вимкнути звук"
 
-#: ../build/src/ui_mainwindow.h:680
+#: ../build/src/ui_mainwindow.h:682
 msgid "&New playlist"
 msgstr "&Створити список відтворення"
 
-#: ../build/src/ui_mainwindow.h:620
+#: ../build/src/ui_mainwindow.h:622
 msgid "&Next track"
 msgstr "&Наступна композиція"
 
@@ -357,19 +357,19 @@ msgstr "&Без фонового зображення"
 msgid "&None"
 msgstr "&Нічого"
 
-#: ../build/src/ui_mainwindow.h:666
+#: ../build/src/ui_mainwindow.h:668
 msgid "&Open file..."
 msgstr "&Відкрити файл..."
 
-#: ../build/src/ui_mainwindow.h:612
+#: ../build/src/ui_mainwindow.h:614
 msgid "&Play"
 msgstr "&Відтворити"
 
-#: ../build/src/ui_mainwindow.h:624
+#: ../build/src/ui_mainwindow.h:626
 msgid "&Quit"
 msgstr "&Вийти"
 
-#: ../build/src/ui_mainwindow.h:671
+#: ../build/src/ui_mainwindow.h:673
 msgid "&Repeat mode"
 msgstr "Режим &повтору"
 
@@ -381,19 +381,19 @@ msgstr "&Відновити початковий стан стовпчиків"
 msgid "&Right"
 msgstr "&Праворуч"
 
-#: ../build/src/ui_mainwindow.h:692
+#: ../build/src/ui_mainwindow.h:694
 msgid "&Save all playlists"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:650
+#: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
 msgstr "&Налаштування..."
 
-#: ../build/src/ui_mainwindow.h:670
+#: ../build/src/ui_mainwindow.h:672
 msgid "&Shuffle mode"
 msgstr "Режим &перемішування"
 
-#: ../build/src/ui_mainwindow.h:616
+#: ../build/src/ui_mainwindow.h:618
 msgid "&Stop"
 msgstr "&Зупинити"
 
@@ -401,15 +401,15 @@ msgstr "&Зупинити"
 msgid "&Stretch columns to fit window"
 msgstr "&Розтягнути стовпчики для заповнення вікна"
 
-#: ../build/src/ui_mainwindow.h:721
+#: ../build/src/ui_mainwindow.h:723
 msgid "&Tools"
 msgstr "&Інструменти"
 
-#: ../build/src/ui_mainwindow.h:674
+#: ../build/src/ui_mainwindow.h:676
 msgid "&Transcode Music"
 msgstr "&Перекодування музики"
 
-#: ../build/src/ui_mainwindow.h:695
+#: ../build/src/ui_mainwindow.h:697
 msgid "&Update changed collection folders"
 msgstr "&Оновити змінені теки колекції"
 
@@ -554,7 +554,7 @@ msgstr "ASF (WMA)"
 msgid "Abort"
 msgstr "Перервати"
 
-#: ../build/src/ui_mainwindow.h:702
+#: ../build/src/ui_mainwindow.h:704
 msgid "Abort collection scan"
 msgstr "Перервати сканування фонотеки"
 
@@ -562,7 +562,7 @@ msgstr "Перервати сканування фонотеки"
 msgid "About"
 msgstr "Про програму"
 
-#: ../build/src/ui_mainwindow.h:696
+#: ../build/src/ui_mainwindow.h:698
 msgid "About &Qt"
 msgstr "Про &Qt"
 
@@ -583,7 +583,7 @@ msgctxt "Category label"
 msgid "Action"
 msgstr "Дія"
 
-#: ../build/src/ui_mainwindow.h:675
+#: ../build/src/ui_mainwindow.h:677
 msgid "Add &folder..."
 msgstr "Додати &папку..."
 
@@ -604,15 +604,15 @@ msgstr "Додати усі композиції з каталогу та усі
 msgid "Add directory..."
 msgstr "Додати папку..."
 
-#: core/mainwindow.cpp:2193
+#: core/mainwindow.cpp:2195
 msgid "Add file"
 msgstr "Додати файл"
 
-#: ../build/src/ui_mainwindow.h:712
+#: ../build/src/ui_mainwindow.h:714
 msgid "Add file to transcoder"
 msgstr "Додати файл для перекодування"
 
-#: ../build/src/ui_mainwindow.h:710
+#: ../build/src/ui_mainwindow.h:712
 msgid "Add file(s) to transcoder"
 msgstr "Додати файли для перекодування"
 
@@ -620,7 +620,7 @@ msgstr "Додати файли для перекодування"
 msgid "Add files to transcode"
 msgstr "Додати файли для перекодування"
 
-#: core/mainwindow.cpp:2219 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2221 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Додати папку"
 
@@ -722,7 +722,7 @@ msgstr "Додати тег номера композиції"
 msgid "Add song year tag"
 msgstr "Додати тег року композиції"
 
-#: ../build/src/ui_mainwindow.h:714
+#: ../build/src/ui_mainwindow.h:716
 msgid "Add stream..."
 msgstr "Додати потік..."
 
@@ -730,7 +730,7 @@ msgstr "Додати потік..."
 msgid "Add to albums"
 msgstr "Додати до альбомів"
 
-#: core/mainwindow.cpp:1995
+#: core/mainwindow.cpp:1997
 msgid "Add to another playlist"
 msgstr "Додати до іншого списку відтворення"
 
@@ -1210,7 +1210,7 @@ msgstr "Місткість буфера"
 msgid "Buffering"
 msgstr "Буферизація"
 
-#: ../build/src/ui_mainwindow.h:669
+#: ../build/src/ui_mainwindow.h:671
 msgid "C&onsole"
 msgstr "&Консоль"
 
@@ -1258,7 +1258,7 @@ msgstr "Змінити поточну відтворювану композиц�
 msgid "Change the language"
 msgstr "Змінити мову"
 
-#: core/mainwindow.cpp:795
+#: core/mainwindow.cpp:797
 msgid "Check for updates..."
 msgstr "Перевірити оновлення..."
 
@@ -1313,7 +1313,7 @@ msgstr "Очистити кеш диска"
 msgid "Clear cover"
 msgstr "Стерти обкладинку"
 
-#: core/mainwindow.cpp:2284 ../build/src/ui_mainwindow.h:635
+#: core/mainwindow.cpp:2286 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Очистити список відтворення"
 
@@ -1358,7 +1358,7 @@ msgstr "Закриття цього вікна зупинить пошук об�
 msgid "Club"
 msgstr "Клубна"
 
-#: core/mainwindow.cpp:360 ../build/src/ui_collectionsettingspage.h:583
+#: core/mainwindow.cpp:362 ../build/src/ui_collectionsettingspage.h:583
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Фонотека"
@@ -1371,7 +1371,7 @@ msgstr "Фільтр фонотеки"
 msgid "Collection advanced grouping"
 msgstr "Розширене групування фонотеки"
 
-#: core/mainwindow.cpp:2857
+#: core/mainwindow.cpp:2859
 msgid "Collection rescan notice"
 msgstr "Повідомлення про повторне сканування фонотеки"
 
@@ -1401,7 +1401,7 @@ msgstr "Компіляція"
 msgid "Complete tags automatically"
 msgstr "Заповнити мітки автоматично"
 
-#: ../build/src/ui_mainwindow.h:703
+#: ../build/src/ui_mainwindow.h:705
 msgid "Complete tags automatically..."
 msgstr "Заповнити мітки автоматично..."
 
@@ -1433,7 +1433,7 @@ msgstr "Налаштувати %1..."
 msgid "Configure buttons"
 msgstr "Налаштувати кнопки"
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:674
 msgid "Configure collection..."
 msgstr "Налаштувати фонотеку..."
 
@@ -1449,7 +1449,7 @@ msgstr "Консоль"
 msgid "Constant bitrate"
 msgstr "Стала бітова швидкість"
 
-#: core/mainwindow.cpp:359 ../build/src/ui_contextsettingspage.h:370
+#: core/mainwindow.cpp:361 ../build/src/ui_contextsettingspage.h:370
 msgid "Context"
 msgstr "Контекст"
 
@@ -1471,7 +1471,7 @@ msgstr "Конвертувати всю музику"
 msgid "Convert any music that the device can't play"
 msgstr "Конвертувати всю музику, яку не може відтворити пристрій"
 
-#: core/mainwindow.cpp:741
+#: core/mainwindow.cpp:743
 msgid "Copy URL(s)..."
 msgstr "Копіювати адреси..."
 
@@ -1479,7 +1479,7 @@ msgstr "Копіювати адреси..."
 msgid "Copy album cover artwork"
 msgstr "Копіювати обкладинку альбому"
 
-#: core/mainwindow.cpp:745 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:747 widgets/fileviewlist.cpp:47
 #: device/deviceview.cpp:248
 msgid "Copy to collection..."
 msgstr "Скопіювати до фонотеки..."
@@ -1488,7 +1488,7 @@ msgstr "Скопіювати до фонотеки..."
 msgid "Copy to device"
 msgstr "Скопіювати до пристрою"
 
-#: core/mainwindow.cpp:748 context/contextalbumsview.cpp:271
+#: core/mainwindow.cpp:750 context/contextalbumsview.cpp:271
 #: collection/collectionview.cpp:359 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
@@ -1626,7 +1626,7 @@ msgstr "Перехресне згасання під час автоматичн
 msgid "Cross-fade when changing tracks manually"
 msgstr "Перехресне згасання під час ручної зміни композицій"
 
-#: ../build/src/ui_mainwindow.h:630
+#: ../build/src/ui_mainwindow.h:632
 msgid "Ctrl+Alt+V"
 msgstr "Ctrl+Alt+V"
 
@@ -1634,51 +1634,51 @@ msgstr "Ctrl+Alt+V"
 msgid "Ctrl+Down"
 msgstr "Ctrl+Вниз"
 
-#: ../build/src/ui_mainwindow.h:642
+#: ../build/src/ui_mainwindow.h:644
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: ../build/src/ui_mainwindow.h:660
+#: ../build/src/ui_mainwindow.h:662
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: ../build/src/ui_mainwindow.h:678
+#: ../build/src/ui_mainwindow.h:680
 msgid "Ctrl+J"
 msgstr "Ctrl+J"
 
-#: ../build/src/ui_mainwindow.h:638 ../build/src/ui_queueview.h:144
+#: ../build/src/ui_mainwindow.h:640 ../build/src/ui_queueview.h:144
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: ../build/src/ui_mainwindow.h:699
+#: ../build/src/ui_mainwindow.h:701
 msgid "Ctrl+M"
 msgstr "Ctrl+M"
 
-#: ../build/src/ui_mainwindow.h:682
+#: ../build/src/ui_mainwindow.h:684
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: ../build/src/ui_mainwindow.h:652
+#: ../build/src/ui_mainwindow.h:654
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: ../build/src/ui_mainwindow.h:626
+#: ../build/src/ui_mainwindow.h:628
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: ../build/src/ui_mainwindow.h:686
+#: ../build/src/ui_mainwindow.h:688
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: ../build/src/ui_mainwindow.h:664
+#: ../build/src/ui_mainwindow.h:666
 msgid "Ctrl+Shift+A"
 msgstr "Ctrl+Shift+A"
 
-#: ../build/src/ui_mainwindow.h:690
+#: ../build/src/ui_mainwindow.h:692
 msgid "Ctrl+Shift+O"
 msgstr "Ctrl+Shift+O"
 
-#: ../build/src/ui_mainwindow.h:705
+#: ../build/src/ui_mainwindow.h:707
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
@@ -1775,7 +1775,7 @@ msgstr "Видалити файли"
 msgid "Delete from device..."
 msgstr "Видалити з пристрою..."
 
-#: core/mainwindow.cpp:750 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:752 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:50
 msgid "Delete from disk..."
 msgstr "Видалити з диска..."
@@ -1801,11 +1801,11 @@ msgstr "Видалити оригінальні файли"
 msgid "Deleting files"
 msgstr "Видалення файлів"
 
-#: core/mainwindow.cpp:1910
+#: core/mainwindow.cpp:1912
 msgid "Dequeue selected tracks"
 msgstr "Вилучити з черги вибрані композиції"
 
-#: core/mainwindow.cpp:1909
+#: core/mainwindow.cpp:1911
 msgid "Dequeue track"
 msgstr "Вилучити композицію з черги"
 
@@ -1831,7 +1831,7 @@ msgstr "Налаштування пристрою"
 msgid "Device properties..."
 msgstr "Налаштування пристрою..."
 
-#: core/mainwindow.cpp:367
+#: core/mainwindow.cpp:369
 msgid "Devices"
 msgstr "Пристрої"
 
@@ -1966,12 +1966,12 @@ msgstr "Змінити розумний список відтворення"
 msgid "Edit smart playlist..."
 msgstr "Змінити розумний список відтворення..."
 
-#: core/mainwindow.cpp:1953
+#: core/mainwindow.cpp:1955
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Змінити тег «%1»..."
 
-#: ../build/src/ui_mainwindow.h:646
+#: ../build/src/ui_mainwindow.h:648
 msgid "Edit tag..."
 msgstr "Редагувати тег..."
 
@@ -1980,7 +1980,7 @@ msgid "Edit track information"
 msgstr "Редагувати дані композиції"
 
 #: context/contextalbumsview.cpp:275 collection/collectionview.cpp:364
-#: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:640
+#: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:642
 msgid "Edit track information..."
 msgstr "Редагувати дані композиції..."
 
@@ -2132,7 +2132,7 @@ msgstr "Відповідає --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Відповідає --log-levels *:3"
 
-#: core/mainwindow.cpp:2588 core/mainwindow.cpp:2739
+#: core/mainwindow.cpp:2590 core/mainwindow.cpp:2741
 #: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Помилка"
@@ -2222,27 +2222,27 @@ msgstr "Експортування завершено"
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Експортовано %1 обкладинок з %2 (%3 пропущено)"
 
-#: ../build/src/ui_mainwindow.h:656
+#: ../build/src/ui_mainwindow.h:658
 msgid "F1"
 msgstr "F1"
 
-#: ../build/src/ui_mainwindow.h:648
+#: ../build/src/ui_mainwindow.h:650
 msgid "F2"
 msgstr "F2"
 
-#: ../build/src/ui_mainwindow.h:610
+#: ../build/src/ui_mainwindow.h:612
 msgid "F5"
 msgstr "F5"
 
-#: ../build/src/ui_mainwindow.h:614
+#: ../build/src/ui_mainwindow.h:616
 msgid "F6"
 msgstr "F6"
 
-#: ../build/src/ui_mainwindow.h:618
+#: ../build/src/ui_mainwindow.h:620
 msgid "F7"
 msgstr "F7"
 
-#: ../build/src/ui_mainwindow.h:622
+#: ../build/src/ui_mainwindow.h:624
 msgid "F8"
 msgstr "F8"
 
@@ -2383,7 +2383,7 @@ msgstr "Назва файлу"
 msgid "Filename:"
 msgstr "Назва файлу:"
 
-#: core/mainwindow.cpp:364
+#: core/mainwindow.cpp:366
 msgid "Files"
 msgstr "Файли"
 
@@ -2544,11 +2544,11 @@ msgstr "Отримання %1 каналів"
 msgid "Global Shortcuts"
 msgstr "Глобальні сполучення клавіш"
 
-#: ../build/src/ui_mainwindow.h:693
+#: ../build/src/ui_mainwindow.h:695
 msgid "Go to next playlist tab"
 msgstr "До наступної вкладки списку відтворення"
 
-#: ../build/src/ui_mainwindow.h:694
+#: ../build/src/ui_mainwindow.h:696
 msgid "Go to previous playlist tab"
 msgstr "До попередньої вкладки списку відтворення"
 
@@ -2668,7 +2668,7 @@ msgstr "Відомості про обладнання"
 msgid "Hardware information is only available while the device is connected."
 msgstr "Відомості про обладнання доступні лише після під'єднання пристрою."
 
-#: ../build/src/ui_mainwindow.h:720
+#: ../build/src/ui_mainwindow.h:722
 msgid "Help"
 msgstr "Довідка"
 
@@ -2754,7 +2754,7 @@ msgstr "Зображення (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgid "Import data from last.fm"
 msgstr "Імпорт даних з last.fm"
 
-#: ../build/src/ui_mainwindow.h:716
+#: ../build/src/ui_mainwindow.h:718
 msgid "Import data from last.fm..."
 msgstr "Імпортувати дані з last.fm..."
 
@@ -3014,7 +3014,7 @@ msgid "Long term prediction profile (LTP)"
 msgstr "Профіль довготривалого передбачення (LTP)"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:81
-#: ../build/src/ui_mainwindow.h:632
+#: ../build/src/ui_mainwindow.h:634
 msgid "Love"
 msgstr "Люблю"
 
@@ -3228,7 +3228,7 @@ msgstr "Точки монтування"
 msgid "Move down"
 msgstr "Перемістити вниз"
 
-#: core/mainwindow.cpp:746 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:748 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
 msgstr "Перемістити до фонотеки..."
 
@@ -3237,7 +3237,7 @@ msgstr "Перемістити до фонотеки..."
 msgid "Move up"
 msgstr "Перемістити вгору"
 
-#: core/mainwindow.cpp:2193 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2195 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Музика"
 
@@ -3281,7 +3281,7 @@ msgstr "Ніколи не починати відтворення"
 msgid "New folder"
 msgstr "Нова папка"
 
-#: core/mainwindow.cpp:2011
+#: core/mainwindow.cpp:2013
 msgid "New playlist"
 msgstr "Новий список відтворення"
 
@@ -3358,7 +3358,7 @@ msgstr "Нічого не відтворюється"
 msgid "None"
 msgstr "Немає"
 
-#: core/mainwindow.cpp:2588 core/mainwindow.cpp:2739
+#: core/mainwindow.cpp:2590 core/mainwindow.cpp:2741
 #: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Жодна з вибраних композицій не придатна для копіювання на пристрій"
@@ -3454,7 +3454,7 @@ msgstr "Відкрити адресу в браузері?"
 msgid "Open a directory to import music from"
 msgstr "Відкрити каталог для імпортування музичних творів"
 
-#: ../build/src/ui_mainwindow.h:667
+#: ../build/src/ui_mainwindow.h:669
 msgid "Open audio &CD..."
 msgstr "Відкрити &аудіо-CD..."
 
@@ -3504,7 +3504,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "Впорядкування файлів"
 
-#: core/mainwindow.cpp:744 context/contextalbumsview.cpp:269
+#: core/mainwindow.cpp:746 context/contextalbumsview.cpp:269
 #: collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr "Впорядкувати файли..."
@@ -3563,7 +3563,7 @@ msgstr "Перезаписати наявні файли"
 msgid "Overwrite s&maller ones only"
 msgstr "Перезаписати лише &менші"
 
-#: ../build/src/ui_mainwindow.h:719
+#: ../build/src/ui_mainwindow.h:721
 msgid "P&laylist"
 msgstr "&Список відтворення"
 
@@ -3591,7 +3591,7 @@ msgstr "Шлях"
 msgid "Pattern"
 msgstr "Шаблон"
 
-#: core/mainwindow.cpp:1313 core/mainwindow.cpp:1808
+#: core/mainwindow.cpp:1315 core/mainwindow.cpp:1810
 #: core/qtsystemtrayicon.cpp:146 globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Pause"
 msgstr "Призупинити"
@@ -3619,8 +3619,8 @@ msgstr "Піксель"
 msgid "Plain sidebar"
 msgstr "Звичайна бічна панель"
 
-#: core/mainwindow.cpp:713 core/mainwindow.cpp:1270 core/mainwindow.cpp:1297
-#: core/mainwindow.cpp:1812 core/qtsystemtrayicon.cpp:159
+#: core/mainwindow.cpp:715 core/mainwindow.cpp:1272 core/mainwindow.cpp:1299
+#: core/mainwindow.cpp:1814 core/qtsystemtrayicon.cpp:159
 #: core/qtsystemtrayicon.cpp:173 globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Play"
 msgstr "Відтворити"
@@ -3693,7 +3693,7 @@ msgstr "Кнопки керування списком відтворення"
 msgid "Playlist finished"
 msgstr "Список відтворення завершився"
 
-#: core/mainwindow.cpp:2284
+#: core/mainwindow.cpp:2286
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3719,7 +3719,7 @@ msgstr "Колір відтворюваної композиції у списк
 msgid "Playlist type"
 msgstr "Тип списку відтворення"
 
-#: core/mainwindow.cpp:362
+#: core/mainwindow.cpp:364
 msgid "Playlists"
 msgstr "Списки відтворення"
 
@@ -3825,7 +3825,7 @@ msgid "Previous"
 msgstr "Попередня"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:69
-#: ../build/src/ui_mainwindow.h:608
+#: ../build/src/ui_mainwindow.h:610
 msgid "Previous track"
 msgstr "Попередня композиція"
 
@@ -3845,7 +3845,7 @@ msgstr "Поступ"
 msgid "Put songs in a random order"
 msgstr "Перемішати композиції у довільному порядку"
 
-#: core/mainwindow.cpp:376 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:378 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3871,24 +3871,24 @@ msgstr "Якість"
 msgid "Querying device..."
 msgstr "Опитування пристрою..."
 
-#: core/mainwindow.cpp:361
+#: core/mainwindow.cpp:363
 msgid "Queue"
 msgstr "Черга"
 
-#: core/mainwindow.cpp:1912
+#: core/mainwindow.cpp:1914
 msgid "Queue selected tracks"
 msgstr "Додати до черги обрані композиції"
 
-#: core/mainwindow.cpp:719 core/mainwindow.cpp:1916
+#: core/mainwindow.cpp:721 core/mainwindow.cpp:1918
 msgid "Queue selected tracks to play next"
 msgstr "Відтворити наступними обрані композиції"
 
-#: core/mainwindow.cpp:1919 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1921 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:323
 msgid "Queue to play next"
 msgstr "Відтворити наступним"
 
-#: core/mainwindow.cpp:1911 context/contextalbumsview.cpp:266
+#: core/mainwindow.cpp:1913 context/contextalbumsview.cpp:266
 #: collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
 #: internet/internetsearchview.cpp:328 internet/internetcollectionview.cpp:322
@@ -3907,7 +3907,7 @@ msgstr "Радіо (однакова гучність всіх композиц�
 msgid "Radio Paradise"
 msgstr "Радіо Paradise"
 
-#: core/mainwindow.cpp:365
+#: core/mainwindow.cpp:367
 msgid "Radios"
 msgstr "Радіостанції"
 
@@ -4019,11 +4019,11 @@ msgstr "Запам'ятати вибір"
 msgid "Remove"
 msgstr "Видалити"
 
-#: ../build/src/ui_mainwindow.h:708
+#: ../build/src/ui_mainwindow.h:710
 msgid "Remove &duplicates from playlist"
 msgstr "Видалити &дублікати зі списку відтворення"
 
-#: ../build/src/ui_mainwindow.h:709
+#: ../build/src/ui_mainwindow.h:711
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Видалити &недоступні композиції зі списку відтворення"
 
@@ -4035,7 +4035,7 @@ msgstr "Видалити теку"
 msgid "Remove from favorites"
 msgstr "Вилучити з улюблених"
 
-#: ../build/src/ui_mainwindow.h:672
+#: ../build/src/ui_mainwindow.h:674
 msgid "Remove from playlist"
 msgstr "Вилучити зі списку відтворення"
 
@@ -4059,7 +4059,7 @@ msgstr "Перейменування списку відтворення"
 msgid "Rename playlist..."
 msgstr "Перейменувати список відтворення..."
 
-#: ../build/src/ui_mainwindow.h:644
+#: ../build/src/ui_mainwindow.h:646
 msgid "Renumber tracks in this order..."
 msgstr "Пронумерувати композиції у такому порядку..."
 
@@ -4119,7 +4119,7 @@ msgstr "Повторно заповнити"
 msgid "Rescan song(s)"
 msgstr "Сканування композицій"
 
-#: core/mainwindow.cpp:735
+#: core/mainwindow.cpp:737
 msgid "Rescan song(s)..."
 msgstr "Сканувати композиції..."
 
@@ -4223,7 +4223,7 @@ msgstr "Рок"
 msgid "Run"
 msgstr "Виконати"
 
-#: ../build/src/ui_mainwindow.h:658
+#: ../build/src/ui_mainwindow.h:660
 msgid "S&huffle playlist"
 msgstr "&Перемішати список відтворення"
 
@@ -4250,7 +4250,7 @@ msgstr "Частота вибірки"
 msgid "Samplerate"
 msgstr "Частота вибірки"
 
-#: ../build/src/ui_mainwindow.h:684
+#: ../build/src/ui_mainwindow.h:686
 msgid "Save &playlist..."
 msgstr "Зберегти &список відтворення..."
 
@@ -4469,7 +4469,7 @@ msgstr "Недійсна адреса сервера."
 msgid "Server-side scrobbling"
 msgstr "Скроблінг на боці сервера"
 
-#: core/mainwindow.cpp:1952
+#: core/mainwindow.cpp:1954
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Встановити %1 у «%2»..."
@@ -4478,7 +4478,7 @@ msgstr "Встановити %1 у «%2»..."
 msgid "Set the volume to <value> percent"
 msgstr "Встановити гучність у <value> відсотків"
 
-#: ../build/src/ui_mainwindow.h:645
+#: ../build/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
 msgstr "Встановити значення для всіх вибраних композицій..."
 
@@ -4560,7 +4560,7 @@ msgstr "Показати обкладинку альбому в фонотеці
 msgid "Show albums by artist"
 msgstr "Показати альбоми за виконавцем"
 
-#: core/mainwindow.cpp:661
+#: core/mainwindow.cpp:663
 msgid "Show all songs"
 msgstr "Показати всі композиції"
 
@@ -4584,7 +4584,7 @@ msgstr "Показати обробник та пристрій"
 msgid "Show fullsize..."
 msgstr "Показати на повний розмір..."
 
-#: core/mainwindow.cpp:742
+#: core/mainwindow.cpp:744
 msgid "Show in collection..."
 msgstr "Показати у фонотеці..."
 
@@ -4592,7 +4592,7 @@ msgstr "Показати у фонотеці..."
 msgid "Show in file browser"
 msgstr "Показати в оглядачі файлів"
 
-#: core/mainwindow.cpp:743 context/contextalbumsview.cpp:277
+#: core/mainwindow.cpp:745 context/contextalbumsview.cpp:277
 #: collection/collectionview.cpp:366 widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "Показати в оглядачі файлів..."
@@ -4609,11 +4609,11 @@ msgstr "Показати кнопку «Люблю»"
 msgid "Show moodbar"
 msgstr "Показувати панель настрою"
 
-#: core/mainwindow.cpp:662
+#: core/mainwindow.cpp:664
 msgid "Show only duplicates"
 msgstr "Показати тільки дублікати"
 
-#: core/mainwindow.cpp:663
+#: core/mainwindow.cpp:665
 msgid "Show only untagged"
 msgstr "Показати тільки без тегів"
 
@@ -4625,7 +4625,7 @@ msgstr "Показати віджет відтворення"
 msgid "Show scrobble button"
 msgstr "Показати кнопку скороблінгу"
 
-#: ../build/src/ui_mainwindow.h:715
+#: ../build/src/ui_mainwindow.h:717
 msgid "Show sidebar"
 msgstr "Показати бічну панель"
 
@@ -4710,11 +4710,11 @@ msgstr "Кількість пропусків"
 msgid "Skip forwards in playlist"
 msgstr "Перескочити вперед у списку композицій"
 
-#: core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:1927
 msgid "Skip selected tracks"
 msgstr "Пропустити позначені композиції"
 
-#: core/mainwindow.cpp:1924
+#: core/mainwindow.cpp:1926
 msgid "Skip track"
 msgstr "Пропустити композицію"
 
@@ -4730,7 +4730,7 @@ msgstr "Маленька бічна панель"
 msgid "Smart playlist"
 msgstr "Розумний список відтворення"
 
-#: core/mainwindow.cpp:363
+#: core/mainwindow.cpp:365
 msgid "Smart playlists"
 msgstr "Розумні списки відтворення"
 
@@ -4834,7 +4834,7 @@ msgstr "Зупинятися після кожної композиції"
 msgid "Stop after every track"
 msgstr "Зупинятися після будь-якої композиції"
 
-#: core/mainwindow.cpp:715 ../build/src/ui_mainwindow.h:628
+#: core/mainwindow.cpp:717 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "Зупинити після цієї композиції"
 
@@ -4867,7 +4867,7 @@ msgstr "Strawberry"
 msgid "Strawberry Error"
 msgstr "Помилка Strawberry"
 
-#: ../build/src/ui_mainwindow.h:607
+#: ../build/src/ui_mainwindow.h:609
 msgid "Strawberry Music Player"
 msgstr "Музичний програвач Strawberry"
 
@@ -4948,7 +4948,7 @@ msgstr "Стиль"
 msgid "Submit scrobbles every"
 msgstr "Надсилати дані скроблінгу кожні"
 
-#: core/mainwindow.cpp:370 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:372 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -5088,7 +5088,7 @@ msgstr "Вказана адреса не існує!"
 msgid "The site you requested is not an image!"
 msgstr "Вказана адреса не є малюнком!"
 
-#: core/mainwindow.cpp:2852
+#: core/mainwindow.cpp:2854
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5192,7 +5192,7 @@ msgstr "Цей тип пристрою не підтримується: %1"
 msgid "Thread priority"
 msgstr "Пріоритет потоку"
 
-#: core/mainwindow.cpp:373 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:375 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -5224,15 +5224,15 @@ msgstr "Сьогодні"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:716 core/mainwindow.cpp:1913
+#: core/mainwindow.cpp:718 core/mainwindow.cpp:1915
 msgid "Toggle queue status"
 msgstr "Перемикнути статус черги"
 
-#: ../build/src/ui_mainwindow.h:707
+#: ../build/src/ui_mainwindow.h:709
 msgid "Toggle scrobbling"
 msgstr "Змінити режим скроблінгу"
 
-#: core/mainwindow.cpp:722 core/mainwindow.cpp:1926
+#: core/mainwindow.cpp:724 core/mainwindow.cpp:1928
 msgid "Toggle skip status"
 msgstr "Змінити стан пропуску"
 
@@ -5342,11 +5342,11 @@ msgstr "Вилучити"
 msgid "Unset cover"
 msgstr "Вилучити обкладинку"
 
-#: core/mainwindow.cpp:1923
+#: core/mainwindow.cpp:1925
 msgid "Unskip selected tracks"
 msgstr "Не пропускати вибрані композиції"
 
-#: core/mainwindow.cpp:1922
+#: core/mainwindow.cpp:1924
 msgid "Unskip track"
 msgstr "Не пропускати композицію"
 
@@ -5603,7 +5603,7 @@ msgid ""
 msgstr ""
 "Перемістити також й інші композиції з цього альбому до різних виконавців?"
 
-#: core/mainwindow.cpp:2856
+#: core/mainwindow.cpp:2858
 msgid "Would you like to run a full rescan right now?"
 msgstr "Запустити повне сканування фонотеки зараз?"
 

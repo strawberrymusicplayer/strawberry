@@ -254,11 +254,11 @@ msgstr ""
 msgid "%url%"
 msgstr "%url%"
 
-#: ../build/src/ui_mainwindow.h:654
+#: ../build/src/ui_mainwindow.h:656
 msgid "&About Strawberry"
 msgstr "&Quant a l’Strawberry"
 
-#: ../build/src/ui_mainwindow.h:662
+#: ../build/src/ui_mainwindow.h:664
 msgid "&Add file..."
 msgstr "&Afegeix un fitxer..."
 
@@ -270,11 +270,11 @@ msgstr "&Alinea el text"
 msgid "&Center"
 msgstr "&Centre"
 
-#: ../build/src/ui_mainwindow.h:633
+#: ../build/src/ui_mainwindow.h:635
 msgid "&Clear playlist"
 msgstr "&Neteja la llista de reproducció"
 
-#: ../build/src/ui_mainwindow.h:668
+#: ../build/src/ui_mainwindow.h:670
 msgid "&Cover Manager"
 msgstr "Gestor de &cobertes"
 
@@ -286,11 +286,11 @@ msgstr "&Personalitzades"
 msgid "&Default"
 msgstr "Per &defecte"
 
-#: ../build/src/ui_mainwindow.h:701
+#: ../build/src/ui_mainwindow.h:703
 msgid "&Do a full collection rescan"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:673
+#: ../build/src/ui_mainwindow.h:675
 msgid "&Equalizer"
 msgstr "&Equalitzador"
 
@@ -303,7 +303,7 @@ msgstr "&Amaga «%1»"
 msgid "&Hide..."
 msgstr "&Amaga…"
 
-#: ../build/src/ui_mainwindow.h:676
+#: ../build/src/ui_mainwindow.h:678
 msgid "&Jump to the currently playing track"
 msgstr ""
 
@@ -311,7 +311,7 @@ msgstr ""
 msgid "&Left"
 msgstr "&Esquerra"
 
-#: ../build/src/ui_mainwindow.h:688
+#: ../build/src/ui_mainwindow.h:690
 msgid "&Load playlist..."
 msgstr ""
 
@@ -323,19 +323,19 @@ msgstr ""
 msgid "&Manual proxy configuration"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:718
+#: ../build/src/ui_mainwindow.h:720
 msgid "&Music"
 msgstr "&Música"
 
-#: ../build/src/ui_mainwindow.h:697
+#: ../build/src/ui_mainwindow.h:699
 msgid "&Mute"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:680
+#: ../build/src/ui_mainwindow.h:682
 msgid "&New playlist"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:620
+#: ../build/src/ui_mainwindow.h:622
 msgid "&Next track"
 msgstr ""
 
@@ -347,19 +347,19 @@ msgstr ""
 msgid "&None"
 msgstr "&Cap"
 
-#: ../build/src/ui_mainwindow.h:666
+#: ../build/src/ui_mainwindow.h:668
 msgid "&Open file..."
 msgstr "&Obre un fitxer…"
 
-#: ../build/src/ui_mainwindow.h:612
+#: ../build/src/ui_mainwindow.h:614
 msgid "&Play"
 msgstr "&Reprodueix"
 
-#: ../build/src/ui_mainwindow.h:624
+#: ../build/src/ui_mainwindow.h:626
 msgid "&Quit"
 msgstr "&Surt"
 
-#: ../build/src/ui_mainwindow.h:671
+#: ../build/src/ui_mainwindow.h:673
 msgid "&Repeat mode"
 msgstr "Mode de repetició"
 
@@ -371,19 +371,19 @@ msgstr ""
 msgid "&Right"
 msgstr "&Dreta"
 
-#: ../build/src/ui_mainwindow.h:692
+#: ../build/src/ui_mainwindow.h:694
 msgid "&Save all playlists"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:650
+#: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
 msgstr "&Paràmetres…"
 
-#: ../build/src/ui_mainwindow.h:670
+#: ../build/src/ui_mainwindow.h:672
 msgid "&Shuffle mode"
 msgstr "Mode de me&scla"
 
-#: ../build/src/ui_mainwindow.h:616
+#: ../build/src/ui_mainwindow.h:618
 msgid "&Stop"
 msgstr ""
 
@@ -391,15 +391,15 @@ msgstr ""
 msgid "&Stretch columns to fit window"
 msgstr "&Encabeix les columnes a la finestra"
 
-#: ../build/src/ui_mainwindow.h:721
+#: ../build/src/ui_mainwindow.h:723
 msgid "&Tools"
 msgstr "&Eines"
 
-#: ../build/src/ui_mainwindow.h:674
+#: ../build/src/ui_mainwindow.h:676
 msgid "&Transcode Music"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:695
+#: ../build/src/ui_mainwindow.h:697
 msgid "&Update changed collection folders"
 msgstr ""
 
@@ -529,7 +529,7 @@ msgstr "ASF (WMA)"
 msgid "Abort"
 msgstr "Interromp"
 
-#: ../build/src/ui_mainwindow.h:702
+#: ../build/src/ui_mainwindow.h:704
 msgid "Abort collection scan"
 msgstr ""
 
@@ -537,7 +537,7 @@ msgstr ""
 msgid "About"
 msgstr "Quant a"
 
-#: ../build/src/ui_mainwindow.h:696
+#: ../build/src/ui_mainwindow.h:698
 msgid "About &Qt"
 msgstr "Quant al &Qt"
 
@@ -558,7 +558,7 @@ msgctxt "Category label"
 msgid "Action"
 msgstr "Acció"
 
-#: ../build/src/ui_mainwindow.h:675
+#: ../build/src/ui_mainwindow.h:677
 msgid "Add &folder..."
 msgstr ""
 
@@ -579,15 +579,15 @@ msgstr "Afegeix totes les peces des d’una carpeta y las seves subcarpetes"
 msgid "Add directory..."
 msgstr "Afegeix un directori…"
 
-#: core/mainwindow.cpp:2193
+#: core/mainwindow.cpp:2195
 msgid "Add file"
 msgstr "Afegeix un fitxer"
 
-#: ../build/src/ui_mainwindow.h:712
+#: ../build/src/ui_mainwindow.h:714
 msgid "Add file to transcoder"
 msgstr "Afegeix un fitxer al convertidor"
 
-#: ../build/src/ui_mainwindow.h:710
+#: ../build/src/ui_mainwindow.h:712
 msgid "Add file(s) to transcoder"
 msgstr "Afegeix fitxer(s) al convertidor"
 
@@ -595,7 +595,7 @@ msgstr "Afegeix fitxer(s) al convertidor"
 msgid "Add files to transcode"
 msgstr "Afegeix fitxers per a convertir-los"
 
-#: core/mainwindow.cpp:2219 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2221 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Afegeix una carpeta"
 
@@ -697,7 +697,7 @@ msgstr "Afegeix l’etiqueta de número de peça a la cançó"
 msgid "Add song year tag"
 msgstr "Afegeix l’etiqueta d’any a la cançó"
 
-#: ../build/src/ui_mainwindow.h:714
+#: ../build/src/ui_mainwindow.h:716
 msgid "Add stream..."
 msgstr ""
 
@@ -705,7 +705,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr ""
 
-#: core/mainwindow.cpp:1995
+#: core/mainwindow.cpp:1997
 msgid "Add to another playlist"
 msgstr "Afegeix a una altra llista de reproducció"
 
@@ -1185,7 +1185,7 @@ msgstr "Durada de la memòria intermèdia"
 msgid "Buffering"
 msgstr "Emplenant la memòria intermèdia"
 
-#: ../build/src/ui_mainwindow.h:669
+#: ../build/src/ui_mainwindow.h:671
 msgid "C&onsole"
 msgstr ""
 
@@ -1233,7 +1233,7 @@ msgstr "Canvia la cançó que s’està reproduint ara"
 msgid "Change the language"
 msgstr "Canvia la llengua"
 
-#: core/mainwindow.cpp:795
+#: core/mainwindow.cpp:797
 msgid "Check for updates..."
 msgstr "Comprova si hi ha actualitzacions…"
 
@@ -1282,7 +1282,7 @@ msgstr ""
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2284 ../build/src/ui_mainwindow.h:635
+#: core/mainwindow.cpp:2286 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Neteja la llista de reproducció"
 
@@ -1330,7 +1330,7 @@ msgstr ""
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:360 ../build/src/ui_collectionsettingspage.h:583
+#: core/mainwindow.cpp:362 ../build/src/ui_collectionsettingspage.h:583
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Col·lecció"
@@ -1343,7 +1343,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Agrupació avançada de la col·lecció"
 
-#: core/mainwindow.cpp:2857
+#: core/mainwindow.cpp:2859
 msgid "Collection rescan notice"
 msgstr "Avís de reescaneig de la col·lecció"
 
@@ -1372,7 +1372,7 @@ msgstr "Compilació"
 msgid "Complete tags automatically"
 msgstr "Completa les etiquetes automàticament"
 
-#: ../build/src/ui_mainwindow.h:703
+#: ../build/src/ui_mainwindow.h:705
 msgid "Complete tags automatically..."
 msgstr "Completa les etiquetes automàticament…"
 
@@ -1404,7 +1404,7 @@ msgstr "Configura %1…"
 msgid "Configure buttons"
 msgstr ""
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:674
 msgid "Configure collection..."
 msgstr "Configura la col·lecció…"
 
@@ -1420,7 +1420,7 @@ msgstr "Terminal"
 msgid "Constant bitrate"
 msgstr "Taxa de bits constant"
 
-#: core/mainwindow.cpp:359 ../build/src/ui_contextsettingspage.h:370
+#: core/mainwindow.cpp:361 ../build/src/ui_contextsettingspage.h:370
 msgid "Context"
 msgstr ""
 
@@ -1440,7 +1440,7 @@ msgstr "Converteix tota la música"
 msgid "Convert any music that the device can't play"
 msgstr "Convertir qualsevol música que el dispositiu no pugui reproduir"
 
-#: core/mainwindow.cpp:741
+#: core/mainwindow.cpp:743
 msgid "Copy URL(s)..."
 msgstr ""
 
@@ -1448,7 +1448,7 @@ msgstr ""
 msgid "Copy album cover artwork"
 msgstr ""
 
-#: core/mainwindow.cpp:745 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:747 widgets/fileviewlist.cpp:47
 #: device/deviceview.cpp:248
 msgid "Copy to collection..."
 msgstr "Copia a la col·lecció…"
@@ -1457,7 +1457,7 @@ msgstr "Copia a la col·lecció…"
 msgid "Copy to device"
 msgstr ""
 
-#: core/mainwindow.cpp:748 context/contextalbumsview.cpp:271
+#: core/mainwindow.cpp:750 context/contextalbumsview.cpp:271
 #: collection/collectionview.cpp:359 playlist/playlistlistcontainer.cpp:90
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
@@ -1593,7 +1593,7 @@ msgstr "Fusiona el so quan es canviï la peça automàticament"
 msgid "Cross-fade when changing tracks manually"
 msgstr "Fusiona el so quan es canviï la peça manualment"
 
-#: ../build/src/ui_mainwindow.h:630
+#: ../build/src/ui_mainwindow.h:632
 msgid "Ctrl+Alt+V"
 msgstr ""
 
@@ -1601,51 +1601,51 @@ msgstr ""
 msgid "Ctrl+Down"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:642
+#: ../build/src/ui_mainwindow.h:644
 msgid "Ctrl+E"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:660
+#: ../build/src/ui_mainwindow.h:662
 msgid "Ctrl+H"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:678
+#: ../build/src/ui_mainwindow.h:680
 msgid "Ctrl+J"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:638 ../build/src/ui_queueview.h:144
+#: ../build/src/ui_mainwindow.h:640 ../build/src/ui_queueview.h:144
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: ../build/src/ui_mainwindow.h:699
+#: ../build/src/ui_mainwindow.h:701
 msgid "Ctrl+M"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:682
+#: ../build/src/ui_mainwindow.h:684
 msgid "Ctrl+N"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:652
+#: ../build/src/ui_mainwindow.h:654
 msgid "Ctrl+P"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:626
+#: ../build/src/ui_mainwindow.h:628
 msgid "Ctrl+Q"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:686
+#: ../build/src/ui_mainwindow.h:688
 msgid "Ctrl+S"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:664
+#: ../build/src/ui_mainwindow.h:666
 msgid "Ctrl+Shift+A"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:690
+#: ../build/src/ui_mainwindow.h:692
 msgid "Ctrl+Shift+O"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:705
+#: ../build/src/ui_mainwindow.h:707
 msgid "Ctrl+T"
 msgstr ""
 
@@ -1742,7 +1742,7 @@ msgstr "Suprimeix els fitxers"
 msgid "Delete from device..."
 msgstr "Suprimeix del dispositiu…"
 
-#: core/mainwindow.cpp:750 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:752 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:50
 msgid "Delete from disk..."
 msgstr "Suprimeix del disc…"
@@ -1768,11 +1768,11 @@ msgstr "Suprimeix els fitxers originals"
 msgid "Deleting files"
 msgstr "S’estan suprimint els fitxers"
 
-#: core/mainwindow.cpp:1910
+#: core/mainwindow.cpp:1912
 msgid "Dequeue selected tracks"
 msgstr "Treu de la cua les peces seleccionades"
 
-#: core/mainwindow.cpp:1909
+#: core/mainwindow.cpp:1911
 msgid "Dequeue track"
 msgstr "Treu de la cua la peça"
 
@@ -1798,7 +1798,7 @@ msgstr "Propietats del dispositiu"
 msgid "Device properties..."
 msgstr "Propietats del dispositiu…"
 
-#: core/mainwindow.cpp:367
+#: core/mainwindow.cpp:369
 msgid "Devices"
 msgstr "Dispositius"
 
@@ -1931,12 +1931,12 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1953
+#: core/mainwindow.cpp:1955
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Edita l’etiqueta «%1»…"
 
-#: ../build/src/ui_mainwindow.h:646
+#: ../build/src/ui_mainwindow.h:648
 msgid "Edit tag..."
 msgstr "Edita l’etiqueta…"
 
@@ -1945,7 +1945,7 @@ msgid "Edit track information"
 msgstr "Edita la informació de la peça"
 
 #: context/contextalbumsview.cpp:275 collection/collectionview.cpp:364
-#: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:640
+#: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:642
 msgid "Edit track information..."
 msgstr "Edita la informació de la peça…"
 
@@ -2098,7 +2098,7 @@ msgstr "Equivalent a --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalent a --log-levels *:3"
 
-#: core/mainwindow.cpp:2588 core/mainwindow.cpp:2739
+#: core/mainwindow.cpp:2590 core/mainwindow.cpp:2741
 #: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Error"
@@ -2188,27 +2188,27 @@ msgstr "Ha finalitzat l’exportació"
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "S’han exportat %1 caràtules de %2 (s’han omès %3)"
 
-#: ../build/src/ui_mainwindow.h:656
+#: ../build/src/ui_mainwindow.h:658
 msgid "F1"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:648
+#: ../build/src/ui_mainwindow.h:650
 msgid "F2"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:610
+#: ../build/src/ui_mainwindow.h:612
 msgid "F5"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:614
+#: ../build/src/ui_mainwindow.h:616
 msgid "F6"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:618
+#: ../build/src/ui_mainwindow.h:620
 msgid "F7"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:622
+#: ../build/src/ui_mainwindow.h:624
 msgid "F8"
 msgstr ""
 
@@ -2347,7 +2347,7 @@ msgstr "Nom de fitxer"
 msgid "Filename:"
 msgstr ""
 
-#: core/mainwindow.cpp:364
+#: core/mainwindow.cpp:366
 msgid "Files"
 msgstr ""
 
@@ -2508,11 +2508,11 @@ msgstr ""
 msgid "Global Shortcuts"
 msgstr "Dreceres globals"
 
-#: ../build/src/ui_mainwindow.h:693
+#: ../build/src/ui_mainwindow.h:695
 msgid "Go to next playlist tab"
 msgstr "Vés a la pestanya de la següent llista de reproducció"
 
-#: ../build/src/ui_mainwindow.h:694
+#: ../build/src/ui_mainwindow.h:696
 msgid "Go to previous playlist tab"
 msgstr "Vés a la pestanya de l'anterior llista de reproducció"
 
@@ -2633,7 +2633,7 @@ msgstr ""
 "La informació del maquinari només està disponible mentre el dispositiu està "
 "endollat."
 
-#: ../build/src/ui_mainwindow.h:720
+#: ../build/src/ui_mainwindow.h:722
 msgid "Help"
 msgstr ""
 
@@ -2717,7 +2717,7 @@ msgstr "Imatges (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgid "Import data from last.fm"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:716
+#: ../build/src/ui_mainwindow.h:718
 msgid "Import data from last.fm..."
 msgstr ""
 
@@ -2974,7 +2974,7 @@ msgid "Long term prediction profile (LTP)"
 msgstr "Perfil de predicció a llarg termini (LTP)"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:81
-#: ../build/src/ui_mainwindow.h:632
+#: ../build/src/ui_mainwindow.h:634
 msgid "Love"
 msgstr ""
 
@@ -3188,7 +3188,7 @@ msgstr "Punts de muntatge"
 msgid "Move down"
 msgstr "Mou cap avall"
 
-#: core/mainwindow.cpp:746 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:748 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
 msgstr "Mou a la col·lecció…"
 
@@ -3197,7 +3197,7 @@ msgstr "Mou a la col·lecció…"
 msgid "Move up"
 msgstr "Mou cap amunt"
 
-#: core/mainwindow.cpp:2193 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2195 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Música"
 
@@ -3241,7 +3241,7 @@ msgstr "Mai no comencis a reproduir"
 msgid "New folder"
 msgstr "Carpeta nova"
 
-#: core/mainwindow.cpp:2011
+#: core/mainwindow.cpp:2013
 msgid "New playlist"
 msgstr "Llista de reproducció nova"
 
@@ -3318,7 +3318,7 @@ msgstr ""
 msgid "None"
 msgstr "Cap"
 
-#: core/mainwindow.cpp:2588 core/mainwindow.cpp:2739
+#: core/mainwindow.cpp:2590 core/mainwindow.cpp:2741
 #: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3412,7 +3412,7 @@ msgstr ""
 msgid "Open a directory to import music from"
 msgstr "Obriu una carpeta des d’on s’importarà la música"
 
-#: ../build/src/ui_mainwindow.h:667
+#: ../build/src/ui_mainwindow.h:669
 msgid "Open audio &CD..."
 msgstr ""
 
@@ -3462,7 +3462,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr ""
 
-#: core/mainwindow.cpp:744 context/contextalbumsview.cpp:269
+#: core/mainwindow.cpp:746 context/contextalbumsview.cpp:269
 #: collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr ""
@@ -3519,7 +3519,7 @@ msgstr "Sobreescriu els fitxers existents"
 msgid "Overwrite s&maller ones only"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:719
+#: ../build/src/ui_mainwindow.h:721
 msgid "P&laylist"
 msgstr ""
 
@@ -3547,7 +3547,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1313 core/mainwindow.cpp:1808
+#: core/mainwindow.cpp:1315 core/mainwindow.cpp:1810
 #: core/qtsystemtrayicon.cpp:146 globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Pause"
 msgstr "Pausa"
@@ -3575,8 +3575,8 @@ msgstr "Píxel"
 msgid "Plain sidebar"
 msgstr "Barra lateral senzilla"
 
-#: core/mainwindow.cpp:713 core/mainwindow.cpp:1270 core/mainwindow.cpp:1297
-#: core/mainwindow.cpp:1812 core/qtsystemtrayicon.cpp:159
+#: core/mainwindow.cpp:715 core/mainwindow.cpp:1272 core/mainwindow.cpp:1299
+#: core/mainwindow.cpp:1814 core/qtsystemtrayicon.cpp:159
 #: core/qtsystemtrayicon.cpp:173 globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Play"
 msgstr "Reprodueix"
@@ -3647,7 +3647,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Llista de reproducció finalitzada"
 
-#: core/mainwindow.cpp:2284
+#: core/mainwindow.cpp:2286
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3671,7 +3671,7 @@ msgstr ""
 msgid "Playlist type"
 msgstr ""
 
-#: core/mainwindow.cpp:362
+#: core/mainwindow.cpp:364
 msgid "Playlists"
 msgstr ""
 
@@ -3776,7 +3776,7 @@ msgid "Previous"
 msgstr "Anterior"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:69
-#: ../build/src/ui_mainwindow.h:608
+#: ../build/src/ui_mainwindow.h:610
 msgid "Previous track"
 msgstr "Peça anterior"
 
@@ -3796,7 +3796,7 @@ msgstr "Progrés"
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:376 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:378 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr ""
@@ -3819,24 +3819,24 @@ msgstr "Qualitat"
 msgid "Querying device..."
 msgstr "S’està consultant el dispositiu…"
 
-#: core/mainwindow.cpp:361
+#: core/mainwindow.cpp:363
 msgid "Queue"
 msgstr ""
 
-#: core/mainwindow.cpp:1912
+#: core/mainwindow.cpp:1914
 msgid "Queue selected tracks"
 msgstr "Afegeix les peces seleccionades a la cua"
 
-#: core/mainwindow.cpp:719 core/mainwindow.cpp:1916
+#: core/mainwindow.cpp:721 core/mainwindow.cpp:1918
 msgid "Queue selected tracks to play next"
 msgstr ""
 
-#: core/mainwindow.cpp:1919 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1921 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:323
 msgid "Queue to play next"
 msgstr ""
 
-#: core/mainwindow.cpp:1911 context/contextalbumsview.cpp:266
+#: core/mainwindow.cpp:1913 context/contextalbumsview.cpp:266
 #: collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
 #: internet/internetsearchview.cpp:328 internet/internetcollectionview.cpp:322
@@ -3855,7 +3855,7 @@ msgstr "Ràdio (mateix volum per a totes les peces)"
 msgid "Radio Paradise"
 msgstr ""
 
-#: core/mainwindow.cpp:365
+#: core/mainwindow.cpp:367
 msgid "Radios"
 msgstr ""
 
@@ -3959,11 +3959,11 @@ msgstr "Recorda la meva elecció"
 msgid "Remove"
 msgstr "Suprimeix"
 
-#: ../build/src/ui_mainwindow.h:708
+#: ../build/src/ui_mainwindow.h:710
 msgid "Remove &duplicates from playlist"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:709
+#: ../build/src/ui_mainwindow.h:711
 msgid "Remove &unavailable tracks from playlist"
 msgstr ""
 
@@ -3975,7 +3975,7 @@ msgstr "Suprimeix carpeta"
 msgid "Remove from favorites"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:672
+#: ../build/src/ui_mainwindow.h:674
 msgid "Remove from playlist"
 msgstr "Suprimeix de la llista de reproducció"
 
@@ -3999,7 +3999,7 @@ msgstr "Renombra de la llista de reproducció"
 msgid "Rename playlist..."
 msgstr "Renombra de la llista de reproducció..."
 
-#: ../build/src/ui_mainwindow.h:644
+#: ../build/src/ui_mainwindow.h:646
 msgid "Renumber tracks in this order..."
 msgstr "Posa els números de les peces en aquest ordre..."
 
@@ -4059,7 +4059,7 @@ msgstr ""
 msgid "Rescan song(s)"
 msgstr ""
 
-#: core/mainwindow.cpp:735
+#: core/mainwindow.cpp:737
 msgid "Rescan song(s)..."
 msgstr ""
 
@@ -4161,7 +4161,7 @@ msgstr "Rock"
 msgid "Run"
 msgstr "Executa"
 
-#: ../build/src/ui_mainwindow.h:658
+#: ../build/src/ui_mainwindow.h:660
 msgid "S&huffle playlist"
 msgstr ""
 
@@ -4188,7 +4188,7 @@ msgstr "Freqüència de mostreig"
 msgid "Samplerate"
 msgstr "Freqüència de mostreig"
 
-#: ../build/src/ui_mainwindow.h:684
+#: ../build/src/ui_mainwindow.h:686
 msgid "Save &playlist..."
 msgstr ""
 
@@ -4407,7 +4407,7 @@ msgstr ""
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1952
+#: core/mainwindow.cpp:1954
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Estableix %1 a «%2»…"
@@ -4416,7 +4416,7 @@ msgstr "Estableix %1 a «%2»…"
 msgid "Set the volume to <value> percent"
 msgstr "Estableix el volum al <value> percent"
 
-#: ../build/src/ui_mainwindow.h:645
+#: ../build/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
 msgstr "Estableix valor per a totes les peces seleccionades…"
 
@@ -4500,7 +4500,7 @@ msgstr ""
 msgid "Show albums by artist"
 msgstr ""
 
-#: core/mainwindow.cpp:661
+#: core/mainwindow.cpp:663
 msgid "Show all songs"
 msgstr "Mostra totes les cançons"
 
@@ -4524,7 +4524,7 @@ msgstr ""
 msgid "Show fullsize..."
 msgstr "Mostra a mida completa..."
 
-#: core/mainwindow.cpp:742
+#: core/mainwindow.cpp:744
 msgid "Show in collection..."
 msgstr "Mostra a la col·lecció…"
 
@@ -4532,7 +4532,7 @@ msgstr "Mostra a la col·lecció…"
 msgid "Show in file browser"
 msgstr ""
 
-#: core/mainwindow.cpp:743 context/contextalbumsview.cpp:277
+#: core/mainwindow.cpp:745 context/contextalbumsview.cpp:277
 #: collection/collectionview.cpp:366 widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "Mostra al gestor de fitxers"
@@ -4549,11 +4549,11 @@ msgstr ""
 msgid "Show moodbar"
 msgstr ""
 
-#: core/mainwindow.cpp:662
+#: core/mainwindow.cpp:664
 msgid "Show only duplicates"
 msgstr "Mostra només els duplicats"
 
-#: core/mainwindow.cpp:663
+#: core/mainwindow.cpp:665
 msgid "Show only untagged"
 msgstr "Mostra només les peces sense etiquetar"
 
@@ -4565,7 +4565,7 @@ msgstr ""
 msgid "Show scrobble button"
 msgstr ""
 
-#: ../build/src/ui_mainwindow.h:715
+#: ../build/src/ui_mainwindow.h:717
 msgid "Show sidebar"
 msgstr ""
 
@@ -4650,11 +4650,11 @@ msgstr "Comptador d’omissions"
 msgid "Skip forwards in playlist"
 msgstr "Salta endavant en la llista de reproducció"
 
-#: core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:1927
 msgid "Skip selected tracks"
 msgstr "Omet les peces seleccionades"
 
-#: core/mainwindow.cpp:1924
+#: core/mainwindow.cpp:1926
 msgid "Skip track"
 msgstr "Omet la peça"
 
@@ -4670,7 +4670,7 @@ msgstr "Barra lateral petita"
 msgid "Smart playlist"
 msgstr ""
 
-#: core/mainwindow.cpp:363
+#: core/mainwindow.cpp:365
 msgid "Smart playlists"
 msgstr ""
 
@@ -4771,7 +4771,7 @@ msgstr "Atura després de cada peça"
 msgid "Stop after every track"
 msgstr "Atura després de cada peça"
 
-#: core/mainwindow.cpp:715 ../build/src/ui_mainwindow.h:628
+#: core/mainwindow.cpp:717 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "Atura després d’aquesta peça"
 
@@ -4804,7 +4804,7 @@ msgstr "Strawberry"
 msgid "Strawberry Error"
 msgstr "Error de l’Strawberry"
 
-#: ../build/src/ui_mainwindow.h:607
+#: ../build/src/ui_mainwindow.h:609
 msgid "Strawberry Music Player"
 msgstr "Reproductor de música Strawberry"
 
@@ -4881,7 +4881,7 @@ msgstr "Estil"
 msgid "Submit scrobbles every"
 msgstr ""
 
-#: core/mainwindow.cpp:370 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:372 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -5020,7 +5020,7 @@ msgstr "L’adreça que heu sol·licitat no existeix."
 msgid "The site you requested is not an image!"
 msgstr "L’adreça que heu sol·licitat no conté cap imatge."
 
-#: core/mainwindow.cpp:2852
+#: core/mainwindow.cpp:2854
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5133,7 +5133,7 @@ msgstr "Aquest tipus de dispositiu no és compatible: %1"
 msgid "Thread priority"
 msgstr ""
 
-#: core/mainwindow.cpp:373 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:375 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr ""
@@ -5163,15 +5163,15 @@ msgstr "Avui"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:716 core/mainwindow.cpp:1913
+#: core/mainwindow.cpp:718 core/mainwindow.cpp:1915
 msgid "Toggle queue status"
 msgstr "Commuta l’estat de la cua"
 
-#: ../build/src/ui_mainwindow.h:707
+#: ../build/src/ui_mainwindow.h:709
 msgid "Toggle scrobbling"
 msgstr "Commuta l’«scrobbling»"
 
-#: core/mainwindow.cpp:722 core/mainwindow.cpp:1926
+#: core/mainwindow.cpp:724 core/mainwindow.cpp:1928
 msgid "Toggle skip status"
 msgstr ""
 
@@ -5281,11 +5281,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Esborra’n la coberta"
 
-#: core/mainwindow.cpp:1923
+#: core/mainwindow.cpp:1925
 msgid "Unskip selected tracks"
 msgstr "No ometis les peces seleccionades"
 
-#: core/mainwindow.cpp:1922
+#: core/mainwindow.cpp:1924
 msgid "Unskip track"
 msgstr "No ometis la peça"
 
@@ -5536,7 +5536,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2856
+#: core/mainwindow.cpp:2858
 msgid "Would you like to run a full rescan right now?"
 msgstr "Voleu fer de nou un escaneig complet ara?"
 
