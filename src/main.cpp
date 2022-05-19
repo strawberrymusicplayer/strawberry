@@ -193,6 +193,7 @@ int main(int argc, char *argv[]) {
     return 0;
   }
   QGuiApplication::setQuitOnLastWindowClosed(false);
+  QGuiApplication::setWindowIcon(IconLoader::Load("strawberry"));
 
 #if defined(USE_BUNDLE) && (defined(Q_OS_LINUX) || defined(Q_OS_MACOS))
   qLog(Debug) << "Looking for resources in" << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;

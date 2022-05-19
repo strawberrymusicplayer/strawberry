@@ -63,7 +63,7 @@ QIcon IconLoader::Load(const QString &name, const int fixed_size, const int min_
 
   QList<int> sizes;
   if (fixed_size == 0) {
-    sizes << 22 << 32 << 48 << 64;
+    sizes << 22 << 32 << 48 << 64 << 128;
   }
   else {
     sizes << fixed_size;

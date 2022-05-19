@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../data/icons.qrc">
-    <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
+    <normaloff>:/icons/128x128/strawberry.png</normaloff>:/icons/128x128/strawberry.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="layout_centralWidget">
@@ -749,9 +749,9 @@
    </property>
   </action>
   <action name="action_save_all_playlists">
-    <property name="text">
-      <string>&amp;Save all playlists</string>
-    </property>
+   <property name="text">
+    <string>&amp;Save all playlists</string>
+   </property>
   </action>
   <action name="action_next_playlist">
    <property name="text">

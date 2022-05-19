@@ -346,6 +346,8 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   // Initialize the UI
   ui_->setupUi(this);
 
+  setWindowIcon(IconLoader::Load("strawberry"));
+
   album_cover_choice_controller_->Init(app);
 
   ui_->multi_loading_indicator->SetTaskManager(app_->task_manager());
