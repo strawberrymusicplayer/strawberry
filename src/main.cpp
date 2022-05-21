@@ -180,6 +180,8 @@ int main(int argc, char *argv[]) {
 
   Utilities::IncreaseFDLimit();
 
+  QGuiApplication::setQuitOnLastWindowClosed(false);
+
   // important: Do not remove this.
   // This must also be done as a SingleApplication, in case SingleCoreApplication was compiled with a different appdata.
   SingleApplication a(argc, argv, true, SingleApplication::Mode::User | SingleApplication::Mode::ExcludeAppVersion | SingleApplication::Mode::ExcludeAppPath);
@@ -192,7 +194,7 @@ int main(int argc, char *argv[]) {
     }
     return 0;
   }
-  QGuiApplication::setQuitOnLastWindowClosed(false);
+
   QGuiApplication::setWindowIcon(IconLoader::Load("strawberry"));
 
 #if defined(USE_BUNDLE) && (defined(Q_OS_LINUX) || defined(Q_OS_MACOS))
