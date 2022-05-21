@@ -336,7 +336,8 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       hidden_(false),
       exit_(false),
       exit_count_(0),
-      delete_files_(false) {
+      delete_files_(false),
+      ignore_close_(false) {
 
   qLog(Debug) << "Starting";
 
@@ -962,7 +963,6 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       break;
     case BehaviourSettingsPage::Startup_Hide:
       if (tray_icon_->IsSystemTrayAvailable() && tray_icon_->isVisible()) {
-        hide();
         break;
       }
       // fallthrough
@@ -982,7 +982,9 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       }
       else {
         hidden_ = settings_.value("hidden", false).toBool();
-        setVisible(!hidden_);
+        if (!hidden_) {
+          show();
+        }
       }
       break;
     }
@@ -1224,7 +1226,8 @@ void MainWindow::Exit() {
       QObject::connect(app_->player()->engine(), &EngineBase::FadeoutFinishedSignal, this, &MainWindow::DoExit);
       if (app_->player()->GetState() == Engine::Playing) {
         app_->player()->Stop();
-        hide();
+        ignore_close_ = true;
+        close();
         if (tray_icon_->IsSystemTrayAvailable()) {
           tray_icon_->setVisible(false);
         }
@@ -1552,16 +1555,13 @@ void MainWindow::VolumeWheelEvent(const int delta) {
 void MainWindow::ToggleShowHide() {
 
   if (hidden_) {
-    show();
     SetHiddenInTray(false);
   }
   else if (isActiveWindow()) {
-    hide();
     setWindowState((windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
     SetHiddenInTray(true);
   }
   else if (isMinimized()) {
-    hide();
     setWindowState((windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
     SetHiddenInTray(false);
   }
@@ -1596,6 +1596,12 @@ void MainWindow::showEvent(QShowEvent *e) {
 
 void MainWindow::closeEvent(QCloseEvent *e) {
 
+  if (ignore_close_) {
+    ignore_close_ = false;
+    QMainWindow::closeEvent(e);
+    return;
+  }
+
   if (!exit_) {
     if (!hidden_ && keep_running_ && tray_icon_->IsSystemTrayAvailable()) {
       SetHiddenInTray(true);
@@ -1618,7 +1624,8 @@ void MainWindow::SetHiddenInTray(const bool hidden) {
   if (hidden) {
     was_maximized_ = isMaximized();
     was_minimized_ = isMinimized();
-    hide();
+    ignore_close_ = true;
+    close();
   }
   else {
     if (was_minimized_) {

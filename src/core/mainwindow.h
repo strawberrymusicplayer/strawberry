@@ -395,6 +395,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   bool exit_;
   int exit_count_;
   bool delete_files_;
+  bool ignore_close_;
 
 };
 
