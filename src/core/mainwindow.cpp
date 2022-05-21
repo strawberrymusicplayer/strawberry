@@ -1597,7 +1597,7 @@ void MainWindow::showEvent(QShowEvent *e) {
 void MainWindow::closeEvent(QCloseEvent *e) {
 
   if (!exit_) {
-    if (!hidden_ && keep_running_ && e->spontaneous() && tray_icon_->IsSystemTrayAvailable()) {
+    if (!hidden_ && keep_running_ && tray_icon_->IsSystemTrayAvailable()) {
       SetHiddenInTray(true);
     }
     else {
