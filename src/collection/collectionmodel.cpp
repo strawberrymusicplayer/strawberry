@@ -325,26 +325,32 @@ QString CollectionModel::ContainerKey(const GroupBy type, const Song &song) {
     case GroupBy_Album:
       key = TextOrUnknown(song.album());
       if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      if (!song.grouping().isEmpty()) key.append("-" + song.grouping());
       break;
     case GroupBy_AlbumDisc:
       key = PrettyAlbumDisc(song.album(), song.disc());
       if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      if (!song.grouping().isEmpty()) key.append("-" + song.grouping());
       break;
     case GroupBy_YearAlbum:
       key = PrettyYearAlbum(song.year(), song.album());
       if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      if (!song.grouping().isEmpty()) key.append("-" + song.grouping());
       break;
     case GroupBy_YearAlbumDisc:
       key = PrettyYearAlbumDisc(song.year(), song.album(), song.disc());
       if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      if (!song.grouping().isEmpty()) key.append("-" + song.grouping());
       break;
     case GroupBy_OriginalYearAlbum:
       key = PrettyYearAlbum(song.effective_originalyear(), song.album());
       if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      if (!song.grouping().isEmpty()) key.append("-" + song.grouping());
       break;
     case GroupBy_OriginalYearAlbumDisc:
       key = PrettyYearAlbumDisc(song.effective_originalyear(), song.album(), song.disc());
       if (!song.album_id().isEmpty()) key.append("-" + song.album_id());
+      if (!song.grouping().isEmpty()) key.append("-" + song.grouping());
       break;
     case GroupBy_Disc:
       key = PrettyDisc(song.disc());
@@ -1008,22 +1014,22 @@ void CollectionModel::InitQuery(const GroupBy type, CollectionQuery *q) {
       q->SetColumnSpec("DISTINCT artist");
       break;
     case GroupBy_Album:
-      q->SetColumnSpec("DISTINCT album, album_id");
+      q->SetColumnSpec("DISTINCT album, album_id, grouping");
       break;
     case GroupBy_AlbumDisc:
-      q->SetColumnSpec("DISTINCT album, album_id, disc");
+      q->SetColumnSpec("DISTINCT album, album_id, disc, grouping");
       break;
     case GroupBy_YearAlbum:
       q->SetColumnSpec("DISTINCT year, album, album_id, grouping");
       break;
     case GroupBy_YearAlbumDisc:
-      q->SetColumnSpec("DISTINCT year, album, album_id, disc");
+      q->SetColumnSpec("DISTINCT year, album, album_id, disc, grouping");
       break;
     case GroupBy_OriginalYearAlbum:
       q->SetColumnSpec("DISTINCT year, originalyear, album, album_id, grouping");
       break;
     case GroupBy_OriginalYearAlbumDisc:
-      q->SetColumnSpec("DISTINCT year, originalyear, album, album_id, disc");
+      q->SetColumnSpec("DISTINCT year, originalyear, album, album_id, disc, grouping");
       break;
     case GroupBy_Disc:
       q->SetColumnSpec("DISTINCT disc");
@@ -1097,11 +1103,13 @@ void CollectionModel::FilterQuery(const GroupBy type, CollectionItem *item, Coll
     case GroupBy_Album:
       q->AddWhere("album", item->metadata.album());
       q->AddWhere("album_id", item->metadata.album_id());
+      q->AddWhere("grouping", item->metadata.grouping());
       break;
     case GroupBy_AlbumDisc:
       q->AddWhere("album", item->metadata.album());
       q->AddWhere("album_id", item->metadata.album_id());
       q->AddWhere("disc", item->metadata.disc());
+      q->AddWhere("grouping", item->metadata.grouping());
       break;
     case GroupBy_YearAlbum:
       q->AddWhere("year", item->metadata.year());
@@ -1114,6 +1122,7 @@ void CollectionModel::FilterQuery(const GroupBy type, CollectionItem *item, Coll
       q->AddWhere("album", item->metadata.album());
       q->AddWhere("album_id", item->metadata.album_id());
       q->AddWhere("disc", item->metadata.disc());
+      q->AddWhere("grouping", item->metadata.grouping());
       break;
     case GroupBy_OriginalYearAlbum:
       q->AddWhere("year", item->metadata.year());
@@ -1128,6 +1137,7 @@ void CollectionModel::FilterQuery(const GroupBy type, CollectionItem *item, Coll
       q->AddWhere("album", item->metadata.album());
       q->AddWhere("album_id", item->metadata.album_id());
       q->AddWhere("disc", item->metadata.disc());
+      q->AddWhere("grouping", item->metadata.grouping());
       break;
     case GroupBy_Disc:
       q->AddWhere("disc", item->metadata.disc());
@@ -1216,6 +1226,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
     case GroupBy_Album:{
       item->metadata.set_album(row.value(0).toString());
       item->metadata.set_album_id(row.value(1).toString());
+      item->metadata.set_grouping(row.value(2).toString());
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.album());
       item->sort_text = SortTextForArtist(item->metadata.album());
@@ -1225,6 +1236,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album(row.value(0).toString());
       item->metadata.set_album_id(row.value(1).toString());
       item->metadata.set_disc(row.value(2).toInt());
+      item->metadata.set_grouping(row.value(3).toString());
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = PrettyAlbumDisc(item->metadata.album(), item->metadata.disc());
       item->sort_text = item->metadata.album() + SortTextForNumber(qMax(0, item->metadata.disc()));
@@ -1245,6 +1257,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album(row.value(1).toString());
       item->metadata.set_album_id(row.value(2).toString());
       item->metadata.set_disc(row.value(3).toInt());
+      item->metadata.set_grouping(row.value(4).toString());
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = PrettyYearAlbumDisc(item->metadata.year(), item->metadata.album(), item->metadata.disc());
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.year())) + item->metadata.album() + SortTextForNumber(qMax(0, item->metadata.disc()));
@@ -1267,6 +1280,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       item->metadata.set_album(row.value(2).toString());
       item->metadata.set_album_id(row.value(3).toString());
       item->metadata.set_disc(row.value(4).toInt());
+      item->metadata.set_grouping(row.value(5).toString());
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = PrettyYearAlbumDisc(item->metadata.effective_originalyear(), item->metadata.album(), item->metadata.disc());
       item->sort_text = SortTextForNumber(qMax(0, item->metadata.effective_originalyear())) + item->metadata.album() + SortTextForNumber(qMax(0, item->metadata.disc()));
@@ -1411,6 +1425,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
     case GroupBy_Album:{
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
+      item->metadata.set_grouping(s.grouping());
       item->key.append(ContainerKey(type, s));
       item->display_text = TextOrUnknown(s.album());
       item->sort_text = SortTextForArtist(s.album());
@@ -1420,6 +1435,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_disc(s.disc());
+      item->metadata.set_grouping(s.grouping());
       item->key.append(ContainerKey(type, s));
       item->display_text = PrettyAlbumDisc(s.album(), s.disc());
       item->sort_text = s.album() + SortTextForNumber(qMax(0, s.disc()));
@@ -1440,6 +1456,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy type, const bool sig
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_disc(s.disc());
+      item->metadata.set_grouping(s.grouping());
       item->key.append(ContainerKey(type, s));
       item->display_text = PrettyYearAlbumDisc(s.year(), s.album(), s.disc());
       item->sort_text = SortTextForNumber(qMax(0, s.year())) + s.album() + SortTextForNumber(qMax(0, s.disc()));
