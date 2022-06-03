@@ -5268,10 +5268,10 @@ msgstr "Ultra široké pásmo"
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:609 collection/collectionmodel.cpp:486
-#: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:499 collection/collectionmodel.cpp:503
-#: collection/collectionmodel.cpp:1624 collection/savedgroupingmanager.cpp:146
+#: core/song.cpp:609 collection/collectionmodel.cpp:492
+#: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:501
+#: collection/collectionmodel.cpp:505 collection/collectionmodel.cpp:509
+#: collection/collectionmodel.cpp:1641 collection/savedgroupingmanager.cpp:146
 #: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:556
 #: playlist/playlistmanager.cpp:557 dialogs/edittagdialog.cpp:718
 #: dialogs/edittagdialog.cpp:745 ../build/src/ui_scrobblersettingspage.h:428
