@@ -46,6 +46,7 @@ PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
       return make_shared<CollectionPlaylistItem>();
     case Song::Source::Subsonic:
     case Song::Source::Tidal:
+    case Song::Source::Spotify:
     case Song::Source::Qobuz:
       return make_shared<StreamPlaylistItem>(source);
     case Song::Source::Stream:
@@ -70,6 +71,7 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
       return make_shared<CollectionPlaylistItem>(song);
     case Song::Source::Subsonic:
     case Song::Source::Tidal:
+    case Song::Source::Spotify:
     case Song::Source::Qobuz:
       return make_shared<StreamPlaylistItem>(song);
     case Song::Source::Stream:

@@ -59,7 +59,7 @@ Funding developers is a way to contribute to open source projects you appreciate
   * Audio equalizer
   * Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic
   * Scrobbler with support for [Last.fm](https://www.last.fm/), [Libre.fm](https://libre.fm/) and [ListenBrainz](https://listenbrainz.org/)
-  * Subsonic, Tidal and Qobuz streaming support
+  * Subsonic, Tidal, Spotify and Qobuz streaming support
 
 
 It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.

@@ -76,6 +76,9 @@ class GstEnginePipeline : public QObject {
   void set_bs2b_enabled(const bool enabled);
   void set_strict_ssl_enabled(const bool enabled);
   void set_fading_enabled(const bool enabled);
+#ifdef HAVE_SPOTIFY
+  void set_spotify_login(const QString &spotify_username, const QString &spotify_password);
+#endif
 
   // Creates the pipeline, returns false on error
   bool InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db, QString &error);
@@ -248,6 +251,12 @@ class GstEnginePipeline : public QObject {
   // Options
   bool bs2b_enabled_;
   bool strict_ssl_enabled_;
+
+  // Spotify
+#ifdef HAVE_SPOTIFY
+  QString spotify_username_;
+  QString spotify_password_;
+#endif
 
   // These get called when there is a new audio buffer available
   QList<GstBufferConsumer*> buffer_consumers_;

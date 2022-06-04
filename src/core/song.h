@@ -77,7 +77,8 @@ class Song {
     Subsonic = 7,
     Qobuz = 8,
     SomaFM = 9,
-    RadioParadise = 10
+    RadioParadise = 10,
+    Spotify = 11
   };
 
   // Don't change these values - they're stored in the database, and defined in the tag reader protobuf.

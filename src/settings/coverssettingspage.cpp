@@ -226,6 +226,10 @@ void CoversSettingsPage::ProvidersCurrentItemChanged(QListWidgetItem *item_curre
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
         }
+        else if (provider->name() == QLatin1String("Spotify") && !provider->IsAuthenticated()) {
+          DisableAuthentication();
+          ui_->label_auth_info->setText(tr("Use Spotify settings to authenticate."));
+        }
         else if (provider->name() == QLatin1String("Qobuz") && !provider->IsAuthenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
@@ -338,6 +342,10 @@ void CoversSettingsPage::LogoutClicked() {
   if (provider->name() == QLatin1String("Tidal")) {
     DisableAuthentication();
     ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
+  }
+  else if (provider->name() == QLatin1String("Spotify")) {
+    DisableAuthentication();
+    ui_->label_auth_info->setText(tr("Use Spotify settings to authenticate."));
   }
   else if (provider->name() == QLatin1String("Qobuz")) {
     DisableAuthentication();

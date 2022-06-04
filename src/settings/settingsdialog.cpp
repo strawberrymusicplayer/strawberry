@@ -78,6 +78,9 @@
 #ifdef HAVE_TIDAL
 #  include "tidalsettingspage.h"
 #endif
+#ifdef HAVE_SPOTIFY
+#  include "spotifysettingspage.h"
+#endif
 #ifdef HAVE_QOBUZ
 #  include "qobuzsettingspage.h"
 #endif
@@ -155,7 +158,7 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
   AddPage(Page::Moodbar, new MoodbarSettingsPage(this, this), iface);
 #endif
 
-#if defined(HAVE_SUBSONIC) || defined(HAVE_TIDAL) || defined(HAVE_QOBUZ)
+#if defined(HAVE_SUBSONIC) || defined(HAVE_TIDAL) || defined(HAVE_SPOTIFY) || defined(HAVE_QOBUZ)
   QTreeWidgetItem *streaming = AddCategory(tr("Streaming"));
 #endif
 
@@ -164,6 +167,9 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
 #endif
 #ifdef HAVE_TIDAL
   AddPage(Page::Tidal, new TidalSettingsPage(this, this), streaming);
+#endif
+#ifdef HAVE_SPOTIFY
+  AddPage(Page::Spotify, new SpotifySettingsPage(this, this), streaming);
 #endif
 #ifdef HAVE_QOBUZ
   AddPage(Page::Qobuz, new QobuzSettingsPage(this, this), streaming);

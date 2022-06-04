@@ -300,6 +300,15 @@ void GstEnginePipeline::set_fading_enabled(const bool enabled) {
   fading_enabled_ = enabled;
 }
 
+#ifdef HAVE_SPOTIFY
+void GstEnginePipeline::set_spotify_login(const QString &spotify_username, const QString &spotify_password) {
+
+  spotify_username_ = spotify_username;
+  spotify_password_ = spotify_password;
+
+}
+#endif  // HAVE_SPOTIFY
+
 QString GstEnginePipeline::GstStateText(const GstState state) {
 
   switch (state) {
@@ -995,6 +1004,17 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
       g_object_set(source, "proxy-id", instance->proxy_user_.toUtf8().constData(), "proxy-pw", instance->proxy_pass_.toUtf8().constData(), nullptr);
     }
   }
+
+#ifdef HAVE_SPOTIFY
+  if (instance->media_url_.scheme() == QStringLiteral("spotify") &&
+      !instance->spotify_username_.isEmpty() &&
+      !instance->spotify_password_.isEmpty() &&
+      g_object_class_find_property(G_OBJECT_GET_CLASS(source), "username") &&
+      g_object_class_find_property(G_OBJECT_GET_CLASS(source), "password")) {
+    g_object_set(source, "username", instance->spotify_username_.toUtf8().constData(), nullptr);
+    g_object_set(source, "password", instance->spotify_password_.toUtf8().constData(), nullptr);
+  }
+#endif
 
   // If the pipeline was buffering we stop that now.
   if (instance->buffering_) {

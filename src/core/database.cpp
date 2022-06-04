@@ -49,7 +49,7 @@
 #include "sqlquery.h"
 #include "scopedtransaction.h"
 
-const int Database::kSchemaVersion = 19;
+const int Database::kSchemaVersion = 20;
 
 namespace {
 constexpr char kDatabaseFilename[] = "strawberry.db";

@@ -341,9 +341,18 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   SmartPlaylistsViewContainer *smartplaylists_view_;
 
+#ifdef HAVE_SUBSONIC
   StreamingSongsView *subsonic_view_;
+#endif
+#ifdef HAVE_TIDAL
   StreamingTabsView *tidal_view_;
+#endif
+#ifdef HAVE_SPOTIFY
+  StreamingTabsView *spotify_view_;
+#endif
+#ifdef HAVE_QOBUZ
   StreamingTabsView *qobuz_view_;
+#endif
 
   RadioViewContainer *radio_view_;
 

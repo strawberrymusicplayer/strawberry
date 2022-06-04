@@ -565,11 +565,11 @@ const QString &Song::playlist_albumartist_sortable() const { return is_compilati
 
 bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.isEmpty() && !d->title_.isEmpty(); }
 bool Song::is_collection_song() const { return d->source_ == Source::Collection; }
-bool Song::is_stream() const { return is_radio() || d->source_ == Source::Tidal || d->source_ == Source::Subsonic || d->source_ == Source::Qobuz; }
+bool Song::is_stream() const { return is_radio() || d->source_ == Source::Tidal || d->source_ == Source::Subsonic || d->source_ == Source::Qobuz || d->source_ == Source::Spotify; }
 bool Song::is_radio() const { return d->source_ == Source::Stream || d->source_ == Source::SomaFM || d->source_ == Source::RadioParadise; }
 bool Song::is_cdda() const { return d->source_ == Source::CDDA; }
 bool Song::is_compilation() const { return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && !d->compilation_off_; }
-bool Song::stream_url_can_expire() const { return d->source_ == Source::Tidal || d->source_ == Source::Qobuz; }
+bool Song::stream_url_can_expire() const { return d->source_ == Source::Tidal || d->source_ == Source::Qobuz || d->source_ == Source::Spotify; }
 bool Song::is_module_music() const { return d->filetype_ == FileType::MOD || d->filetype_ == FileType::S3M || d->filetype_ == FileType::XM || d->filetype_ == FileType::IT; }
 bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
 
@@ -938,11 +938,13 @@ Song::Source Song::SourceFromURL(const QUrl &url) {
 
   if (url.isLocalFile()) return Source::LocalFile;
   if (url.scheme() == QStringLiteral("cdda")) return Source::CDDA;
-  if (url.scheme() == QStringLiteral("tidal")) return Source::Tidal;
   if (url.scheme() == QStringLiteral("subsonic")) return Source::Subsonic;
+  if (url.scheme() == QStringLiteral("tidal")) return Source::Tidal;
+  if (url.scheme() == QStringLiteral("spotify")) return Source::Spotify;
   if (url.scheme() == QStringLiteral("qobuz")) return Source::Qobuz;
   if (url.scheme() == QStringLiteral("http") || url.scheme() == QStringLiteral("https") || url.scheme() == QStringLiteral("rtsp")) {
     if (url.host().endsWith(QLatin1String("tidal.com"), Qt::CaseInsensitive)) { return Source::Tidal; }
+    if (url.host().endsWith(QLatin1String("spotify.com"), Qt::CaseInsensitive)) { return Source::Spotify; }
     if (url.host().endsWith(QLatin1String("qobuz.com"), Qt::CaseInsensitive)) { return Source::Qobuz; }
     if (url.host().endsWith(QLatin1String("somafm.com"), Qt::CaseInsensitive)) { return Source::SomaFM; }
     if (url.host().endsWith(QLatin1String("radioparadise.com"), Qt::CaseInsensitive)) { return Source::RadioParadise; }
@@ -960,8 +962,9 @@ QString Song::TextForSource(const Source source) {
     case Source::CDDA:          return QStringLiteral("cd");
     case Source::Device:        return QStringLiteral("device");
     case Source::Stream:        return QStringLiteral("stream");
-    case Source::Tidal:         return QStringLiteral("tidal");
     case Source::Subsonic:      return QStringLiteral("subsonic");
+    case Source::Tidal:         return QStringLiteral("tidal");
+    case Source::Spotify:       return QStringLiteral("spotify");
     case Source::Qobuz:         return QStringLiteral("qobuz");
     case Source::SomaFM:        return QStringLiteral("somafm");
     case Source::RadioParadise: return QStringLiteral("radioparadise");
@@ -979,8 +982,9 @@ QString Song::DescriptionForSource(const Source source) {
     case Source::CDDA:          return QStringLiteral("CD");
     case Source::Device:        return QStringLiteral("Device");
     case Source::Stream:        return QStringLiteral("Stream");
-    case Source::Tidal:         return QStringLiteral("Tidal");
     case Source::Subsonic:      return QStringLiteral("Subsonic");
+    case Source::Tidal:         return QStringLiteral("Tidal");
+    case Source::Spotify:       return QStringLiteral("Spotify");
     case Source::Qobuz:         return QStringLiteral("Qobuz");
     case Source::SomaFM:        return QStringLiteral("SomaFM");
     case Source::RadioParadise: return QStringLiteral("Radio Paradise");
@@ -997,8 +1001,9 @@ Song::Source Song::SourceFromText(const QString &source) {
   if (source.compare(QLatin1String("cd"), Qt::CaseInsensitive) == 0) return Source::CDDA;
   if (source.compare(QLatin1String("device"), Qt::CaseInsensitive) == 0) return Source::Device;
   if (source.compare(QLatin1String("stream"), Qt::CaseInsensitive) == 0) return Source::Stream;
-  if (source.compare(QLatin1String("tidal"), Qt::CaseInsensitive) == 0) return Source::Tidal;
   if (source.compare(QLatin1String("subsonic"), Qt::CaseInsensitive) == 0) return Source::Subsonic;
+  if (source.compare(QLatin1String("tidal"), Qt::CaseInsensitive) == 0) return Source::Tidal;
+  if (source.compare(QLatin1String("spotify"), Qt::CaseInsensitive) == 0) return Source::Spotify;
   if (source.compare(QLatin1String("qobuz"), Qt::CaseInsensitive) == 0) return Source::Qobuz;
   if (source.compare(QLatin1String("somafm"), Qt::CaseInsensitive) == 0) return Source::SomaFM;
   if (source.compare(QLatin1String("radioparadise"), Qt::CaseInsensitive) == 0) return Source::RadioParadise;
@@ -1015,8 +1020,9 @@ QIcon Song::IconForSource(const Source source) {
     case Source::CDDA:          return IconLoader::Load(QStringLiteral("media-optical"));
     case Source::Device:        return IconLoader::Load(QStringLiteral("device"));
     case Source::Stream:        return IconLoader::Load(QStringLiteral("applications-internet"));
-    case Source::Tidal:         return IconLoader::Load(QStringLiteral("tidal"));
     case Source::Subsonic:      return IconLoader::Load(QStringLiteral("subsonic"));
+    case Source::Tidal:         return IconLoader::Load(QStringLiteral("tidal"));
+    case Source::Spotify:       return IconLoader::Load(QStringLiteral("spotify"));
     case Source::Qobuz:         return IconLoader::Load(QStringLiteral("qobuz"));
     case Source::SomaFM:        return IconLoader::Load(QStringLiteral("somafm"));
     case Source::RadioParadise: return IconLoader::Load(QStringLiteral("radioparadise"));
@@ -1237,6 +1243,8 @@ QString Song::ImageCacheDir(const Source source) {
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/subsonicalbumcovers");
     case Source::Tidal:
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/tidalalbumcovers");
+    case Source::Spotify:
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/spotifyalbumcovers");
     case Source::Qobuz:
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/qobuzalbumcovers");
     case Source::Device:
