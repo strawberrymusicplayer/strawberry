@@ -81,7 +81,7 @@ Files: src/core/main.h
        src/globalshortcuts/globalshortcutsbackend-win.h
        src/globalshortcuts/globalshortcut.cpp
        src/globalshortcuts/globalshortcut.h
-       src/globalshortcuts/globalshortcut-X11.cpp
+       src/globalshortcuts/globalshortcut-x11.cpp
        src/globalshortcuts/globalshortcut-win.cpp
        src/globalshortcuts/keymapper_x11.h
        src/globalshortcuts/keymapper_win.h
@@ -101,7 +101,7 @@ License: GPL-3+
 
 Files: src/engine/enginebase.cpp
        src/engine/enginebase.h
-Copyright: 2017, 2018, Jonas Kvinge <jonas@jkvinge.net>
+Copyright: 2017-2021, Jonas Kvinge <jonas@jkvinge.net>
            2010, David Sansome <me@davidsansome.com>
            2004, 2005, Max Howell, <max.howell@methylblue.com>
            2003, Mark Kretschmann <markey@web.de>
@@ -109,7 +109,7 @@ License: GPL-3+
 
 Files: src/engine/gstengine.cpp
        src/engine/gstengine.h
-Copyright: 2017, 2018, Jonas Kvinge <jonas@jkvinge.net>
+Copyright: 2017-2021, Jonas Kvinge <jonas@jkvinge.net>
            2006, Paul Cifarelli <paul@cifarelli.net>
            2005, Jakub Stachowski <qbast@go2.pl>
            2003-2005, Mark Kretschmann <markey@web.de>
@@ -125,7 +125,7 @@ Files: src/core/application.cpp
        src/core/application.h
 Copyright: 2012, David Sansome <me@davidsansome.com>
            2012, 2014, John Maguire <john.maguire@gmail.com>
-           2018, Jonas Kvinge <jonas@jkvinge.net>
+           2018-2021, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/core/appearance.cpp
@@ -139,13 +139,7 @@ Copyright: 2012, Martin Björklund <mbj4668@gmail.com>
            2016, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
-Files: ext/libstrawberry-common/core/arraysize.h
-       ext/libstrawberry-common/core/scoped_nsautorelease_pool.h
-       ext/libstrawberry-common/core/scoped_nsautorelease_pool.mm
-Copyright: 2010, 2011, 2014, The Chromium Authors.
-License: BSD-style
-
-Files: ext/libstrawberry-common/core/lazy.h
+Files: src/core/lazy.h
 Copyright: 2016, John Maguire <john.maguire@gmail.com>
 License: GPL-3+
 
@@ -193,12 +187,17 @@ Copyright: 2011, Tyler Rhodes <tyler.s.rhodes@gmail.com>
            2015, Arun Narayanankutty <n.arun.lifescience@gmail.com>
 License: GPL-2+
 
-Files: src/collection/savedgroupingmanager.h
+Files: src/collection/savedgroupingmanager.*
 Copyright: 2015, Nick Lanham <nick@afternight.org>
+           2019-2021 Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
-Files: src/core/scoped_cftyperef.h
+Files:
+       src/core/arraysize.h
+       src/core/scoped_cftyperef.h
        src/core/scoped_nsobject.h
+       src/core/scoped_nsautorelease_pool.h
+       src/core/scoped_nsautorelease_pool.mm
 Copyright: 2010, 2011, 2014, The Chromium Authors.
 License: BSD-style
 
@@ -217,7 +216,7 @@ Files: src/internet/localredirectserver.cpp
        src/internet/localredirectserver.h
 Copyright: 2012, 2014, John Maguire <john.maguire@gmail.com>
            2014, Krzysztof Sobiecki <sobkas@gmail.com>
-           2018-2019, Jonas Kvinge <jonas@jkvinge.net>
+           2018-2021, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/transcoder/transcoderoptionsopus.cpp
@@ -232,11 +231,15 @@ Files: src/widgets/clickablelabel.cpp
 Copyright: 2010, 2011, Andrea Decorte <adecorte@gmail.com>
 License: GPL-3+
 
-Files: src/widgets/sliderwidget.cpp
-       src/widgets/sliderwidget.h
+Files: src/widgets/volumeslider.cpp
+       src/widgets/volumeslider.h
 Copyright: 2005, Gábor Lehel
            2003, Mark Kretschmann <markey@web.de>
 License: GPL-2+
+
+Files: src/scrobbler/subsonicscrobbler.*
+Copyright: 2018-2021 Jonas Kvinge <jonas@jkvinge.net>
+           2020 Pascal Below <spezifisch@below.fr>
 
 Files: src/core/stylehelper.cpp
        src/core/stylehelper.h
@@ -253,6 +256,7 @@ License: GPL-2+
 Files: src/widgets/qsearchfield_nonmac.cpp
        src/widgets/qsearchfield_mac.mm
        src/widgets/qsearchfield.h
+       src/widgets/qocoa_mac.h
 Copyright: 2011, Mike McQuaid <mike@mikemcquaid.com>
 License: Expat
 
