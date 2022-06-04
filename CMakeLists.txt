@@ -427,9 +427,9 @@ endif()
 
 option(INSTALL_TRANSLATIONS "Install translations" OFF)
 
-optional_component(SUBSONIC ON "Subsonic support")
-optional_component(TIDAL ON "Tidal support")
-optional_component(QOBUZ ON "Qobuz support")
+optional_component(SUBSONIC ON "Streaming: Subsonic")
+optional_component(TIDAL ON "Streaming: Tidal")
+optional_component(QOBUZ ON "Streaming: Qobuz")
 
 optional_component(MOODBAR ON "Moodbar"
   DEPENDS "fftw3" FFTW3_FOUND
