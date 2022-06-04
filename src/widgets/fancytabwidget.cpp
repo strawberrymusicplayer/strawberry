@@ -716,6 +716,11 @@ void FancyTabWidget::addMenuItem(QActionGroup *group, const QString &text, Mode 
 
 void FancyTabWidget::contextMenuEvent(QContextMenuEvent *e) {
 
+  if (!QRect(mapToGlobal(pos()), tabBar()->size()).contains(e->globalPos())) {
+    QTabWidget::contextMenuEvent(e);
+    return;
+  }
+
   if (!menu_) {
     menu_ = new QMenu(this);
     QActionGroup *group = new QActionGroup(this);
