@@ -2709,7 +2709,7 @@ msgstr "Піктограма"
 msgid "Icon sizes"
 msgstr "Розміри піктограм"
 
-#: widgets/fancytabwidget.cpp:726
+#: widgets/fancytabwidget.cpp:731
 msgid "Icons on top"
 msgstr "Піктограми зверху"
 
@@ -2880,7 +2880,7 @@ msgstr "Велика зала"
 msgid "Large album cover"
 msgstr "Велика обкладинка альбому"
 
-#: widgets/fancytabwidget.cpp:722
+#: widgets/fancytabwidget.cpp:727
 msgid "Large sidebar"
 msgstr "Велика бічна панель"
 
@@ -3615,7 +3615,7 @@ msgstr "Виконавець"
 msgid "Pixel"
 msgstr "Піксель"
 
-#: widgets/fancytabwidget.cpp:724
+#: widgets/fancytabwidget.cpp:729
 msgid "Plain sidebar"
 msgstr "Звичайна бічна панель"
 
@@ -4722,7 +4722,7 @@ msgstr "Пропустити композицію"
 msgid "Small album cover"
 msgstr "Маленька обкладинка альбому"
 
-#: widgets/fancytabwidget.cpp:723
+#: widgets/fancytabwidget.cpp:728
 msgid "Small sidebar"
 msgstr "Маленька бічна панель"
 
@@ -5005,7 +5005,7 @@ msgstr "Велика панель вкладок"
 msgid "Tabbar small mode"
 msgstr "Мала панель вкладок"
 
-#: widgets/fancytabwidget.cpp:725
+#: widgets/fancytabwidget.cpp:730
 msgid "Tabs on top"
 msgstr "Вкладки зверху"
 

@@ -2668,7 +2668,7 @@ msgstr "アイコン"
 msgid "Icon sizes"
 msgstr "アイコンサイズ"
 
-#: widgets/fancytabwidget.cpp:726
+#: widgets/fancytabwidget.cpp:731
 msgid "Icons on top"
 msgstr "アイコンを上に配置"
 
@@ -2828,7 +2828,7 @@ msgstr "広間"
 msgid "Large album cover"
 msgstr "大きいアルバムカバー"
 
-#: widgets/fancytabwidget.cpp:722
+#: widgets/fancytabwidget.cpp:727
 msgid "Large sidebar"
 msgstr "大きいサイドバー"
 
@@ -3555,7 +3555,7 @@ msgstr "出演者"
 msgid "Pixel"
 msgstr "ピクセル"
 
-#: widgets/fancytabwidget.cpp:724
+#: widgets/fancytabwidget.cpp:729
 msgid "Plain sidebar"
 msgstr "プレーンサイドバー"
 
@@ -4642,7 +4642,7 @@ msgstr "トラックをスキップする"
 msgid "Small album cover"
 msgstr "小さいアルバムカバー"
 
-#: widgets/fancytabwidget.cpp:723
+#: widgets/fancytabwidget.cpp:728
 msgid "Small sidebar"
 msgstr "小さいサイドバー"
 
@@ -4916,7 +4916,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:725
+#: widgets/fancytabwidget.cpp:730
 msgid "Tabs on top"
 msgstr "タブを上に配置"
 

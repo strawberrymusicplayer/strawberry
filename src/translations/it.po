@@ -2677,7 +2677,7 @@ msgstr "Icona"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:726
+#: widgets/fancytabwidget.cpp:731
 msgid "Icons on top"
 msgstr "Icone in alto"
 
@@ -2842,7 +2842,7 @@ msgstr "Sala grande"
 msgid "Large album cover"
 msgstr "Copertina grande"
 
-#: widgets/fancytabwidget.cpp:722
+#: widgets/fancytabwidget.cpp:727
 msgid "Large sidebar"
 msgstr "Pannello laterale grande"
 
@@ -3574,7 +3574,7 @@ msgstr "Musicista"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:724
+#: widgets/fancytabwidget.cpp:729
 msgid "Plain sidebar"
 msgstr "Barra laterale semplice"
 
@@ -4670,7 +4670,7 @@ msgstr "Salta la traccia"
 msgid "Small album cover"
 msgstr "Copertine piccole"
 
-#: widgets/fancytabwidget.cpp:723
+#: widgets/fancytabwidget.cpp:728
 msgid "Small sidebar"
 msgstr "Pannello laterale piccolo"
 
@@ -4949,7 +4949,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:725
+#: widgets/fancytabwidget.cpp:730
 msgid "Tabs on top"
 msgstr "Schede in alto"
 

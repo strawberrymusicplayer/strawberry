@@ -2713,7 +2713,7 @@ msgstr "Pictogram"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:726
+#: widgets/fancytabwidget.cpp:731
 msgid "Icons on top"
 msgstr "Pictogrammen bovenaan"
 
@@ -2878,7 +2878,7 @@ msgstr "Grote hal"
 msgid "Large album cover"
 msgstr "Grote albumhoes"
 
-#: widgets/fancytabwidget.cpp:722
+#: widgets/fancytabwidget.cpp:727
 msgid "Large sidebar"
 msgstr "Grote zijbalk"
 
@@ -3609,7 +3609,7 @@ msgstr "Uitvoerend artiest"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:724
+#: widgets/fancytabwidget.cpp:729
 msgid "Plain sidebar"
 msgstr "Normale zijbalk"
 
@@ -4700,7 +4700,7 @@ msgstr "Nummer overslaan"
 msgid "Small album cover"
 msgstr "Kleine albumhoes"
 
-#: widgets/fancytabwidget.cpp:723
+#: widgets/fancytabwidget.cpp:728
 msgid "Small sidebar"
 msgstr "Kleine zijbalk"
 
@@ -4980,7 +4980,7 @@ msgstr "Tabbalk grote modus"
 msgid "Tabbar small mode"
 msgstr "Tabbalk kleine modus"
 
-#: widgets/fancytabwidget.cpp:725
+#: widgets/fancytabwidget.cpp:730
 msgid "Tabs on top"
 msgstr "Tabs bovenaan"
 
