@@ -172,7 +172,7 @@ void GstEngine::StartPreloading(const QUrl &media_url, const QUrl &stream_url, c
   if (current_pipeline_) {
     current_pipeline_->PrepareNextUrl(media_url, stream_url, gst_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
     // Add request to discover the stream
-    if (discoverer_) {
+    if (discoverer_ && media_url.scheme() != "spotify") {
       if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.constData())) {
         qLog(Error) << "Failed to start stream discovery for" << gst_url;
       }
@@ -229,7 +229,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
   }
 
   // Add request to discover the stream
-  if (discoverer_) {
+  if (discoverer_ && media_url.scheme() != "spotify") {
     if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.constData())) {
       qLog(Error) << "Failed to start stream discovery for" << gst_url;
     }
@@ -813,6 +813,10 @@ SharedPtr<GstEnginePipeline> GstEngine::CreatePipeline() {
   ret->set_bs2b_enabled(bs2b_enabled_);
   ret->set_strict_ssl_enabled(strict_ssl_enabled_);
   ret->set_fading_enabled(fadeout_enabled_ || autocrossfade_enabled_ || fadeout_pause_enabled_);
+
+#ifdef HAVE_SPOTIFY
+  ret->set_spotify_login(spotify_username_, spotify_password_);
+#endif
 
   ret->AddBufferConsumer(this);
   for (GstBufferConsumer *consumer : buffer_consumers_) {

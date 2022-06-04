@@ -247,6 +247,12 @@ class EngineBase : public QObject {
   bool http2_enabled_;
   bool strict_ssl_enabled_;
 
+  // Spotify
+#ifdef HAVE_SPOTIFY
+  QString spotify_username_;
+  QString spotify_password_;
+#endif
+
   bool about_to_end_emitted_;
 
   Q_DISABLE_COPY(EngineBase)

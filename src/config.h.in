@@ -30,6 +30,7 @@
 
 #cmakedefine HAVE_SUBSONIC
 #cmakedefine HAVE_TIDAL
+#cmakedefine HAVE_SPOTIFY
 #cmakedefine HAVE_QOBUZ
 
 #cmakedefine HAVE_MOODBAR

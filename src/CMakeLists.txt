@@ -170,7 +170,6 @@ set(SOURCES
   covermanager/deezercoverprovider.cpp
   covermanager/qobuzcoverprovider.cpp
   covermanager/musixmatchcoverprovider.cpp
-  covermanager/spotifycoverprovider.cpp
   covermanager/opentidalcoverprovider.cpp
 
   lyrics/lyricsproviders.cpp
@@ -416,7 +415,6 @@ set(HEADERS
   covermanager/deezercoverprovider.h
   covermanager/qobuzcoverprovider.h
   covermanager/musixmatchcoverprovider.h
-  covermanager/spotifycoverprovider.h
   covermanager/opentidalcoverprovider.h
 
   lyrics/lyricsproviders.h
@@ -896,6 +894,25 @@ optional_source(HAVE_TIDAL
     covermanager/tidalcoverprovider.h
   UI
     settings/tidalsettingspage.ui
+)
+
+optional_source(HAVE_SPOTIFY
+  SOURCES
+    spotify/spotifyservice.cpp
+    spotify/spotifybaserequest.cpp
+    spotify/spotifyrequest.cpp
+    spotify/spotifyfavoriterequest.cpp
+    settings/spotifysettingspage.cpp
+    covermanager/spotifycoverprovider.cpp
+  HEADERS
+    spotify/spotifyservice.h
+    spotify/spotifybaserequest.h
+    spotify/spotifyrequest.h
+    spotify/spotifyfavoriterequest.h
+    settings/spotifysettingspage.h
+    covermanager/spotifycoverprovider.h
+  UI
+    settings/spotifysettingspage.ui
 )
 
 optional_source(HAVE_QOBUZ
