@@ -96,8 +96,8 @@ msgstr " kbps"
 msgid " ms"
 msgstr " ms"
 
-#: ../build/src/ui_contextsettingspage.h:450
-#: ../build/src/ui_contextsettingspage.h:455
+#: ../build/src/ui_contextsettingspage.h:442
+#: ../build/src/ui_contextsettingspage.h:447
 msgid " pt"
 msgstr " pt"
 
@@ -119,22 +119,22 @@ msgstr " låtar"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Skrobblarautentisering"
 
-#: context/contextview.cpp:472
+#: context/contextview.cpp:438
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:473
+#: context/contextview.cpp:439
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 album"
 
-#: context/contextview.cpp:468
+#: context/contextview.cpp:434
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artist"
 
-#: context/contextview.cpp:469
+#: context/contextview.cpp:435
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artister"
@@ -175,7 +175,7 @@ msgstr "%1 spellistor (%2)"
 msgid "%1 selected of"
 msgstr "%1 valda av"
 
-#: context/contextview.cpp:464
+#: context/contextview.cpp:430
 #, qt-format
 msgid "%1 song"
 msgstr "%1 låt"
@@ -185,7 +185,7 @@ msgstr "%1 låt"
 msgid "%1 song%2"
 msgstr "%1 låt%2"
 
-#: context/contextview.cpp:465
+#: context/contextview.cpp:431
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 låtar"
@@ -223,16 +223,16 @@ msgstr "%1 spår"
 msgid "%1 transferred"
 msgstr "%1 överfört"
 
-#: ../build/src/ui_contextsettingspage.h:437
+#: ../build/src/ui_contextsettingspage.h:430
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:611
+#: ../build/src/ui_collectionsettingspage.h:617
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
 
-#: ../build/src/ui_contextsettingspage.h:416
+#: ../build/src/ui_contextsettingspage.h:409
 #: ../build/src/ui_notificationssettingspage.h:464
 msgid "%filename%"
 msgstr "%filename%"
@@ -255,20 +255,20 @@ msgctxt ""
 msgid "%n remaining"
 msgstr "%n återstår"
 
-#: ../build/src/ui_contextsettingspage.h:428
+#: ../build/src/ui_contextsettingspage.h:421
 #: ../build/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
 msgstr "%originalyear%"
 
-#: ../build/src/ui_contextsettingspage.h:424
+#: ../build/src/ui_contextsettingspage.h:417
 msgid "%rating%"
 msgstr "%rating%"
 
-#: ../build/src/ui_contextsettingspage.h:433
+#: ../build/src/ui_contextsettingspage.h:426
 msgid "%title - %artist%"
 msgstr "%title - %artist%"
 
-#: ../build/src/ui_contextsettingspage.h:420
+#: ../build/src/ui_contextsettingspage.h:413
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
 msgstr "%url%"
@@ -600,7 +600,7 @@ msgstr "Lägg till &mapp..."
 msgid "Add Stream"
 msgstr "Lägg till flöde"
 
-#: ../build/src/ui_contextsettingspage.h:414
+#: ../build/src/ui_contextsettingspage.h:407
 #: ../build/src/ui_notificationssettingspage.h:462
 msgid "Add a new line if supported by the notification type"
 msgstr "Lägg till en ny rad om det stöds av aviseringstypen"
@@ -613,7 +613,7 @@ msgstr "Lägg till alla låtar från en mapp och alla dess undermappar"
 msgid "Add directory..."
 msgstr "Lägg till mapp..."
 
-#: core/mainwindow.cpp:2202
+#: core/mainwindow.cpp:2200
 msgid "Add file"
 msgstr "Lägg till fil"
 
@@ -629,11 +629,11 @@ msgstr "Lägg till fil(er) i omkodaren"
 msgid "Add files to transcode"
 msgstr "Lägg till filer för omkodning"
 
-#: core/mainwindow.cpp:2228 transcoder/transcodedialog.cpp:425
+#: core/mainwindow.cpp:2226 transcoder/transcodedialog.cpp:425
 msgid "Add folder"
 msgstr "Lägg till mapp"
 
-#: ../build/src/ui_collectionsettingspage.h:585
+#: ../build/src/ui_collectionsettingspage.h:591
 msgid "Add new folder..."
 msgstr "Lägg till ny mapp..."
 
@@ -641,92 +641,92 @@ msgstr "Lägg till ny mapp..."
 msgid "Add search term"
 msgstr "Lägg till sökterm"
 
-#: ../build/src/ui_contextsettingspage.h:422
+#: ../build/src/ui_contextsettingspage.h:415
 #: ../build/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
 msgstr "Lägg till låtens webbadress"
 
-#: ../build/src/ui_contextsettingspage.h:375
+#: ../build/src/ui_contextsettingspage.h:368
 #: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song album tag"
 msgstr "Lägg till tagg för låtens album"
 
-#: ../build/src/ui_contextsettingspage.h:381
+#: ../build/src/ui_contextsettingspage.h:374
 #: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song albumartist tag"
 msgstr "Lägg till tagg för låtens albumartist"
 
-#: ../build/src/ui_contextsettingspage.h:372
+#: ../build/src/ui_contextsettingspage.h:365
 #: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song artist tag"
 msgstr "Lägg till tagg för låtens artist"
 
-#: ../build/src/ui_contextsettingspage.h:387
+#: ../build/src/ui_contextsettingspage.h:380
 #: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song composer tag"
 msgstr "Lägg till tagg för låtens kompositör"
 
-#: ../build/src/ui_contextsettingspage.h:396
+#: ../build/src/ui_contextsettingspage.h:389
 #: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song disc tag"
 msgstr "Lägg till tagg för skivnummer"
 
-#: ../build/src/ui_contextsettingspage.h:418
+#: ../build/src/ui_contextsettingspage.h:411
 #: ../build/src/ui_notificationssettingspage.h:466
 msgid "Add song filename"
 msgstr "Lägg till låtens filnamn"
 
-#: ../build/src/ui_contextsettingspage.h:402
+#: ../build/src/ui_contextsettingspage.h:395
 #: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song genre tag"
 msgstr "Lägg till tagg för låtgenre"
 
-#: ../build/src/ui_contextsettingspage.h:393
+#: ../build/src/ui_contextsettingspage.h:386
 #: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song grouping tag"
 msgstr "Lägg till tagg för låtgruppering"
 
-#: ../build/src/ui_contextsettingspage.h:405
+#: ../build/src/ui_contextsettingspage.h:398
 #: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song length tag"
 msgstr "Lägg till tagg för låtens längd"
 
-#: ../build/src/ui_contextsettingspage.h:430
+#: ../build/src/ui_contextsettingspage.h:423
 #: ../build/src/ui_notificationssettingspage.h:474
 msgid "Add song original year tag"
 msgstr "Lägg till låtens originalårstagg"
 
-#: ../build/src/ui_contextsettingspage.h:390
+#: ../build/src/ui_contextsettingspage.h:383
 #: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
 msgstr "Lägg till tagg för aktör"
 
-#: ../build/src/ui_contextsettingspage.h:408
+#: ../build/src/ui_contextsettingspage.h:401
 #: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song play count"
 msgstr "Lägg till spelningsantal"
 
-#: ../build/src/ui_contextsettingspage.h:426
+#: ../build/src/ui_contextsettingspage.h:419
 #: ../build/src/ui_notificationssettingspage.h:459
 msgid "Add song rating"
 msgstr "Lägg till låtbetyg"
 
-#: ../build/src/ui_contextsettingspage.h:411
+#: ../build/src/ui_contextsettingspage.h:404
 #: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add song skip count"
 msgstr "Lägg till antal överhoppningar"
 
-#: ../build/src/ui_contextsettingspage.h:378
+#: ../build/src/ui_contextsettingspage.h:371
 #: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song title tag"
 msgstr "Lägg till tagg för låtens titel"
 
-#: ../build/src/ui_contextsettingspage.h:399
+#: ../build/src/ui_contextsettingspage.h:392
 #: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song track tag"
 msgstr "Lägg till tagg för spårnummer"
 
-#: ../build/src/ui_contextsettingspage.h:384
+#: ../build/src/ui_contextsettingspage.h:377
 #: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song year tag"
 msgstr "Lägg till tagg för år"
@@ -739,7 +739,7 @@ msgstr "Lägg till flöde..."
 msgid "Add to albums"
 msgstr "Lägg till i album"
 
-#: core/mainwindow.cpp:2004
+#: core/mainwindow.cpp:2002
 msgid "Add to another playlist"
 msgstr "Lägg till i en annan spellista"
 
@@ -785,7 +785,7 @@ msgstr "Tillagda idag"
 msgid "Added within three months"
 msgstr "Tillagda inom tre månader"
 
-#: ../build/src/ui_collectionsettingspage.h:628
+#: ../build/src/ui_collectionsettingspage.h:635
 msgid "Advanced"
 msgstr "Avancerat"
 
@@ -793,7 +793,7 @@ msgstr "Avancerat"
 msgid "Advanced grouping..."
 msgstr "Avancerad gruppering..."
 
-#: ../build/src/ui_collectionsettingspage.h:632
+#: ../build/src/ui_collectionsettingspage.h:639
 msgid "Advanced settings require restart."
 msgstr "Avancerade inställningar kräver omstart."
 
@@ -810,7 +810,7 @@ msgstr "Albu&momslag"
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_albumcoversearcher.h:107
 #: ../build/src/ui_albumcoversearcher.h:109
-#: ../build/src/ui_contextsettingspage.h:440
+#: ../build/src/ui_contextsettingspage.h:433
 #: ../build/src/ui_edittagdialog.h:832
 #: ../build/src/ui_trackselectiondialog.h:207
 msgid "Album"
@@ -836,7 +836,7 @@ msgstr "Albumartist"
 msgid "Album cover editing is only available for collection songs."
 msgstr "Redigering av albumomslag är endast tillgänglig för samlingslåtar."
 
-#: ../build/src/ui_collectionsettingspage.h:615
+#: ../build/src/ui_collectionsettingspage.h:621
 msgid "Album cover pixmap cache"
 msgstr "Albumomslag pixmap-cache"
 
@@ -847,15 +847,6 @@ msgstr "Albumomslagets storlek"
 #: ../build/src/ui_internettabsview.h:114
 msgid "Albums"
 msgstr "Album"
-
-#: context/contextview.cpp:613
-#, qt-format
-msgid "Albums by %1"
-msgstr "Album av %1"
-
-#: ../build/src/ui_contextsettingspage.h:443
-msgid "Albums by Artist"
-msgstr "Album av artist"
 
 #: ../build/src/ui_tidalsettingspage.h:333
 #: ../build/src/ui_qobuzsettingspage.h:284
@@ -870,7 +861,7 @@ msgstr "Album med omslag"
 msgid "Albums without covers"
 msgstr "Album utan omslag"
 
-#: core/mainwindow.cpp:217
+#: core/mainwindow.cpp:216
 msgid "All Files (*)"
 msgstr "Alla filer (*)"
 
@@ -950,7 +941,7 @@ msgstr "Lägg uttryckligen till albumtitel för explicita album"
 msgid "Append files/URLs to the playlist"
 msgstr "Lägg till filer/webbadresser till spellistan"
 
-#: context/contextalbumsview.cpp:261 collection/collectionview.cpp:348
+#: collection/collectionview.cpp:348
 #: smartplaylists/smartplaylistsviewcontainer.cpp:69
 #: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:323
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:71
@@ -979,7 +970,7 @@ msgstr "Är du säker på att du vill ta bort förinställningen \"%1\"?"
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Är du säker på att du vill återställa den här låtens statistik?"
 
-#: settings/collectionsettingspage.cpp:380
+#: settings/collectionsettingspage.cpp:382
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1067,7 +1058,7 @@ msgstr "Auto"
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: ../build/src/ui_collectionsettingspage.h:587
+#: ../build/src/ui_collectionsettingspage.h:593
 msgid "Automatic updating"
 msgstr "Automatisk uppdatering"
 
@@ -1076,15 +1067,15 @@ msgstr "Automatisk uppdatering"
 msgid "Automatically cover art from %1 is missing"
 msgstr "Automatiskt omslag från %1 saknas "
 
-#: ../build/src/ui_collectionsettingspage.h:600
+#: ../build/src/ui_collectionsettingspage.h:606
 msgid "Automatically open single categories in the collection tree"
 msgstr "Öppna enskilda kategorier automatiskt i samlingsträdet"
 
-#: ../build/src/ui_contextsettingspage.h:445
+#: ../build/src/ui_contextsettingspage.h:437
 msgid "Automatically search for album cover"
 msgstr "Sök automatiskt efter albumomslag"
 
-#: context/contextview.cpp:343 ../build/src/ui_contextsettingspage.h:446
+#: context/contextview.cpp:313 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
 msgstr "Sök automatiskt efter låttexter"
 
@@ -1148,7 +1139,7 @@ msgstr "Beteende"
 msgid "Best"
 msgstr "Bästa"
 
-#: context/contextview.cpp:218 collection/savedgroupingmanager.cpp:139
+#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:139
 #: playlist/playlist.cpp:1358 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:805
@@ -1159,7 +1150,7 @@ msgstr "Bitdjup"
 msgid "Bit rate"
 msgstr "Bithastighet"
 
-#: context/contextview.cpp:219 collection/savedgroupingmanager.cpp:142
+#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:142
 #: playlist/playlist.cpp:1359 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:132
@@ -1267,7 +1258,7 @@ msgstr "Byta låt som nu spelas"
 msgid "Change the language"
 msgstr "Ändra språket"
 
-#: core/mainwindow.cpp:798
+#: core/mainwindow.cpp:797
 msgid "Check for updates..."
 msgstr "Sök efter uppdateringar..."
 
@@ -1309,7 +1300,7 @@ msgstr "Klassisk"
 msgid "Clear"
 msgstr "Rensa"
 
-#: ../build/src/ui_collectionsettingspage.h:621
+#: ../build/src/ui_collectionsettingspage.h:627
 msgid "Clear Disk Cache"
 msgstr "Rensa diskcache"
 
@@ -1317,7 +1308,7 @@ msgstr "Rensa diskcache"
 msgid "Clear cover"
 msgstr "Rensa omslag"
 
-#: core/mainwindow.cpp:2293 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2291 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Rensa spellista"
 
@@ -1363,7 +1354,7 @@ msgstr ""
 msgid "Club"
 msgstr "Klubb"
 
-#: core/mainwindow.cpp:363 ../build/src/ui_collectionsettingspage.h:583
+#: core/mainwindow.cpp:362 ../build/src/ui_collectionsettingspage.h:589
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Samling"
@@ -1376,7 +1367,7 @@ msgstr "Samlingsfilter"
 msgid "Collection advanced grouping"
 msgstr "Samling avancerad gruppering"
 
-#: core/mainwindow.cpp:2866
+#: core/mainwindow.cpp:2864
 msgid "Collection rescan notice"
 msgstr "Notis om omskanning av samling"
 
@@ -1437,7 +1428,7 @@ msgstr "Anpassa %1..."
 msgid "Configure buttons"
 msgstr "Anpassa knappar"
 
-#: core/mainwindow.cpp:675
+#: core/mainwindow.cpp:674
 msgid "Configure collection..."
 msgstr "Anpassa samling..."
 
@@ -1453,7 +1444,7 @@ msgstr "Konsol"
 msgid "Constant bitrate"
 msgstr "Konstant bitfrekvens"
 
-#: core/mainwindow.cpp:362 ../build/src/ui_contextsettingspage.h:370
+#: core/mainwindow.cpp:361 ../build/src/ui_contextsettingspage.h:363
 msgid "Context"
 msgstr "Kontext"
 
@@ -1473,7 +1464,7 @@ msgstr "Konvertera all musik"
 msgid "Convert any music that the device can't play"
 msgstr "Konvertera all musik som inte kan spelas av enheten"
 
-#: core/mainwindow.cpp:744
+#: core/mainwindow.cpp:743
 msgid "Copy URL(s)..."
 msgstr "Kopiera webbadress(er)..."
 
@@ -1481,7 +1472,7 @@ msgstr "Kopiera webbadress(er)..."
 msgid "Copy album cover artwork"
 msgstr "Kopiera albumomslag"
 
-#: core/mainwindow.cpp:748 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:747 widgets/fileviewlist.cpp:47
 #: device/deviceview.cpp:248
 msgid "Copy to collection..."
 msgstr "Kopiera till samling..."
@@ -1490,9 +1481,8 @@ msgstr "Kopiera till samling..."
 msgid "Copy to device"
 msgstr "Kopiera till enhet"
 
-#: core/mainwindow.cpp:751 context/contextalbumsview.cpp:271
-#: collection/collectionview.cpp:359 playlist/playlistlistcontainer.cpp:90
-#: widgets/fileviewlist.cpp:49
+#: core/mainwindow.cpp:750 collection/collectionview.cpp:359
+#: playlist/playlistlistcontainer.cpp:90 widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "Kopiera till enhet..."
 
@@ -1690,7 +1680,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Upp"
 
-#: ../build/src/ui_collectionsettingspage.h:619
+#: ../build/src/ui_collectionsettingspage.h:625
 msgid "Current disk cache in use:"
 msgstr "Aktuell diskcache i användning:"
 
@@ -1710,7 +1700,7 @@ msgstr "Anpassad bild:"
 msgid "Custom message settings"
 msgstr "Anpassade meddelandeinställningar"
 
-#: ../build/src/ui_contextsettingspage.h:432
+#: ../build/src/ui_contextsettingspage.h:425
 msgid "Custom text settings"
 msgstr "Anpassade textinställningar"
 
@@ -1779,7 +1769,7 @@ msgstr "Ta bort filer"
 msgid "Delete from device..."
 msgstr "Ta bort från enhet..."
 
-#: core/mainwindow.cpp:753 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:752 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:50
 msgid "Delete from disk..."
 msgstr "Ta bort från disk..."
@@ -1805,11 +1795,11 @@ msgstr "Ta bort originalfiler"
 msgid "Deleting files"
 msgstr "Tar bort filer"
 
-#: core/mainwindow.cpp:1919
+#: core/mainwindow.cpp:1917
 msgid "Dequeue selected tracks"
 msgstr "Ta bort valda spår från kön"
 
-#: core/mainwindow.cpp:1918
+#: core/mainwindow.cpp:1916
 msgid "Dequeue track"
 msgstr "Ta bort spår från kön"
 
@@ -1821,7 +1811,7 @@ msgstr "Destination"
 msgid "Details..."
 msgstr "Detaljer..."
 
-#: context/contextview.cpp:186 device/giolister.cpp:193
+#: context/contextview.cpp:178 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:553
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -1835,7 +1825,7 @@ msgstr "Enhetsegenskaper"
 msgid "Device properties..."
 msgstr "Enhetsegenskaper..."
 
-#: core/mainwindow.cpp:370
+#: core/mainwindow.cpp:369
 msgid "Devices"
 msgstr "Enheter"
 
@@ -1871,12 +1861,12 @@ msgstr "Skiva"
 msgid "Discontinuous transmission"
 msgstr "Icke-kontinuerlig sändning"
 
-#: ../build/src/ui_collectionsettingspage.h:618
+#: ../build/src/ui_collectionsettingspage.h:624
 msgid "Disk Cache Size"
 msgstr "Diskcache storlek"
 
 #: collection/collectionfilterwidget.cpp:128
-#: ../build/src/ui_collectionsettingspage.h:599
+#: ../build/src/ui_collectionsettingspage.h:605
 msgid "Display options"
 msgstr "Visningsalternativ"
 
@@ -1970,7 +1960,7 @@ msgstr "Redigera smart spellista"
 msgid "Edit smart playlist..."
 msgstr "Redigera smart spellista..."
 
-#: core/mainwindow.cpp:1962
+#: core/mainwindow.cpp:1960
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Redigera taggen \"%1\"..."
@@ -1983,12 +1973,12 @@ msgstr "Redigera tagg..."
 msgid "Edit track information"
 msgstr "Redigera spårinformation"
 
-#: context/contextalbumsview.cpp:275 collection/collectionview.cpp:364
-#: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:642
+#: collection/collectionview.cpp:364 widgets/fileviewlist.cpp:53
+#: ../build/src/ui_mainwindow.h:642
 msgid "Edit track information..."
 msgstr "Redigera spårinformation..."
 
-#: context/contextalbumsview.cpp:276 collection/collectionview.cpp:365
+#: collection/collectionview.cpp:365
 msgid "Edit tracks information..."
 msgstr "Redigera spårinformation..."
 
@@ -2010,15 +2000,15 @@ msgstr "Inbäddat omslag"
 msgid "Enable"
 msgstr "Aktivera"
 
-#: ../build/src/ui_collectionsettingspage.h:617
+#: ../build/src/ui_collectionsettingspage.h:623
 msgid "Enable Disk Cache"
 msgstr "Aktivera diskcache"
 
-#: ../build/src/ui_contextsettingspage.h:439
+#: ../build/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
 msgstr "Aktivera poster"
 
-#: ../build/src/ui_collectionsettingspage.h:627
+#: ../build/src/ui_collectionsettingspage.h:634
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Enable delete files in the right click context menu"
 msgstr "Aktivera att ta bort filer i högerklickssnabbmenyn"
@@ -2075,11 +2065,11 @@ msgstr "Kodningsmotorns kvalitet"
 msgid "Encoding mode"
 msgstr "Kodningsläge"
 
-#: context/contextview.cpp:185 ../build/src/ui_backendsettingspage.h:556
+#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:556
 msgid "Engine"
 msgstr "Motor"
 
-#: ../build/src/ui_contextsettingspage.h:442
+#: ../build/src/ui_contextsettingspage.h:435
 msgid "Engine and Device"
 msgstr "Motor och enhet"
 
@@ -2136,8 +2126,8 @@ msgstr "Motsvarar --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Motsvarar --log-levels *:3"
 
-#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
-#: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
+#: core/mainwindow.cpp:2595 core/mainwindow.cpp:2746
+#: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Fel"
 
@@ -2191,7 +2181,7 @@ msgstr "Befintliga omslag"
 msgid "Expand"
 msgstr "Expandera"
 
-#: ../build/src/ui_collectionsettingspage.h:592
+#: ../build/src/ui_collectionsettingspage.h:598
 msgid "Expire unavailable songs after"
 msgstr "Utgå otillgängliga låtar efter"
 
@@ -2381,11 +2371,11 @@ msgstr "Filtyp"
 msgid "Filename"
 msgstr "Filnamn"
 
-#: ../build/src/ui_collectionsettingspage.h:608
+#: ../build/src/ui_collectionsettingspage.h:614
 msgid "Filename:"
 msgstr "Filnamn:"
 
-#: core/mainwindow.cpp:367
+#: core/mainwindow.cpp:366
 msgid "Files"
 msgstr "Filer"
 
@@ -2397,7 +2387,7 @@ msgstr "Filer att omkoda"
 msgid "Files, playlists and queue buttons"
 msgstr "Filer, spellistor och köknappar"
 
-#: context/contextview.cpp:215
+#: context/contextview.cpp:207
 msgid "Filetype"
 msgstr "Filtyp"
 
@@ -2421,21 +2411,21 @@ msgstr "Första nivå"
 msgid "Fit cover to width"
 msgstr "Passa omslag till bredd"
 
-#: ../build/src/ui_contextsettingspage.h:448
-#: ../build/src/ui_contextsettingspage.h:453
+#: ../build/src/ui_contextsettingspage.h:440
+#: ../build/src/ui_contextsettingspage.h:445
 msgid "Font"
 msgstr "Teckensnitt"
 
-#: ../build/src/ui_contextsettingspage.h:452
+#: ../build/src/ui_contextsettingspage.h:444
 msgid "Font for data and lyrics"
 msgstr "Teckensnitt för data och låttexter"
 
-#: ../build/src/ui_contextsettingspage.h:447
+#: ../build/src/ui_contextsettingspage.h:439
 msgid "Font for headline"
 msgstr "Teckensnitt för rubrik"
 
-#: ../build/src/ui_contextsettingspage.h:449
-#: ../build/src/ui_contextsettingspage.h:454
+#: ../build/src/ui_contextsettingspage.h:441
+#: ../build/src/ui_contextsettingspage.h:446
 msgid "Font size"
 msgstr "Teckensnittsstorlek"
 
@@ -2698,7 +2688,7 @@ msgstr "Hög vattenstämpel"
 msgid "Hours"
 msgstr "Timmar"
 
-#: ../build/src/ui_collectionsettingspage.h:631
+#: ../build/src/ui_collectionsettingspage.h:638
 msgid "I/O priority"
 msgstr "I/O-prioritet"
 
@@ -2911,7 +2901,7 @@ msgstr "Minst omtyckta spår"
 msgid "Left"
 msgstr "Vänster"
 
-#: context/contextview.cpp:216 playlist/playlist.cpp:1344
+#: context/contextview.cpp:208 playlist/playlist.cpp:1344
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:803
 msgid "Length"
 msgstr "Längd"
@@ -3031,7 +3021,7 @@ msgstr "Låg komplexitetprofil (LC)"
 msgid "Low watermark"
 msgstr "Låg vattenstämpel"
 
-#: ../build/src/ui_collectionsettingspage.h:613
+#: ../build/src/ui_collectionsettingspage.h:619
 msgid "Lowercase filename"
 msgstr "Filnamn med gemener"
 
@@ -3073,7 +3063,7 @@ msgstr "Ställ in omslag manuellt från %1"
 msgid "Manufacturer"
 msgstr "Tillverkare"
 
-#: ../build/src/ui_collectionsettingspage.h:591
+#: ../build/src/ui_collectionsettingspage.h:597
 msgid "Mark disappeared songs unavailable"
 msgstr "Markera försvunna låtar som otillgängliga"
 
@@ -3190,7 +3180,7 @@ msgstr "Användarnamn saknas."
 msgid "Model"
 msgstr "Modell"
 
-#: ../build/src/ui_collectionsettingspage.h:589
+#: ../build/src/ui_collectionsettingspage.h:595
 msgid "Monitor the collection for changes"
 msgstr "Bevaka ändringar i samlingen"
 
@@ -3228,7 +3218,7 @@ msgstr "Monteringspunkter"
 msgid "Move down"
 msgstr "Flytta nedåt"
 
-#: core/mainwindow.cpp:749 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:748 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
 msgstr "Flytta till samling..."
 
@@ -3237,7 +3227,7 @@ msgstr "Flytta till samling..."
 msgid "Move up"
 msgstr "Flytta uppåt"
 
-#: core/mainwindow.cpp:2202 transcoder/transcodedialog.cpp:334
+#: core/mainwindow.cpp:2200 transcoder/transcodedialog.cpp:334
 msgid "Music"
 msgstr "Musik"
 
@@ -3281,7 +3271,7 @@ msgstr "Aldrig starta uppspelning"
 msgid "New folder"
 msgstr "Ny mapp"
 
-#: core/mainwindow.cpp:2020
+#: core/mainwindow.cpp:2018
 msgid "New playlist"
 msgstr "Ny spellista"
 
@@ -3347,7 +3337,7 @@ msgstr "Ingen leverantör vald."
 msgid "No short blocks"
 msgstr "Inga korta block"
 
-#: context/contextview.cpp:461
+#: context/contextview.cpp:427
 msgid "No song playing"
 msgstr "Ingen låt spelas"
 
@@ -3357,8 +3347,8 @@ msgstr "Ingen låt spelas"
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
-#: context/contextalbumsview.cpp:395 collection/collectionview.cpp:586
+#: core/mainwindow.cpp:2595 core/mainwindow.cpp:2746
+#: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ingen av de valda låtarna lämpar sig för kopiering till en enhet"
 
@@ -3464,7 +3454,7 @@ msgstr "Öppna enhet"
 msgid "Open homepage"
 msgstr "Öppna webbplats"
 
-#: context/contextalbumsview.cpp:263 collection/collectionview.cpp:350
+#: collection/collectionview.cpp:350
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
 #: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:325
 #: internet/internetcollectionview.cpp:319 radios/radioview.cpp:79
@@ -3502,8 +3492,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "Organisera filer"
 
-#: core/mainwindow.cpp:747 context/contextalbumsview.cpp:269
-#: collection/collectionview.cpp:357
+#: core/mainwindow.cpp:746 collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr "Organisera filer..."
 
@@ -3543,11 +3532,15 @@ msgstr "Utgång"
 msgid "Output options"
 msgstr "Alternativ för utgång"
 
-#: ../build/src/ui_collectionsettingspage.h:625
+#: ../build/src/ui_collectionsettingspage.h:631
+msgid "Overwrite database playcount when songs are re-read from disk"
+msgstr ""
+
+#: ../build/src/ui_collectionsettingspage.h:632
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr "Skriv över databasbetyg när låtar läses om från disk"
 
-#: ../build/src/ui_collectionsettingspage.h:612
+#: ../build/src/ui_collectionsettingspage.h:618
 msgid "Overwrite existing file"
 msgstr "Skriv över befintlig fil"
 
@@ -3583,11 +3576,11 @@ msgstr "Lösenord"
 msgid "Path"
 msgstr "Sökväg"
 
-#: ../build/src/ui_collectionsettingspage.h:609
+#: ../build/src/ui_collectionsettingspage.h:615
 msgid "Pattern"
 msgstr "Mönster"
 
-#: core/mainwindow.cpp:1318 core/mainwindow.cpp:1817
+#: core/mainwindow.cpp:1316 core/mainwindow.cpp:1815
 #: core/qtsystemtrayicon.cpp:146 globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Pause"
 msgstr "Pausa"
@@ -3615,8 +3608,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Vanligt sidofält"
 
-#: core/mainwindow.cpp:716 core/mainwindow.cpp:1275 core/mainwindow.cpp:1302
-#: core/mainwindow.cpp:1821 core/qtsystemtrayicon.cpp:159
+#: core/mainwindow.cpp:715 core/mainwindow.cpp:1273 core/mainwindow.cpp:1300
+#: core/mainwindow.cpp:1819 core/qtsystemtrayicon.cpp:159
 #: core/qtsystemtrayicon.cpp:173 globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Play"
 msgstr "Spela"
@@ -3688,7 +3681,7 @@ msgstr "Spellistknappar"
 msgid "Playlist finished"
 msgstr "Spellistan är klar"
 
-#: core/mainwindow.cpp:2293
+#: core/mainwindow.cpp:2291
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3714,7 +3707,7 @@ msgstr "Låtfärg för uppspelning av spellista "
 msgid "Playlist type"
 msgstr "Spellistetyp"
 
-#: core/mainwindow.cpp:365
+#: core/mainwindow.cpp:364
 msgid "Playlists"
 msgstr "Spellistor"
 
@@ -3757,7 +3750,7 @@ msgstr "Föredra albumartist vid sändning av skrobblingar"
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ../build/src/ui_collectionsettingspage.h:594
+#: ../build/src/ui_collectionsettingspage.h:600
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Föredragna filnamn för albumomslagsbilder (kommaseparerade)"
 
@@ -3807,8 +3800,8 @@ msgid "Pretty OSD options"
 msgstr "Alternativ för snygg avisering"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
-#: ../build/src/ui_contextsettingspage.h:451
-#: ../build/src/ui_contextsettingspage.h:456
+#: ../build/src/ui_contextsettingspage.h:443
+#: ../build/src/ui_contextsettingspage.h:448
 #: ../build/src/ui_notificationssettingspage.h:493
 #: ../build/src/ui_organizedialog.h:279
 msgid "Preview"
@@ -3839,7 +3832,7 @@ msgstr "Förlopp"
 msgid "Put songs in a random order"
 msgstr "Lägg till låtar i slumpmässig ordning"
 
-#: core/mainwindow.cpp:379 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:378 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:270
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3865,25 +3858,24 @@ msgstr "Kvalitet"
 msgid "Querying device..."
 msgstr "Kommunicerar med enhet..."
 
-#: core/mainwindow.cpp:364
+#: core/mainwindow.cpp:363
 msgid "Queue"
 msgstr "Kö"
 
-#: core/mainwindow.cpp:1921
+#: core/mainwindow.cpp:1919
 msgid "Queue selected tracks"
 msgstr "Lägg till valda spår i kön"
 
-#: core/mainwindow.cpp:722 core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:721 core/mainwindow.cpp:1923
 msgid "Queue selected tracks to play next"
 msgstr "Lägg till valda spår i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1928 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1926 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:323
 msgid "Queue to play next"
 msgstr "Lägg till i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1920 context/contextalbumsview.cpp:266
-#: collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1918 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
 #: internet/internetsearchview.cpp:328 internet/internetcollectionview.cpp:322
 msgid "Queue track"
@@ -3901,11 +3893,11 @@ msgstr "Radio (samma ljudstyrka för alla spår"
 msgid "Radio Paradise"
 msgstr "Radio Paradise"
 
-#: core/mainwindow.cpp:368
+#: core/mainwindow.cpp:367
 msgid "Radios"
 msgstr "Radiokanaler"
 
-#: ../build/src/ui_collectionsettingspage.h:610
+#: ../build/src/ui_collectionsettingspage.h:616
 msgid "Random"
 msgstr "Slumpat"
 
@@ -4021,7 +4013,7 @@ msgstr "Ta bort &dubbletter från spellista"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Ta bort &otillgängliga spår från spellista"
 
-#: ../build/src/ui_collectionsettingspage.h:586
+#: ../build/src/ui_collectionsettingspage.h:592
 msgid "Remove folder"
 msgstr "Ta bort mapp"
 
@@ -4073,7 +4065,7 @@ msgstr "Upprepa spellista"
 msgid "Repeat track"
 msgstr "Upprepa spår"
 
-#: context/contextalbumsview.cpp:262 collection/collectionview.cpp:349
+#: collection/collectionview.cpp:349
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
 #: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:324
 #: internet/internetcollectionview.cpp:318 radios/radioview.cpp:75
@@ -4081,7 +4073,7 @@ msgstr "Upprepa spår"
 msgid "Replace current playlist"
 msgstr "Ersätt aktuell spellista"
 
-#: ../build/src/ui_collectionsettingspage.h:614
+#: ../build/src/ui_collectionsettingspage.h:620
 msgid "Replace spaces with dashes"
 msgstr "Ersätter mellanslag med understreck"
 
@@ -4113,7 +4105,7 @@ msgstr "Skapa en ny blandning"
 msgid "Rescan song(s)"
 msgstr "Skanna om av låt(ar)..."
 
-#: core/mainwindow.cpp:738
+#: core/mainwindow.cpp:737
 msgid "Rescan song(s)..."
 msgstr "Skanna om låt(ar)..."
 
@@ -4238,7 +4230,7 @@ msgstr "Säker borttagning av enheten efter kopiering"
 msgid "Sample rate"
 msgstr "Samplingsfrekvens"
 
-#: context/contextview.cpp:217
+#: context/contextview.cpp:209
 msgid "Samplerate"
 msgstr "Samplingsfrekvens"
 
@@ -4250,15 +4242,15 @@ msgstr "Spara &spellista..."
 msgid "Save album cover"
 msgstr "Spara albumomslag"
 
-#: ../build/src/ui_collectionsettingspage.h:607
+#: ../build/src/ui_collectionsettingspage.h:613
 msgid "Save album covers as embedded cover"
 msgstr "Spara albumomslag som inbäddat omslag"
 
-#: ../build/src/ui_collectionsettingspage.h:605
+#: ../build/src/ui_collectionsettingspage.h:611
 msgid "Save album covers in album directory"
 msgstr "Spara albumomslag i albummappen"
 
-#: ../build/src/ui_collectionsettingspage.h:606
+#: ../build/src/ui_collectionsettingspage.h:612
 msgid "Save album covers in cache directory"
 msgstr "Spara albumomslag i cachemappen"
 
@@ -4270,11 +4262,11 @@ msgstr "Spara omslag till disk..."
 msgid "Save current grouping"
 msgstr "Spara aktuell gruppering"
 
-#: ../build/src/ui_collectionsettingspage.h:626
+#: ../build/src/ui_collectionsettingspage.h:633
 msgid "Save playcounts and ratings to files now"
 msgstr "Spara uppspelningsantal och betyg till filer nu"
 
-#: ../build/src/ui_collectionsettingspage.h:623
+#: ../build/src/ui_collectionsettingspage.h:629
 msgid "Save playcounts to song tags when possible"
 msgstr "Spara uppspelningsantal till låttaggar när det är möjligt "
 
@@ -4296,7 +4288,7 @@ msgstr "Spara spellista..."
 msgid "Save preset"
 msgstr "Spara förinställning"
 
-#: ../build/src/ui_collectionsettingspage.h:624
+#: ../build/src/ui_collectionsettingspage.h:630
 msgid "Save ratings to song tags when possible"
 msgstr "Spara betyg till låttaggar när det är möjligt"
 
@@ -4308,7 +4300,7 @@ msgstr "Spara .mood-filerna direkt i låtmapparna"
 msgid "Saved Grouping Manager"
 msgstr "Sparad grupperingshanterare"
 
-#: ../build/src/ui_collectionsettingspage.h:603
+#: ../build/src/ui_collectionsettingspage.h:609
 msgid "Saving album covers"
 msgstr "Spara albumomslag"
 
@@ -4461,7 +4453,7 @@ msgstr "Serverwebbadressen är ogiltig."
 msgid "Server-side scrobbling"
 msgstr "Skrobbling på serversidan"
 
-#: core/mainwindow.cpp:1961
+#: core/mainwindow.cpp:1959
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Ställ in %1 till \"%2\"..."
@@ -4540,19 +4532,15 @@ msgstr "Visa en snygg avisering"
 msgid "Show above status bar"
 msgstr "Visa ovanför statusraden"
 
-#: context/contextview.cpp:323
+#: context/contextview.cpp:297
 msgid "Show album cover"
 msgstr "Visa albumomslag"
 
-#: ../build/src/ui_collectionsettingspage.h:601
+#: ../build/src/ui_collectionsettingspage.h:607
 msgid "Show album cover art in collection"
 msgstr "Visa omslagsbilder i samlingen"
 
-#: context/contextview.cpp:335
-msgid "Show albums by artist"
-msgstr "Visa album efter artist"
-
-#: core/mainwindow.cpp:664
+#: core/mainwindow.cpp:663
 msgid "Show all songs"
 msgstr "Visa alla låtar"
 
@@ -4564,11 +4552,11 @@ msgstr "Visa alla låtarna"
 msgid "Show dialog for errors"
 msgstr "Visa dialogruta vid fel"
 
-#: ../build/src/ui_collectionsettingspage.h:602
+#: ../build/src/ui_collectionsettingspage.h:608
 msgid "Show dividers"
 msgstr "Visa avdelare"
 
-#: context/contextview.cpp:331
+#: context/contextview.cpp:305
 msgid "Show engine and device"
 msgstr "Visa motor och enhet"
 
@@ -4576,7 +4564,7 @@ msgstr "Visa motor och enhet"
 msgid "Show fullsize..."
 msgstr "Visa i full storlek..."
 
-#: core/mainwindow.cpp:745
+#: core/mainwindow.cpp:744
 msgid "Show in collection..."
 msgstr "Visa i samlingen..."
 
@@ -4584,8 +4572,8 @@ msgstr "Visa i samlingen..."
 msgid "Show in file browser"
 msgstr "Visa i filhanteraren"
 
-#: core/mainwindow.cpp:746 context/contextalbumsview.cpp:277
-#: collection/collectionview.cpp:366 widgets/fileviewlist.cpp:54
+#: core/mainwindow.cpp:745 collection/collectionview.cpp:366
+#: widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "Visa i filhanterare..."
 
@@ -4601,11 +4589,11 @@ msgstr "Visa knappen älska"
 msgid "Show moodbar"
 msgstr "Visa stämningsdiagram"
 
-#: core/mainwindow.cpp:665
+#: core/mainwindow.cpp:664
 msgid "Show only duplicates"
 msgstr "Visa endast dubbletter"
 
-#: core/mainwindow.cpp:666
+#: core/mainwindow.cpp:665
 msgid "Show only untagged"
 msgstr "Visa endast utan taggar"
 
@@ -4621,7 +4609,7 @@ msgstr "Visa knappen skrobbla"
 msgid "Show sidebar"
 msgstr "Visa sidofält"
 
-#: context/contextview.cpp:339
+#: context/contextview.cpp:309
 msgid "Show song lyrics"
 msgstr "Visa låttexter"
 
@@ -4629,7 +4617,7 @@ msgstr "Visa låttexter"
 msgid "Show song progress on system tray icon"
 msgstr "Visa sångförlopp på systemfältikonen"
 
-#: context/contextview.cpp:327
+#: context/contextview.cpp:301
 msgid "Show song technical data"
 msgstr "Visa låttekniska data"
 
@@ -4678,7 +4666,7 @@ msgid "Signing in..."
 msgstr "Loggar in..."
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:616
+#: ../build/src/ui_collectionsettingspage.h:622
 msgid "Size"
 msgstr "Storlek"
 
@@ -4702,11 +4690,11 @@ msgstr "Antal överhoppningar"
 msgid "Skip forwards in playlist"
 msgstr "Hoppa framåt i spellista"
 
-#: core/mainwindow.cpp:1934
+#: core/mainwindow.cpp:1932
 msgid "Skip selected tracks"
 msgstr "Hoppa över valda spår"
 
-#: core/mainwindow.cpp:1933
+#: core/mainwindow.cpp:1931
 msgid "Skip track"
 msgstr "Hoppa över spår"
 
@@ -4722,7 +4710,7 @@ msgstr "Litet sidofält"
 msgid "Smart playlist"
 msgstr "Smart spellista"
 
-#: core/mainwindow.cpp:366
+#: core/mainwindow.cpp:365
 msgid "Smart playlists"
 msgstr "Smarta spellistor"
 
@@ -4738,15 +4726,15 @@ msgstr "Soft Rock"
 msgid "SomaFM"
 msgstr "SomaFM"
 
-#: ../build/src/ui_contextsettingspage.h:444
+#: ../build/src/ui_contextsettingspage.h:436
 msgid "Song Lyrics"
 msgstr "Låttexter"
 
-#: ../build/src/ui_collectionsettingspage.h:590
+#: ../build/src/ui_collectionsettingspage.h:596
 msgid "Song fingerprinting and tracking"
 msgstr "Fingeravtryck och spårning av låtar"
 
-#: ../build/src/ui_collectionsettingspage.h:622
+#: ../build/src/ui_collectionsettingspage.h:628
 msgid "Song playcounts and ratings"
 msgstr "Uppspelningsantal och betyg för låtar"
 
@@ -4826,7 +4814,7 @@ msgstr "Stoppa efter varje låt"
 msgid "Stop after every track"
 msgstr "Stoppa efter varje låt"
 
-#: core/mainwindow.cpp:718 ../build/src/ui_mainwindow.h:630
+#: core/mainwindow.cpp:717 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "Stoppa efter det här spåret"
 
@@ -4939,7 +4927,7 @@ msgstr "Format"
 msgid "Submit scrobbles every"
 msgstr "Skicka skrobblingar varje"
 
-#: core/mainwindow.cpp:373 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:372 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4961,7 +4949,7 @@ msgstr "Skrev %1 med lyckat resultat"
 msgid "Suggested tags"
 msgstr "Föreslagna taggar"
 
-#: ../build/src/ui_contextsettingspage.h:436
+#: ../build/src/ui_contextsettingspage.h:429
 #: ../build/src/ui_notificationssettingspage.h:495
 #: ../build/src/ui_edittagdialog.h:820
 msgid "Summary"
@@ -5004,7 +4992,7 @@ msgstr "Flikar längst upp"
 msgid "Tag fetcher"
 msgstr "Tagghämtare"
 
-#: ../build/src/ui_collectionsettingspage.h:629
+#: ../build/src/ui_collectionsettingspage.h:636
 msgid "Tagreader workers"
 msgstr "Taggläsar-arbetare"
 
@@ -5016,7 +5004,7 @@ msgstr "Taggar"
 msgid "Target bitrate"
 msgstr "Önskad bitfrekvens"
 
-#: ../build/src/ui_contextsettingspage.h:441
+#: ../build/src/ui_contextsettingspage.h:434
 msgid "Technical Data"
 msgstr "Tekniska data"
 
@@ -5078,7 +5066,7 @@ msgstr "Webbplatsen du söker finns inte!"
 msgid "The site you requested is not an image!"
 msgstr "Webbplatsen du söker är inte en bild!"
 
-#: core/mainwindow.cpp:2861
+#: core/mainwindow.cpp:2859
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5114,7 +5102,7 @@ msgstr ""
 "Filerna kommer att tas bort från enheten, är du säker på att du vill "
 "fortsätta?"
 
-#: ../build/src/ui_collectionsettingspage.h:584
+#: ../build/src/ui_collectionsettingspage.h:590
 msgid "These folders will be scanned for music to make up your collection"
 msgstr ""
 "Dessa mappar kommer att skannas för musik för att fylla upp ditt bibliotek"
@@ -5183,11 +5171,11 @@ msgstr "Det här alternativet kan ändras i inställningarna för \"Beteende\""
 msgid "This type of device is not supported: %1"
 msgstr "Den här typen av enhet stöds inte: %1"
 
-#: ../build/src/ui_collectionsettingspage.h:630
+#: ../build/src/ui_collectionsettingspage.h:637
 msgid "Thread priority"
 msgstr "Trådprioritet"
 
-#: core/mainwindow.cpp:376 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:375 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -5205,7 +5193,7 @@ msgid "Time step"
 msgstr "Tidssteg"
 
 #: playlist/playlist.cpp:1339 organize/organizedialog.cpp:103
-#: ../build/src/ui_contextsettingspage.h:435
+#: ../build/src/ui_contextsettingspage.h:428
 #: ../build/src/ui_edittagdialog.h:834
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Title"
@@ -5219,7 +5207,7 @@ msgstr "Idag"
 msgid "Toggle Pretty OSD"
 msgstr "Växla snygg avisering"
 
-#: core/mainwindow.cpp:719 core/mainwindow.cpp:1922
+#: core/mainwindow.cpp:718 core/mainwindow.cpp:1920
 msgid "Toggle queue status"
 msgstr "Växla köstatus"
 
@@ -5227,7 +5215,7 @@ msgstr "Växla köstatus"
 msgid "Toggle scrobbling"
 msgstr "Växla skrobbling"
 
-#: core/mainwindow.cpp:725 core/mainwindow.cpp:1935
+#: core/mainwindow.cpp:724 core/mainwindow.cpp:1933
 msgid "Toggle skip status"
 msgstr "Växla status för hoppa över"
 
@@ -5337,19 +5325,19 @@ msgstr "Inte inställt"
 msgid "Unset cover"
 msgstr "Ta bort omslag"
 
-#: core/mainwindow.cpp:1932
+#: core/mainwindow.cpp:1930
 msgid "Unskip selected tracks"
 msgstr "Hoppa inte över valda spår"
 
-#: core/mainwindow.cpp:1931
+#: core/mainwindow.cpp:1929
 msgid "Unskip track"
 msgstr "Hoppa inte över valt spår"
 
-#: ../build/src/ui_collectionsettingspage.h:588
+#: ../build/src/ui_collectionsettingspage.h:594
 msgid "Update the collection when Strawberry starts"
 msgstr "Uppdatera samlingen när Strawberry startar"
 
-#: collection/collectionwatcher.cpp:206
+#: collection/collectionwatcher.cpp:208
 #, qt-format
 msgid "Updating %1"
 msgstr "Uppdaterar %1"
@@ -5364,7 +5352,7 @@ msgstr "Uppdaterar %1-databasen."
 msgid "Updating %1%..."
 msgstr "Uppdaterar %1%..."
 
-#: collection/collectionwatcher.cpp:203
+#: collection/collectionwatcher.cpp:205
 msgid "Updating collection"
 msgstr "Uppdaterar samlingen"
 
@@ -5564,7 +5552,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr "Veckor"
 
-#: ../build/src/ui_collectionsettingspage.h:596
+#: ../build/src/ui_collectionsettingspage.h:602
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5599,11 +5587,11 @@ msgstr ""
 "Vill du flytta de andra låtarna i det här albumet till diverse artister "
 "också?"
 
-#: core/mainwindow.cpp:2865
+#: core/mainwindow.cpp:2863
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vill du köra en fullständig omskanning nu?"
 
-#: settings/collectionsettingspage.cpp:380
+#: settings/collectionsettingspage.cpp:382
 msgid "Write all playcounts and ratings to files"
 msgstr "Skriv alla uppspelningsantal och betyg till filer"
 
@@ -5774,7 +5762,7 @@ msgstr "kanaler"
 msgid "contains"
 msgstr "som innehåller"
 
-#: ../build/src/ui_collectionsettingspage.h:593
+#: ../build/src/ui_collectionsettingspage.h:599
 msgid "days"
 msgstr "dagar"
 
@@ -5817,7 +5805,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "de senaste"
 
-#: context/contextview.cpp:549 context/contextview.cpp:699
+#: context/contextview.cpp:518 context/contextview.cpp:639
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "kbps"
