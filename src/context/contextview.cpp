@@ -673,7 +673,7 @@ void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const 
 
 void ContextView::contextMenuEvent(QContextMenuEvent *e) {
 
-  if (menu_options_ && !song_playing_.is_valid()) {
+  if (menu_options_ && widget_stacked_->currentWidget() == widget_stop_) {
     menu_options_->popup(mapToGlobal(e->pos()));
   }
   else {
