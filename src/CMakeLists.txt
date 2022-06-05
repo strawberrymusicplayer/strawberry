@@ -212,6 +212,7 @@ set(SOURCES
   widgets/tracksliderslider.cpp
   widgets/loginstatewidget.cpp
   widgets/ratingwidget.cpp
+  widgets/resizabletextedit.cpp
 
   osd/osdbase.cpp
   osd/osdpretty.cpp
@@ -445,6 +446,7 @@ set(HEADERS
   widgets/qsearchfield.h
   widgets/ratingwidget.h
   widgets/forcescrollperpixel.h
+  widgets/resizabletextedit.h
 
   osd/osdbase.h
   osd/osdpretty.h

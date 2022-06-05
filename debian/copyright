@@ -96,6 +96,8 @@ Files: src/core/main.h
        ext/libstrawberry-tagreader/tagreadertagparser.cpp
        ext/libstrawberry-tagreader/tagreadertagparser.h
        ext/macdeploycheck/*
+       widgets/resizabletextedit.cpp
+       widgets/resizabletextedit.h
 Copyright: 2012-2014, 2017-2022, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
