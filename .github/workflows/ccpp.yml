@@ -848,6 +848,7 @@ jobs:
             make
             cmake
             gcc
+            g++
             pkg-config
             fakeroot
             gettext
@@ -909,6 +910,7 @@ jobs:
             make
             cmake
             gcc
+            g++
             pkg-config
             fakeroot
             gettext
@@ -969,6 +971,7 @@ jobs:
             make
             cmake
             gcc
+            g++
             pkg-config
             fakeroot
             gettext
@@ -1033,6 +1036,7 @@ jobs:
             cmake
             pkg-config
             gcc
+            g++
             fakeroot
             wget
             curl
@@ -1099,6 +1103,7 @@ jobs:
             cmake
             pkg-config
             gcc
+            g++
             fakeroot
             wget
             curl
@@ -1165,6 +1170,7 @@ jobs:
             cmake
             pkg-config
             gcc
+            g++
             fakeroot
             wget
             curl
@@ -1230,6 +1236,7 @@ jobs:
             cmake
             pkg-config
             gcc
+            g++
             fakeroot
             wget
             curl
