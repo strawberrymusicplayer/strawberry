@@ -221,6 +221,7 @@ void CollectionSettingsPage::Load() {
 
   ui_->checkbox_save_playcounts->setChecked(s.value("save_playcounts", false).toBool());
   ui_->checkbox_save_ratings->setChecked(s.value("save_ratings", false).toBool());
+  ui_->checkbox_overwrite_playcount->setChecked(s.value("overwrite_playcount", false).toBool());
   ui_->checkbox_overwrite_rating->setChecked(s.value("overwrite_rating", false).toBool());
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -301,6 +302,7 @@ void CollectionSettingsPage::Save() {
 
   s.setValue("save_playcounts", ui_->checkbox_save_playcounts->isChecked());
   s.setValue("save_ratings", ui_->checkbox_save_ratings->isChecked());
+  s.setValue("overwrite_playcount", ui_->checkbox_overwrite_playcount->isChecked());
   s.setValue("overwrite_rating", ui_->checkbox_overwrite_rating->isChecked());
 
   s.setValue("delete_files", ui_->checkbox_delete_files->isChecked());

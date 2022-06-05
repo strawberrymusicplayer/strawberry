@@ -187,7 +187,7 @@ class Song {
 
   // Copies important statistics from the other song to this one, overwriting any data that already exists.
   // Useful when you want updated tags from disk but you want to keep user stats.
-  void MergeUserSetData(const Song &other, const bool merge_rating);
+  void MergeUserSetData(const Song &other, const bool merge_playcount, const bool merge_rating);
 
   // Save
   void BindToQuery(SqlQuery *query) const;

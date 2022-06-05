@@ -393,7 +393,7 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) {
       Song copy(song);
       TagReaderClient::Instance()->ReadFileBlocking(copy.url().toLocalFile(), &copy);
       if (copy.is_valid()) {
-        copy.MergeUserSetData(song, false);
+        copy.MergeUserSetData(song, false, false);
         ret << Data(copy);
       }
     }
