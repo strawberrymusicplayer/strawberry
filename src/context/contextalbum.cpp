@@ -96,19 +96,13 @@ QSize ContextAlbum::sizeHint() const {
 
 }
 
-void ContextAlbum::resizeEvent(QResizeEvent *e) {
+void ContextAlbum::paintEvent(QPaintEvent*) {
 
   if (width() != prev_width_) {
     ScaleCover();
     ScalePreviousCovers();
     prev_width_ = width();
   }
-
-  QWidget::resizeEvent(e);
-
-}
-
-void ContextAlbum::paintEvent(QPaintEvent*) {
 
   QPainter p(this);
   p.setRenderHint(QPainter::SmoothPixmapTransform);

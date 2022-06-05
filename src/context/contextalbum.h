@@ -55,7 +55,6 @@ class ContextAlbum : public QWidget {
  protected:
   QSize sizeHint() const override;
   void paintEvent(QPaintEvent*) override;
-  void resizeEvent(QResizeEvent *e) override;
   void mouseDoubleClickEvent(QMouseEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
 
