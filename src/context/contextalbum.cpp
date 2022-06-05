@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2022, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,13 +58,14 @@ ContextAlbum::ContextAlbum(QWidget *parent)
       prev_width_(width()) {
 
   setObjectName("context-widget-album");
-  setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-  cover_loader_options_.desired_height_ = 600;
+  cover_loader_options_.desired_height_ = width();
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
   QImage image = ImageUtils::ScaleAndPad(image_strawberry_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
   if (!image.isNull()) pixmap_current_ = QPixmap::fromImage(image);
+
+  setFixedHeight(image.height());
 
   QObject::connect(timeline_fade_, &QTimeLine::valueChanged, this, &ContextAlbum::FadePreviousTrack);
   timeline_fade_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
@@ -86,8 +87,21 @@ void ContextAlbum::Init(ContextView *context_view, AlbumCoverChoiceController *a
 
 }
 
+QSize ContextAlbum::sizeHint() const {
+
+  return QSize(parentWidget()->width() - kWidgetSpacing, QWidget::sizeHint().height());
+
+}
+
 void ContextAlbum::contextMenuEvent(QContextMenuEvent *e) {
-  if (menu_ && image_original_ != image_strawberry_) menu_->popup(mapToGlobal(e->pos()));
+
+  if (menu_ && image_original_ != image_strawberry_) {
+    menu_->popup(mapToGlobal(e->pos()));
+  }
+  else {
+    QWidget::contextMenuEvent(e);
+  }
+
 }
 
 void ContextAlbum::mouseDoubleClickEvent(QMouseEvent *e) {
@@ -117,15 +131,18 @@ void ContextAlbum::DrawImage(QPainter *p) {
   
   p->setRenderHint(QPainter::SmoothPixmapTransform);
 
-  if (width() != prev_width_) {
-    cover_loader_options_.desired_height_ = width() - kWidgetSpacing;
+  int current_width = width();
+
+  if (current_width != prev_width_) {
+    cover_loader_options_.desired_height_ = width();
     QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
     if (image.isNull()) pixmap_current_ = QPixmap();
     else pixmap_current_ = QPixmap::fromImage(image);
     prev_width_ = width();
+    setFixedHeight(image.height());
   }
 
-  p->drawPixmap(0, 0, width() - kWidgetSpacing, width() - kWidgetSpacing, pixmap_current_);
+  p->drawPixmap(0, 0, pixmap_current_.width(), pixmap_current_.height(), pixmap_current_);
   if (downloading_covers_ && spinner_animation_) {
     p->drawPixmap(50, 50, 16, 16, spinner_animation_->currentPixmap());
   }
@@ -149,7 +166,7 @@ void ContextAlbum::FadePreviousTrack(const qreal value) {
 
 void ContextAlbum::ScaleCover() {
 
-  cover_loader_options_.desired_height_ = width() - kWidgetSpacing;
+  cover_loader_options_.desired_height_ = width();
   QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
   if (image.isNull()) pixmap_current_ = QPixmap();
   else pixmap_current_ = QPixmap::fromImage(image);
@@ -168,7 +185,7 @@ void ContextAlbum::SetImage(QImage image) {
   }
 
   // Cache the current pixmap so we can fade between them
-  pixmap_previous_ = QPixmap(width() - kWidgetSpacing, width() - kWidgetSpacing);
+  pixmap_previous_ = QPixmap(width(), width());
   pixmap_previous_.fill(palette().window().color());
   pixmap_previous_opacity_ = 1.0;
 

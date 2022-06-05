@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2013-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2013-2022, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@
 #include <QScrollArea>
 #include <QSpacerItem>
 #include <QLabel>
+#include <QTextEdit>
 #include <QSettings>
 #include <QResizeEvent>
 #include <QContextMenuEvent>
@@ -52,6 +53,7 @@
 #include "core/song.h"
 #include "core/utilities.h"
 #include "core/iconloader.h"
+#include "widgets/resizabletextedit.h"
 #include "engine/engine_fwd.h"
 #include "engine/enginebase.h"
 #include "engine/enginetype.h"
@@ -75,7 +77,7 @@ ContextView::ContextView(QWidget *parent)
       collectionview_(nullptr),
       album_cover_choice_controller_(nullptr),
       lyrics_fetcher_(nullptr),
-      menu_(new QMenu(this)),
+      menu_options_(new QMenu(this)),
       action_show_album_(nullptr),
       action_show_data_(nullptr),
       action_show_output_(nullptr),
@@ -86,7 +88,7 @@ ContextView::ContextView(QWidget *parent)
       widget_scrollarea_(new QWidget(this)),
       layout_scrollarea_(new QVBoxLayout()),
       scrollarea_(new QScrollArea(this)),
-      label_top_(new QLabel(this)),
+      textedit_top_(new ResizableTextEdit(this)),
       widget_album_(new ContextAlbum(this)),
       widget_stacked_(new QStackedWidget(this)),
       widget_stop_(new QWidget(this)),
@@ -100,13 +102,12 @@ ContextView::ContextView(QWidget *parent)
       layout_play_data_(new QGridLayout()),
       layout_play_output_(new QGridLayout()),
       label_play_albums_(new QLabel(this)),
-      label_play_lyrics_(new QLabel(this)),
+      textedit_play_lyrics_(new ResizableTextEdit(this)),
       widget_albums_(new ContextAlbumsView(this)),
-      //spacer_play_album_(new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Fixed)),
       spacer_play_output_(new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Fixed)),
       spacer_play_data_(new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Fixed)),
       spacer_play_albums_(new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Fixed)),
-      spacer_play_bottom_(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding)),
+      spacer_play_bottom_(new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum)),
       label_filetype_title_(new QLabel(this)),
       label_length_title_(new QLabel(this)),
       label_samplerate_title_(new QLabel(this)),
@@ -125,7 +126,7 @@ ContextView::ContextView(QWidget *parent)
       label_engine_(new QLabel(this)),
       label_device_icon_(new QLabel(this)),
       label_engine_icon_(new QLabel(this)),
-      spacer_bottom_(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding)),
+      spacer_bottom_(new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum)),
       lyrics_tried_(false),
       lyrics_id_(-1),
       font_size_headline_(0),
@@ -148,15 +149,12 @@ ContextView::ContextView(QWidget *parent)
   widget_scrollarea_->setLayout(layout_scrollarea_);
   widget_scrollarea_->setContentsMargins(0, 0, 0, 0);
 
-  label_top_->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-  label_top_->setWordWrap(true);
-  label_top_->setMinimumHeight(50);
-  label_top_->setContentsMargins(0, 0, 32, 0);
-  label_top_->setTextInteractionFlags(Qt::TextSelectableByMouse);
+  textedit_top_->setReadOnly(true);
+  textedit_top_->setFrameShape(QFrame::NoFrame);
 
   layout_scrollarea_->setObjectName("context-layout-scrollarea");
   layout_scrollarea_->setContentsMargins(15, 15, 15, 15);
-  layout_scrollarea_->addWidget(label_top_);
+  layout_scrollarea_->addWidget(textedit_top_);
   layout_scrollarea_->addWidget(widget_album_);
   layout_scrollarea_->addWidget(widget_stacked_);
   layout_scrollarea_->addSpacerItem(spacer_bottom_);
@@ -176,7 +174,7 @@ ContextView::ContextView(QWidget *parent)
 
   // Stopped
 
-  layout_stop_->setContentsMargins(5, 0, 40, 0);
+  layout_stop_->setContentsMargins(0, 0, 0, 0);
   layout_stop_->addWidget(label_stop_summary_);
   layout_stop_->addSpacerItem(spacer_stop_bottom_);
 
@@ -244,14 +242,15 @@ ContextView::ContextView(QWidget *parent)
 
   widget_play_data_->setLayout(layout_play_data_);
 
-  label_play_lyrics_->setWordWrap(true);
-  label_play_lyrics_->setTextInteractionFlags(Qt::TextSelectableByMouse);
+  textedit_play_lyrics_->setReadOnly(true);
+  textedit_play_lyrics_->setFrameShape(QFrame::NoFrame);
+  textedit_play_lyrics_->hide();
 
   widget_albums_->hide();
   label_play_albums_->setWordWrap(true);
   label_play_albums_->hide();
 
-  layout_play_->setContentsMargins(5, 0, 40, 0);
+  layout_play_->setContentsMargins(0, 0, 0, 0);
   layout_play_->addWidget(widget_play_output_);
   layout_play_->addSpacerItem(spacer_play_output_);
   layout_play_->addWidget(widget_play_data_);
@@ -259,7 +258,7 @@ ContextView::ContextView(QWidget *parent)
   layout_play_->addWidget(label_play_albums_);
   layout_play_->addWidget(widget_albums_);
   layout_play_->addSpacerItem(spacer_play_albums_);
-  layout_play_->addWidget(label_play_lyrics_);
+  layout_play_->addWidget(textedit_play_lyrics_);
   layout_play_->addSpacerItem(spacer_play_bottom_);
 
   labels_play_ << label_engine_title_
@@ -269,8 +268,7 @@ ContextView::ContextView(QWidget *parent)
                << label_samplerate_title_
                << label_bitdepth_title_
                << label_bitrate_title_
-               << label_play_albums_
-               << label_play_lyrics_;
+               << label_play_albums_;
 
   labels_play_data_ << label_engine_icon_
                     << label_engine_
@@ -281,21 +279,13 @@ ContextView::ContextView(QWidget *parent)
                     << label_samplerate_
                     << label_bitdepth_
                     << label_bitrate_
-                    << label_play_albums_
-                    << label_play_lyrics_;
+                    << label_play_albums_;
 
   labels_play_all_ = labels_play_ << labels_play_data_;
 
+  textedit_play_ << textedit_top_ << textedit_play_lyrics_;
+
   QObject::connect(widget_album_, &ContextAlbum::FadeStopFinished, this, &ContextView::FadeStopFinished);
-
-}
-
-void ContextView::resizeEvent(QResizeEvent*) {
-
-  if (width() != prev_width_) {
-    widget_album_->setFixedSize(width() - 15, width());
-    prev_width_ = width();
-  }
 
 }
 
@@ -344,13 +334,13 @@ void ContextView::AddActions() {
   action_search_lyrics_->setCheckable(true);
   action_search_lyrics_->setChecked(true);
 
-  menu_->addAction(action_show_album_);
-  menu_->addAction(action_show_data_);
-  menu_->addAction(action_show_output_);
-  menu_->addAction(action_show_albums_);
-  menu_->addAction(action_show_lyrics_);
-  menu_->addAction(action_search_lyrics_);
-  menu_->addSeparator();
+  menu_options_->addAction(action_show_album_);
+  menu_options_->addAction(action_show_data_);
+  menu_options_->addAction(action_show_output_);
+  menu_options_->addAction(action_show_albums_);
+  menu_options_->addAction(action_show_lyrics_);
+  menu_options_->addAction(action_search_lyrics_);
+  menu_options_->addSeparator();
 
   ReloadSettings();
 
@@ -456,9 +446,8 @@ void ContextView::NoSong() {
     widget_album_->show();
   }
 
-  label_top_->setStyleSheet("font: 20pt 'Open Sans', 'FreeSans', 'FreeSerif', 'Liberation Serif'; font-weight: Regular;");
-
-  label_top_->setText(tr("No song playing"));
+  textedit_top_->setStyleSheet("font: 20pt 'Open Sans', 'FreeSans', 'FreeSerif', 'Liberation Serif'; font-weight: Regular;");
+  textedit_top_->setText(tr("No song playing"));
 
   QString html;
   if (collectionview_->TotalSongs() == 1) html += tr("%1 song").arg(collectionview_->TotalSongs());
@@ -480,8 +469,12 @@ void ContextView::NoSong() {
 
 void ContextView::UpdateFonts() {
 
+  QString font_style = QString("font: %2pt \"%1\"; font-weight: regular;").arg(font_normal_).arg(font_size_normal_);
   for (QLabel *l : labels_play_all_) {
-    l->setStyleSheet(QString("font: %2pt \"%1\"; font-weight: regular;").arg(font_normal_).arg(font_size_normal_));
+    l->setStyleSheet(font_style);
+  }
+  for (QTextEdit *e : textedit_play_) {
+    e->setStyleSheet(font_style);
   }
   label_play_albums_->setStyleSheet(QString("background-color: #3DADE8; color: rgb(255, 255, 255); font: %1pt \"%2\"; font-weight: regular;").arg(font_size_normal_).arg(font_normal_));
 
@@ -489,8 +482,8 @@ void ContextView::UpdateFonts() {
 
 void ContextView::SetSong() {
 
-  label_top_->setStyleSheet(QString("font: %2pt \"%1\"; font-weight: regular;").arg(font_headline_).arg(font_size_headline_));
-  label_top_->setText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song_playing_, "<br />", true)));
+  textedit_top_->setStyleSheet(QString("font: %2pt \"%1\"; font-weight: regular;").arg(font_headline_).arg(font_size_headline_));
+  textedit_top_->setText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song_playing_, "<br />", true)));
 
   label_stop_summary_->clear();
 
@@ -632,13 +625,13 @@ void ContextView::SetSong() {
     spacer_play_albums_->changeSize(0, 0, QSizePolicy::Fixed);
   }
 
-  if (action_show_lyrics_->isChecked()) {
-    label_play_lyrics_->show();
-    label_play_lyrics_->setText(lyrics_);
+  if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
+    textedit_play_lyrics_->setText(lyrics_);
+    textedit_play_lyrics_->show();
   }
   else {
-    label_play_lyrics_->hide();
-    label_play_lyrics_->clear();
+    textedit_play_lyrics_->clear();
+    textedit_play_lyrics_->hide();
   }
 
   widget_stacked_->setCurrentWidget(widget_play_);
@@ -647,7 +640,7 @@ void ContextView::SetSong() {
 
 void ContextView::UpdateSong(const Song &song) {
 
-  label_top_->setText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song, "<br />", true)));
+    textedit_top_->setText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song, "<br />", true)));
 
   if (action_show_data_->isChecked()) {
     if (song.filetype() != song_playing_.filetype()) label_filetype_->setText(song.TextForFiletype());
@@ -716,17 +709,30 @@ void ContextView::ResetSong() {
 void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics) {
 
   if (static_cast<qint64>(id) != lyrics_id_) return;
+
   lyrics_ = lyrics + "\n\n(Lyrics from " + provider + ")\n";
   lyrics_id_ = -1;
-  if (action_show_lyrics_->isChecked()) {
-    label_play_lyrics_->setText(lyrics_);
+
+  if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
+    textedit_play_lyrics_->setText(lyrics_);
+    textedit_play_lyrics_->show();
   }
-  else label_play_lyrics_->clear();
+  else {
+    textedit_play_lyrics_->clear();
+    textedit_play_lyrics_->hide();
+  }
 
 }
 
 void ContextView::contextMenuEvent(QContextMenuEvent *e) {
-  if (menu_) menu_->popup(mapToGlobal(e->pos()));
+
+  if (menu_options_ && !song_playing_.is_valid()) {
+    menu_options_->popup(mapToGlobal(e->pos()));
+  }
+  else {
+    QWidget::contextMenuEvent(e);
+  }
+
 }
 
 void ContextView::dragEnterEvent(QDragEnterEvent *e) {

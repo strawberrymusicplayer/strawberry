@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2013-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2013-2022, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ class QContextMenuEvent;
 class QDragEnterEvent;
 class QDropEvent;
 
+class ResizableTextEdit;
 class Application;
 class CollectionView;
 class AlbumCoverChoiceController;
@@ -65,7 +66,6 @@ class ContextView : public QWidget {
   Song song_playing() const { return song_playing_; }
 
  protected:
-  void resizeEvent(QResizeEvent*) override;
   void contextMenuEvent(QContextMenuEvent*) override;
   void dragEnterEvent(QDragEnterEvent*) override;
   void dropEvent(QDropEvent*) override;
@@ -109,7 +109,7 @@ class ContextView : public QWidget {
   AlbumCoverChoiceController *album_cover_choice_controller_;
   LyricsFetcher *lyrics_fetcher_;
 
-  QMenu *menu_;
+  QMenu *menu_options_;
   QAction *action_show_album_;
   QAction *action_show_data_;
   QAction *action_show_output_;
@@ -121,7 +121,7 @@ class ContextView : public QWidget {
   QWidget *widget_scrollarea_;
   QVBoxLayout *layout_scrollarea_;
   QScrollArea *scrollarea_;
-  QLabel *label_top_;
+  ResizableTextEdit *textedit_top_;
   ContextAlbum *widget_album_;
   QStackedWidget *widget_stacked_;
   QWidget *widget_stop_;
@@ -135,10 +135,9 @@ class ContextView : public QWidget {
   QGridLayout *layout_play_data_;
   QGridLayout *layout_play_output_;
   QLabel *label_play_albums_;
-  QLabel *label_play_lyrics_;
+  ResizableTextEdit *textedit_play_lyrics_;
   ContextAlbumsView *widget_albums_;
 
-  //QSpacerItem *spacer_play_album_;
   QSpacerItem *spacer_play_output_;
   QSpacerItem *spacer_play_data_;
   QSpacerItem *spacer_play_albums_;
@@ -181,6 +180,7 @@ class ContextView : public QWidget {
   qreal font_size_normal_;
 
   QList<QLabel*> labels_play_;
+  QList<ResizableTextEdit*> textedit_play_;
   QList<QLabel*> labels_play_data_;
   QList<QLabel*> labels_play_all_;
 
