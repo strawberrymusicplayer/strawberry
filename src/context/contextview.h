@@ -49,7 +49,6 @@ class ResizableTextEdit;
 class Application;
 class CollectionView;
 class AlbumCoverChoiceController;
-class ContextAlbumsView;
 class LyricsFetcher;
 
 class ContextView : public QWidget {
@@ -61,7 +60,6 @@ class ContextView : public QWidget {
   void Init(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller);
 
   ContextAlbum *album_widget() const { return widget_album_; }
-  ContextAlbumsView *albums_widget() const { return widget_albums_; }
   bool album_enabled() const { return action_show_album_->isChecked(); }
   Song song_playing() const { return song_playing_; }
 
@@ -88,7 +86,6 @@ class ContextView : public QWidget {
   void ActionShowAlbum();
   void ActionShowData();
   void ActionShowOutput();
-  void ActionShowAlbums();
   void ActionShowLyrics();
   void ActionSearchLyrics();
   void UpdateNoSong();
@@ -113,7 +110,6 @@ class ContextView : public QWidget {
   QAction *action_show_album_;
   QAction *action_show_data_;
   QAction *action_show_output_;
-  QAction *action_show_albums_;
   QAction *action_show_lyrics_;
   QAction *action_search_lyrics_;
 
@@ -134,13 +130,10 @@ class ContextView : public QWidget {
   QWidget *widget_play_output_;
   QGridLayout *layout_play_data_;
   QGridLayout *layout_play_output_;
-  QLabel *label_play_albums_;
   ResizableTextEdit *textedit_play_lyrics_;
-  ContextAlbumsView *widget_albums_;
 
   QSpacerItem *spacer_play_output_;
   QSpacerItem *spacer_play_data_;
-  QSpacerItem *spacer_play_albums_;
   QSpacerItem *spacer_play_bottom_;
 
   QLabel *label_filetype_title_;

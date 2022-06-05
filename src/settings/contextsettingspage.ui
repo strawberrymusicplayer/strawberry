@@ -171,16 +171,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkbox_albums">
-        <property name="text">
-         <string>Albums by Artist</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QCheckBox" name="checkbox_song_lyrics">
         <property name="text">
          <string>Song Lyrics</string>

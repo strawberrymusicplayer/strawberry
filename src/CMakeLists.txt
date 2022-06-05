@@ -60,8 +60,6 @@ set(SOURCES
 
   context/contextview.cpp
   context/contextalbum.cpp
-  context/contextalbumsmodel.cpp
-  context/contextalbumsview.cpp
 
   collection/collection.cpp
   collection/collectionmodel.cpp
@@ -299,8 +297,6 @@ set(HEADERS
 
   context/contextview.h
   context/contextalbum.h
-  context/contextalbumsmodel.h
-  context/contextalbumsview.h
 
   collection/collection.h
   collection/collectionmodel.h

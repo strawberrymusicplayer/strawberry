@@ -120,7 +120,6 @@
 #include "widgets/trackslider.h"
 #include "osd/osdbase.h"
 #include "context/contextview.h"
-#include "context/contextalbumsview.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectiondirectorymodel.h"
@@ -833,7 +832,6 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(this, &MainWindow::AlbumCoverReady, context_view_, &ContextView::AlbumCoverLoaded);
   QObject::connect(this, &MainWindow::SearchCoverInProgress, context_view_->album_widget(), &ContextAlbum::SearchCoverInProgress);
   QObject::connect(context_view_, &ContextView::AlbumEnabledChanged, this, &MainWindow::TabSwitched);
-  QObject::connect(context_view_->albums_widget(), &ContextAlbumsView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
 
   // Analyzer
   QObject::connect(ui_->analyzer, &AnalyzerContainer::WheelEvent, this, &MainWindow::VolumeWheelEvent);

@@ -46,7 +46,6 @@ class ContextSettingsPage : public SettingsPage {
     ALBUM,
     ENGINE_AND_DEVICE,
     TECHNICAL_DATA,
-    ALBUMS_BY_ARTIST,
     SONG_LYRICS,
     SEARCH_COVER,
     SEARCH_LYRICS,

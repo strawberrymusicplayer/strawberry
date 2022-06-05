@@ -52,7 +52,6 @@ const char *ContextSettingsPage::kSettingsGroupEnable[ContextSettingsOrder::NELE
   "AlbumEnable",
   "EngineAndDeviceEnable",
   "TechnicalDataEnable",
-  "AlbumsByArtistEnable",
   "SongLyricsEnable",
   "SearchCoverEnable",
   "SearchLyricsEnable",
@@ -70,7 +69,6 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
   checkboxes_[ContextSettingsOrder::ALBUM] = ui_->checkbox_album;
   checkboxes_[ContextSettingsOrder::ENGINE_AND_DEVICE] = ui_->checkbox_engine_device;
   checkboxes_[ContextSettingsOrder::TECHNICAL_DATA] = ui_->checkbox_technical_data;
-  checkboxes_[ContextSettingsOrder::ALBUMS_BY_ARTIST] = ui_->checkbox_albums;
   checkboxes_[ContextSettingsOrder::SONG_LYRICS] = ui_->checkbox_song_lyrics;
   checkboxes_[ContextSettingsOrder::SEARCH_COVER] = ui_->checkbox_search_cover;
   checkboxes_[ContextSettingsOrder::SEARCH_LYRICS] = ui_->checkbox_search_lyrics;

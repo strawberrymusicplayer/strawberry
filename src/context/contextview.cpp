@@ -68,8 +68,6 @@
 
 #include "contextview.h"
 #include "contextalbum.h"
-#include "contextalbumsmodel.h"
-#include "contextalbumsview.h"
 
 ContextView::ContextView(QWidget *parent)
     : QWidget(parent),
@@ -81,7 +79,6 @@ ContextView::ContextView(QWidget *parent)
       action_show_album_(nullptr),
       action_show_data_(nullptr),
       action_show_output_(nullptr),
-      action_show_albums_(nullptr),
       action_show_lyrics_(nullptr),
       action_search_lyrics_(nullptr),
       layout_container_(new QVBoxLayout()),
@@ -101,12 +98,9 @@ ContextView::ContextView(QWidget *parent)
       widget_play_output_(new QWidget(this)),
       layout_play_data_(new QGridLayout()),
       layout_play_output_(new QGridLayout()),
-      label_play_albums_(new QLabel(this)),
       textedit_play_lyrics_(new ResizableTextEdit(this)),
-      widget_albums_(new ContextAlbumsView(this)),
       spacer_play_output_(new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Fixed)),
       spacer_play_data_(new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Fixed)),
-      spacer_play_albums_(new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Fixed)),
       spacer_play_bottom_(new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum)),
       label_filetype_title_(new QLabel(this)),
       label_length_title_(new QLabel(this)),
@@ -246,18 +240,11 @@ ContextView::ContextView(QWidget *parent)
   textedit_play_lyrics_->setFrameShape(QFrame::NoFrame);
   textedit_play_lyrics_->hide();
 
-  widget_albums_->hide();
-  label_play_albums_->setWordWrap(true);
-  label_play_albums_->hide();
-
   layout_play_->setContentsMargins(0, 0, 0, 0);
   layout_play_->addWidget(widget_play_output_);
   layout_play_->addSpacerItem(spacer_play_output_);
   layout_play_->addWidget(widget_play_data_);
   layout_play_->addSpacerItem(spacer_play_data_);
-  layout_play_->addWidget(label_play_albums_);
-  layout_play_->addWidget(widget_albums_);
-  layout_play_->addSpacerItem(spacer_play_albums_);
   layout_play_->addWidget(textedit_play_lyrics_);
   layout_play_->addSpacerItem(spacer_play_bottom_);
 
@@ -267,8 +254,7 @@ ContextView::ContextView(QWidget *parent)
                << label_length_title_
                << label_samplerate_title_
                << label_bitdepth_title_
-               << label_bitrate_title_
-               << label_play_albums_;
+               << label_bitrate_title_;
 
   labels_play_data_ << label_engine_icon_
                     << label_engine_
@@ -278,8 +264,7 @@ ContextView::ContextView(QWidget *parent)
                     << label_length_
                     << label_samplerate_
                     << label_bitdepth_
-                    << label_bitrate_
-                    << label_play_albums_;
+                    << label_bitrate_;
 
   labels_play_all_ = labels_play_ << labels_play_data_;
 
@@ -296,7 +281,6 @@ void ContextView::Init(Application *app, CollectionView *collectionview, AlbumCo
   album_cover_choice_controller_ = album_cover_choice_controller;
 
   widget_album_->Init(this, album_cover_choice_controller_);
-  widget_albums_->Init(app_);
   lyrics_fetcher_ = new LyricsFetcher(app_->lyrics_providers(), this);
 
   QObject::connect(collectionview_, &CollectionView::TotalSongCountUpdated_, this, &ContextView::UpdateNoSong);
@@ -322,10 +306,6 @@ void ContextView::AddActions() {
   action_show_output_->setCheckable(true);
   action_show_output_->setChecked(true);
 
-  action_show_albums_ = new QAction(tr("Show albums by artist"), this);
-  action_show_albums_->setCheckable(true);
-  action_show_albums_->setChecked(false);
-
   action_show_lyrics_ = new QAction(tr("Show song lyrics"), this);
   action_show_lyrics_->setCheckable(true);
   action_show_lyrics_->setChecked(true);
@@ -337,17 +317,15 @@ void ContextView::AddActions() {
   menu_options_->addAction(action_show_album_);
   menu_options_->addAction(action_show_data_);
   menu_options_->addAction(action_show_output_);
-  menu_options_->addAction(action_show_albums_);
   menu_options_->addAction(action_show_lyrics_);
   menu_options_->addAction(action_search_lyrics_);
   menu_options_->addSeparator();
 
   ReloadSettings();
 
-  QObject::connect(action_show_album_, &QAction::triggered, this, &ContextView::ActionShowAlbums);
+  QObject::connect(action_show_album_, &QAction::triggered, this, &ContextView::ActionShowAlbum);
   QObject::connect(action_show_data_, &QAction::triggered, this, &ContextView::ActionShowData);
   QObject::connect(action_show_output_, &QAction::triggered, this, &ContextView::ActionShowOutput);
-  QObject::connect(action_show_albums_, &QAction::triggered, this, &ContextView::ActionShowAlbums);
   QObject::connect(action_show_lyrics_, &QAction::triggered, this, &ContextView::ActionShowLyrics);
   QObject::connect(action_search_lyrics_, &QAction::triggered, this, &ContextView::ActionSearchLyrics);
 
@@ -362,7 +340,6 @@ void ContextView::ReloadSettings() {
   action_show_album_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ALBUM], true).toBool());
   action_show_data_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA], false).toBool());
   action_show_output_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE], false).toBool());
-  action_show_albums_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ALBUMS_BY_ARTIST], false).toBool());
   action_show_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS], true).toBool());
   action_search_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS], true).toBool());
   font_headline_ = s.value("font_headline", font().family()).toString();
@@ -476,7 +453,6 @@ void ContextView::UpdateFonts() {
   for (QTextEdit *e : textedit_play_) {
     e->setStyleSheet(font_style);
   }
-  label_play_albums_->setStyleSheet(QString("background-color: #3DADE8; color: rgb(255, 255, 255); font: %1pt \"%2\"; font-weight: regular;").arg(font_size_normal_).arg(font_normal_));
 
 }
 
@@ -594,35 +570,6 @@ void ContextView::SetSong() {
     label_device_icon_->clear();
     label_device_->clear();
     spacer_play_output_->changeSize(0, 0, QSizePolicy::Fixed);
-  }
-
-  if (action_show_albums_->isChecked() && song_prev_.artist() != song_playing_.artist()) {
-    CollectionBackend::AlbumList albumlist;
-    widget_albums_->albums_model()->Reset();
-    albumlist = app_->collection_backend()->GetAlbumsByArtist(song_playing_.effective_albumartist());
-    if (albumlist.count() > 1) {
-      label_play_albums_->show();
-      widget_albums_->show();
-      label_play_albums_->setText("<b>" + tr("Albums by %1").arg(song_playing_.effective_albumartist().toHtmlEscaped()) + "</b>");
-      for (const CollectionBackend::Album &album : albumlist) {
-        SongList songs = app_->collection_backend()->GetAlbumSongs(song_playing_.effective_albumartist(), album.album);
-        widget_albums_->albums_model()->AddSongs(songs);
-      }
-      spacer_play_albums_->changeSize(20, 10, QSizePolicy::Fixed);
-    }
-    else {
-      label_play_albums_->hide();
-      widget_albums_->hide();
-      label_play_albums_->clear();
-      spacer_play_albums_->changeSize(0, 0, QSizePolicy::Fixed);
-    }
-  }
-  else if (!action_show_albums_->isChecked()) {
-    label_play_albums_->hide();
-    widget_albums_->hide();
-    label_play_albums_->clear();
-    widget_albums_->albums_model()->Reset();
-    spacer_play_albums_->changeSize(0, 0, QSizePolicy::Fixed);
   }
 
   if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
@@ -790,17 +737,6 @@ void ContextView::ActionShowOutput() {
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
   s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE], action_show_output_->isChecked());
   s.endGroup();
-  if (song_playing_.is_valid()) SetSong();
-
-}
-
-void ContextView::ActionShowAlbums() {
-
-  QSettings s;
-  s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ALBUMS_BY_ARTIST], action_show_albums_->isChecked());
-  s.endGroup();
-  song_prev_ = Song();
   if (song_playing_.is_valid()) SetSong();
 
 }
