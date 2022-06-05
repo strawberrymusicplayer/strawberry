@@ -27,6 +27,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
+#include <QList>
 #include <QString>
 #include <QImage>
 #include <QPixmap>
@@ -54,12 +55,27 @@ class ContextAlbum : public QWidget {
  protected:
   QSize sizeHint() const override;
   void paintEvent(QPaintEvent*) override;
-  void contextMenuEvent(QContextMenuEvent *e) override;
+  void resizeEvent(QResizeEvent *e) override;
   void mouseDoubleClickEvent(QMouseEvent *e) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
 
  private:
-  void DrawImage(QPainter *p);
+
+  struct PreviousCover {
+    PreviousCover() : opacity(0.0) {}
+    QImage image;
+    QPixmap pixmap;
+    qreal opacity;
+    std::shared_ptr<QTimeLine> timeline;
+  };
+
+  QList<std::shared_ptr<PreviousCover>> previous_covers_;
+
+  void DrawImage(QPainter *p, const QPixmap &pixmap, const qreal opacity);
+  void DrawSpinner(QPainter *p);
+  void DrawPreviousCovers(QPainter *p);
   void ScaleCover();
+  void ScalePreviousCovers();
   void GetCoverAutomatically();
 
  signals:
@@ -68,13 +84,17 @@ class ContextAlbum : public QWidget {
  private slots:
   void Update() { update(); }
   void AutomaticCoverSearchDone();
-  void FadePreviousTrack(const qreal value);
+  void FadeCurrentCover(const qreal value);
+  void FadeCurrentCoverFinished();
+  void FadePreviousCover(std::shared_ptr<PreviousCover> previouscover);
+  void FadePreviousCoverFinished(std::shared_ptr<PreviousCover> previouscover);
 
  public slots:
   void SearchCoverInProgress();
 
  private:
   static const int kWidgetSpacing;
+  static const int kFadeTimeLineMs;
 
  private:
   QMenu *menu_;
@@ -85,10 +105,8 @@ class ContextAlbum : public QWidget {
   QTimeLine *timeline_fade_;
   QImage image_strawberry_;
   QImage image_original_;
-  QImage image_previous_;
   QPixmap pixmap_current_;
-  QPixmap pixmap_previous_;
-  qreal pixmap_previous_opacity_;
+  qreal pixmap_current_opacity_;
   std::unique_ptr<QMovie> spinner_animation_;
   int prev_width_;
 };
