@@ -64,6 +64,7 @@ class ContextView : public QWidget {
   Song song_playing() const { return song_playing_; }
 
  protected:
+  void resizeEvent(QResizeEvent *e) override;
   void contextMenuEvent(QContextMenuEvent*) override;
   void dragEnterEvent(QDragEnterEvent*) override;
   void dropEvent(QDropEvent*) override;
@@ -101,6 +102,8 @@ class ContextView : public QWidget {
   void AlbumCoverLoaded(const Song &song, const QImage &image);
 
  private:
+  static const int kWidgetSpacing;
+
   Application *app_;
   CollectionView *collectionview_;
   AlbumCoverChoiceController *album_cover_choice_controller_;

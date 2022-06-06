@@ -30,7 +30,7 @@ ResizableTextEdit::ResizableTextEdit(QWidget *parent)
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 }
-    
+
 QSize ResizableTextEdit::sizeHint() const {
 
   return QSize(std::max(QTextEdit::sizeHint().width(), 10), std::max(document()->size().toSize().height(), 10));

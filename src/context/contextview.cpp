@@ -69,6 +69,8 @@
 #include "contextview.h"
 #include "contextalbum.h"
 
+const int ContextView::kWidgetSpacing = 40;
+
 ContextView::ContextView(QWidget *parent)
     : QWidget(parent),
       app_(nullptr),
@@ -125,7 +127,7 @@ ContextView::ContextView(QWidget *parent)
       lyrics_id_(-1),
       font_size_headline_(0),
       font_size_normal_(0),
-      prev_width_(0) {
+      prev_width_(width()) {
 
   setLayout(layout_container_);
 
@@ -356,6 +358,17 @@ void ContextView::ReloadSettings() {
   else {
     SetSong();
   }
+
+}
+
+void ContextView::resizeEvent(QResizeEvent *e) {
+
+  if (prev_width_ != width()) {
+    widget_album_->setFixedWidth(width() - kWidgetSpacing);
+    prev_width_ = width();
+  }
+
+  QWidget::resizeEvent(e);
 
 }
 

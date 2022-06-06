@@ -43,7 +43,6 @@
 #include "contextview.h"
 #include "contextalbum.h"
 
-const int ContextAlbum::kWidgetSpacing = 40;
 const int ContextAlbum::kFadeTimeLineMs = 1000;
 
 ContextAlbum::ContextAlbum(QWidget *parent)
@@ -97,13 +96,19 @@ QSize ContextAlbum::sizeHint() const {
 
 }
 
-void ContextAlbum::paintEvent(QPaintEvent*) {
+void ContextAlbum::resizeEvent(QResizeEvent *e) {
 
   if (width() != prev_width_) {
     ScaleCover();
     ScalePreviousCovers();
     prev_width_ = width();
   }
+
+  QWidget::resizeEvent(e);
+
+}
+
+void ContextAlbum::paintEvent(QPaintEvent*) {
 
   QPainter p(this);
   p.setRenderHint(QPainter::SmoothPixmapTransform);
