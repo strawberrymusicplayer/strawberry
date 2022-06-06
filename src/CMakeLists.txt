@@ -442,6 +442,7 @@ set(HEADERS
   widgets/qsearchfield.h
   widgets/ratingwidget.h
   widgets/forcescrollperpixel.h
+  widgets/resizabletextedit.h
 
   osd/osdbase.h
   osd/osdpretty.h

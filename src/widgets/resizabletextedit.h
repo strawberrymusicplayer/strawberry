@@ -24,7 +24,8 @@
 
 class QResizeEvent;
 
-class ResizableTextEdit: public QTextEdit {
+class ResizableTextEdit : public QTextEdit {
+  Q_OBJECT
 
  public:
   explicit ResizableTextEdit(QWidget *parent = nullptr);
