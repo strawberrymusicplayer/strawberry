@@ -105,22 +105,22 @@ msgstr "skladby"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Ověření systému pro doporučování hudby (scrobbler)"
 
-#: context/contextview.cpp:438
+#: context/contextview.cpp:451
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:439
+#: context/contextview.cpp:452
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 alba"
 
-#: context/contextview.cpp:434
+#: context/contextview.cpp:447
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 umělec"
 
-#: context/contextview.cpp:435
+#: context/contextview.cpp:448
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 umělci"
@@ -161,7 +161,7 @@ msgstr "%1 seznamů skladeb (%2)"
 msgid "%1 selected of"
 msgstr "%1 vybráno z"
 
-#: context/contextview.cpp:430
+#: context/contextview.cpp:443
 #, qt-format
 msgid "%1 song"
 msgstr "%1 skladba"
@@ -171,7 +171,7 @@ msgstr "%1 skladba"
 msgid "%1 song%2"
 msgstr "%1 skladba%2"
 
-#: context/contextview.cpp:431
+#: context/contextview.cpp:444
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 skladby"
@@ -1045,7 +1045,7 @@ msgstr "Automaticky otevřít jednotlivé skupiny ve stromu sbírky"
 msgid "Automatically search for album cover"
 msgstr "Automaticky vyhledat obal alba"
 
-#: context/contextview.cpp:313 ../build/src/ui_contextsettingspage.h:438
+#: context/contextview.cpp:315 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
 msgstr "Automaticky najít texty skladeb"
 
@@ -1109,7 +1109,7 @@ msgstr "Chování"
 msgid "Best"
 msgstr "Nejlepší"
 
-#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:139
+#: context/contextview.cpp:212 collection/savedgroupingmanager.cpp:139
 #: playlist/playlist.cpp:1358 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:805
@@ -1120,7 +1120,7 @@ msgstr "Bitová hloubka"
 msgid "Bit rate"
 msgstr "Datový tok"
 
-#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:142
+#: context/contextview.cpp:213 collection/savedgroupingmanager.cpp:142
 #: playlist/playlist.cpp:1359 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:132
@@ -1778,7 +1778,7 @@ msgstr "Cíl"
 msgid "Details..."
 msgstr "Podrobnosti..."
 
-#: context/contextview.cpp:178 device/giolister.cpp:193
+#: context/contextview.cpp:180 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:553
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -2030,7 +2030,7 @@ msgstr "Kvalita kódovacího stroje"
 msgid "Encoding mode"
 msgstr "Režim kódování"
 
-#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:556
+#: context/contextview.cpp:179 ../build/src/ui_backendsettingspage.h:556
 msgid "Engine"
 msgstr "Engine"
 
@@ -2352,7 +2352,7 @@ msgstr "Soubory k překódování"
 msgid "Files, playlists and queue buttons"
 msgstr "Soubory, playlisty a tlačítka fronty"
 
-#: context/contextview.cpp:207
+#: context/contextview.cpp:209
 msgid "Filetype"
 msgstr "Typ souboru"
 
@@ -2870,7 +2870,7 @@ msgstr "Nejméně oblíbené skladby"
 msgid "Left"
 msgstr "Vlevo"
 
-#: context/contextview.cpp:208 playlist/playlist.cpp:1344
+#: context/contextview.cpp:210 playlist/playlist.cpp:1344
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:803
 msgid "Length"
 msgstr "Délka"
@@ -3308,7 +3308,7 @@ msgstr "Žádný poskytovatel nebyl zvolen."
 msgid "No short blocks"
 msgstr "Žádné krátké bloky"
 
-#: context/contextview.cpp:427
+#: context/contextview.cpp:440
 msgid "No song playing"
 msgstr "Žádná skladba se nepřehrává"
 
@@ -4193,7 +4193,7 @@ msgstr "Po dokončení kopírování bezpečně odebrat zařízení"
 msgid "Sample rate"
 msgstr "Vzorkovací kmitočet"
 
-#: context/contextview.cpp:209
+#: context/contextview.cpp:211
 msgid "Samplerate"
 msgstr "Vzorkovací frekvence"
 
@@ -4498,7 +4498,7 @@ msgstr "Ukazovat OSD"
 msgid "Show above status bar"
 msgstr "Ukazovat nad stavovým řádkem"
 
-#: context/contextview.cpp:297
+#: context/contextview.cpp:299
 msgid "Show album cover"
 msgstr "Ukazovat obal alba"
 
@@ -4522,7 +4522,7 @@ msgstr ""
 msgid "Show dividers"
 msgstr "Ukazovat oddělovače"
 
-#: context/contextview.cpp:305
+#: context/contextview.cpp:307
 msgid "Show engine and device"
 msgstr "Zobrazit engine a zařízení"
 
@@ -4575,7 +4575,7 @@ msgstr "Zobrazit tlačítko pro doporučování hudby"
 msgid "Show sidebar"
 msgstr "Zobrazovat boční panel"
 
-#: context/contextview.cpp:309
+#: context/contextview.cpp:311
 msgid "Show song lyrics"
 msgstr "Zobrazovat texty skladeb"
 
@@ -4583,7 +4583,7 @@ msgstr "Zobrazovat texty skladeb"
 msgid "Show song progress on system tray icon"
 msgstr ""
 
-#: context/contextview.cpp:301
+#: context/contextview.cpp:303
 msgid "Show song technical data"
 msgstr "Zobrazovat technická data"
 
@@ -5761,7 +5761,7 @@ msgstr "hardware"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:518 context/contextview.cpp:639
+#: context/contextview.cpp:531 context/contextview.cpp:652
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "kb/s"

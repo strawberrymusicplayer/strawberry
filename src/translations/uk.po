@@ -111,22 +111,22 @@ msgstr " композиції"
 msgid "%1 Scrobbler Authentication"
 msgstr "Аутентифікація скроблера %1"
 
-#: context/contextview.cpp:438
+#: context/contextview.cpp:451
 #, qt-format
 msgid "%1 album"
 msgstr "%1 альбом"
 
-#: context/contextview.cpp:439
+#: context/contextview.cpp:452
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 альбомів"
 
-#: context/contextview.cpp:434
+#: context/contextview.cpp:447
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 виконавець"
 
-#: context/contextview.cpp:435
+#: context/contextview.cpp:448
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 виконавців"
@@ -167,7 +167,7 @@ msgstr "%1 списків відтворення (%2)"
 msgid "%1 selected of"
 msgstr "вибрано %1 з"
 
-#: context/contextview.cpp:430
+#: context/contextview.cpp:443
 #, qt-format
 msgid "%1 song"
 msgstr "%1 композиція"
@@ -177,7 +177,7 @@ msgstr "%1 композиція"
 msgid "%1 song%2"
 msgstr "%1 композиція %2"
 
-#: context/contextview.cpp:431
+#: context/contextview.cpp:444
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 композицій"
@@ -1066,7 +1066,7 @@ msgstr "Автоматично відкривати одиночні катег�
 msgid "Automatically search for album cover"
 msgstr "Автоматичний пошук обкладинки альбому"
 
-#: context/contextview.cpp:313 ../build/src/ui_contextsettingspage.h:438
+#: context/contextview.cpp:315 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
 msgstr "Автоматичний пошук текстів композицій"
 
@@ -1130,7 +1130,7 @@ msgstr "Поведінка"
 msgid "Best"
 msgstr "Найкраще"
 
-#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:139
+#: context/contextview.cpp:212 collection/savedgroupingmanager.cpp:139
 #: playlist/playlist.cpp:1358 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:805
@@ -1141,7 +1141,7 @@ msgstr "Розрядна глибина"
 msgid "Bit rate"
 msgstr "Бітова швидкість"
 
-#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:142
+#: context/contextview.cpp:213 collection/savedgroupingmanager.cpp:142
 #: playlist/playlist.cpp:1359 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:132
@@ -1807,7 +1807,7 @@ msgstr "Призначення"
 msgid "Details..."
 msgstr "Детальніше..."
 
-#: context/contextview.cpp:178 device/giolister.cpp:193
+#: context/contextview.cpp:180 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:553
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -2061,7 +2061,7 @@ msgstr "Якість кодування"
 msgid "Encoding mode"
 msgstr "Режим кодування"
 
-#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:556
+#: context/contextview.cpp:179 ../build/src/ui_backendsettingspage.h:556
 msgid "Engine"
 msgstr "Обробник"
 
@@ -2385,7 +2385,7 @@ msgstr "Файли для перекодування"
 msgid "Files, playlists and queue buttons"
 msgstr "Кнопки файлів, списків відтворення і черг"
 
-#: context/contextview.cpp:207
+#: context/contextview.cpp:209
 msgid "Filetype"
 msgstr "Тип файлу"
 
@@ -2901,7 +2901,7 @@ msgstr "Найменш улюблені композиції"
 msgid "Left"
 msgstr "Ліворуч"
 
-#: context/contextview.cpp:208 playlist/playlist.cpp:1344
+#: context/contextview.cpp:210 playlist/playlist.cpp:1344
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:803
 msgid "Length"
 msgstr "Тривалість"
@@ -3338,7 +3338,7 @@ msgstr "Постачальника не вибрано."
 msgid "No short blocks"
 msgstr "Без коротких блоків"
 
-#: context/contextview.cpp:427
+#: context/contextview.cpp:440
 msgid "No song playing"
 msgstr "Нічого не відтворюється"
 
@@ -4238,7 +4238,7 @@ msgstr "Безпечно відключити пристрій після коп
 msgid "Sample rate"
 msgstr "Частота вибірки"
 
-#: context/contextview.cpp:209
+#: context/contextview.cpp:211
 msgid "Samplerate"
 msgstr "Частота вибірки"
 
@@ -4540,7 +4540,7 @@ msgstr "Показувати спливаючі сповіщення"
 msgid "Show above status bar"
 msgstr "Показати над рядком стану"
 
-#: context/contextview.cpp:297
+#: context/contextview.cpp:299
 msgid "Show album cover"
 msgstr "Показати обкладинку альбому"
 
@@ -4564,7 +4564,7 @@ msgstr "Показати діалогове вікно для помилок"
 msgid "Show dividers"
 msgstr "Показати розділювач"
 
-#: context/contextview.cpp:305
+#: context/contextview.cpp:307
 msgid "Show engine and device"
 msgstr "Показати обробник та пристрій"
 
@@ -4617,7 +4617,7 @@ msgstr "Показати кнопку скороблінгу"
 msgid "Show sidebar"
 msgstr "Показати бічну панель"
 
-#: context/contextview.cpp:309
+#: context/contextview.cpp:311
 msgid "Show song lyrics"
 msgstr "Показати текст пісні"
 
@@ -4625,7 +4625,7 @@ msgstr "Показати текст пісні"
 msgid "Show song progress on system tray icon"
 msgstr "Показувати перебіг композиції на піктограмі в системному лотку"
 
-#: context/contextview.cpp:301
+#: context/contextview.cpp:303
 msgid "Show song technical data"
 msgstr "Показати технічні дані композиціїї"
 
@@ -5809,7 +5809,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "в минулому"
 
-#: context/contextview.cpp:518 context/contextview.cpp:639
+#: context/contextview.cpp:531 context/contextview.cpp:652
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "кбіт/с"

@@ -119,22 +119,22 @@ msgstr " számok"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 scrobbler hitelesítés"
 
-#: context/contextview.cpp:438
+#: context/contextview.cpp:451
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:439
+#: context/contextview.cpp:452
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 album"
 
-#: context/contextview.cpp:434
+#: context/contextview.cpp:447
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 előadó"
 
-#: context/contextview.cpp:435
+#: context/contextview.cpp:448
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 előadó"
@@ -175,7 +175,7 @@ msgstr "%1 lejátszólista (%2)"
 msgid "%1 selected of"
 msgstr "%1 kiválasztva ennyiből:"
 
-#: context/contextview.cpp:430
+#: context/contextview.cpp:443
 #, qt-format
 msgid "%1 song"
 msgstr "%1 szám"
@@ -185,7 +185,7 @@ msgstr "%1 szám"
 msgid "%1 song%2"
 msgstr "%1 szám%2"
 
-#: context/contextview.cpp:431
+#: context/contextview.cpp:444
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 szám"
@@ -1063,7 +1063,7 @@ msgstr "Egyelemű kategóriák automatikus listázása a gyűjteményben"
 msgid "Automatically search for album cover"
 msgstr "Albumborító automatikus keresése"
 
-#: context/contextview.cpp:313 ../build/src/ui_contextsettingspage.h:438
+#: context/contextview.cpp:315 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
 msgstr "Dalszövegek automatikus keresése"
 
@@ -1127,7 +1127,7 @@ msgstr "Működés"
 msgid "Best"
 msgstr "Legjobb"
 
-#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:139
+#: context/contextview.cpp:212 collection/savedgroupingmanager.cpp:139
 #: playlist/playlist.cpp:1358 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:805
@@ -1138,7 +1138,7 @@ msgstr "Bitmélység"
 msgid "Bit rate"
 msgstr "Bitráta"
 
-#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:142
+#: context/contextview.cpp:213 collection/savedgroupingmanager.cpp:142
 #: playlist/playlist.cpp:1359 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:132
@@ -1799,7 +1799,7 @@ msgstr "Cél"
 msgid "Details..."
 msgstr "Részletek…"
 
-#: context/contextview.cpp:178 device/giolister.cpp:193
+#: context/contextview.cpp:180 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:553
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -2052,7 +2052,7 @@ msgstr "Kódolás minősége"
 msgid "Encoding mode"
 msgstr "Kódolási mód"
 
-#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:556
+#: context/contextview.cpp:179 ../build/src/ui_backendsettingspage.h:556
 msgid "Engine"
 msgstr "Motor"
 
@@ -2374,7 +2374,7 @@ msgstr "Átkódolandó fájlok"
 msgid "Files, playlists and queue buttons"
 msgstr "Fájl- , lejátszólista- és lejátszásisor gombok"
 
-#: context/contextview.cpp:207
+#: context/contextview.cpp:209
 msgid "Filetype"
 msgstr "Fájltípus"
 
@@ -2891,7 +2891,7 @@ msgstr "Legkevésbé kedvelt dalok"
 msgid "Left"
 msgstr "Bal"
 
-#: context/contextview.cpp:208 playlist/playlist.cpp:1344
+#: context/contextview.cpp:210 playlist/playlist.cpp:1344
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:803
 msgid "Length"
 msgstr "Időtartam"
@@ -3328,7 +3328,7 @@ msgstr "Nincsenek szolgáltatók kiválasztva."
 msgid "No short blocks"
 msgstr "Rövid blokkok nélkül"
 
-#: context/contextview.cpp:427
+#: context/contextview.cpp:440
 msgid "No song playing"
 msgstr "Nincs lejátszott szám"
 
@@ -4216,7 +4216,7 @@ msgstr "Eszköz biztonságos eltávolítása másolás után"
 msgid "Sample rate"
 msgstr "Mintavételi sűrűség"
 
-#: context/contextview.cpp:209
+#: context/contextview.cpp:211
 msgid "Samplerate"
 msgstr "Mintavétel"
 
@@ -4518,7 +4518,7 @@ msgstr "Saját OSD megjelenítése"
 msgid "Show above status bar"
 msgstr "Megjelenítés az állapotsáv felett"
 
-#: context/contextview.cpp:297
+#: context/contextview.cpp:299
 msgid "Show album cover"
 msgstr "Albumborító megjelenítése"
 
@@ -4542,7 +4542,7 @@ msgstr "Párbeszédablak megjelenítése hibáknál"
 msgid "Show dividers"
 msgstr "Elválasztók megjelenítése"
 
-#: context/contextview.cpp:305
+#: context/contextview.cpp:307
 msgid "Show engine and device"
 msgstr "Motor és eszköz megjelenítése"
 
@@ -4595,7 +4595,7 @@ msgstr "Scrobble gomb megjelenítése"
 msgid "Show sidebar"
 msgstr "Oldalsáv megjelenítése"
 
-#: context/contextview.cpp:309
+#: context/contextview.cpp:311
 msgid "Show song lyrics"
 msgstr "Dalszöveg megjelenítése"
 
@@ -4603,7 +4603,7 @@ msgstr "Dalszöveg megjelenítése"
 msgid "Show song progress on system tray icon"
 msgstr "Lejátszási folyamatjelző megjelenítése a rendszertálca ikonon"
 
-#: context/contextview.cpp:301
+#: context/contextview.cpp:303
 msgid "Show song technical data"
 msgstr "Műszaki adatok megjelenítése"
 
@@ -5785,7 +5785,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "a végén"
 
-#: context/contextview.cpp:518 context/contextview.cpp:639
+#: context/contextview.cpp:531 context/contextview.cpp:652
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "kb/s"

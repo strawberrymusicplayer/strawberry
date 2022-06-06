@@ -119,22 +119,22 @@ msgstr " låtar"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Skrobblarautentisering"
 
-#: context/contextview.cpp:438
+#: context/contextview.cpp:451
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:439
+#: context/contextview.cpp:452
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 album"
 
-#: context/contextview.cpp:434
+#: context/contextview.cpp:447
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artist"
 
-#: context/contextview.cpp:435
+#: context/contextview.cpp:448
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artister"
@@ -175,7 +175,7 @@ msgstr "%1 spellistor (%2)"
 msgid "%1 selected of"
 msgstr "%1 valda av"
 
-#: context/contextview.cpp:430
+#: context/contextview.cpp:443
 #, qt-format
 msgid "%1 song"
 msgstr "%1 låt"
@@ -185,7 +185,7 @@ msgstr "%1 låt"
 msgid "%1 song%2"
 msgstr "%1 låt%2"
 
-#: context/contextview.cpp:431
+#: context/contextview.cpp:444
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 låtar"
@@ -1075,7 +1075,7 @@ msgstr "Öppna enskilda kategorier automatiskt i samlingsträdet"
 msgid "Automatically search for album cover"
 msgstr "Sök automatiskt efter albumomslag"
 
-#: context/contextview.cpp:313 ../build/src/ui_contextsettingspage.h:438
+#: context/contextview.cpp:315 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
 msgstr "Sök automatiskt efter låttexter"
 
@@ -1139,7 +1139,7 @@ msgstr "Beteende"
 msgid "Best"
 msgstr "Bästa"
 
-#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:139
+#: context/contextview.cpp:212 collection/savedgroupingmanager.cpp:139
 #: playlist/playlist.cpp:1358 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
 #: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:805
@@ -1150,7 +1150,7 @@ msgstr "Bitdjup"
 msgid "Bit rate"
 msgstr "Bithastighet"
 
-#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:142
+#: context/contextview.cpp:213 collection/savedgroupingmanager.cpp:142
 #: playlist/playlist.cpp:1359 ../build/src/ui_groupbydialog.h:202
 #: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 #: ../build/src/ui_transcoderoptionsaac.h:132
@@ -1811,7 +1811,7 @@ msgstr "Destination"
 msgid "Details..."
 msgstr "Detaljer..."
 
-#: context/contextview.cpp:178 device/giolister.cpp:193
+#: context/contextview.cpp:180 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:553
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -2065,7 +2065,7 @@ msgstr "Kodningsmotorns kvalitet"
 msgid "Encoding mode"
 msgstr "Kodningsläge"
 
-#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:556
+#: context/contextview.cpp:179 ../build/src/ui_backendsettingspage.h:556
 msgid "Engine"
 msgstr "Motor"
 
@@ -2387,7 +2387,7 @@ msgstr "Filer att omkoda"
 msgid "Files, playlists and queue buttons"
 msgstr "Filer, spellistor och köknappar"
 
-#: context/contextview.cpp:207
+#: context/contextview.cpp:209
 msgid "Filetype"
 msgstr "Filtyp"
 
@@ -2901,7 +2901,7 @@ msgstr "Minst omtyckta spår"
 msgid "Left"
 msgstr "Vänster"
 
-#: context/contextview.cpp:208 playlist/playlist.cpp:1344
+#: context/contextview.cpp:210 playlist/playlist.cpp:1344
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:803
 msgid "Length"
 msgstr "Längd"
@@ -3337,7 +3337,7 @@ msgstr "Ingen leverantör vald."
 msgid "No short blocks"
 msgstr "Inga korta block"
 
-#: context/contextview.cpp:427
+#: context/contextview.cpp:440
 msgid "No song playing"
 msgstr "Ingen låt spelas"
 
@@ -4230,7 +4230,7 @@ msgstr "Säker borttagning av enheten efter kopiering"
 msgid "Sample rate"
 msgstr "Samplingsfrekvens"
 
-#: context/contextview.cpp:209
+#: context/contextview.cpp:211
 msgid "Samplerate"
 msgstr "Samplingsfrekvens"
 
@@ -4532,7 +4532,7 @@ msgstr "Visa en snygg avisering"
 msgid "Show above status bar"
 msgstr "Visa ovanför statusraden"
 
-#: context/contextview.cpp:297
+#: context/contextview.cpp:299
 msgid "Show album cover"
 msgstr "Visa albumomslag"
 
@@ -4556,7 +4556,7 @@ msgstr "Visa dialogruta vid fel"
 msgid "Show dividers"
 msgstr "Visa avdelare"
 
-#: context/contextview.cpp:305
+#: context/contextview.cpp:307
 msgid "Show engine and device"
 msgstr "Visa motor och enhet"
 
@@ -4609,7 +4609,7 @@ msgstr "Visa knappen skrobbla"
 msgid "Show sidebar"
 msgstr "Visa sidofält"
 
-#: context/contextview.cpp:309
+#: context/contextview.cpp:311
 msgid "Show song lyrics"
 msgstr "Visa låttexter"
 
@@ -4617,7 +4617,7 @@ msgstr "Visa låttexter"
 msgid "Show song progress on system tray icon"
 msgstr "Visa sångförlopp på systemfältikonen"
 
-#: context/contextview.cpp:301
+#: context/contextview.cpp:303
 msgid "Show song technical data"
 msgstr "Visa låttekniska data"
 
@@ -5805,7 +5805,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "de senaste"
 
-#: context/contextview.cpp:518 context/contextview.cpp:639
+#: context/contextview.cpp:531 context/contextview.cpp:652
 #: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "kbps"
