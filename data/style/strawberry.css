@@ -31,6 +31,10 @@
   background-color: %palette-base;
 }
 
+#context-scrollarea {
+  background-color: %palette-base;
+}
+
 QToolButton {
   border: 2px solid transparent;
   border-radius: 3px;
