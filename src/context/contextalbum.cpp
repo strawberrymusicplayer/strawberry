@@ -60,13 +60,14 @@ ContextAlbum::ContextAlbum(QWidget *parent)
 
   setObjectName("context-widget-album");
 
+  setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
   cover_loader_options_.desired_height_ = width();
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
   QImage image = ImageUtils::ScaleAndPad(image_strawberry_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
   if (!image.isNull()) {
     pixmap_current_ = QPixmap::fromImage(image);
-    setFixedHeight(pixmap_current_.height());
   }
 
   timeline_fade_->setDirection(QTimeLine::Forward);
@@ -92,7 +93,7 @@ void ContextAlbum::Init(ContextView *context_view, AlbumCoverChoiceController *a
 
 QSize ContextAlbum::sizeHint() const {
 
-  return QSize(parentWidget()->width() - kWidgetSpacing, QWidget::sizeHint().height());
+  return QSize(pixmap_current_.width(), pixmap_current_.height());
 
 }
 
@@ -233,18 +234,15 @@ void ContextAlbum::ScaleCover() {
 
   cover_loader_options_.desired_height_ = width();
 
-  int height = 0;
-
   QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
   if (image.isNull()) {
     pixmap_current_ = QPixmap();
   }
   else {
     pixmap_current_ = QPixmap::fromImage(image);
-    height = pixmap_current_.height();
   }
 
-  setFixedHeight(height);
+  updateGeometry();
 
 }
 
