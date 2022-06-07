@@ -250,16 +250,16 @@ void Organize::ProcessSomeFiles() {
 
     job.progress_ = std::bind(&Organize::SetSongProgress, this, std::placeholders::_1, !task.transcoded_filename_.isEmpty());
 
-    if (!destination_->CopyToStorage(job)) {
-      files_with_errors_ << task.song_info_.song_.basefilename();
-    }
-    else {
-      if (job.remove_original_) {
+    if (destination_->CopyToStorage(job)) {
+      if (job.remove_original_ && (song.is_collection_song() || song.source() == Song::Source_Device)) {
         // Notify other aspects of system that song has been invalidated
         QString root = destination_->LocalPath();
         QFileInfo new_file = QFileInfo(root + "/" + task.song_info_.new_filename_);
         emit SongPathChanged(song, new_file, destination_->collection_directory_id());
       }
+    }
+    else {
+      files_with_errors_ << task.song_info_.song_.basefilename();
     }
 
     // Clean up the temporary transcoded file
