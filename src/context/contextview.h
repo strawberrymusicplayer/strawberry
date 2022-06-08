@@ -180,8 +180,6 @@ class ContextView : public QWidget {
   QList<QLabel*> labels_play_data_;
   QList<QLabel*> labels_play_all_;
 
-  int prev_width_;
-
 };
 
 #endif  // CONTEXTVIEW_H

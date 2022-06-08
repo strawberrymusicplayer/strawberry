@@ -54,12 +54,11 @@ ContextAlbum::ContextAlbum(QWidget *parent)
       timeline_fade_(new QTimeLine(kFadeTimeLineMs, this)),
       image_strawberry_(":/pictures/strawberry.png"),
       image_original_(image_strawberry_),
-      pixmap_current_opacity_(1.0),
-      prev_width_(width()) {
+      pixmap_current_opacity_(1.0) {
 
   setObjectName("context-widget-album");
 
-  setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+  setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
   cover_loader_options_.desired_height_ = width();
   cover_loader_options_.pad_output_image_ = true;
@@ -96,18 +95,6 @@ QSize ContextAlbum::sizeHint() const {
 
 }
 
-void ContextAlbum::resizeEvent(QResizeEvent *e) {
-
-  if (width() != prev_width_) {
-    ScaleCover();
-    ScalePreviousCovers();
-    prev_width_ = width();
-  }
-
-  QWidget::resizeEvent(e);
-
-}
-
 void ContextAlbum::paintEvent(QPaintEvent*) {
 
   QPainter p(this);
@@ -135,6 +122,17 @@ void ContextAlbum::contextMenuEvent(QContextMenuEvent *e) {
   }
   else {
     QWidget::contextMenuEvent(e);
+  }
+
+}
+
+void ContextAlbum::UpdateWidth(const int new_width) {
+
+  if (new_width != cover_loader_options_.desired_height_) {
+    cover_loader_options_.desired_height_ = new_width;
+    ScaleCover();
+    ScalePreviousCovers();
+    updateGeometry();
   }
 
 }
@@ -237,8 +235,6 @@ void ContextAlbum::FadePreviousCoverFinished(std::shared_ptr<PreviousCover> prev
 
 void ContextAlbum::ScaleCover() {
 
-  cover_loader_options_.desired_height_ = width();
-
   QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
   if (image.isNull()) {
     pixmap_current_ = QPixmap();
@@ -247,14 +243,11 @@ void ContextAlbum::ScaleCover() {
     pixmap_current_ = QPixmap::fromImage(image);
   }
 
-  updateGeometry();
-
 }
 
 void ContextAlbum::ScalePreviousCovers() {
 
   for (std::shared_ptr<PreviousCover> previous_cover : previous_covers_) {
-    if (previous_cover->pixmap.width() == width()) continue;
     QImage image = ImageUtils::ScaleAndPad(previous_cover->image, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
     if (image.isNull()) {
       previous_cover->pixmap = QPixmap();

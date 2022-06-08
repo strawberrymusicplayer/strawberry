@@ -51,10 +51,10 @@ class ContextAlbum : public QWidget {
 
   void Init(ContextView *context_view, AlbumCoverChoiceController *album_cover_choice_controller);
   void SetImage(QImage image = QImage());
+  void UpdateWidth(const int width);
 
  protected:
   QSize sizeHint() const override;
-  void resizeEvent(QResizeEvent *e) override;
   void paintEvent(QPaintEvent*) override;
   void mouseDoubleClickEvent(QMouseEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
@@ -107,7 +107,6 @@ class ContextAlbum : public QWidget {
   QPixmap pixmap_current_;
   qreal pixmap_current_opacity_;
   std::unique_ptr<QMovie> spinner_animation_;
-  int prev_width_;
 };
 
 #endif  // CONTEXTALBUM_H

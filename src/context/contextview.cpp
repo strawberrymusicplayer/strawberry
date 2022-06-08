@@ -69,7 +69,7 @@
 #include "contextview.h"
 #include "contextalbum.h"
 
-const int ContextView::kWidgetSpacing = 40;
+const int ContextView::kWidgetSpacing = 50;
 
 ContextView::ContextView(QWidget *parent)
     : QWidget(parent),
@@ -126,8 +126,7 @@ ContextView::ContextView(QWidget *parent)
       lyrics_tried_(false),
       lyrics_id_(-1),
       font_size_headline_(0),
-      font_size_normal_(0),
-      prev_width_(width()) {
+      font_size_normal_(0) {
 
   setLayout(layout_container_);
 
@@ -140,6 +139,7 @@ ContextView::ContextView(QWidget *parent)
   scrollarea_->setWidget(widget_scrollarea_);
   scrollarea_->setContentsMargins(0, 0, 0, 0);
   scrollarea_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  scrollarea_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
   widget_scrollarea_->setObjectName("context-widget-scrollarea");
   widget_scrollarea_->setLayout(layout_scrollarea_);
@@ -363,9 +363,8 @@ void ContextView::ReloadSettings() {
 
 void ContextView::resizeEvent(QResizeEvent *e) {
 
-  if (prev_width_ != width()) {
-    widget_album_->setFixedWidth(width() - kWidgetSpacing);
-    prev_width_ = width();
+  if (e->size().width() != e->oldSize().width()) {
+    widget_album_->UpdateWidth(width() - kWidgetSpacing);
   }
 
   QWidget::resizeEvent(e);
