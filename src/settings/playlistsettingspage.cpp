@@ -55,14 +55,18 @@ void PlaylistSettingsPage::Load() {
   s.beginGroup(kSettingsGroup);
 
   ui_->checkbox_alternating_row_colors->setChecked(s.value("alternating_row_colors", true).toBool());
+  ui_->checkbox_barscurrenttrack->setChecked(s.value("show_bars", true).toBool());
 
+  ui_->checkbox_glowcurrenttrack->setEnabled(ui_->checkbox_barscurrenttrack->isChecked());
+  if (ui_->checkbox_barscurrenttrack->isChecked()) {
 #ifdef Q_OS_MACOS
-  bool glow_effect = false;
+    bool glow_effect = false;
 #else
-  bool glow_effect = true;
+    bool glow_effect = true;
 #endif
+    ui_->checkbox_glowcurrenttrack->setChecked(s.value("glow_effect", glow_effect).toBool());
+  }
 
-  ui_->checkbox_glowcurrenttrack->setChecked(s.value("glow_effect", glow_effect).toBool());
   ui_->checkbox_warncloseplaylist->setChecked(s.value("warn_close_playlist", true).toBool());
   ui_->checkbox_continueonerror->setChecked(s.value("continue_on_error", false).toBool());
   ui_->checkbox_greyout_songs_startup->setChecked(s.value("greyout_songs_startup", true).toBool());
@@ -124,6 +128,7 @@ void PlaylistSettingsPage::Save() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("alternating_row_colors", ui_->checkbox_alternating_row_colors->isChecked());
+  s.setValue("show_bars", ui_->checkbox_barscurrenttrack->isChecked());
   s.setValue("glow_effect", ui_->checkbox_glowcurrenttrack->isChecked());
   s.setValue("warn_close_playlist", ui_->checkbox_warncloseplaylist->isChecked());
   s.setValue("continue_on_error", ui_->checkbox_continueonerror->isChecked());

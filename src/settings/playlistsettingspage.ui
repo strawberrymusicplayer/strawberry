@@ -22,9 +22,16 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_barscurrenttrack">
+     <property name="text">
+      <string>Show bars on the currently playing track</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="checkbox_glowcurrenttrack">
      <property name="text">
-      <string>Show a glowing animation on the current track</string>
+      <string>Show a glowing animation on the currently playing track</string>
      </property>
     </widget>
    </item>
@@ -176,5 +183,22 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>checkbox_barscurrenttrack</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkbox_glowcurrenttrack</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>258</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>258</x>
+     <y>88</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

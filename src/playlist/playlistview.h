@@ -195,6 +195,7 @@ class PlaylistView : public QTreeView {
 
   void ReloadBarPixmaps();
   QList<QPixmap> LoadBarPixmap(const QString &filename);
+  void LoadTinyPlayPausePixmaps(const int desired_size);
   void UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, const QModelIndex &idx);
 
   void set_background_image_type(AppearanceSettingsPage::BackgroundImageType bg) {
@@ -259,6 +260,7 @@ class PlaylistView : public QTreeView {
   int previous_background_image_x_;
   int previous_background_image_y_;
 
+  bool bars_enabled_;
   bool glow_enabled_;
   bool select_track_;
   bool auto_sort_;
@@ -300,6 +302,9 @@ class PlaylistView : public QTreeView {
   RatingItemDelegate *rating_delegate_;
 
   QColor playlist_playing_song_color_;
+
+  QPixmap pixmap_tinyplay_;
+  QPixmap pixmap_tinypause_;
 
 };
 

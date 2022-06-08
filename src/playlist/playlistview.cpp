@@ -162,6 +162,7 @@ PlaylistView::PlaylistView(QWidget *parent)
       current_background_image_y_(0),
       previous_background_image_x_(0),
       previous_background_image_y_(0),
+      bars_enabled_(true),
       glow_enabled_(true),
       select_track_(false),
       auto_sort_(false),
@@ -486,6 +487,15 @@ QList<QPixmap> PlaylistView::LoadBarPixmap(const QString &filename) {
 
 }
 
+void PlaylistView::LoadTinyPlayPausePixmaps(const int desired_size) {
+
+  QImage image_play = QImage(":/pictures/tiny-play.png").scaled(desired_size, desired_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  QImage image_pause = QImage(":/pictures/tiny-pause.png").scaled(desired_size, desired_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  pixmap_tinyplay_ = QPixmap::fromImage(image_play);
+  pixmap_tinypause_ = QPixmap::fromImage(image_pause);
+
+}
+
 void PlaylistView::drawTree(QPainter *painter, const QRegion &region) const {
 
   const_cast<PlaylistView*>(this)->current_paint_region_ = region;
@@ -502,65 +512,92 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
   bool is_paused = idx.data(Playlist::Role_IsPaused).toBool();
 
   if (is_current) {
-    const_cast<PlaylistView*>(this)->last_current_item_ = idx;
-    const_cast<PlaylistView*>(this)->last_glow_rect_ = opt.rect;
 
-    int step = glow_intensity_step_;
-    if (step >= kGlowIntensitySteps) {
-      step = 2 * (kGlowIntensitySteps - 1) - step + 1;
-    }
+    if (bars_enabled_) {
 
-    int row_height = opt.rect.height();
-    if (row_height != row_height_) {
-      // Recreate the pixmaps if the height changed since last time
-      const_cast<PlaylistView*>(this)->row_height_ = row_height;
-      const_cast<PlaylistView*>(this)->ReloadBarPixmaps();
-    }
+      const_cast<PlaylistView*>(this)->last_current_item_ = idx;
+      const_cast<PlaylistView*>(this)->last_glow_rect_ = opt.rect;
 
-    QRect middle(opt.rect);
-    middle.setLeft(middle.left() + currenttrack_bar_left_[0].width());
-    middle.setRight(middle.right() - currenttrack_bar_right_[0].width());
+      int step = glow_intensity_step_;
+      if (step >= kGlowIntensitySteps) {
+        step = 2 * (kGlowIntensitySteps - 1) - step + 1;
+      }
 
-    // Selection
-    if (selectionModel()->isSelected(idx)) {
-      painter->fillRect(opt.rect, opt.palette.color(QPalette::Highlight));
-    }
+      if (currenttrack_bar_left_.count() < kGlowIntensitySteps ||
+          currenttrack_bar_mid_.count() < kGlowIntensitySteps ||
+          currenttrack_bar_right_.count() < kGlowIntensitySteps ||
+          opt.rect.height() != row_height_) {
+        // Recreate the pixmaps if the height changed since last time
+        const_cast<PlaylistView*>(this)->row_height_ = opt.rect.height();
+        const_cast<PlaylistView*>(this)->ReloadBarPixmaps();
+      }
 
-    // Draw the bar
-    painter->setRenderHint(QPainter::SmoothPixmapTransform);
-    painter->drawPixmap(opt.rect.topLeft(), currenttrack_bar_left_[step]);
-    painter->drawPixmap(opt.rect.topRight() - currenttrack_bar_right_[0].rect().topRight(), currenttrack_bar_right_[step]);
-    painter->drawPixmap(middle, currenttrack_bar_mid_[step]);
+      QRect middle(opt.rect);
+      middle.setLeft(middle.left() + currenttrack_bar_left_[0].width());
+      middle.setRight(middle.right() - currenttrack_bar_right_[0].width());
 
-    // Draw the play icon
-    QPoint play_pos(currenttrack_bar_left_[0].width() / 3 * 2, (row_height - currenttrack_play_.height()) / 2);
-    painter->drawPixmap(opt.rect.topLeft() + play_pos, is_paused ? currenttrack_pause_ : currenttrack_play_);
+      // Selection
+      if (selectionModel()->isSelected(idx)) {
+        painter->fillRect(opt.rect, opt.palette.color(QPalette::Highlight));
+      }
 
-    // Set the font
-    opt.palette.setColor(QPalette::Inactive, QPalette::HighlightedText, QApplication::palette().color(QPalette::Active, QPalette::HighlightedText));
-    opt.palette.setColor(QPalette::Text, QApplication::palette().color(QPalette::HighlightedText));
-    opt.palette.setColor(QPalette::Highlight, Qt::transparent);
-    opt.palette.setColor(QPalette::AlternateBase, Qt::transparent);
-    opt.decorationSize = QSize(20, 20);
+      // Draw the bar
+      painter->setRenderHint(QPainter::SmoothPixmapTransform);
+      painter->drawPixmap(opt.rect.topLeft(), currenttrack_bar_left_[step]);
+      painter->drawPixmap(opt.rect.topRight() - currenttrack_bar_right_[0].rect().topRight(), currenttrack_bar_right_[step]);
+      painter->drawPixmap(middle, currenttrack_bar_mid_[step]);
 
-    // Draw the actual row data on top.  We cache this, because it's fairly expensive (1-2ms), and we do it many times per second.
-    const bool cache_dirty = cached_current_row_rect_ != opt.rect || cached_current_row_row_ != idx.row() || cached_current_row_.isNull();
+      // Draw the play icon
+      QPoint play_pos(currenttrack_bar_left_[0].width() / 3 * 2, (opt.rect.height() - currenttrack_play_.height()) / 2);
+      painter->drawPixmap(opt.rect.topLeft() + play_pos, is_paused ? currenttrack_pause_ : currenttrack_play_);
 
-    // We can't update the cache if we're not drawing the entire region,
-    // QTreeView clips its drawing to only the columns in the region, so it wouldn't update the whole pixmap properly.
-    const bool whole_region = current_paint_region_.boundingRect().width() == viewport()->width();
+      // Set the font
+      opt.palette.setColor(QPalette::Inactive, QPalette::HighlightedText, QApplication::palette().color(QPalette::Active, QPalette::HighlightedText));
+      opt.palette.setColor(QPalette::Text, QApplication::palette().color(QPalette::HighlightedText));
+      opt.palette.setColor(QPalette::Highlight, Qt::transparent);
+      opt.palette.setColor(QPalette::AlternateBase, Qt::transparent);
+      opt.decorationSize = QSize(20, 20);
 
-    if (!cache_dirty) {
-      painter->drawPixmap(opt.rect, cached_current_row_);
-    }
-    else {
-      if (whole_region) {
-        const_cast<PlaylistView*>(this)->UpdateCachedCurrentRowPixmap(opt, idx);
-        painter->drawPixmap(opt.rect, cached_current_row_);
+      // Draw the actual row data on top.  We cache this, because it's fairly expensive (1-2ms), and we do it many times per second.
+      if (cached_current_row_rect_ != opt.rect || cached_current_row_row_ != idx.row() || cached_current_row_.isNull()) {
+        // We can't update the cache if we're not drawing the entire region,
+        // QTreeView clips its drawing to only the columns in the region, so it wouldn't update the whole pixmap properly.
+        const bool whole_region = current_paint_region_.boundingRect().width() == viewport()->width();
+        if (whole_region) {
+          const_cast<PlaylistView*>(this)->UpdateCachedCurrentRowPixmap(opt, idx);
+          painter->drawPixmap(opt.rect, cached_current_row_);
+        }
+        else {
+          QTreeView::drawRow(painter, opt, idx);
+        }
       }
       else {
-        QTreeView::drawRow(painter, opt, idx);
+        painter->drawPixmap(opt.rect, cached_current_row_);
       }
+    }
+    else {
+      painter->save();
+      if (pixmap_tinyplay_.isNull() || pixmap_tinypause_.isNull() || opt.rect.height() != row_height_) {
+        const_cast<PlaylistView*>(this)->row_height_ = opt.rect.height();
+        const_cast<PlaylistView*>(this)->LoadTinyPlayPausePixmaps(static_cast<int>(static_cast<float>(opt.rect.height()) / 1.4F));
+      }
+      int pixmap_width = 0;
+      int pixmap_height = 0;
+      if (is_paused) {
+        pixmap_width = pixmap_tinypause_.width();
+        pixmap_height = pixmap_tinypause_.height();
+      }
+      else {
+        pixmap_width = pixmap_tinyplay_.width();
+        pixmap_height = pixmap_tinyplay_.height();
+      }
+      QPoint play_pos(pixmap_width / 2, (opt.rect.height() - pixmap_height) / 2);
+      if (selectionModel()->isSelected(idx)) {
+        painter->fillRect(opt.rect, opt.palette.color(QPalette::Highlight));
+      }
+      painter->drawPixmap(opt.rect.topLeft() + play_pos, is_paused ? pixmap_tinypause_ : pixmap_tinyplay_);
+      painter->restore();
+      QTreeView::drawRow(painter, opt, idx);
     }
   }
   else {
@@ -1174,12 +1211,13 @@ void PlaylistView::ReloadSettings() {
   QSettings s;
 
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
+  bars_enabled_ = s.value("show_bars", true).toBool();
 #ifdef Q_OS_MACOS
   bool glow_effect = false;
 #else
   bool glow_effect = true;
 #endif
-  glow_enabled_ = s.value("glow_effect", glow_effect).toBool();
+  glow_enabled_ = bars_enabled_ && s.value("glow_effect", glow_effect).toBool();
   bool editmetadatainline = s.value("editmetadatainline", false).toBool();
   select_track_ = s.value("select_track", false).toBool();
   auto_sort_ = s.value("auto_sort", false).toBool();
