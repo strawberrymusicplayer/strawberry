@@ -100,22 +100,22 @@ msgstr ""
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler bruker autentisering"
 
-#: context/contextview.cpp:451
+#: context/contextview.cpp:450
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:452
+#: context/contextview.cpp:451
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 albumer"
 
-#: context/contextview.cpp:447
+#: context/contextview.cpp:446
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artist"
 
-#: context/contextview.cpp:448
+#: context/contextview.cpp:447
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artister"
@@ -156,7 +156,7 @@ msgstr "%1 spillelister (%2)"
 msgid "%1 selected of"
 msgstr "%1 valgte av"
 
-#: context/contextview.cpp:443
+#: context/contextview.cpp:442
 #, qt-format
 msgid "%1 song"
 msgstr "%1 sang"
@@ -166,7 +166,7 @@ msgstr "%1 sang"
 msgid "%1 song%2"
 msgstr "%1 sanger"
 
-#: context/contextview.cpp:444
+#: context/contextview.cpp:443
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 sanger"
@@ -496,7 +496,7 @@ msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:183
+#: ../build/src/ui_playlistsettingspage.h:191
 msgid "A&utomatic"
 msgstr "A&utomatisk"
 
@@ -542,7 +542,7 @@ msgstr "Om &Qt"
 msgid "About Strawberry"
 msgstr "Om Strawberry"
 
-#: ../build/src/ui_playlistsettingspage.h:184
+#: ../build/src/ui_playlistsettingspage.h:192
 msgid "Absolu&te"
 msgstr "Absolu&tt"
 
@@ -970,7 +970,7 @@ msgstr "Artister"
 msgid "Artists search limit"
 msgstr "Artist søkebegrensning"
 
-#: ../build/src/ui_playlistsettingspage.h:186
+#: ../build/src/ui_playlistsettingspage.h:194
 msgid "As&k when saving"
 msgstr "Spør ved lagring"
 
@@ -1041,11 +1041,11 @@ msgstr ""
 msgid "Automatically search for song lyrics"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:177
+#: ../build/src/ui_playlistsettingspage.h:185
 msgid "Automatically select current playing track"
 msgstr "Velg spor automatisk"
 
-#: ../build/src/ui_playlistsettingspage.h:181
+#: ../build/src/ui_playlistsettingspage.h:189
 msgid "Automatically sort playlist when inserting songs"
 msgstr ""
 
@@ -1408,7 +1408,7 @@ msgstr "Konstant bitrate"
 msgid "Context"
 msgstr "Kontekst"
 
-#: ../build/src/ui_playlistsettingspage.h:174
+#: ../build/src/ui_playlistsettingspage.h:182
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Fortsett til neste sang i stillelisten dersom en sang ikke er tilgjengelig"
@@ -1964,7 +1964,7 @@ msgid "Enable Items"
 msgstr "Aktiver items"
 
 #: ../build/src/ui_collectionsettingspage.h:634
-#: ../build/src/ui_playlistsettingspage.h:180
+#: ../build/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
 msgstr ""
 
@@ -1976,11 +1976,11 @@ msgstr "Slå på tonekontroll (EQ)"
 msgid "Enable fading"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:179
+#: ../build/src/ui_playlistsettingspage.h:187
 msgid "Enable playlist clear button"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:178
+#: ../build/src/ui_playlistsettingspage.h:186
 msgid "Enable playlist toolbar"
 msgstr ""
 
@@ -1988,7 +1988,7 @@ msgstr ""
 msgid "Enable scrobbling for the following sources:"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:191
+#: ../build/src/ui_playlistsettingspage.h:199
 msgid "Enable song metadata inline edition with click"
 msgstr "Slå på direkteredigering med ett klikk"
 
@@ -2510,11 +2510,11 @@ msgstr ""
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "Hentet %1 av %2 omslag (%3 feilet)"
 
-#: ../build/src/ui_playlistsettingspage.h:175
+#: ../build/src/ui_playlistsettingspage.h:183
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr "Merk ikke-eksisterende sanger med grått når de spilles"
 
-#: ../build/src/ui_playlistsettingspage.h:176
+#: ../build/src/ui_playlistsettingspage.h:184
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "Merk ikke-eksisterende sanger med grått på oppstart"
 
@@ -2664,7 +2664,7 @@ msgstr "Ikoner øverst"
 msgid "Identifying song"
 msgstr "Identifiserer sangen"
 
-#: ../build/src/ui_playlistsettingspage.h:189
+#: ../build/src/ui_playlistsettingspage.h:197
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
@@ -3040,7 +3040,7 @@ msgstr "Maks antall påloggingsforsøk nådd."
 msgid "Medium (%1 fps)"
 msgstr "Medium (%1 bilder/sekund)"
 
-#: ../build/src/ui_playlistsettingspage.h:187
+#: ../build/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
 msgstr "Metadata"
 
@@ -3284,7 +3284,7 @@ msgstr ""
 msgid "No short blocks"
 msgstr "Ikke korte blokker"
 
-#: context/contextview.cpp:440
+#: context/contextview.cpp:439
 msgid "No song playing"
 msgstr "Ingen sang spilles"
 
@@ -3612,7 +3612,7 @@ msgstr "Innstillinger for avspiller"
 #: playlist/playlistcontainer.cpp:343 playlist/playlistlistcontainer.cpp:273
 #: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:115
 #: playlist/playlistmanager.cpp:197 playlist/playlistmanager.cpp:548
-#: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:170
+#: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr "Spilleliste"
 
@@ -3840,7 +3840,7 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:185
+#: ../build/src/ui_playlistsettingspage.h:193
 msgid "Re&lative"
 msgstr "Relativ"
 
@@ -4425,9 +4425,9 @@ msgstr ""
 msgid "Show a &native desktop notification"
 msgstr "Vis en skrivebordsmedledelse som passer inn i ditt operativsystem"
 
-#: ../build/src/ui_playlistsettingspage.h:172
-msgid "Show a glowing animation on the current track"
-msgstr "Vis aura rundt gjeldende spor"
+#: ../build/src/ui_playlistsettingspage.h:180
+msgid "Show a glowing animation on the currently playing track"
+msgstr ""
 
 #: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
@@ -4475,6 +4475,10 @@ msgstr "Vis alle sanger"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
+msgstr ""
+
+#: ../build/src/ui_playlistsettingspage.h:179
+msgid "Show bars on the currently playing track"
 msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:416
@@ -5340,7 +5344,7 @@ msgstr "Bruk egendefinert fargedrakt"
 msgid "Use a custom message for notifications"
 msgstr "Bruk egendefinert melding for meddelelser"
 
-#: ../build/src/ui_playlistsettingspage.h:171
+#: ../build/src/ui_playlistsettingspage.h:178
 msgid "Use alternating row colors"
 msgstr ""
 
@@ -5449,7 +5453,7 @@ msgstr "Volum %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:239 ../build/src/ui_playlistsettingspage.h:173
+#: playlist/playlisttabbar.cpp:239 ../build/src/ui_playlistsettingspage.h:181
 msgid "Warn me when closing a playlist tab"
 msgstr "Advarsel når jeg lukker en spilleliste-fane"
 
@@ -5478,7 +5482,7 @@ msgstr ""
 "Strawberry søker først etter bildefiler som inneholder ett av disse ordene.\n"
 "Hvis ingen ord passer, blir det største bildet i mappen brukt."
 
-#: ../build/src/ui_playlistsettingspage.h:182
+#: ../build/src/ui_playlistsettingspage.h:190
 msgid "When saving a playlist, file paths should be"
 msgstr "Når du lagrer spillelisten, skal fil plasseringen"
 
@@ -5508,7 +5512,7 @@ msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
-#: ../build/src/ui_playlistsettingspage.h:192
+#: ../build/src/ui_playlistsettingspage.h:200
 msgid "Write metadata when saving playlists"
 msgstr "Skrev metadata når spilleliste lagres"
 
@@ -5712,8 +5716,8 @@ msgstr "hw"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:531 context/contextview.cpp:652
-#: playlist/playlistview.cpp:270 dialogs/edittagdialog.cpp:740
+#: context/contextview.cpp:530 context/contextview.cpp:651
+#: playlist/playlistview.cpp:271 dialogs/edittagdialog.cpp:740
 msgid "kbps"
 msgstr "kbps"
 
