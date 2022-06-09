@@ -95,7 +95,6 @@ ContextView::ContextView(QWidget *parent)
       layout_stop_(new QVBoxLayout()),
       layout_play_(new QVBoxLayout()),
       label_stop_summary_(new QLabel(this)),
-      spacer_stop_bottom_(new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Expanding)),
       widget_play_data_(new QWidget(this)),
       widget_play_output_(new QWidget(this)),
       layout_play_data_(new QGridLayout()),
@@ -103,7 +102,6 @@ ContextView::ContextView(QWidget *parent)
       textedit_play_lyrics_(new ResizableTextEdit(this)),
       spacer_play_output_(new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Fixed)),
       spacer_play_data_(new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Fixed)),
-      spacer_play_bottom_(new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum)),
       label_filetype_title_(new QLabel(this)),
       label_length_title_(new QLabel(this)),
       label_samplerate_title_(new QLabel(this)),
@@ -122,7 +120,6 @@ ContextView::ContextView(QWidget *parent)
       label_engine_(new QLabel(this)),
       label_device_icon_(new QLabel(this)),
       label_engine_icon_(new QLabel(this)),
-      spacer_bottom_(new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum)),
       lyrics_tried_(false),
       lyrics_id_(-1),
       font_size_headline_(0),
@@ -153,7 +150,7 @@ ContextView::ContextView(QWidget *parent)
   layout_scrollarea_->addWidget(textedit_top_);
   layout_scrollarea_->addWidget(widget_album_);
   layout_scrollarea_->addWidget(widget_stacked_);
-  layout_scrollarea_->addSpacerItem(spacer_bottom_);
+  layout_scrollarea_->addSpacerItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding));
 
   widget_stacked_->setContentsMargins(0, 0, 0, 0);
   widget_stacked_->addWidget(widget_stop_);
@@ -170,9 +167,10 @@ ContextView::ContextView(QWidget *parent)
 
   // Stopped
 
+  label_stop_summary_->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
   layout_stop_->setContentsMargins(0, 0, 0, 0);
   layout_stop_->addWidget(label_stop_summary_);
-  layout_stop_->addSpacerItem(spacer_stop_bottom_);
 
   // Playing
 
@@ -248,7 +246,7 @@ ContextView::ContextView(QWidget *parent)
   layout_play_->addWidget(widget_play_data_);
   layout_play_->addSpacerItem(spacer_play_data_);
   layout_play_->addWidget(textedit_play_lyrics_);
-  layout_play_->addSpacerItem(spacer_play_bottom_);
+  layout_play_->addSpacerItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding));
 
   labels_play_ << label_engine_title_
                << label_device_title_
@@ -270,7 +268,7 @@ ContextView::ContextView(QWidget *parent)
 
   labels_play_all_ = labels_play_ << labels_play_data_;
 
-  textedit_play_ << textedit_top_ << textedit_play_lyrics_;
+  textedit_play_ << textedit_play_lyrics_;
 
   QObject::connect(widget_album_, &ContextAlbum::FadeStopFinished, this, &ContextView::FadeStopFinished);
 
@@ -418,6 +416,7 @@ void ContextView::FadeStopFinished() {
   widget_stacked_->setCurrentWidget(widget_stop_);
   NoSong();
   ResetSong();
+  widget_stacked_->updateGeometry();
 
 }
 
@@ -594,6 +593,7 @@ void ContextView::SetSong() {
   }
 
   widget_stacked_->setCurrentWidget(widget_play_);
+  widget_stacked_->updateGeometry();
 
 }
 
@@ -662,6 +662,14 @@ void ContextView::ResetSong() {
   for (QLabel *l : labels_play_data_) {
     l->clear();
   }
+
+  for (QTextEdit *l : textedit_play_) {
+    l->clear();
+  }
+
+  widget_play_output_->hide();
+  widget_play_data_->hide();
+  textedit_play_lyrics_->hide();
 
 }
 

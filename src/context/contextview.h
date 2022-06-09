@@ -128,7 +128,6 @@ class ContextView : public QWidget {
   QVBoxLayout *layout_stop_;
   QVBoxLayout *layout_play_;
   QLabel *label_stop_summary_;
-  QSpacerItem *spacer_stop_bottom_;
   QWidget *widget_play_data_;
   QWidget *widget_play_output_;
   QGridLayout *layout_play_data_;
@@ -137,7 +136,6 @@ class ContextView : public QWidget {
 
   QSpacerItem *spacer_play_output_;
   QSpacerItem *spacer_play_data_;
-  QSpacerItem *spacer_play_bottom_;
 
   QLabel *label_filetype_title_;
   QLabel *label_length_title_;
@@ -159,8 +157,6 @@ class ContextView : public QWidget {
   QLabel *label_engine_;
   QLabel *label_device_icon_;
   QLabel *label_engine_icon_;
-
-  QSpacerItem *spacer_bottom_;
 
   Song song_playing_;
   Song song_prev_;
