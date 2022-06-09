@@ -50,7 +50,10 @@ enum {
 }  // namespace
 
 #define gst_fastspectrum_parent_class parent_class
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 G_DEFINE_TYPE(GstFastSpectrum, gst_fastspectrum, GST_TYPE_AUDIO_FILTER)
+#pragma GCC diagnostic pop
 
 static void gst_fastspectrum_finalize(GObject *object);
 static void gst_fastspectrum_set_property(GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);

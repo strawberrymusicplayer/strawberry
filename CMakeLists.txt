@@ -58,7 +58,7 @@ else()
     -Wformat=2
     -Wdisabled-optimization
     $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
-    $<$<COMPILE_LANGUAGE:CXX>:-Wno-old-style-cast>
+    $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
   )
 endif()
 
