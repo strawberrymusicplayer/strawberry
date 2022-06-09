@@ -108,9 +108,9 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
 
 #ifdef Q_OS_WIN
   // Don't show the window in the taskbar.  Qt::ToolTip does this too, but it adds an extra ugly shadow.
-  int ex_style = GetWindowLong((HWND)winId(), GWL_EXSTYLE);
+  int ex_style = GetWindowLong(reinterpret_cast<HWND>(winId()), GWL_EXSTYLE);
   ex_style |= WS_EX_NOACTIVATE;
-  SetWindowLong((HWND)winId(), GWL_EXSTYLE, ex_style);
+  SetWindowLong(reinterpret_cast<HWND>(winId()), GWL_EXSTYLE, ex_style);
 #endif
 
   // Mode settings
