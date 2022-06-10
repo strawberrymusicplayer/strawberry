@@ -137,8 +137,8 @@ bool GlobalShortcutsBackendMacOS::KeyPressed(const QKeySequence &sequence) {
 
 bool GlobalShortcutsBackendMacOS::IsAccessibilityEnabled() {
 
-  NSDictionary *options = @{(id)kAXTrustedCheckOptionPrompt: @YES};
-  return AXIsProcessTrustedWithOptions((CFDictionaryRef)options);
+  NSDictionary *options = @{reinterpret_cast<id>(kAXTrustedCheckOptionPrompt): @YES};
+  return AXIsProcessTrustedWithOptions(reinterpret_cast<CFDictionaryRef>(options));
 
 }
 
@@ -152,7 +152,7 @@ void GlobalShortcutsBackendMacOS::ShowAccessibilityDialog() {
     SBElementArray *panes = [system_prefs panes];
     SBSystemPreferencesPane *security_pane = nil;
     for (SBSystemPreferencesPane *pane : panes) {
-      if ([ [pane id] isEqualToString:@"com.apple.preference.security"]) {
+      if ([[pane id] isEqualToString:@"com.apple.preference.security"]) {
         security_pane = pane;
         break;
       }
@@ -161,7 +161,7 @@ void GlobalShortcutsBackendMacOS::ShowAccessibilityDialog() {
 
     SBElementArray *anchors = [security_pane anchors];
     for (SBSystemPreferencesAnchor *anchor : anchors) {
-      if ([ [anchor name] isEqualToString:@"Privacy_Accessibility"]) {
+      if ([[anchor name] isEqualToString:@"Privacy_Accessibility"]) {
         [anchor reveal];
       }
     }

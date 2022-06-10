@@ -67,7 +67,7 @@
 
 QDebug operator<<(QDebug dbg, NSObject *object) {
 
-  QString ns_format = [ [NSString stringWithFormat:@"%@", object] UTF8String];
+  QString ns_format = [[NSString stringWithFormat:@"%@", object] UTF8String];
   dbg.nospace() << ns_format;
   return dbg.space();
 
@@ -149,11 +149,12 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
 
   [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 
-  key_tap_ = [ [SPMediaKeyTap alloc] initWithDelegate:self];
+  key_tap_ = [[SPMediaKeyTap alloc] initWithDelegate:self];
   if ([SPMediaKeyTap usesGlobalMediaKeyTap]) {
     if ([key_tap_ startWatchingMediaKeys]) {
         qLog(Debug) << "Media key monitoring started";
-    } else {
+    }
+    else {
         qLog(Warning) << "Failed to start media key monitoring";
     }
   }
@@ -181,7 +182,7 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
 
   qLog(Debug) << "Wants to open:" << filenames;
   [filenames enumerateObjectsUsingBlock:^(id object, NSUInteger, BOOL*) {
-    [self application:app openFile:(NSString*)object];
+    [self application:app openFile:reinterpret_cast<NSString*>(object)];
   }];
 
 }
@@ -254,7 +255,7 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
 
 - (void)SetApplicationHandler:(PlatformInterface*)handler {
 
-  delegate_ = [ [AppDelegate alloc] initWithHandler:handler];
+  delegate_ = [[AppDelegate alloc] initWithHandler:handler];
   // App-shortcut-handler set before delegate is set.
   // this makes sure the delegate's shortcut_handler is set
   [delegate_ setShortcutHandler:shortcut_handler_];
@@ -263,7 +264,7 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
   // FIXME
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-  [ [NSUserNotificationCenter defaultUserNotificationCenter]setDelegate:delegate_];
+  [[NSUserNotificationCenter defaultUserNotificationCenter]setDelegate:delegate_];
 #pragma GCC diagnostic pop
 
 }
@@ -402,7 +403,7 @@ QKeySequence KeySequenceFromNSEvent(NSEvent *event) {
 
 void DumpDictionary(CFDictionaryRef dict) {
 
-  NSDictionary *d = (NSDictionary*)dict;
+  NSDictionary *d = reinterpret_cast<NSDictionary*>(dict);
   NSLog(@"%@", d);
 
 }
