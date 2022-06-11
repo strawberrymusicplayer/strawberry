@@ -393,11 +393,11 @@ MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &
     return nullptr;
   }
 
-  SongMap songs;
+  SongList songs;
   QList<QUrl> urls;
   urls.reserve(results.count());
   for (const InternetSearchView::Result &result : results) {
-    songs.insert(result.metadata_.song_id(), result.metadata_);
+    songs.append(result.metadata_);
     urls << result.metadata_.url();
   }
 

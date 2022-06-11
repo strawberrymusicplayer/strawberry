@@ -96,6 +96,10 @@ void TidalFavoriteRequest::AddAlbums(const SongList &songs) {
   AddFavorites(FavoriteType_Albums, songs);
 }
 
+void TidalFavoriteRequest::AddSongs(const SongList &songs) {
+  AddFavorites(FavoriteType_Songs, songs);
+}
+
 void TidalFavoriteRequest::AddSongs(const SongMap &songs) {
   AddFavoritesRequest(FavoriteType_Songs, songs.keys(), songs.values());
 }

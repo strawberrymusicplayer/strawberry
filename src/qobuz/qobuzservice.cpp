@@ -157,7 +157,7 @@ QobuzService::QobuzService(Application *app, QObject *parent)
 
   QObject::connect(this, &QobuzService::AddArtists, favorite_request_, &QobuzFavoriteRequest::AddArtists);
   QObject::connect(this, &QobuzService::AddAlbums, favorite_request_, &QobuzFavoriteRequest::AddAlbums);
-  QObject::connect(this, &QobuzService::AddSongs, favorite_request_, &QobuzFavoriteRequest::AddSongs);
+  QObject::connect(this, &QobuzService::AddSongs, favorite_request_, QOverload<const SongList&>::of(&QobuzFavoriteRequest::AddSongs));
 
   QObject::connect(this, &QobuzService::RemoveArtists, favorite_request_, &QobuzFavoriteRequest::RemoveArtists);
   QObject::connect(this, &QobuzService::RemoveAlbums, favorite_request_, &QobuzFavoriteRequest::RemoveAlbums);

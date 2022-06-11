@@ -123,7 +123,7 @@ class InternetService : public QObject {
 
   void AddArtists(SongList songs);
   void AddAlbums(SongList songs);
-  void AddSongs(SongMap songs);
+  void AddSongs(SongList songs);
 
   void RemoveArtists(SongList songs);
   void RemoveAlbums(SongList songs);

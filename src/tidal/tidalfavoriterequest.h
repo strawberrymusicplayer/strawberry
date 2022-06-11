@@ -66,6 +66,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
  public slots:
   void AddArtists(const SongList &songs);
   void AddAlbums(const SongList &songs);
+  void AddSongs(const SongList &songs);
   void AddSongs(const SongMap &songs);
 
   void RemoveArtists(const SongList &songs);

@@ -177,7 +177,7 @@ TidalService::TidalService(Application *app, QObject *parent)
 
   QObject::connect(this, &TidalService::AddArtists, favorite_request_, &TidalFavoriteRequest::AddArtists);
   QObject::connect(this, &TidalService::AddAlbums, favorite_request_, &TidalFavoriteRequest::AddAlbums);
-  QObject::connect(this, &TidalService::AddSongs, favorite_request_, &TidalFavoriteRequest::AddSongs);
+  QObject::connect(this, &TidalService::AddSongs, favorite_request_, QOverload<const SongList&>::of(&TidalFavoriteRequest::AddSongs));
 
   QObject::connect(this, &TidalService::RemoveArtists, favorite_request_, &TidalFavoriteRequest::RemoveArtists);
   QObject::connect(this, &TidalService::RemoveAlbums, favorite_request_, &TidalFavoriteRequest::RemoveAlbums);

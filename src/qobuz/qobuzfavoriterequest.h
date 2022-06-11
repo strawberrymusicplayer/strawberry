@@ -63,6 +63,7 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
  public slots:
   void AddArtists(const SongList &songs);
   void AddAlbums(const SongList &songs);
+  void AddSongs(const SongList &songs);
   void AddSongs(const SongMap &songs);
   void RemoveArtists(const SongList &songs);
   void RemoveAlbums(const SongList &songs);
