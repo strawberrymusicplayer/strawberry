@@ -83,7 +83,7 @@ class TagReaderTest : public ::testing::Test {
       QByteArray buffer;
       QCryptographicHash hash(QCryptographicHash::Sha256);
       while (file.bytesAvailable() > 0) {
-        quint64 bytes_read = qMin(file.bytesAvailable(), qint64(8192));
+        qint64 bytes_read = qMin(file.bytesAvailable(), 8192LL);
         buffer = file.read(bytes_read);
         if (buffer.isEmpty()) break;
         hash.addData(buffer, bytes_read);

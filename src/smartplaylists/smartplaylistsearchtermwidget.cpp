@@ -396,7 +396,7 @@ SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
     ret.value_ = ui_->value_date_numeric->value();
   }
   else if (value_page == ui_->page_date_relative) {
-    ret.date_ = SmartPlaylistSearchTerm::DateType(ui_->date_type_relative->currentIndex());
+    ret.date_ = static_cast<SmartPlaylistSearchTerm::DateType>(ui_->date_type_relative->currentIndex());
     ret.value_ = ui_->value_date_numeric1->value();
     ret.second_value_ = ui_->value_date_numeric2->value();
   }
