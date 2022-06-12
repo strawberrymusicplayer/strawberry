@@ -1339,14 +1339,14 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy type, const bool si
       break;
     }
     case GroupBy_FileType:{
-      item->metadata.set_filetype(Song::FileType(row.value(0).toInt()));
+      item->metadata.set_filetype(static_cast<Song::FileType>(row.value(0).toInt()));
       item->key.append(ContainerKey(type, item->metadata));
       item->display_text = item->metadata.TextForFiletype();
       item->sort_text = item->metadata.TextForFiletype();
       break;
     }
     case GroupBy_Format:{
-      item->metadata.set_filetype(Song::FileType(row.value(0).toInt()));
+      item->metadata.set_filetype(static_cast<Song::FileType>(row.value(0).toInt()));
       item->metadata.set_samplerate(row.value(1).toInt());
       item->metadata.set_bitdepth(row.value(2).toInt());
       QString key = ContainerKey(type, item->metadata);
@@ -1949,7 +1949,7 @@ void CollectionModel::ExpandAll(CollectionItem *item) const {
 }
 
 QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping g) {
-  s << quint32(g.first) << quint32(g.second) << quint32(g.third);
+  s << static_cast<quint32>(g.first) << static_cast<quint32>(g.second) << static_cast<quint32>(g.third);
   return s;
 }
 
@@ -1957,11 +1957,11 @@ QDataStream &operator>>(QDataStream &s, CollectionModel::Grouping &g) {
 
   quint32 buf = 0;
   s >> buf;
-  g.first = CollectionModel::GroupBy(buf);
+  g.first = static_cast<CollectionModel::GroupBy>(buf);
   s >> buf;
-  g.second = CollectionModel::GroupBy(buf);
+  g.second = static_cast<CollectionModel::GroupBy>(buf);
   s >> buf;
-  g.third = CollectionModel::GroupBy(buf);
+  g.third = static_cast<CollectionModel::GroupBy>(buf);
   return s;
 
 }

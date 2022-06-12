@@ -224,7 +224,7 @@ void PlayingWidget::CreateModeAction(const Mode mode, const QString &text, QActi
 
 void PlayingWidget::SetMode(const int mode) {
 
-  mode_ = Mode(mode);
+  mode_ = static_cast<Mode>(mode);
 
   fit_cover_width_action_->setEnabled(mode_ != SmallSongDetails);
 
@@ -485,7 +485,7 @@ void PlayingWidget::FadePreviousTrack(const qreal value) {
   if (!visible_) return;
 
   pixmap_previous_track_opacity_ = value;
-  if (qFuzzyCompare(pixmap_previous_track_opacity_, qreal(0.0))) {
+  if (qFuzzyCompare(pixmap_previous_track_opacity_, static_cast<qreal>(0.0))) {
     pixmap_previous_track_ = QPixmap();
   }
 

@@ -41,7 +41,7 @@ QHash<QPair<quint32, quint32>, GlobalShortcut*> GlobalShortcut::internal_shortcu
 GlobalShortcut::GlobalShortcut(QObject *parent)
     : QObject(parent),
       backend_(nullptr),
-      qt_key_(Qt::Key(0)),
+      qt_key_(static_cast<Qt::Key>(0)),
       qt_mods_(Qt::NoModifier),
       native_key_(0),
       native_key2_(0),
@@ -58,7 +58,7 @@ GlobalShortcut::GlobalShortcut(const QKeySequence &shortcut, GlobalShortcutsBack
     : QObject(parent),
       backend_(backend),
       shortcut_(shortcut),
-      qt_key_(Qt::Key(0)),
+      qt_key_(static_cast<Qt::Key>(0)),
       qt_mods_(Qt::NoModifier),
       native_key_(0),
       native_key2_(0),
@@ -150,7 +150,7 @@ bool GlobalShortcut::unsetShortcut() {
     qLog(Error) << "Failed to unregister shortcut" << shortcut_.toString();
   }
 
-  qt_key_ = Qt::Key(0);
+  qt_key_ = static_cast<Qt::Key>(0);
   qt_mods_ = Qt::KeyboardModifiers();
   native_key_ = 0;
   native_mods_ = 0;

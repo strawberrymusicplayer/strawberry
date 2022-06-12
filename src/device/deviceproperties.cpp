@@ -209,7 +209,7 @@ void DeviceProperties::UpdateFormats() {
   std::shared_ptr<ConnectedDevice> device = manager_->GetConnectedDevice(index_);
 
   // Transcode mode
-  MusicStorage::TranscodeMode mode = MusicStorage::TranscodeMode(index_.data(DeviceManager::Role_TranscodeMode).toInt());
+  MusicStorage::TranscodeMode mode = static_cast<MusicStorage::TranscodeMode>(index_.data(DeviceManager::Role_TranscodeMode).toInt());
   switch (mode) {
     case MusicStorage::Transcode_Always:
       ui_->transcode_all->setChecked(true);
@@ -273,7 +273,7 @@ void DeviceProperties::accept() {
     mode = MusicStorage::Transcode_Unsupported;
 
   // Transcode format
-  Song::FileType format = Song::FileType(ui_->transcode_format->itemData(ui_->transcode_format->currentIndex()).toInt());
+  Song::FileType format = static_cast<Song::FileType>(ui_->transcode_format->itemData(ui_->transcode_format->currentIndex()).toInt());
 
   // By default no icon is selected and thus no current item is selected
   QString icon_name;
@@ -317,7 +317,7 @@ void DeviceProperties::UpdateFormatsFinished() {
 
 #ifdef HAVE_GSTREAMER
   // Set the format combobox item
-  TranscoderPreset preset = Transcoder::PresetForFileType(Song::FileType(index_.data(DeviceManager::Role_TranscodeFormat).toInt()));
+  TranscoderPreset preset = Transcoder::PresetForFileType(static_cast<Song::FileType>(index_.data(DeviceManager::Role_TranscodeFormat).toInt()));
   if (preset.filetype_ == Song::FileType_Unknown) {
     // The user hasn't chosen a format for this device yet,
     // so work our way down a list of some preferred formats, picking the first one that is supported

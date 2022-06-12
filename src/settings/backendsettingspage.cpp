@@ -137,8 +137,8 @@ void BackendSettingsPage::Load() {
   ui_->lineedit_device->show();
   ui_->widget_alsa_plugin->show();
   int alsaplug_int = alsa_plugin(s.value("alsaplugin", 0).toInt());
-  if (alsa_plugin(alsaplug_int)) {
-    alsa_plugin alsaplugin = alsa_plugin(alsaplug_int);
+  if (static_cast<alsa_plugin>(alsaplug_int)) {
+    alsa_plugin alsaplugin = static_cast<alsa_plugin>(alsaplug_int);
     switch (alsaplugin) {
       case alsa_plugin::alsa_hw:
         ui_->radiobutton_alsa_hw->setChecked(true);

@@ -353,7 +353,7 @@ qint64 GstEngine::position_nanosec() const {
   if (!current_pipeline_) return 0;
 
   const qint64 result = current_pipeline_->position() - static_cast<qint64>(beginning_nanosec_);
-  return qint64(qMax(0LL, result));
+  return std::max(0LL, result);
 
 }
 

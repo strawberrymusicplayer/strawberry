@@ -98,7 +98,7 @@ void _MessageHandlerBase::DeviceReadyRead() {
 void _MessageHandlerBase::WriteMessage(const QByteArray &data) {
 
   QDataStream s(device_);
-  s << quint32(data.length());
+  s << static_cast<quint32>(data.length());
   s.writeRawData(data.data(), static_cast<int>(data.length()));
 
   // Sorry.

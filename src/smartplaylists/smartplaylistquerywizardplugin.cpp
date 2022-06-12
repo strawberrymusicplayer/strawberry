@@ -130,7 +130,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
 
   // Add sort field texts
   for (int i = 0; i < SmartPlaylistSearchTerm::FieldCount; ++i) {
-    const SmartPlaylistSearchTerm::Field field = SmartPlaylistSearchTerm::Field(i);
+    const SmartPlaylistSearchTerm::Field field = static_cast<SmartPlaylistSearchTerm::Field>(i);
     const QString field_name = SmartPlaylistSearchTerm::FieldName(field);
     sort_ui_->field_value->addItem(field_name);
   }
@@ -216,7 +216,7 @@ PlaylistGeneratorPtr SmartPlaylistQueryWizardPlugin::CreateGenerator() const {
 
 void SmartPlaylistQueryWizardPlugin::UpdateSortOrder() {
 
-  const SmartPlaylistSearchTerm::Field field = SmartPlaylistSearchTerm::Field(sort_ui_->field_value->currentIndex());
+  const SmartPlaylistSearchTerm::Field field = static_cast<SmartPlaylistSearchTerm::Field>(sort_ui_->field_value->currentIndex());
   const SmartPlaylistSearchTerm::Type type = SmartPlaylistSearchTerm::TypeOf(field);
   const QString asc = SmartPlaylistSearchTerm::FieldSortOrderText(type, true);
   const QString desc = SmartPlaylistSearchTerm::FieldSortOrderText(type, false);
@@ -283,7 +283,7 @@ SmartPlaylistSearch SmartPlaylistQueryWizardPlugin::MakeSearch() const {
   SmartPlaylistSearch ret;
 
   // Search type
-  ret.search_type_ = SmartPlaylistSearch::SearchType(search_page_->ui_->type->currentIndex());
+  ret.search_type_ = static_cast<SmartPlaylistSearch::SearchType>(search_page_->ui_->type->currentIndex());
 
   // Search terms
   for (SmartPlaylistSearchTermWidget *widget : search_page_->terms_) {
@@ -298,7 +298,7 @@ SmartPlaylistSearch SmartPlaylistQueryWizardPlugin::MakeSearch() const {
   else {
     const bool ascending = sort_ui_->order->currentIndex() == 0;
     ret.sort_type_ = ascending ? SmartPlaylistSearch::Sort_FieldAsc : SmartPlaylistSearch::Sort_FieldDesc;
-    ret.sort_field_ = SmartPlaylistSearchTerm::Field(sort_ui_->field_value->currentIndex());
+    ret.sort_field_ = static_cast<SmartPlaylistSearchTerm::Field>(sort_ui_->field_value->currentIndex());
   }
 
   // Limit

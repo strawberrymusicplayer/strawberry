@@ -1056,7 +1056,7 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
       // Actually draw the background image
       if (!cached_scaled_background_image_.isNull()) {
         // Set opactiy only if needed, as this deactivate hardware acceleration
-        if (!qFuzzyCompare(previous_background_image_opacity_, qreal(0.0))) {
+        if (!qFuzzyCompare(previous_background_image_opacity_, static_cast<qreal>(0.0))) {
           background_painter.setOpacity(1.0 - previous_background_image_opacity_);
         }
         switch (background_image_position_) {
@@ -1524,7 +1524,7 @@ void PlaylistView::set_background_image(const QImage &image) {
 void PlaylistView::FadePreviousBackgroundImage(const qreal value) {
 
   previous_background_image_opacity_ = value;
-  if (qFuzzyCompare(previous_background_image_opacity_, qreal(0.0))) {
+  if (qFuzzyCompare(previous_background_image_opacity_, static_cast<qreal>(0.0))) {
     previous_background_image_ = QPixmap();
     previous_background_image_opacity_ = 0.0;
   }

@@ -122,7 +122,7 @@ bool MtpConnection::GetSupportedFiletypes(QList<Song::FileType> *ret) {
   }
 
   for (int i = 0; i < length; ++i) {
-    switch (LIBMTP_filetype_t(list[i])) {
+    switch (static_cast<LIBMTP_filetype_t>(list[i])) {
       case LIBMTP_FILETYPE_WAV:  *ret << Song::FileType_WAV; break;
       case LIBMTP_FILETYPE_MP2:
       case LIBMTP_FILETYPE_MP3:  *ret << Song::FileType_MPEG; break;
@@ -140,7 +140,7 @@ bool MtpConnection::GetSupportedFiletypes(QList<Song::FileType> *ret) {
         *ret << Song::FileType_OggFlac;
         break;
       default:
-        qLog(Error) << "Unknown MTP file format" << LIBMTP_Get_Filetype_Description(LIBMTP_filetype_t(list[i]));
+        qLog(Error) << "Unknown MTP file format" << LIBMTP_Get_Filetype_Description(static_cast<LIBMTP_filetype_t>(list[i]));
         break;
     }
   }

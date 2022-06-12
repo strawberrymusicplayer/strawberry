@@ -105,17 +105,17 @@ SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(CollectionBackend *
 
   // Populate the combo boxes
   for (int i = 0; i < SmartPlaylistSearchTerm::FieldCount; ++i) {
-    ui_->field->addItem(SmartPlaylistSearchTerm::FieldName(SmartPlaylistSearchTerm::Field(i)));
+    ui_->field->addItem(SmartPlaylistSearchTerm::FieldName(static_cast<SmartPlaylistSearchTerm::Field>(i)));
     ui_->field->setItemData(i, i);
   }
   ui_->field->model()->sort(0);
 
   // Populate the date type combo box
   for (int i = 0; i < 5; ++i) {
-    ui_->date_type->addItem(SmartPlaylistSearchTerm::DateName(SmartPlaylistSearchTerm::DateType(i), false));
+    ui_->date_type->addItem(SmartPlaylistSearchTerm::DateName(static_cast<SmartPlaylistSearchTerm::DateType>(i), false));
     ui_->date_type->setItemData(i, i);
 
-    ui_->date_type_relative->addItem(SmartPlaylistSearchTerm::DateName(SmartPlaylistSearchTerm::DateType(i), false));
+    ui_->date_type_relative->addItem(SmartPlaylistSearchTerm::DateName(static_cast<SmartPlaylistSearchTerm::DateType>(i), false));
     ui_->date_type_relative->setItemData(i, i);
   }
 
@@ -141,7 +141,7 @@ SmartPlaylistSearchTermWidget::~SmartPlaylistSearchTermWidget() { delete ui_; }
 
 void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
 
-  SmartPlaylistSearchTerm::Field field = SmartPlaylistSearchTerm::Field(ui_->field->itemData(index).toInt());
+  SmartPlaylistSearchTerm::Field field = static_cast<SmartPlaylistSearchTerm::Field>(ui_->field->itemData(index).toInt());
   SmartPlaylistSearchTerm::Type type = SmartPlaylistSearchTerm::TypeOf(field);
 
   // Populate the operator combo box
@@ -371,8 +371,8 @@ SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
   const int op = ui_->op->itemData(ui_->op->currentIndex()).toInt();
 
   SmartPlaylistSearchTerm ret;
-  ret.field_ = SmartPlaylistSearchTerm::Field(field);
-  ret.operator_ = SmartPlaylistSearchTerm::Operator(op);
+  ret.field_ = static_cast<SmartPlaylistSearchTerm::Field>(field);
+  ret.operator_ = static_cast<SmartPlaylistSearchTerm::Operator>(op);
 
   // The value depends on the data type
   const QWidget *value_page = ui_->value_stack->currentWidget();
@@ -392,7 +392,7 @@ SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
     ret.value_ = QTime(0, 0).secsTo(ui_->value_time->time());
   }
   else if (value_page == ui_->page_date_numeric) {
-    ret.date_ = SmartPlaylistSearchTerm::DateType(ui_->date_type->currentIndex());
+    ret.date_ = static_cast<SmartPlaylistSearchTerm::DateType>(ui_->date_type->currentIndex());
     ret.value_ = ui_->value_date_numeric->value();
   }
   else if (value_page == ui_->page_date_relative) {

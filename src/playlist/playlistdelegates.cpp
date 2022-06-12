@@ -360,7 +360,7 @@ QString FileTypeItemDelegate::displayText(const QVariant &value, const QLocale &
   Q_UNUSED(locale);
 
   bool ok = false;
-  Song::FileType type = Song::FileType(value.toInt(&ok));
+  Song::FileType type = static_cast<Song::FileType>(value.toInt(&ok));
 
   if (!ok) return tr("Unknown");
 
@@ -500,7 +500,7 @@ void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   QStyleOptionViewItem option_copy(option);
   initStyleOption(&option_copy, idx);
 
-  const Song::Source source = Song::Source(idx.data().toInt());
+  const Song::Source source = static_cast<Song::Source>(idx.data().toInt());
   QPixmap pixmap = LookupPixmap(source, option_copy.decorationSize);
 
   QWidget *parent_widget = qobject_cast<QWidget*>(parent());

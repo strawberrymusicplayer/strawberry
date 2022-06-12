@@ -460,11 +460,11 @@ QString SmartPlaylistSearchTerm::DateName(const DateType date, const bool forQue
 
 QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearchTerm &term) {
 
-  s << quint8(term.field_);
-  s << quint8(term.operator_);
+  s << static_cast<quint8>(term.field_);
+  s << static_cast<quint8>(term.operator_);
   s << term.value_;
   s << term.second_value_;
-  s << quint8(term.date_);
+  s << static_cast<quint8>(term.date_);
   return s;
 
 }
@@ -473,9 +473,9 @@ QDataStream &operator>>(QDataStream &s, SmartPlaylistSearchTerm &term) {
 
   quint8 field = 0, op = 0, date = 0;
   s >> field >> op >> term.value_ >> term.second_value_ >> date;
-  term.field_ = SmartPlaylistSearchTerm::Field(field);
-  term.operator_ = SmartPlaylistSearchTerm::Operator(op);
-  term.date_ = SmartPlaylistSearchTerm::DateType(date);
+  term.field_ = static_cast<SmartPlaylistSearchTerm::Field>(field);
+  term.operator_ = static_cast<SmartPlaylistSearchTerm::Operator>(op);
+  term.date_ = static_cast<SmartPlaylistSearchTerm::DateType>(date);
   return s;
 
 }

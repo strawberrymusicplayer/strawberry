@@ -107,7 +107,7 @@ void RadioBackend::GetChannels() {
   RadioChannelList channels;
   while (q.next()) {
     RadioChannel channel;
-    channel.source = Song::Source(q.value(0).toInt());
+    channel.source = static_cast<Song::Source>(q.value(0).toInt());
     channel.name = q.value(1).toString();
     channel.url.setUrl(q.value(2).toString());
     channel.thumbnail_url.setUrl(q.value(3).toString());

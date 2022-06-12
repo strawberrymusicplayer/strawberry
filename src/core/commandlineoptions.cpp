@@ -369,8 +369,8 @@ QString CommandlineOptions::tr(const char *source_text) {
 
 QDataStream &operator<<(QDataStream &s, const CommandlineOptions &a) {
 
-  s << qint32(a.player_action_)
-    << qint32(a.url_list_action_)
+  s << static_cast<qint64>(a.player_action_)
+    << static_cast<qint64>(a.url_list_action_)
     << a.set_volume_
     << a.volume_modifier_
     << a.seek_to_
@@ -406,8 +406,8 @@ QDataStream &operator>>(QDataStream &s, CommandlineOptions &a) {
     >> a.playlist_name_
     >> a.window_size_;
 
-  a.player_action_ = CommandlineOptions::PlayerAction(player_action);
-  a.url_list_action_ = CommandlineOptions::UrlListAction(url_list_action);
+  a.player_action_ = static_cast<CommandlineOptions::PlayerAction>(player_action);
+  a.url_list_action_ = static_cast<CommandlineOptions::UrlListAction>(url_list_action);
 
   return s;
 

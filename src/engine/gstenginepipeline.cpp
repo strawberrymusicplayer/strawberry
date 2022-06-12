@@ -1443,12 +1443,12 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
     }
     else {
       // Calculate the position in the new fader with the same value from the old fader, so no volume jumps appear
-      qreal time = qreal(duration_msec) * (qreal(fader_->currentTime()) / qreal(fader_->duration()));
+      qreal time = static_cast<qreal>(duration_msec) * (static_cast<qreal>(fader_->currentTime()) / static_cast<qreal>(fader_->duration()));
       start_time = qRound(time);
     }
   }
 
-  fader_.reset(new QTimeLine(duration_msec), [](QTimeLine *timeline) {
+  fader_.reset(new QTimeLine(static_cast<int>(duration_msec)), [](QTimeLine *timeline) {
     if (timeline->state() != QTimeLine::NotRunning) {
       timeline->stop();
     }

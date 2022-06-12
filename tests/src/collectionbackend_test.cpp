@@ -401,6 +401,7 @@ TEST_F(TestUrls, TestUrls) {
 
   QList<QUrl> urls = QUrl::fromStringList(strings);
   SongList songs;
+  songs.reserve(urls.count());
   for (const QUrl &url : urls) {
 
     EXPECT_EQ(url, QUrl::fromEncoded(url.toString(QUrl::FullyEncoded).toUtf8()));

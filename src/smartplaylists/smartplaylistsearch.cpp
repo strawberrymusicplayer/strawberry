@@ -125,10 +125,10 @@ bool SmartPlaylistSearch::operator==(const SmartPlaylistSearch &other) const {
 QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearch &search) {
 
   s << search.terms_;
-  s << quint8(search.sort_type_);
-  s << quint8(search.sort_field_);
-  s << qint32(search.limit_);
-  s << quint8(search.search_type_);
+  s << static_cast<quint8>(search.sort_type_);
+  s << static_cast<quint8>(search.sort_field_);
+  s << static_cast<quint32>(search.limit_);
+  s << static_cast<quint8>(search.search_type_);
   return s;
 
 }
@@ -139,10 +139,10 @@ QDataStream &operator>>(QDataStream &s, SmartPlaylistSearch &search) {
   qint32 limit = 0;
 
   s >> search.terms_ >> sort_type >> sort_field >> limit >> search_type;
-  search.sort_type_ = SmartPlaylistSearch::SortType(sort_type);
-  search.sort_field_ = SmartPlaylistSearchTerm::Field(sort_field);
+  search.sort_type_ = static_cast<SmartPlaylistSearch::SortType>(sort_type);
+  search.sort_field_ = static_cast<SmartPlaylistSearchTerm::Field>(sort_field);
   search.limit_ = limit;
-  search.search_type_ = SmartPlaylistSearch::SearchType(search_type);
+  search.search_type_ = static_cast<SmartPlaylistSearch::SearchType>(search_type);
 
   return s;
 

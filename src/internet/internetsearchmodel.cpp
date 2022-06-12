@@ -395,6 +395,7 @@ MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &
 
   SongList songs;
   QList<QUrl> urls;
+  songs.reserve(results.count());
   urls.reserve(results.count());
   for (const InternetSearchView::Result &result : results) {
     songs.append(result.metadata_);

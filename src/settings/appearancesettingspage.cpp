@@ -295,7 +295,7 @@ void AppearanceSettingsPage::Save() {
     s.remove(kBackgroundImageFilename);
   }
 
-  BackgroundImagePosition backgroundimageposition = BackgroundImagePosition(ui_->combobox_backgroundimageposition->itemData(ui_->combobox_backgroundimageposition->currentIndex()).toInt());
+  BackgroundImagePosition backgroundimageposition = static_cast<BackgroundImagePosition>(ui_->combobox_backgroundimageposition->itemData(ui_->combobox_backgroundimageposition->currentIndex()).toInt());
   s.setValue(kBackgroundImageMaxSize, ui_->spinbox_background_image_maxsize->value());
   s.setValue(kBackgroundImagePosition, backgroundimageposition);
   s.setValue(kBackgroundImageStretch, ui_->checkbox_background_image_stretch->isChecked());

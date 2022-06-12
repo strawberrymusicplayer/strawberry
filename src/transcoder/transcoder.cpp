@@ -185,7 +185,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
 }
 
 Transcoder::JobFinishedEvent::JobFinishedEvent(JobState *state, bool success)
-    : QEvent(QEvent::Type(sEventType)), state_(state), success_(success) {}
+    : QEvent(static_cast<QEvent::Type>(sEventType)), state_(state), success_(success) {}
 
 void Transcoder::JobState::PostFinished(const bool success) {
 

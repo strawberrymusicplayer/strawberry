@@ -248,7 +248,7 @@ void InternetSearchView::ReloadSettings() {
         CollectionModel::GroupBy(s.value("search_group_by3", static_cast<int>(CollectionModel::GroupBy_None)).toInt())));
   }
   else {
-    SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy(CollectionModel::GroupBy_AlbumArtist), CollectionModel::GroupBy(CollectionModel::GroupBy_AlbumDisc), CollectionModel::GroupBy(CollectionModel::GroupBy_None)));
+    SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc, CollectionModel::GroupBy_None));
   }
   s.endGroup();
 
@@ -831,7 +831,7 @@ void InternetSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
   }
 
   // Is this an album?
-  const CollectionModel::GroupBy container_type = CollectionModel::GroupBy(proxy_index.data(CollectionModel::Role_ContainerType).toInt());
+  const CollectionModel::GroupBy container_type = static_cast<CollectionModel::GroupBy>(proxy_index.data(CollectionModel::Role_ContainerType).toInt());
   if (!CollectionModel::IsAlbumGroupBy(container_type)) return;
 
   // Mark the item as loading art

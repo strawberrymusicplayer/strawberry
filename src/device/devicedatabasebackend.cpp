@@ -95,8 +95,8 @@ DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
       dev.size_ = q.value(3).toLongLong();
       dev.icon_name_ = q.value(4).toString();
       int schema_version = q.value(5).toInt();
-      dev.transcode_mode_ = MusicStorage::TranscodeMode(q.value(6).toInt());
-      dev.transcode_format_ = Song::FileType(q.value(7).toInt());
+      dev.transcode_mode_ = static_cast<MusicStorage::TranscodeMode>(q.value(6).toInt());
+      dev.transcode_format_ = static_cast<Song::FileType>(q.value(7).toInt());
       if (schema_version < kDeviceSchemaVersion) {  // Device is using old schema, drop it.
         old_devices << dev;
       }

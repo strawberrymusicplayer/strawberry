@@ -658,7 +658,7 @@ Song AlbumCoverManager::ItemAsSong(AlbumItem *item) {
   result.set_albumartist(item->data(Role_AlbumArtist).toString());
   result.set_album(item->data(Role_Album).toString());
 
-  result.set_filetype(Song::FileType(item->data(Role_Filetype).toInt()));
+  result.set_filetype(static_cast<Song::FileType>(item->data(Role_Filetype).toInt()));
   result.set_url(item->urls.first());
   result.set_cue_path(item->data(Role_CuePath).toString());
 
@@ -969,7 +969,7 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, const AlbumCoverImageRe
   const QString albumartist = item->data(Role_AlbumArtist).toString();
   const QString album = item->data(Role_Album).toString();
   const QList<QUrl> &urls = item->urls;
-  const Song::FileType filetype = Song::FileType(item->data(Role_Filetype).toInt());
+  const Song::FileType filetype = static_cast<Song::FileType>(item->data(Role_Filetype).toInt());
   const bool has_cue = !item->data(Role_CuePath).toString().isEmpty();
 
   if (album_cover_choice_controller_->get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType_Embedded && Song::save_embedded_cover_supported(filetype) && !has_cue) {

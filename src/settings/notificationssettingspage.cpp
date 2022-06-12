@@ -264,7 +264,7 @@ void NotificationsSettingsPage::Save() {
 
 void NotificationsSettingsPage::PrettyOpacityChanged(int value) {
 
-  pretty_popup_->set_background_opacity(qreal(value) / 100.0);
+  pretty_popup_->set_background_opacity(static_cast<qreal>(value) / 100.0);
   set_changed();
 
 }

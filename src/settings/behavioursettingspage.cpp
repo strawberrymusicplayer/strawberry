@@ -253,14 +253,14 @@ void BehaviourSettingsPage::Save() {
 
   s.setValue("language", language_map_.contains(ui_->combobox_language->currentText()) ? language_map_[ui_->combobox_language->currentText()] : QString());
 
-  PlayBehaviour menu_playmode = PlayBehaviour(ui_->combobox_menuplaymode->itemData(ui_->combobox_menuplaymode->currentIndex()).toInt());
+  PlayBehaviour menu_playmode = static_cast<PlayBehaviour>(ui_->combobox_menuplaymode->itemData(ui_->combobox_menuplaymode->currentIndex()).toInt());
 
-  PreviousBehaviour menu_previousmode = PreviousBehaviour(ui_->combobox_previousmode->itemData(ui_->combobox_previousmode->currentIndex()).toInt());
-  AddBehaviour doubleclick_addmode = AddBehaviour(ui_->combobox_doubleclickaddmode->itemData(ui_->combobox_doubleclickaddmode->currentIndex()).toInt());
+  PreviousBehaviour menu_previousmode = static_cast<PreviousBehaviour>(ui_->combobox_previousmode->itemData(ui_->combobox_previousmode->currentIndex()).toInt());
+  AddBehaviour doubleclick_addmode = static_cast<AddBehaviour>(ui_->combobox_doubleclickaddmode->itemData(ui_->combobox_doubleclickaddmode->currentIndex()).toInt());
 
-  PlayBehaviour doubleclick_playmode = PlayBehaviour(ui_->combobox_doubleclickplaymode->itemData(ui_->combobox_doubleclickplaymode->currentIndex()).toInt());
+  PlayBehaviour doubleclick_playmode = static_cast<PlayBehaviour>(ui_->combobox_doubleclickplaymode->itemData(ui_->combobox_doubleclickplaymode->currentIndex()).toInt());
 
-  PlaylistAddBehaviour doubleclick_playlist_addmode = PlaylistAddBehaviour(ui_->combobox_doubleclickplaylistaddmode->itemData(ui_->combobox_doubleclickplaylistaddmode->currentIndex()).toInt());
+  PlaylistAddBehaviour doubleclick_playlist_addmode = static_cast<PlaylistAddBehaviour>(ui_->combobox_doubleclickplaylistaddmode->itemData(ui_->combobox_doubleclickplaylistaddmode->currentIndex()).toInt());
 
   s.setValue("menu_playmode", menu_playmode);
   s.setValue("menu_previousmode", menu_previousmode);

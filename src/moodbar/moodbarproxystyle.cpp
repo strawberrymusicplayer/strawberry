@@ -380,7 +380,7 @@ void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
     style_action_group_ = new QActionGroup(styles_menu);
 
     for (int i = 0; i < MoodbarRenderer::StyleCount; ++i) {
-      const MoodbarRenderer::MoodbarStyle style = MoodbarRenderer::MoodbarStyle(i);
+      const MoodbarRenderer::MoodbarStyle style = static_cast<MoodbarRenderer::MoodbarStyle>(i);
 
       QAction *action = style_action_group_->addAction(MoodbarRenderer::StyleName(style));
       action->setCheckable(true);
@@ -394,7 +394,7 @@ void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
 
   // Update the currently selected style
   for (QAction *action : style_action_group_->actions()) {
-    if (MoodbarRenderer::MoodbarStyle(action->data().toInt()) == moodbar_style_) {
+    if (static_cast<MoodbarRenderer::MoodbarStyle>(action->data().toInt()) == moodbar_style_) {
       action->setChecked(true);
       break;
     }

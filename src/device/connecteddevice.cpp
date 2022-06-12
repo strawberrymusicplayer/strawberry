@@ -150,7 +150,7 @@ MusicStorage::TranscodeMode ConnectedDevice::GetTranscodeMode() const {
   QModelIndex idx = manager_->ItemToIndex(info);
   if (!idx.isValid()) return MusicStorage::TranscodeMode();
 
-  return MusicStorage::TranscodeMode(idx.data(DeviceManager::Role_TranscodeMode).toInt());
+  return static_cast<MusicStorage::TranscodeMode>(idx.data(DeviceManager::Role_TranscodeMode).toInt());
 
 }
 
@@ -162,7 +162,7 @@ Song::FileType ConnectedDevice::GetTranscodeFormat() const {
   QModelIndex idx = manager_->ItemToIndex(info);
   if (!idx.isValid()) return Song::FileType_Unknown;
 
-  return Song::FileType(idx.data(DeviceManager::Role_TranscodeFormat).toInt());
+  return static_cast<Song::FileType>(idx.data(DeviceManager::Role_TranscodeFormat).toInt());
 
 }
 

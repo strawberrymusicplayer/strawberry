@@ -270,7 +270,7 @@ QString RadioModel::ChannelIconPixmapCacheKey(const QModelIndex &idx) const {
 }
 
 QPixmap RadioModel::ServiceIcon(const QModelIndex &idx) const {
-  return Song::IconForSource(Song::Source(idx.data(Role_Source).toInt())).pixmap(kTreeIconSize, kTreeIconSize);
+  return Song::IconForSource(static_cast<Song::Source>(idx.data(Role_Source).toInt())).pixmap(kTreeIconSize, kTreeIconSize);
 }
 
 QPixmap RadioModel::ServiceIcon(RadioItem *item) const {

@@ -921,7 +921,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   ui_->tabs->setCurrentIndex(settings_.value("current_tab", 1).toInt());
   FancyTabWidget::Mode default_mode = FancyTabWidget::Mode_LargeSidebar;
   int tab_mode_int = settings_.value("tab_mode", default_mode).toInt();
-  FancyTabWidget::Mode tab_mode = FancyTabWidget::Mode(tab_mode_int);
+  FancyTabWidget::Mode tab_mode = static_cast<FancyTabWidget::Mode>(tab_mode_int);
   if (tab_mode == FancyTabWidget::Mode_None) tab_mode = default_mode;
   ui_->tabs->SetMode(tab_mode);
 
@@ -2179,7 +2179,7 @@ void MainWindow::EditValue() {
   if (column == -1) {
     for (int i = 0; i < ui_->playlist->view()->model()->columnCount(); ++i) {
       if (ui_->playlist->view()->isColumnHidden(i)) continue;
-      if (!Playlist::column_is_editable(Playlist::Column(i))) continue;
+      if (!Playlist::column_is_editable(static_cast<Playlist::Column>(i))) continue;
       column = i;
       break;
     }

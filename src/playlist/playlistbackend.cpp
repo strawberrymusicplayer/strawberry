@@ -136,7 +136,7 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFl
     p.special_type = q.value(3).toString();
     p.ui_path = q.value(4).toString();
     p.favorite = q.value(5).toBool();
-    p.dynamic_type = PlaylistGenerator::Type(q.value(6).toInt());
+    p.dynamic_type = static_cast<PlaylistGenerator::Type>(q.value(6).toInt());
     p.dynamic_data = q.value(7).toByteArray();
     p.dynamic_backend = q.value(8).toString();
     ret << p;
@@ -169,7 +169,7 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
   p.special_type = q.value(3).toString();
   p.ui_path = q.value(4).toString();
   p.favorite = q.value(5).toBool();
-  p.dynamic_type = PlaylistGenerator::Type(q.value(6).toInt());
+  p.dynamic_type = static_cast<PlaylistGenerator::Type>(q.value(6).toInt());
   p.dynamic_data = q.value(7).toByteArray();
   p.dynamic_backend = q.value(8).toString();
 
@@ -253,7 +253,7 @@ PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, std
   // The song tables get joined first, plus one each for the song ROWIDs
   const int playlist_row = static_cast<int>(Song::kColumns.count() + 1) * kSongTableJoins;
 
-  PlaylistItemPtr item(PlaylistItem::NewFromSource(Song::Source(row.value(playlist_row).toInt())));
+  PlaylistItemPtr item(PlaylistItem::NewFromSource(static_cast<Song::Source>(row.value(playlist_row).toInt())));
   if (item) {
     item->InitFromQuery(row);
     return RestoreCueData(item, state);

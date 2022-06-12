@@ -1479,7 +1479,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
       info.art_manual = QUrl::fromLocalFile(art_manual);
     }
 
-    info.filetype = Song::FileType(query.Value(6).toInt());
+    info.filetype = static_cast<Song::FileType>(query.Value(6).toInt());
     QString filetype = Song::TextForFiletype(info.filetype);
     info.cue_path = query.Value(7).toString();
 

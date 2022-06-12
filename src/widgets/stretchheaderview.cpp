@@ -196,7 +196,7 @@ void StretchHeaderView::SectionResized(const int logical, const int, const int n
 
   if (in_mouse_move_event_) {
     // Update this section's proportional width
-    column_widths_[logical] = ColumnWidthType(new_size) / width();
+    column_widths_[logical] = static_cast<ColumnWidthType>(new_size) / width();
 
     // Find the visible sections to the right of the section that's being resized
     int visual = visualIndex(logical);
@@ -229,7 +229,7 @@ void StretchHeaderView::SetStretchEnabled(const bool enabled) {
     // Initialize the list of widths from the current state of the widget
     column_widths_.resize(count());
     for (int i = 0; i < count(); ++i) {
-      column_widths_[i] = ColumnWidthType(sectionSize(i)) / width();
+      column_widths_[i] = static_cast<ColumnWidthType>(sectionSize(i)) / width();
     }
 
     // Stretch the columns to fill the widget
@@ -282,7 +282,7 @@ bool StretchHeaderView::RestoreState(const QByteArray &sdata) {
   s >> sort_indicator_order;
   s >> sort_indicator_section;
 
-  setSortIndicator(sort_indicator_section, Qt::SortOrder(sort_indicator_order));
+  setSortIndicator(sort_indicator_section, static_cast<Qt::SortOrder>(sort_indicator_order));
 
   const qint64 persisted_column_count = qMin(qMin(visual_indices.count(), pixel_widths.count()), column_widths_.count());
 
@@ -336,7 +336,7 @@ QByteArray StretchHeaderView::SaveState() const {
   s << pixel_widths;
   s << visual_indices;
   s << column_widths_;
-  s << int(sortIndicatorOrder());
+  s << static_cast<int>(sortIndicatorOrder());
   s << sortIndicatorSection();
 
   return ret;
@@ -372,7 +372,7 @@ QByteArray StretchHeaderView::ResetState() {
   s << pixel_widths;
   s << visual_indices;
   s << column_widths_;
-  s << int(Qt::AscendingOrder);
+  s << static_cast<int>(Qt::AscendingOrder);
   s << 0;
 
   RestoreState(ret);

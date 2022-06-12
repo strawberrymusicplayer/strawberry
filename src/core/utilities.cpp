@@ -209,7 +209,7 @@ quint64 FileSystemCapacity(const QString &path) {
 #if defined(Q_OS_UNIX)
   struct statvfs fs_info {};
   if (statvfs(path.toLocal8Bit().constData(), &fs_info) == 0)
-    return quint64(fs_info.f_blocks) * quint64(fs_info.f_bsize);
+    return static_cast<quint64>(fs_info.f_blocks) * static_cast<quint64>(fs_info.f_bsize);
 #elif defined(Q_OS_WIN32)
   _ULARGE_INTEGER ret;
   ScopedWCharArray wchar(QDir::toNativeSeparators(path));
@@ -226,7 +226,7 @@ quint64 FileSystemFreeSpace(const QString &path) {
 #if defined(Q_OS_UNIX)
   struct statvfs fs_info {};
   if (statvfs(path.toLocal8Bit().constData(), &fs_info) == 0)
-    return quint64(fs_info.f_bavail) * quint64(fs_info.f_bsize);
+    return static_cast<quint64>(fs_info.f_bavail) * static_cast<quint64>(fs_info.f_bsize);
 #elif defined(Q_OS_WIN32)
   _ULARGE_INTEGER ret;
   ScopedWCharArray wchar(QDir::toNativeSeparators(path));

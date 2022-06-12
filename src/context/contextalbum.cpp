@@ -179,7 +179,7 @@ void ContextAlbum::SetImage(QImage image) {
 
 void ContextAlbum::DrawImage(QPainter *p, const QPixmap &pixmap, const qreal opacity) {
 
-  if (qFuzzyCompare(opacity, qreal(0.0))) return;
+  if (qFuzzyCompare(opacity, static_cast<qreal>(0.0))) return;
 
   p->setOpacity(opacity);
   p->drawPixmap(0, 0, pixmap.width(), pixmap.height(), pixmap);
