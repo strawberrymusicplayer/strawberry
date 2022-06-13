@@ -32,17 +32,22 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-set(CMAKE_C_STANDARD 17)
+if(MSVC)
+  set(CMAKE_C_STANDARD 99)
+else()
+  set(CMAKE_C_STANDARD 11)
+endif()
+
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(MSVC)
-  list(APPEND COMPILE_OPTIONS /std:c++17 /MP)
+  list(APPEND COMPILE_OPTIONS /MP)
 else()
   list(APPEND COMPILE_OPTIONS
-    $<$<COMPILE_LANGUAGE:C>:-std=c17>
+    $<$<COMPILE_LANGUAGE:C>:-std=c11>
     $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>
     -Wall
     -Wextra
