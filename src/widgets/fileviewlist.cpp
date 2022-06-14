@@ -29,6 +29,7 @@
 #include <QDir>
 #include <QMenu>
 #include <QUrl>
+#include <QCollator>
 #include <QtEvents>
 
 #include "core/iconloader.h"
@@ -68,14 +69,22 @@ void FileViewList::contextMenuEvent(QContextMenuEvent *e) {
 
 QList<QUrl> FileViewList::UrlListFromSelection() const {
 
-  QList<QUrl> urls;
+  QStringList filenames;
   const QModelIndexList indexes = menu_selection_.indexes();
   for (const QModelIndex &index : indexes) {
     if (index.column() == 0) {
-      urls << QUrl::fromLocalFile(qobject_cast<QFileSystemModel*>(model())->fileInfo(index).canonicalFilePath());
+      filenames << qobject_cast<QFileSystemModel*>(model())->fileInfo(index).canonicalFilePath();
     }
   }
-  std::sort(urls.begin(), urls.end());
+
+  QCollator collator;
+  collator.setNumericMode(true);
+  std::sort(filenames.begin(), filenames.end(), collator);
+
+  QList<QUrl> urls;
+  for (const QString &filename : filenames) {
+    urls << QUrl::fromLocalFile(filename);
+  }
 
   return urls;
 
@@ -127,6 +136,11 @@ QStringList FileViewList::FilenamesFromSelection() const {
       filenames << qobject_cast<QFileSystemModel*>(model())->filePath(index);
     }
   }
+
+  QCollator collator;
+  collator.setNumericMode(true);
+  std::sort(filenames.begin(), filenames.end(), collator);
+
   return filenames;
 
 }
