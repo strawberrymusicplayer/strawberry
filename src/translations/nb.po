@@ -906,7 +906,7 @@ msgstr "Tilføy filer/URLer til spillelista"
 
 #: collection/collectionview.cpp:348
 #: smartplaylists/smartplaylistsviewcontainer.cpp:69
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:323
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:323
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:71
 #: device/deviceview.cpp:243
 msgid "Append to current playlist"
@@ -1433,7 +1433,7 @@ msgstr ""
 msgid "Copy album cover artwork"
 msgstr "Kopier album omslaggrafikk"
 
-#: core/mainwindow.cpp:747 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:747 widgets/fileviewlist.cpp:48
 #: device/deviceview.cpp:248
 msgid "Copy to collection..."
 msgstr "Kopier til samling…"
@@ -1443,7 +1443,7 @@ msgid "Copy to device"
 msgstr ""
 
 #: core/mainwindow.cpp:750 collection/collectionview.cpp:359
-#: playlist/playlistlistcontainer.cpp:90 widgets/fileviewlist.cpp:49
+#: playlist/playlistlistcontainer.cpp:90 widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
 msgstr "Kopier til enhet…"
 
@@ -1727,7 +1727,7 @@ msgid "Delete from device..."
 msgstr "Slett fra enhet…"
 
 #: core/mainwindow.cpp:752 collection/collectionview.cpp:361
-#: widgets/fileviewlist.cpp:50
+#: widgets/fileviewlist.cpp:51
 msgid "Delete from disk..."
 msgstr "Slett fra disk…"
 
@@ -1928,7 +1928,7 @@ msgstr "Rediger etikett…"
 msgid "Edit track information"
 msgstr "Rediger spor informasjon"
 
-#: collection/collectionview.cpp:364 widgets/fileviewlist.cpp:53
+#: collection/collectionview.cpp:364 widgets/fileviewlist.cpp:54
 #: ../build/src/ui_mainwindow.h:642
 msgid "Edit track information..."
 msgstr "Rediger spor informasjon…"
@@ -3166,7 +3166,7 @@ msgstr "Monteringspunkter"
 msgid "Move down"
 msgstr "Flytt nedover"
 
-#: core/mainwindow.cpp:748 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:748 widgets/fileviewlist.cpp:49
 msgid "Move to collection..."
 msgstr "Flytt til samling…"
 
@@ -3400,7 +3400,7 @@ msgstr ""
 
 #: collection/collectionview.cpp:350
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:325
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:325
 #: internet/internetcollectionview.cpp:319 radios/radioview.cpp:79
 #: device/deviceview.cpp:245 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
@@ -3996,7 +3996,7 @@ msgstr "Gjenta spor"
 
 #: collection/collectionview.cpp:349
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:324
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:324
 #: internet/internetcollectionview.cpp:318 radios/radioview.cpp:75
 #: device/deviceview.cpp:244
 msgid "Replace current playlist"
@@ -4506,7 +4506,7 @@ msgid "Show in file browser"
 msgstr "Vis i fil utforsker"
 
 #: core/mainwindow.cpp:745 collection/collectionview.cpp:366
-#: widgets/fileviewlist.cpp:54
+#: widgets/fileviewlist.cpp:55
 msgid "Show in file browser..."
 msgstr "Vis i fil utforsker"
 

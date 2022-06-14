@@ -930,7 +930,7 @@ msgstr "Dodaj pliki/adresy URL do listy odtwarzania"
 
 #: collection/collectionview.cpp:348
 #: smartplaylists/smartplaylistsviewcontainer.cpp:69
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:323
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:323
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:71
 #: device/deviceview.cpp:243
 msgid "Append to current playlist"
@@ -1458,7 +1458,7 @@ msgstr "Skopiuj adres(y) URL…"
 msgid "Copy album cover artwork"
 msgstr "Skopiuj okładki albumów"
 
-#: core/mainwindow.cpp:747 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:747 widgets/fileviewlist.cpp:48
 #: device/deviceview.cpp:248
 msgid "Copy to collection..."
 msgstr "Skopiuj do kolekcji…"
@@ -1468,7 +1468,7 @@ msgid "Copy to device"
 msgstr "Skopiuj na urządzenie"
 
 #: core/mainwindow.cpp:750 collection/collectionview.cpp:359
-#: playlist/playlistlistcontainer.cpp:90 widgets/fileviewlist.cpp:49
+#: playlist/playlistlistcontainer.cpp:90 widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
 msgstr "Skopiuj na urządzenie…"
 
@@ -1754,7 +1754,7 @@ msgid "Delete from device..."
 msgstr "Usuń z urządzenia…"
 
 #: core/mainwindow.cpp:752 collection/collectionview.cpp:361
-#: widgets/fileviewlist.cpp:50
+#: widgets/fileviewlist.cpp:51
 msgid "Delete from disk..."
 msgstr "Usuń z dysku…"
 
@@ -1955,7 +1955,7 @@ msgstr "Edytuj znacznik…"
 msgid "Edit track information"
 msgstr "Edytuj informacje o ścieżce"
 
-#: collection/collectionview.cpp:364 widgets/fileviewlist.cpp:53
+#: collection/collectionview.cpp:364 widgets/fileviewlist.cpp:54
 #: ../build/src/ui_mainwindow.h:642
 msgid "Edit track information..."
 msgstr "Edytuj informacje o ścieżce…"
@@ -3207,7 +3207,7 @@ msgstr "Punkty montowania"
 msgid "Move down"
 msgstr "Przesuń w dół"
 
-#: core/mainwindow.cpp:748 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:748 widgets/fileviewlist.cpp:49
 msgid "Move to collection..."
 msgstr "Przenieś do kolekcji…"
 
@@ -3447,7 +3447,7 @@ msgstr ""
 
 #: collection/collectionview.cpp:350
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:325
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:325
 #: internet/internetcollectionview.cpp:319 radios/radioview.cpp:79
 #: device/deviceview.cpp:245 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
@@ -4058,7 +4058,7 @@ msgstr "Powtarzaj utwór"
 
 #: collection/collectionview.cpp:349
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:324
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:324
 #: internet/internetcollectionview.cpp:318 radios/radioview.cpp:75
 #: device/deviceview.cpp:244
 msgid "Replace current playlist"
@@ -4568,7 +4568,7 @@ msgid "Show in file browser"
 msgstr "Pokaż w menedżerze plików"
 
 #: core/mainwindow.cpp:745 collection/collectionview.cpp:366
-#: widgets/fileviewlist.cpp:54
+#: widgets/fileviewlist.cpp:55
 msgid "Show in file browser..."
 msgstr "Pokaż w menedżerze plików…"
 

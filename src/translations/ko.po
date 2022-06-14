@@ -915,7 +915,7 @@ msgstr "재생 목록에 파일/URL 추가"
 
 #: collection/collectionview.cpp:348
 #: smartplaylists/smartplaylistsviewcontainer.cpp:69
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:323
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:323
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:71
 #: device/deviceview.cpp:243
 msgid "Append to current playlist"
@@ -1440,7 +1440,7 @@ msgstr "URL 복사"
 msgid "Copy album cover artwork"
 msgstr "앨범아트 복사"
 
-#: core/mainwindow.cpp:747 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:747 widgets/fileviewlist.cpp:48
 #: device/deviceview.cpp:248
 msgid "Copy to collection..."
 msgstr "라이브러리로 복사..."
@@ -1450,7 +1450,7 @@ msgid "Copy to device"
 msgstr "디바이스에 복사"
 
 #: core/mainwindow.cpp:750 collection/collectionview.cpp:359
-#: playlist/playlistlistcontainer.cpp:90 widgets/fileviewlist.cpp:49
+#: playlist/playlistlistcontainer.cpp:90 widgets/fileviewlist.cpp:50
 msgid "Copy to device..."
 msgstr "장치로 복사..."
 
@@ -1729,7 +1729,7 @@ msgid "Delete from device..."
 msgstr "장치에서 삭제..."
 
 #: core/mainwindow.cpp:752 collection/collectionview.cpp:361
-#: widgets/fileviewlist.cpp:50
+#: widgets/fileviewlist.cpp:51
 msgid "Delete from disk..."
 msgstr "디스크에서 삭제..."
 
@@ -1930,7 +1930,7 @@ msgstr "태그 편집..."
 msgid "Edit track information"
 msgstr "트랙 정보 편집"
 
-#: collection/collectionview.cpp:364 widgets/fileviewlist.cpp:53
+#: collection/collectionview.cpp:364 widgets/fileviewlist.cpp:54
 #: ../build/src/ui_mainwindow.h:642
 msgid "Edit track information..."
 msgstr "트랙 정보 편집..."
@@ -3164,7 +3164,7 @@ msgstr "마운트 지점"
 msgid "Move down"
 msgstr "아래로 이동"
 
-#: core/mainwindow.cpp:748 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:748 widgets/fileviewlist.cpp:49
 msgid "Move to collection..."
 msgstr "라이브러리로 이동..."
 
@@ -3398,7 +3398,7 @@ msgstr ""
 
 #: collection/collectionview.cpp:350
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:325
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:325
 #: internet/internetcollectionview.cpp:319 radios/radioview.cpp:79
 #: device/deviceview.cpp:245 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
@@ -3993,7 +3993,7 @@ msgstr "한 곡 반복"
 
 #: collection/collectionview.cpp:349
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:324
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:324
 #: internet/internetcollectionview.cpp:318 radios/radioview.cpp:75
 #: device/deviceview.cpp:244
 msgid "Replace current playlist"
@@ -4501,7 +4501,7 @@ msgid "Show in file browser"
 msgstr "파일 탐색기에 표시"
 
 #: core/mainwindow.cpp:745 collection/collectionview.cpp:366
-#: widgets/fileviewlist.cpp:54
+#: widgets/fileviewlist.cpp:55
 msgid "Show in file browser..."
 msgstr "파일 탐색기에 표시..."
 
