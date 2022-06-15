@@ -110,5 +110,5 @@ Strawberry is backwards compatible with Qt 5, to compile with Qt 5 use:
 
 ### :penguin:	Packaging status
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/strawberry.svg)](https://repology.org/metapackage/strawberry/versions)
+[![Packaging status](https://repology.org/badge/vertical-allrepos/strawberry.svg?exclude_unsupported=1)](https://repology.org/metapackage/strawberry/versions)
 
