@@ -352,7 +352,7 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
       if (items_[idx.row()]->HasCurrentForegroundColor()) {
         return QBrush(items_[idx.row()]->GetCurrentForegroundColor());
       }
-      if (idx.row() < dynamic_history_length()) {
+      if (idx.row() < dynamic_history_length() - 1) {
         return QBrush(kDynamicHistoryColor);
       }
 
