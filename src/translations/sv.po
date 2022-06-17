@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-05-15 05:54-0400\n"
+"PO-Revision-Date: 2022-06-17 12:28-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -3534,7 +3534,7 @@ msgstr "Alternativ för utgång"
 
 #: ../build/src/ui_collectionsettingspage.h:631
 msgid "Overwrite database playcount when songs are re-read from disk"
-msgstr ""
+msgstr "Skriv över databasuppspelningsantal när låtar läses om från disken"
 
 #: ../build/src/ui_collectionsettingspage.h:632
 msgid "Overwrite database rating when songs are re-read from disk"
@@ -4498,7 +4498,7 @@ msgstr "Visa en &naturlig skrivbordsavisering"
 
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
-msgstr ""
+msgstr "Visa en lysande animation på det spår som spelas för närvarande"
 
 #: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
@@ -4550,7 +4550,7 @@ msgstr "Visa alla låtarna"
 
 #: ../build/src/ui_playlistsettingspage.h:179
 msgid "Show bars on the currently playing track"
-msgstr ""
+msgstr "Visa staplar på det spår som spelas för närvarande"
 
 #: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Show dialog for errors"
