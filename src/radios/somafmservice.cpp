@@ -70,7 +70,7 @@ void SomaFMService::GetChannels() {
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   const int task_id = app_->task_manager()->StartTask(tr("Getting %1 channels").arg(name_));
-  QObject::connect(reply, &QNetworkReply::finished, this, [=]() { GetChannelsReply(reply, task_id); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task_id]() { GetChannelsReply(reply, task_id); });
 
 }
 
@@ -141,7 +141,7 @@ void SomaFMService::GetStreamUrl(const int task_id, const RadioChannel &channel)
   QNetworkRequest req(channel.url);
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, this, [=]() { GetStreamUrlsReply(reply, task_id, channel); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task_id, channel]() { GetStreamUrlsReply(reply, task_id, channel); });
 
 }
 

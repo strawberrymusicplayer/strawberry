@@ -658,7 +658,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
     QFuture<SongList> future = QtConcurrent::run(app_->collection_backend(), &CollectionBackend::GetAlbumSongs, song.effective_albumartist(), song.effective_album(), QueryOptions());
 #endif
     QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
-    QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [=]() {
+    QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, song, result]() {
       SongList songs = watcher->result();
       watcher->deleteLater();
       QList<QUrl> urls;
@@ -703,7 +703,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
     QFuture<SongList> future = QtConcurrent::run(app_->collection_backend(), &CollectionBackend::GetAlbumSongs, song.effective_albumartist(), song.effective_album(), QueryOptions());
 #endif
     QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
-    QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [=]() {
+    QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, song, cover_filename]() {
       SongList songs = watcher->result();
       watcher->deleteLater();
       QList<QUrl> urls;

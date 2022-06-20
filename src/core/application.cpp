@@ -99,33 +99,33 @@ using namespace std::chrono_literals;
 class ApplicationImpl {
  public:
   explicit ApplicationImpl(Application *app) :
-       tag_reader_client_([=]() {
+       tag_reader_client_([app]() {
           TagReaderClient *client = new TagReaderClient(app);
           app->MoveToNewThread(client);
           client->Start();
           return client;
         }),
-        database_([=]() {
+        database_([app]() {
           Database *db = new Database(app, app);
           app->MoveToNewThread(db);
           QTimer::singleShot(30s, db, &Database::DoBackup);
           return db;
         }),
-        appearance_([=]() { return new Appearance(app); }),
-        task_manager_([=]() { return new TaskManager(app); }),
-        player_([=]() { return new Player(app, app); }),
-        device_finders_([=]() { return new DeviceFinders(app); }),
+        appearance_([app]() { return new Appearance(app); }),
+        task_manager_([app]() { return new TaskManager(app); }),
+        player_([app]() { return new Player(app, app); }),
+        device_finders_([app]() { return new DeviceFinders(app); }),
 #ifndef Q_OS_WIN
-        device_manager_([=]() { return new DeviceManager(app, app); }),
+        device_manager_([app]() { return new DeviceManager(app, app); }),
 #endif
-        collection_([=]() { return new SCollection(app, app); }),
-        playlist_backend_([=]() {
+        collection_([app]() { return new SCollection(app, app); }),
+        playlist_backend_([this, app]() {
           PlaylistBackend *backend = new PlaylistBackend(app, app);
           app->MoveToThread(backend, database_->thread());
           return backend;
         }),
-        playlist_manager_([=]() { return new PlaylistManager(app); }),
-        cover_providers_([=]() {
+        playlist_manager_([app]() { return new PlaylistManager(app); }),
+        cover_providers_([app]() {
           CoverProviders *cover_providers = new CoverProviders(app);
           // Initialize the repository of cover providers.
           cover_providers->AddProvider(new LastFmCoverProvider(app, cover_providers->network(), app));
@@ -143,13 +143,13 @@ class ApplicationImpl {
           cover_providers->ReloadSettings();
           return cover_providers;
         }),
-        album_cover_loader_([=]() {
+        album_cover_loader_([app]() {
           AlbumCoverLoader *loader = new AlbumCoverLoader(app);
           app->MoveToNewThread(loader);
           return loader;
         }),
-        current_albumcover_loader_([=]() { return new CurrentAlbumCoverLoader(app, app); }),
-        lyrics_providers_([=]() {
+        current_albumcover_loader_([app]() { return new CurrentAlbumCoverLoader(app, app); }),
+        lyrics_providers_([app]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           // Initialize the repository of lyrics providers.
           lyrics_providers->AddProvider(new AuddLyricsProvider(lyrics_providers->network(), app));
@@ -161,7 +161,7 @@ class ApplicationImpl {
           lyrics_providers->ReloadSettings();
           return lyrics_providers;
         }),
-        internet_services_([=]() {
+        internet_services_([app]() {
           InternetServices *internet_services = new InternetServices(app);
 #ifdef HAVE_SUBSONIC
           internet_services->AddService(new SubsonicService(app, internet_services));
@@ -174,13 +174,13 @@ class ApplicationImpl {
 #endif
           return internet_services;
         }),
-        radio_services_([=]() { return new RadioServices(app, app); }),
-        scrobbler_([=]() { return new AudioScrobbler(app, app); }),
+        radio_services_([app]() { return new RadioServices(app, app); }),
+        scrobbler_([app]() { return new AudioScrobbler(app, app); }),
 #ifdef HAVE_MOODBAR
-        moodbar_loader_([=]() { return new MoodbarLoader(app, app); }),
-        moodbar_controller_([=]() { return new MoodbarController(app, app); }),
+        moodbar_loader_([app]() { return new MoodbarLoader(app, app); }),
+        moodbar_controller_([app]() { return new MoodbarController(app, app); }),
 #endif
-        lastfm_import_([=]() { return new LastFMImport(app); })
+        lastfm_import_([app]() { return new LastFMImport(app); })
   {}
 
   Lazy<TagReaderClient> tag_reader_client_;

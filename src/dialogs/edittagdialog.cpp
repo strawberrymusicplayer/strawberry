@@ -1182,7 +1182,7 @@ void EditTagDialog::SaveData() {
             ++save_art_pending_;
             QFuture<QByteArray> future = QtConcurrent::run(&ImageUtils::SaveImageToJpegData, ref.cover_result_.image);
             QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>();
-            QObject::connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [=]() {
+            QObject::connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [this, watcher, ref]() {
               TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(ref.current_.url().toLocalFile(), watcher->result());
               QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() {
                 SongSaveArtComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_);
@@ -1195,7 +1195,7 @@ void EditTagDialog::SaveData() {
             ++save_art_pending_;
             QFuture<QByteArray> future = QtConcurrent::run(&ImageUtils::FileToJpegData, embedded_cover_from_file);
             QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>();
-            QObject::connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [=]() {
+            QObject::connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [this, watcher, ref]() {
               TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(ref.current_.url().toLocalFile(), watcher->result());
               QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() {
                 SongSaveArtComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_);

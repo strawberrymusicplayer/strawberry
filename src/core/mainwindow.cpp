@@ -241,7 +241,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       app_(app),
       tray_icon_(tray_icon),
       osd_(osd),
-      console_([=]() {
+      console_([app]() {
         Console *console = new Console(app);
         return console;
       }),
@@ -259,7 +259,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       playlist_list_(new PlaylistListContainer(this)),
       queue_view_(new QueueView(this)),
       settings_dialog_(std::bind(&MainWindow::CreateSettingsDialog, this)),
-      cover_manager_([=]() {
+      cover_manager_([this, app]() {
         AlbumCoverManager *cover_manager = new AlbumCoverManager(app, app->collection_backend(), this);
         cover_manager->Init();
 
@@ -269,18 +269,18 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
         return cover_manager;
       }),
       equalizer_(new Equalizer),
-      organize_dialog_([=]() {
+      organize_dialog_([this, app]() {
         OrganizeDialog *dialog = new OrganizeDialog(app->task_manager(), app->collection_backend(), this);
         dialog->SetDestinationModel(app->collection()->model()->directory_model());
         return dialog;
       }),
 #ifdef HAVE_GSTREAMER
-      transcode_dialog_([=]() {
+      transcode_dialog_([this]() {
         TranscodeDialog *dialog = new TranscodeDialog(this);
         return dialog;
       }),
 #endif
-      add_stream_dialog_([=]() {
+      add_stream_dialog_([this]() {
         AddStreamDialog *add_stream_dialog = new AddStreamDialog;
         QObject::connect(add_stream_dialog, &AddStreamDialog::accepted, this, &MainWindow::AddStreamAccepted);
         return add_stream_dialog;
