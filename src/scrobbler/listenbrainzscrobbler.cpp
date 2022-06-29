@@ -46,6 +46,7 @@
 #include "core/timeconstants.h"
 #include "core/logging.h"
 #include "internet/localredirectserver.h"
+#include "settings/scrobblersettingspage.h"
 
 #include "audioscrobbler.h"
 #include "scrobblerservice.h"
@@ -76,7 +77,8 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent)
       submitted_(false),
       scrobbled_(false),
       timestamp_(0),
-      submit_error_(false) {
+      submit_error_(false),
+      prefer_albumartist_(false) {
 
   refresh_login_timer_.setSingleShot(true);
   QObject::connect(&refresh_login_timer_, &QTimer::timeout, this, &ListenBrainzScrobbler::RequestNewAccessToken);
@@ -112,6 +114,10 @@ void ListenBrainzScrobbler::ReloadSettings() {
   s.beginGroup(kSettingsGroup);
   enabled_ = s.value("enabled", false).toBool();
   user_token_ = s.value("user_token").toString();
+  s.endGroup();
+
+  s.beginGroup(ScrobblerSettingsPage::kSettingsGroup);
+  prefer_albumartist_ = s.value("albumartist", false).toBool();
   s.endGroup();
 
 }
@@ -429,7 +435,7 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   title = title.remove(Song::kTitleRemoveMisc);
 
   QJsonObject object_track_metadata;
-  if (song.albumartist().isEmpty() || song.albumartist().compare(Song::kVariousArtists, Qt::CaseInsensitive) == 0) {
+  if (!prefer_albumartist_ || song.albumartist().isEmpty() || song.albumartist().compare(Song::kVariousArtists, Qt::CaseInsensitive) == 0) {
     object_track_metadata.insert("artist_name", QJsonValue::fromVariant(song.artist()));
   }
   else {
@@ -552,7 +558,7 @@ void ListenBrainzScrobbler::Submit() {
     QJsonObject object_listen;
     object_listen.insert("listened_at", QJsonValue::fromVariant(item->timestamp_));
     QJsonObject object_track_metadata;
-    if (item->albumartist_.isEmpty() || item->albumartist_.compare(Song::kVariousArtists, Qt::CaseInsensitive) == 0) {
+    if (!prefer_albumartist_ || item->albumartist_.isEmpty() || item->albumartist_.compare(Song::kVariousArtists, Qt::CaseInsensitive) == 0) {
       object_track_metadata.insert("artist_name", QJsonValue::fromVariant(item->artist_));
     }
     else {

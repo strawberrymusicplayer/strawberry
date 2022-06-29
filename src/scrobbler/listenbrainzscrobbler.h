@@ -120,6 +120,8 @@ class ListenBrainzScrobbler : public ScrobblerService {
   QTimer timer_submit_;
   bool submit_error_;
 
+  bool prefer_albumartist_;
+
   QList<QNetworkReply*> replies_;
 
 };
