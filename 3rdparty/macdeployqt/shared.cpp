@@ -1328,7 +1328,8 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
                                                   << "libgstvorbis.dylib"
                                                   << "libgstwavpack.dylib"
                                                   << "libgstwavparse.dylib"
-                                                  << "libgstxingmux.dylib";
+                                                  << "libgstxingmux.dylib"
+                                                  << "libgsthls.dylib";
 
     QString gstreamer_plugins_dir = qgetenv("GST_PLUGIN_PATH");
     if (gstreamer_plugins_dir.isEmpty()) {
