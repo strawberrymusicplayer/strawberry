@@ -1282,6 +1282,72 @@ jobs:
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
+  build_ubuntu_kinetic:
+    name: Build Ubuntu Kinetic
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:kinetic
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install Ubuntu dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: >
+            apt-get update && apt-get install -y
+            build-essential
+            dh-make
+            ssh
+            git
+            make
+            cmake
+            pkg-config
+            gcc
+            g++
+            fakeroot
+            wget
+            curl
+            gettext
+            lsb-release
+            dpkg-dev
+            libglib2.0-dev
+            libboost-dev
+            libdbus-1-dev
+            libprotobuf-dev
+            protobuf-compiler
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            libtag1-dev
+            qt6-base-dev
+            qt6-base-dev-tools
+            qt6-tools-dev
+            qt6-tools-dev-tools
+            qt6-l10n-tools
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            libgstreamer-plugins-good1.0-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory /__w/strawberry/strawberry
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+      - name: make deb
+        shell: bash
+        run: dpkg-buildpackage -b -d -uc -us -nc -j2
+
 
   build-macos:
     name: Build macOS
