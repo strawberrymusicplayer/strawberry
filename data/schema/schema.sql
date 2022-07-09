@@ -7,37 +7,37 @@ DELETE FROM schema_version;
 INSERT INTO schema_version (version) VALUES (15);
 
 CREATE TABLE IF NOT EXISTS directories (
-  path TEXT NOT NULL DEFAULT '',
+  path TEXT NOT NULL,
   subdirs INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS subdirectories (
   directory_id INTEGER NOT NULL,
-  path TEXT NOT NULL DEFAULT '',
+  path TEXT NOT NULL,
   mtime INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS songs (
 
-  title TEXT DEFAULT '',
-  album TEXT DEFAULT '',
-  artist TEXT DEFAULT '',
-  albumartist TEXT DEFAULT '',
+  title TEXT,
+  album TEXT,
+  artist TEXT,
+  albumartist TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
   originalyear INTEGER NOT NULL DEFAULT -1,
-  genre TEXT DEFAULT '',
+  genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
-  composer TEXT DEFAULT '',
-  performer TEXT DEFAULT '',
-  grouping TEXT DEFAULT '',
-  comment TEXT DEFAULT '',
-  lyrics TEXT DEFAULT '',
+  composer TEXT,
+  performer TEXT,
+  grouping TEXT,
+  comment TEXT,
+  lyrics TEXT,
 
-  artist_id TEXT DEFAULT '',
-  album_id TEXT DEFAULT '',
-  song_id TEXT DEFAULT '',
+  artist_id TEXT,
+  album_id TEXT,
+  song_id TEXT,
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
@@ -48,14 +48,14 @@ CREATE TABLE IF NOT EXISTS songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL DEFAULT -1,
-  url TEXT NOT NULL DEFAULT '',
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT -1,
   mtime INTEGER NOT NULL DEFAULT -1,
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
-  fingerprint TEXT DEFAULT '',
+  fingerprint TEXT,
 
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
@@ -67,13 +67,13 @@ CREATE TABLE IF NOT EXISTS songs (
   compilation_off INTEGER NOT NULL DEFAULT 0,
   compilation_effective INTEGER NOT NULL DEFAULT 0,
 
-  art_automatic TEXT DEFAULT '',
-  art_manual TEXT DEFAULT '',
+  art_automatic TEXT,
+  art_manual TEXT,
 
-  effective_albumartist TEXT DEFAULT '',
+  effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
 
-  cue_path TEXT DEFAULT '',
+  cue_path TEXT,
 
   rating INTEGER DEFAULT -1
 
@@ -81,25 +81,25 @@ CREATE TABLE IF NOT EXISTS songs (
 
 CREATE TABLE IF NOT EXISTS subsonic_songs (
 
-  title TEXT DEFAULT '',
-  album TEXT DEFAULT '',
-  artist TEXT DEFAULT '',
-  albumartist TEXT DEFAULT '',
+  title TEXT,
+  album TEXT,
+  artist TEXT,
+  albumartist TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
   originalyear INTEGER NOT NULL DEFAULT -1,
-  genre TEXT DEFAULT '',
+  genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
-  composer TEXT DEFAULT '',
-  performer TEXT DEFAULT '',
-  grouping TEXT DEFAULT '',
-  comment TEXT DEFAULT '',
-  lyrics TEXT DEFAULT '',
+  composer TEXT,
+  performer TEXT,
+  grouping TEXT,
+  comment TEXT,
+  lyrics TEXT,
 
-  artist_id TEXT DEFAULT '',
-  album_id TEXT DEFAULT '',
-  song_id TEXT DEFAULT '',
+  artist_id TEXT,
+  album_id TEXT,
+  song_id TEXT,
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
@@ -110,14 +110,14 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL DEFAULT -1,
-  url TEXT NOT NULL DEFAULT '',
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT -1,
   mtime INTEGER NOT NULL DEFAULT -1,
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
-  fingerprint TEXT DEFAULT '',
+  fingerprint TEXT,
 
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
@@ -129,13 +129,13 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
   compilation_off INTEGER NOT NULL DEFAULT 0,
   compilation_effective INTEGER NOT NULL DEFAULT 0,
 
-  art_automatic TEXT DEFAULT '',
-  art_manual TEXT DEFAULT '',
+  art_automatic TEXT,
+  art_manual TEXT,
 
-  effective_albumartist TEXT DEFAULT '',
+  effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
 
-  cue_path TEXT DEFAULT '',
+  cue_path TEXT,
 
   rating INTEGER DEFAULT -1
 
@@ -143,25 +143,25 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
 
 CREATE TABLE IF NOT EXISTS tidal_artists_songs (
 
-  title TEXT DEFAULT '',
-  album TEXT DEFAULT '',
-  artist TEXT DEFAULT '',
-  albumartist TEXT DEFAULT '',
+  title TEXT,
+  album TEXT,
+  artist TEXT,
+  albumartist TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
   originalyear INTEGER NOT NULL DEFAULT -1,
-  genre TEXT DEFAULT '',
+  genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
-  composer TEXT DEFAULT '',
-  performer TEXT DEFAULT '',
-  grouping TEXT DEFAULT '',
-  comment TEXT DEFAULT '',
-  lyrics TEXT DEFAULT '',
+  composer TEXT,
+  performer TEXT,
+  grouping TEXT,
+  comment TEXT,
+  lyrics TEXT,
 
-  artist_id TEXT DEFAULT '',
-  album_id TEXT DEFAULT '',
-  song_id TEXT DEFAULT '',
+  artist_id TEXT,
+  album_id TEXT,
+  song_id TEXT,
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
@@ -172,14 +172,14 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL DEFAULT -1,
-  url TEXT NOT NULL DEFAULT '',
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT -1,
   mtime INTEGER NOT NULL DEFAULT -1,
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
-  fingerprint TEXT DEFAULT '',
+  fingerprint TEXT,
 
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
@@ -191,13 +191,13 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
   compilation_off INTEGER NOT NULL DEFAULT 0,
   compilation_effective INTEGER NOT NULL DEFAULT 0,
 
-  art_automatic TEXT DEFAULT '',
-  art_manual TEXT DEFAULT '',
+  art_automatic TEXT,
+  art_manual TEXT,
 
-  effective_albumartist TEXT DEFAULT '',
+  effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
 
-  cue_path TEXT DEFAULT '',
+  cue_path TEXT,
 
   rating INTEGER DEFAULT -1
 
@@ -205,25 +205,25 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
 
 CREATE TABLE IF NOT EXISTS tidal_albums_songs (
 
-  title TEXT DEFAULT '',
-  album TEXT DEFAULT '',
-  artist TEXT DEFAULT '',
-  albumartist TEXT DEFAULT '',
+  title TEXT,
+  album TEXT,
+  artist TEXT,
+  albumartist TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
   originalyear INTEGER NOT NULL DEFAULT -1,
-  genre TEXT DEFAULT '',
+  genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
-  composer TEXT DEFAULT '',
-  performer TEXT DEFAULT '',
-  grouping TEXT DEFAULT '',
-  comment TEXT DEFAULT '',
-  lyrics TEXT DEFAULT '',
+  composer TEXT,
+  performer TEXT,
+  grouping TEXT,
+  comment TEXT,
+  lyrics TEXT,
 
-  artist_id TEXT DEFAULT '',
-  album_id TEXT DEFAULT '',
-  song_id TEXT DEFAULT '',
+  artist_id TEXT,
+  album_id TEXT,
+  song_id TEXT,
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
@@ -234,14 +234,14 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL DEFAULT -1,
-  url TEXT NOT NULL DEFAULT '',
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT -1,
   mtime INTEGER NOT NULL DEFAULT -1,
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
-  fingerprint TEXT DEFAULT '',
+  fingerprint TEXT,
 
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
@@ -253,13 +253,13 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
   compilation_off INTEGER NOT NULL DEFAULT 0,
   compilation_effective INTEGER NOT NULL DEFAULT 0,
 
-  art_automatic TEXT DEFAULT '',
-  art_manual TEXT DEFAULT '',
+  art_automatic TEXT,
+  art_manual TEXT,
 
-  effective_albumartist TEXT DEFAULT '',
+  effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
 
-  cue_path TEXT DEFAULT '',
+  cue_path TEXT,
 
   rating INTEGER DEFAULT -1
 
@@ -267,25 +267,25 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
 
 CREATE TABLE IF NOT EXISTS tidal_songs (
 
-  title TEXT DEFAULT '',
-  album TEXT DEFAULT '',
-  artist TEXT DEFAULT '',
-  albumartist TEXT DEFAULT '',
+  title TEXT,
+  album TEXT,
+  artist TEXT,
+  albumartist TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
   originalyear INTEGER NOT NULL DEFAULT -1,
-  genre TEXT DEFAULT '',
+  genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
-  composer TEXT DEFAULT '',
-  performer TEXT DEFAULT '',
-  grouping TEXT DEFAULT '',
-  comment TEXT DEFAULT '',
-  lyrics TEXT DEFAULT '',
+  composer TEXT,
+  performer TEXT,
+  grouping TEXT,
+  comment TEXT,
+  lyrics TEXT,
 
-  artist_id TEXT DEFAULT '',
-  album_id TEXT DEFAULT '',
-  song_id TEXT DEFAULT '',
+  artist_id TEXT,
+  album_id TEXT,
+  song_id TEXT,
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
@@ -296,14 +296,14 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL DEFAULT -1,
-  url TEXT NOT NULL DEFAULT '',
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT -1,
   mtime INTEGER NOT NULL DEFAULT -1,
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
-  fingerprint TEXT DEFAULT '',
+  fingerprint TEXT,
 
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
@@ -315,13 +315,13 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
   compilation_off INTEGER NOT NULL DEFAULT 0,
   compilation_effective INTEGER NOT NULL DEFAULT 0,
 
-  art_automatic TEXT DEFAULT '',
-  art_manual TEXT DEFAULT '',
+  art_automatic TEXT,
+  art_manual TEXT,
 
-  effective_albumartist TEXT DEFAULT '',
+  effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
 
-  cue_path TEXT DEFAULT '',
+  cue_path TEXT,
 
   rating INTEGER DEFAULT -1
 
@@ -329,25 +329,25 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
 
 CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
 
-  title TEXT DEFAULT '',
-  album TEXT DEFAULT '',
-  artist TEXT DEFAULT '',
-  albumartist TEXT DEFAULT '',
+  title TEXT,
+  album TEXT,
+  artist TEXT,
+  albumartist TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
   originalyear INTEGER NOT NULL DEFAULT -1,
-  genre TEXT DEFAULT '',
+  genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
-  composer TEXT DEFAULT '',
-  performer TEXT DEFAULT '',
-  grouping TEXT DEFAULT '',
-  comment TEXT DEFAULT '',
-  lyrics TEXT DEFAULT '',
+  composer TEXT,
+  performer TEXT,
+  grouping TEXT,
+  comment TEXT,
+  lyrics TEXT,
 
-  artist_id TEXT DEFAULT '',
-  album_id TEXT DEFAULT '',
-  song_id TEXT DEFAULT '',
+  artist_id TEXT,
+  album_id TEXT,
+  song_id TEXT,
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
@@ -358,14 +358,14 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL DEFAULT -1,
-  url TEXT NOT NULL DEFAULT '',
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT -1,
   mtime INTEGER NOT NULL DEFAULT -1,
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
-  fingerprint TEXT DEFAULT '',
+  fingerprint TEXT,
 
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
@@ -377,13 +377,13 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
   compilation_off INTEGER NOT NULL DEFAULT 0,
   compilation_effective INTEGER NOT NULL DEFAULT 0,
 
-  art_automatic TEXT DEFAULT '',
-  art_manual TEXT DEFAULT '',
+  art_automatic TEXT,
+  art_manual TEXT,
 
-  effective_albumartist TEXT DEFAULT '',
+  effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
 
-  cue_path TEXT DEFAULT '',
+  cue_path TEXT,
 
   rating INTEGER DEFAULT -1
 
@@ -391,25 +391,25 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
 
 CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
 
-  title TEXT DEFAULT '',
-  album TEXT DEFAULT '',
-  artist TEXT DEFAULT '',
-  albumartist TEXT DEFAULT '',
+  title TEXT,
+  album TEXT,
+  artist TEXT,
+  albumartist TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
   originalyear INTEGER NOT NULL DEFAULT -1,
-  genre TEXT DEFAULT '',
+  genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
-  composer TEXT DEFAULT '',
-  performer TEXT DEFAULT '',
-  grouping TEXT DEFAULT '',
-  comment TEXT DEFAULT '',
-  lyrics TEXT DEFAULT '',
+  composer TEXT,
+  performer TEXT,
+  grouping TEXT,
+  comment TEXT,
+  lyrics TEXT,
 
-  artist_id TEXT DEFAULT '',
-  album_id TEXT DEFAULT '',
-  song_id TEXT DEFAULT '',
+  artist_id TEXT,
+  album_id TEXT,
+  song_id TEXT,
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
@@ -420,14 +420,14 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL DEFAULT -1,
-  url TEXT NOT NULL DEFAULT '',
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT -1,
   mtime INTEGER NOT NULL DEFAULT -1,
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
-  fingerprint TEXT DEFAULT '',
+  fingerprint TEXT,
 
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
@@ -439,13 +439,13 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
   compilation_off INTEGER NOT NULL DEFAULT 0,
   compilation_effective INTEGER NOT NULL DEFAULT 0,
 
-  art_automatic TEXT DEFAULT '',
-  art_manual TEXT DEFAULT '',
+  art_automatic TEXT,
+  art_manual TEXT,
 
-  effective_albumartist TEXT DEFAULT '',
+  effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
 
-  cue_path TEXT DEFAULT '',
+  cue_path TEXT,
 
   rating INTEGER DEFAULT -1
 
@@ -453,25 +453,25 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
 
 CREATE TABLE IF NOT EXISTS qobuz_songs (
 
-  title TEXT DEFAULT '',
-  album TEXT DEFAULT '',
-  artist TEXT DEFAULT '',
-  albumartist TEXT DEFAULT '',
+  title TEXT,
+  album TEXT,
+  artist TEXT,
+  albumartist TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
   originalyear INTEGER NOT NULL DEFAULT -1,
-  genre TEXT DEFAULT '',
+  genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
-  composer TEXT DEFAULT '',
-  performer TEXT DEFAULT '',
-  grouping TEXT DEFAULT '',
-  comment TEXT DEFAULT '',
-  lyrics TEXT DEFAULT '',
+  composer TEXT,
+  performer TEXT,
+  grouping TEXT,
+  comment TEXT,
+  lyrics TEXT,
 
-  artist_id TEXT DEFAULT '',
-  album_id TEXT DEFAULT '',
-  song_id TEXT DEFAULT '',
+  artist_id TEXT,
+  album_id TEXT,
+  song_id TEXT,
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
@@ -482,14 +482,14 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL DEFAULT -1,
-  url TEXT NOT NULL DEFAULT '',
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT -1,
   mtime INTEGER NOT NULL DEFAULT -1,
   ctime INTEGER NOT NULL DEFAULT -1,
   unavailable INTEGER DEFAULT 0,
 
-  fingerprint TEXT DEFAULT '',
+  fingerprint TEXT,
 
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
@@ -501,13 +501,13 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
   compilation_off INTEGER NOT NULL DEFAULT 0,
   compilation_effective INTEGER NOT NULL DEFAULT 0,
 
-  art_automatic TEXT DEFAULT '',
-  art_manual TEXT DEFAULT '',
+  art_automatic TEXT,
+  art_manual TEXT,
 
-  effective_albumartist TEXT DEFAULT '',
+  effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
 
-  cue_path TEXT DEFAULT '',
+  cue_path TEXT,
 
   rating INTEGER DEFAULT -1
 
@@ -515,15 +515,15 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
 
 CREATE TABLE IF NOT EXISTS playlists (
 
-  name TEXT NOT NULL DEFAULT '',
+  name TEXT NOT NULL,
   last_played INTEGER NOT NULL DEFAULT -1,
   ui_order INTEGER NOT NULL DEFAULT 0,
-  special_type TEXT DEFAULT '',
-  ui_path TEXT DEFAULT '',
+  special_type TEXT,
+  ui_path TEXT,
   is_favorite INTEGER NOT NULL DEFAULT 0,
 
   dynamic_playlist_type INTEGER,
-  dynamic_playlist_backend TEXT DEFAULT '',
+  dynamic_playlist_backend TEXT,
   dynamic_playlist_data BLOB
 
 );
@@ -533,27 +533,27 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   playlist INTEGER NOT NULL,
   type INTEGER NOT NULL DEFAULT 0,
   collection_id INTEGER,
-  playlist_url TEXT DEFAULT '',
+  playlist_url TEXT,
 
-  title TEXT DEFAULT '',
-  album TEXT DEFAULT '',
-  artist TEXT DEFAULT '',
-  albumartist TEXT DEFAULT '',
+  title TEXT,
+  album TEXT,
+  artist TEXT,
+  albumartist TEXT,
   track INTEGER,
   disc INTEGER,
   year INTEGER,
   originalyear INTEGER,
-  genre TEXT DEFAULT '',
+  genre TEXT,
   compilation INTEGER DEFAULT 0,
-  composer TEXT DEFAULT '',
-  performer TEXT DEFAULT '',
-  grouping TEXT DEFAULT '',
-  comment TEXT DEFAULT '',
-  lyrics TEXT DEFAULT '',
+  composer TEXT,
+  performer TEXT,
+  grouping TEXT,
+  comment TEXT,
+  lyrics TEXT,
 
-  artist_id TEXT DEFAULT '',
-  album_id TEXT DEFAULT '',
-  song_id TEXT DEFAULT '',
+  artist_id TEXT,
+  album_id TEXT,
+  song_id TEXT,
 
   beginning INTEGER,
   length INTEGER,
@@ -564,14 +564,14 @@ CREATE TABLE IF NOT EXISTS playlist_items (
 
   source INTEGER,
   directory_id INTEGER,
-  url TEXT DEFAULT '',
+  url TEXT NOT NULL,
   filetype INTEGER,
   filesize INTEGER,
   mtime INTEGER,
   ctime INTEGER,
   unavailable INTEGER DEFAULT 0,
 
-  fingerprint TEXT DEFAULT '',
+  fingerprint TEXT,
 
   playcount INTEGER DEFAULT 0,
   skipcount INTEGER DEFAULT 0,
@@ -583,23 +583,23 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   compilation_off INTEGER DEFAULT 0,
   compilation_effective INTEGER DEFAULT 0,
 
-  art_automatic TEXT DEFAULT '',
-  art_manual TEXT DEFAULT '',
+  art_automatic TEXT,
+  art_manual TEXT,
 
-  effective_albumartist TEXT DEFAULT '',
+  effective_albumartist TEXT,
   effective_originalyear INTEGER,
 
-  cue_path TEXT DEFAULT '',
+  cue_path TEXT,
 
   rating INTEGER DEFAULT -1
 
 );
 
 CREATE TABLE IF NOT EXISTS devices (
-  unique_id TEXT NOT NULL DEFAULT '',
-  friendly_name TEXT DEFAULT '',
+  unique_id TEXT NOT NULL,
+  friendly_name TEXT,
   size INTEGER,
-  icon TEXT DEFAULT '',
+  icon TEXT,
   schema_version INTEGER NOT NULL DEFAULT 0,
   transcode_mode NOT NULL DEFAULT 3,
   transcode_format NOT NULL DEFAULT 5
@@ -607,9 +607,9 @@ CREATE TABLE IF NOT EXISTS devices (
 
 CREATE TABLE IF NOT EXISTS radio_channels (
   source INTEGER NOT NULL DEFAULT 0,
-  name TEXT DEFAULT '',
-  url TEXT DEFAULT '',
-  thumbnail_url TEXT DEFAULT ''
+  name TEXT,
+  url TEXT NOT NULL,
+  thumbnail_url TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_url ON songs (url);
