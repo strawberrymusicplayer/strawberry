@@ -106,12 +106,17 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
   song->set_basefilename(DataCommaSizeFromQString(fileinfo.fileName()));
   song->set_url(url.constData(), url.size());
   song->set_filesize(fileinfo.size());
-  song->set_mtime(fileinfo.lastModified().isValid() ? fileinfo.lastModified().toSecsSinceEpoch() : 0);
+  song->set_mtime(fileinfo.lastModified().isValid() ? std::max(fileinfo.lastModified().toSecsSinceEpoch(), 0LL) : 0LL);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
-  song->set_ctime(fileinfo.birthTime().isValid() ? fileinfo.birthTime().toSecsSinceEpoch() : fileinfo.lastModified().isValid() ? fileinfo.lastModified().toSecsSinceEpoch() : 0);
+  song->set_ctime(fileinfo.birthTime().isValid() ? std::max(fileinfo.birthTime().toSecsSinceEpoch(), 0LL) : fileinfo.lastModified().isValid() ? std::max(fileinfo.lastModified().toSecsSinceEpoch(), 0LL) : 0LL);
 #else
-  song->set_ctime(fileinfo.created().isValid() ? fileinfo.created().toSecsSinceEpoch() : fileinfo.lastModified().isValid() ? fileinfo.lastModified().toSecsSinceEpoch() : 0);
+  song->set_ctime(fileinfo.created().isValid() ? std::max(fileinfo.created().toSecsSinceEpoch(), 0LL) : fileinfo.lastModified().isValid() ? std::max(fileinfo.lastModified().toSecsSinceEpoch(), 0LL) : 0LL);
 #endif
+
+  if (song->ctime() <= 0) {
+    song->set_ctime(song->mtime());
+  }
+
   song->set_lastseen(QDateTime::currentDateTime().toSecsSinceEpoch());
 
   try {

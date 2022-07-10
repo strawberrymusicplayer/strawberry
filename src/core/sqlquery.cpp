@@ -62,6 +62,12 @@ void SqlQuery::BindLongLongValue(const QString &placeholder, const qint64 value)
 
 }
 
+void SqlQuery::BindLongLongValueOrZero(const QString &placeholder, const qint64 value) {
+
+  BindValue(placeholder, value <= 0 ? 0 : value);
+
+}
+
 void SqlQuery::BindFloatValue(const QString &placeholder, const float value) {
 
   BindValue(placeholder, value <= 0 ? -1 : value);
@@ -75,12 +81,6 @@ void SqlQuery::BindBoolValue(const QString &placeholder, const bool value) {
 }
 
 void SqlQuery::BindNotNullIntValue(const QString &placeholder, const int value) {
-
-  BindValue(placeholder, value == -1 ? QVariant() : value);
-
-}
-
-void SqlQuery::BindNotNullLongLongValue(const QString &placeholder, const qint64 value) {
 
   BindValue(placeholder, value == -1 ? QVariant() : value);
 

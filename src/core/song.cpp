@@ -1310,9 +1310,9 @@ void Song::BindToQuery(SqlQuery *query) const {
   query->BindNotNullIntValue(":directory_id", d->directory_id_);
   query->BindUrlValue(":url", d->url_);
   query->BindValue(":filetype", d->filetype_);
-  query->BindNotNullLongLongValue(":filesize", d->filesize_);
-  query->BindNotNullLongLongValue(":mtime", d->mtime_);
-  query->BindNotNullLongLongValue(":ctime", d->ctime_);
+  query->BindLongLongValueOrZero(":filesize", d->filesize_);
+  query->BindLongLongValueOrZero(":mtime", d->mtime_);
+  query->BindLongLongValueOrZero(":ctime", d->ctime_);
   query->BindBoolValue(":unavailable", d->unavailable_);
 
   query->BindStringValue(":fingerprint", d->fingerprint_);
