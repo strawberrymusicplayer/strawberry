@@ -61,6 +61,7 @@ class Database : public QObject {
   };
 
   static const int kSchemaVersion;
+  static const int kMinSupportedSchemaVersion;
   static const char *kDatabaseFilename;
   static const char *kMagicAllSongsTables;
 

@@ -1,15 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>schema/schema.sql</file>
-        <file>schema/schema-1.sql</file>
-        <file>schema/schema-2.sql</file>
-        <file>schema/schema-3.sql</file>
-        <file>schema/schema-4.sql</file>
-        <file>schema/schema-5.sql</file>
-        <file>schema/schema-6.sql</file>
-        <file>schema/schema-7.sql</file>
-        <file>schema/schema-8.sql</file>
-        <file>schema/schema-9.sql</file>
         <file>schema/schema-10.sql</file>
         <file>schema/schema-11.sql</file>
         <file>schema/schema-12.sql</file>
