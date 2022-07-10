@@ -1085,7 +1085,7 @@ msgstr "Imatge de fons"
 msgid "Background opacity"
 msgstr "Opacitat del fons"
 
-#: core/database.cpp:591
+#: core/database.cpp:565
 msgid "Backing up database"
 msgstr "S’està fent una còpia de seguretat de la base de dades"
 
@@ -1679,7 +1679,7 @@ msgstr "Camí del D-Bus"
 msgid "Dance"
 msgstr "Dance"
 
-#: core/database.cpp:538
+#: core/database.cpp:512
 msgid "Database corruption detected."
 msgstr ""
 
@@ -2767,7 +2767,7 @@ msgstr "Insereix…"
 msgid "Install strawberry through PPA:<br />"
 msgstr "Instal·leu l’Strawberry mitjançant el PPA:<br />"
 
-#: core/database.cpp:521
+#: core/database.cpp:495
 msgid "Integrity check"
 msgstr "Comprovació d’integritat"
 

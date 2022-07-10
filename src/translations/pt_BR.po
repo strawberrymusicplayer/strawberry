@@ -1089,7 +1089,7 @@ msgstr "Imagem de fundo"
 msgid "Background opacity"
 msgstr "Opacidade de fundo"
 
-#: core/database.cpp:591
+#: core/database.cpp:565
 msgid "Backing up database"
 msgstr "Cópia do banco de dados"
 
@@ -1681,7 +1681,7 @@ msgstr "Localização do D-Bus"
 msgid "Dance"
 msgstr "Dance"
 
-#: core/database.cpp:538
+#: core/database.cpp:512
 msgid "Database corruption detected."
 msgstr ""
 
@@ -2770,7 +2770,7 @@ msgstr "Inserir..."
 msgid "Install strawberry through PPA:<br />"
 msgstr ""
 
-#: core/database.cpp:521
+#: core/database.cpp:495
 msgid "Integrity check"
 msgstr "Verificar integridade"
 

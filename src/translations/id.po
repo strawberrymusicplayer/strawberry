@@ -1087,7 +1087,7 @@ msgstr "Gambar latar belakang"
 msgid "Background opacity"
 msgstr "Kelegapan latar belakang"
 
-#: core/database.cpp:591
+#: core/database.cpp:565
 msgid "Backing up database"
 msgstr "Membuat cadangan basis data"
 
@@ -1679,7 +1679,7 @@ msgstr "Lokasi D-Bus"
 msgid "Dance"
 msgstr "Dansa"
 
-#: core/database.cpp:538
+#: core/database.cpp:512
 msgid "Database corruption detected."
 msgstr "Kerusakan basis data terdeteksi."
 
@@ -2763,7 +2763,7 @@ msgstr "Sisipkan..."
 msgid "Install strawberry through PPA:<br />"
 msgstr ""
 
-#: core/database.cpp:521
+#: core/database.cpp:495
 msgid "Integrity check"
 msgstr "Periksa integritas"
 

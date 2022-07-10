@@ -1084,7 +1084,7 @@ msgstr "Taustakuva"
 msgid "Background opacity"
 msgstr "Taustan läpinäkyvyys"
 
-#: core/database.cpp:591
+#: core/database.cpp:565
 msgid "Backing up database"
 msgstr "Varmuuskopioidaan tietokantaa"
 
@@ -1678,7 +1678,7 @@ msgstr "D-Bus-polku"
 msgid "Dance"
 msgstr "Dance"
 
-#: core/database.cpp:538
+#: core/database.cpp:512
 msgid "Database corruption detected."
 msgstr "Tietokanta on vioittunut."
 
@@ -2766,7 +2766,7 @@ msgstr "Lisää..."
 msgid "Install strawberry through PPA:<br />"
 msgstr "Asenna strawberry PPA:sta:"
 
-#: core/database.cpp:521
+#: core/database.cpp:495
 msgid "Integrity check"
 msgstr "Eheystarkistus"
 

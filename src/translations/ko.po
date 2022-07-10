@@ -1089,7 +1089,7 @@ msgstr "배경 그림"
 msgid "Background opacity"
 msgstr "배경 불투명도"
 
-#: core/database.cpp:591
+#: core/database.cpp:565
 msgid "Backing up database"
 msgstr "데이터베이스 백업 중"
 
@@ -1675,7 +1675,7 @@ msgstr "D-Bus 경로"
 msgid "Dance"
 msgstr "댄스"
 
-#: core/database.cpp:538
+#: core/database.cpp:512
 msgid "Database corruption detected."
 msgstr "데이터베이스가 손상되었습니다."
 
@@ -2754,7 +2754,7 @@ msgstr "삽입..."
 msgid "Install strawberry through PPA:<br />"
 msgstr "이 PPA로부터 설치됨:<br />"
 
-#: core/database.cpp:521
+#: core/database.cpp:495
 msgid "Integrity check"
 msgstr "무결성 검사"
 

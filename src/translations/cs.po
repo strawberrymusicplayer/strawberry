@@ -1089,7 +1089,7 @@ msgstr "Obrázek na pozadí"
 msgid "Background opacity"
 msgstr "Neprůhlednost pozadí"
 
-#: core/database.cpp:591
+#: core/database.cpp:565
 msgid "Backing up database"
 msgstr "Záloha databáze"
 
@@ -1683,7 +1683,7 @@ msgstr "Cesta k D-Bus"
 msgid "Dance"
 msgstr "Taneční hudba"
 
-#: core/database.cpp:538
+#: core/database.cpp:512
 msgid "Database corruption detected."
 msgstr "Databáze je poškozená."
 
@@ -2775,7 +2775,7 @@ msgstr "Vložit..."
 msgid "Install strawberry through PPA:<br />"
 msgstr "Nainstalujte Strawberry pomocí PPA:<br />"
 
-#: core/database.cpp:521
+#: core/database.cpp:495
 msgid "Integrity check"
 msgstr "Ověření celistvosti"
 
