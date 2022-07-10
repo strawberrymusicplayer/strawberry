@@ -86,7 +86,7 @@ class TagReaderTest : public ::testing::Test {
         qint64 bytes_read = qMin(file.bytesAvailable(), 8192LL);
         buffer = file.read(bytes_read);
         if (buffer.isEmpty()) break;
-        hash.addData(buffer, bytes_read);
+        hash.addData(buffer);
       }
       file.close();
       return hash.result().toHex();
