@@ -111,41 +111,6 @@ TEST_F(CollectionBackendTest, RemoveDirectory) {
 
 }
 
-TEST_F(CollectionBackendTest, AddInvalidSong) {
-
-  // Adding a song without certain fields set should fail
-  backend_->AddDirectory("/tmp");
-  Song s;
-  s.set_url(QUrl::fromLocalFile("foo.flac"));
-  s.set_directory_id(1);
-
-  QSignalSpy spy(database_.get(), &Database::Error);
-
-  backend_->AddOrUpdateSongs(SongList() << s);
-  ASSERT_EQ(1, spy.count());
-  spy.takeFirst();
-
-  s.set_url(QUrl::fromLocalFile("foo.flac"));
-  backend_->AddOrUpdateSongs(SongList() << s);
-  ASSERT_EQ(1, spy.count());
-  spy.takeFirst();
-
-  s.set_filesize(100);
-  backend_->AddOrUpdateSongs(SongList() << s);
-  ASSERT_EQ(1, spy.count());
-  spy.takeFirst();
-
-  s.set_mtime(100);
-  backend_->AddOrUpdateSongs(SongList() << s);
-  ASSERT_EQ(1, spy.count());
-  spy.takeFirst();
-
-  s.set_ctime(100);
-  backend_->AddOrUpdateSongs(SongList() << s);
-  ASSERT_EQ(0, spy.count());
-
-}
-
 TEST_F(CollectionBackendTest, GetAlbumArtNonExistent) {}
 
 // Test adding a single song to the database, then getting various information back about it.
