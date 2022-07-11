@@ -170,7 +170,7 @@ jobs:
       - name: Add tagparser repo
         run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Leap_15.3/ repo-tagparser
       - name: Add Qt 6 repo
-        run: zypper -n ar -c -f -n 'repo-qt6' https://download.opensuse.org/repositories/home:/jonaski:/qt6/openSUSE_Leap_15.3/ repo-qt6
+        run: zypper -n ar -c -f -n 'repo-qt6' https://download.opensuse.org/repositories/KDE:/Qt6/openSUSE_Leap_15.3/ repo-qt6
       - name: Update packages
         run: zypper --non-interactive --gpg-auto-import-keys ref
       - name: Install openSUSE dependencies
@@ -336,7 +336,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1.2.0
       - name: Add Qt 6 repo
-        run: zypper -n ar -c -f -n 'repo-qt6' https://download.opensuse.org/repositories/home:/jonaski:/qt6/15.4/ repo-qt6
+        run: zypper -n ar -c -f -n 'repo-qt6' https://download.opensuse.org/repositories/KDE:/Qt6/openSUSE_Leap_15.4/ repo-qt6
       - name: Update packages
         run: zypper --non-interactive --gpg-auto-import-keys ref
       - name: Install openSUSE dependencies
