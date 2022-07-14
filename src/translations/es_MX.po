@@ -1,11 +1,12 @@
 # Jonas Kvinge <jonas@jkvinge.net>, 2021. #zanata
+# Jonas Kvinge <jonas@jkvinge.net>, 2022. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-11-20 11:24-0500\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2022-07-14 12:44-0400\n"
+"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Spanish (Mexico)\n"
 "Language: es_MX\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -463,6 +464,16 @@ msgid ""
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
 "size:10pt;\"><br /></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" "
+"/><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Noto Sans'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt;\"><br /></p></body></html>"
 
 #: ../build/src/ui_organizedialog.h:267
 msgid ""
@@ -1186,7 +1197,7 @@ msgstr "CDDA"
 
 #: playlist/playlist.cpp:1372
 msgid "CUE"
-msgstr ""
+msgstr "CUE"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
@@ -2259,7 +2270,7 @@ msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:580
 msgid "Fallback-gain"
-msgstr ""
+msgstr "Fallback-gain"
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
 #: ../build/src/ui_transcoderoptionsmp3.h:197
@@ -2638,7 +2649,7 @@ msgstr "Ayuda"
 
 #: ../build/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
-msgstr ""
+msgstr "Hex"
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
@@ -2663,7 +2674,7 @@ msgstr "Horas"
 
 #: ../build/src/ui_collectionsettingspage.h:638
 msgid "I/O priority"
-msgstr ""
+msgstr "I/O priority"
 
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
@@ -2728,7 +2739,7 @@ msgstr "Importar…"
 
 #: ../build/src/ui_backendsettingspage.h:565
 msgid "Improve headphone listening of stereo audio records (bs2b)"
-msgstr ""
+msgstr "Improve headphone listening of stereo audio records (bs2b)"
 
 #: core/utilities.cpp:178
 #, qt-format
@@ -3009,7 +3020,7 @@ msgstr "Proveedores de letras"
 
 #: ../build/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token"
-msgstr ""
+msgstr "MD5 token"
 
 #: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
@@ -3867,7 +3878,7 @@ msgstr "Radio (volumen igual para todas las pistas)"
 
 #: ../build/src/ui_scrobblersettingspage.h:427
 msgid "Radio Paradise"
-msgstr ""
+msgstr "Radio Paradise"
 
 #: core/mainwindow.cpp:367
 msgid "Radios"
@@ -4300,7 +4311,7 @@ msgstr "Registro de reproducción"
 #: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
 msgid "Scrobbler %1 error: %2"
-msgstr "Registro de reproducción %1 error: %2\n"
+msgstr "Registro de reproducción %1 error: %2"
 
 #: scrobbler/scrobblingapi20.cpp:536
 #, qt-format
@@ -4433,7 +4444,7 @@ msgstr "Establecer %1 a «%2»…"
 
 #: core/commandlineoptions.cpp:174
 msgid "Set the volume to <value> percent"
-msgstr "Establecer el volumen en <valor>%"
+msgstr "Establecer el volumen en <value>%"
 
 #: ../build/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
@@ -4701,7 +4712,7 @@ msgstr "Soft rock"
 
 #: ../build/src/ui_scrobblersettingspage.h:425
 msgid "SomaFM"
-msgstr ""
+msgstr "SomaFM"
 
 #: ../build/src/ui_contextsettingspage.h:436
 msgid "Song Lyrics"
@@ -4968,7 +4979,7 @@ msgstr "Obtener etiquetas"
 
 #: ../build/src/ui_collectionsettingspage.h:636
 msgid "Tagreader workers"
-msgstr ""
+msgstr "Tagreader workers"
 
 #: ../build/src/ui_edittagdialog.h:844
 msgid "Tags"
@@ -5150,7 +5161,7 @@ msgstr "No se admite este tipo de dispositivo: %1"
 
 #: ../build/src/ui_collectionsettingspage.h:637
 msgid "Thread priority"
-msgstr ""
+msgstr "Thread priority"
 
 #: core/mainwindow.cpp:375 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5327,7 +5338,7 @@ msgstr ""
 #: device/deviceview.cpp:125
 #, qt-format
 msgid "Updating %1%..."
-msgstr "Actualizando… (%1 %)"
+msgstr "Actualizando… (%1%)"
 
 #: collection/collectionwatcher.cpp:205
 msgid "Updating collection"
@@ -5371,7 +5382,7 @@ msgstr "Utilizar atajos de MATE si están disponibles"
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
-msgstr "Utilizar OAuth\n"
+msgstr "Utilizar OAuth"
 
 #: settings/coverssettingspage.cpp:132 settings/coverssettingspage.cpp:245
 msgid "Use Qobuz settings to authenticate."
@@ -5844,7 +5855,7 @@ msgstr "p&lughw"
 
 #: ../build/src/ui_backendsettingspage.h:560
 msgid "pcm"
-msgstr ""
+msgstr "pcm"
 
 #: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:100
 #, c-format, qt-plural-format

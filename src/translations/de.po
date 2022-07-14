@@ -40,13 +40,14 @@
 # Guido T. <GuidoTelscher@web.de>, 2020. #zanata
 # Lian Begett <zanata@bunbun.de>, 2021. #zanata
 # Guido T. <GuidoTelscher@web.de>, 2022. #zanata
+# Jonas Kvinge <jonas@jkvinge.net>, 2022. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-02-03 01:51-0500\n"
-"Last-Translator: Guido T. <GuidoTelscher@web.de>\n"
+"PO-Revision-Date: 2022-07-14 12:12-0400\n"
+"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -62,10 +63,9 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Sie können Wiedergabelisten zu ihren Favoriten hinzufügen, indem sie den "
-"Stern neben dem Namen der Wiedergabeliste anklicken\n"
+"You can favorite playlists by clicking the star icon next to a playlist name\n"
 "\n"
-"Favorisierte Wiedergabelisten werden hier gespeichert"
+"Favorited playlists will be saved here"
 
 #: settings/globalshortcutssettingspage.cpp:357
 #, qt-format
@@ -1458,7 +1458,7 @@ msgstr "%1 konfigurieren …"
 
 #: ../build/src/ui_appearancesettingspage.h:628
 msgid "Configure buttons"
-msgstr "Knöpfe einrichten\n"
+msgstr "Knöpfe einrichten"
 
 #: core/mainwindow.cpp:674
 msgid "Configure collection..."
@@ -3401,7 +3401,7 @@ msgstr "Keiner der gewählten Titel war zum Kopieren auf ein Gerät geeignet."
 
 #: moodbar/moodbarrenderer.cpp:171
 msgid "Normal"
-msgstr "normal"
+msgstr "Normal"
 
 #: ../build/src/ui_transcoderoptionsaac.h:143
 msgid "Normal block type"
@@ -3493,7 +3493,7 @@ msgstr "Verzeichnis öffnen, um Musik von dort zu importieren"
 
 #: ../build/src/ui_mainwindow.h:669
 msgid "Open audio &CD..."
-msgstr "Öffne Audio-&CD"
+msgstr "Öffne Audio &CD"
 
 #: ../build/src/ui_deviceproperties.h:383
 msgid "Open device"
@@ -3740,7 +3740,7 @@ msgid ""
 "playlist?"
 msgstr ""
 "Die Wiedergabeliste enthält %1 Songs, die zu groß sind, um sie rückgängig zu "
-"machen. Sind Sie sicher, dass Sie die Wiedergabeliste löschen möchten?\n"
+"machen. Sind Sie sicher, dass Sie die Wiedergabeliste löschen möchten?"
 
 #: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
@@ -3815,7 +3815,7 @@ msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
 "Fügen Sie einem Wort einen Feldnamen vor, um die Suche auf dieses Feld zu "
-"beschränken, z.B:\n"
+"beschränken, z.B:"
 
 #: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
@@ -5748,8 +5748,8 @@ msgid ""
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
 "in Strawberry."
 msgstr ""
-"Sie müssen die Systemeinstellungen öffnen und »<span style=\" font-style:"
-"italic;\">Zugriff für Hilfsgeräte aktivieren</span>« in »Bedienhilfen« "
+"Sie müssen die Systemeinstellungen öffnen und \"<span style=\" font-style:"
+"italic;\">Zugriff für Hilfsgeräte aktivieren</span>\" in »Bedienhilfen« "
 "aktivieren, um Strawberrys Tastenkürzel zu benutzen."
 
 #: dialogs/about.cpp:120
@@ -5793,7 +5793,7 @@ msgstr "zuvor"
 
 #: ../build/src/ui_internetsearchview.h:226
 msgid "albums"
-msgstr "Alben\n"
+msgstr "Alben"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
@@ -5932,7 +5932,7 @@ msgstr "Einstellungen"
 
 #: ../build/src/ui_backendsettingspage.h:559
 msgid "p&lughw"
-msgstr "p&lughw Plugin"
+msgstr "p&lughw"
 
 #: ../build/src/ui_backendsettingspage.h:560
 msgid "pcm"
