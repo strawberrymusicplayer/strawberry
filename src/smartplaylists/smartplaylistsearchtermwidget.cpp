@@ -417,7 +417,7 @@ void SmartPlaylistSearchTermWidget::RelativeValueChanged() {
   }
   // Explain the user why he can't proceed
   if (ui_->value_date_numeric1->value() >= ui_->value_date_numeric2->value()) {
-    QMessageBox::warning(this, tr("Strawberry"), tr("The second value must be greater than the first one!"));
+    QMessageBox::warning(this, "Strawberry", tr("The second value must be greater than the first one!"));
   }
   // Emit the signal in any case, so the Next button will be disabled
   emit Changed();
