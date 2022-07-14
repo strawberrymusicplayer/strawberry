@@ -5,7 +5,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-07-14 12:44-0400\n"
+"PO-Revision-Date: 2022-07-14 03:34-0400\n"
 "Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Spanish (Mexico)\n"
 "Language: es_MX\n"
@@ -2788,8 +2788,8 @@ msgid "Insert..."
 msgstr "Insertar…"
 
 #: dialogs/snapdialog.cpp:79
-msgid "Install strawberry through PPA:<br />"
-msgstr "Instalar Strawberry mediante PPA:<br />"
+msgid "Install strawberry through PPA:"
+msgstr ""
 
 #: core/database.cpp:495
 msgid "Integrity check"
@@ -3642,7 +3642,7 @@ msgstr ""
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
-"Recuentos de reproducciones y última reproducción para %2 temas recibida."
+"Recuentos de %1 reproducciones y última reproducción para %2 temas recibida."
 
 #: dialogs/lastfmimportdialog.cpp:160
 #, qt-format

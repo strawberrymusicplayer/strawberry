@@ -2,14 +2,15 @@
 # 
 # Translators:
 # Jonas Kvinge <jonas@jkvinge.net>, 2021. #zanata
+# Jonas Kvinge <jonas@jkvinge.net>, 2022. #zanata
 # Pablo Felip <takerna@gmail.com>, 2022. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-01-03 05:23-0500\n"
-"Last-Translator: Pablo Felip <takerna@gmail.com>\n"
+"PO-Revision-Date: 2022-07-14 03:11-0400\n"
+"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1211,7 +1212,7 @@ msgstr "CDDA"
 
 #: playlist/playlist.cpp:1372
 msgid "CUE"
-msgstr ""
+msgstr "CUE"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
@@ -2664,7 +2665,7 @@ msgstr "Ayuda"
 
 #: ../build/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
-msgstr ""
+msgstr "Hex"
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
@@ -2689,7 +2690,7 @@ msgstr "Horas"
 
 #: ../build/src/ui_collectionsettingspage.h:638
 msgid "I/O priority"
-msgstr ""
+msgstr "I/O priority"
 
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
@@ -2754,7 +2755,7 @@ msgstr "Importar…"
 
 #: ../build/src/ui_backendsettingspage.h:565
 msgid "Improve headphone listening of stereo audio records (bs2b)"
-msgstr ""
+msgstr "Improve headphone listening of stereo audio records (bs2b)"
 
 #: core/utilities.cpp:178
 #, qt-format
@@ -2803,8 +2804,8 @@ msgid "Insert..."
 msgstr "Insertar…"
 
 #: dialogs/snapdialog.cpp:79
-msgid "Install strawberry through PPA:<br />"
-msgstr "Instalar Strawberry mediante PPA:<br />"
+msgid "Install strawberry through PPA:"
+msgstr ""
 
 #: core/database.cpp:495
 msgid "Integrity check"
@@ -3922,7 +3923,6 @@ msgid ""
 "Received URL with %1 encrypted stream from Tidal. Strawberry does not "
 "currently support encrypted streams."
 msgstr ""
-"\n"
 "Se ha recibido URL con %1 transmisión cifrada de Tidal. Strawberry no "
 "soporta flujos cifrados por ahora."
 
@@ -4334,7 +4334,7 @@ msgstr "Registro de reproducción"
 #: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
 msgid "Scrobbler %1 error: %2"
-msgstr "Registro de reproducción %1 error: %2\n"
+msgstr "Registro de reproducción %1 error: %2"
 
 #: scrobbler/scrobblingapi20.cpp:536
 #, qt-format
@@ -4467,7 +4467,7 @@ msgstr "Establecer %1 a «%2»…"
 
 #: core/commandlineoptions.cpp:174
 msgid "Set the volume to <value> percent"
-msgstr "Establecer el volumen en <valor>%"
+msgstr "Establecer el volumen en <value>%"
 
 #: ../build/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
@@ -5002,7 +5002,7 @@ msgstr "Obtener etiquetas"
 
 #: ../build/src/ui_collectionsettingspage.h:636
 msgid "Tagreader workers"
-msgstr ""
+msgstr "Tagreader workers"
 
 #: ../build/src/ui_edittagdialog.h:844
 msgid "Tags"
@@ -5184,7 +5184,7 @@ msgstr "No se admite este tipo de dispositivo: %1"
 
 #: ../build/src/ui_collectionsettingspage.h:637
 msgid "Thread priority"
-msgstr ""
+msgstr "Thread priority"
 
 #: core/mainwindow.cpp:375 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5361,7 +5361,7 @@ msgstr "Actualizando base de datos de %1."
 #: device/deviceview.cpp:125
 #, qt-format
 msgid "Updating %1%..."
-msgstr "Actualizando… (%1 %)"
+msgstr "Actualizando… (%1%)"
 
 #: collection/collectionwatcher.cpp:205
 msgid "Updating collection"
@@ -5405,7 +5405,7 @@ msgstr "Utilizar atajos de MATE si están disponibles"
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
-msgstr "Utilizar OAuth\n"
+msgstr "Utilizar OAuth"
 
 #: settings/coverssettingspage.cpp:132 settings/coverssettingspage.cpp:245
 msgid "Use Qobuz settings to authenticate."

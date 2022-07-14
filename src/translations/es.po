@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-07-14 12:22-0400\n"
+"PO-Revision-Date: 2022-07-14 03:27-0400\n"
 "Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -499,6 +499,16 @@ msgid ""
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
 "size:10pt;\"><br /></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" "
+"/><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Noto Sans'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt;\"><br /></p></body></html>"
 
 #: ../build/src/ui_organizedialog.h:267
 msgid ""
@@ -2699,7 +2709,7 @@ msgstr "Horas"
 
 #: ../build/src/ui_collectionsettingspage.h:638
 msgid "I/O priority"
-msgstr ""
+msgstr "I/O priority"
 
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
@@ -2764,7 +2774,7 @@ msgstr "Importar…"
 
 #: ../build/src/ui_backendsettingspage.h:565
 msgid "Improve headphone listening of stereo audio records (bs2b)"
-msgstr ""
+msgstr "Improve headphone listening of stereo audio records (bs2b)"
 
 #: core/utilities.cpp:178
 #, qt-format
@@ -2813,8 +2823,8 @@ msgid "Insert..."
 msgstr "Insertar…"
 
 #: dialogs/snapdialog.cpp:79
-msgid "Install strawberry through PPA:<br />"
-msgstr "Instalar Strawberry mediante PPA:<br />"
+msgid "Install strawberry through PPA:"
+msgstr ""
 
 #: core/database.cpp:495
 msgid "Integrity check"
@@ -3667,7 +3677,7 @@ msgstr ""
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
-"Recuentos de reproducciones y última reproducción para %2 temas recibida."
+"Recuentos de %1 reproducciones y última reproducción para %2 temas recibida."
 
 #: dialogs/lastfmimportdialog.cpp:160
 #, qt-format
@@ -3903,7 +3913,7 @@ msgstr "Radio (volumen igual para todas las pistas)"
 
 #: ../build/src/ui_scrobblersettingspage.h:427
 msgid "Radio Paradise"
-msgstr ""
+msgstr "Radio Paradise"
 
 #: core/mainwindow.cpp:367
 msgid "Radios"
@@ -4469,7 +4479,7 @@ msgstr "Establecer %1 a «%2»…"
 
 #: core/commandlineoptions.cpp:174
 msgid "Set the volume to <value> percent"
-msgstr "Establecer el volumen en <valor>%"
+msgstr "Establecer el volumen en <value>%"
 
 #: ../build/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
@@ -5004,7 +5014,7 @@ msgstr "Obtener etiquetas"
 
 #: ../build/src/ui_collectionsettingspage.h:636
 msgid "Tagreader workers"
-msgstr ""
+msgstr "Tagreader workers"
 
 #: ../build/src/ui_edittagdialog.h:844
 msgid "Tags"
@@ -5186,7 +5196,7 @@ msgstr "No se admite este tipo de dispositivo: %1"
 
 #: ../build/src/ui_collectionsettingspage.h:637
 msgid "Thread priority"
-msgstr ""
+msgstr "Thread priority"
 
 #: core/mainwindow.cpp:375 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318

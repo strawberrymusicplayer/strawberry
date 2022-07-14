@@ -5,7 +5,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-07-14 12:33-0400\n"
+"PO-Revision-Date: 2022-07-14 03:50-0400\n"
 "Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Spanish (Argentina)\n"
 "Language: es_AR\n"
@@ -1017,7 +1017,7 @@ msgstr "Falló la autenticación"
 
 #: ../build/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
-msgstr ""
+msgstr "Metodo de autentificacion"
 
 #: dialogs/about.cpp:143
 msgid "Author and maintainer"
@@ -2739,7 +2739,7 @@ msgstr "Importar…"
 
 #: ../build/src/ui_backendsettingspage.h:565
 msgid "Improve headphone listening of stereo audio records (bs2b)"
-msgstr ""
+msgstr "Improve headphone listening of stereo audio records (bs2b)"
 
 #: core/utilities.cpp:178
 #, qt-format
@@ -2788,8 +2788,8 @@ msgid "Insert..."
 msgstr "Insertar…"
 
 #: dialogs/snapdialog.cpp:79
-msgid "Install strawberry through PPA:<br />"
-msgstr "Instalar Strawberry mediante PPA:<br />"
+msgid "Install strawberry through PPA:"
+msgstr ""
 
 #: core/database.cpp:495
 msgid "Integrity check"
@@ -3642,7 +3642,7 @@ msgstr ""
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
-"Recuentos de reproducciones y última reproducción para %2 temas recibida."
+"Recuentos de %1 reproducciones y última reproducción para %2 temas recibida."
 
 #: dialogs/lastfmimportdialog.cpp:160
 #, qt-format
@@ -4444,7 +4444,7 @@ msgstr "Establecer %1 a «%2»…"
 
 #: core/commandlineoptions.cpp:174
 msgid "Set the volume to <value> percent"
-msgstr "Establecer el volumen en <valor>%"
+msgstr "Establecer el volumen en <value>%"
 
 #: ../build/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."

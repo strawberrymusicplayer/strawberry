@@ -2753,7 +2753,7 @@ msgid "Insert..."
 msgstr "挿入..."
 
 #: dialogs/snapdialog.cpp:79
-msgid "Install strawberry through PPA:<br />"
+msgid "Install strawberry through PPA:"
 msgstr ""
 
 #: core/database.cpp:495

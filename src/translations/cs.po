@@ -2772,8 +2772,8 @@ msgid "Insert..."
 msgstr "Vložit..."
 
 #: dialogs/snapdialog.cpp:79
-msgid "Install strawberry through PPA:<br />"
-msgstr "Nainstalujte Strawberry pomocí PPA:<br />"
+msgid "Install strawberry through PPA:"
+msgstr ""
 
 #: core/database.cpp:495
 msgid "Integrity check"
