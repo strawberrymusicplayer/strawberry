@@ -464,20 +464,6 @@ msgstr "40%"
 msgid "50 random tracks"
 msgstr "ランダムな 50 トラック"
 
-#: ../build/src/ui_edittagdialog.h:798 ../build/src/ui_edittagdialog.h:824
-msgid ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" "
-"/><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Noto Sans'; font-size:11pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
-"size:10pt;\"><br /></p></body></html>"
-msgstr ""
-
 #: ../build/src/ui_organizedialog.h:267
 msgid ""
 "<p>Tokens start with %, for example: %artist %album %title </p>\n"
@@ -784,7 +770,7 @@ msgstr "アルバムカバー(&m)"
 #: ../build/src/ui_albumcoversearcher.h:107
 #: ../build/src/ui_albumcoversearcher.h:109
 #: ../build/src/ui_contextsettingspage.h:433
-#: ../build/src/ui_edittagdialog.h:832
+#: ../build/src/ui_edittagdialog.h:822
 #: ../build/src/ui_trackselectiondialog.h:207
 msgid "Album"
 msgstr "アルバム"
@@ -801,7 +787,7 @@ msgstr "アルバム - ディスク"
 #: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1348
 #: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
-#: ../build/src/ui_edittagdialog.h:831
+#: ../build/src/ui_edittagdialog.h:821
 msgid "Album artist"
 msgstr "アルバムアーティスト"
 
@@ -949,11 +935,11 @@ msgid ""
 "songs in your collection?"
 msgstr ""
 
-#: ../build/src/ui_edittagdialog.h:818
+#: ../build/src/ui_edittagdialog.h:813
 msgid "Art Automatic"
 msgstr "自動アート"
 
-#: ../build/src/ui_edittagdialog.h:815
+#: ../build/src/ui_edittagdialog.h:810
 msgid "Art Manual"
 msgstr "手動アート"
 
@@ -961,7 +947,7 @@ msgstr "手動アート"
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:103
-#: ../build/src/ui_albumcoversearcher.h:105 ../build/src/ui_edittagdialog.h:835
+#: ../build/src/ui_albumcoversearcher.h:105 ../build/src/ui_edittagdialog.h:825
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Artist"
 msgstr "アーティスト"
@@ -1113,11 +1099,11 @@ msgstr "良"
 #: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:139
 #: playlist/playlist.cpp:1358 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
-#: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:805
+#: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:800
 msgid "Bit depth"
 msgstr "ビット深度"
 
-#: ../build/src/ui_edittagdialog.h:816
+#: ../build/src/ui_edittagdialog.h:811
 msgid "Bit rate"
 msgstr "ビットレート"
 
@@ -1205,7 +1191,7 @@ msgstr "キャンセル"
 msgid "Cancelled."
 msgstr "キャンセルされました。"
 
-#: ../build/src/ui_edittagdialog.h:822
+#: ../build/src/ui_edittagdialog.h:817
 msgid "Change art"
 msgstr "アートの変更"
 
@@ -1353,15 +1339,15 @@ msgid "Comma separated list of class:level, level is 0-3"
 msgstr "コンマ区切りの クラス:レベル のリスト、レベルは 0-3"
 
 #: playlist/playlist.cpp:1368 smartplaylists/smartplaylistsearchterm.cpp:389
-#: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:839
+#: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:829
 msgid "Comment"
 msgstr "コメント"
 
-#: ../build/src/ui_edittagdialog.h:841
+#: ../build/src/ui_edittagdialog.h:831
 msgid "Compilation"
 msgstr "コンピレーション"
 
-#: ../build/src/ui_edittagdialog.h:837
+#: ../build/src/ui_edittagdialog.h:827
 msgid "Complete tags automatically"
 msgstr "タグの自動補完"
 
@@ -1372,7 +1358,7 @@ msgstr "タグを自動補完..."
 #: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1349
 #: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
-#: ../build/src/ui_edittagdialog.h:836
+#: ../build/src/ui_edittagdialog.h:826
 msgid "Composer"
 msgstr "作曲者"
 
@@ -1682,11 +1668,11 @@ msgstr "ダンス"
 msgid "Database corruption detected."
 msgstr "データベースの不整合が検出されました。"
 
-#: playlist/playlist.cpp:1366 ../build/src/ui_edittagdialog.h:811
+#: playlist/playlist.cpp:1366 ../build/src/ui_edittagdialog.h:806
 msgid "Date created"
 msgstr "作成日時"
 
-#: playlist/playlist.cpp:1365 ../build/src/ui_edittagdialog.h:809
+#: playlist/playlist.cpp:1365 ../build/src/ui_edittagdialog.h:804
 msgid "Date modified"
 msgstr "更新日時"
 
@@ -1815,7 +1801,7 @@ msgstr "無効"
 #: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1343
 #: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
-#: ../build/src/ui_edittagdialog.h:829
+#: ../build/src/ui_edittagdialog.h:819
 msgid "Disc"
 msgstr "ディスク"
 
@@ -1946,7 +1932,7 @@ msgstr "トラック情報の編集..."
 msgid "Embedded"
 msgstr "埋め込み"
 
-#: ../build/src/ui_edittagdialog.h:823
+#: ../build/src/ui_edittagdialog.h:818
 msgid "Embedded cover"
 msgstr "埋め込みカバー"
 
@@ -2317,17 +2303,17 @@ msgstr "ファイル名 (パスなし)"
 msgid "File paths"
 msgstr "ファイルのパス"
 
-#: playlist/playlist.cpp:1363 ../build/src/ui_edittagdialog.h:817
+#: playlist/playlist.cpp:1363 ../build/src/ui_edittagdialog.h:812
 msgid "File size"
 msgstr "ファイルサイズ"
 
 #: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1364
 #: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
-#: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:804
+#: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:799
 msgid "File type"
 msgstr "ファイルの種類"
 
-#: ../build/src/ui_edittagdialog.h:806 ../build/src/ui_transcodedialog.h:219
+#: ../build/src/ui_edittagdialog.h:801 ../build/src/ui_transcodedialog.h:219
 msgid "Filename"
 msgstr "ファイル名"
 
@@ -2481,7 +2467,7 @@ msgstr "Genius 認証"
 #: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1347
 #: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
-#: ../build/src/ui_edittagdialog.h:838
+#: ../build/src/ui_edittagdialog.h:828
 msgid "Genre"
 msgstr "ジャンル"
 
@@ -2589,7 +2575,7 @@ msgstr "ジャンル/アーティスト/アルバムでグループ化"
 #: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1351
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
-#: ../build/src/ui_edittagdialog.h:830
+#: ../build/src/ui_edittagdialog.h:820
 msgid "Grouping"
 msgstr "分類"
 
@@ -2827,7 +2813,7 @@ msgstr "大きいサイドバー"
 msgid "Last played"
 msgstr "最終再生"
 
-#: ../build/src/ui_edittagdialog.h:814
+#: ../build/src/ui_edittagdialog.h:809
 msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "最後に再生"
@@ -2850,7 +2836,7 @@ msgid "Left"
 msgstr "左"
 
 #: context/contextview.cpp:208 playlist/playlist.cpp:1344
-#: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:803
+#: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:798
 msgid "Length"
 msgstr "長さ"
 
@@ -2973,7 +2959,7 @@ msgstr ""
 msgid "Lowercase filename"
 msgstr ""
 
-#: ../build/src/ui_lyricssettingspage.h:162 ../build/src/ui_edittagdialog.h:846
+#: ../build/src/ui_lyricssettingspage.h:162 ../build/src/ui_edittagdialog.h:836
 msgid "Lyrics"
 msgstr "歌詞"
 
@@ -3516,7 +3502,7 @@ msgstr "パーティー"
 msgid "Password"
 msgstr "パスワード"
 
-#: ../build/src/ui_edittagdialog.h:812
+#: ../build/src/ui_edittagdialog.h:807
 msgid "Path"
 msgstr "パス"
 
@@ -3540,7 +3526,7 @@ msgstr "一時停止中"
 #: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1350
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
-#: ../build/src/ui_edittagdialog.h:840
+#: ../build/src/ui_edittagdialog.h:830
 msgid "Performer"
 msgstr "出演者"
 
@@ -3562,7 +3548,7 @@ msgstr "再生"
 msgid "Play control buttons"
 msgstr ""
 
-#: playlist/playlist.cpp:1353 ../build/src/ui_edittagdialog.h:810
+#: playlist/playlist.cpp:1353 ../build/src/ui_edittagdialog.h:805
 msgid "Play count"
 msgstr "再生回数"
 
@@ -3837,7 +3823,7 @@ msgstr ""
 msgid "Random"
 msgstr "ランダム"
 
-#: playlist/playlist.cpp:1371 ../build/src/ui_edittagdialog.h:843
+#: playlist/playlist.cpp:1371 ../build/src/ui_edittagdialog.h:833
 msgid "Rating"
 msgstr "評価"
 
@@ -4043,7 +4029,7 @@ msgstr "曲を再スキャン中..."
 msgid "Reset"
 msgstr "リセット"
 
-#: dialogs/edittagdialog.cpp:1252 ../build/src/ui_edittagdialog.h:819
+#: dialogs/edittagdialog.cpp:1252 ../build/src/ui_edittagdialog.h:814
 msgid "Reset play counts"
 msgstr "再生回数のリセット"
 
@@ -4154,7 +4140,7 @@ msgstr "コピー後にデバイスを安全に取り外す"
 #: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1357
 #: organize/organizedialog.cpp:119 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
-#: ../build/src/ui_edittagdialog.h:813
+#: ../build/src/ui_edittagdialog.h:808
 msgid "Sample rate"
 msgstr "サンプルレート"
 
@@ -4614,7 +4600,7 @@ msgstr "Ska"
 msgid "Skip backwards in playlist"
 msgstr "プレイリストで後ろにスキップ"
 
-#: playlist/playlist.cpp:1354 ../build/src/ui_edittagdialog.h:808
+#: playlist/playlist.cpp:1354 ../build/src/ui_edittagdialog.h:803
 msgid "Skip count"
 msgstr "スキップ回数"
 
@@ -4768,10 +4754,6 @@ msgstr "このトラック後に停止: %1"
 msgid "Stopped"
 msgstr "停止しました"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
-msgid "Strawberry"
-msgstr "Strawberry"
-
 #: ../build/src/ui_errordialog.h:90
 msgid "Strawberry Error"
 msgstr "Strawberry のエラー"
@@ -4875,7 +4857,7 @@ msgstr "お薦めのタグ"
 
 #: ../build/src/ui_contextsettingspage.h:429
 #: ../build/src/ui_notificationssettingspage.h:495
-#: ../build/src/ui_edittagdialog.h:820
+#: ../build/src/ui_edittagdialog.h:815
 msgid "Summary"
 msgstr "要約"
 
@@ -4920,7 +4902,7 @@ msgstr "タグ取得ツール"
 msgid "Tagreader workers"
 msgstr ""
 
-#: ../build/src/ui_edittagdialog.h:844
+#: ../build/src/ui_edittagdialog.h:834
 msgid "Tags"
 msgstr "タグ"
 
@@ -5099,7 +5081,7 @@ msgstr "時間刻み"
 
 #: playlist/playlist.cpp:1339 organize/organizedialog.cpp:103
 #: ../build/src/ui_contextsettingspage.h:428
-#: ../build/src/ui_edittagdialog.h:834
+#: ../build/src/ui_edittagdialog.h:824
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Title"
 msgstr "タイトル"
@@ -5149,7 +5131,7 @@ msgid "Total network requests made"
 msgstr "合計ネットワーク要求回数"
 
 #: playlist/playlist.cpp:1342 organize/organizedialog.cpp:111
-#: ../build/src/ui_edittagdialog.h:842
+#: ../build/src/ui_edittagdialog.h:832
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Track"
 msgstr "トラック"
@@ -5498,7 +5480,7 @@ msgstr ""
 #: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1345
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
-#: ../build/src/ui_edittagdialog.h:833
+#: ../build/src/ui_edittagdialog.h:823
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Year"
 msgstr "年"

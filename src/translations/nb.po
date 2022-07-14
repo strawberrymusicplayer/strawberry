@@ -6,12 +6,13 @@
 # Åsmund Haugestøl <asmund.haugestol@hotmail.com>, 2014
 # Harald H. <haarektrans@gmail.com>, 2014-2015
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
+# Jonas Kvinge <jonas@jkvinge.net>, 2022. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2019-12-29 11:08-0500\n"
+"PO-Revision-Date: 2022-07-14 05:33-0400\n"
 "Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Norwegian Bokmål\n"
 "Language: nb\n"
@@ -39,6 +40,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in cinnamon-settings-daemon instead."
 msgstr ""
+"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
+"cinnamon-settings-daemon i stedet"
 
 #: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
@@ -46,6 +49,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in gnome-settings-daemon instead."
 msgstr ""
+"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
+"gnome-settings-daemon i stedet"
 
 #: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
@@ -53,11 +58,15 @@ msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
 "configured there instead."
 msgstr ""
+"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
+"gnome-settings-daemon i stedet"
 
 #: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
+"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
+"gnome-settings-daemon i stedet"
 
 #: ../build/src/ui_transcoderoptionsaac.h:133
 #: ../build/src/ui_transcoderoptionsvorbis.h:201
@@ -80,7 +89,7 @@ msgstr "ms"
 #: ../build/src/ui_contextsettingspage.h:442
 #: ../build/src/ui_contextsettingspage.h:447
 msgid " pt"
-msgstr ""
+msgstr " pt"
 
 #: ../build/src/ui_behavioursettingspage.h:320
 msgid " s"
@@ -93,7 +102,7 @@ msgstr " sekunder"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
-msgstr ""
+msgstr " sanger"
 
 #: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
 #, qt-format
@@ -139,12 +148,12 @@ msgstr "%1 dager siden"
 #: settings/coverssettingspage.cpp:144
 #, qt-format
 msgid "%1 does not need authentication."
-msgstr ""
+msgstr "%1 Scrobbler bruker autentisering"
 
 #: settings/coverssettingspage.cpp:139
 #, qt-format
 msgid "%1 needs authentication."
-msgstr ""
+msgstr "%1 Scrobbler krever autentisering"
 
 #: playlistparsers/playlistparser.cpp:122
 #, qt-format
@@ -174,24 +183,24 @@ msgstr "%1 sanger"
 #: smartplaylists/smartplaylistsearchpreview.cpp:152
 #, qt-format
 msgid "%1 songs found"
-msgstr ""
+msgstr "%1 sanger funnet"
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:149
 #, qt-format
 msgid "%1 songs found (showing %2)"
-msgstr ""
+msgstr "%1 sanger funnet (viser %2)"
 
 #: core/utilities.cpp:454
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
-msgstr ""
+msgstr "%1 sanger valgt, er du sikker på at du vil åpne dem alle?"
 
 #: dialogs/edittagdialog.cpp:654
 #, qt-format
 msgid "%1 songs selected."
-msgstr ""
+msgstr "%1 sanger valgt"
 
 #: playlist/playlistmanager.cpp:459 queue/queue.cpp:256
 #, qt-format
@@ -238,11 +247,11 @@ msgstr "%n gjenstående"
 #: ../build/src/ui_contextsettingspage.h:421
 #: ../build/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
-msgstr ""
+msgstr "%originalyear%"
 
 #: ../build/src/ui_contextsettingspage.h:417
 msgid "%rating%"
-msgstr ""
+msgstr "%rating%"
 
 #: ../build/src/ui_contextsettingspage.h:426
 msgid "%title - %artist%"
@@ -251,7 +260,7 @@ msgstr "%title - %artist%"
 #: ../build/src/ui_contextsettingspage.h:413
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
-msgstr ""
+msgstr "%url%"
 
 #: ../build/src/ui_mainwindow.h:656
 msgid "&About Strawberry"
@@ -316,7 +325,7 @@ msgstr "&Start spilleliste"
 
 #: playlist/playlistheader.cpp:59
 msgid "&Lock rating"
-msgstr ""
+msgstr "&Lås vurdering"
 
 #: ../build/src/ui_networkproxysettingspage.h:173
 msgid "&Manual proxy configuration"
@@ -372,7 +381,7 @@ msgstr "&Høyre"
 
 #: ../build/src/ui_mainwindow.h:694
 msgid "&Save all playlists"
-msgstr ""
+msgstr "&Lagre alle spillelister"
 
 #: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
@@ -420,6 +429,8 @@ msgid ""
 "submitted to the server. Setting the time to 0 seconds will submit scrobbles "
 "immediately)."
 msgstr ""
+"Tid mellom en sang er scrobbled og når skrobbler er sent til server. Setting "
+"av tid til 0 minutter vil sende skrobbler øyeblikkelig"
 
 #: dialogs/edittagdialog.cpp:99
 msgid "(different across multiple songs)"
@@ -452,21 +463,7 @@ msgstr "40%"
 
 #: smartplaylists/smartplaylistsmodel.cpp:76
 msgid "50 random tracks"
-msgstr ""
-
-#: ../build/src/ui_edittagdialog.h:798 ../build/src/ui_edittagdialog.h:824
-msgid ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" "
-"/><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Noto Sans'; font-size:11pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
-"size:10pt;\"><br /></p></body></html>"
-msgstr ""
+msgstr "50 tilfeldige spor"
 
 #: ../build/src/ui_organizedialog.h:267
 msgid ""
@@ -482,7 +479,7 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:606
 msgid "A Taste of Strawbs"
-msgstr ""
+msgstr "A Taste of Strawbs"
 
 #: smartplaylists/smartplaylistwizard.cpp:81
 msgid ""
@@ -490,11 +487,15 @@ msgid ""
 "There are different types of smart playlist that offer different ways of "
 "selecting songs."
 msgstr ""
+"En smart spilleliste er en dynamisk liste over sanger fra din samling. Det "
+"er flere typer smarte spillelister som tilbyr forskjellige veier å velge "
+"sanger"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:158
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr ""
+"En sang vil bli inkludert i spillelisten dersom den matcher disse kreteriene"
 
 #: ../build/src/ui_playlistsettingspage.h:191
 msgid "A&utomatic"
@@ -502,7 +503,7 @@ msgstr "A&utomatisk"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:427
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: ../build/src/ui_transcodersettingspage.h:192
 msgid "AAC"
@@ -510,7 +511,7 @@ msgstr "AAC"
 
 #: ../build/src/ui_backendsettingspage.h:557
 msgid "ALSA plugin:"
-msgstr ""
+msgstr "ALSA plugin:"
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
@@ -532,7 +533,7 @@ msgstr "Avbryt skann av samlingen"
 
 #: ../build/src/ui_about.h:151
 msgid "About"
-msgstr ""
+msgstr "Om"
 
 #: ../build/src/ui_mainwindow.h:698
 msgid "About &Qt"
@@ -561,7 +562,7 @@ msgstr "Legg til &mappe..."
 
 #: ../build/src/ui_addstreamdialog.h:75
 msgid "Add Stream"
-msgstr ""
+msgstr "Legg til strøm"
 
 #: ../build/src/ui_contextsettingspage.h:407
 #: ../build/src/ui_notificationssettingspage.h:462
@@ -602,12 +603,12 @@ msgstr "Legg til mappe…"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
-msgstr ""
+msgstr "Legg til søkekreterie"
 
 #: ../build/src/ui_contextsettingspage.h:415
 #: ../build/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
-msgstr ""
+msgstr "Legg til sang URL"
 
 #: ../build/src/ui_contextsettingspage.h:368
 #: ../build/src/ui_notificationssettingspage.h:420
@@ -657,7 +658,7 @@ msgstr "Fest låtlengde på sporet"
 #: ../build/src/ui_contextsettingspage.h:423
 #: ../build/src/ui_notificationssettingspage.h:474
 msgid "Add song original year tag"
-msgstr ""
+msgstr "Legg til sang orignalt år tagg"
 
 #: ../build/src/ui_contextsettingspage.h:383
 #: ../build/src/ui_notificationssettingspage.h:435
@@ -696,7 +697,7 @@ msgstr "Fest etikett for utgivelsesår på sporet"
 
 #: ../build/src/ui_mainwindow.h:716
 msgid "Add stream..."
-msgstr ""
+msgstr "Legg til strøm..."
 
 #: internet/internetsearchview.cpp:337
 msgid "Add to albums"
@@ -750,7 +751,7 @@ msgstr "Lagt til innen tre måneder"
 
 #: ../build/src/ui_collectionsettingspage.h:635
 msgid "Advanced"
-msgstr ""
+msgstr "Avansert"
 
 #: collection/collectionfilterwidget.cpp:298
 msgid "Advanced grouping..."
@@ -758,7 +759,7 @@ msgstr "Avansert gruppering…"
 
 #: ../build/src/ui_collectionsettingspage.h:639
 msgid "Advanced settings require restart."
-msgstr ""
+msgstr "Avanserte innstillinger krever restart."
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -774,7 +775,7 @@ msgstr "Albu&m kover"
 #: ../build/src/ui_albumcoversearcher.h:107
 #: ../build/src/ui_albumcoversearcher.h:109
 #: ../build/src/ui_contextsettingspage.h:433
-#: ../build/src/ui_edittagdialog.h:832
+#: ../build/src/ui_edittagdialog.h:822
 #: ../build/src/ui_trackselectiondialog.h:207
 msgid "Album"
 msgstr "Album"
@@ -791,17 +792,17 @@ msgstr "Album - Disc"
 #: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1348
 #: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:185
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
-#: ../build/src/ui_edittagdialog.h:831
+#: ../build/src/ui_edittagdialog.h:821
 msgid "Album artist"
 msgstr "Album artist"
 
 #: dialogs/edittagdialog.cpp:830
 msgid "Album cover editing is only available for collection songs."
-msgstr ""
+msgstr "Album kover redigering er bare tilgjengelig for sanger i samlingen."
 
 #: ../build/src/ui_collectionsettingspage.h:621
 msgid "Album cover pixmap cache"
-msgstr ""
+msgstr "Album kover pixmap cache"
 
 #: ../build/src/ui_tidalsettingspage.h:337
 msgid "Album cover size"
@@ -847,7 +848,7 @@ msgstr "Alle spillelister (%1)"
 
 #: smartplaylists/smartplaylistsmodel.cpp:119
 msgid "All tracks"
-msgstr ""
+msgstr "Alle spor"
 
 #: ../build/src/ui_organizedialog.h:275
 msgid "Allow extended ASCII characters"
@@ -873,7 +874,7 @@ msgstr "En feil oppsto ved innlasting av iTunes-databasen"
 #: dialogs/edittagdialog.cpp:1371
 #, qt-format
 msgid "An error occurred writing cover art to '%1'"
-msgstr ""
+msgstr "En feil oppstod ved skriving av kover til '%1'"
 
 #: playlist/playlist.cpp:425 dialogs/edittagdialog.cpp:1348
 #, qt-format
@@ -898,7 +899,7 @@ msgstr "Utseende"
 
 #: ../build/src/ui_tidalsettingspage.h:339
 msgid "Append explicit to album title for explicit albums"
-msgstr ""
+msgstr "Legg til explicit i album tittel for explicit albumer"
 
 #: core/commandlineoptions.cpp:184
 msgid "Append files/URLs to the playlist"
@@ -922,7 +923,7 @@ msgstr "Legg til kompressor, for å unngå klipping"
 
 #: dialogs/deleteconfirmationdialog.cpp:71
 msgid "Are you sure you want to continue?"
-msgstr ""
+msgstr "Er du sikker på at du vil fortsette?"
 
 #: equalizer/equalizer.cpp:230
 #, qt-format
@@ -939,20 +940,22 @@ msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
 msgstr ""
+"Er du sikker på at du vil skrive spilletellere og vurderinger til alle "
+"sangene i samlingen?"
 
-#: ../build/src/ui_edittagdialog.h:818
+#: ../build/src/ui_edittagdialog.h:813
 msgid "Art Automatic"
-msgstr ""
+msgstr "Automatisk kover"
 
-#: ../build/src/ui_edittagdialog.h:815
+#: ../build/src/ui_edittagdialog.h:810
 msgid "Art Manual"
-msgstr ""
+msgstr "Manuelt kover"
 
 #: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1340
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
 #: ../build/src/ui_albumcoversearcher.h:103
-#: ../build/src/ui_albumcoversearcher.h:105 ../build/src/ui_edittagdialog.h:835
+#: ../build/src/ui_albumcoversearcher.h:105 ../build/src/ui_edittagdialog.h:825
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Artist"
 msgstr "Artist"
@@ -1006,11 +1009,11 @@ msgstr "Identitetsbekreftelse feilet"
 
 #: ../build/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
-msgstr ""
+msgstr "Autentiseringsmetode"
 
 #: dialogs/about.cpp:143
 msgid "Author and maintainer"
-msgstr ""
+msgstr "Author and maintainer"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:225
 msgid "Auto"
@@ -1027,7 +1030,7 @@ msgstr "Automatisk oppdatering"
 #: dialogs/edittagdialog.cpp:825
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
-msgstr ""
+msgstr "Automatisk kover for %1 mangler"
 
 #: ../build/src/ui_collectionsettingspage.h:606
 msgid "Automatically open single categories in the collection tree"
@@ -1035,11 +1038,11 @@ msgstr "Åpne enkeltkategorier i bibliotektreet automatisk"
 
 #: ../build/src/ui_contextsettingspage.h:437
 msgid "Automatically search for album cover"
-msgstr ""
+msgstr "Automatisk søk for album kover"
 
 #: context/contextview.cpp:313 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
-msgstr ""
+msgstr "Automatisk søk for sang lyrikk"
 
 #: ../build/src/ui_playlistsettingspage.h:185
 msgid "Automatically select current playing track"
@@ -1047,7 +1050,7 @@ msgstr "Velg spor automatisk"
 
 #: ../build/src/ui_playlistsettingspage.h:189
 msgid "Automatically sort playlist when inserting songs"
-msgstr ""
+msgstr "Automatisk sorter spilleliste når du legger til sanger"
 
 #: widgets/freespacebar.cpp:67
 msgid "Available"
@@ -1055,7 +1058,7 @@ msgstr "Tilgjengelig"
 
 #: collection/collectionfilterwidget.cpp:82
 msgid "Available fields"
-msgstr ""
+msgstr "Tilgjengelige felt"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:221
 msgid "Average bitrate"
@@ -1104,11 +1107,11 @@ msgstr "Best"
 #: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:139
 #: playlist/playlist.cpp:1358 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
-#: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:805
+#: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:800
 msgid "Bit depth"
 msgstr "Bit dybde"
 
-#: ../build/src/ui_edittagdialog.h:816
+#: ../build/src/ui_edittagdialog.h:811
 msgid "Bit rate"
 msgstr "Bitrate"
 
@@ -1126,7 +1129,7 @@ msgstr "Bitrate"
 #: organize/organizedialog.cpp:118
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr ""
+msgstr "Bitrate"
 
 #: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
@@ -1186,23 +1189,23 @@ msgstr "CDDA"
 
 #: playlist/playlist.cpp:1372
 msgid "CUE"
-msgstr ""
+msgstr "CUE"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: tidal/tidalstreamurlrequest.cpp:109 qobuz/qobuzstreamurlrequest.cpp:104
 msgid "Cancelled."
 msgstr "Avbrutt"
 
-#: ../build/src/ui_edittagdialog.h:822
+#: ../build/src/ui_edittagdialog.h:817
 msgid "Change art"
-msgstr ""
+msgstr "Endre kover"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:79
 msgid "Change repeat mode"
-msgstr ""
+msgstr "Endre gjentagelsemodus"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
@@ -1210,7 +1213,7 @@ msgstr "Endre snarvei…"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Change shuffle mode"
-msgstr ""
+msgstr "Endre shufflemodus"
 
 #: ../build/src/ui_behavioursettingspage.h:315
 msgid "Change the currently playing song"
@@ -1226,7 +1229,7 @@ msgstr "Se etter oppdateringer…"
 
 #: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Choose a name for your smart playlist"
-msgstr ""
+msgstr "Velg et navn for din smarte spilleliste"
 
 #: ../build/src/ui_notificationssettingspage.h:502
 msgid "Choose color..."
@@ -1234,7 +1237,7 @@ msgstr "Velg farge…"
 
 #: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
-msgstr ""
+msgstr "Velg data for å importere fra last.fm"
 
 #: ../build/src/ui_notificationssettingspage.h:501
 msgid "Choose font..."
@@ -1243,14 +1246,15 @@ msgstr "Velg skrifttype…"
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:160
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
+"Velg hvordan spillelisten er sortert og hvor mange sanger den skal inneholde"
 
 #: ../build/src/ui_coverssettingspage.h:164
 msgid "Choose the providers you want to use when searching for covers."
-msgstr ""
+msgstr "Velg tilbydere du vil bruke for å søke etter kover"
 
 #: ../build/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
-msgstr ""
+msgstr "Velg tilbydere du vil bruke for å søke etter lyrikk"
 
 #: equalizer/equalizer.cpp:140
 msgid "Classical"
@@ -1263,11 +1267,11 @@ msgstr "Tøm"
 
 #: ../build/src/ui_collectionsettingspage.h:627
 msgid "Clear Disk Cache"
-msgstr ""
+msgstr "Slett disk cache"
 
 #: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Clear cover"
-msgstr ""
+msgstr "Fjern kover"
 
 #: core/mainwindow.cpp:2291 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
@@ -1333,7 +1337,7 @@ msgstr "Melding om gjennomsøk av samlingen"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:91
 msgid "Collection search"
-msgstr ""
+msgstr "Samlingsøk"
 
 #: ../build/src/ui_appearancesettingspage.h:586
 msgid "Colors"
@@ -1344,15 +1348,15 @@ msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Komma-separert liste av klasse:level, level er 0-3"
 
 #: playlist/playlist.cpp:1368 smartplaylists/smartplaylistsearchterm.cpp:389
-#: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:839
+#: organize/organizedialog.cpp:116 ../build/src/ui_edittagdialog.h:829
 msgid "Comment"
 msgstr "Kommentar"
 
-#: ../build/src/ui_edittagdialog.h:841
+#: ../build/src/ui_edittagdialog.h:831
 msgid "Compilation"
-msgstr ""
+msgstr "Compilation"
 
-#: ../build/src/ui_edittagdialog.h:837
+#: ../build/src/ui_edittagdialog.h:827
 msgid "Complete tags automatically"
 msgstr "Fyll ut etiketter automatisk"
 
@@ -1363,7 +1367,7 @@ msgstr "Full ut etiketter automatisk…"
 #: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1349
 #: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
-#: ../build/src/ui_edittagdialog.h:836
+#: ../build/src/ui_edittagdialog.h:826
 msgid "Composer"
 msgstr "Komponist"
 
@@ -1386,7 +1390,7 @@ msgstr "Sett opp %1…"
 
 #: ../build/src/ui_appearancesettingspage.h:628
 msgid "Configure buttons"
-msgstr ""
+msgstr "Konfigurere knapper"
 
 #: core/mainwindow.cpp:674
 msgid "Configure collection..."
@@ -1427,7 +1431,7 @@ msgstr "Konverter all musikk som enheten ikke kan spille"
 
 #: core/mainwindow.cpp:743
 msgid "Copy URL(s)..."
-msgstr ""
+msgstr "Kopier URL(s)"
 
 #: ../build/src/ui_organizedialog.h:278
 msgid "Copy album cover artwork"
@@ -1440,7 +1444,7 @@ msgstr "Kopier til samling…"
 
 #: playlist/playlistlistcontainer.cpp:365
 msgid "Copy to device"
-msgstr ""
+msgstr "Kopier til enhet"
 
 #: core/mainwindow.cpp:750 collection/collectionview.cpp:359
 #: playlist/playlistlistcontainer.cpp:90 widgets/fileviewlist.cpp:50
@@ -1452,6 +1456,8 @@ msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
 "avoid losing configuration before you uninstall the snap:"
 msgstr ""
+"Kopier din strawberry.conf og strawberry.db fil fra ~/snap mappen for å "
+"unngå at du mister innstillingene før du avinstallerer"
 
 #: transcoder/transcoder.cpp:66
 #, qt-format
@@ -1465,7 +1471,7 @@ msgstr ""
 #: core/songloader.cpp:316
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
-msgstr ""
+msgstr "Kunne ikke åpne CUE fil %1 for lesing: %2"
 
 #: scrobbler/scrobblingapi20.cpp:177
 msgid "Could not open URL. Please open this URL in your browser"
@@ -1474,17 +1480,17 @@ msgstr "Kunne ikke åpne URL. Prøv å åpne denne URLen  i din nettleser"
 #: core/songloader.cpp:284
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
-msgstr ""
+msgstr "Kunne ikke åpne fil %1 for lesing: %2"
 
 #: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
-msgstr ""
+msgstr "Kunne ikke åpne spilleliste %1 for lesing: %2"
 
 #: core/songloader.cpp:480
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
-msgstr ""
+msgstr "Kunne ikke opprette gstreamer kilde element for %1"
 
 #: playlist/playlistmanager.cpp:210
 msgid "Couldn't create playlist"
@@ -1516,7 +1522,7 @@ msgstr "Behandling av plateomslag"
 #: dialogs/edittagdialog.cpp:819
 #, qt-format
 msgid "Cover art automatically loaded from %1"
-msgstr ""
+msgstr "Kover automatisk lastet fra %1"
 
 #: dialogs/edittagdialog.cpp:816
 msgid "Cover art from embedded image"
@@ -1532,32 +1538,32 @@ msgstr "Har ikke omslaggrafikk"
 
 #: dialogs/edittagdialog.cpp:791
 msgid "Cover changed: Will be cleared when saved."
-msgstr ""
+msgstr "Kover endret, vill bli fjernet når du lagrer."
 
 #: dialogs/edittagdialog.cpp:797
 msgid "Cover changed: Will be deleted when saved."
-msgstr ""
+msgstr "Kover endret, vill bli settet når du lagrer."
 
 #: dialogs/edittagdialog.cpp:794
 msgid "Cover changed: Will be unset when saved."
-msgstr ""
+msgstr "Kover endret. Vil bli fjernet når lagret."
 
 #: dialogs/edittagdialog.cpp:800
 msgid "Cover changed: Will set new when saved."
-msgstr ""
+msgstr "Kover er endret. Vil bli satt når lagret."
 
 #: covermanager/albumcoverchoicecontroller.cpp:187
 #, qt-format
 msgid "Cover file %1 is empty."
-msgstr ""
+msgstr "Kover fil %1 er tom."
 
 #: ../build/src/ui_coverssettingspage.h:163
 msgid "Cover providers"
-msgstr ""
+msgstr "Kover tilbydere"
 
 #: ../build/src/ui_coverssettingspage.h:162
 msgid "Covers"
-msgstr ""
+msgstr "Kover"
 
 #: covermanager/albumcoversearcher.cpp:130
 #: covermanager/coversearchstatisticsdialog.cpp:75
@@ -1639,7 +1645,7 @@ msgstr "Ctrl+Opp"
 
 #: ../build/src/ui_collectionsettingspage.h:625
 msgid "Current disk cache in use:"
-msgstr ""
+msgstr "Nåværende disk cache i bruk:"
 
 #: equalizer/equalizer.cpp:139
 msgid "Custom"
@@ -1647,7 +1653,7 @@ msgstr "Egendefinert"
 
 #: ../build/src/ui_appearancesettingspage.h:633
 msgid "Custom color"
-msgstr ""
+msgstr "Kustom farge"
 
 #: ../build/src/ui_appearancesettingspage.h:607
 msgid "Custom image:"
@@ -1677,17 +1683,17 @@ msgstr "Dansemusikk"
 msgid "Database corruption detected."
 msgstr "Oppdaget feil i databasen."
 
-#: playlist/playlist.cpp:1366 ../build/src/ui_edittagdialog.h:811
+#: playlist/playlist.cpp:1366 ../build/src/ui_edittagdialog.h:806
 msgid "Date created"
 msgstr "Opprettelse dato"
 
-#: playlist/playlist.cpp:1365 ../build/src/ui_edittagdialog.h:809
+#: playlist/playlist.cpp:1365 ../build/src/ui_edittagdialog.h:804
 msgid "Date modified"
 msgstr "Endrings dato"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:449
 msgid "Days"
-msgstr ""
+msgstr "Dager"
 
 #: core/commandlineoptions.cpp:176
 msgid "Decrease the volume by 4 percent"
@@ -1699,7 +1705,7 @@ msgstr "Demp lydstyrken med <value> prosent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:71
 msgid "Decrease volume"
-msgstr ""
+msgstr "Senk volum"
 
 #: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
@@ -1707,7 +1713,7 @@ msgstr "Forhåndsvalgt bak&grunnsbilde"
 
 #: ../build/src/ui_backendsettingspage.h:571
 msgid "Defaults"
-msgstr ""
+msgstr "Standard"
 
 #: playlist/playlistlistcontainer.cpp:87
 #: ../build/src/ui_playlistlistcontainer.h:131
@@ -1716,7 +1722,7 @@ msgstr "Slett"
 
 #: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Delete cover"
-msgstr ""
+msgstr "Slett kover"
 
 #: dialogs/deleteconfirmationdialog.cpp:44 device/deviceview.cpp:428
 msgid "Delete files"
@@ -1738,11 +1744,11 @@ msgstr "Slett forhåndsinnstilling"
 #: smartplaylists/smartplaylistsviewcontainer.cpp:81
 #: ../build/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
-msgstr ""
+msgstr "Slett smart spilleliste"
 
 #: ../build/src/ui_subsonicsettingspage.h:259
 msgid "Delete songs"
-msgstr ""
+msgstr "Slett sanger"
 
 #: ../build/src/ui_organizedialog.h:263
 msgid "Delete the original files"
@@ -1788,7 +1794,7 @@ msgstr "Enheter"
 
 #: dialogs/edittagdialog.cpp:100
 msgid "Different art across multiple songs."
-msgstr ""
+msgstr "Forskjellige over for flere sanger."
 
 #: ../build/src/ui_networkproxysettingspage.h:172
 msgid "Direct internet connection"
@@ -1810,7 +1816,7 @@ msgstr "Avskrudd"
 #: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1343
 #: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
-#: ../build/src/ui_edittagdialog.h:829
+#: ../build/src/ui_edittagdialog.h:819
 msgid "Disc"
 msgstr "Disk"
 
@@ -1820,7 +1826,7 @@ msgstr "Uregelmessig overføring"
 
 #: ../build/src/ui_collectionsettingspage.h:624
 msgid "Disk Cache Size"
-msgstr ""
+msgstr "Disk Cache Size"
 
 #: collection/collectionfilterwidget.cpp:128
 #: ../build/src/ui_collectionsettingspage.h:605
@@ -1845,7 +1851,7 @@ msgstr "Ikke overskriv"
 
 #: ../build/src/ui_snapdialog.h:120
 msgid "Do not show this message again."
-msgstr ""
+msgstr "Ikke vis denne meldingen igjen."
 
 #: osd/osdbase.cpp:361 ../build/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
@@ -1865,7 +1871,7 @@ msgstr "Ikke stopp!"
 
 #: radios/radioview.cpp:87
 msgid "Donate"
-msgstr ""
+msgstr "Doner"
 
 #: device/deviceview.cpp:138
 msgid "Double click to open"
@@ -1884,6 +1890,8 @@ msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
+"Dobbelklikk her for å favorisere denne spillelisten slik at den blir lagret "
+"og tilgjengelig gjennom \"Spillelister\"  i panelet på venstre side."
 
 #: ../build/src/ui_subsonicsettingspage.h:255
 #: ../build/src/ui_tidalsettingspage.h:335
@@ -1901,19 +1909,19 @@ msgstr "Dra for å endre posisjon"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:105
 msgid "Dynamic mode is on"
-msgstr ""
+msgstr "Dynamisk modus er på"
 
 #: smartplaylists/smartplaylistsmodel.cpp:120
 msgid "Dynamic random mix"
-msgstr ""
+msgstr "Dynamisk tilfeldig miks"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
-msgstr ""
+msgstr "Rediger smart spilleliste"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:80
 msgid "Edit smart playlist..."
-msgstr ""
+msgstr "Rediger smart spilleliste..."
 
 #: core/mainwindow.cpp:1960
 #, qt-format
@@ -1939,11 +1947,11 @@ msgstr "Rediger spor informasjon…"
 
 #: dialogs/edittagdialog.cpp:776
 msgid "Embedded"
-msgstr ""
+msgstr "Embedded"
 
-#: ../build/src/ui_edittagdialog.h:823
+#: ../build/src/ui_edittagdialog.h:818
 msgid "Embedded cover"
-msgstr ""
+msgstr "Embedded kover"
 
 #: ../build/src/ui_scrobblersettingspage.h:406
 #: ../build/src/ui_scrobblersettingspage.h:430
@@ -1957,7 +1965,7 @@ msgstr "Aktiver"
 
 #: ../build/src/ui_collectionsettingspage.h:623
 msgid "Enable Disk Cache"
-msgstr ""
+msgstr "Aktiver disk cache"
 
 #: ../build/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
@@ -1966,7 +1974,7 @@ msgstr "Aktiver items"
 #: ../build/src/ui_collectionsettingspage.h:634
 #: ../build/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
-msgstr ""
+msgstr "Aktiv slett filer i høyreklikk-meny"
 
 #: ../build/src/ui_equalizer.h:174
 msgid "Enable equalizer"
@@ -1974,19 +1982,19 @@ msgstr "Slå på tonekontroll (EQ)"
 
 #: ../build/src/ui_notificationssettingspage.h:508
 msgid "Enable fading"
-msgstr ""
+msgstr "Aktiver fading"
 
 #: ../build/src/ui_playlistsettingspage.h:187
 msgid "Enable playlist clear button"
-msgstr ""
+msgstr "Aktiver fjern spilleliste knapp"
 
 #: ../build/src/ui_playlistsettingspage.h:186
 msgid "Enable playlist toolbar"
-msgstr ""
+msgstr "Aktiver spilleliste toolbar"
 
 #: ../build/src/ui_scrobblersettingspage.h:417
 msgid "Enable scrobbling for the following sources:"
-msgstr ""
+msgstr "Aktiver skrobbling for følgende kilder:"
 
 #: ../build/src/ui_playlistsettingspage.h:199
 msgid "Enable song metadata inline edition with click"
@@ -2002,7 +2010,7 @@ msgstr "Aktiver volumkontroll"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:80
 msgid "Enable/disable scrobbling"
-msgstr ""
+msgstr "Aktiver/Deaktiver skrobbling"
 
 #: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
@@ -2051,7 +2059,7 @@ msgstr "Skriv inn søkeord her"
 
 #: ../build/src/ui_addstreamdialog.h:76
 msgid "Enter the URL of a stream:"
-msgstr ""
+msgstr "Skriv inn URL for strøm:"
 
 #: playlist/playlistlistcontainer.cpp:208
 msgid "Enter the name of the folder"
@@ -2059,7 +2067,7 @@ msgstr "Skriv inn navn på mappa"
 
 #: ../build/src/ui_userpassdialog.h:90
 msgid "Enter username and password"
-msgstr ""
+msgstr "Skriv inn brukernavn og passord"
 
 #: settings/scrobblersettingspage.cpp:81
 msgid "Enter your user token from"
@@ -2110,19 +2118,19 @@ msgstr "Feil ved lasting av CD"
 
 #: device/cddasongloader.cpp:115 device/cddasongloader.cpp:124
 msgid "Error while querying CDDA tracks."
-msgstr ""
+msgstr "Feil ved henting av CDDA spor"
 
 #: device/cddasongloader.cpp:103
 msgid "Error while setting CDDA device to pause state."
-msgstr ""
+msgstr "Feil ved setting av CDDA enhet til pause status"
 
 #: device/cddasongloader.cpp:95
 msgid "Error while setting CDDA device to ready state."
-msgstr ""
+msgstr "Feil ved setting av CDDA enhet til klar status"
 
 #: smartplaylists/smartplaylistsmodel.cpp:82
 msgid "Ever played"
-msgstr ""
+msgstr "Aldri spilt"
 
 #: ../build/src/ui_backendsettingspage.h:585
 msgid "Except between tracks on the same album or in the same CUE sheet"
@@ -2134,11 +2142,11 @@ msgstr "Eksisterende omslag"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
-msgstr ""
+msgstr "Utvid"
 
 #: ../build/src/ui_collectionsettingspage.h:598
 msgid "Expire unavailable songs after"
-msgstr ""
+msgstr "Utløp utilgjengelige sanger etter"
 
 #: widgets/loginstatewidget.cpp:156
 #, qt-format
@@ -2220,37 +2228,37 @@ msgstr "Tonings-varighet"
 #: covermanager/albumcoverchoicecontroller.cpp:422
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
-msgstr ""
+msgstr "Feil ved sletting av kover fil %1: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:197
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
-msgstr ""
+msgstr "Feil ved åpning av kover fil %1 for lesing: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:271
 #: covermanager/albumcoverchoicecontroller.cpp:641
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
-msgstr ""
+msgstr "Feil ved åpning av kover fil %1 for skriving: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:635
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
-msgstr ""
+msgstr "Feil ved lagring til kover fil %1: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:277
 #, qt-format
 msgid "Failed writing cover to file %1."
-msgstr ""
+msgstr "Feil ved lagring til kover fil %1"
 
 #: covermanager/albumcoverchoicecontroller.cpp:265
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
-msgstr ""
+msgstr "Feil ved lagring av kover fil %1: %2"
 
 #: ../build/src/ui_backendsettingspage.h:580
 msgid "Fallback-gain"
-msgstr ""
+msgstr "Fallback-gain"
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
 #: ../build/src/ui_transcoderoptionsmp3.h:197
@@ -2259,7 +2267,7 @@ msgstr "Rask"
 
 #: smartplaylists/smartplaylistsmodel.cpp:106
 msgid "Favourite tracks"
-msgstr ""
+msgstr "Favorittspor"
 
 #: ../build/src/ui_albumcovermanager.h:222
 msgid "Fetch Missing Covers"
@@ -2285,7 +2293,7 @@ msgstr "Kunne ikke hente albumgrafikk"
 #: core/songloader.cpp:167 core/songloader.cpp:271
 #, qt-format
 msgid "File %1 does not exist."
-msgstr ""
+msgstr "Fil %1 eksisterer ikke."
 
 #: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
@@ -2312,17 +2320,17 @@ msgstr "Filnavn (uten sti)"
 msgid "File paths"
 msgstr "Filstier"
 
-#: playlist/playlist.cpp:1363 ../build/src/ui_edittagdialog.h:817
+#: playlist/playlist.cpp:1363 ../build/src/ui_edittagdialog.h:812
 msgid "File size"
 msgstr "Filstørrelse"
 
 #: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1364
 #: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
-#: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:804
+#: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:799
 msgid "File type"
 msgstr "Filtype"
 
-#: ../build/src/ui_edittagdialog.h:806 ../build/src/ui_transcodedialog.h:219
+#: ../build/src/ui_edittagdialog.h:801 ../build/src/ui_transcodedialog.h:219
 msgid "Filename"
 msgstr "Filnavn"
 
@@ -2340,7 +2348,7 @@ msgstr "Filer som skal omkodes"
 
 #: ../build/src/ui_appearancesettingspage.h:629
 msgid "Files, playlists and queue buttons"
-msgstr ""
+msgstr "Filer, spillelister og kø knapper"
 
 #: context/contextview.cpp:207
 msgid "Filetype"
@@ -2348,7 +2356,7 @@ msgstr "Filtype"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:94
 msgid "Find songs in your collection that match the criteria you specify."
-msgstr ""
+msgstr "Finn sanger i samlingen som svarer til kriteriene du spesifiserer"
 
 #: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
@@ -2356,7 +2364,7 @@ msgstr "Vannmerker sangen"
 
 #: smartplaylists/smartplaylistwizard.cpp:86
 msgid "Finish"
-msgstr ""
+msgstr "Ferdig"
 
 #: collection/savedgroupingmanager.cpp:58 ../build/src/ui_groupbydialog.h:182
 msgid "First level"
@@ -2369,29 +2377,29 @@ msgstr "Tilpass omslag til bredde"
 #: ../build/src/ui_contextsettingspage.h:440
 #: ../build/src/ui_contextsettingspage.h:445
 msgid "Font"
-msgstr ""
+msgstr "Font"
 
 #: ../build/src/ui_contextsettingspage.h:444
 msgid "Font for data and lyrics"
-msgstr ""
+msgstr "Font for data og lyrikk"
 
 #: ../build/src/ui_contextsettingspage.h:439
 msgid "Font for headline"
-msgstr ""
+msgstr "Font for headline"
 
 #: ../build/src/ui_contextsettingspage.h:441
 #: ../build/src/ui_contextsettingspage.h:446
 msgid "Font size"
-msgstr ""
+msgstr "Font størrelse"
 
 #: dialogs/snapdialog.cpp:56
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr ""
+msgstr "For Ubuntu en offisiell PPA pakkebrønn er tilgjengelig på %1."
 
 #: dialogs/snapdialog.cpp:64
 msgid "For a better experience please consider the other options above."
-msgstr ""
+msgstr "For en bedre opplevelse bruk en av valgene over."
 
 #: ../build/src/ui_transcoderoptionsmp3.h:201
 msgid "Force mono encoding"
@@ -2473,23 +2481,23 @@ msgstr "Generelle innstillinger"
 
 #: lyrics/geniuslyricsprovider.cpp:125
 msgid "Genius Authentication"
-msgstr ""
+msgstr "Genius autentisering"
 
 #: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1347
 #: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
-#: ../build/src/ui_edittagdialog.h:838
+#: ../build/src/ui_edittagdialog.h:828
 msgid "Genre"
 msgstr "Sjanger"
 
 #: radios/somafmservice.cpp:72
 #, qt-format
 msgid "Getting %1 channels"
-msgstr ""
+msgstr "Mottar %1 kanaler"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:268
 msgid "Global Shortcuts"
-msgstr ""
+msgstr "Global Shortcuts"
 
 #: ../build/src/ui_mainwindow.h:695
 msgid "Go to next playlist tab"
@@ -2501,7 +2509,7 @@ msgstr "Gå til forrige fane på spillelista"
 
 #: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr ""
+msgstr "Start!"
 
 #: covermanager/albumcovermanager.cpp:571
 #: covermanager/coversearchstatisticsdialog.cpp:69
@@ -2586,7 +2594,7 @@ msgstr "Grupper etter sjanger/artist/album"
 #: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1351
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
-#: ../build/src/ui_edittagdialog.h:830
+#: ../build/src/ui_edittagdialog.h:820
 msgid "Grouping"
 msgstr "Gruppering"
 
@@ -2621,11 +2629,11 @@ msgstr "Hjelp"
 
 #: ../build/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
-msgstr ""
+msgstr "Hex"
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
-msgstr ""
+msgstr "Skjul hovedvindu"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "High"
@@ -2638,15 +2646,15 @@ msgstr "Høy (%1 bilder/sekund)"
 
 #: ../build/src/ui_backendsettingspage.h:569
 msgid "High watermark"
-msgstr ""
+msgstr "High watermark"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:447
 msgid "Hours"
-msgstr ""
+msgstr "Timer"
 
 #: ../build/src/ui_collectionsettingspage.h:638
 msgid "I/O priority"
-msgstr ""
+msgstr "I/O priority"
 
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
@@ -2654,7 +2662,7 @@ msgstr "Ikon"
 
 #: ../build/src/ui_appearancesettingspage.h:624
 msgid "Icon sizes"
-msgstr ""
+msgstr "Ikon størrelser"
 
 #: widgets/fancytabwidget.cpp:731
 msgid "Icons on top"
@@ -2683,6 +2691,8 @@ msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
+"Hvis du liker Strawberry og kan bruke det, vurder om du kan donere eller bli "
+"sponsor."
 
 #: covermanager/albumcoverchoicecontroller.cpp:75
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2694,11 +2704,11 @@ msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
 #: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
-msgstr ""
+msgstr "Importer data fra last.fm."
 
 #: ../build/src/ui_mainwindow.h:718
 msgid "Import data from last.fm..."
-msgstr ""
+msgstr "Importer data fra last.fm..."
 
 #: ../build/src/ui_transcodedialog.h:225
 msgid "Import..."
@@ -2706,7 +2716,7 @@ msgstr "Importer..."
 
 #: ../build/src/ui_backendsettingspage.h:565
 msgid "Improve headphone listening of stereo audio records (bs2b)"
-msgstr ""
+msgstr "Improve headphone listening of stereo audio records (bs2b)"
 
 #: core/utilities.cpp:178
 #, qt-format
@@ -2723,6 +2733,8 @@ msgid ""
 "In dynamic mode new tracks will be chosen and added to the playlist every "
 "time a song finishes."
 msgstr ""
+"I dynamisk modus nye spor vil bli valgt og lagt til spillelisten hver gang "
+"en sang er fullført."
 
 #: ../build/src/ui_notificationssettingspage.h:490
 msgid "Include album art in the notification"
@@ -2730,7 +2742,7 @@ msgstr "Inkluder omslag i meddelelsen"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
-msgstr ""
+msgstr "Inkluder  alle sanger"
 
 #: core/commandlineoptions.cpp:175
 msgid "Increase the volume by 4 percent"
@@ -2742,7 +2754,7 @@ msgstr "Øk lydstyrken <value> prosent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:70
 msgid "Increase volume"
-msgstr ""
+msgstr "Øk volum"
 
 #: ../build/src/ui_deviceproperties.h:374
 msgid "Information"
@@ -2754,7 +2766,7 @@ msgstr "Sett inn…"
 
 #: dialogs/snapdialog.cpp:79
 msgid "Install strawberry through PPA:"
-msgstr ""
+msgstr "Installer Strawberry gjennom PPA:"
 
 #: core/database.cpp:495
 msgid "Integrity check"
@@ -2762,11 +2774,11 @@ msgstr "Integritetskontrol"
 
 #: ../build/src/ui_internetsearchview.h:223
 msgid "Internet Search View"
-msgstr ""
+msgstr "Internett søk visning"
 
 #: ../build/src/ui_internettabsview.h:112
 msgid "Internet Tabs View"
-msgstr ""
+msgstr "Internett tabb visning"
 
 #: osd/osdbase.cpp:366 ../build/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
@@ -2780,11 +2792,11 @@ msgstr "Ugyldig svar fra nettleseren. Mangler token."
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
-msgstr ""
+msgstr "Det er en fork av Clementine utgitt i 2018."
 
 #: dialogs/snapdialog.cpp:44
 msgid "It is detected that Strawberry is running as a Snap"
-msgstr ""
+msgstr "It is detected that Strawberry is running as a Snap"
 
 #: ../build/src/ui_behavioursettingspage.h:301
 msgid "Jump to previous song right away"
@@ -2827,7 +2839,7 @@ msgstr "Stort sidefelt"
 msgid "Last played"
 msgstr "Sist spilt"
 
-#: ../build/src/ui_edittagdialog.h:814
+#: ../build/src/ui_edittagdialog.h:809
 msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Sist spilt"
@@ -2835,7 +2847,7 @@ msgstr "Sist spilt"
 #: dialogs/lastfmimportdialog.cpp:157
 #, qt-format
 msgid "Last played for %1 songs received."
-msgstr ""
+msgstr "Sist spilte for %1 sanger mottatt."
 
 #: ../build/src/ui_scrobblersettingspage.h:429
 msgid "Last.fm"
@@ -2843,14 +2855,14 @@ msgstr "Last.fm"
 
 #: smartplaylists/smartplaylistsmodel.cpp:112
 msgid "Least favourite tracks"
-msgstr ""
+msgstr "Minst favoritt spor"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Left"
 msgstr "Venstre"
 
 #: context/contextview.cpp:208 playlist/playlist.cpp:1344
-#: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:803
+#: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:798
 msgid "Length"
 msgstr "Lengde"
 
@@ -2860,7 +2872,7 @@ msgstr "Libre.fm"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:137
 msgid "Limits"
-msgstr ""
+msgstr "Begrensninger"
 
 #: scrobbler/listenbrainzscrobbler.cpp:190
 msgid "ListenBrainz Authentication"
@@ -2909,7 +2921,7 @@ msgstr "Åpner iPod-database"
 
 #: smartplaylists/playlistgeneratorinserter.cpp:62
 msgid "Loading smart playlist"
-msgstr ""
+msgstr "Laster smart spilleliste"
 
 #: collection/collectionmodel.cpp:213
 msgid "Loading songs"
@@ -2935,7 +2947,7 @@ msgstr "Åpne filer/URL-er; erstatt gjeldende spilleliste"
 
 #: ../build/src/ui_scrobblersettingspage.h:420
 msgid "Local file"
-msgstr ""
+msgstr "Lokal fil"
 
 #: ../build/src/ui_scrobblersettingspage.h:432
 #: ../build/src/ui_scrobblersettingspage.h:435
@@ -2967,23 +2979,23 @@ msgstr "Profil for lavkompleksitet (LC)"
 
 #: ../build/src/ui_backendsettingspage.h:570
 msgid "Low watermark"
-msgstr ""
+msgstr "Low watermark"
 
 #: ../build/src/ui_collectionsettingspage.h:619
 msgid "Lowercase filename"
 msgstr "Små bokstaver filnavn"
 
-#: ../build/src/ui_lyricssettingspage.h:162 ../build/src/ui_edittagdialog.h:846
+#: ../build/src/ui_lyricssettingspage.h:162 ../build/src/ui_edittagdialog.h:836
 msgid "Lyrics"
 msgstr "Lyrikk"
 
 #: ../build/src/ui_lyricssettingspage.h:163
 msgid "Lyrics providers"
-msgstr ""
+msgstr "Lyrikk tilbyder"
 
 #: ../build/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token"
-msgstr ""
+msgstr "MD5 token"
 
 #: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
@@ -3000,12 +3012,12 @@ msgstr "Behandle lagrede grupperinger"
 #: dialogs/edittagdialog.cpp:822
 #, qt-format
 msgid "Manually cover art from %1 is missing"
-msgstr ""
+msgstr "Manuelt satt kover %1 mangler"
 
 #: dialogs/edittagdialog.cpp:813
 #, qt-format
 msgid "Manually set cover art from %1"
-msgstr ""
+msgstr "Manuelt satt kover fra %1"
 
 #: device/deviceproperties.cpp:177
 msgid "Manufacturer"
@@ -3017,11 +3029,11 @@ msgstr "Merk tapte sanger utilgjengelige"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:110
 msgid "Match every search term (AND)"
-msgstr ""
+msgstr "Match alle søke valg (AND)"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:111
 msgid "Match one or more search terms (OR)"
-msgstr ""
+msgstr "Match en eller flere søkevalg (OR)"
 
 #: ../build/src/ui_appearancesettingspage.h:616
 msgid "Max cover size"
@@ -3054,7 +3066,7 @@ msgstr "Minimal bitrate"
 
 #: settings/tidalsettingspage.cpp:164
 msgid "Missing API token."
-msgstr ""
+msgstr "Mangler API nøkkel."
 
 #: qobuz/qobuzservice.cpp:732 qobuz/qobuzstreamurlrequest.cpp:85
 msgid "Missing Qobuz app ID or secret."
@@ -3082,7 +3094,7 @@ msgstr "Mangler Subsonic brukernavn eller passord."
 #: tidal/tidalservice.cpp:870 tidal/tidalservice.cpp:939
 #: tidal/tidalservice.cpp:1003 tidal/tidalstreamurlrequest.cpp:91
 msgid "Missing Tidal API token, username or password."
-msgstr ""
+msgstr "Mangler API nøkkel, brukernavn eller passord."
 
 #: tidal/tidalservice.cpp:709
 msgid "Missing Tidal API token."
@@ -3102,11 +3114,11 @@ msgstr "Mangler Tidal brukernavn."
 
 #: settings/qobuzsettingspage.cpp:129
 msgid "Missing app id."
-msgstr ""
+msgstr "Mangler app ID."
 
 #: settings/tidalsettingspage.cpp:172 settings/qobuzsettingspage.cpp:137
 msgid "Missing password."
-msgstr ""
+msgstr "Mangler passord."
 
 #: settings/subsonicsettingspage.cpp:130
 msgid "Missing server url, username or password."
@@ -3118,11 +3130,11 @@ msgstr "Mangler brukernavn eller passord."
 
 #: scrobbler/lastfmimport.cpp:214
 msgid "Missing username, please login to last.fm first!"
-msgstr ""
+msgstr "Mangler brukernavn, vennligst logg inn til last.fm først!"
 
 #: settings/tidalsettingspage.cpp:168 settings/qobuzsettingspage.cpp:133
 msgid "Missing username."
-msgstr ""
+msgstr "Mangler brukernavn."
 
 #: device/deviceproperties.cpp:176
 msgid "Model"
@@ -3134,7 +3146,7 @@ msgstr "Overvåk endringer i samlingen"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:453
 msgid "Months"
-msgstr ""
+msgstr "Måneder"
 
 #: playlist/playlist.cpp:1370
 msgid "Mood"
@@ -3151,7 +3163,7 @@ msgstr "Moodbar stil"
 
 #: smartplaylists/smartplaylistsmodel.cpp:100
 msgid "Most played"
-msgstr ""
+msgstr "Mest spilte"
 
 #: device/giolister.cpp:192
 msgid "Mount point"
@@ -3207,7 +3219,7 @@ msgstr "Aldri"
 
 #: smartplaylists/smartplaylistsmodel.cpp:88
 msgid "Never played"
-msgstr ""
+msgstr "Aldri spilt"
 
 #: ../build/src/ui_behavioursettingspage.h:296
 #: ../build/src/ui_behavioursettingspage.h:310
@@ -3225,11 +3237,11 @@ msgstr "Ny spilleliste"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
-msgstr ""
+msgstr "Ny smart spilleliste"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:67
 msgid "New smart playlist..."
-msgstr ""
+msgstr "Ny smart spilleliste..."
 
 #: widgets/freespacebar.cpp:68
 msgid "New songs"
@@ -3237,11 +3249,11 @@ msgstr "Nye sanger"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
-msgstr ""
+msgstr "Nye spor vil bli lagt til automatisk."
 
 #: smartplaylists/smartplaylistsmodel.cpp:69
 msgid "Newest tracks"
-msgstr ""
+msgstr "Nyeste spor"
 
 #: dialogs/edittagdialog.cpp:222 dialogs/trackselectiondialog.cpp:73
 msgid "Next"
@@ -3249,7 +3261,7 @@ msgstr "Neste"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:68
 msgid "Next track"
-msgstr ""
+msgstr "Neste spor"
 
 #: core/utilities.cpp:179
 msgid "Next week"
@@ -3278,7 +3290,7 @@ msgstr "Ingen treff.  Visk ut søkefeltet for å vise hele spillelisten igjen."
 
 #: settings/coverssettingspage.cpp:200 settings/lyricssettingspage.cpp:190
 msgid "No provider selected."
-msgstr ""
+msgstr "Ingen tilbyder valgt."
 
 #: ../build/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
@@ -3372,7 +3384,7 @@ msgstr "Ved oppstart"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:139
 msgid "Only show the first"
-msgstr ""
+msgstr "Bare vis de første"
 
 #: ../build/src/ui_appearancesettingspage.h:622
 msgid "Opacity"
@@ -3380,7 +3392,7 @@ msgstr "Dekkevne"
 
 #: scrobbler/scrobblingapi20.cpp:168
 msgid "Open URL in web browser?"
-msgstr ""
+msgstr "Åpne URL i nettleseren?"
 
 #: transcoder/transcodedialog.cpp:350
 msgid "Open a directory to import music from"
@@ -3396,7 +3408,7 @@ msgstr "Åpne enhet"
 
 #: radios/radioview.cpp:83
 msgid "Open homepage"
-msgstr ""
+msgstr "Åpne hjemmeside"
 
 #: collection/collectionview.cpp:350
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
@@ -3422,7 +3434,7 @@ msgstr "Optimize for &quality"
 
 #: ../build/src/ui_backendsettingspage.h:561
 msgid "Options"
-msgstr ""
+msgstr "Valg"
 
 #: ../build/src/ui_transcodedialog.h:228
 msgid "Options..."
@@ -3434,15 +3446,15 @@ msgstr "Opus"
 
 #: ../build/src/ui_organizedialog.h:259
 msgid "Organize Files"
-msgstr ""
+msgstr "Organiser filene"
 
 #: core/mainwindow.cpp:746 collection/collectionview.cpp:357
 msgid "Organize files..."
-msgstr ""
+msgstr "Organiser filene..."
 
 #: organize/organize.cpp:106
 msgid "Organizing files"
-msgstr ""
+msgstr "Organiserer filene"
 
 #: dialogs/trackselectiondialog.cpp:195
 msgid "Original tags"
@@ -3461,7 +3473,7 @@ msgstr "Opprinnelig år - album"
 
 #: collection/savedgroupingmanager.cpp:106
 msgid "Original year - Album - Disc"
-msgstr ""
+msgstr "Original year - Album - Disc"
 
 #: core/commandlineoptions.cpp:188
 msgid "Other options"
@@ -3478,11 +3490,11 @@ msgstr "Utgangsinnstillinger"
 
 #: ../build/src/ui_collectionsettingspage.h:631
 msgid "Overwrite database playcount when songs are re-read from disk"
-msgstr ""
+msgstr "Overskriv database spilleteller når sanger er lest på nytt fra disk"
 
 #: ../build/src/ui_collectionsettingspage.h:632
 msgid "Overwrite database rating when songs are re-read from disk"
-msgstr ""
+msgstr "Overskriv database vurdering når sanger er lest på nytt fra disk"
 
 #: ../build/src/ui_collectionsettingspage.h:618
 msgid "Overwrite existing file"
@@ -3516,13 +3528,13 @@ msgstr "Fest"
 msgid "Password"
 msgstr "Passord"
 
-#: ../build/src/ui_edittagdialog.h:812
+#: ../build/src/ui_edittagdialog.h:807
 msgid "Path"
-msgstr ""
+msgstr "Filsti"
 
 #: ../build/src/ui_collectionsettingspage.h:615
 msgid "Pattern"
-msgstr ""
+msgstr "Pattern"
 
 #: core/mainwindow.cpp:1316 core/mainwindow.cpp:1815
 #: core/qtsystemtrayicon.cpp:146 globalshortcuts/globalshortcutsmanager.cpp:64
@@ -3540,7 +3552,7 @@ msgstr "På pause"
 #: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1350
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
-#: ../build/src/ui_edittagdialog.h:840
+#: ../build/src/ui_edittagdialog.h:830
 msgid "Performer"
 msgstr "Utøver"
 
@@ -3560,19 +3572,19 @@ msgstr "Spill"
 
 #: ../build/src/ui_appearancesettingspage.h:627
 msgid "Play control buttons"
-msgstr ""
+msgstr "Spillekontrolknapper"
 
-#: playlist/playlist.cpp:1353 ../build/src/ui_edittagdialog.h:810
+#: playlist/playlist.cpp:1353 ../build/src/ui_edittagdialog.h:805
 msgid "Play count"
 msgstr "Antall avspillinger"
 
 #: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
-msgstr ""
+msgstr "Spilletellere"
 
 #: core/commandlineoptions.cpp:187
 msgid "Play given playlist"
-msgstr ""
+msgstr "Spill angitt spilleliste"
 
 #: core/commandlineoptions.cpp:169
 msgid "Play if stopped, pause if playing"
@@ -3585,7 +3597,7 @@ msgstr "Spill hvis det ikke er noe annet som spilles av for øyeblikket"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:75
 msgid "Play next"
-msgstr ""
+msgstr "Spill neste"
 
 #: core/commandlineoptions.cpp:186
 msgid "Play the <n>th track in the playlist"
@@ -3593,17 +3605,17 @@ msgstr "Spill av <n>ende spor i spillelista"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:65
 msgid "Play/Pause"
-msgstr ""
+msgstr "Play/Pause"
 
 #: dialogs/lastfmimportdialog.cpp:154
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
-msgstr ""
+msgstr "Spilleltellere for %1 sanger og sist spilt for %2 sanger er mottatt."
 
 #: dialogs/lastfmimportdialog.cpp:160
 #, qt-format
 msgid "Playcounts for %1 songs received."
-msgstr ""
+msgstr "Spilleteller for %1 sanger mottatt."
 
 #: core/commandlineoptions.cpp:167
 msgid "Player options"
@@ -3618,7 +3630,7 @@ msgstr "Spilleliste"
 
 #: ../build/src/ui_appearancesettingspage.h:625
 msgid "Playlist buttons"
-msgstr ""
+msgstr "Spilleliste knapper"
 
 #: osd/osdbase.cpp:277
 msgid "Playlist finished"
@@ -3630,10 +3642,12 @@ msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
 "playlist?"
 msgstr ""
+"Spilleliste har %1 sanger, for mange for å angre, ønsker du likevel å fjerne "
+"sangene fra spillelisten?"
 
 #: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
-msgstr ""
+msgstr "Spillelisten må være åpen først."
 
 #: core/commandlineoptions.cpp:182
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
@@ -3642,11 +3656,11 @@ msgstr "Innstillinger for spilleliste"
 
 #: ../build/src/ui_appearancesettingspage.h:631
 msgid "Playlist playing song color"
-msgstr ""
+msgstr "Spilleliste spiller sang farge"
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
-msgstr ""
+msgstr "Spilleliste type"
 
 #: core/mainwindow.cpp:364
 msgid "Playlists"
@@ -3718,6 +3732,8 @@ msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
 msgstr ""
+"Velg \"Lagre\" for å kopiere URL til utklippsbok for å manuelt åpne den i en "
+"nettleser."
 
 #: ../build/src/ui_globalshortcutgrabber.h:68
 msgid "Press a key"
@@ -3768,7 +3784,7 @@ msgstr "Framdrift"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:135
 msgid "Put songs in a random order"
-msgstr ""
+msgstr "Putt sangene i tilfeldig rekkefølge"
 
 #: core/mainwindow.cpp:378 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:270
@@ -3780,6 +3796,8 @@ msgid ""
 "Qobuz support is not official and requires an API app ID and secret from a "
 "registered application to work. We can't help you getting these."
 msgstr ""
+"QObuz støtte er ikke offisiell og krever en API nøkkel fra en registert "
+"applikasjon for å virke."
 
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
@@ -3826,19 +3844,19 @@ msgstr "Radio (lik lydstyrkeutgjevning for alle spor)"
 
 #: ../build/src/ui_scrobblersettingspage.h:427
 msgid "Radio Paradise"
-msgstr ""
+msgstr "Radio Paradise"
 
 #: core/mainwindow.cpp:367
 msgid "Radios"
-msgstr ""
+msgstr "Radioer"
 
 #: ../build/src/ui_collectionsettingspage.h:616
 msgid "Random"
-msgstr ""
+msgstr "Tilfeldig"
 
-#: playlist/playlist.cpp:1371 ../build/src/ui_edittagdialog.h:843
+#: playlist/playlist.cpp:1371 ../build/src/ui_edittagdialog.h:833
 msgid "Rating"
-msgstr ""
+msgstr "Vurdering"
 
 #: ../build/src/ui_playlistsettingspage.h:193
 msgid "Re&lative"
@@ -3854,12 +3872,16 @@ msgid ""
 "Received URL with %1 encrypted stream from Tidal. Strawberry does not "
 "currently support encrypted streams."
 msgstr ""
+"Mottokk URL med %1 kryptert strøm fra Tidal, Strawberry støtter ikke "
+"kryptert strøm."
 
 #: tidal/tidalstreamurlrequest.cpp:281 tidal/tidalstreamurlrequest.cpp:291
 msgid ""
 "Received URL with encrypted stream from Tidal. Strawberry does not currently "
 "support encrypted streams."
 msgstr ""
+"Mottokk URL med kryptert strøm fra Tidal, Strawberry støtter ikke kryptert "
+"strøm."
 
 #: covermanager/spotifycoverprovider.cpp:200
 #: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:216
@@ -3876,30 +3898,30 @@ msgstr ""
 
 #: dialogs/lastfmimportdialog.cpp:74
 msgid "Receiving initial data from last.fm..."
-msgstr ""
+msgstr "Mottar data fra last.fm..."
 
 #: dialogs/lastfmimportdialog.cpp:134
 #, qt-format
 msgid "Receiving last played for %1 songs."
-msgstr ""
+msgstr "Mottar sist spilt for %1 sanger."
 
 #: dialogs/lastfmimportdialog.cpp:131
 #, qt-format
 msgid "Receiving playcount for %1 songs and last played for %2 songs."
-msgstr ""
+msgstr "Mottar spilleteller for %1 sanger og sist spilt for %2 sanger."
 
 #: dialogs/lastfmimportdialog.cpp:137
 #, qt-format
 msgid "Receiving playcounts for %1 songs."
-msgstr ""
+msgstr "Mottar spilleteller for %1 sanger."
 
 #: lyrics/geniuslyricsprovider.cpp:201
 msgid "Redirect from Genius is missing query items code or state."
-msgstr ""
+msgstr "Redirect from Genius is missing query items code or state."
 
 #: covermanager/spotifycoverprovider.cpp:196
 msgid "Redirect missing token code or state!"
-msgstr ""
+msgstr "Redirect missing token code or state!"
 
 #: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
@@ -3911,7 +3933,7 @@ msgstr "Oppfrisk katalog"
 
 #: radios/radioview.cpp:91
 msgid "Refresh channels"
-msgstr ""
+msgstr "Oppfrisk kanler"
 
 #: equalizer/equalizer.cpp:151
 msgid "Reggae"
@@ -3964,7 +3986,7 @@ msgstr "Fjern spillelister"
 
 #: ../build/src/ui_organizedialog.h:272
 msgid "Remove problematic characters from filenames"
-msgstr ""
+msgstr "Fjern problematiske tegn fra filnavn"
 
 #: playlist/playlisttabbar.cpp:182
 msgid "Rename playlist"
@@ -4028,7 +4050,7 @@ msgstr "Svar fra Tidal mangler query items."
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:108
 msgid "Repopulate"
-msgstr ""
+msgstr "Repopulate"
 
 #: collection/collectionview.cpp:370
 msgid "Rescan song(s)"
@@ -4036,19 +4058,19 @@ msgstr "Reskann sang(er)"
 
 #: core/mainwindow.cpp:737
 msgid "Rescan song(s)..."
-msgstr ""
+msgstr "Skann sanger på nytt..."
 
 #: widgets/lineedit.cpp:71
 msgid "Reset"
 msgstr "Tilbakestill"
 
-#: dialogs/edittagdialog.cpp:1252 ../build/src/ui_edittagdialog.h:819
+#: dialogs/edittagdialog.cpp:1252 ../build/src/ui_edittagdialog.h:814
 msgid "Reset play counts"
 msgstr "Tilbakestill avspillingsteller"
 
 #: core/commandlineoptions.cpp:191
 msgid "Resize the window"
-msgstr ""
+msgstr "Endre størrelse på vinduet"
 
 #: ../build/src/ui_behavioursettingspage.h:302
 msgid "Restart song, then jump to previous if pressed again"
@@ -4155,7 +4177,7 @@ msgstr "Kjør trygg fjerning av enhet etter kopiering"
 #: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1357
 #: organize/organizedialog.cpp:119 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
-#: ../build/src/ui_edittagdialog.h:813
+#: ../build/src/ui_edittagdialog.h:808
 msgid "Sample rate"
 msgstr "Samplingsrate"
 
@@ -4173,7 +4195,7 @@ msgstr "Lagre albumomslag"
 
 #: ../build/src/ui_collectionsettingspage.h:613
 msgid "Save album covers as embedded cover"
-msgstr ""
+msgstr "Lagre album kover som embedded kover"
 
 #: ../build/src/ui_collectionsettingspage.h:611
 msgid "Save album covers in album directory"
@@ -4181,7 +4203,7 @@ msgstr "Lagre album kover i album mappen"
 
 #: ../build/src/ui_collectionsettingspage.h:612
 msgid "Save album covers in cache directory"
-msgstr ""
+msgstr "Lagre album kober i cache mappen"
 
 #: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Save cover to disk..."
@@ -4193,11 +4215,11 @@ msgstr "Lagre nåværende gruppering"
 
 #: ../build/src/ui_collectionsettingspage.h:633
 msgid "Save playcounts and ratings to files now"
-msgstr ""
+msgstr "Lagre spilletellere og vurderinger til filer nå"
 
 #: ../build/src/ui_collectionsettingspage.h:629
 msgid "Save playcounts to song tags when possible"
-msgstr ""
+msgstr "Lagre spilletellere til filer når mulig"
 
 #: playlist/playlistlistcontainer.cpp:88
 msgctxt "Save playlist menu action."
@@ -4219,7 +4241,7 @@ msgstr "Lagre forhåndsinnstilling"
 
 #: ../build/src/ui_collectionsettingspage.h:630
 msgid "Save ratings to song tags when possible"
-msgstr ""
+msgstr "Lagre vurderinger til filer når mulig"
 
 #: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Save the .mood files directly in the songs folders"
@@ -4235,7 +4257,7 @@ msgstr "Lagrer album kover"
 
 #: collection/collection.cpp:208
 msgid "Saving playcounts and ratings"
-msgstr ""
+msgstr "Lagrer spilletellere og vurderinger"
 
 #: dialogs/edittagdialog.cpp:304 dialogs/trackselectiondialog.cpp:292
 msgid "Saving tracks"
@@ -4256,7 +4278,7 @@ msgstr "Scrobbler"
 #: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
 msgid "Scrobbler %1 error: %2"
-msgstr ""
+msgstr "Skrobbler %1 error: %2"
 
 #: scrobbler/scrobblingapi20.cpp:536
 #, qt-format
@@ -4289,16 +4311,16 @@ msgstr "Søk etter dette"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
-msgstr ""
+msgstr "Søkemodus"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:159
 msgid "Search options"
-msgstr ""
+msgstr "Søkevalg"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:157
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
-msgstr ""
+msgstr "Søkekriterier"
 
 #: tidal/tidalrequest.cpp:289 tidal/tidalrequest.cpp:303
 #: tidal/tidalrequest.cpp:317 qobuz/qobuzrequest.cpp:276
@@ -4316,11 +4338,11 @@ msgstr "Andre nivå"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:74
 msgid "Seek backward"
-msgstr ""
+msgstr "Seek backward"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:73
 msgid "Seek forward"
-msgstr ""
+msgstr "Seek forward"
 
 #: core/commandlineoptions.cpp:180
 msgid "Seek the currently playing track by a relative amount"
@@ -4348,7 +4370,7 @@ msgstr "Velg det beste treffet"
 
 #: playlist/playlistmanager.cpp:634
 msgid "Select directory for the playlists"
-msgstr ""
+msgstr "Velg mappe for spillelister"
 
 #: ../build/src/ui_appearancesettingspage.h:589
 msgid "Select foreground color:"
@@ -4356,7 +4378,7 @@ msgstr "Velg forgrunnsfarge:"
 
 #: ../build/src/ui_appearancesettingspage.h:634
 msgid "Select playlist playing song color:"
-msgstr ""
+msgstr "Velg spilleliste sang farge:"
 
 #: ../build/src/ui_appearancesettingspage.h:597
 msgid "Select tabbar color:"
@@ -4380,7 +4402,7 @@ msgstr "Server URL er ugyldig."
 
 #: ../build/src/ui_subsonicsettingspage.h:256
 msgid "Server-side scrobbling"
-msgstr ""
+msgstr "Server-siding skrobbling"
 
 #: core/mainwindow.cpp:1959
 #, qt-format
@@ -4401,7 +4423,7 @@ msgstr "Innstillinger"
 
 #: ../build/src/ui_appearancesettingspage.h:585
 msgid "Settings require restart."
-msgstr ""
+msgstr "Innstillinger krever restart."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:281
 msgid "Shortcut"
@@ -4419,7 +4441,7 @@ msgstr "Vis"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:76
 msgid "Show OSD"
-msgstr ""
+msgstr "Vis OSD"
 
 #: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
@@ -4427,7 +4449,7 @@ msgstr "Vis en skrivebordsmedledelse som passer inn i ditt operativsystem"
 
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
-msgstr ""
+msgstr "Vis en glødende animasjon på gjeldende spilt spor"
 
 #: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
@@ -4463,7 +4485,7 @@ msgstr "Vis over statuslinja"
 
 #: context/contextview.cpp:297
 msgid "Show album cover"
-msgstr ""
+msgstr "Vis album kover"
 
 #: ../build/src/ui_collectionsettingspage.h:607
 msgid "Show album cover art in collection"
@@ -4475,15 +4497,15 @@ msgstr "Vis alle sanger"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
-msgstr ""
+msgstr "Vis alle sanger"
 
 #: ../build/src/ui_playlistsettingspage.h:179
 msgid "Show bars on the currently playing track"
-msgstr ""
+msgstr "Vis barer på nåværende spilte spor"
 
 #: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Show dialog for errors"
-msgstr ""
+msgstr "Vis dialog for feil"
 
 #: ../build/src/ui_collectionsettingspage.h:608
 msgid "Show dividers"
@@ -4540,7 +4562,7 @@ msgstr "Vis knappen for rapportering av lyttevaner"
 
 #: ../build/src/ui_mainwindow.h:717
 msgid "Show sidebar"
-msgstr ""
+msgstr "Vis sidebar"
 
 #: context/contextview.cpp:309
 msgid "Show song lyrics"
@@ -4548,7 +4570,7 @@ msgstr "Vis sangtekster"
 
 #: ../build/src/ui_behavioursettingspage.h:282
 msgid "Show song progress on system tray icon"
-msgstr ""
+msgstr "Vis sang prosess på systemikon"
 
 #: context/contextview.cpp:301
 msgid "Show song technical data"
@@ -4560,19 +4582,19 @@ msgstr "Vis systemikon"
 
 #: ../build/src/ui_behavioursettingspage.h:287
 msgid "Show the main window"
-msgstr ""
+msgstr "Vis hovedvinduet"
 
 #: ../build/src/ui_behavioursettingspage.h:289
 msgid "Show the main window maximized"
-msgstr ""
+msgstr "Vis hovedvinduet maksimert"
 
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show the main window minimized"
-msgstr ""
+msgstr "Vis hovedvinduet minimert"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Show/Hide"
-msgstr ""
+msgstr "Vis/Skul"
 
 #: ../build/src/ui_playlistsequence.h:122
 msgid "Shuffle"
@@ -4615,7 +4637,7 @@ msgstr "Ska"
 msgid "Skip backwards in playlist"
 msgstr "Gå bakover i spillelista"
 
-#: playlist/playlist.cpp:1354 ../build/src/ui_edittagdialog.h:808
+#: playlist/playlist.cpp:1354 ../build/src/ui_edittagdialog.h:803
 msgid "Skip count"
 msgstr "Antall ganger hoppet over"
 
@@ -4641,11 +4663,11 @@ msgstr "Lite sidefelt"
 
 #: smartplaylists/smartplaylistwizard.cpp:70
 msgid "Smart playlist"
-msgstr ""
+msgstr "Smart spilleliste"
 
 #: core/mainwindow.cpp:365
 msgid "Smart playlists"
-msgstr ""
+msgstr "Smarte spillelister"
 
 #: equalizer/equalizer.cpp:153
 msgid "Soft"
@@ -4657,7 +4679,7 @@ msgstr "Soft rock"
 
 #: ../build/src/ui_scrobblersettingspage.h:425
 msgid "SomaFM"
-msgstr ""
+msgstr "SomaFM"
 
 #: ../build/src/ui_contextsettingspage.h:436
 msgid "Song Lyrics"
@@ -4665,11 +4687,11 @@ msgstr "Sangtekst"
 
 #: ../build/src/ui_collectionsettingspage.h:596
 msgid "Song fingerprinting and tracking"
-msgstr ""
+msgstr "Song fingerprinting and tracking"
 
 #: ../build/src/ui_collectionsettingspage.h:628
 msgid "Song playcounts and ratings"
-msgstr ""
+msgstr "Spilleteller og vurdering"
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Songs"
@@ -4696,11 +4718,11 @@ msgstr "Beklager"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:136
 msgid "Sort songs by"
-msgstr ""
+msgstr "Sorter sanger etter"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:134
 msgid "Sorting"
-msgstr ""
+msgstr "Sortering"
 
 #: playlist/playlist.cpp:1369
 msgid "Source"
@@ -4712,7 +4734,7 @@ msgstr "Speex"
 
 #: covermanager/spotifycoverprovider.cpp:151
 msgid "Spotify Authentication"
-msgstr ""
+msgstr "Spotify Autentisering"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Standard"
@@ -4720,7 +4742,7 @@ msgstr "Standard"
 
 #: playlist/playlisttabbar.cpp:80
 msgid "Star playlist"
-msgstr ""
+msgstr "Star playlist"
 
 #: core/commandlineoptions.cpp:168
 msgid "Start the playlist currently playing"
@@ -4737,7 +4759,7 @@ msgstr "Starter %1"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:66
 msgid "Stop"
-msgstr ""
+msgstr "Stopp"
 
 #: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
@@ -4761,7 +4783,7 @@ msgstr "Stopp avspilling etter dette sporet"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:67
 msgid "Stop playing after current track"
-msgstr ""
+msgstr "Stopp spilling etter gjeldene spor"
 
 #: osd/osdbase.cpp:269
 #, qt-format
@@ -4771,10 +4793,6 @@ msgstr "Stopp avspilling etter spor: %1"
 #: osd/osdbase.cpp:256 osd/osdbase.cpp:259
 msgid "Stopped"
 msgstr "Stoppet"
-
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
-msgid "Strawberry"
-msgstr ""
 
 #: ../build/src/ui_errordialog.h:90
 msgid "Strawberry Error"
@@ -4810,14 +4828,16 @@ msgid ""
 "Strawberry is free software released under GPL. The source code is available "
 "on %1"
 msgstr ""
+"Strawberry er fri programvare lisensiert under GPL. Kildekoden er "
+"tilgjengelig på %1"
 
 #: dialogs/snapdialog.cpp:40
 msgid "Strawberry is running as a Snap"
-msgstr ""
+msgstr "Strawberry kjører som en Snap"
 
 #: ../build/src/ui_snapdialog.h:117
 msgid "Strawberry is running as a snap"
-msgstr ""
+msgstr "Strawberry kjører som en Snap"
 
 #: dialogs/snapdialog.cpp:48
 msgid ""
@@ -4849,7 +4869,7 @@ msgstr "Utvid bildet til å fylle spilleliste"
 #: ../build/src/ui_appearancesettingspage.h:582
 #: ../build/src/ui_appearancesettingspage.h:583
 msgid "Style"
-msgstr ""
+msgstr "Stil"
 
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Submit scrobbles every"
@@ -4879,7 +4899,7 @@ msgstr "Foreslåtte etiketter"
 
 #: ../build/src/ui_contextsettingspage.h:429
 #: ../build/src/ui_notificationssettingspage.h:495
-#: ../build/src/ui_edittagdialog.h:820
+#: ../build/src/ui_edittagdialog.h:815
 msgid "Summary"
 msgstr "Sammendrag"
 
@@ -4898,7 +4918,7 @@ msgstr "Systemfarger"
 
 #: ../build/src/ui_appearancesettingspage.h:632
 msgid "System highlight color"
-msgstr ""
+msgstr "System markeringsfarge"
 
 #: ../build/src/ui_appearancesettingspage.h:593
 msgid "Tabbar colors"
@@ -4906,11 +4926,11 @@ msgstr "Tabbar farger"
 
 #: ../build/src/ui_appearancesettingspage.h:626
 msgid "Tabbar large mode"
-msgstr ""
+msgstr "Tabbar stor modus"
 
 #: ../build/src/ui_appearancesettingspage.h:630
 msgid "Tabbar small mode"
-msgstr ""
+msgstr "Tabbar liten modus"
 
 #: widgets/fancytabwidget.cpp:730
 msgid "Tabs on top"
@@ -4922,11 +4942,11 @@ msgstr "Etikett-henter"
 
 #: ../build/src/ui_collectionsettingspage.h:636
 msgid "Tagreader workers"
-msgstr ""
+msgstr "Tagreader workers"
 
-#: ../build/src/ui_edittagdialog.h:844
+#: ../build/src/ui_edittagdialog.h:834
 msgid "Tags"
-msgstr ""
+msgstr "Tagger"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
@@ -4962,7 +4982,7 @@ msgstr "Takk til"
 
 #: dialogs/about.cpp:187
 msgid "Thanks to all the other Amarok and Clementine contributors."
-msgstr ""
+msgstr "Takk til alle andre Amarok og Clementine bidragsytere."
 
 #: settings/globalshortcutssettingspage.cpp:263
 #: settings/globalshortcutssettingspage.cpp:273
@@ -4976,7 +4996,7 @@ msgstr "Albumomslaget til sangen som spilles av for øyeblikket"
 
 #: dialogs/deleteconfirmationdialog.cpp:58
 msgid "The following files will be deleted from disk:"
-msgstr ""
+msgstr "Følgende filer vil bli slettet fra disk:"
 
 #: internet/internetcollectionview.cpp:289
 msgid "The internet collection is empty!"
@@ -4984,7 +5004,7 @@ msgstr "Internett samlingen er tom!"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
-msgstr ""
+msgstr "Andre verdi må være høyere enne den første!"
 
 #: covermanager/coverfromurldialog.cpp:87
 msgid "The site you requested does not exist!"
@@ -5099,7 +5119,7 @@ msgstr "Denne enhetstypen (%1) støttes ikke."
 
 #: ../build/src/ui_collectionsettingspage.h:637
 msgid "Thread priority"
-msgstr ""
+msgstr "Thread priority"
 
 #: core/mainwindow.cpp:375 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5110,7 +5130,7 @@ msgstr "Tidal"
 msgid ""
 "Tidal support is not official and requires a API token from a registered "
 "application to work. We can't help you getting these."
-msgstr ""
+msgstr "Tidal støtte er ikke offisiell og krever en API nøkkel."
 
 #: ../build/src/ui_behavioursettingspage.h:319
 msgid "Time step"
@@ -5118,7 +5138,7 @@ msgstr "Tidstrinn"
 
 #: playlist/playlist.cpp:1339 organize/organizedialog.cpp:103
 #: ../build/src/ui_contextsettingspage.h:428
-#: ../build/src/ui_edittagdialog.h:834
+#: ../build/src/ui_edittagdialog.h:824
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Title"
 msgstr "Tittel"
@@ -5129,7 +5149,7 @@ msgstr "I dag"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:77
 msgid "Toggle Pretty OSD"
-msgstr ""
+msgstr "Slå av/på OSD"
 
 #: core/mainwindow.cpp:718 core/mainwindow.cpp:1920
 msgid "Toggle queue status"
@@ -5168,7 +5188,7 @@ msgid "Total network requests made"
 msgstr "Antall nettverkforespørsler totalt"
 
 #: playlist/playlist.cpp:1342 organize/organizedialog.cpp:111
-#: ../build/src/ui_edittagdialog.h:842
+#: ../build/src/ui_edittagdialog.h:832
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Track"
 msgstr "Spor"
@@ -5196,7 +5216,7 @@ msgstr "Innstillinger for omkoding"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
-msgstr ""
+msgstr "Slå av"
 
 #: device/giolister.cpp:194
 msgid "URI"
@@ -5216,7 +5236,7 @@ msgstr "Ultrabredt bånd (UWB)"
 
 #: dialogs/snapdialog.cpp:74
 msgid "Uninstall the snap with:"
-msgstr ""
+msgstr "Avinstaller snap med:"
 
 #: core/song.cpp:609 collection/collectionmodel.cpp:492
 #: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:501
@@ -5235,15 +5255,15 @@ msgstr "Ukjent feil"
 
 #: playlist/playlistmanager.cpp:267
 msgid "Unknown file extension for playlist."
-msgstr ""
+msgstr "Ukjent fil type for spilleliste."
 
 #: playlist/playlistmanager.cpp:267
 msgid "Unknown playlist extension"
-msgstr ""
+msgstr "Ukjent fil type."
 
 #: dialogs/edittagdialog.cpp:766
 msgid "Unset"
-msgstr ""
+msgstr "Unset"
 
 #: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Unset cover"
@@ -5269,7 +5289,7 @@ msgstr "Oppdaterer %1"
 #: collection/collectionbackend.cpp:694
 #, qt-format
 msgid "Updating %1 database."
-msgstr ""
+msgstr "Oppdaterer %1 database."
 
 #: device/deviceview.cpp:125
 #, qt-format
@@ -5282,7 +5302,7 @@ msgstr "Oppdaterer samling"
 
 #: ../build/src/ui_backendsettingspage.h:563
 msgid "Upmix / downmix to"
-msgstr ""
+msgstr "Upmix / downmix to"
 
 #: ../build/src/ui_appearancesettingspage.h:610
 msgid "Upper Left"
@@ -5298,23 +5318,23 @@ msgstr "Bruk"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:269
 msgid "Use Gnome (GSD) shortcuts when available"
-msgstr ""
+msgstr "Bruk Gnome (GSD) snarveier når tilgjengelige."
 
 #: ../build/src/ui_subsonicsettingspage.h:253
 msgid "Use HTTP/2 when possible"
-msgstr ""
+msgstr "Bruk HTTP2 når tilgjengelig"
 
 #: ../build/src/ui_scrobblersettingspage.h:431
 msgid "Use HTTPS for local redirectserver"
-msgstr ""
+msgstr "Bruk HTTPS for lokal viderekoblingsserver"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:273
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr ""
+msgstr "Bruk KDE (KGlobalAccel) snarveier når tilgjengelige"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:271
 msgid "Use MATE shortcuts when available"
-msgstr ""
+msgstr "Bruk MATE snarveier når tilgjengelige"
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
@@ -5322,7 +5342,7 @@ msgstr "Bruk OAuth"
 
 #: settings/coverssettingspage.cpp:132 settings/coverssettingspage.cpp:245
 msgid "Use Qobuz settings to authenticate."
-msgstr ""
+msgstr "Bruk Qobuz innstillingene for å autentisere"
 
 #: ../build/src/ui_backendsettingspage.h:573
 msgid "Use Replay Gain metadata if it is available"
@@ -5330,11 +5350,11 @@ msgstr "Bruk normalisering-metadata hvis tilgjengelig"
 
 #: settings/coverssettingspage.cpp:128 settings/coverssettingspage.cpp:241
 msgid "Use Tidal settings to authenticate."
-msgstr ""
+msgstr "Bruk TIdal innstillinger for å autentisere"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:274
 msgid "Use X11 shortcuts when available"
-msgstr ""
+msgstr "Bruk X11 snarveier når tilgjengelige"
 
 #: ../build/src/ui_appearancesettingspage.h:588
 msgid "Use a custom color set"
@@ -5346,7 +5366,7 @@ msgstr "Bruk egendefinert melding for meddelelser"
 
 #: ../build/src/ui_playlistsettingspage.h:178
 msgid "Use alternating row colors"
-msgstr ""
+msgstr "Bruk alternative radfarger"
 
 #: ../build/src/ui_networkproxysettingspage.h:178
 msgid "Use authentication"
@@ -5362,7 +5382,7 @@ msgstr "Bruk egendefinert farge"
 
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:81
 msgid "Use dynamic mode"
-msgstr ""
+msgstr "Bruk dynamisk modus"
 
 #: ../build/src/ui_appearancesettingspage.h:596
 msgid "Use gradient background"
@@ -5370,7 +5390,7 @@ msgstr "Bruk gradient bakgrunn"
 
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
-msgstr ""
+msgstr "Bruk proxy for strømming"
 
 #: ../build/src/ui_appearancesettingspage.h:584
 msgid "Use system theme icons"
@@ -5471,7 +5491,7 @@ msgstr "WavPack"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:451
 msgid "Weeks"
-msgstr ""
+msgstr "Uker"
 
 #: ../build/src/ui_collectionsettingspage.h:602
 msgid ""
@@ -5503,6 +5523,8 @@ msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"
 msgstr ""
+"Ønsker du å flytte andre sanger på dette albumet til \"Various Artists\" "
+"også?"
 
 #: core/mainwindow.cpp:2863
 msgid "Would you like to run a full rescan right now?"
@@ -5510,7 +5532,7 @@ msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 
 #: settings/collectionsettingspage.cpp:382
 msgid "Write all playcounts and ratings to files"
-msgstr ""
+msgstr "Skriv alle spilletellere og vurdering til filer"
 
 #: ../build/src/ui_playlistsettingspage.h:200
 msgid "Write metadata when saving playlists"
@@ -5519,7 +5541,7 @@ msgstr "Skrev metadata når spilleliste lagres"
 #: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1345
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
-#: ../build/src/ui_edittagdialog.h:833
+#: ../build/src/ui_edittagdialog.h:823
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Year"
 msgstr "År"
@@ -5536,7 +5558,7 @@ msgstr "År - album - disc"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:455
 msgid "Years"
-msgstr ""
+msgstr "År"
 
 #: core/utilities.cpp:163
 msgid "Yesterday"
@@ -5573,7 +5595,7 @@ msgstr "Du er innlogget"
 
 #: ../build/src/ui_groupbydialog.h:180
 msgid "You can change the way the songs in the collection are organized."
-msgstr ""
+msgstr "Du kan endre måten sanger i samlingen er organisert."
 
 #: dialogs/about.cpp:126
 #, qt-format
@@ -5581,6 +5603,8 @@ msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
 "through %2."
 msgstr ""
+"Du kan sponse Strawberry på %1. Du kan også gi en engangsbetaling gjennom %2."
+""
 
 #: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
@@ -5601,7 +5625,7 @@ msgstr ""
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program.  If not, see %1"
-msgstr ""
+msgstr "Du skal å mottatt en kopi av GNU lisensen, hvis ikke, se %1."
 
 #: ../build/src/ui_behavioursettingspage.h:294
 msgid "You will need to restart Strawberry if you change the language."
@@ -5613,7 +5637,7 @@ msgstr "Samlingen din er tom!"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:427
 msgid "Z-A"
-msgstr ""
+msgstr "Z-A"
 
 #: equalizer/equalizer.cpp:157
 msgid "Zero"
@@ -5627,19 +5651,19 @@ msgstr "legg til %n sanger"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:252
 msgid "after"
-msgstr ""
+msgstr "etter"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:273
 msgid "ago"
-msgstr ""
+msgstr "siden"
 
 #: ../build/src/ui_internetsearchview.h:226
 msgid "albums"
-msgstr ""
+msgstr "albumer"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
-msgstr ""
+msgstr "og"
 
 #: collection/collectionfilterwidget.cpp:75
 msgid "artist"
@@ -5647,7 +5671,7 @@ msgstr "artist"
 
 #: ../build/src/ui_internetsearchview.h:225
 msgid "artists"
-msgstr ""
+msgstr "artister"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:219
 msgid "automatic"
@@ -5655,27 +5679,27 @@ msgstr "automatisk"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:254
 msgid "before"
-msgstr ""
+msgstr "etter"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:264
 msgid "between"
-msgstr ""
+msgstr "mellom"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:434
 msgid "biggest first"
-msgstr ""
+msgstr "største først"
 
 #: ../build/src/ui_backendsettingspage.h:564
 msgid "channels"
-msgstr ""
+msgstr "kanaler"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:272
 msgid "contains"
-msgstr ""
+msgstr "inneholder"
 
 #: ../build/src/ui_collectionsettingspage.h:599
 msgid "days"
-msgstr ""
+msgstr "dager"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:203
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
@@ -5690,23 +5714,23 @@ msgstr "disk %1"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:274
 msgid "does not contain"
-msgstr ""
+msgstr "inneholder ikke"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:288
 msgid "empty"
-msgstr ""
+msgstr "tom"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:278
 msgid "ends with"
-msgstr ""
+msgstr "slutter på"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:284
 msgid "equals"
-msgstr ""
+msgstr "er lik"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:280
 msgid "greater than"
-msgstr ""
+msgstr "større enn"
 
 #: ../build/src/ui_backendsettingspage.h:558
 msgid "hw"
@@ -5714,7 +5738,7 @@ msgstr "hw"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:260
 msgid "in the last"
-msgstr ""
+msgstr "som siste"
 
 #: context/contextview.cpp:529 context/contextview.cpp:651
 #: playlist/playlistview.cpp:271 dialogs/edittagdialog.cpp:740
@@ -5723,11 +5747,11 @@ msgstr "kbps"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:282
 msgid "less than"
-msgstr ""
+msgstr "mindre enn"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "longest first"
-msgstr ""
+msgstr "lengre først"
 
 #: playlist/playlistundocommands.cpp:112
 #, c-format, qt-plural-format
@@ -5742,31 +5766,31 @@ msgstr "ms"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "newest first"
-msgstr ""
+msgstr "nyeste først"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:290
 msgid "not empty"
-msgstr ""
+msgstr "ikke tom"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:286
 msgid "not equals"
-msgstr ""
+msgstr "ikke lik"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:262
 msgid "not in the last"
-msgstr ""
+msgstr "ikke som siste"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:258
 msgid "not on"
-msgstr ""
+msgstr "ikke på"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "oldest first"
-msgstr ""
+msgstr "eldre først"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "on"
-msgstr ""
+msgstr "på"
 
 #: core/commandlineoptions.cpp:166
 msgid "options"
@@ -5778,7 +5802,7 @@ msgstr "p&lughw"
 
 #: ../build/src/ui_backendsettingspage.h:560
 msgid "pcm"
-msgstr ""
+msgstr "pcm"
 
 #: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:100
 #, c-format, qt-plural-format
@@ -5792,7 +5816,7 @@ msgstr "searches the collection for all artists that contain the word"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "shortest first"
-msgstr ""
+msgstr "korteste først"
 
 #: playlist/playlistundocommands.cpp:145
 msgid "shuffle songs"
@@ -5800,11 +5824,11 @@ msgstr "stokk spor"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:434
 msgid "smallest first"
-msgstr ""
+msgstr "minste først"
 
 #: ../build/src/ui_internetsearchview.h:227
 msgid "songs"
-msgstr ""
+msgstr "sanger"
 
 #: playlist/playlistundocommands.cpp:137
 msgid "sort songs"
@@ -5812,7 +5836,7 @@ msgstr "sorter sanger"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:276
 msgid "starts with"
-msgstr ""
+msgstr "starter på"
 
 #: playlist/playlistdelegates.cpp:232
 msgid "stop"
