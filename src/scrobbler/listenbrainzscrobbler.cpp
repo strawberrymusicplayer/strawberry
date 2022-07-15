@@ -21,6 +21,7 @@
 
 #include <algorithm>
 
+#include <QCoreApplication>
 #include <QtGlobal>
 #include <QDesktopServices>
 #include <QVariant>
@@ -447,6 +448,19 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
   object_track_metadata.insert("track_name", QJsonValue::fromVariant(title));
 
+  QJsonObject object_additional_info;
+
+  object_additional_info.insert("duration_ms", song.length_nanosec() / kNsecPerMsec);
+
+  if (const int track = song.track(); track > 0) {
+    object_additional_info.insert("tracknumber", track);
+  }
+
+  object_additional_info.insert("submission_client", QCoreApplication::applicationName());
+  object_additional_info.insert("submission_client_version", QCoreApplication::applicationVersion());
+
+  object_track_metadata.insert("additional_info", object_additional_info);
+
   QJsonObject object_listen;
   object_listen.insert("track_metadata", object_track_metadata);
 
@@ -568,6 +582,19 @@ void ListenBrainzScrobbler::Submit() {
     if (!item->album_.isEmpty()) {
       object_track_metadata.insert("release_name", QJsonValue::fromVariant(item->album_));
     }
+
+    QJsonObject object_additional_info;
+
+    object_additional_info.insert("duration_ms", item->duration_ / kNsecPerMsec);
+
+    if (item->track_ > 0) {
+      object_additional_info.insert("tracknumber", item->track_);
+    }
+
+    object_additional_info.insert("submission_client", QCoreApplication::applicationName());
+    object_additional_info.insert("submission_client_version", QCoreApplication::applicationVersion());
+
+    object_track_metadata.insert("additional_info", object_additional_info);
 
     object_track_metadata.insert("track_name", QJsonValue::fromVariant(item->song_));
     object_listen.insert("track_metadata", object_track_metadata);
