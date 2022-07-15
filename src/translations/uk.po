@@ -2890,7 +2890,7 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr "Обмеження"
 
-#: scrobbler/listenbrainzscrobbler.cpp:190
+#: scrobbler/listenbrainzscrobbler.cpp:191
 msgid "ListenBrainz Authentication"
 msgstr "Автентифікація на ListenBrainz"
 
@@ -3697,7 +3697,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Закрийте браузер і поверніться до Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:151
-#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:191
 msgid "Please open this URL in your browser"
 msgstr "Відкрийте цю адресу у браузері"
 
@@ -3913,7 +3913,7 @@ msgstr ""
 "підтримує зашифровані потоки."
 
 #: covermanager/spotifycoverprovider.cpp:200
-#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:217
 msgid "Received invalid reply from web browser."
 msgstr "Отримана недійсна відповідь з веб-браузера."
 
@@ -3954,7 +3954,7 @@ msgstr "Переспрямування з Genius не містить код аб
 msgid "Redirect missing token code or state!"
 msgstr "Переспрямування не містить код або стан маркера!"
 
-#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:213
 msgid "Redirect missing token code!"
 msgstr "Переспрямування не містить код маркера!"
 

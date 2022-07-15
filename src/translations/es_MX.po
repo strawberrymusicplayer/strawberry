@@ -2875,7 +2875,7 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr "Límites"
 
-#: scrobbler/listenbrainzscrobbler.cpp:190
+#: scrobbler/listenbrainzscrobbler.cpp:191
 msgid "ListenBrainz Authentication"
 msgstr "Autenticación en ListenBrainz"
 
@@ -3679,7 +3679,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Cierre el navegador y vuelva a Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:151
-#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:191
 msgid "Please open this URL in your browser"
 msgstr "Abra este URL en el navegador"
 
@@ -3890,7 +3890,7 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:200
-#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:217
 msgid "Received invalid reply from web browser."
 msgstr "Se recibió una respuesta no válida del navegador."
 
@@ -3932,7 +3932,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr "¡Falta código de token o estado!"
 
-#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:213
 msgid "Redirect missing token code!"
 msgstr "¡Falta código del token de redirección!"
 

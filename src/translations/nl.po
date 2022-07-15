@@ -2888,7 +2888,7 @@ msgstr ""
 msgid "Limits"
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:190
+#: scrobbler/listenbrainzscrobbler.cpp:191
 msgid "ListenBrainz Authentication"
 msgstr ""
 
@@ -3687,7 +3687,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Sluit uw browser en keer terug naar Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:151
-#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:191
 msgid "Please open this URL in your browser"
 msgstr ""
 
@@ -3895,7 +3895,7 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:200
-#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:217
 msgid "Received invalid reply from web browser."
 msgstr "Ongeldig antwoord ontvangen van webbrowser."
 
@@ -3934,7 +3934,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:213
 msgid "Redirect missing token code!"
 msgstr ""
 

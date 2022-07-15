@@ -2869,7 +2869,7 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr "Omezení"
 
-#: scrobbler/listenbrainzscrobbler.cpp:190
+#: scrobbler/listenbrainzscrobbler.cpp:191
 msgid "ListenBrainz Authentication"
 msgstr "Přihlášení na ListenBrainz"
 
@@ -3672,7 +3672,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Zavřete, prosím, svůj prohlížeč a vraťte se do Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:151
-#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:191
 msgid "Please open this URL in your browser"
 msgstr "Prosím navštivte tuto adresu URL ve vašem prohlížeči."
 
@@ -3880,7 +3880,7 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:200
-#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:217
 msgid "Received invalid reply from web browser."
 msgstr "Obdržena špatná odpověď od prohlížeče."
 
@@ -3919,7 +3919,7 @@ msgstr "Přesměrování z Genius chybí kód položek dotazu nebo stav."
 msgid "Redirect missing token code or state!"
 msgstr "Přesměrování chybí kód tokenu nebo stav!"
 
-#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:213
 msgid "Redirect missing token code!"
 msgstr "Přesměrování chybí kód tokenu!"
 
