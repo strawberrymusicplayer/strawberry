@@ -456,6 +456,8 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
     object_additional_info.insert("tracknumber", track);
   }
 
+  object_additional_info.insert("media_player", QCoreApplication::applicationName());
+  object_additional_info.insert("media_player_version", QCoreApplication::applicationVersion());
   object_additional_info.insert("submission_client", QCoreApplication::applicationName());
   object_additional_info.insert("submission_client_version", QCoreApplication::applicationVersion());
 
@@ -591,6 +593,8 @@ void ListenBrainzScrobbler::Submit() {
       object_additional_info.insert("tracknumber", item->track_);
     }
 
+    object_additional_info.insert("media_player", QCoreApplication::applicationName());
+    object_additional_info.insert("media_player_version", QCoreApplication::applicationVersion());
     object_additional_info.insert("submission_client", QCoreApplication::applicationName());
     object_additional_info.insert("submission_client_version", QCoreApplication::applicationVersion());
 
