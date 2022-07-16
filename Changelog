@@ -14,7 +14,7 @@ Bugfixes:
   Enhancements
     * Add songs to the collection even when they have invalid ctime or mtime.
     * Made ListenBrainz scrobbler respect "Prefer album artist" option (#989).
-    * Send track duration, number, player name and version when scrolling to ListenBrainz (#995).
+    * Send track duration, number, player name and version when scrobbling to ListenBrainz (#995).
     * (macOS) Added missing HLS streaming plugin.
 
 
