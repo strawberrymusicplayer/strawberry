@@ -2,9 +2,25 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+Bugfixes:
+
+    * Fixed certain albums not added to playlist in correct track order from search for Tidal and QObuz.
+    * Fixed songs not added to playlist in numeric order when added from file view with right click (#977).
+    * Fixed "Stop after this track" graying out next track in dynamic mode (#912).
+    * Fixed a gstreamer caps leak when transcoding songs.
+
+  Enhancements
+    * Add songs to the collection even when they have invalid ctime or mtime.
+    * Made ListenBrainz scrobbler respect "Prefer album artist" option (#989).
+    * Send track duration, number, player name and version when scrolling to ListenBrainz (#995).
+    * (macOS) Added missing HLS streaming plugin.
+
+
 Version 1.0.5 (2022.06.10)
 
-BugFixes:
+  Bugfixes:
     * Fixed smart playlist filetype search.
     * Fixed Radio Paradise URLs to use HTTPS instead of HTTP.
     * Fixed horizontal scrolling not affecting currently playing track (#952).
