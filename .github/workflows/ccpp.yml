@@ -335,8 +335,6 @@ jobs:
       image: opensuse/leap:15.4
     steps:
       - uses: actions/checkout@v1.2.0
-      - name: Add Qt 6 repo
-        run: zypper -n ar -c -f -n 'repo-qt6' https://download.opensuse.org/repositories/KDE:/Qt6/openSUSE_Leap_15.4/ repo-qt6
       - name: Update packages
         run: zypper --non-interactive --gpg-auto-import-keys ref
       - name: Install openSUSE dependencies
