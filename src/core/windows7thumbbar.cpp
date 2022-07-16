@@ -49,7 +49,8 @@ Windows7ThumbBar::Windows7ThumbBar(QWidget *widget)
     : QObject(widget),
       widget_(widget),
       timer_(new QTimer(this)),
-      button_created_message_id_(0) {
+      button_created_message_id_(0),
+      taskbar_list_(nullptr) {
 
   timer_->setSingleShot(true);
   timer_->setInterval(300);
@@ -130,8 +131,12 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
 
   if (msg->message == button_created_message_id_) {
 
-    ITaskbarList3 *taskbar_list = CreateTaskbarList();
-    if (!taskbar_list) return;
+    if (taskbar_list_) {
+      taskbar_list_->Release();
+    }
+
+    taskbar_list_ = CreateTaskbarList();
+    if (!taskbar_list_) return;
 
     // Add the buttons
     THUMBBUTTON buttons[kMaxButtonCount];
@@ -143,7 +148,7 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
     }
 
     qLog(Debug) << "Adding" << actions_.count() << "buttons";
-    HRESULT hr = taskbar_list->ThumbBarAddButtons(reinterpret_cast<HWND>(widget_->winId()), actions_.count(), buttons);
+    HRESULT hr = taskbar_list_->ThumbBarAddButtons(reinterpret_cast<HWND>(widget_->winId()), actions_.count(), buttons);
     if (hr != S_OK) {
       qLog(Debug) << "Failed to add buttons" << Qt::hex << DWORD(hr);
     }
@@ -153,8 +158,6 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
         DestroyIcon(buttons[i].hIcon);
       }
     }
-
-    taskbar_list->Release();
 
   }
   else if (msg->message == WM_COMMAND) {
@@ -176,8 +179,7 @@ void Windows7ThumbBar::ActionChangedTriggered() {
 
 void Windows7ThumbBar::ActionChanged() {
 
-  ITaskbarList3 *taskbar_list = CreateTaskbarList();
-  if (!taskbar_list) return;
+  if (!taskbar_list_) return;
 
   qLog(Debug) << "Updating" << actions_.count() << "buttons";
 
@@ -190,7 +192,7 @@ void Windows7ThumbBar::ActionChanged() {
     SetupButton(action, button);
   }
 
-  HRESULT hr = taskbar_list->ThumbBarUpdateButtons(reinterpret_cast<HWND>(widget_->winId()), actions_.count(), buttons);
+  HRESULT hr = taskbar_list_->ThumbBarUpdateButtons(reinterpret_cast<HWND>(widget_->winId()), actions_.count(), buttons);
   if (hr != S_OK) {
     qLog(Debug) << "Failed to update buttons" << Qt::hex << DWORD(hr);
   }
@@ -200,7 +202,5 @@ void Windows7ThumbBar::ActionChanged() {
       DestroyIcon(buttons[i].hIcon);
     }
   }
-
-  taskbar_list->Release();
 
 }
