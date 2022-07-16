@@ -10,6 +10,7 @@ Bugfixes:
     * Fixed songs not added to playlist in numeric order when added from file view with right click (#977).
     * Fixed "Stop after this track" graying out next track in dynamic mode (#912).
     * Fixed a gstreamer caps leak when transcoding songs.
+    * Fixed errors in translation files (#994).
 
   Enhancements
     * Add songs to the collection even when they have invalid ctime or mtime.
