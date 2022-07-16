@@ -119,6 +119,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
         // Does this pad support the mime type we want?
         GstCaps *caps = gst_static_pad_template_get_caps(pad_template);
         GstCaps *intersection = gst_caps_intersect(caps, target_caps);
+        gst_caps_unref(caps);
 
         if (intersection) {
           if (!gst_caps_is_empty(intersection)) {
