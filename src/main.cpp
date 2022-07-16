@@ -39,9 +39,6 @@
 #endif
 
 #ifdef Q_OS_WIN32
-#  ifndef _WIN32_WINNT
-#    define _WIN32_WINNT 0x0600
-#  endif
 #  include <windows.h>
 #  include <iostream>
 #endif  // Q_OS_WIN32
