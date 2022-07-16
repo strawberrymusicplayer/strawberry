@@ -126,8 +126,9 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
             int rank = static_cast<int>(gst_plugin_feature_get_rank(GST_PLUGIN_FEATURE(factory)));
             QString name = GST_OBJECT_NAME(factory);
 
-            if (name.startsWith("ffmux") || name.startsWith("ffenc"))
+            if (name.startsWith("ffmux") || name.startsWith("ffenc")) {
               rank = -1;  // ffmpeg usually sucks
+            }
 
             suitable_elements_ << SuitableElement(name, rank);
           }
@@ -183,6 +184,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
   else {
     return CreateElement(best.name_, bin);
   }
+
 }
 
 Transcoder::JobFinishedEvent::JobFinishedEvent(JobState *state, bool success)
@@ -217,6 +219,8 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
     s.setValue("cbr", false);
   }
 
+  s.endGroup();
+
 }
 
 QList<TranscoderPreset> Transcoder::GetAllPresets() {
@@ -232,6 +236,7 @@ QList<TranscoderPreset> Transcoder::GetAllPresets() {
   ret << PresetForFileType(Song::FileType_MPEG);
   ret << PresetForFileType(Song::FileType_MP4);
   ret << PresetForFileType(Song::FileType_ASF);
+
   return ret;
 
 }
@@ -315,6 +320,7 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
   }
 
   return fileinfo_output.filePath();
+
 }
 
 void Transcoder::AddJob(const QString &input, const TranscoderPreset &preset, const QString &output) {
@@ -594,5 +600,7 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
   }
 
   g_free(properties);
+
+  s.endGroup();
 
 }
