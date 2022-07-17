@@ -243,6 +243,10 @@ void WorkerPool<HandlerType>::DoStart() {
 
   QStringList search_path;
   search_path << QCoreApplication::applicationDirPath();
+#if defined(Q_OS_UNIX)
+  search_path << "/usr/libexec";
+  search_path << "/usr/local/libexec";
+#endif
 #if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
   search_path << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
 #endif
