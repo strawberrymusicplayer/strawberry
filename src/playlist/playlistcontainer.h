@@ -53,7 +53,7 @@ class PlaylistContainer : public QWidget {
 
   static const char *kSettingsGroup;
 
-  void SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist, QAction *save_all_playlists);
+  void SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist);
   void SetManager(PlaylistManager *manager);
   void ReloadSettings();
 

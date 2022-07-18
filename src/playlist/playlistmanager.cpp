@@ -628,15 +628,3 @@ void PlaylistManager::RateCurrentSong(const float rating) {
 void PlaylistManager::RateCurrentSong2(const int rating) {
   RateCurrentSong(static_cast<float>(rating) / 5.0F);
 }
-
-void PlaylistManager::SaveAllPlaylists() {
-
-  const QString path = QFileDialog::getExistingDirectory(nullptr, tr("Select directory for the playlists"), QDir::homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-
-  for (QMap<int, Data>::const_iterator it = playlists_.constBegin(); it != playlists_.constEnd(); ++it) {
-    const Data &data = *it;
-    const QString filepath = path + "/" + data.name + ".m3u";
-    Save(it.key(), filepath, PlaylistSettingsPage::PathType_Absolute);
-  }
-
-}

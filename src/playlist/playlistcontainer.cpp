@@ -132,7 +132,7 @@ PlaylistContainer::~PlaylistContainer() { delete ui_; }
 
 PlaylistView *PlaylistContainer::view() const { return ui_->playlist; }
 
-void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist, QAction *save_all_playlists) {
+void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist) {
 
   ui_->create_new->setDefaultAction(new_playlist);
   ui_->load->setDefaultAction(load_playlist);
@@ -148,7 +148,6 @@ void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist
   QObject::connect(next_playlist, &QAction::triggered, this, &PlaylistContainer::GoToNextPlaylistTab);
   QObject::connect(previous_playlist, &QAction::triggered, this, &PlaylistContainer::GoToPreviousPlaylistTab);
   QObject::connect(clear_playlist, &QAction::triggered, this, &PlaylistContainer::ClearPlaylist);
-  QObject::connect(save_all_playlists, &QAction::triggered, manager_, &PlaylistManager::SaveAllPlaylists);
 
 }
 
