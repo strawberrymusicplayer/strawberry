@@ -448,7 +448,7 @@
      <x>0</x>
      <y>0</y>
      <width>1131</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_music">
@@ -483,6 +483,7 @@
     <addaction name="action_new_playlist"/>
     <addaction name="action_save_playlist"/>
     <addaction name="action_load_playlist"/>
+    <addaction name="action_save_all_playlists"/>
     <addaction name="separator"/>
     <addaction name="action_jump"/>
     <addaction name="action_clear_playlist"/>
@@ -747,6 +748,11 @@
     <string>Ctrl+Shift+O</string>
    </property>
   </action>
+  <action name="action_save_all_playlists">
+   <property name="text">
+    <string>&amp;Save all playlists...</string>
+   </property>
+  </action>
   <action name="action_next_playlist">
    <property name="text">
     <string>Go to next playlist tab</string>
@@ -897,7 +903,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../data/data.qrc"/>
   <include location="../../data/icons.qrc"/>
  </resources>
  <connections/>

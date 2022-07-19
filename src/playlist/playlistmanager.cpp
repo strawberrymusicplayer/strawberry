@@ -65,6 +65,7 @@
 #include "playlistview.h"
 #include "playlistsaveoptionsdialog.h"
 #include "playlistparsers/playlistparser.h"
+#include "dialogs/saveplaylistsdialog.h"
 
 class ParserBase;
 
@@ -271,7 +272,7 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   PlaylistSettingsPage::PathType path_type = static_cast<PlaylistSettingsPage::PathType>(s.value("path_type", PlaylistSettingsPage::PathType_Automatic).toInt());
   s.endGroup();
   if (path_type == PlaylistSettingsPage::PathType_Ask_User) {
-    PlaylistSaveOptionsDialog optionsdialog(nullptr);
+    PlaylistSaveOptionsDialog optionsdialog;
     optionsdialog.setModal(true);
     if (optionsdialog.exec() != QDialog::Accepted) return;
     path_type = optionsdialog.path_type();
@@ -627,4 +628,36 @@ void PlaylistManager::RateCurrentSong(const float rating) {
 
 void PlaylistManager::RateCurrentSong2(const int rating) {
   RateCurrentSong(static_cast<float>(rating) / 5.0F);
+}
+
+void PlaylistManager::SaveAllPlaylists() {
+
+  SavePlaylistsDialog dialog(parser()->file_extensions(PlaylistParser::Type_Save), parser()->default_extension());
+  if (dialog.exec() != QDialog::Accepted) {
+    return;
+  }
+
+  const QString path = dialog.path();
+  if (path.isEmpty() || !QDir().exists(path)) return;
+
+  QString extension = dialog.extension();
+  if (extension.isEmpty()) extension = parser()->default_extension();
+
+  QSettings s;
+  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
+  PlaylistSettingsPage::PathType path_type = static_cast<PlaylistSettingsPage::PathType>(s.value("path_type", PlaylistSettingsPage::PathType_Automatic).toInt());
+  s.endGroup();
+  if (path_type == PlaylistSettingsPage::PathType_Ask_User) {
+    PlaylistSaveOptionsDialog optionsdialog;
+    optionsdialog.setModal(true);
+    if (optionsdialog.exec() != QDialog::Accepted) return;
+    path_type = optionsdialog.path_type();
+  }
+
+  for (QMap<int, Data>::const_iterator it = playlists_.constBegin(); it != playlists_.constEnd(); ++it) {
+    const Data &data = *it;
+    const QString filepath = path + "/" + data.name + "." + extension;
+    Save(it.key(), filepath, path_type);
+  }
+
 }

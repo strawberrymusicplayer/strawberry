@@ -460,6 +460,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   ui_->action_remove_duplicates->setIcon(IconLoader::Load("list-remove"));
   ui_->action_remove_unavailable->setIcon(IconLoader::Load("list-remove"));
   ui_->action_remove_from_playlist->setIcon(IconLoader::Load("list-remove"));
+  ui_->action_save_all_playlists->setIcon(IconLoader::Load("document-save-all"));
 
   // Configure
 
@@ -565,7 +566,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   ui_->button_scrobble->setDefaultAction(ui_->action_toggle_scrobbling);
   ui_->button_love->setDefaultAction(ui_->action_love);
 
-  ui_->playlist->SetActions(ui_->action_new_playlist, ui_->action_load_playlist, ui_->action_save_playlist, ui_->action_clear_playlist, ui_->action_next_playlist, /* These two actions aren't associated */ ui_->action_previous_playlist /* to a button but to the main window */);
+  ui_->playlist->SetActions(ui_->action_new_playlist, ui_->action_load_playlist, ui_->action_save_playlist, ui_->action_clear_playlist, ui_->action_next_playlist, /* These two actions aren't associated */ ui_->action_previous_playlist /* to a button but to the main window */, ui_->action_save_all_playlists);
   // Add the shuffle and repeat action groups to the menu
   ui_->action_shuffle_mode->setMenu(ui_->playlist_sequence->shuffle_menu());
   ui_->action_repeat_mode->setMenu(ui_->playlist_sequence->repeat_menu());
