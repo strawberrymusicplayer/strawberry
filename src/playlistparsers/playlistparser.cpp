@@ -135,7 +135,7 @@ QString PlaylistParser::default_filter() const {
 ParserBase *PlaylistParser::ParserForExtension(const Type type, const QString &suffix) const {
 
   for (ParserBase *parser : parsers_) {
-    if (ParserIsSupported(type, parser) && parser->file_extensions().contains(suffix)) {
+    if (ParserIsSupported(type, parser) && parser->file_extensions().contains(suffix, Qt::CaseInsensitive)) {
       return parser;
     }
   }
