@@ -1047,30 +1047,6 @@ TagLib::ID3v2::PopularimeterFrame *TagReaderTagLib::GetPOPMFrameFromTag(TagLib::
 
 }
 
-float TagReaderTagLib::ConvertPOPMRating(const int POPM_rating) {
-
-  if (POPM_rating < 0x01) return 0.0F;
-  else if (POPM_rating < 0x40) return 0.20F;
-  else if (POPM_rating < 0x80) return 0.40F;
-  else if (POPM_rating < 0xC0) return 0.60F;
-  else if (POPM_rating < 0xFC) return 0.80F;
-
-  return 1.0F;
-
-}
-
-int TagReaderTagLib::ConvertToPOPMRating(const float rating) {
-
-  if (rating < 0.20) return 0x00;
-  else if (rating < 0.40) return 0x01;
-  else if (rating < 0.60) return 0x40;
-  else if (rating < 0.80) return 0x80;
-  else if (rating < 1.0)  return 0xC0;
-
-  return 0xFF;
-
-}
-
 bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
 
   if (filename.isEmpty()) return false;

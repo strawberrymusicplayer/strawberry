@@ -227,6 +227,10 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
       if (!tag->value(TagParser::KnownField::Cover).empty() && tag->value(TagParser::KnownField::Cover).dataSize() > 0) {
         song->set_art_automatic(kEmbeddedCover);
       }
+      const float rating = ConvertPOPMRating(tag->value(TagParser::KnownField::Rating));
+      if (song->rating() <= 0 && rating > 0.0 && rating <= 1.0) {
+        song->set_rating(rating);
+      }
     }
 
     // Set integer fields to -1 if they're not valid
@@ -469,7 +473,7 @@ bool TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const spb
       }
 
       for (const auto tag : taginfo.tags()) {
-        tag->setValue(TagParser::KnownField::Rating, TagParser::TagValue(song.rating()));
+        tag->setValue(TagParser::KnownField::Rating, TagParser::TagValue(ConvertToPOPMRating(song.rating())));
       }
       taginfo.applyChanges(diag, progress);
       taginfo.close();

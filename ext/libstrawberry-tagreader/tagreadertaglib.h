@@ -79,8 +79,6 @@ class TagReaderTagLib : public TagReaderBase {
 
   QByteArray LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const;
 
-  static float ConvertPOPMRating(const int POPM_rating);
-  static int ConvertToPOPMRating(const float rating);
   static TagLib::ID3v2::PopularimeterFrame *GetPOPMFrameFromTag(TagLib::ID3v2::Tag *tag);
 
  private:

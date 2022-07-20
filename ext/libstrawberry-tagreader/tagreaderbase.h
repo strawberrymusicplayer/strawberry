@@ -47,6 +47,9 @@ class TagReaderBase {
   virtual bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const = 0;
   virtual bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const = 0;
 
+  static float ConvertPOPMRating(const int POPM_rating);
+  static int ConvertToPOPMRating(const float rating);
+
  protected:
   static const std::string kEmbeddedCover;
 
