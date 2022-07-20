@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-06-17 12:28-0400\n"
+"PO-Revision-Date: 2022-07-18 08:40-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -170,7 +170,7 @@ msgstr "%1 behöver autentisering."
 msgid "%1 playlists (%2)"
 msgstr "%1 spellistor (%2)"
 
-#: playlist/playlistmanager.cpp:452
+#: playlist/playlistmanager.cpp:453
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 valda av"
@@ -213,7 +213,7 @@ msgstr ""
 msgid "%1 songs selected."
 msgstr "%1 låtar valda."
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:256
+#: playlist/playlistmanager.cpp:460 queue/queue.cpp:256
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 spår"
@@ -391,8 +391,8 @@ msgid "&Right"
 msgstr "&Höger"
 
 #: ../build/src/ui_mainwindow.h:694
-msgid "&Save all playlists"
-msgstr "&Spara alla spellistor"
+msgid "&Save all playlists..."
+msgstr ""
 
 #: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
@@ -465,7 +465,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 dag"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:256
+#: playlist/playlistmanager.cpp:460 queue/queue.cpp:256
 msgid "1 track"
 msgstr "1 spår"
 
@@ -1505,11 +1505,11 @@ msgstr "Det gick inte att öppna spellistefilen %1 för läsning: %2"
 msgid "Couldn't create GStreamer source element for %1"
 msgstr "Det gick inte att skapa GStreamer-källelementet för %1"
 
-#: playlist/playlistmanager.cpp:210
+#: playlist/playlistmanager.cpp:211
 msgid "Couldn't create playlist"
 msgstr "Kunde inte skapa spellista"
 
-#: transcoder/transcoder.cpp:440
+#: transcoder/transcoder.cpp:447
 #, qt-format
 msgid ""
 "Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
@@ -1518,7 +1518,7 @@ msgstr ""
 "Kunde inte hitta en muxer för %1, kontrollera att du har de korrekta "
 "GStreamer-insticksmodulerna installerade"
 
-#: transcoder/transcoder.cpp:435
+#: transcoder/transcoder.cpp:442
 #, qt-format
 msgid ""
 "Couldn't find an encoder for %1, check you have the correct GStreamer "
@@ -1816,6 +1816,10 @@ msgstr "Direkt internetanslutning"
 #: ../build/src/ui_transcodedialog.h:218
 msgid "Directory"
 msgstr "Mapp"
+
+#: dialogs/saveplaylistsdialog.cpp:78
+msgid "Directory does not exist."
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
@@ -2120,7 +2124,7 @@ msgstr "Fel vid kopiering av låtar"
 msgid "Error deleting songs"
 msgstr "Fel vid borttagning av låtar"
 
-#: transcoder/transcoder.cpp:408
+#: transcoder/transcoder.cpp:415
 #, qt-format
 msgid "Error processing %1: %2"
 msgstr "Fel vid bearbetning av %1: %2"
@@ -2780,7 +2784,7 @@ msgstr "Infoga..."
 
 #: dialogs/snapdialog.cpp:79
 msgid "Install strawberry through PPA:"
-msgstr ""
+msgstr "Installera strawberry via PPA:"
 
 #: core/database.cpp:495
 msgid "Integrity check"
@@ -3643,8 +3647,8 @@ msgid "Player options"
 msgstr "Spelaralternativ"
 
 #: playlist/playlistcontainer.cpp:343 playlist/playlistlistcontainer.cpp:273
-#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:115
-#: playlist/playlistmanager.cpp:197 playlist/playlistmanager.cpp:548
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:116
+#: playlist/playlistmanager.cpp:198 playlist/playlistmanager.cpp:549
 #: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr "Spellista"
@@ -4251,7 +4255,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Spara spellista"
 
-#: playlist/playlistmanager.cpp:262
+#: playlist/playlistmanager.cpp:263
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Spara spellista"
@@ -4393,7 +4397,11 @@ msgstr "Väl en bakgrundsbild"
 msgid "Select best possible match"
 msgstr "Välj bästa möjliga matchning"
 
-#: playlist/playlistmanager.cpp:634
+#: ../build/src/ui_saveplaylistsdialog.h:117
+msgid "Select directory for saving playlists"
+msgstr ""
+
+#: dialogs/saveplaylistsdialog.cpp:62
 msgid "Select directory for the playlists"
 msgstr "Välj mapp för spellistorna"
 
@@ -4777,7 +4785,7 @@ msgstr "Starta spellistan som nu spelas"
 msgid "Start transcoding"
 msgstr "Starta omkodning"
 
-#: transcoder/transcoder.cpp:416
+#: transcoder/transcoder.cpp:423
 #, qt-format
 msgid "Starting %1"
 msgstr "Startar %1"
@@ -4916,7 +4924,7 @@ msgstr "Subsonic-serverwebbadress är ogiltig."
 msgid "Success!"
 msgstr "Lyckades!"
 
-#: transcoder/transcoder.cpp:193
+#: transcoder/transcoder.cpp:196
 #, qt-format
 msgid "Successfully written %1"
 msgstr "Skrev %1 med lyckat resultat"
@@ -5237,7 +5245,7 @@ msgstr "Omkodningslogg"
 msgid "Transcoding"
 msgstr "Omkodning"
 
-#: transcoder/transcoder.cpp:331
+#: transcoder/transcoder.cpp:338
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
 msgstr "Omkodar %1 filer med %2 trådar"
@@ -5249,6 +5257,10 @@ msgstr "Alternativ för omkodning"
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
 msgstr "Stäng av"
+
+#: ../build/src/ui_saveplaylistsdialog.h:119
+msgid "Type"
+msgstr ""
 
 #: device/giolister.cpp:194
 msgid "URI"
@@ -5274,8 +5286,8 @@ msgstr "Avinstallera snap med:"
 #: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:501
 #: collection/collectionmodel.cpp:505 collection/collectionmodel.cpp:509
 #: collection/collectionmodel.cpp:1641 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:556
-#: playlist/playlistmanager.cpp:557 dialogs/edittagdialog.cpp:718
+#: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:557
+#: playlist/playlistmanager.cpp:558 dialogs/edittagdialog.cpp:718
 #: dialogs/edittagdialog.cpp:745 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Okänt"
@@ -5285,11 +5297,11 @@ msgstr "Okänt"
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgid "Unknown file extension for playlist."
 msgstr "Okänd filändelse för spellista."
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgid "Unknown playlist extension"
 msgstr "Okänd ändelse för spellista"
 
@@ -5474,7 +5486,7 @@ msgid "Variable bit rate"
 msgstr "Variabel bithastighet"
 
 #: collection/collectionmodel.cpp:303 collection/collectionmodel.cpp:304
-#: playlist/playlistmanager.cpp:568 covermanager/albumcovermanager.cpp:362
+#: playlist/playlistmanager.cpp:569 covermanager/albumcovermanager.cpp:362
 #: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "Diverse artister"

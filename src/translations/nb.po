@@ -160,7 +160,7 @@ msgstr "%1 Scrobbler krever autentisering"
 msgid "%1 playlists (%2)"
 msgstr "%1 spillelister (%2)"
 
-#: playlist/playlistmanager.cpp:452
+#: playlist/playlistmanager.cpp:453
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 valgte av"
@@ -202,7 +202,7 @@ msgstr "%1 sanger valgt, er du sikker på at du vil åpne dem alle?"
 msgid "%1 songs selected."
 msgstr "%1 sanger valgt"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:256
+#: playlist/playlistmanager.cpp:460 queue/queue.cpp:256
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 spor"
@@ -380,8 +380,8 @@ msgid "&Right"
 msgstr "&Høyre"
 
 #: ../build/src/ui_mainwindow.h:694
-msgid "&Save all playlists"
-msgstr "&Lagre alle spillelister"
+msgid "&Save all playlists..."
+msgstr ""
 
 #: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
@@ -453,7 +453,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 dag"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:256
+#: playlist/playlistmanager.cpp:460 queue/queue.cpp:256
 msgid "1 track"
 msgstr "1 spor"
 
@@ -1492,11 +1492,11 @@ msgstr "Kunne ikke åpne spilleliste %1 for lesing: %2"
 msgid "Couldn't create GStreamer source element for %1"
 msgstr "Kunne ikke opprette gstreamer kilde element for %1"
 
-#: playlist/playlistmanager.cpp:210
+#: playlist/playlistmanager.cpp:211
 msgid "Couldn't create playlist"
 msgstr "Kunne ikke opprette spilleliste"
 
-#: transcoder/transcoder.cpp:440
+#: transcoder/transcoder.cpp:447
 #, qt-format
 msgid ""
 "Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
@@ -1505,7 +1505,7 @@ msgstr ""
 "Kunne ikke finne multiplekser for %1, sjekk at du har de riktige GStreamer-"
 "programutvidelsene installert"
 
-#: transcoder/transcoder.cpp:435
+#: transcoder/transcoder.cpp:442
 #, qt-format
 msgid ""
 "Couldn't find an encoder for %1, check you have the correct GStreamer "
@@ -1803,6 +1803,10 @@ msgstr "Koblet direkte til Internett"
 #: ../build/src/ui_transcodedialog.h:218
 msgid "Directory"
 msgstr "Mappe"
+
+#: dialogs/saveplaylistsdialog.cpp:78
+msgid "Directory does not exist."
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
@@ -2107,7 +2111,7 @@ msgstr "Kunne ikke kopiere sanger"
 msgid "Error deleting songs"
 msgstr "Kunne ikke slette sanger"
 
-#: transcoder/transcoder.cpp:408
+#: transcoder/transcoder.cpp:415
 #, qt-format
 msgid "Error processing %1: %2"
 msgstr "Kunne ikke behandle %1: %2"
@@ -3622,8 +3626,8 @@ msgid "Player options"
 msgstr "Innstillinger for avspiller"
 
 #: playlist/playlistcontainer.cpp:343 playlist/playlistlistcontainer.cpp:273
-#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:115
-#: playlist/playlistmanager.cpp:197 playlist/playlistmanager.cpp:548
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:116
+#: playlist/playlistmanager.cpp:198 playlist/playlistmanager.cpp:549
 #: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr "Spilleliste"
@@ -4226,7 +4230,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Lagre spilleliste"
 
-#: playlist/playlistmanager.cpp:262
+#: playlist/playlistmanager.cpp:263
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Lagre spilleliste"
@@ -4368,7 +4372,11 @@ msgstr "Velg bakgrunnsbilde"
 msgid "Select best possible match"
 msgstr "Velg det beste treffet"
 
-#: playlist/playlistmanager.cpp:634
+#: ../build/src/ui_saveplaylistsdialog.h:117
+msgid "Select directory for saving playlists"
+msgstr ""
+
+#: dialogs/saveplaylistsdialog.cpp:62
 msgid "Select directory for the playlists"
 msgstr "Velg mappe for spillelister"
 
@@ -4752,7 +4760,7 @@ msgstr "Begynn på spillelista som spilles nå"
 msgid "Start transcoding"
 msgstr "Start omkoding"
 
-#: transcoder/transcoder.cpp:416
+#: transcoder/transcoder.cpp:423
 #, qt-format
 msgid "Starting %1"
 msgstr "Starter %1"
@@ -4888,7 +4896,7 @@ msgstr "Subsonic server URL er ugyldig."
 msgid "Success!"
 msgstr "Suksess!"
 
-#: transcoder/transcoder.cpp:193
+#: transcoder/transcoder.cpp:196
 #, qt-format
 msgid "Successfully written %1"
 msgstr "Skrev %1"
@@ -5205,7 +5213,7 @@ msgstr "Logg for omkoder"
 msgid "Transcoding"
 msgstr "Omkoding"
 
-#: transcoder/transcoder.cpp:331
+#: transcoder/transcoder.cpp:338
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
 msgstr "Omkoder %1 filer i %2 tråder"
@@ -5217,6 +5225,10 @@ msgstr "Innstillinger for omkoding"
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
 msgstr "Slå av"
+
+#: ../build/src/ui_saveplaylistsdialog.h:119
+msgid "Type"
+msgstr ""
 
 #: device/giolister.cpp:194
 msgid "URI"
@@ -5242,8 +5254,8 @@ msgstr "Avinstaller snap med:"
 #: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:501
 #: collection/collectionmodel.cpp:505 collection/collectionmodel.cpp:509
 #: collection/collectionmodel.cpp:1641 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:556
-#: playlist/playlistmanager.cpp:557 dialogs/edittagdialog.cpp:718
+#: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:557
+#: playlist/playlistmanager.cpp:558 dialogs/edittagdialog.cpp:718
 #: dialogs/edittagdialog.cpp:745 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Ukjent"
@@ -5253,11 +5265,11 @@ msgstr "Ukjent"
 msgid "Unknown error"
 msgstr "Ukjent feil"
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgid "Unknown file extension for playlist."
 msgstr "Ukjent fil type for spilleliste."
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgid "Unknown playlist extension"
 msgstr "Ukjent fil type."
 
@@ -5442,7 +5454,7 @@ msgid "Variable bit rate"
 msgstr "Variabel bitrate"
 
 #: collection/collectionmodel.cpp:303 collection/collectionmodel.cpp:304
-#: playlist/playlistmanager.cpp:568 covermanager/albumcovermanager.cpp:362
+#: playlist/playlistmanager.cpp:569 covermanager/albumcovermanager.cpp:362
 #: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "Diverse artister"

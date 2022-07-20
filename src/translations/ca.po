@@ -152,7 +152,7 @@ msgstr "%1 necessita autenticació."
 msgid "%1 playlists (%2)"
 msgstr "%1 llistes de reproducció (%2)"
 
-#: playlist/playlistmanager.cpp:452
+#: playlist/playlistmanager.cpp:453
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 seleccionades de"
@@ -194,7 +194,7 @@ msgstr ""
 msgid "%1 songs selected."
 msgstr "%1 cançons seleccionades."
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:256
+#: playlist/playlistmanager.cpp:460 queue/queue.cpp:256
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 peces"
@@ -372,7 +372,7 @@ msgid "&Right"
 msgstr "&Dreta"
 
 #: ../build/src/ui_mainwindow.h:694
-msgid "&Save all playlists"
+msgid "&Save all playlists..."
 msgstr ""
 
 #: ../build/src/ui_mainwindow.h:652
@@ -443,7 +443,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 dia"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:256
+#: playlist/playlistmanager.cpp:460 queue/queue.cpp:256
 msgid "1 track"
 msgstr "1 peça"
 
@@ -1478,11 +1478,11 @@ msgstr ""
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:210
+#: playlist/playlistmanager.cpp:211
 msgid "Couldn't create playlist"
 msgstr "No s’ha pogut crear la llista de reproducció"
 
-#: transcoder/transcoder.cpp:440
+#: transcoder/transcoder.cpp:447
 #, qt-format
 msgid ""
 "Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
@@ -1491,7 +1491,7 @@ msgstr ""
 "No s’ha pogut trobar un muxer per %1. Comproveu que teniu els connectors "
 "adequats de GStreamer instal·lats"
 
-#: transcoder/transcoder.cpp:435
+#: transcoder/transcoder.cpp:442
 #, qt-format
 msgid ""
 "Couldn't find an encoder for %1, check you have the correct GStreamer "
@@ -1789,6 +1789,10 @@ msgstr "Connexió directa a Internet"
 #: ../build/src/ui_transcodedialog.h:218
 msgid "Directory"
 msgstr "Directori"
+
+#: dialogs/saveplaylistsdialog.cpp:78
+msgid "Directory does not exist."
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
@@ -2092,7 +2096,7 @@ msgstr "S’ha produït un error en copiar les cançons"
 msgid "Error deleting songs"
 msgstr "S’ha produït un error en suprimir les cançons"
 
-#: transcoder/transcoder.cpp:408
+#: transcoder/transcoder.cpp:415
 #, qt-format
 msgid "Error processing %1: %2"
 msgstr "S’ha produït un error en processar %1: %2"
@@ -3612,8 +3616,8 @@ msgid "Player options"
 msgstr "Opcions del reproductor"
 
 #: playlist/playlistcontainer.cpp:343 playlist/playlistlistcontainer.cpp:273
-#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:115
-#: playlist/playlistmanager.cpp:197 playlist/playlistmanager.cpp:548
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:116
+#: playlist/playlistmanager.cpp:198 playlist/playlistmanager.cpp:549
 #: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr "Llista de reproducció"
@@ -4207,7 +4211,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Desa la llista de reproducció"
 
-#: playlist/playlistmanager.cpp:262
+#: playlist/playlistmanager.cpp:263
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Desa la llista de reproducció"
@@ -4349,7 +4353,11 @@ msgstr "Seleccioneu la imatge de fons"
 msgid "Select best possible match"
 msgstr "Selecciona la millor coincidència possible"
 
-#: playlist/playlistmanager.cpp:634
+#: ../build/src/ui_saveplaylistsdialog.h:117
+msgid "Select directory for saving playlists"
+msgstr ""
+
+#: dialogs/saveplaylistsdialog.cpp:62
 msgid "Select directory for the playlists"
 msgstr ""
 
@@ -4732,7 +4740,7 @@ msgstr "Inicia la llista de reproducció que s'està reproduint"
 msgid "Start transcoding"
 msgstr "Inicia la conversió"
 
-#: transcoder/transcoder.cpp:416
+#: transcoder/transcoder.cpp:423
 #, qt-format
 msgid "Starting %1"
 msgstr "S’està començant %1"
@@ -4868,7 +4876,7 @@ msgstr "L’URL del servidor Subsonic no és vàlid."
 msgid "Success!"
 msgstr "Correcte!"
 
-#: transcoder/transcoder.cpp:193
+#: transcoder/transcoder.cpp:196
 #, qt-format
 msgid "Successfully written %1"
 msgstr "Escrit satisfactòriament %1"
@@ -5191,7 +5199,7 @@ msgstr "Registre del convertidor"
 msgid "Transcoding"
 msgstr "Conversió"
 
-#: transcoder/transcoder.cpp:331
+#: transcoder/transcoder.cpp:338
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
 msgstr "S’estan convertint %1 fitxers emprant %2 fils"
@@ -5202,6 +5210,10 @@ msgstr "Opcions de conversió"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
+msgstr ""
+
+#: ../build/src/ui_saveplaylistsdialog.h:119
+msgid "Type"
 msgstr ""
 
 #: device/giolister.cpp:194
@@ -5228,8 +5240,8 @@ msgstr ""
 #: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:501
 #: collection/collectionmodel.cpp:505 collection/collectionmodel.cpp:509
 #: collection/collectionmodel.cpp:1641 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:556
-#: playlist/playlistmanager.cpp:557 dialogs/edittagdialog.cpp:718
+#: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:557
+#: playlist/playlistmanager.cpp:558 dialogs/edittagdialog.cpp:718
 #: dialogs/edittagdialog.cpp:745 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Desconegut"
@@ -5239,11 +5251,11 @@ msgstr "Desconegut"
 msgid "Unknown error"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgid "Unknown file extension for playlist."
 msgstr ""
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgid "Unknown playlist extension"
 msgstr ""
 
@@ -5426,7 +5438,7 @@ msgid "Variable bit rate"
 msgstr "Taxa de bits variable"
 
 #: collection/collectionmodel.cpp:303 collection/collectionmodel.cpp:304
-#: playlist/playlistmanager.cpp:568 covermanager/albumcovermanager.cpp:362
+#: playlist/playlistmanager.cpp:569 covermanager/albumcovermanager.cpp:362
 #: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "Artistes diversos"

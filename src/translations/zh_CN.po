@@ -158,7 +158,7 @@ msgstr "%1 需要授权。"
 msgid "%1 playlists (%2)"
 msgstr "%1 播放列表 (%2)"
 
-#: playlist/playlistmanager.cpp:452
+#: playlist/playlistmanager.cpp:453
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 选定"
@@ -200,7 +200,7 @@ msgstr "已选择 %2 个不同文件夹中的 %1 首歌曲，确定要全部打�
 msgid "%1 songs selected."
 msgstr "已选择 %1 首歌曲。"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:256
+#: playlist/playlistmanager.cpp:460 queue/queue.cpp:256
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 首曲目"
@@ -378,8 +378,8 @@ msgid "&Right"
 msgstr "右对齐(&R)"
 
 #: ../build/src/ui_mainwindow.h:694
-msgid "&Save all playlists"
-msgstr "保存所有播放列表(&S)"
+msgid "&Save all playlists..."
+msgstr ""
 
 #: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
@@ -449,7 +449,7 @@ msgstr "0px"
 msgid "1 day"
 msgstr "1 天"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:256
+#: playlist/playlistmanager.cpp:460 queue/queue.cpp:256
 msgid "1 track"
 msgstr "1 首曲目"
 
@@ -1474,18 +1474,18 @@ msgstr ""
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:210
+#: playlist/playlistmanager.cpp:211
 msgid "Couldn't create playlist"
 msgstr "无法创建列表"
 
-#: transcoder/transcoder.cpp:440
+#: transcoder/transcoder.cpp:447
 #, qt-format
 msgid ""
 "Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
 "installed"
 msgstr "无法为%1找到混音器，请检查是否安装了正确的Gstreamer插件"
 
-#: transcoder/transcoder.cpp:435
+#: transcoder/transcoder.cpp:442
 #, qt-format
 msgid ""
 "Couldn't find an encoder for %1, check you have the correct GStreamer "
@@ -1781,6 +1781,10 @@ msgstr "直接连接到互联网"
 #: ../build/src/ui_transcodedialog.h:218
 msgid "Directory"
 msgstr "目录"
+
+#: dialogs/saveplaylistsdialog.cpp:78
+msgid "Directory does not exist."
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
@@ -2083,7 +2087,7 @@ msgstr "复制曲目出错"
 msgid "Error deleting songs"
 msgstr "删除曲目出错"
 
-#: transcoder/transcoder.cpp:408
+#: transcoder/transcoder.cpp:415
 #, qt-format
 msgid "Error processing %1: %2"
 msgstr "处理 %1 出错：%2"
@@ -3589,8 +3593,8 @@ msgid "Player options"
 msgstr "播放器选项"
 
 #: playlist/playlistcontainer.cpp:343 playlist/playlistlistcontainer.cpp:273
-#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:115
-#: playlist/playlistmanager.cpp:197 playlist/playlistmanager.cpp:548
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:116
+#: playlist/playlistmanager.cpp:198 playlist/playlistmanager.cpp:549
 #: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr "播放列表"
@@ -4178,7 +4182,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "保存播放列表"
 
-#: playlist/playlistmanager.cpp:262
+#: playlist/playlistmanager.cpp:263
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "保存播放列表"
@@ -4320,7 +4324,11 @@ msgstr "选择背景图片"
 msgid "Select best possible match"
 msgstr "选择最可能的匹配项"
 
-#: playlist/playlistmanager.cpp:634
+#: ../build/src/ui_saveplaylistsdialog.h:117
+msgid "Select directory for saving playlists"
+msgstr ""
+
+#: dialogs/saveplaylistsdialog.cpp:62
 msgid "Select directory for the playlists"
 msgstr "选择播放列表目录"
 
@@ -4701,7 +4709,7 @@ msgstr "开始播放当前播放列表"
 msgid "Start transcoding"
 msgstr "开始转换"
 
-#: transcoder/transcoder.cpp:416
+#: transcoder/transcoder.cpp:423
 #, qt-format
 msgid "Starting %1"
 msgstr "正在开始 %1"
@@ -4833,7 +4841,7 @@ msgstr "无效的 Subsonic 服务器 URL。"
 msgid "Success!"
 msgstr "成功！"
 
-#: transcoder/transcoder.cpp:193
+#: transcoder/transcoder.cpp:196
 #, qt-format
 msgid "Successfully written %1"
 msgstr "成功写入 %1"
@@ -5135,7 +5143,7 @@ msgstr "转换日志"
 msgid "Transcoding"
 msgstr "转码"
 
-#: transcoder/transcoder.cpp:331
+#: transcoder/transcoder.cpp:338
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
 msgstr "正在转码 %1 个文件，占用线程 %2 个"
@@ -5147,6 +5155,10 @@ msgstr "转码设置"
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
 msgstr "关闭"
+
+#: ../build/src/ui_saveplaylistsdialog.h:119
+msgid "Type"
+msgstr ""
 
 #: device/giolister.cpp:194
 msgid "URI"
@@ -5172,8 +5184,8 @@ msgstr ""
 #: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:501
 #: collection/collectionmodel.cpp:505 collection/collectionmodel.cpp:509
 #: collection/collectionmodel.cpp:1641 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:556
-#: playlist/playlistmanager.cpp:557 dialogs/edittagdialog.cpp:718
+#: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:557
+#: playlist/playlistmanager.cpp:558 dialogs/edittagdialog.cpp:718
 #: dialogs/edittagdialog.cpp:745 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "未知"
@@ -5183,11 +5195,11 @@ msgstr "未知"
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgid "Unknown file extension for playlist."
 msgstr ""
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgid "Unknown playlist extension"
 msgstr "未知的播放列表扩展名"
 
@@ -5370,7 +5382,7 @@ msgid "Variable bit rate"
 msgstr "可变比特率"
 
 #: collection/collectionmodel.cpp:303 collection/collectionmodel.cpp:304
-#: playlist/playlistmanager.cpp:568 covermanager/albumcovermanager.cpp:362
+#: playlist/playlistmanager.cpp:569 covermanager/albumcovermanager.cpp:362
 #: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "群星"

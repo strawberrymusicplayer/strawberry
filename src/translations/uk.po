@@ -162,7 +162,7 @@ msgstr "%1 потребує автентифікації."
 msgid "%1 playlists (%2)"
 msgstr "%1 списків відтворення (%2)"
 
-#: playlist/playlistmanager.cpp:452
+#: playlist/playlistmanager.cpp:453
 #, qt-format
 msgid "%1 selected of"
 msgstr "вибрано %1 з"
@@ -204,7 +204,7 @@ msgstr "Вибрано %1 композицій з %2 різних каталог
 msgid "%1 songs selected."
 msgstr "Вибрано %1 композицій."
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:256
+#: playlist/playlistmanager.cpp:460 queue/queue.cpp:256
 #, qt-format
 msgid "%1 tracks"
 msgstr "%1 композицій"
@@ -382,7 +382,7 @@ msgid "&Right"
 msgstr "&Праворуч"
 
 #: ../build/src/ui_mainwindow.h:694
-msgid "&Save all playlists"
+msgid "&Save all playlists..."
 msgstr ""
 
 #: ../build/src/ui_mainwindow.h:652
@@ -455,7 +455,7 @@ msgstr "0 пкс"
 msgid "1 day"
 msgstr "1 день"
 
-#: playlist/playlistmanager.cpp:459 queue/queue.cpp:256
+#: playlist/playlistmanager.cpp:460 queue/queue.cpp:256
 msgid "1 track"
 msgstr "1 композиція"
 
@@ -1501,11 +1501,11 @@ msgstr "Не вдалось відкрити список відтворення
 msgid "Couldn't create GStreamer source element for %1"
 msgstr "Не вдалось створити елемент GStreamer для %1"
 
-#: playlist/playlistmanager.cpp:210
+#: playlist/playlistmanager.cpp:211
 msgid "Couldn't create playlist"
 msgstr "Не вдалося створити список відтворення"
 
-#: transcoder/transcoder.cpp:440
+#: transcoder/transcoder.cpp:447
 #, qt-format
 msgid ""
 "Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
@@ -1514,7 +1514,7 @@ msgstr ""
 "Не вдалось знайти ущільнювач для %1. Перевірте чи правильно встановлений "
 "модуль GStreamer"
 
-#: transcoder/transcoder.cpp:435
+#: transcoder/transcoder.cpp:442
 #, qt-format
 msgid ""
 "Couldn't find an encoder for %1, check you have the correct GStreamer "
@@ -1812,6 +1812,10 @@ msgstr "Пряме з'єднання з Інтернетом"
 #: ../build/src/ui_transcodedialog.h:218
 msgid "Directory"
 msgstr "Тека"
+
+#: dialogs/saveplaylistsdialog.cpp:78
+msgid "Directory does not exist."
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
@@ -2116,7 +2120,7 @@ msgstr "Не вдалось скопіювати композиції"
 msgid "Error deleting songs"
 msgstr "Не вдалось видалити композиції"
 
-#: transcoder/transcoder.cpp:408
+#: transcoder/transcoder.cpp:415
 #, qt-format
 msgid "Error processing %1: %2"
 msgstr "Помилка обробляння %1: %2"
@@ -3648,8 +3652,8 @@ msgid "Player options"
 msgstr "Налаштування програвача"
 
 #: playlist/playlistcontainer.cpp:343 playlist/playlistlistcontainer.cpp:273
-#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:115
-#: playlist/playlistmanager.cpp:197 playlist/playlistmanager.cpp:548
+#: playlist/playlistlistcontainer.cpp:370 playlist/playlistmanager.cpp:116
+#: playlist/playlistmanager.cpp:198 playlist/playlistmanager.cpp:549
 #: playlist/playlisttabbar.cpp:435 ../build/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr "Список відтворення"
@@ -4259,7 +4263,7 @@ msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Зберегти список відтворення"
 
-#: playlist/playlistmanager.cpp:262
+#: playlist/playlistmanager.cpp:263
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Збереження списку відтворення"
@@ -4401,7 +4405,11 @@ msgstr "Вибір фонового зображення"
 msgid "Select best possible match"
 msgstr "Оберіть найкращий збіг"
 
-#: playlist/playlistmanager.cpp:634
+#: ../build/src/ui_saveplaylistsdialog.h:117
+msgid "Select directory for saving playlists"
+msgstr ""
+
+#: dialogs/saveplaylistsdialog.cpp:62
 msgid "Select directory for the playlists"
 msgstr ""
 
@@ -4785,7 +4793,7 @@ msgstr "Запустити список відтворення, що відтв�
 msgid "Start transcoding"
 msgstr "Почати перекодування"
 
-#: transcoder/transcoder.cpp:416
+#: transcoder/transcoder.cpp:423
 #, qt-format
 msgid "Starting %1"
 msgstr "Запуск %1"
@@ -4925,7 +4933,7 @@ msgstr "Недійсна адреса сервера Subsonic."
 msgid "Success!"
 msgstr "Виконано!"
 
-#: transcoder/transcoder.cpp:193
+#: transcoder/transcoder.cpp:196
 #, qt-format
 msgid "Successfully written %1"
 msgstr "Успішно записано %1"
@@ -5242,7 +5250,7 @@ msgstr "Журнал перекодування"
 msgid "Transcoding"
 msgstr "Перекодування"
 
-#: transcoder/transcoder.cpp:331
+#: transcoder/transcoder.cpp:338
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
 msgstr "Перекодовано %1 файлів, використовуючи %2 гілки"
@@ -5254,6 +5262,10 @@ msgstr "Налаштування перекодування"
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
 msgstr "Вимкнути"
+
+#: ../build/src/ui_saveplaylistsdialog.h:119
+msgid "Type"
+msgstr ""
 
 #: device/giolister.cpp:194
 msgid "URI"
@@ -5279,8 +5291,8 @@ msgstr "Видалити snap з:"
 #: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:501
 #: collection/collectionmodel.cpp:505 collection/collectionmodel.cpp:509
 #: collection/collectionmodel.cpp:1641 collection/savedgroupingmanager.cpp:146
-#: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:556
-#: playlist/playlistmanager.cpp:557 dialogs/edittagdialog.cpp:718
+#: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:557
+#: playlist/playlistmanager.cpp:558 dialogs/edittagdialog.cpp:718
 #: dialogs/edittagdialog.cpp:745 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Невідомо"
@@ -5290,11 +5302,11 @@ msgstr "Невідомо"
 msgid "Unknown error"
 msgstr "Невідома помилка"
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgid "Unknown file extension for playlist."
 msgstr ""
 
-#: playlist/playlistmanager.cpp:267
+#: playlist/playlistmanager.cpp:268
 msgid "Unknown playlist extension"
 msgstr ""
 
@@ -5479,7 +5491,7 @@ msgid "Variable bit rate"
 msgstr "Змінна бітова швидкість"
 
 #: collection/collectionmodel.cpp:303 collection/collectionmodel.cpp:304
-#: playlist/playlistmanager.cpp:568 covermanager/albumcovermanager.cpp:362
+#: playlist/playlistmanager.cpp:569 covermanager/albumcovermanager.cpp:362
 #: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
 msgstr "Різні виконавці"
