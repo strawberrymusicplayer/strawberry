@@ -1611,6 +1611,7 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavpack.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavparse.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstxingmux.dll
+          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsttwolame.dll
           ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
 
       - name: Copy extra binaries
@@ -1859,6 +1860,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
 
       - name: Download copydlldeps.sh
         shell: bash
@@ -2118,6 +2120,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
 
       - name: Download copydlldeps.sh
         shell: bash
