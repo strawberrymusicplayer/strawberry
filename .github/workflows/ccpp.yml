@@ -1608,6 +1608,7 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstvolume.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstvorbis.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwasapi.dll
+          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavenc.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavpack.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavparse.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstxingmux.dll
@@ -1859,6 +1860,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavenc.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
@@ -2121,6 +2123,7 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavenc.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
