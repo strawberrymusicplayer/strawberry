@@ -1277,6 +1277,7 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
 
     // GStreamer plugins.
     QStringList gstreamer_plugins = QStringList()
+                                                  << "libgstaes.dylib"
                                                   << "libgstaiff.dylib"
                                                   << "libgstapetag.dylib"
                                                   << "libgstapp.dylib"
@@ -1295,13 +1296,15 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
                                                   << "libgstcoreelements.dylib"
                                                   << "libgstdash.dylib"
                                                   << "libgstequalizer.dylib"
-                                                  << "libgstflac.dylib"
                                                   << "libgstfaac.dylib"
                                                   << "libgstfaad.dylib"
                                                   << "libgstfdkaac.dylib"
+                                                  << "libgstflac.dylib"
                                                   << "libgstgio.dylib"
+                                                  << "libgsthls.dylib"
                                                   << "libgsticydemux.dylib"
                                                   << "libgstid3demux.dylib"
+                                                  << "libgstid3tag.dylib"
                                                   << "libgstisomp4.dylib"
                                                   << "libgstlame.dylib"
                                                   << "libgstlibav.dylib"
@@ -1322,14 +1325,15 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
                                                   << "libgstspeex.dylib"
                                                   << "libgsttaglib.dylib"
                                                   << "libgsttcp.dylib"
+                                                  << "libgsttwolame.dylib"
                                                   << "libgsttypefindfunctions.dylib"
                                                   << "libgstudp.dylib"
                                                   << "libgstvolume.dylib"
                                                   << "libgstvorbis.dylib"
+                                                  << "libgstwavenc.dylib"
                                                   << "libgstwavpack.dylib"
                                                   << "libgstwavparse.dylib"
-                                                  << "libgstxingmux.dylib"
-                                                  << "libgsthls.dylib";
+                                                  << "libgstxingmux.dylib";
 
     QString gstreamer_plugins_dir = qgetenv("GST_PLUGIN_PATH");
     if (gstreamer_plugins_dir.isEmpty()) {
