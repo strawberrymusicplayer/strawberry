@@ -1517,6 +1517,7 @@ jobs:
           -DENABLE_DBUS=OFF
           -DENABLE_LIBGPOD=OFF
           -DENABLE_LIBMTP=OFF
+          -DENABLE_AUDIOCD=OFF
           -DProtobuf_PROTOC_EXECUTABLE=/usr/src/strawberry-mxe/usr/x86_64-pc-linux-gnu/bin/protoc
 
       - name: Run Make
