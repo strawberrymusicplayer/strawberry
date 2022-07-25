@@ -8,6 +8,8 @@ Bugfixes:
     * Fixed checking file extension case-insensitive when loading and saving playlists.
     * Fixed reading and saving rating with TagParser.
     * (macOS/Windows) Fixed playlist column alignment. Applied patch for Qt bug QTBUG-103576 (#999).
+    * (Windows|MinGW) Fixed HLS streaming.
+    * (Windows|MSVC) Fixed MP3 encoding.
 
   Enhancements
     * Added option for selecting file extension when saving all playlists.
