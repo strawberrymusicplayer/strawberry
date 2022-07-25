@@ -1570,7 +1570,6 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudiotestsrc.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstautodetect.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstbs2b.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstcdio.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstcoreelements.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstdash.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstdirectsound.dll
@@ -1583,6 +1582,7 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsthls.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsticydemux.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstid3demux.dll
+          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstid3tag.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstisomp4.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstlame.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstlibav.dll
@@ -1594,7 +1594,6 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstopusparse.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstpbtypes.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstplayback.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstremovesilence.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstreplaygain.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstrtp.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstrtsp.dll
@@ -1603,6 +1602,7 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstspeex.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsttaglib.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsttcp.dll
+          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsttwolame.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsttypefindfunctions.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstudp.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstvolume.dll
@@ -1611,7 +1611,6 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavpack.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavparse.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstxingmux.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsttwolame.dll
           ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
 
       - name: Copy extra binaries
@@ -1807,6 +1806,7 @@ jobs:
       - name: Copy gstreamer plugins
         working-directory: build
         run: |
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaes.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
@@ -1833,34 +1833,35 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsthls.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstid3tag.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopenmpt.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstpbtypes.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
-          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstremovesilence.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
-          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttaglib.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
-          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwasapi2.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
-          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
-          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
 
       - name: Download copydlldeps.sh
         shell: bash
@@ -2067,6 +2068,7 @@ jobs:
       - name: Copy gstreamer plugins
         working-directory: build
         run: |
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaes.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
@@ -2093,34 +2095,35 @@ jobs:
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsthls.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstid3tag.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopenmpt.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstpbtypes.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
-          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstremovesilence.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
-          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttaglib.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
+          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
-          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwasapi2.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
           copy c:\msvc_x86_64\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
-          copy c:\msvc_x86_64\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
-          copy c:\msvc_x86_64\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
 
       - name: Download copydlldeps.sh
         shell: bash
