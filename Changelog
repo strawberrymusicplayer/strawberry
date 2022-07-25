@@ -2,9 +2,9 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.7 (2022.07.25)
 
-Bugfixes:
+  Bugfixes:
     * Fixed checking file extension case-insensitive when loading and saving playlists.
     * Fixed reading and saving rating with TagParser.
     * (macOS/Windows) Fixed playlist column alignment. Applied patch for Qt bug QTBUG-103576 (#999).
@@ -16,7 +16,7 @@ Bugfixes:
 
 Version 1.0.6 (2022.07.17)
 
-Bugfixes:
+  Bugfixes:
     * Fixed certain albums not added to playlist in correct track order from search for Tidal and QObuz.
     * Fixed songs not added to playlist in numeric order when added from file view with right click (#977).
     * Fixed "Stop after this track" graying out next track in dynamic mode (#912).
