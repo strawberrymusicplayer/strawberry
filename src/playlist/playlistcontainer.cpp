@@ -203,7 +203,7 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
 
   // Update filter
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  ui_->filter->setText(playlist->proxy()->filterRegularExpression().pattern());
+  ui_->filter->setText(playlist->proxy()->filterRegularExpression().pattern().remove('\\'));
 #else
   ui_->filter->setText(playlist->proxy()->filterRegExp().pattern());
 #endif
