@@ -19,6 +19,9 @@
  *
  */
 
+#ifndef PLAYLISTLISTSORTFILTERMODEL_H
+#define PLAYLISTLISTSORTFILTERMODEL_H
+
 #include <QSortFilterProxyModel>
 
 class PlaylistListSortFilterModel : public QSortFilterProxyModel {
@@ -38,3 +41,5 @@ class PlaylistListSortFilterModel : public QSortFilterProxyModel {
     return left.row() < right.row();
   }
 };
+
+#endif  // PLAYLISTLISTSORTFILTERMODEL_H
