@@ -217,7 +217,7 @@ QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
         SaveCoverEmbeddedAutomatic(*song, cover_file);
         return QUrl::fromLocalFile(Song::kEmbeddedCover);
       }
-      // fallthrough
+      [[fallthrough]];
     case CollectionSettingsPage::SaveCoverType_Cache:
     case CollectionSettingsPage::SaveCoverType_Album:{
       QUrl cover_url = QUrl::fromLocalFile(cover_file);
@@ -789,7 +789,7 @@ QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCover
         break;
       }
     }
-    // fallthrough
+    [[fallthrough]];
     case CollectionSettingsPage::SaveCoverType_Cache:
     case CollectionSettingsPage::SaveCoverType_Album:{
       cover_url = SaveCoverToFileAutomatic(song, result);

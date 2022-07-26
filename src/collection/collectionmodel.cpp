@@ -511,8 +511,7 @@ QString CollectionModel::DividerDisplayText(const GroupBy type, const QString &k
 
     case GroupBy_None:
     case GroupByCount:
-      // fallthrough
-      ;
+      break;
   }
   qLog(Error) << "Unknown GroupBy type" << type << "for divider key" << key;
   return QString();

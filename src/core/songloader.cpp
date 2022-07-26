@@ -646,7 +646,7 @@ void SongLoader::EndOfStreamReached() {
       if (state_ == Finished) break;
     // It looks like a playlist, so parse it
 
-    // fallthrough
+    [[fallthrough]];
     case WaitingForData:
       // It's a playlist and we've got all the data - finish and parse it
       StopTypefindAsync(true);

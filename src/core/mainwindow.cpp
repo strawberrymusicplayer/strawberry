@@ -963,7 +963,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       if (tray_icon_->IsSystemTrayAvailable() && tray_icon_->isVisible()) {
         break;
       }
-      // fallthrough
+      [[fallthrough]];
     case BehaviourSettingsPage::Startup_Remember:
     default: {
 

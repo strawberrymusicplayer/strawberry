@@ -913,7 +913,7 @@ void TidalRequest::SongsFinishCheck(const QString &artist_id, const QString &alb
             AddSongsSearchRequest(offset_next);
             break;
           }
-          // fallthrough
+          [[fallthrough]];
         case QueryType_Artists:
         case QueryType_SearchArtists:
         case QueryType_Albums:

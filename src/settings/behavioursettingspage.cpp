@@ -196,7 +196,7 @@ void BehaviourSettingsPage::Load() {
         break;
       }
       ;
-      // fallthrough
+      [[fallthrough]];
     case BehaviourSettingsPage::Startup_Remember:
     default:
       ui_->radiobutton_remember->setChecked(true);

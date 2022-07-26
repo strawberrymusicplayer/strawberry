@@ -186,14 +186,14 @@ QString AlbumCoverLoader::CoverFilenameFromSource(const Song::Source source, con
         filename = album_id + "-" + cover_url.fileName();
         break;
       }
-      // fallthrough
+      [[fallthrough]];
     case Song::Source_Subsonic:
     case Song::Source_Qobuz:
       if (!album_id.isEmpty()) {
         filename = album_id;
         break;
       }
-      // fallthrough
+      [[fallthrough]];
     case Song::Source_Collection:
     case Song::Source_LocalFile:
     case Song::Source_CDDA:

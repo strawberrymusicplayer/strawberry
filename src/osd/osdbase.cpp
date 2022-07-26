@@ -306,7 +306,7 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
       case Native:
 #ifdef Q_OS_WIN32
         Q_UNUSED(icon)
-        // fallthrough
+        [[fallthrough]];
 #else
         if (image.isNull()) {
           ShowMessageNative(summary, message, icon, QImage());
@@ -318,7 +318,7 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
 #endif
       case TrayPopup:
 #ifdef Q_OS_MACOS
-        // fallthrough
+        [[fallthrough]];
 #else
         if (tray_icon_) tray_icon_->ShowPopup(summary, message, timeout_msec_);
         break;
@@ -326,7 +326,7 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
       case Disabled:
         if (!force_show_next_) break;
         force_show_next_ = false;
-      // fallthrough
+      [[fallthrough]];
       case Pretty:
         pretty_popup_->ShowMessage(summary, message, image);
         break;
@@ -401,7 +401,7 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
       }
       break;
 #elif defined(Q_OS_WIN32)
-      // fallthrough
+      [[fallthrough]];
 #else
       // Other OSes doesn't support native notifications.
       qLog(Debug) << "Native notifications are not supported on this OS.";

@@ -624,7 +624,7 @@ void Player::EngineStateChanged(const Engine::State state) {
       break;
     case Engine::Error:
       emit Error();
-      // fallthrough
+      [[fallthrough]];
     case Engine::Empty:
     case Engine::Idle:
       pause_time_ = QDateTime();
