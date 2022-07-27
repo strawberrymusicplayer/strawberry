@@ -7,13 +7,11 @@ assignees: ''
 
 ---
 
+See the FAQ before opening an issue: https://wiki.strawberrymusicplayer.org/wiki/FAQ
+Check the Changelog to see if the issue is already fixed: https://github.com/strawberrymusicplayer/strawberry/blob/master/Changelog
+If it's already fixed, try the latest development build from: https://builds.strawberrymusicplayer.org/
 For technical issues, questions and discussion please use the forum on https://forum.strawberrymusicplayer.org/
 Any issues related to feature requests will be closed. See the README for more details.
-
-Check the Changelog to see if the issue is already fixed:
-https://github.com/strawberrymusicplayer/strawberry/blob/master/Changelog
-
-If it's fixed, try the latest development build from: https://builds.strawberrymusicplayer.org/
 
 **Describe the bug**
 A clear and concise description of what the bug is.
