@@ -5349,7 +5349,7 @@ msgstr "Deinstalliere den Snap mit:"
 #: core/song.cpp:609 collection/collectionmodel.cpp:492
 #: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:501
 #: collection/collectionmodel.cpp:505 collection/collectionmodel.cpp:509
-#: collection/collectionmodel.cpp:1641 collection/savedgroupingmanager.cpp:146
+#: collection/collectionmodel.cpp:1640 collection/savedgroupingmanager.cpp:146
 #: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:557
 #: playlist/playlistmanager.cpp:558 dialogs/edittagdialog.cpp:718
 #: dialogs/edittagdialog.cpp:745 ../build/src/ui_scrobblersettingspage.h:428
