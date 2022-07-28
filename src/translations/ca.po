@@ -127,12 +127,12 @@ msgstr "%1 artistes"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 #, qt-format
 msgid "%1 days"
 msgstr "%1 dies"
 
-#: core/utilities.cpp:164
+#: core/utilities.cpp:169
 #, qt-format
 msgid "%1 days ago"
 msgstr "fa %1 dies"
@@ -182,7 +182,7 @@ msgstr "S’han trobat %1 cançons"
 msgid "%1 songs found (showing %2)"
 msgstr "S’han trobat %1 cançons (se’n mostren %2)"
 
-#: core/utilities.cpp:454
+#: core/utilities.cpp:459
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -439,7 +439,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 msgid "1 day"
 msgstr "1 dia"
 
@@ -2709,12 +2709,12 @@ msgstr "Importa..."
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
-#: core/utilities.cpp:178
+#: core/utilities.cpp:183
 #, qt-format
 msgid "In %1 days"
 msgstr "D’aquí a %1 dies"
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:186
 #, qt-format
 msgid "In %1 weeks"
 msgstr "D’aquí a %1 setmanes"
@@ -3253,7 +3253,7 @@ msgstr "Següent"
 msgid "Next track"
 msgstr ""
 
-#: core/utilities.cpp:179
+#: core/utilities.cpp:184
 msgid "Next week"
 msgstr "La setmana vinent"
 
@@ -4514,7 +4514,7 @@ msgstr "Mostra a mida completa..."
 msgid "Show in collection..."
 msgstr "Mostra a la col·lecció…"
 
-#: core/utilities.cpp:448 core/utilities.cpp:454
+#: core/utilities.cpp:453 core/utilities.cpp:459
 msgid "Show in file browser"
 msgstr ""
 
@@ -5137,7 +5137,7 @@ msgstr "Salt en el temps"
 msgid "Title"
 msgstr "Títol"
 
-#: core/utilities.cpp:162 core/utilities.cpp:176
+#: core/utilities.cpp:167 core/utilities.cpp:181
 msgid "Today"
 msgstr "Avui"
 
@@ -5161,11 +5161,11 @@ msgstr ""
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Canvia la visibilitat del OSD estètic"
 
-#: core/utilities.cpp:177
+#: core/utilities.cpp:182
 msgid "Tomorrow"
 msgstr "Demà"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:453
 msgid "Too many songs selected."
 msgstr ""
 
@@ -5556,7 +5556,7 @@ msgstr ""
 msgid "Years"
 msgstr "Anys"
 
-#: core/utilities.cpp:163
+#: core/utilities.cpp:168
 msgid "Yesterday"
 msgstr "Ahir"
 

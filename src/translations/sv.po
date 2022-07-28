@@ -145,12 +145,12 @@ msgstr "%1 artister"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 #, qt-format
 msgid "%1 days"
 msgstr "%1 dagar"
 
-#: core/utilities.cpp:164
+#: core/utilities.cpp:169
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 dagar sedan"
@@ -200,7 +200,7 @@ msgstr "%1 låtar hittades"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 låtar hittades (visar %2)"
 
-#: core/utilities.cpp:454
+#: core/utilities.cpp:459
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -461,7 +461,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 msgid "1 day"
 msgstr "1 dag"
 
@@ -2736,12 +2736,12 @@ msgstr "Importera..."
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr "Förbättra hörlurslyssning av stereoljudskivor (bs2b)"
 
-#: core/utilities.cpp:178
+#: core/utilities.cpp:183
 #, qt-format
 msgid "In %1 days"
 msgstr "Om %1 dagar"
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:186
 #, qt-format
 msgid "In %1 weeks"
 msgstr "Om %1 veckor"
@@ -3283,7 +3283,7 @@ msgstr "Nästa"
 msgid "Next track"
 msgstr "Nästa spår"
 
-#: core/utilities.cpp:179
+#: core/utilities.cpp:184
 msgid "Next week"
 msgstr "Nästa vecka"
 
@@ -4556,7 +4556,7 @@ msgstr "Visa i full storlek..."
 msgid "Show in collection..."
 msgstr "Visa i samlingen..."
 
-#: core/utilities.cpp:448 core/utilities.cpp:454
+#: core/utilities.cpp:453 core/utilities.cpp:459
 msgid "Show in file browser"
 msgstr "Visa i filhanteraren"
 
@@ -5183,7 +5183,7 @@ msgstr "Tidssteg"
 msgid "Title"
 msgstr "Titel"
 
-#: core/utilities.cpp:162 core/utilities.cpp:176
+#: core/utilities.cpp:167 core/utilities.cpp:181
 msgid "Today"
 msgstr "Idag"
 
@@ -5207,11 +5207,11 @@ msgstr "Växla status för hoppa över"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Växla synlighet för snygg avisering"
 
-#: core/utilities.cpp:177
+#: core/utilities.cpp:182
 msgid "Tomorrow"
 msgstr "Imorgon"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:453
 msgid "Too many songs selected."
 msgstr "För många låtar valda."
 
@@ -5609,7 +5609,7 @@ msgstr "År - Album - Skiva"
 msgid "Years"
 msgstr "År"
 
-#: core/utilities.cpp:163
+#: core/utilities.cpp:168
 msgid "Yesterday"
 msgstr "Igår"
 

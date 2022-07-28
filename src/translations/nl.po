@@ -138,12 +138,12 @@ msgstr "%1 artiesten"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 #, qt-format
 msgid "%1 days"
 msgstr "%1 dagen"
 
-#: core/utilities.cpp:164
+#: core/utilities.cpp:169
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 dagen geleden"
@@ -193,7 +193,7 @@ msgstr "%1 nummer gevonden"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 nummer gevonden (%2 weergegeven)"
 
-#: core/utilities.cpp:454
+#: core/utilities.cpp:459
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -455,7 +455,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 msgid "1 day"
 msgstr "1 dag"
 
@@ -2738,12 +2738,12 @@ msgstr ""
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
-#: core/utilities.cpp:178
+#: core/utilities.cpp:183
 #, qt-format
 msgid "In %1 days"
 msgstr "In %1 dagen"
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:186
 #, qt-format
 msgid "In %1 weeks"
 msgstr "In %1 weken"
@@ -3281,7 +3281,7 @@ msgstr "Volgende"
 msgid "Next track"
 msgstr ""
 
-#: core/utilities.cpp:179
+#: core/utilities.cpp:184
 msgid "Next week"
 msgstr "Volgende week"
 
@@ -4542,7 +4542,7 @@ msgstr "Volledig weergeven..."
 msgid "Show in collection..."
 msgstr "Tonen in bibliotheek..."
 
-#: core/utilities.cpp:448 core/utilities.cpp:454
+#: core/utilities.cpp:453 core/utilities.cpp:459
 msgid "Show in file browser"
 msgstr "In bestandsbeheer tonen"
 
@@ -5170,7 +5170,7 @@ msgstr "TIjd stap"
 msgid "Title"
 msgstr "Titel"
 
-#: core/utilities.cpp:162 core/utilities.cpp:176
+#: core/utilities.cpp:167 core/utilities.cpp:181
 msgid "Today"
 msgstr "Vandaag"
 
@@ -5194,11 +5194,11 @@ msgstr "Schakel status overslaan in"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Zichtbaarheid voor het mooie infoschermvenster aan/uit"
 
-#: core/utilities.cpp:177
+#: core/utilities.cpp:182
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:453
 msgid "Too many songs selected."
 msgstr "Te veel nummers geselecteerd."
 
@@ -5592,7 +5592,7 @@ msgstr "Jaar - Album - Cd"
 msgid "Years"
 msgstr "Jaren"
 
-#: core/utilities.cpp:163
+#: core/utilities.cpp:168
 msgid "Yesterday"
 msgstr "Gisteren"
 

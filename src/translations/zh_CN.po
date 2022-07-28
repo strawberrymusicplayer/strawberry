@@ -133,12 +133,12 @@ msgstr "%1 位艺术家"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 #, qt-format
 msgid "%1 days"
 msgstr "%1 天"
 
-#: core/utilities.cpp:164
+#: core/utilities.cpp:169
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 天前"
@@ -188,7 +188,7 @@ msgstr "找到 %1 首歌曲"
 msgid "%1 songs found (showing %2)"
 msgstr "找到了 %1 首歌曲（正在显示 %2）"
 
-#: core/utilities.cpp:454
+#: core/utilities.cpp:459
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -445,7 +445,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 msgid "1 day"
 msgstr "1 天"
 
@@ -2691,12 +2691,12 @@ msgstr "导入..."
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
-#: core/utilities.cpp:178
+#: core/utilities.cpp:183
 #, qt-format
 msgid "In %1 days"
 msgstr "在 %1 天内"
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:186
 #, qt-format
 msgid "In %1 weeks"
 msgstr "%1 周内"
@@ -3234,7 +3234,7 @@ msgstr "下一首"
 msgid "Next track"
 msgstr "下一曲目"
 
-#: core/utilities.cpp:179
+#: core/utilities.cpp:184
 msgid "Next week"
 msgstr "下一周"
 
@@ -4483,7 +4483,7 @@ msgstr "显示完整尺寸..."
 msgid "Show in collection..."
 msgstr "在媒体库中显示..."
 
-#: core/utilities.cpp:448 core/utilities.cpp:454
+#: core/utilities.cpp:453 core/utilities.cpp:459
 msgid "Show in file browser"
 msgstr "在文件管理器中显示"
 
@@ -5081,7 +5081,7 @@ msgstr "时间步长"
 msgid "Title"
 msgstr "标题"
 
-#: core/utilities.cpp:162 core/utilities.cpp:176
+#: core/utilities.cpp:167 core/utilities.cpp:181
 msgid "Today"
 msgstr "今日"
 
@@ -5105,11 +5105,11 @@ msgstr ""
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "切换 OSD 可见性"
 
-#: core/utilities.cpp:177
+#: core/utilities.cpp:182
 msgid "Tomorrow"
 msgstr "明天"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:453
 msgid "Too many songs selected."
 msgstr ""
 
@@ -5497,7 +5497,7 @@ msgstr "年份 - 专辑 - 碟片"
 msgid "Years"
 msgstr "年份"
 
-#: core/utilities.cpp:163
+#: core/utilities.cpp:168
 msgid "Yesterday"
 msgstr "昨天"
 

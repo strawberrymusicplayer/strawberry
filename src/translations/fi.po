@@ -129,12 +129,12 @@ msgstr "%1 esitäjää"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 #, qt-format
 msgid "%1 days"
 msgstr "%1 päivää"
 
-#: core/utilities.cpp:164
+#: core/utilities.cpp:169
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 päivää sitten"
@@ -184,7 +184,7 @@ msgstr "%1 kappaletta löytyi"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 kappaletta löytyi (näytetään %2)"
 
-#: core/utilities.cpp:454
+#: core/utilities.cpp:459
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -441,7 +441,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 msgid "1 day"
 msgstr "1 päivä"
 
@@ -2709,12 +2709,12 @@ msgstr "Tuo..."
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
-#: core/utilities.cpp:178
+#: core/utilities.cpp:183
 #, qt-format
 msgid "In %1 days"
 msgstr "%1 päivässä"
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:186
 #, qt-format
 msgid "In %1 weeks"
 msgstr "%1 viikossa"
@@ -3253,7 +3253,7 @@ msgstr "Seuraava"
 msgid "Next track"
 msgstr ""
 
-#: core/utilities.cpp:179
+#: core/utilities.cpp:184
 msgid "Next week"
 msgstr "Ensi viikolla"
 
@@ -4508,7 +4508,7 @@ msgstr "Näytä oikeassa koossa..."
 msgid "Show in collection..."
 msgstr "Näytä kirjastossa..."
 
-#: core/utilities.cpp:448 core/utilities.cpp:454
+#: core/utilities.cpp:453 core/utilities.cpp:459
 msgid "Show in file browser"
 msgstr "Näytä tiedostonhallinnassa"
 
@@ -5121,7 +5121,7 @@ msgstr "Aikasiirtymä"
 msgid "Title"
 msgstr "Nimi"
 
-#: core/utilities.cpp:162 core/utilities.cpp:176
+#: core/utilities.cpp:167 core/utilities.cpp:181
 msgid "Today"
 msgstr "Tänään"
 
@@ -5145,11 +5145,11 @@ msgstr ""
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Kuvaruutunäyttö päälle / pois"
 
-#: core/utilities.cpp:177
+#: core/utilities.cpp:182
 msgid "Tomorrow"
 msgstr "Huomenna"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:453
 msgid "Too many songs selected."
 msgstr "Liian monta kappaletta valittu."
 
@@ -5542,7 +5542,7 @@ msgstr "Vuosi - Albumi - Levy"
 msgid "Years"
 msgstr "vuotta"
 
-#: core/utilities.cpp:163
+#: core/utilities.cpp:168
 msgid "Yesterday"
 msgstr "Eilen"
 

@@ -137,12 +137,12 @@ msgstr "%1 виконавців"
 msgid "%1 dB"
 msgstr "%1 дБ"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 #, qt-format
 msgid "%1 days"
 msgstr "%1 днів"
 
-#: core/utilities.cpp:164
+#: core/utilities.cpp:169
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 день тому"
@@ -192,7 +192,7 @@ msgstr "Знайдено %1 композицій"
 msgid "%1 songs found (showing %2)"
 msgstr "Знайдено %1 композицій (показано %2)"
 
-#: core/utilities.cpp:454
+#: core/utilities.cpp:459
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -451,7 +451,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0 пкс"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:149
 msgid "1 day"
 msgstr "1 день"
 
@@ -2736,12 +2736,12 @@ msgstr "Імпортувати..."
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
-#: core/utilities.cpp:178
+#: core/utilities.cpp:183
 #, qt-format
 msgid "In %1 days"
 msgstr "За %1 днів"
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:186
 #, qt-format
 msgid "In %1 weeks"
 msgstr "За %1 тижнів"
@@ -3283,7 +3283,7 @@ msgstr "Наступна"
 msgid "Next track"
 msgstr ""
 
-#: core/utilities.cpp:179
+#: core/utilities.cpp:184
 msgid "Next week"
 msgstr "Наступного тижня"
 
@@ -4564,7 +4564,7 @@ msgstr "Показати на повний розмір..."
 msgid "Show in collection..."
 msgstr "Показати у фонотеці..."
 
-#: core/utilities.cpp:448 core/utilities.cpp:454
+#: core/utilities.cpp:453 core/utilities.cpp:459
 msgid "Show in file browser"
 msgstr "Показати в оглядачі файлів"
 
@@ -5188,7 +5188,7 @@ msgstr "Крок за часом"
 msgid "Title"
 msgstr "Назва"
 
-#: core/utilities.cpp:162 core/utilities.cpp:176
+#: core/utilities.cpp:167 core/utilities.cpp:181
 msgid "Today"
 msgstr "Сьогодні"
 
@@ -5212,11 +5212,11 @@ msgstr "Змінити стан пропуску"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Змінити режим видимості сповіщень"
 
-#: core/utilities.cpp:177
+#: core/utilities.cpp:182
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: core/utilities.cpp:448
+#: core/utilities.cpp:453
 msgid "Too many songs selected."
 msgstr "Вибрано забагато композицій."
 
@@ -5613,7 +5613,7 @@ msgstr "Рік – Альбом – Диск"
 msgid "Years"
 msgstr "Роки"
 
-#: core/utilities.cpp:163
+#: core/utilities.cpp:168
 msgid "Yesterday"
 msgstr "Вчора"
 
