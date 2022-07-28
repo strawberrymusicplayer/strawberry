@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.7)
 
 if(HAVE_TRANSLATIONS)
   include(../cmake/Translations.cmake)
@@ -1143,6 +1143,11 @@ endif()
 
 if(FREEBSD)
   target_link_libraries(strawberry_lib PRIVATE iconv)
+endif()
+
+if(HAVE_ICU)
+  target_include_directories(strawberry_lib SYSTEM PRIVATE ${ICU_INCLUDE_DIRS})
+  target_link_libraries(strawberry_lib PRIVATE ${ICU_LIBRARIES})
 endif()
 
 if(APPLE)

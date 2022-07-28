@@ -176,8 +176,18 @@ TEST_F(OrganizeFormatTest, ReplaceNonAscii) {
   format_.set_remove_non_ascii(true);
   EXPECT_EQ("Royksopp", format_.GetFilenameForSong(song_));
 
+  song_.set_artist("");
+  EXPECT_EQ("", format_.GetFilenameForSong(song_));
+
+#ifdef HAVE_ICU
+
   song_.set_artist(QString::fromUtf8("Владимир Высоцкий"));
-  EXPECT_EQ("_________________", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("Vladimir_Vysockij", format_.GetFilenameForSong(song_));
+
+  song_.set_artist(QString::fromUtf8("エックス・ジャパン"));
+  EXPECT_EQ("ekkusujapan", format_.GetFilenameForSong(song_));
+
+#endif
 
 }
 

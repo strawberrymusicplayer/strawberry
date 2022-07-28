@@ -166,9 +166,9 @@ TEST(UtilitiesTest, Random) {
 
 }
 
-TEST(UtilitiesTest, UnicodeToAscii) {
+TEST(UtilitiesTest, Transliterate) {
 
-  ASSERT_EQ(Utilities::UnicodeToAscii("ÆØÅ"), "AEOA");
+  ASSERT_EQ(Utilities::Transliterate("ÆØÅ"), "AEOA");
 
 }
 

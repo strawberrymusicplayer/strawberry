@@ -128,7 +128,7 @@ QString OrganizeFormat::GetFilenameForSong(const Song &song, QString extension) 
   }
 
   if (remove_problematic_) filename = filename.remove(kProblematicCharacters);
-  if (remove_non_fat_ || (remove_non_ascii_ && !allow_ascii_ext_)) filename = Utilities::UnicodeToAscii(filename);
+  if (remove_non_fat_ || (remove_non_ascii_ && !allow_ascii_ext_)) filename = Utilities::Transliterate(filename);
   if (remove_non_fat_) filename = filename.remove(kInvalidFatCharacters);
 
   if (remove_non_ascii_) {

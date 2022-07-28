@@ -110,7 +110,7 @@ QString AlbumCoverLoader::AlbumCoverFilename(QString artist, QString album, cons
   album.remove('/').remove('\\');
 
   QString filename = artist + "-" + album;
-  filename = Utilities::UnicodeToAscii(filename.toLower());
+  filename = Utilities::Transliterate(filename.toLower());
   filename = filename.replace(' ', '-')
                      .replace("--", "-")
                      .remove(OrganizeFormat::kInvalidFatCharacters)

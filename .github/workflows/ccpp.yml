@@ -40,6 +40,7 @@ jobs:
             gstreamer-plugins-base-devel
             vlc-devel
             taglib-devel
+            libicu-devel
             libQt5Core-devel
             libQt5Gui-devel
             libQt5Gui-private-headers-devel
@@ -116,6 +117,7 @@ jobs:
             vlc-devel
             taglib-devel
             tagparser-devel
+            libicu-devel
             libQt5Core-devel
             libQt5Gui-devel
             libQt5Gui-private-headers-devel
@@ -202,6 +204,7 @@ jobs:
             vlc-devel
             taglib-devel
             tagparser-devel
+            libicu-devel
             qt6-core-devel
             qt6-gui-devel
             qt6-gui-private-devel
@@ -284,6 +287,7 @@ jobs:
             gstreamer-plugins-base-devel
             vlc-devel
             taglib-devel
+            libicu-devel
             libQt5Core-devel
             libQt5Gui-devel
             libQt5Gui-private-headers-devel
@@ -365,6 +369,7 @@ jobs:
             gstreamer-plugins-base-devel
             vlc-devel
             taglib-devel
+            libicu-devel
             qt6-core-devel
             qt6-gui-devel
             qt6-gui-private-devel
@@ -452,6 +457,7 @@ jobs:
             vlc-devel
             taglib-devel
             tagparser-devel
+            libicu-devel
             libQt5Core-devel
             libQt5Gui-devel
             libQt5Gui-private-headers-devel
@@ -538,6 +544,7 @@ jobs:
             vlc-devel
             taglib-devel
             tagparser-devel
+            libicu-devel
             qt6-core-devel
             qt6-gui-devel
             qt6-gui-private-devel
@@ -624,6 +631,7 @@ jobs:
             pulseaudio-libs-devel
             libnotify-devel
             gnutls-devel
+            libicu-devel
             qt6-qtbase-devel
             qt6-qtbase-private-devel
             qt6-qttools-devel
@@ -704,6 +712,7 @@ jobs:
             pulseaudio-libs-devel
             libnotify-devel
             gnutls-devel
+            libicu-devel
             qt6-qtbase-devel
             qt6-qtbase-private-devel
             qt6-qttools-devel
@@ -786,6 +795,7 @@ jobs:
           taglib-devel
           chromaprint-devel
           fftw-devel
+          icu-devel
           libcdio-devel
           libgpod-devel
           libmtp-devel
@@ -862,6 +872,7 @@ jobs:
             libasound2-dev
             libpulse-dev
             libtag1-dev
+            libicu-dev
             qtbase5-dev
             qtbase5-dev-tools
             qttools5-dev
@@ -924,6 +935,7 @@ jobs:
             libasound2-dev
             libpulse-dev
             libtag1-dev
+            libicu-dev
             qtbase5-dev
             qtbase5-dev-tools
             qttools5-dev
@@ -985,6 +997,7 @@ jobs:
             libasound2-dev
             libpulse-dev
             libtag1-dev
+            libicu-dev
             qt6-base-dev
             qt6-base-dev-tools
             qt6-tools-dev
@@ -1051,6 +1064,7 @@ jobs:
             libasound2-dev
             libpulse-dev
             libtag1-dev
+            libicu-dev
             qtbase5-dev
             qtbase5-dev-tools
             qttools5-dev
@@ -1118,6 +1132,7 @@ jobs:
             libasound2-dev
             libpulse-dev
             libtag1-dev
+            libicu-dev
             qtbase5-dev
             qtbase5-dev-tools
             qttools5-dev
@@ -1184,6 +1199,7 @@ jobs:
             libasound2-dev
             libpulse-dev
             libtag1-dev
+            libicu-dev
             qt6-base-dev
             qt6-base-dev-tools
             qt6-tools-dev
@@ -1250,6 +1266,7 @@ jobs:
             libasound2-dev
             libpulse-dev
             libtag1-dev
+            libicu-dev
             qt6-base-dev
             qt6-base-dev-tools
             qt6-tools-dev
@@ -1355,7 +1372,8 @@ jobs:
                      -DProtobuf_INCLUDE_DIRS=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/include \
                      -DProtobuf_LIBRARY=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/lib/libprotobuf.dylib \
                      -DProtobuf_PROTOC_EXECUTABLE=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr/bin/protoc \
-                     -DFFTW3_DIR=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr
+                     -DFFTW3_DIR=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr \
+                     -DICU_ROOT=${{github.workspace}}/../../strawberry-macos-dependencies/strawberry-macos-dependencies/usr
 
       - name: Build
         working-directory: build
@@ -2169,7 +2187,7 @@ jobs:
       with:
         usesh: true
         mem: 4096
-        prepare: pkg install -y git cmake pkgconf gettext-tools boost-libs glib gnutls qt5-core qt5-concurrent qt5-network qt5-sql qt5-dbus qt5-gui qt5-widgets qt5-buildtools qt5-linguisttools qt5-qmake qt5-sqldrivers-sqlite3 qt5-testlib sqlite gstreamer1 gstreamer1-plugins chromaprint protobuf protobuf-c taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 googletest iconv
+        prepare: pkg install -y git cmake pkgconf gettext-tools boost-libs glib gnutls qt5-core qt5-concurrent qt5-network qt5-sql qt5-dbus qt5-gui qt5-widgets qt5-buildtools qt5-linguisttools qt5-qmake qt5-sqldrivers-sqlite3 qt5-testlib sqlite gstreamer1 gstreamer1-plugins chromaprint protobuf protobuf-c taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 googletest iconv icu
         run: |
           git config --global --add safe.directory /__w/strawberry/strawberry
           cmake -E make_directory build

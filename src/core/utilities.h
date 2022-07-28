@@ -132,7 +132,7 @@ QString GetRandomString(const int len, const QString &UseCharacters);
 
 QString DesktopEnvironment();
 
-QString UnicodeToAscii(const QString &unicode);
+QString Transliterate(const QString &accented_str);
 
 QString MacAddress();
 

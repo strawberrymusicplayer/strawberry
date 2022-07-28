@@ -49,6 +49,8 @@ BuildRequires:  pkgconfig(sqlite3) >= 3.9
 BuildRequires:  pkgconfig(taglib)
 %endif
 BuildRequires:  pkgconfig(fftw3)
+BuildRequires:  pkgconfig(icu-uc)
+BuildRequires:  pkgconfig(icu-i18n)
 %if "@QT_VERSION_MAJOR@" == "5" && ( 0%{?fedora} || 0%{?rhel_version} || 0%{?centos} )
 BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Core)
 BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Gui)

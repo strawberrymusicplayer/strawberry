@@ -23,7 +23,12 @@
 
 #include <memory>
 #include <cstdlib>
-#include <iconv.h>
+
+#ifdef HAVE_ICU
+#  include <unicode/translit.h>
+#else
+#  include <iconv.h>
+#endif
 
 #include <QtGlobal>
 #include <QApplication>
@@ -786,16 +791,39 @@ QString DesktopEnvironment() {
 
 }
 
-QString UnicodeToAscii(const QString &unicode) {
+#ifdef HAVE_ICU
+
+QString Transliterate(const QString &accented_str) {
+
+  UErrorCode errorcode = U_ZERO_ERROR;
+  std::unique_ptr<icu::Transliterator> transliterator;
+  transliterator.reset(icu::Transliterator::createInstance("Any-Latin; Latin-ASCII;", UTRANS_FORWARD, errorcode));
+
+  if (!transliterator) return accented_str;
+
+  QByteArray accented_data = accented_str.toUtf8();
+  icu::UnicodeString ustring = icu::UnicodeString(accented_data.constData());
+  transliterator->transliterate(ustring);
+
+  std::string unaccented_str;
+  ustring.toUTF8String(unaccented_str);
+
+  return QString::fromStdString(unaccented_str);
+
+}
+
+#else
+
+QString Transliterate(const QString &accented_str) {
 
 #ifdef LC_ALL
   setlocale(LC_ALL, "");
 #endif
 
   iconv_t conv = iconv_open("ASCII//TRANSLIT", "UTF-8");
-  if (conv == reinterpret_cast<iconv_t>(-1)) return unicode;
+  if (conv == reinterpret_cast<iconv_t>(-1)) return accented_str;
 
-  QByteArray utf8 = unicode.toUtf8();
+  QByteArray utf8 = accented_str.toUtf8();
 
   size_t input_len = utf8.length() + 1;
   char *input_ptr = new char[input_len];
@@ -817,7 +845,10 @@ QString UnicodeToAscii(const QString &unicode) {
   delete[] output_ptr;
 
   return ret;
+
 }
+
+#endif
 
 QString MacAddress() {
 

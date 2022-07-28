@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.7)
 
 set(MESSAGES tagreadermessages.proto)
 set(SOURCES tagreaderbase.cpp)
