@@ -127,6 +127,8 @@ void OSDDBus::Init() {
     qLog(Warning) << "Error connecting to notifications service.";
   }
 
+  interface_->setTimeout(1000);
+
   QString vendor, version, spec_version;
   QDBusReply<QString> reply = interface_->GetServerInformation(vendor, version, spec_version);
   if (reply.isValid()) {
