@@ -12,6 +12,7 @@
 
 #include "core/logging.h"
 #include "core/timeconstants.h"
+#include "core/messagehandler.h"
 #include "tagreaderbase.h"
 #include "tagreadertaglib.h"
 
@@ -132,10 +133,10 @@ void GME::SPC::Read(const QFileInfo& file_info,
 
     song_info->set_year(tag->year());
     song_info->set_track(tag->track());
-    //TagReaderTagLib::Decode(tag->artist(), song_info->mutable_artist());
-    //TagReaderTagLib::Decode(tag->title(), song_info->mutable_title());
-    //TagReaderTagLib::Decode(tag->album(), song_info->mutable_album());
-    //TagReaderTagLib::Decode(tag->genre(), song_info->mutable_genre());
+    TagReaderGME::TagLib_Decode(tag->artist(), song_info->mutable_artist());
+    TagReaderGME::TagLib_Decode(tag->title(), song_info->mutable_title());
+    TagReaderGME::TagLib_Decode(tag->album(), song_info->mutable_album());
+    TagReaderGME::TagLib_Decode(tag->genre(), song_info->mutable_genre());
   }
 
   song_info->set_valid(true);
@@ -275,4 +276,9 @@ bool TagReaderGME::SaveSongPlaycountToFile(const QString &filename, const spb::t
 
 bool TagReaderGME::SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
   return false;
+}
+
+void TagReaderGME::TagLib_Decode(const TagLib::String &tag, std::string *output) {
+  QString tmp = TStringToQString(tag).trimmed();
+  output->assign(DataCommaSizeFromQString(tmp));
 }

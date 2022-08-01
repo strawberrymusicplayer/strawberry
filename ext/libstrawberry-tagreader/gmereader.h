@@ -2,6 +2,7 @@
 #define GMEREADER_H
 
 #include <QtCore>
+#include <taglib/tstring.h>
 #include "tagreaderbase.h"
 
 #include "tagreadermessages.pb.h"
@@ -76,7 +77,7 @@ bool GetPlaybackLength(const QByteArray& sample_count_bytes,
  */
 class TagReaderGME : public TagReaderBase {
 
- public:
+public:
   explicit TagReaderGME();
   ~TagReaderGME();
 
@@ -90,6 +91,8 @@ class TagReaderGME : public TagReaderBase {
 
   bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
   bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+
+  static void TagLib_Decode(const TagLib::String &tag, std::string *output);
 };
 
 #endif
