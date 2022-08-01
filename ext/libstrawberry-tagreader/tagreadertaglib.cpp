@@ -186,7 +186,7 @@ spb::tagreader::SongMetadata_FileType TagReaderTagLib::GuessFileType(TagLib::Fil
 
 }
 
-void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
+bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
 
   const QByteArray url(QUrl::fromLocalFile(filename).toEncoded());
   const QFileInfo fileinfo(filename);
@@ -212,7 +212,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   if (fileref->isNull()) {
     qLog(Info) << "TagLib hasn't been able to read" << filename << "file";
-    return;
+    return false;
   }
 
   song->set_filetype(GuessFileType(fileref.get()));
@@ -254,9 +254,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
   }
 
   if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File *>(fileref->file())) {
-
     song->set_bitdepth(file_flac->audioProperties()->bitsPerSample());
-
     if (file_flac->xiphComment()) {
       ParseOggTag(file_flac->xiphComment()->fieldListMap(), &disc, &compilation, song);
       TagLib::List<TagLib::FLAC::Picture*> pictures = file_flac->pictureList();
@@ -517,18 +515,14 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
   if (song->bitrate() <= 0) { song->set_bitrate(-1); }
   if (song->lastplayed() <= 0) { song->set_lastplayed(-1); }
 
+  return song->filetype() != spb::tagreader::SongMetadata_FileType_UNKNOWN;
+
 }
 
 void TagReaderTagLib::Decode(const TagLib::String &tag, std::string *output) {
 
   QString tmp = TStringToQString(tag).trimmed();
   output->assign(DataCommaSizeFromQString(tmp));
-
-}
-
-void TagReaderTagLib::Decode(const QString &tag, std::string *output) {
-
-  output->assign(DataCommaSizeFromQString(tag));
 
 }
 

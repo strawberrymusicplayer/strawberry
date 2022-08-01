@@ -93,13 +93,13 @@ bool TagReaderTagParser::IsMediaFile(const QString &filename) const {
 
 }
 
-void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
+bool TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
 
   qLog(Debug) << "Reading tags from" << filename;
 
   const QFileInfo fileinfo(filename);
 
-  if (!fileinfo.exists() || fileinfo.suffix().compare("bak", Qt::CaseInsensitive) == 0) return;
+  if (!fileinfo.exists() || fileinfo.suffix().compare("bak", Qt::CaseInsensitive) == 0) return false;
 
   const QByteArray url(QUrl::fromLocalFile(filename).toEncoded());
 
@@ -135,19 +135,19 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
     taginfo.parseContainerFormat(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return;
+      return false;
     }
 
     taginfo.parseTracks(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return;
+      return false;
     }
 
     taginfo.parseTags(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return;
+      return false;
     }
 
     for (const TagParser::DiagMessage &msg : diag) {
@@ -206,7 +206,7 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
 
     if (song->filetype() == spb::tagreader::SongMetadata_FileType::SongMetadata_FileType_UNKNOWN) {
       taginfo.close();
-      return;
+      return false;
     }
 
     for (const auto tag : taginfo.tags()) {
@@ -247,8 +247,12 @@ void TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
 
     taginfo.close();
 
+    return true;
+
   }
-  catch(...) {}
+  catch(...) {
+    return false;
+  }
 
 }
 

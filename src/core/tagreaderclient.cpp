@@ -39,6 +39,8 @@
 #include "tagreaderclient.h"
 #include "settings/collectionsettingspage.h"
 
+#define DataCommaSizeFromQString(x) (x).toUtf8().constData(), (x).toUtf8().length()
+
 const char *TagReaderClient::kWorkerExecutableName = "strawberry-tagreader";
 TagReaderClient *TagReaderClient::sInstance = nullptr;
 

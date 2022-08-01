@@ -106,6 +106,8 @@ class Song {
     FileType_S3M = 19,
     FileType_XM = 20,
     FileType_IT = 21,
+    FileType_SPC = 22,
+    FileType_VGM = 23, 
     FileType_CDDA = 90,
     FileType_Stream = 91,
   };

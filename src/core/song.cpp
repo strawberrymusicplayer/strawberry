@@ -52,7 +52,6 @@
 #include <QtDebug>
 
 #include "core/logging.h"
-#include "core/messagehandler.h"
 #include "core/iconloader.h"
 
 #include "engine/enginebase.h"
@@ -64,6 +63,9 @@
 #include "mpris_common.h"
 #include "sqlrow.h"
 #include "tagreadermessages.pb.h"
+
+#define QStringFromStdString(x) QString::fromUtf8((x).data(), (x).size())
+#define DataCommaSizeFromQString(x) (x).toUtf8().constData(), (x).toUtf8().length()
 
 const QStringList Song::kColumns = QStringList() << "title"
                                                  << "album"
@@ -156,7 +158,7 @@ const QStringList Song::kArticles = QStringList() << "the " << "a " << "an ";
 const QStringList Song::kAcceptedExtensions = QStringList() << "wav" << "flac" << "wv" << "ogg" << "oga" << "opus" << "spx" << "ape" << "mpc"
                                                             << "mp2" << "mp3" <<  "m4a" << "mp4" << "aac" << "asf" << "asx" << "wma"
                                                             << "aif << aiff" << "mka" << "tta" << "dsf" << "dsd"
-                                                            << "ac3" << "dts";
+                                                            << "ac3" << "dts" << "spc" << "vgm";
 
 struct Song::Private : public QSharedData {
 
@@ -604,6 +606,8 @@ QString Song::TextForFiletype(FileType filetype) {
     case Song::FileType_XM:          return "Module Music Format";
     case Song::FileType_IT:          return "Module Music Format";
     case Song::FileType_CDDA:        return "CDDA";
+    case Song::FileType_SPC:         return "SNES SPC700";
+    case Song::FileType_VGM:         return "VGM";
     case Song::FileType_Stream:      return "Stream";
     case Song::FileType_Unknown:
     default:                         return QObject::tr("Unknown");
@@ -634,6 +638,8 @@ QString Song::ExtensionForFiletype(FileType filetype) {
     case Song::FileType_S3M:         return "s3m";
     case Song::FileType_XM:          return "xm";
     case Song::FileType_IT:          return "it";
+    case Song::FileType_SPC:         return "spc";
+    case Song::FileType_VGM:         return "vgm";
     case Song::FileType_Unknown:
     default:                         return "dat";
   }
@@ -710,6 +716,8 @@ Song::FileType Song::FiletypeByMimetype(const QString &mimetype) {
   else if (mimetype.compare("audio/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("application/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return Song::FileType_APE;
   else if (mimetype.compare("audio/x-mod", Qt::CaseInsensitive) == 0) return Song::FileType_MOD;
   else if (mimetype.compare("audio/x-s3m", Qt::CaseInsensitive) == 0) return Song::FileType_S3M;
+  else if (mimetype.compare("audio/x-spc", Qt::CaseInsensitive) == 0) return Song::FileType_SPC;
+  else if (mimetype.compare("audio/x-vgm", Qt::CaseInsensitive) == 0) return Song::FileType_VGM;
 
   else return Song::FileType_Unknown;
 
@@ -733,6 +741,8 @@ Song::FileType Song::FiletypeByDescription(const QString &text) {
   else if (text.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return Song::FileType_APE;
   else if (text.compare("Module Music Format (MOD)", Qt::CaseInsensitive) == 0) return Song::FileType_MOD;
   else if (text.compare("Module Music Format (MOD)", Qt::CaseInsensitive) == 0) return Song::FileType_S3M;
+  else if (text.compare("SNES SPC700", Qt::CaseInsensitive) == 0) return Song::FileType_SPC;
+  else if (text.compare("VGM", Qt::CaseInsensitive) == 0) return Song::FileType_VGM;
   else return Song::FileType_Unknown;
 
 }
@@ -760,6 +770,8 @@ Song::FileType Song::FiletypeByExtension(const QString &ext) {
   else if (ext.compare("s3m", Qt::CaseInsensitive) == 0) return Song::FileType_S3M;
   else if (ext.compare("xm", Qt::CaseInsensitive) == 0) return Song::FileType_XM;
   else if (ext.compare("it", Qt::CaseInsensitive) == 0) return Song::FileType_IT;
+  else if (ext.compare("spc", Qt::CaseInsensitive) == 0) return Song::FileType_SPC;
+  else if (ext.compare("vgm", Qt::CaseInsensitive) == 0) return Song::FileType_VGM;
 
   else return Song::FileType_Unknown;
 

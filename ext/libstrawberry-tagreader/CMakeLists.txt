@@ -4,7 +4,7 @@ set(MESSAGES tagreadermessages.proto)
 set(SOURCES tagreaderbase.cpp)
 
 if(USE_TAGLIB AND TAGLIB_FOUND)
-  list(APPEND SOURCES tagreadertaglib.cpp)
+  list(APPEND SOURCES tagreadertaglib.cpp tagreadergme.cpp)
 endif()
 
 if(USE_TAGPARSER AND TAGPARSER_FOUND)

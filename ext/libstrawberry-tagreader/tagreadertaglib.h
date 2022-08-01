@@ -50,7 +50,7 @@ class TagReaderTagLib : public TagReaderBase {
 
   bool IsMediaFile(const QString &filename) const override;
 
-  void ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
+  bool ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
   bool SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
 
   QByteArray LoadEmbeddedArt(const QString &filename) const override;
@@ -59,11 +59,10 @@ class TagReaderTagLib : public TagReaderBase {
   bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
   bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
 
+  static void Decode(const TagLib::String &tag, std::string *output);
+
  private:
   spb::tagreader::SongMetadata_FileType GuessFileType(TagLib::FileRef *fileref) const;
-
-  static void Decode(const TagLib::String &tag, std::string *output);
-  static void Decode(const QString &tag, std::string *output);
 
   void ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const;
   void ParseAPETag(const TagLib::APE::ItemListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const;

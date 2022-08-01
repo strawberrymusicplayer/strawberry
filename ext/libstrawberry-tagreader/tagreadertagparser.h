@@ -39,7 +39,7 @@ class TagReaderTagParser : public TagReaderBase {
 
   bool IsMediaFile(const QString &filename) const override;
 
-  void ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
+  bool ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
   bool SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
 
   QByteArray LoadEmbeddedArt(const QString &filename) const override;

@@ -27,6 +27,9 @@
 
 #include "tagreadermessages.pb.h"
 
+#define QStringFromStdString(x) QString::fromUtf8((x).data(), (x).size())
+#define DataCommaSizeFromQString(x) (x).toUtf8().constData(), (x).toUtf8().length()
+
 /*
  * This class holds all useful methods to read and write tags from/to files.
  * You should not use it directly in the main process but rather use a TagReaderWorker process (using TagReaderClient)
@@ -38,7 +41,7 @@ class TagReaderBase {
 
   virtual bool IsMediaFile(const QString &filename) const = 0;
 
-  virtual void ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const = 0;
+  virtual bool ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const = 0;
   virtual bool SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const = 0;
 
   virtual QByteArray LoadEmbeddedArt(const QString &filename) const = 0;
@@ -46,6 +49,8 @@ class TagReaderBase {
 
   virtual bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const = 0;
   virtual bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const = 0;
+
+  static void Decode(const QString &tag, std::string *output);
 
   static float ConvertPOPMRating(const int POPM_rating);
   static int ConvertToPOPMRating(const float rating);

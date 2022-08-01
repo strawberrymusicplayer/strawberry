@@ -26,9 +26,11 @@
 #include "core/messagehandler.h"
 #if defined(USE_TAGLIB)
 #  include "tagreadertaglib.h"
+#  include "tagreadergme.h"
 #elif defined(USE_TAGPARSER)
 #  include "tagreadertagparser.h"
 #endif
+
 #include "tagreadermessages.pb.h"
 
 class QIODevice;
@@ -44,8 +46,12 @@ class TagReaderWorker : public AbstractMessageHandler<spb::tagreader::Message> {
   void DeviceClosed() override;
 
  private:
+  // Handle message using specific TagReaderBase implementation. Returns true on successful message handle.
+  bool HandleMessage(const spb::tagreader::Message &message, spb::tagreader::Message &reply, TagReaderBase* reader);
+
 #if defined(USE_TAGLIB)
   TagReaderTagLib tag_reader_;
+  TagReaderGME tag_reader_gme_;
 #elif defined(USE_TAGPARSER)
   TagReaderTagParser tag_reader_;
 #endif
