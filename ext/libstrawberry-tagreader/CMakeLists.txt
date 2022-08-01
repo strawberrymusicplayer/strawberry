@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.7)
 
 set(MESSAGES tagreadermessages.proto)
-set(SOURCES tagreaderbase.cpp)
+set(SOURCES tagreaderbase.cpp gmereader.cpp)
 
 if(USE_TAGLIB AND TAGLIB_FOUND)
   list(APPEND SOURCES tagreadertaglib.cpp)

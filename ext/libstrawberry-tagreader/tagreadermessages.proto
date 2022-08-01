@@ -27,6 +27,8 @@ message SongMetadata {
     S3M = 19;
     XM = 20;
     IT = 21;
+    SPC = 22;
+    VGM = 23;
     CDDA = 90;
     STREAM = 91;
   }
