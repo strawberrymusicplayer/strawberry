@@ -127,7 +127,7 @@ public:
   // First, check if we have the focus.
   // If no, it probably means this event isn't for us.
   NSResponder *firstResponder = [[NSApp keyWindow] firstResponder];
-  if ([firstResponder isKindOfClass:[NSText class]] && (NSSearchField*)([(NSText*)firstResponder delegate]) == self) {
+  if ([firstResponder isKindOfClass:[NSText class]] && reinterpret_cast<NSSearchField*>([reinterpret_cast<NSText*>(firstResponder) delegate]) == self) {
 
     if ([event type] == NSEventTypeKeyDown && [event modifierFlags] & NSEventModifierFlagCommand) {
       QString keyString = toQString([event characters]);
