@@ -368,6 +368,8 @@ Section "Strawberry" Strawberry
   File "gsttag-1.0-0.dll"
   File "gsturidownloader-1.0-0.dll"
   File "gstvideo-1.0-0.dll"
+  File "harfbuzz.dll"
+  File "icudt71.dll"
   File "intl-8.dll"
   File "libbs2b.dll"
   File "libfaac_dll.dll"
@@ -394,6 +396,9 @@ Section "Strawberry" Strawberry
   File "wavpackdll.dll"
 
 !ifdef release
+  File "freetype.dll"
+  File "icuin71.dll"
+  File "icuuc71.dll"
   File "libpng16.dll"
   File "libprotobuf.dll"
   File "libxml2.dll"
@@ -403,6 +408,9 @@ Section "Strawberry" Strawberry
   File "zlib.dll"
 !endif
 !ifdef debug
+  File "freetyped.dll"
+  File "icuin71d.dll"
+  File "icuuc71d.dll"
   File "libpng16d.dll"
   File "libprotobufd.dll"
   File "libxml2d.dll"
@@ -861,6 +869,8 @@ Section "Uninstall"
   Delete "$INSTDIR\gsttag-1.0-0.dll"
   Delete "$INSTDIR\gsturidownloader-1.0-0.dll"
   Delete "$INSTDIR\gstvideo-1.0-0.dll"
+  Delete "$INSTDIR\harfbuzz.dll"
+  Delete "$INSTDIR\icudt71.dll"
   Delete "$INSTDIR\intl-8.dll"
   Delete "$INSTDIR\libbs2b.dll"
   Delete "$INSTDIR\libfaac_dll.dll"
@@ -887,6 +897,9 @@ Section "Uninstall"
   Delete "$INSTDIR\wavpackdll.dll"
 
 !ifdef release
+  Delete "$INSTDIR\freetype.dll"
+  Delete "$INSTDIR\icuin71.dll"
+  Delete "$INSTDIR\icuuc71.dll"
   Delete "$INSTDIR\libpng16.dll"
   Delete "$INSTDIR\libprotobuf.dll"
   Delete "$INSTDIR\libxml2.dll"
@@ -896,6 +909,9 @@ Section "Uninstall"
   Delete "$INSTDIR\zlib.dll"
 !endif
 !ifdef debug
+  Delete "$INSTDIR\freetyped.dll"
+  Delete "$INSTDIR\icuin71d.dll"
+  Delete "$INSTDIR\icuuc71d.dll"
   Delete "$INSTDIR\libpng16d.dll"
   Delete "$INSTDIR\libprotobufd.dll"
   Delete "$INSTDIR\libxml2d.dll"

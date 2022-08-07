@@ -1557,11 +1557,9 @@ jobs:
           -DBUILD_WERROR=OFF
           -DARCH=x86_64
           -DENABLE_WIN32_CONSOLE=OFF
-          -DENABLE_DBUS=OFF
-          -DENABLE_LIBGPOD=OFF
-          -DENABLE_LIBMTP=OFF
           -DUSE_TAGLIB=ON
           -DPKG_CONFIG_EXECUTABLE="c:/msvc_x86_64/bin/pkg-config.exe"
+          -DICU_ROOT="c:\msvc_x86_64"
 
       - name: Run Make
         env:
@@ -1821,11 +1819,9 @@ jobs:
           -DBUILD_WERROR=OFF
           -DARCH=x86_64
           -DENABLE_WIN32_CONSOLE=ON
-          -DENABLE_DBUS=OFF
-          -DENABLE_LIBGPOD=OFF
-          -DENABLE_LIBMTP=OFF
           -DUSE_TAGLIB=ON
           -DPKG_CONFIG_EXECUTABLE="c:/msvc_x86_64/bin/pkg-config.exe"
+          -DICU_ROOT="c:\msvc_x86_64"
 
       - name: Run Make
         env:
