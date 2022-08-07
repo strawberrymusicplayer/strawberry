@@ -140,7 +140,7 @@ int main(int argc, char **argv) {
       }
       else {
         qLog(Error) << "Could not parse otool output line:" << output_line;
-        success = false;
+        continue;
       }
     }
   }

@@ -2038,3 +2038,137 @@ jobs:
           cmake --build . --config Debug --parallel 4
           cd ..
           rm -rf build
+
+
+  build-macos:
+    name: Build macOS
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v1.2.0
+
+      - name: Install packages
+        run: |
+          brew install pkg-config cmake ninja meson bison flex wget create-dmg gettext boost protobuf protobuf-c
+          brew install glib glib-openssl glib-utils glib-networking gdk-pixbuf gobject-introspection orc
+          brew install libffi openssl gnutls sqlite fftw libmtp libplist libsoup libxml2
+          brew install libogg libvorbis flac wavpack opus speex mpg123 lame twolame taglib chromaprint libbs2b libcdio libopenmpt faad2 faac fdk-aac musepack game-music-emu
+          brew install gstreamer
+          brew install qt6
+
+      - name: Use modified gstreamer plugin formulas
+        run: |
+          wget https://files.strawberrymusicplayer.org/patches/gst-plugins-base.rb
+          wget https://files.strawberrymusicplayer.org/patches/gst-plugins-good.rb
+          wget https://files.strawberrymusicplayer.org/patches/gst-plugins-bad.rb
+          wget https://files.strawberrymusicplayer.org/patches/gst-plugins-ugly.rb
+          mv gst-plugins-{base,good,bad,ugly}.rb /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
+
+      - name: Build and install gst-plugins-base
+        run: brew install --build-from-source gst-plugins-base
+
+      - name: Build and install gst-plugins-good
+        run: brew install --build-from-source gst-plugins-good
+
+      - name: Build and install gst-plugins-bad
+        run: brew install --build-from-source gst-plugins-bad
+
+      - name: Build and install gst-plugins-ugly
+        run: brew install --build-from-source gst-plugins-ugly
+
+      - name: Build and install gst-libav
+        run: brew install gst-libav
+
+      - name: Build libgpod
+        shell: bash
+        env:
+          PERL_MM_USE_DEFAULT: 1
+        run: |
+          git clone https://github.com/strawberrymusicplayer/strawberry-libgpod
+          cd strawberry-libgpod
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          make -j 4
+          sudo make install
+
+      - name: Remove problematic files
+        shell: bash
+        run: |
+          sudo rm -rf /usr/local/opt/qt6/share/qt/plugins/virtualkeyboard /usr/local/opt/qt6/share/qt/plugins/platforminputcontexts
+          sudo rm -f /usr/local/Cellar/qt/*/share/qt/plugins/imageformats/libqpdf.dylib
+
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        env:
+          MACOSX_DEPLOYMENT_TARGET: 10.15
+          PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
+          GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
+          GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
+          GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=OFF -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake
+
+      - name: Build
+        working-directory: build
+        shell: bash
+        run: cmake --build . --config Release --parallel 4
+
+      - name: Install
+        working-directory: build
+        shell: bash
+        run: make install
+
+      - name: Manually copy files not handled by macdeployqt
+        working-directory: build
+        shell: bash
+        run: |
+          mkdir -p strawberry.app/Contents/Frameworks/
+          cp /usr/local/lib/libsoup-3.0.0.dylib strawberry.app/Contents/Frameworks/
+
+      - name: Deploy
+        working-directory: build
+        shell: bash
+        run: make deploy
+
+      - name: Deploy check
+        working-directory: build
+        shell: bash
+        run: make deploycheck
+
+      - name: Create DMG
+        working-directory: build
+        shell: bash
+        run: make dmg
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: upload-macos
+          path: build/strawberry-*.dmg
+
+
+  upload-macos:
+    name: Upload macOS DMG
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    needs:
+      - build-macos
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - uses: actions/download-artifact@v2
+        with:
+          path: uploads
+      - name: Install SSH keys
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{ secrets.KNOWN_HOSTS2 }}
+          key: ${{ secrets.SSH_KEY }}
+      - name: rsync
+        run: |
+          set -x
+          for i in $(find uploads -type f -name 'strawberry-*.dmg'); do
+            rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/macos/
+          done
+
