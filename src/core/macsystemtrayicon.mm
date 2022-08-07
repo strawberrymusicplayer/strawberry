@@ -82,7 +82,7 @@ class MacSystemTrayIconPrivate {
 
     // Don't look now.
     // This must be called after our custom NSApplicationDelegate has been set.
-    [(AppDelegate*)([NSApp delegate]) setDockMenu:dock_menu_];
+    [reinterpret_cast<AppDelegate*>([NSApp delegate]) setDockMenu:dock_menu_];
 
     ClearNowPlaying();
   }
