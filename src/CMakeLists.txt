@@ -944,8 +944,13 @@ link_directories(
   ${SQLITE_LIBRARY_DIRS}
   ${SINGLEAPPLICATION_LIBRARY_DIRS}
   ${SINGLECOREAPPLICATION_LIBRARY_DIRS}
-  ${Iconv_LIBRARY_DIRS}
 )
+
+if(HAVE_ICU)
+  link_directories(${ICU_LIBRARY_DIRS})
+else()
+  link_directories(${Iconv_LIBRARY_DIRS})
+endif()
 
 if(HAVE_ALSA)
   link_directories(${ALSA_LIBRARY_DIRS})
@@ -1058,10 +1063,20 @@ target_link_libraries(strawberry_lib PUBLIC
   ${QT_LIBRARIES}
   ${SINGLEAPPLICATION_LIBRARIES}
   ${SINGLECOREAPPLICATION_LIBRARIES}
-  ${Iconv_LIBRARIES}
   libstrawberry-common
   libstrawberry-tagreader
 )
+
+if(HAVE_ICU)
+  target_include_directories(strawberry_lib SYSTEM PRIVATE ${ICU_INCLUDE_DIRS})
+  target_link_libraries(strawberry_lib PRIVATE ${ICU_LIBRARIES})
+else()
+  if(FREEBSD AND NOT Iconv_LIBRARIES)
+    set(Iconv_LIBRARIES iconv)
+  endif()
+  target_include_directories(strawberry_lib SYSTEM PRIVATE ${Iconv_INCLUDE_DIRS})
+  target_link_libraries(strawberry_lib PRIVATE ${Iconv_LIBRARIES})
+endif()
 
 if(HAVE_ALSA)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${ALSA_INCLUDE_DIRS})
@@ -1139,15 +1154,6 @@ endif()
 if(HAVE_LIBMTP)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBMTP_INCLUDE_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${LIBMTP_LIBRARIES})
-endif()
-
-if(FREEBSD)
-  target_link_libraries(strawberry_lib PRIVATE iconv)
-endif()
-
-if(HAVE_ICU)
-  target_include_directories(strawberry_lib SYSTEM PRIVATE ${ICU_INCLUDE_DIRS})
-  target_link_libraries(strawberry_lib PRIVATE ${ICU_LIBRARIES})
 endif()
 
 if(APPLE)
