@@ -80,6 +80,7 @@ To build Strawberry from source you need the following installed on your system 
 * [GStreamer](https://gstreamer.freedesktop.org/) or [VLC](https://www.videolan.org)
 * [GnuTLS](https://www.gnutls.org/)
 * [TagLib 1.11.1 or higher](https://www.taglib.org/) or [TagParser](https://github.com/Martchus/tagparser)
+* [ICU](https://unicode-org.github.io/icu/)
 
 Optional dependencies:
 
