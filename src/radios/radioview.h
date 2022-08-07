@@ -51,7 +51,6 @@ class RadioView : public AutoExpandingTreeView {
   void OpenInNewPlaylist();
   void Homepage();
   void Donate();
-  void DoubleClicked();
 
  private:
   QMenu *menu_;

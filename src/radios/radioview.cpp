@@ -48,8 +48,6 @@ RadioView::RadioView(QWidget *parent)
   setAttribute(Qt::WA_MacShowFocusRect, false);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-  QObject::connect(this, &RadioView::doubleClicked, this, &RadioView::DoubleClicked);
-
 }
 
 RadioView::~RadioView() { delete menu_; }
@@ -181,17 +179,3 @@ void RadioView::Donate() {
 
 }
 
-void RadioView::DoubleClicked() {
-
-  const QModelIndexList selected_indexes = selectedIndexes();
-  if (selected_indexes.isEmpty()) return;
-
-  for (const QModelIndex &idx : selected_indexes) {
-    if (idx.data(RadioModel::Role_Type).toInt() != RadioItem::Type_Channel) {
-      return;
-    }
-  }
-
-  AddToPlaylist();
-
-}
