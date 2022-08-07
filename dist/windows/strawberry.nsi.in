@@ -369,7 +369,6 @@ Section "Strawberry" Strawberry
   File "gsturidownloader-1.0-0.dll"
   File "gstvideo-1.0-0.dll"
   File "harfbuzz.dll"
-  File "icudt71.dll"
   File "intl-8.dll"
   File "libbs2b.dll"
   File "libfaac_dll.dll"
@@ -397,8 +396,6 @@ Section "Strawberry" Strawberry
 
 !ifdef release
   File "freetype.dll"
-  File "icuin71.dll"
-  File "icuuc71.dll"
   File "libpng16.dll"
   File "libprotobuf.dll"
   File "libxml2.dll"
@@ -409,8 +406,6 @@ Section "Strawberry" Strawberry
 !endif
 !ifdef debug
   File "freetyped.dll"
-  File "icuin71d.dll"
-  File "icuuc71d.dll"
   File "libpng16d.dll"
   File "libprotobufd.dll"
   File "libxml2d.dll"
@@ -424,8 +419,11 @@ Section "Strawberry" Strawberry
 
   ; Common files
 
+  File "icudt71.dll"
   File "libfftw3-3.dll"
 !ifdef msvc && debug
+  File "icuin71d.dll"
+  File "icuuc71d.dll"
   File "Qt6Concurrentd.dll"
   File "Qt6Cored.dll"
   File "Qt6Guid.dll"
@@ -433,6 +431,8 @@ Section "Strawberry" Strawberry
   File "Qt6Sqld.dll"
   File "Qt6Widgetsd.dll"
 !else
+  File "icuin71.dll"
+  File "icuuc71.dll"
   File "Qt6Concurrent.dll"
   File "Qt6Core.dll"
   File "Qt6Gui.dll"
@@ -870,7 +870,6 @@ Section "Uninstall"
   Delete "$INSTDIR\gsturidownloader-1.0-0.dll"
   Delete "$INSTDIR\gstvideo-1.0-0.dll"
   Delete "$INSTDIR\harfbuzz.dll"
-  Delete "$INSTDIR\icudt71.dll"
   Delete "$INSTDIR\intl-8.dll"
   Delete "$INSTDIR\libbs2b.dll"
   Delete "$INSTDIR\libfaac_dll.dll"
@@ -898,8 +897,6 @@ Section "Uninstall"
 
 !ifdef release
   Delete "$INSTDIR\freetype.dll"
-  Delete "$INSTDIR\icuin71.dll"
-  Delete "$INSTDIR\icuuc71.dll"
   Delete "$INSTDIR\libpng16.dll"
   Delete "$INSTDIR\libprotobuf.dll"
   Delete "$INSTDIR\libxml2.dll"
@@ -910,8 +907,6 @@ Section "Uninstall"
 !endif
 !ifdef debug
   Delete "$INSTDIR\freetyped.dll"
-  Delete "$INSTDIR\icuin71d.dll"
-  Delete "$INSTDIR\icuuc71d.dll"
   Delete "$INSTDIR\libpng16d.dll"
   Delete "$INSTDIR\libprotobufd.dll"
   Delete "$INSTDIR\libxml2d.dll"
@@ -925,8 +920,11 @@ Section "Uninstall"
 
   ; Common files
 
+  Delete "$INSTDIR\icudt71.dll"
   Delete "$INSTDIR\libfftw3-3.dll"
 !ifdef msvc && debug
+  Delete "$INSTDIR\icuin71d.dll"
+  Delete "$INSTDIR\icuuc71d.dll"
   Delete "$INSTDIR\Qt6Concurrentd.dll"
   Delete "$INSTDIR\Qt6Cored.dll"
   Delete "$INSTDIR\Qt6Guid.dll"
@@ -934,6 +932,8 @@ Section "Uninstall"
   Delete "$INSTDIR\Qt6Sqld.dll"
   Delete "$INSTDIR\Qt6Widgetsd.dll"
 !else
+  Delete "$INSTDIR\icuin71.dll"
+  Delete "$INSTDIR\icuuc71.dll"
   Delete "$INSTDIR\Qt6Concurrent.dll"
   Delete "$INSTDIR\Qt6Core.dll"
   Delete "$INSTDIR\Qt6Gui.dll"
