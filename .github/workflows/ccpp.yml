@@ -9,7 +9,6 @@ jobs:
     container:
       image: opensuse/leap:15.4
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Update packages
         run: zypper --non-interactive --gpg-auto-import-keys ref
       - name: Install openSUSE dependencies
@@ -62,6 +61,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -83,7 +85,6 @@ jobs:
     container:
       image: opensuse/leap:15.3
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Add tagparser repo
         run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Leap_15.3/ repo-tagparser
       - name: Update packages
@@ -139,6 +140,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -168,7 +172,6 @@ jobs:
     container:
       image: opensuse/leap:15.3
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Add tagparser repo
         run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Leap_15.3/ repo-tagparser
       - name: Add Qt 6 repo
@@ -225,6 +228,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -250,13 +256,13 @@ jobs:
           CXX: g++-10
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
+
   build_opensuse_lp154_qt5:
     name: Build openSUSE Leap 15.4 Qt 5
     runs-on: ubuntu-latest
     container:
       image: opensuse/leap:15.4
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Update packages
         run: zypper --non-interactive --gpg-auto-import-keys ref
       - name: Install openSUSE dependencies
@@ -309,6 +315,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -338,7 +347,6 @@ jobs:
     container:
       image: opensuse/leap:15.4
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Update packages
         run: zypper --non-interactive --gpg-auto-import-keys ref
       - name: Install openSUSE dependencies
@@ -390,6 +398,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -415,13 +426,13 @@ jobs:
           CXX: g++-10
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
+
   build_opensuse_tumbleweed_qt5:
     name: Build openSUSE Tumbleweed Qt 5
     runs-on: ubuntu-latest
     container:
       image: opensuse/tumbleweed
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Add tagparser repo
         run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Tumbleweed/ repo-tagparser
       - name: Update packages
@@ -479,6 +490,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -508,7 +522,6 @@ jobs:
     container:
       image: opensuse/tumbleweed
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Add tagparser repo
         run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Tumbleweed/ repo-tagparser
       - name: Update packages
@@ -565,6 +578,9 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -588,6 +604,7 @@ jobs:
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
 
+
   build_fedora_35:
     name: Build Fedora 35
     runs-on: ubuntu-latest
@@ -596,14 +613,10 @@ jobs:
     env:
       RPM_BUILD_NCPUS: "2"
     steps:
-      - uses: actions/checkout@v1.2.0
-
       - name: Update packages
         run: yum update --assumeyes
-
       - name: Upgrade packages
         run: yum upgrade --assumeyes
-
       - name: Install Fedora dependencies
         run: >
             dnf install --assumeyes
@@ -646,6 +659,9 @@ jobs:
             desktop-file-utils
             libappstream-glib
             hicolor-icon-theme
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -668,6 +684,7 @@ jobs:
       - name: Build RPM
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
+
 
   build_fedora_36:
     name: Build Fedora 36
@@ -677,14 +694,10 @@ jobs:
     env:
       RPM_BUILD_NCPUS: "2"
     steps:
-      - uses: actions/checkout@v1.2.0
-
       - name: Update packages
         run: yum update --assumeyes
-
       - name: Upgrade packages
         run: yum upgrade --assumeyes
-
       - name: Install Fedora dependencies
         run: >
             dnf install --assumeyes
@@ -727,6 +740,9 @@ jobs:
             desktop-file-utils
             libappstream-glib
             hicolor-icon-theme
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -749,6 +765,7 @@ jobs:
       - name: Build RPM
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
+
 
 
   build_openmandriva_cooker:
@@ -759,14 +776,10 @@ jobs:
     env:
       RPM_BUILD_NCPUS: "2"
     steps:
-      - uses: actions/checkout@v1.2.0
-
       - name: Update packages
         run: dnf update --assumeyes
-
       - name: Upgrade packages
         run: dnf upgrade --assumeyes
-
       - name: Install OpenMandriva dependencies
         run: >
           dnf install --assumeyes
@@ -814,6 +827,9 @@ jobs:
           appstream
           appstream-util
           hicolor-icon-theme
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -845,7 +861,6 @@ jobs:
     container:
       image: debian:buster
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Install Debian dependencies
         run: >
             apt-get update && apt-get install -y
@@ -887,6 +902,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -908,7 +926,6 @@ jobs:
     container:
       image: debian:bullseye
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Install Debian dependencies
         run: >
             apt-get update && apt-get install -y
@@ -950,6 +967,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -964,13 +984,13 @@ jobs:
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
+
   build_debian_bookworm:
     name: Build Debian Bookworm
     runs-on: ubuntu-latest
     container:
       image: debian:bookworm
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Install Debian dependencies
         run: >
             apt-get update && apt-get install -y
@@ -1012,6 +1032,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -1027,13 +1050,13 @@ jobs:
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
 
+
   build_ubuntu_bionic:
     name: Build Ubuntu Bionic
     runs-on: ubuntu-latest
     container:
       image: ubuntu:bionic
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Install Ubuntu dependencies
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -1080,6 +1103,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -1101,7 +1127,6 @@ jobs:
     container:
       image: ubuntu:focal
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Install Ubuntu dependencies
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -1148,6 +1173,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -1161,6 +1189,7 @@ jobs:
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
+
 
   build_ubuntu_jammy:
     name: Build Ubuntu Jammy
@@ -1168,7 +1197,6 @@ jobs:
     container:
       image: ubuntu:jammy
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Install Ubuntu dependencies
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -1215,6 +1243,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -1229,13 +1260,13 @@ jobs:
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
+
   build_ubuntu_kinetic:
     name: Build Ubuntu Kinetic
     runs-on: ubuntu-latest
     container:
       image: ubuntu:kinetic
     steps:
-      - uses: actions/checkout@v1.2.0
       - name: Install Ubuntu dependencies
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -1282,6 +1313,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add safe git directory
         shell: bash
         run: git config --global --add safe.directory /__w/strawberry/strawberry
@@ -1295,6 +1329,7 @@ jobs:
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
+
 
 
   build-windows-mingw:
@@ -1303,7 +1338,9 @@ jobs:
     container:
       image: jonaski/strawberry-mxe-x86_64
     steps:
-      - uses: actions/checkout@v1.2.0
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Add safe git directory
         shell: bash
@@ -1468,6 +1505,7 @@ jobs:
         working-directory: build
         run: makensis strawberry.nsi
 
+
   build-windows-msvc-release:
     name: Build Windows MSVC Release
     runs-on: windows-2019
@@ -1478,7 +1516,9 @@ jobs:
           arch: x86_64
           toolset: 14.29
 
-      - uses: actions/checkout@v1.2.0
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Delete conflicting files
         shell: bash
@@ -1724,7 +1764,7 @@ jobs:
         working-directory: build
         run: makensis strawberry.nsi
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: upload-windows
           path: build/StrawberrySetup*.exe
@@ -1740,7 +1780,9 @@ jobs:
           arch: x86_64
           toolset: 14.29
 
-      - uses: actions/checkout@v1.2.0
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Delete conflicting files
         shell: bash
@@ -1986,11 +2028,10 @@ jobs:
         working-directory: build
         run: makensis strawberry.nsi
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: upload-windows
           path: build/StrawberrySetup*.exe
-
 
 
   upload-windows:
@@ -2001,8 +2042,8 @@ jobs:
       - build-windows-msvc-release
       - build-windows-msvc-debug
     steps:
-      - uses: actions/checkout@v1.2.0
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
         with:
           path: uploads
       - name: Install SSH keys
@@ -2018,11 +2059,14 @@ jobs:
           done
 
 
+
   build-freebsd:
     name: Build FreeBSD
     runs-on: macos-10.15
     steps:
-    - uses: actions/checkout@v1.2.0
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
     - name: Build FreeBSD
       id: build-freebsd
       uses: vmactions/freebsd-vm@v0.1.5
@@ -2040,11 +2084,11 @@ jobs:
           rm -rf build
 
 
+
   build-macos:
     name: Build macOS
     runs-on: macos-10.15
     steps:
-      - uses: actions/checkout@v1.2.0
 
       - name: Install packages
         run: |
@@ -2097,6 +2141,10 @@ jobs:
           sudo rm -rf /usr/local/opt/qt6/share/qt/plugins/virtualkeyboard /usr/local/opt/qt6/share/qt/plugins/platforminputcontexts
           sudo rm -f /usr/local/Cellar/qt/*/share/qt/plugins/imageformats/libqpdf.dylib
 
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -2143,7 +2191,7 @@ jobs:
         shell: bash
         run: make dmg
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: upload-macos
           path: build/strawberry-*.dmg
@@ -2156,8 +2204,8 @@ jobs:
     needs:
       - build-macos
     steps:
-      - uses: actions/checkout@v1.2.0
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
         with:
           path: uploads
       - name: Install SSH keys
