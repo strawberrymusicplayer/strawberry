@@ -225,8 +225,8 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
   // Sort out the undo/redo actions
   delete undo_;
   delete redo_;
-  undo_ = playlist->undo_stack()->createUndoAction(this);
-  redo_ = playlist->undo_stack()->createRedoAction(this);
+  undo_ = playlist->undo_stack()->createUndoAction(this, tr("Undo"));
+  redo_ = playlist->undo_stack()->createRedoAction(this, tr("Redo"));
   undo_->setIcon(IconLoader::Load("edit-undo"));
   undo_->setShortcut(QKeySequence::Undo);
   redo_->setIcon(IconLoader::Load("edit-redo"));
