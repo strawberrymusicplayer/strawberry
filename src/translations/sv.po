@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-08-09 12:43-0400\n"
+"PO-Revision-Date: 2022-08-09 02:40-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -3958,7 +3958,7 @@ msgstr "Omdirigering saknar token-kod!"
 
 #: playlist/playlistcontainer.cpp:226
 msgid "Redo"
-msgstr ""
+msgstr "Gör om"
 
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
@@ -5284,7 +5284,7 @@ msgstr "Ultrabredband (UWB)"
 
 #: playlist/playlistcontainer.cpp:225
 msgid "Undo"
-msgstr ""
+msgstr "Ångra"
 
 #: dialogs/snapdialog.cpp:74
 msgid "Uninstall the snap with:"
