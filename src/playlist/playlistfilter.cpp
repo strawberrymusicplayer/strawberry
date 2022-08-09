@@ -23,7 +23,6 @@
 
 #include <QObject>
 #include <QString>
-#include <QRegularExpression>
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
 
@@ -66,6 +65,7 @@ PlaylistFilter::PlaylistFilter(QObject *parent)
                      << Playlist::Column_Samplerate
                      << Playlist::Column_Bitdepth
                      << Playlist::Column_Bitrate;
+
 }
 
 PlaylistFilter::~PlaylistFilter() = default;
@@ -78,19 +78,13 @@ void PlaylistFilter::sort(int column, Qt::SortOrder order) {
 bool PlaylistFilter::filterAcceptsRow(int row, const QModelIndex &parent) const {
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  QString filter = filterRegularExpression().pattern().remove('\\');
+  size_t hash = qHash(filter_text_);
 #else
-  QString filter = filterRegExp().pattern();
-#endif
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  size_t hash = qHash(filter);
-#else
-  uint hash = qHash(filter);
+  uint hash = qHash(filter_text_);
 #endif
   if (hash != query_hash_) {
     // Parse the query
-    FilterParser p(filter, column_names_, numerical_columns_);
+    FilterParser p(filter_text_, column_names_, numerical_columns_);
     filter_tree_.reset(p.parse());
 
     query_hash_ = hash;
@@ -98,5 +92,12 @@ bool PlaylistFilter::filterAcceptsRow(int row, const QModelIndex &parent) const 
 
   // Test the row
   return filter_tree_->accept(row, parent, sourceModel());
+
+}
+
+void PlaylistFilter::SetFilterText(const QString &filter_text) {
+
+  filter_text_ = filter_text;
+  setFilterFixedString(filter_text);
 
 }

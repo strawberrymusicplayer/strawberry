@@ -49,7 +49,6 @@
 #include "smartplaylists/playlistgenerator_fwd.h"
 
 class QMimeData;
-class QSortFilterProxyModel;
 class QUndoStack;
 class QTimer;
 
@@ -180,7 +179,7 @@ class Playlist : public QAbstractListModel {
   void ScheduleSaveAsync();
 
   // Accessors
-  QSortFilterProxyModel *proxy() const;
+  PlaylistFilter *filter() const;
   Queue *queue() const { return queue_; }
 
   int id() const { return id_; }
@@ -380,7 +379,7 @@ class Playlist : public QAbstractListModel {
 
  private:
   bool is_loading_;
-  PlaylistFilter *proxy_;
+  PlaylistFilter *filter_;
   Queue *queue_;
   QTimer *timer_save_;
 

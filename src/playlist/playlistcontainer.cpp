@@ -55,6 +55,7 @@
 #include "playlistview.h"
 #include "playlistcontainer.h"
 #include "playlistmanager.h"
+#include "playlistfilter.h"
 #include "playlistparsers/playlistparser.h"
 #include "ui_playlistcontainer.h"
 #include "widgets/qsearchfield.h"
@@ -120,9 +121,9 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   QObject::connect(filter_timer_, &QTimer::timeout, this, &PlaylistContainer::UpdateFilter);
 
   // Replace playlist search filter with native search box.
-  QObject::connect(ui_->filter, &QSearchField::textChanged, this, &PlaylistContainer::MaybeUpdateFilter);
+  QObject::connect(ui_->search_field, &QSearchField::textChanged, this, &PlaylistContainer::MaybeUpdateFilter);
   QObject::connect(ui_->playlist, &PlaylistView::FocusOnFilterSignal, this, &PlaylistContainer::FocusOnFilter);
-  ui_->filter->installEventFilter(this);
+  ui_->search_field->installEventFilter(this);
 
   ReloadSettings();
 
@@ -177,10 +178,10 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
   if (view()->selectionModel()) {
     QObject::disconnect(view()->selectionModel(), &QItemSelectionModel::selectionChanged, this, &PlaylistContainer::SelectionChanged);
   }
-  if (playlist_ && playlist_->proxy()) {
-    QObject::disconnect(playlist_->proxy(), &QSortFilterProxyModel::modelReset, this, &PlaylistContainer::UpdateNoMatchesLabel);
-    QObject::disconnect(playlist_->proxy(), &QSortFilterProxyModel::rowsInserted, this, &PlaylistContainer::UpdateNoMatchesLabel);
-    QObject::disconnect(playlist_->proxy(), &QSortFilterProxyModel::rowsRemoved, this, &PlaylistContainer::UpdateNoMatchesLabel);
+  if (playlist_ && playlist_->filter()) {
+    QObject::disconnect(playlist_->filter(), &QSortFilterProxyModel::modelReset, this, &PlaylistContainer::UpdateNoMatchesLabel);
+    QObject::disconnect(playlist_->filter(), &QSortFilterProxyModel::rowsInserted, this, &PlaylistContainer::UpdateNoMatchesLabel);
+    QObject::disconnect(playlist_->filter(), &QSortFilterProxyModel::rowsRemoved, this, &PlaylistContainer::UpdateNoMatchesLabel);
   }
   if (playlist_) {
     QObject::disconnect(playlist_, &Playlist::modelReset, this, &PlaylistContainer::UpdateNoMatchesLabel);
@@ -192,7 +193,7 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
 
   // Set the view
   playlist->IgnoreSorting(true);
-  view()->setModel(playlist->proxy());
+  view()->setModel(playlist->filter());
   view()->SetPlaylist(playlist);
   view()->selectionModel()->select(manager_->current_selection(), QItemSelectionModel::ClearAndSelect);
   if (scroll_position != 0) view()->verticalScrollBar()->setValue(scroll_position);
@@ -202,16 +203,12 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
   emit ViewSelectionModelChanged();
 
   // Update filter
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  ui_->filter->setText(playlist->proxy()->filterRegularExpression().pattern().remove('\\'));
-#else
-  ui_->filter->setText(playlist->proxy()->filterRegExp().pattern());
-#endif
+  ui_->search_field->setText(playlist->filter()->filter_text());
 
   // Update the no matches label
-  QObject::connect(playlist_->proxy(), &QSortFilterProxyModel::modelReset, this, &PlaylistContainer::UpdateNoMatchesLabel);
-  QObject::connect(playlist_->proxy(), &QSortFilterProxyModel::rowsInserted, this, &PlaylistContainer::UpdateNoMatchesLabel);
-  QObject::connect(playlist_->proxy(), &QSortFilterProxyModel::rowsRemoved, this, &PlaylistContainer::UpdateNoMatchesLabel);
+  QObject::connect(playlist_->filter(), &QSortFilterProxyModel::modelReset, this, &PlaylistContainer::UpdateNoMatchesLabel);
+  QObject::connect(playlist_->filter(), &QSortFilterProxyModel::rowsInserted, this, &PlaylistContainer::UpdateNoMatchesLabel);
+  QObject::connect(playlist_->filter(), &QSortFilterProxyModel::rowsRemoved, this, &PlaylistContainer::UpdateNoMatchesLabel);
   QObject::connect(playlist_, &Playlist::modelReset, this, &PlaylistContainer::UpdateNoMatchesLabel);
   QObject::connect(playlist_, &Playlist::rowsInserted, this, &PlaylistContainer::UpdateNoMatchesLabel);
   QObject::connect(playlist_, &Playlist::rowsRemoved, this, &PlaylistContainer::UpdateNoMatchesLabel);
@@ -252,7 +249,7 @@ void PlaylistContainer::ReloadSettings() {
   ui_->clear->setIconSize(QSize(iconsize, iconsize));
   ui_->undo->setIconSize(QSize(iconsize, iconsize));
   ui_->redo->setIconSize(QSize(iconsize, iconsize));
-  ui_->filter->setIconSize(iconsize);
+  ui_->search_field->setIconSize(iconsize);
 
   bool playlist_clear = settings_.value("playlist_clear", true).toBool();
   if (playlist_clear) {
@@ -265,16 +262,16 @@ void PlaylistContainer::ReloadSettings() {
   bool show_toolbar = settings_.value("show_toolbar", true).toBool();
   ui_->toolbar->setVisible(show_toolbar);
 
-  if (!show_toolbar) ui_->filter->clear();
+  if (!show_toolbar) ui_->search_field->clear();
 
 }
 
 bool PlaylistContainer::SearchFieldHasFocus() const {
-  return ui_->filter->hasFocus();
+  return ui_->search_field->hasFocus();
 }
 
 void PlaylistContainer::FocusSearchField() {
-  if (ui_->toolbar->isVisible()) ui_->filter->setFocus();
+  if (ui_->toolbar->isVisible()) ui_->search_field->setFocus();
 }
 
 void PlaylistContainer::ActivePlaying() {
@@ -409,7 +406,7 @@ void PlaylistContainer::SetTabBarHeight(const int height) {
 void PlaylistContainer::MaybeUpdateFilter() {
 
   // delaying the filter update on small playlists is undesirable and an empty filter applies very quickly, too
-  if (manager_->current()->rowCount() < kFilterDelayPlaylistSizeThreshold || ui_->filter->text().isEmpty()) {
+  if (manager_->current()->rowCount() < kFilterDelayPlaylistSizeThreshold || ui_->search_field->text().isEmpty()) {
     UpdateFilter();
   }
   else {
@@ -420,7 +417,7 @@ void PlaylistContainer::MaybeUpdateFilter() {
 
 void PlaylistContainer::UpdateFilter() {
 
-  manager_->current()->proxy()->setFilterFixedString(ui_->filter->text());
+  manager_->current()->filter()->SetFilterText(ui_->search_field->text());
   ui_->playlist->JumpToCurrentlyPlayingTrack();
 
   UpdateNoMatchesLabel();
@@ -431,7 +428,7 @@ void PlaylistContainer::UpdateNoMatchesLabel() {
 
   Playlist *playlist = manager_->current();
   const bool has_rows = playlist->rowCount() != 0;
-  const bool has_results = playlist->proxy()->rowCount() != 0;
+  const bool has_results = playlist->filter()->rowCount() != 0;
 
   QString text;
   if (has_rows && !has_results) {
@@ -457,15 +454,15 @@ void PlaylistContainer::resizeEvent(QResizeEvent *e) {
 void PlaylistContainer::FocusOnFilter(QKeyEvent *event) {
 
   if (ui_->toolbar->isVisible()) {
-    ui_->filter->setFocus();
+    ui_->search_field->setFocus();
     switch (event->key()) {
       case Qt::Key_Backspace:
         break;
       case Qt::Key_Escape:
-        ui_->filter->clear();
+        ui_->search_field->clear();
         break;
       default:
-        ui_->filter->setText(ui_->filter->text() + event->text());
+        ui_->search_field->setText(ui_->search_field->text() + event->text());
         break;
     }
   }
@@ -494,7 +491,7 @@ void PlaylistContainer::SelectionChanged() {
 
 bool PlaylistContainer::eventFilter(QObject *objectWatched, QEvent *event) {
 
-  if (objectWatched == ui_->filter) {
+  if (objectWatched == ui_->search_field) {
     if (event->type() == QEvent::KeyPress) {
       QKeyEvent *e = static_cast<QKeyEvent*>(event);
       switch (e->key()) {
@@ -508,7 +505,7 @@ bool PlaylistContainer::eventFilter(QObject *objectWatched, QEvent *event) {
           QApplication::sendEvent(ui_->playlist, event);
           return true;
         case Qt::Key_Escape:
-          ui_->filter->clear();
+          ui_->search_field->clear();
           return true;
         default:
           break;

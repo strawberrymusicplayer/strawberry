@@ -120,7 +120,7 @@ const qint64 Playlist::kMaxScrobblePointNsecs = 240LL * kNsecPerSec;
 Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, const int id, const QString &special_type, const bool favorite, QObject *parent)
     : QAbstractListModel(parent),
       is_loading_(false),
-      proxy_(new PlaylistFilter(this)),
+      filter_(new PlaylistFilter(this)),
       queue_(new Queue(this, this)),
       timer_save_(new QTimer(this)),
       backend_(backend),
@@ -150,7 +150,7 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
 
   Restore();
 
-  proxy_->setSourceModel(this);
+  filter_->setSourceModel(this);
   queue_->setSourceModel(this);
 
   QObject::connect(queue_, &Queue::rowsAboutToBeRemoved, this, &Playlist::TracksAboutToBeDequeued);
@@ -491,7 +491,7 @@ void Playlist::ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode) {
 bool Playlist::FilterContainsVirtualIndex(const int i) const {
   if (i < 0 || i >= virtual_items_.count()) return false;
 
-  return proxy_->filterAcceptsRow(virtual_items_[i], QModelIndex());
+  return filter_->filterAcceptsRow(virtual_items_[i], QModelIndex());
 }
 
 int Playlist::NextVirtualIndex(int i, const bool ignore_repeat_track) const {
@@ -2013,7 +2013,7 @@ void Playlist::set_sequence(PlaylistSequence *v) {
 
 }
 
-QSortFilterProxyModel *Playlist::proxy() const { return proxy_; }
+PlaylistFilter *Playlist::filter() const { return filter_; }
 
 SongList Playlist::GetAllSongs() const {
 

@@ -28,7 +28,6 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QSortFilterProxyModel>
 #include <QList>
 #include <QMap>
 #include <QVariant>
@@ -58,6 +57,7 @@
 
 #include "collection/collectionbackend.h"
 #include "playlist/playlist.h"
+#include "playlist/playlistfilter.h"
 #include "playlist/playlistitem.h"
 #include "playlist/playlistmanager.h"
 #include "playlist/playlistsequence.h"
@@ -385,7 +385,7 @@ void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::Aut
   if (change == Engine::Auto) {
     const PlaylistSequence::RepeatMode repeat_mode = active_playlist->sequence()->repeat_mode();
     if (repeat_mode != PlaylistSequence::Repeat_Off) {
-      if ((repeat_mode == PlaylistSequence::Repeat_Track && nb_errors_received_ >= 3) || (nb_errors_received_ >= app_->playlist_manager()->active()->proxy()->rowCount())) {
+      if ((repeat_mode == PlaylistSequence::Repeat_Track && nb_errors_received_ >= 3) || (nb_errors_received_ >= app_->playlist_manager()->active()->filter()->rowCount())) {
         // We received too many "Error" state changes: probably looping over a playlist which contains only unavailable elements: stop now.
         nb_errors_received_ = 0;
         Stop();

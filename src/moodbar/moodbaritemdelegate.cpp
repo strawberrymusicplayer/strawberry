@@ -22,7 +22,6 @@
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QAbstractItemModel>
-#include <QSortFilterProxyModel>
 #include <QSettings>
 #include <QItemDelegate>
 #include <QList>
@@ -39,6 +38,7 @@
 #include "core/application.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistview.h"
+#include "playlist/playlistfilter.h"
 
 #include "moodbaritemdelegate.h"
 #include "moodbarloader.h"
@@ -276,7 +276,7 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
   data->state_ = Data::State_Loaded;
 
   Playlist *playlist = view_->playlist();
-  const QSortFilterProxyModel *filter = playlist->proxy();
+  const PlaylistFilter *filter = playlist->filter();
 
   // Update all the indices with the new pixmap.
   for (const QPersistentModelIndex &idx : std::as_const(data->indexes_)) {

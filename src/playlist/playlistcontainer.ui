@@ -143,7 +143,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSearchField" name="filter" native="true"/>
+       <widget class="QSearchField" name="search_field" native="true"/>
       </item>
      </layout>
     </widget>

@@ -135,6 +135,7 @@
 #include "playlist/playlistmanager.h"
 #include "playlist/playlistsequence.h"
 #include "playlist/playlistview.h"
+#include "playlist/playlistfilter.h"
 #include "queue/queue.h"
 #include "queue/queueview.h"
 #include "playlistparsers/playlistparser.h"
@@ -1509,9 +1510,9 @@ void MainWindow::PlayIndex(const QModelIndex &idx, Playlist::AutoScroll autoscro
   if (!idx.isValid()) return;
 
   int row = idx.row();
-  if (idx.model() == app_->playlist_manager()->current()->proxy()) {
+  if (idx.model() == app_->playlist_manager()->current()->filter()) {
     // The index was in the proxy model (might've been filtered), so we need to get the actual row in the source model.
-    row = app_->playlist_manager()->current()->proxy()->mapToSource(idx).row();
+    row = app_->playlist_manager()->current()->filter()->mapToSource(idx).row();
   }
 
   app_->playlist_manager()->SetActiveToCurrent();
@@ -1524,9 +1525,9 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &idx) {
   if (!idx.isValid()) return;
 
   QModelIndex source_idx = idx;
-  if (idx.model() == app_->playlist_manager()->current()->proxy()) {
+  if (idx.model() == app_->playlist_manager()->current()->filter()) {
     // The index was in the proxy model (might've been filtered), so we need to get the actual row in the source model.
-    source_idx = app_->playlist_manager()->current()->proxy()->mapToSource(idx);
+    source_idx = app_->playlist_manager()->current()->filter()->mapToSource(idx);
   }
 
   switch (doubleclick_playlist_addmode_) {
@@ -1765,7 +1766,7 @@ void MainWindow::AddToPlaylistFromAction(QAction *action) {
 
   // Get the selected playlist items
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
@@ -1804,8 +1805,8 @@ void MainWindow::PlaylistMenuHidden() {
 void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &index) {
 
   QModelIndex source_index = index;
-  if (index.model() == app_->playlist_manager()->current()->proxy()) {
-    source_index = app_->playlist_manager()->current()->proxy()->mapToSource(index);
+  if (index.model() == app_->playlist_manager()->current()->filter()) {
+    source_index = app_->playlist_manager()->current()->filter()->mapToSource(index);
   }
 
   playlist_menu_index_ = source_index;
@@ -1844,7 +1845,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
 
   for (const QModelIndex &idx : selection) {
 
-    const QModelIndex src_idx = app_->playlist_manager()->current()->proxy()->mapToSource(idx);
+    const QModelIndex src_idx = app_->playlist_manager()->current()->filter()->mapToSource(idx);
     if (!src_idx.isValid()) continue;
 
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(src_idx.row());
@@ -2048,7 +2049,7 @@ void MainWindow::RescanSongs() {
   SongList songs;
 
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
     if (!item) continue;
@@ -2073,7 +2074,7 @@ void MainWindow::EditTracks() {
   PlaylistItemList items;
 
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
     if (!item) continue;
@@ -2120,7 +2121,7 @@ void MainWindow::RenumberTracks() {
   }
 
   for (const QModelIndex &proxy_index : indexes) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
@@ -2151,7 +2152,7 @@ void MainWindow::SelectionSetValue() {
   QVariant column_value = app_->playlist_manager()->current()->data(playlist_menu_index_);
 
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
@@ -2265,7 +2266,7 @@ void MainWindow::ShowInCollection() {
 
   SongList songs;
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (item && item->IsLocalCollectionItem()) {
@@ -2518,7 +2519,7 @@ void MainWindow::AddFilesToTranscoder() {
   QStringList filenames;
 
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
     if (!item) continue;
@@ -2630,7 +2631,7 @@ void MainWindow::PlaylistOrganizeSelected(const bool copy) {
 
   SongList songs;
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
@@ -2652,7 +2653,7 @@ void MainWindow::PlaylistOpenInBrowser() {
 
   QList<QUrl> urls;
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     urls << QUrl(source_index.sibling(source_index.row(), Playlist::Column_Filename).data().toString());
   }
@@ -2665,7 +2666,7 @@ void MainWindow::PlaylistCopyUrl() {
 
   QList<QUrl> urls;
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
@@ -2686,7 +2687,7 @@ void MainWindow::PlaylistQueue() {
   QModelIndexList indexes;
   indexes.reserve(selected_rows.count());
   for (const QModelIndex &proxy_index : selected_rows) {
-    indexes << app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    indexes << app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
   }
 
   app_->playlist_manager()->current()->queue()->ToggleTracks(indexes);
@@ -2699,7 +2700,7 @@ void MainWindow::PlaylistQueuePlayNext() {
   QModelIndexList indexes;
   indexes.reserve(selected_rows.count());
   for (const QModelIndex &proxy_index : selected_rows) {
-    indexes << app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    indexes << app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
   }
 
   app_->playlist_manager()->current()->queue()->InsertFirst(indexes);
@@ -2712,7 +2713,7 @@ void MainWindow::PlaylistSkip() {
   QModelIndexList indexes;
   indexes.reserve(selected_rows.count());
   for (const QModelIndex &proxy_index : selected_rows) {
-    indexes << app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    indexes << app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
   }
 
   app_->playlist_manager()->current()->SkipTracks(indexes);
@@ -2726,7 +2727,7 @@ void MainWindow::PlaylistCopyToDevice() {
   SongList songs;
 
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
@@ -2875,7 +2876,7 @@ void MainWindow::PlaylistViewSelectionModelChanged() {
 
 void MainWindow::PlaylistCurrentChanged(const QModelIndex &proxy_current) {
 
-  const QModelIndex source_current = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_current);
+  const QModelIndex source_current = app_->playlist_manager()->current()->filter()->mapToSource(proxy_current);
 
   // If the user moves the current index using the keyboard and then presses
   // F2, we don't want that editing the last column that was right clicked on.
@@ -2927,7 +2928,7 @@ void MainWindow::AutoCompleteTags() {
   // Get the selected songs and start fetching tags for them
   SongList songs;
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
     if (!item) continue;
@@ -3144,7 +3145,7 @@ void MainWindow::PlaylistDelete() {
   QStringList files;
   bool is_current_item = false;
   for (const QModelIndex &proxy_idx : ui_->playlist->view()->selectionModel()->selectedRows()) {
-    QModelIndex source_idx = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_idx);
+    QModelIndex source_idx = app_->playlist_manager()->current()->filter()->mapToSource(proxy_idx);
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_idx.row());
     if (!item || !item->Metadata().url().isLocalFile()) continue;
     QString filename = item->Metadata().url().toLocalFile();

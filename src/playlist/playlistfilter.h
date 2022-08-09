@@ -48,6 +48,10 @@ class PlaylistFilter : public QSortFilterProxyModel {
   // public so Playlist::NextVirtualIndex and friends can get at it
   bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
+  void SetFilterText(const QString &filter_text);
+
+  QString filter_text() const { return filter_text_; }
+
  private:
   // Mutable because they're modified from filterAcceptsRow() const
   mutable QScopedPointer<FilterTree> filter_tree_;
@@ -59,6 +63,7 @@ class PlaylistFilter : public QSortFilterProxyModel {
 
   QMap<QString, int> column_names_;
   QSet<int> numerical_columns_;
+  QString filter_text_;
 };
 
 #endif  // PLAYLISTFILTER_H

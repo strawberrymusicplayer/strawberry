@@ -29,7 +29,6 @@
 #include <QWidget>
 #include <QAbstractItemView>
 #include <QItemSelectionModel>
-#include <QSortFilterProxyModel>
 #include <QTreeView>
 #include <QHeaderView>
 #include <QByteArray>
@@ -75,6 +74,7 @@
 #include "playlistdelegates.h"
 #include "playlistheader.h"
 #include "playlistview.h"
+#include "playlistfilter.h"
 #include "covermanager/currentalbumcoverloader.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "settings/appearancesettingspage.h"
@@ -903,7 +903,7 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
             QModelIndexList src_index_list;
             for (const QModelIndex &i : selectedIndexes()) {
               if (i.data(Playlist::Role_CanSetRating).toBool()) {
-                src_index_list << playlist_->proxy()->mapToSource(i);
+                src_index_list << playlist_->filter()->mapToSource(i);
               }
             }
             if (!src_index_list.isEmpty()) {
@@ -912,7 +912,7 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
           }
           else {
             // Update only this item rating
-            playlist_->RateSong(playlist_->proxy()->mapToSource(idx), new_rating);
+            playlist_->RateSong(playlist_->filter()->mapToSource(idx), new_rating);
           }
         }
         break;
@@ -965,7 +965,7 @@ void PlaylistView::JumpToCurrentlyPlayingTrack() {
 
   if (playlist_->current_row() == -1) return;
 
-  QModelIndex current = playlist_->proxy()->mapFromSource(playlist_->index(playlist_->current_row(), 0));
+  QModelIndex current = playlist_->filter()->mapFromSource(playlist_->index(playlist_->current_row(), 0));
   if (!current.isValid()) return;
 
   if (visibleRegion().boundingRect().contains(visualRect(current))) return;
@@ -986,7 +986,7 @@ void PlaylistView::JumpToLastPlayedTrack() {
 
   if (playlist_->last_played_row() == -1) return;
 
-  QModelIndex last_played = playlist_->proxy()->mapFromSource(playlist_->index(playlist_->last_played_row(), 0));
+  QModelIndex last_played = playlist_->filter()->mapFromSource(playlist_->index(playlist_->last_played_row(), 0));
   if (!last_played.isValid()) return;
 
   // Select last played song
