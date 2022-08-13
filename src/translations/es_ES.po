@@ -9,8 +9,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-07-14 04:22-0400\n"
-"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
+"PO-Revision-Date: 2022-08-12 09:12-0400\n"
+"Last-Translator: Pablo Felip <takerna@gmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -164,27 +164,27 @@ msgstr "%1 seleccionado de"
 #: context/contextview.cpp:441
 #, qt-format
 msgid "%1 song"
-msgstr "%1 canción"
+msgstr "%1 tema"
 
 #: device/deviceview.cpp:145
 #, qt-format
 msgid "%1 song%2"
-msgstr "%1 canción%2"
+msgstr "%1 tema%2"
 
 #: context/contextview.cpp:442
 #, qt-format
 msgid "%1 songs"
-msgstr "%1 canciones"
+msgstr "%1 temas"
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:152
 #, qt-format
 msgid "%1 songs found"
-msgstr "%1 canciones encontradas"
+msgstr "%1 temas encontrados"
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:149
 #, qt-format
 msgid "%1 songs found (showing %2)"
-msgstr "%1 canciones encontradas (se muestran %2)"
+msgstr "%1 temas encontrados (se muestran %2)"
 
 #: core/utilities.cpp:459
 #, qt-format
@@ -193,7 +193,7 @@ msgid ""
 "them all?"
 msgstr ""
 "Se han seleccionado %1 temas en %2 directorios. ¿Confirma que quiere "
-"abrirlos todos?"
+"abrirlos todas?"
 
 #: dialogs/edittagdialog.cpp:654
 #, qt-format
@@ -379,7 +379,7 @@ msgstr "&Derecha"
 
 #: ../build/src/ui_mainwindow.h:694
 msgid "&Save all playlists..."
-msgstr ""
+msgstr "&Guardar todas las lista de reproducción..."
 
 #: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
@@ -427,13 +427,13 @@ msgid ""
 "submitted to the server. Setting the time to 0 seconds will submit scrobbles "
 "immediately)."
 msgstr ""
-"(Este es el tiempo de espera desde que la canción es registrada hasta que "
-"los registros se envían al servidor. Ajustar el tiempo a 0 segundos enviará "
-"los registros inmediatamente)."
+"(Este es el tiempo de espera hasta que los registros de reproducción se "
+"envían al servidor. Ajustar el tiempo a 0 segundos enviará los registros "
+"inmediatamente)."
 
 #: dialogs/edittagdialog.cpp:99
 msgid "(different across multiple songs)"
-msgstr "(diferentes en cada canción)"
+msgstr "(diferentes en múltiples temas)"
 
 #: ../build/src/ui_albumcovermanager.h:220
 #: ../build/src/ui_albumcovermanager.h:221
@@ -611,47 +611,47 @@ msgstr "Añadir URL del tema"
 #: ../build/src/ui_contextsettingspage.h:368
 #: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song album tag"
-msgstr "Añadir etiqueta de álbum a la canción"
+msgstr "Añadir etiqueta de álbum al tema"
 
 #: ../build/src/ui_contextsettingspage.h:374
 #: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song albumartist tag"
-msgstr "Añadir etiqueta de artista del álbum a la canción"
+msgstr "Añadir etiqueta de artista del álbum al tema"
 
 #: ../build/src/ui_contextsettingspage.h:365
 #: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song artist tag"
-msgstr "Añadir etiqueta de artista a la canción"
+msgstr "Añadir etiqueta de artista a al tema"
 
 #: ../build/src/ui_contextsettingspage.h:380
 #: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song composer tag"
-msgstr "Añadir etiqueta de compositor a la canción"
+msgstr "Añadir etiqueta de compositor al tema"
 
 #: ../build/src/ui_contextsettingspage.h:389
 #: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song disc tag"
-msgstr "Añadir etiqueta de disco a la canción"
+msgstr "Añadir etiqueta de disco al tema"
 
 #: ../build/src/ui_contextsettingspage.h:411
 #: ../build/src/ui_notificationssettingspage.h:466
 msgid "Add song filename"
-msgstr "Añadir nombre de archivo de la canción"
+msgstr "Añadir nombre de archivo del tema"
 
 #: ../build/src/ui_contextsettingspage.h:395
 #: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song genre tag"
-msgstr "Añadir etiqueta de género a la canción"
+msgstr "Añadir etiqueta de género al tema"
 
 #: ../build/src/ui_contextsettingspage.h:386
 #: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song grouping tag"
-msgstr "Añadir etiqueta de agrupamiento a la canción"
+msgstr "Añadir etiqueta de agrupamiento al tema"
 
 #: ../build/src/ui_contextsettingspage.h:398
 #: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song length tag"
-msgstr "Añadir etiqueta de duración a la canción"
+msgstr "Añadir etiqueta de duración al tema"
 
 #: ../build/src/ui_contextsettingspage.h:423
 #: ../build/src/ui_notificationssettingspage.h:474
@@ -661,37 +661,37 @@ msgstr "Añadir etiqueta de año original"
 #: ../build/src/ui_contextsettingspage.h:383
 #: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
-msgstr "Añadir etiqueta de intérprete a la canción"
+msgstr "Añadir etiqueta de intérprete al tema"
 
 #: ../build/src/ui_contextsettingspage.h:401
 #: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song play count"
-msgstr "Añadir contador de reproducciones de la canción"
+msgstr "Añadir contador de reproducciones del tema"
 
 #: ../build/src/ui_contextsettingspage.h:419
 #: ../build/src/ui_notificationssettingspage.h:459
 msgid "Add song rating"
-msgstr "Añadir valoración de la canción"
+msgstr "Añadir valoración del tema"
 
 #: ../build/src/ui_contextsettingspage.h:404
 #: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add song skip count"
-msgstr "Añadir contador de omisiones de la canción"
+msgstr "Añadir contador de omisiones del tema"
 
 #: ../build/src/ui_contextsettingspage.h:371
 #: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song title tag"
-msgstr "Añadir etiqueta de título a la canción"
+msgstr "Añadir etiqueta de título al tema"
 
 #: ../build/src/ui_contextsettingspage.h:392
 #: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song track tag"
-msgstr "Añadir etiqueta de pista a la canción"
+msgstr "Añadir etiqueta de pista al tema"
 
 #: ../build/src/ui_contextsettingspage.h:377
 #: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song year tag"
-msgstr "Añadir etiqueta de año a la canción"
+msgstr "Añadir etiqueta de año al tema"
 
 #: ../build/src/ui_mainwindow.h:716
 msgid "Add stream..."
@@ -749,7 +749,7 @@ msgstr "Añadidas en los últimos tres meses"
 
 #: ../build/src/ui_collectionsettingspage.h:635
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzado"
 
 #: collection/collectionfilterwidget.cpp:298
 msgid "Advanced grouping..."
@@ -757,7 +757,7 @@ msgstr "Agrupamiento avanzado…"
 
 #: ../build/src/ui_collectionsettingspage.h:639
 msgid "Advanced settings require restart."
-msgstr ""
+msgstr "Los ajustes avanzados precisan reiniciar la aplicación."
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -797,8 +797,8 @@ msgstr "Artista del álbum"
 #: dialogs/edittagdialog.cpp:830
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
-"La edición de las portada de los álbumes solo está disponible para las "
-"canciones de la biblioteca."
+"La edición de las portada de los álbumes solo está disponible para los temas "
+"de la biblioteca."
 
 #: ../build/src/ui_collectionsettingspage.h:621
 msgid "Album cover pixmap cache"
@@ -932,15 +932,15 @@ msgstr "¿Confirma que quiere eliminar el ajuste predefinido «%1»?"
 
 #: dialogs/edittagdialog.cpp:1252
 msgid "Are you sure you want to reset this song's statistics?"
-msgstr "¿Confirma que quiere restablecer las estadísticas de esta canción?"
+msgstr "¿Confirma que quiere restablecer las estadísticas de este tema?"
 
 #: settings/collectionsettingspage.cpp:382
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
 msgstr ""
-"¿Estás seguro de que quieres guardar el nº reproducción y valoraciones en "
-"los archivos de todos los temas toda tu colección?"
+"¿Está seguro de que quiere guardar el nº de reproducciones y las "
+"valoraciones de todos los temas de su colección?"
 
 #: ../build/src/ui_edittagdialog.h:813
 msgid "Art Automatic"
@@ -1041,7 +1041,7 @@ msgstr "Buscar automáticamente la portada del álbum"
 
 #: context/contextview.cpp:313 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
-msgstr "Buscar automáticamente la letra de la canción"
+msgstr "Buscar automáticamente la letra de los temas"
 
 #: ../build/src/ui_playlistsettingspage.h:185
 msgid "Automatically select current playing track"
@@ -1204,7 +1204,7 @@ msgstr "Cambiar portada"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:79
 msgid "Change repeat mode"
-msgstr ""
+msgstr "Cambiar el modo de repetición"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
@@ -1212,11 +1212,11 @@ msgstr "Cambiar atajo…"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Change shuffle mode"
-msgstr ""
+msgstr "Cambiar el modo de reproducción aleatoria"
 
 #: ../build/src/ui_behavioursettingspage.h:315
 msgid "Change the currently playing song"
-msgstr "Cambiar la pista actualmente en reproducción"
+msgstr "Cambia el tema actualmente en reproducción"
 
 #: core/commandlineoptions.cpp:190
 msgid "Change the language"
@@ -1244,7 +1244,7 @@ msgstr "Elegir tipo de letra…"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:160
 msgid "Choose how the playlist is sorted and how many songs it will contain."
-msgstr "Selecciona como se ordenará la lista y qué temas contendrá"
+msgstr "Seleccionar como se ordenará la lista y qué temas contendrá"
 
 #: ../build/src/ui_coverssettingspage.h:164
 msgid "Choose the providers you want to use when searching for covers."
@@ -1414,8 +1414,8 @@ msgstr "Contexto"
 #: ../build/src/ui_playlistsettingspage.h:182
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
-"Saltar al siguiente elemento en la lista de reproducción si una canción no "
-"está disponible"
+"Saltar al siguiente elemento en la lista de reproducción si un tema no está "
+"disponible"
 
 #: dialogs/about.cpp:152
 msgid "Contributors"
@@ -1705,7 +1705,7 @@ msgstr "Reduce el volumen en <value> %"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:71
 msgid "Decrease volume"
-msgstr ""
+msgstr "Reducir el volumen"
 
 #: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
@@ -1748,7 +1748,7 @@ msgstr "Eliminar lista inteligente"
 
 #: ../build/src/ui_subsonicsettingspage.h:259
 msgid "Delete songs"
-msgstr ""
+msgstr "Eliminar temas"
 
 #: ../build/src/ui_organizedialog.h:263
 msgid "Delete the original files"
@@ -1802,11 +1802,11 @@ msgstr "Conexión directa a Internet"
 
 #: ../build/src/ui_transcodedialog.h:218
 msgid "Directory"
-msgstr "Directorio"
+msgstr "Carpeta"
 
 #: dialogs/saveplaylistsdialog.cpp:78
 msgid "Directory does not exist."
-msgstr ""
+msgstr "La carpeta no existe"
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
@@ -1883,11 +1883,11 @@ msgstr "Doble clic para abrir"
 
 #: ../build/src/ui_behavioursettingspage.h:314
 msgid "Double clicking a song in the playlist will..."
-msgstr "Al pulsar dos veces en una canción en la lista de reproducción…"
+msgstr "Al pulsar dos veces en un tema en la lista de reproducción…"
 
 #: ../build/src/ui_behavioursettingspage.h:304
 msgid "Double clicking a song will..."
-msgstr "Al pulsar dos veces en una canción…"
+msgstr "Al pulsar dos veces en un tema…"
 
 #: playlist/playlisttabbar.cpp:359
 msgid ""
@@ -2004,7 +2004,7 @@ msgstr "Activar seguimiento de reproducción para:"
 
 #: ../build/src/ui_playlistsettingspage.h:199
 msgid "Enable song metadata inline edition with click"
-msgstr "Editar metadatos de pistas directamente"
+msgstr "Editar metadatos de temas directamente"
 
 #: ../build/src/ui_equalizer.h:175
 msgid "Enable stereo balancer"
@@ -2016,7 +2016,7 @@ msgstr "Activar control de volumen"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:80
 msgid "Enable/disable scrobbling"
-msgstr ""
+msgstr "Activar o desactivar seguimiento de reproducción"
 
 #: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
@@ -2109,11 +2109,11 @@ msgstr "Error al conectar al dispositivo MTP %1"
 
 #: organize/organizeerrordialog.cpp:72
 msgid "Error copying songs"
-msgstr "Error al copiar pistas"
+msgstr "Error al copiar temas"
 
 #: organize/organizeerrordialog.cpp:77
 msgid "Error deleting songs"
-msgstr "Error al eliminar pistas"
+msgstr "Error al eliminar temas"
 
 #: transcoder/transcoder.cpp:415
 #, qt-format
@@ -2154,7 +2154,7 @@ msgstr "Expandir"
 
 #: ../build/src/ui_collectionsettingspage.h:598
 msgid "Expire unavailable songs after"
-msgstr "Hacer que los temas no disponibles expiren tras"
+msgstr "Hacer que los tema no disponibles expiren tras"
 
 #: widgets/loginstatewidget.cpp:156
 #, qt-format
@@ -2291,7 +2291,7 @@ msgstr "Descarga finalizada"
 
 #: ../build/src/ui_tidalsettingspage.h:336
 msgid "Fetch entire albums when searching songs"
-msgstr "Devolver el álbum completo al buscar pistas"
+msgstr "Devolver el álbum completo al buscar temas"
 
 #: covermanager/coverfromurldialog.cpp:87
 #: covermanager/coverfromurldialog.cpp:101
@@ -2364,13 +2364,11 @@ msgstr "Tipo de archivo"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:94
 msgid "Find songs in your collection that match the criteria you specify."
-msgstr ""
-"Encuentre temas en la colección que coincidan con los criterios que "
-"especifique."
+msgstr "Encontrar temas que coincidan con sus criterios en la colección."
 
 #: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
-msgstr "Identificando la canción"
+msgstr "Identificando tema"
 
 #: smartplaylists/smartplaylistwizard.cpp:86
 msgid "Finish"
@@ -2427,7 +2425,7 @@ msgid ""
 "to rescan all the songs again next time you connect it."
 msgstr ""
 "Olvidar un dispositivo lo eliminará de la lista y Strawberry tendrá que "
-"volver a examinar todas las pistas la próxima vez que lo conecte."
+"volver a examinar todos los temas la próxima vez que lo conecte."
 
 #: ../build/src/ui_collectionviewcontainer.h:55
 #: ../build/src/ui_playlistcontainer.h:148
@@ -2532,13 +2530,13 @@ msgstr "Se obtuvieron %1 portadas de %2 (%3 fallaron)"
 #: ../build/src/ui_playlistsettingspage.h:183
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr ""
-"Mostrar en gris las pistas no disponibles en listas de reproducción al "
+"Mostrar en gris los temas no disponibles en las listas de reproducción al "
 "reproducir"
 
 #: ../build/src/ui_playlistsettingspage.h:184
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr ""
-"Mostrar en gris las pistas no disponibles en listas de reproducción al "
+"Mostrar en gris los temas no disponibles en listas de reproducción al "
 "iniciar"
 
 #: ../build/src/ui_groupbydialog.h:181
@@ -2686,22 +2684,22 @@ msgstr "Iconos en la parte superior"
 
 #: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
-msgstr "Identificando la canción"
+msgstr "Identificando el tema"
 
 #: ../build/src/ui_playlistsettingspage.h:197
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
 msgstr ""
-"Al activar esta opción podrá pulsar en la canción seleccionada de la lista "
-"de reproducción y editar la etiqueta directamente"
+"Al activar esta opción podrá hacer clic en el tema seleccionado de la lista "
+"de reproducción y editar su la etiqueta directamente"
 
 #: device/devicemanager.cpp:611 device/devicemanager.cpp:619
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
 msgstr ""
-"Si continúa, este dispositivo funcionará con lentitud y las pistas que se "
+"Si continúa, este dispositivo funcionará con lentitud y los temas que se "
 "copien en él podrían no funcionar."
 
 #: dialogs/about.cpp:124
@@ -2761,7 +2759,7 @@ msgstr "Incluir portada en la notificación"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
-msgstr "Incluir todas las canciones"
+msgstr "Incluir todas los temas"
 
 #: core/commandlineoptions.cpp:175
 msgid "Increase the volume by 4 percent"
@@ -2773,7 +2771,7 @@ msgstr "Aumentar el volumen en <value> %"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:70
 msgid "Increase volume"
-msgstr ""
+msgstr "Aumentar el volumen"
 
 #: ../build/src/ui_deviceproperties.h:374
 msgid "Information"
@@ -2785,7 +2783,7 @@ msgstr "Insertar…"
 
 #: dialogs/snapdialog.cpp:79
 msgid "Install strawberry through PPA:"
-msgstr ""
+msgstr "Instalar Strawberry mediante un PPA:"
 
 #: core/database.cpp:495
 msgid "Integrity check"
@@ -2821,7 +2819,7 @@ msgstr "Se ha detectado que Strawbery está ejecutándose como un «snap»"
 
 #: ../build/src/ui_behavioursettingspage.h:301
 msgid "Jump to previous song right away"
-msgstr "Ir a la pista anterior inmediatamente"
+msgstr "Ir al tema anterior inmediatamente"
 
 #: ../build/src/ui_appearancesettingspage.h:618
 msgid "Keep aspect ratio"
@@ -2868,7 +2866,7 @@ msgstr "Última reproducción"
 #: dialogs/lastfmimportdialog.cpp:157
 #, qt-format
 msgid "Last played for %1 songs received."
-msgstr "Info de última reproducción para %1 temas recibida."
+msgstr "Última reproducción para %1 temas recibidas."
 
 #: ../build/src/ui_scrobblersettingspage.h:429
 msgid "Last.fm"
@@ -2946,7 +2944,7 @@ msgstr "Cargando lista inteligente"
 
 #: collection/collectionmodel.cpp:213
 msgid "Loading songs"
-msgstr "Cargando pistas"
+msgstr "Cargando temas"
 
 #: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:409
 msgid "Loading tracks"
@@ -3046,7 +3044,7 @@ msgstr "Fabricante"
 
 #: ../build/src/ui_collectionsettingspage.h:597
 msgid "Mark disappeared songs unavailable"
-msgstr "Marcar las pistas desaparecidas como no disponibles"
+msgstr "Marcar los temas desaparecidas como no disponibles"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:110
 msgid "Match every search term (AND)"
@@ -3266,7 +3264,7 @@ msgstr "Lista inteligente nueva…"
 
 #: widgets/freespacebar.cpp:68
 msgid "New songs"
-msgstr "Canciones nuevas"
+msgstr "Temas nuevos"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
@@ -3282,7 +3280,7 @@ msgstr "Siguiente"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:68
 msgid "Next track"
-msgstr ""
+msgstr "Pista siguiente"
 
 #: core/utilities.cpp:184
 msgid "Next week"
@@ -3321,7 +3319,7 @@ msgstr "Sin bloques cortos"
 
 #: context/contextview.cpp:438
 msgid "No song playing"
-msgstr "No suena nada"
+msgstr "No está sonando ningún tema"
 
 #: collection/savedgroupingmanager.cpp:82 dialogs/edittagdialog.cpp:763
 #: dialogs/edittagdialog.cpp:773 ../build/src/ui_groupbydialog.h:183
@@ -3332,8 +3330,7 @@ msgstr "Ninguno"
 #: core/mainwindow.cpp:2596 core/mainwindow.cpp:2747
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
-msgstr ""
-"Ninguna de las pistas seleccionadas era apta para copiarse en un dispositivo"
+msgstr "Ninguna de los temas seleccionados podía copiarse en un dispositivo"
 
 #: moodbar/moodbarrenderer.cpp:171
 msgid "Normal"
@@ -3386,7 +3383,7 @@ msgstr "&Sobrescribir todo"
 
 #: settings/notificationssettingspage.cpp:68
 msgid "OSD Preview"
-msgstr "Previsualización del panel de información en pantalla"
+msgstr "Previsualización del panel de información"
 
 #: osd/osdbase.cpp:269
 msgid "Off"
@@ -3461,7 +3458,7 @@ msgstr "Optimizar para &calidad"
 
 #: ../build/src/ui_backendsettingspage.h:561
 msgid "Options"
-msgstr ""
+msgstr "Opciones"
 
 #: ../build/src/ui_transcodedialog.h:228
 msgid "Options..."
@@ -3518,12 +3515,12 @@ msgstr "Opciones de salida"
 #: ../build/src/ui_collectionsettingspage.h:631
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
+"Sobreescribir el número de reproducciones al volver a leer los temas desde "
+"el disco."
 
 #: ../build/src/ui_collectionsettingspage.h:632
 msgid "Overwrite database rating when songs are re-read from disk"
-msgstr ""
-"Sobreescribir valoraciones en la base de datos al releer los temas desde el "
-"disco"
+msgstr "Sobreescribir valoraciones al volver a leer los temas desde el disco"
 
 #: ../build/src/ui_collectionsettingspage.h:618
 msgid "Overwrite existing file"
@@ -3634,17 +3631,18 @@ msgstr "Reproducir la <n>.ª pista de la lista de reproducción"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:65
 msgid "Play/Pause"
-msgstr ""
+msgstr "Reproducir/Pausar"
 
 #: dialogs/lastfmimportdialog.cpp:154
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
-msgstr "Nº de %1 reproducciones y última reproducción para %2 temas recibida."
+msgstr ""
+"Nº de %1 reproducciones y última reproducción para %2 temas recibidas."
 
 #: dialogs/lastfmimportdialog.cpp:160
 #, qt-format
 msgid "Playcounts for %1 songs received."
-msgstr "Nº de reproducciones para %1 temas recibidos."
+msgstr "Nº de reproducciones para %1 temas recibidas."
 
 #: core/commandlineoptions.cpp:167
 msgid "Player options"
@@ -3671,8 +3669,8 @@ msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
 "playlist?"
 msgstr ""
-"La lista de reproducción tiene %1 temas, demasiadas para deshacer, ¿estás "
-"seguro de que quieres eliminarla?"
+"La lista de reproducción tiene %1 temas, demasiados para deshacer, ¿estás "
+"seguro de que quiere eliminarla?"
 
 #: playlist/playlistlistcontainer.cpp:365
 msgid "Playlist must be open first."
@@ -3685,7 +3683,7 @@ msgstr "Opciones de la lista de reproducción"
 
 #: ../build/src/ui_appearancesettingspage.h:631
 msgid "Playlist playing song color"
-msgstr "Color de canción en repr. en lista"
+msgstr "Color de tema de la lista en reproducción"
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
@@ -3782,7 +3780,7 @@ msgstr "Al pulsar en el botón «Anterior» del reproductor…"
 
 #: ../build/src/ui_notificationssettingspage.h:498
 msgid "Pretty OSD options"
-msgstr "Panel de información en pantalla estético"
+msgstr "Panel de información estilizado"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
 #: ../build/src/ui_contextsettingspage.h:443
@@ -3815,7 +3813,7 @@ msgstr "Progreso"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:135
 msgid "Put songs in a random order"
-msgstr "Disponer canciones en orden aleatorio"
+msgstr "Disponer temas en orden aleatorio"
 
 #: core/mainwindow.cpp:379 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:270
@@ -3963,7 +3961,7 @@ msgstr "¡Falta código del token de redirección!"
 
 #: playlist/playlistcontainer.cpp:226
 msgid "Redo"
-msgstr ""
+msgstr "Volver a hacer"
 
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
@@ -4092,7 +4090,7 @@ msgstr "Volver a poblar"
 
 #: collection/collectionview.cpp:370
 msgid "Rescan song(s)"
-msgstr "Volver a escanear pistas"
+msgstr "Volver a escanear tema(s)"
 
 #: core/mainwindow.cpp:738
 msgid "Rescan song(s)..."
@@ -4112,7 +4110,7 @@ msgstr "Redimensionar la ventana"
 
 #: ../build/src/ui_behavioursettingspage.h:302
 msgid "Restart song, then jump to previous if pressed again"
-msgstr "Reiniciar la pista e ir a la anterior si se hace clic nuevamente"
+msgstr "Reiniciar el tema e ir al anterior si se hace clic nuevamente"
 
 #: core/commandlineoptions.cpp:181
 msgid ""
@@ -4168,17 +4166,17 @@ msgstr "Buscando artistas..."
 #: qobuz/qobuzrequest.cpp:718
 #, qt-format
 msgid "Retrieving songs for %1 album..."
-msgstr "Buscando pistas de %1 álbum..."
+msgstr "Buscando temas de %1 álbum..."
 
 #: subsonic/subsonicrequest.cpp:317 tidal/tidalrequest.cpp:739
 #: qobuz/qobuzrequest.cpp:719
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
-msgstr "Buscando pistas de %1 álbumes..."
+msgstr "Buscando temas de %1 álbumes..."
 
 #: tidal/tidalrequest.cpp:245 qobuz/qobuzrequest.cpp:228
 msgid "Retrieving songs..."
-msgstr "Buscando pistas..."
+msgstr "Buscando temas..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
@@ -4241,7 +4239,7 @@ msgstr "Guardar las portadas en la carpeta de álbumes"
 
 #: ../build/src/ui_collectionsettingspage.h:612
 msgid "Save album covers in cache directory"
-msgstr "Guardar portadas en directorio de caché"
+msgstr "Guardar portadas en carpeta de caché"
 
 #: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Save cover to disk..."
@@ -4285,7 +4283,7 @@ msgstr "Guardar valoraciones en las etiquetas de los temas cuando sea posible"
 
 #: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Save the .mood files directly in the songs folders"
-msgstr "Guardar archivos .mood directamente en las carpetas de las pistas"
+msgstr "Guardar archivos .mood directamente en las carpetas de los temas"
 
 #: ../build/src/ui_savedgroupingmanager.h:100
 msgid "Saved Grouping Manager"
@@ -4378,23 +4376,23 @@ msgstr "Segundo nivel"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:74
 msgid "Seek backward"
-msgstr ""
+msgstr "Desplazarse hacia atrás"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:73
 msgid "Seek forward"
-msgstr ""
+msgstr "Desplazarse hacia adelante"
 
 #: core/commandlineoptions.cpp:180
 msgid "Seek the currently playing track by a relative amount"
-msgstr "Moverse en la pista actual hacia una posición relativa"
+msgstr "Desplazarse en la pista en reproducción un tiempo determinado"
 
 #: core/commandlineoptions.cpp:179
 msgid "Seek the currently playing track to an absolute position"
-msgstr "Moverse en la pista actual hacia una posición absoluta"
+msgstr "Desplazarse en la pista en reproducción hasta una posición absoluta"
 
 #: ../build/src/ui_behavioursettingspage.h:318
 msgid "Seeking using a keyboard shortcut or mouse wheel"
-msgstr "Moverse en la pista mediante un atajo de teclado o la rueda del ratón"
+msgstr "Desplazarse usando un atajo de teclado o la rueda del ratón"
 
 #: ../build/src/ui_appearancesettingspage.h:591
 msgid "Select background color:"
@@ -4410,11 +4408,11 @@ msgstr "Seleccionar la mejor coincidencia"
 
 #: ../build/src/ui_saveplaylistsdialog.h:117
 msgid "Select directory for saving playlists"
-msgstr ""
+msgstr "Seleccione una carpeta para guardar las listas de reproducción"
 
 #: dialogs/saveplaylistsdialog.cpp:62
 msgid "Select directory for the playlists"
-msgstr ""
+msgstr "Seleccione una carpeta para las listas de reproducción"
 
 #: ../build/src/ui_appearancesettingspage.h:589
 msgid "Select foreground color:"
@@ -4422,7 +4420,7 @@ msgstr "Elegir el color de frente:"
 
 #: ../build/src/ui_appearancesettingspage.h:634
 msgid "Select playlist playing song color:"
-msgstr "Seleccione el color de canción en repr. en listas:"
+msgstr "Color de tema de la lista en reproducción:"
 
 #: ../build/src/ui_appearancesettingspage.h:597
 msgid "Select tabbar color:"
@@ -4485,7 +4483,7 @@ msgstr "Mostrar"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:76
 msgid "Show OSD"
-msgstr ""
+msgstr "Mostrar panel de información"
 
 #: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
@@ -4493,7 +4491,7 @@ msgstr "Mostrar una notificación &nativa del sistema"
 
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
-msgstr ""
+msgstr "Mostrar una animación en la pista en reproducción"
 
 #: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
@@ -4521,7 +4519,7 @@ msgstr "Mostrar una notificación en la bandeja del siste&ma"
 
 #: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a pretty OSD"
-msgstr "Mostrar panel de información en pantalla chulo"
+msgstr "Mostrar panel de información estilizado"
 
 #: widgets/playingwidget.cpp:143
 msgid "Show above status bar"
@@ -4537,7 +4535,7 @@ msgstr "Mostrar portada del álbum en la colección"
 
 #: core/mainwindow.cpp:664
 msgid "Show all songs"
-msgstr "Mostrar todas las pistas"
+msgstr "Mostrar todos los temas"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
@@ -4545,7 +4543,7 @@ msgstr "Mostrar todos los temas"
 
 #: ../build/src/ui_playlistsettingspage.h:179
 msgid "Show bars on the currently playing track"
-msgstr ""
+msgstr "Mostrar barras en la pista en reproducción"
 
 #: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Show dialog for errors"
@@ -4618,7 +4616,7 @@ msgstr "Mostrar avance en el icono de la bandeja del sistema"
 
 #: context/contextview.cpp:301
 msgid "Show song technical data"
-msgstr "Mostrar información técnica de la canción"
+msgstr "Mostrar información técnica del tema"
 
 #: ../build/src/ui_behavioursettingspage.h:280
 msgid "Show system tray icon"
@@ -4638,7 +4636,7 @@ msgstr "Mostrar ventana principal minimizada"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Show/Hide"
-msgstr ""
+msgstr "Mostrar/Ocultar"
 
 #: ../build/src/ui_playlistsequence.h:122
 msgid "Shuffle"
@@ -4727,11 +4725,11 @@ msgstr "SomaFM"
 
 #: ../build/src/ui_contextsettingspage.h:436
 msgid "Song Lyrics"
-msgstr "Letra de la canción"
+msgstr "Letra"
 
 #: ../build/src/ui_collectionsettingspage.h:596
 msgid "Song fingerprinting and tracking"
-msgstr "Identificación y seguimiento de canciones"
+msgstr "Identificación y seguimiento de temas"
 
 #: ../build/src/ui_collectionsettingspage.h:628
 msgid "Song playcounts and ratings"
@@ -4739,7 +4737,7 @@ msgstr "Nº de reproducciones y valoraciones"
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Songs"
-msgstr "Pistas"
+msgstr "Temas"
 
 #: ../build/src/ui_scrobblersettingspage.h:407
 msgid ""
@@ -4747,14 +4745,14 @@ msgid ""
 "seconds, have been playing for at least half its duration or for 4 minutes "
 "(whichever occurs earlier)."
 msgstr ""
-"La reproducción de una canción es registrada solo si dispone de metadatos "
-"válidos, dura más de 30 segundos y se ha reproducido al menos durante la "
-"mitad de su duración o 4 minutos (lo que ocurra primero)."
+"La reproducción de un tema se registra solo si dispone de metadatos válidos, "
+"dura más de 30 segundos y se ha reproducido al menos durante la mitad de su "
+"duración o 4 minutos (lo que ocurra primero)."
 
 #: ../build/src/ui_tidalsettingspage.h:334
 #: ../build/src/ui_qobuzsettingspage.h:285
 msgid "Songs search limit"
-msgstr "Límite de búsqueda de pistas"
+msgstr "Límite de búsqueda de temas"
 
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
@@ -4803,7 +4801,7 @@ msgstr "Iniciando %1"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:66
 msgid "Stop"
-msgstr ""
+msgstr "Detener"
 
 #: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
@@ -4827,7 +4825,7 @@ msgstr "Detener reproducción al terminar la pista actual"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:67
 msgid "Stop playing after current track"
-msgstr ""
+msgstr "Detener la reproducción tras la pista actual"
 
 #: osd/osdbase.cpp:269
 #, qt-format
@@ -5036,7 +5034,7 @@ msgstr "No se pudo iniciar la orden «%1»."
 
 #: ../build/src/ui_appearancesettingspage.h:603
 msgid "The album cover of the currently playing song"
-msgstr "La portada del álbum de la canción en reproducción"
+msgstr "La portada del álbum del tema en reproducción"
 
 #: dialogs/deleteconfirmationdialog.cpp:58
 msgid "The following files will be deleted from disk:"
@@ -5068,22 +5066,22 @@ msgstr ""
 
 #: collection/collectionview.cpp:482
 msgid "There are other songs in this album"
-msgstr "Hay otras pistas en este álbum"
+msgstr "Hay otros temas en este álbum"
 
 #: organize/organizeerrordialog.cpp:73
 msgid ""
 "There were problems copying some songs.  The following files could not be "
 "copied:"
 msgstr ""
-"Hubo problemas al copiar algunas pistas. No se pudieron copiar los "
-"siguientes archivos:"
+"Hubo problemas al copiar algunos temas. No se pudieron copiar los siguientes "
+"archivos:"
 
 #: organize/organizeerrordialog.cpp:78
 msgid ""
 "There were problems deleting some songs.  The following files could not be "
 "deleted:"
 msgstr ""
-"Hubo problemas al eliminar algunas pistas. No se pudieron eliminar los "
+"Hubo problemas al eliminar algunos temas. No se pudieron eliminar los "
 "siguientes archivos:"
 
 #: device/deviceview.cpp:428
@@ -5200,7 +5198,7 @@ msgstr "Hoy"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:77
 msgid "Toggle Pretty OSD"
-msgstr ""
+msgstr "Conmutar panel de información estilizado"
 
 #: core/mainwindow.cpp:719 core/mainwindow.cpp:1921
 msgid "Toggle queue status"
@@ -5216,7 +5214,7 @@ msgstr "Alternar estado de avance"
 
 #: core/commandlineoptions.cpp:189
 msgid "Toggle visibility for the pretty on-screen-display"
-msgstr "Conmutar visibilidad del panel de información en pantalla estético"
+msgstr "Conmutar visibilidad del panel de información estilizado"
 
 #: core/utilities.cpp:182
 msgid "Tomorrow"
@@ -5224,7 +5222,7 @@ msgstr "Mañana"
 
 #: core/utilities.cpp:453
 msgid "Too many songs selected."
-msgstr "Demasiadas pistas seleccionadas"
+msgstr "Demasiados temas seleccionados"
 
 #: ../build/src/ui_albumcovermanager.h:218
 msgid "Total albums:"
@@ -5271,7 +5269,7 @@ msgstr "Apagar"
 
 #: ../build/src/ui_saveplaylistsdialog.h:119
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: device/giolister.cpp:194
 msgid "URI"
@@ -5291,7 +5289,7 @@ msgstr "Banda ultraancha (UWB)"
 
 #: playlist/playlistcontainer.cpp:225
 msgid "Undo"
-msgstr ""
+msgstr "Deshacer"
 
 #: dialogs/snapdialog.cpp:74
 msgid "Uninstall the snap with:"
@@ -5314,11 +5312,11 @@ msgstr "Error desconocido"
 
 #: playlist/playlistmanager.cpp:268
 msgid "Unknown file extension for playlist."
-msgstr ""
+msgstr "Extensión desconocida para lista de reproducción"
 
 #: playlist/playlistmanager.cpp:268
 msgid "Unknown playlist extension"
-msgstr ""
+msgstr "Extensión de la lista de reproducción desconocida"
 
 #: dialogs/edittagdialog.cpp:766
 msgid "Unset"
@@ -5495,7 +5493,7 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:295
 msgid "Using the menu to add a song will..."
-msgstr "Al usar el menú para añadir una canción…"
+msgstr "Usar el menú para añadir un tema…"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:230
 msgid "Variable bit rate"
@@ -5546,8 +5544,8 @@ msgid ""
 msgstr ""
 "Atención: se reemplazará el recuento de reproducciones y la última "
 "reproducción de los temas coincidentes con los datos procedentes de Last.fm. "
-"El recuento de reproducciones se sobreescribirá atendiendo a artista y "
-"nombre del tema. Haga una copia de respaldo de su base de datos antes de "
+"El recuento de reproducciones se sobreescribirá atendiendo al artista y "
+"nombre del tema. Haga una copia de seguridad de su base de datos antes de "
 "comenzar."
 
 #: ../build/src/ui_transcodersettingspage.h:188
@@ -5717,7 +5715,7 @@ msgstr "Cero"
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
-msgstr "añadir %n pistas"
+msgstr "añadir %n temas"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:252
 msgid "after"
