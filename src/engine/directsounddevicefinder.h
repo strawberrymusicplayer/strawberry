@@ -40,7 +40,7 @@ class DirectSoundDeviceFinder : public DeviceFinder {
     QList<Device> devices;
   };
 
-  static BOOL EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr)
+  static BOOL CALLBACK EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr)
 #ifdef _MSC_VER
     ;
 #else
