@@ -223,7 +223,11 @@ const int kTrackPositionUpdateTimeMs = 1000;
 
 #ifdef HAVE_QTSPARKLE
 #  ifdef _MSC_VER
+#    ifdef _M_X64
 constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-msvc-x64";
+#    else
+constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-msvc-x86";
+#    endif
 #  else
 #    ifdef __x86_64__
 constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-mingw-x64";
