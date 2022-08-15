@@ -15,6 +15,8 @@ bool IsSupportedFormat(const QFileInfo& file_info);
 void ReadFile(const QFileInfo& file_info,
               spb::tagreader::SongMetadata* song_info);
 
+uint32_t UnpackBytes(const char* const arr, size_t length);
+
 namespace SPC {
 /* SPC SPEC:
  * http://vspcplay.raphnet.net/spc_file_format.txt
