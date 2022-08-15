@@ -52,7 +52,8 @@ const char *FileView::kFileFilter =
     "*.aif *.aiff *.mka *.tta *.dsf *.dsd "
     "*.cue *.m3u *.m3u8 *.pls *.xspf *.asxini "
     "*.ac3 *.dts "
-    "*.mod *.s3m *.xm *.it";
+    "*.mod *.s3m *.xm *.it"
+    "*.spc *.vgm";
 
 FileView::FileView(QWidget *parent)
     : QWidget(parent),

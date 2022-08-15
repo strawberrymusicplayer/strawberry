@@ -93,13 +93,13 @@ bool GetPlaybackLength(const QByteArray& sample_count_bytes,
 
 }  // namespace GME
 
-/* 
+/*
  * TagReaderGME
  * Fulfills Strawberry's Intended interface for tag reading.
  */
 class TagReaderGME : public TagReaderBase {
 
-public:
+ public:
   explicit TagReaderGME();
   ~TagReaderGME();
 

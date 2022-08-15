@@ -27,7 +27,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QString>
-#include <QtEndian>
 
 #include "core/logging.h"
 #include "core/timeconstants.h"
