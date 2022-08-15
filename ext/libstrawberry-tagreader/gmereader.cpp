@@ -68,14 +68,13 @@ void GME::SPC::Read(const QFileInfo& file_info,
   // Check for header -- more reliable than file name alone.
   if (!file.read(33).startsWith(QString("SNES-SPC700").toLatin1())) return;
 
-  /*
-   * First order of business -- get any tag values that exist within the core
-   * file information. These only allow for a certain number of bytes
-   * per field, so they will likely be overwritten either by the id666 standard
-   * or the APETAG format (as used by other players, such as foobar and winamp)
-   *
-   * Make sure to check id6 documentation before changing the read values!
-   */
+  //
+  //  First order of business -- get any tag values that exist within the core
+  //file information. These only allow for a certain number of bytes
+  //per field, so they will likely be overwritten either by the id666 standard
+  //or the APETAG format (as used by other players, such as foobar and winamp)
+  //
+  //  Make sure to check id6 documentation before changing the read values!
 
   file.seek(HAS_ID6_OFFSET);
   bool has_id6 = (file.read(1)[0] == static_cast<char>(xID6_STATUS::ON));
@@ -94,7 +93,6 @@ void GME::SPC::Read(const QFileInfo& file_info,
   quint64 length_in_sec = 0;
   if (length_bytes.size() >= INTRO_LENGTH_SIZE) {
     length_in_sec = ConvertSPCStringToNum(length_bytes);
-    qLog(Debug) << length_in_sec << "------ LENGTH";
 
     if (!length_in_sec || length_in_sec >= 0x1FFF) {
       // This means that parsing the length as a string failed, so get value LE.
@@ -111,7 +109,6 @@ void GME::SPC::Read(const QFileInfo& file_info,
   QByteArray fade_bytes = file.read(FADE_LENGTH_SIZE);
   if (fade_bytes.size() >= FADE_LENGTH_SIZE) {
     quint64 fade_length_in_ms = ConvertSPCStringToNum(fade_bytes);
-    qLog(Debug) << fade_length_in_ms << "------ Fade Length";
 
     if (fade_length_in_ms > 0x7FFF) {
       fade_length_in_ms = fade_bytes[0] | (fade_bytes[1] << 8) |
@@ -119,18 +116,18 @@ void GME::SPC::Read(const QFileInfo& file_info,
     }
   }
 
-  /*  Check for XID6 data -- this is infrequently used, but being able to fill
-   * in data from this is ideal before trying to rely on APETAG values. XID6
-   * format follows EA's binary file format standard named "IFF" */
+  //  Check for XID6 data -- this is infrequently used, but being able to fill
+  //in data from this is ideal before trying to rely on APETAG values. XID6
+  //format follows EA's binary file format standard named "IFF"
   file.seek(XID6_OFFSET);
   if (has_id6 && file.read(4) == QString("xid6").toLatin1()) {
     QByteArray xid6_head_data = file.read(4);
     if (xid6_head_data.size() >= 4) {
       qint64 xid6_size = xid6_head_data[0] | (xid6_head_data[1] << 8) |
                          (xid6_head_data[2] << 16) | xid6_head_data[3];
-      /* This should be the size remaining for entire ID6 block, but it
-       * seems that most files treat this as the size of the remaining header
-       * space... */
+      // This should be the size remaining for entire ID6 block, but it
+      //seems that most files treat this as the size of the remaining header
+      //space...
 
       qLog(Debug) << file_info.fileName() << " has ID6 tag.";
 
@@ -149,13 +146,12 @@ void GME::SPC::Read(const QFileInfo& file_info,
     }
   }
 
-  /* Music Players that support SPC tend to support additional tagging data as
-   * an APETAG entry at the bottom of the file instead of writing into the xid6
-   * tagging space. This is where a lot of the extra data for a file is stored,
-   * such as genre or replaygain data.
-   *
-   * This data is currently supported by TagLib, so we will simply use that for
-   * the remaining values. */
+  //    Music Players that support SPC tend to support additional tagging data as
+  //  an APETAG entry at the bottom of the file instead of writing into the xid6
+  //  tagging space. This is where a lot of the extra data for a file is stored,
+  //  such as genre or replaygain data.
+  //  This data is currently supported by TagLib, so we will simply use that for
+  //  the remaining values.
   TagLib::APE::File ape(file_info.filePath().toStdString().data());
   if (ape.hasAPETag()) {
     TagLib::Tag* tag = ape.tag();
@@ -226,9 +222,9 @@ void GME::VGM::Read(const QFileInfo& file_info,
   QStringList strings = fileTagStream.readLine(0).split(QChar('\0'));
   if (strings.count() < 10) return;
 
-  /* VGM standard dictates string tag data exist in specific order.
-   * Order alternates between English and Japanese version of data.
-   * Read GD3 tag standard for more details. */
+  // VGM standard dictates string tag data exist in specific order.
+  //Order alternates between English and Japanese version of data.
+  //Read GD3 tag standard for more details.
   song_info->set_title(strings[0].toStdString());
   song_info->set_album(strings[2].toStdString());
   song_info->set_artist(strings[6].toStdString());
@@ -245,9 +241,6 @@ bool GME::VGM::GetPlaybackLength(const QByteArray& sample_count_bytes,
   if (loop_count_bytes.size() != 4) return false;
 
   quint64 sample_count = GME::UnpackBytes(sample_count_bytes, sample_count_bytes.size());
-
-  qLog(Debug) << QString::number(sample_count, 16);
-  qLog(Debug) << sample_count_bytes.toHex();
 
   if (sample_count <= 0) return false;
 
