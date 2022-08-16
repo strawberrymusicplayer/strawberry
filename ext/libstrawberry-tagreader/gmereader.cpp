@@ -35,20 +35,17 @@
 #include "tagreadertaglib.h"
 
 bool GME::IsSupportedFormat(const QFileInfo& file_info) {
-  return file_info.exists() &&
-          (file_info.completeSuffix().endsWith("spc") ||
-                file_info.completeSuffix().endsWith("vgm"));
+  return file_info.exists() && (file_info.completeSuffix().endsWith("spc") || file_info.completeSuffix().endsWith("vgm"));
 }
 
-void GME::ReadFile(const QFileInfo& file_info,
-                   spb::tagreader::SongMetadata* song_info) {
+void GME::ReadFile(const QFileInfo& file_info, spb::tagreader::SongMetadata* song_info) {
   if (file_info.completeSuffix().endsWith("spc"))
     SPC::Read(file_info, song_info);
   if (file_info.completeSuffix().endsWith("vgm"))
     VGM::Read(file_info, song_info);
 }
 
-quint32 GME::UnpackBytes(const char* const bytes, size_t length) {
+quint32 GME::UnpackBytes32(const char* const bytes, size_t length) {
   Q_ASSERT(length <= 4 && length > 0);
   quint32 value = 0;
   for (size_t i = 0; i < length; i++) {
@@ -57,8 +54,7 @@ quint32 GME::UnpackBytes(const char* const bytes, size_t length) {
   return value;
 }
 
-void GME::SPC::Read(const QFileInfo& file_info,
-                    spb::tagreader::SongMetadata* song_info) {
+void GME::SPC::Read(const QFileInfo& file_info, spb::tagreader::SongMetadata* song_info) {
   QFile file(file_info.filePath());
   if (!file.open(QIODevice::ReadOnly)) return;
 
@@ -95,8 +91,7 @@ void GME::SPC::Read(const QFileInfo& file_info,
 
     if (!length_in_sec || length_in_sec >= 0x1FFF) {
       // This means that parsing the length as a string failed, so get value LE.
-      length_in_sec =
-          length_bytes[0] | (length_bytes[1] << 8) | (length_bytes[2] << 16);
+      length_in_sec = length_bytes[0] | (length_bytes[1] << 8) | (length_bytes[2] << 16);
     }
 
     if (length_in_sec < 0x1FFF) {
@@ -110,8 +105,7 @@ void GME::SPC::Read(const QFileInfo& file_info,
     quint64 fade_length_in_ms = ConvertSPCStringToNum(fade_bytes);
 
     if (fade_length_in_ms > 0x7FFF) {
-      fade_length_in_ms = fade_bytes[0] | (fade_bytes[1] << 8) |
-                          (fade_bytes[2] << 16) | (fade_bytes[3] << 24);
+      fade_length_in_ms = fade_bytes[0] | (fade_bytes[1] << 8) | (fade_bytes[2] << 16) | (fade_bytes[3] << 24);
     }
   }
 
@@ -122,8 +116,7 @@ void GME::SPC::Read(const QFileInfo& file_info,
   if (has_id6 && file.read(4) == QString("xid6").toLatin1()) {
     QByteArray xid6_head_data = file.read(4);
     if (xid6_head_data.size() >= 4) {
-      qint64 xid6_size = xid6_head_data[0] | (xid6_head_data[1] << 8) |
-                         (xid6_head_data[2] << 16) | xid6_head_data[3];
+      qint64 xid6_size = xid6_head_data[0] | (xid6_head_data[1] << 8) | (xid6_head_data[2] << 16) | xid6_head_data[3];
       // This should be the size remaining for entire ID6 block, but it
       //seems that most files treat this as the size of the remaining header
       //space...
@@ -170,8 +163,7 @@ void GME::SPC::Read(const QFileInfo& file_info,
 
 qint16 GME::SPC::GetNextMemAddressAlign32bit(qint16 input) {
   return ((input + 0x3) & ~0x3);
-  // Plus 0x3 for rounding up (not down), AND NOT to flatten out on a 32 bit
-  // level.
+  // Plus 0x3 for rounding up (not down), AND NOT to flatten out on a 32 bit level.
 }
 
 quint64 GME::SPC::ConvertSPCStringToNum(const QByteArray& arr) {
@@ -184,8 +176,7 @@ quint64 GME::SPC::ConvertSPCStringToNum(const QByteArray& arr) {
   return result;
 }
 
-void GME::VGM::Read(const QFileInfo& file_info,
-                    spb::tagreader::SongMetadata* song_info) {
+void GME::VGM::Read(const QFileInfo& file_info, spb::tagreader::SongMetadata* song_info) {
   QFile file(file_info.filePath());
   if (!file.open(QIODevice::ReadOnly)) return;
 
@@ -197,7 +188,7 @@ void GME::VGM::Read(const QFileInfo& file_info,
   QByteArray gd3_head = file.read(4);
   if (gd3_head.size() < 4) return;
 
-  quint64 pt = GME::UnpackBytes(gd3_head, gd3_head.size());
+  quint64 pt = GME::UnpackBytes32(gd3_head, gd3_head.size());
 
   file.seek(SAMPLE_COUNT);
   QByteArray sample_count_bytes = file.read(4);
@@ -212,12 +203,16 @@ void GME::VGM::Read(const QFileInfo& file_info,
 
   file.seek(file.pos() + 4);
   QByteArray gd3_length_bytes = file.read(4);
-  quint32 gd3_length = GME::UnpackBytes(gd3_length_bytes, gd3_length_bytes.size());
+  quint32 gd3_length = GME::UnpackBytes32(gd3_length_bytes, gd3_length_bytes.size());
 
   QByteArray gd3Data = file.read(gd3_length);
   QTextStream fileTagStream(gd3Data, QIODevice::ReadOnly);
   // Stored as 16 bit UTF string, two bytes per letter.
+#if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
   fileTagStream.setEncoding(QStringConverter::Utf16);
+#else
+  fileTagStream.setCodec("UTF-8");
+#endif
   QStringList strings = fileTagStream.readLine(0).split(QChar('\0'));
   if (strings.count() < 10) return;
 
@@ -233,26 +228,23 @@ void GME::VGM::Read(const QFileInfo& file_info,
   song_info->set_filetype(spb::tagreader::SongMetadata_FileType_VGM);
 }
 
-bool GME::VGM::GetPlaybackLength(const QByteArray& sample_count_bytes,
-                                 const QByteArray& loop_count_bytes,
-                                 quint64& out_length) {
+bool GME::VGM::GetPlaybackLength(const QByteArray& sample_count_bytes, const QByteArray& loop_count_bytes, quint64& out_length) {
   if (sample_count_bytes.size() != 4) return false;
   if (loop_count_bytes.size() != 4) return false;
 
-  quint64 sample_count = GME::UnpackBytes(sample_count_bytes, sample_count_bytes.size());
+  quint64 sample_count = GME::UnpackBytes32(sample_count_bytes, sample_count_bytes.size());
 
   if (sample_count <= 0) return false;
 
-  quint64 loop_sample_count = GME::UnpackBytes(loop_count_bytes, loop_count_bytes.size());
+  quint64 loop_sample_count = GME::UnpackBytes32(loop_count_bytes, loop_count_bytes.size());
 
   if (loop_sample_count <= 0) {
     out_length = sample_count * 1000 / SAMPLE_TIMEBASE;
     return true;
   }
 
-  quint64 intro_length_ms =
-      (sample_count - loop_sample_count) * 1000 / SAMPLE_TIMEBASE;
-  quint64 loop_length_ms = (loop_sample_count)*1000 / SAMPLE_TIMEBASE;
+  quint64 intro_length_ms = (sample_count - loop_sample_count) * 1000 / SAMPLE_TIMEBASE;
+  quint64 loop_length_ms = (loop_sample_count) * 1000 / SAMPLE_TIMEBASE;
   out_length = intro_length_ms + (loop_length_ms * 2) + GST_GME_LOOP_TIME_MS;
   return true;
 }
@@ -270,32 +262,23 @@ void TagReaderGME::ReadFile(const QString &filename, spb::tagreader::SongMetadat
   GME::ReadFile(fileinfo, song);
 }
 
-bool TagReaderGME::SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
-  Q_UNUSED(filename);
-  Q_UNUSED(song);
+bool TagReaderGME::SaveFile(const QString&, const spb::tagreader::SongMetadata&) const {
   return false;
 }
 
-QByteArray TagReaderGME::LoadEmbeddedArt(const QString &filename) const {
-  Q_UNUSED(filename);
+QByteArray TagReaderGME::LoadEmbeddedArt(const QString&) const {
   return QByteArray();
 }
 
-bool TagReaderGME::SaveEmbeddedArt(const QString &filename, const QByteArray &data) {
-  Q_UNUSED(filename);
-  Q_UNUSED(data);
+bool TagReaderGME::SaveEmbeddedArt(const QString&, const QByteArray&) {
   return false;
 }
 
-bool TagReaderGME::SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
-  Q_UNUSED(filename);
-  Q_UNUSED(song);
+bool TagReaderGME::SaveSongPlaycountToFile(const QString&, const spb::tagreader::SongMetadata& ) const {
   return false;
 }
 
-bool TagReaderGME::SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
-  Q_UNUSED(filename);
-  Q_UNUSED(song);
+bool TagReaderGME::SaveSongRatingToFile(const QString&, const spb::tagreader::SongMetadata&) const {
   return false;
 }
 

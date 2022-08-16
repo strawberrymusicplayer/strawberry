@@ -55,7 +55,7 @@ class TagReaderWorker : public AbstractMessageHandler<spb::tagreader::Message> {
   TagReaderTagParser tag_reader_;
 #endif
 
-  TagReaderGME tag_reader_gme;
+  TagReaderGME tag_reader_gme_;
 };
 
 #endif  // TAGREADERWORKER_H

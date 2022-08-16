@@ -21,42 +21,42 @@
 #ifndef GMEREADER_H
 #define GMEREADER_H
 
-#include <QtCore>
+#include <QByteArray>
+#include <QString>
+#include <QFileInfo>
 #include <taglib/tstring.h>
 #include "tagreaderbase.h"
 
 #include "tagreadermessages.pb.h"
 
-class QFileInfo;
-class QByteArray;
 
 namespace GME {
 bool IsSupportedFormat(const QFileInfo& file_info);
 void ReadFile(const QFileInfo& file_info,
               spb::tagreader::SongMetadata* song_info);
 
-uint32_t UnpackBytes(const char* const arr, size_t length);
+uint32_t UnpackBytes32(const char* const arr, size_t length);
 
 namespace SPC {
 /* SPC SPEC:
  * http://vspcplay.raphnet.net/spc_file_format.txt
  */
-const int HAS_ID6_OFFSET = 0x23;
-const int SONG_TITLE_OFFSET = 0x2E;
-const int GAME_TITLE_OFFSET = 0x4E;
-const int DUMPER_OFFSET = 0x6E;
-const int COMMENTS_OFFSET = 0x7E;
+constexpr int HAS_ID6_OFFSET = 0x23;
+constexpr int SONG_TITLE_OFFSET = 0x2E;
+constexpr int GAME_TITLE_OFFSET = 0x4E;
+constexpr int DUMPER_OFFSET = 0x6E;
+constexpr int COMMENTS_OFFSET = 0x7E;
 /*It seems that intro length and fade length are inconsistent from
  *file to file. It should be looked into within the GME source code
  *to see how GStreamer gets its values for playback length.*/
-const int INTRO_LENGTH_OFFSET = 0xA9;
-const int INTRO_LENGTH_SIZE = 3;
-const int FADE_LENGTH_OFFSET = 0xAC;
-const int FADE_LENGTH_SIZE = 4;
-const int ARTIST_OFFSET = 0xB1;
-const int XID6_OFFSET = (0x101C0 + 64);
+constexpr int INTRO_LENGTH_OFFSET = 0xA9;
+constexpr int INTRO_LENGTH_SIZE = 3;
+constexpr int FADE_LENGTH_OFFSET = 0xAC;
+constexpr int FADE_LENGTH_SIZE = 4;
+constexpr int ARTIST_OFFSET = 0xB1;
+constexpr int XID6_OFFSET = (0x101C0 + 64);
 
-const int NANO_PER_MS = 1000000;
+constexpr int NANO_PER_MS = 1000000;
 
 enum xID6_STATUS {
   ON = 0x26,
@@ -77,11 +77,11 @@ namespace VGM {
  * http://www.smspower.org/uploads/Music/vgmspec170.txt?sid=17c810c54633b6dd4982f92f718361c1
  * GD3 TAG SPEC:
  * http://www.smspower.org/uploads/Music/gd3spec100.txt */
-const int GD3_TAG_PTR = 0x14;
-const int SAMPLE_COUNT = 0x18;
-const int LOOP_SAMPLE_COUNT = 0x20;
-const int SAMPLE_TIMEBASE = 44100;
-const int GST_GME_LOOP_TIME_MS = 8000;
+constexpr int GD3_TAG_PTR = 0x14;
+constexpr int SAMPLE_COUNT = 0x18;
+constexpr int LOOP_SAMPLE_COUNT = 0x20;
+constexpr int SAMPLE_TIMEBASE = 44100;
+constexpr int GST_GME_LOOP_TIME_MS = 8000;
 
 void Read(const QFileInfo& file_info, spb::tagreader::SongMetadata* song_info);
 /* Takes in two QByteArrays, expected to be 4 bytes long. Desired length

@@ -35,8 +35,8 @@ void TagReaderWorker::MessageArrived(const spb::tagreader::Message &message) {
   spb::tagreader::Message reply;
 
   bool success = HandleMessage(message, reply, &tag_reader_);
-  if (!success || message.has_read_file_request()) {
-    HandleMessage(message, reply, &tag_reader_gme);
+  if (!success) {
+    HandleMessage(message, reply, &tag_reader_gme_);
   }
 
   SendReply(message, &reply);
@@ -57,7 +57,7 @@ bool TagReaderWorker::HandleMessage(const spb::tagreader::Message &message, spb:
   }
   else if (message.has_read_file_request()) {
     reader->ReadFile(QStringFromStdString(message.read_file_request().filename()), reply.mutable_read_file_response()->mutable_metadata());
-    return true;
+    return false;
   }
   else if (message.has_save_file_request()) {
     bool success = reader->SaveFile(QStringFromStdString(message.save_file_request().filename()), message.save_file_request().metadata());
