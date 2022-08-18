@@ -42,6 +42,10 @@
   !define release
 !endif
 
+!if "@CMAKE_BUILD_TYPE@" == "RelWithDebInfo"
+  !define release
+!endif
+
 !if "@CMAKE_BUILD_TYPE@" == "Debug"
   !define debug
   !undef build_type
@@ -128,6 +132,9 @@ SetCompressor /SOLID lzma
 !insertmacro MUI_PAGE_LICENSE COPYING
 Page Custom LockedListPageShow
 !insertmacro MUI_PAGE_DIRECTORY
+!ifdef msvc
+Page Custom InstallMSVCRuntime
+!endif
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 
@@ -181,6 +188,20 @@ uninst:
 done:
 
 FunctionEnd
+
+!ifdef msvc
+!define vc_redist_file "vc_redist.${arch}.exe"
+Function InstallMSVCRuntime
+  ${registry::Read} "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\${arch}" "Version" $R0 $R1
+  ${If} $R0 == ""
+    SetDetailsView hide
+    inetc::get /caption "Downloading..." "https://aka.ms/vs/17/release/${vc_redist_file}" "$TEMP\${vc_redist_file}" /end
+    ExecWait '"$TEMP\${vc_redist_file}" /install /passive'
+    Delete "$TEMP\${vc_redist_file}"
+    SetDetailsView show
+  ${EndIf}
+FunctionEnd
+!endif
 
 Function .onInit
 
