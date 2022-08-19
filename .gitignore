@@ -65,19 +65,6 @@ ui_*.h
 *.moc
 *.qm
 
-# QtCreator
-CMakeLists.txt.user*
-*.pro.user
-*.pro.user.*
-*creator.user*
-target_wrapper.*
-compile_commands.json
-
-*.kdev4
-*.vscode
-*.code-workspace
-*.sublime-workspace
-
 # Temporary files
 *~
 *.autosave
@@ -111,15 +98,23 @@ translations.pot
 zanata.xml
 .zanata-cache/
 
-# Snap
-parts/
-prime/
-stage/
-*.snap
-/snap/.snapcraft/
-/*_source.tar.bz2
+# QtCreator
+CMakeLists.txt.user*
+*.pro.user
+*.pro.user.*
+*creator.user*
+target_wrapper.*
+compile_commands.json
+
+*.kdev4
+*.vscode
+*.code-workspace
+*.sublime-workspace
 
 # MSVC
 CMakeSettings.json
-/.vs/
-/out/
+/.vs
+/out
+
+# CLion
+/.idea
