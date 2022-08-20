@@ -208,7 +208,7 @@ void GME::VGM::Read(const QFileInfo& file_info, spb::tagreader::SongMetadata* so
   QByteArray gd3Data = file.read(gd3_length);
   QTextStream fileTagStream(gd3Data, QIODevice::ReadOnly);
   // Stored as 16 bit UTF string, two bytes per letter.
-#if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   fileTagStream.setEncoding(QStringConverter::Utf16);
 #else
   fileTagStream.setCodec("UTF-8");
