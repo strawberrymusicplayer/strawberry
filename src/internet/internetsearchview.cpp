@@ -76,6 +76,7 @@
 #include "collection/collectionfilterwidget.h"
 #include "collection/collectionmodel.h"
 #include "collection/groupbydialog.h"
+#include "collection/savedgroupingmanager.h"
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
@@ -179,7 +180,7 @@ void InternetSearchView::Init(Application *app, InternetService *service) {
   back_proxy_->sort(0);
 
   // Add actions to the settings menu
-  group_by_actions_ = CollectionFilterWidget::CreateGroupByActions(this);
+  group_by_actions_ = CollectionFilterWidget::CreateGroupByActions(SavedGroupingManager::GetSavedGroupingsSettingsGroup(service_->settings_group()), this);
   QMenu *settings_menu = new QMenu(this);
   settings_menu->addActions(group_by_actions_->actions());
   settings_menu->addSeparator();

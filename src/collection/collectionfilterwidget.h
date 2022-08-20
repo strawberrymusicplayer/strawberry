@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019-2022, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,9 +61,8 @@ class CollectionFilterWidget : public QWidget {
 
   void Init(CollectionModel *model);
 
-  static QActionGroup *CreateGroupByActions(QObject *parent);
+  static QActionGroup *CreateGroupByActions(const QString &saved_groupings_settings_group, QObject *parent);
 
-  void UpdateGroupByActions();
   void SetFilterHint(const QString &hint);
   void SetApplyFilterToCollection(bool filter_applies_to_model) { filter_applies_to_model_ = filter_applies_to_model; }
   void SetDelayBehaviour(DelayBehaviour behaviour) { delay_behaviour_ = behaviour; }
@@ -73,12 +73,13 @@ class CollectionFilterWidget : public QWidget {
   QMenu *menu() const { return collection_menu_; }
   void AddMenuAction(QAction *action);
 
-  void SetSettingsGroup(const QString &group) { settings_group_ = group; }
-  void SetSettingsPrefix(const QString &prefix) { settings_prefix_ = prefix; }
+  void SetSettingsGroup(const QString &group);
+  void SetSettingsPrefix(const QString &prefix);
 
-  QString group_by();
-  QString group_by_version();
-  QString group_by(const int number);
+  QString group_by_version() const;
+  QString group_by_key() const;
+  QString group_by_key(const int number) const;
+  QString separate_albums_by_grouping_key() const;
 
   void ReloadSettings();
 
@@ -86,6 +87,7 @@ class CollectionFilterWidget : public QWidget {
   void FocusSearchField();
 
  public slots:
+  void UpdateGroupByActions();
   void SetQueryMode(QueryOptions::QueryMode query_mode);
   void FocusOnFilter(QKeyEvent *e);
 
@@ -99,7 +101,7 @@ class CollectionFilterWidget : public QWidget {
   void keyReleaseEvent(QKeyEvent *e) override;
 
  private slots:
-  void GroupingChanged(const CollectionModel::Grouping g);
+  void GroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
   void GroupByClicked(QAction *action);
   void SaveGroupBy();
   void ShowGroupingManager();
@@ -115,8 +117,8 @@ class CollectionFilterWidget : public QWidget {
   Ui_CollectionFilterWidget *ui_;
   CollectionModel *model_;
 
-  std::unique_ptr<GroupByDialog> group_by_dialog_;
-  std::unique_ptr<SavedGroupingManager> groupings_manager_;
+  GroupByDialog *group_by_dialog_;
+  SavedGroupingManager *groupings_manager_;
 
   QMenu *filter_age_menu_;
   QMenu *group_by_menu_;
@@ -130,6 +132,7 @@ class CollectionFilterWidget : public QWidget {
   DelayBehaviour delay_behaviour_;
 
   QString settings_group_;
+  QString saved_groupings_settings_group_;
   QString settings_prefix_;
 
 };

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2015, Nick Lanham <nick@afternight.org>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2022, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,13 +40,19 @@ class SavedGroupingManager : public QDialog {
   Q_OBJECT
 
  public:
-  explicit SavedGroupingManager(QWidget *parent = nullptr);
+  explicit SavedGroupingManager(const QString &saved_groupings_settings_group, QWidget *parent = nullptr);
   ~SavedGroupingManager() override;
 
+  static const char *kSavedGroupingsSettingsGroup;
+
+  static QString GetSavedGroupingsSettingsGroup(const QString &settings_group);
+
   void UpdateModel();
-  void SetFilter(CollectionFilterWidget *filter) { filter_ = filter; }
 
   static QString GroupByToString(const CollectionModel::GroupBy g);
+
+  signals:
+   void UpdateGroupByActions();
 
  private slots:
   void UpdateButtonState();
@@ -55,7 +61,7 @@ class SavedGroupingManager : public QDialog {
  private:
   Ui_SavedGroupingManager *ui_;
   QStandardItemModel *model_;
-  CollectionFilterWidget *filter_;
+  QString saved_groupings_settings_group_;
 };
 
 #endif  // SAVEDGROUPINGMANAGER_H

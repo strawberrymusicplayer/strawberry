@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractItemModel>
@@ -63,8 +65,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
  public:
   explicit CollectionModel(CollectionBackend *backend, Application *app, QObject *parent = nullptr);
   ~CollectionModel() override;
-
-  static const char *kSavedGroupingsSettingsGroup;
 
   static const int kPrettyCoverSize;
   static const char *kPixmapDiskCacheDir;
@@ -160,9 +160,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   // Whether or not to show letters heading in the collection view
   void set_show_dividers(const bool show_dividers);
 
-  // Save the current grouping
-  void SaveGrouping(const QString &name);
-
   // Reload settings.
   void ReloadSettings();
 
@@ -195,15 +192,15 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void ExpandAll(CollectionItem *item = nullptr) const;
 
   const CollectionModel::Grouping GetGroupBy() const { return group_by_; }
-  void SetGroupBy(const CollectionModel::Grouping g);
+  void SetGroupBy(const CollectionModel::Grouping g, const std::optional<bool> separate_albums_by_grouping);
 
-  static QString ContainerKey(const GroupBy type, const Song &song);
+  static QString ContainerKey(const GroupBy group_by, const bool separate_albums_by_grouping, const Song &song);
 
  signals:
   void TotalSongCountUpdated(int count);
   void TotalArtistCountUpdated(int count);
   void TotalAlbumCountUpdated(int count);
-  void GroupingChanged(CollectionModel::Grouping g);
+  void GroupingChanged(CollectionModel::Grouping g, bool separate_albums_by_grouping);
 
  public slots:
   void SetFilterAge(const int age);
@@ -247,22 +244,22 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   // Functions for working with queries and creating items.
   // When the model is reset or when a node is lazy-loaded the Collection constructs a database query to populate the items.
   // Filters are added for each parent item, restricting the songs returned to a particular album or artist for example.
-  static void InitQuery(const GroupBy type, CollectionQuery *q);
-  static void FilterQuery(const GroupBy type, CollectionItem *item, CollectionQuery *q);
+  static void InitQuery(const GroupBy group_by, const bool separate_albums_by_grouping, CollectionQuery *q);
+  static void FilterQuery(const GroupBy group_by, const bool separate_albums_by_grouping, CollectionItem *item, CollectionQuery *q);
 
   // Items can be created either from a query that's been run to populate a node, or by a spontaneous SongsDiscovered emission from the backend.
-  CollectionItem *ItemFromQuery(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, const SqlRow &row, const int container_level);
-  CollectionItem *ItemFromSong(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, const Song &s, const int container_level);
+  CollectionItem *ItemFromQuery(const GroupBy group_by, const bool separate_albums_by_grouping, const bool signal, const bool create_divider, CollectionItem *parent, const SqlRow &row, const int container_level);
+  CollectionItem *ItemFromSong(const GroupBy group_by, const bool separate_albums_by_grouping, const bool signal, const bool create_divider, CollectionItem *parent, const Song &s, const int container_level);
 
   // The "Various Artists" node is an annoying special case.
   CollectionItem *CreateCompilationArtistNode(const bool signal, CollectionItem *parent);
 
   // Helpers for ItemFromQuery and ItemFromSong
-  CollectionItem *InitItem(const GroupBy type, const bool signal, CollectionItem *parent, const int container_level);
-  void FinishItem(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, CollectionItem *item);
+  CollectionItem *InitItem(const GroupBy group_by, const bool signal, CollectionItem *parent, const int container_level);
+  void FinishItem(const GroupBy group_by, const bool signal, const bool create_divider, CollectionItem *parent, CollectionItem *item);
 
-  static QString DividerKey(const GroupBy type, CollectionItem *item);
-  static QString DividerDisplayText(const GroupBy type, const QString &key);
+  static QString DividerKey(const GroupBy group_by, CollectionItem *item);
+  static QString DividerDisplayText(const GroupBy group_by, const QString &key);
 
   // Helpers
   static bool IsCompilationArtistNode(const CollectionItem *node) { return node == node->parent->compilation_artist_node_; }
@@ -284,6 +281,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   QueryOptions query_options_;
   Grouping group_by_;
+  bool separate_albums_by_grouping_;
 
   // Keyed on database ID
   QMap<int, CollectionItem*> song_nodes_;

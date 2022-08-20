@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2015, Nick Lanham <nick@afternight.org>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2022, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,35 +22,31 @@
 #include "config.h"
 
 #include <QDialog>
-#include <QWidget>
 #include <QStandardItemModel>
 #include <QItemSelectionModel>
-#include <QAbstractItemModel>
-#include <QIODevice>
-#include <QDataStream>
-#include <QByteArray>
 #include <QList>
-#include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QStringList>
+#include <QIODevice>
+#include <QDataStream>
 #include <QKeySequence>
 #include <QPushButton>
-#include <QTreeView>
 #include <QSettings>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/iconloader.h"
-#include "collectionfilterwidget.h"
 #include "collectionmodel.h"
 #include "savedgroupingmanager.h"
 #include "ui_savedgroupingmanager.h"
 
-SavedGroupingManager::SavedGroupingManager(QWidget *parent)
+const char *SavedGroupingManager::kSavedGroupingsSettingsGroup = "SavedGroupings";
+
+SavedGroupingManager::SavedGroupingManager(const QString &saved_groupings_settings_group, QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_SavedGroupingManager),
       model_(new QStandardItemModel(0, 4, this)),
-      filter_(nullptr) {
+      saved_groupings_settings_group_(saved_groupings_settings_group) {
 
   ui_->setupUi(this);
 
@@ -71,7 +67,17 @@ SavedGroupingManager::SavedGroupingManager(QWidget *parent)
 
 SavedGroupingManager::~SavedGroupingManager() {
   delete ui_;
-  delete model_;
+}
+
+QString SavedGroupingManager::GetSavedGroupingsSettingsGroup(const QString &settings_group) {
+
+  if (settings_group.isEmpty() || settings_group == CollectionSettingsPage::kSettingsGroup) {
+    return kSavedGroupingsSettingsGroup;
+  }
+  else {
+    return QString(kSavedGroupingsSettingsGroup) + "_" + settings_group;
+  }
+
 }
 
 QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy g) {
@@ -151,7 +157,7 @@ void SavedGroupingManager::UpdateModel() {
 
   model_->setRowCount(0);  // don't use clear, it deletes headers
   QSettings s;
-  s.beginGroup(CollectionModel::kSavedGroupingsSettingsGroup);
+  s.beginGroup(saved_groupings_settings_group_);
   int version = s.value("version").toInt();
   if (version == 1) {
     QStringList saved = s.childKeys();
@@ -186,7 +192,7 @@ void SavedGroupingManager::Remove() {
 
   if (ui_->list->selectionModel()->hasSelection()) {
     QSettings s;
-    s.beginGroup(CollectionModel::kSavedGroupingsSettingsGroup);
+    s.beginGroup(saved_groupings_settings_group_);
     for (const QModelIndex &idx : ui_->list->selectionModel()->selectedRows()) {
       if (idx.isValid()) {
         qLog(Debug) << "Remove saved grouping: " << model_->item(idx.row(), 0)->text();
@@ -196,7 +202,8 @@ void SavedGroupingManager::Remove() {
     s.endGroup();
   }
   UpdateModel();
-  filter_->UpdateGroupByActions();
+
+  emit UpdateGroupByActions();
 
 }
 

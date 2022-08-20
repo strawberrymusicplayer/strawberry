@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>354</width>
-    <height>246</height>
+    <width>394</width>
+    <height>273</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -368,6 +368,13 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkbox_separate_albums_by_grouping">
+     <property name="text">
+      <string>Separate albums by grouping tag</string>
+     </property>
     </widget>
    </item>
    <item>

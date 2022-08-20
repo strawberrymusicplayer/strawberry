@@ -108,22 +108,31 @@ GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_Grou
 GroupByDialog::~GroupByDialog() = default;
 
 void GroupByDialog::Reset() {
+
   ui_->combobox_first->setCurrentIndex(2);   // Album Artist
-  ui_->combobox_second->setCurrentIndex(3);  // Album
+  ui_->combobox_second->setCurrentIndex(4);  // Album Disc
   ui_->combobox_third->setCurrentIndex(0);   // None
+  ui_->checkbox_separate_albums_by_grouping->setChecked(false);
+
 }
 
 void GroupByDialog::accept() {
+
   emit Accepted(CollectionModel::Grouping(
       p_->mapping_.get<tag_index>().find(ui_->combobox_first->currentIndex())->group_by,
       p_->mapping_.get<tag_index>().find(ui_->combobox_second->currentIndex())->group_by,
-      p_->mapping_.get<tag_index>().find(ui_->combobox_third->currentIndex())->group_by)
+      p_->mapping_.get<tag_index>().find(ui_->combobox_third->currentIndex())->group_by),
+    ui_->checkbox_separate_albums_by_grouping->isChecked()
    );
   QDialog::accept();
+
 }
 
-void GroupByDialog::CollectionGroupingChanged(const CollectionModel::Grouping g) {
+void GroupByDialog::CollectionGroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping) {
+
   ui_->combobox_first->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[0])->combo_box_index);
   ui_->combobox_second->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[1])->combo_box_index);
   ui_->combobox_third->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[2])->combo_box_index);
+  ui_->checkbox_separate_albums_by_grouping->setChecked(separate_albums_by_grouping);
+
 }

@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019-2022, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,7 +59,12 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_CollectionFilterWidget),
       model_(nullptr),
-      group_by_dialog_(new GroupByDialog),
+      group_by_dialog_(new GroupByDialog(this)),
+      groupings_manager_(nullptr),
+      filter_age_menu_(nullptr),
+      group_by_menu_(nullptr),
+      collection_menu_(nullptr),
+      group_by_group_(nullptr),
       filter_delay_(new QTimer(this)),
       filter_applies_to_model_(true),
       delay_behaviour_(DelayedOnLargeLibraries) {
@@ -114,13 +120,8 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   filter_ages_[ui_->filter_age_three_months] = 60 * 60 * 24 * 30 * 3;
   filter_ages_[ui_->filter_age_year] = 60 * 60 * 24 * 365;
 
-  // "Group by ..."
-  group_by_group_ = CreateGroupByActions(this);
-
   group_by_menu_ = new QMenu(tr("Group by"), this);
-  group_by_menu_->addActions(group_by_group_->actions());
 
-  QObject::connect(group_by_group_, &QActionGroup::triggered, this, &CollectionFilterWidget::GroupByClicked);
   QObject::connect(ui_->save_grouping, &QAction::triggered, this, &CollectionFilterWidget::SaveGroupBy);
   QObject::connect(ui_->manage_groupings, &QAction::triggered, this, &CollectionFilterWidget::ShowGroupingManager);
 
@@ -147,8 +148,8 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
 
   if (model_) {
     QObject::disconnect(model_, nullptr, this, nullptr);
-    QObject::disconnect(model_, nullptr, group_by_dialog_.get(), nullptr);
-    QObject::disconnect(group_by_dialog_.get(), nullptr, model_, nullptr);
+    QObject::disconnect(model_, nullptr, group_by_dialog_, nullptr);
+    QObject::disconnect(group_by_dialog_, nullptr, model_, nullptr);
     QList<QAction*> filter_ages = filter_ages_.keys();
     for (QAction *action : filter_ages) {
       QObject::disconnect(action, &QAction::triggered, model_, nullptr);
@@ -158,9 +159,9 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
   model_ = model;
 
   // Connect signals
-  QObject::connect(model_, &CollectionModel::GroupingChanged, group_by_dialog_.get(), &GroupByDialog::CollectionGroupingChanged);
+  QObject::connect(model_, &CollectionModel::GroupingChanged, group_by_dialog_, &GroupByDialog::CollectionGroupingChanged);
   QObject::connect(model_, &CollectionModel::GroupingChanged, this, &CollectionFilterWidget::GroupingChanged);
-  QObject::connect(group_by_dialog_.get(), &GroupByDialog::Accepted, model_, &CollectionModel::SetGroupBy);
+  QObject::connect(group_by_dialog_, &GroupByDialog::Accepted, model_, &CollectionModel::SetGroupBy);
 
   QList<QAction*> filter_ages = filter_ages_.keys();
   for (QAction *action : filter_ages) {
@@ -176,15 +177,31 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
     if (s.contains(group_by_version())) version = s.value(group_by_version(), 0).toInt();
     if (version == 1) {
       model_->SetGroupBy(CollectionModel::Grouping(
-        CollectionModel::GroupBy(s.value(group_by(1), static_cast<int>(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-        CollectionModel::GroupBy(s.value(group_by(2), static_cast<int>(CollectionModel::GroupBy_AlbumDisc)).toInt()),
-        CollectionModel::GroupBy(s.value(group_by(3), static_cast<int>(CollectionModel::GroupBy_None)).toInt())));
+        CollectionModel::GroupBy(s.value(group_by_key(1), static_cast<int>(CollectionModel::GroupBy_AlbumArtist)).toInt()),
+        CollectionModel::GroupBy(s.value(group_by_key(2), static_cast<int>(CollectionModel::GroupBy_AlbumDisc)).toInt()),
+        CollectionModel::GroupBy(s.value(group_by_key(3), static_cast<int>(CollectionModel::GroupBy_None)).toInt())), s.value(separate_albums_by_grouping_key(), false).toBool());
     }
     else {
-      model_->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc, CollectionModel::GroupBy_None));
+      model_->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc, CollectionModel::GroupBy_None), false);
     }
     s.endGroup();
   }
+
+}
+
+void CollectionFilterWidget::SetSettingsGroup(const QString &settings_group) {
+
+  settings_group_ = settings_group;
+  saved_groupings_settings_group_ = SavedGroupingManager::GetSavedGroupingsSettingsGroup(settings_group);
+
+  UpdateGroupByActions();
+
+}
+
+void CollectionFilterWidget::SetSettingsPrefix(const QString &prefix) {
+
+  settings_prefix_ = prefix;
+
 }
 
 void CollectionFilterWidget::ReloadSettings() {
@@ -198,21 +215,10 @@ void CollectionFilterWidget::ReloadSettings() {
 
 }
 
-QString CollectionFilterWidget::group_by() {
+QString CollectionFilterWidget::group_by_version() const {
 
   if (settings_prefix_.isEmpty()) {
-    return QString("group_by");
-  }
-  else {
-    return QString("%1_group_by").arg(settings_prefix_);
-  }
-
-}
-
-QString CollectionFilterWidget::group_by_version() {
-
-  if (settings_prefix_.isEmpty()) {
-    return QString("group_by_version");
+    return "group_by_version";
   }
   else {
     return QString("%1_group_by_version").arg(settings_prefix_);
@@ -220,7 +226,29 @@ QString CollectionFilterWidget::group_by_version() {
 
 }
 
-QString CollectionFilterWidget::group_by(const int number) { return group_by() + QString::number(number); }
+QString CollectionFilterWidget::group_by_key() const {
+
+  if (settings_prefix_.isEmpty()) {
+    return "group_by";
+  }
+  else {
+    return QString("%1_group_by").arg(settings_prefix_);
+  }
+
+}
+
+QString CollectionFilterWidget::group_by_key(const int number) const { return group_by_key() + QString::number(number); }
+
+QString CollectionFilterWidget::separate_albums_by_grouping_key() const {
+
+  if (settings_prefix_.isEmpty()) {
+    return "separate_albums_by_grouping";
+  }
+  else {
+    return QString("%1_separate_albums_by_grouping").arg(settings_prefix_);
+  }
+
+}
 
 void CollectionFilterWidget::UpdateGroupByActions() {
 
@@ -229,7 +257,7 @@ void CollectionFilterWidget::UpdateGroupByActions() {
     delete group_by_group_;
   }
 
-  group_by_group_ = CreateGroupByActions(this);
+  group_by_group_ = CreateGroupByActions(saved_groupings_settings_group_, this);
   group_by_menu_->clear();
   group_by_menu_->addActions(group_by_group_->actions());
   QObject::connect(group_by_group_, &QActionGroup::triggered, this, &CollectionFilterWidget::GroupByClicked);
@@ -239,8 +267,7 @@ void CollectionFilterWidget::UpdateGroupByActions() {
 
 }
 
-
-QActionGroup *CollectionFilterWidget::CreateGroupByActions(QObject *parent) {
+QActionGroup *CollectionFilterWidget::CreateGroupByActions(const QString &saved_groupings_settings_group, QObject *parent) {
 
   QActionGroup *ret = new QActionGroup(parent);
 
@@ -267,9 +294,9 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(QObject *parent) {
   sep1->setSeparator(true);
   ret->addAction(sep1);
 
-  // read saved groupings
+  // Read saved groupings
   QSettings s;
-  s.beginGroup(CollectionModel::kSavedGroupingsSettingsGroup);
+  s.beginGroup(saved_groupings_settings_group);
   int version = s.value("version").toInt();
   if (version == 1) {
     QStringList saved = s.childKeys();
@@ -316,20 +343,38 @@ QAction *CollectionFilterWidget::CreateGroupByAction(const QString &text, QObjec
 
 void CollectionFilterWidget::SaveGroupBy() {
 
-  QString text = QInputDialog::getText(this, tr("Grouping Name"), tr("Grouping name:"));
-  if (!text.isEmpty() && model_) {
-    model_->SaveGrouping(text);
-    UpdateGroupByActions();
+  if (!model_) return;
+
+  QString name = QInputDialog::getText(this, tr("Grouping Name"), tr("Grouping name:"));
+  if (name.isEmpty()) return;
+
+  qLog(Debug) << "Saving current grouping to" << name;
+
+  QSettings s;
+  if (settings_group_.isEmpty() || settings_group_ == CollectionSettingsPage::kSettingsGroup) {
+    s.beginGroup(SavedGroupingManager::kSavedGroupingsSettingsGroup);
   }
+  else {
+    s.beginGroup(QString(SavedGroupingManager::kSavedGroupingsSettingsGroup) + "_" + settings_group_);
+  }
+  QByteArray buffer;
+  QDataStream datastream(&buffer, QIODevice::WriteOnly);
+  datastream << model_->GetGroupBy();
+  s.setValue("version", "1");
+  s.setValue(name, buffer);
+  s.endGroup();
+
+  UpdateGroupByActions();
 
 }
 
 void CollectionFilterWidget::ShowGroupingManager() {
 
   if (!groupings_manager_) {
-    groupings_manager_ = std::make_unique<SavedGroupingManager>();
+    groupings_manager_ = new SavedGroupingManager(saved_groupings_settings_group_, this);
+    QObject::connect(groupings_manager_, &SavedGroupingManager::UpdateGroupByActions, this, &CollectionFilterWidget::UpdateGroupByActions);
   }
-  groupings_manager_->SetFilter(this);
+
   groupings_manager_->UpdateModel();
   groupings_manager_->show();
 
@@ -362,20 +407,20 @@ void CollectionFilterWidget::GroupByClicked(QAction *action) {
   }
 
   CollectionModel::Grouping g = action->property("group_by").value<CollectionModel::Grouping>();
-  model_->SetGroupBy(g);
+  model_->SetGroupBy(g, false);
 
 }
 
-void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping g) {
+void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping) {
 
   if (!settings_group_.isEmpty()) {
-    // Save the settings
     QSettings s;
     s.beginGroup(settings_group_);
     s.setValue(group_by_version(), 1);
-    s.setValue(group_by(1), static_cast<int>(g[0]));
-    s.setValue(group_by(2), static_cast<int>(g[1]));
-    s.setValue(group_by(3), static_cast<int>(g[2]));
+    s.setValue(group_by_key(1), static_cast<int>(g[0]));
+    s.setValue(group_by_key(2), static_cast<int>(g[1]));
+    s.setValue(group_by_key(3), static_cast<int>(g[2]));
+    s.setValue(separate_albums_by_grouping_key(), separate_albums_by_grouping);
     s.endGroup();
   }
 
@@ -385,6 +430,10 @@ void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping g) 
 }
 
 void CollectionFilterWidget::CheckCurrentGrouping(const CollectionModel::Grouping g) {
+
+  if (!group_by_group_) {
+    UpdateGroupByActions();
+  }
 
   for (QAction *action : group_by_group_->actions()) {
     if (action->property("group_by").isNull()) continue;

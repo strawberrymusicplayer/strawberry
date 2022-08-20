@@ -45,11 +45,11 @@ class GroupByDialog : public QDialog {
   ~GroupByDialog() override;
 
  public slots:
-  void CollectionGroupingChanged(const CollectionModel::Grouping g);
+  void CollectionGroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
   void accept() override;
 
  signals:
-  void Accepted(CollectionModel::Grouping g);
+  void Accepted(CollectionModel::Grouping g, bool separate_albums_by_grouping);
 
  private slots:
   void Reset();
