@@ -407,7 +407,7 @@ void CollectionFilterWidget::GroupByClicked(QAction *action) {
   }
 
   CollectionModel::Grouping g = action->property("group_by").value<CollectionModel::Grouping>();
-  model_->SetGroupBy(g, false);
+  model_->SetGroupBy(g);
 
 }
 

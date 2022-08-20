@@ -192,7 +192,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void ExpandAll(CollectionItem *item = nullptr) const;
 
   const CollectionModel::Grouping GetGroupBy() const { return group_by_; }
-  void SetGroupBy(const CollectionModel::Grouping g, const std::optional<bool> separate_albums_by_grouping);
+  void SetGroupBy(const CollectionModel::Grouping g, const std::optional<bool> separate_albums_by_grouping = std::optional<bool>());
 
   static QString ContainerKey(const GroupBy group_by, const bool separate_albums_by_grouping, const Song &song);
 
