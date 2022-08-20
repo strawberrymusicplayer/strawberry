@@ -36,16 +36,16 @@
 #include "tagreadertaglib.h"
 
 bool GME::IsSupportedFormat(const QFileInfo &file_info) {
-  return file_info.exists() && (file_info.completeSuffix().endsWith("spc") || file_info.completeSuffix().endsWith("vgm"));
+  return file_info.exists() && (file_info.completeSuffix().endsWith("spc", Qt::CaseInsensitive) || file_info.completeSuffix().endsWith("vgm"), Qt::CaseInsensitive);
 }
 
 bool GME::ReadFile(const QFileInfo &file_info, spb::tagreader::SongMetadata *song_info) {
 
-  if (file_info.completeSuffix().endsWith("spc")) {
+  if (file_info.completeSuffix().endsWith("spc"), Qt::CaseInsensitive) {
     SPC::Read(file_info, song_info);
     return true;
   }
-  if (file_info.completeSuffix().endsWith("vgm")) {
+  if (file_info.completeSuffix().endsWith("vgm", Qt::CaseInsensitive)) {
     VGM::Read(file_info, song_info);
     return true;
   }
