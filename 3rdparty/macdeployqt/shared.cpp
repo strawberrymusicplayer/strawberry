@@ -1301,6 +1301,7 @@ void deployPlugins(const ApplicationBundleInfo &appBundleInfo, const QString &pl
                                                   << "libgstfdkaac.dylib"
                                                   << "libgstflac.dylib"
                                                   << "libgstgio.dylib"
+                                                  << "libgstgme.dylib"
                                                   << "libgsthls.dylib"
                                                   << "libgsticydemux.dylib"
                                                   << "libgstid3demux.dylib"
