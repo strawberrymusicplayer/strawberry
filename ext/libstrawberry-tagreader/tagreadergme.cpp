@@ -223,7 +223,7 @@ void GME::VGM::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   fileTagStream.setEncoding(QStringConverter::Utf16);
 #else
-  fileTagStream.setCodec("UTF-8");
+  fileTagStream.setCodec("UTF-16");
 #endif
   QStringList strings = fileTagStream.readLine(0).split(QChar('\0'));
   if (strings.count() < 10) return;
