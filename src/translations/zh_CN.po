@@ -690,7 +690,7 @@ msgstr "添加歌曲年份标签"
 msgid "Add stream..."
 msgstr "添加流..."
 
-#: internet/internetsearchview.cpp:337
+#: internet/internetsearchview.cpp:338
 msgid "Add to albums"
 msgstr "添加到专辑"
 
@@ -698,7 +698,7 @@ msgstr "添加到专辑"
 msgid "Add to another playlist"
 msgstr "添加到另一播放列表"
 
-#: internet/internetsearchview.cpp:334
+#: internet/internetsearchview.cpp:335
 msgid "Add to artists"
 msgstr "添加到艺术家"
 
@@ -706,7 +706,7 @@ msgstr "添加到艺术家"
 msgid "Add to playlist"
 msgstr "添加到播放列表"
 
-#: internet/internetsearchview.cpp:340
+#: internet/internetsearchview.cpp:341
 msgid "Add to songs"
 msgstr "添加到歌曲"
 
@@ -744,7 +744,7 @@ msgstr "于三个月内加入"
 msgid "Advanced"
 msgstr "高级"
 
-#: collection/collectionfilterwidget.cpp:298
+#: collection/collectionfilterwidget.cpp:325
 msgid "Advanced grouping..."
 msgstr "高级分组..."
 
@@ -760,9 +760,9 @@ msgstr "复制后..."
 msgid "Albu&m cover"
 msgstr "专辑封面(&M)"
 
-#: collection/savedgroupingmanager.cpp:91 playlist/playlist.cpp:1341
-#: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:186
-#: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
+#: collection/savedgroupingmanager.cpp:97 playlist/playlist.cpp:1341
+#: organize/organizedialog.cpp:104 ../build/src/ui_groupbydialog.h:193
+#: ../build/src/ui_groupbydialog.h:215 ../build/src/ui_groupbydialog.h:237
 #: ../build/src/ui_albumcoversearcher.h:107
 #: ../build/src/ui_albumcoversearcher.h:109
 #: ../build/src/ui_contextsettingspage.h:433
@@ -775,14 +775,14 @@ msgstr "专辑"
 msgid "Album (ideal loudness for all tracks)"
 msgstr "专辑（所有曲目采用合适音量）"
 
-#: collection/savedgroupingmanager.cpp:94 ../build/src/ui_groupbydialog.h:187
-#: ../build/src/ui_groupbydialog.h:209 ../build/src/ui_groupbydialog.h:231
+#: collection/savedgroupingmanager.cpp:100 ../build/src/ui_groupbydialog.h:194
+#: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 msgid "Album - Disc"
 msgstr "专辑 - 碟片"
 
-#: collection/savedgroupingmanager.cpp:85 playlist/playlist.cpp:1348
-#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:185
-#: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
+#: collection/savedgroupingmanager.cpp:91 playlist/playlist.cpp:1348
+#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:192
+#: ../build/src/ui_groupbydialog.h:214 ../build/src/ui_groupbydialog.h:236
 #: ../build/src/ui_edittagdialog.h:821
 msgid "Album artist"
 msgstr "专辑艺术家"
@@ -898,7 +898,7 @@ msgstr "添加文件/URL 到播放列表"
 
 #: collection/collectionview.cpp:348
 #: smartplaylists/smartplaylistsviewcontainer.cpp:69
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:323
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:324
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:69
 #: device/deviceview.cpp:243
 msgid "Append to current playlist"
@@ -939,9 +939,9 @@ msgstr ""
 msgid "Art Manual"
 msgstr "艺术手册"
 
-#: collection/savedgroupingmanager.cpp:88 playlist/playlist.cpp:1340
-#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:184
-#: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
+#: collection/savedgroupingmanager.cpp:94 playlist/playlist.cpp:1340
+#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:191
+#: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_albumcoversearcher.h:103
 #: ../build/src/ui_albumcoversearcher.h:105 ../build/src/ui_edittagdialog.h:825
 #: ../build/src/ui_trackselectiondialog.h:208
@@ -1044,7 +1044,7 @@ msgstr "插入歌曲时播放列表自动排序"
 msgid "Available"
 msgstr "可用"
 
-#: collection/collectionfilterwidget.cpp:82
+#: collection/collectionfilterwidget.cpp:88
 msgid "Available fields"
 msgstr "可用范围"
 
@@ -1092,10 +1092,10 @@ msgstr "行为"
 msgid "Best"
 msgstr "最佳"
 
-#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:139
+#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:145
 #: playlist/playlist.cpp:1358 organize/organizedialog.cpp:120
-#: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
-#: ../build/src/ui_groupbydialog.h:245 ../build/src/ui_edittagdialog.h:800
+#: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
+#: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:800
 msgid "Bit depth"
 msgstr "位深"
 
@@ -1103,9 +1103,9 @@ msgstr "位深"
 msgid "Bit rate"
 msgstr "位速率"
 
-#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:142
-#: playlist/playlist.cpp:1359 ../build/src/ui_groupbydialog.h:202
-#: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
+#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:148
+#: playlist/playlist.cpp:1359 ../build/src/ui_groupbydialog.h:209
+#: ../build/src/ui_groupbydialog.h:231 ../build/src/ui_groupbydialog.h:253
 #: ../build/src/ui_transcoderoptionsaac.h:132
 #: ../build/src/ui_transcoderoptionsopus.h:76
 #: ../build/src/ui_transcoderoptionsspeex.h:218
@@ -1314,7 +1314,7 @@ msgstr "媒体库"
 msgid "Collection Filter"
 msgstr "媒体库筛选器"
 
-#: ../build/src/ui_groupbydialog.h:179
+#: ../build/src/ui_groupbydialog.h:186
 msgid "Collection advanced grouping"
 msgstr "媒体库高级分组"
 
@@ -1351,9 +1351,9 @@ msgstr "自动补全标签"
 msgid "Complete tags automatically..."
 msgstr "自动补全标签..."
 
-#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1349
-#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:196
-#: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
+#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1349
+#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:203
+#: ../build/src/ui_groupbydialog.h:225 ../build/src/ui_groupbydialog.h:247
 #: ../build/src/ui_edittagdialog.h:826
 msgid "Composer"
 msgstr "作曲家"
@@ -1369,7 +1369,7 @@ msgstr "配置不完整"
 msgid "Configuration incorrect"
 msgstr "配置不正确"
 
-#: internet/internetsearchview.cpp:186 internet/internetsearchview.cpp:352
+#: internet/internetsearchview.cpp:187 internet/internetsearchview.cpp:353
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
 #, qt-format
 msgid "Configure %1..."
@@ -1795,9 +1795,9 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "禁用"
 
-#: collection/savedgroupingmanager.cpp:109 playlist/playlist.cpp:1343
-#: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:188
-#: ../build/src/ui_groupbydialog.h:210 ../build/src/ui_groupbydialog.h:232
+#: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1343
+#: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:195
+#: ../build/src/ui_groupbydialog.h:217 ../build/src/ui_groupbydialog.h:239
 #: ../build/src/ui_edittagdialog.h:819
 msgid "Disc"
 msgstr "盘片"
@@ -1810,7 +1810,7 @@ msgstr "断续传输"
 msgid "Disk Cache Size"
 msgstr "磁盘缓存大小"
 
-#: collection/collectionfilterwidget.cpp:128
+#: collection/collectionfilterwidget.cpp:129
 #: ../build/src/ui_collectionsettingspage.h:605
 msgid "Display options"
 msgstr "显示选项"
@@ -2028,7 +2028,7 @@ msgstr "输入导出封面的文件名(不含扩展名):"
 msgid "Enter a new name for this playlist"
 msgstr "输入播放列表的新名称"
 
-#: internet/internetsearchview.cpp:411 ../build/src/ui_internetsearchview.h:229
+#: internet/internetsearchview.cpp:412 ../build/src/ui_internetsearchview.h:229
 msgid "Enter search terms above to find music"
 msgstr ""
 
@@ -2304,9 +2304,9 @@ msgstr "文件路径"
 msgid "File size"
 msgstr "文件大小"
 
-#: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1364
-#: ../build/src/ui_groupbydialog.h:199 ../build/src/ui_groupbydialog.h:221
-#: ../build/src/ui_groupbydialog.h:243 ../build/src/ui_edittagdialog.h:799
+#: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1364
+#: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
+#: ../build/src/ui_groupbydialog.h:250 ../build/src/ui_edittagdialog.h:799
 msgid "File type"
 msgstr "文件类型"
 
@@ -2346,7 +2346,7 @@ msgstr "识别音乐"
 msgid "Finish"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:58 ../build/src/ui_groupbydialog.h:182
+#: collection/savedgroupingmanager.cpp:54 ../build/src/ui_groupbydialog.h:189
 msgid "First level"
 msgstr "第一阶段"
 
@@ -2420,8 +2420,8 @@ msgstr "忘记设备将从列表删除该设备.如果下次您再次插入该�
 msgid "Form"
 msgstr "表格"
 
-#: collection/savedgroupingmanager.cpp:133 ../build/src/ui_groupbydialog.h:189
-#: ../build/src/ui_groupbydialog.h:211 ../build/src/ui_groupbydialog.h:233
+#: collection/savedgroupingmanager.cpp:139 ../build/src/ui_groupbydialog.h:196
+#: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 msgid "Format"
 msgstr ""
 
@@ -2461,9 +2461,9 @@ msgstr "常规设置"
 msgid "Genius Authentication"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1347
-#: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:190
-#: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
+#: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1347
+#: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:197
+#: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 #: ../build/src/ui_edittagdialog.h:828
 msgid "Genre"
 msgstr "流派"
@@ -2504,83 +2504,83 @@ msgstr ""
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr ""
 
-#: ../build/src/ui_groupbydialog.h:181
+#: ../build/src/ui_groupbydialog.h:188
 msgid "Group Collection by..."
 msgstr "媒体库分组..."
 
-#: collection/collectionfilterwidget.cpp:120
-#: internet/internetsearchview.cpp:350
+#: collection/collectionfilterwidget.cpp:123
+#: internet/internetsearchview.cpp:351
 msgid "Group by"
 msgstr "分组"
 
-#: collection/collectionfilterwidget.cpp:263
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Album"
 msgstr "按专辑分组"
 
-#: collection/collectionfilterwidget.cpp:260
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Album Artist"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:247
+#: collection/collectionfilterwidget.cpp:274
 msgid "Group by Album artist/Album"
 msgstr "按专辑 艺人/专辑来分组"
 
-#: collection/collectionfilterwidget.cpp:248
+#: collection/collectionfilterwidget.cpp:275
 msgid "Group by Album artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:249
+#: collection/collectionfilterwidget.cpp:276
 msgid "Group by Album artist/Year - Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:250
+#: collection/collectionfilterwidget.cpp:277
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:261
+#: collection/collectionfilterwidget.cpp:288
 msgid "Group by Artist"
 msgstr "按艺术家分组"
 
-#: collection/collectionfilterwidget.cpp:252
+#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Artist/Album"
 msgstr "按艺术家/专辑分组"
 
-#: collection/collectionfilterwidget.cpp:253
+#: collection/collectionfilterwidget.cpp:280
 msgid "Group by Artist/Album - Disc"
 msgstr "按艺术家/专辑 - 碟片分组"
 
-#: collection/collectionfilterwidget.cpp:254
+#: collection/collectionfilterwidget.cpp:281
 msgid "Group by Artist/Year - Album"
 msgstr "按艺术家/年份 - 专辑分组"
 
-#: collection/collectionfilterwidget.cpp:255
+#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "按艺术家/年份 - 专辑 - 碟片分组"
 
-#: collection/collectionfilterwidget.cpp:264
+#: collection/collectionfilterwidget.cpp:291
 msgid "Group by Genre/Album"
 msgstr "按流派/专辑分组"
 
-#: collection/collectionfilterwidget.cpp:257
+#: collection/collectionfilterwidget.cpp:284
 msgid "Group by Genre/Album artist/Album"
 msgstr "按流派/专辑艺术家/专辑分组"
 
-#: collection/collectionfilterwidget.cpp:258
+#: collection/collectionfilterwidget.cpp:285
 msgid "Group by Genre/Artist/Album"
 msgstr "按流派/艺人/专辑分组"
 
-#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1351
-#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:198
-#: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
+#: collection/savedgroupingmanager.cpp:133 playlist/playlist.cpp:1351
+#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:205
+#: ../build/src/ui_groupbydialog.h:227 ../build/src/ui_groupbydialog.h:249
 #: ../build/src/ui_edittagdialog.h:820
 msgid "Grouping"
 msgstr "分组"
 
-#: collection/collectionfilterwidget.cpp:319
+#: collection/collectionfilterwidget.cpp:348
 msgid "Grouping Name"
 msgstr "分组名称"
 
-#: collection/collectionfilterwidget.cpp:319
+#: collection/collectionfilterwidget.cpp:348
 msgid "Grouping name:"
 msgstr "分组名称:"
 
@@ -2894,7 +2894,7 @@ msgstr "正在载入 iPod 数据库"
 msgid "Loading smart playlist"
 msgstr "正在加载智能播放列表"
 
-#: collection/collectionmodel.cpp:213
+#: collection/collectionmodel.cpp:198
 msgid "Loading songs"
 msgstr "加载曲目"
 
@@ -2906,7 +2906,7 @@ msgstr "正在载入曲目"
 msgid "Loading tracks info"
 msgstr "正在加载曲目信息"
 
-#: collection/collectionmodel.cpp:206
+#: collection/collectionmodel.cpp:191
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:280
 msgid "Loading..."
@@ -3166,7 +3166,7 @@ msgstr "音乐"
 msgid "Mute"
 msgstr "静音"
 
-#: equalizer/equalizer.cpp:211 collection/savedgroupingmanager.cpp:57
+#: equalizer/equalizer.cpp:211 collection/savedgroupingmanager.cpp:53
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:80
 #: ../build/src/ui_deviceproperties.h:370
 msgid "Name"
@@ -3271,9 +3271,9 @@ msgstr "无短块"
 msgid "No song playing"
 msgstr "没有歌曲在播放"
 
-#: collection/savedgroupingmanager.cpp:82 dialogs/edittagdialog.cpp:763
-#: dialogs/edittagdialog.cpp:773 ../build/src/ui_groupbydialog.h:183
-#: ../build/src/ui_groupbydialog.h:205 ../build/src/ui_groupbydialog.h:227
+#: collection/savedgroupingmanager.cpp:88 dialogs/edittagdialog.cpp:763
+#: dialogs/edittagdialog.cpp:773 ../build/src/ui_groupbydialog.h:190
+#: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 msgid "None"
 msgstr "无"
 
@@ -3383,7 +3383,7 @@ msgstr "打开主页"
 
 #: collection/collectionview.cpp:350
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:325
+#: widgets/fileviewlist.cpp:46 internet/internetsearchview.cpp:326
 #: internet/internetcollectionview.cpp:319 radios/radioview.cpp:77
 #: device/deviceview.cpp:245 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
@@ -3431,18 +3431,18 @@ msgstr "正在整理文件"
 msgid "Original tags"
 msgstr "原始标签"
 
-#: collection/savedgroupingmanager.cpp:115 playlist/playlist.cpp:1346
-#: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:194
-#: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
+#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1346
+#: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:201
+#: ../build/src/ui_groupbydialog.h:223 ../build/src/ui_groupbydialog.h:245
 msgid "Original year"
 msgstr "原始年代"
 
-#: collection/savedgroupingmanager.cpp:103 ../build/src/ui_groupbydialog.h:195
-#: ../build/src/ui_groupbydialog.h:217 ../build/src/ui_groupbydialog.h:239
+#: collection/savedgroupingmanager.cpp:109 ../build/src/ui_groupbydialog.h:202
+#: ../build/src/ui_groupbydialog.h:224 ../build/src/ui_groupbydialog.h:246
 msgid "Original year - Album"
 msgstr "原始年份 - 专辑"
 
-#: collection/savedgroupingmanager.cpp:106
+#: collection/savedgroupingmanager.cpp:112
 msgid "Original year - Album - Disc"
 msgstr "原始年份 - 专辑 - 碟片"
 
@@ -3520,9 +3520,9 @@ msgstr "暂停播放"
 msgid "Paused"
 msgstr "已暂停"
 
-#: collection/savedgroupingmanager.cpp:124 playlist/playlist.cpp:1350
-#: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:197
-#: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
+#: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1350
+#: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:204
+#: ../build/src/ui_groupbydialog.h:226 ../build/src/ui_groupbydialog.h:248
 #: ../build/src/ui_edittagdialog.h:830
 msgid "Performer"
 msgstr "表演者"
@@ -3682,7 +3682,7 @@ msgstr "专辑封面的文件名(逗号分隔)"
 msgid "Preferred format"
 msgstr "首选格式"
 
-#: collection/collectionfilterwidget.cpp:72
+#: collection/collectionfilterwidget.cpp:78
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -3794,7 +3794,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:1923 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:74
-#: internet/internetsearchview.cpp:328 internet/internetcollectionview.cpp:322
+#: internet/internetsearchview.cpp:329 internet/internetcollectionview.cpp:322
 msgid "Queue track"
 msgstr "加入队列"
 
@@ -3980,7 +3980,7 @@ msgstr "单曲循环"
 
 #: collection/collectionview.cpp:349
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
-#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:324
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:325
 #: internet/internetcollectionview.cpp:318 radios/radioview.cpp:73
 #: device/deviceview.cpp:244
 msgid "Replace current playlist"
@@ -4134,9 +4134,9 @@ msgstr "安全移除设备"
 msgid "Safely remove the device after copying"
 msgstr "复制后安全移除设备"
 
-#: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1357
-#: organize/organizedialog.cpp:119 ../build/src/ui_groupbydialog.h:200
-#: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
+#: collection/savedgroupingmanager.cpp:142 playlist/playlist.cpp:1357
+#: organize/organizedialog.cpp:119 ../build/src/ui_groupbydialog.h:207
+#: ../build/src/ui_groupbydialog.h:229 ../build/src/ui_groupbydialog.h:251
 #: ../build/src/ui_edittagdialog.h:808
 msgid "Sample rate"
 msgstr "采样率"
@@ -4265,7 +4265,7 @@ msgstr "延迟搜索"
 msgid "Search for album covers..."
 msgstr "搜索专辑封面..."
 
-#: internet/internetsearchview.cpp:346
+#: internet/internetsearchview.cpp:347
 msgid "Search for this"
 msgstr ""
 
@@ -4288,11 +4288,11 @@ msgstr "搜索条件"
 msgid "Searching..."
 msgstr "正在搜索..."
 
-#: collection/savedgroupingmanager.cpp:59
+#: collection/savedgroupingmanager.cpp:55
 msgid "Second Level"
 msgstr "第二等级"
 
-#: ../build/src/ui_groupbydialog.h:204
+#: ../build/src/ui_groupbydialog.h:211
 msgid "Second level"
 msgstr "第二阶段"
 
@@ -4352,6 +4352,10 @@ msgstr "选择标签栏颜色："
 msgid "Select..."
 msgstr "选择……"
 
+#: ../build/src/ui_groupbydialog.h:255
+msgid "Separate albums by grouping tag"
+msgstr ""
+
 #: device/udisks2lister.cpp:116
 msgid "Serial number"
 msgstr "序列号"
@@ -4399,7 +4403,7 @@ msgstr "快捷键"
 msgid "Shortcut for %1"
 msgstr "%1 的快捷键"
 
-#: collection/collectionfilterwidget.cpp:107
+#: collection/collectionfilterwidget.cpp:113
 msgid "Show"
 msgstr "显示"
 
@@ -5009,11 +5013,11 @@ msgid ""
 "converting music before copying it to a device."
 msgstr "这些设置将用于“音乐转码”对话框，及向设备中复制音乐前的格式转换。"
 
-#: collection/savedgroupingmanager.cpp:60
+#: collection/savedgroupingmanager.cpp:56
 msgid "Third Level"
 msgstr "第三等级"
 
-#: ../build/src/ui_groupbydialog.h:226
+#: ../build/src/ui_groupbydialog.h:233
 msgid "Third level"
 msgstr "第三阶段"
 
@@ -5188,10 +5192,10 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:609 collection/collectionmodel.cpp:492
-#: collection/collectionmodel.cpp:497 collection/collectionmodel.cpp:501
-#: collection/collectionmodel.cpp:505 collection/collectionmodel.cpp:509
-#: collection/collectionmodel.cpp:1640 collection/savedgroupingmanager.cpp:146
+#: core/song.cpp:613 collection/collectionmodel.cpp:477
+#: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
+#: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
+#: collection/collectionmodel.cpp:1643 collection/savedgroupingmanager.cpp:152
 #: playlist/playlistdelegates.cpp:365 playlist/playlistmanager.cpp:557
 #: playlist/playlistmanager.cpp:558 dialogs/edittagdialog.cpp:718
 #: dialogs/edittagdialog.cpp:745 ../build/src/ui_scrobblersettingspage.h:428
@@ -5389,7 +5393,7 @@ msgstr "使用菜单添加歌曲将..."
 msgid "Variable bit rate"
 msgstr "可变比特率"
 
-#: collection/collectionmodel.cpp:303 collection/collectionmodel.cpp:304
+#: collection/collectionmodel.cpp:288 collection/collectionmodel.cpp:289
 #: playlist/playlistmanager.cpp:569 covermanager/albumcovermanager.cpp:362
 #: internet/internetsearchmodel.cpp:95 internet/internetsearchmodel.cpp:107
 msgid "Various artists"
@@ -5483,21 +5487,21 @@ msgstr ""
 msgid "Write metadata when saving playlists"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:112 playlist/playlist.cpp:1345
-#: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:191
-#: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
+#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1345
+#: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:198
+#: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:823
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Year"
 msgstr "年份"
 
-#: collection/savedgroupingmanager.cpp:97 ../build/src/ui_groupbydialog.h:192
-#: ../build/src/ui_groupbydialog.h:214 ../build/src/ui_groupbydialog.h:236
+#: collection/savedgroupingmanager.cpp:103 ../build/src/ui_groupbydialog.h:199
+#: ../build/src/ui_groupbydialog.h:221 ../build/src/ui_groupbydialog.h:243
 msgid "Year - Album"
 msgstr "年份 - 专辑"
 
-#: collection/savedgroupingmanager.cpp:100 ../build/src/ui_groupbydialog.h:193
-#: ../build/src/ui_groupbydialog.h:215 ../build/src/ui_groupbydialog.h:237
+#: collection/savedgroupingmanager.cpp:106 ../build/src/ui_groupbydialog.h:200
+#: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 msgid "Year - Album - Disc"
 msgstr "年份 - 专辑 - 碟片"
 
@@ -5536,7 +5540,7 @@ msgstr "您已经作为%1登录。"
 msgid "You are signed in."
 msgstr "您已经登录。"
 
-#: ../build/src/ui_groupbydialog.h:180
+#: ../build/src/ui_groupbydialog.h:187
 msgid "You can change the way the songs in the collection are organized."
 msgstr ""
 
@@ -5605,7 +5609,7 @@ msgstr "专辑"
 msgid "and"
 msgstr "和"
 
-#: collection/collectionfilterwidget.cpp:75
+#: collection/collectionfilterwidget.cpp:81
 msgid "artist"
 msgstr ""
 
@@ -5750,7 +5754,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "移除 %n 首歌"
 
-#: collection/collectionfilterwidget.cpp:79
+#: collection/collectionfilterwidget.cpp:85
 msgid "searches the collection for all artists that contain the word"
 msgstr ""
 
