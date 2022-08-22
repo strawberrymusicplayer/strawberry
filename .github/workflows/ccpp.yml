@@ -1471,7 +1471,7 @@ jobs:
 
       - name: Copy extra binaries
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-3.0-0.dll,libnghttp2.dll} .
+        run: cp /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-2.4-1.dll,libnghttp2.dll} .
 
       - name: Copy dependencies
         working-directory: build
@@ -1645,7 +1645,7 @@ jobs:
 
       - name: Copy extra binaries
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-3.0-0.dll,libnghttp2.dll} .
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-2.4-1.dll,libnghttp2.dll} .
 
       - name: Copy dependencies
         working-directory: build
