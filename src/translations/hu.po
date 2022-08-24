@@ -90,9 +90,9 @@ msgstr ""
 msgid " kbps"
 msgstr " kbit/s"
 
-#: ../build/src/ui_backendsettingspage.h:567
-#: ../build/src/ui_backendsettingspage.h:587
-#: ../build/src/ui_backendsettingspage.h:590
+#: ../build/src/ui_backendsettingspage.h:574
+#: ../build/src/ui_backendsettingspage.h:594
+#: ../build/src/ui_backendsettingspage.h:597
 msgid " ms"
 msgstr " ms"
 
@@ -520,7 +520,7 @@ msgstr "A-Z"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:557
+#: ../build/src/ui_backendsettingspage.h:563
 msgid "ALSA plugin:"
 msgstr "ALSA bővítmény:"
 
@@ -791,7 +791,7 @@ msgstr "&Albumborító"
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:576
+#: ../build/src/ui_backendsettingspage.h:583
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (ideális hangerő minden számhoz)"
 
@@ -929,7 +929,7 @@ msgstr "Hozzáfűzés a jelenlegi lejátszólistához"
 msgid "Append to the playlist"
 msgstr "Hozzáadás a lejátszólistához"
 
-#: ../build/src/ui_backendsettingspage.h:579
+#: ../build/src/ui_backendsettingspage.h:586
 msgid "Apply compression to prevent clipping"
 msgstr "Tömörítés engedélyezése a túlvezérlés elkerülése érdekében"
 
@@ -991,7 +991,7 @@ msgstr "&Rákérdezés mentéskor"
 msgid "Audio format"
 msgstr "Hangformátum"
 
-#: ../build/src/ui_backendsettingspage.h:552
+#: ../build/src/ui_backendsettingspage.h:558
 msgid "Audio output"
 msgstr "Hangkimenet"
 
@@ -1077,7 +1077,7 @@ msgstr "Átlagos bitráta"
 msgid "Average image size"
 msgstr "Átlagos képméret"
 
-#: ../build/src/ui_backendsettingspage.h:551
+#: ../build/src/ui_backendsettingspage.h:557
 msgid "Backend"
 msgstr "Háttérprogram"
 
@@ -1173,11 +1173,11 @@ msgstr "Jobbra lent"
 msgid "Browse..."
 msgstr "Tallózás…"
 
-#: ../build/src/ui_backendsettingspage.h:566
+#: ../build/src/ui_backendsettingspage.h:573
 msgid "Buffer"
 msgstr "Puffer"
 
-#: ../build/src/ui_backendsettingspage.h:568
+#: ../build/src/ui_backendsettingspage.h:575
 msgid "Buffer duration"
 msgstr "Puffer hossza"
 
@@ -1586,11 +1586,11 @@ msgstr "Borítók innen: %1"
 msgid "Create a new playlist with files"
 msgstr "Új lejátszólista létrehozása fájlokkal"
 
-#: ../build/src/ui_backendsettingspage.h:584
+#: ../build/src/ui_backendsettingspage.h:591
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Áttűnés használata a számok automatikus váltásánál"
 
-#: ../build/src/ui_backendsettingspage.h:583
+#: ../build/src/ui_backendsettingspage.h:590
 msgid "Cross-fade when changing tracks manually"
 msgstr "Áttűnés használata a számok kézi váltásánál"
 
@@ -1722,7 +1722,7 @@ msgstr ""
 msgid "Default bac&kground image"
 msgstr "A&lapértelmezett háttérkép"
 
-#: ../build/src/ui_backendsettingspage.h:571
+#: ../build/src/ui_backendsettingspage.h:578
 msgid "Defaults"
 msgstr "Alapértelmezett"
 
@@ -1786,7 +1786,7 @@ msgid "Details..."
 msgstr "Részletek…"
 
 #: context/contextview.cpp:178 device/giolister.cpp:193
-#: ../build/src/ui_backendsettingspage.h:553
+#: ../build/src/ui_backendsettingspage.h:559
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr "Eszköz"
@@ -1980,6 +1980,10 @@ msgstr "Engedélyezés"
 msgid "Enable Disk Cache"
 msgstr "Lemezgyorsítótár engedélyezése"
 
+#: ../build/src/ui_backendsettingspage.h:572
+msgid "Enable HTTP/2 for streaming"
+msgstr ""
+
 #: ../build/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
 msgstr "Elemek engedélyezése"
@@ -2018,7 +2022,7 @@ msgstr "Számok metaadatainak szerkesztése kattintásra"
 msgid "Enable stereo balancer"
 msgstr "Hangegyensúly engedélyezése"
 
-#: ../build/src/ui_backendsettingspage.h:562
+#: ../build/src/ui_backendsettingspage.h:568
 msgid "Enable volume control"
 msgstr "Hangerőszabályzás engedélyezése"
 
@@ -2042,7 +2046,7 @@ msgstr "Kódolás minősége"
 msgid "Encoding mode"
 msgstr "Kódolási mód"
 
-#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:556
+#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:562
 msgid "Engine"
 msgstr "Motor"
 
@@ -2146,7 +2150,7 @@ msgstr "Hiba történt a CDDA eszköz készre állításakor."
 msgid "Ever played"
 msgstr "Valaha lejátszva"
 
-#: ../build/src/ui_backendsettingspage.h:585
+#: ../build/src/ui_backendsettingspage.h:592
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Kivéve az azonos albumon vagy azonos CUE fájlban lévő számok között"
 
@@ -2221,20 +2225,20 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:588
+#: ../build/src/ui_backendsettingspage.h:595
 msgid "Fade out on pause / fade in on resume"
 msgstr "Áttűnés a szünet megnyomásakor és a folytatáskor"
 
-#: ../build/src/ui_backendsettingspage.h:582
+#: ../build/src/ui_backendsettingspage.h:589
 msgid "Fade out when stopping a track"
 msgstr "Elhalkulás a szám megállításakor"
 
-#: ../build/src/ui_backendsettingspage.h:581
+#: ../build/src/ui_backendsettingspage.h:588
 msgid "Fading"
 msgstr "Elhalkulás"
 
-#: ../build/src/ui_backendsettingspage.h:586
-#: ../build/src/ui_backendsettingspage.h:589
+#: ../build/src/ui_backendsettingspage.h:593
+#: ../build/src/ui_backendsettingspage.h:596
 msgid "Fading duration"
 msgstr "Elhalkulás hossza"
 
@@ -2270,7 +2274,7 @@ msgstr ""
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:580
+#: ../build/src/ui_backendsettingspage.h:587
 msgid "Fallback-gain"
 msgstr ""
 
@@ -2660,7 +2664,7 @@ msgstr "Magas"
 msgid "High (%1 fps)"
 msgstr "Magas (%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:569
+#: ../build/src/ui_backendsettingspage.h:576
 msgid "High watermark"
 msgstr "Magas vízjel"
 
@@ -2732,7 +2736,7 @@ msgstr "Adatok importálása last.fm-ből..."
 msgid "Import..."
 msgstr "Importálás..."
 
-#: ../build/src/ui_backendsettingspage.h:565
+#: ../build/src/ui_backendsettingspage.h:571
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
@@ -2997,7 +3001,7 @@ msgstr "Alacsony (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Alacsony komplexitású profil (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:570
+#: ../build/src/ui_backendsettingspage.h:577
 msgid "Low watermark"
 msgstr "Alacsony vízjel"
 
@@ -3459,7 +3463,7 @@ msgstr "Opti&malizálás bitrátára"
 msgid "Optimize for &quality"
 msgstr "Optimalizálás &minőségre"
 
-#: ../build/src/ui_backendsettingspage.h:561
+#: ../build/src/ui_backendsettingspage.h:567
 msgid "Options"
 msgstr ""
 
@@ -3507,7 +3511,7 @@ msgid "Other options"
 msgstr "Egyéb beállítások"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:555
+#: ../build/src/ui_backendsettingspage.h:561
 msgid "Output"
 msgstr "Kimenet"
 
@@ -3718,7 +3722,7 @@ msgstr "Port"
 msgid "Position"
 msgstr "Helyzet"
 
-#: equalizer/equalizer.cpp:67 ../build/src/ui_backendsettingspage.h:578
+#: equalizer/equalizer.cpp:67 ../build/src/ui_backendsettingspage.h:585
 msgid "Pre-amp"
 msgstr "Előerősítő"
 
@@ -3867,7 +3871,7 @@ msgstr "Szám hozzáadása a lejátszási sorhoz"
 msgid "QueueView"
 msgstr "Lejátszási sor nézet"
 
-#: ../build/src/ui_backendsettingspage.h:575
+#: ../build/src/ui_backendsettingspage.h:582
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Rádió (egyenlő hangerő minden számhoz)"
 
@@ -4066,11 +4070,11 @@ msgstr "Szóközök lecserélése aláhúzásjelekkel"
 msgid "Replace the playlist"
 msgstr "Lejátszólista cseréje"
 
-#: ../build/src/ui_backendsettingspage.h:572
+#: ../build/src/ui_backendsettingspage.h:579
 msgid "Replay Gain"
 msgstr "Hangerő-kiegyenlítés (Replay Gain)"
 
-#: ../build/src/ui_backendsettingspage.h:574
+#: ../build/src/ui_backendsettingspage.h:581
 msgid "Replay Gain mode"
 msgstr "Hangerő-kiegyenlítés módja"
 
@@ -5351,7 +5355,7 @@ msgstr "%1% frissítése..."
 msgid "Updating collection"
 msgstr "Gyűjtemény frissítése"
 
-#: ../build/src/ui_backendsettingspage.h:563
+#: ../build/src/ui_backendsettingspage.h:569
 msgid "Upmix / downmix to"
 msgstr "Felkeverés/lekeverés"
 
@@ -5395,7 +5399,7 @@ msgstr "OAuth használata"
 msgid "Use Qobuz settings to authenticate."
 msgstr "Qobuz használata a hitelesítéshez."
 
-#: ../build/src/ui_backendsettingspage.h:573
+#: ../build/src/ui_backendsettingspage.h:580
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Hangerő kiegyenlítési metaadatok használata, ha elérhető"
 
@@ -5744,7 +5748,7 @@ msgstr "között"
 msgid "biggest first"
 msgstr "legnagyobb először"
 
-#: ../build/src/ui_backendsettingspage.h:564
+#: ../build/src/ui_backendsettingspage.h:570
 msgid "channels"
 msgstr "csatorna"
 
@@ -5787,7 +5791,7 @@ msgstr "egyenlő"
 msgid "greater than"
 msgstr "nagyobb mint"
 
-#: ../build/src/ui_backendsettingspage.h:558
+#: ../build/src/ui_backendsettingspage.h:564
 msgid "hw"
 msgstr "hw"
 
@@ -5851,11 +5855,11 @@ msgstr "rajta van"
 msgid "options"
 msgstr "beállítások"
 
-#: ../build/src/ui_backendsettingspage.h:559
+#: ../build/src/ui_backendsettingspage.h:565
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: ../build/src/ui_backendsettingspage.h:560
+#: ../build/src/ui_backendsettingspage.h:566
 msgid "pcm"
 msgstr "pcm"
 

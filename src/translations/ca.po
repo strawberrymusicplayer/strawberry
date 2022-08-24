@@ -72,9 +72,9 @@ msgstr ""
 msgid " kbps"
 msgstr " kb/s"
 
-#: ../build/src/ui_backendsettingspage.h:567
-#: ../build/src/ui_backendsettingspage.h:587
-#: ../build/src/ui_backendsettingspage.h:590
+#: ../build/src/ui_backendsettingspage.h:574
+#: ../build/src/ui_backendsettingspage.h:594
+#: ../build/src/ui_backendsettingspage.h:597
 msgid " ms"
 msgstr " ms"
 
@@ -497,7 +497,7 @@ msgstr "A-Z"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:557
+#: ../build/src/ui_backendsettingspage.h:563
 msgid "ALSA plugin:"
 msgstr "Connector de l’ALSA:"
 
@@ -768,7 +768,7 @@ msgstr ""
 msgid "Album"
 msgstr "Àlbum"
 
-#: ../build/src/ui_backendsettingspage.h:576
+#: ../build/src/ui_backendsettingspage.h:583
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Àlbum (volum ideal per a totes les peces)"
 
@@ -905,7 +905,7 @@ msgstr "Afegeix a la llista de reproducció actual"
 msgid "Append to the playlist"
 msgstr "Afegeix a la llista de reproducció"
 
-#: ../build/src/ui_backendsettingspage.h:579
+#: ../build/src/ui_backendsettingspage.h:586
 msgid "Apply compression to prevent clipping"
 msgstr "Aplica compressió per evitar el «clipping»"
 
@@ -968,7 +968,7 @@ msgstr "&Pregunta en desar"
 msgid "Audio format"
 msgstr "Format d’àudio"
 
-#: ../build/src/ui_backendsettingspage.h:552
+#: ../build/src/ui_backendsettingspage.h:558
 msgid "Audio output"
 msgstr "Sortida d’àudio"
 
@@ -1055,7 +1055,7 @@ msgstr "Taxa de bits mitjana"
 msgid "Average image size"
 msgstr "Mida d’imatge mitjana"
 
-#: ../build/src/ui_backendsettingspage.h:551
+#: ../build/src/ui_backendsettingspage.h:557
 msgid "Backend"
 msgstr ""
 
@@ -1150,11 +1150,11 @@ msgstr ""
 msgid "Browse..."
 msgstr "Explora…"
 
-#: ../build/src/ui_backendsettingspage.h:566
+#: ../build/src/ui_backendsettingspage.h:573
 msgid "Buffer"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:568
+#: ../build/src/ui_backendsettingspage.h:575
 msgid "Buffer duration"
 msgstr "Durada de la memòria intermèdia"
 
@@ -1561,11 +1561,11 @@ msgstr "Caràtules de %1"
 msgid "Create a new playlist with files"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:584
+#: ../build/src/ui_backendsettingspage.h:591
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Fusiona el so quan es canviï la peça automàticament"
 
-#: ../build/src/ui_backendsettingspage.h:583
+#: ../build/src/ui_backendsettingspage.h:590
 msgid "Cross-fade when changing tracks manually"
 msgstr "Fusiona el so quan es canviï la peça manualment"
 
@@ -1697,7 +1697,7 @@ msgstr ""
 msgid "Default bac&kground image"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:571
+#: ../build/src/ui_backendsettingspage.h:578
 msgid "Defaults"
 msgstr ""
 
@@ -1761,7 +1761,7 @@ msgid "Details..."
 msgstr "Detalls…"
 
 #: context/contextview.cpp:178 device/giolister.cpp:193
-#: ../build/src/ui_backendsettingspage.h:553
+#: ../build/src/ui_backendsettingspage.h:559
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr "Dispositiu"
@@ -1955,6 +1955,10 @@ msgstr ""
 msgid "Enable Disk Cache"
 msgstr ""
 
+#: ../build/src/ui_backendsettingspage.h:572
+msgid "Enable HTTP/2 for streaming"
+msgstr ""
+
 #: ../build/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
 msgstr ""
@@ -1992,7 +1996,7 @@ msgstr "Edita les metadades d’una cançó amb un clic"
 msgid "Enable stereo balancer"
 msgstr "Activa l’equilibrador estèreo"
 
-#: ../build/src/ui_backendsettingspage.h:562
+#: ../build/src/ui_backendsettingspage.h:568
 msgid "Enable volume control"
 msgstr ""
 
@@ -2016,7 +2020,7 @@ msgstr "Qualitat del motor de codificació"
 msgid "Encoding mode"
 msgstr "Mode de codificació"
 
-#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:556
+#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:562
 msgid "Engine"
 msgstr "Motor"
 
@@ -2121,7 +2125,7 @@ msgstr ""
 msgid "Ever played"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:585
+#: ../build/src/ui_backendsettingspage.h:592
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Excepte entre peces del mateix àlbum o del mateix full CUE"
 
@@ -2196,20 +2200,20 @@ msgstr ""
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:588
+#: ../build/src/ui_backendsettingspage.h:595
 msgid "Fade out on pause / fade in on resume"
 msgstr "Atenua el volum en pausar i en reprendre"
 
-#: ../build/src/ui_backendsettingspage.h:582
+#: ../build/src/ui_backendsettingspage.h:589
 msgid "Fade out when stopping a track"
 msgstr "Esvaeix el so en parar una peça"
 
-#: ../build/src/ui_backendsettingspage.h:581
+#: ../build/src/ui_backendsettingspage.h:588
 msgid "Fading"
 msgstr "Esvaïment"
 
-#: ../build/src/ui_backendsettingspage.h:586
-#: ../build/src/ui_backendsettingspage.h:589
+#: ../build/src/ui_backendsettingspage.h:593
+#: ../build/src/ui_backendsettingspage.h:596
 msgid "Fading duration"
 msgstr "Durada de l’esvaïment"
 
@@ -2245,7 +2249,7 @@ msgstr ""
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:580
+#: ../build/src/ui_backendsettingspage.h:587
 msgid "Fallback-gain"
 msgstr ""
 
@@ -2634,7 +2638,7 @@ msgstr "Alt"
 msgid "High (%1 fps)"
 msgstr "Alta (%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:569
+#: ../build/src/ui_backendsettingspage.h:576
 msgid "High watermark"
 msgstr ""
 
@@ -2705,7 +2709,7 @@ msgstr ""
 msgid "Import..."
 msgstr "Importa..."
 
-#: ../build/src/ui_backendsettingspage.h:565
+#: ../build/src/ui_backendsettingspage.h:571
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
@@ -2967,7 +2971,7 @@ msgstr "Baixa (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Perfil de baixa complexitat (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:570
+#: ../build/src/ui_backendsettingspage.h:577
 msgid "Low watermark"
 msgstr ""
 
@@ -3426,7 +3430,7 @@ msgstr ""
 msgid "Optimize for &quality"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:561
+#: ../build/src/ui_backendsettingspage.h:567
 msgid "Options"
 msgstr ""
 
@@ -3474,7 +3478,7 @@ msgid "Other options"
 msgstr "Altres opcions"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:555
+#: ../build/src/ui_backendsettingspage.h:561
 msgid "Output"
 msgstr "Sortida"
 
@@ -3683,7 +3687,7 @@ msgstr "Port"
 msgid "Position"
 msgstr "Posició"
 
-#: equalizer/equalizer.cpp:67 ../build/src/ui_backendsettingspage.h:578
+#: equalizer/equalizer.cpp:67 ../build/src/ui_backendsettingspage.h:585
 msgid "Pre-amp"
 msgstr "Preamplificador"
 
@@ -3829,7 +3833,7 @@ msgstr "Afegeix la peça a la cua"
 msgid "QueueView"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:575
+#: ../build/src/ui_backendsettingspage.h:582
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Ràdio (mateix volum per a totes les peces)"
 
@@ -4025,11 +4029,11 @@ msgstr ""
 msgid "Replace the playlist"
 msgstr "Substitueix la llista de reproducció"
 
-#: ../build/src/ui_backendsettingspage.h:572
+#: ../build/src/ui_backendsettingspage.h:579
 msgid "Replay Gain"
 msgstr "Replay Gain"
 
-#: ../build/src/ui_backendsettingspage.h:574
+#: ../build/src/ui_backendsettingspage.h:581
 msgid "Replay Gain mode"
 msgstr "Mode de l’Replay Gain"
 
@@ -5310,7 +5314,7 @@ msgstr "S’està actualitzant %1%…"
 msgid "Updating collection"
 msgstr "S’està actualitzant la col·lecció"
 
-#: ../build/src/ui_backendsettingspage.h:563
+#: ../build/src/ui_backendsettingspage.h:569
 msgid "Upmix / downmix to"
 msgstr ""
 
@@ -5354,7 +5358,7 @@ msgstr ""
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:573
+#: ../build/src/ui_backendsettingspage.h:580
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Utilitza les metadades Replay Gain si estan disponibles"
 
@@ -5698,7 +5702,7 @@ msgstr "entre"
 msgid "biggest first"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:564
+#: ../build/src/ui_backendsettingspage.h:570
 msgid "channels"
 msgstr "canals"
 
@@ -5741,7 +5745,7 @@ msgstr ""
 msgid "greater than"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:558
+#: ../build/src/ui_backendsettingspage.h:564
 msgid "hw"
 msgstr ""
 
@@ -5805,11 +5809,11 @@ msgstr ""
 msgid "options"
 msgstr "opcions"
 
-#: ../build/src/ui_backendsettingspage.h:559
+#: ../build/src/ui_backendsettingspage.h:565
 msgid "p&lughw"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:560
+#: ../build/src/ui_backendsettingspage.h:566
 msgid "pcm"
 msgstr ""
 

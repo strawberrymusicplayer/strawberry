@@ -66,9 +66,9 @@ msgstr ""
 msgid " kbps"
 msgstr " kb/s"
 
-#: ../build/src/ui_backendsettingspage.h:567
-#: ../build/src/ui_backendsettingspage.h:587
-#: ../build/src/ui_backendsettingspage.h:590
+#: ../build/src/ui_backendsettingspage.h:574
+#: ../build/src/ui_backendsettingspage.h:594
+#: ../build/src/ui_backendsettingspage.h:597
 msgid " ms"
 msgstr " ms"
 
@@ -494,7 +494,7 @@ msgstr "A-Z"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:557
+#: ../build/src/ui_backendsettingspage.h:563
 msgid "ALSA plugin:"
 msgstr "Complemento de ALSA:"
 
@@ -765,7 +765,7 @@ msgstr "C&ubierta del álbum"
 msgid "Album"
 msgstr "Álbum"
 
-#: ../build/src/ui_backendsettingspage.h:576
+#: ../build/src/ui_backendsettingspage.h:583
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Álbum (volumen idóneo para todas las pistas)"
 
@@ -904,7 +904,7 @@ msgstr "Añadir a la lista de reproducción actual"
 msgid "Append to the playlist"
 msgstr "Añadir a la lista de reproducción"
 
-#: ../build/src/ui_backendsettingspage.h:579
+#: ../build/src/ui_backendsettingspage.h:586
 msgid "Apply compression to prevent clipping"
 msgstr "Aplicar compresión para evitar saturación"
 
@@ -966,7 +966,7 @@ msgstr "&Preguntar al guardar"
 msgid "Audio format"
 msgstr "Formato de audio"
 
-#: ../build/src/ui_backendsettingspage.h:552
+#: ../build/src/ui_backendsettingspage.h:558
 msgid "Audio output"
 msgstr "Salida de audio"
 
@@ -1052,7 +1052,7 @@ msgstr "Tasa media de bits"
 msgid "Average image size"
 msgstr "Tamaño medio de imagen"
 
-#: ../build/src/ui_backendsettingspage.h:551
+#: ../build/src/ui_backendsettingspage.h:557
 msgid "Backend"
 msgstr "Sistema de audio"
 
@@ -1147,11 +1147,11 @@ msgstr "Inferior derecha"
 msgid "Browse..."
 msgstr "Examinar…"
 
-#: ../build/src/ui_backendsettingspage.h:566
+#: ../build/src/ui_backendsettingspage.h:573
 msgid "Buffer"
 msgstr "Búfer"
 
-#: ../build/src/ui_backendsettingspage.h:568
+#: ../build/src/ui_backendsettingspage.h:575
 msgid "Buffer duration"
 msgstr "Duración del búfer"
 
@@ -1559,11 +1559,11 @@ msgstr "Cubiertas de %1"
 msgid "Create a new playlist with files"
 msgstr "Crear una lista de reproducción nueva con archivos"
 
-#: ../build/src/ui_backendsettingspage.h:584
+#: ../build/src/ui_backendsettingspage.h:591
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Fundido encadenado al cambiar pistas automáticamente"
 
-#: ../build/src/ui_backendsettingspage.h:583
+#: ../build/src/ui_backendsettingspage.h:590
 msgid "Cross-fade when changing tracks manually"
 msgstr "Fundido encadenado al cambiar pistas manualmente"
 
@@ -1695,7 +1695,7 @@ msgstr ""
 msgid "Default bac&kground image"
 msgstr "Imagen de &fondo predeterminada"
 
-#: ../build/src/ui_backendsettingspage.h:571
+#: ../build/src/ui_backendsettingspage.h:578
 msgid "Defaults"
 msgstr "Valores predeterminados"
 
@@ -1759,7 +1759,7 @@ msgid "Details..."
 msgstr "Detalles…"
 
 #: context/contextview.cpp:178 device/giolister.cpp:193
-#: ../build/src/ui_backendsettingspage.h:553
+#: ../build/src/ui_backendsettingspage.h:559
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr "Dispositivo"
@@ -1955,6 +1955,10 @@ msgstr "Activar"
 msgid "Enable Disk Cache"
 msgstr "Activar antememoria de disco"
 
+#: ../build/src/ui_backendsettingspage.h:572
+msgid "Enable HTTP/2 for streaming"
+msgstr ""
+
 #: ../build/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
 msgstr "Activar elementos"
@@ -1994,7 +1998,7 @@ msgstr "Editar metadatos de pistas directamente"
 msgid "Enable stereo balancer"
 msgstr "Activar equilibrador estéreo"
 
-#: ../build/src/ui_backendsettingspage.h:562
+#: ../build/src/ui_backendsettingspage.h:568
 msgid "Enable volume control"
 msgstr "Activar control de volumen"
 
@@ -2018,7 +2022,7 @@ msgstr "Calidad del motor de codificación"
 msgid "Encoding mode"
 msgstr "Modo de codificación"
 
-#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:556
+#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:562
 msgid "Engine"
 msgstr "Motor"
 
@@ -2124,7 +2128,7 @@ msgstr "Error al reactivar el dispositivo CDDA."
 msgid "Ever played"
 msgstr "Ya reproducido"
 
-#: ../build/src/ui_backendsettingspage.h:585
+#: ../build/src/ui_backendsettingspage.h:592
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Excepto entre pistas del mismo álbum o en la misma hoja CUE"
 
@@ -2199,20 +2203,20 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:588
+#: ../build/src/ui_backendsettingspage.h:595
 msgid "Fade out on pause / fade in on resume"
 msgstr "Fundido al pausar / reanudar"
 
-#: ../build/src/ui_backendsettingspage.h:582
+#: ../build/src/ui_backendsettingspage.h:589
 msgid "Fade out when stopping a track"
 msgstr "Fundido al detener la reproducción"
 
-#: ../build/src/ui_backendsettingspage.h:581
+#: ../build/src/ui_backendsettingspage.h:588
 msgid "Fading"
 msgstr "Fundido"
 
-#: ../build/src/ui_backendsettingspage.h:586
-#: ../build/src/ui_backendsettingspage.h:589
+#: ../build/src/ui_backendsettingspage.h:593
+#: ../build/src/ui_backendsettingspage.h:596
 msgid "Fading duration"
 msgstr "Duración del fundido"
 
@@ -2248,7 +2252,7 @@ msgstr ""
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:580
+#: ../build/src/ui_backendsettingspage.h:587
 msgid "Fallback-gain"
 msgstr "Fallback-gain"
 
@@ -2644,7 +2648,7 @@ msgstr "Alto"
 msgid "High (%1 fps)"
 msgstr "Alta (%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:569
+#: ../build/src/ui_backendsettingspage.h:576
 msgid "High watermark"
 msgstr "Marca de agua alta"
 
@@ -2717,7 +2721,7 @@ msgstr "Importar datos de Last.fm…"
 msgid "Import..."
 msgstr "Importar…"
 
-#: ../build/src/ui_backendsettingspage.h:565
+#: ../build/src/ui_backendsettingspage.h:571
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr "Improve headphone listening of stereo audio records (bs2b)"
 
@@ -2982,7 +2986,7 @@ msgstr "Baja (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Perfil de baja complejidad (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:570
+#: ../build/src/ui_backendsettingspage.h:577
 msgid "Low watermark"
 msgstr "Marca de agua baja"
 
@@ -3443,7 +3447,7 @@ msgstr "Opti&mizar para tasa de bits"
 msgid "Optimize for &quality"
 msgstr "Optimizar para &calidad"
 
-#: ../build/src/ui_backendsettingspage.h:561
+#: ../build/src/ui_backendsettingspage.h:567
 msgid "Options"
 msgstr ""
 
@@ -3491,7 +3495,7 @@ msgid "Other options"
 msgstr "Otras opciones"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:555
+#: ../build/src/ui_backendsettingspage.h:561
 msgid "Output"
 msgstr "Salida"
 
@@ -3703,7 +3707,7 @@ msgstr "Puerto"
 msgid "Position"
 msgstr "Posición"
 
-#: equalizer/equalizer.cpp:67 ../build/src/ui_backendsettingspage.h:578
+#: equalizer/equalizer.cpp:67 ../build/src/ui_backendsettingspage.h:585
 msgid "Pre-amp"
 msgstr "Preamplificador"
 
@@ -3852,7 +3856,7 @@ msgstr "Poner pista en cola"
 msgid "QueueView"
 msgstr "Vista de la cola"
 
-#: ../build/src/ui_backendsettingspage.h:575
+#: ../build/src/ui_backendsettingspage.h:582
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Radio (volumen igual para todas las pistas)"
 
@@ -4053,11 +4057,11 @@ msgstr "Sustituir espacios pòr caracteres de subrayado"
 msgid "Replace the playlist"
 msgstr "Reemplazar la lista de reproducción"
 
-#: ../build/src/ui_backendsettingspage.h:572
+#: ../build/src/ui_backendsettingspage.h:579
 msgid "Replay Gain"
 msgstr "Ajuste de volumen en reproducción"
 
-#: ../build/src/ui_backendsettingspage.h:574
+#: ../build/src/ui_backendsettingspage.h:581
 msgid "Replay Gain mode"
 msgstr "Modo de ajuste de volumen en reproducción"
 
@@ -5340,7 +5344,7 @@ msgstr "Actualizando… (%1%)"
 msgid "Updating collection"
 msgstr "Actualizando la colección"
 
-#: ../build/src/ui_backendsettingspage.h:563
+#: ../build/src/ui_backendsettingspage.h:569
 msgid "Upmix / downmix to"
 msgstr ""
 
@@ -5384,7 +5388,7 @@ msgstr "Utilizar OAuth"
 msgid "Use Qobuz settings to authenticate."
 msgstr "Usar ajustes de Qobuz para autenticarse."
 
-#: ../build/src/ui_backendsettingspage.h:573
+#: ../build/src/ui_backendsettingspage.h:580
 msgid "Use Replay Gain metadata if it is available"
 msgstr ""
 "Usar metadatos de ajuste de volumen en reproducción si están disponibles"
@@ -5738,7 +5742,7 @@ msgstr "entre"
 msgid "biggest first"
 msgstr "primero el mayor"
 
-#: ../build/src/ui_backendsettingspage.h:564
+#: ../build/src/ui_backendsettingspage.h:570
 msgid "channels"
 msgstr "canales"
 
@@ -5781,7 +5785,7 @@ msgstr "es igual a"
 msgid "greater than"
 msgstr "mayor que"
 
-#: ../build/src/ui_backendsettingspage.h:558
+#: ../build/src/ui_backendsettingspage.h:564
 msgid "hw"
 msgstr "hw"
 
@@ -5845,11 +5849,11 @@ msgstr "el"
 msgid "options"
 msgstr "opciones"
 
-#: ../build/src/ui_backendsettingspage.h:559
+#: ../build/src/ui_backendsettingspage.h:565
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: ../build/src/ui_backendsettingspage.h:560
+#: ../build/src/ui_backendsettingspage.h:566
 msgid "pcm"
 msgstr "pcm"
 
