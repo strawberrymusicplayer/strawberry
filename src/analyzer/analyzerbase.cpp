@@ -57,7 +57,11 @@ Analyzer::Base::Base(QWidget *parent, const uint scopeSize)
       lastscope_(512),
       new_frame_(false),
       is_playing_(false),
-      timeout_(40) {}
+      timeout_(40) {
+
+  setAttribute(Qt::WA_OpaquePaintEvent, true);
+
+}
 
 Analyzer::Base::~Base() {
   delete fht_;
