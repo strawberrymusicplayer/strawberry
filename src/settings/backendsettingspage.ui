@@ -252,6 +252,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_http2">
+        <property name="text">
+         <string>Enable HTTP/2 for streaming</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

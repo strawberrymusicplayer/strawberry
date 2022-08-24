@@ -30,6 +30,7 @@
 #include <QUrl>
 #include <QSettings>
 
+#include "core/utilities.h"
 #include "core/timeconstants.h"
 #include "core/networkproxyfactory.h"
 #include "engine_fwd.h"
@@ -68,6 +69,7 @@ Engine::Base::Base(const EngineType type, QObject *parent)
       channels_enabled_(false),
       channels_(0),
       bs2b_enabled_(false),
+      http2_enabled_(true),
       about_to_end_emitted_(false) {}
 
 Engine::Base::~Base() = default;
@@ -144,6 +146,13 @@ void Engine::Base::ReloadSettings() {
   fadeout_pause_duration_nanosec_ = (fadeout_pause_duration_ * kNsecPerMsec);
 
   bs2b_enabled_ = s.value("bs2b", false).toBool();
+
+  bool http2_enabled = s.value("http2", false).toBool();
+  if (http2_enabled != http2_enabled_) {
+    http2_enabled_ = http2_enabled;
+    Utilities::SetEnv("SOUP_FORCE_HTTP1", http2_enabled_ ? "" : "1");
+    qLog(Debug) << "SOUP_FORCE_HTTP1:" << (http2_enabled_ ? "OFF" : "ON");
+  }
 
   s.endGroup();
 
