@@ -1471,7 +1471,7 @@ jobs:
 
       - name: Copy extra binaries
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-2.4-1.dll,libnghttp2.dll} .
+        run: cp /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-3.0-0.dll,libnghttp2.dll} .
 
       - name: Copy dependencies
         working-directory: build
@@ -1645,7 +1645,7 @@ jobs:
 
       - name: Copy extra binaries
         working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-2.4-1.dll,libnghttp2.dll} .
+        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-3.0-0.dll,libnghttp2.dll} .
 
       - name: Copy dependencies
         working-directory: build
@@ -1790,7 +1790,7 @@ jobs:
         run: |
           copy c:\strawberry_msvc_x86_debug\bin\libssl-3.dll
           copy c:\strawberry_msvc_x86_debug\bin\libcrypto-3.dll
-          copy c:\strawberry_msvc_x86_debug\bin\soup-2.4-1.dll
+          copy c:\strawberry_msvc_x86_debug\bin\soup-3.0-0.dll
           copy c:\strawberry_msvc_x86_debug\bin\gst-launch-1.0.exe
           copy c:\strawberry_msvc_x86_debug\bin\gst-discoverer-1.0.exe
           copy c:\strawberry_msvc_x86_debug\bin\sqlite3.exe
@@ -2051,7 +2051,7 @@ jobs:
         run: |
           copy c:\strawberry_msvc_x86_release\bin\libssl-3.dll
           copy c:\strawberry_msvc_x86_release\bin\libcrypto-3.dll
-          copy c:\strawberry_msvc_x86_release\bin\soup-2.4-1.dll
+          copy c:\strawberry_msvc_x86_release\bin\soup-3.0-0.dll
           copy c:\strawberry_msvc_x86_release\bin\gst-launch-1.0.exe
           copy c:\strawberry_msvc_x86_release\bin\gst-discoverer-1.0.exe
           copy c:\strawberry_msvc_x86_release\bin\sqlite3.exe
@@ -2312,7 +2312,7 @@ jobs:
         run: |
           copy c:\strawberry_msvc_x86_64_debug\bin\libssl-3-x64.dll
           copy c:\strawberry_msvc_x86_64_debug\bin\libcrypto-3-x64.dll
-          copy c:\strawberry_msvc_x86_64_debug\bin\soup-2.4-1.dll
+          copy c:\strawberry_msvc_x86_64_debug\bin\soup-3.0-0.dll
           copy c:\strawberry_msvc_x86_64_debug\bin\gst-launch-1.0.exe
           copy c:\strawberry_msvc_x86_64_debug\bin\gst-discoverer-1.0.exe
           copy c:\strawberry_msvc_x86_64_debug\bin\sqlite3.exe
@@ -2573,7 +2573,7 @@ jobs:
         run: |
           copy c:\strawberry_msvc_x86_64_release\bin\libssl-3-x64.dll
           copy c:\strawberry_msvc_x86_64_release\bin\libcrypto-3-x64.dll
-          copy c:\strawberry_msvc_x86_64_release\bin\soup-2.4-1.dll
+          copy c:\strawberry_msvc_x86_64_release\bin\soup-3.0-0.dll
           copy c:\strawberry_msvc_x86_64_release\bin\gst-launch-1.0.exe
           copy c:\strawberry_msvc_x86_64_release\bin\gst-discoverer-1.0.exe
           copy c:\strawberry_msvc_x86_64_release\bin\sqlite3.exe
