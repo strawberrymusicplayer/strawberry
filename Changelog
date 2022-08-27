@@ -2,6 +2,22 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed backslash being appended to filter text when switching playlist (#1005).
+    * Fixed OSD notifications service registering taking too long to timeout when not available.
+    * Fixed radio stream added twice when double-clicked (#1015).
+    * Fixed translating undo and redo buttons (#1017).
+
+  Enhancements:
+    * Use ICU instead of iconv to transliterate characters for filenames.
+    * Make separating albums by grouping tag optional in collection group by album.
+    * Added support for video game music formats VGM and SPC.
+    * Added setting for explicitly turning on HTTP/2 for streaming. Strawberry will set the
+      libsoup SOUP_FORCE_HTTP1 environment variable when the HTTP/2 is not checked (#1016).
+    * (Windows|MSVC) Install Visual C++ runtime redistributable automatically in installer.
+
 Version 1.0.7 (2022.07.25)
 
   Bugfixes:
