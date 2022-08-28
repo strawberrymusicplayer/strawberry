@@ -40,7 +40,7 @@ class FileSystemWatcherInterface : public QObject {
   static FileSystemWatcherInterface *Create(QObject *parent = nullptr);
 
  signals:
-  void PathChanged(const QString &path);
+  void PathChanged(QString path);
 };
 
 #endif
