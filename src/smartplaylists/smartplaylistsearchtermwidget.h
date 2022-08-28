@@ -44,7 +44,7 @@ class SmartPlaylistSearchTermWidget : public QWidget {
 
  public:
   explicit SmartPlaylistSearchTermWidget(CollectionBackend *collection, QWidget *parent);
-  ~SmartPlaylistSearchTermWidget();
+  ~SmartPlaylistSearchTermWidget() override;
 
   void SetActive(const bool active);
 
