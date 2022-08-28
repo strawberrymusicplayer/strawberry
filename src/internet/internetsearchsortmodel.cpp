@@ -23,10 +23,8 @@
 #include <QObject>
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
-#include <QVariant>
 #include <QString>
 
-#include "core/song.h"
 #include "collection/collectionmodel.h"
 #include "internetsearchmodel.h"
 #include "internetsearchsortmodel.h"

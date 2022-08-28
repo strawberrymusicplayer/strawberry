@@ -23,10 +23,8 @@
 #include <QMenu>
 #include <QSettings>
 #include <QShowEvent>
-#include <QContextMenuEvent>
 
 #include "core/application.h"
-#include "core/logging.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "collection/collectionbackend.h"

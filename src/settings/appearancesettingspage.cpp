@@ -26,7 +26,6 @@
 #include <QStyleFactory>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
 #include <QPalette>
 #include <QColorDialog>
 #include <QFileDialog>

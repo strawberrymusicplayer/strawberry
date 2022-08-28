@@ -21,8 +21,6 @@
 #ifndef TRACKSLIDERPOPUP_H
 #define TRACKSLIDERPOPUP_H
 
-#include "config.h"
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>

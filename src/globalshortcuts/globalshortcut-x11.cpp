@@ -19,13 +19,10 @@
 
 #include "config.h"
 
-#include <QtGlobal>
 #include <QApplication>
 #include <QGuiApplication>
-#include <QMap>
 #include <QVector>
 #include <QByteArray>
-#include <QString>
 #include <QKeySequence>
 #include <QFlags>
 #include <QScreen>

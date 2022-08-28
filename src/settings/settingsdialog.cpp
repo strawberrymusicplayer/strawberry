@@ -31,9 +31,7 @@
 #include <QAbstractItemView>
 #include <QTreeWidget>
 #include <QList>
-#include <QVariant>
 #include <QString>
-#include <QIcon>
 #include <QPainter>
 #include <QFrame>
 #include <QKeySequence>

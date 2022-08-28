@@ -54,7 +54,6 @@ class RadioServices : public QObject {
   void ReloadSettings();
 
   RadioBackend *radio_backend() const { return backend_; }
-  RadioModel *radio_model() const { return model_; }
   QSortFilterProxyModel *sort_model() const { return sort_model_; }
 
  private slots:

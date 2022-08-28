@@ -26,9 +26,7 @@
 #include <QDesktopServices>
 #include <QCryptographicHash>
 #include <QByteArray>
-#include <QPair>
 #include <QList>
-#include <QMap>
 #include <QString>
 #include <QChar>
 #include <QUrl>
@@ -42,7 +40,6 @@
 #include <QJsonObject>
 #include <QSettings>
 #include <QSortFilterProxyModel>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/player.h"

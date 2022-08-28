@@ -20,11 +20,7 @@
 #include "config.h"
 
 #include <QObject>
-#include <QStandardPaths>
 #include <QMimeDatabase>
-#include <QMimeType>
-#include <QIODevice>
-#include <QFile>
 #include <QFileInfo>
 #include <QDir>
 #include <QList>
@@ -36,7 +32,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QXmlStreamReader>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"

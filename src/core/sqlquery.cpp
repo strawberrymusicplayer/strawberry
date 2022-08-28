@@ -19,10 +19,8 @@
 
 #include "config.h"
 
-#include <QSqlQuery>
 #include <QMap>
 #include <QVariant>
-#include <QVariantList>
 #include <QString>
 #include <QUrl>
 

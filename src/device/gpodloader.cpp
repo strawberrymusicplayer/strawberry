@@ -28,7 +28,6 @@
 #include <QDir>
 #include <QByteArray>
 #include <QString>
-#include <QtDebug>
 
 #include "collection/collectionbackend.h"
 #include "core/logging.h"

@@ -27,7 +27,6 @@
 #include <QObject>
 #include <QTimer>
 #include <QString>
-#include <QImage>
 
 #include "core/networkaccessmanager.h"
 #include "core/song.h"

@@ -29,7 +29,6 @@
 #include <QStyle>
 #include <QList>
 #include <QStringList>
-#include <QUrl>
 #include <QLabel>
 #include <QListWidget>
 

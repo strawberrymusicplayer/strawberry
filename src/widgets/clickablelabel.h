@@ -18,8 +18,6 @@
 #ifndef CLICKABLELABEL_H
 #define CLICKABLELABEL_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QString>
 #include <QLabel>

@@ -28,7 +28,6 @@
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QString>
-#include <QUrl>
 
 #include "core/timeconstants.h"
 #include "engine/chromaprinter.h"

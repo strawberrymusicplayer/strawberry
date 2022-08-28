@@ -26,8 +26,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonObject>
-#include <QJsonValue>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"

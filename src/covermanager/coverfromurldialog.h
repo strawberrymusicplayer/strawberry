@@ -27,7 +27,6 @@
 #include <QObject>
 #include <QDialog>
 #include <QString>
-#include <QImage>
 
 #include "albumcoverimageresult.h"
 

@@ -24,7 +24,6 @@
 #include <QThread>
 #include <QString>
 #include <QUrl>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/logging.h"

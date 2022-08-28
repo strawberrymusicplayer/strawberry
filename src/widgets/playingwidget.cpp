@@ -19,25 +19,19 @@
  *
  */
 
-#include "config.h"
-
 #include <memory>
 
 #include <QtGlobal>
 #include <QWidget>
 #include <QList>
 #include <QByteArray>
-#include <QVariant>
 #include <QString>
-#include <QUrl>
 #include <QImage>
 #include <QPixmap>
 #include <QSize>
 #include <QMenu>
 #include <QMovie>
 #include <QPainter>
-#include <QPalette>
-#include <QBrush>
 #include <QTextDocument>
 #include <QTimeLine>
 #include <QAction>

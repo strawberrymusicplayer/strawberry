@@ -23,9 +23,7 @@
 
 #include <QObject>
 #include <QMimeDatabase>
-#include <QMimeType>
 #include <QPair>
-#include <QList>
 #include <QByteArray>
 #include <QString>
 #include <QChar>
@@ -33,9 +31,7 @@
 #include <QDateTime>
 #include <QNetworkReply>
 #include <QCryptographicHash>
-#include <QJsonValue>
 #include <QJsonObject>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"

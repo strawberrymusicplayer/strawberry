@@ -19,14 +19,10 @@
 
 #include "config.h"
 
-#include <cstdio>
-#include <cerrno>
 #include <alsa/asoundlib.h>
 
 #include <QList>
-#include <QVariant>
 #include <QString>
-#include <QtDebug>
 
 #include <core/logging.h>
 

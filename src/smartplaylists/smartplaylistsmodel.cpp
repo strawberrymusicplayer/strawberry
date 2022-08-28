@@ -24,17 +24,14 @@
 #include <QAbstractListModel>
 #include <QVariant>
 #include <QStringList>
-#include <QUrl>
 #include <QMimeData>
 #include <QSettings>
 
 #include "core/application.h"
 #include "core/database.h"
-#include "core/logging.h"
 #include "core/iconloader.h"
 #include "core/simpletreemodel.h"
 #include "collection/collectionbackend.h"
-#include "playlist/songmimedata.h"
 
 #include "smartplaylistsitem.h"
 #include "smartplaylistsmodel.h"

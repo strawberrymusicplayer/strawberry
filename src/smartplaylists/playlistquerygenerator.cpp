@@ -25,7 +25,6 @@
 #include <QByteArray>
 #include <QString>
 
-#include "core/logging.h"
 #include "playlistquerygenerator.h"
 #include "collection/collectionbackend.h"
 

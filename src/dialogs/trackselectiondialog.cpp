@@ -31,10 +31,8 @@
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QVariant>
-#include <QUrl>
 #include <QString>
 #include <QStringList>
-#include <QStringBuilder>
 #include <QPalette>
 #include <QFont>
 #include <QKeySequence>
@@ -45,7 +43,6 @@
 #include <QSplitter>
 #include <QStackedWidget>
 #include <QTreeWidget>
-#include <QtDebug>
 
 #include "core/iconloader.h"
 #include "core/logging.h"

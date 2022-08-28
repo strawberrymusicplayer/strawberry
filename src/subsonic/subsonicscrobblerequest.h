@@ -28,7 +28,6 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QDateTime>
-#include <QPair>
 #include <QQueue>
 #include <QVariant>
 #include <QString>

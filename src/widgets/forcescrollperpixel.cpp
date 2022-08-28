@@ -18,8 +18,6 @@
  *
  */
 
-#include "config.h"
-
 #include <QObject>
 #include <QAbstractItemView>
 #include <QScrollBar>

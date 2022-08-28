@@ -33,9 +33,6 @@
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
-#include <QIcon>
-#include <QImage>
-#include <QPixmap>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QStyle>

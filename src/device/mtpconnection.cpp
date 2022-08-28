@@ -25,13 +25,11 @@
 #include <cstdint>
 
 #include <QList>
-#include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "mtpconnection.h"

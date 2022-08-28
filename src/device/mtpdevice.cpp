@@ -32,7 +32,6 @@
 #include <QList>
 #include <QString>
 #include <QUrl>
-#include <QtDebug>
 
 #include "collection/collectionmodel.h"
 #include "collection/collectionbackend.h"

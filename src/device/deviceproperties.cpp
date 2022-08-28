@@ -30,8 +30,6 @@
 #include <QtConcurrentRun>
 #include <QFuture>
 #include <QFutureWatcher>
-#include <QMap>
-#include <QSize>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>

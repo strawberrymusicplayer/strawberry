@@ -28,7 +28,6 @@
 #include <QSet>
 #include <QChar>
 #include <QScopedPointer>
-#include <QVariant>
 #include <QString>
 #include <QtAlgorithms>
 #include <QAbstractItemModel>

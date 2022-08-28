@@ -28,14 +28,12 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QList>
 #include <QMap>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
 #include <QDateTime>
 #include <QSettings>
-#include <QtDebug>
 
 #include "core/logging.h"
 

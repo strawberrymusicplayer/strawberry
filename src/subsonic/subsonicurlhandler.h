@@ -24,9 +24,7 @@
 
 #include <QObject>
 #include <QPair>
-#include <QSet>
 #include <QList>
-#include <QByteArray>
 #include <QString>
 #include <QUrl>
 

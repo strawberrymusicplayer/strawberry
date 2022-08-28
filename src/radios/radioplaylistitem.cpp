@@ -20,10 +20,7 @@
 #include "config.h"
 
 #include <QApplication>
-#include <QSettings>
 #include <QVariant>
-#include <QString>
-#include <QStringList>
 #include <QUrl>
 
 #include "radioplaylistitem.h"

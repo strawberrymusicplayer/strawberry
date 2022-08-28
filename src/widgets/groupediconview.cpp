@@ -18,9 +18,6 @@
  *
  */
 
-#include "config.h"
-
-#include <QtGlobal>
 #include <QWidget>
 #include <QListView>
 #include <QAbstractItemModel>
@@ -28,8 +25,6 @@
 #include <QAbstractItemDelegate>
 #include <QItemSelectionModel>
 #include <QList>
-#include <QArrayData>
-#include <QVariant>
 #include <QString>
 #include <QFont>
 #include <QFontMetrics>

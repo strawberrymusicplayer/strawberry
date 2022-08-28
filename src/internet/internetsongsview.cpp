@@ -21,7 +21,6 @@
 
 #include <QtGlobal>
 #include <QWidget>
-#include <QMap>
 #include <QString>
 #include <QStackedWidget>
 #include <QContextMenuEvent>
@@ -35,7 +34,6 @@
 #include "core/iconloader.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
-#include "collection/collectionfilterwidget.h"
 #include "internetservice.h"
 #include "internetsongsview.h"
 #include "internetcollectionview.h"

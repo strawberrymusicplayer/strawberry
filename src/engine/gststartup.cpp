@@ -25,13 +25,11 @@
 #include <gst/gst.h>
 #include <gst/pbutils/pbutils.h>
 
-#include <QtGlobal>
 #include <QObject>
 #include <QMetaObject>
 #include <QCoreApplication>
 #include <QStandardPaths>
 #include <QtConcurrent>
-#include <QFuture>
 #include <QString>
 #include <QDir>
 #include <QFile>

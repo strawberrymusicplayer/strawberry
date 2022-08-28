@@ -25,9 +25,7 @@
 #include <boost/scope_exit.hpp>
 
 #include <QList>
-#include <QVariant>
 #include <QString>
-#include <QtDebug>
 
 #include <core/logging.h>
 

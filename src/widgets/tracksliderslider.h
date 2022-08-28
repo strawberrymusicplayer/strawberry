@@ -21,8 +21,6 @@
 #ifndef TRACKSLIDERSLIDER_H
 #define TRACKSLIDERSLIDER_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QString>
 #include <QSlider>

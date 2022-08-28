@@ -27,7 +27,6 @@
 #include <QList>
 #include <QSettings>
 #include <QtConcurrentRun>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/taskmanager.h"

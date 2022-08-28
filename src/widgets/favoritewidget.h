@@ -21,8 +21,6 @@
 #ifndef FAVORITEWIDGET_H
 #define FAVORITEWIDGET_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QWidget>
 #include <QString>

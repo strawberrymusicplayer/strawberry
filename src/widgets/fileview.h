@@ -21,8 +21,6 @@
 #ifndef FILEVIEW_H
 #define FILEVIEW_H
 
-#include "config.h"
-
 #include <memory>
 
 #include <QObject>

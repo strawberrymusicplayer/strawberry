@@ -22,8 +22,6 @@
 #ifndef AUTOEXPANDINGTREEVIEW_H
 #define AUTOEXPANDINGTREEVIEW_H
 
-#include "config.h"
-
 #include <QtGlobal>
 #include <QObject>
 #include <QString>

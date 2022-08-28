@@ -21,8 +21,6 @@
 
 #include "config.h"
 
-#include <cstdlib>
-#include <memory>
 #include <algorithm>
 
 #include <QApplication>
@@ -41,7 +39,6 @@
 #include <QDBusMessage>
 #include <QDBusArgument>
 #include <QDBusObjectPath>
-#include <QtDebug>
 
 #include "core/logging.h"
 

@@ -32,12 +32,10 @@
 #include <QAbstractNetworkCache>
 #include <QNetworkDiskCache>
 #include <QTimer>
-#include <QVariant>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QSettings>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/logging.h"

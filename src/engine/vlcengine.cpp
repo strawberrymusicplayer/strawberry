@@ -28,7 +28,6 @@
 #include <QVariant>
 #include <QByteArray>
 #include <QUrl>
-#include <QtDebug>
 
 #include "core/timeconstants.h"
 #include "core/taskmanager.h"

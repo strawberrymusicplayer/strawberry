@@ -27,10 +27,8 @@
 #include <QIODevice>
 #include <QFile>
 #include <QByteArray>
-#include <QVariant>
 #include <QString>
 #include <QSqlDatabase>
-#include <QSqlQuery>
 
 #include "core/database.h"
 #include "core/sqlquery.h"

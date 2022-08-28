@@ -21,7 +21,6 @@
 
 #include <QObject>
 #include <QDir>
-#include <QMimeType>
 #include <QMimeDatabase>
 #include <QByteArray>
 #include <QString>
@@ -38,7 +37,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/logging.h"
@@ -46,7 +44,6 @@
 #include "core/timeconstants.h"
 #include "core/imageutils.h"
 #include "core/networktimeouts.h"
-#include "covermanager/albumcoverloader.h"
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
 #include "subsonicbaserequest.h"

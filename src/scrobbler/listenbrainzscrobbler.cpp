@@ -39,7 +39,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/networkaccessmanager.h"

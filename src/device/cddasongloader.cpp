@@ -32,7 +32,6 @@
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
-#include <QtDebug>
 
 #include <cdio/cdio.h>
 #include <gst/gst.h>

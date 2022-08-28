@@ -29,7 +29,6 @@
 #include <QVBoxLayout>
 #include <QScrollBar>
 
-#include "core/logging.h"
 #include "playlistquerygenerator.h"
 #include "smartplaylistquerywizardplugin.h"
 #include "smartplaylistsearchtermwidget.h"

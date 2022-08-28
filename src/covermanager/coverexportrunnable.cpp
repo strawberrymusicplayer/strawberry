@@ -24,8 +24,6 @@
 #include <QFile>
 #include <QSize>
 #include <QString>
-#include <QStringBuilder>
-#include <QUrl>
 #include <QImage>
 
 #include "core/song.h"

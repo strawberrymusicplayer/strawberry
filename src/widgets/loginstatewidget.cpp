@@ -18,8 +18,6 @@
 
 */
 
-#include "config.h"
-
 #include "loginstatewidget.h"
 #include "ui_loginstatewidget.h"
 #include "core/iconloader.h"

@@ -31,7 +31,6 @@
 #include <QItemSelectionModel>
 #include <QTreeView>
 #include <QHeaderView>
-#include <QByteArray>
 #include <QClipboard>
 #include <QCommonStyle>
 #include <QFontMetrics>
@@ -45,7 +44,6 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QStringBuilder>
 #include <QUrl>
 #include <QImage>
 #include <QPixmap>

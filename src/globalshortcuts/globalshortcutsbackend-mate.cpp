@@ -29,7 +29,6 @@
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
 #include <QAction>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "globalshortcutsmanager.h"

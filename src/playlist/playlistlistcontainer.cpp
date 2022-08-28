@@ -31,7 +31,6 @@
 #include <QItemSelectionModel>
 #include <QSet>
 #include <QList>
-#include <QVariant>
 #include <QString>
 #include <QPixmap>
 #include <QPainter>

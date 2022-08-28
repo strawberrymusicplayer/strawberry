@@ -22,12 +22,10 @@
 
 #include <QtGlobal>
 #include <QMutex>
-#include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QNetworkProxy>
-#include <QtDebug>
 #include <QSettings>
 
 #include "core/logging.h"

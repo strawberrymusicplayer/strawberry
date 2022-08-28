@@ -23,7 +23,6 @@
 
 #include <QtGlobal>
 #include <QAction>
-#include <QVariant>
 #include <QImage>
 #include <QColor>
 #include <QRgb>

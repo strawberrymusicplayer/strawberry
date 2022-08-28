@@ -38,7 +38,6 @@
 #include <QMap>
 #include <QDir>
 #include <QFileInfo>
-#include <QVariant>
 #include <QString>
 #include <QStringBuilder>
 #include <QStringList>
@@ -53,7 +52,6 @@
 #include <QPushButton>
 #include <QStackedWidget>
 #include <QToolButton>
-#include <QFlags>
 #include <QShowEvent>
 #include <QCloseEvent>
 #include <QSettings>

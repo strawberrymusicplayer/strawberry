@@ -28,16 +28,12 @@
 #include <QCoreApplication>
 #include <QTimer>
 #include <QList>
-#include <QMap>
-#include <QMultiMap>
-#include <QHash>
 #include <QString>
 #include <QUrl>
 #include <QImage>
 #include <QImageReader>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/utilities.h"

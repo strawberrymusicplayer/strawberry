@@ -15,8 +15,6 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <memory>
-
 #include <QObject>
 #include <QByteArray>
 #include <QUrl>

@@ -25,10 +25,8 @@
 #include <QDir>
 #include <QByteArray>
 #include <QString>
-#include <QStringBuilder>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
-#include <QUrl>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 

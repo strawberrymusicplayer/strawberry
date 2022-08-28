@@ -22,8 +22,6 @@
 #ifndef STRETCHHEADERVIEW_H
 #define STRETCHHEADERVIEW_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QByteArray>
 #include <QHeaderView>

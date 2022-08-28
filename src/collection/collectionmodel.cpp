@@ -53,7 +53,6 @@
 #include <QNetworkDiskCache>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/database.h"

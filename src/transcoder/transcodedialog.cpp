@@ -28,7 +28,6 @@
 #include <QDialog>
 #include <QScreen>
 #include <QWindow>
-#include <QGuiApplication>
 #include <QMainWindow>
 #include <QAbstractItemModel>
 #include <QtAlgorithms>

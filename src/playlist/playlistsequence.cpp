@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include <QWidget>
-#include <QList>
 #include <QVariant>
 #include <QIcon>
 #include <QPixmap>

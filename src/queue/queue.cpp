@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-#include <memory>
 #include <algorithm>
 
 #include <QObject>
@@ -32,15 +31,12 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QStringBuilder>
 #include <QMimeData>
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>
 
 #include "core/utilities.h"
-#include "core/song.h"
 #include "playlist/playlist.h"
-#include "playlist/playlistitem.h"
 #include "queue.h"
 
 const char *Queue::kRowsMimetype = "application/x-strawberry-queue-rows";

@@ -29,12 +29,10 @@
 #include <QIcon>
 #include <QString>
 #include <QUrl>
-#include <QSettings>
 
 #include "song.h"
 #include "iconloader.h"
 #include "qtsystemtrayicon.h"
-#include "settings/behavioursettingspage.h"
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent)
     : QSystemTrayIcon(parent),

@@ -21,8 +21,6 @@
 #ifndef FORCESCROLLPERPIXEL_H
 #define FORCESCROLLPERPIXEL_H
 
-#include "config.h"
-
 #include <QObject>
 
 class QAbstractItemView;

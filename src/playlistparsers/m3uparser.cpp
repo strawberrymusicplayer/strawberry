@@ -23,13 +23,9 @@
 #include <QDir>
 #include <QBuffer>
 #include <QByteArray>
-#include <QList>
-#include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QUrl>
 #include <QSettings>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/timeconstants.h"

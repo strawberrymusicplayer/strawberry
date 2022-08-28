@@ -22,10 +22,8 @@
 #include <QListView>
 #include <QContextMenuEvent>
 
-#include "core/application.h"
 #include "core/logging.h"
 #include "core/mimedata.h"
-#include "core/iconloader.h"
 #include "smartplaylistsmodel.h"
 #include "smartplaylistsview.h"
 #include "smartplaylistwizard.h"

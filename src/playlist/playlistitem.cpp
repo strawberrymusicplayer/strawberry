@@ -25,12 +25,8 @@
 
 #include <QtConcurrentRun>
 #include <QFuture>
-#include <QString>
 #include <QColor>
-#include <QSqlQuery>
-#include <QtDebug>
 
-#include "core/logging.h"
 #include "core/sqlquery.h"
 #include "core/song.h"
 

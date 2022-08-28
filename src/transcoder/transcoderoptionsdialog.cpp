@@ -24,7 +24,6 @@
 #include <QWidget>
 #include <QDialog>
 #include <QString>
-#include <QStringBuilder>
 #include <QBoxLayout>
 #include <QLayout>
 

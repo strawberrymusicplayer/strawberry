@@ -36,13 +36,11 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QStringBuilder>
 #include <QUrl>
 #include <QPixmap>
 #include <QPainter>
 #include <QMessageBox>
 #include <QPushButton>
-#include <QtDebug>
 
 #include "devicemanager.h"
 

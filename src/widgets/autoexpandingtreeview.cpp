@@ -19,8 +19,6 @@
  *
  */
 
-#include "config.h"
-
 #include <QWidget>
 #include <QMimeData>
 #include <QTreeView>

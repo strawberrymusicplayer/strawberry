@@ -20,7 +20,6 @@
 #include "config.h"
 
 #include <QObject>
-#include <QVariant>
 #include <QByteArray>
 #include <QString>
 #include <QSettings>

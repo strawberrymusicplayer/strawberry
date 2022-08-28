@@ -23,7 +23,6 @@
 
 #include <QIODevice>
 #include <QFile>
-#include <QVariant>
 #include <QByteArray>
 #include <QPixmap>
 #include <QPainter>

@@ -22,7 +22,6 @@
 #include <QObject>
 #include <QMutexLocker>
 #include <QString>
-#include <QtDebug>
 
 #include "core/logging.h"
 

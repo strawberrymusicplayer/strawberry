@@ -21,11 +21,9 @@
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
-#include <QUrl>
 #include <QIcon>
 #include <QNetworkReply>
 #include <QJsonDocument>
-#include <QJsonValue>
 #include <QJsonObject>
 
 #include "core/application.h"

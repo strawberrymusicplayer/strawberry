@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include <memory>
-#include <functional>
 
 #include <QObject>
 #include <QApplication>
@@ -32,22 +31,18 @@
 #include <QDir>
 #include <QFile>
 #include <QByteArray>
-#include <QHash>
 #include <QList>
-#include <QVariant>
 #include <QString>
-#include <QStringBuilder>
 #include <QStringList>
 #include <QUrl>
 #include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/database.h"
 #include "core/logging.h"
 #include "core/scopedtransaction.h"
 #include "core/song.h"
+#include "core/sqlquery.h"
 #include "core/sqlrow.h"
 #include "collection/collectionbackend.h"
 #include "playlistitem.h"

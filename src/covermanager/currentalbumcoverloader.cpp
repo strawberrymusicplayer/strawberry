@@ -26,8 +26,6 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QDir>
-#include <QString>
-#include <QStringBuilder>
 #include <QImage>
 #include <QTemporaryFile>
 
@@ -35,7 +33,6 @@
 #include "core/song.h"
 #include "playlist/playlistmanager.h"
 #include "albumcoverloader.h"
-#include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
 #include "currentalbumcoverloader.h"
 

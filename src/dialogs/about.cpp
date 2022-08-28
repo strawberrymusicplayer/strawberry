@@ -26,7 +26,6 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QString>
-#include <QStringBuilder>
 #include <QFlags>
 #include <QFont>
 #include <QLabel>

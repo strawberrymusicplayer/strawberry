@@ -30,9 +30,7 @@
 #include <QAction>
 #include <QGridLayout>
 #include <QInputDialog>
-#include <QLayout>
 #include <QLineEdit>
-#include <QMimeData>
 #include <QRect>
 #include <QSize>
 #include <QToolTip>
@@ -48,7 +46,6 @@
 #include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/mimedata.h"
-#include "core/song.h"
 #include "widgets/favoritewidget.h"
 #include "widgets/renametablineedit.h"
 #include "playlist.h"

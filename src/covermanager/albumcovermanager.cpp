@@ -24,7 +24,6 @@
 #include <memory>
 #include <algorithm>
 
-#include <QtGlobal>
 #include <QObject>
 #include <QMainWindow>
 #include <QWidget>
@@ -86,9 +85,7 @@
 #include "albumcoverexporter.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverloader.h"
-#include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
-#include "albumcovermanagerlist.h"
 #include "coversearchstatistics.h"
 #include "coversearchstatisticsdialog.h"
 #include "albumcoverimageresult.h"

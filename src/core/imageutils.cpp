@@ -21,7 +21,6 @@
 
 #include <QList>
 #include <QBuffer>
-#include <QVariant>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
@@ -31,7 +30,6 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QSize>
-#include <QSettings>
 
 #include "imageutils.h"
 #include "core/utilities.h"

@@ -19,9 +19,6 @@
  *
  */
 
-#include "config.h"
-
-#include <QtGlobal>
 #include <QWidget>
 #include <QString>
 #include <QFont>

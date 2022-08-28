@@ -24,7 +24,6 @@
 #include <pulse/def.h>
 #include <pulse/introspect.h>
 #include <pulse/mainloop.h>
-#include <pulse/proplist.h>
 
 #include <QtGlobal>
 #include <QVariant>

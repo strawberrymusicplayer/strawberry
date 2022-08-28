@@ -26,7 +26,6 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
-#include <QHash>
 #include <QTimer>
 #include <QIODevice>
 #include <QTextStream>
@@ -35,7 +34,6 @@
 #include <QColor>
 #include <QPalette>
 #include <QEvent>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "stylesheetloader.h"

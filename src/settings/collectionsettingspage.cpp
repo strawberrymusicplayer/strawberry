@@ -27,7 +27,6 @@
 #include <QStandardPaths>
 #include <QAbstractItemModel>
 #include <QItemSelectionModel>
-#include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QFileDialog>

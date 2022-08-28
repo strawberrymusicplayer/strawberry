@@ -21,8 +21,6 @@
 #ifndef STICKYSLIDER_H
 #define STICKYSLIDER_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QWidget>
 #include <QSlider>

@@ -21,8 +21,6 @@
 #ifndef LINETEXTEDIT_H
 #define LINETEXTEDIT_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QSize>
 #include <QString>

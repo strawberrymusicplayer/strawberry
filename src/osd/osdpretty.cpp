@@ -23,19 +23,15 @@
 
 #include <chrono>
 
-#include <QtGlobal>
 #include <QApplication>
 #include <QGuiApplication>
 #include <QWindow>
 #include <QScreen>
 #include <QWidget>
-#include <QList>
-#include <QVariant>
 #include <QString>
 #include <QImage>
 #include <QPixmap>
 #include <QBitmap>
-#include <QLabel>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPalette>
@@ -49,7 +45,6 @@
 #include <QTimer>
 #include <QTimeLine>
 #include <QTransform>
-#include <QLayout>
 #include <QBoxLayout>
 #include <QLinearGradient>
 #include <QSettings>

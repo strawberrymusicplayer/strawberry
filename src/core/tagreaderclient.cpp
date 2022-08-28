@@ -30,7 +30,6 @@
 #include <QString>
 #include <QImage>
 #include <QSettings>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/workerpool.h"

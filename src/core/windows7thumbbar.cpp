@@ -27,7 +27,6 @@
 #include <QPixmap>
 #include <QAction>
 #include <QTimer>
-#include <QtDebug>
 
 #include <windows.h>
 #include <commctrl.h>

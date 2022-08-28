@@ -29,11 +29,9 @@
 #include <QTimer>
 #include <QDateTime>
 #include <QList>
-#include <QVector>
 #include <QString>
 #include <QUrl>
 #include <QImage>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/utilities.h"

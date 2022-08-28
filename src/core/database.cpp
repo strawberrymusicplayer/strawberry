@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-#include <cstddef>
 #include <sqlite3.h>
 #include <boost/scope_exit.hpp>
 
@@ -31,20 +30,15 @@
 #include <QIODevice>
 #include <QDir>
 #include <QFile>
-#include <QList>
 #include <QByteArray>
-#include <QVariant>
 #include <QString>
-#include <QStringBuilder>
 #include <QStringList>
 #include <QRegularExpression>
 #include <QUrl>
 #include <QSqlDriver>
 #include <QSqlDatabase>
-#include <QSqlQuery>
 #include <QSqlError>
 #include <QStandardPaths>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "taskmanager.h"

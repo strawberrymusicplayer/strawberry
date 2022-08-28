@@ -26,7 +26,6 @@
 #include <QStandardItem>
 #include <QMap>
 #include <QSet>
-#include <QImage>
 #include <QPixmap>
 #include <QIcon>
 

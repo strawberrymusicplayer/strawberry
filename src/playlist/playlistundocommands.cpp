@@ -20,14 +20,10 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QList>
-#include <QUrl>
 #include <QUndoStack>
 
-#include "core/song.h"
 #include "playlist.h"
 #include "playlistitem.h"
 #include "playlistundocommands.h"

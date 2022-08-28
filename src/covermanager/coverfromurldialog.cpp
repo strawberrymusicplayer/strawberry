@@ -25,7 +25,6 @@
 #include <QDialog>
 #include <QApplication>
 #include <QClipboard>
-#include <QImage>
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QNetworkReply>

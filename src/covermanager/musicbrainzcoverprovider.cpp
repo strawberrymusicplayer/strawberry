@@ -23,7 +23,6 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QQueue>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -36,7 +35,6 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/networkaccessmanager.h"

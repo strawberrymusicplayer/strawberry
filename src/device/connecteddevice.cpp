@@ -20,12 +20,9 @@
  */
 
 #include <QObject>
-#include <QThread>
 #include <QAbstractItemModel>
-#include <QVariant>
 #include <QString>
 #include <QUrl>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/application.h"

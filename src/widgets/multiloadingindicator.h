@@ -21,8 +21,6 @@
 #ifndef MULTILOADINGINDICATOR_H
 #define MULTILOADINGINDICATOR_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QWidget>
 #include <QSize>

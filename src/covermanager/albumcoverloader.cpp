@@ -38,9 +38,7 @@
 #include <QUrl>
 #include <QFile>
 #include <QImage>
-#include <QPixmap>
 #include <QPainter>
-#include <QSize>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSettings>

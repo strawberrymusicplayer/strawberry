@@ -18,8 +18,6 @@
  *
  */
 
-#include "config.h"
-
 #include <QtGlobal>
 #include <QWidget>
 #include <QString>
@@ -31,7 +29,6 @@
 #include <QPalette>
 #include <QBrush>
 #include <QRect>
-#include <QVector>
 #include <QPoint>
 #include <QPolygon>
 #include <QPaintEvent>

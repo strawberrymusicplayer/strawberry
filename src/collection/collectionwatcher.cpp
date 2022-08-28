@@ -38,13 +38,11 @@
 #include <QList>
 #include <QSet>
 #include <QTimer>
-#include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QImage>
 #include <QSettings>
-#include <QtDebug>
 
 #include "core/filesystemwatcherinterface.h"
 #include "core/logging.h"
@@ -444,7 +442,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   QStringList files_on_disk;
   SubdirectoryList my_new_subdirs;
 
-  // If a directory is moved then only its parent gets a changed notification, so we need to look and see if any of our children don't exist any more.
+  // If a directory is moved then only its parent gets a changed notification, so we need to look and see if any of our children don't exist anymore.
   // If one has been removed, "rescan" it to get the deleted songs
   SubdirectoryList previous_subdirs = t->GetImmediateSubdirs(path);
   for (const Subdirectory &prev_subdir : previous_subdirs) {
@@ -464,7 +462,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
 
     if (child_info.isDir()) {
       if (!t->HasSeenSubdir(child)) {
-        // We haven't seen this subdirectory before - add it to a list and later we'll tell the backend about it and scan it.
+        // We haven't seen this subdirectory before - add it to a list, and later we'll tell the backend about it and scan it.
         Subdirectory new_subdir;
         new_subdir.directory_id = -1;
         new_subdir.path = child;
@@ -761,7 +759,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
                                                    const bool cue_deleted,
                                                    ScanTransaction *t) {
 
-  // If a CUE got deleted, we turn it's first section into the new 'raw' (cueless) song and we just remove the rest of the sections from the collection
+  // If a CUE got deleted, we turn it's first section into the new 'raw' (cueless) song, and we just remove the rest of the sections from the collection
   const Song &matching_song = matching_songs.first();
   if (cue_deleted) {
     for (const Song &song : matching_songs) {
@@ -805,7 +803,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
 
     // Ignore FILEs pointing to other media files.
     // Also, watch out for incorrect media files.
-    // Playlist parser for CUEs considers every entry in sheet valid and we don't want invalid media getting into collection!
+    // Playlist parser for CUEs considers every entry in sheet valid, and we don't want invalid media getting into collection!
     QString file_nfd = file.normalized(QString::NormalizationForm_D);
     SongList cue_congs = cue_parser_->Load(&cue_file, matching_cue, path, false);
     cue_file.close();

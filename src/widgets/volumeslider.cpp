@@ -17,15 +17,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "config.h"
-
 #include "volumeslider.h"
 
 #include <QApplication>
 #include <QWidget>
 #include <QHash>
 #include <QString>
-#include <QStringBuilder>
 #include <QImage>
 #include <QPainter>
 #include <QPainterPath>
@@ -36,7 +33,6 @@
 #include <QPoint>
 #include <QPolygon>
 #include <QRect>
-#include <QVector>
 #include <QMenu>
 #include <QStyle>
 #include <QStyleOption>

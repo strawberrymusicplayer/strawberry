@@ -23,7 +23,6 @@
 
 #include <glib.h>
 #include <glib/gtypes.h>
-#include <cstdlib>
 #include <memory>
 #include <algorithm>
 #include <gst/gst.h>
@@ -40,7 +39,6 @@
 #include <QVariant>
 #include <QString>
 #include <QSettings>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/signalchecker.h"

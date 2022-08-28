@@ -39,11 +39,9 @@
 #include <QNetworkReply>
 #include <QJsonParseError>
 #include <QJsonDocument>
-#include <QJsonValue>
 #include <QJsonObject>
 #include <QXmlStreamReader>
 #include <QTimer>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"

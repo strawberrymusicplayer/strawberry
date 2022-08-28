@@ -26,13 +26,10 @@
 #include <utility>
 #include <algorithm>
 #include <functional>
-#include <iterator>
-#include <type_traits>
 #include <unordered_map>
 #include <random>
 #include <chrono>
 
-#include <QtGlobal>
 #include <QObject>
 #include <QCoreApplication>
 #include <QtConcurrent>
@@ -59,7 +56,6 @@
 #include <QMutableListIterator>
 #include <QFlags>
 #include <QSettings>
-#include <QtDebug>
 #include <QTimer>
 
 #include "core/application.h"
@@ -84,7 +80,6 @@
 #include "songloaderinserter.h"
 #include "songmimedata.h"
 #include "songplaylistitem.h"
-#include "tagreadermessages.pb.h"
 
 #include "smartplaylists/playlistgenerator.h"
 #include "smartplaylists/playlistgeneratorinserter.h"
@@ -93,7 +88,6 @@
 #include "internet/internetplaylistitem.h"
 #include "internet/internetsongmimedata.h"
 
-#include "radios/radioservice.h"
 #include "radios/radiomimedata.h"
 #include "radios/radioplaylistitem.h"
 

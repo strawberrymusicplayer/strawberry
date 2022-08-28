@@ -23,7 +23,6 @@
 
 #include <algorithm>
 
-#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QStringList>

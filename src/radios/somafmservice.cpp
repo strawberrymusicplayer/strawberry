@@ -18,7 +18,6 @@
  */
 
 #include <QObject>
-#include <QList>
 #include <QString>
 #include <QUrl>
 #include <QNetworkRequest>
@@ -28,7 +27,6 @@
 #include <QJsonArray>
 
 #include "core/application.h"
-#include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/taskmanager.h"
 #include "core/iconloader.h"

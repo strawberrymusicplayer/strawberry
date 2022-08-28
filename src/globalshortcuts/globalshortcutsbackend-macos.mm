@@ -35,7 +35,6 @@
 #include <QList>
 #include <QMessageBox>
 #include <QPushButton>
-#include <QtDebug>
 
 #include "config.h"
 #include "globalshortcutsmanager.h"

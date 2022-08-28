@@ -19,8 +19,6 @@
  *
  */
 
-#include "config.h"
-
 #include <algorithm>
 #include <utility>
 #include <chrono>
@@ -54,7 +52,6 @@
 #include <QSettings>
 #include <QPixmapCache>
 #include <QLayout>
-#include <QBoxLayout>
 #include <QtEvents>
 #include <QStyle>
 #include <QCommonStyle>

@@ -30,7 +30,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
@@ -38,7 +37,6 @@
 #include "core/timeconstants.h"
 #include "core/application.h"
 #include "core/imageutils.h"
-#include "covermanager/albumcoverloader.h"
 #include "tidalservice.h"
 #include "tidalurlhandler.h"
 #include "tidalbaserequest.h"

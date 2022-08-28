@@ -20,12 +20,10 @@
 
 #include "config.h"
 
-#include <QtGlobal>
 #include <QVariant>
 #include <QString>
 #include <QDateTime>
 #include <QTimer>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/song.h"

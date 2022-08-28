@@ -23,8 +23,6 @@
 #include <QObject>
 #include <QString>
 
-#include "core/logging.h"
-
 #include "playlistgenerator.h"
 #include "playlistquerygenerator.h"
 

@@ -27,9 +27,7 @@
 #include <QFileInfo>
 #include <QByteArray>
 #include <QString>
-#include <QStringBuilder>
 #include <QStringList>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "settings/playlistsettingspage.h"

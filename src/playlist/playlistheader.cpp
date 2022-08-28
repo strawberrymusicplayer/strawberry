@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-#include <QAbstractItemModel>
 #include <QWidget>
 #include <QFlags>
 #include <QVariant>
@@ -38,6 +37,7 @@
 #include "playlistheader.h"
 #include "playlistview.h"
 
+#include "widgets/stretchheaderview.h"
 #include "settings/playlistsettingspage.h"
 
 PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, QWidget *parent)

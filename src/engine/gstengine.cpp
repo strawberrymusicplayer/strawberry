@@ -24,12 +24,10 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <gio/gio.h>
 #include <memory>
 #include <algorithm>
 #include <vector>
 #include <cmath>
-#include <string>
 
 #include <gst/gst.h>
 #include <gst/pbutils/pbutils.h>
@@ -42,15 +40,12 @@
 #include <QByteArray>
 #include <QChar>
 #include <QString>
-#include <QStringBuilder>
 #include <QStringList>
 #include <QUrl>
 #include <QTimeLine>
 #include <QEasingCurve>
 #include <QMetaObject>
-#include <QFlags>
 #include <QTimerEvent>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/taskmanager.h"

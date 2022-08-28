@@ -23,16 +23,11 @@
 
 #include <memory>
 #include <algorithm>
-#include <type_traits>
 
 #include <QtGlobal>
 #include <QObject>
 #include <QByteArray>
-#include <QList>
 #include <QPair>
-#include <QSet>
-#include <QMap>
-#include <QQueue>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
@@ -45,7 +40,6 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/logging.h"

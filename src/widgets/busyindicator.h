@@ -21,8 +21,6 @@
 #ifndef BUSYINDICATOR_H
 #define BUSYINDICATOR_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QWidget>
 #include <QString>

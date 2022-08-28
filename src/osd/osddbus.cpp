@@ -29,13 +29,11 @@
 #include <QObject>
 #include <QByteArray>
 #include <QDateTime>
-#include <QMap>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QRegularExpression>
 #include <QImage>
-#include <QCoreApplication>
 #include <QVersionNumber>
 #include <QDBusArgument>
 #include <QDBusConnection>
@@ -43,8 +41,6 @@
 #include <QDBusPendingCall>
 #include <QDBusPendingReply>
 #include <QDBusPendingCallWatcher>
-#include <QJsonObject>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "osddbus.h"

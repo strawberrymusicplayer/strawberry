@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-#include <memory>
 #include <functional>
 #include <utility>
 
@@ -36,24 +35,17 @@
 #include <QFileInfo>
 #include <QList>
 #include <QSet>
-#include <QVariant>
 #include <QString>
-#include <QStringBuilder>
-#include <QRegularExpression>
 #include <QUrl>
 #include <QAbstractItemModel>
 #include <QScrollBar>
 #include <QSettings>
-#include <QtDebug>
 #include <QMessageBox>
 
 #include "core/application.h"
-#include "core/logging.h"
 #include "core/player.h"
 #include "core/utilities.h"
 #include "collection/collectionbackend.h"
-#include "collection/collectionplaylistitem.h"
-#include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/currentalbumcoverloader.h"
 #include "organize/organizeformat.h"
 #include "settings/playlistsettingspage.h"

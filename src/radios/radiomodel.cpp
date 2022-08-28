@@ -32,7 +32,6 @@
 #include "core/simpletreemodel.h"
 #include "playlist/playlistmanager.h"
 #include "covermanager/albumcoverloader.h"
-#include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "radiomodel.h"
 #include "radioservices.h"

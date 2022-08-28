@@ -27,12 +27,9 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QString>
-#include <QUrl>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "utilities.h"
-#include "song.h"
 #include "musicstorage.h"
 
 #include "filesystemmusicstorage.h"

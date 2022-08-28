@@ -22,8 +22,6 @@
 #ifndef LINEEDIT_H
 #define LINEEDIT_H
 
-#include "config.h"
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>

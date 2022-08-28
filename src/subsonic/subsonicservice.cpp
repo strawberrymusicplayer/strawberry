@@ -24,9 +24,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QByteArray>
-#include <QPair>
 #include <QList>
-#include <QMap>
 #include <QString>
 #include <QVariant>
 #include <QUrl>
@@ -43,7 +41,6 @@
 #include <QJsonObject>
 #include <QSettings>
 #include <QSortFilterProxyModel>
-#include <QtDebug>
 
 #include "core/utilities.h"
 #include "core/application.h"

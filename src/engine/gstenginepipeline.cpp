@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include <memory>
-#include <cstdlib>
 #include <cstdint>
 #include <cstring>
 #include <glib.h>
@@ -45,12 +44,10 @@
 #include <QEasingCurve>
 #include <QMetaObject>
 #include <QUuid>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/signalchecker.h"
 #include "core/timeconstants.h"
-#include "core/song.h"
 #include "settings/backendsettingspage.h"
 #include "enginebase.h"
 #include "gstengine.h"

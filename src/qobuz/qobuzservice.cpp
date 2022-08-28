@@ -25,7 +25,6 @@
 #include <QByteArray>
 #include <QPair>
 #include <QList>
-#include <QMap>
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
@@ -38,7 +37,6 @@
 #include <QSettings>
 #include <QSortFilterProxyModel>
 #include <QSslError>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/player.h"

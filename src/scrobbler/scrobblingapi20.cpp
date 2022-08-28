@@ -21,7 +21,6 @@
 
 #include <algorithm>
 
-#include <QtGlobal>
 #include <QApplication>
 #include <QDesktopServices>
 #include <QLocale>
@@ -44,7 +43,6 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QFlags>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/networkaccessmanager.h"
@@ -57,7 +55,6 @@
 #include "audioscrobbler.h"
 #include "scrobblerservice.h"
 #include "scrobblingapi20.h"
-#include "scrobblercache.h"
 #include "scrobblercacheitem.h"
 
 const char *ScrobblingAPI20::kApiKey = "211990b4c96782c05d1536e7219eb56e";

@@ -19,8 +19,6 @@
  *
  */
 
-#include "config.h"
-
 #include <algorithm>
 #include <numeric>
 
@@ -29,7 +27,6 @@
 #include <QHeaderView>
 #include <QAbstractItemModel>
 #include <QIODevice>
-#include <QArrayData>
 #include <QByteArray>
 #include <QDataStream>
 #include <QList>

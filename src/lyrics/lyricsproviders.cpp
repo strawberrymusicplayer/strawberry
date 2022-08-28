@@ -23,12 +23,9 @@
 #include <QMutex>
 #include <QList>
 #include <QMap>
-#include <QVariant>
-#include <QVariantList>
 #include <QString>
 #include <QStringList>
 #include <QSettings>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"

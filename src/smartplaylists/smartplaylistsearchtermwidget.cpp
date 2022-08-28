@@ -31,7 +31,6 @@
 #include <QPalette>
 #include <QDateTime>
 #include <QPropertyAnimation>
-#include <QtDebug>
 #include <QKeyEvent>
 #include <QEnterEvent>
 

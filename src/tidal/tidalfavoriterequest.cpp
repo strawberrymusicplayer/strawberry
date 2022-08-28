@@ -21,8 +21,6 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QPair>
-#include <QList>
 #include <QMap>
 #include <QMultiMap>
 #include <QByteArray>
@@ -32,7 +30,6 @@
 #include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"

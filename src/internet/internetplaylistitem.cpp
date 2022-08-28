@@ -22,11 +22,7 @@
 #include "config.h"
 
 #include <QApplication>
-#include <QSettings>
 #include <QVariant>
-#include <QString>
-#include <QStringList>
-#include <QtDebug>
 
 #include "internetplaylistitem.h"
 #include "internetservices.h"

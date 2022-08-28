@@ -20,8 +20,6 @@
 #ifndef VOLUMESLIDER_H
 #define VOLUMESLIDER_H
 
-#include "config.h"
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>

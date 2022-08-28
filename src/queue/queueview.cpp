@@ -26,7 +26,6 @@
 #include <QWidget>
 #include <QAbstractItemModel>
 #include <QItemSelectionModel>
-#include <QTreeView>
 #include <QList>
 #include <QTimer>
 #include <QSettings>

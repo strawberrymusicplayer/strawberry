@@ -26,7 +26,6 @@
 #include <QBuffer>
 #include <QByteArray>
 #include <QFile>
-#include <QtDebug>
 
 #include "core/scoped_nsobject.h"
 

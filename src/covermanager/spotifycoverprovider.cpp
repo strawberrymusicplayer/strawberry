@@ -40,12 +40,10 @@
 #include <QJsonArray>
 #include <QDesktopServices>
 #include <QMessageBox>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
-#include "core/song.h"
 #include "core/utilities.h"
 #include "core/timeconstants.h"
 #include "internet/localredirectserver.h"

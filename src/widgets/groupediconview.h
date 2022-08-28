@@ -21,8 +21,6 @@
 #ifndef GROUPEDICONVIEW_H
 #define GROUPEDICONVIEW_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QListView>
 #include <QAbstractItemModel>

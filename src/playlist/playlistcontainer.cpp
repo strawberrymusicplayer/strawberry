@@ -28,11 +28,8 @@
 #include <QSortFilterProxyModel>
 #include <QScrollBar>
 #include <QAction>
-#include <QList>
-#include <QVariant>
 #include <QPoint>
 #include <QString>
-#include <QRegularExpression>
 #include <QSize>
 #include <QFont>
 #include <QIcon>

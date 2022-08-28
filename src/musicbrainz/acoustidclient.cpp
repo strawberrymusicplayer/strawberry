@@ -26,15 +26,12 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QPair>
-#include <QSet>
 #include <QList>
-#include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QtAlgorithms>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonParseError>

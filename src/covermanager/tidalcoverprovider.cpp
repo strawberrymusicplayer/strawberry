@@ -19,8 +19,6 @@
 
 #include "config.h"
 
-#include <algorithm>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
@@ -35,7 +33,6 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/networkaccessmanager.h"

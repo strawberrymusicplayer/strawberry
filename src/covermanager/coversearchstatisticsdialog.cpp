@@ -24,8 +24,6 @@
 
 #include <QtGlobal>
 #include <QWidget>
-#include <QList>
-#include <QMap>
 #include <QString>
 #include <QStringList>
 #include <QBoxLayout>

@@ -21,7 +21,6 @@
 
 #include <algorithm>
 
-#include <QtGlobal>
 #include <QApplication>
 #include <QLocale>
 #include <QVariant>
@@ -40,7 +39,6 @@
 #include <QJsonValue>
 
 #include "core/networkaccessmanager.h"
-#include "core/timeconstants.h"
 #include "core/logging.h"
 
 #include "lastfmimport.h"

@@ -20,9 +20,7 @@
 
 #include "config.h"
 
-#include <QVariant>
 #include <QString>
-#include <QStringBuilder>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QSlider>

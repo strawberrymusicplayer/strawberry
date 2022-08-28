@@ -34,8 +34,6 @@
 #include <QApplication>
 #include <QCoreApplication>
 #include <QWindow>
-#include <QWidget>
-#include <QObject>
 #include <QIODevice>
 #include <QByteArray>
 #include <QMetaObject>
@@ -61,11 +59,9 @@
 #include <QMetaEnum>
 #include <QXmlStreamReader>
 #include <QSettings>
-#include <QtEvents>
 #include <QMessageBox>
 #include <QNetworkInterface>
 #include <QMimeDatabase>
-#include <QtDebug>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 #  include <QRandomGenerator>
 #endif

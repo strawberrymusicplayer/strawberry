@@ -24,8 +24,6 @@
 #include <QStringList>
 #include <QDataStream>
 
-#include "search.h"
-#include "core/logging.h"
 #include "core/song.h"
 
 #include "smartplaylistsearch.h"

@@ -43,7 +43,6 @@
 #include <QMetaType>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
 #include <QUrl>
 #include <QIcon>
 #include <QPixmap>
@@ -51,7 +50,6 @@
 #include <QPainter>
 #include <QColor>
 #include <QPen>
-#include <QBrush>
 #include <QPoint>
 #include <QRect>
 #include <QSize>
@@ -62,15 +60,11 @@
 #include <QWhatsThis>
 #include <QStyledItemDelegate>
 #include <QStyleOptionViewItem>
-#include <QtDebug>
 #include <QtEvents>
 #include <QLinearGradient>
 
-#include "core/iconloader.h"
 #include "core/logging.h"
-#include "core/player.h"
 #include "core/song.h"
-#include "core/urlhandler.h"
 #include "core/utilities.h"
 #include "collection/collectionbackend.h"
 #include "playlist/playlist.h"

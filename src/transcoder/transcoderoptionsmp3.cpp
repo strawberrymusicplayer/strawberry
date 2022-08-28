@@ -22,7 +22,6 @@
 
 #include <QWidget>
 #include <QVariant>
-#include <QStringBuilder>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QRadioButton>

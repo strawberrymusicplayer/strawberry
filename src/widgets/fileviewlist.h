@@ -21,8 +21,6 @@
 #ifndef FILEVIEWLIST_H
 #define FILEVIEWLIST_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QListView>
 #include <QItemSelectionModel>

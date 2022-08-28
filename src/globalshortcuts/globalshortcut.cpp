@@ -25,7 +25,6 @@
 #include <QPair>
 #include <QHash>
 #include <QFlags>
-#include <QtDebug>
 #include <QKeySequence>
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #  include <QKeyCombination>

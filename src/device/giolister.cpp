@@ -30,10 +30,10 @@
 #endif
 
 #include <QtGlobal>
-#include <QObject>
 #include <QMutex>
 #include <QList>
-#include <QVariant>
+#include <QVariantList>
+#include <QVariantMap>
 #include <QString>
 #include <QStringList>
 #include <QRegularExpression>

@@ -22,8 +22,6 @@
 #ifndef FANCYTABWIDGET_H
 #define FANCYTABWIDGET_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QTabWidget>
 #include <QHash>

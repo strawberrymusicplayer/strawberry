@@ -24,7 +24,6 @@
 #include <QObject>
 #include <QTimer>
 #include <QList>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "lyricsfetcher.h"

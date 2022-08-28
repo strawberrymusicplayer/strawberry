@@ -23,14 +23,11 @@
 
 #include <QObject>
 #include <QApplication>
-#include <QList>
 #include <QChar>
 #include <QString>
-#include <QStringBuilder>
 #include <QStringList>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
-#include <QUrl>
 #include <QFileInfo>
 #include <QDir>
 #include <QColor>

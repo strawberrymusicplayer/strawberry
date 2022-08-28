@@ -56,10 +56,8 @@
 #include <QFile>
 #include <QDir>
 #include <QString>
-#include <QImage>
 #include <QSettings>
 #include <QLoggingCategory>
-#include <QtDebug>
 #ifdef HAVE_TRANSLATIONS
 #  include <QTranslator>
 #endif

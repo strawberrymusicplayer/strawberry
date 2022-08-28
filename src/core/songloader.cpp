@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-#include <cstdlib>
 #include <memory>
 #include <algorithm>
 
@@ -37,13 +36,11 @@
 #include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
-#include <QList>
 #include <QSet>
 #include <QTimer>
 #include <QString>
 #include <QUrl>
 #include <QEventLoop>
-#include <QtDebug>
 
 #include "core/logging.h"
 

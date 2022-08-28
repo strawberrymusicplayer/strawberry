@@ -21,14 +21,12 @@
 
 #include <QObject>
 #include <QPair>
-#include <QMap>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QNetworkReply>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"

@@ -22,9 +22,7 @@
 #include <QObject>
 #include <QIODevice>
 #include <QDir>
-#include <QFileInfo>
 #include <QByteArray>
-#include <QVariant>
 #include <QString>
 #include <QUrl>
 #include <QSettings>

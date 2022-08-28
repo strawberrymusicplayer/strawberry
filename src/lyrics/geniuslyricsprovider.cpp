@@ -42,7 +42,6 @@
 #include <QJsonValue>
 #include <QJsonParseError>
 #include <QMessageBox>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/utilities.h"

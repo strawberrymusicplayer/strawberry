@@ -21,11 +21,9 @@
 
 #include "config.h"
 
-#include <QtGlobal>
 #include <QObject>
 #include <QSortFilterProxyModel>
 #include <QAbstractItemModel>
-#include <QVariant>
 
 #include "devicemanager.h"
 #include "devicestatefiltermodel.h"

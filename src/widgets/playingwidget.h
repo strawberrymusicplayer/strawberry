@@ -22,15 +22,12 @@
 #ifndef PLAYINGWIDGET_H
 #define PLAYINGWIDGET_H
 
-#include "config.h"
-
 #include <memory>
 
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
 #include <QString>
-#include <QUrl>
 #include <QImage>
 #include <QPixmap>
 #include <QSize>

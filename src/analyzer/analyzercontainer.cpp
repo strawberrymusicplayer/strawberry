@@ -33,7 +33,6 @@
 #include <QActionGroup>
 #include <QSettings>
 #include <QtEvents>
-#include <QtDebug>
 
 #include "analyzercontainer.h"
 

@@ -27,7 +27,6 @@
 #include <QApplication>
 #include <QMap>
 #include <QAction>
-#include <QKeySequence>
 #include <QtAlgorithms>
 
 #include "globalshortcutsmanager.h"

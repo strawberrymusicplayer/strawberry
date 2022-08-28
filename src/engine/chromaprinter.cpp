@@ -22,10 +22,8 @@
 #include "config.h"
 
 #include <glib-object.h>
-#include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#include <sys/types.h>
 #include <chromaprint.h>
 #include <gst/gst.h>
 
@@ -33,11 +31,9 @@
 #include <QCoreApplication>
 #include <QThread>
 #include <QIODevice>
-#include <QBuffer>
 #include <QByteArray>
 #include <QString>
 #include <QElapsedTimer>
-#include <QtDebug>
 
 #include "chromaprinter.h"
 #include "core/logging.h"

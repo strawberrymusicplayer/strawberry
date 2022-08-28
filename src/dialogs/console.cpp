@@ -23,10 +23,8 @@
 
 #include <QWidget>
 #include <QDialog>
-#include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QStringBuilder>
 #include <QFont>
 #include <QSqlDatabase>
 #include <QSqlQuery>

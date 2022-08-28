@@ -29,12 +29,10 @@
 
 #include <QObject>
 #include <QThread>
-#include <QVariant>
 #include <QString>
 
 #include "core/lazy.h"
 #include "core/tagreaderclient.h"
-#include "core/song.h"
 #include "core/logging.h"
 
 #include "database.h"

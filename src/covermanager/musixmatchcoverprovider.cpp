@@ -31,7 +31,6 @@
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QJsonObject>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"

@@ -36,12 +36,9 @@
 #include <QPair>
 #include <QList>
 #include <QMap>
-#include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QRegularExpression>
-#include <QUrl>
-#include <QImage>
 #include <QPixmap>
 #include <QPixmapCache>
 #include <QPainter>
@@ -66,19 +63,16 @@
 #include <QContextMenuEvent>
 #include <QShowEvent>
 #include <QHideEvent>
-#include <QtGlobal>
 
 #include "core/application.h"
 #include "core/mimedata.h"
 #include "core/iconloader.h"
 #include "core/song.h"
-#include "core/logging.h"
 #include "collection/collectionfilterwidget.h"
 #include "collection/collectionmodel.h"
 #include "collection/groupbydialog.h"
 #include "collection/savedgroupingmanager.h"
 #include "covermanager/albumcoverloader.h"
-#include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "internetsongmimedata.h"
 #include "internetservice.h"

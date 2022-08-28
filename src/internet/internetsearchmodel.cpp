@@ -26,10 +26,8 @@
 #include <QMimeData>
 #include <QList>
 #include <QSet>
-#include <QMap>
 #include <QVariant>
 #include <QString>
-#include <QPixmap>
 #include <QSize>
 
 #include "core/mimedata.h"

@@ -24,15 +24,11 @@
 #include <QAbstractItemModel>
 #include <QSettings>
 #include <QItemDelegate>
-#include <QList>
-#include <QVector>
-#include <QVariant>
 #include <QByteArray>
 #include <QUrl>
 #include <QImage>
 #include <QPixmap>
 #include <QPainter>
-#include <QPalette>
 #include <QRect>
 
 #include "core/application.h"

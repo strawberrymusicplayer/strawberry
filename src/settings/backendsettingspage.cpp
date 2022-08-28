@@ -23,10 +23,8 @@
 #include <QWidget>
 #include <QSettings>
 #include <QMetaType>
-#include <QList>
 #include <QVariant>
 #include <QString>
-#include <QStringList>
 #include <QRegularExpression>
 #include <QFontMetrics>
 #include <QAbstractItemView>

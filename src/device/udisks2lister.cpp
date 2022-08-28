@@ -33,7 +33,8 @@
 #include <QtGlobal>
 #include <QMutex>
 #include <QList>
-#include <QVariant>
+#include <QVariantList>
+#include <QVariantMap>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
@@ -45,8 +46,6 @@
 #include <QDBusPendingReply>
 #include <QDBusArgument>
 #include <QJsonArray>
-#include <QJsonObject>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/utilities.h"

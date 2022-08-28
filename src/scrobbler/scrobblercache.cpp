@@ -26,7 +26,6 @@
 #include <QObject>
 #include <QStandardPaths>
 #include <QHash>
-#include <QVariant>
 #include <QString>
 #include <QFile>
 #include <QIODevice>
@@ -36,7 +35,6 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QtDebug>
 
 #include "core/song.h"
 #include "core/logging.h"

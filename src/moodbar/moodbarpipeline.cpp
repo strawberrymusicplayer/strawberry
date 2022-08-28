@@ -26,7 +26,6 @@
 #include <QThread>
 #include <QString>
 #include <QUrl>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/signalchecker.h"

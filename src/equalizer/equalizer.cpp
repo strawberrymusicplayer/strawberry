@@ -26,7 +26,6 @@
 #include <QWidget>
 #include <QDialog>
 #include <QDataStream>
-#include <QByteArray>
 #include <QList>
 #include <QVariant>
 #include <QString>

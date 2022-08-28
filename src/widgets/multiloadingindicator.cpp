@@ -18,8 +18,6 @@
  *
  */
 
-#include "config.h"
-
 #include <QtGlobal>
 #include <QWidget>
 #include <QList>
@@ -29,8 +27,6 @@
 #include <QSize>
 #include <QRect>
 #include <QSizePolicy>
-#include <QStringList>
-#include <QFontMetrics>
 #include <QPaintEvent>
 
 #include "core/taskmanager.h"

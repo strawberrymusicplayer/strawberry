@@ -22,7 +22,6 @@
 #include <QtAlgorithms>
 #include <QObject>
 #include <QList>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "devicefinders.h"

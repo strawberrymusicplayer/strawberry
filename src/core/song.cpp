@@ -38,20 +38,16 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QSharedData>
-#include <QHash>
 #include <QByteArray>
-#include <QVariant>
+#include <QVariantMap>
 #include <QString>
 #include <QStringList>
 #include <QRegularExpression>
 #include <QUrl>
 #include <QImage>
 #include <QIcon>
-#include <QSqlQuery>
 #include <QStandardPaths>
-#include <QtDebug>
 
-#include "core/logging.h"
 #include "core/iconloader.h"
 
 #include "engine/enginebase.h"

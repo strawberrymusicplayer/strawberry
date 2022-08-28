@@ -21,8 +21,6 @@
 #ifndef FREESPACEBAR_H
 #define FREESPACEBAR_H
 
-#include "config.h"
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>

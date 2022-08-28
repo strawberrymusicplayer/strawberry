@@ -24,7 +24,6 @@
 #include <QObject>
 #include <QMap>
 #include <QString>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "internetservices.h"

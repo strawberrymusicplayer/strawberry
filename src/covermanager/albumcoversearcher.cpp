@@ -49,7 +49,6 @@
 
 #include "core/application.h"
 #include "core/utilities.h"
-#include "core/logging.h"
 #include "widgets/busyindicator.h"
 #include "widgets/forcescrollperpixel.h"
 #include "widgets/groupediconview.h"
@@ -57,7 +56,6 @@
 #include "albumcoversearcher.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverloader.h"
-#include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
 #include "albumcoverimageresult.h"
 #include "ui_albumcoversearcher.h"

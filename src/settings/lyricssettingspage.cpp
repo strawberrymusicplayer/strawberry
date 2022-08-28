@@ -23,7 +23,6 @@
 
 #include <QObject>
 #include <QList>
-#include <QVariant>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>

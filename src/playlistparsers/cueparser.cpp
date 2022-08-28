@@ -31,7 +31,6 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QTextStream>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/timeconstants.h"

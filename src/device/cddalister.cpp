@@ -26,7 +26,6 @@
 #include <QByteArray>
 #include <QList>
 #include <QString>
-#include <QStringBuilder>
 #include <QStringList>
 #include <QRegularExpression>
 #include <QUrl>

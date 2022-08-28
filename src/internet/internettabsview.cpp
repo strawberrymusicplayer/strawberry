@@ -21,7 +21,6 @@
 
 #include <QtGlobal>
 #include <QWidget>
-#include <QMap>
 #include <QVariant>
 #include <QString>
 #include <QLabel>

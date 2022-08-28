@@ -68,7 +68,6 @@
 #include <QAbstractButton>
 #include <QtEvents>
 #include <QSettings>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/iconloader.h"

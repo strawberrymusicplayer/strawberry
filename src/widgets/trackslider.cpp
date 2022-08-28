@@ -24,7 +24,6 @@
 #include <QWidget>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
 #include <QSize>
 #include <QLabel>
 #include <QSettings>

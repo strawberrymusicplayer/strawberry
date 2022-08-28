@@ -23,7 +23,6 @@
 
 #include <QWidget>
 #include <QList>
-#include <QVariant>
 #include <QStringList>
 #include <QAction>
 #include <QHeaderView>

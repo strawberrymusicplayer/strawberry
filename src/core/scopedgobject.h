@@ -25,8 +25,6 @@
 
 #include <glib-object.h>
 
-#include <QtDebug>
-
 template<typename T>
 class ScopedGObject {
  public:

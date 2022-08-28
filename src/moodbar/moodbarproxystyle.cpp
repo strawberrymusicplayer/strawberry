@@ -17,9 +17,6 @@
 
 #include <QProxyStyle>
 #include <QSettings>
-#include <QList>
-#include <QVector>
-#include <QVariant>
 #include <QPixmap>
 #include <QPainter>
 #include <QPen>

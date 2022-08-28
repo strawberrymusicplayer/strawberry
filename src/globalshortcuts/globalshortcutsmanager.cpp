@@ -25,12 +25,10 @@
 
 #include <QApplication>
 #include <QWidget>
-#include <QVariant>
 #include <QString>
 #include <QAction>
 #include <QShortcut>
 #include <QKeySequence>
-#include <QSettings>
 
 #include "globalshortcutsmanager.h"
 #include "globalshortcutsbackend.h"

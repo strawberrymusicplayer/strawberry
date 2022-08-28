@@ -18,8 +18,6 @@
  *
  */
 
-#include "config.h"
-
 #include <QWidget>
 #include <QSlider>
 #include <QPoint>

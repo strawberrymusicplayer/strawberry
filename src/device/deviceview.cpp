@@ -23,7 +23,6 @@
 
 #include <memory>
 
-#include <QtGlobal>
 #include <QApplication>
 #include <QObject>
 #include <QWidget>
@@ -34,7 +33,6 @@
 #include <QMimeData>
 #include <QAction>
 #include <QVariant>
-#include <QUrl>
 #include <QFont>
 #include <QFontMetrics>
 #include <QString>

@@ -19,11 +19,8 @@
 
 #include "config.h"
 
-#include <QList>
-#include <QVariant>
 #include <QString>
 #include <QSettings>
-#include <QtDebug>
 
 #include "core/application.h"
 #include "core/logging.h"

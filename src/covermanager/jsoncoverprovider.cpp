@@ -19,12 +19,10 @@
 
 #include "config.h"
 
-#include <QtGlobal>
 #include <QObject>
 #include <QByteArray>
 #include <QString>
 #include <QJsonDocument>
-#include <QJsonValue>
 #include <QJsonObject>
 
 #include "core/application.h"

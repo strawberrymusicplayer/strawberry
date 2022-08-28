@@ -29,14 +29,12 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonObject>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/utilities.h"
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
-#include "lyricsprovider.h"
 #include "musixmatchlyricsprovider.h"
 
 MusixmatchLyricsProvider::MusixmatchLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Musixmatch", true, false, network, parent) {}

@@ -21,7 +21,6 @@
 
 #include <QObject>
 #include <QPair>
-#include <QList>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -30,7 +29,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QXmlStreamReader>
-#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"

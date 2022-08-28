@@ -32,7 +32,6 @@
 #include <QAbstractNetworkCache>
 #include <QUrl>
 
-#include "core/logging.h"
 #include "threadsafenetworkdiskcache.h"
 
 QMutex ThreadSafeNetworkDiskCache::sMutex;
