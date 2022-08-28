@@ -42,16 +42,16 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
 
  public:
   explicit SmartPlaylistQueryWizardPlugin(Application *app, CollectionBackend *collection, QObject *parent);
-  ~SmartPlaylistQueryWizardPlugin();
+  ~SmartPlaylistQueryWizardPlugin() override;
 
-  PlaylistGenerator::Type type() const { return PlaylistGenerator::Type_Query; }
-  QString name() const;
-  QString description() const;
-  bool is_dynamic() const { return true; }
+  PlaylistGenerator::Type type() const override { return PlaylistGenerator::Type_Query; }
+  QString name() const override;
+  QString description() const override;
+  bool is_dynamic() const override { return true; }
 
-  int CreatePages(QWizard *wizard, const int finish_page_id);
-  void SetGenerator(PlaylistGeneratorPtr);
-  PlaylistGeneratorPtr CreateGenerator() const;
+  int CreatePages(QWizard *wizard, const int finish_page_id) override;
+  void SetGenerator(PlaylistGeneratorPtr) override;
+  PlaylistGeneratorPtr CreateGenerator() const override;
 
  private slots:
   void AddSearchTerm();
