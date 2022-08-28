@@ -35,7 +35,6 @@ gulong CheckedGConnect(gpointer source, const char *signal, GCallback callback, 
 
   if (!g_signal_parse_name(signal, G_OBJECT_TYPE(source), &signal_id, &detail, false)) {
     qFatal("Connecting to invalid signal: %s", signal);
-    return 0;
   }
 
   GSignalQuery query;
@@ -44,7 +43,6 @@ gulong CheckedGConnect(gpointer source, const char *signal, GCallback callback, 
   int signal_params = static_cast<int>(query.n_params) + 2;
   if (signal_params != callback_param_count) {
     qFatal("Connecting callback to signal with different parameters counts");
-    return 0;
   }
 
   return g_signal_connect(source, signal, G_CALLBACK(callback), data);
