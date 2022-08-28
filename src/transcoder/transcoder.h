@@ -68,7 +68,7 @@ class Transcoder : public QObject {
   void AddJob(const QString &input, const TranscoderPreset &preset, const QString &output);
 
   QMap<QString, float> GetProgress() const;
-  int QueuedJobsCount() const { return queued_jobs_.count(); }
+  qint64 QueuedJobsCount() const { return queued_jobs_.count(); }
 
  public slots:
   void Start();
