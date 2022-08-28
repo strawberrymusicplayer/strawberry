@@ -32,8 +32,6 @@
 
 #include "moodbarrenderer.h"
 
-const int MoodbarRenderer::kNumHues = 12;
-
 ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle style, const QPalette &palette) {
 
   const int samples = static_cast<int>(data.size() / 3);

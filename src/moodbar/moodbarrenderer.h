@@ -45,8 +45,6 @@ class MoodbarRenderer {
     StyleCount
   };
 
-  static const int kNumHues;
-
   static QString StyleName(const MoodbarStyle style);
 
   static ColorVector Colors(const QByteArray &data, const MoodbarStyle style, const QPalette &palette);
