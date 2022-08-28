@@ -373,7 +373,6 @@ void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
   QFile schema_file(filename);
   if (!schema_file.open(QIODevice::ReadOnly)) {
     qFatal("Couldn't open schema file %s for reading: %s", filename.toUtf8().constData(), schema_file.errorString().toUtf8().constData());
-    return;
   }
   QByteArray data = schema_file.readAll();
   QString schema = QString::fromUtf8(data);
