@@ -37,19 +37,19 @@ class PlaylistQueryGenerator : public PlaylistGenerator {
   explicit PlaylistQueryGenerator(QObject *parent = nullptr);
   explicit PlaylistQueryGenerator(const QString &name, const SmartPlaylistSearch &search, const bool dynamic = false, QObject *parent = nullptr);
 
-  Type type() const { return Type_Query; }
+  Type type() const override { return Type_Query; }
 
   void Load(const SmartPlaylistSearch &search);
-  void Load(const QByteArray &data);
-  QByteArray Save() const;
+  void Load(const QByteArray &data) override;
+  QByteArray Save() const override;
 
-  PlaylistItemList Generate();
-  PlaylistItemList GenerateMore(const int count);
-  bool is_dynamic() const { return dynamic_; }
-  void set_dynamic(bool dynamic) { dynamic_ = dynamic; }
+  PlaylistItemList Generate() override;
+  PlaylistItemList GenerateMore(const int count) override;
+  bool is_dynamic() const override { return dynamic_; }
+  void set_dynamic(bool dynamic) override { dynamic_ = dynamic; }
 
   SmartPlaylistSearch search() const { return search_; }
-  int GetDynamicFuture() { return search_.limit_; }
+  int GetDynamicFuture() override { return search_.limit_; }
 
  private:
   SmartPlaylistSearch search_;
