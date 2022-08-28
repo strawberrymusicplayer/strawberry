@@ -189,13 +189,6 @@ void PrettySlider::slideEvent(QMouseEvent *e) {
 
 }
 
-namespace Amarok {
-namespace ColorScheme {
-extern QColor Background;
-extern QColor Foreground;
-}  // namespace ColorScheme
-}  // namespace Amarok
-
 #if 0
 /** these functions aren't required in our fixed size world, but they may become useful one day **/
 
