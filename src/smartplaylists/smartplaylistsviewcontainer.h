@@ -40,7 +40,7 @@ class SmartPlaylistsViewContainer : public QWidget {
 
  public:
   explicit SmartPlaylistsViewContainer(Application *app, QWidget *parent = nullptr);
-  ~SmartPlaylistsViewContainer();
+  ~SmartPlaylistsViewContainer() override;
 
   SmartPlaylistsView *view() const;
 
