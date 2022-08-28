@@ -59,4 +59,4 @@ class RadioPlaylistItem : public PlaylistItem {
   Q_DISABLE_COPY(RadioPlaylistItem)
 };
 
-#endif  // INTERNETPLAYLISTITEM_H
+#endif  // RADIOPLAYLISTITEM_H
