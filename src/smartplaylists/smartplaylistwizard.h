@@ -36,13 +36,13 @@ class SmartPlaylistWizard : public QWizard {
 
  public:
   explicit SmartPlaylistWizard(Application *app, CollectionBackend *collection, QWidget *parent);
-  ~SmartPlaylistWizard();
+  ~SmartPlaylistWizard() override;
 
   void SetGenerator(PlaylistGeneratorPtr gen);
   PlaylistGeneratorPtr CreateGenerator() const;
 
  protected:
-  void initializePage(const int id);
+  void initializePage(const int id) override;
 
  private:
   class TypePage;
