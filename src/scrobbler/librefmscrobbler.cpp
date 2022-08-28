@@ -46,7 +46,7 @@ LibreFMScrobbler::LibreFMScrobbler(Application *app, QObject *parent)
       submitted_(false),
       timestamp_(0) {
 
-  ReloadSettings();
+  ScrobblingAPI20::ReloadSettings();
   LoadSession();
 
 }
