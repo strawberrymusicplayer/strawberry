@@ -137,7 +137,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
       return ret;
     }
 
-    // if this is a data file, all of it's tracks will be ignored
+    // if this is a data file, all of its tracks will be ignored
     bool valid_file = file_type.compare("BINARY", Qt::CaseInsensitive) != 0 && file_type.compare("MOTOROLA", Qt::CaseInsensitive) != 0;
 
     QString track_type;

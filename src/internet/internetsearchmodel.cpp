@@ -329,7 +329,7 @@ void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSea
   if (item->rowCount() > 0) {
     const QModelIndex parent_proxy_index = proxy_->mapFromSource(item->index());
 
-    // Yes - visit all the children, but do so through the proxy so we get them in the right order.
+    // Yes - visit all the children, but do so through the proxy, so we get them in the right order.
     for (int i = 0; i < item->rowCount(); ++i) {
       const QModelIndex proxy_index = parent_proxy_index.model()->index(i, 0, parent_proxy_index);
       const QModelIndex idx = proxy_->mapToSource(proxy_index);

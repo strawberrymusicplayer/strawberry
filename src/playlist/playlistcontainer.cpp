@@ -301,7 +301,7 @@ void PlaylistContainer::PlaylistAdded(const int id, const QString &name, const b
   const int index = ui_->tab_bar->count();
   ui_->tab_bar->InsertTab(id, index, name, favorite);
 
-  // Are we startup up, should we select this tab?
+  // Are we start up, should we select this tab?
   if (starting_up_ && settings_.value("current_playlist", 1).toInt() == id) {
     starting_up_ = false;
     ui_->tab_bar->set_current_id(id);
@@ -312,7 +312,7 @@ void PlaylistContainer::PlaylistAdded(const int id, const QString &name, const b
     tab_bar_animation_->setFrameRange(0, ui_->tab_bar->sizeHint().height());
 
     if (!isVisible()) {
-      // Skip the animation since the window is hidden (eg. if we're still loading the UI).
+      // Skip the animation since the window is hidden (e.g. if we're still loading the UI).
       tab_bar_visible_ = true;
       ui_->tab_bar->setMaximumHeight(tab_bar_animation_->endFrame());
     }
@@ -365,7 +365,7 @@ void PlaylistContainer::ClearPlaylist() {}
 
 void PlaylistContainer::GoToNextPlaylistTab() {
 
-  // Get the next tab' id
+  // Get the next tab's id
   int id_next = ui_->tab_bar->id_of((ui_->tab_bar->currentIndex() + 1) % ui_->tab_bar->count());
   // Switch to next tab
   manager_->SetCurrentPlaylist(id_next);
@@ -374,7 +374,7 @@ void PlaylistContainer::GoToNextPlaylistTab() {
 
 void PlaylistContainer::GoToPreviousPlaylistTab() {
 
-  // Get the next tab' id
+  // Get the next tab's id
   int id_previous = ui_->tab_bar->id_of((ui_->tab_bar->currentIndex() + ui_->tab_bar->count() - 1) % ui_->tab_bar->count());
   // Switch to next tab
   manager_->SetCurrentPlaylist(id_previous);

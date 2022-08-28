@@ -47,7 +47,7 @@ class MoodbarLoader : public QObject {
     // Moodbar data was loaded and returned.
     Loaded,
 
-    // Moodbar data will be loaded in the background, a MoodbarPipeline* was
+    // Moodbar data will be loaded in the background, a MoodbarPipeline
     // was returned that you can connect to the Finished() signal on.
     WillLoadAsync
   };

@@ -158,8 +158,8 @@ class LeComparator : public SearchTermComparator {
   int search_term_;
 };
 
-// The length field of the playlist (entries) contains a song's running time in nano seconds.
-// However, We don't really care about nano seconds, just seconds.
+// The length field of the playlist (entries) contains a song's running time in nanoseconds.
+// However, We don't really care about nanoseconds, just seconds.
 // Thus, with this decorator we drop the last 9 digits, if that many are present.
 class DropTailComparatorDecorator : public SearchTermComparator {
  public:
@@ -459,7 +459,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
     cmp = new NeComparator(search);
   }
   else if (!col.isEmpty() && columns_.contains(col) && numerical_columns_.contains(columns_[col])) {
-    // the length column contains the time in seconds (nano seconds, actually - the "nano" part is handled by the DropTailComparatorDecorator,  though).
+    // the length column contains the time in seconds (nanoseconds, actually - the "nano" part is handled by the DropTailComparatorDecorator,  though).
     int search_value = 0;
     if (columns_[col] == Playlist::Column_Length) {
       search_value = parseTime(search);

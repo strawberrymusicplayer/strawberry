@@ -61,7 +61,7 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
     return false;
   }
 
-  // Remove the destination file if it exists and we want to overwrite
+  // Remove the destination file if it exists, and we want to overwrite
   if (job.overwrite_) {
     if (dest.exists()) QFile::remove(dest.absoluteFilePath());
     if (!cover_dest.filePath().isEmpty() && cover_dest.exists()) QFile::remove(cover_dest.absoluteFilePath());

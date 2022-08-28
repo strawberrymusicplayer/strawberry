@@ -142,10 +142,10 @@ int main(int argc, char *argv[]) {
 
   CommandlineOptions options(argc, argv);
   {
-    // Only start a core application now so we can check if there's another instance without requiring an X server.
+    // Only start a core application now, so we can check if there's another instance without requiring an X server.
     // This MUST be done before parsing the commandline options so QTextCodec gets the right system locale for filenames.
     SingleCoreApplication core_app(argc, argv, true, SingleCoreApplication::Mode::User | SingleCoreApplication::Mode::ExcludeAppVersion | SingleCoreApplication::Mode::ExcludeAppPath);
-    // Parse commandline options - need to do this before starting the full QApplication so it works without an X server
+    // Parse commandline options - need to do this before starting the full QApplication, so it works without an X server
     if (!options.Parse()) return 1;
     logging::SetLevels(options.log_levels());
     if (core_app.isSecondary()) {
@@ -213,7 +213,7 @@ int main(int argc, char *argv[]) {
     if (QApplication::style()) qLog(Debug) << "Style:" << QApplication::style()->objectName();
   }
 
-  // Set the permissions on the config file on Unix - it can contain passwords for internet services so it's important that other users can't read it.
+  // Set the permissions on the config file on Unix - it can contain passwords for internet services, so it's important that other users can't read it.
   // On Windows these are stored in the registry instead.
 #ifdef Q_OS_UNIX
   {

@@ -209,7 +209,7 @@ void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
 
   // Determine the currently selected operator
   SmartPlaylistSearchTerm::Operator op = static_cast<SmartPlaylistSearchTerm::Operator>(
-    // This uses the operators’s index in the combobox to get its enum value
+    // This uses the operatorss index in the combobox to get its enum value
     ui_->op->itemData(ui_->op->currentIndex()).toInt());
 
   // We need to change the page only in the following case

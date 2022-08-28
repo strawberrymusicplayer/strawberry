@@ -244,7 +244,7 @@ class GstEnginePipeline : public QObject {
   qint64 next_beginning_offset_nanosec_;
   qint64 next_end_offset_nanosec_;
 
-  // Set temporarily when moving to the next contiguous section in a multi-part file.
+  // Set temporarily when moving to the next contiguous section in a multipart file.
   bool ignore_next_seek_;
 
   // Set temporarily when switching out the decode bin, so metadata doesn't get sent while the Player still thinks it's playing the last song
@@ -257,7 +257,7 @@ class GstEnginePipeline : public QObject {
   QString source_device_;
 
   // Seeking while the pipeline is in the READY state doesn't work, so we have to wait until it goes to PAUSED or PLAYING.
-  // Also we have to wait for the playbin to be connected.
+  // Also, we have to wait for the playbin to be connected.
   bool pipeline_is_initialized_;
   bool pipeline_is_connected_;
   qint64 pending_seek_nanosec_;

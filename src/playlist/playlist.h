@@ -75,7 +75,7 @@ Q_DECLARE_METATYPE(ColumnAlignmentMap)
 
 // Objects that may prevent a song being added to the playlist.
 // When there is something about to be inserted into it,
-// Playlist notifies all of it's listeners about the fact and every one of them picks 'invalid' songs.
+// Playlist notifies all of its listeners about the fact and every one of them picks 'invalid' songs.
 class SongInsertVetoListener : public QObject {
   Q_OBJECT
 
@@ -240,8 +240,8 @@ class Playlist : public QAbstractListModel {
   void ReshuffleIndices();
 
   // If this playlist contains the current item, this method will apply the "valid" flag on it.
-  // If the "valid" flag is false, the song will be greyed out. Otherwise the grey color will be undone.
-  // If the song is a local file and it's valid but non existent or invalid but exists, the
+  // If the "valid" flag is false, the song will be greyed out. Otherwise, the grey color will be undone.
+  // If the song is a local file, and it's valid but non-existent or invalid but exists, the
   // song will be reloaded to even out the situation because obviously something has changed.
   // This returns true if this playlist had current item when the method was invoked.
   bool ApplyValidityOnCurrentSong(const QUrl &url, bool valid);

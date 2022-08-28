@@ -596,7 +596,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
     QString album_id;
     QString album;
     bool album_explicit = false;
-    if (obj_item.contains("type")) {  // This was a albums request or search
+    if (obj_item.contains("type")) {  // This was an albums request or search
       if (!obj_item.contains("id") || !obj_item.contains("title")) {
         Error("Invalid Json reply, item is missing ID or title.", obj_item);
         continue;

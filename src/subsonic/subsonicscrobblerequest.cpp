@@ -97,7 +97,7 @@ void SubsonicScrobbleRequest::ScrobbleReplyReceived(QNetworkReply *reply) {
   --scrobble_requests_active_;
 
   // "subsonic-response" is empty on success, but some keys like status, version, or type might be present.
-  // Therefore we can only check for errors.
+  // Therefore, we can only check for errors.
   QByteArray data = GetReplyData(reply);
 
   if (data.isEmpty()) {

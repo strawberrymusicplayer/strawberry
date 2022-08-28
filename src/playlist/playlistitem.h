@@ -107,7 +107,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   bool HasCurrentForegroundColor() const;
 
   // Convenience function to find out whether this item is from the local collection, as opposed to a device, a file on disk, or a stream.
-  // Remember that even if this returns true, the collection item might be invalid so you might want to check that its id is not equal to -1 before actually using it.
+  // Remember that even if this returns true, the collection item might be invalid, so you might want to check that its id is not equal to -1 before actually using it.
   virtual bool IsLocalCollectionItem() const { return false; }
   void SetShouldSkip(const bool val);
   bool GetShouldSkip() const;

@@ -174,7 +174,7 @@ void GroupedIconView::LayoutItems() {
 
       headers_ << header;
 
-      // Remember this group so we don't add it again.
+      // Remember this group, so we don't add it again.
       last_group = group;
 
       // Move the next item immediately below the header.

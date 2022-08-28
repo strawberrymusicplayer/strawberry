@@ -46,7 +46,7 @@ SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const 
 
   Q_UNUSED(playlist_path);
 
-  // We have to load everything first so we can munge the "XML".
+  // We have to load everything first, so we can munge the "XML".
   QByteArray data = device->readAll();
 
   // Some playlists have unescaped & characters in URLs :(

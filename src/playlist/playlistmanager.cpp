@@ -224,7 +224,7 @@ void PlaylistManager::Save(const int id, const QString &filename, const Playlist
     parser_->Save(playlist(id)->GetAllSongs(), filename, path_type);
   }
   else {
-    // Playlist is not in the playlist manager: probably save action was triggered from the left side bar and the playlist isn't loaded.
+    // Playlist is not in the playlist manager: probably save action was triggered from the left sidebar and the playlist isn't loaded.
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QFuture<SongList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistSongs, playlist_backend_, id);
 #else

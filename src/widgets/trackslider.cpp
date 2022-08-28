@@ -94,7 +94,7 @@ void TrackSlider::SetApplication(Application *app) {
 
 void TrackSlider::UpdateLabelWidth() {
 
-  // We set the label's minimum size so it won't resize itself when the user is dragging the slider.
+  // We set the label's minimum size, so it won't resize itself when the user is dragging the slider.
   UpdateLabelWidth(ui_->elapsed, "0:00:00");
   UpdateLabelWidth(ui_->remaining, "-0:00:00");
 

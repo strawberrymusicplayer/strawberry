@@ -448,7 +448,7 @@ void Player::PlayPlaylistInternal(const Engine::TrackChangeFlags change, const P
 bool Player::HandleStopAfter(const Playlist::AutoScroll autoscroll) {
 
   if (app_->playlist_manager()->active()->stop_after_current()) {
-    // Find what the next track would've been, and mark that one as current so it plays next time the user presses Play.
+    // Find what the next track would've been, and mark that one as current, so it plays next time the user presses Play.
     const int next_row = app_->playlist_manager()->active()->next_row();
     if (next_row != -1) {
       app_->playlist_manager()->active()->set_current_row(next_row, autoscroll, true);
@@ -843,7 +843,7 @@ void Player::TrackAboutToEnd() {
   if (engine_->is_autocrossfade_enabled()) {
     // Crossfade is on, so just start playing the next track.  The current one will fade out, and the new one will fade in
 
-    // But, if there's no next track and we don't want to fade out, then do nothing and just let the track finish to completion.
+    // But, if there's no next track, and we don't want to fade out, then do nothing and just let the track finish to completion.
     if (!engine_->is_fadeout_enabled() && !has_next_row) return;
 
     // If the next track is on the same album (or same cue file),
@@ -854,7 +854,7 @@ void Player::TrackAboutToEnd() {
     }
   }
 
-  // Crossfade is off, so start preloading the next track so we don't get a gap between songs.
+  // Crossfade is off, so start preloading the next track, so we don't get a gap between songs.
   if (!has_next_row || !next_item) return;
 
   QUrl url = next_item->StreamUrl();

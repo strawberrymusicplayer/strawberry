@@ -1104,7 +1104,7 @@ void EditTagDialog::SaveData() {
     }
 
     QString embedded_cover_from_file;
-    // If embedded album cover is selected and it isn't saved to the tags, then save it even if no action was done.
+    // If embedded album cover is selected, and it isn't saved to the tags, then save it even if no action was done.
     if (ui_->checkbox_embedded_cover->isChecked() && ref.cover_action_ == UpdateCoverAction_None && !ref.original_.has_embedded_cover() && ref.original_.save_embedded_cover_supported()) {
       if (ref.original_.art_manual().isValid() && ref.original_.art_manual().isLocalFile() && QFile::exists(ref.original_.art_manual().toLocalFile())) {
         ref.cover_action_ = UpdateCoverAction_New;
@@ -1328,7 +1328,7 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
 
   // Is it currently being displayed in the UI?
   if (ui_->song_list->currentRow() == std::distance(data_.begin(), data_it)) {
-    // Yes! Additionally update UI
+    // Yes! Additionally, update UI
     const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
     UpdateUI(sel);
   }

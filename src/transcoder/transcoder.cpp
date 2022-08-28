@@ -502,7 +502,7 @@ bool Transcoder::event(QEvent *e) {
     QString input = (*it)->job_.input;
     QString output = (*it)->job_.output;
 
-    // Remove event handlers from the gstreamer pipeline so they don't get called after the pipeline is shutting down
+    // Remove event handlers from the gstreamer pipeline, so they don't get called after the pipeline is shutting down
     gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(finished_event->state_->pipeline_)), nullptr, nullptr, nullptr);
 
     // Remove it from the list - this will also destroy the GStreamer pipeline
@@ -531,7 +531,7 @@ void Transcoder::Cancel() {
   while (it != current_jobs_.end()) {
     std::shared_ptr<JobState> state(*it);
 
-    // Remove event handlers from the gstreamer pipeline so they don't get called after the pipeline is shutting down
+    // Remove event handlers from the gstreamer pipeline, so they don't get called after the pipeline is shutting down
     gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(state->pipeline_)), nullptr, nullptr, nullptr);
 
     // Stop the pipeline

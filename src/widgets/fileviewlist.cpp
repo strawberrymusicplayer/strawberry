@@ -97,7 +97,7 @@ MimeData *FileViewList::MimeDataFromSelection() const {
 
   QList<QString> filenames = FilenamesFromSelection();
 
-  // if just one folder selected - use it's path as the new playlist's name
+  // if just one folder selected - use its path as the new playlist's name
   if (filenames.size() == 1 && QFileInfo(filenames.first()).isDir()) {
     if (filenames.first().length() > 20) {
       mimedata->name_for_new_playlist_ = QDir(filenames.first()).dirName();

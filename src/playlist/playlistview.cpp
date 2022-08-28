@@ -737,7 +737,7 @@ void PlaylistView::RemoveSelected() {
   // Store the last selected row, which is the last in the list
   int last_row = selection.last().top();
 
-  // Sort the selection so we remove the items at the *bottom* first, ensuring we don't have to mess around with changing row numbers
+  // Sort the selection, so we remove the items at the *bottom* first, ensuring we don't have to mess around with changing row numbers
   std::sort(selection.begin(), selection.end(), CompareSelectionRanges);
 
   for (const QItemSelectionRange &range : selection) {
@@ -1299,7 +1299,7 @@ void PlaylistView::ReloadSettings() {
     }
     else {
       // User changed background image type to something that will not be painted through paintEvent: reset all background images.
-      // This avoid to use old (deprecated) images for fading when selecting Album or Custom background image type later.
+      // This avoids to use old (deprecated) images for fading when selecting Album or Custom background image type later.
       set_background_image(QImage());
       cached_scaled_background_image_ = QPixmap();
       previous_background_image_ = QPixmap();

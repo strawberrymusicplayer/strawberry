@@ -504,7 +504,7 @@ MusicBrainzClient::ResultList MusicBrainzClient::UniqueResults(const ResultList 
     std::sort(ret.begin(), ret.end());
   }
   else {  // KeepOriginalOrder
-    // Qt doesn't provide a ordered set (QSet "stores values in an unspecified order" according to Qt documentation).
+    // Qt doesn't provide an ordered set (QSet "stores values in an unspecified order" according to Qt documentation).
     // We might use std::set instead, but it's probably faster to use ResultList directly to avoid converting from one structure to another.
     for (const Result &res : results) {
       if (!ret.contains(res)) {

@@ -391,9 +391,9 @@ void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int s
   QStringList commands;
   commands = schema.split(QRegularExpression("; *\n\n"));
 
-  // We don't want this list to reflect possible DB schema changes so we initialize it before executing any statements.
-  // If no outer transaction is provided the song tables need to be queried before beginning an inner transaction! Otherwise
-  // DROP TABLE commands on song tables may fail due to database locks.
+  // We don't want this list to reflect possible DB schema changes, so we initialize it before executing any statements.
+  // If no outer transaction is provided the song tables need to be queried before beginning an inner transaction!
+  // Otherwise DROP TABLE commands on song tables may fail due to database locks.
   const QStringList song_tables(SongsTables(db, schema_version));
 
   if (!in_transaction) {
