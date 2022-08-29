@@ -49,6 +49,7 @@ ${TAR} -cJf $name-$version.tar.xz \
     --exclude="*.nsi" \
     --exclude="*.kdev4" \
     --exclude=".vscode" \
+    --exclude=".idea" \
     --exclude="$root/.github" \
     --exclude="$root/.travis.yml" \
     --exclude="$root/.circleci" \
@@ -56,6 +57,7 @@ ${TAR} -cJf $name-$version.tar.xz \
     --exclude="$root/CMakeLists.txt.user" \
     --exclude="$root/.clang-format" \
     --exclude="$root/build" \
+    --exclude="$root/cmake-build-debug" \
     --exclude="$root/zanata.xml" \
     --exclude="$root/.zanata-cache" \
     --exclude="$root/debian/changelog" \
