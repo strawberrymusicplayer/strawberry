@@ -36,6 +36,7 @@
 
 class QMimeData;
 class QFileSystemModel;
+class QFileIconProvider;
 class QUndoStack;
 class QKeyEvent;
 class QShowEvent;
@@ -119,6 +120,8 @@ class FileView : public QWidget {
   QString lazy_set_path_;
 
   QStringList filter_list_;
+
+  std::unique_ptr<QFileIconProvider> file_icon_provider_;
 };
 
 #endif  // FILEVIEW_H
