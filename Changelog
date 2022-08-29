@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.8 (2022.08.29):
 
   Bugfixes:
     * Fixed backslash being appended to filter text when switching playlist (#1005).
