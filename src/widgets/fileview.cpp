@@ -21,6 +21,7 @@
 #include <QWidget>
 #include <QUndoStack>
 #include <QDir>
+#include <QFileIconProvider>
 #include <QFileInfo>
 #include <QFileSystemModel>
 #include <QString>
@@ -43,6 +44,7 @@
 #include "ui_fileview.h"
 #include "organize/organizeerrordialog.h"
 #include "settings/appearancesettingspage.h"
+
 
 const char *FileView::kFileFilter =
     "*.wav *.flac *.wv *.ogg *.oga *.opus *.spx *.ape *.mpc "
@@ -268,6 +270,7 @@ void FileView::showEvent(QShowEvent *e) {
   model_ = new QFileSystemModel(this);
 
   model_->setNameFilters(filter_list_);
+  model_->setIconProvider(new QFileIconProvider());
   // if an item fails the filter, hide it
   model_->setNameFilterDisables(false);
 
