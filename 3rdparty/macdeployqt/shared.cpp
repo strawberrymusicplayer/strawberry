@@ -861,7 +861,12 @@ void changeInstallName(const QString &bundlePath, const FrameworkInfo &framework
         } else {
             deployedInstallName = framework.deployedInstallName;
         }
-        changeInstallName(framework.installName, deployedInstallName, binary);
+        if (!framework.sourceFilePath.isEmpty()) {
+            changeInstallName(framework.sourceFilePath, deployedInstallName, binary);
+        }
+        if (!framework.installName.isEmpty() && framework.installName != framework.sourceFilePath) {
+            changeInstallName(framework.installName, deployedInstallName, binary);
+        }
         // Workaround for the case when the library ID name is a symlink, while the dependencies
         // specified using the canonical path to the library (QTBUG-56814)
         QFileInfo fileInfo= QFileInfo(framework.installName);
