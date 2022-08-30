@@ -1176,29 +1176,30 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   bundle.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
 
   if (!bundle.title.isEmpty() && bundle.artist.isEmpty() && bundle.album.isEmpty()) {
+    QStringList title_splitted;
     if (bundle.title.contains(" - ")) {
-      QStringList title_splitted = bundle.title.split(" - ");
-      bundle.artist = title_splitted.first().trimmed();
-      bundle.title = title_splitted.last().trimmed();
+      title_splitted = bundle.title.split(" - ");
     }
-    else if (bundle.title.contains('~') && bundle.title.count('~') >= 2) {
-      QStringList title_splitted = bundle.title.split('~');
-      int i = 1;
-      for (const QString &part : title_splitted) {
+    else if (bundle.title.contains('~')) {
+      title_splitted = bundle.title.split('~');
+    }
+    if (!title_splitted.isEmpty() && title_splitted.count() >= 2) {
+      int i = 0;
+      for (const QString &title_part : title_splitted) {
+        ++i;
         switch (i) {
           case 1:
-            bundle.artist = part;
+            bundle.artist = title_part.trimmed();
             break;
           case 2:
-            bundle.title = part;
+            bundle.title = title_part.trimmed();
             break;
           case 3:
-            bundle.album = part;
+            bundle.album = title_part.trimmed();
             break;
           default:
             break;
         }
-        ++i;
       }
     }
   }
