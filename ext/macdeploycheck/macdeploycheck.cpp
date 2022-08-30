@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
       qLog(Error) << "First line" << first_line << "does not match" << filepath;
       success = false;
     }
-    QRegularExpression regexp(QStringLiteral("^\\t(.+) \\(compatibility version (\\d+\\.\\d+\\.\\d+), current version (\\d+\\.\\d+\\.\\d+)(, weak)?\\)$"));
+    QRegularExpression regexp(QStringLiteral("^\\t(.+) \\(compatibility version (\\d+\\.\\d+\\.\\d+), current version (\\d+\\.\\d+\\.\\d+)(, weak|, reexport)?\\)$"));
     for (const QString &output_line : output_lines) {
 
       //qDebug() << "Final check on" << filepath << output_line;
@@ -128,9 +128,6 @@ int main(int argc, char **argv) {
           }
         }
         else if (library.startsWith("/System/Library/") || library.startsWith("/usr/lib/")) {  // System library
-          continue;
-        }
-        else if (library.endsWith("libgcc_s.1.dylib")) {  // fftw points to it for some reason.
           continue;
         }
         else {
