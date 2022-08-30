@@ -40,6 +40,8 @@
 #include <QDir>
 #include <QSet>
 #include <QList>
+#include <QVariant>
+#include <QVariantMap>
 #include <QStack>
 #include <QDirIterator>
 #include <QLibraryInfo>
@@ -220,6 +222,8 @@ OtoolInfo findDependencyInfo(const QString &binaryPath)
     for (const QString &outputLine : outputLines) {
         const auto match = regexp.match(outputLine);
         if (match.hasMatch()) {
+            if (match.captured(1) == info.installName)
+                continue; // Another arch reference to the same binary
             DylibInfo dylib;
             dylib.binaryPath = match.captured(1);
             dylib.compatibilityVersion = QVersionNumber::fromString(match.captured(2));
@@ -300,11 +304,11 @@ FrameworkInfo parseOtoolLibraryLine(const QString &line, const QString &appBundl
         if (state == QtPath) {
             // Check for library name part
             if (part < parts.count() && parts.at(part).contains(".dylib")) {
-                info.frameworkDirectory += "/" + (qtPath + currentPart + "/").simplified();
+                info.frameworkDirectory += "/" + QString(qtPath + currentPart + "/").simplified();
                 state = DylibName;
                 continue;
             } else if (part < parts.count() && parts.at(part).endsWith(".framework")) {
-                info.frameworkDirectory += "/" + (qtPath + "lib/").simplified();
+                info.frameworkDirectory += "/" + QString(qtPath + "lib/").simplified();
                 state = FrameworkName;
                 continue;
             } else if (trimmed.startsWith("/") == false) {      // If the line does not contain a full path, the app is using a binary Qt package.
@@ -859,11 +863,18 @@ void changeInstallName(const QString &bundlePath, const FrameworkInfo &framework
         } else {
             deployedInstallName = framework.deployedInstallName;
         }
-        if (!framework.sourceFilePath.isEmpty()) {
-            changeInstallName(framework.sourceFilePath, deployedInstallName, binary);
-        }
-        if (!framework.installName.isEmpty() && framework.installName != framework.sourceFilePath) {
-            changeInstallName(framework.installName, deployedInstallName, binary);
+        changeInstallName(framework.installName, deployedInstallName, binary);
+        // Workaround for the case when the library ID name is a symlink, while the dependencies
+        // specified using the canonical path to the library (QTBUG-56814)
+        QFileInfo fileInfo= QFileInfo(framework.installName);
+        QString canonicalInstallName = fileInfo.canonicalFilePath();
+        if (!canonicalInstallName.isEmpty() && canonicalInstallName != framework.installName) {
+            changeInstallName(canonicalInstallName, deployedInstallName, binary);
+            // some libraries' inner dependencies (such as ffmpeg, nettle) use symbol link (QTBUG-100093)
+            QString innerDependency = fileInfo.canonicalPath() + "/" + fileInfo.fileName();
+            if (innerDependency != canonicalInstallName && innerDependency != framework.installName) {
+                changeInstallName(innerDependency, deployedInstallName, binary);
+            }
         }
     }
 }
@@ -1078,7 +1089,7 @@ QString getLibInfix(const QStringList &deployedFrameworks)
 {
     QString libInfix;
     for (const QString &framework : deployedFrameworks) {
-        if (framework.startsWith(QStringLiteral("QtCore")) && framework.endsWith(QStringLiteral(".framework"))) {
+        if (framework.startsWith(QStringLiteral("QtCore")) && framework.endsWith(QStringLiteral(".framework")) && !framework.contains(QStringLiteral("5Compat"))) {
             Q_ASSERT(framework.length() >= 16);
             // 16 == "QtCore" + ".framework"
             const int lengthOfLibInfix = framework.length() - 16;
@@ -1474,9 +1485,9 @@ bool deployQmlImports(const QString &appBundlePath, DeploymentInfo deploymentInf
     for (const QString &importPath : qmlImportPaths)
         argumentList << "-importPath" << importPath;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    QString qmlImportsPath = QLibraryInfo::path(QLibraryInfo::Qml2ImportsPath);
+    QString qmlImportsPath = QLibraryInfo::path(QLibraryInfo::QmlImportsPath);
 #else
-    QString qmlImportsPath = QLibraryInfo::location(QLibraryInfo::Qml2ImportsPath);
+    QString qmlImportsPath = QLibraryInfo::location(QLibraryInfo::QmlImportsPath);
 #endif
     argumentList.append( "-importPath");
     argumentList.append(qmlImportsPath);
@@ -1488,7 +1499,7 @@ bool deployQmlImports(const QString &appBundlePath, DeploymentInfo deploymentInf
         LogError() << "Could not start qmlimpoortscanner. Process error is" << qmlImportScanner.errorString();
         return false;
     }
-    qmlImportScanner.waitForFinished();
+    qmlImportScanner.waitForFinished(-1);
 
     // log qmlimportscanner errors
     qmlImportScanner.setReadChannel(QProcess::StandardError);
