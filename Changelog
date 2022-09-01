@@ -2,6 +2,12 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed parsing album title from radio stream metadata (#1023).
+    * (macOS) Fixed Strawberry not starting, incorrect rpath for libgcc_s.1.1.dylib (#1025).
+
 Version 1.0.8 (2022.08.29):
 
   Bugfixes:
