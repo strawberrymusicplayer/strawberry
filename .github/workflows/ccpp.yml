@@ -2786,18 +2786,26 @@ jobs:
         run: |
           brew install pkg-config cmake ninja meson bison flex wget create-dmg gettext boost protobuf protobuf-c
           brew install glib glib-openssl glib-utils glib-networking gdk-pixbuf gobject-introspection orc
-          brew install libffi openssl gnutls sqlite fftw libmtp libplist libsoup libxml2
+          brew install libffi openssl gnutls sqlite fftw libmtp libplist libxml2
           brew install libogg libvorbis flac wavpack opus speex mpg123 lame twolame taglib chromaprint libbs2b libcdio libopenmpt faad2 faac fdk-aac musepack game-music-emu
-          brew install gstreamer
           brew install qt6
 
       - name: Use modified gstreamer plugin formulas
         run: |
+          wget https://files.strawberrymusicplayer.org/patches/gstreamer.rb
           wget https://files.strawberrymusicplayer.org/patches/gst-plugins-base.rb
           wget https://files.strawberrymusicplayer.org/patches/gst-plugins-good.rb
           wget https://files.strawberrymusicplayer.org/patches/gst-plugins-bad.rb
           wget https://files.strawberrymusicplayer.org/patches/gst-plugins-ugly.rb
-          mv gst-plugins-{base,good,bad,ugly}.rb /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
+          wget https://files.strawberrymusicplayer.org/patches/gst-libav.rb
+          wget https://files.strawberrymusicplayer.org/patches/libsoup.rb
+          mv gstreamer.rb gst-plugins-{base,good,bad,ugly}.rb gst-libav.rb libsoup.rb /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
+
+      - name: Build and install libsoup
+        run: brew install --build-from-source libsoup
+
+      - name: Build and install gstreamer
+        run: brew install --build-from-source gstreamer
 
       - name: Build and install gst-plugins-base
         run: brew install --build-from-source gst-plugins-base
@@ -2812,7 +2820,7 @@ jobs:
         run: brew install --build-from-source gst-plugins-ugly
 
       - name: Build and install gst-libav
-        run: brew install gst-libav
+        run: brew install --build-from-source gst-libav
 
       - name: Build libgpod
         shell: bash
@@ -2892,7 +2900,7 @@ jobs:
   upload-macos:
     name: Upload macOS DMG
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/macos'
     needs:
       - build-macos
     steps:
@@ -2911,4 +2919,3 @@ jobs:
           for i in $(find uploads -type f -name 'strawberry-*.dmg'); do
             rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/macos/
           done
-
