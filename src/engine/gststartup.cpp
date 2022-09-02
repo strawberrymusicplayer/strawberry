@@ -103,21 +103,16 @@ void GstStartup::InitializeGStreamer() {
 
 void GstStartup::SetEnvironment() {
 
-  QString bundle_path = QCoreApplication::applicationDirPath();
+#ifdef USE_BUNDLE
 
-#ifdef USE_BUNDLE_DIR
-  QString bundle_dir = USE_BUNDLE_DIR;
-  if (!bundle_dir.isEmpty()) {
-    bundle_path.append("/" + bundle_dir);
-  }
-#endif
+  QString app_path = QCoreApplication::applicationDirPath();
+  QString bundle_path = app_path + "/" + USE_BUNDLE_DIR;
 
   QString gio_module_path;
   QString gst_plugin_scanner;
   QString gst_plugin_path;
-  QString gst_registry_filename;
+  QString libsoup_library_path;
 
-#ifdef USE_BUNDLE
 #  if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
   gio_module_path = bundle_path + "/gio-modules";
 #  endif
@@ -126,14 +121,11 @@ void GstStartup::SetEnvironment() {
   gst_plugin_path = bundle_path + "/gstreamer";
 #  endif
 #  if defined(Q_OS_WIN32)
-  //gst_plugin_scanner = bundle_path + "/gst-plugin-scanner.exe";
   gst_plugin_path = bundle_path + "/gstreamer-plugins";
 #  endif
-#endif
-
-#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
-  gst_registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
-#endif
+#  if defined(Q_OS_MACOS)
+  libsoup_library_path = app_path + "/../Frameworks/libsoup-3.0.0.dylib";
+#  endif
 
   if (!gio_module_path.isEmpty()) {
     if (QDir(gio_module_path).exists()) {
@@ -146,7 +138,7 @@ void GstStartup::SetEnvironment() {
   }
 
   if (!gst_plugin_scanner.isEmpty()) {
-    if (QFile(gst_plugin_scanner).exists()) {
+    if (QFile::exists(gst_plugin_scanner)) {
       qLog(Debug) << "Setting GStreamer plugin scanner to" << gst_plugin_scanner;
       Utilities::SetEnv("GST_PLUGIN_SCANNER", gst_plugin_scanner);
     }
@@ -167,11 +159,26 @@ void GstStartup::SetEnvironment() {
     }
   }
 
-  if (!gst_registry_filename.isEmpty()) {
-    qLog(Debug) << "Setting GStreamer registry file to" << gst_registry_filename;
-    Utilities::SetEnv("GST_REGISTRY", gst_registry_filename);
+  if (!libsoup_library_path.isEmpty()) {
+    if (QFile::exists(libsoup_library_path)) {
+      Utilities::SetEnv("LIBSOUP3_LIBRARY_PATH", libsoup_library_path);
+    }
+    else {
+      qLog(Debug) << "libsoup path does not exist:" << libsoup_library_path;
+    }
   }
 
+#endif  // USE_BUNDLE
+
+
+#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
+  QString gst_registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
+  qLog(Debug) << "Setting GStreamer registry file to" << gst_registry_filename;
+  Utilities::SetEnv("GST_REGISTRY", gst_registry_filename);
+#endif
+
+#ifdef HAVE_LIBPULSE
   Utilities::SetEnv("PULSE_PROP_media.role", "music");
+#endif
 
 }
