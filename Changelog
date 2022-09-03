@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.9 (2022.09.03):
 
   Bugfixes:
     * Fixed parsing album title from radio stream metadata (#1023).
