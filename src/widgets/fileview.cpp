@@ -268,9 +268,12 @@ void FileView::showEvent(QShowEvent *e) {
   if (model_) return;
 
   model_ = new QFileSystemModel(this);
+  if(!model_->iconProvider() || model_->iconProvider()->icon(QAbstractFileIconProvider::Folder).isNull()) {
+    qLog(Info) << "detected unsuitable iconProvider - try to fix it...";
+    model_->setIconProvider(new QFileIconProvider());
+  }
 
   model_->setNameFilters(filter_list_);
-  model_->setIconProvider(new QFileIconProvider());
   // if an item fails the filter, hide it
   model_->setNameFilterDisables(false);
 
