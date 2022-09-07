@@ -35,7 +35,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-04-03 12:33-0400\n"
+"PO-Revision-Date: 2022-09-07 01:58-0400\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -405,7 +405,7 @@ msgstr "С&права"
 
 #: ../build/src/ui_mainwindow.h:694
 msgid "&Save all playlists..."
-msgstr ""
+msgstr "&Сохранить все плейлисты…"
 
 #: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
@@ -1829,7 +1829,7 @@ msgstr "Каталог"
 
 #: dialogs/saveplaylistsdialog.cpp:78
 msgid "Directory does not exist."
-msgstr ""
+msgstr "Каталог не существует."
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
@@ -1996,7 +1996,7 @@ msgstr "Включить кэш диска"
 
 #: ../build/src/ui_backendsettingspage.h:572
 msgid "Enable HTTP/2 for streaming"
-msgstr ""
+msgstr "Включить HTTP/2 для потокового вещания"
 
 #: ../build/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
@@ -2799,7 +2799,7 @@ msgstr "Вставить…"
 
 #: dialogs/snapdialog.cpp:79
 msgid "Install strawberry through PPA:"
-msgstr ""
+msgstr "Установить Strawberry через PPA:"
 
 #: core/database.cpp:488
 msgid "Integrity check"
@@ -3531,6 +3531,8 @@ msgstr "Настройки вывода"
 #: ../build/src/ui_collectionsettingspage.h:631
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
+"Перезаписать счётчики воспроизведения базы данных при повторном считывании "
+"песен с диска"
 
 #: ../build/src/ui_collectionsettingspage.h:632
 msgid "Overwrite database rating when songs are re-read from disk"
@@ -3978,7 +3980,7 @@ msgstr "В перенаправлении отсутствует код токе
 
 #: playlist/playlistcontainer.cpp:223
 msgid "Redo"
-msgstr ""
+msgstr "Вернуть"
 
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
@@ -4424,7 +4426,7 @@ msgstr "Выберите наиболее подходящее совпаден�
 
 #: ../build/src/ui_saveplaylistsdialog.h:117
 msgid "Select directory for saving playlists"
-msgstr ""
+msgstr "Выберите каталог для сохранения плейлистов"
 
 #: dialogs/saveplaylistsdialog.cpp:62
 msgid "Select directory for the playlists"
@@ -4448,7 +4450,7 @@ msgstr "Выбрать…"
 
 #: ../build/src/ui_groupbydialog.h:255
 msgid "Separate albums by grouping tag"
-msgstr ""
+msgstr "Разделять альбому по тегу группировки"
 
 #: device/udisks2lister.cpp:115
 msgid "Serial number"
@@ -4511,7 +4513,7 @@ msgstr "Показыва&ть встроенные уведомления раб
 
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
-msgstr ""
+msgstr "Показывать анимацию подсветки на активном треке"
 
 #: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
@@ -4563,7 +4565,7 @@ msgstr "Показать все песни"
 
 #: ../build/src/ui_playlistsettingspage.h:179
 msgid "Show bars on the currently playing track"
-msgstr ""
+msgstr "Показывать полоски на активном треке"
 
 #: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Show dialog for errors"
@@ -5286,7 +5288,7 @@ msgstr "Отключить"
 
 #: ../build/src/ui_saveplaylistsdialog.h:119
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: device/giolister.cpp:194
 msgid "URI"
@@ -5306,7 +5308,7 @@ msgstr "Сверхширокая полоса (UWB)"
 
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
-msgstr ""
+msgstr "Отменить"
 
 #: dialogs/snapdialog.cpp:74
 msgid "Uninstall the snap with:"
@@ -5329,11 +5331,11 @@ msgstr "Неизвестная ошибка"
 
 #: playlist/playlistmanager.cpp:260
 msgid "Unknown file extension for playlist."
-msgstr ""
+msgstr "Неизвестное расширение файла плейлиста."
 
 #: playlist/playlistmanager.cpp:260
 msgid "Unknown playlist extension"
-msgstr ""
+msgstr "Неизвестное расширение плейлиста"
 
 #: dialogs/edittagdialog.cpp:765
 msgid "Unset"
