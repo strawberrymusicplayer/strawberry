@@ -66,7 +66,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -145,7 +145,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -233,7 +233,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -320,7 +320,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -403,7 +403,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -495,7 +495,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -583,7 +583,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -664,7 +664,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -745,7 +745,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -832,7 +832,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -907,7 +907,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -972,7 +972,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1037,7 +1037,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1108,7 +1108,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1178,7 +1178,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1248,7 +1248,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1318,7 +1318,7 @@ jobs:
           fetch-depth: 0
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1343,7 +1343,7 @@ jobs:
 
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
 
       - name: Create Build Environment
         shell: bash
@@ -1517,7 +1517,7 @@ jobs:
 
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
 
       - name: Create Build Environment
         shell: bash
@@ -1755,7 +1755,7 @@ jobs:
 
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
 
       - name: Create Build Environment
         run: cmake -E make_directory build
@@ -2016,7 +2016,7 @@ jobs:
 
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
 
       - name: Create Build Environment
         run: cmake -E make_directory build
@@ -2277,7 +2277,7 @@ jobs:
 
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
 
       - name: Create Build Environment
         run: cmake -E make_directory build
@@ -2538,7 +2538,7 @@ jobs:
 
       - name: Add safe git directory
         shell: bash
-        run: git config --global --add safe.directory /__w/strawberry/strawberry
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
 
       - name: Create Build Environment
         run: cmake -E make_directory build
@@ -2767,7 +2767,7 @@ jobs:
         mem: 4096
         prepare: pkg install -y git cmake pkgconf gettext-tools boost-libs glib gnutls qt5-core qt5-concurrent qt5-network qt5-sql qt5-dbus qt5-gui qt5-widgets qt5-buildtools qt5-linguisttools qt5-qmake qt5-sqldrivers-sqlite3 qt5-testlib sqlite gstreamer1 gstreamer1-plugins chromaprint protobuf protobuf-c taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 googletest iconv icu
         run: |
-          git config --global --add safe.directory /__w/strawberry/strawberry
+          git config --global --add safe.directory ${GITHUB_WORKSPACE}
           cmake -E make_directory build
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Debug
