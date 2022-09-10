@@ -231,8 +231,8 @@ msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
 msgstr ""
-"%1 Lieder in %2 unterschiedlichen Ordnern ausgewählt, bist du sicher, dass "
-"du sie alle öffnen willst?"
+"%1 Lieder in %2 unterschiedlichen Ordnern ausgewählt, sind Sie sicher, dass "
+"Sie sie alle öffnen wollen?"
 
 #: dialogs/edittagdialog.cpp:653
 #, qt-format
@@ -894,7 +894,7 @@ msgstr "Alle Lieder"
 
 #: ../build/src/ui_organizedialog.h:275
 msgid "Allow extended ASCII characters"
-msgstr "Erlaube erweiterete ASCII Zeichen"
+msgstr "Erlaube erweiterte ASCII Zeichen"
 
 #: ../build/src/ui_transcoderoptionsaac.h:141
 msgid "Allow mid/side encoding"
@@ -965,7 +965,7 @@ msgstr "Komprimieren um Übersteuerung zu vermeiden"
 
 #: dialogs/deleteconfirmationdialog.cpp:71
 msgid "Are you sure you want to continue?"
-msgstr "Bist du dir sicher, dass du weitermachen willst?"
+msgstr "Sind Sie sicher, dass sie weitermachen wollen?"
 
 #: equalizer/equalizer.cpp:229
 #, qt-format
@@ -1017,7 +1017,7 @@ msgstr "Künstler Suchlimit"
 
 #: ../build/src/ui_playlistsettingspage.h:194
 msgid "As&k when saving"
-msgstr "Nachfragen beim speichern"
+msgstr "Nachfragen beim Speichern"
 
 #: ../build/src/ui_transcodedialog.h:227
 #: ../build/src/ui_qobuzsettingspage.h:280
@@ -1047,7 +1047,7 @@ msgstr "Authentifizierung"
 #: settings/coverssettingspage.cpp:274 settings/lyricssettingspage.cpp:254
 #: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:174
 msgid "Authentication failed"
-msgstr "Legitimierung fehlgeschlagen"
+msgstr "Authentifizierung fehlgeschlagen"
 
 #: ../build/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
@@ -1223,7 +1223,7 @@ msgstr "Konsole"
 
 #: core/songloader.cpp:201
 msgid "CD playback is only available with the GStreamer engine."
-msgstr "CD Wiedergabe ist nur mit de GStreamer Implemetierung verfügbar"
+msgstr "CD Wiedergabe ist nur mit der GStreamer Implementierung verfügbar"
 
 #: ../build/src/ui_scrobblersettingspage.h:424
 msgid "CDDA"
@@ -1293,12 +1293,12 @@ msgstr ""
 
 #: ../build/src/ui_coverssettingspage.h:164
 msgid "Choose the providers you want to use when searching for covers."
-msgstr "Wähle die Anbieter aus, die du für die Titelbildsuche nutzen willst. "
+msgstr "Wählen Sie die Anbieter aus, die Sie für die Titelbildsuche nutzen wollen. "
 
 #: ../build/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr ""
-"Wähle die Anbieter aus, die du für die Suche nach Liedtexten nutzen willst. "
+"Wählen Sie die Anbieter aus, die Sie für die Suche nach Liedtexten nutzen wollen. "
 
 #: equalizer/equalizer.cpp:139
 msgid "Classical"
@@ -1335,7 +1335,7 @@ msgstr "Hier klicken, um Musik hinzuzufügen"
 
 #: internet/internetcollectionview.cpp:292
 msgid "Click here to retrieve music"
-msgstr "Klicke hier um Musik zu abzuholen"
+msgstr "Klicken Sie hier um Musik zu abzuholen"
 
 #: ../build/src/ui_trackslider.h:68
 msgid "Click to toggle between remaining time and total time"
@@ -1743,7 +1743,7 @@ msgstr "Tage"
 
 #: core/commandlineoptions.cpp:175
 msgid "Decrease the volume by 4 percent"
-msgstr "Lautstäre um 4% vrringern"
+msgstr "Lautstärke um 4% verringern"
 
 #: core/commandlineoptions.cpp:177
 msgid "Decrease the volume by <value> percent"
@@ -1941,7 +1941,7 @@ msgid ""
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
 "Hier doppelklicken, um diese Wiedergabeliste zu Favoriten hinzuzufügen, "
-"damit sie gespeichert und  in der linken Seitenleiste unter "
+"damit sie gespeichert und in der linken Seitenleiste unter "
 "\"Wiedergabelisten\" zugänglich gemacht wird."
 
 #: ../build/src/ui_subsonicsettingspage.h:255
@@ -2131,7 +2131,7 @@ msgstr "Geben Sie Username und Passwort ein"
 
 #: settings/scrobblersettingspage.cpp:81
 msgid "Enter your user token from"
-msgstr "Bitte deinen Benutzer Schlüssel eingeben von"
+msgstr "Ihr Benutzer-Token eingeben von"
 
 #: ../build/src/ui_collectionfilterwidget.h:91
 msgid "Entire collection"
@@ -2853,7 +2853,7 @@ msgstr "Einleitungstitel"
 
 #: scrobbler/scrobblingapi20.cpp:208
 msgid "Invalid reply from web browser. Missing token."
-msgstr "Ungültige Wiedergabe vom Webbrowser. Zeichen fehlt. "
+msgstr "Ungültige Antwort vom Webbrowser. Token fehlt. "
 
 #: dialogs/about.cpp:113
 msgid ""
@@ -3065,7 +3065,7 @@ msgstr "Anbieter für Songtexte"
 
 #: ../build/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token"
-msgstr "MD5-Zeichen"
+msgstr "MD5-Token"
 
 #: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
@@ -3136,7 +3136,7 @@ msgstr "Minimale Bitrate"
 
 #: settings/tidalsettingspage.cpp:163
 msgid "Missing API token."
-msgstr "API Zeichen fehlt."
+msgstr "API-Token fehlt."
 
 #: qobuz/qobuzservice.cpp:730 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
@@ -3164,11 +3164,11 @@ msgstr "Subsonic Benutzername oder Passwort fehlt"
 #: tidal/tidalservice.cpp:867 tidal/tidalservice.cpp:936
 #: tidal/tidalservice.cpp:1000 tidal/tidalstreamurlrequest.cpp:86
 msgid "Missing Tidal API token, username or password."
-msgstr "Tidal API Zeichen fehlt, Nutzername oder Passwort."
+msgstr "Tidal API-Token, Nutzername oder Passwort fehlt."
 
 #: tidal/tidalservice.cpp:706
 msgid "Missing Tidal API token."
-msgstr "Tidal API Zeichen fehlt."
+msgstr "Tidal API-Token fehlt."
 
 #: settings/tidalsettingspage.cpp:156
 msgid "Missing Tidal client ID."
@@ -4004,16 +4004,16 @@ msgstr "Empfangen der Wiedergabezahl für %1 Songs."
 #: lyrics/geniuslyricsprovider.cpp:200
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
-"Bei der Umleitung von Genius fehlt der Code oder Status der abgefragten "
+"Bei der Weiterleitung von Genius fehlt der Code oder Status der abgefragten "
 "Elemente."
 
 #: covermanager/spotifycoverprovider.cpp:194
 msgid "Redirect missing token code or state!"
-msgstr "Umleitung Zeichen Code oder Status fehlen!"
+msgstr "Bei der Weiterleitung fehlen Token-Code oder Status!"
 
 #: lyrics/geniuslyricsprovider.cpp:148 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
-msgstr "Weiterleitung des fehlendes Zeichencodes!"
+msgstr "Bei der Weiterleitung fehlt der Token-Code!"
 
 #: playlist/playlistcontainer.cpp:223
 msgid "Redo"
@@ -4055,7 +4055,6 @@ msgstr "Entferne &Duplikate aus der Wiedergabeliste"
 #: ../build/src/ui_mainwindow.h:711
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Entferne &Unverfügbare Titel aus der Wiedergabeliste"
-
 #: ../build/src/ui_collectionsettingspage.h:592
 msgid "Remove folder"
 msgstr "Ordner entfernen"
@@ -5740,7 +5739,7 @@ msgstr ""
 
 #: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
-msgstr "Du brauchst GStreamer für diese URL."
+msgstr "Sie brauchen GStreamer für diese URL."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:278
 msgid ""
