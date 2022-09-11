@@ -39,6 +39,7 @@
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Guido T. <GuidoTelscher@web.de>, 2020. #zanata
 # Lian Begett <zanata@bunbun.de>, 2021. #zanata
+# Geroyche <geroyche@gmail.com>, 2022. #zanata
 # Guido T. <GuidoTelscher@web.de>, 2022. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2022. #zanata
 msgid ""
@@ -46,8 +47,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-07-14 12:12-0400\n"
-"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
+"PO-Revision-Date: 2022-09-11 06:56-0400\n"
+"Last-Translator: Geroyche <geroyche@gmail.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -63,9 +64,10 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n"
+"Sie können Wiedergabelisten favorisieren, indem Sie das Stern-Symbol neben "
+"dem Namen anklicken\n"
 "\n"
-"Favorited playlists will be saved here"
+"Favorisierte Wiedergabelisten werden hier gespeichert"
 
 #: settings/globalshortcutssettingspage.cpp:356
 #, qt-format
@@ -231,8 +233,8 @@ msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
 msgstr ""
-"%1 Lieder in %2 unterschiedlichen Ordnern ausgewählt, bist du sicher, dass "
-"du sie alle öffnen willst?"
+"%1 Lieder in %2 unterschiedlichen Ordnern ausgewählt, sind Sie sicher, dass "
+"Sie sie alle öffnen wollen?"
 
 #: dialogs/edittagdialog.cpp:653
 #, qt-format
@@ -418,7 +420,7 @@ msgstr "&Rechts"
 
 #: ../build/src/ui_mainwindow.h:694
 msgid "&Save all playlists..."
-msgstr ""
+msgstr "&Alle Wiedergabelisten speichern...\n"
 
 #: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
@@ -844,11 +846,11 @@ msgstr "Das Bearbeiten von Titelbildern ist nur in der Sammlung möglich."
 
 #: ../build/src/ui_collectionsettingspage.h:621
 msgid "Album cover pixmap cache"
-msgstr "Alben Titelbilder Cache"
+msgstr "Titelbilder-Cache"
 
 #: ../build/src/ui_tidalsettingspage.h:337
 msgid "Album cover size"
-msgstr "Album cover Größe"
+msgstr "Titelbildgröße"
 
 #: ../build/src/ui_internettabsview.h:114
 msgid "Albums"
@@ -894,7 +896,7 @@ msgstr "Alle Lieder"
 
 #: ../build/src/ui_organizedialog.h:275
 msgid "Allow extended ASCII characters"
-msgstr "Erlaube erweiterete ASCII Zeichen"
+msgstr "Erlaube erweiterte ASCII Zeichen"
 
 #: ../build/src/ui_transcoderoptionsaac.h:141
 msgid "Allow mid/side encoding"
@@ -965,7 +967,7 @@ msgstr "Komprimieren um Übersteuerung zu vermeiden"
 
 #: dialogs/deleteconfirmationdialog.cpp:71
 msgid "Are you sure you want to continue?"
-msgstr "Bist du dir sicher, dass du weitermachen willst?"
+msgstr "Sind Sie sicher, dass Sie weitermachen wollen?"
 
 #: equalizer/equalizer.cpp:229
 #, qt-format
@@ -982,8 +984,8 @@ msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
 msgstr ""
-"Sind Sie sicher, dass Sie Wiedergaben und Bewertungen für alle Lieder in der "
-"Sammlung in eine Datei schreiben möchten?"
+"Sind Sie sicher, dass Sie Wiedergabezahlen und Bewertungen für alle Lieder "
+"in der Sammlung in eine Datei schreiben möchten?"
 
 #: ../build/src/ui_edittagdialog.h:813
 msgid "Art Automatic"
@@ -1017,7 +1019,7 @@ msgstr "Künstler Suchlimit"
 
 #: ../build/src/ui_playlistsettingspage.h:194
 msgid "As&k when saving"
-msgstr "Nachfragen beim speichern"
+msgstr "Nachfragen beim Speichern"
 
 #: ../build/src/ui_transcodedialog.h:227
 #: ../build/src/ui_qobuzsettingspage.h:280
@@ -1047,7 +1049,7 @@ msgstr "Authentifizierung"
 #: settings/coverssettingspage.cpp:274 settings/lyricssettingspage.cpp:254
 #: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:174
 msgid "Authentication failed"
-msgstr "Legitimierung fehlgeschlagen"
+msgstr "Authentifizierung fehlgeschlagen"
 
 #: ../build/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
@@ -1223,7 +1225,7 @@ msgstr "Konsole"
 
 #: core/songloader.cpp:201
 msgid "CD playback is only available with the GStreamer engine."
-msgstr "CD Wiedergabe ist nur mit de GStreamer Implemetierung verfügbar"
+msgstr "CD Wiedergabe ist nur mit der GStreamer Implementierung verfügbar"
 
 #: ../build/src/ui_scrobblersettingspage.h:424
 msgid "CDDA"
@@ -1247,7 +1249,7 @@ msgstr "Bild ändern"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:77
 msgid "Change repeat mode"
-msgstr ""
+msgstr "Wiederholungsart ändern"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
@@ -1255,7 +1257,7 @@ msgstr "Tastenkürzel ändern …"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:76
 msgid "Change shuffle mode"
-msgstr ""
+msgstr "Zufallsmodus ändern"
 
 #: ../build/src/ui_behavioursettingspage.h:315
 msgid "Change the currently playing song"
@@ -1293,7 +1295,9 @@ msgstr ""
 
 #: ../build/src/ui_coverssettingspage.h:164
 msgid "Choose the providers you want to use when searching for covers."
-msgstr "Wähle die Anbieter aus, die du für die Titelbildsuche nutzen willst. "
+msgstr ""
+"Wählen Sie die Anbieter aus, die Sie für die Suche nach Titelbildern nutzen "
+"wollen."
 
 #: ../build/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
@@ -1311,11 +1315,11 @@ msgstr "Leeren"
 
 #: ../build/src/ui_collectionsettingspage.h:627
 msgid "Clear Disk Cache"
-msgstr "Lösche Plattenspeicher"
+msgstr "Lösche Cachespeicher"
 
 #: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Clear cover"
-msgstr "Bild zurücksetzen"
+msgstr "eicTitelbild löschen"
 
 #: core/mainwindow.cpp:2296 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
@@ -1335,7 +1339,7 @@ msgstr "Hier klicken, um Musik hinzuzufügen"
 
 #: internet/internetcollectionview.cpp:292
 msgid "Click here to retrieve music"
-msgstr "Klicke hier um Musik zu abzuholen"
+msgstr "Klicken Sie hier um Musik zu abzuholen"
 
 #: ../build/src/ui_trackslider.h:68
 msgid "Click to toggle between remaining time and total time"
@@ -1480,7 +1484,7 @@ msgstr "Kopiere URL-Pfade"
 
 #: ../build/src/ui_organizedialog.h:278
 msgid "Copy album cover artwork"
-msgstr "Kopiere Album Cover "
+msgstr "Kopiere Titelbild"
 
 #: core/mainwindow.cpp:752 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:246
@@ -1691,7 +1695,7 @@ msgstr "Strg+Oben"
 
 #: ../build/src/ui_collectionsettingspage.h:625
 msgid "Current disk cache in use:"
-msgstr "Aktuell wird dieser Cache genutzt:"
+msgstr "Aktuell wird dieser Cachespeicher genutzt:"
 
 #: equalizer/equalizer.cpp:138
 msgid "Custom"
@@ -1743,7 +1747,7 @@ msgstr "Tage"
 
 #: core/commandlineoptions.cpp:175
 msgid "Decrease the volume by 4 percent"
-msgstr "Lautstäre um 4% vrringern"
+msgstr "Lautstärke um 4% verringern"
 
 #: core/commandlineoptions.cpp:177
 msgid "Decrease the volume by <value> percent"
@@ -1751,7 +1755,7 @@ msgstr "Lautstärke um <value> Prozent verringern"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:69
 msgid "Decrease volume"
-msgstr ""
+msgstr "Lautstärke verringern"
 
 #: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
@@ -1781,7 +1785,7 @@ msgstr "Vom Gerät löschen …"
 #: core/mainwindow.cpp:757 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
-msgstr "Vom Datenträger löschen …"
+msgstr "Vom der Festplatte löschen …"
 
 #: equalizer/equalizer.cpp:228 ../build/src/ui_equalizer.h:172
 msgid "Delete preset"
@@ -1852,7 +1856,7 @@ msgstr "Verzeichnis"
 
 #: dialogs/saveplaylistsdialog.cpp:78
 msgid "Directory does not exist."
-msgstr ""
+msgstr "Das Verzeichnis existiert nicht."
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
@@ -1876,7 +1880,7 @@ msgstr "Unterbrochene Übertragung"
 
 #: ../build/src/ui_collectionsettingspage.h:624
 msgid "Disk Cache Size"
-msgstr "Größe des Plattenspeichers"
+msgstr "Größe des Cachespeichers auf der Fesplatte"
 
 #: collection/collectionfilterwidget.cpp:129
 #: ../build/src/ui_collectionsettingspage.h:605
@@ -1941,7 +1945,7 @@ msgid ""
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
 "Hier doppelklicken, um diese Wiedergabeliste zu Favoriten hinzuzufügen, "
-"damit sie gespeichert und  in der linken Seitenleiste unter "
+"damit sie gespeichert und in der linken Seitenleiste unter "
 "\"Wiedergabelisten\" zugänglich gemacht wird."
 
 #: ../build/src/ui_subsonicsettingspage.h:255
@@ -2020,7 +2024,7 @@ msgstr "Cachespeicher einschalten"
 
 #: ../build/src/ui_backendsettingspage.h:572
 msgid "Enable HTTP/2 for streaming"
-msgstr ""
+msgstr "HTTP/2 für Streaming aktivieren"
 
 #: ../build/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
@@ -2051,7 +2055,7 @@ msgstr "Wiedergabelisten-Toolbar aktivieren"
 
 #: ../build/src/ui_scrobblersettingspage.h:417
 msgid "Enable scrobbling for the following sources:"
-msgstr "Aktivieren Sie das Scrobbeln für die folgenden Quellen:"
+msgstr "Scrobbeln für die folgenden Quellen aktivieren:"
 
 #: ../build/src/ui_playlistsettingspage.h:199
 msgid "Enable song metadata inline edition with click"
@@ -2063,11 +2067,11 @@ msgstr "Stereo Verteiler einschalten"
 
 #: ../build/src/ui_backendsettingspage.h:568
 msgid "Enable volume control"
-msgstr "Lautstärkeregler anschalten"
+msgstr "Lautstärkeregler einschalten"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Enable/disable scrobbling"
-msgstr ""
+msgstr "Scrobbeln ein-/ausschalten"
 
 #: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
@@ -2091,18 +2095,17 @@ msgstr "Engine"
 
 #: ../build/src/ui_contextsettingspage.h:435
 msgid "Engine and Device"
-msgstr "Maschine und Gerät"
+msgstr "Engine und Gerät"
 
 #: ../build/src/ui_coverfromurldialog.h:100
 msgid "Enter a URL to download a cover from the Internet:"
 msgstr ""
 "Geben Sie eine Adresse ein, um das Titelbild aus dem Internet "
-"herunterzuladen"
+"herunterzuladen:"
 
 #: ../build/src/ui_albumcoverexport.h:202
 msgid "Enter a filename for exported covers (no extension):"
-msgstr ""
-"Dateiname für exportierte Titelbilder eingeben (ohne Dateierweiterung):"
+msgstr "Dateiname für exportierte Titelbilder eingeben (ohne Dateiendung):"
 
 #: playlist/playlisttabbar.cpp:179
 msgid "Enter a new name for this playlist"
@@ -2127,11 +2130,11 @@ msgstr "Geben Sie den Namen des Ordners ein"
 
 #: ../build/src/ui_userpassdialog.h:90
 msgid "Enter username and password"
-msgstr "Geben Sie Username und Passwort ein"
+msgstr "Geben Sie Benutzername und Passwort ein"
 
 #: settings/scrobblersettingspage.cpp:81
 msgid "Enter your user token from"
-msgstr "Bitte deinen Benutzer Schlüssel eingeben von"
+msgstr "Ihr Benutzer-Token eingeben von"
 
 #: ../build/src/ui_collectionfilterwidget.h:91
 msgid "Entire collection"
@@ -2288,33 +2291,33 @@ msgstr "Dauer:"
 #: covermanager/albumcoverchoicecontroller.cpp:422
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
-msgstr "Cover-Datei %1 konnte nicht gelöscht werden: %2"
+msgstr "Titelbild-Datei %1 konnte nicht gelöscht werden: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:197
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
-msgstr "Cover-Datei %1 konnte nicht geöffnet zum Lesen: %2 "
+msgstr "Titelbild-Datei %1 konnte nicht zum Lesen geöffnet werden: %2 "
 
 #: covermanager/albumcoverchoicecontroller.cpp:271
 #: covermanager/albumcoverchoicecontroller.cpp:641
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
-msgstr "Cover-Datei %1 konnte nicht geöffnet zum Schreiben: %2 "
+msgstr "Titelbild-Datei %1 konnte nicht zum Schreiben geöffnet werden: %2 "
 
 #: covermanager/albumcoverchoicecontroller.cpp:635
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
-msgstr "Cover konnte nicht in Datei %1 geschrieben werden: %2"
+msgstr "Titelbild konnte nicht in Datei %1 geschrieben werden: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:277
 #, qt-format
 msgid "Failed writing cover to file %1."
-msgstr "Cover konnte nicht geschrieben werden in Datei %1"
+msgstr "Titelbild konnte nicht in Datei %1 geschrieben werden."
 
 #: covermanager/albumcoverchoicecontroller.cpp:265
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
-msgstr "Schreiben des Covers in Datei %1 fehlgeschlagen: %2"
+msgstr "Schreiben des Titelbilds in Datei %1 fehlgeschlagen: %2"
 
 #: ../build/src/ui_backendsettingspage.h:587
 msgid "Fallback-gain"
@@ -2727,7 +2730,7 @@ msgstr "Symbol"
 
 #: ../build/src/ui_appearancesettingspage.h:624
 msgid "Icon sizes"
-msgstr "Icon Größe"
+msgstr "Größe der Symbole"
 
 #: widgets/fancytabwidget.cpp:728
 msgid "Icons on top"
@@ -2783,7 +2786,7 @@ msgstr "Importieren"
 
 #: ../build/src/ui_backendsettingspage.h:571
 msgid "Improve headphone listening of stereo audio records (bs2b)"
-msgstr ""
+msgstr "Kopfhörer-Wiedergabe von Stereo-Aufnahmen verbessern (bs2b)"
 
 #: core/utilities.cpp:179
 #, qt-format
@@ -2821,7 +2824,7 @@ msgstr "Lautstärke um <value> Prozent erhöhen"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:68
 msgid "Increase volume"
-msgstr ""
+msgstr "Lautstärke erhöhen"
 
 #: ../build/src/ui_deviceproperties.h:374
 msgid "Information"
@@ -2833,7 +2836,7 @@ msgstr "Einfügen …"
 
 #: dialogs/snapdialog.cpp:79
 msgid "Install strawberry through PPA:"
-msgstr ""
+msgstr "Strawberry aus PPA installieren:"
 
 #: core/database.cpp:488
 msgid "Integrity check"
@@ -2853,7 +2856,7 @@ msgstr "Einleitungstitel"
 
 #: scrobbler/scrobblingapi20.cpp:208
 msgid "Invalid reply from web browser. Missing token."
-msgstr "Ungültige Wiedergabe vom Webbrowser. Zeichen fehlt. "
+msgstr "Ungültige Antwort vom Webbrowser. Token fehlt."
 
 #: dialogs/about.cpp:113
 msgid ""
@@ -2912,12 +2915,12 @@ msgstr "Zuletzt gespielt"
 #: ../build/src/ui_edittagdialog.h:809
 msgctxt "A playlist's tag."
 msgid "Last played"
-msgstr "Zuletzt wiedergegeben"
+msgstr "Zuletzt gespielt"
 
 #: dialogs/lastfmimportdialog.cpp:157
 #, qt-format
 msgid "Last played for %1 songs received."
-msgstr "Zuletzt gespielt für %1 erhaltene Songs."
+msgstr "Letztes Wiedergabedatum für %1 Songs erhalten."
 
 #: ../build/src/ui_scrobblersettingspage.h:429
 msgid "Last.fm"
@@ -2971,11 +2974,11 @@ msgstr "Titelbild von Adresse laden …"
 #: covermanager/albumcoverchoicecontroller.cpp:176
 #: covermanager/albumcoverchoicecontroller.cpp:208
 msgid "Load cover from disk"
-msgstr "Titelbild aus Datei laden"
+msgstr "Titelbild von Festplatte laden"
 
 #: covermanager/albumcoverchoicecontroller.cpp:106
 msgid "Load cover from disk..."
-msgstr "Titelbild von Datenträger wählen …"
+msgstr "Titelbild von Festplatte laden …"
 
 #: playlist/playlistcontainer.cpp:342
 msgid "Load playlist"
@@ -3065,7 +3068,7 @@ msgstr "Anbieter für Songtexte"
 
 #: ../build/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token"
-msgstr "MD5-Zeichen"
+msgstr "MD5-Token"
 
 #: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
@@ -3082,7 +3085,7 @@ msgstr "Gespeicherte Sortierungen verwalten"
 #: dialogs/edittagdialog.cpp:821
 #, qt-format
 msgid "Manually cover art from %1 is missing"
-msgstr "Manuelles Coverbild von %1 fehlt"
+msgstr "Manuelles Titelbild von %1 fehlt"
 
 #: dialogs/edittagdialog.cpp:812
 #, qt-format
@@ -3107,7 +3110,7 @@ msgstr "Übereinstimmend mit einem oder mehreren Suchbegriffen (ODER)"
 
 #: ../build/src/ui_appearancesettingspage.h:616
 msgid "Max cover size"
-msgstr "Maximale Cover Größe"
+msgstr "Maximale Titelbildgröße"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:205
 msgid "Maximum bitrate"
@@ -3136,7 +3139,7 @@ msgstr "Minimale Bitrate"
 
 #: settings/tidalsettingspage.cpp:163
 msgid "Missing API token."
-msgstr "API Zeichen fehlt."
+msgstr "API-Token fehlt."
 
 #: qobuz/qobuzservice.cpp:730 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
@@ -3154,7 +3157,7 @@ msgstr "Fehlendes Qobuz Passwort."
 
 #: qobuz/qobuzservice.cpp:476
 msgid "Missing Qobuz username."
-msgstr "Fehlender Qobuz Username."
+msgstr "Fehlender Qobuz Benutzername."
 
 #: subsonic/subsonicurlhandler.cpp:43
 msgid "Missing Subsonic username or password."
@@ -3164,11 +3167,12 @@ msgstr "Subsonic Benutzername oder Passwort fehlt"
 #: tidal/tidalservice.cpp:867 tidal/tidalservice.cpp:936
 #: tidal/tidalservice.cpp:1000 tidal/tidalstreamurlrequest.cpp:86
 msgid "Missing Tidal API token, username or password."
-msgstr "Tidal API Zeichen fehlt, Nutzername oder Passwort."
+msgstr "Tidal API-Token, Benutzername oder Passwort fehlt."
 
 #: tidal/tidalservice.cpp:706
 msgid "Missing Tidal API token."
-msgstr "Tidal API Zeichen fehlt."
+msgstr "\n"
+"Tidal API-Token fehlt."
 
 #: settings/tidalsettingspage.cpp:156
 msgid "Missing Tidal client ID."
@@ -3192,11 +3196,11 @@ msgstr "Fehlendes Passwort."
 
 #: settings/subsonicsettingspage.cpp:130
 msgid "Missing server url, username or password."
-msgstr "Server URL, Nutzername oder Passwort fehlt"
+msgstr "Server URL, Benutzername oder Passwort fehlt"
 
 #: subsonic/subsonicservice.cpp:424
 msgid "Missing username or password."
-msgstr "Nutzername oder Passwort fehlt"
+msgstr "Benutzername oder Passwort fehlt"
 
 #: scrobbler/lastfmimport.cpp:212
 msgid "Missing username, please login to last.fm first!"
@@ -3331,7 +3335,7 @@ msgstr "Weiter"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:66
 msgid "Next track"
-msgstr ""
+msgstr "Nächster Titel"
 
 #: core/utilities.cpp:180
 msgid "Next week"
@@ -3511,7 +3515,7 @@ msgstr "Optimiere auf &Qualität"
 
 #: ../build/src/ui_backendsettingspage.h:567
 msgid "Options"
-msgstr ""
+msgstr "Optionen"
 
 #: ../build/src/ui_transcodedialog.h:228
 msgid "Options..."
@@ -3568,12 +3572,14 @@ msgstr "Ausgabeoptionen"
 #: ../build/src/ui_collectionsettingspage.h:631
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
+"Wiedergabezahl in der Datenbank überschreiben, wenn Songs erneut von der "
+"Festplatte eingelesen werden"
 
 #: ../build/src/ui_collectionsettingspage.h:632
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
-"Überschreiben Sie die Datenbankbewertung, wenn Songs erneut von der "
-"Festplatte gelesen werden"
+"Bewertung in der Datenbank überschreiben, wenn Songs erneut von der "
+"Festplatte eingelesen werden"
 
 #: ../build/src/ui_collectionsettingspage.h:618
 msgid "Overwrite existing file"
@@ -3685,18 +3691,19 @@ msgstr "Titelnummer <n> der Wiedergabeliste abspielen"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Play/Pause"
-msgstr ""
+msgstr "Abspielen/Pausieren"
 
 #: dialogs/lastfmimportdialog.cpp:154
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
-"Wiedergabezahl für %1 Songs und zuletzt gespielt für %2 empfangene Songs."
+"Wiedergabezahl für %1 Songs und letztes Wiedergabedatum für %2 Songs "
+"empfangen."
 
 #: dialogs/lastfmimportdialog.cpp:160
 #, qt-format
 msgid "Playcounts for %1 songs received."
-msgstr "Wiedergabezahl für %1 empfangene Lieder."
+msgstr "Wiedergabezahl für %1 Lieder empfangen."
 
 #: core/commandlineoptions.cpp:166
 msgid "Player options"
@@ -3879,8 +3886,8 @@ msgid ""
 "registered application to work. We can't help you getting these."
 msgstr ""
 "Der Qobuz-Support ist nicht offiziell und erfordert eine API-App-ID und ein "
-"geheime registrierte Anwendung, um zu funktionieren. Wir können Ihnen nicht "
-"helfen, diese zu bekommen."
+"Secret einer registrierten Anwendung, um zu funktionieren. Wir können Ihnen "
+"nicht helfen, diese zu bekommen."
 
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
@@ -3988,36 +3995,37 @@ msgstr "Empfangen von Anfangsdaten von last.fm ..."
 #: dialogs/lastfmimportdialog.cpp:134
 #, qt-format
 msgid "Receiving last played for %1 songs."
-msgstr "Empfangen der zuletzt gespielten %1 Songs."
+msgstr "Empfange letztes Wiedergabedatum für %1 Songs."
 
 #: dialogs/lastfmimportdialog.cpp:131
 #, qt-format
 msgid "Receiving playcount for %1 songs and last played for %2 songs."
 msgstr ""
-"Empfangen der Wiedergabezahl für %1 Songs und zuletzt gespielt für %2 Songs."
+"Empfange Wiedergabezahl für %1 Songs und letztes Wiedergabedatum für %2 "
+"Songs."
 
 #: dialogs/lastfmimportdialog.cpp:137
 #, qt-format
 msgid "Receiving playcounts for %1 songs."
-msgstr "Empfangen der Wiedergabezahl für %1 Songs."
+msgstr "Empfange Wiedergabezahl für %1 Songs."
 
 #: lyrics/geniuslyricsprovider.cpp:200
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
-"Bei der Umleitung von Genius fehlt der Code oder Status der abgefragten "
+"Bei der Weiterleitung von Genius fehlt der Code oder Status der abgefragten "
 "Elemente."
 
 #: covermanager/spotifycoverprovider.cpp:194
 msgid "Redirect missing token code or state!"
-msgstr "Umleitung Zeichen Code oder Status fehlen!"
+msgstr "Bei der Weiterleitung fehlen Token-Code oder Status!"
 
 #: lyrics/geniuslyricsprovider.cpp:148 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
-msgstr "Weiterleitung des fehlendes Zeichencodes!"
+msgstr "Bei der Weiterleitung fehlt der Token-Code!"
 
 #: playlist/playlistcontainer.cpp:223
 msgid "Redo"
-msgstr ""
+msgstr "Wiederholen"
 
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
@@ -4078,7 +4086,7 @@ msgstr "Wiedergabeliste entfernen"
 
 #: ../build/src/ui_organizedialog.h:272
 msgid "Remove problematic characters from filenames"
-msgstr "Entferne problematische Zeichen von Dateinamen"
+msgstr "Entferne problematische Zeichen aus Dateinamen"
 
 #: playlist/playlisttabbar.cpp:179
 msgid "Rename playlist"
@@ -4178,11 +4186,11 @@ msgstr ""
 
 #: ../build/src/ui_organizedialog.h:274
 msgid "Restrict characters to ASCII"
-msgstr "Begrenze Zeichen auf ASCII"
+msgstr "Beschränke Zeichen auf ASCII"
 
 #: ../build/src/ui_organizedialog.h:273
 msgid "Restrict to characters allowed on FAT filesystems"
-msgstr "Beschränkung auf die in FAT-Dateisystemen erlaubten Zeichen"
+msgstr "Beschränke auf die in FAT-Dateisystemen erlaubten Zeichen"
 
 #: ../build/src/ui_behavioursettingspage.h:283
 msgid "Resume playback on start"
@@ -4192,13 +4200,13 @@ msgstr "Wiedergabe beim Start fortsetzten"
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
-msgstr "Empfange Albumcover für %1 Album... "
+msgstr "Empfange Titelbild für %1 Album... "
 
 #: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1100
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr "Empfange Albencover für %1 Alben..."
+msgstr "Empfange Titelbilder für %1 Alben..."
 
 #: tidal/tidalrequest.cpp:464 qobuz/qobuzrequest.cpp:464
 #, qt-format
@@ -4288,19 +4296,19 @@ msgstr "Titelbild speichern"
 
 #: ../build/src/ui_collectionsettingspage.h:613
 msgid "Save album covers as embedded cover"
-msgstr "Speichern Sie die Cover als eingebettetes Cover"
+msgstr "Speichere Titelbilder als eingebettetes Titelbild"
 
 #: ../build/src/ui_collectionsettingspage.h:611
 msgid "Save album covers in album directory"
-msgstr "Speichere Cover im Album Ordner"
+msgstr "Speichere Titelbilder im Album Ordner"
 
 #: ../build/src/ui_collectionsettingspage.h:612
 msgid "Save album covers in cache directory"
-msgstr "Albencover im Cache-Verzeichnis speichern"
+msgstr "Titelbilder im Cache-Verzeichnis speichern"
 
 #: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Save cover to disk..."
-msgstr "Titelbild auf Datenträger speichern …"
+msgstr "Titelbild auf Festplatte speichern …"
 
 #: ../build/src/ui_collectionfilterwidget.h:100
 msgid "Save current grouping"
@@ -4308,11 +4316,11 @@ msgstr "Aktuelle Sortierung speichern"
 
 #: ../build/src/ui_collectionsettingspage.h:633
 msgid "Save playcounts and ratings to files now"
-msgstr "Speichern Sie jetzt Playcounts und Bewertungen in Dateien"
+msgstr "Wiedergabezahlen und Bewertungen jetzt in Dateien speichern"
 
 #: ../build/src/ui_collectionsettingspage.h:629
 msgid "Save playcounts to song tags when possible"
-msgstr "Speichern Sie Playcounts nach Möglichkeit in Song-Tags"
+msgstr "Wiedergabezahlen nach Möglichkeit in Song-Tags speichern"
 
 #: playlist/playlistlistcontainer.cpp:87
 msgctxt "Save playlist menu action."
@@ -4346,11 +4354,11 @@ msgstr "Gespeicherte Sortierung verwalten"
 
 #: ../build/src/ui_collectionsettingspage.h:609
 msgid "Saving album covers"
-msgstr "Alben Cover speichern"
+msgstr "Speichere Titelbilder"
 
 #: collection/collection.cpp:207
 msgid "Saving playcounts and ratings"
-msgstr "Speichern von Playcounts und Bewertungen"
+msgstr "Speichern von Wiedergabezahlen und Bewertungen"
 
 #: dialogs/edittagdialog.cpp:303 dialogs/trackselectiondialog.cpp:289
 msgid "Saving tracks"
@@ -4431,11 +4439,11 @@ msgstr "Zweite Stufe"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:72
 msgid "Seek backward"
-msgstr ""
+msgstr "Zurückspulen"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:71
 msgid "Seek forward"
-msgstr ""
+msgstr "Vorspulen"
 
 #: core/commandlineoptions.cpp:179
 msgid "Seek the currently playing track by a relative amount"
@@ -4463,7 +4471,7 @@ msgstr "Bitte die bestmögliche Übereinstimmung auswählen"
 
 #: ../build/src/ui_saveplaylistsdialog.h:117
 msgid "Select directory for saving playlists"
-msgstr ""
+msgstr "Wählen Sie ein Verzeichnis zum Speichern von Wiedergabelisten"
 
 #: dialogs/saveplaylistsdialog.cpp:62
 msgid "Select directory for the playlists"
@@ -4488,7 +4496,7 @@ msgstr "Auswählen …"
 
 #: ../build/src/ui_groupbydialog.h:255
 msgid "Separate albums by grouping tag"
-msgstr ""
+msgstr "Alben nach Sortierung-Schlagwort trennen"
 
 #: device/udisks2lister.cpp:115
 msgid "Serial number"
@@ -4543,7 +4551,7 @@ msgstr "Anzeigen"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:74
 msgid "Show OSD"
-msgstr ""
+msgstr "Bildschirmanzeige anzeigen"
 
 #: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
@@ -4698,7 +4706,7 @@ msgstr "Zeige das Hauptfenster minimiert"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:73
 msgid "Show/Hide"
-msgstr ""
+msgstr "Einblenden/Ausblenden"
 
 #: ../build/src/ui_playlistsequence.h:122
 msgid "Shuffle"
@@ -4714,7 +4722,7 @@ msgstr "Zufällige Titelreihenfolge"
 
 #: osd/osdbase.cpp:348 ../build/src/ui_playlistsequence.h:115
 msgid "Shuffle tracks in this album"
-msgstr "Zufällige Titelreihenfolge innerhalb eines Albums"
+msgstr "Zufällige Titelreihenfolge innerhalb dieses Albums"
 
 #: ../build/src/ui_loginstatewidget.h:166
 msgid "Sign out"
@@ -4795,7 +4803,7 @@ msgstr "Song-Fingerprinting und -Tracking"
 
 #: ../build/src/ui_collectionsettingspage.h:628
 msgid "Song playcounts and ratings"
-msgstr "Liedwiedergaben und Bewertungen"
+msgstr "Wiedergabezahlen und Bewertungen für Song"
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Songs"
@@ -4863,7 +4871,7 @@ msgstr "Starte %1"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Stop"
-msgstr ""
+msgstr "lowiAnhalten"
 
 #: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
@@ -4887,7 +4895,7 @@ msgstr "Wiedergabe nach aktuellem Titel anhalten"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:65
 msgid "Stop playing after current track"
-msgstr ""
+msgstr "Wiedergabe nach aktuellem Titel anhalten"
 
 #: osd/osdbase.cpp:269
 #, qt-format
@@ -5336,7 +5344,7 @@ msgstr "Abschalten"
 
 #: ../build/src/ui_saveplaylistsdialog.h:119
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: device/giolister.cpp:194
 msgid "URI"
@@ -5356,7 +5364,7 @@ msgstr "Ulte Weit Band (UWB)"
 
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
-msgstr ""
+msgstr "Rückgängig machen"
 
 #: dialogs/snapdialog.cpp:74
 msgid "Uninstall the snap with:"
@@ -5379,11 +5387,11 @@ msgstr "Unbekannter Fehler"
 
 #: playlist/playlistmanager.cpp:260
 msgid "Unknown file extension for playlist."
-msgstr ""
+msgstr "Unbekannte Dateiendung für Wiedergabeliste."
 
 #: playlist/playlistmanager.cpp:260
 msgid "Unknown playlist extension"
-msgstr ""
+msgstr "Unbekannte Dateiendung für Wiedergabeliste."
 
 #: dialogs/edittagdialog.cpp:765
 msgid "Unset"
@@ -5518,7 +5526,7 @@ msgstr "Verwenden Sie die Proxy-Einstellungen für das Streaming"
 
 #: ../build/src/ui_appearancesettingspage.h:584
 msgid "Use system theme icons"
-msgstr "Systemthemensymbole verwenden"
+msgstr "Symbole des System-Themes verwenden"
 
 #: ../build/src/ui_transcoderoptionsaac.h:140
 msgid "Use temporal noise shaping"
@@ -5538,7 +5546,7 @@ msgstr "Benutzeroberfläche"
 
 #: ../build/src/ui_scrobblersettingspage.h:438
 msgid "User token:"
-msgstr "Benutzerschlüssel"
+msgstr "Benutzer-Token:"
 
 #: ../build/src/ui_networkproxysettingspage.h:179
 #: ../build/src/ui_userpassdialog.h:91
@@ -5608,11 +5616,11 @@ msgid ""
 "on artist and song title for the same albums! Please backup your database "
 "before you start."
 msgstr ""
-"Warnung: Die Anzahl der Wiedergaben und die zuletzt von last.fm gespielten "
-"Spiele ersetzen vollständig dieselben Daten für die übereinstimmenden Songs. "
-"Die Anzahl der Wiedergaben ersetzt die Daten basierend auf dem Interpreten "
-"und dem Songtitel für dieselben Alben! Bitte sichern Sie Ihre Datenbank, "
-"bevor Sie beginnen."
+"Warnung: Der Wiedergabezähler und das letzte Wiedergabedatum von last.fm "
+"ersetzen vollständig dieselben Daten für die übereinstimmenden Songs. Der "
+"Wiedergabezähler ersetzt die Daten basierend auf dem Interpreten und dem "
+"Songtitel für dieselben Alben! Bitte sichern Sie Ihre Datenbank, bevor Sie "
+"beginnen."
 
 #: ../build/src/ui_transcodersettingspage.h:188
 msgid "WavPack"
@@ -5664,7 +5672,7 @@ msgstr "Möchten Sie jetzt Ihre Musiksammlung erneut einlesen?"
 
 #: settings/collectionsettingspage.cpp:381
 msgid "Write all playcounts and ratings to files"
-msgstr "Schreiben Sie alle Playcounts und Ratings in Dateien"
+msgstr "Alle Wiedergabezahlen und Bewertungen in Dateien schreiben"
 
 #: ../build/src/ui_playlistsettingspage.h:200
 msgid "Write metadata when saving playlists"
@@ -5740,7 +5748,7 @@ msgstr ""
 
 #: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
-msgstr "Du brauchst GStreamer für diese URL."
+msgstr "Sie brauchen GStreamer für diese URL."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:278
 msgid ""
@@ -5962,7 +5970,7 @@ msgstr "kleinste zuerst"
 
 #: ../build/src/ui_internetsearchview.h:227
 msgid "songs"
-msgstr "Lieder"
+msgstr "Titel"
 
 #: playlist/playlistundocommands.cpp:133
 msgid "sort songs"
