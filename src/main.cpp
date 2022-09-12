@@ -130,7 +130,8 @@ int main(int argc, char *argv[]) {
 #endif
 
   // This makes us show up nicely in gnome-volume-control
-  g_set_application_name(QCoreApplication::applicationName().toLocal8Bit());
+  const QByteArray g_application_name = QCoreApplication::applicationName().toLocal8Bit();
+  g_set_application_name(g_application_name.constData());
 
   RegisterMetaTypes();
 

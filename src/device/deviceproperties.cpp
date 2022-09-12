@@ -175,7 +175,7 @@ void DeviceProperties::UpdateHardwareInfo() {
     AddHardwareInfo(row++, tr("Manufacturer"), lister->DeviceManufacturer(id));
     keys = info.keys();
     for (const QString &key : keys) {
-      AddHardwareInfo(row++, tr(key.toLatin1()), info[key].toString());
+      AddHardwareInfo(row++, key, info[key].toString());
     }
 
     ui_->hardware_info->sortItems(0);

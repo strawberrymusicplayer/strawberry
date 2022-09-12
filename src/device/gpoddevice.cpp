@@ -203,7 +203,8 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
         cover_file->close();
         QImage image = job.metadata_.image();
         if (image.save(cover_file->fileName(), "JPG")) {
-          result = itdb_track_set_thumbnails(track, QFile::encodeName(cover_file->fileName()));
+          const QByteArray filename = QFile::encodeName(cover_file->fileName());
+          result = itdb_track_set_thumbnails(track, filename.constData());
           if (result) {
             cover_files_ << cover_file;
             track->has_artwork = 1;
@@ -218,7 +219,8 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
       }
     }
     else if (!job.cover_source_.isEmpty()) {
-      result = itdb_track_set_thumbnails(track, QFile::encodeName(job.cover_source_));
+      const QByteArray filename = QFile::encodeName(job.cover_source_);
+      result = itdb_track_set_thumbnails(track, filename.constData());
       if (result) track->has_artwork = 1;
     }
     else {
@@ -245,14 +247,15 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
   // Put the track in the playlist, if one is specified
   if (!job.playlist_.isEmpty()) {
     // Does the playlist already exist?
-    auto itdbPlaylist = itdb_playlist_by_name(db_, job.playlist_.toUtf8().data());
-    if (itdbPlaylist == nullptr) {
+    QByteArray playlist_name = job.playlist_.toUtf8();
+    Itdb_Playlist *playlist = itdb_playlist_by_name(db_, playlist_name.data());
+    if (!playlist) {
       // Create the playlist
-      itdbPlaylist = itdb_playlist_new(job.playlist_.toUtf8().data(), false);
-      itdb_playlist_add(db_, itdbPlaylist, -1);
+      playlist = itdb_playlist_new(playlist_name.data(), false);
+      itdb_playlist_add(db_, playlist, -1);
     }
     // Playlist should exist so add the track to the playlist
-    itdb_playlist_add_track(itdbPlaylist, track, -1);
+    itdb_playlist_add_track(playlist, track, -1);
   }
 
   AddTrackToModel(track, url_.path());

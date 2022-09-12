@@ -536,7 +536,8 @@ void Database::DoBackup() {
 
 bool Database::OpenDatabase(const QString &filename, sqlite3 **connection) {
 
-  int ret = sqlite3_open(filename.toUtf8(), connection);
+  const QByteArray filename_data = filename.toUtf8();
+  int ret = sqlite3_open(filename_data.constData(), connection);
   if (ret != 0) {
     if (*connection) {
       const char *error_message = sqlite3_errmsg(*connection);

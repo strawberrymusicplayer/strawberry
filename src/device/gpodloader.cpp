@@ -65,8 +65,9 @@ void GPodLoader::LoadDatabase() {
 Itdb_iTunesDB *GPodLoader::TryLoad() {
 
   // Load the iTunes database
+  const QByteArray mountpoint = QDir::toNativeSeparators(mount_point_).toLocal8Bit();
   GError *error = nullptr;
-  Itdb_iTunesDB *db = itdb_parse(QDir::toNativeSeparators(mount_point_).toLocal8Bit(), &error);
+  Itdb_iTunesDB *db = itdb_parse(mountpoint.constData(), &error);
 
   // Check for errors
   if (!db) {

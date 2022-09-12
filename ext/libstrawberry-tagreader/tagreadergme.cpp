@@ -200,7 +200,7 @@ void GME::VGM::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
   QByteArray gd3_head = file.read(4);
   if (gd3_head.size() < 4) return;
 
-  quint64 pt = GME::UnpackBytes32(gd3_head, gd3_head.size());
+  quint64 pt = GME::UnpackBytes32(gd3_head.constData(), gd3_head.size());
 
   file.seek(SAMPLE_COUNT);
   QByteArray sample_count_bytes = file.read(4);
@@ -215,7 +215,7 @@ void GME::VGM::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
 
   file.seek(file.pos() + 4);
   QByteArray gd3_length_bytes = file.read(4);
-  quint32 gd3_length = GME::UnpackBytes32(gd3_length_bytes, gd3_length_bytes.size());
+  quint32 gd3_length = GME::UnpackBytes32(gd3_length_bytes.constData(), gd3_length_bytes.size());
 
   QByteArray gd3Data = file.read(gd3_length);
   QTextStream fileTagStream(gd3Data, QIODevice::ReadOnly);
@@ -246,11 +246,11 @@ bool GME::VGM::GetPlaybackLength(const QByteArray &sample_count_bytes, const QBy
   if (sample_count_bytes.size() != 4) return false;
   if (loop_count_bytes.size() != 4) return false;
 
-  quint64 sample_count = GME::UnpackBytes32(sample_count_bytes, sample_count_bytes.size());
+  quint64 sample_count = GME::UnpackBytes32(sample_count_bytes.constData(), sample_count_bytes.size());
 
   if (sample_count <= 0) return false;
 
-  quint64 loop_sample_count = GME::UnpackBytes32(loop_count_bytes, loop_count_bytes.size());
+  quint64 loop_sample_count = GME::UnpackBytes32(loop_count_bytes.constData(), loop_count_bytes.size());
 
   if (loop_sample_count <= 0) {
     out_length = sample_count * 1000 / SAMPLE_TIMEBASE;

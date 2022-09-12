@@ -352,7 +352,8 @@ void LocalRedirectServer::WriteTemplate() const {
       break;
     }
 
-    page_data.replace(offset, re_match.capturedLength(), tr(re_match.captured(1).toUtf8()));
+    const QByteArray captured_data = re_match.captured(1).toUtf8();
+    page_data.replace(offset, re_match.capturedLength(), tr(captured_data.constData()));
     offset += re_match.capturedLength();
   }
 

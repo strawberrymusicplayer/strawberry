@@ -693,7 +693,8 @@ QString FiddleFileExtension(const QString &filename, const QString &new_extensio
 }
 
 QString GetEnv(const QString &key) {
-  return QString::fromLocal8Bit(qgetenv(key.toLocal8Bit()));
+  const QByteArray key_data = key.toLocal8Bit();
+  return QString::fromLocal8Bit(qgetenv(key_data.constData()));
 }
 
 void SetEnv(const char *key, const QString &value) {
