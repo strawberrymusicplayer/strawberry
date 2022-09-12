@@ -858,7 +858,7 @@ msgstr "原始歌曲同一目录下"
 msgid "Always start playing"
 msgstr "总是开始播放"
 
-#: device/gpodloader.cpp:79
+#: device/gpodloader.cpp:80
 msgid "An error occurred loading the iTunes database"
 msgstr "加载 iTunes 数据库时出错"
 
@@ -1072,7 +1072,7 @@ msgstr "背景图片"
 msgid "Background opacity"
 msgstr "背景透明度"
 
-#: core/database.cpp:558
+#: core/database.cpp:559
 msgid "Backing up database"
 msgstr "备份数据库"
 

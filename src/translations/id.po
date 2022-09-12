@@ -859,7 +859,7 @@ msgstr "Bersama dengan yang asli"
 msgid "Always start playing"
 msgstr "Selalu mulai memutar"
 
-#: device/gpodloader.cpp:79
+#: device/gpodloader.cpp:80
 msgid "An error occurred loading the iTunes database"
 msgstr "Sebuah galat terjadi saat memuat basis data iTunes"
 
@@ -1073,7 +1073,7 @@ msgstr "Gambar latar belakang"
 msgid "Background opacity"
 msgstr "Kelegapan latar belakang"
 
-#: core/database.cpp:558
+#: core/database.cpp:559
 msgid "Backing up database"
 msgstr "Membuat cadangan basis data"
 

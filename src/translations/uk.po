@@ -870,7 +870,7 @@ msgstr "Разом з оригіналами"
 msgid "Always start playing"
 msgstr "Завжди починати відтворення"
 
-#: device/gpodloader.cpp:79
+#: device/gpodloader.cpp:80
 msgid "An error occurred loading the iTunes database"
 msgstr "Виникла помилка завантаження бази даних iTunes"
 
@@ -1086,7 +1086,7 @@ msgstr "Зображення тла"
 msgid "Background opacity"
 msgstr "Прозорість фону"
 
-#: core/database.cpp:558
+#: core/database.cpp:559
 msgid "Backing up database"
 msgstr "Створення резервної копії бази даних"
 

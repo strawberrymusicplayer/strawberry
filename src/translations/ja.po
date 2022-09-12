@@ -862,7 +862,7 @@ msgstr "元と同じ"
 msgid "Always start playing"
 msgstr "常に再生を開始する"
 
-#: device/gpodloader.cpp:79
+#: device/gpodloader.cpp:80
 msgid "An error occurred loading the iTunes database"
 msgstr "iTunes のデータベースを読み込み中にエラーが発生しました"
 
@@ -1076,7 +1076,7 @@ msgstr "背景画像"
 msgid "Background opacity"
 msgstr "背景の不透明度"
 
-#: core/database.cpp:558
+#: core/database.cpp:559
 msgid "Backing up database"
 msgstr "データベースをバックアップ中"
 

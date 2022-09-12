@@ -855,7 +855,7 @@ msgstr "Al costat dels originals"
 msgid "Always start playing"
 msgstr "Comença sempre la reproducció"
 
-#: device/gpodloader.cpp:79
+#: device/gpodloader.cpp:80
 msgid "An error occurred loading the iTunes database"
 msgstr "S’ha produït un error en carregar la base de dades de l’iTunes"
 
@@ -1071,7 +1071,7 @@ msgstr "Imatge de fons"
 msgid "Background opacity"
 msgstr "Opacitat del fons"
 
-#: core/database.cpp:558
+#: core/database.cpp:559
 msgid "Backing up database"
 msgstr "S’està fent una còpia de seguretat de la base de dades"
 

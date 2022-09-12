@@ -867,7 +867,7 @@ msgstr "Sammen med originalene"
 msgid "Always start playing"
 msgstr "Alltid start avspilling"
 
-#: device/gpodloader.cpp:79
+#: device/gpodloader.cpp:80
 msgid "An error occurred loading the iTunes database"
 msgstr "En feil oppsto ved innlasting av iTunes-databasen"
 
@@ -1084,7 +1084,7 @@ msgstr "Bakgrunnsbilde"
 msgid "Background opacity"
 msgstr "Bakgrunnsdekkevne"
 
-#: core/database.cpp:558
+#: core/database.cpp:559
 msgid "Backing up database"
 msgstr "Tar sikkerhetskopi av databasen"
 

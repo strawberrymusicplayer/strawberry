@@ -47,7 +47,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-09-11 06:56-0400\n"
+"PO-Revision-Date: 2022-09-12 03:24-0400\n"
 "Last-Translator: Geroyche <geroyche@gmail.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -911,7 +911,7 @@ msgstr "Neben den ursprünglichen Dateien"
 msgid "Always start playing"
 msgstr "Immer mit der Wiedergabe beginnen"
 
-#: device/gpodloader.cpp:79
+#: device/gpodloader.cpp:80
 msgid "An error occurred loading the iTunes database"
 msgstr "Beim Laden der iTunes-Datenbank ist ein Fehler aufgetreten"
 
@@ -1128,7 +1128,7 @@ msgstr "Hintergrundbild"
 msgid "Background opacity"
 msgstr "Deckkraft:"
 
-#: core/database.cpp:558
+#: core/database.cpp:559
 msgid "Backing up database"
 msgstr "Die Datenbank wird gesichert"
 
@@ -1319,7 +1319,7 @@ msgstr "Lösche Cachespeicher"
 
 #: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Clear cover"
-msgstr "eicTitelbild löschen"
+msgstr "Titelbild löschen"
 
 #: core/mainwindow.cpp:2296 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
@@ -1785,7 +1785,7 @@ msgstr "Vom Gerät löschen …"
 #: core/mainwindow.cpp:757 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
-msgstr "Vom der Festplatte löschen …"
+msgstr "Von der Festplatte löschen …"
 
 #: equalizer/equalizer.cpp:228 ../build/src/ui_equalizer.h:172
 msgid "Delete preset"
@@ -3171,8 +3171,7 @@ msgstr "Tidal API-Token, Benutzername oder Passwort fehlt."
 
 #: tidal/tidalservice.cpp:706
 msgid "Missing Tidal API token."
-msgstr "\n"
-"Tidal API-Token fehlt."
+msgstr "Tidal API-Token fehlt."
 
 #: settings/tidalsettingspage.cpp:156
 msgid "Missing Tidal client ID."
@@ -4871,7 +4870,7 @@ msgstr "Starte %1"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Stop"
-msgstr "lowiAnhalten"
+msgstr "Anhalten"
 
 #: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"

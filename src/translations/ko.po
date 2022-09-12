@@ -861,7 +861,7 @@ msgstr "원본과 함께"
 msgid "Always start playing"
 msgstr "항상 재생 시작"
 
-#: device/gpodloader.cpp:79
+#: device/gpodloader.cpp:80
 msgid "An error occurred loading the iTunes database"
 msgstr "iTunes 데이터베이스를 불러오는 중 오류 발생"
 
@@ -1075,7 +1075,7 @@ msgstr "배경 그림"
 msgid "Background opacity"
 msgstr "배경 불투명도"
 
-#: core/database.cpp:558
+#: core/database.cpp:559
 msgid "Backing up database"
 msgstr "데이터베이스 백업 중"
 

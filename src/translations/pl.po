@@ -876,7 +876,7 @@ msgstr "Wraz z oryginałami"
 msgid "Always start playing"
 msgstr "Odtwarzaj automatycznie"
 
-#: device/gpodloader.cpp:79
+#: device/gpodloader.cpp:80
 msgid "An error occurred loading the iTunes database"
 msgstr "Wystąpił błąd podczas ładowania bazy danych iTunes"
 
@@ -1090,7 +1090,7 @@ msgstr "Obraz tła"
 msgid "Background opacity"
 msgstr "Nieprzezroczystość tła"
 
-#: core/database.cpp:558
+#: core/database.cpp:559
 msgid "Backing up database"
 msgstr "Tworzenie kopii zapasowej bazy danych"
 

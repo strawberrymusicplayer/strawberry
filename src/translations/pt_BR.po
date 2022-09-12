@@ -861,7 +861,7 @@ msgstr "Juntamente com os originais"
 msgid "Always start playing"
 msgstr "Sempre começar tocando"
 
-#: device/gpodloader.cpp:79
+#: device/gpodloader.cpp:80
 msgid "An error occurred loading the iTunes database"
 msgstr "Ocorreu um erro no carregamento do banco de dados do iTunes"
 
@@ -1075,7 +1075,7 @@ msgstr "Imagem de fundo"
 msgid "Background opacity"
 msgstr "Opacidade de fundo"
 
-#: core/database.cpp:558
+#: core/database.cpp:559
 msgid "Backing up database"
 msgstr "Cópia do banco de dados"
 
