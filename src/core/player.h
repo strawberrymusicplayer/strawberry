@@ -84,7 +84,8 @@ class PlayerInterface : public QObject {
   virtual void Next() = 0;
   virtual void Previous() = 0;
   virtual void PlayPlaylist(const QString &playlist_name) = 0;
-  virtual void SetVolume(const uint value) = 0;
+  virtual void SetVolumeFromValue(const int value) = 0;
+  virtual void SetVolume(const uint volume) = 0;
   virtual void VolumeUp() = 0;
   virtual void VolumeDown() = 0;
   virtual void SeekTo(const quint64 seconds) = 0;
@@ -166,6 +167,7 @@ class Player : public PlayerInterface {
   void Next() override;
   void Previous() override;
   void PlayPlaylist(const QString &playlist_name) override;
+  void SetVolumeFromValue(const int value) override;
   void SetVolume(const uint value) override;
   void VolumeUp() override;
   void VolumeDown() override;

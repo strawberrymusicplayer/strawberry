@@ -141,14 +141,21 @@ void SliderSlider::mouseReleaseEvent(QMouseEvent*) {
 
 }
 
-void SliderSlider::setValue(int newValue) {
-  // don't adjust the slider while the user is dragging it!
+void SliderSlider::SetValueFromVolume(const uint value) {
+
+  setValue(static_cast<int>(value));
+
+}
+
+void SliderSlider::setValue(int value) {
+
+  // Don't adjust the slider while the user is dragging it!
 
   if (!sliding_ || outside_) {
-    QSlider::setValue(adjustValue(newValue));
+    QSlider::setValue(adjustValue(value));
   }
   else {
-    prev_value_ = newValue;
+    prev_value_ = value;
   }
 
 }

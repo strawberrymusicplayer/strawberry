@@ -265,7 +265,7 @@ void OSDBase::Stopped() {
 
 }
 
-void OSDBase::StopAfterToggle(bool stop) {
+void OSDBase::StopAfterToggle(const bool stop) {
   ShowMessage(app_name_, tr("Stop playing after track: %1").arg(stop ? tr("On") : tr("Off")));
 }
 
@@ -278,7 +278,7 @@ void OSDBase::PlaylistFinished() {
 
 }
 
-void OSDBase::VolumeChanged(int value) {
+void OSDBase::VolumeChanged(const uint value) {
 
   if (!show_on_volume_change_) return;
 
@@ -338,7 +338,7 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
 
 }
 
-void OSDBase::ShuffleModeChanged(PlaylistSequence::ShuffleMode mode) {
+void OSDBase::ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode) {
 
   if (show_on_play_mode_change_) {
     QString current_mode = QString();
@@ -353,7 +353,7 @@ void OSDBase::ShuffleModeChanged(PlaylistSequence::ShuffleMode mode) {
 
 }
 
-void OSDBase::RepeatModeChanged(PlaylistSequence::RepeatMode mode) {
+void OSDBase::RepeatModeChanged(const PlaylistSequence::RepeatMode mode) {
 
   if (show_on_play_mode_change_) {
     QString current_mode = QString();
@@ -435,7 +435,7 @@ void OSDBase::ShowPreview(const Behaviour type, const QString &line1, const QStr
 
 }
 
-void OSDBase::SetPrettyOSDToggleMode(bool toggle) {
+void OSDBase::SetPrettyOSDToggleMode(const bool toggle) {
   pretty_popup_->set_toggle_mode(toggle);
 }
 

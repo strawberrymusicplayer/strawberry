@@ -399,8 +399,8 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   app_->player()->SetEqualizer(equalizer_.get());
   app_->player()->Init();
   EngineChanged(app_->player()->engine()->type());
-  int volume = static_cast<int>(app_->player()->GetVolume());
-  ui_->volume->setValue(volume);
+  const uint volume = app_->player()->GetVolume();
+  ui_->volume->SetValueFromVolume(volume);
   VolumeChanged(volume);
 
   // Models
@@ -583,7 +583,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   ui_->stop_button->setMenu(stop_menu);
 
   // Player connections
-  QObject::connect(ui_->volume, &VolumeSlider::valueChanged, app_->player(), &Player::SetVolume);
+  QObject::connect(ui_->volume, &VolumeSlider::valueChanged, app_->player(), &Player::SetVolumeFromValue);
 
   QObject::connect(app_->player(), &Player::EngineChanged, this, &MainWindow::EngineChanged);
   QObject::connect(app_->player(), &Player::Error, this, &MainWindow::ShowErrorDialog);
@@ -606,7 +606,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(app_->player(), &Player::Stopped, osd_, &OSDBase::Stopped);
   QObject::connect(app_->player(), &Player::PlaylistFinished, osd_, &OSDBase::PlaylistFinished);
   QObject::connect(app_->player(), &Player::VolumeChanged, osd_, &OSDBase::VolumeChanged);
-  QObject::connect(app_->player(), &Player::VolumeChanged, ui_->volume, &VolumeSlider::setValue);
+  QObject::connect(app_->player(), &Player::VolumeChanged, ui_->volume, &VolumeSlider::SetValueFromVolume);
   QObject::connect(app_->player(), &Player::ForceShowOSD, this, &MainWindow::ForceShowOSD);
 
   QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &MainWindow::SongChanged);
@@ -1351,7 +1351,7 @@ void MainWindow::SendNowPlaying() {
 
 }
 
-void MainWindow::VolumeChanged(const int volume) {
+void MainWindow::VolumeChanged(const uint volume) {
   ui_->action_mute->setChecked(volume == 0);
   tray_icon_->MuteButtonStateChanged(volume == 0);
 }

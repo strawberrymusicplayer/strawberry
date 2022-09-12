@@ -62,7 +62,7 @@ class LyricsProvider : public QObject {
   void AuthenticationComplete(bool, QStringList = QStringList());
   void AuthenticationSuccess();
   void AuthenticationFailure(QStringList);
-  void SearchFinished(quint64 id, LyricsSearchResults results);
+  void SearchFinished(int id, LyricsSearchResults results);
 
  protected:
   NetworkAccessManager *network_;

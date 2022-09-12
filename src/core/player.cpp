@@ -641,16 +641,21 @@ uint Player::GetVolume() const {
 
 }
 
-void Player::SetVolume(const uint value) {
+void Player::SetVolumeFromValue(const int value) {
+
+  SetVolume(static_cast<uint>(std::max(0, value)));
+
+}
+
+void Player::SetVolume(const uint volume) {
 
   uint old_volume = engine_->volume();
+  uint new_volume = qBound(0U, volume, 100U);
+  settings_.setValue("volume", new_volume);
+  engine_->SetVolume(new_volume);
 
-  uint volume = qBound(0U, value, 100U);
-  settings_.setValue("volume", volume);
-  engine_->SetVolume(volume);
-
-  if (volume != old_volume) {
-    emit VolumeChanged(volume);
+  if (new_volume != old_volume) {
+    emit VolumeChanged(new_volume);
   }
 
 }

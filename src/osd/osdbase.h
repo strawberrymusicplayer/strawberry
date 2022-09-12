@@ -72,11 +72,11 @@ class OSDBase : public QObject {
   void Paused();
   void Resumed();
   void Stopped();
-  void StopAfterToggle(bool stop);
+  void StopAfterToggle(const bool stop);
   void PlaylistFinished();
-  void VolumeChanged(int value);
-  void RepeatModeChanged(PlaylistSequence::RepeatMode mode);
-  void ShuffleModeChanged(PlaylistSequence::ShuffleMode mode);
+  void VolumeChanged(const uint value);
+  void RepeatModeChanged(const PlaylistSequence::RepeatMode mode);
+  void ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode);
 
   void ReshowCurrentSong();
 
