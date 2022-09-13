@@ -23,8 +23,6 @@
 
 #include <memory>
 
-#include <dbus/notification.h>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QByteArray>
@@ -44,6 +42,8 @@
 
 #include "core/logging.h"
 #include "osddbus.h"
+
+#include "notification.h"
 
 QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
 

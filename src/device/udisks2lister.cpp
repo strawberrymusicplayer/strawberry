@@ -24,12 +24,6 @@
 #include <memory>
 #include <utility>
 
-#include <dbus/objectmanager.h>
-#include <dbus/udisks2block.h>
-#include <dbus/udisks2drive.h>
-#include <dbus/udisks2filesystem.h>
-#include <dbus/udisks2job.h>
-
 #include <QtGlobal>
 #include <QMutex>
 #include <QList>
@@ -51,6 +45,12 @@
 #include "core/utilities.h"
 
 #include "udisks2lister.h"
+
+#include "objectmanager.h"
+#include "udisks2block.h"
+#include "udisks2drive.h"
+#include "udisks2filesystem.h"
+#include "udisks2job.h"
 
 Udisks2Lister::Udisks2Lister(QObject *parent) : DeviceLister(parent) {}
 

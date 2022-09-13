@@ -21,8 +21,6 @@
 
 #include "config.h"
 
-#include <dbus/gnomesettingsdaemon.h>
-
 #include <QObject>
 #include <QCoreApplication>
 #include <QDateTime>
@@ -36,6 +34,8 @@
 #include "globalshortcutsmanager.h"
 #include "globalshortcutsbackend.h"
 #include "globalshortcutsbackend-gnome.h"
+
+#include "gnomesettingsdaemon.h"
 
 const char *GlobalShortcutsBackendGnome::kService1 = "org.gnome.SettingsDaemon.MediaKeys";
 const char *GlobalShortcutsBackendGnome::kService2 = "org.gnome.SettingsDaemon";

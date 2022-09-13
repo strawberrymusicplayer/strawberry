@@ -17,9 +17,6 @@
  *
  */
 
-#include <dbus/kglobalaccel.h>
-#include <dbus/kglobalaccelcomponent.h>
-
 #include <QCoreApplication>
 #include <QList>
 #include <QString>
@@ -37,6 +34,9 @@
 #include "core/logging.h"
 
 #include "globalshortcutsbackend-kde.h"
+
+#include "kglobalaccel.h"
+#include "kglobalaccelcomponent.h"
 
 const char *GlobalShortcutsBackendKDE::kKdeService = "org.kde.kglobalaccel";
 const char *GlobalShortcutsBackendKDE::kKdePath = "/kglobalaccel";

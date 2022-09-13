@@ -610,43 +610,42 @@ optional_source(HAVE_VLC SOURCES engine/vlcengine.cpp HEADERS engine/vlcengine.h
 
 # DBUS and MPRIS - Unix specific
 if(UNIX AND HAVE_DBUS)
-  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
 
   optional_source(HAVE_DBUS SOURCES core/mpris2.cpp HEADERS core/mpris2.h)
   optional_source(HAVE_UDISKS2 SOURCES device/udisks2lister.cpp HEADERS device/udisks2lister.h)
 
   # MPRIS 2.0 DBUS interfaces
-  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.Player.xml core/mpris2.h mpris::Mpris2 core/mpris2_player Mpris2Player)
-  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.xml core/mpris2.h mpris::Mpris2 core/mpris2_root Mpris2Root)
-  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.TrackList.xml core/mpris2.h mpris::Mpris2 core/mpris2_tracklist Mpris2TrackList)
+  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.Player.xml core/mpris2.h mpris::Mpris2 mpris2_player Mpris2Player)
+  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.xml core/mpris2.h mpris::Mpris2 mpris2_root Mpris2Root)
+  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.TrackList.xml core/mpris2.h mpris::Mpris2 mpris2_tracklist Mpris2TrackList)
 
   # MPRIS 2.1 DBUS interfaces
-  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.Playlists.xml core/mpris2.h mpris::Mpris2 core/mpris2_playlists Mpris2Playlists)
+  qt_add_dbus_adaptor(SOURCES dbus/org.mpris.MediaPlayer2.Playlists.xml core/mpris2.h mpris::Mpris2 mpris2_playlists Mpris2Playlists)
 
   # org.freedesktop.Notifications DBUS interface
-  qt_add_dbus_interface(SOURCES dbus/org.freedesktop.Notifications.xml dbus/notification)
+  qt_add_dbus_interface(SOURCES dbus/org.freedesktop.Notifications.xml notification)
 
   # org.gnome.SettingsDaemon interface
-  qt_add_dbus_interface(SOURCES dbus/org.gnome.SettingsDaemon.MediaKeys.xml dbus/gnomesettingsdaemon)
+  qt_add_dbus_interface(SOURCES dbus/org.gnome.SettingsDaemon.MediaKeys.xml gnomesettingsdaemon)
 
   # org.mate.SettingsDaemon interface
-  qt_add_dbus_interface(SOURCES dbus/org.mate.SettingsDaemon.MediaKeys.xml dbus/matesettingsdaemon)
+  qt_add_dbus_interface(SOURCES dbus/org.mate.SettingsDaemon.MediaKeys.xml matesettingsdaemon)
 
   # org.kde.KGlobalAccel interface
-  qt_add_dbus_interface(SOURCES dbus/org.kde.KGlobalAccel.xml dbus/kglobalaccel)
-  qt_add_dbus_interface(SOURCES dbus/org.kde.KGlobalAccel.Component.xml dbus/kglobalaccelcomponent)
+  qt_add_dbus_interface(SOURCES dbus/org.kde.KGlobalAccel.xml kglobalaccel)
+  qt_add_dbus_interface(SOURCES dbus/org.kde.KGlobalAccel.Component.xml kglobalaccelcomponent)
 
   if(HAVE_UDISKS2)
-    set_source_files_properties(dbus/org.freedesktop.DBus.ObjectManager.xml PROPERTIES NO_NAMESPACE dbus/objectmanager INCLUDE dbus/metatypes.h)
-    set_source_files_properties(dbus/org.freedesktop.UDisks2.Filesystem.xml PROPERTIES NO_NAMESPACE dbus/udisks2filesystem INCLUDE dbus/metatypes.h)
-    set_source_files_properties(dbus/org.freedesktop.UDisks2.Block.xml PROPERTIES NO_NAMESPACE dbus/udisks2block INCLUDE dbus/metatypes.h)
-    set_source_files_properties(dbus/org.freedesktop.UDisks2.Drive.xml PROPERTIES NO_NAMESPACE dbus/udisks2drive INCLUDE dbus/metatypes.h)
-    set_source_files_properties(dbus/org.freedesktop.UDisks2.Job.xml PROPERTIES NO_NAMESPACE dbus/udisks2job INCLUDE dbus/metatypes.h)
-    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.DBus.ObjectManager.xml dbus/objectmanager)
-    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Filesystem.xml dbus/udisks2filesystem)
-    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Block.xml dbus/udisks2block)
-    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Drive.xml dbus/udisks2drive)
-    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Job.xml dbus/udisks2job)
+    set_source_files_properties(dbus/org.freedesktop.DBus.ObjectManager.xml PROPERTIES NO_NAMESPACE objectmanager INCLUDE dbus/metatypes.h)
+    set_source_files_properties(dbus/org.freedesktop.UDisks2.Filesystem.xml PROPERTIES NO_NAMESPACE udisks2filesystem INCLUDE dbus/metatypes.h)
+    set_source_files_properties(dbus/org.freedesktop.UDisks2.Block.xml PROPERTIES NO_NAMESPACE udisks2block INCLUDE dbus/metatypes.h)
+    set_source_files_properties(dbus/org.freedesktop.UDisks2.Drive.xml PROPERTIES NO_NAMESPACE udisks2drive INCLUDE dbus/metatypes.h)
+    set_source_files_properties(dbus/org.freedesktop.UDisks2.Job.xml PROPERTIES NO_NAMESPACE udisks2job INCLUDE dbus/metatypes.h)
+    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.DBus.ObjectManager.xml objectmanager)
+    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Filesystem.xml udisks2filesystem)
+    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Block.xml udisks2block)
+    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Drive.xml udisks2drive)
+    qt_add_dbus_interface(SOURCES dbus/org.freedesktop.UDisks2.Job.xml udisks2job)
   endif(HAVE_UDISKS2)
 
 endif(UNIX AND HAVE_DBUS)

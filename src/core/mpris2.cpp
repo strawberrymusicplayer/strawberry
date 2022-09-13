@@ -57,10 +57,10 @@
 #include "covermanager/currentalbumcoverloader.h"
 #include "covermanager/albumcoverloaderresult.h"
 
-#include <core/mpris2_player.h>
-#include <core/mpris2_playlists.h>
-#include <core/mpris2_root.h>
-#include <core/mpris2_tracklist.h>
+#include "mpris2_player.h"
+#include "mpris2_playlists.h"
+#include "mpris2_root.h"
+#include "mpris2_tracklist.h"
 
 QDBusArgument &operator<<(QDBusArgument &arg, const MprisPlaylist &playlist) {
   arg.beginStructure();

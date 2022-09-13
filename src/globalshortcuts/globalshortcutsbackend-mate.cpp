@@ -19,8 +19,6 @@
 
 #include "config.h"
 
-#include <dbus/matesettingsdaemon.h>
-
 #include <QObject>
 #include <QCoreApplication>
 #include <QDateTime>
@@ -34,6 +32,8 @@
 #include "globalshortcutsmanager.h"
 #include "globalshortcutsbackend.h"
 #include "globalshortcutsbackend-mate.h"
+
+#include "matesettingsdaemon.h"
 
 const char *GlobalShortcutsBackendMate::kService1 = "org.mate.SettingsDaemon.MediaKeys";
 const char *GlobalShortcutsBackendMate::kService2 = "org.mate.SettingsDaemon";
