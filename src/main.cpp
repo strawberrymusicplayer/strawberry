@@ -215,7 +215,11 @@ int main(int argc, char *argv[]) {
   {
     QSettings s;
     s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-    QString style = s.value(AppearanceSettingsPage::kStyle, "default").toString();
+    QString style = s.value(AppearanceSettingsPage::kStyle).toString();
+    if (style.isEmpty()) {
+      style="default";
+      s.setValue(AppearanceSettingsPage::kStyle, style);
+    }
     s.endGroup();
     if (style != "default") {
       QApplication::setStyle(style);
@@ -228,20 +232,14 @@ int main(int argc, char *argv[]) {
 #ifdef Q_OS_UNIX
   {
     QSettings s;
-
-    // Create the file if it doesn't exist already
-    if (!QFile::exists(s.fileName())) {
-      QFile file(s.fileName());
-      if (file.open(QIODevice::WriteOnly)) {
-        file.close();
-      }
-      else {
-        qLog(Error) << "Could not open settings file" << file.fileName() << "for writing:" << file.errorString();
+    if (QFile::exists(s.fileName())) {
+      if (!QFile::setPermissions(s.fileName(), QFile::ReadOwner | QFile::WriteOwner)) {
+        qLog(Error) << "Could not set permissions for settingsfile" << s.fileName();
       }
     }
-
-    // Set -rw-------
-    QFile::setPermissions(s.fileName(), QFile::ReadOwner | QFile::WriteOwner);
+    else {
+      qLog(Error) << "Missing settingsfile" << s.fileName();
+    }
   }
 #endif
 
