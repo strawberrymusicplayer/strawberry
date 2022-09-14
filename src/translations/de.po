@@ -47,8 +47,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-09-12 03:24-0400\n"
-"Last-Translator: Geroyche <geroyche@gmail.com>\n"
+"PO-Revision-Date: 2022-09-14 05:55-0400\n"
+"Last-Translator: Guido T. <GuidoTelscher@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -1343,7 +1343,7 @@ msgstr "Klicken Sie hier um Musik zu abzuholen"
 
 #: ../build/src/ui_trackslider.h:68
 msgid "Click to toggle between remaining time and total time"
-msgstr "Klicken Sie um zwischen verbleibender und Gesamtzeit zu wechseln"
+msgstr "Klicken Sie, um zwischen verbleibender und Gesamtzeit zu wechseln"
 
 #: ../build/src/ui_tidalsettingspage.h:323
 msgid "Client ID"
@@ -1352,7 +1352,7 @@ msgstr "Client ID"
 #: ../build/src/ui_lastfmimportdialog.h:156
 #: ../build/src/ui_internetcollectionviewcontainer.h:138
 msgid "Close"
-msgstr "Schliessen"
+msgstr "Schließen"
 
 #: playlist/playlisttabbar.cpp:78
 msgid "Close playlist"
@@ -1381,7 +1381,7 @@ msgstr "Erweiterte Bibliothekssortierung"
 
 #: core/mainwindow.cpp:2869
 msgid "Collection rescan notice"
-msgstr "Hinweis beim erneuten durchsuchen der Bibliothek"
+msgstr "Hinweis beim erneuten Durchsuchen der Bibliothek"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:90
 msgid "Collection search"
@@ -2587,11 +2587,12 @@ msgstr "%1 Titelbilder von %2 wurden gefunden (%3 fehlgeschlagen)"
 
 #: ../build/src/ui_playlistsettingspage.h:183
 msgid "Grey out unavailable songs in playlists on playback"
-msgstr "Ausgrauen von Lieder, die nicht verfügbar sind während des Abspielens"
+msgstr ""
+"Ausgrauen von Liedern während des Abspielens, die nicht verfügbar sind "
 
 #: ../build/src/ui_playlistsettingspage.h:184
 msgid "Grey out unavailable songs in playlists on startup"
-msgstr "Ausgrauen von Lieder, die nicht verfügbar sind während des Startens"
+msgstr "Ausgrauen von Liedern während des Startens, die nicht verfügbar sind "
 
 #: ../build/src/ui_groupbydialog.h:188
 msgid "Group Collection by..."
@@ -3373,7 +3374,7 @@ msgstr "Keine kurzen Blöcke"
 
 #: context/contextview.cpp:438
 msgid "No song playing"
-msgstr "Kein Lied wird gespielt"
+msgstr "Es wird kein Lied gespielt"
 
 #: collection/savedgroupingmanager.cpp:88 dialogs/edittagdialog.cpp:762
 #: dialogs/edittagdialog.cpp:772 ../build/src/ui_groupbydialog.h:190
@@ -4474,7 +4475,7 @@ msgstr "Wählen Sie ein Verzeichnis zum Speichern von Wiedergabelisten"
 
 #: dialogs/saveplaylistsdialog.cpp:62
 msgid "Select directory for the playlists"
-msgstr ""
+msgstr "Wählen Sie ein Verzeichnis für die Wiedergabelisten"
 
 #: ../build/src/ui_appearancesettingspage.h:589
 msgid "Select foreground color:"
@@ -4559,6 +4560,7 @@ msgstr "Zeige die &Desktop Benachrichtigungen an"
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
 msgstr ""
+"Zeigen Sie eine leuchtende Animation auf dem aktuell abgespielten Titel"
 
 #: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
@@ -4612,7 +4614,7 @@ msgstr "Zeige alle Lieder"
 
 #: ../build/src/ui_playlistsettingspage.h:179
 msgid "Show bars on the currently playing track"
-msgstr ""
+msgstr "Zeigen Sie einen Balken auf dem aktuell wiedergegebenen Titel an"
 
 #: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Show dialog for errors"
@@ -5272,7 +5274,7 @@ msgstr "Heute"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Toggle Pretty OSD"
-msgstr ""
+msgstr "Schalten Sie das OSD um"
 
 #: core/mainwindow.cpp:723 core/mainwindow.cpp:1925
 msgid "Toggle queue status"
