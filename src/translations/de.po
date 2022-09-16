@@ -47,7 +47,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-09-14 05:55-0400\n"
+"PO-Revision-Date: 2022-09-16 04:51-0400\n"
 "Last-Translator: Guido T. <GuidoTelscher@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -420,7 +420,7 @@ msgstr "&Rechts"
 
 #: ../build/src/ui_mainwindow.h:694
 msgid "&Save all playlists..."
-msgstr "&Alle Wiedergabelisten speichern...\n"
+msgstr "Alle Wiedergabelisten speichern..."
 
 #: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
@@ -4901,7 +4901,7 @@ msgstr "Wiedergabe nach aktuellem Titel anhalten"
 #: osd/osdbase.cpp:269
 #, qt-format
 msgid "Stop playing after track: %1"
-msgstr "Wiedergabe anhalten nach: %1"
+msgstr "Wiedergabe wird nach diesem Lied angehalten: %1"
 
 #: osd/osdbase.cpp:256 osd/osdbase.cpp:259
 msgid "Stopped"
