@@ -1699,10 +1699,16 @@ jobs:
           rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
           rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
 
+      - name: Get latest MSVC dependencies
+        shell: bash
+        run: |
+          msvc_deps_version=$(curl -s 'https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | head -1)
+          echo "msvc_deps_version=${msvc_deps_version}" >> $GITHUB_ENV
+
       - name: Download Windows MSVC dependencies
         uses: suisei-cn/actions-download-file@v1
         with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/latest/strawberry-msvc-x86-debug.tar.xz)!"
+          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/${{env.msvc_deps_version}}/strawberry-msvc-x86-debug.tar.xz)!"
           target: downloads/
           auto-match: true
 
@@ -1960,10 +1966,16 @@ jobs:
           rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
           rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
 
+      - name: Get latest MSVC dependencies
+        shell: bash
+        run: |
+          msvc_deps_version=$(curl -s 'https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | head -1)
+          echo "msvc_deps_version=${msvc_deps_version}" >> $GITHUB_ENV
+
       - name: Download Windows MSVC dependencies
         uses: suisei-cn/actions-download-file@v1
         with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/latest/strawberry-msvc-x86-release.tar.xz)!"
+          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/${{env.msvc_deps_version}}/strawberry-msvc-x86-release.tar.xz)!"
           target: downloads/
           auto-match: true
 
@@ -2221,10 +2233,16 @@ jobs:
           rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
           rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
 
+      - name: Get latest MSVC dependencies
+        shell: bash
+        run: |
+          msvc_deps_version=$(curl -s 'https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | head -1)
+          echo "msvc_deps_version=${msvc_deps_version}" >> $GITHUB_ENV
+
       - name: Download Windows MSVC dependencies
         uses: suisei-cn/actions-download-file@v1
         with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/latest/strawberry-msvc-x86_64-debug.tar.xz)!"
+          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/${{env.msvc_deps_version}}/strawberry-msvc-x86_64-debug.tar.xz)!"
           target: downloads/
           auto-match: true
 
@@ -2482,10 +2500,16 @@ jobs:
           rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
           rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
 
+      - name: Get latest MSVC dependencies
+        shell: bash
+        run: |
+          msvc_deps_version=$(curl -s 'https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | head -1)
+          echo "msvc_deps_version=${msvc_deps_version}" >> $GITHUB_ENV
+
       - name: Download Windows MSVC dependencies
         uses: suisei-cn/actions-download-file@v1
         with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/latest/strawberry-msvc-x86_64-release.tar.xz)!"
+          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/${{env.msvc_deps_version}}/strawberry-msvc-x86_64-release.tar.xz)!"
           target: downloads/
           auto-match: true
 
