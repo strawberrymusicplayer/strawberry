@@ -66,7 +66,7 @@ It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
 
 ### :heavy_exclamation_mark: Requirements
 
-To build Strawberry from source you need the following installed on your system with the additional development packages/headers:
+To build Strawberry from source you must be running on Linux, and have the following installed on your system with the additional development packages/headers:
 
 * [CMake](https://cmake.org/)
 * [GCC](https://gcc.gnu.org/), [Clang](https://clang.llvm.org/) or [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/) compiler
