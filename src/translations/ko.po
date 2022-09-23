@@ -5698,7 +5698,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:529 context/contextview.cpp:651
+#: context/contextview.cpp:531 context/contextview.cpp:653
 #: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:739
 msgid "kbps"
 msgstr "kbps"
