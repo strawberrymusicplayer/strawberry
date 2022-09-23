@@ -434,7 +434,7 @@ void ContextView::NoSong() {
     widget_album_->show();
   }
 
-  textedit_top_->setStyleSheet("font: 20pt 'Open Sans', 'FreeSans', 'FreeSerif', 'Liberation Serif'; font-weight: Regular;");
+  textedit_top_->setFont(QFont(font_headline_, font_size_headline_ * 1.6));
   textedit_top_->setText(tr("No song playing"));
 
   QString html;
@@ -450,26 +450,28 @@ void ContextView::NoSong() {
   else html += tr("%1 albums").arg(collectionview_->TotalAlbums());
   html += "<br />";
 
-  label_stop_summary_->setStyleSheet(QString("font: %1pt \"%2\"; font-weight: regular;").arg(font_size_normal_).arg(font_normal_));
+  label_stop_summary_->setFont(QFont(font_normal_, font_size_normal_));
   label_stop_summary_->setText(html);
 
 }
 
 void ContextView::UpdateFonts() {
 
-  QString font_style = QString("font: %2pt \"%1\"; font-weight: regular;").arg(font_normal_).arg(font_size_normal_);
+  QFont font(font_normal_, font_size_normal_);
+  font.setBold(false);
   for (QLabel *l : labels_play_all_) {
-    l->setStyleSheet(font_style);
+    l->setFont(font);
   }
   for (QTextEdit *e : textedit_play_) {
-    e->setStyleSheet(font_style);
+    e->setFont(font);
   }
 
 }
 
 void ContextView::SetSong() {
 
-  textedit_top_->setStyleSheet(QString("font: %2pt \"%1\"; font-weight: regular;").arg(font_headline_).arg(font_size_headline_));
+  
+  textedit_top_->setFont(QFont(font_headline_, font_size_headline_));
   textedit_top_->setText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song_playing_, "<br />", true)));
 
   label_stop_summary_->clear();
@@ -599,7 +601,7 @@ void ContextView::SetSong() {
 
 void ContextView::UpdateSong(const Song &song) {
 
-    textedit_top_->setText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song, "<br />", true)));
+  textedit_top_->setText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song, "<br />", true)));
 
   if (action_show_data_->isChecked()) {
     if (song.filetype() != song_playing_.filetype()) label_filetype_->setText(song.TextForFiletype());
