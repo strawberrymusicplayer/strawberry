@@ -15,13 +15,13 @@ include(cmake/Summary.cmake)
 include(cmake/OptionalSource.cmake)
 include(cmake/ParseArguments.cmake)
 
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(LINUX ON)
 endif()
-if(${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD")
+if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
   set(FREEBSD ON)
 endif()
-if(${CMAKE_SYSTEM_NAME} STREQUAL "OpenBSD")
+if(CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
   set(OPENBSD ON)
 endif()
 
@@ -71,16 +71,15 @@ else()
     $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
     $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
   )
-endif()
-
-option(BUILD_WERROR "Build with -Werror" OFF)
-if(BUILD_WERROR)
-  list(APPEND COMPILE_OPTIONS -Werror)
+  option(BUILD_WERROR "Build with -Werror" OFF)
+  if(BUILD_WERROR)
+    list(APPEND COMPILE_OPTIONS -Werror)
+  endif()
 endif()
 
 add_compile_options(${COMPILE_OPTIONS})
 
-if(${CMAKE_BUILD_TYPE} MATCHES "Release")
+if(CMAKE_BUILD_TYPE MATCHES "Release")
   add_definitions(-DNDEBUG)
   add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
