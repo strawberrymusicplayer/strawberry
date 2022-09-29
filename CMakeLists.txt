@@ -84,9 +84,9 @@ if(CMAKE_BUILD_TYPE MATCHES "Release")
   add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
 
-if(APPLE)
-  set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-  set(CMAKE_INSTALL_RPATH "@loader_path/../Frameworks")
+option(USE_RPATH "Use RPATH" APPLE)
+if(USE_RPATH)
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif()
 
 find_program(CCACHE_EXECUTABLE NAMES ccache)
