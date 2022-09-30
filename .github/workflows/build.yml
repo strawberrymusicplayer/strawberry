@@ -3,25 +3,40 @@ on: [push, pull_request]
 
 jobs:
 
-  build_source:
-    name: Create source tarball
+  build_opensuse:
+    name: Build openSUSE
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        opensuse_version: [ 'tumbleweed', 'leap:15.4' ]
+        qt_version: [ 'qt5', 'qt6' ]
     container:
-      image: opensuse/leap:15.4
+      image: opensuse/${{matrix.opensuse_version}}
     steps:
-      - name: Update packages
-        run: zypper --non-interactive --gpg-auto-import-keys ref
-      - name: Install openSUSE dependencies
+      - name: Add tagparser repo
+        if: matrix.opensuse_version == 'tumbleweed'
+        run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Tumbleweed/ repo-tagparser
+      - name: Refresh repositories
+        run: zypper -n --gpg-auto-import-keys ref
+      - name: Upgrade packages
+        if: matrix.opensuse_version == 'tumbleweed'
+        run: zypper -n --gpg-auto-import-keys dup
+      - name: Install gcc
+        if: matrix.opensuse_version == 'tumbleweed'
+        run: zypper -n --gpg-auto-import-keys in gcc gcc-c++
+      - name: Install gcc10
+        if: matrix.opensuse_version != 'tumbleweed'
+        run: zypper -n --gpg-auto-import-keys in gcc10 gcc10-c++
+      - name: Install packages
         run: >
-            zypper --non-interactive --gpg-auto-import-keys install
+            zypper -n --gpg-auto-import-keys in
             lsb-release
             rpm-build
             git
             tar
             make
             cmake
-            gcc
-            gcc-c++
             gettext-tools
             glibc-devel
             libboost_headers-devel
@@ -40,9 +55,20 @@ jobs:
             vlc-devel
             taglib-devel
             libicu-devel
+            libcdio-devel
+            libgpod-devel
+            libmtp-devel
+            libchromaprint-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+      - name: Install Qt 5
+        if: matrix.qt_version == 'qt5'
+        run: >
+            zypper -n --gpg-auto-import-keys in
             libQt5Core-devel
             libQt5Gui-devel
-            libQt5Gui-private-headers-devel
             libQt5Widgets-devel
             libQt5Concurrent-devel
             libQt5Network-devel
@@ -53,164 +79,12 @@ jobs:
             libQt5Sql5-sqlite
             libqt5-linguist-devel
             libqt5-qtx11extras-devel
-            libcdio-devel
-            libgpod-devel
-            libmtp-devel
-            libchromaprint-devel
-            desktop-file-utils
-            update-desktop-files
-            appstream-glib
-            hicolor-icon-theme
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
-      - name: Create source tarball
-        working-directory: build
-        run: ../dist/scripts/maketarball.sh
-
-
-  build_opensuse_lp153_qt5:
-    name: Build openSUSE Leap 15.3 Qt 5
-    runs-on: ubuntu-latest
-    container:
-      image: opensuse/leap:15.3
-    steps:
-      - name: Add tagparser repo
-        run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Leap_15.3/ repo-tagparser
-      - name: Update packages
-        run: zypper --non-interactive --gpg-auto-import-keys ref
-      - name: Install openSUSE dependencies
+      - name: Install Qt 6
+        if: matrix.qt_version == 'qt6'
         run: >
-            zypper --non-interactive --gpg-auto-import-keys install
-            lsb-release
-            rpm-build
-            git
-            tar
-            make
-            cmake
-            gcc
-            gcc-c++
-            gettext-tools
-            glibc-devel
-            libboost_headers-devel
-            boost-devel
-            glib2-devel
-            glib2-tools
-            dbus-1-devel
-            alsa-devel
-            libnotify-devel
-            libgnutls-devel
-            protobuf-devel
-            sqlite3-devel
-            libpulse-devel
-            gstreamer-devel
-            gstreamer-plugins-base-devel
-            vlc-devel
-            taglib-devel
-            tagparser-devel
-            libicu-devel
-            libQt5Core-devel
-            libQt5Gui-devel
-            libQt5Gui-private-headers-devel
-            libQt5Widgets-devel
-            libQt5Concurrent-devel
-            libQt5Network-devel
-            libQt5Sql-devel
-            libQt5DBus-devel
-            libQt5Test-devel
-            libqt5-qtbase-common-devel
-            libQt5Sql5-sqlite
-            libqt5-linguist-devel
-            libqt5-qtx11extras-devel
-            libcdio-devel
-            libgpod-devel
-            libmtp-devel
-            libchromaprint-devel
-            desktop-file-utils
-            update-desktop-files
-            appstream-glib
-            hicolor-icon-theme
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
-      - name: Create source tarball
-        working-directory: build
-        run: ../dist/scripts/maketarball.sh
-      - name: Create RPM build sources directories
-        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
-      - name: Copy source tarball
-        working-directory: build
-        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
-      - name: Build RPM
-        working-directory: build
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
-
-
-  build_opensuse_lp153_qt6:
-    name: Build openSUSE Leap 15.3 Qt 6
-    runs-on: ubuntu-latest
-    container:
-      image: opensuse/leap:15.3
-    steps:
-      - name: Add tagparser repo
-        run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Leap_15.3/ repo-tagparser
-      - name: Add Qt 6 repo
-        run: zypper -n ar -c -f -n 'repo-qt6' https://download.opensuse.org/repositories/KDE:/Qt6/openSUSE_Leap_15.3/ repo-qt6
-      - name: Update packages
-        run: zypper --non-interactive --gpg-auto-import-keys ref
-      - name: Install openSUSE dependencies
-        run: >
-            zypper --non-interactive --gpg-auto-import-keys install
-            lsb-release
-            rpm-build
-            git
-            tar
-            make
-            cmake
-            gcc10
-            gcc10-c++
-            gettext-tools
-            glibc-devel
-            libboost_headers-devel
-            boost-devel
-            glib2-devel
-            glib2-tools
-            dbus-1-devel
-            alsa-devel
-            libnotify-devel
-            libgnutls-devel
-            protobuf-devel
-            sqlite3-devel
-            libpulse-devel
-            gstreamer-devel
-            gstreamer-plugins-base-devel
-            vlc-devel
-            taglib-devel
-            tagparser-devel
-            libicu-devel
+            zypper -n --gpg-auto-import-keys in
             qt6-core-devel
             qt6-gui-devel
-            qt6-gui-private-devel
             qt6-widgets-devel
             qt6-concurrent-devel
             qt6-network-devel
@@ -220,14 +94,9 @@ jobs:
             qt6-base-common-devel
             qt6-sql-sqlite
             qt6-linguist-devel
-            libcdio-devel
-            libgpod-devel
-            libmtp-devel
-            libchromaprint-devel
-            desktop-file-utils
-            update-desktop-files
-            appstream-glib
-            hicolor-icon-theme
+      - name: Install tagparser
+        if: matrix.opensuse_version == 'tumbleweed'
+        run: zypper -n --gpg-auto-import-keys in tagparser-devel
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -240,7 +109,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DUSE_TAGLIB=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -249,7 +118,12 @@ jobs:
       - name: Copy source tarball
         working-directory: build
         run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
-      - name: Build RPM
+      - name: Build RPM (Tumbleweed)
+        if: matrix.opensuse_version == 'tumbleweed'
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+      - name: Build RPM (Leap)
+        if: matrix.opensuse_version != 'tumbleweed'
         working-directory: build
         env:
           CC: gcc-10
@@ -257,367 +131,21 @@ jobs:
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
 
-  build_opensuse_lp154_qt5:
-    name: Build openSUSE Leap 15.4 Qt 5
+  build_fedora:
+    name: Build Fedora
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        fedora_version: [ '35', '36' ]
     container:
-      image: opensuse/leap:15.4
+      image: fedora:${{matrix.fedora_version}}
     steps:
-      - name: Update packages
-        run: zypper --non-interactive --gpg-auto-import-keys ref
-      - name: Install openSUSE dependencies
-        run: >
-            zypper --non-interactive --gpg-auto-import-keys install
-            lsb-release
-            rpm-build
-            git
-            tar
-            make
-            cmake
-            gcc
-            gcc-c++
-            gettext-tools
-            glibc-devel
-            libboost_headers-devel
-            boost-devel
-            glib2-devel
-            glib2-tools
-            dbus-1-devel
-            alsa-devel
-            libnotify-devel
-            libgnutls-devel
-            protobuf-devel
-            sqlite3-devel
-            libpulse-devel
-            gstreamer-devel
-            gstreamer-plugins-base-devel
-            vlc-devel
-            taglib-devel
-            libicu-devel
-            libQt5Core-devel
-            libQt5Gui-devel
-            libQt5Gui-private-headers-devel
-            libQt5Widgets-devel
-            libQt5Concurrent-devel
-            libQt5Network-devel
-            libQt5Sql-devel
-            libQt5DBus-devel
-            libQt5Test-devel
-            libqt5-qtbase-common-devel
-            libQt5Sql5-sqlite
-            libqt5-linguist-devel
-            libqt5-qtx11extras-devel
-            libcdio-devel
-            libgpod-devel
-            libmtp-devel
-            libchromaprint-devel
-            desktop-file-utils
-            update-desktop-files
-            appstream-glib
-            hicolor-icon-theme
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON -DUSE_TAGLIB=ON
-      - name: Create source tarball
-        working-directory: build
-        run: ../dist/scripts/maketarball.sh
-      - name: Create RPM build sources directories
-        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
-      - name: Copy source tarball
-        working-directory: build
-        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
-      - name: Build RPM
-        working-directory: build
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
-
-
-  build_opensuse_lp154_qt6:
-    name: Build openSUSE Leap 15.4 Qt 6
-    runs-on: ubuntu-latest
-    container:
-      image: opensuse/leap:15.4
-    steps:
-      - name: Update packages
-        run: zypper --non-interactive --gpg-auto-import-keys ref
-      - name: Install openSUSE dependencies
-        run: >
-            zypper --non-interactive --gpg-auto-import-keys install
-            lsb-release
-            rpm-build
-            git
-            tar
-            make
-            cmake
-            gcc10
-            gcc10-c++
-            gettext-tools
-            glibc-devel
-            libboost_headers-devel
-            boost-devel
-            glib2-devel
-            glib2-tools
-            dbus-1-devel
-            alsa-devel
-            libnotify-devel
-            libgnutls-devel
-            protobuf-devel
-            sqlite3-devel
-            libpulse-devel
-            gstreamer-devel
-            gstreamer-plugins-base-devel
-            vlc-devel
-            taglib-devel
-            libicu-devel
-            qt6-core-devel
-            qt6-gui-devel
-            qt6-gui-private-devel
-            qt6-widgets-devel
-            qt6-concurrent-devel
-            qt6-network-devel
-            qt6-sql-devel
-            qt6-dbus-devel
-            qt6-test-devel
-            qt6-base-common-devel
-            qt6-sql-sqlite
-            qt6-linguist-devel
-            libcdio-devel
-            libgpod-devel
-            libmtp-devel
-            libchromaprint-devel
-            desktop-file-utils
-            update-desktop-files
-            appstream-glib
-            hicolor-icon-theme
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON -DUSE_TAGLIB=ON
-      - name: Create source tarball
-        working-directory: build
-        run: ../dist/scripts/maketarball.sh
-      - name: Create RPM build sources directories
-        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
-      - name: Copy source tarball
-        working-directory: build
-        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
-      - name: Build RPM
-        working-directory: build
-        env:
-          CC: gcc-10
-          CXX: g++-10
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
-
-
-  build_opensuse_tumbleweed_qt5:
-    name: Build openSUSE Tumbleweed Qt 5
-    runs-on: ubuntu-latest
-    container:
-      image: opensuse/tumbleweed
-    steps:
-      - name: Add tagparser repo
-        run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Tumbleweed/ repo-tagparser
-      - name: Update packages
-        run: zypper --non-interactive --gpg-auto-import-keys ref
-      - name: Upgrade packages
-        run: zypper --non-interactive --gpg-auto-import-keys dup
-      - name: Install openSUSE dependencies
-        run: >
-            zypper --non-interactive --gpg-auto-import-keys install
-            lsb-release
-            rpm-build
-            git
-            tar
-            make
-            cmake
-            gcc
-            gcc-c++
-            gettext-tools
-            glibc-devel
-            libboost_headers-devel
-            boost-devel
-            glib2-devel
-            glib2-tools
-            dbus-1-devel
-            alsa-devel
-            libnotify-devel
-            libgnutls-devel
-            protobuf-devel
-            sqlite3-devel
-            libpulse-devel
-            gstreamer-devel
-            gstreamer-plugins-base-devel
-            vlc-devel
-            taglib-devel
-            tagparser-devel
-            libicu-devel
-            libQt5Core-devel
-            libQt5Gui-devel
-            libQt5Gui-private-headers-devel
-            libQt5Widgets-devel
-            libQt5Concurrent-devel
-            libQt5Network-devel
-            libQt5Sql-devel
-            libQt5DBus-devel
-            libQt5Test-devel
-            libqt5-qtbase-common-devel
-            libQt5Sql5-sqlite
-            libqt5-linguist-devel
-            libqt5-qtx11extras-devel
-            libcdio-devel
-            libgpod-devel
-            libmtp-devel
-            libchromaprint-devel
-            desktop-file-utils
-            update-desktop-files
-            appstream-glib
-            hicolor-icon-theme
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT5=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
-      - name: Create source tarball
-        working-directory: build
-        run: ../dist/scripts/maketarball.sh
-      - name: Create RPM build sources directories
-        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
-      - name: Copy source tarball
-        working-directory: build
-        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
-      - name: Build RPM
-        working-directory: build
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
-
-
-  build_opensuse_tumbleweed_qt6:
-    name: Build openSUSE Tumbleweed Qt 6
-    runs-on: ubuntu-latest
-    container:
-      image: opensuse/tumbleweed
-    steps:
-      - name: Add tagparser repo
-        run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Tumbleweed/ repo-tagparser
-      - name: Update packages
-        run: zypper --non-interactive --gpg-auto-import-keys ref
-      - name: Upgrade packages
-        run: zypper --non-interactive --gpg-auto-import-keys dup
-      - name: Install openSUSE dependencies
-        run: >
-            zypper --non-interactive --gpg-auto-import-keys install
-            lsb-release
-            rpm-build
-            git
-            tar
-            make
-            cmake
-            gcc
-            gcc-c++
-            gettext-tools
-            glibc-devel
-            libboost_headers-devel
-            boost-devel
-            glib2-devel
-            glib2-tools
-            dbus-1-devel
-            alsa-devel
-            libnotify-devel
-            libgnutls-devel
-            protobuf-devel
-            sqlite3-devel
-            libpulse-devel
-            gstreamer-devel
-            gstreamer-plugins-base-devel
-            vlc-devel
-            taglib-devel
-            tagparser-devel
-            libicu-devel
-            qt6-core-devel
-            qt6-gui-devel
-            qt6-gui-private-devel
-            qt6-widgets-devel
-            qt6-concurrent-devel
-            qt6-network-devel
-            qt6-sql-devel
-            qt6-dbus-devel
-            qt6-test-devel
-            qt6-base-common-devel
-            qt6-sql-sqlite
-            qt6-linguist-devel
-            libcdio-devel
-            libgpod-devel
-            libmtp-devel
-            libchromaprint-devel
-            desktop-file-utils
-            update-desktop-files
-            appstream-glib
-            hicolor-icon-theme
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DBUILD_WITH_QT6=ON -DUSE_TAGLIB=ON -DUSE_TAGPARSER=ON
-      - name: Create source tarball
-        working-directory: build
-        run: ../dist/scripts/maketarball.sh
-      - name: Create RPM build sources directories
-        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
-      - name: Copy source tarball
-        working-directory: build
-        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
-      - name: Build RPM
-        working-directory: build
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
-
-
-
-  build_fedora_35:
-    name: Build Fedora 35
-    runs-on: ubuntu-latest
-    container:
-      image: fedora:35
-    env:
-      RPM_BUILD_NCPUS: "2"
-    steps:
-      - name: Update packages
+      - name: Update repositories
         run: yum update --assumeyes
       - name: Upgrade packages
         run: yum upgrade --assumeyes
-      - name: Install Fedora dependencies
+      - name: Install dependencies
         run: >
             dnf install --assumeyes
             @development-tools
@@ -682,105 +210,27 @@ jobs:
         working-directory: build
         run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
       - name: Build RPM
+        env:
+          RPM_BUILD_NCPUS: "2"
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
 
-  build_fedora_36:
-    name: Build Fedora 36
+  build_openmandriva:
+    name: Build OpenMandriva
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        openmandriva_version: [ "4.2" ]
     container:
-      image: fedora:36
-    env:
-      RPM_BUILD_NCPUS: "2"
+      image: openmandriva/${{matrix.openmandriva_version}}
     steps:
-      - name: Update packages
-        run: yum update --assumeyes
-      - name: Upgrade packages
-        run: yum upgrade --assumeyes
-      - name: Install Fedora dependencies
-        run: >
-            dnf install --assumeyes
-            @development-tools
-            redhat-lsb-core
-            which
-            git
-            glibc
-            gcc-c++
-            rpmdevtools
-            make
-            cmake
-            pkgconfig
-            glib
-            man
-            tar
-            gettext
-            openssh
-            boost-devel
-            dbus-devel
-            protobuf-devel
-            protobuf-compiler
-            sqlite-devel
-            alsa-lib-devel
-            pulseaudio-libs-devel
-            libnotify-devel
-            gnutls-devel
-            libicu-devel
-            qt6-qtbase-devel
-            qt6-qtbase-private-devel
-            qt6-qttools-devel
-            gstreamer1-devel
-            gstreamer1-plugins-base-devel
-            taglib-devel
-            libcdio-devel
-            libgpod-devel
-            libmtp-devel
-            libchromaprint-devel
-            fftw-devel
-            desktop-file-utils
-            libappstream-glib
-            hicolor-icon-theme
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
-      - name: Create source tarball
-        working-directory: build
-        run: ../dist/scripts/maketarball.sh
-      - name: Create RPM build sources directories
-        working-directory: build
-        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
-      - name: Copy source tarball
-        working-directory: build
-        run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
-      - name: Build RPM
-        working-directory: build
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
-
-
-
-  build_openmandriva_cooker:
-    name: Build OpenMandriva Lx 4.2
-    runs-on: ubuntu-latest
-    container:
-      image: openmandriva/4.2
-    env:
-      RPM_BUILD_NCPUS: "2"
-    steps:
-      - name: Update packages
+      - name: Update repositories
         run: dnf update --assumeyes
       - name: Upgrade packages
         run: dnf upgrade --assumeyes
-      - name: Install OpenMandriva dependencies
+      - name: Install dependencies
         run: >
           dnf install --assumeyes
           glibc
@@ -850,20 +300,29 @@ jobs:
         working-directory: build
         run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
       - name: Build RPM
+        env:
+          RPM_BUILD_NCPUS: "2"
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
 
-
-  build_debian_buster:
-    name: Build Debian Buster
+  build_debian:
+    name: Build Debian
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        debian_version: [ 'buster', 'bullseye', 'bookworm' ]
     container:
-      image: debian:buster
+      image: debian:${{matrix.debian_version}}
     steps:
-      - name: Install Debian dependencies
+      - name: Update repositories
+        run: apt update
+      - name: Install packages
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: >
-            apt-get update && apt-get install -y
+            apt install -y
             build-essential
             dh-make
             ssh
@@ -888,11 +347,6 @@ jobs:
             libpulse-dev
             libtag1-dev
             libicu-dev
-            qtbase5-dev
-            qtbase5-dev-tools
-            qttools5-dev
-            qttools5-dev-tools
-            libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             gstreamer1.0-alsa
@@ -902,136 +356,28 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug
-      - name: make deb
-        shell: bash
-        run: dpkg-buildpackage -b -d -uc -us -nc -j2
-
-
-  build_debian_bullseye:
-    name: Build Debian Bullseye
-    runs-on: ubuntu-latest
-    container:
-      image: debian:bullseye
-    steps:
-      - name: Install Debian dependencies
+      - name: Install Qt 5
+        if: matrix.debian_version == 'buster' || matrix.debian_version == 'bullseye'
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: >
-            apt-get update && apt-get install -y
-            build-essential
-            dh-make
-            ssh
-            git
-            make
-            cmake
-            gcc
-            g++
-            pkg-config
-            fakeroot
-            gettext
-            lsb-release
-            libglib2.0-dev
-            dpkg-dev
-            libdbus-1-dev
-            libboost-dev
-            libprotobuf-dev
-            protobuf-compiler
-            libsqlite3-dev
-            libgnutls28-dev
-            libasound2-dev
-            libpulse-dev
-            libtag1-dev
-            libicu-dev
+            apt install -y
             qtbase5-dev
             qtbase5-dev-tools
             qttools5-dev
             qttools5-dev-tools
             libqt5x11extras5-dev
-            libgstreamer1.0-dev
-            libgstreamer-plugins-base1.0-dev
-            gstreamer1.0-alsa
-            gstreamer1.0-pulseaudio
-            libchromaprint-dev
-            libfftw3-dev
-            libcdio-dev
-            libmtp-dev
-            libgpod-dev
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
-      - name: make deb
-        shell: bash
-        run: dpkg-buildpackage -b -d -uc -us -nc -j2
-
-
-  build_debian_bookworm:
-    name: Build Debian Bookworm
-    runs-on: ubuntu-latest
-    container:
-      image: debian:bookworm
-    steps:
-      - name: Install Debian dependencies
+      - name: Install Qt 6
+        if: matrix.debian_version != 'buster' && matrix.debian_version != 'bullseye'
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: >
-            apt-get update && apt-get install -y
-            build-essential
-            dh-make
-            ssh
-            git
-            make
-            cmake
-            gcc
-            g++
-            pkg-config
-            fakeroot
-            gettext
-            lsb-release
-            libglib2.0-dev
-            dpkg-dev
-            libdbus-1-dev
-            libboost-dev
-            libprotobuf-dev
-            protobuf-compiler
-            libsqlite3-dev
-            libgnutls28-dev
-            libasound2-dev
-            libpulse-dev
-            libtag1-dev
-            libicu-dev
+            apt install -y
             qt6-base-dev
             qt6-base-dev-tools
             qt6-tools-dev
             qt6-tools-dev-tools
             qt6-l10n-tools
-            libgstreamer1.0-dev
-            libgstreamer-plugins-base1.0-dev
-            gstreamer1.0-alsa
-            gstreamer1.0-pulseaudio
-            libchromaprint-dev
-            libfftw3-dev
-            libcdio-dev
-            libmtp-dev
-            libgpod-dev
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -1050,14 +396,17 @@ jobs:
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
 
-
-  build_ubuntu_bionic:
-    name: Build Ubuntu Bionic
+  build_ubuntu:
+    name: Build Ubuntu
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ubuntu_version: [ 'bionic', 'focal', 'jammy', 'kinetic' ]
     container:
-      image: ubuntu:bionic
+      image: ubuntu:${{matrix.ubuntu_version}}
     steps:
-      - name: Install Ubuntu dependencies
+      - name: Install packages
         env:
           DEBIAN_FRONTEND: noninteractive
         run: >
@@ -1088,11 +437,6 @@ jobs:
             libpulse-dev
             libtag1-dev
             libicu-dev
-            qtbase5-dev
-            qtbase5-dev-tools
-            qttools5-dev
-            qttools5-dev-tools
-            libqt5x11extras5-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             libgstreamer-plugins-good1.0-dev
@@ -1103,146 +447,16 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
-      - name: make deb
-        shell: bash
-        run: dpkg-buildpackage -b -d -uc -us -nc -j2
-
-
-  build_ubuntu_focal:
-    name: Build Ubuntu Focal
-    runs-on: ubuntu-latest
-    container:
-      image: ubuntu:focal
-    steps:
-      - name: Install Ubuntu dependencies
+      - name: Install Qt 5
+        if: matrix.ubuntu_version == 'bionic' || matrix.ubuntu_version == 'focal' || matrix.ubuntu_version == 'jammy'
         env:
           DEBIAN_FRONTEND: noninteractive
-        run: >
-            apt-get update && apt-get install -y
-            build-essential
-            dh-make
-            ssh
-            git
-            make
-            cmake
-            pkg-config
-            gcc
-            g++
-            fakeroot
-            wget
-            curl
-            gettext
-            lsb-release
-            dpkg-dev
-            libglib2.0-dev
-            libboost-dev
-            libdbus-1-dev
-            libprotobuf-dev
-            protobuf-compiler
-            libsqlite3-dev
-            libgnutls28-dev
-            libasound2-dev
-            libpulse-dev
-            libtag1-dev
-            libicu-dev
-            qtbase5-dev
-            qtbase5-dev-tools
-            qttools5-dev
-            qttools5-dev-tools
-            libqt5x11extras5-dev
-            libgstreamer1.0-dev
-            libgstreamer-plugins-base1.0-dev
-            libgstreamer-plugins-good1.0-dev
-            gstreamer1.0-alsa
-            gstreamer1.0-pulseaudio
-            libchromaprint-dev
-            libfftw3-dev
-            libcdio-dev
-            libmtp-dev
-            libgpod-dev
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
-      - name: make deb
-        shell: bash
-        run: dpkg-buildpackage -b -d -uc -us -nc -j2
-
-
-  build_ubuntu_jammy:
-    name: Build Ubuntu Jammy
-    runs-on: ubuntu-latest
-    container:
-      image: ubuntu:jammy
-    steps:
-      - name: Install Ubuntu dependencies
+        run: apt-get update && apt-get install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev
+      - name: Install Qt 6
+        if: matrix.ubuntu_version != 'bionic' && matrix.ubuntu_version != 'focal' && matrix.ubuntu_version != 'jammy'
         env:
           DEBIAN_FRONTEND: noninteractive
-        run: >
-            apt-get update && apt-get install -y
-            build-essential
-            dh-make
-            ssh
-            git
-            make
-            cmake
-            pkg-config
-            gcc
-            g++
-            fakeroot
-            wget
-            curl
-            gettext
-            lsb-release
-            dpkg-dev
-            libglib2.0-dev
-            libboost-dev
-            libdbus-1-dev
-            libprotobuf-dev
-            protobuf-compiler
-            libsqlite3-dev
-            libgnutls28-dev
-            libasound2-dev
-            libpulse-dev
-            libtag1-dev
-            libicu-dev
-            qt6-base-dev
-            qt6-base-dev-tools
-            qt6-tools-dev
-            qt6-tools-dev-tools
-            qt6-l10n-tools
-            libgstreamer1.0-dev
-            libgstreamer-plugins-base1.0-dev
-            libgstreamer-plugins-good1.0-dev
-            gstreamer1.0-alsa
-            gstreamer1.0-pulseaudio
-            libchromaprint-dev
-            libfftw3-dev
-            libcdio-dev
-            libmtp-dev
-            libgpod-dev
+        run: apt-get update && apt-get install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -1259,1521 +473,6 @@ jobs:
       - name: make deb
         shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
-
-
-  build_ubuntu_kinetic:
-    name: Build Ubuntu Kinetic
-    runs-on: ubuntu-latest
-    container:
-      image: ubuntu:kinetic
-    steps:
-      - name: Install Ubuntu dependencies
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: >
-            apt-get update && apt-get install -y
-            build-essential
-            dh-make
-            ssh
-            git
-            make
-            cmake
-            pkg-config
-            gcc
-            g++
-            fakeroot
-            wget
-            curl
-            gettext
-            lsb-release
-            dpkg-dev
-            libglib2.0-dev
-            libboost-dev
-            libdbus-1-dev
-            libprotobuf-dev
-            protobuf-compiler
-            libsqlite3-dev
-            libgnutls28-dev
-            libasound2-dev
-            libpulse-dev
-            libtag1-dev
-            libicu-dev
-            qt6-base-dev
-            qt6-base-dev-tools
-            qt6-tools-dev
-            qt6-tools-dev-tools
-            qt6-l10n-tools
-            libgstreamer1.0-dev
-            libgstreamer-plugins-base1.0-dev
-            libgstreamer-plugins-good1.0-dev
-            gstreamer1.0-alsa
-            gstreamer1.0-pulseaudio
-            libchromaprint-dev
-            libfftw3-dev
-            libcdio-dev
-            libmtp-dev
-            libgpod-dev
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-      - name: Configure CMake
-        shell: bash
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
-      - name: make deb
-        shell: bash
-        run: dpkg-buildpackage -b -d -uc -us -nc -j2
-
-
-  build-windows-mingw-x86:
-    name: Build Windows MinGW (x86)
-    runs-on: ubuntu-latest
-    container:
-      image: jonaski/strawberry-mxe-i686
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-
-      - name: Link MXE directory
-        shell: bash
-        run: ln -s /usr/src/strawberry-mxe ~/mxe-shared
-
-      - name: Run CMake
-        shell: bash
-        env:
-          PKG_CONFIG_PATH: /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/lib/pkgconfig
-        working-directory: build
-        run: >
-          cmake ..
-          -DCMAKE_TOOLCHAIN_FILE=../cmake/Toolchain-i686-w64-mingw32-shared.cmake
-          -DCMAKE_BUILD_TYPE=Release
-          -DCMAKE_PREFIX_PATH=/usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/qt6
-          -DBUILD_WITH_QT6=ON
-          -DBUILD_WERROR=OFF
-          -DARCH=x86
-          -DENABLE_WIN32_CONSOLE=OFF
-          -DENABLE_DBUS=OFF
-          -DENABLE_LIBGPOD=OFF
-          -DENABLE_LIBMTP=OFF
-          -DENABLE_AUDIOCD=OFF
-          -DProtobuf_PROTOC_EXECUTABLE=/usr/src/strawberry-mxe/usr/x86_64-pc-linux-gnu/bin/protoc
-
-      - name: Run Make
-        working-directory: build
-        run: cmake --build . --config Release --parallel $(nproc)
-
-      - name: Create directories
-        working-directory: build
-        run: mkdir -p gio-modules platforms sqldrivers tls imageformats styles gstreamer-plugins nsisplugins
-
-      - name: Copy GIO modules
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/lib/gio/modules/{libgiognutls.dll,libgioopenssl.dll} ${GITHUB_WORKSPACE}/build/gio-modules/
-
-      - name: Copy Qt platform plugins
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/qt6/plugins/platforms/qwindows.dll ${GITHUB_WORKSPACE}/build/platforms/
-
-      - name: Copy Qt styles
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/qt6/plugins/styles/qwindowsvistastyle.dll ${GITHUB_WORKSPACE}/build/styles/
-
-      - name: Copy Qt TLS plugins
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/qt6/plugins/tls/{qschannelbackend.dll,qopensslbackend.dll} ${GITHUB_WORKSPACE}/build/tls/
-
-      - name: Copy Qt SQL drivers
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/qt6/plugins/sqldrivers/qsqlite.dll ${GITHUB_WORKSPACE}/build/sqldrivers/
-
-      - name: Copy Qt imageformats
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/qt6/plugins/imageformats/{qgif.dll,qico.dll,qjpeg.dll} ${GITHUB_WORKSPACE}/build/imageformats/
-
-      - name: Copy gstreamer plugins
-        working-directory: build
-        run: >
-          cp
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstaes.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstaiff.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstapetag.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstapp.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstasf.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstasfmux.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudioconvert.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudiofx.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudiomixer.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudioparsers.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudiorate.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudioresample.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudiotestsrc.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstautodetect.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstbs2b.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstcoreelements.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstdash.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstdirectsound.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstequalizer.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstfaac.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstfaad.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstfdkaac.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstflac.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstgio.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstgme.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgsthls.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgsticydemux.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstid3demux.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstid3tag.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstisomp4.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstlame.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstlibav.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstmpg123.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstmusepack.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstogg.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstopenmpt.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstopus.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstopusparse.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstpbtypes.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstplayback.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstreplaygain.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstrtp.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstrtsp.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstsoup.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstspectrum.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstspeex.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgsttaglib.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgsttcp.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgsttwolame.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgsttypefindfunctions.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstudp.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstvolume.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstvorbis.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstwasapi.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavenc.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavpack.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavparse.dll
-          /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/gstreamer-1.0/libgstxingmux.dll
-          ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
-
-      - name: Copy extra binaries
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-3.0-0.dll,libnghttp2.dll} .
-
-      - name: Copy dependencies
-        working-directory: build
-        run: >
-          /usr/src/strawberry-mxe/tools/copydlldeps.sh
-          -c
-          -d .
-          -F .
-          -F ./platforms
-          -F ./styles
-          -F ./imageformats
-          -F ./tls
-          -F ./sqldrivers
-          -F ./gstreamer-plugins
-          -R /usr/src/strawberry-mxe/usr/i686-w64-mingw32.shared
-
-      - name: Strip binaries
-        working-directory: build
-        run: find . -type f \( -iname \*.dll -o -iname \*.exe \) -exec /usr/src/strawberry-mxe/usr/bin/i686-w64-mingw32.shared-strip {} \;
-
-      - name: Copy nsis files
-        working-directory: build
-        run: cp ${GITHUB_WORKSPACE}/dist/windows/*.nsi ${GITHUB_WORKSPACE}/dist/windows/*.nsh ${GITHUB_WORKSPACE}/dist/windows/*.ico .
-
-      - name: Copy COPYING license file
-        working-directory: build
-        run: cp ${GITHUB_WORKSPACE}/COPYING .
-
-      - name: Build Windows installer
-        working-directory: build
-        run: makensis strawberry.nsi
-
-
-  build-windows-mingw-x64:
-    name: Build Windows MinGW (x86_64)
-    runs-on: ubuntu-latest
-    container:
-      image: jonaski/strawberry-mxe-x86_64
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-
-      - name: Create Build Environment
-        shell: bash
-        run: cmake -E make_directory build
-
-      - name: Link MXE directory
-        shell: bash
-        run: ln -s /usr/src/strawberry-mxe ~/mxe-shared
-
-      - name: Run CMake
-        shell: bash
-        env:
-          PKG_CONFIG_PATH: /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/lib/pkgconfig
-        working-directory: build
-        run: >
-          cmake ..
-          -DCMAKE_TOOLCHAIN_FILE=../cmake/Toolchain-x86_64-w64-mingw32-shared.cmake
-          -DCMAKE_BUILD_TYPE=Release
-          -DCMAKE_PREFIX_PATH=/usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6
-          -DBUILD_WITH_QT6=ON
-          -DBUILD_WERROR=OFF
-          -DARCH=x86_64
-          -DENABLE_WIN32_CONSOLE=OFF
-          -DENABLE_DBUS=OFF
-          -DENABLE_LIBGPOD=OFF
-          -DENABLE_LIBMTP=OFF
-          -DENABLE_AUDIOCD=OFF
-          -DProtobuf_PROTOC_EXECUTABLE=/usr/src/strawberry-mxe/usr/x86_64-pc-linux-gnu/bin/protoc
-
-      - name: Run Make
-        working-directory: build
-        run: cmake --build . --config Release --parallel $(nproc)
-
-      - name: Create directories
-        working-directory: build
-        run: mkdir -p gio-modules platforms sqldrivers tls imageformats styles gstreamer-plugins nsisplugins
-
-      - name: Copy GIO modules
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/lib/gio/modules/{libgiognutls.dll,libgioopenssl.dll} ${GITHUB_WORKSPACE}/build/gio-modules/
-
-      - name: Copy Qt platform plugins
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/platforms/qwindows.dll ${GITHUB_WORKSPACE}/build/platforms/
-
-      - name: Copy Qt styles
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/styles/qwindowsvistastyle.dll ${GITHUB_WORKSPACE}/build/styles/
-
-      - name: Copy Qt TLS plugins
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/tls/{qschannelbackend.dll,qopensslbackend.dll} ${GITHUB_WORKSPACE}/build/tls/
-
-      - name: Copy Qt SQL drivers
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/sqldrivers/qsqlite.dll ${GITHUB_WORKSPACE}/build/sqldrivers/
-
-      - name: Copy Qt imageformats
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/qt6/plugins/imageformats/{qgif.dll,qico.dll,qjpeg.dll} ${GITHUB_WORKSPACE}/build/imageformats/
-
-      - name: Copy gstreamer plugins
-        working-directory: build
-        run: >
-          cp
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstaes.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstaiff.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstapetag.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstapp.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstasf.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstasfmux.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudioconvert.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudiofx.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudiomixer.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudioparsers.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudiorate.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudioresample.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstaudiotestsrc.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstautodetect.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstbs2b.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstcoreelements.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstdash.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstdirectsound.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstequalizer.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstfaac.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstfaad.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstfdkaac.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstflac.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstgio.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstgme.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsthls.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsticydemux.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstid3demux.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstid3tag.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstisomp4.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstlame.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstlibav.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstmpg123.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstmusepack.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstogg.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstopenmpt.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstopus.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstopusparse.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstpbtypes.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstplayback.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstreplaygain.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstrtp.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstrtsp.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstsoup.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstspectrum.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstspeex.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsttaglib.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsttcp.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsttwolame.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgsttypefindfunctions.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstudp.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstvolume.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstvorbis.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwasapi.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavenc.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavpack.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstwavparse.dll
-          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstxingmux.dll
-          ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
-
-      - name: Copy extra binaries
-        working-directory: build
-        run: cp /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-3.0-0.dll,libnghttp2.dll} .
-
-      - name: Copy dependencies
-        working-directory: build
-        run: >
-          /usr/src/strawberry-mxe/tools/copydlldeps.sh
-          -c
-          -d .
-          -F .
-          -F ./platforms
-          -F ./styles
-          -F ./imageformats
-          -F ./tls
-          -F ./sqldrivers
-          -F ./gstreamer-plugins
-          -R /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared
-
-      - name: Strip binaries
-        working-directory: build
-        run: find . -type f \( -iname \*.dll -o -iname \*.exe \) -exec /usr/src/strawberry-mxe/usr/bin/x86_64-w64-mingw32.shared-strip {} \;
-
-      - name: Copy nsis files
-        working-directory: build
-        run: cp ${GITHUB_WORKSPACE}/dist/windows/*.nsi ${GITHUB_WORKSPACE}/dist/windows/*.nsh ${GITHUB_WORKSPACE}/dist/windows/*.ico .
-
-      - name: Copy COPYING license file
-        working-directory: build
-        run: cp ${GITHUB_WORKSPACE}/COPYING .
-
-      - name: Build Windows installer
-        working-directory: build
-        run: makensis strawberry.nsi
-
-
-  build-windows-msvc-x86-debug:
-    name: Build Windows MSVC x86 Debug
-    runs-on: windows-2019
-    steps:
-
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x86
-          toolset: 14.29
-
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Delete conflicting files
-        shell: bash
-        run: |
-          rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
-          rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
-
-      - name: Get latest MSVC dependencies
-        shell: bash
-        run: |
-          msvc_deps_version=$(curl -s 'https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | head -1)
-          echo "msvc_deps_version=${msvc_deps_version}" >> $GITHUB_ENV
-
-      - name: Download Windows MSVC dependencies
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/${{env.msvc_deps_version}}/strawberry-msvc-x86-debug.tar.xz)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download LockedList plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "LockedList [this](https://nsis.sourceforge.io/mediawiki/images/d/d3/LockedList.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS LockedList plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/LockedList.zip"
-
-      - name: Download Registry plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Registry [this](https://nsis.sourceforge.io/mediawiki/images/4/47/Registry.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS Registry plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Registry.zip"
-
-      - name: Download Inetc plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Inetc [this](https://nsis.sourceforge.io/mediawiki/images/c/c9/Inetc.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS Inetc plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Inetc.zip"
-
-      - name: Install NSIS plugins
-        run: |
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/LockedList64.dll" "C:/Program Files (x86)/NSIS/Plugins/"
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/LockedList.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/"
-          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/INetC.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-
-      - name: Extract Windows MSVC dependencies
-        shell: bash
-        run: |
-          tar -xf /d/a/strawberry/strawberry//downloads/strawberry-msvc-x86-debug.tar.xz
-          mv strawberry_msvc_x86_debug /c/
-
-      - name: Update PATH
-        run: echo "c:\strawberry_msvc_x86_debug\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-
-      - name: Create Build Environment
-        run: cmake -E make_directory build
-
-      - name: Run CMake
-        working-directory: build
-        run: >
-          cmake ..
-          -G "Ninja"
-          -DCMAKE_BUILD_TYPE="Debug"
-          -DCMAKE_PREFIX_PATH="c:/strawberry_msvc_x86_debug/lib/cmake"
-          -DBUILD_WITH_QT6=ON
-          -DBUILD_WERROR=OFF
-          -DARCH=x86
-          -DENABLE_WIN32_CONSOLE=ON
-          -DUSE_TAGLIB=ON
-          -DPKG_CONFIG_EXECUTABLE="c:/strawberry_msvc_x86_debug/bin/pkg-config.exe"
-          -DICU_ROOT="c:/strawberry_msvc_x86_debug"
-
-      - name: Run Make
-        env:
-          CL: "/MP"
-        working-directory: build
-        run: cmake --build . --config Debug --parallel 4
-
-      - name: list files
-        working-directory: build
-        run: dir
-
-      - name: Copy extra binaries
-        working-directory: build
-        run: |
-          copy c:\strawberry_msvc_x86_debug\bin\libssl-3.dll
-          copy c:\strawberry_msvc_x86_debug\bin\libcrypto-3.dll
-          copy c:\strawberry_msvc_x86_debug\bin\soup-3.0-0.dll
-          copy c:\strawberry_msvc_x86_debug\bin\gst-launch-1.0.exe
-          copy c:\strawberry_msvc_x86_debug\bin\gst-discoverer-1.0.exe
-          copy c:\strawberry_msvc_x86_debug\bin\sqlite3.exe
-
-      - name: Create directories
-        working-directory: build
-        run: |
-          mkdir gio-modules
-          mkdir platforms
-          mkdir styles
-          mkdir tls
-          mkdir sqldrivers
-          mkdir imageformats
-          mkdir gstreamer-plugins
-          mkdir nsisplugins
-
-      - name: Copy GIO modules
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_debug\lib\gio\modules\*.dll .\gio-modules\
-
-      - name: Copy Qt platform plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_debug\plugins\platforms\qwindowsd.dll .\platforms\
-
-      - name: Copy Qt styles
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_debug\plugins\styles\qwindowsvistastyled.dll .\styles\
-
-      - name: Copy Qt TLS plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_debug\plugins\tls\*.dll .\tls\
-
-      - name: Copy Qt SQL drivers
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_debug\plugins\sqldrivers\qsqlited.dll .\sqldrivers\
-
-      - name: Copy Qt imageformats plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_debug\plugins\imageformats\*.dll .\imageformats\
-
-      - name: Copy gstreamer plugins
-        working-directory: build
-        run: |
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstaes.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstasf.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstasfmux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstaudioconvert.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstaudiofx.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstaudiomixer.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstaudioparsers.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstaudiorate.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstbs2b.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstfaac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstfaad.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstgme.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gsthls.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstid3tag.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstopenmpt.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstpbtypes.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gsttaglib.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstwavenc.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_debug\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
-
-      - name: Download copydlldeps.sh
-        shell: bash
-        working-directory: build
-        run: curl -O -L https://raw.githubusercontent.com/strawberrymusicplayer/strawberry-mxe/master/tools/copydlldeps.sh
-
-      - name: Copy dependencies
-        shell: bash
-        working-directory: build
-        run: >
-          ./copydlldeps.sh
-          -c
-          -d .
-          -F .
-          -F ./platforms
-          -F ./styles
-          -F ./tls
-          -F ./sqldrivers
-          -F ./imageformats
-          -F ./gio-modules
-          -F ./gstreamer-plugins
-          -R /c/strawberry_msvc_x86_debug/bin
-
-      - name: Copy nsis files
-        working-directory: build
-        run: |
-          copy ..\dist\windows\*.nsi .
-          copy ..\dist\windows\*.nsh .
-          copy ..\dist\windows\*.ico .
-
-      - name: Copy COPYING license file
-        working-directory: build
-        run: copy ..\COPYING .
-
-      - name: list files
-        working-directory: build
-        run: dir
-
-      - name: Create nsis installer
-        working-directory: build
-        run: makensis strawberry.nsi
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: upload-windows
-          path: build/StrawberrySetup*.exe
-
-
-  build-windows-msvc-x86-release:
-    name: Build Windows MSVC x86 Release
-    runs-on: windows-2019
-    steps:
-
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x86
-          toolset: 14.29
-
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Delete conflicting files
-        shell: bash
-        run: |
-          rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
-          rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
-
-      - name: Get latest MSVC dependencies
-        shell: bash
-        run: |
-          msvc_deps_version=$(curl -s 'https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | head -1)
-          echo "msvc_deps_version=${msvc_deps_version}" >> $GITHUB_ENV
-
-      - name: Download Windows MSVC dependencies
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/${{env.msvc_deps_version}}/strawberry-msvc-x86-release.tar.xz)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download LockedList plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "LockedList [this](https://nsis.sourceforge.io/mediawiki/images/d/d3/LockedList.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS LockedList plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/LockedList.zip"
-
-      - name: Download Registry plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Registry [this](https://nsis.sourceforge.io/mediawiki/images/4/47/Registry.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS Registry plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Registry.zip"
-
-      - name: Download Inetc plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Inetc [this](https://nsis.sourceforge.io/mediawiki/images/c/c9/Inetc.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS Inetc plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Inetc.zip"
-
-      - name: Install NSIS plugins
-        run: |
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/LockedList64.dll" "C:/Program Files (x86)/NSIS/Plugins/"
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/LockedList.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/"
-          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/INetC.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-
-      - name: Extract Windows MSVC dependencies
-        shell: bash
-        run: |
-          tar -xf /d/a/strawberry/strawberry/downloads/strawberry-msvc-x86-release.tar.xz
-          mv strawberry_msvc_x86_release /c/
-
-      - name: Update PATH
-        run: echo "c:\strawberry_msvc_x86_release\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-
-      - name: Create Build Environment
-        run: cmake -E make_directory build
-
-      - name: Run CMake
-        working-directory: build
-        run: >
-          cmake ..
-          -G "Ninja"
-          -DCMAKE_BUILD_TYPE="Release"
-          -DCMAKE_PREFIX_PATH="c:/strawberry_msvc_x86_release/lib/cmake"
-          -DBUILD_WITH_QT6=ON
-          -DBUILD_WERROR=OFF
-          -DARCH=x86
-          -DENABLE_WIN32_CONSOLE=OFF
-          -DUSE_TAGLIB=ON
-          -DPKG_CONFIG_EXECUTABLE="c:/strawberry_msvc_x86_release/bin/pkg-config.exe"
-          -DICU_ROOT="c:/strawberry_msvc_x86_release"
-
-      - name: Run Make
-        env:
-          CL: "/MP"
-        working-directory: build
-        run: cmake --build . --config Release --parallel 4
-
-      - name: list files
-        working-directory: build
-        run: dir
-
-      - name: Copy extra binaries
-        working-directory: build
-        run: |
-          copy c:\strawberry_msvc_x86_release\bin\libssl-3.dll
-          copy c:\strawberry_msvc_x86_release\bin\libcrypto-3.dll
-          copy c:\strawberry_msvc_x86_release\bin\soup-3.0-0.dll
-          copy c:\strawberry_msvc_x86_release\bin\gst-launch-1.0.exe
-          copy c:\strawberry_msvc_x86_release\bin\gst-discoverer-1.0.exe
-          copy c:\strawberry_msvc_x86_release\bin\sqlite3.exe
-
-      - name: Create directories
-        working-directory: build
-        run: |
-          mkdir gio-modules
-          mkdir platforms
-          mkdir styles
-          mkdir tls
-          mkdir sqldrivers
-          mkdir imageformats
-          mkdir gstreamer-plugins
-          mkdir nsisplugins
-
-      - name: Copy GIO modules
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_release\lib\gio\modules\*.dll .\gio-modules\
-
-      - name: Copy Qt platform plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_release\plugins\platforms\qwindows.dll .\platforms\
-
-      - name: Copy Qt styles
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_release\plugins\styles\qwindowsvistastyle.dll .\styles\
-
-      - name: Copy Qt TLS plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_release\plugins\tls\*.dll .\tls\
-
-      - name: Copy Qt SQL drivers
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_release\plugins\sqldrivers\qsqlite.dll .\sqldrivers\
-
-      - name: Copy Qt imageformats plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_release\plugins\imageformats\*.dll .\imageformats\
-
-      - name: Copy gstreamer plugins
-        working-directory: build
-        run: |
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstaes.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstasf.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstasfmux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstaudioconvert.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstaudiofx.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstaudiomixer.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstaudioparsers.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstaudiorate.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstbs2b.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstfaac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstfaad.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstgme.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gsthls.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstid3tag.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstopenmpt.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstpbtypes.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gsttaglib.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstwavenc.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_release\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
-
-      - name: Download copydlldeps.sh
-        shell: bash
-        working-directory: build
-        run: curl -O -L https://raw.githubusercontent.com/strawberrymusicplayer/strawberry-mxe/master/tools/copydlldeps.sh
-
-      - name: Copy dependencies
-        shell: bash
-        working-directory: build
-        run: >
-          ./copydlldeps.sh
-          -c
-          -d .
-          -F .
-          -F ./platforms
-          -F ./styles
-          -F ./tls
-          -F ./sqldrivers
-          -F ./imageformats
-          -F ./gio-modules
-          -F ./gstreamer-plugins
-          -R /c/strawberry_msvc_x86_release/bin
-
-      - name: Copy nsis files
-        working-directory: build
-        run: |
-          copy ..\dist\windows\*.nsi .
-          copy ..\dist\windows\*.nsh .
-          copy ..\dist\windows\*.ico .
-
-      - name: Copy COPYING license file
-        working-directory: build
-        run: copy ..\COPYING .
-
-      - name: list files
-        working-directory: build
-        run: dir
-
-      - name: Create nsis installer
-        working-directory: build
-        run: makensis strawberry.nsi
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: upload-windows
-          path: build/StrawberrySetup*.exe
-
-
-  build-windows-msvc-x64-debug:
-    name: Build Windows MSVC x86_64 Debug
-    runs-on: windows-2019
-    steps:
-
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x86_64
-          toolset: 14.29
-
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Delete conflicting files
-        shell: bash
-        run: |
-          rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
-          rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
-
-      - name: Get latest MSVC dependencies
-        shell: bash
-        run: |
-          msvc_deps_version=$(curl -s 'https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | head -1)
-          echo "msvc_deps_version=${msvc_deps_version}" >> $GITHUB_ENV
-
-      - name: Download Windows MSVC dependencies
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/${{env.msvc_deps_version}}/strawberry-msvc-x86_64-debug.tar.xz)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download LockedList plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "LockedList [this](https://nsis.sourceforge.io/mediawiki/images/d/d3/LockedList.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS LockedList plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/LockedList.zip"
-
-      - name: Download Registry plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Registry [this](https://nsis.sourceforge.io/mediawiki/images/4/47/Registry.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS Registry plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Registry.zip"
-
-      - name: Download Inetc plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Inetc [this](https://nsis.sourceforge.io/mediawiki/images/c/c9/Inetc.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS Inetc plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Inetc.zip"
-
-      - name: Install NSIS plugins
-        run: |
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/LockedList64.dll" "C:/Program Files (x86)/NSIS/Plugins/"
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/LockedList.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/"
-          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/INetC.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-
-      - name: Extract Windows MSVC dependencies
-        shell: bash
-        run: |
-          tar -xf /d/a/strawberry/strawberry//downloads/strawberry-msvc-x86_64-debug.tar.xz
-          mv strawberry_msvc_x86_64_debug /c/
-
-      - name: Update PATH
-        run: echo "c:\strawberry_msvc_x86_64_debug\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-
-      - name: Create Build Environment
-        run: cmake -E make_directory build
-
-      - name: Run CMake
-        working-directory: build
-        run: >
-          cmake ..
-          -G "Ninja"
-          -DCMAKE_BUILD_TYPE="Debug"
-          -DCMAKE_PREFIX_PATH="c:/strawberry_msvc_x86_64_debug/lib/cmake"
-          -DBUILD_WITH_QT6=ON
-          -DBUILD_WERROR=OFF
-          -DARCH=x86_64
-          -DENABLE_WIN32_CONSOLE=ON
-          -DUSE_TAGLIB=ON
-          -DPKG_CONFIG_EXECUTABLE="c:/strawberry_msvc_x86_64_debug/bin/pkg-config.exe"
-          -DICU_ROOT="c:/strawberry_msvc_x86_64_debug"
-
-      - name: Run Make
-        env:
-          CL: "/MP"
-        working-directory: build
-        run: cmake --build . --config Debug --parallel 4
-
-      - name: list files
-        working-directory: build
-        run: dir
-
-      - name: Copy extra binaries
-        working-directory: build
-        run: |
-          copy c:\strawberry_msvc_x86_64_debug\bin\libssl-3-x64.dll
-          copy c:\strawberry_msvc_x86_64_debug\bin\libcrypto-3-x64.dll
-          copy c:\strawberry_msvc_x86_64_debug\bin\soup-3.0-0.dll
-          copy c:\strawberry_msvc_x86_64_debug\bin\gst-launch-1.0.exe
-          copy c:\strawberry_msvc_x86_64_debug\bin\gst-discoverer-1.0.exe
-          copy c:\strawberry_msvc_x86_64_debug\bin\sqlite3.exe
-
-      - name: Create directories
-        working-directory: build
-        run: |
-          mkdir gio-modules
-          mkdir platforms
-          mkdir styles
-          mkdir tls
-          mkdir sqldrivers
-          mkdir imageformats
-          mkdir gstreamer-plugins
-          mkdir nsisplugins
-
-      - name: Copy GIO modules
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_debug\lib\gio\modules\*.dll .\gio-modules\
-
-      - name: Copy Qt platform plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_debug\plugins\platforms\qwindowsd.dll .\platforms\
-
-      - name: Copy Qt styles
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_debug\plugins\styles\qwindowsvistastyled.dll .\styles\
-
-      - name: Copy Qt TLS plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_debug\plugins\tls\*.dll .\tls\
-
-      - name: Copy Qt SQL drivers
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_debug\plugins\sqldrivers\qsqlited.dll .\sqldrivers\
-
-      - name: Copy Qt imageformats plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_debug\plugins\imageformats\*.dll .\imageformats\
-
-      - name: Copy gstreamer plugins
-        working-directory: build
-        run: |
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstaes.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstasf.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstasfmux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstaudioconvert.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstaudiofx.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstaudiomixer.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstaudioparsers.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstaudiorate.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstbs2b.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstfaac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstfaad.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstgme.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gsthls.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstid3tag.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstopenmpt.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstpbtypes.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gsttaglib.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstwavenc.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_debug\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
-
-      - name: Download copydlldeps.sh
-        shell: bash
-        working-directory: build
-        run: curl -O -L https://raw.githubusercontent.com/strawberrymusicplayer/strawberry-mxe/master/tools/copydlldeps.sh
-
-      - name: Copy dependencies
-        shell: bash
-        working-directory: build
-        run: >
-          ./copydlldeps.sh
-          -c
-          -d .
-          -F .
-          -F ./platforms
-          -F ./styles
-          -F ./tls
-          -F ./sqldrivers
-          -F ./imageformats
-          -F ./gio-modules
-          -F ./gstreamer-plugins
-          -R /c/strawberry_msvc_x86_64_debug/bin
-
-      - name: Copy nsis files
-        working-directory: build
-        run: |
-          copy ..\dist\windows\*.nsi .
-          copy ..\dist\windows\*.nsh .
-          copy ..\dist\windows\*.ico .
-
-      - name: Copy COPYING license file
-        working-directory: build
-        run: copy ..\COPYING .
-
-      - name: list files
-        working-directory: build
-        run: dir
-
-      - name: Create nsis installer
-        working-directory: build
-        run: makensis strawberry.nsi
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: upload-windows
-          path: build/StrawberrySetup*.exe
-
-
-  build-windows-msvc-x64-release:
-    name: Build Windows MSVC x86_64 Release
-    runs-on: windows-2019
-    steps:
-
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x86_64
-          toolset: 14.29
-
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Delete conflicting files
-        shell: bash
-        run: |
-          rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
-          rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
-
-      - name: Get latest MSVC dependencies
-        shell: bash
-        run: |
-          msvc_deps_version=$(curl -s 'https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | head -1)
-          echo "msvc_deps_version=${msvc_deps_version}" >> $GITHUB_ENV
-
-      - name: Download Windows MSVC dependencies
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/${{env.msvc_deps_version}}/strawberry-msvc-x86_64-release.tar.xz)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Download LockedList plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "LockedList [this](https://nsis.sourceforge.io/mediawiki/images/d/d3/LockedList.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS LockedList plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/LockedList.zip"
-
-      - name: Download Registry plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Registry [this](https://nsis.sourceforge.io/mediawiki/images/4/47/Registry.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS Registry plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Registry.zip"
-
-      - name: Download Inetc plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Inetc [this](https://nsis.sourceforge.io/mediawiki/images/c/c9/Inetc.zip)!"
-          target: downloads/
-          auto-match: true
-
-      - name: Extract NSIS Inetc plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Inetc.zip"
-
-      - name: Install NSIS plugins
-        run: |
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/LockedList64.dll" "C:/Program Files (x86)/NSIS/Plugins/"
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/LockedList.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/"
-          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/INetC.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-
-      - name: Extract Windows MSVC dependencies
-        shell: bash
-        run: |
-          tar -xf /d/a/strawberry/strawberry/downloads/strawberry-msvc-x86_64-release.tar.xz
-          mv strawberry_msvc_x86_64_release /c/
-
-      - name: Update PATH
-        run: echo "c:\strawberry_msvc_x86_64_release\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-
-      - name: Create Build Environment
-        run: cmake -E make_directory build
-
-      - name: Run CMake
-        working-directory: build
-        run: >
-          cmake ..
-          -G "Ninja"
-          -DCMAKE_BUILD_TYPE="Release"
-          -DCMAKE_PREFIX_PATH="c:/strawberry_msvc_x86_64_release/lib/cmake"
-          -DBUILD_WITH_QT6=ON
-          -DBUILD_WERROR=OFF
-          -DARCH=x86_64
-          -DENABLE_WIN32_CONSOLE=OFF
-          -DUSE_TAGLIB=ON
-          -DPKG_CONFIG_EXECUTABLE="c:/strawberry_msvc_x86_64_release/bin/pkg-config.exe"
-          -DICU_ROOT="c:/strawberry_msvc_x86_64_release"
-
-      - name: Run Make
-        env:
-          CL: "/MP"
-        working-directory: build
-        run: cmake --build . --config Release --parallel 4
-
-      - name: list files
-        working-directory: build
-        run: dir
-
-      - name: Copy extra binaries
-        working-directory: build
-        run: |
-          copy c:\strawberry_msvc_x86_64_release\bin\libssl-3-x64.dll
-          copy c:\strawberry_msvc_x86_64_release\bin\libcrypto-3-x64.dll
-          copy c:\strawberry_msvc_x86_64_release\bin\soup-3.0-0.dll
-          copy c:\strawberry_msvc_x86_64_release\bin\gst-launch-1.0.exe
-          copy c:\strawberry_msvc_x86_64_release\bin\gst-discoverer-1.0.exe
-          copy c:\strawberry_msvc_x86_64_release\bin\sqlite3.exe
-
-      - name: Create directories
-        working-directory: build
-        run: |
-          mkdir gio-modules
-          mkdir platforms
-          mkdir styles
-          mkdir tls
-          mkdir sqldrivers
-          mkdir imageformats
-          mkdir gstreamer-plugins
-          mkdir nsisplugins
-
-      - name: Copy GIO modules
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_release\lib\gio\modules\*.dll .\gio-modules\
-
-      - name: Copy Qt platform plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_release\plugins\platforms\qwindows.dll .\platforms\
-
-      - name: Copy Qt styles
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_release\plugins\styles\qwindowsvistastyle.dll .\styles\
-
-      - name: Copy Qt TLS plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_release\plugins\tls\*.dll .\tls\
-
-      - name: Copy Qt SQL drivers
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_release\plugins\sqldrivers\qsqlite.dll .\sqldrivers\
-
-      - name: Copy Qt imageformats plugins
-        working-directory: build
-        run: copy c:\strawberry_msvc_x86_64_release\plugins\imageformats\*.dll .\imageformats\
-
-      - name: Copy gstreamer plugins
-        working-directory: build
-        run: |
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstaes.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstasf.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstasfmux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstaudioconvert.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstaudiofx.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstaudiomixer.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstaudioparsers.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstaudiorate.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstbs2b.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstfaac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstfaad.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstgme.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gsthls.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstid3tag.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstopenmpt.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstpbtypes.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gsttaglib.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstwavenc.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_x86_64_release\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
-
-      - name: Download copydlldeps.sh
-        shell: bash
-        working-directory: build
-        run: curl -O -L https://raw.githubusercontent.com/strawberrymusicplayer/strawberry-mxe/master/tools/copydlldeps.sh
-
-      - name: Copy dependencies
-        shell: bash
-        working-directory: build
-        run: >
-          ./copydlldeps.sh
-          -c
-          -d .
-          -F .
-          -F ./platforms
-          -F ./styles
-          -F ./tls
-          -F ./sqldrivers
-          -F ./imageformats
-          -F ./gio-modules
-          -F ./gstreamer-plugins
-          -R /c/strawberry_msvc_x86_64_release/bin
-
-      - name: Copy nsis files
-        working-directory: build
-        run: |
-          copy ..\dist\windows\*.nsi .
-          copy ..\dist\windows\*.nsh .
-          copy ..\dist\windows\*.ico .
-
-      - name: Copy COPYING license file
-        working-directory: build
-        run: copy ..\COPYING .
-
-      - name: list files
-        working-directory: build
-        run: dir
-
-      - name: Create nsis installer
-        working-directory: build
-        run: makensis strawberry.nsi
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: upload-windows
-          path: build/StrawberrySetup*.exe
-
-
-
-  upload-windows:
-    name: Upload Windows Setup
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    needs:
-      - build-windows-msvc-x86-debug
-      - build-windows-msvc-x86-release
-      - build-windows-msvc-x64-debug
-      - build-windows-msvc-x64-release
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
-        with:
-          path: uploads
-      - name: Install SSH keys
-        uses: shimataro/ssh-key-action@v2
-        with:
-          known_hosts: ${{ secrets.KNOWN_HOSTS2 }}
-          key: ${{ secrets.SSH_KEY }}
-      - name: rsync
-        run: |
-          set -x
-          for i in $(find uploads -type f -name 'StrawberrySetup*.exe'); do
-            rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/windows/
-          done
-
 
 
   build-freebsd:
@@ -2794,11 +493,10 @@ jobs:
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           cmake -E make_directory build
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Debug
+          cmake .. -DCMAKE_BUILD_TYPE="Debug"
           cmake --build . --config Debug --parallel 4
           cd ..
           rm -rf build
-
 
 
   build-macos:
@@ -2938,4 +636,440 @@ jobs:
           set -x
           for i in $(find uploads -type f -name 'strawberry-*.dmg'); do
             rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/macos/
+          done
+
+
+  build-windows-mingw:
+    name: Build Windows MinGW
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ 'i686', 'x86_64' ]
+        build_type: [ 'debug', 'release' ]
+    container:
+      image: jonaski/strawberry-mxe-${{matrix.arch}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
+
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+
+      - name: Link MXE directory
+        shell: bash
+        run: ln -s /strawberry-mxe ~/mxe-shared
+
+      - name: Set ENABLE_WIN32_CONSOLE (debug)
+        if: ${{matrix.build_type}} == 'debug'
+        shell: bash
+        run: echo "win32_console=ON" >> $GITHUB_ENV
+
+      - name: Set ENABLE_WIN32_CONSOLE (release)
+        if: ${{matrix.build_type}} == 'release'
+        shell: bash
+        run: echo "win32_console=OFF" >> $GITHUB_ENV
+
+      - name: Run CMake
+        shell: bash
+        env:
+          PKG_CONFIG_PATH: /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/lib/pkgconfig
+        working-directory: build
+        run: >
+          cmake ..
+          -DCMAKE_TOOLCHAIN_FILE="../cmake/Toolchain-${{matrix.arch}}-w64-mingw32-shared.cmake"
+          -DCMAKE_BUILD_TYPE="${{env.build_type}}"
+          -DCMAKE_PREFIX_PATH="/strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6"
+          -DBUILD_WITH_QT6=ON
+          -DBUILD_WERROR=OFF
+          -DARCH="${{matrix.arch}}"
+          -DENABLE_WIN32_CONSOLE=${{env.build_type}}
+          -DENABLE_DBUS=OFF
+          -DENABLE_LIBGPOD=OFF
+          -DENABLE_LIBMTP=OFF
+          -DENABLE_AUDIOCD=OFF
+          -DProtobuf_PROTOC_EXECUTABLE="/strawberry-mxe/usr/x86_64-pc-linux-gnu/bin/protoc"
+
+      - name: Run Make
+        working-directory: build
+        run: cmake --build . --config Release --parallel $(nproc)
+
+      - name: Create directories
+        working-directory: build
+        run: mkdir -p gio-modules platforms sqldrivers tls imageformats styles gstreamer-plugins nsisplugins
+
+      - name: Copy GIO modules
+        working-directory: build
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/lib/gio/modules/{libgiognutls.dll,libgioopenssl.dll} ${GITHUB_WORKSPACE}/build/gio-modules/
+
+      - name: Copy Qt platform plugins
+        working-directory: build
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6/plugins/platforms/qwindows.dll ${GITHUB_WORKSPACE}/build/platforms/
+
+      - name: Copy Qt styles
+        working-directory: build
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6/plugins/styles/qwindowsvistastyle.dll ${GITHUB_WORKSPACE}/build/styles/
+
+      - name: Copy Qt TLS plugins
+        working-directory: build
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6/plugins/tls/{qschannelbackend.dll,qopensslbackend.dll} ${GITHUB_WORKSPACE}/build/tls/
+
+      - name: Copy Qt SQL drivers
+        working-directory: build
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6/plugins/sqldrivers/qsqlite.dll ${GITHUB_WORKSPACE}/build/sqldrivers/
+
+      - name: Copy Qt imageformats
+        working-directory: build
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6/plugins/imageformats/{qgif.dll,qico.dll,qjpeg.dll} ${GITHUB_WORKSPACE}/build/imageformats/
+
+      - name: Copy gstreamer plugins
+        working-directory: build
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/gstreamer-1.0/*.dll ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
+
+      - name: Copy extra binaries
+        working-directory: build
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-3.0-0.dll,libnghttp2.dll} .
+
+      - name: Copy dependencies
+        working-directory: build
+        run: >
+          /strawberry-mxe/tools/copydlldeps.sh
+          -c
+          -d .
+          -F .
+          -F ./platforms
+          -F ./styles
+          -F ./imageformats
+          -F ./tls
+          -F ./sqldrivers
+          -F ./gstreamer-plugins
+          -R /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared
+
+      - name: Strip binaries
+        if: ${{matrix.build_type}} == 'release'
+        working-directory: build
+        run: find . -type f \( -iname \*.dll -o -iname \*.exe \) -exec /strawberry-mxe/usr/bin/${{matrix.arch}}-w64-mingw32.shared-strip {} \;
+
+      - name: Copy nsis files
+        working-directory: build
+        run: cp ${GITHUB_WORKSPACE}/dist/windows/*.nsi ${GITHUB_WORKSPACE}/dist/windows/*.nsh ${GITHUB_WORKSPACE}/dist/windows/*.ico .
+
+      - name: Copy COPYING license file
+        working-directory: build
+        run: cp ${GITHUB_WORKSPACE}/COPYING .
+
+      - name: Build Windows installer
+        working-directory: build
+        run: makensis strawberry.nsi
+
+
+  build-windows-msvc:
+    name: Build Windows MSVC
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ 'x86', 'x86_64' ]
+        build_type: [ 'debug', 'release' ]
+    steps:
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{matrix.arch}}
+          toolset: 14.29
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Delete conflicting files
+        shell: bash
+        run: |
+          rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
+          rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
+
+      - name: Get latest MSVC dependencies
+        shell: bash
+        run: |
+          msvc_deps_version=$(curl -s 'https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | head -1)
+          echo "msvc_deps_version=${msvc_deps_version}" >> $GITHUB_ENV
+
+      - name: Download Windows MSVC dependencies
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/${{env.msvc_deps_version}}/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz)!"
+          target: downloads/
+          auto-match: true
+
+      - name: Download LockedList plugin for NSIS
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url: "LockedList [this](https://nsis.sourceforge.io/mediawiki/images/d/d3/LockedList.zip)!"
+          target: downloads/
+          auto-match: true
+
+      - name: Extract NSIS LockedList plugin
+        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/LockedList.zip"
+
+      - name: Download Registry plugin for NSIS
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url: "Registry [this](https://nsis.sourceforge.io/mediawiki/images/4/47/Registry.zip)!"
+          target: downloads/
+          auto-match: true
+
+      - name: Extract NSIS Registry plugin
+        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Registry.zip"
+
+      - name: Download Inetc plugin for NSIS
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url: "Inetc [this](https://nsis.sourceforge.io/mediawiki/images/c/c9/Inetc.zip)!"
+          target: downloads/
+          auto-match: true
+
+      - name: Extract NSIS Inetc plugin
+        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Inetc.zip"
+
+      - name: Install NSIS plugins
+        run: |
+          copy "${{github.workspace}}/NSIS_Plugins/Plugins/LockedList64.dll" "C:/Program Files (x86)/NSIS/Plugins/"
+          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/LockedList.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
+          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/"
+          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
+          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/INetC.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
+
+      - name: Extract Windows MSVC dependencies
+        shell: bash
+        run: |
+          tar -xf /d/a/strawberry/strawberry//downloads/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
+          mv strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}} /c/
+
+      - name: Update PATH
+        run: echo "c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Add safe git directory
+        shell: bash
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
+
+      - name: Create Build Environment
+        run: cmake -E make_directory build
+
+      - name: Set ENABLE_WIN32_CONSOLE (debug)
+        if: ${{matrix.build_type}} == 'debug'
+        shell: bash
+        run: echo "win32_console=ON" >> $GITHUB_ENV
+
+      - name: Set ENABLE_WIN32_CONSOLE (release)
+        if: ${{matrix.build_type}} == 'release'
+        shell: bash
+        run: echo "win32_console=OFF" >> $GITHUB_ENV
+
+      - name: Run CMake
+        working-directory: build
+        run: >
+          cmake ..
+          -G "Ninja"
+          -DCMAKE_BUILD_TYPE="${{matrix.build_type}}"
+          -DCMAKE_PREFIX_PATH="c:/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}/lib/cmake"
+          -DBUILD_WITH_QT6=ON
+          -DBUILD_WERROR=OFF
+          -DARCH="${{matrix.arch}}"
+          -DENABLE_WIN32_CONSOLE=${{env.win32_console}}
+          -DUSE_TAGLIB=ON
+          -DPKG_CONFIG_EXECUTABLE="c:/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}/bin/pkg-config.exe"
+          -DICU_ROOT="c:/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}"
+
+      - name: Run Make
+        env:
+          CL: "/MP"
+        working-directory: build
+        run: cmake --build . --config ${{matrix.build_type}} --parallel 4
+
+      - name: list files
+        working-directory: build
+        run: dir
+
+      - name: Copy extra binaries
+        working-directory: build
+        run: |
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\libssl-3*.dll
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\libcrypto-3*.dll
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\soup-3.0-0.dll
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\gst-launch-1.0.exe
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\gst-discoverer-1.0.exe
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\sqlite3.exe
+
+      - name: Create directories
+        working-directory: build
+        run: |
+          mkdir gio-modules
+          mkdir platforms
+          mkdir styles
+          mkdir tls
+          mkdir sqldrivers
+          mkdir imageformats
+          mkdir gstreamer-plugins
+          mkdir nsisplugins
+
+      - name: Copy GIO modules
+        working-directory: build
+        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gio\modules\*.dll .\gio-modules\
+
+      - name: Copy Qt platform plugins
+        working-directory: build
+        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\plugins\platforms\qwindows*.dll .\platforms\
+
+      - name: Copy Qt styles
+        working-directory: build
+        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\plugins\styles\qwindowsvistastyle*.dll .\styles\
+
+      - name: Copy Qt TLS plugins
+        working-directory: build
+        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\plugins\tls\*.dll .\tls\
+
+      - name: Copy Qt SQL drivers
+        working-directory: build
+        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\plugins\sqldrivers\qsqlite*.dll .\sqldrivers\
+
+      - name: Copy Qt imageformats plugins
+        working-directory: build
+        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\plugins\imageformats\*.dll .\imageformats\
+
+      - name: Copy gstreamer plugins
+        working-directory: build
+        run: |
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaes.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstasf.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstasfmux.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudioconvert.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudiofx.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudiomixer.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudioparsers.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudiorate.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstbs2b.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstfaac.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstfaad.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstgme.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsthls.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstid3tag.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstopenmpt.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstpbtypes.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsttaglib.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstwavenc.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
+          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
+
+      - name: Download copydlldeps.sh
+        shell: bash
+        working-directory: build
+        run: curl -O -L https://raw.githubusercontent.com/strawberrymusicplayer/strawberry-mxe/master/tools/copydlldeps.sh
+
+      - name: Copy dependencies
+        shell: bash
+        working-directory: build
+        run: >
+          ./copydlldeps.sh
+          -c
+          -d .
+          -F .
+          -F ./platforms
+          -F ./styles
+          -F ./tls
+          -F ./sqldrivers
+          -F ./imageformats
+          -F ./gio-modules
+          -F ./gstreamer-plugins
+          -R /c/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}/bin
+
+      - name: Copy nsis files
+        working-directory: build
+        run: |
+          copy ..\dist\windows\*.nsi .
+          copy ..\dist\windows\*.nsh .
+          copy ..\dist\windows\*.ico .
+
+      - name: Copy COPYING license file
+        working-directory: build
+        run: copy ..\COPYING .
+
+      - name: list files
+        working-directory: build
+        run: dir
+
+      - name: Create nsis installer
+        working-directory: build
+        run: makensis strawberry.nsi
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: upload-windows
+          path: build/StrawberrySetup*.exe
+
+
+  upload-windows-msvc:
+    name: Upload Windows MSVC Setup
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    needs:
+      - build-windows-msvc
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          path: uploads
+      - name: Install SSH keys
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{ secrets.KNOWN_HOSTS2 }}
+          key: ${{ secrets.SSH_KEY }}
+      - name: rsync
+        run: |
+          set -x
+          for i in $(find uploads -type f -name 'StrawberrySetup*.exe'); do
+            rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/windows/
           done
