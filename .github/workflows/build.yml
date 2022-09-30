@@ -667,12 +667,12 @@ jobs:
         run: ln -s /strawberry-mxe ~/mxe-shared
 
       - name: Set ENABLE_WIN32_CONSOLE (debug)
-        if: ${{matrix.build_type}} == 'debug'
+        if: matrix.build_type == 'debug'
         shell: bash
         run: echo "win32_console=ON" >> $GITHUB_ENV
 
       - name: Set ENABLE_WIN32_CONSOLE (release)
-        if: ${{matrix.build_type}} == 'release'
+        if: matrix.build_type == 'release'
         shell: bash
         run: echo "win32_console=OFF" >> $GITHUB_ENV
 
@@ -752,7 +752,7 @@ jobs:
           -R /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared
 
       - name: Strip binaries
-        if: ${{matrix.build_type}} == 'release'
+        if: matrix.build_type == 'release'
         working-directory: build
         run: find . -type f \( -iname \*.dll -o -iname \*.exe \) -exec /strawberry-mxe/usr/bin/${{matrix.arch}}-w64-mingw32.shared-strip {} \;
 
@@ -862,12 +862,12 @@ jobs:
         run: cmake -E make_directory build
 
       - name: Set ENABLE_WIN32_CONSOLE (debug)
-        if: ${{matrix.build_type}} == 'debug'
+        if: matrix.build_type == 'debug'
         shell: bash
         run: echo "win32_console=ON" >> $GITHUB_ENV
 
       - name: Set ENABLE_WIN32_CONSOLE (release)
-        if: ${{matrix.build_type}} == 'release'
+        if: matrix.build_type == 'release'
         shell: bash
         run: echo "win32_console=OFF" >> $GITHUB_ENV
 
