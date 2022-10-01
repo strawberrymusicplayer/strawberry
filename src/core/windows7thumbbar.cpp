@@ -100,7 +100,7 @@ void Windows7ThumbBar::SetupButton(const QAction *action, THUMBBUTTON *button) {
     button->dwFlags = action->isEnabled() ? THBF_ENABLED : THBF_DISABLED;
     // This is unsafe - doesn't obey 260-char restriction
     action->text().toWCharArray(button->szTip);
-    button->szTip[action->text().count()] = L'\0';
+    button->szTip[action->text().length()] = L'\0';
 
     if (!action->isVisible()) {
       button->dwFlags = THUMBBUTTONFLAGS(button->dwFlags | THBF_HIDDEN);
