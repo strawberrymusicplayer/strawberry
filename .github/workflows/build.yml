@@ -448,12 +448,12 @@ jobs:
             libmtp-dev
             libgpod-dev
       - name: Install Qt 5
-        if: matrix.ubuntu_version == 'bionic' || matrix.ubuntu_version == 'focal' || matrix.ubuntu_version == 'jammy'
+        if: matrix.ubuntu_version == 'bionic' || matrix.ubuntu_version == 'focal'
         env:
           DEBIAN_FRONTEND: noninteractive
         run: apt-get update && apt-get install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev
       - name: Install Qt 6
-        if: matrix.ubuntu_version != 'bionic' && matrix.ubuntu_version != 'focal' && matrix.ubuntu_version != 'jammy'
+        if: matrix.ubuntu_version != 'bionic' && matrix.ubuntu_version != 'focal'
         env:
           DEBIAN_FRONTEND: noninteractive
         run: apt-get update && apt-get install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
