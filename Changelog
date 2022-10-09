@@ -2,6 +2,19 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed "Could not open settings file for writing: No such file or directory" error before settings file is created.
+    * Fixed visual glitch on currently playing track (#1051).
+    * Fixed "Unknown error" on Tidal search (#1047).
+
+  Enhancements:
+    * Fixed narrowing conversions in connects.
+    * Fixed casts from QByteArray.
+    * Removed subdir for generated dbus files
+    * Removed use of fixed font in context (#1040).
+
 Version 1.0.9 (2022.09.03):
 
   Bugfixes:
