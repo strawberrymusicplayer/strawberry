@@ -202,7 +202,6 @@ class TidalRequest : public TidalBaseRequest {
   SongMap songs_;
   QStringList errors_;
   bool need_login_;
-  bool no_results_;
   QList<QNetworkReply*> replies_;
   QList<QNetworkReply*> album_cover_replies_;
 

@@ -75,8 +75,7 @@ TidalRequest::TidalRequest(TidalService *service, TidalUrlHandler *url_handler, 
       album_covers_requests_active_(),
       album_covers_requested_(0),
       album_covers_received_(0),
-      need_login_(false),
-      no_results_(false) {}
+      need_login_(false) {}
 
 TidalRequest::~TidalRequest() {
 
@@ -388,7 +387,6 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
 
   QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {  // Empty array means no results
-    if (offset_requested == 0) no_results_ = true;
     ArtistsFinishCheck();
     return;
   }
@@ -564,9 +562,6 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
   }
   QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
-    if ((type_ == QueryType_Albums || type_ == QueryType_SearchAlbums || (type_ == QueryType_SearchSongs && fetchalbums_)) && offset_requested == 0) {
-      no_results_ = true;
-    }
     AlbumsFinishCheck(artist_id_requested);
     return;
   }
@@ -847,9 +842,6 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id,
 
   QJsonArray json_items = json_value.toArray();
   if (json_items.isEmpty()) {
-    if ((type_ == QueryType_Songs || type_ == QueryType_SearchSongs) && offset_requested == 0) {
-      no_results_ = true;
-    }
     SongsFinishCheck(artist_id, album_id, limit_requested, offset_requested, songs_total, 0, album_artist, album, album_explicit);
     return;
   }
@@ -1262,19 +1254,21 @@ void TidalRequest::FinishCheck() {
       album_covers_received_ >= album_covers_requested_
   ) {
     finished_ = true;
-    if (no_results_ && songs_.isEmpty()) {
-      if (IsSearch())
-        emit Results(query_id_, SongMap(), tr("No match."));
-      else
-        emit Results(query_id_, SongMap(), QString());
-    }
-    else {
-      if (songs_.isEmpty() && errors_.isEmpty()) {
-        emit Results(query_id_, songs_, tr("Unknown error"));
+    if (errors_.isEmpty()) {
+      if (songs_.isEmpty()) {
+        if (IsSearch()) {
+          emit Results(query_id_, SongMap(), tr("No match."));
+        }
+        else {
+          emit Results(query_id_, SongMap(), QString());
+        }
       }
       else {
-        emit Results(query_id_, songs_, ErrorsToHTML(errors_));
+        emit Results(query_id_, songs_, QString());
       }
+    }
+    else {
+      emit Results(query_id_, SongMap(), ErrorsToHTML(errors_));
     }
   }
 
