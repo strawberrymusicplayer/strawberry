@@ -976,7 +976,7 @@ msgstr "Sortida d’àudio"
 msgid "Audio quality"
 msgstr "Qualitat d’àudio"
 
-#: tidal/tidalrequest.cpp:116 qobuz/qobuzservice.cpp:259
+#: tidal/tidalrequest.cpp:115 qobuz/qobuzservice.cpp:259
 msgid "Authenticating..."
 msgstr "S’està autenticant…"
 
@@ -3273,7 +3273,7 @@ msgstr "No hi ha cap coberta que exportar."
 msgid "No long blocks"
 msgstr "No utilitzis blocs llargs"
 
-#: tidal/tidalrequest.cpp:1267 qobuz/qobuzrequest.cpp:1314
+#: tidal/tidalrequest.cpp:1260 qobuz/qobuzrequest.cpp:1314
 msgid "No match."
 msgstr ""
 
@@ -4088,50 +4088,50 @@ msgstr ""
 msgid "Resume playback on start"
 msgstr "Reprèn la reproducció en l’inici"
 
-#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1099
+#: subsonic/subsonicrequest.cpp:689 tidal/tidalrequest.cpp:1091
 #: qobuz/qobuzrequest.cpp:1146
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr ""
 
-#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1100
+#: subsonic/subsonicrequest.cpp:690 tidal/tidalrequest.cpp:1092
 #: qobuz/qobuzrequest.cpp:1147
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:464 qobuz/qobuzrequest.cpp:464
+#: tidal/tidalrequest.cpp:462 qobuz/qobuzrequest.cpp:464
 #, qt-format
 msgid "Retrieving albums for %1 artist..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:465 qobuz/qobuzrequest.cpp:465
+#: tidal/tidalrequest.cpp:463 qobuz/qobuzrequest.cpp:465
 #, qt-format
 msgid "Retrieving albums for %1 artists..."
 msgstr ""
 
-#: subsonic/subsonicrequest.cpp:124 tidal/tidalrequest.cpp:199
+#: subsonic/subsonicrequest.cpp:124 tidal/tidalrequest.cpp:198
 #: qobuz/qobuzrequest.cpp:178
 msgid "Retrieving albums..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:155 qobuz/qobuzrequest.cpp:130
+#: tidal/tidalrequest.cpp:154 qobuz/qobuzrequest.cpp:130
 msgid "Retrieving artists..."
 msgstr ""
 
-#: subsonic/subsonicrequest.cpp:313 tidal/tidalrequest.cpp:736
+#: subsonic/subsonicrequest.cpp:313 tidal/tidalrequest.cpp:731
 #: qobuz/qobuzrequest.cpp:716
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr ""
 
-#: subsonic/subsonicrequest.cpp:314 tidal/tidalrequest.cpp:737
+#: subsonic/subsonicrequest.cpp:314 tidal/tidalrequest.cpp:732
 #: qobuz/qobuzrequest.cpp:717
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:243 qobuz/qobuzrequest.cpp:226
+#: tidal/tidalrequest.cpp:242 qobuz/qobuzrequest.cpp:226
 msgid "Retrieving songs..."
 msgstr ""
 
@@ -4315,8 +4315,8 @@ msgstr "Opcions de cerca"
 msgid "Search terms"
 msgstr "Termes de cerca"
 
-#: tidal/tidalrequest.cpp:287 tidal/tidalrequest.cpp:301
-#: tidal/tidalrequest.cpp:315 qobuz/qobuzrequest.cpp:274
+#: tidal/tidalrequest.cpp:286 tidal/tidalrequest.cpp:300
+#: tidal/tidalrequest.cpp:314 qobuz/qobuzrequest.cpp:274
 #: qobuz/qobuzrequest.cpp:288 qobuz/qobuzrequest.cpp:302
 msgid "Searching..."
 msgstr "S’està cercant…"
@@ -5262,8 +5262,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: subsonic/subsonicrequest.cpp:882 tidal/tidalrequest.cpp:1273
-#: qobuz/qobuzrequest.cpp:1320
+#: subsonic/subsonicrequest.cpp:882 qobuz/qobuzrequest.cpp:1320
 msgid "Unknown error"
 msgstr ""
 
