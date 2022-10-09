@@ -445,26 +445,32 @@ void PlaylistView::RestoreHeaderState() {
 
 void PlaylistView::ReloadBarPixmaps() {
 
-  currenttrack_bar_left_ = LoadBarPixmap(":/pictures/currenttrack_bar_left.png");
-  currenttrack_bar_mid_ = LoadBarPixmap(":/pictures/currenttrack_bar_mid.png");
-  currenttrack_bar_right_ = LoadBarPixmap(":/pictures/currenttrack_bar_right.png");
+  currenttrack_bar_left_ = LoadBarPixmap(":/pictures/currenttrack_bar_left.png", true);
+  currenttrack_bar_mid_ = LoadBarPixmap(":/pictures/currenttrack_bar_mid.png", false);
+  currenttrack_bar_right_ = LoadBarPixmap(":/pictures/currenttrack_bar_right.png", true);
 
 }
 
-QList<QPixmap> PlaylistView::LoadBarPixmap(const QString &filename) {
+QList<QPixmap> PlaylistView::LoadBarPixmap(const QString &filename, const bool keep_aspect_ratio) {
 
   QImage image(filename);
-  image = image.scaledToHeight(row_height_, Qt::SmoothTransformation);
+  QImage image_scaled;
+  if (keep_aspect_ratio) {
+    image_scaled = image.scaledToHeight(row_height_, Qt::SmoothTransformation);
+  }
+  else {
+    image_scaled = image.scaled(image.width(), row_height_, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+  }
 
   // Colour the bar with the palette colour
-  QPainter p(&image);
+  QPainter p(&image_scaled);
   p.setCompositionMode(QPainter::CompositionMode_SourceAtop);
   p.setOpacity(0.7);
   if (playlist_playing_song_color_.isValid()) {
-    p.fillRect(image.rect(), playlist_playing_song_color_);
+    p.fillRect(image_scaled.rect(), playlist_playing_song_color_);
   }
   else {
-    p.fillRect(image.rect(), QApplication::palette().color(QPalette::Highlight));
+    p.fillRect(image_scaled.rect(), QApplication::palette().color(QPalette::Highlight));
   }
   p.end();
 
@@ -472,7 +478,7 @@ QList<QPixmap> PlaylistView::LoadBarPixmap(const QString &filename) {
   QList<QPixmap> ret;
   ret.reserve(kGlowIntensitySteps);
   for (int i = 0; i < kGlowIntensitySteps; ++i) {
-    QImage step(image.copy());
+    QImage step(image_scaled.copy());
     p.begin(&step);
     p.setCompositionMode(QPainter::CompositionMode_SourceAtop);
     p.setOpacity(0.4 - 0.6 * sin(static_cast<float>(i) / kGlowIntensitySteps * (M_PI / 2)));

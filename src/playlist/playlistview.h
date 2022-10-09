@@ -194,7 +194,7 @@ class PlaylistView : public QTreeView {
   void RestoreHeaderState();
 
   void ReloadBarPixmaps();
-  QList<QPixmap> LoadBarPixmap(const QString &filename);
+  QList<QPixmap> LoadBarPixmap(const QString &filename, const bool keep_aspect_ratio);
   void LoadTinyPlayPausePixmaps(const int desired_size);
   void UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, const QModelIndex &idx);
 
