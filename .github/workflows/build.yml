@@ -504,6 +504,12 @@ jobs:
     runs-on: macos-10.15
     steps:
 
+      - name: Update packages
+        run: brew update
+
+      - name: Upgrade packages
+        run: brew upgrade
+
       - name: Install packages
         run: |
           brew install pkg-config cmake ninja meson bison flex wget create-dmg gettext boost protobuf protobuf-c
@@ -523,22 +529,22 @@ jobs:
           mv gstreamer.rb gst-plugins-{base,good,bad,ugly}.rb gst-libav.rb /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
 
       - name: Build and install gstreamer
-        run: brew install --build-from-source gstreamer
+        run: brew reinstall --build-from-source gstreamer
 
       - name: Build and install gst-plugins-base
-        run: brew install --build-from-source gst-plugins-base
+        run: brew reinstall --build-from-source gst-plugins-base
 
       - name: Build and install gst-plugins-good
-        run: brew install --build-from-source gst-plugins-good
+        run: brew reinstall --build-from-source gst-plugins-good
 
       - name: Build and install gst-plugins-bad
-        run: brew install --build-from-source gst-plugins-bad
+        run: brew reinstall --build-from-source gst-plugins-bad
 
       - name: Build and install gst-plugins-ugly
-        run: brew install --build-from-source gst-plugins-ugly
+        run: brew reinstall --build-from-source gst-plugins-ugly
 
       - name: Build and install gst-libav
-        run: brew install --build-from-source gst-libav
+        run: brew reinstall --build-from-source gst-libav
 
       - name: Build libgpod
         shell: bash
