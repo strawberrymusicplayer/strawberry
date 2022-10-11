@@ -570,7 +570,7 @@ option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
 
 if(NOT APPLE)
   set(NOT_APPLE ON)
-  optional_source(NOT_APPLE SOURCES widgets/qsearchfield_nonmac.cpp core/qtsystemtrayicon.cpp HEADERS core/qtsystemtrayicon.h)
+  optional_source(NOT_APPLE SOURCES widgets/qsearchfield_qt.cpp core/qtsystemtrayicon.cpp HEADERS core/qtsystemtrayicon.h)
 endif()
 
 if(HAVE_GLOBALSHORTCUTS)
