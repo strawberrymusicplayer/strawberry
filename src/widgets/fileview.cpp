@@ -21,9 +21,9 @@
 #include <QWidget>
 #include <QUndoStack>
 #include <QDir>
-#include <QFileIconProvider>
 #include <QFileInfo>
 #include <QFileSystemModel>
+#include <QFileIconProvider>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
@@ -267,7 +267,7 @@ void FileView::showEvent(QShowEvent *e) {
   if (model_) return;
 
   model_ = new QFileSystemModel(this);
-  if (!model_->iconProvider() || model_->iconProvider()->icon(QAbstractFileIconProvider::Folder).isNull()) {
+  if (!model_->iconProvider() || model_->iconProvider()->icon(QFileIconProvider::Folder).isNull()) {
     file_icon_provider_ = std::make_unique<QFileIconProvider>();
     model_->setIconProvider(file_icon_provider_.get());
   }
