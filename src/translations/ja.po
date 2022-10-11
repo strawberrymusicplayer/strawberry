@@ -3265,7 +3265,7 @@ msgstr "長いブロックなし"
 msgid "No match."
 msgstr "見つかりません"
 
-#: playlist/playlistcontainer.cpp:432
+#: playlist/playlistcontainer.cpp:436
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "見つかりません。再びプレイリスト全体を表示するには検索ボックスをクリアします。"

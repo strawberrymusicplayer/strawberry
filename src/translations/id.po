@@ -3272,7 +3272,7 @@ msgstr "Tanpa blok panjang"
 msgid "No match."
 msgstr "Tidak ada yang cocok."
 
-#: playlist/playlistcontainer.cpp:432
+#: playlist/playlistcontainer.cpp:436
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""

@@ -3258,7 +3258,7 @@ msgstr "无长块"
 msgid "No match."
 msgstr "没有匹配项。"
 
-#: playlist/playlistcontainer.cpp:432
+#: playlist/playlistcontainer.cpp:436
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "无匹配。清空搜索框以重新显示整个播放列表。"
