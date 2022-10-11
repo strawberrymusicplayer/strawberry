@@ -264,7 +264,7 @@ void PlaylistContainer::ReloadSettings() {
 }
 
 bool PlaylistContainer::SearchFieldHasFocus() const {
-  return ui_->search_field->hasFocus();
+  return ui_->toolbar->isVisible() && ui_->search_field->hasFocus();
 }
 
 void PlaylistContainer::FocusSearchField() {
@@ -402,6 +402,8 @@ void PlaylistContainer::SetTabBarHeight(const int height) {
 
 void PlaylistContainer::MaybeUpdateFilter() {
 
+  if (!ui_->toolbar->isVisible()) return;
+
   // delaying the filter update on small playlists is undesirable and an empty filter applies very quickly, too
   if (manager_->current()->rowCount() < kFilterDelayPlaylistSizeThreshold || ui_->search_field->text().isEmpty()) {
     UpdateFilter();
@@ -413,6 +415,8 @@ void PlaylistContainer::MaybeUpdateFilter() {
 }
 
 void PlaylistContainer::UpdateFilter() {
+
+  if (!ui_->toolbar->isVisible()) return;
 
   manager_->current()->filter()->SetFilterText(ui_->search_field->text());
   ui_->playlist->JumpToCurrentlyPlayingTrack();
