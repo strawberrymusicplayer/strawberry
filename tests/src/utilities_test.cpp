@@ -148,9 +148,9 @@ TEST(UtilitiesTest, SetEnvGetEnv) {
   QString var = "STRAWBERRY_UNIT_TEST_" + Utilities::GetRandomStringWithCharsAndNumbers(20);
   QString value = "STRAWBERRY_UNIT_TEST_" + Utilities::GetRandomStringWithCharsAndNumbers(20);
 
-  Utilities::SetEnv(var.toUtf8(), value);
+  Utilities::SetEnv(var.toUtf8().constData(), value);
   ASSERT_EQ(Utilities::GetEnv(var), value);
-  Utilities::SetEnv(var.toUtf8(), "");
+  Utilities::SetEnv(var.toUtf8().constData(), "");
 
 }
 
