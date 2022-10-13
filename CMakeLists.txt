@@ -1,6 +1,7 @@
+cmake_minimum_required(VERSION 3.7)
+
 project(strawberry)
 
-cmake_minimum_required(VERSION 3.7)
 cmake_policy(SET CMP0054 NEW)
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.12)
   cmake_policy(SET CMP0074 NEW)
