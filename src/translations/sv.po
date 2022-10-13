@@ -3148,7 +3148,7 @@ msgstr "Lösenord saknas."
 msgid "Missing server url, username or password."
 msgstr "Serveradress, användarnamn eller lösenord saknas."
 
-#: subsonic/subsonicservice.cpp:424
+#: subsonic/subsonicservice.cpp:427
 msgid "Missing username or password."
 msgstr "Användarnamn eller lösenord saknas."
 
@@ -4441,7 +4441,7 @@ msgstr "Serienummer"
 msgid "Server URL"
 msgstr "Serverwebbadress"
 
-#: subsonic/subsonicservice.cpp:419 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "Serverwebbadressen är ogiltig."
 

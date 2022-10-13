@@ -3113,7 +3113,7 @@ msgstr ""
 msgid "Missing server url, username or password."
 msgstr "URL server, nama pengguna atau kata sandi tidak tersedia."
 
-#: subsonic/subsonicservice.cpp:424
+#: subsonic/subsonicservice.cpp:427
 msgid "Missing username or password."
 msgstr "Nama pengguna atau kata sandi tidak tersedia."
 
@@ -4390,7 +4390,7 @@ msgstr "Nomor seri"
 msgid "Server URL"
 msgstr "URL server"
 
-#: subsonic/subsonicservice.cpp:419 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 

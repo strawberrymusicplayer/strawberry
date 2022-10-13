@@ -3148,7 +3148,7 @@ msgstr "Відсутній пароль."
 msgid "Missing server url, username or password."
 msgstr "Відсутня адреса сервера, ім’я користувача або пароль."
 
-#: subsonic/subsonicservice.cpp:424
+#: subsonic/subsonicservice.cpp:427
 msgid "Missing username or password."
 msgstr "Відсутнє ім'я користувача або пароль."
 
@@ -4449,7 +4449,7 @@ msgstr "Серійний номер"
 msgid "Server URL"
 msgstr "Адреса сервера"
 
-#: subsonic/subsonicservice.cpp:419 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "Недійсна адреса сервера."
 

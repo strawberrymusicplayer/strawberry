@@ -3106,7 +3106,7 @@ msgstr "パスワードがありません"
 msgid "Missing server url, username or password."
 msgstr "サーバーの URL、ユーザー名またはパスワードがありません"
 
-#: subsonic/subsonicservice.cpp:424
+#: subsonic/subsonicservice.cpp:427
 msgid "Missing username or password."
 msgstr "ユーザー名またはパスワードがありません"
 
@@ -4379,7 +4379,7 @@ msgstr "シリアル番号"
 msgid "Server URL"
 msgstr "サーバーURL"
 
-#: subsonic/subsonicservice.cpp:419 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "サーバーURLが不正です。"
 

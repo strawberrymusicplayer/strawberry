@@ -3132,7 +3132,7 @@ msgstr "Mangler passord."
 msgid "Missing server url, username or password."
 msgstr "Mangler server URL, brukernavn eller passord."
 
-#: subsonic/subsonicservice.cpp:424
+#: subsonic/subsonicservice.cpp:427
 msgid "Missing username or password."
 msgstr "Mangler brukernavn eller passord."
 
@@ -4416,7 +4416,7 @@ msgstr "Serienummer"
 msgid "Server URL"
 msgstr "Server URL"
 
-#: subsonic/subsonicservice.cpp:419 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "Server URL er ugyldig."
 

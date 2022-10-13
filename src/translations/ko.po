@@ -3104,7 +3104,7 @@ msgstr "패스워드가 없습니다."
 msgid "Missing server url, username or password."
 msgstr "서버 URL, 사용자 이름이나 암호가 없습니다."
 
-#: subsonic/subsonicservice.cpp:424
+#: subsonic/subsonicservice.cpp:427
 msgid "Missing username or password."
 msgstr "사용자 이름이나 암호가 없습니다."
 
@@ -4375,7 +4375,7 @@ msgstr "일련 번호"
 msgid "Server URL"
 msgstr "서버 URL"
 
-#: subsonic/subsonicservice.cpp:419 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "서버 URL이 잘못되었습니다."
 
