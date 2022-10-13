@@ -63,11 +63,7 @@ struct tag_group_by {};
 
 class GroupByDialogPrivate {
  private:
-  typedef multi_index_container<
-      Mapping,
-      indexed_by<
-          ordered_unique<tag<tag_index>, member<Mapping, int, &Mapping::combo_box_index> >,
-          ordered_unique<tag<tag_group_by>, member<Mapping, CollectionModel::GroupBy, &Mapping::group_by> > > > MappingContainer;
+  using MappingContainer = multi_index_container<Mapping, indexed_by<ordered_unique<tag<tag_index>, member<Mapping, int, &Mapping::combo_box_index>>, ordered_unique<tag<tag_group_by>, member<Mapping, CollectionModel::GroupBy, &Mapping::group_by>>>>;
 
  public:
   MappingContainer mapping_;

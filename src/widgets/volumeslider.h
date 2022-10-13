@@ -81,10 +81,10 @@ class PrettySlider : public SliderSlider {
   Q_OBJECT
 
  public:
-  typedef enum {
+  using SliderMode = enum {
     Normal,  // Same behavior as Slider *unless* there's a moodbar
     Pretty
-  } SliderMode;
+  };
 
   explicit PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget *parent, const uint max = 0);
 

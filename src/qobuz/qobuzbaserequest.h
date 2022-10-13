@@ -59,8 +59,8 @@ class QobuzBaseRequest : public QObject {
   };
 
  protected:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
+  using Param = QPair<QString, QString>;
+  using ParamList = QList<Param>;
 
   QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_provided);
   QByteArray GetReplyData(QNetworkReply *reply);

@@ -31,7 +31,7 @@
 
 class QPainter;
 
-typedef QVector<QColor> ColorVector;
+using ColorVector = QVector<QColor>;
 
 class MoodbarRenderer {
  public:

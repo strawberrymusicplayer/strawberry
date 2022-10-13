@@ -36,7 +36,7 @@ struct RadioChannel {
 
   Song ToSong() const;
 };
-typedef QList<RadioChannel> RadioChannelList;
+using RadioChannelList = QList<RadioChannel>;
 
 Q_DECLARE_METATYPE(RadioChannel)
 

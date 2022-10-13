@@ -81,7 +81,7 @@ class InternetSearchView : public QWidget {
     Song metadata_;
     QString pixmap_cache_key_;
   };
-  typedef QList<Result> ResultList;
+  using ResultList = QList<Result>;
 
   void Init(Application *app, InternetService *service);
 

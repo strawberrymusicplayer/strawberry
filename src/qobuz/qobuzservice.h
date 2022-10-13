@@ -142,8 +142,8 @@ class QobuzService : public InternetService {
   void HandleStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
+  using Param = QPair<QString, QString>;
+  using ParamList = QList<Param>;
 
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());

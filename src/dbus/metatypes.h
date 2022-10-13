@@ -10,8 +10,8 @@
 
 Q_DECLARE_METATYPE(QList<QByteArray>)
 
-typedef QMap<QString, QVariantMap> InterfacesAndProperties;
-typedef QMap<QDBusObjectPath, InterfacesAndProperties> ManagedObjectList;
+using InterfacesAndProperties = QMap<QString, QVariantMap>;
+using ManagedObjectList = QMap<QDBusObjectPath, InterfacesAndProperties>;
 
 Q_DECLARE_METATYPE(InterfacesAndProperties)
 Q_DECLARE_METATYPE(ManagedObjectList)

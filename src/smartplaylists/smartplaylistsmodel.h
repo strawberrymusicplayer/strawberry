@@ -58,8 +58,8 @@ class SmartPlaylistsModel : public SimpleTreeModel<SmartPlaylistsItem> {
     LastRole
   };
 
-  typedef QList<PlaylistGeneratorPtr> GeneratorList;
-  typedef QList<GeneratorList> DefaultGenerators;
+  using GeneratorList = QList<PlaylistGeneratorPtr>;
+  using DefaultGenerators = QList<GeneratorList>;
 
   PlaylistGeneratorPtr CreateGenerator(const QModelIndex &idx) const;
   void AddGenerator(PlaylistGeneratorPtr gen);

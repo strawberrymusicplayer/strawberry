@@ -131,8 +131,8 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
 
   Q_DISABLE_COPY(PlaylistItem)
 };
-typedef std::shared_ptr<PlaylistItem> PlaylistItemPtr;
-typedef QList<PlaylistItemPtr> PlaylistItemList;
+using PlaylistItemPtr = std::shared_ptr<PlaylistItem>;
+using PlaylistItemList = QList<PlaylistItemPtr>;
 
 Q_DECLARE_METATYPE(PlaylistItemPtr)
 Q_DECLARE_METATYPE(PlaylistItemList)

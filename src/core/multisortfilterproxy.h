@@ -44,7 +44,7 @@ class MultiSortFilterProxy : public QSortFilterProxyModel {
  private:
   int Compare(const QVariant &left, const QVariant &right) const;
 
-  typedef QPair<int, Qt::SortOrder> SortSpec;
+  using SortSpec = QPair<int, Qt::SortOrder>;
   QList<SortSpec> sorting_;
 };
 

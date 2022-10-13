@@ -76,8 +76,8 @@ class WorkerPool : public _WorkerPoolBase {
   explicit WorkerPool(QObject *parent = nullptr);
   ~WorkerPool() override;
 
-  typedef typename HandlerType::MessageType MessageType;
-  typedef typename HandlerType::ReplyType ReplyType;
+  using MessageType = typename HandlerType::MessageType;
+  using ReplyType = typename HandlerType::ReplyType;
 
   // Sets the name of the worker executable.  This is looked for first in the current directory, and then in $PATH.
   // You must call this before calling Start().

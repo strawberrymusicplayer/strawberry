@@ -33,7 +33,7 @@
 class SmartPlaylistSearch {
 
  public:
-  typedef QList<SmartPlaylistSearchTerm> TermList;
+  using TermList = QList<SmartPlaylistSearchTerm>;
 
   // These values are persisted, so add to the end of the enum only
   enum SearchType { Type_And = 0, Type_Or, Type_All, };

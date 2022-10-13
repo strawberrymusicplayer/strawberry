@@ -87,7 +87,7 @@ class MusicBrainzClient : public QObject {
     int track_;
     int year_;
   };
-  typedef QList<Result> ResultList;
+  using ResultList = QList<Result>;
 
   // Starts a request and returns immediately.  Finished() will be emitted later with the same ID.
   void Start(const int id, const QStringList &mbid);
@@ -112,8 +112,8 @@ class MusicBrainzClient : public QObject {
   void DiscIdRequestFinished(const QString &discid, QNetworkReply *reply);
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
+  using Param = QPair<QString, QString>;
+  using ParamList = QList<Param>;
 
   struct Request {
     Request() : id(0), number(0) {}

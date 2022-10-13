@@ -308,7 +308,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   AlbumCoverLoaderOptions cover_loader_options_;
 
-  typedef QPair<CollectionItem*, QString> ItemAndCacheKey;
+  using ItemAndCacheKey = QPair<CollectionItem*, QString>;
   QMap<quint64, ItemAndCacheKey> pending_art_;
   QSet<QString> pending_cache_keys_;
 };

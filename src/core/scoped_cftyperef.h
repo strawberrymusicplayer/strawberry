@@ -20,7 +20,7 @@
 template<typename CFT>
 class ScopedCFTypeRef {
  public:
-  typedef CFT element_type;
+  using element_type = CFT;
 
   explicit ScopedCFTypeRef(CFT object = nullptr) : object_(object) {}
 

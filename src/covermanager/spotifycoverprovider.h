@@ -69,9 +69,6 @@ class SpotifyCoverProvider : public JsonCoverProvider {
   void RequestAccessToken(const QString &code = QString(), const QUrl &redirect_url = QUrl());
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
-
   static const char *kSettingsGroup;
   static const char *kClientIDB64;
   static const char *kClientSecretB64;

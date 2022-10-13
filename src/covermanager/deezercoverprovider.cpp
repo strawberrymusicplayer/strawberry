@@ -66,9 +66,6 @@ DeezerCoverProvider::~DeezerCoverProvider() {
 
 bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> Params;
-
   if (artist.isEmpty() && album.isEmpty() && title.isEmpty()) return false;
 
   QString resource;
@@ -86,9 +83,9 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
     }
   }
 
-  const Params params = Params() << Param("output", "json")
-                                 << Param("q", query)
-                                 << Param("limit", QString::number(kLimit));
+  const ParamList params = ParamList() << Param("output", "json")
+                                       << Param("q", query)
+                                       << Param("limit", QString::number(kLimit));
 
   QUrlQuery url_query;
   for (const Param &param : params) {

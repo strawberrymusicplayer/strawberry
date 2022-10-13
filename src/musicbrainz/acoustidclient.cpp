@@ -65,8 +65,8 @@ void AcoustidClient::SetTimeout(const int msec) { timeouts_->SetTimeout(msec); }
 
 void AcoustidClient::Start(const int id, const QString &fingerprint, int duration_msec) {
 
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
+  using Param = QPair<QString, QString>;
+  using ParamList = QList<Param>;
 
   const ParamList params = ParamList() << Param("format", "json")
                                        << Param("client", kClientId)

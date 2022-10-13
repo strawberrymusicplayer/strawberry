@@ -59,9 +59,6 @@ class QobuzCoverProvider : public JsonCoverProvider {
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
-
   static const int kLimit;
 
   QobuzService *service_;

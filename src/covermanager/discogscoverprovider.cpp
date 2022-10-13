@@ -151,7 +151,7 @@ QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &pa
   QStringList query_items;
 
   // Encode the arguments
-  typedef QPair<QByteArray, QByteArray> EncodedParam;
+  using EncodedParam = QPair<QByteArray, QByteArray>;
   for (const Param &param : params) {
     EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
     query_items << QString(encoded_param.first + "=" + encoded_param.second);

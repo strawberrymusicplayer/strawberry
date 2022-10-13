@@ -48,8 +48,8 @@ class LastFMImport : public QObject {
   void AbortAll();
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
+  using Param = QPair<QString, QString>;
+  using ParamList = QList<Param>;
 
   struct GetRecentTracksRequest {
     explicit GetRecentTracksRequest(const int _page) : page(_page) {}

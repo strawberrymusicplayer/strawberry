@@ -77,9 +77,6 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   };
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
-
   void SendSearchRequest(std::shared_ptr<DiscogsCoverSearchContext> search);
   void SendReleaseRequest(const DiscogsCoverReleaseContext &release);
   QNetworkReply *CreateRequest(QUrl url, const ParamList &params_provided = ParamList());

@@ -405,8 +405,8 @@ class Song {
   QSharedDataPointer<Private> d;
 };
 
-typedef QList<Song> SongList;
-typedef QMap<QString, Song> SongMap;
+using SongList = QList<Song>;
+using SongMap = QMap<QString, Song>;
 
 Q_DECLARE_METATYPE(Song)
 Q_DECLARE_METATYPE(SongList)

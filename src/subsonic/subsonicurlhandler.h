@@ -48,9 +48,6 @@ class SubsonicUrlHandler : public UrlHandler {
   LoadResult StartLoading(const QUrl &url) override;
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
-
   SubsonicService *service_;
 
 };

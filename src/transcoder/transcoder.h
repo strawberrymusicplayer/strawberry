@@ -140,7 +140,7 @@ class Transcoder : public QObject {
   static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage *msg, gpointer data);
 
  private:
-  typedef QList<std::shared_ptr<JobState>> JobStateList;
+  using JobStateList = QList<std::shared_ptr<JobState>>;
 
   int max_threads_;
   QList<Job> queued_jobs_;

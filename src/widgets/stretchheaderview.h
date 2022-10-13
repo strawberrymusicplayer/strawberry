@@ -40,7 +40,7 @@ class StretchHeaderView : public QHeaderView {
  public:
   explicit StretchHeaderView(const Qt::Orientation orientation, QWidget *parent = nullptr);
 
-  typedef double ColumnWidthType;
+  using ColumnWidthType = double;
 
   static const int kMinimumColumnWidth;
   static const int kMagicNumber;

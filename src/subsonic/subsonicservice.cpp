@@ -155,6 +155,9 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
     ping_redirects_ = 0;
   }
 
+  using Param = QPair<QString, QString>;
+  using ParamList = QList<Param>;
+
   ParamList params = ParamList() << Param("c", kClientName)
                                  << Param("v", kApiVersion)
                                  << Param("f", "json")

@@ -101,9 +101,6 @@ class SubsonicService : public InternetService {
   void SongsResultsReceived(const SongMap &songs, const QString &error);
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
-
   void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
 
   static const char *kSongsTable;

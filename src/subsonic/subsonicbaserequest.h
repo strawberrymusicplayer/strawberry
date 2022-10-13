@@ -49,8 +49,8 @@ class SubsonicBaseRequest : public QObject {
   explicit SubsonicBaseRequest(SubsonicService *service, QObject *parent = nullptr);
 
  protected:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
+  using Param = QPair<QString, QString>;
+  using ParamList = QList<Param>;
 
  public:
   static QUrl CreateUrl(const QUrl &server_url, const SubsonicSettingsPage::AuthMethod auth_method, const QString &username, const QString &password, const QString &ressource_name, const ParamList &params_provided);

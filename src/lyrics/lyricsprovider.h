@@ -39,9 +39,6 @@ class LyricsProvider : public QObject {
  public:
   explicit LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, NetworkAccessManager *network, QObject *parent);
 
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
-
   QString name() const { return name_; }
   bool is_enabled() const { return enabled_; }
   int order() const { return order_; }
@@ -65,6 +62,9 @@ class LyricsProvider : public QObject {
   void SearchFinished(int id, LyricsSearchResults results);
 
  protected:
+  using Param = QPair<QString, QString>;
+  using ParamList = QList<Param>;
+
   NetworkAccessManager *network_;
   QString name_;
   bool enabled_;

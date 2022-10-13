@@ -53,7 +53,7 @@ class DeviceDatabaseBackend : public QObject {
     MusicStorage::TranscodeMode transcode_mode_;
     Song::FileType transcode_format_;
   };
-  typedef QList<Device> DeviceList;
+  using DeviceList = QList<Device>;
 
   static const int kDeviceSchemaVersion;
 

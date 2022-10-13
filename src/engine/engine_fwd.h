@@ -37,6 +37,6 @@ Q_DECLARE_FLAGS(TrackChangeFlags, TrackChangeType)
 
 }  // namespace Engine
 
-typedef Engine::Base EngineBase;
+using EngineBase = Engine::Base;
 
 #endif  // ENGINE_FWD_H

@@ -63,7 +63,7 @@ class PlaylistBackend : public QObject {
     QString dynamic_backend;
     QByteArray dynamic_data;
   };
-  typedef QList<Playlist> PlaylistList;
+  using PlaylistList = QList<Playlist>;
 
   static const int kSongTableJoins;
 

@@ -45,8 +45,8 @@ class Application;
 class Song;
 class Playlist;
 
-typedef QList<QVariantMap> TrackMetadata;
-typedef QList<QDBusObjectPath> Track_Ids;
+using TrackMetadata = QList<QVariantMap>;
+using Track_Ids = QList<QDBusObjectPath>;
 Q_DECLARE_METATYPE(TrackMetadata)
 
 struct MprisPlaylist {
@@ -54,7 +54,7 @@ struct MprisPlaylist {
   QString name;
   QString icon;  // Uri
 };
-typedef QList<MprisPlaylist> MprisPlaylistList;
+using MprisPlaylistList = QList<MprisPlaylist>;
 Q_DECLARE_METATYPE(MprisPlaylist)
 Q_DECLARE_METATYPE(MprisPlaylistList)
 

@@ -82,8 +82,8 @@ class AbstractMessageHandler : public _MessageHandlerBase {
   AbstractMessageHandler(QIODevice *device, QObject *parent);
   ~AbstractMessageHandler() override { AbstractMessageHandler::AbortAll(); }
 
-  typedef MT MessageType;
-  typedef MessageReply<MT> ReplyType;
+  using MessageType = MT;
+  using ReplyType = MessageReply<MT>;
 
   // Serialises the message and writes it to the socket.
   // This version MUST be called from the thread in which the AbstractMessageHandler was created.

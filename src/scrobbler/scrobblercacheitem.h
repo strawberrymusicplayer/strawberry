@@ -50,8 +50,8 @@ class ScrobblerCacheItem : public QObject {
 
 };
 
-typedef std::shared_ptr<ScrobblerCacheItem> ScrobblerCacheItemPtr;
-typedef QList<ScrobblerCacheItemPtr> ScrobblerCacheItemList;
+using ScrobblerCacheItemPtr = std::shared_ptr<ScrobblerCacheItem>;
+using ScrobblerCacheItemList = QList<ScrobblerCacheItemPtr>;
 
 Q_DECLARE_METATYPE(ScrobblerCacheItemPtr)
 Q_DECLARE_METATYPE(ScrobblerCacheItemList)

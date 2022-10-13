@@ -40,7 +40,7 @@
 #include "core/signalchecker.h"
 
 #ifndef u_int32_t
-typedef unsigned int u_int32_t;
+using u_int32_t = unsigned int;
 #endif
 
 static const int kDecodeRate = 11025;

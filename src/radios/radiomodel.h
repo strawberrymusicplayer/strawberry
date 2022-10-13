@@ -88,7 +88,7 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
 
  private:
   static const int kTreeIconSize;
-  typedef QPair<RadioItem*, QString> ItemAndCacheKey;
+  using ItemAndCacheKey = QPair<RadioItem*, QString>;
 
   Application *app_;
   AlbumCoverLoaderOptions cover_loader_options_;

@@ -65,9 +65,6 @@ LastFmCoverProvider::~LastFmCoverProvider() {
 
 bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
-
   if (artist.isEmpty() && album.isEmpty() && title.isEmpty()) return false;
 
   QString method;

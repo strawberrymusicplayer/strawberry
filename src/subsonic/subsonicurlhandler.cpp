@@ -43,6 +43,8 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
     return LoadResult(url, LoadResult::Error, tr("Missing Subsonic username or password."));
   }
 
+  using Param = QPair<QString, QString>;
+  using ParamList = QList<Param>;
   const QUrl stream_url = SubsonicBaseRequest::CreateUrl(server_url(), auth_method(), username(), password(), "stream", ParamList() << Param("id", url.path()));
 
   return LoadResult(url, LoadResult::TrackAvailable, stream_url);

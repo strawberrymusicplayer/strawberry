@@ -47,7 +47,7 @@ class QMutex;
 
 typedef void (*GstFastSpectrumInputData)(const guint8 *in, double *out, guint len, double max_value, guint op, guint nfft);
 
-typedef std::function<void(double *magnitudes, int size)> OutputCallback;
+using OutputCallback = std::function<void(double *magnitudes, int size)>;
 
 struct GstFastSpectrum {
   GstAudioFilter parent;

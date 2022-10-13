@@ -56,9 +56,9 @@ class ScrobblerService : public QObject {
   virtual void Submitted() = 0;
   virtual bool IsSubmitted() const { return false; }
 
-  typedef QPair<QString, QString> Param;
-  typedef QPair<QByteArray, QByteArray> EncodedParam;
-  typedef QList<Param> ParamList;
+  using Param = QPair<QString, QString>;
+  using EncodedParam = QPair<QByteArray, QByteArray>;
+  using ParamList = QList<Param>;
 
   QJsonObject ExtractJsonObj(const QByteArray &data, const bool ignore_empty = false);
 

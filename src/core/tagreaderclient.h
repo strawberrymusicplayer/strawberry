@@ -45,8 +45,8 @@ class TagReaderClient : public QObject {
  public:
   explicit TagReaderClient(QObject *parent = nullptr);
 
-  typedef AbstractMessageHandler<spb::tagreader::Message> HandlerType;
-  typedef HandlerType::ReplyType ReplyType;
+  using HandlerType = AbstractMessageHandler<spb::tagreader::Message>;
+  using ReplyType = HandlerType::ReplyType;
 
   static const char *kWorkerExecutableName;
 
@@ -94,6 +94,6 @@ class TagReaderClient : public QObject {
   QThread *original_thread_;
 };
 
-typedef TagReaderClient::ReplyType TagReaderReply;
+using TagReaderReply = TagReaderClient::ReplyType;
 
 #endif  // TAGREADERCLIENT_H

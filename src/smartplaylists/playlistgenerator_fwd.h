@@ -27,6 +27,6 @@
 
 class PlaylistGenerator;
 
-typedef std::shared_ptr<PlaylistGenerator> PlaylistGeneratorPtr;
+using PlaylistGeneratorPtr = std::shared_ptr<PlaylistGenerator>;
 
 #endif  // PLAYLISTGENERATOR_FWD_H

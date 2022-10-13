@@ -59,7 +59,7 @@ class Organize : public QObject {
     Song song_;
     QString new_filename_;
   };
-  typedef QList<NewSongInfo> NewSongInfoList;
+  using NewSongInfoList = QList<NewSongInfo>;
 
   explicit Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool albumcover, const NewSongInfoList &songs, const bool eject_after, const QString &playlist = QString(), QObject *parent = nullptr);
   ~Organize() override;

@@ -47,7 +47,7 @@ namespace Engine {
 
 struct SimpleMetaBundle;
 
-typedef std::vector<int16_t> Scope;
+using Scope = std::vector<int16_t>;
 
 class Base : public QObject {
   Q_OBJECT
@@ -63,7 +63,7 @@ class Base : public QObject {
     QString description;
     QString iconname;
   };
-  typedef QList<OutputDetails> OutputDetailsList;
+  using OutputDetailsList = QList<OutputDetails>;
 
   virtual bool Init() = 0;
   virtual State state() const = 0;
@@ -160,7 +160,7 @@ class Base : public QObject {
     QString description;
     QString iconname;
   };
-  typedef QList<PluginDetails> PluginDetailsList;
+  using PluginDetailsList = QList<PluginDetails>;
 
   EngineType type_;
   bool volume_control_;

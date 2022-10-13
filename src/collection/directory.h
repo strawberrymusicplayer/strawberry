@@ -40,7 +40,7 @@ struct Directory {
 };
 Q_DECLARE_METATYPE(Directory)
 
-typedef QList<Directory> DirectoryList;
+using DirectoryList = QList<Directory>;
 Q_DECLARE_METATYPE(DirectoryList)
 
 
@@ -53,7 +53,7 @@ struct Subdirectory {
 };
 Q_DECLARE_METATYPE(Subdirectory)
 
-typedef QList<Subdirectory> SubdirectoryList;
+using SubdirectoryList = QList<Subdirectory>;
 Q_DECLARE_METATYPE(SubdirectoryList)
 
 #endif  // DIRECTORY_H

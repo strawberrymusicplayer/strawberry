@@ -53,6 +53,6 @@ class SqlRow {
 
 };
 
-typedef QList<SqlRow> SqlRowList;
+using SqlRowList = QList<SqlRow>;
 
 #endif  // SQLROW_H

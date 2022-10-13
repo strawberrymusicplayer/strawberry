@@ -75,6 +75,9 @@ class CoverProvider : public QObject {
   void SearchFinished(int, CoverProviderSearchResults);
 
  protected:
+  using Param = QPair<QString, QString>;
+  using ParamList = QList<Param>;
+
   Application *app_;
   NetworkAccessManager *network_;
   QString name_;

@@ -72,7 +72,7 @@ class CollectionBackendInterface : public QObject {
     Song::FileType filetype;
     QString cue_path;
   };
-  typedef QList<Album> AlbumList;
+  using AlbumList = QList<Album>;
 
   virtual QString songs_table() const = 0;
   virtual QString fts_table() const = 0;

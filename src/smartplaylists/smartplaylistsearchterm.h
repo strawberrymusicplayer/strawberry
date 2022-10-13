@@ -134,7 +134,7 @@ class SmartPlaylistSearchTerm {
 
 };
 
-typedef QList<SmartPlaylistSearchTerm::Operator> OperatorList;
+using OperatorList = QList<SmartPlaylistSearchTerm::Operator>;
 
 QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearchTerm &term);
 QDataStream &operator>>(QDataStream &s, SmartPlaylistSearchTerm &term);

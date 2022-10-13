@@ -55,7 +55,7 @@ class MusicStorage {
     Transcode_Unsupported = 3,
   };
 
-  typedef std::function<void(float progress)> ProgressFunction;
+  using ProgressFunction = std::function<void(float progress)>;
 
   struct CopyJob {
     CopyJob() : overwrite_(false), remove_original_(false), albumcover_(false) {}

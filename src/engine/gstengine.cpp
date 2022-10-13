@@ -835,7 +835,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &g
 
 void GstEngine::UpdateScope(const int chunk_length) {
 
-  typedef Engine::Scope::value_type sample_type;
+  using sample_type = Engine::Scope::value_type;
 
   // Prevent dbz or invalid chunk size
   if (!GST_CLOCK_TIME_IS_VALID(GST_BUFFER_DURATION(latest_buffer_))) return;

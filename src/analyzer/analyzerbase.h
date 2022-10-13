@@ -49,7 +49,7 @@ class QTimerEvent;
 
 namespace Analyzer {
 
-typedef std::vector<float> Scope;
+using Scope = std::vector<float>;
 
 class Base : public QWidget {
   Q_OBJECT
