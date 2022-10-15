@@ -28,6 +28,7 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QRegularExpression>
 
 #include "lyricsfetcher.h"
 
@@ -54,6 +55,9 @@ class LyricsProvider : public QObject {
   virtual void Deauthenticate() {}
 
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
+
+ protected:
+  QString ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start);
 
  signals:
   void AuthenticationComplete(bool, QStringList = QStringList());
