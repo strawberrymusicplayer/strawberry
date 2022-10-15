@@ -478,52 +478,18 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
     EndSearch(search, lyric);
     return;
   }
-  QString content = data;
 
-  // Extract the lyrics from HTML.
-
-  QString tag_begin = "<div class=\"lyrics\">";
-  QString tag_end = "</div>";
-  qint64 begin_idx = content.indexOf(tag_begin);
-  QString lyrics;
-  if (begin_idx > 0) {
-    begin_idx += tag_begin.length();
-    qint64 end_idx = content.indexOf(tag_end, begin_idx);
-    if (end_idx > 0) {
-      QString text = content.mid(begin_idx, end_idx - begin_idx);
-      text = text.replace(QRegularExpression("<br[^>]+>"), "\n");
-      text = text.remove(QRegularExpression("<[^>]*>"));
-      text = text.trimmed();
-      if (text.length() < 6000) {
-        lyrics = text;
-      }
-    }
-  }
-  else {
-    QRegularExpressionMatch rematch = QRegularExpression("<div data-lyrics-container=[^>]+>").match(content);
-    if (rematch.hasMatch()) {
-      begin_idx = content.indexOf(rematch.captured());
-      if (begin_idx > 0) {
-        begin_idx += rematch.captured().length();
-        qint64 end_idx = content.indexOf("</div>", begin_idx + rematch.captured().length());
-        if (end_idx > 0) {
-          QString text = content.mid(begin_idx, end_idx - begin_idx);
-          text = text.replace(QRegularExpression("<br[^>]+>"), "\n");
-          text = text.remove(QRegularExpression("<[^>]*>"));
-          text = text.trimmed();
-          if (text.length() < 6000 && !text.contains("there are no lyrics to", Qt::CaseInsensitive)) {
-            lyrics = text;
-          }
-        }
-      }
-    }
+  QString content = QString::fromUtf8(data);
+  QString lyrics = ParseLyricsFromHTML(content, QRegularExpression("<div[^>]*>"), QRegularExpression("<\\/div>"), QRegularExpression("<div data-lyrics-container=[^>]+>"));
+  if (lyrics.isEmpty()) {
+    lyrics = ParseLyricsFromHTML(content, QRegularExpression("<div[^>]*>"), QRegularExpression("<\\/div>"), QRegularExpression("<div class=\"lyrics\">"));
   }
 
   if (!lyrics.isEmpty()) {
     LyricsSearchResult result;
     result.artist = lyric.artist;
     result.title = lyric.title;
-    result.lyrics = Utilities::DecodeHtmlEntities(lyrics);
+    result.lyrics = lyrics;
     search->results.append(result);
   }
 
