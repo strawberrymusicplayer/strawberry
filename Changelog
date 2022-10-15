@@ -8,6 +8,9 @@ Unreleased:
     * Fixed "Could not open settings file for writing: No such file or directory" error before settings file is created.
     * Fixed visual glitch on currently playing track (#1051).
     * Fixed "Unknown error" on Tidal search (#1047).
+    * Fixed incomplete lyrics from Genius.
+    * Fixed icons not showing in the file view on some systems (#1024).
+    * (macOS) Fixed search field related crash when playlist toolbar is turned off.
 
   Enhancements:
     * Fixed narrowing conversions in connects.
