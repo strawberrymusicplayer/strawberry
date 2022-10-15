@@ -17,7 +17,8 @@
  *
  */
 
-#pragma once
+#ifndef TRANSLATIONS_H
+#define TRANSLATIONS_H
 
 #include "config.h"
 
@@ -39,3 +40,5 @@ class Translations : public QObject {
   QList<QTranslator*> translations_;
 
 };
+
+#endif  // TRANSLATIONS_H

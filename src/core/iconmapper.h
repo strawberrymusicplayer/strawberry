@@ -17,7 +17,8 @@
  *
  */
 
-#pragma once
+#ifndef ICONMAPPER_H
+#define ICONMAPPER_H
 
 #include "config.h"
 
@@ -135,3 +136,6 @@ static const QMap<QString, IconProperties> iconmapper_ = {  // clazy:exclude=non
 };
 
 }  // namespace IconMapper
+
+#endif  // ICONMAPPER_H
+
