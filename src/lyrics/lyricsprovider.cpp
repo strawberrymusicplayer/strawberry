@@ -74,6 +74,9 @@ QString LyricsProvider::ParseLyricsFromHTML(const QString &content, const QRegul
     start_idx = end_tag_idx + end_tag_length;
 
     if (end_tag_idx > 0 || start_lyrics_tag_idx < end_tag_idx) {
+      if (!lyrics.isEmpty()) {
+        lyrics.append("\n");
+      }
       lyrics.append(content.mid(start_lyrics_tag_idx, end_tag_idx - start_lyrics_tag_idx)
                            .replace(QRegularExpression("<br[^>]+>"), "\n")
                            .remove(QRegularExpression("<[^>]*>"))
