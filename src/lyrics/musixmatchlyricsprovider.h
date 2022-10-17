@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2022, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,11 +22,14 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QUrl>
 
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
@@ -45,13 +48,36 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
   void CancelSearch(const int id) override;
 
  private:
+  struct LyricsSearchContext {
+    explicit LyricsSearchContext() : id(-1) {}
+    int id;
+    QString artist;
+    QString album;
+    QString title;
+    QList<QUrl> requests_lyrics_;
+    LyricsSearchResults results;
+  };
+
+  using LyricsSearchContextPtr = std::shared_ptr<LyricsSearchContext>;
+
+  QString StringFixup(QString string);
+  bool SendSearchRequest(LyricsSearchContextPtr search);
+  bool CreateLyricsRequest(LyricsSearchContextPtr search);
+  bool CreateLyricsRequest(LyricsSearchContextPtr search, const QUrl &url);
+  bool SendLyricsRequest(LyricsSearchContextPtr search, const QUrl &url);
+  void EndSearch(LyricsSearchContextPtr search, const QUrl &url = QUrl());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album, const QString &title);
+  void HandleSearchReply(QNetworkReply *reply, LyricsSearchContextPtr search);
+  void HandleLyricsReply(QNetworkReply *reply, LyricsSearchContextPtr search, const QUrl &url);
 
  private:
+  static const char *kApiUrl;
+  static const char *kApiKey;
+  QList<LyricsSearchContextPtr> requests_search_;
   QList<QNetworkReply*> replies_;
+  bool rate_limit_exceeded_;
 
 };
 
