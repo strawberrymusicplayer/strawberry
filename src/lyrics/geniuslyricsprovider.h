@@ -56,7 +56,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   bool StartSearch(const QString &artist, const QString &album, const QString &title, int id) override;
   void CancelSearch(const int id) override;
 
- public:
+ private:
   struct GeniusLyricsLyricContext {
     explicit GeniusLyricsLyricContext() {}
     QString artist;
