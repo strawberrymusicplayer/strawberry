@@ -63,7 +63,6 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
   QString StringFixup(QString string);
   bool SendSearchRequest(LyricsSearchContextPtr search);
   bool CreateLyricsRequest(LyricsSearchContextPtr search);
-  bool CreateLyricsRequest(LyricsSearchContextPtr search, const QUrl &url);
   bool SendLyricsRequest(LyricsSearchContextPtr search, const QUrl &url);
   void EndSearch(LyricsSearchContextPtr search, const QUrl &url = QUrl());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
