@@ -48,6 +48,7 @@
 #include "utilities/randutils.h"
 #include "internet/localredirectserver.h"
 #include "jsonlyricsprovider.h"
+#include "htmllyricsprovider.h"
 #include "geniuslyricsprovider.h"
 
 using std::make_shared;
@@ -467,9 +468,9 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
   }
 
   QString content = QString::fromUtf8(data);
-  QString lyrics = ParseLyricsFromHTML(content, QRegularExpression("<div[^>]*>"), QRegularExpression("<\\/div>"), QRegularExpression("<div data-lyrics-container=[^>]+>"), true);
+  QString lyrics = HtmlLyricsProvider::ParseLyricsFromHTML(content, QRegularExpression("<div[^>]*>"), QRegularExpression("<\\/div>"), QRegularExpression("<div data-lyrics-container=[^>]+>"), true);
   if (lyrics.isEmpty()) {
-    lyrics = ParseLyricsFromHTML(content, QRegularExpression("<div[^>]*>"), QRegularExpression("<\\/div>"), QRegularExpression("<div class=\"lyrics\">"), true);
+    lyrics = HtmlLyricsProvider::ParseLyricsFromHTML(content, QRegularExpression("<div[^>]*>"), QRegularExpression("<\\/div>"), QRegularExpression("<div class=\"lyrics\">"), true);
   }
 
   if (!lyrics.isEmpty()) {

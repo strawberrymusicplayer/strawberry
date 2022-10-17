@@ -30,10 +30,9 @@
 #include <QRegularExpression>
 
 #include "core/shared_ptr.h"
+#include "core/networkaccessmanager.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
-
-class NetworkAccessManager;
 
 class LyricsProvider : public QObject {
   Q_OBJECT
@@ -57,9 +56,6 @@ class LyricsProvider : public QObject {
 
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
 
- protected:
-  QString ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple);
-
  signals:
   void AuthenticationComplete(const bool success, const QStringList &errors = QStringList());
   void AuthenticationSuccess();
@@ -68,10 +64,10 @@ class LyricsProvider : public QObject {
 
  protected:
   SharedPtr<NetworkAccessManager> network_;
-  QString name_;
+  const QString name_;
   bool enabled_;
   int order_;
-  bool authentication_required_;
+  const bool authentication_required_;
 };
 
 #endif  // LYRICSPROVIDER_H

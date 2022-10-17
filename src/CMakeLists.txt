@@ -178,6 +178,7 @@ set(SOURCES
   lyrics/lyricsfetcher.cpp
   lyrics/lyricsfetchersearch.cpp
   lyrics/jsonlyricsprovider.cpp
+  lyrics/htmllyricsprovider.cpp
   lyrics/ovhlyricsprovider.cpp
   lyrics/lololyricsprovider.cpp
   lyrics/geniuslyricsprovider.cpp
@@ -417,6 +418,7 @@ set(HEADERS
   lyrics/lyricsfetcher.h
   lyrics/lyricsfetchersearch.h
   lyrics/jsonlyricsprovider.h
+  lyrics/htmllyricsprovider.h
   lyrics/ovhlyricsprovider.h
   lyrics/lololyricsprovider.h
   lyrics/geniuslyricsprovider.h

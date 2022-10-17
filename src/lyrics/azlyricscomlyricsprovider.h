@@ -28,33 +28,25 @@
 #include <QUrl>
 
 #include "core/shared_ptr.h"
-#include "lyricsprovider.h"
+#include "core/networkaccessmanager.h"
+#include "htmllyricsprovider.h"
 #include "lyricssearchrequest.h"
 
-class QNetworkReply;
-class NetworkAccessManager;
-
-class AzLyricsComLyricsProvider : public LyricsProvider {
+class AzLyricsComLyricsProvider : public HtmlLyricsProvider {
   Q_OBJECT
 
  public:
   explicit AzLyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~AzLyricsComLyricsProvider() override;
 
-  bool StartSearch(const int id, const LyricsSearchRequest &request) override;
-  void CancelSearch(const int id) override;
-
- private:
-  void SendRequest(const int id, const LyricsSearchRequest &request, const QString &result_artist, const QString &result_album, const QString &result_title, QUrl url = QUrl());
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
-  static QString StringFixup(QString string);
-
- private slots:
-  void HandleLyricsReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request, const QString &result_artist, const QString &result_album, const QString &result_title);
+ protected:
+  QUrl GetUrl(const LyricsSearchRequest &request) override;
+  QString StringFixup(QString string) override;
 
  private:
-  static const char *kUrl;
-  QList<QNetworkReply*> replies_;
+  static const char kUrl[];
+  static const char kStartTag[];
+  static const char kEndTag[];
+  static const char kLyricsStart[];
 };
 
 #endif  // AZLYRICSCOMLYRICSPROVIDER_H
