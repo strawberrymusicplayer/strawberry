@@ -602,7 +602,7 @@ void Player::PreviousItem(const Engine::TrackChangeFlags change) {
 
 void Player::EngineStateChanged(const Engine::State state) {
 
-  if (Engine::Error == state) {
+  if (state == Engine::Error) {
     nb_errors_received_++;
   }
   else {
