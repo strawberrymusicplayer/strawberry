@@ -33,11 +33,12 @@
 
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
+#include "providers/musixmatchprovider.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
 
-class MusixmatchLyricsProvider : public JsonLyricsProvider {
+class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchProvider {
   Q_OBJECT
 
  public:
@@ -60,7 +61,6 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
 
   using LyricsSearchContextPtr = std::shared_ptr<LyricsSearchContext>;
 
-  QString StringFixup(QString string);
   bool SendSearchRequest(LyricsSearchContextPtr search);
   bool CreateLyricsRequest(LyricsSearchContextPtr search);
   bool SendLyricsRequest(LyricsSearchContextPtr search, const QUrl &url);
@@ -72,8 +72,6 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
   void HandleLyricsReply(QNetworkReply *reply, LyricsSearchContextPtr search, const QUrl &url);
 
  private:
-  static const char *kApiUrl;
-  static const char *kApiKey;
   QList<LyricsSearchContextPtr> requests_search_;
   QList<QNetworkReply*> replies_;
   bool rate_limit_exceeded_;

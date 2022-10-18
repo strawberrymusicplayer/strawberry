@@ -34,6 +34,7 @@
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
+#include "providers/musixmatchprovider.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
 #include "musixmatchcoverprovider.h"
@@ -56,22 +57,10 @@ bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &
 
   Q_UNUSED(title);
 
-  QString artist_stripped = artist;
-  QString album_stripped = album;
+  if (artist.isEmpty() || album.isEmpty()) return false;
 
-  artist_stripped = artist_stripped.replace('/', '-')
-                                   .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
-                                   .simplified()
-                                   .replace(' ', '-')
-                                   .replace(QRegularExpression("(-)\\1+"), "-")
-                                   .toLower();
-
-  album_stripped = album_stripped.replace('/', '-')
-                                 .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
-                                 .simplified()
-                                 .replace(' ', '-')
-                                 .replace(QRegularExpression("(-)\\1+"), "-")
-                                 .toLower();
+  QString artist_stripped = StringFixup(artist);
+  QString album_stripped = StringFixup(album);
 
   if (artist_stripped.isEmpty() || album_stripped.isEmpty()) return false;
 

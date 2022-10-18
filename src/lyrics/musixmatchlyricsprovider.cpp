@@ -39,9 +39,7 @@
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
 #include "musixmatchlyricsprovider.h"
-
-const char *MusixmatchLyricsProvider::kApiUrl = "https://api.musixmatch.com/ws/1.1";
-const char *MusixmatchLyricsProvider::kApiKey = "Y2FhMDRlN2Y4OWE5OTIxYmZlOGMzOWQzOGI3ZGU4MjE=";
+#include "providers/musixmatchprovider.h"
 
 MusixmatchLyricsProvider::MusixmatchLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Musixmatch", true, false, network, parent), rate_limit_exceeded_(false) {}
 
@@ -244,18 +242,6 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
       SendLyricsRequest(search, url);
     }
   }
-
-}
-
-QString MusixmatchLyricsProvider::StringFixup(QString string) {
-
-  return string.replace('/', '-')
-               .replace('\'', '-')
-               .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
-               .simplified()
-               .replace(' ', '-')
-               .replace(QRegularExpression("(-)\\1+"), "-")
-               .toLower();
 
 }
 

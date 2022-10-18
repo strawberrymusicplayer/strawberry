@@ -162,6 +162,8 @@ set(SOURCES
   lyrics/musixmatchlyricsprovider.cpp
   lyrics/chartlyricsprovider.cpp
 
+  providers/musixmatchprovider.cpp
+
   settings/settingsdialog.cpp
   settings/settingspage.cpp
   settings/behavioursettingspage.cpp
