@@ -371,10 +371,8 @@ bool OrganizeDialog::SetSongs(const SongList &songs) {
 bool OrganizeDialog::SetUrls(const QList<QUrl> &urls) {
 
   QStringList filenames;
-
-  // Only add file:// URLs
   for (const QUrl &url : urls) {
-    if (url.scheme() == "file") {
+    if (url.isLocalFile()) {
       filenames << url.toLocalFile();
     }
   }
