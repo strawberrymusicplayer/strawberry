@@ -60,7 +60,7 @@ FileView::FileView(QWidget *parent)
       model_(nullptr),
       undo_stack_(new QUndoStack(this)),
       task_manager_(nullptr),
-      storage_(new FilesystemMusicStorage("/")) {
+      storage_(new FilesystemMusicStorage(Song::Source_LocalFile, "/")) {
 
   ui_->setupUi(this);
 

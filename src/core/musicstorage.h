@@ -77,6 +77,7 @@ class MusicStorage {
     bool use_trash_;
   };
 
+  virtual Song::Source source() const = 0;
   virtual QString LocalPath() const { return QString(); }
   virtual std::optional<int> collection_directory_id() const { return std::optional<int>(); }
 

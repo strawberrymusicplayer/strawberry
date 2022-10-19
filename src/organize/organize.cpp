@@ -249,7 +249,7 @@ void Organize::ProcessSomeFiles() {
     job.progress_ = std::bind(&Organize::SetSongProgress, this, std::placeholders::_1, !task.transcoded_filename_.isEmpty());
 
     if (destination_->CopyToStorage(job)) {
-      if (job.remove_original_ && (song.is_collection_song() || song.source() == Song::Source_Device)) {
+      if (job.remove_original_ && (destination_->source() == Song::Source_Collection || destination_->source() == Song::Source_Device)) {
         // Notify other aspects of system that song has been invalidated
         QString root = destination_->LocalPath();
         QFileInfo new_file = QFileInfo(root + "/" + task.song_info_.new_filename_);

@@ -34,7 +34,7 @@
 
 #include "filesystemmusicstorage.h"
 
-FilesystemMusicStorage::FilesystemMusicStorage(const QString &root, const std::optional<int> collection_directory_id) : root_(root), collection_directory_id_(collection_directory_id) {}
+FilesystemMusicStorage::FilesystemMusicStorage(const Song::Source source, const QString &root, const std::optional<int> collection_directory_id) : source_(source), root_(root), collection_directory_id_(collection_directory_id) {}
 
 bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
 

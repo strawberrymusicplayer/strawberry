@@ -3172,7 +3172,7 @@ void MainWindow::PlaylistDelete() {
     app_->player()->Next();
   }
 
-  std::shared_ptr<MusicStorage> storage = std::make_shared<FilesystemMusicStorage>("/");
+  std::shared_ptr<MusicStorage> storage = std::make_shared<FilesystemMusicStorage>(Song::Source_LocalFile, "/");
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, true);
   //QObject::connect(delete_files, &DeleteFiles::Finished, this, &MainWindow::DeleteFinished);
   delete_files->Start(selected_songs);

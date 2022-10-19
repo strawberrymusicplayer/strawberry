@@ -46,6 +46,8 @@ class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicS
   Q_INVOKABLE FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
   ~FilesystemDevice() override;
 
+  Song::Source source() const final { return Song::Source_Device; }
+
   bool Init() override;
   void CloseAsync();
 

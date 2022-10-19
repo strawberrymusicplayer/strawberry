@@ -28,12 +28,14 @@
 
 #include <QString>
 
+#include "song.h"
 #include "musicstorage.h"
 
 class FilesystemMusicStorage : public virtual MusicStorage {
  public:
-  explicit FilesystemMusicStorage(const QString &root, const std::optional<int> collection_directory_id = std::optional<int>());
+  explicit FilesystemMusicStorage(const Song::Source source, const QString &root, const std::optional<int> collection_directory_id = std::optional<int>());
 
+  Song::Source source() const override { return source_; }
   QString LocalPath() const override { return root_; }
   std::optional<int> collection_directory_id() const override { return collection_directory_id_; }
 
@@ -41,6 +43,7 @@ class FilesystemMusicStorage : public virtual MusicStorage {
   bool DeleteFromStorage(const DeleteJob &job) override;
 
  private:
+  Song::Source source_;
   QString root_;
   std::optional<int> collection_directory_id_;
 
