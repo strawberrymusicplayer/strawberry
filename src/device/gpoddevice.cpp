@@ -190,7 +190,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
 
   if (job.albumcover_) {
     bool result = false;
-    if (!job.metadata_.image().isNull()) {
+    if (!job.cover_image_.isNull()) {
 #ifdef Q_OS_LINUX
       QString temp_path = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/organize";
 #else
@@ -201,7 +201,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
       cover_file->setAutoRemove(true);
       if (cover_file->open()) {
         cover_file->close();
-        QImage image = job.metadata_.image();
+        const QImage &image = job.cover_image_;
         if (image.save(cover_file->fileName(), "JPG")) {
           const QByteArray filename = QFile::encodeName(cover_file->fileName());
           result = itdb_track_set_thumbnails(track, filename.constData());

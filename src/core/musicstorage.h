@@ -33,6 +33,7 @@
 #include <QMetaType>
 #include <QString>
 #include <QList>
+#include <QImage>
 
 #include "song.h"
 
@@ -67,6 +68,7 @@ class MusicStorage {
     bool albumcover_;
     QString cover_source_;
     QString cover_dest_;
+    QImage cover_image_;
     ProgressFunction progress_;
     QString playlist_;
   };

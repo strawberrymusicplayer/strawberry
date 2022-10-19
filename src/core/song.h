@@ -37,7 +37,6 @@
 #include <QRegularExpression>
 #include <QUrl>
 #include <QFileInfo>
-#include <QImage>
 #include <QIcon>
 
 class SqlQuery;
@@ -301,7 +300,6 @@ class Song {
 
   const QUrl &stream_url() const;
   const QUrl &effective_stream_url() const;
-  const QImage &image() const;
   bool init_from_file() const;
 
   // Pretty accessors
@@ -380,7 +378,6 @@ class Song {
   void set_rating(const float v);
 
   void set_stream_url(const QUrl &v);
-  void set_image(const QImage &i);
 
   // Comparison functions
   bool IsMetadataEqual(const Song &other) const;

@@ -174,10 +174,6 @@ void Organize::ProcessSomeFiles() {
     Song song = task.song_info_.song_;
     if (!song.is_valid()) continue;
 
-    // Get embedded album cover
-    QImage cover = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(task.song_info_.song_.url().toLocalFile());
-    if (!cover.isNull()) song.set_image(cover);
-
 #ifdef HAVE_GSTREAMER
     // Maybe this file is one that's been transcoded already?
     if (!task.transcoded_filename_.isEmpty()) {
@@ -242,6 +238,10 @@ void Organize::ProcessSomeFiles() {
         job.cover_source_ = task.song_info_.song_.art_automatic().path();
       }
     }
+    else if (destination_->source() == Song::Source_Device) {
+      job.cover_image_ = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(task.song_info_.song_.url().toLocalFile());
+    }
+
     if (!job.cover_source_.isEmpty()) {
       job.cover_dest_ = QFileInfo(job.destination_).path() + "/" + QFileInfo(job.cover_source_).fileName();
     }

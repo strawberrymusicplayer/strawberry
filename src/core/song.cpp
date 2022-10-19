@@ -44,7 +44,6 @@
 #include <QStringList>
 #include <QRegularExpression>
 #include <QUrl>
-#include <QImage>
 #include <QIcon>
 #include <QStandardPaths>
 
@@ -224,7 +223,6 @@ struct Song::Private : public QSharedData {
   float rating_;                // Database rating, initial rating read from tag.
 
   QUrl stream_url_;             // Temporary stream url set by url handler.
-  QImage image_;                // Album Cover image set by album cover loader.
   bool init_from_file_;         // Whether this song was loaded from a file using taglib.
   bool suspicious_tags_;        // Whether our encoding guesser thinks these tags might be incorrectly encoded.
 
@@ -365,7 +363,6 @@ bool Song::save_embedded_cover_supported(const FileType filetype) {
 
 const QUrl &Song::stream_url() const { return d->stream_url_; }
 const QUrl &Song::effective_stream_url() const { return !d->stream_url_.isEmpty() && d->stream_url_.isValid() ? d->stream_url_ : d->url_; }
-const QImage &Song::image() const { return d->image_; }
 bool Song::init_from_file() const { return d->init_from_file_; }
 
 const QString &Song::cue_path() const { return d->cue_path_; }
@@ -479,7 +476,6 @@ void Song::set_cue_path(const QString &v) { d->cue_path_ = v; }
 void Song::set_rating(const float v) { d->rating_ = v; }
 
 void Song::set_stream_url(const QUrl &v) { d->stream_url_ = v; }
-void Song::set_image(const QImage &i) { d->image_ = i; }
 
 QString Song::JoinSpec(const QString &table) {
   return Utilities::Prepend(table + ".", kColumns).join(", ");
