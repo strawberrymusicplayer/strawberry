@@ -77,6 +77,8 @@ class CollectionBackendInterface : public QObject {
   virtual QString songs_table() const = 0;
   virtual QString fts_table() const = 0;
 
+  virtual Song::Source source() const = 0;
+
   virtual Database *db() const = 0;
 
   // Get a list of directories in the collection.  Emits DirectoriesDiscovered.
@@ -138,6 +140,8 @@ class CollectionBackend : public CollectionBackendInterface {
   void ExitAsync();
 
   void ReportErrors(const CollectionQuery &query);
+
+  Song::Source source() const override { return source_; }
 
   Database *db() const override { return db_; }
 
@@ -206,8 +210,6 @@ class CollectionBackend : public CollectionBackendInterface {
 
   SongList SmartPlaylistsGetAllSongs();
   SongList SmartPlaylistsFindSongs(const SmartPlaylistSearch &search);
-
-  Song::Source Source() const;
 
   void AddOrUpdateSongsAsync(const SongList &songs);
   void UpdateSongsBySongIDAsync(const SongMap &new_songs);

@@ -608,7 +608,7 @@ QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
     idx_copy = idx_copy.parent();
   }
 
-  return Song::TextForSource(backend_->Source()) + "/" + path.join("/");
+  return Song::TextForSource(backend_->source()) + "/" + path.join("/");
 
 }
 

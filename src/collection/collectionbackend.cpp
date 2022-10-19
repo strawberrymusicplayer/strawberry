@@ -1314,10 +1314,6 @@ SongList CollectionBackend::GetCompilationSongs(const QString &album, const Quer
 
 }
 
-Song::Source CollectionBackend::Source() const {
-  return source_;
-}
-
 void CollectionBackend::CompilationsNeedUpdating() {
 
   QMutexLocker l(db_->Mutex());
