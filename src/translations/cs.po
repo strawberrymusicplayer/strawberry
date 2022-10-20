@@ -807,7 +807,7 @@ msgid "Albums"
 msgstr "Alba"
 
 #: ../build/src/ui_tidalsettingspage.h:333
-#: ../build/src/ui_qobuzsettingspage.h:284
+#: ../build/src/ui_qobuzsettingspage.h:290
 msgid "Albums search limit"
 msgstr "Limit vyhledávaných alb"
 
@@ -879,11 +879,11 @@ msgstr "Při zápisu údajů do '%1' se vyskytla chyba"
 msgid "Angry"
 msgstr "Naštvaný"
 
-#: ../build/src/ui_qobuzsettingspage.h:274
+#: ../build/src/ui_qobuzsettingspage.h:280
 msgid "App ID"
 msgstr "ID aplikace"
 
-#: ../build/src/ui_qobuzsettingspage.h:277
+#: ../build/src/ui_qobuzsettingspage.h:283
 msgid "App Secret"
 msgstr "Tajemství aplikace"
 
@@ -960,7 +960,7 @@ msgid "Artists"
 msgstr "Umělci"
 
 #: ../build/src/ui_tidalsettingspage.h:332
-#: ../build/src/ui_qobuzsettingspage.h:283
+#: ../build/src/ui_qobuzsettingspage.h:289
 msgid "Artists search limit"
 msgstr "Limit vyhledávaných umělců"
 
@@ -969,7 +969,7 @@ msgid "As&k when saving"
 msgstr "Ze&ptat se při ukládání"
 
 #: ../build/src/ui_transcodedialog.h:227
-#: ../build/src/ui_qobuzsettingspage.h:280
+#: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Audio format"
 msgstr "Zvukový formát"
 
@@ -981,7 +981,7 @@ msgstr "Zvukový výstup"
 msgid "Audio quality"
 msgstr "Kvalita zvuku"
 
-#: tidal/tidalrequest.cpp:115 qobuz/qobuzservice.cpp:259
+#: tidal/tidalrequest.cpp:115 qobuz/qobuzservice.cpp:284
 msgid "Authenticating..."
 msgstr "Probíhá ověření..."
 
@@ -989,12 +989,12 @@ msgstr "Probíhá ověření..."
 #: ../build/src/ui_lyricssettingspage.h:167
 #: ../build/src/ui_subsonicsettingspage.h:246
 #: ../build/src/ui_tidalsettingspage.h:321
-#: ../build/src/ui_qobuzsettingspage.h:273
+#: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Authentication"
 msgstr "Ověření"
 
 #: settings/coverssettingspage.cpp:274 settings/lyricssettingspage.cpp:254
-#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:174
+#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:176
 msgid "Authentication failed"
 msgstr "Ověření selhalo"
 
@@ -1082,6 +1082,10 @@ msgstr "Záloha databáze"
 #: ../build/src/ui_equalizer.h:177
 msgid "Balance"
 msgstr "Vyvážení"
+
+#: ../build/src/ui_qobuzsettingspage.h:293
+msgid "Base64 encoded secret"
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
@@ -1365,8 +1369,8 @@ msgstr "Skladatel"
 
 #: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:156
 #: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:128
-#: settings/qobuzsettingspage.cpp:132 settings/qobuzsettingspage.cpp:136
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:130
+#: settings/qobuzsettingspage.cpp:134 settings/qobuzsettingspage.cpp:138
 msgid "Configuration incomplete"
 msgstr "Konfigurace není hotová"
 
@@ -1887,7 +1891,7 @@ msgstr ""
 
 #: ../build/src/ui_subsonicsettingspage.h:255
 #: ../build/src/ui_tidalsettingspage.h:335
-#: ../build/src/ui_qobuzsettingspage.h:286
+#: ../build/src/ui_qobuzsettingspage.h:292
 msgid "Download album covers"
 msgstr "Stahovat obaly alb"
 
@@ -1951,7 +1955,7 @@ msgstr ""
 #: ../build/src/ui_scrobblersettingspage.h:437
 #: ../build/src/ui_subsonicsettingspage.h:244
 #: ../build/src/ui_tidalsettingspage.h:319
-#: ../build/src/ui_qobuzsettingspage.h:271
+#: ../build/src/ui_qobuzsettingspage.h:277
 msgid "Enable"
 msgstr "Povolit"
 
@@ -2958,7 +2962,7 @@ msgstr "Místní soubor"
 #: ../build/src/ui_coverssettingspage.h:169
 #: ../build/src/ui_lyricssettingspage.h:169
 #: ../build/src/ui_tidalsettingspage.h:327
-#: ../build/src/ui_qobuzsettingspage.h:278
+#: ../build/src/ui_qobuzsettingspage.h:284
 msgid "Login"
 msgstr "Přihlášení"
 
@@ -3047,7 +3051,7 @@ msgstr "Maximální velikost obalu alba"
 msgid "Maximum bitrate"
 msgstr "Nejvyšší datový tok"
 
-#: qobuz/qobuzservice.cpp:468
+#: qobuz/qobuzservice.cpp:493
 msgid "Maximum number of login attempts reached."
 msgstr "Byl dosažen maximální počet pokusů o přihlášení."
 
@@ -3072,21 +3076,21 @@ msgstr "Nejnižší datový tok"
 msgid "Missing API token."
 msgstr "Chybějící API token."
 
-#: qobuz/qobuzservice.cpp:730 qobuz/qobuzstreamurlrequest.cpp:81
+#: qobuz/qobuzservice.cpp:755 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
 msgstr "Chybějící ID aplikace, nebo tajemství služby Qobuz."
 
-#: qobuz/qobuzservice.cpp:472 qobuz/qobuzservice.cpp:501
-#: qobuz/qobuzservice.cpp:557 qobuz/qobuzservice.cpp:613
-#: qobuz/qobuzservice.cpp:681
+#: qobuz/qobuzservice.cpp:497 qobuz/qobuzservice.cpp:526
+#: qobuz/qobuzservice.cpp:582 qobuz/qobuzservice.cpp:638
+#: qobuz/qobuzservice.cpp:706
 msgid "Missing Qobuz app ID."
 msgstr "Chybějící ID aplikace Qobuz."
 
-#: qobuz/qobuzservice.cpp:480
+#: qobuz/qobuzservice.cpp:505
 msgid "Missing Qobuz password."
 msgstr "Chybějící Qobuz heslo."
 
-#: qobuz/qobuzservice.cpp:476
+#: qobuz/qobuzservice.cpp:501
 msgid "Missing Qobuz username."
 msgstr "Chybějící Qobuz uživatelské jméno."
 
@@ -3116,11 +3120,11 @@ msgstr "Chybějící heslo k Tidal."
 msgid "Missing Tidal username."
 msgstr "Chybějící uživatelské jméno k Tidal."
 
-#: settings/qobuzsettingspage.cpp:128
+#: settings/qobuzsettingspage.cpp:130
 msgid "Missing app id."
 msgstr "Chybějící ID aplikace."
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:136
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:138
 msgid "Missing password."
 msgstr "Chybějící heslo."
 
@@ -3136,7 +3140,7 @@ msgstr "Chybějící uživatelské jméno nebo heslo."
 msgid "Missing username, please login to last.fm first!"
 msgstr "Chybějící jméno, prosím, nejdříve se přihlašte k last.fm!"
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:132
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
 msgstr "Chybějící uživatelské jméno."
 
@@ -3325,8 +3329,8 @@ msgstr "Normální"
 msgid "Normal block type"
 msgstr "Běžný typ bloku"
 
-#: qobuz/qobuzservice.cpp:506 qobuz/qobuzservice.cpp:562
-#: qobuz/qobuzservice.cpp:618
+#: qobuz/qobuzservice.cpp:531 qobuz/qobuzservice.cpp:587
+#: qobuz/qobuzservice.cpp:643
 msgid "Not authenticated with Qobuz."
 msgstr "Nejste přihlášeni ke službě Qobuz."
 
@@ -3533,7 +3537,7 @@ msgstr "Oslava"
 #: ../build/src/ui_userpassdialog.h:92
 #: ../build/src/ui_subsonicsettingspage.h:248
 #: ../build/src/ui_tidalsettingspage.h:326
-#: ../build/src/ui_qobuzsettingspage.h:276
+#: ../build/src/ui_qobuzsettingspage.h:282
 msgid "Password"
 msgstr "Heslo"
 
@@ -3710,7 +3714,7 @@ msgstr "Preferovat autory alb při odesílání na server"
 
 #: ../build/src/ui_subsonicsettingspage.h:252
 #: ../build/src/ui_tidalsettingspage.h:328
-#: ../build/src/ui_qobuzsettingspage.h:279
+#: ../build/src/ui_qobuzsettingspage.h:285
 msgid "Preferences"
 msgstr "Nastavení"
 
@@ -3797,11 +3801,11 @@ msgid "Put songs in a random order"
 msgstr ""
 
 #: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:423
-#: ../build/src/ui_qobuzsettingspage.h:270
+#: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
 
-#: ../build/src/ui_qobuzsettingspage.h:272
+#: ../build/src/ui_qobuzsettingspage.h:278
 msgid ""
 "Qobuz support is not official and requires an API app ID and secret from a "
 "registered application to work. We can't help you getting these."
@@ -4307,7 +4311,7 @@ msgid "Search automatically"
 msgstr "Hledat automaticky"
 
 #: ../build/src/ui_tidalsettingspage.h:330
-#: ../build/src/ui_qobuzsettingspage.h:281
+#: ../build/src/ui_qobuzsettingspage.h:287
 msgid "Search delay"
 msgstr "Zpožděné vyhledávání"
 
@@ -4730,7 +4734,7 @@ msgstr ""
 "(kterékoli se stane dříve)."
 
 #: ../build/src/ui_tidalsettingspage.h:334
-#: ../build/src/ui_qobuzsettingspage.h:285
+#: ../build/src/ui_qobuzsettingspage.h:291
 msgid "Songs search limit"
 msgstr "Limit vyhledaných skladeb"
 
@@ -5451,7 +5455,7 @@ msgstr "Uživatelský token:"
 #: ../build/src/ui_userpassdialog.h:91
 #: ../build/src/ui_subsonicsettingspage.h:247
 #: ../build/src/ui_tidalsettingspage.h:325
-#: ../build/src/ui_qobuzsettingspage.h:275
+#: ../build/src/ui_qobuzsettingspage.h:281
 msgid "Username"
 msgstr "Uživatelské jméno"
 
@@ -5794,7 +5798,7 @@ msgid "move %n songs"
 msgstr "Přesunout %n skladeb"
 
 #: ../build/src/ui_tidalsettingspage.h:331
-#: ../build/src/ui_qobuzsettingspage.h:282
+#: ../build/src/ui_qobuzsettingspage.h:288
 msgid "ms"
 msgstr "ms"
 

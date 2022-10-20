@@ -805,7 +805,7 @@ msgid "Albums"
 msgstr "Album"
 
 #: ../build/src/ui_tidalsettingspage.h:333
-#: ../build/src/ui_qobuzsettingspage.h:284
+#: ../build/src/ui_qobuzsettingspage.h:290
 msgid "Albums search limit"
 msgstr "Batasan pencarian album"
 
@@ -877,11 +877,11 @@ msgstr "Sebuah galat terjadi saat menulis metadata ke '%1'"
 msgid "Angry"
 msgstr "Marah"
 
-#: ../build/src/ui_qobuzsettingspage.h:274
+#: ../build/src/ui_qobuzsettingspage.h:280
 msgid "App ID"
 msgstr "App ID"
 
-#: ../build/src/ui_qobuzsettingspage.h:277
+#: ../build/src/ui_qobuzsettingspage.h:283
 msgid "App Secret"
 msgstr "App Secret"
 
@@ -958,7 +958,7 @@ msgid "Artists"
 msgstr "Artis"
 
 #: ../build/src/ui_tidalsettingspage.h:332
-#: ../build/src/ui_qobuzsettingspage.h:283
+#: ../build/src/ui_qobuzsettingspage.h:289
 msgid "Artists search limit"
 msgstr "Batasan pencarian artis"
 
@@ -967,7 +967,7 @@ msgid "As&k when saving"
 msgstr "Tanya&kan saat menyimpan"
 
 #: ../build/src/ui_transcodedialog.h:227
-#: ../build/src/ui_qobuzsettingspage.h:280
+#: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Audio format"
 msgstr "Format audio"
 
@@ -979,7 +979,7 @@ msgstr "Keluaran audio"
 msgid "Audio quality"
 msgstr "Kualitas audio"
 
-#: tidal/tidalrequest.cpp:115 qobuz/qobuzservice.cpp:259
+#: tidal/tidalrequest.cpp:115 qobuz/qobuzservice.cpp:284
 msgid "Authenticating..."
 msgstr "Mengautentikasi..."
 
@@ -987,12 +987,12 @@ msgstr "Mengautentikasi..."
 #: ../build/src/ui_lyricssettingspage.h:167
 #: ../build/src/ui_subsonicsettingspage.h:246
 #: ../build/src/ui_tidalsettingspage.h:321
-#: ../build/src/ui_qobuzsettingspage.h:273
+#: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Authentication"
 msgstr "Otentikasi"
 
 #: settings/coverssettingspage.cpp:274 settings/lyricssettingspage.cpp:254
-#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:174
+#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:176
 msgid "Authentication failed"
 msgstr "Otentikasi gagal"
 
@@ -1080,6 +1080,10 @@ msgstr "Membuat cadangan basis data"
 #: ../build/src/ui_equalizer.h:177
 msgid "Balance"
 msgstr "Seimbang"
+
+#: ../build/src/ui_qobuzsettingspage.h:293
+msgid "Base64 encoded secret"
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
@@ -1361,8 +1365,8 @@ msgstr "Komposer"
 
 #: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:156
 #: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:128
-#: settings/qobuzsettingspage.cpp:132 settings/qobuzsettingspage.cpp:136
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:130
+#: settings/qobuzsettingspage.cpp:134 settings/qobuzsettingspage.cpp:138
 msgid "Configuration incomplete"
 msgstr "Konfigurasi tidak lengkap"
 
@@ -1883,7 +1887,7 @@ msgstr ""
 
 #: ../build/src/ui_subsonicsettingspage.h:255
 #: ../build/src/ui_tidalsettingspage.h:335
-#: ../build/src/ui_qobuzsettingspage.h:286
+#: ../build/src/ui_qobuzsettingspage.h:292
 msgid "Download album covers"
 msgstr "Unduh sampul album"
 
@@ -1947,7 +1951,7 @@ msgstr ""
 #: ../build/src/ui_scrobblersettingspage.h:437
 #: ../build/src/ui_subsonicsettingspage.h:244
 #: ../build/src/ui_tidalsettingspage.h:319
-#: ../build/src/ui_qobuzsettingspage.h:271
+#: ../build/src/ui_qobuzsettingspage.h:277
 msgid "Enable"
 msgstr "Fungsikan"
 
@@ -2944,7 +2948,7 @@ msgstr ""
 #: ../build/src/ui_coverssettingspage.h:169
 #: ../build/src/ui_lyricssettingspage.h:169
 #: ../build/src/ui_tidalsettingspage.h:327
-#: ../build/src/ui_qobuzsettingspage.h:278
+#: ../build/src/ui_qobuzsettingspage.h:284
 msgid "Login"
 msgstr "Masuk"
 
@@ -3032,7 +3036,7 @@ msgstr "Ukuran sampul maksimum"
 msgid "Maximum bitrate"
 msgstr "Lajubit maksimum"
 
-#: qobuz/qobuzservice.cpp:468
+#: qobuz/qobuzservice.cpp:493
 msgid "Maximum number of login attempts reached."
 msgstr "Jumlah maksimum upaya masuk tercapai."
 
@@ -3057,21 +3061,21 @@ msgstr "Lajubit minimum"
 msgid "Missing API token."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:730 qobuz/qobuzstreamurlrequest.cpp:81
+#: qobuz/qobuzservice.cpp:755 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
 msgstr "App ID atau secret Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:472 qobuz/qobuzservice.cpp:501
-#: qobuz/qobuzservice.cpp:557 qobuz/qobuzservice.cpp:613
-#: qobuz/qobuzservice.cpp:681
+#: qobuz/qobuzservice.cpp:497 qobuz/qobuzservice.cpp:526
+#: qobuz/qobuzservice.cpp:582 qobuz/qobuzservice.cpp:638
+#: qobuz/qobuzservice.cpp:706
 msgid "Missing Qobuz app ID."
 msgstr "App ID Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:480
+#: qobuz/qobuzservice.cpp:505
 msgid "Missing Qobuz password."
 msgstr "Kata sandi Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:476
+#: qobuz/qobuzservice.cpp:501
 msgid "Missing Qobuz username."
 msgstr "Nama pengguna Qobuz tidak tersedia."
 
@@ -3101,11 +3105,11 @@ msgstr "Kata sandi Tidal tidak tersedia."
 msgid "Missing Tidal username."
 msgstr "Nama pengguna Tidal tidak tersedia."
 
-#: settings/qobuzsettingspage.cpp:128
+#: settings/qobuzsettingspage.cpp:130
 msgid "Missing app id."
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:136
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:138
 msgid "Missing password."
 msgstr ""
 
@@ -3121,7 +3125,7 @@ msgstr "Nama pengguna atau kata sandi tidak tersedia."
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:132
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
 msgstr ""
 
@@ -3311,8 +3315,8 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Tipe blok normal"
 
-#: qobuz/qobuzservice.cpp:506 qobuz/qobuzservice.cpp:562
-#: qobuz/qobuzservice.cpp:618
+#: qobuz/qobuzservice.cpp:531 qobuz/qobuzservice.cpp:587
+#: qobuz/qobuzservice.cpp:643
 msgid "Not authenticated with Qobuz."
 msgstr "Tidak terautentikasi dengan Qobuz."
 
@@ -3517,7 +3521,7 @@ msgstr "Pesta"
 #: ../build/src/ui_userpassdialog.h:92
 #: ../build/src/ui_subsonicsettingspage.h:248
 #: ../build/src/ui_tidalsettingspage.h:326
-#: ../build/src/ui_qobuzsettingspage.h:276
+#: ../build/src/ui_qobuzsettingspage.h:282
 msgid "Password"
 msgstr "Sandi"
 
@@ -3692,7 +3696,7 @@ msgstr "Kemukakan artis album saat scrobble"
 
 #: ../build/src/ui_subsonicsettingspage.h:252
 #: ../build/src/ui_tidalsettingspage.h:328
-#: ../build/src/ui_qobuzsettingspage.h:279
+#: ../build/src/ui_qobuzsettingspage.h:285
 msgid "Preferences"
 msgstr "Preferensi"
 
@@ -3775,11 +3779,11 @@ msgid "Put songs in a random order"
 msgstr ""
 
 #: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:423
-#: ../build/src/ui_qobuzsettingspage.h:270
+#: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
 
-#: ../build/src/ui_qobuzsettingspage.h:272
+#: ../build/src/ui_qobuzsettingspage.h:278
 msgid ""
 "Qobuz support is not official and requires an API app ID and secret from a "
 "registered application to work. We can't help you getting these."
@@ -4283,7 +4287,7 @@ msgid "Search automatically"
 msgstr "Cari secara otomatis"
 
 #: ../build/src/ui_tidalsettingspage.h:330
-#: ../build/src/ui_qobuzsettingspage.h:281
+#: ../build/src/ui_qobuzsettingspage.h:287
 msgid "Search delay"
 msgstr "Jeda pencarian"
 
@@ -4702,7 +4706,7 @@ msgstr ""
 "menit (yang mana terdahulu terjadi)."
 
 #: ../build/src/ui_tidalsettingspage.h:334
-#: ../build/src/ui_qobuzsettingspage.h:285
+#: ../build/src/ui_qobuzsettingspage.h:291
 msgid "Songs search limit"
 msgstr "Batasan pencarian lagu"
 
@@ -5422,7 +5426,7 @@ msgstr "Token pengguna:"
 #: ../build/src/ui_userpassdialog.h:91
 #: ../build/src/ui_subsonicsettingspage.h:247
 #: ../build/src/ui_tidalsettingspage.h:325
-#: ../build/src/ui_qobuzsettingspage.h:275
+#: ../build/src/ui_qobuzsettingspage.h:281
 msgid "Username"
 msgstr "Nama pengguna"
 
@@ -5761,7 +5765,7 @@ msgid "move %n songs"
 msgstr "pindah %n lagu"
 
 #: ../build/src/ui_tidalsettingspage.h:331
-#: ../build/src/ui_qobuzsettingspage.h:282
+#: ../build/src/ui_qobuzsettingspage.h:288
 msgid "ms"
 msgstr "ms"
 

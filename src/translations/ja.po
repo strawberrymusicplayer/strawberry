@@ -808,7 +808,7 @@ msgid "Albums"
 msgstr "アルバム"
 
 #: ../build/src/ui_tidalsettingspage.h:333
-#: ../build/src/ui_qobuzsettingspage.h:284
+#: ../build/src/ui_qobuzsettingspage.h:290
 msgid "Albums search limit"
 msgstr "アルバム検索の制限"
 
@@ -880,11 +880,11 @@ msgstr "メタデータを '%1' へ書き込み中にエラーが発生しまし
 msgid "Angry"
 msgstr "怒り"
 
-#: ../build/src/ui_qobuzsettingspage.h:274
+#: ../build/src/ui_qobuzsettingspage.h:280
 msgid "App ID"
 msgstr "App ID"
 
-#: ../build/src/ui_qobuzsettingspage.h:277
+#: ../build/src/ui_qobuzsettingspage.h:283
 msgid "App Secret"
 msgstr "App Secret"
 
@@ -961,7 +961,7 @@ msgid "Artists"
 msgstr "アーティスト"
 
 #: ../build/src/ui_tidalsettingspage.h:332
-#: ../build/src/ui_qobuzsettingspage.h:283
+#: ../build/src/ui_qobuzsettingspage.h:289
 msgid "Artists search limit"
 msgstr "アーティスト検索の制限"
 
@@ -970,7 +970,7 @@ msgid "As&k when saving"
 msgstr "保存時に確認する(&K)"
 
 #: ../build/src/ui_transcodedialog.h:227
-#: ../build/src/ui_qobuzsettingspage.h:280
+#: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Audio format"
 msgstr "オーディオ形式"
 
@@ -982,7 +982,7 @@ msgstr "オーディオ出力"
 msgid "Audio quality"
 msgstr "音質"
 
-#: tidal/tidalrequest.cpp:115 qobuz/qobuzservice.cpp:259
+#: tidal/tidalrequest.cpp:115 qobuz/qobuzservice.cpp:284
 msgid "Authenticating..."
 msgstr "認証中..."
 
@@ -990,12 +990,12 @@ msgstr "認証中..."
 #: ../build/src/ui_lyricssettingspage.h:167
 #: ../build/src/ui_subsonicsettingspage.h:246
 #: ../build/src/ui_tidalsettingspage.h:321
-#: ../build/src/ui_qobuzsettingspage.h:273
+#: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Authentication"
 msgstr "認証"
 
 #: settings/coverssettingspage.cpp:274 settings/lyricssettingspage.cpp:254
-#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:174
+#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:176
 msgid "Authentication failed"
 msgstr "認証に失敗しました"
 
@@ -1083,6 +1083,10 @@ msgstr "データベースをバックアップ中"
 #: ../build/src/ui_equalizer.h:177
 msgid "Balance"
 msgstr "バランス"
+
+#: ../build/src/ui_qobuzsettingspage.h:293
+msgid "Base64 encoded secret"
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
@@ -1364,8 +1368,8 @@ msgstr "作曲者"
 
 #: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:156
 #: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:128
-#: settings/qobuzsettingspage.cpp:132 settings/qobuzsettingspage.cpp:136
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:130
+#: settings/qobuzsettingspage.cpp:134 settings/qobuzsettingspage.cpp:138
 msgid "Configuration incomplete"
 msgstr "設定に失敗"
 
@@ -1882,7 +1886,7 @@ msgstr "このプレイリストを左側のサイドバーの\"プレイリス�
 
 #: ../build/src/ui_subsonicsettingspage.h:255
 #: ../build/src/ui_tidalsettingspage.h:335
-#: ../build/src/ui_qobuzsettingspage.h:286
+#: ../build/src/ui_qobuzsettingspage.h:292
 msgid "Download album covers"
 msgstr "アルバムカバーをダウンロード"
 
@@ -1946,7 +1950,7 @@ msgstr "埋め込みカバー"
 #: ../build/src/ui_scrobblersettingspage.h:437
 #: ../build/src/ui_subsonicsettingspage.h:244
 #: ../build/src/ui_tidalsettingspage.h:319
-#: ../build/src/ui_qobuzsettingspage.h:271
+#: ../build/src/ui_qobuzsettingspage.h:277
 msgid "Enable"
 msgstr "有効"
 
@@ -2937,7 +2941,7 @@ msgstr "ローカルファイル"
 #: ../build/src/ui_coverssettingspage.h:169
 #: ../build/src/ui_lyricssettingspage.h:169
 #: ../build/src/ui_tidalsettingspage.h:327
-#: ../build/src/ui_qobuzsettingspage.h:278
+#: ../build/src/ui_qobuzsettingspage.h:284
 msgid "Login"
 msgstr "ログイン"
 
@@ -3025,7 +3029,7 @@ msgstr "最大カバーサイズ"
 msgid "Maximum bitrate"
 msgstr "最高ビットレート"
 
-#: qobuz/qobuzservice.cpp:468
+#: qobuz/qobuzservice.cpp:493
 msgid "Maximum number of login attempts reached."
 msgstr "ログイン試行数が最大数に達しました"
 
@@ -3050,21 +3054,21 @@ msgstr "最低ビットレート"
 msgid "Missing API token."
 msgstr "API トークンがありません"
 
-#: qobuz/qobuzservice.cpp:730 qobuz/qobuzstreamurlrequest.cpp:81
+#: qobuz/qobuzservice.cpp:755 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
 msgstr "Qobuz app ID またはシークレットがありません"
 
-#: qobuz/qobuzservice.cpp:472 qobuz/qobuzservice.cpp:501
-#: qobuz/qobuzservice.cpp:557 qobuz/qobuzservice.cpp:613
-#: qobuz/qobuzservice.cpp:681
+#: qobuz/qobuzservice.cpp:497 qobuz/qobuzservice.cpp:526
+#: qobuz/qobuzservice.cpp:582 qobuz/qobuzservice.cpp:638
+#: qobuz/qobuzservice.cpp:706
 msgid "Missing Qobuz app ID."
 msgstr "Qobuz app ID がありません"
 
-#: qobuz/qobuzservice.cpp:480
+#: qobuz/qobuzservice.cpp:505
 msgid "Missing Qobuz password."
 msgstr "Qobuz パスワードがありません"
 
-#: qobuz/qobuzservice.cpp:476
+#: qobuz/qobuzservice.cpp:501
 msgid "Missing Qobuz username."
 msgstr "Qobuz ユーザー名がありません"
 
@@ -3094,11 +3098,11 @@ msgstr "Tidal パスワードがありません"
 msgid "Missing Tidal username."
 msgstr "Tidal ユーザー名がありません"
 
-#: settings/qobuzsettingspage.cpp:128
+#: settings/qobuzsettingspage.cpp:130
 msgid "Missing app id."
 msgstr "app id がありません"
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:136
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:138
 msgid "Missing password."
 msgstr "パスワードがありません"
 
@@ -3114,7 +3118,7 @@ msgstr "ユーザー名またはパスワードがありません"
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:132
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
 msgstr "ユーザー名がありません"
 
@@ -3301,8 +3305,8 @@ msgstr "ノーマル"
 msgid "Normal block type"
 msgstr "通常ブロックタイプ"
 
-#: qobuz/qobuzservice.cpp:506 qobuz/qobuzservice.cpp:562
-#: qobuz/qobuzservice.cpp:618
+#: qobuz/qobuzservice.cpp:531 qobuz/qobuzservice.cpp:587
+#: qobuz/qobuzservice.cpp:643
 msgid "Not authenticated with Qobuz."
 msgstr "Qobuz で認証されませんでした"
 
@@ -3506,7 +3510,7 @@ msgstr "パーティー"
 #: ../build/src/ui_userpassdialog.h:92
 #: ../build/src/ui_subsonicsettingspage.h:248
 #: ../build/src/ui_tidalsettingspage.h:326
-#: ../build/src/ui_qobuzsettingspage.h:276
+#: ../build/src/ui_qobuzsettingspage.h:282
 msgid "Password"
 msgstr "パスワード"
 
@@ -3681,7 +3685,7 @@ msgstr "Scrobbles を送信するときにアルバムアーティストを優�
 
 #: ../build/src/ui_subsonicsettingspage.h:252
 #: ../build/src/ui_tidalsettingspage.h:328
-#: ../build/src/ui_qobuzsettingspage.h:279
+#: ../build/src/ui_qobuzsettingspage.h:285
 msgid "Preferences"
 msgstr "設定"
 
@@ -3764,11 +3768,11 @@ msgid "Put songs in a random order"
 msgstr "曲をランダムに並び替える"
 
 #: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:423
-#: ../build/src/ui_qobuzsettingspage.h:270
+#: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
 
-#: ../build/src/ui_qobuzsettingspage.h:272
+#: ../build/src/ui_qobuzsettingspage.h:278
 msgid ""
 "Qobuz support is not official and requires an API app ID and secret from a "
 "registered application to work. We can't help you getting these."
@@ -4272,7 +4276,7 @@ msgid "Search automatically"
 msgstr "自動的に検索する"
 
 #: ../build/src/ui_tidalsettingspage.h:330
-#: ../build/src/ui_qobuzsettingspage.h:281
+#: ../build/src/ui_qobuzsettingspage.h:287
 msgid "Search delay"
 msgstr ""
 
@@ -4688,7 +4692,7 @@ msgid ""
 msgstr "有効なメタデータで30秒以上ある曲で、再生時間が少なくとも半分または4分間（どちらか早い方）になると、曲は Scrobble されます。"
 
 #: ../build/src/ui_tidalsettingspage.h:334
-#: ../build/src/ui_qobuzsettingspage.h:285
+#: ../build/src/ui_qobuzsettingspage.h:291
 msgid "Songs search limit"
 msgstr "曲検索の制限"
 
@@ -5390,7 +5394,7 @@ msgstr "ユーザートークン:"
 #: ../build/src/ui_userpassdialog.h:91
 #: ../build/src/ui_subsonicsettingspage.h:247
 #: ../build/src/ui_tidalsettingspage.h:325
-#: ../build/src/ui_qobuzsettingspage.h:275
+#: ../build/src/ui_qobuzsettingspage.h:281
 msgid "Username"
 msgstr "ユーザー名"
 
@@ -5720,7 +5724,7 @@ msgid "move %n songs"
 msgstr "%n 曲の移動"
 
 #: ../build/src/ui_tidalsettingspage.h:331
-#: ../build/src/ui_qobuzsettingspage.h:282
+#: ../build/src/ui_qobuzsettingspage.h:288
 msgid "ms"
 msgstr "ms"
 

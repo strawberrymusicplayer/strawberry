@@ -823,7 +823,7 @@ msgid "Albums"
 msgstr "Albums"
 
 #: ../build/src/ui_tidalsettingspage.h:333
-#: ../build/src/ui_qobuzsettingspage.h:284
+#: ../build/src/ui_qobuzsettingspage.h:290
 msgid "Albums search limit"
 msgstr "Albums zoek limiet"
 
@@ -896,11 +896,11 @@ msgstr "Er is een fout opgetreden bij het wegschrijven van metadata naar â€˜%1â€
 msgid "Angry"
 msgstr "Kwaad"
 
-#: ../build/src/ui_qobuzsettingspage.h:274
+#: ../build/src/ui_qobuzsettingspage.h:280
 msgid "App ID"
 msgstr "App ID"
 
-#: ../build/src/ui_qobuzsettingspage.h:277
+#: ../build/src/ui_qobuzsettingspage.h:283
 msgid "App Secret"
 msgstr "App geheim"
 
@@ -979,7 +979,7 @@ msgid "Artists"
 msgstr "Artiesten"
 
 #: ../build/src/ui_tidalsettingspage.h:332
-#: ../build/src/ui_qobuzsettingspage.h:283
+#: ../build/src/ui_qobuzsettingspage.h:289
 msgid "Artists search limit"
 msgstr "Artiest zoek limiet"
 
@@ -988,7 +988,7 @@ msgid "As&k when saving"
 msgstr "Vr&aag bij opslaan"
 
 #: ../build/src/ui_transcodedialog.h:227
-#: ../build/src/ui_qobuzsettingspage.h:280
+#: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Audio format"
 msgstr "Audioformaat"
 
@@ -1000,7 +1000,7 @@ msgstr "Audiouitvoer"
 msgid "Audio quality"
 msgstr "Audio kwaliteit"
 
-#: tidal/tidalrequest.cpp:115 qobuz/qobuzservice.cpp:259
+#: tidal/tidalrequest.cpp:115 qobuz/qobuzservice.cpp:284
 msgid "Authenticating..."
 msgstr "Authenticatie"
 
@@ -1008,12 +1008,12 @@ msgstr "Authenticatie"
 #: ../build/src/ui_lyricssettingspage.h:167
 #: ../build/src/ui_subsonicsettingspage.h:246
 #: ../build/src/ui_tidalsettingspage.h:321
-#: ../build/src/ui_qobuzsettingspage.h:273
+#: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Authentication"
 msgstr "Authenticatie"
 
 #: settings/coverssettingspage.cpp:274 settings/lyricssettingspage.cpp:254
-#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:174
+#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:176
 msgid "Authentication failed"
 msgstr "Authenticatie mislukt"
 
@@ -1101,6 +1101,10 @@ msgstr "Bezig met het maken van een backup van de database"
 #: ../build/src/ui_equalizer.h:177
 msgid "Balance"
 msgstr "Balans"
+
+#: ../build/src/ui_qobuzsettingspage.h:293
+msgid "Base64 encoded secret"
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
@@ -1383,8 +1387,8 @@ msgstr "Componist"
 
 #: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:156
 #: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:128
-#: settings/qobuzsettingspage.cpp:132 settings/qobuzsettingspage.cpp:136
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:130
+#: settings/qobuzsettingspage.cpp:134 settings/qobuzsettingspage.cpp:138
 msgid "Configuration incomplete"
 msgstr "Configuratie onvolledig"
 
@@ -1911,7 +1915,7 @@ msgstr ""
 
 #: ../build/src/ui_subsonicsettingspage.h:255
 #: ../build/src/ui_tidalsettingspage.h:335
-#: ../build/src/ui_qobuzsettingspage.h:286
+#: ../build/src/ui_qobuzsettingspage.h:292
 msgid "Download album covers"
 msgstr "Albumhoezen downloaden"
 
@@ -1975,7 +1979,7 @@ msgstr "Ingekapseld hoesje"
 #: ../build/src/ui_scrobblersettingspage.h:437
 #: ../build/src/ui_subsonicsettingspage.h:244
 #: ../build/src/ui_tidalsettingspage.h:319
-#: ../build/src/ui_qobuzsettingspage.h:271
+#: ../build/src/ui_qobuzsettingspage.h:277
 msgid "Enable"
 msgstr "Ingeschakeld"
 
@@ -2977,7 +2981,7 @@ msgstr ""
 #: ../build/src/ui_coverssettingspage.h:169
 #: ../build/src/ui_lyricssettingspage.h:169
 #: ../build/src/ui_tidalsettingspage.h:327
-#: ../build/src/ui_qobuzsettingspage.h:278
+#: ../build/src/ui_qobuzsettingspage.h:284
 msgid "Login"
 msgstr "Inloggen"
 
@@ -3065,7 +3069,7 @@ msgstr ""
 msgid "Maximum bitrate"
 msgstr "Maximale bitrate"
 
-#: qobuz/qobuzservice.cpp:468
+#: qobuz/qobuzservice.cpp:493
 msgid "Maximum number of login attempts reached."
 msgstr ""
 
@@ -3090,21 +3094,21 @@ msgstr "Minimale bitrate"
 msgid "Missing API token."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:730 qobuz/qobuzstreamurlrequest.cpp:81
+#: qobuz/qobuzservice.cpp:755 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:472 qobuz/qobuzservice.cpp:501
-#: qobuz/qobuzservice.cpp:557 qobuz/qobuzservice.cpp:613
-#: qobuz/qobuzservice.cpp:681
+#: qobuz/qobuzservice.cpp:497 qobuz/qobuzservice.cpp:526
+#: qobuz/qobuzservice.cpp:582 qobuz/qobuzservice.cpp:638
+#: qobuz/qobuzservice.cpp:706
 msgid "Missing Qobuz app ID."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:480
+#: qobuz/qobuzservice.cpp:505
 msgid "Missing Qobuz password."
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:476
+#: qobuz/qobuzservice.cpp:501
 msgid "Missing Qobuz username."
 msgstr ""
 
@@ -3134,11 +3138,11 @@ msgstr ""
 msgid "Missing Tidal username."
 msgstr ""
 
-#: settings/qobuzsettingspage.cpp:128
+#: settings/qobuzsettingspage.cpp:130
 msgid "Missing app id."
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:136
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:138
 msgid "Missing password."
 msgstr ""
 
@@ -3154,7 +3158,7 @@ msgstr ""
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:132
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
 msgstr ""
 
@@ -3345,8 +3349,8 @@ msgstr ""
 msgid "Normal block type"
 msgstr "Normaal blok type"
 
-#: qobuz/qobuzservice.cpp:506 qobuz/qobuzservice.cpp:562
-#: qobuz/qobuzservice.cpp:618
+#: qobuz/qobuzservice.cpp:531 qobuz/qobuzservice.cpp:587
+#: qobuz/qobuzservice.cpp:643
 msgid "Not authenticated with Qobuz."
 msgstr ""
 
@@ -3550,7 +3554,7 @@ msgstr "Party"
 #: ../build/src/ui_userpassdialog.h:92
 #: ../build/src/ui_subsonicsettingspage.h:248
 #: ../build/src/ui_tidalsettingspage.h:326
-#: ../build/src/ui_qobuzsettingspage.h:276
+#: ../build/src/ui_qobuzsettingspage.h:282
 msgid "Password"
 msgstr "Wachtwoord"
 
@@ -3725,7 +3729,7 @@ msgstr "Geef de voorkeur aan albumartiest bij het verzenden van scrobbles"
 
 #: ../build/src/ui_subsonicsettingspage.h:252
 #: ../build/src/ui_tidalsettingspage.h:328
-#: ../build/src/ui_qobuzsettingspage.h:279
+#: ../build/src/ui_qobuzsettingspage.h:285
 msgid "Preferences"
 msgstr "Voorkeuren"
 
@@ -3811,11 +3815,11 @@ msgid "Put songs in a random order"
 msgstr "Zet nummers in willekeurige volgorde"
 
 #: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:423
-#: ../build/src/ui_qobuzsettingspage.h:270
+#: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
 
-#: ../build/src/ui_qobuzsettingspage.h:272
+#: ../build/src/ui_qobuzsettingspage.h:278
 msgid ""
 "Qobuz support is not official and requires an API app ID and secret from a "
 "registered application to work. We can't help you getting these."
@@ -4320,7 +4324,7 @@ msgid "Search automatically"
 msgstr "Automatisch zoeken"
 
 #: ../build/src/ui_tidalsettingspage.h:330
-#: ../build/src/ui_qobuzsettingspage.h:281
+#: ../build/src/ui_qobuzsettingspage.h:287
 msgid "Search delay"
 msgstr "Zoek vertraging"
 
@@ -4736,7 +4740,7 @@ msgid ""
 msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:334
-#: ../build/src/ui_qobuzsettingspage.h:285
+#: ../build/src/ui_qobuzsettingspage.h:291
 msgid "Songs search limit"
 msgstr "Zoeklimiet voor nummers"
 
@@ -5466,7 +5470,7 @@ msgstr "Gebruikerstoken:"
 #: ../build/src/ui_userpassdialog.h:91
 #: ../build/src/ui_subsonicsettingspage.h:247
 #: ../build/src/ui_tidalsettingspage.h:325
-#: ../build/src/ui_qobuzsettingspage.h:275
+#: ../build/src/ui_qobuzsettingspage.h:281
 msgid "Username"
 msgstr "Gebruikersnaam"
 
@@ -5814,7 +5818,7 @@ msgid "move %n songs"
 msgstr "Verplaats %n nummers"
 
 #: ../build/src/ui_tidalsettingspage.h:331
-#: ../build/src/ui_qobuzsettingspage.h:282
+#: ../build/src/ui_qobuzsettingspage.h:288
 msgid "ms"
 msgstr "ms"
 

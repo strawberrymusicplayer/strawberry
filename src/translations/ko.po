@@ -807,7 +807,7 @@ msgid "Albums"
 msgstr "앨범"
 
 #: ../build/src/ui_tidalsettingspage.h:333
-#: ../build/src/ui_qobuzsettingspage.h:284
+#: ../build/src/ui_qobuzsettingspage.h:290
 msgid "Albums search limit"
 msgstr "앨범 검색 제한"
 
@@ -879,11 +879,11 @@ msgstr "'%1'에 메타데이터를 쓰는 중 오류 발생"
 msgid "Angry"
 msgstr "화남"
 
-#: ../build/src/ui_qobuzsettingspage.h:274
+#: ../build/src/ui_qobuzsettingspage.h:280
 msgid "App ID"
 msgstr "앱 ID"
 
-#: ../build/src/ui_qobuzsettingspage.h:277
+#: ../build/src/ui_qobuzsettingspage.h:283
 msgid "App Secret"
 msgstr "앱 비밀 값"
 
@@ -960,7 +960,7 @@ msgid "Artists"
 msgstr "아티스트"
 
 #: ../build/src/ui_tidalsettingspage.h:332
-#: ../build/src/ui_qobuzsettingspage.h:283
+#: ../build/src/ui_qobuzsettingspage.h:289
 msgid "Artists search limit"
 msgstr "아티스트 검색 제한"
 
@@ -969,7 +969,7 @@ msgid "As&k when saving"
 msgstr "저장할 때 묻기(&K)"
 
 #: ../build/src/ui_transcodedialog.h:227
-#: ../build/src/ui_qobuzsettingspage.h:280
+#: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Audio format"
 msgstr "오디오 형식"
 
@@ -981,7 +981,7 @@ msgstr "오디오 출력"
 msgid "Audio quality"
 msgstr "오디오 품질"
 
-#: tidal/tidalrequest.cpp:115 qobuz/qobuzservice.cpp:259
+#: tidal/tidalrequest.cpp:115 qobuz/qobuzservice.cpp:284
 msgid "Authenticating..."
 msgstr "인증 중..."
 
@@ -989,12 +989,12 @@ msgstr "인증 중..."
 #: ../build/src/ui_lyricssettingspage.h:167
 #: ../build/src/ui_subsonicsettingspage.h:246
 #: ../build/src/ui_tidalsettingspage.h:321
-#: ../build/src/ui_qobuzsettingspage.h:273
+#: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Authentication"
 msgstr "인증"
 
 #: settings/coverssettingspage.cpp:274 settings/lyricssettingspage.cpp:254
-#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:174
+#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:176
 msgid "Authentication failed"
 msgstr "인증 실패"
 
@@ -1082,6 +1082,10 @@ msgstr "데이터베이스 백업 중"
 #: ../build/src/ui_equalizer.h:177
 msgid "Balance"
 msgstr "균형"
+
+#: ../build/src/ui_qobuzsettingspage.h:293
+msgid "Base64 encoded secret"
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
@@ -1363,8 +1367,8 @@ msgstr "작곡가"
 
 #: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:156
 #: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:128
-#: settings/qobuzsettingspage.cpp:132 settings/qobuzsettingspage.cpp:136
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:130
+#: settings/qobuzsettingspage.cpp:134 settings/qobuzsettingspage.cpp:138
 msgid "Configuration incomplete"
 msgstr "설정이 불완전함"
 
@@ -1879,7 +1883,7 @@ msgstr ""
 
 #: ../build/src/ui_subsonicsettingspage.h:255
 #: ../build/src/ui_tidalsettingspage.h:335
-#: ../build/src/ui_qobuzsettingspage.h:286
+#: ../build/src/ui_qobuzsettingspage.h:292
 msgid "Download album covers"
 msgstr "앨범아트 다운로드 중"
 
@@ -1943,7 +1947,7 @@ msgstr ""
 #: ../build/src/ui_scrobblersettingspage.h:437
 #: ../build/src/ui_subsonicsettingspage.h:244
 #: ../build/src/ui_tidalsettingspage.h:319
-#: ../build/src/ui_qobuzsettingspage.h:271
+#: ../build/src/ui_qobuzsettingspage.h:277
 msgid "Enable"
 msgstr "활성화"
 
@@ -2935,7 +2939,7 @@ msgstr "로컬 파일"
 #: ../build/src/ui_coverssettingspage.h:169
 #: ../build/src/ui_lyricssettingspage.h:169
 #: ../build/src/ui_tidalsettingspage.h:327
-#: ../build/src/ui_qobuzsettingspage.h:278
+#: ../build/src/ui_qobuzsettingspage.h:284
 msgid "Login"
 msgstr "로그인"
 
@@ -3023,7 +3027,7 @@ msgstr "최대 표지 크기"
 msgid "Maximum bitrate"
 msgstr "최대 비트 전송률"
 
-#: qobuz/qobuzservice.cpp:468
+#: qobuz/qobuzservice.cpp:493
 msgid "Maximum number of login attempts reached."
 msgstr "최대 로그인 시도 횟수에 도달했습니다."
 
@@ -3048,21 +3052,21 @@ msgstr "최소 비트 전송률"
 msgid "Missing API token."
 msgstr "API 토큰이 없습니다."
 
-#: qobuz/qobuzservice.cpp:730 qobuz/qobuzstreamurlrequest.cpp:81
+#: qobuz/qobuzservice.cpp:755 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
 msgstr "Qobuz 앱 ID나 비밀 값이 없습니다."
 
-#: qobuz/qobuzservice.cpp:472 qobuz/qobuzservice.cpp:501
-#: qobuz/qobuzservice.cpp:557 qobuz/qobuzservice.cpp:613
-#: qobuz/qobuzservice.cpp:681
+#: qobuz/qobuzservice.cpp:497 qobuz/qobuzservice.cpp:526
+#: qobuz/qobuzservice.cpp:582 qobuz/qobuzservice.cpp:638
+#: qobuz/qobuzservice.cpp:706
 msgid "Missing Qobuz app ID."
 msgstr "Qobuz 앱 ID가 없습니다."
 
-#: qobuz/qobuzservice.cpp:480
+#: qobuz/qobuzservice.cpp:505
 msgid "Missing Qobuz password."
 msgstr "Qobuz 암호가 없습니다."
 
-#: qobuz/qobuzservice.cpp:476
+#: qobuz/qobuzservice.cpp:501
 msgid "Missing Qobuz username."
 msgstr "Qobuz 사용자 이름이 없습니다."
 
@@ -3092,11 +3096,11 @@ msgstr "Tidal 암호가 없습니다."
 msgid "Missing Tidal username."
 msgstr "Tidal 사용자 이름이 없습니다."
 
-#: settings/qobuzsettingspage.cpp:128
+#: settings/qobuzsettingspage.cpp:130
 msgid "Missing app id."
 msgstr "app_id가 없습니다."
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:136
+#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:138
 msgid "Missing password."
 msgstr "패스워드가 없습니다."
 
@@ -3112,7 +3116,7 @@ msgstr "사용자 이름이나 암호가 없습니다."
 msgid "Missing username, please login to last.fm first!"
 msgstr "계정명이 없습니다. last.fm에 먼저 로그인해주세요."
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:132
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
 msgstr "계정명이 없습니다."
 
@@ -3299,8 +3303,8 @@ msgstr "일반"
 msgid "Normal block type"
 msgstr "일반 블록 형식"
 
-#: qobuz/qobuzservice.cpp:506 qobuz/qobuzservice.cpp:562
-#: qobuz/qobuzservice.cpp:618
+#: qobuz/qobuzservice.cpp:531 qobuz/qobuzservice.cpp:587
+#: qobuz/qobuzservice.cpp:643
 msgid "Not authenticated with Qobuz."
 msgstr "Qobuz에 인증되지 않았습니다."
 
@@ -3504,7 +3508,7 @@ msgstr "파티"
 #: ../build/src/ui_userpassdialog.h:92
 #: ../build/src/ui_subsonicsettingspage.h:248
 #: ../build/src/ui_tidalsettingspage.h:326
-#: ../build/src/ui_qobuzsettingspage.h:276
+#: ../build/src/ui_qobuzsettingspage.h:282
 msgid "Password"
 msgstr "암호"
 
@@ -3679,7 +3683,7 @@ msgstr "스크로블을 보낼 때 앨범 아티스트 선호"
 
 #: ../build/src/ui_subsonicsettingspage.h:252
 #: ../build/src/ui_tidalsettingspage.h:328
-#: ../build/src/ui_qobuzsettingspage.h:279
+#: ../build/src/ui_qobuzsettingspage.h:285
 msgid "Preferences"
 msgstr "설정"
 
@@ -3762,11 +3766,11 @@ msgid "Put songs in a random order"
 msgstr ""
 
 #: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:423
-#: ../build/src/ui_qobuzsettingspage.h:270
+#: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
 
-#: ../build/src/ui_qobuzsettingspage.h:272
+#: ../build/src/ui_qobuzsettingspage.h:278
 msgid ""
 "Qobuz support is not official and requires an API app ID and secret from a "
 "registered application to work. We can't help you getting these."
@@ -4268,7 +4272,7 @@ msgid "Search automatically"
 msgstr "자동으로 검색"
 
 #: ../build/src/ui_tidalsettingspage.h:330
-#: ../build/src/ui_qobuzsettingspage.h:281
+#: ../build/src/ui_qobuzsettingspage.h:287
 msgid "Search delay"
 msgstr "검색 지연 시간"
 
@@ -4686,7 +4690,7 @@ msgstr ""
 "추가됩니다."
 
 #: ../build/src/ui_tidalsettingspage.h:334
-#: ../build/src/ui_qobuzsettingspage.h:285
+#: ../build/src/ui_qobuzsettingspage.h:291
 msgid "Songs search limit"
 msgstr "노래 검색 제한"
 
@@ -5386,7 +5390,7 @@ msgstr "사용자 토큰:"
 #: ../build/src/ui_userpassdialog.h:91
 #: ../build/src/ui_subsonicsettingspage.h:247
 #: ../build/src/ui_tidalsettingspage.h:325
-#: ../build/src/ui_qobuzsettingspage.h:275
+#: ../build/src/ui_qobuzsettingspage.h:281
 msgid "Username"
 msgstr "사용자 이름"
 
@@ -5717,7 +5721,7 @@ msgid "move %n songs"
 msgstr "%n곡 이동"
 
 #: ../build/src/ui_tidalsettingspage.h:331
-#: ../build/src/ui_qobuzsettingspage.h:282
+#: ../build/src/ui_qobuzsettingspage.h:288
 msgid "ms"
 msgstr "ms"
 
