@@ -62,28 +62,28 @@
       <item row="1" column="1">
        <widget class="QLineEdit" name="app_id"/>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="label_username">
         <property name="text">
          <string>Username</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="4" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLineEdit" name="username"/>
         </item>
        </layout>
       </item>
-      <item row="4" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="label_password">
         <property name="text">
          <string>Password</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="5" column="1">
        <widget class="QLineEdit" name="password">
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
@@ -119,24 +119,24 @@
       <string>Preferences</string>
      </property>
      <layout class="QFormLayout" name="layout_preferences">
-      <item row="0" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="label_format">
         <property name="text">
          <string>Audio format</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="2" column="1">
        <widget class="QComboBox" name="format"/>
       </item>
-      <item row="1" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="label_searchdelay">
         <property name="text">
          <string>Search delay</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="3" column="1">
        <widget class="QSpinBox" name="searchdelay">
         <property name="suffix">
          <string>ms</string>
@@ -155,14 +155,14 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="label_artistssearchlimit">
         <property name="text">
          <string>Artists search limit</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="4" column="1">
        <widget class="QSpinBox" name="artistssearchlimit">
         <property name="minimum">
          <number>1</number>
@@ -175,14 +175,14 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="label_albumssearchlimit">
         <property name="text">
          <string>Albums search limit</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="5" column="1">
        <widget class="QSpinBox" name="albumssearchlimit">
         <property name="minimum">
          <number>1</number>
@@ -195,14 +195,14 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="6" column="0">
        <widget class="QLabel" name="label_songssearchlimit">
         <property name="text">
          <string>Songs search limit</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="6" column="1">
        <widget class="QSpinBox" name="songssearchlimit">
         <property name="minimum">
          <number>1</number>
@@ -215,10 +215,17 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="8" column="0">
        <widget class="QCheckBox" name="checkbox_download_album_covers">
         <property name="text">
          <string>Download album covers</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="checkbox_base64_secret">
+        <property name="text">
+         <string>Base64 encoded secret</string>
         </property>
        </widget>
       </item>
@@ -299,7 +306,6 @@
   <tabstop>checkbox_download_album_covers</tabstop>
  </tabstops>
  <resources>
-  <include location="../../data/data.qrc"/>
   <include location="../../data/icons.qrc"/>
  </resources>
  <connections/>

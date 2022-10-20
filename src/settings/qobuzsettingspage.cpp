@@ -89,6 +89,7 @@ void QobuzSettingsPage::Load() {
   ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 4).toInt());
   ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());
   ui_->songssearchlimit->setValue(s.value("songssearchlimit", 10).toInt());
+  ui_->checkbox_base64_secret->setChecked(s.value("base64secret", false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
 
   s.endGroup();
@@ -117,6 +118,7 @@ void QobuzSettingsPage::Save() {
   s.setValue("artistssearchlimit", ui_->artistssearchlimit->value());
   s.setValue("albumssearchlimit", ui_->albumssearchlimit->value());
   s.setValue("songssearchlimit", ui_->songssearchlimit->value());
+  s.setValue("base64secret", ui_->checkbox_base64_secret->isChecked());
   s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
   s.endGroup();
 

@@ -230,6 +230,8 @@ void QobuzService::ReloadSettings() {
   app_id_ = s.value("app_id").toString();
   app_secret_ = s.value("app_secret").toString();
 
+  const bool base64_secret = s.value("base64secret", false).toBool();;
+
   username_ = s.value("username").toString();
   QByteArray password = s.value("password").toByteArray();
   if (password.isEmpty()) password_.clear();
@@ -247,6 +249,29 @@ void QobuzService::ReloadSettings() {
   user_auth_token_ = s.value("user_auth_token").toString();
 
   s.endGroup();
+
+  if (base64_secret) {
+    app_secret_ = DecodeAppSecret(app_secret_);
+  }
+
+}
+
+QString QobuzService::DecodeAppSecret(const QString &app_secret_base64) {
+
+  const QByteArray appid = app_id().toUtf8();
+  const QByteArray app_secret_binary = QByteArray::fromBase64(app_secret_base64.toUtf8());
+  QString app_secret_decoded;
+
+  for (int x = 0, y = 0; x < app_secret_binary.length(); ++x , ++y) {
+    if (y == appid.length()) y = 0;
+    const uint rc = app_secret_binary[x] ^ appid[y];
+    if (rc > 0xFFFF) {
+      return app_secret_base64;
+    }
+    app_secret_decoded.append(QChar(rc));
+  }
+
+  return app_secret_decoded;
 
 }
 

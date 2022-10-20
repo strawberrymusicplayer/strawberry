@@ -112,17 +112,6 @@ void QobuzStreamURLRequest::GetStreamURL() {
     reply_->deleteLater();
   }
 
-#if 0
-  QByteArray appid = app_id().toUtf8();
-  QByteArray secret_decoded = QByteArray::fromBase64(app_secret().toUtf8());
-  QString secret;
-  for (int x = 0, y = 0; x < secret_decoded.length(); ++x , ++y) {
-    if (y == appid.length()) y = 0;
-    secret.append(QChar(secret_decoded[x] ^ appid[y]));
-  }
-#endif
-
-  QString secret = app_secret();
   quint64 timestamp = QDateTime::currentDateTime().toSecsSinceEpoch();
 
   ParamList params_to_sign = ParamList() << Param("format_id", QString::number(format()))
@@ -136,7 +125,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
     data_to_sign += param.first + param.second;
   }
   data_to_sign += QString::number(timestamp);
-  data_to_sign += secret.toUtf8();
+  data_to_sign += app_secret().toUtf8();
 
   QByteArray const digest = QCryptographicHash::hash(data_to_sign.toUtf8(), QCryptographicHash::Md5);
   QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, '0').toLower();
