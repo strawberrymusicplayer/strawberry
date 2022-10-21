@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.10 (2022.10.21):
 
   Bugfixes:
     * Fixed "Could not open settings file for writing: No such file or directory" error before settings file is created.
