@@ -10,6 +10,7 @@ Unreleased:
     * Fixed "Unknown error" on Tidal search (#1047).
     * Fixed incomplete lyrics from Genius.
     * Fixed icons not showing in the file view on some systems (#1024).
+    * Fixed issues with context and playing widget stopping when using VLC (#1054).
     * (macOS) Fixed search field related crash when playlist toolbar is turned off.
 
   Enhancements:
@@ -17,6 +18,7 @@ Unreleased:
     * Fixed casts from QByteArray.
     * Removed subdir for generated dbus files
     * Removed use of fixed font in context (#1040).
+    * Improve Musixmatch lyrics search.
 
 Version 1.0.9 (2022.09.03):
 
