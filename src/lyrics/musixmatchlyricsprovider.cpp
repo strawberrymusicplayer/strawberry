@@ -162,7 +162,7 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
 
   int status_code = obj_header["status_code"].toInt();
   if (status_code != 200) {
-    Error(QString("Received status code %s").arg(status_code));
+    Error(QString("Received status code %1").arg(status_code));
     if (status_code == 402) {
       rate_limit_exceeded_ = true;
       CreateLyricsRequest(search);
