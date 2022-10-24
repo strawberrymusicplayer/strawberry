@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-10-12 12:12-0400\n"
+"PO-Revision-Date: 2022-10-24 02:28-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -1105,7 +1105,7 @@ msgstr "Balans"
 
 #: ../build/src/ui_qobuzsettingspage.h:293
 msgid "Base64 encoded secret"
-msgstr ""
+msgstr "Base64-kodad hemlighet"
 
 #: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
@@ -4435,7 +4435,7 @@ msgstr "Välj..."
 
 #: ../build/src/ui_groupbydialog.h:255
 msgid "Separate albums by grouping tag"
-msgstr ""
+msgstr "Separera album genom att gruppera tagg"
 
 #: device/udisks2lister.cpp:115
 msgid "Serial number"
