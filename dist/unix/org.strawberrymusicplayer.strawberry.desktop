@@ -3,7 +3,9 @@ Version=1.0
 Type=Application
 Name=Strawberry
 GenericName=Strawberry Music Player
+GenericName[ru]=Музыкальный проигрыватель Strawberry
 Comment=Plays music
+Comment[ru]=Прослушивание музыки
 Exec=strawberry %U
 TryExec=strawberry
 Icon=strawberry
@@ -18,19 +20,24 @@ Actions=Play-Pause;Stop;StopAfterCurrent;Previous;Next;
 [Desktop Action Play-Pause]
 Name=Play/Pause
 Exec=strawberry --play-pause
+Name[ru]=Играть/пауза
 
 [Desktop Action Stop]
 Name=Stop
 Exec=strawberry --stop
+Name[ru]=Стоп
 
 [Desktop Action StopAfterCurrent]
 Name=Stop after this track
 Exec=strawberry --stop-after-current
+Name[ru]=Стоп после этого трека
 
 [Desktop Action Previous]
 Name=Previous
 Exec=strawberry --previous
+Name[ru]=Предыдущий
 
 [Desktop Action Next]
 Name=Next
 Exec=strawberry --next
+Name[ru]=Следующий
