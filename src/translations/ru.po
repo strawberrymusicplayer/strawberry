@@ -35,7 +35,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-09-07 01:58-0400\n"
+"PO-Revision-Date: 2022-10-26 12:44-0400\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -161,12 +161,12 @@ msgstr "%1 дБ"
 #: core/utilities.cpp:145
 #, qt-format
 msgid "%1 days"
-msgstr "%1 дней"
+msgstr "%1 дн."
 
 #: core/utilities.cpp:165
 #, qt-format
 msgid "%1 days ago"
-msgstr "%1 дней назад"
+msgstr "%1 дн. назад"
 
 #: settings/coverssettingspage.cpp:143
 #, qt-format
@@ -405,7 +405,7 @@ msgstr "С&права"
 
 #: ../build/src/ui_mainwindow.h:694
 msgid "&Save all playlists..."
-msgstr "&Сохранить все плейлисты…"
+msgstr "Сохранить все плейлист&ы…"
 
 #: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
@@ -472,7 +472,7 @@ msgstr "0:00:00"
 
 #: ../build/src/ui_appearancesettingspage.h:621
 msgid "0px"
-msgstr "0px"
+msgstr "0 пикс"
 
 #: core/utilities.cpp:145
 msgid "1 day"
@@ -612,7 +612,7 @@ msgstr "Добавить в конвертер"
 
 #: ../build/src/ui_mainwindow.h:712
 msgid "Add file(s) to transcoder"
-msgstr "Конвертировать файл(ы)"
+msgstr "Конвертировать файлы"
 
 #: transcoder/transcodedialog.cpp:332
 msgid "Add files to transcode"
@@ -1118,7 +1118,7 @@ msgstr "Баланс"
 
 #: ../build/src/ui_qobuzsettingspage.h:293
 msgid "Base64 encoded secret"
-msgstr ""
+msgstr "Секретный ключ в кодировке Base64"
 
 #: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
@@ -1177,7 +1177,7 @@ msgstr "Содержимое"
 
 #: analyzer/boomanalyzer.cpp:46
 msgid "Boom analyzer"
-msgstr "Плавающий анализатор"
+msgstr "Подъёмный анализатор"
 
 #: ../build/src/ui_appearancesettingspage.h:613
 msgid "Bottom Left"
@@ -1314,7 +1314,7 @@ msgstr "Разработчики Clementine"
 
 #: collection/collectionview.cpp:326
 msgid "Click here to add some music"
-msgstr "Щёлкните сюда, чтобы добавить музыку"
+msgstr "Нажмите сюда для добавления музыки"
 
 #: internet/internetcollectionview.cpp:292
 msgid "Click here to retrieve music"
@@ -1779,7 +1779,7 @@ msgstr "Удалить песни"
 
 #: ../build/src/ui_organizedialog.h:263
 msgid "Delete the original files"
-msgstr "Удалить исходные файлы"
+msgstr "Удалять исходные файлы"
 
 #: core/deletefiles.cpp:58
 msgid "Deleting files"
@@ -2438,7 +2438,7 @@ msgstr "Для лучшего опыта, пожалуйста, рассмотр
 
 #: ../build/src/ui_transcoderoptionsmp3.h:201
 msgid "Force mono encoding"
-msgstr "Принудительное кодирование в моно"
+msgstr "Принудительно кодировать в моно"
 
 #: device/deviceview.cpp:236 device/deviceview.cpp:343
 #: device/deviceview.cpp:346
@@ -2676,11 +2676,11 @@ msgstr "Высокое"
 #: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "High (%1 fps)"
-msgstr "Высокая (%1 fps)"
+msgstr "Высокая (%1 к/с)"
 
 #: ../build/src/ui_backendsettingspage.h:576
 msgid "High watermark"
-msgstr "Верхняя отметка"
+msgstr "Верхний уровень"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:447
 msgid "Hours"
@@ -2727,8 +2727,8 @@ msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
-"Если вам нравится использовать Strawberry, пожалуйста, рассмотрите "
-"возможность спонсорства или пожертвования."
+"Если вам приглянулся Strawberry, пожалуйста, рассмотрите возможность "
+"спонсорства или пожертвования."
 
 #: covermanager/albumcoverchoicecontroller.cpp:75
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2758,7 +2758,7 @@ msgstr "Улучшить прослушивание стереозаписей �
 #: core/utilities.cpp:179
 #, qt-format
 msgid "In %1 days"
-msgstr "В течение %1 дней"
+msgstr "В течение %1 дн."
 
 #: core/utilities.cpp:182
 #, qt-format
@@ -3010,7 +3010,7 @@ msgstr "В любимые"
 #: analyzer/analyzercontainer.cpp:76
 #, qt-format
 msgid "Low (%1 fps)"
-msgstr "Низкая (%1 fps)"
+msgstr "Низкая (%1 к/с)"
 
 #: ../build/src/ui_transcoderoptionsaac.h:136
 msgid "Low complexity profile (LC)"
@@ -3018,7 +3018,7 @@ msgstr "Профиль низкой сложности (LC)"
 
 #: ../build/src/ui_backendsettingspage.h:577
 msgid "Low watermark"
-msgstr "Нижняя отметка"
+msgstr "Нижний уровень"
 
 #: ../build/src/ui_collectionsettingspage.h:619
 msgid "Lowercase filename"
@@ -3089,7 +3089,7 @@ msgstr "Достигнут максимум попыток входа в сис�
 #: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Medium (%1 fps)"
-msgstr "Средняя (%1 fps)"
+msgstr "Средняя (%1 к/с)"
 
 #: ../build/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
@@ -3216,16 +3216,16 @@ msgstr "Точки монтирования"
 #: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:166
 #: ../build/src/ui_lyricssettingspage.h:166
 msgid "Move down"
-msgstr "Переместить вниз"
+msgstr "Вниз"
 
 #: core/mainwindow.cpp:753 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
-msgstr "Переместить в фонотеку…"
+msgstr "Перенести в фонотеку…"
 
 #: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:165
 #: ../build/src/ui_lyricssettingspage.h:165
 msgid "Move up"
-msgstr "Переместить вверх"
+msgstr "Вверх"
 
 #: core/mainwindow.cpp:2205 transcoder/transcodedialog.cpp:333
 msgid "Music"
@@ -3243,7 +3243,7 @@ msgstr "Имя"
 
 #: ../build/src/ui_organizedialog.h:265
 msgid "Naming options"
-msgstr "Настройки названия"
+msgstr "Параметры именования"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:228
 msgid "Narrow band (NB)"
@@ -3530,7 +3530,7 @@ msgstr "Вывод"
 
 #: ../build/src/ui_transcodedialog.h:226
 msgid "Output options"
-msgstr "Настройки вывода"
+msgstr "Выходные параметры"
 
 #: ../build/src/ui_collectionsettingspage.h:631
 msgid "Overwrite database playcount when songs are re-read from disk"
@@ -3802,7 +3802,7 @@ msgstr "Нажатие кнопки «Предыдущий» осуществи�
 
 #: ../build/src/ui_notificationssettingspage.h:498
 msgid "Pretty OSD options"
-msgstr "Параметры красивого экранного меню"
+msgstr "Параметры модного экранного меню"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
 #: ../build/src/ui_contextsettingspage.h:443
@@ -4021,7 +4021,7 @@ msgstr "Убрать по&вторы из плейлиста"
 
 #: ../build/src/ui_mainwindow.h:711
 msgid "Remove &unavailable tracks from playlist"
-msgstr "У&брать пропавшие треки списка"
+msgstr "Уб&рать недоступные треки"
 
 #: ../build/src/ui_collectionsettingspage.h:592
 msgid "Remove folder"
@@ -4203,7 +4203,7 @@ msgstr "Получение песен…"
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
-msgstr "Вернуться в Strawberry"
+msgstr "Вернитесь в Strawberry"
 
 #: ../build/src/ui_equalizer.h:178
 msgid "Right"
@@ -4517,7 +4517,7 @@ msgstr "Показыва&ть встроенные уведомления раб
 
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
-msgstr "Показывать анимацию подсветки на активном треке"
+msgstr "Подсвечивать активный трек анимацией"
 
 #: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
@@ -4545,7 +4545,7 @@ msgstr "&Показывать всплывающее окно из трея"
 
 #: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a pretty OSD"
-msgstr "Показывать красивое экранное меню"
+msgstr "Показывать модное экранное меню"
 
 #: widgets/playingwidget.cpp:137
 msgid "Show above status bar"
@@ -4593,12 +4593,12 @@ msgstr "Показать в фонотеке…"
 
 #: core/utilities.cpp:449 core/utilities.cpp:455
 msgid "Show in file browser"
-msgstr "Показать в браузере файлов"
+msgstr "Открыть в менеджере файлов"
 
 #: core/mainwindow.cpp:750 collection/collectionview.cpp:366
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
-msgstr "Показать в браузере файлов…"
+msgstr "Открыть в менеджере файлов…"
 
 #: collection/collectionview.cpp:373
 msgid "Show in various artists"
@@ -4958,7 +4958,7 @@ msgstr "Адрес дозвукового сервера недействите�
 
 #: ../data/html/oauthsuccess.html:36
 msgid "Success!"
-msgstr "Успешно завершено!"
+msgstr "Успешно!"
 
 #: transcoder/transcoder.cpp:194
 #, qt-format
@@ -4978,7 +4978,7 @@ msgstr "Сводка"
 #: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "Super high (%1 fps)"
-msgstr "Очень высокая (%1 fps)"
+msgstr "Очень высокая (%1 к/с)"
 
 #: ../build/src/ui_deviceproperties.h:375
 msgid "Supported formats"
@@ -5221,7 +5221,7 @@ msgstr "Сегодня"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Toggle Pretty OSD"
-msgstr "Показать/скрыть экранное меню"
+msgstr "Показать/скрыть модное экранное меню"
 
 #: core/mainwindow.cpp:723 core/mainwindow.cpp:1925
 msgid "Toggle queue status"
@@ -5308,7 +5308,7 @@ msgstr "UUID"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Ultra wide band (UWB)"
-msgstr "Сверхширокая полоса (UWB)"
+msgstr "Сверхширокая полоса пропускания (UWB)"
 
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
@@ -5787,7 +5787,7 @@ msgstr "содержит"
 
 #: ../build/src/ui_collectionsettingspage.h:599
 msgid "days"
-msgstr "дней"
+msgstr "дн."
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:203
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
