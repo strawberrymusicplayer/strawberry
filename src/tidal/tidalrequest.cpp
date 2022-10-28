@@ -1254,21 +1254,21 @@ void TidalRequest::FinishCheck() {
       album_covers_received_ >= album_covers_requested_
   ) {
     finished_ = true;
-    if (errors_.isEmpty()) {
-      if (songs_.isEmpty()) {
+    if (songs_.isEmpty()) {
+      if (errors_.isEmpty()) {
         if (IsSearch()) {
           emit Results(query_id_, SongMap(), tr("No match."));
         }
         else {
-          emit Results(query_id_, SongMap(), QString());
+          emit Results(query_id_);
         }
       }
       else {
-        emit Results(query_id_, songs_, QString());
+        emit Results(query_id_, SongMap(), ErrorsToHTML(errors_));
       }
     }
     else {
-      emit Results(query_id_, SongMap(), ErrorsToHTML(errors_));
+      emit Results(query_id_);
     }
   }
 
