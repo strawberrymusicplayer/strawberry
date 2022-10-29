@@ -235,13 +235,14 @@ bool GstEngine::Play(const quint64 offset_nanosec) {
 
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return false;
 
-  QFuture<GstStateChangeReturn> future = current_pipeline_->SetState(GST_STATE_PLAYING);
   QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>();
-  int pipeline_id = current_pipeline_->id();
-  QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, offset_nanosec, pipeline_id]() {
-    PlayDone(watcher->result(), offset_nanosec, pipeline_id);
+  const int pipeline_id = current_pipeline_->id();
+  QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, pipeline_id, offset_nanosec]() {
+    const GstStateChangeReturn ret = watcher->result();
     watcher->deleteLater();
+    PlayDone(ret, offset_nanosec, pipeline_id);
   });
+  QFuture<GstStateChangeReturn> future = current_pipeline_->SetState(GST_STATE_PLAYING);
   watcher->setFuture(future);
 
   if (is_fading_out_to_pause_) {
