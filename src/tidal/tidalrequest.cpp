@@ -1268,7 +1268,7 @@ void TidalRequest::FinishCheck() {
       }
     }
     else {
-      emit Results(query_id_);
+      emit Results(query_id_, songs_);
     }
   }
 
