@@ -1194,7 +1194,7 @@ msgstr "Búfer"
 msgid "Buffer duration"
 msgstr "Duración del búfer"
 
-#: engine/gstengine.cpp:665
+#: engine/gstengine.cpp:666
 msgid "Buffering"
 msgstr "Guardando en búfer"
 

@@ -1199,7 +1199,7 @@ msgstr "Буфер"
 msgid "Buffer duration"
 msgstr "Размер буфера"
 
-#: engine/gstengine.cpp:665
+#: engine/gstengine.cpp:666
 msgid "Buffering"
 msgstr "Буферизация"
 
