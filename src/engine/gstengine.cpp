@@ -256,8 +256,8 @@ void GstEngine::Stop(const bool stop_after) {
 
   StopTimers();
 
-  stream_url_ = QUrl();  // To ensure we return Empty from state()
-  original_url_ = QUrl();
+  stream_url_.clear();  // To ensure we return Empty from state()
+  original_url_.clear();
   beginning_nanosec_ = end_nanosec_ = 0;
 
   // Check if we started a fade out. If it isn't finished yet and the user pressed stop, we cancel the fader and just stop the playback.
