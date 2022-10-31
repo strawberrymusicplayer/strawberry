@@ -61,23 +61,23 @@
 #include "settings/settingsdialog.h"
 #include "settings/tidalsettingspage.h"
 
-const Song::Source TidalService::kSource = Song::Source_Tidal;
-const char *TidalService::kOAuthUrl = "https://login.tidal.com/authorize";
-const char *TidalService::kOAuthAccessTokenUrl = "https://login.tidal.com/oauth2/token";
-const char *TidalService::kOAuthRedirectUrl = "tidal://login/auth";
-const char *TidalService::kAuthUrl = "https://api.tidalhifi.com/v1/login/username";
-const char *TidalService::kApiUrl = "https://api.tidalhifi.com/v1";
-const char *TidalService::kResourcesUrl = "https://resources.tidal.com";
-const int TidalService::kLoginAttempts = 2;
-const int TidalService::kTimeResetLoginAttempts = 60000;
+constexpr Song::Source TidalService::kSource = Song::Source_Tidal;
+constexpr char TidalService::kOAuthUrl[] = "https://login.tidal.com/authorize";
+constexpr char TidalService::kOAuthAccessTokenUrl[] = "https://login.tidal.com/oauth2/token";
+constexpr char TidalService::kOAuthRedirectUrl[] = "tidal://login/auth";
+constexpr char TidalService::kAuthUrl[] = "https://api.tidalhifi.com/v1/login/username";
+constexpr char TidalService::kApiUrl[] = "https://api.tidalhifi.com/v1";
+constexpr char TidalService::kResourcesUrl[] = "https://resources.tidal.com";
+constexpr int TidalService::kLoginAttempts = 2;
+constexpr int TidalService::kTimeResetLoginAttempts = 60000;
 
-const char *TidalService::kArtistsSongsTable = "tidal_artists_songs";
-const char *TidalService::kAlbumsSongsTable = "tidal_albums_songs";
-const char *TidalService::kSongsTable = "tidal_songs";
+constexpr char TidalService::kArtistsSongsTable[] = "tidal_artists_songs";
+constexpr char TidalService::kAlbumsSongsTable[] = "tidal_albums_songs";
+constexpr char TidalService::kSongsTable[] = "tidal_songs";
 
-const char *TidalService::kArtistsSongsFtsTable = "tidal_artists_songs_fts";
-const char *TidalService::kAlbumsSongsFtsTable = "tidal_albums_songs_fts";
-const char *TidalService::kSongsFtsTable = "tidal_songs_fts";
+constexpr char TidalService::kArtistsSongsFtsTable[] = "tidal_artists_songs_fts";
+constexpr char TidalService::kAlbumsSongsFtsTable[] = "tidal_albums_songs_fts";
+constexpr char TidalService::kSongsFtsTable[] = "tidal_songs_fts";
 
 using namespace std::chrono_literals;
 
@@ -753,7 +753,6 @@ void TidalService::GetArtists() {
   QObject::connect(artists_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(artists_request_.get(), &TidalRequest::Results, this, &TidalService::ArtistsResultsReceived);
   QObject::connect(artists_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::ArtistsUpdateStatusReceived);
-  QObject::connect(artists_request_.get(), &TidalRequest::ProgressSetMaximum, this, &TidalService::ArtistsProgressSetMaximumReceived);
   QObject::connect(artists_request_.get(), &TidalRequest::UpdateProgress, this, &TidalService::ArtistsUpdateProgressReceived);
   QObject::connect(this, &TidalService::LoginComplete, artists_request_.get(), &TidalRequest::LoginComplete);
 
@@ -772,11 +771,6 @@ void TidalService::ArtistsResultsReceived(const int id, const SongMap &songs, co
 void TidalService::ArtistsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit ArtistsUpdateStatus(text);
-}
-
-void TidalService::ArtistsProgressSetMaximumReceived(const int id, const int max) {
-  Q_UNUSED(id);
-  emit ArtistsProgressSetMaximum(max);
 }
 
 void TidalService::ArtistsUpdateProgressReceived(const int id, const int progress) {
@@ -814,7 +808,6 @@ void TidalService::GetAlbums() {
   QObject::connect(albums_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(albums_request_.get(), &TidalRequest::Results, this, &TidalService::AlbumsResultsReceived);
   QObject::connect(albums_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::AlbumsUpdateStatusReceived);
-  QObject::connect(albums_request_.get(), &TidalRequest::ProgressSetMaximum, this, &TidalService::AlbumsProgressSetMaximumReceived);
   QObject::connect(albums_request_.get(), &TidalRequest::UpdateProgress, this, &TidalService::AlbumsUpdateProgressReceived);
   QObject::connect(this, &TidalService::LoginComplete, albums_request_.get(), &TidalRequest::LoginComplete);
 
@@ -833,11 +826,6 @@ void TidalService::AlbumsResultsReceived(const int id, const SongMap &songs, con
 void TidalService::AlbumsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit AlbumsUpdateStatus(text);
-}
-
-void TidalService::AlbumsProgressSetMaximumReceived(const int id, const int max) {
-  Q_UNUSED(id);
-  emit AlbumsProgressSetMaximum(max);
 }
 
 void TidalService::AlbumsUpdateProgressReceived(const int id, const int progress) {
@@ -875,7 +863,6 @@ void TidalService::GetSongs() {
   QObject::connect(songs_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(songs_request_.get(), &TidalRequest::Results, this, &TidalService::SongsResultsReceived);
   QObject::connect(songs_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::SongsUpdateStatusReceived);
-  QObject::connect(songs_request_.get(), &TidalRequest::ProgressSetMaximum, this, &TidalService::SongsProgressSetMaximumReceived);
   QObject::connect(songs_request_.get(), &TidalRequest::UpdateProgress, this, &TidalService::SongsUpdateProgressReceived);
   QObject::connect(this, &TidalService::LoginComplete, songs_request_.get(), &TidalRequest::LoginComplete);
 
@@ -894,11 +881,6 @@ void TidalService::SongsResultsReceived(const int id, const SongMap &songs, cons
 void TidalService::SongsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit SongsUpdateStatus(text);
-}
-
-void TidalService::SongsProgressSetMaximumReceived(const int id, const int max) {
-  Q_UNUSED(id);
-  emit SongsProgressSetMaximum(max);
 }
 
 void TidalService::SongsUpdateProgressReceived(const int id, const int progress) {
@@ -973,7 +955,6 @@ void TidalService::SendSearch() {
   QObject::connect(search_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(search_request_.get(), &TidalRequest::Results, this, &TidalService::SearchResultsReceived);
   QObject::connect(search_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::SearchUpdateStatus);
-  QObject::connect(search_request_.get(), &TidalRequest::ProgressSetMaximum, this, &TidalService::SearchProgressSetMaximum);
   QObject::connect(search_request_.get(), &TidalRequest::UpdateProgress, this, &TidalService::SearchUpdateProgress);
   QObject::connect(this, &TidalService::LoginComplete, search_request_.get(), &TidalRequest::LoginComplete);
 

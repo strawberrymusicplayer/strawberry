@@ -61,7 +61,7 @@ class QobuzService : public InternetService {
   ~QobuzService();
 
   static const Song::Source kSource;
-  static const char *kApiUrl;
+  static const char kApiUrl[];
 
   void Exit() override;
   void ReloadSettings() override;
@@ -72,26 +72,26 @@ class QobuzService : public InternetService {
 
   int max_login_attempts() { return kLoginAttempts; }
 
-  Application *app() { return app_; }
-  QString app_id() { return app_id_; }
-  QString app_secret() { return app_secret_; }
-  QString username() { return username_; }
-  QString password() { return password_; }
-  int format() { return format_; }
-  int search_delay() { return search_delay_; }
-  int artistssearchlimit() { return artistssearchlimit_; }
-  int albumssearchlimit() { return albumssearchlimit_; }
-  int songssearchlimit() { return songssearchlimit_; }
-  bool download_album_covers() { return download_album_covers_; }
+  Application *app() const { return app_; }
+  QString app_id() const { return app_id_; }
+  QString app_secret() const { return app_secret_; }
+  QString username() const { return username_; }
+  QString password() const { return password_; }
+  int format() const { return format_; }
+  int search_delay() const { return search_delay_; }
+  int artistssearchlimit() const { return artistssearchlimit_; }
+  int albumssearchlimit() const { return albumssearchlimit_; }
+  int songssearchlimit() const { return songssearchlimit_; }
+  bool download_album_covers() const { return download_album_covers_; }
 
-  QString user_auth_token() { return user_auth_token_; }
-  qint64 user_id() { return user_id_; }
-  QString device_id() { return device_id_; }
-  qint64 credential_id() { return credential_id_; }
+  QString user_auth_token() const { return user_auth_token_; }
+  qint64 user_id() const { return user_id_; }
+  QString device_id() const { return device_id_; }
+  qint64 credential_id() const { return credential_id_; }
 
-  bool authenticated() override { return (!app_id_.isEmpty() && !app_secret_.isEmpty() && !user_auth_token_.isEmpty()); }
-  bool login_sent() { return login_sent_; }
-  bool login_attempts() { return login_attempts_; }
+  bool authenticated() const override { return (!app_id_.isEmpty() && !app_secret_.isEmpty() && !user_auth_token_.isEmpty()); }
+  bool login_sent() const { return login_sent_; }
+  bool login_attempts() const { return login_attempts_; }
 
   uint GetStreamURL(const QUrl &url, QString &error);
 
@@ -132,9 +132,6 @@ class QobuzService : public InternetService {
   void ArtistsUpdateStatusReceived(const int id, const QString &text);
   void AlbumsUpdateStatusReceived(const int id, const QString &text);
   void SongsUpdateStatusReceived(const int id, const QString &text);
-  void ArtistsProgressSetMaximumReceived(const int id, const int max);
-  void AlbumsProgressSetMaximumReceived(const int id, const int max);
-  void SongsProgressSetMaximumReceived(const int id, const int max);
   void ArtistsUpdateProgressReceived(const int id, const int progress);
   void AlbumsUpdateProgressReceived(const int id, const int progress);
   void SongsUpdateProgressReceived(const int id, const int progress);
@@ -149,18 +146,18 @@ class QobuzService : public InternetService {
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  static const char *kAuthUrl;
+  static const char kAuthUrl[];
 
   static const int kLoginAttempts;
   static const int kTimeResetLoginAttempts;
 
-  static const char *kArtistsSongsTable;
-  static const char *kAlbumsSongsTable;
-  static const char *kSongsTable;
+  static const char kArtistsSongsTable[];
+  static const char kAlbumsSongsTable[];
+  static const char kSongsTable[];
 
-  static const char *kArtistsSongsFtsTable;
-  static const char *kAlbumsSongsFtsTable;
-  static const char *kSongsFtsTable;
+  static const char kArtistsSongsFtsTable[];
+  static const char kAlbumsSongsFtsTable[];
+  static const char kSongsFtsTable[];
 
   Application *app_;
   NetworkAccessManager *network_;

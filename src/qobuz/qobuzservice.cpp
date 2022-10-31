@@ -57,19 +57,19 @@
 #include "settings/settingsdialog.h"
 #include "settings/qobuzsettingspage.h"
 
-const Song::Source QobuzService::kSource = Song::Source_Qobuz;
-const char *QobuzService::kAuthUrl = "https://www.qobuz.com/api.json/0.2/user/login";
-const char *QobuzService::kApiUrl = "https://www.qobuz.com/api.json/0.2";
-const int QobuzService::kLoginAttempts = 2;
-const int QobuzService::kTimeResetLoginAttempts = 60000;
+constexpr Song::Source QobuzService::kSource = Song::Source_Qobuz;
+constexpr char QobuzService::kAuthUrl[] = "https://www.qobuz.com/api.json/0.2/user/login";
+constexpr char QobuzService::kApiUrl[] = "https://www.qobuz.com/api.json/0.2";
+constexpr int QobuzService::kLoginAttempts = 2;
+constexpr int QobuzService::kTimeResetLoginAttempts = 60000;
 
-const char *QobuzService::kArtistsSongsTable = "qobuz_artists_songs";
-const char *QobuzService::kAlbumsSongsTable = "qobuz_albums_songs";
-const char *QobuzService::kSongsTable = "qobuz_songs";
+constexpr char QobuzService::kArtistsSongsTable[] = "qobuz_artists_songs";
+constexpr char QobuzService::kAlbumsSongsTable[] = "qobuz_albums_songs";
+constexpr char QobuzService::kSongsTable[] = "qobuz_songs";
 
-const char *QobuzService::kArtistsSongsFtsTable = "qobuz_artists_songs_fts";
-const char *QobuzService::kAlbumsSongsFtsTable = "qobuz_albums_songs_fts";
-const char *QobuzService::kSongsFtsTable = "qobuz_songs_fts";
+constexpr char QobuzService::kArtistsSongsFtsTable[] = "qobuz_artists_songs_fts";
+constexpr char QobuzService::kAlbumsSongsFtsTable[] = "qobuz_albums_songs_fts";
+constexpr char QobuzService::kSongsFtsTable[] = "qobuz_songs_fts";
 
 QobuzService::QobuzService(Application *app, QObject *parent)
     : InternetService(Song::Source_Qobuz, "Qobuz", "qobuz", QobuzSettingsPage::kSettingsGroup, SettingsDialog::Page_Qobuz, app, parent),
@@ -536,7 +536,6 @@ void QobuzService::GetArtists() {
   artists_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Artists), [](QobuzRequest *request) { request->deleteLater(); });
   QObject::connect(artists_request_.get(), &QobuzRequest::Results, this, &QobuzService::ArtistsResultsReceived);
   QObject::connect(artists_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::ArtistsUpdateStatusReceived);
-  QObject::connect(artists_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::ArtistsProgressSetMaximumReceived);
   QObject::connect(artists_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::ArtistsUpdateProgressReceived);
 
   artists_request_->Process();
@@ -554,11 +553,6 @@ void QobuzService::ArtistsResultsReceived(const int id, const SongMap &songs, co
 void QobuzService::ArtistsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit ArtistsUpdateStatus(text);
-}
-
-void QobuzService::ArtistsProgressSetMaximumReceived(const int id, const int max) {
-  Q_UNUSED(id);
-  emit ArtistsProgressSetMaximum(max);
 }
 
 void QobuzService::ArtistsUpdateProgressReceived(const int id, const int progress) {
@@ -592,7 +586,6 @@ void QobuzService::GetAlbums() {
   albums_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Albums), [](QobuzRequest *request) { request->deleteLater(); });
   QObject::connect(albums_request_.get(), &QobuzRequest::Results, this, &QobuzService::AlbumsResultsReceived);
   QObject::connect(albums_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::AlbumsUpdateStatusReceived);
-  QObject::connect(albums_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::AlbumsProgressSetMaximumReceived);
   QObject::connect(albums_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::AlbumsUpdateProgressReceived);
 
   albums_request_->Process();
@@ -610,11 +603,6 @@ void QobuzService::AlbumsResultsReceived(const int id, const SongMap &songs, con
 void QobuzService::AlbumsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit AlbumsUpdateStatus(text);
-}
-
-void QobuzService::AlbumsProgressSetMaximumReceived(const int id, const int max) {
-  Q_UNUSED(id);
-  emit AlbumsProgressSetMaximum(max);
 }
 
 void QobuzService::AlbumsUpdateProgressReceived(const int id, const int progress) {
@@ -648,7 +636,6 @@ void QobuzService::GetSongs() {
   songs_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Songs), [](QobuzRequest *request) { request->deleteLater(); });
   QObject::connect(songs_request_.get(), &QobuzRequest::Results, this, &QobuzService::SongsResultsReceived);
   QObject::connect(songs_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::SongsUpdateStatusReceived);
-  QObject::connect(songs_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::SongsProgressSetMaximumReceived);
   QObject::connect(songs_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::SongsUpdateProgressReceived);
 
   songs_request_->Process();
@@ -666,11 +653,6 @@ void QobuzService::SongsResultsReceived(const int id, const SongMap &songs, cons
 void QobuzService::SongsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
   emit SongsUpdateStatus(text);
-}
-
-void QobuzService::SongsProgressSetMaximumReceived(const int id, const int max) {
-  Q_UNUSED(id);
-  emit SongsProgressSetMaximum(max);
 }
 
 void QobuzService::SongsUpdateProgressReceived(const int id, const int progress) {
@@ -734,7 +716,6 @@ void QobuzService::SendSearch() {
 
   QObject::connect(search_request_.get(), &QobuzRequest::Results, this, &QobuzService::SearchResultsReceived);
   QObject::connect(search_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::SearchUpdateStatus);
-  QObject::connect(search_request_.get(), &QobuzRequest::ProgressSetMaximum, this, &QobuzService::SearchProgressSetMaximum);
   QObject::connect(search_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::SearchUpdateProgress);
 
   search_request_->Search(search_id_, search_text_);

@@ -44,7 +44,7 @@
 #include "jsoncoverprovider.h"
 #include "tidalcoverprovider.h"
 
-const int TidalCoverProvider::kLimit = 10;
+constexpr int TidalCoverProvider::kLimit = 10;
 
 TidalCoverProvider::TidalCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
     : JsonCoverProvider("Tidal", true, true, 2.5, true, true, app, network, parent),
@@ -91,7 +91,7 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(TidalService::kApiUrl + QString("/") + resource);
+  QUrl url(QString(TidalService::kApiUrl) + QString("/") + resource);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);

@@ -64,8 +64,8 @@ class TidalService : public InternetService {
   ~TidalService() override;
 
   static const Song::Source kSource;
-  static const char *kApiUrl;
-  static const char *kResourcesUrl;
+  static const char kApiUrl[];
+  static const char kResourcesUrl[];
 
   void Exit() override;
   void ReloadSettings() override;
@@ -74,33 +74,33 @@ class TidalService : public InternetService {
   int Search(const QString &text, InternetSearchView::SearchType type) override;
   void CancelSearch() override;
 
-  int max_login_attempts() { return kLoginAttempts; }
+  int max_login_attempts() const { return kLoginAttempts; }
 
-  Application *app() { return app_; }
+  Application *app() const { return app_; }
 
-  bool oauth() override { return oauth_; }
-  QString client_id() { return client_id_; }
-  QString api_token() { return api_token_; }
-  quint64 user_id() { return user_id_; }
-  QString country_code() { return country_code_; }
-  QString username() { return username_; }
-  QString password() { return password_; }
-  QString quality() { return quality_; }
-  int artistssearchlimit() { return artistssearchlimit_; }
-  int albumssearchlimit() { return albumssearchlimit_; }
-  int songssearchlimit() { return songssearchlimit_; }
-  bool fetchalbums() { return fetchalbums_; }
-  QString coversize() { return coversize_; }
-  bool download_album_covers() { return download_album_covers_; }
-  TidalSettingsPage::StreamUrlMethod stream_url_method() { return stream_url_method_; }
-  bool album_explicit() { return album_explicit_; }
+  bool oauth() const override { return oauth_; }
+  QString client_id() const { return client_id_; }
+  QString api_token() const { return api_token_; }
+  quint64 user_id() const { return user_id_; }
+  QString country_code() const { return country_code_; }
+  QString username() const { return username_; }
+  QString password() const { return password_; }
+  QString quality() const { return quality_; }
+  int artistssearchlimit() const { return artistssearchlimit_; }
+  int albumssearchlimit() const { return albumssearchlimit_; }
+  int songssearchlimit() const { return songssearchlimit_; }
+  bool fetchalbums() const { return fetchalbums_; }
+  QString coversize() const { return coversize_; }
+  bool download_album_covers() const { return download_album_covers_; }
+  TidalSettingsPage::StreamUrlMethod stream_url_method() const { return stream_url_method_; }
+  bool album_explicit() const { return album_explicit_; }
 
-  QString access_token() { return access_token_; }
-  QString session_id() { return session_id_; }
+  QString access_token() const { return access_token_; }
+  QString session_id() const { return session_id_; }
 
-  bool authenticated() override { return (!access_token_.isEmpty() || !session_id_.isEmpty()); }
-  bool login_sent() { return login_sent_; }
-  bool login_attempts() { return login_attempts_; }
+  bool authenticated() const override { return (!access_token_.isEmpty() || !session_id_.isEmpty()); }
+  bool login_sent() const { return login_sent_; }
+  bool login_attempts() const { return login_attempts_; }
 
   uint GetStreamURL(const QUrl &url, QString &error);
 
@@ -145,9 +145,6 @@ class TidalService : public InternetService {
   void ArtistsUpdateStatusReceived(const int id, const QString &text);
   void AlbumsUpdateStatusReceived(const int id, const QString &text);
   void SongsUpdateStatusReceived(const int id, const QString &text);
-  void ArtistsProgressSetMaximumReceived(const int id, const int max);
-  void AlbumsProgressSetMaximumReceived(const int id, const int max);
-  void SongsProgressSetMaximumReceived(const int id, const int max);
   void ArtistsUpdateProgressReceived(const int id, const int progress);
   void AlbumsUpdateProgressReceived(const int id, const int progress);
   void SongsUpdateProgressReceived(const int id, const int progress);
@@ -163,21 +160,21 @@ class TidalService : public InternetService {
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  static const char *kOAuthUrl;
-  static const char *kOAuthAccessTokenUrl;
-  static const char *kOAuthRedirectUrl;
-  static const char *kAuthUrl;
+  static const char kOAuthUrl[];
+  static const char kOAuthAccessTokenUrl[];
+  static const char kOAuthRedirectUrl[];
+  static const char kAuthUrl[];
 
   static const int kLoginAttempts;
   static const int kTimeResetLoginAttempts;
 
-  static const char *kArtistsSongsTable;
-  static const char *kAlbumsSongsTable;
-  static const char *kSongsTable;
+  static const char kArtistsSongsTable[];
+  static const char kAlbumsSongsTable[];
+  static const char kSongsTable[];
 
-  static const char *kArtistsSongsFtsTable;
-  static const char *kAlbumsSongsFtsTable;
-  static const char *kSongsFtsTable;
+  static const char kArtistsSongsFtsTable[];
+  static const char kAlbumsSongsFtsTable[];
+  static const char kSongsFtsTable[];
 
   Application *app_;
   NetworkAccessManager *network_;

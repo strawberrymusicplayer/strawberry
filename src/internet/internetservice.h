@@ -54,9 +54,9 @@ class InternetService : public QObject {
   virtual bool has_initial_load_settings() const { return false; }
   virtual void InitialLoadSettings() {}
   virtual void ReloadSettings() {}
-  virtual QIcon Icon() { return Song::IconForSource(source_); }
-  virtual bool oauth() { return false; }
-  virtual bool authenticated() { return false; }
+  virtual QIcon Icon() const { return Song::IconForSource(source_); }
+  virtual bool oauth() const { return false; }
+  virtual bool authenticated() const { return false; }
   virtual int Search(const QString &query, InternetSearchView::SearchType type) { Q_UNUSED(query); Q_UNUSED(type); return 0; }
   virtual void CancelSearch() {}
 

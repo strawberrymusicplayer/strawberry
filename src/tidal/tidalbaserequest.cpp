@@ -54,7 +54,7 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(TidalService::kApiUrl + QString("/") + ressource_name);
+  QUrl url(QString(TidalService::kApiUrl) + QString("/") + ressource_name);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);

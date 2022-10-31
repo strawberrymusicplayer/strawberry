@@ -46,7 +46,7 @@
 #include "jsoncoverprovider.h"
 #include "qobuzcoverprovider.h"
 
-const int QobuzCoverProvider::kLimit = 10;
+constexpr int QobuzCoverProvider::kLimit = 10;
 
 QobuzCoverProvider::QobuzCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
     : JsonCoverProvider("Qobuz", true, true, 2.0, true, true, app, network, parent),
@@ -93,7 +93,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(QobuzService::kApiUrl + QString("/") + resource);
+  QUrl url(QString(QobuzService::kApiUrl) + QString("/") + resource);
   url.setQuery(url_query);
 
   QNetworkRequest req(url);
