@@ -1246,6 +1246,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   gst_message_parse_state_changed(msg, &old_state, &new_state, &pending);
 
   if (!pipeline_is_initialized_ && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
+    qLog(Debug) << "Pipeline initialized: State changed from" << old_state << "to" << new_state;
     pipeline_is_initialized_ = true;
     if (pending_seek_nanosec_ != -1 && pipeline_is_connected_) {
       QMetaObject::invokeMethod(this, "Seek", Qt::QueuedConnection, Q_ARG(qint64, pending_seek_nanosec_));
@@ -1253,6 +1254,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   }
 
   if (pipeline_is_initialized_ && new_state != GST_STATE_PAUSED && new_state != GST_STATE_PLAYING) {
+    qLog(Debug) << "Pipeline uninitialized: State changed from" << old_state << "to" << new_state;
     pipeline_is_initialized_ = false;
 
     if (next_uri_set_ && new_state == GST_STATE_READY) {
