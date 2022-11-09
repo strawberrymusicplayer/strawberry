@@ -562,12 +562,6 @@ jobs:
           make -j 4
           sudo make install
 
-      - name: Remove problematic files
-        shell: bash
-        run: |
-          sudo rm -rf /usr/local/opt/qt6/share/qt/plugins/virtualkeyboard /usr/local/opt/qt6/share/qt/plugins/platforminputcontexts
-          sudo rm -f /usr/local/Cellar/qt/*/share/qt/plugins/imageformats/libqpdf.dylib
-
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -595,6 +589,12 @@ jobs:
         working-directory: build
         shell: bash
         run: make install
+
+      - name: Remove problematic files
+        shell: bash
+        run: |
+          sudo rm -rf /usr/local/opt/qt6/share/qt/plugins/virtualkeyboard /usr/local/opt/qt6/share/qt/plugins/platforminputcontexts
+          sudo rm -f /usr/local/Cellar/qt/*/share/qt/plugins/imageformats/libqpdf.dylib
 
       - name: Manually copy files not handled by macdeployqt
         working-directory: build
