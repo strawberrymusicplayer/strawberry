@@ -40,12 +40,13 @@
 # Sébastien Morin <sebsweb@gmail.com>, 2020. #zanata
 # David Geiger <geiger.david68210@gmail.com>, 2021. #zanata
 # Sébastien Morin <sebsweb@gmail.com>, 2021. #zanata
+# David Geiger <geiger.david68210@gmail.com>, 2022. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-04-18 04:35-0400\n"
+"PO-Revision-Date: 2022-11-09 01:25-0500\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -73,6 +74,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in cinnamon-settings-daemon instead."
 msgstr ""
+"Les raccourcis sur %1 sont généralement utilisés via Cinnamon Settings "
+"Daemon et doivent être configurés dans cinnamon-settings-daemon à la place."
 
 #: settings/globalshortcutssettingspage.cpp:353
 #, qt-format
@@ -80,6 +83,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in gnome-settings-daemon instead."
 msgstr ""
+"Les raccourcis sur %1 sont généralement utilisés via Gnome Settings Daemon "
+"et doivent être configurés dans gnome-settings-daemon à la place."
 
 #: settings/globalshortcutssettingspage.cpp:359
 #, qt-format
@@ -87,6 +92,8 @@ msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
 "configured there instead."
 msgstr ""
+"Les raccourcis sur %1 sont généralement utilisés via MATE Settings Daemon et "
+"doivent être configurés ici à la place."
 
 #: settings/globalshortcutssettingspage.cpp:350
 #, qt-format
@@ -409,7 +416,7 @@ msgstr "&Droite"
 
 #: ../build/src/ui_mainwindow.h:694
 msgid "&Save all playlists..."
-msgstr ""
+msgstr "&Enregistrer toutes les listes de lecture..."
 
 #: ../build/src/ui_mainwindow.h:652
 msgid "&Settings..."
@@ -540,7 +547,7 @@ msgstr "AAC"
 
 #: ../build/src/ui_backendsettingspage.h:563
 msgid "ALSA plugin:"
-msgstr ""
+msgstr "Plugin ALSA :"
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
@@ -782,7 +789,7 @@ msgstr "Ajouté au cours des 3 derniers mois"
 
 #: ../build/src/ui_collectionsettingspage.h:635
 msgid "Advanced"
-msgstr ""
+msgstr "Avancé"
 
 #: collection/collectionfilterwidget.cpp:325
 msgid "Advanced grouping..."
@@ -790,7 +797,7 @@ msgstr "Groupement avancé..."
 
 #: ../build/src/ui_collectionsettingspage.h:639
 msgid "Advanced settings require restart."
-msgstr ""
+msgstr "Les paramètres avancés nécessitent un redémarrage."
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -975,6 +982,8 @@ msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
 msgstr ""
+"Êtes-vous sûr de vouloir écrire le nombre de lectures des morceaux et les "
+"notations dans un fichier pour tous les morceaux de votre bibliothèque ?"
 
 #: ../build/src/ui_edittagdialog.h:813
 msgid "Art Automatic"
@@ -1042,7 +1051,7 @@ msgstr "Échec de l'authentification"
 
 #: ../build/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
-msgstr ""
+msgstr "Méthode d'authentification :"
 
 #: dialogs/about.cpp:142
 msgid "Author and maintainer"
@@ -1227,7 +1236,7 @@ msgstr "CDDA"
 
 #: playlist/playlist.cpp:1366
 msgid "CUE"
-msgstr ""
+msgstr "CUE"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
@@ -1243,7 +1252,7 @@ msgstr "Changer le visuel"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:77
 msgid "Change repeat mode"
-msgstr ""
+msgstr "Modifier le mode répétition"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
@@ -1251,7 +1260,7 @@ msgstr "Changer le raccourci..."
 
 #: globalshortcuts/globalshortcutsmanager.cpp:76
 msgid "Change shuffle mode"
-msgstr ""
+msgstr "Modifier le mode aléatoire"
 
 #: ../build/src/ui_behavioursettingspage.h:315
 msgid "Change the currently playing song"
@@ -1502,6 +1511,9 @@ msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
 "avoid losing configuration before you uninstall the snap:"
 msgstr ""
+"Copiez vos fichiers strawberry.conf et strawberry.db depuis votre répertoire "
+"~/snap pour éviter de perdre la configuration avant de désinstaller le "
+"composant logiciel enfichable :"
 
 #: transcoder/transcoder.cpp:64
 #, qt-format
@@ -1515,7 +1527,7 @@ msgstr ""
 #: core/songloader.cpp:313
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
-msgstr ""
+msgstr "Impossible d'ouvrir le fichier CUE %1 pour la lecture : %2"
 
 #: scrobbler/scrobblingapi20.cpp:174
 msgid "Could not open URL. Please open this URL in your browser"
@@ -1525,17 +1537,18 @@ msgstr ""
 #: core/songloader.cpp:281
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
-msgstr ""
+msgstr "Impossible d'ouvrir le fichier %1 pour la lecture : %2"
 
 #: core/songloader.cpp:371
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
+"Impossible d'ouvrir le fichier %1 de la liste de lecture en lecture : %2"
 
 #: core/songloader.cpp:477
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
-msgstr ""
+msgstr "Impossible de créer l'élément source GStreamer pour %1"
 
 #: playlist/playlistmanager.cpp:203
 msgid "Couldn't create playlist"
@@ -1600,7 +1613,7 @@ msgstr "Pochette modifiée : sera définie comme nouvelle une fois enregistrée.
 #: covermanager/albumcoverchoicecontroller.cpp:187
 #, qt-format
 msgid "Cover file %1 is empty."
-msgstr ""
+msgstr "Le fichier de couverture %1 est vide."
 
 #: ../build/src/ui_coverssettingspage.h:163
 msgid "Cover providers"
@@ -1750,7 +1763,7 @@ msgstr "Diminuer le volume de <value> pour-cent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:69
 msgid "Decrease volume"
-msgstr ""
+msgstr "Diminuer le volume"
 
 #: ../build/src/ui_appearancesettingspage.h:600
 msgid "Default bac&kground image"
@@ -1793,7 +1806,7 @@ msgstr "Supprimer la liste de lecture intelligente"
 
 #: ../build/src/ui_subsonicsettingspage.h:259
 msgid "Delete songs"
-msgstr ""
+msgstr "Supprimer des morceaux"
 
 #: ../build/src/ui_organizedialog.h:263
 msgid "Delete the original files"
@@ -1851,7 +1864,7 @@ msgstr "Dossier"
 
 #: dialogs/saveplaylistsdialog.cpp:78
 msgid "Directory does not exist."
-msgstr ""
+msgstr "Le répertoire n'existe pas."
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
@@ -1920,7 +1933,7 @@ msgstr "Ne pas arrêter !"
 
 #: radios/radioview.cpp:85
 msgid "Donate"
-msgstr ""
+msgstr "Donation"
 
 #: device/deviceview.cpp:136
 msgid "Double click to open"
@@ -1941,6 +1954,9 @@ msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
+"Double-cliquez ici pour ajouter cette liste de lecture à vos favoris afin "
+"qu'elle soit enregistrée et reste accessible via le panneau \"Liste de "
+"lecture\" dans la barre de gauche"
 
 #: ../build/src/ui_subsonicsettingspage.h:255
 #: ../build/src/ui_tidalsettingspage.h:335
@@ -2018,7 +2034,7 @@ msgstr "Activer le cache disque"
 
 #: ../build/src/ui_backendsettingspage.h:572
 msgid "Enable HTTP/2 for streaming"
-msgstr ""
+msgstr "Activer HTTP/2 pour le streaming"
 
 #: ../build/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
@@ -2044,7 +2060,7 @@ msgstr "Activer le bouton d'effacement de la liste de lecture"
 
 #: ../build/src/ui_playlistsettingspage.h:186
 msgid "Enable playlist toolbar"
-msgstr ""
+msgstr "Activer la barre d'outils de la liste de lecture"
 
 #: ../build/src/ui_scrobblersettingspage.h:417
 msgid "Enable scrobbling for the following sources:"
@@ -2066,7 +2082,7 @@ msgstr "Activer le contrôle du volume"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Enable/disable scrobbling"
-msgstr ""
+msgstr "Activer/Désactiver le scrobbling"
 
 #: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
@@ -2204,7 +2220,7 @@ msgstr "Étendre"
 
 #: ../build/src/ui_collectionsettingspage.h:598
 msgid "Expire unavailable songs after"
-msgstr ""
+msgstr "Expirer les morceaux indisponibles après"
 
 #: widgets/loginstatewidget.cpp:154
 #, qt-format
@@ -2351,7 +2367,7 @@ msgstr "Erreur lors de la récupération de la pochette"
 #: core/songloader.cpp:164 core/songloader.cpp:268
 #, qt-format
 msgid "File %1 does not exist."
-msgstr ""
+msgstr "Le fichier %1 n'existe pas."
 
 #: core/songloader.cpp:184 core/songloader.cpp:328
 #, qt-format
@@ -2820,7 +2836,7 @@ msgstr "Augmenter le volume de <value> pour-cent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:68
 msgid "Increase volume"
-msgstr ""
+msgstr "Augmenter le volume"
 
 #: ../build/src/ui_deviceproperties.h:374
 msgid "Information"
@@ -2832,7 +2848,7 @@ msgstr "Insérer..."
 
 #: dialogs/snapdialog.cpp:79
 msgid "Install strawberry through PPA:"
-msgstr ""
+msgstr "Installer strawberry via PPA :"
 
 #: core/database.cpp:488
 msgid "Integrity check"
@@ -3335,7 +3351,7 @@ msgstr "Suivant"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:66
 msgid "Next track"
-msgstr ""
+msgstr "Piste suivante"
 
 #: core/utilities.cpp:180
 msgid "Next week"
@@ -3491,7 +3507,7 @@ msgstr "Ouvrir le périphérique"
 
 #: radios/radioview.cpp:81
 msgid "Open homepage"
-msgstr ""
+msgstr "Ouvrir la page d'accueil"
 
 #: collection/collectionview.cpp:350
 #: smartplaylists/smartplaylistsviewcontainer.cpp:69
@@ -3517,7 +3533,7 @@ msgstr "Optimiser pour la &qualité"
 
 #: ../build/src/ui_backendsettingspage.h:567
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 #: ../build/src/ui_transcodedialog.h:228
 msgid "Options..."
@@ -4464,11 +4480,11 @@ msgstr "Sélectionner le meilleur résultat possible"
 
 #: ../build/src/ui_saveplaylistsdialog.h:117
 msgid "Select directory for saving playlists"
-msgstr ""
+msgstr "Sélectionnez le répertoire pour enregistrer la liste de lecture"
 
 #: dialogs/saveplaylistsdialog.cpp:62
 msgid "Select directory for the playlists"
-msgstr ""
+msgstr "Sélectionnez le répertoire pour la liste de lecture"
 
 #: ../build/src/ui_appearancesettingspage.h:589
 msgid "Select foreground color:"
@@ -4794,7 +4810,7 @@ msgstr ""
 
 #: ../build/src/ui_collectionsettingspage.h:628
 msgid "Song playcounts and ratings"
-msgstr ""
+msgstr "Nombre de lectures et notes des morceaux"
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Songs"
@@ -4862,7 +4878,7 @@ msgstr "Lancement de %1"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 #: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
@@ -5460,7 +5476,7 @@ msgstr "Utilisez les raccourcis de KDE (KGlobalAccel) lorsque c'est possible"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:271
 msgid "Use MATE shortcuts when available"
-msgstr ""
+msgstr "Utiliser les raccourcis MATE lorsqu'ils sont disponibles"
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
@@ -5840,7 +5856,7 @@ msgstr "contient"
 
 #: ../build/src/ui_collectionsettingspage.h:599
 msgid "days"
-msgstr ""
+msgstr "jours"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:203
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
@@ -5943,7 +5959,7 @@ msgstr "p&lughw"
 
 #: ../build/src/ui_backendsettingspage.h:566
 msgid "pcm"
-msgstr ""
+msgstr "pcm"
 
 #: playlist/playlistundocommands.cpp:68 playlist/playlistundocommands.cpp:96
 #, c-format, qt-plural-format
