@@ -142,13 +142,13 @@ void TrackSlider::UpdateTimes(const int elapsed) {
   ui_->elapsed->setText(Utilities::PrettyTime(elapsed));
   // Update normally if showing remaining time
   if (show_remaining_time_) {
-    ui_->remaining->setText("-" + Utilities::PrettyTime(static_cast<int>((ui_->slider->maximum() / kMsecPerSec) - elapsed)));
+    ui_->remaining->setText("-" + Utilities::PrettyTime(static_cast<int>(ui_->slider->maximum() / kMsecPerSec) - elapsed));
   }
   else {
     // Check if slider maximum value is changed before updating
     if (slider_maximum_value_ != ui_->slider->maximum() || !ui_->slider->isEnabled()) {
       slider_maximum_value_ = ui_->slider->maximum();
-      ui_->remaining->setText(Utilities::PrettyTime(static_cast<int>((ui_->slider->maximum() / kMsecPerSec))));
+      ui_->remaining->setText(Utilities::PrettyTime(static_cast<int>(ui_->slider->maximum() / kMsecPerSec)));
     }
   }
   setEnabled(true);
