@@ -46,7 +46,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-11-09 01:25-0500\n"
+"PO-Revision-Date: 2022-11-10 12:48-0500\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -982,7 +982,7 @@ msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
 msgstr ""
-"Êtes-vous sûr de vouloir écrire le nombre de lectures des morceaux et les "
+"Êtes-vous sûr de vouloir écrire le compteur d'écoutes des morceaux et les "
 "notations dans un fichier pour tous les morceaux de votre bibliothèque ?"
 
 #: ../build/src/ui_edittagdialog.h:813
@@ -3704,7 +3704,7 @@ msgstr "Lire la <n>ème piste de la liste de lecture"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Play/Pause"
-msgstr ""
+msgstr "Lecture/Pause"
 
 #: dialogs/lastfmimportdialog.cpp:154
 #, qt-format
@@ -3954,7 +3954,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:372
 msgid "Radios"
-msgstr ""
+msgstr "Radios"
 
 #: ../build/src/ui_collectionsettingspage.h:616
 msgid "Random"
@@ -4326,10 +4326,14 @@ msgstr "Enregistrer le regroupement"
 #: ../build/src/ui_collectionsettingspage.h:633
 msgid "Save playcounts and ratings to files now"
 msgstr ""
+"Enregistrer les compteur d'écoutes et les notations dans des fichiers "
+"maintenant"
 
 #: ../build/src/ui_collectionsettingspage.h:629
 msgid "Save playcounts to song tags when possible"
 msgstr ""
+"Enregistrer les compteur d'écoutes dans les tags de morceaux lorsque cela "
+"est possible"
 
 #: playlist/playlistlistcontainer.cpp:87
 msgctxt "Save playlist menu action."
@@ -4352,6 +4356,8 @@ msgstr "Enregistrer le pré-réglage"
 #: ../build/src/ui_collectionsettingspage.h:630
 msgid "Save ratings to song tags when possible"
 msgstr ""
+"Enregistrer les notations dans les tags de morceaux lorsque cela est "
+"possible"
 
 #: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Save the .mood files directly in the songs folders"
@@ -4367,7 +4373,7 @@ msgstr "Sauvegarde des pochettes d'album"
 
 #: collection/collection.cpp:207
 msgid "Saving playcounts and ratings"
-msgstr ""
+msgstr "Enregistrement des compteur d'écoutes et des notations"
 
 #: dialogs/edittagdialog.cpp:303 dialogs/trackselectiondialog.cpp:289
 msgid "Saving tracks"
@@ -4504,7 +4510,7 @@ msgstr "Sélectionner..."
 
 #: ../build/src/ui_groupbydialog.h:255
 msgid "Separate albums by grouping tag"
-msgstr ""
+msgstr "Séparer les albums en regroupant par tag"
 
 #: device/udisks2lister.cpp:115
 msgid "Serial number"
@@ -4620,7 +4626,7 @@ msgstr "Afficher tous les morceaux"
 
 #: ../build/src/ui_playlistsettingspage.h:179
 msgid "Show bars on the currently playing track"
-msgstr ""
+msgstr "Afficher les barres sur la piste en cours de lecture"
 
 #: ../build/src/ui_scrobblersettingspage.h:416
 msgid "Show dialog for errors"
@@ -4713,7 +4719,7 @@ msgstr "Afficher la fenêtre principale en réduit"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:73
 msgid "Show/Hide"
-msgstr ""
+msgstr "Afficher/Masquer"
 
 #: ../build/src/ui_playlistsequence.h:122
 msgid "Shuffle"
@@ -4810,7 +4816,7 @@ msgstr ""
 
 #: ../build/src/ui_collectionsettingspage.h:628
 msgid "Song playcounts and ratings"
-msgstr "Nombre de lectures et notes des morceaux"
+msgstr "Compteur d'écoutes et notations des morceaux"
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Songs"
@@ -4902,7 +4908,7 @@ msgstr "Arrêter la lecture après ce morceau"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:65
 msgid "Stop playing after current track"
-msgstr ""
+msgstr "Arrêter la lecture après la piste en cours"
 
 #: osd/osdbase.cpp:269
 #, qt-format
@@ -5355,7 +5361,7 @@ msgstr "Éteindre"
 
 #: ../build/src/ui_saveplaylistsdialog.h:119
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: device/giolister.cpp:194
 msgid "URI"
@@ -5397,11 +5403,11 @@ msgstr "Erreur inconnue"
 
 #: playlist/playlistmanager.cpp:260
 msgid "Unknown file extension for playlist."
-msgstr ""
+msgstr "Extension de fichier inconnue pour la liste de lecture."
 
 #: playlist/playlistmanager.cpp:260
 msgid "Unknown playlist extension"
-msgstr ""
+msgstr "Extension de liste de lecture inconnue"
 
 #: dialogs/edittagdialog.cpp:765
 msgid "Unset"
@@ -5431,7 +5437,7 @@ msgstr "Mise à jour %1"
 #: collection/collectionbackend.cpp:694
 #, qt-format
 msgid "Updating %1 database."
-msgstr ""
+msgstr "Mise à jour de la base de données %1."
 
 #: device/deviceview.cpp:123
 #, qt-format
@@ -5464,7 +5470,7 @@ msgstr "Utilisez les raccourcis de Gnome (GSD) lorsque c'est possible"
 
 #: ../build/src/ui_subsonicsettingspage.h:253
 msgid "Use HTTP/2 when possible"
-msgstr ""
+msgstr "Utilisez HTTP/2 si possible"
 
 #: ../build/src/ui_scrobblersettingspage.h:431
 msgid "Use HTTPS for local redirectserver"
@@ -5683,7 +5689,7 @@ msgstr ""
 
 #: settings/collectionsettingspage.cpp:381
 msgid "Write all playcounts and ratings to files"
-msgstr ""
+msgstr "Écrire tous les compteur d'écoutes et notations dans les fichiers"
 
 #: ../build/src/ui_playlistsettingspage.h:200
 msgid "Write metadata when saving playlists"
