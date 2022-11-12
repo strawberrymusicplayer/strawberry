@@ -41,13 +41,14 @@
 # David Geiger <geiger.david68210@gmail.com>, 2021. #zanata
 # Sébastien Morin <sebsweb@gmail.com>, 2021. #zanata
 # David Geiger <geiger.david68210@gmail.com>, 2022. #zanata
+# Papoteur <yves.brungard_mageia@gadz.org>, 2022. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-11-10 12:48-0500\n"
-"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
+"PO-Revision-Date: 2022-11-11 08:36-0500\n"
+"Last-Translator: Papoteur <yves.brungard_mageia@gadz.org>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -464,6 +465,9 @@ msgid ""
 "submitted to the server. Setting the time to 0 seconds will submit scrobbles "
 "immediately)."
 msgstr ""
+"(Il s'agit du délai entre le moment où une chanson est scrobbulée et celui "
+"où les scrobbles sont soumis au serveur. Si vous fixez ce délai à 0 seconde, "
+"les scrobbles seront soumis immédiatement."
 
 #: dialogs/edittagdialog.cpp:98
 msgid "(different across multiple songs)"
@@ -1137,7 +1141,7 @@ msgstr "Balance"
 
 #: ../build/src/ui_qobuzsettingspage.h:293
 msgid "Base64 encoded secret"
-msgstr ""
+msgstr "secret encodé en Base64"
 
 #: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
@@ -2302,37 +2306,37 @@ msgstr "Durée du fondu"
 #: covermanager/albumcoverchoicecontroller.cpp:422
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
-msgstr ""
+msgstr "Ne peut pas supprimer le fichier de jaquette %1 : %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:197
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
-msgstr ""
+msgstr "Ne peut pas ouvrir le fichier de jaquette %1 pour le lire : %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:271
 #: covermanager/albumcoverchoicecontroller.cpp:641
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
-msgstr ""
+msgstr "Ne peut pas ouvrir le fichier de jaquette %1 pour l'écrire : %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:635
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
-msgstr ""
+msgstr "Ne peut pas écrire la jaquette dans le fichier %1: %2."
 
 #: covermanager/albumcoverchoicecontroller.cpp:277
 #, qt-format
 msgid "Failed writing cover to file %1."
-msgstr ""
+msgstr "N'a pas pu écrire la jaquette dans le fichier %1."
 
 #: covermanager/albumcoverchoicecontroller.cpp:265
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
-msgstr ""
+msgstr "N'a pas pu écrire la jaquette dans le fichier %1: %2"
 
 #: ../build/src/ui_backendsettingspage.h:587
 msgid "Fallback-gain"
-msgstr ""
+msgstr "Gain de repli"
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
 #: ../build/src/ui_transcoderoptionsmp3.h:197
@@ -2572,7 +2576,7 @@ msgstr "Genre"
 #: radios/somafmservice.cpp:70
 #, qt-format
 msgid "Getting %1 channels"
-msgstr ""
+msgstr "Obtiention %1 canaux"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:268
 msgid "Global Shortcuts"
@@ -2709,7 +2713,7 @@ msgstr "Aide"
 
 #: ../build/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
-msgstr ""
+msgstr "Hex"
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
@@ -2734,7 +2738,7 @@ msgstr "Heures"
 
 #: ../build/src/ui_collectionsettingspage.h:638
 msgid "I/O priority"
-msgstr ""
+msgstr "Priorité d'I/O"
 
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
@@ -2798,7 +2802,7 @@ msgstr "Importer..."
 
 #: ../build/src/ui_backendsettingspage.h:571
 msgid "Improve headphone listening of stereo audio records (bs2b)"
-msgstr ""
+msgstr "Amélioration de l'écoute sur casque des enregistrements stéréo (bs2b)"
 
 #: core/utilities.cpp:179
 #, qt-format
@@ -3081,7 +3085,7 @@ msgstr "Fournisseurs des paroles"
 
 #: ../build/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token"
-msgstr ""
+msgstr "Jeton MD5"
 
 #: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
@@ -3590,10 +3594,14 @@ msgstr "Options de sortie"
 #: ../build/src/ui_collectionsettingspage.h:631
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
+"Remplacer le nombre de lectures de la base de données lorsque les chansons "
+"sont relues à partir du disque."
 
 #: ../build/src/ui_collectionsettingspage.h:632
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
+"Remplacer la notation de la base de données lorsque les chansons sont relues "
+"à partir du disque."
 
 #: ../build/src/ui_collectionsettingspage.h:618
 msgid "Overwrite existing file"
@@ -3757,7 +3765,7 @@ msgstr "Options de la liste de lecture"
 
 #: ../build/src/ui_appearancesettingspage.h:631
 msgid "Playlist playing song color"
-msgstr ""
+msgstr "Coleur de chanson en lecture dans la playlist"
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
@@ -3950,7 +3958,7 @@ msgstr "Radio (volume égalisé pour toutes les pistes)"
 
 #: ../build/src/ui_scrobblersettingspage.h:427
 msgid "Radio Paradise"
-msgstr ""
+msgstr "Radio Paradise"
 
 #: core/mainwindow.cpp:372
 msgid "Radios"
@@ -3978,12 +3986,16 @@ msgid ""
 "Received URL with %1 encrypted stream from Tidal. Strawberry does not "
 "currently support encrypted streams."
 msgstr ""
+"Réception d'une URL avec un flux crypté %1 depuis Tidal. Strawberry ne prend "
+"actuellement pas en charge les flux cryptés."
 
 #: tidal/tidalstreamurlrequest.cpp:276 tidal/tidalstreamurlrequest.cpp:286
 msgid ""
 "Received URL with encrypted stream from Tidal. Strawberry does not currently "
 "support encrypted streams."
 msgstr ""
+"Réception d'une URL avec un flux crypté depuis Tidal. Strawberry ne prend "
+"actuellement pas en charge les flux cryptés."
 
 #: covermanager/spotifycoverprovider.cpp:198
 #: lyrics/geniuslyricsprovider.cpp:152 scrobbler/listenbrainzscrobbler.cpp:216
@@ -4035,7 +4047,7 @@ msgstr "Redirigé le code du jeton manquant !"
 
 #: playlist/playlistcontainer.cpp:223
 msgid "Redo"
-msgstr ""
+msgstr "Refaire"
 
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
@@ -4043,7 +4055,7 @@ msgstr "Actualiser le catalogue"
 
 #: radios/radioview.cpp:89
 msgid "Refresh channels"
-msgstr ""
+msgstr "Actualier les canaux"
 
 #: equalizer/equalizer.cpp:150
 msgid "Reggae"
@@ -4454,11 +4466,11 @@ msgstr "Deuxième niveau"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:72
 msgid "Seek backward"
-msgstr ""
+msgstr "Chercher en arrière"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:71
 msgid "Seek forward"
-msgstr ""
+msgstr "Chercher en avant"
 
 #: core/commandlineoptions.cpp:179
 msgid "Seek the currently playing track by a relative amount"
@@ -4498,7 +4510,7 @@ msgstr "Sélectionner la couleur d'avant-plan :"
 
 #: ../build/src/ui_appearancesettingspage.h:634
 msgid "Select playlist playing song color:"
-msgstr ""
+msgstr "Sélectionner la couleur de la chanson en lecture dans la playlist"
 
 #: ../build/src/ui_appearancesettingspage.h:597
 msgid "Select tabbar color:"
