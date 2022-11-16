@@ -43,3 +43,11 @@ void ResizableTextEdit::resizeEvent(QResizeEvent *e) {
   QTextEdit::resizeEvent(e);
 
 }
+
+void ResizableTextEdit::SetText(const QString &text) {
+
+  QTextEdit::setText(text);
+
+  updateGeometry();
+
+}

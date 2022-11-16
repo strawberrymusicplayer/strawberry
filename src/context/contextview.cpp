@@ -435,7 +435,7 @@ void ContextView::NoSong() {
   }
 
   textedit_top_->setFont(QFont(font_headline_, font_size_headline_ * 1.6));
-  textedit_top_->setText(tr("No song playing"));
+  textedit_top_->SetText(tr("No song playing"));
 
   QString html;
   if (collectionview_->TotalSongs() == 1) html += tr("%1 song").arg(collectionview_->TotalSongs());
@@ -470,9 +470,8 @@ void ContextView::UpdateFonts() {
 
 void ContextView::SetSong() {
 
-  
   textedit_top_->setFont(QFont(font_headline_, font_size_headline_));
-  textedit_top_->setText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song_playing_, "<br />", true)));
+  textedit_top_->SetText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song_playing_, "<br />", true)));
 
   label_stop_summary_->clear();
 
@@ -586,7 +585,7 @@ void ContextView::SetSong() {
   }
 
   if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
-    textedit_play_lyrics_->setText(lyrics_);
+    textedit_play_lyrics_->SetText(lyrics_);
     textedit_play_lyrics_->show();
   }
   else {
@@ -601,7 +600,7 @@ void ContextView::SetSong() {
 
 void ContextView::UpdateSong(const Song &song) {
 
-  textedit_top_->setText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song, "<br />", true)));
+  textedit_top_->SetText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song, "<br />", true)));
 
   if (action_show_data_->isChecked()) {
     if (song.filetype() != song_playing_.filetype()) label_filetype_->setText(song.TextForFiletype());
@@ -657,6 +656,8 @@ void ContextView::UpdateSong(const Song &song) {
 
   song_playing_ = song;
 
+  widget_stacked_->updateGeometry();
+
 }
 
 void ContextView::ResetSong() {
@@ -683,7 +684,7 @@ void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const 
   lyrics_id_ = -1;
 
   if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
-    textedit_play_lyrics_->setText(lyrics_);
+    textedit_play_lyrics_->SetText(lyrics_);
     textedit_play_lyrics_->show();
   }
   else {

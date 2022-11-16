@@ -25,14 +25,16 @@
 class QResizeEvent;
 
 class ResizableTextEdit : public QTextEdit {
-  Q_OBJECT
 
  public:
   explicit ResizableTextEdit(QWidget *parent = nullptr);
 
   virtual QSize sizeHint() const override;
 
-protected:
+  void setText(const QString &text) = delete;
+  void SetText(const QString &text);
+
+ protected:
   virtual void resizeEvent(QResizeEvent *event) override;
 
 };
