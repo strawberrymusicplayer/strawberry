@@ -177,8 +177,4 @@ void GstStartup::SetEnvironment() {
   Utilities::SetEnv("GST_REGISTRY", gst_registry_filename);
 #endif
 
-#ifdef HAVE_LIBPULSE
-  Utilities::SetEnv("PULSE_PROP_media.role", "music");
-#endif
-
 }
