@@ -131,6 +131,7 @@ int main(int argc, char *argv[]) {
 
   // This makes us show up nicely in gnome-volume-control
   g_set_application_name("Strawberry");
+  g_setenv("PULSE_PROP_application.icon_name", "strawberry", TRUE);
 
   RegisterMetaTypes();
 
