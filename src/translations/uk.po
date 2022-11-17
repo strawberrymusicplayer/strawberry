@@ -5816,7 +5816,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "в минулому"
 
-#: context/contextview.cpp:531 context/contextview.cpp:653
+#: context/contextview.cpp:530 context/contextview.cpp:652
 #: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:739
 msgid "kbps"
 msgstr "кбіт/с"
