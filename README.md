@@ -69,10 +69,11 @@ It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
 To build Strawberry from source you need the following installed on your system with the additional development packages/headers:
 
 * [CMake](https://cmake.org/)
-* [GCC](https://gcc.gnu.org/), [Clang](https://clang.llvm.org/) or [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/) compiler
+* C/C++ compiler ([GCC](https://gcc.gnu.org/), [Clang](https://clang.llvm.org/) or [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/))
+* [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) or [pkgconf](https://github.com/pkgconf/pkgconf)
 * [Boost](https://www.boost.org/)
 * [GLib](https://developer.gnome.org/glib/)
-* [Qt 5.9 or higher (or Qt 6) with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
+* [Qt 6 or Qt 5.9 or higher with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
 * [SQLite 3.9 or newer with FTS5](https://www.sqlite.org)
 * [Protobuf](https://developers.google.com/protocol-buffers/)
 * [ALSA (Required on Linux)](https://www.alsa-project.org/)
@@ -102,14 +103,17 @@ You should also install the gstreamer plugins base and good, and optionally bad,
 ### Compile and install:
 
     cd strawberry
-    mkdir build && cd build
+    mkdir build
+    cd build
     cmake .. -DBUILD_WITH_QT6=ON
-    make -j$(nproc)
+    make -j $(nproc)
     sudo make install
 
 Strawberry is backwards compatible with Qt 5, to compile with Qt 5 use:
 
     cmake .. -DBUILD_WITH_QT5=ON
+
+To compile on Windows with Visual Studio 2019 or 2022, see https://github.com/strawberrymusicplayer/strawberry-msvc
 
 ### :penguin:	Packaging status
 
