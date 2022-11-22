@@ -400,6 +400,10 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         song->set_originalyear(TStringToQString(mp4_tag->item(kMP4_OriginalYear_ID).toStringList().toString('\n')).left(4).toInt());
       }
 
+      if (mp4_tag->item("cpil").isValid()) {
+        song->set_compilation(mp4_tag->item("cpil").toBool());
+      }
+
       {
         TagLib::MP4::Item item = mp4_tag->item(kMP4_FMPS_Playcount_ID);
         if (item.isValid()) {
@@ -687,7 +691,7 @@ bool TagReaderTagLib::SaveFile(const QString &filename, const spb::tagreader::So
     tag->setItem("\251grp", TagLib::StringList(TagLib::String(song.grouping(), TagLib::String::UTF8)));
     tag->setItem("\251lyr", TagLib::StringList(TagLib::String(song.lyrics(), TagLib::String::UTF8)));
     tag->setItem("aART", TagLib::StringList(TagLib::String(song.albumartist(), TagLib::String::UTF8)));
-    tag->setItem("cpil", TagLib::StringList(song.compilation() ? "1" : "0"));
+    tag->setItem("cpil", TagLib::MP4::Item(song.compilation()));
   }
 
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
