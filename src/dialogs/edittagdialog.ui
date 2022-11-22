@@ -48,7 +48,7 @@
          </widget>
          <widget class="QTabWidget" name="tab_widget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_summary">
            <property name="sizePolicy">
@@ -1116,6 +1116,35 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>scrollarea</tabstop>
+  <tabstop>song_list</tabstop>
+  <tabstop>tab_widget</tabstop>
+  <tabstop>summary</tabstop>
+  <tabstop>filename</tabstop>
+  <tabstop>path</tabstop>
+  <tabstop>art_manual</tabstop>
+  <tabstop>art_automatic</tabstop>
+  <tabstop>playcount_reset</tabstop>
+  <tabstop>tags_summary</tabstop>
+  <tabstop>tags_art_button</tabstop>
+  <tabstop>checkbox_embedded_cover</tabstop>
+  <tabstop>title</tabstop>
+  <tabstop>track</tabstop>
+  <tabstop>artist</tabstop>
+  <tabstop>disc</tabstop>
+  <tabstop>album</tabstop>
+  <tabstop>year</tabstop>
+  <tabstop>albumartist</tabstop>
+  <tabstop>composer</tabstop>
+  <tabstop>performer</tabstop>
+  <tabstop>grouping</tabstop>
+  <tabstop>genre</tabstop>
+  <tabstop>compilation</tabstop>
+  <tabstop>fetch_tag</tabstop>
+  <tabstop>comment</tabstop>
+  <tabstop>lyrics</tabstop>
+ </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>
   <include location="../../data/icons.qrc"/>
