@@ -1064,14 +1064,14 @@ bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb
     TagLib::APE::Tag *tag = wavpack_file->APETag(true);
     if (!tag) return false;
     if (song.playcount() > 0) {
-      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(static_cast<int>(song.playcount()))));
+      tag->setItem("FMPS_Playcount", TagLib::APE::Item("FMPS_Playcount", TagLib::String::number(static_cast<int>(song.playcount()))));
     }
   }
   else if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = ape_file->APETag(true);
     if (!tag) return false;
     if (song.playcount() > 0) {
-      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(static_cast<int>(song.playcount()))));
+      tag->setItem("FMPS_Playcount", TagLib::APE::Item("FMPS_Playcount", TagLib::String::number(static_cast<int>(song.playcount()))));
     }
   }
   else if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
@@ -1086,7 +1086,7 @@ bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb
     TagLib::ID3v2::Tag *tag = mpeg_file->ID3v2Tag(true);
     if (!tag) return false;
     if (song.playcount() > 0) {
-      SetUserTextFrame("FMPS_PlayCount", QString::number(song.playcount()), tag);
+      SetUserTextFrame("FMPS_Playcount", QString::number(song.playcount()), tag);
       TagLib::ID3v2::PopularimeterFrame *frame = GetPOPMFrameFromTag(tag);
       if (frame) {
         frame->setCounter(song.playcount());
@@ -1105,7 +1105,7 @@ bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb
     TagLib::APE::Tag *tag = mpc_file->APETag(true);
     if (!tag) return false;
     if (song.playcount() > 0) {
-      tag->setItem("FMPS_PlayCount", TagLib::APE::Item("FMPS_PlayCount", TagLib::String::number(static_cast<int>(song.playcount()))));
+      tag->setItem("FMPS_Playcount", TagLib::APE::Item("FMPS_Playcount", TagLib::String::number(static_cast<int>(song.playcount()))));
     }
   }
   else if (TagLib::ASF::File *asf_file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
