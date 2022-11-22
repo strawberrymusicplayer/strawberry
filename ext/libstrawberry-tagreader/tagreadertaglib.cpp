@@ -297,14 +297,10 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
       // content group
       if (!map["TIT1"].isEmpty()) Decode(map["TIT1"].front()->toString(), song->mutable_grouping());
 
-      // ID3v2: lead performer/soloist
-      if (!map["TPE1"].isEmpty()) Decode(map["TPE1"].front()->toString(), song->mutable_performer());
-
       // original artist/performer
       if (!map["TOPE"].isEmpty()) Decode(map["TOPE"].front()->toString(), song->mutable_performer());
 
       // Skip TPE1 (which is the artist) here because we already fetched it
-
 
       // non-standard: Apple, Microsoft
       if (!map["TPE2"].isEmpty()) Decode(map["TPE2"].front()->toString(), song->mutable_albumartist());
