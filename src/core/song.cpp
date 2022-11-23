@@ -351,6 +351,73 @@ void Song::set_embedded_cover() { d->art_automatic_ = QUrl::fromLocalFile(kEmbed
 void Song::clear_art_automatic() { d->art_automatic_.clear(); }
 void Song::clear_art_manual() { d->art_manual_.clear(); }
 
+bool Song::additional_tags_supported() const {
+  return d->filetype_ == FileType_FLAC ||
+         d->filetype_ == FileType_WavPack ||
+         d->filetype_ == FileType_OggFlac ||
+         d->filetype_ == FileType_OggVorbis ||
+         d->filetype_ == FileType_OggOpus ||
+         d->filetype_ == FileType_OggSpeex ||
+         d->filetype_ == FileType_MPEG ||
+         d->filetype_ == FileType_MP4 ||
+         d->filetype_ == FileType_MPC ||
+         d->filetype_ == FileType_APE;
+}
+
+bool Song::albumartist_supported() const {
+  return additional_tags_supported();
+}
+
+bool Song::composer_supported() const {
+  return additional_tags_supported();
+}
+
+bool Song::performer_supported() const {
+  return d->filetype_ == FileType_FLAC ||
+         d->filetype_ == FileType_WavPack ||
+         d->filetype_ == FileType_OggFlac ||
+         d->filetype_ == FileType_OggVorbis ||
+         d->filetype_ == FileType_OggOpus ||
+         d->filetype_ == FileType_OggSpeex ||
+         d->filetype_ == FileType_MPEG ||
+         d->filetype_ == FileType_MPC ||
+         d->filetype_ == FileType_APE;
+}
+
+bool Song::grouping_supported() const {
+  return additional_tags_supported();
+}
+
+bool Song::genre_supported() const {
+  return additional_tags_supported();
+}
+
+bool Song::compilation_supported() const {
+  return additional_tags_supported();
+}
+
+bool Song::rating_supported() const {
+  return d->filetype_ == FileType_FLAC ||
+         d->filetype_ == FileType_WavPack ||
+         d->filetype_ == FileType_OggFlac ||
+         d->filetype_ == FileType_OggVorbis ||
+         d->filetype_ == FileType_OggOpus ||
+         d->filetype_ == FileType_OggSpeex ||
+         d->filetype_ == FileType_MPEG ||
+         d->filetype_ == FileType_MP4 ||
+         d->filetype_ == FileType_ASF ||
+         d->filetype_ == FileType_MPC ||
+         d->filetype_ == FileType_APE;
+}
+
+bool Song::comment_supported() const {
+  return additional_tags_supported();
+}
+
+bool Song::lyrics_supported() const {
+  return additional_tags_supported();
+}
+
 bool Song::save_embedded_cover_supported(const FileType filetype) {
 
   return filetype == FileType_FLAC ||

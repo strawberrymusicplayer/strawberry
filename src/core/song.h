@@ -298,6 +298,17 @@ class Song {
   static bool save_embedded_cover_supported(const FileType filetype);
   bool save_embedded_cover_supported() const { return url().isLocalFile() && save_embedded_cover_supported(filetype()) && !has_cue(); };
 
+  bool additional_tags_supported() const;
+  bool albumartist_supported() const;
+  bool composer_supported() const;
+  bool performer_supported() const;
+  bool grouping_supported() const;
+  bool genre_supported() const;
+  bool compilation_supported() const;
+  bool rating_supported() const;
+  bool comment_supported() const;
+  bool lyrics_supported() const;
+
   const QUrl &stream_url() const;
   const QUrl &effective_stream_url() const;
   bool init_from_file() const;

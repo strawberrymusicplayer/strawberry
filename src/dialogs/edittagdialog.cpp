@@ -624,6 +624,15 @@ void EditTagDialog::SelectionChanged() {
   UpdateCoverAction first_cover_action = data_[indexes.first().row()].cover_action_;
   bool art_different = false;
   bool action_different = false;
+  bool albumartist_enabled = false;
+  bool composer_enabled = false;
+  bool performer_enabled = false;
+  bool grouping_enabled = false;
+  bool genre_enabled = false;
+  bool compilation_enabled = false;
+  bool rating_enabled = false;
+  bool comment_enabled = false;
+  bool lyrics_enabled = false;
   for (const QModelIndex &idx : indexes) {
     if (data_[idx.row()].cover_action_ == UpdateCoverAction_None) {
       data_[idx.row()].cover_result_ = AlbumCoverImageResult();
@@ -639,7 +648,33 @@ void EditTagDialog::SelectionChanged() {
         (song.has_embedded_cover() && first_song.has_embedded_cover() && (first_song.effective_albumartist() != song.effective_albumartist() || first_song.album() != song.album()))
     ) {
       art_different = true;
-      break;
+    }
+    if (song.albumartist_supported()) {
+      albumartist_enabled = true;
+    }
+    if (song.composer_supported()) {
+      composer_enabled = true;
+    }
+    if (song.performer_supported()) {
+      performer_enabled = true;
+    }
+    if (song.grouping_supported()) {
+      grouping_enabled = true;
+    }
+    if (song.genre_supported()) {
+      genre_enabled = true;
+    }
+    if (song.compilation_supported()) {
+      compilation_enabled = true;
+    }
+    if (song.rating_supported()) {
+      rating_enabled = true;
+    }
+    if (song.comment_supported()) {
+      comment_enabled = true;
+    }
+    if (song.lyrics_supported()) {
+      lyrics_enabled = true;
     }
   }
 
@@ -694,6 +729,16 @@ void EditTagDialog::SelectionChanged() {
   const bool embedded_cover = (first_song.save_embedded_cover_supported() && (first_song.has_embedded_cover() || album_cover_choice_controller_->get_collection_save_album_cover_type() == CollectionSettingsPage::SaveCoverType_Embedded));
   ui_->checkbox_embedded_cover->setChecked(embedded_cover);
   album_cover_choice_controller_->set_save_embedded_cover_override(embedded_cover);
+
+  ui_->albumartist->setEnabled(albumartist_enabled);
+  ui_->composer->setEnabled(composer_enabled);
+  ui_->performer->setEnabled(performer_enabled);
+  ui_->grouping->setEnabled(grouping_enabled);
+  ui_->genre->setEnabled(genre_enabled);
+  ui_->compilation->setEnabled(compilation_enabled);
+  ui_->rating->setEnabled(rating_enabled);
+  ui_->comment->setEnabled(comment_enabled);
+  ui_->lyrics->setEnabled(lyrics_enabled);
 
 }
 
