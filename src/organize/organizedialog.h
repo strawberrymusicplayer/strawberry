@@ -105,8 +105,8 @@ class OrganizeDialog : public QDialog {
   void AllowExtASCII(const bool checked);
 
  private:
-  static const char *kSettingsGroup;
-  static const char *kDefaultFormat;
+  static const char kSettingsGroup[];
+  static const char kDefaultFormat[];
 
   QWidget *parentwindow_;
   Ui_OrganizeDialog *ui_;

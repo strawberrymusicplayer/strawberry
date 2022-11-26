@@ -55,9 +55,11 @@ class Organize : public QObject {
 
  public:
   struct NewSongInfo {
-    explicit NewSongInfo(const Song &song = Song(), const QString &new_filename = QString()) : song_(song), new_filename_(new_filename) {}
+    explicit NewSongInfo() : unique_filename_(false) {}
+    explicit NewSongInfo(const Song &song, const QString &new_filename, const bool unique_filename) : song_(song), new_filename_(new_filename), unique_filename_(unique_filename) {}
     Song song_;
     QString new_filename_;
+    bool unique_filename_;
   };
   using NewSongInfoList = QList<NewSongInfo>;
 

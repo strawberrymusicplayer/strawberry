@@ -44,8 +44,16 @@
 
 #include "organizeformat.h"
 
-const char *OrganizeFormat::kTagPattern = "\\%([a-zA-Z]*)";
-const char *OrganizeFormat::kBlockPattern = "\\{([^{}]+)\\}";
+const QRegularExpression OrganizeFormat::kProblematicCharacters("[:?*\"<>|]");
+// From http://en.wikipedia.org/wiki/8.3_filename#Directory_table
+const QRegularExpression OrganizeFormat::kInvalidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]", QRegularExpression::CaseInsensitiveOption);
+const QRegularExpression OrganizeFormat::kInvalidDirCharacters("[/\\\\]");
+constexpr char OrganizeFormat::kInvalidPrefixCharacters[] = ".";
+constexpr int OrganizeFormat::kInvalidPrefixCharactersCount = arraysize(OrganizeFormat::kInvalidPrefixCharacters) - 1;
+
+constexpr char OrganizeFormat::kBlockPattern[] = "\\{([^{}]+)\\}";
+constexpr char OrganizeFormat::kTagPattern[] = "\\%([a-zA-Z]*)";
+
 const QStringList OrganizeFormat::kKnownTags = QStringList() << "title"
                                                              << "album"
                                                              << "artist"
@@ -67,13 +75,8 @@ const QStringList OrganizeFormat::kKnownTags = QStringList() << "title"
                                                              << "grouping"
                                                              << "lyrics";
 
-const QRegularExpression OrganizeFormat::kInvalidDirCharacters("[/\\\\]");
-const QRegularExpression OrganizeFormat::kProblematicCharacters("[:?*\"<>|]");
-// From http://en.wikipedia.org/wiki/8.3_filename#Directory_table
-const QRegularExpression OrganizeFormat::kInvalidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]", QRegularExpression::CaseInsensitiveOption);
-
-const char OrganizeFormat::kInvalidPrefixCharacters[] = ".";
-const int OrganizeFormat::kInvalidPrefixCharactersCount = arraysize(OrganizeFormat::kInvalidPrefixCharacters) - 1;
+const QStringList OrganizeFormat::kUniqueTags = QStringList() << "title"
+                                                              << "track";
 
 const QRgb OrganizeFormat::SyntaxHighlighter::kValidTagColorLight = qRgb(64, 64, 255);
 const QRgb OrganizeFormat::SyntaxHighlighter::kInvalidTagColorLight = qRgb(255, 64, 64);
@@ -106,34 +109,48 @@ bool OrganizeFormat::IsValid() const {
 
 }
 
-QString OrganizeFormat::GetFilenameForSong(const Song &song, QString extension) const {
+OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(const Song &song, QString extension) const {
 
-  QString filename = ParseBlock(format_, song);
+  QString format_path;
+  QString format_filename;
 
-  if (QFileInfo(filename).completeBaseName().isEmpty()) {
-    // Avoid having empty filenames, or filenames with extension only: in this case, keep the original filename.
-    // We remove the extension from "filename" if it exists, as song.basefilename() also contains the extension.
-    QString path = QFileInfo(filename).path();
-    filename.clear();
-    if (!path.isEmpty()) {
-      filename.append(path);
-      if (path.right(1) != '/' && path.right(1) != '\\') {
-        filename.append('/');
-      }
-    }
-    filename.append(song.basefilename());
+  if (format_.contains('/')) {
+    format_path = format_.section('/', 0, -2);
+    format_filename = format_.section('/', -1);
+  }
+  else {
+    format_filename = format_;
   }
 
-  if (remove_problematic_) filename = filename.remove(kProblematicCharacters);
-  if (remove_non_fat_ || (remove_non_ascii_ && !allow_ascii_ext_)) filename = Utilities::Transliterate(filename);
-  if (remove_non_fat_) filename = filename.remove(kInvalidFatCharacters);
+  QString path;
+  if (!format_path.isEmpty()) {
+    path = ParseBlock(format_path, song);
+  }
+
+  bool unique_filename = false;
+  QString filename = ParseBlock(format_filename, song, &unique_filename);
+  if (filename.isEmpty()) {
+    return GetFilenameForSongResult();
+  }
+
+  QString filepath;
+  if (path.isEmpty()) {
+    filepath = filename;
+  }
+  else {
+    filepath = path + "/" + filename;
+  }
+
+  if (remove_problematic_) filepath = filepath.remove(kProblematicCharacters);
+  if (remove_non_fat_ || (remove_non_ascii_ && !allow_ascii_ext_)) filepath = Utilities::Transliterate(filepath);
+  if (remove_non_fat_) filepath = filepath.remove(kInvalidFatCharacters);
 
   if (remove_non_ascii_) {
     int ascii = 128;
     if (allow_ascii_ext_) ascii = 255;
     QString stripped;
-    for (int i = 0; i < filename.length(); ++i) {
-      const QChar c = filename[i];
+    for (int i = 0; i < filepath.length(); ++i) {
+      const QChar c = filepath[i];
       if (c.unicode() < ascii) {
         stripped.append(c);
       }
@@ -144,15 +161,23 @@ QString OrganizeFormat::GetFilenameForSong(const Song &song, QString extension) 
         }
       }
     }
-    filename = stripped;
+    filepath = stripped;
   }
 
-  // Remove repeated whitespaces in the filename.
-  filename = filename.simplified();
+  // Remove repeated whitespaces in the filepath.
+  filepath = filepath.simplified();
 
-  QFileInfo info(filename);
-  if (extension.isEmpty()) extension = info.suffix();
-  QString filepath;
+  // Fixup extension
+  QFileInfo info(filepath);
+  filepath.clear();
+  if (extension.isEmpty()) {
+    if (info.completeSuffix().isEmpty()) {
+      extension = QFileInfo(song.url().toLocalFile()).completeSuffix();
+    }
+    else {
+      extension = info.completeSuffix();
+    }
+  }
   if (!info.path().isEmpty() && info.path() != ".") {
     filepath.append(info.path());
     filepath.append("/");
@@ -173,31 +198,29 @@ QString OrganizeFormat::GetFilenameForSong(const Song &song, QString extension) 
     part = part.trimmed();
     parts_new.append(part);
   }
-  filename = parts_new.join("/");
+  filepath = parts_new.join("/");
 
-  if (replace_spaces_) filename.replace(QRegularExpression("\\s"), "_");
+  if (replace_spaces_) filepath.replace(QRegularExpression("\\s"), "_");
 
   if (!extension.isEmpty()) {
-    filename.append(QString(".%1").arg(extension));
+    filepath.append(QString(".%1").arg(extension));
   }
 
-  return filename;
+  return GetFilenameForSongResult(filepath, unique_filename);
 
 }
 
-QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *any_empty) const {
-
-  QRegularExpression tag_regexp(kTagPattern);
-  QRegularExpression block_regexp(kBlockPattern);
+QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *have_tagdata, bool *any_empty) const {
 
   // Find any blocks first
   qint64 pos = 0;
+  const QRegularExpression block_regexp(kBlockPattern);
   QRegularExpressionMatch re_match;
   for (re_match = block_regexp.match(block, pos); re_match.hasMatch(); re_match = block_regexp.match(block, pos)) {
     pos = re_match.capturedStart();
     // Recursively parse the block
     bool empty = false;
-    QString value = ParseBlock(re_match.captured(1), song, &empty);
+    QString value = ParseBlock(re_match.captured(1), song, have_tagdata, &empty);
     if (empty) value = "";
 
     // Replace the block's value
@@ -208,16 +231,26 @@ QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *any_em
   // Now look for tags
   bool empty = false;
   pos = 0;
+  const QRegularExpression tag_regexp(kTagPattern);
   for (re_match = tag_regexp.match(block, pos); re_match.hasMatch(); re_match = tag_regexp.match(block, pos)) {
     pos = re_match.capturedStart();
-    QString value = TagValue(re_match.captured(1), song);
-    if (value.isEmpty()) empty = true;
+    const QString tag = re_match.captured(1);
+    const QString value = TagValue(tag, song);
+    if (value.isEmpty()) {
+      empty = true;
+    }
+    else if (have_tagdata && kUniqueTags.contains(tag)) {
+      *have_tagdata = true;
+    }
 
     block.replace(pos, re_match.capturedLength(), value);
     pos += value.length();
   }
 
-  if (any_empty) *any_empty = empty;
+  if (any_empty) {
+    *any_empty = empty;
+  }
+
   return block;
 
 }
@@ -309,8 +342,6 @@ OrganizeFormat::Validator::Validator(QObject *parent) : QValidator(parent) {}
 
 QValidator::State OrganizeFormat::Validator::validate(QString &input, int&) const {
 
-  QRegularExpression tag_regexp(kTagPattern);
-
   // Make sure all the blocks match up
   int block_level = 0;
   for (int i = 0; i < input.length(); ++i) {
@@ -327,6 +358,7 @@ QValidator::State OrganizeFormat::Validator::validate(QString &input, int&) cons
   if (block_level != 0) return QValidator::Invalid;
 
   // Make sure the tags are valid
+  const QRegularExpression tag_regexp(kTagPattern);
   QRegularExpressionMatch re_match;
   qint64 pos = 0;
   for (re_match = tag_regexp.match(input, pos); re_match.hasMatch(); re_match = tag_regexp.match(input, pos)) {
@@ -355,9 +387,6 @@ void OrganizeFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
   const QRgb valid_tag_color = light ? kValidTagColorLight : kValidTagColorDark;
   const QRgb invalid_tag_color = light ? kInvalidTagColorLight : kInvalidTagColorDark;
 
-  QRegularExpression tag_regexp(kTagPattern);
-  QRegularExpression block_regexp(kBlockPattern);
-
   QTextCharFormat block_format;
   block_format.setBackground(QColor(block_color));
 
@@ -365,6 +394,7 @@ void OrganizeFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
   setFormat(0, static_cast<int>(text.length()), QTextCharFormat());
 
   // Blocks
+  const QRegularExpression block_regexp(kBlockPattern);
   QRegularExpressionMatch re_match;
   qint64 pos = 0;
   for (re_match = block_regexp.match(text, pos); re_match.hasMatch(); re_match = block_regexp.match(text, pos)) {
@@ -374,6 +404,7 @@ void OrganizeFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
   }
 
   // Tags
+  const QRegularExpression tag_regexp(kTagPattern);
   pos = 0;
   for (re_match = tag_regexp.match(text, pos); re_match.hasMatch(); re_match = tag_regexp.match(text, pos)) {
     pos = re_match.capturedStart();

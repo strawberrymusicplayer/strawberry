@@ -41,15 +41,8 @@ class OrganizeFormat {
  public:
   explicit OrganizeFormat(const QString &format = QString());
 
-  static const char *kTagPattern;
-  static const char *kBlockPattern;
-  static const QStringList kKnownTags;
-  static const QRegularExpression kInvalidDirCharacters;
   static const QRegularExpression kProblematicCharacters;
   static const QRegularExpression kInvalidFatCharacters;
-
-  static const char kInvalidPrefixCharacters[];
-  static const int kInvalidPrefixCharactersCount;
 
   QString format() const { return format_; }
   bool remove_problematic() const { return remove_problematic_; }
@@ -66,7 +59,13 @@ class OrganizeFormat {
   void set_replace_spaces(const bool v) { replace_spaces_ = v; }
 
   bool IsValid() const;
-  QString GetFilenameForSong(const Song &song, QString extension = QString()) const;
+
+  struct GetFilenameForSongResult {
+    GetFilenameForSongResult(const QString &_filename = QString(), const bool _unique_filename = false) : filename(_filename), unique_filename(_unique_filename) {}
+    QString filename;
+    bool unique_filename;
+  };
+  GetFilenameForSongResult GetFilenameForSong(const Song& song, QString extension = QString()) const;
 
   class Validator : public QValidator {  // clazy:exclude=missing-qobject-macro
    public:
@@ -90,7 +89,15 @@ class OrganizeFormat {
   };
 
  private:
-  QString ParseBlock(QString block, const Song &song, bool *any_empty = nullptr) const;
+  static const char kBlockPattern[];
+  static const char kTagPattern[];
+  static const QStringList kKnownTags;
+  static const QStringList kUniqueTags;
+  static const QRegularExpression kInvalidDirCharacters;
+  static const char kInvalidPrefixCharacters[];
+  static const int kInvalidPrefixCharactersCount;
+
+  QString ParseBlock(QString block, const Song &song, bool *have_tagdata = nullptr, bool *any_empty = nullptr) const;
   QString TagValue(const QString &tag, const Song &song) const;
 
   QString format_;

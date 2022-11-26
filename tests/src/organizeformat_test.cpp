@@ -62,7 +62,7 @@ TEST_F(OrganizeFormatTest, BasicReplace) {
 
   ASSERT_TRUE(format_.IsValid());
 
-  EXPECT_EQ("album_albumartist_artist_123_comment_composer_performer_grouping_789_genre_987_654_32_title_321_2010", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("album_albumartist_artist_123_comment_composer_performer_grouping_789_genre_987_654_32_title_321_2010", format_.GetFilenameForSong(song_).filename);
 
 }
 
@@ -78,35 +78,7 @@ TEST_F(OrganizeFormatTest, BasicReplacePaths) {
 
   ASSERT_TRUE(format_.IsValid());
 
-  EXPECT_EQ("albumartist/album/321_albumartist_artist_album_title", format_.GetFilenameForSong(song_));
-
-}
-
-TEST_F(OrganizeFormatTest, PathOnlyFormat) {
-
-  song_.set_title("title");
-  song_.set_album("album");
-  song_.set_artist("artist");
-  song_.set_albumartist("albumartist");
-  song_.set_track(321);
-  song_.set_url(QUrl("file:///music/whatever/321_albumartist_artist_album_title"));
-  song_.set_basefilename("321_albumartist_artist_album_title");
-
-  format_.set_format("%albumartist/%album/");
-
-  ASSERT_TRUE(format_.IsValid());
-
-  EXPECT_EQ("albumartist/album/321_albumartist_artist_album_title", format_.GetFilenameForSong(song_));
-
-}
-
-TEST_F(OrganizeFormatTest, Extension) {
-
-  song_.set_url(QUrl("file:///some/path/filename.flac"));
-
-  format_.set_format("%extension");
-  ASSERT_TRUE(format_.IsValid());
-  EXPECT_EQ("flac", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("albumartist/album/321_albumartist_artist_album_title", format_.GetFilenameForSong(song_).filename);
 
 }
 
@@ -116,7 +88,7 @@ TEST_F(OrganizeFormatTest, ArtistInitial) {
 
   format_.set_format("%artistinitial");
   ASSERT_TRUE(format_.IsValid());
-  EXPECT_EQ("B", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("B", format_.GetFilenameForSong(song_).filename);
 
 }
 
@@ -126,7 +98,7 @@ TEST_F(OrganizeFormatTest, AlbumArtistInitial) {
 
   format_.set_format("%artistinitial");
   ASSERT_TRUE(format_.IsValid());
-  EXPECT_EQ("B", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("B", format_.GetFilenameForSong(song_).filename);
 
 }
 
@@ -143,13 +115,13 @@ TEST_F(OrganizeFormatTest, Blocks) {
   ASSERT_TRUE(format_.IsValid());
 
   song_.set_year(-1);
-  EXPECT_EQ("BeforeAfter", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("BeforeAfter", format_.GetFilenameForSong(song_).filename);
 
   song_.set_year(0);
-  EXPECT_EQ("BeforeAfter", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("BeforeAfter", format_.GetFilenameForSong(song_).filename);
 
   song_.set_year(123);
-  EXPECT_EQ("BeforeInside123After", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("BeforeInside123After", format_.GetFilenameForSong(song_).filename);
 
 }
 
@@ -159,9 +131,9 @@ TEST_F(OrganizeFormatTest, ReplaceSpaces) {
   format_.set_format("The Format String %title");
 
   format_.set_replace_spaces(false);
-  EXPECT_EQ("The Format String The Song Title", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("The Format String The Song Title", format_.GetFilenameForSong(song_).filename);
   format_.set_replace_spaces(true);
-  EXPECT_EQ("The_Format_String_The_Song_Title", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("The_Format_String_The_Song_Title", format_.GetFilenameForSong(song_).filename);
 
 }
 
@@ -171,21 +143,21 @@ TEST_F(OrganizeFormatTest, ReplaceNonAscii) {
   format_.set_format("%artist");
 
   format_.set_remove_non_ascii(false);
-  EXPECT_EQ(QString::fromUtf8("Röyksopp"), format_.GetFilenameForSong(song_));
+  EXPECT_EQ(QString::fromUtf8("Röyksopp"), format_.GetFilenameForSong(song_).filename);
 
   format_.set_remove_non_ascii(true);
-  EXPECT_EQ("Royksopp", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("Royksopp", format_.GetFilenameForSong(song_).filename);
 
   song_.set_artist("");
-  EXPECT_EQ("", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("", format_.GetFilenameForSong(song_).filename);
 
 #ifdef HAVE_ICU
 
   song_.set_artist(QString::fromUtf8("Владимир Высоцкий"));
-  EXPECT_EQ("Vladimir_Vysockij", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("Vladimir_Vysockij", format_.GetFilenameForSong(song_).filename);
 
   song_.set_artist(QString::fromUtf8("エックス・ジャパン"));
-  EXPECT_EQ("ekkusujapan", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("ekkusujapan", format_.GetFilenameForSong(song_).filename);
 
 #endif
 
@@ -196,16 +168,16 @@ TEST_F(OrganizeFormatTest, TrackNumberPadding) {
   format_.set_format("%track");
 
   song_.set_track(9);
-  EXPECT_EQ("09", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("09", format_.GetFilenameForSong(song_).filename);
 
   song_.set_track(99);
-  EXPECT_EQ("99", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("99", format_.GetFilenameForSong(song_).filename);
 
   song_.set_track(999);
-  EXPECT_EQ("999", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("999", format_.GetFilenameForSong(song_).filename);
 
   song_.set_track(0);
-  EXPECT_EQ("", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("", format_.GetFilenameForSong(song_).filename);
 
 }
 
@@ -213,6 +185,6 @@ TEST_F(OrganizeFormatTest, ReplaceSlashes) {
 
   format_.set_format("%title");
   song_.set_title("foo/bar\\baz");
-  EXPECT_EQ("foobarbaz", format_.GetFilenameForSong(song_));
+  EXPECT_EQ("foobarbaz", format_.GetFilenameForSong(song_).filename);
 
 }

@@ -72,8 +72,8 @@
 #  include "transcoder/transcoder.h"
 #endif
 
-const char *OrganizeDialog::kSettingsGroup = "OrganizeDialog";
-const char *OrganizeDialog::kDefaultFormat = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
+constexpr char OrganizeDialog::kSettingsGroup[] = "OrganizeDialog";
+constexpr char OrganizeDialog::kDefaultFormat[] = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
 
 OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *backend, QWidget *parentwindow, QWidget *parent)
     : QDialog(parent),
@@ -456,13 +456,20 @@ Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongLis
   Organize::NewSongInfoList new_songs_info;
   new_songs_info.reserve(songs.count());
   for (const Song &song : songs) {
-    QString new_filename = format.GetFilenameForSong(song, extension);
-    if (filenames.contains(new_filename)) {
-      QString song_number = QString::number(++filenames[new_filename]);
-      new_filename = Utilities::PathWithoutFilenameExtension(new_filename) + "(" + song_number + ")." + QFileInfo(new_filename).suffix();
+    OrganizeFormat::GetFilenameForSongResult result = format.GetFilenameForSong(song, extension);
+    if (result.filename.isEmpty()) {
+      return Organize::NewSongInfoList();
     }
-    filenames.insert(new_filename, 1);
-    new_songs_info << Organize::NewSongInfo(song, new_filename);
+    if (result.unique_filename) {
+      if (filenames.contains(result.filename)) {
+        QString song_number = QString::number(++filenames[result.filename]);
+        result.filename = Utilities::PathWithoutFilenameExtension(result.filename) + "(" + song_number + ")." + QFileInfo(result.filename).suffix();
+      }
+      else {
+        filenames.insert(result.filename, 1);
+      }
+    }
+    new_songs_info << Organize::NewSongInfo(song, result.filename, result.unique_filename);
   }
   return new_songs_info;
 
@@ -512,18 +519,23 @@ void OrganizeDialog::UpdatePreviews() {
   bool ok = format_valid && !songs_.isEmpty();
   if (capacity != 0 && total_size_ > free) ok = false;
 
-  ui_->button_box->button(QDialogButtonBox::Ok)->setEnabled(ok);
-  if (!format_valid) return;
-
-  QString extension;
+  if (ok) {
+    QString extension;
 #ifdef HAVE_GSTREAMER
-  if (storage && storage->GetTranscodeMode() == MusicStorage::Transcode_Always) {
-    const Song::FileType format = storage->GetTranscodeFormat();
-    TranscoderPreset preset = Transcoder::PresetForFileType(format);
-    extension = preset.extension_;
-  }
+    if (storage && storage->GetTranscodeMode() == MusicStorage::Transcode_Always) {
+      const Song::FileType format = storage->GetTranscodeFormat();
+      TranscoderPreset preset = Transcoder::PresetForFileType(format);
+      extension = preset.extension_;
+    }
 #endif
-  new_songs_info_ = ComputeNewSongsFilenames(songs_, format_, extension);
+    new_songs_info_ = ComputeNewSongsFilenames(songs_, format_, extension);
+    if (new_songs_info_.isEmpty()) {
+      ok = false;
+    }
+  }
+  else {
+    new_songs_info_.clear();
+  }
 
   // Update the previews
   ui_->preview->clear();
@@ -532,13 +544,19 @@ void OrganizeDialog::UpdatePreviews() {
   if (has_local_destination) {
     for (const Organize::NewSongInfo &song_info : new_songs_info_) {
       QString filename = storage->LocalPath() + "/" + song_info.new_filename_;
-      ui_->preview->addItem(QDir::toNativeSeparators(filename));
+      QListWidgetItem *item = new QListWidgetItem(song_info.unique_filename_ ? IconLoader::Load("dialog-ok-apply") : IconLoader::Load("dialog-warning"), QDir::toNativeSeparators(filename), ui_->preview);
+      ui_->preview->addItem(item);
+      if (!song_info.unique_filename_) {
+        ok = false;
+      }
     }
   }
 
   if (devices_) {
     AdjustSize();
   }
+
+  ui_->button_box->button(QDialogButtonBox::Ok)->setEnabled(ok);
 
 }
 
