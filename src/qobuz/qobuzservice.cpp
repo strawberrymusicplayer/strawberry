@@ -57,10 +57,12 @@
 #include "settings/settingsdialog.h"
 #include "settings/qobuzsettingspage.h"
 
-constexpr Song::Source QobuzService::kSource = Song::Source_Qobuz;
+const Song::Source QobuzService::kSource = Song::Source_Qobuz;
+const char QobuzService::kApiUrl[] = "https://www.qobuz.com/api.json/0.2";
+
 constexpr char QobuzService::kAuthUrl[] = "https://www.qobuz.com/api.json/0.2/user/login";
-constexpr char QobuzService::kApiUrl[] = "https://www.qobuz.com/api.json/0.2";
-constexpr int QobuzService::kLoginAttempts = 2;
+
+const int QobuzService::kLoginAttempts = 2;
 constexpr int QobuzService::kTimeResetLoginAttempts = 60000;
 
 constexpr char QobuzService::kArtistsSongsTable[] = "qobuz_artists_songs";

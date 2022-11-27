@@ -61,14 +61,17 @@
 #include "settings/settingsdialog.h"
 #include "settings/tidalsettingspage.h"
 
-constexpr Song::Source TidalService::kSource = Song::Source_Tidal;
+const Song::Source TidalService::kSource = Song::Source_Tidal;
+
+const char TidalService::kApiUrl[] = "https://api.tidalhifi.com/v1";
+const char TidalService::kResourcesUrl[] = "https://resources.tidal.com";
+
 constexpr char TidalService::kOAuthUrl[] = "https://login.tidal.com/authorize";
 constexpr char TidalService::kOAuthAccessTokenUrl[] = "https://login.tidal.com/oauth2/token";
 constexpr char TidalService::kOAuthRedirectUrl[] = "tidal://login/auth";
 constexpr char TidalService::kAuthUrl[] = "https://api.tidalhifi.com/v1/login/username";
-constexpr char TidalService::kApiUrl[] = "https://api.tidalhifi.com/v1";
-constexpr char TidalService::kResourcesUrl[] = "https://resources.tidal.com";
-constexpr int TidalService::kLoginAttempts = 2;
+
+const int TidalService::kLoginAttempts = 2;
 constexpr int TidalService::kTimeResetLoginAttempts = 60000;
 
 constexpr char TidalService::kArtistsSongsTable[] = "tidal_artists_songs";
