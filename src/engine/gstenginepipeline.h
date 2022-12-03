@@ -122,7 +122,7 @@ class GstEnginePipeline : public QObject {
   QString source_device() const { return source_device_; }
 
  public slots:
-  void SetFaderVolume(qreal mod);
+  void SetFaderVolume(const qreal volume);
 
  signals:
   void Error(int pipeline_id, int domain, int error_code, QString message, QString debug);
