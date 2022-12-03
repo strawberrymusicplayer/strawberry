@@ -649,8 +649,9 @@ void Player::SetVolumeFromSlider(const int value) {
 
   const uint volume = static_cast<uint>(qBound(0, value, 100));
   if (volume != volume_) {
+    volume_ = volume;
     engine_->SetVolume(volume);
-    emit VolumeChanged(volume_);
+    emit VolumeChanged(volume);
   }
 
 }
@@ -660,7 +661,7 @@ void Player::SetVolumeFromEngine(const uint volume) {
   const uint new_volume = qBound(0U, volume, 100U);
   if (new_volume != volume_) {
     volume_ = new_volume;
-    emit VolumeChanged(volume_);
+    emit VolumeChanged(new_volume);
   }
 
 }
@@ -669,11 +670,11 @@ void Player::SetVolume(const uint volume) {
 
   const uint new_volume = qBound(0U, volume, 100U);
   if (new_volume != volume_) {
-    engine_->SetVolume(volume);
     volume_ = new_volume;
-    emit VolumeChanged(volume_);
+    engine_->SetVolume(new_volume);
+    emit VolumeChanged(new_volume);
   }
-  
+
 }
 
 void Player::VolumeUp() {
