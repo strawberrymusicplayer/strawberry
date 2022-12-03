@@ -187,6 +187,8 @@ jobs:
             desktop-file-utils
             libappstream-glib
             hicolor-icon-theme
+      - name: Remove dangling Qt 6 SQL CMake files
+        run: rm -rf /usr/lib64/cmake/Qt6Sql/Qt6QMYSQL* /usr/lib64/cmake/Qt6Sql/Qt6QODBCD* /usr/lib64/cmake/Qt6Sql/Qt6QPSQL*
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
