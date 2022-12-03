@@ -44,15 +44,15 @@ class SliderSlider : public QSlider {
  public:
   explicit SliderSlider(const Qt::Orientation, QWidget*, const int max = 0);
 
-  virtual void SetValueFromVolume(const uint value);
+  virtual void SetValue(const uint value);
   virtual void setValue(int value);
 
   // WARNING non-virtual - and thus only really intended for internal use this is a major flaw in the class presently, however it suits our current needs fine
   int value() const { return adjustValue(QSlider::value()); }
 
  signals:
-  // we emit this when the user has specifically changed the slider so connect to it if valueChanged() is too generic Qt also emits valueChanged(int)
-  void sliderReleased(int);  // clazy:exclude=overloaded-signal
+  // We emit this when the user has specifically changed the slider so connect to it if valueChanged() is too generic Qt also emits valueChanged(int)
+  void SliderReleased(int);
 
  protected:
   void wheelEvent(QWheelEvent*) override;

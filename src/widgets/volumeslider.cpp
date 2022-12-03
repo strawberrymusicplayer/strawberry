@@ -68,7 +68,7 @@ void SliderSlider::wheelEvent(QWheelEvent *e) {
 
   QSlider::setValue(nval);
 
-  emit sliderReleased(value());
+  emit SliderReleased(value());
 
 }
 
@@ -133,7 +133,7 @@ void SliderSlider::mousePressEvent(QMouseEvent *e) {
 void SliderSlider::mouseReleaseEvent(QMouseEvent*) {
 
   if (!outside_ && QSlider::value() != prev_value_) {
-    emit sliderReleased(value());
+    emit SliderReleased(value());
   }
 
   sliding_ = false;
@@ -141,7 +141,7 @@ void SliderSlider::mouseReleaseEvent(QMouseEvent*) {
 
 }
 
-void SliderSlider::SetValueFromVolume(const uint value) {
+void SliderSlider::SetValue(const uint value) {
 
   setValue(static_cast<int>(value));
 
@@ -298,21 +298,21 @@ void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
 
   QAction *ret = menu.exec(mapToGlobal(e->pos()));
   if (ret) {
-    QSlider::setValue(values[ret]);  // clazy:exclude=skipped-base-method
-    emit sliderReleased(values[ret]);
+    QSlider::setValue(values[ret]);
+    emit SliderReleased(values[ret]);
   }
 
 }
 
 void VolumeSlider::slideEvent(QMouseEvent *e) {
-  QSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2));  // clazy:exclude=skipped-base-method
+  QSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2));
 }
 
 void VolumeSlider::wheelEvent(QWheelEvent *e) {
 
   const int step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
-  QSlider::setValue(SliderSlider::value() + step);  // clazy:exclude=skipped-base-method
-  emit sliderReleased(value());
+  QSlider::setValue(SliderSlider::value() + step);
+  emit SliderReleased(value());
 
 }
 

@@ -340,8 +340,8 @@ void GstEngine::Seek(const quint64 offset_nanosec) {
   }
 }
 
-void GstEngine::SetVolumeSW(const uint percent) {
-  if (current_pipeline_) current_pipeline_->SetVolume(percent);
+void GstEngine::SetVolumeSW(const uint volume) {
+  if (current_pipeline_) current_pipeline_->SetVolume(volume);
 }
 
 qint64 GstEngine::position_nanosec() const {
@@ -802,6 +802,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   ret->set_proxy_settings(proxy_address_, proxy_authentication_, proxy_user_, proxy_pass_);
   ret->set_channels(channels_enabled_, channels_);
   ret->set_bs2b_enabled(bs2b_enabled_);
+  ret->set_fading_enabled(fadeout_enabled_ || autocrossfade_enabled_ || fadeout_pause_enabled_);
 
   ret->AddBufferConsumer(this);
   for (GstBufferConsumer *consumer : buffer_consumers_) {
@@ -814,6 +815,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   QObject::connect(ret.get(), &GstEnginePipeline::BufferingStarted, this, &GstEngine::BufferingStarted);
   QObject::connect(ret.get(), &GstEnginePipeline::BufferingProgress, this, &GstEngine::BufferingProgress);
   QObject::connect(ret.get(), &GstEnginePipeline::BufferingFinished, this, &GstEngine::BufferingFinished);
+  QObject::connect(ret.get(), &GstEnginePipeline::VolumeChanged, this, &EngineBase::UpdateVolume);
 
   return ret;
 

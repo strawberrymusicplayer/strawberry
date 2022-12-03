@@ -24,6 +24,7 @@
 #include <memory>
 #include <cstdint>
 #include <cstring>
+#include <cmath>
 #include <glib.h>
 #include <glib-object.h>
 #include <gst/gst.h>
@@ -70,6 +71,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       stereo_balancer_enabled_(false),
       eq_enabled_(false),
       rg_enabled_(false),
+      fading_enabled_(false),
       stereo_balance_(0.0F),
       eq_preamp_(0),
       rg_mode_(0),
@@ -97,18 +99,19 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       last_known_position_ns_(0),
       next_uri_set_(false),
       volume_percent_(100),
-      volume_modifier_(1.0F),
       use_fudge_timer_(false),
       pipeline_(nullptr),
       audiobin_(nullptr),
       audioqueue_(nullptr),
       volume_(nullptr),
+      volume_fading_(nullptr),
       audiopanorama_(nullptr),
       equalizer_(nullptr),
       equalizer_preamp_(nullptr),
       pad_added_cb_id_(-1),
       notify_source_cb_id_(-1),
       about_to_finish_cb_id_(-1),
+      notify_volume_cb_id_(-1),
       logged_unsupported_analyzer_format_(false) {
 
   eq_band_gains_.reserve(kEqBandCount);
@@ -137,6 +140,10 @@ GstEnginePipeline::~GstEnginePipeline() {
 
     if (about_to_finish_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(pipeline_), about_to_finish_cb_id_);
+    }
+
+    if (notify_volume_cb_id_ != -1) {
+      g_signal_handler_disconnect(G_OBJECT(volume_), notify_volume_cb_id_);
     }
 
     GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
@@ -218,6 +225,10 @@ void GstEnginePipeline::set_bs2b_enabled(const bool enabled) {
   bs2b_enabled_ = enabled;
 }
 
+void GstEnginePipeline::set_fading_enabled(const bool enabled) {
+  fading_enabled_ = enabled;
+}
+
 GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const {
 
   QString unique_name = QString("pipeline") + "-" + QString::number(id_) + "-" + (name.isEmpty() ? factory_name : name);
@@ -249,6 +260,10 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &or
 
   if (!InitAudioBin(error)) return false;
 
+  if (volume_) {
+    notify_volume_cb_id_ = CHECKED_GCONNECT(G_OBJECT(volume_), "notify::volume", &VolumeCallback, this);
+  }
+
   // Set playbin's sink to be our custom audio-sink.
   g_object_set(GST_OBJECT(pipeline_), "audio-sink", audiobin_, nullptr);
 
@@ -256,14 +271,9 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &or
   g_object_get(G_OBJECT(pipeline_), "flags", &flags, nullptr);
   flags |= 0x00000002;
   flags &= ~0x00000001;
-  if (volume_enabled_) {
-    flags |= 0x00000010;
-  }
-  else {
-    flags &= ~0x00000010;
-  }
-
+  flags &= ~0x00000010;
   g_object_set(G_OBJECT(pipeline_), "flags", flags, nullptr);
+
   g_object_set(G_OBJECT(pipeline_), "uri", stream_url.constData(), nullptr);
 
   pipeline_is_connected_ = true;
@@ -394,6 +404,11 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   }
 
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink), "volume")) {
+    qLog(Debug) << output_ << "has volume element, enabling system volume synchronization.";
+    volume_ = audiosink;
+  }
+
   // Create all the other elements
 
   audioqueue_ = CreateElement("queue2", "audioqueue", audiobin_, error);
@@ -411,9 +426,20 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   }
 
   // Create the volume elements if it's enabled.
-  if (volume_enabled_) {
-    volume_ = CreateElement("volume", "volume", audiobin_, error);
-    if (!volume_) {
+  GstElement *swvolume = nullptr;
+  if (volume_enabled_ && !volume_) {
+    swvolume = CreateElement("volume", "volume_sw", audiobin_, error);
+    if (!swvolume) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      return false;
+    }
+    volume_ = swvolume;
+  }
+
+  if (fading_enabled_) {
+    volume_fading_ = CreateElement("volume", "volume_fading", audiobin_, error);
+    if (!volume_fading_) {
       gst_object_unref(GST_OBJECT(audiobin_));
       audiobin_ = nullptr;
       return false;
@@ -561,69 +587,80 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Link all elements
 
-  GstElement *next = audioqueue_;  // The next element to link from.
+  if (!gst_element_link(audioqueue_, audioconverter)) {
+    gst_object_unref(GST_OBJECT(audiobin_));
+    audiobin_ = nullptr;
+    error = "gst_element_link() failed.";
+    return false;
+  }
+
+  GstElement *element_link = audioconverter;  // The next element to link from.
 
   // Link replaygain elements if enabled.
   if (rg_enabled_ && rgvolume && rglimiter && rgconverter) {
-    if (!gst_element_link_many(next, rgvolume, rglimiter, rgconverter, nullptr)) {
+    if (!gst_element_link_many(element_link, rgvolume, rglimiter, rgconverter, nullptr)) {
       gst_object_unref(GST_OBJECT(audiobin_));
       audiobin_ = nullptr;
       error = "gst_element_link_many() failed.";
       return false;
     }
-    next = rgconverter;
+    element_link = rgconverter;
   }
 
   // Link equalizer elements if enabled.
   if (eq_enabled_ && equalizer_ && equalizer_preamp_) {
-    if (!gst_element_link_many(next, equalizer_preamp_, equalizer_, nullptr)) {
+    if (!gst_element_link_many(element_link, equalizer_preamp_, equalizer_, nullptr)) {
       gst_object_unref(GST_OBJECT(audiobin_));
       audiobin_ = nullptr;
       error = "gst_element_link_many() failed.";
       return false;
     }
-    next = equalizer_;
+    element_link = equalizer_;
   }
 
   // Link stereo balancer elements if enabled.
   if (stereo_balancer_enabled_ && audiopanorama_) {
-    if (!gst_element_link(next, audiopanorama_)) {
+    if (!gst_element_link(element_link, audiopanorama_)) {
       gst_object_unref(GST_OBJECT(audiobin_));
       audiobin_ = nullptr;
       error = "gst_element_link() failed.";
       return false;
     }
-    next = audiopanorama_;
+    element_link = audiopanorama_;
   }
 
-  // Link volume elements if enabled.
-  if (volume_enabled_ && volume_) {
-    if (!gst_element_link(next, volume_)) {
+  // Link software volume element if enabled.
+  if (volume_enabled_ && swvolume) {
+    if (!gst_element_link(element_link, swvolume)) {
       gst_object_unref(GST_OBJECT(audiobin_));
       audiobin_ = nullptr;
       error = "gst_element_link() failed.";
       return false;
     }
-    next = volume_;
+    element_link = swvolume;
+  }
+
+  // Link fading volume element if enabled.
+  if (fading_enabled_ && volume_fading_) {
+    if (!gst_element_link(element_link, volume_fading_)) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+      error = "gst_element_link() failed.";
+      return false;
+    }
+    element_link = volume_fading_;
   }
 
   // Link bs2b element if enabled.
   if (bs2b_enabled_ && bs2b) {
     qLog(Debug) << "Enabling bs2b";
-    if (!gst_element_link(next, bs2b)) {
+    if (!gst_element_link(element_link, bs2b)) {
       gst_object_unref(GST_OBJECT(audiobin_));
       audiobin_ = nullptr;
       error = "gst_element_link() failed.";
       return false;
     }
-    next = bs2b;
-  }
-
-  if (!gst_element_link(next, audioconverter)) {
-    gst_object_unref(GST_OBJECT(audiobin_));
-    audiobin_ = nullptr;
-    error = "gst_element_link() failed.";
-    return false;
+    element_link = bs2b;
   }
 
   {
@@ -638,12 +675,12 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       qLog(Debug) << "Setting channels to" << channels_;
       gst_caps_set_simple(caps, "channels", G_TYPE_INT, channels_, nullptr);
     }
-    gst_element_link_filtered(audioconverter, audiosink, caps);
+    gst_element_link_filtered(element_link, audiosink, caps);
     gst_caps_unref(caps);
   }
 
   {  // Add probes and handlers.
-    GstPad *pad = gst_element_get_static_pad(audioqueue_, "src");
+    GstPad *pad = gst_element_get_static_pad(audioconverter, "src");
     if (pad) {
       gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, HandoffCallback, this, nullptr);
       gst_object_unref(pad);
@@ -735,6 +772,21 @@ void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec*, gpoint
   }
 
   g_object_unref(element);
+
+}
+
+void GstEnginePipeline::VolumeCallback(GstElement*, GParamSpec*, gpointer self) {
+
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+
+  gdouble volume = 0;
+  g_object_get(G_OBJECT(instance->volume_), "volume", &volume, nullptr);
+
+  const uint volume_percent = static_cast<uint>(qBound(0L, lround(qBound(0.0, gst_stream_volume_convert_volume(GST_STREAM_VOLUME_FORMAT_LINEAR, GST_STREAM_VOLUME_FORMAT_CUBIC, volume), 1.0) / 0.01), 100L));
+  if (volume_percent != instance->volume_percent_) {
+    instance->volume_percent_ = volume_percent;
+    emit instance->VolumeChanged(volume_percent);
+  }
 
 }
 
@@ -1355,27 +1407,22 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
 }
 
-void GstEnginePipeline::SetVolume(const uint percent) {
+void GstEnginePipeline::SetVolume(const uint volume_percent) {
 
-  if (!volume_) return;
-  volume_percent_ = percent;
-  UpdateVolume();
+  if (volume_) {
+    const double volume = gst_stream_volume_convert_volume(GST_STREAM_VOLUME_FORMAT_CUBIC, GST_STREAM_VOLUME_FORMAT_LINEAR, static_cast<double>(volume_percent) * 0.01);
+    g_object_set(G_OBJECT(volume_), "volume", volume, nullptr);
+  }
 
-}
-
-void GstEnginePipeline::SetVolumeModifier(const qreal mod) {
-
-  if (!volume_) return;
-  volume_modifier_ = mod;
-  UpdateVolume();
+  volume_percent_ = volume_percent;
 
 }
 
-void GstEnginePipeline::UpdateVolume() {
+void GstEnginePipeline::SetFaderVolume(const qreal volume) {
 
-  if (!volume_) return;
-  double vol = static_cast<double>(volume_percent_) * static_cast<double>(0.01) * volume_modifier_;
-  g_object_set(G_OBJECT(volume_), "volume", vol, nullptr);
+  if (volume_fading_) {
+    g_object_set(G_OBJECT(volume_fading_), "volume", volume, nullptr);
+  }
 
 }
 
@@ -1454,7 +1501,7 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
     }
     timeline->deleteLater();
   });
-  QObject::connect(fader_.get(), &QTimeLine::valueChanged, this, &GstEnginePipeline::SetVolumeModifier);
+  QObject::connect(fader_.get(), &QTimeLine::valueChanged, this, &GstEnginePipeline::SetFaderVolume);
   QObject::connect(fader_.get(), &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
   fader_->setDirection(direction);
   fader_->setEasingCurve(shape);
@@ -1464,7 +1511,7 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
   fader_fudge_timer_.stop();
   use_fudge_timer_ = use_fudge_timer;
 
-  SetVolumeModifier(fader_->currentValue());
+  SetFaderVolume(fader_->currentValue());
 
 }
 

@@ -99,16 +99,18 @@ bool Engine::Base::Play(const QUrl &stream_url, const QUrl &original_url, const 
 
 }
 
-void Engine::Base::SetVolume(const uint value) {
+void Engine::Base::UpdateVolume(const uint volume) {
 
-  volume_ = value;
-  SetVolumeSW(MakeVolumeLogarithmic(value));
+  volume_ = volume;
+  emit VolumeChanged(volume);
 
 }
 
-uint Engine::Base::MakeVolumeLogarithmic(const uint volume) {
-  // We're using a logarithmic function to make the volume ramp more natural.
-  return static_cast<uint>(100 - 100.0 * std::log10((100 - volume) * 0.09 + 1.0));
+void Engine::Base::SetVolume(const uint volume) {
+
+  volume_ = volume;
+  SetVolumeSW(volume);
+
 }
 
 void Engine::Base::ReloadSettings() {

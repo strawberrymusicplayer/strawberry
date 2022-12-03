@@ -72,7 +72,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void Seek(const quint64 offset_nanosec) override;
 
  protected:
-  void SetVolumeSW(const uint percent) override;
+  void SetVolumeSW(const uint volume) override;
 
  public:
   qint64 position_nanosec() const override;

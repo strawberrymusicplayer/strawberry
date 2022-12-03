@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <cmath>
 
 #include <QApplication>
 #include <QCoreApplication>
@@ -175,7 +176,9 @@ void Mpris2::EngineStateChanged(Engine::State newState) {
 
 }
 
-void Mpris2::VolumeChanged() { EmitNotification("Volume"); }
+void Mpris2::VolumeChanged() {
+  EmitNotification("Volume");
+}
 
 void Mpris2::ShuffleModeChanged() { EmitNotification("Shuffle"); }
 
@@ -411,8 +414,8 @@ double Mpris2::Volume() const {
   return app_->player()->GetVolume() / 100.0;
 }
 
-void Mpris2::SetVolume(const double value) {
-  app_->player()->SetVolume(static_cast<uint>(std::max(std::min(lround(value * 100.0), 100L), 0L)));
+void Mpris2::SetVolume(const double volume) {
+  app_->player()->SetVolume(static_cast<uint>(qBound(0L, lround(volume * 100.0), 100L)));
 }
 
 qint64 Mpris2::Position() const {

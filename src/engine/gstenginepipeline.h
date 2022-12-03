@@ -74,6 +74,7 @@ class GstEnginePipeline : public QObject {
   void set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass);
   void set_channels(const bool enabled, const int channels);
   void set_bs2b_enabled(const bool enabled);
+  void set_fading_enabled(const bool enabled);
 
   // Creates the pipeline, returns false on error
   bool InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec, QString &error);
@@ -86,7 +87,7 @@ class GstEnginePipeline : public QObject {
   // Control the music playback
   QFuture<GstStateChangeReturn> SetState(const GstState state);
   Q_INVOKABLE bool Seek(const qint64 nanosec);
-  void SetVolume(const uint percent);
+  void SetVolume(const uint volume_percent);
   void SetStereoBalance(const float value);
   void SetEqualizerParams(const int preamp, const QList<int> &band_gains);
 
@@ -121,7 +122,7 @@ class GstEnginePipeline : public QObject {
   QString source_device() const { return source_device_; }
 
  public slots:
-  void SetVolumeModifier(qreal mod);
+  void SetFaderVolume(qreal mod);
 
  signals:
   void Error(int pipeline_id, int domain, int error_code, QString message, QString debug);
@@ -129,6 +130,7 @@ class GstEnginePipeline : public QObject {
   void EndOfStreamReached(int pipeline_id, bool has_next_track);
   void MetadataFound(int pipeline_id, const Engine::SimpleMetaBundle &bundle);
 
+  void VolumeChanged(uint volume);
   void FaderFinished();
 
   void BufferingStarted();
@@ -145,6 +147,7 @@ class GstEnginePipeline : public QObject {
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
   static GstPadProbeReturn EventHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
   static void SourceSetupCallback(GstPlayBin*, GParamSpec *pspec, gpointer);
+  static void VolumeCallback(GstElement*, GParamSpec*, gpointer self);
   static void NewPadCallback(GstElement*, GstPad*, gpointer);
   static GstPadProbeReturn PlaybinProbe(GstPad*, GstPadProbeInfo*, gpointer);
   static GstPadProbeReturn HandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
@@ -164,7 +167,6 @@ class GstEnginePipeline : public QObject {
   static QString ParseStrTag(GstTagList *list, const char *tag);
   static guint ParseUIntTag(GstTagList *list, const char *tag);
 
-  void UpdateVolume();
   void UpdateStereoBalance();
   void UpdateEqualizer();
 
@@ -190,6 +192,7 @@ class GstEnginePipeline : public QObject {
   bool stereo_balancer_enabled_;
   bool eq_enabled_;
   bool rg_enabled_;
+  bool fading_enabled_;
 
   // Stereo balance:
   // From -1.0 - 1.0
@@ -271,7 +274,6 @@ class GstEnginePipeline : public QObject {
   bool next_uri_set_;
 
   uint volume_percent_;
-  qreal volume_modifier_;
 
   std::shared_ptr<QTimeLine> fader_;
   QBasicTimer fader_fudge_timer_;
@@ -281,6 +283,7 @@ class GstEnginePipeline : public QObject {
   GstElement *audiobin_;
   GstElement *audioqueue_;
   GstElement *volume_;
+  GstElement *volume_fading_;
   GstElement *audiopanorama_;
   GstElement *equalizer_;
   GstElement *equalizer_preamp_;
@@ -288,6 +291,7 @@ class GstEnginePipeline : public QObject {
   int pad_added_cb_id_;
   int notify_source_cb_id_;
   int about_to_finish_cb_id_;
+  int notify_volume_cb_id_;
 
   QThreadPool set_state_threadpool_;
 

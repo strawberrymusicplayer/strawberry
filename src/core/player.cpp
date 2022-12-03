@@ -83,27 +83,22 @@ Player::Player(Application *app, QObject *parent)
       autoscroll_(Playlist::AutoScroll_Maybe),
       last_state_(Engine::Empty),
       nb_errors_received_(0),
+      volume_(100),
       volume_before_mute_(100),
       last_pressed_previous_(QDateTime::currentDateTime()),
       continue_on_error_(false),
       greyout_(true),
       menu_previousmode_(BehaviourSettingsPage::PreviousBehaviour_DontRestart),
       seek_step_sec_(10),
-      volume_control_(true),
       play_offset_nanosec_(0) {
-
-  settings_.beginGroup(kSettingsGroup);
 
   QSettings s;
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
   Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::GStreamer)).toString().toLower());
   s.endGroup();
+
   CreateEngine(enginetype);
 
-}
-
-Player::~Player() {
-  settings_.endGroup();
 }
 
 Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
@@ -181,6 +176,7 @@ void Player::Init() {
   QObject::connect(engine_.get(), &EngineBase::TrackAboutToEnd, this, &Player::TrackAboutToEnd);
   QObject::connect(engine_.get(), &EngineBase::TrackEnded, this, &Player::TrackEnded);
   QObject::connect(engine_.get(), &EngineBase::MetaData, this, &Player::EngineMetadataReceived);
+  QObject::connect(engine_.get(), &EngineBase::VolumeChanged, this, &Player::SetVolumeFromEngine);
 
   // Equalizer
   QObject::connect(equalizer_, &Equalizer::StereoBalancerEnabledChanged, app_->player()->engine(), &EngineBase::SetStereoBalancerEnabled);
@@ -193,16 +189,9 @@ void Player::Init() {
   engine_->SetEqualizerEnabled(equalizer_->is_equalizer_enabled());
   engine_->SetEqualizerParameters(equalizer_->preamp_value(), equalizer_->gain_values());
 
-  s.beginGroup(BackendSettingsPage::kSettingsGroup);
-  volume_control_ = s.value("volume_control", true).toBool();
-  s.endGroup();
-
-  if (volume_control_) {
-    int volume = settings_.value("volume", 100).toInt();
-    SetVolume(volume);
-  }
-
   ReloadSettings();
+
+  LoadVolume();
 
 }
 
@@ -220,13 +209,28 @@ void Player::ReloadSettings() {
   seek_step_sec_ = s.value("seek_step_sec", 10).toInt();
   s.endGroup();
 
-  s.beginGroup(BackendSettingsPage::kSettingsGroup);
-  bool volume_control = s.value("volume_control", true).toBool();
-  if (!volume_control && GetVolume() != 100) SetVolume(100);
-  s.endGroup();
-
   engine_->ReloadSettings();
 
+}
+
+void Player::LoadVolume() {
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  const uint volume = s.value("volume", 100).toInt();
+  s.endGroup();
+
+  SetVolume(volume);
+
+}
+
+void Player::SaveVolume() {
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("volume", volume_);
+  s.endGroup();
+  
 }
 
 void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
@@ -641,23 +645,35 @@ uint Player::GetVolume() const {
 
 }
 
-void Player::SetVolumeFromValue(const int value) {
+void Player::SetVolumeFromSlider(const int value) {
 
-  SetVolume(static_cast<uint>(std::max(0, value)));
+  const uint volume = static_cast<uint>(qBound(0, value, 100));
+  if (volume != volume_) {
+    engine_->SetVolume(volume);
+    emit VolumeChanged(volume_);
+  }
+
+}
+
+void Player::SetVolumeFromEngine(const uint volume) {
+
+  const uint new_volume = qBound(0U, volume, 100U);
+  if (new_volume != volume_) {
+    volume_ = new_volume;
+    emit VolumeChanged(volume_);
+  }
 
 }
 
 void Player::SetVolume(const uint volume) {
 
-  uint old_volume = engine_->volume();
-  uint new_volume = qBound(0U, volume, 100U);
-  settings_.setValue("volume", new_volume);
-  engine_->SetVolume(new_volume);
-
-  if (new_volume != old_volume) {
-    emit VolumeChanged(new_volume);
+  const uint new_volume = qBound(0U, volume, 100U);
+  if (new_volume != volume_) {
+    engine_->SetVolume(volume);
+    volume_ = new_volume;
+    emit VolumeChanged(volume_);
   }
-
+  
 }
 
 void Player::VolumeUp() {
@@ -793,8 +809,6 @@ PlaylistItemPtr Player::GetItemAt(const int pos) const {
 }
 
 void Player::Mute() {
-
-  if (!volume_control_) return;
 
   const uint current_volume = engine_->volume();
 
