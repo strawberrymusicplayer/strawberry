@@ -127,9 +127,7 @@ QString AlbumCoverLoader::CoverFilePath(const Song &song, const QString &album_d
   return CoverFilePath(song.source(), song.effective_albumartist(), song.album(), song.album_id(), album_dir, cover_url, extension);
 }
 
-QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString &artist, QString album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QString &extension) {
-
-  album.remove(Song::kAlbumRemoveDisc);
+QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString &artist, const QString &album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QString &extension) {
 
   QString path;
   if (source == Song::Source_Collection && save_cover_type_ == CollectionSettingsPage::SaveCoverType_Album && !album_dir.isEmpty()) {
@@ -213,7 +211,9 @@ QString AlbumCoverLoader::CoverFilenameFromSource(const Song::Source source, con
 
 }
 
-QString AlbumCoverLoader::CoverFilenameFromVariable(const QString &artist, const QString &album, const QString &extension) {
+QString AlbumCoverLoader::CoverFilenameFromVariable(const QString &artist, QString album, const QString &extension) {
+
+  album = album.remove(Song::kAlbumRemoveDisc);
 
   QString filename(cover_pattern_);
   filename.replace("%albumartist", artist);

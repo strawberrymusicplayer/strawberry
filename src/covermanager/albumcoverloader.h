@@ -68,10 +68,10 @@ class AlbumCoverLoader : public QObject {
   static QString AlbumCoverFilename(QString artist, QString album, const QString &extension);
 
   static QString CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id, const QString &extension);
-  QString CoverFilenameFromVariable(const QString &artist, const QString &album, const QString &extension = QString());
+  QString CoverFilenameFromVariable(const QString &artist, QString album, const QString &extension = QString());
   QString CoverFilePath(const Song &song, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());
 
-  QString CoverFilePath(const Song::Source source, const QString &artist, QString album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());
+  QString CoverFilePath(const Song::Source source, const QString &artist, const QString &album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());
 
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const Song &song);
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QUrl &art_automatic, const QUrl &art_manual, const QUrl &song_url = QUrl(), const Song::Source song_source = Song::Source_Unknown);
