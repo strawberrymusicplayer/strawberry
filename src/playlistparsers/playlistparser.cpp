@@ -209,10 +209,10 @@ void PlaylistParser::Save(const SongList &songs, const QString &filename, const 
   }
 
   // Open the file
-  QFile file(filename);
+  QFile file(path_type == PlaylistSettingsPage::PathType_Absolute ? fileinfo.absoluteFilePath() : fileinfo.canonicalFilePath());
   if (!file.open(QIODevice::WriteOnly)) return;
 
-  parser->Save(songs, &file, fileinfo.absolutePath(), path_type);
+  parser->Save(songs, &file, path_type == PlaylistSettingsPage::PathType_Absolute ? fileinfo.absolutePath() : fileinfo.canonicalPath(), path_type);
 
   file.close();
 
