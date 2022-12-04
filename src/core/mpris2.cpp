@@ -190,15 +190,15 @@ void Mpris2::RepeatModeChanged() {
 
 }
 
-void Mpris2::EmitNotification(const QString &name, const QVariant &val) {
-  EmitNotification(name, val, "org.mpris.MediaPlayer2.Player");
+void Mpris2::EmitNotification(const QString &name, const QVariant &value) {
+  EmitNotification(name, value, "org.mpris.MediaPlayer2.Player");
 }
 
-void Mpris2::EmitNotification(const QString &name, const QVariant &val, const QString &mprisEntity) {
+void Mpris2::EmitNotification(const QString &name, const QVariant &value, const QString &mprisEntity) {
 
   QDBusMessage msg = QDBusMessage::createSignal(kMprisObjectPath, kFreedesktopPath, "PropertiesChanged");
   QVariantMap map;
-  map.insert(name, val);
+  map.insert(name, value);
   QVariantList args = QVariantList() << mprisEntity << map << QStringList();
   msg.setArguments(args);
   QDBusConnection::sessionBus().send(msg);

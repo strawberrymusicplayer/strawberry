@@ -215,8 +215,8 @@ class Mpris2 : public QObject {
 
  private:
   void EmitNotification(const QString &name);
-  void EmitNotification(const QString &name, const QVariant &val);
-  void EmitNotification(const QString &name, const QVariant &val, const QString &mprisEntity);
+  void EmitNotification(const QString &name, const QVariant &value);
+  void EmitNotification(const QString &name, const QVariant &value, const QString &mprisEntity);
 
   QString PlaybackStatus(Engine::State state) const;
 
