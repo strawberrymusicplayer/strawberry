@@ -467,7 +467,7 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
     params << Param("album", album);
   }
 
-  if (!prefer_albumartist_ && !song.albumartist().isEmpty() && song.albumartist().compare(Song::kVariousArtists, Qt::CaseInsensitive) != 0) {
+  if (!prefer_albumartist_ && !song.albumartist().isEmpty()) {
     params << Param("albumArtist", song.albumartist());
   }
 
