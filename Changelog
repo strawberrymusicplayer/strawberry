@@ -2,6 +2,28 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Capitalize GLib application name so it appears nicely in GNOME and PulseAudio Volume Control (#1066).
+    * Fixed missing application icon for PulseAudio Volume Control (#1066).
+    * Ignore errors for missing albums when updating Tidal collection if there are results (#1061).
+    * Only run periodic collection scan when moitoring collection setting is on.
+    * Fixed an edge case where the context headline text was being cut short (#1067).
+    * Made "Show in file browser" support SpaceFM filemanager (#1073).
+    * Fixed incorrect tab order in edit tag dialog (#1075).
+    * Changed "FMPS_PlayCount" to "FMPS_Playcount" when saving tag (#1074).
+    * Fixed compilation tag read and write for MP4 (#1076).
+    * Removed incorrect use of "TPE1" for performer when reading ID3 tags (#1076).
+    * Disable tag fields for unsupported tags in tag editor.
+    * Don't allow organizing files without unique tags (track or title) for filename (#1077).
+    * Don't remove disc from album title when creating cover hash to allow different covers for each disc on an album (#1069).
+    * Fixed incorrect relative paths for song filenames when saving playlists if the saved playlist location is a symablic link to the song filename (#1071).
+
+  Enhancements:
+    * Use system volume instead of own software volume when available (#1037).
+    * Improved Tidal and Qobuz support with timed requests.
+
 Version 1.0.10 (2022.10.21):
 
   Bugfixes:
@@ -250,7 +272,7 @@ Version 0.9.3 (2021.04.18)
   Bugfixes:
     * Fix "Show in file browser" to work with thunar.
     * Check that the clicked rating position is to the right or left of the rectangle.
-    * Fix rescan when collection directory is removed and readded.
+    * Fix rescan when collection directory is removed and re-added.
     * Create GLib main event loop on non-glib systems to fix stream discoverer.
     * (macOS) Fix intermittent abort on startup.
     * (macOS) Fix Tidal and Qobuz search field not showing.
@@ -587,7 +609,7 @@ Version 0.6.10 (2020.05.01)
     * Made font and font sizes in context configurable.
     * Splitting artist and song title to the relevant metadata when artist and song title is sent as title separated by a dash in streams.
     * Added label to show collection pixmap disk cache used in settings.
-    * Icreased default collection pixmap disk cache to 360.
+    * Increased default collection pixmap disk cache to 360.
 
   New features:
     * Added back Tidal streaming support.
@@ -655,7 +677,7 @@ Version 0.6.7 (2019.11.27)
     * Fixed "Pressing Previous in player" behaviour setting
     * Fixed updating compilations where there are spaces or special characters in filenames
     * Fixed cases where songs were stuck in "Various Artists" because not all songs in
-      the same compilation was removed from the model before readded with actual artist.
+      the same compilation was removed from the model before re-added with actual artist.
     * Fixed a bug when importing playlists where metadata was reset
     * Fixed scrobbler to also scrobble songs without album title
     * Fixed text for replay gain setting not loading in backend setting
@@ -1008,7 +1030,7 @@ Version 0.1.5 (2018.05.16)
 
 
 Version 0.1.4 (2018.05.14)
-    * Fixed compliation with clang compiler
+    * Fixed compilation with clang compiler
     * This release is mainly to get it working on openbsd and freebsd.
 
 
