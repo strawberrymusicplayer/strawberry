@@ -61,6 +61,8 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   explicit GstEngine(TaskManager *task_manager, QObject *parent = nullptr);
   ~GstEngine() override;
 
+  static const char *kAutoSink;
+
   bool Init() override;
   Engine::State state() const override;
   void StartPreloading(const QUrl &stream_url, const QUrl &original_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec) override;
@@ -145,7 +147,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
 
  private:
-  static const char *kAutoSink;
   static const char *kALSASink;
   static const char *kOpenALSASink;
   static const char *kOSSSink;

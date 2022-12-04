@@ -143,9 +143,11 @@ class GstEnginePipeline : public QObject {
  private:
   GstElement *CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const;
   bool InitAudioBin(QString &error);
+  void SetupVolume(GstElement *element);
 
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
   static GstPadProbeReturn EventHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
+  static void ElementAddedCallback(GstBin *bin, GstBin*, GstElement *element, gpointer self);
   static void SourceSetupCallback(GstPlayBin*, GParamSpec *pspec, gpointer);
   static void VolumeCallback(GstElement*, GParamSpec*, gpointer self);
   static void NewPadCallback(GstElement*, GstPad*, gpointer);
@@ -281,13 +283,16 @@ class GstEnginePipeline : public QObject {
 
   GstElement *pipeline_;
   GstElement *audiobin_;
+  GstElement *audiosink_;
   GstElement *audioqueue_;
   GstElement *volume_;
+  GstElement *volume_sw_;
   GstElement *volume_fading_;
   GstElement *audiopanorama_;
   GstElement *equalizer_;
   GstElement *equalizer_preamp_;
 
+  int element_added_cb_id_;
   int pad_added_cb_id_;
   int notify_source_cb_id_;
   int about_to_finish_cb_id_;

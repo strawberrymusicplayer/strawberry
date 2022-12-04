@@ -102,12 +102,15 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       use_fudge_timer_(false),
       pipeline_(nullptr),
       audiobin_(nullptr),
+      audiosink_(nullptr),
       audioqueue_(nullptr),
       volume_(nullptr),
+      volume_sw_(nullptr),
       volume_fading_(nullptr),
       audiopanorama_(nullptr),
       equalizer_(nullptr),
       equalizer_preamp_(nullptr),
+      element_added_cb_id_(-1),
       pad_added_cb_id_(-1),
       notify_source_cb_id_(-1),
       about_to_finish_cb_id_(-1),
@@ -128,6 +131,10 @@ GstEnginePipeline::~GstEnginePipeline() {
         fader_->stop();
       }
       fader_.reset();
+    }
+
+    if (element_added_cb_id_ != -1) {
+      g_signal_handler_disconnect(G_OBJECT(audiobin_), element_added_cb_id_);
     }
 
     if (pad_added_cb_id_ != -1) {
@@ -260,8 +267,14 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &or
 
   if (!InitAudioBin(error)) return false;
 
-  if (volume_) {
-    notify_volume_cb_id_ = CHECKED_GCONNECT(G_OBJECT(volume_), "notify::volume", &VolumeCallback, this);
+  if (volume_enabled_ && !volume_) {
+    if (output_ == GstEngine::kAutoSink) {
+      element_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(audiobin_), "deep-element-added", &ElementAddedCallback, this);
+    }
+    else {
+      qLog(Debug) << output_ << "does not have volume, using own volume.";
+      SetupVolume(volume_sw_);
+    }
   }
 
   // Set playbin's sink to be our custom audio-sink.
@@ -291,14 +304,14 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   if (!audiobin_) return false;
 
   // Create the sink
-  GstElement *audiosink = CreateElement(output_, output_, audiobin_, error);
-  if (!audiosink) {
+  audiosink_ = CreateElement(output_, output_, audiobin_, error);
+  if (!audiosink_) {
     gst_object_unref(GST_OBJECT(audiobin_));
     return false;
   }
 
   if (device_.isValid()) {
-    if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink), "device")) {
+    if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "device")) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
       switch (device_.metaType().id()) {
 #else
@@ -312,7 +325,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
           QString device = device_.toString();
           if (!device.isEmpty()) {
             qLog(Debug) << "Setting device" << device << "for" << output_;
-            g_object_set(G_OBJECT(audiosink), "device", device.toUtf8().constData(), nullptr);
+            g_object_set(G_OBJECT(audiosink_), "device", device.toUtf8().constData(), nullptr);
           }
           break;
         }
@@ -324,7 +337,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
           QByteArray device = device_.toByteArray();
           if (!device.isEmpty()) {
             qLog(Debug) << "Setting device" << device_ << "for" << output_;
-            g_object_set(G_OBJECT(audiosink), "device", device.constData(), nullptr);
+            g_object_set(G_OBJECT(audiosink_), "device", device.constData(), nullptr);
           }
           break;
         }
@@ -335,7 +348,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 #endif
           qint64 device = device_.toLongLong();
           qLog(Debug) << "Setting device" << device << "for" << output_;
-          g_object_set(G_OBJECT(audiosink), "device", device, nullptr);
+          g_object_set(G_OBJECT(audiosink_), "device", device, nullptr);
           break;
         }
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -345,7 +358,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 #endif
           int device = device_.toInt();
           qLog(Debug) << "Setting device" << device << "for" << output_;
-          g_object_set(G_OBJECT(audiosink), "device", device, nullptr);
+          g_object_set(G_OBJECT(audiosink_), "device", device, nullptr);
           break;
         }
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -355,7 +368,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 #endif
           QUuid device = device_.toUuid();
           qLog(Debug) << "Setting device" << device << "for" << output_;
-          g_object_set(G_OBJECT(audiosink), "device", device, nullptr);
+          g_object_set(G_OBJECT(audiosink_), "device", device, nullptr);
           break;
         }
         default:
@@ -364,7 +377,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       }
     }
 
-    else if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink), "port-pattern")) {
+    else if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "port-pattern")) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
       switch (device_.metaType().id()) {
 #else
@@ -378,7 +391,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
           QString port_pattern = device_.toString();
           if (!port_pattern.isEmpty()) {
             qLog(Debug) << "Setting port pattern" << port_pattern << "for" << output_;
-            g_object_set(G_OBJECT(audiosink), "port-pattern", port_pattern.toUtf8().constData(), nullptr);
+            g_object_set(G_OBJECT(audiosink_), "port-pattern", port_pattern.toUtf8().constData(), nullptr);
           }
           break;
         }
@@ -391,7 +404,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
           QByteArray port_pattern = device_.toByteArray();
           if (!port_pattern.isEmpty()) {
             qLog(Debug) << "Setting port pattern" << port_pattern << "for" << output_;
-            g_object_set(G_OBJECT(audiosink), "port-pattern", port_pattern.constData(), nullptr);
+            g_object_set(G_OBJECT(audiosink_), "port-pattern", port_pattern.constData(), nullptr);
           }
           break;
         }
@@ -404,9 +417,9 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   }
 
-  if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink), "volume")) {
-    qLog(Debug) << output_ << "has volume element, enabling system volume synchronization.";
-    volume_ = audiosink;
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "volume")) {
+    qLog(Debug) << output_ << "has volume, enabling volume synchronization.";
+    SetupVolume(audiosink_);
   }
 
   // Create all the other elements
@@ -425,16 +438,14 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     return false;
   }
 
-  // Create the volume elements if it's enabled.
-  GstElement *swvolume = nullptr;
+  // Create the volume element if it's enabled.
   if (volume_enabled_ && !volume_) {
-    swvolume = CreateElement("volume", "volume_sw", audiobin_, error);
-    if (!swvolume) {
+    volume_sw_ = CreateElement("volume", "volume_sw", audiobin_, error);
+    if (!volume_sw_) {
       gst_object_unref(GST_OBJECT(audiobin_));
       audiobin_ = nullptr;
       return false;
     }
-    volume_ = swvolume;
   }
 
   if (fading_enabled_) {
@@ -630,14 +641,14 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   }
 
   // Link software volume element if enabled.
-  if (volume_enabled_ && swvolume) {
-    if (!gst_element_link(element_link, swvolume)) {
+  if (volume_enabled_ && volume_sw_) {
+    if (!gst_element_link(element_link, volume_sw_)) {
       gst_object_unref(GST_OBJECT(audiobin_));
       audiobin_ = nullptr;
       error = "gst_element_link() failed.";
       return false;
     }
-    element_link = swvolume;
+    element_link = volume_sw_;
   }
 
   // Link fading volume element if enabled.
@@ -675,7 +686,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       qLog(Debug) << "Setting channels to" << channels_;
       gst_caps_set_simple(caps, "channels", G_TYPE_INT, channels_, nullptr);
     }
-    gst_element_link_filtered(element_link, audiosink, caps);
+    gst_element_link_filtered(element_link, audiosink_, caps);
     gst_caps_unref(caps);
   }
 
@@ -699,6 +710,15 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   logged_unsupported_analyzer_format_ = false;
 
   return true;
+
+}
+
+void GstEnginePipeline::SetupVolume(GstElement *element) {
+
+  if (volume_) return;
+
+  volume_ = element;
+  notify_volume_cb_id_ = CHECKED_GCONNECT(G_OBJECT(element), "notify::volume", &VolumeCallback, this);
 
 }
 
@@ -726,6 +746,30 @@ GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeIn
   }
 
   return GST_PAD_PROBE_OK;
+
+}
+
+void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin*, GstElement *element, gpointer self) {
+
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+
+  if (bin != GST_BIN(instance->audiobin_) || GST_ELEMENT(gst_element_get_parent(element)) != instance->audiosink_ || instance->volume_) return;
+
+  g_signal_handler_disconnect(G_OBJECT(instance->audiobin_), instance->element_added_cb_id_);
+  instance->element_added_cb_id_ = -1;
+
+  GstElement *volume = nullptr;
+  if (GST_IS_STREAM_VOLUME(element)) {
+    qLog(Debug) << instance->output_ << "has volume, enabling volume synchronization.";
+    volume = element;
+  }
+  else {
+    qLog(Debug) << instance->output_ << "does not have volume, using own volume.";
+    volume = instance->volume_sw_;
+  }
+
+  instance->SetupVolume(volume);
+  instance->SetVolume(instance->volume_percent_);
 
 }
 
