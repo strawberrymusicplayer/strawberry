@@ -101,13 +101,10 @@ jobs:
         with:
           fetch-depth: 0
       - name: Add safe git directory
-        shell: bash
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
-        shell: bash
         run: cmake -E make_directory build
       - name: Configure CMake
-        shell: bash
         working-directory: build
         run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DUSE_TAGLIB=ON
       - name: Create source tarball
@@ -193,13 +190,10 @@ jobs:
         with:
           fetch-depth: 0
       - name: Add safe git directory
-        shell: bash
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
-        shell: bash
         run: cmake -E make_directory build
       - name: Configure CMake
-        shell: bash
         working-directory: build
         run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: Create source tarball
@@ -283,13 +277,10 @@ jobs:
         with:
           fetch-depth: 0
       - name: Add safe git directory
-        shell: bash
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
-        shell: bash
         run: cmake -E make_directory build
       - name: Configure CMake
-        shell: bash
         working-directory: build
         run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: Create source tarball
@@ -384,17 +375,13 @@ jobs:
         with:
           fetch-depth: 0
       - name: Add safe git directory
-        shell: bash
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
-        shell: bash
         run: cmake -E make_directory build
       - name: Configure CMake
-        shell: bash
         working-directory: build
         run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: make deb
-        shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
 
@@ -463,17 +450,13 @@ jobs:
         with:
           fetch-depth: 0
       - name: Add safe git directory
-        shell: bash
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Create Build Environment
-        shell: bash
         run: cmake -E make_directory build
       - name: Configure CMake
-        shell: bash
         working-directory: build
         run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: make deb
-        shell: bash
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
 
@@ -552,7 +535,6 @@ jobs:
         run: brew reinstall --build-from-source gst-libav
 
       - name: Build libgpod
-        shell: bash
         env:
           PERL_MM_USE_DEFAULT: 1
         run: |
@@ -569,10 +551,9 @@ jobs:
           fetch-depth: 0
 
       - name: Create Build Environment
-        shell: bash
         run: cmake -E make_directory build
+
       - name: Configure CMake
-        shell: bash
         env:
           MACOSX_DEPLOYMENT_TARGET: 10.15
           PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
@@ -584,40 +565,33 @@ jobs:
 
       - name: Build
         working-directory: build
-        shell: bash
         run: cmake --build . --config Release --parallel 4
 
       - name: Install
         working-directory: build
-        shell: bash
         run: make install
 
       - name: Remove problematic files
-        shell: bash
         run: |
           sudo rm -rf /usr/local/opt/qt6/share/qt/plugins/virtualkeyboard /usr/local/opt/qt6/share/qt/plugins/platforminputcontexts
           sudo rm -f /usr/local/Cellar/qt/*/share/qt/plugins/imageformats/libqpdf.dylib
 
       - name: Manually copy files not handled by macdeployqt
         working-directory: build
-        shell: bash
         run: |
           mkdir -p strawberry.app/Contents/Frameworks/
           cp /usr/local/lib/libsoup-3.0.0.dylib strawberry.app/Contents/Frameworks/
 
       - name: Deploy
         working-directory: build
-        shell: bash
         run: make deploy
 
       - name: Deploy check
         working-directory: build
-        shell: bash
         run: make deploycheck
 
       - name: Create DMG
         working-directory: build
-        shell: bash
         run: make dmg
 
       - uses: actions/upload-artifact@v3
@@ -666,29 +640,23 @@ jobs:
           fetch-depth: 0
 
       - name: Add safe git directory
-        shell: bash
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
 
       - name: Create Build Environment
-        shell: bash
         run: cmake -E make_directory build
 
       - name: Link MXE directory
-        shell: bash
         run: ln -s /strawberry-mxe ~/mxe-shared
 
       - name: Set ENABLE_WIN32_CONSOLE (debug)
         if: matrix.build_type == 'debug'
-        shell: bash
         run: echo "win32_console=ON" >> $GITHUB_ENV
 
       - name: Set ENABLE_WIN32_CONSOLE (release)
         if: matrix.build_type == 'release'
-        shell: bash
         run: echo "win32_console=OFF" >> $GITHUB_ENV
 
       - name: Run CMake
-        shell: bash
         env:
           PKG_CONFIG_PATH: /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/lib/pkgconfig
         working-directory: build
