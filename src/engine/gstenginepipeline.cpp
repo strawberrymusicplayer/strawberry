@@ -523,7 +523,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   }
 
   // Create the replaygain elements if it's enabled.
-  GstElement *eventprobe = audioqueue_;
+  GstElement *eventprobe = audioconverter;
   GstElement *rgvolume = nullptr;
   GstElement *rglimiter = nullptr;
   GstElement *rgconverter = nullptr;
