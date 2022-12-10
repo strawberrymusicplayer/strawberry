@@ -401,6 +401,13 @@ void Mpris2::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &re
   else if (result.temp_cover_url.isValid() && result.temp_cover_url.isLocalFile()) {
     cover_url = result.temp_cover_url;
   }
+  else if (song.art_manual().isValid() && song.art_manual().isLocalFile() && song.art_manual().path() != Song::kManuallyUnsetCover && song.art_manual().path() != Song::kEmbeddedCover) {
+    cover_url = song.art_manual();
+  }
+  else if (song.art_automatic().isValid() && song.art_automatic().isLocalFile() && song.art_automatic().path() != Song::kManuallyUnsetCover && song.art_automatic().path() != Song::kEmbeddedCover) {
+    cover_url = song.art_automatic();
+  }
+
   if (cover_url.isValid()) AddMetadata("mpris:artUrl", cover_url.toString(), &last_metadata_);
 
   AddMetadata("year", song.year(), &last_metadata_);
