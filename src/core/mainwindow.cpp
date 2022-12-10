@@ -363,24 +363,24 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
-  ui_->tabs->AddTab(context_view_, "context", IconLoader::Load("strawberry"), tr("Context"));
-  ui_->tabs->AddTab(collection_view_, "collection", IconLoader::Load("library-music"), tr("Collection"));
-  ui_->tabs->AddTab(queue_view_, "queue", IconLoader::Load("footsteps"), tr("Queue"));
-  ui_->tabs->AddTab(playlist_list_, "playlists", IconLoader::Load("view-media-playlist"), tr("Playlists"));
-  ui_->tabs->AddTab(smartplaylists_view_, "smartplaylists", IconLoader::Load("view-media-playlist"), tr("Smart playlists"));
-  ui_->tabs->AddTab(file_view_, "files", IconLoader::Load("document-open"), tr("Files"));
-  ui_->tabs->AddTab(radio_view_, "radios", IconLoader::Load("radio"), tr("Radios"));
+  ui_->tabs->AddTab(context_view_, "context", IconLoader::Load("strawberry", false), tr("Context"));
+  ui_->tabs->AddTab(collection_view_, "collection", IconLoader::Load("library-music", false), tr("Collection"));
+  ui_->tabs->AddTab(queue_view_, "queue", IconLoader::Load("footsteps", false), tr("Queue"));
+  ui_->tabs->AddTab(playlist_list_, "playlists", IconLoader::Load("view-media-playlist", false), tr("Playlists"));
+  ui_->tabs->AddTab(smartplaylists_view_, "smartplaylists", IconLoader::Load("view-media-playlist", false), tr("Smart playlists"));
+  ui_->tabs->AddTab(file_view_, "files", IconLoader::Load("document-open", false), tr("Files"));
+  ui_->tabs->AddTab(radio_view_, "radios", IconLoader::Load("radio", false), tr("Radios"));
 #ifndef Q_OS_WIN
-  ui_->tabs->AddTab(device_view_, "devices", IconLoader::Load("device"), tr("Devices"));
+  ui_->tabs->AddTab(device_view_, "devices", IconLoader::Load("device", false), tr("Devices"));
 #endif
 #ifdef HAVE_SUBSONIC
-  ui_->tabs->AddTab(subsonic_view_, "subsonic", IconLoader::Load("subsonic"), tr("Subsonic"));
+  ui_->tabs->AddTab(subsonic_view_, "subsonic", IconLoader::Load("subsonic", false), tr("Subsonic"));
 #endif
 #ifdef HAVE_TIDAL
-  ui_->tabs->AddTab(tidal_view_, "tidal", IconLoader::Load("tidal"), tr("Tidal"));
+  ui_->tabs->AddTab(tidal_view_, "tidal", IconLoader::Load("tidal", false), tr("Tidal"));
 #endif
 #ifdef HAVE_QOBUZ
-  ui_->tabs->AddTab(qobuz_view_, "qobuz", IconLoader::Load("qobuz"), tr("Qobuz"));
+  ui_->tabs->AddTab(qobuz_view_, "qobuz", IconLoader::Load("qobuz", false), tr("Qobuz"));
 #endif
 
   // Add the playing widget to the fancy tab widget
@@ -3123,12 +3123,12 @@ void MainWindow::SetToggleScrobblingIcon(const bool value) {
 
   if (value) {
     if (app_->playlist_manager()->active() && app_->playlist_manager()->active()->scrobbled())
-      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", 22));
+      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", true, 22));
     else
-      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", 22));  // TODO: Create a faint version of the icon
+      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", true, 22));  // TODO: Create a faint version of the icon
   }
   else {
-    ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled", 22));
+    ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled", true, 22));
   }
 
 }

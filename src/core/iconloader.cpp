@@ -52,7 +52,7 @@ void IconLoader::Init() {
 
 }
 
-QIcon IconLoader::Load(const QString &name, const int fixed_size, const int min_size, const int max_size) {
+QIcon IconLoader::Load(const QString &name, const bool system_icon, const int fixed_size, const int min_size, const int max_size) {
 
   QIcon ret;
 
@@ -69,7 +69,7 @@ QIcon IconLoader::Load(const QString &name, const int fixed_size, const int min_
     sizes << fixed_size;
   }
 
-  if (system_icons_) {
+  if (system_icon && system_icons_) {
     IconMapper::IconProperties icon_prop;
     if (IconMapper::iconmapper_.contains(name)) {
       icon_prop = IconMapper::iconmapper_[name];
