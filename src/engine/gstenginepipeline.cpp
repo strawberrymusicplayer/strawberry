@@ -431,8 +431,15 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     return false;
   }
 
-  GstElement *audioconverter = CreateElement("audioconvert", "audioconverter", audiobin_, error);
-  if (!audioconverter) {
+  GstElement *audioqueueconverter = CreateElement("audioconvert", "audioqueueconverter", audiobin_, error);
+  if (!audioqueueconverter) {
+    gst_object_unref(GST_OBJECT(audiobin_));
+    audiobin_ = nullptr;
+    return false;
+  }
+
+  GstElement *audiosinkconverter = CreateElement("audioconvert", "audiosinkconverter", audiobin_, error);
+  if (!audiosinkconverter) {
     gst_object_unref(GST_OBJECT(audiobin_));
     audiobin_ = nullptr;
     return false;
@@ -523,7 +530,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   }
 
   // Create the replaygain elements if it's enabled.
-  GstElement *eventprobe = audioconverter;
+  GstElement *eventprobe = audioqueueconverter;
   GstElement *rgvolume = nullptr;
   GstElement *rglimiter = nullptr;
   GstElement *rgconverter = nullptr;
@@ -598,14 +605,14 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Link all elements
 
-  if (!gst_element_link(audioqueue_, audioconverter)) {
+  if (!gst_element_link(audioqueue_, audioqueueconverter)) {
     gst_object_unref(GST_OBJECT(audiobin_));
     audiobin_ = nullptr;
     error = "gst_element_link() failed.";
     return false;
   }
 
-  GstElement *element_link = audioconverter;  // The next element to link from.
+  GstElement *element_link = audioqueueconverter;  // The next element to link from.
 
   // Link replaygain elements if enabled.
   if (rg_enabled_ && rgvolume && rglimiter && rgconverter) {
@@ -674,6 +681,13 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     element_link = bs2b;
   }
 
+  if (!gst_element_link(element_link, audiosinkconverter)) {
+    gst_object_unref(GST_OBJECT(audiobin_));
+    audiobin_ = nullptr;
+    error = "gst_element_link() failed.";
+    return false;
+  }
+
   {
     GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
     if (!caps) {
@@ -686,12 +700,12 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       qLog(Debug) << "Setting channels to" << channels_;
       gst_caps_set_simple(caps, "channels", G_TYPE_INT, channels_, nullptr);
     }
-    gst_element_link_filtered(element_link, audiosink_, caps);
+    gst_element_link_filtered(audiosinkconverter, audiosink_, caps);
     gst_caps_unref(caps);
   }
 
   {  // Add probes and handlers.
-    GstPad *pad = gst_element_get_static_pad(audioconverter, "src");
+    GstPad *pad = gst_element_get_static_pad(audioqueueconverter, "src");
     if (pad) {
       gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, HandoffCallback, this, nullptr);
       gst_object_unref(pad);
