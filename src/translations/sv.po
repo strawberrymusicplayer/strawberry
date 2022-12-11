@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-10-24 02:28-0400\n"
+"PO-Revision-Date: 2022-12-10 03:02-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -3934,30 +3934,30 @@ msgstr ""
 #: tidal/tidalrequest.cpp:1185 qobuz/qobuzrequest.cpp:1247
 #, qt-format
 msgid "Receiving album cover for %1 album..."
-msgstr ""
+msgstr "Tar emot albumomslag för %1 album..."
 
 #: tidal/tidalrequest.cpp:1186 qobuz/qobuzrequest.cpp:1248
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
-msgstr ""
+msgstr "Tar emot albumomslag för %1 album..."
 
 #: tidal/tidalrequest.cpp:544 qobuz/qobuzrequest.cpp:546
 #, qt-format
 msgid "Receiving albums for %1 artist..."
-msgstr ""
+msgstr "Tar emot album för %1 artist..."
 
 #: tidal/tidalrequest.cpp:545 qobuz/qobuzrequest.cpp:547
 #, qt-format
 msgid "Receiving albums for %1 artists..."
-msgstr ""
+msgstr "Tar emot album för %1 artister..."
 
 #: tidal/tidalrequest.cpp:269 qobuz/qobuzrequest.cpp:249
 msgid "Receiving albums..."
-msgstr ""
+msgstr "Tar emot album..."
 
 #: tidal/tidalrequest.cpp:221 qobuz/qobuzrequest.cpp:197
 msgid "Receiving artists..."
-msgstr ""
+msgstr "Tar emot artister..."
 
 #: dialogs/lastfmimportdialog.cpp:74
 msgid "Receiving initial data from last.fm..."
@@ -3982,16 +3982,16 @@ msgstr "Tar emot uppspelningsantal för %1 låtar."
 #: tidal/tidalrequest.cpp:814 qobuz/qobuzrequest.cpp:803
 #, qt-format
 msgid "Receiving songs for %1 album..."
-msgstr ""
+msgstr "Tar emot låtar för %1 album..."
 
 #: tidal/tidalrequest.cpp:815 qobuz/qobuzrequest.cpp:804
 #, qt-format
 msgid "Receiving songs for %1 albums..."
-msgstr ""
+msgstr "Tar emot låtar för %1 album..."
 
 #: tidal/tidalrequest.cpp:317 qobuz/qobuzrequest.cpp:301
 msgid "Receiving songs..."
-msgstr ""
+msgstr "Tar emot låtar..."
 
 #: lyrics/geniuslyricsprovider.cpp:200
 msgid "Redirect from Genius is missing query items code or state."
