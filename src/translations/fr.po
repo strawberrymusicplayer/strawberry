@@ -47,8 +47,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-11-11 08:36-0500\n"
-"Last-Translator: Papoteur <yves.brungard_mageia@gadz.org>\n"
+"PO-Revision-Date: 2022-12-25 03:47-0500\n"
+"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -1617,7 +1617,7 @@ msgstr "Pochette modifiée : sera définie comme nouvelle une fois enregistrée.
 #: covermanager/albumcoverchoicecontroller.cpp:187
 #, qt-format
 msgid "Cover file %1 is empty."
-msgstr "Le fichier de couverture %1 est vide."
+msgstr "La pochette %1 est vide."
 
 #: ../build/src/ui_coverssettingspage.h:163
 msgid "Cover providers"
@@ -2306,33 +2306,33 @@ msgstr "Durée du fondu"
 #: covermanager/albumcoverchoicecontroller.cpp:422
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
-msgstr "Ne peut pas supprimer le fichier de jaquette %1 : %2"
+msgstr "Impossible de supprimer la pochette %1 : %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:197
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
-msgstr "Ne peut pas ouvrir le fichier de jaquette %1 pour le lire : %2"
+msgstr "Impossible d'ouvrir la pochette %1 pour la lire : %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:271
 #: covermanager/albumcoverchoicecontroller.cpp:641
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
-msgstr "Ne peut pas ouvrir le fichier de jaquette %1 pour l'écrire : %2"
+msgstr "Impossible d'ouvrir la pochette %1 pour l'écrire : %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:635
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
-msgstr "Ne peut pas écrire la jaquette dans le fichier %1: %2."
+msgstr "Impossible d'écrire la pochette dans le fichier %1: %2."
 
 #: covermanager/albumcoverchoicecontroller.cpp:277
 #, qt-format
 msgid "Failed writing cover to file %1."
-msgstr "N'a pas pu écrire la jaquette dans le fichier %1."
+msgstr "Impossible d'écrire la pochette dans le fichier %1."
 
 #: covermanager/albumcoverchoicecontroller.cpp:265
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
-msgstr "N'a pas pu écrire la jaquette dans le fichier %1: %2"
+msgstr "Impossible d'écrire la pochette dans le fichier %1: %2"
 
 #: ../build/src/ui_backendsettingspage.h:587
 msgid "Fallback-gain"
@@ -3594,13 +3594,13 @@ msgstr "Options de sortie"
 #: ../build/src/ui_collectionsettingspage.h:631
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
-"Remplacer le nombre de lectures de la base de données lorsque les chansons "
-"sont relues à partir du disque."
+"Remplacer le nombre de lectures de la base de données lorsque les morceaux "
+"sont relus à partir du disque."
 
 #: ../build/src/ui_collectionsettingspage.h:632
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
-"Remplacer la notation de la base de données lorsque les chansons sont relues "
+"Remplacer la notation de la base de données lorsque les morceaux sont relus "
 "à partir du disque."
 
 #: ../build/src/ui_collectionsettingspage.h:618
@@ -3765,7 +3765,7 @@ msgstr "Options de la liste de lecture"
 
 #: ../build/src/ui_appearancesettingspage.h:631
 msgid "Playlist playing song color"
-msgstr "Coleur de chanson en lecture dans la playlist"
+msgstr "Couleur du morceau en lecture dans la playlist"
 
 #: smartplaylists/smartplaylistwizard.cpp:80
 msgid "Playlist type"
@@ -4013,30 +4013,30 @@ msgstr ""
 #: tidal/tidalrequest.cpp:1185 qobuz/qobuzrequest.cpp:1247
 #, qt-format
 msgid "Receiving album cover for %1 album..."
-msgstr ""
+msgstr "Réception de la pochette pour l'album %1 ..."
 
 #: tidal/tidalrequest.cpp:1186 qobuz/qobuzrequest.cpp:1248
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
-msgstr ""
+msgstr "Réception des pochettes pour les albums %1 ..."
 
 #: tidal/tidalrequest.cpp:544 qobuz/qobuzrequest.cpp:546
 #, qt-format
 msgid "Receiving albums for %1 artist..."
-msgstr ""
+msgstr "Réception des albums pour l'artiste %1 ..."
 
 #: tidal/tidalrequest.cpp:545 qobuz/qobuzrequest.cpp:547
 #, qt-format
 msgid "Receiving albums for %1 artists..."
-msgstr ""
+msgstr "Réception des albums pour les artistes %1 ..."
 
 #: tidal/tidalrequest.cpp:269 qobuz/qobuzrequest.cpp:249
 msgid "Receiving albums..."
-msgstr ""
+msgstr "Réception des albums..."
 
 #: tidal/tidalrequest.cpp:221 qobuz/qobuzrequest.cpp:197
 msgid "Receiving artists..."
-msgstr ""
+msgstr "Réception des artistes..."
 
 #: dialogs/lastfmimportdialog.cpp:74
 msgid "Receiving initial data from last.fm..."
@@ -4062,16 +4062,16 @@ msgstr "Réception du compteur d'écoutes pour %1 morceaux."
 #: tidal/tidalrequest.cpp:814 qobuz/qobuzrequest.cpp:803
 #, qt-format
 msgid "Receiving songs for %1 album..."
-msgstr ""
+msgstr "Réception des morceaux pour l'album %1 ..."
 
 #: tidal/tidalrequest.cpp:815 qobuz/qobuzrequest.cpp:804
 #, qt-format
 msgid "Receiving songs for %1 albums..."
-msgstr ""
+msgstr "Réception des morceaux pour les albums %1 ..."
 
 #: tidal/tidalrequest.cpp:317 qobuz/qobuzrequest.cpp:301
 msgid "Receiving songs..."
-msgstr ""
+msgstr "Réception des morceaux..."
 
 #: lyrics/geniuslyricsprovider.cpp:200
 msgid "Redirect from Genius is missing query items code or state."
@@ -4097,7 +4097,7 @@ msgstr "Actualiser le catalogue"
 
 #: radios/radioview.cpp:89
 msgid "Refresh channels"
-msgstr "Actualier les canaux"
+msgstr "Actualiser les canaux"
 
 #: equalizer/equalizer.cpp:150
 msgid "Reggae"
@@ -4529,7 +4529,7 @@ msgstr "Sélectionner la couleur d'avant-plan :"
 
 #: ../build/src/ui_appearancesettingspage.h:634
 msgid "Select playlist playing song color:"
-msgstr "Sélectionner la couleur de la chanson en lecture dans la playlist"
+msgstr "Sélectionner la couleur du morceau en lecture dans la playlist :"
 
 #: ../build/src/ui_appearancesettingspage.h:597
 msgid "Select tabbar color:"
@@ -4596,7 +4596,7 @@ msgstr "Afficher"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:74
 msgid "Show OSD"
-msgstr ""
+msgstr "Afficher OSD"
 
 #: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
@@ -4604,7 +4604,7 @@ msgstr "Afficher une notification native au bureau"
 
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
-msgstr ""
+msgstr "Afficher une animation lumineuse sur la piste en cours de lecture"
 
 #: ../build/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
@@ -4843,7 +4843,7 @@ msgstr "Paroles des morceaux"
 
 #: ../build/src/ui_collectionsettingspage.h:596
 msgid "Song fingerprinting and tracking"
-msgstr ""
+msgstr "Empreinte et suivi des morceaux"
 
 #: ../build/src/ui_collectionsettingspage.h:628
 msgid "Song playcounts and ratings"
@@ -4898,7 +4898,7 @@ msgstr "Standard"
 
 #: playlist/playlisttabbar.cpp:77
 msgid "Star playlist"
-msgstr ""
+msgstr "Démarrer la lecture"
 
 #: core/commandlineoptions.cpp:167
 msgid "Start the playlist currently playing"
@@ -5412,7 +5412,7 @@ msgstr "Très large bande (UWB)"
 
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
-msgstr ""
+msgstr "Annuler"
 
 #: dialogs/snapdialog.cpp:74
 msgid "Uninstall the snap with:"
@@ -5545,7 +5545,7 @@ msgstr "Utiliser un message personnalisé pour les notifications"
 
 #: ../build/src/ui_playlistsettingspage.h:178
 msgid "Use alternating row colors"
-msgstr ""
+msgstr "Utiliser des couleurs de ligne alternées"
 
 #: ../build/src/ui_networkproxysettingspage.h:178
 msgid "Use authentication"
@@ -5885,7 +5885,7 @@ msgstr "le plus grand d'abord"
 
 #: ../build/src/ui_backendsettingspage.h:570
 msgid "channels"
-msgstr ""
+msgstr "canaux"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:272
 msgid "contains"
