@@ -239,32 +239,6 @@ quint64 FileSystemFreeSpace(const QString &path) {
 
 }
 
-bool MoveToTrashRecursive(const QString &path) {
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-  QDir dir(path);
-  for (const QString &child : dir.entryList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Hidden)) {
-    if (!MoveToTrashRecursive(path + "/" + child)) {
-      return false;
-    }
-  }
-
-  for (const QString &child : dir.entryList(QDir::NoDotAndDotDot | QDir::Files | QDir::Hidden)) {
-    if (!QFile::moveToTrash(path + "/" + child)) {
-      return false;
-    }
-  }
-
-  return dir.rmdir(path);
-
-#else
-  Q_UNUSED(path)
-  return false;
-
-#endif
-
-}
-
 bool RemoveRecursive(const QString &path) {
 
   QDir dir(path);

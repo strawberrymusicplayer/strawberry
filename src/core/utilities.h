@@ -65,7 +65,6 @@ QString ColorToRgba(const QColor &color);
 quint64 FileSystemCapacity(const QString &path);
 quint64 FileSystemFreeSpace(const QString &path);
 
-bool MoveToTrashRecursive(const QString &path);
 bool RemoveRecursive(const QString &path);
 bool CopyRecursive(const QString &source, const QString &destination);
 bool Copy(QIODevice *source, QIODevice *destination);
