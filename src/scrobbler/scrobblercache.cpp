@@ -205,8 +205,8 @@ ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 timest
   QString album = song.album();
   QString title = song.title();
 
-  album.remove(Song::kAlbumRemoveDisc);
-  album.remove(Song::kAlbumRemoveMisc);
+  album.remove(Song::kAlbumRemoveDisc)
+       .remove(Song::kAlbumRemoveMisc);
   title.remove(Song::kTitleRemoveMisc);
 
   ScrobblerCacheItemPtr item = std::make_shared<ScrobblerCacheItem>(song.artist(), album, title, song.albumartist(), song.track(), song.length_nanosec(), timestamp);

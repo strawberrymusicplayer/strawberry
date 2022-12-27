@@ -132,8 +132,6 @@ class Song {
   static const QRegularExpression kAlbumRemoveMisc;
   static const QRegularExpression kTitleRemoveMisc;
 
-  static const QString kVariousArtists;
-
   static const QStringList kArticles;
 
   static const QStringList kAcceptedExtensions;

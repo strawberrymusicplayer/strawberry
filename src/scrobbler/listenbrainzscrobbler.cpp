@@ -430,20 +430,21 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   QString album = song.album();
   QString title = song.title();
 
-  album = album.remove(Song::kAlbumRemoveDisc);
-  album = album.remove(Song::kAlbumRemoveMisc);
+  album = album.remove(Song::kAlbumRemoveDisc)
+               .remove(Song::kAlbumRemoveMisc);
   title = title.remove(Song::kTitleRemoveMisc);
 
   QJsonObject object_track_metadata;
-  if (!prefer_albumartist_ || song.albumartist().isEmpty() || song.albumartist().compare(Song::kVariousArtists, Qt::CaseInsensitive) == 0) {
+  if (!prefer_albumartist_ || song.albumartist().isEmpty()) {
     object_track_metadata.insert("artist_name", QJsonValue::fromVariant(song.artist()));
   }
   else {
     object_track_metadata.insert("artist_name", QJsonValue::fromVariant(song.albumartist()));
   }
 
-  if (!album.isEmpty())
+  if (!album.isEmpty()) {
     object_track_metadata.insert("release_name", QJsonValue::fromVariant(album));
+  }
 
   object_track_metadata.insert("track_name", QJsonValue::fromVariant(title));
 
@@ -573,7 +574,7 @@ void ListenBrainzScrobbler::Submit() {
     QJsonObject object_listen;
     object_listen.insert("listened_at", QJsonValue::fromVariant(item->timestamp_));
     QJsonObject object_track_metadata;
-    if (!prefer_albumartist_ || item->albumartist_.isEmpty() || item->albumartist_.compare(Song::kVariousArtists, Qt::CaseInsensitive) == 0) {
+    if (!prefer_albumartist_ || item->albumartist_.isEmpty()) {
       object_track_metadata.insert("artist_name", QJsonValue::fromVariant(item->artist_));
     }
     else {
