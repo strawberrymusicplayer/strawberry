@@ -1606,6 +1606,10 @@ void Song::ToXesam(QVariantMap *map) const {
   AddMetadataAsList("xesam:composer", composer(), map);
   AddMetadata("xesam:useCount", static_cast<int>(playcount()), map);
 
+  if (rating() != -1.0) {
+    AddMetadata("xesam:userRating", rating(), map);
+  }
+
 }
 
 void Song::MergeUserSetData(const Song &other, const bool merge_playcount, const bool merge_rating) {
