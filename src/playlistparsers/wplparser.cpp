@@ -29,7 +29,7 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
-#include "core/utilities.h"
+#include "utilities/xmlutils.h"
 #include "settings/playlistsettingspage.h"
 #include "xmlparser.h"
 #include "wplparser.h"

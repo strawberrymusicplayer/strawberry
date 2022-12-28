@@ -46,7 +46,7 @@
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
-#include "core/utilities.h"
+#include "utilities/xmlutils.h"
 #include "musicbrainzclient.h"
 
 const char *MusicBrainzClient::kTrackUrl = "https://musicbrainz.org/ws/2/recording/";

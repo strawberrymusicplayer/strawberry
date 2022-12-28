@@ -63,7 +63,7 @@
 #include "core/mimedata.h"
 #include "core/tagreaderclient.h"
 #include "core/song.h"
-#include "core/timeconstants.h"
+#include "utilities/timeconstants.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionplaylistitem.h"

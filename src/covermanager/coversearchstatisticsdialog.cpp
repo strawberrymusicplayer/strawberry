@@ -30,7 +30,7 @@
 #include <QLabel>
 #include <QFrame>
 
-#include "core/utilities.h"
+#include "utilities/strutils.h"
 #include "coversearchstatistics.h"
 #include "coversearchstatisticsdialog.h"
 #include "ui_coversearchstatisticsdialog.h"

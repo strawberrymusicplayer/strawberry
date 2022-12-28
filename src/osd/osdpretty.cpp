@@ -64,7 +64,9 @@
 #  include <windows.h>
 #endif
 
-#include "core/utilities.h"
+#ifdef Q_OS_WIN
+#  include "utilities/winutils.h"
+#endif
 
 using namespace std::chrono_literals;
 

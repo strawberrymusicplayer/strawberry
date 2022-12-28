@@ -31,7 +31,7 @@
 #include <QThread>
 
 #include "core/song.h"
-#include "core/utilities.h"
+#include "utilities/threadutils.h"
 
 class Application;
 class Thread;

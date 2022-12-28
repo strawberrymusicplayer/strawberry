@@ -49,8 +49,8 @@
 
 #include "core/logging.h"
 #include "core/taskmanager.h"
-#include "core/timeconstants.h"
 #include "core/signalchecker.h"
+#include "utilities/timeconstants.h"
 #include "enginebase.h"
 #include "enginetype.h"
 #include "gstengine.h"

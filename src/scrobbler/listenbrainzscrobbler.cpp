@@ -43,8 +43,8 @@
 #include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
-#include "core/timeconstants.h"
 #include "core/logging.h"
+#include "utilities/timeconstants.h"
 #include "internet/localredirectserver.h"
 #include "settings/scrobblersettingspage.h"
 

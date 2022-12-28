@@ -39,7 +39,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
-#include "core/utilities.h"
+#include "utilities/randutils.h"
 #include "subsonicservice.h"
 #include "subsonicbaserequest.h"
 

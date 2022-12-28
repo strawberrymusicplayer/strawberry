@@ -39,7 +39,7 @@
 
 #include "cddasongloader.h"
 #include "core/logging.h"
-#include "core/timeconstants.h"
+#include "utilities/timeconstants.h"
 
 CddaSongLoader::CddaSongLoader(const QUrl &url, QObject *parent)
     : QObject(parent),

@@ -28,7 +28,7 @@
 #include <QSettings>
 
 #include "core/logging.h"
-#include "core/timeconstants.h"
+#include "utilities/timeconstants.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
 #include "m3uparser.h"

@@ -44,7 +44,7 @@
 #include "core/networkaccessmanager.h"
 #include "core/database.h"
 #include "core/song.h"
-#include "core/utilities.h"
+#include "utilities/macaddrutils.h"
 #include "internet/internetsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"

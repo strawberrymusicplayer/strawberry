@@ -20,8 +20,6 @@
 #ifndef IMAGEUTILS_H
 #define IMAGEUTILS_H
 
-#include "config.h"
-
 #include <QList>
 #include <QByteArray>
 #include <QString>

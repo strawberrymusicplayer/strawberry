@@ -48,7 +48,7 @@
 
 #include "core/logging.h"
 #include "core/signalchecker.h"
-#include "core/timeconstants.h"
+#include "utilities/timeconstants.h"
 #include "settings/backendsettingspage.h"
 #include "enginebase.h"
 #include "gstengine.h"

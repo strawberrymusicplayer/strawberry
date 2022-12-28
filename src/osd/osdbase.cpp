@@ -33,12 +33,12 @@
 
 #include "core/application.h"
 #include "core/logging.h"
-#include "core/utilities.h"
 #ifdef Q_OS_MACOS
 #  include "core/macsystemtrayicon.h"
 #else
 #  include "core/qtsystemtrayicon.h"
 #endif
+#include "utilities/strutils.h"
 #include "covermanager/currentalbumcoverloader.h"
 
 const char *OSDBase::kSettingsGroup = "OSD";

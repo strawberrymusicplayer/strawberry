@@ -40,7 +40,7 @@
 
 #include "core/iconloader.h"
 #include "core/logging.h"
-#include "core/utilities.h"
+#include "utilities/envutils.h"
 #include "globalshortcuts/globalshortcutgrabber.h"
 #include "globalshortcuts/globalshortcutsmanager.h"
 #include "settingspage.h"

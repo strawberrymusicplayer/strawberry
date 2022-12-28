@@ -44,7 +44,7 @@
 
 #include "core/application.h"
 #include "core/player.h"
-#include "core/utilities.h"
+#include "utilities/timeutils.h"
 #include "collection/collectionbackend.h"
 #include "covermanager/currentalbumcoverloader.h"
 #include "organize/organizeformat.h"

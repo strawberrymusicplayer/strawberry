@@ -29,8 +29,8 @@
 #include <QFile>
 #include <QTextStream>
 
+#include "utilities/timeconstants.h"
 #include "core/logging.h"
-#include "core/timeconstants.h"
 #include "core/messagehandler.h"
 #include "tagreaderbase.h"
 #include "tagreadertaglib.h"

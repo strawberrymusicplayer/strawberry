@@ -38,9 +38,9 @@
 #include <QTextFormat>
 
 #include "core/arraysize.h"
-#include "core/timeconstants.h"
-#include "core/utilities.h"
 #include "core/song.h"
+#include "utilities/transliterate.h"
+#include "utilities/timeconstants.h"
 
 #include "organizeformat.h"
 

@@ -40,7 +40,7 @@
 #include <QtEvents>
 
 #include "core/application.h"
-#include "core/imageutils.h"
+#include "utilities/imageutils.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "playingwidget.h"
 

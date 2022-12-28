@@ -74,13 +74,10 @@
 #include <QClipboard>
 
 #include "core/logging.h"
-#include "core/networkaccessmanager.h"
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "utilities.h"
-#include "timeconstants.h"
 #include "commandlineoptions.h"
 #include "mimedata.h"
 #include "iconloader.h"
@@ -95,10 +92,15 @@
 #include "filesystemmusicstorage.h"
 #include "deletefiles.h"
 #ifdef Q_OS_MACOS
+#  include "mac_startup.h"
 #  include "macsystemtrayicon.h"
 #else
 #  include "qtsystemtrayicon.h"
 #endif
+#include "networkaccessmanager.h"
+#include "utilities/envutils.h"
+#include "utilities/filemanagerutils.h"
+#include "utilities/timeconstants.h"
 #include "engine/enginetype.h"
 #include "engine/enginebase.h"
 #include "engine/engine_fwd.h"

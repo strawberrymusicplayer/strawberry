@@ -29,9 +29,9 @@
 #include <QByteArray>
 #include <QUrl>
 
-#include "core/timeconstants.h"
 #include "core/taskmanager.h"
 #include "core/logging.h"
+#include "utilities/timeconstants.h"
 #include "engine_fwd.h"
 #include "enginebase.h"
 #include "enginetype.h"

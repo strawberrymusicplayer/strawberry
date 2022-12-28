@@ -27,8 +27,8 @@
 
 #include "core/application.h"
 #include "core/song.h"
-#include "core/timeconstants.h"
 #include "core/logging.h"
+#include "utilities/timeconstants.h"
 #include "internet/internetservices.h"
 #include "settings/subsonicsettingspage.h"
 #include "subsonic/subsonicservice.h"

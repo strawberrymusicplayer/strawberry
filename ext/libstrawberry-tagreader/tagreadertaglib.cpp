@@ -92,7 +92,7 @@
 
 #include "core/logging.h"
 #include "core/messagehandler.h"
-#include "core/timeconstants.h"
+#include "utilities/timeconstants.h"
 
 class FileRefFactory {
  public:

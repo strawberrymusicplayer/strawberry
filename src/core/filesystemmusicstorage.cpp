@@ -29,7 +29,7 @@
 #include <QString>
 
 #include "core/logging.h"
-#include "utilities.h"
+#include "utilities/fileutils.h"
 #include "musicstorage.h"
 
 #include "filesystemmusicstorage.h"

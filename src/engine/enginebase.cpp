@@ -30,8 +30,8 @@
 #include <QUrl>
 #include <QSettings>
 
-#include "core/utilities.h"
-#include "core/timeconstants.h"
+#include "utilities/envutils.h"
+#include "utilities/timeconstants.h"
 #include "core/networkproxyfactory.h"
 #include "engine_fwd.h"
 #include "enginebase.h"

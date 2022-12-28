@@ -22,7 +22,7 @@
 
 #include <QThread>
 
-#include "utilities.h"
+#include "utilities/threadutils.h"
 
 class QObject;
 

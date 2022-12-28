@@ -32,7 +32,7 @@
 
 #include "core/iconloader.h"
 #include "core/mimedata.h"
-#include "core/utilities.h"
+#include "utilities/filemanagerutils.h"
 #include "fileviewlist.h"
 
 FileViewList::FileViewList(QWidget *parent)

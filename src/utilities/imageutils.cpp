@@ -17,8 +17,6 @@
  *
  */
 
-#include "config.h"
-
 #include <QList>
 #include <QBuffer>
 #include <QByteArray>
@@ -32,7 +30,8 @@
 #include <QSize>
 
 #include "imageutils.h"
-#include "core/utilities.h"
+#include "fileutils.h"
+#include "mimeutils.h"
 #include "core/tagreaderclient.h"
 
 QStringList ImageUtils::kSupportedImageMimeTypes;

@@ -36,7 +36,7 @@
 #include <QAbstractEventDispatcher>
 
 #include "core/logging.h"
-#include "core/utilities.h"
+#include "utilities/envutils.h"
 
 #ifdef HAVE_MOODBAR
 #  include "ext/gstmoodbar/gstmoodbarplugin.h"

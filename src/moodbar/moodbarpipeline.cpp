@@ -29,7 +29,7 @@
 
 #include "core/logging.h"
 #include "core/signalchecker.h"
-#include "core/utilities.h"
+#include "utilities/threadutils.h"
 #include "moodbar/moodbarbuilder.h"
 
 #include "ext/gstmoodbar/gstfastspectrum.h"

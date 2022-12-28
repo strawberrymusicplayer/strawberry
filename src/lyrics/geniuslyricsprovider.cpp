@@ -44,8 +44,9 @@
 #include <QMessageBox>
 
 #include "core/logging.h"
-#include "core/utilities.h"
 #include "core/networkaccessmanager.h"
+#include "utilities/strutils.h"
+#include "utilities/randutils.h"
 #include "internet/localredirectserver.h"
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"

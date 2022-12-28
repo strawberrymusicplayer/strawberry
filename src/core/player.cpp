@@ -36,9 +36,9 @@
 #include <QSettings>
 
 #include "core/logging.h"
+#include "utilities/timeconstants.h"
 
 #include "song.h"
-#include "timeconstants.h"
 #include "urlhandler.h"
 #include "application.h"
 

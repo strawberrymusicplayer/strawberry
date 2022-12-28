@@ -59,7 +59,7 @@
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
 #include "core/tagreaderclient.h"
-#include "core/utilities.h"
+#include "utilities/strutils.h"
 #include "widgets/freespacebar.h"
 #include "widgets/linetextedit.h"
 #include "collection/collectionbackend.h"

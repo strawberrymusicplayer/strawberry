@@ -36,7 +36,7 @@
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
-#include "core/timeconstants.h"
+#include "utilities/timeconstants.h"
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 #include "qobuzstreamurlrequest.h"

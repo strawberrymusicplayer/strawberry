@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2011, David Sansome <me@davidsansome.com>
+ * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -19,26 +18,20 @@
  *
  */
 
-#include "config.h"
+#ifndef FILEUTILS_H
+#define FILEUTILS_H
 
-#include <QWidget>
-#include <QKeySequence>
+#include <QString>
 
-#include <CoreFoundation/CFDictionary.h>
-
-#ifdef __OBJC__
-@class NSEvent;
-#else
-class NSEvent;
-#endif
-
-namespace mac {
-
-QKeySequence KeySequenceFromNSEvent(NSEvent *event);
-void DumpDictionary(CFDictionaryRef dict);
-
-}  // namespace mac
+class QIODevice;
 
 namespace Utilities {
-qint32 GetMacOsVersion();
-}
+
+QByteArray ReadDataFromFile(const QString &filename);
+bool Copy(QIODevice *source, QIODevice *destination);
+bool CopyRecursive(const QString &source, const QString &destination);
+bool RemoveRecursive(const QString &path);
+
+}  // namespace Utilities
+
+#endif  // FILEUTILS_H

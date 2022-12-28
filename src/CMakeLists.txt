@@ -35,13 +35,27 @@ set(SOURCES
   core/taskmanager.cpp
   core/thread.cpp
   core/urlhandler.cpp
-  core/utilities.cpp
-  core/imageutils.cpp
   core/iconloader.cpp
   core/standarditemiconloader.cpp
   core/scopedtransaction.cpp
   core/translations.cpp
   core/systemtrayicon.cpp
+
+  utilities/strutils.cpp
+  utilities/envutils.cpp
+  utilities/colorutils.cpp
+  utilities/cryptutils.cpp
+  utilities/fileutils.cpp
+  utilities/diskutils.cpp
+  utilities/imageutils.cpp
+  utilities/macaddrutils.cpp
+  utilities/mimeutils.cpp
+  utilities/randutils.cpp
+  utilities/threadutils.cpp
+  utilities/timeutils.cpp
+  utilities/transliterate.cpp
+  utilities/xmlutils.cpp
+  utilities/filemanagerutils.cpp
 
   engine/enginetype.cpp
   engine/enginebase.cpp
@@ -782,8 +796,8 @@ optional_source(HAVE_AUDIOCD
 # Platform specific - macOS
 optional_source(APPLE
   SOURCES
+    utilities/macosutils.mm
     core/scoped_nsautorelease_pool.mm
-    core/mac_utilities.mm
     core/mac_startup.mm
     core/macsystemtrayicon.mm
     core/macfslistener.mm
@@ -804,8 +818,10 @@ optional_source(APPLE
 # Platform specific - Windows
 optional_source(WIN32
   SOURCES
+    utilities/winutils.cpp
     engine/directsounddevicefinder.cpp
     engine/mmdevicefinder.cpp
+    core/scopedwchararray.cpp
     core/windows7thumbbar.cpp
   HEADERS
     core/windows7thumbbar.h

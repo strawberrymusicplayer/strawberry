@@ -46,10 +46,10 @@
 
 #include "core/filesystemwatcherinterface.h"
 #include "core/logging.h"
-#include "core/timeconstants.h"
 #include "core/tagreaderclient.h"
 #include "core/taskmanager.h"
-#include "core/imageutils.h"
+#include "utilities/imageutils.h"
+#include "utilities/timeconstants.h"
 #include "directory.h"
 #include "collectionbackend.h"
 #include "collectionwatcher.h"

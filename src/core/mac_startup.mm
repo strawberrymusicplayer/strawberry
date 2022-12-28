@@ -45,10 +45,10 @@
 
 #include "config.h"
 
+#include "platforminterface.h"
 #include "mac_delegate.h"
 #include "mac_startup.h"
 #include "mac_utilities.h"
-#include "utilities.h"
 #include "scoped_cftyperef.h"
 #include "core/logging.h"
 #include "core/scoped_nsautorelease_pool.h"

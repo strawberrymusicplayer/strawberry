@@ -30,8 +30,8 @@
 #include <QWheelEvent>
 #include <QEnterEvent>
 
-#include "core/timeconstants.h"
-#include "core/utilities.h"
+#include "utilities/timeutils.h"
+#include "utilities/timeconstants.h"
 #ifndef Q_OS_MACOS
 #  include "tracksliderpopup.h"
 #endif

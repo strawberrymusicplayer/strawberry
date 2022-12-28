@@ -42,7 +42,7 @@
 #include <QJsonArray>
 
 #include "core/logging.h"
-#include "core/utilities.h"
+#include "utilities/diskutils.h"
 
 #include "udisks2lister.h"
 

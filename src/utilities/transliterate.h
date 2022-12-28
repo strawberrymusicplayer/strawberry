@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,20 +17,15 @@
  *
  */
 
-#include "config.h"
+#ifndef TRANSLITERATE_H
+#define TRANSLITERATE_H
 
-#include <QtGlobal>
-
-#import <Foundation/Foundation.h>
-#import <Foundation/NSProcessInfo.h>
+#include <QString>
 
 namespace Utilities {
 
-qint32 GetMacOsVersion() {
-
-  NSOperatingSystemVersion version = [ [NSProcessInfo processInfo] operatingSystemVersion];
-  return version.minorVersion;
-
-}
+QString Transliterate(const QString &accented_str);
 
 }  // namespace Utilities
+
+#endif  // TRANSLITERATE_H

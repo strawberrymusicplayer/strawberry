@@ -31,7 +31,7 @@
 #include <QNetworkRequest>
 #include <QUrl>
 
-#include "core/utilities.h"
+#include "utilities/mimeutils.h"
 #include "core/networkaccessmanager.h"
 #include "widgets/busyindicator.h"
 #include "albumcoverimageresult.h"

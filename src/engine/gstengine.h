@@ -38,7 +38,7 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/timeconstants.h"
+#include "utilities/timeconstants.h"
 #include "engine_fwd.h"
 #include "enginebase.h"
 #include "gststartup.h"

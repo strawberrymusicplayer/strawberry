@@ -34,11 +34,11 @@
 #include <QImage>
 
 #include "core/logging.h"
-#include "core/utilities.h"
 #include "core/taskmanager.h"
 #include "core/musicstorage.h"
 #include "core/tagreaderclient.h"
 #include "core/song.h"
+#include "utilities/strutils.h"
 #include "organize.h"
 #ifdef HAVE_GSTREAMER
 #  include "transcoder/transcoder.h"

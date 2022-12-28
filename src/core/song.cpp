@@ -50,8 +50,10 @@
 #include "core/iconloader.h"
 
 #include "engine/enginebase.h"
-#include "timeconstants.h"
-#include "utilities.h"
+#include "utilities/strutils.h"
+#include "utilities/timeutils.h"
+#include "utilities/cryptutils.h"
+#include "utilities/timeconstants.h"
 #include "song.h"
 #include "application.h"
 #include "sqlquery.h"

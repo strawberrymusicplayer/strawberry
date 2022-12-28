@@ -36,10 +36,10 @@
 #include <QNetworkReply>
 
 #include "core/logging.h"
-#include "core/utilities.h"
-#include "core/imageutils.h"
 #include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
+#include "utilities/imageutils.h"
+#include "utilities/mimeutils.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"
 #include "coverprovider.h"

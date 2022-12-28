@@ -53,8 +53,9 @@
 #include <QSettings>
 #include <QtEvents>
 
-#include "core/utilities.h"
-#include "core/imageutils.h"
+#include "utilities/strutils.h"
+#include "utilities/mimeutils.h"
+#include "utilities/imageutils.h"
 #include "core/application.h"
 #include "core/song.h"
 #include "core/iconloader.h"

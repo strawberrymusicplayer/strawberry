@@ -29,8 +29,8 @@
 #include <QSettings>
 #include <QEvent>
 
-#include "core/timeconstants.h"
-#include "core/utilities.h"
+#include "utilities/timeutils.h"
+#include "utilities/timeconstants.h"
 #include "trackslider.h"
 #include "ui_trackslider.h"
 #include "clickablelabel.h"

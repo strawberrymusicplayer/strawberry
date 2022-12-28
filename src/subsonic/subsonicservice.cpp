@@ -42,7 +42,7 @@
 #include <QSettings>
 #include <QSortFilterProxyModel>
 
-#include "core/utilities.h"
+#include "utilities/randutils.h"
 #include "core/application.h"
 #include "core/player.h"
 #include "core/logging.h"

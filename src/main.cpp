@@ -77,10 +77,14 @@
 #  endif
 #endif  // HAVE_QTSPARKLE
 
+#ifdef Q_OS_MACOS
+#  include "utilities/macosutils.h"
+#  include "core/mac_startup.h"
+#endif
+
 #ifdef HAVE_DBUS
 #  include "core/mpris2.h"
 #endif
-#include "core/utilities.h"
 #include "core/metatypes.h"
 #include "core/iconloader.h"
 #include "core/mainwindow.h"
@@ -175,7 +179,9 @@ int main(int argc, char *argv[]) {
   qsrand(t);
 #endif
 
+#ifdef Q_OS_MACOS
   Utilities::IncreaseFDLimit();
+#endif
 
   QGuiApplication::setQuitOnLastWindowClosed(false);
 

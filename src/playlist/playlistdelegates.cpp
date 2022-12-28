@@ -65,7 +65,8 @@
 
 #include "core/logging.h"
 #include "core/song.h"
-#include "core/utilities.h"
+#include "utilities/strutils.h"
+#include "utilities/timeutils.h"
 #include "collection/collectionbackend.h"
 #include "playlist/playlist.h"
 #include "playlistdelegates.h"

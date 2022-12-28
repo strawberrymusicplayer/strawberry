@@ -54,7 +54,7 @@
 #include "core/mergedproxymodel.h"
 #include "core/mimedata.h"
 #include "core/musicstorage.h"
-#include "core/utilities.h"
+#include "utilities/colorutils.h"
 #include "organize/organizedialog.h"
 #include "organize/organizeerrordialog.h"
 #include "collection/collectiondirectorymodel.h"

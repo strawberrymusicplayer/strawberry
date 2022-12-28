@@ -48,12 +48,12 @@
 #include <QSettings>
 #include <QtEvents>
 
-#include "core/lazy.h"
-#include "core/tagreaderclient.h"
-#include "core/song.h"
+#include "lazy.h"
+#include "platforminterface.h"
+#include "song.h"
+#include "tagreaderclient.h"
 #include "engine/enginetype.h"
 #include "engine/engine_fwd.h"
-#include "mac_startup.h"
 #include "osd/osdbase.h"
 #include "collection/collectionmodel.h"
 #include "playlist/playlist.h"

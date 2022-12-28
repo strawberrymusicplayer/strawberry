@@ -20,7 +20,7 @@
 #include <QThread>
 
 #include "thread.h"
-#include "utilities.h"
+#include "utilities/threadutils.h"
 
 void Thread::run() {
 

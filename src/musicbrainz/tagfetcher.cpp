@@ -29,7 +29,7 @@
 #include <QFutureWatcher>
 #include <QString>
 
-#include "core/timeconstants.h"
+#include "utilities/timeconstants.h"
 #include "engine/chromaprinter.h"
 #include "acoustidclient.h"
 #include "musicbrainzclient.h"

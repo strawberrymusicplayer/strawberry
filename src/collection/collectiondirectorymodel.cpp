@@ -29,7 +29,7 @@
 #include "core/filesystemmusicstorage.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
-#include "core/utilities.h"
+#include "utilities/diskutils.h"
 #include "directory.h"
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"

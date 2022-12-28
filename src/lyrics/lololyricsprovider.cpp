@@ -32,7 +32,7 @@
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
-#include "core/utilities.h"
+#include "utilities/strutils.h"
 #include "lyricsprovider.h"
 #include "lyricsfetcher.h"
 #include "lololyricsprovider.h"

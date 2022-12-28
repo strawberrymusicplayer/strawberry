@@ -35,7 +35,7 @@
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>
 
-#include "core/utilities.h"
+#include "utilities/timeutils.h"
 #include "playlist/playlist.h"
 #include "queue.h"
 

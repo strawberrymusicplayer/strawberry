@@ -37,7 +37,7 @@
 #include <QContextMenuEvent>
 #include <QPaintEvent>
 
-#include "core/imageutils.h"
+#include "utilities/imageutils.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 
 #include "contextview.h"

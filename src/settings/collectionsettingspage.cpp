@@ -44,7 +44,8 @@
 
 #include "core/application.h"
 #include "core/iconloader.h"
-#include "core/utilities.h"
+#include "utilities/strutils.h"
+#include "utilities/timeutils.h"
 #include "collection/collection.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectiondirectorymodel.h"

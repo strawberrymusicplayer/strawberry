@@ -34,7 +34,7 @@
 #include <QKeyEvent>
 #include <QEnterEvent>
 
-#include "core/utilities.h"
+#include "utilities/colorutils.h"
 #include "core/iconloader.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistdelegates.h"

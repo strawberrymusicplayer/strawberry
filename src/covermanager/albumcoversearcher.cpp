@@ -48,7 +48,9 @@
 #include <QtEvents>
 
 #include "core/application.h"
-#include "core/utilities.h"
+#include "utilities/strutils.h"
+#include "utilities/timeutils.h"
+#include "utilities/mimeutils.h"
 #include "widgets/busyindicator.h"
 #include "widgets/forcescrollperpixel.h"
 #include "widgets/groupediconview.h"

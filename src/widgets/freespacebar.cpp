@@ -37,7 +37,7 @@
 #include <QTransform>
 #include <QLinearGradient>
 
-#include "core/utilities.h"
+#include "utilities/strutils.h"
 #include "freespacebar.h"
 
 class QPaintEvent;

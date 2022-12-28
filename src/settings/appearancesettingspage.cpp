@@ -41,7 +41,7 @@
 #include <QSettings>
 
 #include "appearancesettingspage.h"
-#include "core/utilities.h"
+#include "utilities/colorutils.h"
 #include "core/appearance.h"
 #include "core/iconloader.h"
 #include "core/stylehelper.h"

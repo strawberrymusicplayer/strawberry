@@ -64,10 +64,12 @@
 #include <QSize>
 #include <QtEvents>
 
+#include "utilities/strutils.h"
+#include "utilities/fileutils.h"
+#include "utilities/imageutils.h"
+#include "utilities/mimeutils.h"
 #include "core/application.h"
 #include "core/iconloader.h"
-#include "core/utilities.h"
-#include "core/imageutils.h"
 #include "core/tagreaderclient.h"
 #include "core/database.h"
 #include "core/sqlrow.h"

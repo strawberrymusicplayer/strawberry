@@ -43,8 +43,8 @@
 #include "acoustidclient.h"
 #include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
-#include "core/timeconstants.h"
 #include "core/logging.h"
+#include "utilities/timeconstants.h"
 
 const char *AcoustidClient::kClientId = "0qjUoxbowg";
 const char *AcoustidClient::kUrl = "https://api.acoustid.org/v2/lookup";

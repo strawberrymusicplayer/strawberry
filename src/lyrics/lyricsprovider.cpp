@@ -23,7 +23,7 @@
 #include <QString>
 #include <QRegularExpression>
 
-#include "core/utilities.h"
+#include "utilities/strutils.h"
 #include "core/networkaccessmanager.h"
 #include "lyricsprovider.h"
 
