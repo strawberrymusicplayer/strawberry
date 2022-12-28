@@ -200,7 +200,7 @@ msgstr "%1 låtar hittades"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 låtar hittades (visar %2)"
 
-#: core/utilities.cpp:455
+#: core/utilities.cpp:429
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4335,7 +4335,7 @@ msgstr "Skalningsstorlek"
 msgid "Scrobbler"
 msgstr "Skrobbling"
 
-#: scrobbler/scrobblingapi20.cpp:1017
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Skrobblare %1 fel: %2"
@@ -4591,7 +4591,7 @@ msgstr "Visa i full storlek..."
 msgid "Show in collection..."
 msgstr "Visa i samlingen..."
 
-#: core/utilities.cpp:449 core/utilities.cpp:455
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr "Visa i filhanteraren"
 
@@ -5246,7 +5246,7 @@ msgstr "Växla synlighet för snygg avisering"
 msgid "Tomorrow"
 msgstr "Imorgon"
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr "För många låtar valda."
 
@@ -5321,7 +5321,7 @@ msgstr "Ångra"
 msgid "Uninstall the snap with:"
 msgstr "Avinstallera snap med:"
 
-#: core/song.cpp:672 collection/collectionmodel.cpp:476
+#: core/song.cpp:671 collection/collectionmodel.cpp:476
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:485
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
 #: collection/collectionmodel.cpp:1642 collection/savedgroupingmanager.cpp:152

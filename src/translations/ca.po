@@ -182,7 +182,7 @@ msgstr "S’han trobat %1 cançons"
 msgid "%1 songs found (showing %2)"
 msgstr "S’han trobat %1 cançons (se’n mostren %2)"
 
-#: core/utilities.cpp:455
+#: core/utilities.cpp:429
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4291,7 +4291,7 @@ msgstr "Mida de l’escala"
 msgid "Scrobbler"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:1017
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
@@ -4549,7 +4549,7 @@ msgstr "Mostra a mida completa..."
 msgid "Show in collection..."
 msgstr "Mostra a la col·lecció…"
 
-#: core/utilities.cpp:449 core/utilities.cpp:455
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr ""
 
@@ -5200,7 +5200,7 @@ msgstr "Canvia la visibilitat del OSD estètic"
 msgid "Tomorrow"
 msgstr "Demà"
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr ""
 
@@ -5275,7 +5275,7 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:672 collection/collectionmodel.cpp:476
+#: core/song.cpp:671 collection/collectionmodel.cpp:476
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:485
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
 #: collection/collectionmodel.cpp:1642 collection/savedgroupingmanager.cpp:152

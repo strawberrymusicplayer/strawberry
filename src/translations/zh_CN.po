@@ -188,7 +188,7 @@ msgstr "找到 %1 首歌曲"
 msgid "%1 songs found (showing %2)"
 msgstr "找到了 %1 首歌曲（正在显示 %2）"
 
-#: core/utilities.cpp:455
+#: core/utilities.cpp:429
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4262,7 +4262,7 @@ msgstr "缩放"
 msgid "Scrobbler"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:1017
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
@@ -4518,7 +4518,7 @@ msgstr "显示完整尺寸..."
 msgid "Show in collection..."
 msgstr "在媒体库中显示..."
 
-#: core/utilities.cpp:449 core/utilities.cpp:455
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr "在文件管理器中显示"
 
@@ -5144,7 +5144,7 @@ msgstr "切换 OSD 可见性"
 msgid "Tomorrow"
 msgstr "明天"
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr ""
 
@@ -5219,7 +5219,7 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:672 collection/collectionmodel.cpp:476
+#: core/song.cpp:671 collection/collectionmodel.cpp:476
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:485
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
 #: collection/collectionmodel.cpp:1642 collection/savedgroupingmanager.cpp:152

@@ -200,7 +200,7 @@ msgstr "%1 szám található"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 szám található (%2 megjelenítése)"
 
-#: core/utilities.cpp:455
+#: core/utilities.cpp:429
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4331,7 +4331,7 @@ msgstr "Skála méret"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1017
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 hiba: %2"
@@ -4587,7 +4587,7 @@ msgstr "Megjelenítés teljes méretben..."
 msgid "Show in collection..."
 msgstr "Megjelenítés a gyűjteményben..."
 
-#: core/utilities.cpp:449 core/utilities.cpp:455
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr "Megnyitás a fájlböngészőben"
 
@@ -5241,7 +5241,7 @@ msgstr "OSD láthatóság bekapcsolása"
 msgid "Tomorrow"
 msgstr "Holnap"
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr "Túl sok szám van kiválasztva."
 
@@ -5316,7 +5316,7 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr "Snap eltávolítása ezzel:"
 
-#: core/song.cpp:672 collection/collectionmodel.cpp:476
+#: core/song.cpp:671 collection/collectionmodel.cpp:476
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:485
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
 #: collection/collectionmodel.cpp:1642 collection/savedgroupingmanager.cpp:152

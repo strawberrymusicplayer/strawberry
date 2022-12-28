@@ -191,7 +191,7 @@ msgstr "%1 曲が見つかりました"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 曲が見つかりました( %2 を表示中)"
 
-#: core/utilities.cpp:455
+#: core/utilities.cpp:429
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4273,7 +4273,7 @@ msgstr "サイズを調整する"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1017
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 のエラー: %2"
@@ -4529,7 +4529,7 @@ msgstr "原寸表示..."
 msgid "Show in collection..."
 msgstr "ライブラリーに表示..."
 
-#: core/utilities.cpp:449 core/utilities.cpp:455
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr "ファイルブラウザーで表示"
 
@@ -5157,7 +5157,7 @@ msgstr "pretty OSD 表示の切り替え"
 msgid "Tomorrow"
 msgstr "明日"
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr ""
 
@@ -5232,7 +5232,7 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:672 collection/collectionmodel.cpp:476
+#: core/song.cpp:671 collection/collectionmodel.cpp:476
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:485
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
 #: collection/collectionmodel.cpp:1642 collection/savedgroupingmanager.cpp:152

@@ -213,7 +213,7 @@ msgstr "Найдено %1 песен"
 msgid "%1 songs found (showing %2)"
 msgstr "Найдено %1 песен (отображается %2)"
 
-#: core/utilities.cpp:455
+#: core/utilities.cpp:429
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4354,7 +4354,7 @@ msgstr "Размер масштабирования"
 msgid "Scrobbler"
 msgstr "Скробблер"
 
-#: scrobbler/scrobblingapi20.cpp:1017
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Ошибка %1 скробблера: %2"
@@ -4610,7 +4610,7 @@ msgstr "Открыть в полный размер…"
 msgid "Show in collection..."
 msgstr "Показать в фонотеке…"
 
-#: core/utilities.cpp:449 core/utilities.cpp:455
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr "Открыть в менеджере файлов"
 
@@ -5262,7 +5262,7 @@ msgstr "Переключить видимость модного экранно�
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr "Слишком много песен выбрано."
 
@@ -5337,7 +5337,7 @@ msgstr "Отменить"
 msgid "Uninstall the snap with:"
 msgstr "Удалить Snap с помощью:"
 
-#: core/song.cpp:672 collection/collectionmodel.cpp:476
+#: core/song.cpp:671 collection/collectionmodel.cpp:476
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:485
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
 #: collection/collectionmodel.cpp:1642 collection/savedgroupingmanager.cpp:152

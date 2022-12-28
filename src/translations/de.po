@@ -227,7 +227,7 @@ msgstr "%1 Lieder gefunden"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 Lieder gefunden (zeigt %2)"
 
-#: core/utilities.cpp:455
+#: core/utilities.cpp:429
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4399,7 +4399,7 @@ msgstr "Bildgröße anpassen"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1017
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 Fehler: %2"
@@ -4659,7 +4659,7 @@ msgstr "In Originalgröße anzeigen …"
 msgid "Show in collection..."
 msgstr "In Bibliothek anzeigen …"
 
-#: core/utilities.cpp:449 core/utilities.cpp:455
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr "Zeige im Dateimanager"
 
@@ -5319,7 +5319,7 @@ msgstr "Sichtbarkeit der Strawberry-Bildschirmanzeige anpassen"
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr "Zu viele Lieder ausgewählt."
 
@@ -5394,7 +5394,7 @@ msgstr "Rückgängig machen"
 msgid "Uninstall the snap with:"
 msgstr "Deinstalliere den Snap mit:"
 
-#: core/song.cpp:672 collection/collectionmodel.cpp:476
+#: core/song.cpp:671 collection/collectionmodel.cpp:476
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:485
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
 #: collection/collectionmodel.cpp:1642 collection/savedgroupingmanager.cpp:152

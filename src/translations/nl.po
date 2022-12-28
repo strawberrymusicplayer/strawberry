@@ -193,7 +193,7 @@ msgstr "%1 nummer gevonden"
 msgid "%1 songs found (showing %2)"
 msgstr "%1 nummer gevonden (%2 weergegeven)"
 
-#: core/utilities.cpp:455
+#: core/utilities.cpp:429
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4321,7 +4321,7 @@ msgstr "Groote schalen"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1017
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 error: %2"
@@ -4577,7 +4577,7 @@ msgstr "Volledig weergeven..."
 msgid "Show in collection..."
 msgstr "Tonen in bibliotheek..."
 
-#: core/utilities.cpp:449 core/utilities.cpp:455
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr "In bestandsbeheer tonen"
 
@@ -5233,7 +5233,7 @@ msgstr "Zichtbaarheid voor het mooie infoschermvenster aan/uit"
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr "Te veel nummers geselecteerd."
 
@@ -5308,7 +5308,7 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:672 collection/collectionmodel.cpp:476
+#: core/song.cpp:671 collection/collectionmodel.cpp:476
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:485
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
 #: collection/collectionmodel.cpp:1642 collection/savedgroupingmanager.cpp:152

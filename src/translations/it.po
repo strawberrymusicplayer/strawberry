@@ -183,7 +183,7 @@ msgstr ""
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: core/utilities.cpp:455
+#: core/utilities.cpp:429
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -4298,7 +4298,7 @@ msgstr "Riscala le dimensioni"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1017
+#: scrobbler/scrobblingapi20.cpp:1019
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
@@ -4557,7 +4557,7 @@ msgstr "Mostra a dimensioni originali..."
 msgid "Show in collection..."
 msgstr "Mostra nella raccolta..."
 
-#: core/utilities.cpp:449 core/utilities.cpp:455
+#: core/utilities.cpp:423 core/utilities.cpp:429
 msgid "Show in file browser"
 msgstr "Mostra nel browser di file"
 
@@ -5212,7 +5212,7 @@ msgstr "Commuta la visibilità di Pretty OSD"
 msgid "Tomorrow"
 msgstr "Domani"
 
-#: core/utilities.cpp:449
+#: core/utilities.cpp:423
 msgid "Too many songs selected."
 msgstr "Troppe canzoni selezionate."
 
@@ -5287,7 +5287,7 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:672 collection/collectionmodel.cpp:476
+#: core/song.cpp:671 collection/collectionmodel.cpp:476
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:485
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
 #: collection/collectionmodel.cpp:1642 collection/savedgroupingmanager.cpp:152
