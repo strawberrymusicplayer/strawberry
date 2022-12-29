@@ -40,9 +40,7 @@
 #include "globalshortcutsmanager.h"
 #include "core/logging.h"
 #include "core/mac_startup.h"
-#include "core/utilities.h"
 
-#import "core/mac_utilities.h"
 #import "core/SBSystemPreferences.h"
 
 class GlobalShortcutsBackendMacOSPrivate : boost::noncopyable {

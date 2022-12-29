@@ -29,7 +29,7 @@
 
 #include <QKeySequence>
 
-#import "core/mac_utilities.h"
+#import "core/mac_startup.h"
 
 class MacMonitorWrapper {
  public:

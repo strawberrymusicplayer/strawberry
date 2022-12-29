@@ -23,7 +23,7 @@
 #include "test_utils.h"
 
 #include "organize/organizeformat.h"
-#include "core/timeconstants.h"
+#include "utilities/timeconstants.h"
 #include "core/song.h"
 #include "core/logging.h"
 

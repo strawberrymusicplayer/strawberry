@@ -27,7 +27,13 @@
 #include <QtDebug>
 
 #include "test_utils.h"
-#include "core/utilities.h"
+#include "utilities/envutils.h"
+#include "utilities/strutils.h"
+#include "utilities/timeutils.h"
+#include "utilities/randutils.h"
+#include "utilities/cryptutils.h"
+#include "utilities/colorutils.h"
+#include "utilities/transliterate.h"
 #include "core/logging.h"
 
 TEST(UtilitiesTest, PrettyTimeDelta) {

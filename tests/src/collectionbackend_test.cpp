@@ -30,10 +30,10 @@
 
 #include "test_utils.h"
 
-#include "core/timeconstants.h"
 #include "core/song.h"
 #include "core/database.h"
 #include "core/logging.h"
+#include "utilities/timeconstants.h"
 #include "collection/collectionbackend.h"
 #include "collection/collection.h"
 
