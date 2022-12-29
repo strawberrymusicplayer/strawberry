@@ -486,17 +486,17 @@ jobs:
 
   build-macos:
     name: Build macOS
-    runs-on: macos-10.15
+    runs-on: macos-11
     steps:
 
       - name: Remove packages
-        run: brew remove aliyun-cli ant aws-sam-cli azure-cli bazelisk bicep composer geckodriver ghostscript go@1.17 helm httpd imagemagick kotlin maven mongodb-community@5.0 mongodb-database-tools mongosh nginx node@16 php postgresql@14 ruby@2.7 rustup-init sbt selenium-server swiftformat switchaudio-osx chromedriver firefox google-chrome graalvm-ce-java11 julia microsoft-edge r session-manager-plugin vagrant
+        run: brew remove aliyun-cli ant aws-sam-cli azure-cli bazelisk bicep composer geckodriver ghostscript go@1.17 helm httpd imagemagick kotlin maven mongodb-community@5.0 mongodb-database-tools mongosh nginx node@16 php postgresql@14 ruby@2.7 rustup-init sbt selenium-server swiftformat switchaudio-osx chromedriver firefox google-chrome graalvm-ce-java11 julia microsoft-edge r session-manager-plugin
 
       - name: Update packages
         run: brew update
 
       - name: Upgrade packages
-        run: brew upgrade
+        run: brew upgrade || true
 
       - name: Install packages
         run: |
