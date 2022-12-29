@@ -132,22 +132,22 @@ msgstr " песен"
 msgid "%1 Scrobbler Authentication"
 msgstr "Аутентификация скробблера %1"
 
-#: context/contextview.cpp:449
+#: context/contextview.cpp:450
 #, qt-format
 msgid "%1 album"
 msgstr "%1 альбом"
 
-#: context/contextview.cpp:450
+#: context/contextview.cpp:451
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 альбомов"
 
-#: context/contextview.cpp:445
+#: context/contextview.cpp:446
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 артист"
 
-#: context/contextview.cpp:446
+#: context/contextview.cpp:447
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 артистов"
@@ -158,12 +158,12 @@ msgstr "%1 артистов"
 msgid "%1 dB"
 msgstr "%1 дБ"
 
-#: core/utilities.cpp:145
+#: utilities/timeutils.cpp:67
 #, qt-format
 msgid "%1 days"
 msgstr "%1 дн."
 
-#: core/utilities.cpp:165
+#: utilities/timeutils.cpp:87
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 дн. назад"
@@ -188,7 +188,7 @@ msgstr "%1 плейлистов (%2)"
 msgid "%1 selected of"
 msgstr "%1 выбрано из"
 
-#: context/contextview.cpp:441
+#: context/contextview.cpp:442
 #, qt-format
 msgid "%1 song"
 msgstr "%1 песня"
@@ -198,7 +198,7 @@ msgstr "%1 песня"
 msgid "%1 song%2"
 msgstr "%1 песня%2"
 
-#: context/contextview.cpp:442
+#: context/contextview.cpp:443
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 композиций"
@@ -213,7 +213,7 @@ msgstr "Найдено %1 песен"
 msgid "%1 songs found (showing %2)"
 msgstr "Найдено %1 песен (отображается %2)"
 
-#: core/utilities.cpp:429
+#: utilities/filemanagerutils.cpp:141
 #, qt-format
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
@@ -221,7 +221,7 @@ msgid ""
 msgstr ""
 "Выбрано %1 песен из %2 разных каталогов. Уверены, что хотите открыть их все?"
 
-#: dialogs/edittagdialog.cpp:688
+#: dialogs/edittagdialog.cpp:690
 #, qt-format
 msgid "%1 songs selected."
 msgstr "%1 песен выбрано."
@@ -231,7 +231,7 @@ msgstr "%1 песен выбрано."
 msgid "%1 tracks"
 msgstr "%1 треков"
 
-#: covermanager/albumcovermanager.cpp:574
+#: covermanager/albumcovermanager.cpp:576
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 передано"
@@ -457,7 +457,7 @@ msgstr ""
 "отправится на сервер. Установка времени в 0 секунд сделает отправку скроббла "
 "мгновенной)."
 
-#: dialogs/edittagdialog.cpp:98
+#: dialogs/edittagdialog.cpp:100
 msgid "(different across multiple songs)"
 msgstr "(различный через несколько композиций)"
 
@@ -474,7 +474,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0 пикс"
 
-#: core/utilities.cpp:145
+#: utilities/timeutils.cpp:67
 msgid "1 day"
 msgstr "1 день"
 
@@ -546,8 +546,8 @@ msgstr "Токен API"
 msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
-#: covermanager/albumcovermanager.cpp:142
-#: covermanager/albumcoversearcher.cpp:194
+#: covermanager/albumcovermanager.cpp:144
+#: covermanager/albumcoversearcher.cpp:196
 #: ../build/src/ui_internetcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "Прервать"
@@ -598,11 +598,11 @@ msgstr "Добавить новую строку, если поддержива�
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Добавить все треки из каталога и всех его подкаталогов"
 
-#: settings/collectionsettingspage.cpp:123
+#: settings/collectionsettingspage.cpp:124
 msgid "Add directory..."
 msgstr "Добавить каталог…"
 
-#: core/mainwindow.cpp:2206
+#: core/mainwindow.cpp:2208
 msgid "Add file"
 msgstr "Добавить файл"
 
@@ -618,7 +618,7 @@ msgstr "Конвертировать файлы"
 msgid "Add files to transcode"
 msgstr "Добавить файлы для конвертирования"
 
-#: core/mainwindow.cpp:2232 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2234 transcoder/transcodedialog.cpp:424
 msgid "Add folder"
 msgstr "Добавление папки"
 
@@ -728,7 +728,7 @@ msgstr "Добавить поток…"
 msgid "Add to albums"
 msgstr "Добавить в альбомы"
 
-#: core/mainwindow.cpp:2008
+#: core/mainwindow.cpp:2010
 msgid "Add to another playlist"
 msgstr "Добавить в другой плейлист"
 
@@ -821,7 +821,7 @@ msgstr "raАльбом - Диск"
 msgid "Album artist"
 msgstr "Артист альбома"
 
-#: dialogs/edittagdialog.cpp:874
+#: dialogs/edittagdialog.cpp:876
 msgid "Album cover editing is only available for collection songs."
 msgstr "Правка обложки альбома доступна только для песен из фонотеки."
 
@@ -842,27 +842,27 @@ msgstr "Альбомы"
 msgid "Albums search limit"
 msgstr "Предел поиска по альбомам"
 
-#: covermanager/albumcovermanager.cpp:172
+#: covermanager/albumcovermanager.cpp:174
 msgid "Albums with covers"
 msgstr "Альбомы с обложками"
 
-#: covermanager/albumcovermanager.cpp:173
+#: covermanager/albumcovermanager.cpp:175
 msgid "Albums without covers"
 msgstr "Альбомы без обложек"
 
-#: core/mainwindow.cpp:217
+#: core/mainwindow.cpp:219
 msgid "All Files (*)"
 msgstr "Все файлы (*)"
 
-#: covermanager/albumcovermanager.cpp:171
+#: covermanager/albumcovermanager.cpp:173
 msgid "All albums"
 msgstr "Все альбомы"
 
-#: covermanager/albumcovermanager.cpp:358
+#: covermanager/albumcovermanager.cpp:360
 msgid "All artists"
 msgstr "Все артисты"
 
-#: covermanager/albumcoverchoicecontroller.cpp:77
+#: covermanager/albumcoverchoicecontroller.cpp:78
 msgid "All files (*)"
 msgstr "Все файлы (*)"
 
@@ -896,12 +896,12 @@ msgstr "Всегда начинать воспроизведение"
 msgid "An error occurred loading the iTunes database"
 msgstr "Произошла ошибка при загрузке базы данных iTunes"
 
-#: dialogs/edittagdialog.cpp:1415
+#: dialogs/edittagdialog.cpp:1417
 #, qt-format
 msgid "An error occurred writing cover art to '%1'"
 msgstr "Ошибка при записи обложки в «%1»"
 
-#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1392
+#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1394
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Ошибка при записи метаданных в «%1»"
@@ -955,11 +955,11 @@ msgstr "Уверены, что хотите продолжить?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Вы действительно хотите удалить предустановку «%1»?"
 
-#: dialogs/edittagdialog.cpp:1296
+#: dialogs/edittagdialog.cpp:1298
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Вы действительно хотите сбросить статистику этой песни?"
 
-#: settings/collectionsettingspage.cpp:381
+#: settings/collectionsettingspage.cpp:382
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1051,7 +1051,7 @@ msgstr "Автоматические"
 msgid "Automatic updating"
 msgstr "Автоматическое обновление"
 
-#: dialogs/edittagdialog.cpp:869
+#: dialogs/edittagdialog.cpp:871
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
 msgstr "Автоматическая обложка из %1 отсутствует "
@@ -1064,7 +1064,7 @@ msgstr "Автоматически раскрывать одиночные ка�
 msgid "Automatically search for album cover"
 msgstr "Автоматический поиск обложки альбома"
 
-#: context/contextview.cpp:313 ../build/src/ui_contextsettingspage.h:438
+#: context/contextview.cpp:314 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
 msgstr "Автоматический поиск текста песни"
 
@@ -1132,7 +1132,7 @@ msgstr "Поведение"
 msgid "Best"
 msgstr "Лучшее"
 
-#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:145
+#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:145
 #: playlist/playlist.cpp:1352 organize/organizedialog.cpp:118
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:826
@@ -1143,7 +1143,7 @@ msgstr "Разрядность"
 msgid "Bit rate"
 msgstr "Битрейт"
 
-#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:148
+#: context/contextview.cpp:212 collection/savedgroupingmanager.cpp:148
 #: playlist/playlist.cpp:1353 ../build/src/ui_groupbydialog.h:209
 #: ../build/src/ui_groupbydialog.h:231 ../build/src/ui_groupbydialog.h:253
 #: ../build/src/ui_transcoderoptionsaac.h:132
@@ -1251,7 +1251,7 @@ msgstr "Сменить активный трек"
 msgid "Change the language"
 msgstr "Сменить язык"
 
-#: core/mainwindow.cpp:802
+#: core/mainwindow.cpp:804
 msgid "Check for updates..."
 msgstr "Проверить обновления…"
 
@@ -1296,11 +1296,11 @@ msgstr "Очистить"
 msgid "Clear Disk Cache"
 msgstr "Очистить кэш диска"
 
-#: covermanager/albumcoverchoicecontroller.cpp:112
+#: covermanager/albumcoverchoicecontroller.cpp:113
 msgid "Clear cover"
 msgstr "Очистить обложку"
 
-#: core/mainwindow.cpp:2297 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2299 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Очистить плейлист"
 
@@ -1337,7 +1337,7 @@ msgstr "Закрыть"
 msgid "Close playlist"
 msgstr "Закрыть плейлист"
 
-#: covermanager/albumcovermanager.cpp:260
+#: covermanager/albumcovermanager.cpp:262
 msgid "Closing this window will stop searching for album covers."
 msgstr "Закрытие этого окна остановит поиск обложек для альбомов."
 
@@ -1345,7 +1345,7 @@ msgstr "Закрытие этого окна остановит поиск об�
 msgid "Club"
 msgstr "Клуб"
 
-#: core/mainwindow.cpp:367 ../build/src/ui_collectionsettingspage.h:589
+#: core/mainwindow.cpp:369 ../build/src/ui_collectionsettingspage.h:589
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Фонотека"
@@ -1358,7 +1358,7 @@ msgstr "Фильтр фонотеки"
 msgid "Collection advanced grouping"
 msgstr "Расширенная группировка фонотеки"
 
-#: core/mainwindow.cpp:2870
+#: core/mainwindow.cpp:2872
 msgid "Collection rescan notice"
 msgstr "Уведомление о пересканировании фонотеки"
 
@@ -1419,7 +1419,7 @@ msgstr "Настроить %1…"
 msgid "Configure buttons"
 msgstr "Настройка кнопок"
 
-#: core/mainwindow.cpp:679
+#: core/mainwindow.cpp:681
 msgid "Configure collection..."
 msgstr "Настроить фонотеку…"
 
@@ -1435,7 +1435,7 @@ msgstr "Консоль"
 msgid "Constant bitrate"
 msgstr "Постоянный битрейт"
 
-#: core/mainwindow.cpp:366 ../build/src/ui_contextsettingspage.h:363
+#: core/mainwindow.cpp:368 ../build/src/ui_contextsettingspage.h:363
 msgid "Context"
 msgstr "Эфир"
 
@@ -1455,7 +1455,7 @@ msgstr "Конвертировать всю музыку"
 msgid "Convert any music that the device can't play"
 msgstr "Конвертировать всю музыку, которую не может проигрывать устройство"
 
-#: core/mainwindow.cpp:748
+#: core/mainwindow.cpp:750
 msgid "Copy URL(s)..."
 msgstr "Копировать адрес(а)…"
 
@@ -1463,7 +1463,7 @@ msgstr "Копировать адрес(а)…"
 msgid "Copy album cover artwork"
 msgstr "Копировать обложку альбома"
 
-#: core/mainwindow.cpp:752 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:754 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:246
 msgid "Copy to collection..."
 msgstr "Копировать в фонотеку…"
@@ -1472,7 +1472,7 @@ msgstr "Копировать в фонотеку…"
 msgid "Copy to device"
 msgstr "Копировать на устройство"
 
-#: core/mainwindow.cpp:755 collection/collectionview.cpp:359
+#: core/mainwindow.cpp:757 collection/collectionview.cpp:359
 #: playlist/playlistlistcontainer.cpp:89 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "Копировать на устройство…"
@@ -1546,40 +1546,40 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "Менеджер обложек"
 
-#: dialogs/edittagdialog.cpp:863
+#: dialogs/edittagdialog.cpp:865
 #, qt-format
 msgid "Cover art automatically loaded from %1"
 msgstr "Обложка автоматически загружена из %1"
 
-#: dialogs/edittagdialog.cpp:860
+#: dialogs/edittagdialog.cpp:862
 msgid "Cover art from embedded image"
 msgstr "Обложка из вложенного изображения"
 
-#: dialogs/edittagdialog.cpp:854
+#: dialogs/edittagdialog.cpp:856
 msgid "Cover art manually unset"
 msgstr "Обложка вручную отключена"
 
-#: dialogs/edittagdialog.cpp:851
+#: dialogs/edittagdialog.cpp:853
 msgid "Cover art not set"
 msgstr "Обложка не задана"
 
-#: dialogs/edittagdialog.cpp:835
+#: dialogs/edittagdialog.cpp:837
 msgid "Cover changed: Will be cleared when saved."
 msgstr "Смена обложки: будет очищена при сохранении."
 
-#: dialogs/edittagdialog.cpp:841
+#: dialogs/edittagdialog.cpp:843
 msgid "Cover changed: Will be deleted when saved."
 msgstr "Смена обложки: будет удалена при сохранении."
 
-#: dialogs/edittagdialog.cpp:838
+#: dialogs/edittagdialog.cpp:840
 msgid "Cover changed: Will be unset when saved."
 msgstr "Смена обложки: будет снята при сохранении."
 
-#: dialogs/edittagdialog.cpp:844
+#: dialogs/edittagdialog.cpp:846
 msgid "Cover changed: Will set new when saved."
 msgstr "Смена обложки: будет обновлена при сохранении."
 
-#: covermanager/albumcoverchoicecontroller.cpp:187
+#: covermanager/albumcoverchoicecontroller.cpp:188
 #, qt-format
 msgid "Cover file %1 is empty."
 msgstr "Файл обложки %1 пуст."
@@ -1592,7 +1592,7 @@ msgstr "Поставщики обложек"
 msgid "Covers"
 msgstr "Обложки"
 
-#: covermanager/albumcoversearcher.cpp:128
+#: covermanager/albumcoversearcher.cpp:130
 #: covermanager/coversearchstatisticsdialog.cpp:73
 #, qt-format
 msgid "Covers from %1"
@@ -1747,7 +1747,7 @@ msgstr "По умолчанию"
 msgid "Delete"
 msgstr "Удалить"
 
-#: covermanager/albumcoverchoicecontroller.cpp:111
+#: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Delete cover"
 msgstr "Удалить обложку"
 
@@ -1759,7 +1759,7 @@ msgstr "Удалить файлы"
 msgid "Delete from device..."
 msgstr "Удалить с носителя…"
 
-#: core/mainwindow.cpp:757 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:759 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "Удалить с диска…"
@@ -1785,11 +1785,11 @@ msgstr "Удалять исходные файлы"
 msgid "Deleting files"
 msgstr "Удаление файлов"
 
-#: core/mainwindow.cpp:1923
+#: core/mainwindow.cpp:1925
 msgid "Dequeue selected tracks"
 msgstr "Убрать выбранные треки из очереди"
 
-#: core/mainwindow.cpp:1922
+#: core/mainwindow.cpp:1924
 msgid "Dequeue track"
 msgstr "Убрать трек из очереди"
 
@@ -1801,7 +1801,7 @@ msgstr "Назначение"
 msgid "Details..."
 msgstr "Подробнее…"
 
-#: context/contextview.cpp:178 device/giolister.cpp:193
+#: context/contextview.cpp:179 device/giolister.cpp:193
 #: ../build/src/ui_backendsettingspage.h:559
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -1815,11 +1815,11 @@ msgstr "Свойства носителя"
 msgid "Device properties..."
 msgstr "Свойства носителя…"
 
-#: core/mainwindow.cpp:374
+#: core/mainwindow.cpp:376
 msgid "Devices"
 msgstr "Носители"
 
-#: dialogs/edittagdialog.cpp:99
+#: dialogs/edittagdialog.cpp:101
 msgid "Different art across multiple songs."
 msgstr "Разные обложки для нескольких песен."
 
@@ -1896,7 +1896,7 @@ msgstr "Не показывать в «Различных артистах»"
 msgid "Don't shuffle"
 msgstr "Не перемешивать"
 
-#: covermanager/albumcovermanager.cpp:261
+#: covermanager/albumcovermanager.cpp:263
 msgid "Don't stop!"
 msgstr "Не останавливать!"
 
@@ -1954,7 +1954,7 @@ msgstr "Править умный плейлист"
 msgid "Edit smart playlist..."
 msgstr "Править умный плейлист…"
 
-#: core/mainwindow.cpp:1966
+#: core/mainwindow.cpp:1968
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Править тег «%1»…"
@@ -1976,7 +1976,7 @@ msgstr "Править сведения о треке…"
 msgid "Edit tracks information..."
 msgstr "Править сведения о треках…"
 
-#: dialogs/edittagdialog.cpp:820
+#: dialogs/edittagdialog.cpp:822
 msgid "Embedded"
 msgstr "Вложение"
 
@@ -2063,7 +2063,7 @@ msgstr "Качество кодирования"
 msgid "Encoding mode"
 msgstr "Режим кодирования"
 
-#: context/contextview.cpp:177 ../build/src/ui_backendsettingspage.h:562
+#: context/contextview.cpp:178 ../build/src/ui_backendsettingspage.h:562
 msgid "Engine"
 msgstr "Движок"
 
@@ -2124,7 +2124,7 @@ msgstr "Аналогично --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
-#: core/mainwindow.cpp:2601 core/mainwindow.cpp:2752
+#: core/mainwindow.cpp:2603 core/mainwindow.cpp:2754
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Ошибка"
@@ -2204,12 +2204,12 @@ msgstr "Экспорт загруженных обложек"
 msgid "Export embedded covers"
 msgstr "Экспорт вложенных обложек"
 
-#: covermanager/albumcovermanager.cpp:1038
-#: covermanager/albumcovermanager.cpp:1064
+#: covermanager/albumcovermanager.cpp:1040
+#: covermanager/albumcovermanager.cpp:1066
 msgid "Export finished"
 msgstr "Экспорт завершён"
 
-#: covermanager/albumcovermanager.cpp:1049
+#: covermanager/albumcovermanager.cpp:1051
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Экспортировано %1 обложек из %2 (%3 пропущено)"
@@ -2259,34 +2259,34 @@ msgstr "Затухание звука"
 msgid "Fading duration"
 msgstr "Длительность затухания"
 
-#: covermanager/albumcoverchoicecontroller.cpp:405
-#: covermanager/albumcoverchoicecontroller.cpp:422
+#: covermanager/albumcoverchoicecontroller.cpp:406
+#: covermanager/albumcoverchoicecontroller.cpp:423
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
 msgstr "Не удалось удалить файл обложки %1: %2"
 
-#: covermanager/albumcoverchoicecontroller.cpp:197
+#: covermanager/albumcoverchoicecontroller.cpp:198
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
 msgstr "Не удалось открыть файл обложки %1 для чтения: %2"
 
-#: covermanager/albumcoverchoicecontroller.cpp:271
-#: covermanager/albumcoverchoicecontroller.cpp:641
+#: covermanager/albumcoverchoicecontroller.cpp:272
+#: covermanager/albumcoverchoicecontroller.cpp:642
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr "Не удалось открыть файл обложки %1 для записи: %2"
 
-#: covermanager/albumcoverchoicecontroller.cpp:635
+#: covermanager/albumcoverchoicecontroller.cpp:636
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr "Не удалось записать обложку в файл %1: %2"
 
-#: covermanager/albumcoverchoicecontroller.cpp:277
+#: covermanager/albumcoverchoicecontroller.cpp:278
 #, qt-format
 msgid "Failed writing cover to file %1."
 msgstr "Не удалось записать обложку в файл %1."
 
-#: covermanager/albumcoverchoicecontroller.cpp:265
+#: covermanager/albumcoverchoicecontroller.cpp:266
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
 msgstr "Не удалось записать обложку в файл %1: %2"
@@ -2373,7 +2373,7 @@ msgstr "Имя файла"
 msgid "Filename:"
 msgstr "Имя файла:"
 
-#: core/mainwindow.cpp:371
+#: core/mainwindow.cpp:373
 msgid "Files"
 msgstr "Файлы"
 
@@ -2385,7 +2385,7 @@ msgstr "Файлы для конвертации"
 msgid "Files, playlists and queue buttons"
 msgstr "Кнопки файлов, плейлистов и очереди"
 
-#: context/contextview.cpp:207
+#: context/contextview.cpp:208
 msgid "Filetype"
 msgstr "Тип файла"
 
@@ -2514,7 +2514,7 @@ msgstr "Общие"
 msgid "General settings"
 msgstr "Общие настройки"
 
-#: lyrics/geniuslyricsprovider.cpp:124
+#: lyrics/geniuslyricsprovider.cpp:125
 msgid "Genius Authentication"
 msgstr "Аутентификация Genius"
 
@@ -2546,7 +2546,7 @@ msgstr "Перейти к предудыщему плейлисту"
 msgid "Go!"
 msgstr "Пуск!"
 
-#: covermanager/albumcovermanager.cpp:568
+#: covermanager/albumcovermanager.cpp:570
 #: covermanager/coversearchstatisticsdialog.cpp:67
 #: ../build/src/ui_coversearchstatisticsdialog.h:72
 #, qt-format
@@ -2730,12 +2730,12 @@ msgstr ""
 "Если вам приглянулся Strawberry, пожалуйста, рассмотрите возможность "
 "спонсорства или пожертвования."
 
-#: covermanager/albumcoverchoicecontroller.cpp:75
+#: covermanager/albumcoverchoicecontroller.cpp:76
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr ""
 "Изображения (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:76
+#: covermanager/albumcoverchoicecontroller.cpp:77
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Изображения (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
@@ -2755,12 +2755,12 @@ msgstr "Импорт…"
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr "Улучшить прослушивание стереозаписей через наушники (bs2b)"
 
-#: core/utilities.cpp:179
+#: utilities/timeutils.cpp:101
 #, qt-format
 msgid "In %1 days"
 msgstr "В течение %1 дн."
 
-#: core/utilities.cpp:182
+#: utilities/timeutils.cpp:104
 #, qt-format
 msgid "In %1 weeks"
 msgstr "В течение %1 недель"
@@ -2900,7 +2900,7 @@ msgstr "Нелюбимые треки"
 msgid "Left"
 msgstr "Левый канал"
 
-#: context/contextview.cpp:208 playlist/playlist.cpp:1338
+#: context/contextview.cpp:209 playlist/playlist.cpp:1338
 #: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:824
 msgid "Length"
 msgstr "Длина"
@@ -2933,16 +2933,16 @@ msgstr "Загрузить"
 msgid "Load cover from URL"
 msgstr "Загрузка обложки из адреса"
 
-#: covermanager/albumcoverchoicecontroller.cpp:108
+#: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Load cover from URL..."
 msgstr "Загрузить обложку из адреса…"
 
-#: covermanager/albumcoverchoicecontroller.cpp:176
-#: covermanager/albumcoverchoicecontroller.cpp:208
+#: covermanager/albumcoverchoicecontroller.cpp:177
+#: covermanager/albumcoverchoicecontroller.cpp:209
 msgid "Load cover from disk"
 msgstr "Загрузка обложки с диска"
 
-#: covermanager/albumcoverchoicecontroller.cpp:106
+#: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Load cover from disk..."
 msgstr "Загрузить обложку с диска…"
 
@@ -2966,7 +2966,7 @@ msgstr "Загрузка умного плейлиста"
 msgid "Loading songs"
 msgstr "Загрузка песен"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:408
+#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:410
 msgid "Loading tracks"
 msgstr "Загрузка композиций"
 
@@ -3048,12 +3048,12 @@ msgstr "Основной профиль (MAIN)"
 msgid "Manage saved groupings"
 msgstr "Менеджер сохранённых групп"
 
-#: dialogs/edittagdialog.cpp:866
+#: dialogs/edittagdialog.cpp:868
 #, qt-format
 msgid "Manually cover art from %1 is missing"
 msgstr "Ручная обложка из %1 отсутствует."
 
-#: dialogs/edittagdialog.cpp:857
+#: dialogs/edittagdialog.cpp:859
 #, qt-format
 msgid "Manually set cover art from %1"
 msgstr "Ручная обложка из %1"
@@ -3218,7 +3218,7 @@ msgstr "Точки монтирования"
 msgid "Move down"
 msgstr "Вниз"
 
-#: core/mainwindow.cpp:753 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:755 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Перенести в фонотеку…"
 
@@ -3227,7 +3227,7 @@ msgstr "Перенести в фонотеку…"
 msgid "Move up"
 msgstr "Вверх"
 
-#: core/mainwindow.cpp:2206 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2208 transcoder/transcodedialog.cpp:333
 msgid "Music"
 msgstr "Музыка"
 
@@ -3253,7 +3253,7 @@ msgstr "Узкая полоса пропускания (NB)"
 msgid "Network Proxy"
 msgstr "Прокси-сервер"
 
-#: playlist/playlistdelegates.cpp:345 dialogs/edittagdialog.cpp:885
+#: playlist/playlistdelegates.cpp:346 dialogs/edittagdialog.cpp:887
 msgid "Never"
 msgstr "Никогда"
 
@@ -3271,7 +3271,7 @@ msgstr "Никогда не начинать воспроизведение"
 msgid "New folder"
 msgstr "Новая папка"
 
-#: core/mainwindow.cpp:2024
+#: core/mainwindow.cpp:2026
 msgid "New playlist"
 msgstr "Новый плейлист"
 
@@ -3295,7 +3295,7 @@ msgstr "Новые треки добавляются автоматически.
 msgid "Newest tracks"
 msgstr "Свежие треки"
 
-#: dialogs/edittagdialog.cpp:221 dialogs/trackselectiondialog.cpp:70
+#: dialogs/edittagdialog.cpp:223 dialogs/trackselectiondialog.cpp:70
 msgid "Next"
 msgstr "Следующий"
 
@@ -3303,7 +3303,7 @@ msgstr "Следующий"
 msgid "Next track"
 msgstr "Следующий трек"
 
-#: core/utilities.cpp:180
+#: utilities/timeutils.cpp:102
 msgid "Next week"
 msgstr "На следующей неделе"
 
@@ -3311,7 +3311,7 @@ msgstr "На следующей неделе"
 msgid "No analyzer"
 msgstr "Без анализатора"
 
-#: covermanager/albumcovermanager.cpp:1039
+#: covermanager/albumcovermanager.cpp:1041
 msgid "No covers to export."
 msgstr "Нет обложек для экспорта."
 
@@ -3337,17 +3337,17 @@ msgstr "Поставщик не выбран."
 msgid "No short blocks"
 msgstr "Без коротких блоков"
 
-#: context/contextview.cpp:438
+#: context/contextview.cpp:439
 msgid "No song playing"
 msgstr "Ничего не играет"
 
-#: collection/savedgroupingmanager.cpp:88 dialogs/edittagdialog.cpp:807
-#: dialogs/edittagdialog.cpp:817 ../build/src/ui_groupbydialog.h:190
+#: collection/savedgroupingmanager.cpp:88 dialogs/edittagdialog.cpp:809
+#: dialogs/edittagdialog.cpp:819 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 msgid "None"
 msgstr "Нет"
 
-#: core/mainwindow.cpp:2601 core/mainwindow.cpp:2752
+#: core/mainwindow.cpp:2603 core/mainwindow.cpp:2754
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ни одна из выбранных песен не подходит для копирования на устройство"
@@ -3492,7 +3492,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "Организовать файлы"
 
-#: core/mainwindow.cpp:751 collection/collectionview.cpp:357
+#: core/mainwindow.cpp:753 collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr "Организовать файлы…"
 
@@ -3583,7 +3583,7 @@ msgstr "Путь"
 msgid "Pattern"
 msgstr "Шаблон"
 
-#: core/mainwindow.cpp:1322 core/mainwindow.cpp:1821
+#: core/mainwindow.cpp:1324 core/mainwindow.cpp:1823
 #: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Пауза"
@@ -3611,8 +3611,8 @@ msgstr "Пиксель"
 msgid "Plain sidebar"
 msgstr "Обычная боковая панель"
 
-#: core/mainwindow.cpp:720 core/mainwindow.cpp:1279 core/mainwindow.cpp:1306
-#: core/mainwindow.cpp:1825 core/qtsystemtrayicon.cpp:157
+#: core/mainwindow.cpp:722 core/mainwindow.cpp:1281 core/mainwindow.cpp:1308
+#: core/mainwindow.cpp:1827 core/qtsystemtrayicon.cpp:157
 #: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Играть"
@@ -3685,7 +3685,7 @@ msgstr "Кнопки плейлиста"
 msgid "Playlist finished"
 msgstr "Плейлист закончился"
 
-#: core/mainwindow.cpp:2297
+#: core/mainwindow.cpp:2299
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3711,7 +3711,7 @@ msgstr "Цвет текущей песни в плейлисте"
 msgid "Playlist type"
 msgstr "Тип плейлиста"
 
-#: core/mainwindow.cpp:369
+#: core/mainwindow.cpp:371
 msgid "Playlists"
 msgstr "Списки"
 
@@ -3720,7 +3720,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Пожалуйста, закройте браузер и вернитесь в Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:124 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
 msgstr "Пожалуйста, откройте эту ссылку в вашем браузере"
 
@@ -3812,7 +3812,7 @@ msgstr "Параметры модного экранного меню"
 msgid "Preview"
 msgstr "Предпросмотр"
 
-#: dialogs/edittagdialog.cpp:220 dialogs/trackselectiondialog.cpp:69
+#: dialogs/edittagdialog.cpp:222 dialogs/trackselectiondialog.cpp:69
 msgid "Previous"
 msgstr "Предыдущий"
 
@@ -3837,7 +3837,7 @@ msgstr "Ход выполнения"
 msgid "Put songs in a random order"
 msgstr "Перемешать порядок песен"
 
-#: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:385 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3863,24 +3863,24 @@ msgstr "Качество"
 msgid "Querying device..."
 msgstr "Производится опрос носителя…"
 
-#: core/mainwindow.cpp:368
+#: core/mainwindow.cpp:370
 msgid "Queue"
 msgstr "Очередь"
 
-#: core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:1927
 msgid "Queue selected tracks"
 msgstr "Выбранные треки в очередь"
 
-#: core/mainwindow.cpp:726 core/mainwindow.cpp:1929
+#: core/mainwindow.cpp:728 core/mainwindow.cpp:1931
 msgid "Queue selected tracks to play next"
 msgstr "Очередь выбранных треков для последующего воспроизведения"
 
-#: core/mainwindow.cpp:1932 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1934 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "В очередь для игры следующим"
 
-#: core/mainwindow.cpp:1924 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1926 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -3898,7 +3898,7 @@ msgstr "Радио (равная громкость для всех треков
 msgid "Radio Paradise"
 msgstr "Радио Paradise"
 
-#: core/mainwindow.cpp:372
+#: core/mainwindow.cpp:374
 msgid "Radios"
 msgstr "Радио"
 
@@ -3914,7 +3914,7 @@ msgstr "Оценка"
 msgid "Re&lative"
 msgstr "&Относительно"
 
-#: covermanager/albumcovermanager.cpp:260
+#: covermanager/albumcovermanager.cpp:262
 msgid "Really cancel?"
 msgstr "Действительно отменить?"
 
@@ -3936,7 +3936,7 @@ msgstr ""
 "не поддерживает шифрованные потоки."
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:152 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
 msgstr "Получен неверный ответ от веб-браузера."
 
@@ -4011,7 +4011,7 @@ msgstr ""
 msgid "Receiving songs..."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:200
+#: lyrics/geniuslyricsprovider.cpp:201
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "В перенаправлении с Genius отсутствует код или состояние элементов запроса."
@@ -4020,7 +4020,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr "В перенаправлении отсутствует код или состояние токена!"
 
-#: lyrics/geniuslyricsprovider.cpp:148 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
 msgstr "В перенаправлении отсутствует код токена!"
 
@@ -4157,7 +4157,7 @@ msgstr "Пересоздать"
 msgid "Rescan song(s)"
 msgstr "Пересканировать песню(и)"
 
-#: core/mainwindow.cpp:742
+#: core/mainwindow.cpp:744
 msgid "Rescan song(s)..."
 msgstr "Пересканировать песни…"
 
@@ -4165,7 +4165,7 @@ msgstr "Пересканировать песни…"
 msgid "Reset"
 msgstr "Сброс"
 
-#: dialogs/edittagdialog.cpp:1296 ../build/src/ui_edittagdialog.h:840
+#: dialogs/edittagdialog.cpp:1298 ../build/src/ui_edittagdialog.h:840
 msgid "Reset play counts"
 msgstr "Сбросить счётчики прослушивания"
 
@@ -4259,7 +4259,7 @@ msgstr "Безопасно извлечь устройство после коп
 msgid "Sample rate"
 msgstr "Частота"
 
-#: context/contextview.cpp:209
+#: context/contextview.cpp:210
 msgid "Samplerate"
 msgstr "Частота"
 
@@ -4267,7 +4267,7 @@ msgstr "Частота"
 msgid "Save &playlist..."
 msgstr "&Сохранить плейлист…"
 
-#: covermanager/albumcoverchoicecontroller.cpp:245
+#: covermanager/albumcoverchoicecontroller.cpp:246
 msgid "Save album cover"
 msgstr "Сохранить обложку альбома"
 
@@ -4283,7 +4283,7 @@ msgstr "Сохранять обложки альбомов в каталоге �
 msgid "Save album covers in cache directory"
 msgstr "Сохранять обложки альбомов в каталоге кэша"
 
-#: covermanager/albumcoverchoicecontroller.cpp:107
+#: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Save cover to disk..."
 msgstr "Сохранить обложку на диск…"
 
@@ -4338,7 +4338,7 @@ msgstr "Сохранение обложек альбомов"
 msgid "Saving playcounts and ratings"
 msgstr "Сохранение счётчиков прослушивания и оценок"
 
-#: dialogs/edittagdialog.cpp:303 dialogs/trackselectiondialog.cpp:289
+#: dialogs/edittagdialog.cpp:305 dialogs/trackselectiondialog.cpp:289
 msgid "Saving tracks"
 msgstr "Сохранение треков"
 
@@ -4364,14 +4364,14 @@ msgstr "Ошибка %1 скробблера: %2"
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Скробблер %1 не аутентифицирован!"
 
-#: covermanager/albumcoversearcher.cpp:202
-#: covermanager/albumcoversearcher.cpp:220
+#: covermanager/albumcoversearcher.cpp:204
+#: covermanager/albumcoversearcher.cpp:222
 #: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_internettabsview.h:116
 msgid "Search"
 msgstr "Поиск"
 
-#: covermanager/albumcoverchoicecontroller.cpp:117
+#: covermanager/albumcoverchoicecontroller.cpp:118
 msgid "Search automatically"
 msgstr "Искать автоматически"
 
@@ -4380,7 +4380,7 @@ msgstr "Искать автоматически"
 msgid "Search delay"
 msgstr "Задержка поиска"
 
-#: covermanager/albumcoverchoicecontroller.cpp:109
+#: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Search for album covers..."
 msgstr "Поиск обложек альбомов…"
 
@@ -4491,7 +4491,7 @@ msgstr "Адрес сервера недействителен."
 msgid "Server-side scrobbling"
 msgstr "Скробблинг на стороне сервера"
 
-#: core/mainwindow.cpp:1965
+#: core/mainwindow.cpp:1967
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Установить %1 в «%2»…"
@@ -4570,7 +4570,7 @@ msgstr "Показывать модное экранное меню"
 msgid "Show above status bar"
 msgstr "Показать над строкой состояния"
 
-#: context/contextview.cpp:297
+#: context/contextview.cpp:298
 msgid "Show album cover"
 msgstr "Показать обложку альбома"
 
@@ -4578,7 +4578,7 @@ msgstr "Показать обложку альбома"
 msgid "Show album cover art in collection"
 msgstr "Показывать обложку альбома в фонотеке"
 
-#: core/mainwindow.cpp:668
+#: core/mainwindow.cpp:670
 msgid "Show all songs"
 msgstr "Показывать все композиции"
 
@@ -4598,23 +4598,23 @@ msgstr "Показывать окно ошибок"
 msgid "Show dividers"
 msgstr "Показывать разделители"
 
-#: context/contextview.cpp:305
+#: context/contextview.cpp:306
 msgid "Show engine and device"
 msgstr "Показать движок и устройство"
 
-#: covermanager/albumcoverchoicecontroller.cpp:115
+#: covermanager/albumcoverchoicecontroller.cpp:116
 msgid "Show fullsize..."
 msgstr "Открыть в полный размер…"
 
-#: core/mainwindow.cpp:749
+#: core/mainwindow.cpp:751
 msgid "Show in collection..."
 msgstr "Показать в фонотеке…"
 
-#: core/utilities.cpp:423 core/utilities.cpp:429
+#: utilities/filemanagerutils.cpp:135 utilities/filemanagerutils.cpp:141
 msgid "Show in file browser"
 msgstr "Открыть в менеджере файлов"
 
-#: core/mainwindow.cpp:750 collection/collectionview.cpp:366
+#: core/mainwindow.cpp:752 collection/collectionview.cpp:366
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Открыть в менеджере файлов…"
@@ -4631,11 +4631,11 @@ msgstr "Показывать кнопку «В любимые»"
 msgid "Show moodbar"
 msgstr "Показывать индикатор тона"
 
-#: core/mainwindow.cpp:669
+#: core/mainwindow.cpp:671
 msgid "Show only duplicates"
 msgstr "Показывать только повторяющиеся"
 
-#: core/mainwindow.cpp:670
+#: core/mainwindow.cpp:672
 msgid "Show only untagged"
 msgstr "Показывать только без тегов"
 
@@ -4651,7 +4651,7 @@ msgstr "Показывать кнопку скробблинга"
 msgid "Show sidebar"
 msgstr "Показывать боковую панель"
 
-#: context/contextview.cpp:309
+#: context/contextview.cpp:310
 msgid "Show song lyrics"
 msgstr "Показать текст песни"
 
@@ -4659,7 +4659,7 @@ msgstr "Показать текст песни"
 msgid "Show song progress on system tray icon"
 msgstr "Показывать прогресс песни на значке в трее"
 
-#: context/contextview.cpp:301
+#: context/contextview.cpp:302
 msgid "Show song technical data"
 msgstr "Показать технические данные песни"
 
@@ -4732,11 +4732,11 @@ msgstr "Пропуски"
 msgid "Skip forwards in playlist"
 msgstr "Переместить вперёд в плейлисте"
 
-#: core/mainwindow.cpp:1938
+#: core/mainwindow.cpp:1940
 msgid "Skip selected tracks"
 msgstr "Пропустить выбранные треки"
 
-#: core/mainwindow.cpp:1937
+#: core/mainwindow.cpp:1939
 msgid "Skip track"
 msgstr "Пропустить трек"
 
@@ -4752,7 +4752,7 @@ msgstr "Узкая боковая панель"
 msgid "Smart playlist"
 msgstr "Умный плейлист"
 
-#: core/mainwindow.cpp:370
+#: core/mainwindow.cpp:372
 msgid "Smart playlists"
 msgstr "Умные списки"
 
@@ -4856,7 +4856,7 @@ msgstr "Стоп после каждого трека"
 msgid "Stop after every track"
 msgstr "Стоп после каждого трека"
 
-#: core/mainwindow.cpp:722 ../build/src/ui_mainwindow.h:630
+#: core/mainwindow.cpp:724 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "Стоп после этого трека"
 
@@ -4966,7 +4966,7 @@ msgstr "Стиль"
 msgid "Submit scrobbles every"
 msgstr "Отправлять скробблы каждые"
 
-#: core/mainwindow.cpp:377 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:379 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -5105,7 +5105,7 @@ msgstr "Запрошенный сайт не существует!"
 msgid "The site you requested is not an image!"
 msgstr "Запрошенная ссылка не является изображением!"
 
-#: core/mainwindow.cpp:2865
+#: core/mainwindow.cpp:2867
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5210,7 +5210,7 @@ msgstr "Не поддерживаемый тип устройства: %1"
 msgid "Thread priority"
 msgstr "Приоритет потока"
 
-#: core/mainwindow.cpp:380 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:382 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -5234,7 +5234,7 @@ msgstr "Шаг времени"
 msgid "Title"
 msgstr "Название"
 
-#: core/utilities.cpp:163 core/utilities.cpp:177
+#: utilities/timeutils.cpp:85 utilities/timeutils.cpp:99
 msgid "Today"
 msgstr "Сегодня"
 
@@ -5242,7 +5242,7 @@ msgstr "Сегодня"
 msgid "Toggle Pretty OSD"
 msgstr "Показать/скрыть модное экранное меню"
 
-#: core/mainwindow.cpp:723 core/mainwindow.cpp:1926
+#: core/mainwindow.cpp:725 core/mainwindow.cpp:1928
 msgid "Toggle queue status"
 msgstr "Переключить состояние очереди"
 
@@ -5250,7 +5250,7 @@ msgstr "Переключить состояние очереди"
 msgid "Toggle scrobbling"
 msgstr "Вкл./откл. скробблинг"
 
-#: core/mainwindow.cpp:729 core/mainwindow.cpp:1939
+#: core/mainwindow.cpp:731 core/mainwindow.cpp:1941
 msgid "Toggle skip status"
 msgstr "Переключить статус пропуска"
 
@@ -5258,11 +5258,11 @@ msgstr "Переключить статус пропуска"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Переключить видимость модного экранного меню"
 
-#: core/utilities.cpp:178
+#: utilities/timeutils.cpp:100
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: core/utilities.cpp:423
+#: utilities/filemanagerutils.cpp:135
 msgid "Too many songs selected."
 msgstr "Слишком много песен выбрано."
 
@@ -5337,13 +5337,13 @@ msgstr "Отменить"
 msgid "Uninstall the snap with:"
 msgstr "Удалить Snap с помощью:"
 
-#: core/song.cpp:671 collection/collectionmodel.cpp:476
+#: core/song.cpp:673 collection/collectionmodel.cpp:476
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:485
 #: collection/collectionmodel.cpp:489 collection/collectionmodel.cpp:493
 #: collection/collectionmodel.cpp:1642 collection/savedgroupingmanager.cpp:152
-#: playlist/playlistdelegates.cpp:359 playlist/playlistmanager.cpp:549
-#: playlist/playlistmanager.cpp:550 dialogs/edittagdialog.cpp:762
-#: dialogs/edittagdialog.cpp:789 ../build/src/ui_scrobblersettingspage.h:428
+#: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:549
+#: playlist/playlistmanager.cpp:550 dialogs/edittagdialog.cpp:764
+#: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Неизвестный"
 
@@ -5359,19 +5359,19 @@ msgstr "Неизвестное расширение файла плейлист�
 msgid "Unknown playlist extension"
 msgstr "Неизвестное расширение плейлиста"
 
-#: dialogs/edittagdialog.cpp:810
+#: dialogs/edittagdialog.cpp:812
 msgid "Unset"
 msgstr "Убрать"
 
-#: covermanager/albumcoverchoicecontroller.cpp:110
+#: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Unset cover"
 msgstr "Удалить обложку"
 
-#: core/mainwindow.cpp:1936
+#: core/mainwindow.cpp:1938
 msgid "Unskip selected tracks"
 msgstr "Не пропускать выбранные треки"
 
-#: core/mainwindow.cpp:1935
+#: core/mainwindow.cpp:1937
 msgid "Unskip track"
 msgstr "Не пропускать трек"
 
@@ -5540,7 +5540,7 @@ msgid "Variable bit rate"
 msgstr "Переменный битрейт"
 
 #: collection/collectionmodel.cpp:287 collection/collectionmodel.cpp:288
-#: playlist/playlistmanager.cpp:561 covermanager/albumcovermanager.cpp:359
+#: playlist/playlistmanager.cpp:561 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:93 internet/internetsearchmodel.cpp:105
 msgid "Various artists"
 msgstr "Различные артисты"
@@ -5631,11 +5631,11 @@ msgstr ""
 "Хотите ли вы переместить и другие песни из этого альбома в «Различные "
 "артисты»?"
 
-#: core/mainwindow.cpp:2869
+#: core/mainwindow.cpp:2871
 msgid "Would you like to run a full rescan right now?"
 msgstr "Хотите выполнить полное пересканирование сейчас?"
 
-#: settings/collectionsettingspage.cpp:381
+#: settings/collectionsettingspage.cpp:382
 msgid "Write all playcounts and ratings to files"
 msgstr "Записать счётчики прослушивания и оценки в файлы"
 
@@ -5665,7 +5665,7 @@ msgstr "Год - Альбом - Диск"
 msgid "Years"
 msgstr "Годы"
 
-#: core/utilities.cpp:164
+#: utilities/timeutils.cpp:86
 msgid "Yesterday"
 msgstr "Вчера"
 
@@ -5847,8 +5847,8 @@ msgstr "hw"
 msgid "in the last"
 msgstr "в последние"
 
-#: context/contextview.cpp:530 context/contextview.cpp:652
-#: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:784
+#: context/contextview.cpp:531 context/contextview.cpp:653
+#: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:786
 msgid "kbps"
 msgstr "кбит/с"
 
@@ -5945,7 +5945,7 @@ msgstr "сортировку песен"
 msgid "starts with"
 msgstr "начинается с"
 
-#: playlist/playlistdelegates.cpp:226
+#: playlist/playlistdelegates.cpp:227
 msgid "stop"
 msgstr "стоп"
 
@@ -5954,6 +5954,6 @@ msgstr "стоп"
 msgid "track %1"
 msgstr "трек %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:240
+#: covermanager/albumcoverchoicecontroller.cpp:241
 msgid "unknown"
 msgstr "неизвестно"
