@@ -19,10 +19,12 @@ Unreleased:
     * Don't allow organizing files without unique tags (track or title) for filename (#1077).
     * Don't remove disc from album title when creating cover hash to allow different covers for each disc on an album (#1069).
     * Fixed incorrect relative paths for song filenames when saving playlists if the saved playlist location is a symablic link to the song filename (#1071).
+    * Scrobble "Various Artists" as album artist (#1082).
 
   Enhancements:
     * Use system volume instead of own software volume when available (#1037).
     * Improved Tidal and Qobuz support with timed requests.
+    * Support MPRIS2 xesam:userRating.
 
 Version 1.0.10 (2022.10.21):
 
