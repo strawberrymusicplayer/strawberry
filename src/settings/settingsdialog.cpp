@@ -122,7 +122,6 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
       engine_(app_->player()->engine()),
       model_(app_->collection_model()->directory_model()),
       manager_(nullptr),
-      appearance_(app_->appearance()),
       ui_(new Ui_SettingsDialog),
       loading_settings_(false) {
 

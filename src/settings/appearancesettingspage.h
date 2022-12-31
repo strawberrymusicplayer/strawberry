@@ -46,10 +46,6 @@ class AppearanceSettingsPage : public SettingsPage {
 
   static const char *kStyle;
 
-  static const char *kUseCustomColorSet;
-  static const char *kForegroundColor;
-  static const char *kBackgroundColor;
-
   static const char *kBackgroundImageType;
   static const char *kBackgroundImageFilename;
   static const char *kBackgroundImagePosition;
@@ -97,14 +93,10 @@ class AppearanceSettingsPage : public SettingsPage {
 
   void Load() override;
   void Save() override;
-  void Cancel() override;
 
   static QColor DefaultTabbarBgColor();
 
  private slots:
-  void SelectForegroundColor();
-  void SelectBackgroundColor();
-  void UseCustomColorSetOptionChanged(bool);
   void SelectBackgroundImage();
   void BlurLevelChanged(int);
   void OpacityLevelChanged(int);
@@ -116,16 +108,9 @@ class AppearanceSettingsPage : public SettingsPage {
  private:
   // Set the widget's background to new_color
   static void UpdateColorSelectorColor(QWidget *color_selector, const QColor &new_color);
-  // Init (or refresh) the colorSelectors colors
-  void InitColorSelectorsColors();
 
   Ui_AppearanceSettingsPage *ui_;
 
-  bool original_use_a_custom_color_set_;
-  QColor original_foreground_color_;
-  QColor original_background_color_;
-  QColor current_foreground_color_;
-  QColor current_background_color_;
   QColor current_tabbar_bg_color_;
   BackgroundImageType background_image_type_;
   QString background_image_filename_;

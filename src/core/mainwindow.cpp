@@ -88,7 +88,6 @@
 #include "application.h"
 #include "database.h"
 #include "player.h"
-#include "appearance.h"
 #include "filesystemmusicstorage.h"
 #include "deletefiles.h"
 #ifdef Q_OS_MACOS
@@ -874,11 +873,6 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(ui_->action_console, &QAction::triggered, this, &MainWindow::ShowConsole);
   PlayingWidgetPositionChanged(ui_->widget_playing->show_above_status_bar());
 
-  // Load theme
-  // This is tricky: we need to save the default/system palette now,
-  // before loading user preferred theme (which will override it), to be able to restore it later
-  const_cast<QPalette&>(Appearance::kDefaultPalette) = QApplication::palette();
-  app_->appearance()->LoadUserTheme();
   StyleSheetLoader *css_loader = new StyleSheetLoader(this);
   css_loader->SetStyleSheet(this, ":/style/strawberry.css");
 

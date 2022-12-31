@@ -50,7 +50,6 @@ class QCloseEvent;
 
 class Application;
 class Player;
-class Appearance;
 class CollectionDirectoryModel;
 class GlobalShortcutsManager;
 class SettingsPage;
@@ -110,7 +109,6 @@ class SettingsDialog : public QDialog {
   EngineBase *engine() const { return engine_; }
   CollectionDirectoryModel *collection_directory_model() const { return model_; }
   GlobalShortcutsManager *global_shortcuts_manager() const { return manager_; }
-  Appearance *appearance() const { return appearance_; }
 
   void OpenAtPage(Page page);
 
@@ -157,7 +155,6 @@ class SettingsDialog : public QDialog {
   EngineBase *engine_;
   CollectionDirectoryModel *model_;
   GlobalShortcutsManager *manager_;
-  Appearance *appearance_;
 
   Ui_SettingsDialog *ui_;
   bool loading_settings_;

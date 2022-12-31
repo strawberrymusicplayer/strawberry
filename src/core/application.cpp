@@ -38,7 +38,6 @@
 #include "database.h"
 #include "taskmanager.h"
 #include "player.h"
-#include "appearance.h"
 
 #include "engine/devicefinders.h"
 #ifndef Q_OS_WIN
@@ -109,7 +108,6 @@ class ApplicationImpl {
           QTimer::singleShot(30s, db, &Database::DoBackup);
           return db;
         }),
-        appearance_([app]() { return new Appearance(app); }),
         task_manager_([app]() { return new TaskManager(app); }),
         player_([app]() { return new Player(app, app); }),
         device_finders_([app]() { return new DeviceFinders(app); }),
@@ -183,7 +181,6 @@ class ApplicationImpl {
 
   Lazy<TagReaderClient> tag_reader_client_;
   Lazy<Database> database_;
-  Lazy<Appearance> appearance_;
   Lazy<TaskManager> task_manager_;
   Lazy<Player> player_;
   Lazy<DeviceFinders> device_finders_;
@@ -315,7 +312,6 @@ void Application::ReloadSettings() { emit SettingsChanged(); }
 void Application::OpenSettingsDialogAtPage(SettingsDialog::Page page) { emit SettingsDialogRequested(page); }
 
 TagReaderClient *Application::tag_reader_client() const { return p_->tag_reader_client_.get(); }
-Appearance *Application::appearance() const { return p_->appearance_.get(); }
 Database *Application::database() const { return p_->database_.get(); }
 TaskManager *Application::task_manager() const { return p_->task_manager_.get(); }
 Player *Application::player() const { return p_->player_.get(); }

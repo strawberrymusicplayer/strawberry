@@ -7,7 +7,6 @@ endif()
 set(SOURCES
   core/mainwindow.cpp
   core/application.cpp
-  core/appearance.cpp
   core/player.cpp
   core/commandlineoptions.cpp
   core/database.cpp
@@ -278,7 +277,6 @@ set(SOURCES
 set(HEADERS
   core/mainwindow.h
   core/application.h
-  core/appearance.h
   core/player.h
   core/database.h
   core/deletefiles.h

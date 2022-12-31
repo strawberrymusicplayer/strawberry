@@ -130,11 +130,6 @@ Copyright: 2012, David Sansome <me@davidsansome.com>
            2018-2021, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
-Files: src/core/appearance.cpp
-       src/core/appearance.h
-Copyright: 2012, Arnaud Bienner <arnaud.bienner@gmail.com>
-License: GPL-3+
-
 Files: src/covermanager/discogscoverprovider.cpp
        src/covermanager/discogscoverprovider.h
 Copyright: 2012, Martin Björklund <mbj4668@gmail.com>

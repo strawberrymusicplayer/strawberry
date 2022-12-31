@@ -41,7 +41,6 @@ class TagReaderClient;
 class Database;
 class DeviceFinders;
 class Player;
-class Appearance;
 class SCollection;
 class CollectionBackend;
 class CollectionModel;
@@ -73,7 +72,6 @@ class Application : public QObject {
 
   TagReaderClient *tag_reader_client() const;
   Database *database() const;
-  Appearance *appearance() const;
   TaskManager *task_manager() const;
   Player *player() const;
   DeviceFinders *device_finders() const;
