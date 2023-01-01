@@ -62,6 +62,7 @@ class SliderSlider : public QSlider {
   virtual void slideEvent(QMouseEvent*);
 
   bool sliding_;
+  bool wheeling_;
 
   /// we flip the value for vertical sliders
   int adjustValue(int v) const {

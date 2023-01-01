@@ -47,6 +47,7 @@
 SliderSlider::SliderSlider(const Qt::Orientation orientation, QWidget *parent, const int max)
     : QSlider(orientation, parent),
       sliding_(false),
+      wheeling_(false),
       outside_(false),
       prev_value_(0) {
 
@@ -62,6 +63,8 @@ void SliderSlider::wheelEvent(QWheelEvent *e) {
     return;
   }
 
+  wheeling_ = true;
+
   // Position Slider (horizontal)
   int step = e->angleDelta().y() * 1500 / 18;
   int nval = qBound(minimum(), QSlider::value() + step, maximum());
@@ -69,6 +72,8 @@ void SliderSlider::wheelEvent(QWheelEvent *e) {
   QSlider::setValue(nval);
 
   emit SliderReleased(value());
+
+  wheeling_ = false;
 
 }
 
@@ -151,7 +156,7 @@ void SliderSlider::setValue(int value) {
 
   // Don't adjust the slider while the user is dragging it!
 
-  if (!sliding_ || outside_) {
+  if ((!sliding_ || outside_) && !wheeling_) {
     QSlider::setValue(adjustValue(value));
   }
   else {
@@ -310,9 +315,13 @@ void VolumeSlider::slideEvent(QMouseEvent *e) {
 
 void VolumeSlider::wheelEvent(QWheelEvent *e) {
 
+  wheeling_ = true;
+
   const int step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
   QSlider::setValue(SliderSlider::value() + step);
   emit SliderReleased(value());
+
+  wheeling_ = false;
 
 }
 
