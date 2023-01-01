@@ -348,7 +348,7 @@ msgstr "新しいプレイリスト(&N)"
 msgid "&Next track"
 msgstr "次のトラック(&N)"
 
-#: ../build/src/ui_appearancesettingspage.h:601
+#: ../build/src/ui_appearancesettingspage.h:527
 msgid "&No background image"
 msgstr "背景画像なし(&N)"
 
@@ -412,13 +412,9 @@ msgstr "音楽を変換"
 msgid "&Update changed collection folders"
 msgstr "変更されたコレクションフォルダーの更新(&U)"
 
-#: ../build/src/ui_appearancesettingspage.h:594
+#: ../build/src/ui_appearancesettingspage.h:520
 msgid "&Use the system default color"
 msgstr "システムの既定の色を使用する"
-
-#: ../build/src/ui_appearancesettingspage.h:587
-msgid "&Use the system default color set"
-msgstr "システムの既定の色設定を使用する"
 
 #: ../build/src/ui_networkproxysettingspage.h:171
 msgid "&Use the system proxy settings"
@@ -444,7 +440,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:621
+#: ../build/src/ui_appearancesettingspage.h:547
 msgid "0px"
 msgstr "0px"
 
@@ -456,7 +452,7 @@ msgstr "1 日"
 msgid "1 track"
 msgstr "1 トラック"
 
-#: ../build/src/ui_appearancesettingspage.h:623
+#: ../build/src/ui_appearancesettingspage.h:549
 msgid "40%"
 msgstr "40%"
 
@@ -475,7 +471,7 @@ msgstr ""
 "\n"
 "<p>トークンを含むテキストの一部を「{ }」で囲むと、トークンが空の場合、{ } で選択した部分が非表示になります。</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:606
+#: ../build/src/ui_appearancesettingspage.h:532
 msgid "A Taste of Strawbs"
 msgstr ""
 
@@ -572,7 +568,7 @@ msgstr "ディレクトリとサブディレクトリにあるすべてのトラ
 msgid "Add directory..."
 msgstr "ディレクトリを追加..."
 
-#: core/mainwindow.cpp:2208
+#: core/mainwindow.cpp:2202
 msgid "Add file"
 msgstr "ファイルを追加"
 
@@ -588,7 +584,7 @@ msgstr "ファイルをトランスコーダーに追加"
 msgid "Add files to transcode"
 msgstr "変換するファイルを追加"
 
-#: core/mainwindow.cpp:2234 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2228 transcoder/transcodedialog.cpp:424
 msgid "Add folder"
 msgstr "フォルダーを追加"
 
@@ -698,7 +694,7 @@ msgstr "ストリームを追加..."
 msgid "Add to albums"
 msgstr "アルバムに追加"
 
-#: core/mainwindow.cpp:2010
+#: core/mainwindow.cpp:2004
 msgid "Add to another playlist"
 msgstr "別のプレイリストに追加"
 
@@ -760,7 +756,7 @@ msgstr ""
 msgid "After copying..."
 msgstr "コピー後..."
 
-#: ../build/src/ui_appearancesettingspage.h:605
+#: ../build/src/ui_appearancesettingspage.h:531
 msgid "Albu&m cover"
 msgstr "アルバムカバー(&m)"
 
@@ -820,7 +816,7 @@ msgstr "カバー付きのアルバム"
 msgid "Albums without covers"
 msgstr "カバーなしのアルバム数"
 
-#: core/mainwindow.cpp:219
+#: core/mainwindow.cpp:218
 msgid "All Files (*)"
 msgstr "すべてのファイル (*)"
 
@@ -888,7 +884,7 @@ msgstr "App ID"
 msgid "App Secret"
 msgstr "App Secret"
 
-#: ../build/src/ui_appearancesettingspage.h:581
+#: ../build/src/ui_appearancesettingspage.h:514
 msgid "Appearance"
 msgstr "外観"
 
@@ -1068,7 +1064,7 @@ msgstr "バックエンド"
 msgid "Background color"
 msgstr "背景色"
 
-#: ../build/src/ui_appearancesettingspage.h:599
+#: ../build/src/ui_appearancesettingspage.h:525
 msgid "Background image"
 msgstr "背景画像"
 
@@ -1135,7 +1131,7 @@ msgstr "ブロック表示"
 msgid "Block type"
 msgstr "ブロックタイプ"
 
-#: ../build/src/ui_appearancesettingspage.h:620
+#: ../build/src/ui_appearancesettingspage.h:546
 msgid "Blur amount"
 msgstr "ぼかし量"
 
@@ -1147,15 +1143,15 @@ msgstr "本文"
 msgid "Boom analyzer"
 msgstr "ブームアナライザー"
 
-#: ../build/src/ui_appearancesettingspage.h:613
+#: ../build/src/ui_appearancesettingspage.h:539
 msgid "Bottom Left"
 msgstr "左下"
 
-#: ../build/src/ui_appearancesettingspage.h:614
+#: ../build/src/ui_appearancesettingspage.h:540
 msgid "Bottom Right"
 msgstr "右下"
 
-#: ../build/src/ui_appearancesettingspage.h:608
+#: ../build/src/ui_appearancesettingspage.h:534
 msgid "Browse..."
 msgstr "参照..."
 
@@ -1219,7 +1215,7 @@ msgstr "再生中の曲を変更する"
 msgid "Change the language"
 msgstr "言語の変更"
 
-#: core/mainwindow.cpp:804
+#: core/mainwindow.cpp:803
 msgid "Check for updates..."
 msgstr "更新のチェック..."
 
@@ -1268,7 +1264,7 @@ msgstr "ディスクキャッシュをクリア"
 msgid "Clear cover"
 msgstr "カバーを選択"
 
-#: core/mainwindow.cpp:2299 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2293 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "プレイリストをクリア"
 
@@ -1313,7 +1309,7 @@ msgstr "このウィンドウを閉じるとアルバムカバーの検索を中
 msgid "Club"
 msgstr "クラブ"
 
-#: core/mainwindow.cpp:369 ../build/src/ui_collectionsettingspage.h:589
+#: core/mainwindow.cpp:368 ../build/src/ui_collectionsettingspage.h:589
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "ライブラリ"
@@ -1326,17 +1322,13 @@ msgstr "コレクションフィルター"
 msgid "Collection advanced grouping"
 msgstr "ライブラリの高度なグループ化"
 
-#: core/mainwindow.cpp:2872
+#: core/mainwindow.cpp:2866
 msgid "Collection rescan notice"
 msgstr "ライブラリー再スキャン通知"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:90
 msgid "Collection search"
 msgstr "コレクション検索"
-
-#: ../build/src/ui_appearancesettingspage.h:586
-msgid "Colors"
-msgstr "色"
 
 #: core/commandlineoptions.cpp:193
 msgid "Comma separated list of class:level, level is 0-3"
@@ -1383,11 +1375,11 @@ msgstr "設定が不正"
 msgid "Configure %1..."
 msgstr "%1 の設定..."
 
-#: ../build/src/ui_appearancesettingspage.h:628
+#: ../build/src/ui_appearancesettingspage.h:554
 msgid "Configure buttons"
 msgstr "設定ボタン"
 
-#: core/mainwindow.cpp:681
+#: core/mainwindow.cpp:680
 msgid "Configure collection..."
 msgstr "ライブラリの設定..."
 
@@ -1403,7 +1395,7 @@ msgstr "コンソール"
 msgid "Constant bitrate"
 msgstr "固定ビットレート"
 
-#: core/mainwindow.cpp:368 ../build/src/ui_contextsettingspage.h:363
+#: core/mainwindow.cpp:367 ../build/src/ui_contextsettingspage.h:363
 msgid "Context"
 msgstr "コンテキスト"
 
@@ -1423,7 +1415,7 @@ msgstr "すべての曲を変換する"
 msgid "Convert any music that the device can't play"
 msgstr "デバイスが再生できないすべての曲を変換する"
 
-#: core/mainwindow.cpp:750
+#: core/mainwindow.cpp:749
 msgid "Copy URL(s)..."
 msgstr "URLをコピー"
 
@@ -1431,7 +1423,7 @@ msgstr "URLをコピー"
 msgid "Copy album cover artwork"
 msgstr "アルバムのカバーアートワークをコピー"
 
-#: core/mainwindow.cpp:754 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:753 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:246
 msgid "Copy to collection..."
 msgstr "ライブラリへコピー..."
@@ -1440,7 +1432,7 @@ msgstr "ライブラリへコピー..."
 msgid "Copy to device"
 msgstr "デバイスへコピー"
 
-#: core/mainwindow.cpp:757 collection/collectionview.cpp:359
+#: core/mainwindow.cpp:756 collection/collectionview.cpp:359
 #: playlist/playlistlistcontainer.cpp:89 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "デバイスへコピー..."
@@ -1640,11 +1632,11 @@ msgstr ""
 msgid "Custom"
 msgstr "カスタム"
 
-#: ../build/src/ui_appearancesettingspage.h:633
+#: ../build/src/ui_appearancesettingspage.h:559
 msgid "Custom color"
 msgstr "カスタム色"
 
-#: ../build/src/ui_appearancesettingspage.h:607
+#: ../build/src/ui_appearancesettingspage.h:533
 msgid "Custom image:"
 msgstr "カスタム画像:"
 
@@ -1696,7 +1688,7 @@ msgstr "音量を <value> % 下げる"
 msgid "Decrease volume"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:600
+#: ../build/src/ui_appearancesettingspage.h:526
 msgid "Default bac&kground image"
 msgstr "既定の背景(&K)"
 
@@ -1721,7 +1713,7 @@ msgstr "ファイルの削除"
 msgid "Delete from device..."
 msgstr "デバイスから削除..."
 
-#: core/mainwindow.cpp:759 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:758 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "ディスクから削除..."
@@ -1747,11 +1739,11 @@ msgstr "元のファイルを削除する"
 msgid "Deleting files"
 msgstr "ファイルの削除中"
 
-#: core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:1919
 msgid "Dequeue selected tracks"
 msgstr "選択されたトラックをキューから削除する"
 
-#: core/mainwindow.cpp:1924
+#: core/mainwindow.cpp:1918
 msgid "Dequeue track"
 msgstr "トラックをキューから削除"
 
@@ -1777,7 +1769,7 @@ msgstr "デバイスのプロパティ"
 msgid "Device properties..."
 msgstr "デバイスのプロパティ..."
 
-#: core/mainwindow.cpp:376
+#: core/mainwindow.cpp:375
 msgid "Devices"
 msgstr "デバイス"
 
@@ -1834,7 +1826,7 @@ msgstr "OSD を表示する"
 msgid "Do not convert any music"
 msgstr "すべてのミュージックを変換しない"
 
-#: ../build/src/ui_appearancesettingspage.h:619
+#: ../build/src/ui_appearancesettingspage.h:545
 msgid "Do not cut image"
 msgstr "画像をカットしない"
 
@@ -1914,7 +1906,7 @@ msgstr "スマートプレイリストを編集"
 msgid "Edit smart playlist..."
 msgstr "スマートプレイリストを編集..."
 
-#: core/mainwindow.cpp:1968
+#: core/mainwindow.cpp:1962
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "タグ「%1」を編集..."
@@ -2084,7 +2076,7 @@ msgstr "--log-levels *:1 と同じ"
 msgid "Equivalent to --log-levels *:3"
 msgstr "--log-levels *:3 と同じ"
 
-#: core/mainwindow.cpp:2603 core/mainwindow.cpp:2754
+#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "エラー"
@@ -2333,7 +2325,7 @@ msgstr "ファイル名"
 msgid "Filename:"
 msgstr "ファイル名:"
 
-#: core/mainwindow.cpp:373
+#: core/mainwindow.cpp:372
 msgid "Files"
 msgstr "ファイル"
 
@@ -2341,7 +2333,7 @@ msgstr "ファイル"
 msgid "Files to transcode"
 msgstr "トランスコードするファイル"
 
-#: ../build/src/ui_appearancesettingspage.h:629
+#: ../build/src/ui_appearancesettingspage.h:555
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2464,7 +2456,7 @@ msgstr "Full Bass + Treble"
 msgid "Full Treble"
 msgstr "Full Treble"
 
-#: settings/settingsdialog.cpp:132
+#: settings/settingsdialog.cpp:131
 msgid "General"
 msgstr "全般"
 
@@ -2652,7 +2644,7 @@ msgstr ""
 msgid "Icon"
 msgstr "アイコン"
 
-#: ../build/src/ui_appearancesettingspage.h:624
+#: ../build/src/ui_appearancesettingspage.h:550
 msgid "Icon sizes"
 msgstr "アイコンサイズ"
 
@@ -2788,7 +2780,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "すぐに、前の曲にジャンプする"
 
-#: ../build/src/ui_appearancesettingspage.h:618
+#: ../build/src/ui_appearancesettingspage.h:544
 msgid "Keep aspect ratio"
 msgstr "縦横比を維持"
 
@@ -3021,7 +3013,7 @@ msgstr ""
 msgid "Match one or more search terms (OR)"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:616
+#: ../build/src/ui_appearancesettingspage.h:542
 msgid "Max cover size"
 msgstr "最大カバーサイズ"
 
@@ -3042,7 +3034,7 @@ msgstr "中 (%1 fps)"
 msgid "Metadata"
 msgstr "メタデータ"
 
-#: ../build/src/ui_appearancesettingspage.h:612
+#: ../build/src/ui_appearancesettingspage.h:538
 msgid "Middle"
 msgstr "中央"
 
@@ -3164,7 +3156,7 @@ msgstr "マウントポイント"
 msgid "Move down"
 msgstr "下へ移動"
 
-#: core/mainwindow.cpp:755 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:754 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "ライブラリへ移動..."
 
@@ -3173,7 +3165,7 @@ msgstr "ライブラリへ移動..."
 msgid "Move up"
 msgstr "上へ移動"
 
-#: core/mainwindow.cpp:2208 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2202 transcoder/transcodedialog.cpp:333
 msgid "Music"
 msgstr "ミュージック"
 
@@ -3217,7 +3209,7 @@ msgstr "再生を開始しない"
 msgid "New folder"
 msgstr "新しいフォルダー"
 
-#: core/mainwindow.cpp:2026
+#: core/mainwindow.cpp:2020
 msgid "New playlist"
 msgstr "新しいプレイリスト"
 
@@ -3292,7 +3284,7 @@ msgstr "曲が再生されていません"
 msgid "None"
 msgstr "なし"
 
-#: core/mainwindow.cpp:2603 core/mainwindow.cpp:2754
+#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "デバイスへのコピーに適切な曲が選択されていません"
@@ -3372,7 +3364,7 @@ msgstr "起動時"
 msgid "Only show the first"
 msgstr "最初だけ表示"
 
-#: ../build/src/ui_appearancesettingspage.h:622
+#: ../build/src/ui_appearancesettingspage.h:548
 msgid "Opacity"
 msgstr "不透明度"
 
@@ -3434,7 +3426,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "ファイルを管理"
 
-#: core/mainwindow.cpp:753 collection/collectionview.cpp:357
+#: core/mainwindow.cpp:752 collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr "ファイルを管理..."
 
@@ -3522,7 +3514,7 @@ msgstr "パス"
 msgid "Pattern"
 msgstr "パターン"
 
-#: core/mainwindow.cpp:1324 core/mainwindow.cpp:1823
+#: core/mainwindow.cpp:1318 core/mainwindow.cpp:1817
 #: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "一時停止"
@@ -3550,13 +3542,13 @@ msgstr "ピクセル"
 msgid "Plain sidebar"
 msgstr "プレーンサイドバー"
 
-#: core/mainwindow.cpp:722 core/mainwindow.cpp:1281 core/mainwindow.cpp:1308
-#: core/mainwindow.cpp:1827 core/qtsystemtrayicon.cpp:157
+#: core/mainwindow.cpp:721 core/mainwindow.cpp:1275 core/mainwindow.cpp:1302
+#: core/mainwindow.cpp:1821 core/qtsystemtrayicon.cpp:157
 #: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "再生"
 
-#: ../build/src/ui_appearancesettingspage.h:627
+#: ../build/src/ui_appearancesettingspage.h:553
 msgid "Play control buttons"
 msgstr ""
 
@@ -3614,7 +3606,7 @@ msgstr "プレーヤーのオプション"
 msgid "Playlist"
 msgstr "プレイリスト"
 
-#: ../build/src/ui_appearancesettingspage.h:625
+#: ../build/src/ui_appearancesettingspage.h:551
 msgid "Playlist buttons"
 msgstr "プレイリストボタン"
 
@@ -3622,7 +3614,7 @@ msgstr "プレイリストボタン"
 msgid "Playlist finished"
 msgstr "プレイリストが完了しました"
 
-#: core/mainwindow.cpp:2299
+#: core/mainwindow.cpp:2293
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3638,7 +3630,7 @@ msgstr "プレイリストを最初に開く必要があります。"
 msgid "Playlist options"
 msgstr "プレイリストのオプション"
 
-#: ../build/src/ui_appearancesettingspage.h:631
+#: ../build/src/ui_appearancesettingspage.h:557
 msgid "Playlist playing song color"
 msgstr ""
 
@@ -3646,7 +3638,7 @@ msgstr ""
 msgid "Playlist type"
 msgstr "プレイリストタイプ"
 
-#: core/mainwindow.cpp:371
+#: core/mainwindow.cpp:370
 msgid "Playlists"
 msgstr "プレイリスト"
 
@@ -3671,7 +3663,7 @@ msgstr "ポップアップの長さ"
 msgid "Port"
 msgstr "ポート"
 
-#: ../build/src/ui_appearancesettingspage.h:609
+#: ../build/src/ui_appearancesettingspage.h:535
 msgid "Position"
 msgstr "位置"
 
@@ -3767,7 +3759,7 @@ msgstr "進行状況"
 msgid "Put songs in a random order"
 msgstr "曲をランダムに並び替える"
 
-#: core/mainwindow.cpp:385 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:384 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3792,24 +3784,24 @@ msgstr "品質"
 msgid "Querying device..."
 msgstr "デバイスを照会しています..."
 
-#: core/mainwindow.cpp:370
+#: core/mainwindow.cpp:369
 msgid "Queue"
 msgstr "キュー"
 
-#: core/mainwindow.cpp:1927
+#: core/mainwindow.cpp:1921
 msgid "Queue selected tracks"
 msgstr "選択されたトラックをキューに追加"
 
-#: core/mainwindow.cpp:728 core/mainwindow.cpp:1931
+#: core/mainwindow.cpp:727 core/mainwindow.cpp:1925
 msgid "Queue selected tracks to play next"
 msgstr "選択したトラックを次に再生する"
 
-#: core/mainwindow.cpp:1934 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1928 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "次に再生する"
 
-#: core/mainwindow.cpp:1926 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1920 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -3827,7 +3819,7 @@ msgstr "ラジオ (すべてのトラックで均一の音量)"
 msgid "Radio Paradise"
 msgstr ""
 
-#: core/mainwindow.cpp:374
+#: core/mainwindow.cpp:373
 msgid "Radios"
 msgstr ""
 
@@ -4079,7 +4071,7 @@ msgstr "再装着"
 msgid "Rescan song(s)"
 msgstr "曲を再スキャン"
 
-#: core/mainwindow.cpp:744
+#: core/mainwindow.cpp:743
 msgid "Rescan song(s)..."
 msgstr "曲を再スキャン中..."
 
@@ -4354,11 +4346,7 @@ msgstr "現在再生中のトラックの絶対的な位置へシークする"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "キーボードショートカットまたはマウスホイールを使ってシークする"
 
-#: ../build/src/ui_appearancesettingspage.h:591
-msgid "Select background color:"
-msgstr "背景色の選択:"
-
-#: settings/appearancesettingspage.cpp:402
+#: settings/appearancesettingspage.cpp:301
 msgid "Select background image"
 msgstr "背景画像の選択"
 
@@ -4374,15 +4362,11 @@ msgstr ""
 msgid "Select directory for the playlists"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:589
-msgid "Select foreground color:"
-msgstr "前景色の選択:"
-
-#: ../build/src/ui_appearancesettingspage.h:634
+#: ../build/src/ui_appearancesettingspage.h:560
 msgid "Select playlist playing song color:"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:597
+#: ../build/src/ui_appearancesettingspage.h:523
 msgid "Select tabbar color:"
 msgstr ""
 
@@ -4410,7 +4394,7 @@ msgstr "サーバーURLが不正です。"
 msgid "Server-side scrobbling"
 msgstr "サーバーサイドの scrobbling"
 
-#: core/mainwindow.cpp:1967
+#: core/mainwindow.cpp:1961
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 を「%2」に設定します..."
@@ -4427,7 +4411,7 @@ msgstr "すべての選択されたトラックの音量を設定しました...
 msgid "Settings"
 msgstr "設定"
 
-#: ../build/src/ui_appearancesettingspage.h:585
+#: ../build/src/ui_appearancesettingspage.h:518
 msgid "Settings require restart."
 msgstr "設定には再起動が必要です"
 
@@ -4497,7 +4481,7 @@ msgstr "アルバムカバーを表示"
 msgid "Show album cover art in collection"
 msgstr "コレクションでアルバムカバーアートを表示"
 
-#: core/mainwindow.cpp:670
+#: core/mainwindow.cpp:669
 msgid "Show all songs"
 msgstr "すべての曲を表示する"
 
@@ -4525,7 +4509,7 @@ msgstr "エンジンとデバイスを表示"
 msgid "Show fullsize..."
 msgstr "原寸表示..."
 
-#: core/mainwindow.cpp:751
+#: core/mainwindow.cpp:750
 msgid "Show in collection..."
 msgstr "ライブラリーに表示..."
 
@@ -4533,7 +4517,7 @@ msgstr "ライブラリーに表示..."
 msgid "Show in file browser"
 msgstr "ファイルブラウザーで表示"
 
-#: core/mainwindow.cpp:752 collection/collectionview.cpp:366
+#: core/mainwindow.cpp:751 collection/collectionview.cpp:366
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "ファイルブラウザーで表示..."
@@ -4550,11 +4534,11 @@ msgstr "Loveボタンを表示"
 msgid "Show moodbar"
 msgstr "ムードバーを表示"
 
-#: core/mainwindow.cpp:671
+#: core/mainwindow.cpp:670
 msgid "Show only duplicates"
 msgstr "重複するものだけ表示"
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:671
 msgid "Show only untagged"
 msgstr "タグのないものだけ表示"
 
@@ -4651,11 +4635,11 @@ msgstr "スキップ回数"
 msgid "Skip forwards in playlist"
 msgstr "プレイリストで前にスキップ"
 
-#: core/mainwindow.cpp:1940
+#: core/mainwindow.cpp:1934
 msgid "Skip selected tracks"
 msgstr "選択したトラックをスキップする"
 
-#: core/mainwindow.cpp:1939
+#: core/mainwindow.cpp:1933
 msgid "Skip track"
 msgstr "トラックをスキップする"
 
@@ -4671,7 +4655,7 @@ msgstr "小さいサイドバー"
 msgid "Smart playlist"
 msgstr "スマートプレイリスト"
 
-#: core/mainwindow.cpp:372
+#: core/mainwindow.cpp:371
 msgid "Smart playlists"
 msgstr "スマートプレイリスト"
 
@@ -4772,7 +4756,7 @@ msgstr "各トラック後に停止"
 msgid "Stop after every track"
 msgstr "各トラック後に停止"
 
-#: core/mainwindow.cpp:724 ../build/src/ui_mainwindow.h:630
+#: core/mainwindow.cpp:723 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "このトラック後に停止"
 
@@ -4859,16 +4843,16 @@ msgstr "ストリーム"
 msgid "Stream URL method"
 msgstr ""
 
-#: settings/settingsdialog.cpp:159
+#: settings/settingsdialog.cpp:158
 msgid "Streaming"
 msgstr "ストリーミング"
 
-#: ../build/src/ui_appearancesettingspage.h:617
+#: ../build/src/ui_appearancesettingspage.h:543
 msgid "Stretch image to fill playlist"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:582
-#: ../build/src/ui_appearancesettingspage.h:583
+#: ../build/src/ui_appearancesettingspage.h:515
+#: ../build/src/ui_appearancesettingspage.h:516
 msgid "Style"
 msgstr "スタイル"
 
@@ -4876,7 +4860,7 @@ msgstr "スタイル"
 msgid "Submit scrobbles every"
 msgstr ""
 
-#: core/mainwindow.cpp:379 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:378 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4917,19 +4901,19 @@ msgstr "サポートされている形式"
 msgid "System colors"
 msgstr "システムの色"
 
-#: ../build/src/ui_appearancesettingspage.h:632
+#: ../build/src/ui_appearancesettingspage.h:558
 msgid "System highlight color"
 msgstr "システムのハイライト色"
 
-#: ../build/src/ui_appearancesettingspage.h:593
+#: ../build/src/ui_appearancesettingspage.h:519
 msgid "Tabbar colors"
 msgstr "Tabbar の色"
 
-#: ../build/src/ui_appearancesettingspage.h:626
+#: ../build/src/ui_appearancesettingspage.h:552
 msgid "Tabbar large mode"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:630
+#: ../build/src/ui_appearancesettingspage.h:556
 msgid "Tabbar small mode"
 msgstr ""
 
@@ -4991,7 +4975,7 @@ msgstr ""
 msgid "The \"%1\" command could not be started."
 msgstr "コマンド「%1」を開始できませんでした。"
 
-#: ../build/src/ui_appearancesettingspage.h:603
+#: ../build/src/ui_appearancesettingspage.h:529
 msgid "The album cover of the currently playing song"
 msgstr "再生中の曲のアルバムカバー"
 
@@ -5015,7 +4999,7 @@ msgstr "指定されたサイトは存在しません!"
 msgid "The site you requested is not an image!"
 msgstr "指定されたサイトは画像ではありません!"
 
-#: core/mainwindow.cpp:2867
+#: core/mainwindow.cpp:2861
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5107,7 +5091,7 @@ msgstr "この種類のデバイスはサポートされていません: %1"
 msgid "Thread priority"
 msgstr ""
 
-#: core/mainwindow.cpp:382 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:381 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -5137,7 +5121,7 @@ msgstr "今日"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:725 core/mainwindow.cpp:1928
+#: core/mainwindow.cpp:724 core/mainwindow.cpp:1922
 msgid "Toggle queue status"
 msgstr "キュー状態の切り替え"
 
@@ -5145,7 +5129,7 @@ msgstr "キュー状態の切り替え"
 msgid "Toggle scrobbling"
 msgstr "scrobbling の切り替え"
 
-#: core/mainwindow.cpp:731 core/mainwindow.cpp:1941
+#: core/mainwindow.cpp:730 core/mainwindow.cpp:1935
 msgid "Toggle skip status"
 msgstr ""
 
@@ -5262,11 +5246,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "カバーを未設定にする"
 
-#: core/mainwindow.cpp:1938
+#: core/mainwindow.cpp:1932
 msgid "Unskip selected tracks"
 msgstr "選択したトラックをスキップしない"
 
-#: core/mainwindow.cpp:1937
+#: core/mainwindow.cpp:1931
 msgid "Unskip track"
 msgstr "トラックをスキップしない"
 
@@ -5297,11 +5281,11 @@ msgstr "ライブラリの更新中"
 msgid "Upmix / downmix to"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:610
+#: ../build/src/ui_appearancesettingspage.h:536
 msgid "Upper Left"
 msgstr "左上"
 
-#: ../build/src/ui_appearancesettingspage.h:611
+#: ../build/src/ui_appearancesettingspage.h:537
 msgid "Upper Right"
 msgstr "右上"
 
@@ -5349,10 +5333,6 @@ msgstr ""
 msgid "Use X11 shortcuts when available"
 msgstr "可能なら X11 のショートカットを使用する"
 
-#: ../build/src/ui_appearancesettingspage.h:588
-msgid "Use a custom color set"
-msgstr "カスタム色設定を使用する"
-
 #: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
 msgstr "通知にカスタムメッセージを使用する"
@@ -5369,7 +5349,7 @@ msgstr "認証を使用する"
 msgid "Use bitrate management engine"
 msgstr "ビットレート管理エンジンを使用する"
 
-#: ../build/src/ui_appearancesettingspage.h:595
+#: ../build/src/ui_appearancesettingspage.h:521
 msgid "Use custom color"
 msgstr "カスタム色"
 
@@ -5377,7 +5357,7 @@ msgstr "カスタム色"
 msgid "Use dynamic mode"
 msgstr "ダイナミックモード"
 
-#: ../build/src/ui_appearancesettingspage.h:596
+#: ../build/src/ui_appearancesettingspage.h:522
 msgid "Use gradient background"
 msgstr "背景"
 
@@ -5385,7 +5365,7 @@ msgstr "背景"
 msgid "Use proxy settings for streaming"
 msgstr "ストリーミングプロキシ設定"
 
-#: ../build/src/ui_appearancesettingspage.h:584
+#: ../build/src/ui_appearancesettingspage.h:517
 msgid "Use system theme icons"
 msgstr "システムのテーマアイコンを使用する"
 
@@ -5401,7 +5381,7 @@ msgstr "システム既定を使用する"
 msgid "Used"
 msgstr "使用中"
 
-#: settings/settingsdialog.cpp:145
+#: settings/settingsdialog.cpp:144
 msgid "User interface"
 msgstr "ユーザーインターフェース"
 
@@ -5515,7 +5495,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2871
+#: core/mainwindow.cpp:2865
 msgid "Would you like to run a full rescan right now?"
 msgstr "全体の再スキャンを今すぐ実行しますか?"
 

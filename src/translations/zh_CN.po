@@ -345,7 +345,7 @@ msgstr "新建播放列表(&N)"
 msgid "&Next track"
 msgstr "下一曲目(&N)"
 
-#: ../build/src/ui_appearancesettingspage.h:601
+#: ../build/src/ui_appearancesettingspage.h:527
 msgid "&No background image"
 msgstr "无背景图像(&N)"
 
@@ -409,13 +409,9 @@ msgstr "转码音乐(&T)"
 msgid "&Update changed collection folders"
 msgstr "更新已更改的媒体库文件夹(&U)"
 
-#: ../build/src/ui_appearancesettingspage.h:594
+#: ../build/src/ui_appearancesettingspage.h:520
 msgid "&Use the system default color"
 msgstr "使用系统默认颜色(&U)"
-
-#: ../build/src/ui_appearancesettingspage.h:587
-msgid "&Use the system default color set"
-msgstr "使用系统默认颜色集(&U)"
 
 #: ../build/src/ui_networkproxysettingspage.h:171
 msgid "&Use the system proxy settings"
@@ -441,7 +437,7 @@ msgstr "0"
 msgid "0:00:00"
 msgstr "0:00:00"
 
-#: ../build/src/ui_appearancesettingspage.h:621
+#: ../build/src/ui_appearancesettingspage.h:547
 msgid "0px"
 msgstr "0px"
 
@@ -453,7 +449,7 @@ msgstr "1 天"
 msgid "1 track"
 msgstr "1 首曲目"
 
-#: ../build/src/ui_appearancesettingspage.h:623
+#: ../build/src/ui_appearancesettingspage.h:549
 msgid "40%"
 msgstr "40%"
 
@@ -472,7 +468,7 @@ msgstr ""
 "\n"
 "<p>如果您用花括号\"{}\"将含有标记的部分文本括起来，此部分在标记内容为空时将自动隐藏。</p>"
 
-#: ../build/src/ui_appearancesettingspage.h:606
+#: ../build/src/ui_appearancesettingspage.h:532
 msgid "A Taste of Strawbs"
 msgstr ""
 
@@ -568,7 +564,7 @@ msgstr "添加目录及其子目录的所有曲目"
 msgid "Add directory..."
 msgstr "添加目录..."
 
-#: core/mainwindow.cpp:2208
+#: core/mainwindow.cpp:2202
 msgid "Add file"
 msgstr "添加文件"
 
@@ -584,7 +580,7 @@ msgstr "添加文件至转码器"
 msgid "Add files to transcode"
 msgstr "添加需转码文件"
 
-#: core/mainwindow.cpp:2234 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2228 transcoder/transcodedialog.cpp:424
 msgid "Add folder"
 msgstr "添加文件夹"
 
@@ -694,7 +690,7 @@ msgstr "添加流..."
 msgid "Add to albums"
 msgstr "添加到专辑"
 
-#: core/mainwindow.cpp:2010
+#: core/mainwindow.cpp:2004
 msgid "Add to another playlist"
 msgstr "添加到另一播放列表"
 
@@ -756,7 +752,7 @@ msgstr "高级设置需要重启。"
 msgid "After copying..."
 msgstr "复制后..."
 
-#: ../build/src/ui_appearancesettingspage.h:605
+#: ../build/src/ui_appearancesettingspage.h:531
 msgid "Albu&m cover"
 msgstr "专辑封面(&M)"
 
@@ -816,7 +812,7 @@ msgstr "有封面的专辑"
 msgid "Albums without covers"
 msgstr "无封面的专辑"
 
-#: core/mainwindow.cpp:219
+#: core/mainwindow.cpp:218
 msgid "All Files (*)"
 msgstr "全部文件 (*)"
 
@@ -884,7 +880,7 @@ msgstr "应用账号"
 msgid "App Secret"
 msgstr "应用秘密"
 
-#: ../build/src/ui_appearancesettingspage.h:581
+#: ../build/src/ui_appearancesettingspage.h:514
 msgid "Appearance"
 msgstr "外观"
 
@@ -1064,7 +1060,7 @@ msgstr "后端"
 msgid "Background color"
 msgstr "背景颜色"
 
-#: ../build/src/ui_appearancesettingspage.h:599
+#: ../build/src/ui_appearancesettingspage.h:525
 msgid "Background image"
 msgstr "背景图片"
 
@@ -1131,7 +1127,7 @@ msgstr "块状分析器"
 msgid "Block type"
 msgstr "屏蔽类型"
 
-#: ../build/src/ui_appearancesettingspage.h:620
+#: ../build/src/ui_appearancesettingspage.h:546
 msgid "Blur amount"
 msgstr "模糊量"
 
@@ -1143,15 +1139,15 @@ msgstr "通知正文"
 msgid "Boom analyzer"
 msgstr "轰鸣音分析器"
 
-#: ../build/src/ui_appearancesettingspage.h:613
+#: ../build/src/ui_appearancesettingspage.h:539
 msgid "Bottom Left"
 msgstr "左下"
 
-#: ../build/src/ui_appearancesettingspage.h:614
+#: ../build/src/ui_appearancesettingspage.h:540
 msgid "Bottom Right"
 msgstr "右下"
 
-#: ../build/src/ui_appearancesettingspage.h:608
+#: ../build/src/ui_appearancesettingspage.h:534
 msgid "Browse..."
 msgstr "浏览..."
 
@@ -1215,7 +1211,7 @@ msgstr "改变正在播放歌曲"
 msgid "Change the language"
 msgstr "更改语言"
 
-#: core/mainwindow.cpp:804
+#: core/mainwindow.cpp:803
 msgid "Check for updates..."
 msgstr "检查更新..."
 
@@ -1264,7 +1260,7 @@ msgstr "清空磁盘缓存"
 msgid "Clear cover"
 msgstr "清除封面"
 
-#: core/mainwindow.cpp:2299 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2293 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "清空播放列表"
 
@@ -1309,7 +1305,7 @@ msgstr "关闭此窗口将停止寻找专辑封面。"
 msgid "Club"
 msgstr "俱乐部"
 
-#: core/mainwindow.cpp:369 ../build/src/ui_collectionsettingspage.h:589
+#: core/mainwindow.cpp:368 ../build/src/ui_collectionsettingspage.h:589
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "媒体库"
@@ -1322,17 +1318,13 @@ msgstr "媒体库筛选器"
 msgid "Collection advanced grouping"
 msgstr "媒体库高级分组"
 
-#: core/mainwindow.cpp:2872
+#: core/mainwindow.cpp:2866
 msgid "Collection rescan notice"
 msgstr "重新扫描媒体库提示"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:90
 msgid "Collection search"
 msgstr "媒体库搜索"
-
-#: ../build/src/ui_appearancesettingspage.h:586
-msgid "Colors"
-msgstr "颜色"
 
 #: core/commandlineoptions.cpp:193
 msgid "Comma separated list of class:level, level is 0-3"
@@ -1379,11 +1371,11 @@ msgstr "配置不正确"
 msgid "Configure %1..."
 msgstr "配置 %1 ..."
 
-#: ../build/src/ui_appearancesettingspage.h:628
+#: ../build/src/ui_appearancesettingspage.h:554
 msgid "Configure buttons"
 msgstr "配置按钮"
 
-#: core/mainwindow.cpp:681
+#: core/mainwindow.cpp:680
 msgid "Configure collection..."
 msgstr "配置媒体库..."
 
@@ -1399,7 +1391,7 @@ msgstr "终端"
 msgid "Constant bitrate"
 msgstr "固定位速率"
 
-#: core/mainwindow.cpp:368 ../build/src/ui_contextsettingspage.h:363
+#: core/mainwindow.cpp:367 ../build/src/ui_contextsettingspage.h:363
 msgid "Context"
 msgstr ""
 
@@ -1419,7 +1411,7 @@ msgstr "转换全部音乐"
 msgid "Convert any music that the device can't play"
 msgstr "转换设备不能播放的音乐"
 
-#: core/mainwindow.cpp:750
+#: core/mainwindow.cpp:749
 msgid "Copy URL(s)..."
 msgstr "复制 URL..."
 
@@ -1427,7 +1419,7 @@ msgstr "复制 URL..."
 msgid "Copy album cover artwork"
 msgstr "复制专辑封面图稿"
 
-#: core/mainwindow.cpp:754 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:753 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:246
 msgid "Copy to collection..."
 msgstr "复制到媒体库..."
@@ -1436,7 +1428,7 @@ msgstr "复制到媒体库..."
 msgid "Copy to device"
 msgstr "复制到设备"
 
-#: core/mainwindow.cpp:757 collection/collectionview.cpp:359
+#: core/mainwindow.cpp:756 collection/collectionview.cpp:359
 #: playlist/playlistlistcontainer.cpp:89 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "复制到设备..."
@@ -1633,11 +1625,11 @@ msgstr "当前已用磁盘缓存："
 msgid "Custom"
 msgstr "自定义"
 
-#: ../build/src/ui_appearancesettingspage.h:633
+#: ../build/src/ui_appearancesettingspage.h:559
 msgid "Custom color"
 msgstr "自定义颜色"
 
-#: ../build/src/ui_appearancesettingspage.h:607
+#: ../build/src/ui_appearancesettingspage.h:533
 msgid "Custom image:"
 msgstr "自定义图片:"
 
@@ -1689,7 +1681,7 @@ msgstr "将音量降低 <value> %"
 msgid "Decrease volume"
 msgstr "降低音量"
 
-#: ../build/src/ui_appearancesettingspage.h:600
+#: ../build/src/ui_appearancesettingspage.h:526
 msgid "Default bac&kground image"
 msgstr "默认背景图像(&K)"
 
@@ -1714,7 +1706,7 @@ msgstr "删除文件"
 msgid "Delete from device..."
 msgstr "从设备删除..."
 
-#: core/mainwindow.cpp:759 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:758 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "从硬盘删除..."
@@ -1740,11 +1732,11 @@ msgstr "删除原始文件"
 msgid "Deleting files"
 msgstr "删除文件"
 
-#: core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:1919
 msgid "Dequeue selected tracks"
 msgstr "移除选定曲目"
 
-#: core/mainwindow.cpp:1924
+#: core/mainwindow.cpp:1918
 msgid "Dequeue track"
 msgstr "移除曲目"
 
@@ -1770,7 +1762,7 @@ msgstr "设备属性"
 msgid "Device properties..."
 msgstr "设备属性..."
 
-#: core/mainwindow.cpp:376
+#: core/mainwindow.cpp:375
 msgid "Devices"
 msgstr "设备"
 
@@ -1827,7 +1819,7 @@ msgstr "显示屏幕显示"
 msgid "Do not convert any music"
 msgstr "不转换任何曲目"
 
-#: ../build/src/ui_appearancesettingspage.h:619
+#: ../build/src/ui_appearancesettingspage.h:545
 msgid "Do not cut image"
 msgstr "不要裁剪图像"
 
@@ -1907,7 +1899,7 @@ msgstr "编辑智能播放列表"
 msgid "Edit smart playlist..."
 msgstr "编辑智能播放列表..."
 
-#: core/mainwindow.cpp:1968
+#: core/mainwindow.cpp:1962
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "编辑标签 \"%1\"..."
@@ -2077,7 +2069,7 @@ msgstr "相当于 --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "相当于 --log-levels *:3"
 
-#: core/mainwindow.cpp:2603 core/mainwindow.cpp:2754
+#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "错误"
@@ -2326,7 +2318,7 @@ msgstr "文件名"
 msgid "Filename:"
 msgstr "文件名："
 
-#: core/mainwindow.cpp:373
+#: core/mainwindow.cpp:372
 msgid "Files"
 msgstr "文件"
 
@@ -2334,7 +2326,7 @@ msgstr "文件"
 msgid "Files to transcode"
 msgstr "要转换的文件"
 
-#: ../build/src/ui_appearancesettingspage.h:629
+#: ../build/src/ui_appearancesettingspage.h:555
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2457,7 +2449,7 @@ msgstr "低音饱满 + 高音清丽"
 msgid "Full Treble"
 msgstr "高音"
 
-#: settings/settingsdialog.cpp:132
+#: settings/settingsdialog.cpp:131
 msgid "General"
 msgstr "一般"
 
@@ -2645,7 +2637,7 @@ msgstr "I/O 优先级"
 msgid "Icon"
 msgstr "图标"
 
-#: ../build/src/ui_appearancesettingspage.h:624
+#: ../build/src/ui_appearancesettingspage.h:550
 msgid "Icon sizes"
 msgstr "图标大小"
 
@@ -2781,7 +2773,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr "立即跳到上首歌"
 
-#: ../build/src/ui_appearancesettingspage.h:618
+#: ../build/src/ui_appearancesettingspage.h:544
 msgid "Keep aspect ratio"
 msgstr ""
 
@@ -3014,7 +3006,7 @@ msgstr ""
 msgid "Match one or more search terms (OR)"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:616
+#: ../build/src/ui_appearancesettingspage.h:542
 msgid "Max cover size"
 msgstr "最大封面大小"
 
@@ -3035,7 +3027,7 @@ msgstr "中（%1 fps）"
 msgid "Metadata"
 msgstr "元数据"
 
-#: ../build/src/ui_appearancesettingspage.h:612
+#: ../build/src/ui_appearancesettingspage.h:538
 msgid "Middle"
 msgstr ""
 
@@ -3157,7 +3149,7 @@ msgstr "挂载点"
 msgid "Move down"
 msgstr "下移"
 
-#: core/mainwindow.cpp:755 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:754 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "移动至媒体库..."
 
@@ -3166,7 +3158,7 @@ msgstr "移动至媒体库..."
 msgid "Move up"
 msgstr "上移"
 
-#: core/mainwindow.cpp:2208 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2202 transcoder/transcodedialog.cpp:333
 msgid "Music"
 msgstr "音乐"
 
@@ -3210,7 +3202,7 @@ msgstr "从未播放"
 msgid "New folder"
 msgstr "创建新文件夹"
 
-#: core/mainwindow.cpp:2026
+#: core/mainwindow.cpp:2020
 msgid "New playlist"
 msgstr "新建播放列表"
 
@@ -3285,7 +3277,7 @@ msgstr "没有歌曲在播放"
 msgid "None"
 msgstr "无"
 
-#: core/mainwindow.cpp:2603 core/mainwindow.cpp:2754
+#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "已选择的曲目均不适合复制到设备"
@@ -3365,7 +3357,7 @@ msgstr "在启动时"
 msgid "Only show the first"
 msgstr "只在第一次启动时显示"
 
-#: ../build/src/ui_appearancesettingspage.h:622
+#: ../build/src/ui_appearancesettingspage.h:548
 msgid "Opacity"
 msgstr "不透明度"
 
@@ -3427,7 +3419,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "整理文件"
 
-#: core/mainwindow.cpp:753 collection/collectionview.cpp:357
+#: core/mainwindow.cpp:752 collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr "整理文件..."
 
@@ -3515,7 +3507,7 @@ msgstr "路径"
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1324 core/mainwindow.cpp:1823
+#: core/mainwindow.cpp:1318 core/mainwindow.cpp:1817
 #: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "暂停"
@@ -3543,13 +3535,13 @@ msgstr "像素"
 msgid "Plain sidebar"
 msgstr "普通侧边栏"
 
-#: core/mainwindow.cpp:722 core/mainwindow.cpp:1281 core/mainwindow.cpp:1308
-#: core/mainwindow.cpp:1827 core/qtsystemtrayicon.cpp:157
+#: core/mainwindow.cpp:721 core/mainwindow.cpp:1275 core/mainwindow.cpp:1302
+#: core/mainwindow.cpp:1821 core/qtsystemtrayicon.cpp:157
 #: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "播放"
 
-#: ../build/src/ui_appearancesettingspage.h:627
+#: ../build/src/ui_appearancesettingspage.h:553
 msgid "Play control buttons"
 msgstr "播放控制按钮"
 
@@ -3607,7 +3599,7 @@ msgstr "播放器选项"
 msgid "Playlist"
 msgstr "播放列表"
 
-#: ../build/src/ui_appearancesettingspage.h:625
+#: ../build/src/ui_appearancesettingspage.h:551
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3615,7 +3607,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "已完成播放列表"
 
-#: core/mainwindow.cpp:2299
+#: core/mainwindow.cpp:2293
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3631,7 +3623,7 @@ msgstr "必须先打开播放列表。"
 msgid "Playlist options"
 msgstr "播放列表选项"
 
-#: ../build/src/ui_appearancesettingspage.h:631
+#: ../build/src/ui_appearancesettingspage.h:557
 msgid "Playlist playing song color"
 msgstr ""
 
@@ -3639,7 +3631,7 @@ msgstr ""
 msgid "Playlist type"
 msgstr "播放列表类型"
 
-#: core/mainwindow.cpp:371
+#: core/mainwindow.cpp:370
 msgid "Playlists"
 msgstr "播放列表"
 
@@ -3664,7 +3656,7 @@ msgstr "弹出时长"
 msgid "Port"
 msgstr "端口"
 
-#: ../build/src/ui_appearancesettingspage.h:609
+#: ../build/src/ui_appearancesettingspage.h:535
 msgid "Position"
 msgstr "位置"
 
@@ -3760,7 +3752,7 @@ msgstr "进度"
 msgid "Put songs in a random order"
 msgstr "以随机顺序排布歌曲"
 
-#: core/mainwindow.cpp:385 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:384 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3783,24 +3775,24 @@ msgstr "质量"
 msgid "Querying device..."
 msgstr "正在查询设备..."
 
-#: core/mainwindow.cpp:370
+#: core/mainwindow.cpp:369
 msgid "Queue"
 msgstr ""
 
-#: core/mainwindow.cpp:1927
+#: core/mainwindow.cpp:1921
 msgid "Queue selected tracks"
 msgstr "将选定曲目加入队列"
 
-#: core/mainwindow.cpp:728 core/mainwindow.cpp:1931
+#: core/mainwindow.cpp:727 core/mainwindow.cpp:1925
 msgid "Queue selected tracks to play next"
 msgstr ""
 
-#: core/mainwindow.cpp:1934 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1928 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr ""
 
-#: core/mainwindow.cpp:1926 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1920 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -3818,7 +3810,7 @@ msgstr "电台(所有曲目采用相同的音量)"
 msgid "Radio Paradise"
 msgstr ""
 
-#: core/mainwindow.cpp:374
+#: core/mainwindow.cpp:373
 msgid "Radios"
 msgstr ""
 
@@ -4068,7 +4060,7 @@ msgstr ""
 msgid "Rescan song(s)"
 msgstr "重新扫描歌曲..."
 
-#: core/mainwindow.cpp:744
+#: core/mainwindow.cpp:743
 msgid "Rescan song(s)..."
 msgstr "重新扫描歌曲..."
 
@@ -4343,11 +4335,7 @@ msgstr "当前播放的曲目快进/快退至指定时间点"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "使用键盘快捷键或者鼠标滑轮进行寻位"
 
-#: ../build/src/ui_appearancesettingspage.h:591
-msgid "Select background color:"
-msgstr "选择背景色:"
-
-#: settings/appearancesettingspage.cpp:402
+#: settings/appearancesettingspage.cpp:301
 msgid "Select background image"
 msgstr "选择背景图片"
 
@@ -4363,15 +4351,11 @@ msgstr ""
 msgid "Select directory for the playlists"
 msgstr "选择播放列表目录"
 
-#: ../build/src/ui_appearancesettingspage.h:589
-msgid "Select foreground color:"
-msgstr "选择前景色:"
-
-#: ../build/src/ui_appearancesettingspage.h:634
+#: ../build/src/ui_appearancesettingspage.h:560
 msgid "Select playlist playing song color:"
 msgstr "选择播放列表正在播放歌曲的颜色："
 
-#: ../build/src/ui_appearancesettingspage.h:597
+#: ../build/src/ui_appearancesettingspage.h:523
 msgid "Select tabbar color:"
 msgstr "选择标签栏颜色："
 
@@ -4399,7 +4383,7 @@ msgstr "无效的服务器 URL。"
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1967
+#: core/mainwindow.cpp:1961
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "将 %1 设置为 %2..."
@@ -4416,7 +4400,7 @@ msgstr "为全部选中的曲目设置值..."
 msgid "Settings"
 msgstr "设置"
 
-#: ../build/src/ui_appearancesettingspage.h:585
+#: ../build/src/ui_appearancesettingspage.h:518
 msgid "Settings require restart."
 msgstr "设置需要重启。"
 
@@ -4486,7 +4470,7 @@ msgstr "显示专辑封面"
 msgid "Show album cover art in collection"
 msgstr "在媒体库中显示专辑封面图稿"
 
-#: core/mainwindow.cpp:670
+#: core/mainwindow.cpp:669
 msgid "Show all songs"
 msgstr "显示所有歌曲"
 
@@ -4514,7 +4498,7 @@ msgstr "显示引擎与设备"
 msgid "Show fullsize..."
 msgstr "显示完整尺寸..."
 
-#: core/mainwindow.cpp:751
+#: core/mainwindow.cpp:750
 msgid "Show in collection..."
 msgstr "在媒体库中显示..."
 
@@ -4522,7 +4506,7 @@ msgstr "在媒体库中显示..."
 msgid "Show in file browser"
 msgstr "在文件管理器中显示"
 
-#: core/mainwindow.cpp:752 collection/collectionview.cpp:366
+#: core/mainwindow.cpp:751 collection/collectionview.cpp:366
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "在文件管理器中显示..."
@@ -4539,11 +4523,11 @@ msgstr "显示喜欢按钮"
 msgid "Show moodbar"
 msgstr "显示情绪栏"
 
-#: core/mainwindow.cpp:671
+#: core/mainwindow.cpp:670
 msgid "Show only duplicates"
 msgstr "只显示重复"
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:671
 msgid "Show only untagged"
 msgstr "只显示未加标签的"
 
@@ -4640,11 +4624,11 @@ msgstr "跳过计数"
 msgid "Skip forwards in playlist"
 msgstr "在播放列表中前进"
 
-#: core/mainwindow.cpp:1940
+#: core/mainwindow.cpp:1934
 msgid "Skip selected tracks"
 msgstr "跳过所选择的曲目"
 
-#: core/mainwindow.cpp:1939
+#: core/mainwindow.cpp:1933
 msgid "Skip track"
 msgstr "跳过曲目"
 
@@ -4660,7 +4644,7 @@ msgstr "小侧边栏"
 msgid "Smart playlist"
 msgstr "智能播放列表"
 
-#: core/mainwindow.cpp:372
+#: core/mainwindow.cpp:371
 msgid "Smart playlists"
 msgstr "智能播放列表"
 
@@ -4761,7 +4745,7 @@ msgstr "播放完每个曲目后停止"
 msgid "Stop after every track"
 msgstr "播放每个曲目前停止"
 
-#: core/mainwindow.cpp:724 ../build/src/ui_mainwindow.h:630
+#: core/mainwindow.cpp:723 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "在此曲目后停止"
 
@@ -4846,16 +4830,16 @@ msgstr "流媒体"
 msgid "Stream URL method"
 msgstr "流媒体 URL 方式"
 
-#: settings/settingsdialog.cpp:159
+#: settings/settingsdialog.cpp:158
 msgid "Streaming"
 msgstr "串流"
 
-#: ../build/src/ui_appearancesettingspage.h:617
+#: ../build/src/ui_appearancesettingspage.h:543
 msgid "Stretch image to fill playlist"
 msgstr "拉伸图像来填充播放列表"
 
-#: ../build/src/ui_appearancesettingspage.h:582
-#: ../build/src/ui_appearancesettingspage.h:583
+#: ../build/src/ui_appearancesettingspage.h:515
+#: ../build/src/ui_appearancesettingspage.h:516
 msgid "Style"
 msgstr "风格"
 
@@ -4863,7 +4847,7 @@ msgstr "风格"
 msgid "Submit scrobbles every"
 msgstr ""
 
-#: core/mainwindow.cpp:379 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:378 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4904,19 +4888,19 @@ msgstr "支持的格式"
 msgid "System colors"
 msgstr "系统颜色"
 
-#: ../build/src/ui_appearancesettingspage.h:632
+#: ../build/src/ui_appearancesettingspage.h:558
 msgid "System highlight color"
 msgstr "系统高亮颜色"
 
-#: ../build/src/ui_appearancesettingspage.h:593
+#: ../build/src/ui_appearancesettingspage.h:519
 msgid "Tabbar colors"
 msgstr "标签栏颜色"
 
-#: ../build/src/ui_appearancesettingspage.h:626
+#: ../build/src/ui_appearancesettingspage.h:552
 msgid "Tabbar large mode"
 msgstr "大标签栏模式"
 
-#: ../build/src/ui_appearancesettingspage.h:630
+#: ../build/src/ui_appearancesettingspage.h:556
 msgid "Tabbar small mode"
 msgstr "小标签栏模式"
 
@@ -4978,7 +4962,7 @@ msgstr "感谢所有其他的 Amarok 和 Clementine 的贡献者们。"
 msgid "The \"%1\" command could not be started."
 msgstr "命令\"%1\"无法执行。"
 
-#: ../build/src/ui_appearancesettingspage.h:603
+#: ../build/src/ui_appearancesettingspage.h:529
 msgid "The album cover of the currently playing song"
 msgstr "目前正在播放的音乐的专辑封面"
 
@@ -5002,7 +4986,7 @@ msgstr "请求的站点不存在!"
 msgid "The site you requested is not an image!"
 msgstr "您请求的站点并不是一个图片!"
 
-#: core/mainwindow.cpp:2867
+#: core/mainwindow.cpp:2861
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5094,7 +5078,7 @@ msgstr "这类设备不受支持：%1"
 msgid "Thread priority"
 msgstr "线程优先级"
 
-#: core/mainwindow.cpp:382 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:381 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -5124,7 +5108,7 @@ msgstr "今日"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:725 core/mainwindow.cpp:1928
+#: core/mainwindow.cpp:724 core/mainwindow.cpp:1922
 msgid "Toggle queue status"
 msgstr "切换队列状态"
 
@@ -5132,7 +5116,7 @@ msgstr "切换队列状态"
 msgid "Toggle scrobbling"
 msgstr "切换歌曲记录"
 
-#: core/mainwindow.cpp:731 core/mainwindow.cpp:1941
+#: core/mainwindow.cpp:730 core/mainwindow.cpp:1935
 msgid "Toggle skip status"
 msgstr ""
 
@@ -5249,11 +5233,11 @@ msgstr "撤销"
 msgid "Unset cover"
 msgstr "撤销封面"
 
-#: core/mainwindow.cpp:1938
+#: core/mainwindow.cpp:1932
 msgid "Unskip selected tracks"
 msgstr "取消略过的选定曲目"
 
-#: core/mainwindow.cpp:1937
+#: core/mainwindow.cpp:1931
 msgid "Unskip track"
 msgstr "取消掠过曲目"
 
@@ -5284,11 +5268,11 @@ msgstr "正在更新媒体库"
 msgid "Upmix / downmix to"
 msgstr ""
 
-#: ../build/src/ui_appearancesettingspage.h:610
+#: ../build/src/ui_appearancesettingspage.h:536
 msgid "Upper Left"
 msgstr "左上"
 
-#: ../build/src/ui_appearancesettingspage.h:611
+#: ../build/src/ui_appearancesettingspage.h:537
 msgid "Upper Right"
 msgstr "右上"
 
@@ -5336,10 +5320,6 @@ msgstr "使用 Tidal 设置来认证。"
 msgid "Use X11 shortcuts when available"
 msgstr "使用 X11 快捷键（如果可用）"
 
-#: ../build/src/ui_appearancesettingspage.h:588
-msgid "Use a custom color set"
-msgstr "使用自定义颜色集"
-
 #: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
 msgstr "自定义通告信息"
@@ -5356,7 +5336,7 @@ msgstr "使用认证"
 msgid "Use bitrate management engine"
 msgstr "使用位速率管理引擎"
 
-#: ../build/src/ui_appearancesettingspage.h:595
+#: ../build/src/ui_appearancesettingspage.h:521
 msgid "Use custom color"
 msgstr "使用自定义颜色"
 
@@ -5364,7 +5344,7 @@ msgstr "使用自定义颜色"
 msgid "Use dynamic mode"
 msgstr "使用动态模式"
 
-#: ../build/src/ui_appearancesettingspage.h:596
+#: ../build/src/ui_appearancesettingspage.h:522
 msgid "Use gradient background"
 msgstr "使用渐变色背景"
 
@@ -5372,7 +5352,7 @@ msgstr "使用渐变色背景"
 msgid "Use proxy settings for streaming"
 msgstr "使用串流代理设置"
 
-#: ../build/src/ui_appearancesettingspage.h:584
+#: ../build/src/ui_appearancesettingspage.h:517
 msgid "Use system theme icons"
 msgstr "使用系统主题图标"
 
@@ -5388,7 +5368,7 @@ msgstr "使用系统默认"
 msgid "Used"
 msgstr "已使用"
 
-#: settings/settingsdialog.cpp:145
+#: settings/settingsdialog.cpp:144
 msgid "User interface"
 msgstr "用户界面"
 
@@ -5501,7 +5481,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2871
+#: core/mainwindow.cpp:2865
 msgid "Would you like to run a full rescan right now?"
 msgstr "您要立即做个全部重新扫描？"
 
