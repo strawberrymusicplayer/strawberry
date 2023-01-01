@@ -1238,7 +1238,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   g_error_free(error);
   g_free(debugs);
 
-  if (pipeline_is_initialized_ && next_uri_set_ && (domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
+  if (pipeline_is_initialized_ && next_uri_set_ && (domain == GST_CORE_ERROR || domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
     // A track is still playing and the next uri is not playable. We ignore the error here so it can play until the end.
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
     qLog(Info) << "Ignoring error" << domain << code << message << debugstr << "when loading next track";
