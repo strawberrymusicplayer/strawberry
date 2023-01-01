@@ -146,24 +146,24 @@ class GstEnginePipeline : public QObject {
   void SetupVolume(GstElement *element);
 
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
-  static GstPadProbeReturn EventHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
+  static GstPadProbeReturn UpstreamEventsProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
+  static GstPadProbeReturn BufferProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
+  static GstPadProbeReturn PlaybinProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
   static void ElementAddedCallback(GstBin *bin, GstBin*, GstElement *element, gpointer self);
-  static void SourceSetupCallback(GstPlayBin*, GParamSpec *pspec, gpointer);
-  static void VolumeCallback(GstElement*, GParamSpec*, gpointer self);
-  static void NewPadCallback(GstElement*, GstPad*, gpointer);
-  static GstPadProbeReturn PlaybinProbe(GstPad*, GstPadProbeInfo*, gpointer);
-  static GstPadProbeReturn HandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
-  static void AboutToFinishCallback(GstPlayBin*, gpointer);
-  static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage*, gpointer);
-  static gboolean BusCallback(GstBus*, GstMessage*, gpointer);
-  static void TaskEnterCallback(GstTask*, GThread*, gpointer);
+  static void PadAddedCallback(GstElement *element, GstPad *pad, gpointer self);
+  static void NotifySourceCallback(GstPlayBin *bin, GParamSpec *param_spec, gpointer self);
+  static void NotifyVolumeCallback(GstElement *element, GParamSpec *param_spec, gpointer self);
+  static void AboutToFinishCallback(GstPlayBin *playbin, gpointer self);
+  static GstBusSyncReply BusSyncCallback(GstBus *bus, GstMessage *msg, gpointer self);
+  static gboolean BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self);
+  static void TaskEnterCallback(GstTask *task, GThread *thread, gpointer self);
 
-  void TagMessageReceived(GstMessage*);
-  void ErrorMessageReceived(GstMessage*);
-  void ElementMessageReceived(GstMessage*);
-  void StateChangedMessageReceived(GstMessage*);
-  void BufferingMessageReceived(GstMessage*);
-  void StreamStatusMessageReceived(GstMessage*);
+  void TagMessageReceived(GstMessage *msg);
+  void ErrorMessageReceived(GstMessage *msg);
+  void ElementMessageReceived(GstMessage *msg);
+  void StateChangedMessageReceived(GstMessage *msg);
+  void BufferingMessageReceived(GstMessage *msg);
+  void StreamStatusMessageReceived(GstMessage *msg);
   void StreamStartMessageReceived();
 
   static QString ParseStrTag(GstTagList *list, const char *tag);
@@ -285,18 +285,23 @@ class GstEnginePipeline : public QObject {
   GstElement *audiobin_;
   GstElement *audiosink_;
   GstElement *audioqueue_;
+  GstElement *audioqueueconverter_;
   GstElement *volume_;
   GstElement *volume_sw_;
   GstElement *volume_fading_;
   GstElement *audiopanorama_;
   GstElement *equalizer_;
   GstElement *equalizer_preamp_;
+  GstElement *eventprobe_;
 
-  int element_added_cb_id_;
-  int pad_added_cb_id_;
-  int notify_source_cb_id_;
-  int about_to_finish_cb_id_;
-  int notify_volume_cb_id_;
+  gulong upstream_events_probe_cb_id_;
+  gulong buffer_probe_cb_id_;
+  gulong playbin_probe_cb_id_;
+  gulong element_added_cb_id_;
+  gulong pad_added_cb_id_;
+  gulong notify_source_cb_id_;
+  gulong about_to_finish_cb_id_;
+  gulong notify_volume_cb_id_;
 
   QThreadPool set_state_threadpool_;
 
