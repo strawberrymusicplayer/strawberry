@@ -121,14 +121,14 @@ bool LocalRedirectServer::GenerateCertificate() {
     gnutls_global_deinit();
     return false;
   }
-  if (int result = gnutls_x509_crt_set_dn_by_oid(crt, GNUTLS_OID_X520_ORGANIZATION_NAME, 0, "Strawberry Music Player", strlen("Strawberry Music Player")) != GNUTLS_E_SUCCESS) {
+  if (int result = gnutls_x509_crt_set_dn_by_oid(crt, GNUTLS_OID_X520_ORGANIZATION_NAME, 0, "Strawberry Music Player", static_cast<int>(strlen("Strawberry Music Player"))) != GNUTLS_E_SUCCESS) {
     error_ = QString("Failed to set part of the name of the certificate subject: %1").arg(gnutls_strerror(result));
     gnutls_x509_privkey_deinit(key);
     gnutls_x509_crt_deinit(crt);
     gnutls_global_deinit();
     return false;
   }
-  if (int result = gnutls_x509_crt_set_dn_by_oid(crt, GNUTLS_OID_X520_COMMON_NAME, 0, "localhost", strlen("localhost")) != GNUTLS_E_SUCCESS) {
+  if (int result = gnutls_x509_crt_set_dn_by_oid(crt, GNUTLS_OID_X520_COMMON_NAME, 0, "localhost", static_cast<int>(strlen("localhost"))) != GNUTLS_E_SUCCESS) {
     error_ = QString("Failed to set part of the name of the certificate subject: %1").arg(gnutls_strerror(result));
     gnutls_x509_privkey_deinit(key);
     gnutls_x509_crt_deinit(crt);
