@@ -1,12 +1,14 @@
 /***************************************************************************
-                       amarokslider.h  -  description
-                          -------------------
- begin                : Dec 15 2003
- copyright            : (C) 2003 by Mark Kretschmann
- email                : markey@web.de
- copyright            : (C) 2005 by Gábor Lehel
- email                : illissius@gmail.com
-***************************************************************************/
+                        volumeslider.h
+                        -------------------
+  begin                : Dec 15 2003
+  copyright            : (C) 2003 by Mark Kretschmann
+  email                : markey@web.de
+  copyright            : (C) 2005 by Gábor Lehel
+  email                : illissius@gmail.com
+  copyright            : (C) 2018-2023 by Jonas Kvinge
+  email                : jonas@jkvinge.net
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -22,83 +24,23 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QWidget>
 #include <QList>
-#include <QString>
 #include <QPixmap>
-#include <QColor>
 #include <QPalette>
-#include <QSlider>
+#include <QColor>
+
+#include "sliderslider.h"
 
 class QTimer;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+class QEnterEvent;
+#else
 class QEvent;
-class QMouseEvent;
+#endif
 class QPaintEvent;
+class QMouseEvent;
 class QWheelEvent;
 class QContextMenuEvent;
-class QEnterEvent;
-
-class SliderSlider : public QSlider {
-  Q_OBJECT
-
- public:
-  explicit SliderSlider(const Qt::Orientation, QWidget*, const int max = 0);
-
-  virtual void SetValue(const uint value);
-  virtual void setValue(int value);
-
-  // WARNING non-virtual - and thus only really intended for internal use this is a major flaw in the class presently, however it suits our current needs fine
-  int value() const { return adjustValue(QSlider::value()); }
-
- signals:
-  // We emit this when the user has specifically changed the slider so connect to it if valueChanged() is too generic Qt also emits valueChanged(int)
-  void SliderReleased(int);
-
- protected:
-  void wheelEvent(QWheelEvent*) override;
-  void mouseMoveEvent(QMouseEvent*) override;
-  void mouseReleaseEvent(QMouseEvent*) override;
-  void mousePressEvent(QMouseEvent*) override;
-  virtual void slideEvent(QMouseEvent*);
-
-  bool sliding_;
-  bool wheeling_;
-
-  /// we flip the value for vertical sliders
-  int adjustValue(int v) const {
-    int mp = (minimum() + maximum()) / 2;
-    return orientation() == Qt::Vertical ? mp - (v - mp) : v;
-  }
-
- private:
-  bool outside_;
-  int prev_value_;
-
-  SliderSlider(const SliderSlider&);             // undefined
-  SliderSlider &operator=(const SliderSlider&);  // undefined
-};
-
-class PrettySlider : public SliderSlider {
-  Q_OBJECT
-
- public:
-  using SliderMode = enum {
-    Normal,  // Same behavior as Slider *unless* there's a moodbar
-    Pretty
-  };
-
-  explicit PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget *parent, const uint max = 0);
-
- protected:
-  void slideEvent(QMouseEvent*) override;
-  void mousePressEvent(QMouseEvent*) override;
-
- private:
-  PrettySlider(const PrettySlider&);             // undefined
-  PrettySlider &operator=(const PrettySlider&);  // undefined
-
-  SliderMode m_mode;
-};
 
 class VolumeSlider : public SliderSlider {
   Q_OBJECT
@@ -108,33 +50,32 @@ class VolumeSlider : public SliderSlider {
   void SetEnabled(const bool enabled);
 
  protected:
-  void paintEvent(QPaintEvent*) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   void enterEvent(QEnterEvent*) override;
 #else
   void enterEvent(QEvent*) override;
 #endif
   void leaveEvent(QEvent*) override;
+  void paintEvent(QPaintEvent*) override;
   virtual void paletteChange(const QPalette&);
   void slideEvent(QMouseEvent*) override;
-  void mousePressEvent(QMouseEvent*) override;
   void contextMenuEvent(QContextMenuEvent*) override;
+  void mousePressEvent(QMouseEvent*) override;
   void wheelEvent(QWheelEvent *e) override;
 
  private slots:
   virtual void slotAnimTimer();
 
  private:
+  static const int ANIM_INTERVAL = 18;
+  static const int ANIM_MAX = 18;
+
+  VolumeSlider(const VolumeSlider&);
+  VolumeSlider &operator=(const VolumeSlider&);
+
   void generateGradient();
   QPixmap drawVolumePixmap() const;
   void drawVolumeSliderHandle();
-
-  VolumeSlider(const VolumeSlider&);             // undefined
-  VolumeSlider &operator=(const VolumeSlider&);  // undefined
-
-  ////////////////////////////////////////////////////////////////
-  static const int ANIM_INTERVAL = 18;
-  static const int ANIM_MAX = 18;
 
   bool anim_enter_;
   int anim_count_;

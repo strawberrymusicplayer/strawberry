@@ -5,10 +5,10 @@ Source: https://github.com/strawberrymusicplayer/strawberry
 
 Files: *
 Copyright: 2010-2015, David Sansome <me@davidsansome.com>
-           2012-2014, 2017-2022 Jonas Kvinge <jonas@jkvinge.net>
+           2012-2014, 2017-2023 Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
-Files: src/core/timeconstants.h
+Files: src/utilities/timeconstants.h
        ext/libstrawberry-common/core/logging.cpp
        ext/libstrawberry-common/core/logging.h
        ext/libstrawberry-common/core/messagehandler.cpp
@@ -98,7 +98,7 @@ Files: src/core/main.h
        ext/macdeploycheck/*
        src/widgets/resizabletextedit.cpp
        src/widgets/resizabletextedit.h
-Copyright: 2012-2014, 2017-2022, Jonas Kvinge <jonas@jkvinge.net>
+Copyright: 2012-2014, 2017-2023, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/engine/enginebase.cpp
@@ -227,9 +227,14 @@ Files: src/widgets/clickablelabel.cpp
 Copyright: 2010, 2011, Andrea Decorte <adecorte@gmail.com>
 License: GPL-3+
 
-Files: src/widgets/volumeslider.cpp
+Files: src/widgets/sliderslider.cpp
+       src/widgets/sliderslider.h
+       src/widgets/prettyslider.cpp
+       src/widgets/prettyslider.h
+       src/widgets/volumeslider.cpp
        src/widgets/volumeslider.h
-Copyright: 2005, Gábor Lehel
+Copyright: 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+           2005, Gábor Lehel
            2003, Mark Kretschmann <markey@web.de>
 License: GPL-2+
 

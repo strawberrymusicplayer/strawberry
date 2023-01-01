@@ -1,11 +1,13 @@
 /***************************************************************************
-                        amarokslider.cpp  -  description
-                           -------------------
+                        volumeslider.cpp
+                        -------------------
   begin                : Dec 15 2003
   copyright            : (C) 2003 by Mark Kretschmann
   email                : markey@web.de
   copyright            : (C) 2005 by Gábor Lehel
   email                : illissius@gmail.com
+  copyright            : (C) 2018-2023 by Jonas Kvinge
+  email                : jonas@jkvinge.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,16 +19,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "volumeslider.h"
-
-#include <QApplication>
-#include <QWidget>
+#include <QSlider>
 #include <QHash>
 #include <QString>
 #include <QImage>
+#include <QPixmap>
+#include <QPalette>
 #include <QPainter>
 #include <QPainterPath>
-#include <QPalette>
 #include <QFont>
 #include <QBrush>
 #include <QPen>
@@ -38,184 +38,19 @@
 #include <QStyleOption>
 #include <QTimer>
 #include <QAction>
-#include <QSlider>
 #include <QLinearGradient>
 #include <QStyleOptionViewItem>
-#include <QFlags>
-#include <QtEvents>
-
-SliderSlider::SliderSlider(const Qt::Orientation orientation, QWidget *parent, const int max)
-    : QSlider(orientation, parent),
-      sliding_(false),
-      wheeling_(false),
-      outside_(false),
-      prev_value_(0) {
-
-  setRange(0, max);
-
-}
-
-void SliderSlider::wheelEvent(QWheelEvent *e) {
-
-  if (orientation() == Qt::Vertical) {
-    // Will be handled by the parent widget
-    e->ignore();
-    return;
-  }
-
-  wheeling_ = true;
-
-  // Position Slider (horizontal)
-  int step = e->angleDelta().y() * 1500 / 18;
-  int nval = qBound(minimum(), QSlider::value() + step, maximum());
-
-  QSlider::setValue(nval);
-
-  emit SliderReleased(value());
-
-  wheeling_ = false;
-
-}
-
-void SliderSlider::mouseMoveEvent(QMouseEvent *e) {
-
-  if (sliding_) {
-    // feels better, but using set value of 20 is bad of course
-    QRect rect(-20, -20, width() + 40, height() + 40);
-
-    if (orientation() == Qt::Horizontal && !rect.contains(e->pos())) {
-      if (!outside_) QSlider::setValue(prev_value_);
-      outside_ = true;
-    }
-    else {
-      outside_ = false;
-      slideEvent(e);
-      emit sliderMoved(value());
-    }
-  }
-  else {
-    QSlider::mouseMoveEvent(e);
-  }
-
-}
-
-void SliderSlider::slideEvent(QMouseEvent *e) {
-
-  QStyleOptionSlider option;
-  initStyleOption(&option);
-  QRect sliderRect(style()->subControlRect(QStyle::CC_Slider, &option, QStyle::SC_SliderHandle, this));
-
-  QSlider::setValue(
-      orientation() == Qt::Horizontal
-          ? ((QApplication::layoutDirection() == Qt::RightToLeft)
-                 ? QStyle::sliderValueFromPosition(
-                       minimum(), maximum(),
-                       width() - (e->pos().x() - sliderRect.width() / 2),
-                       width() + sliderRect.width(), true)
-                 : QStyle::sliderValueFromPosition(
-                       minimum(), maximum(),
-                       e->pos().x() - sliderRect.width() / 2,
-                       width() - sliderRect.width()))
-          : QStyle::sliderValueFromPosition(
-                minimum(), maximum(), e->pos().y() - sliderRect.height() / 2,
-                height() - sliderRect.height()));
-
-}
-
-void SliderSlider::mousePressEvent(QMouseEvent *e) {
-
-  QStyleOptionSlider option;
-  initStyleOption(&option);
-  QRect sliderRect(style()->subControlRect(QStyle::CC_Slider, &option, QStyle::SC_SliderHandle, this));
-
-  sliding_ = true;
-  prev_value_ = QSlider::value();
-
-  if (!sliderRect.contains(e->pos())) mouseMoveEvent(e);
-
-}
-
-void SliderSlider::mouseReleaseEvent(QMouseEvent*) {
-
-  if (!outside_ && QSlider::value() != prev_value_) {
-    emit SliderReleased(value());
-  }
-
-  sliding_ = false;
-  outside_ = false;
-
-}
-
-void SliderSlider::SetValue(const uint value) {
-
-  setValue(static_cast<int>(value));
-
-}
-
-void SliderSlider::setValue(int value) {
-
-  // Don't adjust the slider while the user is dragging it!
-
-  if ((!sliding_ || outside_) && !wheeling_) {
-    QSlider::setValue(adjustValue(value));
-  }
-  else {
-    prev_value_ = value;
-  }
-
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////
-/// CLASS PrettySlider
-//////////////////////////////////////////////////////////////////////////////////////////
-
-PrettySlider::PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget *parent, const uint max)
-    : SliderSlider(orientation, parent, static_cast<int>(max)), m_mode(mode) {
-
-  if (m_mode == Pretty) {
-    setFocusPolicy(Qt::NoFocus);
-  }
-
-}
-
-void PrettySlider::mousePressEvent(QMouseEvent *e) {
-
-  SliderSlider::mousePressEvent(e);
-
-  slideEvent(e);
-
-}
-
-void PrettySlider::slideEvent(QMouseEvent *e) {
-
-  if (m_mode == Pretty) {
-    QSlider::setValue(orientation() == Qt::Horizontal ? QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2) : QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().y(), height() - 2));  // clazy:exclude=skipped-base-method
-  }
-  else {
-    SliderSlider::slideEvent(e);
-  }
-
-}
-
-#if 0
-/** these functions aren't required in our fixed size world, but they may become useful one day **/
-
-QSize PrettySlider::minimumSizeHint() const {
-    return sizeHint();
-}
-
-QSize PrettySlider::sizeHint() const {
-    constPolish();
-
-    return (orientation() == Horizontal
-             ? QSize( maxValue(), THICKNESS + MARGIN )
-             : QSize( THICKNESS + MARGIN, maxValue() )).expandedTo( QApplit ication::globalStrut() );
-}
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#  include <QEnterEvent>
+#else
+#  include <QEvent>
 #endif
+#include <QPaintEvent>
+#include <QContextMenuEvent>
+#include <QMouseEvent>
+#include <QWheelEvent>
 
-//////////////////////////////////////////////////////////////////////////////////////////
-/// CLASS VolumeSlider
-//////////////////////////////////////////////////////////////////////////////////////////
+#include "volumeslider.h"
 
 VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
     : SliderSlider(Qt::Horizontal, parent, static_cast<int>(max)),
@@ -243,86 +78,6 @@ VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
 void VolumeSlider::SetEnabled(const bool enabled) {
   QSlider::setEnabled(enabled);
   QSlider::setVisible(enabled);
-}
-
-void VolumeSlider::generateGradient() {
-
-  const QImage mask(":/pictures/volumeslider-gradient.png");
-
-  QImage gradient_image(mask.size(), QImage::Format_ARGB32_Premultiplied);
-  QPainter p(&gradient_image);
-
-  QLinearGradient gradient(gradient_image.rect().topLeft(), gradient_image.rect().topRight());
-  gradient.setColorAt(0, palette().color(QPalette::Window));
-  gradient.setColorAt(1, palette().color(QPalette::Highlight));
-  p.fillRect(gradient_image.rect(), QBrush(gradient));
-
-  p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-  p.drawImage(0, 0, mask);
-  p.end();
-
-  pixmap_gradient_ = QPixmap::fromImage(gradient_image);
-
-}
-
-void VolumeSlider::slotAnimTimer() {
-
-  if (anim_enter_) {
-    ++anim_count_;
-    update();
-    if (anim_count_ == ANIM_MAX - 1) timer_anim_->stop();
-  }
-  else {
-    --anim_count_;
-    update();
-    if (anim_count_ == 0) timer_anim_->stop();
-  }
-
-}
-
-void VolumeSlider::mousePressEvent(QMouseEvent *e) {
-
-  if (e->button() != Qt::RightButton) {
-    SliderSlider::mousePressEvent(e);
-    slideEvent(e);
-  }
-
-}
-
-void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
-
-  QHash<QAction*, int> values;
-  QMenu menu;
-  menu.setTitle("Volume");
-  values[menu.addAction("100%")] = 100;
-  values[menu.addAction("80%")] = 80;
-  values[menu.addAction("60%")] = 60;
-  values[menu.addAction("40%")] = 40;
-  values[menu.addAction("20%")] = 20;
-  values[menu.addAction("0%")] = 0;
-
-  QAction *ret = menu.exec(mapToGlobal(e->pos()));
-  if (ret) {
-    QSlider::setValue(values[ret]);
-    emit SliderReleased(values[ret]);
-  }
-
-}
-
-void VolumeSlider::slideEvent(QMouseEvent *e) {
-  QSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2));
-}
-
-void VolumeSlider::wheelEvent(QWheelEvent *e) {
-
-  wheeling_ = true;
-
-  const int step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
-  QSlider::setValue(SliderSlider::value() + step);
-  emit SliderReleased(value());
-
-  wheeling_ = false;
-
 }
 
 void VolumeSlider::paintEvent(QPaintEvent*) {
@@ -358,26 +113,38 @@ void VolumeSlider::paintEvent(QPaintEvent*) {
 
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-void VolumeSlider::enterEvent(QEnterEvent*) {
-#else
-void VolumeSlider::enterEvent(QEvent*) {
-#endif
+void VolumeSlider::generateGradient() {
 
-  anim_enter_ = true;
-  anim_count_ = 0;
+  const QImage mask(":/pictures/volumeslider-gradient.png");
 
-  timer_anim_->start(ANIM_INTERVAL);
+  QImage gradient_image(mask.size(), QImage::Format_ARGB32_Premultiplied);
+  QPainter p(&gradient_image);
+
+  QLinearGradient gradient(gradient_image.rect().topLeft(), gradient_image.rect().topRight());
+  gradient.setColorAt(0, palette().color(QPalette::Window));
+  gradient.setColorAt(1, palette().color(QPalette::Highlight));
+  p.fillRect(gradient_image.rect(), QBrush(gradient));
+
+  p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+  p.drawImage(0, 0, mask);
+  p.end();
+
+  pixmap_gradient_ = QPixmap::fromImage(gradient_image);
 
 }
 
-void VolumeSlider::leaveEvent(QEvent*) {
+void VolumeSlider::slotAnimTimer() {
 
-  // This can happen if you enter and leave the widget quickly
-  if (anim_count_ == 0) anim_count_ = 1;
-
-  anim_enter_ = false;
-  timer_anim_->start(ANIM_INTERVAL);
+  if (anim_enter_) {
+    ++anim_count_;
+    update();
+    if (anim_count_ == ANIM_MAX - 1) timer_anim_->stop();
+  }
+  else {
+    --anim_count_;
+    update();
+    if (anim_count_ == 0) timer_anim_->stop();
+  }
 
 }
 
@@ -445,5 +212,73 @@ void VolumeSlider::drawVolumeSliderHandle() {
     opacity += step;
   }
   // END
+
+}
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void VolumeSlider::enterEvent(QEnterEvent*) {
+#else
+void VolumeSlider::enterEvent(QEvent*) {
+#endif
+
+  anim_enter_ = true;
+  anim_count_ = 0;
+
+  timer_anim_->start(ANIM_INTERVAL);
+
+}
+
+void VolumeSlider::leaveEvent(QEvent*) {
+
+  // This can happen if you enter and leave the widget quickly
+  if (anim_count_ == 0) anim_count_ = 1;
+
+  anim_enter_ = false;
+  timer_anim_->start(ANIM_INTERVAL);
+
+}
+
+void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
+
+  QHash<QAction*, int> values;
+  QMenu menu;
+  menu.setTitle("Volume");
+  values[menu.addAction("100%")] = 100;
+  values[menu.addAction("80%")] = 80;
+  values[menu.addAction("60%")] = 60;
+  values[menu.addAction("40%")] = 40;
+  values[menu.addAction("20%")] = 20;
+  values[menu.addAction("0%")] = 0;
+
+  QAction *ret = menu.exec(mapToGlobal(e->pos()));
+  if (ret) {
+    QSlider::setValue(values[ret]);
+    emit SliderReleased(values[ret]);
+  }
+
+}
+
+void VolumeSlider::slideEvent(QMouseEvent *e) {
+  QSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2));
+}
+
+void VolumeSlider::mousePressEvent(QMouseEvent *e) {
+
+  if (e->button() != Qt::RightButton) {
+    SliderSlider::mousePressEvent(e);
+    slideEvent(e);
+  }
+
+}
+
+void VolumeSlider::wheelEvent(QWheelEvent *e) {
+
+  wheeling_ = true;
+
+  const int step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
+  QSlider::setValue(SliderSlider::value() + step);
+  emit SliderReleased(value());
+
+  wheeling_ = false;
 
 }

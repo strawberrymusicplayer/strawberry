@@ -218,6 +218,8 @@ set(SOURCES
   widgets/multiloadingindicator.cpp
   widgets/playingwidget.cpp
   widgets/renametablineedit.cpp
+  widgets/sliderslider.cpp
+  widgets/prettyslider.cpp
   widgets/volumeslider.cpp
   widgets/stickyslider.cpp
   widgets/stretchheaderview.cpp
@@ -448,6 +450,8 @@ set(HEADERS
   widgets/multiloadingindicator.h
   widgets/playingwidget.h
   widgets/renametablineedit.h
+  widgets/sliderslider.h
+  widgets/prettyslider.h
   widgets/volumeslider.h
   widgets/stickyslider.h
   widgets/stretchheaderview.h
