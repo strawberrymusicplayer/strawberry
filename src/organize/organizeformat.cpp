@@ -111,34 +111,32 @@ bool OrganizeFormat::IsValid() const {
 
 OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(const Song &song, QString extension) const {
 
-  QString format_path;
-  QString format_filename;
-
-  if (format_.contains('/')) {
-    format_path = format_.section('/', 0, -2);
-    format_filename = format_.section('/', -1);
-  }
-  else {
-    format_filename = format_;
-  }
-
-  QString path;
-  if (!format_path.isEmpty()) {
-    path = ParseBlock(format_path, song);
-  }
-
   bool unique_filename = false;
-  QString filename = ParseBlock(format_filename, song, &unique_filename);
-  if (filename.isEmpty()) {
-    return GetFilenameForSongResult();
+  QString filepath = ParseBlock(format_, song, &unique_filename);
+
+  if (filepath.isEmpty()) {
+    filepath = song.basefilename();
   }
 
-  QString filepath;
-  if (path.isEmpty()) {
-    filepath = filename;
+  {
+    QFileInfo fileinfo(filepath);
+    if (fileinfo.completeBaseName().isEmpty()) {
+      // Avoid having empty filenames, or filenames with extension only: in this case, keep the original filename.
+      // We remove the extension from "filename" if it exists, as song.basefilename() also contains the extension.
+      QString path = fileinfo.path();
+      filepath.clear();
+      if (!path.isEmpty()) {
+        filepath.append(path);
+        if (path.right(1) != '/') {
+          filepath.append('/');
+        }
+      }
+      filepath.append(song.basefilename());
+    }
   }
-  else {
-    filepath = path + "/" + filename;
+
+  if (filepath.isEmpty() || (filepath.contains('/') && (filepath.section('/', 0, -2).isEmpty() || filepath.section('/', 0, -2).isEmpty()))) {
+    return GetFilenameForSongResult();
   }
 
   if (remove_problematic_) filepath = filepath.remove(kProblematicCharacters);
