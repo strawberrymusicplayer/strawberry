@@ -2,6 +2,16 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed crash when adjusting volume with mouse wheel (#1089).
+    * Fixed playback stopping in certain cases where the next track was unavailable (#958).
+    * (Windows) Apply patch for fonts too large on High DPI screen (QTBUG-108593).
+
+  Removed features:
+    * Removed appearance settings for changing palette colors, it was never properly implemented.
+
 Version 1.0.11 (2022.12.30):
 
   Bugfixes:
