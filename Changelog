@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.12 (2023.01.02):
 
   Bugfixes:
     * Fixed crash when adjusting volume with mouse wheel (#1089).
