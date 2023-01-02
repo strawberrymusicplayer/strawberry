@@ -42,13 +42,14 @@
 # Sébastien Morin <sebsweb@gmail.com>, 2021. #zanata
 # David Geiger <geiger.david68210@gmail.com>, 2022. #zanata
 # Papoteur <yves.brungard_mageia@gadz.org>, 2022. #zanata
+# Peter Blackman <peter@pblackman.plus.com>, 2023. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-12-28 01:39-0500\n"
-"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
+"PO-Revision-Date: 2023-01-01 08:12-0500\n"
+"Last-Translator: Peter Blackman <peter@pblackman.plus.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -4819,7 +4820,7 @@ msgstr "Soft Rock"
 
 #: ../build/src/ui_scrobblersettingspage.h:425
 msgid "SomaFM"
-msgstr ""
+msgstr "SomaFM"
 
 #: ../build/src/ui_contextsettingspage.h:436
 msgid "Song Lyrics"
@@ -5088,7 +5089,7 @@ msgstr "Compléteur de balises"
 
 #: ../build/src/ui_collectionsettingspage.h:636
 msgid "Tagreader workers"
-msgstr ""
+msgstr "Tagreader travailleur"
 
 #: ../build/src/ui_edittagdialog.h:860
 msgid "Tags"
@@ -5272,7 +5273,7 @@ msgstr "Ce type de périphérique n'est pas supporté : %1"
 
 #: ../build/src/ui_collectionsettingspage.h:637
 msgid "Thread priority"
-msgstr ""
+msgstr "Priorité des threads"
 
 #: core/mainwindow.cpp:381 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5305,7 +5306,7 @@ msgstr "Aujourd'hui"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Toggle Pretty OSD"
-msgstr ""
+msgstr "Basculer le panneau d'information stylisé"
 
 #: core/mainwindow.cpp:724 core/mainwindow.cpp:1922
 msgid "Toggle queue status"
@@ -5465,7 +5466,7 @@ msgstr "Mise à jour de la bibliothèque"
 
 #: ../build/src/ui_backendsettingspage.h:569
 msgid "Upmix / downmix to"
-msgstr ""
+msgstr "Remix à"
 
 #: ../build/src/ui_appearancesettingspage.h:536
 msgid "Upper Left"
