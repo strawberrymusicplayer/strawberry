@@ -39,21 +39,21 @@ SliderSlider::SliderSlider(const Qt::Orientation orientation, QWidget *parent, c
 
 }
 
-void SliderSlider::SetValue(const uint value) {
+void SliderSlider::SetValue(const uint new_value) {
 
-  setValue(static_cast<int>(value));
+  setValue(static_cast<int>(new_value));
 
 }
 
-void SliderSlider::setValue(int value) {
+void SliderSlider::setValue(int new_value) {
 
   // Don't adjust the slider while the user is dragging it!
 
   if ((!sliding_ || outside_) && !wheeling_) {
-    QSlider::setValue(adjustValue(value));
+    QSlider::setValue(adjustValue(new_value));
   }
   else {
-    prev_value_ = value;
+    prev_value_ = new_value;
   }
 
 }

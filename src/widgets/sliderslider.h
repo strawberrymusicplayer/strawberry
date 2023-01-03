@@ -37,8 +37,8 @@ class SliderSlider : public QSlider {
   // WARNING non-virtual - and thus only really intended for internal use this is a major flaw in the class presently, however it suits our current needs fine
   int value() const { return adjustValue(QSlider::value()); }
 
-  virtual void SetValue(const uint value);
-  virtual void setValue(int value);
+  virtual void SetValue(const uint new_value);
+  virtual void setValue(int new_value);
 
  signals:
   // We emit this when the user has specifically changed the slider so connect to it if valueChanged() is too generic Qt also emits valueChanged(int)
