@@ -98,6 +98,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       pending_seek_nanosec_(-1),
       last_known_position_ns_(0),
       next_uri_set_(false),
+      volume_internal_(-1.0),
       volume_percent_(100),
       use_fudge_timer_(false),
       pipeline_(nullptr),
@@ -873,10 +874,9 @@ void GstEnginePipeline::NotifyVolumeCallback(GstElement *element, GParamSpec *pa
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
-  gdouble volume = 0;
-  g_object_get(G_OBJECT(instance->volume_), "volume", &volume, nullptr);
+  g_object_get(G_OBJECT(instance->volume_), "volume", &instance->volume_internal_, nullptr);
 
-  const uint volume_percent = static_cast<uint>(qBound(0L, lround(qBound(0.0, gst_stream_volume_convert_volume(GST_STREAM_VOLUME_FORMAT_LINEAR, GST_STREAM_VOLUME_FORMAT_CUBIC, volume), 1.0) / 0.01), 100L));
+  const uint volume_percent = static_cast<uint>(qBound(0L, lround(qBound(0.0, gst_stream_volume_convert_volume(GST_STREAM_VOLUME_FORMAT_LINEAR, GST_STREAM_VOLUME_FORMAT_CUBIC, instance->volume_internal_), 1.0) / 0.01), 100L));
   if (volume_percent != instance->volume_percent_) {
     instance->volume_percent_ = volume_percent;
     emit instance->VolumeChanged(volume_percent);
@@ -1516,8 +1516,11 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 void GstEnginePipeline::SetVolume(const uint volume_percent) {
 
   if (volume_) {
-    const double volume = gst_stream_volume_convert_volume(GST_STREAM_VOLUME_FORMAT_CUBIC, GST_STREAM_VOLUME_FORMAT_LINEAR, static_cast<double>(volume_percent) * 0.01);
-    g_object_set(G_OBJECT(volume_), "volume", volume, nullptr);
+    const double volume_internal = lround(static_cast<int>(gst_stream_volume_convert_volume(GST_STREAM_VOLUME_FORMAT_CUBIC, GST_STREAM_VOLUME_FORMAT_LINEAR, static_cast<double>(volume_percent) * 0.01) * 100.0)) / 100.0;
+    if (volume_internal != volume_internal_) {
+      volume_internal_ = volume_internal;
+      g_object_set(G_OBJECT(volume_), "volume", volume_internal, nullptr);
+    }
   }
 
   volume_percent_ = volume_percent;
