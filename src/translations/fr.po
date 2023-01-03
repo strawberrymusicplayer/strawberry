@@ -48,7 +48,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-01-01 08:12-0500\n"
+"PO-Revision-Date: 2023-01-02 12:50-0500\n"
 "Last-Translator: Peter Blackman <peter@pblackman.plus.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -76,7 +76,7 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in cinnamon-settings-daemon instead."
 msgstr ""
-"Les raccourcis sur %1 sont généralement utilisés via Cinnamon Settings "
+" Les raccourcis sur %1 sont généralement utilisés via Cinnamon Settings "
 "Daemon et doivent être configurés dans cinnamon-settings-daemon à la place."
 
 #: settings/globalshortcutssettingspage.cpp:353
@@ -85,7 +85,7 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in gnome-settings-daemon instead."
 msgstr ""
-"Les raccourcis sur %1 sont généralement utilisés via Gnome Settings Daemon "
+" Les raccourcis sur %1 sont généralement utilisés via Gnome Settings Daemon "
 "et doivent être configurés dans gnome-settings-daemon à la place."
 
 #: settings/globalshortcutssettingspage.cpp:359
@@ -94,8 +94,8 @@ msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
 "configured there instead."
 msgstr ""
-"Les raccourcis sur %1 sont généralement utilisés via MATE Settings Daemon et "
-"doivent être configurés ici à la place."
+" Les raccourcis sur %1 sont généralement utilisés via MATE Settings Daemon "
+"et doivent être configurés ici à la place."
 
 #: settings/globalshortcutssettingspage.cpp:350
 #, qt-format
@@ -1138,7 +1138,7 @@ msgstr "Balance"
 
 #: ../build/src/ui_qobuzsettingspage.h:293
 msgid "Base64 encoded secret"
-msgstr "secret encodé en Base64"
+msgstr "Secret encodé en Base64"
 
 #: ../build/src/ui_notificationssettingspage.h:504
 msgid "Basic Blue"
@@ -2315,7 +2315,7 @@ msgstr "Impossible d'ouvrir la pochette %1 pour l'écrire : %2"
 #: covermanager/albumcoverchoicecontroller.cpp:636
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
-msgstr "Impossible d'écrire la pochette dans le fichier %1: %2."
+msgstr "Impossible d'écrire la pochette dans le fichier %1: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:278
 #, qt-format
@@ -3588,13 +3588,13 @@ msgstr "Options de sortie"
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
 "Remplacer le nombre de lectures de la base de données lorsque les morceaux "
-"sont relus à partir du disque."
+"sont relus à partir du disque"
 
 #: ../build/src/ui_collectionsettingspage.h:632
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 "Remplacer la notation de la base de données lorsque les morceaux sont relus "
-"à partir du disque."
+"à partir du disque"
 
 #: ../build/src/ui_collectionsettingspage.h:618
 msgid "Overwrite existing file"

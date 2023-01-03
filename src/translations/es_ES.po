@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-01-01 07:24-0500\n"
+"PO-Revision-Date: 2023-01-02 12:37-0500\n"
 "Last-Translator: Peter Blackman <peter@pblackman.plus.com>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -38,8 +38,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in cinnamon-settings-daemon instead."
 msgstr ""
-"Los atajos en %1 se utilizan habitualmente a través de Gnome Settings Daemon "
-"y deben configurarse en cinnamon-settings-daemon."
+" Los atajos en %1 se utilizan habitualmente a través de Gnome Settings "
+"Daemon y deben configurarse en cinnamon-settings-daemon."
 
 #: settings/globalshortcutssettingspage.cpp:353
 #, qt-format
@@ -47,8 +47,8 @@ msgid ""
 " Shortcuts on %1 are usually used through Gnome Settings Daemon and should "
 "be configured in gnome-settings-daemon instead."
 msgstr ""
-"Los atajos en %1 se utilizan habitualmente a través de Gnome Settings Daemon "
-"y deben configurarse en gnome-settings-daemon."
+" Los atajos en %1 se utilizan habitualmente a través de Gnome Settings "
+"Daemon y deben configurarse en gnome-settings-daemon."
 
 #: settings/globalshortcutssettingspage.cpp:359
 #, qt-format
@@ -56,14 +56,14 @@ msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
 "configured there instead."
 msgstr ""
-"Los atajos en %1 se utilizan habitualmente a través de MATE Settings Daemon "
+" Los atajos en %1 se utilizan habitualmente a través de MATE Settings Daemon "
 "y deben configurarse allí."
 
 #: settings/globalshortcutssettingspage.cpp:350
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
-"Los atajos en %1 se usan normalmente a través de GMPRIS y KGlobalAccel."
+" Los atajos en %1 se usan normalmente a través de GMPRIS y KGlobalAccel."
 
 #: ../build/src/ui_transcoderoptionsaac.h:133
 #: ../build/src/ui_transcoderoptionsvorbis.h:201
@@ -86,7 +86,7 @@ msgstr " ms"
 #: ../build/src/ui_contextsettingspage.h:442
 #: ../build/src/ui_contextsettingspage.h:447
 msgid " pt"
-msgstr "pt"
+msgstr " pt"
 
 #: ../build/src/ui_behavioursettingspage.h:320
 msgid " s"
@@ -99,7 +99,7 @@ msgstr " segundos"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
-msgstr "temas"
+msgstr " temas"
 
 #: scrobbler/scrobblingapi20.cpp:165 scrobbler/scrobblingapi20.cpp:174
 #, qt-format
@@ -199,7 +199,7 @@ msgstr ""
 #: dialogs/edittagdialog.cpp:690
 #, qt-format
 msgid "%1 songs selected."
-msgstr "%1 temas seleccionados"
+msgstr "%1 temas seleccionados."
 
 #: playlist/playlistmanager.cpp:452 queue/queue.cpp:252
 #, qt-format
@@ -1245,7 +1245,7 @@ msgstr "Elegir tipo de letra…"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:159
 msgid "Choose how the playlist is sorted and how many songs it will contain."
-msgstr "Seleccionar como se ordenará la lista y qué temas contendrá"
+msgstr "Seleccionar como se ordenará la lista y qué temas contendrá."
 
 #: ../build/src/ui_coverssettingspage.h:164
 msgid "Choose the providers you want to use when searching for covers."
@@ -1463,7 +1463,7 @@ msgid ""
 "required GStreamer plugins installed"
 msgstr ""
 "No se pudo crear el elemento «%1» de GStreamer. Asegúrese de tener "
-"instalados todos los complementos necesarios de GStreamer."
+"instalados todos los complementos necesarios de GStreamer"
 
 #: core/songloader.cpp:313
 #, qt-format
@@ -1678,7 +1678,7 @@ msgstr "Dance"
 
 #: core/database.cpp:505
 msgid "Database corruption detected."
-msgstr "Se han detectado errores en la base de datos"
+msgstr "Se han detectado errores en la base de datos."
 
 #: playlist/playlist.cpp:1360 ../build/src/ui_edittagdialog.h:832
 msgid "Date created"
@@ -1803,7 +1803,7 @@ msgstr "Carpeta"
 
 #: dialogs/saveplaylistsdialog.cpp:78
 msgid "Directory does not exist."
-msgstr "La carpeta no existe"
+msgstr "La carpeta no existe."
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
@@ -2519,7 +2519,7 @@ msgstr "Ir a la anterior pestaña de lista de reproducción"
 
 #: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr "Ir"
+msgstr "Ir!"
 
 #: covermanager/albumcovermanager.cpp:570
 #: covermanager/coversearchstatisticsdialog.cpp:67
@@ -3150,7 +3150,7 @@ msgstr "Falta el usuario o la contraseña."
 
 #: scrobbler/lastfmimport.cpp:212
 msgid "Missing username, please login to last.fm first!"
-msgstr "Falta el usuario; acceda a Last.fm primero."
+msgstr "Falta el usuario; acceda a Last.fm primero!"
 
 #: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
@@ -3517,7 +3517,7 @@ msgstr "Opciones de salida"
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
 "Sobreescribir el número de reproducciones al volver a leer los temas desde "
-"el disco."
+"el disco"
 
 #: ../build/src/ui_collectionsettingspage.h:632
 msgid "Overwrite database rating when songs are re-read from disk"
@@ -4243,7 +4243,7 @@ msgstr "Frecuencia"
 
 #: ../build/src/ui_mainwindow.h:686
 msgid "Save &playlist..."
-msgstr "Guardar lista de re&producción"
+msgstr "Guardar lista de re&producción..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:246
 msgid "Save album cover"
@@ -4277,7 +4277,7 @@ msgstr "Guarda nº de reproducciones y valoraciones en archivos ahora"
 msgid "Save playcounts to song tags when possible"
 msgstr ""
 "Guardar nº de reproducciones en las etiquetas de los temas cuando sea "
-"posible."
+"posible"
 
 #: playlist/playlistlistcontainer.cpp:87
 msgctxt "Save playlist menu action."
@@ -4902,7 +4902,11 @@ msgid ""
 "Strawberry is slower, and has restrictions when running as a Snap. Accessing "
 "the root filesystem (/) will not work. There also might be other "
 "restrictions such as accessing certain devices or network shares."
-msgstr "Strawberry se está ejecutando como un snap"
+msgstr ""
+"Strawberry se está ejecutando como un snap. Será imposible acceder a la "
+"partición raíz (/). Pueden producirse otras restricciones, como la "
+"imposibilidad de acceder a determinados dispositivos o recursos compartidos "
+"de red."
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Strawberry was unable to find results for this file"
@@ -4940,7 +4944,7 @@ msgstr "Subsonic"
 
 #: subsonic/subsonicurlhandler.cpp:39
 msgid "Subsonic server URL is invalid."
-msgstr "La dirección URL del servidor de Subsonic es errónea"
+msgstr "La dirección URL del servidor de Subsonic es errónea."
 
 #: ../data/html/oauthsuccess.html:36
 msgid "Success!"
@@ -5040,7 +5044,7 @@ msgstr "Gracias a"
 
 #: dialogs/about.cpp:186
 msgid "Thanks to all the other Amarok and Clementine contributors."
-msgstr "Gracias al resto de colaboradores de Amarok y Clementine"
+msgstr "Gracias al resto de colaboradores de Amarok y Clementine."
 
 #: settings/globalshortcutssettingspage.cpp:262
 #: settings/globalshortcutssettingspage.cpp:272
@@ -5058,19 +5062,19 @@ msgstr "Los siguientes archivos serán borrados del disco:"
 
 #: internet/internetcollectionview.cpp:286
 msgid "The internet collection is empty!"
-msgstr "La colección de Internet está vacía."
+msgstr "La colección de Internet está vacía!"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:419
 msgid "The second value must be greater than the first one!"
-msgstr "El segundo valor debe ser mayor que el primero."
+msgstr "El segundo valor debe ser mayor que el primero!"
 
 #: covermanager/coverfromurldialog.cpp:86
 msgid "The site you requested does not exist!"
-msgstr "El sitio indicado no existe."
+msgstr "El sitio indicado no existe!"
 
 #: covermanager/coverfromurldialog.cpp:100
 msgid "The site you requested is not an image!"
-msgstr "El sitio indicado no es una imagen."
+msgstr "El sitio indicado no es una imagen!"
 
 #: core/mainwindow.cpp:2861
 msgid ""
@@ -5238,7 +5242,7 @@ msgstr "Mañana"
 
 #: utilities/filemanagerutils.cpp:135
 msgid "Too many songs selected."
-msgstr "Demasiados temas seleccionados"
+msgstr "Demasiados temas seleccionados."
 
 #: ../build/src/ui_albumcovermanager.h:218
 msgid "Total albums:"
@@ -5327,7 +5331,7 @@ msgstr "Error desconocido"
 
 #: playlist/playlistmanager.cpp:260
 msgid "Unknown file extension for playlist."
-msgstr "Extensión desconocida para lista de reproducción"
+msgstr "Extensión desconocida para lista de reproducción."
 
 #: playlist/playlistmanager.cpp:260
 msgid "Unknown playlist extension"
@@ -5500,7 +5504,7 @@ msgid ""
 "become unresponsive!"
 msgstr ""
 "Usar atajos de X11 en %1 no es recomendable y puede hacer que el teclado no "
-"responda eficientemente."
+"responda eficientemente!"
 
 #: ../build/src/ui_behavioursettingspage.h:295
 msgid "Using the menu to add a song will..."
@@ -5685,7 +5689,7 @@ msgstr ""
 
 #: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
-msgstr "Necesita GStreamer para este URL"
+msgstr "Necesita GStreamer para este URL."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:278
 msgid ""
@@ -5712,7 +5716,7 @@ msgstr "Necesitará reiniciar Strawberry si cambia el idioma."
 
 #: collection/collectionview.cpp:320
 msgid "Your collection is empty!"
-msgstr "La colección está vacía."
+msgstr "La colección está vacía!"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:427
 msgid "Z-A"
@@ -5730,7 +5734,7 @@ msgstr "añadir %n temas"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:252
 msgid "after"
-msgstr "Después"
+msgstr "después"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:273
 msgid "ago"
@@ -5830,7 +5834,7 @@ msgstr "menos de"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "longest first"
-msgstr "El más largo primero"
+msgstr "el más largo primero"
 
 #: playlist/playlistundocommands.cpp:108
 #, c-format, qt-plural-format
@@ -5845,7 +5849,7 @@ msgstr "ms"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "newest first"
-msgstr "El más nuevo primero"
+msgstr "el más nuevo primero"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:290
 msgid "not empty"
@@ -5928,4 +5932,4 @@ msgstr "pista %1"
 
 #: covermanager/albumcoverchoicecontroller.cpp:241
 msgid "unknown"
-msgstr "Desconocido"
+msgstr "desconocido"
