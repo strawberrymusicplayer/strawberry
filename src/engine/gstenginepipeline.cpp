@@ -112,14 +112,14 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       equalizer_(nullptr),
       equalizer_preamp_(nullptr),
       eventprobe_(nullptr),
-      upstream_events_probe_cb_id_(-1UL),
-      buffer_probe_cb_id_(-1UL),
-      playbin_probe_cb_id_(-1UL),
-      element_added_cb_id_(-1UL),
-      pad_added_cb_id_(-1UL),
-      notify_source_cb_id_(-1UL),
-      about_to_finish_cb_id_(-1UL),
-      notify_volume_cb_id_(-1UL),
+      upstream_events_probe_cb_id_(0),
+      buffer_probe_cb_id_(0),
+      playbin_probe_cb_id_(0),
+      element_added_cb_id_(-1),
+      pad_added_cb_id_(-1),
+      notify_source_cb_id_(-1),
+      about_to_finish_cb_id_(-1),
+      notify_volume_cb_id_(-1),
       logged_unsupported_analyzer_format_(false) {
 
   eq_band_gains_.reserve(kEqBandCount);
@@ -138,27 +138,27 @@ GstEnginePipeline::~GstEnginePipeline() {
       fader_.reset();
     }
 
-    if (element_added_cb_id_ != -1UL) {
+    if (element_added_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(audiobin_), element_added_cb_id_);
     }
 
-    if (pad_added_cb_id_ != -1UL) {
+    if (pad_added_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(pipeline_), pad_added_cb_id_);
     }
 
-    if (notify_source_cb_id_ != -1UL) {
+    if (notify_source_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(pipeline_), notify_source_cb_id_);
     }
 
-    if (about_to_finish_cb_id_ != -1UL) {
+    if (about_to_finish_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(pipeline_), about_to_finish_cb_id_);
     }
 
-    if (notify_volume_cb_id_ != -1UL) {
+    if (notify_volume_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(volume_), notify_volume_cb_id_);
     }
 
-    if (upstream_events_probe_cb_id_ > 0UL) {
+    if (upstream_events_probe_cb_id_ != 0) {
       GstPad *pad = gst_element_get_static_pad(eventprobe_, "src");
       if (pad) {
         gst_pad_remove_probe(pad, upstream_events_probe_cb_id_);
@@ -166,7 +166,7 @@ GstEnginePipeline::~GstEnginePipeline() {
       }
     }
 
-    if (buffer_probe_cb_id_ > 0UL) {
+    if (buffer_probe_cb_id_ != 0) {
       GstPad *pad = gst_element_get_static_pad(audioqueueconverter_, "src");
       if (pad) {
         gst_pad_remove_probe(pad, buffer_probe_cb_id_);

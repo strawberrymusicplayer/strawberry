@@ -297,11 +297,11 @@ class GstEnginePipeline : public QObject {
   gulong upstream_events_probe_cb_id_;
   gulong buffer_probe_cb_id_;
   gulong playbin_probe_cb_id_;
-  gulong element_added_cb_id_;
-  gulong pad_added_cb_id_;
-  gulong notify_source_cb_id_;
-  gulong about_to_finish_cb_id_;
-  gulong notify_volume_cb_id_;
+  glong element_added_cb_id_;
+  glong pad_added_cb_id_;
+  glong notify_source_cb_id_;
+  glong about_to_finish_cb_id_;
+  glong notify_volume_cb_id_;
 
   QThreadPool set_state_threadpool_;
 
