@@ -364,24 +364,24 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
-  ui_->tabs->AddTab(context_view_, "context", IconLoader::Load("strawberry"), tr("Context"));
-  ui_->tabs->AddTab(collection_view_, "collection", IconLoader::Load("library-music"), tr("Collection"));
-  ui_->tabs->AddTab(queue_view_, "queue", IconLoader::Load("footsteps"), tr("Queue"));
-  ui_->tabs->AddTab(playlist_list_, "playlists", IconLoader::Load("view-media-playlist"), tr("Playlists"));
-  ui_->tabs->AddTab(smartplaylists_view_, "smartplaylists", IconLoader::Load("view-media-playlist"), tr("Smart playlists"));
-  ui_->tabs->AddTab(file_view_, "files", IconLoader::Load("document-open"), tr("Files"));
-  ui_->tabs->AddTab(radio_view_, "radios", IconLoader::Load("radio"), tr("Radios"));
+  ui_->tabs->AddTab(context_view_, "context", IconLoader::Load("strawberry", true, 0, 32), tr("Context"));
+  ui_->tabs->AddTab(collection_view_, "collection", IconLoader::Load("library-music", true, 0, 32), tr("Collection"));
+  ui_->tabs->AddTab(queue_view_, "queue", IconLoader::Load("footsteps", true, 0, 32), tr("Queue"));
+  ui_->tabs->AddTab(playlist_list_, "playlists", IconLoader::Load("view-media-playlist", true, 0, 32), tr("Playlists"));
+  ui_->tabs->AddTab(smartplaylists_view_, "smartplaylists", IconLoader::Load("view-media-playlist", true, 0, 32), tr("Smart playlists"));
+  ui_->tabs->AddTab(file_view_, "files", IconLoader::Load("document-open", true, 0, 32), tr("Files"));
+  ui_->tabs->AddTab(radio_view_, "radios", IconLoader::Load("radio", true, 0, 32), tr("Radios"));
 #ifndef Q_OS_WIN
-  ui_->tabs->AddTab(device_view_, "devices", IconLoader::Load("device"), tr("Devices"));
+  ui_->tabs->AddTab(device_view_, "devices", IconLoader::Load("device", true, 0, 32), tr("Devices"));
 #endif
 #ifdef HAVE_SUBSONIC
-  ui_->tabs->AddTab(subsonic_view_, "subsonic", IconLoader::Load("subsonic"), tr("Subsonic"));
+  ui_->tabs->AddTab(subsonic_view_, "subsonic", IconLoader::Load("subsonic", true, 0, 32), tr("Subsonic"));
 #endif
 #ifdef HAVE_TIDAL
-  ui_->tabs->AddTab(tidal_view_, "tidal", IconLoader::Load("tidal"), tr("Tidal"));
+  ui_->tabs->AddTab(tidal_view_, "tidal", IconLoader::Load("tidal", true, 0, 32), tr("Tidal"));
 #endif
 #ifdef HAVE_QOBUZ
-  ui_->tabs->AddTab(qobuz_view_, "qobuz", IconLoader::Load("qobuz"), tr("Qobuz"));
+  ui_->tabs->AddTab(qobuz_view_, "qobuz", IconLoader::Load("qobuz", true, 0, 32), tr("Qobuz"));
 #endif
 
   // Add the playing widget to the fancy tab widget
