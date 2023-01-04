@@ -48,7 +48,7 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
       service_(dialog->app()->internet_services()->Service<TidalService>()) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("tidal"));
+  setWindowIcon(IconLoader::Load("tidal", true, 0, 32));
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &TidalSettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &TidalSettingsPage::LogoutClicked);

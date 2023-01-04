@@ -45,7 +45,7 @@ NetworkProxySettingsPage::NetworkProxySettingsPage(SettingsDialog *dialog, QWidg
       ui_(new Ui_NetworkProxySettingsPage) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("applications-internet"));
+  setWindowIcon(IconLoader::Load("applications-internet", true, 0, 32));
 
 }
 

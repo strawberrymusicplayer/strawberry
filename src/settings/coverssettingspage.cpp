@@ -51,7 +51,7 @@ CoversSettingsPage::CoversSettingsPage(SettingsDialog *dialog, QWidget *parent)
       provider_selected_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("cdcase"));
+  setWindowIcon(IconLoader::Load("cdcase", true, 0, 32));
 
   QObject::connect(ui_->providers_up, &QPushButton::clicked, this, &CoversSettingsPage::ProvidersMoveUp);
   QObject::connect(ui_->providers_down, &QPushButton::clicked, this, &CoversSettingsPage::ProvidersMoveDown);

@@ -55,7 +55,7 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *pa
       listenbrainz_waiting_for_auth_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("scrobble"));
+  setWindowIcon(IconLoader::Load("scrobble", true, 0, 32));
 
   // Last.fm
   QObject::connect(lastfmscrobbler_, &LastFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LastFM_AuthenticationComplete);

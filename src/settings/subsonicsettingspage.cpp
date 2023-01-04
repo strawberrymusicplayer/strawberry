@@ -47,7 +47,7 @@ SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *dialog, QWidget *pare
       service_(dialog->app()->internet_services()->Service<SubsonicService>()) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("subsonic"));
+  setWindowIcon(IconLoader::Load("subsonic", true, 0, 32));
 
   QObject::connect(ui_->button_test, &QPushButton::clicked, this, &SubsonicSettingsPage::TestClicked);
   QObject::connect(ui_->button_deletesongs, &QPushButton::clicked, service_, &SubsonicService::DeleteSongs);

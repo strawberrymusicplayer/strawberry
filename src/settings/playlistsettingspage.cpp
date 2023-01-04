@@ -41,7 +41,7 @@ PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog *dialog, QWidget *pare
       ui_(new Ui_PlaylistSettingsPage) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("document-new"));
+  setWindowIcon(IconLoader::Load("document-new", true, 0, 32));
 
 }
 

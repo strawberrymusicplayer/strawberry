@@ -63,7 +63,7 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
       systemtray_available_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("strawberry"));
+  setWindowIcon(IconLoader::Load("strawberry", true, 0, 32));
 
   systemtray_available_ = QSystemTrayIcon::isSystemTrayAvailable();
 

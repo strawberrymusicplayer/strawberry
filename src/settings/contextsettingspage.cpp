@@ -63,7 +63,7 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
       ui_(new Ui_ContextSettingsPage) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("view-choose"));
+  setWindowIcon(IconLoader::Load("view-choose", true, 0, 32));
 
   checkboxes_[ContextSettingsOrder::ALBUM] = ui_->checkbox_album;
   checkboxes_[ContextSettingsOrder::ENGINE_AND_DEVICE] = ui_->checkbox_engine_device;

@@ -70,7 +70,7 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent
       enginetype_current_(Engine::None) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("soundcard"));
+  setWindowIcon(IconLoader::Load("soundcard", true, 0, 32));
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
   ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).horizontalAdvance("-WW.W dB"));

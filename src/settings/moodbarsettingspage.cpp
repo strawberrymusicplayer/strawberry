@@ -54,7 +54,7 @@ MoodbarSettingsPage::MoodbarSettingsPage(SettingsDialog *dialog, QWidget *parent
       initialized_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("moodbar"));
+  setWindowIcon(IconLoader::Load("moodbar", true, 0, 32));
 
   MoodbarSettingsPage::Load();
 

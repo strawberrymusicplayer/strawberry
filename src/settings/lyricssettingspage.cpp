@@ -51,7 +51,7 @@ LyricsSettingsPage::LyricsSettingsPage(SettingsDialog *dialog, QWidget *parent)
       provider_selected_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("view-media-lyrics"));
+  setWindowIcon(IconLoader::Load("view-media-lyrics", true, 0, 32));
 
   QObject::connect(ui_->providers_up, &QPushButton::clicked, this, &LyricsSettingsPage::ProvidersMoveUp);
   QObject::connect(ui_->providers_down, &QPushButton::clicked, this, &LyricsSettingsPage::ProvidersMoveDown);

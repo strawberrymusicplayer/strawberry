@@ -59,7 +59,7 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog,
   ui_->setupUi(this);
   ui_->shortcut_options->setEnabled(false);
   ui_->list->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
-  setWindowIcon(IconLoader::Load("keyboard"));
+  setWindowIcon(IconLoader::Load("keyboard", true, 0, 32));
 
   QObject::connect(ui_->list, &QTreeWidget::currentItemChanged, this, &GlobalShortcutsSettingsPage::ItemClicked);
   QObject::connect(ui_->radio_none, &QRadioButton::clicked, this, &GlobalShortcutsSettingsPage::NoneClicked);

@@ -87,7 +87,7 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *
       background_image_type_(BackgroundImageType_Default) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("view-media-visualization"));
+  setWindowIcon(IconLoader::Load("view-media-visualization", true, 0, 32));
 
   ui_->combobox_style->addItem("default", "default");
   for (const QString &style : QStyleFactory::keys()) {

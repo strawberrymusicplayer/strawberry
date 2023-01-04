@@ -62,7 +62,7 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, QWi
       pretty_popup_(new OSDPretty(OSDPretty::Mode_Draggable)) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("help-hint"));
+  setWindowIcon(IconLoader::Load("help-hint", true, 0, 32));
 
   pretty_popup_->SetMessage(tr("OSD Preview"), tr("Drag to reposition"), QImage(":/pictures/cdcase.png"));
 

@@ -48,7 +48,7 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, QWidget *parent)
       service_(dialog->app()->internet_services()->Service<QobuzService>()) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("qobuz"));
+  setWindowIcon(IconLoader::Load("qobuz", true, 0, 32));
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &QobuzSettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &QobuzSettingsPage::LogoutClicked);
