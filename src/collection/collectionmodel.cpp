@@ -845,10 +845,8 @@ CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
     InitQuery(child_group_by, separate_albums_by_grouping_, &q);
 
     // Walk up through the item's parents adding filters as necessary
-    CollectionItem *p = parent;
-    while (p && p->type == CollectionItem::Type_Container) {
+    for (CollectionItem *p = parent; p && p->type == CollectionItem::Type_Container; p = p->parent) {
       FilterQuery(group_by_[p->container_level], separate_albums_by_grouping_, p, &q);
-      p = p->parent;
     }
 
     // Artists GroupBy is special - we don't want compilation albums appearing
