@@ -839,41 +839,43 @@ CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
 
   {
     QMutexLocker l(backend_->db()->Mutex());
-    QSqlDatabase db(backend_->db()->Connect());
+    {
+      QSqlDatabase db(backend_->db()->Connect());
+      CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), query_options_);
+      InitQuery(child_group_by, separate_albums_by_grouping_, &q);
 
-    CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), query_options_);
-    InitQuery(child_group_by, separate_albums_by_grouping_, &q);
-
-    // Walk up through the item's parents adding filters as necessary
-    for (CollectionItem *p = parent; p && p->type == CollectionItem::Type_Container; p = p->parent) {
-      FilterQuery(group_by_[p->container_level], separate_albums_by_grouping_, p, &q);
-    }
-
-    // Artists GroupBy is special - we don't want compilation albums appearing
-    if (IsArtistGroupBy(child_group_by)) {
-      // Add the special Various artists node
-      if (show_various_artists_ && HasCompilations(db, q)) {
-        result.create_va = true;
+      // Walk up through the item's parents adding filters as necessary
+      for (CollectionItem *p = parent; p && p->type == CollectionItem::Type_Container; p = p->parent) {
+        FilterQuery(group_by_[p->container_level], separate_albums_by_grouping_, p, &q);
       }
 
-      // Don't show compilations again outside the Various artists node
-      q.AddCompilationRequirement(false);
-    }
+      // Artists GroupBy is special - we don't want compilation albums appearing
+      if (IsArtistGroupBy(child_group_by)) {
+        // Add the special Various artists node
+        if (show_various_artists_ && HasCompilations(db, q)) {
+          result.create_va = true;
+        }
 
-    // Execute the query
-    if (q.Exec()) {
-      while (q.Next()) {
-        result.rows << SqlRow(q);
+        // Don't show compilations again outside the Various artists node
+        q.AddCompilationRequirement(false);
       }
-    }
-    else {
-      backend_->ReportErrors(q);
+
+      // Execute the query
+      if (q.Exec()) {
+        while (q.Next()) {
+          result.rows << SqlRow(q);
+        }
+      }
+      else {
+        backend_->ReportErrors(q);
+      }
+
     }
 
-  }
+    if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
+      backend_->db()->Close();
+    }
 
-  if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
-    backend_->Close();
   }
 
   return result;
