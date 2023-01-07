@@ -31,7 +31,7 @@ class ResizableTextEdit : public QTextEdit {
 
   virtual QSize sizeHint() const override;
 
-  void setText(const QString &text) = delete;
+  void setText(const QString &text) { SetText(text); }
   void SetText(const QString &text);
 
  protected:
