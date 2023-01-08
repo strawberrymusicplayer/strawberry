@@ -6,8 +6,10 @@ Unreleased:
 
   Bugfixes:
     * Fixed volume synchronization leading to infinite loop resulting in crash when adjusting volume while playing (#1089).
+    * Fixed incorrect volume.
     * Fixed collection organizing incorrectly handling slashes inside {} brackets for variables (#1091).
     * Fixed saving relative playlists to non-existing playlist files (#1092).
+    * Fixed intermittent crash on collection model query (#1095).
     * Require system icons for fancy tabbar and settings sidebar to be larger than 22x22 (#1084).
 
 Version 1.0.12 (2023.01.02):
