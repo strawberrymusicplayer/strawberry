@@ -82,9 +82,9 @@ static void gst_fastspectrum_class_init(GstFastSpectrumClass *klass) {
 
   filter_class->setup = GST_DEBUG_FUNCPTR(gst_fastspectrum_setup);
 
-  g_object_class_install_property(gobject_class, PROP_INTERVAL, g_param_spec_uint64("interval", "Interval", "Interval of time between message posts (in nanoseconds)", 1, G_MAXUINT64, DEFAULT_INTERVAL, GParamFlags(G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS)));
+  g_object_class_install_property(gobject_class, PROP_INTERVAL, g_param_spec_uint64("interval", "Interval", "Interval of time between message posts (in nanoseconds)", 1, G_MAXUINT64, DEFAULT_INTERVAL, static_cast<GParamFlags>(G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS)));
 
-  g_object_class_install_property(gobject_class, PROP_BANDS, g_param_spec_uint("bands", "Bands", "Number of frequency bands", 0, G_MAXUINT, DEFAULT_BANDS, GParamFlags(G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS)));
+  g_object_class_install_property(gobject_class, PROP_BANDS, g_param_spec_uint("bands", "Bands", "Number of frequency bands", 0, G_MAXUINT, DEFAULT_BANDS, static_cast<GParamFlags>(G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS)));
 
   GST_DEBUG_CATEGORY_INIT(gst_fastspectrum_debug, "spectrum", 0, "audio spectrum analyser element");
 
