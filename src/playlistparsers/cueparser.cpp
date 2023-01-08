@@ -30,6 +30,9 @@
 #include <QStringList>
 #include <QRegularExpression>
 #include <QTextStream>
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+#  include <QStringConverter>
+#endif
 
 #include "core/logging.h"
 #include "utilities/timeconstants.h"
@@ -62,6 +65,13 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
   SongList ret;
 
   QTextStream text_stream(device);
+
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+  const std::optional<QStringConverter::Encoding> encoding = QStringConverter::encodingForData(device->peek(1024));
+  if (encoding.has_value()) {
+    text_stream.setEncoding(encoding.value());
+  }
+#endif
 
   QString dir_path = dir.absolutePath();
   // read the first line already
