@@ -46,6 +46,7 @@
 #include "core/iconloader.h"
 #include "core/song.h"
 #include "core/logging.h"
+#include "collectionfilteroptions.h"
 #include "collectionmodel.h"
 #include "collectionquery.h"
 #include "savedgroupingmanager.h"
@@ -455,12 +456,12 @@ void CollectionFilterWidget::SetFilterHint(const QString &hint) {
   ui_->search_field->setPlaceholderText(hint);
 }
 
-void CollectionFilterWidget::SetQueryMode(QueryOptions::QueryMode query_mode) {
+void CollectionFilterWidget::SetFilterMode(CollectionFilterOptions::FilterMode filter_mode) {
 
   ui_->search_field->clear();
-  ui_->search_field->setEnabled(query_mode == QueryOptions::QueryMode_All);
+  ui_->search_field->setEnabled(filter_mode == CollectionFilterOptions::FilterMode_All);
 
-  model_->SetFilterQueryMode(query_mode);
+  model_->SetFilterMode(filter_mode);
 
 }
 

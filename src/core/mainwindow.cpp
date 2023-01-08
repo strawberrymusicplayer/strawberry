@@ -675,7 +675,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   collection_show_untagged_->setCheckable(true);
   collection_show_all_->setChecked(true);
 
-  QObject::connect(collection_view_group, &QActionGroup::triggered, this, &MainWindow::ChangeCollectionQueryMode);
+  QObject::connect(collection_view_group, &QActionGroup::triggered, this, &MainWindow::ChangeCollectionFilterMode);
 
   QAction *collection_config_action = new QAction(IconLoader::Load("configure"), tr("Configure collection..."), this);
   QObject::connect(collection_config_action, &QAction::triggered, this, &MainWindow::ShowCollectionConfig);
@@ -2752,16 +2752,16 @@ void MainWindow::PlaylistCopyToDevice() {
 
 }
 
-void MainWindow::ChangeCollectionQueryMode(QAction *action) {
+void MainWindow::ChangeCollectionFilterMode(QAction *action) {
 
   if (action == collection_show_duplicates_) {
-    collection_view_->filter_widget()->SetQueryMode(QueryOptions::QueryMode_Duplicates);
+    collection_view_->filter_widget()->SetFilterMode(CollectionFilterOptions::FilterMode_Duplicates);
   }
   else if (action == collection_show_untagged_) {
-    collection_view_->filter_widget()->SetQueryMode(QueryOptions::QueryMode_Untagged);
+    collection_view_->filter_widget()->SetFilterMode(CollectionFilterOptions::FilterMode_Untagged);
   }
   else {
-    collection_view_->filter_widget()->SetQueryMode(QueryOptions::QueryMode_All);
+    collection_view_->filter_widget()->SetFilterMode(CollectionFilterOptions::FilterMode_All);
   }
 
 }

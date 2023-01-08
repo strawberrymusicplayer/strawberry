@@ -31,16 +31,16 @@
 #include <QRegularExpression>
 #include <QSqlDatabase>
 #include <QSqlQuery>
-#include <QSqlError>
 
 #include "core/logging.h"
+#include "core/sqlquery.h"
 #include "core/song.h"
 
 #include "collectionquery.h"
+#include "collectionfilteroptions.h"
+#include "collectionqueryoptions.h"
 
-QueryOptions::QueryOptions() : max_age_(-1), query_mode_(QueryMode_All) {}
-
-CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const QueryOptions &options)
+CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const CollectionFilterOptions &filter_options)
     : QSqlQuery(db),
       songs_table_(songs_table),
       fts_table_(fts_table),
@@ -49,7 +49,7 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
       duplicates_only_(false),
       limit_(-1) {
 
-  if (!options.filter().isEmpty()) {
+  if (!filter_options.filter_text().isEmpty()) {
     // We need to munge the filter text a little bit to get it to work as expected with sqlite's FTS5:
     //  1) Append * to all tokens.
     //  2) Prefix "fts" to column names.
@@ -57,9 +57,9 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
 
     // Split on whitespace
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-    QStringList tokens(options.filter().split(QRegularExpression("\\s+"), Qt::SkipEmptyParts));
+    QStringList tokens(filter_options.filter_text().split(QRegularExpression("\\s+"), Qt::SkipEmptyParts));
 #else
-    QStringList tokens(options.filter().split(QRegularExpression("\\s+"), QString::SkipEmptyParts));
+    QStringList tokens(filter_options.filter_text().split(QRegularExpression("\\s+"), QString::SkipEmptyParts));
 #endif
     QString query;
     for (QString token : tokens) {
@@ -100,34 +100,25 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
     }
   }
 
-  if (options.max_age() != -1) {
-    qint64 cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - options.max_age();
+  if (filter_options.max_age() != -1) {
+    qint64 cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - filter_options.max_age();
 
     where_clauses_ << "ctime > ?";
     bound_values_ << cutoff;
   }
 
-  // TODO: Currently you cannot use any QueryMode other than All and FTS at the same time.
+  // TODO: Currently you cannot use any FilterMode other than All and FTS at the same time.
   // Joining songs, duplicated_songs and songs_fts all together takes a huge amount of time.
   // The query takes about 20 seconds on my machine then. Why?
   // Untagged mode could work with additional filtering but I'm disabling it just to be consistent
   // this way filtering is available only in the All mode.
   // Remember though that when you fix the Duplicates + FTS cooperation, enable the filtering in both Duplicates and Untagged modes.
-  duplicates_only_ = options.query_mode() == QueryOptions::QueryMode_Duplicates;
+  duplicates_only_ = filter_options.filter_mode() == CollectionFilterOptions::FilterMode_Duplicates;
 
-  if (options.query_mode() == QueryOptions::QueryMode_Untagged) {
+  if (filter_options.filter_mode() == CollectionFilterOptions::FilterMode_Untagged) {
     where_clauses_ << "(artist = '' OR album = '' OR title ='')";
   }
 
-}
-
-QString CollectionQuery::GetInnerQuery() const {
-  return duplicates_only_
-             ? QString(" INNER JOIN (select * from duplicated_songs) dsongs        "
-                   "ON (%songs_table.artist = dsongs.dup_artist       "
-                   "AND %songs_table.album = dsongs.dup_album     "
-                   "AND %songs_table.title = dsongs.dup_title)    ")
-             : QString();
 }
 
 void CollectionQuery::AddWhere(const QString &column, const QVariant &value, const QString &op) {
@@ -135,14 +126,14 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
   // Ignore 'literal' for IN
   if (op.compare("IN", Qt::CaseInsensitive) == 0) {
     QStringList values = value.toStringList();
-    QStringList final;
-    final.reserve(values.count());
+    QStringList final_values;
+    final_values.reserve(values.count());
     for (const QString &single_value : values) {
-      final.append("?");
+      final_values.append("?");
       bound_values_ << single_value;
     }
 
-    where_clauses_ << QString("%1 IN (" + final.join(",") + ")").arg(column);
+    where_clauses_ << QString("%1 IN (" + final_values.join(",") + ")").arg(column);
   }
   else {
     // Do integers inline - sqlite seems to get confused when you pass integers to bound parameters
@@ -187,6 +178,15 @@ void CollectionQuery::AddCompilationRequirement(const bool compilation) {
 
 }
 
+QString CollectionQuery::GetInnerQuery() const {
+  return duplicates_only_
+             ? QString(" INNER JOIN (select * from duplicated_songs) dsongs        "
+                   "ON (%songs_table.artist = dsongs.dup_artist       "
+                   "AND %songs_table.album = dsongs.dup_album     "
+                   "AND %songs_table.title = dsongs.dup_title)    ")
+             : QString();
+}
+
 bool CollectionQuery::Exec() {
 
   QString sql;
@@ -213,32 +213,17 @@ bool CollectionQuery::Exec() {
   sql.replace("%fts_table_noprefix", fts_table_.section('.', -1, -1));
   sql.replace("%fts_table", fts_table_);
 
-  prepare(sql);
+  QSqlQuery::prepare(sql);
 
   // Bind values
   for (const QVariant &value : bound_values_) {
-    addBindValue(value);
+    QSqlQuery::addBindValue(value);
   }
 
-  return exec();
+  return QSqlQuery::exec();
 
 }
 
-bool CollectionQuery::Next() { return next(); }
+bool CollectionQuery::Next() { return QSqlQuery::next(); }
 
-QVariant CollectionQuery::Value(const int column) const { return value(column); }
-
-bool QueryOptions::Matches(const Song &song) const {
-
-  if (max_age_ != -1) {
-    const qint64 cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - max_age_;
-    if (song.ctime() <= cutoff) return false;
-  }
-
-  if (!filter_.isNull()) {
-    return song.artist().contains(filter_, Qt::CaseInsensitive) || song.album().contains(filter_, Qt::CaseInsensitive) || song.title().contains(filter_, Qt::CaseInsensitive);
-  }
-
-  return true;
-
-}
+QVariant CollectionQuery::Value(const int column) const { return QSqlQuery::value(column); }

@@ -50,8 +50,9 @@
 #include "core/sqlrow.h"
 #include "smartplaylists/smartplaylistsearch.h"
 
-#include "directory.h"
+#include "collectiondirectory.h"
 #include "collectionbackend.h"
+#include "collectionfilteroptions.h"
 #include "collectionquery.h"
 #include "collectiontask.h"
 
@@ -145,12 +146,12 @@ void CollectionBackend::ResetStatisticsAsync(const int id) {
 
 void CollectionBackend::LoadDirectories() {
 
-  DirectoryList dirs = GetAllDirectories();
+  CollectionDirectoryList dirs = GetAllDirectories();
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  for (const Directory &dir : dirs) {
+  for (const CollectionDirectory &dir : dirs) {
     emit DirectoryDiscovered(dir, SubdirsInDirectory(dir.id, db));
   }
 
@@ -207,12 +208,12 @@ void CollectionBackend::ChangeDirPath(const int id, const QString &old_path, con
 
 }
 
-DirectoryList CollectionBackend::GetAllDirectories() {
+CollectionDirectoryList CollectionBackend::GetAllDirectories() {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  DirectoryList ret;
+  CollectionDirectoryList ret;
 
   SqlQuery q(db);
   q.prepare(QString("SELECT ROWID, path FROM %1").arg(dirs_table_));
@@ -222,7 +223,7 @@ DirectoryList CollectionBackend::GetAllDirectories() {
   }
 
   while (q.next()) {
-    Directory dir;
+    CollectionDirectory dir;
     dir.id = q.value(0).toInt();
     dir.path = q.value(1).toString();
 
@@ -232,7 +233,7 @@ DirectoryList CollectionBackend::GetAllDirectories() {
 
 }
 
-SubdirectoryList CollectionBackend::SubdirsInDirectory(const int id) {
+CollectionSubdirectoryList CollectionBackend::SubdirsInDirectory(const int id) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db = db_->Connect();
@@ -240,19 +241,19 @@ SubdirectoryList CollectionBackend::SubdirsInDirectory(const int id) {
 
 }
 
-SubdirectoryList CollectionBackend::SubdirsInDirectory(const int id, QSqlDatabase &db) {
+CollectionSubdirectoryList CollectionBackend::SubdirsInDirectory(const int id, QSqlDatabase &db) {
 
   SqlQuery q(db);
   q.prepare(QString("SELECT path, mtime FROM %1 WHERE directory_id = :dir").arg(subdirs_table_));
   q.BindValue(":dir", id);
   if (!q.Exec()) {
     db_->ReportErrors(q);
-    return SubdirectoryList();
+    return CollectionSubdirectoryList();
   }
 
-  SubdirectoryList subdirs;
+  CollectionSubdirectoryList subdirs;
   while (q.next()) {
-    Subdirectory subdir;
+    CollectionSubdirectory subdir;
     subdir.directory_id = id;
     subdir.path = q.value(0).toString();
     subdir.mtime = q.value(1).toLongLong();
@@ -339,15 +340,15 @@ void CollectionBackend::AddDirectory(const QString &path) {
     return;
   }
 
-  Directory dir;
+  CollectionDirectory dir;
   dir.path = canonical_path;
   dir.id = q.lastInsertId().toInt();
 
-  emit DirectoryDiscovered(dir, SubdirectoryList());
+  emit DirectoryDiscovered(dir, CollectionSubdirectoryList());
 
 }
 
-void CollectionBackend::RemoveDirectory(const Directory &dir) {
+void CollectionBackend::RemoveDirectory(const CollectionDirectory &dir) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -447,13 +448,13 @@ void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_f
 
 }
 
-void CollectionBackend::AddOrUpdateSubdirs(const SubdirectoryList &subdirs) {
+void CollectionBackend::AddOrUpdateSubdirs(const CollectionSubdirectoryList &subdirs) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
   ScopedTransaction transaction(&db);
-  for (const Subdirectory &subdir : subdirs) {
+  for (const CollectionSubdirectory &subdir : subdirs) {
     if (subdir.mtime == 0) {
       // Delete the subdirectory
       SqlQuery q(db);
@@ -900,12 +901,12 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool u
 
 }
 
-QStringList CollectionBackend::GetAll(const QString &column, const QueryOptions &opt) {
+QStringList CollectionBackend::GetAll(const QString &column, const CollectionFilterOptions &filter_options) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  CollectionQuery query(db, songs_table_, fts_table_, opt);
+  CollectionQuery query(db, songs_table_, fts_table_, filter_options);
   query.SetColumnSpec("DISTINCT " + column);
   query.AddCompilationRequirement(false);
 
@@ -922,12 +923,12 @@ QStringList CollectionBackend::GetAll(const QString &column, const QueryOptions 
 
 }
 
-QStringList CollectionBackend::GetAllArtists(const QueryOptions &opt) {
+QStringList CollectionBackend::GetAllArtists(const CollectionFilterOptions &opt) {
 
   return GetAll("artist", opt);
 }
 
-QStringList CollectionBackend::GetAllArtistsWithAlbums(const QueryOptions &opt) {
+QStringList CollectionBackend::GetAllArtistsWithAlbums(const CollectionFilterOptions &opt) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -967,15 +968,15 @@ QStringList CollectionBackend::GetAllArtistsWithAlbums(const QueryOptions &opt) 
 
 }
 
-CollectionBackend::AlbumList CollectionBackend::GetAllAlbums(const QueryOptions &opt) {
+CollectionBackend::AlbumList CollectionBackend::GetAllAlbums(const CollectionFilterOptions &opt) {
   return GetAlbums(QString(), false, opt);
 }
 
-CollectionBackend::AlbumList CollectionBackend::GetAlbumsByArtist(const QString &artist, const QueryOptions &opt) {
+CollectionBackend::AlbumList CollectionBackend::GetAlbumsByArtist(const QString &artist, const CollectionFilterOptions &opt) {
   return GetAlbums(artist, false, opt);
 }
 
-SongList CollectionBackend::GetArtistSongs(const QString &effective_albumartist, const QueryOptions &opt) {
+SongList CollectionBackend::GetArtistSongs(const QString &effective_albumartist, const CollectionFilterOptions &opt) {
 
   QSqlDatabase db(db_->Connect());
   QMutexLocker l(db_->Mutex());
@@ -993,7 +994,7 @@ SongList CollectionBackend::GetArtistSongs(const QString &effective_albumartist,
 
 }
 
-SongList CollectionBackend::GetAlbumSongs(const QString &effective_albumartist, const QString &album, const QueryOptions &opt) {
+SongList CollectionBackend::GetAlbumSongs(const QString &effective_albumartist, const QString &album, const CollectionFilterOptions &opt) {
 
   QSqlDatabase db(db_->Connect());
   QMutexLocker l(db_->Mutex());
@@ -1012,7 +1013,7 @@ SongList CollectionBackend::GetAlbumSongs(const QString &effective_albumartist, 
 
 }
 
-SongList CollectionBackend::GetSongsByAlbum(const QString &album, const QueryOptions &opt) {
+SongList CollectionBackend::GetSongsByAlbum(const QString &album, const CollectionFilterOptions &opt) {
 
   QSqlDatabase db(db_->Connect());
   QMutexLocker l(db_->Mutex());
@@ -1285,11 +1286,11 @@ SongList CollectionBackend::GetSongsByFingerprint(const QString &fingerprint) {
 }
 
 
-CollectionBackend::AlbumList CollectionBackend::GetCompilationAlbums(const QueryOptions &opt) {
+CollectionBackend::AlbumList CollectionBackend::GetCompilationAlbums(const CollectionFilterOptions &opt) {
   return GetAlbums(QString(), true, opt);
 }
 
-SongList CollectionBackend::GetCompilationSongs(const QString &album, const QueryOptions &opt) {
+SongList CollectionBackend::GetCompilationSongs(const QString &album, const CollectionFilterOptions &opt) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -1426,7 +1427,7 @@ bool CollectionBackend::UpdateCompilations(const QSqlDatabase &db, SongList &del
 
 }
 
-CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist, const bool compilation_required, const QueryOptions &opt) {
+CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist, const bool compilation_required, const CollectionFilterOptions &opt) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -1516,7 +1517,7 @@ CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &effective
   ret.album = album;
   ret.album_artist = effective_albumartist;
 
-  CollectionQuery query(db, songs_table_, fts_table_, QueryOptions());
+  CollectionQuery query(db, songs_table_, fts_table_);
   query.SetColumnSpec("art_automatic, art_manual, url");
   if (!effective_albumartist.isEmpty()) {
     query.AddWhere("effective_albumartist", effective_albumartist);

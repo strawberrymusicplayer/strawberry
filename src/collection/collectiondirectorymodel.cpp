@@ -30,7 +30,7 @@
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
 #include "utilities/diskutils.h"
-#include "directory.h"
+#include "collectiondirectory.h"
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
 
@@ -46,7 +46,7 @@ CollectionDirectoryModel::CollectionDirectoryModel(CollectionBackend *backend, Q
 
 CollectionDirectoryModel::~CollectionDirectoryModel() = default;
 
-void CollectionDirectoryModel::DirectoryDiscovered(const Directory &dir) {
+void CollectionDirectoryModel::DirectoryDiscovered(const CollectionDirectory &dir) {
 
   QStandardItem *item = new QStandardItem(dir.path);
   item->setData(dir.id, kIdRole);
@@ -56,7 +56,7 @@ void CollectionDirectoryModel::DirectoryDiscovered(const Directory &dir) {
 
 }
 
-void CollectionDirectoryModel::DirectoryDeleted(const Directory &dir) {
+void CollectionDirectoryModel::DirectoryDeleted(const CollectionDirectory &dir) {
 
   for (int i = 0; i < rowCount(); ++i) {
     if (item(i, 0)->data(kIdRole).toInt() == dir.id) {
@@ -80,7 +80,7 @@ void CollectionDirectoryModel::RemoveDirectory(const QModelIndex &idx) {
 
   if (!backend_ || !idx.isValid()) return;
 
-  Directory dir;
+  CollectionDirectory dir;
   dir.path = idx.data().toString();
   dir.id = idx.data(kIdRole).toInt();
 

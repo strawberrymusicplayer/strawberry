@@ -82,9 +82,11 @@ set(SOURCES
   collection/collectionitemdelegate.cpp
   collection/collectionviewcontainer.cpp
   collection/collectiondirectorymodel.cpp
+  collection/collectionfilteroptions.cpp
   collection/collectionfilterwidget.cpp
   collection/collectionplaylistitem.cpp
   collection/collectionquery.cpp
+  collection/collectionqueryoptions.cpp
   collection/savedgroupingmanager.cpp
   collection/groupbydialog.cpp
   collection/collectiontask.cpp

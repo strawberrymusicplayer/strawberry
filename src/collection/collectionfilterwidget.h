@@ -32,6 +32,7 @@
 #include <QString>
 
 #include "collectionquery.h"
+#include "collectionqueryoptions.h"
 #include "collectionmodel.h"
 
 class QTimer;
@@ -88,7 +89,7 @@ class CollectionFilterWidget : public QWidget {
 
  public slots:
   void UpdateGroupByActions();
-  void SetQueryMode(QueryOptions::QueryMode query_mode);
+  void SetFilterMode(CollectionFilterOptions::FilterMode filter_mode);
   void FocusOnFilter(QKeyEvent *e);
 
  signals:

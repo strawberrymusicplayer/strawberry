@@ -34,7 +34,7 @@
 
 class QModelIndex;
 
-struct Directory;
+struct CollectionDirectory;
 class CollectionBackend;
 class MusicStorage;
 
@@ -53,8 +53,8 @@ class CollectionDirectoryModel : public QStandardItemModel {
 
  private slots:
   // To be called by the backend
-  void DirectoryDiscovered(const Directory &directories);
-  void DirectoryDeleted(const Directory &directories);
+  void DirectoryDiscovered(const CollectionDirectory &directories);
+  void DirectoryDeleted(const CollectionDirectory &directories);
 
  private:
   static const int kIdRole = Qt::UserRole + 1;

@@ -29,7 +29,7 @@
 #include "core/database.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
-#include "collection/directory.h"
+#include "collection/collectiondirectory.h"
 #include "connecteddevice.h"
 #include "devicelister.h"
 #include "devicemanager.h"
@@ -78,7 +78,7 @@ ConnectedDevice::~ConnectedDevice() {
 
 void ConnectedDevice::InitBackendDirectory(const QString &mount_point, const bool first_time, const bool rewrite_path) {
 
-  QList<Directory> directories = backend_->GetAllDirectories();
+  QList<CollectionDirectory> directories = backend_->GetAllDirectories();
   if (first_time || directories.isEmpty()) {
     backend_->AddDirectory(mount_point);
   }
@@ -90,7 +90,7 @@ void ConnectedDevice::InitBackendDirectory(const QString &mount_point, const boo
       // This can be done entirely in sqlite so it's relatively fast...
 
       // Get the directory it was mounted at last time.  Devices only have one directory (the root).
-      Directory dir = directories[0];
+      CollectionDirectory dir = directories[0];
       if (dir.path != mount_point) {
         // The directory is different, commence the munging.
         qLog(Info) << "Changing path from" << dir.path << "to" << mount_point;

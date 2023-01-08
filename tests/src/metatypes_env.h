@@ -28,16 +28,16 @@
 
 #include "core/song.h"
 #include "core/songloader.h"
-#include "collection/directory.h"
+#include "collection/collectiondirectory.h"
 
 class MetatypesEnvironment : public ::testing::Environment {
  public:
   MetatypesEnvironment() = default;
   void SetUp() override {
-    qRegisterMetaType<Directory>("Directory");
-    qRegisterMetaType<DirectoryList>("DirectoryList");
-    qRegisterMetaType<Subdirectory>("Subdirectory");
-    qRegisterMetaType<SubdirectoryList>("SubdirectoryList");
+    qRegisterMetaType<CollectionDirectory>("Directory");
+    qRegisterMetaType<CollectionDirectoryList>("DirectoryList");
+    qRegisterMetaType<CollectionSubdirectory>("Subdirectory");
+    qRegisterMetaType<CollectionSubdirectoryList>("SubdirectoryList");
     qRegisterMetaType<SongList>("SongList");
     qRegisterMetaType<QModelIndex>("QModelIndex");
     qRegisterMetaType<SongLoader::Result>("SongLoader::Result");

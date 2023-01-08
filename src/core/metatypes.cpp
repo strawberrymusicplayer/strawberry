@@ -54,7 +54,7 @@
 #ifdef HAVE_GSTREAMER
 #  include "engine/gstenginepipeline.h"
 #endif
-#include "collection/directory.h"
+#include "collection/collectiondirectory.h"
 #include "playlist/playlistitem.h"
 #include "playlist/playlistsequence.h"
 #include "covermanager/albumcoverloaderresult.h"
@@ -98,10 +98,10 @@ void RegisterMetaTypes() {
   qRegisterMetaTypeStreamOperators<QMap<int, Qt::Alignment>>("ColumnAlignmentMap");
   qRegisterMetaTypeStreamOperators<QMap<int, int>>("ColumnAlignmentIntMap");
 #endif
-  qRegisterMetaType<Directory>("Directory");
-  qRegisterMetaType<DirectoryList>("DirectoryList");
-  qRegisterMetaType<Subdirectory>("Subdirectory");
-  qRegisterMetaType<SubdirectoryList>("SubdirectoryList");
+  qRegisterMetaType<CollectionDirectory>("Directory");
+  qRegisterMetaType<CollectionDirectoryList>("DirectoryList");
+  qRegisterMetaType<CollectionSubdirectory>("Subdirectory");
+  qRegisterMetaType<CollectionSubdirectoryList>("SubdirectoryList");
   qRegisterMetaType<Song>("Song");
   qRegisterMetaType<SongList>("SongList");
   qRegisterMetaType<SongMap>("SongMap");

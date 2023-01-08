@@ -60,7 +60,9 @@
 #include "core/logging.h"
 #include "core/taskmanager.h"
 #include "core/sqlrow.h"
+#include "collectionfilteroptions.h"
 #include "collectionquery.h"
+#include "collectionqueryoptions.h"
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
 #include "collectionitem.h"
@@ -210,7 +212,7 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
   for (const Song &song : songs) {
 
     // Sanity check to make sure we don't add songs that are outside the user's filter
-    if (!query_options_.Matches(song)) continue;
+    if (!filter_options_.Matches(song)) continue;
 
     // Hey, we've already got that one!
     if (song_nodes_.contains(song.id())) continue;
@@ -805,16 +807,13 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
 
 }
 
-bool CollectionModel::HasCompilations(const QSqlDatabase &db, const CollectionQuery &query) {
+bool CollectionModel::HasCompilations(const QSqlDatabase &db, const CollectionFilterOptions &filter_options, const CollectionQueryOptions &query_options) {
 
-  CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), query_options_);
-
-  q.SetColumnSpec(query.column_spec());
-  q.SetOrderBy(query.order_by());
-  q.SetWhereClauses(query.where_clauses());
-  q.SetBoundValues(query.bound_values());
-  q.SetIncludeUnavailable(query.include_unavailable());
-  q.SetDuplicatesOnly(query.duplicates_only());
+  CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), filter_options);
+  q.SetColumnSpec(query_options.column_spec());
+  for (const CollectionQueryOptions::Where &where_clauses : query_options.where_clauses()) {
+    q.AddWhere(where_clauses.column, where_clauses.value, where_clauses.op);
+  }
   q.AddCompilationRequirement(true);
   q.SetLimit(1);
 
@@ -827,55 +826,64 @@ bool CollectionModel::HasCompilations(const QSqlDatabase &db, const CollectionQu
 
 }
 
-CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
-
-  QueryResult result;
+CollectionQueryOptions CollectionModel::PrepareQuery(CollectionItem *parent) {
 
   // Information about what we want the children to be
-  int child_level = parent == root_ ? 0 : parent->container_level + 1;
-  GroupBy child_group_by = child_level >= 3 ? GroupBy_None : group_by_[child_level];
+  const int child_level = parent == root_ ? 0 : parent->container_level + 1;
+  const GroupBy child_group_by = child_level >= 3 ? GroupBy_None : group_by_[child_level];
+
+  CollectionQueryOptions query_options;
 
   // Initialize the query.  child_group_by says what type of thing we want (artists, songs, etc.)
+  SetQueryColumnSpec(child_group_by, separate_albums_by_grouping_, &query_options);
 
+  // Walk up through the item's parents adding filters as necessary
+  for (CollectionItem *p = parent; p && p->type == CollectionItem::Type_Container; p = p->parent) {
+    AddQueryWhere(group_by_[p->container_level], separate_albums_by_grouping_, p, &query_options);
+  }
+
+  // Artists GroupBy is special - we don't want compilation albums appearing
+  if (show_various_artists_ && IsArtistGroupBy(child_group_by)) {
+    query_options.set_query_have_compilations(true);
+  }
+
+  return query_options;
+
+}
+
+CollectionModel::QueryResult CollectionModel::RunQuery(const CollectionFilterOptions &filter_options, const CollectionQueryOptions &query_options) {
+
+  QMutexLocker l(backend_->db()->Mutex());
+
+  QueryResult result;
   {
-    QMutexLocker l(backend_->db()->Mutex());
-    {
-      QSqlDatabase db(backend_->db()->Connect());
-      CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), query_options_);
-      InitQuery(child_group_by, separate_albums_by_grouping_, &q);
 
-      // Walk up through the item's parents adding filters as necessary
-      for (CollectionItem *p = parent; p && p->type == CollectionItem::Type_Container; p = p->parent) {
-        FilterQuery(group_by_[p->container_level], separate_albums_by_grouping_, p, &q);
-      }
-
-      // Artists GroupBy is special - we don't want compilation albums appearing
-      if (IsArtistGroupBy(child_group_by)) {
-        // Add the special Various artists node
-        if (show_various_artists_ && HasCompilations(db, q)) {
-          result.create_va = true;
-        }
-
-        // Don't show compilations again outside the Various artists node
-        q.AddCompilationRequirement(false);
-      }
-
-      // Execute the query
-      if (q.Exec()) {
-        while (q.Next()) {
-          result.rows << SqlRow(q);
-        }
-      }
-      else {
-        backend_->ReportErrors(q);
-      }
-
+    QSqlDatabase db(backend_->db()->Connect());
+    // Add the special Various artists node
+    if (query_options.query_have_compilations() && HasCompilations(db, filter_options, query_options)) {
+      result.create_va = true;
     }
 
-    if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
-      backend_->db()->Close();
+    CollectionQuery q(db, backend_->songs_table(), backend_->fts_table(), filter_options);
+    q.SetColumnSpec(query_options.column_spec());
+    for (const CollectionQueryOptions::Where &where_clauses : query_options.where_clauses()) {
+      q.AddWhere(where_clauses.column, where_clauses.value, where_clauses.op);
+    }
+    q.AddCompilationRequirement(query_options.compilation_requirement());
+
+    if (q.Exec()) {
+      while (q.Next()) {
+        result.rows << SqlRow(q);
+      }
+    }
+    else {
+      backend_->ReportErrors(q);
     }
 
+  }
+
+  if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
+    backend_->db()->Close();
   }
 
   return result;
@@ -913,17 +921,20 @@ void CollectionModel::LazyPopulate(CollectionItem *parent, const bool signal) {
   if (parent->lazy_loaded) return;
   parent->lazy_loaded = true;
 
-  QueryResult result = RunQuery(parent);
+  CollectionQueryOptions query_options = PrepareQuery(parent);
+  QueryResult result = RunQuery(filter_options_, query_options);
   PostQuery(parent, result, signal);
 
 }
 
 void CollectionModel::ResetAsync() {
 
+  CollectionQueryOptions query_options = PrepareQuery(root_);
+
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(&CollectionModel::RunQuery, this, root_);
+  QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(&CollectionModel::RunQuery, this, filter_options_, query_options);
 #else
-  QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(this, &CollectionModel::RunQuery, root_);
+  QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(this, &CollectionModel::RunQuery, filter_options_, query_options);
 #endif
   QFutureWatcher<CollectionModel::QueryResult> *watcher = new QFutureWatcher<CollectionModel::QueryResult>();
   QObject::connect(watcher, &QFutureWatcher<CollectionModel::QueryResult>::finished, this, &CollectionModel::ResetAsyncQueryFinished);
@@ -936,10 +947,6 @@ void CollectionModel::ResetAsyncQueryFinished() {
   QFutureWatcher<CollectionModel::QueryResult> *watcher = static_cast<QFutureWatcher<CollectionModel::QueryResult>*>(sender());
   const struct QueryResult result = watcher->result();
   watcher->deleteLater();
-
-  if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
-    backend_->Close();
-  }
 
   BeginReset();
   root_->lazy_loaded = true;
@@ -986,197 +993,197 @@ void CollectionModel::Reset() {
 
 }
 
-void CollectionModel::InitQuery(const GroupBy group_by, const bool separate_albums_by_grouping, CollectionQuery *q) {
+void CollectionModel::SetQueryColumnSpec(const GroupBy group_by, const bool separate_albums_by_grouping, CollectionQueryOptions *query_options) {
 
   // Say what group_by of thing we want to get back from the database.
   switch (group_by) {
     case GroupBy_AlbumArtist:
-      q->SetColumnSpec("DISTINCT effective_albumartist");
+      query_options->set_column_spec("DISTINCT effective_albumartist");
       break;
     case GroupBy_Artist:
-      q->SetColumnSpec("DISTINCT artist");
+      query_options->set_column_spec("DISTINCT artist");
       break;
     case GroupBy_Album:{
       QString query("DISTINCT album, album_id");
       if (separate_albums_by_grouping) query.append(", grouping");
-      q->SetColumnSpec(query);
+      query_options->set_column_spec(query);
       break;
     }
     case GroupBy_AlbumDisc:{
       QString query("DISTINCT album, album_id, disc");
       if (separate_albums_by_grouping) query.append(", grouping");
-      q->SetColumnSpec(query);
+      query_options->set_column_spec(query);
       break;
     }
     case GroupBy_YearAlbum:{
       QString query("DISTINCT year, album, album_id");
       if (separate_albums_by_grouping) query.append(", grouping");
-      q->SetColumnSpec(query);
+      query_options->set_column_spec(query);
       break;
     }
     case GroupBy_YearAlbumDisc:{
       QString query("DISTINCT year, album, album_id, disc");
       if (separate_albums_by_grouping) query.append(", grouping");
-      q->SetColumnSpec(query);
+      query_options->set_column_spec(query);
       break;
     }
     case GroupBy_OriginalYearAlbum:{
       QString query("DISTINCT year, originalyear, album, album_id");
       if (separate_albums_by_grouping) query.append(", grouping");
-      q->SetColumnSpec(query);
+      query_options->set_column_spec(query);
       break;
     }
     case GroupBy_OriginalYearAlbumDisc:{
       QString query("DISTINCT year, originalyear, album, album_id, disc");
       if (separate_albums_by_grouping) query.append(", grouping");
-      q->SetColumnSpec(query);
+      query_options->set_column_spec(query);
       break;
     }
     case GroupBy_Disc:
-      q->SetColumnSpec("DISTINCT disc");
+      query_options->set_column_spec("DISTINCT disc");
       break;
     case GroupBy_Year:
-      q->SetColumnSpec("DISTINCT year");
+      query_options->set_column_spec("DISTINCT year");
       break;
     case GroupBy_OriginalYear:
-      q->SetColumnSpec("DISTINCT effective_originalyear");
+      query_options->set_column_spec("DISTINCT effective_originalyear");
       break;
     case GroupBy_Genre:
-      q->SetColumnSpec("DISTINCT genre");
+      query_options->set_column_spec("DISTINCT genre");
       break;
     case GroupBy_Composer:
-      q->SetColumnSpec("DISTINCT composer");
+      query_options->set_column_spec("DISTINCT composer");
       break;
     case GroupBy_Performer:
-      q->SetColumnSpec("DISTINCT performer");
+      query_options->set_column_spec("DISTINCT performer");
       break;
     case GroupBy_Grouping:
-      q->SetColumnSpec("DISTINCT grouping");
+      query_options->set_column_spec("DISTINCT grouping");
       break;
     case GroupBy_FileType:
-      q->SetColumnSpec("DISTINCT filetype");
+      query_options->set_column_spec("DISTINCT filetype");
       break;
     case GroupBy_Format:
-      q->SetColumnSpec("DISTINCT filetype, samplerate, bitdepth");
+      query_options->set_column_spec("DISTINCT filetype, samplerate, bitdepth");
       break;
     case GroupBy_Samplerate:
-      q->SetColumnSpec("DISTINCT samplerate");
+      query_options->set_column_spec("DISTINCT samplerate");
       break;
     case GroupBy_Bitdepth:
-      q->SetColumnSpec("DISTINCT bitdepth");
+      query_options->set_column_spec("DISTINCT bitdepth");
       break;
     case GroupBy_Bitrate:
-      q->SetColumnSpec("DISTINCT bitrate");
+      query_options->set_column_spec("DISTINCT bitrate");
       break;
     case GroupBy_None:
     case GroupByCount:
-      q->SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
+      query_options->set_column_spec("%songs_table.ROWID, " + Song::kColumnSpec);
       break;
   }
 
 }
 
-void CollectionModel::FilterQuery(const GroupBy group_by, const bool separate_albums_by_grouping, CollectionItem *item, CollectionQuery *q) {
+void CollectionModel::AddQueryWhere(const GroupBy group_by, const bool separate_albums_by_grouping, CollectionItem *item, CollectionQueryOptions *query_options) {
 
   // Say how we want the query to be filtered.  This is done once for each parent going up the tree.
 
   switch (group_by) {
     case GroupBy_AlbumArtist:
       if (IsCompilationArtistNode(item)) {
-        q->AddCompilationRequirement(true);
+        query_options->set_compilation_requirement(true);
       }
       else {
         // Don't duplicate compilations outside the Various artists node
-        q->AddCompilationRequirement(false);
-        q->AddWhere("effective_albumartist", item->metadata.effective_albumartist());
+        query_options->set_compilation_requirement(false);
+        query_options->AddWhere("effective_albumartist", item->metadata.effective_albumartist());
       }
       break;
     case GroupBy_Artist:
       if (IsCompilationArtistNode(item)) {
-        q->AddCompilationRequirement(true);
+        query_options->set_compilation_requirement(true);
       }
       else {
         // Don't duplicate compilations outside the Various artists node
-        q->AddCompilationRequirement(false);
-        q->AddWhere("artist", item->metadata.artist());
+        query_options->set_compilation_requirement(false);
+        query_options->AddWhere("artist", item->metadata.artist());
       }
       break;
     case GroupBy_Album:
-      q->AddWhere("album", item->metadata.album());
-      q->AddWhere("album_id", item->metadata.album_id());
-      if (separate_albums_by_grouping) q->AddWhere("grouping", item->metadata.grouping());
+      query_options->AddWhere("album", item->metadata.album());
+      query_options->AddWhere("album_id", item->metadata.album_id());
+      if (separate_albums_by_grouping) query_options->AddWhere("grouping", item->metadata.grouping());
       break;
     case GroupBy_AlbumDisc:
-      q->AddWhere("album", item->metadata.album());
-      q->AddWhere("album_id", item->metadata.album_id());
-      q->AddWhere("disc", item->metadata.disc());
-      if (separate_albums_by_grouping) q->AddWhere("grouping", item->metadata.grouping());
+      query_options->AddWhere("album", item->metadata.album());
+      query_options->AddWhere("album_id", item->metadata.album_id());
+      query_options->AddWhere("disc", item->metadata.disc());
+      if (separate_albums_by_grouping) query_options->AddWhere("grouping", item->metadata.grouping());
       break;
     case GroupBy_YearAlbum:
-      q->AddWhere("year", item->metadata.year());
-      q->AddWhere("album", item->metadata.album());
-      q->AddWhere("album_id", item->metadata.album_id());
-      if (separate_albums_by_grouping) q->AddWhere("grouping", item->metadata.grouping());
+      query_options->AddWhere("year", item->metadata.year());
+      query_options->AddWhere("album", item->metadata.album());
+      query_options->AddWhere("album_id", item->metadata.album_id());
+      if (separate_albums_by_grouping) query_options->AddWhere("grouping", item->metadata.grouping());
       break;
     case GroupBy_YearAlbumDisc:
-      q->AddWhere("year", item->metadata.year());
-      q->AddWhere("album", item->metadata.album());
-      q->AddWhere("album_id", item->metadata.album_id());
-      q->AddWhere("disc", item->metadata.disc());
-      if (separate_albums_by_grouping) q->AddWhere("grouping", item->metadata.grouping());
+      query_options->AddWhere("year", item->metadata.year());
+      query_options->AddWhere("album", item->metadata.album());
+      query_options->AddWhere("album_id", item->metadata.album_id());
+      query_options->AddWhere("disc", item->metadata.disc());
+      if (separate_albums_by_grouping) query_options->AddWhere("grouping", item->metadata.grouping());
       break;
     case GroupBy_OriginalYearAlbum:
-      q->AddWhere("year", item->metadata.year());
-      q->AddWhere("originalyear", item->metadata.originalyear());
-      q->AddWhere("album", item->metadata.album());
-      q->AddWhere("album_id", item->metadata.album_id());
-      if (separate_albums_by_grouping) q->AddWhere("grouping", item->metadata.grouping());
+      query_options->AddWhere("year", item->metadata.year());
+      query_options->AddWhere("originalyear", item->metadata.originalyear());
+      query_options->AddWhere("album", item->metadata.album());
+      query_options->AddWhere("album_id", item->metadata.album_id());
+      if (separate_albums_by_grouping) query_options->AddWhere("grouping", item->metadata.grouping());
       break;
     case GroupBy_OriginalYearAlbumDisc:
-      q->AddWhere("year", item->metadata.year());
-      q->AddWhere("originalyear", item->metadata.originalyear());
-      q->AddWhere("album", item->metadata.album());
-      q->AddWhere("album_id", item->metadata.album_id());
-      q->AddWhere("disc", item->metadata.disc());
-      if (separate_albums_by_grouping) q->AddWhere("grouping", item->metadata.grouping());
+      query_options->AddWhere("year", item->metadata.year());
+      query_options->AddWhere("originalyear", item->metadata.originalyear());
+      query_options->AddWhere("album", item->metadata.album());
+      query_options->AddWhere("album_id", item->metadata.album_id());
+      query_options->AddWhere("disc", item->metadata.disc());
+      if (separate_albums_by_grouping) query_options->AddWhere("grouping", item->metadata.grouping());
       break;
     case GroupBy_Disc:
-      q->AddWhere("disc", item->metadata.disc());
+      query_options->AddWhere("disc", item->metadata.disc());
       break;
     case GroupBy_Year:
-      q->AddWhere("year", item->metadata.year());
+      query_options->AddWhere("year", item->metadata.year());
       break;
     case GroupBy_OriginalYear:
-      q->AddWhere("effective_originalyear", item->metadata.effective_originalyear());
+      query_options->AddWhere("effective_originalyear", item->metadata.effective_originalyear());
       break;
     case GroupBy_Genre:
-      q->AddWhere("genre", item->metadata.genre());
+      query_options->AddWhere("genre", item->metadata.genre());
       break;
     case GroupBy_Composer:
-      q->AddWhere("composer", item->metadata.composer());
+      query_options->AddWhere("composer", item->metadata.composer());
       break;
     case GroupBy_Performer:
-      q->AddWhere("performer", item->metadata.performer());
+      query_options->AddWhere("performer", item->metadata.performer());
       break;
     case GroupBy_Grouping:
-      q->AddWhere("grouping", item->metadata.grouping());
+      query_options->AddWhere("grouping", item->metadata.grouping());
       break;
     case GroupBy_FileType:
-      q->AddWhere("filetype", item->metadata.filetype());
+      query_options->AddWhere("filetype", item->metadata.filetype());
       break;
     case GroupBy_Format:
-      q->AddWhere("filetype", item->metadata.filetype());
-      q->AddWhere("samplerate", item->metadata.samplerate());
-      q->AddWhere("bitdepth", item->metadata.bitdepth());
+      query_options->AddWhere("filetype", item->metadata.filetype());
+      query_options->AddWhere("samplerate", item->metadata.samplerate());
+      query_options->AddWhere("bitdepth", item->metadata.bitdepth());
       break;
     case GroupBy_Samplerate:
-      q->AddWhere("samplerate", item->metadata.samplerate());
+      query_options->AddWhere("samplerate", item->metadata.samplerate());
       break;
     case GroupBy_Bitdepth:
-      q->AddWhere("bitdepth", item->metadata.bitdepth());
+      query_options->AddWhere("bitdepth", item->metadata.bitdepth());
       break;
     case GroupBy_Bitrate:
-      q->AddWhere("bitrate", item->metadata.bitrate());
+      query_options->AddWhere("bitrate", item->metadata.bitrate());
       break;
     case GroupBy_None:
     case GroupByCount:
@@ -1851,21 +1858,19 @@ SongList CollectionModel::GetChildSongs(const QModelIndex &idx) const {
   return GetChildSongs(QModelIndexList() << idx);
 }
 
-void CollectionModel::SetFilterAge(const int age) {
-  query_options_.set_max_age(age);
+void CollectionModel::SetFilterMode(CollectionFilterOptions::FilterMode filter_mode) {
+  filter_options_.set_filter_mode(filter_mode);
   ResetAsync();
 }
 
-void CollectionModel::SetFilterText(const QString &text) {
-  query_options_.set_filter(text);
+void CollectionModel::SetFilterAge(const int filter_age) {
+  filter_options_.set_max_age(filter_age);
   ResetAsync();
-
 }
 
-void CollectionModel::SetFilterQueryMode(QueryOptions::QueryMode query_mode) {
-  query_options_.set_query_mode(query_mode);
+void CollectionModel::SetFilterText(const QString &filter_text) {
+  filter_options_.set_filter_text(filter_text);
   ResetAsync();
-
 }
 
 bool CollectionModel::canFetchMore(const QModelIndex &parent) const {

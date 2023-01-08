@@ -180,7 +180,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void PlaylistCopyUrl();
   void ShowInCollection();
 
-  void ChangeCollectionQueryMode(QAction *action);
+  void ChangeCollectionFilterMode(QAction *action);
 
   void PlayIndex(const QModelIndex &idx, Playlist::AutoScroll autoscroll);
   void PlaylistDoubleClick(const QModelIndex &idx);

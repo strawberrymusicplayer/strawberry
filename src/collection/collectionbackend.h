@@ -38,8 +38,9 @@
 
 #include "core/song.h"
 #include "core/sqlquery.h"
+#include "collectionfilteroptions.h"
 #include "collectionquery.h"
-#include "directory.h"
+#include "collectiondirectory.h"
 
 class QThread;
 class TaskManager;
@@ -90,23 +91,23 @@ class CollectionBackendInterface : public QObject {
 
   virtual SongList FindSongsInDirectory(const int id) = 0;
   virtual SongList SongsWithMissingFingerprint(const int id) = 0;
-  virtual SubdirectoryList SubdirsInDirectory(const int id) = 0;
-  virtual DirectoryList GetAllDirectories() = 0;
+  virtual CollectionSubdirectoryList SubdirsInDirectory(const int id) = 0;
+  virtual CollectionDirectoryList GetAllDirectories() = 0;
   virtual void ChangeDirPath(const int id, const QString &old_path, const QString &new_path) = 0;
 
   virtual SongList GetAllSongs() = 0;
 
-  virtual QStringList GetAllArtists(const QueryOptions &opt = QueryOptions()) = 0;
-  virtual QStringList GetAllArtistsWithAlbums(const QueryOptions &opt = QueryOptions()) = 0;
-  virtual SongList GetArtistSongs(const QString &effective_albumartist, const QueryOptions &opt = QueryOptions()) = 0;
-  virtual SongList GetAlbumSongs(const QString &effective_albumartist, const QString &album, const QueryOptions &opt = QueryOptions()) = 0;
-  virtual SongList GetSongsByAlbum(const QString &album, const QueryOptions &opt = QueryOptions()) = 0;
+  virtual QStringList GetAllArtists(const CollectionFilterOptions &opt = CollectionFilterOptions()) = 0;
+  virtual QStringList GetAllArtistsWithAlbums(const CollectionFilterOptions &opt = CollectionFilterOptions()) = 0;
+  virtual SongList GetArtistSongs(const QString &effective_albumartist, const CollectionFilterOptions &opt = CollectionFilterOptions()) = 0;
+  virtual SongList GetAlbumSongs(const QString &effective_albumartist, const QString &album, const CollectionFilterOptions &opt = CollectionFilterOptions()) = 0;
+  virtual SongList GetSongsByAlbum(const QString &album, const CollectionFilterOptions &opt = CollectionFilterOptions()) = 0;
 
-  virtual SongList GetCompilationSongs(const QString &album, const QueryOptions &opt = QueryOptions()) = 0;
+  virtual SongList GetCompilationSongs(const QString &album, const CollectionFilterOptions &opt = CollectionFilterOptions()) = 0;
 
-  virtual AlbumList GetAllAlbums(const QueryOptions &opt = QueryOptions()) = 0;
-  virtual AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions()) = 0;
-  virtual AlbumList GetCompilationAlbums(const QueryOptions &opt = QueryOptions()) = 0;
+  virtual AlbumList GetAllAlbums(const CollectionFilterOptions &opt = CollectionFilterOptions()) = 0;
+  virtual AlbumList GetAlbumsByArtist(const QString &artist, const CollectionFilterOptions &opt = CollectionFilterOptions()) = 0;
+  virtual AlbumList GetCompilationAlbums(const CollectionFilterOptions &opt = CollectionFilterOptions()) = 0;
 
   virtual void UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false) = 0;
   virtual void UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual = false) = 0;
@@ -124,7 +125,7 @@ class CollectionBackendInterface : public QObject {
   virtual Song GetSongByUrl(const QUrl &url, const qint64 beginning = 0) = 0;
 
   virtual void AddDirectory(const QString &path) = 0;
-  virtual void RemoveDirectory(const Directory &dir) = 0;
+  virtual void RemoveDirectory(const CollectionDirectory &dir) = 0;
 };
 
 class CollectionBackend : public CollectionBackendInterface {
@@ -159,24 +160,24 @@ class CollectionBackend : public CollectionBackendInterface {
 
   SongList FindSongsInDirectory(const int id) override;
   SongList SongsWithMissingFingerprint(const int id) override;
-  SubdirectoryList SubdirsInDirectory(const int id) override;
-  DirectoryList GetAllDirectories() override;
+  CollectionSubdirectoryList SubdirsInDirectory(const int id) override;
+  CollectionDirectoryList GetAllDirectories() override;
   void ChangeDirPath(const int id, const QString &old_path, const QString &new_path) override;
 
   SongList GetAllSongs() override;
 
-  QStringList GetAll(const QString &column, const QueryOptions &opt = QueryOptions());
-  QStringList GetAllArtists(const QueryOptions &opt = QueryOptions()) override;
-  QStringList GetAllArtistsWithAlbums(const QueryOptions &opt = QueryOptions()) override;
-  SongList GetArtistSongs(const QString &effective_albumartist, const QueryOptions &opt = QueryOptions()) override;
-  SongList GetAlbumSongs(const QString &effective_albumartist, const QString &album, const QueryOptions &opt = QueryOptions()) override;
-  SongList GetSongsByAlbum(const QString &album, const QueryOptions &opt = QueryOptions()) override;
+  QStringList GetAll(const QString &column, const CollectionFilterOptions &filter_options = CollectionFilterOptions());
+  QStringList GetAllArtists(const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
+  QStringList GetAllArtistsWithAlbums(const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
+  SongList GetArtistSongs(const QString &effective_albumartist, const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
+  SongList GetAlbumSongs(const QString &effective_albumartist, const QString &album, const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
+  SongList GetSongsByAlbum(const QString &album, const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
 
-  SongList GetCompilationSongs(const QString &album, const QueryOptions &opt = QueryOptions()) override;
+  SongList GetCompilationSongs(const QString &album, const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
 
-  AlbumList GetAllAlbums(const QueryOptions &opt = QueryOptions()) override;
-  AlbumList GetCompilationAlbums(const QueryOptions &opt = QueryOptions()) override;
-  AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions()) override;
+  AlbumList GetAllAlbums(const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
+  AlbumList GetCompilationAlbums(const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
+  AlbumList GetAlbumsByArtist(const QString &artist, const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
 
   void UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false) override;
   void UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual = false) override;
@@ -192,7 +193,7 @@ class CollectionBackend : public CollectionBackendInterface {
   Song GetSongByUrl(const QUrl &url, qint64 beginning = 0) override;
 
   void AddDirectory(const QString &path) override;
-  void RemoveDirectory(const Directory &dir) override;
+  void RemoveDirectory(const CollectionDirectory &dir) override;
 
   bool ExecCollectionQuery(CollectionQuery *query, SongList &songs);
   bool ExecCollectionQuery(CollectionQuery *query, SongMap &songs);
@@ -228,7 +229,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateMTimesOnly(const SongList &songs);
   void DeleteSongs(const SongList &songs);
   void MarkSongsUnavailable(const SongList &songs, const bool unavailable = true);
-  void AddOrUpdateSubdirs(const SubdirectoryList &subdirs);
+  void AddOrUpdateSubdirs(const CollectionSubdirectoryList &subdirs);
   void CompilationsNeedUpdating();
   void UpdateManualAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false);
   void UpdateAutomaticAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual = false);
@@ -250,8 +251,8 @@ class CollectionBackend : public CollectionBackendInterface {
   void ExpireSongs(const int directory_id, const int expire_unavailable_songs_days);
 
  signals:
-  void DirectoryDiscovered(Directory, SubdirectoryList);
-  void DirectoryDeleted(Directory);
+  void DirectoryDiscovered(CollectionDirectory, CollectionSubdirectoryList);
+  void DirectoryDeleted(CollectionDirectory);
 
   void SongsDiscovered(SongList);
   void SongsDeleted(SongList);
@@ -280,9 +281,9 @@ class CollectionBackend : public CollectionBackendInterface {
   };
 
   bool UpdateCompilations(const QSqlDatabase &db, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected);
-  AlbumList GetAlbums(const QString &artist, const QString &album_artist, const bool compilation_required = false, const QueryOptions &opt = QueryOptions());
-  AlbumList GetAlbums(const QString &artist, const bool compilation_required, const QueryOptions &opt = QueryOptions());
-  SubdirectoryList SubdirsInDirectory(const int id, QSqlDatabase &db);
+  AlbumList GetAlbums(const QString &artist, const QString &album_artist, const bool compilation_required = false, const CollectionFilterOptions &opt = CollectionFilterOptions());
+  AlbumList GetAlbums(const QString &artist, const bool compilation_required, const CollectionFilterOptions &opt = CollectionFilterOptions());
+  CollectionSubdirectoryList SubdirsInDirectory(const int id, QSqlDatabase &db);
 
   Song GetSongById(const int id, QSqlDatabase &db);
   SongList GetSongsById(const QStringList &ids, QSqlDatabase &db);

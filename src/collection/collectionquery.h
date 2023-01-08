@@ -28,75 +28,23 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QMap>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
-class Song;
-
-// This structure let's you customize behaviour of any CollectionQuery.
-struct QueryOptions {
-  // Modes of CollectionQuery:
-  // - use the all songs table
-  // - use the duplicated songs view; by duplicated we mean those songs for which the (artist, album, title) tuple is found more than once in the songs table
-  // - use the untagged songs view; by untagged we mean those for which at least one of the (artist, album, title) tags is empty
-  // Please note that additional filtering based on FTS table (the filter attribute) won't work in Duplicates and Untagged modes.
-  enum QueryMode {
-    QueryMode_All,
-    QueryMode_Duplicates,
-    QueryMode_Untagged
-  };
-
-  QueryOptions();
-
-  bool Matches(const Song &song) const;
-
-  QString filter() const { return filter_; }
-  void set_filter(const QString &filter) {
-    filter_ = filter;
-    query_mode_ = QueryMode_All;
-  }
-
-  int max_age() const { return max_age_; }
-  void set_max_age(int max_age) { max_age_ = max_age; }
-
-  QueryMode query_mode() const { return query_mode_; }
-  void set_query_mode(QueryMode query_mode) {
-    query_mode_ = query_mode;
-    filter_ = QString();
-  }
-
- private:
-  QString filter_;
-  int max_age_;
-  QueryMode query_mode_;
-};
+#include "collectionfilteroptions.h"
+#include "collectionqueryoptions.h"
 
 class CollectionQuery : public QSqlQuery {
  public:
-  explicit CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const QueryOptions &options = QueryOptions());
+  explicit CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const CollectionFilterOptions &filter_options = CollectionFilterOptions());
 
-  // Sets contents of SELECT clause on the query (list of columns to get).
-  void SetColumnSpec(const QString &spec) { column_spec_ = spec; }
-
-  // Sets an ORDER BY clause on the query.
-  void SetOrderBy(const QString &order_by) { order_by_ = order_by; }
-
-  // Adds a fragment of WHERE clause. When executed, this Query will connect all the fragments with AND operator.
-  // Please note that IN operator expects a QStringList as value.
-  void AddWhere(const QString &column, const QVariant &value, const QString &op = "=");
-  void AddWhereArtist(const QVariant &value);
-
-  void SetWhereClauses(const QStringList &where_clauses) { where_clauses_ = where_clauses; }
-  void SetBoundValues(const QVariantList &bound_values) { bound_values_ = bound_values; }
-  void SetDuplicatesOnly(const bool duplicates_only) { duplicates_only_ = duplicates_only; }
-  void SetIncludeUnavailable(const bool include_unavailable) { include_unavailable_ = include_unavailable; }
-  void SetLimit(const int limit) { limit_ = limit; }
-  void AddCompilationRequirement(const bool compilation);
+  QVariant Value(const int column) const;
+  QVariant value(const int column) const { return Value(column); }
 
   bool Exec();
+  bool exec() { return QSqlQuery::exec(); }
+
   bool Next();
-  QVariant Value(const int column) const;
 
   QString column_spec() const { return column_spec_; }
   QString order_by() const { return order_by_; }
@@ -106,6 +54,24 @@ class CollectionQuery : public QSqlQuery {
   bool join_with_fts() const { return join_with_fts_; }
   bool duplicates_only() const { return duplicates_only_; }
   int limit() const { return limit_; }
+
+  // Sets contents of SELECT clause on the query (list of columns to get).
+  void SetColumnSpec(const QString &column_spec) { column_spec_ = column_spec; }
+
+  // Sets an ORDER BY clause on the query.
+  void SetOrderBy(const QString &order_by) { order_by_ = order_by; }
+
+  void SetWhereClauses(const QStringList &where_clauses) { where_clauses_ = where_clauses; }
+  // Adds a fragment of WHERE clause. When executed, this Query will connect all the fragments with AND operator.
+  // Please note that IN operator expects a QStringList as value.
+  void AddWhere(const QString &column, const QVariant &value, const QString &op = "=");
+  void AddWhereArtist(const QVariant &value);
+
+  void SetBoundValues(const QVariantList &bound_values) { bound_values_ = bound_values; }
+  void SetDuplicatesOnly(const bool duplicates_only) { duplicates_only_ = duplicates_only; }
+  void SetIncludeUnavailable(const bool include_unavailable) { include_unavailable_ = include_unavailable; }
+  void SetLimit(const int limit) { limit_ = limit; }
+  void AddCompilationRequirement(const bool compilation);
 
  private:
   QString GetInnerQuery() const;

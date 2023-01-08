@@ -83,7 +83,7 @@ TEST_F(CollectionBackendTest, AddDirectory) {
 
   // Check the signal was emitted correctly
   ASSERT_EQ(1, spy.count());
-  Directory dir = spy[0][0].value<Directory>();
+  CollectionDirectory dir = spy[0][0].value<Directory>();
   EXPECT_EQ(QFileInfo("/tmp").canonicalFilePath(), dir.path);
   EXPECT_EQ(1, dir.id);
   EXPECT_EQ(0, spy[0][1].value<SubdirectoryList>().size());
@@ -93,7 +93,7 @@ TEST_F(CollectionBackendTest, AddDirectory) {
 TEST_F(CollectionBackendTest, RemoveDirectory) {
 
   // Add a directory
-  Directory dir;
+  CollectionDirectory dir;
   dir.id = 1;
   dir.path = "/tmp";
   backend_->AddDirectory(dir.path);
