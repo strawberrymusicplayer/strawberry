@@ -34,7 +34,6 @@
 #include <QString>
 #include <QUrl>
 #include <QRegularExpression>
-#include <QRegularExpressionMatch>
 #include <QStyle>
 #include <QHostAddress>
 #include <QSsl>

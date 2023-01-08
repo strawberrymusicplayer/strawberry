@@ -29,7 +29,6 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QRegularExpression>
-#include <QRegularExpressionMatch>
 
 #include "core/logging.h"
 #include "mtpconnection.h"

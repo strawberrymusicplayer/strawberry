@@ -26,7 +26,6 @@
 #include <QByteArray>
 #include <QString>
 #include <QRegularExpression>
-#include <QRegularExpressionMatch>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 

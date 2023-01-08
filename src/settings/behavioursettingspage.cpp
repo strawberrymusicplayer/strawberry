@@ -27,7 +27,6 @@
 #include <QString>
 #include <QStringList>
 #include <QRegularExpression>
-#include <QRegularExpressionMatch>
 #include <QDir>
 #include <QLocale>
 #include <QSettings>

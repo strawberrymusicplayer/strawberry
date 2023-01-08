@@ -29,7 +29,6 @@
 #include <QString>
 #include <QStringList>
 #include <QRegularExpression>
-#include <QRegularExpressionMatch>
 #include <QTextStream>
 
 #include "core/logging.h"

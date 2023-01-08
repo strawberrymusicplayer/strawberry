@@ -37,7 +37,6 @@
 #include <QString>
 #include <QStringList>
 #include <QRegularExpression>
-#include <QRegularExpressionMatch>
 #include <QUrl>
 #include <QUrlQuery>
 

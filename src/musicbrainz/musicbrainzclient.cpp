@@ -32,7 +32,6 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QRegularExpression>
-#include <QRegularExpressionMatch>
 #include <QtAlgorithms>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>

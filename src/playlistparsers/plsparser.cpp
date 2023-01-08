@@ -26,7 +26,6 @@
 #include <QByteArray>
 #include <QString>
 #include <QRegularExpression>
-#include <QRegularExpressionMatch>
 #include <QTextStream>
 
 #include "utilities/timeconstants.h"
