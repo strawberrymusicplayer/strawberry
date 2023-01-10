@@ -19,7 +19,10 @@
 
 #include <memory>
 #include <cstdlib>
+#include <glib.h>
 #include <glib-object.h>
+#include <gst/gst.h>
+#include <gst/app/gstappsink.h>
 
 #include <QObject>
 #include <QCoreApplication>
@@ -36,9 +39,9 @@
 
 const int MoodbarPipeline::kBands = 128;
 
-MoodbarPipeline::MoodbarPipeline(const QUrl &local_filename, QObject *parent)
+MoodbarPipeline::MoodbarPipeline(const QUrl &url, QObject *parent)
     : QObject(parent),
-      local_filename_(local_filename),
+      url_(url),
       pipeline_(nullptr),
       convert_element_(nullptr),
       success_(false),
@@ -59,6 +62,16 @@ GstElement *MoodbarPipeline::CreateElement(const QString &factory_name) {
 
   return ret;
 
+}
+
+QByteArray MoodbarPipeline::ToGstUrl(const QUrl &url) {
+
+  if (url.isLocalFile() && !url.host().isEmpty()) {
+    QString str = "file:////" + url.host() + url.path();
+    return str.toUtf8();
+  }
+
+  return url.toEncoded();
 }
 
 void MoodbarPipeline::Start() {
@@ -97,7 +110,9 @@ void MoodbarPipeline::Start() {
   builder_ = std::make_unique<MoodbarBuilder>();
 
   // Set properties
-  g_object_set(decodebin, "uri", local_filename_.toEncoded().constData(), nullptr);
+
+  QByteArray gst_url = ToGstUrl(url_);
+  g_object_set(decodebin, "uri", gst_url.constData(), nullptr);
   g_object_set(spectrum, "bands", kBands, nullptr);
 
   GstFastSpectrum *fast_spectrum = reinterpret_cast<GstFastSpectrum*>(spectrum);
@@ -128,7 +143,7 @@ void MoodbarPipeline::ReportError(GstMessage *msg) {
   g_error_free(error);
   g_free(debugs);
 
-  qLog(Error) << "Error processing" << local_filename_ << ":" << message;
+  qLog(Error) << "Error processing" << url_ << ":" << message;
 
 }
 

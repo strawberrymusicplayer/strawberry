@@ -23,11 +23,12 @@
 #include <QString>
 #include <QUrl>
 
+#include <memory>
+
 #include <glib.h>
+#include <glib-object.h>
 #include <gst/gst.h>
 #include <gst/app/gstappsink.h>
-
-#include <memory>
 
 class MoodbarBuilder;
 
@@ -36,7 +37,7 @@ class MoodbarPipeline : public QObject {
   Q_OBJECT
 
  public:
-  explicit MoodbarPipeline(const QUrl &local_filename, QObject *parent = nullptr);
+  explicit MoodbarPipeline(const QUrl &url, QObject *parent = nullptr);
   ~MoodbarPipeline() override;
 
   bool success() const { return success_; }
@@ -51,6 +52,7 @@ class MoodbarPipeline : public QObject {
  private:
   GstElement *CreateElement(const QString &factory_name);
 
+  QByteArray ToGstUrl(const QUrl &url);
   void ReportError(GstMessage *msg);
   void Stop(const bool success);
   void Cleanup();
@@ -63,7 +65,7 @@ class MoodbarPipeline : public QObject {
  private:
   static const int kBands;
 
-  QUrl local_filename_;
+  QUrl url_;
   GstElement *pipeline_;
   GstElement *convert_element_;
 
