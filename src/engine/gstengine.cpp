@@ -718,7 +718,7 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
   // It's a file:// url with a hostname set.
   // QUrl::fromLocalFile does this when given a \\host\share\file path on Windows.
   // Munge it back into a path that gstreamer will recognise.
-  if (url.scheme() == "file" && !url.host().isEmpty()) {
+  if (url.isLocalFile() && !url.host().isEmpty()) {
     QString str = "file:////" + url.host() + url.path();
     uri = str.toUtf8();
   }
