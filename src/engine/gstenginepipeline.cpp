@@ -1515,7 +1515,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
 void GstEnginePipeline::SetVolume(const uint volume_percent) {
 
-  if (volume_ && volume_percent_ != volume_percent) {
+  if (volume_) {
     const double volume_internal = static_cast<double>(volume_percent) * 0.01;
     if (volume_internal != volume_internal_) {
       volume_internal_ = volume_internal;
