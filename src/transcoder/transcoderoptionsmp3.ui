@@ -54,10 +54,10 @@
         <item>
          <widget class="QSlider" name="quality_slider">
           <property name="maximum">
-           <number>999</number>
+           <number>1000</number>
           </property>
           <property name="value">
-           <number>400</number>
+           <number>1000</number>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -72,11 +72,14 @@
         </item>
         <item>
          <widget class="QDoubleSpinBox" name="quality_spinbox">
+          <property name="minimum">
+           <double>0.000000000000000</double>
+          </property>
           <property name="maximum">
-           <double>9.990000000000000</double>
+           <double>10.000000000000000</double>
           </property>
           <property name="value">
-           <double>4.000000000000000</double>
+           <double>10.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -128,7 +131,7 @@
            <number>320</number>
           </property>
           <property name="value">
-           <number>128</number>
+           <number>320</number>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -156,7 +159,7 @@
            <number>8</number>
           </property>
           <property name="value">
-           <number>128</number>
+           <number>320</number>
           </property>
          </widget>
         </item>

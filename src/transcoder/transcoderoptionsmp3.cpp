@@ -60,10 +60,10 @@ void TranscoderOptionsMP3::Load() {
     ui_->target_bitrate->setChecked(true);
   }
 
-  ui_->quality_spinbox->setValue(s.value("quality", 10).toFloat());
+  ui_->quality_spinbox->setValue(s.value("quality", 10.0F).toFloat());
   ui_->bitrate_slider->setValue(s.value("bitrate", 320).toInt());
   ui_->cbr->setChecked(s.value("cbr", false).toBool());
-  ui_->encoding_engine_quality->setCurrentIndex(s.value("encoding-engine-quality", 1).toInt());
+  ui_->encoding_engine_quality->setCurrentIndex(s.value("encoding-engine-quality", 2).toInt());
   ui_->mono->setChecked(s.value("mono", false).toBool());
 
   s.endGroup();
@@ -86,10 +86,10 @@ void TranscoderOptionsMP3::Save() {
 
 }
 
-void TranscoderOptionsMP3::QualitySliderChanged(int value) {
-  ui_->quality_spinbox->setValue(static_cast<float>(value) / 100);
+void TranscoderOptionsMP3::QualitySliderChanged(const int value) {
+  ui_->quality_spinbox->setValue(static_cast<float>(value) / 100.0);
 }
 
-void TranscoderOptionsMP3::QualitySpinboxChanged(double value) {
-  ui_->quality_slider->setValue(static_cast<int>(value * 100));
+void TranscoderOptionsMP3::QualitySpinboxChanged(const double value) {
+  ui_->quality_slider->setValue(static_cast<int>(value * 100.0));
 }
