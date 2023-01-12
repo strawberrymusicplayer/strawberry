@@ -40,6 +40,7 @@
 #include "blockanalyzer.h"
 #include "boomanalyzer.h"
 #include "rainbowanalyzer.h"
+#include "sonogram.h"
 
 #include "core/logging.h"
 #include "engine/enginebase.h"
@@ -85,6 +86,7 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
   AddAnalyzerType<BoomAnalyzer>();
   AddAnalyzerType<Rainbow::NyanCatAnalyzer>();
   AddAnalyzerType<Rainbow::RainbowDashAnalyzer>();
+  AddAnalyzerType<Sonogram>();
 
   disable_action_ = context_menu_->addAction(tr("No analyzer"), this, &AnalyzerContainer::DisableAnalyzer);
   disable_action_->setCheckable(true);
