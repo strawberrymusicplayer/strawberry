@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.14 (2023.01.13):
 
   Bugfixes:
     * Fix initial volume not set when using Auto as output (#1104).
