@@ -86,7 +86,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsspeex.h:220
 #: ../build/src/ui_transcoderoptionsspeex.h:223
 #: ../build/src/ui_transcoderoptionsasf.h:76
-#: ../build/src/ui_transcoderoptionsmp3.h:194
+#: ../build/src/ui_transcoderoptionsmp3.h:195
 msgid " kbps"
 msgstr " kbit/s"
 
@@ -1131,7 +1131,7 @@ msgstr "Bitráta"
 #: ../build/src/ui_transcoderoptionsopus.h:76
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 #: ../build/src/ui_transcoderoptionsasf.h:75
-#: ../build/src/ui_transcoderoptionsmp3.h:193
+#: ../build/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
 msgstr "Bitráta"
 
@@ -1413,7 +1413,7 @@ msgstr "Eszköz csatlakoztatása"
 msgid "Console"
 msgstr "Konzol"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:195
+#: ../build/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
 msgstr "Állandó bitráta"
 
@@ -1466,7 +1466,7 @@ msgid ""
 "avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
-#: transcoder/transcoder.cpp:64
+#: transcoder/transcoder.cpp:67
 #, qt-format
 msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
@@ -2034,7 +2034,7 @@ msgstr "Engedélyezve"
 msgid "Encoding complexity"
 msgstr "Kódolás összetettsége"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:196
+#: ../build/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
 msgstr "Kódolás minősége"
 
@@ -2275,7 +2275,7 @@ msgid "Fallback-gain"
 msgstr ""
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
-#: ../build/src/ui_transcoderoptionsmp3.h:197
+#: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
 msgstr "Gyors"
 
@@ -2417,7 +2417,7 @@ msgstr "Ubuntuhoz elérhető egy hivatalos PPA tároló itt: %1."
 msgid "For a better experience please consider the other options above."
 msgstr "A jobb élményért fontolja meg a fenti opciókat."
 
-#: ../build/src/ui_transcoderoptionsmp3.h:201
+#: ../build/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
 msgstr "Mono kódolás kényszerítése"
 
@@ -2454,7 +2454,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsopus.h:75
 #: ../build/src/ui_transcoderoptionsspeex.h:216
 #: ../build/src/ui_transcoderoptionsasf.h:74
-#: ../build/src/ui_transcoderoptionsmp3.h:189
+#: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
 msgstr "Űrlap"
 
@@ -2651,7 +2651,7 @@ msgstr ""
 msgid "Hide the main window"
 msgstr "Főablak elrejtése"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:199
+#: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
 msgstr "Magas"
 
@@ -3451,11 +3451,11 @@ msgstr "Megnyitás új lejátszólistában"
 msgid "Open..."
 msgstr "Megnyitás..."
 
-#: ../build/src/ui_transcoderoptionsmp3.h:192
+#: ../build/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
 msgstr "Opti&malizálás bitrátára"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:190
+#: ../build/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
 msgstr "Optimalizálás &minőségre"
 
@@ -3831,7 +3831,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
 #: ../build/src/ui_transcoderoptionsspeex.h:217
-#: ../build/src/ui_transcoderoptionsmp3.h:191
+#: ../build/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
 msgstr "Minőség"
@@ -4784,7 +4784,7 @@ msgstr "Speex"
 msgid "Spotify Authentication"
 msgstr "Spotify hitelesítés"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:198
+#: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
 msgstr "Normál"
 

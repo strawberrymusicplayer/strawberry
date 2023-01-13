@@ -21,10 +21,10 @@
 
 #include "config.h"
 
-#include <glib.h>
-#include <glib/gtypes.h>
 #include <memory>
 #include <algorithm>
+#include <glib.h>
+#include <glib/gtypes.h>
 #include <gst/gst.h>
 
 #include <QtGlobal>
@@ -60,11 +60,11 @@ GstElement *Transcoder::CreateElement(const QString &factory_name, GstElement *b
 
   if (ret && bin) gst_bin_add(GST_BIN(bin), ret);
 
-  if (!ret) {
-    emit LogLine(tr("Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed").arg(factory_name));
+  if (ret) {
+    SetElementProperties(factory_name, G_OBJECT(ret));
   }
   else {
-    SetElementProperties(factory_name, G_OBJECT(ret));
+    emit LogLine(tr("Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed").arg(factory_name));
   }
 
   return ret;
@@ -369,7 +369,7 @@ void Transcoder::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
   GstPad *const audiopad = gst_element_get_static_pad(state->convert_element_, "sink");
 
   if (GST_PAD_IS_LINKED(audiopad)) {
-    qLog(Debug) << "audiopad is already linked, unlinking old pad";
+    qLog(Debug) << "Audiopad is already linked, unlinking old pad";
     gst_pad_unlink(audiopad, GST_PAD_PEER(audiopad));
   }
 
@@ -575,25 +575,69 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
   for (uint i = 0; i < properties_count; ++i) {
     GParamSpec *property = properties[i];
 
+    if (!s.contains(property->name)) {
+      continue;
+    }
+
     const QVariant value = s.value(property->name);
-    if (value.isNull()) continue;
+    if (value.isNull()) {
+      continue;
+    }
 
     emit LogLine(QString("Setting %1 property: %2 = %3").arg(name, property->name, value.toString()));
 
     switch (property->value_type) {
-      case G_TYPE_DOUBLE:
-        g_object_set(object, property->name, value.toDouble(), nullptr);
+      case G_TYPE_FLOAT:{
+        const double g_value = static_cast<gfloat>(value.toFloat());
+        qLog(Debug) << "Setting" << property->name << "float" << "to" << g_value;
+        g_object_set(object, property->name, g_value, nullptr);
         break;
-      case G_TYPE_FLOAT:
-        g_object_set(object, property->name, value.toFloat(), nullptr);
+      }
+      case G_TYPE_DOUBLE:{
+        const double g_value = static_cast<gdouble>(value.toDouble());
+        qLog(Debug) << "Setting" << property->name << "(double)" << "to" << g_value;
+        g_object_set(object, property->name, g_value, nullptr);
         break;
-      case G_TYPE_BOOLEAN:
-        g_object_set(object, property->name, value.toInt(), nullptr);
+      }
+      case G_TYPE_BOOLEAN:{
+        const bool g_value = value.toBool();
+        qLog(Debug) << "Setting" << property->name << "(bool)" << "to" << g_value;
+        g_object_set(object, property->name, g_value, nullptr);
         break;
+      }
       case G_TYPE_INT:
-      default:
-        g_object_set(object, property->name, value.toInt(), nullptr);
+      case G_TYPE_ENUM:{
+        const gint g_value = static_cast<gint>(value.toInt());
+        qLog(Debug) << "Setting" << property->name << "(enum)" << "to" << g_value;
+        g_object_set(object, property->name, g_value, nullptr);
         break;
+      }
+      case G_TYPE_UINT:{
+        const guint g_value = static_cast<gint>(value.toUInt());
+        qLog(Debug) << "Setting" << property->name << "(uint)" << "to" << g_value;
+        g_object_set(object, property->name, g_value, nullptr);
+        break;
+      }
+      case G_TYPE_LONG:
+      case G_TYPE_INT64:{
+        const glong g_value = static_cast<glong>(value.toLongLong());
+        qLog(Debug) << "Setting" << property->name << "(long)" << "to" << g_value;
+        g_object_set(object, property->name, g_value, nullptr);
+        break;
+      }
+      case G_TYPE_ULONG:
+      case G_TYPE_UINT64:{
+        const gulong g_value = static_cast<gulong>(value.toULongLong());
+        qLog(Debug) << "Setting" << property->name << "(ulong)" << "to" << g_value;
+        g_object_set(object, property->name, g_value, nullptr);
+        break;
+      }
+      default:{
+        const gint g_value = static_cast<gint>(value.toInt());
+        qLog(Debug) << "Setting" << property->name << "(int)" << "to" << g_value;
+        g_object_set(object, property->name, g_value, nullptr);
+        break;
+      }
     }
   }
 

@@ -76,7 +76,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsspeex.h:220
 #: ../build/src/ui_transcoderoptionsspeex.h:223
 #: ../build/src/ui_transcoderoptionsasf.h:76
-#: ../build/src/ui_transcoderoptionsmp3.h:194
+#: ../build/src/ui_transcoderoptionsmp3.h:195
 msgid " kbps"
 msgstr "kbps"
 
@@ -1122,7 +1122,7 @@ msgstr "Bitrate"
 #: ../build/src/ui_transcoderoptionsopus.h:76
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 #: ../build/src/ui_transcoderoptionsasf.h:75
-#: ../build/src/ui_transcoderoptionsmp3.h:193
+#: ../build/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
 msgstr "Bitrate"
 
@@ -1400,7 +1400,7 @@ msgstr "Koble til enhet"
 msgid "Console"
 msgstr "Konsoll"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:195
+#: ../build/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
 msgstr "Konstant bitrate"
 
@@ -1455,7 +1455,7 @@ msgstr ""
 "Kopier din strawberry.conf og strawberry.db fil fra ~/snap mappen for å "
 "unngå at du mister innstillingene før du avinstallerer"
 
-#: transcoder/transcoder.cpp:64
+#: transcoder/transcoder.cpp:67
 #, qt-format
 msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
@@ -2024,7 +2024,7 @@ msgstr "Aktivert"
 msgid "Encoding complexity"
 msgstr "Koding-kompleksitet"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:196
+#: ../build/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
 msgstr "Koding motorens kvalitetsinnstilling"
 
@@ -2265,7 +2265,7 @@ msgid "Fallback-gain"
 msgstr "Fallback-gain"
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
-#: ../build/src/ui_transcoderoptionsmp3.h:197
+#: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
 msgstr "Rask"
 
@@ -2405,7 +2405,7 @@ msgstr "For Ubuntu en offisiell PPA pakkebrønn er tilgjengelig på %1."
 msgid "For a better experience please consider the other options above."
 msgstr "For en bedre opplevelse bruk en av valgene over."
 
-#: ../build/src/ui_transcoderoptionsmp3.h:201
+#: ../build/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
 msgstr "Tving monolyd-koding"
 
@@ -2442,7 +2442,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsopus.h:75
 #: ../build/src/ui_transcoderoptionsspeex.h:216
 #: ../build/src/ui_transcoderoptionsasf.h:74
-#: ../build/src/ui_transcoderoptionsmp3.h:189
+#: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
 msgstr "Skjema"
 
@@ -2639,7 +2639,7 @@ msgstr "Hex"
 msgid "Hide the main window"
 msgstr "Skjul hovedvindu"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:199
+#: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
 msgstr "Høy"
 
@@ -3428,11 +3428,11 @@ msgstr "Åpne i ny spilleliste"
 msgid "Open..."
 msgstr "Åpne…"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:192
+#: ../build/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
 msgstr "Optimalisere for bitrate"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:190
+#: ../build/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
 msgstr "Optimize for &quality"
 
@@ -3806,7 +3806,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
 #: ../build/src/ui_transcoderoptionsspeex.h:217
-#: ../build/src/ui_transcoderoptionsmp3.h:191
+#: ../build/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
 msgstr "Kvalitet"
@@ -4763,7 +4763,7 @@ msgstr "Speex"
 msgid "Spotify Authentication"
 msgstr "Spotify Autentisering"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:198
+#: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
 msgstr "Standard"
 

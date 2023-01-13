@@ -79,7 +79,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsspeex.h:220
 #: ../build/src/ui_transcoderoptionsspeex.h:223
 #: ../build/src/ui_transcoderoptionsasf.h:76
-#: ../build/src/ui_transcoderoptionsmp3.h:194
+#: ../build/src/ui_transcoderoptionsmp3.h:195
 msgid " kbps"
 msgstr " kbps"
 
@@ -1132,7 +1132,7 @@ msgstr "Bitrate"
 #: ../build/src/ui_transcoderoptionsopus.h:76
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 #: ../build/src/ui_transcoderoptionsasf.h:75
-#: ../build/src/ui_transcoderoptionsmp3.h:193
+#: ../build/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
 msgstr "Bitrate"
 
@@ -1410,7 +1410,7 @@ msgstr "Apparaat verbinden"
 msgid "Console"
 msgstr "Console"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:195
+#: ../build/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
 msgstr "Constante bitrate"
 
@@ -1466,7 +1466,7 @@ msgstr ""
 "Kopieer je strawberry.conf en strawberry.db van je ~/snap map om verlies van "
 "configuratie te voorkomen eer je de snap de-installeert:"
 
-#: transcoder/transcoder.cpp:64
+#: transcoder/transcoder.cpp:67
 #, qt-format
 msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
@@ -2036,7 +2036,7 @@ msgstr ""
 msgid "Encoding complexity"
 msgstr "Coderingscomplexiteit"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:196
+#: ../build/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
 msgstr "Kwaliteit encoding-engine"
 
@@ -2278,7 +2278,7 @@ msgid "Fallback-gain"
 msgstr "Terugval-gain"
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
-#: ../build/src/ui_transcoderoptionsmp3.h:197
+#: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
 msgstr "Snel"
 
@@ -2418,7 +2418,7 @@ msgstr ""
 msgid "For a better experience please consider the other options above."
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsmp3.h:201
+#: ../build/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
 msgstr "Mono-encodering forceren"
 
@@ -2456,7 +2456,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsopus.h:75
 #: ../build/src/ui_transcoderoptionsspeex.h:216
 #: ../build/src/ui_transcoderoptionsasf.h:74
-#: ../build/src/ui_transcoderoptionsmp3.h:189
+#: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
 msgstr "Formulier"
 
@@ -2654,7 +2654,7 @@ msgstr ""
 msgid "Hide the main window"
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsmp3.h:199
+#: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
 msgstr "Hoog"
 
@@ -3446,11 +3446,11 @@ msgstr "In een nieuwe afspeellijst openen"
 msgid "Open..."
 msgstr "Openen..."
 
-#: ../build/src/ui_transcoderoptionsmp3.h:192
+#: ../build/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsmp3.h:190
+#: ../build/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
 msgstr ""
 
@@ -3820,7 +3820,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
 #: ../build/src/ui_transcoderoptionsspeex.h:217
-#: ../build/src/ui_transcoderoptionsmp3.h:191
+#: ../build/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
 msgstr "Kwaliteit"
@@ -4771,7 +4771,7 @@ msgstr "Speex"
 msgid "Spotify Authentication"
 msgstr "Spotify verificatie"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:198
+#: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
 msgstr "Standaard"
 
