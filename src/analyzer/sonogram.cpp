@@ -73,7 +73,7 @@ void Sonogram::analyze(QPainter &p, const Scope &s, bool new_frame) {
       c = Qt::red;
 
     canvas_painter.setPen(c);
-    canvas_painter.drawPoint(x, y--);
+    canvas_painter.drawPoint(width() - 1, y--);
 
     if (it < end) ++it;
   }
