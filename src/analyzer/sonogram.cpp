@@ -50,7 +50,7 @@ void Sonogram::resizeEvent(QResizeEvent* e) {
   canvas_.fill(palette().color(QPalette::Window));
 }
 
-void Sonogram::analyze(QPainter& p, const Scope& s, bool new_frame) {
+void Sonogram::analyze(QPainter &p, const Scope &s, bool new_frame) {
   if (!new_frame || engine_->state() == Engine::Paused) {
     p.drawPixmap(0, 0, canvas_);
     return;
