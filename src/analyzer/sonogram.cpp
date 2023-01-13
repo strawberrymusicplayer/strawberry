@@ -19,13 +19,11 @@
 
    You should have received a copy of the GNU General Public License
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
-/* Original Author:  Melchior FRANZ  <mfranz@kde.org>  2004
+   Original Author:  Melchior FRANZ  <mfranz@kde.org>  2004
  */
 
 #include "sonogram.h"
-
 #include <QPainter>
 
 using Analyzer::Scope;
@@ -38,10 +36,8 @@ Sonogram::Sonogram(QWidget* parent)
 
 Sonogram::~Sonogram() {}
 
-void Sonogram::resizeEvent(QResizeEvent* e) {
-  QWidget::resizeEvent(e);
-
-// only for gcc < 4.0
+void Sonogram::resizeEvent(QResizeEvent *e) {
+   
 #if !(__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 0))
   resizeForBands(height() < 128 ? 128 : height());
 #endif
@@ -51,6 +47,7 @@ void Sonogram::resizeEvent(QResizeEvent* e) {
 }
 
 void Sonogram::analyze(QPainter &p, const Scope &s, bool new_frame) {
+   
   if (!new_frame || engine_->state() == Engine::Paused) {
     p.drawPixmap(0, 0, canvas_);
     return;
@@ -88,11 +85,13 @@ void Sonogram::analyze(QPainter &p, const Scope &s, bool new_frame) {
 }
 
 void Sonogram::transform(Scope& scope) {
+   
   fht_->power2(scope.data());
   fht_->scale(scope.data(), 1.0 / 256);
   scope.resize(fht_->size() / 2);
 }
 
 void Sonogram::demo(QPainter& p) {
+   
   analyze(p, Scope(fht_->size(), 0), new_frame_);
 }
