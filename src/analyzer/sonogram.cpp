@@ -28,16 +28,16 @@
 
 using Analyzer::Scope;
 
-const char* Sonogram::kName =
-    QT_TRANSLATE_NOOP("AnalyzerContainer", "Sonogram");
+const char *Sonogram::kName =
+  QT_TRANSLATE_NOOP("AnalyzerContainer", "Sonogram");
 
-Sonogram::Sonogram(QWidget* parent)
+Sonogram::Sonogram(QWidget *parent)
     : Analyzer::Base(parent, 9), scope_size_(128) {}
 
 Sonogram::~Sonogram() {}
 
 void Sonogram::resizeEvent(QResizeEvent *e) {
-   
+
 #if !(__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 0))
   resizeForBands(height() < 128 ? 128 : height());
 #endif
@@ -47,51 +47,50 @@ void Sonogram::resizeEvent(QResizeEvent *e) {
 }
 
 void Sonogram::analyze(QPainter &p, const Scope &s, bool new_frame) {
-   
+
   if (!new_frame || engine_->state() == Engine::Paused) {
     p.drawPixmap(0, 0, canvas_);
     return;
   }
 
-  int x = width() - 1;
   QColor c;
 
   QPainter canvas_painter(&canvas_);
-  canvas_painter.drawPixmap(0, 0, canvas_, 1, 0, x, -1);
+  canvas_painter.drawPixmap(0, 0, canvas_, 1, 0, width() - 1, -1);
 
   Scope::const_iterator it = s.begin(), end = s.end();
-  if (scope_size_ != s.size()) {
+  if (scope_size_ != s.size()) 
     scope_size_ = s.size();
+  
+  for (int y = height() - 1; y;) {
+    if (it >= end || *it < .005)
+      c = palette().color(QPalette::Window);
+    else if (*it < .05)
+      c.setHsv(95, 255, 255 - static_cast<int>(*it * 4000.0));
+    else if (*it < 1.0)
+      c.setHsv(95 - static_cast<int>(*it * 90.0), 255, 255);
+    else
+      c = Qt::red;
+
+    canvas_painter.setPen(c);
+    canvas_painter.drawPoint(x, y--);
+
+    if (it < end) ++it;
   }
-    for (int y = height() - 1; y;) {
-      if (it >= end || *it < .005)
-        c = palette().color(QPalette::Window);
-      else if (*it < .05)
-        c.setHsv(95, 255, 255 - static_cast<int>(*it * 4000.0));
-      else if (*it < 1.0)
-        c.setHsv(95 - static_cast<int>(*it * 90.0), 255, 255);
-      else
-        c = Qt::red;
-
-      canvas_painter.setPen(c);
-      canvas_painter.drawPoint(x, y--);
-
-      if (it < end) ++it;
-    }
 
   canvas_painter.end();
 
   p.drawPixmap(0, 0, canvas_);
 }
 
-void Sonogram::transform(Scope& scope) {
-   
+void Sonogram::transform(Scope &scope) {
+
   fht_->power2(scope.data());
   fht_->scale(scope.data(), 1.0 / 256);
   scope.resize(fht_->size() / 2);
 }
 
-void Sonogram::demo(QPainter& p) {
-   
+void Sonogram::demo(QPainter &p) {
+
   analyze(p, Scope(fht_->size(), 0), new_frame_);
 }

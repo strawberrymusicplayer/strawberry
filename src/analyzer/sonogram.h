@@ -25,23 +25,25 @@
  */
 
 #ifndef ANALYZER_SONOGRAM_H
-#define ANALYZERS_SONOGRAM_H_
+#  define ANALYZERS_SONOGRAM_H_
 
-#include "analyzerbase.h"
+#  include "analyzerbase.h"
 
 class Sonogram : public Analyzer::Base {
   Q_OBJECT
  public:
-  Q_INVOKABLE explicit Sonogram(QWidget*);
+  Q_INVOKABLE explicit Sonogram(QWidget *);
   ~Sonogram();
 
   static const char *kName;
 
  protected:
-  void analyze(QPainter& p, const Analyzer::Scope&, bool new_frame) override;
-  void transform(Analyzer::Scope&);
-  void demo(QPainter& p);
-  void resizeEvent(QResizeEvent*);
+  void analyze(QPainter &p, const Analyzer::Scope &, bool new_frame) override;
+  void transform(Analyzer::Scope &);
+  void demo(QPainter &p);
+
+ private:
+  void resizeEvent(QResizeEvent *);
 
 
   QPixmap canvas_;
