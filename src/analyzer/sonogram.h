@@ -24,7 +24,7 @@
 /* Original Author:  Melchior FRANZ  <mfranz@kde.org>  2004
  */
 
-#ifndef ANALYZERS_SONOGRAM_H_
+#ifndef ANALYZER_SONOGRAM_H
 #define ANALYZERS_SONOGRAM_H_
 
 #include "analyzerbase.h"
@@ -32,13 +32,13 @@
 class Sonogram : public Analyzer::Base {
   Q_OBJECT
  public:
-  Q_INVOKABLE Sonogram(QWidget*);
+  Q_INVOKABLE explicit Sonogram(QWidget*);
   ~Sonogram();
 
-  static const char* kName;
+  static const char *kName;
 
  protected:
-  void analyze(QPainter& p, const Analyzer::Scope&, bool new_frame);
+  void analyze(QPainter& p, const Analyzer::Scope&, bool new_frame) override;
   void transform(Analyzer::Scope&);
   void demo(QPainter& p);
   void resizeEvent(QResizeEvent*);
@@ -48,4 +48,4 @@ class Sonogram : public Analyzer::Base {
   int scope_size_;
 };
 
-#endif  // ANALYZERS_SONOGRAM_H_
+#endif  // ANALYZER_SONOGRAM_H
