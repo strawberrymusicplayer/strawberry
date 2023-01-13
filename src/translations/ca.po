@@ -68,7 +68,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsspeex.h:220
 #: ../build/src/ui_transcoderoptionsspeex.h:223
 #: ../build/src/ui_transcoderoptionsasf.h:76
-#: ../build/src/ui_transcoderoptionsmp3.h:194
+#: ../build/src/ui_transcoderoptionsmp3.h:195
 msgid " kbps"
 msgstr " kb/s"
 
@@ -1109,7 +1109,7 @@ msgstr "Taxa de bits"
 #: ../build/src/ui_transcoderoptionsopus.h:76
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 #: ../build/src/ui_transcoderoptionsasf.h:75
-#: ../build/src/ui_transcoderoptionsmp3.h:193
+#: ../build/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
 msgstr "Taxa de bits"
 
@@ -1389,7 +1389,7 @@ msgstr "Connecta el dispositiu"
 msgid "Console"
 msgstr "Terminal"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:195
+#: ../build/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
 msgstr "Taxa de bits constant"
 
@@ -1441,7 +1441,7 @@ msgid ""
 "avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
-#: transcoder/transcoder.cpp:64
+#: transcoder/transcoder.cpp:67
 #, qt-format
 msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
@@ -2008,7 +2008,7 @@ msgstr ""
 msgid "Encoding complexity"
 msgstr "Complexitat de la codificació"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:196
+#: ../build/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
 msgstr "Qualitat del motor de codificació"
 
@@ -2250,7 +2250,7 @@ msgid "Fallback-gain"
 msgstr ""
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
-#: ../build/src/ui_transcoderoptionsmp3.h:197
+#: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
 msgstr "Ràpid"
 
@@ -2390,7 +2390,7 @@ msgstr ""
 msgid "For a better experience please consider the other options above."
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsmp3.h:201
+#: ../build/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
 msgstr "Força la codificació mono"
 
@@ -2427,7 +2427,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsopus.h:75
 #: ../build/src/ui_transcoderoptionsspeex.h:216
 #: ../build/src/ui_transcoderoptionsasf.h:74
-#: ../build/src/ui_transcoderoptionsmp3.h:189
+#: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
 msgstr "Formulari"
 
@@ -2625,7 +2625,7 @@ msgstr ""
 msgid "Hide the main window"
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsmp3.h:199
+#: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
 msgstr "Alt"
 
@@ -3418,11 +3418,11 @@ msgstr "Obre en una llista de reproducció nova"
 msgid "Open..."
 msgstr "Obre…"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:192
+#: ../build/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsmp3.h:190
+#: ../build/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
 msgstr ""
 
@@ -3793,7 +3793,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
 #: ../build/src/ui_transcoderoptionsspeex.h:217
-#: ../build/src/ui_transcoderoptionsmp3.h:191
+#: ../build/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
 msgstr "Qualitat"
@@ -4743,7 +4743,7 @@ msgstr "Speex"
 msgid "Spotify Authentication"
 msgstr ""
 
-#: ../build/src/ui_transcoderoptionsmp3.h:198
+#: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
 msgstr "Estàndard"
 

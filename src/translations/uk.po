@@ -78,7 +78,7 @@ msgstr " Ярлики на %1 зазвичай використовують че
 #: ../build/src/ui_transcoderoptionsspeex.h:220
 #: ../build/src/ui_transcoderoptionsspeex.h:223
 #: ../build/src/ui_transcoderoptionsasf.h:76
-#: ../build/src/ui_transcoderoptionsmp3.h:194
+#: ../build/src/ui_transcoderoptionsmp3.h:195
 msgid " kbps"
 msgstr " кб/с"
 
@@ -1124,7 +1124,7 @@ msgstr "Бітова швидкість"
 #: ../build/src/ui_transcoderoptionsopus.h:76
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 #: ../build/src/ui_transcoderoptionsasf.h:75
-#: ../build/src/ui_transcoderoptionsmp3.h:193
+#: ../build/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
 msgstr "Бітова швидкість"
 
@@ -1408,7 +1408,7 @@ msgstr "Підключити пристрій"
 msgid "Console"
 msgstr "Консоль"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:195
+#: ../build/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
 msgstr "Стала бітова швидкість"
 
@@ -1464,7 +1464,7 @@ msgstr ""
 "Перш ніж видаляти snap, скопіюйте файли strawberry.conf і strawberry.db з "
 "каталогу ~/snap, щоб не втратити свою конфігурацію:"
 
-#: transcoder/transcoder.cpp:64
+#: transcoder/transcoder.cpp:67
 #, qt-format
 msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
@@ -2033,7 +2033,7 @@ msgstr "Увімкнено"
 msgid "Encoding complexity"
 msgstr "Складність кодування"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:196
+#: ../build/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
 msgstr "Якість кодування"
 
@@ -2276,7 +2276,7 @@ msgid "Fallback-gain"
 msgstr "Вирівнювання гучності"
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
-#: ../build/src/ui_transcoderoptionsmp3.h:197
+#: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
 msgstr "Швидко"
 
@@ -2416,7 +2416,7 @@ msgstr "Для Ubuntu існує офіційне PPA-сховище на %1."
 msgid "For a better experience please consider the other options above."
 msgstr "Також вам можливо стануть у нагоді інші варіанти вище."
 
-#: ../build/src/ui_transcoderoptionsmp3.h:201
+#: ../build/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
 msgstr "Примусове моно-кодування"
 
@@ -2453,7 +2453,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsopus.h:75
 #: ../build/src/ui_transcoderoptionsspeex.h:216
 #: ../build/src/ui_transcoderoptionsasf.h:74
-#: ../build/src/ui_transcoderoptionsmp3.h:189
+#: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
 msgstr "Форма"
 
@@ -2650,7 +2650,7 @@ msgstr "Шістнадцяткове"
 msgid "Hide the main window"
 msgstr "Сховати головне вікно"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:199
+#: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
 msgstr "Високий"
 
@@ -3450,11 +3450,11 @@ msgstr "Відкрити у новому списку відтворення"
 msgid "Open..."
 msgstr "Відкрити..."
 
-#: ../build/src/ui_transcoderoptionsmp3.h:192
+#: ../build/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
 msgstr "Оптимізувати під &бітову швидкість"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:190
+#: ../build/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
 msgstr "Оптимізувати під &якість"
 
@@ -3835,7 +3835,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
 #: ../build/src/ui_transcoderoptionsspeex.h:217
-#: ../build/src/ui_transcoderoptionsmp3.h:191
+#: ../build/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
 msgstr "Якість"
@@ -4796,7 +4796,7 @@ msgstr "Speex"
 msgid "Spotify Authentication"
 msgstr "Автентифікація на Spotify"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:198
+#: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
 msgstr "Стандартний"
 

@@ -77,7 +77,7 @@ msgstr "%1 のショートカットは通常 MPRIS と KGlobalAccel で利用さ
 #: ../build/src/ui_transcoderoptionsspeex.h:220
 #: ../build/src/ui_transcoderoptionsspeex.h:223
 #: ../build/src/ui_transcoderoptionsasf.h:76
-#: ../build/src/ui_transcoderoptionsmp3.h:194
+#: ../build/src/ui_transcoderoptionsmp3.h:195
 msgid " kbps"
 msgstr " kbps"
 
@@ -1114,7 +1114,7 @@ msgstr "ビットレート"
 #: ../build/src/ui_transcoderoptionsopus.h:76
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 #: ../build/src/ui_transcoderoptionsasf.h:75
-#: ../build/src/ui_transcoderoptionsmp3.h:193
+#: ../build/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
 msgstr "ビットレート"
 
@@ -1391,7 +1391,7 @@ msgstr "デバイスの接続"
 msgid "Console"
 msgstr "コンソール"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:195
+#: ../build/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
 msgstr "固定ビットレート"
 
@@ -1443,7 +1443,7 @@ msgid ""
 "avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
-#: transcoder/transcoder.cpp:64
+#: transcoder/transcoder.cpp:67
 #, qt-format
 msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
@@ -2007,7 +2007,7 @@ msgstr "有効"
 msgid "Encoding complexity"
 msgstr "Complexity エンコーディング"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:196
+#: ../build/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
 msgstr "エンコーディングエンジンの品質"
 
@@ -2248,7 +2248,7 @@ msgid "Fallback-gain"
 msgstr ""
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
-#: ../build/src/ui_transcoderoptionsmp3.h:197
+#: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
 msgstr "速"
 
@@ -2388,7 +2388,7 @@ msgstr ""
 msgid "For a better experience please consider the other options above."
 msgstr "より良い体験のために、上記の他のオプションを検討してください"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:201
+#: ../build/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
 msgstr "モノラルエンコーディングを強制する"
 
@@ -2423,7 +2423,7 @@ msgstr "デバイスを忘れるとこの一覧から削除して Strawberry は
 #: ../build/src/ui_transcoderoptionsopus.h:75
 #: ../build/src/ui_transcoderoptionsspeex.h:216
 #: ../build/src/ui_transcoderoptionsasf.h:74
-#: ../build/src/ui_transcoderoptionsmp3.h:189
+#: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
 msgstr "フォーム"
 
@@ -2619,7 +2619,7 @@ msgstr ""
 msgid "Hide the main window"
 msgstr "メインウィンドウを隠す"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:199
+#: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
 msgstr "高"
 
@@ -3402,11 +3402,11 @@ msgstr "新しいプレイリストで開く"
 msgid "Open..."
 msgstr "開く..."
 
-#: ../build/src/ui_transcoderoptionsmp3.h:192
+#: ../build/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
 msgstr "ビットレートで最適化(&m)"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:190
+#: ../build/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
 msgstr "音質で最適化(&q)"
 
@@ -3775,7 +3775,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
 #: ../build/src/ui_transcoderoptionsspeex.h:217
-#: ../build/src/ui_transcoderoptionsmp3.h:191
+#: ../build/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
 msgstr "品質"
@@ -4723,7 +4723,7 @@ msgstr "Speex"
 msgid "Spotify Authentication"
 msgstr "Spotify 認証"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:198
+#: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
 msgstr "標準"
 

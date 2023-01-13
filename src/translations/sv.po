@@ -86,7 +86,7 @@ msgstr " Genvägar på %1 används vanligtvis via MPRIS och KGlobalAccel."
 #: ../build/src/ui_transcoderoptionsspeex.h:220
 #: ../build/src/ui_transcoderoptionsspeex.h:223
 #: ../build/src/ui_transcoderoptionsasf.h:76
-#: ../build/src/ui_transcoderoptionsmp3.h:194
+#: ../build/src/ui_transcoderoptionsmp3.h:195
 msgid " kbps"
 msgstr " kbps"
 
@@ -1133,7 +1133,7 @@ msgstr "Bithastighet"
 #: ../build/src/ui_transcoderoptionsopus.h:76
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 #: ../build/src/ui_transcoderoptionsasf.h:75
-#: ../build/src/ui_transcoderoptionsmp3.h:193
+#: ../build/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
 msgstr "Bitfrekvens"
 
@@ -1412,7 +1412,7 @@ msgstr "Anslut enhet"
 msgid "Console"
 msgstr "Konsol"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:195
+#: ../build/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
 msgstr "Konstant bitfrekvens"
 
@@ -1466,7 +1466,7 @@ msgstr ""
 "Kopiera din strawberry.conf och strawberry.db från din ~/snap-mapp för att "
 "undvika att förlora konfigurationen innan du avinstallerar snap:"
 
-#: transcoder/transcoder.cpp:64
+#: transcoder/transcoder.cpp:67
 #, qt-format
 msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
@@ -2037,7 +2037,7 @@ msgstr "Aktiverad"
 msgid "Encoding complexity"
 msgstr "Kodningskomplexitet"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:196
+#: ../build/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
 msgstr "Kodningsmotorns kvalitet"
 
@@ -2278,7 +2278,7 @@ msgid "Fallback-gain"
 msgstr ""
 
 #: ../build/src/ui_transcoderoptionsflac.h:78
-#: ../build/src/ui_transcoderoptionsmp3.h:197
+#: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
 msgstr "Snabb"
 
@@ -2418,7 +2418,7 @@ msgstr "För Ubuntu finns ett officiellt PPA-förråd tillgängligt på %1."
 msgid "For a better experience please consider the other options above."
 msgstr "För en bättre upplevelse, överväg de andra alternativen ovan."
 
-#: ../build/src/ui_transcoderoptionsmp3.h:201
+#: ../build/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
 msgstr "Tvinga monokodning"
 
@@ -2455,7 +2455,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsopus.h:75
 #: ../build/src/ui_transcoderoptionsspeex.h:216
 #: ../build/src/ui_transcoderoptionsasf.h:74
-#: ../build/src/ui_transcoderoptionsmp3.h:189
+#: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
 msgstr "Formulär"
 
@@ -2651,7 +2651,7 @@ msgstr "Hex"
 msgid "Hide the main window"
 msgstr "Dölj huvudfönstret"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:199
+#: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
 msgstr "Hög"
 
@@ -3448,11 +3448,11 @@ msgstr "Öppna i ny spellista"
 msgid "Open..."
 msgstr "Öppna..."
 
-#: ../build/src/ui_transcoderoptionsmp3.h:192
+#: ../build/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
 msgstr "Optimera för bitfrekvens"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:190
+#: ../build/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
 msgstr "Optimera för &kvalitet"
 
@@ -3829,7 +3829,7 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsflac.h:77
 #: ../build/src/ui_transcoderoptionsvorbis.h:198
 #: ../build/src/ui_transcoderoptionsspeex.h:217
-#: ../build/src/ui_transcoderoptionsmp3.h:191
+#: ../build/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
 msgstr "Kvalitet"
@@ -4788,7 +4788,7 @@ msgstr "Speex"
 msgid "Spotify Authentication"
 msgstr "Spotify-autentisering"
 
-#: ../build/src/ui_transcoderoptionsmp3.h:198
+#: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
 msgstr "Standard"
 
