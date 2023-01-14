@@ -2462,7 +2462,7 @@ msgstr "Форма"
 msgid "Format"
 msgstr "Формат"
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "Частота кадрів"
 
@@ -2654,7 +2654,7 @@ msgstr "Сховати головне вікно"
 msgid "High"
 msgstr "Високий"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Висока (%1 к/с)"
@@ -2988,7 +2988,7 @@ msgstr "Профіль довготривалого передбачення (LT
 msgid "Love"
 msgstr "Люблю"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Низька (%1 к/с)"
@@ -3067,7 +3067,7 @@ msgstr "Найбільша бітова швидкість"
 msgid "Maximum number of login attempts reached."
 msgstr "Досягнута максимальна кількість спроб входу."
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Середня (%1 к/с)"
@@ -3287,7 +3287,7 @@ msgstr ""
 msgid "Next week"
 msgstr "Наступного тижня"
 
-#: analyzer/analyzercontainer.cpp:89
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "Без аналізатора"
 
@@ -4772,6 +4772,10 @@ msgstr ""
 msgid "Songs search limit"
 msgstr "Обмеження пошуку композицій"
 
+#: analyzer/sonogram.cpp:29
+msgid "Sonogram"
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "Вибачте"
@@ -4967,7 +4971,7 @@ msgstr "Пропоновані теги"
 msgid "Summary"
 msgstr "Зведення"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Найвища (%1 к/с)"

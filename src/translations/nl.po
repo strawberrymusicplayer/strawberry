@@ -2465,7 +2465,7 @@ msgstr "Formulier"
 msgid "Format"
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "Framerate"
 
@@ -2658,7 +2658,7 @@ msgstr ""
 msgid "High"
 msgstr "Hoog"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Hoog (%1 fps)"
@@ -2986,7 +2986,7 @@ msgstr "Lange termijn voorspellingsprofiel (LTP)"
 msgid "Love"
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Laag (%1 fps)"
@@ -3065,7 +3065,7 @@ msgstr "Maximale bitrate"
 msgid "Maximum number of login attempts reached."
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Gemiddeld (%1 fps)"
@@ -3285,7 +3285,7 @@ msgstr ""
 msgid "Next week"
 msgstr "Volgende week"
 
-#: analyzer/analyzercontainer.cpp:89
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "Geen weergave"
 
@@ -4747,6 +4747,10 @@ msgstr ""
 msgid "Songs search limit"
 msgstr "Zoeklimiet voor nummers"
 
+#: analyzer/sonogram.cpp:29
+msgid "Sonogram"
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "Helaas"
@@ -4942,7 +4946,7 @@ msgstr "Gesuggereerde labels"
 msgid "Summary"
 msgstr "Samenvatting"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Superhoog (%1 fps)"

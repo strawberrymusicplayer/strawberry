@@ -2437,7 +2437,7 @@ msgstr "Lomake"
 msgid "Format"
 msgstr "Muoto"
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "Kuvanopeus"
 
@@ -2628,7 +2628,7 @@ msgstr "Piilota pääikkuna"
 msgid "High"
 msgstr "Korkea"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Nopea (%1 fps)"
@@ -2958,7 +2958,7 @@ msgstr "Long term prediction -profiili (LTP)"
 msgid "Love"
 msgstr "Tykkää"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Hidas (%1 fps)"
@@ -3037,7 +3037,7 @@ msgstr "Suurin bittinopeus"
 msgid "Maximum number of login attempts reached."
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Keskitaso (%1 fps)"
@@ -3257,7 +3257,7 @@ msgstr ""
 msgid "Next week"
 msgstr "Ensi viikolla"
 
-#: analyzer/analyzercontainer.cpp:89
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "Ei visualisointia"
 
@@ -4713,6 +4713,10 @@ msgstr ""
 msgid "Songs search limit"
 msgstr ""
 
+#: analyzer/sonogram.cpp:29
+msgid "Sonogram"
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "Pahoittelut"
@@ -4902,7 +4906,7 @@ msgstr "Ehdotetut tunnisteet"
 msgid "Summary"
 msgstr "Yhteenveto"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Erittäin nopea (%1 fps)"

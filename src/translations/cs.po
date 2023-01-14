@@ -2440,7 +2440,7 @@ msgstr "Formulář"
 msgid "Format"
 msgstr "Formát"
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "Počet snímků"
 
@@ -2633,7 +2633,7 @@ msgstr "Skrýt hlavní okno"
 msgid "High"
 msgstr "Vysoká"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Vysoký (%1 fps)"
@@ -2967,7 +2967,7 @@ msgstr "Dlouhodobý předpověďní profil"
 msgid "Love"
 msgstr "To Miluju!"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Nízký (%1 fps)"
@@ -3047,7 +3047,7 @@ msgstr "Nejvyšší datový tok"
 msgid "Maximum number of login attempts reached."
 msgstr "Byl dosažen maximální počet pokusů o přihlášení."
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Střední (%1 fps)"
@@ -3267,7 +3267,7 @@ msgstr ""
 msgid "Next week"
 msgstr "Příští týden"
 
-#: analyzer/analyzercontainer.cpp:89
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "Žádný analyzátor"
 
@@ -4741,6 +4741,10 @@ msgstr ""
 msgid "Songs search limit"
 msgstr "Limit vyhledaných skladeb"
 
+#: analyzer/sonogram.cpp:29
+msgid "Sonogram"
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "Promiňte"
@@ -4932,7 +4936,7 @@ msgstr "Navrhované značky"
 msgid "Summary"
 msgstr "Shrnutí"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Nadmíru vysoké (%1 fps)"

@@ -2435,7 +2435,7 @@ msgstr "Form"
 msgid "Format"
 msgstr "Format"
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "Lajubingkai"
 
@@ -2626,7 +2626,7 @@ msgstr ""
 msgid "High"
 msgstr "Tinggi"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Tinggi (%1 fps)"
@@ -2953,7 +2953,7 @@ msgstr "Profil prediksi jangka panjang (LTP)"
 msgid "Love"
 msgstr "Suka"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Rendah (%1 fps)"
@@ -3032,7 +3032,7 @@ msgstr "Lajubit maksimum"
 msgid "Maximum number of login attempts reached."
 msgstr "Jumlah maksimum upaya masuk tercapai."
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Sedang (%1 fps)"
@@ -3252,7 +3252,7 @@ msgstr ""
 msgid "Next week"
 msgstr "Minggu depan"
 
-#: analyzer/analyzercontainer.cpp:89
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "Tidak ada penganalisis"
 
@@ -4713,6 +4713,10 @@ msgstr ""
 msgid "Songs search limit"
 msgstr "Batasan pencarian lagu"
 
+#: analyzer/sonogram.cpp:29
+msgid "Sonogram"
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "Maaf"
@@ -4902,7 +4906,7 @@ msgstr "Tag yang disarankan"
 msgid "Summary"
 msgstr "Ringkasan"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Sangat tinggi (%1 fps)"

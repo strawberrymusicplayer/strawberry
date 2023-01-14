@@ -2464,7 +2464,7 @@ msgstr "Formulär"
 msgid "Format"
 msgstr "Format"
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "Bildfrekvens"
 
@@ -2655,7 +2655,7 @@ msgstr "Dölj huvudfönstret"
 msgid "High"
 msgstr "Hög"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Hög (%1 fps)"
@@ -2988,7 +2988,7 @@ msgstr "Långsiktig förutsägelseprofil (LTP)"
 msgid "Love"
 msgstr "Älska"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Låg (%1 fps)"
@@ -3067,7 +3067,7 @@ msgstr "Högsta bitfrekvensen"
 msgid "Maximum number of login attempts reached."
 msgstr "Högsta antalet inloggningsförsök har uppnåtts."
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Mellan (%1 fps)"
@@ -3287,7 +3287,7 @@ msgstr "Nästa spår"
 msgid "Next week"
 msgstr "Nästa vecka"
 
-#: analyzer/analyzercontainer.cpp:89
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "Ingen analysator"
 
@@ -4764,6 +4764,10 @@ msgstr ""
 msgid "Songs search limit"
 msgstr "Sökgräns för låtar"
 
+#: analyzer/sonogram.cpp:29
+msgid "Sonogram"
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "Tyvärr"
@@ -4958,7 +4962,7 @@ msgstr "Föreslagna taggar"
 msgid "Summary"
 msgstr "Sammandrag"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Väldigt hög (%1 fps)"

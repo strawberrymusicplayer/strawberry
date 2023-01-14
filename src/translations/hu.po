@@ -2463,7 +2463,7 @@ msgstr "Űrlap"
 msgid "Format"
 msgstr "Formátum"
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "Frissítési gyakoriság"
 
@@ -2655,7 +2655,7 @@ msgstr "Főablak elrejtése"
 msgid "High"
 msgstr "Magas"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Magas (%1 fps)"
@@ -2988,7 +2988,7 @@ msgstr "Hosszú távú előrejelzésen alapuló profil (LTP)"
 msgid "Love"
 msgstr "Kedvenc"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Alacsony (%1 fps)"
@@ -3067,7 +3067,7 @@ msgstr "Maximális bitráta"
 msgid "Maximum number of login attempts reached."
 msgstr "A bejelentkezési próbálkozások maximális száma elérve."
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Közepes (%1 fps)"
@@ -3287,7 +3287,7 @@ msgstr ""
 msgid "Next week"
 msgstr "Következő héten"
 
-#: analyzer/analyzercontainer.cpp:89
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "Kikapcsolva"
 
@@ -4760,6 +4760,10 @@ msgstr ""
 msgid "Songs search limit"
 msgstr "Számkeresési korlát"
 
+#: analyzer/sonogram.cpp:29
+msgid "Sonogram"
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "Elnézést"
@@ -4954,7 +4958,7 @@ msgstr "Javasolt címkék"
 msgid "Summary"
 msgstr "Összegzés"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Nagyon magas (%1 fps)"

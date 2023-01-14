@@ -2425,7 +2425,7 @@ msgstr "表格"
 msgid "Format"
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "帧速率"
 
@@ -2616,7 +2616,7 @@ msgstr "隐藏主窗口"
 msgid "High"
 msgstr "高"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "高(%1 fps)"
@@ -2939,7 +2939,7 @@ msgstr "长期预测 (LTP)"
 msgid "Love"
 msgstr "喜欢"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "低（%1 fps）"
@@ -3018,7 +3018,7 @@ msgstr "最大位速率"
 msgid "Maximum number of login attempts reached."
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "中（%1 fps）"
@@ -3238,7 +3238,7 @@ msgstr "下一曲目"
 msgid "Next week"
 msgstr "下一周"
 
-#: analyzer/analyzercontainer.cpp:89
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "无均衡器"
 
@@ -4688,6 +4688,10 @@ msgstr ""
 msgid "Songs search limit"
 msgstr ""
 
+#: analyzer/sonogram.cpp:29
+msgid "Sonogram"
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "抱歉"
@@ -4875,7 +4879,7 @@ msgstr "推荐标签"
 msgid "Summary"
 msgstr "总览"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "很高(%1 fps)"

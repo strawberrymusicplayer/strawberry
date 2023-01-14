@@ -2432,7 +2432,7 @@ msgstr "フォーム"
 msgid "Format"
 msgstr "形式"
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "フレームレート"
 
@@ -2623,7 +2623,7 @@ msgstr "メインウィンドウを隠す"
 msgid "High"
 msgstr "高"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "高 (%1 fps)"
@@ -2946,7 +2946,7 @@ msgstr "Long Term Prediction プロファイル (LTP)"
 msgid "Love"
 msgstr "Love"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "低 (%1 fps)"
@@ -3025,7 +3025,7 @@ msgstr "最高ビットレート"
 msgid "Maximum number of login attempts reached."
 msgstr "ログイン試行数が最大数に達しました"
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "中 (%1 fps)"
@@ -3245,7 +3245,7 @@ msgstr ""
 msgid "Next week"
 msgstr "次週"
 
-#: analyzer/analyzercontainer.cpp:89
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "アナライザーなし"
 
@@ -4699,6 +4699,10 @@ msgstr "有効なメタデータで30秒以上ある曲で、再生時間が少�
 msgid "Songs search limit"
 msgstr "曲検索の制限"
 
+#: analyzer/sonogram.cpp:29
+msgid "Sonogram"
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "申し訳ありません"
@@ -4888,7 +4892,7 @@ msgstr "お薦めのタグ"
 msgid "Summary"
 msgstr "要約"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "最高 (%1 fps)"

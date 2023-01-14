@@ -2430,7 +2430,7 @@ msgstr "폼"
 msgid "Format"
 msgstr "형식"
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "프레임레이트"
 
@@ -2621,7 +2621,7 @@ msgstr ""
 msgid "High"
 msgstr "높음"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "높음(%1 fps)"
@@ -2944,7 +2944,7 @@ msgstr "장기 예측 프로필(LTP)"
 msgid "Love"
 msgstr "좋아요"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "낮음(%1 fps)"
@@ -3023,7 +3023,7 @@ msgstr "최대 비트 전송률"
 msgid "Maximum number of login attempts reached."
 msgstr "최대 로그인 시도 횟수에 도달했습니다."
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "중간(%1 fps)"
@@ -3243,7 +3243,7 @@ msgstr ""
 msgid "Next week"
 msgstr "다음 주"
 
-#: analyzer/analyzercontainer.cpp:89
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "분석기 없음"
 
@@ -4697,6 +4697,10 @@ msgstr ""
 msgid "Songs search limit"
 msgstr "노래 검색 제한"
 
+#: analyzer/sonogram.cpp:29
+msgid "Sonogram"
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "죄송합니다"
@@ -4884,7 +4888,7 @@ msgstr "제안된 태그"
 msgid "Summary"
 msgstr "요약"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "아주 높음(%1 fps)"

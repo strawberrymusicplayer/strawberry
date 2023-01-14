@@ -2457,7 +2457,7 @@ msgstr "Formulario"
 msgid "Format"
 msgstr "Formato"
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "Tasa de fotogramas"
 
@@ -2654,7 +2654,7 @@ msgstr "Oculta la ventana principal"
 msgid "High"
 msgstr "Alto"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Alta (%1 fps)"
@@ -2988,7 +2988,7 @@ msgstr "Perfil de predicción a largo plazo (LTP)"
 msgid "Love"
 msgstr "Me gusta"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Baja (%1 fps)"
@@ -3067,7 +3067,7 @@ msgstr "Tasa de bits máxima"
 msgid "Maximum number of login attempts reached."
 msgstr "Se ha alcanzado el número máximo de intentos de acceso."
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Media (%1 fps)"
@@ -3287,7 +3287,7 @@ msgstr "Pista siguiente"
 msgid "Next week"
 msgstr "Próxima semana"
 
-#: analyzer/analyzercontainer.cpp:89
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "Sin analizador"
 
@@ -4770,6 +4770,10 @@ msgstr ""
 msgid "Songs search limit"
 msgstr "Límite de búsqueda de temas"
 
+#: analyzer/sonogram.cpp:29
+msgid "Sonogram"
+msgstr ""
+
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
 msgstr "Lo sentimos"
@@ -4965,7 +4969,7 @@ msgstr "Etiquetas sugeridas"
 msgid "Summary"
 msgstr "Resumen"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Muy alta (%1 fps)"
