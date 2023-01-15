@@ -42,14 +42,15 @@
 # Sébastien Morin <sebsweb@gmail.com>, 2021. #zanata
 # David Geiger <geiger.david68210@gmail.com>, 2022. #zanata
 # Papoteur <yves.brungard_mageia@gadz.org>, 2022. #zanata
+# David Geiger <geiger.david68210@gmail.com>, 2023. #zanata
 # Peter Blackman <peter@pblackman.plus.com>, 2023. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-01-02 12:50-0500\n"
-"Last-Translator: Peter Blackman <peter@pblackman.plus.com>\n"
+"PO-Revision-Date: 2023-01-14 01:21-0500\n"
+"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -4855,7 +4856,7 @@ msgstr "Limite de recherche des morceaux"
 
 #: analyzer/sonogram.cpp:29
 msgid "Sonogram"
-msgstr ""
+msgstr "Sonogramme"
 
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
