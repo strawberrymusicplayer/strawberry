@@ -1075,8 +1075,8 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     return;
   }
   QJsonObject obj_album = value_album.toObject();
-  if (!obj_album.contains("id") || !obj_album.contains("title") || !obj_album.contains("cover")) {
-    Error("Invalid Json reply, track album is missing id, title or cover.", obj_album);
+  if (!obj_album.contains("id") || !obj_album.contains("title")) {
+    Error("Invalid Json reply, track album is missing ID or title.", obj_album);
     return;
   }
   QString album_id;
@@ -1092,7 +1092,6 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   }
   QString album_title = obj_album["title"].toString();
   if (album.album_explicit) album_title.append(" (Explicit)");
-  QString cover = obj_album["cover"].toString();
 
   if (!allow_streaming) {
     Warn(QString("Song %1 %2 %3 is not allowStreaming").arg(artist, album_title, title));
@@ -1118,8 +1117,13 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     return;
   }
 
-  cover = cover.replace("-", "/");
-  QUrl cover_url(QString("%1/images/%2/%3.jpg").arg(kResourcesUrl, cover, coversize_));
+  QUrl cover_url;
+  if (obj_album.contains("cover")) {
+    const QString cover = obj_album["cover"].toString().replace("-", "/");
+    if (!cover.isEmpty()) {
+      cover_url.setUrl(QString("%1/images/%2/%3.jpg").arg(kResourcesUrl, cover, coversize_));
+    }
+  }
 
   title.remove(Song::kTitleRemoveMisc);
 
@@ -1137,7 +1141,9 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   song.set_disc(disc);
   song.set_url(url);
   song.set_length_nanosec(duration);
-  song.set_art_automatic(cover_url);
+  if (cover_url.isValid()) {
+    song.set_art_automatic(cover_url);
+  }
   song.set_comment(copyright);
   song.set_directory_id(0);
   song.set_filetype(Song::FileType_Stream);
