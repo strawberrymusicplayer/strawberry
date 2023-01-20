@@ -43,47 +43,47 @@ About::About(QWidget *parent) : QDialog(parent), ui_{} {
   setWindowTitle(tr("About Strawberry"));
 
   strawberry_authors_ \
-           << Person("Jonas Kvinge", "jonas@jkvinge.net");
+           << Person("Jonas Kvinge");
 
   strawberry_contributors_ \
-           << Person("Gavin D. Howard", "yzena.tech@gmail.com")
-           << Person("Martin Delille", "martin@delille.org");
+           << Person("Gavin D. Howard")
+           << Person("Martin Delille");
 
   clementine_authors_
-           << Person("David Sansome", "me@davidsansome.com")
-           << Person("John Maguire", "john.maguire@gmail.com")
-           << Person(QString::fromUtf8("Paweł Bara"), "keirangtp@gmail.com")
-           << Person("Arnaud Bienner", "arnaud.bienner@gmail.com");
+           << Person("David Sansome")
+           << Person("John Maguire")
+           << Person(QString::fromUtf8("Paweł Bara"))
+           << Person("Arnaud Bienner");
 
   clementine_contributors_ \
-           << Person("Jakub Stachowski", "qbast@go2.pl")
-           << Person("Paul Cifarelli", "paul@cifarelli.net")
-           << Person("Felipe Rivera", "liebremx@users.sourceforge.net")
+           << Person("Jakub Stachowski")
+           << Person("Paul Cifarelli")
+           << Person("Felipe Rivera")
            << Person("Alexander Peitz")
-           << Person("Andreas Muttscheller", "asfa194@gmail.com")
-           << Person("Mark Furneaux", "mark@furneaux.ca")
-           << Person("Florian Bigard", "florian.bigard@gmail.com")
-           << Person("Alex Bikadorov", "wegwerf@abwesend.de")
-           << Person("Mattias Andersson", "mandersson444@gmail.com")
-           << Person("Alan Briolat", "alan.briolat@gmail.com")
-           << Person("Arun Narayanankutty", "n.arun.lifescience@gmail.com")
-           << Person(QString::fromUtf8("Bartłomiej Burdukiewicz"), "dev.strikeu@gmail.com")
-           << Person("Andre Siviero", "altsiviero@gmail.com")
+           << Person("Andreas Muttscheller")
+           << Person("Mark Furneaux")
+           << Person("Florian Bigard")
+           << Person("Alex Bikadorov")
+           << Person("Mattias Andersson")
+           << Person("Alan Briolat")
+           << Person("Arun Narayanankutty")
+           << Person(QString::fromUtf8("Bartłomiej Burdukiewicz"))
+           << Person("Andre Siviero")
            << Person("Santiago Gil")
-           << Person("Tyler Rhodes", "tyler.s.rhodes@gmail.com")
-           << Person("Vikram Ambrose", "ambroseworks@gmail.com")
-           << Person("David Guillen", "david@davidgf.net")
-           << Person("Krzysztof Sobiecki", "sobkas@gmail.com")
-           << Person("Valeriy Malov", "jazzvoid@gmail.com")
-           << Person("Nick Lanham", "nick@afternight.org");
+           << Person("Tyler Rhodes")
+           << Person("Vikram Ambrose")
+           << Person("David Guillen")
+           << Person("Krzysztof Sobiecki")
+           << Person("Valeriy Malov")
+           << Person("Nick Lanham");
 
   strawberry_thanks_ \
-           << Person("Mark Kretschmann", "kretschmann@kde.org")
-           << Person("Max Howell", "max.howell@methylblue.com")
-           << Person("Artur Rona", "artur.rona@gmail.com")
-           << Person("Robert-André Mauchin", "eclipseo@fedoraproject.org")
-           << Person("Thomas Pierson", "contact@thomaspierson.fr")
-           << Person("Fabio Loli", "fabio.lolix@gmail.com");
+           << Person("Mark Kretschmann")
+           << Person("Max Howell")
+           << Person("Artur Rona")
+           << Person("Robert-André Mauchin")
+           << Person("Thomas Pierson")
+           << Person("Fabio Loli");
 
   QFont title_font;
   title_font.setBold(true);
