@@ -40,26 +40,19 @@ QString LyricsProvider::ParseLyricsFromHTML(const QString &content, const QRegul
     QRegularExpressionMatch rematch = lyrics_start.match(content, start_idx);
     if (!rematch.hasMatch()) break;
 
-    const qint64 start_lyrics_tag_idx = rematch.capturedEnd();
+    const qint64 start_lyrics_idx = rematch.capturedEnd();
+    qint64 end_lyrics_idx = -1;
 
     // Find the index of the end tag.
-    qint64 start_tag_idx = 0;
-    qint64 end_tag_idx = 0;
-    qint64 end_tag_length = 0;
-    qint64 idx = start_lyrics_tag_idx;
+    qint64 idx = start_lyrics_idx;
+    QRegularExpressionMatch rematch_start_tag;
+    QRegularExpressionMatch rematch_end_tag;
     int tags = 1;
     do {
-      QRegularExpressionMatch rematch_start_tag = QRegularExpression(start_tag).match(content, idx);
-      start_tag_idx = rematch_start_tag.hasMatch() ? rematch_start_tag.capturedStart() : -1;
-      QRegularExpressionMatch rematch_end_tag = QRegularExpression(end_tag).match(content, idx);
-      if (rematch_end_tag.hasMatch()) {
-        end_tag_idx = rematch_end_tag.capturedStart();
-        end_tag_length = rematch_end_tag.capturedLength();
-      }
-      else {
-        end_tag_idx = -1;
-        end_tag_length = 0;
-      }
+      rematch_start_tag = QRegularExpression(start_tag).match(content, idx);
+      const qint64 start_tag_idx = rematch_start_tag.hasMatch() ? rematch_start_tag.capturedStart() : -1;
+      rematch_end_tag = QRegularExpression(end_tag).match(content, idx);
+      const qint64 end_tag_idx = rematch_end_tag.hasMatch() ? rematch_end_tag.capturedStart() : -1;
       if (rematch_start_tag.hasMatch() && start_tag_idx <= end_tag_idx) {
         ++tags;
         idx = start_tag_idx + rematch_start_tag.capturedLength();
@@ -67,20 +60,25 @@ QString LyricsProvider::ParseLyricsFromHTML(const QString &content, const QRegul
       else if (rematch_end_tag.hasMatch()) {
         --tags;
         idx = end_tag_idx + rematch_end_tag.capturedLength();
+        if (tags == 0) {
+          end_lyrics_idx = rematch_end_tag.capturedStart();
+          start_idx = rematch_end_tag.capturedEnd();
+        }
       }
     }
-    while (tags > 0 || end_tag_idx >= start_tag_idx);
+    while (tags > 0 && (rematch_start_tag.hasMatch() || rematch_end_tag.hasMatch()));
 
-    start_idx = end_tag_idx + end_tag_length;
-
-    if (end_tag_idx > 0 || start_lyrics_tag_idx < end_tag_idx) {
+    if (end_lyrics_idx != -1 && start_lyrics_idx < end_lyrics_idx) {
       if (!lyrics.isEmpty()) {
         lyrics.append("\n");
       }
-      lyrics.append(content.mid(start_lyrics_tag_idx, end_tag_idx - start_lyrics_tag_idx)
-                           .replace(QRegularExpression("<br[^>]+>"), "\n")
+      lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx)
+                           .replace(QRegularExpression("<br[^>]*>"), "\n")
                            .remove(QRegularExpression("<[^>]*>"))
                            .trimmed());
+    }
+    else {
+      start_idx = -1;
     }
 
   }
@@ -91,6 +89,5 @@ QString LyricsProvider::ParseLyricsFromHTML(const QString &content, const QRegul
   }
 
   return Utilities::DecodeHtmlEntities(lyrics);
-  
-}
 
+}
