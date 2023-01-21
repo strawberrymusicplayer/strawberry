@@ -95,6 +95,7 @@ void Stands4LyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id
   const QString lyrics = ParseLyricsFromHTML(QString::fromUtf8(data), QRegularExpression("<div[^>]*>"), QRegularExpression("<\\/div>"), QRegularExpression("<div id=\"lyrics\"[^>]+>"), false);
   if (lyrics.isEmpty() || lyrics.contains("Click to search for the Lyrics on Lyrics.com", Qt::CaseInsensitive)) {
     qLog(Debug) << "Stands4Lyrics: No lyrics for" << artist << title;
+    emit SearchFinished(id, LyricsSearchResults());
     return;
   }
 
