@@ -19,12 +19,13 @@
 # Jonatan Nyberg <jonatan@autistici.org>, 2020. #zanata
 # Jonatan Nyberg <jonatan@autistici.org>, 2021. #zanata
 # Jonatan Nyberg <jonatan@autistici.org>, 2022. #zanata
+# Jonatan Nyberg <jonatan@autistici.org>, 2023. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-12-10 03:02-0500\n"
+"PO-Revision-Date: 2023-01-22 01:27-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -4766,7 +4767,7 @@ msgstr "Sökgräns för låtar"
 
 #: analyzer/sonogram.cpp:29
 msgid "Sonogram"
-msgstr ""
+msgstr "Sonogram"
 
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
