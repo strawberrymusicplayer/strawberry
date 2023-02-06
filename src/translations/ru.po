@@ -30,12 +30,13 @@
 # Hennadii <genaloner@gmail.com>, 2019. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Andrei Stepanov <adem4ik@gmail.com>, 2022. #zanata
+# Andrei Stepanov <adem4ik@gmail.com>, 2023. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2022-11-27 04:43-0500\n"
+"PO-Revision-Date: 2023-02-04 11:09-0500\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -3943,30 +3944,30 @@ msgstr ""
 #: tidal/tidalrequest.cpp:1191 qobuz/qobuzrequest.cpp:1247
 #, qt-format
 msgid "Receiving album cover for %1 album..."
-msgstr ""
+msgstr "Получение обложки для %1 альбома…"
 
 #: tidal/tidalrequest.cpp:1192 qobuz/qobuzrequest.cpp:1248
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
-msgstr ""
+msgstr "Получение обложек для %1 альбомов…"
 
 #: tidal/tidalrequest.cpp:544 qobuz/qobuzrequest.cpp:546
 #, qt-format
 msgid "Receiving albums for %1 artist..."
-msgstr ""
+msgstr "Получение альбомов для %1 артиста…"
 
 #: tidal/tidalrequest.cpp:545 qobuz/qobuzrequest.cpp:547
 #, qt-format
 msgid "Receiving albums for %1 artists..."
-msgstr ""
+msgstr "Получение альбомов для %1 артиста…"
 
 #: tidal/tidalrequest.cpp:269 qobuz/qobuzrequest.cpp:249
 msgid "Receiving albums..."
-msgstr ""
+msgstr "Получение альбомов…"
 
 #: tidal/tidalrequest.cpp:221 qobuz/qobuzrequest.cpp:197
 msgid "Receiving artists..."
-msgstr ""
+msgstr "Получение артистов…"
 
 #: dialogs/lastfmimportdialog.cpp:74
 msgid "Receiving initial data from last.fm..."
@@ -3992,16 +3993,16 @@ msgstr "Получение счётчиков прослушивания для 
 #: tidal/tidalrequest.cpp:814 qobuz/qobuzrequest.cpp:803
 #, qt-format
 msgid "Receiving songs for %1 album..."
-msgstr ""
+msgstr "Получение песен для %1 альбома…"
 
 #: tidal/tidalrequest.cpp:815 qobuz/qobuzrequest.cpp:804
 #, qt-format
 msgid "Receiving songs for %1 albums..."
-msgstr ""
+msgstr "Получение песен для %1 альбомов…"
 
 #: tidal/tidalrequest.cpp:317 qobuz/qobuzrequest.cpp:301
 msgid "Receiving songs..."
-msgstr ""
+msgstr "Получение песен…"
 
 #: lyrics/geniuslyricsprovider.cpp:201
 msgid "Redirect from Genius is missing query items code or state."
@@ -4785,7 +4786,7 @@ msgstr "Предел поиска песен"
 
 #: analyzer/sonogram.cpp:29
 msgid "Sonogram"
-msgstr ""
+msgstr "Сонограмма"
 
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Sorry"
