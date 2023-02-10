@@ -400,7 +400,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, int role) 
     QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
     QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item]() { SongSaveComplete(reply, persistent_index, item->OriginalMetadata()); }, Qt::QueuedConnection);
   }
-  else if (song.source() == Song::Source_Stream) {
+  else if (song.is_radio()) {
     item->SetMetadata(song);
     ScheduleSave();
   }
@@ -1135,11 +1135,21 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos
 
   PlaylistItemList items;
   for (const Song &song : songs) {
-    if (song.is_collection_song()) {
-      items << std::make_shared<CollectionPlaylistItem>(song);
+    if (song.url().isLocalFile()) {
+      if (song.is_collection_song()) {
+        items << std::make_shared<CollectionPlaylistItem>(song);
+      }
+      else {
+        items << std::make_shared<SongPlaylistItem>(song);
+      }
     }
     else {
-      items << std::make_shared<SongPlaylistItem>(song);
+      if (song.is_radio()) {
+        items << std::make_shared<RadioPlaylistItem>(song);
+      }
+      else {
+        items << std::make_shared<InternetPlaylistItem>(song);
+      }
     }
   }
   InsertItems(items, pos, play_now, enqueue, enqueue_next);
@@ -1188,13 +1198,23 @@ void Playlist::UpdateItems(SongList songs) {
       const PlaylistItemPtr &item = items_[i];
       if (item->Metadata().url() == song.url() && (item->Metadata().filetype() == Song::FileType_Unknown || item->Metadata().filetype() == Song::FileType_Stream || item->Metadata().filetype() == Song::FileType_CDDA || !item->Metadata().init_from_file())) {
         PlaylistItemPtr new_item;
-        if (song.is_collection_song()) {
-          new_item = std::make_shared<CollectionPlaylistItem>(song);
-          if (collection_items_by_id_.contains(song.id(), item)) collection_items_by_id_.remove(song.id(), item);
-          collection_items_by_id_.insert(song.id(), new_item);
+        if (song.url().isLocalFile()) {
+          if (song.is_collection_song()) {
+            new_item = std::make_shared<CollectionPlaylistItem>(song);
+            if (collection_items_by_id_.contains(song.id(), item)) collection_items_by_id_.remove(song.id(), item);
+            collection_items_by_id_.insert(song.id(), new_item);
+          }
+          else {
+            new_item = std::make_shared<SongPlaylistItem>(song);
+          }
         }
         else {
-          new_item = std::make_shared<SongPlaylistItem>(song);
+          if (song.is_radio()) {
+            new_item = std::make_shared<RadioPlaylistItem>(song);
+          }
+          else {
+            new_item = std::make_shared<InternetPlaylistItem>(song);
+          }
         }
         items_[i] = new_item;
         emit dataChanged(index(i, 0), index(i, ColumnCount - 1));
