@@ -688,13 +688,13 @@ void PlaylistView::keyPressEvent(QKeyEvent *event) {
   else if (event == QKeySequence::Delete) {
     RemoveSelected();
     event->accept();
-#ifdef Q_OS_MACOS
   }
+#ifdef Q_OS_MACOS
   else if (event->key() == Qt::Key_Backspace) {
     RemoveSelected();
     event->accept();
-#endif
   }
+#endif
   else if (event == QKeySequence::Copy) {
     CopyCurrentSongToClipboard();
   }
