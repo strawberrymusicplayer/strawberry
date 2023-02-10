@@ -190,6 +190,11 @@ GstEnginePipeline::~GstEnginePipeline() {
 
     pipeline_ = nullptr;
 
+    if (!pipeline_is_connected_) {
+      gst_object_unref(GST_OBJECT(audiobin_));
+      audiobin_ = nullptr;
+    }
+
   }
 
 }
@@ -330,7 +335,6 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Create the sink
   audiosink_ = CreateElement(output_, output_, audiobin_, error);
   if (!audiosink_) {
-    gst_object_unref(GST_OBJECT(audiobin_));
     return false;
   }
 
@@ -450,22 +454,16 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   audioqueue_ = CreateElement("queue2", "audioqueue", audiobin_, error);
   if (!audioqueue_) {
-    gst_object_unref(GST_OBJECT(audiobin_));
-    audiobin_ = nullptr;
     return false;
   }
 
   audioqueueconverter_ = CreateElement("audioconvert", "audioqueueconverter", audiobin_, error);
   if (!audioqueueconverter_) {
-    gst_object_unref(GST_OBJECT(audiobin_));
-    audiobin_ = nullptr;
     return false;
   }
 
   GstElement *audiosinkconverter = CreateElement("audioconvert", "audiosinkconverter", audiobin_, error);
   if (!audiosinkconverter) {
-    gst_object_unref(GST_OBJECT(audiobin_));
-    audiobin_ = nullptr;
     return false;
   }
 
@@ -473,8 +471,6 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   if (volume_enabled_ && !volume_) {
     volume_sw_ = CreateElement("volume", "volume_sw", audiobin_, error);
     if (!volume_sw_) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
       return false;
     }
   }
@@ -482,8 +478,6 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   if (fading_enabled_) {
     volume_fading_ = CreateElement("volume", "volume_fading", audiobin_, error);
     if (!volume_fading_) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
       return false;
     }
   }
@@ -492,8 +486,6 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   if (stereo_balancer_enabled_) {
     audiopanorama_ = CreateElement("audiopanorama", "audiopanorama", audiobin_, error);
     if (!audiopanorama_) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
       return false;
     }
     // Set the stereo balance.
@@ -504,14 +496,10 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   if (eq_enabled_) {
     equalizer_preamp_ = CreateElement("volume", "equalizer_preamp", audiobin_, error);
     if (!equalizer_preamp_) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
       return false;
     }
     equalizer_ = CreateElement("equalizer-nbands", "equalizer_nbands", audiobin_, error);
     if (!equalizer_) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
       return false;
     }
     // Setting the equalizer bands:
@@ -561,20 +549,14 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   if (rg_enabled_) {
     rgvolume = CreateElement("rgvolume", "rgvolume", audiobin_, error);
     if (!rgvolume) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
       return false;
     }
     rglimiter = CreateElement("rglimiter", "rglimiter", audiobin_, error);
     if (!rglimiter) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
       return false;
     }
     rgconverter = CreateElement("audioconvert", "rgconverter", audiobin_, error);
     if (!rgconverter) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
       return false;
     }
     eventprobe_ = rgconverter;
@@ -589,8 +571,6 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   if (bs2b_enabled_) {
     bs2b = CreateElement("bs2b", "bs2b", audiobin_, error);
     if (!bs2b) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
       return false;
     }
   }
@@ -630,9 +610,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link all elements
 
   if (!gst_element_link(audioqueue_, audioqueueconverter_)) {
-    gst_object_unref(GST_OBJECT(audiobin_));
-    audiobin_ = nullptr;
-    error = "gst_element_link() failed.";
+    error = "Failed to link audio queue to audio queue converter.";
     return false;
   }
 
@@ -641,9 +619,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link replaygain elements if enabled.
   if (rg_enabled_ && rgvolume && rglimiter && rgconverter) {
     if (!gst_element_link_many(element_link, rgvolume, rglimiter, rgconverter, nullptr)) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
-      error = "gst_element_link_many() failed.";
+      error = "Failed to link replaygain volume, limiter and converter elements.";
       return false;
     }
     element_link = rgconverter;
@@ -652,9 +628,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link equalizer elements if enabled.
   if (eq_enabled_ && equalizer_ && equalizer_preamp_) {
     if (!gst_element_link_many(element_link, equalizer_preamp_, equalizer_, nullptr)) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
-      error = "gst_element_link_many() failed.";
+      error = "Failed to link equalizer and equalizer preamp elements.";
       return false;
     }
     element_link = equalizer_;
@@ -663,9 +637,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link stereo balancer elements if enabled.
   if (stereo_balancer_enabled_ && audiopanorama_) {
     if (!gst_element_link(element_link, audiopanorama_)) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
-      error = "gst_element_link() failed.";
+      error = "Failed to link audio panorama (stereo balancer).";
       return false;
     }
     element_link = audiopanorama_;
@@ -674,9 +646,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link software volume element if enabled.
   if (volume_enabled_ && volume_sw_) {
     if (!gst_element_link(element_link, volume_sw_)) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
-      error = "gst_element_link() failed.";
+      error = "Failed to link software volume.";
       return false;
     }
     element_link = volume_sw_;
@@ -685,9 +655,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link fading volume element if enabled.
   if (fading_enabled_ && volume_fading_) {
     if (!gst_element_link(element_link, volume_fading_)) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
-      error = "gst_element_link() failed.";
+      error = "Failed to link fading volume.";
       return false;
     }
     element_link = volume_fading_;
@@ -697,41 +665,33 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   if (bs2b_enabled_ && bs2b) {
     qLog(Debug) << "Enabling bs2b";
     if (!gst_element_link(element_link, bs2b)) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
-      error = "gst_element_link() failed.";
+      error = "Failed to link bs2b.";
       return false;
     }
     element_link = bs2b;
   }
 
   if (!gst_element_link(element_link, audiosinkconverter)) {
-    gst_object_unref(GST_OBJECT(audiobin_));
-    audiobin_ = nullptr;
-    error = "gst_element_link() failed.";
+    error = "Failed to link audio sink converter.";
     return false;
   }
 
   {
     GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
     if (!caps) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
-      error = "gst_caps_new_empty_simple() failed.";
+      error = "Failed to create caps for raw audio.";
       return false;
     }
     if (channels_enabled_ && channels_ > 0) {
       qLog(Debug) << "Setting channels to" << channels_;
       gst_caps_set_simple(caps, "channels", G_TYPE_INT, channels_, nullptr);
     }
-    if (!gst_element_link_filtered(audiosinkconverter, audiosink_, caps)) {
-      gst_caps_unref(caps);
-      gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
-      error = "gst_element_link_filtered() failed.";
+    const bool link_filtered_result = gst_element_link_filtered(audiosinkconverter, audiosink_, caps);
+    gst_caps_unref(caps);
+    if (!link_filtered_result) {
+      error = "Failed to link audio sink converter to audio sink with filter for " + output_;
       return false;
     }
-    gst_caps_unref(caps);
   }
 
   {  // Add probes and handlers.
