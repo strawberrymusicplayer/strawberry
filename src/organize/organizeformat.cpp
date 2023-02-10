@@ -168,11 +168,11 @@ OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(cons
   QFileInfo info(filepath);
   filepath.clear();
   if (extension.isEmpty()) {
-    if (info.completeSuffix().isEmpty()) {
-      extension = QFileInfo(song.url().toLocalFile()).completeSuffix();
+    if (info.suffix().isEmpty()) {
+      extension = QFileInfo(song.url().toLocalFile()).suffix();
     }
     else {
-      extension = info.completeSuffix();
+      extension = info.suffix();
     }
   }
   if (!info.path().isEmpty() && info.path() != ".") {
