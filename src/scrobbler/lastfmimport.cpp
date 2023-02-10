@@ -542,7 +542,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
 
       if (playcount <= 0) continue;
 
-      emit UpdatePlayCount(artist, title, playcount);
+      emit UpdatePlayCount(artist, title, playcount, false);
       UpdateProgressCheck();
 
     }

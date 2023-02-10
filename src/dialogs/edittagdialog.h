@@ -115,7 +115,7 @@ class EditTagDialog : public QDialog {
   void FieldValueEdited();
   void ResetField();
   void ButtonClicked(QAbstractButton *button);
-  void ResetPlayCounts();
+  void ResetStatistics();
   void SongRated(const float rating);
   void FetchTag();
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);

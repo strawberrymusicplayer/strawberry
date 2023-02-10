@@ -1523,17 +1523,43 @@ bool Song::IsMetadataEqual(const Song &other) const {
          d->bitrate_ == other.d->bitrate_ &&
          d->samplerate_ == other.d->samplerate_ &&
          d->bitdepth_ == other.d->bitdepth_ &&
-         d->cue_path_ == other.d->cue_path_ &&
-         d->playcount_ == other.d->playcount_ &&
-         d->rating_ == other.d->rating_;
+         d->cue_path_ == other.d->cue_path_;
 }
 
-bool Song::IsMetadataAndMoreEqual(const Song &other) const {
+bool Song::IsStatisticsEqual(const Song &other) const {
+
+  return d->playcount_ == other.d->playcount_ &&
+         d->skipcount_ == other.d->skipcount_ &&
+         d->lastplayed_ == other.d->lastplayed_;
+
+}
+
+bool Song::IsRatingEqual(const Song &other) const {
+
+  return d->rating_ == other.d->rating_;
+
+}
+
+bool Song::IsFingerprintEqual(const Song &other) const {
+
+  return d->fingerprint_ == other.d->fingerprint_;
+
+}
+
+bool Song::IsArtEqual(const Song &other) const {
+
+  return d->art_automatic_ == other.d->art_automatic_ &&
+         d->art_manual_ == other.d->art_manual_;
+
+}
+
+bool Song::IsAllMetadataEqual(const Song &other) const {
 
   return IsMetadataEqual(other) &&
-         d->fingerprint_ == other.d->fingerprint_ &&
-         d->art_automatic_ == other.d->art_automatic_ &&
-         d->art_manual_ == other.d->art_manual_;
+         IsStatisticsEqual(other) &&
+         IsRatingEqual(other) &&
+         IsFingerprintEqual(other) &&
+         IsArtEqual(other);
 
 }
 

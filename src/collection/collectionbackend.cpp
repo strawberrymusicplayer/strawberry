@@ -140,8 +140,8 @@ void CollectionBackend::IncrementSkipCountAsync(const int id, const float progre
   QMetaObject::invokeMethod(this, "IncrementSkipCount", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(float, progress));
 }
 
-void CollectionBackend::ResetStatisticsAsync(const int id) {
-  QMetaObject::invokeMethod(this, "ResetStatistics", Qt::QueuedConnection, Q_ARG(int, id));
+void CollectionBackend::ResetStatisticsAsync(const int id, const bool save_tags) {
+  QMetaObject::invokeMethod(this, "ResetStatistics", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(bool, save_tags));
 }
 
 void CollectionBackend::LoadDirectories() {
@@ -714,7 +714,7 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
 
       Song old_song = old_songs[new_song.song_id()];
 
-      if (!new_song.IsMetadataEqual(old_song)) {  // Update existing song.
+      if (!new_song.IsAllMetadataEqual(old_song)) {  // Update existing song.
 
         {
           SqlQuery q(db);
@@ -1776,7 +1776,7 @@ void CollectionBackend::IncrementSkipCount(const int id, const float progress) {
 
 }
 
-void CollectionBackend::ResetStatistics(const int id) {
+void CollectionBackend::ResetStatistics(const int id, const bool save_tags) {
 
   if (id == -1) return;
 
@@ -1792,7 +1792,7 @@ void CollectionBackend::ResetStatistics(const int id) {
   }
 
   Song new_song = GetSongById(id, db);
-  emit SongsStatisticsChanged(SongList() << new_song);
+  emit SongsStatisticsChanged(SongList() << new_song, save_tags);
 
 }
 
@@ -1927,7 +1927,7 @@ void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &a
 
 }
 
-void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &title, const int playcount) {
+void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &title, const int playcount, const bool save_tags) {
 
   SongList songs = GetSongsBy(artist, QString(), title);
   if (songs.isEmpty()) {
@@ -1949,7 +1949,7 @@ void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &ti
     }
   }
 
-  emit SongsStatisticsChanged(SongList() << songs);
+  emit SongsStatisticsChanged(SongList() << songs, save_tags);
 
 }
 

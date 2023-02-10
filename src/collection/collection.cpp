@@ -219,9 +219,9 @@ void SCollection::SyncPlaycountAndRatingToFiles() {
 
 }
 
-void SCollection::SongsPlaycountChanged(const SongList &songs) {
+void SCollection::SongsPlaycountChanged(const SongList &songs, const bool save_tags) {
 
-  if (save_playcounts_to_files_) {
+  if (save_tags || save_playcounts_to_files_) {
     app_->tag_reader_client()->UpdateSongsPlaycount(songs);
   }
 

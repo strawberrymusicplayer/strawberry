@@ -78,7 +78,7 @@ class SCollection : public QObject {
 
  private slots:
   void ExitReceived();
-  void SongsPlaycountChanged(const SongList &songs);
+  void SongsPlaycountChanged(const SongList &songs, const bool save_tags = false);
   void SongsRatingChanged(const SongList &songs, const bool save_tags = false);
 
  signals:

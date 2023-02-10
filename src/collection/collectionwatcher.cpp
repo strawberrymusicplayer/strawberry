@@ -763,7 +763,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
   const Song &matching_song = matching_songs.first();
   if (cue_deleted) {
     for (const Song &song : matching_songs) {
-      if (!song.IsMetadataAndMoreEqual(matching_song)) {
+      if (!song.IsAllMetadataEqual(matching_song)) {
         t->deleted_songs << song;
       }
     }
@@ -853,6 +853,14 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
     }
     if (!matching_song.IsMetadataEqual(new_song)) {
       changes << "metadata";
+      notify_new = true;
+    }
+    if (!matching_song.IsStatisticsEqual(new_song)) {
+      changes << "statistics";
+      notify_new = true;
+    }
+    if (!matching_song.IsRatingEqual(new_song)) {
+      changes << "rating";
       notify_new = true;
     }
     if (matching_song.art_automatic() != new_song.art_automatic() || matching_song.art_manual() != new_song.art_manual()) {

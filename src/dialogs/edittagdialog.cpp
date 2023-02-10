@@ -187,7 +187,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 
   QObject::connect(ui_->song_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EditTagDialog::SelectionChanged);
   QObject::connect(ui_->button_box, &QDialogButtonBox::clicked, this, &EditTagDialog::ButtonClicked);
-  QObject::connect(ui_->playcount_reset, &QPushButton::clicked, this, &EditTagDialog::ResetPlayCounts);
+  QObject::connect(ui_->playcount_reset, &QPushButton::clicked, this, &EditTagDialog::ResetStatistics);
   QObject::connect(ui_->rating, &RatingWidget::RatingChanged, this, &EditTagDialog::SongRated);
 #ifdef HAVE_MUSICBRAINZ
   QObject::connect(ui_->fetch_tag, &QPushButton::clicked, this, &EditTagDialog::FetchTag);
@@ -1145,8 +1145,25 @@ void EditTagDialog::SaveData() {
       QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() { SongSaveTagsComplete(reply, ref.current_.url().toLocalFile(), ref.current_); }, Qt::QueuedConnection);
     }
 
-    if (ref.current_.rating() != ref.original_.rating() && ref.current_.is_collection_song()) {
-      app_->collection_backend()->UpdateSongRatingAsync(ref.current_.id(), ref.current_.rating(), true);
+    if (ref.current_.playcount() == 0 &&
+        ref.current_.skipcount() == 0 &&
+        ref.current_.lastplayed() == -1 &&
+        !ref.current_.IsStatisticsEqual(ref.original_)) {
+      if (ref.current_.is_collection_song()) {
+        app_->collection_backend()->ResetStatisticsAsync(ref.current_.id());
+      }
+      else {
+        app_->tag_reader_client()->UpdateSongsPlaycount(SongList() << ref.current_);
+      }
+    }
+
+    if (!ref.current_.IsRatingEqual(ref.original_)) {
+      if (ref.current_.is_collection_song()) {
+        app_->collection_backend()->UpdateSongRatingAsync(ref.current_.id(), ref.current_.rating());
+      }
+      else {
+        app_->tag_reader_client()->UpdateSongsRating(SongList() << ref.current_);
+      }
     }
 
     QString embedded_cover_from_file;
@@ -1287,25 +1304,21 @@ void EditTagDialog::AcceptFinished() {
 
 }
 
-void EditTagDialog::ResetPlayCounts() {
+void EditTagDialog::ResetStatistics() {
 
-  const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
-  if (sel.isEmpty()) return;
+  const QModelIndexList idx_list = ui_->song_list->selectionModel()->selectedIndexes();
+  if (idx_list.isEmpty()) return;
 
-  Song *song = &data_[sel.first().row()].original_;
-  if (!song->is_valid() || song->id() == -1) return;
+  Song *song = &data_[idx_list.first().row()].current_;
+  if (!song->is_valid()) return;
 
-  if (QMessageBox::question(this, tr("Reset play counts"), tr("Are you sure you want to reset this song's statistics?"), QMessageBox::Reset, QMessageBox::Cancel) != QMessageBox::Reset) {
+  if (QMessageBox::question(this, tr("Reset song statistics"), tr("Are you sure you want to reset this song's statistics?"), QMessageBox::Reset, QMessageBox::Cancel) != QMessageBox::Reset) {
     return;
   }
 
   song->set_playcount(0);
   song->set_skipcount(0);
   song->set_lastplayed(-1);
-
-  if (song->is_collection_song()) {
-    app_->collection_backend()->ResetStatisticsAsync(song->id());
-  }
 
   UpdateStatisticsTab(*song);
 
@@ -1317,7 +1330,7 @@ void EditTagDialog::SongRated(const float rating) {
   if (indexes.isEmpty()) return;
 
   for (const QModelIndex &idx : indexes) {
-    if (!data_[idx.row()].current_.is_valid() || data_[idx.row()].current_.id() == -1) continue;
+    if (!data_[idx.row()].current_.is_valid()) continue;
     data_[idx.row()].current_.set_rating(rating);
   }
 

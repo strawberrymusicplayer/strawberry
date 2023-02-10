@@ -106,7 +106,7 @@ class Song {
     FileType_XM = 20,
     FileType_IT = 21,
     FileType_SPC = 22,
-    FileType_VGM = 23, 
+    FileType_VGM = 23,
     FileType_CDDA = 90,
     FileType_Stream = 91,
   };
@@ -390,7 +390,12 @@ class Song {
 
   // Comparison functions
   bool IsMetadataEqual(const Song &other) const;
-  bool IsMetadataAndMoreEqual(const Song &other) const;
+  bool IsStatisticsEqual(const Song &other) const;
+  bool IsRatingEqual(const Song &other) const;
+  bool IsFingerprintEqual(const Song &other) const;
+  bool IsArtEqual(const Song &other) const;
+  bool IsAllMetadataEqual(const Song &other) const;
+
   bool IsOnSameAlbum(const Song &other) const;
   bool IsSimilar(const Song &other) const;
 
