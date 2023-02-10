@@ -287,7 +287,15 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &or
   original_url_ = original_url;
   end_offset_nanosec_ = end_nanosec;
 
-  pipeline_ = CreateElement("playbin", "pipeline", nullptr, error);
+  guint version_major = 0, version_minor = 0, version_micro = 0, version_nano = 0;
+  gst_plugins_base_version(&version_major, &version_minor, &version_micro, &version_nano);
+  if (QVersionNumber::compare(QVersionNumber(version_major, version_minor, version_micro), QVersionNumber(1, 22, 0)) >= 0) {
+    pipeline_ = CreateElement("playbin3", "pipeline", nullptr, error);
+  }
+  else {
+    pipeline_ = CreateElement("playbin", "pipeline", nullptr, error);
+  }
+
   if (!pipeline_) return false;
 
   pad_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &PadAddedCallback, this);
