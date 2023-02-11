@@ -63,7 +63,7 @@ class LyricsProvider : public QObject {
   void AuthenticationComplete(bool, QStringList = QStringList());
   void AuthenticationSuccess();
   void AuthenticationFailure(QStringList);
-  void SearchFinished(int id, LyricsSearchResults results);
+  void SearchFinished(int id, LyricsSearchResults results = LyricsSearchResults());
 
  protected:
   using Param = QPair<QString, QString>;
