@@ -60,9 +60,9 @@ bool Stands4LyricsProvider::StartSearch(const QString &artist, const QString &al
   url_query.addQueryItem(QUrl::toPercentEncoding("uid"), QUrl::toPercentEncoding(kUID));
   url_query.addQueryItem(QUrl::toPercentEncoding("tokenid"), QUrl::toPercentEncoding(QByteArray::fromBase64(kTokenB64)));
   url_query.addQueryItem(QUrl::toPercentEncoding("format"), "json");
-  url_query.addQueryItem(QUrl::toPercentEncoding("artist"), artist);
-  url_query.addQueryItem(QUrl::toPercentEncoding("album"), album);
-  url_query.addQueryItem(QUrl::toPercentEncoding("term"), title);
+  url_query.addQueryItem(QUrl::toPercentEncoding("artist"), QUrl::toPercentEncoding(artist));
+  url_query.addQueryItem(QUrl::toPercentEncoding("album"), QUrl::toPercentEncoding(album));
+  url_query.addQueryItem(QUrl::toPercentEncoding("term"), QUrl::toPercentEncoding(title));
   QUrl url(kApiUrl);
   url.setQuery(url_query);
   QNetworkRequest req(url);
