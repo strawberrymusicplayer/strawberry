@@ -26,13 +26,13 @@
 #include <QVariant>
 #include <QString>
 
-#include "lyricsprovider.h"
+#include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
 
-class Stands4LyricsProvider : public LyricsProvider {
+class Stands4LyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
@@ -43,14 +43,19 @@ class Stands4LyricsProvider : public LyricsProvider {
   void CancelSearch(const int id) override;
 
  private:
+  void SendLyricsRequest(const int id, const QString &artist, const QString &album, const QString &title);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   static QString StringFixup(QString string);
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &title);
+  void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album, const QString &title);
+  void HandleLyricsReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album, const QString &title);
 
  private:
-  static const char *kUrl;
+  static const char *kApiUrl;
+  static const char *kLyricsUrl;
+  static const char *kUID;
+  static const char *kTokenB64;
   QList<QNetworkReply*> replies_;
 };
 
