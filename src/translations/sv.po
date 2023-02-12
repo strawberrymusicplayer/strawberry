@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-01-22 01:27-0500\n"
+"PO-Revision-Date: 2023-02-11 06:42-0500\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -4146,7 +4146,7 @@ msgstr "Återställ spelningsantal"
 
 #: dialogs/edittagdialog.cpp:1315
 msgid "Reset song statistics"
-msgstr ""
+msgstr "Återställ låtstatistik"
 
 #: core/commandlineoptions.cpp:190
 msgid "Resize the window"
