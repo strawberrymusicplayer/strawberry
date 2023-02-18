@@ -29,7 +29,7 @@
 const char *Sonogram::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Sonogram");
 
 Sonogram::Sonogram(QWidget *parent)
-    : Analyzer::Base(parent, 9), scope_size_(128) {}
+    : Analyzer::Base(parent, 9) {}
 
 Sonogram::~Sonogram() {}
 
@@ -53,9 +53,6 @@ void Sonogram::analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) {
   canvas_painter.drawPixmap(0, 0, canvas_, 1, 0, width() - 1, -1);
 
   Analyzer::Scope::const_iterator it = s.begin(), end = s.end();
-  if (scope_size_ != static_cast<int>(s.size())) {
-    scope_size_ = s.size();
-  }
 
   for (int y = height() - 1; y;) {
     QColor c;

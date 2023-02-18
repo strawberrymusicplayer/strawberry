@@ -45,7 +45,6 @@ class Sonogram : public Analyzer::Base {
 
  private:
   QPixmap canvas_;
-  size_t scope_size_;
 };
 
 #endif  // SONOGRAM_H
