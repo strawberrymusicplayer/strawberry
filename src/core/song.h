@@ -422,6 +422,8 @@ using SongMap = QMap<QString, Song>;
 Q_DECLARE_METATYPE(Song)
 Q_DECLARE_METATYPE(SongList)
 Q_DECLARE_METATYPE(SongMap)
+Q_DECLARE_METATYPE(Song::Source)
+Q_DECLARE_METATYPE(Song::FileType)
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 size_t qHash(const Song &song);
