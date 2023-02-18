@@ -869,7 +869,13 @@ CollectionModel::QueryResult CollectionModel::RunQuery(const CollectionFilterOpt
     for (const CollectionQueryOptions::Where &where_clauses : query_options.where_clauses()) {
       q.AddWhere(where_clauses.column, where_clauses.value, where_clauses.op);
     }
-    q.AddCompilationRequirement(query_options.compilation_requirement());
+
+    if (result.create_va) {
+      q.AddCompilationRequirement(false);
+    }
+    else if (query_options.compilation_requirement() != CollectionQueryOptions::CompilationRequirement::None) {
+      q.AddCompilationRequirement(query_options.compilation_requirement() == CollectionQueryOptions::CompilationRequirement::On);
+    }
 
     if (q.Exec()) {
       while (q.Next()) {
@@ -1090,21 +1096,21 @@ void CollectionModel::AddQueryWhere(const GroupBy group_by, const bool separate_
   switch (group_by) {
     case GroupBy::AlbumArtist:
       if (IsCompilationArtistNode(item)) {
-        query_options->set_compilation_requirement(true);
+        query_options->set_compilation_requirement(CollectionQueryOptions::CompilationRequirement::On);
       }
       else {
         // Don't duplicate compilations outside the Various artists node
-        query_options->set_compilation_requirement(false);
+        query_options->set_compilation_requirement(CollectionQueryOptions::CompilationRequirement::Off);
         query_options->AddWhere("effective_albumartist", item->metadata.effective_albumartist());
       }
       break;
     case GroupBy::Artist:
       if (IsCompilationArtistNode(item)) {
-        query_options->set_compilation_requirement(true);
+        query_options->set_compilation_requirement(CollectionQueryOptions::CompilationRequirement::On);
       }
       else {
         // Don't duplicate compilations outside the Various artists node
-        query_options->set_compilation_requirement(false);
+        query_options->set_compilation_requirement(CollectionQueryOptions::CompilationRequirement::Off);
         query_options->AddWhere("artist", item->metadata.artist());
       }
       break;

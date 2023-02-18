@@ -36,12 +36,18 @@ class CollectionQueryOptions {
     QString op;
   };
 
+  enum class CompilationRequirement {
+    None,
+    On,
+    Off
+  };
+
   QString column_spec() const { return column_spec_; }
-  bool compilation_requirement() const { return compilation_requirement_; }
+  CompilationRequirement compilation_requirement() const { return compilation_requirement_; }
   bool query_have_compilations() const { return query_have_compilations_; }
 
   void set_column_spec(const QString &column_spec) { column_spec_ = column_spec; }
-  void set_compilation_requirement(const bool compilation_requirement) { compilation_requirement_ = compilation_requirement; }
+  void set_compilation_requirement(const CompilationRequirement compilation_requirement) { compilation_requirement_ = compilation_requirement; }
   void set_query_have_compilations(const bool query_have_compilations) { query_have_compilations_ = query_have_compilations; }
 
   QList<Where> where_clauses() const { return where_clauses_; }
@@ -49,7 +55,7 @@ class CollectionQueryOptions {
 
  private:
   QString column_spec_;
-  bool compilation_requirement_;
+  CompilationRequirement compilation_requirement_;
   bool query_have_compilations_;
   QList<Where> where_clauses_;
 };

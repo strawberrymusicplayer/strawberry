@@ -24,7 +24,7 @@
 #include "collectionfilteroptions.h"
 
 CollectionQueryOptions::CollectionQueryOptions()
-    : compilation_requirement_(false),
+    : compilation_requirement_(CollectionQueryOptions::CompilationRequirement::None),
       query_have_compilations_(false) {}
 
 void CollectionQueryOptions::AddWhere(const QString &column, const QVariant &value, const QString &op) {
