@@ -341,7 +341,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
         if (event->mimeData()->hasImage()) {
           QImage image = qvariant_cast<QImage>(event->mimeData()->imageData());
           if (!image.isNull()) {
-            UpdateCover(UpdateCoverAction_New, AlbumCoverImageResult(image));
+            UpdateCover(UpdateCoverAction::New, AlbumCoverImageResult(image));
           }
         }
         break;
@@ -404,7 +404,7 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) {
 
 }
 
-void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
+void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemPtrList &items) {
 
   // Show the loading indicator
   if (!SetLoading(tr("Loading tracks") + "...")) return;
@@ -438,7 +438,7 @@ void EditTagDialog::SetSongsFinished() {
     ui_->tab_widget->setEnabled(false);
 
     // Show a summary with empty information
-    UpdateSummaryTab(Song(), UpdateCoverAction_None);
+    UpdateSummaryTab(Song(), UpdateCoverAction::None);
     ui_->tab_widget->setCurrentWidget(ui_->tab_summary);
 
     SetSongListVisibility(false);
@@ -614,7 +614,7 @@ void EditTagDialog::SelectionChanged() {
   ui_->tab_widget->setTabEnabled(ui_->tab_widget->indexOf(ui_->tab_lyrics), !multiple);
 
   if (multiple) {
-    UpdateSummaryTab(Song(), UpdateCoverAction_None);
+    UpdateSummaryTab(Song(), UpdateCoverAction::None);
     UpdateStatisticsTab(Song());
   }
   else {
@@ -636,11 +636,11 @@ void EditTagDialog::SelectionChanged() {
   bool comment_enabled = false;
   bool lyrics_enabled = false;
   for (const QModelIndex &idx : indexes) {
-    if (data_[idx.row()].cover_action_ == UpdateCoverAction_None) {
+    if (data_[idx.row()].cover_action_ == UpdateCoverAction::None) {
       data_[idx.row()].cover_result_ = AlbumCoverImageResult();
     }
     const Song &song = data_[idx.row()].original_;
-    if (data_[idx.row()].cover_action_ != first_cover_action || (first_cover_action != UpdateCoverAction_None && data_[idx.row()].cover_result_.image_data != data_[indexes.first().row()].cover_result_.image_data)) {
+    if (data_[idx.row()].cover_action_ != first_cover_action || (first_cover_action != UpdateCoverAction::None && data_[idx.row()].cover_result_.image_data != data_[indexes.first().row()].cover_result_.image_data)) {
       action_different = true;
     }
     if (data_[idx.row()].cover_action_ != first_cover_action ||
@@ -693,7 +693,7 @@ void EditTagDialog::SelectionChanged() {
 
   const bool enable_change_art = first_song.is_collection_song();
   ui_->tags_art_button->setEnabled(enable_change_art);
-  if ((art_different && first_cover_action != UpdateCoverAction_New) || action_different) {
+  if ((art_different && first_cover_action != UpdateCoverAction::New) || action_different) {
     tags_cover_art_id_ = -1;  // Cancels any pending art load.
     ui_->tags_art->clear();
     ui_->tags_art->setText(kArtDifferentHintText);
@@ -717,7 +717,7 @@ void EditTagDialog::SelectionChanged() {
     album_cover_choice_controller_->unset_cover_action()->setEnabled(enable_change_art && !first_song.has_manually_unset_cover());
     album_cover_choice_controller_->clear_cover_action()->setEnabled(enable_change_art && !first_song.art_manual().isEmpty());
     album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && first_song.has_valid_art() && !first_song.has_manually_unset_cover());
-    if (data_[indexes.first().row()].cover_action_ == UpdateCoverAction_None) {
+    if (data_[indexes.first().row()].cover_action_ == UpdateCoverAction::None) {
       tags_cover_art_id_ = app_->album_cover_loader()->LoadImageAsync(cover_options_, first_song);
     }
     else {
@@ -728,7 +728,7 @@ void EditTagDialog::SelectionChanged() {
 
   ui_->tags_summary->setText(summary);
 
-  const bool embedded_cover = (first_song.save_embedded_cover_supported() && (first_song.has_embedded_cover() || album_cover_choice_controller_->get_collection_save_album_cover_type() == CollectionSettingsPage::SaveCoverType_Embedded));
+  const bool embedded_cover = (first_song.save_embedded_cover_supported() && (first_song.has_embedded_cover() || album_cover_choice_controller_->get_collection_save_album_cover_type() == CollectionSettingsPage::SaveCoverType::Embedded));
   ui_->checkbox_embedded_cover->setChecked(embedded_cover);
   album_cover_choice_controller_->set_save_embedded_cover_override(embedded_cover);
 
@@ -831,21 +831,21 @@ QString EditTagDialog::GetArtSummary(const Song &song, const UpdateCoverAction c
 
   QString summary;
 
-  if (cover_action != UpdateCoverAction_None) {
+  if (cover_action != UpdateCoverAction::None) {
     switch (cover_action) {
-      case UpdateCoverAction_Clear:
+      case UpdateCoverAction::Clear:
         summary = tr("Cover changed: Will be cleared when saved.").toHtmlEscaped();
         break;
-      case UpdateCoverAction_Unset:
+      case UpdateCoverAction::Unset:
         summary = tr("Cover changed: Will be unset when saved.").toHtmlEscaped();
         break;
-      case UpdateCoverAction_Delete:
+      case UpdateCoverAction::Delete:
         summary = tr("Cover changed: Will be deleted when saved.").toHtmlEscaped();
         break;
-      case UpdateCoverAction_New:
+      case UpdateCoverAction::New:
         summary = tr("Cover changed: Will set new when saved.").toHtmlEscaped();
         break;
-      case UpdateCoverAction_None:
+      case UpdateCoverAction::None:
         break;
     }
   }
@@ -981,7 +981,7 @@ void EditTagDialog::LoadCoverFromFile() {
   if (!song) return;
 
   AlbumCoverImageResult result = album_cover_choice_controller_->LoadImageFromFile(song);
-  if (result.is_valid()) UpdateCover(UpdateCoverAction_New, result);
+  if (result.is_valid()) UpdateCover(UpdateCoverAction::New, result);
 
 }
 
@@ -999,7 +999,7 @@ void EditTagDialog::LoadCoverFromURL() {
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
 
   AlbumCoverImageResult result = album_cover_choice_controller_->LoadImageFromURL();
-  if (result.is_valid()) UpdateCover(UpdateCoverAction_New, result);
+  if (result.is_valid()) UpdateCover(UpdateCoverAction::New, result);
 
 }
 
@@ -1009,7 +1009,7 @@ void EditTagDialog::SearchForCover() {
   if (!song) return;
 
   AlbumCoverImageResult result = album_cover_choice_controller_->SearchForImage(song);
-  if (result.is_valid()) UpdateCover(UpdateCoverAction_New, result);
+  if (result.is_valid()) UpdateCover(UpdateCoverAction::New, result);
 
 }
 
@@ -1020,7 +1020,7 @@ void EditTagDialog::UnsetCover() {
 
   song->set_manually_unset_cover();
 
-  UpdateCover(UpdateCoverAction_Unset);
+  UpdateCover(UpdateCoverAction::Unset);
 
 }
 
@@ -1032,13 +1032,13 @@ void EditTagDialog::ClearCover() {
   song->clear_art_automatic();
   song->clear_art_manual();
 
-  UpdateCover(UpdateCoverAction_Clear);
+  UpdateCover(UpdateCoverAction::Clear);
 
 }
 
 void EditTagDialog::DeleteCover() {
 
-  UpdateCover(UpdateCoverAction_Delete);
+  UpdateCover(UpdateCoverAction::Delete);
 
 }
 
@@ -1061,13 +1061,13 @@ void EditTagDialog::UpdateCover(const UpdateCoverAction action, const AlbumCover
   for (const QModelIndex &idx : indexes) {
     data_[idx.row()].cover_action_ = action;
     data_[idx.row()].cover_result_ = result;
-    if (action == UpdateCoverAction_New) {
+    if (action == UpdateCoverAction::New) {
       data_[idx.row()].current_.clear_art_manual();
     }
-    else if (action == UpdateCoverAction_Unset) {
+    else if (action == UpdateCoverAction::Unset) {
       data_[idx.row()].current_.set_manually_unset_cover();
     }
-    else if (action == UpdateCoverAction_Clear || action == UpdateCoverAction_Delete) {
+    else if (action == UpdateCoverAction::Clear || action == UpdateCoverAction::Delete) {
       data_[idx.row()].current_.clear_art_manual();
       data_[idx.row()].current_.clear_art_automatic();
     }
@@ -1083,13 +1083,13 @@ void EditTagDialog::UpdateCover(const UpdateCoverAction action, const AlbumCover
       if (data_[i].current_.effective_albumartist() == artist && data_[i].current_.album() == album) {
         data_[i].cover_action_ = action;
         data_[i].cover_result_ = result;
-        if (action == UpdateCoverAction_New) {
+        if (action == UpdateCoverAction::New) {
           data_[i].current_.clear_art_manual();
         }
-        else if (action == UpdateCoverAction_Unset) {
+        else if (action == UpdateCoverAction::Unset) {
           data_[i].current_.set_manually_unset_cover();
         }
-        else if (action == UpdateCoverAction_Clear || action == UpdateCoverAction_Delete) {
+        else if (action == UpdateCoverAction::Clear || action == UpdateCoverAction::Delete) {
           data_[i].current_.clear_art_manual();
           data_[i].current_.clear_art_automatic();
         }
@@ -1168,22 +1168,22 @@ void EditTagDialog::SaveData() {
 
     QString embedded_cover_from_file;
     // If embedded album cover is selected, and it isn't saved to the tags, then save it even if no action was done.
-    if (ui_->checkbox_embedded_cover->isChecked() && ref.cover_action_ == UpdateCoverAction_None && !ref.original_.has_embedded_cover() && ref.original_.save_embedded_cover_supported()) {
+    if (ui_->checkbox_embedded_cover->isChecked() && ref.cover_action_ == UpdateCoverAction::None && !ref.original_.has_embedded_cover() && ref.original_.save_embedded_cover_supported()) {
       if (ref.original_.art_manual().isValid() && ref.original_.art_manual().isLocalFile() && QFile::exists(ref.original_.art_manual().toLocalFile())) {
-        ref.cover_action_ = UpdateCoverAction_New;
+        ref.cover_action_ = UpdateCoverAction::New;
         embedded_cover_from_file = ref.original_.art_manual().toLocalFile();
       }
       else if (ref.original_.art_automatic().isValid() && ref.original_.art_automatic().isLocalFile() && QFile::exists(ref.original_.art_automatic().toLocalFile())) {
-        ref.cover_action_ = UpdateCoverAction_New;
+        ref.cover_action_ = UpdateCoverAction::New;
         embedded_cover_from_file = ref.original_.art_automatic().toLocalFile();
       }
     }
 
-    if (ref.cover_action_ != UpdateCoverAction_None) {
+    if (ref.cover_action_ != UpdateCoverAction::None) {
       switch (ref.cover_action_) {
-        case UpdateCoverAction_None:
+        case UpdateCoverAction::None:
           break;
-        case UpdateCoverAction_New:{
+        case UpdateCoverAction::New:{
           if ((!ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) &&
               (!ui_->checkbox_embedded_cover->isChecked() || !ref.original_.save_embedded_cover_supported())) {
             QUrl cover_url;
@@ -1204,13 +1204,13 @@ void EditTagDialog::SaveData() {
           }
           break;
         }
-        case UpdateCoverAction_Unset:
+        case UpdateCoverAction::Unset:
           ref.current_.set_manually_unset_cover();
           break;
-        case UpdateCoverAction_Clear:
+        case UpdateCoverAction::Clear:
           ref.current_.clear_art_manual();
           break;
-        case UpdateCoverAction_Delete:{
+        case UpdateCoverAction::Delete:{
           if (!ref.original_.art_automatic().isEmpty()) {
             if (ref.original_.art_automatic().isValid() && !ref.original_.has_embedded_cover() && ref.original_.art_automatic().isLocalFile()) {
               QString art_automatic = ref.original_.art_automatic().toLocalFile();
@@ -1233,7 +1233,7 @@ void EditTagDialog::SaveData() {
         }
       }
       if (ui_->checkbox_embedded_cover->isChecked() && ref.original_.save_embedded_cover_supported()) {
-        if (ref.cover_action_ == UpdateCoverAction_New) {
+        if (ref.cover_action_ == UpdateCoverAction::New) {
           if (ref.cover_result_.is_jpeg()) { // Save JPEG data directly.
             ++save_art_pending_;
             TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(ref.current_.url().toLocalFile(), ref.cover_result_.image_data);
@@ -1268,7 +1268,7 @@ void EditTagDialog::SaveData() {
             watcher->setFuture(future);
           }
         }
-        else if (ref.cover_action_ == UpdateCoverAction_Delete) {
+        else if (ref.cover_action_ == UpdateCoverAction::Delete) {
           ++save_art_pending_;
           TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(ref.current_.url().toLocalFile(), QByteArray());
           QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() {
@@ -1435,18 +1435,18 @@ void EditTagDialog::SongSaveArtComplete(TagReaderReply *reply, const QString &fi
       song = collection_songs_.take(song.id());
     }
     switch (cover_action) {
-      case UpdateCoverAction_None:
+      case UpdateCoverAction::None:
         break;
-      case UpdateCoverAction_New:
+      case UpdateCoverAction::New:
         song.clear_art_manual();
         song.set_embedded_cover();
         break;
-      case UpdateCoverAction_Clear:
-      case UpdateCoverAction_Delete:
+      case UpdateCoverAction::Clear:
+      case UpdateCoverAction::Delete:
         song.clear_art_automatic();
         song.clear_art_manual();
         break;
-      case UpdateCoverAction_Unset:
+      case UpdateCoverAction::Unset:
         song.clear_art_automatic();
         song.set_manually_unset_cover();
         break;

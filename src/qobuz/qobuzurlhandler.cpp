@@ -47,13 +47,13 @@ UrlHandler::LoadResult QobuzUrlHandler::StartLoading(const QUrl &url) {
   req.id = service_->GetStreamURL(url, error);
   if (req.id == 0) {
     CancelTask(req.task_id);
-    return LoadResult(url, LoadResult::Error, error);
+    return LoadResult(url, LoadResult::Type::Error, error);
   }
 
   requests_.insert(req.id, req);
 
   LoadResult ret(url);
-  ret.type_ = LoadResult::WillLoadAsynchronously;
+  ret.type_ = LoadResult::Type::WillLoadAsynchronously;
 
   return ret;
 
@@ -65,7 +65,7 @@ void QobuzUrlHandler::GetStreamURLFailure(const uint id, const QUrl &original_ur
   Request req = requests_.take(id);
   CancelTask(req.task_id);
 
-  emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Error, error));
+  emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Type::Error, error));
 
 }
 
@@ -75,7 +75,7 @@ void QobuzUrlHandler::GetStreamURLSuccess(const uint id, const QUrl &original_ur
   Request req = requests_.take(id);
   CancelTask(req.task_id);
 
-  emit AsyncLoadComplete(LoadResult(original_url, LoadResult::TrackAvailable, stream_url, filetype, samplerate, bit_depth, duration));
+  emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Type::TrackAvailable, stream_url, filetype, samplerate, bit_depth, duration));
 
 }
 

@@ -36,10 +36,18 @@ class SmartPlaylistSearch {
   using TermList = QList<SmartPlaylistSearchTerm>;
 
   // These values are persisted, so add to the end of the enum only
-  enum SearchType { Type_And = 0, Type_Or, Type_All, };
+  enum class SearchType {
+    And = 0,
+    Or,
+    All
+  };
 
   // These values are persisted, so add to the end of the enum only
-  enum SortType { Sort_Random = 0, Sort_FieldAsc, Sort_FieldDesc, };
+  enum class SortType {
+    Random = 0,
+    FieldAsc,
+    FieldDesc
+  };
 
   explicit SmartPlaylistSearch();
   explicit SmartPlaylistSearch(const SearchType type, const TermList &terms, const SortType sort_type, const SmartPlaylistSearchTerm::Field sort_field, const int limit = PlaylistGenerator::kDefaultLimit);

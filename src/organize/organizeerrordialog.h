@@ -41,13 +41,13 @@ class OrganizeErrorDialog : public QDialog {
   explicit OrganizeErrorDialog(QWidget *parent = nullptr);
   ~OrganizeErrorDialog() override;
 
-  enum OperationType {
-    Type_Copy,
-    Type_Delete,
+  enum class OperationType {
+    Copy,
+    Delete
   };
 
-  void Show(OperationType type, const SongList &songs_with_errors, const QStringList &log = QStringList());
-  void Show(OperationType type, const QStringList &files_with_errors, const QStringList &log = QStringList());
+  void Show(const OperationType operation_type, const SongList &songs_with_errors, const QStringList &log = QStringList());
+  void Show(const OperationType operation_type, const QStringList &files_with_errors, const QStringList &log = QStringList());
 
  private:
   Ui_OrganizeErrorDialog *ui_;

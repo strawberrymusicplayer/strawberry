@@ -48,7 +48,7 @@ class LastFmCoverProvider : public JsonCoverProvider {
   void QueryFinished(QNetworkReply *reply, const int id, const QString &type);
 
  private:
-  enum LastFmImageSize {
+  enum class LastFmImageSize {
     Unknown,
     Small = 34,
     Medium = 64,

@@ -29,12 +29,12 @@
 
 class SqlRow;
 
-CollectionPlaylistItem::CollectionPlaylistItem() : PlaylistItem(Song::Source_Collection) {
-  song_.set_source(Song::Source_Collection);
+CollectionPlaylistItem::CollectionPlaylistItem() : PlaylistItem(Song::Source::Collection) {
+  song_.set_source(Song::Source::Collection);
 }
 
-CollectionPlaylistItem::CollectionPlaylistItem(const Song &song) : PlaylistItem(Song::Source_Collection), song_(song) {
-  song_.set_source(Song::Source_Collection);
+CollectionPlaylistItem::CollectionPlaylistItem(const Song &song) : PlaylistItem(Song::Source::Collection), song_(song) {
+  song_.set_source(Song::Source::Collection);
 }
 
 QUrl CollectionPlaylistItem::Url() const { return song_.url(); }
@@ -50,7 +50,7 @@ bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
 
   // Rows from the songs tables come first
   song_.InitFromQuery(query, true);
-  song_.set_source(Song::Source_Collection);
+  song_.set_source(Song::Source::Collection);
   return song_.is_valid();
 
 }

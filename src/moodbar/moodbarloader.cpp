@@ -94,13 +94,13 @@ QStringList MoodbarLoader::MoodFilenames(const QString &song_filename) {
 MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, QByteArray *data, MoodbarPipeline **async_pipeline) {
 
   if (!url.isLocalFile() || has_cue) {
-    return CannotLoad;
+    return Result::CannotLoad;
   }
 
   // Are we in the middle of loading this moodbar already?
   if (requests_.contains(url)) {
     *async_pipeline = requests_[url];
-    return WillLoadAsync;
+    return Result::WillLoadAsync;
   }
 
   // Check if a mood file exists for this file already
@@ -113,7 +113,7 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, Q
         qLog(Info) << "Loading moodbar data from" << possible_mood_file;
         *data = f.readAll();
         f.close();
-        return Loaded;
+        return Result::Loaded;
       }
       else {
         qLog(Error) << "Failed to load moodbar data from" << possible_mood_file << f.errorString();
@@ -127,7 +127,7 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, Q
     qLog(Info) << "Loading cached moodbar data for" << filename;
     *data = cache_device->readAll();
     if (!data->isEmpty()) {
-      return Loaded;
+      return Result::Loaded;
     }
   }
 
@@ -144,7 +144,7 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, Q
   MaybeTakeNextRequest();
 
   *async_pipeline = pipeline;
-  return WillLoadAsync;
+  return Result::WillLoadAsync;
 
 }
 

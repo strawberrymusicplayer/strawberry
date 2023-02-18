@@ -60,7 +60,7 @@ CollectionBackend::CollectionBackend(QObject *parent)
     : CollectionBackendInterface(parent),
       db_(nullptr),
       task_manager_(nullptr),
-      source_(Song::Source_Unknown),
+      source_(Song::Source::Unknown),
       original_thread_(nullptr) {
 
   original_thread_ = thread();
@@ -1864,7 +1864,7 @@ SongList CollectionBackend::SmartPlaylistsFindSongs(const SmartPlaylistSearch &s
 SongList CollectionBackend::SmartPlaylistsGetAllSongs() {
 
   // Get all the songs!
-  return SmartPlaylistsFindSongs(SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::Sort_FieldAsc, SmartPlaylistSearchTerm::Field_Artist, -1));
+  return SmartPlaylistsFindSongs(SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldAsc, SmartPlaylistSearchTerm::Field::Artist, -1));
 
 }
 

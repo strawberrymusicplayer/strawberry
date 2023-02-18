@@ -31,82 +31,83 @@
 class SmartPlaylistSearchTerm {
  public:
   // These values are persisted, so add to the end of the enum only
-  enum Field {
-    Field_AlbumArtist = 0,
-    Field_Artist,
-    Field_Album,
-    Field_Title,
-    Field_Track,
-    Field_Disc,
-    Field_Year,
-    Field_OriginalYear,
-    Field_Genre,
-    Field_Composer,
-    Field_Performer,
-    Field_Grouping,
-    Field_Comment,
-    Field_Length,
-    Field_Filepath,
-    Field_Filetype,
-    Field_Filesize,
-    Field_DateCreated,
-    Field_DateModified,
-    Field_PlayCount,
-    Field_SkipCount,
-    Field_LastPlayed,
-    Field_Rating,
-    Field_Samplerate,
-    Field_Bitdepth,
-    Field_Bitrate,
+  enum class Field {
+    AlbumArtist = 0,
+    Artist,
+    Album,
+    Title,
+    Track,
+    Disc,
+    Year,
+    OriginalYear,
+    Genre,
+    Composer,
+    Performer,
+    Grouping,
+    Comment,
+    Length,
+    Filepath,
+    Filetype,
+    Filesize,
+    DateCreated,
+    DateModified,
+    PlayCount,
+    SkipCount,
+    LastPlayed,
+    Rating,
+    Samplerate,
+    Bitdepth,
+    Bitrate,
     FieldCount
   };
 
   // These values are persisted, so add to the end of the enum only
-  enum Operator {
+  enum class Operator {
     // For text
-    Op_Contains = 0,
-    Op_NotContains = 1,
-    Op_StartsWith = 2,
-    Op_EndsWith = 3,
+    Contains = 0,
+    NotContains = 1,
+    StartsWith = 2,
+    EndsWith = 3,
 
     // For numbers
-    Op_GreaterThan = 4,
-    Op_LessThan = 5,
+    GreaterThan = 4,
+    LessThan = 5,
 
     // For everything
-    Op_Equals = 6,
-    Op_NotEquals = 9,
+    Equals = 6,
+    NotEquals = 9,
 
     // For numeric dates (e.g. in the last X days)
-    Op_NumericDate = 7,
+    NumericDate = 7,
     // For relative dates
-    Op_RelativeDate = 8,
+    RelativeDate = 8,
 
     // For numeric dates (e.g. not in the last X days)
-    Op_NumericDateNot = 10,
+    NumericDateNot = 10,
 
-    Op_Empty = 11,
-    Op_NotEmpty = 12,
+    Empty = 11,
+    NotEmpty = 12,
 
     // Next value = 13
   };
+  using OperatorList = QList<Operator>;
 
-  enum Type {
-    Type_Text,
-    Type_Date,
-    Type_Time,
-    Type_Number,
-    Type_Rating,
-    Type_Invalid
+  enum class Type {
+    Text,
+    Date,
+    Time,
+    Number,
+    Rating,
+    Invalid
   };
 
   // These values are persisted, so add to the end of the enum only
-  enum DateType {
-    Date_Hour = 0,
-    Date_Day,
-    Date_Week,
-    Date_Month,
-    Date_Year
+  enum class DateType {
+    Hour = 0,
+    Day,
+    Week,
+    Month,
+    Year
   };
 
   explicit SmartPlaylistSearchTerm();
@@ -115,7 +116,7 @@ class SmartPlaylistSearchTerm {
   Field field_;
   Operator operator_;
   QVariant value_;
-  DateType date_;
+  DateType datetype_;
   // For relative dates, we need a second parameter, might be useful somewhere else
   QVariant second_value_;
 
@@ -130,13 +131,14 @@ class SmartPlaylistSearchTerm {
   static QString FieldName(const Field field);
   static QString FieldColumnName(const Field field);
   static QString FieldSortOrderText(const Type type, const bool ascending);
-  static QString DateName(const DateType date, const bool forQuery);
+  static QString DateName(const DateType datetype, const bool forQuery);
 
 };
 
-using OperatorList = QList<SmartPlaylistSearchTerm::Operator>;
-
 QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearchTerm &term);
 QDataStream &operator>>(QDataStream &s, SmartPlaylistSearchTerm &term);
+
+Q_DECLARE_METATYPE(SmartPlaylistSearchTerm::Operator)
+Q_DECLARE_METATYPE(SmartPlaylistSearchTerm::OperatorList)
 
 #endif  // SMARTPLAYLISTSEARCHTERM_H

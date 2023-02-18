@@ -55,14 +55,22 @@ constexpr int XID6_OFFSET = (0x101C0 + 64);
 
 constexpr int NANO_PER_MS = 1000000;
 
-enum xID6_STATUS {
+enum class xID6_STATUS {
   ON = 0x26,
-  OFF = 0x27,
+  OFF = 0x27
 };
 
-enum xID6_ID { SongName = 0x01, GameName = 0x02, ArtistName = 0x03 };
+enum class xID6_ID {
+  SongName = 0x01,
+  GameName = 0x02,
+  ArtistName = 0x03
+};
 
-enum xID6_TYPE { Length = 0x0, String = 0x1, Integer = 0x4 };
+enum class xID6_TYPE {
+  Length = 0x0,
+  String = 0x1,
+  Integer = 0x4
+};
 
 void Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *song_info);
 qint16 GetNextMemAddressAlign32bit(qint16 input);

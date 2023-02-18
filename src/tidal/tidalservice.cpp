@@ -61,7 +61,7 @@
 #include "settings/settingsdialog.h"
 #include "settings/tidalsettingspage.h"
 
-const Song::Source TidalService::kSource = Song::Source_Tidal;
+const Song::Source TidalService::kSource = Song::Source::Tidal;
 
 const char TidalService::kApiUrl[] = "https://api.tidalhifi.com/v1";
 const char TidalService::kResourcesUrl[] = "https://resources.tidal.com";
@@ -85,7 +85,7 @@ constexpr char TidalService::kSongsFtsTable[] = "tidal_songs_fts";
 using namespace std::chrono_literals;
 
 TidalService::TidalService(Application *app, QObject *parent)
-    : InternetService(Song::Source_Tidal, "Tidal", "tidal", TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, app, parent),
+    : InternetService(Song::Source::Tidal, "Tidal", "tidal", TidalSettingsPage::kSettingsGroup, SettingsDialog::Page::Tidal, app, parent),
       app_(app),
       network_(new NetworkAccessManager(this)),
       url_handler_(new TidalUrlHandler(app, this)),
@@ -110,13 +110,13 @@ TidalService::TidalService(Application *app, QObject *parent)
       songssearchlimit_(1),
       fetchalbums_(true),
       download_album_covers_(true),
-      stream_url_method_(TidalSettingsPage::StreamUrlMethod_StreamUrl),
+      stream_url_method_(TidalSettingsPage::StreamUrlMethod::StreamUrl),
       album_explicit_(false),
       expires_in_(0),
       login_time_(0),
       pending_search_id_(0),
       next_pending_search_id_(1),
-      pending_search_type_(InternetSearchView::SearchType_Artists),
+      pending_search_type_(InternetSearchView::SearchType::Artists),
       search_id_(0),
       login_sent_(false),
       login_attempts_(0),
@@ -128,15 +128,15 @@ TidalService::TidalService(Application *app, QObject *parent)
 
   artists_collection_backend_ = new CollectionBackend();
   artists_collection_backend_->moveToThread(app_->database()->thread());
-  artists_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Tidal, kArtistsSongsTable, kArtistsSongsFtsTable);
+  artists_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Tidal, kArtistsSongsTable, kArtistsSongsFtsTable);
 
   albums_collection_backend_ = new CollectionBackend();
   albums_collection_backend_->moveToThread(app_->database()->thread());
-  albums_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Tidal, kAlbumsSongsTable, kAlbumsSongsFtsTable);
+  albums_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Tidal, kAlbumsSongsTable, kAlbumsSongsFtsTable);
 
   songs_collection_backend_ = new CollectionBackend();
   songs_collection_backend_->moveToThread(app_->database()->thread());
-  songs_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Tidal, kSongsTable, kSongsFtsTable);
+  songs_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Tidal, kSongsTable, kSongsFtsTable);
 
   artists_collection_model_ = new CollectionModel(artists_collection_backend_, app_, this);
   albums_collection_model_ = new CollectionModel(albums_collection_backend_, app_, this);
@@ -244,7 +244,7 @@ void TidalService::ExitReceived() {
 }
 
 void TidalService::ShowConfig() {
-  app_->OpenSettingsDialogAtPage(SettingsDialog::Page_Tidal);
+  app_->OpenSettingsDialogAtPage(SettingsDialog::Page::Tidal);
 }
 
 void TidalService::LoadSession() {
@@ -296,7 +296,7 @@ void TidalService::ReloadSettings() {
   fetchalbums_ = s.value("fetchalbums", false).toBool();
   coversize_ = s.value("coversize", "640x640").toString();
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
-  stream_url_method_ = static_cast<TidalSettingsPage::StreamUrlMethod>(s.value("streamurl").toInt());
+  stream_url_method_ = static_cast<TidalSettingsPage::StreamUrlMethod>(s.value("streamurl", static_cast<int>(TidalSettingsPage::StreamUrlMethod::StreamUrl)).toInt());
   album_explicit_ = s.value("album_explicit").toBool();
 
   s.endGroup();
@@ -752,7 +752,7 @@ void TidalService::GetArtists() {
   }
 
   ResetArtistsRequest();
-  artists_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Artists, this), [](TidalRequest *request) { request->deleteLater(); });
+  artists_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType::Artists, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(artists_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(artists_request_.get(), &TidalRequest::Results, this, &TidalService::ArtistsResultsReceived);
   QObject::connect(artists_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::ArtistsUpdateStatusReceived);
@@ -807,7 +807,7 @@ void TidalService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Albums, this), [](TidalRequest *request) { request->deleteLater(); });
+  albums_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType::Albums, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(albums_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(albums_request_.get(), &TidalRequest::Results, this, &TidalService::AlbumsResultsReceived);
   QObject::connect(albums_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::AlbumsUpdateStatusReceived);
@@ -862,7 +862,7 @@ void TidalService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Songs, this), [](TidalRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType::Songs, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(songs_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(songs_request_.get(), &TidalRequest::Results, this, &TidalService::SongsResultsReceived);
   QObject::connect(songs_request_.get(), &TidalRequest::UpdateStatus, this, &TidalService::SongsUpdateStatusReceived);
@@ -936,24 +936,24 @@ void TidalService::CancelSearch() {
 
 void TidalService::SendSearch() {
 
-  TidalBaseRequest::QueryType type = TidalBaseRequest::QueryType_None;
+  TidalBaseRequest::QueryType query_type = TidalBaseRequest::QueryType::None;
 
   switch (pending_search_type_) {
-    case InternetSearchView::SearchType_Artists:
-      type = TidalBaseRequest::QueryType_SearchArtists;
+    case InternetSearchView::SearchType::Artists:
+      query_type = TidalBaseRequest::QueryType::SearchArtists;
       break;
-    case InternetSearchView::SearchType_Albums:
-      type = TidalBaseRequest::QueryType_SearchAlbums;
+    case InternetSearchView::SearchType::Albums:
+      query_type = TidalBaseRequest::QueryType::SearchAlbums;
       break;
-    case InternetSearchView::SearchType_Songs:
-      type = TidalBaseRequest::QueryType_SearchSongs;
+    case InternetSearchView::SearchType::Songs:
+      query_type = TidalBaseRequest::QueryType::SearchSongs;
       break;
     default:
       //Error("Invalid search type.");
       return;
   }
 
-  search_request_.reset(new TidalRequest(this, url_handler_, app_, network_, type, this), [](TidalRequest *request) { request->deleteLater(); });
+  search_request_.reset(new TidalRequest(this, url_handler_, app_, network_, query_type, this), [](TidalRequest *request) { request->deleteLater(); });
 
   QObject::connect(search_request_.get(), &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(search_request_.get(), &TidalRequest::Results, this, &TidalService::SearchResultsReceived);

@@ -100,7 +100,7 @@ Q_DECLARE_METATYPE(CoverProviderSearchResult)
 
 // This is a complete result of a single search request (a list of results, each describing one image, actually).
 using CoverProviderSearchResults = QList<CoverProviderSearchResult>;
-Q_DECLARE_METATYPE(QList<CoverProviderSearchResult>)
+Q_DECLARE_METATYPE(CoverProviderSearchResults)
 
 // This class searches for album covers for a given query or artist/album and returns URLs. It's NOT thread-safe.
 class AlbumCoverFetcher : public QObject {

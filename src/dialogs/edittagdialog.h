@@ -70,9 +70,9 @@ class EditTagDialog : public QDialog {
   static const char *kTagsDifferentHintText;
   static const char *kArtDifferentHintText;
 
-  void SetSongs(const SongList &songs, const PlaylistItemList &items = PlaylistItemList());
+  void SetSongs(const SongList &songs, const PlaylistItemPtrList &items = PlaylistItemPtrList());
 
-  PlaylistItemList playlist_items() const { return playlist_items_; }
+  PlaylistItemPtrList playlist_items() const { return playlist_items_; }
 
   void accept() override;
 
@@ -85,15 +85,15 @@ class EditTagDialog : public QDialog {
   void hideEvent(QHideEvent *e) override;
 
  private:
-  enum UpdateCoverAction {
-    UpdateCoverAction_None = 0,
-    UpdateCoverAction_Clear,
-    UpdateCoverAction_Unset,
-    UpdateCoverAction_Delete,
-    UpdateCoverAction_New,
+  enum class UpdateCoverAction {
+    None = 0,
+    Clear,
+    Unset,
+    Delete,
+    New
   };
   struct Data {
-    explicit Data(const Song &song = Song()) : original_(song), current_(song), cover_action_(UpdateCoverAction_None) {}
+    explicit Data(const Song &song = Song()) : original_(song), current_(song), cover_action_(UpdateCoverAction::None) {}
 
     static QVariant value(const Song &song, const QString &id);
     QVariant original_value(const QString &id) const { return value(original_, id); }
@@ -189,7 +189,7 @@ class EditTagDialog : public QDialog {
 
   bool loading_;
 
-  PlaylistItemList playlist_items_;
+  PlaylistItemPtrList playlist_items_;
   QList<Data> data_;
   QList<FieldData> fields_;
 

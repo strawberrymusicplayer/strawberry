@@ -98,7 +98,7 @@ QString PlaylistParser::filters(const Type type) const {
     }
   }
 
-  if (type == Type_Load) {
+  if (type == Type::Load) {
     filters.prepend(tr("All playlists (%1)").arg(all_extensions.join(" ")));
   }
 
@@ -168,7 +168,7 @@ SongList PlaylistParser::LoadFromFile(const QString &filename) const {
   QFileInfo fileinfo(filename);
 
   // Find a parser that supports this file extension
-  ParserBase *parser = ParserForExtension(Type_Load, fileinfo.suffix());
+  ParserBase *parser = ParserForExtension(Type::Load, fileinfo.suffix());
   if (!parser) {
     qLog(Warning) << "Unknown filetype:" << filename;
     return SongList();
@@ -208,16 +208,16 @@ void PlaylistParser::Save(const SongList &songs, const QString &filename, const 
   }
 
   // Find a parser that supports this file extension
-  ParserBase *parser = ParserForExtension(Type_Save, fileinfo.suffix());
+  ParserBase *parser = ParserForExtension(Type::Save, fileinfo.suffix());
   if (!parser) {
     qLog(Warning) << "Unknown filetype" << filename;
     return;
   }
 
-  if (path_type == PlaylistSettingsPage::PathType_Absolute && dir.path() != dir.absolutePath()) {
+  if (path_type == PlaylistSettingsPage::PathType::Absolute && dir.path() != dir.absolutePath()) {
     dir.setPath(dir.absolutePath());
   }
-  else if (path_type != PlaylistSettingsPage::PathType_Absolute && !dir.canonicalPath().isEmpty() && dir.path() != dir.canonicalPath()) {
+  else if (path_type != PlaylistSettingsPage::PathType::Absolute && !dir.canonicalPath().isEmpty() && dir.path() != dir.canonicalPath()) {
     dir.setPath(dir.canonicalPath());
   }
 
@@ -236,6 +236,6 @@ void PlaylistParser::Save(const SongList &songs, const QString &filename, const 
 
 bool PlaylistParser::ParserIsSupported(const Type type, ParserBase *parser) const {
 
-  return ((type == Type_Load && parser->load_supported()) || (type == Type_Save && parser->save_supported()));
+  return ((type == Type::Load && parser->load_supported()) || (type == Type::Save && parser->save_supported()));
 
 }

@@ -47,15 +47,15 @@ class TidalBaseRequest : public QObject {
  public:
   explicit TidalBaseRequest(TidalService *service, NetworkAccessManager *network, QObject *parent = nullptr);
 
-  enum QueryType {
-    QueryType_None,
-    QueryType_Artists,
-    QueryType_Albums,
-    QueryType_Songs,
-    QueryType_SearchArtists,
-    QueryType_SearchAlbums,
-    QueryType_SearchSongs,
-    QueryType_StreamURL,
+  enum class QueryType {
+    None,
+    Artists,
+    Albums,
+    Songs,
+    SearchArtists,
+    SearchAlbums,
+    SearchSongs,
+    StreamURL
   };
 
  protected:

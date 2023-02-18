@@ -76,18 +76,18 @@ void PlaylistSettingsPage::Load() {
   ui_->checkbox_playlist_clear->setChecked(s.value("playlist_clear", true).toBool());
   ui_->checkbox_auto_sort->setChecked(s.value("auto_sort", false).toBool());
 
-  PathType path_type = PathType(s.value("path_type", PathType_Automatic).toInt());
+  const PathType path_type = static_cast<PathType>(s.value("path_type", static_cast<int>(PathType::Automatic)).toInt());
   switch (path_type) {
-    case PathType_Automatic:
+    case PathType::Automatic:
       ui_->radiobutton_automaticpath->setChecked(true);
       break;
-    case PathType_Absolute:
+    case PathType::Absolute:
       ui_->radiobutton_absolutepath->setChecked(true);
       break;
-    case PathType_Relative:
+    case PathType::Relative:
       ui_->radiobutton_relativepath->setChecked(true);
       break;
-    case PathType_Ask_User:
+    case PathType::Ask_User:
       ui_->radiobutton_askpath->setChecked(true);
   }
 
@@ -111,18 +111,18 @@ void PlaylistSettingsPage::Load() {
 
 void PlaylistSettingsPage::Save() {
 
-  PathType path_type = PathType_Automatic;
+  PathType path_type = PathType::Automatic;
   if (ui_->radiobutton_automaticpath->isChecked()) {
-    path_type = PathType_Automatic;
+    path_type = PathType::Automatic;
   }
   else if (ui_->radiobutton_absolutepath->isChecked()) {
-    path_type = PathType_Absolute;
+    path_type = PathType::Absolute;
   }
   else if (ui_->radiobutton_relativepath->isChecked()) {
-    path_type = PathType_Relative;
+    path_type = PathType::Relative;
   }
   else if (ui_->radiobutton_askpath->isChecked()) {
-    path_type = PathType_Ask_User;
+    path_type = PathType::Ask_User;
   }
 
   QSettings s;

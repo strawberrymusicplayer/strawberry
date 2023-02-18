@@ -47,15 +47,15 @@ TranscoderOptionsDialog::TranscoderOptionsDialog(Song::FileType type, QWidget *p
   ui_->setupUi(this);
 
   switch (type) {
-    case Song::FileType_FLAC:
-    case Song::FileType_OggFlac:   options_ = new TranscoderOptionsFLAC(this);     break;
-    case Song::FileType_WavPack:   options_ = new TranscoderOptionsWavPack(this);  break;
-    case Song::FileType_OggVorbis: options_ = new TranscoderOptionsVorbis(this);   break;
-    case Song::FileType_OggOpus:   options_ = new TranscoderOptionsOpus(this);     break;
-    case Song::FileType_OggSpeex:  options_ = new TranscoderOptionsSpeex(this);    break;
-    case Song::FileType_MP4:       options_ = new TranscoderOptionsAAC(this);      break;
-    case Song::FileType_MPEG:      options_ = new TranscoderOptionsMP3(this);      break;
-    case Song::FileType_ASF:       options_ = new TranscoderOptionsASF(this);      break;
+    case Song::FileType::FLAC:
+    case Song::FileType::OggFlac:   options_ = new TranscoderOptionsFLAC(this);     break;
+    case Song::FileType::WavPack:   options_ = new TranscoderOptionsWavPack(this);  break;
+    case Song::FileType::OggVorbis: options_ = new TranscoderOptionsVorbis(this);   break;
+    case Song::FileType::OggOpus:   options_ = new TranscoderOptionsOpus(this);     break;
+    case Song::FileType::OggSpeex:  options_ = new TranscoderOptionsSpeex(this);    break;
+    case Song::FileType::MP4:       options_ = new TranscoderOptionsAAC(this);      break;
+    case Song::FileType::MPEG:      options_ = new TranscoderOptionsMP3(this);      break;
+    case Song::FileType::ASF:       options_ = new TranscoderOptionsASF(this);      break;
     default:
       break;
   }

@@ -131,7 +131,7 @@ void CoversSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QList
           ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
         }
         else {
-          ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::LoggedIn : LoginStateWidget::LoggedOut);
+          ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
           ui_->button_authenticate->setEnabled(true);
           ui_->button_authenticate->show();
           ui_->login_state->show();
@@ -201,7 +201,7 @@ void CoversSettingsPage::NoProviderSelected() {
 
 void CoversSettingsPage::DisableAuthentication() {
 
-  ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_authenticate->setEnabled(false);
   ui_->login_state->hide();
   ui_->button_authenticate->hide();
@@ -221,7 +221,7 @@ void CoversSettingsPage::AuthenticateClicked() {
   CoverProvider *provider = dialog()->app()->cover_providers()->ProviderByName(ui_->providers->currentItem()->text());
   if (!provider) return;
   ui_->button_authenticate->setEnabled(false);
-  ui_->login_state->SetLoggedIn(LoginStateWidget::LoginInProgress);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
   QObject::connect(provider, &CoverProvider::AuthenticationFailure, this, &CoversSettingsPage::AuthenticationFailure);
   QObject::connect(provider, &CoverProvider::AuthenticationSuccess, this, &CoversSettingsPage::AuthenticationSuccess);
   provider->Authenticate();
@@ -245,7 +245,7 @@ void CoversSettingsPage::LogoutClicked() {
   }
   else {
     ui_->button_authenticate->setEnabled(true);
-    ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
+    ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   }
 
 }
@@ -258,7 +258,7 @@ void CoversSettingsPage::AuthenticationSuccess() {
 
   if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
-  ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
   ui_->button_authenticate->setEnabled(true);
 
 }
@@ -273,7 +273,7 @@ void CoversSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
   QMessageBox::warning(this, tr("Authentication failed"), errors.join("\n"));
 
-  ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_authenticate->setEnabled(true);
 
 }

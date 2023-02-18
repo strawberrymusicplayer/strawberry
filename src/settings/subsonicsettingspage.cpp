@@ -84,12 +84,12 @@ void SubsonicSettingsPage::Load() {
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
   ui_->checkbox_server_scrobbling->setChecked(s.value("serversidescrobbling", false).toBool());
 
-  AuthMethod auth_method = static_cast<AuthMethod>(s.value("authmethod", AuthMethod_MD5).toInt());
+  const AuthMethod auth_method = static_cast<AuthMethod>(s.value("authmethod", static_cast<int>(AuthMethod::MD5)).toInt());
   switch (auth_method) {
-    case AuthMethod_Hex:
+    case AuthMethod::Hex:
       ui_->auth_method_hex->setChecked(true);
       break;
-    case AuthMethod_MD5:
+    case AuthMethod::MD5:
       ui_->auth_method_md5->setChecked(true);
       break;
   }
@@ -115,10 +115,10 @@ void SubsonicSettingsPage::Save() {
   s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
   s.setValue("serversidescrobbling", ui_->checkbox_server_scrobbling->isChecked());
   if (ui_->auth_method_hex->isChecked()) {
-    s.setValue("authmethod", AuthMethod_Hex);
+    s.setValue("authmethod", static_cast<int>(AuthMethod::Hex));
   }
   else {
-    s.setValue("authmethod", AuthMethod_MD5);
+    s.setValue("authmethod", static_cast<int>(AuthMethod::MD5));
   }
   s.endGroup();
 
@@ -137,7 +137,7 @@ void SubsonicSettingsPage::TestClicked() {
     return;
   }
 
-  emit Test(server_url, ui_->username->text(), ui_->password->text(), ui_->auth_method_hex->isChecked() ? AuthMethod_Hex : AuthMethod_MD5);
+  emit Test(server_url, ui_->username->text(), ui_->password->text(), ui_->auth_method_hex->isChecked() ? AuthMethod::Hex : AuthMethod::MD5);
   ui_->button_test->setEnabled(false);
 
 }

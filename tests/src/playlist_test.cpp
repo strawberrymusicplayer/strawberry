@@ -81,7 +81,7 @@ TEST_F(PlaylistTest, InsertItems) {
 
   // Insert the item
   EXPECT_EQ(0, playlist_.rowCount(QModelIndex()));
-  playlist_.InsertItems(PlaylistItemList() << item_ptr, -1);
+  playlist_.InsertItems(PlaylistItemPtrList() << item_ptr, -1);
   ASSERT_EQ(1, playlist_.rowCount(QModelIndex()));
 
   // Get the metadata
@@ -94,7 +94,7 @@ TEST_F(PlaylistTest, InsertItems) {
 
 TEST_F(PlaylistTest, Indexes) {
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
   // Start "playing" track 1
@@ -128,10 +128,10 @@ TEST_F(PlaylistTest, Indexes) {
 
 TEST_F(PlaylistTest, RepeatPlaylist) {
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
-  playlist_.sequence()->SetRepeatMode(PlaylistSequence::Repeat_Playlist);
+  playlist_.sequence()->SetRepeatMode(PlaylistSequence::RepeatMode::Playlist);
 
   playlist_.set_current_row(0);
   EXPECT_EQ(1, playlist_.next_row());
@@ -146,10 +146,10 @@ TEST_F(PlaylistTest, RepeatPlaylist) {
 
 TEST_F(PlaylistTest, RepeatTrack) {
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
-  playlist_.sequence()->SetRepeatMode(PlaylistSequence::Repeat_Track);
+  playlist_.sequence()->SetRepeatMode(PlaylistSequence::RepeatMode::Track);
 
   playlist_.set_current_row(0);
   EXPECT_EQ(0, playlist_.next_row());
@@ -158,13 +158,13 @@ TEST_F(PlaylistTest, RepeatTrack) {
 
 TEST_F(PlaylistTest, RepeatAlbum) {
 
-  playlist_.InsertItems(PlaylistItemList()
+  playlist_.InsertItems(PlaylistItemPtrList()
       << MakeMockItemP("One", "Album one")
       << MakeMockItemP("Two", "Album two")
       << MakeMockItemP("Three", "Album one"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
-  playlist_.sequence()->SetRepeatMode(PlaylistSequence::Repeat_Album);
+  playlist_.sequence()->SetRepeatMode(PlaylistSequence::RepeatMode::Album);
 
   playlist_.set_current_row(0);
   EXPECT_EQ(2, playlist_.next_row());
@@ -176,7 +176,7 @@ TEST_F(PlaylistTest, RepeatAlbum) {
 
 TEST_F(PlaylistTest, RemoveBeforeCurrent) {
 
-  playlist_.InsertItems(PlaylistItemList()
+  playlist_.InsertItems(PlaylistItemPtrList()
       << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
@@ -193,7 +193,7 @@ TEST_F(PlaylistTest, RemoveBeforeCurrent) {
 
 TEST_F(PlaylistTest, RemoveAfterCurrent) {
 
-  playlist_.InsertItems(PlaylistItemList()
+  playlist_.InsertItems(PlaylistItemPtrList()
       << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
@@ -213,7 +213,7 @@ TEST_F(PlaylistTest, RemoveAfterCurrent) {
 
 TEST_F(PlaylistTest, RemoveCurrent) {
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
   // Remove the currently playing track's row
@@ -229,12 +229,12 @@ TEST_F(PlaylistTest, RemoveCurrent) {
 
 TEST_F(PlaylistTest, InsertBeforeCurrent) {
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
   playlist_.set_current_row(1);
   EXPECT_EQ(1, playlist_.current_row());
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("Four"), 0);
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("Four"), 0);
   ASSERT_EQ(4, playlist_.rowCount(QModelIndex()));
 
   EXPECT_EQ(2, playlist_.current_row());
@@ -249,12 +249,12 @@ TEST_F(PlaylistTest, InsertBeforeCurrent) {
 
 TEST_F(PlaylistTest, InsertAfterCurrent) {
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
   playlist_.set_current_row(1);
   EXPECT_EQ(1, playlist_.current_row());
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("Four"), 2);
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("Four"), 2);
   ASSERT_EQ(4, playlist_.rowCount(QModelIndex()));
 
   EXPECT_EQ(1, playlist_.current_row());
@@ -270,7 +270,7 @@ TEST_F(PlaylistTest, InsertAfterCurrent) {
 
 TEST_F(PlaylistTest, Clear) {
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
   playlist_.set_current_row(1);
@@ -290,7 +290,7 @@ TEST_F(PlaylistTest, UndoAdd) {
   EXPECT_FALSE(playlist_.undo_stack()->canUndo());
   EXPECT_FALSE(playlist_.undo_stack()->canRedo());
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("Title"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("Title"));
   EXPECT_EQ(1, playlist_.rowCount(QModelIndex()));
   EXPECT_FALSE(playlist_.undo_stack()->canRedo());
   ASSERT_TRUE(playlist_.undo_stack()->canUndo());
@@ -312,10 +312,10 @@ TEST_F(PlaylistTest, UndoAdd) {
 TEST_F(PlaylistTest, UndoMultiAdd) {
 
   // Add 1 item
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("One"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("One"));
 
   // Add 2 items
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("Two") << MakeMockItemP("Three"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("Two") << MakeMockItemP("Three"));
 
   // Undo adding 2 items
   ASSERT_TRUE(playlist_.undo_stack()->canUndo());
@@ -336,7 +336,7 @@ TEST_F(PlaylistTest, UndoRemove) {
   EXPECT_FALSE(playlist_.undo_stack()->canUndo());
   EXPECT_FALSE(playlist_.undo_stack()->canRedo());
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("Title"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("Title"));
 
   EXPECT_TRUE(playlist_.undo_stack()->canUndo());
   EXPECT_FALSE(playlist_.undo_stack()->canRedo());
@@ -363,7 +363,7 @@ TEST_F(PlaylistTest, UndoRemove) {
 TEST_F(PlaylistTest, UndoMultiRemove) {
 
   // Add 3 items
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
   // Remove 1 item
@@ -385,7 +385,7 @@ TEST_F(PlaylistTest, UndoMultiRemove) {
 
 TEST_F(PlaylistTest, UndoClear) {
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("One") << MakeMockItemP("Two") << MakeMockItemP("Three"));
   ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
 
   playlist_.Clear();
@@ -400,7 +400,7 @@ TEST_F(PlaylistTest, UndoClear) {
 
 TEST_F(PlaylistTest, UndoRemoveCurrent) {
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("Title"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("Title"));
   playlist_.set_current_row(0);
   EXPECT_EQ(0, playlist_.current_row());
   EXPECT_EQ(0, playlist_.last_played_row());
@@ -417,7 +417,7 @@ TEST_F(PlaylistTest, UndoRemoveCurrent) {
 
 TEST_F(PlaylistTest, UndoRemoveOldCurrent) {
 
-  playlist_.InsertItems(PlaylistItemList() << MakeMockItemP("Title"));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP("Title"));
   playlist_.set_current_row(0);
   EXPECT_EQ(0, playlist_.current_row());
   EXPECT_EQ(0, playlist_.last_played_row());
@@ -437,7 +437,7 @@ TEST_F(PlaylistTest, UndoRemoveOldCurrent) {
 TEST_F(PlaylistTest, ShuffleThenNext) {
 
   // Add 100 items
-  PlaylistItemList items;
+  PlaylistItemPtrList items;
   items.reserve(100);
   for (int i=0 ; i<100 ; ++i)
     items << MakeMockItemP("Item " + QString::number(i));
@@ -481,7 +481,7 @@ TEST_F(PlaylistTest, CollectionIdMapSingle) {
   song.set_id(1);
 
   PlaylistItemPtr item(std::make_shared<CollectionPlaylistItem>(song));
-  playlist_.InsertItems(PlaylistItemList() << item);
+  playlist_.InsertItems(PlaylistItemPtrList() << item);
 
   EXPECT_EQ(0, playlist_.collection_items_by_id(-1).count());
   EXPECT_EQ(0, playlist_.collection_items_by_id(0).count());
@@ -502,7 +502,7 @@ TEST_F(PlaylistTest, CollectionIdMapInvalid) {
   ASSERT_EQ(-1, invalid.id());
 
   PlaylistItemPtr item(std::make_shared<CollectionPlaylistItem>(invalid));
-  playlist_.InsertItems(PlaylistItemList() << item);
+  playlist_.InsertItems(PlaylistItemPtrList() << item);
 
   EXPECT_EQ(0, playlist_.collection_items_by_id(-1).count());
   EXPECT_EQ(0, playlist_.collection_items_by_id(0).count());
@@ -524,7 +524,7 @@ TEST_F(PlaylistTest, CollectionIdMapMulti) {
   PlaylistItemPtr item_one(std::make_shared<CollectionPlaylistItem>(one));
   PlaylistItemPtr item_two(std::make_shared<CollectionPlaylistItem>(two));
   PlaylistItemPtr item_three(std::make_shared<CollectionPlaylistItem>(one));
-  playlist_.InsertItems(PlaylistItemList() << item_one << item_two << item_three);
+  playlist_.InsertItems(PlaylistItemPtrList() << item_one << item_two << item_three);
 
   EXPECT_EQ(2, playlist_.collection_items_by_id(1).count());
   EXPECT_EQ(1, playlist_.collection_items_by_id(2).count());

@@ -34,7 +34,7 @@
 LoginStateWidget::LoginStateWidget(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_LoginStateWidget),
-      state_(LoggedOut) {
+      state_(State::LoggedOut) {
 
   ui_->setupUi(this);
   ui_->signed_in->hide();
@@ -58,7 +58,7 @@ LoginStateWidget::LoginStateWidget(QWidget *parent)
 LoginStateWidget::~LoginStateWidget() { delete ui_; }
 
 void LoginStateWidget::Logout() {
-  SetLoggedIn(LoggedOut);
+  SetLoggedIn(State::LoggedOut);
   emit LogoutClicked();
 }
 
@@ -75,19 +75,19 @@ void LoginStateWidget::SetLoggedIn(const State state, const QString &account_nam
   State last_state = state_;
   state_ = state;
 
-  ui_->signed_in->setVisible(state == LoggedIn);
-  ui_->signed_out->setVisible(state != LoggedIn);
-  ui_->busy->setVisible(state == LoginInProgress);
+  ui_->signed_in->setVisible(state == State::LoggedIn);
+  ui_->signed_out->setVisible(state != State::LoggedIn);
+  ui_->busy->setVisible(state == State::LoginInProgress);
 
   if (account_name.isEmpty()) ui_->signed_in_label->setText("<b>" + tr("You are signed in.") + "</b>");
   else ui_->signed_in_label->setText(tr("You are signed in as %1.").arg("<b>" + account_name + "</b>"));
 
   for (QWidget *widget : credential_groups_) {
-    widget->setVisible(state != LoggedIn);
-    widget->setEnabled(state != LoginInProgress);
+    widget->setVisible(state != State::LoggedIn);
+    widget->setEnabled(state != State::LoginInProgress);
   }
 
-  if (state == LoggedOut && last_state == LoginInProgress) {
+  if (state == State::LoggedOut && last_state == State::LoginInProgress) {
     // A login just failed - give focus back to the last crediental field (usually password).
     // We have to do this after control gets back to the
     // event loop because the user might have just closed a dialog and our widget might not be active yet.

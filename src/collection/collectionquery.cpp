@@ -113,9 +113,9 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
   // Untagged mode could work with additional filtering but I'm disabling it just to be consistent
   // this way filtering is available only in the All mode.
   // Remember though that when you fix the Duplicates + FTS cooperation, enable the filtering in both Duplicates and Untagged modes.
-  duplicates_only_ = filter_options.filter_mode() == CollectionFilterOptions::FilterMode_Duplicates;
+  duplicates_only_ = filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates;
 
-  if (filter_options.filter_mode() == CollectionFilterOptions::FilterMode_Untagged) {
+  if (filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Untagged) {
     where_clauses_ << "(artist = '' OR album = '' OR title ='')";
   }
 

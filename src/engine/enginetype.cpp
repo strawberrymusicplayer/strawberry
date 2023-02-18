@@ -27,26 +27,26 @@ namespace Engine {
 
 Engine::EngineType EngineTypeFromName(const QString &enginename) {
   QString lower = enginename.toLower();
-  if (lower == "gstreamer")     return Engine::GStreamer;
-  else if (lower == "vlc")      return Engine::VLC;
-  else                          return Engine::None;
+  if (lower == "gstreamer")     return Engine::EngineType::GStreamer;
+  else if (lower == "vlc")      return Engine::EngineType::VLC;
+  else                          return Engine::EngineType::None;
 }
 
 QString EngineName(const Engine::EngineType enginetype) {
   switch (enginetype) {
-    case Engine::GStreamer:     return QString("gstreamer");
-    case Engine::VLC:           return QString("vlc");
-    case Engine::None:
-    default:                    return QString("None");
+    case Engine::EngineType::GStreamer:     return QString("gstreamer");
+    case Engine::EngineType::VLC:           return QString("vlc");
+    case Engine::EngineType::None:
+    default:                                return QString("None");
   }
 }
 
 QString EngineDescription(Engine::EngineType enginetype) {
   switch (enginetype) {
-    case Engine::GStreamer:	return QString("GStreamer");
-    case Engine::VLC:		return QString("VLC");
-    case Engine::None:
-    default:			return QString("None");
+    case Engine::EngineType::GStreamer:	return QString("GStreamer");
+    case Engine::EngineType::VLC:	return QString("VLC");
+    case Engine::EngineType::None:
+    default:			        return QString("None");
 
   }
 }

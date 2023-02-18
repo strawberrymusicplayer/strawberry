@@ -67,7 +67,7 @@ QByteArray PlaylistQueryGenerator::Save() const {
 
 }
 
-PlaylistItemList PlaylistQueryGenerator::Generate() {
+PlaylistItemPtrList PlaylistQueryGenerator::Generate() {
 
   previous_ids_.clear();
   current_pos_ = 0;
@@ -75,7 +75,7 @@ PlaylistItemList PlaylistQueryGenerator::Generate() {
 
 }
 
-PlaylistItemList PlaylistQueryGenerator::GenerateMore(const int count) {
+PlaylistItemPtrList PlaylistQueryGenerator::GenerateMore(const int count) {
 
   SmartPlaylistSearch search_copy = search_;
   search_copy.id_not_in_ = previous_ids_;
@@ -83,13 +83,13 @@ PlaylistItemList PlaylistQueryGenerator::GenerateMore(const int count) {
     search_copy.limit_ = count;
   }
 
-  if (search_copy.sort_type_ != SmartPlaylistSearch::Sort_Random) {
+  if (search_copy.sort_type_ != SmartPlaylistSearch::SortType::Random) {
     search_copy.first_item_ = current_pos_;
     current_pos_ += search_copy.limit_;
   }
 
   SongList songs = backend_->SmartPlaylistsFindSongs(search_copy);
-  PlaylistItemList items;
+  PlaylistItemPtrList items;
   items.reserve(songs.count());
   for (const Song &song : songs) {
     items << PlaylistItem::NewFromSong(song);

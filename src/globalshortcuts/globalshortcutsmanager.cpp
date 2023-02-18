@@ -107,28 +107,28 @@ void GlobalShortcutsManager::ReloadSettings() {
   backends_enabled_.clear();
 
 #ifdef Q_OS_MACOS
-  backends_enabled_ << GlobalShortcutsBackend::Type_MacOS;
+  backends_enabled_ << GlobalShortcutsBackend::Type::macOS;
 #endif
 
 #ifdef Q_OS_WIN
-  backends_enabled_ << GlobalShortcutsBackend::Type_Win;
+  backends_enabled_ << GlobalShortcutsBackend::Type::Win;
 #endif
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
   if (settings_.value("use_kde", true).toBool()) {
-    backends_enabled_ << GlobalShortcutsBackend::Type_KDE;
+    backends_enabled_ << GlobalShortcutsBackend::Type::KDE;
   }
   if (settings_.value("use_gnome", true).toBool()) {
-    backends_enabled_ << GlobalShortcutsBackend::Type_Gnome;
+    backends_enabled_ << GlobalShortcutsBackend::Type::Gnome;
   }
   if (settings_.value("use_mate", true).toBool()) {
-    backends_enabled_ << GlobalShortcutsBackend::Type_Mate;
+    backends_enabled_ << GlobalShortcutsBackend::Type::Mate;
   }
 #endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
   if (settings_.value("use_x11", false).toBool()) {
-    backends_enabled_ << GlobalShortcutsBackend::Type_X11;
+    backends_enabled_ << GlobalShortcutsBackend::Type::X11;
   }
 #endif
 

@@ -84,7 +84,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
   QSize sizeHint() const override {
 
     FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
-    if (tabWidget->mode() == FancyTabWidget::Mode_Tabs || tabWidget->mode() == FancyTabWidget::Mode_IconOnlyTabs) {
+    if (tabWidget->mode() == FancyTabWidget::Mode::Tabs || tabWidget->mode() == FancyTabWidget::Mode::IconOnlyTabs) {
       return QTabBar::sizeHint();
     }
 
@@ -102,7 +102,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
 
   int width() const {
     FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
-    if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar || tabWidget->mode() == FancyTabWidget::Mode_SmallSidebar) {
+    if (tabWidget->mode() == FancyTabWidget::Mode::LargeSidebar || tabWidget->mode() == FancyTabWidget::Mode::SmallSidebar) {
       int w = 0;
       for (int i = 0; i < count(); ++i) {
         if (tabSizeHint(i).width() > w) w = tabSizeHint(i).width();
@@ -120,7 +120,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
     FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
 
     QSize size;
-    if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar) {
+    if (tabWidget->mode() == FancyTabWidget::Mode::LargeSidebar) {
 
       QFont bold_font(font());
       bold_font.setBold(true);
@@ -137,7 +137,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
       QRect rect = fm.boundingRect(QRect(0, 0, w, height()), Qt::TextWordWrap, QTabBar::tabText(index));
       size = QSize(w, tabWidget->iconsize_largesidebar() + rect.height() + 10);
     }
-    else if (tabWidget->mode() == FancyTabWidget::Mode_SmallSidebar) {
+    else if (tabWidget->mode() == FancyTabWidget::Mode::SmallSidebar) {
 
       QFont bold_font(font());
       bold_font.setBold(true);
@@ -180,12 +180,12 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
 
     bool verticalTextTabs = false;
 
-    if (tabWidget->mode() == FancyTabWidget::Mode_SmallSidebar) {
+    if (tabWidget->mode() == FancyTabWidget::Mode::SmallSidebar) {
       verticalTextTabs = true;
     }
 
     // if LargeSidebar, restore spacers
-    if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar && spacers.count() > 0) {
+    if (tabWidget->mode() == FancyTabWidget::Mode::LargeSidebar && spacers.count() > 0) {
       QList<int> keys = spacers.keys();
       for (const int index : keys) {
         tabWidget->insertTab(index, spacers[index], QIcon(), QString());
@@ -193,7 +193,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
       }
       spacers.clear();
     }
-    else if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar) {
+    else if (tabWidget->mode() != FancyTabWidget::Mode::LargeSidebar) {
       // traverse in the opposite order to save indices of spacers
       for (int i = count() - 1; i >= 0; --i) {
         // spacers are disabled tabs
@@ -206,16 +206,16 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
     }
 
     // Restore any label text that was hidden/cached for the IconOnlyTabs mode
-    if (labelCache.count() > 0 && tabWidget->mode() != FancyTabWidget::Mode_IconOnlyTabs) {
+    if (labelCache.count() > 0 && tabWidget->mode() != FancyTabWidget::Mode::IconOnlyTabs) {
       for (int i = 0; i < count(); ++i) {
         setTabToolTip(i, "");
         setTabText(i, labelCache[tabWidget->widget(i)]);
       }
       labelCache.clear();
     }
-    if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar && tabWidget->mode() != FancyTabWidget::Mode_SmallSidebar) {
+    if (tabWidget->mode() != FancyTabWidget::Mode::LargeSidebar && tabWidget->mode() != FancyTabWidget::Mode::SmallSidebar) {
       // Cache and hide label text for IconOnlyTabs mode
-      if (tabWidget->mode() == FancyTabWidget::Mode_IconOnlyTabs && labelCache.count() == 0) {
+      if (tabWidget->mode() == FancyTabWidget::Mode::IconOnlyTabs && labelCache.count() == 0) {
         for (int i = 0; i < count(); ++i) {
           labelCache[tabWidget->widget(i)] = tabText(i);
           setTabToolTip(i, tabText(i));
@@ -448,7 +448,7 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
     : QTabWidget(parent),
       style_(nullptr),
       menu_(nullptr),
-      mode_(Mode_None),
+      mode_(Mode::None),
       bottom_widget_(nullptr),
       bg_color_system_(true),
       bg_gradient_(true),
@@ -504,7 +504,7 @@ void FancyTabWidget::SaveSettings(const QString &kSettingsGroup) {
   QSettings s;
   s.beginGroup(kSettingsGroup);
 
-  s.setValue("tab_mode", mode_);
+  s.setValue("tab_mode", static_cast<int>(mode_));
   s.setValue("current_tab", currentIndex());
 
   for (TabData *tab : std::as_const(tabs_)) {
@@ -537,7 +537,7 @@ void FancyTabWidget::ReloadSettings() {
   s.endGroup();
 
 #ifndef Q_OS_MACOS
-  if (mode() == FancyTabWidget::Mode_LargeSidebar) {
+  if (mode() == FancyTabWidget::Mode::LargeSidebar) {
     setIconSize(QSize(iconsize_largesidebar_, iconsize_largesidebar_));
   }
   else {
@@ -595,7 +595,7 @@ int FancyTabWidget::IndexOfTab(QWidget *widget) {
 
 void FancyTabWidget::paintEvent(QPaintEvent *pe) {
 
-  if (mode() != FancyTabWidget::Mode_LargeSidebar && mode() != FancyTabWidget::Mode_SmallSidebar) {
+  if (mode() != FancyTabWidget::Mode::LargeSidebar && mode() != FancyTabWidget::Mode::SmallSidebar) {
     QTabWidget::paintEvent(pe);
     return;
   }
@@ -675,7 +675,7 @@ void FancyTabWidget::SetMode(FancyTabWidget::Mode mode) {
 
   mode_ = mode;
 
-  if (mode == FancyTabWidget::Mode_Tabs || mode == FancyTabWidget::Mode_IconOnlyTabs) {
+  if (mode == FancyTabWidget::Mode::Tabs || mode == FancyTabWidget::Mode::IconOnlyTabs) {
     setTabPosition(QTabWidget::North);
   }
   else {
@@ -683,7 +683,7 @@ void FancyTabWidget::SetMode(FancyTabWidget::Mode mode) {
   }
 
 #ifndef Q_OS_MACOS
-  if (mode_ == FancyTabWidget::Mode_LargeSidebar) {
+  if (mode_ == FancyTabWidget::Mode::LargeSidebar) {
     setIconSize(QSize(iconsize_largesidebar_, iconsize_largesidebar_));
   }
   else {
@@ -721,11 +721,11 @@ void FancyTabWidget::contextMenuEvent(QContextMenuEvent *e) {
   if (!menu_) {
     menu_ = new QMenu(this);
     QActionGroup *group = new QActionGroup(this);
-    addMenuItem(group, tr("Large sidebar"), Mode_LargeSidebar);
-    addMenuItem(group, tr("Small sidebar"), Mode_SmallSidebar);
-    addMenuItem(group, tr("Plain sidebar"), Mode_PlainSidebar);
-    addMenuItem(group, tr("Tabs on top"), Mode_Tabs);
-    addMenuItem(group, tr("Icons on top"), Mode_IconOnlyTabs);
+    addMenuItem(group, tr("Large sidebar"), Mode::LargeSidebar);
+    addMenuItem(group, tr("Small sidebar"), Mode::SmallSidebar);
+    addMenuItem(group, tr("Plain sidebar"), Mode::PlainSidebar);
+    addMenuItem(group, tr("Tabs on top"), Mode::Tabs);
+    addMenuItem(group, tr("Icons on top"), Mode::IconOnlyTabs);
     menu_->addActions(group->actions());
   }
 

@@ -52,8 +52,8 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject*
       app_(app),
       slider_(slider),
       enabled_(true),
-      moodbar_style_(MoodbarRenderer::Style_Normal),
-      state_(MoodbarOff),
+      moodbar_style_(MoodbarRenderer::MoodbarStyle::Normal),
+      state_(State::MoodbarOff),
       fade_timeline_(new QTimeLine(1000, this)),
       moodbar_colors_dirty_(true),
       moodbar_pixmap_dirty_(true),
@@ -82,7 +82,7 @@ void MoodbarProxyStyle::ReloadSettings() {
   NextState();
 
   // Get the style, and redraw if there's a change.
-  MoodbarRenderer::MoodbarStyle new_style = static_cast<MoodbarRenderer::MoodbarStyle>(s.value("style", MoodbarRenderer::Style_Normal).toInt());
+  const MoodbarRenderer::MoodbarStyle new_style = static_cast<MoodbarRenderer::MoodbarStyle>(s.value("style", static_cast<int>(MoodbarRenderer::MoodbarStyle::Normal)).toInt());
 
   s.endGroup();
 
@@ -129,13 +129,13 @@ void MoodbarProxyStyle::NextState() {
     show_moodbar_action_->setChecked(enabled_);
   }
 
-  if ((visible && (state_ == MoodbarOn || state_ == FadingToOn)) || (!visible && (state_ == MoodbarOff || state_ == FadingToOff))) {
+  if ((visible && (state_ == State::MoodbarOn || state_ == State::FadingToOn)) || (!visible && (state_ == State::MoodbarOff || state_ == State::FadingToOff))) {
     return;
   }
 
   const QTimeLine::Direction direction = visible ? QTimeLine::Forward : QTimeLine::Backward;
 
-  if (state_ == MoodbarOn || state_ == MoodbarOff) {
+  if (state_ == State::MoodbarOn || state_ == State::MoodbarOff) {
     // Start the fade from the beginning.
     fade_timeline_->setDirection(direction);
     fade_timeline_->start();
@@ -151,7 +151,7 @@ void MoodbarProxyStyle::NextState() {
     fade_timeline_->resume();
   }
 
-  state_ = visible ? FadingToOn : FadingToOff;
+  state_ = visible ? State::FadingToOn : State::FadingToOff;
 
 }
 
@@ -198,16 +198,16 @@ void MoodbarProxyStyle::Render(ComplexControl control, const QStyleOptionSlider 
   const qreal fade_value = fade_timeline_->currentValue();
 
   // Have we finished fading?
-  if (state_ == FadingToOn && fade_value == 1.0) {
-    state_ = MoodbarOn;
+  if (state_ == State::FadingToOn && fade_value == 1.0) {
+    state_ = State::MoodbarOn;
   }
-  else if (state_ == FadingToOff && fade_value == 0.0) {
-    state_ = MoodbarOff;
+  else if (state_ == State::FadingToOff && fade_value == 0.0) {
+    state_ = State::MoodbarOff;
   }
 
   switch (state_) {
-    case FadingToOn:
-    case FadingToOff:
+    case State::FadingToOn:
+    case State::FadingToOff:
       // Update the cached pixmaps if necessary
       if (fade_source_.isNull()) {
         // Draw the normal slider into the fade source pixmap.
@@ -224,7 +224,7 @@ void MoodbarProxyStyle::Render(ComplexControl control, const QStyleOptionSlider 
       }
 
       if (fade_target_.isNull()) {
-        if (state_ == FadingToOn) {
+        if (state_ == State::FadingToOn) {
           EnsureMoodbarRendered(option);
         }
         fade_target_ = moodbar_pixmap_;
@@ -240,12 +240,12 @@ void MoodbarProxyStyle::Render(ComplexControl control, const QStyleOptionSlider 
       painter->setOpacity(1.0);
       break;
 
-    case MoodbarOff:
+    case State::MoodbarOff:
       // It's a normal slider widget.
       QProxyStyle::drawComplexControl(control, option, painter, widget);
       break;
 
-    case MoodbarOn:
+    case State::MoodbarOn:
       EnsureMoodbarRendered(option);
       painter->drawPixmap(option->rect, moodbar_pixmap_);
       DrawArrow(option, painter);
@@ -276,12 +276,12 @@ QRect MoodbarProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionCom
   }
 
   switch (state_) {
-    case MoodbarOff:
-    case FadingToOff:
+    case State::MoodbarOff:
+    case State::FadingToOff:
       break;
 
-    case MoodbarOn:
-    case FadingToOn:
+    case State::MoodbarOn:
+    case State::FadingToOn:
       switch (sc) {
         case SC_SliderGroove:
           return opt->rect.adjusted(kMarginSize, kMarginSize, -kMarginSize, -kMarginSize);
@@ -376,7 +376,7 @@ void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
     QMenu *styles_menu = context_menu_->addMenu(tr("Moodbar style"));
     style_action_group_ = new QActionGroup(styles_menu);
 
-    for (int i = 0; i < MoodbarRenderer::StyleCount; ++i) {
+    for (int i = 0; i < static_cast<int>(MoodbarRenderer::MoodbarStyle::StyleCount); ++i) {
       const MoodbarRenderer::MoodbarStyle style = static_cast<MoodbarRenderer::MoodbarStyle>(i);
 
       QAction *action = style_action_group_->addAction(MoodbarRenderer::StyleName(style));

@@ -36,9 +36,9 @@ namespace Utilities {
 long SetThreadIOPriority(const IoPriority priority) {
 
 #ifdef Q_OS_LINUX
-  return syscall(SYS_ioprio_set, IOPRIO_WHO_PROCESS, GetThreadId(), 4 | priority << IOPRIO_CLASS_SHIFT);
+  return syscall(SYS_ioprio_set, IOPRIO_WHO_PROCESS, GetThreadId(), 4 | static_cast<int>(priority) << IOPRIO_CLASS_SHIFT);
 #elif defined(Q_OS_MACOS)
-  return setpriority(PRIO_DARWIN_THREAD, 0, priority == IOPRIO_CLASS_IDLE ? PRIO_DARWIN_BG : 0);
+  return setpriority(PRIO_DARWIN_THREAD, 0, priority == IoPriority::IOPRIO_CLASS_IDLE ? PRIO_DARWIN_BG : 0);
 #else
   Q_UNUSED(priority);
   return 0;

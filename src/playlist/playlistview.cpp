@@ -138,8 +138,8 @@ PlaylistView::PlaylistView(QWidget *parent)
       style_(new PlaylistProxyStyle()),
       playlist_(nullptr),
       header_(new PlaylistHeader(Qt::Horizontal, this, this)),
-      background_image_type_(AppearanceSettingsPage::BackgroundImageType_Default),
-      background_image_position_(AppearanceSettingsPage::BackgroundImagePosition_BottomRight),
+      background_image_type_(AppearanceSettingsPage::BackgroundImageType::Default),
+      background_image_position_(AppearanceSettingsPage::BackgroundImagePosition::BottomRight),
       background_image_maxsize_(0),
       background_image_stretch_(false),
       background_image_do_not_cut_(true),
@@ -668,7 +668,7 @@ void PlaylistView::showEvent(QShowEvent *e) {
     glow_timer_.start(1500 / kGlowIntensitySteps, this);
   }
 
-  MaybeAutoscroll(Playlist::AutoScroll_Maybe);
+  MaybeAutoscroll(Playlist::AutoScroll::Maybe);
 
   QTreeView::showEvent(e);
 
@@ -699,7 +699,7 @@ void PlaylistView::keyPressEvent(QKeyEvent *event) {
     CopyCurrentSongToClipboard();
   }
   else if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
-    if (currentIndex().isValid()) emit PlayItem(currentIndex(), Playlist::AutoScroll_Never);
+    if (currentIndex().isValid()) emit PlayItem(currentIndex(), Playlist::AutoScroll::Never);
     event->accept();
   }
   else if (event->modifiers() != Qt::ControlModifier && event->key() == Qt::Key_Space) {
@@ -957,7 +957,7 @@ void PlaylistView::InhibitAutoscrollTimeout() {
 
 void PlaylistView::MaybeAutoscroll(const Playlist::AutoScroll autoscroll) {
 
-  if (autoscroll == Playlist::AutoScroll_Always || (autoscroll == Playlist::AutoScroll_Maybe && !inhibit_autoscroll_)) {
+  if (autoscroll == Playlist::AutoScroll::Always || (autoscroll == Playlist::AutoScroll::Maybe && !inhibit_autoscroll_)) {
     JumpToCurrentlyPlayingTrack();
   }
 
@@ -1013,7 +1013,7 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
   // The cached pixmap gets invalidated in dragLeaveEvent, dropEvent and scrollContentsBy.
 
   // Draw background
-  if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Custom || background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Album) {
+  if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Custom || background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Album) {
     if (!background_image_.isNull() || !previous_background_image_.isNull()) {
       QPainter background_painter(viewport());
 
@@ -1064,23 +1064,23 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
           background_painter.setOpacity(1.0 - previous_background_image_opacity_);
         }
         switch (background_image_position_) {
-          case AppearanceSettingsPage::BackgroundImagePosition_UpperLeft:
+          case AppearanceSettingsPage::BackgroundImagePosition::UpperLeft:
             current_background_image_x_ = 0;
             current_background_image_y_ = 0;
             break;
-          case AppearanceSettingsPage::BackgroundImagePosition_UpperRight:
+          case AppearanceSettingsPage::BackgroundImagePosition::UpperRight:
             current_background_image_x_ = (pb_width - cached_scaled_background_image_.width());
             current_background_image_y_ = 0;
             break;
-          case AppearanceSettingsPage::BackgroundImagePosition_Middle:
+          case AppearanceSettingsPage::BackgroundImagePosition::Middle:
             current_background_image_x_ = ((pb_width - cached_scaled_background_image_.width()) / 2);
             current_background_image_y_ = ((pb_height - cached_scaled_background_image_.height()) / 2);
             break;
-          case AppearanceSettingsPage::BackgroundImagePosition_BottomLeft:
+          case AppearanceSettingsPage::BackgroundImagePosition::BottomLeft:
             current_background_image_x_ = 0;
             current_background_image_y_ = (pb_height - cached_scaled_background_image_.height());
             break;
-          case AppearanceSettingsPage::BackgroundImagePosition_BottomRight:
+          case AppearanceSettingsPage::BackgroundImagePosition::BottomRight:
           default:
             current_background_image_x_ = (pb_width - cached_scaled_background_image_.width());
             current_background_image_y_ = (pb_height - cached_scaled_background_image_.height());
@@ -1250,20 +1250,20 @@ void PlaylistView::ReloadSettings() {
   if (!glow_enabled_) StopGlowing();
 
   // Background:
-  AppearanceSettingsPage::BackgroundImageType background_image_type(AppearanceSettingsPage::BackgroundImageType_Default);
+  AppearanceSettingsPage::BackgroundImageType background_image_type(AppearanceSettingsPage::BackgroundImageType::Default);
   if (background_image_type_var.isValid()) {
     background_image_type = static_cast<AppearanceSettingsPage::BackgroundImageType>(background_image_type_var.toInt());
   }
   else {
-    background_image_type = AppearanceSettingsPage::BackgroundImageType_Default;
+    background_image_type = AppearanceSettingsPage::BackgroundImageType::Default;
   }
 
-  AppearanceSettingsPage::BackgroundImagePosition background_image_position(AppearanceSettingsPage::BackgroundImagePosition_BottomRight);
+  AppearanceSettingsPage::BackgroundImagePosition background_image_position(AppearanceSettingsPage::BackgroundImagePosition::BottomRight);
   if (background_image_position_var.isValid()) {
     background_image_position = static_cast<AppearanceSettingsPage::BackgroundImagePosition>(background_image_position_var.toInt());
   }
   else {
-    background_image_position = AppearanceSettingsPage::BackgroundImagePosition_BottomRight;
+    background_image_position = AppearanceSettingsPage::BackgroundImagePosition::BottomRight;
   }
 
   // Check if background properties have changed.
@@ -1295,10 +1295,10 @@ void PlaylistView::ReloadSettings() {
     blur_radius_ = blur_radius;
     opacity_level_ = opacity_level;
 
-    if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Custom) {
+    if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Custom) {
       set_background_image(QImage(background_image_filename));
     }
-    else if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Album) {
+    else if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Album) {
       set_background_image(current_song_cover_art_);
     }
     else {
@@ -1308,8 +1308,8 @@ void PlaylistView::ReloadSettings() {
       cached_scaled_background_image_ = QPixmap();
       previous_background_image_ = QPixmap();
     }
-    setProperty("default_background_enabled", background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Default);
-    setProperty("strawbs_background_enabled", background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Strawbs);
+    setProperty("default_background_enabled", background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Default);
+    setProperty("strawbs_background_enabled", background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Strawbs);
     emit BackgroundPropertyChanged();
     force_background_redraw_ = true;
   }
@@ -1472,7 +1472,7 @@ void PlaylistView::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResu
   if ((song != Song() && song_playing_ == Song()) || result.album_cover.image == current_song_cover_art_) return;
 
   current_song_cover_art_ = result.album_cover.image;
-  if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Album) {
+  if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Album) {
     if (song.art_automatic().isEmpty() && song.art_manual().isEmpty()) {
       set_background_image(QImage());
     }

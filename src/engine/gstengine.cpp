@@ -72,7 +72,7 @@ const char *GstEngine::kOSXAudioSink = "osxaudiosink";
 const int GstEngine::kDiscoveryTimeoutS = 10;
 
 GstEngine::GstEngine(TaskManager *task_manager, QObject *parent)
-    : Engine::Base(Engine::GStreamer, parent),
+    : Engine::Base(Engine::EngineType::GStreamer, parent),
       task_manager_(task_manager),
       gst_startup_(nullptr),
       discoverer_(nullptr),
@@ -137,19 +137,19 @@ bool GstEngine::Init() {
 
 Engine::State GstEngine::state() const {
 
-  if (!current_pipeline_) return stream_url_.isEmpty() ? Engine::Empty : Engine::Idle;
+  if (!current_pipeline_) return stream_url_.isEmpty() ? Engine::State::Empty : Engine::State::Idle;
 
   switch (current_pipeline_->state()) {
     case GST_STATE_NULL:
-      return Engine::Empty;
+      return Engine::State::Empty;
     case GST_STATE_READY:
-      return Engine::Idle;
+      return Engine::State::Idle;
     case GST_STATE_PLAYING:
-      return Engine::Playing;
+      return Engine::State::Playing;
     case GST_STATE_PAUSED:
-      return Engine::Paused;
+      return Engine::State::Paused;
     default:
-      return Engine::Empty;
+      return Engine::State::Empty;
   }
 
 }
@@ -181,12 +181,12 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
 
   QByteArray gst_url = FixupUrl(stream_url);
 
-  bool crossfade = current_pipeline_ && ((crossfade_enabled_ && change & Engine::Manual) || (autocrossfade_enabled_ && change & Engine::Auto) || ((crossfade_enabled_ || autocrossfade_enabled_) && change & Engine::Intro));
+  bool crossfade = current_pipeline_ && ((crossfade_enabled_ && change & Engine::TrackChangeType::Manual) || (autocrossfade_enabled_ && change & Engine::TrackChangeType::Auto) || ((crossfade_enabled_ || autocrossfade_enabled_) && change & Engine::TrackChangeType::Intro));
 
-  if (change & Engine::Auto && change & Engine::SameAlbum && !crossfade_same_album_)
+  if (change & Engine::TrackChangeType::Auto && change & Engine::TrackChangeType::SameAlbum && !crossfade_same_album_)
     crossfade = false;
 
-  if (!crossfade && current_pipeline_ && current_pipeline_->stream_url() == gst_url && change & Engine::Auto) {
+  if (!crossfade && current_pipeline_ && current_pipeline_->stream_url() == gst_url && change & Engine::TrackChangeType::Auto) {
     // We're not crossfading, and the pipeline is already playing the URI we want, so just do nothing.
     return true;
   }
@@ -275,7 +275,7 @@ void GstEngine::Stop(const bool stop_after) {
 
   current_pipeline_.reset();
   BufferingFinished();
-  emit StateChanged(Engine::Empty);
+  emit StateChanged(Engine::State::Empty);
 
 }
 
@@ -289,7 +289,7 @@ void GstEngine::Pause() {
     current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QEasingCurve::InOutQuad, false);
     is_fading_out_to_pause_ = false;
     has_faded_out_ = false;
-    emit StateChanged(Engine::Playing);
+    emit StateChanged(Engine::State::Playing);
     return;
   }
 
@@ -299,7 +299,7 @@ void GstEngine::Pause() {
     }
     else {
       current_pipeline_->SetState(GST_STATE_PAUSED);
-      emit StateChanged(Engine::Paused);
+      emit StateChanged(Engine::State::Paused);
       StopTimers();
     }
   }
@@ -321,7 +321,7 @@ void GstEngine::Unpause() {
       has_faded_out_ = false;
     }
 
-    emit StateChanged(Engine::Playing);
+    emit StateChanged(Engine::State::Playing);
 
     StartTimers();
   }
@@ -542,7 +542,7 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, con
 
   current_pipeline_.reset();
   BufferingFinished();
-  emit StateChanged(Engine::Error);
+  emit StateChanged(Engine::State::Error);
 
   if (
       (domain == static_cast<int>(GST_RESOURCE_ERROR) && (
@@ -596,7 +596,7 @@ void GstEngine::FadeoutPauseFinished() {
 
   fadeout_pause_pipeline_->SetState(GST_STATE_PAUSED);
   current_pipeline_->SetState(GST_STATE_PAUSED);
-  emit StateChanged(Engine::Paused);
+  emit StateChanged(Engine::State::Paused);
   StopTimers();
 
   is_fading_out_to_pause_ = false;
@@ -651,7 +651,7 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const quint64 offset_na
     Seek(offset_nanosec);
   }
 
-  emit StateChanged(Engine::Playing);
+  emit StateChanged(Engine::State::Playing);
   // We've successfully started playing a media stream with this url
   emit ValidSongRequested(stream_url_);
 
@@ -828,7 +828,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &g
   if (!ret->InitFromUrl(gst_url, original_url, end_nanosec, error)) {
     ret.reset();
     emit Error(error);
-    emit StateChanged(Engine::Error);
+    emit StateChanged(Engine::State::Error);
     emit FatalError();
   }
 
@@ -919,11 +919,11 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
 
     Engine::SimpleMetaBundle bundle;
     if (discovered_url == instance->current_pipeline_->stream_url()) {
-      bundle.type = Engine::SimpleMetaBundle::Type_Current;
+      bundle.type = Engine::SimpleMetaBundle::Type::Current;
       bundle.url = instance->current_pipeline_->original_url();
     }
     else if (discovered_url == instance->current_pipeline_->next_stream_url()) {
-      bundle.type = Engine::SimpleMetaBundle::Type_Next;
+      bundle.type = Engine::SimpleMetaBundle::Type::Next;
       bundle.url = instance->current_pipeline_->next_original_url();
     }
     bundle.stream_url = QUrl(discovered_url);
@@ -940,19 +940,19 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
       QString mimetype = gst_structure_get_name(gst_structure);
       if (!mimetype.isEmpty() && mimetype != "audio/mpeg") {
         bundle.filetype = Song::FiletypeByMimetype(mimetype);
-        if (bundle.filetype == Song::FileType_Unknown) {
+        if (bundle.filetype == Song::FileType::Unknown) {
           qLog(Error) << "Unknown mimetype" << mimetype;
         }
       }
     }
 
-    if (bundle.filetype == Song::FileType_Unknown) {
+    if (bundle.filetype == Song::FileType::Unknown) {
       gchar *codec_description = gst_pb_utils_get_codec_description(caps);
       QString filetype_description = (codec_description ? QString(codec_description) : QString());
       g_free(codec_description);
       if (!filetype_description.isEmpty()) {
         bundle.filetype = Song::FiletypeByDescription(filetype_description);
-        if (bundle.filetype == Song::FileType_Unknown) {
+        if (bundle.filetype == Song::FileType::Unknown) {
           qLog(Error) << "Unknown filetype" << filetype_description;
         }
       }

@@ -83,34 +83,34 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   };
 
   // These values get saved in QSettings - don't change them
-  enum GroupBy {
-    GroupBy_None = 0,
-    GroupBy_AlbumArtist = 1,
-    GroupBy_Artist = 2,
-    GroupBy_Album = 3,
-    GroupBy_AlbumDisc = 4,
-    GroupBy_YearAlbum = 5,
-    GroupBy_YearAlbumDisc = 6,
-    GroupBy_OriginalYearAlbum = 7,
-    GroupBy_OriginalYearAlbumDisc = 8,
-    GroupBy_Disc = 9,
-    GroupBy_Year = 10,
-    GroupBy_OriginalYear = 11,
-    GroupBy_Genre = 12,
-    GroupBy_Composer = 13,
-    GroupBy_Performer = 14,
-    GroupBy_Grouping = 15,
-    GroupBy_FileType = 16,
-    GroupBy_Format = 17,
-    GroupBy_Samplerate = 18,
-    GroupBy_Bitdepth = 19,
-    GroupBy_Bitrate = 20,
+  enum class GroupBy {
+    None = 0,
+    AlbumArtist = 1,
+    Artist = 2,
+    Album = 3,
+    AlbumDisc = 4,
+    YearAlbum = 5,
+    YearAlbumDisc = 6,
+    OriginalYearAlbum = 7,
+    OriginalYearAlbumDisc = 8,
+    Disc = 9,
+    Year = 10,
+    OriginalYear = 11,
+    Genre = 12,
+    Composer = 13,
+    Performer = 14,
+    Grouping = 15,
+    FileType = 16,
+    Format = 17,
+    Samplerate = 18,
+    Bitdepth = 19,
+    Bitrate = 20,
     GroupByCount = 21,
   };
   Q_ENUM(GroupBy)
 
   struct Grouping {
-    explicit Grouping(GroupBy f = GroupBy_None, GroupBy s = GroupBy_None, GroupBy t = GroupBy_None)
+    explicit Grouping(GroupBy f = GroupBy::None, GroupBy s = GroupBy::None, GroupBy t = GroupBy::None)
         : first(f), second(s), third(t) {}
 
     GroupBy first;
@@ -181,9 +181,9 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   quint64 icon_cache_disk_size() { return sIconCache->cacheSize(); }
 
   static bool IsArtistGroupBy(const GroupBy group_by) {
-    return group_by == CollectionModel::GroupBy_Artist || group_by == CollectionModel::GroupBy_AlbumArtist;
+    return group_by == CollectionModel::GroupBy::Artist || group_by == CollectionModel::GroupBy::AlbumArtist;
   }
-  static bool IsAlbumGroupBy(const GroupBy group_by) { return group_by == GroupBy_Album || group_by == GroupBy_YearAlbum || group_by == GroupBy_AlbumDisc || group_by == GroupBy_YearAlbumDisc || group_by == GroupBy_OriginalYearAlbum || group_by == GroupBy_OriginalYearAlbumDisc; }
+  static bool IsAlbumGroupBy(const GroupBy group_by) { return group_by == GroupBy::Album || group_by == GroupBy::YearAlbum || group_by == GroupBy::AlbumDisc || group_by == GroupBy::YearAlbumDisc || group_by == GroupBy::OriginalYearAlbum || group_by == GroupBy::OriginalYearAlbumDisc; }
 
   void set_use_lazy_loading(const bool value) { use_lazy_loading_ = value; }
 

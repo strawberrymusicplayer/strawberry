@@ -58,13 +58,13 @@ class MoodbarItemDelegate : public QItemDelegate {
   struct Data {
     Data();
 
-    enum State {
-      State_None,
-      State_CannotLoad,
-      State_LoadingData,
-      State_LoadingColors,
-      State_LoadingImage,
-      State_Loaded
+    enum class State {
+      None,
+      CannotLoad,
+      LoadingData,
+      LoadingColors,
+      LoadingImage,
+      Loaded
     };
 
     QSet<QPersistentModelIndex> indexes_;

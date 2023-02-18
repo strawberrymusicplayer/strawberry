@@ -159,8 +159,8 @@ void Engine::Base::ReloadSettings() {
   s.endGroup();
 
   s.beginGroup(NetworkProxySettingsPage::kSettingsGroup);
-  NetworkProxyFactory::Mode proxy_mode = NetworkProxyFactory::Mode(s.value("mode", NetworkProxyFactory::Mode_System).toInt());
-  if (proxy_mode == NetworkProxyFactory::Mode_Manual && s.contains("engine") && s.value("engine").toBool()) {
+  const NetworkProxyFactory::Mode proxy_mode = static_cast<NetworkProxyFactory::Mode>(s.value("mode", static_cast<int>(NetworkProxyFactory::Mode::System)).toInt());
+  if (proxy_mode == NetworkProxyFactory::Mode::Manual && s.contains("engine") && s.value("engine").toBool()) {
     QString proxy_host = s.value("hostname").toString();
     int proxy_port = s.value("port").toInt();
     if (proxy_host.isEmpty() || proxy_port <= 0) {

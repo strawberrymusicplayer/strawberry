@@ -171,7 +171,7 @@ Playlist::~Playlist() {
 template<typename T>
 void Playlist::InsertSongItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
-  PlaylistItemList items;
+  PlaylistItemPtrList items;
   items.reserve(songs.count());
   for (const Song &song : songs) {
     items << std::make_shared<T>(song);
@@ -315,7 +315,7 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
         case Column_Filename:           return song.effective_stream_url();
         case Column_BaseFilename:       return song.basefilename();
         case Column_Filesize:           return song.filesize();
-        case Column_Filetype:           return song.filetype();
+        case Column_Filetype:           return QVariant::fromValue(song.filetype());
         case Column_DateModified:       return song.mtime();
         case Column_DateCreated:        return song.ctime();
 
@@ -323,7 +323,7 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
           if (role == Qt::DisplayRole)  return song.comment().simplified();
           return song.comment();
 
-        case Column_Source:             return song.source();
+        case Column_Source:             return QVariant::fromValue(song.source());
 
         case Column_Rating:             return song.rating();
 
@@ -451,7 +451,7 @@ void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &
                            old_metadata.albumartist() == item->Metadata().albumartist() &&
                            old_metadata.artist() == item->Metadata().artist() &&
                            old_metadata.album() == item->Metadata().album();
-        InformOfCurrentSongChange(AutoScroll_Never, minor);
+        InformOfCurrentSongChange(AutoScroll::Never, minor);
       }
       else {
         emit dataChanged(index(idx.row(), 0), index(idx.row(), ColumnCount - 1));
@@ -478,7 +478,7 @@ int Playlist::last_played_row() const {
 }
 
 void Playlist::ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode) {
-  is_shuffled_ = (mode != PlaylistSequence::Shuffle_Off);
+  is_shuffled_ = (mode != PlaylistSequence::ShuffleMode::Off);
   ReshuffleIndices();
 }
 
@@ -492,10 +492,10 @@ int Playlist::NextVirtualIndex(int i, const bool ignore_repeat_track) const {
 
   PlaylistSequence::RepeatMode repeat_mode = playlist_sequence_->repeat_mode();
   PlaylistSequence::ShuffleMode shuffle_mode = playlist_sequence_->shuffle_mode();
-  bool album_only = repeat_mode == PlaylistSequence::Repeat_Album || shuffle_mode == PlaylistSequence::Shuffle_InsideAlbum;
+  bool album_only = repeat_mode == PlaylistSequence::RepeatMode::Album || shuffle_mode == PlaylistSequence::ShuffleMode::InsideAlbum;
 
   // This one's easy - if we have to repeat the current track then just return i
-  if (repeat_mode == PlaylistSequence::Repeat_Track && !ignore_repeat_track) {
+  if (repeat_mode == PlaylistSequence::RepeatMode::Track && !ignore_repeat_track) {
     if (!FilterContainsVirtualIndex(i)) {
       return static_cast<int>(virtual_items_.count());  // It's not in the filter any more
     }
@@ -537,10 +537,10 @@ int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const 
 
   PlaylistSequence::RepeatMode repeat_mode = playlist_sequence_->repeat_mode();
   PlaylistSequence::ShuffleMode shuffle_mode = playlist_sequence_->shuffle_mode();
-  bool album_only = repeat_mode == PlaylistSequence::Repeat_Album || shuffle_mode == PlaylistSequence::Shuffle_InsideAlbum;
+  bool album_only = repeat_mode == PlaylistSequence::RepeatMode::Album || shuffle_mode == PlaylistSequence::ShuffleMode::InsideAlbum;
 
   // This one's easy - if we have to repeat the current track then just return i
-  if (repeat_mode == PlaylistSequence::Repeat_Track && !ignore_repeat_track) {
+  if (repeat_mode == PlaylistSequence::RepeatMode::Track && !ignore_repeat_track) {
     if (!FilterContainsVirtualIndex(i)) return -1;
     return i;
   }
@@ -583,10 +583,10 @@ int Playlist::next_row(const bool ignore_repeat_track) const {
     // We've gone off the end of the playlist.
 
     switch (playlist_sequence_->repeat_mode()) {
-      case PlaylistSequence::Repeat_Off:
-      case PlaylistSequence::Repeat_Intro:
+      case PlaylistSequence::RepeatMode::Off:
+      case PlaylistSequence::RepeatMode::Intro:
         return -1;
-      case PlaylistSequence::Repeat_Track:
+      case PlaylistSequence::RepeatMode::Track:
         next_virtual_index = current_virtual_index_;
         break;
 
@@ -611,9 +611,9 @@ int Playlist::previous_row(const bool ignore_repeat_track) const {
     // We've gone off the beginning of the playlist.
 
     switch (playlist_sequence_->repeat_mode()) {
-      case PlaylistSequence::Repeat_Off:
+      case PlaylistSequence::RepeatMode::Off:
         return -1;
-      case PlaylistSequence::Repeat_Track:
+      case PlaylistSequence::RepeatMode::Track:
         prev_virtual_index = current_virtual_index_;
         break;
 
@@ -823,7 +823,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     }
     else if (pid == own_pid) {
       // Drag from a different playlist
-      PlaylistItemList items;
+      PlaylistItemPtrList items;
       items.reserve(source_rows.count());
       for (const int i : source_rows) items << source_playlist->item_at(i);
 
@@ -888,7 +888,7 @@ void Playlist::InsertSmartPlaylist(PlaylistGeneratorPtr generator, const int pos
 void Playlist::TurnOnDynamicPlaylist(PlaylistGeneratorPtr gen) {
 
   dynamic_playlist_ = gen;
-  ShuffleModeChanged(PlaylistSequence::Shuffle_Off);
+  ShuffleModeChanged(PlaylistSequence::ShuffleMode::Off);
   emit DynamicModeChanged(true);
 
   ScheduleSave();
@@ -902,7 +902,7 @@ void Playlist::MoveItemWithoutUndo(const int source, const int dest) {
 void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
 
   emit layoutAboutToBeChanged();
-  PlaylistItemList moved_items;
+  PlaylistItemPtrList moved_items;
   moved_items.reserve(source_rows.count());
 
   if (pos < 0) {
@@ -955,7 +955,7 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
 
   emit layoutAboutToBeChanged();
 
-  PlaylistItemList moved_items;
+  PlaylistItemPtrList moved_items;
   moved_items.reserve(dest_rows.count());
 
   int pos = start;
@@ -1007,13 +1007,13 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
 
 }
 
-void Playlist::InsertItems(const PlaylistItemList &itemsIn, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
+void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
   if (itemsIn.isEmpty()) {
     return;
   }
 
-  PlaylistItemList items = itemsIn;
+  PlaylistItemPtrList items = itemsIn;
 
   // Exercise vetoes
   SongList songs;
@@ -1064,11 +1064,11 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, const int pos, const
     undo_stack_->push(new PlaylistUndoCommands::InsertItems(this, items, pos, enqueue, enqueue_next));
   }
 
-  if (play_now) emit PlayRequested(index(start, 0), AutoScroll_Maybe);
+  if (play_now) emit PlayRequested(index(start, 0), AutoScroll::Maybe);
 
 }
 
-void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, const int pos, const bool enqueue, const bool enqueue_next) {
+void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const int pos, const bool enqueue, const bool enqueue_next) {
 
   if (items.isEmpty()) return;
 
@@ -1081,7 +1081,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, const int p
     items_.insert(i, item);
     virtual_items_ << static_cast<int>(virtual_items_.count());
 
-    if (item->source() == Song::Source_Collection) {
+    if (item->source() == Song::Source::Collection) {
       int id = item->Metadata().id();
       if (id != -1) {
         collection_items_by_id_.insert(id, item);
@@ -1133,7 +1133,7 @@ void Playlist::InsertSongs(const SongList &songs, const int pos, const bool play
 
 void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
-  PlaylistItemList items;
+  PlaylistItemPtrList items;
   for (const Song &song : songs) {
     if (song.url().isLocalFile()) {
       if (song.is_collection_song()) {
@@ -1158,7 +1158,7 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos
 
 void Playlist::InsertInternetItems(InternetService *service, const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
-  PlaylistItemList playlist_items;
+  PlaylistItemPtrList playlist_items;
   playlist_items.reserve(songs.count());
   for (const Song &song : songs) {
     playlist_items << std::make_shared<InternetPlaylistItem>(service, song);
@@ -1170,7 +1170,7 @@ void Playlist::InsertInternetItems(InternetService *service, const SongList &son
 
 void Playlist::InsertRadioItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
-  PlaylistItemList playlist_items;
+  PlaylistItemPtrList playlist_items;
   playlist_items.reserve(songs.count());
   for (const Song &song : songs) {
     playlist_items << std::make_shared<RadioPlaylistItem>(song);
@@ -1196,7 +1196,7 @@ void Playlist::UpdateItems(SongList songs) {
     while (it.hasNext()) {
       const Song &song = it.next();
       const PlaylistItemPtr &item = items_[i];
-      if (item->Metadata().url() == song.url() && (item->Metadata().filetype() == Song::FileType_Unknown || item->Metadata().filetype() == Song::FileType_Stream || item->Metadata().filetype() == Song::FileType_CDDA || !item->Metadata().init_from_file())) {
+      if (item->Metadata().url() == song.url() && (item->Metadata().filetype() == Song::FileType::Unknown || item->Metadata().filetype() == Song::FileType::Stream || item->Metadata().filetype() == Song::FileType::CDDA || !item->Metadata().init_from_file())) {
         PlaylistItemPtr new_item;
         if (song.url().isLocalFile()) {
           if (song.is_collection_song()) {
@@ -1414,8 +1414,8 @@ void Playlist::sort(int column, Qt::SortOrder order) {
 
   if (ignore_sorting_) return;
 
-  PlaylistItemList new_items(items_);
-  PlaylistItemList::iterator begin = new_items.begin();
+  PlaylistItemPtrList new_items(items_);
+  PlaylistItemPtrList::iterator begin = new_items.begin();
 
   if (dynamic_playlist_ && current_item_index_.isValid())
     begin += current_item_index_.row() + 1;
@@ -1441,11 +1441,11 @@ void Playlist::sort(int column, Qt::SortOrder order) {
 
 }
 
-void Playlist::ReOrderWithoutUndo(const PlaylistItemList &new_items) {
+void Playlist::ReOrderWithoutUndo(const PlaylistItemPtrList &new_items) {
 
   emit layoutAboutToBeChanged();
 
-  PlaylistItemList old_items = items_;
+  PlaylistItemPtrList old_items = items_;
   items_ = new_items;
 
   QHash<const PlaylistItem*, int> new_rows;
@@ -1521,20 +1521,20 @@ void Playlist::Restore() {
 
   cancel_restore_ = false;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  QFuture<PlaylistItemList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistItems, backend_, id_);
+  QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistItems, backend_, id_);
 #else
-  QFuture<PlaylistItemList> future = QtConcurrent::run(backend_, &PlaylistBackend::GetPlaylistItems, id_);
+  QFuture<PlaylistItemPtrList> future = QtConcurrent::run(backend_, &PlaylistBackend::GetPlaylistItems, id_);
 #endif
-  QFutureWatcher<PlaylistItemList> *watcher = new QFutureWatcher<PlaylistItemList>();
-  QObject::connect(watcher, &QFutureWatcher<PlaylistItemList>::finished, this, &Playlist::ItemsLoaded);
+  QFutureWatcher<PlaylistItemPtrList> *watcher = new QFutureWatcher<PlaylistItemPtrList>();
+  QObject::connect(watcher, &QFutureWatcher<PlaylistItemPtrList>::finished, this, &Playlist::ItemsLoaded);
   watcher->setFuture(future);
 
 }
 
 void Playlist::ItemsLoaded() {
 
-  QFutureWatcher<PlaylistItemList> *watcher = static_cast<QFutureWatcher<PlaylistItemList>*>(sender());
-  PlaylistItemList items = watcher->result();
+  QFutureWatcher<PlaylistItemPtrList> *watcher = static_cast<QFutureWatcher<PlaylistItemPtrList>*>(sender());
+  PlaylistItemPtrList items = watcher->result();
   watcher->deleteLater();
 
   if (cancel_restore_) return;
@@ -1558,7 +1558,7 @@ void Playlist::ItemsLoaded() {
   // The newly loaded list of items might be shorter than it was before so look out for a bad last_played index
   last_played_item_index_ = p.last_played == -1 || p.last_played >= rowCount() ? QModelIndex() : index(p.last_played);
 
-  if (p.dynamic_type == PlaylistGenerator::Type_Query) {
+  if (p.dynamic_type == PlaylistGenerator::Type::Query) {
     PlaylistGeneratorPtr gen = PlaylistGenerator::Create(p.dynamic_type);
     if (gen) {
 
@@ -1667,21 +1667,21 @@ bool Playlist::removeRows(QList<int> &rows) {
 
 }
 
-PlaylistItemList Playlist::RemoveItemsWithoutUndo(const int row, const int count) {
+PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int count) {
 
   if (row < 0 || row >= items_.size() || row + count > items_.size()) {
-    return PlaylistItemList();
+    return PlaylistItemPtrList();
   }
   beginRemoveRows(QModelIndex(), row, row + count - 1);
 
   // Remove items
-  PlaylistItemList ret;
+  PlaylistItemPtrList ret;
   ret.reserve(count);
   for (int i = 0; i < count; ++i) {
     PlaylistItemPtr item(items_.takeAt(row));
     ret << item;
 
-    if (item->source() == Song::Source_Collection) {
+    if (item->source() == Song::Source::Collection) {
       int id = item->Metadata().id();
       if (id != -1 && collection_items_by_id_.contains(id, item)) {
         collection_items_by_id_.remove(id, item);
@@ -1747,7 +1747,7 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool m
   bool update_scrobble_point = song.length_nanosec() != current_item_metadata().length_nanosec();
   current_item()->SetTemporaryMetadata(song);
   if (update_scrobble_point) UpdateScrobblePoint();
-  InformOfCurrentSongChange(AutoScroll_Never, minor);
+  InformOfCurrentSongChange(AutoScroll::Never, minor);
 
 }
 
@@ -1765,7 +1765,7 @@ void Playlist::ClearStreamMetadata() {
 bool Playlist::stop_after_current() const {
 
   PlaylistSequence::RepeatMode repeat_mode = playlist_sequence_->repeat_mode();
-  if (repeat_mode == PlaylistSequence::Repeat_OneByOne) {
+  if (repeat_mode == PlaylistSequence::RepeatMode::OneByOne) {
     return true;
   }
 
@@ -1785,7 +1785,7 @@ PlaylistItemPtr Playlist::current_item() const {
 }
 
 PlaylistItem::Options Playlist::current_item_options() const {
-  if (!current_item()) return PlaylistItem::Default;
+  if (!current_item()) return PlaylistItem::Option::Default;
   return current_item()->options();
 }
 
@@ -1903,7 +1903,7 @@ void Playlist::SongInsertVetoListenerDestroyed() {
 
 void Playlist::Shuffle() {
 
-  PlaylistItemList new_items(items_);
+  PlaylistItemPtrList new_items(items_);
 
   int begin = 0;
   if (current_item_index_.isValid()) {
@@ -1948,7 +1948,7 @@ void Playlist::ReshuffleIndices() {
     return;
   }
 
-  if (playlist_sequence_->shuffle_mode() == PlaylistSequence::Shuffle_Off) {
+  if (playlist_sequence_->shuffle_mode() == PlaylistSequence::ShuffleMode::Off) {
     // No shuffling - sort the virtual item list normally.
     std::sort(virtual_items_.begin(), virtual_items_.end());
     if (current_row() != -1) {
@@ -1968,16 +1968,16 @@ void Playlist::ReshuffleIndices() {
   std::mt19937 g(rd());
 
   switch (playlist_sequence_->shuffle_mode()) {
-    case PlaylistSequence::Shuffle_Off:
+    case PlaylistSequence::ShuffleMode::Off:
       // Handled above.
       break;
 
-    case PlaylistSequence::Shuffle_All:
-    case PlaylistSequence::Shuffle_InsideAlbum:
+    case PlaylistSequence::ShuffleMode::All:
+    case PlaylistSequence::ShuffleMode::InsideAlbum:
       std::shuffle(begin, end, g);
       break;
 
-    case PlaylistSequence::Shuffle_Albums: {
+    case PlaylistSequence::ShuffleMode::Albums: {
       QMap<int, QString> album_keys;  // real index -> key
       QSet<QString> album_key_set;    // unique keys
 
@@ -2040,7 +2040,7 @@ SongList Playlist::GetAllSongs() const {
 
 }
 
-PlaylistItemList Playlist::GetAllItems() const { return items_; }
+PlaylistItemPtrList Playlist::GetAllItems() const { return items_; }
 
 quint64 Playlist::GetTotalLength() const {
 
@@ -2053,7 +2053,7 @@ quint64 Playlist::GetTotalLength() const {
 
 }
 
-PlaylistItemList Playlist::collection_items_by_id(const int id) const {
+PlaylistItemPtrList Playlist::collection_items_by_id(const int id) const {
   return collection_items_by_id_.values(id);
 }
 
@@ -2258,7 +2258,7 @@ bool Playlist::ApplyValidityOnCurrentSong(const QUrl &url, const bool valid) {
     Song current_song = current->Metadata();
 
     // If validity has changed, reload the item
-    if (current_song.source() == Song::Source_LocalFile || current_song.source() == Song::Source_Collection) {
+    if (current_song.source() == Song::Source::LocalFile || current_song.source() == Song::Source::Collection) {
       if (current_song.url() == url && current_song.url().isLocalFile() && current_song.is_valid() != QFile::exists(current_song.url().toLocalFile())) {
         ReloadItems(QList<int>() << current_row());
       }
@@ -2319,7 +2319,7 @@ void Playlist::UpdateScrobblePoint(const qint64 seek_point_nanosec) {
 void Playlist::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
 
   // Update art_manual for local songs that are not in the collection.
-  if (((result.type == AlbumCoverLoaderResult::Type_Manual && result.album_cover.cover_url.isLocalFile()) || result.type == AlbumCoverLoaderResult::Type_ManuallyUnset) && (song.source() == Song::Source_LocalFile || song.source() == Song::Source_CDDA || song.source() == Song::Source_Device)) {
+  if (((result.type == AlbumCoverLoaderResult::Type_Manual && result.album_cover.cover_url.isLocalFile()) || result.type == AlbumCoverLoaderResult::Type_ManuallyUnset) && (song.source() == Song::Source::LocalFile || song.source() == Song::Source::CDDA || song.source() == Song::Source::Device)) {
     PlaylistItemPtr item = current_item();
     if (item && item->Metadata() == song && (!item->Metadata().art_manual_is_valid() || (result.type == AlbumCoverLoaderResult::Type_ManuallyUnset && !item->Metadata().has_manually_unset_cover()))) {
       qLog(Debug) << "Updating art manual for local song" << song.title() << song.album() << song.title() << "to" << result.album_cover.cover_url << "in playlist.";

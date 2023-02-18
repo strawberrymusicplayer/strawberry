@@ -42,9 +42,9 @@ class SubsonicSettingsPage : public SettingsPage {
 
   static const char *kSettingsGroup;
 
-  enum AuthMethod {
-    AuthMethod_Hex,
-    AuthMethod_MD5
+  enum class AuthMethod {
+    Hex,
+    MD5
   };
 
   void Load() override;

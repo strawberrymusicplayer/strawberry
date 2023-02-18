@@ -47,10 +47,10 @@ OSDBase::OSDBase(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QO
     : QObject(parent),
       app_(app),
       tray_icon_(tray_icon),
-      pretty_popup_(new OSDPretty(OSDPretty::Mode_Popup)),
+      pretty_popup_(new OSDPretty(OSDPretty::Mode::Popup)),
       app_name_(QCoreApplication::applicationName()),
       timeout_msec_(5000),
-      behaviour_(Native),
+      behaviour_(Behaviour::Native),
       show_on_volume_change_(false),
       show_art_(true),
       show_on_play_mode_change_(true),
@@ -75,7 +75,7 @@ void OSDBase::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
-  behaviour_ = OSDBase::Behaviour(s.value("Behaviour", Native).toInt());
+  behaviour_ = static_cast<OSDBase::Behaviour>(s.value("Behaviour", static_cast<int>(Behaviour::Native)).toInt());
   timeout_msec_ = s.value("Timeout", 5000).toInt();
   show_on_volume_change_ = s.value("ShowOnVolumeChange", false).toBool();
   show_art_ = s.value("ShowArt", true).toBool();
@@ -88,15 +88,15 @@ void OSDBase::ReloadSettings() {
   s.endGroup();
 
 #ifdef Q_OS_WIN32
-  if (!SupportsNativeNotifications() && !SupportsTrayPopups() && behaviour_ == Native) {
+  if (!SupportsNativeNotifications() && !SupportsTrayPopups() && behaviour_ == Behaviour::Native) {
 #else
-  if (!SupportsNativeNotifications() && behaviour_ == Native) {
+  if (!SupportsNativeNotifications() && behaviour_ == Behaviour::Native) {
 #endif
-    behaviour_ = Pretty;
+    behaviour_ = Behaviour::Pretty;
   }
 
-  if (!SupportsTrayPopups() && behaviour_ == TrayPopup) {
-    behaviour_ = Disabled;
+  if (!SupportsTrayPopups() && behaviour_ == Behaviour::TrayPopup) {
+    behaviour_ = Behaviour::Disabled;
   }
 
   ReloadPrettyOSDSettings();
@@ -139,8 +139,8 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
   QString summary;
   bool html_escaped = false;
   if (use_custom_text_) {
-    summary = ReplaceMessage(Type_Summary, custom_text1_, song);
-    message_parts << ReplaceMessage(Type_Message, custom_text2_, song);
+    summary = ReplaceMessage(MessageType::Summary, custom_text1_, song);
+    message_parts << ReplaceMessage(MessageType::Message, custom_text2_, song);
   }
   else {
     summary = song.PrettyTitle();
@@ -156,12 +156,12 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
     if (song.track() > 0) {
       message_parts << tr("track %1").arg(song.track());
     }
-    if (behaviour_ == Pretty) {
+    if (behaviour_ == Behaviour::Pretty) {
       summary = summary.toHtmlEscaped();
       html_escaped = true;
     }
 #if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
-    else if (behaviour_ == Native) {
+    else if (behaviour_ == Behaviour::Native) {
       html_escaped = true;
     }
 #endif
@@ -194,7 +194,7 @@ void OSDBase::Paused() {
   if (show_on_pause_) {
     QString summary;
     if (use_custom_text_) {
-      summary = ReplaceMessage(Type_Summary, custom_text1_, last_song_);
+      summary = ReplaceMessage(MessageType::Summary, custom_text1_, last_song_);
     }
     else {
       summary = last_song_.PrettyTitle();
@@ -202,7 +202,7 @@ void OSDBase::Paused() {
         summary.prepend(" - ");
         summary.prepend(last_song_.artist());
       }
-      if (behaviour_ == Pretty) {
+      if (behaviour_ == Behaviour::Pretty) {
         summary = summary.toHtmlEscaped();
       }
     }
@@ -239,7 +239,7 @@ void OSDBase::Stopped() {
 
   QString summary;
   if (use_custom_text_) {
-    summary = ReplaceMessage(Type_Summary, custom_text1_, last_song_);
+    summary = ReplaceMessage(MessageType::Summary, custom_text1_, last_song_);
   }
   else {
     summary = last_song_.PrettyTitle();
@@ -247,7 +247,7 @@ void OSDBase::Stopped() {
       summary.prepend(" - ");
       summary.prepend(last_song_.artist());
     }
-    if (behaviour_ == Pretty) {
+    if (behaviour_ == Behaviour::Pretty) {
       summary = summary.toHtmlEscaped();
     }
   }
@@ -283,11 +283,11 @@ void OSDBase::VolumeChanged(const uint value) {
   if (!show_on_volume_change_) return;
 
   QString message = tr("Volume %1%").arg(value);
-  if (behaviour_ == Pretty) {
+  if (behaviour_ == Behaviour::Pretty) {
     message = message.toHtmlEscaped();
   }
 #if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
-  else if (behaviour_ == Native) {
+  else if (behaviour_ == Behaviour::Native) {
     message = message.toHtmlEscaped();
   }
 #endif
@@ -303,7 +303,7 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
   }
   else {
     switch (behaviour_) {
-      case Native:
+      case Behaviour::Native:
 #ifdef Q_OS_WIN32
         Q_UNUSED(icon)
         [[fallthrough]];
@@ -316,18 +316,18 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
         }
         break;
 #endif
-      case TrayPopup:
+      case Behaviour::TrayPopup:
 #ifdef Q_OS_MACOS
         [[fallthrough]];
 #else
         if (tray_icon_) tray_icon_->ShowPopup(summary, message, timeout_msec_);
         break;
 #endif
-      case Disabled:
+      case Behaviour::Disabled:
         if (!force_show_next_) break;
         force_show_next_ = false;
       [[fallthrough]];
-      case Pretty:
+      case Behaviour::Pretty:
         pretty_popup_->ShowMessage(summary, message, image);
         break;
 
@@ -343,10 +343,10 @@ void OSDBase::ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode) {
   if (show_on_play_mode_change_) {
     QString current_mode = QString();
     switch (mode) {
-      case PlaylistSequence::Shuffle_Off:         current_mode = tr("Don't shuffle");   break;
-      case PlaylistSequence::Shuffle_All:         current_mode = tr("Shuffle all");     break;
-      case PlaylistSequence::Shuffle_InsideAlbum: current_mode = tr("Shuffle tracks in this album"); break;
-      case PlaylistSequence::Shuffle_Albums:      current_mode = tr("Shuffle albums");  break;
+      case PlaylistSequence::ShuffleMode::Off:         current_mode = tr("Don't shuffle");   break;
+      case PlaylistSequence::ShuffleMode::All:         current_mode = tr("Shuffle all");     break;
+      case PlaylistSequence::ShuffleMode::InsideAlbum: current_mode = tr("Shuffle tracks in this album"); break;
+      case PlaylistSequence::ShuffleMode::Albums:      current_mode = tr("Shuffle albums");  break;
     }
     ShowMessage(app_name_, current_mode);
   }
@@ -358,12 +358,12 @@ void OSDBase::RepeatModeChanged(const PlaylistSequence::RepeatMode mode) {
   if (show_on_play_mode_change_) {
     QString current_mode = QString();
     switch (mode) {
-      case PlaylistSequence::Repeat_Off:      current_mode = tr("Don't repeat");   break;
-      case PlaylistSequence::Repeat_Track:    current_mode = tr("Repeat track");   break;
-      case PlaylistSequence::Repeat_Album:    current_mode = tr("Repeat album"); break;
-      case PlaylistSequence::Repeat_Playlist: current_mode = tr("Repeat playlist"); break;
-      case PlaylistSequence::Repeat_OneByOne: current_mode = tr("Stop after every track"); break;
-      case PlaylistSequence::Repeat_Intro: current_mode = tr("Intro tracks"); break;
+      case PlaylistSequence::RepeatMode::Off:      current_mode = tr("Don't repeat");   break;
+      case PlaylistSequence::RepeatMode::Track:    current_mode = tr("Repeat track");   break;
+      case PlaylistSequence::RepeatMode::Album:    current_mode = tr("Repeat album"); break;
+      case PlaylistSequence::RepeatMode::Playlist: current_mode = tr("Repeat playlist"); break;
+      case PlaylistSequence::RepeatMode::OneByOne: current_mode = tr("Stop after every track"); break;
+      case PlaylistSequence::RepeatMode::Intro:    current_mode = tr("Intro tracks"); break;
     }
     ShowMessage(app_name_, current_mode);
   }
@@ -381,19 +381,19 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
 
   // We need different strings depending on notification type
   switch (behaviour_) {
-    case Native:
+    case Behaviour::Native:
 #if defined(Q_OS_MACOS)
       html_escaped = false;
       newline = "\n";
       break;
 #elif defined(HAVE_DBUS)
       switch (type) {
-        case Type_Summary:{
+        case MessageType::Summary:{
           html_escaped = false;
           newline = "";
           break;
         }
-        case Type_Message: {
+        case MessageType::Message: {
           html_escaped = true;
           newline = "<br />";
           break;
@@ -407,13 +407,13 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
       qLog(Debug) << "Native notifications are not supported on this OS.";
       break;
 #endif
-    case TrayPopup:
+    case Behaviour::TrayPopup:
       qLog(Debug) << "New line not supported by this notification type.";
       html_escaped = false;
       newline = "";
       break;
-    case Disabled:  // When notifications are disabled, we force the PrettyOSD
-    case Pretty:
+    case Behaviour::Disabled:  // When notifications are disabled, we force the PrettyOSD
+    case Behaviour::Pretty:
       html_escaped = true;
       newline = "<br />";
       break;

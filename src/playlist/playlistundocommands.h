@@ -49,7 +49,7 @@ namespace PlaylistUndoCommands {
 
   class InsertItems : public Base {
    public:
-    explicit InsertItems(Playlist *playlist, const PlaylistItemList &items, int pos, bool enqueue = false, bool enqueue_next = false);
+    explicit InsertItems(Playlist *playlist, const PlaylistItemPtrList &items, int pos, bool enqueue = false, bool enqueue_next = false);
 
     void undo() override;
     void redo() override;
@@ -59,7 +59,7 @@ namespace PlaylistUndoCommands {
     bool UpdateItem(const PlaylistItemPtr &updated_item);
 
    private:
-    PlaylistItemList items_;
+    PlaylistItemPtrList items_;
     int pos_;
     bool enqueue_;
     bool enqueue_next_;
@@ -80,7 +80,7 @@ namespace PlaylistUndoCommands {
       Range(int pos, int count) : pos_(pos), count_(count) {}
       int pos_;
       int count_;
-      PlaylistItemList items_;
+      PlaylistItemPtrList items_;
     };
 
     QList<Range> ranges_;
@@ -100,25 +100,25 @@ namespace PlaylistUndoCommands {
 
   class ReOrderItems : public Base {
    public:
-    explicit ReOrderItems(Playlist *playlist, const PlaylistItemList &new_items);
+    explicit ReOrderItems(Playlist *playlist, const PlaylistItemPtrList &new_items);
 
     void undo() override;
     void redo() override;
 
    private:
-    PlaylistItemList old_items_;
-    PlaylistItemList new_items_;
+    PlaylistItemPtrList old_items_;
+    PlaylistItemPtrList new_items_;
   };
 
   class SortItems : public ReOrderItems {
    public:
-    explicit SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemList &new_items);
+    explicit SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemPtrList &new_items);
 
   };
 
   class ShuffleItems : public ReOrderItems {
    public:
-    explicit ShuffleItems(Playlist *playlist, const PlaylistItemList &new_items);
+    explicit ShuffleItems(Playlist *playlist, const PlaylistItemPtrList &new_items);
   };
 
 }  // namespace

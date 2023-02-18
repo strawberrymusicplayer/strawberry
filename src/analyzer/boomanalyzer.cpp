@@ -110,7 +110,7 @@ void BoomAnalyzer::transform(Scope &s) {
 
 void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame) {
 
-  if (!new_frame || engine_->state() == Engine::Paused) {
+  if (!new_frame || engine_->state() == Engine::State::Paused) {
     p.drawPixmap(0, 0, canvas_);
     return;
   }

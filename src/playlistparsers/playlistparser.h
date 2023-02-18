@@ -43,9 +43,9 @@ class PlaylistParser : public QObject {
  public:
   explicit PlaylistParser(CollectionBackendInterface *collection = nullptr, QObject *parent = nullptr);
 
-  enum Type {
-    Type_Load,
-    Type_Save,
+  enum class Type {
+    Load,
+    Save
   };
 
   static const int kMagicSize;

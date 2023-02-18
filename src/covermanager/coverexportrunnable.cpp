@@ -122,16 +122,16 @@ void CoverExportRunnable::ProcessAndExportCover() {
   QString new_file = dir + '/' + dialog_result_.filename_ + '.' + (cover_path == Song::kEmbeddedCover ? "jpg" : extension);
 
   // If the file exists, do not override!
-  if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode_None && QFile::exists(new_file)) {
+  if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode::None && QFile::exists(new_file)) {
     EmitCoverSkipped();
     return;
   }
 
   // we're handling overwrite as remove + copy so we need to delete the old file first
-  if (QFile::exists(new_file) && dialog_result_.overwrite_ != AlbumCoverExport::OverwriteMode_None) {
+  if (QFile::exists(new_file) && dialog_result_.overwrite_ != AlbumCoverExport::OverwriteMode::None) {
 
     // if the mode is "overwrite smaller" then skip the cover if a bigger one is already available in the folder
-    if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode_Smaller) {
+    if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode::Smaller) {
       QImage existing;
       existing.load(new_file);
 
@@ -168,13 +168,13 @@ void CoverExportRunnable::ExportCover() {
   QString new_file = dir + '/' + dialog_result_.filename_ + '.' + (cover_path == Song::kEmbeddedCover ? "jpg" : extension);
 
   // If the file exists, do not override!
-  if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode_None && QFile::exists(new_file)) {
+  if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode::None && QFile::exists(new_file)) {
     EmitCoverSkipped();
     return;
   }
 
   // We're handling overwrite as remove + copy so we need to delete the old file first
-  if (dialog_result_.overwrite_ != AlbumCoverExport::OverwriteMode_None && QFile::exists(new_file)) {
+  if (dialog_result_.overwrite_ != AlbumCoverExport::OverwriteMode::None && QFile::exists(new_file)) {
     if (!QFile::remove(new_file)) {
       EmitCoverSkipped();
       return;

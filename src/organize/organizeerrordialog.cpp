@@ -50,29 +50,29 @@ OrganizeErrorDialog::~OrganizeErrorDialog() {
   delete ui_;
 }
 
-void OrganizeErrorDialog::Show(OperationType type, const SongList &songs_with_errors, const QStringList &log) {
+void OrganizeErrorDialog::Show(const OperationType operation_type, const SongList &songs_with_errors, const QStringList &log) {
 
   QStringList files;
   files.reserve(songs_with_errors.count());
   for (const Song &song : songs_with_errors) {
     files << song.url().toLocalFile();
   }
-  Show(type, files, log);
+  Show(operation_type, files, log);
 
 }
 
-void OrganizeErrorDialog::Show(OperationType type, const QStringList &files_with_errors, const QStringList &log) {
+void OrganizeErrorDialog::Show(const OperationType operation_type, const QStringList &files_with_errors, const QStringList &log) {
 
   QStringList sorted_files = files_with_errors;
   std::stable_sort(sorted_files.begin(), sorted_files.end());
 
-  switch (type) {
-    case Type_Copy:
+  switch (operation_type) {
+    case OperationType::Copy:
       setWindowTitle(tr("Error copying songs"));
       ui_->label->setText(tr("There were problems copying some songs.  The following files could not be copied:"));
       break;
 
-    case Type_Delete:
+    case OperationType::Delete:
       setWindowTitle(tr("Error deleting songs"));
       ui_->label->setText(tr("There were problems deleting some songs.  The following files could not be deleted:"));
       break;
@@ -82,4 +82,5 @@ void OrganizeErrorDialog::Show(OperationType type, const QStringList &files_with
   ui_->log->addItems(log);
 
   show();
+
 }

@@ -37,9 +37,9 @@ PlaylistSaveOptionsDialog::PlaylistSaveOptionsDialog(QWidget *parent) : QDialog(
 
   ui->setupUi(this);
 
-  ui->filePaths->addItem(tr("Automatic"), PlaylistSettingsPage::PathType_Automatic);
-  ui->filePaths->addItem(tr("Relative"), PlaylistSettingsPage::PathType_Relative);
-  ui->filePaths->addItem(tr("Absolute"), PlaylistSettingsPage::PathType_Absolute);
+  ui->filePaths->addItem(tr("Automatic"), QVariant::fromValue(PlaylistSettingsPage::PathType::Automatic));
+  ui->filePaths->addItem(tr("Relative"), QVariant::fromValue(PlaylistSettingsPage::PathType::Relative));
+  ui->filePaths->addItem(tr("Absolute"), QVariant::fromValue(PlaylistSettingsPage::PathType::Absolute));
 
 }
 
@@ -59,5 +59,5 @@ void PlaylistSaveOptionsDialog::accept() {
 }
 
 PlaylistSettingsPage::PathType PlaylistSaveOptionsDialog::path_type() const {
-  return static_cast<PlaylistSettingsPage::PathType>(ui->filePaths->itemData(ui->filePaths->currentIndex()).toInt());
+  return ui->filePaths->itemData(ui->filePaths->currentIndex()).value<PlaylistSettingsPage::PathType>();
 }

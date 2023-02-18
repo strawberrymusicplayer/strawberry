@@ -62,7 +62,7 @@ void SubsonicScrobbler::ReloadSettings() {
 
 void SubsonicScrobbler::UpdateNowPlaying(const Song &song) {
 
-  if (song.source() != Song::Source::Source_Subsonic) return;
+  if (song.source() != Song::Source::Subsonic) return;
 
   song_playing_ = song;
   time_ = QDateTime::currentDateTime();
@@ -82,7 +82,7 @@ void SubsonicScrobbler::ClearPlaying() {
 
 void SubsonicScrobbler::Scrobble(const Song &song) {
 
-  if (song.source() != Song::Source::Source_Subsonic || song.id() != song_playing_.id() || song.url() != song_playing_.url() || !song.is_metadata_good()) return;
+  if (song.source() != Song::Source::Subsonic || song.id() != song_playing_.id() || song.url() != song_playing_.url() || !song.is_metadata_good()) return;
 
   if (app_->scrobbler()->IsOffline()) return;
 

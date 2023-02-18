@@ -51,7 +51,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   static std::shared_ptr<PlaylistItem> NewFromSource(const Song::Source source);
   static std::shared_ptr<PlaylistItem> NewFromSong(const Song &song);
 
-  enum Option {
+  enum class Option {
     Default = 0x00,
 
     // Disables the "pause" action.
@@ -64,7 +64,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
 
   virtual Song::Source source() const { return source_; }
 
-  virtual Options options() const { return Default; }
+  virtual Options options() const { return Option::Default; }
 
   virtual QList<QAction*> actions() { return QList<QAction*>(); }
 
@@ -132,10 +132,10 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   Q_DISABLE_COPY(PlaylistItem)
 };
 using PlaylistItemPtr = std::shared_ptr<PlaylistItem>;
-using PlaylistItemList = QList<PlaylistItemPtr>;
+using PlaylistItemPtrList = QList<PlaylistItemPtr>;
 
 Q_DECLARE_METATYPE(PlaylistItemPtr)
-Q_DECLARE_METATYPE(PlaylistItemList)
+Q_DECLARE_METATYPE(PlaylistItemPtrList)
 Q_DECLARE_OPERATORS_FOR_FLAGS(PlaylistItem::Options)
 
 #endif  // PLAYLISTITEM_H

@@ -70,7 +70,12 @@ class MoodbarProxyStyle : public QProxyStyle {
   static const int kArrowWidth;
   static const int kArrowHeight;
 
-  enum State { MoodbarOn, MoodbarOff, FadingToOn, FadingToOff };
+  enum class State {
+    MoodbarOn,
+    MoodbarOff,
+    FadingToOn,
+    FadingToOff
+  };
 
  private:
   void NextState();

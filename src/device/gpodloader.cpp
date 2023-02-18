@@ -39,7 +39,7 @@ GPodLoader::GPodLoader(const QString &mount_point, TaskManager *task_manager, Co
     : QObject(parent),
       device_(device),
       mount_point_(mount_point),
-      type_(Song::FileType_Unknown),
+      type_(Song::FileType::Unknown),
       task_manager_(task_manager),
       backend_(backend),
       abort_(false) {
@@ -93,11 +93,11 @@ Itdb_iTunesDB *GPodLoader::TryLoad() {
 
     Itdb_Track *track = static_cast<Itdb_Track*>(tracks->data);
 
-    Song song(Song::Source_Device);
+    Song song(Song::Source::Device);
     song.InitFromItdb(track, prefix);
     song.set_directory_id(1);
 
-    if (type_ != Song::FileType_Unknown) song.set_filetype(type_);
+    if (type_ != Song::FileType::Unknown) song.set_filetype(type_);
     songs << song;
   }
 

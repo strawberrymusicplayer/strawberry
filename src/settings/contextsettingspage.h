@@ -42,7 +42,7 @@ class ContextSettingsPage : public SettingsPage {
   explicit ContextSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~ContextSettingsPage() override;
 
-  enum ContextSettingsOrder {
+  enum class ContextSettingsOrder {
     ALBUM,
     ENGINE_AND_DEVICE,
     TECHNICAL_DATA,
@@ -55,7 +55,7 @@ class ContextSettingsPage : public SettingsPage {
   static const char *kSettingsGroup;
   static const char *kSettingsTitleFmt;
   static const char *kSettingsSummaryFmt;
-  static const char *kSettingsGroupEnable[ContextSettingsOrder::NELEMS];
+  static const char *kSettingsGroupEnable[static_cast<int>(ContextSettingsOrder::NELEMS)];
   static const qreal kDefaultFontSizeHeadline;
 
   void Load() override;
@@ -70,7 +70,7 @@ class ContextSettingsPage : public SettingsPage {
 
  private:
   Ui_ContextSettingsPage *ui_;
-  QCheckBox *checkboxes_[ContextSettingsOrder::NELEMS] {};
+  QCheckBox *checkboxes_[static_cast<int>(ContextSettingsOrder::NELEMS)] {};
 };
 
 #endif  // CONTEXTSETTINGSPAGE_H

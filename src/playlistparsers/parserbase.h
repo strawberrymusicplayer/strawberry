@@ -57,7 +57,7 @@ class ParserBase : public QObject {
   // Any playlist parser may decide to leave out some entries if it finds them incomplete or invalid.
   // This means that the final resulting SongList should be considered valid (at least from the parser's point of view).
   virtual SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir(), const bool collection_lookup = true) const = 0;
-  virtual void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType_Automatic) const = 0;
+  virtual void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType::Automatic) const = 0;
 
  protected:
   // Loads a song.  If filename_or_url is a URL (with a scheme other than "file") then it is set on the song and the song marked as a stream.

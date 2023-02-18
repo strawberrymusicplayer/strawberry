@@ -39,9 +39,9 @@
 class DeviceLister;
 
 FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent)
-    : FilesystemMusicStorage(Song::Source_Device, url.toLocalFile()),
+    : FilesystemMusicStorage(Song::Source::Device, url.toLocalFile()),
       ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
-      watcher_(new CollectionWatcher(Song::Source_Device)),
+      watcher_(new CollectionWatcher(Song::Source::Device)),
       watcher_thread_(new QThread(this)) {
 
   watcher_->moveToThread(watcher_thread_);

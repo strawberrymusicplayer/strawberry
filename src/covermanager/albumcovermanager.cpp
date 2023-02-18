@@ -317,7 +317,7 @@ void AlbumCoverManager::SaveSettings() {
   s.beginGroup(kSettingsGroup);
   s.setValue("geometry", saveGeometry());
   s.setValue("splitter_state", ui_->splitter->saveState());
-  s.setValue("save_cover_type", album_cover_choice_controller_->get_save_album_cover_type());
+  s.setValue("save_cover_type", static_cast<int>(album_cover_choice_controller_->get_save_album_cover_type()));
   s.endGroup();
 
 }
@@ -417,7 +417,7 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
     AlbumItem *item = new AlbumItem(icon_nocover_item_, display_text, ui_->albums);
     item->setData(Role_AlbumArtist, info.album_artist);
     item->setData(Role_Album, info.album);
-    item->setData(Role_Filetype, info.filetype);
+    item->setData(Role_Filetype, QVariant::fromValue(info.filetype));
     item->setData(Role_CuePath, info.cue_path);
     item->setData(Qt::TextAlignmentRole, QVariant(Qt::AlignTop | Qt::AlignHCenter));
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled);
@@ -469,12 +469,12 @@ void AlbumCoverManager::UpdateFilter() {
   const bool hide_with_covers = filter_without_covers_->isChecked();
   const bool hide_without_covers = filter_with_covers_->isChecked();
 
-  HideCovers hide = Hide_None;
+  HideCovers hide_covers = HideCovers::None;
   if (hide_with_covers) {
-    hide = Hide_WithCovers;
+    hide_covers = HideCovers::WithCovers;
   }
   else if (hide_without_covers) {
-    hide = Hide_WithoutCovers;
+    hide_covers = HideCovers::WithoutCovers;
   }
 
   qint32 total_count = 0;
@@ -482,7 +482,7 @@ void AlbumCoverManager::UpdateFilter() {
 
   for (int i = 0; i < ui_->albums->count(); ++i) {
     AlbumItem *item = static_cast<AlbumItem*>(ui_->albums->item(i));
-    bool should_hide = ShouldHide(*item, filter, hide);
+    bool should_hide = ShouldHide(*item, filter, hide_covers);
     item->setHidden(should_hide);
 
     if (!should_hide) {
@@ -498,13 +498,13 @@ void AlbumCoverManager::UpdateFilter() {
 
 }
 
-bool AlbumCoverManager::ShouldHide(const AlbumItem &item, const QString &filter, HideCovers hide) const {
+bool AlbumCoverManager::ShouldHide(const AlbumItem &item, const QString &filter, const HideCovers hide_covers) const {
 
   bool has_cover = ItemHasCover(item);
-  if (hide == Hide_WithCovers && has_cover) {
+  if (hide_covers == HideCovers::WithCovers && has_cover) {
     return true;
   }
-  else if (hide == Hide_WithoutCovers && !has_cover) {
+  else if (hide_covers == HideCovers::WithoutCovers && !has_cover) {
     return true;
   }
 
@@ -642,7 +642,7 @@ Song AlbumCoverManager::GetFirstSelectedAsSong() {
 
 Song AlbumCoverManager::ItemAsSong(AlbumItem *item) {
 
-  Song result(Song::Source_Collection);
+  Song result(Song::Source::Collection);
 
   QString title = item->data(Role_Album).toString();
   QString artist_name = item->data(Role_AlbumArtist).toString();
@@ -781,13 +781,13 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
 
   QUrl cover_url = result.cover_url;
   switch (album_cover_choice_controller_->get_save_album_cover_type()) {
-    case CollectionSettingsPage::SaveCoverType_Cache:
-    case CollectionSettingsPage::SaveCoverType_Album:
+    case CollectionSettingsPage::SaveCoverType::Cache:
+    case CollectionSettingsPage::SaveCoverType::Album:
       if (cover_url.isEmpty() || !cover_url.isValid() || !cover_url.isLocalFile()) {
         cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(song, result);
       }
       break;
-    case CollectionSettingsPage::SaveCoverType_Embedded:
+    case CollectionSettingsPage::SaveCoverType::Embedded:
       cover_url = QUrl::fromLocalFile(Song::kEmbeddedCover);
       break;
   }
@@ -798,14 +798,14 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
   for (QListWidgetItem *item : context_menu_items_) {
     AlbumItem *album_item = static_cast<AlbumItem*>(item);
     switch (album_cover_choice_controller_->get_save_album_cover_type()) {
-      case CollectionSettingsPage::SaveCoverType_Cache:
-      case CollectionSettingsPage::SaveCoverType_Album:{
+      case CollectionSettingsPage::SaveCoverType::Cache:
+      case CollectionSettingsPage::SaveCoverType::Album:{
         Song current_song = ItemAsSong(album_item);
         album_cover_choice_controller_->SaveArtManualToSong(&current_song, cover_url);
         UpdateCoverInList(album_item, cover_url);
         break;
       }
-      case CollectionSettingsPage::SaveCoverType_Embedded:{
+      case CollectionSettingsPage::SaveCoverType::Embedded:{
         urls << album_item->urls;
         album_items << album_item;
         break;
@@ -813,7 +813,7 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
     }
   }
 
-  if (album_cover_choice_controller_->get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType_Embedded && !urls.isEmpty()) {
+  if (album_cover_choice_controller_->get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType::Embedded && !urls.isEmpty()) {
     quint64 id = -1;
     if (result.is_jpeg()) {
       id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image_data);
@@ -971,7 +971,7 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, const AlbumCoverImageRe
   const Song::FileType filetype = static_cast<Song::FileType>(item->data(Role_Filetype).toInt());
   const bool has_cue = !item->data(Role_CuePath).toString().isEmpty();
 
-  if (album_cover_choice_controller_->get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType_Embedded && Song::save_embedded_cover_supported(filetype) && !has_cue) {
+  if (album_cover_choice_controller_->get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType::Embedded && Song::save_embedded_cover_supported(filetype) && !has_cue) {
     if (result.is_jpeg()) {
       quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image_data);
       cover_save_tasks_.insert(id, item);
@@ -991,7 +991,7 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, const AlbumCoverImageRe
       cover_url = result.cover_url;
     }
     else if (!result.image_data.isEmpty() || !result.image.isNull()) {
-      cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(Song::Source_Collection, albumartist, album, QString(), urls.first().adjusted(QUrl::RemoveFilename).path(), result, false);
+      cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(Song::Source::Collection, albumartist, album, QString(), urls.first().adjusted(QUrl::RemoveFilename).path(), result, false);
     }
 
     if (cover_url.isEmpty()) return;

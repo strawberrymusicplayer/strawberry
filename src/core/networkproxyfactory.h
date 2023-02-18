@@ -34,7 +34,11 @@
 class NetworkProxyFactory : public QNetworkProxyFactory {
  public:
   // These values are persisted
-  enum Mode { Mode_System = 0, Mode_Direct = 1, Mode_Manual = 2, };
+  enum class Mode {
+    System = 0,
+    Direct = 1,
+    Manual = 2
+  };
 
   static NetworkProxyFactory *Instance();
   static const char *kSettingsGroup;

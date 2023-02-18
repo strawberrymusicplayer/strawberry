@@ -54,7 +54,7 @@ class CollectionFilterWidget : public QWidget {
 
   static const int kFilterDelay = 500;  // msec
 
-  enum DelayBehaviour {
+  enum class DelayBehaviour {
     AlwaysInstant,
     DelayedOnLargeLibraries,
     AlwaysDelayed,

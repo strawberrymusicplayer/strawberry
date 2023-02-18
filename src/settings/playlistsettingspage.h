@@ -41,11 +41,11 @@ class PlaylistSettingsPage : public SettingsPage {
 
   static const char *kSettingsGroup;
 
-  enum PathType {
-    PathType_Automatic = 0,  // Automatically select path type
-    PathType_Absolute,       // Always use absolute paths
-    PathType_Relative,       // Always use relative paths
-    PathType_Ask_User,       // Only used in preferences: to ask user which of the previous values he wants to use.
+  enum class PathType {
+    Automatic = 0,  // Automatically select path type
+    Absolute,       // Always use absolute paths
+    Relative,       // Always use relative paths
+    Ask_User        // Only used in preferences: to ask user which of the previous values he wants to use.
   };
 
   void Load() override;

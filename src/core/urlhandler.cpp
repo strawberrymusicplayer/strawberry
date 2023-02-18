@@ -44,7 +44,7 @@ UrlHandler::LoadResult::LoadResult(const QUrl &original_url, const Type type, co
 UrlHandler::LoadResult::LoadResult(const QUrl &original_url, const Type type, const QString &error) :
   original_url_(original_url),
   type_(type),
-  filetype_(Song::FileType_Stream),
+  filetype_(Song::FileType::Stream),
   samplerate_(-1),
   bit_depth_(-1),
   length_nanosec_(-1),

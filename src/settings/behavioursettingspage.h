@@ -43,35 +43,35 @@ class BehaviourSettingsPage : public SettingsPage {
   static const char *kSettingsGroup;
 
   // Don't change the values
-  enum StartupBehaviour {
-    Startup_Remember = 1,
-    Startup_Show = 2,
-    Startup_Hide = 3,
-    Startup_ShowMaximized = 4,
-    Startup_ShowMinimized = 5,
+  enum class StartupBehaviour {
+    Remember = 1,
+    Show = 2,
+    Hide = 3,
+    ShowMaximized = 4,
+    ShowMinimized = 5
   };
 
-  enum PlayBehaviour {
-    PlayBehaviour_Never = 1,
-    PlayBehaviour_IfStopped = 2,
-    PlayBehaviour_Always = 3,
+  enum class PlayBehaviour {
+    Never = 1,
+    IfStopped = 2,
+    Always = 3
   };
 
-  enum PreviousBehaviour {
-    PreviousBehaviour_DontRestart = 1,
-    PreviousBehaviour_Restart = 2
+  enum class PreviousBehaviour {
+    DontRestart = 1,
+    Restart = 2
   };
 
-  enum AddBehaviour {
-    AddBehaviour_Append = 1,
-    AddBehaviour_Enqueue = 2,
-    AddBehaviour_Load = 3,
-    AddBehaviour_OpenInNew = 4
+  enum class AddBehaviour {
+    Append = 1,
+    Enqueue = 2,
+    Load = 3,
+    OpenInNew = 4
   };
 
-  enum PlaylistAddBehaviour {
-    PlaylistAddBehaviour_Play = 1,
-    PlaylistAddBehaviour_Enqueue = 2,
+  enum class PlaylistAddBehaviour {
+    Play = 1,
+    Enqueue = 2
   };
 
   void Load() override;

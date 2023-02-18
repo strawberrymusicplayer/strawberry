@@ -74,26 +74,26 @@ GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_Grou
   ui_->setupUi(this);
   Reset();
 
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_None, 0));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Artist, 1));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_AlbumArtist, 2));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Album, 3));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_AlbumDisc, 4));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Disc, 5));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Format, 6));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Genre, 7));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Year, 8));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_YearAlbum, 9));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_YearAlbumDisc, 10));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_OriginalYear, 11));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_OriginalYearAlbum, 12));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Composer, 13));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Performer, 14));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Grouping, 15));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_FileType, 16));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Samplerate, 17));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Bitdepth, 18));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Bitrate, 19));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::None, 0));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Artist, 1));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::AlbumArtist, 2));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Album, 3));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::AlbumDisc, 4));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Disc, 5));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Format, 6));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Genre, 7));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Year, 8));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::YearAlbum, 9));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::YearAlbumDisc, 10));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::OriginalYear, 11));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::OriginalYearAlbum, 12));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Composer, 13));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Performer, 14));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Grouping, 15));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::FileType, 16));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Samplerate, 17));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Bitdepth, 18));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Bitrate, 19));
 
   QObject::connect(ui_->buttonbox->button(QDialogButtonBox::Reset), &QPushButton::clicked, this, &GroupByDialog::Reset);
 

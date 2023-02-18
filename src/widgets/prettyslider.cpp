@@ -28,7 +28,7 @@
 PrettySlider::PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget *parent, const uint max)
     : SliderSlider(orientation, parent, static_cast<int>(max)), m_mode(mode) {
 
-  if (m_mode == SliderMode_Pretty) {
+  if (m_mode == SliderMode::Pretty) {
     setFocusPolicy(Qt::NoFocus);
   }
 
@@ -44,7 +44,7 @@ void PrettySlider::mousePressEvent(QMouseEvent *e) {
 
 void PrettySlider::slideEvent(QMouseEvent *e) {
 
-  if (m_mode == SliderMode_Pretty) {
+  if (m_mode == SliderMode::Pretty) {
     QSlider::setValue(orientation() == Qt::Horizontal ? QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2) : QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().y(), height() - 2));  // clazy:exclude=skipped-base-method
   }
   else {

@@ -37,19 +37,19 @@ ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle s
   // Set some parameters based on the moodbar style
   StyleProperties properties;
   switch (style) {
-    case Style_Angry:
+    case MoodbarStyle::Angry:
       properties = StyleProperties(samples / 360 * 9, 45, -45, 200, 100);
       break;
-    case Style_Frozen:
+    case MoodbarStyle::Frozen:
       properties = StyleProperties(samples / 360 * 1, 140, 160, 50, 100);
       break;
-    case Style_Happy:
+    case MoodbarStyle::Happy:
       properties = StyleProperties(samples / 360 * 2, 0, 359, 150, 250);
       break;
-    case Style_Normal:
+    case MoodbarStyle::Normal:
       properties = StyleProperties(samples / 360 * 3, 0, 359, 100, 100);
       break;
-    case Style_SystemPalette:
+    case MoodbarStyle::SystemPalette:
     default: {
       const QColor highlight_color(palette.color(QPalette::Active, QPalette::Highlight));
 
@@ -163,15 +163,15 @@ QImage MoodbarRenderer::RenderToImage(const ColorVector &colors, const QSize siz
 QString MoodbarRenderer::StyleName(const MoodbarStyle style) {
 
   switch (style) {
-    case Style_Normal:
+    case MoodbarStyle::Normal:
       return QObject::tr("Normal");
-    case Style_Angry:
+    case MoodbarStyle::Angry:
       return QObject::tr("Angry");
-    case Style_Frozen:
+    case MoodbarStyle::Frozen:
       return QObject::tr("Frozen");
-    case Style_Happy:
+    case MoodbarStyle::Happy:
       return QObject::tr("Happy");
-    case Style_SystemPalette:
+    case MoodbarStyle::SystemPalette:
       return QObject::tr("System colors");
 
     default:

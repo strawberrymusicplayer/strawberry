@@ -54,7 +54,7 @@ class CollectionBackendInterface : public QObject {
   explicit CollectionBackendInterface(QObject *parent = nullptr) : QObject(parent) {}
 
   struct Album {
-    Album() : filetype(Song::FileType_Unknown) {}
+    Album() : filetype(Song::FileType::Unknown) {}
     Album(const QString &_album_artist, const QString &_album, const QUrl &_art_automatic, const QUrl &_art_manual, const QList<QUrl> &_urls, const Song::FileType _filetype, const QString &_cue_path)
         : album_artist(_album_artist),
           album(_album),

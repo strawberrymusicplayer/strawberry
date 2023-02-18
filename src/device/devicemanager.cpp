@@ -370,10 +370,10 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
     }
 
     case Role_TranscodeMode:
-      return info->transcode_mode_;
+      return static_cast<int>(info->transcode_mode_);
 
     case Role_TranscodeFormat:
-      return info->transcode_format_;
+      return static_cast<int>(info->transcode_format_);
 
     case Role_SongCount:
       if (!info->device_) return QVariant();

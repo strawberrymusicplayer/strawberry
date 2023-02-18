@@ -51,8 +51,8 @@ QVariant RadioPlaylistItem::DatabaseValue(DatabaseColumn column) const {
 void RadioPlaylistItem::InitMetadata() {
 
   if (metadata_.title().isEmpty()) metadata_.set_title(metadata_.url().toString());
-  if (metadata_.source() == Song::Source_Unknown) metadata_.set_source(Song::Source_Stream);
-  if (metadata_.filetype() == Song::FileType_Unknown) metadata_.set_filetype(Song::FileType_Stream);
+  if (metadata_.source() == Song::Source::Unknown) metadata_.set_source(Song::Source::Stream);
+  if (metadata_.filetype() == Song::FileType::Unknown) metadata_.set_filetype(Song::FileType::Stream);
   metadata_.set_valid(true);
 
 }

@@ -223,11 +223,11 @@ class Base : public QObject {
 };
 
 struct SimpleMetaBundle {
-  SimpleMetaBundle() : type(Type_Any), length(-1), year(-1), track(-1), filetype(Song::FileType_Unknown), samplerate(-1), bitdepth(-1), bitrate(-1) {}
-  enum Type {
-    Type_Any,
-    Type_Current,
-    Type_Next,
+  SimpleMetaBundle() : type(Type::Any), length(-1), year(-1), track(-1), filetype(Song::FileType::Unknown), samplerate(-1), bitdepth(-1), bitrate(-1) {}
+  enum class Type {
+    Any,
+    Current,
+    Next
   };
   Type type;
   QUrl url;
@@ -250,5 +250,6 @@ struct SimpleMetaBundle {
 }  // namespace Engine
 
 Q_DECLARE_METATYPE(EngineBase::OutputDetails)
+Q_DECLARE_METATYPE(Engine::SimpleMetaBundle)
 
 #endif  // ENGINEBASE_H

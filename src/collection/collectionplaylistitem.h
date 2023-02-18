@@ -52,7 +52,7 @@ class CollectionPlaylistItem : public PlaylistItem {
 
  protected:
   QVariant DatabaseValue(DatabaseColumn column) const override;
-  Song DatabaseSongMetadata() const override { return Song(Song::Source_Collection); }
+  Song DatabaseSongMetadata() const override { return Song(Song::Source::Collection); }
 
  protected:
   Song song_;

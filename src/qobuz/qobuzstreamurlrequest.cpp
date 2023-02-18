@@ -189,16 +189,16 @@ void QobuzStreamURLRequest::StreamURLReceived() {
   QUrl url(json_obj["url"].toString());
   QString mimetype = json_obj["mime_type"].toString();
 
-  Song::FileType filetype(Song::FileType_Unknown);
+  Song::FileType filetype(Song::FileType::Unknown);
   QMimeDatabase mimedb;
   QStringList suffixes = mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes();
   for (const QString &suffix : suffixes) {
     filetype = Song::FiletypeByExtension(suffix);
-    if (filetype != Song::FileType_Unknown) break;
+    if (filetype != Song::FileType::Unknown) break;
   }
-  if (filetype == Song::FileType_Unknown) {
+  if (filetype == Song::FileType::Unknown) {
     qLog(Debug) << "Qobuz: Unknown mimetype" << mimetype;
-    filetype = Song::FileType_Stream;
+    filetype = Song::FileType::Stream;
   }
 
   if (!url.isValid()) {

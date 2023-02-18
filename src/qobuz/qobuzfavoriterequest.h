@@ -41,10 +41,11 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
   explicit QobuzFavoriteRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent = nullptr);
   ~QobuzFavoriteRequest();
 
-  enum FavoriteType {
-    FavoriteType_Artists,
-    FavoriteType_Albums,
-    FavoriteType_Songs
+ private:
+  enum class FavoriteType {
+    Artists,
+    Albums,
+    Songs
   };
 
  signals:

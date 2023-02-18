@@ -58,11 +58,11 @@ TidalFavoriteRequest::~TidalFavoriteRequest() {
 QString TidalFavoriteRequest::FavoriteText(const FavoriteType type) {
 
   switch (type) {
-    case FavoriteType_Artists:
+    case FavoriteType::Artists:
       return "artists";
-    case FavoriteType_Albums:
+    case FavoriteType::Albums:
       return "albums";
-    case FavoriteType_Songs:
+    case FavoriteType::Songs:
       return "tracks";
   }
 
@@ -73,11 +73,11 @@ QString TidalFavoriteRequest::FavoriteText(const FavoriteType type) {
 QString TidalFavoriteRequest::FavoriteMethod(const FavoriteType type) {
 
   switch (type) {
-    case FavoriteType_Artists:
+    case FavoriteType::Artists:
       return "artistIds";
-    case FavoriteType_Albums:
+    case FavoriteType::Albums:
       return "albumIds";
-    case FavoriteType_Songs:
+    case FavoriteType::Songs:
       return "trackIds";
   }
 
@@ -86,19 +86,19 @@ QString TidalFavoriteRequest::FavoriteMethod(const FavoriteType type) {
 }
 
 void TidalFavoriteRequest::AddArtists(const SongList &songs) {
-  AddFavorites(FavoriteType_Artists, songs);
+  AddFavorites(FavoriteType::Artists, songs);
 }
 
 void TidalFavoriteRequest::AddAlbums(const SongList &songs) {
-  AddFavorites(FavoriteType_Albums, songs);
+  AddFavorites(FavoriteType::Albums, songs);
 }
 
 void TidalFavoriteRequest::AddSongs(const SongList &songs) {
-  AddFavorites(FavoriteType_Songs, songs);
+  AddFavorites(FavoriteType::Songs, songs);
 }
 
 void TidalFavoriteRequest::AddSongs(const SongMap &songs) {
-  AddFavoritesRequest(FavoriteType_Songs, songs.keys(), songs.values());
+  AddFavoritesRequest(FavoriteType::Songs, songs.keys(), songs.values());
 }
 
 void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList &songs) {
@@ -107,15 +107,15 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
   for (const Song &song : songs) {
     QString id;
     switch (type) {
-      case FavoriteType_Artists:
+      case FavoriteType::Artists:
         if (song.artist_id().isEmpty()) continue;
         id = song.artist_id();
         break;
-      case FavoriteType_Albums:
+      case FavoriteType::Albums:
         if (song.album_id().isEmpty()) continue;
         id = song.album_id();
         break;
-      case FavoriteType_Songs:
+      case FavoriteType::Songs:
         if (song.song_id().isEmpty()) continue;
         id = song.song_id();
         break;
@@ -176,13 +176,13 @@ void TidalFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
   qLog(Debug) << "Tidal:" << songs.count() << "songs added to" << FavoriteText(type) << "favorites.";
 
   switch (type) {
-    case FavoriteType_Artists:
+    case FavoriteType::Artists:
       emit ArtistsAdded(songs);
       break;
-    case FavoriteType_Albums:
+    case FavoriteType::Albums:
       emit AlbumsAdded(songs);
       break;
-    case FavoriteType_Songs:
+    case FavoriteType::Songs:
       emit SongsAdded(songs);
       break;
   }
@@ -190,22 +190,22 @@ void TidalFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
 }
 
 void TidalFavoriteRequest::RemoveArtists(const SongList &songs) {
-  RemoveFavorites(FavoriteType_Artists, songs);
+  RemoveFavorites(FavoriteType::Artists, songs);
 }
 
 void TidalFavoriteRequest::RemoveAlbums(const SongList &songs) {
-  RemoveFavorites(FavoriteType_Albums, songs);
+  RemoveFavorites(FavoriteType::Albums, songs);
 }
 
 void TidalFavoriteRequest::RemoveSongs(const SongList &songs) {
-  RemoveFavorites(FavoriteType_Songs, songs);
+  RemoveFavorites(FavoriteType::Songs, songs);
 }
 
 void TidalFavoriteRequest::RemoveSongs(const SongMap &songs) {
 
   SongList songs_list = songs.values();
   for (const Song &song : songs_list) {
-    RemoveFavoritesRequest(FavoriteType_Songs, song.song_id(), SongList() << song);
+    RemoveFavoritesRequest(FavoriteType::Songs, song.song_id(), SongList() << song);
   }
 
 }
@@ -216,15 +216,15 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
   for (const Song &song : songs) {
     QString id;
     switch (type) {
-      case FavoriteType_Artists:
+      case FavoriteType::Artists:
         if (song.artist_id().isEmpty()) continue;
         id = song.artist_id();
         break;
-      case FavoriteType_Albums:
+      case FavoriteType::Albums:
         if (song.album_id().isEmpty()) continue;
         id = song.album_id();
         break;
-      case FavoriteType_Songs:
+      case FavoriteType::Songs:
         if (song.song_id().isEmpty()) continue;
         id = song.song_id();
         break;
@@ -288,13 +288,13 @@ void TidalFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
   qLog(Debug) << "Tidal:" << songs.count() << "songs removed from" << FavoriteText(type) << "favorites.";
 
   switch (type) {
-    case FavoriteType_Artists:
+    case FavoriteType::Artists:
       emit ArtistsRemoved(songs);
       break;
-    case FavoriteType_Albums:
+    case FavoriteType::Albums:
       emit AlbumsRemoved(songs);
       break;
-    case FavoriteType_Songs:
+    case FavoriteType::Songs:
       emit SongsRemoved(songs);
       break;
   }

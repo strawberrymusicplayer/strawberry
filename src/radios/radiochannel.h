@@ -27,7 +27,7 @@
 #include "core/song.h"
 
 struct RadioChannel {
-  explicit RadioChannel(const Song::Source _source = Song::Source_Unknown, const QString &_name = QString(), const QUrl &_url = QUrl(), const QUrl &_thumbnail_url = QUrl()) : source(_source), name(_name), url(_url), thumbnail_url(_thumbnail_url) {}
+  explicit RadioChannel(const Song::Source _source = Song::Source::Unknown, const QString &_name = QString(), const QUrl &_url = QUrl(), const QUrl &_thumbnail_url = QUrl()) : source(_source), name(_name), url(_url), thumbnail_url(_thumbnail_url) {}
 
   Song::Source source;
   QString name;
@@ -39,5 +39,6 @@ struct RadioChannel {
 using RadioChannelList = QList<RadioChannel>;
 
 Q_DECLARE_METATYPE(RadioChannel)
+Q_DECLARE_METATYPE(RadioChannelList)
 
 #endif  // RADIOCHANNEL_H

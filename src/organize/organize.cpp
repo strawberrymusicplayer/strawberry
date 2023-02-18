@@ -193,7 +193,7 @@ void Organize::ProcessSomeFiles() {
     else {
       // Figure out if we need to transcode it
       Song::FileType dest_type = CheckTranscode(song.filetype());
-      if (dest_type != Song::FileType_Unknown) {
+      if (dest_type != Song::FileType::Unknown) {
         // Get the preset
         TranscoderPreset preset = Transcoder::PresetForFileType(dest_type);
         qLog(Debug) << "Transcoding with" << preset.name_;
@@ -238,7 +238,7 @@ void Organize::ProcessSomeFiles() {
         job.cover_source_ = task.song_info_.song_.art_automatic().path();
       }
     }
-    else if (destination_->source() == Song::Source_Device) {
+    else if (destination_->source() == Song::Source::Device) {
       job.cover_image_ = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(task.song_info_.song_.url().toLocalFile());
     }
 
@@ -249,7 +249,7 @@ void Organize::ProcessSomeFiles() {
     job.progress_ = std::bind(&Organize::SetSongProgress, this, std::placeholders::_1, !task.transcoded_filename_.isEmpty());
 
     if (destination_->CopyToStorage(job)) {
-      if (job.remove_original_ && (destination_->source() == Song::Source_Collection || destination_->source() == Song::Source_Device)) {
+      if (job.remove_original_ && (destination_->source() == Song::Source::Collection || destination_->source() == Song::Source::Device)) {
         // Notify other aspects of system that song has been invalidated
         QString root = destination_->LocalPath();
         QFileInfo new_file = QFileInfo(root + "/" + task.song_info_.new_filename_);
@@ -279,28 +279,28 @@ void Organize::ProcessSomeFiles() {
 #ifdef HAVE_GSTREAMER
 Song::FileType Organize::CheckTranscode(Song::FileType original_type) const {
 
-  if (original_type == Song::FileType_Stream) return Song::FileType_Unknown;
+  if (original_type == Song::FileType::Stream) return Song::FileType::Unknown;
 
   const MusicStorage::TranscodeMode mode = destination_->GetTranscodeMode();
   const Song::FileType format = destination_->GetTranscodeFormat();
 
   switch (mode) {
-    case MusicStorage::Transcode_Never:
-      return Song::FileType_Unknown;
+    case MusicStorage::TranscodeMode::Transcode_Never:
+      return Song::FileType::Unknown;
 
-    case MusicStorage::Transcode_Always:
-      if (original_type == format) return Song::FileType_Unknown;
+    case MusicStorage::TranscodeMode::Transcode_Always:
+      if (original_type == format) return Song::FileType::Unknown;
       return format;
 
-    case MusicStorage::Transcode_Unsupported:
-      if (supported_filetypes_.isEmpty() || supported_filetypes_.contains(original_type)) return Song::FileType_Unknown;
+    case MusicStorage::TranscodeMode::Transcode_Unsupported:
+      if (supported_filetypes_.isEmpty() || supported_filetypes_.contains(original_type)) return Song::FileType::Unknown;
 
-      if (format != Song::FileType_Unknown) return format;
+      if (format != Song::FileType::Unknown) return format;
 
       // The user hasn't visited the device properties page yet to set a preferred format for the device, so we have to pick the best available one.
       return Transcoder::PickBestFormat(supported_filetypes_);
   }
-  return Song::FileType_Unknown;
+  return Song::FileType::Unknown;
 
 }
 #endif

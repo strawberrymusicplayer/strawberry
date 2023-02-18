@@ -27,7 +27,7 @@
 
 namespace Engine {
 
-enum EngineType {
+enum class EngineType {
   None,
   GStreamer,
   VLC,

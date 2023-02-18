@@ -58,7 +58,7 @@
 #include "settings/settingsdialog.h"
 #include "settings/subsonicsettingspage.h"
 
-const Song::Source SubsonicService::kSource = Song::Source_Subsonic;
+const Song::Source SubsonicService::kSource = Song::Source::Subsonic;
 const char *SubsonicService::kClientName = "Strawberry";
 const char *SubsonicService::kApiVersion = "1.11.0";
 const char *SubsonicService::kSongsTable = "subsonic_songs";
@@ -66,7 +66,7 @@ const char *SubsonicService::kSongsFtsTable = "subsonic_songs_fts";
 const int SubsonicService::kMaxRedirects = 3;
 
 SubsonicService::SubsonicService(Application *app, QObject *parent)
-    : InternetService(Song::Source_Subsonic, "Subsonic", "subsonic", SubsonicSettingsPage::kSettingsGroup, SettingsDialog::Page_Subsonic, app, parent),
+    : InternetService(Song::Source::Subsonic, "Subsonic", "subsonic", SubsonicSettingsPage::kSettingsGroup, SettingsDialog::Page::Subsonic, app, parent),
       app_(app),
       url_handler_(new SubsonicUrlHandler(app, this)),
       collection_backend_(nullptr),
@@ -75,7 +75,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
       http2_(false),
       verify_certificate_(false),
       download_album_covers_(true),
-      auth_method_(SubsonicSettingsPage::AuthMethod_MD5),
+      auth_method_(SubsonicSettingsPage::AuthMethod::MD5),
       ping_redirects_(0) {
 
   app->player()->RegisterUrlHandler(url_handler_);
@@ -84,7 +84,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
 
   collection_backend_ = new CollectionBackend();
   collection_backend_->moveToThread(app_->database()->thread());
-  collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Subsonic, kSongsTable, kSongsFtsTable);
+  collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Subsonic, kSongsTable, kSongsFtsTable);
 
   // Model
 
@@ -120,7 +120,7 @@ void SubsonicService::Exit() {
 }
 
 void SubsonicService::ShowConfig() {
-  app_->OpenSettingsDialogAtPage(SettingsDialog::Page_Subsonic);
+  app_->OpenSettingsDialogAtPage(SettingsDialog::Page::Subsonic);
 }
 
 void SubsonicService::ReloadSettings() {
@@ -137,7 +137,7 @@ void SubsonicService::ReloadSettings() {
   http2_ = s.value("http2", false).toBool();
   verify_certificate_ = s.value("verifycertificate", false).toBool();
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
-  auth_method_ = static_cast<SubsonicSettingsPage::AuthMethod>(s.value("authmethod", SubsonicSettingsPage::AuthMethod_MD5).toInt());
+  auth_method_ = static_cast<SubsonicSettingsPage::AuthMethod>(s.value("authmethod", static_cast<int>(SubsonicSettingsPage::AuthMethod::MD5)).toInt());
 
   s.endGroup();
 
@@ -163,7 +163,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
                                  << Param("f", "json")
                                  << Param("u", username);
 
-  if (auth_method == SubsonicSettingsPage::AuthMethod_Hex) {
+  if (auth_method == SubsonicSettingsPage::AuthMethod::Hex) {
     params << Param("p", QString("enc:" + password.toUtf8().toHex()));
   }
   else {

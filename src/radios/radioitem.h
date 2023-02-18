@@ -33,7 +33,7 @@ class RadioItem : public SimpleTreeItem<RadioItem> {
     Type_LoadingIndicator,
     Type_Root,
     Type_Service,
-    Type_Channel,
+    Type_Channel
   };
 
   explicit RadioItem(SimpleTreeModel<RadioItem> *_model) : SimpleTreeItem<RadioItem>(Type_Root, _model) {}

@@ -68,7 +68,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
       group_by_group_(nullptr),
       filter_delay_(new QTimer(this)),
       filter_applies_to_model_(true),
-      delay_behaviour_(DelayedOnLargeLibraries) {
+      delay_behaviour_(DelayBehaviour::DelayedOnLargeLibraries) {
 
   ui_->setupUi(this);
 
@@ -178,12 +178,13 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
     if (s.contains(group_by_version())) version = s.value(group_by_version(), 0).toInt();
     if (version == 1) {
       model_->SetGroupBy(CollectionModel::Grouping(
-        CollectionModel::GroupBy(s.value(group_by_key(1), static_cast<int>(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-        CollectionModel::GroupBy(s.value(group_by_key(2), static_cast<int>(CollectionModel::GroupBy_AlbumDisc)).toInt()),
-        CollectionModel::GroupBy(s.value(group_by_key(3), static_cast<int>(CollectionModel::GroupBy_None)).toInt())), s.value(separate_albums_by_grouping_key(), false).toBool());
+        static_cast<CollectionModel::GroupBy>(s.value(group_by_key(1), static_cast<int>(CollectionModel::GroupBy::AlbumArtist)).toInt()),
+        static_cast<CollectionModel::GroupBy>(s.value(group_by_key(2), static_cast<int>(CollectionModel::GroupBy::AlbumDisc)).toInt()),
+        static_cast<CollectionModel::GroupBy>(s.value(group_by_key(3), static_cast<int>(CollectionModel::GroupBy::None)).toInt())),
+        s.value(separate_albums_by_grouping_key(), false).toBool());
     }
     else {
-      model_->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc, CollectionModel::GroupBy_None), false);
+      model_->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::AlbumDisc, CollectionModel::GroupBy::None), false);
     }
     s.endGroup();
   }
@@ -272,24 +273,24 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(const QString &saved_
 
   QActionGroup *ret = new QActionGroup(parent);
 
-  ret->addAction(CreateGroupByAction(tr("Group by Album artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_Album)));
-  ret->addAction(CreateGroupByAction(tr("Group by Album artist/Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc)));
-  ret->addAction(CreateGroupByAction(tr("Group by Album artist/Year - Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_YearAlbum)));
-  ret->addAction(CreateGroupByAction(tr("Group by Album artist/Year - Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_YearAlbumDisc)));
+  ret->addAction(CreateGroupByAction(tr("Group by Album artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::Album)));
+  ret->addAction(CreateGroupByAction(tr("Group by Album artist/Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::AlbumDisc)));
+  ret->addAction(CreateGroupByAction(tr("Group by Album artist/Year - Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::YearAlbum)));
+  ret->addAction(CreateGroupByAction(tr("Group by Album artist/Year - Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::YearAlbumDisc)));
 
-  ret->addAction(CreateGroupByAction(tr("Group by Artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Artist, CollectionModel::GroupBy_Album)));
-  ret->addAction(CreateGroupByAction(tr("Group by Artist/Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Artist, CollectionModel::GroupBy_AlbumDisc)));
-  ret->addAction(CreateGroupByAction(tr("Group by Artist/Year - Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Artist, CollectionModel::GroupBy_YearAlbum)));
-  ret->addAction(CreateGroupByAction(tr("Group by Artist/Year - Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Artist, CollectionModel::GroupBy_YearAlbumDisc)));
+  ret->addAction(CreateGroupByAction(tr("Group by Artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::Artist, CollectionModel::GroupBy::Album)));
+  ret->addAction(CreateGroupByAction(tr("Group by Artist/Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::Artist, CollectionModel::GroupBy::AlbumDisc)));
+  ret->addAction(CreateGroupByAction(tr("Group by Artist/Year - Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::Artist, CollectionModel::GroupBy::YearAlbum)));
+  ret->addAction(CreateGroupByAction(tr("Group by Artist/Year - Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::Artist, CollectionModel::GroupBy::YearAlbumDisc)));
 
-  ret->addAction(CreateGroupByAction(tr("Group by Genre/Album artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Genre, CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_Album)));
-  ret->addAction(CreateGroupByAction(tr("Group by Genre/Artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Genre, CollectionModel::GroupBy_Artist, CollectionModel::GroupBy_Album)));
+  ret->addAction(CreateGroupByAction(tr("Group by Genre/Album artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::Genre, CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::Album)));
+  ret->addAction(CreateGroupByAction(tr("Group by Genre/Artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::Genre, CollectionModel::GroupBy::Artist, CollectionModel::GroupBy::Album)));
 
-  ret->addAction(CreateGroupByAction(tr("Group by Album Artist"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist)));
-  ret->addAction(CreateGroupByAction(tr("Group by Artist"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Artist)));
+  ret->addAction(CreateGroupByAction(tr("Group by Album Artist"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist)));
+  ret->addAction(CreateGroupByAction(tr("Group by Artist"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::Artist)));
 
-  ret->addAction(CreateGroupByAction(tr("Group by Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Album)));
-  ret->addAction(CreateGroupByAction(tr("Group by Genre/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Genre, CollectionModel::GroupBy_Album)));
+  ret->addAction(CreateGroupByAction(tr("Group by Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::Album)));
+  ret->addAction(CreateGroupByAction(tr("Group by Genre/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy::Genre, CollectionModel::GroupBy::Album)));
 
   QAction *sep1 = new QAction(parent);
   sep1->setSeparator(true);
@@ -334,7 +335,7 @@ QAction *CollectionFilterWidget::CreateGroupByAction(const QString &text, QObjec
   QAction *ret = new QAction(text, parent);
   ret->setCheckable(true);
 
-  if (grouping.first != CollectionModel::GroupBy_None) {
+  if (grouping.first != CollectionModel::GroupBy::None) {
     ret->setProperty("group_by", QVariant::fromValue(grouping));
   }
 
@@ -459,7 +460,7 @@ void CollectionFilterWidget::SetFilterHint(const QString &hint) {
 void CollectionFilterWidget::SetFilterMode(CollectionFilterOptions::FilterMode filter_mode) {
 
   ui_->search_field->clear();
-  ui_->search_field->setEnabled(filter_mode == CollectionFilterOptions::FilterMode_All);
+  ui_->search_field->setEnabled(filter_mode == CollectionFilterOptions::FilterMode::All);
 
   model_->SetFilterMode(filter_mode);
 
@@ -509,7 +510,7 @@ void CollectionFilterWidget::FilterTextChanged(const QString &text) {
   // Searching with one or two characters can be very expensive on the database even with FTS,
   // so if there are a large number of songs in the database introduce a small delay before actually filtering the model,
   // so if the user is typing the first few characters of something it will be quicker.
-  const bool delay = (delay_behaviour_ == AlwaysDelayed) || (delay_behaviour_ == DelayedOnLargeLibraries && !text.isEmpty() && text.length() < 3 && model_->total_song_count() >= 100000);
+  const bool delay = (delay_behaviour_ == DelayBehaviour::AlwaysDelayed) || (delay_behaviour_ == DelayBehaviour::DelayedOnLargeLibraries && !text.isEmpty() && text.length() < 3 && model_->total_song_count() >= 100000);
 
   if (delay) {
     filter_delay_->start();

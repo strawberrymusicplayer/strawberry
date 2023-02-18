@@ -77,7 +77,7 @@ class PlayerInterface : public QObject {
   virtual void PlayAt(const int index, const quint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) = 0;
 
   // If there's currently a song playing, pause it, otherwise play the track that was playing last, or the first one on the playlist
-  virtual void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) = 0;
+  virtual void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Always) = 0;
   virtual void PlayPauseHelper() = 0;
   virtual void RestartOrPrevious() = 0;
 
@@ -164,7 +164,7 @@ class Player : public PlayerInterface {
   void SaveVolume() override;
 
   void PlayAt(const int index, const quint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
-  void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Always) override;
+  void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Always) override;
   void PlayPauseHelper() override { PlayPause(play_offset_nanosec_); }
   void RestartOrPrevious() override;
   void Next() override;

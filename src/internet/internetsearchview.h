@@ -72,10 +72,10 @@ class InternetSearchView : public QWidget {
   explicit InternetSearchView(QWidget *parent = nullptr);
   ~InternetSearchView() override;
 
-  enum SearchType {
-    SearchType_Artists = 1,
-    SearchType_Albums = 2,
-    SearchType_Songs = 3,
+  enum class SearchType {
+    Artists = 1,
+    Albums = 2,
+    Songs = 3
   };
   struct Result {
     Song metadata_;

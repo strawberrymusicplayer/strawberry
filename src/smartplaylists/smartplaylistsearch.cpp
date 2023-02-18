@@ -28,7 +28,7 @@
 
 #include "smartplaylistsearch.h"
 
-SmartPlaylistSearch::SmartPlaylistSearch() : search_type_(Type_And), sort_type_(Sort_Random), sort_field_(SmartPlaylistSearchTerm::Field_Title), limit_(-1), first_item_(0) { Reset(); }
+SmartPlaylistSearch::SmartPlaylistSearch() : search_type_(SearchType::And), sort_type_(SortType::Random), sort_field_(SmartPlaylistSearchTerm::Field::Title), limit_(-1), first_item_(0) { Reset(); }
 
 SmartPlaylistSearch::SmartPlaylistSearch(const SearchType type, const TermList &terms, const SortType sort_type, const SmartPlaylistSearchTerm::Field sort_field, const int limit)
     : search_type_(type),
@@ -40,10 +40,10 @@ SmartPlaylistSearch::SmartPlaylistSearch(const SearchType type, const TermList &
 
 void SmartPlaylistSearch::Reset() {
 
-  search_type_ = Type_And;
+  search_type_ = SearchType::And;
   terms_.clear();
-  sort_type_ = Sort_Random;
-  sort_field_ = SmartPlaylistSearchTerm::Field_Title;
+  sort_type_ = SortType::Random;
+  sort_field_ = SmartPlaylistSearchTerm::Field::Title;
   limit_ = -1;
   first_item_ = 0;
 
@@ -61,8 +61,8 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
     term_where_clauses << term.ToSql();
   }
 
-  if (!terms_.isEmpty() && search_type_ != Type_All) {
-    QString boolean_op = search_type_ == Type_And ? " AND " : " OR ";
+  if (!terms_.isEmpty() && search_type_ != SearchType::All) {
+    QString boolean_op = search_type_ == SearchType::And ? " AND " : " OR ";
     where_clauses << "(" + term_where_clauses.join(boolean_op) + ")";
   }
 
@@ -84,11 +84,11 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   }
 
   // Add sort by
-  if (sort_type_ == Sort_Random) {
+  if (sort_type_ == SortType::Random) {
     sql += " ORDER BY random()";
   }
   else {
-    sql += " ORDER BY " + SmartPlaylistSearchTerm::FieldColumnName(sort_field_) + (sort_type_ == Sort_FieldAsc ? " ASC" : " DESC");
+    sql += " ORDER BY " + SmartPlaylistSearchTerm::FieldColumnName(sort_field_) + (sort_type_ == SortType::FieldAsc ? " ASC" : " DESC");
   }
 
   // Add limit
@@ -106,7 +106,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
 
 bool SmartPlaylistSearch::is_valid() const {
 
-  if (search_type_ == Type_All) return true;
+  if (search_type_ == SearchType::All) return true;
   return !terms_.isEmpty();
 
 }

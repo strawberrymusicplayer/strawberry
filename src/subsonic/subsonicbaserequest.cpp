@@ -62,7 +62,7 @@ QUrl SubsonicBaseRequest::CreateUrl(const QUrl &server_url, const SubsonicSettin
                                  << Param("f", "json")
                                  << Param("u", username);
 
-  if (auth_method == SubsonicSettingsPage::AuthMethod_Hex) {
+  if (auth_method == SubsonicSettingsPage::AuthMethod::Hex) {
     params << Param("p", QString("enc:" + password.toUtf8().toHex()));
   }
   else {

@@ -50,7 +50,7 @@ class MusicStorage {
   };
 
   // Values are saved in the database - don't change
-  enum TranscodeMode {
+  enum class TranscodeMode {
     Transcode_Always = 1,
     Transcode_Never = 2,
     Transcode_Unsupported = 3,
@@ -83,8 +83,8 @@ class MusicStorage {
   virtual QString LocalPath() const { return QString(); }
   virtual std::optional<int> collection_directory_id() const { return std::optional<int>(); }
 
-  virtual TranscodeMode GetTranscodeMode() const { return Transcode_Never; }
-  virtual Song::FileType GetTranscodeFormat() const { return Song::FileType_Unknown; }
+  virtual TranscodeMode GetTranscodeMode() const { return TranscodeMode::Transcode_Never; }
+  virtual Song::FileType GetTranscodeFormat() const { return Song::FileType::Unknown; }
   virtual bool GetSupportedFiletypes(QList<Song::FileType> *ret) { Q_UNUSED(ret); return true; }
 
   virtual bool StartCopy(QList<Song::FileType> *supported_types) { Q_UNUSED(supported_types); return true; }

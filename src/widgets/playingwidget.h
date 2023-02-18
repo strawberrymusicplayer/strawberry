@@ -86,9 +86,15 @@ class PlayingWidget : public QWidget {
   void dragEnterEvent(QDragEnterEvent *e) override;
   void dropEvent(QDropEvent *e) override;
 
+ private:
+  enum class Mode {
+    SmallSongDetails = 0,
+    LargeSongDetails = 1
+  };
+
  private slots:
   void Update() { update(); }
-  void SetMode(const int mode);
+  void SetMode(const Mode mode);
   void ShowAboveStatusBar(const bool above);
   void FitCoverWidth(const bool fit);
 
@@ -98,12 +104,6 @@ class PlayingWidget : public QWidget {
   void FadePreviousTrack(const qreal value);
 
  private:
-
-  enum Mode {
-    SmallSongDetails = 0,
-    LargeSongDetails = 1,
-  };
-
   static const char *kSettingsGroup;
   static const int kPadding;
   static const int kGradientHead;

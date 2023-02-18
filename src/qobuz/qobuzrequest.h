@@ -52,7 +52,7 @@ class QobuzRequest : public QobuzBaseRequest {
 
  public:
 
-  explicit QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent = nullptr);
+  explicit QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, NetworkAccessManager *network, const QueryType query_type, QObject *parent = nullptr);
   ~QobuzRequest() override;
 
   void ReloadSettings();
@@ -120,8 +120,8 @@ class QobuzRequest : public QobuzBaseRequest {
 
  private:
 
-  bool IsQuery() { return (type_ == QueryType_Artists || type_ == QueryType_Albums || type_ == QueryType_Songs); }
-  bool IsSearch() { return (type_ == QueryType_SearchArtists || type_ == QueryType_SearchAlbums || type_ == QueryType_SearchSongs); }
+  bool IsQuery() { return (query_type_ == QueryType::Artists || query_type_ == QueryType::Albums || query_type_ == QueryType::Songs); }
+  bool IsSearch() { return (query_type_ == QueryType::SearchArtists || query_type_ == QueryType::SearchAlbums || query_type_ == QueryType::SearchSongs); }
 
   void StartRequests();
   void FlushRequests();
@@ -184,7 +184,7 @@ class QobuzRequest : public QobuzBaseRequest {
   NetworkAccessManager *network_;
   QTimer *timer_flush_requests_;
 
-  const QueryType type_;
+  const QueryType query_type_;
   int query_id_;
   QString search_text_;
 

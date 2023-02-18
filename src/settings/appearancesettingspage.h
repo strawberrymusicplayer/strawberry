@@ -75,20 +75,20 @@ class AppearanceSettingsPage : public SettingsPage {
 
   static const char *kPlaylistPlayingSongColor;
 
-  enum BackgroundImageType {
-    BackgroundImageType_Default,
-    BackgroundImageType_None,
-    BackgroundImageType_Custom,
-    BackgroundImageType_Album,
-    BackgroundImageType_Strawbs
+  enum class BackgroundImageType {
+    Default,
+    None,
+    Custom,
+    Album,
+    Strawbs
   };
 
-  enum BackgroundImagePosition {
-    BackgroundImagePosition_UpperLeft = 1,
-    BackgroundImagePosition_UpperRight = 2,
-    BackgroundImagePosition_Middle = 3,
-    BackgroundImagePosition_BottomLeft = 4,
-    BackgroundImagePosition_BottomRight = 5
+  enum class BackgroundImagePosition {
+    UpperLeft = 1,
+    UpperRight = 2,
+    Middle = 3,
+    BottomLeft = 4,
+    BottomRight = 5
   };
 
   void Load() override;

@@ -102,7 +102,7 @@ InternetSearchView::InternetSearchView(QWidget *parent)
       current_proxy_(front_proxy_),
       swap_models_timer_(new QTimer(this)),
       use_pretty_covers_(true),
-      search_type_(InternetSearchView::SearchType_Artists),
+      search_type_(InternetSearchView::SearchType::Artists),
       search_error_(false),
       last_search_id_(0),
       searches_next_id_(1) {
@@ -222,15 +222,15 @@ void InternetSearchView::ReloadSettings() {
 
   // Internet search settings
 
-  search_type_ = InternetSearchView::SearchType(s.value("type", static_cast<int>(InternetSearchView::SearchType_Artists)).toInt());
+  search_type_ = static_cast<InternetSearchView::SearchType>(s.value("type", static_cast<int>(InternetSearchView::SearchType::Artists)).toInt());
   switch (search_type_) {
-    case InternetSearchView::SearchType_Artists:
+    case InternetSearchView::SearchType::Artists:
       ui_->radiobutton_search_artists->setChecked(true);
       break;
-    case InternetSearchView::SearchType_Albums:
+    case InternetSearchView::SearchType::Albums:
       ui_->radiobutton_search_albums->setChecked(true);
       break;
-    case InternetSearchView::SearchType_Songs:
+    case InternetSearchView::SearchType::Songs:
       ui_->radiobutton_search_songs->setChecked(true);
       break;
   }
@@ -238,12 +238,12 @@ void InternetSearchView::ReloadSettings() {
   int group_by_version = s.value("search_group_by_version", 0).toInt();
   if (group_by_version == 1 && s.contains("search_group_by1") && s.contains("search_group_by2") && s.contains("search_group_by3")) {
     SetGroupBy(CollectionModel::Grouping(
-        CollectionModel::GroupBy(s.value("search_group_by1", static_cast<int>(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-        CollectionModel::GroupBy(s.value("search_group_by2", static_cast<int>(CollectionModel::GroupBy_AlbumDisc)).toInt()),
-        CollectionModel::GroupBy(s.value("search_group_by3", static_cast<int>(CollectionModel::GroupBy_None)).toInt())));
+        static_cast<CollectionModel::GroupBy>(s.value("search_group_by1", static_cast<int>(CollectionModel::GroupBy::AlbumArtist)).toInt()),
+        static_cast<CollectionModel::GroupBy>(s.value("search_group_by2", static_cast<int>(CollectionModel::GroupBy::AlbumDisc)).toInt()),
+        static_cast<CollectionModel::GroupBy>(s.value("search_group_by3", static_cast<int>(CollectionModel::GroupBy::None)).toInt())));
   }
   else {
-    SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc, CollectionModel::GroupBy_None));
+    SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::AlbumDisc, CollectionModel::GroupBy::None));
   }
   s.endGroup();
 
@@ -732,15 +732,15 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping g) {
 }
 
 void InternetSearchView::SearchArtistsClicked(const bool) {
-  SetSearchType(InternetSearchView::SearchType_Artists);
+  SetSearchType(InternetSearchView::SearchType::Artists);
 }
 
 void InternetSearchView::SearchAlbumsClicked(const bool) {
-  SetSearchType(InternetSearchView::SearchType_Albums);
+  SetSearchType(InternetSearchView::SearchType::Albums);
 }
 
 void InternetSearchView::SearchSongsClicked(const bool) {
-  SetSearchType(InternetSearchView::SearchType_Songs);
+  SetSearchType(InternetSearchView::SearchType::Songs);
 }
 
 void InternetSearchView::SetSearchType(const InternetSearchView::SearchType type) {

@@ -45,19 +45,19 @@ class PlaylistSequence : public QWidget {
   explicit PlaylistSequence(QWidget *parent = nullptr, SettingsProvider *settings = nullptr);
   ~PlaylistSequence() override;
 
-  enum RepeatMode {
-    Repeat_Off = 0,
-    Repeat_Track = 1,
-    Repeat_Album = 2,
-    Repeat_Playlist = 3,
-    Repeat_OneByOne = 4,
-    Repeat_Intro = 5,
+  enum class RepeatMode {
+    Off = 0,
+    Track = 1,
+    Album = 2,
+    Playlist = 3,
+    OneByOne = 4,
+    Intro = 5
   };
-  enum ShuffleMode {
-    Shuffle_Off = 0,
-    Shuffle_All = 1,
-    Shuffle_InsideAlbum = 2,
-    Shuffle_Albums = 3,
+  enum class ShuffleMode {
+    Off = 0,
+    All = 1,
+    InsideAlbum = 2,
+    Albums = 3
   };
 
   static const char *kSettingsGroup;

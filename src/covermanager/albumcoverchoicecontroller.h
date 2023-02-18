@@ -69,7 +69,7 @@ class AlbumCoverChoiceController : public QWidget {
   void Init(Application *app);
   void ReloadSettings();
 
-  CollectionSettingsPage::SaveCoverType get_save_album_cover_type() const { return (save_embedded_cover_override_ ? CollectionSettingsPage::SaveCoverType_Embedded : save_cover_type_); }
+  CollectionSettingsPage::SaveCoverType get_save_album_cover_type() const { return (save_embedded_cover_override_ ? CollectionSettingsPage::SaveCoverType::Embedded : save_cover_type_); }
   CollectionSettingsPage::SaveCoverType get_collection_save_album_cover_type() const { return save_cover_type_; }
 
   // Getters for all QActions implemented by this controller.

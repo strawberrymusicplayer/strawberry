@@ -76,7 +76,7 @@ class GlobalShortcutsBackendMacOSPrivate : boost::noncopyable {
 };
 
 GlobalShortcutsBackendMacOS::GlobalShortcutsBackendMacOS(GlobalShortcutsManager *manager, QObject *parent)
-    : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type_MacOS, parent),
+    : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type::macOS, parent),
       p_(new GlobalShortcutsBackendMacOSPrivate(this)) {}
 
 GlobalShortcutsBackendMacOS::~GlobalShortcutsBackendMacOS() {}

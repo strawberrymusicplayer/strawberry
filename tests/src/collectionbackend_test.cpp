@@ -46,7 +46,7 @@ class CollectionBackendTest : public ::testing::Test {
   void SetUp() override {
     database_.reset(new MemoryDatabase(nullptr));
     backend_ = std::make_unique<CollectionBackend>();
-    backend_->Init(database_.get(), nullptr, Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+    backend_->Init(database_.get(), nullptr, Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
   }
 
   static Song MakeDummySong(int directory_id) {
@@ -372,7 +372,7 @@ TEST_F(TestUrls, TestUrls) {
     EXPECT_EQ(url, QUrl::fromEncoded(url.toString(QUrl::FullyEncoded).toUtf8()));
     EXPECT_EQ(url.toString(QUrl::FullyEncoded), url.toEncoded());
 
-    Song song(Song::Source_Collection);
+    Song song(Song::Source::Collection);
     song.set_directory_id(1);
     song.set_title("Test Title");
     song.set_album("Test Album");
@@ -456,7 +456,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
       url.setScheme("file");
       url.setPath("/music/" + song_id);
 
-      Song song(Song::Source_Collection);
+      Song song(Song::Source::Collection);
       song.set_song_id(song_id);
       song.set_directory_id(1);
       song.set_title("Test Title " + song_id);
@@ -500,7 +500,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
     EXPECT_EQ(songs.count(), song_ids.count());
 
-    for (QMap<QString, Song>::const_iterator it = songs.constBegin() ; it != songs.constEnd() ; ++it) {
+    for (SongMap::const_iterator it = songs.constBegin() ; it != songs.constEnd() ; ++it) {
       EXPECT_EQ(it.key(), it.value().song_id());
     }
 
@@ -527,7 +527,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
       url.setScheme("file");
       url.setPath("/music/" + song_id);
 
-      Song song(Song::Source_Collection);
+      Song song(Song::Source::Collection);
       song.set_song_id(song_id);
       song.set_directory_id(1);
       song.set_title("Test Title " + song_id);
@@ -572,7 +572,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
       url.setScheme("file");
       url.setPath("/music/" + song_id);
 
-      Song song(Song::Source_Collection);
+      Song song(Song::Source::Collection);
       song.set_song_id(song_id);
       song.set_directory_id(1);
       song.set_title("Test Title " + song_id);

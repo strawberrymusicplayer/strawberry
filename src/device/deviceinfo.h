@@ -64,8 +64,8 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
       : SimpleTreeItem<DeviceInfo>(Type_Root, _model),
         database_id_(-1),
         size_(0),
-        transcode_mode_(MusicStorage::Transcode_Unsupported),
-        transcode_format_(Song::FileType_Unknown),
+        transcode_mode_(MusicStorage::TranscodeMode::Transcode_Unsupported),
+        transcode_format_(Song::FileType::Unknown),
         task_percentage_(-1),
         unmount_(false),
         forget_(false) {}
@@ -74,8 +74,8 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
       : SimpleTreeItem<DeviceInfo>(_type, _parent),
         database_id_(-1),
         size_(0),
-        transcode_mode_(MusicStorage::Transcode_Unsupported),
-        transcode_format_(Song::FileType_Unknown),
+        transcode_mode_(MusicStorage::TranscodeMode::Transcode_Unsupported),
+        transcode_format_(Song::FileType::Unknown),
         task_percentage_(-1),
         unmount_(false),
         forget_(false) {}

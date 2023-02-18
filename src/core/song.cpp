@@ -158,7 +158,7 @@ const QStringList Song::kAcceptedExtensions = QStringList() << "wav" << "flac" <
 
 struct Song::Private : public QSharedData {
 
-  explicit Private(Source source = Source_Unknown);
+  explicit Private(Source source = Source::Unknown);
 
   bool valid_;
   int id_;
@@ -229,7 +229,7 @@ struct Song::Private : public QSharedData {
 
 };
 
-Song::Private::Private(Song::Source source)
+Song::Private::Private(const Source source)
     : valid_(false),
       id_(-1),
 
@@ -248,7 +248,7 @@ Song::Private::Private(Song::Source source)
 
       source_(source),
       directory_id_(-1),
-      filetype_(FileType_Unknown),
+      filetype_(FileType::Unknown),
       filesize_(-1),
       mtime_(-1),
       ctime_(-1),
@@ -270,7 +270,7 @@ Song::Private::Private(Song::Source source)
 
       {}
 
-Song::Song(Song::Source source) : d(new Private(source)) {}
+Song::Song(const Source source) : d(new Private(source)) {}
 Song::Song(const Song &other) = default;
 Song::~Song() = default;
 
@@ -353,16 +353,16 @@ void Song::clear_art_automatic() { d->art_automatic_.clear(); }
 void Song::clear_art_manual() { d->art_manual_.clear(); }
 
 bool Song::additional_tags_supported() const {
-  return d->filetype_ == FileType_FLAC ||
-         d->filetype_ == FileType_WavPack ||
-         d->filetype_ == FileType_OggFlac ||
-         d->filetype_ == FileType_OggVorbis ||
-         d->filetype_ == FileType_OggOpus ||
-         d->filetype_ == FileType_OggSpeex ||
-         d->filetype_ == FileType_MPEG ||
-         d->filetype_ == FileType_MP4 ||
-         d->filetype_ == FileType_MPC ||
-         d->filetype_ == FileType_APE;
+  return d->filetype_ == FileType::FLAC ||
+         d->filetype_ == FileType::WavPack ||
+         d->filetype_ == FileType::OggFlac ||
+         d->filetype_ == FileType::OggVorbis ||
+         d->filetype_ == FileType::OggOpus ||
+         d->filetype_ == FileType::OggSpeex ||
+         d->filetype_ == FileType::MPEG ||
+         d->filetype_ == FileType::MP4 ||
+         d->filetype_ == FileType::MPC ||
+         d->filetype_ == FileType::APE;
 }
 
 bool Song::albumartist_supported() const {
@@ -374,15 +374,15 @@ bool Song::composer_supported() const {
 }
 
 bool Song::performer_supported() const {
-  return d->filetype_ == FileType_FLAC ||
-         d->filetype_ == FileType_WavPack ||
-         d->filetype_ == FileType_OggFlac ||
-         d->filetype_ == FileType_OggVorbis ||
-         d->filetype_ == FileType_OggOpus ||
-         d->filetype_ == FileType_OggSpeex ||
-         d->filetype_ == FileType_MPEG ||
-         d->filetype_ == FileType_MPC ||
-         d->filetype_ == FileType_APE;
+  return d->filetype_ == FileType::FLAC ||
+         d->filetype_ == FileType::WavPack ||
+         d->filetype_ == FileType::OggFlac ||
+         d->filetype_ == FileType::OggVorbis ||
+         d->filetype_ == FileType::OggOpus ||
+         d->filetype_ == FileType::OggSpeex ||
+         d->filetype_ == FileType::MPEG ||
+         d->filetype_ == FileType::MPC ||
+         d->filetype_ == FileType::APE;
 }
 
 bool Song::grouping_supported() const {
@@ -398,17 +398,17 @@ bool Song::compilation_supported() const {
 }
 
 bool Song::rating_supported() const {
-  return d->filetype_ == FileType_FLAC ||
-         d->filetype_ == FileType_WavPack ||
-         d->filetype_ == FileType_OggFlac ||
-         d->filetype_ == FileType_OggVorbis ||
-         d->filetype_ == FileType_OggOpus ||
-         d->filetype_ == FileType_OggSpeex ||
-         d->filetype_ == FileType_MPEG ||
-         d->filetype_ == FileType_MP4 ||
-         d->filetype_ == FileType_ASF ||
-         d->filetype_ == FileType_MPC ||
-         d->filetype_ == FileType_APE;
+  return d->filetype_ == FileType::FLAC ||
+         d->filetype_ == FileType::WavPack ||
+         d->filetype_ == FileType::OggFlac ||
+         d->filetype_ == FileType::OggVorbis ||
+         d->filetype_ == FileType::OggOpus ||
+         d->filetype_ == FileType::OggSpeex ||
+         d->filetype_ == FileType::MPEG ||
+         d->filetype_ == FileType::MP4 ||
+         d->filetype_ == FileType::ASF ||
+         d->filetype_ == FileType::MPC ||
+         d->filetype_ == FileType::APE;
 }
 
 bool Song::comment_supported() const {
@@ -421,11 +421,11 @@ bool Song::lyrics_supported() const {
 
 bool Song::save_embedded_cover_supported(const FileType filetype) {
 
-  return filetype == FileType_FLAC ||
-         filetype == FileType_OggVorbis ||
-         filetype == FileType_OggOpus ||
-         filetype == FileType_MPEG ||
-         filetype == FileType_MP4;
+  return filetype == FileType::FLAC ||
+         filetype == FileType::OggVorbis ||
+         filetype == FileType::OggOpus ||
+         filetype == FileType::MPEG ||
+         filetype == FileType::MP4;
 
 }
 
@@ -438,14 +438,14 @@ bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
 
 float Song::rating() const { return d->rating_; }
 
-bool Song::is_collection_song() const { return d->source_ == Source_Collection; }
+bool Song::is_collection_song() const { return d->source_ == Source::Collection; }
 bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.isEmpty() && !d->title_.isEmpty(); }
-bool Song::is_stream() const { return is_radio() || d->source_ == Source_Tidal || d->source_ == Source_Subsonic || d->source_ == Source_Qobuz; }
-bool Song::is_radio() const { return d->source_ == Source_Stream || d->source_ == Source_SomaFM || d->source_ == Source_RadioParadise; }
-bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
+bool Song::is_stream() const { return is_radio() || d->source_ == Source::Tidal || d->source_ == Source::Subsonic || d->source_ == Source::Qobuz; }
+bool Song::is_radio() const { return d->source_ == Source::Stream || d->source_ == Source::SomaFM || d->source_ == Source::RadioParadise; }
+bool Song::is_cdda() const { return d->source_ == Source::CDDA; }
 bool Song::is_compilation() const { return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && !d->compilation_off_; }
-bool Song::stream_url_can_expire() const { return d->source_ == Song::Source_Tidal || d->source_ == Song::Source_Qobuz; }
-bool Song::is_module_music() const { return d->filetype_ == Song::FileType_MOD || d->filetype_ == Song::FileType_S3M || d->filetype_ == Song::FileType_XM || d->filetype_ == Song::FileType_IT; }
+bool Song::stream_url_can_expire() const { return d->source_ == Source::Tidal || d->source_ == Source::Qobuz; }
+bool Song::is_module_music() const { return d->filetype_ == FileType::MOD || d->filetype_ == FileType::S3M || d->filetype_ == FileType::XM || d->filetype_ == FileType::IT; }
 
 bool Song::art_automatic_is_valid() const {
   return !d->art_automatic_.isEmpty() &&
@@ -551,55 +551,55 @@ QString Song::JoinSpec(const QString &table) {
 
 Song::Source Song::SourceFromURL(const QUrl &url) {
 
-  if (url.isLocalFile()) return Source_LocalFile;
-  else if (url.scheme() == "cdda") return Source_CDDA;
-  else if (url.scheme() == "tidal") return Source_Tidal;
-  else if (url.scheme() == "subsonic") return Source_Subsonic;
-  else if (url.scheme() == "qobuz") return Source_Qobuz;
+  if (url.isLocalFile()) return Source::LocalFile;
+  else if (url.scheme() == "cdda") return Source::CDDA;
+  else if (url.scheme() == "tidal") return Source::Tidal;
+  else if (url.scheme() == "subsonic") return Source::Subsonic;
+  else if (url.scheme() == "qobuz") return Source::Qobuz;
   else if (url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "rtsp") {
-    if (url.host().endsWith("tidal.com", Qt::CaseInsensitive)) { return Source_Tidal; }
-    if (url.host().endsWith("qobuz.com", Qt::CaseInsensitive)) { return Source_Qobuz; }
-    if (url.host().endsWith("somafm.com", Qt::CaseInsensitive)) { return Source_SomaFM; }
-    if (url.host().endsWith("radioparadise.com", Qt::CaseInsensitive)) { return Source_RadioParadise; }
-    return Source_Stream;
+    if (url.host().endsWith("tidal.com", Qt::CaseInsensitive)) { return Source::Tidal; }
+    if (url.host().endsWith("qobuz.com", Qt::CaseInsensitive)) { return Source::Qobuz; }
+    if (url.host().endsWith("somafm.com", Qt::CaseInsensitive)) { return Source::SomaFM; }
+    if (url.host().endsWith("radioparadise.com", Qt::CaseInsensitive)) { return Source::RadioParadise; }
+    return Source::Stream;
   }
-  else return Source_Unknown;
+  else return Source::Unknown;
 
 }
 
-QString Song::TextForSource(Source source) {
+QString Song::TextForSource(const Source source) {
 
   switch (source) {
-    case Song::Source_LocalFile:     return "file";
-    case Song::Source_Collection:    return "collection";
-    case Song::Source_CDDA:          return "cd";
-    case Song::Source_Device:        return "device";
-    case Song::Source_Stream:        return "stream";
-    case Song::Source_Tidal:         return "tidal";
-    case Song::Source_Subsonic:      return "subsonic";
-    case Song::Source_Qobuz:         return "qobuz";
-    case Song::Source_SomaFM:        return "somafm";
-    case Song::Source_RadioParadise: return "radioparadise";
-    case Song::Source_Unknown:       return "unknown";
+    case Source::LocalFile:     return "file";
+    case Source::Collection:    return "collection";
+    case Source::CDDA:          return "cd";
+    case Source::Device:        return "device";
+    case Source::Stream:        return "stream";
+    case Source::Tidal:         return "tidal";
+    case Source::Subsonic:      return "subsonic";
+    case Source::Qobuz:         return "qobuz";
+    case Source::SomaFM:        return "somafm";
+    case Source::RadioParadise: return "radioparadise";
+    case Source::Unknown:       return "unknown";
   }
   return "unknown";
 
 }
 
-QString Song::DescriptionForSource(Source source) {
+QString Song::DescriptionForSource(const Source source) {
 
   switch (source) {
-    case Song::Source_LocalFile:     return "File";
-    case Song::Source_Collection:    return "Collection";
-    case Song::Source_CDDA:          return "CD";
-    case Song::Source_Device:        return "Device";
-    case Song::Source_Stream:        return "Stream";
-    case Song::Source_Tidal:         return "Tidal";
-    case Song::Source_Subsonic:      return "Subsonic";
-    case Song::Source_Qobuz:         return "Qobuz";
-    case Song::Source_SomaFM:        return "SomaFM";
-    case Song::Source_RadioParadise: return "Radio Paradise";
-    case Song::Source_Unknown:       return "Unknown";
+    case Source::LocalFile:     return "File";
+    case Source::Collection:    return "Collection";
+    case Source::CDDA:          return "CD";
+    case Source::Device:        return "Device";
+    case Source::Stream:        return "Stream";
+    case Source::Tidal:         return "Tidal";
+    case Source::Subsonic:      return "Subsonic";
+    case Source::Qobuz:         return "Qobuz";
+    case Source::SomaFM:        return "SomaFM";
+    case Source::RadioParadise: return "Radio Paradise";
+    case Source::Unknown:       return "Unknown";
   }
   return "unknown";
 
@@ -607,132 +607,132 @@ QString Song::DescriptionForSource(Source source) {
 
 Song::Source Song::SourceFromText(const QString &source) {
 
-  if (source.compare("file", Qt::CaseInsensitive) == 0) return Source_LocalFile;
-  if (source.compare("collection", Qt::CaseInsensitive) == 0) return Source_Collection;
-  if (source.compare("cd", Qt::CaseInsensitive) == 0) return Source_CDDA;
-  if (source.compare("device", Qt::CaseInsensitive) == 0) return Source_Device;
-  if (source.compare("stream", Qt::CaseInsensitive) == 0) return Source_Stream;
-  if (source.compare("tidal", Qt::CaseInsensitive) == 0) return Source_Tidal;
-  if (source.compare("subsonic", Qt::CaseInsensitive) == 0) return Source_Subsonic;
-  if (source.compare("qobuz", Qt::CaseInsensitive) == 0) return Source_Qobuz;
-  if (source.compare("somafm", Qt::CaseInsensitive) == 0) return Source_SomaFM;
-  if (source.compare("radioparadise", Qt::CaseInsensitive) == 0) return Source_RadioParadise;
+  if (source.compare("file", Qt::CaseInsensitive) == 0) return Source::LocalFile;
+  if (source.compare("collection", Qt::CaseInsensitive) == 0) return Source::Collection;
+  if (source.compare("cd", Qt::CaseInsensitive) == 0) return Source::CDDA;
+  if (source.compare("device", Qt::CaseInsensitive) == 0) return Source::Device;
+  if (source.compare("stream", Qt::CaseInsensitive) == 0) return Source::Stream;
+  if (source.compare("tidal", Qt::CaseInsensitive) == 0) return Source::Tidal;
+  if (source.compare("subsonic", Qt::CaseInsensitive) == 0) return Source::Subsonic;
+  if (source.compare("qobuz", Qt::CaseInsensitive) == 0) return Source::Qobuz;
+  if (source.compare("somafm", Qt::CaseInsensitive) == 0) return Source::SomaFM;
+  if (source.compare("radioparadise", Qt::CaseInsensitive) == 0) return Source::RadioParadise;
 
-  return Source_Unknown;
+  return Source::Unknown;
 
 }
 
-QIcon Song::IconForSource(Source source) {
+QIcon Song::IconForSource(const Source source) {
 
   switch (source) {
-    case Song::Source_LocalFile:     return IconLoader::Load("folder-sound");
-    case Song::Source_Collection:    return IconLoader::Load("library-music");
-    case Song::Source_CDDA:          return IconLoader::Load("media-optical");
-    case Song::Source_Device:        return IconLoader::Load("device");
-    case Song::Source_Stream:        return IconLoader::Load("applications-internet");
-    case Song::Source_Tidal:         return IconLoader::Load("tidal");
-    case Song::Source_Subsonic:      return IconLoader::Load("subsonic");
-    case Song::Source_Qobuz:         return IconLoader::Load("qobuz");
-    case Song::Source_SomaFM:        return IconLoader::Load("somafm");
-    case Song::Source_RadioParadise: return IconLoader::Load("radioparadise");
-    case Song::Source_Unknown:       return IconLoader::Load("edit-delete");
+    case Source::LocalFile:     return IconLoader::Load("folder-sound");
+    case Source::Collection:    return IconLoader::Load("library-music");
+    case Source::CDDA:          return IconLoader::Load("media-optical");
+    case Source::Device:        return IconLoader::Load("device");
+    case Source::Stream:        return IconLoader::Load("applications-internet");
+    case Source::Tidal:         return IconLoader::Load("tidal");
+    case Source::Subsonic:      return IconLoader::Load("subsonic");
+    case Source::Qobuz:         return IconLoader::Load("qobuz");
+    case Source::SomaFM:        return IconLoader::Load("somafm");
+    case Source::RadioParadise: return IconLoader::Load("radioparadise");
+    case Source::Unknown:       return IconLoader::Load("edit-delete");
   }
   return IconLoader::Load("edit-delete");
 
 }
 
-QString Song::TextForFiletype(FileType filetype) {
+QString Song::TextForFiletype(const FileType filetype) {
 
   switch (filetype) {
-    case Song::FileType_WAV:         return "Wav";
-    case Song::FileType_FLAC:        return "FLAC";
-    case Song::FileType_WavPack:     return "WavPack";
-    case Song::FileType_OggFlac:     return "Ogg FLAC";
-    case Song::FileType_OggVorbis:   return "Ogg Vorbis";
-    case Song::FileType_OggOpus:     return "Ogg Opus";
-    case Song::FileType_OggSpeex:    return "Ogg Speex";
-    case Song::FileType_MPEG:        return "MP3";
-    case Song::FileType_MP4:         return "MP4 AAC";
-    case Song::FileType_ASF:         return "Windows Media audio";
-    case Song::FileType_AIFF:        return "AIFF";
-    case Song::FileType_MPC:         return "MPC";
-    case Song::FileType_TrueAudio:   return "TrueAudio";
-    case Song::FileType_DSF:         return "DSF";
-    case Song::FileType_DSDIFF:      return "DSDIFF";
-    case Song::FileType_PCM:         return "PCM";
-    case Song::FileType_APE:         return "Monkey's Audio";
-    case Song::FileType_MOD:         return "Module Music Format";
-    case Song::FileType_S3M:         return "Module Music Format";
-    case Song::FileType_XM:          return "Module Music Format";
-    case Song::FileType_IT:          return "Module Music Format";
-    case Song::FileType_CDDA:        return "CDDA";
-    case Song::FileType_SPC:         return "SNES SPC700";
-    case Song::FileType_VGM:         return "VGM";
-    case Song::FileType_Stream:      return "Stream";
-    case Song::FileType_Unknown:
+    case FileType::WAV:         return "Wav";
+    case FileType::FLAC:        return "FLAC";
+    case FileType::WavPack:     return "WavPack";
+    case FileType::OggFlac:     return "Ogg FLAC";
+    case FileType::OggVorbis:   return "Ogg Vorbis";
+    case FileType::OggOpus:     return "Ogg Opus";
+    case FileType::OggSpeex:    return "Ogg Speex";
+    case FileType::MPEG:        return "MP3";
+    case FileType::MP4:         return "MP4 AAC";
+    case FileType::ASF:         return "Windows Media audio";
+    case FileType::AIFF:        return "AIFF";
+    case FileType::MPC:         return "MPC";
+    case FileType::TrueAudio:   return "TrueAudio";
+    case FileType::DSF:         return "DSF";
+    case FileType::DSDIFF:      return "DSDIFF";
+    case FileType::PCM:         return "PCM";
+    case FileType::APE:         return "Monkey's Audio";
+    case FileType::MOD:         return "Module Music Format";
+    case FileType::S3M:         return "Module Music Format";
+    case FileType::XM:          return "Module Music Format";
+    case FileType::IT:          return "Module Music Format";
+    case FileType::CDDA:        return "CDDA";
+    case FileType::SPC:         return "SNES SPC700";
+    case FileType::VGM:         return "VGM";
+    case FileType::Stream:      return "Stream";
+    case FileType::Unknown:
     default:                         return QObject::tr("Unknown");
   }
 
 }
 
-QString Song::ExtensionForFiletype(FileType filetype) {
+QString Song::ExtensionForFiletype(const FileType filetype) {
 
   switch (filetype) {
-    case Song::FileType_WAV:         return "wav";
-    case Song::FileType_FLAC:        return "flac";
-    case Song::FileType_WavPack:     return "wv";
-    case Song::FileType_OggFlac:     return "flac";
-    case Song::FileType_OggVorbis:   return "ogg";
-    case Song::FileType_OggOpus:     return "opus";
-    case Song::FileType_OggSpeex:    return "spx";
-    case Song::FileType_MPEG:        return "mp3";
-    case Song::FileType_MP4:         return "mp4";
-    case Song::FileType_ASF:         return "wma";
-    case Song::FileType_AIFF:        return "aiff";
-    case Song::FileType_MPC:         return "mpc";
-    case Song::FileType_TrueAudio:   return "tta";
-    case Song::FileType_DSF:         return "dsf";
-    case Song::FileType_DSDIFF:      return "dsd";
-    case Song::FileType_APE:         return "ape";
-    case Song::FileType_MOD:         return "mod";
-    case Song::FileType_S3M:         return "s3m";
-    case Song::FileType_XM:          return "xm";
-    case Song::FileType_IT:          return "it";
-    case Song::FileType_SPC:         return "spc";
-    case Song::FileType_VGM:         return "vgm";
-    case Song::FileType_Unknown:
+    case FileType::WAV:         return "wav";
+    case FileType::FLAC:        return "flac";
+    case FileType::WavPack:     return "wv";
+    case FileType::OggFlac:     return "flac";
+    case FileType::OggVorbis:   return "ogg";
+    case FileType::OggOpus:     return "opus";
+    case FileType::OggSpeex:    return "spx";
+    case FileType::MPEG:        return "mp3";
+    case FileType::MP4:         return "mp4";
+    case FileType::ASF:         return "wma";
+    case FileType::AIFF:        return "aiff";
+    case FileType::MPC:         return "mpc";
+    case FileType::TrueAudio:   return "tta";
+    case FileType::DSF:         return "dsf";
+    case FileType::DSDIFF:      return "dsd";
+    case FileType::APE:         return "ape";
+    case FileType::MOD:         return "mod";
+    case FileType::S3M:         return "s3m";
+    case FileType::XM:          return "xm";
+    case FileType::IT:          return "it";
+    case FileType::SPC:         return "spc";
+    case FileType::VGM:         return "vgm";
+    case FileType::Unknown:
     default:                         return "dat";
   }
 
 }
 
-QIcon Song::IconForFiletype(FileType filetype) {
+QIcon Song::IconForFiletype(const FileType filetype) {
 
   switch (filetype) {
-    case Song::FileType_WAV:         return IconLoader::Load("wav");
-    case Song::FileType_FLAC:        return IconLoader::Load("flac");
-    case Song::FileType_WavPack:     return IconLoader::Load("wavpack");
-    case Song::FileType_OggFlac:     return IconLoader::Load("flac");
-    case Song::FileType_OggVorbis:   return IconLoader::Load("vorbis");
-    case Song::FileType_OggOpus:     return IconLoader::Load("opus");
-    case Song::FileType_OggSpeex:    return IconLoader::Load("speex");
-    case Song::FileType_MPEG:        return IconLoader::Load("mp3");
-    case Song::FileType_MP4:         return IconLoader::Load("mp4");
-    case Song::FileType_ASF:         return IconLoader::Load("wma");
-    case Song::FileType_AIFF:        return IconLoader::Load("aiff");
-    case Song::FileType_MPC:         return IconLoader::Load("mpc");
-    case Song::FileType_TrueAudio:   return IconLoader::Load("trueaudio");
-    case Song::FileType_DSF:         return IconLoader::Load("dsf");
-    case Song::FileType_DSDIFF:      return IconLoader::Load("dsd");
-    case Song::FileType_PCM:         return IconLoader::Load("pcm");
-    case Song::FileType_APE:         return IconLoader::Load("ape");
-    case Song::FileType_MOD:         return IconLoader::Load("mod");
-    case Song::FileType_S3M:         return IconLoader::Load("s3m");
-    case Song::FileType_XM:          return IconLoader::Load("xm");
-    case Song::FileType_IT:          return IconLoader::Load("it");
-    case Song::FileType_CDDA:        return IconLoader::Load("cd");
-    case Song::FileType_Stream:      return IconLoader::Load("applications-internet");
-    case Song::FileType_Unknown:
+    case FileType::WAV:         return IconLoader::Load("wav");
+    case FileType::FLAC:        return IconLoader::Load("flac");
+    case FileType::WavPack:     return IconLoader::Load("wavpack");
+    case FileType::OggFlac:     return IconLoader::Load("flac");
+    case FileType::OggVorbis:   return IconLoader::Load("vorbis");
+    case FileType::OggOpus:     return IconLoader::Load("opus");
+    case FileType::OggSpeex:    return IconLoader::Load("speex");
+    case FileType::MPEG:        return IconLoader::Load("mp3");
+    case FileType::MP4:         return IconLoader::Load("mp4");
+    case FileType::ASF:         return IconLoader::Load("wma");
+    case FileType::AIFF:        return IconLoader::Load("aiff");
+    case FileType::MPC:         return IconLoader::Load("mpc");
+    case FileType::TrueAudio:   return IconLoader::Load("trueaudio");
+    case FileType::DSF:         return IconLoader::Load("dsf");
+    case FileType::DSDIFF:      return IconLoader::Load("dsd");
+    case FileType::PCM:         return IconLoader::Load("pcm");
+    case FileType::APE:         return IconLoader::Load("ape");
+    case FileType::MOD:         return IconLoader::Load("mod");
+    case FileType::S3M:         return IconLoader::Load("s3m");
+    case FileType::XM:          return IconLoader::Load("xm");
+    case FileType::IT:          return IconLoader::Load("it");
+    case FileType::CDDA:        return IconLoader::Load("cd");
+    case FileType::Stream:      return IconLoader::Load("applications-internet");
+    case FileType::Unknown:
     default:                         return IconLoader::Load("edit-delete");
   }
 
@@ -740,17 +740,17 @@ QIcon Song::IconForFiletype(FileType filetype) {
 
 bool Song::IsFileLossless() const {
   switch (filetype()) {
-    case Song::FileType_WAV:
-    case Song::FileType_FLAC:
-    case Song::FileType_OggFlac:
-    case Song::FileType_WavPack:
-    case Song::FileType_AIFF:
-    case Song::FileType_DSF:
-    case Song::FileType_DSDIFF:
-    case Song::FileType_APE:
-    case Song::FileType_TrueAudio:
-    case Song::FileType_PCM:
-    case Song::FileType_CDDA:
+    case FileType::WAV:
+    case FileType::FLAC:
+    case FileType::OggFlac:
+    case FileType::WavPack:
+    case FileType::AIFF:
+    case FileType::DSF:
+    case FileType::DSDIFF:
+    case FileType::APE:
+    case FileType::TrueAudio:
+    case FileType::PCM:
+    case FileType::CDDA:
       return true;
     default:
       return false;
@@ -759,103 +759,103 @@ bool Song::IsFileLossless() const {
 
 Song::FileType Song::FiletypeByMimetype(const QString &mimetype) {
 
-  if (mimetype.compare("audio/wav", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-wav", Qt::CaseInsensitive) == 0) return Song::FileType_WAV;
-  else if (mimetype.compare("audio/x-flac", Qt::CaseInsensitive) == 0) return Song::FileType_FLAC;
-  else if (mimetype.compare("audio/x-wavpack", Qt::CaseInsensitive) == 0) return Song::FileType_WavPack;
-  else if (mimetype.compare("audio/x-vorbis", Qt::CaseInsensitive) == 0) return Song::FileType_OggVorbis;
-  else if (mimetype.compare("audio/x-opus", Qt::CaseInsensitive) == 0) return Song::FileType_OggOpus;
-  else if (mimetype.compare("audio/x-speex", Qt::CaseInsensitive) == 0)  return Song::FileType_OggSpeex;
+  if (mimetype.compare("audio/wav", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-wav", Qt::CaseInsensitive) == 0) return FileType::WAV;
+  else if (mimetype.compare("audio/x-flac", Qt::CaseInsensitive) == 0) return FileType::FLAC;
+  else if (mimetype.compare("audio/x-wavpack", Qt::CaseInsensitive) == 0) return FileType::WavPack;
+  else if (mimetype.compare("audio/x-vorbis", Qt::CaseInsensitive) == 0) return FileType::OggVorbis;
+  else if (mimetype.compare("audio/x-opus", Qt::CaseInsensitive) == 0) return FileType::OggOpus;
+  else if (mimetype.compare("audio/x-speex", Qt::CaseInsensitive) == 0)  return FileType::OggSpeex;
   // Gstreamer returns audio/mpeg for both MP3 and MP4/AAC.
-  // else if (mimetype.compare("audio/mpeg", Qt::CaseInsensitive) == 0) return Song::FileType_MPEG;
-  else if (mimetype.compare("audio/aac", Qt::CaseInsensitive) == 0) return Song::FileType_MP4;
-  else if (mimetype.compare("audio/x-wma", Qt::CaseInsensitive) == 0) return Song::FileType_ASF;
-  else if (mimetype.compare("audio/aiff", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-aiff", Qt::CaseInsensitive) == 0) return Song::FileType_AIFF;
-  else if (mimetype.compare("application/x-project", Qt::CaseInsensitive) == 0) return Song::FileType_MPC;
-  else if (mimetype.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return Song::FileType_DSF;
-  else if (mimetype.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return Song::FileType_DSDIFF;
-  else if (mimetype.compare("audio/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("application/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return Song::FileType_APE;
-  else if (mimetype.compare("audio/x-mod", Qt::CaseInsensitive) == 0) return Song::FileType_MOD;
-  else if (mimetype.compare("audio/x-s3m", Qt::CaseInsensitive) == 0) return Song::FileType_S3M;
-  else if (mimetype.compare("audio/x-spc", Qt::CaseInsensitive) == 0) return Song::FileType_SPC;
-  else if (mimetype.compare("audio/x-vgm", Qt::CaseInsensitive) == 0) return Song::FileType_VGM;
+  // else if (mimetype.compare("audio/mpeg", Qt::CaseInsensitive) == 0) return FileType::MPEG;
+  else if (mimetype.compare("audio/aac", Qt::CaseInsensitive) == 0) return FileType::MP4;
+  else if (mimetype.compare("audio/x-wma", Qt::CaseInsensitive) == 0) return FileType::ASF;
+  else if (mimetype.compare("audio/aiff", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-aiff", Qt::CaseInsensitive) == 0) return FileType::AIFF;
+  else if (mimetype.compare("application/x-project", Qt::CaseInsensitive) == 0) return FileType::MPC;
+  else if (mimetype.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return FileType::DSF;
+  else if (mimetype.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
+  else if (mimetype.compare("audio/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("application/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return FileType::APE;
+  else if (mimetype.compare("audio/x-mod", Qt::CaseInsensitive) == 0) return FileType::MOD;
+  else if (mimetype.compare("audio/x-s3m", Qt::CaseInsensitive) == 0) return FileType::S3M;
+  else if (mimetype.compare("audio/x-spc", Qt::CaseInsensitive) == 0) return FileType::SPC;
+  else if (mimetype.compare("audio/x-vgm", Qt::CaseInsensitive) == 0) return FileType::VGM;
 
-  else return Song::FileType_Unknown;
+  else return FileType::Unknown;
 
 }
 
 Song::FileType Song::FiletypeByDescription(const QString &text) {
 
-  if (text.compare("WAV", Qt::CaseInsensitive) == 0) return Song::FileType_WAV;
-  else if (text.compare("Free Lossless Audio Codec (FLAC)", Qt::CaseInsensitive) == 0) return Song::FileType_FLAC;
-  else if (text.compare("Wavpack", Qt::CaseInsensitive) == 0) return Song::FileType_WavPack;
-  else if (text.compare("Vorbis", Qt::CaseInsensitive) == 0) return Song::FileType_OggVorbis;
-  else if (text.compare("Opus", Qt::CaseInsensitive) == 0) return Song::FileType_OggOpus;
-  else if (text.compare("Speex", Qt::CaseInsensitive) == 0) return Song::FileType_OggSpeex;
-  else if (text.compare("MPEG-1 Layer 3 (MP3)", Qt::CaseInsensitive) == 0) return Song::FileType_MPEG;
-  else if (text.compare("MPEG-4 AAC", Qt::CaseInsensitive) == 0) return Song::FileType_MP4;
-  else if (text.compare("WMA", Qt::CaseInsensitive) == 0) return Song::FileType_ASF;
-  else if (text.compare("Audio Interchange File Format", Qt::CaseInsensitive) == 0) return Song::FileType_AIFF;
-  else if (text.compare("MPC", Qt::CaseInsensitive) == 0) return Song::FileType_MPC;
-  else if (text.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return Song::FileType_DSF;
-  else if (text.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return Song::FileType_DSDIFF;
-  else if (text.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return Song::FileType_APE;
-  else if (text.compare("Module Music Format (MOD)", Qt::CaseInsensitive) == 0) return Song::FileType_MOD;
-  else if (text.compare("Module Music Format (MOD)", Qt::CaseInsensitive) == 0) return Song::FileType_S3M;
-  else if (text.compare("SNES SPC700", Qt::CaseInsensitive) == 0) return Song::FileType_SPC;
-  else if (text.compare("VGM", Qt::CaseInsensitive) == 0) return Song::FileType_VGM;
-  else return Song::FileType_Unknown;
+  if (text.compare("WAV", Qt::CaseInsensitive) == 0) return FileType::WAV;
+  else if (text.compare("Free Lossless Audio Codec (FLAC)", Qt::CaseInsensitive) == 0) return FileType::FLAC;
+  else if (text.compare("Wavpack", Qt::CaseInsensitive) == 0) return FileType::WavPack;
+  else if (text.compare("Vorbis", Qt::CaseInsensitive) == 0) return FileType::OggVorbis;
+  else if (text.compare("Opus", Qt::CaseInsensitive) == 0) return FileType::OggOpus;
+  else if (text.compare("Speex", Qt::CaseInsensitive) == 0) return FileType::OggSpeex;
+  else if (text.compare("MPEG-1 Layer 3 (MP3)", Qt::CaseInsensitive) == 0) return FileType::MPEG;
+  else if (text.compare("MPEG-4 AAC", Qt::CaseInsensitive) == 0) return FileType::MP4;
+  else if (text.compare("WMA", Qt::CaseInsensitive) == 0) return FileType::ASF;
+  else if (text.compare("Audio Interchange File Format", Qt::CaseInsensitive) == 0) return FileType::AIFF;
+  else if (text.compare("MPC", Qt::CaseInsensitive) == 0) return FileType::MPC;
+  else if (text.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return FileType::DSF;
+  else if (text.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
+  else if (text.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return FileType::APE;
+  else if (text.compare("Module Music Format (MOD)", Qt::CaseInsensitive) == 0) return FileType::MOD;
+  else if (text.compare("Module Music Format (MOD)", Qt::CaseInsensitive) == 0) return FileType::S3M;
+  else if (text.compare("SNES SPC700", Qt::CaseInsensitive) == 0) return FileType::SPC;
+  else if (text.compare("VGM", Qt::CaseInsensitive) == 0) return FileType::VGM;
+  else return FileType::Unknown;
 
 }
 
 Song::FileType Song::FiletypeByExtension(const QString &ext) {
 
-  if (ext.compare("wav", Qt::CaseInsensitive) == 0 || ext.compare("wave", Qt::CaseInsensitive) == 0) return Song::FileType_WAV;
-  else if (ext.compare("flac", Qt::CaseInsensitive) == 0) return Song::FileType_FLAC;
-  else if (ext.compare("wavpack", Qt::CaseInsensitive) == 0 || ext.compare("wv", Qt::CaseInsensitive) == 0) return Song::FileType_WavPack;
-  else if (ext.compare("ogg", Qt::CaseInsensitive) == 0 || ext.compare("oga", Qt::CaseInsensitive) == 0) return Song::FileType_OggVorbis;
-  else if (ext.compare("opus", Qt::CaseInsensitive) == 0) return Song::FileType_OggOpus;
-  else if (ext.compare("speex", Qt::CaseInsensitive) == 0 || ext.compare("spx", Qt::CaseInsensitive) == 0) return Song::FileType_OggSpeex;
-  else if (ext.compare("mp3", Qt::CaseInsensitive) == 0) return Song::FileType_MPEG;
-  else if (ext.compare("mp4", Qt::CaseInsensitive) == 0 || ext.compare("m4a", Qt::CaseInsensitive) == 0 || ext.compare("aac", Qt::CaseInsensitive) == 0) return Song::FileType_MP4;
-  else if (ext.compare("asf", Qt::CaseInsensitive) == 0 || ext.compare("wma", Qt::CaseInsensitive) == 0) return Song::FileType_ASF;
-  else if (ext.compare("aiff", Qt::CaseInsensitive) == 0 || ext.compare("aif", Qt::CaseInsensitive) == 0 || ext.compare("aifc", Qt::CaseInsensitive) == 0) return Song::FileType_AIFF;
-  else if (ext.compare("mpc", Qt::CaseInsensitive) == 0 || ext.compare("mp+", Qt::CaseInsensitive) == 0 || ext.compare("mpp", Qt::CaseInsensitive) == 0) return Song::FileType_MPC;
-  else if (ext.compare("dsf", Qt::CaseInsensitive) == 0) return Song::FileType_DSF;
-  else if (ext.compare("dsd", Qt::CaseInsensitive) == 0 || ext.compare("dff", Qt::CaseInsensitive) == 0) return Song::FileType_DSDIFF;
-  else if (ext.compare("ape", Qt::CaseInsensitive) == 0) return Song::FileType_APE;
+  if (ext.compare("wav", Qt::CaseInsensitive) == 0 || ext.compare("wave", Qt::CaseInsensitive) == 0) return FileType::WAV;
+  else if (ext.compare("flac", Qt::CaseInsensitive) == 0) return FileType::FLAC;
+  else if (ext.compare("wavpack", Qt::CaseInsensitive) == 0 || ext.compare("wv", Qt::CaseInsensitive) == 0) return FileType::WavPack;
+  else if (ext.compare("ogg", Qt::CaseInsensitive) == 0 || ext.compare("oga", Qt::CaseInsensitive) == 0) return FileType::OggVorbis;
+  else if (ext.compare("opus", Qt::CaseInsensitive) == 0) return FileType::OggOpus;
+  else if (ext.compare("speex", Qt::CaseInsensitive) == 0 || ext.compare("spx", Qt::CaseInsensitive) == 0) return FileType::OggSpeex;
+  else if (ext.compare("mp3", Qt::CaseInsensitive) == 0) return FileType::MPEG;
+  else if (ext.compare("mp4", Qt::CaseInsensitive) == 0 || ext.compare("m4a", Qt::CaseInsensitive) == 0 || ext.compare("aac", Qt::CaseInsensitive) == 0) return FileType::MP4;
+  else if (ext.compare("asf", Qt::CaseInsensitive) == 0 || ext.compare("wma", Qt::CaseInsensitive) == 0) return FileType::ASF;
+  else if (ext.compare("aiff", Qt::CaseInsensitive) == 0 || ext.compare("aif", Qt::CaseInsensitive) == 0 || ext.compare("aifc", Qt::CaseInsensitive) == 0) return FileType::AIFF;
+  else if (ext.compare("mpc", Qt::CaseInsensitive) == 0 || ext.compare("mp+", Qt::CaseInsensitive) == 0 || ext.compare("mpp", Qt::CaseInsensitive) == 0) return FileType::MPC;
+  else if (ext.compare("dsf", Qt::CaseInsensitive) == 0) return FileType::DSF;
+  else if (ext.compare("dsd", Qt::CaseInsensitive) == 0 || ext.compare("dff", Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
+  else if (ext.compare("ape", Qt::CaseInsensitive) == 0) return FileType::APE;
   else if (ext.compare("mod", Qt::CaseInsensitive) == 0 ||
            ext.compare("module", Qt::CaseInsensitive) == 0 ||
            ext.compare("nst", Qt::CaseInsensitive) == 0||
-           ext.compare("wow", Qt::CaseInsensitive) == 0) return Song::FileType_MOD;
-  else if (ext.compare("s3m", Qt::CaseInsensitive) == 0) return Song::FileType_S3M;
-  else if (ext.compare("xm", Qt::CaseInsensitive) == 0) return Song::FileType_XM;
-  else if (ext.compare("it", Qt::CaseInsensitive) == 0) return Song::FileType_IT;
-  else if (ext.compare("spc", Qt::CaseInsensitive) == 0) return Song::FileType_SPC;
-  else if (ext.compare("vgm", Qt::CaseInsensitive) == 0) return Song::FileType_VGM;
+           ext.compare("wow", Qt::CaseInsensitive) == 0) return FileType::MOD;
+  else if (ext.compare("s3m", Qt::CaseInsensitive) == 0) return FileType::S3M;
+  else if (ext.compare("xm", Qt::CaseInsensitive) == 0) return FileType::XM;
+  else if (ext.compare("it", Qt::CaseInsensitive) == 0) return FileType::IT;
+  else if (ext.compare("spc", Qt::CaseInsensitive) == 0) return FileType::SPC;
+  else if (ext.compare("vgm", Qt::CaseInsensitive) == 0) return FileType::VGM;
 
-  else return Song::FileType_Unknown;
+  else return FileType::Unknown;
 
 }
 
-QString Song::ImageCacheDir(const Song::Source source) {
+QString Song::ImageCacheDir(const Source source) {
 
   switch (source) {
-    case Song::Source_Collection:
+    case Source::Collection:
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/collectionalbumcovers";
-    case Song::Source_Subsonic:
+    case Source::Subsonic:
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/subsonicalbumcovers";
-    case Song::Source_Tidal:
+    case Source::Tidal:
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/tidalalbumcovers";
-    case Song::Source_Qobuz:
+    case Source::Qobuz:
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/qobuzalbumcovers";
-    case Song::Source_Device:
+    case Source::Device:
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/devicealbumcovers";
-    case Song::Source_LocalFile:
-    case Song::Source_CDDA:
-    case Song::Source_Stream:
-    case Song::Source_SomaFM:
-    case Song::Source_RadioParadise:
-    case Song::Source_Unknown:
+    case Source::LocalFile:
+    case Source::CDDA:
+    case Source::Stream:
+    case Source::SomaFM:
+    case Source::RadioParadise:
+    case Source::Unknown:
       return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/albumcovers";
   }
 
@@ -899,7 +899,7 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
 
 void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
 
-  if (d->source_ == Source_Unknown) d->source_ = Source_LocalFile;
+  if (d->source_ == Source::Unknown) d->source_ = Source::LocalFile;
 
   d->init_from_file_ = true;
   d->valid_ = pb.valid();
@@ -1068,7 +1068,7 @@ void Song::InitFromFilePartial(const QString &filename, const QFileInfo &fileinf
 
   set_url(QUrl::fromLocalFile(filename));
   d->valid_ = true;
-  d->source_ = Source_LocalFile;
+  d->source_ = Source::LocalFile;
   d->filetype_ = FiletypeByExtension(fileinfo.suffix());
   d->basefilename_ = fileinfo.fileName();
   d->title_ = fileinfo.fileName();
@@ -1091,7 +1091,7 @@ void Song::InitArtManual() {
 
 void Song::InitArtAutomatic() {
 
-  if (d->source_ == Source_LocalFile && d->url_.isLocalFile() && d->art_automatic_.isEmpty()) {
+  if (d->source_ == Source::LocalFile && d->url_.isLocalFile() && d->art_automatic_.isEmpty()) {
     // Pick the first image file in the album directory.
     QFileInfo file(d->url_.toLocalFile());
     QDir dir(file.path());
@@ -1127,7 +1127,7 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
   d->samplerate_ = track->samplerate;
   d->bitdepth_ = -1; //track->bitdepth;
 
-  d->source_ = Source_Device;
+  d->source_ = Source::Device;
   QString filename = QString::fromLocal8Bit(track->ipod_path);
   filename.replace(':', '/');
   if (prefix.contains("://")) {
@@ -1138,7 +1138,7 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
   }
   d->basefilename_ = QFileInfo(filename).fileName();
 
-  d->filetype_ = track->type2 ? FileType_MPEG : FileType_MP4;
+  d->filetype_ = track->type2 ? FileType::MPEG : FileType::MP4;
   d->filesize_ = track->size;
   d->mtime_ = track->time_modified;
   d->ctime_ = track->time_added;
@@ -1150,7 +1150,7 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
   if (itdb_track_has_thumbnails(track) && !d->artist_.isEmpty() && !d->title_.isEmpty()) {
     GdkPixbuf *pixbuf = static_cast<GdkPixbuf*>(itdb_track_get_thumbnail(track, -1, -1));
     if (pixbuf) {
-      QString cover_path = ImageCacheDir(Source_Device);
+      QString cover_path = ImageCacheDir(Source::Device);
       QDir dir(cover_path);
       if (!dir.exists()) dir.mkpath(cover_path);
       QString cover_file = cover_path + "/" + Utilities::Sha1CoverHash(effective_albumartist(), effective_album()).toHex() + ".jpg";
@@ -1184,8 +1184,8 @@ void Song::ToItdb(Itdb_Track *track) const {
   track->bitrate = d->bitrate_;
   track->samplerate = d->samplerate_;
 
-  track->type1 = (d->filetype_ == FileType_MPEG ? 1 : 0);
-  track->type2 = (d->filetype_ == FileType_MPEG ? 1 : 0);
+  track->type1 = (d->filetype_ == FileType::MPEG ? 1 : 0);
+  track->type2 = (d->filetype_ == FileType::MPEG ? 1 : 0);
   track->mediatype = 1;  // Audio
   track->size = static_cast<uint>(d->filesize_);
   track->time_modified = d->mtime_;
@@ -1202,7 +1202,7 @@ void Song::ToItdb(Itdb_Track *track) const {
 void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
 
   d->valid_ = true;
-  d->source_ = Source_Device;
+  d->source_ = Source::Device;
 
   set_title(QString::fromUtf8(track->title));
   set_artist(QString::fromUtf8(track->artist));
@@ -1226,19 +1226,19 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
   d->playcount_ = track->usecount;
 
   switch (track->filetype) {
-      case LIBMTP_FILETYPE_WAV:  d->filetype_ = FileType_WAV;       break;
-      case LIBMTP_FILETYPE_MP3:  d->filetype_ = FileType_MPEG;      break;
-      case LIBMTP_FILETYPE_WMA:  d->filetype_ = FileType_ASF;       break;
-      case LIBMTP_FILETYPE_OGG:  d->filetype_ = FileType_OggVorbis; break;
-      case LIBMTP_FILETYPE_MP4:  d->filetype_ = FileType_MP4;       break;
-      case LIBMTP_FILETYPE_AAC:  d->filetype_ = FileType_MP4;       break;
-      case LIBMTP_FILETYPE_FLAC: d->filetype_ = FileType_OggFlac;   break;
-      case LIBMTP_FILETYPE_MP2:  d->filetype_ = FileType_MPEG;      break;
-      case LIBMTP_FILETYPE_M4A:  d->filetype_ = FileType_MP4;       break;
-      default:
-        d->filetype_ = FileType_Unknown;
-        d->valid_ = false;
-        break;
+    case LIBMTP_FILETYPE_WAV:  d->filetype_ = FileType::WAV;       break;
+    case LIBMTP_FILETYPE_MP3:  d->filetype_ = FileType::MPEG;      break;
+    case LIBMTP_FILETYPE_WMA:  d->filetype_ = FileType::ASF;       break;
+    case LIBMTP_FILETYPE_OGG:  d->filetype_ = FileType::OggVorbis; break;
+    case LIBMTP_FILETYPE_MP4:  d->filetype_ = FileType::MP4;       break;
+    case LIBMTP_FILETYPE_AAC:  d->filetype_ = FileType::MP4;       break;
+    case LIBMTP_FILETYPE_FLAC: d->filetype_ = FileType::OggFlac;   break;
+    case LIBMTP_FILETYPE_MP2:  d->filetype_ = FileType::MPEG;      break;
+    case LIBMTP_FILETYPE_M4A:  d->filetype_ = FileType::MP4;       break;
+    default:
+      d->filetype_ = FileType::Unknown;
+      d->valid_ = false;
+      break;
   }
 
 }
@@ -1276,14 +1276,14 @@ void Song::ToMTP(LIBMTP_track_t *track) const {
   track->usecount = d->playcount_;
 
   switch (d->filetype_) {
-    case FileType_ASF:       track->filetype = LIBMTP_FILETYPE_ASF;         break;
-    case FileType_MP4:       track->filetype = LIBMTP_FILETYPE_MP4;         break;
-    case FileType_MPEG:      track->filetype = LIBMTP_FILETYPE_MP3;         break;
-    case FileType_FLAC:
-    case FileType_OggFlac:   track->filetype = LIBMTP_FILETYPE_FLAC;        break;
-    case FileType_OggSpeex:
-    case FileType_OggVorbis: track->filetype = LIBMTP_FILETYPE_OGG;         break;
-    case FileType_WAV:       track->filetype = LIBMTP_FILETYPE_WAV;         break;
+    case FileType::ASF:       track->filetype = LIBMTP_FILETYPE_ASF;         break;
+    case FileType::MP4:       track->filetype = LIBMTP_FILETYPE_MP4;         break;
+    case FileType::MPEG:      track->filetype = LIBMTP_FILETYPE_MP3;         break;
+    case FileType::FLAC:
+    case FileType::OggFlac:   track->filetype = LIBMTP_FILETYPE_FLAC;        break;
+    case FileType::OggSpeex:
+    case FileType::OggVorbis: track->filetype = LIBMTP_FILETYPE_OGG;         break;
+    case FileType::WAV:       track->filetype = LIBMTP_FILETYPE_WAV;         break;
     default:                 track->filetype = LIBMTP_FILETYPE_UNDEF_AUDIO; break;
   }
 
@@ -1335,7 +1335,7 @@ bool Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
   if (bundle.length > 0) set_length_nanosec(bundle.length);
   if (bundle.year > 0) d->year_ = bundle.year;
   if (bundle.track > 0) d->track_ = bundle.track;
-  if (bundle.filetype != FileType_Unknown) d->filetype_ = bundle.filetype;
+  if (bundle.filetype != FileType::Unknown) d->filetype_ = bundle.filetype;
   if (bundle.samplerate > 0) d->samplerate_ = bundle.samplerate;
   if (bundle.bitdepth > 0) d->bitdepth_ = bundle.bitdepth;
   if (bundle.bitrate > 0) d->bitrate_ = bundle.bitrate;
@@ -1375,10 +1375,10 @@ void Song::BindToQuery(SqlQuery *query) const {
   query->BindIntValue(":samplerate", d->samplerate_);
   query->BindIntValue(":bitdepth", d->bitdepth_);
 
-  query->BindValue(":source", d->source_);
+  query->BindValue(":source", static_cast<int>(d->source_));
   query->BindNotNullIntValue(":directory_id", d->directory_id_);
   query->BindUrlValue(":url", d->url_);
-  query->BindValue(":filetype", d->filetype_);
+  query->BindValue(":filetype", static_cast<int>(d->filetype_));
   query->BindLongLongValueOrZero(":filesize", d->filesize_);
   query->BindLongLongValueOrZero(":mtime", d->mtime_);
   query->BindLongLongValueOrZero(":ctime", d->ctime_);
@@ -1564,7 +1564,7 @@ bool Song::IsAllMetadataEqual(const Song &other) const {
 }
 
 bool Song::IsEditable() const {
-  return d->valid_ && d->url_.isValid() && (d->url_.isLocalFile() || d->source_ == Source_Stream) && !has_cue();
+  return d->valid_ && d->url_.isValid() && (d->url_.isLocalFile() || d->source_ == Source::Stream) && !has_cue();
 }
 
 bool Song::operator==(const Song &other) const {

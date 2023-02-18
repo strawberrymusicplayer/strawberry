@@ -25,7 +25,7 @@
 void Thread::run() {
 
 #ifndef Q_OS_WIN32
-  if (io_priority_ != Utilities::IOPRIO_CLASS_NONE) {
+  if (io_priority_ != Utilities::IoPriority::IOPRIO_CLASS_NONE) {
     Utilities::SetThreadIOPriority(io_priority_);
   }
 #endif

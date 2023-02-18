@@ -460,7 +460,7 @@ void DeviceView::DeleteFinished(const SongList &songs_with_errors) {
   if (songs_with_errors.isEmpty()) return;
 
   OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
-  dialog->Show(OrganizeErrorDialog::Type_Delete, songs_with_errors);
+  dialog->Show(OrganizeErrorDialog::OperationType::Delete, songs_with_errors);
   // It deletes itself when the user closes it
 
 }

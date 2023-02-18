@@ -41,20 +41,20 @@
 PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
 
   switch (source) {
-    case Song::Source_Collection:
+    case Song::Source::Collection:
       return std::make_shared<CollectionPlaylistItem>();
-    case Song::Source_Subsonic:
-    case Song::Source_Tidal:
-    case Song::Source_Qobuz:
+    case Song::Source::Subsonic:
+    case Song::Source::Tidal:
+    case Song::Source::Qobuz:
       return std::make_shared<InternetPlaylistItem>(source);
-    case Song::Source_Stream:
-    case Song::Source_RadioParadise:
-    case Song::Source_SomaFM:
+    case Song::Source::Stream:
+    case Song::Source::RadioParadise:
+    case Song::Source::SomaFM:
       return std::make_shared<RadioPlaylistItem>(source);
-    case Song::Source_LocalFile:
-    case Song::Source_CDDA:
-    case Song::Source_Device:
-    case Song::Source_Unknown:
+    case Song::Source::LocalFile:
+    case Song::Source::CDDA:
+    case Song::Source::Device:
+    case Song::Source::Unknown:
       break;
   }
 
@@ -65,20 +65,20 @@ PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
 PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
 
   switch (song.source()) {
-    case Song::Source_Collection:
+    case Song::Source::Collection:
       return std::make_shared<CollectionPlaylistItem>(song);
-    case Song::Source_Subsonic:
-    case Song::Source_Tidal:
-    case Song::Source_Qobuz:
+    case Song::Source::Subsonic:
+    case Song::Source::Tidal:
+    case Song::Source::Qobuz:
       return std::make_shared<InternetPlaylistItem>(song);
-    case Song::Source_Stream:
-    case Song::Source_RadioParadise:
-    case Song::Source_SomaFM:
+    case Song::Source::Stream:
+    case Song::Source::RadioParadise:
+    case Song::Source::SomaFM:
       return std::make_shared<RadioPlaylistItem>(song);
-    case Song::Source_LocalFile:
-    case Song::Source_CDDA:
-    case Song::Source_Device:
-    case Song::Source_Unknown:
+    case Song::Source::LocalFile:
+    case Song::Source::CDDA:
+    case Song::Source::Device:
+    case Song::Source::Unknown:
       break;
   }
 
@@ -90,7 +90,7 @@ PlaylistItem::~PlaylistItem() = default;
 
 void PlaylistItem::BindToQuery(SqlQuery *query) const {
 
-  query->BindValue(":type", source_);
+  query->BindValue(":type", static_cast<int>(source_));
   query->BindValue(":collection_id", DatabaseValue(Column_CollectionId));
 
   DatabaseSongMetadata().BindToQuery(query);

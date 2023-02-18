@@ -36,12 +36,12 @@ using ColorVector = QVector<QColor>;
 class MoodbarRenderer {
  public:
   // These values are persisted.  Remember to change moodbarsettingspage.ui when changing them.
-  enum MoodbarStyle {
-    Style_Normal = 0,
-    Style_Angry,
-    Style_Frozen,
-    Style_Happy,
-    Style_SystemPalette,
+  enum class MoodbarStyle {
+    Normal = 0,
+    Angry,
+    Frozen,
+    Happy,
+    SystemPalette,
     StyleCount
   };
 

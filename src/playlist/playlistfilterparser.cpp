@@ -198,7 +198,7 @@ class FilterTerm : public FilterTree {
     }
     return false;
   }
-  FilterType type() override { return Term; }
+  FilterType type() override { return FilterType::Term; }
  private:
   QScopedPointer<SearchTermComparator> cmp_;
   QList<int> columns_;
@@ -213,7 +213,7 @@ class FilterColumnTerm : public FilterTree {
     QModelIndex idx(model->index(row, col, parent));
     return cmp_->Matches(idx.data().toString().toLower());
   }
-  FilterType type() override { return Column; }
+  FilterType type() override { return FilterType::Column; }
  private:
   int col;
   QScopedPointer<SearchTermComparator> cmp_;
@@ -226,7 +226,7 @@ class NotFilter : public FilterTree {
   bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
     return !child_->accept(row, parent, model);
   }
-  FilterType type() override { return Not; }
+  FilterType type() override { return FilterType::Not; }
  private:
   QScopedPointer<const FilterTree> child_;
 };
@@ -238,7 +238,7 @@ class OrFilter : public FilterTree {
   bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
     return std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return child->accept(row, parent, model); });
   }
-  FilterType type() override { return Or; }
+  FilterType type() override { return FilterType::Or; }
  private:
   QList<FilterTree*> children_;
 };
@@ -250,7 +250,7 @@ class AndFilter : public FilterTree {
   bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
     return !std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return !child->accept(row, parent, model); });
   }
-  FilterType type() override { return And; }
+  FilterType type() override { return FilterType::And; }
  private:
   QList<FilterTree*> children_;
 };
@@ -385,7 +385,7 @@ FilterTree *FilterParser::parseSearchExpression() {
   else if (*iter_ == '-') {
     ++iter_;
     FilterTree *tree = parseSearchExpression();
-    if (tree->type() != FilterTree::Nop) return new NotFilter(tree);
+    if (tree->type() != FilterTree::FilterType::Nop) return new NotFilter(tree);
     return tree;
   }
   else {

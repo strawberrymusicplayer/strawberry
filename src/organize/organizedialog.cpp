@@ -522,7 +522,7 @@ void OrganizeDialog::UpdatePreviews() {
   if (ok) {
     QString extension;
 #ifdef HAVE_GSTREAMER
-    if (storage && storage->GetTranscodeMode() == MusicStorage::Transcode_Always) {
+    if (storage && storage->GetTranscodeMode() == MusicStorage::TranscodeMode::Transcode_Always) {
       const Song::FileType format = storage->GetTranscodeFormat();
       TranscoderPreset preset = Transcoder::PresetForFileType(format);
       extension = preset.extension_;
@@ -565,7 +565,7 @@ void OrganizeDialog::OrganizeFinished(const QStringList &files_with_errors, cons
   if (files_with_errors.isEmpty()) return;
 
   error_dialog_ = std::make_unique<OrganizeErrorDialog>();
-  error_dialog_->Show(OrganizeErrorDialog::Type_Copy, files_with_errors, log);
+  error_dialog_->Show(OrganizeErrorDialog::OperationType::Copy, files_with_errors, log);
 
 }
 

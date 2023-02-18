@@ -88,7 +88,7 @@ class ScrobblingAPI20 : public ScrobblerService {
 
  private:
 
-  enum ScrobbleErrorCode {
+  enum class ScrobbleErrorCode {
     NoError = 1,
     InvalidService = 2,
     InvalidMethod = 3,

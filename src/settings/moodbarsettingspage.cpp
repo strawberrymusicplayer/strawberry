@@ -111,7 +111,7 @@ void MoodbarSettingsPage::InitMoodbarPreviews() {
   file.close();
 
   // Render and set each preview
-  for (int i = 0; i < MoodbarRenderer::StyleCount; ++i) {
+  for (int i = 0; i < static_cast<int>(MoodbarRenderer::MoodbarStyle::StyleCount); ++i) {
 
     const MoodbarRenderer::MoodbarStyle style = static_cast<MoodbarRenderer::MoodbarStyle>(i);
     const ColorVector colors = MoodbarRenderer::Colors(file_data, style, palette());

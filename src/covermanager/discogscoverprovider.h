@@ -55,9 +55,9 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
   void CancelSearch(const int id) override;
 
-  enum DiscogsCoverType {
-    DiscogsCoverType_Master,
-    DiscogsCoverType_Release,
+  enum class DiscogsCoverType {
+    Master,
+    Release
   };
 
   struct DiscogsCoverReleaseContext {
@@ -67,7 +67,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
     QUrl url;
   };
   struct DiscogsCoverSearchContext {
-    explicit DiscogsCoverSearchContext(const int _id = 0, const QString &_artist = QString(), const QString &_album = QString(), const DiscogsCoverType _type = DiscogsCoverType_Master) : id(_id), artist(_artist), album(_album), type(_type) {}
+    explicit DiscogsCoverSearchContext(const int _id = 0, const QString &_artist = QString(), const QString &_album = QString(), const DiscogsCoverType _type = DiscogsCoverType::Master) : id(_id), artist(_artist), album(_album), type(_type) {}
     int id;
     QString artist;
     QString album;

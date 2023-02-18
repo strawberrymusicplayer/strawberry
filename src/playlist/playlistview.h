@@ -128,7 +128,7 @@ class PlaylistView : public QTreeView {
 
  signals:
   void PlayItem(QModelIndex idx, Playlist::AutoScroll autoscroll);
-  void PlayPause(const quint64 offset_nanosec = 0, Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Never);
+  void PlayPause(const quint64 offset_nanosec = 0, Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Never);
   void RightClicked(QPoint global_pos, QModelIndex idx);
   void SeekForward();
   void SeekBackward();

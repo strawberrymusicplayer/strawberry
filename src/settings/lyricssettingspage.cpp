@@ -122,7 +122,7 @@ void LyricsSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QList
     LyricsProvider *provider = dialog()->app()->lyrics_providers()->ProviderByName(item_current->text());
     if (provider) {
       if (provider->AuthenticationRequired()) {
-        ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::LoggedIn : LoginStateWidget::LoggedOut);
+        ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
         ui_->button_authenticate->setEnabled(true);
         ui_->button_authenticate->show();
         ui_->login_state->show();
@@ -191,7 +191,7 @@ void LyricsSettingsPage::NoProviderSelected() {
 
 void LyricsSettingsPage::DisableAuthentication() {
 
-  ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_authenticate->setEnabled(false);
   ui_->login_state->hide();
   ui_->button_authenticate->hide();
@@ -211,7 +211,7 @@ void LyricsSettingsPage::AuthenticateClicked() {
   LyricsProvider *provider = dialog()->app()->lyrics_providers()->ProviderByName(ui_->providers->currentItem()->text());
   if (!provider) return;
   ui_->button_authenticate->setEnabled(false);
-  ui_->login_state->SetLoggedIn(LoginStateWidget::LoginInProgress);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
   QObject::connect(provider, &LyricsProvider::AuthenticationFailure, this, &LyricsSettingsPage::AuthenticationFailure);
   QObject::connect(provider, &LyricsProvider::AuthenticationSuccess, this, &LyricsSettingsPage::AuthenticationSuccess);
   provider->Authenticate();
@@ -226,7 +226,7 @@ void LyricsSettingsPage::LogoutClicked() {
   provider->Deauthenticate();
 
   ui_->button_authenticate->setEnabled(true);
-  ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
 
 }
 
@@ -238,7 +238,7 @@ void LyricsSettingsPage::AuthenticationSuccess() {
 
   if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
-  ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
   ui_->button_authenticate->setEnabled(true);
 
 }
@@ -253,7 +253,7 @@ void LyricsSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
   QMessageBox::warning(this, tr("Authentication failed"), errors.join("\n"));
 
-  ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_authenticate->setEnabled(true);
 
 }

@@ -110,7 +110,7 @@ QVariant RadioModel::data(const RadioItem *item, int role) const {
       return item->SortText();
       break;
     case Role_Source:
-      return item->source;
+      return QVariant::fromValue(item->source);
       break;
     case Role_Homepage:{
       RadioService *service = app_->radio_services()->ServiceBySource(item->source);

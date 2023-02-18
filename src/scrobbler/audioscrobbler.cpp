@@ -82,17 +82,17 @@ void AudioScrobbler::ReloadSettings() {
   sources_.clear();
 
   if (sources.isEmpty()) {
-    sources_ << Song::Source_Unknown
-             << Song::Source_LocalFile
-             << Song::Source_Collection
-             << Song::Source_CDDA
-             << Song::Source_Device
-             << Song::Source_Stream
-             << Song::Source_Tidal
-             << Song::Source_Subsonic
-             << Song::Source_Qobuz
-             << Song::Source_SomaFM
-             << Song::Source_RadioParadise;
+    sources_ << Song::Source::Unknown
+             << Song::Source::LocalFile
+             << Song::Source::Collection
+             << Song::Source::CDDA
+             << Song::Source::Device
+             << Song::Source::Stream
+             << Song::Source::Tidal
+             << Song::Source::Subsonic
+             << Song::Source::Qobuz
+             << Song::Source::SomaFM
+             << Song::Source::RadioParadise;
   }
   else {
     for (const QString &source : sources) {
@@ -141,7 +141,7 @@ void AudioScrobbler::ToggleOffline() {
 }
 
 void AudioScrobbler::ShowConfig() {
-  app_->OpenSettingsDialogAtPage(SettingsDialog::Page_Scrobbler);
+  app_->OpenSettingsDialogAtPage(SettingsDialog::Page::Scrobbler);
 }
 
 void AudioScrobbler::UpdateNowPlaying(const Song &song) {

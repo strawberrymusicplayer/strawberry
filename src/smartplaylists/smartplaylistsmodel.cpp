@@ -64,57 +64,57 @@ void SmartPlaylistsModel::Init() {
           << PlaylistGeneratorPtr(
               new PlaylistQueryGenerator(
               QT_TRANSLATE_NOOP("SmartPlaylists", "Newest tracks"),
-              SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(),
-              SmartPlaylistSearch::Sort_FieldDesc,
-              SmartPlaylistSearchTerm::Field_DateCreated)
+              SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(),
+              SmartPlaylistSearch::SortType::FieldDesc,
+              SmartPlaylistSearchTerm::Field::DateCreated)
             )
           )
           << PlaylistGeneratorPtr(new PlaylistQueryGenerator(
               QT_TRANSLATE_NOOP("SmartPlaylists", "50 random tracks"),
-              SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::Sort_Random, SmartPlaylistSearchTerm::Field_Title, 50)
+              SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title, 50)
             )
           )
           << PlaylistGeneratorPtr(
               new PlaylistQueryGenerator(
               QT_TRANSLATE_NOOP("SmartPlaylists", "Ever played"),
-              SmartPlaylistSearch(SmartPlaylistSearch::Type_And, SmartPlaylistSearch::TermList() << SmartPlaylistSearchTerm( SmartPlaylistSearchTerm::Field_PlayCount, SmartPlaylistSearchTerm::Op_GreaterThan, 0), SmartPlaylistSearch::Sort_Random, SmartPlaylistSearchTerm::Field_Title)
+              SmartPlaylistSearch(SmartPlaylistSearch::SearchType::And, SmartPlaylistSearch::TermList() << SmartPlaylistSearchTerm( SmartPlaylistSearchTerm::Field::PlayCount, SmartPlaylistSearchTerm::Operator::GreaterThan, 0), SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title)
             )
           )
           << PlaylistGeneratorPtr(
              new PlaylistQueryGenerator(
              QT_TRANSLATE_NOOP("SmartPlaylists", "Never played"),
-             SmartPlaylistSearch(SmartPlaylistSearch::Type_And, SmartPlaylistSearch::TermList() << SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field_PlayCount, SmartPlaylistSearchTerm::Op_Equals, 0), SmartPlaylistSearch::Sort_Random, SmartPlaylistSearchTerm::Field_Title)
+             SmartPlaylistSearch(SmartPlaylistSearch::SearchType::And, SmartPlaylistSearch::TermList() << SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::PlayCount, SmartPlaylistSearchTerm::Operator::Equals, 0), SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title)
             )
           )
           << PlaylistGeneratorPtr(
              new PlaylistQueryGenerator(
              QT_TRANSLATE_NOOP("SmartPlaylists", "Last played"),
-             SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::Sort_FieldDesc, SmartPlaylistSearchTerm::Field_LastPlayed)
+             SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldDesc, SmartPlaylistSearchTerm::Field::LastPlayed)
             )
           )
           << PlaylistGeneratorPtr(
              new PlaylistQueryGenerator(
              QT_TRANSLATE_NOOP("SmartPlaylists", "Most played"),
-             SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::Sort_FieldDesc, SmartPlaylistSearchTerm::Field_PlayCount)
+             SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldDesc, SmartPlaylistSearchTerm::Field::PlayCount)
             )
           )
           << PlaylistGeneratorPtr(
              new PlaylistQueryGenerator(
              QT_TRANSLATE_NOOP("SmartPlaylists", "Favourite tracks"),
-             SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::Sort_FieldDesc, SmartPlaylistSearchTerm::Field_Rating)
+             SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldDesc, SmartPlaylistSearchTerm::Field::Rating)
             )
           )
           << PlaylistGeneratorPtr(
              new PlaylistQueryGenerator(
              QT_TRANSLATE_NOOP("Library", "Least favourite tracks"),
-                 SmartPlaylistSearch(SmartPlaylistSearch::Type_Or, SmartPlaylistSearch::TermList()
-                 << SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field_Rating, SmartPlaylistSearchTerm::Op_LessThan, 0.5)
-                 << SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field_SkipCount, SmartPlaylistSearchTerm::Op_GreaterThan, 4), SmartPlaylistSearch::Sort_FieldDesc, SmartPlaylistSearchTerm::Field_SkipCount)
+                 SmartPlaylistSearch(SmartPlaylistSearch::SearchType::Or, SmartPlaylistSearch::TermList()
+                 << SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::Rating, SmartPlaylistSearchTerm::Operator::LessThan, 0.5)
+                 << SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::SkipCount, SmartPlaylistSearchTerm::Operator::GreaterThan, 4), SmartPlaylistSearch::SortType::FieldDesc, SmartPlaylistSearchTerm::Field::SkipCount)
              )
            )
          )
-    << (SmartPlaylistsModel::GeneratorList() << PlaylistGeneratorPtr(new PlaylistQueryGenerator(QT_TRANSLATE_NOOP("SmartPlaylists", "All tracks"), SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::Sort_FieldAsc, SmartPlaylistSearchTerm::Field_Artist, -1))))
-    << (SmartPlaylistsModel::GeneratorList() << PlaylistGeneratorPtr(new PlaylistQueryGenerator( QT_TRANSLATE_NOOP("SmartPlaylists", "Dynamic random mix"), SmartPlaylistSearch(SmartPlaylistSearch::Type_All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::Sort_Random, SmartPlaylistSearchTerm::Field_Title), true)));
+    << (SmartPlaylistsModel::GeneratorList() << PlaylistGeneratorPtr(new PlaylistQueryGenerator(QT_TRANSLATE_NOOP("SmartPlaylists", "All tracks"), SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldAsc, SmartPlaylistSearchTerm::Field::Artist, -1))))
+    << (SmartPlaylistsModel::GeneratorList() << PlaylistGeneratorPtr(new PlaylistQueryGenerator( QT_TRANSLATE_NOOP("SmartPlaylists", "Dynamic random mix"), SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title), true)));
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -232,7 +232,7 @@ void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
   for (SmartPlaylistsItem *item : root_->children) {
     s.setArrayIndex(i++);
     s.setValue("name", item->display_text);
-    s.setValue("type", item->smart_playlist_type);
+    s.setValue("type", QVariant::fromValue(item->smart_playlist_type));
     s.setValue("data", item->smart_playlist_data);
   }
   s.endArray();
@@ -244,7 +244,7 @@ void SmartPlaylistsModel::SaveGenerator(QSettings *s, const int i, PlaylistGener
 
   s->setArrayIndex(i);
   s->setValue("name", generator->name());
-  s->setValue("type", generator->type());
+  s->setValue("type", QVariant::fromValue(generator->type()));
   s->setValue("data", generator->Save());
 
 }

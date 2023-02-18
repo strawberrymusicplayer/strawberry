@@ -46,7 +46,7 @@ PlaylistGeneratorInserter::PlaylistGeneratorInserter(TaskManager *task_manager, 
       enqueue_next_(false),
       is_dynamic_(false) {}
 
-PlaylistItemList PlaylistGeneratorInserter::Generate(PlaylistGeneratorPtr generator, int dynamic_count) {
+PlaylistItemPtrList PlaylistGeneratorInserter::Generate(PlaylistGeneratorPtr generator, int dynamic_count) {
 
   if (dynamic_count > 0) {
     return generator->GenerateMore(dynamic_count);
@@ -70,17 +70,17 @@ void PlaylistGeneratorInserter::Load(Playlist *destination, const int row, const
 
   QObject::connect(generator.get(), &PlaylistGenerator::Error, this, &PlaylistGeneratorInserter::Error);
 
-  QFuture<PlaylistItemList> future = QtConcurrent::run(PlaylistGeneratorInserter::Generate, generator, dynamic_count);
-  QFutureWatcher<PlaylistItemList> *watcher = new QFutureWatcher<PlaylistItemList>();
-  QObject::connect(watcher, &QFutureWatcher<PlaylistItemList>::finished, this, &PlaylistGeneratorInserter::Finished);
+  QFuture<PlaylistItemPtrList> future = QtConcurrent::run(PlaylistGeneratorInserter::Generate, generator, dynamic_count);
+  QFutureWatcher<PlaylistItemPtrList> *watcher = new QFutureWatcher<PlaylistItemPtrList>();
+  QObject::connect(watcher, &QFutureWatcher<PlaylistItemPtrList>::finished, this, &PlaylistGeneratorInserter::Finished);
   watcher->setFuture(future);
 
 }
 
 void PlaylistGeneratorInserter::Finished() {
 
-  QFutureWatcher<PlaylistItemList> *watcher = static_cast<QFutureWatcher<PlaylistItemList>*>(sender());
-  PlaylistItemList items = watcher->result();
+  QFutureWatcher<PlaylistItemPtrList> *watcher = static_cast<QFutureWatcher<PlaylistItemPtrList>*>(sender());
+  PlaylistItemPtrList items = watcher->result();
   watcher->deleteLater();
 
   if (items.isEmpty()) {

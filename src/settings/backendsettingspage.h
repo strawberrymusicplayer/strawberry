@@ -55,6 +55,14 @@ class BackendSettingsPage : public SettingsPage {
 
   EngineBase *engine() const { return dialog()->app()->player()->engine(); }
 
+#ifdef HAVE_ALSA
+  enum class ALSAPluginType {
+    HW = 1,
+    PlugHW = 2,
+    PCM = 3
+  };
+#endif
+
  private slots:
   void EngineChanged(const int index);
   void OutputChanged(const int index);
@@ -69,13 +77,6 @@ class BackendSettingsPage : public SettingsPage {
   void BufferDefaults();
 
  private:
-#ifdef HAVE_ALSA
-  enum alsa_plugin {
-    alsa_hw = 1,
-    alsa_plughw = 2,
-    alsa_pcm = 3
-  };
-#endif
 
   bool EngineInitialized();
 
@@ -83,7 +84,7 @@ class BackendSettingsPage : public SettingsPage {
   void Load_Output(QString output, QVariant device);
   void Load_Device(const QString &output, const QVariant &device);
 #ifdef HAVE_ALSA
-  void SwitchALSADevices(const alsa_plugin alsaplugin);
+  void SwitchALSADevices(const ALSAPluginType alsa_plugin_type);
 #endif
   void SelectDevice(const QString &device_new);
 

@@ -24,7 +24,7 @@
 
 #include "collectionfilteroptions.h"
 
-CollectionFilterOptions::CollectionFilterOptions() : filter_mode_(FilterMode_All), max_age_(-1) {}
+CollectionFilterOptions::CollectionFilterOptions() : filter_mode_(FilterMode::All), max_age_(-1) {}
 
 bool CollectionFilterOptions::Matches(const Song &song) const {
 

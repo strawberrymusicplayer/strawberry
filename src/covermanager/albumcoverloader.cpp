@@ -63,8 +63,8 @@ AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
       load_image_async_id_(1),
       save_image_async_id_(1),
       network_(new NetworkAccessManager(this)),
-      save_cover_type_(CollectionSettingsPage::SaveCoverType_Cache),
-      save_cover_filename_(CollectionSettingsPage::SaveCoverFilename_Pattern),
+      save_cover_type_(CollectionSettingsPage::SaveCoverType::Cache),
+      save_cover_filename_(CollectionSettingsPage::SaveCoverFilename::Pattern),
       cover_overwrite_(false),
       cover_lowercase_(true),
       cover_replace_spaces_(true),
@@ -94,8 +94,8 @@ void AlbumCoverLoader::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  save_cover_type_ = CollectionSettingsPage::SaveCoverType(s.value("save_cover_type", CollectionSettingsPage::SaveCoverType_Cache).toInt());
-  save_cover_filename_ = CollectionSettingsPage::SaveCoverFilename(s.value("save_cover_filename", CollectionSettingsPage::SaveCoverFilename_Pattern).toInt());
+  save_cover_type_ = static_cast<CollectionSettingsPage::SaveCoverType>(s.value("save_cover_type", static_cast<int>(CollectionSettingsPage::SaveCoverType::Cache)).toInt());
+  save_cover_filename_ = static_cast<CollectionSettingsPage::SaveCoverFilename>(s.value("save_cover_filename", static_cast<int>(CollectionSettingsPage::SaveCoverFilename::Pattern)).toInt());
   cover_pattern_ = s.value("cover_pattern", "%albumartist-%album").toString();
   cover_overwrite_ = s.value("cover_overwrite", false).toBool();
   cover_lowercase_ = s.value("cover_lowercase", false).toBool();
@@ -132,7 +132,7 @@ QString AlbumCoverLoader::CoverFilePath(const Song &song, const QString &album_d
 QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString &artist, const QString &album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QString &extension) {
 
   QString path;
-  if (source == Song::Source_Collection && save_cover_type_ == CollectionSettingsPage::SaveCoverType_Album && !album_dir.isEmpty()) {
+  if (source == Song::Source::Collection && save_cover_type_ == CollectionSettingsPage::SaveCoverType::Album && !album_dir.isEmpty()) {
     path = album_dir;
   }
   else {
@@ -150,9 +150,9 @@ QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString
   }
 
   QString filename;
-  if (source == Song::Source_Collection &&
-      save_cover_type_ == CollectionSettingsPage::SaveCoverType_Album &&
-      save_cover_filename_ == CollectionSettingsPage::SaveCoverFilename_Pattern &&
+  if (source == Song::Source::Collection &&
+      save_cover_type_ == CollectionSettingsPage::SaveCoverType::Album &&
+      save_cover_filename_ == CollectionSettingsPage::SaveCoverFilename::Pattern &&
       !cover_pattern_.isEmpty()) {
     filename = CoverFilenameFromVariable(artist, album);
     filename.remove(OrganizeFormat::kInvalidFatCharacters).remove('/').remove('\\');
@@ -179,27 +179,27 @@ QString AlbumCoverLoader::CoverFilenameFromSource(const Song::Source source, con
   QString filename;
 
   switch (source) {
-    case Song::Source_Tidal:
+    case Song::Source::Tidal:
       if (!album_id.isEmpty()) {
         filename = album_id + "-" + cover_url.fileName();
         break;
       }
       [[fallthrough]];
-    case Song::Source_Subsonic:
-    case Song::Source_Qobuz:
+    case Song::Source::Subsonic:
+    case Song::Source::Qobuz:
       if (!album_id.isEmpty()) {
         filename = album_id;
         break;
       }
       [[fallthrough]];
-    case Song::Source_Collection:
-    case Song::Source_LocalFile:
-    case Song::Source_CDDA:
-    case Song::Source_Device:
-    case Song::Source_Stream:
-    case Song::Source_SomaFM:
-    case Song::Source_RadioParadise:
-    case Song::Source_Unknown:
+    case Song::Source::Collection:
+    case Song::Source::LocalFile:
+    case Song::Source::CDDA:
+    case Song::Source::Device:
+    case Song::Source::Stream:
+    case Song::Source::SomaFM:
+    case Song::Source::RadioParadise:
+    case Song::Source::Unknown:
       filename = Utilities::Sha1CoverHash(artist, album).toHex();
       break;
   }
@@ -380,7 +380,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
   }
 
   // For local files and streams initialize art if found.
-  if ((task->song.source() == Song::Source_LocalFile || task->song.is_radio()) && !task->song.art_manual_is_valid() && !task->song.art_automatic_is_valid()) {
+  if ((task->song.source() == Song::Source::LocalFile || task->song.is_radio()) && !task->song.art_manual_is_valid() && !task->song.art_automatic_is_valid()) {
     switch (task->state) {
       case State_None:
         break;

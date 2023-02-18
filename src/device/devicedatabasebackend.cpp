@@ -128,8 +128,8 @@ int DeviceDatabaseBackend::AddDevice(const Device &device) {
   q.BindValue(":friendly_name", device.friendly_name_);
   q.BindValue(":size", device.size_);
   q.BindValue(":icon", device.icon_name_);
-  q.BindValue(":transcode_mode", device.transcode_mode_);
-  q.BindValue(":transcode_format", device.transcode_format_);
+  q.BindValue(":transcode_mode", static_cast<int>(device.transcode_mode_));
+  q.BindValue(":transcode_format", static_cast<int>(device.transcode_format_));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return -1;
@@ -194,8 +194,8 @@ void DeviceDatabaseBackend::SetDeviceOptions(const int id, const QString &friend
       " WHERE ROWID=:id");
   q.BindValue(":friendly_name", friendly_name);
   q.BindValue(":icon_name", icon_name);
-  q.BindValue(":transcode_mode", mode);
-  q.BindValue(":transcode_format", format);
+  q.BindValue(":transcode_mode", static_cast<int>(mode));
+  q.BindValue(":transcode_format", static_cast<int>(format));
   q.BindValue(":id", id);
   if (!q.Exec()) {
     db_->ReportErrors(q);

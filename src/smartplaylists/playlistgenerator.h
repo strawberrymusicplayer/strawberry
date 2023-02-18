@@ -43,13 +43,13 @@ class PlaylistGenerator : public QObject, public std::enable_shared_from_this<Pl
   static const int kDefaultDynamicHistory;
   static const int kDefaultDynamicFuture;
 
-  enum Type {
-    Type_None = 0,
-    Type_Query = 1
+  enum class Type {
+    None = 0,
+    Query = 1
   };
 
   // Creates a new PlaylistGenerator of the given type
-  static std::shared_ptr<PlaylistGenerator> Create(const Type type = Type_Query);
+  static std::shared_ptr<PlaylistGenerator> Create(const Type type = Type::Query);
 
   // Should be called before Load on a new PlaylistGenerator
   void set_collection(CollectionBackend *backend) { backend_ = backend; }
@@ -68,7 +68,7 @@ class PlaylistGenerator : public QObject, public std::enable_shared_from_this<Pl
 
   // Creates and returns a playlist
   // Called from non-UI thread.
-  virtual PlaylistItemList Generate() = 0;
+  virtual PlaylistItemPtrList Generate() = 0;
 
   // If the generator can be used as a dynamic playlist then GenerateMore should return the next tracks in the sequence.
   // The subclass should remember the last GetDynamicHistory() + GetDynamicFuture() tracks,
@@ -76,9 +76,9 @@ class PlaylistGenerator : public QObject, public std::enable_shared_from_this<Pl
   virtual bool is_dynamic() const { return false; }
   virtual void set_dynamic(const bool dynamic) { Q_UNUSED(dynamic); }
   // Called from non-UI thread.
-  virtual PlaylistItemList GenerateMore(int count) {
+  virtual PlaylistItemPtrList GenerateMore(int count) {
     Q_UNUSED(count);
-    return PlaylistItemList();
+    return PlaylistItemPtrList();
   }
 
   virtual int GetDynamicHistory() { return kDefaultDynamicHistory; }

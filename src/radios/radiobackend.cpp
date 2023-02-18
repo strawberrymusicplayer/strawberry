@@ -69,7 +69,7 @@ void RadioBackend::AddChannels(const RadioChannelList &channels) {
   q.prepare(QString("INSERT INTO radio_channels (source, name, url, thumbnail_url) VALUES (:source, :name, :url, :thumbnail_url)"));
 
   for (const RadioChannel &channel : channels) {
-    q.BindValue(":source", channel.source);
+    q.BindValue(":source", static_cast<int>(channel.source));
     q.BindValue(":name", channel.name);
     q.BindValue(":url", channel.url);
     q.BindValue(":thumbnail_url", channel.thumbnail_url);

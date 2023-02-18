@@ -51,14 +51,14 @@ constexpr int QobuzRequest::kMaxConcurrentAlbumSongsRequests = 3;
 constexpr int QobuzRequest::kMaxConcurrentAlbumCoverRequests = 1;
 constexpr int QobuzRequest::kFlushRequestsDelay = 200;
 
-QobuzRequest::QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent)
+QobuzRequest::QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, NetworkAccessManager *network, const QueryType query_type, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
       service_(service),
       url_handler_(url_handler),
       app_(app),
       network_(network),
       timer_flush_requests_(new QTimer(this)),
-      type_(type),
+      query_type_(query_type),
       query_id_(-1),
       finished_(false),
       artists_requests_total_(0),
@@ -117,23 +117,23 @@ QobuzRequest::~QobuzRequest() {
 
 void QobuzRequest::Process() {
 
-  switch (type_) {
-    case QueryType::QueryType_Artists:
+  switch (query_type_) {
+    case QueryType::Artists:
       GetArtists();
       break;
-    case QueryType::QueryType_Albums:
+    case QueryType::Albums:
       GetAlbums();
       break;
-    case QueryType::QueryType_Songs:
+    case QueryType::Songs:
       GetSongs();
       break;
-    case QueryType::QueryType_SearchArtists:
+    case QueryType::SearchArtists:
       ArtistsSearch();
       break;
-    case QueryType::QueryType_SearchAlbums:
+    case QueryType::SearchAlbums:
       AlbumsSearch();
       break;
-    case QueryType::QueryType_SearchSongs:
+    case QueryType::SearchSongs:
       SongsSearch();
       break;
     default:
@@ -220,18 +220,18 @@ void QobuzRequest::FlushArtistsRequests() {
     Request request = artists_requests_queue_.dequeue();
 
     ParamList params;
-    if (type_ == QueryType_Artists) {
+    if (query_type_ == QueryType::Artists) {
       params << Param("type", "artists");
       params << Param("user_auth_token", user_auth_token());
     }
-    else if (type_ == QueryType_SearchArtists) params << Param("query", search_text_);
+    else if (query_type_ == QueryType::SearchArtists) params << Param("query", search_text_);
     if (request.limit > 0) params << Param("limit", QString::number(request.limit));
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = nullptr;
-    if (type_ == QueryType_Artists) {
+    if (query_type_ == QueryType::Artists) {
       reply = CreateRequest(QString("favorite/getUserFavorites"), params);
     }
-    else if (type_ == QueryType_SearchArtists) {
+    else if (query_type_ == QueryType::SearchArtists) {
       reply = CreateRequest("artist/search", params);
     }
     if (!reply) continue;
@@ -272,18 +272,18 @@ void QobuzRequest::FlushAlbumsRequests() {
     Request request = albums_requests_queue_.dequeue();
 
     ParamList params;
-    if (type_ == QueryType_Albums) {
+    if (query_type_ == QueryType::Albums) {
       params << Param("type", "albums");
       params << Param("user_auth_token", user_auth_token());
     }
-    else if (type_ == QueryType_SearchAlbums) params << Param("query", search_text_);
+    else if (query_type_ == QueryType::SearchAlbums) params << Param("query", search_text_);
     if (request.limit > 0) params << Param("limit", QString::number(request.limit));
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = nullptr;
-    if (type_ == QueryType_Albums) {
+    if (query_type_ == QueryType::Albums) {
       reply = CreateRequest(QString("favorite/getUserFavorites"), params);
     }
-    else if (type_ == QueryType_SearchAlbums) {
+    else if (query_type_ == QueryType::SearchAlbums) {
       reply = CreateRequest("album/search", params);
     }
     if (!reply) continue;
@@ -324,18 +324,18 @@ void QobuzRequest::FlushSongsRequests() {
     Request request = songs_requests_queue_.dequeue();
 
     ParamList params;
-    if (type_ == QueryType_Songs) {
+    if (query_type_ == QueryType::Songs) {
       params << Param("type", "tracks");
       params << Param("user_auth_token", user_auth_token());
     }
-    else if (type_ == QueryType_SearchSongs) params << Param("query", search_text_);
+    else if (query_type_ == QueryType::SearchSongs) params << Param("query", search_text_);
     if (request.limit > 0) params << Param("limit", QString::number(request.limit));
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = nullptr;
-    if (type_ == QueryType_Songs) {
+    if (query_type_ == QueryType::Songs) {
       reply = CreateRequest(QString("favorite/getUserFavorites"), params);
     }
-    else if (type_ == QueryType_SearchSongs) {
+    else if (query_type_ == QueryType::SearchSongs) {
       reply = CreateRequest("track/search", params);
     }
     if (!reply) continue;
@@ -528,8 +528,8 @@ void QobuzRequest::ArtistsFinishCheck(const int limit, const int offset, const i
   if ((limit == 0 || limit > artists_received) && artists_received_ < artists_total_) {
     int offset_next = offset + artists_received;
     if (offset_next > 0 && offset_next < artists_total_) {
-      if (type_ == QueryType_Artists) AddArtistsRequest(offset_next);
-      else if (type_ == QueryType_SearchArtists) AddArtistsSearchRequest(offset_next);
+      if (query_type_ == QueryType::Artists) AddArtistsRequest(offset_next);
+      else if (query_type_ == QueryType::SearchArtists) AddArtistsSearchRequest(offset_next);
     }
   }
 
@@ -683,7 +683,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
   }
   QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
-    if ((type_ == QueryType_Albums || type_ == QueryType_SearchAlbums) && offset_requested == 0) {
+    if ((query_type_ == QueryType::Albums || query_type_ == QueryType::SearchAlbums) && offset_requested == 0) {
       no_results_ = true;
     }
     AlbumsFinishCheck(artist_requested);
@@ -749,7 +749,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
 
   }
 
-  if (type_ == QueryType_Albums || type_ == QueryType_SearchAlbums) {
+  if (query_type_ == QueryType::Albums || query_type_ == QueryType::SearchAlbums) {
     albums_received_ += albums_received;
     emit UpdateProgress(query_id_, GetProgress(albums_received_, albums_total_));
   }
@@ -765,15 +765,15 @@ void QobuzRequest::AlbumsFinishCheck(const Artist &artist, const int limit, cons
   if (limit == 0 || limit > albums_received) {
     int offset_next = offset + albums_received;
     if (offset_next > 0 && offset_next < albums_total) {
-      switch (type_) {
-        case QueryType_Albums:
+      switch (query_type_) {
+        case QueryType::Albums:
           AddAlbumsRequest(offset_next);
           break;
-        case QueryType_SearchAlbums:
+        case QueryType::SearchAlbums:
           AddAlbumsSearchRequest(offset_next);
           break;
-        case QueryType_Artists:
-        case QueryType_SearchArtists:
+        case QueryType::Artists:
+        case QueryType::SearchArtists:
           AddArtistAlbumsRequest(artist, offset_next);
           break;
         default:
@@ -978,7 +978,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
 
   QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
-    if ((type_ == QueryType_Songs || type_ == QueryType_SearchSongs) && offset_requested == 0) {
+    if ((query_type_ == QueryType::Songs || query_type_ == QueryType::SearchSongs) && offset_requested == 0) {
       no_results_ = true;
     }
     SongsFinishCheck(album_artist, album, limit_requested, offset_requested, songs_total);
@@ -998,7 +998,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
     QJsonObject obj_item = value_item.toObject();
 
     ++songs_received;
-    Song song(Song::Source_Qobuz);
+    Song song(Song::Source::Qobuz);
     ParseSong(song, obj_item, album_artist, album);
     if (!song.is_valid()) continue;
     if (song.disc() >= 2) multidisc = true;
@@ -1012,7 +1012,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
     songs_.insert(song.song_id(), song);
   }
 
-  if (type_ == QueryType_Songs || type_ == QueryType_SearchSongs) {
+  if (query_type_ == QueryType::Songs || query_type_ == QueryType::SearchSongs) {
     songs_received_ += songs_received;
     emit UpdateProgress(query_id_, GetProgress(songs_received_, songs_total_));
   }
@@ -1028,17 +1028,17 @@ void QobuzRequest::SongsFinishCheck(const Artist &artist, const Album &album, co
   if (limit == 0 || limit > songs_received) {
     int offset_next = offset + songs_received;
     if (offset_next > 0 && offset_next < songs_total) {
-      switch (type_) {
-        case QueryType_Songs:
+      switch (query_type_) {
+        case QueryType::Songs:
           AddSongsRequest(offset_next);
           break;
-        case QueryType_SearchSongs:
+        case QueryType::SearchSongs:
           AddSongsSearchRequest(offset_next);
           break;
-        case QueryType_Artists:
-        case QueryType_SearchArtists:
-        case QueryType_Albums:
-        case QueryType_SearchAlbums:
+        case QueryType::Artists:
+        case QueryType::SearchArtists:
+        case QueryType::Albums:
+        case QueryType::SearchAlbums:
           AddAlbumSongsRequest(artist, album, offset_next);
           break;
         default:
@@ -1184,7 +1184,7 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
 
   //qLog(Debug) << "id" << song_id << "track" << track << "title" << title << "album" << album << "album artist" << album_artist << cover_url << streamable << url;
 
-  song.set_source(Song::Source_Qobuz);
+  song.set_source(Song::Source::Qobuz);
   song.set_song_id(song_id);
   song.set_album_id(song_album.album_id);
   song.set_artist_id(song_artist.artist_id);
@@ -1202,7 +1202,7 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   song.set_composer(composer);
   song.set_comment(copyright);
   song.set_directory_id(0);
-  song.set_filetype(Song::FileType_Stream);
+  song.set_filetype(Song::FileType::Stream);
   song.set_filesize(0);
   song.set_mtime(0);
   song.set_ctime(0);

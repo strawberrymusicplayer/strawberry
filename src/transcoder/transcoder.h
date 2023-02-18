@@ -40,7 +40,7 @@
 #include "core/song.h"
 
 struct TranscoderPreset {
-  explicit TranscoderPreset() : filetype_(Song::FileType_Unknown) {}
+  explicit TranscoderPreset() : filetype_(Song::FileType::Unknown) {}
   TranscoderPreset(const Song::FileType filetype, const QString &name, const QString &extension, const QString &codec_mimetype, const QString &muxer_mimetype_ = QString());
 
   Song::FileType filetype_;
@@ -122,7 +122,7 @@ class Transcoder : public QObject {
     Q_DISABLE_COPY(JobFinishedEvent)
   };
 
-  enum StartJobStatus {
+  enum class StartJobStatus {
     StartedSuccessfully,
     FailedToStart,
     NoMoreJobs,

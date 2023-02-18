@@ -78,7 +78,7 @@ void MoodbarPipeline::Start() {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
-  Utilities::SetThreadIOPriority(Utilities::IOPRIO_CLASS_IDLE);
+  Utilities::SetThreadIOPriority(Utilities::IoPriority::IOPRIO_CLASS_IDLE);
 
   if (pipeline_) {
     return;

@@ -60,13 +60,13 @@ class FancyTabWidget : public QTabWidget {
   void ReloadSettings();
 
   //  Values are persisted - only add to the end
-  enum Mode {
-    Mode_None = 0,
-    Mode_LargeSidebar,
-    Mode_SmallSidebar,
-    Mode_Tabs,
-    Mode_IconOnlyTabs,
-    Mode_PlainSidebar,
+  enum class Mode {
+    None = 0,
+    LargeSidebar,
+    SmallSidebar,
+    Tabs,
+    IconOnlyTabs,
+    PlainSidebar
   };
 
   static const int TabSize_LargeSidebarMinWidth;

@@ -49,11 +49,11 @@ class OSDBase : public QObject {
 
   static const char *kSettingsGroup;
 
-  enum Behaviour {
+  enum class Behaviour {
     Disabled = 0,
     Native,
     TrayPopup,
-    Pretty,
+    Pretty
   };
 
   int timeout_msec() const { return timeout_msec_; }
@@ -83,9 +83,9 @@ class OSDBase : public QObject {
   void ShowPreview(const OSDBase::Behaviour type, const QString &line1, const QString &line2, const Song &song);
 
  private:
-  enum MessageType {
-    Type_Summary,
-    Type_Message,
+  enum class MessageType {
+    Summary,
+    Message
   };
   void ShowPlaying(const Song &song, const QUrl &cover_url, const QImage &image, const bool preview = false);
   void ShowMessage(const QString &summary, const QString &message = QString(), const QString &icon = "strawberry", const QImage &image = QImage());

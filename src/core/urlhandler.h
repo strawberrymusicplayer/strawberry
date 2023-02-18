@@ -42,7 +42,7 @@ class UrlHandler : public QObject {
 
   // Returned by StartLoading() and LoadNext(), indicates what the player should do when it wants to load a URL.
   struct LoadResult {
-    enum Type {
+    enum class Type {
       // There wasn't a track available, and the player should move on to the next playlist item.
       NoMoreTracks,
 
@@ -57,7 +57,7 @@ class UrlHandler : public QObject {
       Error,
     };
 
-    explicit LoadResult(const QUrl &original_url = QUrl(), const Type type = NoMoreTracks, const QUrl &stream_url = QUrl(), const Song::FileType filetype = Song::FileType_Stream, const int samplerate = -1, const int bit_depth = -1, const qint64 length_nanosec = -1, const QString &error = QString());
+    explicit LoadResult(const QUrl &original_url = QUrl(), const Type type = Type::NoMoreTracks, const QUrl &stream_url = QUrl(), const Song::FileType filetype = Song::FileType::Stream, const int samplerate = -1, const int bit_depth = -1, const qint64 length_nanosec = -1, const QString &error = QString());
 
     explicit LoadResult(const QUrl &original_url, const Type type, const QString &error);
 

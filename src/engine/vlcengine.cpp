@@ -39,10 +39,10 @@
 #include "vlcscopedref.h"
 
 VLCEngine::VLCEngine(TaskManager *task_manager, QObject *parent)
-    : Engine::Base(Engine::VLC, parent),
+    : Engine::Base(Engine::EngineType::VLC, parent),
       instance_(nullptr),
       player_(nullptr),
-      state_(Engine::Empty) {
+      state_(Engine::State::Empty) {
 
   Q_UNUSED(task_manager);
 
@@ -52,7 +52,7 @@ VLCEngine::VLCEngine(TaskManager *task_manager, QObject *parent)
 
 VLCEngine::~VLCEngine() {
 
-  if (state_ == Engine::Playing || state_ == Engine::Paused) {
+  if (state_ == Engine::State::Playing || state_ == Engine::State::Paused) {
     libvlc_media_player_stop(player_);
   }
 
@@ -197,7 +197,7 @@ void VLCEngine::SetVolumeSW(const uint percent) {
 
 qint64 VLCEngine::position_nanosec() const {
 
-  if (state_ == Engine::Empty) return 0;
+  if (state_ == Engine::State::Empty) return 0;
   const qint64 result = (position() * kNsecPerMsec);
   return qMax(0LL, result);
 
@@ -205,7 +205,7 @@ qint64 VLCEngine::position_nanosec() const {
 
 qint64 VLCEngine::length_nanosec() const {
 
-  if (state_ == Engine::Empty) return 0;
+  if (state_ == Engine::State::Empty) return 0;
   const qint64 result = (end_nanosec_ - static_cast<qint64>(beginning_nanosec_));
   if (result > 0) {
     return result;
@@ -293,31 +293,31 @@ void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
 
     case libvlc_MediaPlayerStopped:{
       const Engine::State state = engine->state_;
-      engine->state_ = Engine::Empty;
-      if (state == Engine::Playing) {
+      engine->state_ = Engine::State::Empty;
+      if (state == Engine::State::Playing) {
         emit engine->StateChanged(engine->state_);
       }
       break;
     }
 
     case libvlc_MediaPlayerEncounteredError:
-      engine->state_ = Engine::Error;
+      engine->state_ = Engine::State::Error;
       emit engine->StateChanged(engine->state_);
       emit engine->FatalError();
       break;
 
     case libvlc_MediaPlayerPlaying:
-      engine->state_ = Engine::Playing;
+      engine->state_ = Engine::State::Playing;
       emit engine->StateChanged(engine->state_);
       break;
 
     case libvlc_MediaPlayerPaused:
-      engine->state_ = Engine::Paused;
+      engine->state_ = Engine::State::Paused;
       emit engine->StateChanged(engine->state_);
       break;
 
     case libvlc_MediaPlayerEndReached:
-      engine->state_ = Engine::Idle;
+      engine->state_ = Engine::State::Idle;
       emit engine->TrackEnded();
       break;
   }

@@ -47,7 +47,7 @@ const char *ContextSettingsPage::kSettingsGroup = "Context";
 const char *ContextSettingsPage::kSettingsTitleFmt = "TitleFmt";
 const char *ContextSettingsPage::kSettingsSummaryFmt = "SummaryFmt";
 
-const char *ContextSettingsPage::kSettingsGroupEnable[ContextSettingsOrder::NELEMS] = {
+const char *ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsOrder::NELEMS)] = {
   "AlbumEnable",
   "EngineAndDeviceEnable",
   "TechnicalDataEnable",
@@ -65,12 +65,12 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("view-choose", true, 0, 32));
 
-  checkboxes_[ContextSettingsOrder::ALBUM] = ui_->checkbox_album;
-  checkboxes_[ContextSettingsOrder::ENGINE_AND_DEVICE] = ui_->checkbox_engine_device;
-  checkboxes_[ContextSettingsOrder::TECHNICAL_DATA] = ui_->checkbox_technical_data;
-  checkboxes_[ContextSettingsOrder::SONG_LYRICS] = ui_->checkbox_song_lyrics;
-  checkboxes_[ContextSettingsOrder::SEARCH_COVER] = ui_->checkbox_search_cover;
-  checkboxes_[ContextSettingsOrder::SEARCH_LYRICS] = ui_->checkbox_search_lyrics;
+  checkboxes_[static_cast<int>(ContextSettingsOrder::ALBUM)] = ui_->checkbox_album;
+  checkboxes_[static_cast<int>(ContextSettingsOrder::ENGINE_AND_DEVICE)] = ui_->checkbox_engine_device;
+  checkboxes_[static_cast<int>(ContextSettingsOrder::TECHNICAL_DATA)] = ui_->checkbox_technical_data;
+  checkboxes_[static_cast<int>(ContextSettingsOrder::SONG_LYRICS)] = ui_->checkbox_song_lyrics;
+  checkboxes_[static_cast<int>(ContextSettingsOrder::SEARCH_COVER)] = ui_->checkbox_search_cover;
+  checkboxes_[static_cast<int>(ContextSettingsOrder::SEARCH_LYRICS)] = ui_->checkbox_search_lyrics;
 
   // Create and populate the helper menus
   QMenu *menu = new QMenu(this);
@@ -135,7 +135,7 @@ void ContextSettingsPage::Load() {
   ui_->context_custom_text1->setText(s.value(kSettingsTitleFmt, "%title% - %artist%").toString());
   ui_->context_custom_text2->setText(s.value(kSettingsSummaryFmt, "%album%").toString());
 
-  for (int i = 0; i < ContextSettingsOrder::NELEMS; ++i) {
+  for (int i = 0; i < static_cast<int>(ContextSettingsOrder::NELEMS); ++i) {
     checkboxes_[i]->setChecked(s.value(kSettingsGroupEnable[i], checkboxes_[i]->isChecked()).toBool());
   }
 
@@ -172,7 +172,7 @@ void ContextSettingsPage::Save() {
   s.beginGroup(kSettingsGroup);
   s.setValue(kSettingsTitleFmt, ui_->context_custom_text1->text());
   s.setValue(kSettingsSummaryFmt, ui_->context_custom_text2->text());
-  for (int i = 0; i < ContextSettingsOrder::NELEMS; ++i) {
+  for (int i = 0; i < static_cast<int>(ContextSettingsOrder::NELEMS); ++i) {
     s.setValue(kSettingsGroupEnable[i], checkboxes_[i]->isChecked());
   }
   s.setValue("font_headline", ui_->font_headline->currentFont().family());

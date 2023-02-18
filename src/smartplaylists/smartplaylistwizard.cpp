@@ -111,7 +111,7 @@ void SmartPlaylistWizard::SetGenerator(PlaylistGeneratorPtr gen) {
   }
 
   if (type_index_ == -1) {
-    qLog(Error) << "Plugin was not found for generator type" << gen->type();
+    qLog(Error) << "Plugin was not found for generator type" << static_cast<int>(gen->type());
     return;
   }
 

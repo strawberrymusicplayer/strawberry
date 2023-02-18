@@ -119,12 +119,12 @@ void TidalStreamURLRequest::GetStreamURL() {
   ParamList params;
 
   switch (stream_url_method()) {
-    case TidalSettingsPage::StreamUrlMethod_StreamUrl:
+    case TidalSettingsPage::StreamUrlMethod::StreamUrl:
       params << Param("soundQuality", quality());
       reply_ = CreateRequest(QString("tracks/%1/streamUrl").arg(song_id_), params);
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
-    case TidalSettingsPage::StreamUrlMethod_UrlPostPaywall:
+    case TidalSettingsPage::StreamUrlMethod::UrlPostPaywall:
       params << Param("audioquality", quality());
       params << Param("playbackmode", "STREAM");
       params << Param("assetpresentation", "FULL");
@@ -132,7 +132,7 @@ void TidalStreamURLRequest::GetStreamURL() {
       reply_ = CreateRequest(QString("tracks/%1/urlpostpaywall").arg(song_id_), params);
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
-    case TidalSettingsPage::StreamUrlMethod_PlaybackInfoPostPaywall:
+    case TidalSettingsPage::StreamUrlMethod::PlaybackInfoPostPaywall:
       params << Param("audioquality", quality());
       params << Param("playbackmode", "STREAM");
       params << Param("assetpresentation", "FULL");
@@ -180,16 +180,16 @@ void TidalStreamURLRequest::StreamURLReceived() {
     return;
   }
 
-  Song::FileType filetype(Song::FileType_Stream);
+  Song::FileType filetype(Song::FileType::Stream);
 
   if (json_obj.contains("codec") || json_obj.contains("codecs")) {
     QString codec;
     if (json_obj.contains("codec")) codec = json_obj["codec"].toString().toLower();
     if (json_obj.contains("codecs")) codec = json_obj["codecs"].toString().toLower();
     filetype = Song::FiletypeByExtension(codec);
-    if (filetype == Song::FileType_Unknown) {
+    if (filetype == Song::FileType::Unknown) {
       qLog(Debug) << "Tidal: Unknown codec" << codec;
-      filetype = Song::FileType_Stream;
+      filetype = Song::FileType::Stream;
     }
   }
 
@@ -237,11 +237,11 @@ void TidalStreamURLRequest::StreamURLReceived() {
       QStringList suffixes = mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes();
       for (const QString &suffix : suffixes) {
         filetype = Song::FiletypeByExtension(suffix);
-        if (filetype != Song::FileType_Unknown) break;
+        if (filetype != Song::FileType::Unknown) break;
       }
-      if (filetype == Song::FileType_Unknown) {
+      if (filetype == Song::FileType::Unknown) {
         qLog(Debug) << "Tidal: Unknown mimetype" << mimetype;
-        filetype = Song::FileType_Stream;
+        filetype = Song::FileType::Stream;
       }
     }
 
@@ -263,10 +263,10 @@ void TidalStreamURLRequest::StreamURLReceived() {
   else if (json_obj.contains("url")) {
     QUrl new_url(json_obj["url"].toString());
     urls << new_url;
-    if (filetype == Song::FileType_Stream) {
+    if (filetype == Song::FileType::Stream) {
       // Guess filetype by filename extension in URL.
       filetype = Song::FiletypeByExtension(QFileInfo(new_url.path()).suffix());
-      if (filetype == Song::FileType_Unknown) filetype = Song::FileType_Stream;
+      if (filetype == Song::FileType::Unknown) filetype = Song::FileType::Stream;
     }
   }
 

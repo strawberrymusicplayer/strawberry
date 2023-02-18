@@ -86,15 +86,15 @@ void PlaylistBackend::Exit() {
 }
 
 PlaylistBackend::PlaylistList PlaylistBackend::GetAllPlaylists() {
-  return GetPlaylists(GetPlaylists_All);
+  return GetPlaylists(GetPlaylistsFlags::GetPlaylists_All);
 }
 
 PlaylistBackend::PlaylistList PlaylistBackend::GetAllOpenPlaylists() {
-  return GetPlaylists(GetPlaylists_OpenInUi);
+  return GetPlaylists(GetPlaylistsFlags::GetPlaylists_OpenInUi);
 }
 
 PlaylistBackend::PlaylistList PlaylistBackend::GetAllFavoritePlaylists() {
-  return GetPlaylists(GetPlaylists_Favorite);
+  return GetPlaylists(GetPlaylistsFlags::GetPlaylists_Favorite);
 }
 
 PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFlags flags) {
@@ -105,10 +105,10 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFl
   PlaylistList ret;
 
   QStringList condition_list;
-  if (flags & GetPlaylists_OpenInUi) {
+  if (flags & GetPlaylistsFlags::GetPlaylists_OpenInUi) {
     condition_list << "ui_order != -1";
   }
-  if (flags & GetPlaylists_Favorite) {
+  if (flags & GetPlaylistsFlags::GetPlaylists_Favorite) {
     condition_list << "is_favorite != 0";
   }
   QString condition;
@@ -172,9 +172,9 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
 
 }
 
-PlaylistItemList PlaylistBackend::GetPlaylistItems(const int playlist) {
+PlaylistItemPtrList PlaylistBackend::GetPlaylistItems(const int playlist) {
 
-  PlaylistItemList playlistitems;
+  PlaylistItemPtrList playlistitems;
 
   {
 
@@ -189,7 +189,7 @@ PlaylistItemList PlaylistBackend::GetPlaylistItems(const int playlist) {
     q.BindValue(":playlist", playlist);
     if (!q.Exec()) {
       db_->ReportErrors(q);
-      return PlaylistItemList();
+      return PlaylistItemPtrList();
     }
 
     // it's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
@@ -270,7 +270,7 @@ Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, std::shared_ptr<NewSon
 PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::shared_ptr<NewSongFromQueryState> state) {
 
   // We need collection to run a CueParser; also, this method applies only to file-type PlaylistItems
-  if (item->source() != Song::Source_LocalFile) return item;
+  if (item->source() != Song::Source::LocalFile) return item;
 
   CueParser cue_parser(app_->collection_backend());
 
@@ -316,13 +316,13 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::share
 
 }
 
-void PlaylistBackend::SavePlaylistAsync(int playlist, const PlaylistItemList &items, int last_played, PlaylistGeneratorPtr dynamic) {
+void PlaylistBackend::SavePlaylistAsync(int playlist, const PlaylistItemPtrList &items, int last_played, PlaylistGeneratorPtr dynamic) {
 
-  QMetaObject::invokeMethod(this, "SavePlaylist", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(PlaylistItemList, items), Q_ARG(int, last_played), Q_ARG(PlaylistGeneratorPtr, dynamic));
+  QMetaObject::invokeMethod(this, "SavePlaylist", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(PlaylistItemPtrList, items), Q_ARG(int, last_played), Q_ARG(PlaylistGeneratorPtr, dynamic));
 
 }
 
-void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList &items, int last_played, PlaylistGeneratorPtr dynamic) {
+void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &items, int last_played, PlaylistGeneratorPtr dynamic) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -361,7 +361,7 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList &items, 
     q.prepare("UPDATE playlists SET last_played=:last_played, dynamic_playlist_type=:dynamic_type, dynamic_playlist_data=:dynamic_data, dynamic_playlist_backend=:dynamic_backend WHERE ROWID=:playlist");
     q.BindValue(":last_played", last_played);
     if (dynamic) {
-      q.BindValue(":dynamic_type", dynamic->type());
+      q.BindValue(":dynamic_type", static_cast<int>(dynamic->type()));
       q.BindValue(":dynamic_data", dynamic->Save());
       q.BindValue(":dynamic_backend", dynamic->collection()->songs_table());
     }

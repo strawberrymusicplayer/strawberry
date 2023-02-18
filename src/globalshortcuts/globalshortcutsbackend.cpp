@@ -34,19 +34,19 @@ GlobalShortcutsBackend::GlobalShortcutsBackend(GlobalShortcutsManager *manager, 
 QString GlobalShortcutsBackend::name() const {
 
   switch (type_) {
-    case Type_None:
+    case Type::None:
       return "None";
-    case Type_KDE:
+    case Type::KDE:
       return "KDE";
-    case Type_Gnome:
+    case Type::Gnome:
       return "Gnome";
-    case Type_Mate:
+    case Type::Mate:
       return "Mate";
-    case Type_X11:
+    case Type::X11:
       return "X11";
-    case Type_MacOS:
+    case Type::macOS:
       return "macOS";
-    case Type_Win:
+    case Type::Win:
       return "Windows";
   }
 

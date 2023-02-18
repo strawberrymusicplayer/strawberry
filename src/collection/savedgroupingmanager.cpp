@@ -83,68 +83,68 @@ QString SavedGroupingManager::GetSavedGroupingsSettingsGroup(const QString &sett
 QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy g) {
 
   switch (g) {
-    case CollectionModel::GroupBy_None:
-    case CollectionModel::GroupByCount: {
+    case CollectionModel::GroupBy::None:
+    case CollectionModel::GroupBy::GroupByCount: {
       return tr("None");
     }
-    case CollectionModel::GroupBy_AlbumArtist: {
+    case CollectionModel::GroupBy::AlbumArtist: {
       return tr("Album artist");
     }
-    case CollectionModel::GroupBy_Artist: {
+    case CollectionModel::GroupBy::Artist: {
       return tr("Artist");
     }
-    case CollectionModel::GroupBy_Album: {
+    case CollectionModel::GroupBy::Album: {
       return tr("Album");
     }
-    case CollectionModel::GroupBy_AlbumDisc: {
+    case CollectionModel::GroupBy::AlbumDisc: {
       return tr("Album - Disc");
     }
-    case CollectionModel::GroupBy_YearAlbum: {
+    case CollectionModel::GroupBy::YearAlbum: {
       return tr("Year - Album");
     }
-    case CollectionModel::GroupBy_YearAlbumDisc: {
+    case CollectionModel::GroupBy::YearAlbumDisc: {
       return tr("Year - Album - Disc");
     }
-    case CollectionModel::GroupBy_OriginalYearAlbum: {
+    case CollectionModel::GroupBy::OriginalYearAlbum: {
       return tr("Original year - Album");
     }
-    case CollectionModel::GroupBy_OriginalYearAlbumDisc: {
+    case CollectionModel::GroupBy::OriginalYearAlbumDisc: {
       return tr("Original year - Album - Disc");
     }
-    case CollectionModel::GroupBy_Disc: {
+    case CollectionModel::GroupBy::Disc: {
       return tr("Disc");
     }
-    case CollectionModel::GroupBy_Year: {
+    case CollectionModel::GroupBy::Year: {
       return tr("Year");
     }
-    case CollectionModel::GroupBy_OriginalYear: {
+    case CollectionModel::GroupBy::OriginalYear: {
       return tr("Original year");
     }
-    case CollectionModel::GroupBy_Genre: {
+    case CollectionModel::GroupBy::Genre: {
       return tr("Genre");
     }
-    case CollectionModel::GroupBy_Composer: {
+    case CollectionModel::GroupBy::Composer: {
       return tr("Composer");
     }
-    case CollectionModel::GroupBy_Performer: {
+    case CollectionModel::GroupBy::Performer: {
       return tr("Performer");
     }
-    case CollectionModel::GroupBy_Grouping: {
+    case CollectionModel::GroupBy::Grouping: {
       return tr("Grouping");
     }
-    case CollectionModel::GroupBy_FileType: {
+    case CollectionModel::GroupBy::FileType: {
       return tr("File type");
     }
-    case CollectionModel::GroupBy_Format: {
+    case CollectionModel::GroupBy::Format: {
       return tr("Format");
     }
-    case CollectionModel::GroupBy_Samplerate: {
+    case CollectionModel::GroupBy::Samplerate: {
       return tr("Sample rate");
     }
-    case CollectionModel::GroupBy_Bitdepth: {
+    case CollectionModel::GroupBy::Bitdepth: {
       return tr("Bit depth");
     }
-    case CollectionModel::GroupBy_Bitrate: {
+    case CollectionModel::GroupBy::Bitrate: {
       return tr("Bitrate");
     }
   }

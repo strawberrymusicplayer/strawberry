@@ -106,7 +106,7 @@ void DeviceProperties::ShowDevice(const QModelIndex &idx) {
 #ifdef HAVE_GSTREAMER
     // Load the transcode formats the first time the dialog is shown
     for (const TranscoderPreset &preset : Transcoder::GetAllPresets()) {
-      ui_->transcode_format->addItem(preset.name_, preset.filetype_);
+      ui_->transcode_format->addItem(preset.name_, QVariant::fromValue(preset.filetype_));
     }
     ui_->transcode_format->model()->sort(0);
 #endif
@@ -209,15 +209,15 @@ void DeviceProperties::UpdateFormats() {
   // Transcode mode
   MusicStorage::TranscodeMode mode = static_cast<MusicStorage::TranscodeMode>(index_.data(DeviceManager::Role_TranscodeMode).toInt());
   switch (mode) {
-    case MusicStorage::Transcode_Always:
+    case MusicStorage::TranscodeMode::Transcode_Always:
       ui_->transcode_all->setChecked(true);
       break;
 
-    case MusicStorage::Transcode_Never:
+    case MusicStorage::TranscodeMode::Transcode_Never:
       ui_->transcode_off->setChecked(true);
       break;
 
-    case MusicStorage::Transcode_Unsupported:
+    case MusicStorage::TranscodeMode::Transcode_Unsupported:
     default:
       ui_->transcode_unsupported->setChecked(true);
       break;
@@ -262,13 +262,13 @@ void DeviceProperties::accept() {
   QDialog::accept();
 
   // Transcode mode
-  MusicStorage::TranscodeMode mode = MusicStorage::Transcode_Unsupported;
+  MusicStorage::TranscodeMode mode = MusicStorage::TranscodeMode::Transcode_Unsupported;
   if (ui_->transcode_all->isChecked())
-    mode = MusicStorage::Transcode_Always;
+    mode = MusicStorage::TranscodeMode::Transcode_Always;
   else if (ui_->transcode_off->isChecked())
-    mode = MusicStorage::Transcode_Never;
+    mode = MusicStorage::TranscodeMode::Transcode_Never;
   else if (ui_->transcode_unsupported->isChecked())
-    mode = MusicStorage::Transcode_Unsupported;
+    mode = MusicStorage::TranscodeMode::Transcode_Unsupported;
 
   // Transcode format
   Song::FileType format = static_cast<Song::FileType>(ui_->transcode_format->itemData(ui_->transcode_format->currentIndex()).toInt());
@@ -316,7 +316,7 @@ void DeviceProperties::UpdateFormatsFinished() {
 #ifdef HAVE_GSTREAMER
   // Set the format combobox item
   TranscoderPreset preset = Transcoder::PresetForFileType(static_cast<Song::FileType>(index_.data(DeviceManager::Role_TranscodeFormat).toInt()));
-  if (preset.filetype_ == Song::FileType_Unknown) {
+  if (preset.filetype_ == Song::FileType::Unknown) {
     // The user hasn't chosen a format for this device yet,
     // so work our way down a list of some preferred formats, picking the first one that is supported
     preset = Transcoder::PresetForFileType(Transcoder::PickBestFormat(supported_formats_));

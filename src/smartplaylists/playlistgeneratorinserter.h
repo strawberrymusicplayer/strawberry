@@ -44,7 +44,7 @@ class PlaylistGeneratorInserter : public QObject {
   void Load(Playlist *destination, const int row, const bool play_now, const bool enqueue, const bool enqueue_next, PlaylistGeneratorPtr generator, const int dynamic_count = 0);
 
  private:
-  static PlaylistItemList Generate(PlaylistGeneratorPtr generator, const int dynamic_count);
+  static PlaylistItemPtrList Generate(PlaylistGeneratorPtr generator, const int dynamic_count);
 
  signals:
   void Error(QString message);

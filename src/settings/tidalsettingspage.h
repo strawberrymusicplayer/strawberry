@@ -41,10 +41,10 @@ class TidalSettingsPage : public SettingsPage {
 
   static const char *kSettingsGroup;
 
-  enum StreamUrlMethod {
-    StreamUrlMethod_StreamUrl,
-    StreamUrlMethod_UrlPostPaywall,
-    StreamUrlMethod_PlaybackInfoPostPaywall,
+  enum class StreamUrlMethod {
+    StreamUrl,
+    UrlPostPaywall,
+    PlaybackInfoPostPaywall
   };
 
   void Load() override;

@@ -116,10 +116,10 @@ class AlbumCoverManager : public QMainWindow {
     Role_Image
   };
 
-  enum HideCovers {
-    Hide_None,
-    Hide_WithCovers,
-    Hide_WithoutCovers
+  enum class HideCovers {
+    None,
+    WithCovers,
+    WithoutCovers
   };
 
   void LoadGeometry();
@@ -136,7 +136,7 @@ class AlbumCoverManager : public QMainWindow {
   static Song ItemAsSong(AlbumItem *item);
 
   void UpdateStatusText();
-  bool ShouldHide(const AlbumItem &item, const QString &filter, HideCovers hide) const;
+  bool ShouldHide(const AlbumItem &item, const QString &filter, const HideCovers hide_covers) const;
   void SaveAndSetCover(AlbumItem *item, const AlbumCoverImageResult &result);
 
   void SaveImageToAlbums(Song *song, const AlbumCoverImageResult &result);

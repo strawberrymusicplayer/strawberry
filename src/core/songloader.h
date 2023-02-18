@@ -60,10 +60,10 @@ class SongLoader : public QObject {
   explicit SongLoader(CollectionBackendInterface *collection, const Player *player, QObject *parent = nullptr);
   ~SongLoader() override;
 
-  enum Result {
+  enum class Result {
     Success,
     Error,
-    BlockingLoadRequired,
+    BlockingLoadRequired
   };
 
   static const int kDefaultTimeout;
@@ -101,7 +101,12 @@ class SongLoader : public QObject {
 #endif  // HAVE_AUDIOCD && HAVE_GSTREAMER
 
  private:
-  enum State { WaitingForType, WaitingForMagic, WaitingForData, Finished };
+  enum class State {
+    WaitingForType,
+    WaitingForMagic,
+    WaitingForData,
+    Finished
+  };
 
   Result LoadLocal(const QString &filename);
   SongLoader::Result LoadLocalAsync(const QString &filename);

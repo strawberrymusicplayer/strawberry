@@ -105,7 +105,7 @@ void SmartPlaylistSearchPreview::showEvent(QShowEvent *e) {
 }
 
 namespace {
-PlaylistItemList DoRunSearch(PlaylistGeneratorPtr gen) { return gen->Generate(); }
+PlaylistItemPtrList DoRunSearch(PlaylistGeneratorPtr gen) { return gen->Generate(); }
 }  // namespace
 
 void SmartPlaylistSearchPreview::RunSearch(const SmartPlaylistSearch &search) {
@@ -116,17 +116,17 @@ void SmartPlaylistSearchPreview::RunSearch(const SmartPlaylistSearch &search) {
 
   ui_->busy_container->show();
   ui_->count_label->hide();
-  QFuture<PlaylistItemList> future = QtConcurrent::run(DoRunSearch, generator_);
-  QFutureWatcher<PlaylistItemList> *watcher = new QFutureWatcher<PlaylistItemList>();
-  QObject::connect(watcher, &QFutureWatcher<PlaylistItemList>::finished, this, &SmartPlaylistSearchPreview::SearchFinished);
+  QFuture<PlaylistItemPtrList> future = QtConcurrent::run(DoRunSearch, generator_);
+  QFutureWatcher<PlaylistItemPtrList> *watcher = new QFutureWatcher<PlaylistItemPtrList>();
+  QObject::connect(watcher, &QFutureWatcher<PlaylistItemPtrList>::finished, this, &SmartPlaylistSearchPreview::SearchFinished);
   watcher->setFuture(future);
 
 }
 
 void SmartPlaylistSearchPreview::SearchFinished() {
 
-  QFutureWatcher<PlaylistItemList> *watcher = static_cast<QFutureWatcher<PlaylistItemList>*>(sender());
-  PlaylistItemList all_items = watcher->result();
+  QFutureWatcher<PlaylistItemPtrList> *watcher = static_cast<QFutureWatcher<PlaylistItemPtrList>*>(sender());
+  PlaylistItemPtrList all_items = watcher->result();
   watcher->deleteLater();
 
   last_search_ = std::dynamic_pointer_cast<PlaylistQueryGenerator>(generator_)->search();
@@ -140,7 +140,7 @@ void SmartPlaylistSearchPreview::SearchFinished() {
     return;
   }
 
-  PlaylistItemList displayed_items = all_items.mid(0, PlaylistGenerator::kDefaultLimit);
+  PlaylistItemPtrList displayed_items = all_items.mid(0, PlaylistGenerator::kDefaultLimit);
 
   model_->Clear();
   model_->InsertItems(displayed_items);

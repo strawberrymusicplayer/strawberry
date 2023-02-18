@@ -442,7 +442,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
     QJsonObject obj_song = value_song.toObject();
 
     ++songs_received;
-    Song song(Song::Source_Subsonic);
+    Song song(Song::Source::Subsonic);
     ParseSong(song, obj_song, artist_id, album_id, album_artist, created);
     if (!song.is_valid()) continue;
     if (song.disc() >= 2) multidisc = true;
@@ -637,21 +637,21 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
     }
   }
 
-  Song::FileType filetype(Song::FileType_Stream);
+  Song::FileType filetype(Song::FileType::Stream);
   if (!mimetype.isEmpty()) {
     QMimeDatabase mimedb;
     QStringList suffixes = mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes();
     for (const QString &suffix : suffixes) {
       filetype = Song::FiletypeByExtension(suffix);
-      if (filetype != Song::FileType_Unknown) break;
+      if (filetype != Song::FileType::Unknown) break;
     }
-    if (filetype == Song::FileType_Unknown) {
+    if (filetype == Song::FileType::Unknown) {
       qLog(Debug) << "Subsonic: Unknown mimetype" << mimetype;
-      filetype = Song::FileType_Stream;
+      filetype = Song::FileType::Stream;
     }
   }
 
-  song.set_source(Song::Source_Subsonic);
+  song.set_source(Song::Source::Subsonic);
   song.set_song_id(song_id);
   if (!album_id.isEmpty()) song.set_album_id(album_id);
   if (!artist_id.isEmpty()) song.set_artist_id(artist_id);
@@ -714,7 +714,7 @@ void SubsonicRequest::AddAlbumCoverRequest(const Song &song) {
     return;
   }
 
-  QString cover_path = Song::ImageCacheDir(Song::Source_Subsonic);
+  QString cover_path = Song::ImageCacheDir(Song::Source::Subsonic);
   QDir dir(cover_path);
   if (!dir.exists()) dir.mkpath(cover_path);
 

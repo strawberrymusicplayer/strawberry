@@ -59,7 +59,7 @@ class QShowEvent;
 NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_NotificationsSettingsPage),
-      pretty_popup_(new OSDPretty(OSDPretty::Mode_Draggable)) {
+      pretty_popup_(new OSDPretty(OSDPretty::Mode::Draggable)) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("help-hint", true, 0, 32));
@@ -154,9 +154,9 @@ void NotificationsSettingsPage::Load() {
   QSettings s;
 
   s.beginGroup(OSDBase::kSettingsGroup);
-  OSDBase::Behaviour osd_behaviour = OSDBase::Behaviour(s.value("Behaviour", OSDBase::Native).toInt());
+  const OSDBase::Behaviour osd_behaviour = static_cast<OSDBase::Behaviour>(s.value("Behaviour", static_cast<int>(OSDBase::Behaviour::Native)).toInt());
   switch (osd_behaviour) {
-    case OSDBase::Native:
+    case OSDBase::Behaviour::Native:
 #ifdef Q_OS_WIN32
       if (dialog()->osd()->SupportsNativeNotifications() || dialog()->osd()->SupportsTrayPopups()) {
 #else
@@ -167,18 +167,18 @@ void NotificationsSettingsPage::Load() {
       }
       // Fallthrough
 
-    case OSDBase::Pretty:
+    case OSDBase::Behaviour::Pretty:
       ui_->notifications_pretty->setChecked(true);
       break;
 
-    case OSDBase::TrayPopup:
+    case OSDBase::Behaviour::TrayPopup:
       if (dialog()->osd()->SupportsTrayPopups()) {
         ui_->notifications_tray->setChecked(true);
         break;
       }
       // Fallthrough
 
-    case OSDBase::Disabled:
+    case OSDBase::Behaviour::Disabled:
     default:
       ui_->notifications_none->setChecked(true);
       break;
@@ -229,11 +229,11 @@ void NotificationsSettingsPage::Save() {
 
   QSettings s;
 
-  OSDBase::Behaviour osd_behaviour = OSDBase::Disabled;
-  if      (ui_->notifications_none->isChecked())   osd_behaviour = OSDBase::Disabled;
-  else if (ui_->notifications_native->isChecked()) osd_behaviour = OSDBase::Native;
-  else if (ui_->notifications_tray->isChecked())   osd_behaviour = OSDBase::TrayPopup;
-  else if (ui_->notifications_pretty->isChecked()) osd_behaviour = OSDBase::Pretty;
+  OSDBase::Behaviour osd_behaviour = OSDBase::Behaviour::Disabled;
+  if      (ui_->notifications_none->isChecked())   osd_behaviour = OSDBase::Behaviour::Disabled;
+  else if (ui_->notifications_native->isChecked()) osd_behaviour = OSDBase::Behaviour::Native;
+  else if (ui_->notifications_tray->isChecked())   osd_behaviour = OSDBase::Behaviour::TrayPopup;
+  else if (ui_->notifications_pretty->isChecked()) osd_behaviour = OSDBase::Behaviour::Pretty;
 
   s.beginGroup(OSDBase::kSettingsGroup);
   s.setValue("Behaviour", static_cast<int>(osd_behaviour));
@@ -345,15 +345,15 @@ void NotificationsSettingsPage::NotificationCustomTextChanged(bool enabled) {
 
 void NotificationsSettingsPage::PrepareNotificationPreview() {
 
-  OSDBase::Behaviour notificationType = OSDBase::Disabled;
+  OSDBase::Behaviour notificationType = OSDBase::Behaviour::Disabled;
   if (ui_->notifications_native->isChecked()) {
-    notificationType = OSDBase::Native;
+    notificationType = OSDBase::Behaviour::Native;
   }
   else if (ui_->notifications_pretty->isChecked()) {
-    notificationType = OSDBase::Pretty;
+    notificationType = OSDBase::Behaviour::Pretty;
   }
   else if (ui_->notifications_tray->isChecked()) {
-    notificationType = OSDBase::TrayPopup;
+    notificationType = OSDBase::Behaviour::TrayPopup;
   }
 
   // If user changes timeout or other options, that won't be reflected in the preview

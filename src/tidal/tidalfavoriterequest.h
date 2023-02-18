@@ -41,14 +41,15 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   explicit TidalFavoriteRequest(TidalService *service, NetworkAccessManager *network, QObject *parent = nullptr);
   ~TidalFavoriteRequest() override;
 
-  enum FavoriteType {
-    FavoriteType_Artists,
-    FavoriteType_Albums,
-    FavoriteType_Songs
-  };
-
   bool need_login() { return need_login_; }
   void set_need_login() override { need_login_ = true; }
+
+ private:
+  enum class FavoriteType {
+    Artists,
+    Albums,
+    Songs
+  };
 
  signals:
   void ArtistsAdded(SongList);

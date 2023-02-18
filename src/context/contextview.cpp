@@ -338,11 +338,11 @@ void ContextView::ReloadSettings() {
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
   title_fmt_ = s.value(ContextSettingsPage::kSettingsTitleFmt, "%title% - %artist%").toString();
   summary_fmt_ = s.value(ContextSettingsPage::kSettingsSummaryFmt, "%album%").toString();
-  action_show_album_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ALBUM], true).toBool());
-  action_show_data_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA], false).toBool());
-  action_show_output_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE], false).toBool());
-  action_show_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS], true).toBool());
-  action_search_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS], true).toBool());
+  action_show_album_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::ALBUM)], true).toBool());
+  action_show_data_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA)], false).toBool());
+  action_show_output_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE)], false).toBool());
+  action_show_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS)], true).toBool());
+  action_search_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS)], true).toBool());
   font_headline_ = s.value("font_headline", font().family()).toString();
   font_normal_ = s.value("font_normal", font().family()).toString();
   font_size_headline_ = s.value("font_size_headline", ContextSettingsPage::kDefaultFontSizeHeadline).toReal();
@@ -544,7 +544,7 @@ void ContextView::SetSong() {
 
   if (action_show_output_->isChecked()) {
     widget_play_output_->show();
-    Engine::EngineType enginetype(Engine::None);
+    Engine::EngineType enginetype(Engine::EngineType::None);
     if (app_->player()->engine()) enginetype = app_->player()->engine()->type();
     QIcon icon_engine = IconLoader::Load(EngineName(enginetype), true, 32);
 
@@ -739,7 +739,7 @@ void ContextView::ActionShowAlbum() {
 
   QSettings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ALBUM], action_show_album_->isChecked());
+  s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::ALBUM)], action_show_album_->isChecked());
   s.endGroup();
   if (song_playing_.is_valid()) SetSong();
 
@@ -749,7 +749,7 @@ void ContextView::ActionShowData() {
 
   QSettings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA], action_show_data_->isChecked());
+  s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA)], action_show_data_->isChecked());
   s.endGroup();
   if (song_playing_.is_valid()) SetSong();
 
@@ -759,7 +759,7 @@ void ContextView::ActionShowOutput() {
 
   QSettings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE], action_show_output_->isChecked());
+  s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE)], action_show_output_->isChecked());
   s.endGroup();
   if (song_playing_.is_valid()) SetSong();
 
@@ -769,7 +769,7 @@ void ContextView::ActionShowLyrics() {
 
   QSettings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS], action_show_lyrics_->isChecked());
+  s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS)], action_show_lyrics_->isChecked());
   s.endGroup();
 
   if (song_playing_.is_valid()) SetSong();
@@ -782,7 +782,7 @@ void ContextView::ActionSearchLyrics() {
 
   QSettings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS], action_search_lyrics_->isChecked());
+  s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS)], action_search_lyrics_->isChecked());
   s.endGroup();
 
   if (song_playing_.is_valid()) SetSong();

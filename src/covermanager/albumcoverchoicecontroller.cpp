@@ -98,8 +98,8 @@ AlbumCoverChoiceController::AlbumCoverChoiceController(QWidget *parent)
       separator2_(nullptr),
       show_cover_(nullptr),
       search_cover_auto_(nullptr),
-      save_cover_type_(CollectionSettingsPage::SaveCoverType_Cache),
-      save_cover_filename_(CollectionSettingsPage::SaveCoverFilename_Pattern),
+      save_cover_type_(CollectionSettingsPage::SaveCoverType::Cache),
+      save_cover_filename_(CollectionSettingsPage::SaveCoverFilename::Pattern),
       cover_overwrite_(false),
       cover_lowercase_(true),
       cover_replace_spaces_(true),
@@ -146,8 +146,8 @@ void AlbumCoverChoiceController::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  save_cover_type_ = CollectionSettingsPage::SaveCoverType(s.value("save_cover_type", CollectionSettingsPage::SaveCoverType_Cache).toInt());
-  save_cover_filename_ = CollectionSettingsPage::SaveCoverFilename(s.value("save_cover_filename", CollectionSettingsPage::SaveCoverFilename_Pattern).toInt());
+  save_cover_type_ = static_cast<CollectionSettingsPage::SaveCoverType>(s.value("save_cover_type", static_cast<int>(CollectionSettingsPage::SaveCoverType::Cache)).toInt());
+  save_cover_filename_ = static_cast<CollectionSettingsPage::SaveCoverFilename>(s.value("save_cover_filename", static_cast<int>(CollectionSettingsPage::SaveCoverFilename::Pattern)).toInt());
   cover_pattern_ = s.value("cover_pattern", "%albumartist-%album").toString();
   cover_overwrite_ = s.value("cover_overwrite", false).toBool();
   cover_lowercase_ = s.value("cover_lowercase", false).toBool();
@@ -214,14 +214,14 @@ QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
   if (QImage(cover_file).isNull()) return QUrl();
 
   switch (get_save_album_cover_type()) {
-    case CollectionSettingsPage::SaveCoverType_Embedded:
+    case CollectionSettingsPage::SaveCoverType::Embedded:
       if (song->save_embedded_cover_supported()) {
         SaveCoverEmbeddedAutomatic(*song, cover_file);
         return QUrl::fromLocalFile(Song::kEmbeddedCover);
       }
       [[fallthrough]];
-    case CollectionSettingsPage::SaveCoverType_Cache:
-    case CollectionSettingsPage::SaveCoverType_Album:{
+    case CollectionSettingsPage::SaveCoverType::Cache:
+    case CollectionSettingsPage::SaveCoverType::Album:{
       QUrl cover_url = QUrl::fromLocalFile(cover_file);
       SaveArtManualToSong(song, cover_url);
       return cover_url;
@@ -540,7 +540,7 @@ void AlbumCoverChoiceController::SaveArtAutomaticToSong(Song *song, const QUrl &
     song->clear_art_manual();
   }
 
-  if (song->source() == Song::Source_Collection) {
+  if (song->source() == Song::Source::Collection) {
     app_->collection_backend()->UpdateAutomaticAlbumArtAsync(song->effective_albumartist(), song->album(), art_automatic, song->has_embedded_cover());
   }
 
@@ -559,20 +559,20 @@ void AlbumCoverChoiceController::SaveArtManualToSong(Song *song, const QUrl &art
 
   // Update the backends.
   switch (song->source()) {
-    case Song::Source_Collection:
+    case Song::Source::Collection:
       app_->collection_backend()->UpdateManualAlbumArtAsync(song->effective_albumartist(), song->album(), art_manual, clear_art_automatic);
       break;
-    case Song::Source_LocalFile:
-    case Song::Source_CDDA:
-    case Song::Source_Device:
-    case Song::Source_Stream:
-    case Song::Source_RadioParadise:
-    case Song::Source_SomaFM:
-    case Song::Source_Unknown:
+    case Song::Source::LocalFile:
+    case Song::Source::CDDA:
+    case Song::Source::Device:
+    case Song::Source::Stream:
+    case Song::Source::RadioParadise:
+    case Song::Source::SomaFM:
+    case Song::Source::Unknown:
       break;
-    case Song::Source_Tidal:
-    case Song::Source_Qobuz:
-    case Song::Source_Subsonic:
+    case Song::Source::Tidal:
+    case Song::Source::Qobuz:
+    case Song::Source::Subsonic:
       InternetService *service = app_->internet_services()->ServiceBySource(song->source());
       if (!service) break;
       if (service->artists_collection_backend()) {
@@ -618,7 +618,7 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
 
   QFile file(filepath);
   // Don't overwrite when saving in album dir if the filename is set to pattern unless "force_overwrite" is set.
-  if (source == Song::Source_Collection && !cover_overwrite_ && !force_overwrite && get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType_Album && save_cover_filename_ == CollectionSettingsPage::SaveCoverFilename_Pattern && file.exists()) {
+  if (source == Song::Source::Collection && !cover_overwrite_ && !force_overwrite && get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType::Album && save_cover_filename_ == CollectionSettingsPage::SaveCoverFilename::Pattern && file.exists()) {
     while (file.exists()) {
       QFileInfo fileinfo(file.fileName());
       file.setFileName(fileinfo.path() + "/0" + fileinfo.fileName());
@@ -653,7 +653,7 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
 
 void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, const AlbumCoverImageResult &result) {
 
-  if (song.source() == Song::Source_Collection) {
+  if (song.source() == Song::Source::Collection) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QFuture<SongList> future = QtConcurrent::run(&CollectionBackend::GetAlbumSongs, app_->collection_backend(), song.effective_albumartist(), song.effective_album(), CollectionFilterOptions());
 #else
@@ -698,7 +698,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, co
 
 void AlbumCoverChoiceController::SaveCoverEmbeddedAutomatic(const Song &song, const QString &cover_filename) {
 
-  if (song.source() == Song::Source_Collection) {
+  if (song.source() == Song::Source::Collection) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QFuture<SongList> future = QtConcurrent::run(&CollectionBackend::GetAlbumSongs, app_->collection_backend(), song.effective_albumartist(), song.effective_album(), CollectionFilterOptions());
 #else
@@ -758,7 +758,7 @@ QUrl AlbumCoverChoiceController::SaveCover(Song *song, const QDropEvent *e) {
     const QString suffix = QFileInfo(filename).suffix().toLower();
 
     if (IsKnownImageExtension(suffix)) {
-      if (get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType_Embedded && song->save_embedded_cover_supported()) {
+      if (get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType::Embedded && song->save_embedded_cover_supported()) {
         SaveCoverEmbeddedAutomatic(*song, filename);
         return QUrl::fromLocalFile(Song::kEmbeddedCover);
       }
@@ -784,7 +784,7 @@ QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCover
 
   QUrl cover_url;
   switch(get_save_album_cover_type()) {
-    case CollectionSettingsPage::SaveCoverType_Embedded:{
+    case CollectionSettingsPage::SaveCoverType::Embedded:{
       if (song->save_embedded_cover_supported()) {
         SaveCoverEmbeddedAutomatic(*song, result);
         cover_url = QUrl::fromLocalFile(Song::kEmbeddedCover);
@@ -792,8 +792,8 @@ QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCover
       }
     }
     [[fallthrough]];
-    case CollectionSettingsPage::SaveCoverType_Cache:
-    case CollectionSettingsPage::SaveCoverType_Album:{
+    case CollectionSettingsPage::SaveCoverType::Cache:
+    case CollectionSettingsPage::SaveCoverType::Album:{
       cover_url = SaveCoverToFileAutomatic(song, result);
       if (!cover_url.isEmpty()) SaveArtManualToSong(song, cover_url);
       break;

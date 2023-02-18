@@ -35,7 +35,7 @@ NetworkProxyFactory *NetworkProxyFactory::sInstance = nullptr;
 const char *NetworkProxyFactory::kSettingsGroup = "NetworkProxy";
 
 NetworkProxyFactory::NetworkProxyFactory()
-    : mode_(Mode_System),
+    : mode_(Mode::System),
       type_(QNetworkProxy::HttpProxy),
       port_(8080),
       use_authentication_(false) {
@@ -81,7 +81,7 @@ void NetworkProxyFactory::ReloadSettings() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
 
-  mode_ = Mode(s.value("mode", Mode_System).toInt());
+  mode_ = static_cast<Mode>(s.value("mode", static_cast<int>(Mode::System)).toInt());
   type_ = QNetworkProxy::ProxyType(s.value("type", QNetworkProxy::HttpProxy).toInt());
   hostname_ = s.value("hostname").toString();
   port_ = s.value("port", 8080).toInt();
@@ -100,7 +100,7 @@ QList<QNetworkProxy> NetworkProxyFactory::queryProxy(const QNetworkProxyQuery &q
   QNetworkProxy ret;
 
   switch (mode_) {
-    case Mode_System:
+    case Mode::System:
 #ifdef Q_OS_LINUX
       Q_UNUSED(query);
 
@@ -125,11 +125,11 @@ QList<QNetworkProxy> NetworkProxyFactory::queryProxy(const QNetworkProxyQuery &q
       return systemProxyForQuery(query);
 #endif
 
-    case Mode_Direct:
+    case Mode::Direct:
       ret.setType(QNetworkProxy::NoProxy);
       break;
 
-    case Mode_Manual:
+    case Mode::Manual:
       ret.setType(type_);
       ret.setHostName(hostname_);
       ret.setPort(port_);

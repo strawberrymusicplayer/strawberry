@@ -78,7 +78,7 @@ bool MtpLoader::TryLoad() {
 
     LIBMTP_track_t *track = tracks;
 
-    Song song(Song::Source_Device);
+    Song song(Song::Source::Device);
     song.InitFromMTP(track, url_.host());
     if (song.is_valid() && !song.artist().isEmpty() && !song.title().isEmpty()) {
       song.set_directory_id(1);

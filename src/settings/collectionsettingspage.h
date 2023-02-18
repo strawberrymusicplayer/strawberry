@@ -50,22 +50,22 @@ class CollectionSettingsPage : public SettingsPage {
   static const int kSettingsCacheSizeDefault;
   static const int kSettingsDiskCacheSizeDefault;
 
-  enum SaveCoverType {
-    SaveCoverType_Cache = 1,
-    SaveCoverType_Album = 2,
-    SaveCoverType_Embedded = 3
+  enum class SaveCoverType {
+    Cache = 1,
+    Album = 2,
+    Embedded = 3
   };
 
-  enum SaveCoverFilename {
-    SaveCoverFilename_Hash = 1,
-    SaveCoverFilename_Pattern = 2
+  enum class SaveCoverFilename {
+    Hash = 1,
+    Pattern = 2
   };
 
-  enum CacheSizeUnit {
-    CacheSizeUnit_KB,
-    CacheSizeUnit_MB,
-    CacheSizeUnit_GB,
-    CacheSizeUnit_TB,
+  enum class CacheSizeUnit {
+    KB,
+    MB,
+    GB,
+    TB
   };
 
   void Load() override;

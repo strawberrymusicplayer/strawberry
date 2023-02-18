@@ -224,16 +224,16 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
 QList<TranscoderPreset> Transcoder::GetAllPresets() {
 
   QList<TranscoderPreset> ret;
-  ret << PresetForFileType(Song::FileType_WAV);
-  ret << PresetForFileType(Song::FileType_FLAC);
-  ret << PresetForFileType(Song::FileType_WavPack);
-  ret << PresetForFileType(Song::FileType_OggFlac);
-  ret << PresetForFileType(Song::FileType_OggVorbis);
-  ret << PresetForFileType(Song::FileType_OggOpus);
-  ret << PresetForFileType(Song::FileType_OggSpeex);
-  ret << PresetForFileType(Song::FileType_MPEG);
-  ret << PresetForFileType(Song::FileType_MP4);
-  ret << PresetForFileType(Song::FileType_ASF);
+  ret << PresetForFileType(Song::FileType::WAV);
+  ret << PresetForFileType(Song::FileType::FLAC);
+  ret << PresetForFileType(Song::FileType::WavPack);
+  ret << PresetForFileType(Song::FileType::OggFlac);
+  ret << PresetForFileType(Song::FileType::OggVorbis);
+  ret << PresetForFileType(Song::FileType::OggOpus);
+  ret << PresetForFileType(Song::FileType::OggSpeex);
+  ret << PresetForFileType(Song::FileType::MPEG);
+  ret << PresetForFileType(Song::FileType::MP4);
+  ret << PresetForFileType(Song::FileType::ASF);
 
   return ret;
 
@@ -242,28 +242,28 @@ QList<TranscoderPreset> Transcoder::GetAllPresets() {
 TranscoderPreset Transcoder::PresetForFileType(const Song::FileType filetype) {
 
   switch (filetype) {
-    case Song::FileType_WAV:
+    case Song::FileType::WAV:
       return TranscoderPreset(filetype, "Wav",                    "wav",  QString(), "audio/x-wav");
-    case Song::FileType_FLAC:
+    case Song::FileType::FLAC:
       return TranscoderPreset(filetype, "FLAC",                   "flac", "audio/x-flac");
-    case Song::FileType_WavPack:
+    case Song::FileType::WavPack:
       return TranscoderPreset(filetype, "WavPack",                "wv",   "audio/x-wavpack");
-    case Song::FileType_OggFlac:
+    case Song::FileType::OggFlac:
       return TranscoderPreset(filetype, "Ogg FLAC",               "ogg",  "audio/x-flac", "application/ogg");
-    case Song::FileType_OggVorbis:
+    case Song::FileType::OggVorbis:
       return TranscoderPreset(filetype, "Ogg Vorbis",             "ogg",  "audio/x-vorbis", "application/ogg");
-    case Song::FileType_OggOpus:
+    case Song::FileType::OggOpus:
       return TranscoderPreset(filetype, "Ogg Opus",               "opus", "audio/x-opus", "application/ogg");
-    case Song::FileType_OggSpeex:
+    case Song::FileType::OggSpeex:
       return TranscoderPreset(filetype, "Ogg Speex",              "spx",  "audio/x-speex", "application/ogg");
-    case Song::FileType_MPEG:
+    case Song::FileType::MPEG:
       return TranscoderPreset(filetype, "MP3",                    "mp3",  "audio/mpeg, mpegversion=(int)1, layer=(int)3");
-    case Song::FileType_MP4:
+    case Song::FileType::MP4:
       return TranscoderPreset(filetype, "M4A AAC",                "mp4",  "audio/mpeg, mpegversion=(int)4", "audio/mp4");
-    case Song::FileType_ASF:
+    case Song::FileType::ASF:
       return TranscoderPreset(filetype, "Windows Media audio",    "wma",  "audio/x-wma", "video/x-ms-asf");
     default:
-      qLog(Warning) << "Unsupported format in PresetForFileType:" << filetype;
+      qLog(Warning) << "Unsupported format in PresetForFileType:" << static_cast<int>(filetype);
       return TranscoderPreset();
   }
 
@@ -271,12 +271,12 @@ TranscoderPreset Transcoder::PresetForFileType(const Song::FileType filetype) {
 
 Song::FileType Transcoder::PickBestFormat(const QList<Song::FileType> &supported) {
 
-  if (supported.isEmpty()) return Song::FileType_Unknown;
+  if (supported.isEmpty()) return Song::FileType::Unknown;
 
   QList<Song::FileType> best_formats;
-  best_formats << Song::FileType_FLAC;
-  best_formats << Song::FileType_OggFlac;
-  best_formats << Song::FileType_WavPack;
+  best_formats << Song::FileType::FLAC;
+  best_formats << Song::FileType::OggFlac;
+  best_formats << Song::FileType::WavPack;
 
   for (Song::FileType type : best_formats) {
     if (supported.isEmpty() || supported.contains(type)) return type;
@@ -337,29 +337,29 @@ void Transcoder::Start() {
 
   forever {
     StartJobStatus status = MaybeStartNextJob();
-    if (status == AllThreadsBusy || status == NoMoreJobs) break;
+    if (status == StartJobStatus::AllThreadsBusy || status == StartJobStatus::NoMoreJobs) break;
   }
 
 }
 
 Transcoder::StartJobStatus Transcoder::MaybeStartNextJob() {
 
-  if (current_jobs_.count() >= max_threads()) return AllThreadsBusy;
+  if (current_jobs_.count() >= max_threads()) return StartJobStatus::AllThreadsBusy;
   if (queued_jobs_.isEmpty()) {
     if (current_jobs_.isEmpty()) {
       emit AllJobsComplete();
     }
 
-    return NoMoreJobs;
+    return StartJobStatus::NoMoreJobs;
   }
 
   Job job = queued_jobs_.takeFirst();
   if (StartJob(job)) {
-    return StartedSuccessfully;
+    return StartJobStatus::StartedSuccessfully;
   }
 
   emit JobComplete(job.input, job.output, false);
-  return FailedToStart;
+  return StartJobStatus::FailedToStart;
 
 }
 

@@ -331,7 +331,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   std::unique_ptr<TagFetcher> tag_fetcher_;
 #endif
   std::unique_ptr<TrackSelectionDialog> track_selection_dialog_;
-  PlaylistItemList autocomplete_tag_items_;
+  PlaylistItemPtrList autocomplete_tag_items_;
 
   SmartPlaylistsViewContainer *smartplaylists_view_;
 

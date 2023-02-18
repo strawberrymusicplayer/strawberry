@@ -164,7 +164,7 @@ void Mpris2::PlaylistManagerInitialized() {
 
 void Mpris2::EngineStateChanged(Engine::State newState) {
 
-  if (newState != Engine::Playing && newState != Engine::Paused) {
+  if (newState != Engine::State::Playing && newState != Engine::State::Paused) {
     last_metadata_ = QVariantMap();
     EmitNotification("Metadata");
   }
@@ -172,7 +172,7 @@ void Mpris2::EngineStateChanged(Engine::State newState) {
   EmitNotification("CanPlay");
   EmitNotification("CanPause");
   EmitNotification("PlaybackStatus", PlaybackStatus(newState));
-  if (newState == Engine::Playing) EmitNotification("CanSeek", CanSeek(newState));
+  if (newState == Engine::State::Playing) EmitNotification("CanSeek", CanSeek(newState));
 
 }
 
@@ -307,8 +307,8 @@ QString Mpris2::PlaybackStatus() const {
 QString Mpris2::PlaybackStatus(Engine::State state) const {
 
   switch (state) {
-    case Engine::Playing: return "Playing";
-    case Engine::Paused: return "Paused";
+    case Engine::State::Playing: return "Playing";
+    case Engine::State::Paused: return "Paused";
     default: return "Stopped";
   }
 
@@ -321,9 +321,9 @@ QString Mpris2::LoopStatus() const {
   }
 
   switch (app_->playlist_manager()->sequence()->repeat_mode()) {
-    case PlaylistSequence::Repeat_Album:
-    case PlaylistSequence::Repeat_Playlist: return "Playlist";
-    case PlaylistSequence::Repeat_Track: return "Track";
+    case PlaylistSequence::RepeatMode::Album:
+    case PlaylistSequence::RepeatMode::Playlist: return "Playlist";
+    case PlaylistSequence::RepeatMode::Track: return "Track";
     default: return "None";
   }
 
@@ -331,16 +331,16 @@ QString Mpris2::LoopStatus() const {
 
 void Mpris2::SetLoopStatus(const QString &value) {
 
-  PlaylistSequence::RepeatMode mode = PlaylistSequence::Repeat_Off;
+  PlaylistSequence::RepeatMode mode = PlaylistSequence::RepeatMode::Off;
 
   if (value == "None") {
-    mode = PlaylistSequence::Repeat_Off;
+    mode = PlaylistSequence::RepeatMode::Off;
   }
   else if (value == "Track") {
-    mode = PlaylistSequence::Repeat_Track;
+    mode = PlaylistSequence::RepeatMode::Track;
   }
   else if (value == "Playlist") {
-    mode = PlaylistSequence::Repeat_Playlist;
+    mode = PlaylistSequence::RepeatMode::Playlist;
   }
 
   app_->playlist_manager()->active()->sequence()->SetRepeatMode(mode);
@@ -359,12 +359,12 @@ void Mpris2::SetRate(double rate) {
 
 bool Mpris2::Shuffle() const {
 
-  return app_->playlist_manager()->sequence()->shuffle_mode() != PlaylistSequence::Shuffle_Off;
+  return app_->playlist_manager()->sequence()->shuffle_mode() != PlaylistSequence::ShuffleMode::Off;
 
 }
 
 void Mpris2::SetShuffle(bool enable) {
-  app_->playlist_manager()->active()->sequence()->SetShuffleMode(enable ? PlaylistSequence::Shuffle_All : PlaylistSequence::Shuffle_Off);
+  app_->playlist_manager()->active()->sequence()->SetShuffleMode(enable ? PlaylistSequence::ShuffleMode::All : PlaylistSequence::ShuffleMode::Off);
 }
 
 QVariantMap Mpris2::Metadata() const { return last_metadata_; }
@@ -447,13 +447,13 @@ bool Mpris2::CanPlay() const {
 
 // This one's a bit different than MPRIS 1 - we want this to be true even when the song is already paused or stopped.
 bool Mpris2::CanPause() const {
-  return (app_->player()->GetCurrentItem() && app_->player()->GetState() == Engine::Playing && !(app_->player()->GetCurrentItem()->options() & PlaylistItem::PauseDisabled)) || PlaybackStatus() == "Paused" || PlaybackStatus() == "Stopped";
+  return (app_->player()->GetCurrentItem() && app_->player()->GetState() == Engine::State::Playing && !(app_->player()->GetCurrentItem()->options() & PlaylistItem::Option::PauseDisabled)) || PlaybackStatus() == "Paused" || PlaybackStatus() == "Stopped";
 }
 
 bool Mpris2::CanSeek() const { return CanSeek(app_->player()->GetState()); }
 
 bool Mpris2::CanSeek(Engine::State state) const {
-  return app_->player()->GetCurrentItem() && state != Engine::Empty && !app_->player()->GetCurrentItem()->Metadata().is_stream();
+  return app_->player()->GetCurrentItem() && state != Engine::State::Empty && !app_->player()->GetCurrentItem()->Metadata().is_stream();
 }
 
 bool Mpris2::CanControl() const { return true; }
@@ -471,7 +471,7 @@ void Mpris2::Previous() {
 }
 
 void Mpris2::Pause() {
-  if (CanPause() && app_->player()->GetState() != Engine::Paused) {
+  if (CanPause() && app_->player()->GetState() != Engine::State::Paused) {
     app_->player()->Pause();
   }
 }

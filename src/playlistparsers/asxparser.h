@@ -51,7 +51,7 @@ class ASXParser : public XMLParser {
   bool TryMagic(const QByteArray &data) const override;
 
   SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir(), const bool collection_search = true) const override;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType_Automatic) const override;
+  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType::Automatic) const override;
 
  private:
   Song ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_search) const;

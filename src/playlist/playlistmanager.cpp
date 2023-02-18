@@ -252,18 +252,18 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
 
   QFileInfo fileinfo;
   forever {
-    filename = QFileDialog::getSaveFileName(nullptr, tr("Save playlist", "Title of the playlist save dialog."), filename, parser()->filters(PlaylistParser::Type_Save), &last_save_filter);
+    filename = QFileDialog::getSaveFileName(nullptr, tr("Save playlist", "Title of the playlist save dialog."), filename, parser()->filters(PlaylistParser::Type::Save), &last_save_filter);
     if (filename.isEmpty()) return;
     fileinfo.setFile(filename);
-    ParserBase *parser = parser_->ParserForExtension(PlaylistParser::Type_Save, fileinfo.suffix());
+    ParserBase *parser = parser_->ParserForExtension(PlaylistParser::Type::Save, fileinfo.suffix());
     if (parser) break;
     QMessageBox::warning(nullptr, tr("Unknown playlist extension"), tr("Unknown file extension for playlist."));
   }
 
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
-  PlaylistSettingsPage::PathType path_type = static_cast<PlaylistSettingsPage::PathType>(s.value("path_type", PlaylistSettingsPage::PathType_Automatic).toInt());
+  PlaylistSettingsPage::PathType path_type = static_cast<PlaylistSettingsPage::PathType>(s.value("path_type", static_cast<int>(PlaylistSettingsPage::PathType::Automatic)).toInt());
   s.endGroup();
-  if (path_type == PlaylistSettingsPage::PathType_Ask_User) {
+  if (path_type == PlaylistSettingsPage::PathType::Ask_User) {
     PlaylistSaveOptionsDialog optionsdialog;
     optionsdialog.setModal(true);
     if (optionsdialog.exec() != QDialog::Accepted) return;
@@ -470,7 +470,7 @@ void PlaylistManager::SongsDiscovered(const SongList &songs) {
 
   for (const Song &song : songs) {
     for (const Data &data : std::as_const(playlists_)) {
-      PlaylistItemList items = data.p->collection_items_by_id(song.id());
+      PlaylistItemPtrList items = data.p->collection_items_by_id(song.id());
       for (PlaylistItemPtr item : items) {
         if (item->Metadata().directory_id() != song.directory_id()) continue;
         item->SetMetadata(song);
@@ -624,7 +624,7 @@ void PlaylistManager::RateCurrentSong2(const int rating) {
 
 void PlaylistManager::SaveAllPlaylists() {
 
-  SavePlaylistsDialog dialog(parser()->file_extensions(PlaylistParser::Type_Save), parser()->default_extension());
+  SavePlaylistsDialog dialog(parser()->file_extensions(PlaylistParser::Type::Save), parser()->default_extension());
   if (dialog.exec() != QDialog::Accepted) {
     return;
   }
@@ -637,9 +637,9 @@ void PlaylistManager::SaveAllPlaylists() {
 
   QSettings s;
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
-  PlaylistSettingsPage::PathType path_type = static_cast<PlaylistSettingsPage::PathType>(s.value("path_type", PlaylistSettingsPage::PathType_Automatic).toInt());
+  PlaylistSettingsPage::PathType path_type = static_cast<PlaylistSettingsPage::PathType>(s.value("path_type", static_cast<int>(PlaylistSettingsPage::PathType::Automatic)).toInt());
   s.endGroup();
-  if (path_type == PlaylistSettingsPage::PathType_Ask_User) {
+  if (path_type == PlaylistSettingsPage::PathType::Ask_User) {
     PlaylistSaveOptionsDialog optionsdialog;
     optionsdialog.setModal(true);
     if (optionsdialog.exec() != QDialog::Accepted) return;

@@ -51,7 +51,7 @@ class CollectionModelTest : public ::testing::Test {
   void SetUp() override {
     database_ = std::make_shared<MemoryDatabase>(nullptr);
     backend_ = std::make_unique<CollectionBackend>();
-    backend_->Init(database_.get(), nullptr, Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+    backend_->Init(database_.get(), nullptr, Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
     model_ = std::make_unique<CollectionModel>(backend_.get(), nullptr);
 
     added_dir_ = false;
@@ -359,7 +359,7 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
   int year = 1960;
   // Add some normal albums.
   for (int artist_number = 1; artist_number <= 3 ; ++artist_number) {
-    Song song(Song::Source_Collection);
+    Song song(Song::Source::Collection);
     song.set_artist(QString("Artist %1").arg(artist_number));
     song.set_composer(QString("Composer %1").arg(artist_number));
     song.set_performer(QString("Performer %1").arg(artist_number));
@@ -385,7 +385,7 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
 
   // Add some albums with 'album artist'.
   for (int album_artist_number = 1; album_artist_number <= 3 ; ++album_artist_number) {
-    Song song(Song::Source_Collection);
+    Song song(Song::Source::Collection);
     song.set_albumartist(QString("Album Artist %1").arg(album_artist_number));
     song.set_composer(QString("Composer %1").arg(album_artist_number));
     song.set_performer(QString("Performer %1").arg(album_artist_number));
@@ -415,7 +415,7 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
   // Add some compilation albums.
   for (int album_number = 1; album_number <= 3 ; ++album_number) {
     if (year > 2020) year = 1960;
-    Song song(Song::Source_Collection);
+    Song song(Song::Source::Collection);
     song.set_mtime(1);
     song.set_ctime(1);
     song.set_directory_id(1);
@@ -441,7 +441,7 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
 
   // Songs with only title
   {
-    Song song(Song::Source_Collection);
+    Song song(Song::Source::Collection);
     song.set_mtime(1);
     song.set_ctime(1);
     song.set_directory_id(1);
@@ -457,7 +457,7 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
 
   // Song with only artist, album and title.
   {
-    Song song(Song::Source_Collection);
+    Song song(Song::Source::Collection);
     song.set_url(QUrl(QString("file:///tmp/artist-album-title-song")));
     song.set_artist("Not Only Artist");
     song.set_album("Not Only Album");
@@ -474,7 +474,7 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
 
   // Add possible Various artists conflicting songs.
   {
-    Song song(Song::Source_Collection);
+    Song song(Song::Source::Collection);
     song.set_url(QUrl(QString("file:///tmp/song-va-conflicting-1")));
     song.set_artist("Various artists");
     song.set_album("VA Album");
@@ -490,7 +490,7 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
   }
 
   {
-    Song song(Song::Source_Collection);
+    Song song(Song::Source::Collection);
     song.set_url(QUrl(QString("file:///tmp/song-va-conflicting-2")));
     song.set_artist("Various artists");
     song.set_albumartist("Various artists");
@@ -507,7 +507,7 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
   }
 
   {
-    Song song(Song::Source_Collection);
+    Song song(Song::Source::Collection);
     song.set_url(QUrl(QString("file:///tmp/song-va-conflicting-3")));
     song.set_albumartist("Various artists");
     song.set_album("VA Album");
@@ -524,7 +524,7 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
 
   // Albums with Album ID.
   for (int album_id = 0; album_id <= 2 ; ++album_id) {
-    Song song(Song::Source_Collection);
+    Song song(Song::Source::Collection);
     song.set_url(QUrl(QString("file:///tmp/song-with-album-id-1")));
     song.set_artist("Artist with Album ID");
     song.set_album(QString("Album %1 with Album ID").arg(album_id));
@@ -564,9 +564,9 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
         backend1 = std::make_unique<CollectionBackend>();
         backend2= std::make_unique<CollectionBackend>();
         backend3 = std::make_unique<CollectionBackend>();
-        backend1->Init(database1.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
-        backend2->Init(database2.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
-        backend3->Init(database3.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+        backend1->Init(database1.get(), Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+        backend2->Init(database2.get(), Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+        backend3->Init(database3.get(), Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
         model1 = std::make_unique<CollectionModel>(backend1.get(), nullptr);
         model2 = std::make_unique<CollectionModel>(backend2.get(), nullptr);
         model3 = std::make_unique<CollectionModel>(backend3.get(), nullptr);

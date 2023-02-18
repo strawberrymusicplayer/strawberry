@@ -24,7 +24,7 @@
 namespace Utilities {
 
 // Borrowed from schedutils
-enum IoPriority {
+enum class IoPriority {
   IOPRIO_CLASS_NONE = 0,
   IOPRIO_CLASS_RT,
   IOPRIO_CLASS_BE,

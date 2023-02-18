@@ -57,7 +57,7 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
     Role_Url,
     Role_Homepage,
     Role_Donate,
-    RoleCount,
+    RoleCount
   };
 
   // QAbstractItemModel

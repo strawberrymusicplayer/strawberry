@@ -230,7 +230,7 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, cons
     for (const PendingResults &result_list : result_list_list) {
       ret << result_list.results_;
     }
-    emit Finished(id, UniqueResults(ret, KeepOriginalOrder), error);
+    emit Finished(id, UniqueResults(ret, UniqueResultsSortOption::KeepOriginalOrder), error);
   }
 
 }
@@ -312,7 +312,7 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
     }
   }
 
-  emit DiscIdFinished(artist, album, UniqueResults(ret, SortResults));
+  emit DiscIdFinished(artist, album, UniqueResults(ret, UniqueResultsSortOption::SortResults));
 
 }
 
@@ -492,7 +492,7 @@ MusicBrainzClient::Release MusicBrainzClient::ParseRelease(QXmlStreamReader *rea
 MusicBrainzClient::ResultList MusicBrainzClient::UniqueResults(const ResultList &results, UniqueResultsSortOption opt) {
 
   ResultList ret;
-  if (opt == SortResults) {
+  if (opt == UniqueResultsSortOption::SortResults) {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     ret = QSet<Result>(results.begin(), results.end()).values();
 #else

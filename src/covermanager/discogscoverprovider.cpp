@@ -128,10 +128,10 @@ void DiscogsCoverProvider::SendSearchRequest(std::shared_ptr<DiscogsCoverSearchC
                                  << Param("release_title", search->album.toLower());
 
   switch (search->type) {
-    case DiscogsCoverType_Master:
+    case DiscogsCoverType::Master:
       params << Param("type", "master");
       break;
-    case DiscogsCoverType_Release:
+    case DiscogsCoverType::Release:
       params << Param("type", "release");
       break;
   }
@@ -296,8 +296,8 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
   }
 
   if (search->requests_release_.count() == 0) {
-    if (search->type == DiscogsCoverType_Master) {
-      search->type = DiscogsCoverType_Release;
+    if (search->type == DiscogsCoverType::Master) {
+      search->type = DiscogsCoverType::Release;
       queue_search_requests_.enqueue(search);
     }
     else {

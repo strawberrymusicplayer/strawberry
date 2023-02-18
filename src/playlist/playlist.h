@@ -142,10 +142,10 @@ class Playlist : public QAbstractListModel {
     Role_CanSetRating,
   };
 
-  enum AutoScroll {
-    AutoScroll_Never,
-    AutoScroll_Maybe,
-    AutoScroll_Always
+  enum class AutoScroll {
+    Never,
+    Maybe,
+    Always
   };
 
   static const char *kCddaMimeType;
@@ -211,10 +211,10 @@ class Playlist : public QAbstractListModel {
   PlaylistItem::Options current_item_options() const;
   Song current_item_metadata() const;
 
-  PlaylistItemList collection_items_by_id(const int id) const;
+  PlaylistItemPtrList collection_items_by_id(const int id) const;
 
   SongList GetAllSongs() const;
-  PlaylistItemList GetAllItems() const;
+  PlaylistItemPtrList GetAllItems() const;
   quint64 GetTotalLength() const;  // in seconds
 
   void set_sequence(PlaylistSequence *v);
@@ -229,7 +229,7 @@ class Playlist : public QAbstractListModel {
   void UpdateScrobblePoint(const qint64 seek_point_nanosec = 0);
 
   // Changing the playlist
-  void InsertItems(const PlaylistItemList &itemsIn, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertItems(const PlaylistItemPtrList &itemsIn, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertCollectionItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertSongs(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertSongsOrCollectionItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
@@ -293,7 +293,7 @@ class Playlist : public QAbstractListModel {
   void ItemReload(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit);
 
  public slots:
-  void set_current_row(const int i, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll_Maybe, const bool is_stopping = false, const bool force_inform = false);
+  void set_current_row(const int i, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Maybe, const bool is_stopping = false, const bool force_inform = false);
   void Paused();
   void Playing();
   void Stopped();
@@ -350,12 +350,12 @@ class Playlist : public QAbstractListModel {
   void InsertSongItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next = false);
 
   // Modify the playlist without changing the undo stack.  These are used by our friends in PlaylistUndoCommands
-  void InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bool enqueue = false, bool enqueue_next = false);
-  PlaylistItemList RemoveItemsWithoutUndo(const int row, const int count);
+  void InsertItemsWithoutUndo(const PlaylistItemPtrList &items, int pos, bool enqueue = false, bool enqueue_next = false);
+  PlaylistItemPtrList RemoveItemsWithoutUndo(const int row, const int count);
   void MoveItemsWithoutUndo(const QList<int> &source_rows, int pos);
   void MoveItemWithoutUndo(const int source, const int dest);
   void MoveItemsWithoutUndo(int start, const QList<int> &dest_rows);
-  void ReOrderWithoutUndo(const PlaylistItemList &new_items);
+  void ReOrderWithoutUndo(const PlaylistItemPtrList &new_items);
 
   void RemoveItemsNotInQueue();
 
@@ -392,7 +392,7 @@ class Playlist : public QAbstractListModel {
   QString ui_path_;
   bool favorite_;
 
-  PlaylistItemList items_;
+  PlaylistItemPtrList items_;
 
   // Contains the indices into items_ in the order that they will be played.
   QList<int> virtual_items_;

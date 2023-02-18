@@ -64,7 +64,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
     : QWidget(parent),
       app_(nullptr),
       album_cover_choice_controller_(nullptr),
-      mode_(LargeSongDetails),
+      mode_(Mode::LargeSongDetails),
       menu_(new QMenu(this)),
       above_statusbar_action_(nullptr),
       fit_cover_width_action_(nullptr),
@@ -86,7 +86,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
   // Load settings
   QSettings s;
   s.beginGroup(kSettingsGroup);
-  mode_ = Mode(s.value("mode", LargeSongDetails).toInt());
+  mode_ = static_cast<Mode>(s.value("mode", static_cast<int>(Mode::LargeSongDetails)).toInt());
   fit_width_ = s.value("fit_cover_width", false).toBool();
   s.endGroup();
 
@@ -95,8 +95,8 @@ PlayingWidget::PlayingWidget(QWidget *parent)
 
   // Context menu
   QActionGroup *mode_group = new QActionGroup(this);
-  CreateModeAction(SmallSongDetails, tr("Small album cover"), mode_group);
-  CreateModeAction(LargeSongDetails, tr("Large album cover"), mode_group);
+  CreateModeAction(Mode::SmallSongDetails, tr("Small album cover"), mode_group);
+  CreateModeAction(Mode::LargeSongDetails, tr("Large album cover"), mode_group);
   menu_->addActions(mode_group->actions());
 
   fit_cover_width_action_ = menu_->addAction(tr("Fit cover to width"));
@@ -113,7 +113,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
 
   details_->setUndoRedoEnabled(false);
   // add placeholder text to get the correct height
-  if (mode_ == LargeSongDetails) {
+  if (mode_ == Mode::LargeSongDetails) {
     details_->setDefaultStyleSheet("p { font-size: small; font-weight: bold; }");
     details_->setHtml(QString("<p align=center><i></i><br/><br/></p>"));
   }
@@ -216,11 +216,11 @@ void PlayingWidget::CreateModeAction(const Mode mode, const QString &text, QActi
 
 }
 
-void PlayingWidget::SetMode(const int mode) {
+void PlayingWidget::SetMode(const Mode mode) {
 
   mode_ = static_cast<Mode>(mode);
 
-  fit_cover_width_action_->setEnabled(mode_ != SmallSongDetails);
+  fit_cover_width_action_->setEnabled(mode_ != Mode::SmallSongDetails);
 
   UpdateHeight();
   UpdateDetailsText();
@@ -228,7 +228,7 @@ void PlayingWidget::SetMode(const int mode) {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("mode", mode_);
+  s.setValue("mode", static_cast<int>(mode_));
   s.endGroup();
 
 }
@@ -362,11 +362,11 @@ void PlayingWidget::SetHeight(int height) {
 void PlayingWidget::UpdateHeight() {
 
   switch (mode_) {
-    case SmallSongDetails:
+    case Mode::SmallSongDetails:
       cover_loader_options_.desired_height_ = small_ideal_height_;
       total_height_ = small_ideal_height_;
       break;
-    case LargeSongDetails:
+    case Mode::LargeSongDetails:
       if (fit_width_) cover_loader_options_.desired_height_ = width();
       else cover_loader_options_.desired_height_ = qMin(kMaxCoverSize, width());
       total_height_ = kTopBorder + cover_loader_options_.desired_height_ + kBottomOffset + static_cast<int>(details_->size().height());
@@ -394,11 +394,11 @@ void PlayingWidget::UpdateDetailsText() {
   QString html;
   details_->setDefaultStyleSheet("p { font-size: small; font-weight: bold; }");
   switch (mode_) {
-    case SmallSongDetails:
+    case Mode::SmallSongDetails:
       details_->setTextWidth(-1);
       html += "<p>";
       break;
-    case LargeSongDetails:
+    case Mode::LargeSongDetails:
       details_->setTextWidth(cover_loader_options_.desired_height_);
       html += "<p align=center>";
       break;
@@ -410,7 +410,7 @@ void PlayingWidget::UpdateDetailsText() {
   details_->setHtml(html);
 
   // if something spans multiple lines the height needs to change
-  if (mode_ == LargeSongDetails) UpdateHeight();
+  if (mode_ == Mode::LargeSongDetails) UpdateHeight();
 
   update();
 
@@ -437,7 +437,7 @@ void PlayingWidget::DrawContents(QPainter *p) {
   p->setRenderHint(QPainter::SmoothPixmapTransform);
 
   switch (mode_) {
-    case SmallSongDetails:
+    case Mode::SmallSongDetails:
       // Draw the cover
       p->drawPixmap(0, 0, small_ideal_height_, small_ideal_height_, pixmap_cover_);
       if (downloading_covers_) {
@@ -450,7 +450,7 @@ void PlayingWidget::DrawContents(QPainter *p) {
       p->translate(-small_ideal_height_ - kPadding, 0);
       break;
 
-    case LargeSongDetails:
+    case Mode::LargeSongDetails:
       // Work out how high the text is going to be
       const int text_height = static_cast<int>(details_->size().height());
       const int cover_size = fit_width_ ? width() : qMin(kMaxCoverSize, width());
@@ -491,7 +491,7 @@ void PlayingWidget::resizeEvent(QResizeEvent *e) {
 
   //if (visible_ && e->oldSize() != e->size()) {
   if (e->oldSize() != e->size()) {
-    if (mode_ == LargeSongDetails) {
+    if (mode_ == Mode::LargeSongDetails) {
       UpdateHeight();
       UpdateDetailsText();
     }

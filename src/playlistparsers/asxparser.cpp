@@ -119,7 +119,7 @@ return_song:
   Song song = LoadSong(ref, 0, dir, collection_search);
 
   // Override metadata with what was in the playlist
-  if (song.source() != Song::Source_Collection) {
+  if (song.source() != Song::Source::Collection) {
     if (!title.isEmpty()) song.set_title(title);
     if (!artist.isEmpty()) song.set_artist(artist);
     if (!album.isEmpty()) song.set_album(album);

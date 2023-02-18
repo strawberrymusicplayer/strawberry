@@ -62,12 +62,12 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
 
     SongLoader::Result ret = loader->Load(url);
 
-    if (ret == SongLoader::BlockingLoadRequired) {
+    if (ret == SongLoader::Result::BlockingLoadRequired) {
       pending_.append(loader);
       continue;
     }
 
-    if (ret == SongLoader::Success) {
+    if (ret == SongLoader::Result::Success) {
       songs_ << loader->songs();
     }
     else {
@@ -108,7 +108,7 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
   QObject::connect(loader, &SongLoader::LoadAudioCDFinished, this, &SongLoaderInserter::AudioCDTagsLoaded);
   qLog(Info) << "Loading audio CD...";
   SongLoader::Result ret = loader->LoadAudioCD();
-  if (ret == SongLoader::Error) {
+  if (ret == SongLoader::Result::Error) {
     if (loader->errors().isEmpty())
       emit Error(tr("Error while loading audio CD."));
     else {
@@ -175,7 +175,7 @@ void SongLoaderInserter::AsyncLoad() {
     SongLoader::Result res = loader->LoadFilenamesBlocking();
     task_manager_->SetTaskProgress(async_load_id, ++async_progress);
 
-    if (res == SongLoader::Error) {
+    if (res == SongLoader::Result::Error) {
       for (const QString &error : loader->errors()) {
         emit Error(error);
       }

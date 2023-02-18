@@ -1292,7 +1292,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   gst_message_parse_tag(msg, &taglist);
 
   Engine::SimpleMetaBundle bundle;
-  bundle.type = Engine::SimpleMetaBundle::Type_Current;
+  bundle.type = Engine::SimpleMetaBundle::Type::Current;
   bundle.url = original_url_;
   bundle.title = ParseStrTag(taglist, GST_TAG_TITLE);
   bundle.artist = ParseStrTag(taglist, GST_TAG_ARTIST);

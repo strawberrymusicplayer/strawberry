@@ -65,53 +65,53 @@ class Song {
 
  public:
 
-  enum Source {
-    Source_Unknown = 0,
-    Source_LocalFile = 1,
-    Source_Collection = 2,
-    Source_CDDA = 3,
-    Source_Device = 4,
-    Source_Stream = 5,
-    Source_Tidal = 6,
-    Source_Subsonic = 7,
-    Source_Qobuz = 8,
-    Source_SomaFM = 9,
-    Source_RadioParadise = 10
+  enum class Source {
+    Unknown = 0,
+    LocalFile = 1,
+    Collection = 2,
+    CDDA = 3,
+    Device = 4,
+    Stream = 5,
+    Tidal = 6,
+    Subsonic = 7,
+    Qobuz = 8,
+    SomaFM = 9,
+    RadioParadise = 10
   };
 
   // Don't change these values - they're stored in the database, and defined in the tag reader protobuf.
   // If a new lossless file is added, also add it to IsFileLossless().
 
-  enum FileType {
-    FileType_Unknown = 0,
-    FileType_WAV = 1,
-    FileType_FLAC = 2,
-    FileType_WavPack = 3,
-    FileType_OggFlac = 4,
-    FileType_OggVorbis = 5,
-    FileType_OggOpus = 6,
-    FileType_OggSpeex = 7,
-    FileType_MPEG = 8,
-    FileType_MP4 = 9,
-    FileType_ASF = 10,
-    FileType_AIFF = 11,
-    FileType_MPC = 12,
-    FileType_TrueAudio = 13,
-    FileType_DSF = 14,
-    FileType_DSDIFF = 15,
-    FileType_PCM = 16,
-    FileType_APE = 17,
-    FileType_MOD = 18,
-    FileType_S3M = 19,
-    FileType_XM = 20,
-    FileType_IT = 21,
-    FileType_SPC = 22,
-    FileType_VGM = 23,
-    FileType_CDDA = 90,
-    FileType_Stream = 91,
+  enum class FileType {
+    Unknown = 0,
+    WAV = 1,
+    FLAC = 2,
+    WavPack = 3,
+    OggFlac = 4,
+    OggVorbis = 5,
+    OggOpus = 6,
+    OggSpeex = 7,
+    MPEG = 8,
+    MP4 = 9,
+    ASF = 10,
+    AIFF = 11,
+    MPC = 12,
+    TrueAudio = 13,
+    DSF = 14,
+    DSDIFF = 15,
+    PCM = 16,
+    APE = 17,
+    MOD = 18,
+    S3M = 19,
+    XM = 20,
+    IT = 21,
+    SPC = 22,
+    VGM = 23,
+    CDDA = 90,
+    Stream = 91
   };
 
-  Song(Song::Source source = Song::Source_Unknown);
+  Song(Source source = Source::Unknown);
   Song(const Song &other);
   ~Song();
 
@@ -139,13 +139,13 @@ class Song {
   static QString JoinSpec(const QString &table);
 
   static Source SourceFromURL(const QUrl &url);
-  static QString TextForSource(Source source);
-  static QString DescriptionForSource(Source source);
-  static Song::Source SourceFromText(const QString &source);
-  static QIcon IconForSource(Source source);
-  static QString TextForFiletype(FileType filetype);
-  static QString ExtensionForFiletype(FileType filetype);
-  static QIcon IconForFiletype(FileType filetype);
+  static QString TextForSource(const Source source);
+  static QString DescriptionForSource(const Source source);
+  static Source SourceFromText(const QString &source);
+  static QIcon IconForSource(const Source source);
+  static QString TextForFiletype(const FileType filetype);
+  static QString ExtensionForFiletype(const FileType filetype);
+  static QIcon IconForFiletype(const FileType filetype);
 
   QString TextForSource() const { return TextForSource(source()); }
   QString DescriptionForSource() const { return DescriptionForSource(source()); }
@@ -157,7 +157,7 @@ class Song {
   static FileType FiletypeByMimetype(const QString &mimetype);
   static FileType FiletypeByDescription(const QString &text);
   static FileType FiletypeByExtension(const QString &ext);
-  static QString ImageCacheDir(const Song::Source source);
+  static QString ImageCacheDir(const Source source);
 
   // Sort songs alphabetically using their pretty title
   static int CompareSongsName(const Song &song1, const Song &song2);

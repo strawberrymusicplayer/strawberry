@@ -61,7 +61,7 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
 
   backend_->Init(app_->database(),
                  app_->task_manager(),
-                 Song::Source_Device,
+                 Song::Source::Device,
                  QString("device_%1_songs").arg(database_id),
                  QString("device_%1_fts").arg(database_id),
                  QString("device_%1_directories").arg(database_id),
@@ -154,10 +154,10 @@ MusicStorage::TranscodeMode ConnectedDevice::GetTranscodeMode() const {
 Song::FileType ConnectedDevice::GetTranscodeFormat() const {
 
   DeviceInfo *info = manager_->FindDeviceById(unique_id_);
-  if (!info) return Song::FileType_Unknown;
+  if (!info) return Song::FileType::Unknown;
 
   QModelIndex idx = manager_->ItemToIndex(info);
-  if (!idx.isValid()) return Song::FileType_Unknown;
+  if (!idx.isValid()) return Song::FileType::Unknown;
 
   return static_cast<Song::FileType>(idx.data(DeviceManager::Role_TranscodeFormat).toInt());
 
@@ -167,4 +167,3 @@ void ConnectedDevice::BackendTotalSongCountUpdated(int count) {
   song_count_ = count;
   emit SongCountUpdated(count);
 }
-

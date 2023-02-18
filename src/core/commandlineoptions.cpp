@@ -81,8 +81,8 @@ const char *CommandlineOptions::kVersionText = "Strawberry %1";
 CommandlineOptions::CommandlineOptions(int argc, char **argv)
     : argc_(argc),
       argv_(argv),
-      url_list_action_(UrlList_None),
-      player_action_(Player_None),
+      url_list_action_(UrlListAction::None),
+      player_action_(PlayerAction::None),
       set_volume_(-1),
       volume_modifier_(0),
       seek_to_(-1),
@@ -128,13 +128,13 @@ bool CommandlineOptions::Parse() {
       {"previous", no_argument, nullptr, 'r'},
       {"next", no_argument, nullptr, 'f'},
       {"volume", required_argument, nullptr, 'v'},
-      {"volume-up", no_argument, nullptr, VolumeUp},
-      {"volume-down", no_argument, nullptr, VolumeDown},
-      {"volume-increase-by", required_argument, nullptr, VolumeIncreaseBy},
-      {"volume-decrease-by", required_argument, nullptr, VolumeDecreaseBy},
-      {"seek-to", required_argument, nullptr, SeekTo},
-      {"seek-by", required_argument, nullptr, SeekBy},
-      {"restart-or-previous", no_argument, nullptr, RestartOrPrevious},
+      {"volume-up", no_argument, nullptr, LongOptions::VolumeUp},
+      {"volume-down", no_argument, nullptr, LongOptions::VolumeDown},
+      {"volume-increase-by", required_argument, nullptr, LongOptions::VolumeIncreaseBy},
+      {"volume-decrease-by", required_argument, nullptr, LongOptions::VolumeDecreaseBy},
+      {"seek-to", required_argument, nullptr, LongOptions::SeekTo},
+      {"seek-by", required_argument, nullptr, LongOptions::SeekBy},
+      {"restart-or-previous", no_argument, nullptr, LongOptions::RestartOrPrevious},
       {"create", required_argument, nullptr, 'c'},
       {"append", no_argument, nullptr, 'a'},
       {"load", no_argument, nullptr, 'l'},
@@ -144,10 +144,10 @@ bool CommandlineOptions::Parse() {
       {"toggle-pretty-osd", no_argument, nullptr, 'y'},
       {"language", required_argument, nullptr, 'g'},
       {"resize-window", required_argument, nullptr, 'w'},
-      {"quiet", no_argument, nullptr, Quiet},
-      {"verbose", no_argument, nullptr, Verbose},
-      {"log-levels", required_argument, nullptr, LogLevels},
-      {"version", no_argument, nullptr, Version},
+      {"quiet", no_argument, nullptr, LongOptions::Quiet},
+      {"verbose", no_argument, nullptr, LongOptions::Verbose},
+      {"log-levels", required_argument, nullptr, LongOptions::LogLevels},
+      {"version", no_argument, nullptr, LongOptions::Version},
       {nullptr, 0, nullptr, 0}};
 
   // Parse the arguments
@@ -198,39 +198,39 @@ bool CommandlineOptions::Parse() {
       }
 
       case 'p':
-        player_action_ = Player_Play;
+        player_action_ = PlayerAction::Play;
         break;
       case 't':
-        player_action_ = Player_PlayPause;
+        player_action_ = PlayerAction::PlayPause;
         break;
       case 'u':
-        player_action_ = Player_Pause;
+        player_action_ = PlayerAction::Pause;
         break;
       case 's':
-        player_action_ = Player_Stop;
+        player_action_ = PlayerAction::Stop;
         break;
       case 'q':
-        player_action_ = Player_StopAfterCurrent;
+        player_action_ = PlayerAction::StopAfterCurrent;
         break;
       case 'r':
-        player_action_ = Player_Previous;
+        player_action_ = PlayerAction::Previous;
         break;
       case 'f':
-        player_action_ = Player_Next;
+        player_action_ = PlayerAction::Next;
         break;
       case 'i':
-        player_action_ = Player_PlayPlaylist;
+        player_action_ = PlayerAction::PlayPlaylist;
         playlist_name_ = QString(optarg);
         break;
       case 'c':
-        url_list_action_ = UrlList_CreateNew;
+        url_list_action_ = UrlListAction::CreateNew;
         playlist_name_ = QString(optarg);
         break;
       case 'a':
-        url_list_action_ = UrlList_Append;
+        url_list_action_ = UrlListAction::Append;
         break;
       case 'l':
-        url_list_action_ = UrlList_Load;
+        url_list_action_ = UrlListAction::Load;
         break;
       case 'o':
         show_osd_ = true;
@@ -241,22 +241,22 @@ bool CommandlineOptions::Parse() {
       case 'g':
         language_ = QString(optarg);
         break;
-      case VolumeUp:
+      case LongOptions::VolumeUp:
         volume_modifier_ = +4;
         break;
-      case VolumeDown:
+      case LongOptions::VolumeDown:
         volume_modifier_ = -4;
         break;
-      case Quiet:
+      case LongOptions::Quiet:
         log_levels_ = "1";
         break;
-      case Verbose:
+      case LongOptions::Verbose:
         log_levels_ = "3";
         break;
-      case LogLevels:
+      case LongOptions::LogLevels:
         log_levels_ = QString(optarg);
         break;
-      case Version: {
+      case LongOptions::Version: {
         QString version_text = QString(kVersionText).arg(STRAWBERRY_VERSION_DISPLAY);
         std::cout << version_text.toLocal8Bit().constData() << std::endl;
         std::exit(0);
@@ -266,28 +266,28 @@ bool CommandlineOptions::Parse() {
         if (!ok) set_volume_ = -1;
         break;
 
-      case VolumeIncreaseBy:
+      case LongOptions::VolumeIncreaseBy:
         volume_modifier_ = QString(optarg).toInt(&ok);
         if (!ok) volume_modifier_ = 0;
         break;
 
-      case VolumeDecreaseBy:
+      case LongOptions::VolumeDecreaseBy:
         volume_modifier_ = -QString(optarg).toInt(&ok);
         if (!ok) volume_modifier_ = 0;
         break;
 
-      case SeekTo:
+      case LongOptions::SeekTo:
         seek_to_ = QString(optarg).toInt(&ok);
         if (!ok) seek_to_ = -1;
         break;
 
-      case SeekBy:
+      case LongOptions::SeekBy:
         seek_by_ = QString(optarg).toInt(&ok);
         if (!ok) seek_by_ = 0;
         break;
 
-      case RestartOrPrevious:
-        player_action_ = Player_RestartOrPrevious;
+      case LongOptions::RestartOrPrevious:
+        player_action_ = PlayerAction::RestartOrPrevious;
         break;
 
       case 'k':
@@ -297,7 +297,7 @@ bool CommandlineOptions::Parse() {
 
       case 'w':
         window_size_ = QString(optarg);
-        player_action_ = Player_ResizeWindow;
+        player_action_ = PlayerAction::ResizeWindow;
         break;
 
       case '?':
@@ -323,7 +323,7 @@ bool CommandlineOptions::Parse() {
 }
 
 bool CommandlineOptions::is_empty() const {
-  return player_action_ == Player_None &&
+  return player_action_ == PlayerAction::None &&
          set_volume_ == -1 &&
          volume_modifier_ == 0 &&
          seek_to_ == -1 &&
@@ -335,7 +335,7 @@ bool CommandlineOptions::is_empty() const {
 }
 
 bool CommandlineOptions::contains_play_options() const {
-  return player_action_ != Player_None || play_track_at_ != -1 || !urls_.isEmpty();
+  return player_action_ != PlayerAction::None || play_track_at_ != -1 || !urls_.isEmpty();
 }
 
 QByteArray CommandlineOptions::Serialize() const {

@@ -52,10 +52,10 @@ class M3UParser : public ParserBase {
   bool TryMagic(const QByteArray &data) const override;
 
   SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir(), const bool collection_search = true) const override;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType_Automatic) const override;
+  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType::Automatic) const override;
 
  private:
-  enum M3UType {
+  enum class M3UType {
     STANDARD = 0,
     EXTENDED,  // Includes extended info (track, artist, etc.)
     LINK,      // Points to a directory.

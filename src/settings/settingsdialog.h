@@ -74,25 +74,25 @@ class SettingsDialog : public QDialog {
   explicit SettingsDialog(Application *app, OSDBase *osd, QMainWindow *mainwindow, QWidget *parent = nullptr);
   ~SettingsDialog() override;
 
-  enum Page {
-    Page_Behaviour,
-    Page_Collection,
-    Page_Backend,
-    Page_Playback,
-    Page_Playlist,
-    Page_Scrobbler,
-    Page_Covers,
-    Page_Lyrics,
-    Page_Transcoding,
-    Page_Proxy,
-    Page_Appearance,
-    Page_Context,
-    Page_Notifications,
-    Page_GlobalShortcuts,
-    Page_Moodbar,
-    Page_Subsonic,
-    Page_Tidal,
-    Page_Qobuz,
+  enum class Page {
+    Behaviour,
+    Collection,
+    Backend,
+    Playback,
+    Playlist,
+    Scrobbler,
+    Covers,
+    Lyrics,
+    Transcoding,
+    Proxy,
+    Appearance,
+    Context,
+    Notifications,
+    GlobalShortcuts,
+    Moodbar,
+    Subsonic,
+    Tidal,
+    Qobuz,
   };
 
   enum Role {

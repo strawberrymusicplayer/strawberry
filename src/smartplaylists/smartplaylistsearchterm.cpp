@@ -29,21 +29,21 @@
 #include "smartplaylistsearchterm.h"
 #include "playlist/playlist.h"
 
-SmartPlaylistSearchTerm::SmartPlaylistSearchTerm() : field_(Field_Title), operator_(Op_Equals), date_(Date_Hour) {}
+SmartPlaylistSearchTerm::SmartPlaylistSearchTerm() : field_(Field::Title), operator_(Operator::Equals), datetype_(DateType::Hour) {}
 
 SmartPlaylistSearchTerm::SmartPlaylistSearchTerm(Field field, Operator op, const QVariant &value)
-    : field_(field), operator_(op), value_(value), date_(Date_Hour) {}
+    : field_(field), operator_(op), value_(value), datetype_(DateType::Hour) {}
 
 QString SmartPlaylistSearchTerm::ToSql() const {
 
   QString col = FieldColumnName(field_);
-  QString date = DateName(date_, true);
+  QString date = DateName(datetype_, true);
   QString value = value_.toString();
   value.replace('\'', "''");
 
-  if (field_ == Field_Filetype) {
+  if (field_ == Field::Filetype) {
     Song::FileType filetype = Song::FiletypeByExtension(value);
-    if (filetype == Song::FileType_Unknown) {
+    if (filetype == Song::FileType::Unknown) {
       filetype = Song::FiletypeByDescription(value);
     }
     value = QString::number(static_cast<int>(filetype));
@@ -51,15 +51,15 @@ QString SmartPlaylistSearchTerm::ToSql() const {
 
   QString second_value;
 
-  bool special_date_query = (operator_ == SmartPlaylistSearchTerm::Op_NumericDate ||
-                             operator_ == SmartPlaylistSearchTerm::Op_NumericDateNot ||
-                             operator_ == SmartPlaylistSearchTerm::Op_RelativeDate);
+  bool special_date_query = (operator_ == Operator::NumericDate ||
+                             operator_ == Operator::NumericDateNot ||
+                             operator_ == Operator::RelativeDate);
 
   // Floating point problems...
   // Theoretically 0.0 == 0 stars, 0.1 == 0.5 star, 0.2 == 1 star etc.
   // but in reality we need to consider anything from [0.05, 0.15) range to be 0.5 star etc.
   // To make this simple, I transform the ranges to integeres and then operate on ints: [0.0, 0.05) -> 0, [0.05, 0.15) -> 1 etc.
-  if (TypeOf(field_) == Type_Date) {
+  if (TypeOf(field_) == Type::Date) {
     if (!special_date_query) {
       // We have the exact date
       // The calendar widget specifies no time so ditch the possible time part
@@ -80,75 +80,75 @@ QString SmartPlaylistSearchTerm::ToSql() const {
       }
     }
   }
-  else if (TypeOf(field_) == Type_Time) {
+  else if (TypeOf(field_) == Type::Time) {
     // Convert seconds to nanoseconds
     value = "CAST (" + value + " *1000000000 AS INTEGER)";
   }
 
   // File paths need some extra processing since they are stored as encoded urls in the database.
-  if (field_ == Field_Filepath) {
-    if (operator_ == Op_StartsWith || operator_ == Op_Equals) {
+  if (field_ == Field::Filepath) {
+    if (operator_ == Operator::StartsWith || operator_ == Operator::Equals) {
       value = QUrl::fromLocalFile(value).toEncoded();
     }
     else {
       value = QUrl(value).toEncoded();
     }
   }
-  else if (TypeOf(field_) == Type_Rating) {
+  else if (TypeOf(field_) == Type::Rating) {
     col = "CAST ((" + col + " + 0.05) * 10 AS INTEGER)";
     value = "CAST ((" + value + " + 0.05) * 10 AS INTEGER)";
   }
 
   switch (operator_) {
-    case Op_Contains:
+    case Operator::Contains:
       return col + " LIKE '%" + value + "%'";
-    case Op_NotContains:
+    case Operator::NotContains:
       return col + " NOT LIKE '%" + value + "%'";
-    case Op_StartsWith:
+    case Operator::StartsWith:
       return col + " LIKE '" + value + "%'";
-    case Op_EndsWith:
+    case Operator::EndsWith:
       return col + " LIKE '%" + value + "'";
-    case Op_Equals:
-      if (TypeOf(field_) == Type_Text) {
+    case Operator::Equals:
+      if (TypeOf(field_) == Type::Text) {
         return col + " LIKE '" + value + "'";
       }
-      else if (TypeOf(field_) == Type_Date || TypeOf(field_) == Type_Time || TypeOf(field_) == Type_Rating) {
+      else if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
         return col + " = " + value;
       }
       else {
         return col + " = '" + value + "'";
       }
-    case Op_GreaterThan:
-      if (TypeOf(field_) == Type_Date || TypeOf(field_) == Type_Time || TypeOf(field_) == Type_Rating) {
+    case Operator::GreaterThan:
+      if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
         return col + " > " + value;
       }
       else {
         return col + " > '" + value + "'";
       }
-    case Op_LessThan:
-      if (TypeOf(field_) == Type_Date || TypeOf(field_) == Type_Time || TypeOf(field_) == Type_Rating) {
+    case Operator::LessThan:
+      if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
         return col + " < " + value;
       }
       else {
         return col + " < '" + value + "'";
       }
-    case Op_NumericDate:
+    case Operator::NumericDate:
       return col + " > " + "DATETIME('now', '-" + value + " " + date + "', 'localtime')";
-    case Op_NumericDateNot:
+    case Operator::NumericDateNot:
       return col + " < " + "DATETIME('now', '-" + value + " " + date + "', 'localtime')";
-    case Op_RelativeDate:
+    case Operator::RelativeDate:
       // Consider the time range before the first date but after the second one
       return "(" + col + " < " + "DATETIME('now', '-" + value + " " + date + "', 'localtime') AND " + col + " > " + "DATETIME('now', '-" + second_value + " " + date + "', 'localtime'))";
-    case Op_NotEquals:
-      if (TypeOf(field_) == Type_Text) {
+    case Operator::NotEquals:
+      if (TypeOf(field_) == Type::Text) {
         return col + " <> '" + value + "'";
       }
       else {
         return col + " <> " + value;
       }
-    case Op_Empty:
+    case Operator::Empty:
       return col + " = ''";
-    case Op_NotEmpty:
+    case Operator::NotEmpty:
       return col + " <> ''";
   }
 
@@ -158,30 +158,30 @@ QString SmartPlaylistSearchTerm::ToSql() const {
 bool SmartPlaylistSearchTerm::is_valid() const {
 
   // We can accept also a zero value in these cases
-  if (operator_ == SmartPlaylistSearchTerm::Op_NumericDate) {
+  if (operator_ == Operator::NumericDate) {
     return value_.toInt() >= 0;
   }
-  else if (operator_ == SmartPlaylistSearchTerm::Op_RelativeDate) {
+  else if (operator_ == Operator::RelativeDate) {
     return (value_.toInt() >= 0 && value_.toInt() < second_value_.toInt());
   }
 
   switch (TypeOf(field_)) {
-    case Type_Text:
-      if (operator_ == SmartPlaylistSearchTerm::Op_Empty || operator_ == SmartPlaylistSearchTerm::Op_NotEmpty) {
+    case Type::Text:
+      if (operator_ == Operator::Empty || operator_ == Operator::NotEmpty) {
         return true;
       }
       // Empty fields should be possible.
-      // All values for Type_Text should be valid.
+      // All values for Type::Text should be valid.
       return !value_.toString().isEmpty();
-    case Type_Date:
+    case Type::Date:
       return value_.toInt() != 0;
-    case Type_Number:
+    case Type::Number:
       return value_.toInt() >= 0;
-    case Type_Time:
+    case Type::Time:
       return true;
-    case Type_Rating:
+    case Type::Rating:
       return value_.toFloat() >= 0.0;
-    case Type_Invalid:
+    case Type::Invalid:
       return false;
   }
   return false;
@@ -189,78 +189,80 @@ bool SmartPlaylistSearchTerm::is_valid() const {
 }
 
 bool SmartPlaylistSearchTerm::operator==(const SmartPlaylistSearchTerm &other) const {
-  return field_ == other.field_ && operator_ == other.operator_ &&
-         value_ == other.value_ && date_ == other.date_ &&
+  return field_ == other.field_ &&
+         operator_ == other.operator_ &&
+         value_ == other.value_ &&
+         datetype_ == other.datetype_ &&
          second_value_ == other.second_value_;
 }
 
 SmartPlaylistSearchTerm::Type SmartPlaylistSearchTerm::TypeOf(const Field field) {
 
   switch (field) {
-    case Field_Length:
-      return Type_Time;
+    case Field::Length:
+      return Type::Time;
 
-    case Field_Track:
-    case Field_Disc:
-    case Field_Year:
-    case Field_OriginalYear:
-    case Field_Filesize:
-    case Field_PlayCount:
-    case Field_SkipCount:
-    case Field_Samplerate:
-    case Field_Bitdepth:
-    case Field_Bitrate:
-      return Type_Number;
+    case Field::Track:
+    case Field::Disc:
+    case Field::Year:
+    case Field::OriginalYear:
+    case Field::Filesize:
+    case Field::PlayCount:
+    case Field::SkipCount:
+    case Field::Samplerate:
+    case Field::Bitdepth:
+    case Field::Bitrate:
+      return Type::Number;
 
-    case Field_LastPlayed:
-    case Field_DateCreated:
-    case Field_DateModified:
-      return Type_Date;
+    case Field::LastPlayed:
+    case Field::DateCreated:
+    case Field::DateModified:
+      return Type::Date;
 
-    case Field_Rating:
-      return Type_Rating;
+    case Field::Rating:
+      return Type::Rating;
 
     default:
-      return Type_Text;
+      return Type::Text;
   }
 
 }
 
-OperatorList SmartPlaylistSearchTerm::OperatorsForType(const Type type) {
+SmartPlaylistSearchTerm::OperatorList SmartPlaylistSearchTerm::OperatorsForType(const Type type) {
 
   switch (type) {
-    case Type_Text:
-      return OperatorList() << Op_Contains << Op_NotContains << Op_Equals
-                            << Op_NotEquals << Op_Empty << Op_NotEmpty
-                            << Op_StartsWith << Op_EndsWith;
-    case Type_Date:
-      return OperatorList() << Op_Equals << Op_NotEquals << Op_GreaterThan
-                            << Op_LessThan << Op_NumericDate
-                            << Op_NumericDateNot << Op_RelativeDate;
+    case Type::Text:
+      return OperatorList() << Operator::Contains << Operator::NotContains << Operator::Equals
+                            << Operator::NotEquals << Operator::Empty << Operator::NotEmpty
+                            << Operator::StartsWith << Operator::EndsWith;
+    case Type::Date:
+      return OperatorList() << Operator::Equals << Operator::NotEquals << Operator::GreaterThan
+                            << Operator::LessThan << Operator::NumericDate
+                            << Operator::NumericDateNot << Operator::RelativeDate;
     default:
-      return OperatorList() << Op_Equals << Op_NotEquals << Op_GreaterThan
-                            << Op_LessThan;
+      return OperatorList() << Operator::Equals << Operator::NotEquals << Operator::GreaterThan
+                            << Operator::LessThan;
   }
 
 }
 
 QString SmartPlaylistSearchTerm::OperatorText(const Type type, const Operator op) {
 
-  if (type == Type_Date) {
+  if (type == Type::Date) {
     switch (op) {
-      case Op_GreaterThan:
+      case Operator::GreaterThan:
         return QObject::tr("after");
-      case Op_LessThan:
+      case Operator::LessThan:
         return QObject::tr("before");
-      case Op_Equals:
+      case Operator::Equals:
         return QObject::tr("on");
-      case Op_NotEquals:
+      case Operator::NotEquals:
         return QObject::tr("not on");
-      case Op_NumericDate:
+      case Operator::NumericDate:
         return QObject::tr("in the last");
-      case Op_NumericDateNot:
+      case Operator::NumericDateNot:
         return QObject::tr("not in the last");
-      case Op_RelativeDate:
+      case Operator::RelativeDate:
         return QObject::tr("between");
       default:
         return QString();
@@ -268,25 +270,25 @@ QString SmartPlaylistSearchTerm::OperatorText(const Type type, const Operator op
   }
 
   switch (op) {
-    case Op_Contains:
+    case Operator::Contains:
       return QObject::tr("contains");
-    case Op_NotContains:
+    case Operator::NotContains:
       return QObject::tr("does not contain");
-    case Op_StartsWith:
+    case Operator::StartsWith:
       return QObject::tr("starts with");
-    case Op_EndsWith:
+    case Operator::EndsWith:
       return QObject::tr("ends with");
-    case Op_GreaterThan:
+    case Operator::GreaterThan:
       return QObject::tr("greater than");
-    case Op_LessThan:
+    case Operator::LessThan:
       return QObject::tr("less than");
-    case Op_Equals:
+    case Operator::Equals:
       return QObject::tr("equals");
-    case Op_NotEquals:
+    case Operator::NotEquals:
       return QObject::tr("not equals");
-    case Op_Empty:
+    case Operator::Empty:
       return QObject::tr("empty");
-    case Op_NotEmpty:
+    case Operator::NotEmpty:
       return QObject::tr("not empty");
     default:
       return QString();
@@ -299,59 +301,59 @@ QString SmartPlaylistSearchTerm::OperatorText(const Type type, const Operator op
 QString SmartPlaylistSearchTerm::FieldColumnName(const Field field) {
 
   switch (field) {
-    case Field_AlbumArtist:
+    case Field::AlbumArtist:
       return "albumartist";
-    case Field_Artist:
+    case Field::Artist:
       return "artist";
-    case Field_Album:
+    case Field::Album:
       return "album";
-    case Field_Title:
+    case Field::Title:
       return "title";
-    case Field_Track:
+    case Field::Track:
       return "track";
-    case Field_Disc:
+    case Field::Disc:
       return "disc";
-    case Field_Year:
+    case Field::Year:
       return "year";
-    case Field_OriginalYear:
+    case Field::OriginalYear:
       return "originalyear";
-    case Field_Genre:
+    case Field::Genre:
       return "genre";
-    case Field_Composer:
+    case Field::Composer:
       return "composer";
-    case Field_Performer:
+    case Field::Performer:
       return "performer";
-    case Field_Grouping:
+    case Field::Grouping:
       return "grouping";
-    case Field_Comment:
+    case Field::Comment:
       return "comment";
-    case Field_Length:
+    case Field::Length:
       return "length";
-    case Field_Filepath:
+    case Field::Filepath:
       return "url";
-    case Field_Filetype:
+    case Field::Filetype:
       return "filetype";
-    case Field_Filesize:
+    case Field::Filesize:
       return "filesize";
-    case Field_DateCreated:
+    case Field::DateCreated:
       return "ctime";
-    case Field_DateModified:
+    case Field::DateModified:
       return "mtime";
-    case Field_PlayCount:
+    case Field::PlayCount:
       return "playcount";
-    case Field_SkipCount:
+    case Field::SkipCount:
       return "skipcount";
-    case Field_LastPlayed:
+    case Field::LastPlayed:
       return "lastplayed";
-    case Field_Rating:
+    case Field::Rating:
       return "rating";
-    case Field_Samplerate:
+    case Field::Samplerate:
       return "samplerate";
-    case Field_Bitdepth:
+    case Field::Bitdepth:
       return "bitdepth";
-    case Field_Bitrate:
+    case Field::Bitrate:
       return "bitrate";
-    case FieldCount:
+    case Field::FieldCount:
       Q_ASSERT(0);
   }
   return QString();
@@ -361,59 +363,59 @@ QString SmartPlaylistSearchTerm::FieldColumnName(const Field field) {
 QString SmartPlaylistSearchTerm::FieldName(const Field field) {
 
   switch (field) {
-    case Field_AlbumArtist:
+    case Field::AlbumArtist:
       return Playlist::column_name(Playlist::Column_AlbumArtist);
-    case Field_Artist:
+    case Field::Artist:
       return Playlist::column_name(Playlist::Column_Artist);
-    case Field_Album:
+    case Field::Album:
       return Playlist::column_name(Playlist::Column_Album);
-    case Field_Title:
+    case Field::Title:
       return Playlist::column_name(Playlist::Column_Title);
-    case Field_Track:
+    case Field::Track:
       return Playlist::column_name(Playlist::Column_Track);
-    case Field_Disc:
+    case Field::Disc:
       return Playlist::column_name(Playlist::Column_Disc);
-    case Field_Year:
+    case Field::Year:
       return Playlist::column_name(Playlist::Column_Year);
-    case Field_OriginalYear:
+    case Field::OriginalYear:
       return Playlist::column_name(Playlist::Column_OriginalYear);
-    case Field_Genre:
+    case Field::Genre:
       return Playlist::column_name(Playlist::Column_Genre);
-    case Field_Composer:
+    case Field::Composer:
       return Playlist::column_name(Playlist::Column_Composer);
-    case Field_Performer:
+    case Field::Performer:
       return Playlist::column_name(Playlist::Column_Performer);
-    case Field_Grouping:
+    case Field::Grouping:
       return Playlist::column_name(Playlist::Column_Grouping);
-    case Field_Comment:
+    case Field::Comment:
       return QObject::tr("Comment");
-    case Field_Length:
+    case Field::Length:
       return Playlist::column_name(Playlist::Column_Length);
-    case Field_Filepath:
+    case Field::Filepath:
       return Playlist::column_name(Playlist::Column_Filename);
-    case Field_Filetype:
+    case Field::Filetype:
       return Playlist::column_name(Playlist::Column_Filetype);
-    case Field_Filesize:
+    case Field::Filesize:
       return Playlist::column_name(Playlist::Column_Filesize);
-    case Field_DateCreated:
+    case Field::DateCreated:
       return Playlist::column_name(Playlist::Column_DateCreated);
-    case Field_DateModified:
+    case Field::DateModified:
       return Playlist::column_name(Playlist::Column_DateModified);
-    case Field_PlayCount:
+    case Field::PlayCount:
       return Playlist::column_name(Playlist::Column_PlayCount);
-    case Field_SkipCount:
+    case Field::SkipCount:
       return Playlist::column_name(Playlist::Column_SkipCount);
-    case Field_LastPlayed:
+    case Field::LastPlayed:
       return Playlist::column_name(Playlist::Column_LastPlayed);
-    case Field_Rating:
+    case Field::Rating:
       return Playlist::column_name(Playlist::Column_Rating);
-    case Field_Samplerate:
+    case Field::Samplerate:
       return Playlist::column_name(Playlist::Column_Samplerate);
-    case Field_Bitdepth:
+    case Field::Bitdepth:
       return Playlist::column_name(Playlist::Column_Bitdepth);
-    case Field_Bitrate:
+    case Field::Bitrate:
       return Playlist::column_name(Playlist::Column_Bitrate);
-    case FieldCount:
+    case Field::FieldCount:
       Q_ASSERT(0);
   }
   return QString();
@@ -423,35 +425,35 @@ QString SmartPlaylistSearchTerm::FieldName(const Field field) {
 QString SmartPlaylistSearchTerm::FieldSortOrderText(const Type type, const bool ascending) {
 
   switch (type) {
-    case Type_Text:
+    case Type::Text:
       return ascending ? QObject::tr("A-Z") : QObject::tr("Z-A");
-    case Type_Date:
+    case Type::Date:
       return ascending ? QObject::tr("oldest first") : QObject::tr("newest first");
-    case Type_Time:
+    case Type::Time:
       return ascending ? QObject::tr("shortest first") : QObject::tr("longest first");
-    case Type_Number:
-    case Type_Rating:
+    case Type::Number:
+    case Type::Rating:
       return ascending ? QObject::tr("smallest first") : QObject::tr("biggest first");
-    case Type_Invalid:
+    case Type::Invalid:
       return QString();
   }
   return QString();
 
 }
 
-QString SmartPlaylistSearchTerm::DateName(const DateType date, const bool forQuery) {
+QString SmartPlaylistSearchTerm::DateName(const DateType datetype, const bool forQuery) {
 
   // If forQuery is true, untranslated keywords are returned
-  switch (date) {
-    case Date_Hour:
+  switch (datetype) {
+    case DateType::Hour:
       return (forQuery ? "hours" : QObject::tr("Hours"));
-    case Date_Day:
+    case DateType::Day:
       return (forQuery ? "days" : QObject::tr("Days"));
-    case Date_Week:
+    case DateType::Week:
       return (forQuery ? "weeks" : QObject::tr("Weeks"));
-    case Date_Month:
+    case DateType::Month:
       return (forQuery ? "months" : QObject::tr("Months"));
-    case Date_Year:
+    case DateType::Year:
       return (forQuery ? "years" : QObject::tr("Years"));
   }
   return QString();
@@ -464,7 +466,7 @@ QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearchTerm &term) {
   s << static_cast<quint8>(term.operator_);
   s << term.value_;
   s << term.second_value_;
-  s << static_cast<quint8>(term.date_);
+  s << static_cast<quint8>(term.datetype_);
   return s;
 
 }
@@ -475,7 +477,7 @@ QDataStream &operator>>(QDataStream &s, SmartPlaylistSearchTerm &term) {
   s >> field >> op >> term.value_ >> term.second_value_ >> date;
   term.field_ = static_cast<SmartPlaylistSearchTerm::Field>(field);
   term.operator_ = static_cast<SmartPlaylistSearchTerm::Operator>(op);
-  term.date_ = static_cast<SmartPlaylistSearchTerm::DateType>(date);
+  term.datetype_ = static_cast<SmartPlaylistSearchTerm::DateType>(date);
   return s;
 
 }

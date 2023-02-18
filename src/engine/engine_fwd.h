@@ -20,9 +20,15 @@ class Base;
  *
  * It is vital to be Idle just after the track has ended!
  */
-enum State { Empty, Idle, Playing, Paused, Error };
+enum class State {
+  Empty,
+  Idle,
+  Playing,
+  Paused,
+  Error
+};
 
-enum TrackChangeType {
+enum class TrackChangeType {
   // One of:
   First = 0x01,
   Manual = 0x02,
@@ -38,5 +44,8 @@ Q_DECLARE_FLAGS(TrackChangeFlags, TrackChangeType)
 }  // namespace Engine
 
 using EngineBase = Engine::Base;
+
+Q_DECLARE_METATYPE(Engine::State)
+Q_DECLARE_METATYPE(Engine::TrackChangeType)
 
 #endif  // ENGINE_FWD_H

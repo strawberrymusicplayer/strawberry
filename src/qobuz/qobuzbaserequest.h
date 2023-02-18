@@ -47,15 +47,15 @@ class QobuzBaseRequest : public QObject {
   explicit QobuzBaseRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent = nullptr);
   ~QobuzBaseRequest();
 
-  enum QueryType {
-    QueryType_None,
-    QueryType_Artists,
-    QueryType_Albums,
-    QueryType_Songs,
-    QueryType_SearchArtists,
-    QueryType_SearchAlbums,
-    QueryType_SearchSongs,
-    QueryType_StreamURL,
+  enum class QueryType {
+    None,
+    Artists,
+    Albums,
+    Songs,
+    SearchArtists,
+    SearchAlbums,
+    SearchSongs,
+    StreamURL
   };
 
  protected:

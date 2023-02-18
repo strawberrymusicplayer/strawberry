@@ -32,7 +32,7 @@ namespace PlaylistUndoCommands {
 
 Base::Base(Playlist *playlist) : QUndoCommand(nullptr), playlist_(playlist) {}
 
-InsertItems::InsertItems(Playlist *playlist, const PlaylistItemList &items, int pos, bool enqueue, bool enqueue_next)
+InsertItems::InsertItems(Playlist *playlist, const PlaylistItemPtrList &items, int pos, bool enqueue, bool enqueue_next)
     : Base(playlist),
       items_(items),
       pos_(pos),
@@ -117,14 +117,14 @@ void MoveItems::undo() {
   playlist_->MoveItemsWithoutUndo(pos_, source_rows_);
 }
 
-ReOrderItems::ReOrderItems(Playlist *playlist, const PlaylistItemList &new_items)
+ReOrderItems::ReOrderItems(Playlist *playlist, const PlaylistItemPtrList &new_items)
     : Base(playlist), old_items_(playlist->items_), new_items_(new_items) {}
 
 void ReOrderItems::undo() { playlist_->ReOrderWithoutUndo(old_items_); }
 
 void ReOrderItems::redo() { playlist_->ReOrderWithoutUndo(new_items_); }
 
-SortItems::SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemList &new_items)
+SortItems::SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemPtrList &new_items)
     : ReOrderItems(playlist, new_items) {
 
   Q_UNUSED(column);
@@ -135,7 +135,7 @@ SortItems::SortItems(Playlist *playlist, int column, Qt::SortOrder order, const 
 }
 
 
-ShuffleItems::ShuffleItems(Playlist *playlist, const PlaylistItemList &new_items)
+ShuffleItems::ShuffleItems(Playlist *playlist, const PlaylistItemPtrList &new_items)
     : ReOrderItems(playlist, new_items) {
 
   setText(tr("shuffle songs"));

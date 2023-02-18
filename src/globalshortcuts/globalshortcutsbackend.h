@@ -32,14 +32,14 @@ class GlobalShortcutsBackend : public QObject {
   Q_OBJECT
 
  public:
-  enum Type {
-    Type_None = 0,
-    Type_KDE,
-    Type_Gnome,
-    Type_Mate,
-    Type_X11,
-    Type_MacOS,
-    Type_Win
+  enum class Type {
+    None = 0,
+    KDE,
+    Gnome,
+    Mate,
+    X11,
+    macOS,
+    Win
   };
 
   explicit GlobalShortcutsBackend(GlobalShortcutsManager *manager, const Type type, QObject *parent = nullptr);

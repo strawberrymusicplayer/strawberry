@@ -32,7 +32,7 @@ class SmartPlaylistsItem : public SimpleTreeItem<SmartPlaylistsItem> {
  public:
   enum Type {
     Type_Root,
-    Type_SmartPlaylist,
+    Type_SmartPlaylist
   };
 
   SmartPlaylistsItem(SimpleTreeModel<SmartPlaylistsItem> *_model) : SimpleTreeItem<SmartPlaylistsItem>(Type_Root, _model) {}
@@ -43,5 +43,7 @@ class SmartPlaylistsItem : public SimpleTreeItem<SmartPlaylistsItem> {
 
   Q_DISABLE_COPY(SmartPlaylistsItem)
 };
+
+Q_DECLARE_METATYPE(SmartPlaylistsItem::Type)
 
 #endif  // SMARTPLAYLISTSITEM_H

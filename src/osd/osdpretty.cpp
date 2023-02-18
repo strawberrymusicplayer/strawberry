@@ -112,11 +112,11 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
 
   // Mode settings
   switch (mode_) {
-    case Mode_Popup:
+    case Mode::Popup:
       setCursor(QCursor(Qt::ArrowCursor));
       break;
 
-    case Mode_Draggable:
+    case Mode::Draggable:
       setCursor(QCursor(Qt::OpenHandCursor));
       break;
   }
@@ -189,7 +189,7 @@ void OSDPretty::showEvent(QShowEvent *e) {
     fader_->setDirection(QTimeLine::Forward);
     fader_->start();  // Timeout will be started in FaderFinished
   }
-  else if (mode_ == Mode_Popup) {
+  else if (mode_ == Mode::Popup) {
     if (!disable_duration()) {
       timeout_->start();
     }
@@ -363,7 +363,7 @@ void OSDPretty::ShowMessage(const QString &summary, const QString &message, cons
 
   SetMessage(summary, message, image);
 
-  if (isVisible() && mode_ == Mode_Popup) {
+  if (isVisible() && mode_ == Mode::Popup) {
     // The OSD is already visible, toggle or restart the timer
     if (toggle_mode()) {
       set_toggle_mode(false);
@@ -406,7 +406,7 @@ void OSDPretty::FaderFinished() {
   if (fader_->direction() == QTimeLine::Backward) {
     hide();
   }
-  else if (mode_ == Mode_Popup && !disable_duration()) {
+  else if (mode_ == Mode::Popup && !disable_duration()) {
     timeout_->start();
   }
 
@@ -465,7 +465,7 @@ void OSDPretty::enterEvent(QEnterEvent*) {
 #else
 void OSDPretty::enterEvent(QEvent*) {
 #endif
-  if (mode_ == Mode_Popup) {
+  if (mode_ == Mode::Popup) {
     setWindowOpacity(0.25);
   }
 
@@ -477,7 +477,7 @@ void OSDPretty::leaveEvent(QEvent*) {
 
 void OSDPretty::mousePressEvent(QMouseEvent *e) {
 
-  if (mode_ == Mode_Popup) {
+  if (mode_ == Mode::Popup) {
     hide();
   }
   else {
@@ -493,7 +493,7 @@ void OSDPretty::mousePressEvent(QMouseEvent *e) {
 
 void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
 
-  if (mode_ == Mode_Draggable) {
+  if (mode_ == Mode::Draggable) {
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     QPoint delta = e->globalPosition().toPoint() - drag_start_pos_;
 #else
@@ -530,7 +530,7 @@ void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
 
 void OSDPretty::mouseReleaseEvent(QMouseEvent *) {
 
-  if (current_screen() && mode_ == Mode_Draggable) {
+  if (current_screen() && mode_ == Mode::Draggable) {
     popup_screen_ = current_screen();
     popup_screen_name_ = current_screen()->name();
     popup_pos_ = current_pos();

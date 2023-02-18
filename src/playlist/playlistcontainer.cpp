@@ -339,7 +339,7 @@ void PlaylistContainer::NewPlaylist() { manager_->New(tr("Playlist")); }
 void PlaylistContainer::LoadPlaylist() {
 
   QString filename = settings_.value("last_load_playlist").toString();
-  filename = QFileDialog::getOpenFileName(this, tr("Load playlist"), filename, manager_->parser()->filters(PlaylistParser::Type_Load));
+  filename = QFileDialog::getOpenFileName(this, tr("Load playlist"), filename, manager_->parser()->filters(PlaylistParser::Type::Load));
 
   if (filename.isNull()) return;
 

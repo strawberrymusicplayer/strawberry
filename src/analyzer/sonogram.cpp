@@ -44,7 +44,7 @@ void Sonogram::resizeEvent(QResizeEvent *e) {
 
 void Sonogram::analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) {
 
-  if (!new_frame || engine_->state() == Engine::Paused) {
+  if (!new_frame || engine_->state() == Engine::State::Paused) {
     p.drawPixmap(0, 0, canvas_);
     return;
   }

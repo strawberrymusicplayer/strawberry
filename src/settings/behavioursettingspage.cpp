@@ -116,24 +116,24 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
   ui_->groupbox_language->setVisible(false);
 #endif
 
-  ui_->combobox_menuplaymode->setItemData(0, PlayBehaviour_Never);
-  ui_->combobox_menuplaymode->setItemData(1, PlayBehaviour_IfStopped);
-  ui_->combobox_menuplaymode->setItemData(2, PlayBehaviour_Always);
+  ui_->combobox_menuplaymode->setItemData(0, static_cast<int>(PlayBehaviour::Never));
+  ui_->combobox_menuplaymode->setItemData(1, static_cast<int>(PlayBehaviour::IfStopped));
+  ui_->combobox_menuplaymode->setItemData(2, static_cast<int>(PlayBehaviour::Always));
 
-  ui_->combobox_previousmode->setItemData(0, PreviousBehaviour_DontRestart);
-  ui_->combobox_previousmode->setItemData(1, PreviousBehaviour_Restart);
+  ui_->combobox_previousmode->setItemData(0, static_cast<int>(PreviousBehaviour::DontRestart));
+  ui_->combobox_previousmode->setItemData(1, static_cast<int>(PreviousBehaviour::Restart));
 
-  ui_->combobox_doubleclickaddmode->setItemData(0, AddBehaviour_Append);
-  ui_->combobox_doubleclickaddmode->setItemData(1, AddBehaviour_Load);
-  ui_->combobox_doubleclickaddmode->setItemData(2, AddBehaviour_OpenInNew);
-  ui_->combobox_doubleclickaddmode->setItemData(3, AddBehaviour_Enqueue);
+  ui_->combobox_doubleclickaddmode->setItemData(0, static_cast<int>(AddBehaviour::Append));
+  ui_->combobox_doubleclickaddmode->setItemData(1, static_cast<int>(AddBehaviour::Load));
+  ui_->combobox_doubleclickaddmode->setItemData(2, static_cast<int>(AddBehaviour::OpenInNew));
+  ui_->combobox_doubleclickaddmode->setItemData(3, static_cast<int>(AddBehaviour::Enqueue));
 
-  ui_->combobox_doubleclickplaymode->setItemData(0, PlayBehaviour_Never);
-  ui_->combobox_doubleclickplaymode->setItemData(1, PlayBehaviour_IfStopped);
-  ui_->combobox_doubleclickplaymode->setItemData(2, PlayBehaviour_Always);
+  ui_->combobox_doubleclickplaymode->setItemData(0, static_cast<int>(PlayBehaviour::Never));
+  ui_->combobox_doubleclickplaymode->setItemData(1, static_cast<int>(PlayBehaviour::IfStopped));
+  ui_->combobox_doubleclickplaymode->setItemData(2, static_cast<int>(PlayBehaviour::Always));
 
-  ui_->combobox_doubleclickplaylistaddmode->setItemData(0, PlaylistAddBehaviour_Play);
-  ui_->combobox_doubleclickplaylistaddmode->setItemData(1, PlaylistAddBehaviour_Enqueue);
+  ui_->combobox_doubleclickplaylistaddmode->setItemData(0, static_cast<int>(PlaylistAddBehaviour::Play));
+  ui_->combobox_doubleclickplaylistaddmode->setItemData(1, static_cast<int>(PlaylistAddBehaviour::Enqueue));
 
 }
 
@@ -177,26 +177,25 @@ void BehaviourSettingsPage::Load() {
   ui_->checkbox_playingwidget->setChecked(s.value("playing_widget", true).toBool());
 
 #ifndef Q_OS_MACOS
-  StartupBehaviour behaviour = StartupBehaviour(s.value("startupbehaviour", Startup_Remember).toInt());
-  switch (behaviour) {
-    case Startup_Show:
+  const StartupBehaviour startup_behaviour = static_cast<StartupBehaviour>(s.value("startupbehaviour", static_cast<int>(StartupBehaviour::Remember)).toInt());
+  switch (startup_behaviour) {
+    case StartupBehaviour::Show:
       ui_->radiobutton_show->setChecked(true);
       break;
-    case Startup_ShowMaximized:
+    case StartupBehaviour::ShowMaximized:
       ui_->radiobutton_show_maximized->setChecked(true);
       break;
-    case Startup_ShowMinimized:
+    case StartupBehaviour::ShowMinimized:
       ui_->radiobutton_show_minimized->setChecked(true);
       break;
-    case Startup_Hide:
+    case StartupBehaviour::Hide:
       if (systemtray_available_) {
         ui_->radiobutton_hide->setChecked(true);
         break;
       }
       ;
       [[fallthrough]];
-    case BehaviourSettingsPage::Startup_Remember:
-    default:
+    case BehaviourSettingsPage::StartupBehaviour::Remember:
       ui_->radiobutton_remember->setChecked(true);
       break;
   }
@@ -210,15 +209,15 @@ void BehaviourSettingsPage::Load() {
     ui_->combobox_language->setCurrentIndex(ui_->combobox_language->findText(name));
   }
 
-  ui_->combobox_menuplaymode->setCurrentIndex(ui_->combobox_menuplaymode->findData(s.value("menu_playmode", PlayBehaviour_Never).toInt()));
+  ui_->combobox_menuplaymode->setCurrentIndex(ui_->combobox_menuplaymode->findData(s.value("menu_playmode", static_cast<int>(PlayBehaviour::Never)).toInt()));
 
-  ui_->combobox_previousmode->setCurrentIndex(ui_->combobox_previousmode->findData(s.value("menu_previousmode", PreviousBehaviour_DontRestart).toInt()));
+  ui_->combobox_previousmode->setCurrentIndex(ui_->combobox_previousmode->findData(s.value("menu_previousmode", static_cast<int>(PreviousBehaviour::DontRestart)).toInt()));
 
-  ui_->combobox_doubleclickaddmode->setCurrentIndex(ui_->combobox_doubleclickaddmode->findData(s.value("doubleclick_addmode", AddBehaviour_Append).toInt()));
+  ui_->combobox_doubleclickaddmode->setCurrentIndex(ui_->combobox_doubleclickaddmode->findData(s.value("doubleclick_addmode", static_cast<int>(AddBehaviour::Append)).toInt()));
 
-  ui_->combobox_doubleclickplaymode->setCurrentIndex(ui_->combobox_doubleclickplaymode->findData(s.value("doubleclick_playmode", PlayBehaviour_Never).toInt()));
+  ui_->combobox_doubleclickplaymode->setCurrentIndex(ui_->combobox_doubleclickplaymode->findData(s.value("doubleclick_playmode", static_cast<int>(PlayBehaviour::Never)).toInt()));
 
-  ui_->combobox_doubleclickplaylistaddmode->setCurrentIndex(ui_->combobox_doubleclickplaylistaddmode->findData(s.value("doubleclick_playlist_addmode", PlaylistAddBehaviour_Play).toInt()));
+  ui_->combobox_doubleclickplaylistaddmode->setCurrentIndex(ui_->combobox_doubleclickplaylistaddmode->findData(s.value("doubleclick_playlist_addmode", static_cast<int>(PlaylistAddBehaviour::Play)).toInt()));
 
   ui_->spinbox_seekstepsec->setValue(s.value("seek_step_sec", 10).toInt());
 
@@ -241,30 +240,30 @@ void BehaviourSettingsPage::Save() {
   s.setValue("resumeplayback", ui_->checkbox_resumeplayback->isChecked());
   s.setValue("playing_widget", ui_->checkbox_playingwidget->isChecked());
 
-  StartupBehaviour behaviour = Startup_Remember;
-  if (ui_->radiobutton_remember->isChecked()) behaviour = Startup_Remember;
-  if (ui_->radiobutton_show->isChecked()) behaviour = Startup_Show;
-  if (ui_->radiobutton_hide->isChecked()) behaviour = Startup_Hide;
-  if (ui_->radiobutton_show_maximized->isChecked()) behaviour = Startup_ShowMaximized;
-  if (ui_->radiobutton_show_minimized->isChecked()) behaviour = Startup_ShowMinimized;
-  s.setValue("startupbehaviour", static_cast<int>(behaviour));
+  StartupBehaviour startup_behaviour = StartupBehaviour::Remember;
+  if (ui_->radiobutton_remember->isChecked()) startup_behaviour = StartupBehaviour::Remember;
+  if (ui_->radiobutton_show->isChecked()) startup_behaviour = StartupBehaviour::Show;
+  if (ui_->radiobutton_hide->isChecked()) startup_behaviour = StartupBehaviour::Hide;
+  if (ui_->radiobutton_show_maximized->isChecked()) startup_behaviour = StartupBehaviour::ShowMaximized;
+  if (ui_->radiobutton_show_minimized->isChecked()) startup_behaviour = StartupBehaviour::ShowMinimized;
+  s.setValue("startupbehaviour", static_cast<int>(startup_behaviour));
 
   s.setValue("language", language_map_.contains(ui_->combobox_language->currentText()) ? language_map_[ui_->combobox_language->currentText()] : QString());
 
-  PlayBehaviour menu_playmode = static_cast<PlayBehaviour>(ui_->combobox_menuplaymode->itemData(ui_->combobox_menuplaymode->currentIndex()).toInt());
+  const PlayBehaviour menu_playmode = static_cast<PlayBehaviour>(ui_->combobox_menuplaymode->currentData().toInt());
 
-  PreviousBehaviour menu_previousmode = static_cast<PreviousBehaviour>(ui_->combobox_previousmode->itemData(ui_->combobox_previousmode->currentIndex()).toInt());
-  AddBehaviour doubleclick_addmode = static_cast<AddBehaviour>(ui_->combobox_doubleclickaddmode->itemData(ui_->combobox_doubleclickaddmode->currentIndex()).toInt());
+  const PreviousBehaviour menu_previousmode = static_cast<PreviousBehaviour>(ui_->combobox_previousmode->currentData().toInt());
+  const AddBehaviour doubleclick_addmode = static_cast<AddBehaviour>(ui_->combobox_doubleclickaddmode->currentData().toInt());
 
-  PlayBehaviour doubleclick_playmode = static_cast<PlayBehaviour>(ui_->combobox_doubleclickplaymode->itemData(ui_->combobox_doubleclickplaymode->currentIndex()).toInt());
+  const PlayBehaviour doubleclick_playmode = static_cast<PlayBehaviour>(ui_->combobox_doubleclickplaymode->currentData().toInt());
 
-  PlaylistAddBehaviour doubleclick_playlist_addmode = static_cast<PlaylistAddBehaviour>(ui_->combobox_doubleclickplaylistaddmode->itemData(ui_->combobox_doubleclickplaylistaddmode->currentIndex()).toInt());
+  const PlaylistAddBehaviour doubleclick_playlist_addmode = static_cast<PlaylistAddBehaviour>(ui_->combobox_doubleclickplaylistaddmode->currentData().toInt());
 
-  s.setValue("menu_playmode", menu_playmode);
-  s.setValue("menu_previousmode", menu_previousmode);
-  s.setValue("doubleclick_addmode", doubleclick_addmode);
-  s.setValue("doubleclick_playmode", doubleclick_playmode);
-  s.setValue("doubleclick_playlist_addmode", doubleclick_playlist_addmode);
+  s.setValue("menu_playmode", static_cast<int>(menu_playmode));
+  s.setValue("menu_previousmode", static_cast<int>(menu_previousmode));
+  s.setValue("doubleclick_addmode", static_cast<int>(doubleclick_addmode));
+  s.setValue("doubleclick_playmode", static_cast<int>(doubleclick_playmode));
+  s.setValue("doubleclick_playlist_addmode", static_cast<int>(doubleclick_playlist_addmode));
 
   s.setValue("seek_step_sec", ui_->spinbox_seekstepsec->value());
 

@@ -34,10 +34,10 @@ class CollectionFilterOptions {
   // - use the duplicated songs view; by duplicated we mean those songs for which the (artist, album, title) tuple is found more than once in the songs table
   // - use the untagged songs view; by untagged we mean those for which at least one of the (artist, album, title) tags is empty
   // Please note that additional filtering based on FTS table (the filter attribute) won't work in Duplicates and Untagged modes.
-  enum FilterMode {
-    FilterMode_All,
-    FilterMode_Duplicates,
-    FilterMode_Untagged
+  enum class FilterMode {
+    All,
+    Duplicates,
+    Untagged
   };
 
   FilterMode filter_mode() const { return filter_mode_; }
@@ -50,7 +50,7 @@ class CollectionFilterOptions {
   }
   void set_max_age(const int max_age) { max_age_ = max_age; }
   void set_filter_text(const QString &filter_text) {
-    filter_mode_ = FilterMode_All;
+    filter_mode_ = FilterMode::All;
     filter_text_ = filter_text;
   }
 

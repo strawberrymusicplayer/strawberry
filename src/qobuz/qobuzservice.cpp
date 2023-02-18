@@ -57,7 +57,7 @@
 #include "settings/settingsdialog.h"
 #include "settings/qobuzsettingspage.h"
 
-const Song::Source QobuzService::kSource = Song::Source_Qobuz;
+const Song::Source QobuzService::kSource = Song::Source::Qobuz;
 const char QobuzService::kApiUrl[] = "https://www.qobuz.com/api.json/0.2";
 
 constexpr char QobuzService::kAuthUrl[] = "https://www.qobuz.com/api.json/0.2/user/login";
@@ -74,7 +74,7 @@ constexpr char QobuzService::kAlbumsSongsFtsTable[] = "qobuz_albums_songs_fts";
 constexpr char QobuzService::kSongsFtsTable[] = "qobuz_songs_fts";
 
 QobuzService::QobuzService(Application *app, QObject *parent)
-    : InternetService(Song::Source_Qobuz, "Qobuz", "qobuz", QobuzSettingsPage::kSettingsGroup, SettingsDialog::Page_Qobuz, app, parent),
+    : InternetService(Song::Source::Qobuz, "Qobuz", "qobuz", QobuzSettingsPage::kSettingsGroup, SettingsDialog::Page::Qobuz, app, parent),
       app_(app),
       network_(new NetworkAccessManager(this)),
       url_handler_(new QobuzUrlHandler(app, this)),
@@ -100,7 +100,7 @@ QobuzService::QobuzService(Application *app, QObject *parent)
       credential_id_(-1),
       pending_search_id_(0),
       next_pending_search_id_(1),
-      pending_search_type_(InternetSearchView::SearchType_Artists),
+      pending_search_type_(InternetSearchView::SearchType::Artists),
       search_id_(0),
       login_sent_(false),
       login_attempts_(0),
@@ -112,15 +112,15 @@ QobuzService::QobuzService(Application *app, QObject *parent)
 
   artists_collection_backend_ = new CollectionBackend();
   artists_collection_backend_->moveToThread(app_->database()->thread());
-  artists_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Qobuz, kArtistsSongsTable, kArtistsSongsFtsTable);
+  artists_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Qobuz, kArtistsSongsTable, kArtistsSongsFtsTable);
 
   albums_collection_backend_ = new CollectionBackend();
   albums_collection_backend_->moveToThread(app_->database()->thread());
-  albums_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Qobuz, kAlbumsSongsTable, kAlbumsSongsFtsTable);
+  albums_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Qobuz, kAlbumsSongsTable, kAlbumsSongsFtsTable);
 
   songs_collection_backend_ = new CollectionBackend();
   songs_collection_backend_->moveToThread(app_->database()->thread());
-  songs_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source_Qobuz, kSongsTable, kSongsFtsTable);
+  songs_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Qobuz, kSongsTable, kSongsFtsTable);
 
   artists_collection_model_ = new CollectionModel(artists_collection_backend_, app_, this);
   albums_collection_model_ = new CollectionModel(albums_collection_backend_, app_, this);
@@ -221,7 +221,7 @@ void QobuzService::ExitReceived() {
 }
 
 void QobuzService::ShowConfig() {
-  app_->OpenSettingsDialogAtPage(SettingsDialog::Page_Qobuz);
+  app_->OpenSettingsDialogAtPage(SettingsDialog::Page::Qobuz);
 }
 
 void QobuzService::ReloadSettings() {
@@ -535,7 +535,7 @@ void QobuzService::GetArtists() {
   }
 
   ResetArtistsRequest();
-  artists_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Artists), [](QobuzRequest *request) { request->deleteLater(); });
+  artists_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType::Artists), [](QobuzRequest *request) { request->deleteLater(); });
   QObject::connect(artists_request_.get(), &QobuzRequest::Results, this, &QobuzService::ArtistsResultsReceived);
   QObject::connect(artists_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::ArtistsUpdateStatusReceived);
   QObject::connect(artists_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::ArtistsUpdateProgressReceived);
@@ -585,7 +585,7 @@ void QobuzService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Albums), [](QobuzRequest *request) { request->deleteLater(); });
+  albums_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType::Albums), [](QobuzRequest *request) { request->deleteLater(); });
   QObject::connect(albums_request_.get(), &QobuzRequest::Results, this, &QobuzService::AlbumsResultsReceived);
   QObject::connect(albums_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::AlbumsUpdateStatusReceived);
   QObject::connect(albums_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::AlbumsUpdateProgressReceived);
@@ -635,7 +635,7 @@ void QobuzService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Songs), [](QobuzRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType::Songs), [](QobuzRequest *request) { request->deleteLater(); });
   QObject::connect(songs_request_.get(), &QobuzRequest::Results, this, &QobuzService::SongsResultsReceived);
   QObject::connect(songs_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::SongsUpdateStatusReceived);
   QObject::connect(songs_request_.get(), &QobuzRequest::UpdateProgress, this, &QobuzService::SongsUpdateProgressReceived);
@@ -700,21 +700,21 @@ void QobuzService::CancelSearch() {
 
 void QobuzService::SendSearch() {
 
-  QobuzBaseRequest::QueryType type = QobuzBaseRequest::QueryType_None;
+  QobuzBaseRequest::QueryType query_type = QobuzBaseRequest::QueryType::None;
 
   switch (pending_search_type_) {
-    case InternetSearchView::SearchType_Artists:
-      type = QobuzBaseRequest::QueryType_SearchArtists;
+    case InternetSearchView::SearchType::Artists:
+      query_type = QobuzBaseRequest::QueryType::SearchArtists;
       break;
-    case InternetSearchView::SearchType_Albums:
-      type = QobuzBaseRequest::QueryType_SearchAlbums;
+    case InternetSearchView::SearchType::Albums:
+      query_type = QobuzBaseRequest::QueryType::SearchAlbums;
       break;
-    case InternetSearchView::SearchType_Songs:
-      type = QobuzBaseRequest::QueryType_SearchSongs;
+    case InternetSearchView::SearchType::Songs:
+      query_type = QobuzBaseRequest::QueryType::SearchSongs;
       break;
   }
 
-  search_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, type), [](QobuzRequest *request) { request->deleteLater(); } );
+  search_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, query_type), [](QobuzRequest *request) { request->deleteLater(); } );
 
   QObject::connect(search_request_.get(), &QobuzRequest::Results, this, &QobuzService::SearchResultsReceived);
   QObject::connect(search_request_.get(), &QobuzRequest::UpdateStatus, this, &QobuzService::SearchUpdateStatus);

@@ -173,7 +173,7 @@ bool MtpDevice::CopyToStorage(const CopyJob &job) {
   if (ret != 0) return false;
 
   // Add it to our CollectionModel
-  Song metadata_on_device(Song::Source_Device);
+  Song metadata_on_device(Song::Source::Device);
   metadata_on_device.InitFromMTP(&track, url_.host());
   metadata_on_device.set_directory_id(1);
   metadata_on_device.set_artist(metadata_on_device.effective_albumartist());
@@ -260,21 +260,21 @@ bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret, LIBMTP_mtpdevi
 
   for (int i = 0; i < length; ++i) {
     switch (static_cast<LIBMTP_filetype_t>(list[i])) {
-      case LIBMTP_FILETYPE_WAV:  *ret << Song::FileType_WAV; break;
+      case LIBMTP_FILETYPE_WAV:  *ret << Song::FileType::WAV; break;
       case LIBMTP_FILETYPE_MP2:
-      case LIBMTP_FILETYPE_MP3:  *ret << Song::FileType_MPEG; break;
-      case LIBMTP_FILETYPE_WMA:  *ret << Song::FileType_ASF; break;
+      case LIBMTP_FILETYPE_MP3:  *ret << Song::FileType::MPEG; break;
+      case LIBMTP_FILETYPE_WMA:  *ret << Song::FileType::ASF; break;
       case LIBMTP_FILETYPE_MP4:
       case LIBMTP_FILETYPE_M4A:
-      case LIBMTP_FILETYPE_AAC:  *ret << Song::FileType_MP4; break;
+      case LIBMTP_FILETYPE_AAC:  *ret << Song::FileType::MP4; break;
       case LIBMTP_FILETYPE_FLAC:
-        *ret << Song::FileType_FLAC;
-        *ret << Song::FileType_OggFlac;
+        *ret << Song::FileType::FLAC;
+        *ret << Song::FileType::OggFlac;
         break;
       case LIBMTP_FILETYPE_OGG:
-        *ret << Song::FileType_OggVorbis;
-        *ret << Song::FileType_OggSpeex;
-        *ret << Song::FileType_OggFlac;
+        *ret << Song::FileType::OggVorbis;
+        *ret << Song::FileType::OggSpeex;
+        *ret << Song::FileType::OggFlac;
         break;
       default:
         qLog(Error) << "Unknown MTP file format" << LIBMTP_Get_Filetype_Description(static_cast<LIBMTP_filetype_t>(list[i]));

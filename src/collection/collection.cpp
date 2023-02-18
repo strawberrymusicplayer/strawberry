@@ -69,7 +69,7 @@ SCollection::SCollection(Application *app, QObject *parent)
   backend()->moveToThread(app->database()->thread());
   qLog(Debug) << backend_ << "moved to thread" << app->database()->thread();
 
-  backend_->Init(app->database(), app->task_manager(), Song::Source_Collection, kSongsTable, kFtsTable, kDirsTable, kSubdirsTable);
+  backend_->Init(app->database(), app->task_manager(), Song::Source::Collection, kSongsTable, kFtsTable, kDirsTable, kSubdirsTable);
 
   model_ = new CollectionModel(backend_, app_, this);
 
@@ -93,7 +93,7 @@ SCollection::~SCollection() {
 
 void SCollection::Init() {
 
-  watcher_ = new CollectionWatcher(Song::Source_Collection);
+  watcher_ = new CollectionWatcher(Song::Source::Collection);
   watcher_thread_ = new Thread(this);
 
 #ifndef Q_OS_WIN32
@@ -104,7 +104,7 @@ void SCollection::Init() {
 
   watcher_->moveToThread(watcher_thread_);
 
-  qLog(Debug) << watcher_ << "moved to thread" << watcher_thread_ << "with I/O priority" << io_priority_ << "and thread priority" << thread_priority_;
+  qLog(Debug) << watcher_ << "moved to thread" << watcher_thread_ << "with I/O priority" << static_cast<int>(io_priority_) << "and thread priority" << thread_priority_;
 
   watcher_thread_->start(thread_priority_);
 
@@ -184,7 +184,7 @@ void SCollection::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  io_priority_ = static_cast<Utilities::IoPriority>(s.value("io_priority", Utilities::IOPRIO_CLASS_IDLE).toInt());
+  io_priority_ = static_cast<Utilities::IoPriority>(s.value("io_priority", static_cast<int>(Utilities::IoPriority::IOPRIO_CLASS_IDLE)).toInt());
   thread_priority_ = static_cast<QThread::Priority>(s.value("thread_priority", QThread::Priority::IdlePriority).toInt());
   save_playcounts_to_files_ = s.value("save_playcounts", false).toBool();
   save_ratings_to_files_ = s.value("save_ratings", false).toBool();

@@ -128,7 +128,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
   terms_page_layout->addWidget(search_page_->preview_);
 
   // Add sort field texts
-  for (int i = 0; i < SmartPlaylistSearchTerm::FieldCount; ++i) {
+  for (int i = 0; i < static_cast<int>(SmartPlaylistSearchTerm::Field::FieldCount); ++i) {
     const SmartPlaylistSearchTerm::Field field = static_cast<SmartPlaylistSearchTerm::Field>(i);
     const QString field_name = SmartPlaylistSearchTerm::FieldName(field);
     sort_ui_->field_value->addItem(field_name);
@@ -172,7 +172,7 @@ void SmartPlaylistQueryWizardPlugin::SetGenerator(PlaylistGeneratorPtr g) {
   SmartPlaylistSearch search = gen->search();
 
   // Search type
-  search_page_->ui_->type->setCurrentIndex(search.search_type_);
+  search_page_->ui_->type->setCurrentIndex(static_cast<int>(search.search_type_));
 
   // Search terms
   qDeleteAll(search_page_->terms_);
@@ -184,13 +184,13 @@ void SmartPlaylistQueryWizardPlugin::SetGenerator(PlaylistGeneratorPtr g) {
   }
 
   // Sort order
-  if (search.sort_type_ == SmartPlaylistSearch::Sort_Random) {
+  if (search.sort_type_ == SmartPlaylistSearch::SortType::Random) {
     sort_ui_->random->setChecked(true);
   }
   else {
     sort_ui_->field->setChecked(true);
-    sort_ui_->order->setCurrentIndex(search.sort_type_ == SmartPlaylistSearch::Sort_FieldAsc ? 0 : 1);
-    sort_ui_->field_value->setCurrentIndex(search.sort_field_);
+    sort_ui_->order->setCurrentIndex(search.sort_type_ == SmartPlaylistSearch::SortType::FieldAsc ? 0 : 1);
+    sort_ui_->field_value->setCurrentIndex(static_cast<int>(search.sort_field_));
   }
 
   // Limit
@@ -292,11 +292,11 @@ SmartPlaylistSearch SmartPlaylistQueryWizardPlugin::MakeSearch() const {
 
   // Sort order
   if (sort_ui_->random->isChecked()) {
-    ret.sort_type_ = SmartPlaylistSearch::Sort_Random;
+    ret.sort_type_ = SmartPlaylistSearch::SortType::Random;
   }
   else {
     const bool ascending = sort_ui_->order->currentIndex() == 0;
-    ret.sort_type_ = ascending ? SmartPlaylistSearch::Sort_FieldAsc : SmartPlaylistSearch::Sort_FieldDesc;
+    ret.sort_type_ = ascending ? SmartPlaylistSearch::SortType::FieldAsc : SmartPlaylistSearch::SortType::FieldDesc;
     ret.sort_field_ = static_cast<SmartPlaylistSearchTerm::Field>(sort_ui_->field_value->currentIndex());
   }
 

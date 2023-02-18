@@ -34,7 +34,7 @@
 #include "globalshortcut.h"
 
 GlobalShortcutsBackendX11::GlobalShortcutsBackendX11(GlobalShortcutsManager *manager, QObject *parent)
-    : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type_X11, parent),
+    : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type::X11, parent),
       gshortcut_init_(nullptr) {}
 
 GlobalShortcutsBackendX11::~GlobalShortcutsBackendX11() { GlobalShortcutsBackendX11::DoUnregister(); }

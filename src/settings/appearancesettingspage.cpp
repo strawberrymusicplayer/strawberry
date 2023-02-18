@@ -84,7 +84,7 @@ const char *AppearanceSettingsPage::kPlaylistPlayingSongColor = "playlist_playin
 AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_AppearanceSettingsPage),
-      background_image_type_(BackgroundImageType_Default) {
+      background_image_type_(BackgroundImageType::Default) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("view-media-visualization", true, 0, 32));
@@ -94,11 +94,11 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *
     ui_->combobox_style->addItem(style, style);
   }
 
-  ui_->combobox_backgroundimageposition->setItemData(0, BackgroundImagePosition_UpperLeft);
-  ui_->combobox_backgroundimageposition->setItemData(1, BackgroundImagePosition_UpperRight);
-  ui_->combobox_backgroundimageposition->setItemData(2, BackgroundImagePosition_Middle);
-  ui_->combobox_backgroundimageposition->setItemData(3, BackgroundImagePosition_BottomLeft);
-  ui_->combobox_backgroundimageposition->setItemData(4, BackgroundImagePosition_BottomRight);
+  ui_->combobox_backgroundimageposition->setItemData(0, static_cast<int>(BackgroundImagePosition::UpperLeft));
+  ui_->combobox_backgroundimageposition->setItemData(1, static_cast<int>(BackgroundImagePosition::UpperRight));
+  ui_->combobox_backgroundimageposition->setItemData(2, static_cast<int>(BackgroundImagePosition::Middle));
+  ui_->combobox_backgroundimageposition->setItemData(3, static_cast<int>(BackgroundImagePosition::BottomLeft));
+  ui_->combobox_backgroundimageposition->setItemData(4, static_cast<int>(BackgroundImagePosition::BottomRight));
 
   QObject::connect(ui_->blur_slider, &QSlider::valueChanged, this, &AppearanceSettingsPage::BlurLevelChanged);
   QObject::connect(ui_->opacity_slider, &QSlider::valueChanged, this, &AppearanceSettingsPage::OpacityLevelChanged);
@@ -160,29 +160,29 @@ void AppearanceSettingsPage::Load() {
   TabBarSystemColor(ui_->tabbar_system_color->isChecked());
 
   // Playlist settings
-  background_image_type_ = static_cast<BackgroundImageType>(s.value(kBackgroundImageType).toInt());
+  background_image_type_ = static_cast<BackgroundImageType>(s.value(kBackgroundImageType, static_cast<int>(BackgroundImageType::Default)).toInt());
   background_image_filename_ = s.value(kBackgroundImageFilename).toString();
 
   switch (background_image_type_) {
-    case BackgroundImageType_Default:
+    case BackgroundImageType::Default:
       ui_->use_default_background->setChecked(true);
       break;
-    case BackgroundImageType_None:
+    case BackgroundImageType::None:
       ui_->use_no_background->setChecked(true);
       break;
-    case BackgroundImageType_Album:
+    case BackgroundImageType::Album:
       ui_->use_album_cover_background->setChecked(true);
       break;
-    case BackgroundImageType_Strawbs:
+    case BackgroundImageType::Strawbs:
       ui_->use_strawbs_background->setChecked(true);
       break;
-    case BackgroundImageType_Custom:
+    case BackgroundImageType::Custom:
       ui_->use_custom_background_image->setChecked(true);
       break;
   }
   ui_->background_image_filename->setText(background_image_filename_);
 
-  ui_->combobox_backgroundimageposition->setCurrentIndex(ui_->combobox_backgroundimageposition->findData(s.value(kBackgroundImagePosition, BackgroundImagePosition_BottomRight).toInt()));
+  ui_->combobox_backgroundimageposition->setCurrentIndex(ui_->combobox_backgroundimageposition->findData(s.value(kBackgroundImagePosition, static_cast<int>(BackgroundImagePosition::BottomRight)).toInt()));
   ui_->spinbox_background_image_maxsize->setValue(s.value(kBackgroundImageMaxSize, 0).toInt());
   ui_->checkbox_background_image_stretch->setChecked(s.value(kBackgroundImageStretch, false).toBool());
   ui_->checkbox_background_image_do_not_cut->setChecked(s.value(kBackgroundImageDoNotCut, true).toBool());
@@ -234,32 +234,31 @@ void AppearanceSettingsPage::Save() {
 
   background_image_filename_ = ui_->background_image_filename->text();
   if (ui_->use_default_background->isChecked()) {
-    background_image_type_ = BackgroundImageType_Default;
+    background_image_type_ = BackgroundImageType::Default;
   }
   else if (ui_->use_no_background->isChecked()) {
-    background_image_type_ = BackgroundImageType_None;
+    background_image_type_ = BackgroundImageType::None;
   }
   else if (ui_->use_album_cover_background->isChecked()) {
-    background_image_type_ = BackgroundImageType_Album;
+    background_image_type_ = BackgroundImageType::Album;
   }
   else if (ui_->use_strawbs_background->isChecked()) {
-    background_image_type_ = BackgroundImageType_Strawbs;
+    background_image_type_ = BackgroundImageType::Strawbs;
   }
   else if (ui_->use_custom_background_image->isChecked()) {
-    background_image_type_ = BackgroundImageType_Custom;
+    background_image_type_ = BackgroundImageType::Custom;
   }
-  s.setValue(kBackgroundImageType, background_image_type_);
+  s.setValue(kBackgroundImageType, static_cast<int>(background_image_type_));
 
-  if (background_image_type_ == BackgroundImageType_Custom) {
+  if (background_image_type_ == BackgroundImageType::Custom) {
     s.setValue(kBackgroundImageFilename, background_image_filename_);
   }
   else {
     s.remove(kBackgroundImageFilename);
   }
 
-  BackgroundImagePosition backgroundimageposition = static_cast<BackgroundImagePosition>(ui_->combobox_backgroundimageposition->itemData(ui_->combobox_backgroundimageposition->currentIndex()).toInt());
   s.setValue(kBackgroundImageMaxSize, ui_->spinbox_background_image_maxsize->value());
-  s.setValue(kBackgroundImagePosition, backgroundimageposition);
+  s.setValue(kBackgroundImagePosition, ui_->combobox_backgroundimageposition->currentData().toInt());
   s.setValue(kBackgroundImageStretch, ui_->checkbox_background_image_stretch->isChecked());
   s.setValue(kBackgroundImageDoNotCut, ui_->checkbox_background_image_do_not_cut->isChecked());
   s.setValue(kBackgroundImageKeepAspectRatio, ui_->checkbox_background_image_keep_aspect_ratio->isChecked());

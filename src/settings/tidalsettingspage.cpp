@@ -73,9 +73,9 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
   ui_->coversize->addItem("750x750", "750x750");
   ui_->coversize->addItem("1280x1280", "1280x1280");
 
-  ui_->streamurl->addItem("streamurl", StreamUrlMethod_StreamUrl);
-  ui_->streamurl->addItem("urlpostpaywall", StreamUrlMethod_UrlPostPaywall);
-  ui_->streamurl->addItem("playbackinfopostpaywall", StreamUrlMethod_PlaybackInfoPostPaywall);
+  ui_->streamurl->addItem("streamurl", static_cast<int>(StreamUrlMethod::StreamUrl));
+  ui_->streamurl->addItem("urlpostpaywall", static_cast<int>(StreamUrlMethod::UrlPostPaywall));
+  ui_->streamurl->addItem("playbackinfopostpaywall", static_cast<int>(StreamUrlMethod::PlaybackInfoPostPaywall));
 
 }
 
@@ -104,18 +104,13 @@ void TidalSettingsPage::Load() {
   ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
   ComboBoxLoadFromSettings(s, ui_->coversize, "coversize", "640x640");
-
-  StreamUrlMethod stream_url = static_cast<StreamUrlMethod>(s.value("streamurl").toInt());
-  int i = ui_->streamurl->findData(stream_url);
-  if (i == -1) i = ui_->streamurl->findData(StreamUrlMethod_StreamUrl);
-  ui_->streamurl->setCurrentIndex(i);
-
+  ui_->streamurl->setCurrentIndex(ui_->streamurl->findData(s.value("streamurl", static_cast<int>(StreamUrlMethod::StreamUrl)).toInt()));
   ui_->checkbox_album_explicit->setChecked(s.value("album_explicit", false).toBool());
 
   s.endGroup();
 
   OAuthClicked(ui_->oauth->isChecked());
-  if (service_->authenticated()) ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
+  if (service_->authenticated()) ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
 
   Init(ui_->layout_tidalsettingspage->parentWidget());
 
@@ -135,15 +130,15 @@ void TidalSettingsPage::Save() {
   s.setValue("username", ui_->username->text());
   s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
 
-  s.setValue("quality", ui_->quality->itemData(ui_->quality->currentIndex()));
+  s.setValue("quality", ui_->quality->currentData().toString());
   s.setValue("searchdelay", ui_->searchdelay->value());
   s.setValue("artistssearchlimit", ui_->artistssearchlimit->value());
   s.setValue("albumssearchlimit", ui_->albumssearchlimit->value());
   s.setValue("songssearchlimit", ui_->songssearchlimit->value());
   s.setValue("fetchalbums", ui_->checkbox_fetchalbums->isChecked());
   s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
-  s.setValue("coversize", ui_->coversize->itemData(ui_->coversize->currentIndex()));
-  s.setValue("streamurl", ui_->streamurl->itemData(ui_->streamurl->currentIndex()));
+  s.setValue("coversize", ui_->coversize->currentData().toString());
+  s.setValue("streamurl", ui_->streamurl->currentData().toInt());
   s.setValue("album_explicit", ui_->checkbox_album_explicit->isChecked());
   s.endGroup();
 
@@ -200,14 +195,14 @@ void TidalSettingsPage::LogoutClicked() {
 
   service_->Logout();
   ui_->button_login->setEnabled(true);
-  ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
 
 }
 
 void TidalSettingsPage::LoginSuccess() {
 
   if (!isVisible()) return;
-  ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
   ui_->button_login->setEnabled(true);
 
 }

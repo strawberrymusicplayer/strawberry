@@ -36,7 +36,7 @@ class FilterTree {
   FilterTree() = default;
   virtual ~FilterTree() {}
   virtual bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const = 0;
-  enum FilterType {
+  enum class FilterType {
     Nop = 0,
     Or,
     And,
@@ -53,7 +53,7 @@ class FilterTree {
 class NopFilter : public FilterTree {
  public:
   bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override { Q_UNUSED(row); Q_UNUSED(parent); Q_UNUSED(model); return true; }
-  FilterType type() override { return Nop; }
+  FilterType type() override { return FilterType::Nop; }
 };
 
 

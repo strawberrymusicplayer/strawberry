@@ -43,14 +43,14 @@
 
 #include "settings/moodbarsettingspage.h"
 
-MoodbarItemDelegate::Data::Data() : state_(State_None) {}
+MoodbarItemDelegate::Data::Data() : state_(State::None) {}
 
 MoodbarItemDelegate::MoodbarItemDelegate(Application *app, PlaylistView *view, QObject *parent)
     : QItemDelegate(parent),
       app_(app),
       view_(view),
       enabled_(false),
-      style_(MoodbarRenderer::Style_Normal) {
+      style_(MoodbarRenderer::MoodbarStyle::Normal) {
 
   QObject::connect(app_, &Application::SettingsChanged, this, &MoodbarItemDelegate::ReloadSettings);
   ReloadSettings();
@@ -62,7 +62,7 @@ void MoodbarItemDelegate::ReloadSettings() {
   QSettings s;
   s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
   enabled_ = s.value("enabled", false).toBool();
-  MoodbarRenderer::MoodbarStyle new_style = static_cast<MoodbarRenderer::MoodbarStyle>(s.value("style", MoodbarRenderer::Style_Normal).toInt());
+  const MoodbarRenderer::MoodbarStyle new_style = static_cast<MoodbarRenderer::MoodbarStyle>(s.value("style", static_cast<int>(MoodbarRenderer::MoodbarStyle::Normal)).toInt());
   s.endGroup();
 
   if (!enabled_) {
@@ -113,13 +113,13 @@ QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize 
   data->desired_size_ = size;
 
   switch (data->state_) {
-    case Data::State_CannotLoad:
-    case Data::State_LoadingData:
-    case Data::State_LoadingColors:
-    case Data::State_LoadingImage:
+    case Data::State::CannotLoad:
+    case Data::State::LoadingData:
+    case Data::State::LoadingColors:
+    case Data::State::LoadingImage:
       return data->pixmap_;
 
-    case Data::State_Loaded:
+    case Data::State::Loaded:
       // Is the pixmap the right size?
       if (data->pixmap_.size() != size) {
         StartLoadingImage(url, data);
@@ -127,7 +127,7 @@ QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize 
 
       return data->pixmap_;
 
-    case Data::State_None:
+    case Data::State::None:
       break;
   }
 
@@ -140,22 +140,22 @@ QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize 
 
 void MoodbarItemDelegate::StartLoadingData(const QUrl &url, const bool has_cue, Data *data) {
 
-  data->state_ = Data::State_LoadingData;
+  data->state_ = Data::State::LoadingData;
 
   // Load a mood file for this song and generate some colors from it
   QByteArray bytes;
   MoodbarPipeline *pipeline = nullptr;
   switch (app_->moodbar_loader()->Load(url, has_cue, &bytes, &pipeline)) {
-    case MoodbarLoader::CannotLoad:
-      data->state_ = Data::State_CannotLoad;
+    case MoodbarLoader::Result::CannotLoad:
+      data->state_ = Data::State::CannotLoad;
       break;
 
-    case MoodbarLoader::Loaded:
+    case MoodbarLoader::Result::Loaded:
       // We got the data immediately.
       StartLoadingColors(url, bytes, data);
       break;
 
-    case MoodbarLoader::WillLoadAsync:
+    case MoodbarLoader::Result::WillLoadAsync:
       // Maybe in a little while.
       QObject::connect(pipeline, &MoodbarPipeline::Finished, this, [this, url, pipeline]() { DataLoaded(url, pipeline); });
       break;
@@ -179,7 +179,7 @@ void MoodbarItemDelegate::ReloadAllColors() {
   for (const QUrl &url : data_.keys()) {
     Data *data = data_[url];
 
-    if (data->state_ == Data::State_Loaded) {
+    if (data->state_ == Data::State::Loaded) {
       StartLoadingData(url, false, data);
     }
   }
@@ -197,7 +197,7 @@ void MoodbarItemDelegate::DataLoaded(const QUrl &url, MoodbarPipeline *pipeline)
   }
 
   if (!pipeline->success()) {
-    data->state_ = Data::State_CannotLoad;
+    data->state_ = Data::State::CannotLoad;
     return;
   }
 
@@ -208,7 +208,7 @@ void MoodbarItemDelegate::DataLoaded(const QUrl &url, MoodbarPipeline *pipeline)
 
 void MoodbarItemDelegate::StartLoadingColors(const QUrl &url, const QByteArray &bytes, Data *data) {
 
-  data->state_ = Data::State_LoadingColors;
+  data->state_ = Data::State::LoadingColors;
 
   QFuture<ColorVector> future = QtConcurrent::run(MoodbarRenderer::Colors, bytes, style_, qApp->palette());
   QFutureWatcher<ColorVector> *watcher = new QFutureWatcher<ColorVector>();
@@ -239,7 +239,7 @@ void MoodbarItemDelegate::ColorsLoaded(const QUrl &url, const ColorVector &color
 
 void MoodbarItemDelegate::StartLoadingImage(const QUrl &url, Data *data) {
 
-  data->state_ = Data::State_LoadingImage;
+  data->state_ = Data::State::LoadingImage;
 
   QFuture<QImage> future = QtConcurrent::run(MoodbarRenderer::RenderToImage, data->colors_, data->desired_size_);
   QFutureWatcher<QImage> *watcher = new QFutureWatcher<QImage>();
@@ -269,7 +269,7 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
   }
 
   data->pixmap_ = QPixmap::fromImage(image);
-  data->state_ = Data::State_Loaded;
+  data->state_ = Data::State::Loaded;
 
   Playlist *playlist = view_->playlist();
   const PlaylistFilter *filter = playlist->filter();

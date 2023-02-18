@@ -124,22 +124,22 @@ class MusicBrainzClient : public QObject {
   };
 
   // Used as parameter for UniqueResults
-  enum UniqueResultsSortOption {
+  enum class UniqueResultsSortOption {
     SortResults = 0,
     KeepOriginalOrder
   };
 
   struct Release {
 
-    enum Status {
-      Status_Unknown = 0,
-      Status_PseudoRelease,
-      Status_Bootleg,
-      Status_Promotional,
-      Status_Official
+    enum class Status {
+      Unknown = 0,
+      PseudoRelease,
+      Bootleg,
+      Promotional,
+      Official
     };
 
-    Release() : track_(0), year_(0), status_(Status_Unknown) {}
+    Release() : track_(0), year_(0), status_(Status::Unknown) {}
 
     Result CopyAndMergeInto(const Result &orig) const {
       Result ret(orig);
@@ -151,19 +151,19 @@ class MusicBrainzClient : public QObject {
 
     void SetStatusFromString(const QString &s) {
       if (s.compare("Official", Qt::CaseInsensitive) == 0) {
-        status_ = Status_Official;
+        status_ = Status::Official;
       }
       else if (s.compare("Promotion", Qt::CaseInsensitive) == 0) {
-        status_ = Status_Promotional;
+        status_ = Status::Promotional;
       }
       else if (s.compare("Bootleg", Qt::CaseInsensitive) == 0) {
-        status_ = Status_Bootleg;
+        status_ = Status::Bootleg;
       }
       else if (s.compare("Pseudo-release", Qt::CaseInsensitive) == 0) {
-        status_ = Status_PseudoRelease;
+        status_ = Status::PseudoRelease;
       }
       else {
-        status_ = Status_Unknown;
+        status_ = Status::Unknown;
       }
     }
 
@@ -196,7 +196,7 @@ class MusicBrainzClient : public QObject {
   static ResultList ParseTrack(QXmlStreamReader *reader);
   static void ParseArtist(QXmlStreamReader *reader, QString *artist);
   static Release ParseRelease(QXmlStreamReader *reader);
-  static ResultList UniqueResults(const ResultList &results, UniqueResultsSortOption opt = SortResults);
+  static ResultList UniqueResults(const ResultList &results, UniqueResultsSortOption opt = UniqueResultsSortOption::SortResults);
   static void Error(const QString &error, const QVariant &debug = QVariant());
 
  private:

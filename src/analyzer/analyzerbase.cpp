@@ -108,7 +108,7 @@ void Analyzer::Base::paintEvent(QPaintEvent *e) {
   p.fillRect(e->rect(), palette().color(QPalette::Window));
 
   switch (engine_->state()) {
-    case Engine::Playing: {
+    case Engine::State::Playing: {
       const Engine::Scope &thescope = engine_->scope(timeout_);
       int i = 0;
 
@@ -126,7 +126,7 @@ void Analyzer::Base::paintEvent(QPaintEvent *e) {
 
       break;
     }
-    case Engine::Paused:
+    case Engine::State::Paused:
       is_playing_ = false;
       analyze(p, lastscope_, new_frame_);
       break;

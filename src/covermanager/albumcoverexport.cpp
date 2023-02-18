@@ -52,9 +52,9 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
 
   // Restore last accepted settings
   ui_->fileName->setText(s.value("fileName", "cover").toString());
-  ui_->doNotOverwrite->setChecked(s.value("overwrite", OverwriteMode_None).toInt() == OverwriteMode_None);
-  ui_->overwriteAll->setChecked(s.value("overwrite", OverwriteMode_All).toInt() == OverwriteMode_All);
-  ui_->overwriteSmaller->setChecked(s.value("overwrite", OverwriteMode_Smaller).toInt() == OverwriteMode_Smaller);
+  ui_->doNotOverwrite->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::None)).toInt()) == OverwriteMode::None);
+  ui_->overwriteAll->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::All)).toInt()) == OverwriteMode::All);
+  ui_->overwriteSmaller->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::Smaller)).toInt()) == OverwriteMode::Smaller);
   ui_->forceSize->setChecked(s.value("forceSize", false).toBool());
   ui_->width->setText(s.value("width", "").toString());
   ui_->height->setText(s.value("height", "").toString());
@@ -71,13 +71,13 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
     if (fileName.isEmpty()) {
       fileName = "cover";
     }
-    OverwriteMode overwrite = ui_->doNotOverwrite->isChecked() ? OverwriteMode_None : (ui_->overwriteAll->isChecked() ? OverwriteMode_All : OverwriteMode_Smaller);
+    OverwriteMode overwrite_mode = ui_->doNotOverwrite->isChecked() ? OverwriteMode::None : (ui_->overwriteAll->isChecked() ? OverwriteMode::All : OverwriteMode::Smaller);
     bool forceSize = ui_->forceSize->isChecked();
     QString width = ui_->width->text();
     QString height = ui_->height->text();
 
     s.setValue("fileName", fileName);
-    s.setValue("overwrite", overwrite);
+    s.setValue("overwrite", static_cast<int>(overwrite_mode));
     s.setValue("forceSize", forceSize);
     s.setValue("width", width);
     s.setValue("height", height);
@@ -85,7 +85,7 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
     s.setValue("export_embedded", ui_->export_embedded->isChecked());
 
     result.filename_ = fileName;
-    result.overwrite_ = overwrite;
+    result.overwrite_ = overwrite_mode;
     result.forcesize_ = forceSize;
     result.width_ = width.toInt();
     result.height_ = height.toInt();

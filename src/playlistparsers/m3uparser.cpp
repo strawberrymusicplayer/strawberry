@@ -42,7 +42,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
 
   Q_UNUSED(playlist_path);
 
-  M3UType type = STANDARD;
+  M3UType type = M3UType::STANDARD;
   Metadata current_metadata;
 
   QString data = QString::fromUtf8(device->readAll());
@@ -55,7 +55,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
   QString line = QString::fromUtf8(buffer.readLine()).trimmed();
   if (line.startsWith("#EXTM3U")) {
     // This is in extended M3U format.
-    type = EXTENDED;
+    type = M3UType::EXTENDED;
     line = QString::fromUtf8(buffer.readLine()).trimmed();
   }
 
@@ -63,7 +63,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
   forever {
     if (line.startsWith('#')) {
       // Extended info or comment.
-      if (type == EXTENDED && line.startsWith("#EXT")) {
+      if (type == M3UType::EXTENDED && line.startsWith("#EXT")) {
         if (!ParseMetadata(line, &current_metadata)) {
           qLog(Warning) << "Failed to parse metadata: " << line;
         }

@@ -36,17 +36,17 @@ SubsonicUrlHandler::SubsonicUrlHandler(Application *app, SubsonicService *servic
 UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
 
   if (!server_url().isValid()) {
-    return LoadResult(url, LoadResult::Error, tr("Subsonic server URL is invalid."));
+    return LoadResult(url, LoadResult::Type::Error, tr("Subsonic server URL is invalid."));
   }
 
   if (username().isEmpty() || password().isEmpty()) {
-    return LoadResult(url, LoadResult::Error, tr("Missing Subsonic username or password."));
+    return LoadResult(url, LoadResult::Type::Error, tr("Missing Subsonic username or password."));
   }
 
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
   const QUrl stream_url = SubsonicBaseRequest::CreateUrl(server_url(), auth_method(), username(), password(), "stream", ParamList() << Param("id", url.path()));
 
-  return LoadResult(url, LoadResult::TrackAvailable, stream_url);
+  return LoadResult(url, LoadResult::Type::TrackAvailable, stream_url);
 
 }

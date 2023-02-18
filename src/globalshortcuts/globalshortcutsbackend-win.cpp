@@ -34,7 +34,7 @@
 #include "globalshortcut.h"
 
 GlobalShortcutsBackendWin::GlobalShortcutsBackendWin(GlobalShortcutsManager *manager, QObject *parent)
-    : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type_Win, parent),
+    : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type::Win, parent),
       gshortcut_init_(nullptr) {}
 
 GlobalShortcutsBackendWin::~GlobalShortcutsBackendWin() {

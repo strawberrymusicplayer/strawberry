@@ -56,18 +56,17 @@ void NetworkProxySettingsPage::Load() {
   QSettings s;
 
   s.beginGroup(NetworkProxyFactory::kSettingsGroup);
-  NetworkProxyFactory::Mode mode = NetworkProxyFactory::Mode(s.value("mode", NetworkProxyFactory::Mode_System).toInt());
+  const NetworkProxyFactory::Mode mode = static_cast<NetworkProxyFactory::Mode>(s.value("mode", static_cast<int>(NetworkProxyFactory::Mode::System)).toInt());
   switch (mode) {
-    case NetworkProxyFactory::Mode_Manual:
+    case NetworkProxyFactory::Mode::Manual:
       ui_->proxy_manual->setChecked(true);
       break;
 
-    case NetworkProxyFactory::Mode_Direct:
+    case NetworkProxyFactory::Mode::Direct:
       ui_->proxy_direct->setChecked(true);
       break;
 
-    case NetworkProxyFactory::Mode_System:
-    default:
+    case NetworkProxyFactory::Mode::System:
       ui_->proxy_system->setChecked(true);
       break;
   }
@@ -91,13 +90,13 @@ void NetworkProxySettingsPage::Save() {
 
   QSettings s;
 
-  NetworkProxyFactory::Mode mode = NetworkProxyFactory::Mode_System;
-  if (ui_->proxy_direct->isChecked()) mode = NetworkProxyFactory::Mode_Direct;
-  else if (ui_->proxy_system->isChecked()) mode = NetworkProxyFactory::Mode_System;
-  else if (ui_->proxy_manual->isChecked()) mode = NetworkProxyFactory::Mode_Manual;
+  NetworkProxyFactory::Mode mode = NetworkProxyFactory::Mode::System;
+  if (ui_->proxy_direct->isChecked()) mode = NetworkProxyFactory::Mode::Direct;
+  else if (ui_->proxy_system->isChecked()) mode = NetworkProxyFactory::Mode::System;
+  else if (ui_->proxy_manual->isChecked()) mode = NetworkProxyFactory::Mode::Manual;
 
   s.beginGroup(NetworkProxyFactory::kSettingsGroup);
-  s.setValue("mode", mode);
+  s.setValue("mode", static_cast<int>(mode));
   s.setValue("type", ui_->proxy_type->currentIndex() == 0 ? QNetworkProxy::HttpProxy : QNetworkProxy::Socks5Proxy);
   s.setValue("hostname", ui_->proxy_hostname->text());
   s.setValue("port", ui_->proxy_port->value());

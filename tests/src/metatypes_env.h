@@ -34,10 +34,10 @@ class MetatypesEnvironment : public ::testing::Environment {
  public:
   MetatypesEnvironment() = default;
   void SetUp() override {
-    qRegisterMetaType<CollectionDirectory>("Directory");
-    qRegisterMetaType<CollectionDirectoryList>("DirectoryList");
-    qRegisterMetaType<CollectionSubdirectory>("Subdirectory");
-    qRegisterMetaType<CollectionSubdirectoryList>("SubdirectoryList");
+    qRegisterMetaType<CollectionDirectory>("CollectionDirectory");
+    qRegisterMetaType<CollectionDirectoryList>("CollectionDirectoryList");
+    qRegisterMetaType<CollectionSubdirectory>("CollectionSubdirectory");
+    qRegisterMetaType<CollectionSubdirectoryList>("CollectionSubdirectoryList");
     qRegisterMetaType<SongList>("SongList");
     qRegisterMetaType<QModelIndex>("QModelIndex");
     qRegisterMetaType<SongLoader::Result>("SongLoader::Result");
