@@ -28,7 +28,7 @@ enum class State {
   Error
 };
 
-enum class TrackChangeType {
+enum TrackChangeType {
   // One of:
   First = 0x01,
   Manual = 0x02,
@@ -36,7 +36,7 @@ enum class TrackChangeType {
   Intro = 0x08,
 
   // Any of:
-  SameAlbum = 0x10,
+  SameAlbum = 0x10
 };
 
 Q_DECLARE_FLAGS(TrackChangeFlags, TrackChangeType)
