@@ -232,7 +232,7 @@ void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
   for (SmartPlaylistsItem *item : root_->children) {
     s.setArrayIndex(i++);
     s.setValue("name", item->display_text);
-    s.setValue("type", QVariant::fromValue(item->smart_playlist_type));
+    s.setValue("type", static_cast<int>(item->smart_playlist_type));
     s.setValue("data", item->smart_playlist_data);
   }
   s.endArray();
@@ -244,7 +244,7 @@ void SmartPlaylistsModel::SaveGenerator(QSettings *s, const int i, PlaylistGener
 
   s->setArrayIndex(i);
   s->setValue("name", generator->name());
-  s->setValue("type", QVariant::fromValue(generator->type()));
+  s->setValue("type", static_cast<int>(generator->type()));
   s->setValue("data", generator->Save());
 
 }
