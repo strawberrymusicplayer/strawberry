@@ -56,4 +56,6 @@ class PlaylistSettingsPage : public SettingsPage {
 
 };
 
+Q_DECLARE_METATYPE(PlaylistSettingsPage::PathType)
+
 #endif  // PLAYLISTSETTINGSPAGE_H
