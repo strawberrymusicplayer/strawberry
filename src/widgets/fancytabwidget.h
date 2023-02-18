@@ -38,9 +38,6 @@ class QPaintEvent;
 class QProxyStyle;
 class TabData;
 
-namespace Core {
-namespace Internal {
-
 class FancyTabWidget : public QTabWidget {
   Q_OBJECT
 
@@ -86,7 +83,7 @@ class FancyTabWidget : public QTabWidget {
 
  public slots:
   void setCurrentIndex(int idx);
-  void SetMode(Core::Internal::FancyTabWidget::Mode mode);
+  void SetMode(FancyTabWidget::Mode mode);
   // Mapper mapped signal needs this convenience function
   void SetMode(int mode) { SetMode(Mode(mode)); }
 
@@ -116,10 +113,5 @@ class FancyTabWidget : public QTabWidget {
   int iconsize_largesidebar_;
 
 };
-
-}  // namespace Internal
-}  // namespace Core
-
-using Core::Internal::FancyTabWidget;
 
 #endif  // FANCYTABWIDGET_H
