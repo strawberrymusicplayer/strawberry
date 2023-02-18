@@ -25,6 +25,7 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QUrl>
 
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
@@ -43,7 +44,8 @@ class Stands4LyricsProvider : public JsonLyricsProvider {
   void CancelSearch(const int id) override;
 
  private:
-  void SendLyricsRequest(const int id, const QString &artist, const QString &album, const QString &title);
+  void SendSearchRequest(const int id, const QString &artist, const QString &album, const QString &title);
+  void SendLyricsRequest(const int id, const QString &artist, const QString &album, const QString &title, QUrl url = QUrl());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   static QString StringFixup(QString string);
 
@@ -57,6 +59,7 @@ class Stands4LyricsProvider : public JsonLyricsProvider {
   static const char *kUID;
   static const char *kTokenB64;
   QList<QNetworkReply*> replies_;
+  bool api_usage_exceeded_;
 };
 
 #endif  // STANDS4LYRICSPROVIDER_H

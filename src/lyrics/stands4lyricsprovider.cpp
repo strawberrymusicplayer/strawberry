@@ -26,9 +26,11 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QRegularExpression>
+#include <QJsonDocument>
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QJsonParseError>
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
@@ -41,7 +43,7 @@ const char *Stands4LyricsProvider::kLyricsUrl = "https://www.lyrics.com/lyrics/"
 const char *Stands4LyricsProvider::kUID = "11363";
 const char *Stands4LyricsProvider::kTokenB64 = "b3FOYmxhV1ZKRGxIMnV4OA==";
 
-Stands4LyricsProvider::Stands4LyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Stands4Lyrics", true, false, network, parent) {}
+Stands4LyricsProvider::Stands4LyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Stands4Lyrics", true, false, network, parent), api_usage_exceeded_(false) {}
 
 Stands4LyricsProvider::~Stands4LyricsProvider() {
 
@@ -55,6 +57,19 @@ Stands4LyricsProvider::~Stands4LyricsProvider() {
 }
 
 bool Stands4LyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
+
+  if (api_usage_exceeded_) {
+    SendLyricsRequest(id, artist, album, title);
+  }
+  else {
+    SendSearchRequest(id, artist, album, title);
+  }
+
+  return true;
+
+}
+
+void Stands4LyricsProvider::SendSearchRequest(const int id, const QString &artist, const QString &album, const QString &title) {
 
   QUrlQuery url_query;
   url_query.addQueryItem(QUrl::toPercentEncoding("uid"), QUrl::toPercentEncoding(kUID));
@@ -70,8 +85,6 @@ bool Stands4LyricsProvider::StartSearch(const QString &artist, const QString &al
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, artist, album, title]() { HandleSearchReply(reply, id, artist, album, title); });
-
-  return true;
 
 }
 
@@ -90,9 +103,42 @@ void Stands4LyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
+  QJsonParseError json_error;
+  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
+
+  if (json_error.error != QJsonParseError::NoError) {
+    Error(QString("Failed to parse json data: %1").arg(json_error.errorString()));
+    emit SearchFinished(id);
+    return;
+  }
+
+  if (json_doc.isEmpty()) {
+    qLog(Debug) << "Stands4Lyrics: No lyrics for" << artist << album << title;
+    emit SearchFinished(id);
+    return;
+  }
+
+  if (!json_doc.isObject()) {
+    Error("Json document is not an object.", json_doc);
+    emit SearchFinished(id);
+    return;
+  }
+
+  QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
     qLog(Debug) << "Stands4Lyrics: No lyrics for" << artist << album << title;
+    emit SearchFinished(id);
+    return;
+  }
+
+  if (json_obj.contains("error")) {
+    const QString error = json_obj["error"].toString();
+    if (error.compare("Daily Usage Exceeded", Qt::CaseInsensitive) == 0) {
+      api_usage_exceeded_ = true;
+      SendLyricsRequest(id, artist, album, title);
+      return;
+    }
+    Error(error);
     emit SearchFinished(id);
     return;
   }
@@ -121,7 +167,8 @@ void Stands4LyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id
     if (
       !obj.contains("song") ||
       !obj.contains("artist") ||
-      !obj.contains("album")
+      !obj.contains("album") ||
+      !obj.contains("song-link")
     ) {
       qLog(Error) << "Stands4Lyrics: Invalid Json reply, result is missing data.";
       qLog(Debug) << value;
@@ -130,10 +177,22 @@ void Stands4LyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id
     QString result_artist = obj["artist"].toString();
     QString result_album = obj["album"].toString();
     QString result_title = obj["song"].toString();
+    QString song_link = obj["song-link"].toString();
     if (result_artist.compare(artist, Qt::CaseInsensitive) != 0 &&
         result_album.compare(album, Qt::CaseInsensitive) != 0 &&
         result_title.compare(title, Qt::CaseInsensitive) != 0) {
       continue;
+    }
+
+    if (!song_link.isEmpty() && QRegularExpression("^https:\\/\\/.*\\/lyric\\/\\d+\\/.*\\/.*$").match(song_link).hasMatch()) {
+      song_link = song_link.replace(QRegularExpression("\\/lyric\\/\\d+\\/"), "/lyrics/") + ".html";
+      if (QRegularExpression("^https:\\/\\/.*\\/lyrics\\/.*\\/.*\\.html$").match(song_link).hasMatch()) {
+        QUrl url(song_link);
+        if (url.isValid()) {
+          SendLyricsRequest(id, result_artist, result_album, result_title, url);
+          return;
+        }
+      }
     }
 
     SendLyricsRequest(id, result_artist, result_album, result_title);
@@ -147,9 +206,12 @@ void Stands4LyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id
 
 }
 
-void Stands4LyricsProvider::SendLyricsRequest(const int id, const QString &artist, const QString &album, const QString &title) {
+void Stands4LyricsProvider::SendLyricsRequest(const int id, const QString &artist, const QString &album, const QString &title, QUrl url) {
 
-  QUrl url(kLyricsUrl + StringFixup(artist) + "/" + StringFixup(title) + ".html");
+  if (url.isEmpty() || !url.isValid()) {
+    url.setUrl(kLyricsUrl + StringFixup(artist) + "/" + StringFixup(title) + ".html");
+  }
+
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   QNetworkReply *reply = network_->get(req);
