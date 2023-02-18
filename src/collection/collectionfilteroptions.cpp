@@ -34,7 +34,7 @@ bool CollectionFilterOptions::Matches(const Song &song) const {
   }
 
   if (!filter_text_.isNull()) {
-    return song.artist().contains(filter_text_, Qt::CaseInsensitive) || song.album().contains(filter_text_, Qt::CaseInsensitive) || song.title().contains(filter_text_, Qt::CaseInsensitive);
+    return song.albumartist().contains(filter_text_, Qt::CaseInsensitive) || song.artist().contains(filter_text_, Qt::CaseInsensitive) || song.album().contains(filter_text_, Qt::CaseInsensitive) || song.title().contains(filter_text_, Qt::CaseInsensitive);
   }
 
   return true;
