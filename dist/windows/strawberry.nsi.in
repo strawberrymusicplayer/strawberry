@@ -301,7 +301,6 @@ Section "Strawberry" Strawberry
   File "libopus-0.dll"
   File "liborc-0.4-0.dll"
   File "libpng16-16.dll"
-  File "libprotobuf.dll"
   File "libpsl-5.dll"
   File "libqtsparkle-qt6.dll"
   File "libsoup-3.0-0.dll"
@@ -419,7 +418,6 @@ Section "Strawberry" Strawberry
 !ifdef release
   File "freetype.dll"
   File "libpng16.dll"
-  File "libprotobuf.dll"
   File "libxml2.dll"
   File "pcre2-8.dll"
   File "pcre2-16.dll"
@@ -429,7 +427,6 @@ Section "Strawberry" Strawberry
 !ifdef debug
   File "freetyped.dll"
   File "libpng16d.dll"
-  File "libprotobufd.dll"
   File "libxml2d.dll"
   File "pcre2-8d.dll"
   File "pcre2-16d.dll"
@@ -443,6 +440,11 @@ Section "Strawberry" Strawberry
 
   File "icudt72.dll"
   File "libfftw3-3.dll"
+!ifdef debug
+  File "libprotobufd.dll"
+!else
+  File "libprotobuf.dll"
+!endif
 !ifdef msvc && debug
   File "icuin72d.dll"
   File "icuuc72d.dll"
@@ -803,7 +805,6 @@ Section "Uninstall"
   Delete "$INSTDIR\libopus-0.dll"
   Delete "$INSTDIR\liborc-0.4-0.dll"
   Delete "$INSTDIR\libpng16-16.dll"
-  Delete "$INSTDIR\libprotobuf.dll"
   Delete "$INSTDIR\libpsl-5.dll"
   Delete "$INSTDIR\libqtsparkle-qt6.dll"
   Delete "$INSTDIR\libsoup-3.0-0.dll"
@@ -921,7 +922,6 @@ Section "Uninstall"
 !ifdef release
   Delete "$INSTDIR\freetype.dll"
   Delete "$INSTDIR\libpng16.dll"
-  Delete "$INSTDIR\libprotobuf.dll"
   Delete "$INSTDIR\libxml2.dll"
   Delete "$INSTDIR\pcre2-8.dll"
   Delete "$INSTDIR\pcre2-16.dll"
@@ -931,7 +931,6 @@ Section "Uninstall"
 !ifdef debug
   Delete "$INSTDIR\freetyped.dll"
   Delete "$INSTDIR\libpng16d.dll"
-  Delete "$INSTDIR\libprotobufd.dll"
   Delete "$INSTDIR\libxml2d.dll"
   Delete "$INSTDIR\pcre2-8d.dll"
   Delete "$INSTDIR\pcre2-16d.dll"
@@ -945,6 +944,11 @@ Section "Uninstall"
 
   Delete "$INSTDIR\icudt72.dll"
   Delete "$INSTDIR\libfftw3-3.dll"
+!ifdef debug
+  Delete "$INSTDIR\libprotobufd.dll"
+!else
+  Delete "$INSTDIR\libprotobuf.dll"
+!endif
 !ifdef msvc && debug
   Delete "$INSTDIR\icuin72d.dll"
   Delete "$INSTDIR\icuuc72d.dll"
