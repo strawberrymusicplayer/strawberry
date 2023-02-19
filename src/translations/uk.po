@@ -500,7 +500,7 @@ msgstr ""
 msgid "A&utomatic"
 msgstr "&Автоматично"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:427
+#: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "A-Z"
 msgstr "А-Я"
 
@@ -572,11 +572,11 @@ msgstr "Додати новий рядок, якщо підтримується 
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Додати усі композиції з каталогу та усіх його підкаталогів"
 
-#: settings/collectionsettingspage.cpp:124
+#: settings/collectionsettingspage.cpp:135
 msgid "Add directory..."
 msgstr "Додати папку..."
 
-#: core/mainwindow.cpp:2202
+#: core/mainwindow.cpp:2201
 msgid "Add file"
 msgstr "Додати файл"
 
@@ -592,7 +592,7 @@ msgstr "Додати файли для перекодування"
 msgid "Add files to transcode"
 msgstr "Додати файли для перекодування"
 
-#: core/mainwindow.cpp:2228 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2227 transcoder/transcodedialog.cpp:424
 msgid "Add folder"
 msgstr "Додати папку"
 
@@ -702,7 +702,7 @@ msgstr "Додати потік..."
 msgid "Add to albums"
 msgstr "Додати до альбомів"
 
-#: core/mainwindow.cpp:2004
+#: core/mainwindow.cpp:2003
 msgid "Add to another playlist"
 msgstr "Додати до іншого списку відтворення"
 
@@ -752,7 +752,7 @@ msgstr "Додано за три місяці"
 msgid "Advanced"
 msgstr "Додатково"
 
-#: collection/collectionfilterwidget.cpp:326
+#: collection/collectionfilterwidget.cpp:327
 msgid "Advanced grouping..."
 msgstr "Розширене групування..."
 
@@ -933,7 +933,7 @@ msgstr "Дійсно видалити визначені налаштуванн�
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Дійсно скинути статистику для цієї композиції?"
 
-#: settings/collectionsettingspage.cpp:382
+#: settings/collectionsettingspage.cpp:405
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1001,7 +1001,7 @@ msgid "Authentication"
 msgstr "Автентифікація"
 
 #: settings/coverssettingspage.cpp:274 settings/lyricssettingspage.cpp:254
-#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:176
+#: settings/tidalsettingspage.cpp:213 settings/qobuzsettingspage.cpp:176
 msgid "Authentication failed"
 msgstr "Помилка автентификації"
 
@@ -1280,7 +1280,7 @@ msgstr "Очистити кеш диска"
 msgid "Clear cover"
 msgstr "Стерти обкладинку"
 
-#: core/mainwindow.cpp:2293 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2292 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Очистити список відтворення"
 
@@ -1338,7 +1338,7 @@ msgstr "Фільтр фонотеки"
 msgid "Collection advanced grouping"
 msgstr "Розширене групування фонотеки"
 
-#: core/mainwindow.cpp:2866
+#: core/mainwindow.cpp:2865
 msgid "Collection rescan notice"
 msgstr "Повідомлення про повторне сканування фонотеки"
 
@@ -1351,7 +1351,7 @@ msgid "Comma separated list of class:level, level is 0-3"
 msgstr ""
 "Список, розділений комами, виду клас:рівень, рівень може бути від 0 до 3"
 
-#: playlist/playlist.cpp:1382 smartplaylists/smartplaylistsearchterm.cpp:389
+#: playlist/playlist.cpp:1382 smartplaylists/smartplaylistsearchterm.cpp:391
 #: organize/organizedialog.cpp:114 ../build/src/ui_edittagdialog.h:855
 msgid "Comment"
 msgstr "Коментар"
@@ -1375,9 +1375,9 @@ msgstr "Заповнити мітки автоматично..."
 msgid "Composer"
 msgstr "Композитор"
 
-#: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:156
-#: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:130
+#: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:151
+#: settings/tidalsettingspage.cpp:158 settings/tidalsettingspage.cpp:162
+#: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:130
 #: settings/qobuzsettingspage.cpp:134 settings/qobuzsettingspage.cpp:138
 msgid "Configuration incomplete"
 msgstr "Конфігурація неповна"
@@ -1696,7 +1696,7 @@ msgstr "Дата створення"
 msgid "Date modified"
 msgstr "Дата зміни"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:449
+#: smartplaylists/smartplaylistsearchterm.cpp:451
 msgid "Days"
 msgstr "Дні"
 
@@ -1763,11 +1763,11 @@ msgstr "Видалити оригінальні файли"
 msgid "Deleting files"
 msgstr "Видалення файлів"
 
-#: core/mainwindow.cpp:1919
+#: core/mainwindow.cpp:1918
 msgid "Dequeue selected tracks"
 msgstr "Вилучити з черги вибрані композиції"
 
-#: core/mainwindow.cpp:1918
+#: core/mainwindow.cpp:1917
 msgid "Dequeue track"
 msgstr "Вилучити композицію з черги"
 
@@ -1932,7 +1932,7 @@ msgstr "Змінити розумний список відтворення"
 msgid "Edit smart playlist..."
 msgstr "Змінити розумний список відтворення..."
 
-#: core/mainwindow.cpp:1962
+#: core/mainwindow.cpp:1961
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Змінити тег «%1»..."
@@ -2102,7 +2102,7 @@ msgstr "Відповідає --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Відповідає --log-levels *:3"
 
-#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
+#: core/mainwindow.cpp:2596 core/mainwindow.cpp:2747
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Помилка"
@@ -2551,59 +2551,59 @@ msgstr "Групувати фонотеку за..."
 msgid "Group by"
 msgstr "Групувати за"
 
-#: collection/collectionfilterwidget.cpp:291
+#: collection/collectionfilterwidget.cpp:292
 msgid "Group by Album"
 msgstr "Групувати за альбомом"
 
-#: collection/collectionfilterwidget.cpp:288
+#: collection/collectionfilterwidget.cpp:289
 msgid "Group by Album Artist"
 msgstr "Групувати за виконавцем альбому"
 
-#: collection/collectionfilterwidget.cpp:275
+#: collection/collectionfilterwidget.cpp:276
 msgid "Group by Album artist/Album"
 msgstr "Групувати за виконавцем альбому/альбомом"
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:277
 msgid "Group by Album artist/Album - Disc"
 msgstr "Групувати за виконавцем альбому/альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album artist/Year - Album"
 msgstr "Групувати за виконавцем альбому/роком - альбомом"
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Групувати за виконавцем альбому/роком - альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Artist"
 msgstr "Групувати за виконавцем"
 
-#: collection/collectionfilterwidget.cpp:280
+#: collection/collectionfilterwidget.cpp:281
 msgid "Group by Artist/Album"
 msgstr "Групувати за виконавецем/альбомом"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Artist/Album - Disc"
 msgstr "Групувати за виконавцем/альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:283
 msgid "Group by Artist/Year - Album"
 msgstr "Групувати за виконавцем/роком - альбомом"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:284
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Групувати за виконавцем/роком - альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Genre/Album"
 msgstr "Групувати за жанром/альбомом"
 
-#: collection/collectionfilterwidget.cpp:285
+#: collection/collectionfilterwidget.cpp:286
 msgid "Group by Genre/Album artist/Album"
 msgstr "Групувати за жанром/виконавцем альбому/альбомом"
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Genre/Artist/Album"
 msgstr "Групувати за жанром/виконавцем/альбомом"
 
@@ -2614,11 +2614,11 @@ msgstr "Групувати за жанром/виконавцем/альбомо
 msgid "Grouping"
 msgstr "Групування"
 
-#: collection/collectionfilterwidget.cpp:349
+#: collection/collectionfilterwidget.cpp:350
 msgid "Grouping Name"
 msgstr "Назва групування"
 
-#: collection/collectionfilterwidget.cpp:349
+#: collection/collectionfilterwidget.cpp:350
 msgid "Grouping name:"
 msgstr "Назва групування:"
 
@@ -2663,7 +2663,7 @@ msgstr "Висока (%1 к/с)"
 msgid "High watermark"
 msgstr "Водяний знак зверху"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:447
+#: smartplaylists/smartplaylistsearchterm.cpp:449
 msgid "Hours"
 msgstr "Години"
 
@@ -3084,7 +3084,7 @@ msgstr "Середній"
 msgid "Minimum bitrate"
 msgstr "Найменша бітова швидкість"
 
-#: settings/tidalsettingspage.cpp:163
+#: settings/tidalsettingspage.cpp:158
 msgid "Missing API token."
 msgstr "Відсутній маркер API."
 
@@ -3120,7 +3120,7 @@ msgstr "Відсутній маркер API, ім'я користувача аб
 msgid "Missing Tidal API token."
 msgstr "Відсутній маркер API Tidal."
 
-#: settings/tidalsettingspage.cpp:156
+#: settings/tidalsettingspage.cpp:151
 msgid "Missing Tidal client ID."
 msgstr "Відсутній ID клієнта Tidal."
 
@@ -3136,7 +3136,7 @@ msgstr "Відсутнє ім'я користувача Tidal."
 msgid "Missing app id."
 msgstr "Відсутній ідентифікатор додатку."
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:138
+#: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:138
 msgid "Missing password."
 msgstr "Відсутній пароль."
 
@@ -3152,7 +3152,7 @@ msgstr "Відсутнє ім'я користувача або пароль."
 msgid "Missing username, please login to last.fm first!"
 msgstr "Відсутнє ім'я користувача. Спочатку увійдіть до last.fm!"
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:134
+#: settings/tidalsettingspage.cpp:162 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
 msgstr "Відсутнє ім'я користувача."
 
@@ -3164,7 +3164,7 @@ msgstr "Модель"
 msgid "Monitor the collection for changes"
 msgstr "Стежити за змінами у фонотеці"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:453
+#: smartplaylists/smartplaylistsearchterm.cpp:455
 msgid "Months"
 msgstr "Місяці"
 
@@ -3207,7 +3207,7 @@ msgstr "Перемістити до фонотеки..."
 msgid "Move up"
 msgstr "Перемістити вгору"
 
-#: core/mainwindow.cpp:2202 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2201 transcoder/transcodedialog.cpp:333
 msgid "Music"
 msgstr "Музика"
 
@@ -3251,7 +3251,7 @@ msgstr "Ніколи не починати відтворення"
 msgid "New folder"
 msgstr "Нова папка"
 
-#: core/mainwindow.cpp:2020
+#: core/mainwindow.cpp:2019
 msgid "New playlist"
 msgstr "Новий список відтворення"
 
@@ -3328,7 +3328,7 @@ msgstr "Нічого не відтворюється"
 msgid "None"
 msgstr "Немає"
 
-#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
+#: core/mainwindow.cpp:2596 core/mainwindow.cpp:2747
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Жодна з вибраних композицій не придатна для копіювання на пристрій"
@@ -3564,7 +3564,7 @@ msgstr "Шлях"
 msgid "Pattern"
 msgstr "Шаблон"
 
-#: core/mainwindow.cpp:1318 core/mainwindow.cpp:1817
+#: core/mainwindow.cpp:1317 core/mainwindow.cpp:1816
 #: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Призупинити"
@@ -3592,8 +3592,8 @@ msgstr "Піксель"
 msgid "Plain sidebar"
 msgstr "Звичайна бічна панель"
 
-#: core/mainwindow.cpp:721 core/mainwindow.cpp:1275 core/mainwindow.cpp:1302
-#: core/mainwindow.cpp:1821 core/qtsystemtrayicon.cpp:157
+#: core/mainwindow.cpp:721 core/mainwindow.cpp:1274 core/mainwindow.cpp:1301
+#: core/mainwindow.cpp:1820 core/qtsystemtrayicon.cpp:157
 #: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Відтворити"
@@ -3666,7 +3666,7 @@ msgstr "Кнопки керування списком відтворення"
 msgid "Playlist finished"
 msgstr "Список відтворення завершився"
 
-#: core/mainwindow.cpp:2293
+#: core/mainwindow.cpp:2292
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3848,20 +3848,20 @@ msgstr "Опитування пристрою..."
 msgid "Queue"
 msgstr "Черга"
 
-#: core/mainwindow.cpp:1921
+#: core/mainwindow.cpp:1920
 msgid "Queue selected tracks"
 msgstr "Додати до черги обрані композиції"
 
-#: core/mainwindow.cpp:727 core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:727 core/mainwindow.cpp:1924
 msgid "Queue selected tracks to play next"
 msgstr "Відтворити наступними обрані композиції"
 
-#: core/mainwindow.cpp:1928 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1927 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "Відтворити наступним"
 
-#: core/mainwindow.cpp:1920 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1919 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -4339,12 +4339,12 @@ msgstr "Масштабований розмір"
 msgid "Scrobbler"
 msgstr "Скроблер"
 
-#: scrobbler/scrobblingapi20.cpp:1019
+#: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Помилка скроблера %1: %2"
 
-#: scrobbler/scrobblingapi20.cpp:533
+#: scrobbler/scrobblingapi20.cpp:534
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Помилка автентифікації скроблера %1!"
@@ -4420,7 +4420,7 @@ msgstr "Перемотати поточну композицію на абсол
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Позиціювання за допомогою сполучення клавіш або коліщатка миші"
 
-#: settings/appearancesettingspage.cpp:301
+#: settings/appearancesettingspage.cpp:300
 msgid "Select background image"
 msgstr "Вибір фонового зображення"
 
@@ -4468,7 +4468,7 @@ msgstr "Недійсна адреса сервера."
 msgid "Server-side scrobbling"
 msgstr "Скроблінг на боці сервера"
 
-#: core/mainwindow.cpp:1961
+#: core/mainwindow.cpp:1960
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Встановити %1 у «%2»..."
@@ -4709,11 +4709,11 @@ msgstr "Кількість пропусків"
 msgid "Skip forwards in playlist"
 msgstr "Перескочити вперед у списку композицій"
 
-#: core/mainwindow.cpp:1934
+#: core/mainwindow.cpp:1933
 msgid "Skip selected tracks"
 msgstr "Пропустити позначені композиції"
 
-#: core/mainwindow.cpp:1933
+#: core/mainwindow.cpp:1932
 msgid "Skip track"
 msgstr "Пропустити композицію"
 
@@ -5087,7 +5087,7 @@ msgstr "Вказана адреса не існує!"
 msgid "The site you requested is not an image!"
 msgstr "Вказана адреса не є малюнком!"
 
-#: core/mainwindow.cpp:2861
+#: core/mainwindow.cpp:2860
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5223,7 +5223,7 @@ msgstr "Сьогодні"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:724 core/mainwindow.cpp:1922
+#: core/mainwindow.cpp:724 core/mainwindow.cpp:1921
 msgid "Toggle queue status"
 msgstr "Перемикнути статус черги"
 
@@ -5231,7 +5231,7 @@ msgstr "Перемикнути статус черги"
 msgid "Toggle scrobbling"
 msgstr "Змінити режим скроблінгу"
 
-#: core/mainwindow.cpp:730 core/mainwindow.cpp:1935
+#: core/mainwindow.cpp:730 core/mainwindow.cpp:1934
 msgid "Toggle skip status"
 msgstr "Змінити стан пропуску"
 
@@ -5321,7 +5321,7 @@ msgstr "Видалити snap з:"
 #: core/song.cpp:673 collection/collectionmodel.cpp:478
 #: collection/collectionmodel.cpp:483 collection/collectionmodel.cpp:487
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:1649 collection/savedgroupingmanager.cpp:152
+#: collection/collectionmodel.cpp:1655 collection/savedgroupingmanager.cpp:152
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:549
 #: playlist/playlistmanager.cpp:550 dialogs/edittagdialog.cpp:764
 #: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
@@ -5348,11 +5348,11 @@ msgstr "Вилучити"
 msgid "Unset cover"
 msgstr "Вилучити обкладинку"
 
-#: core/mainwindow.cpp:1932
+#: core/mainwindow.cpp:1931
 msgid "Unskip selected tracks"
 msgstr "Не пропускати вибрані композиції"
 
-#: core/mainwindow.cpp:1931
+#: core/mainwindow.cpp:1930
 msgid "Unskip track"
 msgstr "Не пропускати композицію"
 
@@ -5568,7 +5568,7 @@ msgstr ""
 msgid "WavPack"
 msgstr "WavPack"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:451
+#: smartplaylists/smartplaylistsearchterm.cpp:453
 msgid "Weeks"
 msgstr "Тижні"
 
@@ -5605,11 +5605,11 @@ msgid ""
 msgstr ""
 "Перемістити також й інші композиції з цього альбому до різних виконавців?"
 
-#: core/mainwindow.cpp:2865
+#: core/mainwindow.cpp:2864
 msgid "Would you like to run a full rescan right now?"
 msgstr "Запустити повне сканування фонотеки зараз?"
 
-#: settings/collectionsettingspage.cpp:382
+#: settings/collectionsettingspage.cpp:405
 msgid "Write all playcounts and ratings to files"
 msgstr "Записати кількість відтворювань і рейтинги в файли"
 
@@ -5635,7 +5635,7 @@ msgstr "Рік – Альбом"
 msgid "Year - Album - Disc"
 msgstr "Рік – Альбом – Диск"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:455
+#: smartplaylists/smartplaylistsearchterm.cpp:457
 msgid "Years"
 msgstr "Роки"
 
@@ -5718,7 +5718,7 @@ msgstr "Після зміни мови потрібно перезапустит
 msgid "Your collection is empty!"
 msgstr "Ваша фонотека порожня!"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:427
+#: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "Z-A"
 msgstr "Я-А"
 
@@ -5732,7 +5732,7 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "додати %n композицій"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:252
+#: smartplaylists/smartplaylistsearchterm.cpp:254
 msgid "after"
 msgstr "після"
 
@@ -5760,15 +5760,15 @@ msgstr "виконавці"
 msgid "automatic"
 msgstr "автоматично"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:254
+#: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "before"
 msgstr "до"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:264
+#: smartplaylists/smartplaylistsearchterm.cpp:266
 msgid "between"
 msgstr "поміж"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
+#: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "biggest first"
 msgstr "спочатку найбільші"
 
@@ -5776,7 +5776,7 @@ msgstr "спочатку найбільші"
 msgid "channels"
 msgstr "канали"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:272
+#: smartplaylists/smartplaylistsearchterm.cpp:274
 msgid "contains"
 msgstr "містить"
 
@@ -5795,23 +5795,23 @@ msgstr "вимкнено"
 msgid "disc %1"
 msgstr "диск %1"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:274
+#: smartplaylists/smartplaylistsearchterm.cpp:276
 msgid "does not contain"
 msgstr "не містить"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:288
+#: smartplaylists/smartplaylistsearchterm.cpp:290
 msgid "empty"
 msgstr "порожній"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:278
+#: smartplaylists/smartplaylistsearchterm.cpp:280
 msgid "ends with"
 msgstr "закінчується на"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:284
+#: smartplaylists/smartplaylistsearchterm.cpp:286
 msgid "equals"
 msgstr "дорівнює"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:280
+#: smartplaylists/smartplaylistsearchterm.cpp:282
 msgid "greater than"
 msgstr "більше ніж"
 
@@ -5819,7 +5819,7 @@ msgstr "більше ніж"
 msgid "hw"
 msgstr "hw"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:260
+#: smartplaylists/smartplaylistsearchterm.cpp:262
 msgid "in the last"
 msgstr "в минулому"
 
@@ -5828,11 +5828,11 @@ msgstr "в минулому"
 msgid "kbps"
 msgstr "кбіт/с"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:282
+#: smartplaylists/smartplaylistsearchterm.cpp:284
 msgid "less than"
 msgstr "менше ніж"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:431
+#: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "longest first"
 msgstr "спочатку найдовші"
 
@@ -5847,31 +5847,31 @@ msgstr "пересунути %n композицій"
 msgid "ms"
 msgstr "мс"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:429
+#: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "newest first"
 msgstr "спочатку найновіші"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:290
+#: smartplaylists/smartplaylistsearchterm.cpp:292
 msgid "not empty"
 msgstr "не порожній"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:286
+#: smartplaylists/smartplaylistsearchterm.cpp:288
 msgid "not equals"
 msgstr "не дорівнює"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:262
+#: smartplaylists/smartplaylistsearchterm.cpp:264
 msgid "not in the last"
 msgstr "не в минулому"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:258
+#: smartplaylists/smartplaylistsearchterm.cpp:260
 msgid "not on"
 msgstr "не на"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:429
+#: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "oldest first"
 msgstr "спочатку настаріші"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:256
+#: smartplaylists/smartplaylistsearchterm.cpp:258
 msgid "on"
 msgstr "на"
 
@@ -5897,7 +5897,7 @@ msgstr "вилучити %n композицій"
 msgid "searches the collection for all artists that contain the word"
 msgstr "пошук у фонотеці всіх виконавців, що містять це слово"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:431
+#: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "shortest first"
 msgstr "спочатку найкоротші"
 
@@ -5905,7 +5905,7 @@ msgstr "спочатку найкоротші"
 msgid "shuffle songs"
 msgstr "перемішати композиції"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
+#: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "smallest first"
 msgstr "спочатку найменші"
 
@@ -5917,7 +5917,7 @@ msgstr "композиції"
 msgid "sort songs"
 msgstr "сортувати композиції"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:276
+#: smartplaylists/smartplaylistsearchterm.cpp:278
 msgid "starts with"
 msgstr "починається з"
 

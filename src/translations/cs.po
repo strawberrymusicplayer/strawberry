@@ -491,7 +491,7 @@ msgstr "Skladba bude zahrnuta v seznamu skladeb, pokud splňuje tyto podmínky."
 msgid "A&utomatic"
 msgstr "A&utomaticky"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:427
+#: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "A-Z"
 msgstr "A-Z"
 
@@ -563,11 +563,11 @@ msgstr "Přidat nový řádek, je-li to podporováno typem oznámení"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Přidat všechny skladby z adresáři a všech jeho podadresářů"
 
-#: settings/collectionsettingspage.cpp:124
+#: settings/collectionsettingspage.cpp:135
 msgid "Add directory..."
 msgstr "Přidat složku..."
 
-#: core/mainwindow.cpp:2202
+#: core/mainwindow.cpp:2201
 msgid "Add file"
 msgstr "Přidat soubor"
 
@@ -583,7 +583,7 @@ msgstr "Přidat soubor(y) k překódování"
 msgid "Add files to transcode"
 msgstr "Přidat soubory pro překódování"
 
-#: core/mainwindow.cpp:2228 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2227 transcoder/transcodedialog.cpp:424
 msgid "Add folder"
 msgstr "Přidat složku"
 
@@ -693,7 +693,7 @@ msgstr "Přidat přenos..."
 msgid "Add to albums"
 msgstr "Přidat do alb"
 
-#: core/mainwindow.cpp:2004
+#: core/mainwindow.cpp:2003
 msgid "Add to another playlist"
 msgstr "Přidat do jiného seznamu skladeb"
 
@@ -743,7 +743,7 @@ msgstr "Přidána během tří měsíců"
 msgid "Advanced"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:326
+#: collection/collectionfilterwidget.cpp:327
 msgid "Advanced grouping..."
 msgstr "Pokročilé seskupování..."
 
@@ -924,7 +924,7 @@ msgstr "Opravdu chcete smazat nastavení \"%1\"?"
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Opravdu chcete nastavit statistiku této písně znovu?"
 
-#: settings/collectionsettingspage.cpp:382
+#: settings/collectionsettingspage.cpp:405
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -990,7 +990,7 @@ msgid "Authentication"
 msgstr "Ověření"
 
 #: settings/coverssettingspage.cpp:274 settings/lyricssettingspage.cpp:254
-#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:176
+#: settings/tidalsettingspage.cpp:213 settings/qobuzsettingspage.cpp:176
 msgid "Authentication failed"
 msgstr "Ověření selhalo"
 
@@ -1265,7 +1265,7 @@ msgstr "Vyčistit mezipaměť na disku"
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2293 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2292 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Vyprázdnit seznam skladeb"
 
@@ -1323,7 +1323,7 @@ msgstr "Filtr Kolekce"
 msgid "Collection advanced grouping"
 msgstr "Pokročilé seskupování sbírky"
 
-#: core/mainwindow.cpp:2866
+#: core/mainwindow.cpp:2865
 msgid "Collection rescan notice"
 msgstr "Zpráva o prohledání sbírky"
 
@@ -1335,7 +1335,7 @@ msgstr "Hledání v kolekci"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Čárkou oddělený seznam class:level, level je 0-3"
 
-#: playlist/playlist.cpp:1382 smartplaylists/smartplaylistsearchterm.cpp:389
+#: playlist/playlist.cpp:1382 smartplaylists/smartplaylistsearchterm.cpp:391
 #: organize/organizedialog.cpp:114 ../build/src/ui_edittagdialog.h:855
 msgid "Comment"
 msgstr "Poznámka"
@@ -1359,9 +1359,9 @@ msgstr "Doplnit značky automaticky..."
 msgid "Composer"
 msgstr "Skladatel"
 
-#: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:156
-#: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:130
+#: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:151
+#: settings/tidalsettingspage.cpp:158 settings/tidalsettingspage.cpp:162
+#: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:130
 #: settings/qobuzsettingspage.cpp:134 settings/qobuzsettingspage.cpp:138
 msgid "Configuration incomplete"
 msgstr "Konfigurace není hotová"
@@ -1677,7 +1677,7 @@ msgstr "Datum vytvoření"
 msgid "Date modified"
 msgstr "Datum změny"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:449
+#: smartplaylists/smartplaylistsearchterm.cpp:451
 msgid "Days"
 msgstr "Dny"
 
@@ -1744,11 +1744,11 @@ msgstr "Smazat původní soubory"
 msgid "Deleting files"
 msgstr "Probíhá mazání souborů"
 
-#: core/mainwindow.cpp:1919
+#: core/mainwindow.cpp:1918
 msgid "Dequeue selected tracks"
 msgstr "Odstranit vybrané skladby z řady"
 
-#: core/mainwindow.cpp:1918
+#: core/mainwindow.cpp:1917
 msgid "Dequeue track"
 msgstr "Odstranit skladbu z řady"
 
@@ -1911,7 +1911,7 @@ msgstr "Upravit chytrý playlist"
 msgid "Edit smart playlist..."
 msgstr "Upravit chytrý playlist..."
 
-#: core/mainwindow.cpp:1962
+#: core/mainwindow.cpp:1961
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Upravit značku \"%1\"..."
@@ -2081,7 +2081,7 @@ msgstr "Rovnocenné s --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Rovnocenné s --log-levels *:3"
 
-#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
+#: core/mainwindow.cpp:2596 core/mainwindow.cpp:2747
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Chyba"
@@ -2529,59 +2529,59 @@ msgstr "Seskupovat v hudební sbírce podle..."
 msgid "Group by"
 msgstr "Seskupovat podle"
 
-#: collection/collectionfilterwidget.cpp:291
+#: collection/collectionfilterwidget.cpp:292
 msgid "Group by Album"
 msgstr "Seskupovat podle alba"
 
-#: collection/collectionfilterwidget.cpp:288
+#: collection/collectionfilterwidget.cpp:289
 msgid "Group by Album Artist"
 msgstr "Seskupit dle Autora alba"
 
-#: collection/collectionfilterwidget.cpp:275
+#: collection/collectionfilterwidget.cpp:276
 msgid "Group by Album artist/Album"
 msgstr "Seskupovat podle umělce alba/alba"
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:277
 msgid "Group by Album artist/Album - Disc"
 msgstr "Seskupit jako Autor alba/Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album artist/Year - Album"
 msgstr "Seskupit jako Autor alba/Rok - Album"
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Seskupit jako Autor alba/Rok - Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Artist"
 msgstr "Seskupovat podle umělce"
 
-#: collection/collectionfilterwidget.cpp:280
+#: collection/collectionfilterwidget.cpp:281
 msgid "Group by Artist/Album"
 msgstr "Seskupovat podle umělce/alba"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Artist/Album - Disc"
 msgstr "Seskupit jako Umělec/Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:283
 msgid "Group by Artist/Year - Album"
 msgstr "Seskupovat podle umělce/roku - alba"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:284
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Seskupit jako Umělec/Rok - Album - Disk"
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Genre/Album"
 msgstr "Seskupovat podle žánru/alba"
 
-#: collection/collectionfilterwidget.cpp:285
+#: collection/collectionfilterwidget.cpp:286
 msgid "Group by Genre/Album artist/Album"
 msgstr "Seskupit jako Žánr/Autor alba/Album"
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Genre/Artist/Album"
 msgstr "Seskupovat podle žánru/umělce/alba"
 
@@ -2592,11 +2592,11 @@ msgstr "Seskupovat podle žánru/umělce/alba"
 msgid "Grouping"
 msgstr "Seskupení"
 
-#: collection/collectionfilterwidget.cpp:349
+#: collection/collectionfilterwidget.cpp:350
 msgid "Grouping Name"
 msgstr "Název seskupení"
 
-#: collection/collectionfilterwidget.cpp:349
+#: collection/collectionfilterwidget.cpp:350
 msgid "Grouping name:"
 msgstr "Název seskupení:"
 
@@ -2643,7 +2643,7 @@ msgstr "Vysoký (%1 fps)"
 msgid "High watermark"
 msgstr "Vysoký vodoznak"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:447
+#: smartplaylists/smartplaylistsearchterm.cpp:449
 msgid "Hours"
 msgstr "Hodiny"
 
@@ -3064,7 +3064,7 @@ msgstr "Střed"
 msgid "Minimum bitrate"
 msgstr "Nejnižší datový tok"
 
-#: settings/tidalsettingspage.cpp:163
+#: settings/tidalsettingspage.cpp:158
 msgid "Missing API token."
 msgstr "Chybějící API token."
 
@@ -3100,7 +3100,7 @@ msgstr "Chybějící API token, uživatelské jméno nebo heslo pro Tidal."
 msgid "Missing Tidal API token."
 msgstr "Chybějící API token pro Tidal."
 
-#: settings/tidalsettingspage.cpp:156
+#: settings/tidalsettingspage.cpp:151
 msgid "Missing Tidal client ID."
 msgstr "Chybějící ID klienta pro Tidal."
 
@@ -3116,7 +3116,7 @@ msgstr "Chybějící uživatelské jméno k Tidal."
 msgid "Missing app id."
 msgstr "Chybějící ID aplikace."
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:138
+#: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:138
 msgid "Missing password."
 msgstr "Chybějící heslo."
 
@@ -3132,7 +3132,7 @@ msgstr "Chybějící uživatelské jméno nebo heslo."
 msgid "Missing username, please login to last.fm first!"
 msgstr "Chybějící jméno, prosím, nejdříve se přihlašte k last.fm!"
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:134
+#: settings/tidalsettingspage.cpp:162 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
 msgstr "Chybějící uživatelské jméno."
 
@@ -3144,7 +3144,7 @@ msgstr "Model"
 msgid "Monitor the collection for changes"
 msgstr "Sledovat změny ve sbírce"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:453
+#: smartplaylists/smartplaylistsearchterm.cpp:455
 msgid "Months"
 msgstr "Měsíce"
 
@@ -3187,7 +3187,7 @@ msgstr "Přesunout do sbírky..."
 msgid "Move up"
 msgstr "Posunout nahoru"
 
-#: core/mainwindow.cpp:2202 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2201 transcoder/transcodedialog.cpp:333
 msgid "Music"
 msgstr "Hudba"
 
@@ -3231,7 +3231,7 @@ msgstr "Nikdy nezačít přehrávání"
 msgid "New folder"
 msgstr "Nová složka"
 
-#: core/mainwindow.cpp:2020
+#: core/mainwindow.cpp:2019
 msgid "New playlist"
 msgstr "Nový seznam skladeb"
 
@@ -3308,7 +3308,7 @@ msgstr "Žádná skladba se nepřehrává"
 msgid "None"
 msgstr "Žádná"
 
-#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
+#: core/mainwindow.cpp:2596 core/mainwindow.cpp:2747
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Žádná z vybraných písní nebyla vhodná ke zkopírování do zařízení"
@@ -3541,7 +3541,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1318 core/mainwindow.cpp:1817
+#: core/mainwindow.cpp:1317 core/mainwindow.cpp:1816
 #: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Pozastavit"
@@ -3569,8 +3569,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Prostý postranní panel"
 
-#: core/mainwindow.cpp:721 core/mainwindow.cpp:1275 core/mainwindow.cpp:1302
-#: core/mainwindow.cpp:1821 core/qtsystemtrayicon.cpp:157
+#: core/mainwindow.cpp:721 core/mainwindow.cpp:1274 core/mainwindow.cpp:1301
+#: core/mainwindow.cpp:1820 core/qtsystemtrayicon.cpp:157
 #: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Přehrát"
@@ -3641,7 +3641,7 @@ msgstr "Tlačítka playlistů"
 msgid "Playlist finished"
 msgstr "Seznam skladeb dokončen"
 
-#: core/mainwindow.cpp:2293
+#: core/mainwindow.cpp:2292
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3819,20 +3819,20 @@ msgstr "Dotazování se zařízení..."
 msgid "Queue"
 msgstr "Fronta"
 
-#: core/mainwindow.cpp:1921
+#: core/mainwindow.cpp:1920
 msgid "Queue selected tracks"
 msgstr "Přidat vybrané skladby do řady"
 
-#: core/mainwindow.cpp:727 core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:727 core/mainwindow.cpp:1924
 msgid "Queue selected tracks to play next"
 msgstr "Přidat vybrané skladby do fronty"
 
-#: core/mainwindow.cpp:1928 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1927 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "Do fronty jako další"
 
-#: core/mainwindow.cpp:1920 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1919 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -4304,12 +4304,12 @@ msgstr "Velikost měřítka"
 msgid "Scrobbler"
 msgstr "doporučování hudby"
 
-#: scrobbler/scrobblingapi20.cpp:1019
+#: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:533
+#: scrobbler/scrobblingapi20.cpp:534
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Systém pro doporučování hudby %1 není přihlášen!"
@@ -4385,7 +4385,7 @@ msgstr "Skočit v nyní přehrávané skladbě na určité místo"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Posunování pomocí klávesové zkratky nebo kolečka myši"
 
-#: settings/appearancesettingspage.cpp:301
+#: settings/appearancesettingspage.cpp:300
 msgid "Select background image"
 msgstr "Vybrat obrázek na pozadí"
 
@@ -4434,7 +4434,7 @@ msgstr "Adresa serveru není správná."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1961
+#: core/mainwindow.cpp:1960
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Nastavit %1 na \"%2\"..."
@@ -4677,11 +4677,11 @@ msgstr "Počet přeskočení"
 msgid "Skip forwards in playlist"
 msgstr "Další skladba v seznamu skladeb"
 
-#: core/mainwindow.cpp:1934
+#: core/mainwindow.cpp:1933
 msgid "Skip selected tracks"
 msgstr "Přeskočit vybrané skladby"
 
-#: core/mainwindow.cpp:1933
+#: core/mainwindow.cpp:1932
 msgid "Skip track"
 msgstr "Přeskočit skladbu"
 
@@ -5052,7 +5052,7 @@ msgstr "Požadovaná stránka neexistuje!"
 msgid "The site you requested is not an image!"
 msgstr "Požadovaná stránka není obrázek!"
 
-#: core/mainwindow.cpp:2861
+#: core/mainwindow.cpp:2860
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5190,7 +5190,7 @@ msgstr "Dnes"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:724 core/mainwindow.cpp:1922
+#: core/mainwindow.cpp:724 core/mainwindow.cpp:1921
 msgid "Toggle queue status"
 msgstr "Přepnout stav řady"
 
@@ -5198,7 +5198,7 @@ msgstr "Přepnout stav řady"
 msgid "Toggle scrobbling"
 msgstr "Přepnout odesílání informací o přehrávání"
 
-#: core/mainwindow.cpp:730 core/mainwindow.cpp:1935
+#: core/mainwindow.cpp:730 core/mainwindow.cpp:1934
 msgid "Toggle skip status"
 msgstr "Přepnout stav přeskakování"
 
@@ -5288,7 +5288,7 @@ msgstr ""
 #: core/song.cpp:673 collection/collectionmodel.cpp:478
 #: collection/collectionmodel.cpp:483 collection/collectionmodel.cpp:487
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:1649 collection/savedgroupingmanager.cpp:152
+#: collection/collectionmodel.cpp:1655 collection/savedgroupingmanager.cpp:152
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:549
 #: playlist/playlistmanager.cpp:550 dialogs/edittagdialog.cpp:764
 #: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
@@ -5315,11 +5315,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Odebrat obal"
 
-#: core/mainwindow.cpp:1932
+#: core/mainwindow.cpp:1931
 msgid "Unskip selected tracks"
 msgstr "Zrušit přeskočení vybraných skladeb"
 
-#: core/mainwindow.cpp:1931
+#: core/mainwindow.cpp:1930
 msgid "Unskip track"
 msgstr "Zrušit přeskočení skladby"
 
@@ -5531,7 +5531,7 @@ msgstr ""
 msgid "WavPack"
 msgstr "WavPack"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:451
+#: smartplaylists/smartplaylistsearchterm.cpp:453
 msgid "Weeks"
 msgstr ""
 
@@ -5568,11 +5568,11 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2865
+#: core/mainwindow.cpp:2864
 msgid "Would you like to run a full rescan right now?"
 msgstr "Chcete spustit toto úplné nové prohledání hned teď?"
 
-#: settings/collectionsettingspage.cpp:382
+#: settings/collectionsettingspage.cpp:405
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
@@ -5598,7 +5598,7 @@ msgstr "Rok - Album"
 msgid "Year - Album - Disc"
 msgstr "Rok - Album - Disk"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:455
+#: smartplaylists/smartplaylistsearchterm.cpp:457
 msgid "Years"
 msgstr ""
 
@@ -5680,7 +5680,7 @@ msgstr "Pokud změníte jazyk, budete muset Strawberry spustit znovu."
 msgid "Your collection is empty!"
 msgstr "Vaše hudební sbírka je prázdná!"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:427
+#: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "Z-A"
 msgstr ""
 
@@ -5694,7 +5694,7 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "přidat %n skladeb"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:252
+#: smartplaylists/smartplaylistsearchterm.cpp:254
 msgid "after"
 msgstr ""
 
@@ -5722,15 +5722,15 @@ msgstr "umělci"
 msgid "automatic"
 msgstr "automatický"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:254
+#: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "before"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:264
+#: smartplaylists/smartplaylistsearchterm.cpp:266
 msgid "between"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
+#: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "biggest first"
 msgstr ""
 
@@ -5738,7 +5738,7 @@ msgstr ""
 msgid "channels"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:272
+#: smartplaylists/smartplaylistsearchterm.cpp:274
 msgid "contains"
 msgstr ""
 
@@ -5757,23 +5757,23 @@ msgstr "zakázáno"
 msgid "disc %1"
 msgstr "disk %1"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:274
+#: smartplaylists/smartplaylistsearchterm.cpp:276
 msgid "does not contain"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:288
+#: smartplaylists/smartplaylistsearchterm.cpp:290
 msgid "empty"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:278
+#: smartplaylists/smartplaylistsearchterm.cpp:280
 msgid "ends with"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:284
+#: smartplaylists/smartplaylistsearchterm.cpp:286
 msgid "equals"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:280
+#: smartplaylists/smartplaylistsearchterm.cpp:282
 msgid "greater than"
 msgstr ""
 
@@ -5781,7 +5781,7 @@ msgstr ""
 msgid "hw"
 msgstr "hardware"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:260
+#: smartplaylists/smartplaylistsearchterm.cpp:262
 msgid "in the last"
 msgstr ""
 
@@ -5790,11 +5790,11 @@ msgstr ""
 msgid "kbps"
 msgstr "kb/s"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:282
+#: smartplaylists/smartplaylistsearchterm.cpp:284
 msgid "less than"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:431
+#: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "longest first"
 msgstr ""
 
@@ -5809,31 +5809,31 @@ msgstr "Přesunout %n skladeb"
 msgid "ms"
 msgstr "ms"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:429
+#: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "newest first"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:290
+#: smartplaylists/smartplaylistsearchterm.cpp:292
 msgid "not empty"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:286
+#: smartplaylists/smartplaylistsearchterm.cpp:288
 msgid "not equals"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:262
+#: smartplaylists/smartplaylistsearchterm.cpp:264
 msgid "not in the last"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:258
+#: smartplaylists/smartplaylistsearchterm.cpp:260
 msgid "not on"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:429
+#: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "oldest first"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:256
+#: smartplaylists/smartplaylistsearchterm.cpp:258
 msgid "on"
 msgstr ""
 
@@ -5860,7 +5860,7 @@ msgstr "odstranit %n skladeb"
 msgid "searches the collection for all artists that contain the word"
 msgstr "vyhledá umělce obsahující slovo"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:431
+#: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "shortest first"
 msgstr ""
 
@@ -5868,7 +5868,7 @@ msgstr ""
 msgid "shuffle songs"
 msgstr "Zamíchat skladby"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
+#: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "smallest first"
 msgstr ""
 
@@ -5880,7 +5880,7 @@ msgstr "skladby"
 msgid "sort songs"
 msgstr "Třídit skladby"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:276
+#: smartplaylists/smartplaylistsearchterm.cpp:278
 msgid "starts with"
 msgstr ""
 

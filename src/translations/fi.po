@@ -485,7 +485,7 @@ msgstr ""
 msgid "A&utomatic"
 msgstr "A&utomaattinen"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:427
+#: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "A-Z"
 msgstr "A-Ö"
 
@@ -557,11 +557,11 @@ msgstr "Lisää uusi rivi, jos ilmoitustyyppi sen sallii"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Lisää kaikki kappaleet kansiosta ja sen alakansioista"
 
-#: settings/collectionsettingspage.cpp:124
+#: settings/collectionsettingspage.cpp:135
 msgid "Add directory..."
 msgstr "Lisää kansio..."
 
-#: core/mainwindow.cpp:2202
+#: core/mainwindow.cpp:2201
 msgid "Add file"
 msgstr "Lisää tiedosto"
 
@@ -577,7 +577,7 @@ msgstr "Lisää tiedosto(ja) muuntajaan"
 msgid "Add files to transcode"
 msgstr "Lisää tiedostoja muunnettavaksi"
 
-#: core/mainwindow.cpp:2228 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2227 transcoder/transcodedialog.cpp:424
 msgid "Add folder"
 msgstr "Lisää kansio"
 
@@ -687,7 +687,7 @@ msgstr "Lisää virta..."
 msgid "Add to albums"
 msgstr "Lisää albumeihin"
 
-#: core/mainwindow.cpp:2004
+#: core/mainwindow.cpp:2003
 msgid "Add to another playlist"
 msgstr "Lisää toiseen soittolistaan"
 
@@ -737,7 +737,7 @@ msgstr "Lisätty kolmen kuukauden sisään"
 msgid "Advanced"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:326
+#: collection/collectionfilterwidget.cpp:327
 msgid "Advanced grouping..."
 msgstr "Kirjaston tarkempi järjestely..."
 
@@ -918,7 +918,7 @@ msgstr "Haluatko varmasti poistaa asetuksen \"%1\"?"
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Haluatko varmasti nollata tämän kappaleen tilastotiedot?"
 
-#: settings/collectionsettingspage.cpp:382
+#: settings/collectionsettingspage.cpp:405
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -984,7 +984,7 @@ msgid "Authentication"
 msgstr "Tunnistautuminen"
 
 #: settings/coverssettingspage.cpp:274 settings/lyricssettingspage.cpp:254
-#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:176
+#: settings/tidalsettingspage.cpp:213 settings/qobuzsettingspage.cpp:176
 msgid "Authentication failed"
 msgstr "Tunnistautuminen epäonnistui"
 
@@ -1260,7 +1260,7 @@ msgstr "Tyhjennä levyvälimuisti"
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2293 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2292 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Tyhjennä soittolista"
 
@@ -1318,7 +1318,7 @@ msgstr "Kokoelmasuodatin"
 msgid "Collection advanced grouping"
 msgstr "Kirjaston tarkennettu ryhmittely"
 
-#: core/mainwindow.cpp:2866
+#: core/mainwindow.cpp:2865
 msgid "Collection rescan notice"
 msgstr "Ilmoitus kirjaston läpikäynnistä"
 
@@ -1331,7 +1331,7 @@ msgid "Comma separated list of class:level, level is 0-3"
 msgstr ""
 "Pilkuin erotettu lista luokka:taso -määritteitä, jossa taso on väliltä 0-3"
 
-#: playlist/playlist.cpp:1382 smartplaylists/smartplaylistsearchterm.cpp:389
+#: playlist/playlist.cpp:1382 smartplaylists/smartplaylistsearchterm.cpp:391
 #: organize/organizedialog.cpp:114 ../build/src/ui_edittagdialog.h:855
 msgid "Comment"
 msgstr "Kommentti"
@@ -1355,9 +1355,9 @@ msgstr "Täydennä tunnisteet automaattisesti..."
 msgid "Composer"
 msgstr "Säveltäjä"
 
-#: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:156
-#: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:130
+#: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:151
+#: settings/tidalsettingspage.cpp:158 settings/tidalsettingspage.cpp:162
+#: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:130
 #: settings/qobuzsettingspage.cpp:134 settings/qobuzsettingspage.cpp:138
 msgid "Configuration incomplete"
 msgstr "Asetukset keskeneräiset"
@@ -1673,7 +1673,7 @@ msgstr "Luotu"
 msgid "Date modified"
 msgstr "Muokattu"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:449
+#: smartplaylists/smartplaylistsearchterm.cpp:451
 msgid "Days"
 msgstr "päivää"
 
@@ -1740,11 +1740,11 @@ msgstr "Poista alkuperäiset tiedostot"
 msgid "Deleting files"
 msgstr "Poistetaan tiedostoja"
 
-#: core/mainwindow.cpp:1919
+#: core/mainwindow.cpp:1918
 msgid "Dequeue selected tracks"
 msgstr "Poista valitut kappaleet jonosta"
 
-#: core/mainwindow.cpp:1918
+#: core/mainwindow.cpp:1917
 msgid "Dequeue track"
 msgstr "Poista kappale jonosta"
 
@@ -1907,7 +1907,7 @@ msgstr "Muokkaa älykästä soittolistaa"
 msgid "Edit smart playlist..."
 msgstr "Muokkaa älykästä soittolistaa..."
 
-#: core/mainwindow.cpp:1962
+#: core/mainwindow.cpp:1961
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Muokkaa tunnistetta \"%1\"..."
@@ -2077,7 +2077,7 @@ msgstr "Vastaa --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Vastaa --log-levels *:3"
 
-#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
+#: core/mainwindow.cpp:2596 core/mainwindow.cpp:2747
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Virhe"
@@ -2525,59 +2525,59 @@ msgstr "Järjestä kirjasto..."
 msgid "Group by"
 msgstr "Järjestä"
 
-#: collection/collectionfilterwidget.cpp:291
+#: collection/collectionfilterwidget.cpp:292
 msgid "Group by Album"
 msgstr "Järjestä albumin mukaan"
 
-#: collection/collectionfilterwidget.cpp:288
+#: collection/collectionfilterwidget.cpp:289
 msgid "Group by Album Artist"
 msgstr "Ryhmitä albumin esittäjän perusteella"
 
-#: collection/collectionfilterwidget.cpp:275
+#: collection/collectionfilterwidget.cpp:276
 msgid "Group by Album artist/Album"
 msgstr "Ryhmitä albumin esittäjän/albumin mukaan"
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:277
 msgid "Group by Album artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album artist/Year - Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Artist"
 msgstr "Järjestä esittäjän mukaan"
 
-#: collection/collectionfilterwidget.cpp:280
+#: collection/collectionfilterwidget.cpp:281
 msgid "Group by Artist/Album"
 msgstr "Järjestä esittäjän/albumin mukaan"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:283
 msgid "Group by Artist/Year - Album"
 msgstr "Järjestä esittäjän/vuoden - albumin mukaan"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:284
 msgid "Group by Artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Genre/Album"
 msgstr "Järjestä tyylin/albumin mukaan"
 
-#: collection/collectionfilterwidget.cpp:285
+#: collection/collectionfilterwidget.cpp:286
 msgid "Group by Genre/Album artist/Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Genre/Artist/Album"
 msgstr "Järjestä tyylin/esittäjän/albumin mukaan"
 
@@ -2588,11 +2588,11 @@ msgstr "Järjestä tyylin/esittäjän/albumin mukaan"
 msgid "Grouping"
 msgstr "Ryhmittely"
 
-#: collection/collectionfilterwidget.cpp:349
+#: collection/collectionfilterwidget.cpp:350
 msgid "Grouping Name"
 msgstr "Ryhmittelyn nimi"
 
-#: collection/collectionfilterwidget.cpp:349
+#: collection/collectionfilterwidget.cpp:350
 msgid "Grouping name:"
 msgstr "Ryhmittelyn nimi:"
 
@@ -2637,7 +2637,7 @@ msgstr "Nopea (%1 fps)"
 msgid "High watermark"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:447
+#: smartplaylists/smartplaylistsearchterm.cpp:449
 msgid "Hours"
 msgstr "tuntia"
 
@@ -3054,7 +3054,7 @@ msgstr "Keskellä"
 msgid "Minimum bitrate"
 msgstr "Pienin bittinopeus"
 
-#: settings/tidalsettingspage.cpp:163
+#: settings/tidalsettingspage.cpp:158
 msgid "Missing API token."
 msgstr "API-avain puuttuu."
 
@@ -3090,7 +3090,7 @@ msgstr "Tidalin API-avain, käyttäjätunnus tai salasana puuttuu."
 msgid "Missing Tidal API token."
 msgstr "Tidalin API-avain puuttuu."
 
-#: settings/tidalsettingspage.cpp:156
+#: settings/tidalsettingspage.cpp:151
 msgid "Missing Tidal client ID."
 msgstr "Puuttuva Tidal-asiakas-ID"
 
@@ -3106,7 +3106,7 @@ msgstr "Puuttuva Tidal-käyttäjätunnus"
 msgid "Missing app id."
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:138
+#: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:138
 msgid "Missing password."
 msgstr "Salasana puuttuu."
 
@@ -3122,7 +3122,7 @@ msgstr "Puuttuva käyttäjänimi tai salasana."
 msgid "Missing username, please login to last.fm first!"
 msgstr "Käyttäjätunnus puuttuu, kirjaudu ensin last.fm:ään."
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:134
+#: settings/tidalsettingspage.cpp:162 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
 msgstr "Käyttäjätunnus puuttuu."
 
@@ -3134,7 +3134,7 @@ msgstr "Malli"
 msgid "Monitor the collection for changes"
 msgstr "Tarkkaile kirjastoa muutosten varalta"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:453
+#: smartplaylists/smartplaylistsearchterm.cpp:455
 msgid "Months"
 msgstr "kuukautta"
 
@@ -3177,7 +3177,7 @@ msgstr "Siirrä kirjastoon..."
 msgid "Move up"
 msgstr "Siirrä ylös"
 
-#: core/mainwindow.cpp:2202 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2201 transcoder/transcodedialog.cpp:333
 msgid "Music"
 msgstr "Musiikki"
 
@@ -3221,7 +3221,7 @@ msgstr "Älä koskaan aloita toistoa"
 msgid "New folder"
 msgstr "Uusi kansio"
 
-#: core/mainwindow.cpp:2020
+#: core/mainwindow.cpp:2019
 msgid "New playlist"
 msgstr "Uusi soittolista"
 
@@ -3298,7 +3298,7 @@ msgstr ""
 msgid "None"
 msgstr "Ei mitään"
 
-#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
+#: core/mainwindow.cpp:2596 core/mainwindow.cpp:2747
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3529,7 +3529,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1318 core/mainwindow.cpp:1817
+#: core/mainwindow.cpp:1317 core/mainwindow.cpp:1816
 #: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Keskeytä"
@@ -3557,8 +3557,8 @@ msgstr "Pikseli"
 msgid "Plain sidebar"
 msgstr "Pelkistetty sivupalkki"
 
-#: core/mainwindow.cpp:721 core/mainwindow.cpp:1275 core/mainwindow.cpp:1302
-#: core/mainwindow.cpp:1821 core/qtsystemtrayicon.cpp:157
+#: core/mainwindow.cpp:721 core/mainwindow.cpp:1274 core/mainwindow.cpp:1301
+#: core/mainwindow.cpp:1820 core/qtsystemtrayicon.cpp:157
 #: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Toista"
@@ -3629,7 +3629,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Soittolista soitettiin loppuun"
 
-#: core/mainwindow.cpp:2293
+#: core/mainwindow.cpp:2292
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3801,20 +3801,20 @@ msgstr "Kysytään tietoja laitteelta..."
 msgid "Queue"
 msgstr "Jono"
 
-#: core/mainwindow.cpp:1921
+#: core/mainwindow.cpp:1920
 msgid "Queue selected tracks"
 msgstr "Aseta valitut kappaleet jonoon"
 
-#: core/mainwindow.cpp:727 core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:727 core/mainwindow.cpp:1924
 msgid "Queue selected tracks to play next"
 msgstr "Lisää valitut kappaleet jonoon"
 
-#: core/mainwindow.cpp:1928 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1927 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "Toistojonoon"
 
-#: core/mainwindow.cpp:1920 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1919 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -4283,12 +4283,12 @@ msgstr "Skaalaa koko"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1019
+#: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 virhe: %2"
 
-#: scrobbler/scrobblingapi20.cpp:533
+#: scrobbler/scrobblingapi20.cpp:534
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -4364,7 +4364,7 @@ msgstr "Siirry nykyisessä kappaleessa tiettyyn kohtaan"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Siirtyminen näppäimistön pikanäppäimiä tai hiiren rullaa käyttäen"
 
-#: settings/appearancesettingspage.cpp:301
+#: settings/appearancesettingspage.cpp:300
 msgid "Select background image"
 msgstr "Valitse taustakuva"
 
@@ -4412,7 +4412,7 @@ msgstr "Palvelimen osoite ei kelpaa"
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1961
+#: core/mainwindow.cpp:1960
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Aseta %1 %2:een"
@@ -4653,11 +4653,11 @@ msgstr "Ohituskerrat"
 msgid "Skip forwards in playlist"
 msgstr "Siirry soittolistan seuraavaan kappaleeseen"
 
-#: core/mainwindow.cpp:1934
+#: core/mainwindow.cpp:1933
 msgid "Skip selected tracks"
 msgstr "Ohita valitut kappaleet"
 
-#: core/mainwindow.cpp:1933
+#: core/mainwindow.cpp:1932
 msgid "Skip track"
 msgstr "Ohita kappale"
 
@@ -5021,7 +5021,7 @@ msgstr "Hakemaasi sivua ei ole olemassa!"
 msgid "The site you requested is not an image!"
 msgstr "Hakemasi sivu ei ole kuva!"
 
-#: core/mainwindow.cpp:2861
+#: core/mainwindow.cpp:2860
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5156,7 +5156,7 @@ msgstr "Tänään"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:724 core/mainwindow.cpp:1922
+#: core/mainwindow.cpp:724 core/mainwindow.cpp:1921
 msgid "Toggle queue status"
 msgstr "Vaihda jonon tila"
 
@@ -5164,7 +5164,7 @@ msgstr "Vaihda jonon tila"
 msgid "Toggle scrobbling"
 msgstr "Valitse scrobbling"
 
-#: core/mainwindow.cpp:730 core/mainwindow.cpp:1935
+#: core/mainwindow.cpp:730 core/mainwindow.cpp:1934
 msgid "Toggle skip status"
 msgstr ""
 
@@ -5254,7 +5254,7 @@ msgstr ""
 #: core/song.cpp:673 collection/collectionmodel.cpp:478
 #: collection/collectionmodel.cpp:483 collection/collectionmodel.cpp:487
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:1649 collection/savedgroupingmanager.cpp:152
+#: collection/collectionmodel.cpp:1655 collection/savedgroupingmanager.cpp:152
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:549
 #: playlist/playlistmanager.cpp:550 dialogs/edittagdialog.cpp:764
 #: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
@@ -5281,11 +5281,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Poista kansikuva"
 
-#: core/mainwindow.cpp:1932
+#: core/mainwindow.cpp:1931
 msgid "Unskip selected tracks"
 msgstr ""
 
-#: core/mainwindow.cpp:1931
+#: core/mainwindow.cpp:1930
 msgid "Unskip track"
 msgstr ""
 
@@ -5497,7 +5497,7 @@ msgstr ""
 msgid "WavPack"
 msgstr "WavPack"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:451
+#: smartplaylists/smartplaylistsearchterm.cpp:453
 msgid "Weeks"
 msgstr "viikkoa"
 
@@ -5534,11 +5534,11 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2865
+#: core/mainwindow.cpp:2864
 msgid "Would you like to run a full rescan right now?"
 msgstr "Haluatko suorittaa kirjaston läpikäynnin nyt?"
 
-#: settings/collectionsettingspage.cpp:382
+#: settings/collectionsettingspage.cpp:405
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
@@ -5564,7 +5564,7 @@ msgstr "Vuosi - Albumi"
 msgid "Year - Album - Disc"
 msgstr "Vuosi - Albumi - Levy"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:455
+#: smartplaylists/smartplaylistsearchterm.cpp:457
 msgid "Years"
 msgstr "vuotta"
 
@@ -5645,7 +5645,7 @@ msgstr "Strawberry tulee käynnistää uudelleen, jos vaihdat kieltä."
 msgid "Your collection is empty!"
 msgstr "Kirjasto on tyhjä!"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:427
+#: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "Z-A"
 msgstr "Ö-A"
 
@@ -5659,7 +5659,7 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "lisää %n kappaletta"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:252
+#: smartplaylists/smartplaylistsearchterm.cpp:254
 msgid "after"
 msgstr "jälkeen"
 
@@ -5687,15 +5687,15 @@ msgstr "esittäjät"
 msgid "automatic"
 msgstr "automaattinen"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:254
+#: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "before"
 msgstr "ennen"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:264
+#: smartplaylists/smartplaylistsearchterm.cpp:266
 msgid "between"
 msgstr "välillä"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
+#: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "biggest first"
 msgstr "suurin ensin"
 
@@ -5703,7 +5703,7 @@ msgstr "suurin ensin"
 msgid "channels"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:272
+#: smartplaylists/smartplaylistsearchterm.cpp:274
 msgid "contains"
 msgstr "sisältää"
 
@@ -5722,23 +5722,23 @@ msgstr "pois käytöstä"
 msgid "disc %1"
 msgstr "levy %1"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:274
+#: smartplaylists/smartplaylistsearchterm.cpp:276
 msgid "does not contain"
 msgstr "ei sisällä"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:288
+#: smartplaylists/smartplaylistsearchterm.cpp:290
 msgid "empty"
 msgstr "tyhjä"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:278
+#: smartplaylists/smartplaylistsearchterm.cpp:280
 msgid "ends with"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:284
+#: smartplaylists/smartplaylistsearchterm.cpp:286
 msgid "equals"
 msgstr "yhtäsuuri"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:280
+#: smartplaylists/smartplaylistsearchterm.cpp:282
 msgid "greater than"
 msgstr "suurempi kuin"
 
@@ -5746,7 +5746,7 @@ msgstr "suurempi kuin"
 msgid "hw"
 msgstr "hw"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:260
+#: smartplaylists/smartplaylistsearchterm.cpp:262
 msgid "in the last"
 msgstr ""
 
@@ -5755,11 +5755,11 @@ msgstr ""
 msgid "kbps"
 msgstr "kb/s"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:282
+#: smartplaylists/smartplaylistsearchterm.cpp:284
 msgid "less than"
 msgstr "pienempi kuin"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:431
+#: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "longest first"
 msgstr "pisin ensin"
 
@@ -5774,31 +5774,31 @@ msgstr "siirrä %n kappaletta"
 msgid "ms"
 msgstr "ms"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:429
+#: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "newest first"
 msgstr "uusin ensin"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:290
+#: smartplaylists/smartplaylistsearchterm.cpp:292
 msgid "not empty"
 msgstr "ei tyhjä"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:286
+#: smartplaylists/smartplaylistsearchterm.cpp:288
 msgid "not equals"
 msgstr "ei yhtä suuri kuin"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:262
+#: smartplaylists/smartplaylistsearchterm.cpp:264
 msgid "not in the last"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:258
+#: smartplaylists/smartplaylistsearchterm.cpp:260
 msgid "not on"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:429
+#: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "oldest first"
 msgstr "vanhin ensin"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:256
+#: smartplaylists/smartplaylistsearchterm.cpp:258
 msgid "on"
 msgstr ""
 
@@ -5824,7 +5824,7 @@ msgstr "poista %n kappaletta"
 msgid "searches the collection for all artists that contain the word"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:431
+#: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "shortest first"
 msgstr "lyhin ensin"
 
@@ -5832,7 +5832,7 @@ msgstr "lyhin ensin"
 msgid "shuffle songs"
 msgstr "sekoita kappaleet"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
+#: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "smallest first"
 msgstr "pienin ensin"
 
@@ -5844,7 +5844,7 @@ msgstr "kappaleet"
 msgid "sort songs"
 msgstr "järjestä kappaleet"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:276
+#: smartplaylists/smartplaylistsearchterm.cpp:278
 msgid "starts with"
 msgstr ""
 

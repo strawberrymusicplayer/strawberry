@@ -510,7 +510,7 @@ msgstr ""
 msgid "A&utomatic"
 msgstr "A&utomatiska"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:427
+#: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "A-Z"
 msgstr "A-Ö"
 
@@ -582,11 +582,11 @@ msgstr "Lägg till en ny rad om det stöds av aviseringstypen"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Lägg till alla låtar från en mapp och alla dess undermappar"
 
-#: settings/collectionsettingspage.cpp:124
+#: settings/collectionsettingspage.cpp:135
 msgid "Add directory..."
 msgstr "Lägg till mapp..."
 
-#: core/mainwindow.cpp:2202
+#: core/mainwindow.cpp:2201
 msgid "Add file"
 msgstr "Lägg till fil"
 
@@ -602,7 +602,7 @@ msgstr "Lägg till fil(er) i omkodaren"
 msgid "Add files to transcode"
 msgstr "Lägg till filer för omkodning"
 
-#: core/mainwindow.cpp:2228 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2227 transcoder/transcodedialog.cpp:424
 msgid "Add folder"
 msgstr "Lägg till mapp"
 
@@ -712,7 +712,7 @@ msgstr "Lägg till flöde..."
 msgid "Add to albums"
 msgstr "Lägg till i album"
 
-#: core/mainwindow.cpp:2004
+#: core/mainwindow.cpp:2003
 msgid "Add to another playlist"
 msgstr "Lägg till i en annan spellista"
 
@@ -762,7 +762,7 @@ msgstr "Tillagda inom tre månader"
 msgid "Advanced"
 msgstr "Avancerat"
 
-#: collection/collectionfilterwidget.cpp:326
+#: collection/collectionfilterwidget.cpp:327
 msgid "Advanced grouping..."
 msgstr "Avancerad gruppering..."
 
@@ -943,7 +943,7 @@ msgstr "Är du säker på att du vill ta bort förinställningen \"%1\"?"
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Är du säker på att du vill återställa den här låtens statistik?"
 
-#: settings/collectionsettingspage.cpp:382
+#: settings/collectionsettingspage.cpp:405
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1011,7 +1011,7 @@ msgid "Authentication"
 msgstr "Autentisering"
 
 #: settings/coverssettingspage.cpp:274 settings/lyricssettingspage.cpp:254
-#: settings/tidalsettingspage.cpp:218 settings/qobuzsettingspage.cpp:176
+#: settings/tidalsettingspage.cpp:213 settings/qobuzsettingspage.cpp:176
 msgid "Authentication failed"
 msgstr "Autentisering misslyckades"
 
@@ -1285,7 +1285,7 @@ msgstr "Rensa diskcache"
 msgid "Clear cover"
 msgstr "Rensa omslag"
 
-#: core/mainwindow.cpp:2293 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2292 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Rensa spellista"
 
@@ -1344,7 +1344,7 @@ msgstr "Samlingsfilter"
 msgid "Collection advanced grouping"
 msgstr "Samling avancerad gruppering"
 
-#: core/mainwindow.cpp:2866
+#: core/mainwindow.cpp:2865
 msgid "Collection rescan notice"
 msgstr "Notis om omskanning av samling"
 
@@ -1356,7 +1356,7 @@ msgstr "Samlingssökning"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Kommaseparerad lista över class:level; level är 0-3"
 
-#: playlist/playlist.cpp:1382 smartplaylists/smartplaylistsearchterm.cpp:389
+#: playlist/playlist.cpp:1382 smartplaylists/smartplaylistsearchterm.cpp:391
 #: organize/organizedialog.cpp:114 ../build/src/ui_edittagdialog.h:855
 msgid "Comment"
 msgstr "Kommentar"
@@ -1380,9 +1380,9 @@ msgstr "Fyll i taggar automatiskt..."
 msgid "Composer"
 msgstr "Kompositör"
 
-#: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:156
-#: settings/tidalsettingspage.cpp:163 settings/tidalsettingspage.cpp:167
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:130
+#: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:151
+#: settings/tidalsettingspage.cpp:158 settings/tidalsettingspage.cpp:162
+#: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:130
 #: settings/qobuzsettingspage.cpp:134 settings/qobuzsettingspage.cpp:138
 msgid "Configuration incomplete"
 msgstr "Konfigurationen ofullständig"
@@ -1701,7 +1701,7 @@ msgstr "Datum skapad"
 msgid "Date modified"
 msgstr "Datum ändrad"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:449
+#: smartplaylists/smartplaylistsearchterm.cpp:451
 msgid "Days"
 msgstr "Dagar"
 
@@ -1768,11 +1768,11 @@ msgstr "Ta bort originalfiler"
 msgid "Deleting files"
 msgstr "Tar bort filer"
 
-#: core/mainwindow.cpp:1919
+#: core/mainwindow.cpp:1918
 msgid "Dequeue selected tracks"
 msgstr "Ta bort valda spår från kön"
 
-#: core/mainwindow.cpp:1918
+#: core/mainwindow.cpp:1917
 msgid "Dequeue track"
 msgstr "Ta bort spår från kön"
 
@@ -1937,7 +1937,7 @@ msgstr "Redigera smart spellista"
 msgid "Edit smart playlist..."
 msgstr "Redigera smart spellista..."
 
-#: core/mainwindow.cpp:1962
+#: core/mainwindow.cpp:1961
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Redigera taggen \"%1\"..."
@@ -2107,7 +2107,7 @@ msgstr "Motsvarar --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Motsvarar --log-levels *:3"
 
-#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
+#: core/mainwindow.cpp:2596 core/mainwindow.cpp:2747
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Fel"
@@ -2553,59 +2553,59 @@ msgstr "Gruppera samling av..."
 msgid "Group by"
 msgstr "Gruppera efter"
 
-#: collection/collectionfilterwidget.cpp:291
+#: collection/collectionfilterwidget.cpp:292
 msgid "Group by Album"
 msgstr "Gruppera efter album"
 
-#: collection/collectionfilterwidget.cpp:288
+#: collection/collectionfilterwidget.cpp:289
 msgid "Group by Album Artist"
 msgstr "Gruppera efter Albumartist"
 
-#: collection/collectionfilterwidget.cpp:275
+#: collection/collectionfilterwidget.cpp:276
 msgid "Group by Album artist/Album"
 msgstr "Gruppera efter artist/album"
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:277
 msgid "Group by Album artist/Album - Disc"
 msgstr "Gruppera efter albumartist/album - Skiva"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album artist/Year - Album"
 msgstr "Gruppera efter albumartist/år - album"
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Gruppera efter albumartist/år - album - skiva"
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Artist"
 msgstr "Gruppera efter artist"
 
-#: collection/collectionfilterwidget.cpp:280
+#: collection/collectionfilterwidget.cpp:281
 msgid "Group by Artist/Album"
 msgstr "Gruppera efter artist/album"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Artist/Album - Disc"
 msgstr "Gruppera efter artist/album - skiva"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:283
 msgid "Group by Artist/Year - Album"
 msgstr "Gruppera efter artist/år - album"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:284
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Gruppera efter artist/år - album - skiva"
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Genre/Album"
 msgstr "Gruppera efter genre/album"
 
-#: collection/collectionfilterwidget.cpp:285
+#: collection/collectionfilterwidget.cpp:286
 msgid "Group by Genre/Album artist/Album"
 msgstr "Gruppera efter genre/albumartist/album"
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Genre/Artist/Album"
 msgstr "Gruppera efter genre/artist/album"
 
@@ -2616,11 +2616,11 @@ msgstr "Gruppera efter genre/artist/album"
 msgid "Grouping"
 msgstr "Gruppering"
 
-#: collection/collectionfilterwidget.cpp:349
+#: collection/collectionfilterwidget.cpp:350
 msgid "Grouping Name"
 msgstr "Grupperingsnamn"
 
-#: collection/collectionfilterwidget.cpp:349
+#: collection/collectionfilterwidget.cpp:350
 msgid "Grouping name:"
 msgstr "Grupperingsnamn:"
 
@@ -2665,7 +2665,7 @@ msgstr "Hög (%1 fps)"
 msgid "High watermark"
 msgstr "Hög vattenstämpel"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:447
+#: smartplaylists/smartplaylistsearchterm.cpp:449
 msgid "Hours"
 msgstr "Timmar"
 
@@ -3085,7 +3085,7 @@ msgstr "Mellan"
 msgid "Minimum bitrate"
 msgstr "Lägsta bitfrekvensen"
 
-#: settings/tidalsettingspage.cpp:163
+#: settings/tidalsettingspage.cpp:158
 msgid "Missing API token."
 msgstr "API-token saknas."
 
@@ -3121,7 +3121,7 @@ msgstr "Användarnamn eller lösenord saknas för Tidal API-token."
 msgid "Missing Tidal API token."
 msgstr "Tidal-API-token saknas."
 
-#: settings/tidalsettingspage.cpp:156
+#: settings/tidalsettingspage.cpp:151
 msgid "Missing Tidal client ID."
 msgstr "Tidal-klient-ID saknas."
 
@@ -3137,7 +3137,7 @@ msgstr "Tidal-användarnamn saknas."
 msgid "Missing app id."
 msgstr "App-id saknas."
 
-#: settings/tidalsettingspage.cpp:171 settings/qobuzsettingspage.cpp:138
+#: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:138
 msgid "Missing password."
 msgstr "Lösenord saknas."
 
@@ -3153,7 +3153,7 @@ msgstr "Användarnamn eller lösenord saknas."
 msgid "Missing username, please login to last.fm first!"
 msgstr "Användarnamn saknas, logga in på last.fm först!"
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:134
+#: settings/tidalsettingspage.cpp:162 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
 msgstr "Användarnamn saknas."
 
@@ -3165,7 +3165,7 @@ msgstr "Modell"
 msgid "Monitor the collection for changes"
 msgstr "Bevaka ändringar i samlingen"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:453
+#: smartplaylists/smartplaylistsearchterm.cpp:455
 msgid "Months"
 msgstr "Månader"
 
@@ -3208,7 +3208,7 @@ msgstr "Flytta till samling..."
 msgid "Move up"
 msgstr "Flytta uppåt"
 
-#: core/mainwindow.cpp:2202 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2201 transcoder/transcodedialog.cpp:333
 msgid "Music"
 msgstr "Musik"
 
@@ -3252,7 +3252,7 @@ msgstr "Aldrig starta uppspelning"
 msgid "New folder"
 msgstr "Ny mapp"
 
-#: core/mainwindow.cpp:2020
+#: core/mainwindow.cpp:2019
 msgid "New playlist"
 msgstr "Ny spellista"
 
@@ -3328,7 +3328,7 @@ msgstr "Ingen låt spelas"
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2597 core/mainwindow.cpp:2748
+#: core/mainwindow.cpp:2596 core/mainwindow.cpp:2747
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ingen av de valda låtarna lämpar sig för kopiering till en enhet"
@@ -3561,7 +3561,7 @@ msgstr "Sökväg"
 msgid "Pattern"
 msgstr "Mönster"
 
-#: core/mainwindow.cpp:1318 core/mainwindow.cpp:1817
+#: core/mainwindow.cpp:1317 core/mainwindow.cpp:1816
 #: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Pausa"
@@ -3589,8 +3589,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Vanligt sidofält"
 
-#: core/mainwindow.cpp:721 core/mainwindow.cpp:1275 core/mainwindow.cpp:1302
-#: core/mainwindow.cpp:1821 core/qtsystemtrayicon.cpp:157
+#: core/mainwindow.cpp:721 core/mainwindow.cpp:1274 core/mainwindow.cpp:1301
+#: core/mainwindow.cpp:1820 core/qtsystemtrayicon.cpp:157
 #: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Spela"
@@ -3662,7 +3662,7 @@ msgstr "Spellistknappar"
 msgid "Playlist finished"
 msgstr "Spellistan är klar"
 
-#: core/mainwindow.cpp:2293
+#: core/mainwindow.cpp:2292
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3843,20 +3843,20 @@ msgstr "Kommunicerar med enhet..."
 msgid "Queue"
 msgstr "Kö"
 
-#: core/mainwindow.cpp:1921
+#: core/mainwindow.cpp:1920
 msgid "Queue selected tracks"
 msgstr "Lägg till valda spår i kön"
 
-#: core/mainwindow.cpp:727 core/mainwindow.cpp:1925
+#: core/mainwindow.cpp:727 core/mainwindow.cpp:1924
 msgid "Queue selected tracks to play next"
 msgstr "Lägg till valda spår i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1928 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1927 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "Lägg till i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1920 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1919 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -4332,12 +4332,12 @@ msgstr "Skalningsstorlek"
 msgid "Scrobbler"
 msgstr "Skrobbling"
 
-#: scrobbler/scrobblingapi20.cpp:1019
+#: scrobbler/scrobblingapi20.cpp:1020
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Skrobblare %1 fel: %2"
 
-#: scrobbler/scrobblingapi20.cpp:533
+#: scrobbler/scrobblingapi20.cpp:534
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Skrobblare %1 är inte autentiserad!"
@@ -4413,7 +4413,7 @@ msgstr "Hoppa till en absolut position i spår som nu spelas"
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Tidshopp vid sökning med tangentbordsgenväg eller mushjul"
 
-#: settings/appearancesettingspage.cpp:301
+#: settings/appearancesettingspage.cpp:300
 msgid "Select background image"
 msgstr "Väl en bakgrundsbild"
 
@@ -4461,7 +4461,7 @@ msgstr "Serverwebbadressen är ogiltig."
 msgid "Server-side scrobbling"
 msgstr "Skrobbling på serversidan"
 
-#: core/mainwindow.cpp:1961
+#: core/mainwindow.cpp:1960
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Ställ in %1 till \"%2\"..."
@@ -4702,11 +4702,11 @@ msgstr "Antal överhoppningar"
 msgid "Skip forwards in playlist"
 msgstr "Hoppa framåt i spellista"
 
-#: core/mainwindow.cpp:1934
+#: core/mainwindow.cpp:1933
 msgid "Skip selected tracks"
 msgstr "Hoppa över valda spår"
 
-#: core/mainwindow.cpp:1933
+#: core/mainwindow.cpp:1932
 msgid "Skip track"
 msgstr "Hoppa över spår"
 
@@ -5078,7 +5078,7 @@ msgstr "Webbplatsen du söker finns inte!"
 msgid "The site you requested is not an image!"
 msgstr "Webbplatsen du söker är inte en bild!"
 
-#: core/mainwindow.cpp:2861
+#: core/mainwindow.cpp:2860
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5219,7 +5219,7 @@ msgstr "Idag"
 msgid "Toggle Pretty OSD"
 msgstr "Växla snygg avisering"
 
-#: core/mainwindow.cpp:724 core/mainwindow.cpp:1922
+#: core/mainwindow.cpp:724 core/mainwindow.cpp:1921
 msgid "Toggle queue status"
 msgstr "Växla köstatus"
 
@@ -5227,7 +5227,7 @@ msgstr "Växla köstatus"
 msgid "Toggle scrobbling"
 msgstr "Växla skrobbling"
 
-#: core/mainwindow.cpp:730 core/mainwindow.cpp:1935
+#: core/mainwindow.cpp:730 core/mainwindow.cpp:1934
 msgid "Toggle skip status"
 msgstr "Växla status för hoppa över"
 
@@ -5317,7 +5317,7 @@ msgstr "Avinstallera snap med:"
 #: core/song.cpp:673 collection/collectionmodel.cpp:478
 #: collection/collectionmodel.cpp:483 collection/collectionmodel.cpp:487
 #: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:1649 collection/savedgroupingmanager.cpp:152
+#: collection/collectionmodel.cpp:1655 collection/savedgroupingmanager.cpp:152
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:549
 #: playlist/playlistmanager.cpp:550 dialogs/edittagdialog.cpp:764
 #: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
@@ -5344,11 +5344,11 @@ msgstr "Inte inställt"
 msgid "Unset cover"
 msgstr "Ta bort omslag"
 
-#: core/mainwindow.cpp:1932
+#: core/mainwindow.cpp:1931
 msgid "Unskip selected tracks"
 msgstr "Hoppa inte över valda spår"
 
-#: core/mainwindow.cpp:1931
+#: core/mainwindow.cpp:1930
 msgid "Unskip track"
 msgstr "Hoppa inte över valt spår"
 
@@ -5563,7 +5563,7 @@ msgstr ""
 msgid "WavPack"
 msgstr "WavPack"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:451
+#: smartplaylists/smartplaylistsearchterm.cpp:453
 msgid "Weeks"
 msgstr "Veckor"
 
@@ -5602,11 +5602,11 @@ msgstr ""
 "Vill du flytta de andra låtarna i det här albumet till diverse artister "
 "också?"
 
-#: core/mainwindow.cpp:2865
+#: core/mainwindow.cpp:2864
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vill du köra en fullständig omskanning nu?"
 
-#: settings/collectionsettingspage.cpp:382
+#: settings/collectionsettingspage.cpp:405
 msgid "Write all playcounts and ratings to files"
 msgstr "Skriv alla uppspelningsantal och betyg till filer"
 
@@ -5632,7 +5632,7 @@ msgstr "År - Album"
 msgid "Year - Album - Disc"
 msgstr "År - Album - Skiva"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:455
+#: smartplaylists/smartplaylistsearchterm.cpp:457
 msgid "Years"
 msgstr "År"
 
@@ -5715,7 +5715,7 @@ msgstr "Du måste starta om Strawberry om du ändrar språket."
 msgid "Your collection is empty!"
 msgstr "Din samling är tom!"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:427
+#: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "Z-A"
 msgstr "Ö-A"
 
@@ -5729,7 +5729,7 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "lägg till %n låtar"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:252
+#: smartplaylists/smartplaylistsearchterm.cpp:254
 msgid "after"
 msgstr "efter"
 
@@ -5757,15 +5757,15 @@ msgstr "artister"
 msgid "automatic"
 msgstr "automatisk"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:254
+#: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "before"
 msgstr "före"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:264
+#: smartplaylists/smartplaylistsearchterm.cpp:266
 msgid "between"
 msgstr "mellan"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
+#: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "biggest first"
 msgstr "största först"
 
@@ -5773,7 +5773,7 @@ msgstr "största först"
 msgid "channels"
 msgstr "kanaler"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:272
+#: smartplaylists/smartplaylistsearchterm.cpp:274
 msgid "contains"
 msgstr "som innehåller"
 
@@ -5792,23 +5792,23 @@ msgstr "inaktiverad"
 msgid "disc %1"
 msgstr "skiva %1"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:274
+#: smartplaylists/smartplaylistsearchterm.cpp:276
 msgid "does not contain"
 msgstr "som inte innehåller"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:288
+#: smartplaylists/smartplaylistsearchterm.cpp:290
 msgid "empty"
 msgstr "tom"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:278
+#: smartplaylists/smartplaylistsearchterm.cpp:280
 msgid "ends with"
 msgstr "som slutar med"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:284
+#: smartplaylists/smartplaylistsearchterm.cpp:286
 msgid "equals"
 msgstr "som är lika med"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:280
+#: smartplaylists/smartplaylistsearchterm.cpp:282
 msgid "greater than"
 msgstr "som är större än"
 
@@ -5816,7 +5816,7 @@ msgstr "som är större än"
 msgid "hw"
 msgstr "hw"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:260
+#: smartplaylists/smartplaylistsearchterm.cpp:262
 msgid "in the last"
 msgstr "de senaste"
 
@@ -5825,11 +5825,11 @@ msgstr "de senaste"
 msgid "kbps"
 msgstr "kbps"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:282
+#: smartplaylists/smartplaylistsearchterm.cpp:284
 msgid "less than"
 msgstr "som är mindre än"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:431
+#: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "longest first"
 msgstr "längsta först"
 
@@ -5844,31 +5844,31 @@ msgstr "flytta %n låtar"
 msgid "ms"
 msgstr "ms"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:429
+#: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "newest first"
 msgstr "nyaste först"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:290
+#: smartplaylists/smartplaylistsearchterm.cpp:292
 msgid "not empty"
 msgstr "inte tom"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:286
+#: smartplaylists/smartplaylistsearchterm.cpp:288
 msgid "not equals"
 msgstr "inte lika med"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:262
+#: smartplaylists/smartplaylistsearchterm.cpp:264
 msgid "not in the last"
 msgstr "inte de senaste"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:258
+#: smartplaylists/smartplaylistsearchterm.cpp:260
 msgid "not on"
 msgstr "inte den"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:429
+#: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "oldest first"
 msgstr "äldsta först"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:256
+#: smartplaylists/smartplaylistsearchterm.cpp:258
 msgid "on"
 msgstr "på"
 
@@ -5894,7 +5894,7 @@ msgstr "ta bort %n låtar"
 msgid "searches the collection for all artists that contain the word"
 msgstr "söker i samlingen efter alla artister som innehåller ordet"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:431
+#: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "shortest first"
 msgstr "korstaste först"
 
@@ -5902,7 +5902,7 @@ msgstr "korstaste först"
 msgid "shuffle songs"
 msgstr "blanda låtar"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
+#: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "smallest first"
 msgstr "minsta först"
 
@@ -5914,7 +5914,7 @@ msgstr "låtar"
 msgid "sort songs"
 msgstr "sortera låtar"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:276
+#: smartplaylists/smartplaylistsearchterm.cpp:278
 msgid "starts with"
 msgstr "som börjar med"
 
