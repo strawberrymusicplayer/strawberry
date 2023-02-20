@@ -633,7 +633,7 @@ jobs:
         arch: [ 'i686', 'x86_64' ]
         build_type: [ 'debug', 'release' ]
     container:
-      image: jonaski/strawberry-mxe-${{matrix.arch}}
+      image: jonaski/strawberry-mxe-${{matrix.arch}}-${{matrix.build_type}}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -663,12 +663,12 @@ jobs:
         run: >
           cmake ..
           -DCMAKE_TOOLCHAIN_FILE="../cmake/Toolchain-${{matrix.arch}}-w64-mingw32-shared.cmake"
-          -DCMAKE_BUILD_TYPE="${{env.build_type}}"
+          -DCMAKE_BUILD_TYPE="${{matrix.build_type}}"
           -DCMAKE_PREFIX_PATH="/strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6"
           -DBUILD_WITH_QT6=ON
           -DBUILD_WERROR=OFF
           -DARCH="${{matrix.arch}}"
-          -DENABLE_WIN32_CONSOLE=${{env.build_type}}
+          -DENABLE_WIN32_CONSOLE=${{env.win32_console}}
           -DENABLE_DBUS=OFF
           -DENABLE_LIBGPOD=OFF
           -DENABLE_LIBMTP=OFF
@@ -714,6 +714,11 @@ jobs:
       - name: Copy extra binaries
         working-directory: build
         run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-3.0-0.dll,libnghttp2.dll} .
+
+      - name: Copy extra binaries (debug)
+        if: matrix.build_type == 'debug'
+        working-directory: build
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/{gdb.exe,libreadline8.dll} .
 
       - name: Copy dependencies
         working-directory: build
