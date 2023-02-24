@@ -392,7 +392,6 @@ Section "Strawberry" Strawberry
   File "jpeg62.dll"
   File "libbs2b.dll"
   File "libfaac_dll.dll"
-  File "libiconv.dll"
   File "liblzma.dll"
   File "libmp3lame.dll"
   File "libopenmpt.dll"
@@ -417,6 +416,7 @@ Section "Strawberry" Strawberry
 
 !ifdef release
   File "freetype.dll"
+  File "libiconv.dll"
   File "libpng16.dll"
   File "libxml2.dll"
   File "pcre2-8.dll"
@@ -426,6 +426,7 @@ Section "Strawberry" Strawberry
 !endif
 !ifdef debug
   File "freetyped.dll"
+  File "libiconvd.dll"
   File "libpng16d.dll"
   File "libxml2d.dll"
   File "pcre2-8d.dll"
@@ -896,7 +897,6 @@ Section "Uninstall"
   Delete "$INSTDIR\jpeg62.dll"
   Delete "$INSTDIR\libbs2b.dll"
   Delete "$INSTDIR\libfaac_dll.dll"
-  Delete "$INSTDIR\libiconv.dll"
   Delete "$INSTDIR\liblzma.dll"
   Delete "$INSTDIR\libmp3lame.dll"
   Delete "$INSTDIR\libopenmpt.dll"
@@ -921,6 +921,7 @@ Section "Uninstall"
 
 !ifdef release
   Delete "$INSTDIR\freetype.dll"
+  Delete "$INSTDIR\libiconv.dll"
   Delete "$INSTDIR\libpng16.dll"
   Delete "$INSTDIR\libxml2.dll"
   Delete "$INSTDIR\pcre2-8.dll"
@@ -930,6 +931,7 @@ Section "Uninstall"
 !endif
 !ifdef debug
   Delete "$INSTDIR\freetyped.dll"
+  Delete "$INSTDIR\libiconvd.dll"
   Delete "$INSTDIR\libpng16d.dll"
   Delete "$INSTDIR\libxml2d.dll"
   Delete "$INSTDIR\pcre2-8d.dll"
