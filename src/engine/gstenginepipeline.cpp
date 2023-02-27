@@ -190,10 +190,11 @@ GstEnginePipeline::~GstEnginePipeline() {
 
     pipeline_ = nullptr;
 
-    if (!pipeline_is_connected_) {
+    if (audiobin_ && !pipeline_is_connected_) {
       gst_object_unref(GST_OBJECT(audiobin_));
-      audiobin_ = nullptr;
     }
+
+    audiobin_ = nullptr;
 
   }
 
