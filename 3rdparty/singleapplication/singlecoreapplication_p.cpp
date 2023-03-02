@@ -161,7 +161,7 @@ void SingleCoreApplicationPrivate::genBlockServerName() {
     }
     else {
       appData.addData(appImagePath);
-    };
+    }
 #elif defined(Q_OS_WIN)
     appData.addData(SingleCoreApplication::app_t::applicationFilePath().toLower().toUtf8());
 #else
@@ -391,7 +391,7 @@ void SingleCoreApplicationPrivate::slotConnectionEstablished() {
         break;
       default:
         break;
-    };
+    }
   });
 
 }
