@@ -39,10 +39,12 @@
 #include <QThread>
 #include <QSharedMemory>
 #include <QLocalSocket>
-#include <QNativeIpcKey>
 #include <QByteArray>
 #include <QElapsedTimer>
 #include <QtDebug>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#  include <QNativeIpcKey>
+#endif
 
 #include "singleapplication.h"
 #include "singleapplication_p.h"
