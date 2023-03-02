@@ -449,10 +449,9 @@ void SingleApplicationPrivate::readInitMessageBody(QLocalSocket *sock) {
   readStream >> latin1Name;
 
   // connection type
-  ConnectionType connectionType = InvalidConnection;
   quint8 connTypeVal = InvalidConnection;
   readStream >> connTypeVal;
-  connectionType = static_cast<ConnectionType>(connTypeVal);
+  const ConnectionType connectionType = static_cast<ConnectionType>(connTypeVal);
 
   // instance id
   quint32 instanceId = 0;
