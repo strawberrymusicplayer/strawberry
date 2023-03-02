@@ -61,7 +61,7 @@ class SingleApplication : public QApplication {  // clazy:exclude=ctor-missing-p
    * block will be user wide.
    * @enum
    */
-  enum Mode {
+  enum class Mode {
     User = 1 << 0,
     System = 1 << 1,
     SecondaryNotification = 1 << 2,
