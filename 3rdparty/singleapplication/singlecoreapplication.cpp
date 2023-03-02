@@ -39,6 +39,7 @@
 #include <QThread>
 #include <QSharedMemory>
 #include <QLocalSocket>
+#include <QNativeIpcKey>
 #include <QByteArray>
 #include <QElapsedTimer>
 #include <QtDebug>
@@ -71,13 +72,21 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], const bool
 
 #ifdef Q_OS_UNIX
   // By explicitly attaching it and then deleting it we make sure that the memory is deleted even after the process has crashed on Unix.
+#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+  d->memory_ = new QSharedMemory(QNativeIpcKey(d->blockServerName_));
+#else
   d->memory_ = new QSharedMemory(d->blockServerName_);
+#endif
   d->memory_->attach();
   delete d->memory_;
 #endif
 
   // Guarantee thread safe behaviour with a shared memory block.
+#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+  d->memory_ = new QSharedMemory(QNativeIpcKey(d->blockServerName_));
+#else
   d->memory_ = new QSharedMemory(d->blockServerName_);
+#endif
 
   // Create a shared memory block
   if (d->memory_->create(sizeof(InstancesInfo))) {
