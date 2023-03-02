@@ -165,8 +165,6 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], const bool
 
   delete d;
 
-  ::exit(EXIT_SUCCESS);
-
 }
 
 SingleCoreApplication::~SingleCoreApplication() {

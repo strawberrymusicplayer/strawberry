@@ -165,8 +165,6 @@ SingleApplication::SingleApplication(int &argc, char *argv[], const bool allowSe
 
   delete d;
 
-  ::exit(EXIT_SUCCESS);
-
 }
 
 SingleApplication::~SingleApplication() {
