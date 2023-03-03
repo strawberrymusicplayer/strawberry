@@ -49,7 +49,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-01-14 01:21-0500\n"
+"PO-Revision-Date: 2023-03-01 11:28-0500\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -4228,7 +4228,7 @@ msgstr "Réinitialiser le compteur de lecture"
 
 #: dialogs/edittagdialog.cpp:1315
 msgid "Reset song statistics"
-msgstr ""
+msgstr "Réinitialiser les statistiques du morceau"
 
 #: core/commandlineoptions.cpp:190
 msgid "Resize the window"
