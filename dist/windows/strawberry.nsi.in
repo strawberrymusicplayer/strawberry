@@ -241,10 +241,10 @@ Section "Strawberry" Strawberry
   File "libssl-3-x64.dll"
 !endif
 
-  File "avcodec-59.dll"
-  File "avfilter-8.dll"
-  File "avformat-59.dll"
-  File "avutil-57.dll"
+  File "avcodec-60.dll"
+  File "avfilter-9.dll"
+  File "avformat-60.dll"
+  File "avutil-58.dll"
   File "libFLAC-12.dll"
   File "libbrotlicommon.dll"
   File "libbrotlidec.dll"
@@ -319,9 +319,9 @@ Section "Strawberry" Strawberry
   File "libwinpthread-1.dll"
   File "libxml2-2.dll"
   File "libzstd.dll"
-  File "postproc-56.dll"
+  File "postproc-57.dll"
   File "swresample-4.dll"
-  File "swscale-6.dll"
+  File "swscale-7.dll"
   File "zlib1.dll"
 
 !ifdef debug
@@ -746,10 +746,10 @@ Section "Uninstall"
   Delete "$INSTDIR\libssl-3-x64.dll"
 !endif
 
-  Delete "$INSTDIR\avcodec-59.dll"
-  Delete "$INSTDIR\avfilter-8.dll"
-  Delete "$INSTDIR\avformat-59.dll"
-  Delete "$INSTDIR\avutil-57.dll"
+  Delete "$INSTDIR\avcodec-60.dll"
+  Delete "$INSTDIR\avfilter-9.dll"
+  Delete "$INSTDIR\avformat-60.dll"
+  Delete "$INSTDIR\avutil-58.dll"
   Delete "$INSTDIR\libFLAC-12.dll"
   Delete "$INSTDIR\libbrotlicommon.dll"
   Delete "$INSTDIR\libbrotlidec.dll"
@@ -824,9 +824,9 @@ Section "Uninstall"
   Delete "$INSTDIR\libwinpthread-1.dll"
   Delete "$INSTDIR\libxml2-2.dll"
   Delete "$INSTDIR\libzstd.dll"
-  Delete "$INSTDIR\postproc-56.dll"
+  Delete "$INSTDIR\postproc-57.dll"
   Delete "$INSTDIR\swresample-4.dll"
-  Delete "$INSTDIR\swscale-6.dll"
+  Delete "$INSTDIR\swscale-7.dll"
   Delete "$INSTDIR\zlib1.dll"
 
 !ifdef debug
