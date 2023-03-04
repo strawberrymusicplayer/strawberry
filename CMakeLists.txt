@@ -309,7 +309,10 @@ endif()
 
 # SingleApplication
 add_subdirectory(3rdparty/singleapplication)
-set(SINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/singleapplication)
+set(SINGLEAPPLICATION_INCLUDE_DIRS
+  ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/singleapplication/singleapplication
+  ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/singleapplication/singlecoreapplication
+)
 set(SINGLEAPPLICATION_LIBRARIES singleapplication)
 set(SINGLECOREAPPLICATION_LIBRARIES singlecoreapplication)
 

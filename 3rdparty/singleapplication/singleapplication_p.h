@@ -39,7 +39,7 @@
 #include <QString>
 #include <QHash>
 
-#include "singleapplication.h"
+#include "singleapplication_t.h"
 
 class QLocalServer;
 class QLocalSocket;
@@ -60,7 +60,7 @@ struct ConnectionInfo {
   quint8 stage;
 };
 
-class SingleApplicationPrivate : public QObject {
+class SingleApplicationPrivateClass : public QObject {
   Q_OBJECT
 
  public:
@@ -76,10 +76,10 @@ class SingleApplicationPrivate : public QObject {
     StageConnectedHeader = 2,
     StageConnectedBody = 3,
   };
-  Q_DECLARE_PUBLIC(SingleApplication)
+  Q_DECLARE_PUBLIC(SingleApplicationClass)
 
-  explicit SingleApplicationPrivate(SingleApplication *ptr);
-  ~SingleApplicationPrivate() override;
+  explicit SingleApplicationPrivateClass(SingleApplicationClass *ptr);
+  ~SingleApplicationPrivateClass() override;
 
   static QString getUsername();
   void genBlockServerName();
@@ -98,13 +98,13 @@ class SingleApplicationPrivate : public QObject {
   bool writeConfirmedMessage(const int timeout, const QByteArray &msg) const;
   static void randomSleep();
 
-  SingleApplication *q_ptr;
+  SingleApplicationClass *q_ptr;
   QSharedMemory *memory_;
   QLocalSocket *socket_;
   QLocalServer *server_;
   quint32 instanceNumber_;
   QString blockServerName_;
-  SingleApplication::Options options_;
+  SingleApplicationClass::Options options_;
   QHash<QLocalSocket*, ConnectionInfo> connectionMap_;
 
  public slots:

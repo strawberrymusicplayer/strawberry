@@ -35,7 +35,6 @@
 #include <limits>
 
 #include <QtGlobal>
-#include <QCoreApplication>
 #include <QThread>
 #include <QSharedMemory>
 #include <QLocalSocket>
@@ -46,8 +45,8 @@
 #  include <QNativeIpcKey>
 #endif
 
-#include "singlecoreapplication.h"
-#include "singlecoreapplication_p.h"
+#include "singleapplication_t.h"
+#include "singleapplication_p.h"
 
 /**
  * @brief Constructor. Checks and fires up LocalServer or closes the program if another instance already exists
@@ -57,11 +56,15 @@
  * @param options Optional flags to toggle specific behaviour
  * @param timeout Maximum time blocking functions are allowed during app load
  */
-SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], const bool allowSecondary, const Options options, const int timeout)
-    : app_t(argc, argv),
-      d_ptr(new SingleCoreApplicationPrivate(this)) {
+SingleApplicationClass::SingleApplicationClass(int &argc, char *argv[], const bool allowSecondary, const Options options, const int timeout)
+    : ApplicationClass(argc, argv),
+      d_ptr(new SingleApplicationPrivateClass(this)) {
 
+#if defined(SINGLEAPPLICATION)
+  Q_D(SingleApplication);
+#elif defined(SINGLECOREAPPLICATION)
   Q_D(SingleCoreApplication);
+#endif
 
   // Store the current mode of the program
   d->options_ = options;
@@ -70,7 +73,7 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], const bool
   d->genBlockServerName();
 
   // To mitigate QSharedMemory issues with large amount of processes attempting to attach at the same time
-  SingleCoreApplicationPrivate::randomSleep();
+  SingleApplicationPrivateClass::randomSleep();
 
 #ifdef Q_OS_UNIX
   // By explicitly attaching it and then deleting it we make sure that the memory is deleted even after the process has crashed on Unix.
@@ -94,7 +97,7 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], const bool
   if (d->memory_->create(sizeof(InstancesInfo))) {
     // Initialize the shared memory block
     if (!d->memory_->lock()) {
-      qCritical() << "SingleCoreApplication: Unable to lock memory block after create.";
+      qCritical() << "SingleApplication: Unable to lock memory block after create.";
       abortSafely();
     }
     d->initializeMemoryBlock();
@@ -103,16 +106,16 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], const bool
     if (d->memory_->error() == QSharedMemory::AlreadyExists) {
       // Attempt to attach to the memory segment
       if (!d->memory_->attach()) {
-        qCritical() << "SingleCoreApplication: Unable to attach to shared memory block.";
+        qCritical() << "SingleApplication: Unable to attach to shared memory block.";
         abortSafely();
       }
       if (!d->memory_->lock()) {
-        qCritical() << "SingleCoreApplication: Unable to lock memory block after attach.";
+        qCritical() << "SingleApplication: Unable to lock memory block after attach.";
         abortSafely();
       }
     }
     else {
-      qCritical() << "SingleCoreApplication: Unable to create block.";
+      qCritical() << "SingleApplication: Unable to create block.";
       abortSafely();
     }
   }
@@ -128,19 +131,19 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], const bool
 
     // If more than 5s have elapsed, assume the primary instance crashed and assume it's position
     if (time.elapsed() > 5000) {
-      qWarning() << "SingleCoreApplication: Shared memory block has been in an inconsistent state from more than 5s. Assuming primary instance failure.";
+      qWarning() << "SingleApplication: Shared memory block has been in an inconsistent state from more than 5s. Assuming primary instance failure.";
       d->initializeMemoryBlock();
     }
 
     // Otherwise wait for a random period and try again.
     // The random sleep here limits the probability of a collision between two racing apps and allows the app to initialise faster
     if (!d->memory_->unlock()) {
-      qDebug() << "SingleCoreApplication: Unable to unlock memory for random wait.";
+      qDebug() << "SingleApplication: Unable to unlock memory for random wait.";
       qDebug() << d->memory_->errorString();
     }
-    SingleCoreApplicationPrivate::randomSleep();
+    SingleApplicationPrivateClass::randomSleep();
     if (!d->memory_->lock()) {
-      qCritical() << "SingleCoreApplication: Unable to lock memory after random wait.";
+      qCritical() << "SingleApplication: Unable to lock memory after random wait.";
       abortSafely();
     }
   }
@@ -148,7 +151,7 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], const bool
   if (!instance->primary) {
     d->startPrimary();
     if (!d->memory_->unlock()) {
-      qDebug() << "SingleCoreApplication: Unable to unlock memory after primary start.";
+      qDebug() << "SingleApplication: Unable to unlock memory after primary start.";
       qDebug() << d->memory_->errorString();
     }
     return;
@@ -158,47 +161,68 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], const bool
   if (allowSecondary) {
     d->startSecondary();
     if (d->options_ & Mode::SecondaryNotification) {
-      d->connectToPrimary(timeout, SingleCoreApplicationPrivate::SecondaryInstance);
+      d->connectToPrimary(timeout, SingleApplicationPrivateClass::SecondaryInstance);
     }
     if (!d->memory_->unlock()) {
-      qDebug() << "SingleCoreApplication: Unable to unlock memory after secondary start.";
+      qDebug() << "SingleApplication: Unable to unlock memory after secondary start.";
       qDebug() << d->memory_->errorString();
     }
     return;
   }
 
   if (!d->memory_->unlock()) {
-    qDebug() << "SingleCoreApplication: Unable to unlock memory at end of execution.";
+    qDebug() << "SingleApplication: Unable to unlock memory at end of execution.";
     qDebug() << d->memory_->errorString();
   }
 
-  d->connectToPrimary(timeout, SingleCoreApplicationPrivate::NewInstance);
+  d->connectToPrimary(timeout, SingleApplicationPrivateClass::NewInstance);
 
   delete d;
 
 }
 
-SingleCoreApplication::~SingleCoreApplication() {
+SingleApplicationClass::~SingleApplicationClass() {
+
+#if defined(SINGLEAPPLICATION)
+  Q_D(SingleApplication);
+#elif defined(SINGLECOREAPPLICATION)
   Q_D(SingleCoreApplication);
+#endif
+
   delete d;
+
 }
 
 /**
  * Checks if the current application instance is primary.
  * @return Returns true if the instance is primary, false otherwise.
  */
-bool SingleCoreApplication::isPrimary() const {
+bool SingleApplicationClass::isPrimary() const {
+
+#if defined(SINGLEAPPLICATION)
+  Q_D(const SingleApplication);
+#elif defined(SINGLECOREAPPLICATION)
   Q_D(const SingleCoreApplication);
+#endif
+
   return d->server_ != nullptr;
+
 }
 
 /**
  * Checks if the current application instance is secondary.
  * @return Returns true if the instance is secondary, false otherwise.
  */
-bool SingleCoreApplication::isSecondary() const {
+bool SingleApplicationClass::isSecondary() const {
+
+#if defined(SINGLEAPPLICATION)
+  Q_D(const SingleApplication);
+#elif defined(SINGLECOREAPPLICATION)
   Q_D(const SingleCoreApplication);
+#endif
+
   return d->server_ == nullptr;
+
 }
 
 /**
@@ -206,36 +230,57 @@ bool SingleCoreApplication::isSecondary() const {
  * It is reset when the first (primary) instance of your app starts and only incremented afterwards.
  * @return Returns a unique instance id.
  */
-quint32 SingleCoreApplication::instanceId() const {
+quint32 SingleApplicationClass::instanceId() const {
+
+#if defined(SINGLEAPPLICATION)
+  Q_D(const SingleApplication);
+#elif defined(SINGLECOREAPPLICATION)
   Q_D(const SingleCoreApplication);
+#endif
+
   return d->instanceNumber_;
+
 }
 
 /**
  * Returns the OS PID (Process Identifier) of the process running the primary instance.
- * Especially useful when SingleCoreApplication is coupled with OS. specific APIs.
+ * Especially useful when SingleApplication is coupled with OS. specific APIs.
  * @return Returns the primary instance PID.
  */
-qint64 SingleCoreApplication::primaryPid() const {
+qint64 SingleApplicationClass::primaryPid() const {
+
+#if defined(SINGLEAPPLICATION)
+  Q_D(const SingleApplication);
+#elif defined(SINGLECOREAPPLICATION)
   Q_D(const SingleCoreApplication);
+#endif
+
   return d->primaryPid();
+
 }
 
 /**
  * Returns the username the primary instance is running as.
  * @return Returns the username the primary instance is running as.
  */
-QString SingleCoreApplication::primaryUser() const {
+QString SingleApplicationClass::primaryUser() const {
+
+#if defined(SINGLEAPPLICATION)
+  Q_D(const SingleApplication);
+#elif defined(SINGLECOREAPPLICATION)
   Q_D(const SingleCoreApplication);
+#endif
+
   return d->primaryUser();
+
 }
 
 /**
  * Returns the username the current instance is running as.
  * @return Returns the username the current instance is running as.
  */
-QString SingleCoreApplication::currentUser() const {
-  return SingleCoreApplicationPrivate::getUsername();
+QString SingleApplicationClass::currentUser() const {
+  return SingleApplicationPrivateClass::getUsername();
 }
 
 /**
@@ -244,30 +289,39 @@ QString SingleCoreApplication::currentUser() const {
  * @param timeout the maximum timeout in milliseconds for blocking functions.
  * @return true if the message was sent successfully, false otherwise.
  */
-bool SingleCoreApplication::sendMessage(const QByteArray &message, const int timeout) {
+bool SingleApplicationClass::sendMessage(const QByteArray &message, const int timeout) {
 
+#if defined(SINGLEAPPLICATION)
+  Q_D(SingleApplication);
+#elif defined(SINGLECOREAPPLICATION)
   Q_D(SingleCoreApplication);
+#endif
 
   // Nobody to connect to
   if (isPrimary()) return false;
 
   // Make sure the socket is connected
-  if (!d->connectToPrimary(timeout, SingleCoreApplicationPrivate::Reconnect)) {
+  if (!d->connectToPrimary(timeout, SingleApplicationPrivateClass::Reconnect)) {
     return false;
   }
 
   return d->writeConfirmedMessage(timeout, message);
+
 }
 
 /**
  * Cleans up the shared memory block and exits with a failure.
  * This function halts program execution.
  */
-void SingleCoreApplication::abortSafely() {
+void SingleApplicationClass::abortSafely() {
 
+#if defined(SINGLEAPPLICATION)
+  Q_D(SingleApplication);
+#elif defined(SINGLECOREAPPLICATION)
   Q_D(SingleCoreApplication);
+#endif
 
-  qCritical() << "SingleCoreApplication: " << d->memory_->error() << d->memory_->errorString();
+  qCritical() << "SingleApplication: " << d->memory_->error() << d->memory_->errorString();
   delete d;
 
   ::exit(EXIT_FAILURE);
