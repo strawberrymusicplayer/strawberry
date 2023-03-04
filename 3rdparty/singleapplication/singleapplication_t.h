@@ -102,7 +102,7 @@ class SingleApplicationClass : public ApplicationClass {  // clazy:exclude=ctor-
    * instance and the secondary instance.
    * @note The timeout is just a hint for the maximum time of blocking
    * operations. It does not guarantee that the SingleApplication
-   * initialisation will be completed in given time, though is a good hint.
+   * initialization will be completed in given time, though is a good hint.
    * Usually 4*timeout would be the worst case (fail) scenario.
    */
   explicit SingleApplicationClass(int &argc, char *argv[], const bool allowSecondary = false, const Options options = Mode::User, const int timeout = 1000);

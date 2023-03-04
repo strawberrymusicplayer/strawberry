@@ -80,27 +80,24 @@ SingleApplicationPrivateClass::SingleApplicationPrivateClass(SingleApplicationCl
 
 SingleApplicationPrivateClass::~SingleApplicationPrivateClass() {
 
-  if (socket_ != nullptr) {
+  if (socket_ != nullptr && socket_->isOpen()) {
     socket_->close();
-    delete socket_;
-    socket_ = nullptr;
   }
 
   if (memory_ != nullptr) {
     memory_->lock();
-    InstancesInfo *instance = static_cast<InstancesInfo*>(memory_->data());
     if (server_ != nullptr) {
       server_->close();
-      delete server_;
+      InstancesInfo *instance = static_cast<InstancesInfo*>(memory_->data());
       instance->primary = false;
       instance->primaryPid = -1;
       instance->primaryUser[0] = '\0';
       instance->checksum = blockChecksum();
     }
     memory_->unlock();
-
-    delete memory_;
-    memory_ = nullptr;
+    if (memory_->isAttached()) {
+      memory_->detach();
+    }
   }
 
 }
@@ -203,7 +200,7 @@ void SingleApplicationPrivateClass::startPrimary() {
   // Successful creation means that no main process exists
   // So we start a QLocalServer to listen for connections
   QLocalServer::removeServer(blockServerName_);
-  server_ = new QLocalServer();
+  server_ = new QLocalServer(this);
 
   // Restrict access to the socket according to the SingleApplication::Mode::User flag on User level or no restrictions
   if (options_ & SingleApplicationClass::Mode::User) {
@@ -230,15 +227,15 @@ void SingleApplicationPrivateClass::startSecondary() {
 
 bool SingleApplicationPrivateClass::connectToPrimary(const int timeout, const ConnectionType connectionType) {
 
-  QElapsedTimer time;
-  time.start();
-
   // Connect to the Local Server of the Primary Instance if not already connected.
   if (socket_ == nullptr) {
-    socket_ = new QLocalSocket();
+    socket_ = new QLocalSocket(this);
   }
 
   if (socket_->state() == QLocalSocket::ConnectedState) return true;
+
+  QElapsedTimer time;
+  time.start();
 
   if (socket_->state() != QLocalSocket::ConnectedState) {
 
@@ -261,7 +258,7 @@ bool SingleApplicationPrivateClass::connectToPrimary(const int timeout, const Co
     }
   }
 
-  // Initialisation message according to the SingleApplication protocol
+  // Initialization message according to the SingleApplication protocol
   QByteArray initMsg;
   QDataStream writeStream(&initMsg, QIODevice::WriteOnly);
   writeStream.setVersion(QDataStream::Qt_5_8);

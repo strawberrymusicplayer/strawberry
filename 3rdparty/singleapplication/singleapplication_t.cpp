@@ -34,6 +34,8 @@
 #include <cstdlib>
 #include <limits>
 
+#include <boost/scope_exit.hpp>
+
 #include <QtGlobal>
 #include <QThread>
 #include <QSharedMemory>
@@ -77,107 +79,124 @@ SingleApplicationClass::SingleApplicationClass(int &argc, char *argv[], const bo
 
 #ifdef Q_OS_UNIX
   // By explicitly attaching it and then deleting it we make sure that the memory is deleted even after the process has crashed on Unix.
-#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
-  d->memory_ = new QSharedMemory(QNativeIpcKey(d->blockServerName_));
-#else
-  d->memory_ = new QSharedMemory(d->blockServerName_);
-#endif
-  d->memory_->attach();
-  delete d->memory_;
+  {
+#  if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+    std::unique_ptr<QSharedMemory> memory = std::make_unique<QSharedMemory>(QNativeIpcKey(d->blockServerName_));
+#  else
+    std::unique_ptr<QSharedMemory> memory = std::make_unique<QSharedMemory>(d->blockServerName_);
+#  endif
+    if (memory->attach()) {
+      memory->detach();
+    }
+  }
 #endif
 
   // Guarantee thread safe behaviour with a shared memory block.
 #if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
-  d->memory_ = new QSharedMemory(QNativeIpcKey(d->blockServerName_));
+  QSharedMemory *memory = new QSharedMemory(QNativeIpcKey(d->blockServerName_), this);
 #else
-  d->memory_ = new QSharedMemory(d->blockServerName_);
+  QSharedMemory *memory = new QSharedMemory(d->blockServerName_, this);
 #endif
+  d->memory_ = memory;
+
+  bool primary = false;
 
   // Create a shared memory block
-  if (d->memory_->create(sizeof(InstancesInfo))) {
-    // Initialize the shared memory block
-    if (!d->memory_->lock()) {
-      qCritical() << "SingleApplication: Unable to lock memory block after create.";
-      abortSafely();
+  if (d->memory_->create(sizeof(SingleApplicationPrivateClass::InstancesInfo))) {
+    primary = true;
+  }
+  else if (d->memory_->error() == QSharedMemory::AlreadyExists) {
+    if (!d->memory_->attach()) {
+      qCritical() << "SingleApplication: Unable to attach to shared memory block:" << d->memory_->error() << d->memory_->errorString();
+      return;
     }
-    d->initializeMemoryBlock();
   }
   else {
-    if (d->memory_->error() == QSharedMemory::AlreadyExists) {
-      // Attempt to attach to the memory segment
-      if (!d->memory_->attach()) {
-        qCritical() << "SingleApplication: Unable to attach to shared memory block.";
-        abortSafely();
-      }
-      if (!d->memory_->lock()) {
-        qCritical() << "SingleApplication: Unable to lock memory block after attach.";
-        abortSafely();
-      }
-    }
-    else {
-      qCritical() << "SingleApplication: Unable to create block.";
-      abortSafely();
-    }
+    qCritical() << "SingleApplication: Unable to create shared memory block:" << d->memory_->error() << d->memory_->errorString();
+    return;
   }
 
-  InstancesInfo *instance = static_cast<InstancesInfo*>(d->memory_->data());
+  bool locked = false;
+
+  BOOST_SCOPE_EXIT((memory)(&locked)) {
+    if (locked && !memory->unlock()) {
+      qWarning() << "SingleApplication: Unable to unlock shared memory block:" << memory->error() << memory->errorString();
+      return;
+    }
+  }BOOST_SCOPE_EXIT_END
+
+  if (!d->memory_->lock()) {
+    qCritical() << "SingleApplication: Unable to lock shared memory block:" << d->memory_->error() << d->memory_->errorString();
+    return;
+  }
+  locked = true;
+
+  if (primary) {
+    // Initialize the shared memory block
+    d->initializeMemoryBlock();
+  }
+
+  SingleApplicationPrivateClass::InstancesInfo *instance = static_cast<SingleApplicationPrivateClass::InstancesInfo*>(d->memory_->data());
   QElapsedTimer time;
   time.start();
 
-  // Make sure the shared memory block is initialised and in consistent state
-  forever {
-    // If the shared memory block's checksum is valid continue
-    if (d->blockChecksum() == instance->checksum) break;
+  // Make sure the shared memory block is initialized and in a consistent state
+  while (d->blockChecksum() != instance->checksum) {
 
-    // If more than 5s have elapsed, assume the primary instance crashed and assume it's position
+    // If more than 5 seconds have elapsed, assume the primary instance crashed and assume its position
     if (time.elapsed() > 5000) {
-      qWarning() << "SingleApplication: Shared memory block has been in an inconsistent state from more than 5s. Assuming primary instance failure.";
+      qWarning() << "SingleApplication: Shared memory block has been in an inconsistent state from more than 5 seconds. Assuming primary instance failure.";
       d->initializeMemoryBlock();
     }
 
     // Otherwise wait for a random period and try again.
-    // The random sleep here limits the probability of a collision between two racing apps and allows the app to initialise faster
-    if (!d->memory_->unlock()) {
-      qDebug() << "SingleApplication: Unable to unlock memory for random wait.";
-      qDebug() << d->memory_->errorString();
+    // The random sleep here limits the probability of a collision between two racing apps and allows the app to initialize faster
+    if (locked) {
+      if (d->memory_->unlock()) {
+        locked = false;
+      }
+      else {
+        qCritical() << "SingleApplication: Unable to unlock shared memory block for random wait:" << memory->error() << memory->errorString();
+        return;
+      }
     }
+
     SingleApplicationPrivateClass::randomSleep();
+
     if (!d->memory_->lock()) {
-      qCritical() << "SingleApplication: Unable to lock memory after random wait.";
-      abortSafely();
+      qCritical() << "SingleApplication: Unable to lock shared memory block after random wait:" << memory->error() << memory->errorString();
+      return;
     }
+    locked = true;
+
   }
 
-  if (!instance->primary) {
+  if (instance->primary) {
+    // Check if another instance can be started
+    if (allowSecondary) {
+      d->startSecondary();
+      if (d->options_ & Mode::SecondaryNotification) {
+        d->connectToPrimary(timeout, SingleApplicationPrivateClass::SecondaryInstance);
+      }
+    }
+  }
+  else {
     d->startPrimary();
-    if (!d->memory_->unlock()) {
-      qDebug() << "SingleApplication: Unable to unlock memory after primary start.";
-      qDebug() << d->memory_->errorString();
-    }
-    return;
+    primary = true;
   }
 
-  // Check if another instance can be started
-  if (allowSecondary) {
-    d->startSecondary();
-    if (d->options_ & Mode::SecondaryNotification) {
-      d->connectToPrimary(timeout, SingleApplicationPrivateClass::SecondaryInstance);
+  if (locked) {
+    if (d->memory_->unlock()) {
+      locked = false;
     }
-    if (!d->memory_->unlock()) {
-      qDebug() << "SingleApplication: Unable to unlock memory after secondary start.";
-      qDebug() << d->memory_->errorString();
+    else {
+      qWarning() << "SingleApplication: Unable to unlock shared memory block:" << memory->error() << memory->errorString();
     }
-    return;
   }
 
-  if (!d->memory_->unlock()) {
-    qDebug() << "SingleApplication: Unable to unlock memory at end of execution.";
-    qDebug() << d->memory_->errorString();
+  if (!primary && !allowSecondary) {
+    d->connectToPrimary(timeout, SingleApplicationPrivateClass::NewInstance);
   }
-
-  d->connectToPrimary(timeout, SingleApplicationPrivateClass::NewInstance);
-
-  delete d;
 
 }
 
@@ -306,24 +325,5 @@ bool SingleApplicationClass::sendMessage(const QByteArray &message, const int ti
   }
 
   return d->writeConfirmedMessage(timeout, message);
-
-}
-
-/**
- * Cleans up the shared memory block and exits with a failure.
- * This function halts program execution.
- */
-void SingleApplicationClass::abortSafely() {
-
-#if defined(SINGLEAPPLICATION)
-  Q_D(SingleApplication);
-#elif defined(SINGLECOREAPPLICATION)
-  Q_D(SingleCoreApplication);
-#endif
-
-  qCritical() << "SingleApplication: " << d->memory_->error() << d->memory_->errorString();
-  delete d;
-
-  ::exit(EXIT_FAILURE);
 
 }

@@ -45,25 +45,13 @@ class QLocalServer;
 class QLocalSocket;
 class QSharedMemory;
 
-struct InstancesInfo {
-  bool primary;
-  quint32 secondary;
-  qint64 primaryPid;
-  char primaryUser[128];
-  quint16 checksum;
-};
-
-struct ConnectionInfo {
-  explicit ConnectionInfo() : msgLen(0), instanceId(0), stage(0) {}
-  quint64 msgLen;
-  quint32 instanceId;
-  quint8 stage;
-};
-
 class SingleApplicationPrivateClass : public QObject {
   Q_OBJECT
 
  public:
+  explicit SingleApplicationPrivateClass(SingleApplicationClass *ptr);
+  ~SingleApplicationPrivateClass() override;
+
   enum ConnectionType : quint8 {
     InvalidConnection = 0,
     NewInstance = 1,
@@ -74,12 +62,25 @@ class SingleApplicationPrivateClass : public QObject {
     StageInitHeader = 0,
     StageInitBody = 1,
     StageConnectedHeader = 2,
-    StageConnectedBody = 3,
+    StageConnectedBody = 3
   };
   Q_DECLARE_PUBLIC(SingleApplicationClass)
 
-  explicit SingleApplicationPrivateClass(SingleApplicationClass *ptr);
-  ~SingleApplicationPrivateClass() override;
+  struct InstancesInfo {
+    explicit InstancesInfo() : primary(false), secondary(0), primaryPid(0), checksum(0) {}
+    bool primary;
+    quint32 secondary;
+    qint64 primaryPid;
+    char primaryUser[128];
+    quint16 checksum;
+  };
+
+  struct ConnectionInfo {
+    explicit ConnectionInfo() : msgLen(0), instanceId(0), stage(0) {}
+    quint64 msgLen;
+    quint32 instanceId;
+    quint8 stage;
+  };
 
   static QString getUsername();
   void genBlockServerName();
