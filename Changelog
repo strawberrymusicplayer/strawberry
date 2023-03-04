@@ -6,14 +6,20 @@ Unreleased:
 
   Bugfixes:
     * Fixed playlist column showing invalid last played date for streams.
-    * Fixed crash when the audio bin failed to initilize (#1123, #1133).
+    * Fixed crash when the audio bin failed to initialize (#1123, #1133).
     * Fixed duplicated filename when organizing files using dot in the filename (#1136).
-    * Fixed tag inline editing for steams (#1130).
+    * Fixed tag inline editing for streams (#1130).
     * Fixed resetting play statistics using tag edit dialog (#1124).
+    * Fixed compilation songs not showing if group by was set to other than (Album) Artist / Album (#1140).
 
   Enhancements:
     * Added lyrics from stands4 (lyrics.com).
     * Added Sonogram analyzer.
+    * Use GStreamer playbin3 with GStreamer 1.22.0 and higher.
+
+  Code improvements:
+    * Made use of C++11 enum class where possible.
+    * Use new QNativeIpcKey based QSharedMemory constructor with Qt 6.6 and higher.
 
 Version 1.0.14 (2023.01.13):
 
