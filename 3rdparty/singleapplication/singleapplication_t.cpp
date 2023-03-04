@@ -33,6 +33,7 @@
 
 #include <cstdlib>
 #include <limits>
+#include <memory>
 
 #include <boost/scope_exit.hpp>
 
