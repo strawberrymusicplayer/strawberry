@@ -360,18 +360,18 @@ void SingleApplicationPrivateClass::slotConnectionEstablished() {
   QLocalSocket *nextConnSocket = server_->nextPendingConnection();
   connectionMap_.insert(nextConnSocket, ConnectionInfo());
 
-  QObject::connect(nextConnSocket, &QLocalSocket::aboutToClose, this, [nextConnSocket, this]() {
+  QObject::connect(nextConnSocket, &QLocalSocket::aboutToClose, this, [this, nextConnSocket]() {
     const ConnectionInfo &info = connectionMap_[nextConnSocket];
     slotClientConnectionClosed(nextConnSocket, info.instanceId);
   });
 
   QObject::connect(nextConnSocket, &QLocalSocket::disconnected, nextConnSocket, &QLocalSocket::deleteLater);
 
-  QObject::connect(nextConnSocket, &QLocalSocket::destroyed, this, [nextConnSocket, this]() {
+  QObject::connect(nextConnSocket, &QLocalSocket::destroyed, this, [this, nextConnSocket]() {
     connectionMap_.remove(nextConnSocket);
   });
 
-  QObject::connect(nextConnSocket, &QLocalSocket::readyRead, this, [nextConnSocket, this]() {
+  QObject::connect(nextConnSocket, &QLocalSocket::readyRead, this, [this, nextConnSocket]() {
     const ConnectionInfo &info = connectionMap_[nextConnSocket];
     switch (info.stage) {
       case StageInitHeader:
@@ -384,7 +384,7 @@ void SingleApplicationPrivateClass::slotConnectionEstablished() {
         readMessageHeader(nextConnSocket, StageConnectedBody);
         break;
       case StageConnectedBody:
-        this->slotDataAvailable(nextConnSocket, info.instanceId);
+        slotDataAvailable(nextConnSocket, info.instanceId);
         break;
       default:
         break;
