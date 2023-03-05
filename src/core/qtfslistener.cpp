@@ -23,6 +23,7 @@
 #include <QFileSystemWatcher>
 #include <QString>
 
+#include "core/logging.h"
 #include "filesystemwatcherinterface.h"
 #include "qtfslistener.h"
 
@@ -32,11 +33,25 @@ QtFSListener::QtFSListener(QObject *parent) : FileSystemWatcherInterface(parent)
 
 }
 
-void QtFSListener::AddPath(const QString &path) { watcher_.addPath(path); }
+void QtFSListener::AddPath(const QString &path) {
 
-void QtFSListener::RemovePath(const QString &path) { watcher_.removePath(path); }
+  if (!watcher_.addPath(path)) {
+    qLog(Error) << "Failed to add watch for path" << path;
+  }
+
+}
+
+void QtFSListener::RemovePath(const QString &path) {
+
+  if (!watcher_.removePath(path)) {
+    qLog(Error) << "Failed to remove watch for path" << path;
+  }
+
+}
 
 void QtFSListener::Clear() {
+
   watcher_.removePaths(watcher_.directories());
   watcher_.removePaths(watcher_.files());
+
 }
