@@ -9,6 +9,7 @@ add_library(singleapplication STATIC ${SOURCES} ${MOC})
 target_include_directories(singleapplication PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/..
   ${CMAKE_CURRENT_BINARY_DIR}/..
+  ${Boost_INCLUDE_DIRS}
 )
 target_link_libraries(singleapplication PUBLIC
   ${QtCore_LIBRARIES}
