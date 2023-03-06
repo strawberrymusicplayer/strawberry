@@ -36,7 +36,8 @@
 #include <QJsonArray>
 
 #include "jsonlyricsprovider.h"
-#include "lyricsfetcher.h"
+#include "lyricssearchrequest.h"
+#include "lyricssearchresult.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
@@ -53,7 +54,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   void Authenticate() override;
   void Deauthenticate() override { access_token_.clear(); }
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, int id) override;
+  bool StartSearch(const int id, const LyricsSearchRequest &request) override;
   void CancelSearch(const int id) override;
 
  private:
@@ -66,17 +67,18 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   struct GeniusLyricsSearchContext {
     explicit GeniusLyricsSearchContext() : id(-1) {}
     int id;
-    QString artist;
-    QString title;
+    LyricsSearchRequest request;
     QMap<QUrl, GeniusLyricsLyricContext> requests_lyric_;
     LyricsSearchResults results;
   };
+
+  using GeniusLyricsSearchContextPtr = std::shared_ptr<GeniusLyricsSearchContext>;
 
  private:
   void RequestAccessToken(const QUrl &url, const QUrl &redirect_url);
   void AuthError(const QString &error = QString(), const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
-  void EndSearch(std::shared_ptr<GeniusLyricsSearchContext> search, const GeniusLyricsLyricContext &lyric = GeniusLyricsLyricContext());
+  void EndSearch(GeniusLyricsSearchContextPtr search, const GeniusLyricsLyricContext &lyric = GeniusLyricsLyricContext());
 
  private slots:
   void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);

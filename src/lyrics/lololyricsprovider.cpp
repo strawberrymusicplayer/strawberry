@@ -20,7 +20,6 @@
 #include "config.h"
 
 #include <QObject>
-#include <QPair>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -33,8 +32,8 @@
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/strutils.h"
-#include "lyricsprovider.h"
-#include "lyricsfetcher.h"
+#include "lyricssearchrequest.h"
+#include "lyricssearchresult.h"
 #include "lololyricsprovider.h"
 
 const char *LoloLyricsProvider::kUrlSearch = "http://api.lololyrics.com/0.5/getLyric";
@@ -52,17 +51,11 @@ LoloLyricsProvider::~LoloLyricsProvider() {
 
 }
 
-bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
-
-  Q_UNUSED(album);
-
-  const ParamList params = ParamList() << Param("artist", artist)
-                                       << Param("track", title);
+bool LoloLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   QUrlQuery url_query;
-  for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-  }
+  url_query.addQueryItem("artist", QUrl::toPercentEncoding(request.artist));
+  url_query.addQueryItem("track", QUrl::toPercentEncoding(request.title));
 
   QUrl url(kUrlSearch);
   url.setQuery(url_query);
@@ -70,9 +63,7 @@ bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, artist, title]() { HandleSearchReply(reply, id, artist, title); });
-
-  //qLog(Debug) << "LoloLyrics: Sending request for" << url;
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleSearchReply(reply, id, request); });
 
   return true;
 
@@ -80,7 +71,7 @@ bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album
 
 void LoloLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
-void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &title) {
+void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -92,7 +83,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
     failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
     if (reply->error() < 200) {
       Error(failure_reason);
-      emit SearchFinished(id, LyricsSearchResults());
+      emit SearchFinished(id);
       return;
     }
   }
@@ -140,8 +131,12 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
     }
   }
 
-  if (results.isEmpty()) qLog(Debug) << "LoloLyrics: No lyrics for" << artist << title << failure_reason;
-  else qLog(Debug) << "LoloLyrics: Got lyrics for" << artist << title;
+  if (results.isEmpty()) {
+    qLog(Debug) << "LoloLyrics: No lyrics for" << request.artist << request.title << failure_reason;
+  }
+  else {
+    qLog(Debug) << "LoloLyrics: Got lyrics for" << request.artist << request.title;
+  }
 
   emit SearchFinished(id, results);
 

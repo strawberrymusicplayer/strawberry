@@ -28,7 +28,7 @@
 #include <QUrl>
 
 #include "jsonlyricsprovider.h"
-#include "lyricsfetcher.h"
+#include "lyricssearchrequest.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
@@ -40,18 +40,19 @@ class Stands4LyricsProvider : public JsonLyricsProvider {
   explicit Stands4LyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
   ~Stands4LyricsProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, int id) override;
+  bool StartSearch(const int id, const LyricsSearchRequest &request) override;
   void CancelSearch(const int id) override;
 
  private:
-  void SendSearchRequest(const int id, const QString &artist, const QString &album, const QString &title);
-  void SendLyricsRequest(const int id, const QString &artist, const QString &album, const QString &title, QUrl url = QUrl());
+  void SendSearchRequest(const int id, const LyricsSearchRequest &request);
+  void CreateLyricsRequest(const int id, const LyricsSearchRequest &request);
+  void SendLyricsRequest(const int id, const LyricsSearchRequest &request, const QString &result_artist, const QString &result_album, const QString &result_title, QUrl url = QUrl());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   static QString StringFixup(QString string);
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album, const QString &title);
-  void HandleLyricsReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album, const QString &title);
+  void HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);
+  void HandleLyricsReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request, const QString &result_artist, const QString &result_album, const QString &result_title);
 
  private:
   static const char *kApiUrl;
@@ -59,7 +60,7 @@ class Stands4LyricsProvider : public JsonLyricsProvider {
   static const char *kUID;
   static const char *kTokenB64;
   QList<QNetworkReply*> replies_;
-  bool api_usage_exceeded_;
+  bool use_api_;
 };
 
 #endif  // STANDS4LYRICSPROVIDER_H

@@ -24,13 +24,13 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QPair>
 #include <QList>
 #include <QVariant>
 #include <QString>
 #include <QRegularExpression>
 
-#include "lyricsfetcher.h"
+#include "lyricssearchrequest.h"
+#include "lyricssearchresult.h"
 
 class NetworkAccessManager;
 
@@ -47,7 +47,7 @@ class LyricsProvider : public QObject {
   void set_enabled(const bool enabled) { enabled_ = enabled; }
   void set_order(const int order) { order_ = order; }
 
-  virtual bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) = 0;
+  virtual bool StartSearch(const int id, const LyricsSearchRequest &request) = 0;
   virtual void CancelSearch(const int id) { Q_UNUSED(id); }
   virtual bool AuthenticationRequired() const { return authentication_required_; }
   virtual void Authenticate() {}
@@ -66,9 +66,6 @@ class LyricsProvider : public QObject {
   void SearchFinished(int id, LyricsSearchResults results = LyricsSearchResults());
 
  protected:
-  using Param = QPair<QString, QString>;
-  using ParamList = QList<Param>;
-
   NetworkAccessManager *network_;
   QString name_;
   bool enabled_;

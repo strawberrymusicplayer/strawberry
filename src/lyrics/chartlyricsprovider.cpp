@@ -32,8 +32,8 @@
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/strutils.h"
-#include "lyricsprovider.h"
-#include "lyricsfetcher.h"
+#include "lyricssearchrequest.h"
+#include "lyricssearchresult.h"
 #include "chartlyricsprovider.h"
 
 const char *ChartLyricsProvider::kUrlSearch = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect";
@@ -51,15 +51,11 @@ ChartLyricsProvider::~ChartLyricsProvider() {
 
 }
 
-bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, const QString &title, const int id) {
-
-  const ParamList params = ParamList() << Param("artist", artist)
-                                       << Param("song", title);
+bool ChartLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   QUrlQuery url_query;
-  for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-  }
+  url_query.addQueryItem("artist", QUrl::toPercentEncoding(request.artist));
+  url_query.addQueryItem("song", QUrl::toPercentEncoding(request.title));
 
   QUrl url(kUrlSearch);
   url.setQuery(url_query);
@@ -67,9 +63,7 @@ bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, con
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, artist, title]() { HandleSearchReply(reply, id, artist, title); });
-
-  //qLog(Debug) << "ChartLyrics: Sending request for" << url;
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleSearchReply(reply, id, request); });
 
   return true;
 
@@ -77,7 +71,7 @@ bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, con
 
 void ChartLyricsProvider::CancelSearch(const int) {}
 
-void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &title) {
+void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -86,13 +80,13 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
 
   if (reply->error() != QNetworkReply::NoError) {
     Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    emit SearchFinished(id, LyricsSearchResults());
+    emit SearchFinished(id);
     return;
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     Error(QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
-    emit SearchFinished(id, LyricsSearchResults());
+    emit SearchFinished(id);
     return;
   }
 
@@ -119,7 +113,10 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
     }
     else if (type == QXmlStreamReader::EndElement) {
       if (name == "GetLyricResult") {
-        if (!result.artist.isEmpty() && !result.title.isEmpty() && !result.lyrics.isEmpty() && (result.artist.compare(artist, Qt::CaseInsensitive) == 0 || result.title.compare(title, Qt::CaseInsensitive) == 0)) {
+        if (!result.artist.isEmpty() && !result.title.isEmpty() && !result.lyrics.isEmpty() &&
+            (result.artist.compare(request.albumartist, Qt::CaseInsensitive) == 0 ||
+             result.artist.compare(request.artist, Qt::CaseInsensitive) == 0 ||
+             result.title.compare(request.title, Qt::CaseInsensitive) == 0)) {
           result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
           results << result;
         }
@@ -128,8 +125,12 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
     }
   }
 
-  if (results.isEmpty()) qLog(Debug) << "ChartLyrics: No lyrics for" << artist << title;
-  else qLog(Debug) << "ChartLyrics: Got lyrics for" << artist << title;
+  if (results.isEmpty()) {
+    qLog(Debug) << "ChartLyrics: No lyrics for" << request.artist << request.title;
+  }
+  else {
+    qLog(Debug) << "ChartLyrics: Got lyrics for" << request.artist << request.title;
+  }
 
   emit SearchFinished(id, results);
 

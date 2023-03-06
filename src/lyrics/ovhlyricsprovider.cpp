@@ -30,7 +30,8 @@
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/strutils.h"
-#include "lyricsfetcher.h"
+#include "lyricssearchrequest.h"
+#include "lyricssearchresult.h"
 #include "jsonlyricsprovider.h"
 #include "ovhlyricsprovider.h"
 
@@ -49,18 +50,14 @@ OVHLyricsProvider::~OVHLyricsProvider() {
 
 }
 
-bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
+bool OVHLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
-  Q_UNUSED(album);
-
-  QUrl url(kUrlSearch + QString(QUrl::toPercentEncoding(artist)) + "/" + QString(QUrl::toPercentEncoding(title)));
+  QUrl url(kUrlSearch + QString(QUrl::toPercentEncoding(request.artist)) + "/" + QString(QUrl::toPercentEncoding(request.title)));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, artist, title]() { HandleSearchReply(reply, id, artist, title); });
-
-  //qLog(Debug) << "OVHLyrics: Sending request for" << url;
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleSearchReply(reply, id, request); });
 
   return true;
 
@@ -68,7 +65,7 @@ bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album,
 
 void OVHLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
-void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &title) {
+void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -77,19 +74,19 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, co
 
   QJsonObject json_obj = ExtractJsonObj(reply);
   if (json_obj.isEmpty()) {
-    emit SearchFinished(id, LyricsSearchResults());
+    emit SearchFinished(id);
     return;
   }
 
   if (json_obj.contains("error")) {
     Error(json_obj["error"].toString());
-    qLog(Debug) << "OVHLyrics: No lyrics for" << artist << title;
-    emit SearchFinished(id, LyricsSearchResults());
+    qLog(Debug) << "OVHLyrics: No lyrics for" << request.artist << request.title;
+    emit SearchFinished(id);
     return;
   }
 
   if (!json_obj.contains("lyrics")) {
-    emit SearchFinished(id, LyricsSearchResults());
+    emit SearchFinished(id);
     return;
   }
 
@@ -97,17 +94,16 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, co
   result.lyrics = json_obj["lyrics"].toString();
 
   if (result.lyrics.isEmpty()) {
-    qLog(Debug) << "OVHLyrics: No lyrics for" << artist << title;
-    emit SearchFinished(id, LyricsSearchResults());
+    qLog(Debug) << "OVHLyrics: No lyrics for" << request.artist << request.title;
+    emit SearchFinished(id);
   }
   else {
     result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
-    qLog(Debug) << "OVHLyrics: Got lyrics for" << artist << title;
+    qLog(Debug) << "OVHLyrics: Got lyrics for" << request.artist << request.title;
     emit SearchFinished(id, LyricsSearchResults() << result);
  }
 
 }
-
 
 void OVHLyricsProvider::Error(const QString &error, const QVariant &debug) {
 

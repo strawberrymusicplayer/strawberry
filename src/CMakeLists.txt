@@ -168,6 +168,8 @@ set(SOURCES
 
   lyrics/lyricsproviders.cpp
   lyrics/lyricsprovider.cpp
+  lyrics/lyricssearchrequest.h
+  lyrics/lyricssearchresult.h
   lyrics/lyricsfetcher.cpp
   lyrics/lyricsfetchersearch.cpp
   lyrics/jsonlyricsprovider.cpp

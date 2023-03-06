@@ -37,11 +37,12 @@
 #include "core/networkaccessmanager.h"
 #include "utilities/strutils.h"
 #include "jsonlyricsprovider.h"
-#include "lyricsfetcher.h"
+#include "lyricssearchrequest.h"
+#include "lyricssearchresult.h"
 #include "musixmatchlyricsprovider.h"
 #include "providers/musixmatchprovider.h"
 
-MusixmatchLyricsProvider::MusixmatchLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Musixmatch", true, false, network, parent), rate_limit_exceeded_(false) {}
+MusixmatchLyricsProvider::MusixmatchLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Musixmatch", true, false, network, parent), use_api_(true) {}
 
 MusixmatchLyricsProvider::~MusixmatchLyricsProvider() {
 
@@ -54,20 +55,18 @@ MusixmatchLyricsProvider::~MusixmatchLyricsProvider() {
 
 }
 
-bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
+bool MusixmatchLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   LyricsSearchContextPtr search = std::make_shared<LyricsSearchContext>();
   search->id = id;
-  search->artist = artist;
-  search->album = album;
-  search->title = title;
+  search->request = request;
   requests_search_.append(search);
 
-  if (rate_limit_exceeded_) {
-    return CreateLyricsRequest(search);
+  if (use_api_) {
+    return SendSearchRequest(search);
   }
   else {
-    return SendSearchRequest(search);
+    return CreateLyricsRequest(search);
   }
 
 }
@@ -76,15 +75,11 @@ void MusixmatchLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
 bool MusixmatchLyricsProvider::SendSearchRequest(LyricsSearchContextPtr search) {
 
-  const ParamList params = ParamList() << Param("apikey", QByteArray::fromBase64(kApiKey))
-                                       << Param("q_artist", search->artist)
-                                       << Param("q_track", search->title)
-                                       << Param("f_has_lyrics", "1");
-
   QUrlQuery url_query;
-  for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-  }
+  url_query.addQueryItem("apikey", QByteArray::fromBase64(kApiKey));
+  url_query.addQueryItem("q_artist", QUrl::toPercentEncoding(search->request.artist));
+  url_query.addQueryItem("q_track", QUrl::toPercentEncoding(search->request.title));
+  url_query.addQueryItem("f_has_lyrics", "1");
 
   QUrl url(QString(kApiUrl) + QString("/track.search"));
   url.setQuery(url_query);
@@ -108,23 +103,25 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    if (reply->error() == 402) {
-      rate_limit_exceeded_ = true;
+    if (reply->error() == 401 || reply->error() == 402) {
+      Error(QString("Error %1 (%2) using API, switching to URL based lookup.").arg(reply->errorString()).arg(reply->error()));
+      use_api_ = false;
       CreateLyricsRequest(search);
       return;
     }
+    Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     EndSearch(search);
     return;
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    Error(QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
-    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 402) {
-      rate_limit_exceeded_ = true;
+    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 401 || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 402) {
+      Error(QString("Received HTTP code %1 using API, switching to URL based lookup.").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
+      use_api_ = false;
       CreateLyricsRequest(search);
       return;
     }
+    Error(QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
     EndSearch(search);
     return;
   }
@@ -162,13 +159,9 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
 
   int status_code = obj_header["status_code"].toInt();
   if (status_code != 200) {
-    Error(QString("Received status code %1").arg(status_code));
-    if (status_code == 402) {
-      rate_limit_exceeded_ = true;
-      CreateLyricsRequest(search);
-      return;
-    }
-    EndSearch(search);
+    Error(QString("Received status code %1, switching to URL based lookup.").arg(status_code));
+    use_api_ = false;
+    CreateLyricsRequest(search);
     return;
   }
 
@@ -221,9 +214,11 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
     QUrl track_share_url(obj_track["track_share_url"].toString());
 
     // Ignore results where both the artist, album and title don't match.
-    if (artist_name.compare(search->artist, Qt::CaseInsensitive) != 0 &&
-        album_name.compare(search->album, Qt::CaseInsensitive) != 0 &&
-        track_name.compare(search->title, Qt::CaseInsensitive) != 0) {
+    if (use_api_ &&
+        artist_name.compare(search->request.albumartist, Qt::CaseInsensitive) != 0 &&
+        artist_name.compare(search->request.artist, Qt::CaseInsensitive) != 0 &&
+        album_name.compare(search->request.album, Qt::CaseInsensitive) != 0 &&
+        track_name.compare(search->request.title, Qt::CaseInsensitive) != 0) {
       continue;
     }
 
@@ -247,8 +242,8 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
 
 bool MusixmatchLyricsProvider::CreateLyricsRequest(LyricsSearchContextPtr search) {
 
-  QString artist_stripped = StringFixup(search->artist);
-  QString title_stripped = StringFixup(search->title);
+  QString artist_stripped = StringFixup(search->request.artist);
+  QString title_stripped = StringFixup(search->request.title);
   if (artist_stripped.isEmpty() || title_stripped.isEmpty()) {
     EndSearch(search);
     return false;
@@ -373,9 +368,7 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
   result.title = obj_track["name"].toString();
   result.lyrics = obj_lyrics["body"].toString();
 
-  if (!result.lyrics.isEmpty() &&
-      (result.artist.compare(search->artist, Qt::CaseInsensitive) == 0 ||
-       result.title.compare(search->title, Qt::CaseInsensitive) == 0)) {
+  if (!result.lyrics.isEmpty()) {
     result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
     search->results.append(result);
   }
@@ -393,10 +386,10 @@ void MusixmatchLyricsProvider::EndSearch(LyricsSearchContextPtr search, const QU
   if (search->requests_lyrics_.count() == 0) {
     requests_search_.removeAll(search);
     if (search->results.isEmpty()) {
-      qLog(Debug) << "Musixmatch: No lyrics for" << search->artist << search->title;
+      qLog(Debug) << "MusixmatchLyrics: No lyrics for" << search->request.artist << search->request.title;
     }
     else {
-      qLog(Debug) << "Musixmatch: Got lyrics for" << search->artist << search->title;
+      qLog(Debug) << "MusixmatchLyrics: Got lyrics for" << search->request.artist << search->request.title;
     }
     emit SearchFinished(search->id, search->results);
   }

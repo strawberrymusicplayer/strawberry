@@ -28,7 +28,6 @@
 #include <QJsonObject>
 
 #include "core/networkaccessmanager.h"
-#include "lyricsprovider.h"
 #include "jsonlyricsprovider.h"
 
 JsonLyricsProvider::JsonLyricsProvider(const QString &name, const bool enabled, const bool authentication_required, NetworkAccessManager *network, QObject *parent) : LyricsProvider(name, enabled, authentication_required, network, parent) {}

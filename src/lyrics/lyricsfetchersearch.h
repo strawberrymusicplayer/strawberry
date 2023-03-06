@@ -28,6 +28,8 @@
 #include <QString>
 
 #include "lyricsfetcher.h"
+#include "lyricssearchrequest.h"
+#include "lyricssearchresult.h"
 
 class LyricsProvider;
 class LyricsProviders;
@@ -36,7 +38,7 @@ class LyricsFetcherSearch : public QObject {
   Q_OBJECT
 
  public:
-  explicit LyricsFetcherSearch(const LyricsSearchRequest &request, QObject *parent);
+  explicit LyricsFetcherSearch(const quint64 id, const LyricsSearchRequest &request, QObject *parent);
 
   void Start(LyricsProviders *lyrics_providers);
   void Cancel();
@@ -59,6 +61,7 @@ class LyricsFetcherSearch : public QObject {
   static const int kGoodLyricsLength;
   static const float kHighScore;
 
+  quint64 id_;
   LyricsSearchRequest request_;
   LyricsSearchResults results_;
   QMap<int, LyricsProvider*> pending_requests_;

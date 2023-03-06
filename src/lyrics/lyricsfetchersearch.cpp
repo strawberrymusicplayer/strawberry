@@ -28,6 +28,8 @@
 #include "core/logging.h"
 #include "lyricsfetcher.h"
 #include "lyricsfetchersearch.h"
+#include "lyricssearchrequest.h"
+#include "lyricssearchresult.h"
 #include "lyricsprovider.h"
 #include "lyricsproviders.h"
 
@@ -35,8 +37,9 @@ const int LyricsFetcherSearch::kSearchTimeoutMs = 3000;
 const int LyricsFetcherSearch::kGoodLyricsLength = 60;
 const float LyricsFetcherSearch::kHighScore = 2.5;
 
-LyricsFetcherSearch::LyricsFetcherSearch(const LyricsSearchRequest &request, QObject *parent)
+LyricsFetcherSearch::LyricsFetcherSearch(const quint64 id, const LyricsSearchRequest &request, QObject *parent)
     : QObject(parent),
+      id_(id),
       request_(request),
       cancel_requested_(false) {
 
@@ -69,8 +72,10 @@ void LyricsFetcherSearch::Start(LyricsProviders *lyrics_providers) {
     if (!provider->is_enabled() || !provider->IsAuthenticated()) continue;
     QObject::connect(provider, &LyricsProvider::SearchFinished, this, &LyricsFetcherSearch::ProviderSearchFinished);
     const int id = lyrics_providers->NextId();
-    const bool success = provider->StartSearch(request_.artist, request_.album, request_.title, id);
-    if (success) pending_requests_[id] = provider;
+    const bool success = provider->StartSearch(id, request_);
+    if (success) {
+      pending_requests_.insert(id, provider);
+    }
   }
 
   if (pending_requests_.isEmpty()) TerminateSearch();
@@ -87,7 +92,7 @@ void LyricsFetcherSearch::ProviderSearchFinished(const int id, const LyricsSearc
   for (int i = 0; i < results_copy.count(); ++i) {
     results_copy[i].provider = provider->name();
     results_copy[i].score = 0.0;
-    if (results_copy[i].artist.compare(request_.artist, Qt::CaseInsensitive) == 0) {
+    if (results_copy[i].artist.compare(request_.albumartist, Qt::CaseInsensitive) == 0 || results_copy[i].artist.compare(request_.artist, Qt::CaseInsensitive) == 0) {
       results_copy[i].score += 0.5;
     }
     if (results_copy[i].album.compare(request_.album, Qt::CaseInsensitive) == 0) {
@@ -127,10 +132,10 @@ void LyricsFetcherSearch::AllProvidersFinished() {
 
   if (!results_.isEmpty()) {
     qLog(Debug) << "Using lyrics from" << results_.last().provider << "for" << request_.artist << request_.title << "with score" << results_.last().score;
-    emit LyricsFetched(request_.id, results_.last().provider, results_.last().lyrics);
+    emit LyricsFetched(id_, results_.last().provider, results_.last().lyrics);
   }
 
-  emit SearchFinished(request_.id, results_);
+  emit SearchFinished(id_, results_);
 
 }
 

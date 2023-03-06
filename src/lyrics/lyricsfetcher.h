@@ -32,31 +32,12 @@
 #include <QString>
 #include <QUrl>
 
+#include "lyricssearchrequest.h"
+#include "lyricssearchresult.h"
+
 class QTimer;
 class LyricsProviders;
 class LyricsFetcherSearch;
-
-struct LyricsSearchRequest {
-  explicit LyricsSearchRequest() : id(0) {}
-  quint64 id;
-  QString artist;
-  QString album;
-  QString title;
-};
-
-struct LyricsSearchResult {
-  explicit LyricsSearchResult() : score(0.0) {}
-  QString provider;
-  QString artist;
-  QString album;
-  QString title;
-  QString lyrics;
-  float score;
-};
-using LyricsSearchResults = QList<LyricsSearchResult>;
-
-Q_DECLARE_METATYPE(LyricsSearchResult)
-Q_DECLARE_METATYPE(QList<LyricsSearchResult>)
 
 class LyricsFetcher : public QObject {
   Q_OBJECT
@@ -65,11 +46,17 @@ class LyricsFetcher : public QObject {
   explicit LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent = nullptr);
   ~LyricsFetcher() override {}
 
-  quint64 Search(const QString &artist, const QString &album, const QString &title);
+  struct Request {
+    Request() : id(0) {}
+    quint64 id;
+    LyricsSearchRequest search_request;
+  };
+
+  quint64 Search(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title);
   void Clear();
 
  private:
-  void AddRequest(const LyricsSearchRequest &req);
+  void AddRequest(const Request &request);
 
  signals:
   void LyricsFetched(quint64 request_id, QString provider, QString lyrics);
@@ -86,7 +73,7 @@ class LyricsFetcher : public QObject {
   LyricsProviders *lyrics_providers_;
   quint64 next_id_;
 
-  QQueue<LyricsSearchRequest> queued_requests_;
+  QQueue<Request> queued_requests_;
   QHash<quint64, LyricsFetcherSearch*> active_requests_;
 
   QTimer *request_starter_;

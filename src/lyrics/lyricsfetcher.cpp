@@ -29,6 +29,8 @@
 #include "core/song.h"
 #include "lyricsfetcher.h"
 #include "lyricsfetchersearch.h"
+#include "lyricssearchrequest.h"
+#include "lyricssearchresult.h"
 
 using namespace std::chrono_literals;
 
@@ -45,24 +47,28 @@ LyricsFetcher::LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent)
 
 }
 
-quint64 LyricsFetcher::Search(const QString &artist, const QString &album, const QString &title) {
+quint64 LyricsFetcher::Search(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title) {
 
-  LyricsSearchRequest request;
-  request.artist = artist;
-  request.album = album;
-  request.album.remove(Song::kAlbumRemoveMisc);
-  request.title = title;
-  request.title.remove(Song::kTitleRemoveMisc);
+  LyricsSearchRequest search_request;
+  search_request.albumartist = effective_albumartist;
+  search_request.artist = artist;
+  search_request.album = album;
+  search_request.album.remove(Song::kAlbumRemoveMisc);
+  search_request.title = title;
+  search_request.title.remove(Song::kTitleRemoveMisc);
+
+  Request request;
   request.id = ++next_id_;
+  request.search_request = search_request;
   AddRequest(request);
 
   return request.id;
 
 }
 
-void LyricsFetcher::AddRequest(const LyricsSearchRequest &req) {
+void LyricsFetcher::AddRequest(const Request &request) {
 
-  queued_requests_.enqueue(req);
+  queued_requests_.enqueue(request);
 
   if (!request_starter_->isActive()) request_starter_->start();
 
@@ -92,9 +98,9 @@ void LyricsFetcher::StartRequests() {
 
   while (!queued_requests_.isEmpty() && active_requests_.size() < kMaxConcurrentRequests) {
 
-    LyricsSearchRequest request = queued_requests_.dequeue();
+    Request request = queued_requests_.dequeue();
 
-    LyricsFetcherSearch *search = new LyricsFetcherSearch(request, this);
+    LyricsFetcherSearch *search = new LyricsFetcherSearch(request.id, request.search_request, this);
     active_requests_.insert(request.id, search);
 
     QObject::connect(search, &LyricsFetcherSearch::SearchFinished, this, &LyricsFetcher::SingleSearchFinished);

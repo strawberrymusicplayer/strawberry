@@ -40,14 +40,14 @@ class ChartLyricsProvider : public LyricsProvider {
   explicit ChartLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
   ~ChartLyricsProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
+  bool StartSearch(const int id, const LyricsSearchRequest &request) override;
   void CancelSearch(int id) override;
 
  private:
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &title);
+  void HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);
 
  private:
   static const char *kUrlSearch;

@@ -32,7 +32,8 @@
 #include <QUrl>
 
 #include "jsonlyricsprovider.h"
-#include "lyricsfetcher.h"
+#include "lyricssearchrequest.h"
+#include "lyricssearchresult.h"
 #include "providers/musixmatchprovider.h"
 
 class QNetworkReply;
@@ -45,16 +46,14 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchPro
   explicit MusixmatchLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
   ~MusixmatchLyricsProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
+  bool StartSearch(const int id, const LyricsSearchRequest &request) override;
   void CancelSearch(const int id) override;
 
  private:
   struct LyricsSearchContext {
     explicit LyricsSearchContext() : id(-1) {}
     int id;
-    QString artist;
-    QString album;
-    QString title;
+    LyricsSearchRequest request;
     QList<QUrl> requests_lyrics_;
     LyricsSearchResults results;
   };
@@ -63,6 +62,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchPro
 
   bool SendSearchRequest(LyricsSearchContextPtr search);
   bool CreateLyricsRequest(LyricsSearchContextPtr search);
+  void SendLyricsRequest(const LyricsSearchRequest &request, const QString &artist, const QString &title);
   bool SendLyricsRequest(LyricsSearchContextPtr search, const QUrl &url);
   void EndSearch(LyricsSearchContextPtr search, const QUrl &url = QUrl());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
@@ -74,7 +74,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchPro
  private:
   QList<LyricsSearchContextPtr> requests_search_;
   QList<QNetworkReply*> replies_;
-  bool rate_limit_exceeded_;
+  bool use_api_;
 
 };
 

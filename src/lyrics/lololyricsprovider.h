@@ -29,6 +29,7 @@
 #include <QString>
 
 #include "lyricsprovider.h"
+#include "lyricssearchrequest.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
@@ -40,14 +41,14 @@ class LoloLyricsProvider : public LyricsProvider {
   explicit LoloLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
   ~LoloLyricsProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
+  bool StartSearch(const int id, const LyricsSearchRequest &request) override;
   void CancelSearch(const int id) override;
 
  private:
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &title);
+  void HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);
 
  private:
   static const char *kUrlSearch;

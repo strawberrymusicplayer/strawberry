@@ -22,7 +22,6 @@
 #include <memory>
 
 #include <QObject>
-#include <QPair>
 #include <QList>
 #include <QByteArray>
 #include <QVariant>
@@ -50,7 +49,6 @@
 #include "internet/localredirectserver.h"
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
-#include "lyricsprovider.h"
 #include "geniuslyricsprovider.h"
 
 const char *GeniusLyricsProvider::kSettingsGroup = "GeniusLyrics";
@@ -106,16 +104,12 @@ void GeniusLyricsProvider::Authenticate() {
     code_challenge_.chop(1);
   }
 
-  const ParamList params = ParamList() << Param("client_id", QByteArray::fromBase64(kClientIDB64))
-                                       << Param("redirect_uri", redirect_url.toString())
-                                       << Param("scope", "me")
-                                       << Param("state", code_challenge_)
-                                       << Param("response_type", "code");
-
   QUrlQuery url_query;
-  for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-  }
+  url_query.addQueryItem("client_id", QUrl::toPercentEncoding(QByteArray::fromBase64(kClientIDB64)));
+  url_query.addQueryItem("redirect_uri", QUrl::toPercentEncoding(redirect_url.toString()));
+  url_query.addQueryItem("scope", "me");
+  url_query.addQueryItem("state", QUrl::toPercentEncoding(code_challenge_));
+  url_query.addQueryItem("response_type", "code");
 
   QUrl url(kOAuthAuthorizeUrl);
   url.setQuery(url_query);
@@ -171,19 +165,15 @@ void GeniusLyricsProvider::RequestAccessToken(const QUrl &url, const QUrl &redir
 
   if (url.hasQuery() && url_query.hasQueryItem("code") && url_query.hasQueryItem("state")) {
 
-    QString code = url_query.queryItemValue("code");
-
-    const ParamList params = ParamList() << Param("code", code)
-                                         << Param("client_id", QByteArray::fromBase64(kClientIDB64))
-                                         << Param("client_secret", QByteArray::fromBase64(kClientSecretB64))
-                                         << Param("redirect_uri", redirect_url.toString())
-                                         << Param("grant_type", "authorization_code")
-                                         << Param("response_type", "code");
+    const QString code = url_query.queryItemValue("code");
 
     QUrlQuery new_url_query;
-    for (const Param &param : params) {
-      new_url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    }
+    new_url_query.addQueryItem("code", QUrl::toPercentEncoding(code));
+    new_url_query.addQueryItem("client_id", QUrl::toPercentEncoding(QByteArray::fromBase64(kClientIDB64)));
+    new_url_query.addQueryItem("client_secret", QUrl::toPercentEncoding(QByteArray::fromBase64(kClientSecretB64)));
+    new_url_query.addQueryItem("redirect_uri", QUrl::toPercentEncoding(redirect_url.toString()));
+    new_url_query.addQueryItem("grant_type", "authorization_code");
+    new_url_query.addQueryItem("response_type", "code");
 
     QUrl new_url(kOAuthAccessTokenUrl);
     QNetworkRequest req(new_url);
@@ -296,25 +286,17 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
 
 }
 
-bool GeniusLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
-
-  Q_UNUSED(album);
+bool GeniusLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   if (access_token_.isEmpty()) return false;
 
-  std::shared_ptr<GeniusLyricsSearchContext> search = std::make_shared<GeniusLyricsSearchContext>();
-
+  GeniusLyricsSearchContextPtr search = std::make_shared<GeniusLyricsSearchContext>();
   search->id = id;
-  search->artist = artist;
-  search->title = title;
+  search->request = request;
   requests_search_.insert(id, search);
 
-  const ParamList params = ParamList() << Param("q", QString(artist + " " + title));
-
   QUrlQuery url_query;
-  for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-  }
+  url_query.addQueryItem("q", QUrl::toPercentEncoding(QString(request.artist + " " + request.title)));
 
   QUrl url(kUrlSearch);
   url.setQuery(url_query);
@@ -339,7 +321,7 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id)
   reply->deleteLater();
 
   if (!requests_search_.contains(id)) return;
-  std::shared_ptr<GeniusLyricsSearchContext> search = requests_search_.value(id);
+  GeniusLyricsSearchContextPtr search = requests_search_.value(id);
 
   QJsonObject json_obj = ExtractJsonObj(reply);
   if (json_obj.isEmpty()) {
@@ -421,7 +403,11 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     QString title = obj_result["title"].toString();
 
     // Ignore results where both the artist and title don't match.
-    if (artist.compare(search->artist, Qt::CaseInsensitive) != 0 && title.compare(search->title, Qt::CaseInsensitive) != 0) continue;
+    if (!artist.startsWith(search->request.albumartist, Qt::CaseInsensitive) &&
+        !artist.startsWith(search->request.artist, Qt::CaseInsensitive) &&
+        !title.startsWith(search->request.title, Qt::CaseInsensitive)) {
+      continue;
+    }
 
     QUrl url(obj_result["url"].toString());
     if (!url.isValid()) continue;
@@ -454,7 +440,7 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
   reply->deleteLater();
 
   if (!requests_search_.contains(search_id)) return;
-  std::shared_ptr<GeniusLyricsSearchContext> search = requests_search_.value(search_id);
+  GeniusLyricsSearchContextPtr search = requests_search_.value(search_id);
 
   if (!search->requests_lyric_.contains(url)) {
     EndSearch(search);
@@ -487,10 +473,9 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
   }
 
   if (!lyrics.isEmpty()) {
-    LyricsSearchResult result;
+    LyricsSearchResult result(lyrics);
     result.artist = lyric.artist;
     result.title = lyric.title;
-    result.lyrics = lyrics;
     search->results.append(result);
   }
 
@@ -519,7 +504,7 @@ void GeniusLyricsProvider::Error(const QString &error, const QVariant &debug) {
 
 }
 
-void GeniusLyricsProvider::EndSearch(std::shared_ptr<GeniusLyricsSearchContext> search, const GeniusLyricsLyricContext &lyric) {
+void GeniusLyricsProvider::EndSearch(GeniusLyricsSearchContextPtr search, const GeniusLyricsLyricContext &lyric) {
 
   if (search->requests_lyric_.contains(lyric.url)) {
     search->requests_lyric_.remove(lyric.url);
@@ -527,10 +512,10 @@ void GeniusLyricsProvider::EndSearch(std::shared_ptr<GeniusLyricsSearchContext> 
   if (search->requests_lyric_.count() == 0) {
     requests_search_.remove(search->id);
     if (search->results.isEmpty()) {
-      qLog(Debug) << "GeniusLyrics: No lyrics for" << search->artist << search->title;
+      qLog(Debug) << "GeniusLyrics: No lyrics for" << search->request.artist << search->request.title;
     }
     else {
-      qLog(Debug) << "GeniusLyrics: Got lyrics for" << search->artist << search->title;
+      qLog(Debug) << "GeniusLyrics: Got lyrics for" << search->request.artist << search->request.title;
     }
     emit SearchFinished(search->id, search->results);
   }
