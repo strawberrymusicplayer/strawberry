@@ -507,21 +507,33 @@ jobs:
           mv gstreamer.rb gst-plugins-{base,good,bad,ugly}.rb gst-libav.rb /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
 
       - name: Build and install gstreamer
+        env:
+          HOMEBREW_NO_INSTALL_FROM_API: 1
         run: brew reinstall --build-from-source gstreamer
 
       - name: Build and install gst-plugins-base
+        env:
+          HOMEBREW_NO_INSTALL_FROM_API: 1
         run: brew reinstall --build-from-source gst-plugins-base
 
       - name: Build and install gst-plugins-good
+        env:
+          HOMEBREW_NO_INSTALL_FROM_API: 1
         run: brew reinstall --build-from-source gst-plugins-good
 
       - name: Build and install gst-plugins-bad
+        env:
+          HOMEBREW_NO_INSTALL_FROM_API: 1
         run: brew reinstall --build-from-source gst-plugins-bad
 
       - name: Build and install gst-plugins-ugly
+        env:
+          HOMEBREW_NO_INSTALL_FROM_API: 1
         run: brew reinstall --build-from-source gst-plugins-ugly
 
       - name: Build and install gst-libav
+        env:
+          HOMEBREW_NO_INSTALL_FROM_API: 1
         run: brew reinstall --build-from-source gst-libav
 
       - name: Build libgpod
