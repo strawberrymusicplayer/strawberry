@@ -26,6 +26,7 @@ namespace Utilities {
 
 qint32 GetMacOsVersion();
 void IncreaseFDLimit();
+bool ProcessTranslated();
 
 }  // namespace Utilities
 

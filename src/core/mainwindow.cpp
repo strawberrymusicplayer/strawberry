@@ -94,6 +94,7 @@
 #ifdef Q_OS_MACOS
 #  include "mac_startup.h"
 #  include "macsystemtrayicon.h"
+#  include "utilities/macosutils.h"
 #else
 #  include "qtsystemtrayicon.h"
 #endif
@@ -1038,10 +1039,10 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 #endif
 
 #if defined(Q_OS_MACOS)
-  if (QSysInfo::buildCpuArchitecture() != QSysInfo::currentCpuArchitecture()) {
+  if (Utilities::ProcessTranslated()) {
     QErrorMessage *error_message = new QErrorMessage;
     error_message->setAttribute(Qt::WA_DeleteOnClose);
-    error_message->showMessage(tr("This Strawberry binary was built for %1 CPU, but you are running on an %2 CPU. Strawberry currently have limited macOS support, and running this binary on the current CPU is unsupported. If you want to use Strawberry on the current CPU, you should build Strawberry from source. For instructions see.: https://wiki.strawberrymusicplayer.org/wiki/Compile").arg(QSysInfo::buildCpuArchitecture()).arg(QSysInfo::currentCpuArchitecture()));
+    error_message->showMessage(tr("It is detected that Strawberry is running under Rosetta. Strawberry currently have limited macOS support, and running Strawberry under Rosetta is unsupported and known to have issues. If you want to use Strawberry on the current CPU, you should build Strawberry from source. For instructions see.: https://wiki.strawberrymusicplayer.org/wiki/Compile"));
   }
 #endif
 
