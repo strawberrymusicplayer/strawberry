@@ -2507,7 +2507,7 @@ msgstr "Общие"
 msgid "General settings"
 msgstr "Общие настройки"
 
-#: lyrics/geniuslyricsprovider.cpp:125
+#: lyrics/geniuslyricsprovider.cpp:119
 msgid "Genius Authentication"
 msgstr "Аутентификация Genius"
 
@@ -3713,7 +3713,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Пожалуйста, закройте браузер и вернитесь в Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
 msgstr "Пожалуйста, откройте эту ссылку в вашем браузере"
 
@@ -3929,7 +3929,7 @@ msgstr ""
 "не поддерживает шифрованные потоки."
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
 msgstr "Получен неверный ответ от веб-браузера."
 
@@ -4004,7 +4004,7 @@ msgstr "Получение песен для %1 альбомов…"
 msgid "Receiving songs..."
 msgstr "Получение песен…"
 
-#: lyrics/geniuslyricsprovider.cpp:201
+#: lyrics/geniuslyricsprovider.cpp:191
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "В перенаправлении с Genius отсутствует код или состояние элементов запроса."
@@ -4013,7 +4013,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr "В перенаправлении отсутствует код или состояние токена!"
 
-#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
 msgstr "В перенаправлении отсутствует код токена!"
 

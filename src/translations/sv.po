@@ -2497,7 +2497,7 @@ msgstr "Allmänt"
 msgid "General settings"
 msgstr "Allmänna inställningar"
 
-#: lyrics/geniuslyricsprovider.cpp:125
+#: lyrics/geniuslyricsprovider.cpp:119
 msgid "Genius Authentication"
 msgstr "Genius-autentisering"
 
@@ -3697,7 +3697,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Stäng din webbläsare och återgå till Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
 msgstr "Öppna den här webbadressen i din webbläsare"
 
@@ -3912,7 +3912,7 @@ msgstr ""
 "närvarande inte krypterade flöden."
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
 msgstr "Tog emot ogiltigt svar från webbläsaren."
 
@@ -3986,7 +3986,7 @@ msgstr "Tar emot låtar för %1 album..."
 msgid "Receiving songs..."
 msgstr "Tar emot låtar..."
 
-#: lyrics/geniuslyricsprovider.cpp:201
+#: lyrics/geniuslyricsprovider.cpp:191
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "Omdirigering från Genius saknar förfrågningsobjektkod eller tillstånd."
@@ -3995,7 +3995,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr "Omdirigering saknar tokenkod eller tillstånd!"
 
-#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
 msgstr "Omdirigering saknar token-kod!"
 

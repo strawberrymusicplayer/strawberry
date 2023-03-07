@@ -2489,7 +2489,7 @@ msgstr "General"
 msgid "General settings"
 msgstr "Configuración general"
 
-#: lyrics/geniuslyricsprovider.cpp:125
+#: lyrics/geniuslyricsprovider.cpp:119
 msgid "Genius Authentication"
 msgstr "Autenticación con Genius"
 
@@ -3699,7 +3699,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Cierre el navegador y vuelva a Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:125 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
 msgstr "Abra este URL en el navegador"
 
@@ -3914,7 +3914,7 @@ msgstr ""
 "soporta flujos cifrados por ahora."
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:153 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
 msgstr "Se recibió una respuesta no válida del navegador."
 
@@ -3989,7 +3989,7 @@ msgstr "Recibir canciones de álbumes de %1..."
 msgid "Receiving songs..."
 msgstr "Recibir canciones..."
 
-#: lyrics/geniuslyricsprovider.cpp:201
+#: lyrics/geniuslyricsprovider.cpp:191
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "Redirección Genius carece de código de elementos de búsqueda o estado."
@@ -3998,7 +3998,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr "¡Falta código de token o estado!"
 
-#: lyrics/geniuslyricsprovider.cpp:149 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
 msgstr "¡Falta código del token de redirección!"
 
