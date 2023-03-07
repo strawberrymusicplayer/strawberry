@@ -59,6 +59,7 @@
 #include <QActionGroup>
 #include <QShortcut>
 #include <QMessageBox>
+#include <QErrorMessage>
 #include <QtEvents>
 #include <QSettings>
 #include <QColor>
@@ -1033,6 +1034,14 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       snap_dialog->show();
     }
     s.endGroup();
+  }
+#endif
+
+#if defined(Q_OS_MACOS)
+  if (QSysInfo::buildCpuArchitecture() != QSysInfo::currentCpuArchitecture()) {
+    QErrorMessage *error_message = new QErrorMessage;
+    error_message->setAttribute(Qt::WA_DeleteOnClose);
+    error_message->showMessage(tr("This Strawberry binary was built for %1 CPU, but you are running on an %2 CPU. Strawberry currently have limited macOS support, and running this binary on the current CPU is unsupported. If you want to use Strawberry on the current CPU, you should build Strawberry from source. For instructions see.: https://wiki.strawberrymusicplayer.org/wiki/Compile").arg(QSysInfo::buildCpuArchitecture()).arg(QSysInfo::currentCpuArchitecture()));
   }
 #endif
 
