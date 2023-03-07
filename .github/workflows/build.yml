@@ -379,7 +379,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'bionic', 'focal', 'jammy', 'kinetic' ]
+        ubuntu_version: [ 'bionic', 'focal', 'jammy', 'kinetic', 'lunar' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
