@@ -61,13 +61,13 @@ void IncreaseFDLimit() {
 
 bool ProcessTranslated() {
 
-	 int value = 0;
-	 size_t value_size = sizeof(value);
-	 if (sysctlbyname("sysctl.proc_translated", &value, &value_size, nullptr, 0) != 0) {
-			return false;
-   }
+  int value = 0;
+  size_t value_size = sizeof(value);
+  if (sysctlbyname("sysctl.proc_translated", &value, &value_size, nullptr, 0) != 0) {
+    return false;
+  }
 
-	 return value == 1;
+  return value == 1;
 
 }
 
