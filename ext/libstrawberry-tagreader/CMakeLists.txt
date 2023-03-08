@@ -49,6 +49,13 @@ target_link_libraries(libstrawberry-tagreader PRIVATE
   libstrawberry-common
 )
 
+if(WIN32 AND Protobuf_VERSION VERSION_GREATER_EQUAL 4.22.0)
+  target_link_libraries(libstrawberry-tagreader PRIVATE
+    absl_log_internal_message
+    absl_log_internal_check_op
+  )
+endif()
+
 if(USE_TAGLIB AND TAGLIB_FOUND)
   target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE ${TAGLIB_INCLUDE_DIRS})
   target_link_libraries(libstrawberry-tagreader PRIVATE ${TAGLIB_LIBRARIES})
