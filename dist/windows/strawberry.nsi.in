@@ -145,12 +145,29 @@ UninstPage custom un.LockedListPageShow
 !insertmacro MUI_UNPAGE_FINISH
 
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
+!insertmacro MUI_LANGUAGE "Italian"
 
 Name "${PRODUCT_NAME}"
+
+Caption "${PRODUCT_NAME} ${PRODUCT_DISPLAY_VERSION}"
 
 OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}${build_type}-${compiler}-${arch}.exe"
 
 InstallDir "${PRODUCT_INSTALL_DIR}"
+
+LangString CHECKING_RUNNING_PROGRAMS  ${LANG_ENGLISH} "Checking for running programs:"
+LangString SEARCHING_RUNNING_PROGRAMS ${LANG_ENGLISH} "Searching for running programs..."
+LangString NO_PROGRAMS_TO_CLOSE       ${LANG_ENGLISH} "No programs need to close."
+LangString DOWNLOADING                ${LANG_ENGLISH} "Downloading..."
+LangString ALREADY _INSTALLED         ${LANG_ENGLISH} "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the previous version or `Cancel` to cancel this upgrade."
+LangString UNINSTALL_LINK_DESCRIPTION ${LANG_ENGLISH} "Uninstall ${PRODUCT_NAME}"
+
+LangString CHECKING_RUNNING_PROGRAMS  ${LANG_ITALIAN} "Controllo programmi in esecuzione:"
+LangString SEARCHING_RUNNING_PROGRAMS ${LANG_ITALIAN} "Ricerca programmi in esecuzione.."
+LangString NO_PROGRAMS_TO_CLOSE       ${LANG_ITALIAN} "Nessun programma da chiudere."
+LangString ${DOWNLOADING              ${LANG_ITALIAN} "Download..."
+LangString PROGRAM_ALREADY _INSTALLED ${LANG_ITALIAN} "${PRODUCT_NAME} è già installato.$\n$\nSeleziona `OK` per rimuovere la versione installata o `Annulla` per annullare questo aggiornamento."
+LangString UNINSTALL_LINK_DESCRIPTION ${LANG_ITALIAN} "Disinstalla ${PRODUCT_NAME}"
 
 ; Get the path where Strawberry was installed previously and set it as default path
 InstallDirRegKey ${PRODUCT_UNINST_ROOT_KEY} ${PRODUCT_UNINST_KEY} "UninstallString"
@@ -161,12 +178,12 @@ RequestExecutionLevel admin
 
 Function LockedListPageShow
   LockedList::AddModule /NOUNLOAD \strawberry.exe
-  LockedList::Dialog /heading "Checking for running programs:" /noprograms "No programs need to close." /searching "Searching for running programs..."
+  LockedList::Dialog /heading "${CHECKING_RUNNING_PROGRAMS}:" /noprograms "${NO_PROGRAMS_TO_CLOSE}" /searching "${SEARCHING_RUNNING_PROGRAMS}"
 FunctionEnd
 
 Function un.LockedListPageShow
   LockedList::AddModule /NOUNLOAD \strawberry.exe
-  LockedList::Dialog /heading "Checking for running programs:" /noprograms "No programs need to close." /searching "Searching for running programs..."
+  LockedList::Dialog /heading "${CHECKING_RUNNING_PROGRAMS}:" /noprograms "${NO_PROGRAMS_TO_CLOSE}" /searching "${SEARCHING_RUNNING_PROGRAMS}"
 FunctionEnd
 
 ; Check for previous installation, and call the uninstaller if any
@@ -176,8 +193,7 @@ Function CheckPreviousInstall
   StrCmp $R0 "" done
 
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
-  "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the \
-  previous version or `Cancel` to cancel this upgrade." \
+  "${PROGRAM_ALREADY_INSTALLED}" \
   IDOK uninst
   Abort
 ; Run the uninstaller
@@ -195,7 +211,7 @@ Function InstallMSVCRuntime
   ${registry::Read} "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\${arch}" "Version" $R0 $R1
   ${If} $R0 == ""
     SetDetailsView hide
-    inetc::get /caption "Downloading..." "https://aka.ms/vs/17/release/${vc_redist_file}" "$TEMP\${vc_redist_file}" /end
+    inetc::get /caption "${DOWNLOADING}" "https://aka.ms/vs/17/release/${vc_redist_file}" "$TEMP\${vc_redist_file}" /end
     ExecWait '"$TEMP\${vc_redist_file}" /install /passive'
     Delete "$TEMP\${vc_redist_file}"
     SetDetailsView show
@@ -694,7 +710,7 @@ Section "Start menu items" startmenu
 
   CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\strawberry.exe"
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${UNINSTALL_LINK_DESCRIPTION}.lnk" "$INSTDIR\Uninstall.exe"
 
 SectionEnd
 
@@ -1142,7 +1158,7 @@ Section "Uninstall"
   SetShellVarContext all
 
   Delete "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk"
-  Delete "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk"
+  Delete "$SMPROGRAMS\${PRODUCT_NAME}\${UNINSTALL_LINK_DESCRIPTION}.lnk"
   RMDir /r "$SMPROGRAMS\${PRODUCT_NAME}"
 
   ; Remove the entry from 'installed programs list'
