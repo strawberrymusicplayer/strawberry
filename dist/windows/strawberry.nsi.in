@@ -1,56 +1,67 @@
-!define build_type ""
-!define compiler "unknown"
-!define arch "unknown"
-
-!if "@ARCH@" == "x86"
-  !define arch_x86
-  !undef arch
-  !define arch "x86"
-!endif
-
-!if "@ARCH@" == "i686-w64-mingw32.shared"
-  !define arch_x86
-  !undef arch
-  !define arch "x86"
-!endif
-
-!if "@ARCH@" == "x86_64"
-  !define arch_x64
-  !undef arch
-  !define arch "x64"
-!endif
-
-!if "@ARCH@" == "x86_64-w64-mingw32.shared"
-  !define arch_x64
-  !undef arch
-  !define arch "x64"
-!endif
-
 !if "@MINGW@" == "1"
   !define mingw
-  !undef compiler
   !define compiler "mingw"
 !endif
 
 !if "@MSVC@" == "1"
   !define msvc
-  !undef compiler
   !define compiler "msvc"
 !endif
 
+
+!if "@ARCH@" == "x86"
+  !define arch_x86
+!else if "@ARCH@" == "i686"
+  !define arch_x86
+!else if "@ARCH@" == "i686-w64-mingw32.shared"
+  !define arch_x86
+!else if "@ARCH@" == "x64"
+  !define arch_x64
+!else if "@ARCH@" == "x86_64"
+  !define arch_x64
+!else if "@ARCH@" == "x86_64-w64-mingw32.shared"
+  !define arch_x64
+!endif
+
+!ifdef arch_x86
+  !define arch "x86"
+!endif
+
+!ifdef arch_x64
+  !define arch "x64"
+!endif
+
+
 !if "@CMAKE_BUILD_TYPE@" == "Release"
   !define release
-!endif
-
-!if "@CMAKE_BUILD_TYPE@" == "RelWithDebInfo"
+!else if "@CMAKE_BUILD_TYPE@" == "RelWithDebInfo"
   !define release
+!else if "@CMAKE_BUILD_TYPE@" == "Debug"
+  !define debug
 !endif
 
-!if "@CMAKE_BUILD_TYPE@" == "Debug"
-  !define debug
-  !undef build_type
+!ifdef release
+  !define build_type ""
+!endif
+
+!ifdef debug
   !define build_type "-Debug"
 !endif
+
+
+!ifndef compiler
+  !error "Missing compiler."
+!endif
+
+!ifndef build_type
+  !error "Missing build type."
+!endif
+
+!ifndef arch
+  !error "Missing arch."
+!endif
+
+
 
 !ifdef debug
   !define PRODUCT_NAME "Strawberry Music Player Debug"
