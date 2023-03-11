@@ -205,6 +205,7 @@ void SmartPlaylistsModel::UpdateGenerator(const QModelIndex &idx, PlaylistGenera
   s.beginWriteArray(backend_->songs_table(), count);
   SaveGenerator(&s, idx.row(), gen);
 
+  s.endArray();
   s.endGroup();
 
   // Update the text of the item
