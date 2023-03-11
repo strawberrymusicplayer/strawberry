@@ -58,10 +58,10 @@ class SmartPlaylistWizard::FinishPage : public QWizardPage {  // clazy:exclude=m
 
 };
 
-SmartPlaylistWizard::SmartPlaylistWizard(Application *app, CollectionBackend *collection, QWidget *parent)
+SmartPlaylistWizard::SmartPlaylistWizard(Application *app, CollectionBackend *collection_backend, QWidget *parent)
     : QWizard(parent),
       app_(app),
-      collection_(collection),
+      collection_backend_(collection_backend),
       type_page_(new TypePage(this)),
       finish_page_(new FinishPage(this)),
       type_index_(-1) {
@@ -88,7 +88,7 @@ SmartPlaylistWizard::SmartPlaylistWizard(Application *app, CollectionBackend *co
   finish_id_ = addPage(finish_page_);
 
   new QVBoxLayout(type_page_);
-  AddPlugin(new SmartPlaylistQueryWizardPlugin(app_, collection_, this));
+  AddPlugin(new SmartPlaylistQueryWizardPlugin(app_, collection_backend, this));
 
   // Skip the type page - remove this when we have more than one type
   setStartId(2);

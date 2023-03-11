@@ -34,7 +34,7 @@ class SmartPlaylistWizardPlugin : public QObject {
   Q_OBJECT
 
  public:
-  explicit SmartPlaylistWizardPlugin(Application *app, CollectionBackend *collection, QObject *parent);
+  explicit SmartPlaylistWizardPlugin(Application *app, CollectionBackend *collection_backend, QObject *parent);
 
   virtual PlaylistGenerator::Type type() const = 0;
   virtual QString name() const = 0;
@@ -51,7 +51,7 @@ class SmartPlaylistWizardPlugin : public QObject {
   virtual int CreatePages(QWizard *wizard, const int finish_page_id) = 0;
 
   Application *app_;
-  CollectionBackend *collection_;
+  CollectionBackend *collection_backend_;
 
  private:
   int start_page_;

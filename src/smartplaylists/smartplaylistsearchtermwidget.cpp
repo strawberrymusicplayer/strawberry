@@ -73,10 +73,10 @@ class SmartPlaylistSearchTermWidget::Overlay : public QWidget {  // clazy:exclud
 const int SmartPlaylistSearchTermWidget::Overlay::kSpacing = 6;
 const int SmartPlaylistSearchTermWidget::Overlay::kIconSize = 22;
 
-SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(CollectionBackend *collection, QWidget *parent)
+SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(CollectionBackend *collection_backend, QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_SmartPlaylistSearchTermWidget),
-      collection_(collection),
+      collection_backend_(collection_backend),
       overlay_(nullptr),
       animation_(new QPropertyAnimation(this, "overlay_opacity", this)),
       active_(true),
@@ -187,11 +187,11 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   // Maybe set a tag completer
   switch (field) {
     case SmartPlaylistSearchTerm::Field::Artist:
-      new TagCompleter(collection_, Playlist::Column_Artist, ui_->value_text);
+      new TagCompleter(collection_backend_, Playlist::Column_Artist, ui_->value_text);
       break;
 
     case SmartPlaylistSearchTerm::Field::Album:
-      new TagCompleter(collection_, Playlist::Column_Album, ui_->value_text);
+      new TagCompleter(collection_backend_, Playlist::Column_Album, ui_->value_text);
       break;
 
     default:

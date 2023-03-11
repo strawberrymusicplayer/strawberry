@@ -35,7 +35,7 @@ class SmartPlaylistWizard : public QWizard {
   Q_OBJECT
 
  public:
-  explicit SmartPlaylistWizard(Application *app, CollectionBackend *collection, QWidget *parent);
+  explicit SmartPlaylistWizard(Application *app, CollectionBackend *collection_backend, QWidget *parent);
   ~SmartPlaylistWizard() override;
 
   void SetGenerator(PlaylistGeneratorPtr gen);
@@ -55,7 +55,7 @@ class SmartPlaylistWizard : public QWizard {
 
  private:
   Application *app_;
-  CollectionBackend *collection_;
+  CollectionBackend *collection_backend_;
   TypePage *type_page_;
   FinishPage *finish_page_;
   int finish_id_;

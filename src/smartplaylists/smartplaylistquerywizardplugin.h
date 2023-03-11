@@ -41,7 +41,7 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
   Q_OBJECT
 
  public:
-  explicit SmartPlaylistQueryWizardPlugin(Application *app, CollectionBackend *collection, QObject *parent);
+  explicit SmartPlaylistQueryWizardPlugin(Application *app, CollectionBackend *collection_backend, QObject *parent);
   ~SmartPlaylistQueryWizardPlugin() override;
 
   PlaylistGenerator::Type type() const override { return PlaylistGenerator::Type::Query; }
