@@ -60,14 +60,7 @@ QString SmartPlaylistSearchTerm::ToSql() const {
   // but in reality we need to consider anything from [0.05, 0.15) range to be 0.5 star etc.
   // To make this simple, I transform the ranges to integeres and then operate on ints: [0.0, 0.05) -> 0, [0.05, 0.15) -> 1 etc.
   if (TypeOf(field_) == Type::Date) {
-    if (!special_date_query) {
-      // We have the exact date
-      // The calendar widget specifies no time so ditch the possible time part
-      // from integers representing the dates.
-      col = "DATE(" + col + ", 'unixepoch', 'localtime')";
-      value = "DATE(" + value + ", 'unixepoch', 'localtime')";
-    }
-    else {
+    if (special_date_query) {
       // We have a numeric date, consider also the time for more precision
       col = "DATETIME(" + col + ", 'unixepoch', 'localtime')";
       second_value = second_value_.toString();
@@ -78,6 +71,13 @@ QString SmartPlaylistSearchTerm::ToSql() const {
         value = QString::number(value_.toInt() * 7);
         second_value = QString::number(second_value_.toInt() * 7);
       }
+    }
+    else {
+      // We have the exact date
+      // The calendar widget specifies no time so ditch the possible time part
+      // from integers representing the dates.
+      col = "DATE(" + col + ", 'unixepoch', 'localtime')";
+      value = "DATE(" + value + ", 'unixepoch', 'localtime')";
     }
   }
   else if (TypeOf(field_) == Type::Time) {
