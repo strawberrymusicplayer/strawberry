@@ -113,6 +113,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
   filter_age_menu_ = new QMenu(tr("Show"), this);
   filter_age_menu_->addActions(filter_age_group->actions());
+  filter_age_menu_->setIcon(IconLoader::Load("view-calendar-week"));
 
   filter_ages_[ui_->filter_age_all] = -1;
   filter_ages_[ui_->filter_age_today] = 60 * 60 * 24;
@@ -122,9 +123,12 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   filter_ages_[ui_->filter_age_year] = 60 * 60 * 24 * 365;
 
   group_by_menu_ = new QMenu(tr("Group by"), this);
+  group_by_menu_->setIcon(IconLoader::Load("object-group"));
 
   QObject::connect(ui_->save_grouping, &QAction::triggered, this, &CollectionFilterWidget::SaveGroupBy);
   QObject::connect(ui_->manage_groupings, &QAction::triggered, this, &CollectionFilterWidget::ShowGroupingManager);
+  ui_->save_grouping->setIcon(IconLoader::Load("document-save"));
+  ui_->manage_groupings->setIcon(IconLoader::Load("document-open"));
 
   // Collection config menu
   collection_menu_ = new QMenu(tr("Display options"), this);
