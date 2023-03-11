@@ -676,6 +676,10 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   collection_show_duplicates_->setCheckable(true);
   collection_show_untagged_->setCheckable(true);
   collection_show_all_->setChecked(true);
+  
+  collection_show_all_->setIcon(IconLoader::Load("edit-select-all"));
+  collection_show_duplicates_->setIcon(IconLoader::Load("edit-duplicate"));
+  collection_show_untagged_->setIcon(IconLoader::Load("tag"));
 
   QObject::connect(collection_view_group, &QActionGroup::triggered, this, &MainWindow::ChangeCollectionFilterMode);
 
