@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-02-04 11:09-0500\n"
+"PO-Revision-Date: 2023-03-14 12:01-0400\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -2838,6 +2838,12 @@ msgid ""
 "the current CPU, you should build Strawberry from source. For instructions "
 "see.: https://wiki.strawberrymusicplayer.org/wiki/Compile"
 msgstr ""
+"Обнаружено, что Strawberry работает под управлением Rosetta. Strawberry в "
+"настоящее время имеет ограниченную поддержку macOS, а работа в Rosetta не "
+"поддерживается и вызывает проблемы. Если вы хотите использовать Strawberry "
+"на текущем процессоре, вам следует собрать приложение из исходного кода. См. "
+"инструкции:\n"
+"https://wiki.strawberrymusicplayer.org/wiki/Compile"
 
 #: ../build/src/ui_behavioursettingspage.h:301
 msgid "Jump to previous song right away"
@@ -4173,7 +4179,7 @@ msgstr "Сбросить счётчики прослушивания"
 
 #: dialogs/edittagdialog.cpp:1315
 msgid "Reset song statistics"
-msgstr ""
+msgstr "Сбросить статистику песни"
 
 #: core/commandlineoptions.cpp:190
 msgid "Resize the window"
