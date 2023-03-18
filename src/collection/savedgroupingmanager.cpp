@@ -36,6 +36,7 @@
 
 #include "core/logging.h"
 #include "core/iconloader.h"
+#include "settings/collectionsettingspage.h"
 #include "collectionmodel.h"
 #include "savedgroupingmanager.h"
 #include "ui_savedgroupingmanager.h"
