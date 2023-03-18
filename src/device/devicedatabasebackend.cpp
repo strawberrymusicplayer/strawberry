@@ -161,19 +161,52 @@ void DeviceDatabaseBackend::RemoveDevice(const int id) {
   ScopedTransaction t(&db);
 
   // Remove the device from the devices table
-  SqlQuery q(db);
-  q.prepare("DELETE FROM devices WHERE ROWID=:id");
-  q.BindValue(":id", id);
-  if (!q.Exec()) {
-    db_->ReportErrors(q);
-    return;
+  {
+    SqlQuery q(db);
+    q.prepare("DELETE FROM devices WHERE ROWID=:id");
+    q.BindValue(":id", id);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
   }
 
   // Remove the songs tables for the device
-  db.exec(QString("DROP TABLE device_%1_songs").arg(id));
-  db.exec(QString("DROP TABLE device_%1_fts").arg(id));
-  db.exec(QString("DROP TABLE device_%1_directories").arg(id));
-  db.exec(QString("DROP TABLE device_%1_subdirectories").arg(id));
+  {
+    SqlQuery q(db);
+    q.prepare(QString("DROP TABLE device_%1_songs").arg(id));
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
+  }
+
+  {
+    SqlQuery q(db);
+    q.prepare(QString("DROP TABLE device_%1_fts").arg(id));
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
+  }
+
+  {
+    SqlQuery q(db);
+    q.prepare(QString("DROP TABLE device_%1_directories").arg(id));
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
+  }
+
+  {
+    SqlQuery q(db);
+    q.prepare(QString("DROP TABLE device_%1_subdirectories").arg(id));
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
+  }
 
   t.Commit();
 
