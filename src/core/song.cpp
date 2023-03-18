@@ -52,7 +52,7 @@
 #include "engine/enginebase.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
-#include "utilities/cryptutils.h"
+#include "utilities/coverutils.h"
 #include "utilities/timeconstants.h"
 #include "song.h"
 #include "application.h"
@@ -60,9 +60,6 @@
 #include "mpris_common.h"
 #include "sqlrow.h"
 #include "tagreadermessages.pb.h"
-
-#define QStringFromStdString(x) QString::fromUtf8((x).data(), (x).size())
-#define DataCommaSizeFromQString(x) (x).toUtf8().constData(), (x).toUtf8().length()
 
 const QStringList Song::kColumns = QStringList() << "title"
                                                  << "album"
@@ -903,27 +900,27 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
 
   d->init_from_file_ = true;
   d->valid_ = pb.valid();
-  set_title(QStringFromStdString(pb.title()));
-  set_album(QStringFromStdString(pb.album()));
-  set_artist(QStringFromStdString(pb.artist()));
-  set_albumartist(QStringFromStdString(pb.albumartist()));
+  set_title(QString::fromUtf8(pb.title().data(), pb.title().size()));
+  set_album(QString::fromUtf8(pb.album().data(), pb.album().size()));
+  set_artist(QString::fromUtf8(pb.artist().data(), pb.artist().size()));
+  set_albumartist(QString::fromUtf8(pb.albumartist().data(), pb.albumartist().size()));
   d->track_ = pb.track();
   d->disc_ = pb.disc();
   d->year_ = pb.year();
   d->originalyear_ = pb.originalyear();
-  d->genre_ = QStringFromStdString(pb.genre());
+  d->genre_ = QString::fromUtf8(pb.genre().data(), pb.genre().size());
   d->compilation_ = pb.compilation();
-  d->composer_ = QStringFromStdString(pb.composer());
-  d->performer_ = QStringFromStdString(pb.performer());
-  d->grouping_ = QStringFromStdString(pb.grouping());
-  d->comment_ = QStringFromStdString(pb.comment());
-  d->lyrics_ = QStringFromStdString(pb.lyrics());
+  d->composer_ = QString::fromUtf8(pb.composer().data(), pb.composer().size());
+  d->performer_ = QString::fromUtf8(pb.performer().data(), pb.performer().size());
+  d->grouping_ = QString::fromUtf8(pb.grouping().data(), pb.grouping().size());
+  d->comment_ = QString::fromUtf8(pb.comment().data(), pb.comment().size());
+  d->lyrics_ = QString::fromUtf8(pb.lyrics().data(), pb.lyrics().size());
   set_length_nanosec(static_cast<qint64>(pb.length_nanosec()));
   d->bitrate_ = pb.bitrate();
   d->samplerate_ = pb.samplerate();
   d->bitdepth_ = pb.bitdepth();
   set_url(QUrl::fromEncoded(QByteArray(pb.url().data(), static_cast<qint64>(pb.url().size()))));
-  d->basefilename_ = QStringFromStdString(pb.basefilename());
+  d->basefilename_ = QString::fromUtf8(pb.basefilename().data(), pb.basefilename().size());
   d->filetype_ = static_cast<FileType>(pb.filetype());
   d->filesize_ = pb.filesize();
   d->mtime_ = pb.mtime();
@@ -956,27 +953,27 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
   const QByteArray art_automatic(d->art_automatic_.toEncoded());
 
   pb->set_valid(d->valid_);
-  pb->set_title(DataCommaSizeFromQString(d->title_));
-  pb->set_album(DataCommaSizeFromQString(d->album_));
-  pb->set_artist(DataCommaSizeFromQString(d->artist_));
-  pb->set_albumartist(DataCommaSizeFromQString(d->albumartist_));
+  pb->set_title(d->title_.toStdString());
+  pb->set_album(d->album_.toStdString());
+  pb->set_artist(d->artist_.toStdString());
+  pb->set_albumartist(d->albumartist_.toStdString());
   pb->set_track(d->track_);
   pb->set_disc(d->disc_);
   pb->set_year(d->year_);
   pb->set_originalyear(d->originalyear_);
-  pb->set_genre(DataCommaSizeFromQString(d->genre_));
+  pb->set_genre(d->genre_.toStdString());
   pb->set_compilation(d->compilation_);
-  pb->set_composer(DataCommaSizeFromQString(d->composer_));
-  pb->set_performer(DataCommaSizeFromQString(d->performer_));
-  pb->set_grouping(DataCommaSizeFromQString(d->grouping_));
-  pb->set_comment(DataCommaSizeFromQString(d->comment_));
-  pb->set_lyrics(DataCommaSizeFromQString(d->lyrics_));
+  pb->set_composer(d->composer_.toStdString());
+  pb->set_performer(d->performer_.toStdString());
+  pb->set_grouping(d->grouping_.toStdString());
+  pb->set_comment(d->comment_.toStdString());
+  pb->set_lyrics(d->lyrics_.toStdString());
   pb->set_length_nanosec(length_nanosec());
   pb->set_bitrate(d->bitrate_);
   pb->set_samplerate(d->samplerate_);
   pb->set_bitdepth(d->bitdepth_);
   pb->set_url(url.constData(), url.size());
-  pb->set_basefilename(DataCommaSizeFromQString(d->basefilename_));
+  pb->set_basefilename(d->basefilename_.toStdString());
   pb->set_filetype(static_cast<spb::tagreader::SongMetadata_FileType>(d->filetype_));
   pb->set_filesize(d->filesize_);
   pb->set_mtime(d->mtime_);
@@ -1080,7 +1077,7 @@ void Song::InitArtManual() {
 
   // If we don't have an art, check if we have one in the cache
   if (d->art_manual_.isEmpty() && d->art_automatic_.isEmpty() && !effective_albumartist().isEmpty() && !effective_album().isEmpty()) {
-    QString filename(Utilities::Sha1CoverHash(effective_albumartist(), effective_album()).toHex() + ".jpg");
+    QString filename(CoverUtils::Sha1CoverHash(effective_albumartist(), effective_album()).toHex() + ".jpg");
     QString path(ImageCacheDir(d->source_) + "/" + filename);
     if (QFile::exists(path)) {
       d->art_manual_ = QUrl::fromLocalFile(path);
@@ -1153,7 +1150,7 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
       QString cover_path = ImageCacheDir(Source::Device);
       QDir dir(cover_path);
       if (!dir.exists()) dir.mkpath(cover_path);
-      QString cover_file = cover_path + "/" + Utilities::Sha1CoverHash(effective_albumartist(), effective_album()).toHex() + ".jpg";
+      QString cover_file = cover_path + "/" + CoverUtils::Sha1CoverHash(effective_albumartist(), effective_album()).toHex() + ".jpg";
       GError *error = nullptr;
       if (dir.exists() && gdk_pixbuf_save(pixbuf, cover_file.toUtf8().constData(), "jpeg", &error, nullptr)) {
         d->art_manual_ = QUrl::fromLocalFile(cover_file);
@@ -1526,7 +1523,7 @@ bool Song::IsMetadataEqual(const Song &other) const {
          d->cue_path_ == other.d->cue_path_;
 }
 
-bool Song::IsStatisticsEqual(const Song &other) const {
+bool Song::IsPlayStatisticsEqual(const Song &other) const {
 
   return d->playcount_ == other.d->playcount_ &&
          d->skipcount_ == other.d->skipcount_ &&
@@ -1556,7 +1553,7 @@ bool Song::IsArtEqual(const Song &other) const {
 bool Song::IsAllMetadataEqual(const Song &other) const {
 
   return IsMetadataEqual(other) &&
-         IsStatisticsEqual(other) &&
+         IsPlayStatisticsEqual(other) &&
          IsRatingEqual(other) &&
          IsFingerprintEqual(other) &&
          IsArtEqual(other);

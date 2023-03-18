@@ -1169,7 +1169,6 @@ void MainWindow::ReloadAllSettings() {
   collection_view_->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
   app_->playlist_manager()->playlist_container()->ReloadSettings();
-  app_->album_cover_loader()->ReloadSettings();
   album_cover_choice_controller_->ReloadSettings();
   context_view_->ReloadSettings();
   file_view_->ReloadSettings();
@@ -2152,7 +2151,7 @@ void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelI
   if (reply->is_successful() && idx.isValid()) {
     app_->playlist_manager()->current()->ReloadItems(QList<int>() << idx.row());
   }
-  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  reply->deleteLater();
 
 }
 

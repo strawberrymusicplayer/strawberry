@@ -36,6 +36,7 @@
 #include <QList>
 #include <QSet>
 #include <QString>
+#include <QRegularExpression>
 #include <QUrl>
 #include <QAbstractItemModel>
 #include <QScrollBar>
@@ -44,10 +45,10 @@
 
 #include "core/application.h"
 #include "core/player.h"
+#include "utilities/filenameconstants.h"
 #include "utilities/timeutils.h"
 #include "collection/collectionbackend.h"
 #include "covermanager/currentalbumcoverloader.h"
-#include "organize/organizeformat.h"
 #include "settings/playlistsettingspage.h"
 #include "playlist.h"
 #include "playlistbackend.h"
@@ -248,7 +249,7 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   s.endGroup();
 
   QString suggested_filename = playlist_name;
-  QString filename = last_save_path + "/" + suggested_filename.remove(OrganizeFormat::kProblematicCharacters) + "." + last_save_extension;
+  QString filename = last_save_path + "/" + suggested_filename.remove(QRegularExpression(QString(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption)) + "." + last_save_extension;
 
   QFileInfo fileinfo;
   forever {

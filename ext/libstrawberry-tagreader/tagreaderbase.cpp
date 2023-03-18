@@ -19,6 +19,15 @@
 
 #include <string>
 
+#include <QByteArray>
+#include <QString>
+#include <QIODevice>
+#include <QFile>
+#include <QBuffer>
+#include <QImage>
+#include <QMimeDatabase>
+
+#include "core/logging.h"
 #include "tagreaderbase.h"
 
 const std::string TagReaderBase::kEmbeddedCover = "(embedded)";
@@ -28,7 +37,8 @@ TagReaderBase::~TagReaderBase() = default;
 
 void TagReaderBase::Decode(const QString &tag, std::string *output) {
 
-  output->assign(DataCommaSizeFromQString(tag));
+  const QByteArray data = tag.toUtf8();
+  output->assign(data.constData(), data.size());
 
 }
 
@@ -53,5 +63,88 @@ int TagReaderBase::ConvertToPOPMRating(const float rating) {
   else if (rating < 1.0)  return 0xC0;
 
   return 0xFF;
+
+}
+
+QByteArray TagReaderBase::LoadCoverDataFromRequest(const spb::tagreader::SaveFileRequest &request) {
+
+  if (!request.has_save_cover() || !request.save_cover()) {
+    return QByteArray();
+  }
+
+  const QString song_filename = QString::fromUtf8(request.filename().data(), request.filename().size());
+  QString cover_filename;
+  if (request.has_cover_filename()) {
+    cover_filename = QString::fromUtf8(request.cover_filename().data(), request.cover_filename().size());
+  }
+  QByteArray cover_data;
+  if (request.has_cover_data()) {
+    cover_data = QByteArray(request.cover_data().data(), request.cover_data().size());
+  }
+  bool cover_is_jpeg = false;
+  if (request.has_cover_is_jpeg()) {
+    cover_is_jpeg = request.cover_is_jpeg();
+  }
+
+  return LoadCoverDataFromRequest(song_filename, cover_filename, cover_data, cover_is_jpeg);
+
+}
+
+QByteArray TagReaderBase::LoadCoverDataFromRequest(const spb::tagreader::SaveEmbeddedArtRequest &request) {
+
+  const QString song_filename = QString::fromUtf8(request.filename().data(), request.filename().size());
+  QString cover_filename;
+  if (request.has_cover_filename()) {
+    cover_filename = QString::fromUtf8(request.cover_filename().data(), request.cover_filename().size());
+  }
+  QByteArray cover_data;
+  if (request.has_cover_data()) {
+    cover_data = QByteArray(request.cover_data().data(), request.cover_data().size());
+  }
+  bool cover_is_jpeg = false;
+  if (request.has_cover_is_jpeg()) {
+    cover_is_jpeg = request.cover_is_jpeg();
+  }
+
+  return LoadCoverDataFromRequest(song_filename, cover_filename, cover_data, cover_is_jpeg);
+
+}
+
+QByteArray TagReaderBase::LoadCoverDataFromRequest(const QString &song_filename, const QString &cover_filename, QByteArray cover_data, const bool cover_is_jpeg) {
+
+  if (!cover_data.isEmpty() && cover_is_jpeg) {
+    qLog(Debug) << "Using cover from JPEG data for" << song_filename;
+    return cover_data;
+  }
+
+  if (cover_data.isEmpty() && !cover_filename.isEmpty()) {
+    qLog(Debug) << "Loading cover from" << cover_filename << "for" << song_filename;
+    QFile file(cover_filename);
+    if (!file.open(QIODevice::ReadOnly)) {
+      qLog(Error) << "Failed to open file" << cover_filename << "for reading:" << file.errorString();
+      return QByteArray();
+    }
+    cover_data = file.readAll();
+    file.close();
+  }
+
+  if (!cover_data.isEmpty()) {
+    if (QMimeDatabase().mimeTypeForData(cover_data).name() == "image/jpeg") {
+      qLog(Debug) << "Using cover from JPEG data for" << song_filename;
+      return cover_data;
+    }
+    // Convert image to JPEG.
+    qLog(Debug) << "Converting cover to JPEG data for" << song_filename;
+    QImage cover_image(cover_data);
+    cover_data.clear();
+    QBuffer buffer(&cover_data);
+    if (buffer.open(QIODevice::WriteOnly)) {
+      cover_image.save(&buffer, "JPEG");
+      buffer.close();
+    }
+    return cover_data;
+  }
+
+  return QByteArray();
 
 }

@@ -29,8 +29,12 @@
 #include <taglib/tstring.h>
 #include <taglib/fileref.h>
 #include <taglib/xiphcomment.h>
+#include <taglib/flacfile.h>
+#include <taglib/mpegfile.h>
+#include <taglib/mp4file.h>
 #include <taglib/apetag.h>
 #include <taglib/apefile.h>
+#include <taglib/asffile.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/popularimeterframe.h>
 
@@ -51,10 +55,10 @@ class TagReaderTagLib : public TagReaderBase {
   bool IsMediaFile(const QString &filename) const override;
 
   bool ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
-  bool SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+  bool SaveFile(const spb::tagreader::SaveFileRequest &request) const override;
 
   QByteArray LoadEmbeddedArt(const QString &filename) const override;
-  bool SaveEmbeddedArt(const QString &filename, const QByteArray &data) override;
+  bool SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest &request) const override;
 
   bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
   bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
@@ -79,6 +83,23 @@ class TagReaderTagLib : public TagReaderBase {
   QByteArray LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const;
 
   static TagLib::ID3v2::PopularimeterFrame *GetPOPMFrameFromTag(TagLib::ID3v2::Tag *tag);
+
+  void SetPlaycount(TagLib::Ogg::XiphComment *xiph_comment, const spb::tagreader::SongMetadata &song) const;
+  void SetPlaycount(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+  void SetPlaycount(TagLib::ID3v2::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+  void SetPlaycount(TagLib::MP4::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+  void SetPlaycount(TagLib::ASF::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+
+  void SetRating(TagLib::Ogg::XiphComment *xiph_comment, const spb::tagreader::SongMetadata &song) const;
+  void SetRating(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+  void SetRating(TagLib::ID3v2::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+  void SetRating(TagLib::MP4::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+  void SetRating(TagLib::ASF::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+
+  void SetEmbeddedArt(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data) const;
+  void SetEmbeddedArt(TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data) const;
+  void SetEmbeddedArt(TagLib::MPEG::File *file_mp3, TagLib::ID3v2::Tag *tag, const QByteArray &data) const;
+  void SetEmbeddedArt(TagLib::MP4::File *aac_file, TagLib::MP4::Tag *tag, const QByteArray &data) const;
 
  private:
   FileRefFactory *factory_;

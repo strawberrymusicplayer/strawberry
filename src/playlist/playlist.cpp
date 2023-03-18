@@ -420,7 +420,7 @@ void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelInd
     }
   }
 
-  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  reply->deleteLater();
 
 }
 

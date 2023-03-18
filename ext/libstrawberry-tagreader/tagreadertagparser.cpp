@@ -22,6 +22,7 @@
 #include <string>
 #include <memory>
 #include <algorithm>
+#include <vector>
 #include <sys/stat.h>
 
 #include <tagparser/mediafileinfo.h>
@@ -79,7 +80,7 @@ bool TagReaderTagParser::IsMediaFile(const QString &filename) const {
     }
 
     const auto tracks = taginfo.tracks();
-    for (const auto track : tracks) {
+    for (TagParser::AbstractTrack *track : tracks) {
       if (track->mediaType() == TagParser::MediaType::Audio) {
         taginfo.close();
         return true;
@@ -102,8 +103,9 @@ bool TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
   if (!fileinfo.exists() || fileinfo.suffix().compare("bak", Qt::CaseInsensitive) == 0) return false;
 
   const QByteArray url(QUrl::fromLocalFile(filename).toEncoded());
+  const QByteArray basefilename = fileinfo.fileName().toUtf8();
 
-  song->set_basefilename(DataCommaSizeFromQString(fileinfo.fileName()));
+  song->set_basefilename(basefilename.constData(), basefilename.size());
   song->set_url(url.constData(), url.size());
   song->set_filesize(fileinfo.size());
   song->set_mtime(fileinfo.lastModified().isValid() ? std::max(fileinfo.lastModified().toSecsSinceEpoch(), 0LL) : 0LL);
@@ -154,8 +156,8 @@ bool TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
       qLog(Debug) << QString::fromStdString(msg.message());
     }
 
-    const auto tracks = taginfo.tracks();
-    for (const auto track : tracks) {
+    std::vector<TagParser::AbstractTrack*> tracks = taginfo.tracks();
+    for (TagParser::AbstractTrack *track : tracks) {
       switch (track->format().general) {
         case TagParser::GeneralMediaFormat::Flac:
           song->set_filetype(spb::tagreader::SongMetadata_FileType::SongMetadata_FileType_FLAC);
@@ -209,7 +211,7 @@ bool TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
       return false;
     }
 
-    for (const auto tag : taginfo.tags()) {
+    for (TagParser::Tag *tag : taginfo.tags()) {
       song->set_albumartist(tag->value(TagParser::KnownField::AlbumArtist).toString(TagParser::TagTextEncoding::Utf8));
       song->set_artist(tag->value(TagParser::KnownField::Artist).toString(TagParser::TagTextEncoding::Utf8));
       song->set_album(tag->value(TagParser::KnownField::Album).toString(TagParser::TagTextEncoding::Utf8));
@@ -256,11 +258,34 @@ bool TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
 
 }
 
-bool TagReaderTagParser::SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
+bool TagReaderTagParser::SaveFile(const spb::tagreader::SaveFileRequest &request) const {
 
-  if (filename.isEmpty()) return false;
+  if (request.filename().empty()) return false;
 
-  qLog(Debug) << "Saving tags to" << filename;
+  const QString filename = QString::fromUtf8(request.filename().data(), request.filename().size());
+  const spb::tagreader::SongMetadata song = request.metadata();
+  const bool save_tags = request.has_save_tags() && request.save_tags();
+  const bool save_playcount = request.has_save_playcount() && request.save_playcount();
+  const bool save_rating = request.has_save_rating() && request.save_rating();
+  const bool save_cover = request.has_save_cover() && request.save_cover();
+
+  QStringList save_tags_options;
+  if (save_tags) {
+    save_tags_options << "tags";
+  }
+  if (save_playcount) {
+    save_tags_options << "playcount";
+  }
+  if (save_rating) {
+    save_tags_options << "rating";
+  }
+  if (save_cover) {
+    save_tags_options << "embedded cover";
+  }
+
+  qLog(Debug) << "Saving" << save_tags_options.join(", ") << "to" << filename;
+
+  const QByteArray cover_data = LoadCoverDataFromRequest(request);
 
   try {
     TagParser::MediaFileInfo taginfo;
@@ -295,22 +320,34 @@ bool TagReaderTagParser::SaveFile(const QString &filename, const spb::tagreader:
       taginfo.createAppropriateTags();
     }
 
-    for (const auto tag : taginfo.tags()) {
-      tag->setValue(TagParser::KnownField::AlbumArtist, TagParser::TagValue(song.albumartist(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
-      tag->setValue(TagParser::KnownField::Artist, TagParser::TagValue(song.artist(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
-      tag->setValue(TagParser::KnownField::Album, TagParser::TagValue(song.album(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
-      tag->setValue(TagParser::KnownField::Title, TagParser::TagValue(song.title(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
-      tag->setValue(TagParser::KnownField::Genre, TagParser::TagValue(song.genre(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
-      tag->setValue(TagParser::KnownField::Composer, TagParser::TagValue(song.composer(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
-      tag->setValue(TagParser::KnownField::Performers, TagParser::TagValue(song.performer(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
-      tag->setValue(TagParser::KnownField::Grouping, TagParser::TagValue(song.grouping(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
-      tag->setValue(TagParser::KnownField::Comment, TagParser::TagValue(song.comment(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
-      tag->setValue(TagParser::KnownField::Lyrics, TagParser::TagValue(song.lyrics(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
-      tag->setValue(TagParser::KnownField::TrackPosition, TagParser::TagValue(song.track()));
-      tag->setValue(TagParser::KnownField::DiskPosition, TagParser::TagValue(song.disc()));
-      tag->setValue(TagParser::KnownField::RecordDate, TagParser::TagValue(song.year()));
-      tag->setValue(TagParser::KnownField::ReleaseDate, TagParser::TagValue(song.originalyear()));
+    for (TagParser::Tag *tag : taginfo.tags()) {
+      if (save_tags) {
+        tag->setValue(TagParser::KnownField::AlbumArtist, TagParser::TagValue(song.albumartist(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
+        tag->setValue(TagParser::KnownField::Artist, TagParser::TagValue(song.artist(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
+        tag->setValue(TagParser::KnownField::Album, TagParser::TagValue(song.album(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
+        tag->setValue(TagParser::KnownField::Title, TagParser::TagValue(song.title(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
+        tag->setValue(TagParser::KnownField::Genre, TagParser::TagValue(song.genre(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
+        tag->setValue(TagParser::KnownField::Composer, TagParser::TagValue(song.composer(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
+        tag->setValue(TagParser::KnownField::Performers, TagParser::TagValue(song.performer(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
+        tag->setValue(TagParser::KnownField::Grouping, TagParser::TagValue(song.grouping(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
+        tag->setValue(TagParser::KnownField::Comment, TagParser::TagValue(song.comment(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
+        tag->setValue(TagParser::KnownField::Lyrics, TagParser::TagValue(song.lyrics(), TagParser::TagTextEncoding::Utf8, tag->proposedTextEncoding()));
+        tag->setValue(TagParser::KnownField::TrackPosition, TagParser::TagValue(song.track()));
+        tag->setValue(TagParser::KnownField::DiskPosition, TagParser::TagValue(song.disc()));
+        tag->setValue(TagParser::KnownField::RecordDate, TagParser::TagValue(song.year()));
+        tag->setValue(TagParser::KnownField::ReleaseDate, TagParser::TagValue(song.originalyear()));
+      }
+      if (save_playcount) {
+        SaveSongPlaycountToFile(tag, song);
+      }
+      if (save_rating) {
+        SaveSongRatingToFile(tag, song);
+      }
+      if (save_cover) {
+        SaveEmbeddedArt(tag, cover_data);
+      }
     }
+
     taginfo.applyChanges(diag, progress);
     taginfo.close();
 
@@ -358,7 +395,7 @@ QByteArray TagReaderTagParser::LoadEmbeddedArt(const QString &filename) const {
       return QByteArray();
     }
 
-    for (const auto tag : taginfo.tags()) {
+    for (TagParser::Tag *tag : taginfo.tags()) {
       if (!tag->value(TagParser::KnownField::Cover).empty() && tag->value(TagParser::KnownField::Cover).dataSize() > 0) {
         QByteArray data(tag->value(TagParser::KnownField::Cover).dataPointer(), tag->value(TagParser::KnownField::Cover).dataSize());
         taginfo.close();
@@ -379,11 +416,21 @@ QByteArray TagReaderTagParser::LoadEmbeddedArt(const QString &filename) const {
 
 }
 
-bool TagReaderTagParser::SaveEmbeddedArt(const QString &filename, const QByteArray &data) {
+void TagReaderTagParser::SaveEmbeddedArt(TagParser::Tag *tag, const QByteArray &data) const {
 
-  if (filename.isEmpty()) return false;
+  tag->setValue(TagParser::KnownField::Cover, TagParser::TagValue(data.toStdString()));
+
+}
+
+bool TagReaderTagParser::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest &request) const {
+
+  if (request.filename().empty()) return false;
+
+  const QString filename = QString::fromUtf8(request.filename().data(), request.filename().size());
 
   qLog(Debug) << "Saving art to" << filename;
+
+  const QByteArray cover_data = LoadCoverDataFromRequest(request);
 
   try {
 
@@ -415,8 +462,8 @@ bool TagReaderTagParser::SaveEmbeddedArt(const QString &filename, const QByteArr
       taginfo.createAppropriateTags();
     }
 
-    for (const auto tag : taginfo.tags()) {
-      tag->setValue(TagParser::KnownField::Cover, TagParser::TagValue(data.toStdString()));
+    for (TagParser::Tag *tag : taginfo.tags()) {
+      SaveEmbeddedArt(tag, cover_data);
     }
 
     taginfo.applyChanges(diag, progress);
@@ -435,7 +482,15 @@ bool TagReaderTagParser::SaveEmbeddedArt(const QString &filename, const QByteArr
 
 }
 
+void TagReaderTagParser::SaveSongPlaycountToFile(TagParser::Tag*, const spb::tagreader::SongMetadata&) const {}
+
 bool TagReaderTagParser::SaveSongPlaycountToFile(const QString&, const spb::tagreader::SongMetadata&) const { return false; }
+
+void TagReaderTagParser::SaveSongRatingToFile(TagParser::Tag *tag, const spb::tagreader::SongMetadata &song) const {
+
+  tag->setValue(TagParser::KnownField::Rating, TagParser::TagValue(ConvertToPOPMRating(song.rating())));
+
+}
 
 bool TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
 
@@ -476,9 +531,10 @@ bool TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const spb
         taginfo.createAppropriateTags();
       }
 
-      for (const auto tag : taginfo.tags()) {
-        tag->setValue(TagParser::KnownField::Rating, TagParser::TagValue(ConvertToPOPMRating(song.rating())));
+      for (TagParser::Tag *tag : taginfo.tags()) {
+        SaveSongRatingToFile(tag, song);
       }
+
       taginfo.applyChanges(diag, progress);
       taginfo.close();
 

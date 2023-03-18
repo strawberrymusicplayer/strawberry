@@ -46,6 +46,7 @@ target_link_libraries(libstrawberry-tagreader PRIVATE
   ${Protobuf_LIBRARIES}
   ${QtCore_LIBRARIES}
   ${QtNetwork_LIBRARIES}
+  ${QtGui_LIBRARIES}
   libstrawberry-common
 )
 

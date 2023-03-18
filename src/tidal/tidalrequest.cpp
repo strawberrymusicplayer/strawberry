@@ -40,6 +40,7 @@
 #include "core/application.h"
 #include "utilities/timeconstants.h"
 #include "utilities/imageutils.h"
+#include "utilities/coverutils.h"
 #include "tidalservice.h"
 #include "tidalurlhandler.h"
 #include "tidalbaserequest.h"
@@ -1208,7 +1209,7 @@ void TidalRequest::AddAlbumCoverRequest(const Song &song) {
   AlbumCoverRequest request;
   request.album_id = song.album_id();
   request.url = song.art_automatic();
-  request.filename = app_->album_cover_loader()->CoverFilePath(song.source(), song.effective_albumartist(), song.effective_album(), song.album_id(), QString(), request.url);
+  request.filename = CoverUtils::CoverFilePath(CoverOptions(), song.source(), song.effective_albumartist(), song.effective_album(), song.album_id(), QString(), request.url);
   if (request.filename.isEmpty()) return;
 
   album_covers_requests_sent_.insert(song.album_id(), song.song_id());

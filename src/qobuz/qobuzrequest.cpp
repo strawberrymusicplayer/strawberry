@@ -38,8 +38,9 @@
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/application.h"
-#include "utilities/imageutils.h"
 #include "utilities/timeconstants.h"
+#include "utilities/imageutils.h"
+#include "utilities/coverutils.h"
 #include "qobuzservice.h"
 #include "qobuzurlhandler.h"
 #include "qobuzbaserequest.h"
@@ -1266,7 +1267,7 @@ void QobuzRequest::AddAlbumCoverRequest(const Song &song) {
 
   AlbumCoverRequest request;
   request.url = cover_url;
-  request.filename = app_->album_cover_loader()->CoverFilePath(song.source(), song.effective_albumartist(), song.effective_album(), song.album_id(), QString(), cover_url);
+  request.filename = CoverUtils::CoverFilePath(CoverOptions(), song.source(), song.effective_albumartist(), song.effective_album(), song.album_id(), QString(), cover_url);
   if (request.filename.isEmpty()) return;
 
   album_covers_requests_sent_.insert(cover_url, song.song_id());

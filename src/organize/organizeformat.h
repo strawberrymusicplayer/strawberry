@@ -27,7 +27,6 @@
 #include <QObject>
 #include <QString>
 #include <QStringList>
-#include <QRegularExpression>
 #include <QRgb>
 #include <QSyntaxHighlighter>
 #include <QValidator>
@@ -40,9 +39,6 @@ class OrganizeFormat {
 
  public:
   explicit OrganizeFormat(const QString &format = QString());
-
-  static const QRegularExpression kProblematicCharacters;
-  static const QRegularExpression kInvalidFatCharacters;
 
   QString format() const { return format_; }
   bool remove_problematic() const { return remove_problematic_; }
@@ -93,9 +89,6 @@ class OrganizeFormat {
   static const char kTagPattern[];
   static const QStringList kKnownTags;
   static const QStringList kUniqueTags;
-  static const QRegularExpression kInvalidDirCharacters;
-  static const char kInvalidPrefixCharacters[];
-  static const int kInvalidPrefixCharactersCount;
 
   QString ParseBlock(QString block, const Song &song, bool *have_tagdata = nullptr, bool *any_empty = nullptr) const;
   QString TagValue(const QString &tag, const Song &song) const;

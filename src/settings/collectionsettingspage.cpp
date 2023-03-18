@@ -46,6 +46,7 @@
 #include "core/iconloader.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
+#include "utilities/coveroptions.h"
 #include "collection/collection.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectiondirectorymodel.h"
@@ -204,25 +205,25 @@ void CollectionSettingsPage::Load() {
   QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
   ui_->cover_art_patterns->setText(filters.join(","));
 
-  const SaveCoverType save_cover_type = static_cast<SaveCoverType>(s.value("save_cover_type", static_cast<int>(SaveCoverType::Cache)).toInt());
+  const CoverOptions::CoverType save_cover_type = static_cast<CoverOptions::CoverType>(s.value("save_cover_type", static_cast<int>(CoverOptions::CoverType::Cache)).toInt());
   switch (save_cover_type) {
-    case SaveCoverType::Cache:
+    case CoverOptions::CoverType::Cache:
       ui_->radiobutton_save_albumcover_cache->setChecked(true);
       break;
-    case SaveCoverType::Album:
+    case CoverOptions::CoverType::Album:
       ui_->radiobutton_save_albumcover_albumdir->setChecked(true);
       break;
-    case SaveCoverType::Embedded:
+    case CoverOptions::CoverType::Embedded:
       ui_->radiobutton_save_albumcover_embedded->setChecked(true);
       break;
   }
 
-  const SaveCoverFilename save_cover_filename = static_cast<SaveCoverFilename>(s.value("save_cover_filename", static_cast<int>(SaveCoverFilename::Pattern)).toInt());
+  const CoverOptions::CoverFilename save_cover_filename = static_cast<CoverOptions::CoverFilename>(s.value("save_cover_filename", static_cast<int>(CoverOptions::CoverFilename::Pattern)).toInt());
   switch (save_cover_filename) {
-    case SaveCoverFilename::Hash:
+    case CoverOptions::CoverFilename::Hash:
       ui_->radiobutton_cover_hash->setChecked(true);
       break;
-    case SaveCoverFilename::Pattern:
+    case CoverOptions::CoverFilename::Pattern:
       ui_->radiobutton_cover_pattern->setChecked(true);
       break;
   }
@@ -297,15 +298,15 @@ void CollectionSettingsPage::Save() {
 
   s.setValue("cover_art_patterns", filters);
 
-  SaveCoverType save_cover_type = SaveCoverType::Cache;
-  if (ui_->radiobutton_save_albumcover_cache->isChecked()) save_cover_type = SaveCoverType::Cache;
-  else if (ui_->radiobutton_save_albumcover_albumdir->isChecked()) save_cover_type = SaveCoverType::Album;
-  else if (ui_->radiobutton_save_albumcover_embedded->isChecked()) save_cover_type = SaveCoverType::Embedded;
+  CoverOptions::CoverType save_cover_type = CoverOptions::CoverType::Cache;
+  if (ui_->radiobutton_save_albumcover_cache->isChecked()) save_cover_type = CoverOptions::CoverType::Cache;
+  else if (ui_->radiobutton_save_albumcover_albumdir->isChecked()) save_cover_type = CoverOptions::CoverType::Album;
+  else if (ui_->radiobutton_save_albumcover_embedded->isChecked()) save_cover_type = CoverOptions::CoverType::Embedded;
   s.setValue("save_cover_type", static_cast<int>(save_cover_type));
 
-  SaveCoverFilename save_cover_filename = SaveCoverFilename::Hash;
-  if (ui_->radiobutton_cover_hash->isChecked()) save_cover_filename = SaveCoverFilename::Hash;
-  else if (ui_->radiobutton_cover_pattern->isChecked()) save_cover_filename = SaveCoverFilename::Pattern;
+  CoverOptions::CoverFilename save_cover_filename = CoverOptions::CoverFilename::Hash;
+  if (ui_->radiobutton_cover_hash->isChecked()) save_cover_filename = CoverOptions::CoverFilename::Hash;
+  else if (ui_->radiobutton_cover_pattern->isChecked()) save_cover_filename = CoverOptions::CoverFilename::Pattern;
   s.setValue("save_cover_filename", static_cast<int>(save_cover_filename));
 
   s.setValue("cover_pattern", ui_->lineedit_cover_pattern->text());

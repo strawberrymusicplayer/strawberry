@@ -781,13 +781,13 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
 
   QUrl cover_url = result.cover_url;
   switch (album_cover_choice_controller_->get_save_album_cover_type()) {
-    case CollectionSettingsPage::SaveCoverType::Cache:
-    case CollectionSettingsPage::SaveCoverType::Album:
+    case CoverOptions::CoverType::Cache:
+    case CoverOptions::CoverType::Album:
       if (cover_url.isEmpty() || !cover_url.isValid() || !cover_url.isLocalFile()) {
         cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(song, result);
       }
       break;
-    case CollectionSettingsPage::SaveCoverType::Embedded:
+    case CoverOptions::CoverType::Embedded:
       cover_url = QUrl::fromLocalFile(Song::kEmbeddedCover);
       break;
   }
@@ -798,14 +798,14 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
   for (QListWidgetItem *item : context_menu_items_) {
     AlbumItem *album_item = static_cast<AlbumItem*>(item);
     switch (album_cover_choice_controller_->get_save_album_cover_type()) {
-      case CollectionSettingsPage::SaveCoverType::Cache:
-      case CollectionSettingsPage::SaveCoverType::Album:{
+      case CoverOptions::CoverType::Cache:
+      case CoverOptions::CoverType::Album:{
         Song current_song = ItemAsSong(album_item);
         album_cover_choice_controller_->SaveArtManualToSong(&current_song, cover_url);
         UpdateCoverInList(album_item, cover_url);
         break;
       }
-      case CollectionSettingsPage::SaveCoverType::Embedded:{
+      case CoverOptions::CoverType::Embedded:{
         urls << album_item->urls;
         album_items << album_item;
         break;
@@ -813,7 +813,7 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
     }
   }
 
-  if (album_cover_choice_controller_->get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType::Embedded && !urls.isEmpty()) {
+  if (album_cover_choice_controller_->get_save_album_cover_type() == CoverOptions::CoverType::Embedded && !urls.isEmpty()) {
     quint64 id = -1;
     if (result.is_jpeg()) {
       id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image_data);
@@ -971,7 +971,7 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, const AlbumCoverImageRe
   const Song::FileType filetype = static_cast<Song::FileType>(item->data(Role_Filetype).toInt());
   const bool has_cue = !item->data(Role_CuePath).toString().isEmpty();
 
-  if (album_cover_choice_controller_->get_save_album_cover_type() == CollectionSettingsPage::SaveCoverType::Embedded && Song::save_embedded_cover_supported(filetype) && !has_cue) {
+  if (album_cover_choice_controller_->get_save_album_cover_type() == CoverOptions::CoverType::Embedded && Song::save_embedded_cover_supported(filetype) && !has_cue) {
     if (result.is_jpeg()) {
       quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image_data);
       cover_save_tasks_.insert(id, item);

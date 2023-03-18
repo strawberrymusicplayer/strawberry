@@ -34,24 +34,18 @@
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
-#include <QRegularExpression>
 #include <QUrl>
 #include <QFile>
 #include <QImage>
 #include <QPainter>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QSettings>
 
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/tagreaderclient.h"
-#include "utilities/transliterate.h"
 #include "utilities/mimeutils.h"
-#include "utilities/cryptutils.h"
 #include "utilities/imageutils.h"
-#include "settings/collectionsettingspage.h"
-#include "organize/organizeformat.h"
 #include "albumcoverloader.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
@@ -63,15 +57,9 @@ AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
       load_image_async_id_(1),
       save_image_async_id_(1),
       network_(new NetworkAccessManager(this)),
-      save_cover_type_(CollectionSettingsPage::SaveCoverType::Cache),
-      save_cover_filename_(CollectionSettingsPage::SaveCoverFilename::Pattern),
-      cover_overwrite_(false),
-      cover_lowercase_(true),
-      cover_replace_spaces_(true),
       original_thread_(nullptr) {
 
   original_thread_ = thread();
-  ReloadSettings();
 
 }
 
@@ -87,145 +75,6 @@ void AlbumCoverLoader::Exit() {
   Q_ASSERT(QThread::currentThread() == thread());
   moveToThread(original_thread_);
   emit ExitFinished();
-
-}
-
-void AlbumCoverLoader::ReloadSettings() {
-
-  QSettings s;
-  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  save_cover_type_ = static_cast<CollectionSettingsPage::SaveCoverType>(s.value("save_cover_type", static_cast<int>(CollectionSettingsPage::SaveCoverType::Cache)).toInt());
-  save_cover_filename_ = static_cast<CollectionSettingsPage::SaveCoverFilename>(s.value("save_cover_filename", static_cast<int>(CollectionSettingsPage::SaveCoverFilename::Pattern)).toInt());
-  cover_pattern_ = s.value("cover_pattern", "%albumartist-%album").toString();
-  cover_overwrite_ = s.value("cover_overwrite", false).toBool();
-  cover_lowercase_ = s.value("cover_lowercase", false).toBool();
-  cover_replace_spaces_ = s.value("cover_replace_spaces", false).toBool();
-  s.endGroup();
-
-}
-
-QString AlbumCoverLoader::AlbumCoverFilename(QString artist, QString album, const QString &extension) {
-
-  artist.remove('/').remove('\\');
-  album.remove('/').remove('\\');
-
-  QString filename = artist + "-" + album;
-  filename = Utilities::Transliterate(filename.toLower());
-  filename = filename.replace(' ', '-')
-                     .replace("--", "-")
-                     .remove(OrganizeFormat::kInvalidFatCharacters)
-                     .simplified();
-
-  if (!extension.isEmpty()) {
-    filename.append('.');
-    filename.append(extension);
-  }
-
-  return filename;
-
-}
-
-QString AlbumCoverLoader::CoverFilePath(const Song &song, const QString &album_dir, const QUrl &cover_url, const QString &extension) {
-  return CoverFilePath(song.source(), song.effective_albumartist(), song.album(), song.album_id(), album_dir, cover_url, extension);
-}
-
-QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString &artist, const QString &album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QString &extension) {
-
-  QString path;
-  if (source == Song::Source::Collection && save_cover_type_ == CollectionSettingsPage::SaveCoverType::Album && !album_dir.isEmpty()) {
-    path = album_dir;
-  }
-  else {
-    path = Song::ImageCacheDir(source);
-  }
-
-  if (path.right(1) == QDir::separator() || path.right(1) == "/") {
-    path.chop(1);
-  }
-
-  QDir dir;
-  if (!dir.mkpath(path)) {
-    qLog(Error) << "Unable to create directory" << path;
-    path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-  }
-
-  QString filename;
-  if (source == Song::Source::Collection &&
-      save_cover_type_ == CollectionSettingsPage::SaveCoverType::Album &&
-      save_cover_filename_ == CollectionSettingsPage::SaveCoverFilename::Pattern &&
-      !cover_pattern_.isEmpty()) {
-    filename = CoverFilenameFromVariable(artist, album);
-    filename.remove(OrganizeFormat::kInvalidFatCharacters).remove('/').remove('\\');
-    if (cover_lowercase_) filename = filename.toLower();
-    if (cover_replace_spaces_) filename.replace(QRegularExpression("\\s"), "-");
-    if (!extension.isEmpty()) {
-      filename.append('.');
-      filename.append(extension);
-    }
-  }
-
-  if (filename.isEmpty()) {
-    filename = CoverFilenameFromSource(source, cover_url, artist, album, album_id, extension);
-  }
-
-  QString filepath(path + "/" + filename);
-
-  return filepath;
-
-}
-
-QString AlbumCoverLoader::CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id, const QString &extension) {
-
-  QString filename;
-
-  switch (source) {
-    case Song::Source::Tidal:
-      if (!album_id.isEmpty()) {
-        filename = album_id + "-" + cover_url.fileName();
-        break;
-      }
-      [[fallthrough]];
-    case Song::Source::Subsonic:
-    case Song::Source::Qobuz:
-      if (!album_id.isEmpty()) {
-        filename = album_id;
-        break;
-      }
-      [[fallthrough]];
-    case Song::Source::Collection:
-    case Song::Source::LocalFile:
-    case Song::Source::CDDA:
-    case Song::Source::Device:
-    case Song::Source::Stream:
-    case Song::Source::SomaFM:
-    case Song::Source::RadioParadise:
-    case Song::Source::Unknown:
-      filename = Utilities::Sha1CoverHash(artist, album).toHex();
-      break;
-  }
-
-  if (!extension.isEmpty()) {
-    filename.append('.');
-    filename.append(extension);
-  }
-
-  return filename;
-
-}
-
-QString AlbumCoverLoader::CoverFilenameFromVariable(const QString &artist, QString album, const QString &extension) {
-
-  album = album.remove(Song::kAlbumRemoveDisc);
-
-  QString filename(cover_pattern_);
-  filename.replace("%albumartist", artist);
-  filename.replace("%artist", artist);
-  filename.replace("%album", album);
-  if (!extension.isEmpty()) {
-    filename.append('.');
-    filename.append(extension);
-  }
-  return filename;
 
 }
 
@@ -260,7 +109,7 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
   Task task;
   task.options = options;
   task.song = song;
-  task.state = State_Manual;
+  task.state = State::Manual;
 
   return EnqueueTask(task);
 
@@ -276,7 +125,7 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
   Task task;
   task.options = options;
   task.song = song;
-  task.state = State_Manual;
+  task.state = State::Manual;
 
   return EnqueueTask(task);
 
@@ -360,9 +209,9 @@ void AlbumCoverLoader::ProcessTask(Task *task) {
 
 void AlbumCoverLoader::NextState(Task *task) {
 
-  if (task->state == State_Manual) {
+  if (task->state == State::Manual) {
     // Try the automatic one next
-    task->state = State_Automatic;
+    task->state = State::Automatic;
     ProcessTask(task);
   }
   else {
@@ -382,13 +231,13 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
   // For local files and streams initialize art if found.
   if ((task->song.source() == Song::Source::LocalFile || task->song.is_radio()) && !task->song.art_manual_is_valid() && !task->song.art_automatic_is_valid()) {
     switch (task->state) {
-      case State_None:
+      case State::None:
         break;
-      case State_Manual:
+      case State::Manual:
         task->song.InitArtManual();
         if (task->song.art_manual_is_valid()) task->art_updated = true;
         break;
-      case State_Automatic:
+      case State::Automatic:
         if (task->song.url().isLocalFile()) {
           task->song.InitArtAutomatic();
           if (task->song.art_automatic_is_valid()) task->art_updated = true;
@@ -400,12 +249,12 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
   AlbumCoverLoaderResult::Type type(AlbumCoverLoaderResult::Type_None);
   QUrl cover_url;
   switch (task->state) {
-    case State_None:
-    case State_Automatic:
+    case State::None:
+    case State::Automatic:
       type = AlbumCoverLoaderResult::Type_Automatic;
       cover_url = task->song.art_automatic();
       break;
-    case State_Manual:
+    case State::Manual:
       type = AlbumCoverLoaderResult::Type_Manual;
       cover_url = task->song.art_manual();
       break;
@@ -593,7 +442,7 @@ quint64 AlbumCoverLoader::SaveEmbeddedCoverAsync(const QList<QUrl> &urls, const 
 
 void AlbumCoverLoader::SaveEmbeddedCover(const quint64 id, const QString &song_filename, const QByteArray &image_data) {
 
-  TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(song_filename, image_data);
+  TagReaderReply *reply = TagReaderClient::Instance()->SaveEmbeddedArt(song_filename, TagReaderClient::SaveCoverOptions(image_data));
   tagreader_save_embedded_art_requests_.insert(id, reply);
   const bool clear = image_data.isEmpty();
   QObject::connect(reply, &TagReaderReply::Finished, this, [this, id, reply, clear]() { SaveEmbeddedArtFinished(id, reply, clear); }, Qt::QueuedConnection);
@@ -702,6 +551,6 @@ void AlbumCoverLoader::SaveEmbeddedArtFinished(const quint64 id, TagReaderReply 
     emit SaveEmbeddedCoverAsyncFinished(id, reply->is_successful(), cleared);
   }
 
-  QMetaObject::invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  reply->deleteLater();
 
 }

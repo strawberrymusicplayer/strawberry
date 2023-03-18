@@ -107,10 +107,10 @@ class TagReaderGME : public TagReaderBase {
   bool IsMediaFile(const QString &filename) const override;
 
   bool ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
-  bool SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+  bool SaveFile(const spb::tagreader::SaveFileRequest &request) const override;
 
   QByteArray LoadEmbeddedArt(const QString &filename) const override;
-  bool SaveEmbeddedArt(const QString &filename, const QByteArray &data) override;
+  bool SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest &request) const override;
 
   bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
   bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;

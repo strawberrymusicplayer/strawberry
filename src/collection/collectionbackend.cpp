@@ -140,8 +140,12 @@ void CollectionBackend::IncrementSkipCountAsync(const int id, const float progre
   QMetaObject::invokeMethod(this, "IncrementSkipCount", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(float, progress));
 }
 
-void CollectionBackend::ResetStatisticsAsync(const int id, const bool save_tags) {
-  QMetaObject::invokeMethod(this, "ResetStatistics", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(bool, save_tags));
+void CollectionBackend::ResetPlayStatisticsAsync(const int id, const bool save_tags) {
+  QMetaObject::invokeMethod(this, "ResetPlayStatistics", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(bool, save_tags));
+}
+
+void CollectionBackend::ResetPlayStatisticsAsync(const QList<int> &id_list, const bool save_tags) {
+  QMetaObject::invokeMethod(this, "ResetPlayStatistics", Qt::QueuedConnection, Q_ARG(QList<int>, id_list), Q_ARG(bool, save_tags));
 }
 
 void CollectionBackend::LoadDirectories() {
@@ -1776,23 +1780,48 @@ void CollectionBackend::IncrementSkipCount(const int id, const float progress) {
 
 }
 
-void CollectionBackend::ResetStatistics(const int id, const bool save_tags) {
+void CollectionBackend::ResetPlayStatistics(const int id, const bool save_tags) {
 
   if (id == -1) return;
+
+  ResetPlayStatistics(QList<int>() << id, save_tags);
+
+}
+
+void CollectionBackend::ResetPlayStatistics(const QList<int> &id_list, const bool save_tags) {
+
+  if (id_list.isEmpty()) return;
+
+  QStringList id_str_list;
+  id_str_list.reserve(id_list.count());
+  for (const int id : id_list) {
+    id_str_list << QString::number(id);
+  }
+
+  const bool success = ResetPlayStatistics(id_str_list);
+  if (success) {
+    const SongList songs = GetSongsById(id_list);
+    emit SongsStatisticsChanged(songs, save_tags);
+  }
+
+}
+
+bool CollectionBackend::ResetPlayStatistics(const QStringList &id_str_list) {
+
+  if (id_str_list.isEmpty()) return false;
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QString("UPDATE %1 SET playcount = 0, skipcount = 0, lastplayed = -1 WHERE ROWID = :id").arg(songs_table_));
-  q.BindValue(":id", id);
+  q.prepare(QString("UPDATE %1 SET playcount = 0, skipcount = 0, lastplayed = -1 WHERE ROWID IN (:ids)").arg(songs_table_));
+  q.BindValue(":ids", id_str_list.join(","));
   if (!q.Exec()) {
     db_->ReportErrors(q);
-    return;
+    return false;
   }
 
-  Song new_song = GetSongById(id, db);
-  emit SongsStatisticsChanged(SongList() << new_song, save_tags);
+  return true;
 
 }
 

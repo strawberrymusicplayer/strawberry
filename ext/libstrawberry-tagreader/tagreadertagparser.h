@@ -22,6 +22,8 @@
 
 #include <string>
 
+#include <tagparser/tag.h>
+
 #include <QByteArray>
 #include <QString>
 
@@ -40,14 +42,20 @@ class TagReaderTagParser : public TagReaderBase {
   bool IsMediaFile(const QString &filename) const override;
 
   bool ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
-  bool SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+  bool SaveFile(const spb::tagreader::SaveFileRequest &request) const override;
 
   QByteArray LoadEmbeddedArt(const QString &filename) const override;
-  bool SaveEmbeddedArt(const QString &filename, const QByteArray &data) override;
+  bool SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest &request) const override;
 
   bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
   bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
 
+ private:
+  void SaveSongPlaycountToFile(TagParser::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+  void SaveSongRatingToFile(TagParser::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+  void SaveEmbeddedArt(TagParser::Tag *tag, const QByteArray &data) const;
+
+ public:
   Q_DISABLE_COPY(TagReaderTagParser)
 };
 

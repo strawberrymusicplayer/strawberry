@@ -77,6 +77,14 @@ message SongMetadata {
 
 }
 
+message IsMediaFileRequest {
+  optional string filename = 1;
+}
+
+message IsMediaFileResponse {
+  optional bool success = 1;
+}
+
 message ReadFileRequest {
   optional string filename = 1;
 }
@@ -87,18 +95,17 @@ message ReadFileResponse {
 
 message SaveFileRequest {
   optional string filename = 1;
-  optional SongMetadata metadata = 2;
+  optional bool save_tags = 2;
+  optional bool save_playcount = 3;
+  optional bool save_rating = 4;
+  optional bool save_cover = 5;
+  optional SongMetadata metadata = 6;
+  optional string cover_filename = 7;
+  optional bytes cover_data = 8;
+  optional bool cover_is_jpeg = 9;
 }
 
 message SaveFileResponse {
-  optional bool success = 1;
-}
-
-message IsMediaFileRequest {
-  optional string filename = 1;
-}
-
-message IsMediaFileResponse {
   optional bool success = 1;
 }
 
@@ -112,7 +119,9 @@ message LoadEmbeddedArtResponse {
 
 message SaveEmbeddedArtRequest {
   optional string filename = 1;
-  optional bytes data = 2;
+  optional string cover_filename = 2;
+  optional bytes cover_data = 3;
+  optional bool cover_is_jpeg = 4;
 }
 
 message SaveEmbeddedArtResponse {

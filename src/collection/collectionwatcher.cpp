@@ -855,8 +855,8 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
       changes << "metadata";
       notify_new = true;
     }
-    if (!matching_song.IsStatisticsEqual(new_song)) {
-      changes << "statistics";
+    if (!matching_song.IsPlayStatisticsEqual(new_song)) {
+      changes << "play statistics";
       notify_new = true;
     }
     if (!matching_song.IsRatingEqual(new_song)) {

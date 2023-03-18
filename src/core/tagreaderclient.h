@@ -53,22 +53,48 @@ class TagReaderClient : public QObject {
   void Start();
   void ExitAsync();
 
-  ReplyType *ReadFile(const QString &filename);
-  ReplyType *SaveFile(const QString &filename, const Song &metadata);
+  enum class SaveTags {
+    Off,
+    On
+  };
+
+  enum class SavePlaycount {
+    Off,
+    On
+  };
+
+  enum class SaveRating {
+    Off,
+    On
+  };
+
+  class SaveCoverOptions {
+   public:
+    explicit SaveCoverOptions(const bool _enabled = false, const bool _is_jpeg = false, const QString &_cover_filename = QString(), const QByteArray &_cover_data = QByteArray()) : enabled(_enabled), is_jpeg(_is_jpeg), cover_filename(_cover_filename), cover_data(_cover_data) {}
+    explicit SaveCoverOptions(const QString &_cover_filename) : enabled(true), is_jpeg(false), cover_filename(_cover_filename) {}
+    explicit SaveCoverOptions(const QByteArray &_cover_data) : enabled(true), is_jpeg(false), cover_data(_cover_data) {}
+    bool enabled;
+    bool is_jpeg;
+    QString cover_filename;
+    QByteArray cover_data;
+  };
+
   ReplyType *IsMediaFile(const QString &filename);
+  ReplyType *ReadFile(const QString &filename);
+  ReplyType *SaveFile(const QString &filename, const Song &metadata, const SaveTags save_tags = SaveTags(), const SavePlaycount save_playcount = SavePlaycount(), const SaveRating save_rating = SaveRating(), const SaveCoverOptions &save_cover_options = SaveCoverOptions());
   ReplyType *LoadEmbeddedArt(const QString &filename);
-  ReplyType *SaveEmbeddedArt(const QString &filename, const QByteArray &data);
+  ReplyType *SaveEmbeddedArt(const QString &filename, const SaveCoverOptions &save_cover_options);
   ReplyType *UpdateSongPlaycount(const Song &metadata);
   ReplyType *UpdateSongRating(const Song &metadata);
 
   // Convenience functions that call the above functions and wait for a response.
   // These block the calling thread with a semaphore, and must NOT be called from the TagReaderClient's thread.
   void ReadFileBlocking(const QString &filename, Song *song);
-  bool SaveFileBlocking(const QString &filename, const Song &metadata);
+  bool SaveFileBlocking(const QString &filename, const Song &metadata, const SaveTags save_tags = SaveTags(), const SavePlaycount save_playcount = SavePlaycount(), const SaveRating save_rating = SaveRating(), const SaveCoverOptions &save_cover_options = SaveCoverOptions());
   bool IsMediaFileBlocking(const QString &filename);
   QByteArray LoadEmbeddedArtBlocking(const QString &filename);
   QImage LoadEmbeddedArtAsImageBlocking(const QString &filename);
-  bool SaveEmbeddedArtBlocking(const QString &filename, const QByteArray &data);
+  bool SaveEmbeddedArtBlocking(const QString &filename, const SaveCoverOptions &save_cover_options);
   bool UpdateSongPlaycountBlocking(const Song &metadata);
   bool UpdateSongRatingBlocking(const Song &metadata);
 

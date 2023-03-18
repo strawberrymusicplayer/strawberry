@@ -39,7 +39,6 @@
 
 #include "core/song.h"
 #include "core/tagreaderclient.h"
-#include "settings/collectionsettingspage.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
 #include "albumcoverimageresult.h"
@@ -54,24 +53,14 @@ class AlbumCoverLoader : public QObject {
  public:
   explicit AlbumCoverLoader(QObject *parent = nullptr);
 
-  enum State {
-    State_None,
-    State_Manual,
-    State_Automatic,
+  enum class State {
+    None,
+    Manual,
+    Automatic
   };
-
-  void ReloadSettings();
 
   void ExitAsync();
   void Stop() { stop_requested_ = true; }
-
-  static QString AlbumCoverFilename(QString artist, QString album, const QString &extension);
-
-  static QString CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id, const QString &extension);
-  QString CoverFilenameFromVariable(const QString &artist, QString album, const QString &extension = QString());
-  QString CoverFilePath(const Song &song, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());
-
-  QString CoverFilePath(const Song::Source source, const QString &artist, const QString &album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());
 
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const Song &song);
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QUrl &art_automatic, const QUrl &art_manual, const QUrl &song_url = QUrl(), const Song::Source song_source = Song::Source::Unknown);
@@ -110,7 +99,7 @@ class AlbumCoverLoader : public QObject {
  protected:
 
   struct Task {
-    explicit Task() : id(0), state(State_None), type(AlbumCoverLoaderResult::Type_None), art_updated(false), redirects(0) {}
+    explicit Task() : id(0), state(State::None), type(AlbumCoverLoaderResult::Type_None), art_updated(false), redirects(0) {}
 
     AlbumCoverLoaderOptions options;
 
@@ -157,13 +146,6 @@ class AlbumCoverLoader : public QObject {
   NetworkAccessManager *network_;
 
   static const int kMaxRedirects = 3;
-
-  CollectionSettingsPage::SaveCoverType save_cover_type_;
-  CollectionSettingsPage::SaveCoverFilename save_cover_filename_;
-  QString cover_pattern_;
-  bool cover_overwrite_;
-  bool cover_lowercase_;
-  bool cover_replace_spaces_;
 
   QThread *original_thread_;
 

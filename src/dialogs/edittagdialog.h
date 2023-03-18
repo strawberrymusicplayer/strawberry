@@ -109,13 +109,13 @@ class EditTagDialog : public QDialog {
 
  private slots:
   void SetSongsFinished();
-  void AcceptFinished();
+  void SaveDataFinished();
 
   void SelectionChanged();
   void FieldValueEdited();
   void ResetField();
   void ButtonClicked(QAbstractButton *button);
-  void ResetStatistics();
+  void ResetPlayStatistics();
   void SongRated(const float rating);
   void FetchTag();
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);
@@ -134,8 +134,7 @@ class EditTagDialog : public QDialog {
   void PreviousSong();
   void NextSong();
 
-  void SongSaveTagsComplete(TagReaderReply *reply, const QString &filename, Song song);
-  void SongSaveArtComplete(TagReaderReply *reply, const QString &filename, Song song, const EditTagDialog::UpdateCoverAction cover_action);
+  void SongSaveTagsComplete(TagReaderReply *reply, const QString &filename, Song song, const UpdateCoverAction cover_action);
 
  private:
   struct FieldData {
@@ -206,7 +205,6 @@ class EditTagDialog : public QDialog {
   QPushButton *next_button_;
 
   int save_tag_pending_;
-  int save_art_pending_;
 
   QMap<int, Song> collection_songs_;
 };

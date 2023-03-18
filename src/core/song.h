@@ -390,7 +390,7 @@ class Song {
 
   // Comparison functions
   bool IsMetadataEqual(const Song &other) const;
-  bool IsStatisticsEqual(const Song &other) const;
+  bool IsPlayStatisticsEqual(const Song &other) const;
   bool IsRatingEqual(const Song &other) const;
   bool IsFingerprintEqual(const Song &other) const;
   bool IsArtEqual(const Song &other) const;

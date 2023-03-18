@@ -55,6 +55,7 @@ set(SOURCES
   utilities/transliterate.cpp
   utilities/xmlutils.cpp
   utilities/filemanagerutils.cpp
+  utilities/coverutils.cpp
 
   engine/enginetype.cpp
   engine/enginebase.cpp

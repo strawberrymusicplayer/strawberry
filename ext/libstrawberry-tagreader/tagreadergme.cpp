@@ -278,7 +278,7 @@ bool TagReaderGME::ReadFile(const QString &filename, spb::tagreader::SongMetadat
   return GME::ReadFile(fileinfo, song);
 }
 
-bool TagReaderGME::SaveFile(const QString&, const spb::tagreader::SongMetadata&) const {
+bool TagReaderGME::SaveFile(const spb::tagreader::SaveFileRequest&) const {
   return false;
 }
 
@@ -286,7 +286,7 @@ QByteArray TagReaderGME::LoadEmbeddedArt(const QString&) const {
   return QByteArray();
 }
 
-bool TagReaderGME::SaveEmbeddedArt(const QString&, const QByteArray&) {
+bool TagReaderGME::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest&) const {
   return false;
 }
 

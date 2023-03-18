@@ -62,14 +62,4 @@ QByteArray HmacSha1(const QByteArray &key, const QByteArray &data) {
   return Hmac(key, data, QCryptographicHash::Sha1);
 }
 
-QByteArray Sha1CoverHash(const QString &artist, const QString &album) {
-
-  QCryptographicHash hash(QCryptographicHash::Sha1);
-  hash.addData(artist.toLower().toUtf8());
-  hash.addData(album.toLower().toUtf8());
-
-  return hash.result();
-
-}
-
 }  // namespace Utilities

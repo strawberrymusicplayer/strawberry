@@ -66,15 +66,18 @@ class TagReaderTest : public ::testing::Test {
     return song;
   }
 
-  static void WriteSongToFile(const Song& song, const QString& filename) {
+  static void WriteSongToFile(const Song &song, const QString &filename) {
 #if defined(USE_TAGLIB)
     TagReaderTagLib tag_reader;
 #elif defined(USE_TAGPARSER)
     TagReaderTagParser tag_reader;
 #endif
-    ::spb::tagreader::SongMetadata pb_song;
-    song.ToProtobuf(&pb_song);
-    tag_reader.SaveFile(filename, pb_song);
+    ::spb::tagreader::SaveFileRequest request;
+    const QByteArray filename_data = filename.toUtf8();
+    request.set_filename(filename_data.constData(), filename_data.length());
+    request.set_save_tags(true);
+    song.ToProtobuf(request.mutable_metadata());
+    tag_reader.SaveFile(request);
   }
 
   static QString SHA256SUM(const QString &filename) {

@@ -36,19 +36,12 @@
 #include <QTextDocument>
 #include <QTextFormat>
 
-#include "core/arraysize.h"
-#include "core/song.h"
-#include "utilities/transliterate.h"
+#include "utilities/filenameconstants.h"
 #include "utilities/timeconstants.h"
+#include "utilities/transliterate.h"
+#include "core/song.h"
 
 #include "organizeformat.h"
-
-const QRegularExpression OrganizeFormat::kProblematicCharacters("[:?*\"<>|]");
-// From http://en.wikipedia.org/wiki/8.3_filename#Directory_table
-const QRegularExpression OrganizeFormat::kInvalidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]", QRegularExpression::CaseInsensitiveOption);
-const QRegularExpression OrganizeFormat::kInvalidDirCharacters("[/\\\\]");
-constexpr char OrganizeFormat::kInvalidPrefixCharacters[] = ".";
-constexpr int OrganizeFormat::kInvalidPrefixCharactersCount = arraysize(OrganizeFormat::kInvalidPrefixCharacters) - 1;
 
 constexpr char OrganizeFormat::kBlockPattern[] = "\\{([^{}]+)\\}";
 constexpr char OrganizeFormat::kTagPattern[] = "\\%([a-zA-Z]*)";
@@ -138,9 +131,9 @@ OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(cons
     return GetFilenameForSongResult();
   }
 
-  if (remove_problematic_) filepath = filepath.remove(kProblematicCharacters);
+  if (remove_problematic_) filepath = filepath.remove(QRegularExpression(QString(kProblematicCharactersRegex), QRegularExpression::PatternOption::CaseInsensitiveOption));
   if (remove_non_fat_ || (remove_non_ascii_ && !allow_ascii_ext_)) filepath = Utilities::Transliterate(filepath);
-  if (remove_non_fat_) filepath = filepath.remove(kInvalidFatCharacters);
+  if (remove_non_fat_) filepath = filepath.remove(QRegularExpression(QString(kInvalidFatCharactersRegex), QRegularExpression::PatternOption::CaseInsensitiveOption));
 
   if (remove_non_ascii_) {
     int ascii = 128;
@@ -327,7 +320,7 @@ QString OrganizeFormat::TagValue(const QString &tag, const Song &song) const {
   if (tag == "track" && value.length() == 1) value.prepend('0');
 
   // Replace characters that really shouldn't be in paths
-  value = value.remove(kInvalidDirCharacters);
+  value = value.remove(QRegularExpression(QString(kInvalidDirCharactersRegex), QRegularExpression::PatternOption::CaseInsensitiveOption));
   if (remove_problematic_) value = value.remove('.');
   value = value.trimmed();
 

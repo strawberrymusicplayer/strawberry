@@ -81,11 +81,12 @@
 #endif
 
 #include <QtGlobal>
-#include <QFile>
-#include <QFileInfo>
 #include <QVector>
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
+#include <QFile>
+#include <QFileInfo>
 #include <QUrl>
 #include <QDateTime>
 #include <QtDebug>
@@ -193,7 +194,8 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
   qLog(Debug) << "Reading tags from" << filename;
 
-  song->set_basefilename(DataCommaSizeFromQString(fileinfo.fileName()));
+  const QByteArray basefilename = fileinfo.fileName().toUtf8();
+  song->set_basefilename(basefilename.constData(), basefilename.length());
   song->set_url(url.constData(), url.size());
   song->set_filesize(fileinfo.size());
   song->set_mtime(fileinfo.lastModified().isValid() ? std::max(fileinfo.lastModified().toSecsSinceEpoch(), 0LL) : 0LL);
@@ -494,7 +496,9 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
   if (compilation.isEmpty()) {
     // well, it wasn't set, but if the artist is VA assume it's a compilation
-    if (QStringFromStdString(song->artist()).compare("various artists") == 0 || QStringFromStdString(song->albumartist()).compare("various artists") == 0) {
+    const QString albumartist = QString::fromUtf8(song->albumartist().data(), song->albumartist().size());
+    const QString artist = QString::fromUtf8(song->artist().data(), song->artist().size());
+    if (artist.compare("various artists") == 0 || albumartist.compare("various artists") == 0) {
       song->set_compilation(true);
     }
   }
@@ -521,8 +525,9 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
 void TagReaderTagLib::Decode(const TagLib::String &tag, std::string *output) {
 
-  QString tmp = TStringToQString(tag).trimmed();
-  output->assign(DataCommaSizeFromQString(tmp));
+  const QString tmp = TStringToQString(tag).trimmed();
+  const QByteArray data = tmp.toUtf8();
+  output->assign(data.constData(), data.size());
 
 }
 
@@ -624,79 +629,175 @@ void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment
 
 }
 
-bool TagReaderTagLib::SaveFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
+bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) const {
 
-  if (filename.isEmpty()) return false;
+  if (request.filename().empty()) return false;
 
-  qLog(Debug) << "Saving tags to" << filename;
+  const QString filename = QString::fromUtf8(request.filename().data(), request.filename().size());
+  const spb::tagreader::SongMetadata song = request.metadata();
+  const bool save_tags = request.has_save_tags() && request.save_tags();
+  const bool save_playcount = request.has_save_playcount() && request.save_playcount();
+  const bool save_rating = request.has_save_rating() && request.save_rating();
+  const bool save_cover = request.has_save_cover() && request.save_cover();
+
+  QStringList save_tags_options;
+  if (save_tags) {
+    save_tags_options << "tags";
+  }
+  if (save_playcount) {
+    save_tags_options << "playcount";
+  }
+  if (save_rating) {
+    save_tags_options << "rating";
+  }
+  if (save_cover) {
+    save_tags_options << "embedded cover";
+  }
+
+  qLog(Debug) << "Saving" << save_tags_options.join(", ") << "to" << filename;
+
+  const QByteArray cover_data = LoadCoverDataFromRequest(request);
+
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));;
   if (!fileref || fileref->isNull()) return false;
 
-  fileref->tag()->setTitle(song.title().empty() ? TagLib::String() : StdStringToTaglibString(song.title()));
-  fileref->tag()->setArtist(song.artist().empty() ? TagLib::String() : StdStringToTaglibString(song.artist()));
-  fileref->tag()->setAlbum(song.album().empty() ? TagLib::String() : StdStringToTaglibString(song.album()));
-  fileref->tag()->setGenre(song.genre().empty() ? TagLib::String() : StdStringToTaglibString(song.genre()));
-  fileref->tag()->setComment(song.comment().empty() ? TagLib::String() : StdStringToTaglibString(song.comment()));
-  fileref->tag()->setYear(song.year() <= 0 ? 0 : song.year());
-  fileref->tag()->setTrack(song.track() <= 0 ? 0 : song.track());
+  if (save_tags) {
+    fileref->tag()->setTitle(song.title().empty() ? TagLib::String() : StdStringToTaglibString(song.title()));
+    fileref->tag()->setArtist(song.artist().empty() ? TagLib::String() : StdStringToTaglibString(song.artist()));
+    fileref->tag()->setAlbum(song.album().empty() ? TagLib::String() : StdStringToTaglibString(song.album()));
+    fileref->tag()->setGenre(song.genre().empty() ? TagLib::String() : StdStringToTaglibString(song.genre()));
+    fileref->tag()->setComment(song.comment().empty() ? TagLib::String() : StdStringToTaglibString(song.comment()));
+    fileref->tag()->setYear(song.year() <= 0 ? 0 : song.year());
+    fileref->tag()->setTrack(song.track() <= 0 ? 0 : song.track());
+  }
 
-  bool result = false;
-
+  bool is_flac = false;
   if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
-    TagLib::Ogg::XiphComment *tag = file_flac->xiphComment(true);
-    if (!tag) return false;
-    SetVorbisComments(tag, song);
+    is_flac = true;
+    TagLib::Ogg::XiphComment *xiph_comment = file_flac->xiphComment(true);
+    if (!xiph_comment) return false;
+    if (save_tags) {
+      SetVorbisComments(xiph_comment, song);
+    }
+    if (save_playcount) {
+      SetPlaycount(xiph_comment, song);
+    }
+    if (save_rating) {
+      SetRating(xiph_comment, song);
+    }
+    if (save_cover) {
+      SetEmbeddedArt(file_flac, xiph_comment, cover_data);
+    }
   }
 
   else if (TagLib::WavPack::File *file_wavpack = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = file_wavpack->APETag(true);
     if (!tag) return false;
-    SaveAPETag(tag, song);
+    if (save_tags) {
+      SaveAPETag(tag, song);
+    }
+    if (save_playcount) {
+      SetPlaycount(tag, song);
+    }
+    if (save_rating) {
+      SetRating(tag, song);
+    }
   }
 
   else if (TagLib::APE::File *file_ape = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = file_ape->APETag(true);
     if (!tag) return false;
-    SaveAPETag(tag, song);
+    if (save_tags) {
+      SaveAPETag(tag, song);
+    }
+    if (save_playcount) {
+      SetPlaycount(tag, song);
+    }
+    if (save_rating) {
+      SetRating(tag, song);
+    }
   }
 
   else if (TagLib::MPC::File *file_mpc = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = file_mpc->APETag(true);
     if (!tag) return false;
-    SaveAPETag(tag, song);
+    if (save_tags) {
+      SaveAPETag(tag, song);
+    }
+    if (save_playcount) {
+      SetPlaycount(tag, song);
+    }
+    if (save_rating) {
+      SetRating(tag, song);
+    }
   }
 
   else if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file_mpeg->ID3v2Tag(true);
     if (!tag) return false;
-    SetTextFrame("TPOS", song.disc() <= 0 ? QString() : QString::number(song.disc()), tag);
-    SetTextFrame("TCOM", song.composer().empty() ? std::string() : song.composer(), tag);
-    SetTextFrame("TIT1", song.grouping().empty() ? std::string() : song.grouping(), tag);
-    SetTextFrame("TOPE", song.performer().empty() ? std::string() : song.performer(), tag);
-    // Skip TPE1 (which is the artist) here because we already set it
-    SetTextFrame("TPE2", song.albumartist().empty() ? std::string() : song.albumartist(), tag);
-    SetTextFrame("TCMP", song.compilation() ? QString::number(1) : QString(), tag);
-    SetUnsyncLyricsFrame(song.lyrics().empty() ? std::string() : song.lyrics(), tag);
+    if (save_tags) {
+      SetTextFrame("TPOS", song.disc() <= 0 ? QString() : QString::number(song.disc()), tag);
+      SetTextFrame("TCOM", song.composer().empty() ? std::string() : song.composer(), tag);
+      SetTextFrame("TIT1", song.grouping().empty() ? std::string() : song.grouping(), tag);
+      SetTextFrame("TOPE", song.performer().empty() ? std::string() : song.performer(), tag);
+      // Skip TPE1 (which is the artist) here because we already set it
+      SetTextFrame("TPE2", song.albumartist().empty() ? std::string() : song.albumartist(), tag);
+      SetTextFrame("TCMP", song.compilation() ? QString::number(1) : QString(), tag);
+      SetUnsyncLyricsFrame(song.lyrics().empty() ? std::string() : song.lyrics(), tag);
+    }
+    if (save_playcount) {
+      SetPlaycount(tag, song);
+    }
+    if (save_rating) {
+      SetRating(tag, song);
+    }
+    if (save_cover) {
+      SetEmbeddedArt(file_mpeg, tag, cover_data);
+    }
   }
 
   else if (TagLib::MP4::File *file_mp4 = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
     TagLib::MP4::Tag *tag = file_mp4->tag();
     if (!tag) return false;
-    tag->setItem("disk", TagLib::MP4::Item(song.disc() <= 0 - 1 ? 0 : song.disc(), 0));
-    tag->setItem("\251wrt", TagLib::StringList(TagLib::String(song.composer(), TagLib::String::UTF8)));
-    tag->setItem("\251grp", TagLib::StringList(TagLib::String(song.grouping(), TagLib::String::UTF8)));
-    tag->setItem("\251lyr", TagLib::StringList(TagLib::String(song.lyrics(), TagLib::String::UTF8)));
-    tag->setItem("aART", TagLib::StringList(TagLib::String(song.albumartist(), TagLib::String::UTF8)));
-    tag->setItem("cpil", TagLib::MP4::Item(song.compilation()));
+    if (save_tags) {
+      tag->setItem("disk", TagLib::MP4::Item(song.disc() <= 0 - 1 ? 0 : song.disc(), 0));
+      tag->setItem("\251wrt", TagLib::StringList(TagLib::String(song.composer(), TagLib::String::UTF8)));
+      tag->setItem("\251grp", TagLib::StringList(TagLib::String(song.grouping(), TagLib::String::UTF8)));
+      tag->setItem("\251lyr", TagLib::StringList(TagLib::String(song.lyrics(), TagLib::String::UTF8)));
+      tag->setItem("aART", TagLib::StringList(TagLib::String(song.albumartist(), TagLib::String::UTF8)));
+      tag->setItem("cpil", TagLib::MP4::Item(song.compilation()));
+    }
+    if (save_playcount) {
+      SetPlaycount(tag, song);
+    }
+    if (save_rating) {
+      SetRating(tag, song);
+    }
+    if (save_cover) {
+      SetEmbeddedArt(file_mp4, tag, cover_data);
+    }
   }
 
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
   // apart, so we keep specific behavior for some formats by adding another "else if" block above.
-  if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    SetVorbisComments(xiph_comment, song);
+  if (!is_flac) {
+    if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
+      if (save_tags) {
+        SetVorbisComments(xiph_comment, song);
+      }
+      if (save_playcount) {
+        SetPlaycount(xiph_comment, song);
+      }
+      if (save_rating) {
+        SetRating(xiph_comment, song);
+      }
+      if (save_cover) {
+        SetEmbeddedArt(xiph_comment, cover_data);
+      }
+    }
   }
 
-  result = fileref->save();
+  const bool result = fileref->save();
 #ifdef Q_OS_LINUX
   if (result) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
@@ -705,6 +806,7 @@ bool TagReaderTagLib::SaveFile(const QString &filename, const spb::tagreader::So
 #endif  // Q_OS_LINUX
 
   return result;
+
 }
 
 void TagReaderTagLib::SaveAPETag(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const {
@@ -939,11 +1041,83 @@ QByteArray TagReaderTagLib::LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &m
 
 }
 
-bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray &data) {
+void TagReaderTagLib::SetEmbeddedArt(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data) const {
 
-  if (filename.isEmpty()) return false;
+  (void)xiph_comment;
+
+  flac_file->removePictures();
+
+  if (!data.isEmpty()) {
+    TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
+    picture->setType(TagLib::FLAC::Picture::FrontCover);
+    picture->setMimeType("image/jpeg");
+    picture->setData(TagLib::ByteVector(data.constData(), data.size()));
+    flac_file->addPicture(picture);
+  }
+
+}
+
+void TagReaderTagLib::SetEmbeddedArt(TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data) const {
+
+  xiph_comment->removeAllPictures();
+
+  if (!data.isEmpty()) {
+    TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
+    picture->setType(TagLib::FLAC::Picture::FrontCover);
+    picture->setMimeType("image/jpeg");
+    picture->setData(TagLib::ByteVector(data.constData(), data.size()));
+    xiph_comment->addPicture(picture);
+  }
+
+}
+
+void TagReaderTagLib::SetEmbeddedArt(TagLib::MPEG::File *file_mp3, TagLib::ID3v2::Tag *tag, const QByteArray &data) const {
+
+  (void)file_mp3;
+
+  // Remove existing covers
+  TagLib::ID3v2::FrameList apiclist = tag->frameListMap()["APIC"];
+  for (TagLib::ID3v2::FrameList::ConstIterator it = apiclist.begin(); it != apiclist.end(); ++it) {
+    TagLib::ID3v2::AttachedPictureFrame *frame = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(*it);
+    tag->removeFrame(frame, false);
+  }
+
+  if (!data.isEmpty()) {
+    // Add new cover
+    TagLib::ID3v2::AttachedPictureFrame *frontcover = nullptr;
+    frontcover = new TagLib::ID3v2::AttachedPictureFrame("APIC");
+    frontcover->setType(TagLib::ID3v2::AttachedPictureFrame::FrontCover);
+    frontcover->setMimeType("image/jpeg");
+    frontcover->setPicture(TagLib::ByteVector(data.constData(), data.size()));
+    tag->addFrame(frontcover);
+  }
+
+}
+
+void TagReaderTagLib::SetEmbeddedArt(TagLib::MP4::File *aac_file, TagLib::MP4::Tag *tag, const QByteArray &data) const {
+
+  (void)aac_file;
+
+  TagLib::MP4::CoverArtList covers;
+  if (data.isEmpty()) {
+    if (tag->contains("covr")) tag->removeItem("covr");
+  }
+  else {
+    covers.append(TagLib::MP4::CoverArt(TagLib::MP4::CoverArt::JPEG, TagLib::ByteVector(data.constData(), data.size())));
+    tag->setItem("covr", covers);
+  }
+
+}
+
+bool TagReaderTagLib::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest &request) const {
+
+  if (request.filename().empty()) return false;
+
+  const QString filename = QString::fromUtf8(request.filename().data(), request.filename().size());
 
   qLog(Debug) << "Saving art to" << filename;
+
+  const QByteArray cover_data = LoadCoverDataFromRequest(request);
 
 #ifdef Q_OS_WIN32
   TagLib::FileRef fileref(filename.toStdWString().c_str());
@@ -955,65 +1129,28 @@ bool TagReaderTagLib::SaveEmbeddedArt(const QString &filename, const QByteArray 
 
   // FLAC
   if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref.file())) {
-    TagLib::Ogg::XiphComment *vorbis_comments = flac_file->xiphComment(true);
-    if (!vorbis_comments) return false;
-    flac_file->removePictures();
-    if (!data.isEmpty()) {
-      TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
-      picture->setType(TagLib::FLAC::Picture::FrontCover);
-      picture->setMimeType("image/jpeg");
-      picture->setData(TagLib::ByteVector(data.constData(), data.size()));
-      flac_file->addPicture(picture);
-    }
+    TagLib::Ogg::XiphComment *xiph_comment = flac_file->xiphComment(true);
+    if (!xiph_comment) return false;
+    SetEmbeddedArt(flac_file, xiph_comment, cover_data);
   }
 
   // Ogg Vorbis / Opus / Speex
   else if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref.file()->tag())) {
-    xiph_comment->removeAllPictures();
-    if (!data.isEmpty()) {
-      TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
-      picture->setType(TagLib::FLAC::Picture::FrontCover);
-      picture->setMimeType("image/jpeg");
-      picture->setData(TagLib::ByteVector(data.constData(), data.size()));
-      xiph_comment->addPicture(picture);
-    }
+    SetEmbeddedArt(xiph_comment, cover_data);
   }
 
   // MP3
   else if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(fileref.file())) {
     TagLib::ID3v2::Tag *tag = file_mp3->ID3v2Tag();
     if (!tag) return false;
-
-    // Remove existing covers
-    TagLib::ID3v2::FrameList apiclist = tag->frameListMap()["APIC"];
-    for (TagLib::ID3v2::FrameList::ConstIterator it = apiclist.begin(); it != apiclist.end(); ++it) {
-      TagLib::ID3v2::AttachedPictureFrame *frame = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(*it);
-      tag->removeFrame(frame, false);
-    }
-
-    if (!data.isEmpty()) {
-      // Add new cover
-      TagLib::ID3v2::AttachedPictureFrame *frontcover = nullptr;
-      frontcover = new TagLib::ID3v2::AttachedPictureFrame("APIC");
-      frontcover->setType(TagLib::ID3v2::AttachedPictureFrame::FrontCover);
-      frontcover->setMimeType("image/jpeg");
-      frontcover->setPicture(TagLib::ByteVector(data.constData(), data.size()));
-      tag->addFrame(frontcover);
-    }
+    SetEmbeddedArt(file_mp3, tag, cover_data);
   }
 
   // MP4/AAC
   else if (TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(fileref.file())) {
     TagLib::MP4::Tag *tag = aac_file->tag();
     if (!tag) return false;
-    TagLib::MP4::CoverArtList covers;
-    if (data.isEmpty()) {
-      if (tag->contains("covr")) tag->removeItem("covr");
-    }
-    else {
-      covers.append(TagLib::MP4::CoverArt(TagLib::MP4::CoverArt::JPEG, TagLib::ByteVector(data.constData(), data.size())));
-      tag->setItem("covr", covers);
-    }
+    SetEmbeddedArt(aac_file, tag, cover_data);
   }
 
   // Not supported.
@@ -1041,6 +1178,60 @@ TagLib::ID3v2::PopularimeterFrame *TagReaderTagLib::GetPOPMFrameFromTag(TagLib::
 
 }
 
+void TagReaderTagLib::SetPlaycount(TagLib::Ogg::XiphComment *xiph_comment, const spb::tagreader::SongMetadata &song) const {
+
+  if (song.playcount() > 0) {
+    xiph_comment->addField("FMPS_PLAYCOUNT", TagLib::String::number(static_cast<int>(song.playcount())), true);
+  }
+  else {
+    xiph_comment->removeFields("FMPS_PLAYCOUNT");
+  }
+
+}
+
+void TagReaderTagLib::SetPlaycount(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const {
+
+  if (song.playcount() > 0) {
+    tag->setItem("FMPS_Playcount", TagLib::APE::Item("FMPS_Playcount", TagLib::String::number(static_cast<int>(song.playcount()))));
+  }
+  else {
+    tag->removeItem("FMPS_Playcount");
+  }
+
+}
+
+void TagReaderTagLib::SetPlaycount(TagLib::ID3v2::Tag *tag, const spb::tagreader::SongMetadata &song) const {
+
+  SetUserTextFrame("FMPS_Playcount", QString::number(song.playcount()), tag);
+  TagLib::ID3v2::PopularimeterFrame *frame = GetPOPMFrameFromTag(tag);
+  if (frame) {
+    frame->setCounter(song.playcount());
+  }
+
+}
+
+void TagReaderTagLib::SetPlaycount(TagLib::MP4::Tag *tag, const spb::tagreader::SongMetadata &song) const {
+
+  if (song.playcount() > 0) {
+    tag->setItem(kMP4_FMPS_Playcount_ID, TagLib::MP4::Item(TagLib::String::number(static_cast<int>(song.playcount()))));
+  }
+  else {
+    tag->removeItem(kMP4_FMPS_Playcount_ID);
+  }
+
+}
+
+void TagReaderTagLib::SetPlaycount(TagLib::ASF::Tag *tag, const spb::tagreader::SongMetadata &song) const {
+
+  if (song.playcount() > 0) {
+    tag->setAttribute("FMPS/Playcount", TagLib::ASF::Attribute(QStringToTaglibString(QString::number(song.playcount()))));
+  }
+  else {
+    tag->removeItem("FMPS/Playcount");
+  }
+
+}
+
 bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
 
   if (filename.isEmpty()) return false;
@@ -1051,62 +1242,37 @@ bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb
   if (!fileref || fileref->isNull()) return false;
 
   if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
-    TagLib::Ogg::XiphComment *vorbis_comments = flac_file->xiphComment(true);
-    if (!vorbis_comments) return false;
-    if (song.playcount() > 0) {
-      vorbis_comments->addField("FMPS_PLAYCOUNT", TagLib::String::number(static_cast<int>(song.playcount())), true);
-    }
-    else {
-      vorbis_comments->removeFields("FMPS_PLAYCOUNT");
-    }
+    TagLib::Ogg::XiphComment *xiph_comment = flac_file->xiphComment(true);
+    if (!xiph_comment) return false;
+    SetPlaycount(xiph_comment, song);
   }
   else if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = wavpack_file->APETag(true);
     if (!tag) return false;
-    if (song.playcount() > 0) {
-      tag->setItem("FMPS_Playcount", TagLib::APE::Item("FMPS_Playcount", TagLib::String::number(static_cast<int>(song.playcount()))));
-    }
+    SetPlaycount(tag, song);
   }
   else if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = ape_file->APETag(true);
     if (!tag) return false;
-    if (song.playcount() > 0) {
-      tag->setItem("FMPS_Playcount", TagLib::APE::Item("FMPS_Playcount", TagLib::String::number(static_cast<int>(song.playcount()))));
-    }
+    SetPlaycount(tag, song);
   }
   else if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    if (song.playcount() > 0) {
-      xiph_comment->addField("FMPS_PLAYCOUNT", TagLib::String::number(static_cast<int>(song.playcount())), true);
-    }
-    else {
-      xiph_comment->removeFields("FMPS_PLAYCOUNT");
-    }
+    SetPlaycount(xiph_comment, song);
   }
   else if (TagLib::MPEG::File *mpeg_file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = mpeg_file->ID3v2Tag(true);
     if (!tag) return false;
-    if (song.playcount() > 0) {
-      SetUserTextFrame("FMPS_Playcount", QString::number(song.playcount()), tag);
-      TagLib::ID3v2::PopularimeterFrame *frame = GetPOPMFrameFromTag(tag);
-      if (frame) {
-        frame->setCounter(song.playcount());
-      }
-    }
-
+    SetPlaycount(tag, song);
   }
   else if (TagLib::MP4::File *mp4_file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
     TagLib::MP4::Tag *tag = mp4_file->tag();
     if (!tag) return false;
-    if (song.playcount() > 0) {
-      tag->setItem(kMP4_FMPS_Playcount_ID, TagLib::MP4::Item(TagLib::String::number(static_cast<int>(song.playcount()))));
-    }
+    SetPlaycount(tag, song);
   }
   else if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = mpc_file->APETag(true);
     if (!tag) return false;
-    if (song.playcount() > 0) {
-      tag->setItem("FMPS_Playcount", TagLib::APE::Item("FMPS_Playcount", TagLib::String::number(static_cast<int>(song.playcount()))));
-    }
+    SetPlaycount(tag, song);
   }
   else if (TagLib::ASF::File *asf_file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
     TagLib::ASF::Tag *tag = asf_file->tag();
@@ -1130,6 +1296,50 @@ bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb
   return ret;
 }
 
+void TagReaderTagLib::SetRating(TagLib::Ogg::XiphComment *xiph_comment, const spb::tagreader::SongMetadata &song) const {
+
+  if (song.rating() > 0.0F) {
+    xiph_comment->addField("FMPS_RATING", QStringToTaglibString(QString::number(song.rating())), true);
+  }
+  else {
+    xiph_comment->removeFields("FMPS_RATING");
+  }
+
+}
+
+void TagReaderTagLib::SetRating(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const {
+
+  if (song.rating() > 0.0F) {
+    tag->setItem("FMPS_Rating", TagLib::APE::Item("FMPS_Rating", TagLib::StringList(QStringToTaglibString(QString::number(song.rating())))));
+  }
+  else {
+    tag->removeItem("FMPS_Rating");
+  }
+
+}
+
+void TagReaderTagLib::SetRating(TagLib::ID3v2::Tag *tag, const spb::tagreader::SongMetadata &song) const {
+
+  SetUserTextFrame("FMPS_Rating", QString::number(song.rating()), tag);
+  TagLib::ID3v2::PopularimeterFrame *frame = GetPOPMFrameFromTag(tag);
+  if (frame) {
+    frame->setRating(ConvertToPOPMRating(song.rating()));
+  }
+
+}
+
+void TagReaderTagLib::SetRating(TagLib::MP4::Tag *tag, const spb::tagreader::SongMetadata &song) const {
+
+  tag->setItem(kMP4_FMPS_Rating_ID, TagLib::StringList(QStringToTaglibString(QString::number(song.rating()))));
+
+}
+
+void TagReaderTagLib::SetRating(TagLib::ASF::Tag *tag, const spb::tagreader::SongMetadata &song) const {
+
+  tag->addAttribute("FMPS/Rating", TagLib::ASF::Attribute(QStringToTaglibString(QString::number(song.rating()))));
+
+}
+
 bool TagReaderTagLib::SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
 
   if (filename.isNull()) return false;
@@ -1145,56 +1355,42 @@ bool TagReaderTagLib::SaveSongRatingToFile(const QString &filename, const spb::t
   if (!fileref || fileref->isNull()) return false;
 
   if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
-    TagLib::Ogg::XiphComment *vorbis_comments = flac_file->xiphComment(true);
-    if (!vorbis_comments) return false;
-    if (song.rating() > 0) {
-      vorbis_comments->addField("FMPS_RATING", QStringToTaglibString(QString::number(song.rating())), true);
-    }
-    else {
-      vorbis_comments->removeFields("FMPS_RATING");
-    }
+    TagLib::Ogg::XiphComment *xiph_comment = flac_file->xiphComment(true);
+    if (!xiph_comment) return false;
+    SetRating(xiph_comment, song);
   }
   else if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = wavpack_file->APETag(true);
     if (!tag) return false;
-    tag->setItem("FMPS_Rating", TagLib::APE::Item("FMPS_Rating", TagLib::StringList(QStringToTaglibString(QString::number(song.rating())))));
+    SetRating(tag, song);
   }
   else if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = ape_file->APETag(true);
     if (!tag) return false;
-    tag->setItem("FMPS_Rating", TagLib::APE::Item("FMPS_Rating", TagLib::StringList(QStringToTaglibString(QString::number(song.rating())))));
+    SetRating(tag, song);
   }
   else if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    if (song.rating() > 0) {
-      xiph_comment->addField("FMPS_RATING", QStringToTaglibString(QString::number(song.rating())), true);
-    }
-    else {
-      xiph_comment->removeFields("FMPS_RATING");
-    }
+    SetRating(xiph_comment, song);
   }
   else if (TagLib::MPEG::File *mpeg_file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = mpeg_file->ID3v2Tag(true);
     if (!tag) return false;
-    SetUserTextFrame("FMPS_Rating", QString::number(song.rating()), tag);
-    TagLib::ID3v2::PopularimeterFrame *frame = GetPOPMFrameFromTag(tag);
-    if (frame) {
-      frame->setRating(ConvertToPOPMRating(song.rating()));
-    }
+    SetRating(tag, song);
   }
   else if (TagLib::MP4::File *mp4_file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
     TagLib::MP4::Tag *tag = mp4_file->tag();
     if (!tag) return false;
-    tag->setItem(kMP4_FMPS_Rating_ID, TagLib::StringList(QStringToTaglibString(QString::number(song.rating()))));
+    SetRating(tag, song);
   }
   else if (TagLib::ASF::File *asf_file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
     TagLib::ASF::Tag *tag = asf_file->tag();
     if (!tag) return false;
-    tag->addAttribute("FMPS/Rating", TagLib::ASF::Attribute(QStringToTaglibString(QString::number(song.rating()))));
+    SetRating(tag, song);
   }
   else if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
     TagLib::APE::Tag *tag = mpc_file->APETag(true);
     if (!tag) return false;
-    tag->setItem("FMPS_Rating", TagLib::APE::Item("FMPS_Rating", TagLib::StringList(QStringToTaglibString(QString::number(song.rating())))));
+    SetRating(tag, song);
   }
   else {
     return true;

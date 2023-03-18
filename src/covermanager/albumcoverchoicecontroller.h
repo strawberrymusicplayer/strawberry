@@ -38,6 +38,7 @@
 #include <QMutex>
 
 #include "core/song.h"
+#include "utilities/coveroptions.h"
 #include "settings/collectionsettingspage.h"
 #include "albumcoverimageresult.h"
 
@@ -69,8 +70,8 @@ class AlbumCoverChoiceController : public QWidget {
   void Init(Application *app);
   void ReloadSettings();
 
-  CollectionSettingsPage::SaveCoverType get_save_album_cover_type() const { return (save_embedded_cover_override_ ? CollectionSettingsPage::SaveCoverType::Embedded : save_cover_type_); }
-  CollectionSettingsPage::SaveCoverType get_collection_save_album_cover_type() const { return save_cover_type_; }
+  CoverOptions::CoverType get_save_album_cover_type() const { return (save_embedded_cover_override_ ? CoverOptions::CoverType::Embedded : cover_options_.cover_type); }
+  CoverOptions::CoverType get_collection_save_album_cover_type() const { return cover_options_.cover_type; }
 
   // Getters for all QActions implemented by this controller.
 
@@ -189,12 +190,7 @@ class AlbumCoverChoiceController : public QWidget {
   QMap<quint64, Song> cover_save_tasks_;
   QMutex mutex_cover_save_tasks_;
 
-  CollectionSettingsPage::SaveCoverType save_cover_type_;
-  CollectionSettingsPage::SaveCoverFilename save_cover_filename_;
-  QString cover_pattern_;
-  bool cover_overwrite_;
-  bool cover_lowercase_;
-  bool cover_replace_spaces_;
+  CoverOptions cover_options_;
   bool save_embedded_cover_override_;
 
 };

@@ -200,7 +200,8 @@ class CollectionBackend : public CollectionBackendInterface {
 
   void IncrementPlayCountAsync(const int id);
   void IncrementSkipCountAsync(const int id, const float progress);
-  void ResetStatisticsAsync(const int id, const bool save_tags = false);
+  void ResetPlayStatisticsAsync(const int id, const bool save_tags = false);
+  void ResetPlayStatisticsAsync(const QList<int> &id_list, const bool save_tags = false);
 
   void DeleteAllAsync();
 
@@ -236,7 +237,9 @@ class CollectionBackend : public CollectionBackendInterface {
   void ForceCompilation(const QString &album, const QList<QString> &artists, const bool on);
   void IncrementPlayCount(const int id);
   void IncrementSkipCount(const int id, const float progress);
-  void ResetStatistics(const int id, const bool save_tags = false);
+  void ResetPlayStatistics(const int id, const bool save_tags = false);
+  void ResetPlayStatistics(const QList<int> &id_list, const bool save_tags = false);
+  bool ResetPlayStatistics(const QStringList &id_str_list);
   void DeleteAll();
   void SongPathChanged(const Song &song, const QFileInfo &new_file, const std::optional<int> new_collection_directory_id);
 

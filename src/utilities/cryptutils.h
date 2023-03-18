@@ -30,7 +30,6 @@ QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptograp
 QByteArray HmacMd5(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha256(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha1(const QByteArray &key, const QByteArray &data);
-QByteArray Sha1CoverHash(const QString &artist, const QString &album);
 
 }  // namespace Utilities
 
