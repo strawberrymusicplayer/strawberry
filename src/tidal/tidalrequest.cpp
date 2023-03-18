@@ -20,7 +20,9 @@
 #include "config.h"
 
 #include <QObject>
+#include <QList>
 #include <QByteArray>
+#include <QByteArrayList>
 #include <QString>
 #include <QUrl>
 #include <QImage>
@@ -1291,7 +1293,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
     return;
   }
 
-  QList<QByteArray> format_list = ImageUtils::ImageFormatsForMimeType(mimetype.toUtf8());
+  QByteArrayList format_list = ImageUtils::ImageFormatsForMimeType(mimetype.toUtf8());
   char *format = nullptr;
   if (!format_list.isEmpty()) {
     format = format_list.first().data();

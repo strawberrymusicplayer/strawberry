@@ -20,8 +20,8 @@
 #ifndef IMAGEUTILS_H
 #define IMAGEUTILS_H
 
-#include <QList>
 #include <QByteArray>
+#include <QByteArrayList>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
@@ -37,7 +37,7 @@ class ImageUtils {
  public:
   static QStringList SupportedImageMimeTypes();
   static QStringList SupportedImageFormats();
-  static QList<QByteArray> ImageFormatsForMimeType(const QByteArray &mimetype);
+  static QByteArrayList ImageFormatsForMimeType(const QByteArray &mimetype);
   static QByteArray SaveImageToJpegData(const QImage &image = QImage());
   static QByteArray FileToJpegData(const QString &filename);
   static QPixmap TryLoadPixmap(const QUrl &automatic, const QUrl &manual, const QUrl &url = QUrl());

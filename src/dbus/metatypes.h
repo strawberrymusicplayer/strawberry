@@ -2,13 +2,13 @@
 #define DBUS_METATYPES_H
 
 #include <QMetaType>
-#include <QList>
 #include <QByteArray>
+#include <QByteArrayList>
 #include <QMap>
 #include <QString>
 #include <QDBusObjectPath>
 
-Q_DECLARE_METATYPE(QList<QByteArray>)
+Q_DECLARE_METATYPE(QByteArrayList)
 
 using InterfacesAndProperties = QMap<QString, QVariantMap>;
 using ManagedObjectList = QMap<QDBusObjectPath, InterfacesAndProperties>;

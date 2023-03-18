@@ -31,6 +31,7 @@
 #include <QFile>
 #include <QList>
 #include <QByteArray>
+#include <QByteArrayList>
 #include <QString>
 #include <QUrl>
 #include <QRegularExpression>
@@ -377,7 +378,7 @@ void LocalRedirectServer::WriteTemplate() const {
 
 QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray &request) const {
 
-  QList<QByteArray> lines = request.split('\r');
+  const QByteArrayList lines = request.split('\r');
   const QByteArray &request_line = lines[0];
   QByteArray path = request_line.split(' ')[1];
   QUrl base_url = url_;
