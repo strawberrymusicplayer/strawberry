@@ -29,12 +29,14 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QSqlError>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QScrollBar>
 #include <QTextBrowser>
 
 #include "console.h"
+#include "core/logging.h"
 #include "core/application.h"
 #include "core/database.h"
 
@@ -57,14 +59,16 @@ Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_{}, ap
 void Console::RunQuery() {
 
   QSqlDatabase db = app_->database()->Connect();
-  QSqlQuery query = db.exec(ui_.query->text());
-  //ui_.query->clear();
+  QSqlQuery query(db);
+  query.prepare(ui_.query->text());
+  if (!query.exec()) {
+    qLog(Error) << query.lastError();
+    return;
+  }
 
   ui_.output->append("<b>&gt; " + query.executedQuery() + "</b>");
 
-  query.next();
-
-  while (query.isValid()) {
+  while (query.next() && query.isValid()) {
     QSqlRecord record = query.record();
     QStringList values;  // clazy:exclude=container-inside-loop
     values.reserve(record.count());
@@ -74,7 +78,6 @@ void Console::RunQuery() {
 
     ui_.output->append(values.join("|"));
 
-    query.next();
   }
 
   ui_.output->verticalScrollBar()->setValue(ui_.output->verticalScrollBar()->maximum());
