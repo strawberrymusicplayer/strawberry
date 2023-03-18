@@ -743,7 +743,7 @@ msgstr "Adicionado(s) há três meses"
 msgid "Advanced"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:327
+#: collection/collectionfilterwidget.cpp:328
 msgid "Advanced grouping..."
 msgstr "Organização avançada..."
 
@@ -1043,7 +1043,7 @@ msgstr ""
 msgid "Available"
 msgstr "Disponível"
 
-#: collection/collectionfilterwidget.cpp:89
+#: collection/collectionfilterwidget.cpp:90
 msgid "Available fields"
 msgstr ""
 
@@ -1816,7 +1816,7 @@ msgstr "Transmissão descontínua"
 msgid "Disk Cache Size"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:130
+#: collection/collectionfilterwidget.cpp:131
 #: ../build/src/ui_collectionsettingspage.h:605
 msgid "Display options"
 msgstr "Opções de exibição"
@@ -2522,64 +2522,64 @@ msgstr ""
 msgid "Group Collection by..."
 msgstr "Organizar Biblioteca por..."
 
-#: collection/collectionfilterwidget.cpp:124
+#: collection/collectionfilterwidget.cpp:125
 #: internet/internetsearchview.cpp:345
 msgid "Group by"
 msgstr "Organizar por"
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Album"
 msgstr "Organizar por Álbum"
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Album Artist"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:277
 msgid "Group by Album artist/Album"
 msgstr "Organizar por Artista do álbum/Álbum"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Album artist/Year - Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:279
+#: collection/collectionfilterwidget.cpp:280
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:290
+#: collection/collectionfilterwidget.cpp:291
 msgid "Group by Artist"
 msgstr "Organizar por Artista"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Artist/Album"
 msgstr "Organizar por Artista/Álbum"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:283
 msgid "Group by Artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:284
 msgid "Group by Artist/Year - Album"
 msgstr "Organizar por Artista/Ano do Álbum"
 
-#: collection/collectionfilterwidget.cpp:284
+#: collection/collectionfilterwidget.cpp:285
 msgid "Group by Artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:293
+#: collection/collectionfilterwidget.cpp:294
 msgid "Group by Genre/Album"
 msgstr "Organizar por Gênero/Álbum"
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Genre/Album artist/Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:287
+#: collection/collectionfilterwidget.cpp:288
 msgid "Group by Genre/Artist/Album"
 msgstr "Organizar por Gênero/Artista/Álbum"
 
@@ -2590,11 +2590,11 @@ msgstr "Organizar por Gênero/Artista/Álbum"
 msgid "Grouping"
 msgstr "Agrupamento"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:351
 msgid "Grouping Name"
 msgstr "Nome do agrupamento"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:351
 msgid "Grouping name:"
 msgstr "Nome do agrupamento:"
 
@@ -3716,7 +3716,7 @@ msgstr "Nomenclatura para arquivos de capa (separado por vírgulas)"
 msgid "Preferred format"
 msgstr "Formato preferido"
 
-#: collection/collectionfilterwidget.cpp:79
+#: collection/collectionfilterwidget.cpp:80
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -4456,7 +4456,7 @@ msgstr "Atalho"
 msgid "Shortcut for %1"
 msgstr "Atalho para %1"
 
-#: collection/collectionfilterwidget.cpp:114
+#: collection/collectionfilterwidget.cpp:115
 msgid "Show"
 msgstr "Exibir"
 
@@ -5687,7 +5687,7 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:82
+#: collection/collectionfilterwidget.cpp:83
 msgid "artist"
 msgstr ""
 
@@ -5832,7 +5832,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "Remover %n músicas"
 
-#: collection/collectionfilterwidget.cpp:86
+#: collection/collectionfilterwidget.cpp:87
 msgid "searches the collection for all artists that contain the word"
 msgstr ""
 

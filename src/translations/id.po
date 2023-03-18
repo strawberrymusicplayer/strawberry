@@ -741,7 +741,7 @@ msgstr "Ditambahkan pada tiga bulan terakhir"
 msgid "Advanced"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:327
+#: collection/collectionfilterwidget.cpp:328
 msgid "Advanced grouping..."
 msgstr "Pengelompokkan lanjut..."
 
@@ -1041,7 +1041,7 @@ msgstr ""
 msgid "Available"
 msgstr "Tersedia"
 
-#: collection/collectionfilterwidget.cpp:89
+#: collection/collectionfilterwidget.cpp:90
 msgid "Available fields"
 msgstr ""
 
@@ -1814,7 +1814,7 @@ msgstr "Transmisi putus-putus"
 msgid "Disk Cache Size"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:130
+#: collection/collectionfilterwidget.cpp:131
 #: ../build/src/ui_collectionsettingspage.h:605
 msgid "Display options"
 msgstr "Opsi tampilan"
@@ -2518,64 +2518,64 @@ msgstr "Abu-abukan lagu yang tidak tersedia di daftar putar saat membuka"
 msgid "Group Collection by..."
 msgstr "Grup Pustaka berdasarkan..."
 
-#: collection/collectionfilterwidget.cpp:124
+#: collection/collectionfilterwidget.cpp:125
 #: internet/internetsearchview.cpp:345
 msgid "Group by"
 msgstr "Grup berdasarkan"
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Album"
 msgstr "Grup berdasarkan Album"
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Album Artist"
 msgstr "Grup berdasarkan Artis Album"
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:277
 msgid "Group by Album artist/Album"
 msgstr "Grup berdasarkan Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album artist/Album - Disc"
 msgstr "Grup berdasarkan Artis album/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Album artist/Year - Album"
 msgstr "Grup berdasarkan Artis album/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:279
+#: collection/collectionfilterwidget.cpp:280
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis album/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:290
+#: collection/collectionfilterwidget.cpp:291
 msgid "Group by Artist"
 msgstr "Grup berdasarkan Artis"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Artist/Album"
 msgstr "Grup berdasarkan Artis/Album"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:283
 msgid "Group by Artist/Album - Disc"
 msgstr "Grup berdasarkan Artis/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:284
 msgid "Group by Artist/Year - Album"
 msgstr "Grup berdasarkan Artis/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:284
+#: collection/collectionfilterwidget.cpp:285
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:293
+#: collection/collectionfilterwidget.cpp:294
 msgid "Group by Genre/Album"
 msgstr "Grup berdasarkan Genre/Album"
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Genre/Album artist/Album"
 msgstr "Grup berdasarkan Genre/Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:287
+#: collection/collectionfilterwidget.cpp:288
 msgid "Group by Genre/Artist/Album"
 msgstr "Grup berdasarkan Genre/Artis/Album"
 
@@ -2586,11 +2586,11 @@ msgstr "Grup berdasarkan Genre/Artis/Album"
 msgid "Grouping"
 msgstr "Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:351
 msgid "Grouping Name"
 msgstr "Nama Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:351
 msgid "Grouping name:"
 msgstr "Nama pengelompokan:"
 
@@ -3709,7 +3709,7 @@ msgstr "Nama berkas sampul album yang diinginkan (dipisahkan koma)"
 msgid "Preferred format"
 msgstr "Format yang diinginkan"
 
-#: collection/collectionfilterwidget.cpp:79
+#: collection/collectionfilterwidget.cpp:80
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -4449,7 +4449,7 @@ msgstr "Pintasan"
 msgid "Shortcut for %1"
 msgstr "Pintasan untuk %1"
 
-#: collection/collectionfilterwidget.cpp:114
+#: collection/collectionfilterwidget.cpp:115
 msgid "Show"
 msgstr "Tampilkan"
 
@@ -5686,7 +5686,7 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:82
+#: collection/collectionfilterwidget.cpp:83
 msgid "artist"
 msgstr ""
 
@@ -5831,7 +5831,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "buang %n lagu"
 
-#: collection/collectionfilterwidget.cpp:86
+#: collection/collectionfilterwidget.cpp:87
 msgid "searches the collection for all artists that contain the word"
 msgstr ""
 

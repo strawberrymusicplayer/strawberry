@@ -752,7 +752,7 @@ msgstr "Додано за три місяці"
 msgid "Advanced"
 msgstr "Додатково"
 
-#: collection/collectionfilterwidget.cpp:327
+#: collection/collectionfilterwidget.cpp:328
 msgid "Advanced grouping..."
 msgstr "Розширене групування..."
 
@@ -1054,7 +1054,7 @@ msgstr "Автоматично сортувати список відтворе�
 msgid "Available"
 msgstr "Доступне"
 
-#: collection/collectionfilterwidget.cpp:89
+#: collection/collectionfilterwidget.cpp:90
 msgid "Available fields"
 msgstr "Доступні поля"
 
@@ -1837,7 +1837,7 @@ msgstr "Переривчаста передача"
 msgid "Disk Cache Size"
 msgstr "Розмір кешу диска"
 
-#: collection/collectionfilterwidget.cpp:130
+#: collection/collectionfilterwidget.cpp:131
 #: ../build/src/ui_collectionsettingspage.h:605
 msgid "Display options"
 msgstr "Налаштування відображення"
@@ -2546,64 +2546,64 @@ msgstr "Виділяти сірим недоступні пісні у спис�
 msgid "Group Collection by..."
 msgstr "Групувати фонотеку за..."
 
-#: collection/collectionfilterwidget.cpp:124
+#: collection/collectionfilterwidget.cpp:125
 #: internet/internetsearchview.cpp:345
 msgid "Group by"
 msgstr "Групувати за"
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Album"
 msgstr "Групувати за альбомом"
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Album Artist"
 msgstr "Групувати за виконавцем альбому"
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:277
 msgid "Group by Album artist/Album"
 msgstr "Групувати за виконавцем альбому/альбомом"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album artist/Album - Disc"
 msgstr "Групувати за виконавцем альбому/альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Album artist/Year - Album"
 msgstr "Групувати за виконавцем альбому/роком - альбомом"
 
-#: collection/collectionfilterwidget.cpp:279
+#: collection/collectionfilterwidget.cpp:280
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Групувати за виконавцем альбому/роком - альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:290
+#: collection/collectionfilterwidget.cpp:291
 msgid "Group by Artist"
 msgstr "Групувати за виконавцем"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Artist/Album"
 msgstr "Групувати за виконавецем/альбомом"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:283
 msgid "Group by Artist/Album - Disc"
 msgstr "Групувати за виконавцем/альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:284
 msgid "Group by Artist/Year - Album"
 msgstr "Групувати за виконавцем/роком - альбомом"
 
-#: collection/collectionfilterwidget.cpp:284
+#: collection/collectionfilterwidget.cpp:285
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Групувати за виконавцем/роком - альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:293
+#: collection/collectionfilterwidget.cpp:294
 msgid "Group by Genre/Album"
 msgstr "Групувати за жанром/альбомом"
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Genre/Album artist/Album"
 msgstr "Групувати за жанром/виконавцем альбому/альбомом"
 
-#: collection/collectionfilterwidget.cpp:287
+#: collection/collectionfilterwidget.cpp:288
 msgid "Group by Genre/Artist/Album"
 msgstr "Групувати за жанром/виконавцем/альбомом"
 
@@ -2614,11 +2614,11 @@ msgstr "Групувати за жанром/виконавцем/альбомо
 msgid "Grouping"
 msgstr "Групування"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:351
 msgid "Grouping Name"
 msgstr "Назва групування"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:351
 msgid "Grouping name:"
 msgstr "Назва групування:"
 
@@ -3753,7 +3753,7 @@ msgstr "Бажані імена файлів для обкладинок, роз
 msgid "Preferred format"
 msgstr "Бажаний формат"
 
-#: collection/collectionfilterwidget.cpp:79
+#: collection/collectionfilterwidget.cpp:80
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -4508,7 +4508,7 @@ msgstr "Сполучення клавіш"
 msgid "Shortcut for %1"
 msgstr "Сполучення клавіш для %1"
 
-#: collection/collectionfilterwidget.cpp:114
+#: collection/collectionfilterwidget.cpp:115
 msgid "Show"
 msgstr "Показати"
 
@@ -5757,7 +5757,7 @@ msgstr "альбоми"
 msgid "and"
 msgstr "і"
 
-#: collection/collectionfilterwidget.cpp:82
+#: collection/collectionfilterwidget.cpp:83
 msgid "artist"
 msgstr "виконавець"
 
@@ -5902,7 +5902,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "вилучити %n композицій"
 
-#: collection/collectionfilterwidget.cpp:86
+#: collection/collectionfilterwidget.cpp:87
 msgid "searches the collection for all artists that contain the word"
 msgstr "пошук у фонотеці всіх виконавців, що містять це слово"
 

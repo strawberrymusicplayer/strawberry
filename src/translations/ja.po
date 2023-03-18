@@ -744,7 +744,7 @@ msgstr "3 ヶ月以内に追加されたもの"
 msgid "Advanced"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:327
+#: collection/collectionfilterwidget.cpp:328
 msgid "Advanced grouping..."
 msgstr "高度なグループ化..."
 
@@ -1044,7 +1044,7 @@ msgstr "曲を挿入時にプレイリストを自動的に並べ替える"
 msgid "Available"
 msgstr "空き"
 
-#: collection/collectionfilterwidget.cpp:89
+#: collection/collectionfilterwidget.cpp:90
 msgid "Available fields"
 msgstr "利用可能なフィールド"
 
@@ -1813,7 +1813,7 @@ msgstr "不連続送信 (DTX)"
 msgid "Disk Cache Size"
 msgstr "ディスクキャッシュサイズ"
 
-#: collection/collectionfilterwidget.cpp:130
+#: collection/collectionfilterwidget.cpp:131
 #: ../build/src/ui_collectionsettingspage.h:605
 msgid "Display options"
 msgstr "画面のオプション"
@@ -2515,64 +2515,64 @@ msgstr "起動時にプレイリストで利用できない曲をグレーアウ
 msgid "Group Collection by..."
 msgstr "ライブラリのグループ化..."
 
-#: collection/collectionfilterwidget.cpp:124
+#: collection/collectionfilterwidget.cpp:125
 #: internet/internetsearchview.cpp:345
 msgid "Group by"
 msgstr "グループ化"
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Album"
 msgstr "アルバムでグループ化"
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Album Artist"
 msgstr "アーティストでアルバムをグループ化"
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:277
 msgid "Group by Album artist/Album"
 msgstr "アーティスト/アルバムでアルバムをグループ化"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album artist/Album - Disc"
 msgstr "アーティスト/アルバム - ディスクでアルバムをグループ化"
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Album artist/Year - Album"
 msgstr "アーティスト/年 - アルバムでアルバムをグループ化"
 
-#: collection/collectionfilterwidget.cpp:279
+#: collection/collectionfilterwidget.cpp:280
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "アーティスト/年 - アルバム - ディスクでアルバムをグループ化"
 
-#: collection/collectionfilterwidget.cpp:290
+#: collection/collectionfilterwidget.cpp:291
 msgid "Group by Artist"
 msgstr "アーティストでグループ化"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Artist/Album"
 msgstr "アーティスト/アルバムでグループ化"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:283
 msgid "Group by Artist/Album - Disc"
 msgstr "アーティスト/アルバム - ディスクでグループ化"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:284
 msgid "Group by Artist/Year - Album"
 msgstr "アーティスト/年 - アルバムでグループ化"
 
-#: collection/collectionfilterwidget.cpp:284
+#: collection/collectionfilterwidget.cpp:285
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "アーティスト/年 - アルバム - ディスクでグループ化"
 
-#: collection/collectionfilterwidget.cpp:293
+#: collection/collectionfilterwidget.cpp:294
 msgid "Group by Genre/Album"
 msgstr "ジャンル/アルバムでグループ化"
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Genre/Album artist/Album"
 msgstr "ジャンル/アルバム、アーティスト/アルバムでグループ化"
 
-#: collection/collectionfilterwidget.cpp:287
+#: collection/collectionfilterwidget.cpp:288
 msgid "Group by Genre/Artist/Album"
 msgstr "ジャンル/アーティスト/アルバムでグループ化"
 
@@ -2583,11 +2583,11 @@ msgstr "ジャンル/アーティスト/アルバムでグループ化"
 msgid "Grouping"
 msgstr "分類"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:351
 msgid "Grouping Name"
 msgstr "分類名"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:351
 msgid "Grouping name:"
 msgstr "分類名:"
 
@@ -3698,7 +3698,7 @@ msgstr "優先するアルバムアートのファイル名 (コンマ区切り)
 msgid "Preferred format"
 msgstr "優先する形式"
 
-#: collection/collectionfilterwidget.cpp:79
+#: collection/collectionfilterwidget.cpp:80
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -4438,7 +4438,7 @@ msgstr "ショートカット"
 msgid "Shortcut for %1"
 msgstr "%1 のショートカット"
 
-#: collection/collectionfilterwidget.cpp:114
+#: collection/collectionfilterwidget.cpp:115
 msgid "Show"
 msgstr "表示"
 
@@ -5645,7 +5645,7 @@ msgstr "アルバム"
 msgid "and"
 msgstr "かつ"
 
-#: collection/collectionfilterwidget.cpp:82
+#: collection/collectionfilterwidget.cpp:83
 msgid "artist"
 msgstr "アーティスト"
 
@@ -5790,7 +5790,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "%n 曲の削除"
 
-#: collection/collectionfilterwidget.cpp:86
+#: collection/collectionfilterwidget.cpp:87
 msgid "searches the collection for all artists that contain the word"
 msgstr "単語を含むすべてのアーティストをコレクションで検索する"
 
