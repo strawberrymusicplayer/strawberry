@@ -161,6 +161,7 @@ void BackendSettingsPage::Load() {
   ui_->checkbox_bs2b->setChecked(s.value("bs2b", false).toBool());
 
   ui_->checkbox_http2->setChecked(s.value("http2", false).toBool());
+  ui_->checkbox_strict_ssl->setChecked(s.value("strict_ssl", false).toBool());
 
   ui_->spinbox_bufferduration->setValue(s.value("bufferduration", kDefaultBufferDuration).toInt());
   ui_->spinbox_low_watermark->setValue(s.value("bufferlowwatermark", kDefaultBufferLowWatermark).toDouble());
@@ -473,6 +474,7 @@ void BackendSettingsPage::Save() {
   s.setValue("bs2b", ui_->checkbox_bs2b->isChecked());
 
   s.setValue("http2", ui_->checkbox_http2->isChecked());
+  s.setValue("strict_ssl", ui_->checkbox_strict_ssl->isChecked());
 
   s.setValue("bufferduration", ui_->spinbox_bufferduration->value());
   s.setValue("bufferlowwatermark", ui_->spinbox_low_watermark->value());

@@ -215,6 +215,7 @@ class Base : public QObject {
   // Options
   bool bs2b_enabled_;
   bool http2_enabled_;
+  bool strict_ssl_enabled_;
 
  private:
   bool about_to_end_emitted_;

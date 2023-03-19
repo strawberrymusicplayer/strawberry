@@ -802,6 +802,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   ret->set_proxy_settings(proxy_address_, proxy_authentication_, proxy_user_, proxy_pass_);
   ret->set_channels(channels_enabled_, channels_);
   ret->set_bs2b_enabled(bs2b_enabled_);
+  ret->set_strict_ssl_enabled(strict_ssl_enabled_);
   ret->set_fading_enabled(fadeout_enabled_ || autocrossfade_enabled_ || fadeout_pause_enabled_);
 
   ret->AddBufferConsumer(this);

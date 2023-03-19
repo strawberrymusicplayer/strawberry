@@ -70,6 +70,7 @@ Engine::Base::Base(const EngineType type, QObject *parent)
       channels_(0),
       bs2b_enabled_(false),
       http2_enabled_(true),
+      strict_ssl_enabled_(false),
       about_to_end_emitted_(false) {}
 
 Engine::Base::~Base() = default;
@@ -155,6 +156,8 @@ void Engine::Base::ReloadSettings() {
     Utilities::SetEnv("SOUP_FORCE_HTTP1", http2_enabled_ ? "" : "1");
     qLog(Debug) << "SOUP_FORCE_HTTP1:" << (http2_enabled_ ? "OFF" : "ON");
   }
+
+  strict_ssl_enabled_ = s.value("strict_ssl", false).toBool();
 
   s.endGroup();
 

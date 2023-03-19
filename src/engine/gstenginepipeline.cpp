@@ -86,6 +86,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       channels_enabled_(false),
       channels_(0),
       bs2b_enabled_(false),
+      strict_ssl_enabled_(false),
       segment_start_(0),
       segment_start_received_(false),
       end_offset_nanosec_(-1),
@@ -260,6 +261,10 @@ void GstEnginePipeline::set_channels(const bool enabled, const int channels) {
 
 void GstEnginePipeline::set_bs2b_enabled(const bool enabled) {
   bs2b_enabled_ = enabled;
+}
+
+void GstEnginePipeline::set_strict_ssl_enabled(const bool enabled) {
+  strict_ssl_enabled_ = enabled;
 }
 
 void GstEnginePipeline::set_fading_enabled(const bool enabled) {
@@ -808,8 +813,8 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
   }
 
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "ssl-strict")) {
-    qLog(Debug) << "Turning off strict ssl";
-    g_object_set(source, "ssl-strict", FALSE, nullptr);
+    qLog(Debug) << "Turning" << (instance->strict_ssl_enabled_ ? "on" : "off") << "strict SSL";
+    g_object_set(source, "ssl-strict", instance->strict_ssl_enabled_ ? TRUE : FALSE, nullptr);
   }
 
   if (!instance->proxy_address_.isEmpty() && g_object_class_find_property(G_OBJECT_GET_CLASS(source), "proxy")) {

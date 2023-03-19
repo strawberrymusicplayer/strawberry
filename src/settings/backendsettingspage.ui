@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>583</width>
-    <height>1080</height>
+    <height>1097</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -256,6 +256,13 @@
        <widget class="QCheckBox" name="checkbox_http2">
         <property name="text">
          <string>Enable HTTP/2 for streaming</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_strict_ssl">
+        <property name="text">
+         <string>Use strict SSL mode</string>
         </property>
        </widget>
       </item>
