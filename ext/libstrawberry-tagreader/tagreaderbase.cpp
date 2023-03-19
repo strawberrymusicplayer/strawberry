@@ -35,13 +35,6 @@ const std::string TagReaderBase::kEmbeddedCover = "(embedded)";
 TagReaderBase::TagReaderBase() = default;
 TagReaderBase::~TagReaderBase() = default;
 
-void TagReaderBase::Decode(const QString &tag, std::string *output) {
-
-  const QByteArray data = tag.toUtf8();
-  output->assign(data.constData(), data.size());
-
-}
-
 float TagReaderBase::ConvertPOPMRating(const int POPM_rating) {
 
   if (POPM_rating < 0x01) return 0.0F;
