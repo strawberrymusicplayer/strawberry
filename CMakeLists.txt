@@ -381,12 +381,12 @@ optional_component(VLC ON "Engine: VLC backend"
 
 optional_component(SONGFINGERPRINTING ON "Song fingerprinting and tracking"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
-  DEPENDS "gstreamer" GSTREAMER_FOUND
+  DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
 optional_component(MUSICBRAINZ ON "MusicBrainz integration"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
-  DEPENDS "gstreamer" GSTREAMER_FOUND
+  DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
 if(X11_FOUND OR HAVE_DBUS OR APPLE OR WIN32)
@@ -411,7 +411,7 @@ endif()
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
   DEPENDS "libcdio" LIBCDIO_FOUND
-  DEPENDS "gstreamer" GSTREAMER_FOUND
+  DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
 optional_component(UDISKS2 ON "Devices: UDisks2 backend"
