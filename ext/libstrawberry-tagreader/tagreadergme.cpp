@@ -156,10 +156,10 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
     TagLib::Tag *tag = ape.tag();
     if (!tag) return;
 
-    TagReaderTagLib::Decode(tag->artist(), song_info->mutable_artist());
-    TagReaderTagLib::Decode(tag->album(), song_info->mutable_album());
-    TagReaderTagLib::Decode(tag->title(), song_info->mutable_title());
-    TagReaderTagLib::Decode(tag->genre(), song_info->mutable_genre());
+    TagReaderTagLib::TStringToStdString(tag->artist(), song_info->mutable_artist());
+    TagReaderTagLib::TStringToStdString(tag->album(), song_info->mutable_album());
+    TagReaderTagLib::TStringToStdString(tag->title(), song_info->mutable_title());
+    TagReaderTagLib::TStringToStdString(tag->genre(), song_info->mutable_genre());
     song_info->set_track(tag->track());
     song_info->set_year(tag->year());
   }

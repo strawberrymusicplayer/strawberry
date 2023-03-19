@@ -63,7 +63,7 @@ class TagReaderTagLib : public TagReaderBase {
   bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
   bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
 
-  static void Decode(const TagLib::String &tag, std::string *output);
+  static void TStringToStdString(const TagLib::String &tag, std::string *output);
 
  private:
   spb::tagreader::SongMetadata_FileType GuessFileType(TagLib::FileRef *fileref) const;
@@ -71,7 +71,7 @@ class TagReaderTagLib : public TagReaderBase {
   void ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const;
   void ParseAPETag(const TagLib::APE::ItemListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const;
 
-  void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, const spb::tagreader::SongMetadata &song) const;
+  void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const spb::tagreader::SongMetadata &song) const;
   void SaveAPETag(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const;
 
   void SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const;
