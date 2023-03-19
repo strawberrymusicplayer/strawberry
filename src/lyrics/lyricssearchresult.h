@@ -25,7 +25,7 @@
 
 class LyricsSearchResult {
  public:
-  explicit LyricsSearchResult(const QString _lyrics = QString()) : lyrics(_lyrics), score(0.0) {}
+  explicit LyricsSearchResult(const QString &_lyrics = QString()) : lyrics(_lyrics), score(0.0) {}
   QString provider;
   QString artist;
   QString album;
