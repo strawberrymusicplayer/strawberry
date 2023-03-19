@@ -33,7 +33,6 @@ class Sonogram : public Analyzer::Base {
   Q_OBJECT
  public:
   Q_INVOKABLE explicit Sonogram(QWidget *parent);
-  ~Sonogram();
 
   static const char *kName;
 

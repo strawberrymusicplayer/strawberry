@@ -31,8 +31,6 @@ const char *Sonogram::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Sonogram")
 Sonogram::Sonogram(QWidget *parent)
     : Analyzer::Base(parent, 9) {}
 
-Sonogram::~Sonogram() {}
-
 void Sonogram::resizeEvent(QResizeEvent *e) {
 
   Q_UNUSED(e)
