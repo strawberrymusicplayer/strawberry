@@ -290,7 +290,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &or
 
   guint version_major = 0, version_minor = 0, version_micro = 0, version_nano = 0;
   gst_plugins_base_version(&version_major, &version_minor, &version_micro, &version_nano);
-  if (QVersionNumber::compare(QVersionNumber(version_major, version_minor, version_micro), QVersionNumber(1, 22, 0)) >= 0) {
+  if (QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor), static_cast<int>(version_micro)), QVersionNumber(1, 22, 0)) >= 0) {
     pipeline_ = CreateElement("playbin3", "pipeline", nullptr, error);
   }
   else {
