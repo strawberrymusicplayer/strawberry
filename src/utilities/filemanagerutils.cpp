@@ -164,4 +164,4 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
 
 }
 
-}
+}  // namespace Utilities
