@@ -116,4 +116,4 @@ class TagReaderGME : public TagReaderBase {
   bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
 };
 
-#endif
+#endif  // TAGREADERGME_H
