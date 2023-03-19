@@ -258,7 +258,7 @@ void QobuzService::ReloadSettings() {
 
 }
 
-QString QobuzService::DecodeAppSecret(const QString &app_secret_base64) {
+QString QobuzService::DecodeAppSecret(const QString &app_secret_base64) const {
 
   const QByteArray appid = app_id().toUtf8();
   const QByteArray app_secret_binary = QByteArray::fromBase64(app_secret_base64.toUtf8());
