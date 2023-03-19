@@ -80,6 +80,7 @@ QList<QUrl> FileViewList::UrlListFromSelection() const {
   std::sort(filenames.begin(), filenames.end(), collator);
 
   QList<QUrl> urls;
+  urls.reserve(filenames.count());
   for (const QString &filename : filenames) {
     urls << QUrl::fromLocalFile(filename);
   }
