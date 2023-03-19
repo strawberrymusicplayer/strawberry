@@ -2,6 +2,20 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed lyrics from Musixmatch.
+    * Fixed possible file corruption when saving both tags and embedded cover using the tag editor (#1158).
+    * Fixed compile without GStreamer.
+    * Search lyrics by artist instead of album artist by default.
+
+  Code improvements:
+    * Replace use of deprecated QSqlDatabase::exec().
+
+  Removed features:
+    * Removed lyrics from AudD, API key no longer working.
+
 Version 1.0.15 (2023.03.04):
 
   Bugfixes:
