@@ -153,7 +153,6 @@ void Stands4LyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id
     return;
   }
 
-  LyricsSearchResults results;
   for (const QJsonValueRef value : json_result) {
     if (!value.isObject()) {
       qLog(Error) << "Stands4Lyrics: Invalid Json reply, result is not an object.";
