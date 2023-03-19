@@ -133,11 +133,45 @@ TagLib::String QStringToTaglibString(const QString &s) {
 }  // namespace
 
 namespace {
+
+constexpr char kID3v2_MusicBrainz_AlbumArtistID[] = "TXXX:MusicBrainz Album Artist Id";
+constexpr char kID3v2_MusicBrainz_ArtistID[] = "TXXX:MusicBrainz Artist Id";
+constexpr char kID3v2_MusicBrainz_OriginalArtistID[] = "TXXX:MusicBrainz Original Artist Id";
+constexpr char kID3v2_MusicBrainz_AlbumID[] = "TXXX:MusicBrainz Album Id";
+constexpr char kID3v2_MusicBrainz_OriginalAlbumID[] = "TXXX:MusicBrainz Original Album Id";
+constexpr char kID3v2_MusicBrainz_RecordingID[] = "UFID:http://musicbrainz.org";
+constexpr char kID3v2_MusicBrainz_TrackID[] = "TXXX:MusicBrainz Release Track Id";
+constexpr char kID3v2_MusicBrainz_DiscID[] = "TXXX:MusicBrainz Disc Id";
+constexpr char kID3v2_MusicBrainz_ReleaseGroupID[] = "TXXX:MusicBrainz Release Group Id";
+constexpr char kID3v2_MusicBrainz_WorkID[] = "TXXX:MusicBrainz Work Id";
+
 constexpr char kMP4_OriginalYear_ID[] = "----:com.apple.iTunes:ORIGINAL YEAR";
 constexpr char kMP4_FMPS_Playcount_ID[] = "----:com.apple.iTunes:FMPS_Playcount";
 constexpr char kMP4_FMPS_Rating_ID[] = "----:com.apple.iTunes:FMPS_Rating";
+constexpr char kMP4_MusicBrainz_AlbumArtistID[] = "----:com.apple.iTunes:MusicBrainz Album Artist Id";
+constexpr char kMP4_MusicBrainz_ArtistID[] = "----:com.apple.iTunes:MusicBrainz Artist Id";
+constexpr char kMP4_MusicBrainz_OriginalArtistID[] = "----:com.apple.iTunes:MusicBrainz Original Artist Id";
+constexpr char kMP4_MusicBrainz_AlbumID[] = "----:com.apple.iTunes:MusicBrainz Album Id";
+constexpr char kMP4_MusicBrainz_OriginalAlbumID[] = "----:com.apple.iTunes:MusicBrainz Original Album Id";
+constexpr char kMP4_MusicBrainz_RecordingID[] = "----:com.apple.iTunes:MusicBrainz Track Id";
+constexpr char kMP4_MusicBrainz_TrackID[] = "----:com.apple.iTunes:MusicBrainz Release Track Id";
+constexpr char kMP4_MusicBrainz_DiscID[] = "----:com.apple.iTunes:MusicBrainz Disc Id";
+constexpr char kMP4_MusicBrainz_ReleaseGroupID[] = "----:com.apple.iTunes:MusicBrainz Release Group Id";
+constexpr char kMP4_MusicBrainz_WorkID[] = "----:com.apple.iTunes:MusicBrainz Work Id";
+
 constexpr char kASF_OriginalDate_ID[] = "WM/OriginalReleaseTime";
 constexpr char kASF_OriginalYear_ID[] = "WM/OriginalReleaseYear";
+constexpr char kASF_MusicBrainz_AlbumArtistID[] = "MusicBrainz/Album Artist Id";
+constexpr char kASF_MusicBrainz_ArtistID[] = "MusicBrainz/Artist Id";
+constexpr char kASF_MusicBrainz_OriginalArtistID[] = "MusicBrainz/Original Artist Id";
+constexpr char kASF_MusicBrainz_AlbumID[] = "MusicBrainz/Album Id";
+constexpr char kASF_MusicBrainz_OriginalAlbumID[] = "MusicBrainz/Original Album Id";
+constexpr char kASF_MusicBrainz_RecordingID[] = "MusicBrainz/Track Id";
+constexpr char kASF_MusicBrainz_TrackID[] = "MusicBrainz/Release Track Id";
+constexpr char kASF_MusicBrainz_DiscID[] = "MusicBrainz/Disc Id";
+constexpr char kASF_MusicBrainz_ReleaseGroupID[] = "MusicBrainz/Release Group Id";
+constexpr char kASF_MusicBrainz_WorkID[] = "MusicBrainz/Work Id";
+
 }  // namespace
 
 
@@ -357,6 +391,37 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         }
       }
 
+      if (map.contains(kID3v2_MusicBrainz_AlbumArtistID)) {
+        TStringToStdString(map[kID3v2_MusicBrainz_AlbumArtistID].front()->toString(), song->mutable_musicbrainz_album_artist_id());
+      }
+      if (map.contains(kID3v2_MusicBrainz_ArtistID)) {
+        TStringToStdString(map[kID3v2_MusicBrainz_ArtistID].front()->toString(), song->mutable_musicbrainz_artist_id());
+      }
+      if (map.contains(kID3v2_MusicBrainz_OriginalArtistID)) {
+        TStringToStdString(map[kID3v2_MusicBrainz_OriginalArtistID].front()->toString(), song->mutable_musicbrainz_original_artist_id());
+      }
+      if (map.contains(kID3v2_MusicBrainz_AlbumID)) {
+        TStringToStdString(map[kID3v2_MusicBrainz_AlbumID].front()->toString(), song->mutable_musicbrainz_album_id());
+      }
+      if (map.contains(kID3v2_MusicBrainz_OriginalAlbumID)) {
+        TStringToStdString(map[kID3v2_MusicBrainz_OriginalAlbumID].front()->toString(), song->mutable_musicbrainz_original_album_id());
+      }
+      if (map.contains(kID3v2_MusicBrainz_RecordingID)) {
+        TStringToStdString(map[kID3v2_MusicBrainz_RecordingID].front()->toString(), song->mutable_musicbrainz_recording_id());
+      }
+      if (map.contains(kID3v2_MusicBrainz_TrackID)) {
+        TStringToStdString(map[kID3v2_MusicBrainz_TrackID].front()->toString(), song->mutable_musicbrainz_track_id());
+      }
+      if (map.contains(kID3v2_MusicBrainz_DiscID)) {
+        TStringToStdString(map[kID3v2_MusicBrainz_DiscID].front()->toString(), song->mutable_musicbrainz_disc_id());
+      }
+      if (map.contains(kID3v2_MusicBrainz_ReleaseGroupID)) {
+        TStringToStdString(map[kID3v2_MusicBrainz_ReleaseGroupID].front()->toString(), song->mutable_musicbrainz_release_group_id());
+      }
+      if (map.contains(kID3v2_MusicBrainz_WorkID)) {
+        TStringToStdString(map[kID3v2_MusicBrainz_WorkID].front()->toString(), song->mutable_musicbrainz_work_id());
+      }
+
     }
   }
 
@@ -423,6 +488,38 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
       }
 
       TStringToStdString(mp4_tag->comment(), song->mutable_comment());
+
+      if (mp4_tag->contains(kMP4_MusicBrainz_AlbumArtistID)) {
+        TStringToStdString(mp4_tag->item(kMP4_MusicBrainz_AlbumArtistID).toStringList().toString(), song->mutable_musicbrainz_album_artist_id());
+      }
+      if (mp4_tag->contains(kMP4_MusicBrainz_ArtistID)) {
+        TStringToStdString(mp4_tag->item(kMP4_MusicBrainz_ArtistID).toStringList().toString(), song->mutable_musicbrainz_artist_id());
+      }
+      if (mp4_tag->contains(kMP4_MusicBrainz_OriginalArtistID)) {
+        TStringToStdString(mp4_tag->item(kMP4_MusicBrainz_OriginalArtistID).toStringList().toString(), song->mutable_musicbrainz_original_artist_id());
+      }
+      if (mp4_tag->contains(kMP4_MusicBrainz_AlbumID)) {
+        TStringToStdString(mp4_tag->item(kMP4_MusicBrainz_AlbumID).toStringList().toString(), song->mutable_musicbrainz_album_id());
+      }
+      if (mp4_tag->contains(kMP4_MusicBrainz_OriginalAlbumID)) {
+        TStringToStdString(mp4_tag->item(kMP4_MusicBrainz_OriginalAlbumID).toStringList().toString(), song->mutable_musicbrainz_original_album_id());
+      }
+      if (mp4_tag->contains(kMP4_MusicBrainz_RecordingID)) {
+        TStringToStdString(mp4_tag->item(kMP4_MusicBrainz_RecordingID).toStringList().toString(), song->mutable_musicbrainz_recording_id());
+      }
+      if (mp4_tag->contains(kMP4_MusicBrainz_TrackID)) {
+        TStringToStdString(mp4_tag->item(kMP4_MusicBrainz_TrackID).toStringList().toString(), song->mutable_musicbrainz_track_id());
+      }
+      if (mp4_tag->contains(kMP4_MusicBrainz_DiscID)) {
+        TStringToStdString(mp4_tag->item(kMP4_MusicBrainz_DiscID).toStringList().toString(), song->mutable_musicbrainz_disc_id());
+      }
+      if (mp4_tag->contains(kMP4_MusicBrainz_ReleaseGroupID)) {
+        TStringToStdString(mp4_tag->item(kMP4_MusicBrainz_ReleaseGroupID).toStringList().toString(), song->mutable_musicbrainz_release_group_id());
+      }
+      if (mp4_tag->contains(kMP4_MusicBrainz_WorkID)) {
+        TStringToStdString(mp4_tag->item(kMP4_MusicBrainz_WorkID).toStringList().toString(), song->mutable_musicbrainz_work_id());
+      }
+
     }
   }
 
@@ -466,6 +563,37 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
             song->set_rating(rating);
           }
         }
+      }
+
+      if (attributes_map.contains(kASF_MusicBrainz_AlbumArtistID)) {
+        TStringToStdString(attributes_map[kASF_MusicBrainz_AlbumArtistID].front().toString(), song->mutable_musicbrainz_album_artist_id());
+      }
+      if (attributes_map.contains(kASF_MusicBrainz_ArtistID)) {
+        TStringToStdString(attributes_map[kASF_MusicBrainz_ArtistID].front().toString(), song->mutable_musicbrainz_artist_id());
+      }
+      if (attributes_map.contains(kASF_MusicBrainz_OriginalArtistID)) {
+        TStringToStdString(attributes_map[kASF_MusicBrainz_OriginalArtistID].front().toString(), song->mutable_musicbrainz_original_artist_id());
+      }
+      if (attributes_map.contains(kASF_MusicBrainz_AlbumID)) {
+        TStringToStdString(attributes_map[kASF_MusicBrainz_AlbumID].front().toString(), song->mutable_musicbrainz_album_id());
+      }
+      if (attributes_map.contains(kASF_MusicBrainz_OriginalAlbumID)) {
+        TStringToStdString(attributes_map[kASF_MusicBrainz_OriginalAlbumID].front().toString(), song->mutable_musicbrainz_original_album_id());
+      }
+      if (attributes_map.contains(kASF_MusicBrainz_RecordingID)) {
+        TStringToStdString(attributes_map[kASF_MusicBrainz_RecordingID].front().toString(), song->mutable_musicbrainz_recording_id());
+      }
+      if (attributes_map.contains(kASF_MusicBrainz_TrackID)) {
+        TStringToStdString(attributes_map[kASF_MusicBrainz_TrackID].front().toString(), song->mutable_musicbrainz_track_id());
+      }
+      if (attributes_map.contains(kASF_MusicBrainz_DiscID)) {
+        TStringToStdString(attributes_map[kASF_MusicBrainz_DiscID].front().toString(), song->mutable_musicbrainz_disc_id());
+      }
+      if (attributes_map.contains(kASF_MusicBrainz_ReleaseGroupID)) {
+        TStringToStdString(attributes_map[kASF_MusicBrainz_ReleaseGroupID].front().toString(), song->mutable_musicbrainz_release_group_id());
+      }
+      if (attributes_map.contains(kASF_MusicBrainz_WorkID)) {
+        TStringToStdString(attributes_map[kASF_MusicBrainz_WorkID].front().toString(), song->mutable_musicbrainz_work_id());
       }
 
     }
@@ -558,6 +686,16 @@ void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString 
   if (map.contains("LYRICS")) TStringToStdString(map["LYRICS"].front(), song->mutable_lyrics());
   else if (map.contains("UNSYNCEDLYRICS")) TStringToStdString(map["UNSYNCEDLYRICS"].front(), song->mutable_lyrics());
 
+  if (map.contains("MUSICBRAINZ_ALBUMARTISTID")) TStringToStdString(map["MUSICBRAINZ_ALBUMARTISTID"].front(), song->mutable_musicbrainz_album_artist_id());
+  if (map.contains("MUSICBRAINZ_ARTISTID")) TStringToStdString(map["MUSICBRAINZ_ARTISTID"].front(), song->mutable_musicbrainz_artist_id());
+  if (map.contains("MUSICBRAINZ_ORIGINALARTISTID")) TStringToStdString(map["MUSICBRAINZ_ORIGINALARTISTID"].front(), song->mutable_musicbrainz_original_artist_id());
+  if (map.contains("MUSICBRAINZ_ALBUMID")) TStringToStdString(map["MUSICBRAINZ_ALBUMID"].front(), song->mutable_musicbrainz_album_id());
+  if (map.contains("MUSICBRAINZ_ORIGINALALBUMID")) TStringToStdString(map["MUSICBRAINZ_ORIGINALALBUMID"].front(), song->mutable_musicbrainz_original_album_id());
+  if (map.contains("MUSICBRAINZ_TRACKID")) TStringToStdString(map["MUSICBRAINZ_TRACKID"].front(), song->mutable_musicbrainz_recording_id());
+  if (map.contains("MUSICBRAINZ_RELEASETRACKID")) TStringToStdString(map["MUSICBRAINZ_RELEASETRACKID"].front(), song->mutable_musicbrainz_track_id());
+  if (map.contains("MUSICBRAINZ_DISCID")) TStringToStdString(map["MUSICBRAINZ_DISCID"].front(), song->mutable_musicbrainz_disc_id());
+  if (map.contains("MUSICBRAINZ_RELEASEGROUPID")) TStringToStdString(map["MUSICBRAINZ_RELEASEGROUPID"].front(), song->mutable_musicbrainz_release_group_id());
+  if (map.contains("MUSICBRAINZ_WORKID")) TStringToStdString(map["MUSICBRAINZ_WORKID"].front(), song->mutable_musicbrainz_work_id());
 
 }
 
@@ -609,6 +747,17 @@ void TagReaderTagLib::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *
       song->set_rating(rating);
     }
   }
+
+  if (map.contains("MUSICBRAINZ_ALBUMARTISTID")) TStringToStdString(map["MUSICBRAINZ_ALBUMARTISTID"].toString(), song->mutable_musicbrainz_album_artist_id());
+  if (map.contains("MUSICBRAINZ_ARTISTID")) TStringToStdString(map["MUSICBRAINZ_ARTISTID"].toString(), song->mutable_musicbrainz_artist_id());
+  if (map.contains("MUSICBRAINZ_ORIGINALARTISTID")) TStringToStdString(map["MUSICBRAINZ_ORIGINALARTISTID"].toString(), song->mutable_musicbrainz_original_artist_id());
+  if (map.contains("MUSICBRAINZ_ALBUMID")) TStringToStdString(map["MUSICBRAINZ_ALBUMID"].toString(), song->mutable_musicbrainz_album_id());
+  if (map.contains("MUSICBRAINZ_ORIGINALALBUMID")) TStringToStdString(map["MUSICBRAINZ_ORIGINALALBUMID"].toString(), song->mutable_musicbrainz_original_album_id());
+  if (map.contains("MUSICBRAINZ_TRACKID")) TStringToStdString(map["MUSICBRAINZ_TRACKID"].toString(), song->mutable_musicbrainz_recording_id());
+  if (map.contains("MUSICBRAINZ_RELEASETRACKID")) TStringToStdString(map["MUSICBRAINZ_RELEASETRACKID"].toString(), song->mutable_musicbrainz_track_id());
+  if (map.contains("MUSICBRAINZ_DISCID")) TStringToStdString(map["MUSICBRAINZ_DISCID"].toString(), song->mutable_musicbrainz_disc_id());
+  if (map.contains("MUSICBRAINZ_RELEASEGROUPID")) TStringToStdString(map["MUSICBRAINZ_RELEASEGROUPID"].toString(), song->mutable_musicbrainz_release_group_id());
+  if (map.contains("MUSICBRAINZ_WORKID")) TStringToStdString(map["MUSICBRAINZ_WORKID"].toString(), song->mutable_musicbrainz_work_id());
 
 }
 
