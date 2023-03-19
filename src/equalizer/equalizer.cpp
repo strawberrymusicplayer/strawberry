@@ -113,7 +113,7 @@ void Equalizer::ReloadSettings() {
 
   // Selected preset
   QString selected_preset = s.value("selected_preset", "Custom").toString();
-  QString selected_preset_display_name = QString(tr(qPrintable(selected_preset)));
+  QString selected_preset_display_name = tr(qPrintable(selected_preset));
   int selected_index = ui_->preset->findText(selected_preset_display_name);
   if (selected_index != -1) ui_->preset->setCurrentIndex(selected_index);
 
