@@ -84,7 +84,8 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
   //  Make sure to check id6 documentation before changing the read values!
 
   file.seek(HAS_ID6_OFFSET);
-  bool has_id6 = (file.read(1)[0] == static_cast<char>(xID6_STATUS::ON));
+  const QByteArray id6_status = file.read(1);
+  const bool has_id6 = id6_status.length() >= 1 && id6_status[0] == static_cast<char>(xID6_STATUS::ON);
 
   file.seek(SONG_TITLE_OFFSET);
   song_info->set_title(QString::fromLatin1(file.read(32)).toStdString());
