@@ -133,11 +133,11 @@ TagLib::String QStringToTaglibString(const QString &s) {
 }  // namespace
 
 namespace {
-const char *kMP4_OriginalYear_ID = "----:com.apple.iTunes:ORIGINAL YEAR";
-const char *kMP4_FMPS_Playcount_ID = "----:com.apple.iTunes:FMPS_Playcount";
-const char *kMP4_FMPS_Rating_ID = "----:com.apple.iTunes:FMPS_Rating";
-const char *kASF_OriginalDate_ID = "WM/OriginalReleaseTime";
-const char *kASF_OriginalYear_ID = "WM/OriginalReleaseYear";
+constexpr char kMP4_OriginalYear_ID[] = "----:com.apple.iTunes:ORIGINAL YEAR";
+constexpr char kMP4_FMPS_Playcount_ID[] = "----:com.apple.iTunes:FMPS_Playcount";
+constexpr char kMP4_FMPS_Rating_ID[] = "----:com.apple.iTunes:FMPS_Rating";
+constexpr char kASF_OriginalDate_ID[] = "WM/OriginalReleaseTime";
+constexpr char kASF_OriginalYear_ID[] = "WM/OriginalReleaseYear";
 }  // namespace
 
 
