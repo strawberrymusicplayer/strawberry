@@ -809,6 +809,9 @@ void GstEnginePipeline::NotifySourceCallback(GstPlayBin *bin, GParamSpec *param_
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "user-agent")) {
     QString user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion());
     g_object_set(element, "user-agent", user_agent.toUtf8().constData(), nullptr);
+  }
+
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "ssl-strict")) {
     g_object_set(element, "ssl-strict", FALSE, nullptr);
   }
 
