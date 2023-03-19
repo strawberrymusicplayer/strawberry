@@ -56,6 +56,7 @@ class CddaSongLoader;
 
 class SongLoader : public QObject {
   Q_OBJECT
+
  public:
   explicit SongLoader(CollectionBackendInterface *collection, const Player *player, QObject *parent = nullptr);
   ~SongLoader() override;
@@ -124,13 +125,14 @@ class SongLoader : public QObject {
   static void TypeFound(GstElement *typefind, uint probability, GstCaps *caps, void *self);
   static GstPadProbeReturn DataReady(GstPad*, GstPadProbeInfo *info, gpointer self);
   static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage*, gpointer);
-  static gboolean BusCallback(GstBus*, GstMessage*, gpointer);
+  static gboolean BusWatchCallback(GstBus*, GstMessage*, gpointer);
 
-  void StopTypefindAsync(bool success);
   void ErrorMessageReceived(GstMessage *msg);
   void EndOfStreamReached();
   void MagicReady();
   bool IsPipelinePlaying();
+  void StopTypefindAsync(const bool success);
+  void CleanupPipeline();
 #endif
 
   void ScheduleTimeoutAsync();
@@ -141,28 +143,30 @@ class SongLoader : public QObject {
   QUrl url_;
   SongList songs_;
 
+  const Player *player_;
+  CollectionBackendInterface *collection_;
   QTimer *timeout_timer_;
   PlaylistParser *playlist_parser_;
   CueParser *cue_parser_;
 
   // For async loads
   std::function<Result()> preload_func_;
-  int timeout_;
-  State state_;
-  bool success_;
-  ParserBase *parser_;
   QString mime_type_;
   QByteArray buffer_;
-  CollectionBackendInterface *collection_;
-  const Player *player_;
+  ParserBase *parser_;
+  State state_;
+  int timeout_;
 
 #ifdef HAVE_GSTREAMER
   std::shared_ptr<GstElement> pipeline_;
+  GstElement *fakesink_;
+  gulong buffer_probe_cb_id_;
 #endif
 
   QThreadPool thread_pool_;
-
   QStringList errors_;
+
+  bool success_;
 
 };
 
