@@ -151,7 +151,7 @@ class GstEnginePipeline : public QObject {
   static GstPadProbeReturn PlaybinProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
   static void ElementAddedCallback(GstBin *bin, GstBin*, GstElement *element, gpointer self);
   static void PadAddedCallback(GstElement *element, GstPad *pad, gpointer self);
-  static void NotifySourceCallback(GstPlayBin *bin, GParamSpec *param_spec, gpointer self);
+  static void SourceSetupCallback(GstElement *playbin, GstElement *source, gpointer self);
   static void NotifyVolumeCallback(GstElement *element, GParamSpec *param_spec, gpointer self);
   static void AboutToFinishCallback(GstPlayBin *playbin, gpointer self);
   static GstBusSyncReply BusSyncCallback(GstBus *bus, GstMessage *msg, gpointer self);

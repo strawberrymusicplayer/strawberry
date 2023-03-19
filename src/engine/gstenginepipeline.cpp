@@ -300,7 +300,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &or
   if (!pipeline_) return false;
 
   pad_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &PadAddedCallback, this);
-  notify_source_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "notify::source", &NotifySourceCallback, this);
+  notify_source_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "source-setup", &SourceSetupCallback, this);
   about_to_finish_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
 
   if (!InitAudioBin(error)) return false;
@@ -788,43 +788,40 @@ void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin*, GstElement *e
 
 }
 
-void GstEnginePipeline::NotifySourceCallback(GstPlayBin *bin, GParamSpec *param_spec, gpointer self) {
+void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *source, gpointer self) {
 
-  Q_UNUSED(param_spec)
+  Q_UNUSED(playbin)
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
-  GstElement *element = nullptr;
-  g_object_get(bin, "source", &element, nullptr);
-  if (!element) {
-    return;
-  }
-
-  if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "device") && !instance->source_device().isEmpty()) {
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "device") && !instance->source_device().isEmpty()) {
     // Gstreamer is not able to handle device in URL (referring to Gstreamer documentation, this might be added in the future).
     // Despite that, for now we include device inside URL: we decompose it during Init and set device here, when this callback is called.
-    g_object_set(element, "device", instance->source_device().toLocal8Bit().constData(), nullptr);
+    qLog(Debug) << "Setting device";
+    g_object_set(source, "device", instance->source_device().toLocal8Bit().constData(), nullptr);
   }
 
-  if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "user-agent")) {
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "user-agent")) {
+    qLog(Debug) << "Setting user-agent";
     QString user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion());
-    g_object_set(element, "user-agent", user_agent.toUtf8().constData(), nullptr);
+    g_object_set(source, "user-agent", user_agent.toUtf8().constData(), nullptr);
   }
 
-  if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "ssl-strict")) {
-    g_object_set(element, "ssl-strict", FALSE, nullptr);
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "ssl-strict")) {
+    qLog(Debug) << "Turning off strict ssl";
+    g_object_set(source, "ssl-strict", FALSE, nullptr);
   }
 
-  if (!instance->proxy_address_.isEmpty() && g_object_class_find_property(G_OBJECT_GET_CLASS(element), "proxy")) {
+  if (!instance->proxy_address_.isEmpty() && g_object_class_find_property(G_OBJECT_GET_CLASS(source), "proxy")) {
     qLog(Debug) << "Setting proxy to" << instance->proxy_address_;
-    g_object_set(element, "proxy", instance->proxy_address_.toUtf8().constData(), nullptr);
+    g_object_set(source, "proxy", instance->proxy_address_.toUtf8().constData(), nullptr);
     if (instance->proxy_authentication_ &&
-        g_object_class_find_property(G_OBJECT_GET_CLASS(element), "proxy-id") &&
-        g_object_class_find_property(G_OBJECT_GET_CLASS(element), "proxy-pw") &&
+        g_object_class_find_property(G_OBJECT_GET_CLASS(source), "proxy-id") &&
+        g_object_class_find_property(G_OBJECT_GET_CLASS(source), "proxy-pw") &&
         !instance->proxy_user_.isEmpty() &&
         !instance->proxy_pass_.isEmpty())
     {
-      g_object_set(element, "proxy-id", instance->proxy_user_.toUtf8().constData(), "proxy-pw", instance->proxy_pass_.toUtf8().constData(), nullptr);
+      g_object_set(source, "proxy-id", instance->proxy_user_.toUtf8().constData(), "proxy-pw", instance->proxy_pass_.toUtf8().constData(), nullptr);
     }
   }
 
@@ -834,8 +831,6 @@ void GstEnginePipeline::NotifySourceCallback(GstPlayBin *bin, GParamSpec *param_
     emit instance->BufferingFinished();
     instance->SetState(GST_STATE_PLAYING);
   }
-
-  g_object_unref(element);
 
 }
 
