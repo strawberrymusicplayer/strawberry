@@ -83,9 +83,9 @@ msgstr ""
 msgid " kbps"
 msgstr " kbps"
 
-#: ../build/src/ui_backendsettingspage.h:574
-#: ../build/src/ui_backendsettingspage.h:594
-#: ../build/src/ui_backendsettingspage.h:597
+#: ../build/src/ui_backendsettingspage.h:581
+#: ../build/src/ui_backendsettingspage.h:601
+#: ../build/src/ui_backendsettingspage.h:604
 msgid " ms"
 msgstr " ms"
 
@@ -512,7 +512,7 @@ msgstr "A-Z"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:563
+#: ../build/src/ui_backendsettingspage.h:569
 msgid "ALSA plugin:"
 msgstr "Plugin ALSA:"
 
@@ -784,7 +784,7 @@ msgstr "Copertina albu&m"
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:583
+#: ../build/src/ui_backendsettingspage.h:590
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (volume ideale per tutte le tracce)"
 
@@ -919,7 +919,7 @@ msgstr "Aggiungi alla playlist attuale"
 msgid "Append to the playlist"
 msgstr "Aggiungi alla playlist"
 
-#: ../build/src/ui_backendsettingspage.h:586
+#: ../build/src/ui_backendsettingspage.h:593
 msgid "Apply compression to prevent clipping"
 msgstr "Applica la compressione per evitare il fruscio"
 
@@ -983,7 +983,7 @@ msgstr "&Chiedi durante il salvataggio"
 msgid "Audio format"
 msgstr "Formato audio"
 
-#: ../build/src/ui_backendsettingspage.h:558
+#: ../build/src/ui_backendsettingspage.h:564
 msgid "Audio output"
 msgstr "Uscita audio"
 
@@ -1069,7 +1069,7 @@ msgstr "Bitrate medio"
 msgid "Average image size"
 msgstr "Dimensione media immagine"
 
-#: ../build/src/ui_backendsettingspage.h:557
+#: ../build/src/ui_backendsettingspage.h:563
 msgid "Backend"
 msgstr "Sistema"
 
@@ -1168,11 +1168,11 @@ msgstr "In basso a destra"
 msgid "Browse..."
 msgstr "Sfoglia..."
 
-#: ../build/src/ui_backendsettingspage.h:573
+#: ../build/src/ui_backendsettingspage.h:580
 msgid "Buffer"
 msgstr "Buffer"
 
-#: ../build/src/ui_backendsettingspage.h:575
+#: ../build/src/ui_backendsettingspage.h:582
 msgid "Buffer duration"
 msgstr "Durata buffer"
 
@@ -1184,7 +1184,7 @@ msgstr "Riempimento buffer"
 msgid "C&onsole"
 msgstr "C&onsole"
 
-#: core/songloader.cpp:201
+#: core/songloader.cpp:202
 msgid "CD playback is only available with the GStreamer engine."
 msgstr ""
 "La riproduzione CD è disponibile unicamente tramite l'engine GStreamer."
@@ -1470,7 +1470,7 @@ msgstr ""
 "Impossibile creare l'elemento «%1» di GStreamer - assicurati che tutti i "
 "plugin necessari siano installati"
 
-#: core/songloader.cpp:313
+#: core/songloader.cpp:314
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr "Impossibile aprire il file CUE '%1' per la lettura: '%2'"
@@ -1479,20 +1479,30 @@ msgstr "Impossibile aprire il file CUE '%1' per la lettura: '%2'"
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Impossibile aprire l'URL, apri questo URL nel browser"
 
-#: core/songloader.cpp:281
+#: core/songloader.cpp:282
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr "Impossibile aprire il file '%1' in lettura: '%2'"
 
-#: core/songloader.cpp:371
+#: core/songloader.cpp:372
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr "Impossibile aprire il file della playlist '%1' in lettura: '%2'"
 
-#: core/songloader.cpp:477
+#: core/songloader.cpp:497
+#, qt-format
+msgid "Couldn't create GStreamer fakesink element for %1"
+msgstr ""
+
+#: core/songloader.cpp:480
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr "Impossibile creare l'elemento sorgente GStreamer per '%1'"
+
+#: core/songloader.cpp:490
+#, qt-format
+msgid "Couldn't create GStreamer typefind element for %1"
+msgstr ""
 
 #: playlist/playlistmanager.cpp:204
 msgid "Couldn't create playlist"
@@ -1515,6 +1525,11 @@ msgid ""
 msgstr ""
 "Impossibile trovare un codificatore per '%1', verifica l'installazione del "
 "plugin GStreamer corretto"
+
+#: core/songloader.cpp:503
+#, qt-format
+msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
+msgstr ""
 
 #: ../build/src/ui_albumcovermanager.h:212
 #: ../build/src/ui_albumcoversearcher.h:101
@@ -1577,11 +1592,11 @@ msgstr "Copertine da '%1'"
 msgid "Create a new playlist with files"
 msgstr "Crea una nuova playlist con i file"
 
-#: ../build/src/ui_backendsettingspage.h:591
+#: ../build/src/ui_backendsettingspage.h:598
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Dissolvenza incrociata al cambio automatico di traccia"
 
-#: ../build/src/ui_backendsettingspage.h:590
+#: ../build/src/ui_backendsettingspage.h:597
 msgid "Cross-fade when changing tracks manually"
 msgstr "Dissolvenza incrociata al cambio manuale di traccia"
 
@@ -1713,7 +1728,7 @@ msgstr "Diminuisci volume"
 msgid "Default bac&kground image"
 msgstr "Immagine di sf&ondo predefinita"
 
-#: ../build/src/ui_backendsettingspage.h:578
+#: ../build/src/ui_backendsettingspage.h:585
 msgid "Defaults"
 msgstr "Predefiniti"
 
@@ -1777,7 +1792,7 @@ msgid "Details..."
 msgstr "Dettagli..."
 
 #: context/contextview.cpp:179 device/giolister.cpp:192
-#: ../build/src/ui_backendsettingspage.h:559
+#: ../build/src/ui_backendsettingspage.h:565
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr "Dispositivo"
@@ -1974,7 +1989,7 @@ msgstr "Abilita"
 msgid "Enable Disk Cache"
 msgstr "Abilita cache disco"
 
-#: ../build/src/ui_backendsettingspage.h:572
+#: ../build/src/ui_backendsettingspage.h:578
 msgid "Enable HTTP/2 for streaming"
 msgstr "Abilita HTTP/2 per lo streaming"
 
@@ -2015,7 +2030,7 @@ msgstr "Abilita la modifica in linea dei metadati di un brano con un clic"
 msgid "Enable stereo balancer"
 msgstr "Abilita bilanciatore stereo"
 
-#: ../build/src/ui_backendsettingspage.h:568
+#: ../build/src/ui_backendsettingspage.h:574
 msgid "Enable volume control"
 msgstr "Abilita controllo volume"
 
@@ -2039,7 +2054,7 @@ msgstr "Qualità motore codifica"
 msgid "Encoding mode"
 msgstr "Modalità codifica"
 
-#: context/contextview.cpp:178 ../build/src/ui_backendsettingspage.h:562
+#: context/contextview.cpp:178 ../build/src/ui_backendsettingspage.h:568
 msgid "Engine"
 msgstr "Engine"
 
@@ -2147,7 +2162,7 @@ msgstr ""
 msgid "Ever played"
 msgstr "Mai riprodotto"
 
-#: ../build/src/ui_backendsettingspage.h:592
+#: ../build/src/ui_backendsettingspage.h:599
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Ad eccezione delle tracce dello stesso album o dello stesso CUE sheet"
 
@@ -2222,20 +2237,20 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:595
+#: ../build/src/ui_backendsettingspage.h:602
 msgid "Fade out on pause / fade in on resume"
 msgstr "Dissolvenza in uscita in pausa / dissolvenza in entrata al ripristino"
 
-#: ../build/src/ui_backendsettingspage.h:589
+#: ../build/src/ui_backendsettingspage.h:596
 msgid "Fade out when stopping a track"
 msgstr "Dissolvenza all'interruzione di una traccia"
 
-#: ../build/src/ui_backendsettingspage.h:588
+#: ../build/src/ui_backendsettingspage.h:595
 msgid "Fading"
 msgstr "Dissolvenza"
 
-#: ../build/src/ui_backendsettingspage.h:593
-#: ../build/src/ui_backendsettingspage.h:596
+#: ../build/src/ui_backendsettingspage.h:600
+#: ../build/src/ui_backendsettingspage.h:603
 msgid "Fading duration"
 msgstr "Durata dissolvenza"
 
@@ -2271,7 +2286,7 @@ msgstr "Impossibile scrivere la copertina nel file '%1'."
 msgid "Failed writing cover to file %1: %2"
 msgstr "Impossibile scrivere la copertina nel file '%1': '%2'"
 
-#: ../build/src/ui_backendsettingspage.h:587
+#: ../build/src/ui_backendsettingspage.h:594
 msgid "Fallback-gain"
 msgstr "Guadagno fallback"
 
@@ -2305,12 +2320,12 @@ msgstr "Quando cerchi delle canzoni ottieni gli album interi"
 msgid "Fetching cover error"
 msgstr "Errore download copertina"
 
-#: core/songloader.cpp:164 core/songloader.cpp:268
+#: core/songloader.cpp:165 core/songloader.cpp:269
 #, qt-format
 msgid "File %1 does not exist."
 msgstr "Il file '%1' non esiste."
 
-#: core/songloader.cpp:184 core/songloader.cpp:328
+#: core/songloader.cpp:185 core/songloader.cpp:329
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Il file '%1' non è stato riconosciuto come un file audio valido."
@@ -2663,7 +2678,7 @@ msgstr "Alto"
 msgid "High (%1 fps)"
 msgstr "Alto (%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:576
+#: ../build/src/ui_backendsettingspage.h:583
 msgid "High watermark"
 msgstr "Filigrana grande"
 
@@ -2736,7 +2751,7 @@ msgstr "Importa dati da last.fm..."
 msgid "Import..."
 msgstr "Importa..."
 
-#: ../build/src/ui_backendsettingspage.h:571
+#: ../build/src/ui_backendsettingspage.h:577
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr "Migliorare l'ascolto in cuffia di registrazioni audio stereo (bs2b)"
 
@@ -3010,7 +3025,7 @@ msgstr "Basso (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Profilo a bassa complessità (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:577
+#: ../build/src/ui_backendsettingspage.h:584
 msgid "Low watermark"
 msgstr "Filigrana bassa"
 
@@ -3474,7 +3489,7 @@ msgstr "Ott&imizza per il bitrate"
 msgid "Optimize for &quality"
 msgstr "Ottimizza per la &qualità"
 
-#: ../build/src/ui_backendsettingspage.h:567
+#: ../build/src/ui_backendsettingspage.h:573
 msgid "Options"
 msgstr "Opzioni"
 
@@ -3522,7 +3537,7 @@ msgid "Other options"
 msgstr "Altre opzioni"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:561
+#: ../build/src/ui_backendsettingspage.h:567
 msgid "Output"
 msgstr "Uscita"
 
@@ -3739,7 +3754,7 @@ msgstr "Porta"
 msgid "Position"
 msgstr "Posizione"
 
-#: equalizer/equalizer.cpp:66 ../build/src/ui_backendsettingspage.h:585
+#: equalizer/equalizer.cpp:66 ../build/src/ui_backendsettingspage.h:592
 msgid "Pre-amp"
 msgstr "Preamplificazione"
 
@@ -3768,7 +3783,7 @@ msgstr ""
 "Inserisci un prefisso ad una parola per limitare la ricerca a quel campo, es:"
 ""
 
-#: core/songloader.cpp:151
+#: core/songloader.cpp:152
 msgid "Preload function was not set for blocking operation."
 msgstr ""
 "La funzione di pre-caricamento non è stata impostata per l'operazione di "
@@ -3890,7 +3905,7 @@ msgstr "Accoda la traccia"
 msgid "QueueView"
 msgstr "Vista coda"
 
-#: ../build/src/ui_backendsettingspage.h:582
+#: ../build/src/ui_backendsettingspage.h:589
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Radio (volume uguale per tutte le tracce)"
 
@@ -4139,11 +4154,11 @@ msgstr "Sostituisci spazzi con trattini bassi"
 msgid "Replace the playlist"
 msgstr "Sostituisci la playlist"
 
-#: ../build/src/ui_backendsettingspage.h:579
+#: ../build/src/ui_backendsettingspage.h:586
 msgid "Replay Gain"
 msgstr "Replay Gain"
 
-#: ../build/src/ui_backendsettingspage.h:581
+#: ../build/src/ui_backendsettingspage.h:588
 msgid "Replay Gain mode"
 msgstr "Modalità Replay Gain"
 
@@ -5416,7 +5431,7 @@ msgstr "Aggiornamento %1%..."
 msgid "Updating collection"
 msgstr "Aggiornamento raccolta"
 
-#: ../build/src/ui_backendsettingspage.h:569
+#: ../build/src/ui_backendsettingspage.h:575
 msgid "Upmix / downmix to"
 msgstr "Upmix / downmix in"
 
@@ -5460,7 +5475,7 @@ msgstr "Usa OAuth"
 msgid "Use Qobuz settings to authenticate."
 msgstr "Usa per l'autenticazione le impostazioni di Qobuz."
 
-#: ../build/src/ui_backendsettingspage.h:580
+#: ../build/src/ui_backendsettingspage.h:587
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Usa i metadati Replay Gain se disponibili"
 
@@ -5503,6 +5518,10 @@ msgstr "Usa sfondo sfumato"
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
 msgstr "Usa impostazioni proxy per lo streaming"
+
+#: ../build/src/ui_backendsettingspage.h:579
+msgid "Use strict SSL mode"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:517
 msgid "Use system theme icons"
@@ -5725,7 +5744,7 @@ msgstr ""
 "Puoi sponsorizzare l'autore su '%1'. \n"
 "Puoi anche effettuare un pagamento una tantum tramite '%2'."
 
-#: core/songloader.cpp:132 core/songloader.cpp:137
+#: core/songloader.cpp:133 core/songloader.cpp:138
 msgid "You need GStreamer for this URL."
 msgstr "Per questa URL hai bisogno di GStreamer ."
 
@@ -5812,7 +5831,7 @@ msgstr "tra"
 msgid "biggest first"
 msgstr "più grande prima"
 
-#: ../build/src/ui_backendsettingspage.h:570
+#: ../build/src/ui_backendsettingspage.h:576
 msgid "channels"
 msgstr "canali"
 
@@ -5855,7 +5874,7 @@ msgstr "equivale"
 msgid "greater than"
 msgstr "più grande di"
 
-#: ../build/src/ui_backendsettingspage.h:564
+#: ../build/src/ui_backendsettingspage.h:570
 msgid "hw"
 msgstr "hw"
 
@@ -5919,11 +5938,11 @@ msgstr "in"
 msgid "options"
 msgstr "opzioni"
 
-#: ../build/src/ui_backendsettingspage.h:565
+#: ../build/src/ui_backendsettingspage.h:571
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: ../build/src/ui_backendsettingspage.h:566
+#: ../build/src/ui_backendsettingspage.h:572
 msgid "pcm"
 msgstr "pcm"
 

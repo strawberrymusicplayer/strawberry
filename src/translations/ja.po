@@ -81,9 +81,9 @@ msgstr "%1 のショートカットは通常 MPRIS と KGlobalAccel で利用さ
 msgid " kbps"
 msgstr " kbps"
 
-#: ../build/src/ui_backendsettingspage.h:574
-#: ../build/src/ui_backendsettingspage.h:594
-#: ../build/src/ui_backendsettingspage.h:597
+#: ../build/src/ui_backendsettingspage.h:581
+#: ../build/src/ui_backendsettingspage.h:601
+#: ../build/src/ui_backendsettingspage.h:604
 msgid " ms"
 msgstr " ミリ秒"
 
@@ -500,7 +500,7 @@ msgstr "A-Z"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:563
+#: ../build/src/ui_backendsettingspage.h:569
 msgid "ALSA plugin:"
 msgstr "ALSA プラグイン"
 
@@ -771,7 +771,7 @@ msgstr "アルバムカバー(&m)"
 msgid "Album"
 msgstr "アルバム"
 
-#: ../build/src/ui_backendsettingspage.h:583
+#: ../build/src/ui_backendsettingspage.h:590
 msgid "Album (ideal loudness for all tracks)"
 msgstr "アルバム (すべてのトラックで最適な音量)"
 
@@ -903,7 +903,7 @@ msgstr "現在のプレイリストに追加する"
 msgid "Append to the playlist"
 msgstr "プレイリストに追加する"
 
-#: ../build/src/ui_backendsettingspage.h:586
+#: ../build/src/ui_backendsettingspage.h:593
 msgid "Apply compression to prevent clipping"
 msgstr "クリップ防止のために音量を制限する"
 
@@ -965,7 +965,7 @@ msgstr "保存時に確認する(&K)"
 msgid "Audio format"
 msgstr "オーディオ形式"
 
-#: ../build/src/ui_backendsettingspage.h:558
+#: ../build/src/ui_backendsettingspage.h:564
 msgid "Audio output"
 msgstr "オーディオ出力"
 
@@ -1051,7 +1051,7 @@ msgstr "平均ビットレート"
 msgid "Average image size"
 msgstr "平均画像サイズ"
 
-#: ../build/src/ui_backendsettingspage.h:557
+#: ../build/src/ui_backendsettingspage.h:563
 msgid "Backend"
 msgstr "バックエンド"
 
@@ -1150,11 +1150,11 @@ msgstr "右下"
 msgid "Browse..."
 msgstr "参照..."
 
-#: ../build/src/ui_backendsettingspage.h:573
+#: ../build/src/ui_backendsettingspage.h:580
 msgid "Buffer"
 msgstr "バッファ"
 
-#: ../build/src/ui_backendsettingspage.h:575
+#: ../build/src/ui_backendsettingspage.h:582
 msgid "Buffer duration"
 msgstr "バッファーの長さ"
 
@@ -1166,7 +1166,7 @@ msgstr "バッファ中"
 msgid "C&onsole"
 msgstr "コンソール"
 
-#: core/songloader.cpp:201
+#: core/songloader.cpp:202
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD の再生は GStreamer エンジンでのみ使用できます"
 
@@ -1446,7 +1446,7 @@ msgid ""
 msgstr ""
 "GStreamer 要素「%1」を作成できませんでした。必要な GStreamer プラグインがすべてインストールされていることを確認してください"
 
-#: core/songloader.cpp:313
+#: core/songloader.cpp:314
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
@@ -1455,19 +1455,29 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "URLを開けません。ブラウザで開いてください。"
 
-#: core/songloader.cpp:281
+#: core/songloader.cpp:282
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:371
+#: core/songloader.cpp:372
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:477
+#: core/songloader.cpp:497
+#, qt-format
+msgid "Couldn't create GStreamer fakesink element for %1"
+msgstr ""
+
+#: core/songloader.cpp:480
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
+msgstr ""
+
+#: core/songloader.cpp:490
+#, qt-format
+msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
 
 #: playlist/playlistmanager.cpp:204
@@ -1489,6 +1499,11 @@ msgid ""
 "plugins installed"
 msgstr ""
 "%1 のエンコーダーを見つけることができませんでした。正しい GStreamer プラグインがインストールされていることをチェックしてください"
+
+#: core/songloader.cpp:503
+#, qt-format
+msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
+msgstr ""
 
 #: ../build/src/ui_albumcovermanager.h:212
 #: ../build/src/ui_albumcoversearcher.h:101
@@ -1551,11 +1566,11 @@ msgstr "%1 からのカバー"
 msgid "Create a new playlist with files"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:591
+#: ../build/src/ui_backendsettingspage.h:598
 msgid "Cross-fade when changing tracks automatically"
 msgstr "トラックが自動で変更するときにクロスフェードする"
 
-#: ../build/src/ui_backendsettingspage.h:590
+#: ../build/src/ui_backendsettingspage.h:597
 msgid "Cross-fade when changing tracks manually"
 msgstr "トラックを手動で変更したときにクロスフェードする"
 
@@ -1687,7 +1702,7 @@ msgstr ""
 msgid "Default bac&kground image"
 msgstr "既定の背景(&K)"
 
-#: ../build/src/ui_backendsettingspage.h:578
+#: ../build/src/ui_backendsettingspage.h:585
 msgid "Defaults"
 msgstr "デフォルト"
 
@@ -1751,7 +1766,7 @@ msgid "Details..."
 msgstr "詳細..."
 
 #: context/contextview.cpp:179 device/giolister.cpp:192
-#: ../build/src/ui_backendsettingspage.h:559
+#: ../build/src/ui_backendsettingspage.h:565
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr "デバイス"
@@ -1945,7 +1960,7 @@ msgstr "有効"
 msgid "Enable Disk Cache"
 msgstr "ディスクキャッシュ有効化"
 
-#: ../build/src/ui_backendsettingspage.h:572
+#: ../build/src/ui_backendsettingspage.h:578
 msgid "Enable HTTP/2 for streaming"
 msgstr ""
 
@@ -1986,7 +2001,7 @@ msgstr "クリックによる曲のメタデータの直接編集を有効にす
 msgid "Enable stereo balancer"
 msgstr "ステレオバランサーを有効化"
 
-#: ../build/src/ui_backendsettingspage.h:568
+#: ../build/src/ui_backendsettingspage.h:574
 msgid "Enable volume control"
 msgstr "ボリュームコントロールを有効化"
 
@@ -2010,7 +2025,7 @@ msgstr "エンコーディングエンジンの品質"
 msgid "Encoding mode"
 msgstr "エンコーディングモード"
 
-#: context/contextview.cpp:178 ../build/src/ui_backendsettingspage.h:562
+#: context/contextview.cpp:178 ../build/src/ui_backendsettingspage.h:568
 msgid "Engine"
 msgstr "エンジン"
 
@@ -2114,7 +2129,7 @@ msgstr "CDDA デバイスを準備中にエラーが発生しました"
 msgid "Ever played"
 msgstr "再生済み"
 
-#: ../build/src/ui_backendsettingspage.h:592
+#: ../build/src/ui_backendsettingspage.h:599
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "同じアルバムもしくはキューシートのトラック同士の場合は除外する"
 
@@ -2189,20 +2204,20 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:595
+#: ../build/src/ui_backendsettingspage.h:602
 msgid "Fade out on pause / fade in on resume"
 msgstr "一時停止/再開時にフェードアウト/インする"
 
-#: ../build/src/ui_backendsettingspage.h:589
+#: ../build/src/ui_backendsettingspage.h:596
 msgid "Fade out when stopping a track"
 msgstr "トラックの停止時にフェードアウトする"
 
-#: ../build/src/ui_backendsettingspage.h:588
+#: ../build/src/ui_backendsettingspage.h:595
 msgid "Fading"
 msgstr "フェード"
 
-#: ../build/src/ui_backendsettingspage.h:593
-#: ../build/src/ui_backendsettingspage.h:596
+#: ../build/src/ui_backendsettingspage.h:600
+#: ../build/src/ui_backendsettingspage.h:603
 msgid "Fading duration"
 msgstr "フェードの長さ"
 
@@ -2238,7 +2253,7 @@ msgstr ""
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:587
+#: ../build/src/ui_backendsettingspage.h:594
 msgid "Fallback-gain"
 msgstr ""
 
@@ -2272,12 +2287,12 @@ msgstr "曲検索時にアルバム全体を取得する"
 msgid "Fetching cover error"
 msgstr "カバーの取得エラー"
 
-#: core/songloader.cpp:164 core/songloader.cpp:268
+#: core/songloader.cpp:165 core/songloader.cpp:269
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:184 core/songloader.cpp:328
+#: core/songloader.cpp:185 core/songloader.cpp:329
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "ファイル %1 は正常な音声ファイルではありません"
@@ -2623,7 +2638,7 @@ msgstr "高"
 msgid "High (%1 fps)"
 msgstr "高 (%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:576
+#: ../build/src/ui_backendsettingspage.h:583
 msgid "High watermark"
 msgstr ""
 
@@ -2689,7 +2704,7 @@ msgstr "last.fm からデータをインポート中..."
 msgid "Import..."
 msgstr "インポート中..."
 
-#: ../build/src/ui_backendsettingspage.h:571
+#: ../build/src/ui_backendsettingspage.h:577
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
@@ -2959,7 +2974,7 @@ msgstr "低 (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Low Complexity プロファイル (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:577
+#: ../build/src/ui_backendsettingspage.h:584
 msgid "Low watermark"
 msgstr ""
 
@@ -3414,7 +3429,7 @@ msgstr "ビットレートで最適化(&m)"
 msgid "Optimize for &quality"
 msgstr "音質で最適化(&q)"
 
-#: ../build/src/ui_backendsettingspage.h:567
+#: ../build/src/ui_backendsettingspage.h:573
 msgid "Options"
 msgstr ""
 
@@ -3462,7 +3477,7 @@ msgid "Other options"
 msgstr "その他のオプション"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:561
+#: ../build/src/ui_backendsettingspage.h:567
 msgid "Output"
 msgstr "出力"
 
@@ -3671,7 +3686,7 @@ msgstr "ポート"
 msgid "Position"
 msgstr "位置"
 
-#: equalizer/equalizer.cpp:66 ../build/src/ui_backendsettingspage.h:585
+#: equalizer/equalizer.cpp:66 ../build/src/ui_backendsettingspage.h:592
 msgid "Pre-amp"
 msgstr "プリアンプ"
 
@@ -3698,7 +3713,7 @@ msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
 
-#: core/songloader.cpp:151
+#: core/songloader.cpp:152
 msgid "Preload function was not set for blocking operation."
 msgstr "ブロッキング操作にプリロード機能が設定されていません"
 
@@ -3815,7 +3830,7 @@ msgstr "トラックをキューに追加"
 msgid "QueueView"
 msgstr "キュービュー"
 
-#: ../build/src/ui_backendsettingspage.h:582
+#: ../build/src/ui_backendsettingspage.h:589
 msgid "Radio (equal loudness for all tracks)"
 msgstr "ラジオ (すべてのトラックで均一の音量)"
 
@@ -4055,11 +4070,11 @@ msgstr "スペースをアンダースコアに置き換え"
 msgid "Replace the playlist"
 msgstr "プレイリストを置き換える"
 
-#: ../build/src/ui_backendsettingspage.h:579
+#: ../build/src/ui_backendsettingspage.h:586
 msgid "Replay Gain"
 msgstr "再生ゲイン"
 
-#: ../build/src/ui_backendsettingspage.h:581
+#: ../build/src/ui_backendsettingspage.h:588
 msgid "Replay Gain mode"
 msgstr "再生ゲインモード"
 
@@ -5289,7 +5304,7 @@ msgstr "更新しています %1%..."
 msgid "Updating collection"
 msgstr "ライブラリの更新中"
 
-#: ../build/src/ui_backendsettingspage.h:569
+#: ../build/src/ui_backendsettingspage.h:575
 msgid "Upmix / downmix to"
 msgstr ""
 
@@ -5333,7 +5348,7 @@ msgstr "OAuth を使用する"
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:580
+#: ../build/src/ui_backendsettingspage.h:587
 msgid "Use Replay Gain metadata if it is available"
 msgstr "可能なら再生ゲインのメタデータを使用する"
 
@@ -5376,6 +5391,10 @@ msgstr "背景"
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
 msgstr "ストリーミングプロキシ設定"
+
+#: ../build/src/ui_backendsettingspage.h:579
+msgid "Use strict SSL mode"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:517
 msgid "Use system theme icons"
@@ -5584,7 +5603,7 @@ msgid ""
 "through %2."
 msgstr ""
 
-#: core/songloader.cpp:132 core/songloader.cpp:137
+#: core/songloader.cpp:133 core/songloader.cpp:138
 msgid "You need GStreamer for this URL."
 msgstr ""
 
@@ -5664,7 +5683,7 @@ msgstr "の間"
 msgid "biggest first"
 msgstr "降順"
 
-#: ../build/src/ui_backendsettingspage.h:570
+#: ../build/src/ui_backendsettingspage.h:576
 msgid "channels"
 msgstr "チャネル"
 
@@ -5707,7 +5726,7 @@ msgstr "等しい"
 msgid "greater than"
 msgstr "より大きい"
 
-#: ../build/src/ui_backendsettingspage.h:564
+#: ../build/src/ui_backendsettingspage.h:570
 msgid "hw"
 msgstr "hw"
 
@@ -5771,11 +5790,11 @@ msgstr "が次の日付"
 msgid "options"
 msgstr "オプション"
 
-#: ../build/src/ui_backendsettingspage.h:565
+#: ../build/src/ui_backendsettingspage.h:571
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: ../build/src/ui_backendsettingspage.h:566
+#: ../build/src/ui_backendsettingspage.h:572
 msgid "pcm"
 msgstr "pcm"
 

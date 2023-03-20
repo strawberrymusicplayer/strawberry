@@ -90,9 +90,9 @@ msgstr ""
 msgid " kbps"
 msgstr " kbit/s"
 
-#: ../build/src/ui_backendsettingspage.h:574
-#: ../build/src/ui_backendsettingspage.h:594
-#: ../build/src/ui_backendsettingspage.h:597
+#: ../build/src/ui_backendsettingspage.h:581
+#: ../build/src/ui_backendsettingspage.h:601
+#: ../build/src/ui_backendsettingspage.h:604
 msgid " ms"
 msgstr " ms"
 
@@ -516,7 +516,7 @@ msgstr "A-Z"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:563
+#: ../build/src/ui_backendsettingspage.h:569
 msgid "ALSA plugin:"
 msgstr "ALSA bővítmény:"
 
@@ -787,7 +787,7 @@ msgstr "&Albumborító"
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:583
+#: ../build/src/ui_backendsettingspage.h:590
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (ideális hangerő minden számhoz)"
 
@@ -920,7 +920,7 @@ msgstr "Hozzáfűzés a jelenlegi lejátszólistához"
 msgid "Append to the playlist"
 msgstr "Hozzáadás a lejátszólistához"
 
-#: ../build/src/ui_backendsettingspage.h:586
+#: ../build/src/ui_backendsettingspage.h:593
 msgid "Apply compression to prevent clipping"
 msgstr "Tömörítés engedélyezése a túlvezérlés elkerülése érdekében"
 
@@ -982,7 +982,7 @@ msgstr "&Rákérdezés mentéskor"
 msgid "Audio format"
 msgstr "Hangformátum"
 
-#: ../build/src/ui_backendsettingspage.h:558
+#: ../build/src/ui_backendsettingspage.h:564
 msgid "Audio output"
 msgstr "Hangkimenet"
 
@@ -1068,7 +1068,7 @@ msgstr "Átlagos bitráta"
 msgid "Average image size"
 msgstr "Átlagos képméret"
 
-#: ../build/src/ui_backendsettingspage.h:557
+#: ../build/src/ui_backendsettingspage.h:563
 msgid "Backend"
 msgstr "Háttérprogram"
 
@@ -1168,11 +1168,11 @@ msgstr "Jobbra lent"
 msgid "Browse..."
 msgstr "Tallózás…"
 
-#: ../build/src/ui_backendsettingspage.h:573
+#: ../build/src/ui_backendsettingspage.h:580
 msgid "Buffer"
 msgstr "Puffer"
 
-#: ../build/src/ui_backendsettingspage.h:575
+#: ../build/src/ui_backendsettingspage.h:582
 msgid "Buffer duration"
 msgstr "Puffer hossza"
 
@@ -1184,7 +1184,7 @@ msgstr "Pufferelés"
 msgid "C&onsole"
 msgstr "&Konzol"
 
-#: core/songloader.cpp:201
+#: core/songloader.cpp:202
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "A CD-lejátszás csak a GStreamer motorral érhető el."
 
@@ -1470,7 +1470,7 @@ msgstr ""
 "Nem hozható létre a(z) „%1” GStreamer elem – győződjön meg róla, hogy "
 "telepített-e minden szükséges GStreamer bővítményt"
 
-#: core/songloader.cpp:313
+#: core/songloader.cpp:314
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
@@ -1479,19 +1479,29 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Nem lehet megnyitni az URL-t. Próbálja meg böngészőben megnyitni"
 
-#: core/songloader.cpp:281
+#: core/songloader.cpp:282
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:371
+#: core/songloader.cpp:372
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:477
+#: core/songloader.cpp:497
+#, qt-format
+msgid "Couldn't create GStreamer fakesink element for %1"
+msgstr ""
+
+#: core/songloader.cpp:480
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
+msgstr ""
+
+#: core/songloader.cpp:490
+#, qt-format
+msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
 
 #: playlist/playlistmanager.cpp:204
@@ -1515,6 +1525,11 @@ msgid ""
 msgstr ""
 "Nem található kódoló a(z) %1 számára, győződjön meg róla, hogy telepített-e "
 "minden szükséges GStreamer bővítményt"
+
+#: core/songloader.cpp:503
+#, qt-format
+msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
+msgstr ""
 
 #: ../build/src/ui_albumcovermanager.h:212
 #: ../build/src/ui_albumcoversearcher.h:101
@@ -1577,11 +1592,11 @@ msgstr "Borítók innen: %1"
 msgid "Create a new playlist with files"
 msgstr "Új lejátszólista létrehozása fájlokkal"
 
-#: ../build/src/ui_backendsettingspage.h:591
+#: ../build/src/ui_backendsettingspage.h:598
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Áttűnés használata a számok automatikus váltásánál"
 
-#: ../build/src/ui_backendsettingspage.h:590
+#: ../build/src/ui_backendsettingspage.h:597
 msgid "Cross-fade when changing tracks manually"
 msgstr "Áttűnés használata a számok kézi váltásánál"
 
@@ -1713,7 +1728,7 @@ msgstr ""
 msgid "Default bac&kground image"
 msgstr "A&lapértelmezett háttérkép"
 
-#: ../build/src/ui_backendsettingspage.h:578
+#: ../build/src/ui_backendsettingspage.h:585
 msgid "Defaults"
 msgstr "Alapértelmezett"
 
@@ -1777,7 +1792,7 @@ msgid "Details..."
 msgstr "Részletek…"
 
 #: context/contextview.cpp:179 device/giolister.cpp:192
-#: ../build/src/ui_backendsettingspage.h:559
+#: ../build/src/ui_backendsettingspage.h:565
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr "Eszköz"
@@ -1971,7 +1986,7 @@ msgstr "Engedélyezés"
 msgid "Enable Disk Cache"
 msgstr "Lemezgyorsítótár engedélyezése"
 
-#: ../build/src/ui_backendsettingspage.h:572
+#: ../build/src/ui_backendsettingspage.h:578
 msgid "Enable HTTP/2 for streaming"
 msgstr ""
 
@@ -2013,7 +2028,7 @@ msgstr "Számok metaadatainak szerkesztése kattintásra"
 msgid "Enable stereo balancer"
 msgstr "Hangegyensúly engedélyezése"
 
-#: ../build/src/ui_backendsettingspage.h:568
+#: ../build/src/ui_backendsettingspage.h:574
 msgid "Enable volume control"
 msgstr "Hangerőszabályzás engedélyezése"
 
@@ -2037,7 +2052,7 @@ msgstr "Kódolás minősége"
 msgid "Encoding mode"
 msgstr "Kódolási mód"
 
-#: context/contextview.cpp:178 ../build/src/ui_backendsettingspage.h:562
+#: context/contextview.cpp:178 ../build/src/ui_backendsettingspage.h:568
 msgid "Engine"
 msgstr "Motor"
 
@@ -2141,7 +2156,7 @@ msgstr "Hiba történt a CDDA eszköz készre állításakor."
 msgid "Ever played"
 msgstr "Valaha lejátszva"
 
-#: ../build/src/ui_backendsettingspage.h:592
+#: ../build/src/ui_backendsettingspage.h:599
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Kivéve az azonos albumon vagy azonos CUE fájlban lévő számok között"
 
@@ -2216,20 +2231,20 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:595
+#: ../build/src/ui_backendsettingspage.h:602
 msgid "Fade out on pause / fade in on resume"
 msgstr "Áttűnés a szünet megnyomásakor és a folytatáskor"
 
-#: ../build/src/ui_backendsettingspage.h:589
+#: ../build/src/ui_backendsettingspage.h:596
 msgid "Fade out when stopping a track"
 msgstr "Elhalkulás a szám megállításakor"
 
-#: ../build/src/ui_backendsettingspage.h:588
+#: ../build/src/ui_backendsettingspage.h:595
 msgid "Fading"
 msgstr "Elhalkulás"
 
-#: ../build/src/ui_backendsettingspage.h:593
-#: ../build/src/ui_backendsettingspage.h:596
+#: ../build/src/ui_backendsettingspage.h:600
+#: ../build/src/ui_backendsettingspage.h:603
 msgid "Fading duration"
 msgstr "Elhalkulás hossza"
 
@@ -2265,7 +2280,7 @@ msgstr ""
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
 
-#: ../build/src/ui_backendsettingspage.h:587
+#: ../build/src/ui_backendsettingspage.h:594
 msgid "Fallback-gain"
 msgstr ""
 
@@ -2299,12 +2314,12 @@ msgstr "Számok keresésekor a teljes albumok letöltése"
 msgid "Fetching cover error"
 msgstr "Hiba a borító betöltése közben"
 
-#: core/songloader.cpp:164 core/songloader.cpp:268
+#: core/songloader.cpp:165 core/songloader.cpp:269
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:184 core/songloader.cpp:328
+#: core/songloader.cpp:185 core/songloader.cpp:329
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "A(z) %1 fájl nem ismerhető fel érvényes hangfájlként."
@@ -2655,7 +2670,7 @@ msgstr "Magas"
 msgid "High (%1 fps)"
 msgstr "Magas (%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:576
+#: ../build/src/ui_backendsettingspage.h:583
 msgid "High watermark"
 msgstr "Magas vízjel"
 
@@ -2727,7 +2742,7 @@ msgstr "Adatok importálása last.fm-ből..."
 msgid "Import..."
 msgstr "Importálás..."
 
-#: ../build/src/ui_backendsettingspage.h:571
+#: ../build/src/ui_backendsettingspage.h:577
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
@@ -3001,7 +3016,7 @@ msgstr "Alacsony (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Alacsony komplexitású profil (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:577
+#: ../build/src/ui_backendsettingspage.h:584
 msgid "Low watermark"
 msgstr "Alacsony vízjel"
 
@@ -3463,7 +3478,7 @@ msgstr "Opti&malizálás bitrátára"
 msgid "Optimize for &quality"
 msgstr "Optimalizálás &minőségre"
 
-#: ../build/src/ui_backendsettingspage.h:567
+#: ../build/src/ui_backendsettingspage.h:573
 msgid "Options"
 msgstr ""
 
@@ -3511,7 +3526,7 @@ msgid "Other options"
 msgstr "Egyéb beállítások"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:561
+#: ../build/src/ui_backendsettingspage.h:567
 msgid "Output"
 msgstr "Kimenet"
 
@@ -3722,7 +3737,7 @@ msgstr "Port"
 msgid "Position"
 msgstr "Helyzet"
 
-#: equalizer/equalizer.cpp:66 ../build/src/ui_backendsettingspage.h:585
+#: equalizer/equalizer.cpp:66 ../build/src/ui_backendsettingspage.h:592
 msgid "Pre-amp"
 msgstr "Előerősítő"
 
@@ -3751,7 +3766,7 @@ msgstr ""
 "Írja elé a mező nevét, amelyben keresni szeretne, hogy pontosítsa a "
 "találatokat, pl.: "
 
-#: core/songloader.cpp:151
+#: core/songloader.cpp:152
 msgid "Preload function was not set for blocking operation."
 msgstr "Nem volt előtöltési függvény beállítva a blokkoló művelethez."
 
@@ -3871,7 +3886,7 @@ msgstr "Szám hozzáadása a lejátszási sorhoz"
 msgid "QueueView"
 msgstr "Lejátszási sor nézet"
 
-#: ../build/src/ui_backendsettingspage.h:582
+#: ../build/src/ui_backendsettingspage.h:589
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Rádió (egyenlő hangerő minden számhoz)"
 
@@ -4112,11 +4127,11 @@ msgstr "Szóközök lecserélése aláhúzásjelekkel"
 msgid "Replace the playlist"
 msgstr "Lejátszólista cseréje"
 
-#: ../build/src/ui_backendsettingspage.h:579
+#: ../build/src/ui_backendsettingspage.h:586
 msgid "Replay Gain"
 msgstr "Hangerő-kiegyenlítés (Replay Gain)"
 
-#: ../build/src/ui_backendsettingspage.h:581
+#: ../build/src/ui_backendsettingspage.h:588
 msgid "Replay Gain mode"
 msgstr "Hangerő-kiegyenlítés módja"
 
@@ -5373,7 +5388,7 @@ msgstr "%1% frissítése..."
 msgid "Updating collection"
 msgstr "Gyűjtemény frissítése"
 
-#: ../build/src/ui_backendsettingspage.h:569
+#: ../build/src/ui_backendsettingspage.h:575
 msgid "Upmix / downmix to"
 msgstr "Felkeverés/lekeverés"
 
@@ -5417,7 +5432,7 @@ msgstr "OAuth használata"
 msgid "Use Qobuz settings to authenticate."
 msgstr "Qobuz használata a hitelesítéshez."
 
-#: ../build/src/ui_backendsettingspage.h:580
+#: ../build/src/ui_backendsettingspage.h:587
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Hangerő kiegyenlítési metaadatok használata, ha elérhető"
 
@@ -5460,6 +5475,10 @@ msgstr "Átmenetes háttérszín"
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
 msgstr "Proxybeállítások használata a streameléshez"
+
+#: ../build/src/ui_backendsettingspage.h:579
+msgid "Use strict SSL mode"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:517
 msgid "Use system theme icons"
@@ -5677,7 +5696,7 @@ msgstr ""
 "A szerzőt itt szponzorálhatja: %1. Egyszeri összeggel ezen az oldalon "
 "támogathat: %2."
 
-#: core/songloader.cpp:132 core/songloader.cpp:137
+#: core/songloader.cpp:133 core/songloader.cpp:138
 msgid "You need GStreamer for this URL."
 msgstr "Ehhez az URL-hez szüksége van a GStreamerre."
 
@@ -5762,7 +5781,7 @@ msgstr "között"
 msgid "biggest first"
 msgstr "legnagyobb először"
 
-#: ../build/src/ui_backendsettingspage.h:570
+#: ../build/src/ui_backendsettingspage.h:576
 msgid "channels"
 msgstr "csatorna"
 
@@ -5805,7 +5824,7 @@ msgstr "egyenlő"
 msgid "greater than"
 msgstr "nagyobb mint"
 
-#: ../build/src/ui_backendsettingspage.h:564
+#: ../build/src/ui_backendsettingspage.h:570
 msgid "hw"
 msgstr "hw"
 
@@ -5869,11 +5888,11 @@ msgstr "rajta van"
 msgid "options"
 msgstr "beállítások"
 
-#: ../build/src/ui_backendsettingspage.h:565
+#: ../build/src/ui_backendsettingspage.h:571
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: ../build/src/ui_backendsettingspage.h:566
+#: ../build/src/ui_backendsettingspage.h:572
 msgid "pcm"
 msgstr "pcm"
 
