@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-03-14 12:01-0400\n"
+"PO-Revision-Date: 2023-03-20 11:13-0400\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -949,7 +949,7 @@ msgstr "Вы действительно хотите удалить предус
 
 #: dialogs/edittagdialog.cpp:1268
 msgid "Are you sure you want to reset this song's play statistics?"
-msgstr ""
+msgstr "Уверены, что хотите сбросить статистику воспроизведения этой песни?"
 
 #: settings/collectionsettingspage.cpp:406
 msgid ""
@@ -1505,7 +1505,7 @@ msgstr "Не удалось открыть файл плейлиста %1 для
 #: core/songloader.cpp:497
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
-msgstr ""
+msgstr "Не удалось создать элемент GStreamer fakesink для %1"
 
 #: core/songloader.cpp:480
 #, qt-format
@@ -1515,7 +1515,7 @@ msgstr "Не удалось создать объект источника GStre
 #: core/songloader.cpp:490
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
-msgstr ""
+msgstr "Не удалось создать элемент GStreamer typefind для %1"
 
 #: playlist/playlistmanager.cpp:204
 msgid "Couldn't create playlist"
@@ -1543,6 +1543,7 @@ msgstr ""
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
+"Не удалось связать элементы GStreamer источник, typefind и fakesink для %1"
 
 #: ../build/src/ui_albumcovermanager.h:212
 #: ../build/src/ui_albumcoversearcher.h:101
@@ -2032,7 +2033,7 @@ msgstr "Включить панель управления плейлиста"
 
 #: ../build/src/ui_scrobblersettingspage.h:417
 msgid "Enable scrobbling for the following sources:"
-msgstr "Включить сробблинг для следующих источников:"
+msgstr "Включить скробблинг для следующих источников:"
 
 #: ../build/src/ui_playlistsettingspage.h:199
 msgid "Enable song metadata inline edition with click"
@@ -2336,7 +2337,7 @@ msgstr "Файл %1 не существует."
 #: core/songloader.cpp:185 core/songloader.cpp:329
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
-msgstr "Файл %1 не распознается как допустимый аудиофайл."
+msgstr "Файл %1 не распознан как допустимый аудиофайл."
 
 #: organize/organizedialog.cpp:119
 msgid "File extension"
@@ -2352,7 +2353,7 @@ msgstr "Полное имя файла"
 
 #: playlist/playlist.cpp:1376
 msgid "File name (without path)"
-msgstr "Имя файла"
+msgstr "Имя файла (без пути)"
 
 #: ../build/src/ui_playlistsaveoptionsdialog.h:92
 msgid "File paths"
@@ -2543,7 +2544,7 @@ msgstr "Перейти к следующему плейлисту"
 
 #: ../build/src/ui_mainwindow.h:696
 msgid "Go to previous playlist tab"
-msgstr "Перейти к предудыщему плейлисту"
+msgstr "Перейти к предыдущему плейлисту"
 
 #: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
@@ -2974,7 +2975,7 @@ msgstr "Загрузка устройства MTP"
 
 #: device/gpodloader.cpp:53
 msgid "Loading iPod database"
-msgstr "Загрузка база данных iPod"
+msgstr "Загружается база данных iPod"
 
 #: smartplaylists/playlistgeneratorinserter.cpp:62
 msgid "Loading smart playlist"
@@ -4189,7 +4190,7 @@ msgstr "Сбросить счётчики прослушивания"
 
 #: dialogs/edittagdialog.cpp:1268
 msgid "Reset song play statistics"
-msgstr ""
+msgstr "Сбросить статистику воспроизведения песни"
 
 #: core/commandlineoptions.cpp:190
 msgid "Resize the window"
@@ -4991,7 +4992,7 @@ msgstr "Subsonic"
 
 #: subsonic/subsonicurlhandler.cpp:39
 msgid "Subsonic server URL is invalid."
-msgstr "Адрес дозвукового сервера недействителен."
+msgstr "Адрес сервера Subsonic неверен."
 
 #: ../data/html/oauthsuccess.html:36
 msgid "Success!"
@@ -5506,7 +5507,7 @@ msgstr "Использовать настройки прокси для пото
 
 #: ../build/src/ui_backendsettingspage.h:579
 msgid "Use strict SSL mode"
-msgstr ""
+msgstr "Использовать строгий режим SSL"
 
 #: ../build/src/ui_appearancesettingspage.h:517
 msgid "Use system theme icons"
@@ -5726,12 +5727,12 @@ msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
 "through %2."
 msgstr ""
-"Вы можете спонсировать автора на %1. Вы также можете произвести "
+"Вы можете материально поддержать автора на %1. Также можно произвести "
 "единовременный платёж через %2."
 
 #: core/songloader.cpp:133 core/songloader.cpp:138
 msgid "You need GStreamer for this URL."
-msgstr "Вам нужен GStreamer для этого URL."
+msgstr "Вам нужен GStreamer для этого адреса."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:278
 msgid ""
@@ -5800,7 +5801,7 @@ msgstr "артисты"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:219
 msgid "automatic"
-msgstr "авто"
+msgstr "автоматически"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "before"
