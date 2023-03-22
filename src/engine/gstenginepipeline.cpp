@@ -523,7 +523,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     // As a workaround, we create two dummy bands at both ends of the spectrum.
     // This causes the actual first and last adjustable bands to be implemented using band-pass filters.
 
-    g_object_set(G_OBJECT(equalizer_), "num-bands", 10 + 2, nullptr);
+    g_object_set(G_OBJECT(equalizer_), "num-bands", kEqBandCount + 2, nullptr);
 
     // Dummy first band (bandwidth 0, cutting below 20Hz):
     GstObject *first_band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), 0));
