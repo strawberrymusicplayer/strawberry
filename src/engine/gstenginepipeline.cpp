@@ -55,11 +55,11 @@
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
 
-const int GstEnginePipeline::kGstStateTimeoutNanosecs = 10000000;
-const int GstEnginePipeline::kFaderFudgeMsec = 2000;
+constexpr int GstEnginePipeline::kGstStateTimeoutNanosecs = 10000000;
+constexpr int GstEnginePipeline::kFaderFudgeMsec = 2000;
 
-const int GstEnginePipeline::kEqBandCount = 10;
-const int GstEnginePipeline::kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
+constexpr int GstEnginePipeline::kEqBandCount = 10;
+constexpr int GstEnginePipeline::kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
 
 int GstEnginePipeline::sId = 1;
 
