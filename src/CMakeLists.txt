@@ -179,7 +179,7 @@ set(SOURCES
   lyrics/geniuslyricsprovider.cpp
   lyrics/musixmatchlyricsprovider.cpp
   lyrics/chartlyricsprovider.cpp
-  lyrics/stands4lyricsprovider.cpp
+  lyrics/lyricscomlyricsprovider.cpp
 
   providers/musixmatchprovider.cpp
 
@@ -415,7 +415,7 @@ set(HEADERS
   lyrics/geniuslyricsprovider.h
   lyrics/musixmatchlyricsprovider.h
   lyrics/chartlyricsprovider.h
-  lyrics/stands4lyricsprovider.h
+  lyrics/lyricscomlyricsprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h

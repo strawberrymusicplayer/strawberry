@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef STANDS4LYRICSPROVIDER_H
-#define STANDS4LYRICSPROVIDER_H
+#ifndef LYRICSCOMLYRICSPROVIDER_H
+#define LYRICSCOMLYRICSPROVIDER_H
 
 #include <QtGlobal>
 #include <QObject>
@@ -33,12 +33,12 @@
 class QNetworkReply;
 class NetworkAccessManager;
 
-class Stands4LyricsProvider : public JsonLyricsProvider {
+class LyricsComLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit Stands4LyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
-  ~Stands4LyricsProvider() override;
+  explicit LyricsComLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
+  ~LyricsComLyricsProvider() override;
 
   bool StartSearch(const int id, const LyricsSearchRequest &request) override;
   void CancelSearch(const int id) override;
@@ -63,4 +63,4 @@ class Stands4LyricsProvider : public JsonLyricsProvider {
   bool use_api_;
 };
 
-#endif  // STANDS4LYRICSPROVIDER_H
+#endif  // LYRICSCOMLYRICSPROVIDER_H

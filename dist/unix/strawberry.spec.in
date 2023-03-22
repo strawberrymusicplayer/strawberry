@@ -119,7 +119,7 @@ Features:
   - Edit tags on audio files
   - Automatically retrieve tags from MusicBrainz
   - Album cover art from Last.fm, Musicbrainz, Discogs, Musixmatch, Deezer, Tidal, Qobuz and Spotify
-  - Song lyrics from STANDS4, Genius, Musixmatch, ChartLyrics, lyrics.ovh and lololyrics.com
+  - Song lyrics from Lyrics.com, Genius, Musixmatch, ChartLyrics, lyrics.ovh and lololyrics.com
   - Support for multiple backends
   - Audio analyzer
   - Audio equalizer
