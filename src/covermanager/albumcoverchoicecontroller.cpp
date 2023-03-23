@@ -443,7 +443,7 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage &image
     ) {
       QPixmap pixmap = ImageUtils::TryLoadPixmap(song.art_automatic(), song.art_manual(), song.url());
       if (!pixmap.isNull()) {
-          pixmap.setDevicePixelRatio(this->devicePixelRatioF());
+          pixmap.setDevicePixelRatio(devicePixelRatioF());
           ShowCover(song, pixmap);
       }
     }
@@ -451,7 +451,7 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage &image
   else {
     QPixmap pixmap = QPixmap::fromImage(image);
     if (!pixmap.isNull()) {
-        pixmap.setDevicePixelRatio(this->devicePixelRatioF());
+        pixmap.setDevicePixelRatio(devicePixelRatioF());
         ShowCover(song, pixmap);
     }
   }
