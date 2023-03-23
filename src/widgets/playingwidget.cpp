@@ -333,7 +333,7 @@ void PlayingWidget::SetImage(const QImage &image) {
 
 void PlayingWidget::ScaleCover() {
 
-  QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
+  QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_, devicePixelRatioF());
   if (image.isNull()) pixmap_cover_ = QPixmap();
   else pixmap_cover_ = QPixmap::fromImage(image);
   update();

@@ -63,7 +63,7 @@ ContextAlbum::ContextAlbum(QWidget *parent)
   cover_loader_options_.desired_height_ = width();
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
-  QImage image = ImageUtils::ScaleAndPad(image_strawberry_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
+  QImage image = ImageUtils::ScaleAndPad(image_strawberry_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_, devicePixelRatioF());
   if (!image.isNull()) {
     pixmap_current_ = QPixmap::fromImage(image);
   }
@@ -235,7 +235,7 @@ void ContextAlbum::FadePreviousCoverFinished(std::shared_ptr<PreviousCover> prev
 
 void ContextAlbum::ScaleCover() {
 
-  QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
+  QImage image = ImageUtils::ScaleAndPad(image_original_, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_, devicePixelRatioF());
   if (image.isNull()) {
     pixmap_current_ = QPixmap();
   }
@@ -248,7 +248,7 @@ void ContextAlbum::ScaleCover() {
 void ContextAlbum::ScalePreviousCovers() {
 
   for (std::shared_ptr<PreviousCover> previous_cover : previous_covers_) {
-    QImage image = ImageUtils::ScaleAndPad(previous_cover->image, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_);
+    QImage image = ImageUtils::ScaleAndPad(previous_cover->image, cover_loader_options_.scale_output_image_, cover_loader_options_.pad_output_image_, cover_loader_options_.desired_height_, devicePixelRatioF());
     if (image.isNull()) {
       previous_cover->pixmap = QPixmap();
     }

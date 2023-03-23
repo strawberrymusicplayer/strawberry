@@ -138,14 +138,16 @@ QByteArray ImageUtils::FileToJpegData(const QString &filename) {
 
 }
 
-QImage ImageUtils::ScaleAndPad(const QImage &image, const bool scale, const bool pad, const int desired_height) {
+QImage ImageUtils::ScaleAndPad(const QImage &image, const bool scale, const bool pad, const int desired_height, const qreal device_pixel_ratio) {
 
   if (image.isNull()) return image;
+
+  const int scaled_height = desired_height * device_pixel_ratio;
 
   // Scale the image down
   QImage image_scaled;
   if (scale) {
-    image_scaled = image.scaled(QSize(desired_height, desired_height), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    image_scaled = image.scaled(QSize(scaled_height, scaled_height), Qt::KeepAspectRatio, Qt::SmoothTransformation);
   }
   else {
     image_scaled = image;
@@ -153,11 +155,11 @@ QImage ImageUtils::ScaleAndPad(const QImage &image, const bool scale, const bool
 
   // Pad the image to height x height
   if (pad) {
-    QImage image_padded(desired_height, desired_height, QImage::Format_ARGB32);
+    QImage image_padded(scaled_height, scaled_height, QImage::Format_ARGB32);
     image_padded.fill(0);
 
     QPainter p(&image_padded);
-    p.drawImage((desired_height - image_scaled.width()) / 2, (desired_height - image_scaled.height()) / 2, image_scaled);
+    p.drawImage((scaled_height - image_scaled.width()) / 2, (scaled_height - image_scaled.height()) / 2, image_scaled);
     p.end();
 
     image_scaled = image_padded;

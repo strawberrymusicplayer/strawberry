@@ -442,12 +442,18 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage &image
         song.has_embedded_cover()
     ) {
       QPixmap pixmap = ImageUtils::TryLoadPixmap(song.art_automatic(), song.art_manual(), song.url());
-      if (!pixmap.isNull()) ShowCover(song, pixmap);
+      if (!pixmap.isNull()) {
+          pixmap.setDevicePixelRatio(devicePixelRatioF());
+          ShowCover(song, pixmap);
+      }
     }
   }
   else {
     QPixmap pixmap = QPixmap::fromImage(image);
-    if (!pixmap.isNull()) ShowCover(song, pixmap);
+    if (!pixmap.isNull()) {
+        pixmap.setDevicePixelRatio(devicePixelRatioF());
+        ShowCover(song, pixmap);
+    }
   }
 
 }
@@ -481,21 +487,21 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixm
   if (desktop_width < desktop_height) {
     const int new_width = static_cast<int>(static_cast<double>(desktop_width) * 0.95);
     if (new_width < pixmap.width()) {
-      label->setPixmap(pixmap.scaledToWidth(new_width, Qt::SmoothTransformation));
+      label->setPixmap(pixmap.scaledToWidth(new_width * pixmap.devicePixelRatioF(), Qt::SmoothTransformation));
     }
   }
   else {
     const int new_height = static_cast<int>(static_cast<double>(desktop_height) * 0.85);
     if (new_height < pixmap.height()) {
-      label->setPixmap(pixmap.scaledToHeight(new_height, Qt::SmoothTransformation));
+      label->setPixmap(pixmap.scaledToHeight(new_height * pixmap.devicePixelRatioF(), Qt::SmoothTransformation));
     }
   }
 
   dialog->setWindowTitle(title_text);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
-  dialog->setFixedSize(label->pixmap(Qt::ReturnByValue).size());
+  dialog->setFixedSize(label->pixmap(Qt::ReturnByValue).size() / pixmap.devicePixelRatioF());
 #else
-  dialog->setFixedSize(label->pixmap()->size());
+  dialog->setFixedSize(label->pixmap()->size() / pixmap.devicePixelRatioF());
 #endif
   dialog->show();
 
