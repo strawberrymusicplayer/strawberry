@@ -73,16 +73,18 @@ message SongMetadata {
 
   optional float rating = 32;
 
-  optional string musicbrainz_album_artist_id = 33;     // MusicBrainz Release Artist ID (MUSICBRAINZ_ALBUMARTISTID)
-  optional string musicbrainz_artist_id = 34;           // MusicBrainz Artist ID (MUSICBRAINZ_ARTISTID)
-  optional string musicbrainz_original_artist_id = 35;  // MusicBrainz Original Artist ID (MUSICBRAINZ_ORIGINALARTISTID)
-  optional string musicbrainz_album_id = 36;            // MusicBrainz Release ID (MUSICBRAINZ_ALBUMID)
-  optional string musicbrainz_original_album_id = 37;   // MusicBrainz Original Release ID (MUSICBRAINZ_ORIGINALALBUMID)
-  optional string musicbrainz_recording_id = 38;        // MusicBrainz Recording ID (MUSICBRAINZ_TRACKID)
-  optional string musicbrainz_track_id = 39;            // MusicBrainz Track ID (MUSICBRAINZ_RELEASETRACKID)
-  optional string musicbrainz_disc_id = 40;             // MusicBrainz Disc ID (MUSICBRAINZ_DISCID)
-  optional string musicbrainz_release_group_id = 41;    // MusicBrainz Release Group ID (MUSICBRAINZ_RELEASEGROUPID)
-  optional string musicbrainz_work_id = 42;             // MusicBrainz Work ID (MUSICBRAINZ_WORKID)
+  optional string acoustid_fingerprint = 33;
+
+  optional string musicbrainz_album_artist_id = 34;     // MusicBrainz Release Artist ID (MUSICBRAINZ_ALBUMARTISTID)
+  optional string musicbrainz_artist_id = 35;           // MusicBrainz Artist ID (MUSICBRAINZ_ARTISTID)
+  optional string musicbrainz_original_artist_id = 36;  // MusicBrainz Original Artist ID (MUSICBRAINZ_ORIGINALARTISTID)
+  optional string musicbrainz_album_id = 37;            // MusicBrainz Release ID (MUSICBRAINZ_ALBUMID)
+  optional string musicbrainz_original_album_id = 38;   // MusicBrainz Original Release ID (MUSICBRAINZ_ORIGINALALBUMID)
+  optional string musicbrainz_recording_id = 39;        // MusicBrainz Recording ID (MUSICBRAINZ_TRACKID)
+  optional string musicbrainz_track_id = 40;            // MusicBrainz Track ID (MUSICBRAINZ_RELEASETRACKID)
+  optional string musicbrainz_disc_id = 41;             // MusicBrainz Disc ID (MUSICBRAINZ_DISCID)
+  optional string musicbrainz_release_group_id = 42;    // MusicBrainz Release Group ID (MUSICBRAINZ_RELEASEGROUPID)
+  optional string musicbrainz_work_id = 43;             // MusicBrainz Work ID (MUSICBRAINZ_WORKID)
 
   optional bool suspicious_tags = 50;
 
