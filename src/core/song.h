@@ -259,6 +259,19 @@ class Song {
 
   float rating() const;
 
+  const QString &acoustid_fingerprint() const;
+
+  const QString &musicbrainz_album_artist_id() const;
+  const QString &musicbrainz_artist_id() const;
+  const QString &musicbrainz_original_artist_id() const;
+  const QString &musicbrainz_album_id() const;
+  const QString &musicbrainz_original_album_id() const;
+  const QString &musicbrainz_recording_id() const;
+  const QString &musicbrainz_track_id() const;
+  const QString &musicbrainz_disc_id() const;
+  const QString &musicbrainz_release_group_id() const;
+  const QString &musicbrainz_work_id() const;
+
   const QString &effective_album() const;
   int effective_originalyear() const;
   const QString &effective_albumartist() const;
@@ -386,6 +399,19 @@ class Song {
 
   void set_rating(const float v);
 
+  void set_acoustid_fingerprint(const QString &v);
+
+  void set_musicbrainz_album_artist_id(const QString &v);
+  void set_musicbrainz_artist_id(const QString &v);
+  void set_musicbrainz_original_artist_id(const QString &v);
+  void set_musicbrainz_album_id(const QString &v);
+  void set_musicbrainz_original_album_id(const QString &v);
+  void set_musicbrainz_recording_id(const QString &v);
+  void set_musicbrainz_track_id(const QString &v);
+  void set_musicbrainz_disc_id(const QString &v);
+  void set_musicbrainz_release_group_id(const QString &v);
+  void set_musicbrainz_work_id(const QString &v);
+
   void set_stream_url(const QUrl &v);
 
   // Comparison functions
@@ -393,6 +419,8 @@ class Song {
   bool IsPlayStatisticsEqual(const Song &other) const;
   bool IsRatingEqual(const Song &other) const;
   bool IsFingerprintEqual(const Song &other) const;
+  bool IsAcoustidFingerprintEqual(const Song &other) const;
+  bool IsMusicBrainzEqual(const Song &other) const;
   bool IsArtEqual(const Song &other) const;
   bool IsAllMetadataEqual(const Song &other) const;
 

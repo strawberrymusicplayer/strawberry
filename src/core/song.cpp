@@ -119,6 +119,19 @@ const QStringList Song::kColumns = QStringList() << "title"
 
                                                  << "rating"
 
+                                                 << "acoustid_fingerprint"
+
+                                                 << "musicbrainz_album_artist_id"
+                                                 << "musicbrainz_artist_id"
+                                                 << "musicbrainz_original_artist_id"
+                                                 << "musicbrainz_album_id"
+                                                 << "musicbrainz_original_album_id"
+                                                 << "musicbrainz_recording_id"
+                                                 << "musicbrainz_track_id"
+                                                 << "musicbrainz_disc_id"
+                                                 << "musicbrainz_release_group_id"
+                                                 << "musicbrainz_work_id"
+
 						 ;
 
 const QString Song::kColumnSpec = Song::kColumns.join(", ");
@@ -219,6 +232,19 @@ struct Song::Private : public QSharedData {
   QString cue_path_;            // If the song has a CUE, this contains it's path.
 
   float rating_;                // Database rating, initial rating read from tag.
+
+  QString acoustid_fingerprint_;
+
+  QString musicbrainz_album_artist_id_;
+  QString musicbrainz_artist_id_;
+  QString musicbrainz_original_artist_id_;
+  QString musicbrainz_album_id_;
+  QString musicbrainz_original_album_id_;
+  QString musicbrainz_recording_id_;
+  QString musicbrainz_track_id_;
+  QString musicbrainz_disc_id_;
+  QString musicbrainz_release_group_id_;
+  QString musicbrainz_work_id_;
 
   QUrl stream_url_;             // Temporary stream url set by url handler.
   bool init_from_file_;         // Whether this song was loaded from a file using taglib.
@@ -435,6 +461,19 @@ bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
 
 float Song::rating() const { return d->rating_; }
 
+const QString &Song::acoustid_fingerprint() const { return d->acoustid_fingerprint_; }
+
+const QString &Song::musicbrainz_album_artist_id() const { return d->musicbrainz_album_artist_id_; }
+const QString &Song::musicbrainz_artist_id() const { return d->musicbrainz_artist_id_; }
+const QString &Song::musicbrainz_original_artist_id() const { return d->musicbrainz_original_artist_id_; }
+const QString &Song::musicbrainz_album_id() const { return d->musicbrainz_album_id_; }
+const QString &Song::musicbrainz_original_album_id() const { return d->musicbrainz_original_album_id_; }
+const QString &Song::musicbrainz_recording_id() const { return d->musicbrainz_recording_id_; }
+const QString &Song::musicbrainz_track_id() const { return d->musicbrainz_track_id_; }
+const QString &Song::musicbrainz_disc_id() const { return d->musicbrainz_disc_id_; }
+const QString &Song::musicbrainz_release_group_id() const { return d->musicbrainz_release_group_id_; }
+const QString &Song::musicbrainz_work_id() const { return d->musicbrainz_work_id_; }
+
 bool Song::is_collection_song() const { return d->source_ == Source::Collection; }
 bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.isEmpty() && !d->title_.isEmpty(); }
 bool Song::is_stream() const { return is_radio() || d->source_ == Source::Tidal || d->source_ == Source::Subsonic || d->source_ == Source::Qobuz; }
@@ -539,6 +578,19 @@ void Song::set_art_manual(const QUrl &v) { d->art_manual_ = v; }
 void Song::set_cue_path(const QString &v) { d->cue_path_ = v; }
 
 void Song::set_rating(const float v) { d->rating_ = v; }
+
+void Song::set_acoustid_fingerprint(const QString &v) { d->acoustid_fingerprint_ = v; }
+
+void Song::set_musicbrainz_album_artist_id(const QString &v) { d->musicbrainz_album_artist_id_ = v; }
+void Song::set_musicbrainz_artist_id(const QString &v) { d->musicbrainz_artist_id_ = v; }
+void Song::set_musicbrainz_original_artist_id(const QString &v) { d->musicbrainz_original_artist_id_ = v; }
+void Song::set_musicbrainz_album_id(const QString &v) { d->musicbrainz_album_id_ = v; }
+void Song::set_musicbrainz_original_album_id(const QString &v) { d->musicbrainz_original_album_id_ = v; }
+void Song::set_musicbrainz_recording_id(const QString &v) { d->musicbrainz_recording_id_ = v; }
+void Song::set_musicbrainz_track_id(const QString &v) { d->musicbrainz_track_id_ = v; }
+void Song::set_musicbrainz_disc_id(const QString &v) { d->musicbrainz_disc_id_ = v; }
+void Song::set_musicbrainz_release_group_id(const QString &v) { d->musicbrainz_release_group_id_ = v; }
+void Song::set_musicbrainz_work_id(const QString &v) { d->musicbrainz_work_id_ = v; }
 
 void Song::set_stream_url(const QUrl &v) { d->stream_url_ = v; }
 
@@ -941,6 +993,19 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
     if (!art_automatic.isEmpty()) set_art_automatic(QUrl::fromLocalFile(art_automatic));
   }
 
+  d->acoustid_fingerprint_ = QString::fromUtf8(pb.acoustid_fingerprint().data(), pb.acoustid_fingerprint().size());
+
+  d->musicbrainz_album_artist_id_ = QString::fromUtf8(pb.musicbrainz_album_artist_id().data(), pb.musicbrainz_album_artist_id().size());
+  d->musicbrainz_artist_id_ = QString::fromUtf8(pb.musicbrainz_artist_id().data(), pb.musicbrainz_artist_id().size());
+  d->musicbrainz_original_artist_id_ = QString::fromUtf8(pb.musicbrainz_original_artist_id().data(), pb.musicbrainz_original_artist_id().size());
+  d->musicbrainz_album_id_ = QString::fromUtf8(pb.musicbrainz_album_id().data(), pb.musicbrainz_album_id().size());
+  d->musicbrainz_original_album_id_ = QString::fromUtf8(pb.musicbrainz_original_album_id().data(), pb.musicbrainz_original_album_id().size());
+  d->musicbrainz_recording_id_ = QString::fromUtf8(pb.musicbrainz_recording_id().data(), pb.musicbrainz_recording_id().size());
+  d->musicbrainz_track_id_ = QString::fromUtf8(pb.musicbrainz_track_id().data(), pb.musicbrainz_track_id().size());
+  d->musicbrainz_disc_id_ = QString::fromUtf8(pb.musicbrainz_disc_id().data(), pb.musicbrainz_disc_id().size());
+  d->musicbrainz_release_group_id_ = QString::fromUtf8(pb.musicbrainz_release_group_id().data(), pb.musicbrainz_release_group_id().size());
+  d->musicbrainz_work_id_ = QString::fromUtf8(pb.musicbrainz_work_id().data(), pb.musicbrainz_work_id().size());
+
   d->suspicious_tags_ = pb.suspicious_tags();
 
   InitArtManual();
@@ -984,6 +1049,20 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
   pb->set_lastseen(d->lastseen_);
   pb->set_art_automatic(art_automatic.constData(), art_automatic.size());
   pb->set_rating(d->rating_);
+
+  pb->set_acoustid_fingerprint(d->acoustid_fingerprint_.toStdString());
+
+  pb->set_musicbrainz_album_artist_id(d->musicbrainz_album_artist_id_.toStdString());
+  pb->set_musicbrainz_artist_id(d->musicbrainz_artist_id_.toStdString());
+  pb->set_musicbrainz_original_artist_id(d->musicbrainz_original_artist_id_.toStdString());
+  pb->set_musicbrainz_album_id(d->musicbrainz_album_id_.toStdString());
+  pb->set_musicbrainz_original_album_id(d->musicbrainz_original_album_id_.toStdString());
+  pb->set_musicbrainz_recording_id(d->musicbrainz_recording_id_.toStdString());
+  pb->set_musicbrainz_track_id(d->musicbrainz_track_id_.toStdString());
+  pb->set_musicbrainz_disc_id(d->musicbrainz_disc_id_.toStdString());
+  pb->set_musicbrainz_release_group_id(d->musicbrainz_release_group_id_.toStdString());
+  pb->set_musicbrainz_work_id(d->musicbrainz_work_id_.toStdString());
+
   pb->set_suspicious_tags(d->suspicious_tags_);
 
 }
@@ -1053,6 +1132,19 @@ void Song::InitFromQuery(const SqlRow &q, const bool reliable_metadata) {
 
   d->cue_path_ = q.ValueToString("cue_path");
   d->rating_ = q.ValueToFloat("rating");
+
+  d->acoustid_fingerprint_ = q.ValueToString("acoustid_fingerprint");
+
+  d->musicbrainz_album_artist_id_ = q.ValueToString("musicbrainz_album_artist_id");
+  d->musicbrainz_artist_id_ = q.ValueToString("musicbrainz_artist_id");
+  d->musicbrainz_original_artist_id_ = q.ValueToString("musicbrainz_original_artist_id");
+  d->musicbrainz_album_id_ = q.ValueToString("musicbrainz_album_id");
+  d->musicbrainz_original_album_id_ = q.ValueToString("musicbrainz_original_album_id");
+  d->musicbrainz_recording_id_ = q.ValueToString("musicbrainz_recording_id");
+  d->musicbrainz_track_id_ = q.ValueToString("musicbrainz_track_id");
+  d->musicbrainz_disc_id_ = q.ValueToString("musicbrainz_disc_id");
+  d->musicbrainz_release_group_id_ = q.ValueToString("musicbrainz_release_group_id");
+  d->musicbrainz_work_id_ = q.ValueToString("musicbrainz_work_id");
 
   d->valid_ = true;
   d->init_from_file_ = reliable_metadata;
@@ -1403,6 +1495,19 @@ void Song::BindToQuery(SqlQuery *query) const {
 
   query->BindFloatValue(":rating", d->rating_);
 
+  query->BindStringValue("acoustid_fingerprint", d->acoustid_fingerprint_);
+
+  query->BindStringValue("musicbrainz_album_artist_id", d->musicbrainz_album_artist_id_);
+  query->BindStringValue(":musicbrainz_artist_id", d->musicbrainz_artist_id_);
+  query->BindStringValue(":musicbrainz_original_artist_id", d->musicbrainz_original_artist_id_);
+  query->BindStringValue(":musicbrainz_album_id", d->musicbrainz_album_id_);
+  query->BindStringValue(":musicbrainz_original_album_id", d->musicbrainz_original_album_id_);
+  query->BindStringValue(":musicbrainz_recording_id", d->musicbrainz_recording_id_);
+  query->BindStringValue(":musicbrainz_track_id", d->musicbrainz_track_id_);
+  query->BindStringValue(":musicbrainz_disc_id", d->musicbrainz_disc_id_);
+  query->BindStringValue(":musicbrainz_release_group_id", d->musicbrainz_release_group_id_);
+  query->BindStringValue(":musicbrainz_work_id", d->musicbrainz_work_id_);
+
 }
 
 void Song::BindToFtsQuery(SqlQuery *query) const {
@@ -1543,10 +1648,30 @@ bool Song::IsFingerprintEqual(const Song &other) const {
 
 }
 
+bool Song::IsAcoustidFingerprintEqual(const Song &other) const {
+
+  return d->acoustid_fingerprint_ == other.d->acoustid_fingerprint_;
+
+}
+
+bool Song::IsMusicBrainzEqual(const Song &other) const {
+
+  return d->musicbrainz_album_artist_id_ == other.d->musicbrainz_album_artist_id_ &&
+         d->musicbrainz_artist_id_ == other.d->musicbrainz_artist_id_ &&
+         d->musicbrainz_original_artist_id_ == other.d->musicbrainz_original_artist_id_ &&
+         d->musicbrainz_album_id_ == other.d->musicbrainz_album_id_ &&
+         d->musicbrainz_original_album_id_ == other.d->musicbrainz_original_album_id_ &&
+         d->musicbrainz_recording_id_ == other.d->musicbrainz_recording_id_ &&
+         d->musicbrainz_track_id_ == other.d->musicbrainz_track_id_ &&
+         d->musicbrainz_disc_id_ == other.d->musicbrainz_disc_id_ &&
+         d->musicbrainz_release_group_id_ == other.d->musicbrainz_release_group_id_ &&
+         d->musicbrainz_work_id_ == other.d->musicbrainz_work_id_;
+
+}
+
 bool Song::IsArtEqual(const Song &other) const {
 
-  return d->art_automatic_ == other.d->art_automatic_ &&
-         d->art_manual_ == other.d->art_manual_;
+  return d->art_automatic_ == other.d->art_automatic_ && d->art_manual_ == other.d->art_manual_;
 
 }
 
@@ -1555,7 +1680,8 @@ bool Song::IsAllMetadataEqual(const Song &other) const {
   return IsMetadataEqual(other) &&
          IsPlayStatisticsEqual(other) &&
          IsRatingEqual(other) &&
-         IsFingerprintEqual(other) &&
+         IsAcoustidFingerprintEqual(other) &&
+         IsMusicBrainzEqual(other) &&
          IsArtEqual(other);
 
 }
