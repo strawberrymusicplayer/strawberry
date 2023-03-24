@@ -1015,7 +1015,7 @@ void Song::InitFromQuery(const SqlRow &q, const bool reliable_metadata) {
   d->bitrate_ = q.ValueToInt("bitrate");
   d->samplerate_ = q.ValueToInt("samplerate");
   d->bitdepth_ = q.ValueToInt("bitdepth");
-  d->source_ = Source(q.value("source").isNull() ? 0 : q.value("source").toInt());
+  d->source_ = static_cast<Source>(q.value("source").isNull() ? 0 : q.value("source").toInt());
   d->directory_id_ = q.ValueToInt("directory_id");
   set_url(QUrl::fromEncoded(q.ValueToString("url").toUtf8()));
   d->basefilename_ = QFileInfo(d->url_.toLocalFile()).fileName();
