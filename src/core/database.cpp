@@ -48,7 +48,7 @@
 #include "scopedtransaction.h"
 
 const char *Database::kDatabaseFilename = "strawberry.db";
-const int Database::kSchemaVersion = 15;
+const int Database::kSchemaVersion = 16;
 const int Database::kMinSupportedSchemaVersion = 10;
 const char *Database::kMagicAllSongsTables = "%allsongstables";
 

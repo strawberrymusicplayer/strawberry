@@ -7,6 +7,7 @@
         <file>schema/schema-13.sql</file>
         <file>schema/schema-14.sql</file>
         <file>schema/schema-15.sql</file>
+        <file>schema/schema-16.sql</file>
         <file>schema/device-schema.sql</file>
         <file>style/strawberry.css</file>
         <file>style/smartplaylistsearchterm.css</file>

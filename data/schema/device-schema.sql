@@ -67,7 +67,20 @@ CREATE TABLE device_%deviceid_songs (
 
   cue_path TEXT,
 
-  rating INTEGER DEFAULT -1
+  rating INTEGER DEFAULT -1,
+
+  acoustid_fingerprint TEXT,
+
+  musicbrainz_album_artist_id TEXT,
+  musicbrainz_artist_id TEXT,
+  musicbrainz_original_artist_id TEXT,
+  musicbrainz_album_id TEXT,
+  musicbrainz_original_album_id TEXT,
+  musicbrainz_recording_id TEXT,
+  musicbrainz_track_id TEXT,
+  musicbrainz_disc_id TEXT,
+  musicbrainz_release_group_id TEXT,
+  musicbrainz_work_id TEXT
 
 );
 
@@ -80,4 +93,4 @@ CREATE VIRTUAL TABLE device_%deviceid_fts USING fts5(
   tokenize = "unicode61 remove_diacritics 1"
 );
 
-UPDATE devices SET schema_version=3 WHERE ROWID=%deviceid;
+UPDATE devices SET schema_version=4 WHERE ROWID=%deviceid;
