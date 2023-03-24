@@ -134,6 +134,7 @@ TagLib::String QStringToTaglibString(const QString &s) {
 
 namespace {
 
+constexpr char kID3v2_AcoustID_ID[] = "TXXX:Acoustid Id";
 constexpr char kID3v2_AcoustID_Fingerprint[] = "TXXX:Acoustid Fingerprint";
 constexpr char kID3v2_MusicBrainz_AlbumArtistID[] = "TXXX:MusicBrainz Album Artist Id";
 constexpr char kID3v2_MusicBrainz_ArtistID[] = "TXXX:MusicBrainz Artist Id";
@@ -149,6 +150,7 @@ constexpr char kID3v2_MusicBrainz_WorkID[] = "TXXX:MusicBrainz Work Id";
 constexpr char kMP4_OriginalYear_ID[] = "----:com.apple.iTunes:ORIGINAL YEAR";
 constexpr char kMP4_FMPS_Playcount_ID[] = "----:com.apple.iTunes:FMPS_Playcount";
 constexpr char kMP4_FMPS_Rating_ID[] = "----:com.apple.iTunes:FMPS_Rating";
+constexpr char kMP4_AcoustID_ID[] = "----:com.apple.iTunes:Acoustid Id";
 constexpr char kMP4_AcoustID_Fingerprint[] = "----:com.apple.iTunes:Acoustid Fingerprint";
 constexpr char kMP4_MusicBrainz_AlbumArtistID[] = "----:com.apple.iTunes:MusicBrainz Album Artist Id";
 constexpr char kMP4_MusicBrainz_ArtistID[] = "----:com.apple.iTunes:MusicBrainz Artist Id";
@@ -163,6 +165,7 @@ constexpr char kMP4_MusicBrainz_WorkID[] = "----:com.apple.iTunes:MusicBrainz Wo
 
 constexpr char kASF_OriginalDate_ID[] = "WM/OriginalReleaseTime";
 constexpr char kASF_OriginalYear_ID[] = "WM/OriginalReleaseYear";
+constexpr char kASF_AcoustID_ID[] = "Acoustid/Id";
 constexpr char kASF_AcoustID_Fingerprint[] = "Acoustid/Fingerprint";
 constexpr char kASF_MusicBrainz_AlbumArtistID[] = "MusicBrainz/Album Artist Id";
 constexpr char kASF_MusicBrainz_ArtistID[] = "MusicBrainz/Artist Id";
@@ -394,6 +397,9 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         }
       }
 
+      if (map.contains(kID3v2_AcoustID_ID)) {
+        TStringToStdString(map[kID3v2_AcoustID_ID].front()->toString(), song->mutable_acoustid_id());
+      }
       if (map.contains(kID3v2_AcoustID_Fingerprint)) {
         TStringToStdString(map[kID3v2_AcoustID_Fingerprint].front()->toString(), song->mutable_acoustid_fingerprint());
       }
@@ -496,6 +502,9 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
       TStringToStdString(mp4_tag->comment(), song->mutable_comment());
 
+      if (mp4_tag->contains(kMP4_AcoustID_ID)) {
+        TStringToStdString(mp4_tag->item(kMP4_AcoustID_ID).toStringList().toString(), song->mutable_acoustid_id());
+      }
       if (mp4_tag->contains(kMP4_AcoustID_Fingerprint)) {
         TStringToStdString(mp4_tag->item(kMP4_AcoustID_Fingerprint).toStringList().toString(), song->mutable_acoustid_fingerprint());
       }
@@ -576,6 +585,9 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         }
       }
 
+      if (attributes_map.contains(kASF_AcoustID_ID)) {
+        TStringToStdString(attributes_map[kASF_AcoustID_ID].front().toString(), song->mutable_acoustid_id());
+      }
       if (attributes_map.contains(kASF_AcoustID_Fingerprint)) {
         TStringToStdString(attributes_map[kASF_AcoustID_Fingerprint].front().toString(), song->mutable_acoustid_fingerprint());
       }
@@ -701,6 +713,7 @@ void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString 
   if (map.contains("LYRICS")) TStringToStdString(map["LYRICS"].front(), song->mutable_lyrics());
   else if (map.contains("UNSYNCEDLYRICS")) TStringToStdString(map["UNSYNCEDLYRICS"].front(), song->mutable_lyrics());
 
+  if (map.contains("ACOUSTID_ID")) TStringToStdString(map["ACOUSTID_ID"].front(), song->mutable_acoustid_id());
   if (map.contains("ACOUSTID_FINGERPRINT")) TStringToStdString(map["ACOUSTID_FINGERPRINT"].front(), song->mutable_acoustid_fingerprint());
 
   if (map.contains("MUSICBRAINZ_ALBUMARTISTID")) TStringToStdString(map["MUSICBRAINZ_ALBUMARTISTID"].front(), song->mutable_musicbrainz_album_artist_id());
@@ -765,6 +778,7 @@ void TagReaderTagLib::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *
     }
   }
 
+  if (map.contains("ACOUSTID_ID")) TStringToStdString(map["ACOUSTID_ID"].toString(), song->mutable_acoustid_id());
   if (map.contains("ACOUSTID_FINGERPRINT")) TStringToStdString(map["ACOUSTID_FINGERPRINT"].toString(), song->mutable_acoustid_fingerprint());
 
   if (map.contains("MUSICBRAINZ_ALBUMARTISTID")) TStringToStdString(map["MUSICBRAINZ_ALBUMARTISTID"].toString(), song->mutable_musicbrainz_album_artist_id());

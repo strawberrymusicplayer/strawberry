@@ -259,6 +259,7 @@ class Song {
 
   float rating() const;
 
+  const QString &acoustid_id() const;
   const QString &acoustid_fingerprint() const;
 
   const QString &musicbrainz_album_artist_id() const;
@@ -399,6 +400,7 @@ class Song {
 
   void set_rating(const float v);
 
+  void set_acoustid_id(const QString &v);
   void set_acoustid_fingerprint(const QString &v);
 
   void set_musicbrainz_album_artist_id(const QString &v);
@@ -419,7 +421,7 @@ class Song {
   bool IsPlayStatisticsEqual(const Song &other) const;
   bool IsRatingEqual(const Song &other) const;
   bool IsFingerprintEqual(const Song &other) const;
-  bool IsAcoustidFingerprintEqual(const Song &other) const;
+  bool IsAcoustIdEqual(const Song &other) const;
   bool IsMusicBrainzEqual(const Song &other) const;
   bool IsArtEqual(const Song &other) const;
   bool IsAllMetadataEqual(const Song &other) const;

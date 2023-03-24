@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS songs (
 
   rating INTEGER DEFAULT -1,
 
+  acoustid_id TEXT,
   acoustid_fingerprint TEXT,
 
   musicbrainz_album_artist_id TEXT,
@@ -152,6 +153,7 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
 
   rating INTEGER DEFAULT -1,
 
+  acoustid_id TEXT,
   acoustid_fingerprint TEXT,
 
   musicbrainz_album_artist_id TEXT,
@@ -227,6 +229,7 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
 
   rating INTEGER DEFAULT -1,
 
+  acoustid_id TEXT,
   acoustid_fingerprint TEXT,
 
   musicbrainz_album_artist_id TEXT,
@@ -302,6 +305,7 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
 
   rating INTEGER DEFAULT -1,
 
+  acoustid_id TEXT,
   acoustid_fingerprint TEXT,
 
   musicbrainz_album_artist_id TEXT,
@@ -377,6 +381,7 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
 
   rating INTEGER DEFAULT -1,
 
+  acoustid_id TEXT,
   acoustid_fingerprint TEXT,
 
   musicbrainz_album_artist_id TEXT,
@@ -452,6 +457,7 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
 
   rating INTEGER DEFAULT -1,
 
+  acoustid_id TEXT,
   acoustid_fingerprint TEXT,
 
   musicbrainz_album_artist_id TEXT,
@@ -527,6 +533,7 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
 
   rating INTEGER DEFAULT -1,
 
+  acoustid_id TEXT,
   acoustid_fingerprint TEXT,
 
   musicbrainz_album_artist_id TEXT,
@@ -602,6 +609,7 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
 
   rating INTEGER DEFAULT -1,
 
+  acoustid_id TEXT,
   acoustid_fingerprint TEXT,
 
   musicbrainz_album_artist_id TEXT,
@@ -697,6 +705,7 @@ CREATE TABLE IF NOT EXISTS playlist_items (
 
   rating INTEGER DEFAULT -1,
 
+  acoustid_id TEXT,
   acoustid_fingerprint TEXT,
 
   musicbrainz_album_artist_id TEXT,

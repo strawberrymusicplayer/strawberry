@@ -119,6 +119,7 @@ const QStringList Song::kColumns = QStringList() << "title"
 
                                                  << "rating"
 
+                                                 << "acoustid_id"
                                                  << "acoustid_fingerprint"
 
                                                  << "musicbrainz_album_artist_id"
@@ -233,6 +234,7 @@ struct Song::Private : public QSharedData {
 
   float rating_;                // Database rating, initial rating read from tag.
 
+  QString acoustid_id_;
   QString acoustid_fingerprint_;
 
   QString musicbrainz_album_artist_id_;
@@ -461,6 +463,7 @@ bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
 
 float Song::rating() const { return d->rating_; }
 
+const QString &Song::acoustid_id() const { return d->acoustid_id_; }
 const QString &Song::acoustid_fingerprint() const { return d->acoustid_fingerprint_; }
 
 const QString &Song::musicbrainz_album_artist_id() const { return d->musicbrainz_album_artist_id_; }
@@ -579,6 +582,7 @@ void Song::set_cue_path(const QString &v) { d->cue_path_ = v; }
 
 void Song::set_rating(const float v) { d->rating_ = v; }
 
+void Song::set_acoustid_id(const QString &v) { d->acoustid_id_ = v; }
 void Song::set_acoustid_fingerprint(const QString &v) { d->acoustid_fingerprint_ = v; }
 
 void Song::set_musicbrainz_album_artist_id(const QString &v) { d->musicbrainz_album_artist_id_ = v; }
@@ -993,6 +997,7 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
     if (!art_automatic.isEmpty()) set_art_automatic(QUrl::fromLocalFile(art_automatic));
   }
 
+  d->acoustid_id_ = QString::fromUtf8(pb.acoustid_id().data(), pb.acoustid_id().size());
   d->acoustid_fingerprint_ = QString::fromUtf8(pb.acoustid_fingerprint().data(), pb.acoustid_fingerprint().size());
 
   d->musicbrainz_album_artist_id_ = QString::fromUtf8(pb.musicbrainz_album_artist_id().data(), pb.musicbrainz_album_artist_id().size());
@@ -1050,6 +1055,7 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
   pb->set_art_automatic(art_automatic.constData(), art_automatic.size());
   pb->set_rating(d->rating_);
 
+  pb->set_acoustid_id(d->acoustid_id_.toStdString());
   pb->set_acoustid_fingerprint(d->acoustid_fingerprint_.toStdString());
 
   pb->set_musicbrainz_album_artist_id(d->musicbrainz_album_artist_id_.toStdString());
@@ -1133,6 +1139,7 @@ void Song::InitFromQuery(const SqlRow &q, const bool reliable_metadata) {
   d->cue_path_ = q.ValueToString("cue_path");
   d->rating_ = q.ValueToFloat("rating");
 
+  d->acoustid_id_ = q.ValueToString("acoustid_id");
   d->acoustid_fingerprint_ = q.ValueToString("acoustid_fingerprint");
 
   d->musicbrainz_album_artist_id_ = q.ValueToString("musicbrainz_album_artist_id");
@@ -1495,6 +1502,7 @@ void Song::BindToQuery(SqlQuery *query) const {
 
   query->BindFloatValue(":rating", d->rating_);
 
+  query->BindStringValue("acoustid_id", d->acoustid_id_);
   query->BindStringValue("acoustid_fingerprint", d->acoustid_fingerprint_);
 
   query->BindStringValue("musicbrainz_album_artist_id", d->musicbrainz_album_artist_id_);
@@ -1648,9 +1656,9 @@ bool Song::IsFingerprintEqual(const Song &other) const {
 
 }
 
-bool Song::IsAcoustidFingerprintEqual(const Song &other) const {
+bool Song::IsAcoustIdEqual(const Song &other) const {
 
-  return d->acoustid_fingerprint_ == other.d->acoustid_fingerprint_;
+  return d->acoustid_id_ == other.d->acoustid_id_ && d->acoustid_fingerprint_ == other.d->acoustid_fingerprint_;
 
 }
 
@@ -1680,7 +1688,7 @@ bool Song::IsAllMetadataEqual(const Song &other) const {
   return IsMetadataEqual(other) &&
          IsPlayStatisticsEqual(other) &&
          IsRatingEqual(other) &&
-         IsAcoustidFingerprintEqual(other) &&
+         IsAcoustIdEqual(other) &&
          IsMusicBrainzEqual(other) &&
          IsArtEqual(other);
 

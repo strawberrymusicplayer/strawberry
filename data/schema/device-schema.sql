@@ -69,6 +69,7 @@ CREATE TABLE device_%deviceid_songs (
 
   rating INTEGER DEFAULT -1,
 
+  acoustid_id TEXT,
   acoustid_fingerprint TEXT,
 
   musicbrainz_album_artist_id TEXT,
