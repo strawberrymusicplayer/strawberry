@@ -46,15 +46,7 @@ TagReaderClient::TagReaderClient(QObject *parent) : QObject(parent), worker_pool
   sInstance = this;
   original_thread_ = thread();
 
-  QSettings s;
-  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  int workers = s.value("tagreader_workers", qBound(1, QThread::idealThreadCount() / 2, 4)).toInt();
-  s.endGroup();
-
-  qLog(Debug) << "Using" << workers << "tagreader workers.";
-
   worker_pool_->SetExecutableName(kWorkerExecutableName);
-  worker_pool_->SetWorkerCount(workers);
   QObject::connect(worker_pool_, &WorkerPool<HandlerType>::WorkerFailedToStart, this, &TagReaderClient::WorkerFailedToStart);
 
 }
