@@ -59,7 +59,6 @@ class CollectionWatcher : public QObject {
 
   void IncrementalScanAsync();
   void FullScanAsync();
-  void RescanTracksAsync(const SongList &songs);
   void SetRescanPausedAsync(const bool pause);
   void ReloadSettingsAsync();
 
@@ -67,6 +66,8 @@ class CollectionWatcher : public QObject {
   void Abort() { abort_requested_ = true; }
 
   void ExitAsync();
+
+  void RescanSongsAsync(const SongList &songs);
 
  signals:
   void NewOrUpdatedSongs(SongList);
@@ -166,9 +167,9 @@ class CollectionWatcher : public QObject {
   void IncrementalScanCheck();
   void IncrementalScanNow();
   void FullScanNow();
-  void RescanTracksNow();
   void RescanPathsNow();
   void ScanSubdirectory(const QString &path, const CollectionSubdirectory &subdir, const quint64 files_count, CollectionWatcher::ScanTransaction *t, const bool force_noincremental = false);
+  void RescanSongs(const SongList &songs);
 
  private:
   static bool FindSongsByPath(const SongList &songs, const QString &path, SongList *out);
@@ -223,7 +224,6 @@ class CollectionWatcher : public QObject {
 
   bool stop_requested_;
   bool abort_requested_;
-  bool rescan_in_progress_;  // True if RescanTracksNow() has been called and is working.
 
   QMap<int, CollectionDirectory> watched_dirs_;
   QTimer *rescan_timer_;
@@ -236,8 +236,6 @@ class CollectionWatcher : public QObject {
   CueParser *cue_parser_;
 
   static QStringList sValidImages;
-
-  SongList song_rescan_queue_;  // Set by UI thread
 
   qint64 last_scan_time_;
 

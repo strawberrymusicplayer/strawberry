@@ -84,7 +84,6 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
       overwrite_rating_(false),
       stop_requested_(false),
       abort_requested_(false),
-      rescan_in_progress_(false),
       rescan_timer_(new QTimer(this)),
       periodic_scan_timer_(new QTimer(this)),
       rescan_paused_(false),
@@ -1129,18 +1128,6 @@ void CollectionWatcher::FullScanAsync() {
 
 }
 
-void CollectionWatcher::RescanTracksAsync(const SongList &songs) {
-
-  // Is List thread safe? if not, this may crash.
-  song_rescan_queue_.append(songs);
-
-  // Call only if it's not already running
-  if (!rescan_in_progress_) {
-    QMetaObject::invokeMethod(this, "RescanTracksNow", Qt::QueuedConnection);
-  }
-
-}
-
 void CollectionWatcher::IncrementalScanCheck() {
 
   qint64 duration = QDateTime::currentDateTime().toSecsSinceEpoch() - last_scan_time_;
@@ -1154,34 +1141,6 @@ void CollectionWatcher::IncrementalScanCheck() {
 void CollectionWatcher::IncrementalScanNow() { PerformScan(true, false); }
 
 void CollectionWatcher::FullScanNow() { PerformScan(false, true); }
-
-void CollectionWatcher::RescanTracksNow() {
-
-  Q_ASSERT(!rescan_in_progress_);
-  stop_requested_ = false;
-
-  // Currently we are too stupid to rescan one file at a time, so we'll just scan the full directories
-  QStringList scanned_dirs;  // To avoid double scans
-  while (!song_rescan_queue_.isEmpty()) {
-    if (stop_requested_ || abort_requested_) break;
-    Song song = song_rescan_queue_.takeFirst();
-    QString songdir = song.url().toLocalFile().section('/', 0, -2);
-    if (!scanned_dirs.contains(songdir)) {
-      qLog(Debug) << "Song" << song.title() << "dir id" << song.directory_id() << "dir" << songdir;
-      ScanTransaction transaction(this, song.directory_id(), false, false, mark_songs_unavailable_);
-      quint64 files_count = FilesCountForPath(&transaction, songdir);
-      ScanSubdirectory(songdir, CollectionSubdirectory(), files_count, &transaction);
-      scanned_dirs << songdir;
-      emit CompilationsNeedUpdating();
-    }
-    else {
-      qLog(Debug) << "Directory" << songdir << "already scanned - skipping.";
-    }
-  }
-  Q_ASSERT(song_rescan_queue_.isEmpty());
-  rescan_in_progress_ = false;
-
-}
 
 void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mtimes) {
 
@@ -1266,5 +1225,36 @@ quint64 CollectionWatcher::FilesCountForSubdirs(ScanTransaction *t, const Collec
   }
 
   return i;
+
+}
+
+void CollectionWatcher::RescanSongsAsync(const SongList &songs) {
+
+  QMetaObject::invokeMethod(this, "RescanSongs", Qt::QueuedConnection, Q_ARG(SongList, songs));
+
+}
+
+void CollectionWatcher::RescanSongs(const SongList &songs) {
+
+  stop_requested_ = false;
+
+  QStringList scanned_paths;
+  for (const Song &song : songs) {
+    if (stop_requested_ || abort_requested_) break;
+    const QString song_path = song.url().toLocalFile().section('/', 0, -2);
+    if (scanned_paths.contains(song_path)) continue;
+    ScanTransaction transaction(this, song.directory_id(), false, true, mark_songs_unavailable_);
+    CollectionSubdirectoryList subdirs(transaction.GetAllSubdirs());
+    for (const CollectionSubdirectory &subdir : subdirs) {
+      if (stop_requested_ || abort_requested_) break;
+      if (subdir.path != song_path) continue;
+      qLog(Debug) << "Rescan for directory ID" << song.directory_id() << "directory" << subdir.path;
+      quint64 files_count = FilesCountForPath(&transaction, subdir.path);
+      ScanSubdirectory(song_path, subdir, files_count, &transaction);
+      scanned_paths << subdir.path;
+    }
+  }
+
+  emit CompilationsNeedUpdating();
 
 }
