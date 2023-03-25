@@ -451,10 +451,10 @@ QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &met
   if (!metadata.musicbrainz_album_artist_id.isEmpty()) {
     artist_mbids.append(metadata.musicbrainz_album_artist_id);
   }
-  if (!metadata.musicbrainz_artist_id.isEmpty()) {
+  if (!metadata.musicbrainz_artist_id.isEmpty() && !artist_mbids.contains(metadata.musicbrainz_artist_id)) {
     artist_mbids.append(metadata.musicbrainz_artist_id);
   }
-  if (!metadata.musicbrainz_original_artist_id.isEmpty()) {
+  if (!metadata.musicbrainz_original_artist_id.isEmpty() && !artist_mbids.contains(metadata.musicbrainz_original_artist_id)) {
     artist_mbids.append(metadata.musicbrainz_original_artist_id);
   }
   if (!artist_mbids.isEmpty()) {
