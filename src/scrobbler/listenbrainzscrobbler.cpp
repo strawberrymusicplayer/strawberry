@@ -65,6 +65,23 @@ const char *ListenBrainzScrobbler::kClientSecretB64 = "Uk9GZ2hrZVEzRjNvUHlFaHFpe
 const char *ListenBrainzScrobbler::kCacheFile = "listenbrainzscrobbler.cache";
 const int ListenBrainzScrobbler::kScrobblesPerRequest = 10;
 
+static void insertStringIfNotEmpty(QJsonObject &object, const QString &key, const QString &value) {
+  if (value.isEmpty()) {
+    return;
+  }
+
+  object.insert(key, value);
+};
+
+static void insertArrayedStringIfNotEmpty(QJsonObject &object, const QString &key, const QString &value) {
+  if (value.isEmpty()) {
+    return;
+  }
+
+  QJsonArray data { value };
+  object.insert(key, data);
+};
+
 ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent)
     : ScrobblerService(kName, app, parent),
       app_(app),
@@ -452,6 +469,13 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   QJsonObject object_additional_info;
 
   object_additional_info.insert("duration_ms", song.length_nanosec() / kNsecPerMsec);
+
+  insertArrayedStringIfNotEmpty(object_additional_info, "artist_mbids", song.musicbrainz_artist_id());
+  insertStringIfNotEmpty(object_additional_info, "release_group_mbid", song.musicbrainz_release_group_id());
+  insertStringIfNotEmpty(object_additional_info, "release_mbid", song.musicbrainz_album_id());
+  insertStringIfNotEmpty(object_additional_info, "recording_mbid", song.musicbrainz_recording_id());
+  insertStringIfNotEmpty(object_additional_info, "track_mbid", song.musicbrainz_track_id());
+  insertArrayedStringIfNotEmpty(object_additional_info, "work_mbids", song.musicbrainz_work_id());
 
   if (const int track = song.track(); track > 0) {
     object_additional_info.insert("tracknumber", track);
