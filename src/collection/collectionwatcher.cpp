@@ -863,8 +863,16 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
       changes << "rating";
       notify_new = true;
     }
-    if (matching_song.art_automatic() != new_song.art_automatic() || matching_song.art_manual() != new_song.art_manual()) {
+    if (!matching_song.IsArtEqual(new_song)) {
       changes << "album art";
+      notify_new = true;
+    }
+    if (!matching_song.IsAcoustIdEqual(new_song)) {
+      changes << "acoustid";
+      notify_new = true;
+    }
+    if (!matching_song.IsMusicBrainzEqual(new_song)) {
+      changes << "musicbrainz";
       notify_new = true;
     }
     if (matching_song.mtime() != new_song.mtime()) {
