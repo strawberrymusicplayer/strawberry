@@ -32,7 +32,20 @@ class ScrobblerCacheItem : public QObject {
   Q_OBJECT
 
  public:
-  explicit ScrobblerCacheItem(const QString &artist, const QString &album, const QString &song, const QString &albumartist, const int track, const qint64 duration, const quint64 timestamp, QObject *parent = nullptr);
+  explicit ScrobblerCacheItem(const QString &artist,
+                              const QString &album,
+                              const QString &song,
+                              const QString &albumartist,
+                              const int track,
+                              const qint64 duration,
+                              const quint64 timestamp,
+                              const QString &musicbrainz_album_id,
+                              const QString &musicbrainz_artist_id,
+                              const QString &musicbrainz_recording_id,
+                              const QString &musicbrainz_release_group_id,
+                              const QString &musicbrainz_track_id,
+                              const QString &musicbrainz_work_id,
+                              QObject *parent = nullptr);
 
   QString effective_albumartist() const { return albumartist_.isEmpty() ? artist_ : albumartist_; }
 
@@ -46,6 +59,12 @@ class ScrobblerCacheItem : public QObject {
   quint64 timestamp_;
   bool sent_;
 
+  QString musicbrainz_album_id_;
+  QString musicbrainz_artist_id_;
+  QString musicbrainz_recording_id_;
+  QString musicbrainz_release_group_id_;
+  QString musicbrainz_track_id_;
+  QString musicbrainz_work_id_;
 };
 
 using ScrobblerCacheItemPtr = std::shared_ptr<ScrobblerCacheItem>;

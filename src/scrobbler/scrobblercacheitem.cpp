@@ -24,7 +24,20 @@
 
 #include "scrobblercacheitem.h"
 
-ScrobblerCacheItem::ScrobblerCacheItem(const QString &artist, const QString &album, const QString &song, const QString &albumartist, const int track, const qint64 duration, const quint64 timestamp, QObject *parent)
+ScrobblerCacheItem::ScrobblerCacheItem(const QString &artist,
+                                       const QString &album,
+                                       const QString &song,
+                                       const QString &albumartist,
+                                       const int track,
+                                       const qint64 duration,
+                                       const quint64 timestamp,
+                                       const QString &musicbrainz_album_id,
+                                       const QString &musicbrainz_artist_id,
+                                       const QString &musicbrainz_recording_id,
+                                       const QString &musicbrainz_release_group_id,
+                                       const QString &musicbrainz_track_id,
+                                       const QString &musicbrainz_work_id,
+                                       QObject *parent)
     : QObject(parent),
       artist_(artist),
       album_(album),
@@ -33,4 +46,10 @@ ScrobblerCacheItem::ScrobblerCacheItem(const QString &artist, const QString &alb
       track_(track),
       duration_(duration),
       timestamp_(timestamp),
-      sent_(false) {}
+      sent_(false),
+      musicbrainz_album_id_(musicbrainz_album_id),
+      musicbrainz_artist_id_(musicbrainz_artist_id),
+      musicbrainz_recording_id_(musicbrainz_recording_id),
+      musicbrainz_release_group_id_(musicbrainz_release_group_id),
+      musicbrainz_track_id_(musicbrainz_track_id),
+      musicbrainz_work_id_(musicbrainz_work_id) {}

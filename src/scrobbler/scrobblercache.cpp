@@ -126,6 +126,8 @@ void ScrobblerCache::ReadCache() {
         !json_obj_track.contains("albumartist") ||
         !json_obj_track.contains("track") ||
         !json_obj_track.contains("duration")
+        // Intentionally ignore missing `musicbrainz_*` fields.
+        // They may be not present on cache files of older versions of Strawberry.
     ) {
       qLog(Error) << "Scrobbler cache JSON tracks array value is missing data.";
       qLog(Debug) << value;
@@ -139,14 +141,32 @@ void ScrobblerCache::ReadCache() {
     QString albumartist = json_obj_track["albumartist"].toString();
     int track = json_obj_track["track"].toInt();
     qint64 duration = json_obj_track["duration"].toVariant().toLongLong();
+    QString musicbrainz_album_id = json_obj_track["musicbrainz_album_id"].toString();
+    QString musicbrainz_artist_id = json_obj_track["musicbrainz_artist_id"].toString();
+    QString musicbrainz_recording_id = json_obj_track["musicbrainz_recording_id"].toString();
+    QString musicbrainz_release_group_id = json_obj_track["musicbrainz_release_group_id"].toString();
+    QString musicbrainz_track_id = json_obj_track["musicbrainz_track_id"].toString();
+    QString musicbrainz_work_id = json_obj_track["musicbrainz_work_id"].toString();
 
     if (timestamp <= 0 || artist.isEmpty() || song.isEmpty() || duration <= 0) {
       qLog(Error) << "Invalid cache data" << "for song" << song;
       continue;
     }
     if (scrobbler_cache_.contains(timestamp)) continue;
-    scrobbler_cache_.insert(timestamp, std::make_shared<ScrobblerCacheItem>(artist, album, song, albumartist, track, duration, timestamp));
-
+    scrobbler_cache_.insert(timestamp,
+                            std::make_shared<ScrobblerCacheItem>(artist,
+                                                                 album,
+                                                                 song,
+                                                                 albumartist,
+                                                                 track,
+                                                                 duration,
+                                                                 timestamp,
+                                                                 musicbrainz_album_id,
+                                                                 musicbrainz_artist_id,
+                                                                 musicbrainz_recording_id,
+                                                                 musicbrainz_release_group_id,
+                                                                 musicbrainz_track_id,
+                                                                 musicbrainz_work_id));
   }
 
 }
@@ -176,6 +196,12 @@ void ScrobblerCache::WriteCache() {
     object.insert("albumartist", QJsonValue::fromVariant(item->albumartist_));
     object.insert("track", QJsonValue::fromVariant(item->track_));
     object.insert("duration", QJsonValue::fromVariant(item->duration_));
+    object.insert("musicbrainz_album_id", QJsonValue::fromVariant(item->musicbrainz_album_id_));
+    object.insert("musicbrainz_artist_id", QJsonValue::fromVariant(item->musicbrainz_artist_id_));
+    object.insert("musicbrainz_recording_id", QJsonValue::fromVariant(item->musicbrainz_recording_id_));
+    object.insert("musicbrainz_release_group_id", QJsonValue::fromVariant(item->musicbrainz_release_group_id_));
+    object.insert("musicbrainz_track_id", QJsonValue::fromVariant(item->musicbrainz_track_id_));
+    object.insert("musicbrainz_work_id", QJsonValue::fromVariant(item->musicbrainz_work_id_));
     array.append(QJsonValue::fromVariant(object));
   }
 
@@ -209,7 +235,19 @@ ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 timest
        .remove(Song::kAlbumRemoveMisc);
   title.remove(Song::kTitleRemoveMisc);
 
-  ScrobblerCacheItemPtr item = std::make_shared<ScrobblerCacheItem>(song.artist(), album, title, song.albumartist(), song.track(), song.length_nanosec(), timestamp);
+  ScrobblerCacheItemPtr item = std::make_shared<ScrobblerCacheItem>(song.artist(),
+                                                                    album,
+                                                                    title,
+                                                                    song.albumartist(),
+                                                                    song.track(),
+                                                                    song.length_nanosec(),
+                                                                    timestamp,
+                                                                    song.musicbrainz_album_id(),
+                                                                    song.musicbrainz_artist_id(),
+                                                                    song.musicbrainz_recording_id(),
+                                                                    song.musicbrainz_release_group_id(),
+                                                                    song.musicbrainz_track_id(),
+                                                                    song.musicbrainz_work_id());
   scrobbler_cache_.insert(timestamp, item);
 
   if (loaded_ && !timer_flush_->isActive()) {
