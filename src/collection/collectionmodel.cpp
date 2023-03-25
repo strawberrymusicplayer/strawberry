@@ -42,7 +42,6 @@
 #include <QMap>
 #include <QMetaType>
 #include <QVariant>
-#include <QByteArray>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
