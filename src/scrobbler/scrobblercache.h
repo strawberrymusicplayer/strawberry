@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ class ScrobblerCache : public QObject {
   void Remove(const quint64 hash);
   void Remove(ScrobblerCacheItemPtr item);
   int Count() const { return scrobbler_cache_.size(); };
-  QList<ScrobblerCacheItemPtr> List() const { return scrobbler_cache_.values(); }
+  ScrobblerCacheItemPtrList List() const { return scrobbler_cache_.values(); }
   void ClearSent(const QList<quint64> &list);
   void Flush(const QList<quint64> &list);
 

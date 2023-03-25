@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,13 +55,15 @@
 #include "audioscrobbler.h"
 #include "scrobblerservice.h"
 #include "scrobblingapi20.h"
+#include "scrobblercache.h"
 #include "scrobblercacheitem.h"
+#include "scrobblemetadata.h"
 
 const char *ScrobblingAPI20::kApiKey = "211990b4c96782c05d1536e7219eb56e";
 const char *ScrobblingAPI20::kSecret = "80fd738f49596e9709b1bf9319c444a8";
 const int ScrobblingAPI20::kScrobblesPerRequest = 50;
 
-ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, Application *app, QObject *parent)
+ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, Application *app, QObject *parent)
     : ScrobblerService(name, app, parent),
       name_(name),
       settings_group_(settings_group),
@@ -69,6 +71,8 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
       api_url_(api_url),
       batch_(batch),
       app_(app),
+      network_(new NetworkAccessManager(this)),
+      cache_(new ScrobblerCache(cache_file, this)),
       server_(nullptr),
       enabled_(false),
       https_(false),
@@ -81,6 +85,9 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
 
   timer_submit_.setSingleShot(true);
   QObject::connect(&timer_submit_, &QTimer::timeout, this, &ScrobblingAPI20::Submit);
+
+  ReloadSettings();
+  LoadSession();
 
 }
 
@@ -230,7 +237,7 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
   session_url_query.addQueryItem("method", "auth.getSession");
   session_url_query.addQueryItem("token", token);
   QString data_to_sign;
-  for (const QPair<QString, QString> &param : session_url_query.queryItems()) {
+  for (const Param &param : session_url_query.queryItems()) {
     data_to_sign += param.first + param.second;
   }
   data_to_sign += kSecret;
@@ -242,7 +249,7 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
 
   QNetworkRequest req(session_url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network()->get(req);
+  QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AuthenticateReplyFinished(reply); });
 
@@ -376,7 +383,7 @@ QNetworkReply *ScrobblingAPI20::CreateRequest(const ParamList &request_params) {
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
-  QNetworkReply *reply = network()->post(req, query);
+  QNetworkReply *reply = network_->post(req, query);
   replies_ << reply;
 
   //qLog(Debug) << name_ << "Sending request" << url_query.toString(QUrl::FullyDecoded);
@@ -452,20 +459,13 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
 
   if (!IsAuthenticated() || !song.is_metadata_good() || app_->scrobbler()->IsOffline()) return;
 
-  QString album = song.album();
-  QString title = song.title();
-
-  album = album.remove(Song::kAlbumRemoveDisc)
-               .remove(Song::kAlbumRemoveMisc);
-  title = title.remove(Song::kTitleRemoveMisc);
-
   ParamList params = ParamList()
     << Param("method", "track.updateNowPlaying")
     << Param("artist", prefer_albumartist_ ? song.effective_albumartist() : song.artist())
-    << Param("track", title);
+    << Param("track", StripTitle(song.title()));
 
-  if (!album.isEmpty()) {
-    params << Param("album", album);
+  if (!song.album().isEmpty()) {
+    params << Param("album", StripAlbum(song.album()));
   }
 
   if (!prefer_albumartist_ && !song.albumartist().isEmpty()) {
@@ -525,7 +525,7 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
 
   scrobbled_ = true;
 
-  cache()->Add(song, timestamp_);
+  cache_->Add(song, timestamp_);
 
   if (app_->scrobbler()->IsOffline()) return;
 
@@ -541,7 +541,7 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
 
 void ScrobblingAPI20::StartSubmit(const bool initial) {
 
-  if (!submitted_ && cache()->Count() > 0) {
+  if (!submitted_ && cache_->Count() > 0) {
     if (initial && (!batch_ || app_->scrobbler()->SubmitDelay() <= 0) && !submit_error_) {
       if (timer_submit_.isActive()) {
         timer_submit_.stop();
@@ -567,27 +567,27 @@ void ScrobblingAPI20::Submit() {
 
   int i = 0;
   QList<quint64> list;
-  QList<ScrobblerCacheItemPtr> items = cache()->List();
-  for (ScrobblerCacheItemPtr item : items) {  // clazy:exclude=range-loop-reference
-    if (item->sent_) continue;
-    item->sent_ = true;
+  ScrobblerCacheItemPtrList items = cache_->List();
+  for (ScrobblerCacheItemPtr item : items) {
+    if (item->sent) continue;
+    item->sent = true;
     if (!batch_) {
       SendSingleScrobble(item);
       continue;
     }
-    list << item->timestamp_;
-    params << Param(QString("%1[%2]").arg("artist").arg(i), prefer_albumartist_ ? item->effective_albumartist() : item->artist_);
-    params << Param(QString("%1[%2]").arg("track").arg(i), item->song_);
-    params << Param(QString("%1[%2]").arg("timestamp").arg(i), QString::number(item->timestamp_));
-    params << Param(QString("%1[%2]").arg("duration").arg(i), QString::number(item->duration_ / kNsecPerSec));
-    if (!item->album_.isEmpty()) {
-      params << Param(QString("%1[%2]").arg("album").arg(i), item->album_);
+    list << item->timestamp;
+    params << Param(QString("%1[%2]").arg("artist").arg(i), prefer_albumartist_ ? item->metadata.effective_albumartist() : item->metadata.artist);
+    params << Param(QString("%1[%2]").arg("track").arg(i), StripTitle(item->metadata.title));
+    params << Param(QString("%1[%2]").arg("timestamp").arg(i), QString::number(item->timestamp));
+    params << Param(QString("%1[%2]").arg("duration").arg(i), QString::number(item->metadata.length_nanosec / kNsecPerSec));
+    if (!item->metadata.album.isEmpty()) {
+      params << Param(QString("%1[%2]").arg("album").arg(i), StripAlbum(item->metadata.album));
     }
-    if (!prefer_albumartist_ && !item->albumartist_.isEmpty()) {
-      params << Param(QString("%1[%2]").arg("albumArtist").arg(i), item->albumartist_);
+    if (!prefer_albumartist_ && !item->metadata.albumartist.isEmpty()) {
+      params << Param(QString("%1[%2]").arg("albumArtist").arg(i), item->metadata.albumartist);
     }
-    if (item->track_ > 0) {
-      params << Param(QString("%1[%2]").arg("trackNumber").arg(i), QString::number(item->track_));
+    if (item->metadata.track > 0) {
+      params << Param(QString("%1[%2]").arg("trackNumber").arg(i), QString::number(item->metadata.track));
     }
     ++i;
     if (i >= kScrobblesPerRequest) break;
@@ -613,7 +613,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    cache()->ClearSent(list);
+    cache_->ClearSent(list);
     submit_error_ = true;
     StartSubmit();
     return;
@@ -621,7 +621,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    cache()->ClearSent(list);
+    cache_->ClearSent(list);
     submit_error_ = true;
     StartSubmit();
     return;
@@ -632,13 +632,13 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
     QString error_message = json_obj["message"].toString();
     QString error_reason = QString("%1 (%2)").arg(error_message).arg(error_code);
     Error(error_reason);
-    cache()->ClearSent(list);
+    cache_->ClearSent(list);
     submit_error_ = true;
     StartSubmit();
     return;
   }
 
-  cache()->Flush(list);
+  cache_->Flush(list);
   submit_error_ = false;
 
   if (!json_obj.contains("scrobbles")) {
@@ -713,7 +713,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, const QList<
     return;
   }
 
-  for (const QJsonValueRef value : array_scrobble) {  // clazy:exclude=range-loop-detach
+  for (const QJsonValueRef value : array_scrobble) {
 
     if (!value.isObject()) {
       Error("Json scrobbles scrobble array value is not an object.");
@@ -783,23 +783,23 @@ void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
 
   ParamList params = ParamList()
     << Param("method", "track.scrobble")
-    << Param("artist", prefer_albumartist_ ? item->effective_albumartist() : item->artist_)
-    << Param("track", item->song_)
-    << Param("timestamp", QString::number(item->timestamp_))
-    << Param("duration", QString::number(item->duration_ / kNsecPerSec));
+    << Param("artist", prefer_albumartist_ ? item->metadata.effective_albumartist() : item->metadata.artist)
+    << Param("track", StripTitle(item->metadata.title))
+    << Param("timestamp", QString::number(item->timestamp))
+    << Param("duration", QString::number(item->metadata.length_nanosec / kNsecPerSec));
 
-  if (!item->album_.isEmpty()) {
-    params << Param("album", item->album_);
+  if (!item->metadata.album.isEmpty()) {
+    params << Param("album", StripAlbum(item->metadata.album));
   }
-  if (!prefer_albumartist_ && !item->albumartist_.isEmpty()) {
-    params << Param("albumArtist", item->albumartist_);
+  if (!prefer_albumartist_ && !item->metadata.albumartist.isEmpty()) {
+    params << Param("albumArtist", item->metadata.albumartist);
   }
-  if (item->track_ > 0) {
-    params << Param("trackNumber", QString::number(item->track_));
+  if (item->metadata.track > 0) {
+    params << Param("trackNumber", QString::number(item->metadata.track));
   }
 
   QNetworkReply *reply = CreateRequest(params);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, item]() { SingleScrobbleRequestFinished(reply, item->timestamp_); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, item]() { SingleScrobbleRequestFinished(reply, item->timestamp); });
 
 }
 
@@ -810,7 +810,7 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, const 
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  ScrobblerCacheItemPtr item = cache()->Get(timestamp);
+  ScrobblerCacheItemPtr item = cache_->Get(timestamp);
   if (!item) {
     Error(QString("Received reply for non-existing cache entry %1.").arg(timestamp));
     return;
@@ -818,13 +818,13 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, const 
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    item->sent_ = false;
+    item->sent = false;
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    item->sent_ = false;
+    item->sent = false;
     return;
   }
 
@@ -833,17 +833,17 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, const 
     QString error_message = json_obj["message"].toString();
     QString error_reason = QString("%1 (%2)").arg(error_message).arg(error_code);
     Error(error_reason);
-    item->sent_ = false;
+    item->sent = false;
     return;
   }
 
   if (!json_obj.contains("scrobbles")) {
     Error("Json reply from server is missing scrobbles.", json_obj);
-    item->sent_ = false;
+    item->sent = false;
     return;
   }
 
-  cache()->Remove(timestamp);
+  cache_->Remove(timestamp);
   item = nullptr;
 
   QJsonValue value_scrobbles = json_obj["scrobbles"];

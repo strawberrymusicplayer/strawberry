@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,16 +45,13 @@ class ScrobblingAPI20 : public ScrobblerService {
   Q_OBJECT
 
  public:
-  explicit ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, Application *app, QObject *parent = nullptr);
+  explicit ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, Application *app, QObject *parent = nullptr);
   ~ScrobblingAPI20() override;
 
   static const char *kApiKey;
 
   void ReloadSettings() override;
   void LoadSession();
-
-  virtual NetworkAccessManager *network() const = 0;
-  virtual ScrobblerCache *cache() const = 0;
 
   bool IsEnabled() const override { return enabled_; }
   bool IsUseHTTPS() const { return https_; }
@@ -76,7 +73,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   void AuthenticationComplete(bool success, QString error = QString());
 
  public slots:
-  void WriteCache() override { cache()->WriteCache(); }
+  void WriteCache() override { cache_->WriteCache(); }
 
  private slots:
   void RedirectArrived();
@@ -133,6 +130,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   void StartSubmit(const bool initial = false) override;
   void CheckScrobblePrevSong();
 
+ protected:
   QString name_;
   QString settings_group_;
   QString auth_url_;
@@ -140,6 +138,8 @@ class ScrobblingAPI20 : public ScrobblerService {
   bool batch_;
 
   Application *app_;
+  NetworkAccessManager *network_;
+  ScrobblerCache *cache_;
   LocalRedirectServer *server_;
 
   bool enabled_;

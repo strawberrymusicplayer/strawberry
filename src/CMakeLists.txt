@@ -270,6 +270,7 @@ set(SOURCES
   scrobbler/scrobblerservice.cpp
   scrobbler/scrobblercache.cpp
   scrobbler/scrobblercacheitem.cpp
+  scrobbler/scrobblemetadata.cpp
   scrobbler/scrobblingapi20.cpp
   scrobbler/lastfmscrobbler.cpp
   scrobbler/librefmscrobbler.cpp
@@ -502,7 +503,6 @@ set(HEADERS
   scrobbler/scrobblerservices.h
   scrobbler/scrobblerservice.h
   scrobbler/scrobblercache.h
-  scrobbler/scrobblercacheitem.h
   scrobbler/scrobblingapi20.h
   scrobbler/lastfmscrobbler.h
   scrobbler/librefmscrobbler.h

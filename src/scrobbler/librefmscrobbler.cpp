@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +22,7 @@
 #include <QObject>
 
 #include "core/application.h"
-#include "core/networkaccessmanager.h"
 
-#include "scrobblercache.h"
 #include "scrobblingapi20.h"
 #include "librefmscrobbler.h"
 
@@ -35,20 +33,4 @@ const char *LibreFMScrobbler::kApiUrl = "https://libre.fm/2.0/";
 const char *LibreFMScrobbler::kCacheFile = "librefmscrobbler.cache";
 
 LibreFMScrobbler::LibreFMScrobbler(Application *app, QObject *parent)
-    : ScrobblingAPI20(kName, kSettingsGroup, kAuthUrl, kApiUrl, false, app, parent),
-      auth_url_(kAuthUrl),
-      api_url_(kApiUrl),
-      app_(app),
-      network_(new NetworkAccessManager(this)),
-      cache_(new ScrobblerCache(kCacheFile, this)),
-      enabled_(false),
-      subscriber_(false),
-      submitted_(false),
-      timestamp_(0) {
-
-  ScrobblingAPI20::ReloadSettings();
-  LoadSession();
-
-}
-
-LibreFMScrobbler::~LibreFMScrobbler() = default;
+    : ScrobblingAPI20(kName, kSettingsGroup, kAuthUrl, kApiUrl, false, kCacheFile, app, parent) {}

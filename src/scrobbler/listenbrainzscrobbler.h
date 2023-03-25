@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@
 #include "core/song.h"
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
+#include "scrobblemetadata.h"
 
 class QNetworkReply;
 
@@ -68,6 +69,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;
   void Scrobble(const Song &song) override;
+  void Love() override;
 
  signals:
   void AuthenticationComplete(bool success, QString error = QString());
@@ -81,11 +83,12 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void RequestNewAccessToken() { RequestAccessToken(); }
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
   void ScrobbleRequestFinished(QNetworkReply *reply, const QList<quint64> &list);
+  void LoveRequestFinished(QNetworkReply *reply);
 
  private:
   QNetworkReply *CreateRequest(const QUrl &url, const QJsonDocument &json_doc);
   QByteArray GetReplyData(QNetworkReply *reply);
-
+  QJsonObject JsonTrackMetadata(const ScrobbleMetadata &metadata) const;
   void AuthError(const QString &error);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   void RequestAccessToken(const QUrl &redirect_url = QUrl(), const QString &code = QString());

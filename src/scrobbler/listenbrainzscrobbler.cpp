@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,6 +52,7 @@
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
 #include "scrobblercacheitem.h"
+#include "scrobblemetadata.h"
 #include "listenbrainzscrobbler.h"
 
 const char *ListenBrainzScrobbler::kName = "ListenBrainz";
@@ -417,6 +418,72 @@ QByteArray ListenBrainzScrobbler::GetReplyData(QNetworkReply *reply) {
 
 }
 
+QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &metadata) const {
+
+  QJsonObject object_track_metadata;
+  if (prefer_albumartist_) {
+    object_track_metadata.insert("artist_name", QJsonValue::fromVariant(metadata.effective_albumartist()));
+  }
+  else {
+    object_track_metadata.insert("artist_name", QJsonValue::fromVariant(metadata.artist));
+  }
+
+  if (!metadata.album.isEmpty()) {
+    object_track_metadata.insert("release_name", QJsonValue::fromVariant(StripAlbum(metadata.album)));
+  }
+
+  object_track_metadata.insert("track_name", QJsonValue::fromVariant(StripTitle(metadata.title)));
+
+  QJsonObject object_additional_info;
+
+  object_additional_info.insert("duration_ms", metadata.length_nanosec / kNsecPerMsec);
+
+  if (metadata.track > 0) {
+    object_additional_info.insert("tracknumber", metadata.track);
+  }
+
+  object_additional_info.insert("media_player", QCoreApplication::applicationName());
+  object_additional_info.insert("media_player_version", QCoreApplication::applicationVersion());
+  object_additional_info.insert("submission_client", QCoreApplication::applicationName());
+  object_additional_info.insert("submission_client_version", QCoreApplication::applicationVersion());
+
+  QJsonArray artist_mbids;
+  if (!metadata.musicbrainz_album_artist_id.isEmpty()) {
+    artist_mbids.append(metadata.musicbrainz_album_artist_id);
+  }
+  if (!metadata.musicbrainz_artist_id.isEmpty()) {
+    artist_mbids.append(metadata.musicbrainz_artist_id);
+  }
+  if (!metadata.musicbrainz_original_artist_id.isEmpty()) {
+    artist_mbids.append(metadata.musicbrainz_original_artist_id);
+  }
+  if (!artist_mbids.isEmpty()) {
+    object_additional_info.insert("artist_mbids", artist_mbids);
+  }
+
+  if (!metadata.musicbrainz_album_id.isEmpty()) {
+    object_additional_info.insert("release_mbid", metadata.musicbrainz_album_id);
+  }
+  else if (!metadata.musicbrainz_original_album_id.isEmpty()) {
+    object_additional_info.insert("release_mbid", metadata.musicbrainz_original_album_id);
+  }
+
+  if (!metadata.musicbrainz_recording_id.isEmpty()) {
+    object_additional_info.insert("recording_mbid", metadata.musicbrainz_recording_id);
+  }
+  if (!metadata.musicbrainz_track_id.isEmpty()) {
+    object_additional_info.insert("track_mbid", metadata.musicbrainz_track_id);
+  }
+  if (!metadata.musicbrainz_work_id.isEmpty()) {
+    object_additional_info.insert("work_mbids", QJsonArray() << metadata.musicbrainz_work_id);
+  }
+
+  object_track_metadata.insert("additional_info", object_additional_info);
+
+  return object_track_metadata;
+
+}
+
 void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
   CheckScrobblePrevSong();
@@ -427,48 +494,10 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
   if (!song.is_metadata_good() || !IsAuthenticated() || app_->scrobbler()->IsOffline()) return;
 
-  QString album = song.album();
-  QString title = song.title();
-
-  album = album.remove(Song::kAlbumRemoveDisc)
-               .remove(Song::kAlbumRemoveMisc);
-  title = title.remove(Song::kTitleRemoveMisc);
-
-  QJsonObject object_track_metadata;
-  if (!prefer_albumartist_ || song.albumartist().isEmpty()) {
-    object_track_metadata.insert("artist_name", QJsonValue::fromVariant(song.artist()));
-  }
-  else {
-    object_track_metadata.insert("artist_name", QJsonValue::fromVariant(song.albumartist()));
-  }
-
-  if (!album.isEmpty()) {
-    object_track_metadata.insert("release_name", QJsonValue::fromVariant(album));
-  }
-
-  object_track_metadata.insert("track_name", QJsonValue::fromVariant(title));
-
-  QJsonObject object_additional_info;
-
-  object_additional_info.insert("duration_ms", song.length_nanosec() / kNsecPerMsec);
-
-  if (const int track = song.track(); track > 0) {
-    object_additional_info.insert("tracknumber", track);
-  }
-
-  object_additional_info.insert("media_player", QCoreApplication::applicationName());
-  object_additional_info.insert("media_player_version", QCoreApplication::applicationVersion());
-  object_additional_info.insert("submission_client", QCoreApplication::applicationName());
-  object_additional_info.insert("submission_client_version", QCoreApplication::applicationVersion());
-
-  object_track_metadata.insert("additional_info", object_additional_info);
-
   QJsonObject object_listen;
-  object_listen.insert("track_metadata", object_track_metadata);
-
+  object_listen.insert("track_metadata", JsonTrackMetadata(ScrobbleMetadata(song)));
   QJsonArray array_payload;
   array_payload.append(object_listen);
-
   QJsonObject object;
   object.insert("listen_type", "playing_now");
   object.insert("payload", array_payload);
@@ -563,45 +592,17 @@ void ListenBrainzScrobbler::Submit() {
   if (!IsEnabled() || !IsAuthenticated() || app_->scrobbler()->IsOffline()) return;
 
   QJsonArray array;
-  int i(0);
+  int i = 0;
   QList<quint64> list;
-  QList<ScrobblerCacheItemPtr> items = cache_->List();
-  for (ScrobblerCacheItemPtr item : items) {  // clazy:exclude=range-loop-reference
-    if (item->sent_) continue;
-    item->sent_ = true;
+  ScrobblerCacheItemPtrList cache_items = cache_->List();
+  for (ScrobblerCacheItemPtr cache_item : cache_items) {
+    if (cache_item->sent) continue;
+    cache_item->sent = true;
     ++i;
-    list << item->timestamp_;
+    list << cache_item->timestamp;
     QJsonObject object_listen;
-    object_listen.insert("listened_at", QJsonValue::fromVariant(item->timestamp_));
-    QJsonObject object_track_metadata;
-    if (!prefer_albumartist_ || item->albumartist_.isEmpty()) {
-      object_track_metadata.insert("artist_name", QJsonValue::fromVariant(item->artist_));
-    }
-    else {
-      object_track_metadata.insert("artist_name", QJsonValue::fromVariant(item->albumartist_));
-    }
-
-    if (!item->album_.isEmpty()) {
-      object_track_metadata.insert("release_name", QJsonValue::fromVariant(item->album_));
-    }
-
-    QJsonObject object_additional_info;
-
-    object_additional_info.insert("duration_ms", item->duration_ / kNsecPerMsec);
-
-    if (item->track_ > 0) {
-      object_additional_info.insert("tracknumber", item->track_);
-    }
-
-    object_additional_info.insert("media_player", QCoreApplication::applicationName());
-    object_additional_info.insert("media_player_version", QCoreApplication::applicationVersion());
-    object_additional_info.insert("submission_client", QCoreApplication::applicationName());
-    object_additional_info.insert("submission_client_version", QCoreApplication::applicationVersion());
-
-    object_track_metadata.insert("additional_info", object_additional_info);
-
-    object_track_metadata.insert("track_name", QJsonValue::fromVariant(item->song_));
-    object_listen.insert("track_metadata", object_track_metadata);
+    object_listen.insert("listened_at", QJsonValue::fromVariant(cache_item->timestamp));
+    object_listen.insert("track_metadata", JsonTrackMetadata(cache_item->metadata));
     array.append(QJsonValue::fromVariant(object_listen));
     if (i >= kScrobblesPerRequest) break;
   }
@@ -663,6 +664,58 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, const 
   cache_->Flush(list);
   submit_error_ = false;
   StartSubmit();
+
+}
+
+void ListenBrainzScrobbler::Love() {
+
+  if (!song_playing_.is_valid() || !song_playing_.is_metadata_good()) return;
+
+  if (!IsAuthenticated()) app_->scrobbler()->ShowConfig();
+
+  if (song_playing_.musicbrainz_recording_id().isEmpty()) {
+    qLog(Error) << "ListenBrainz: Missing MusicBrainz recording ID for" << song_playing_.artist() << song_playing_.album() << song_playing_.title();
+    return;
+  }
+
+  qLog(Debug) << "ListenBrainz: Sending love for song" << song_playing_.artist() << song_playing_.album() << song_playing_.title();
+
+  QJsonObject object;
+  object.insert("recording_mbid", song_playing_.musicbrainz_recording_id());
+  object.insert("score", 1);
+
+  QUrl url(QString("%1/1/feedback/recording-feedback").arg(kApiUrl));
+  QNetworkReply *reply = CreateRequest(url, QJsonDocument(object));
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { LoveRequestFinished(reply); });
+
+}
+
+void ListenBrainzScrobbler::LoveRequestFinished(QNetworkReply *reply) {
+
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  QObject::disconnect(reply, nullptr, this, nullptr);
+  reply->deleteLater();
+
+  QByteArray data = GetReplyData(reply);
+  if (data.isEmpty()) {
+    return;
+  }
+
+  QJsonObject json_obj = ExtractJsonObj(data);
+  if (json_obj.isEmpty()) {
+    return;
+  }
+
+  if (json_obj.contains("code") && json_obj.contains("error_description")) {
+    Error(json_obj["error_description"].toString());
+    return;
+  }
+
+  if (json_obj.contains("status")) {
+    QString status = json_obj["status"].toString();
+    qLog(Debug) << "ListenBrainz: Received recording-feedback status:" << status;
+  }
 
 }
 

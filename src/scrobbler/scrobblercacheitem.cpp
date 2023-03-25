@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,17 +20,11 @@
 #include "config.h"
 
 #include <QtGlobal>
-#include <QString>
 
 #include "scrobblercacheitem.h"
+#include "scrobblemetadata.h"
 
-ScrobblerCacheItem::ScrobblerCacheItem(const QString &artist, const QString &album, const QString &song, const QString &albumartist, const int track, const qint64 duration, const quint64 timestamp, QObject *parent)
-    : QObject(parent),
-      artist_(artist),
-      album_(album),
-      song_(song),
-      albumartist_(albumartist),
-      track_(track),
-      duration_(duration),
-      timestamp_(timestamp),
-      sent_(false) {}
+ScrobblerCacheItem::ScrobblerCacheItem(const ScrobbleMetadata &_metadata, const quint64 _timestamp)
+    : metadata(_metadata),
+      timestamp(_timestamp),
+      sent(false) {}

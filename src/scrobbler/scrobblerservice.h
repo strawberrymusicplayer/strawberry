@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,8 +30,9 @@
 #include <QString>
 #include <QJsonObject>
 
+#include "core/song.h"
+
 class Application;
-class Song;
 
 class ScrobblerService : public QObject {
   Q_OBJECT
@@ -50,17 +51,21 @@ class ScrobblerService : public QObject {
   virtual void ClearPlaying() = 0;
   virtual void Scrobble(const Song &song) = 0;
   virtual void Love() {}
-  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
 
   virtual void StartSubmit(const bool initial = false) = 0;
   virtual void Submitted() = 0;
   virtual bool IsSubmitted() const { return false; }
 
+ protected:
   using Param = QPair<QString, QString>;
-  using EncodedParam = QPair<QByteArray, QByteArray>;
   using ParamList = QList<Param>;
+  using EncodedParam = QPair<QByteArray, QByteArray>;
 
   QJsonObject ExtractJsonObj(const QByteArray &data, const bool ignore_empty = false);
+  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
+
+  QString StripAlbum(QString album) const;
+  QString StripTitle(QString title) const;
 
  public slots:
   virtual void Submit() = 0;

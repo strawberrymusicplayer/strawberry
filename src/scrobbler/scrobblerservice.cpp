@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,8 @@
 
 #include "scrobblerservice.h"
 
+#include "core/song.h"
+
 ScrobblerService::ScrobblerService(const QString &name, Application *app, QObject *parent) : QObject(parent), name_(name) {
 
   Q_UNUSED(app);
@@ -53,11 +55,24 @@ QJsonObject ScrobblerService::ExtractJsonObj(const QByteArray &data, const bool 
   }
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    if (!ignore_empty)
+    if (!ignore_empty) {
       Error("Received empty Json object.", json_doc);
+    }
     return QJsonObject();
   }
 
   return json_obj;
+
+}
+
+QString ScrobblerService::StripAlbum(QString album) const {
+
+  return album.remove(Song::kAlbumRemoveDisc).remove(Song::kAlbumRemoveMisc);
+
+}
+
+QString ScrobblerService::StripTitle(QString title) const {
+
+  return title.remove(Song::kTitleRemoveMisc);
 
 }
