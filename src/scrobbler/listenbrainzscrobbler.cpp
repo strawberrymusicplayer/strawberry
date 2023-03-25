@@ -615,6 +615,13 @@ void ListenBrainzScrobbler::Submit() {
 
     object_additional_info.insert("duration_ms", item->duration_ / kNsecPerMsec);
 
+    insertArrayedStringIfNotEmpty(object_additional_info, "artist_mbids", item->musicbrainz_artist_id_);
+    insertStringIfNotEmpty(object_additional_info, "release_group_mbid", item->musicbrainz_release_group_id_);
+    insertStringIfNotEmpty(object_additional_info, "release_mbid", item->musicbrainz_album_id_);
+    insertStringIfNotEmpty(object_additional_info, "recording_mbid", item->musicbrainz_recording_id_);
+    insertStringIfNotEmpty(object_additional_info, "track_mbid", item->musicbrainz_track_id_);
+    insertArrayedStringIfNotEmpty(object_additional_info, "work_mbids", item->musicbrainz_work_id_);
+
     if (item->track_ > 0) {
       object_additional_info.insert("tracknumber", item->track_);
     }
