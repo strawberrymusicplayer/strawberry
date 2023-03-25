@@ -417,6 +417,7 @@ QByteArray ListenBrainzScrobbler::GetReplyData(QNetworkReply *reply) {
 
 }
 
+// https://listenbrainz.readthedocs.io/en/latest/users/json.html
 void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
   CheckScrobblePrevSong();
@@ -556,6 +557,7 @@ void ListenBrainzScrobbler::StartSubmit(const bool initial) {
 
 }
 
+// https://listenbrainz.readthedocs.io/en/latest/users/json.html
 void ListenBrainzScrobbler::Submit() {
 
   qLog(Debug) << "ListenBrainz: Submitting scrobbles.";
