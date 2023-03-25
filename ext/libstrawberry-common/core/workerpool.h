@@ -165,10 +165,10 @@ class WorkerPool : public _WorkerPoolBase {
 template<typename HandlerType>
 WorkerPool<HandlerType>::WorkerPool(QObject *parent)
     : _WorkerPoolBase(parent),
+      worker_count_(1),
       next_worker_(0),
       next_id_(0) {
 
-  worker_count_ = qBound(1, QThread::idealThreadCount() / 2, 4);
   local_server_name_ = qApp->applicationName().toLower();
 
   if (local_server_name_.isEmpty()) {
