@@ -1502,10 +1502,10 @@ void Song::BindToQuery(SqlQuery *query) const {
 
   query->BindFloatValue(":rating", d->rating_);
 
-  query->BindStringValue("acoustid_id", d->acoustid_id_);
-  query->BindStringValue("acoustid_fingerprint", d->acoustid_fingerprint_);
+  query->BindStringValue(":acoustid_id", d->acoustid_id_);
+  query->BindStringValue(":acoustid_fingerprint", d->acoustid_fingerprint_);
 
-  query->BindStringValue("musicbrainz_album_artist_id", d->musicbrainz_album_artist_id_);
+  query->BindStringValue(":musicbrainz_album_artist_id", d->musicbrainz_album_artist_id_);
   query->BindStringValue(":musicbrainz_artist_id", d->musicbrainz_artist_id_);
   query->BindStringValue(":musicbrainz_original_artist_id", d->musicbrainz_original_artist_id_);
   query->BindStringValue(":musicbrainz_album_id", d->musicbrainz_album_id_);
