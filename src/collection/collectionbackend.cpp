@@ -718,7 +718,7 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
 
       Song old_song = old_songs[new_song.song_id()];
 
-      if (!new_song.IsAllMetadataEqual(old_song)) {  // Update existing song.
+      if (!new_song.IsAllMetadataEqual(old_song) || !new_song.IsFingerprintEqual(old_song)) {  // Update existing song.
 
         {
           SqlQuery q(db);
