@@ -41,7 +41,7 @@
 const char *AuddLyricsProvider::kUrlSearch = "https://api.audd.io/findLyrics/";
 const int AuddLyricsProvider::kMaxLength = 6000;
 
-AuddLyricsProvider::AuddLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("AudD", true, false, network, parent) {}
+AuddLyricsProvider::AuddLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("AudD", false, false, network, parent) {}
 
 AuddLyricsProvider::~AuddLyricsProvider() {
 
