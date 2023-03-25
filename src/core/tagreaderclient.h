@@ -81,7 +81,7 @@ class TagReaderClient : public QObject {
 
   ReplyType *IsMediaFile(const QString &filename);
   ReplyType *ReadFile(const QString &filename);
-  ReplyType *SaveFile(const QString &filename, const Song &metadata, const SaveTags save_tags = SaveTags(), const SavePlaycount save_playcount = SavePlaycount(), const SaveRating save_rating = SaveRating(), const SaveCoverOptions &save_cover_options = SaveCoverOptions());
+  ReplyType *SaveFile(const QString &filename, const Song &metadata, const SaveTags save_tags = SaveTags::On, const SavePlaycount save_playcount = SavePlaycount::Off, const SaveRating save_rating = SaveRating::Off, const SaveCoverOptions &save_cover_options = SaveCoverOptions());
   ReplyType *LoadEmbeddedArt(const QString &filename);
   ReplyType *SaveEmbeddedArt(const QString &filename, const SaveCoverOptions &save_cover_options);
   ReplyType *UpdateSongPlaycount(const Song &metadata);
@@ -90,7 +90,7 @@ class TagReaderClient : public QObject {
   // Convenience functions that call the above functions and wait for a response.
   // These block the calling thread with a semaphore, and must NOT be called from the TagReaderClient's thread.
   void ReadFileBlocking(const QString &filename, Song *song);
-  bool SaveFileBlocking(const QString &filename, const Song &metadata, const SaveTags save_tags = SaveTags(), const SavePlaycount save_playcount = SavePlaycount(), const SaveRating save_rating = SaveRating(), const SaveCoverOptions &save_cover_options = SaveCoverOptions());
+  bool SaveFileBlocking(const QString &filename, const Song &metadata, const SaveTags save_tags = SaveTags::On, const SavePlaycount save_playcount = SavePlaycount::Off, const SaveRating save_rating = SaveRating::Off, const SaveCoverOptions &save_cover_options = SaveCoverOptions());
   bool IsMediaFileBlocking(const QString &filename);
   QByteArray LoadEmbeddedArtBlocking(const QString &filename);
   QImage LoadEmbeddedArtAsImageBlocking(const QString &filename);
