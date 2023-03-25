@@ -1213,6 +1213,12 @@ void EditTagDialog::SaveData() {
     }
 
     if (save_tags || save_playcount || save_rating || save_embedded_cover) {
+      // Not to confuse the collection model.
+      if (ref.current_.track() <= 0) { ref.current_.set_track(-1); }
+      if (ref.current_.disc() <= 0) { ref.current_.set_disc(-1); }
+      if (ref.current_.year() <= 0) { ref.current_.set_year(-1); }
+      if (ref.current_.originalyear() <= 0) { ref.current_.set_originalyear(-1); }
+      if (ref.current_.lastplayed() <= 0) { ref.current_.set_lastplayed(-1); }
       ++save_tag_pending_;
       TagReaderClient::SaveCoverOptions savecover_options;
       savecover_options.enabled = save_embedded_cover;
