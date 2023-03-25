@@ -1447,7 +1447,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
     case GroupBy::AlbumDisc:{
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
-      item->metadata.set_disc(s.disc());
+      item->metadata.set_disc(s.disc() <= 0 ? -1 : s.disc());
       item->metadata.set_grouping(s.grouping());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       item->display_text = PrettyAlbumDisc(s.album(), s.disc());
@@ -1455,7 +1455,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
       break;
     }
     case GroupBy::YearAlbum:{
-      item->metadata.set_year(s.year());
+      item->metadata.set_year(s.year() <= 0 ? -1 : s.year());
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_grouping(s.grouping());
@@ -1465,10 +1465,10 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
       break;
     }
     case GroupBy::YearAlbumDisc:{
-      item->metadata.set_year(s.year());
+      item->metadata.set_year(s.year() <= 0 ? -1 : s.year());
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
-      item->metadata.set_disc(s.disc());
+      item->metadata.set_disc(s.disc() <= 0 ? -1 : s.disc());
       item->metadata.set_grouping(s.grouping());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       item->display_text = PrettyYearAlbumDisc(s.year(), s.album(), s.disc());
@@ -1476,8 +1476,8 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
       break;
     }
     case GroupBy::OriginalYearAlbum:{
-      item->metadata.set_year(s.year());
-      item->metadata.set_originalyear(s.originalyear());
+      item->metadata.set_year(s.year() <= 0 ? -1 : s.year());
+      item->metadata.set_originalyear(s.originalyear() <= 0 ? -1 : s.originalyear());
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
       item->metadata.set_grouping(s.grouping());
@@ -1487,11 +1487,11 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
       break;
     }
     case GroupBy::OriginalYearAlbumDisc:{
-      item->metadata.set_year(s.year());
-      item->metadata.set_originalyear(s.originalyear());
+      item->metadata.set_year(s.year() <= 0 ? -1 : s.year());
+      item->metadata.set_originalyear(s.originalyear() <= 0 ? -1 : s.originalyear());
       item->metadata.set_album(s.album());
       item->metadata.set_album_id(s.album_id());
-      item->metadata.set_disc(s.disc());
+      item->metadata.set_disc(s.disc() <= 0 ? -1 : s.disc());
       item->metadata.set_grouping(s.grouping());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       item->display_text = PrettyYearAlbumDisc(s.effective_originalyear(), s.album(), s.disc());
@@ -1499,7 +1499,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
       break;
     }
     case GroupBy::Disc:{
-      item->metadata.set_disc(s.disc());
+      item->metadata.set_disc(s.disc() <= 0 ? -1 : s.disc());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       const int disc = std::max(0, s.disc());
       item->display_text = PrettyDisc(disc);
@@ -1507,7 +1507,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
       break;
     }
     case GroupBy::Year:{
-      item->metadata.set_year(s.year());
+      item->metadata.set_year(s.year() <= 0 ? -1 : s.year());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       const int year = std::max(0, s.year());
       item->display_text = QString::number(year);
@@ -1515,7 +1515,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
       break;
     }
     case GroupBy::OriginalYear:{
-      item->metadata.set_originalyear(s.effective_originalyear());
+      item->metadata.set_originalyear(s.effective_originalyear() <= 0 ? -1 : s.effective_originalyear());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       const int year = std::max(0, s.effective_originalyear());
       item->display_text = QString::number(year);
