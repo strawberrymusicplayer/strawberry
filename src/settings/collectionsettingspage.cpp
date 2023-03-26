@@ -107,11 +107,6 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
   ui_->song_tracking->hide();
 #endif
 
-#ifdef Q_OS_WIN32
-  ui_->label_iopriority->hide();
-  ui_->combobox_iopriority->hide();
-#endif
-
 }
 
 CollectionSettingsPage::~CollectionSettingsPage() { delete ui_; }
