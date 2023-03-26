@@ -32,19 +32,21 @@
 #include <taglib/tlist.h>
 #include <taglib/tstring.h>
 #include <taglib/tstringlist.h>
+#include <taglib/tpropertymap.h>
 #include <taglib/audioproperties.h>
-#include <taglib/attachedpictureframe.h>
-#include <taglib/textidentificationframe.h>
-#include <taglib/unsynchronizedlyricsframe.h>
-#include <taglib/popularimeterframe.h>
 #include <taglib/xiphcomment.h>
-#include <taglib/commentsframe.h>
 #include <taglib/tag.h>
 #include <taglib/apetag.h>
 #include <taglib/apeitem.h>
 #include <taglib/apeproperties.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/id3v2frame.h>
+#include <taglib/attachedpictureframe.h>
+#include <taglib/textidentificationframe.h>
+#include <taglib/unsynchronizedlyricsframe.h>
+#include <taglib/popularimeterframe.h>
+#include <taglib/uniquefileidentifierframe.h>
+#include <taglib/commentsframe.h>
 #include <taglib/flacfile.h>
 #include <taglib/oggflacfile.h>
 #include <taglib/flacproperties.h>
@@ -295,7 +297,7 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
     }
   }
 
-  if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File *>(fileref->file())) {
+  if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
     song->set_bitdepth(file_flac->audioProperties()->bitsPerSample());
     if (file_flac->xiphComment()) {
       ParseOggTag(file_flac->xiphComment()->fieldListMap(), &disc, &compilation, song);
@@ -699,8 +701,8 @@ void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString 
   if (map.contains("ORIGINALDATE")) song->set_originalyear(TStringToQString(map["ORIGINALDATE"].front()).left(4).toInt());
   else if (map.contains("ORIGINALYEAR")) song->set_originalyear(TStringToQString(map["ORIGINALYEAR"].front()).toInt());
 
-  if (map.contains("DISCNUMBER")) *disc = TStringToQString( map["DISCNUMBER"].front()).trimmed();
-  if (map.contains("COMPILATION")) *compilation = TStringToQString( map["COMPILATION"].front()).trimmed();
+  if (map.contains("DISCNUMBER")) *disc = TStringToQString(map["DISCNUMBER"].front()).trimmed();
+  if (map.contains("COMPILATION")) *compilation = TStringToQString(map["COMPILATION"].front()).trimmed();
   if (map.contains("COVERART")) song->set_art_automatic(kEmbeddedCover);
   if (map.contains("METADATA_BLOCK_PICTURE")) song->set_art_automatic(kEmbeddedCover);
 
@@ -841,7 +843,7 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
 
   const QByteArray cover_data = LoadCoverDataFromRequest(request);
 
-  std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));;
+  std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   if (!fileref || fileref->isNull()) return false;
 
   if (save_tags) {
@@ -1477,6 +1479,7 @@ bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb
 #endif  // Q_OS_LINUX
 
   return ret;
+
 }
 
 void TagReaderTagLib::SetRating(TagLib::Ogg::XiphComment *xiph_comment, const spb::tagreader::SongMetadata &song) const {
