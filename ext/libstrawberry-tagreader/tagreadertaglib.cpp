@@ -1356,7 +1356,15 @@ bool TagReaderTagLib::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtReque
   // Not supported.
   else return false;
 
-  return fileref.file()->save();
+  const bool result = fileref.file()->save();
+#ifdef Q_OS_LINUX
+  if (result) {
+    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
+    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
+  }
+#endif  // Q_OS_LINUX
+
+  return result;
 
 }
 
