@@ -112,7 +112,7 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
       cover_exporter_(new AlbumCoverExporter(this)),
       artist_icon_(IconLoader::Load("folder-sound")),
       all_artists_icon_(IconLoader::Load("library-music")),
-      image_nocover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(120, 120))),
+      image_nocover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(120 * devicePixelRatio(), 120 * devicePixelRatio()))),
       icon_nocover_item_(QPixmap::fromImage(image_nocover_thumbnail_)),
       context_menu_(new QMenu(this)),
       progress_bar_(new QProgressBar(this)),
@@ -152,7 +152,7 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
 
   cover_loader_options_.scale_output_image_ = true;
   cover_loader_options_.pad_output_image_ = true;
-  cover_loader_options_.desired_height_ = 120;
+  cover_loader_options_.desired_height_ = 120 * devicePixelRatio();
   cover_loader_options_.create_thumbnail_ = false;
 
   EnableCoversButtons();
