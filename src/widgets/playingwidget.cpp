@@ -303,9 +303,16 @@ void PlayingWidget::SetImage(const QImage &image) {
 
   if (enabled_ && visible_ && active_) {
     // Cache the current pixmap so we can fade between them
-    QSize psize(size());
-    if (size().height() <= 0) psize.setHeight(total_height_);
+    QSize psize;
+    psize.setWidth(size().width() * devicePixelRatioF());
+    if (size().height() > 0) {
+      psize.setHeight(size().height() * devicePixelRatioF());
+    }
+    else {
+      psize.setHeight(total_height_ * devicePixelRatioF());
+    }
     pixmap_previous_track_ = QPixmap(psize);
+    pixmap_previous_track_.setDevicePixelRatio(devicePixelRatioF());
     pixmap_previous_track_.fill(palette().window().color());
     pixmap_previous_track_opacity_ = 1.0;
     QPainter p(&pixmap_previous_track_);
