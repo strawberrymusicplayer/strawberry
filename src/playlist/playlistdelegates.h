@@ -201,7 +201,7 @@ class SongSourceDelegate : public PlaylistDelegateBase {
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
  private:
-  QPixmap LookupPixmap(const Song::Source source, const QSize size) const;
+  QPixmap LookupPixmap(const Song::Source source, const QSize size, const qreal device_pixel_ratio) const;
 };
 
 class RatingItemDelegate : public PlaylistDelegateBase {
