@@ -165,6 +165,7 @@ QImage ImageUtils::ScaleAndPad(const QImage &image, const bool scale, const bool
     image_scaled = image_padded;
   }
 
+  image_scaled.setDevicePixelRatio(device_pixel_ratio);
   return image_scaled;
 
 }
