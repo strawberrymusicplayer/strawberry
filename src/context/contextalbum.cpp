@@ -91,7 +91,7 @@ void ContextAlbum::Init(ContextView *context_view, AlbumCoverChoiceController *a
 
 QSize ContextAlbum::sizeHint() const {
 
-  return QSize(pixmap_current_.width(), pixmap_current_.height());
+  return QSize(pixmap_current_.width() / devicePixelRatioF(), pixmap_current_.height() / devicePixelRatioF());
 
 }
 
