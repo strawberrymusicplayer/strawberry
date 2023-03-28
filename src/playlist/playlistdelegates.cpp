@@ -480,7 +480,11 @@ QPixmap SongSourceDelegate::LookupPixmap(const Song::Source source, const QSize 
   }
 
   QIcon icon(Song::IconForSource(source));
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
   pixmap = icon.pixmap(size, device_pixel_ratio);
+#else
+  pixmap = icon.pixmap(size);
+#endif
   QPixmapCache::insert(pixmap_cache_key, pixmap);
 
   return pixmap;
