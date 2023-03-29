@@ -2,6 +2,13 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed over-sized context album cover with device pixel ratio higher than 1.0 (#1166).
+    * Fixed playing widget fading from a blurry previous cover with device pixel ratio higher than 1.0.
+    * Made playlist source icon, album cover manager and OSD pretty cover respect device pixel ratio.
+
 Version 1.0.16 (2023.03.27):
 
   Bugfixes:
