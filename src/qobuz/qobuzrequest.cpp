@@ -1079,7 +1079,7 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
 
   QString title = json_obj["title"].toString();
   int track = json_obj["track_number"].toInt();
-  int disc = 1;
+  int disc = 0;
   QString copyright = json_obj["copyright"].toString();
   qint64 duration = json_obj["duration"].toInt() * kNsecPerSec;
   //bool streamable = json_obj["streamable"].toBool();
@@ -1087,7 +1087,7 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   QString performer;
 
   if (json_obj.contains("media_number")) {
-      disc = json_obj["media_number"].toInt();
+    disc = json_obj["media_number"].toInt();
   }
 
   Artist song_artist = album_artist;
