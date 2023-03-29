@@ -343,7 +343,8 @@ void OSDPretty::paintEvent(QPaintEvent*) {
 void OSDPretty::SetMessage(const QString &summary, const QString &message, const QImage &image) {
 
   if (!image.isNull()) {
-    QImage scaled_image = image.scaled(kMaxIconSize, kMaxIconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QImage scaled_image = image.scaled(kMaxIconSize * devicePixelRatioF(), kMaxIconSize * devicePixelRatioF(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    scaled_image.setDevicePixelRatio(devicePixelRatioF());
     ui_->icon->setPixmap(QPixmap::fromImage(scaled_image));
     ui_->icon->show();
   }
