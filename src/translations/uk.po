@@ -106,7 +106,7 @@ msgstr " секунд"
 msgid " songs"
 msgstr " композиції"
 
-#: scrobbler/scrobblingapi20.cpp:165 scrobbler/scrobblingapi20.cpp:174
+#: scrobbler/scrobblingapi20.cpp:172 scrobbler/scrobblingapi20.cpp:181
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "Аутентифікація скроблера %1"
@@ -218,7 +218,7 @@ msgstr "%1 передано"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:617
+#: ../build/src/ui_collectionsettingspage.h:551
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -572,7 +572,7 @@ msgstr "Додати новий рядок, якщо підтримується 
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Додати усі композиції з каталогу та усіх його підкаталогів"
 
-#: settings/collectionsettingspage.cpp:136
+#: settings/collectionsettingspage.cpp:120
 msgid "Add directory..."
 msgstr "Додати папку..."
 
@@ -596,7 +596,7 @@ msgstr "Додати файли для перекодування"
 msgid "Add folder"
 msgstr "Додати папку"
 
-#: ../build/src/ui_collectionsettingspage.h:591
+#: ../build/src/ui_collectionsettingspage.h:525
 msgid "Add new folder..."
 msgstr "Додати нову папку..."
 
@@ -748,17 +748,9 @@ msgstr "Додано сьогодні"
 msgid "Added within three months"
 msgstr "Додано за три місяці"
 
-#: ../build/src/ui_collectionsettingspage.h:635
-msgid "Advanced"
-msgstr "Додатково"
-
 #: collection/collectionfilterwidget.cpp:328
 msgid "Advanced grouping..."
 msgstr "Розширене групування..."
-
-#: ../build/src/ui_collectionsettingspage.h:639
-msgid "Advanced settings require restart."
-msgstr "Для застосування додаткових налаштувать потрібен перезапуск."
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -799,7 +791,7 @@ msgstr "Виконавець альбому"
 msgid "Album cover editing is only available for collection songs."
 msgstr "Редагування обкладинки альбому доступне лише для пісень з колекції."
 
-#: ../build/src/ui_collectionsettingspage.h:621
+#: ../build/src/ui_collectionsettingspage.h:555
 msgid "Album cover pixmap cache"
 msgstr "Pixmap кеш обкладинки альбому"
 
@@ -870,7 +862,7 @@ msgstr "Завжди починати відтворення"
 msgid "An error occurred loading the iTunes database"
 msgstr "Виникла помилка завантаження бази даних iTunes"
 
-#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1392
+#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1398
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Трапилася помилка під час запису метаданих до '%1'"
@@ -924,11 +916,11 @@ msgstr "Дійсно продовжити?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Дійсно видалити визначені налаштування «%1»?"
 
-#: dialogs/edittagdialog.cpp:1268
+#: dialogs/edittagdialog.cpp:1274
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 
-#: settings/collectionsettingspage.cpp:406
+#: settings/collectionsettingspage.cpp:371
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1016,7 +1008,7 @@ msgstr "Автоматично"
 msgid "Automatic"
 msgstr "Автоматично"
 
-#: ../build/src/ui_collectionsettingspage.h:593
+#: ../build/src/ui_collectionsettingspage.h:527
 msgid "Automatic updating"
 msgstr "Автоматичне оновлення"
 
@@ -1025,7 +1017,7 @@ msgstr "Автоматичне оновлення"
 msgid "Automatically cover art from %1 is missing"
 msgstr "Обкладинку завантажено з %1"
 
-#: ../build/src/ui_collectionsettingspage.h:606
+#: ../build/src/ui_collectionsettingspage.h:540
 msgid "Automatically open single categories in the collection tree"
 msgstr "Автоматично відкривати одиночні категорії в дереві фонотеки"
 
@@ -1267,7 +1259,7 @@ msgstr "Класична"
 msgid "Clear"
 msgstr "Очистити"
 
-#: ../build/src/ui_collectionsettingspage.h:627
+#: ../build/src/ui_collectionsettingspage.h:561
 msgid "Clear Disk Cache"
 msgstr "Очистити кеш диска"
 
@@ -1320,7 +1312,7 @@ msgstr "Закриття цього вікна зупинить пошук об�
 msgid "Club"
 msgstr "Клубна"
 
-#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:589
+#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:523
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Фонотека"
@@ -1473,7 +1465,7 @@ msgstr ""
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr "Не вдалось відкрити CUE-файл %1 для читання: %2"
 
-#: scrobbler/scrobblingapi20.cpp:174
+#: scrobbler/scrobblingapi20.cpp:181
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Не вдалось відкрити адресу. Перейдіть за цією адресу у браузері"
 
@@ -1658,7 +1650,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Вгору"
 
-#: ../build/src/ui_collectionsettingspage.h:625
+#: ../build/src/ui_collectionsettingspage.h:559
 msgid "Current disk cache in use:"
 msgstr "Поточний кеш диска:"
 
@@ -1843,12 +1835,12 @@ msgstr "Диск"
 msgid "Discontinuous transmission"
 msgstr "Переривчаста передача"
 
-#: ../build/src/ui_collectionsettingspage.h:624
+#: ../build/src/ui_collectionsettingspage.h:558
 msgid "Disk Cache Size"
 msgstr "Розмір кешу диска"
 
 #: collection/collectionfilterwidget.cpp:131
-#: ../build/src/ui_collectionsettingspage.h:605
+#: ../build/src/ui_collectionsettingspage.h:539
 msgid "Display options"
 msgstr "Налаштування відображення"
 
@@ -1982,7 +1974,7 @@ msgstr "Вбудована обкладинка"
 msgid "Enable"
 msgstr "Увімкнути"
 
-#: ../build/src/ui_collectionsettingspage.h:623
+#: ../build/src/ui_collectionsettingspage.h:557
 msgid "Enable Disk Cache"
 msgstr "Увімкнути кеш диска"
 
@@ -1994,7 +1986,7 @@ msgstr ""
 msgid "Enable Items"
 msgstr "Увімкнути елементи"
 
-#: ../build/src/ui_collectionsettingspage.h:634
+#: ../build/src/ui_collectionsettingspage.h:568
 #: ../build/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
 msgstr "Додати у контекстне меню команду для видалення файлів"
@@ -2167,7 +2159,7 @@ msgstr "Наявні обкладинки"
 msgid "Expand"
 msgstr "Розширити"
 
-#: ../build/src/ui_collectionsettingspage.h:598
+#: ../build/src/ui_collectionsettingspage.h:532
 msgid "Expire unavailable songs after"
 msgstr "Термін дії недоступних композицій закінчується після"
 
@@ -2261,12 +2253,12 @@ msgid "Failed to open cover file %1 for reading: %2"
 msgstr "Не вдалось відкрити файл обкладинки %1 для читання: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:270
-#: covermanager/albumcoverchoicecontroller.cpp:640
+#: covermanager/albumcoverchoicecontroller.cpp:646
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr "Не вдалось відкрити файл обкладинки %1 для запису: %2"
 
-#: covermanager/albumcoverchoicecontroller.cpp:634
+#: covermanager/albumcoverchoicecontroller.cpp:640
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr "Не вдалось записати обкладинку в файл %1: %2"
@@ -2359,7 +2351,7 @@ msgstr "Тип файлу"
 msgid "Filename"
 msgstr "Назва файлу"
 
-#: ../build/src/ui_collectionsettingspage.h:614
+#: ../build/src/ui_collectionsettingspage.h:548
 msgid "Filename:"
 msgstr "Назва файлу:"
 
@@ -2677,10 +2669,6 @@ msgstr "Водяний знак зверху"
 msgid "Hours"
 msgstr "Години"
 
-#: ../build/src/ui_collectionsettingspage.h:638
-msgid "I/O priority"
-msgstr "Пріоритет вводу-виводу"
-
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
 msgstr "Піктограма"
@@ -2812,7 +2800,7 @@ msgstr "Подання вкладок з Інтернету"
 msgid "Intro tracks"
 msgstr "Вступні композиції"
 
-#: scrobbler/scrobblingapi20.cpp:208
+#: scrobbler/scrobblingapi20.cpp:215
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Недійсна відповідь з веб-браузера. Відсутній маркер."
 
@@ -2913,7 +2901,7 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr "Обмеження"
 
-#: scrobbler/listenbrainzscrobbler.cpp:190
+#: scrobbler/listenbrainzscrobbler.cpp:191
 msgid "ListenBrainz Authentication"
 msgstr "Автентифікація на ListenBrainz"
 
@@ -2962,7 +2950,7 @@ msgstr "Завантаження бази даних iPod"
 msgid "Loading smart playlist"
 msgstr "Завантаження розумного списку відтворення"
 
-#: collection/collectionmodel.cpp:199
+#: collection/collectionmodel.cpp:198
 msgid "Loading songs"
 msgstr "Завантаження пісень"
 
@@ -2974,7 +2962,7 @@ msgstr "Завантаження композицій"
 msgid "Loading tracks info"
 msgstr "Завантаження даних композицій"
 
-#: collection/collectionmodel.cpp:192
+#: collection/collectionmodel.cpp:191
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:280
 msgid "Loading..."
@@ -3020,7 +3008,7 @@ msgstr "Профіль низької складності (LC)"
 msgid "Low watermark"
 msgstr "Водяний знак знизу"
 
-#: ../build/src/ui_collectionsettingspage.h:619
+#: ../build/src/ui_collectionsettingspage.h:553
 msgid "Lowercase filename"
 msgstr "Назва файлу в нижньому регистрі"
 
@@ -3062,7 +3050,7 @@ msgstr "Вручну додати обкладинки з %1"
 msgid "Manufacturer"
 msgstr "Виробник"
 
-#: ../build/src/ui_collectionsettingspage.h:597
+#: ../build/src/ui_collectionsettingspage.h:531
 msgid "Mark disappeared songs unavailable"
 msgstr "Позначити зниклі композиції як недоступні"
 
@@ -3179,7 +3167,7 @@ msgstr "Відсутнє ім'я користувача."
 msgid "Model"
 msgstr "Модель"
 
-#: ../build/src/ui_collectionsettingspage.h:595
+#: ../build/src/ui_collectionsettingspage.h:529
 msgid "Monitor the collection for changes"
 msgstr "Стежити за змінами у фонотеці"
 
@@ -3318,7 +3306,7 @@ msgstr "Немає зображень обкладинок для експорт
 msgid "No long blocks"
 msgstr "Без довгих блоків"
 
-#: tidal/tidalrequest.cpp:1361 qobuz/qobuzrequest.cpp:1417
+#: tidal/tidalrequest.cpp:1361 qobuz/qobuzrequest.cpp:1423
 msgid "No match."
 msgstr "Немає збігів."
 
@@ -3435,7 +3423,7 @@ msgstr "Показати тільки перший"
 msgid "Opacity"
 msgstr "Непрозорість"
 
-#: scrobbler/scrobblingapi20.cpp:165
+#: scrobbler/scrobblingapi20.cpp:172
 msgid "Open URL in web browser?"
 msgstr "Відкрити адресу в браузері?"
 
@@ -3533,17 +3521,17 @@ msgstr "Результат"
 msgid "Output options"
 msgstr "Налаштування виведення"
 
-#: ../build/src/ui_collectionsettingspage.h:631
+#: ../build/src/ui_collectionsettingspage.h:565
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:632
+#: ../build/src/ui_collectionsettingspage.h:566
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 "Перезаписати рейтинги з бази даних, коли композиції повторно зчитуються з "
 "диска"
 
-#: ../build/src/ui_collectionsettingspage.h:618
+#: ../build/src/ui_collectionsettingspage.h:552
 msgid "Overwrite existing file"
 msgstr "Перезаписати наявний файл"
 
@@ -3579,7 +3567,7 @@ msgstr "Пароль"
 msgid "Path"
 msgstr "Шлях"
 
-#: ../build/src/ui_collectionsettingspage.h:615
+#: ../build/src/ui_collectionsettingspage.h:549
 msgid "Pattern"
 msgstr "Шаблон"
 
@@ -3720,7 +3708,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Закрийте браузер і поверніться до Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:191
 msgid "Please open this URL in your browser"
 msgstr "Відкрийте цю адресу у браузері"
 
@@ -3755,7 +3743,7 @@ msgstr ""
 msgid "Preferences"
 msgstr "Параметри"
 
-#: ../build/src/ui_collectionsettingspage.h:600
+#: ../build/src/ui_collectionsettingspage.h:534
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Бажані імена файлів для обкладинок, розділені комами"
 
@@ -3778,7 +3766,7 @@ msgstr "Для блокування не була встановлена фун�
 msgid "Preset:"
 msgstr "Визначені налаштування:"
 
-#: scrobbler/scrobblingapi20.cpp:165
+#: scrobbler/scrobblingapi20.cpp:172
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3902,7 +3890,7 @@ msgstr "Радіо Paradise"
 msgid "Radios"
 msgstr "Радіостанції"
 
-#: ../build/src/ui_collectionsettingspage.h:616
+#: ../build/src/ui_collectionsettingspage.h:550
 msgid "Random"
 msgstr "Випадково"
 
@@ -3936,11 +3924,11 @@ msgstr ""
 "підтримує зашифровані потоки."
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:217
 msgid "Received invalid reply from web browser."
 msgstr "Отримана недійсна відповідь з веб-браузера."
 
-#: scrobbler/scrobblingapi20.cpp:212
+#: scrobbler/scrobblingapi20.cpp:219
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3948,12 +3936,12 @@ msgstr ""
 "Отримана недійсна відповідь з веб-браузера. Спробуйте HTTPS або інший "
 "браузер, наприклад Chromium чи Chrome."
 
-#: tidal/tidalrequest.cpp:1194 qobuz/qobuzrequest.cpp:1250
+#: tidal/tidalrequest.cpp:1194 qobuz/qobuzrequest.cpp:1256
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1251
+#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1257
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
 msgstr ""
@@ -4019,7 +4007,7 @@ msgstr "Переспрямування з Genius не містить код аб
 msgid "Redirect missing token code or state!"
 msgstr "Переспрямування не містить код або стан маркера!"
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:213
 msgid "Redirect missing token code!"
 msgstr "Переспрямування не містить код маркера!"
 
@@ -4064,7 +4052,7 @@ msgstr "Видалити &дублікати зі списку відтворе�
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Видалити &недоступні композиції зі списку відтворення"
 
-#: ../build/src/ui_collectionsettingspage.h:592
+#: ../build/src/ui_collectionsettingspage.h:526
 msgid "Remove folder"
 msgstr "Видалити теку"
 
@@ -4124,7 +4112,7 @@ msgstr "Повторювати композицію"
 msgid "Replace current playlist"
 msgstr "Замінити список відтворення"
 
-#: ../build/src/ui_collectionsettingspage.h:620
+#: ../build/src/ui_collectionsettingspage.h:554
 msgid "Replace spaces with dashes"
 msgstr "Замінити пробіли дефісами"
 
@@ -4168,7 +4156,7 @@ msgstr "Скинути"
 msgid "Reset play counts"
 msgstr "Скинути лічильник відтворень"
 
-#: dialogs/edittagdialog.cpp:1268
+#: dialogs/edittagdialog.cpp:1274
 msgid "Reset song play statistics"
 msgstr ""
 
@@ -4276,15 +4264,15 @@ msgstr "Зберегти &список відтворення..."
 msgid "Save album cover"
 msgstr "Зберегти обкладинку альбому"
 
-#: ../build/src/ui_collectionsettingspage.h:613
+#: ../build/src/ui_collectionsettingspage.h:547
 msgid "Save album covers as embedded cover"
 msgstr "Зберегти обкладинки альбому як вбудовані"
 
-#: ../build/src/ui_collectionsettingspage.h:611
+#: ../build/src/ui_collectionsettingspage.h:545
 msgid "Save album covers in album directory"
 msgstr "Зберегти обкладинки альбому в каталозі альбому"
 
-#: ../build/src/ui_collectionsettingspage.h:612
+#: ../build/src/ui_collectionsettingspage.h:546
 msgid "Save album covers in cache directory"
 msgstr "Зберегти обкладинки альбому в каталозі кешу"
 
@@ -4296,11 +4284,11 @@ msgstr "Зберегти обкладинку на диск..."
 msgid "Save current grouping"
 msgstr "Зберегти поточне групування"
 
-#: ../build/src/ui_collectionsettingspage.h:633
+#: ../build/src/ui_collectionsettingspage.h:567
 msgid "Save playcounts and ratings to files now"
 msgstr "Зберегти кількість відтворювань і рейтинги в файли"
 
-#: ../build/src/ui_collectionsettingspage.h:629
+#: ../build/src/ui_collectionsettingspage.h:563
 msgid "Save playcounts to song tags when possible"
 msgstr "Зберегти кількість відтворювань в тегах композиції, якщо можливо"
 
@@ -4322,7 +4310,7 @@ msgstr "Зберегти список відтворення..."
 msgid "Save preset"
 msgstr "Зберегти визначені налаштування"
 
-#: ../build/src/ui_collectionsettingspage.h:630
+#: ../build/src/ui_collectionsettingspage.h:564
 msgid "Save ratings to song tags when possible"
 msgstr "Зберігати рейтинги в теги композиції, якщо можливо"
 
@@ -4334,11 +4322,11 @@ msgstr "Зберігати MOOD-файли в каталогах компози�
 msgid "Saved Grouping Manager"
 msgstr "Керування збереженими групуваннями"
 
-#: ../build/src/ui_collectionsettingspage.h:609
+#: ../build/src/ui_collectionsettingspage.h:543
 msgid "Saving album covers"
 msgstr "Збереження обкладинок альбомів"
 
-#: collection/collection.cpp:207
+#: collection/collection.cpp:201
 msgid "Saving playcounts and ratings"
 msgstr "Збереження кількостей відтворювань і рейтингів композицій"
 
@@ -4570,7 +4558,7 @@ msgstr "Показати над рядком стану"
 msgid "Show album cover"
 msgstr "Показати обкладинку альбому"
 
-#: ../build/src/ui_collectionsettingspage.h:607
+#: ../build/src/ui_collectionsettingspage.h:541
 msgid "Show album cover art in collection"
 msgstr "Показати обкладинку альбому в фонотеці"
 
@@ -4590,7 +4578,7 @@ msgstr ""
 msgid "Show dialog for errors"
 msgstr "Показати діалогове вікно для помилок"
 
-#: ../build/src/ui_collectionsettingspage.h:608
+#: ../build/src/ui_collectionsettingspage.h:542
 msgid "Show dividers"
 msgstr "Показати розділювач"
 
@@ -4704,7 +4692,7 @@ msgid "Signing in..."
 msgstr "Реєстрація..."
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:622
+#: ../build/src/ui_collectionsettingspage.h:556
 msgid "Size"
 msgstr "Розмір"
 
@@ -4768,11 +4756,11 @@ msgstr "SomaFM"
 msgid "Song Lyrics"
 msgstr "Текст пісні"
 
-#: ../build/src/ui_collectionsettingspage.h:596
+#: ../build/src/ui_collectionsettingspage.h:530
 msgid "Song fingerprinting and tracking"
 msgstr "Відбитки композицій і стеження"
 
-#: ../build/src/ui_collectionsettingspage.h:628
+#: ../build/src/ui_collectionsettingspage.h:562
 msgid "Song playcounts and ratings"
 msgstr "Кількість відтворювань і рейтинги композицій"
 
@@ -5031,10 +5019,6 @@ msgstr "Вкладки зверху"
 msgid "Tag fetcher"
 msgstr "Завантажувач тегів"
 
-#: ../build/src/ui_collectionsettingspage.h:636
-msgid "Tagreader workers"
-msgstr "Потоки читання тегів"
-
 #: ../build/src/ui_edittagdialog.h:860
 msgid "Tags"
 msgstr "Теги"
@@ -5140,7 +5124,7 @@ msgid ""
 "continue?"
 msgstr "Ці файли будуть видалені з пристрою. Дійсно видалити їх?"
 
-#: ../build/src/ui_collectionsettingspage.h:590
+#: ../build/src/ui_collectionsettingspage.h:524
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "В цих теках виконуватиметься пошук музики для створення фонотеки"
 
@@ -5205,10 +5189,6 @@ msgstr "Цей параметр можна змінити в розділі на
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Цей тип пристрою не підтримується: %1"
-
-#: ../build/src/ui_collectionsettingspage.h:637
-msgid "Thread priority"
-msgstr "Пріоритет потоку"
 
 #: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5337,17 +5317,17 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr "Видалити snap з:"
 
-#: core/song.cpp:670 collection/collectionmodel.cpp:478
-#: collection/collectionmodel.cpp:483 collection/collectionmodel.cpp:487
-#: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:1655 collection/savedgroupingmanager.cpp:153
+#: core/song.cpp:726 collection/collectionmodel.cpp:477
+#: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
+#: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
+#: collection/collectionmodel.cpp:1654 collection/savedgroupingmanager.cpp:153
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:550
 #: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:764
 #: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Невідомо"
 
-#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1423
+#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1429
 msgid "Unknown error"
 msgstr "Невідома помилка"
 
@@ -5375,11 +5355,11 @@ msgstr "Не пропускати вибрані композиції"
 msgid "Unskip track"
 msgstr "Не пропускати композицію"
 
-#: ../build/src/ui_collectionsettingspage.h:594
+#: ../build/src/ui_collectionsettingspage.h:528
 msgid "Update the collection when Strawberry starts"
 msgstr "Оновлювати фонотеку під час запуску Strawberry"
 
-#: collection/collectionwatcher.cpp:206
+#: collection/collectionwatcher.cpp:205
 #, qt-format
 msgid "Updating %1"
 msgstr "Оновлення %1"
@@ -5394,7 +5374,7 @@ msgstr "Оновлення бази даних %1."
 msgid "Updating %1%..."
 msgstr "Оновлення %1%..."
 
-#: collection/collectionwatcher.cpp:203
+#: collection/collectionwatcher.cpp:202
 msgid "Updating collection"
 msgstr "Оновлення фонотеки"
 
@@ -5539,7 +5519,7 @@ msgstr "Використання меню для додавання композ
 msgid "Variable bit rate"
 msgstr "Змінна бітова швидкість"
 
-#: collection/collectionmodel.cpp:289 collection/collectionmodel.cpp:290
+#: collection/collectionmodel.cpp:288 collection/collectionmodel.cpp:289
 #: playlist/playlistmanager.cpp:562 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:93 internet/internetsearchmodel.cpp:105
 msgid "Various artists"
@@ -5595,7 +5575,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr "Тижні"
 
-#: ../build/src/ui_collectionsettingspage.h:602
+#: ../build/src/ui_collectionsettingspage.h:536
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5632,7 +5612,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "Запустити повне сканування фонотеки зараз?"
 
-#: settings/collectionsettingspage.cpp:406
+#: settings/collectionsettingspage.cpp:371
 msgid "Write all playcounts and ratings to files"
 msgstr "Записати кількість відтворювань і рейтинги в файли"
 
@@ -5803,7 +5783,7 @@ msgstr "канали"
 msgid "contains"
 msgstr "містить"
 
-#: ../build/src/ui_collectionsettingspage.h:599
+#: ../build/src/ui_collectionsettingspage.h:533
 msgid "days"
 msgstr "днів"
 

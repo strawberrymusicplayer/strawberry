@@ -104,7 +104,7 @@ msgstr " sekunder"
 msgid " songs"
 msgstr " sanger"
 
-#: scrobbler/scrobblingapi20.cpp:165 scrobbler/scrobblingapi20.cpp:174
+#: scrobbler/scrobblingapi20.cpp:172 scrobbler/scrobblingapi20.cpp:181
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler bruker autentisering"
@@ -216,7 +216,7 @@ msgstr "overført %1"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:617
+#: ../build/src/ui_collectionsettingspage.h:551
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -569,7 +569,7 @@ msgstr "Legg til en linje, hvis meddelelsestypen støtter det"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Legg til alle filer fra ei mappe og dens undermapper"
 
-#: settings/collectionsettingspage.cpp:136
+#: settings/collectionsettingspage.cpp:120
 msgid "Add directory..."
 msgstr "Legg til mappe…"
 
@@ -593,7 +593,7 @@ msgstr "Legg filer til for omkoding"
 msgid "Add folder"
 msgstr "Legg til mappe"
 
-#: ../build/src/ui_collectionsettingspage.h:591
+#: ../build/src/ui_collectionsettingspage.h:525
 msgid "Add new folder..."
 msgstr "Legg til mappe…"
 
@@ -745,17 +745,9 @@ msgstr "Lagt til i dag"
 msgid "Added within three months"
 msgstr "Lagt til innen tre måneder"
 
-#: ../build/src/ui_collectionsettingspage.h:635
-msgid "Advanced"
-msgstr "Avansert"
-
 #: collection/collectionfilterwidget.cpp:328
 msgid "Advanced grouping..."
 msgstr "Avansert gruppering…"
-
-#: ../build/src/ui_collectionsettingspage.h:639
-msgid "Advanced settings require restart."
-msgstr "Avanserte innstillinger krever restart."
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -796,7 +788,7 @@ msgstr "Album artist"
 msgid "Album cover editing is only available for collection songs."
 msgstr "Album kover redigering er bare tilgjengelig for sanger i samlingen."
 
-#: ../build/src/ui_collectionsettingspage.h:621
+#: ../build/src/ui_collectionsettingspage.h:555
 msgid "Album cover pixmap cache"
 msgstr "Album kover pixmap cache"
 
@@ -867,7 +859,7 @@ msgstr "Alltid start avspilling"
 msgid "An error occurred loading the iTunes database"
 msgstr "En feil oppsto ved innlasting av iTunes-databasen"
 
-#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1392
+#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1398
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Det oppstod en feil når metadata skulle skrives til '%1'"
@@ -921,11 +913,11 @@ msgstr "Er du sikker på at du vil fortsette?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Er du sikker på at du vil slette \"%1\"-forhåndsinnstillingen?"
 
-#: dialogs/edittagdialog.cpp:1268
+#: dialogs/edittagdialog.cpp:1274
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 
-#: settings/collectionsettingspage.cpp:406
+#: settings/collectionsettingspage.cpp:371
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1013,7 +1005,7 @@ msgstr "Automatisk"
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: ../build/src/ui_collectionsettingspage.h:593
+#: ../build/src/ui_collectionsettingspage.h:527
 msgid "Automatic updating"
 msgstr "Automatisk oppdatering"
 
@@ -1022,7 +1014,7 @@ msgstr "Automatisk oppdatering"
 msgid "Automatically cover art from %1 is missing"
 msgstr "Automatisk kover for %1 mangler"
 
-#: ../build/src/ui_collectionsettingspage.h:606
+#: ../build/src/ui_collectionsettingspage.h:540
 msgid "Automatically open single categories in the collection tree"
 msgstr "Åpne enkeltkategorier i bibliotektreet automatisk"
 
@@ -1259,7 +1251,7 @@ msgstr "Klassisk"
 msgid "Clear"
 msgstr "Tøm"
 
-#: ../build/src/ui_collectionsettingspage.h:627
+#: ../build/src/ui_collectionsettingspage.h:561
 msgid "Clear Disk Cache"
 msgstr "Slett disk cache"
 
@@ -1312,7 +1304,7 @@ msgstr "Lukking av dette vinduet vil medføre stopp i søk etter albumomslag."
 msgid "Club"
 msgstr "Klubbmusikk"
 
-#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:589
+#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:523
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Samling"
@@ -1463,7 +1455,7 @@ msgstr ""
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr "Kunne ikke åpne CUE fil %1 for lesing: %2"
 
-#: scrobbler/scrobblingapi20.cpp:174
+#: scrobbler/scrobblingapi20.cpp:181
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Kunne ikke åpne URL. Prøv å åpne denne URLen  i din nettleser"
 
@@ -1648,7 +1640,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Opp"
 
-#: ../build/src/ui_collectionsettingspage.h:625
+#: ../build/src/ui_collectionsettingspage.h:559
 msgid "Current disk cache in use:"
 msgstr "Nåværende disk cache i bruk:"
 
@@ -1833,12 +1825,12 @@ msgstr "Disk"
 msgid "Discontinuous transmission"
 msgstr "Uregelmessig overføring"
 
-#: ../build/src/ui_collectionsettingspage.h:624
+#: ../build/src/ui_collectionsettingspage.h:558
 msgid "Disk Cache Size"
 msgstr "Disk Cache Size"
 
 #: collection/collectionfilterwidget.cpp:131
-#: ../build/src/ui_collectionsettingspage.h:605
+#: ../build/src/ui_collectionsettingspage.h:539
 msgid "Display options"
 msgstr "Visningsalternativ"
 
@@ -1972,7 +1964,7 @@ msgstr "Embedded kover"
 msgid "Enable"
 msgstr "Aktiver"
 
-#: ../build/src/ui_collectionsettingspage.h:623
+#: ../build/src/ui_collectionsettingspage.h:557
 msgid "Enable Disk Cache"
 msgstr "Aktiver disk cache"
 
@@ -1984,7 +1976,7 @@ msgstr ""
 msgid "Enable Items"
 msgstr "Aktiver items"
 
-#: ../build/src/ui_collectionsettingspage.h:634
+#: ../build/src/ui_collectionsettingspage.h:568
 #: ../build/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
 msgstr "Aktiv slett filer i høyreklikk-meny"
@@ -2157,7 +2149,7 @@ msgstr "Eksisterende omslag"
 msgid "Expand"
 msgstr "Utvid"
 
-#: ../build/src/ui_collectionsettingspage.h:598
+#: ../build/src/ui_collectionsettingspage.h:532
 msgid "Expire unavailable songs after"
 msgstr "Utløp utilgjengelige sanger etter"
 
@@ -2249,12 +2241,12 @@ msgid "Failed to open cover file %1 for reading: %2"
 msgstr "Feil ved åpning av kover fil %1 for lesing: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:270
-#: covermanager/albumcoverchoicecontroller.cpp:640
+#: covermanager/albumcoverchoicecontroller.cpp:646
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr "Feil ved åpning av kover fil %1 for skriving: %2"
 
-#: covermanager/albumcoverchoicecontroller.cpp:634
+#: covermanager/albumcoverchoicecontroller.cpp:640
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr "Feil ved lagring til kover fil %1: %2"
@@ -2347,7 +2339,7 @@ msgstr "Filtype"
 msgid "Filename"
 msgstr "Filnavn"
 
-#: ../build/src/ui_collectionsettingspage.h:614
+#: ../build/src/ui_collectionsettingspage.h:548
 msgid "Filename:"
 msgstr "Filnavn:"
 
@@ -2665,10 +2657,6 @@ msgstr "High watermark"
 msgid "Hours"
 msgstr "Timer"
 
-#: ../build/src/ui_collectionsettingspage.h:638
-msgid "I/O priority"
-msgstr "I/O priority"
-
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
 msgstr "Ikon"
@@ -2797,7 +2785,7 @@ msgstr "Internett tabb visning"
 msgid "Intro tracks"
 msgstr "Introspor"
 
-#: scrobbler/scrobblingapi20.cpp:208
+#: scrobbler/scrobblingapi20.cpp:215
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Ugyldig svar fra nettleseren. Mangler token."
 
@@ -2896,7 +2884,7 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr "Begrensninger"
 
-#: scrobbler/listenbrainzscrobbler.cpp:190
+#: scrobbler/listenbrainzscrobbler.cpp:191
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz autentisering"
 
@@ -2945,7 +2933,7 @@ msgstr "Åpner iPod-database"
 msgid "Loading smart playlist"
 msgstr "Laster smart spilleliste"
 
-#: collection/collectionmodel.cpp:199
+#: collection/collectionmodel.cpp:198
 msgid "Loading songs"
 msgstr "Åpner sanger"
 
@@ -2957,7 +2945,7 @@ msgstr "Åpner spor"
 msgid "Loading tracks info"
 msgstr "Henter informasjon om spor"
 
-#: collection/collectionmodel.cpp:192
+#: collection/collectionmodel.cpp:191
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:280
 msgid "Loading..."
@@ -3003,7 +2991,7 @@ msgstr "Profil for lavkompleksitet (LC)"
 msgid "Low watermark"
 msgstr "Low watermark"
 
-#: ../build/src/ui_collectionsettingspage.h:619
+#: ../build/src/ui_collectionsettingspage.h:553
 msgid "Lowercase filename"
 msgstr "Små bokstaver filnavn"
 
@@ -3045,7 +3033,7 @@ msgstr "Manuelt satt kover fra %1"
 msgid "Manufacturer"
 msgstr "Fabrikant"
 
-#: ../build/src/ui_collectionsettingspage.h:597
+#: ../build/src/ui_collectionsettingspage.h:531
 msgid "Mark disappeared songs unavailable"
 msgstr "Merk tapte sanger utilgjengelige"
 
@@ -3162,7 +3150,7 @@ msgstr "Mangler brukernavn."
 msgid "Model"
 msgstr "Modell"
 
-#: ../build/src/ui_collectionsettingspage.h:595
+#: ../build/src/ui_collectionsettingspage.h:529
 msgid "Monitor the collection for changes"
 msgstr "Overvåk endringer i samlingen"
 
@@ -3301,7 +3289,7 @@ msgstr "Ingen omslag å eksportere."
 msgid "No long blocks"
 msgstr "Ingen lange blokker"
 
-#: tidal/tidalrequest.cpp:1361 qobuz/qobuzrequest.cpp:1417
+#: tidal/tidalrequest.cpp:1361 qobuz/qobuzrequest.cpp:1423
 msgid "No match."
 msgstr "Ingen treff."
 
@@ -3412,7 +3400,7 @@ msgstr "Bare vis de første"
 msgid "Opacity"
 msgstr "Dekkevne"
 
-#: scrobbler/scrobblingapi20.cpp:165
+#: scrobbler/scrobblingapi20.cpp:172
 msgid "Open URL in web browser?"
 msgstr "Åpne URL i nettleseren?"
 
@@ -3510,15 +3498,15 @@ msgstr "Utgang"
 msgid "Output options"
 msgstr "Utgangsinnstillinger"
 
-#: ../build/src/ui_collectionsettingspage.h:631
+#: ../build/src/ui_collectionsettingspage.h:565
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr "Overskriv database spilleteller når sanger er lest på nytt fra disk"
 
-#: ../build/src/ui_collectionsettingspage.h:632
+#: ../build/src/ui_collectionsettingspage.h:566
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr "Overskriv database vurdering når sanger er lest på nytt fra disk"
 
-#: ../build/src/ui_collectionsettingspage.h:618
+#: ../build/src/ui_collectionsettingspage.h:552
 msgid "Overwrite existing file"
 msgstr "Overskriv eksisterende fil"
 
@@ -3554,7 +3542,7 @@ msgstr "Passord"
 msgid "Path"
 msgstr "Filsti"
 
-#: ../build/src/ui_collectionsettingspage.h:615
+#: ../build/src/ui_collectionsettingspage.h:549
 msgid "Pattern"
 msgstr "Pattern"
 
@@ -3693,7 +3681,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Lukk nettleseren og gå tilbake til Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:191
 msgid "Please open this URL in your browser"
 msgstr "Vennligst åpne denne URLen i din nettleser"
 
@@ -3727,7 +3715,7 @@ msgstr "Foretrekk album artist når scrobbler sendes"
 msgid "Preferences"
 msgstr "Innstillinger"
 
-#: ../build/src/ui_collectionsettingspage.h:600
+#: ../build/src/ui_collectionsettingspage.h:534
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Foretrukne filnavn for omslag (inndelt med komma)"
 
@@ -3749,7 +3737,7 @@ msgstr "Preload function was not set for blocking operation."
 msgid "Preset:"
 msgstr "Forhåndsinnstilling:"
 
-#: scrobbler/scrobblingapi20.cpp:165
+#: scrobbler/scrobblingapi20.cpp:172
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3872,7 +3860,7 @@ msgstr "Radio Paradise"
 msgid "Radios"
 msgstr "Radioer"
 
-#: ../build/src/ui_collectionsettingspage.h:616
+#: ../build/src/ui_collectionsettingspage.h:550
 msgid "Random"
 msgstr "Tilfeldig"
 
@@ -3906,11 +3894,11 @@ msgstr ""
 "strøm."
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:217
 msgid "Received invalid reply from web browser."
 msgstr "Mottok ugyldig svar fra nettleseren."
 
-#: scrobbler/scrobblingapi20.cpp:212
+#: scrobbler/scrobblingapi20.cpp:219
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3918,12 +3906,12 @@ msgstr ""
 "Mottok ugyldig svar fra nettleseren. Prøv HTTPS valget, eller bruk en annen "
 "nettleser som Chromium eller Chrome."
 
-#: tidal/tidalrequest.cpp:1194 qobuz/qobuzrequest.cpp:1250
+#: tidal/tidalrequest.cpp:1194 qobuz/qobuzrequest.cpp:1256
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1251
+#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1257
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
 msgstr ""
@@ -3987,7 +3975,7 @@ msgstr "Redirect from Genius is missing query items code or state."
 msgid "Redirect missing token code or state!"
 msgstr "Redirect missing token code or state!"
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:213
 msgid "Redirect missing token code!"
 msgstr "Redirect missing token code!"
 
@@ -4032,7 +4020,7 @@ msgstr "Fjern &duplikater fra spillelisten"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Fjern &utilgjengelige spor fra spilleliste"
 
-#: ../build/src/ui_collectionsettingspage.h:592
+#: ../build/src/ui_collectionsettingspage.h:526
 msgid "Remove folder"
 msgstr "Fjern mappe"
 
@@ -4092,7 +4080,7 @@ msgstr "Gjenta spor"
 msgid "Replace current playlist"
 msgstr "Erstatt gjeldende spilleliste"
 
-#: ../build/src/ui_collectionsettingspage.h:620
+#: ../build/src/ui_collectionsettingspage.h:554
 msgid "Replace spaces with dashes"
 msgstr "Erstatt mellomrom med streker"
 
@@ -4136,7 +4124,7 @@ msgstr "Tilbakestill"
 msgid "Reset play counts"
 msgstr "Tilbakestill avspillingsteller"
 
-#: dialogs/edittagdialog.cpp:1268
+#: dialogs/edittagdialog.cpp:1274
 msgid "Reset song play statistics"
 msgstr ""
 
@@ -4242,15 +4230,15 @@ msgstr "Lagre &spilleliste..."
 msgid "Save album cover"
 msgstr "Lagre albumomslag"
 
-#: ../build/src/ui_collectionsettingspage.h:613
+#: ../build/src/ui_collectionsettingspage.h:547
 msgid "Save album covers as embedded cover"
 msgstr "Lagre album kover som embedded kover"
 
-#: ../build/src/ui_collectionsettingspage.h:611
+#: ../build/src/ui_collectionsettingspage.h:545
 msgid "Save album covers in album directory"
 msgstr "Lagre album kover i album mappen"
 
-#: ../build/src/ui_collectionsettingspage.h:612
+#: ../build/src/ui_collectionsettingspage.h:546
 msgid "Save album covers in cache directory"
 msgstr "Lagre album kober i cache mappen"
 
@@ -4262,11 +4250,11 @@ msgstr "Lagre bilde til disk…"
 msgid "Save current grouping"
 msgstr "Lagre nåværende gruppering"
 
-#: ../build/src/ui_collectionsettingspage.h:633
+#: ../build/src/ui_collectionsettingspage.h:567
 msgid "Save playcounts and ratings to files now"
 msgstr "Lagre spilletellere og vurderinger til filer nå"
 
-#: ../build/src/ui_collectionsettingspage.h:629
+#: ../build/src/ui_collectionsettingspage.h:563
 msgid "Save playcounts to song tags when possible"
 msgstr "Lagre spilletellere til filer når mulig"
 
@@ -4288,7 +4276,7 @@ msgstr "Lagre spilleliste…"
 msgid "Save preset"
 msgstr "Lagre forhåndsinnstilling"
 
-#: ../build/src/ui_collectionsettingspage.h:630
+#: ../build/src/ui_collectionsettingspage.h:564
 msgid "Save ratings to song tags when possible"
 msgstr "Lagre vurderinger til filer når mulig"
 
@@ -4300,11 +4288,11 @@ msgstr "Lagre .mood filene direkte i mappen til sangen"
 msgid "Saved Grouping Manager"
 msgstr "Behandler for lagrede grupperinger"
 
-#: ../build/src/ui_collectionsettingspage.h:609
+#: ../build/src/ui_collectionsettingspage.h:543
 msgid "Saving album covers"
 msgstr "Lagrer album kover"
 
-#: collection/collection.cpp:207
+#: collection/collection.cpp:201
 msgid "Saving playcounts and ratings"
 msgstr "Lagrer spilletellere og vurderinger"
 
@@ -4536,7 +4524,7 @@ msgstr "Vis over statuslinja"
 msgid "Show album cover"
 msgstr "Vis album kover"
 
-#: ../build/src/ui_collectionsettingspage.h:607
+#: ../build/src/ui_collectionsettingspage.h:541
 msgid "Show album cover art in collection"
 msgstr "Vis albumbilder i samlingen"
 
@@ -4556,7 +4544,7 @@ msgstr "Vis barer på nåværende spilte spor"
 msgid "Show dialog for errors"
 msgstr "Vis dialog for feil"
 
-#: ../build/src/ui_collectionsettingspage.h:608
+#: ../build/src/ui_collectionsettingspage.h:542
 msgid "Show dividers"
 msgstr "Vis adskillere"
 
@@ -4670,7 +4658,7 @@ msgid "Signing in..."
 msgstr "Logger inn…"
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:622
+#: ../build/src/ui_collectionsettingspage.h:556
 msgid "Size"
 msgstr "Størrelse"
 
@@ -4734,11 +4722,11 @@ msgstr "SomaFM"
 msgid "Song Lyrics"
 msgstr "Sangtekst"
 
-#: ../build/src/ui_collectionsettingspage.h:596
+#: ../build/src/ui_collectionsettingspage.h:530
 msgid "Song fingerprinting and tracking"
 msgstr "Song fingerprinting and tracking"
 
-#: ../build/src/ui_collectionsettingspage.h:628
+#: ../build/src/ui_collectionsettingspage.h:562
 msgid "Song playcounts and ratings"
 msgstr "Spilleteller og vurdering"
 
@@ -4993,10 +4981,6 @@ msgstr "Faner på toppen"
 msgid "Tag fetcher"
 msgstr "Etikett-henter"
 
-#: ../build/src/ui_collectionsettingspage.h:636
-msgid "Tagreader workers"
-msgstr "Tagreader workers"
-
 #: ../build/src/ui_edittagdialog.h:860
 msgid "Tags"
 msgstr "Tagger"
@@ -5101,7 +5085,7 @@ msgid ""
 "continue?"
 msgstr "Filene vil bli slettet fra enheten. Er du sikker?"
 
-#: ../build/src/ui_collectionsettingspage.h:590
+#: ../build/src/ui_collectionsettingspage.h:524
 msgid "These folders will be scanned for music to make up your collection"
 msgstr ""
 "Disse katalogene vil skannes for musikk som kan legges til samlingen ditt"
@@ -5169,10 +5153,6 @@ msgstr "Dette valget kan endres under innstillinger for \"Oppførsel\""
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Denne enhetstypen (%1) støttes ikke."
-
-#: ../build/src/ui_collectionsettingspage.h:637
-msgid "Thread priority"
-msgstr "Thread priority"
 
 #: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5299,17 +5279,17 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr "Avinstaller snap med:"
 
-#: core/song.cpp:670 collection/collectionmodel.cpp:478
-#: collection/collectionmodel.cpp:483 collection/collectionmodel.cpp:487
-#: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:1655 collection/savedgroupingmanager.cpp:153
+#: core/song.cpp:726 collection/collectionmodel.cpp:477
+#: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
+#: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
+#: collection/collectionmodel.cpp:1654 collection/savedgroupingmanager.cpp:153
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:550
 #: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:764
 #: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Ukjent"
 
-#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1423
+#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1429
 msgid "Unknown error"
 msgstr "Ukjent feil"
 
@@ -5337,11 +5317,11 @@ msgstr "Ikke hopp over de valgte sporene"
 msgid "Unskip track"
 msgstr "Ikke hopp over sporet"
 
-#: ../build/src/ui_collectionsettingspage.h:594
+#: ../build/src/ui_collectionsettingspage.h:528
 msgid "Update the collection when Strawberry starts"
 msgstr "Oppdater samlingen når Strawberry starter"
 
-#: collection/collectionwatcher.cpp:206
+#: collection/collectionwatcher.cpp:205
 #, qt-format
 msgid "Updating %1"
 msgstr "Oppdaterer %1"
@@ -5356,7 +5336,7 @@ msgstr "Oppdaterer %1 database."
 msgid "Updating %1%..."
 msgstr "Oppdaterer %1% …"
 
-#: collection/collectionwatcher.cpp:203
+#: collection/collectionwatcher.cpp:202
 msgid "Updating collection"
 msgstr "Oppdaterer samling"
 
@@ -5501,7 +5481,7 @@ msgstr "Bruk av menyen for å legge til et spor vil…"
 msgid "Variable bit rate"
 msgstr "Variabel bitrate"
 
-#: collection/collectionmodel.cpp:289 collection/collectionmodel.cpp:290
+#: collection/collectionmodel.cpp:288 collection/collectionmodel.cpp:289
 #: playlist/playlistmanager.cpp:562 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:93 internet/internetsearchmodel.cpp:105
 msgid "Various artists"
@@ -5553,7 +5533,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr "Uker"
 
-#: ../build/src/ui_collectionsettingspage.h:602
+#: ../build/src/ui_collectionsettingspage.h:536
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5590,7 +5570,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 
-#: settings/collectionsettingspage.cpp:406
+#: settings/collectionsettingspage.cpp:371
 msgid "Write all playcounts and ratings to files"
 msgstr "Skriv alle spilletellere og vurdering til filer"
 
@@ -5757,7 +5737,7 @@ msgstr "kanaler"
 msgid "contains"
 msgstr "inneholder"
 
-#: ../build/src/ui_collectionsettingspage.h:599
+#: ../build/src/ui_collectionsettingspage.h:533
 msgid "days"
 msgstr "dager"
 

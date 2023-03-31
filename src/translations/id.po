@@ -101,7 +101,7 @@ msgstr " detik"
 msgid " songs"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:165 scrobbler/scrobblingapi20.cpp:174
+#: scrobbler/scrobblingapi20.cpp:172 scrobbler/scrobblingapi20.cpp:181
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autentikasi Scrobbler"
@@ -213,7 +213,7 @@ msgstr "%1 telah ditransfer"
 msgid "%album%"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:617
+#: ../build/src/ui_collectionsettingspage.h:551
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -561,7 +561,7 @@ msgstr "Tambah baris baru jika didukung oleh tipe notifikasi"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 
-#: settings/collectionsettingspage.cpp:136
+#: settings/collectionsettingspage.cpp:120
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 
@@ -585,7 +585,7 @@ msgstr "Tambah berkas untuk ditranskode"
 msgid "Add folder"
 msgstr "Tambah folder"
 
-#: ../build/src/ui_collectionsettingspage.h:591
+#: ../build/src/ui_collectionsettingspage.h:525
 msgid "Add new folder..."
 msgstr "Tambah folder baru..."
 
@@ -737,17 +737,9 @@ msgstr "Ditambahkan hari ini"
 msgid "Added within three months"
 msgstr "Ditambahkan pada tiga bulan terakhir"
 
-#: ../build/src/ui_collectionsettingspage.h:635
-msgid "Advanced"
-msgstr ""
-
 #: collection/collectionfilterwidget.cpp:328
 msgid "Advanced grouping..."
 msgstr "Pengelompokkan lanjut..."
-
-#: ../build/src/ui_collectionsettingspage.h:639
-msgid "Advanced settings require restart."
-msgstr ""
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -788,7 +780,7 @@ msgstr "Album artis"
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:621
+#: ../build/src/ui_collectionsettingspage.h:555
 msgid "Album cover pixmap cache"
 msgstr ""
 
@@ -859,7 +851,7 @@ msgstr "Selalu mulai memutar"
 msgid "An error occurred loading the iTunes database"
 msgstr "Sebuah galat terjadi saat memuat basis data iTunes"
 
-#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1392
+#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1398
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Sebuah galat terjadi saat menulis metadata ke '%1'"
@@ -913,11 +905,11 @@ msgstr ""
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Apakah Anda yakin ingin menghapus prasetel \"%1\"?"
 
-#: dialogs/edittagdialog.cpp:1268
+#: dialogs/edittagdialog.cpp:1274
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 
-#: settings/collectionsettingspage.cpp:406
+#: settings/collectionsettingspage.cpp:371
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1003,7 +995,7 @@ msgstr "Auto"
 msgid "Automatic"
 msgstr "Otomatis"
 
-#: ../build/src/ui_collectionsettingspage.h:593
+#: ../build/src/ui_collectionsettingspage.h:527
 msgid "Automatic updating"
 msgstr "Pembaruan otomatis"
 
@@ -1012,7 +1004,7 @@ msgstr "Pembaruan otomatis"
 msgid "Automatically cover art from %1 is missing"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:606
+#: ../build/src/ui_collectionsettingspage.h:540
 msgid "Automatically open single categories in the collection tree"
 msgstr "Secara otomatis membuka kategori tunggal di pohon pustaka"
 
@@ -1248,7 +1240,7 @@ msgstr "Klasik"
 msgid "Clear"
 msgstr "Bersihkan"
 
-#: ../build/src/ui_collectionsettingspage.h:627
+#: ../build/src/ui_collectionsettingspage.h:561
 msgid "Clear Disk Cache"
 msgstr ""
 
@@ -1301,7 +1293,7 @@ msgstr "Menutup jendela ini akan menghentikan pencarian sampul album."
 msgid "Club"
 msgstr "Klub"
 
-#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:589
+#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:523
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Pustakascan"
@@ -1450,7 +1442,7 @@ msgstr ""
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:174
+#: scrobbler/scrobblingapi20.cpp:181
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
@@ -1635,7 +1627,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
-#: ../build/src/ui_collectionsettingspage.h:625
+#: ../build/src/ui_collectionsettingspage.h:559
 msgid "Current disk cache in use:"
 msgstr ""
 
@@ -1820,12 +1812,12 @@ msgstr "Cakram"
 msgid "Discontinuous transmission"
 msgstr "Transmisi putus-putus"
 
-#: ../build/src/ui_collectionsettingspage.h:624
+#: ../build/src/ui_collectionsettingspage.h:558
 msgid "Disk Cache Size"
 msgstr ""
 
 #: collection/collectionfilterwidget.cpp:131
-#: ../build/src/ui_collectionsettingspage.h:605
+#: ../build/src/ui_collectionsettingspage.h:539
 msgid "Display options"
 msgstr "Opsi tampilan"
 
@@ -1957,7 +1949,7 @@ msgstr ""
 msgid "Enable"
 msgstr "Fungsikan"
 
-#: ../build/src/ui_collectionsettingspage.h:623
+#: ../build/src/ui_collectionsettingspage.h:557
 msgid "Enable Disk Cache"
 msgstr ""
 
@@ -1969,7 +1961,7 @@ msgstr ""
 msgid "Enable Items"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:634
+#: ../build/src/ui_collectionsettingspage.h:568
 #: ../build/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
 msgstr ""
@@ -2142,7 +2134,7 @@ msgstr "Sampul yang tersedia"
 msgid "Expand"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:598
+#: ../build/src/ui_collectionsettingspage.h:532
 msgid "Expire unavailable songs after"
 msgstr ""
 
@@ -2234,12 +2226,12 @@ msgid "Failed to open cover file %1 for reading: %2"
 msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:270
-#: covermanager/albumcoverchoicecontroller.cpp:640
+#: covermanager/albumcoverchoicecontroller.cpp:646
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:634
+#: covermanager/albumcoverchoicecontroller.cpp:640
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr ""
@@ -2332,7 +2324,7 @@ msgstr "Jenis berkas"
 msgid "Filename"
 msgstr "Nama berkas"
 
-#: ../build/src/ui_collectionsettingspage.h:614
+#: ../build/src/ui_collectionsettingspage.h:548
 msgid "Filename:"
 msgstr "Nama berkas:"
 
@@ -2649,10 +2641,6 @@ msgstr ""
 msgid "Hours"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:638
-msgid "I/O priority"
-msgstr ""
-
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
 msgstr "Ikon"
@@ -2779,7 +2767,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Trek intro"
 
-#: scrobbler/scrobblingapi20.cpp:208
+#: scrobbler/scrobblingapi20.cpp:215
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Balasan tidak benar dari peramban web. Token tidak tersedia."
 
@@ -2878,7 +2866,7 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:190
+#: scrobbler/listenbrainzscrobbler.cpp:191
 msgid "ListenBrainz Authentication"
 msgstr "Otentikasi ListenBrainz"
 
@@ -2927,7 +2915,7 @@ msgstr "Memuat basis data iPod"
 msgid "Loading smart playlist"
 msgstr ""
 
-#: collection/collectionmodel.cpp:199
+#: collection/collectionmodel.cpp:198
 msgid "Loading songs"
 msgstr "Memuat lagu"
 
@@ -2939,7 +2927,7 @@ msgstr "Memuat trek"
 msgid "Loading tracks info"
 msgstr "Memuat info trek"
 
-#: collection/collectionmodel.cpp:192
+#: collection/collectionmodel.cpp:191
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:280
 msgid "Loading..."
@@ -2985,7 +2973,7 @@ msgstr "Profil kompleksitas rendah (LC)"
 msgid "Low watermark"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:619
+#: ../build/src/ui_collectionsettingspage.h:553
 msgid "Lowercase filename"
 msgstr "Nama berkas huruf kecil"
 
@@ -3027,7 +3015,7 @@ msgstr ""
 msgid "Manufacturer"
 msgstr "Produsen"
 
-#: ../build/src/ui_collectionsettingspage.h:597
+#: ../build/src/ui_collectionsettingspage.h:531
 msgid "Mark disappeared songs unavailable"
 msgstr "Tandai lagu yang hilang sebagai tidak tersedia"
 
@@ -3144,7 +3132,7 @@ msgstr ""
 msgid "Model"
 msgstr "Model"
 
-#: ../build/src/ui_collectionsettingspage.h:595
+#: ../build/src/ui_collectionsettingspage.h:529
 msgid "Monitor the collection for changes"
 msgstr "Monitor perubahan pustaka"
 
@@ -3283,7 +3271,7 @@ msgstr "Tidak ada sampul untuk diekspor."
 msgid "No long blocks"
 msgstr "Tanpa blok panjang"
 
-#: tidal/tidalrequest.cpp:1361 qobuz/qobuzrequest.cpp:1417
+#: tidal/tidalrequest.cpp:1361 qobuz/qobuzrequest.cpp:1423
 msgid "No match."
 msgstr "Tidak ada yang cocok."
 
@@ -3398,7 +3386,7 @@ msgstr ""
 msgid "Opacity"
 msgstr "Kelegapan"
 
-#: scrobbler/scrobblingapi20.cpp:165
+#: scrobbler/scrobblingapi20.cpp:172
 msgid "Open URL in web browser?"
 msgstr ""
 
@@ -3496,15 +3484,15 @@ msgstr "Keluaran"
 msgid "Output options"
 msgstr "Opsi keluaran"
 
-#: ../build/src/ui_collectionsettingspage.h:631
+#: ../build/src/ui_collectionsettingspage.h:565
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:632
+#: ../build/src/ui_collectionsettingspage.h:566
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:618
+#: ../build/src/ui_collectionsettingspage.h:552
 msgid "Overwrite existing file"
 msgstr "Timpa berkas yang sudah ada"
 
@@ -3540,7 +3528,7 @@ msgstr "Sandi"
 msgid "Path"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:615
+#: ../build/src/ui_collectionsettingspage.h:549
 msgid "Pattern"
 msgstr ""
 
@@ -3677,7 +3665,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Mohon tutup peramban Anda dan kembali ke Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:191
 msgid "Please open this URL in your browser"
 msgstr ""
 
@@ -3711,7 +3699,7 @@ msgstr "Kemukakan artis album saat scrobble"
 msgid "Preferences"
 msgstr "Preferensi"
 
-#: ../build/src/ui_collectionsettingspage.h:600
+#: ../build/src/ui_collectionsettingspage.h:534
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Nama berkas sampul album yang diinginkan (dipisahkan koma)"
 
@@ -3732,7 +3720,7 @@ msgstr "Fungsi preload tidak diatur untuk operasi memblokir."
 msgid "Preset:"
 msgstr "Prasetel:"
 
-#: scrobbler/scrobblingapi20.cpp:165
+#: scrobbler/scrobblingapi20.cpp:172
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3851,7 +3839,7 @@ msgstr ""
 msgid "Radios"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:616
+#: ../build/src/ui_collectionsettingspage.h:550
 msgid "Random"
 msgstr ""
 
@@ -3881,11 +3869,11 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:217
 msgid "Received invalid reply from web browser."
 msgstr "Balasan yang tidak benar diterima dari peramban web."
 
-#: scrobbler/scrobblingapi20.cpp:212
+#: scrobbler/scrobblingapi20.cpp:219
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3893,12 +3881,12 @@ msgstr ""
 "Balasan yang tidak benar diterima dari peramban web. Coba opsi HTTPS, atau "
 "gunakan peramban web lain seperti Chromium atau Chrome."
 
-#: tidal/tidalrequest.cpp:1194 qobuz/qobuzrequest.cpp:1250
+#: tidal/tidalrequest.cpp:1194 qobuz/qobuzrequest.cpp:1256
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1251
+#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1257
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
 msgstr ""
@@ -3962,7 +3950,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:213
 msgid "Redirect missing token code!"
 msgstr "Alihkan kode token yang tidak tersedia!"
 
@@ -4007,7 +3995,7 @@ msgstr "Buang &duplikat dari daftar putar"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "B&uang trek yang tidak tersedia dari daftar putar"
 
-#: ../build/src/ui_collectionsettingspage.h:592
+#: ../build/src/ui_collectionsettingspage.h:526
 msgid "Remove folder"
 msgstr "Buang folder"
 
@@ -4067,7 +4055,7 @@ msgstr "Ulang trek"
 msgid "Replace current playlist"
 msgstr "Ganti daftar putar saat ini"
 
-#: ../build/src/ui_collectionsettingspage.h:620
+#: ../build/src/ui_collectionsettingspage.h:554
 msgid "Replace spaces with dashes"
 msgstr "Ganti spasi dengan garis strip"
 
@@ -4111,7 +4099,7 @@ msgstr "Setel-ulang"
 msgid "Reset play counts"
 msgstr "Setel-ulang jumlah putar"
 
-#: dialogs/edittagdialog.cpp:1268
+#: dialogs/edittagdialog.cpp:1274
 msgid "Reset song play statistics"
 msgstr ""
 
@@ -4217,15 +4205,15 @@ msgstr "Simpan &daftar putar..."
 msgid "Save album cover"
 msgstr "Simpan sampul album"
 
-#: ../build/src/ui_collectionsettingspage.h:613
+#: ../build/src/ui_collectionsettingspage.h:547
 msgid "Save album covers as embedded cover"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:611
+#: ../build/src/ui_collectionsettingspage.h:545
 msgid "Save album covers in album directory"
 msgstr "Simpan sampul album di direktori album"
 
-#: ../build/src/ui_collectionsettingspage.h:612
+#: ../build/src/ui_collectionsettingspage.h:546
 msgid "Save album covers in cache directory"
 msgstr ""
 
@@ -4237,11 +4225,11 @@ msgstr "Simpan sampul ke diska..."
 msgid "Save current grouping"
 msgstr "Simpan pengelompokan saat ini"
 
-#: ../build/src/ui_collectionsettingspage.h:633
+#: ../build/src/ui_collectionsettingspage.h:567
 msgid "Save playcounts and ratings to files now"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:629
+#: ../build/src/ui_collectionsettingspage.h:563
 msgid "Save playcounts to song tags when possible"
 msgstr ""
 
@@ -4263,7 +4251,7 @@ msgstr "Simpan daftar putar..."
 msgid "Save preset"
 msgstr "Simpan prasetel"
 
-#: ../build/src/ui_collectionsettingspage.h:630
+#: ../build/src/ui_collectionsettingspage.h:564
 msgid "Save ratings to song tags when possible"
 msgstr ""
 
@@ -4275,11 +4263,11 @@ msgstr "Simpan berkas .mood di folder lagu"
 msgid "Saved Grouping Manager"
 msgstr "Pengelola Pengelompokan Tersimpan"
 
-#: ../build/src/ui_collectionsettingspage.h:609
+#: ../build/src/ui_collectionsettingspage.h:543
 msgid "Saving album covers"
 msgstr "Menyimpan sampul album"
 
-#: collection/collection.cpp:207
+#: collection/collection.cpp:201
 msgid "Saving playcounts and ratings"
 msgstr ""
 
@@ -4511,7 +4499,7 @@ msgstr "Tampilkan di atas bilah status"
 msgid "Show album cover"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:607
+#: ../build/src/ui_collectionsettingspage.h:541
 msgid "Show album cover art in collection"
 msgstr "Tampilkan sampul album di pustaka"
 
@@ -4531,7 +4519,7 @@ msgstr ""
 msgid "Show dialog for errors"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:608
+#: ../build/src/ui_collectionsettingspage.h:542
 msgid "Show dividers"
 msgstr "Tampilkan pembagi"
 
@@ -4645,7 +4633,7 @@ msgid "Signing in..."
 msgstr "Sedang masuk..."
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:622
+#: ../build/src/ui_collectionsettingspage.h:556
 msgid "Size"
 msgstr "Ukuran"
 
@@ -4709,11 +4697,11 @@ msgstr ""
 msgid "Song Lyrics"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:596
+#: ../build/src/ui_collectionsettingspage.h:530
 msgid "Song fingerprinting and tracking"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:628
+#: ../build/src/ui_collectionsettingspage.h:562
 msgid "Song playcounts and ratings"
 msgstr ""
 
@@ -4966,10 +4954,6 @@ msgstr "Tab di puncak"
 msgid "Tag fetcher"
 msgstr "Pengambil tag"
 
-#: ../build/src/ui_collectionsettingspage.h:636
-msgid "Tagreader workers"
-msgstr ""
-
 #: ../build/src/ui_edittagdialog.h:860
 msgid "Tags"
 msgstr ""
@@ -5076,7 +5060,7 @@ msgstr ""
 "Berkas-berkas ini akan dihapus dari perangkat, apakah Anda yakin ingin "
 "melanjutkan?"
 
-#: ../build/src/ui_collectionsettingspage.h:590
+#: ../build/src/ui_collectionsettingspage.h:524
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "Folder berikut akan dipindai untuk musik untuk membuat pustaka Anda"
 
@@ -5145,10 +5129,6 @@ msgstr "Opsi ini dapat diubah di pengaturan \"Perilaku\""
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Tipe perangkat ini tidak didukung: %1"
-
-#: ../build/src/ui_collectionsettingspage.h:637
-msgid "Thread priority"
-msgstr ""
 
 #: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5275,17 +5255,17 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:670 collection/collectionmodel.cpp:478
-#: collection/collectionmodel.cpp:483 collection/collectionmodel.cpp:487
-#: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:1655 collection/savedgroupingmanager.cpp:153
+#: core/song.cpp:726 collection/collectionmodel.cpp:477
+#: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
+#: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
+#: collection/collectionmodel.cpp:1654 collection/savedgroupingmanager.cpp:153
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:550
 #: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:764
 #: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1423
+#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1429
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
 
@@ -5313,11 +5293,11 @@ msgstr "Taklewati trek yang dipilih"
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
-#: ../build/src/ui_collectionsettingspage.h:594
+#: ../build/src/ui_collectionsettingspage.h:528
 msgid "Update the collection when Strawberry starts"
 msgstr "Perbarui pustaka ketika memulai Strawberry"
 
-#: collection/collectionwatcher.cpp:206
+#: collection/collectionwatcher.cpp:205
 #, qt-format
 msgid "Updating %1"
 msgstr "Memperbarui %1"
@@ -5332,7 +5312,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "Memperbarui %1%..."
 
-#: collection/collectionwatcher.cpp:203
+#: collection/collectionwatcher.cpp:202
 msgid "Updating collection"
 msgstr "Memperbarui pustaka"
 
@@ -5477,7 +5457,7 @@ msgstr "Menggunakan menu untuk menambah lagu akan..."
 msgid "Variable bit rate"
 msgstr "Laju bit beragam"
 
-#: collection/collectionmodel.cpp:289 collection/collectionmodel.cpp:290
+#: collection/collectionmodel.cpp:288 collection/collectionmodel.cpp:289
 #: playlist/playlistmanager.cpp:562 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:93 internet/internetsearchmodel.cpp:105
 msgid "Various artists"
@@ -5529,7 +5509,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:602
+#: ../build/src/ui_collectionsettingspage.h:536
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5566,7 +5546,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "Apakah Anda ingin menjalankan pemindaian ulang menyeluruh sekarang?"
 
-#: settings/collectionsettingspage.cpp:406
+#: settings/collectionsettingspage.cpp:371
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
@@ -5732,7 +5712,7 @@ msgstr ""
 msgid "contains"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:599
+#: ../build/src/ui_collectionsettingspage.h:533
 msgid "days"
 msgstr ""
 

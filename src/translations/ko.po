@@ -103,7 +103,7 @@ msgstr " 초"
 msgid " songs"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:165 scrobbler/scrobblingapi20.cpp:174
+#: scrobbler/scrobblingapi20.cpp:172 scrobbler/scrobblingapi20.cpp:181
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 스크로블러 인증"
@@ -215,7 +215,7 @@ msgstr "%1개 전송됨"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:617
+#: ../build/src/ui_collectionsettingspage.h:551
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -563,7 +563,7 @@ msgstr "알림 형식이 지원한다면 새로운 줄 추가"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "디렉터리와 모든 하위 디렉터리의 트랙을 추가합니다"
 
-#: settings/collectionsettingspage.cpp:136
+#: settings/collectionsettingspage.cpp:120
 msgid "Add directory..."
 msgstr "디렉터리 추가..."
 
@@ -587,7 +587,7 @@ msgstr "변환할 파일 추가"
 msgid "Add folder"
 msgstr "폴더 추가"
 
-#: ../build/src/ui_collectionsettingspage.h:591
+#: ../build/src/ui_collectionsettingspage.h:525
 msgid "Add new folder..."
 msgstr "새로운 폴더 추가..."
 
@@ -739,17 +739,9 @@ msgstr "오늘 추가됨"
 msgid "Added within three months"
 msgstr "3개월 이내에 추가됨"
 
-#: ../build/src/ui_collectionsettingspage.h:635
-msgid "Advanced"
-msgstr ""
-
 #: collection/collectionfilterwidget.cpp:328
 msgid "Advanced grouping..."
 msgstr "고급 그룹..."
-
-#: ../build/src/ui_collectionsettingspage.h:639
-msgid "Advanced settings require restart."
-msgstr ""
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -790,7 +782,7 @@ msgstr "앨범 아티스트"
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:621
+#: ../build/src/ui_collectionsettingspage.h:555
 msgid "Album cover pixmap cache"
 msgstr ""
 
@@ -861,7 +853,7 @@ msgstr "항상 재생 시작"
 msgid "An error occurred loading the iTunes database"
 msgstr "iTunes 데이터베이스를 불러오는 중 오류 발생"
 
-#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1392
+#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1398
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "'%1'에 메타데이터를 쓰는 중 오류 발생"
@@ -915,11 +907,11 @@ msgstr "계속하시겠습니까?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "\"%1\" 사전 설정을 지우시겠습니까?"
 
-#: dialogs/edittagdialog.cpp:1268
+#: dialogs/edittagdialog.cpp:1274
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 
-#: settings/collectionsettingspage.cpp:406
+#: settings/collectionsettingspage.cpp:371
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1005,7 +997,7 @@ msgstr "자동"
 msgid "Automatic"
 msgstr "자동"
 
-#: ../build/src/ui_collectionsettingspage.h:593
+#: ../build/src/ui_collectionsettingspage.h:527
 msgid "Automatic updating"
 msgstr "자동 업데이트 중"
 
@@ -1014,7 +1006,7 @@ msgstr "자동 업데이트 중"
 msgid "Automatically cover art from %1 is missing"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:606
+#: ../build/src/ui_collectionsettingspage.h:540
 msgid "Automatically open single categories in the collection tree"
 msgstr "한 개의 하위 항목만 있을 때 자동으로 열기"
 
@@ -1250,7 +1242,7 @@ msgstr "클래식"
 msgid "Clear"
 msgstr "비우기"
 
-#: ../build/src/ui_collectionsettingspage.h:627
+#: ../build/src/ui_collectionsettingspage.h:561
 msgid "Clear Disk Cache"
 msgstr "디스크 캐시 비우기"
 
@@ -1303,7 +1295,7 @@ msgstr "이 창을 닫으면 앨범아트 검색을 정지합니다."
 msgid "Club"
 msgstr "클럽"
 
-#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:589
+#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:523
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "라이브러리"
@@ -1450,7 +1442,7 @@ msgstr ""
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:174
+#: scrobbler/scrobblingapi20.cpp:181
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "URL을 열 수 없습니다. 웹 브라우저에서 여십시오"
 
@@ -1631,7 +1623,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
-#: ../build/src/ui_collectionsettingspage.h:625
+#: ../build/src/ui_collectionsettingspage.h:559
 msgid "Current disk cache in use:"
 msgstr "현재 사용중인 디스크 캐시 :"
 
@@ -1816,12 +1808,12 @@ msgstr "디스크"
 msgid "Discontinuous transmission"
 msgstr "불연속적인 전송"
 
-#: ../build/src/ui_collectionsettingspage.h:624
+#: ../build/src/ui_collectionsettingspage.h:558
 msgid "Disk Cache Size"
 msgstr "디스크 캐시 크기"
 
 #: collection/collectionfilterwidget.cpp:131
-#: ../build/src/ui_collectionsettingspage.h:605
+#: ../build/src/ui_collectionsettingspage.h:539
 msgid "Display options"
 msgstr "옵션 표시"
 
@@ -1953,7 +1945,7 @@ msgstr ""
 msgid "Enable"
 msgstr "활성화"
 
-#: ../build/src/ui_collectionsettingspage.h:623
+#: ../build/src/ui_collectionsettingspage.h:557
 msgid "Enable Disk Cache"
 msgstr "디스크 캐시 활성화"
 
@@ -1965,7 +1957,7 @@ msgstr ""
 msgid "Enable Items"
 msgstr "항목 활성화"
 
-#: ../build/src/ui_collectionsettingspage.h:634
+#: ../build/src/ui_collectionsettingspage.h:568
 #: ../build/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
 msgstr "마우스 우클릭 메뉴로부터 파일 제거 활성화"
@@ -2138,7 +2130,7 @@ msgstr "존재하는 표지"
 msgid "Expand"
 msgstr "확장"
 
-#: ../build/src/ui_collectionsettingspage.h:598
+#: ../build/src/ui_collectionsettingspage.h:532
 msgid "Expire unavailable songs after"
 msgstr ""
 
@@ -2230,12 +2222,12 @@ msgid "Failed to open cover file %1 for reading: %2"
 msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:270
-#: covermanager/albumcoverchoicecontroller.cpp:640
+#: covermanager/albumcoverchoicecontroller.cpp:646
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:634
+#: covermanager/albumcoverchoicecontroller.cpp:640
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr ""
@@ -2328,7 +2320,7 @@ msgstr "파일 형식"
 msgid "Filename"
 msgstr "파일 이름"
 
-#: ../build/src/ui_collectionsettingspage.h:614
+#: ../build/src/ui_collectionsettingspage.h:548
 msgid "Filename:"
 msgstr "파일 이름:"
 
@@ -2644,10 +2636,6 @@ msgstr ""
 msgid "Hours"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:638
-msgid "I/O priority"
-msgstr ""
-
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
 msgstr "아이콘"
@@ -2770,7 +2758,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "인트로 트랙"
 
-#: scrobbler/scrobblingapi20.cpp:208
+#: scrobbler/scrobblingapi20.cpp:215
 msgid "Invalid reply from web browser. Missing token."
 msgstr "웹 브라우저에서 잘못된 응답을 받았습니다. 토큰이 없습니다."
 
@@ -2869,7 +2857,7 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:190
+#: scrobbler/listenbrainzscrobbler.cpp:191
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz 인증"
 
@@ -2918,7 +2906,7 @@ msgstr "iPod 데이터베이스 불러오는 중"
 msgid "Loading smart playlist"
 msgstr "스마트 재생 목록 로딩"
 
-#: collection/collectionmodel.cpp:199
+#: collection/collectionmodel.cpp:198
 msgid "Loading songs"
 msgstr "노래 불러오는 중"
 
@@ -2930,7 +2918,7 @@ msgstr "트랙 불러오는 중"
 msgid "Loading tracks info"
 msgstr "트랙 정보 불러오는 중"
 
-#: collection/collectionmodel.cpp:192
+#: collection/collectionmodel.cpp:191
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:280
 msgid "Loading..."
@@ -2976,7 +2964,7 @@ msgstr "낮은 복잡도 프로필(LC)"
 msgid "Low watermark"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:619
+#: ../build/src/ui_collectionsettingspage.h:553
 msgid "Lowercase filename"
 msgstr "소문자 파일 이름"
 
@@ -3018,7 +3006,7 @@ msgstr ""
 msgid "Manufacturer"
 msgstr "제조사"
 
-#: ../build/src/ui_collectionsettingspage.h:597
+#: ../build/src/ui_collectionsettingspage.h:531
 msgid "Mark disappeared songs unavailable"
 msgstr "사라진 곡을 사용할 수 없는 것으로 표시"
 
@@ -3135,7 +3123,7 @@ msgstr "계정명이 없습니다."
 msgid "Model"
 msgstr "모델"
 
-#: ../build/src/ui_collectionsettingspage.h:595
+#: ../build/src/ui_collectionsettingspage.h:529
 msgid "Monitor the collection for changes"
 msgstr "라이브러리 변화 감지"
 
@@ -3274,7 +3262,7 @@ msgstr "내보낼 표지가 없습니다."
 msgid "No long blocks"
 msgstr "긴 블록 없음"
 
-#: tidal/tidalrequest.cpp:1361 qobuz/qobuzrequest.cpp:1417
+#: tidal/tidalrequest.cpp:1361 qobuz/qobuzrequest.cpp:1423
 msgid "No match."
 msgstr "일치하는 결과가 없습니다."
 
@@ -3385,7 +3373,7 @@ msgstr ""
 msgid "Opacity"
 msgstr "불투명도"
 
-#: scrobbler/scrobblingapi20.cpp:165
+#: scrobbler/scrobblingapi20.cpp:172
 msgid "Open URL in web browser?"
 msgstr "웹 브라우저에서 URL을 여시겠습니까?"
 
@@ -3483,15 +3471,15 @@ msgstr "출력"
 msgid "Output options"
 msgstr "저장 옵션"
 
-#: ../build/src/ui_collectionsettingspage.h:631
+#: ../build/src/ui_collectionsettingspage.h:565
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:632
+#: ../build/src/ui_collectionsettingspage.h:566
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:618
+#: ../build/src/ui_collectionsettingspage.h:552
 msgid "Overwrite existing file"
 msgstr "기존 파일 덮어쓰기"
 
@@ -3527,7 +3515,7 @@ msgstr "암호"
 msgid "Path"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:615
+#: ../build/src/ui_collectionsettingspage.h:549
 msgid "Pattern"
 msgstr ""
 
@@ -3664,7 +3652,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "브라우저를 닫고 Strawberry로 돌아오십시오."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:191
 msgid "Please open this URL in your browser"
 msgstr "웹 브라우저에서 다음 URL을 여십시오"
 
@@ -3698,7 +3686,7 @@ msgstr "스크로블을 보낼 때 앨범 아티스트 선호"
 msgid "Preferences"
 msgstr "설정"
 
-#: ../build/src/ui_collectionsettingspage.h:600
+#: ../build/src/ui_collectionsettingspage.h:534
 msgid "Preferred album art filenames (comma separated)"
 msgstr "선호하는 앨범아트 파일 이름(쉼표로 구분)"
 
@@ -3719,7 +3707,7 @@ msgstr "차단하는 작업의 프리로드 함수를 설정하지 않았습니�
 msgid "Preset:"
 msgstr "사전 설정:"
 
-#: scrobbler/scrobblingapi20.cpp:165
+#: scrobbler/scrobblingapi20.cpp:172
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3838,7 +3826,7 @@ msgstr ""
 msgid "Radios"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:616
+#: ../build/src/ui_collectionsettingspage.h:550
 msgid "Random"
 msgstr ""
 
@@ -3868,11 +3856,11 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:217
 msgid "Received invalid reply from web browser."
 msgstr "웹 브라우저에서 잘못된 응답을 받았습니다."
 
-#: scrobbler/scrobblingapi20.cpp:212
+#: scrobbler/scrobblingapi20.cpp:219
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3880,12 +3868,12 @@ msgstr ""
 "웹 브라우저에서 잘못된 응답을 받았습니다. HTTPS 옵션을 시도하거나 Chromium, Chrome 등 다른 브라우저를 시도해 보십시오."
 ""
 
-#: tidal/tidalrequest.cpp:1194 qobuz/qobuzrequest.cpp:1250
+#: tidal/tidalrequest.cpp:1194 qobuz/qobuzrequest.cpp:1256
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1251
+#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1257
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
 msgstr ""
@@ -3949,7 +3937,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:213
 msgid "Redirect missing token code!"
 msgstr "넘겨주기 응답에 토큰 코드가 없습니다!"
 
@@ -3994,7 +3982,7 @@ msgstr "재생 목록에서 중복 항목 삭제(&D)"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "재생 목록에서 사용할 수 없는 트랙 삭제(&U)"
 
-#: ../build/src/ui_collectionsettingspage.h:592
+#: ../build/src/ui_collectionsettingspage.h:526
 msgid "Remove folder"
 msgstr "폴더 삭제"
 
@@ -4054,7 +4042,7 @@ msgstr "한 곡 반복"
 msgid "Replace current playlist"
 msgstr "현재 재생 목록 대체"
 
-#: ../build/src/ui_collectionsettingspage.h:620
+#: ../build/src/ui_collectionsettingspage.h:554
 msgid "Replace spaces with dashes"
 msgstr "공백을 줄표로 대체"
 
@@ -4098,7 +4086,7 @@ msgstr "초기화"
 msgid "Reset play counts"
 msgstr "재생 횟수 초기화"
 
-#: dialogs/edittagdialog.cpp:1268
+#: dialogs/edittagdialog.cpp:1274
 msgid "Reset song play statistics"
 msgstr ""
 
@@ -4202,15 +4190,15 @@ msgstr "재생 목록 저장(&P)..."
 msgid "Save album cover"
 msgstr "앨범아트 저장"
 
-#: ../build/src/ui_collectionsettingspage.h:613
+#: ../build/src/ui_collectionsettingspage.h:547
 msgid "Save album covers as embedded cover"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:611
+#: ../build/src/ui_collectionsettingspage.h:545
 msgid "Save album covers in album directory"
 msgstr "앨범아트를 앨범 디렉터리에 저장"
 
-#: ../build/src/ui_collectionsettingspage.h:612
+#: ../build/src/ui_collectionsettingspage.h:546
 msgid "Save album covers in cache directory"
 msgstr ""
 
@@ -4222,11 +4210,11 @@ msgstr "디스크에 표지 저장..."
 msgid "Save current grouping"
 msgstr "현재 그룹 저장"
 
-#: ../build/src/ui_collectionsettingspage.h:633
+#: ../build/src/ui_collectionsettingspage.h:567
 msgid "Save playcounts and ratings to files now"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:629
+#: ../build/src/ui_collectionsettingspage.h:563
 msgid "Save playcounts to song tags when possible"
 msgstr ""
 
@@ -4248,7 +4236,7 @@ msgstr "재생 목록 저장..."
 msgid "Save preset"
 msgstr "사전 설정 저장"
 
-#: ../build/src/ui_collectionsettingspage.h:630
+#: ../build/src/ui_collectionsettingspage.h:564
 msgid "Save ratings to song tags when possible"
 msgstr ""
 
@@ -4260,11 +4248,11 @@ msgstr "노래 폴더에 .mood 파일 직접 저장"
 msgid "Saved Grouping Manager"
 msgstr "그룹 관리자 저장됨"
 
-#: ../build/src/ui_collectionsettingspage.h:609
+#: ../build/src/ui_collectionsettingspage.h:543
 msgid "Saving album covers"
 msgstr "앨범아트 저장 중"
 
-#: collection/collection.cpp:207
+#: collection/collection.cpp:201
 msgid "Saving playcounts and ratings"
 msgstr ""
 
@@ -4496,7 +4484,7 @@ msgstr "상태 표시줄 위에 표시"
 msgid "Show album cover"
 msgstr "앨범아트 보기"
 
-#: ../build/src/ui_collectionsettingspage.h:607
+#: ../build/src/ui_collectionsettingspage.h:541
 msgid "Show album cover art in collection"
 msgstr "앨범 목록에 앨범아트 표시"
 
@@ -4516,7 +4504,7 @@ msgstr ""
 msgid "Show dialog for errors"
 msgstr "에러 내용 보기"
 
-#: ../build/src/ui_collectionsettingspage.h:608
+#: ../build/src/ui_collectionsettingspage.h:542
 msgid "Show dividers"
 msgstr "구분자 표시"
 
@@ -4630,7 +4618,7 @@ msgid "Signing in..."
 msgstr "로그인 중..."
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:622
+#: ../build/src/ui_collectionsettingspage.h:556
 msgid "Size"
 msgstr "크기"
 
@@ -4694,11 +4682,11 @@ msgstr ""
 msgid "Song Lyrics"
 msgstr "노래 가사"
 
-#: ../build/src/ui_collectionsettingspage.h:596
+#: ../build/src/ui_collectionsettingspage.h:530
 msgid "Song fingerprinting and tracking"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:628
+#: ../build/src/ui_collectionsettingspage.h:562
 msgid "Song playcounts and ratings"
 msgstr ""
 
@@ -4948,10 +4936,6 @@ msgstr "위쪽에 탭 표시"
 msgid "Tag fetcher"
 msgstr "태그 가져오기"
 
-#: ../build/src/ui_collectionsettingspage.h:636
-msgid "Tagreader workers"
-msgstr ""
-
 #: ../build/src/ui_edittagdialog.h:860
 msgid "Tags"
 msgstr ""
@@ -5050,7 +5034,7 @@ msgid ""
 "continue?"
 msgstr "장치에서 다음 파일을 삭제합니다. 계속 진행하시겠습니까?"
 
-#: ../build/src/ui_collectionsettingspage.h:590
+#: ../build/src/ui_collectionsettingspage.h:524
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "라이브러리를 생성할 때 다음 폴더를 검색합니다"
 
@@ -5109,10 +5093,6 @@ msgstr "이 옵션은 \"행동\" 설정에서 변경할 수 있습니다"
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "다음 장치의 형식은 지원하지 않습니다: %1"
-
-#: ../build/src/ui_collectionsettingspage.h:637
-msgid "Thread priority"
-msgstr ""
 
 #: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5239,17 +5219,17 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:670 collection/collectionmodel.cpp:478
-#: collection/collectionmodel.cpp:483 collection/collectionmodel.cpp:487
-#: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:1655 collection/savedgroupingmanager.cpp:153
+#: core/song.cpp:726 collection/collectionmodel.cpp:477
+#: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
+#: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
+#: collection/collectionmodel.cpp:1654 collection/savedgroupingmanager.cpp:153
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:550
 #: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:764
 #: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1423
+#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1429
 msgid "Unknown error"
 msgstr "알 수 없는 오류"
 
@@ -5277,11 +5257,11 @@ msgstr "선택한 트랙 건너뛰기 해제"
 msgid "Unskip track"
 msgstr "트랙 건너뛰기 해제"
 
-#: ../build/src/ui_collectionsettingspage.h:594
+#: ../build/src/ui_collectionsettingspage.h:528
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry 시작 시 라이브러리 업데이트"
 
-#: collection/collectionwatcher.cpp:206
+#: collection/collectionwatcher.cpp:205
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 업데이트 중"
@@ -5296,7 +5276,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "%1% 업데이트 중..."
 
-#: collection/collectionwatcher.cpp:203
+#: collection/collectionwatcher.cpp:202
 msgid "Updating collection"
 msgstr "라이브러리 업데이트 중"
 
@@ -5439,7 +5419,7 @@ msgstr "메뉴에서 음악을 추가했을 때..."
 msgid "Variable bit rate"
 msgstr "가변 비트 전송률"
 
-#: collection/collectionmodel.cpp:289 collection/collectionmodel.cpp:290
+#: collection/collectionmodel.cpp:288 collection/collectionmodel.cpp:289
 #: playlist/playlistmanager.cpp:562 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:93 internet/internetsearchmodel.cpp:105
 msgid "Various artists"
@@ -5491,7 +5471,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:602
+#: ../build/src/ui_collectionsettingspage.h:536
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5526,7 +5506,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "지금 전부 다시 검색하시겠습니까?"
 
-#: settings/collectionsettingspage.cpp:406
+#: settings/collectionsettingspage.cpp:371
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
@@ -5688,7 +5668,7 @@ msgstr ""
 msgid "contains"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:599
+#: ../build/src/ui_collectionsettingspage.h:533
 msgid "days"
 msgstr ""
 

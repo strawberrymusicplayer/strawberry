@@ -102,7 +102,7 @@ msgstr " 秒"
 msgid " songs"
 msgstr " 首曲目"
 
-#: scrobbler/scrobblingapi20.cpp:165 scrobbler/scrobblingapi20.cpp:174
+#: scrobbler/scrobblingapi20.cpp:172 scrobbler/scrobblingapi20.cpp:181
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr ""
@@ -214,7 +214,7 @@ msgstr "%1 已传输"
 msgid "%album%"
 msgstr "%album%"
 
-#: ../build/src/ui_collectionsettingspage.h:617
+#: ../build/src/ui_collectionsettingspage.h:551
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
@@ -560,7 +560,7 @@ msgstr "如果支持此通知类型，则添加一个新行"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "添加目录及其子目录的所有曲目"
 
-#: settings/collectionsettingspage.cpp:136
+#: settings/collectionsettingspage.cpp:120
 msgid "Add directory..."
 msgstr "添加目录..."
 
@@ -584,7 +584,7 @@ msgstr "添加需转码文件"
 msgid "Add folder"
 msgstr "添加文件夹"
 
-#: ../build/src/ui_collectionsettingspage.h:591
+#: ../build/src/ui_collectionsettingspage.h:525
 msgid "Add new folder..."
 msgstr "添加新文件夹..."
 
@@ -736,17 +736,9 @@ msgstr "今日加入"
 msgid "Added within three months"
 msgstr "于三个月内加入"
 
-#: ../build/src/ui_collectionsettingspage.h:635
-msgid "Advanced"
-msgstr "高级"
-
 #: collection/collectionfilterwidget.cpp:328
 msgid "Advanced grouping..."
 msgstr "高级分组..."
-
-#: ../build/src/ui_collectionsettingspage.h:639
-msgid "Advanced settings require restart."
-msgstr "高级设置需要重启。"
 
 #: ../build/src/ui_organizedialog.h:261
 msgid "After copying..."
@@ -787,7 +779,7 @@ msgstr "专辑艺术家"
 msgid "Album cover editing is only available for collection songs."
 msgstr "只有媒体库中的歌曲可编辑专辑封面。"
 
-#: ../build/src/ui_collectionsettingspage.h:621
+#: ../build/src/ui_collectionsettingspage.h:555
 msgid "Album cover pixmap cache"
 msgstr "专辑封面像素图缓存"
 
@@ -858,7 +850,7 @@ msgstr "总是开始播放"
 msgid "An error occurred loading the iTunes database"
 msgstr "加载 iTunes 数据库时出错"
 
-#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1392
+#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1398
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "向 '%1' 写入元数据时出错"
@@ -912,11 +904,11 @@ msgstr "你确定要继续吗？"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "您确定要删除预设 %1 吗？"
 
-#: dialogs/edittagdialog.cpp:1268
+#: dialogs/edittagdialog.cpp:1274
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 
-#: settings/collectionsettingspage.cpp:406
+#: settings/collectionsettingspage.cpp:371
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -1002,7 +994,7 @@ msgstr "自动"
 msgid "Automatic"
 msgstr "自动"
 
-#: ../build/src/ui_collectionsettingspage.h:593
+#: ../build/src/ui_collectionsettingspage.h:527
 msgid "Automatic updating"
 msgstr "自动更新"
 
@@ -1011,7 +1003,7 @@ msgstr "自动更新"
 msgid "Automatically cover art from %1 is missing"
 msgstr "%1 的封面艺术自动丢失"
 
-#: ../build/src/ui_collectionsettingspage.h:606
+#: ../build/src/ui_collectionsettingspage.h:540
 msgid "Automatically open single categories in the collection tree"
 msgstr "自动打开媒体库树重的单个分类"
 
@@ -1247,7 +1239,7 @@ msgstr "古典"
 msgid "Clear"
 msgstr "清除"
 
-#: ../build/src/ui_collectionsettingspage.h:627
+#: ../build/src/ui_collectionsettingspage.h:561
 msgid "Clear Disk Cache"
 msgstr "清空磁盘缓存"
 
@@ -1300,7 +1292,7 @@ msgstr "关闭此窗口将停止寻找专辑封面。"
 msgid "Club"
 msgstr "俱乐部"
 
-#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:589
+#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:523
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "媒体库"
@@ -1446,7 +1438,7 @@ msgstr "无法创建GStreamer元素 \"%1\" - 请确认您已安装了所需GStre
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:174
+#: scrobbler/scrobblingapi20.cpp:181
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
@@ -1627,7 +1619,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
-#: ../build/src/ui_collectionsettingspage.h:625
+#: ../build/src/ui_collectionsettingspage.h:559
 msgid "Current disk cache in use:"
 msgstr "当前已用磁盘缓存："
 
@@ -1812,12 +1804,12 @@ msgstr "盘片"
 msgid "Discontinuous transmission"
 msgstr "断续传输"
 
-#: ../build/src/ui_collectionsettingspage.h:624
+#: ../build/src/ui_collectionsettingspage.h:558
 msgid "Disk Cache Size"
 msgstr "磁盘缓存大小"
 
 #: collection/collectionfilterwidget.cpp:131
-#: ../build/src/ui_collectionsettingspage.h:605
+#: ../build/src/ui_collectionsettingspage.h:539
 msgid "Display options"
 msgstr "显示选项"
 
@@ -1949,7 +1941,7 @@ msgstr ""
 msgid "Enable"
 msgstr "启用"
 
-#: ../build/src/ui_collectionsettingspage.h:623
+#: ../build/src/ui_collectionsettingspage.h:557
 msgid "Enable Disk Cache"
 msgstr "启用磁盘缓存"
 
@@ -1961,7 +1953,7 @@ msgstr ""
 msgid "Enable Items"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:634
+#: ../build/src/ui_collectionsettingspage.h:568
 #: ../build/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
 msgstr ""
@@ -2134,7 +2126,7 @@ msgstr "现有封面"
 msgid "Expand"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:598
+#: ../build/src/ui_collectionsettingspage.h:532
 msgid "Expire unavailable songs after"
 msgstr ""
 
@@ -2226,12 +2218,12 @@ msgid "Failed to open cover file %1 for reading: %2"
 msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:270
-#: covermanager/albumcoverchoicecontroller.cpp:640
+#: covermanager/albumcoverchoicecontroller.cpp:646
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:634
+#: covermanager/albumcoverchoicecontroller.cpp:640
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr ""
@@ -2324,7 +2316,7 @@ msgstr "文件类型"
 msgid "Filename"
 msgstr "文件名"
 
-#: ../build/src/ui_collectionsettingspage.h:614
+#: ../build/src/ui_collectionsettingspage.h:548
 msgid "Filename:"
 msgstr "文件名："
 
@@ -2639,10 +2631,6 @@ msgstr ""
 msgid "Hours"
 msgstr "小时"
 
-#: ../build/src/ui_collectionsettingspage.h:638
-msgid "I/O priority"
-msgstr "I/O 优先级"
-
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Icon"
 msgstr "图标"
@@ -2765,7 +2753,7 @@ msgstr "互联网标签页视图"
 msgid "Intro tracks"
 msgstr "代表曲目"
 
-#: scrobbler/scrobblingapi20.cpp:208
+#: scrobbler/scrobblingapi20.cpp:215
 msgid "Invalid reply from web browser. Missing token."
 msgstr ""
 
@@ -2864,7 +2852,7 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:190
+#: scrobbler/listenbrainzscrobbler.cpp:191
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz 认证"
 
@@ -2913,7 +2901,7 @@ msgstr "正在载入 iPod 数据库"
 msgid "Loading smart playlist"
 msgstr "正在加载智能播放列表"
 
-#: collection/collectionmodel.cpp:199
+#: collection/collectionmodel.cpp:198
 msgid "Loading songs"
 msgstr "加载曲目"
 
@@ -2925,7 +2913,7 @@ msgstr "正在载入曲目"
 msgid "Loading tracks info"
 msgstr "正在加载曲目信息"
 
-#: collection/collectionmodel.cpp:192
+#: collection/collectionmodel.cpp:191
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:280
 msgid "Loading..."
@@ -2971,7 +2959,7 @@ msgstr "低复杂度 (LC)"
 msgid "Low watermark"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:619
+#: ../build/src/ui_collectionsettingspage.h:553
 msgid "Lowercase filename"
 msgstr "小写字母文件名"
 
@@ -3013,7 +3001,7 @@ msgstr ""
 msgid "Manufacturer"
 msgstr "生产商"
 
-#: ../build/src/ui_collectionsettingspage.h:597
+#: ../build/src/ui_collectionsettingspage.h:531
 msgid "Mark disappeared songs unavailable"
 msgstr ""
 
@@ -3130,7 +3118,7 @@ msgstr "缺失用户名。"
 msgid "Model"
 msgstr "型号"
 
-#: ../build/src/ui_collectionsettingspage.h:595
+#: ../build/src/ui_collectionsettingspage.h:529
 msgid "Monitor the collection for changes"
 msgstr "监控媒体库的更改"
 
@@ -3269,7 +3257,7 @@ msgstr "无封面可供导出。"
 msgid "No long blocks"
 msgstr "无长块"
 
-#: tidal/tidalrequest.cpp:1361 qobuz/qobuzrequest.cpp:1417
+#: tidal/tidalrequest.cpp:1361 qobuz/qobuzrequest.cpp:1423
 msgid "No match."
 msgstr "没有匹配项。"
 
@@ -3380,7 +3368,7 @@ msgstr "只在第一次启动时显示"
 msgid "Opacity"
 msgstr "不透明度"
 
-#: scrobbler/scrobblingapi20.cpp:165
+#: scrobbler/scrobblingapi20.cpp:172
 msgid "Open URL in web browser?"
 msgstr "要在网页浏览器中打开 URL 吗？"
 
@@ -3478,15 +3466,15 @@ msgstr "输出"
 msgid "Output options"
 msgstr "输出选项"
 
-#: ../build/src/ui_collectionsettingspage.h:631
+#: ../build/src/ui_collectionsettingspage.h:565
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr "当从磁盘重新读取歌曲时覆盖数据库中的播放计数"
 
-#: ../build/src/ui_collectionsettingspage.h:632
+#: ../build/src/ui_collectionsettingspage.h:566
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr "当从磁盘重新读取歌曲时覆盖数据库中的评分"
 
-#: ../build/src/ui_collectionsettingspage.h:618
+#: ../build/src/ui_collectionsettingspage.h:552
 msgid "Overwrite existing file"
 msgstr "覆盖已存在的文件"
 
@@ -3522,7 +3510,7 @@ msgstr "密码"
 msgid "Path"
 msgstr "路径"
 
-#: ../build/src/ui_collectionsettingspage.h:615
+#: ../build/src/ui_collectionsettingspage.h:549
 msgid "Pattern"
 msgstr ""
 
@@ -3659,7 +3647,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "请关闭你的浏览器，回到 Strawberry。"
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:191
 msgid "Please open this URL in your browser"
 msgstr "请在浏览器中打开这个 URL"
 
@@ -3693,7 +3681,7 @@ msgstr ""
 msgid "Preferences"
 msgstr "首选项"
 
-#: ../build/src/ui_collectionsettingspage.h:600
+#: ../build/src/ui_collectionsettingspage.h:534
 msgid "Preferred album art filenames (comma separated)"
 msgstr "专辑封面的文件名(逗号分隔)"
 
@@ -3714,7 +3702,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "预设："
 
-#: scrobbler/scrobblingapi20.cpp:165
+#: scrobbler/scrobblingapi20.cpp:172
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3833,7 +3821,7 @@ msgstr ""
 msgid "Radios"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:616
+#: ../build/src/ui_collectionsettingspage.h:550
 msgid "Random"
 msgstr ""
 
@@ -3863,22 +3851,22 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:217
 msgid "Received invalid reply from web browser."
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:212
+#: scrobbler/scrobblingapi20.cpp:219
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1194 qobuz/qobuzrequest.cpp:1250
+#: tidal/tidalrequest.cpp:1194 qobuz/qobuzrequest.cpp:1256
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1251
+#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1257
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
 msgstr ""
@@ -3942,7 +3930,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:213
 msgid "Redirect missing token code!"
 msgstr ""
 
@@ -3987,7 +3975,7 @@ msgstr ""
 msgid "Remove &unavailable tracks from playlist"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:592
+#: ../build/src/ui_collectionsettingspage.h:526
 msgid "Remove folder"
 msgstr "删除文件夹"
 
@@ -4047,7 +4035,7 @@ msgstr "单曲循环"
 msgid "Replace current playlist"
 msgstr "移除当前播放列表"
 
-#: ../build/src/ui_collectionsettingspage.h:620
+#: ../build/src/ui_collectionsettingspage.h:554
 msgid "Replace spaces with dashes"
 msgstr ""
 
@@ -4091,7 +4079,7 @@ msgstr "重置"
 msgid "Reset play counts"
 msgstr "重置播放计数"
 
-#: dialogs/edittagdialog.cpp:1268
+#: dialogs/edittagdialog.cpp:1274
 msgid "Reset song play statistics"
 msgstr ""
 
@@ -4195,15 +4183,15 @@ msgstr "保存播放列表(&P)..."
 msgid "Save album cover"
 msgstr "保存专辑封面"
 
-#: ../build/src/ui_collectionsettingspage.h:613
+#: ../build/src/ui_collectionsettingspage.h:547
 msgid "Save album covers as embedded cover"
 msgstr "将专辑封面保存为嵌入式封面"
 
-#: ../build/src/ui_collectionsettingspage.h:611
+#: ../build/src/ui_collectionsettingspage.h:545
 msgid "Save album covers in album directory"
 msgstr "将专辑封面保存到专辑目录"
 
-#: ../build/src/ui_collectionsettingspage.h:612
+#: ../build/src/ui_collectionsettingspage.h:546
 msgid "Save album covers in cache directory"
 msgstr "将专辑封面保存到缓存目录"
 
@@ -4215,11 +4203,11 @@ msgstr "保存封面至硬盘..."
 msgid "Save current grouping"
 msgstr "保存当前分组"
 
-#: ../build/src/ui_collectionsettingspage.h:633
+#: ../build/src/ui_collectionsettingspage.h:567
 msgid "Save playcounts and ratings to files now"
 msgstr "现在保存播放计数和评分到文件"
 
-#: ../build/src/ui_collectionsettingspage.h:629
+#: ../build/src/ui_collectionsettingspage.h:563
 msgid "Save playcounts to song tags when possible"
 msgstr "保存播放计数到歌曲标签（如果可能）"
 
@@ -4241,7 +4229,7 @@ msgstr "保存播放列表..."
 msgid "Save preset"
 msgstr "保存预设"
 
-#: ../build/src/ui_collectionsettingspage.h:630
+#: ../build/src/ui_collectionsettingspage.h:564
 msgid "Save ratings to song tags when possible"
 msgstr "保存评分到歌曲标签（如果可能）"
 
@@ -4253,11 +4241,11 @@ msgstr "直接保存 .mood 文件到歌曲文件夹"
 msgid "Saved Grouping Manager"
 msgstr "已保存的分组管理器"
 
-#: ../build/src/ui_collectionsettingspage.h:609
+#: ../build/src/ui_collectionsettingspage.h:543
 msgid "Saving album covers"
 msgstr "正在保存专辑封面"
 
-#: collection/collection.cpp:207
+#: collection/collection.cpp:201
 msgid "Saving playcounts and ratings"
 msgstr "正在保存播放计数和评分"
 
@@ -4489,7 +4477,7 @@ msgstr "在状态栏之上显示"
 msgid "Show album cover"
 msgstr "显示专辑封面"
 
-#: ../build/src/ui_collectionsettingspage.h:607
+#: ../build/src/ui_collectionsettingspage.h:541
 msgid "Show album cover art in collection"
 msgstr "在媒体库中显示专辑封面图稿"
 
@@ -4509,7 +4497,7 @@ msgstr "在当前正在播放的音轨上显示栏"
 msgid "Show dialog for errors"
 msgstr "显示错误对话框"
 
-#: ../build/src/ui_collectionsettingspage.h:608
+#: ../build/src/ui_collectionsettingspage.h:542
 msgid "Show dividers"
 msgstr "显示分频器"
 
@@ -4623,7 +4611,7 @@ msgid "Signing in..."
 msgstr "登录..."
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:622
+#: ../build/src/ui_collectionsettingspage.h:556
 msgid "Size"
 msgstr "大小"
 
@@ -4687,11 +4675,11 @@ msgstr "SomaFM"
 msgid "Song Lyrics"
 msgstr "歌词"
 
-#: ../build/src/ui_collectionsettingspage.h:596
+#: ../build/src/ui_collectionsettingspage.h:530
 msgid "Song fingerprinting and tracking"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:628
+#: ../build/src/ui_collectionsettingspage.h:562
 msgid "Song playcounts and ratings"
 msgstr ""
 
@@ -4939,10 +4927,6 @@ msgstr "标签在上"
 msgid "Tag fetcher"
 msgstr "标签提取程序"
 
-#: ../build/src/ui_collectionsettingspage.h:636
-msgid "Tagreader workers"
-msgstr ""
-
 #: ../build/src/ui_edittagdialog.h:860
 msgid "Tags"
 msgstr "标签"
@@ -5041,7 +5025,7 @@ msgid ""
 "continue?"
 msgstr "将从设备中删除这些文件.确定删除吗?"
 
-#: ../build/src/ui_collectionsettingspage.h:590
+#: ../build/src/ui_collectionsettingspage.h:524
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "这些文件夹将被扫描然后收录进您的媒体库"
 
@@ -5100,10 +5084,6 @@ msgstr "这些选项可以在“行为”设置中修改"
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "这类设备不受支持：%1"
-
-#: ../build/src/ui_collectionsettingspage.h:637
-msgid "Thread priority"
-msgstr "线程优先级"
 
 #: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5230,17 +5210,17 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:670 collection/collectionmodel.cpp:478
-#: collection/collectionmodel.cpp:483 collection/collectionmodel.cpp:487
-#: collection/collectionmodel.cpp:491 collection/collectionmodel.cpp:495
-#: collection/collectionmodel.cpp:1655 collection/savedgroupingmanager.cpp:153
+#: core/song.cpp:726 collection/collectionmodel.cpp:477
+#: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
+#: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
+#: collection/collectionmodel.cpp:1654 collection/savedgroupingmanager.cpp:153
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:550
 #: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:764
 #: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "未知"
 
-#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1423
+#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1429
 msgid "Unknown error"
 msgstr "未知错误"
 
@@ -5268,11 +5248,11 @@ msgstr "取消略过的选定曲目"
 msgid "Unskip track"
 msgstr "取消掠过曲目"
 
-#: ../build/src/ui_collectionsettingspage.h:594
+#: ../build/src/ui_collectionsettingspage.h:528
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry 启动时更新媒体库"
 
-#: collection/collectionwatcher.cpp:206
+#: collection/collectionwatcher.cpp:205
 #, qt-format
 msgid "Updating %1"
 msgstr "正在更新 %1"
@@ -5287,7 +5267,7 @@ msgstr "正在更新 %1 数据库。"
 msgid "Updating %1%..."
 msgstr "正在更新 %1%..."
 
-#: collection/collectionwatcher.cpp:203
+#: collection/collectionwatcher.cpp:202
 msgid "Updating collection"
 msgstr "正在更新媒体库"
 
@@ -5430,7 +5410,7 @@ msgstr "使用菜单添加歌曲将..."
 msgid "Variable bit rate"
 msgstr "可变比特率"
 
-#: collection/collectionmodel.cpp:289 collection/collectionmodel.cpp:290
+#: collection/collectionmodel.cpp:288 collection/collectionmodel.cpp:289
 #: playlist/playlistmanager.cpp:562 covermanager/albumcovermanager.cpp:361
 #: internet/internetsearchmodel.cpp:93 internet/internetsearchmodel.cpp:105
 msgid "Various artists"
@@ -5482,7 +5462,7 @@ msgstr ""
 msgid "Weeks"
 msgstr "星期"
 
-#: ../build/src/ui_collectionsettingspage.h:602
+#: ../build/src/ui_collectionsettingspage.h:536
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5516,7 +5496,7 @@ msgstr ""
 msgid "Would you like to run a full rescan right now?"
 msgstr "您要立即做个全部重新扫描？"
 
-#: settings/collectionsettingspage.cpp:406
+#: settings/collectionsettingspage.cpp:371
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
@@ -5678,7 +5658,7 @@ msgstr ""
 msgid "contains"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:599
+#: ../build/src/ui_collectionsettingspage.h:533
 msgid "days"
 msgstr "天"
 
