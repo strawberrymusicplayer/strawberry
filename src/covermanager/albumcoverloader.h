@@ -99,7 +99,7 @@ class AlbumCoverLoader : public QObject {
  protected:
 
   struct Task {
-    explicit Task() : id(0), state(State::None), type(AlbumCoverLoaderResult::Type_None), art_updated(false), redirects(0) {}
+    explicit Task() : id(0), state(State::None), type(AlbumCoverLoaderResult::Type::None), art_updated(false), redirects(0) {}
 
     AlbumCoverLoaderOptions options;
 
@@ -115,7 +115,7 @@ class AlbumCoverLoader : public QObject {
   struct TryLoadResult {
     explicit TryLoadResult(const bool _started_async = false,
                            const bool _loaded_success = false,
-                           const AlbumCoverLoaderResult::Type _type = AlbumCoverLoaderResult::Type_None,
+                           const AlbumCoverLoaderResult::Type _type = AlbumCoverLoaderResult::Type::None,
                            const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult()) :
                            started_async(_started_async),
                            loaded_success(_loaded_success),

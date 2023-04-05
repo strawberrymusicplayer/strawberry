@@ -319,7 +319,7 @@ void RadioModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult
 
   pending_cache_keys_.remove(cache_key);
 
-  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type_ManuallyUnset) {
+  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
     QPixmapCache::insert(cache_key, ServiceIcon(item));
   }
   else {

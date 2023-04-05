@@ -893,7 +893,7 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
   if (id == tags_cover_art_id_) {
     ui_->tags_art->clear();
     bool enable_change_art = false;
-    if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset) {
+    if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset) {
       ui_->tags_art->setPixmap(QPixmap::fromImage(result.image_scaled));
       for (const QModelIndex &idx : ui_->song_list->selectionModel()->selectedIndexes()) {
         data_[idx.row()].cover_result_ = result.album_cover;
@@ -908,13 +908,13 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
       }
     }
     tags_cover_art_id_ = -1;
-    album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
-    album_cover_choice_controller_->cover_to_file_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
-    album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
+    album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
+    album_cover_choice_controller_->cover_to_file_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
+    album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
 
   }
   else if (id == summary_cover_art_id_) {
-    if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset) {
+    if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset) {
       ui_->summary_art->setPixmap(QPixmap::fromImage(result.image_scaled));
     }
     else {

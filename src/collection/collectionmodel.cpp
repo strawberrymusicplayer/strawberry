@@ -668,7 +668,7 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
   pending_cache_keys_.remove(cache_key);
 
   // Insert this image in the cache.
-  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type_ManuallyUnset) {
+  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
     // Set the no_cover image so we don't continually try to load art.
     QPixmapCache::insert(cache_key, no_cover_icon_);
   }

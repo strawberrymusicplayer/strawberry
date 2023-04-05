@@ -3069,14 +3069,14 @@ void MainWindow::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult
   emit AlbumCoverReady(song, result.album_cover.image);
 
   const bool enable_change_art = song.is_collection_song() && !song.effective_albumartist().isEmpty() && !song.album().isEmpty();
-  album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
-  album_cover_choice_controller_->cover_to_file_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
+  album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
+  album_cover_choice_controller_->cover_to_file_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
   album_cover_choice_controller_->cover_from_file_action()->setEnabled(enable_change_art);
   album_cover_choice_controller_->cover_from_url_action()->setEnabled(enable_change_art);
   album_cover_choice_controller_->search_for_cover_action()->setEnabled(app_->cover_providers()->HasAnyProviders() && enable_change_art);
   album_cover_choice_controller_->unset_cover_action()->setEnabled(enable_change_art && !song.has_manually_unset_cover());
   album_cover_choice_controller_->clear_cover_action()->setEnabled(enable_change_art && !song.art_manual().isEmpty());
-  album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && result.success && result.type != AlbumCoverLoaderResult::Type_ManuallyUnset);
+  album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
 
   GetCoverAutomatically();
 

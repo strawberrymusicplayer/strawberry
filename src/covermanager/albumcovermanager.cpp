@@ -449,7 +449,7 @@ void AlbumCoverManager::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoade
 
   AlbumItem *item = cover_loading_tasks_.take(id);
 
-  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type_ManuallyUnset) {
+  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
     item->setIcon(icon_nocover_item_);
   }
   else {

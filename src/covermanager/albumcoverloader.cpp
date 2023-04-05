@@ -216,7 +216,7 @@ void AlbumCoverLoader::NextState(Task *task) {
   }
   else {
     // Give up
-    emit AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(false, AlbumCoverLoaderResult::Type_None, AlbumCoverImageResult(task->options.default_output_image_), task->options.default_scaled_image_, task->options.default_thumbnail_image_, task->art_updated));
+    emit AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(false, AlbumCoverLoaderResult::Type::None, AlbumCoverImageResult(task->options.default_output_image_), task->options.default_scaled_image_, task->options.default_thumbnail_image_, task->art_updated));
   }
 
 }
@@ -225,7 +225,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
 
   // Only scale and pad.
   if (task->album_cover.is_valid()) {
-    return TryLoadResult(false, true, AlbumCoverLoaderResult::Type_Embedded, task->album_cover);
+    return TryLoadResult(false, true, AlbumCoverLoaderResult::Type::Embedded, task->album_cover);
   }
 
   // For local files and streams initialize art if found.
@@ -246,16 +246,16 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
     }
   }
 
-  AlbumCoverLoaderResult::Type type(AlbumCoverLoaderResult::Type_None);
+  AlbumCoverLoaderResult::Type type = AlbumCoverLoaderResult::Type::None;
   QUrl cover_url;
   switch (task->state) {
     case State::None:
     case State::Automatic:
-      type = AlbumCoverLoaderResult::Type_Automatic;
+      type = AlbumCoverLoaderResult::Type::Automatic;
       cover_url = task->song.art_automatic();
       break;
     case State::Manual:
-      type = AlbumCoverLoaderResult::Type_Manual;
+      type = AlbumCoverLoaderResult::Type::Manual;
       cover_url = task->song.art_manual();
       break;
   }
@@ -263,17 +263,17 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
 
   if (!cover_url.isEmpty() && !cover_url.path().isEmpty()) {
     if (cover_url.path() == Song::kManuallyUnsetCover) {
-      return TryLoadResult(false, true, AlbumCoverLoaderResult::Type_ManuallyUnset, AlbumCoverImageResult(cover_url, QString(), QByteArray(), task->options.default_output_image_));
+      return TryLoadResult(false, true, AlbumCoverLoaderResult::Type::ManuallyUnset, AlbumCoverImageResult(cover_url, QString(), QByteArray(), task->options.default_output_image_));
     }
     else if (cover_url.path() == Song::kEmbeddedCover && task->song.url().isLocalFile()) {
       QByteArray image_data = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(task->song.url().toLocalFile());
       if (!image_data.isEmpty()) {
         QImage image;
         if (!image_data.isEmpty() && task->options.get_image_ && image.loadFromData(image_data)) {
-          return TryLoadResult(false, !image.isNull(), AlbumCoverLoaderResult::Type_Embedded, AlbumCoverImageResult(cover_url, QString(), image_data, image));
+          return TryLoadResult(false, !image.isNull(), AlbumCoverLoaderResult::Type::Embedded, AlbumCoverImageResult(cover_url, QString(), image_data, image));
         }
         else {
-          return TryLoadResult(false, !image_data.isEmpty(), AlbumCoverLoaderResult::Type_Embedded, AlbumCoverImageResult(cover_url, QString(), image_data, image));
+          return TryLoadResult(false, !image_data.isEmpty(), AlbumCoverLoaderResult::Type::Embedded, AlbumCoverImageResult(cover_url, QString(), image_data, image));
         }
       }
     }
@@ -334,7 +334,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
     }
   }
 
-  return TryLoadResult(false, false, AlbumCoverLoaderResult::Type_None, AlbumCoverImageResult(cover_url, QString(), QByteArray(), task->options.default_output_image_));
+  return TryLoadResult(false, false, AlbumCoverLoaderResult::Type::None, AlbumCoverImageResult(cover_url, QString(), QByteArray(), task->options.default_output_image_));
 
 }
 

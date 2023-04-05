@@ -29,17 +29,17 @@
 
 struct AlbumCoverLoaderResult {
 
-  enum Type {
-    Type_None,
-    Type_ManuallyUnset,
-    Type_Embedded,
-    Type_Automatic,
-    Type_Manual,
-    Type_Remote,
+  enum class Type {
+    None,
+    ManuallyUnset,
+    Embedded,
+    Automatic,
+    Manual,
+    Remote
   };
 
   explicit AlbumCoverLoaderResult(const bool _success = false,
-                                  const Type _type = Type_None,
+                                  const Type _type = Type::None,
                                   const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult(),
                                   const QImage &_image_scaled = QImage(),
                                   const QImage &_image_thumbnail = QImage(),
