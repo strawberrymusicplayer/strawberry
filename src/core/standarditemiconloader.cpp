@@ -96,13 +96,15 @@ void StandardItemIconLoader::ModelReset() {
 
 }
 
-void StandardItemIconLoader::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
+void StandardItemIconLoader::AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result) {
+
+  if (!pending_covers_.contains(id)) return;
 
   QStandardItem *item = pending_covers_.take(id);
   if (!item) return;
 
-  if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset) {
-    item->setIcon(QIcon(QPixmap::fromImage(result.image_scaled)));
+  if (result && result->success && !result->image_scaled.isNull() && result->type != AlbumCoverLoaderResult::Type::ManuallyUnset) {
+    item->setIcon(QIcon(QPixmap::fromImage(result->image_scaled)));
   }
 
 }

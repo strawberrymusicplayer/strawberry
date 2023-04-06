@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QWidget>
 #include <QDialog>
 #include <QStandardItemModel>
@@ -161,7 +163,7 @@ void AlbumCoverSearcher::Init(AlbumCoverFetcher *fetcher) {
 
 }
 
-AlbumCoverImageResult AlbumCoverSearcher::Exec(const QString &artist, const QString &album) {
+AlbumCoverImageResultPtr AlbumCoverSearcher::Exec(const QString &artist, const QString &album) {
 
   ui_->artist->setText(artist);
   ui_->album->setText(album);
@@ -171,16 +173,16 @@ AlbumCoverImageResult AlbumCoverSearcher::Exec(const QString &artist, const QStr
     Search();
   }
 
-  if (exec() == QDialog::Rejected) return AlbumCoverImageResult();
+  if (exec() == QDialog::Rejected) return AlbumCoverImageResultPtr();
 
   QModelIndex selected = ui_->covers->currentIndex();
   if (!selected.isValid() || !selected.data(Role_ImageFetchFinished).toBool())
-    return AlbumCoverImageResult();
+    return AlbumCoverImageResultPtr();
 
-  AlbumCoverImageResult result;
-  result.image_data = selected.data(Role_ImageData).toByteArray();
-  result.image = selected.data(Role_Image).value<QImage>();
-  result.mime_type = Utilities::MimeTypeFromData(result.image_data);
+  AlbumCoverImageResultPtr result = std::make_shared<AlbumCoverImageResult>();
+  result->image_data = selected.data(Role_ImageData).toByteArray();
+  result->image = selected.data(Role_Image).value<QImage>();
+  result->mime_type = Utilities::MimeTypeFromData(result->image_data);
 
   return result;
 
@@ -246,31 +248,31 @@ void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverProviderSea
 
 }
 
-void AlbumCoverSearcher::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
+void AlbumCoverSearcher::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResultPtr result) {
 
   if (!cover_loading_tasks_.contains(id)) return;
   QStandardItem *item = cover_loading_tasks_.take(id);
 
   if (cover_loading_tasks_.isEmpty()) ui_->busy->hide();
 
-  if (!result.success || result.album_cover.image_data.isNull() || result.album_cover.image.isNull() || result.image_thumbnail.isNull()) {
+  if (!result || !result->success || result->album_cover->image_data == nullptr || result->album_cover->image_data.isNull() || result->album_cover->image.isNull() || result->image_thumbnail.isNull()) {
     model_->removeRow(item->row());
     return;
   }
 
-  QPixmap pixmap = QPixmap::fromImage(result.image_thumbnail);
+  const QPixmap pixmap = QPixmap::fromImage(result->image_thumbnail);
   if (pixmap.isNull()) {
     model_->removeRow(item->row());
     return;
   }
 
-  QIcon icon(pixmap);
+  const QIcon icon(pixmap);
 
   item->setData(true, Role_ImageFetchFinished);
-  item->setData(result.album_cover.image_data, Role_ImageData);
-  item->setData(result.album_cover.image, Role_Image);
-  item->setData(result.album_cover.image.width() * result.album_cover.image.height(), Role_ImageDimensions);
-  item->setData(result.album_cover.image.size(), Role_ImageSize);
+  item->setData(result->album_cover->image_data, Role_ImageData);
+  item->setData(result->album_cover->image, Role_Image);
+  item->setData(result->album_cover->image.width() * result->album_cover->image.height(), Role_ImageDimensions);
+  item->setData(result->album_cover->image.size(), Role_ImageSize);
   if (!icon.isNull()) item->setIcon(icon);
 
 }

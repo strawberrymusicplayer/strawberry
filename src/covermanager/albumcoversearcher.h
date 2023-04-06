@@ -83,12 +83,12 @@ class AlbumCoverSearcher : public QDialog {
     Role_ImageData,
     Role_Image,
     Role_ImageDimensions,
-    Role_ImageSize,
+    Role_ImageSize
   };
 
   void Init(AlbumCoverFetcher *fetcher);
 
-  AlbumCoverImageResult Exec(const QString &artist, const QString &album);
+  AlbumCoverImageResultPtr Exec(const QString &artist, const QString &album);
 
  protected:
   void keyPressEvent(QKeyEvent*) override;
@@ -96,7 +96,7 @@ class AlbumCoverSearcher : public QDialog {
  private slots:
   void Search();
   void SearchFinished(const quint64 id, const CoverProviderSearchResults &results);
-  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
+  void AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result);
 
   void CoverDoubleClicked(const QModelIndex &idx);
 

@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <iterator>
 #include <limits>
+#include <memory>
 
 #include <QtGlobal>
 #include <QtConcurrent>
@@ -341,7 +342,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
         if (event->mimeData()->hasImage()) {
           QImage image = qvariant_cast<QImage>(event->mimeData()->imageData());
           if (!image.isNull()) {
-            UpdateCover(UpdateCoverAction::New, AlbumCoverImageResult(image));
+            UpdateCover(UpdateCoverAction::New, std::make_shared<AlbumCoverImageResult>(image));
           }
         }
         break;
@@ -637,10 +638,10 @@ void EditTagDialog::SelectionChanged() {
   bool lyrics_enabled = false;
   for (const QModelIndex &idx : indexes) {
     if (data_[idx.row()].cover_action_ == UpdateCoverAction::None) {
-      data_[idx.row()].cover_result_ = AlbumCoverImageResult();
+      data_[idx.row()].cover_result_ = std::make_shared<AlbumCoverImageResult>();
     }
     const Song &song = data_[idx.row()].original_;
-    if (data_[idx.row()].cover_action_ != first_cover_action || (first_cover_action != UpdateCoverAction::None && data_[idx.row()].cover_result_.image_data != data_[indexes.first().row()].cover_result_.image_data)) {
+    if (data_[idx.row()].cover_action_ != first_cover_action || (first_cover_action != UpdateCoverAction::None && data_[idx.row()].cover_result_->image_data != data_[indexes.first().row()].cover_result_->image_data)) {
       action_different = true;
     }
     if (data_[idx.row()].cover_action_ != first_cover_action ||
@@ -888,34 +889,34 @@ void EditTagDialog::UpdateStatisticsTab(const Song &song) {
 
 }
 
-void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
+void EditTagDialog::AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result) {
 
   if (id == tags_cover_art_id_) {
     ui_->tags_art->clear();
     bool enable_change_art = false;
-    if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset) {
-      ui_->tags_art->setPixmap(QPixmap::fromImage(result.image_scaled));
+    if (result->success && !result->image_scaled.isNull() && result->type != AlbumCoverLoaderResult::Type::ManuallyUnset) {
+      ui_->tags_art->setPixmap(QPixmap::fromImage(result->image_scaled));
       for (const QModelIndex &idx : ui_->song_list->selectionModel()->selectedIndexes()) {
-        data_[idx.row()].cover_result_ = result.album_cover;
+        data_[idx.row()].cover_result_ = result->album_cover;
         enable_change_art = data_[idx.row()].original_.is_collection_song();
       }
     }
     else {
       ui_->tags_art->setPixmap(QPixmap::fromImage(image_no_cover_thumbnail_));
       for (const QModelIndex &idx : ui_->song_list->selectionModel()->selectedIndexes()) {
-        data_[idx.row()].cover_result_ = AlbumCoverImageResult();
+        data_[idx.row()].cover_result_ = std::make_shared<AlbumCoverImageResult>();
         enable_change_art = data_[idx.row()].original_.is_collection_song();
       }
     }
     tags_cover_art_id_ = -1;
-    album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
-    album_cover_choice_controller_->cover_to_file_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
-    album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
+    album_cover_choice_controller_->show_cover_action()->setEnabled(result->success && result->type != AlbumCoverLoaderResult::Type::ManuallyUnset);
+    album_cover_choice_controller_->cover_to_file_action()->setEnabled(result->success && result->type != AlbumCoverLoaderResult::Type::ManuallyUnset);
+    album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && result->success && result->type != AlbumCoverLoaderResult::Type::ManuallyUnset);
 
   }
   else if (id == summary_cover_art_id_) {
-    if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset) {
-      ui_->summary_art->setPixmap(QPixmap::fromImage(result.image_scaled));
+    if (result->success && !result->image_scaled.isNull() && result->type != AlbumCoverLoaderResult::Type::ManuallyUnset) {
+      ui_->summary_art->setPixmap(QPixmap::fromImage(result->image_scaled));
     }
     else {
       ui_->summary_art->setPixmap(QPixmap::fromImage(image_no_cover_thumbnail_));
@@ -980,8 +981,8 @@ void EditTagDialog::LoadCoverFromFile() {
   Song *song = GetFirstSelected();
   if (!song) return;
 
-  AlbumCoverImageResult result = album_cover_choice_controller_->LoadImageFromFile(song);
-  if (result.is_valid()) UpdateCover(UpdateCoverAction::New, result);
+  AlbumCoverImageResultPtr result = album_cover_choice_controller_->LoadImageFromFile(song);
+  if (result && result->is_valid()) UpdateCover(UpdateCoverAction::New, result);
 
 }
 
@@ -998,8 +999,8 @@ void EditTagDialog::LoadCoverFromURL() {
 
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
 
-  AlbumCoverImageResult result = album_cover_choice_controller_->LoadImageFromURL();
-  if (result.is_valid()) UpdateCover(UpdateCoverAction::New, result);
+  AlbumCoverImageResultPtr result = album_cover_choice_controller_->LoadImageFromURL();
+  if (result && result->is_valid()) UpdateCover(UpdateCoverAction::New, result);
 
 }
 
@@ -1008,8 +1009,8 @@ void EditTagDialog::SearchForCover() {
   Song *song = GetFirstSelected();
   if (!song) return;
 
-  AlbumCoverImageResult result = album_cover_choice_controller_->SearchForImage(song);
-  if (result.is_valid()) UpdateCover(UpdateCoverAction::New, result);
+  AlbumCoverImageResultPtr result = album_cover_choice_controller_->SearchForImage(song);
+  if (result && result->is_valid()) UpdateCover(UpdateCoverAction::New, result);
 
 }
 
@@ -1046,11 +1047,11 @@ void EditTagDialog::ShowCover() {
 
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
   const Data &first_data = data_[ui_->song_list->selectionModel()->selectedIndexes().first().row()];
-  album_cover_choice_controller_->ShowCover(first_data.current_, first_data.cover_result_.image);
+  album_cover_choice_controller_->ShowCover(first_data.current_, first_data.cover_result_->image);
 
 }
 
-void EditTagDialog::UpdateCover(const UpdateCoverAction action, const AlbumCoverImageResult &result) {
+void EditTagDialog::UpdateCover(const UpdateCoverAction action, AlbumCoverImageResultPtr result) {
 
   const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
   if (indexes.isEmpty()) return;
@@ -1165,8 +1166,8 @@ void EditTagDialog::SaveData() {
           if ((!ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) &&
               (!ui_->checkbox_embedded_cover->isChecked() || !ref.original_.save_embedded_cover_supported())) {
             QUrl cover_url;
-            if (!ref.cover_result_.cover_url.isEmpty() && ref.cover_result_.cover_url.isLocalFile() && QFile::exists(ref.cover_result_.cover_url.toLocalFile())) {
-              cover_url = ref.cover_result_.cover_url;
+            if (!ref.cover_result_->cover_url.isEmpty() && ref.cover_result_->cover_url.isLocalFile() && QFile::exists(ref.cover_result_->cover_url.toLocalFile())) {
+              cover_url = ref.cover_result_->cover_url;
             }
             else {
               QString cover_hash = CoverUtils::Sha1CoverHash(ref.current_.effective_albumartist(), ref.current_.album()).toHex();
@@ -1223,9 +1224,9 @@ void EditTagDialog::SaveData() {
       TagReaderClient::SaveCoverOptions savecover_options;
       savecover_options.enabled = save_embedded_cover;
       if (save_embedded_cover && ref.cover_action_ == UpdateCoverAction::New) {
-        if (!ref.cover_result_.image.isNull()) {
-          savecover_options.is_jpeg = ref.cover_result_.is_jpeg();
-          savecover_options.cover_data = ref.cover_result_.image_data;
+        if (!ref.cover_result_->image.isNull()) {
+          savecover_options.is_jpeg = ref.cover_result_->is_jpeg();
+          savecover_options.cover_data = ref.cover_result_->image_data;
         }
         else if (!embedded_cover_from_file.isEmpty()) {
           savecover_options.cover_filename = embedded_cover_from_file;

@@ -52,11 +52,11 @@ class CurrentAlbumCoverLoader : public QObject {
   void LoadAlbumCover(const Song &song);
 
  signals:
-  void AlbumCoverLoaded(Song song, AlbumCoverLoaderResult result);
-  void ThumbnailLoaded(Song song, QUrl thumbnail_uri, QImage image);
+  void AlbumCoverLoaded(Song song, AlbumCoverLoaderResultPtr result);
+  void ThumbnailLoaded(Song song, QUrl thumbnail_uri, const QImage &image);
 
  private slots:
-  void TempAlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResult result);
+  void TempAlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result);
 
  private:
   Application *app_;

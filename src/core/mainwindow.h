@@ -258,7 +258,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void DeleteCover();
   void ShowCover();
   void SearchCoverAutomatically();
-  void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
+  void AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResultPtr result);
 
   void ScrobblingEnabledChanged(const bool value);
   void ScrobbleButtonVisibilityChanged(const bool value);
@@ -391,7 +391,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   Song song_;
   Song song_playing_;
-  AlbumCoverImageResult album_cover_;
+  AlbumCoverImageResultPtr album_cover_;
   bool exit_;
   int exit_count_;
   bool delete_files_;

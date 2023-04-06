@@ -22,12 +22,15 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QImage>
 #include <QUrl>
 
 #include "albumcoverimageresult.h"
 
-struct AlbumCoverLoaderResult {
+class AlbumCoverLoaderResult {
+ public:
 
   enum class Type {
     None,
@@ -40,7 +43,7 @@ struct AlbumCoverLoaderResult {
 
   explicit AlbumCoverLoaderResult(const bool _success = false,
                                   const Type _type = Type::None,
-                                  const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult(),
+                                  AlbumCoverImageResultPtr _album_cover = AlbumCoverImageResultPtr(),
                                   const QImage &_image_scaled = QImage(),
                                   const QImage &_image_thumbnail = QImage(),
                                   const bool _updated = false) :
@@ -49,11 +52,17 @@ struct AlbumCoverLoaderResult {
                                   album_cover(_album_cover),
                                   image_scaled(_image_scaled),
                                   image_thumbnail(_image_thumbnail),
-                                  updated(_updated) {}
+                                  updated(_updated) {
+
+    if (!_album_cover) {
+      _album_cover = std::make_shared<AlbumCoverImageResult>();
+    }
+
+  }
 
   bool success;
   Type type;
-  AlbumCoverImageResult album_cover;
+  AlbumCoverImageResultPtr album_cover;
   QImage image_scaled;
   QImage image_thumbnail;
   bool updated;
@@ -61,5 +70,10 @@ struct AlbumCoverLoaderResult {
   QUrl temp_cover_url;
 
 };
+
+using AlbumCoverLoaderResultPtr = std::shared_ptr<AlbumCoverLoaderResult>;
+
+Q_DECLARE_METATYPE(AlbumCoverLoaderResult)
+Q_DECLARE_METATYPE(AlbumCoverLoaderResultPtr)
 
 #endif  // ALBUMCOVERLOADERRESULT_H

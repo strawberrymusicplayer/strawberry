@@ -307,7 +307,7 @@ QPixmap RadioModel::ChannelIcon(const QModelIndex &idx) {
 
 }
 
-void RadioModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
+void RadioModel::AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result) {
 
   if (!pending_art_.contains(id)) return;
 
@@ -319,11 +319,11 @@ void RadioModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult
 
   pending_cache_keys_.remove(cache_key);
 
-  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
+  if (!result || !result->success || result->image_scaled.isNull() || result->type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
     QPixmapCache::insert(cache_key, ServiceIcon(item));
   }
   else {
-    QPixmapCache::insert(cache_key, QPixmap::fromImage(result.image_scaled));
+    QPixmapCache::insert(cache_key, QPixmap::fromImage(result->image_scaled));
   }
 
   const QModelIndex idx = ItemToIndex(item);

@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QWidget>
 #include <QDialog>
 #include <QApplication>
@@ -49,11 +51,11 @@ CoverFromURLDialog::~CoverFromURLDialog() {
   delete ui_;
 }
 
-AlbumCoverImageResult CoverFromURLDialog::Exec() {
+AlbumCoverImageResultPtr CoverFromURLDialog::Exec() {
 
   // reset state
   ui_->url->setText("");
-  last_album_cover_ = AlbumCoverImageResult();
+  last_album_cover_.reset();
 
   QClipboard *clipboard = QApplication::clipboard();
   ui_->url->setText(clipboard->text());
@@ -87,12 +89,12 @@ void CoverFromURLDialog::LoadCoverFromURLFinished() {
     return;
   }
 
-  AlbumCoverImageResult result;
-  result.image_data = reply->readAll();
-  result.image.loadFromData(result.image_data);
-  result.mime_type = Utilities::MimeTypeFromData(result.image_data);
+  AlbumCoverImageResultPtr result = std::make_shared<AlbumCoverImageResult>();
+  result->image_data = reply->readAll();
+  result->image.loadFromData(result->image_data);
+  result->mime_type = Utilities::MimeTypeFromData(result->image_data);
 
-  if (!result.image.isNull()) {
+  if (!result->image.isNull()) {
     last_album_cover_ = result;
     QDialog::accept();
   }

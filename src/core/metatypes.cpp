@@ -123,6 +123,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<PlaylistSequence::RepeatMode>("PlaylistSequence::RepeatMode");
   qRegisterMetaType<PlaylistSequence::ShuffleMode>("PlaylistSequence::ShuffleMode");
   qRegisterMetaType<AlbumCoverLoaderResult>("AlbumCoverLoaderResult");
+  qRegisterMetaType<AlbumCoverLoaderResultPtr>("AlbumCoverLoaderResultPtr");
   qRegisterMetaType<AlbumCoverLoaderResult::Type>("AlbumCoverLoaderResult::Type");
   qRegisterMetaType<CoverProviderSearchResult>("CoverProviderSearchResult");
   qRegisterMetaType<CoverProviderSearchResults>("CoverProviderSearchResults");

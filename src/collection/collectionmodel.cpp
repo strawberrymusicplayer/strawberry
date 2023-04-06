@@ -655,7 +655,7 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
 
 }
 
-void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
+void CollectionModel::AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result) {
 
   if (!pending_art_.contains(id)) return;
 
@@ -667,19 +667,21 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
 
   pending_cache_keys_.remove(cache_key);
 
+  if (!result) return;
+
   // Insert this image in the cache.
-  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
+  if (!result->success || result->image_scaled.isNull() || result->type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
     // Set the no_cover image so we don't continually try to load art.
     QPixmapCache::insert(cache_key, no_cover_icon_);
   }
   else {
     QPixmap image_pixmap;
-    image_pixmap = QPixmap::fromImage(result.image_scaled);
+    image_pixmap = QPixmap::fromImage(result->image_scaled);
     QPixmapCache::insert(cache_key, image_pixmap);
   }
 
   // If we have a valid cover not already in the disk cache
-  if (use_disk_cache_ && sIconCache && result.success && !result.image_scaled.isNull()) {
+  if (use_disk_cache_ && sIconCache && result->success && !result->image_scaled.isNull()) {
     std::unique_ptr<QIODevice> cached_img(sIconCache->data(QUrl(cache_key)));
     if (!cached_img) {
       QNetworkCacheMetaData item_metadata;
@@ -687,7 +689,7 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
       item_metadata.setUrl(QUrl(cache_key));
       QIODevice *cache = sIconCache->prepare(item_metadata);
       if (cache) {
-        result.image_scaled.save(cache, "XPM");
+        result->image_scaled.save(cache, "XPM");
         sIconCache->insert(cache);
       }
     }

@@ -118,12 +118,12 @@ class AlbumCoverFetcher : public QObject {
   void Clear();
 
  signals:
-  void AlbumCoverFetched(quint64 request_id, AlbumCoverImageResult result, CoverSearchStatistics statistics);
+  void AlbumCoverFetched(quint64 request_id, AlbumCoverImageResultPtr result, CoverSearchStatistics statistics);
   void SearchFinished(quint64 request_id, CoverProviderSearchResults results, CoverSearchStatistics statistics);
 
  private slots:
   void SingleSearchFinished(const quint64, const CoverProviderSearchResults &results);
-  void SingleCoverFetched(const quint64, const AlbumCoverImageResult &result);
+  void SingleCoverFetched(const quint64, AlbumCoverImageResultPtr result);
   void StartRequests();
 
  private:

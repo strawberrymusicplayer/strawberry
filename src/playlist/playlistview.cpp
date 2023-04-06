@@ -1467,11 +1467,11 @@ void PlaylistView::Stopped() {
 
 }
 
-void PlaylistView::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
+void PlaylistView::AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResultPtr result) {
 
-  if ((song != Song() && song_playing_ == Song()) || result.album_cover.image == current_song_cover_art_) return;
+  if (!result || (song != Song() && song_playing_ == Song()) || result->album_cover->image == current_song_cover_art_) return;
 
-  current_song_cover_art_ = result.album_cover.image;
+  current_song_cover_art_ = result->album_cover->image;
   if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Album) {
     if (song.art_automatic().isEmpty() && song.art_manual().isEmpty()) {
       set_background_image(QImage());

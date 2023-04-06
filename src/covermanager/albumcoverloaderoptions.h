@@ -27,7 +27,8 @@
 #include <QImage>
 #include <QSize>
 
-struct AlbumCoverLoaderOptions {
+class AlbumCoverLoaderOptions {
+ public:
   explicit AlbumCoverLoaderOptions()
       : get_image_data_(true),
         get_image_(true),

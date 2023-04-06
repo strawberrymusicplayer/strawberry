@@ -70,17 +70,17 @@ void CurrentAlbumCoverLoader::LoadAlbumCover(const Song &song) {
 
 }
 
-void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResult result) {
+void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result) {
 
   if (id != id_) return;
   id_ = 0;
 
-  if (!result.album_cover.image.isNull()) {
+  if (result && !result->album_cover->image.isNull()) {
     temp_cover_ = std::make_unique<QTemporaryFile>(temp_file_pattern_);
     temp_cover_->setAutoRemove(true);
     if (temp_cover_->open()) {
-      if (result.album_cover.image.save(temp_cover_->fileName(), "JPEG")) {
-        result.temp_cover_url = QUrl::fromLocalFile(temp_cover_->fileName());
+      if (result->album_cover->image.save(temp_cover_->fileName(), "JPEG")) {
+        result->temp_cover_url = QUrl::fromLocalFile(temp_cover_->fileName());
       }
       else {
         qLog(Error) << "Failed to save cover image to" << temp_cover_->fileName() << temp_cover_->errorString();
@@ -92,11 +92,11 @@ void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverL
   }
 
   QUrl thumbnail_url;
-  if (!result.image_thumbnail.isNull()) {
+  if (result && !result->image_thumbnail.isNull()) {
     temp_cover_thumbnail_ = std::make_unique<QTemporaryFile>(temp_file_pattern_);
     temp_cover_thumbnail_->setAutoRemove(true);
     if (temp_cover_thumbnail_->open()) {
-      if (result.image_thumbnail.save(temp_cover_thumbnail_->fileName(), "JPEG")) {
+      if (result->image_thumbnail.save(temp_cover_thumbnail_->fileName(), "JPEG")) {
         thumbnail_url = QUrl::fromLocalFile(temp_cover_thumbnail_->fileName());
       }
       else {
@@ -108,11 +108,11 @@ void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverL
     }
   }
 
-  if (result.updated) {
-    last_song_.set_art_manual(result.album_cover.cover_url);
+  if (result && result->updated) {
+    last_song_.set_art_manual(result->album_cover->cover_url);
   }
 
   emit AlbumCoverLoaded(last_song_, result);
-  emit ThumbnailLoaded(last_song_, thumbnail_url, result.image_thumbnail);
+  emit ThumbnailLoaded(last_song_, thumbnail_url, result->image_thumbnail);
 
 }

@@ -69,7 +69,7 @@ class AlbumCoverFetcherSearch : public QObject {
   void SearchFinished(quint64, CoverProviderSearchResults results);
 
   // It's the end of search and we've fetched a cover.
-  void AlbumCoverFetched(const quint64, AlbumCoverImageResult result);
+  void AlbumCoverFetched(const quint64, AlbumCoverImageResultPtr result);
 
  private slots:
   void ProviderSearchResults(const int id, const CoverProviderSearchResults &results);
@@ -108,9 +108,9 @@ class AlbumCoverFetcherSearch : public QObject {
 
   // QMap is sorted by key (score).
   struct CandidateImage {
-    CandidateImage(const CoverProviderSearchResult &_result, const AlbumCoverImageResult &_album_cover) : result(_result), album_cover(_album_cover) {}
+    CandidateImage(const CoverProviderSearchResult &_result, AlbumCoverImageResultPtr _album_cover) : result(_result), album_cover(_album_cover) {}
     CoverProviderSearchResult result;
-    AlbumCoverImageResult album_cover;
+    AlbumCoverImageResultPtr album_cover;
   };
   QMultiMap<float, CandidateImage> candidate_images_;
 

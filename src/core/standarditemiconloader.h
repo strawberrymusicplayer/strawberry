@@ -55,7 +55,7 @@ class StandardItemIconLoader : public QObject {
   void LoadIcon(const Song &song, QStandardItem *for_item);
 
  private slots:
-  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
+  void AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result);
   void RowsAboutToBeRemoved(const QModelIndex &parent, int begin, int end);
   void ModelReset();
 

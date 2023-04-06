@@ -84,7 +84,7 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
   QString SortText(QString text);
 
  private slots:
-  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
+  void AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result);
 
  private:
   static const int kTreeIconSize;
