@@ -202,7 +202,7 @@ msgstr ""
 "'%1' brani in '%2' diverse cartelle selezionate, sei sicuro di volerle "
 "aprire tutte?"
 
-#: dialogs/edittagdialog.cpp:690
+#: dialogs/edittagdialog.cpp:691
 #, qt-format
 msgid "%1 songs selected."
 msgstr "'%1' brani selezionati."
@@ -434,7 +434,7 @@ msgstr ""
 "momento in cui gli scrobble vengono inviati al server. L'impostazione del "
 "tempo su 0 secondi invierà immediatamente gli scrobble)."
 
-#: dialogs/edittagdialog.cpp:101
+#: dialogs/edittagdialog.cpp:102
 msgid "(different across multiple songs)"
 msgstr "(differente tra diversi brani)"
 
@@ -525,7 +525,7 @@ msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
 #: covermanager/albumcovermanager.cpp:144
-#: covermanager/albumcoversearcher.cpp:196
+#: covermanager/albumcoversearcher.cpp:198
 #: ../build/src/ui_internetcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "Interrompi"
@@ -792,7 +792,7 @@ msgstr "Album - Disco"
 msgid "Album artist"
 msgstr "Artista album"
 
-#: dialogs/edittagdialog.cpp:876
+#: dialogs/edittagdialog.cpp:877
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
 "La modifica della copertina dell'album è disponibile solo per i brani della "
@@ -835,7 +835,7 @@ msgstr "Tutti gli album"
 msgid "All artists"
 msgstr "Tutti gli artisti"
 
-#: covermanager/albumcoverchoicecontroller.cpp:81
+#: covermanager/albumcoverchoicecontroller.cpp:83
 msgid "All files (*)"
 msgstr "Tutti i file (*)"
 
@@ -870,7 +870,7 @@ msgid "An error occurred loading the iTunes database"
 msgstr ""
 "Si è verificato un errore durante la il caricamento del database di iTunes"
 
-#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1398
+#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1399
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Si è verificato un errore durante la scrittura dei metadati in '%1'"
@@ -924,7 +924,7 @@ msgstr "Sei sicuro di voler continuare?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Sei sicuro di voler eliminare la preimpostazione '%1'?"
 
-#: dialogs/edittagdialog.cpp:1274
+#: dialogs/edittagdialog.cpp:1275
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 "Sei sicuro di voler reimpostare le statistiche di riproduzione di questo "
@@ -1022,7 +1022,7 @@ msgstr "Automatico"
 msgid "Automatic updating"
 msgstr "Aggiornamento automatico"
 
-#: dialogs/edittagdialog.cpp:871
+#: dialogs/edittagdialog.cpp:872
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
 msgstr "Manca la copertina automatica di '%1'"
@@ -1268,7 +1268,7 @@ msgstr "Svuota"
 msgid "Clear Disk Cache"
 msgstr "Svuota cache disco"
 
-#: covermanager/albumcoverchoicecontroller.cpp:111
+#: covermanager/albumcoverchoicecontroller.cpp:113
 msgid "Clear cover"
 msgstr "Rimuovi copertina"
 
@@ -1532,40 +1532,40 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "Gestione copertine"
 
-#: dialogs/edittagdialog.cpp:865
+#: dialogs/edittagdialog.cpp:866
 #, qt-format
 msgid "Cover art automatically loaded from %1"
 msgstr "Copertina caricata automaticamente da '%1'"
 
-#: dialogs/edittagdialog.cpp:862
+#: dialogs/edittagdialog.cpp:863
 msgid "Cover art from embedded image"
 msgstr "Copertina da immagine integrata"
 
-#: dialogs/edittagdialog.cpp:856
+#: dialogs/edittagdialog.cpp:857
 msgid "Cover art manually unset"
 msgstr "Copertina rimossa manualmente"
 
-#: dialogs/edittagdialog.cpp:853
+#: dialogs/edittagdialog.cpp:854
 msgid "Cover art not set"
 msgstr "Copertina non impostata"
 
-#: dialogs/edittagdialog.cpp:837
+#: dialogs/edittagdialog.cpp:838
 msgid "Cover changed: Will be cleared when saved."
 msgstr "Copertina modificata: verrà cancellata quando verrà salvata."
 
-#: dialogs/edittagdialog.cpp:843
+#: dialogs/edittagdialog.cpp:844
 msgid "Cover changed: Will be deleted when saved."
 msgstr "Copertina modificata: verrà eliminata quando verrà salvata."
 
-#: dialogs/edittagdialog.cpp:840
+#: dialogs/edittagdialog.cpp:841
 msgid "Cover changed: Will be unset when saved."
 msgstr "Copertina modificata: verrà annullata quando verrà salvata."
 
-#: dialogs/edittagdialog.cpp:846
+#: dialogs/edittagdialog.cpp:847
 msgid "Cover changed: Will set new when saved."
 msgstr "Copertina modificata: verrà impostata una nuova quando verrà salvata."
 
-#: covermanager/albumcoverchoicecontroller.cpp:186
+#: covermanager/albumcoverchoicecontroller.cpp:188
 #, qt-format
 msgid "Cover file %1 is empty."
 msgstr "Il file copertina '%1' è vuoto."
@@ -1578,7 +1578,7 @@ msgstr "Fornitori copertine"
 msgid "Covers"
 msgstr "Copertine"
 
-#: covermanager/albumcoversearcher.cpp:130
+#: covermanager/albumcoversearcher.cpp:132
 #: covermanager/coversearchstatisticsdialog.cpp:73
 #, qt-format
 msgid "Covers from %1"
@@ -1733,7 +1733,7 @@ msgstr "Predefiniti"
 msgid "Delete"
 msgstr "Elimina"
 
-#: covermanager/albumcoverchoicecontroller.cpp:110
+#: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Delete cover"
 msgstr "Elimina copertina"
 
@@ -1805,7 +1805,7 @@ msgstr "Proprietà dispositivo..."
 msgid "Devices"
 msgstr "Dispositivi"
 
-#: dialogs/edittagdialog.cpp:102
+#: dialogs/edittagdialog.cpp:103
 msgid "Different art across multiple songs."
 msgstr "Arte diversa in più brani."
 
@@ -1963,7 +1963,7 @@ msgstr "Modifica informazioni traccia..."
 msgid "Edit tracks information..."
 msgstr "Modifica le informazioni tracce..."
 
-#: dialogs/edittagdialog.cpp:822
+#: dialogs/edittagdialog.cpp:823
 msgid "Embedded"
 msgstr "Incorporata"
 
@@ -2195,12 +2195,12 @@ msgstr "Esporta copertine scaricate"
 msgid "Export embedded covers"
 msgstr "Esporta copertine integrate"
 
-#: covermanager/albumcovermanager.cpp:1040
-#: covermanager/albumcovermanager.cpp:1066
+#: covermanager/albumcovermanager.cpp:1044
+#: covermanager/albumcovermanager.cpp:1070
 msgid "Export finished"
 msgstr "Esportazione completata"
 
-#: covermanager/albumcovermanager.cpp:1051
+#: covermanager/albumcovermanager.cpp:1055
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Esportate '%1' copertine di '%2' (\"%3\" saltate)"
@@ -2250,34 +2250,34 @@ msgstr "Dissolvenza"
 msgid "Fading duration"
 msgstr "Durata dissolvenza"
 
-#: covermanager/albumcoverchoicecontroller.cpp:404
-#: covermanager/albumcoverchoicecontroller.cpp:421
+#: covermanager/albumcoverchoicecontroller.cpp:408
+#: covermanager/albumcoverchoicecontroller.cpp:425
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
 msgstr "Impossibile eliminare il file copertina '%1': '%2'"
 
-#: covermanager/albumcoverchoicecontroller.cpp:196
+#: covermanager/albumcoverchoicecontroller.cpp:198
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
 msgstr "Impossibile aprire il file copertina '%1' in lettura: '%2'"
 
-#: covermanager/albumcoverchoicecontroller.cpp:270
-#: covermanager/albumcoverchoicecontroller.cpp:646
+#: covermanager/albumcoverchoicecontroller.cpp:274
+#: covermanager/albumcoverchoicecontroller.cpp:652
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr "Impossibile aprire il file copertina '%1' in scrittura: '%2'"
 
-#: covermanager/albumcoverchoicecontroller.cpp:640
+#: covermanager/albumcoverchoicecontroller.cpp:646
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr "Impossibile scrivere la copertina nel file '%1': '%2'"
 
-#: covermanager/albumcoverchoicecontroller.cpp:276
+#: covermanager/albumcoverchoicecontroller.cpp:280
 #, qt-format
 msgid "Failed writing cover to file %1."
 msgstr "Impossibile scrivere la copertina nel file '%1'."
 
-#: covermanager/albumcoverchoicecontroller.cpp:264
+#: covermanager/albumcoverchoicecontroller.cpp:268
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
 msgstr "Impossibile scrivere la copertina nel file '%1': '%2'"
@@ -2311,8 +2311,8 @@ msgstr "Download completato"
 msgid "Fetch entire albums when searching songs"
 msgstr "Quando cerchi delle canzoni ottieni gli album interi"
 
-#: covermanager/coverfromurldialog.cpp:86
-#: covermanager/coverfromurldialog.cpp:100
+#: covermanager/coverfromurldialog.cpp:88
+#: covermanager/coverfromurldialog.cpp:102
 msgid "Fetching cover error"
 msgstr "Errore download copertina"
 
@@ -2722,12 +2722,12 @@ msgstr ""
 "Se ti piace Strawberry e puoi farne uso, prendi in considerazione la "
 "sponsorizzazione o la donazione."
 
-#: covermanager/albumcoverchoicecontroller.cpp:79
+#: covermanager/albumcoverchoicecontroller.cpp:81
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr ""
 "Immagini (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:80
+#: covermanager/albumcoverchoicecontroller.cpp:82
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Immagini (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
@@ -2941,16 +2941,16 @@ msgstr "Carica"
 msgid "Load cover from URL"
 msgstr "Carica copertina da URL"
 
-#: covermanager/albumcoverchoicecontroller.cpp:107
+#: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Load cover from URL..."
 msgstr "Carica copertina da URL..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:175
-#: covermanager/albumcoverchoicecontroller.cpp:207
+#: covermanager/albumcoverchoicecontroller.cpp:177
+#: covermanager/albumcoverchoicecontroller.cpp:209
 msgid "Load cover from disk"
 msgstr "Carica copertina dal disco"
 
-#: covermanager/albumcoverchoicecontroller.cpp:105
+#: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Load cover from disk..."
 msgstr "Carica copertina dal disco..."
 
@@ -2974,7 +2974,7 @@ msgstr "Caricamento playlist intelligente"
 msgid "Loading songs"
 msgstr "Caricamento brani"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:410
+#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
 msgid "Loading tracks"
 msgstr "Caricamento tracce"
 
@@ -3056,12 +3056,12 @@ msgstr "Profilo principale (MAIN)"
 msgid "Manage saved groupings"
 msgstr "Gestisci raggruppamenti salvati"
 
-#: dialogs/edittagdialog.cpp:868
+#: dialogs/edittagdialog.cpp:869
 #, qt-format
 msgid "Manually cover art from %1 is missing"
 msgstr "Manca la copertina manuale di '%1'"
 
-#: dialogs/edittagdialog.cpp:859
+#: dialogs/edittagdialog.cpp:860
 #, qt-format
 msgid "Manually set cover art from %1"
 msgstr "Imposta manualmente la copertina da '%1'"
@@ -3260,7 +3260,7 @@ msgstr "Banda stretta (NB)"
 msgid "Network Proxy"
 msgstr "Proxy di rete"
 
-#: playlist/playlistdelegates.cpp:346 dialogs/edittagdialog.cpp:887
+#: playlist/playlistdelegates.cpp:346 dialogs/edittagdialog.cpp:888
 msgid "Never"
 msgstr "Mai"
 
@@ -3302,7 +3302,7 @@ msgstr "Le nuove tracce verranno aggiunte automaticamente."
 msgid "Newest tracks"
 msgstr "Tracce più recenti"
 
-#: dialogs/edittagdialog.cpp:223 dialogs/trackselectiondialog.cpp:70
+#: dialogs/edittagdialog.cpp:224 dialogs/trackselectiondialog.cpp:70
 msgid "Next"
 msgstr "Successivo"
 
@@ -3318,7 +3318,7 @@ msgstr "Settimana prossima"
 msgid "No analyzer"
 msgstr "Nessun analizzatore"
 
-#: covermanager/albumcovermanager.cpp:1041
+#: covermanager/albumcovermanager.cpp:1045
 msgid "No covers to export."
 msgstr "Nessuna copertina da esportare."
 
@@ -3351,8 +3351,8 @@ msgstr "Nessun blocco corto"
 msgid "No song playing"
 msgstr "Nessuna brano in riproduzione"
 
-#: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:809
-#: dialogs/edittagdialog.cpp:819 ../build/src/ui_groupbydialog.h:190
+#: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:810
+#: dialogs/edittagdialog.cpp:820 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 msgid "None"
 msgstr "Nessuna"
@@ -3826,7 +3826,7 @@ msgstr "Opzioni OSD gradevole"
 msgid "Preview"
 msgstr "Anteprima"
 
-#: dialogs/edittagdialog.cpp:222 dialogs/trackselectiondialog.cpp:69
+#: dialogs/edittagdialog.cpp:223 dialogs/trackselectiondialog.cpp:69
 msgid "Previous"
 msgstr "Precedente"
 
@@ -4185,7 +4185,7 @@ msgstr "Ripristina"
 msgid "Reset play counts"
 msgstr "Azzera contatori riproduzione"
 
-#: dialogs/edittagdialog.cpp:1274
+#: dialogs/edittagdialog.cpp:1275
 msgid "Reset song play statistics"
 msgstr "Ripristina statistiche riproduzione brano"
 
@@ -4287,7 +4287,7 @@ msgstr "Freq. campionamento"
 msgid "Save &playlist..."
 msgstr "Salva &playlist..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:244
+#: covermanager/albumcoverchoicecontroller.cpp:248
 msgid "Save album cover"
 msgstr "Salva copertina album"
 
@@ -4303,7 +4303,7 @@ msgstr "Salva copertine album nella cartella album"
 msgid "Save album covers in cache directory"
 msgstr "Salva le copertine degli album nella cartella della cache"
 
-#: covermanager/albumcoverchoicecontroller.cpp:106
+#: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Save cover to disk..."
 msgstr "Salva copertina nel disco..."
 
@@ -4357,7 +4357,7 @@ msgstr "Salvataggio copertine album"
 msgid "Saving playcounts and ratings"
 msgstr "Salvataggio numero riproduzioni valutazioni"
 
-#: dialogs/edittagdialog.cpp:305 dialogs/trackselectiondialog.cpp:289
+#: dialogs/edittagdialog.cpp:306 dialogs/trackselectiondialog.cpp:289
 msgid "Saving tracks"
 msgstr "Salvataggio tracce"
 
@@ -4383,14 +4383,14 @@ msgstr "Scrobbler '%1' errore: '%2'"
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler '%1' non è autenticato!"
 
-#: covermanager/albumcoversearcher.cpp:204
-#: covermanager/albumcoversearcher.cpp:222
+#: covermanager/albumcoversearcher.cpp:206
+#: covermanager/albumcoversearcher.cpp:224
 #: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_internettabsview.h:116
 msgid "Search"
 msgstr "Cerca"
 
-#: covermanager/albumcoverchoicecontroller.cpp:116
+#: covermanager/albumcoverchoicecontroller.cpp:118
 msgid "Search automatically"
 msgstr "Cerca automaticamente"
 
@@ -4399,7 +4399,7 @@ msgstr "Cerca automaticamente"
 msgid "Search delay"
 msgstr "Ritardo ricerca"
 
-#: covermanager/albumcoverchoicecontroller.cpp:108
+#: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Search for album covers..."
 msgstr "Cerca copertine album..."
 
@@ -4618,7 +4618,7 @@ msgstr "Visualizza separatori"
 msgid "Show engine and device"
 msgstr "Visualizza l'engine ed il dispositivo"
 
-#: covermanager/albumcoverchoicecontroller.cpp:114
+#: covermanager/albumcoverchoicecontroller.cpp:116
 msgid "Show fullsize..."
 msgstr "Visualizza a dimensioni originali..."
 
@@ -5116,11 +5116,11 @@ msgstr "La raccolta internet è vuota!"
 msgid "The second value must be greater than the first one!"
 msgstr "Il secondo valore deve essere maggiore del primo!"
 
-#: covermanager/coverfromurldialog.cpp:86
+#: covermanager/coverfromurldialog.cpp:88
 msgid "The site you requested does not exist!"
 msgstr "Il sito richiesto non esiste!"
 
-#: covermanager/coverfromurldialog.cpp:100
+#: covermanager/coverfromurldialog.cpp:102
 msgid "The site you requested is not an image!"
 msgstr "Il sito richiesto non è un'immagine!"
 
@@ -5364,10 +5364,10 @@ msgstr "Disinstalla lo snap con:"
 #: core/song.cpp:726 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:1654 collection/savedgroupingmanager.cpp:153
+#: collection/collectionmodel.cpp:1656 collection/savedgroupingmanager.cpp:153
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:550
-#: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:764
-#: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
+#: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:765
+#: dialogs/edittagdialog.cpp:792 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Sconosciuto"
 
@@ -5383,11 +5383,11 @@ msgstr "Estensione file playlist sconosciuta."
 msgid "Unknown playlist extension"
 msgstr "Estensione playlist sconosciuta"
 
-#: dialogs/edittagdialog.cpp:812
+#: dialogs/edittagdialog.cpp:813
 msgid "Unset"
 msgstr "Rimuovi impostazione"
 
-#: covermanager/albumcoverchoicecontroller.cpp:109
+#: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Unset cover"
 msgstr "Rimuovi copertina"
 
@@ -5874,7 +5874,7 @@ msgid "in the last"
 msgstr "nell'ultimo"
 
 #: context/contextview.cpp:531 context/contextview.cpp:653
-#: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:786
+#: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:787
 msgid "kbps"
 msgstr "kbps"
 
@@ -5981,6 +5981,6 @@ msgstr "ferma"
 msgid "track %1"
 msgstr "traccia %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:239
+#: covermanager/albumcoverchoicecontroller.cpp:243
 msgid "unknown"
 msgstr "sconosciuto"

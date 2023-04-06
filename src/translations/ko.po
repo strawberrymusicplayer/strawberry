@@ -196,7 +196,7 @@ msgid ""
 "them all?"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:690
+#: dialogs/edittagdialog.cpp:691
 #, qt-format
 msgid "%1 songs selected."
 msgstr ""
@@ -425,7 +425,7 @@ msgid ""
 "immediately)."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:101
+#: dialogs/edittagdialog.cpp:102
 msgid "(different across multiple songs)"
 msgstr "(여러 곡마다 다름)"
 
@@ -512,7 +512,7 @@ msgid "ASF (WMA)"
 msgstr "ASF(WMA)"
 
 #: covermanager/albumcovermanager.cpp:144
-#: covermanager/albumcoversearcher.cpp:196
+#: covermanager/albumcoversearcher.cpp:198
 #: ../build/src/ui_internetcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "중지"
@@ -778,7 +778,7 @@ msgstr "앨범 - 디스크"
 msgid "Album artist"
 msgstr "앨범 아티스트"
 
-#: dialogs/edittagdialog.cpp:876
+#: dialogs/edittagdialog.cpp:877
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
 
@@ -819,7 +819,7 @@ msgstr "모든 앨범"
 msgid "All artists"
 msgstr "모든 아티스트"
 
-#: covermanager/albumcoverchoicecontroller.cpp:81
+#: covermanager/albumcoverchoicecontroller.cpp:83
 msgid "All files (*)"
 msgstr "모든 파일 (*)"
 
@@ -853,7 +853,7 @@ msgstr "항상 재생 시작"
 msgid "An error occurred loading the iTunes database"
 msgstr "iTunes 데이터베이스를 불러오는 중 오류 발생"
 
-#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1398
+#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1399
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "'%1'에 메타데이터를 쓰는 중 오류 발생"
@@ -907,7 +907,7 @@ msgstr "계속하시겠습니까?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "\"%1\" 사전 설정을 지우시겠습니까?"
 
-#: dialogs/edittagdialog.cpp:1274
+#: dialogs/edittagdialog.cpp:1275
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 
@@ -1001,7 +1001,7 @@ msgstr "자동"
 msgid "Automatic updating"
 msgstr "자동 업데이트 중"
 
-#: dialogs/edittagdialog.cpp:871
+#: dialogs/edittagdialog.cpp:872
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
 msgstr ""
@@ -1246,7 +1246,7 @@ msgstr "비우기"
 msgid "Clear Disk Cache"
 msgstr "디스크 캐시 비우기"
 
-#: covermanager/albumcoverchoicecontroller.cpp:111
+#: covermanager/albumcoverchoicecontroller.cpp:113
 msgid "Clear cover"
 msgstr ""
 
@@ -1499,40 +1499,40 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "표지 관리자"
 
-#: dialogs/edittagdialog.cpp:865
+#: dialogs/edittagdialog.cpp:866
 #, qt-format
 msgid "Cover art automatically loaded from %1"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:862
+#: dialogs/edittagdialog.cpp:863
 msgid "Cover art from embedded image"
 msgstr "내장된 이미지에서 불러온 표지 그림"
 
-#: dialogs/edittagdialog.cpp:856
+#: dialogs/edittagdialog.cpp:857
 msgid "Cover art manually unset"
 msgstr "표지 그림을 수동으로 설정 해제함"
 
-#: dialogs/edittagdialog.cpp:853
+#: dialogs/edittagdialog.cpp:854
 msgid "Cover art not set"
 msgstr "표지 그림을 설정하지 않았음"
 
-#: dialogs/edittagdialog.cpp:837
+#: dialogs/edittagdialog.cpp:838
 msgid "Cover changed: Will be cleared when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:843
+#: dialogs/edittagdialog.cpp:844
 msgid "Cover changed: Will be deleted when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:840
+#: dialogs/edittagdialog.cpp:841
 msgid "Cover changed: Will be unset when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:846
+#: dialogs/edittagdialog.cpp:847
 msgid "Cover changed: Will set new when saved."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:186
+#: covermanager/albumcoverchoicecontroller.cpp:188
 #, qt-format
 msgid "Cover file %1 is empty."
 msgstr ""
@@ -1545,7 +1545,7 @@ msgstr "앨범 아트 가져오기"
 msgid "Covers"
 msgstr "앨범아트"
 
-#: covermanager/albumcoversearcher.cpp:130
+#: covermanager/albumcoversearcher.cpp:132
 #: covermanager/coversearchstatisticsdialog.cpp:73
 #, qt-format
 msgid "Covers from %1"
@@ -1700,7 +1700,7 @@ msgstr "기본 설정"
 msgid "Delete"
 msgstr "삭제"
 
-#: covermanager/albumcoverchoicecontroller.cpp:110
+#: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Delete cover"
 msgstr ""
 
@@ -1772,7 +1772,7 @@ msgstr "장치 속성..."
 msgid "Devices"
 msgstr "장치"
 
-#: dialogs/edittagdialog.cpp:102
+#: dialogs/edittagdialog.cpp:103
 msgid "Different art across multiple songs."
 msgstr ""
 
@@ -1927,7 +1927,7 @@ msgstr "트랙 정보 편집..."
 msgid "Edit tracks information..."
 msgstr "트랙 정보 편집..."
 
-#: dialogs/edittagdialog.cpp:822
+#: dialogs/edittagdialog.cpp:823
 msgid "Embedded"
 msgstr ""
 
@@ -2155,12 +2155,12 @@ msgstr "다운로드한 표지 내보내기"
 msgid "Export embedded covers"
 msgstr "내장된 표지 내보내기"
 
-#: covermanager/albumcovermanager.cpp:1040
-#: covermanager/albumcovermanager.cpp:1066
+#: covermanager/albumcovermanager.cpp:1044
+#: covermanager/albumcovermanager.cpp:1070
 msgid "Export finished"
 msgstr "내보내기 완료"
 
-#: covermanager/albumcovermanager.cpp:1051
+#: covermanager/albumcovermanager.cpp:1055
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "앨범아트 %2개 중 %1개 내보냄(%3개 건너뜀)"
@@ -2210,34 +2210,34 @@ msgstr "페이드"
 msgid "Fading duration"
 msgstr "페이드 시간"
 
-#: covermanager/albumcoverchoicecontroller.cpp:404
-#: covermanager/albumcoverchoicecontroller.cpp:421
+#: covermanager/albumcoverchoicecontroller.cpp:408
+#: covermanager/albumcoverchoicecontroller.cpp:425
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:196
+#: covermanager/albumcoverchoicecontroller.cpp:198
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:270
-#: covermanager/albumcoverchoicecontroller.cpp:646
+#: covermanager/albumcoverchoicecontroller.cpp:274
+#: covermanager/albumcoverchoicecontroller.cpp:652
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:640
+#: covermanager/albumcoverchoicecontroller.cpp:646
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:276
+#: covermanager/albumcoverchoicecontroller.cpp:280
 #, qt-format
 msgid "Failed writing cover to file %1."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:264
+#: covermanager/albumcoverchoicecontroller.cpp:268
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
@@ -2271,8 +2271,8 @@ msgstr "가져오기 완료"
 msgid "Fetch entire albums when searching songs"
 msgstr "곡을 검색할 때 전체 앨범 가져오기"
 
-#: covermanager/coverfromurldialog.cpp:86
-#: covermanager/coverfromurldialog.cpp:100
+#: covermanager/coverfromurldialog.cpp:88
+#: covermanager/coverfromurldialog.cpp:102
 msgid "Fetching cover error"
 msgstr "표지 가져오기 오류"
 
@@ -2670,11 +2670,11 @@ msgid ""
 "donating."
 msgstr "Strawberry가 마음에 들었다면 스폰서쉽과 기부를 할 수 있습니다."
 
-#: covermanager/albumcoverchoicecontroller.cpp:79
+#: covermanager/albumcoverchoicecontroller.cpp:81
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr "그림 (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:80
+#: covermanager/albumcoverchoicecontroller.cpp:82
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "그림 (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
@@ -2877,16 +2877,16 @@ msgstr "불러오기"
 msgid "Load cover from URL"
 msgstr "URL에서 표지 불러오기"
 
-#: covermanager/albumcoverchoicecontroller.cpp:107
+#: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Load cover from URL..."
 msgstr "URL에서 표지 불러오기..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:175
-#: covermanager/albumcoverchoicecontroller.cpp:207
+#: covermanager/albumcoverchoicecontroller.cpp:177
+#: covermanager/albumcoverchoicecontroller.cpp:209
 msgid "Load cover from disk"
 msgstr "디스크에서 표지 불러오기"
 
-#: covermanager/albumcoverchoicecontroller.cpp:105
+#: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Load cover from disk..."
 msgstr "디스크에서 표지 불러오기..."
 
@@ -2910,7 +2910,7 @@ msgstr "스마트 재생 목록 로딩"
 msgid "Loading songs"
 msgstr "노래 불러오는 중"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:410
+#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
 msgid "Loading tracks"
 msgstr "트랙 불러오는 중"
 
@@ -2992,12 +2992,12 @@ msgstr "메인 프로필(MAIN)"
 msgid "Manage saved groupings"
 msgstr "저장한 그룹 관리"
 
-#: dialogs/edittagdialog.cpp:868
+#: dialogs/edittagdialog.cpp:869
 #, qt-format
 msgid "Manually cover art from %1 is missing"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:859
+#: dialogs/edittagdialog.cpp:860
 #, qt-format
 msgid "Manually set cover art from %1"
 msgstr ""
@@ -3196,7 +3196,7 @@ msgstr "협대역(NB)"
 msgid "Network Proxy"
 msgstr "네트워크 프록시"
 
-#: playlist/playlistdelegates.cpp:346 dialogs/edittagdialog.cpp:887
+#: playlist/playlistdelegates.cpp:346 dialogs/edittagdialog.cpp:888
 msgid "Never"
 msgstr "없음"
 
@@ -3238,7 +3238,7 @@ msgstr "새 곡들이 자동으로 추가됩니다."
 msgid "Newest tracks"
 msgstr "새로 추가된 곡"
 
-#: dialogs/edittagdialog.cpp:223 dialogs/trackselectiondialog.cpp:70
+#: dialogs/edittagdialog.cpp:224 dialogs/trackselectiondialog.cpp:70
 msgid "Next"
 msgstr "다음"
 
@@ -3254,7 +3254,7 @@ msgstr "다음 주"
 msgid "No analyzer"
 msgstr "분석기 없음"
 
-#: covermanager/albumcovermanager.cpp:1041
+#: covermanager/albumcovermanager.cpp:1045
 msgid "No covers to export."
 msgstr "내보낼 표지가 없습니다."
 
@@ -3283,8 +3283,8 @@ msgstr "짧은 블록 없음"
 msgid "No song playing"
 msgstr "재생 중인 곡 없음"
 
-#: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:809
-#: dialogs/edittagdialog.cpp:819 ../build/src/ui_groupbydialog.h:190
+#: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:810
+#: dialogs/edittagdialog.cpp:820 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 msgid "None"
 msgstr "없음"
@@ -3739,7 +3739,7 @@ msgstr "예쁜 OSD 옵션"
 msgid "Preview"
 msgstr "미리 보기"
 
-#: dialogs/edittagdialog.cpp:222 dialogs/trackselectiondialog.cpp:69
+#: dialogs/edittagdialog.cpp:223 dialogs/trackselectiondialog.cpp:69
 msgid "Previous"
 msgstr "이전"
 
@@ -4086,7 +4086,7 @@ msgstr "초기화"
 msgid "Reset play counts"
 msgstr "재생 횟수 초기화"
 
-#: dialogs/edittagdialog.cpp:1274
+#: dialogs/edittagdialog.cpp:1275
 msgid "Reset song play statistics"
 msgstr ""
 
@@ -4186,7 +4186,7 @@ msgstr "샘플링 레이트"
 msgid "Save &playlist..."
 msgstr "재생 목록 저장(&P)..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:244
+#: covermanager/albumcoverchoicecontroller.cpp:248
 msgid "Save album cover"
 msgstr "앨범아트 저장"
 
@@ -4202,7 +4202,7 @@ msgstr "앨범아트를 앨범 디렉터리에 저장"
 msgid "Save album covers in cache directory"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:106
+#: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Save cover to disk..."
 msgstr "디스크에 표지 저장..."
 
@@ -4256,7 +4256,7 @@ msgstr "앨범아트 저장 중"
 msgid "Saving playcounts and ratings"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:305 dialogs/trackselectiondialog.cpp:289
+#: dialogs/edittagdialog.cpp:306 dialogs/trackselectiondialog.cpp:289
 msgid "Saving tracks"
 msgstr "트랙 저장 중"
 
@@ -4282,14 +4282,14 @@ msgstr ""
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "스크로블러 %1이(가) 인증되지 않았습니다!"
 
-#: covermanager/albumcoversearcher.cpp:204
-#: covermanager/albumcoversearcher.cpp:222
+#: covermanager/albumcoversearcher.cpp:206
+#: covermanager/albumcoversearcher.cpp:224
 #: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_internettabsview.h:116
 msgid "Search"
 msgstr "검색"
 
-#: covermanager/albumcoverchoicecontroller.cpp:116
+#: covermanager/albumcoverchoicecontroller.cpp:118
 msgid "Search automatically"
 msgstr "자동으로 검색"
 
@@ -4298,7 +4298,7 @@ msgstr "자동으로 검색"
 msgid "Search delay"
 msgstr "검색 지연 시간"
 
-#: covermanager/albumcoverchoicecontroller.cpp:108
+#: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Search for album covers..."
 msgstr "앨범아트 검색..."
 
@@ -4512,7 +4512,7 @@ msgstr "구분자 표시"
 msgid "Show engine and device"
 msgstr "엔진과 장치 표시"
 
-#: covermanager/albumcoverchoicecontroller.cpp:114
+#: covermanager/albumcoverchoicecontroller.cpp:116
 msgid "Show fullsize..."
 msgstr "전체 크기 표시..."
 
@@ -4998,11 +4998,11 @@ msgstr "인터넷 라이브러리가 비어 있습니다!"
 msgid "The second value must be greater than the first one!"
 msgstr "두번째 값은 첫번째보다 커야 합니다."
 
-#: covermanager/coverfromurldialog.cpp:86
+#: covermanager/coverfromurldialog.cpp:88
 msgid "The site you requested does not exist!"
 msgstr "요청한 사이트가 존재하지 않습니다!"
 
-#: covermanager/coverfromurldialog.cpp:100
+#: covermanager/coverfromurldialog.cpp:102
 msgid "The site you requested is not an image!"
 msgstr "요청한 사이트는 이미지가 아닙니다!"
 
@@ -5222,10 +5222,10 @@ msgstr ""
 #: core/song.cpp:726 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:1654 collection/savedgroupingmanager.cpp:153
+#: collection/collectionmodel.cpp:1656 collection/savedgroupingmanager.cpp:153
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:550
-#: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:764
-#: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
+#: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:765
+#: dialogs/edittagdialog.cpp:792 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "알 수 없음"
 
@@ -5241,11 +5241,11 @@ msgstr ""
 msgid "Unknown playlist extension"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:812
+#: dialogs/edittagdialog.cpp:813
 msgid "Unset"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:109
+#: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Unset cover"
 msgstr "표지 설정 해제"
 
@@ -5712,7 +5712,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:531 context/contextview.cpp:653
-#: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:786
+#: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:787
 msgid "kbps"
 msgstr "kbps"
 
@@ -5818,6 +5818,6 @@ msgstr "정지"
 msgid "track %1"
 msgstr "트랙 %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:239
+#: covermanager/albumcoverchoicecontroller.cpp:243
 msgid "unknown"
 msgstr "알 수 없음"
