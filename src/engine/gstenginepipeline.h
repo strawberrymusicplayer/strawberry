@@ -277,6 +277,7 @@ class GstEnginePipeline : public QObject {
   // Complete the transition to the next song when it starts playing
   bool next_uri_set_;
 
+  bool volume_set_;
   gdouble volume_internal_;
   uint volume_percent_;
 

@@ -99,6 +99,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       pending_seek_nanosec_(-1),
       last_known_position_ns_(0),
       next_uri_set_(false),
+      volume_set_(false),
       volume_internal_(-1.0),
       volume_percent_(100),
       use_fudge_timer_(false),
@@ -846,6 +847,8 @@ void GstEnginePipeline::NotifyVolumeCallback(GstElement *element, GParamSpec *pa
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
+  if (!instance->volume_set_) return;
+
   g_object_get(G_OBJECT(instance->volume_), "volume", &instance->volume_internal_, nullptr);
 
   const uint volume_percent = static_cast<uint>(qBound(0L, lround(instance->volume_internal_ / 0.01), 100L));
@@ -1378,6 +1381,9 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   if (!pipeline_is_initialized_ && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
     qLog(Debug) << "Pipeline initialized: State changed from" << old_state << "to" << new_state;
     pipeline_is_initialized_ = true;
+    if (!volume_set_) {
+      SetVolume(volume_percent_);
+    }
     if (pending_seek_nanosec_ != -1 && pipeline_is_connected_) {
       QMetaObject::invokeMethod(this, "Seek", Qt::QueuedConnection, Q_ARG(qint64, pending_seek_nanosec_));
     }
@@ -1489,9 +1495,12 @@ void GstEnginePipeline::SetVolume(const uint volume_percent) {
 
   if (volume_) {
     const double volume_internal = static_cast<double>(volume_percent) * 0.01;
-    if (volume_internal != volume_internal_) {
+    if (!volume_set_ || volume_internal != volume_internal_) {
       volume_internal_ = volume_internal;
       g_object_set(G_OBJECT(volume_), "volume", volume_internal, nullptr);
+      if (pipeline_is_initialized_) {
+        volume_set_ = true;
+      }
     }
   }
 
