@@ -105,13 +105,11 @@ void CollectionBackend::ReportErrors(const CollectionQuery &query) {
 
   const QSqlError sql_error = query.lastError();
   if (sql_error.isValid()) {
-    qLog(Error) << "Unable to execute collection SQL query: " << sql_error;
-    qLog(Error) << "Faulty SQL query: " << query.lastQuery();
-    qLog(Error) << "Bound SQL values: " << query.boundValues();
-    QString error;
-    error += "Unable to execute collection SQL query: " + sql_error.text() + "<br />";
-    error += "Faulty SQL query: " + query.lastQuery();
-    emit Error(error);
+    qLog(Error) << "Unable to execute collection SQL query:" << sql_error;
+    qLog(Error) << "Failed SQL query:" << query.lastQuery();
+    qLog(Error) << "Bound SQL values:" << query.boundValues();
+    emit Error(tr("Unable to execute collection SQL query: %1").arg(sql_error.text()));
+    emit Error(tr("Failed SQL query: %1").arg(query.lastQuery()));
   }
 
 }
