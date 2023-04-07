@@ -472,12 +472,10 @@ void Database::ReportErrors(const SqlQuery &query) {
 
   const QSqlError sql_error = query.lastError();
   if (sql_error.isValid()) {
-    qLog(Error) << "Unable to execute SQL query: " << sql_error;
-    qLog(Error) << "Failed query: " << query.LastQuery();
-    QString error;
-    error += "Unable to execute SQL query: " + sql_error.text() + "<br />";
-    error += "Failed query: " + query.LastQuery();
-    emit Error(error);
+    qLog(Error) << "Unable to execute SQL query:" << sql_error;
+    qLog(Error) << "Failed SQL query:" << query.LastQuery();
+    emit Error(tr("Unable to execute SQL query: %1").arg(sql_error.text()));
+    emit Error(tr("Failed SQL query: %1").arg(query.LastQuery()));
   }
 
 }
