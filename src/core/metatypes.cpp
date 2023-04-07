@@ -160,8 +160,11 @@ void RegisterMetaTypes() {
   qRegisterMetaType<PlaylistSettingsPage::PathType>("PlaylistSettingsPage::PathType");
 
   qRegisterMetaType<PlaylistGeneratorPtr>("PlaylistGeneratorPtr");
+  qRegisterMetaType<SmartPlaylistSearchTerm::Field>("SmartPlaylistSearchTerm::Field");
   qRegisterMetaType<SmartPlaylistSearchTerm::Operator>("SmartPlaylistSearchTerm::Operator");
   qRegisterMetaType<SmartPlaylistSearchTerm::OperatorList>("SmartPlaylistSearchTerm::OperatorList");
+  qRegisterMetaType<SmartPlaylistSearchTerm::Type>("SmartPlaylistSearchTerm::Type");
+  qRegisterMetaType<SmartPlaylistSearchTerm::DateType>("SmartPlaylistSearchTerm::DateType");
   qRegisterMetaType<SmartPlaylistsItem::Type>("SmartPlaylistsItem::Type");
 
 }

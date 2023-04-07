@@ -138,7 +138,10 @@ class SmartPlaylistSearchTerm {
 QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearchTerm &term);
 QDataStream &operator>>(QDataStream &s, SmartPlaylistSearchTerm &term);
 
+Q_DECLARE_METATYPE(SmartPlaylistSearchTerm::Field)
 Q_DECLARE_METATYPE(SmartPlaylistSearchTerm::Operator)
 Q_DECLARE_METATYPE(SmartPlaylistSearchTerm::OperatorList)
+Q_DECLARE_METATYPE(SmartPlaylistSearchTerm::Type)
+Q_DECLARE_METATYPE(SmartPlaylistSearchTerm::DateType)
 
 #endif  // SMARTPLAYLISTSEARCHTERM_H
