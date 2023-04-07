@@ -1469,9 +1469,20 @@ void PlaylistView::Stopped() {
 
 void PlaylistView::AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResultPtr result) {
 
-  if (!result || (song != Song() && song_playing_ == Song()) || result->album_cover->image == current_song_cover_art_) return;
+  AlbumCoverImageResultPtr album_cover;
+  if (result) {
+    album_cover = result->album_cover;
+  }
 
-  current_song_cover_art_ = result->album_cover->image;
+  if ((song != Song() && song_playing_ == Song()) || (!album_cover && current_song_cover_art_.isNull()) || (album_cover && album_cover->image == current_song_cover_art_)) return;
+
+  if (album_cover) {
+    current_song_cover_art_ = album_cover->image;
+  }
+  else {
+    current_song_cover_art_ = QImage();
+  }
+
   if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Album) {
     if (song.art_automatic().isEmpty() && song.art_manual().isEmpty()) {
       set_background_image(QImage());
