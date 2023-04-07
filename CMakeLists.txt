@@ -276,6 +276,24 @@ if(X11_FOUND)
   else()
     message(STATUS "Missing qpa/qplatformnativeinterface.h header.")
   endif()
+
+  # Check for QX11Application (Qt 6 compiled with XCB).
+  if(BUILD_WITH_QT6 AND Qt6Gui_VERSION VERSION_GREATER_EQUAL 6.2.0)
+    set(CMAKE_REQUIRED_FLAGS "-std=c++17")
+    set(CMAKE_REQUIRED_LIBRARIES ${QtCore_LIBRARIES} ${QtGui_LIBRARIES})
+    check_cxx_source_compiles("
+    #include <QGuiApplication>
+    int main() {
+      (void)qApp->nativeInterface<QNativeInterface::QX11Application>();
+      return 0;
+    }
+    "
+      HAVE_QX11APPLICATION
+      )
+    unset(CMAKE_REQUIRED_FLAGS)
+    unset(CMAKE_REQUIRED_LIBRARIES)
+  endif()
+
 endif(X11_FOUND)
 
 option(USE_TAGLIB "Build with TagLib" OFF)
@@ -397,17 +415,13 @@ optional_component(GLOBALSHORTCUTS ON "Global shortcuts"
   DEPENDS "D-Bus, X11, Windows or macOS" HAVE_GLOBALSHORTCUTS_SUPPORT
 )
 
-if(BUILD_WITH_QT6 AND (Qt6Core_VERSION VERSION_EQUAL 6.2.0 OR Qt6Core_VERSION VERSION_GREATER 6.2.0))
-  optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts" DEPENDS "X11" X11_FOUND)
-else()
-  if(HAVE_X11EXTRAS OR HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
-    set(HAVE_X11EXTRAS_OR_QPA_QPLATFORMNATIVEINTERFACE_H ON)
-  endif()
-  optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
-    DEPENDS "X11" X11_FOUND
-    DEPENDS "Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header" HAVE_X11EXTRAS_OR_QPA_QPLATFORMNATIVEINTERFACE_H
-  )
+if(HAVE_QX11APPLICATION OR HAVE_X11EXTRAS OR HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+  set(X11_GLOBALSHORTCUTS_REQUIREMENT_FOUND ON)
 endif()
+optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
+  DEPENDS "X11" X11_FOUND
+  DEPENDS "QX11Application, X11Extras or qpa/qplatformnativeinterface.h header" X11_GLOBALSHORTCUTS_REQUIREMENT_FOUND
+)
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
   DEPENDS "libcdio" LIBCDIO_FOUND
@@ -510,6 +524,8 @@ if(NOT CMAKE_CROSSCOMPILING)
       SQLITE_FTS5_TEST
     )
   endif()
+  unset(CMAKE_REQUIRED_FLAGS)
+  unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
 # Set up definitions

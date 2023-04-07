@@ -35,7 +35,7 @@
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 2, 0)
+#ifndef HAVE_QX11APPLICATION
 #  if defined(HAVE_X11EXTRAS)
 #    include <QX11Info>
 #  elif defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
@@ -49,7 +49,7 @@ namespace {
 
 Display *X11Display() {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)  // 6.2: Use the new native interface.
+#ifdef HAVE_QX11APPLICATION  // Qt 6.2: Use the new native interface.
 
   if (!qApp) return nullptr;
 
@@ -73,7 +73,7 @@ Display *X11Display() {
 
 #else
 
-#  error "Missing Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header."
+#  error "Missing QX11Application, X11Extras or qpa/qplatformnativeinterface.h header."
 
 #endif
 
@@ -81,7 +81,7 @@ Display *X11Display() {
 
 quint32 AppRootWindow() {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)  // 6.2: Use the new native interface.
+#ifdef HAVE_QX11APPLICATION  // Qt 6.2: Use the new native interface.
 
   if (QNativeInterface::QX11Application *x11_app = qApp->nativeInterface<QNativeInterface::QX11Application>()) {
     if (x11_app->display()) {
@@ -108,7 +108,7 @@ quint32 AppRootWindow() {
 
 #else
 
-#  error "Missing Qt >= 6.2, X11Extras or qpa/qplatformnativeinterface.h header."
+#  error "Missing QX11Application, X11Extras or qpa/qplatformnativeinterface.h header."
 
 #endif
 

@@ -55,4 +55,6 @@
 #cmakedefine USE_TAGLIB
 #cmakedefine USE_TAGPARSER
 
+#cmakedefine HAVE_QX11APPLICATION
+
 #endif // CONFIG_H_IN
