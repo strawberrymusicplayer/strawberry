@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QObject>
 #include <QString>
 
@@ -36,6 +38,6 @@ PlaylistGeneratorPtr PlaylistGenerator::Create(const Type type) {
 
   Q_UNUSED(type)
 
-  return PlaylistGeneratorPtr(new PlaylistQueryGenerator);
+  return std::make_shared<PlaylistQueryGenerator>();
 
 }
