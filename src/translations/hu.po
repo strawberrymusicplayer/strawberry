@@ -608,7 +608,7 @@ msgstr "Mappa hozzáadása"
 msgid "Add new folder..."
 msgstr "Új mappa hozzáadása…"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:430
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
 msgstr "Keresési kifejezés hozzáadása"
 
@@ -1076,7 +1076,7 @@ msgstr "Háttérkép"
 msgid "Background opacity"
 msgstr "Háttér áttetszősége"
 
-#: core/database.cpp:559
+#: core/database.cpp:557
 msgid "Backing up database"
 msgstr "Adatbázis biztonsági mentése"
 
@@ -1688,7 +1688,7 @@ msgstr "D-Bus elérési út"
 msgid "Dance"
 msgstr "Dance"
 
-#: core/database.cpp:505
+#: core/database.cpp:503
 msgid "Database corruption detected."
 msgstr "Adatbázis-sérülés észlelve."
 
@@ -2240,6 +2240,11 @@ msgstr "Elhalkulás"
 msgid "Fading duration"
 msgstr "Elhalkulás hossza"
 
+#: core/database.cpp:478 collection/collectionbackend.cpp:112
+#, qt-format
+msgid "Failed SQL query: %1"
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:408
 #: covermanager/albumcoverchoicecontroller.cpp:425
 #, qt-format
@@ -2784,7 +2789,7 @@ msgstr "Beszúrás..."
 msgid "Install strawberry through PPA:"
 msgstr ""
 
-#: core/database.cpp:488
+#: core/database.cpp:486
 msgid "Integrity check"
 msgstr "Integritás ellenőrzése"
 
@@ -5064,7 +5069,7 @@ msgstr "A következő fájlok lesznek törölve a lemezről:"
 msgid "The internet collection is empty!"
 msgstr "Az internetes gyűjtemény üres!"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:419
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
 msgstr "A második értéknek nagyobbnak kell lennie, mint az elsőnek!"
 
@@ -5299,6 +5304,16 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ultra szélessávú (UWB)"
 
+#: core/database.cpp:477
+#, qt-format
+msgid "Unable to execute SQL query: %1"
+msgstr ""
+
+#: collection/collectionbackend.cpp:111
+#, qt-format
+msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
 msgstr ""
@@ -5354,7 +5369,7 @@ msgstr "Gyűjtemény frissítése a Strawberry indításakor"
 msgid "Updating %1"
 msgstr "%1 frissítése"
 
-#: collection/collectionbackend.cpp:699
+#: collection/collectionbackend.cpp:697
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""

@@ -600,7 +600,7 @@ msgstr "Додати папку"
 msgid "Add new folder..."
 msgstr "Додати нову папку..."
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:430
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
 msgstr "Додати пошуковий термін"
 
@@ -1069,7 +1069,7 @@ msgstr "Зображення тла"
 msgid "Background opacity"
 msgstr "Прозорість фону"
 
-#: core/database.cpp:559
+#: core/database.cpp:557
 msgid "Backing up database"
 msgstr "Створення резервної копії бази даних"
 
@@ -1686,7 +1686,7 @@ msgstr "Шлях D-Bus"
 msgid "Dance"
 msgstr "Танцювальна"
 
-#: core/database.cpp:505
+#: core/database.cpp:503
 msgid "Database corruption detected."
 msgstr "Виявлено пошкодження бази даних."
 
@@ -2241,6 +2241,11 @@ msgstr "Згасання"
 msgid "Fading duration"
 msgstr "Тривалість згасання"
 
+#: core/database.cpp:478 collection/collectionbackend.cpp:112
+#, qt-format
+msgid "Failed SQL query: %1"
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:408
 #: covermanager/albumcoverchoicecontroller.cpp:425
 #, qt-format
@@ -2784,7 +2789,7 @@ msgstr "Вставити..."
 msgid "Install strawberry through PPA:"
 msgstr ""
 
-#: core/database.cpp:488
+#: core/database.cpp:486
 msgid "Integrity check"
 msgstr "Перевірка цілісності даних"
 
@@ -5078,7 +5083,7 @@ msgstr "Наступні файли будуть видалені з диска:
 msgid "The internet collection is empty!"
 msgstr "Фонотека в Інтернеті порожня!"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:419
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
 msgstr "Друге значення має бути більше першого!"
 
@@ -5309,6 +5314,16 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Надзвичайно широка смуга (UWB)"
 
+#: core/database.cpp:477
+#, qt-format
+msgid "Unable to execute SQL query: %1"
+msgstr ""
+
+#: collection/collectionbackend.cpp:111
+#, qt-format
+msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
 msgstr ""
@@ -5364,7 +5379,7 @@ msgstr "Оновлювати фонотеку під час запуску Straw
 msgid "Updating %1"
 msgstr "Оновлення %1"
 
-#: collection/collectionbackend.cpp:699
+#: collection/collectionbackend.cpp:697
 #, qt-format
 msgid "Updating %1 database."
 msgstr "Оновлення бази даних %1."

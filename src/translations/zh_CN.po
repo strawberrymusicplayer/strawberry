@@ -588,7 +588,7 @@ msgstr "添加文件夹"
 msgid "Add new folder..."
 msgstr "添加新文件夹..."
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:430
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
 msgstr "添加搜索条件"
 
@@ -1055,7 +1055,7 @@ msgstr "背景图片"
 msgid "Background opacity"
 msgstr "背景透明度"
 
-#: core/database.cpp:559
+#: core/database.cpp:557
 msgid "Backing up database"
 msgstr "备份数据库"
 
@@ -1655,7 +1655,7 @@ msgstr "D-Bus 路径"
 msgid "Dance"
 msgstr "舞曲"
 
-#: core/database.cpp:505
+#: core/database.cpp:503
 msgid "Database corruption detected."
 msgstr "检测到数据库损坏。"
 
@@ -2206,6 +2206,11 @@ msgstr "淡入淡出"
 msgid "Fading duration"
 msgstr "淡入淡出时长"
 
+#: core/database.cpp:478 collection/collectionbackend.cpp:112
+#, qt-format
+msgid "Failed SQL query: %1"
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:408
 #: covermanager/albumcoverchoicecontroller.cpp:425
 #, qt-format
@@ -2737,7 +2742,7 @@ msgstr "插入..."
 msgid "Install strawberry through PPA:"
 msgstr ""
 
-#: core/database.cpp:488
+#: core/database.cpp:486
 msgid "Integrity check"
 msgstr "完整性检验"
 
@@ -4985,7 +4990,7 @@ msgstr "下列文件将从磁盘上删除："
 msgid "The internet collection is empty!"
 msgstr "网络媒体空是空的！"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:419
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
 msgstr "第二个数值必须比第一个数值大！"
 
@@ -5202,6 +5207,16 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "超宽带 (UWB)"
 
+#: core/database.cpp:477
+#, qt-format
+msgid "Unable to execute SQL query: %1"
+msgstr ""
+
+#: collection/collectionbackend.cpp:111
+#, qt-format
+msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
 msgstr ""
@@ -5257,7 +5272,7 @@ msgstr "Strawberry 启动时更新媒体库"
 msgid "Updating %1"
 msgstr "正在更新 %1"
 
-#: collection/collectionbackend.cpp:699
+#: collection/collectionbackend.cpp:697
 #, qt-format
 msgid "Updating %1 database."
 msgstr "正在更新 %1 数据库。"

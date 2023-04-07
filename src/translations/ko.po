@@ -591,7 +591,7 @@ msgstr "폴더 추가"
 msgid "Add new folder..."
 msgstr "새로운 폴더 추가..."
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:430
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
 msgstr "검색 조건 추가"
 
@@ -1058,7 +1058,7 @@ msgstr "배경 그림"
 msgid "Background opacity"
 msgstr "배경 불투명도"
 
-#: core/database.cpp:559
+#: core/database.cpp:557
 msgid "Backing up database"
 msgstr "데이터베이스 백업 중"
 
@@ -1659,7 +1659,7 @@ msgstr "D-Bus 경로"
 msgid "Dance"
 msgstr "댄스"
 
-#: core/database.cpp:505
+#: core/database.cpp:503
 msgid "Database corruption detected."
 msgstr "데이터베이스가 손상되었습니다."
 
@@ -2210,6 +2210,11 @@ msgstr "페이드"
 msgid "Fading duration"
 msgstr "페이드 시간"
 
+#: core/database.cpp:478 collection/collectionbackend.cpp:112
+#, qt-format
+msgid "Failed SQL query: %1"
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:408
 #: covermanager/albumcoverchoicecontroller.cpp:425
 #, qt-format
@@ -2742,7 +2747,7 @@ msgstr "삽입..."
 msgid "Install strawberry through PPA:"
 msgstr ""
 
-#: core/database.cpp:488
+#: core/database.cpp:486
 msgid "Integrity check"
 msgstr "무결성 검사"
 
@@ -4994,7 +4999,7 @@ msgstr "이 파일들이 디스크에서 제거됩니다."
 msgid "The internet collection is empty!"
 msgstr "인터넷 라이브러리가 비어 있습니다!"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:419
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
 msgstr "두번째 값은 첫번째보다 커야 합니다."
 
@@ -5211,6 +5216,16 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "초광대역(UWB)"
 
+#: core/database.cpp:477
+#, qt-format
+msgid "Unable to execute SQL query: %1"
+msgstr ""
+
+#: collection/collectionbackend.cpp:111
+#, qt-format
+msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
 msgstr ""
@@ -5266,7 +5281,7 @@ msgstr "Strawberry 시작 시 라이브러리 업데이트"
 msgid "Updating %1"
 msgstr "%1 업데이트 중"
 
-#: collection/collectionbackend.cpp:699
+#: collection/collectionbackend.cpp:697
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""

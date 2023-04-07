@@ -641,7 +641,7 @@ msgstr "Ordner hinzufügen"
 msgid "Add new folder..."
 msgstr "Neuen Ordner hinzufügen …"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:430
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
 msgstr "Ergänze Suchbegriff"
 
@@ -1111,7 +1111,7 @@ msgstr "Hintergrundbild"
 msgid "Background opacity"
 msgstr "Deckkraft:"
 
-#: core/database.cpp:559
+#: core/database.cpp:557
 msgid "Backing up database"
 msgstr "Die Datenbank wird gesichert"
 
@@ -1727,7 +1727,7 @@ msgstr "D-Bus Pfad"
 msgid "Dance"
 msgstr "Dance"
 
-#: core/database.cpp:505
+#: core/database.cpp:503
 msgid "Database corruption detected."
 msgstr "Datenbankfehler festgestellt"
 
@@ -2285,6 +2285,11 @@ msgstr "Überblenden"
 msgid "Fading duration"
 msgstr "Dauer:"
 
+#: core/database.cpp:478 collection/collectionbackend.cpp:112
+#, qt-format
+msgid "Failed SQL query: %1"
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:408
 #: covermanager/albumcoverchoicecontroller.cpp:425
 #, qt-format
@@ -2833,7 +2838,7 @@ msgstr "Einfügen …"
 msgid "Install strawberry through PPA:"
 msgstr "Strawberry aus PPA installieren:"
 
-#: core/database.cpp:488
+#: core/database.cpp:486
 msgid "Integrity check"
 msgstr "Integritätsprüfung"
 
@@ -5138,7 +5143,7 @@ msgstr "Die folgenden Dateien werden von der Festplatte gelöscht:"
 msgid "The internet collection is empty!"
 msgstr "Die Internet Sammlung ist leer!"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:419
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
 msgstr "Der zweite Wert muss größer sein als der erste!"
 
@@ -5377,6 +5382,16 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ulte Weit Band (UWB)"
 
+#: core/database.cpp:477
+#, qt-format
+msgid "Unable to execute SQL query: %1"
+msgstr ""
+
+#: collection/collectionbackend.cpp:111
+#, qt-format
+msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
 msgstr "Rückgängig machen"
@@ -5432,7 +5447,7 @@ msgstr "Bibliothek beim Programmstart aktualisieren"
 msgid "Updating %1"
 msgstr "Aktualisiere %1"
 
-#: collection/collectionbackend.cpp:699
+#: collection/collectionbackend.cpp:697
 #, qt-format
 msgid "Updating %1 database."
 msgstr "Aktualisieren der Datenbank %1."

@@ -592,7 +592,7 @@ msgstr "フォルダーを追加"
 msgid "Add new folder..."
 msgstr "新しいフォルダーを追加..."
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:430
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
 msgstr "検索条件を追加"
 
@@ -1059,7 +1059,7 @@ msgstr "背景画像"
 msgid "Background opacity"
 msgstr "背景の不透明度"
 
-#: core/database.cpp:559
+#: core/database.cpp:557
 msgid "Backing up database"
 msgstr "データベースをバックアップ中"
 
@@ -1662,7 +1662,7 @@ msgstr "D-Bus パス"
 msgid "Dance"
 msgstr "ダンス"
 
-#: core/database.cpp:505
+#: core/database.cpp:503
 msgid "Database corruption detected."
 msgstr "データベースの不整合が検出されました。"
 
@@ -2213,6 +2213,11 @@ msgstr "フェード"
 msgid "Fading duration"
 msgstr "フェードの長さ"
 
+#: core/database.cpp:478 collection/collectionbackend.cpp:112
+#, qt-format
+msgid "Failed SQL query: %1"
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:408
 #: covermanager/albumcoverchoicecontroller.cpp:425
 #, qt-format
@@ -2744,7 +2749,7 @@ msgstr "挿入..."
 msgid "Install strawberry through PPA:"
 msgstr ""
 
-#: core/database.cpp:488
+#: core/database.cpp:486
 msgid "Integrity check"
 msgstr "整合性の検査"
 
@@ -4998,7 +5003,7 @@ msgstr ""
 msgid "The internet collection is empty!"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:419
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
 msgstr ""
 
@@ -5215,6 +5220,16 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "超高速回線 (UWB)"
 
+#: core/database.cpp:477
+#, qt-format
+msgid "Unable to execute SQL query: %1"
+msgstr ""
+
+#: collection/collectionbackend.cpp:111
+#, qt-format
+msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
 msgstr ""
@@ -5270,7 +5285,7 @@ msgstr "Strawberry の起動時にライブラリを更新する"
 msgid "Updating %1"
 msgstr "%1 の更新中"
 
-#: collection/collectionbackend.cpp:699
+#: collection/collectionbackend.cpp:697
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""

@@ -589,7 +589,7 @@ msgstr "Tambah folder"
 msgid "Add new folder..."
 msgstr "Tambah folder baru..."
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:430
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
 msgstr ""
 
@@ -1056,7 +1056,7 @@ msgstr "Gambar latar belakang"
 msgid "Background opacity"
 msgstr "Kelegapan latar belakang"
 
-#: core/database.cpp:559
+#: core/database.cpp:557
 msgid "Backing up database"
 msgstr "Membuat cadangan basis data"
 
@@ -1663,7 +1663,7 @@ msgstr "Lokasi D-Bus"
 msgid "Dance"
 msgstr "Dansa"
 
-#: core/database.cpp:505
+#: core/database.cpp:503
 msgid "Database corruption detected."
 msgstr "Kerusakan basis data terdeteksi."
 
@@ -2214,6 +2214,11 @@ msgstr "Melesap"
 msgid "Fading duration"
 msgstr "Durasi lesap"
 
+#: core/database.cpp:478 collection/collectionbackend.cpp:112
+#, qt-format
+msgid "Failed SQL query: %1"
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:408
 #: covermanager/albumcoverchoicecontroller.cpp:425
 #, qt-format
@@ -2751,7 +2756,7 @@ msgstr "Sisipkan..."
 msgid "Install strawberry through PPA:"
 msgstr ""
 
-#: core/database.cpp:488
+#: core/database.cpp:486
 msgid "Integrity check"
 msgstr "Periksa integritas"
 
@@ -5012,7 +5017,7 @@ msgstr ""
 msgid "The internet collection is empty!"
 msgstr "Koleksi internet kosong!"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:419
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
 msgstr ""
 
@@ -5247,6 +5252,16 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Pita ultra lebar (UWB)"
 
+#: core/database.cpp:477
+#, qt-format
+msgid "Unable to execute SQL query: %1"
+msgstr ""
+
+#: collection/collectionbackend.cpp:111
+#, qt-format
+msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
 msgstr ""
@@ -5302,7 +5317,7 @@ msgstr "Perbarui pustaka ketika memulai Strawberry"
 msgid "Updating %1"
 msgstr "Memperbarui %1"
 
-#: collection/collectionbackend.cpp:699
+#: collection/collectionbackend.cpp:697
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""

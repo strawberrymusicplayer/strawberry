@@ -596,7 +596,7 @@ msgstr "Añadir carpeta"
 msgid "Add new folder..."
 msgstr "Añadir carpeta nueva…"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:430
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
 msgid "Add search term"
 msgstr "Añadir término de búsqueda"
 
@@ -1067,7 +1067,7 @@ msgstr "Imagen de fondo"
 msgid "Background opacity"
 msgstr "Opacidad del fondo"
 
-#: core/database.cpp:559
+#: core/database.cpp:557
 msgid "Backing up database"
 msgstr "Haciendo copia de respaldo de la base de datos"
 
@@ -1678,7 +1678,7 @@ msgstr "Ruta de D-Bus"
 msgid "Dance"
 msgstr "Dance"
 
-#: core/database.cpp:505
+#: core/database.cpp:503
 msgid "Database corruption detected."
 msgstr "Se han detectado errores en la base de datos."
 
@@ -2235,6 +2235,11 @@ msgstr "Fundido"
 msgid "Fading duration"
 msgstr "Duración del fundido"
 
+#: core/database.cpp:478 collection/collectionbackend.cpp:112
+#, qt-format
+msgid "Failed SQL query: %1"
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:408
 #: covermanager/albumcoverchoicecontroller.cpp:425
 #, qt-format
@@ -2784,7 +2789,7 @@ msgstr "Insertar…"
 msgid "Install strawberry through PPA:"
 msgstr "Instalar Strawberry mediante un PPA:"
 
-#: core/database.cpp:488
+#: core/database.cpp:486
 msgid "Integrity check"
 msgstr "Comprobación de integridad"
 
@@ -5075,7 +5080,7 @@ msgstr "Los siguientes archivos serán borrados del disco:"
 msgid "The internet collection is empty!"
 msgstr "La colección de Internet está vacía!"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:419
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
 msgid "The second value must be greater than the first one!"
 msgstr "El segundo valor debe ser mayor que el primero!"
 
@@ -5314,6 +5319,16 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Banda ultraancha (UWB)"
 
+#: core/database.cpp:477
+#, qt-format
+msgid "Unable to execute SQL query: %1"
+msgstr ""
+
+#: collection/collectionbackend.cpp:111
+#, qt-format
+msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
 msgstr "Deshacer"
@@ -5369,7 +5384,7 @@ msgstr "Actualizar la colección al iniciar Strawberry"
 msgid "Updating %1"
 msgstr "Actualizando %1"
 
-#: collection/collectionbackend.cpp:699
+#: collection/collectionbackend.cpp:697
 #, qt-format
 msgid "Updating %1 database."
 msgstr "Actualizando base de datos de %1."
