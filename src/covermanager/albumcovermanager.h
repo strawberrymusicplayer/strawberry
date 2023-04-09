@@ -147,7 +147,7 @@ class AlbumCoverManager : public QMainWindow {
   bool ItemHasCover(const AlbumItem &item) const;
 
  signals:
-  void Error(QString);
+  void Error(const QString &error);
   void AddToPlaylist(QMimeData *data);
 
  private slots:

@@ -111,20 +111,20 @@ class PlayerInterface : public QObject {
   // Emitted only when playback is manually resumed
   void Resumed();
   void Stopped();
-  void Error(QString message = QString());
+  void Error(const QString &message = QString());
   void PlaylistFinished();
-  void VolumeEnabled(bool);
-  void VolumeChanged(uint volume);
+  void VolumeEnabled(const bool volume_enabled);
+  void VolumeChanged(const uint volume);
   void TrackSkipped(PlaylistItemPtr old_track);
   // Emitted when there's a manual change to the current's track position.
-  void Seeked(qint64 microseconds);
+  void Seeked(const qint64 microseconds);
 
   // Emitted when Player has processed a request to play another song.
   // This contains the URL of the song and a flag saying whether it was able to play the song.
-  void SongChangeRequestProcessed(QUrl url, bool valid);
+  void SongChangeRequestProcessed(const QUrl &url, const bool valid);
 
   // The toggle parameter is true when user requests to toggle visibility for Pretty OSD
-  void ForceShowOSD(Song, bool toggle);
+  void ForceShowOSD(const Song &song, const bool toggle);
 
   void Authenticated();
 
@@ -193,7 +193,7 @@ class Player : public PlayerInterface {
   void HandleAuthentication();
 
  signals:
-  void EngineChanged(Engine::EngineType enginetype);
+  void EngineChanged(const Engine::EngineType enginetype);
 
  private slots:
   void EngineStateChanged(const Engine::State);

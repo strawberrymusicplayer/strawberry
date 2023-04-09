@@ -140,9 +140,9 @@ class InternetSearchView : public QWidget {
 
  signals:
   void AddToPlaylist(QMimeData*);
-  void AddArtistsSignal(SongList);
-  void AddAlbumsSignal(SongList);
-  void AddSongsSignal(SongList);
+  void AddArtistsSignal(const SongList &songs);
+  void AddAlbumsSignal(const SongList &songs);
+  void AddSongsSignal(const SongList &songs);
 
  private slots:
   void SwapModels();

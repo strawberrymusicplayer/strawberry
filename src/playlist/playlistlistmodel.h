@@ -81,8 +81,8 @@ class PlaylistListModel : public QStandardItemModel {
   bool setData(const QModelIndex &idx, const QVariant &value, int role) override;
 
  signals:
-  void PlaylistPathChanged(int id, QString new_path);
-  void PlaylistRenamed(int id, QString new_name);
+  void PlaylistPathChanged(const int id, const QString &new_path);
+  void PlaylistRenamed(const int id, const QString &new_name);
 
  private slots:
   void RowsChanged(const QModelIndex &begin, const QModelIndex &end);

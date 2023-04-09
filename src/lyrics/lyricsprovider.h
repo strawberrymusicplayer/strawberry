@@ -60,10 +60,10 @@ class LyricsProvider : public QObject {
   QString ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple);
 
  signals:
-  void AuthenticationComplete(bool, QStringList = QStringList());
+  void AuthenticationComplete(const bool success, const QStringList &errors = QStringList());
   void AuthenticationSuccess();
-  void AuthenticationFailure(QStringList);
-  void SearchFinished(int id, LyricsSearchResults results = LyricsSearchResults());
+  void AuthenticationFailure(const QStringList &errors);
+  void SearchFinished(const int id, const LyricsSearchResults &results = LyricsSearchResults());
 
  protected:
   NetworkAccessManager *network_;

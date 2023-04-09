@@ -325,11 +325,11 @@ class Playlist : public QAbstractListModel {
  signals:
   void RestoreFinished();
   void PlaylistLoaded();
-  void CurrentSongChanged(Song metadata);
-  void SongMetadataChanged(Song metadata);
-  void EditingFinished(const int playlist_id, QModelIndex idx);
-  void PlayRequested(QModelIndex idx, Playlist::AutoScroll autoscroll);
-  void MaybeAutoscroll(Playlist::AutoScroll autoscroll);
+  void CurrentSongChanged(const Song &metadata);
+  void SongMetadataChanged(const Song &metadata);
+  void EditingFinished(const int playlist_id, const QModelIndex idx);
+  void PlayRequested(const QModelIndex idx, const Playlist::AutoScroll autoscroll);
+  void MaybeAutoscroll(const Playlist::AutoScroll autoscroll);
 
   // Signals that the underlying list of items was changed, meaning that something was added to it, removed from it or the ordering changed.
   void PlaylistChanged();

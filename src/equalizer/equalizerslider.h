@@ -38,13 +38,13 @@ class EqualizerSlider : public QWidget {
   ~EqualizerSlider() override;
 
   int value() const;
-  void set_value(int value);
+  void set_value(const int value);
 
  signals:
-  void ValueChanged(int value);
+  void ValueChanged(const int value);
 
  public slots:
-  void OnValueChanged(int value);
+  void OnValueChanged(const int value);
 
  private:
   Ui_EqualizerSlider *ui_;

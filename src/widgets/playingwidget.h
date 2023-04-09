@@ -68,7 +68,7 @@ class PlayingWidget : public QWidget {
   bool show_above_status_bar() const { return above_statusbar_action_->isChecked(); }
 
  signals:
-  void ShowAboveStatusBarChanged(bool above);
+  void ShowAboveStatusBarChanged(const bool above);
 
  public slots:
   void Playing();

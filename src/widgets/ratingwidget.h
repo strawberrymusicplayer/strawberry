@@ -55,7 +55,7 @@ class RatingWidget : public QWidget {
   void set_rating(const float rating);
 
  signals:
-  void RatingChanged(float);
+  void RatingChanged(const float rating);
 
  protected:
   void paintEvent(QPaintEvent*) override;

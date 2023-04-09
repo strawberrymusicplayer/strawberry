@@ -81,7 +81,7 @@ class SCollection : public QObject {
   void SongsRatingChanged(const SongList &songs, const bool save_tags = false);
 
  signals:
-  void Error(QString);
+  void Error(const QString &error);
   void ExitFinished();
 
  private:

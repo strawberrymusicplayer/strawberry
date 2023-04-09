@@ -77,8 +77,8 @@ class PlaylistSequence : public QWidget {
   void CycleRepeatMode();
 
  signals:
-  void RepeatModeChanged(PlaylistSequence::RepeatMode mode);
-  void ShuffleModeChanged(PlaylistSequence::ShuffleMode mode);
+  void RepeatModeChanged(const PlaylistSequence::RepeatMode mode);
+  void ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode);
 
  private slots:
   void RepeatActionTriggered(QAction *action);

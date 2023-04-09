@@ -69,7 +69,7 @@ class SystemTrayIcon : public QSystemTrayIcon {
   void UpdateIcon();
 
  signals:
-  void ChangeVolume(int delta);
+  void ChangeVolume(const int delta);
   void SeekForward();
   void SeekBackward();
   void NextTrack();

@@ -79,8 +79,8 @@ class AlbumCoverLoader : public QObject {
 
  signals:
   void ExitFinished();
-  void AlbumCoverLoaded(quint64 id, AlbumCoverLoaderResultPtr result);
-  void SaveEmbeddedCoverAsyncFinished(quint64 id, bool success, bool cleared);
+  void AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result);
+  void SaveEmbeddedCoverAsyncFinished(const quint64 id, const bool success, const bool cleared);
 
  protected slots:
   void Exit();

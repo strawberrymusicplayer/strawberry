@@ -76,7 +76,7 @@ class SystemTrayIcon : public QObject {
   void ActionChanged();
 
  signals:
-  void ChangeVolume(int delta);
+  void ChangeVolume(const int delta);
   void SeekForward();
   void SeekBackward();
   void NextTrack();

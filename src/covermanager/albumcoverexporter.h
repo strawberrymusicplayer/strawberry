@@ -49,7 +49,7 @@ class AlbumCoverExporter : public QObject {
   int request_count() { return static_cast<int>(requests_.size()); }
 
  signals:
-  void AlbumCoversExportUpdate(int exported, int skipped, int all);
+  void AlbumCoversExportUpdate(const int exported, const int skipped, const int all);
 
  private slots:
   void CoverExported();

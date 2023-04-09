@@ -47,7 +47,7 @@ class MoodbarPipeline : public QObject {
   void Start();
 
  signals:
-  void Finished(bool success);
+  void Finished(const bool success);
 
  private:
   GstElement *CreateElement(const QString &factory_name);

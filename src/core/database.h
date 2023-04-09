@@ -88,8 +88,8 @@ class Database : public QObject {
 
  signals:
   void ExitFinished();
-  void Error(QString error);
-  void Errors(QStringList errors);
+  void Error(const QString &error);
+  void Errors(const QStringList &errors);
 
  private slots:
   void Exit();

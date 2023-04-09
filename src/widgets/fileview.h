@@ -64,13 +64,13 @@ class FileView : public QWidget {
   void keyPressEvent(QKeyEvent *e) override;
 
  signals:
-  void PathChanged(QString path);
+  void PathChanged(const QString &path);
 
   void AddToPlaylist(QMimeData *data);
-  void CopyToCollection(QList<QUrl> urls);
-  void MoveToCollection(QList<QUrl> urls);
-  void CopyToDevice(QList<QUrl> urls);
-  void EditTags(QList<QUrl> urls);
+  void CopyToCollection(const QList<QUrl> &urls);
+  void MoveToCollection(const QList<QUrl> &urls);
+  void CopyToDevice(const QList<QUrl> &urls);
+  void EditTags(const QList<QUrl> &urls);
 
  private slots:
   void FileUp();

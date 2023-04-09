@@ -68,11 +68,11 @@ class CoverProvider : public QObject {
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
 
  signals:
-  void AuthenticationComplete(bool, QStringList = QStringList());
+  void AuthenticationComplete(const bool success, const QStringList &errors = QStringList());
   void AuthenticationSuccess();
-  void AuthenticationFailure(QStringList);
-  void SearchResults(int, CoverProviderSearchResults);
-  void SearchFinished(int, CoverProviderSearchResults);
+  void AuthenticationFailure(const QStringList &errors);
+  void SearchResults(const int id, const CoverProviderSearchResults &results);
+  void SearchFinished(const int id, const CoverProviderSearchResults &results);
 
  protected:
   using Param = QPair<QString, QString>;

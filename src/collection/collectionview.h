@@ -89,7 +89,7 @@ class CollectionView : public AutoExpandingTreeView {
   void TotalSongCountUpdated_();
   void TotalArtistCountUpdated_();
   void TotalAlbumCountUpdated_();
-  void Error(QString);
+  void Error(const QString &error);
 
  protected:
   // QWidget

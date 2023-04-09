@@ -49,12 +49,12 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
   };
 
  signals:
-  void ArtistsAdded(SongList);
-  void AlbumsAdded(SongList);
-  void SongsAdded(SongList);
-  void ArtistsRemoved(SongList);
-  void AlbumsRemoved(SongList);
-  void SongsRemoved(SongList);
+  void ArtistsAdded(const SongList &songs);
+  void AlbumsAdded(const SongList &songs);
+  void SongsAdded(const SongList &songs);
+  void ArtistsRemoved(const SongList &songs);
+  void AlbumsRemoved(const SongList &songs);
+  void SongsRemoved(const SongList &songs);
 
  private slots:
   void AddFavoritesReply(QNetworkReply *reply, const QobuzFavoriteRequest::FavoriteType type, const SongList &songs);

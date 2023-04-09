@@ -53,7 +53,7 @@ class AnalyzerContainer : public QWidget {
   static const char *kSettingsFramerate;
 
  signals:
-  void WheelEvent(int delta);
+  void WheelEvent(const int delta);
 
  protected:
   void mouseReleaseEvent(QMouseEvent*) override;

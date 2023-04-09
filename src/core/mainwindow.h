@@ -132,12 +132,12 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   bool LoadUrl(const QString &url) override;
 
  signals:
-  void AlbumCoverReady(Song song, QImage image);
+  void AlbumCoverReady(const Song &song, const QImage &image);
   void SearchCoverInProgress();
   // Signals that stop playing after track was toggled.
-  void StopAfterToggled(bool stop);
+  void StopAfterToggled(const bool stop);
 
-  void AuthorizationUrlReceived(QUrl url);
+  void AuthorizationUrlReceived(const QUrl &url);
 
  private slots:
   void FilePathChanged(const QString &path);

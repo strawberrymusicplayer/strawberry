@@ -78,8 +78,8 @@ class FancyTabWidget : public QTabWidget {
   int iconsize_largesidebar() const { return iconsize_largesidebar_; }
 
  signals:
-  void ModeChanged(FancyTabWidget::Mode mode);
-  void CurrentChanged(int);
+  void ModeChanged(const FancyTabWidget::Mode mode);
+  void CurrentChanged(const int);
 
  public slots:
   void setCurrentIndex(int idx);

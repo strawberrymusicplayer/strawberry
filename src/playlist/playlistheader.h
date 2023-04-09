@@ -53,9 +53,9 @@ class PlaylistHeader : public StretchHeaderView {
 #endif
 
  signals:
-  void SectionVisibilityChanged(int logical, bool visible);
+  void SectionVisibilityChanged(const int logical, const bool visible);
   void MouseEntered();
-  void SectionRatingLockStatusChanged(bool);
+  void SectionRatingLockStatusChanged(const bool);
 
  private slots:
   void HideCurrent();

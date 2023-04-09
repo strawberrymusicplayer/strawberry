@@ -87,7 +87,7 @@ class OrganizeDialog : public QDialog {
   void SetLoadingSongs(const bool loading);
 
  signals:
-  void FileCopied(int);
+  void FileCopied(const int);
 
  public slots:
   void accept() override;

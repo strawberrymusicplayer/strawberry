@@ -48,9 +48,9 @@ class SongLoaderInserter : public QObject {
   void LoadAudioCD(Playlist *destination, int row, bool play_now, bool enqueue, bool enqueue_next);
 
  signals:
-  void Error(QString message);
+  void Error(const QString &message);
   void PreloadFinished();
-  void EffectiveLoadFinished(SongList songs);
+  void EffectiveLoadFinished(const SongList &songs);
 
  private slots:
   void DestinationDestroyed();

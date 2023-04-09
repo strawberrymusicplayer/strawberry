@@ -199,10 +199,10 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static QString ContainerKey(const GroupBy group_by, const bool separate_albums_by_grouping, const Song &song);
 
  signals:
-  void TotalSongCountUpdated(int count);
-  void TotalArtistCountUpdated(int count);
-  void TotalAlbumCountUpdated(int count);
-  void GroupingChanged(CollectionModel::Grouping g, bool separate_albums_by_grouping);
+  void TotalSongCountUpdated(const int count);
+  void TotalArtistCountUpdated(const int count);
+  void TotalAlbumCountUpdated(const int count);
+  void GroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
 
  public slots:
   void SetFilterMode(CollectionFilterOptions::FilterMode filter_mode);

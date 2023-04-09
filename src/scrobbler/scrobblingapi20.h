@@ -70,7 +70,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   void Love() override;
 
  signals:
-  void AuthenticationComplete(bool success, QString error = QString());
+  void AuthenticationComplete(const bool success, const QString &error = QString());
 
  public slots:
   void WriteCache() override { cache_->WriteCache(); }

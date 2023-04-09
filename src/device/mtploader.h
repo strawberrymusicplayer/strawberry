@@ -49,9 +49,9 @@ class MtpLoader : public QObject {
   void LoadDatabase();
 
  signals:
-  void Error(QString message);
-  void TaskStarted(int task_id);
-  void LoadFinished(bool success, MtpConnection*);
+  void Error(const QString &message);
+  void TaskStarted(const int task_id);
+  void LoadFinished(const bool success, MtpConnection *connection);
 
  private:
   bool TryLoad();

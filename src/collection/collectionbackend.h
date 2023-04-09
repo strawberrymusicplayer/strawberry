@@ -254,23 +254,23 @@ class CollectionBackend : public CollectionBackendInterface {
   void ExpireSongs(const int directory_id, const int expire_unavailable_songs_days);
 
  signals:
-  void DirectoryDiscovered(CollectionDirectory, CollectionSubdirectoryList);
-  void DirectoryDeleted(CollectionDirectory);
+  void DirectoryDiscovered(const CollectionDirectory &dir, const CollectionSubdirectoryList &subdir);
+  void DirectoryDeleted(const CollectionDirectory &dir);
 
-  void SongsDiscovered(SongList);
-  void SongsDeleted(SongList);
-  void SongsStatisticsChanged(SongList, bool = false);
+  void SongsDiscovered(const SongList &songs);
+  void SongsDeleted(const SongList &songs);
+  void SongsStatisticsChanged(const SongList &songs, const bool save_tags = false);
 
   void DatabaseReset();
 
-  void TotalSongCountUpdated(int);
-  void TotalArtistCountUpdated(int);
-  void TotalAlbumCountUpdated(int);
-  void SongsRatingChanged(SongList, bool);
+  void TotalSongCountUpdated(const int count);
+  void TotalArtistCountUpdated(const int count);
+  void TotalAlbumCountUpdated(const int count);
+  void SongsRatingChanged(const SongList &songs, const bool save_tags);
 
   void ExitFinished();
 
-  void Error(QString);
+  void Error(const QString &error);
 
  private:
   struct CompilationInfo {

@@ -85,7 +85,7 @@ class MergedProxyModel : public QAbstractProxyModel {
   QModelIndexList mapToSource(const QModelIndexList &proxy_indexes) const;
 
  signals:
-  void SubModelReset(QModelIndex root, QAbstractItemModel *model);
+  void SubModelReset(const QModelIndex root, QAbstractItemModel *model);
 
  private slots:
   void SourceModelReset();

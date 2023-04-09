@@ -48,7 +48,7 @@ class DeleteFiles : public QObject {
   void Start(const QStringList &filenames);
 
  signals:
-  void Finished(SongList songs_with_errors);
+  void Finished(const SongList &songs_with_errors);
 
  private slots:
   void ProcessSomeFiles();

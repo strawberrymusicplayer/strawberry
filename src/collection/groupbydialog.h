@@ -49,7 +49,7 @@ class GroupByDialog : public QDialog {
   void accept() override;
 
  signals:
-  void Accepted(CollectionModel::Grouping g, bool separate_albums_by_grouping);
+  void Accepted(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
 
  private slots:
   void Reset();

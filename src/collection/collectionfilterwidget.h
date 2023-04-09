@@ -96,7 +96,7 @@ class CollectionFilterWidget : public QWidget {
   void UpPressed();
   void DownPressed();
   void ReturnPressed();
-  void Filter(QString text);
+  void Filter(const QString &text);
 
  protected:
   void keyReleaseEvent(QKeyEvent *e) override;

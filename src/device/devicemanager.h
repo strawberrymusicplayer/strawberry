@@ -120,8 +120,8 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
  signals:
   void ExitFinished();
-  void DeviceConnected(QModelIndex idx);
-  void DeviceDisconnected(QModelIndex idx);
+  void DeviceConnected(const QModelIndex idx);
+  void DeviceDisconnected(const QModelIndex idx);
   void DeviceCreatedFromDB(DeviceInfo *info);
 
  private slots:

@@ -55,7 +55,7 @@ class GlobalShortcutsBackend : public QObject {
   bool is_active() const { return active_; }
 
  signals:
-  void RegisterFinished(bool success);
+  void RegisterFinished(const bool success);
 
  protected:
   virtual bool DoRegister() = 0;

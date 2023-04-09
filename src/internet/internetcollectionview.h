@@ -86,8 +86,8 @@ class InternetCollectionView : public AutoExpandingTreeView {
   void TotalSongCountUpdated_();
   void TotalArtistCountUpdated_();
   void TotalAlbumCountUpdated_();
-  void Error(QString);
-  void RemoveSongs(SongList songs);
+  void Error(const QString &error);
+  void RemoveSongs(const SongList &songs);
 
  protected:
   // QWidget

@@ -89,7 +89,7 @@ class SongLoader : public QObject {
 
  signals:
   void AudioCDTracksLoadFinished();
-  void LoadAudioCDFinished(bool success);
+  void LoadAudioCDFinished(const bool success);
   void LoadRemoteFinished();
 
  private slots:

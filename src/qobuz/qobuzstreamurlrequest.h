@@ -54,8 +54,8 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
 
  signals:
   void TryLogin();
-  void StreamURLFailure(uint id, QUrl original_url, QString error);
-  void StreamURLSuccess(uint id, QUrl original_url, QUrl stream_url, Song::FileType filetype, int samplerate, int bit_depth, qint64 duration);
+  void StreamURLFailure(const uint id, const QUrl &original_url, const QString &error);
+  void StreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
  private slots:
   void StreamURLReceived();

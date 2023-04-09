@@ -56,7 +56,7 @@ EqualizerSlider::~EqualizerSlider() {
   delete ui_;
 }
 
-void EqualizerSlider::OnValueChanged(int value) {
+void EqualizerSlider::OnValueChanged(const int value) {
 
   // Converting % to dB as per GstEnginePipeline::UpdateEqualizer():
   float gain = (static_cast<int>(value) < 0) ? static_cast<float>(value) * static_cast<float>(0.24) : static_cast<float>(value) * static_cast<float>(0.12);
@@ -70,7 +70,7 @@ int EqualizerSlider::value() const {
   return ui_->slider->value();
 }
 
-void EqualizerSlider::set_value(int value) {
+void EqualizerSlider::set_value(const int value) {
   ui_->slider->setValue(value);
 }
 

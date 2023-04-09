@@ -127,14 +127,14 @@ class PlaylistView : public QTreeView {
   void edit(const QModelIndex &idx) { QAbstractItemView::edit(idx); }
 
  signals:
-  void PlayItem(QModelIndex idx, Playlist::AutoScroll autoscroll);
-  void PlayPause(const quint64 offset_nanosec = 0, Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Never);
-  void RightClicked(QPoint global_pos, QModelIndex idx);
+  void PlayItem(const QModelIndex idx, const Playlist::AutoScroll autoscroll);
+  void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Never);
+  void RightClicked(const QPoint global_pos, const QModelIndex idx);
   void SeekForward();
   void SeekBackward();
   void FocusOnFilterSignal(QKeyEvent *event);
   void BackgroundPropertyChanged();
-  void ColumnAlignmentChanged(ColumnAlignmentMap alignment);
+  void ColumnAlignmentChanged(const ColumnAlignmentMap alignment);
 
  protected:
   // QWidget

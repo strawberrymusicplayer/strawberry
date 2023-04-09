@@ -76,7 +76,7 @@ class SettingsPage : public QWidget {
   virtual void Cancel() {}
 
  signals:
-  void NotificationPreview(OSDBase::Behaviour, QString, QString);
+  void NotificationPreview(const OSDBase::Behaviour, const QString&, const QString&);
 
  private:
   SettingsDialog *dialog_;

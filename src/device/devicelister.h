@@ -82,10 +82,10 @@ class DeviceLister : public QObject {
   virtual void Exit();
 
  signals:
-  void DeviceAdded(QString id);
-  void DeviceRemoved(QString id);
-  void DeviceChanged(QString id);
-  void DeviceMounted(QString id, int request_id, bool success);
+  void DeviceAdded(const QString &id);
+  void DeviceRemoved(const QString &id);
+  void DeviceChanged(const QString &id);
+  void DeviceMounted(const QString &id, const int request_id, const bool success);
   void ExitFinished();
 
  protected:

@@ -79,12 +79,12 @@ class LastFMImport : public QObject {
   void FinishCheck();
 
  signals:
-  void UpdatePlayCount(QString, QString, int, bool = false);
-  void UpdateLastPlayed(QString, QString, QString, qint64);
-  void UpdateTotal(int, int);
-  void UpdateProgress(int, int);
+  void UpdatePlayCount(const QString&, const QString&, const int, const bool = false);
+  void UpdateLastPlayed(const QString&, const QString&, const QString&, const qint64);
+  void UpdateTotal(const int, const int);
+  void UpdateProgress(const int, const int);
   void Finished();
-  void FinishedWithError(QString);
+  void FinishedWithError(const QString&);
 
  private slots:
   void FlushRequests();

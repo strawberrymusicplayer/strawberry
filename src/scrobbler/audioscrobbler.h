@@ -71,11 +71,11 @@ class AudioScrobbler : public QObject {
   void ErrorReceived(const QString &error);
 
  signals:
-  void ErrorMessage(QString);
-  void ScrobblingEnabledChanged(bool value);
-  void ScrobblingOfflineChanged(bool value);
-  void ScrobbleButtonVisibilityChanged(bool value);
-  void LoveButtonVisibilityChanged(bool value);
+  void ErrorMessage(const QString &error);
+  void ScrobblingEnabledChanged(const bool value);
+  void ScrobblingOfflineChanged(const bool value);
+  void ScrobbleButtonVisibilityChanged(const bool value);
+  void LoveButtonVisibilityChanged(const bool value);
 
  private:
   Application *app_;

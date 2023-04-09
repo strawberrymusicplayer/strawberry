@@ -72,12 +72,12 @@ class PlaylistTabBar : public QTabBar {
   void InsertTab(const int id, const int index, const QString &text, const bool favorite);
 
  signals:
-  void CurrentIdChanged(int id);
-  void Rename(int id, QString name);
-  void Close(int id);
-  void Save(int id);
-  void PlaylistOrderChanged(QList<int> ids);
-  void PlaylistFavorited(int id, bool favorite);
+  void CurrentIdChanged(const int id);
+  void Rename(const int id, const QString &name);
+  void Close(const int id);
+  void Save(const int id);
+  void PlaylistOrderChanged(const QList<int> &ids);
+  void PlaylistFavorited(const int id, const bool favorite);
 
  protected:
   void contextMenuEvent(QContextMenuEvent *e) override;

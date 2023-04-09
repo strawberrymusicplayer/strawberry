@@ -85,53 +85,52 @@ class InternetService : public QObject {
   void ExitFinished();
   void RequestLogin();
   void RequestLogout();
-  void LoginWithCredentials(QString api_token, QString username, QString password);
-  void LoginWithHostname(QString hostname, int, QString username, QString password);
+  void LoginWithCredentials(const QString &api_token, const QString &username, const QString &password);
   void LoginSuccess();
-  void LoginFailure(QString failure_reason);
-  void LoginComplete(bool success, QString error = QString());
+  void LoginFailure(const QString &failure_reason);
+  void LoginComplete(const bool success, const QString &error = QString());
 
   void TestSuccess();
-  void TestFailure(QString failure_reason);
-  void TestComplete(bool success, QString error = QString());
+  void TestFailure(const QString &failure_reason);
+  void TestComplete(const bool success, const QString &error = QString());
 
-  void Error(QString error);
-  void Results(SongMap songs, QString error);
-  void UpdateStatus(QString text);
-  void ProgressSetMaximum(int max);
-  void UpdateProgress(int max);
+  void Error(const QString &error);
+  void Results(const SongMap &songs, const QString &error);
+  void UpdateStatus(const QString &text);
+  void ProgressSetMaximum(const int max);
+  void UpdateProgress(const int max);
 
-  void ArtistsResults(SongMap songs, QString error);
-  void ArtistsUpdateStatus(QString text);
-  void ArtistsProgressSetMaximum(int max);
-  void ArtistsUpdateProgress(int max);
+  void ArtistsResults(const SongMap &songs, const QString &error);
+  void ArtistsUpdateStatus(const QString &text);
+  void ArtistsProgressSetMaximum(const int max);
+  void ArtistsUpdateProgress(const int max);
 
-  void AlbumsResults(SongMap songs, QString error);
-  void AlbumsUpdateStatus(QString text);
-  void AlbumsProgressSetMaximum(int max);
-  void AlbumsUpdateProgress(int max);
+  void AlbumsResults(const SongMap &songs, const QString &error);
+  void AlbumsUpdateStatus(const QString &text);
+  void AlbumsProgressSetMaximum(const int max);
+  void AlbumsUpdateProgress(const int max);
 
-  void SongsResults(SongMap songs, QString error);
-  void SongsUpdateStatus(QString text);
-  void SongsProgressSetMaximum(int max);
-  void SongsUpdateProgress(int max);
+  void SongsResults(const SongMap &songs, const QString &error);
+  void SongsUpdateStatus(const QString &text);
+  void SongsProgressSetMaximum(const int max);
+  void SongsUpdateProgress(const int max);
 
-  void SearchResults(int id, SongMap songs, QString error);
-  void SearchUpdateStatus(int id, QString text);
-  void SearchProgressSetMaximum(int id, int max);
-  void SearchUpdateProgress(int id, int max);
+  void SearchResults(const int id, const SongMap &songs, const QString &error);
+  void SearchUpdateStatus(const int id, const QString &text);
+  void SearchProgressSetMaximum(const int id, const int max);
+  void SearchUpdateProgress(const int id, const int max);
 
-  void AddArtists(SongList songs);
-  void AddAlbums(SongList songs);
-  void AddSongs(SongList songs);
+  void AddArtists(const SongList &songs);
+  void AddAlbums(const SongList &songs);
+  void AddSongs(const SongList &songs);
 
-  void RemoveArtists(SongList songs);
-  void RemoveAlbums(SongList songs);
-  void RemoveSongsByList(SongList songs);
-  void RemoveSongsByMap(SongMap songs);
+  void RemoveArtists(const SongList &songs);
+  void RemoveAlbums(const SongList &songs);
+  void RemoveSongsByList(const SongList &songs);
+  void RemoveSongsByMap(const SongMap &songs);
 
-  void StreamURLFailure(uint id, QUrl original_url, QString error);
-  void StreamURLSuccess(uint id, QUrl original_url, QUrl stream_url, Song::FileType filetype, int samplerate, int bit_depth, qint64 duration);
+  void StreamURLFailure(const uint id, const QUrl &original_url, const QString &error);
+  void StreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
  protected:
   Application *app_;

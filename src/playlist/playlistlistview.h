@@ -41,7 +41,7 @@ class PlaylistListView : public AutoExpandingTreeView {
   bool ItemsSelected() const;
 
  signals:
-  void ItemsSelectedChanged(bool);
+  void ItemsSelectedChanged(const bool);
 
  protected:
   // QWidget

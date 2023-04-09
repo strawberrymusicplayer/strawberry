@@ -54,8 +54,8 @@ class TrackSelectionDialog : public QDialog {
   void accept() override;
 
  signals:
-  void Error(QString);
-  void SongChosen(Song original_song, Song new_metadata);
+  void Error(const QString &error);
+  void SongChosen(const Song &original_song, const Song &new_metadata);
 
  private slots:
   void UpdateStack();

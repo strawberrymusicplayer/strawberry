@@ -72,7 +72,7 @@ class ScrobblerService : public QObject {
   virtual void WriteCache() = 0;
 
  signals:
-  void ErrorMessage(QString);
+  void ErrorMessage(const QString &error);
 
  private:
   QString name_;

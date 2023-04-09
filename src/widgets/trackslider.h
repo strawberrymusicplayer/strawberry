@@ -65,8 +65,8 @@ class TrackSlider : public QWidget {
   void Seek(const int gap);
 
  signals:
-  void ValueChanged(int value);
-  void ValueChangedSeconds(quint64 value);
+  void ValueChanged(const int value);
+  void ValueChangedSeconds(const quint64 value);
 
   void SeekForward();
   void SeekBackward();

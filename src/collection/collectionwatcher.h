@@ -70,18 +70,18 @@ class CollectionWatcher : public QObject {
   void RescanSongsAsync(const SongList &songs);
 
  signals:
-  void NewOrUpdatedSongs(SongList);
-  void SongsMTimeUpdated(SongList);
-  void SongsDeleted(SongList);
-  void SongsUnavailable(SongList songs, bool unavailable = true);
-  void SongsReadded(SongList songs, bool unavailable = false);
-  void SubdirsDiscovered(CollectionSubdirectoryList subdirs);
-  void SubdirsMTimeUpdated(CollectionSubdirectoryList subdirs);
+  void NewOrUpdatedSongs(const SongList &songs);
+  void SongsMTimeUpdated(const SongList &songs);
+  void SongsDeleted(const SongList &songs);
+  void SongsUnavailable(const SongList &songs, const bool unavailable = true);
+  void SongsReadded(const SongList &songs, const bool unavailable = false);
+  void SubdirsDiscovered(const CollectionSubdirectoryList &subdirs);
+  void SubdirsMTimeUpdated(const CollectionSubdirectoryList &subdirs);
   void CompilationsNeedUpdating();
-  void UpdateLastSeen(int directory_id, int expire_unavailable_songs_days);
+  void UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days);
   void ExitFinished();
 
-  void ScanStarted(int task_id);
+  void ScanStarted(const int task_id);
 
  public slots:
   void AddDirectory(const CollectionDirectory &dir, const CollectionSubdirectoryList &subdirs);

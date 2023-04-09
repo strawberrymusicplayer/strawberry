@@ -36,7 +36,7 @@ class MoodbarController : public QObject {
   void ReloadSettings();
 
  signals:
-  void CurrentMoodbarDataChanged(QByteArray data);
+  void CurrentMoodbarDataChanged(const QByteArray &data);
 
  private slots:
   void CurrentSongChanged(const Song &song);

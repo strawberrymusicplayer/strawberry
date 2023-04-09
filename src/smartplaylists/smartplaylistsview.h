@@ -40,7 +40,7 @@ class SmartPlaylistsView : public QListView {
 
  signals:
   void ItemsSelectedChanged();
-  void RightClicked(QPoint global_pos, QModelIndex idx);
+  void RightClicked(const QPoint global_pos, const QModelIndex idx);
 
 };
 

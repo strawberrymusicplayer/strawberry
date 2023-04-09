@@ -126,16 +126,16 @@ class GstEnginePipeline : public QObject {
   void SetFaderVolume(const qreal volume);
 
  signals:
-  void Error(int pipeline_id, int domain, int error_code, QString message, QString debug);
+  void Error(const int pipeline_id, const int domain, const int error_code, const QString &message, const QString &debug);
 
-  void EndOfStreamReached(int pipeline_id, bool has_next_track);
-  void MetadataFound(int pipeline_id, const Engine::SimpleMetaBundle &bundle);
+  void EndOfStreamReached(const int pipeline_id, const bool has_next_track);
+  void MetadataFound(const int pipeline_id, const Engine::SimpleMetaBundle &bundle);
 
-  void VolumeChanged(uint volume);
+  void VolumeChanged(const uint volume);
   void FaderFinished();
 
   void BufferingStarted();
-  void BufferingProgress(int percent);
+  void BufferingProgress(const int percent);
   void BufferingFinished();
 
  protected:
