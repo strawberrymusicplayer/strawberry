@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QMetaType>
 #include <QByteArray>
 #include <QString>
@@ -52,9 +50,6 @@ class AlbumCoverImageResult {
 
 };
 
-using AlbumCoverImageResultPtr = std::shared_ptr<AlbumCoverImageResult>;
-
 Q_DECLARE_METATYPE(AlbumCoverImageResult)
-Q_DECLARE_METATYPE(AlbumCoverImageResultPtr)
 
 #endif  // ALBUMCOVERIMAGERESULT_H

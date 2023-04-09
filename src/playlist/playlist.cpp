@@ -2316,16 +2316,14 @@ void Playlist::UpdateScrobblePoint(const qint64 seek_point_nanosec) {
 
 }
 
-void Playlist::AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResultPtr result) {
-
-  if (!result) return;
+void Playlist::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
 
   // Update art_manual for local songs that are not in the collection.
-  if (((result->type == AlbumCoverLoaderResult::Type::Manual && result->album_cover->cover_url.isLocalFile()) || result->type == AlbumCoverLoaderResult::Type::ManuallyUnset) && (song.source() == Song::Source::LocalFile || song.source() == Song::Source::CDDA || song.source() == Song::Source::Device)) {
+  if (((result.type == AlbumCoverLoaderResult::Type::Manual && result.album_cover.cover_url.isLocalFile()) || result.type == AlbumCoverLoaderResult::Type::ManuallyUnset) && (song.source() == Song::Source::LocalFile || song.source() == Song::Source::CDDA || song.source() == Song::Source::Device)) {
     PlaylistItemPtr item = current_item();
-    if (item && item->Metadata() == song && (!item->Metadata().art_manual_is_valid() || (result->type == AlbumCoverLoaderResult::Type::ManuallyUnset && !item->Metadata().has_manually_unset_cover()))) {
-      qLog(Debug) << "Updating art manual for local song" << song.title() << song.album() << song.title() << "to" << result->album_cover->cover_url << "in playlist.";
-      item->SetArtManual(result->album_cover->cover_url);
+    if (item && item->Metadata() == song && (!item->Metadata().art_manual_is_valid() || (result.type == AlbumCoverLoaderResult::Type::ManuallyUnset && !item->Metadata().has_manually_unset_cover()))) {
+      qLog(Debug) << "Updating art manual for local song" << song.title() << song.album() << song.title() << "to" << result.album_cover.cover_url << "in playlist.";
+      item->SetArtManual(result.album_cover.cover_url);
       ScheduleSaveAsync();
     }
   }

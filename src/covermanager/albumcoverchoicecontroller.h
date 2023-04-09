@@ -99,22 +99,22 @@ class AlbumCoverChoiceController : public QWidget {
 
   // Lets the user choose a cover from disk. If no cover will be chosen or the chosen cover will not be a proper image, this returns an empty string.
   // Otherwise, the path to the chosen cover will be returned.
-  AlbumCoverImageResultPtr LoadImageFromFile(Song *song);
+  AlbumCoverImageResult LoadImageFromFile(Song *song);
   QUrl LoadCoverFromFile(Song *song);
 
   // Shows a dialog that allows user to save the given image on disk.
   // The image is supposed to be the cover of the given song's album.
-  void SaveCoverToFileManual(const Song &song, AlbumCoverImageResultPtr result);
+  void SaveCoverToFileManual(const Song &song, const AlbumCoverImageResult &result);
 
   // Downloads the cover from an URL given by user.
   // This returns the downloaded image or null image if something went wrong for example when user cancelled the dialog.
   QUrl LoadCoverFromURL(Song *song);
-  AlbumCoverImageResultPtr LoadImageFromURL();
+  AlbumCoverImageResult LoadImageFromURL();
 
   // Lets the user choose a cover among all that have been found on last.fm.
   // Returns the chosen cover or null cover if user didn't choose anything.
   QUrl SearchForCover(Song *song);
-  AlbumCoverImageResultPtr SearchForImage(Song *song);
+  AlbumCoverImageResult SearchForImage(Song *song);
 
   // Returns a path which indicates that the cover has been unset manually.
   QUrl UnsetCover(Song *song, const bool clear_art_automatic = false);
@@ -140,10 +140,10 @@ class AlbumCoverChoiceController : public QWidget {
   QUrl SaveCover(Song *song, const QDropEvent *e);
 
   // Saves the given image in album directory or cache as a cover for 'album artist' - 'album'. The method returns path of the image.
-  QUrl SaveCoverAutomatic(Song *song, AlbumCoverImageResultPtr result);
-  QUrl SaveCoverToFileAutomatic(const Song *song, AlbumCoverImageResultPtr result, const bool force_overwrite = false);
-  QUrl SaveCoverToFileAutomatic(const Song::Source source, const QString &artist, const QString &album, const QString &album_id, const QString &album_dir, AlbumCoverImageResultPtr result, const bool force_overwrite = false);
-  void SaveCoverEmbeddedAutomatic(const Song &song, AlbumCoverImageResultPtr result);
+  QUrl SaveCoverAutomatic(Song *song, const AlbumCoverImageResult &result);
+  QUrl SaveCoverToFileAutomatic(const Song *song, const AlbumCoverImageResult &result, const bool force_overwrite = false);
+  QUrl SaveCoverToFileAutomatic(const Song::Source source, const QString &artist, const QString &album, const QString &album_id, const QString &album_dir, const AlbumCoverImageResult &result, const bool force_overwrite = false);
+  void SaveCoverEmbeddedAutomatic(const Song &song, const AlbumCoverImageResult &result);
   void SaveCoverEmbeddedAutomatic(const Song &song, const QUrl &cover_url);
   void SaveCoverEmbeddedAutomatic(const Song &song, const QString &cover_filename);
   void SaveCoverEmbeddedAutomatic(const QList<QUrl> &urls, const QImage &image);
@@ -154,7 +154,7 @@ class AlbumCoverChoiceController : public QWidget {
   void set_save_embedded_cover_override(const bool value) { save_embedded_cover_override_ = value; }
 
  private slots:
-  void AlbumCoverFetched(const quint64 id, AlbumCoverImageResultPtr result, const CoverSearchStatistics &statistics);
+  void AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics);
   void SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success, const bool cleared);
 
  signals:

@@ -21,8 +21,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QWidget>
 #include <QDialog>
 #include <QApplication>
@@ -54,11 +52,11 @@ CoverFromURLDialog::~CoverFromURLDialog() {
   delete ui_;
 }
 
-AlbumCoverImageResultPtr CoverFromURLDialog::Exec() {
+AlbumCoverImageResult CoverFromURLDialog::Exec() {
 
   // reset state
   ui_->url->setText("");
-  last_album_cover_.reset();
+  last_album_cover_ = AlbumCoverImageResult();
 
   QClipboard *clipboard = QApplication::clipboard();
   ui_->url->setText(clipboard->text());
@@ -92,17 +90,17 @@ void CoverFromURLDialog::LoadCoverFromURLFinished() {
     return;
   }
 
-  AlbumCoverImageResultPtr result = std::make_shared<AlbumCoverImageResult>();
-  result->image_data = reply->readAll();
-  result->image.loadFromData(result->image_data);
-  result->mime_type = Utilities::MimeTypeFromData(result->image_data);
+  AlbumCoverImageResult result;
+  result.image_data = reply->readAll();
+  result.image.loadFromData(result.image_data);
+  result.mime_type = Utilities::MimeTypeFromData(result.image_data);
 
-  if (!result->image.isNull()) {
-    last_album_cover_ = result;
-    QDialog::accept();
+  if (result.image.isNull()) {
+    QMessageBox::information(this, tr("Fetching cover error"), tr("The site you requested is not an image!"));
   }
   else {
-    QMessageBox::information(this, tr("Fetching cover error"), tr("The site you requested is not an image!"));
+    last_album_cover_ = result;
+    QDialog::accept();
   }
 
 }

@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QImage>
 #include <QUrl>
 
@@ -43,7 +41,7 @@ class AlbumCoverLoaderResult {
 
   explicit AlbumCoverLoaderResult(const bool _success = false,
                                   const Type _type = Type::None,
-                                  AlbumCoverImageResultPtr _album_cover = AlbumCoverImageResultPtr(),
+                                  AlbumCoverImageResult _album_cover = AlbumCoverImageResult(),
                                   const QImage &_image_scaled = QImage(),
                                   const QImage &_image_thumbnail = QImage(),
                                   const bool _updated = false) :
@@ -52,17 +50,11 @@ class AlbumCoverLoaderResult {
                                   album_cover(_album_cover),
                                   image_scaled(_image_scaled),
                                   image_thumbnail(_image_thumbnail),
-                                  updated(_updated) {
-
-    if (!_album_cover) {
-      _album_cover = std::make_shared<AlbumCoverImageResult>();
-    }
-
-  }
+                                  updated(_updated) {}
 
   bool success;
   Type type;
-  AlbumCoverImageResultPtr album_cover;
+  AlbumCoverImageResult album_cover;
   QImage image_scaled;
   QImage image_thumbnail;
   bool updated;
@@ -71,9 +63,6 @@ class AlbumCoverLoaderResult {
 
 };
 
-using AlbumCoverLoaderResultPtr = std::shared_ptr<AlbumCoverLoaderResult>;
-
 Q_DECLARE_METATYPE(AlbumCoverLoaderResult)
-Q_DECLARE_METATYPE(AlbumCoverLoaderResultPtr)
 
 #endif  // ALBUMCOVERLOADERRESULT_H

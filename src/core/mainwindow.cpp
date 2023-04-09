@@ -1304,7 +1304,7 @@ void MainWindow::MediaStopped() {
 
   song_playing_ = Song();
   song_ = Song();
-  album_cover_.reset();
+  album_cover_ = AlbumCoverImageResult();
 
   app_->scrobbler()->ClearPlaying();
 
@@ -3038,11 +3038,7 @@ void MainWindow::SearchForCover() {
 }
 
 void MainWindow::SaveCoverToFile() {
-
-  if (album_cover_) {
-    album_cover_choice_controller_->SaveCoverToFileManual(song_, album_cover_);
-  }
-
+  album_cover_choice_controller_->SaveCoverToFileManual(song_, album_cover_);
 }
 
 void MainWindow::UnsetCover() {
@@ -3058,11 +3054,7 @@ void MainWindow::DeleteCover() {
 }
 
 void MainWindow::ShowCover() {
-
-  if (album_cover_) {
-    album_cover_choice_controller_->ShowCover(song_, album_cover_->image);
-  }
-
+  album_cover_choice_controller_->ShowCover(song_, album_cover_.image);
 }
 
 void MainWindow::SearchCoverAutomatically() {
@@ -3071,29 +3063,24 @@ void MainWindow::SearchCoverAutomatically() {
 
 }
 
-void MainWindow::AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResultPtr result) {
+void MainWindow::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
 
   if (song != song_playing_) return;
 
   song_ = song;
-  if (result) {
-    album_cover_ = result->album_cover;
-    emit AlbumCoverReady(song, result->album_cover->image);
-  }
-  else {
-    album_cover_.reset();
-    emit AlbumCoverReady(song, QImage());
-  }
+  album_cover_ = result.album_cover;
+
+  emit AlbumCoverReady(song, result.album_cover.image);
 
   const bool enable_change_art = song.is_collection_song() && !song.effective_albumartist().isEmpty() && !song.album().isEmpty();
-  album_cover_choice_controller_->show_cover_action()->setEnabled(result && result->success && result->type != AlbumCoverLoaderResult::Type::ManuallyUnset);
-  album_cover_choice_controller_->cover_to_file_action()->setEnabled(result && result->success && result->type != AlbumCoverLoaderResult::Type::ManuallyUnset);
+  album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
+  album_cover_choice_controller_->cover_to_file_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
   album_cover_choice_controller_->cover_from_file_action()->setEnabled(enable_change_art);
   album_cover_choice_controller_->cover_from_url_action()->setEnabled(enable_change_art);
   album_cover_choice_controller_->search_for_cover_action()->setEnabled(app_->cover_providers()->HasAnyProviders() && enable_change_art);
   album_cover_choice_controller_->unset_cover_action()->setEnabled(enable_change_art && !song.has_manually_unset_cover());
   album_cover_choice_controller_->clear_cover_action()->setEnabled(enable_change_art && !song.art_manual().isEmpty());
-  album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && result && result->success && result->type != AlbumCoverLoaderResult::Type::ManuallyUnset);
+  album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && result.success && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset);
 
   GetCoverAutomatically();
 

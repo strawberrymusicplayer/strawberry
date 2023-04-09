@@ -183,7 +183,7 @@ class PlaylistView : public QTreeView {
   void Playing();
   void Stopped();
   void SongChanged(const Song &song);
-  void AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResultPtr result = AlbumCoverLoaderResultPtr());
+  void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result = AlbumCoverLoaderResult());
   void DynamicModeChanged(const bool dynamic);
   void SetRatingLockStatus(const bool state);
   void RatingHoverIn(const QModelIndex &idx, const QPoint pos);

@@ -231,7 +231,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   // Called after ResetAsync
   void ResetAsyncQueryFinished();
 
-  void AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result);
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 
  private:
   // Provides some optimizations for loading the list of items in the root.

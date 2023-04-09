@@ -44,7 +44,7 @@ class CoverFromURLDialog : public QDialog {
   ~CoverFromURLDialog() override;
 
   // Opens the dialog. This returns an image found at the URL chosen by user or null image if the dialog got rejected.
-  AlbumCoverImageResultPtr Exec();
+  AlbumCoverImageResult Exec();
 
  private slots:
   void accept() override;
@@ -53,7 +53,7 @@ class CoverFromURLDialog : public QDialog {
  private:
   NetworkAccessManager *network_;
   Ui_CoverFromURLDialog *ui_;
-  AlbumCoverImageResultPtr last_album_cover_;
+  AlbumCoverImageResult last_album_cover_;
 };
 
 #endif  // COVERFROMURLDIALOG_H

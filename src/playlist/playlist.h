@@ -320,7 +320,7 @@ class Playlist : public QAbstractListModel {
   void RepopulateDynamicPlaylist();
   void TurnOffDynamicPlaylist();
 
-  void AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResultPtr result);
+  void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
 
  signals:
   void RestoreFinished();

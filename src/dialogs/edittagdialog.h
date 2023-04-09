@@ -93,7 +93,7 @@ class EditTagDialog : public QDialog {
     New
   };
   struct Data {
-    explicit Data(const Song &song = Song()) : original_(song), current_(song), cover_action_(UpdateCoverAction::None), cover_result_(std::make_shared<AlbumCoverImageResult>()) {}
+    explicit Data(const Song &song = Song()) : original_(song), current_(song), cover_action_(UpdateCoverAction::None) {}
 
     static QVariant value(const Song &song, const QString &id);
     QVariant original_value(const QString &id) const { return value(original_, id); }
@@ -104,7 +104,7 @@ class EditTagDialog : public QDialog {
     Song original_;
     Song current_;
     UpdateCoverAction cover_action_;
-    AlbumCoverImageResultPtr cover_result_;
+    AlbumCoverImageResult cover_result_;
   };
 
  private slots:
@@ -120,7 +120,7 @@ class EditTagDialog : public QDialog {
   void FetchTag();
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);
 
-  void AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result);
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 
   void LoadCoverFromFile();
   void SaveCoverToFile();
@@ -147,7 +147,7 @@ class EditTagDialog : public QDialog {
   };
 
   Song *GetFirstSelected();
-  void UpdateCover(const UpdateCoverAction action, AlbumCoverImageResultPtr result = AlbumCoverImageResultPtr());
+  void UpdateCover(const UpdateCoverAction action, const AlbumCoverImageResult &result = AlbumCoverImageResult());
 
   bool DoesValueVary(const QModelIndexList &sel, const QString &id) const;
   bool IsValueModified(const QModelIndexList &sel, const QString &id) const;

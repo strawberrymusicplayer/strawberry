@@ -23,7 +23,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <memory>
 
 #include <QObject>
 #include <QCoreApplication>
@@ -257,7 +256,7 @@ void AlbumCoverFetcherSearch::AllProvidersFinished() {
   // No results?
   if (results_.isEmpty()) {
     statistics_.missing_images_++;
-    emit AlbumCoverFetched(request_.id, AlbumCoverImageResultPtr());
+    emit AlbumCoverFetched(request_.id, AlbumCoverImageResult());
     return;
   }
 
@@ -333,7 +332,7 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
         }
         result.image_size = image.size();
         result.score_quality = ScoreImage(image.size());
-        candidate_images_.insert(result.score(), CandidateImage(result, std::make_shared<AlbumCoverImageResult>(result.image_url, mime_type, image_data, image)));
+        candidate_images_.insert(result.score(), CandidateImage(result, AlbumCoverImageResult(result.image_url, mime_type, image_data, image)));
         qLog(Debug) << reply->url() << "from" << result.provider << "scored" << result.score();
       }
       else {
@@ -381,7 +380,7 @@ float AlbumCoverFetcherSearch::ScoreImage(const QSize size) {
 
 void AlbumCoverFetcherSearch::SendBestImage() {
 
-  AlbumCoverImageResultPtr result = std::make_shared<AlbumCoverImageResult>();
+  AlbumCoverImageResult result;
 
   if (!candidate_images_.isEmpty()) {
     QList<CandidateImage> candidate_images = candidate_images_.values();
@@ -392,8 +391,8 @@ void AlbumCoverFetcherSearch::SendBestImage() {
 
     statistics_.chosen_images_by_provider_[best_image.result.provider]++;
     statistics_.chosen_images_++;
-    statistics_.chosen_width_ += result->image.width();
-    statistics_.chosen_height_ += result->image.height();
+    statistics_.chosen_width_ += result.image.width();
+    statistics_.chosen_height_ += result.image.height();
   }
   else {
     statistics_.missing_images_++;

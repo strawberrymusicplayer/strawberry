@@ -386,9 +386,7 @@ void Mpris2::CurrentSongChanged(const Song &song) {
 }
 
 // ... and we add the cover information later, when it's available.
-void Mpris2::AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResultPtr result) {
-
-  if (!result) return;
+void Mpris2::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
 
   last_metadata_ = QVariantMap();
   song.ToXesam(&last_metadata_);
@@ -397,11 +395,11 @@ void Mpris2::AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResultPtr result
   AddMetadata("mpris:trackid", current_track_id(), &last_metadata_);
 
   QUrl cover_url;
-  if (result->album_cover->cover_url.isValid() && result->album_cover->cover_url.isLocalFile() && QFile(result->album_cover->cover_url.toLocalFile()).exists()) {
-    cover_url = result->album_cover->cover_url;
+  if (result.album_cover.cover_url.isValid() && result.album_cover.cover_url.isLocalFile() && QFile(result.album_cover.cover_url.toLocalFile()).exists()) {
+    cover_url = result.album_cover.cover_url;
   }
-  else if (result->temp_cover_url.isValid() && result->temp_cover_url.isLocalFile()) {
-    cover_url = result->temp_cover_url;
+  else if (result.temp_cover_url.isValid() && result.temp_cover_url.isLocalFile()) {
+    cover_url = result.temp_cover_url;
   }
   else if (song.art_manual().isValid() && song.art_manual().isLocalFile() && song.art_manual().path() != Song::kManuallyUnsetCover && song.art_manual().path() != Song::kEmbeddedCover) {
     cover_url = song.art_manual();

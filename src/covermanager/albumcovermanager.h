@@ -137,9 +137,9 @@ class AlbumCoverManager : public QMainWindow {
 
   void UpdateStatusText();
   bool ShouldHide(const AlbumItem &item, const QString &filter, const HideCovers hide_covers) const;
-  void SaveAndSetCover(AlbumItem *item, AlbumCoverImageResultPtr result);
+  void SaveAndSetCover(AlbumItem *item, const AlbumCoverImageResult &result);
 
-  void SaveImageToAlbums(Song *song, AlbumCoverImageResultPtr result);
+  void SaveImageToAlbums(Song *song, const AlbumCoverImageResult &result);
 
   SongList GetSongsInAlbums(const QModelIndexList &indexes) const;
   SongMimeData *GetMimeDataForAlbums(const QModelIndexList &indexes) const;
@@ -152,11 +152,11 @@ class AlbumCoverManager : public QMainWindow {
 
  private slots:
   void ArtistChanged(QListWidgetItem *current);
-  void AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result);
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
   void UpdateFilter();
   void FetchAlbumCovers();
   void ExportCovers();
-  void AlbumCoverFetched(const quint64 id, AlbumCoverImageResultPtr result, const CoverSearchStatistics &statistics);
+  void AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics);
   void CancelRequests();
 
   // On the context menu

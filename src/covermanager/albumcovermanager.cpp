@@ -433,21 +433,21 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
 
 }
 
-void AlbumCoverManager::AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result) {
+void AlbumCoverManager::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
 
   if (!cover_loading_tasks_.contains(id)) return;
 
   AlbumItem *item = cover_loading_tasks_.take(id);
 
-  if (!result || !result->success || result->image_scaled.isNull() || result->type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
+  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
     item->setIcon(icon_nocover_item_);
   }
   else {
-    item->setIcon(QPixmap::fromImage(result->image_scaled));
+    item->setIcon(QPixmap::fromImage(result.image_scaled));
   }
 
-  //item->setData(Role_Image, result->image_original);
-  //item->setData(Role_ImageData, result->image_data);
+  //item->setData(Role_Image, result.image_original);
+  //item->setData(Role_ImageData, result.image_data);
 
   UpdateFilter();
 
@@ -537,12 +537,12 @@ void AlbumCoverManager::FetchAlbumCovers() {
 
 }
 
-void AlbumCoverManager::AlbumCoverFetched(const quint64 id, AlbumCoverImageResultPtr result, const CoverSearchStatistics &statistics) {
+void AlbumCoverManager::AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics) {
 
   if (!cover_fetching_tasks_.contains(id)) return;
 
   AlbumItem *item = cover_fetching_tasks_.take(id);
-  if (result && !result->image.isNull()) {
+  if (!result.image.isNull()) {
     SaveAndSetCover(item, result);
   }
 
@@ -699,8 +699,8 @@ void AlbumCoverManager::LoadCoverFromFile() {
   Song song = GetSingleSelectionAsSong();
   if (!song.is_valid()) return;
 
-  AlbumCoverImageResultPtr result = album_cover_choice_controller_->LoadImageFromFile(&song);
-  if (result || !result->image.isNull()) {
+  const AlbumCoverImageResult result = album_cover_choice_controller_->LoadImageFromFile(&song);
+  if (!result.image.isNull()) {
     SaveImageToAlbums(&song, result);
   }
 
@@ -711,32 +711,32 @@ void AlbumCoverManager::SaveCoverToFile() {
   Song song = GetSingleSelectionAsSong();
   if (!song.is_valid() || song.has_manually_unset_cover()) return;
 
-  AlbumCoverImageResultPtr result = std::make_shared<AlbumCoverImageResult>();
+  AlbumCoverImageResult result;
 
   // Load the image from disk
 
   if (!song.art_manual().isEmpty() && !song.has_manually_unset_cover() && song.art_manual().isLocalFile() && QFile::exists(song.art_manual().toLocalFile())) {
-    result->image_data = Utilities::ReadDataFromFile(song.art_manual().toLocalFile());
+    result.image_data = Utilities::ReadDataFromFile(song.art_manual().toLocalFile());
   }
   else if (!song.art_manual().isEmpty() && !song.art_manual().path().isEmpty() && song.art_manual().scheme().isEmpty() && QFile::exists(song.art_manual().path())) {
-    result->image_data = Utilities::ReadDataFromFile(song.art_manual().path());
+    result.image_data = Utilities::ReadDataFromFile(song.art_manual().path());
   }
   else if (song.has_embedded_cover()) {
-    result->image_data = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(song.url().toLocalFile());
+    result.image_data = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(song.url().toLocalFile());
   }
   else if (!song.art_automatic().isEmpty() && song.art_automatic().isLocalFile() && QFile::exists(song.art_automatic().toLocalFile())) {
-    result->image_data = Utilities::ReadDataFromFile(song.art_automatic().toLocalFile());
+    result.image_data = Utilities::ReadDataFromFile(song.art_automatic().toLocalFile());
   }
   else if (!song.art_automatic().isEmpty() && !song.art_automatic().path().isEmpty() && song.art_automatic().scheme().isEmpty() && QFile::exists(song.art_automatic().path())) {
-    result->image_data = Utilities::ReadDataFromFile(song.art_automatic().path());
+    result.image_data = Utilities::ReadDataFromFile(song.art_automatic().path());
   }
 
-  if (!result->is_valid()) return;
+  if (!result.is_valid()) return;
 
-  result->mime_type = Utilities::MimeTypeFromData(result->image_data);
+  result.mime_type = Utilities::MimeTypeFromData(result.image_data);
 
-  if (!result->image_data.isEmpty()) {
-    result->image.loadFromData(result->image_data);
+  if (!result.image_data.isEmpty()) {
+    result.image.loadFromData(result.image_data);
   }
 
   album_cover_choice_controller_->SaveCoverToFileManual(song, result);
@@ -748,8 +748,8 @@ void AlbumCoverManager::LoadCoverFromURL() {
   Song song = GetSingleSelectionAsSong();
   if (!song.is_valid()) return;
 
-  AlbumCoverImageResultPtr result = album_cover_choice_controller_->LoadImageFromURL();
-  if (result && result->is_valid()) {
+  const AlbumCoverImageResult &result = album_cover_choice_controller_->LoadImageFromURL();
+  if (result.is_valid()) {
     SaveImageToAlbums(&song, result);
   }
 
@@ -760,18 +760,16 @@ void AlbumCoverManager::SearchForCover() {
   Song song = GetFirstSelectedAsSong();
   if (!song.is_valid()) return;
 
-  AlbumCoverImageResultPtr result = album_cover_choice_controller_->SearchForImage(&song);
-  if (result && result->is_valid()) {
+  const AlbumCoverImageResult result = album_cover_choice_controller_->SearchForImage(&song);
+  if (result.is_valid()) {
     SaveImageToAlbums(&song, result);
   }
 
 }
 
-void AlbumCoverManager::SaveImageToAlbums(Song *song, AlbumCoverImageResultPtr result) {
+void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResult &result) {
 
-  if (!result) return;
-
-  QUrl cover_url = result->cover_url;
+  QUrl cover_url = result.cover_url;
   switch (album_cover_choice_controller_->get_save_album_cover_type()) {
     case CoverOptions::CoverType::Cache:
     case CoverOptions::CoverType::Album:
@@ -807,11 +805,11 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, AlbumCoverImageResultPtr r
 
   if (album_cover_choice_controller_->get_save_album_cover_type() == CoverOptions::CoverType::Embedded && !urls.isEmpty()) {
     quint64 id = -1;
-    if (result->is_jpeg()) {
-      id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result->image_data);
+    if (result.is_jpeg()) {
+      id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image_data);
     }
     else {
-      id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result->image);
+      id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image);
     }
     for (AlbumItem *album_item : album_items) {
       cover_save_tasks_.insert(id, album_item);
@@ -955,9 +953,7 @@ void AlbumCoverManager::LoadSelectedToPlaylist() {
 
 }
 
-void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, AlbumCoverImageResultPtr result) {
-
-  if (!result) return;
+void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, const AlbumCoverImageResult &result) {
 
   const QString albumartist = item->data(Role_AlbumArtist).toString();
   const QString album = item->data(Role_Album).toString();
@@ -966,25 +962,25 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, AlbumCoverImageResultPt
   const bool has_cue = !item->data(Role_CuePath).toString().isEmpty();
 
   if (album_cover_choice_controller_->get_save_album_cover_type() == CoverOptions::CoverType::Embedded && Song::save_embedded_cover_supported(filetype) && !has_cue) {
-    if (result->is_jpeg()) {
-      quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result->image_data);
+    if (result.is_jpeg()) {
+      quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image_data);
       cover_save_tasks_.insert(id, item);
     }
-    else if (!result->image.isNull()) {
-      quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result->image);
+    else if (!result.image.isNull()) {
+      quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image);
       cover_save_tasks_.insert(id, item);
     }
-    else if (!result->cover_url.isEmpty() && result->cover_url.isLocalFile()) {
-      quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result->cover_url.toLocalFile());
+    else if (!result.cover_url.isEmpty() && result.cover_url.isLocalFile()) {
+      quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.cover_url.toLocalFile());
       cover_save_tasks_.insert(id, item);
     }
   }
   else {
     QUrl cover_url;
-    if (!result->cover_url.isEmpty() && result->cover_url.isValid() && result->cover_url.isLocalFile()) {
-      cover_url = result->cover_url;
+    if (!result.cover_url.isEmpty() && result.cover_url.isValid() && result.cover_url.isLocalFile()) {
+      cover_url = result.cover_url;
     }
-    else if (!result->image_data.isEmpty() || !result->image.isNull()) {
+    else if (!result.image_data.isEmpty() || !result.image.isNull()) {
       cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(Song::Source::Collection, albumartist, album, QString(), urls.first().adjusted(QUrl::RemoveFilename).path(), result, false);
     }
 

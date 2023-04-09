@@ -64,7 +64,7 @@ class AlbumCoverLoader : public QObject {
 
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const Song &song);
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QUrl &art_automatic, const QUrl &art_manual, const QUrl &song_url = QUrl(), const Song::Source song_source = Song::Source::Unknown);
-  quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, AlbumCoverImageResultPtr album_cover);
+  quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const AlbumCoverImageResult &album_cover);
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QImage &image);
 
   void CancelTask(const quint64 id);
@@ -79,7 +79,7 @@ class AlbumCoverLoader : public QObject {
 
  signals:
   void ExitFinished();
-  void AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr result);
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
   void SaveEmbeddedCoverAsyncFinished(const quint64 id, const bool success, const bool cleared);
 
  protected slots:
@@ -105,7 +105,7 @@ class AlbumCoverLoader : public QObject {
 
     quint64 id;
     Song song;
-    AlbumCoverImageResultPtr album_cover;
+    AlbumCoverImageResult album_cover;
     State state;
     AlbumCoverLoaderResult::Type type;
     bool art_updated;
@@ -117,7 +117,7 @@ class AlbumCoverLoader : public QObject {
     explicit TryLoadResult(const bool _started_async = false,
                            const bool _loaded_success = false,
                            const AlbumCoverLoaderResult::Type _type = AlbumCoverLoaderResult::Type::None,
-                           AlbumCoverImageResultPtr _album_cover = AlbumCoverImageResultPtr()) :
+                           const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult()) :
                            started_async(_started_async),
                            loaded_success(_loaded_success),
                            type(_type),
@@ -127,7 +127,7 @@ class AlbumCoverLoader : public QObject {
     bool loaded_success;
 
     AlbumCoverLoaderResult::Type type;
-    AlbumCoverImageResultPtr album_cover;
+    AlbumCoverImageResult album_cover;
   };
 
   quint64 EnqueueTask(TaskPtr task);

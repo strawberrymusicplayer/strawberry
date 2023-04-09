@@ -114,7 +114,6 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
   task->options = options;
   task->song = song;
   task->state = State::Manual;
-  task->album_cover = std::make_shared<AlbumCoverImageResult>();
 
   return EnqueueTask(task);
 
@@ -131,13 +130,12 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
   task->options = options;
   task->song = song;
   task->state = State::Manual;
-  task->album_cover = std::make_shared<AlbumCoverImageResult>();
 
   return EnqueueTask(task);
 
 }
 
-quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, AlbumCoverImageResultPtr album_cover) {
+quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, const AlbumCoverImageResult &album_cover) {
 
   TaskPtr task = std::make_shared<Task>();
   task->options = options;
@@ -151,8 +149,7 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
 
   TaskPtr task = std::make_shared<Task>();
   task->options = options;
-  task->album_cover = std::make_shared<AlbumCoverImageResult>();
-  task->album_cover->image = image;
+  task->album_cover.image = image;
 
   return EnqueueTask(task);
 
@@ -197,16 +194,16 @@ void AlbumCoverLoader::ProcessTask(TaskPtr task) {
   }
 
   if (result.loaded_success) {
-    result.album_cover->mime_type = Utilities::MimeTypeFromData(result.album_cover->image_data);
+    result.album_cover.mime_type = Utilities::MimeTypeFromData(result.album_cover.image_data);
     QImage image_scaled;
     QImage image_thumbnail;
     if (task->options.get_image_ && task->options.scale_output_image_) {
-      image_scaled = ImageUtils::ScaleAndPad(result.album_cover->image, task->options.scale_output_image_, task->options.pad_output_image_, task->options.desired_height_);
+      image_scaled = ImageUtils::ScaleAndPad(result.album_cover.image, task->options.scale_output_image_, task->options.pad_output_image_, task->options.desired_height_);
     }
     if (task->options.get_image_ && task->options.create_thumbnail_) {
-      image_thumbnail = ImageUtils::CreateThumbnail(result.album_cover->image, task->options.pad_thumbnail_image_, task->options.thumbnail_size_);
+      image_thumbnail = ImageUtils::CreateThumbnail(result.album_cover.image, task->options.pad_thumbnail_image_, task->options.thumbnail_size_);
     }
-    emit AlbumCoverLoaded(task->id, std::make_shared<AlbumCoverLoaderResult>(result.loaded_success, result.type, result.album_cover, image_scaled, image_thumbnail, task->art_updated));
+    emit AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(result.loaded_success, result.type, result.album_cover, image_scaled, image_thumbnail, task->art_updated));
     return;
   }
 
@@ -223,7 +220,7 @@ void AlbumCoverLoader::NextState(TaskPtr task) {
   }
   else {
     // Give up
-    emit AlbumCoverLoaded(task->id, std::make_shared<AlbumCoverLoaderResult>(false, AlbumCoverLoaderResult::Type::None, std::make_shared<AlbumCoverImageResult>(task->options.default_output_image_), task->options.default_scaled_image_, task->options.default_thumbnail_image_, task->art_updated));
+    emit AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(false, AlbumCoverLoaderResult::Type::None, AlbumCoverImageResult(task->options.default_output_image_), task->options.default_scaled_image_, task->options.default_thumbnail_image_, task->art_updated));
   }
 
 }
@@ -231,7 +228,7 @@ void AlbumCoverLoader::NextState(TaskPtr task) {
 AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(TaskPtr task) {
 
   // Only scale and pad.
-  if (task->album_cover->is_valid()) {
+  if (task->album_cover.is_valid()) {
     return TryLoadResult(false, true, AlbumCoverLoaderResult::Type::Embedded, task->album_cover);
   }
 
@@ -270,17 +267,17 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(TaskPtr task) {
 
   if (!cover_url.isEmpty() && !cover_url.path().isEmpty()) {
     if (cover_url.path() == Song::kManuallyUnsetCover) {
-      return TryLoadResult(false, true, AlbumCoverLoaderResult::Type::ManuallyUnset, std::make_shared<AlbumCoverImageResult>(cover_url, QString(), QByteArray(), task->options.default_output_image_));
+      return TryLoadResult(false, true, AlbumCoverLoaderResult::Type::ManuallyUnset, AlbumCoverImageResult(cover_url, QString(), QByteArray(), task->options.default_output_image_));
     }
     else if (cover_url.path() == Song::kEmbeddedCover && task->song.url().isLocalFile()) {
       QByteArray image_data = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(task->song.url().toLocalFile());
       if (!image_data.isEmpty()) {
         QImage image;
         if (!image_data.isEmpty() && task->options.get_image_ && image.loadFromData(image_data)) {
-          return TryLoadResult(false, !image.isNull(), AlbumCoverLoaderResult::Type::Embedded, std::make_shared<AlbumCoverImageResult>(cover_url, QString(), image_data, image));
+          return TryLoadResult(false, !image.isNull(), AlbumCoverLoaderResult::Type::Embedded, AlbumCoverImageResult(cover_url, QString(), image_data, image));
         }
         else {
-          return TryLoadResult(false, !image_data.isEmpty(), AlbumCoverLoaderResult::Type::Embedded, std::make_shared<AlbumCoverImageResult>(cover_url, QString(), image_data, image));
+          return TryLoadResult(false, !image_data.isEmpty(), AlbumCoverLoaderResult::Type::Embedded, AlbumCoverImageResult(cover_url, QString(), image_data, image));
         }
       }
     }
@@ -293,10 +290,10 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(TaskPtr task) {
           file.close();
           QImage image;
           if (!image_data.isEmpty() && task->options.get_image_ && image.loadFromData(image_data)) {
-            return TryLoadResult(false, !image.isNull(), type, std::make_shared<AlbumCoverImageResult>(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+            return TryLoadResult(false, !image.isNull(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
           }
           else {
-            return TryLoadResult(false, !image_data.isEmpty(), type, std::make_shared<AlbumCoverImageResult>(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+            return TryLoadResult(false, !image_data.isEmpty(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
           }
         }
         else {
@@ -315,10 +312,10 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(TaskPtr task) {
           file.close();
           QImage image;
           if (!image_data.isEmpty() && task->options.get_image_ && image.loadFromData(image_data)) {
-            return TryLoadResult(false, !image.isNull(), type, std::make_shared<AlbumCoverImageResult>(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+            return TryLoadResult(false, !image.isNull(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
           }
           else {
-            return TryLoadResult(false, !image_data.isEmpty(), type, std::make_shared<AlbumCoverImageResult>(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
+            return TryLoadResult(false, !image_data.isEmpty(), type, AlbumCoverImageResult(cover_url, QString(), image_data, image.isNull() ? task->options.default_output_image_ : image));
           }
         }
         else {
@@ -337,11 +334,11 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(TaskPtr task) {
       QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, cover_url]() { RemoteFetchFinished(reply, cover_url); });
 
       remote_tasks_.insert(reply, task);
-      return TryLoadResult(true, false, type, std::make_shared<AlbumCoverImageResult>(cover_url));
+      return TryLoadResult(true, false, type, AlbumCoverImageResult(cover_url));
     }
   }
 
-  return TryLoadResult(false, false, AlbumCoverLoaderResult::Type::None, std::make_shared<AlbumCoverImageResult>(cover_url, QString(), QByteArray(), task->options.default_output_image_));
+  return TryLoadResult(false, false, AlbumCoverLoaderResult::Type::None, AlbumCoverImageResult(cover_url, QString(), QByteArray(), task->options.default_output_image_));
 
 }
 
@@ -378,7 +375,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cov
       QImage image_thumbnail;
       if (task->options.scale_output_image_) image_scaled = ImageUtils::ScaleAndPad(image, task->options.scale_output_image_, task->options.pad_output_image_, task->options.desired_height_);
       if (task->options.create_thumbnail_) image_thumbnail = ImageUtils::CreateThumbnail(image, task->options.pad_thumbnail_image_, task->options.thumbnail_size_);
-      emit AlbumCoverLoaded(task->id, std::make_shared<AlbumCoverLoaderResult>(true, task->type, std::make_shared<AlbumCoverImageResult>(cover_url, mime_type, (task->options.get_image_data_ ? image_data : QByteArray()), image), image_scaled, image_thumbnail, task->art_updated));
+      emit AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(true, task->type, AlbumCoverImageResult(cover_url, mime_type, (task->options.get_image_data_ ? image_data : QByteArray()), image), image_scaled, image_thumbnail, task->art_updated));
       return;
     }
     else {

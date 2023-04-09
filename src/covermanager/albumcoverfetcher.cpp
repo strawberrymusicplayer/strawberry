@@ -150,7 +150,7 @@ void AlbumCoverFetcher::SingleSearchFinished(const quint64 request_id, const Cov
 
 }
 
-void AlbumCoverFetcher::SingleCoverFetched(const quint64 request_id, AlbumCoverImageResultPtr result) {
+void AlbumCoverFetcher::SingleCoverFetched(const quint64 request_id, const AlbumCoverImageResult &result) {
 
   if (!active_requests_.contains(request_id)) return;
   AlbumCoverFetcherSearch *search = active_requests_.take(request_id);

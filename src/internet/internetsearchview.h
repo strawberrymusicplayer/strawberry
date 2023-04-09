@@ -173,7 +173,7 @@ class InternetSearchView : public QWidget {
   void GroupByClicked(QAction *action);
   void SetGroupBy(const CollectionModel::Grouping g);
 
-  void AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultPtr albumcover_result);
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &albumcover_result);
 
  public slots:
   void ReloadSettings();
