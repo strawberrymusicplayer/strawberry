@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-04-03 09:01-0400\n"
+"PO-Revision-Date: 2023-04-09 02:11-0400\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -2258,7 +2258,7 @@ msgstr "Длительность затухания"
 #: core/database.cpp:478 collection/collectionbackend.cpp:112
 #, qt-format
 msgid "Failed SQL query: %1"
-msgstr ""
+msgstr "Ошибка запроса SQL: %1"
 
 #: covermanager/albumcoverchoicecontroller.cpp:408
 #: covermanager/albumcoverchoicecontroller.cpp:425
@@ -5336,12 +5336,12 @@ msgstr "Сверхширокая полоса пропускания (UWB)"
 #: core/database.cpp:477
 #, qt-format
 msgid "Unable to execute SQL query: %1"
-msgstr ""
+msgstr "Невозможно выполнить запрос SQL: %1"
 
 #: collection/collectionbackend.cpp:111
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
-msgstr ""
+msgstr "Невозможно выполнить запрос SQL к фонотеке: %1"
 
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
