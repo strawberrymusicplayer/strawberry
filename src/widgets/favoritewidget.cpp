@@ -26,6 +26,8 @@
 #include <QPaintEvent>
 #include <QMouseEvent>
 
+#include "core/iconloader.h"
+
 #include "favoritewidget.h"
 
 const int FavoriteWidget::kStarSize = 15;
@@ -34,8 +36,8 @@ FavoriteWidget::FavoriteWidget(const int tab_index, const bool favorite, QWidget
     : QWidget(parent),
       tab_index_(tab_index),
       favorite_(favorite),
-      on_(":/icons/64x64/star.png"),
-      off_(":/icons/64x64/star-grey.png"),
+      on_(IconLoader::Load("star")),
+      off_(IconLoader::Load("star-grey")),
       rect_(0, 0, kStarSize, kStarSize) {}
 
 void FavoriteWidget::SetFavorite(const bool favorite) {
@@ -59,12 +61,21 @@ void FavoriteWidget::paintEvent(QPaintEvent *e) {
 
   QStylePainter p(this);
 
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
   if (favorite_) {
-    p.drawPixmap(rect_, on_);
+    p.drawPixmap(rect_, on_.pixmap(rect_.size(), devicePixelRatioF()));
   }
   else {
-    p.drawPixmap(rect_, off_);
+    p.drawPixmap(rect_, off_.pixmap(rect_.size(), devicePixelRatioF()));
   }
+#else
+  if (favorite_) {
+    p.drawPixmap(rect_, on_.pixmap(rect_.size()));
+  }
+  else {
+    p.drawPixmap(rect_, off_.pixmap(rect_.size()));
+  }
+#endif
 
 }
 

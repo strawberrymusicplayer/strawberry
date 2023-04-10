@@ -24,7 +24,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QString>
-#include <QPixmap>
+#include <QIcon>
 #include <QRect>
 #include <QSize>
 
@@ -56,8 +56,8 @@ class FavoriteWidget : public QWidget {
   // The playlist's id this widget belongs to
   int tab_index_;
   bool favorite_;
-  QPixmap on_;
-  QPixmap off_;
+  QIcon on_;
+  QIcon off_;
   QRect rect_;
 };
 
