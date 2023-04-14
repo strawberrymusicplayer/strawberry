@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-03-24 08:39-0400\n"
+"PO-Revision-Date: 2023-04-14 05:51-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -5319,12 +5319,12 @@ msgstr "Ultrabredband (UWB)"
 #: core/database.cpp:477
 #, qt-format
 msgid "Unable to execute SQL query: %1"
-msgstr ""
+msgstr "Det gick inte att köra SQL-förfråga: %1"
 
 #: collection/collectionbackend.cpp:111
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
-msgstr ""
+msgstr "Det gick inte att köra samlings-SQL-förfråga: %1"
 
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
