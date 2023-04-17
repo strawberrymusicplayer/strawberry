@@ -33,7 +33,6 @@
 #include <QObject>
 #include <QWidget>
 #include <QScreen>
-#include <QWindow>
 #include <QMetaObject>
 #include <QThread>
 #include <QSortFilterProxyModel>
@@ -102,6 +101,7 @@
 #include "utilities/envutils.h"
 #include "utilities/filemanagerutils.h"
 #include "utilities/timeconstants.h"
+#include "utilities/screenutils.h"
 #include "engine/enginetype.h"
 #include "engine/enginebase.h"
 #include "engine/engine_fwd.h"
@@ -2389,11 +2389,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
         if (w_ok && h_ok) {
           QSize window_size(w, h);
           if (window_size.isValid()) {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-            QScreen *screen = QWidget::screen();
-#else
-            QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : nullptr);
-#endif
+            QScreen *screen = Utilities::GetScreen(this);
             if (screen) {
               const QRect sr = screen->availableGeometry();
               window_size = window_size.boundedTo(sr.size());

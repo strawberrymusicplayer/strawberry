@@ -31,7 +31,6 @@
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QScreen>
-#include <QWindow>
 #include <QItemSelectionModel>
 #include <QListWidgetItem>
 #include <QFile>
@@ -68,6 +67,7 @@
 #include "utilities/fileutils.h"
 #include "utilities/imageutils.h"
 #include "utilities/mimeutils.h"
+#include "utilities/screenutils.h"
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/tagreaderclient.h"
@@ -297,17 +297,7 @@ void AlbumCoverManager::LoadGeometry() {
   s.endGroup();
 
   // Center the window on the same screen as the mainwindow.
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-  QScreen *screen = mainwindow_->screen();
-#else
-  QScreen *screen = (mainwindow_->window() && mainwindow_->window()->windowHandle() ? mainwindow_->window()->windowHandle()->screen() : nullptr);
-#endif
-  if (screen) {
-    const QRect sr = screen->availableGeometry();
-    const QRect wr({}, size().boundedTo(sr.size()));
-    resize(wr.size());
-    move(sr.center() - wr.center());
-  }
+  Utilities::CenterWidgetOnScreen(Utilities::GetScreen(mainwindow_), this);
 
 }
 

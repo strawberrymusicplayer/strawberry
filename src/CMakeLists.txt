@@ -56,6 +56,7 @@ set(SOURCES
   utilities/xmlutils.cpp
   utilities/filemanagerutils.cpp
   utilities/coverutils.cpp
+  utilities/screenutils.cpp
 
   engine/enginetype.cpp
   engine/enginebase.cpp

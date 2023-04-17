@@ -26,7 +26,6 @@
 #include <QWidget>
 #include <QMainWindow>
 #include <QScreen>
-#include <QWindow>
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QTreeWidget>
@@ -50,6 +49,7 @@
 
 #include "core/application.h"
 #include "core/player.h"
+#include "utilities/screenutils.h"
 #include "widgets/groupediconview.h"
 #include "collection/collectionmodel.h"
 
@@ -245,17 +245,7 @@ void SettingsDialog::LoadGeometry() {
   s.endGroup();
 
   // Center the dialog on the same screen as mainwindow.
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-  QScreen *screen = mainwindow_->screen();
-#else
-  QScreen *screen = (mainwindow_->window() && mainwindow_->window()->windowHandle() ? mainwindow_->window()->windowHandle()->screen() : nullptr);
-#endif
-  if (screen) {
-    const QRect sr = screen->availableGeometry();
-    const QRect wr({}, size().boundedTo(sr.size()));
-    resize(wr.size());
-    move(sr.center() - wr.center());
-  }
+  Utilities::CenterWidgetOnScreen(Utilities::GetScreen(mainwindow_), this);
 
 }
 

@@ -33,7 +33,6 @@
 #include <QAbstractItemModel>
 #include <QDialog>
 #include <QScreen>
-#include <QWindow>
 #include <QHash>
 #include <QMap>
 #include <QDir>
@@ -60,6 +59,7 @@
 #include "core/musicstorage.h"
 #include "core/tagreaderclient.h"
 #include "utilities/strutils.h"
+#include "utilities/screenutils.h"
 #include "widgets/freespacebar.h"
 #include "widgets/linetextedit.h"
 #include "collection/collectionbackend.h"
@@ -221,17 +221,7 @@ void OrganizeDialog::LoadGeometry() {
 
   if (parentwindow_) {
     // Center the window on the same screen as the parentwindow.
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-    QScreen *screen = parentwindow_->screen();
-#else
-    QScreen *screen = (parentwindow_->window() && parentwindow_->window()->windowHandle() ? parentwindow_->window()->windowHandle()->screen() : nullptr);
-#endif
-    if (screen) {
-      const QRect sr = screen->availableGeometry();
-      const QRect wr({}, size().boundedTo(sr.size()));
-      resize(wr.size());
-      move(sr.center() - wr.center());
-    }
+    Utilities::CenterWidgetOnScreen(Utilities::GetScreen(parentwindow_), this);
   }
 
 }
@@ -249,11 +239,7 @@ void OrganizeDialog::SaveGeometry() {
 
 void OrganizeDialog::AdjustSize() {
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-  QScreen *screen = QWidget::screen();
-#else
-  QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : QGuiApplication::primaryScreen());
-#endif
+  QScreen *screen = Utilities::GetScreen(this);
   int max_width = 0;
   int max_height = 0;
   if (screen) {

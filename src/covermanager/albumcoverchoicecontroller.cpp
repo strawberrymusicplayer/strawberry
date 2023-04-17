@@ -29,7 +29,6 @@
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QScreen>
-#include <QWindow>
 #include <QWidget>
 #include <QDialog>
 #include <QDir>
@@ -61,6 +60,7 @@
 #include "utilities/imageutils.h"
 #include "utilities/coveroptions.h"
 #include "utilities/coverutils.h"
+#include "utilities/screenutils.h"
 #include "core/application.h"
 #include "core/song.h"
 #include "core/iconloader.h"
@@ -478,11 +478,7 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixm
   title_text += " (" + QString::number(pixmap.width()) + "x" + QString::number(pixmap.height()) + "px)";
 
   // If the cover is larger than the screen, resize the window 85% seems to be enough to account for title bar and taskbar etc.
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-  QScreen *screen = QWidget::screen();
-#else
-  QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : QGuiApplication::primaryScreen());
-#endif
+  QScreen *screen = Utilities::GetScreen(this);
   QRect screenGeometry = screen->availableGeometry();
   int desktop_height = screenGeometry.height();
   int desktop_width = screenGeometry.width();

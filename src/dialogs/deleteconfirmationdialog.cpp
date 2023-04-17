@@ -34,6 +34,8 @@
 #include <QListWidget>
 #include <QLabel>
 
+#include "utilities/screenutils.h"
+
 #include "deleteconfirmationdialog.h"
 
 DeleteConfirmationDialog::DeleteConfirmationDialog(const QStringList &files, QWidget *parent)
@@ -86,11 +88,7 @@ DeleteConfirmationDialog::DeleteConfirmationDialog(const QStringList &files, QWi
   // Set size of dialog
   int max_width = 0;
   int max_height = 0;
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-  QScreen *screen = QWidget::screen();
-#else
-  QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : QGuiApplication::primaryScreen());
-#endif
+  QScreen *screen = Utilities::GetScreen(this);
   if (screen) {
     max_width = static_cast<int>(screen->geometry().size().width() / 0.5);
     max_height = static_cast<int>(static_cast<float>(screen->geometry().size().height()) / static_cast<float>(1.5));
