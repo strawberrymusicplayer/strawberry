@@ -71,6 +71,7 @@
 #include <QStackedWidget>
 #include <QTabBar>
 #include <QToolButton>
+#include <QCheckBox>
 #include <QClipboard>
 
 #include "core/logging.h"
@@ -1042,7 +1043,14 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   if (Utilities::ProcessTranslated()) {
     QErrorMessage *error_message = new QErrorMessage;
     error_message->setAttribute(Qt::WA_DeleteOnClose);
+    error_message->resize(600, 220);
+    Utilities::CenterWidgetOnScreen(Utilities::GetScreen(this), error_message);
     error_message->showMessage(tr("It is detected that Strawberry is running under Rosetta. Strawberry currently have limited macOS support, and running Strawberry under Rosetta is unsupported and known to have issues. If you want to use Strawberry on the current CPU, you should build Strawberry from source. For instructions see.: https://wiki.strawberrymusicplayer.org/wiki/Compile"));
+    for (QObject *obj : error_message->children()) {
+      if (QCheckBox *checkbox = qobject_cast<QCheckBox*>(obj)) {
+        checkbox->hide();
+      }
+    }
   }
 #endif
 
