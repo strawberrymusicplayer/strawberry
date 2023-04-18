@@ -267,6 +267,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   // Helpers
   static bool IsCompilationArtistNode(const CollectionItem *node) { return node == node->parent->compilation_artist_node_; }
   QString AlbumIconPixmapCacheKey(const QModelIndex &idx) const;
+  QUrl AlbumIconPixmapDiskCacheKey(const QString &cache_key) const;
   QVariant AlbumIcon(const QModelIndex &idx);
   QVariant data(const CollectionItem *item, const int role) const;
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;

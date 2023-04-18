@@ -558,7 +558,7 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       // Remove from pixmap cache
       const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(node));
       QPixmapCache::remove(cache_key);
-      if (use_disk_cache_ && sIconCache) sIconCache->remove(QUrl(cache_key));
+      if (use_disk_cache_ && sIconCache) sIconCache->remove(AlbumIconPixmapDiskCacheKey(cache_key));
       if (pending_cache_keys_.contains(cache_key)) {
         pending_cache_keys_.remove(cache_key);
       }
@@ -613,6 +613,12 @@ QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
 
 }
 
+QUrl CollectionModel::AlbumIconPixmapDiskCacheKey(const QString &cache_key) const {
+
+  return QUrl(QUrl::toPercentEncoding(cache_key));
+
+}
+
 QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
 
   CollectionItem *item = IndexToItem(idx);
@@ -628,10 +634,10 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
 
   // Try to load it from the disk cache
   if (use_disk_cache_ && sIconCache) {
-    std::unique_ptr<QIODevice> cache(sIconCache->data(QUrl(cache_key)));
-    if (cache) {
+    std::unique_ptr<QIODevice> disk_cache_img(sIconCache->data(AlbumIconPixmapDiskCacheKey(cache_key)));
+    if (disk_cache_img) {
       QImage cached_image;
-      if (cached_image.load(cache.get(), "XPM")) {
+      if (cached_image.load(disk_cache_img.get(), "XPM")) {
         QPixmapCache::insert(cache_key, QPixmap::fromImage(cached_image));
         return QPixmap::fromImage(cached_image);
       }
@@ -682,15 +688,16 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResultP
 
   // If we have a valid cover not already in the disk cache
   if (use_disk_cache_ && sIconCache && result->success && !result->image_scaled.isNull()) {
-    std::unique_ptr<QIODevice> cached_img(sIconCache->data(QUrl(cache_key)));
-    if (!cached_img) {
-      QNetworkCacheMetaData item_metadata;
-      item_metadata.setSaveToDisk(true);
-      item_metadata.setUrl(QUrl(cache_key));
-      QIODevice *cache = sIconCache->prepare(item_metadata);
-      if (cache) {
-        result->image_scaled.save(cache, "XPM");
-        sIconCache->insert(cache);
+    const QUrl disk_cache_key = AlbumIconPixmapDiskCacheKey(cache_key);
+    std::unique_ptr<QIODevice> disk_cache_img(sIconCache->data(disk_cache_key));
+    if (!disk_cache_img) {
+      QNetworkCacheMetaData disk_cache_metadata;
+      disk_cache_metadata.setSaveToDisk(true);
+      disk_cache_metadata.setUrl(disk_cache_key);
+      QIODevice *device_iconcache = sIconCache->prepare(disk_cache_metadata);
+      if (device_iconcache) {
+        result->image_scaled.save(device_iconcache, "XPM");
+        sIconCache->insert(device_iconcache);
       }
     }
   }
