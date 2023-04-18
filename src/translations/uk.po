@@ -209,7 +209,7 @@ msgstr "Вибрано %1 композицій."
 msgid "%1 tracks"
 msgstr "%1 композицій"
 
-#: covermanager/albumcovermanager.cpp:576
+#: covermanager/albumcovermanager.cpp:566
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 передано"
@@ -228,19 +228,19 @@ msgstr "%albumartist-%album"
 msgid "%filename%"
 msgstr "%filename%"
 
-#: transcoder/transcodedialog.cpp:318
+#: transcoder/transcodedialog.cpp:308
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n failed"
 msgstr "%n з помилкою"
 
-#: transcoder/transcodedialog.cpp:314
+#: transcoder/transcodedialog.cpp:304
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n finished"
 msgstr "%n завершено"
 
-#: transcoder/transcodedialog.cpp:310
+#: transcoder/transcodedialog.cpp:300
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n remaining"
@@ -576,7 +576,7 @@ msgstr "Додати усі композиції з каталогу та усі
 msgid "Add directory..."
 msgstr "Додати папку..."
 
-#: core/mainwindow.cpp:2210
+#: core/mainwindow.cpp:2224
 msgid "Add file"
 msgstr "Додати файл"
 
@@ -588,11 +588,11 @@ msgstr "Додати файл для перекодування"
 msgid "Add file(s) to transcoder"
 msgstr "Додати файли для перекодування"
 
-#: transcoder/transcodedialog.cpp:332
+#: transcoder/transcodedialog.cpp:322
 msgid "Add files to transcode"
 msgstr "Додати файли для перекодування"
 
-#: core/mainwindow.cpp:2236 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2250 transcoder/transcodedialog.cpp:414
 msgid "Add folder"
 msgstr "Додати папку"
 
@@ -702,7 +702,7 @@ msgstr "Додати потік..."
 msgid "Add to albums"
 msgstr "Додати до альбомів"
 
-#: core/mainwindow.cpp:2012
+#: core/mainwindow.cpp:2026
 msgid "Add to another playlist"
 msgstr "Додати до іншого списку відтворення"
 
@@ -816,7 +816,7 @@ msgstr "Альбоми з обкладинками"
 msgid "Albums without covers"
 msgstr "Альбоми без обкладинок"
 
-#: core/mainwindow.cpp:220
+#: core/mainwindow.cpp:221
 msgid "All Files (*)"
 msgstr "Всі файли (*)"
 
@@ -824,7 +824,7 @@ msgstr "Всі файли (*)"
 msgid "All albums"
 msgstr "Всі альбоми"
 
-#: covermanager/albumcovermanager.cpp:360
+#: covermanager/albumcovermanager.cpp:350
 msgid "All artists"
 msgstr "Всі виконавці"
 
@@ -907,7 +907,7 @@ msgstr "Додати  до списку відтворення"
 msgid "Apply compression to prevent clipping"
 msgstr "Застосувати стиснення для запобігання зрізанню"
 
-#: dialogs/deleteconfirmationdialog.cpp:71
+#: dialogs/deleteconfirmationdialog.cpp:73
 msgid "Are you sure you want to continue?"
 msgstr "Дійсно продовжити?"
 
@@ -1212,7 +1212,7 @@ msgstr "Змінити поточну відтворювану композиц�
 msgid "Change the language"
 msgstr "Змінити мову"
 
-#: core/mainwindow.cpp:805
+#: core/mainwindow.cpp:806
 msgid "Check for updates..."
 msgstr "Перевірити оновлення..."
 
@@ -1267,7 +1267,7 @@ msgstr "Очистити кеш диска"
 msgid "Clear cover"
 msgstr "Стерти обкладинку"
 
-#: core/mainwindow.cpp:2301 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2315 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Очистити список відтворення"
 
@@ -1312,7 +1312,7 @@ msgstr "Закриття цього вікна зупинить пошук об�
 msgid "Club"
 msgstr "Клубна"
 
-#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:523
+#: core/mainwindow.cpp:371 ../build/src/ui_collectionsettingspage.h:523
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Фонотека"
@@ -1325,7 +1325,7 @@ msgstr "Фільтр фонотеки"
 msgid "Collection advanced grouping"
 msgstr "Розширене групування фонотеки"
 
-#: core/mainwindow.cpp:2874
+#: core/mainwindow.cpp:2884
 msgid "Collection rescan notice"
 msgstr "Повідомлення про повторне сканування фонотеки"
 
@@ -1383,7 +1383,7 @@ msgstr "Налаштувати %1..."
 msgid "Configure buttons"
 msgstr "Налаштувати кнопки"
 
-#: core/mainwindow.cpp:682
+#: core/mainwindow.cpp:683
 msgid "Configure collection..."
 msgstr "Налаштувати фонотеку..."
 
@@ -1399,7 +1399,7 @@ msgstr "Консоль"
 msgid "Constant bitrate"
 msgstr "Стала бітова швидкість"
 
-#: core/mainwindow.cpp:369 ../build/src/ui_contextsettingspage.h:363
+#: core/mainwindow.cpp:370 ../build/src/ui_contextsettingspage.h:363
 msgid "Context"
 msgstr "Контекст"
 
@@ -1421,7 +1421,7 @@ msgstr "Конвертувати всю музику"
 msgid "Convert any music that the device can't play"
 msgstr "Конвертувати всю музику, яку не може відтворити пристрій"
 
-#: core/mainwindow.cpp:751
+#: core/mainwindow.cpp:752
 msgid "Copy URL(s)..."
 msgstr "Копіювати адреси..."
 
@@ -1429,7 +1429,7 @@ msgstr "Копіювати адреси..."
 msgid "Copy album cover artwork"
 msgstr "Копіювати обкладинку альбому"
 
-#: core/mainwindow.cpp:755 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:756 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:246
 msgid "Copy to collection..."
 msgstr "Скопіювати до фонотеки..."
@@ -1438,12 +1438,12 @@ msgstr "Скопіювати до фонотеки..."
 msgid "Copy to device"
 msgstr "Скопіювати до пристрою"
 
-#: core/mainwindow.cpp:758 collection/collectionview.cpp:359
+#: core/mainwindow.cpp:759 collection/collectionview.cpp:359
 #: playlist/playlistlistcontainer.cpp:89 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "Копіюваня до пристрою..."
 
-#: dialogs/snapdialog.cpp:68
+#: dialogs/snapdialog.cpp:66
 msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
 "avoid losing configuration before you uninstall the snap:"
@@ -1731,7 +1731,7 @@ msgstr "Видалити"
 msgid "Delete cover"
 msgstr "Видалити обкладинку"
 
-#: dialogs/deleteconfirmationdialog.cpp:44 device/deviceview.cpp:426
+#: dialogs/deleteconfirmationdialog.cpp:46 device/deviceview.cpp:426
 msgid "Delete files"
 msgstr "Видалити файли"
 
@@ -1739,7 +1739,7 @@ msgstr "Видалити файли"
 msgid "Delete from device..."
 msgstr "Видалити з пристрою..."
 
-#: core/mainwindow.cpp:760 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:761 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "Видалити з диска..."
@@ -1765,11 +1765,11 @@ msgstr "Видалити оригінальні файли"
 msgid "Deleting files"
 msgstr "Видалення файлів"
 
-#: core/mainwindow.cpp:1927
+#: core/mainwindow.cpp:1941
 msgid "Dequeue selected tracks"
 msgstr "Вилучити з черги вибрані композиції"
 
-#: core/mainwindow.cpp:1926
+#: core/mainwindow.cpp:1940
 msgid "Dequeue track"
 msgstr "Вилучити композицію з черги"
 
@@ -1795,7 +1795,7 @@ msgstr "Налаштування пристрою"
 msgid "Device properties..."
 msgstr "Налаштування пристрою..."
 
-#: core/mainwindow.cpp:377
+#: core/mainwindow.cpp:378
 msgid "Devices"
 msgstr "Пристрої"
 
@@ -1860,7 +1860,7 @@ msgstr "Не обрізати зображення"
 msgid "Do not overwrite"
 msgstr "Не перезаписувати"
 
-#: ../build/src/ui_snapdialog.h:120
+#: ../build/src/ui_messagedialog.h:120
 msgid "Do not show this message again."
 msgstr "Більше не показувати це повідомлення."
 
@@ -1934,7 +1934,7 @@ msgstr "Змінити розумний список відтворення"
 msgid "Edit smart playlist..."
 msgstr "Змінити розумний список відтворення..."
 
-#: core/mainwindow.cpp:1970
+#: core/mainwindow.cpp:1984
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Змінити тег «%1»..."
@@ -2104,7 +2104,7 @@ msgstr "Відповідає --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Відповідає --log-levels *:3"
 
-#: core/mainwindow.cpp:2605 core/mainwindow.cpp:2756
+#: core/mainwindow.cpp:2615 core/mainwindow.cpp:2766
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Помилка"
@@ -2184,12 +2184,12 @@ msgstr "Експортувати отримані обкладинки"
 msgid "Export embedded covers"
 msgstr "Експортувати вбудовані обкладинки"
 
-#: covermanager/albumcovermanager.cpp:1044
-#: covermanager/albumcovermanager.cpp:1070
+#: covermanager/albumcovermanager.cpp:1034
+#: covermanager/albumcovermanager.cpp:1060
 msgid "Export finished"
 msgstr "Експортування завершено"
 
-#: covermanager/albumcovermanager.cpp:1055
+#: covermanager/albumcovermanager.cpp:1045
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Експортовано %1 обкладинок з %2 (%3 пропущено)"
@@ -2258,12 +2258,12 @@ msgid "Failed to open cover file %1 for reading: %2"
 msgstr "Не вдалось відкрити файл обкладинки %1 для читання: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:274
-#: covermanager/albumcoverchoicecontroller.cpp:652
+#: covermanager/albumcoverchoicecontroller.cpp:648
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr "Не вдалось відкрити файл обкладинки %1 для запису: %2"
 
-#: covermanager/albumcoverchoicecontroller.cpp:646
+#: covermanager/albumcoverchoicecontroller.cpp:642
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr "Не вдалось записати обкладинку в файл %1: %2"
@@ -2360,7 +2360,7 @@ msgstr "Назва файлу"
 msgid "Filename:"
 msgstr "Назва файлу:"
 
-#: core/mainwindow.cpp:374
+#: core/mainwindow.cpp:375
 msgid "Files"
 msgstr "Файли"
 
@@ -2414,12 +2414,12 @@ msgstr "Шрифт для заголовка"
 msgid "Font size"
 msgstr "Розмір шрифту"
 
-#: dialogs/snapdialog.cpp:56
+#: dialogs/snapdialog.cpp:54
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
 msgstr "Для Ubuntu існує офіційне PPA-сховище на %1."
 
-#: dialogs/snapdialog.cpp:64
+#: dialogs/snapdialog.cpp:62
 msgid "For a better experience please consider the other options above."
 msgstr "Також вам можливо стануть у нагоді інші варіанти вище."
 
@@ -2533,7 +2533,7 @@ msgstr "До попередньої вкладки списку відтворе
 msgid "Go!"
 msgstr "Уперед!"
 
-#: covermanager/albumcovermanager.cpp:570
+#: covermanager/albumcovermanager.cpp:560
 #: covermanager/coversearchstatisticsdialog.cpp:67
 #: ../build/src/ui_coversearchstatisticsdialog.h:72
 #, qt-format
@@ -2785,7 +2785,7 @@ msgstr "Інформація"
 msgid "Insert..."
 msgstr "Вставити..."
 
-#: dialogs/snapdialog.cpp:79
+#: dialogs/snapdialog.cpp:77
 msgid "Install strawberry through PPA:"
 msgstr ""
 
@@ -2817,11 +2817,11 @@ msgstr ""
 "Це відгалуження Clementine випущене в 2018 році і призначене для "
 "колекціонерів музики та аудіофілів."
 
-#: dialogs/snapdialog.cpp:44
+#: dialogs/snapdialog.cpp:42
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr "Було виявлено, що Strawberry працює як Snap"
 
-#: core/mainwindow.cpp:1045
+#: core/mainwindow.cpp:1058
 msgid ""
 "It is detected that Strawberry is running under Rosetta. Strawberry "
 "currently have limited macOS support, and running Strawberry under Rosetta "
@@ -3084,6 +3084,10 @@ msgstr "Досягнута максимальна кількість спроб 
 msgid "Medium (%1 fps)"
 msgstr "Середня (%1 к/с)"
 
+#: ../build/src/ui_messagedialog.h:117
+msgid "Message Dialog"
+msgstr ""
+
 #: ../build/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
 msgstr "Метадані"
@@ -3210,7 +3214,7 @@ msgstr "Точки монтування"
 msgid "Move down"
 msgstr "Перемістити вниз"
 
-#: core/mainwindow.cpp:756 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:757 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Перемістити до фонотеки..."
 
@@ -3219,7 +3223,7 @@ msgstr "Перемістити до фонотеки..."
 msgid "Move up"
 msgstr "Перемістити вгору"
 
-#: core/mainwindow.cpp:2210 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2224 transcoder/transcodedialog.cpp:323
 msgid "Music"
 msgstr "Музика"
 
@@ -3263,7 +3267,7 @@ msgstr "Ніколи не починати відтворення"
 msgid "New folder"
 msgstr "Нова папка"
 
-#: core/mainwindow.cpp:2028
+#: core/mainwindow.cpp:2042
 msgid "New playlist"
 msgstr "Новий список відтворення"
 
@@ -3303,7 +3307,7 @@ msgstr "Наступного тижня"
 msgid "No analyzer"
 msgstr "Без аналізатора"
 
-#: covermanager/albumcovermanager.cpp:1045
+#: covermanager/albumcovermanager.cpp:1035
 msgid "No covers to export."
 msgstr "Немає зображень обкладинок для експортування."
 
@@ -3340,7 +3344,7 @@ msgstr "Нічого не відтворюється"
 msgid "None"
 msgstr "Немає"
 
-#: core/mainwindow.cpp:2605 core/mainwindow.cpp:2756
+#: core/mainwindow.cpp:2615 core/mainwindow.cpp:2766
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Жодна з вибраних композицій не придатна для копіювання на пристрій"
@@ -3403,7 +3407,7 @@ msgstr "Попередній перегляд сповіщення"
 msgid "Off"
 msgstr "Вимкн"
 
-#: dialogs/snapdialog.cpp:60
+#: dialogs/snapdialog.cpp:58
 #, qt-format
 msgid ""
 "Official releases are available for Debian and Ubuntu which also work on "
@@ -3432,7 +3436,7 @@ msgstr "Непрозорість"
 msgid "Open URL in web browser?"
 msgstr "Відкрити адресу в браузері?"
 
-#: transcoder/transcodedialog.cpp:349
+#: transcoder/transcodedialog.cpp:339
 msgid "Open a directory to import music from"
 msgstr "Відкрити каталог для імпортування музичних творів"
 
@@ -3486,7 +3490,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "Впорядкування файлів"
 
-#: core/mainwindow.cpp:754 collection/collectionview.cpp:357
+#: core/mainwindow.cpp:755 collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr "Впорядкувати файли..."
 
@@ -3576,7 +3580,7 @@ msgstr "Шлях"
 msgid "Pattern"
 msgstr "Шаблон"
 
-#: core/mainwindow.cpp:1326 core/mainwindow.cpp:1825
+#: core/mainwindow.cpp:1340 core/mainwindow.cpp:1839
 #: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Призупинити"
@@ -3604,8 +3608,8 @@ msgstr "Піксель"
 msgid "Plain sidebar"
 msgstr "Звичайна бічна панель"
 
-#: core/mainwindow.cpp:723 core/mainwindow.cpp:1283 core/mainwindow.cpp:1310
-#: core/mainwindow.cpp:1829 core/qtsystemtrayicon.cpp:157
+#: core/mainwindow.cpp:724 core/mainwindow.cpp:1297 core/mainwindow.cpp:1324
+#: core/mainwindow.cpp:1843 core/qtsystemtrayicon.cpp:157
 #: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Відтворити"
@@ -3678,7 +3682,7 @@ msgstr "Кнопки керування списком відтворення"
 msgid "Playlist finished"
 msgstr "Список відтворення завершився"
 
-#: core/mainwindow.cpp:2301
+#: core/mainwindow.cpp:2315
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3704,7 +3708,7 @@ msgstr "Колір відтворюваної композиції у списк
 msgid "Playlist type"
 msgstr "Тип списку відтворення"
 
-#: core/mainwindow.cpp:372
+#: core/mainwindow.cpp:373
 msgid "Playlists"
 msgstr "Списки відтворення"
 
@@ -3830,7 +3834,7 @@ msgstr "Поступ"
 msgid "Put songs in a random order"
 msgstr "Перемішати композиції у довільному порядку"
 
-#: core/mainwindow.cpp:386 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:387 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3856,24 +3860,24 @@ msgstr "Якість"
 msgid "Querying device..."
 msgstr "Опитування пристрою..."
 
-#: core/mainwindow.cpp:371
+#: core/mainwindow.cpp:372
 msgid "Queue"
 msgstr "Черга"
 
-#: core/mainwindow.cpp:1929
+#: core/mainwindow.cpp:1943
 msgid "Queue selected tracks"
 msgstr "Додати до черги обрані композиції"
 
-#: core/mainwindow.cpp:729 core/mainwindow.cpp:1933
+#: core/mainwindow.cpp:730 core/mainwindow.cpp:1947
 msgid "Queue selected tracks to play next"
 msgstr "Відтворити наступними обрані композиції"
 
-#: core/mainwindow.cpp:1936 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1950 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "Відтворити наступним"
 
-#: core/mainwindow.cpp:1928 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1942 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -3891,7 +3895,7 @@ msgstr "Радіо (однакова гучність всіх композиц�
 msgid "Radio Paradise"
 msgstr "Радіо Paradise"
 
-#: core/mainwindow.cpp:375
+#: core/mainwindow.cpp:376
 msgid "Radios"
 msgstr "Радіостанції"
 
@@ -4149,7 +4153,7 @@ msgstr "Повторно заповнити"
 msgid "Rescan song(s)"
 msgstr "Сканування композицій"
 
-#: core/mainwindow.cpp:745
+#: core/mainwindow.cpp:746
 msgid "Rescan song(s)..."
 msgstr "Сканувати композиції..."
 
@@ -4480,7 +4484,7 @@ msgstr "Недійсна адреса сервера."
 msgid "Server-side scrobbling"
 msgstr "Скроблінг на боці сервера"
 
-#: core/mainwindow.cpp:1969
+#: core/mainwindow.cpp:1983
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Встановити %1 у «%2»..."
@@ -4567,7 +4571,7 @@ msgstr "Показати обкладинку альбому"
 msgid "Show album cover art in collection"
 msgstr "Показати обкладинку альбому в фонотеці"
 
-#: core/mainwindow.cpp:671
+#: core/mainwindow.cpp:672
 msgid "Show all songs"
 msgstr "Показати всі композиції"
 
@@ -4595,7 +4599,7 @@ msgstr "Показати обробник та пристрій"
 msgid "Show fullsize..."
 msgstr "Показати на повний розмір..."
 
-#: core/mainwindow.cpp:752
+#: core/mainwindow.cpp:753
 msgid "Show in collection..."
 msgstr "Показати у фонотеці..."
 
@@ -4603,7 +4607,7 @@ msgstr "Показати у фонотеці..."
 msgid "Show in file browser"
 msgstr "Показати в оглядачі файлів"
 
-#: core/mainwindow.cpp:753 collection/collectionview.cpp:366
+#: core/mainwindow.cpp:754 collection/collectionview.cpp:366
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Показати в оглядачі файлів..."
@@ -4620,11 +4624,11 @@ msgstr "Показати кнопку «Люблю»"
 msgid "Show moodbar"
 msgstr "Показувати панель настрою"
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:673
 msgid "Show only duplicates"
 msgstr "Показати тільки дублікати"
 
-#: core/mainwindow.cpp:673
+#: core/mainwindow.cpp:674
 msgid "Show only untagged"
 msgstr "Показати тільки без тегів"
 
@@ -4721,11 +4725,11 @@ msgstr "Кількість пропусків"
 msgid "Skip forwards in playlist"
 msgstr "Перескочити вперед у списку композицій"
 
-#: core/mainwindow.cpp:1942
+#: core/mainwindow.cpp:1956
 msgid "Skip selected tracks"
 msgstr "Пропустити позначені композиції"
 
-#: core/mainwindow.cpp:1941
+#: core/mainwindow.cpp:1955
 msgid "Skip track"
 msgstr "Пропустити композицію"
 
@@ -4741,7 +4745,7 @@ msgstr "Маленька бічна панель"
 msgid "Smart playlist"
 msgstr "Розумний список відтворення"
 
-#: core/mainwindow.cpp:373
+#: core/mainwindow.cpp:374
 msgid "Smart playlists"
 msgstr "Розумні списки відтворення"
 
@@ -4849,7 +4853,7 @@ msgstr "Зупинятися після кожної композиції"
 msgid "Stop after every track"
 msgstr "Зупинятися після будь-якої композиції"
 
-#: core/mainwindow.cpp:725 ../build/src/ui_mainwindow.h:630
+#: core/mainwindow.cpp:726 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "Зупинити після цієї композиції"
 
@@ -4911,15 +4915,11 @@ msgstr ""
 "Strawberry — це безкоштовне програмне забезпечення, випущене під GPL. "
 "Вихідний код доступний на %1"
 
-#: dialogs/snapdialog.cpp:40
+#: dialogs/snapdialog.cpp:30
 msgid "Strawberry is running as a Snap"
 msgstr "Strawberry працює як Snap"
 
-#: ../build/src/ui_snapdialog.h:117
-msgid "Strawberry is running as a snap"
-msgstr "Strawberry працює як snap"
-
-#: dialogs/snapdialog.cpp:48
+#: dialogs/snapdialog.cpp:46
 msgid ""
 "Strawberry is slower, and has restrictions when running as a Snap. Accessing "
 "the root filesystem (/) will not work. There also might be other "
@@ -4929,6 +4929,10 @@ msgstr ""
 "Доступу до кореневої файлової системи (/) немає. Також можуть існувати інші "
 "обмеження, наприклад доступ до певних пристроїв або спільних мережевих "
 "ресурсів."
+
+#: core/mainwindow.cpp:1058
+msgid "Strawberry running under Rosetta"
+msgstr ""
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Strawberry was unable to find results for this file"
@@ -4959,7 +4963,7 @@ msgstr "Стиль"
 msgid "Submit scrobbles every"
 msgstr "Надсилати дані скроблінгу кожні"
 
-#: core/mainwindow.cpp:380 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:381 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -5075,7 +5079,7 @@ msgid "The album cover of the currently playing song"
 msgstr ""
 "Обкладинка альбому, до якого увійшла композиція, яка зараз відтворюється"
 
-#: dialogs/deleteconfirmationdialog.cpp:58
+#: dialogs/deleteconfirmationdialog.cpp:60
 msgid "The following files will be deleted from disk:"
 msgstr "Наступні файли будуть видалені з диска:"
 
@@ -5095,7 +5099,7 @@ msgstr "Вказана адреса не існує!"
 msgid "The site you requested is not an image!"
 msgstr "Вказана адреса не є малюнком!"
 
-#: core/mainwindow.cpp:2869
+#: core/mainwindow.cpp:2879
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5195,7 +5199,7 @@ msgstr "Цей параметр можна змінити в розділі на
 msgid "This type of device is not supported: %1"
 msgstr "Цей тип пристрою не підтримується: %1"
 
-#: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:384 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -5227,7 +5231,7 @@ msgstr "Сьогодні"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:726 core/mainwindow.cpp:1930
+#: core/mainwindow.cpp:727 core/mainwindow.cpp:1944
 msgid "Toggle queue status"
 msgstr "Перемикнути статус черги"
 
@@ -5235,7 +5239,7 @@ msgstr "Перемикнути статус черги"
 msgid "Toggle scrobbling"
 msgstr "Змінити режим скроблінгу"
 
-#: core/mainwindow.cpp:732 core/mainwindow.cpp:1943
+#: core/mainwindow.cpp:733 core/mainwindow.cpp:1957
 msgid "Toggle skip status"
 msgstr "Змінити стан пропуску"
 
@@ -5328,14 +5332,14 @@ msgstr ""
 msgid "Undo"
 msgstr ""
 
-#: dialogs/snapdialog.cpp:74
+#: dialogs/snapdialog.cpp:72
 msgid "Uninstall the snap with:"
 msgstr "Видалити snap з:"
 
 #: core/song.cpp:726 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:1656 collection/savedgroupingmanager.cpp:153
+#: collection/collectionmodel.cpp:1663 collection/savedgroupingmanager.cpp:153
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:550
 #: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:765
 #: dialogs/edittagdialog.cpp:792 ../build/src/ui_scrobblersettingspage.h:428
@@ -5362,11 +5366,11 @@ msgstr "Вилучити"
 msgid "Unset cover"
 msgstr "Вилучити обкладинку"
 
-#: core/mainwindow.cpp:1940
+#: core/mainwindow.cpp:1954
 msgid "Unskip selected tracks"
 msgstr "Не пропускати вибрані композиції"
 
-#: core/mainwindow.cpp:1939
+#: core/mainwindow.cpp:1953
 msgid "Unskip track"
 msgstr "Не пропускати композицію"
 
@@ -5535,7 +5539,7 @@ msgid "Variable bit rate"
 msgstr "Змінна бітова швидкість"
 
 #: collection/collectionmodel.cpp:288 collection/collectionmodel.cpp:289
-#: playlist/playlistmanager.cpp:562 covermanager/albumcovermanager.cpp:361
+#: playlist/playlistmanager.cpp:562 covermanager/albumcovermanager.cpp:351
 #: internet/internetsearchmodel.cpp:93 internet/internetsearchmodel.cpp:105
 msgid "Various artists"
 msgstr "Різні виконавці"
@@ -5623,7 +5627,7 @@ msgid ""
 msgstr ""
 "Перемістити також й інші композиції з цього альбому до різних виконавців?"
 
-#: core/mainwindow.cpp:2873
+#: core/mainwindow.cpp:2883
 msgid "Would you like to run a full rescan right now?"
 msgstr "Запустити повне сканування фонотеки зараз?"
 

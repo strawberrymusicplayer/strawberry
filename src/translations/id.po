@@ -204,7 +204,7 @@ msgstr ""
 msgid "%1 tracks"
 msgstr "%1 trek"
 
-#: covermanager/albumcovermanager.cpp:576
+#: covermanager/albumcovermanager.cpp:566
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 telah ditransfer"
@@ -223,19 +223,19 @@ msgstr "%albumartist-%album"
 msgid "%filename%"
 msgstr "%filename%"
 
-#: transcoder/transcodedialog.cpp:318
+#: transcoder/transcodedialog.cpp:308
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n failed"
 msgstr "%n gagal"
 
-#: transcoder/transcodedialog.cpp:314
+#: transcoder/transcodedialog.cpp:304
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n finished"
 msgstr "%n telah selesai"
 
-#: transcoder/transcodedialog.cpp:310
+#: transcoder/transcodedialog.cpp:300
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n remaining"
@@ -565,7 +565,7 @@ msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 
-#: core/mainwindow.cpp:2210
+#: core/mainwindow.cpp:2224
 msgid "Add file"
 msgstr "Tambah berkas"
 
@@ -577,11 +577,11 @@ msgstr "Tambah berkas ke transkoder"
 msgid "Add file(s) to transcoder"
 msgstr "Tambah berkas ke transkoder"
 
-#: transcoder/transcodedialog.cpp:332
+#: transcoder/transcodedialog.cpp:322
 msgid "Add files to transcode"
 msgstr "Tambah berkas untuk ditranskode"
 
-#: core/mainwindow.cpp:2236 transcoder/transcodedialog.cpp:424
+#: core/mainwindow.cpp:2250 transcoder/transcodedialog.cpp:414
 msgid "Add folder"
 msgstr "Tambah folder"
 
@@ -691,7 +691,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Tambahkan ke album"
 
-#: core/mainwindow.cpp:2012
+#: core/mainwindow.cpp:2026
 msgid "Add to another playlist"
 msgstr "Tambahkan ke daftar putar lainnya"
 
@@ -805,7 +805,7 @@ msgstr "Album dengan sampul"
 msgid "Albums without covers"
 msgstr "Album tanpa sampul"
 
-#: core/mainwindow.cpp:220
+#: core/mainwindow.cpp:221
 msgid "All Files (*)"
 msgstr "Semua Berkas (*)"
 
@@ -813,7 +813,7 @@ msgstr "Semua Berkas (*)"
 msgid "All albums"
 msgstr "Semua album"
 
-#: covermanager/albumcovermanager.cpp:360
+#: covermanager/albumcovermanager.cpp:350
 msgid "All artists"
 msgstr "Semua artis"
 
@@ -896,7 +896,7 @@ msgstr "Tambahkan ke daftar putar"
 msgid "Apply compression to prevent clipping"
 msgstr "Terapkan kompresi untuk mencegah clipping"
 
-#: dialogs/deleteconfirmationdialog.cpp:71
+#: dialogs/deleteconfirmationdialog.cpp:73
 msgid "Are you sure you want to continue?"
 msgstr ""
 
@@ -1199,7 +1199,7 @@ msgstr "Ganti lagu yang diputar saat ini"
 msgid "Change the language"
 msgstr "Ubah bahasa"
 
-#: core/mainwindow.cpp:805
+#: core/mainwindow.cpp:806
 msgid "Check for updates..."
 msgstr "Periksa pembaruan..."
 
@@ -1248,7 +1248,7 @@ msgstr ""
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2301 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2315 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
@@ -1293,7 +1293,7 @@ msgstr "Menutup jendela ini akan menghentikan pencarian sampul album."
 msgid "Club"
 msgstr "Klub"
 
-#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:523
+#: core/mainwindow.cpp:371 ../build/src/ui_collectionsettingspage.h:523
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Pustakascan"
@@ -1306,7 +1306,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Pengelompokan pustaka lanjutan"
 
-#: core/mainwindow.cpp:2874
+#: core/mainwindow.cpp:2884
 msgid "Collection rescan notice"
 msgstr "Pemberitahuan pemindaian ulang pustaka"
 
@@ -1363,7 +1363,7 @@ msgstr "Konfigurasi %1..."
 msgid "Configure buttons"
 msgstr ""
 
-#: core/mainwindow.cpp:682
+#: core/mainwindow.cpp:683
 msgid "Configure collection..."
 msgstr "Konfigurasi pustaka..."
 
@@ -1379,7 +1379,7 @@ msgstr "Konsol"
 msgid "Constant bitrate"
 msgstr "Lajubit konstan"
 
-#: core/mainwindow.cpp:369 ../build/src/ui_contextsettingspage.h:363
+#: core/mainwindow.cpp:370 ../build/src/ui_contextsettingspage.h:363
 msgid "Context"
 msgstr "Konteks"
 
@@ -1400,7 +1400,7 @@ msgstr "Konversi semua musik"
 msgid "Convert any music that the device can't play"
 msgstr "Konversi semua musik yang tidak dapat diputar oleh perangkat."
 
-#: core/mainwindow.cpp:751
+#: core/mainwindow.cpp:752
 msgid "Copy URL(s)..."
 msgstr ""
 
@@ -1408,7 +1408,7 @@ msgstr ""
 msgid "Copy album cover artwork"
 msgstr "Salin sampul album"
 
-#: core/mainwindow.cpp:755 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:756 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:246
 msgid "Copy to collection..."
 msgstr "Salin ke pustaka..."
@@ -1417,12 +1417,12 @@ msgstr "Salin ke pustaka..."
 msgid "Copy to device"
 msgstr ""
 
-#: core/mainwindow.cpp:758 collection/collectionview.cpp:359
+#: core/mainwindow.cpp:759 collection/collectionview.cpp:359
 #: playlist/playlistlistcontainer.cpp:89 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "Salin ke perangkat..."
 
-#: dialogs/snapdialog.cpp:68
+#: dialogs/snapdialog.cpp:66
 msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
 "avoid losing configuration before you uninstall the snap:"
@@ -1708,7 +1708,7 @@ msgstr "Hapus"
 msgid "Delete cover"
 msgstr ""
 
-#: dialogs/deleteconfirmationdialog.cpp:44 device/deviceview.cpp:426
+#: dialogs/deleteconfirmationdialog.cpp:46 device/deviceview.cpp:426
 msgid "Delete files"
 msgstr "Hapus berkas"
 
@@ -1716,7 +1716,7 @@ msgstr "Hapus berkas"
 msgid "Delete from device..."
 msgstr "Hapus dari perangkat..."
 
-#: core/mainwindow.cpp:760 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:761 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "Hapus dari diska..."
@@ -1742,11 +1742,11 @@ msgstr "Hapus berkas yang asli"
 msgid "Deleting files"
 msgstr "Menghapus berkas"
 
-#: core/mainwindow.cpp:1927
+#: core/mainwindow.cpp:1941
 msgid "Dequeue selected tracks"
 msgstr "Buang antrean trek terpilih"
 
-#: core/mainwindow.cpp:1926
+#: core/mainwindow.cpp:1940
 msgid "Dequeue track"
 msgstr "Buang antrean trek"
 
@@ -1772,7 +1772,7 @@ msgstr "Properti Perangkat"
 msgid "Device properties..."
 msgstr "Properti perangkat..."
 
-#: core/mainwindow.cpp:377
+#: core/mainwindow.cpp:378
 msgid "Devices"
 msgstr "Perangkat"
 
@@ -1837,7 +1837,7 @@ msgstr "Jangan potong gambar"
 msgid "Do not overwrite"
 msgstr "Jangan timpa"
 
-#: ../build/src/ui_snapdialog.h:120
+#: ../build/src/ui_messagedialog.h:120
 msgid "Do not show this message again."
 msgstr ""
 
@@ -1909,7 +1909,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1970
+#: core/mainwindow.cpp:1984
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Sunting tag \"%1\"..."
@@ -2079,7 +2079,7 @@ msgstr "Setara dengan --log-level *: 1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
-#: core/mainwindow.cpp:2605 core/mainwindow.cpp:2756
+#: core/mainwindow.cpp:2615 core/mainwindow.cpp:2766
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Kesalahan"
@@ -2159,12 +2159,12 @@ msgstr "Ekspor sampul yang sudah diunduh"
 msgid "Export embedded covers"
 msgstr "Ekspor sampul yang tertanam"
 
-#: covermanager/albumcovermanager.cpp:1044
-#: covermanager/albumcovermanager.cpp:1070
+#: covermanager/albumcovermanager.cpp:1034
+#: covermanager/albumcovermanager.cpp:1060
 msgid "Export finished"
 msgstr "Ekspor selesai"
 
-#: covermanager/albumcovermanager.cpp:1055
+#: covermanager/albumcovermanager.cpp:1045
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Mengekspor %1 sampul dari %2 (%3 dilewati)"
@@ -2231,12 +2231,12 @@ msgid "Failed to open cover file %1 for reading: %2"
 msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:274
-#: covermanager/albumcoverchoicecontroller.cpp:652
+#: covermanager/albumcoverchoicecontroller.cpp:648
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:646
+#: covermanager/albumcoverchoicecontroller.cpp:642
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr ""
@@ -2333,7 +2333,7 @@ msgstr "Nama berkas"
 msgid "Filename:"
 msgstr "Nama berkas:"
 
-#: core/mainwindow.cpp:374
+#: core/mainwindow.cpp:375
 msgid "Files"
 msgstr "Berkas"
 
@@ -2387,12 +2387,12 @@ msgstr ""
 msgid "Font size"
 msgstr ""
 
-#: dialogs/snapdialog.cpp:56
+#: dialogs/snapdialog.cpp:54
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
 msgstr ""
 
-#: dialogs/snapdialog.cpp:64
+#: dialogs/snapdialog.cpp:62
 msgid "For a better experience please consider the other options above."
 msgstr ""
 
@@ -2506,7 +2506,7 @@ msgstr "Buka tab daftar putar sebelumnya"
 msgid "Go!"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:570
+#: covermanager/albumcovermanager.cpp:560
 #: covermanager/coversearchstatisticsdialog.cpp:67
 #: ../build/src/ui_coversearchstatisticsdialog.h:72
 #, qt-format
@@ -2752,7 +2752,7 @@ msgstr "Informasi"
 msgid "Insert..."
 msgstr "Sisipkan..."
 
-#: dialogs/snapdialog.cpp:79
+#: dialogs/snapdialog.cpp:77
 msgid "Install strawberry through PPA:"
 msgstr ""
 
@@ -2782,11 +2782,11 @@ msgid ""
 "audiophiles."
 msgstr ""
 
-#: dialogs/snapdialog.cpp:44
+#: dialogs/snapdialog.cpp:42
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr ""
 
-#: core/mainwindow.cpp:1045
+#: core/mainwindow.cpp:1058
 msgid ""
 "It is detected that Strawberry is running under Rosetta. Strawberry "
 "currently have limited macOS support, and running Strawberry under Rosetta "
@@ -3049,6 +3049,10 @@ msgstr "Jumlah maksimum upaya masuk tercapai."
 msgid "Medium (%1 fps)"
 msgstr "Sedang (%1 fps)"
 
+#: ../build/src/ui_messagedialog.h:117
+msgid "Message Dialog"
+msgstr ""
+
 #: ../build/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
 msgstr "Metadata"
@@ -3175,7 +3179,7 @@ msgstr "Titik kait"
 msgid "Move down"
 msgstr "Pindah turun"
 
-#: core/mainwindow.cpp:756 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:757 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Pindah ke pustaka..."
 
@@ -3184,7 +3188,7 @@ msgstr "Pindah ke pustaka..."
 msgid "Move up"
 msgstr "Pindah naik"
 
-#: core/mainwindow.cpp:2210 transcoder/transcodedialog.cpp:333
+#: core/mainwindow.cpp:2224 transcoder/transcodedialog.cpp:323
 msgid "Music"
 msgstr "Musik"
 
@@ -3228,7 +3232,7 @@ msgstr "Jangan mulai memutar"
 msgid "New folder"
 msgstr "Folder baru"
 
-#: core/mainwindow.cpp:2028
+#: core/mainwindow.cpp:2042
 msgid "New playlist"
 msgstr "Daftar putar baru"
 
@@ -3268,7 +3272,7 @@ msgstr "Minggu depan"
 msgid "No analyzer"
 msgstr "Tidak ada penganalisis"
 
-#: covermanager/albumcovermanager.cpp:1045
+#: covermanager/albumcovermanager.cpp:1035
 msgid "No covers to export."
 msgstr "Tidak ada sampul untuk diekspor."
 
@@ -3305,7 +3309,7 @@ msgstr "Tidak ada lagu yang berputar"
 msgid "None"
 msgstr "Nihil"
 
-#: core/mainwindow.cpp:2605 core/mainwindow.cpp:2756
+#: core/mainwindow.cpp:2615 core/mainwindow.cpp:2766
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3368,7 +3372,7 @@ msgstr "Pratinjau OSD"
 msgid "Off"
 msgstr "Mati"
 
-#: dialogs/snapdialog.cpp:60
+#: dialogs/snapdialog.cpp:58
 #, qt-format
 msgid ""
 "Official releases are available for Debian and Ubuntu which also work on "
@@ -3395,7 +3399,7 @@ msgstr "Kelegapan"
 msgid "Open URL in web browser?"
 msgstr ""
 
-#: transcoder/transcodedialog.cpp:349
+#: transcoder/transcodedialog.cpp:339
 msgid "Open a directory to import music from"
 msgstr "Buka sebuah direktori untuk mengimpor musik dari"
 
@@ -3449,7 +3453,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr ""
 
-#: core/mainwindow.cpp:754 collection/collectionview.cpp:357
+#: core/mainwindow.cpp:755 collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr ""
 
@@ -3537,7 +3541,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1326 core/mainwindow.cpp:1825
+#: core/mainwindow.cpp:1340 core/mainwindow.cpp:1839
 #: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Jeda"
@@ -3565,8 +3569,8 @@ msgstr "Piksel"
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
-#: core/mainwindow.cpp:723 core/mainwindow.cpp:1283 core/mainwindow.cpp:1310
-#: core/mainwindow.cpp:1829 core/qtsystemtrayicon.cpp:157
+#: core/mainwindow.cpp:724 core/mainwindow.cpp:1297 core/mainwindow.cpp:1324
+#: core/mainwindow.cpp:1843 core/qtsystemtrayicon.cpp:157
 #: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Putar"
@@ -3637,7 +3641,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Daftar putar selesai"
 
-#: core/mainwindow.cpp:2301
+#: core/mainwindow.cpp:2315
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3661,7 +3665,7 @@ msgstr ""
 msgid "Playlist type"
 msgstr ""
 
-#: core/mainwindow.cpp:372
+#: core/mainwindow.cpp:373
 msgid "Playlists"
 msgstr "Daftar putar"
 
@@ -3782,7 +3786,7 @@ msgstr "Kemajuan"
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:386 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:387 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3805,24 +3809,24 @@ msgstr "Kualitas"
 msgid "Querying device..."
 msgstr "Meminta perangkat..."
 
-#: core/mainwindow.cpp:371
+#: core/mainwindow.cpp:372
 msgid "Queue"
 msgstr "Antrean"
 
-#: core/mainwindow.cpp:1929
+#: core/mainwindow.cpp:1943
 msgid "Queue selected tracks"
 msgstr "Antre trek terpilih"
 
-#: core/mainwindow.cpp:729 core/mainwindow.cpp:1933
+#: core/mainwindow.cpp:730 core/mainwindow.cpp:1947
 msgid "Queue selected tracks to play next"
 msgstr "Antre trek terpilih untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1936 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1950 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "Antre untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1928 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1942 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -3840,7 +3844,7 @@ msgstr "Radio (kenyaringan sama untuk semua trek)"
 msgid "Radio Paradise"
 msgstr ""
 
-#: core/mainwindow.cpp:375
+#: core/mainwindow.cpp:376
 msgid "Radios"
 msgstr ""
 
@@ -4092,7 +4096,7 @@ msgstr ""
 msgid "Rescan song(s)"
 msgstr "Pindai ulang lagu"
 
-#: core/mainwindow.cpp:745
+#: core/mainwindow.cpp:746
 msgid "Rescan song(s)..."
 msgstr ""
 
@@ -4421,7 +4425,7 @@ msgstr "URL server tidak benar."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1969
+#: core/mainwindow.cpp:1983
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Tetapkan %1 ke \"%2\"..."
@@ -4508,7 +4512,7 @@ msgstr ""
 msgid "Show album cover art in collection"
 msgstr "Tampilkan sampul album di pustaka"
 
-#: core/mainwindow.cpp:671
+#: core/mainwindow.cpp:672
 msgid "Show all songs"
 msgstr "Tampilkan semua lagu"
 
@@ -4536,7 +4540,7 @@ msgstr "Tampilkan mesin dan perangkat"
 msgid "Show fullsize..."
 msgstr "Tampilkan ukuran penuh..."
 
-#: core/mainwindow.cpp:752
+#: core/mainwindow.cpp:753
 msgid "Show in collection..."
 msgstr "Tampilkan di pustaka..."
 
@@ -4544,7 +4548,7 @@ msgstr "Tampilkan di pustaka..."
 msgid "Show in file browser"
 msgstr "Tampilkan di peramban berkas"
 
-#: core/mainwindow.cpp:753 collection/collectionview.cpp:366
+#: core/mainwindow.cpp:754 collection/collectionview.cpp:366
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Tampilkan di peramban berkas..."
@@ -4561,11 +4565,11 @@ msgstr "Tampilkan tombol suka"
 msgid "Show moodbar"
 msgstr "Tampilkan moodbar"
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:673
 msgid "Show only duplicates"
 msgstr "Tampilkan hanya duplikat"
 
-#: core/mainwindow.cpp:673
+#: core/mainwindow.cpp:674
 msgid "Show only untagged"
 msgstr "Tampilkan hanya tidak bertag"
 
@@ -4662,11 +4666,11 @@ msgstr "Lewati hitungan"
 msgid "Skip forwards in playlist"
 msgstr "Lewati maju di dalam daftar putar"
 
-#: core/mainwindow.cpp:1942
+#: core/mainwindow.cpp:1956
 msgid "Skip selected tracks"
 msgstr "Lewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1941
+#: core/mainwindow.cpp:1955
 msgid "Skip track"
 msgstr "Lewati trek"
 
@@ -4682,7 +4686,7 @@ msgstr "Bilah sisi kecil"
 msgid "Smart playlist"
 msgstr ""
 
-#: core/mainwindow.cpp:373
+#: core/mainwindow.cpp:374
 msgid "Smart playlists"
 msgstr ""
 
@@ -4790,7 +4794,7 @@ msgstr "Berhenti setelah masing-masing trek"
 msgid "Stop after every track"
 msgstr "Berhenti setelah setiap trek"
 
-#: core/mainwindow.cpp:725 ../build/src/ui_mainwindow.h:630
+#: core/mainwindow.cpp:726 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "Berhenti setelah trek ini"
 
@@ -4850,19 +4854,19 @@ msgid ""
 "on %1"
 msgstr ""
 
-#: dialogs/snapdialog.cpp:40
+#: dialogs/snapdialog.cpp:30
 msgid "Strawberry is running as a Snap"
 msgstr ""
 
-#: ../build/src/ui_snapdialog.h:117
-msgid "Strawberry is running as a snap"
-msgstr ""
-
-#: dialogs/snapdialog.cpp:48
+#: dialogs/snapdialog.cpp:46
 msgid ""
 "Strawberry is slower, and has restrictions when running as a Snap. Accessing "
 "the root filesystem (/) will not work. There also might be other "
 "restrictions such as accessing certain devices or network shares."
+msgstr ""
+
+#: core/mainwindow.cpp:1058
+msgid "Strawberry running under Rosetta"
 msgstr ""
 
 #: ../build/src/ui_trackselectiondialog.h:204
@@ -4894,7 +4898,7 @@ msgstr ""
 msgid "Submit scrobbles every"
 msgstr "Kirimkan scrobble setiap"
 
-#: core/mainwindow.cpp:380 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:381 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -5009,7 +5013,7 @@ msgstr "Perintah \"%1\" tidak dapat dimulai."
 msgid "The album cover of the currently playing song"
 msgstr "Sampul album dari lagu yang diputar saat ini"
 
-#: dialogs/deleteconfirmationdialog.cpp:58
+#: dialogs/deleteconfirmationdialog.cpp:60
 msgid "The following files will be deleted from disk:"
 msgstr ""
 
@@ -5029,7 +5033,7 @@ msgstr "Situs yang Anda minta tidak ada!"
 msgid "The site you requested is not an image!"
 msgstr "Situs yang Anda minta bukan sebuah gambar!"
 
-#: core/mainwindow.cpp:2869
+#: core/mainwindow.cpp:2879
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5135,7 +5139,7 @@ msgstr "Opsi ini dapat diubah di pengaturan \"Perilaku\""
 msgid "This type of device is not supported: %1"
 msgstr "Tipe perangkat ini tidak didukung: %1"
 
-#: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:384 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -5165,7 +5169,7 @@ msgstr "Hari Ini"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:726 core/mainwindow.cpp:1930
+#: core/mainwindow.cpp:727 core/mainwindow.cpp:1944
 msgid "Toggle queue status"
 msgstr "Alihkan status antrean"
 
@@ -5173,7 +5177,7 @@ msgstr "Alihkan status antrean"
 msgid "Toggle scrobbling"
 msgstr "Alihkan scrobbling"
 
-#: core/mainwindow.cpp:732 core/mainwindow.cpp:1943
+#: core/mainwindow.cpp:733 core/mainwindow.cpp:1957
 msgid "Toggle skip status"
 msgstr "Alihkan status melewati"
 
@@ -5266,14 +5270,14 @@ msgstr ""
 msgid "Undo"
 msgstr ""
 
-#: dialogs/snapdialog.cpp:74
+#: dialogs/snapdialog.cpp:72
 msgid "Uninstall the snap with:"
 msgstr ""
 
 #: core/song.cpp:726 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:1656 collection/savedgroupingmanager.cpp:153
+#: collection/collectionmodel.cpp:1663 collection/savedgroupingmanager.cpp:153
 #: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:550
 #: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:765
 #: dialogs/edittagdialog.cpp:792 ../build/src/ui_scrobblersettingspage.h:428
@@ -5300,11 +5304,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Tak set sampul"
 
-#: core/mainwindow.cpp:1940
+#: core/mainwindow.cpp:1954
 msgid "Unskip selected tracks"
 msgstr "Taklewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1939
+#: core/mainwindow.cpp:1953
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
@@ -5473,7 +5477,7 @@ msgid "Variable bit rate"
 msgstr "Laju bit beragam"
 
 #: collection/collectionmodel.cpp:288 collection/collectionmodel.cpp:289
-#: playlist/playlistmanager.cpp:562 covermanager/albumcovermanager.cpp:361
+#: playlist/playlistmanager.cpp:562 covermanager/albumcovermanager.cpp:351
 #: internet/internetsearchmodel.cpp:93 internet/internetsearchmodel.cpp:105
 msgid "Various artists"
 msgstr "Artis beraga"
@@ -5557,7 +5561,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2873
+#: core/mainwindow.cpp:2883
 msgid "Would you like to run a full rescan right now?"
 msgstr "Apakah Anda ingin menjalankan pemindaian ulang menyeluruh sekarang?"
 
