@@ -22,16 +22,19 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QString>
+#include <QPixmap>
+#include <QIcon>
 #include <QLabel>
 #include <QPushButton>
 #include <QKeySequence>
 #include <QCheckBox>
 #include <QSettings>
 
+#include "utilities/screenutils.h"
 #include "messagedialog.h"
 #include "ui_messagedialog.h"
 
-MessageDialog::MessageDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_MessageDialog) {
+MessageDialog::MessageDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_MessageDialog), parent_(parent) {
 
   ui_->setupUi(this);
 
@@ -44,6 +47,31 @@ MessageDialog::MessageDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_Mess
 }
 
 MessageDialog::~MessageDialog() { delete ui_; }
+
+void MessageDialog::ShowMessage(const QString &title, const QString &message, const QIcon &icon) {
+
+  setWindowTitle(title);
+
+  if (!icon.isNull()) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    const QPixmap pixmap = icon.pixmap(QSize(64, 64), devicePixelRatioF());
+#else
+    const QPixmap pixmap = icon.pixmap(QSize(64, 64));
+#endif
+    ui_->label_logo->setPixmap(pixmap);
+  }
+
+  ui_->label_text->setText(message);
+  ui_->label_text->adjustSize();
+  adjustSize();
+
+  if (parent_) {
+    Utilities::CenterWidgetOnScreen(Utilities::GetScreen(parent_), this);
+  }
+
+  show();
+
+}
 
 void MessageDialog::DoNotShowMessageAgain() {
 

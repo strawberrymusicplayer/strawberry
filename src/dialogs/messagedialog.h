@@ -21,6 +21,8 @@
 #define MESSAGEDIALOG_H
 
 #include <QDialog>
+#include <QString>
+#include <QIcon>
 
 class Ui_MessageDialog;
 
@@ -34,11 +36,14 @@ class MessageDialog : public QDialog {
   void set_settings_group(const QString &settings_group) { settings_group_ = settings_group; }
   void set_do_not_show_message_again(const QString &do_not_show_message_again) { do_not_show_message_again_ = do_not_show_message_again; }
 
+  void ShowMessage(const QString &title, const QString &message, const QIcon &icon = QIcon());
+
  private slots:
   void DoNotShowMessageAgain();
 
  protected:
   Ui_MessageDialog *ui_;
+  QWidget *parent_;
   QString settings_group_;
   QString do_not_show_message_again_;
 };
