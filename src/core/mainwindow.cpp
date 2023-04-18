@@ -946,10 +946,13 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 #ifdef Q_OS_MACOS  // Always show the mainwindow on startup for macOS
   show();
 #else
-  QSettings s;
-  s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  const BehaviourSettingsPage::StartupBehaviour startupbehaviour = static_cast<BehaviourSettingsPage::StartupBehaviour>(s.value("startupbehaviour", static_cast<int>(BehaviourSettingsPage::StartupBehaviour::Remember)).toInt());
-  s.endGroup();
+  BehaviourSettingsPage::StartupBehaviour startupbehaviour = BehaviourSettingsPage::StartupBehaviour::Remember;
+  {
+    QSettings s;
+    s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+    startupbehaviour = static_cast<BehaviourSettingsPage::StartupBehaviour>(s.value("startupbehaviour", static_cast<int>(BehaviourSettingsPage::StartupBehaviour::Remember)).toInt());
+    s.endGroup();
+  }
   switch (startupbehaviour) {
     case BehaviourSettingsPage::StartupBehaviour::Show:
       show();
@@ -1029,6 +1032,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 
 #ifdef Q_OS_LINUX
   if (!Utilities::GetEnv("SNAP").isEmpty() && !Utilities::GetEnv("SNAP_NAME").isEmpty()) {
+    QSettings s;
     s.beginGroup(kSettingsGroup);
     const bool ignore_snap = s.value("ignore_snap", false).toBool();
     s.endGroup();
@@ -1042,6 +1046,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 
 #if defined(Q_OS_MACOS)
   if (Utilities::ProcessTranslated()) {
+    QSettings s;
     s.beginGroup(kSettingsGroup);
     const bool ignore_rosetta = s.value("ignore_rosetta", false).toBool();
     s.endGroup();
