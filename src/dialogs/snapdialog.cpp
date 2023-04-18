@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,27 +17,25 @@
  *
  */
 
-#include "config.h"
-
-#include <QDialog>
-#include <QDialogButtonBox>
-#include <QString>
-#include <QFont>
-#include <QLabel>
-#include <QPushButton>
-#include <QKeySequence>
-#include <QSettings>
+#include "core/logging.h"
+#include "core/iconloader.h"
+#include "core/mainwindow.h"
+#include "utilities/screenutils.h"
 
 #include "snapdialog.h"
-#include "ui_snapdialog.h"
+#include "ui_messagedialog.h"
 
-#include "core/mainwindow.h"
+SnapDialog::SnapDialog(QWidget *parent) : MessageDialog(parent) {
 
-SnapDialog::SnapDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_SnapDialog) {
-
-  ui_->setupUi(this);
-  setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
   setWindowTitle(tr("Strawberry is running as a Snap"));
+
+  const QIcon icon = IconLoader::Load("dialog-warning");
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+  const QPixmap pixmap = icon.pixmap(QSize(64, 64), devicePixelRatioF());
+#else
+  const QPixmap pixmap = icon.pixmap(QSize(64, 64));
+#endif
+  ui_->label_logo->setPixmap(pixmap);
 
   QString text;
   text += QString("<p>");
@@ -88,19 +86,11 @@ SnapDialog::SnapDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_SnapDialog
   ui_->label_text->adjustSize();
   adjustSize();
 
-  ui_->buttonBox->button(QDialogButtonBox::Ok)->setShortcut(QKeySequence::Close);
+  settings_group_ = MainWindow::kSettingsGroup;
+  do_not_show_message_again_ = "ignore_snap";
 
-  QObject::connect(ui_->checkbox_do_not_show_message_again, &QCheckBox::toggled, this, &SnapDialog::DoNotShowMessageAgain);
-
-}
-
-SnapDialog::~SnapDialog() { delete ui_; }
-
-void SnapDialog::DoNotShowMessageAgain() {
-
-  QSettings s;
-  s.beginGroup(MainWindow::kSettingsGroup);
-  s.setValue("ignore_snap", ui_->checkbox_do_not_show_message_again->isChecked());
-  s.endGroup();
+  if (parent) {
+    Utilities::CenterWidgetOnScreen(Utilities::GetScreen(parent), this);
+  }
 
 }

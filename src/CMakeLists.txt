@@ -208,6 +208,7 @@ set(SOURCES
   dialogs/userpassdialog.cpp
   dialogs/deleteconfirmationdialog.cpp
   dialogs/lastfmimportdialog.cpp
+  dialogs/messagedialog.cpp
   dialogs/snapdialog.cpp
   dialogs/saveplaylistsdialog.cpp
 
@@ -444,6 +445,7 @@ set(HEADERS
   dialogs/userpassdialog.h
   dialogs/deleteconfirmationdialog.h
   dialogs/lastfmimportdialog.h
+  dialogs/messagedialog.h
   dialogs/snapdialog.h
   dialogs/saveplaylistsdialog.h
 
@@ -570,7 +572,7 @@ set(UI
   dialogs/addstreamdialog.ui
   dialogs/userpassdialog.ui
   dialogs/lastfmimportdialog.ui
-  dialogs/snapdialog.ui
+  dialogs/messagedialog.ui
   dialogs/saveplaylistsdialog.ui
 
   widgets/trackslider.ui

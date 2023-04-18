@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SnapDialog</class>
- <widget class="QDialog" name="SnapDialog">
+ <class>MessageDialog</class>
+ <widget class="QDialog" name="MessageDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,7 +14,7 @@
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Strawberry is running as a snap</string>
+   <string>Message Dialog</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../data/icons.qrc">
@@ -45,6 +45,12 @@
         <spacer name="spacer_left">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
          </property>
         </spacer>
        </item>
@@ -121,7 +127,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>SnapDialog</receiver>
+   <receiver>MessageDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -137,7 +143,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>SnapDialog</receiver>
+   <receiver>MessageDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

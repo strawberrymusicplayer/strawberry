@@ -1030,12 +1030,13 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 #ifdef Q_OS_LINUX
   if (!Utilities::GetEnv("SNAP").isEmpty() && !Utilities::GetEnv("SNAP_NAME").isEmpty()) {
     s.beginGroup(kSettingsGroup);
-    if (!s.value("ignore_snap", false).toBool()) {
-      SnapDialog *snap_dialog = new SnapDialog();
+    const bool ignore_snap = s.value("ignore_snap", false).toBool();
+    s.endGroup();
+    if (!ignore_snap) {
+      SnapDialog *snap_dialog = new SnapDialog(this);
       snap_dialog->setAttribute(Qt::WA_DeleteOnClose);
       snap_dialog->show();
     }
-    s.endGroup();
   }
 #endif
 

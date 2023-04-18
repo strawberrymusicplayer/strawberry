@@ -17,17 +17,30 @@
  *
  */
 
-#ifndef SNAPDIALOG_H
-#define SNAPDIALOG_H
+#ifndef MESSAGEDIALOG_H
+#define MESSAGEDIALOG_H
 
-#include "messagedialog.h"
+#include <QDialog>
 
-class SnapDialog : public MessageDialog {
+class Ui_MessageDialog;
+
+class MessageDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit SnapDialog(QWidget *parent = nullptr);
+  explicit MessageDialog(QWidget *parent = nullptr);
+  ~MessageDialog() override;
 
+  void set_settings_group(const QString &settings_group) { settings_group_ = settings_group; }
+  void set_do_not_show_message_again(const QString &do_not_show_message_again) { do_not_show_message_again_ = do_not_show_message_again; }
+
+ private slots:
+  void DoNotShowMessageAgain();
+
+ protected:
+  Ui_MessageDialog *ui_;
+  QString settings_group_;
+  QString do_not_show_message_again_;
 };
 
-#endif  // SNAPDIALOG_H
+#endif  // MESSAGEDIALOG_H
