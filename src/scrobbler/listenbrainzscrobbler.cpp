@@ -447,18 +447,26 @@ QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &met
   object_additional_info.insert("submission_client", QCoreApplication::applicationName());
   object_additional_info.insert("submission_client_version", QCoreApplication::applicationVersion());
 
-  QJsonArray artist_mbids;
+  QStringList artist_mbids_list;
   if (!metadata.musicbrainz_album_artist_id.isEmpty()) {
-    artist_mbids.append(metadata.musicbrainz_album_artist_id);
+    artist_mbids_list << metadata.musicbrainz_album_artist_id.split('/');
   }
-  if (!metadata.musicbrainz_artist_id.isEmpty() && !artist_mbids.contains(metadata.musicbrainz_artist_id)) {
-    artist_mbids.append(metadata.musicbrainz_artist_id);
+  if (!metadata.musicbrainz_artist_id.isEmpty()) {
+    artist_mbids_list << metadata.musicbrainz_artist_id.split('/');
   }
-  if (!metadata.musicbrainz_original_artist_id.isEmpty() && !artist_mbids.contains(metadata.musicbrainz_original_artist_id)) {
-    artist_mbids.append(metadata.musicbrainz_original_artist_id);
+  if (!metadata.musicbrainz_original_artist_id.isEmpty()) {
+    artist_mbids_list << metadata.musicbrainz_original_artist_id.split('/');
   }
-  if (!artist_mbids.isEmpty()) {
-    object_additional_info.insert("artist_mbids", artist_mbids);
+  if (!artist_mbids_list.isEmpty()) {
+    QJsonArray artist_mbids_array;
+    for (const QString &musicbrainz_artist_id : artist_mbids_list) {
+      if (!musicbrainz_artist_id.isEmpty() && !artist_mbids_array.contains(musicbrainz_artist_id)) {
+        artist_mbids_array.append(musicbrainz_artist_id);
+      }
+    }
+    if (!artist_mbids_array.isEmpty()) {
+      object_additional_info.insert("artist_mbids", artist_mbids_array);
+    }
   }
 
   if (!metadata.musicbrainz_album_id.isEmpty()) {
