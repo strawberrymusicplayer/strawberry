@@ -2774,11 +2774,11 @@ msgstr ""
 
 #: core/mainwindow.cpp:1058
 msgid ""
-"It is detected that Strawberry is running under Rosetta. Strawberry "
-"currently have limited macOS support, and running Strawberry under Rosetta "
-"is unsupported and known to have issues. If you want to use Strawberry on "
-"the current CPU, you should build Strawberry from source. For instructions "
-"see.: https://wiki.strawberrymusicplayer.org/wiki/Compile"
+"It seems that Strawberry is running under Rosetta. Strawberry currently has "
+"limited macOS support, and running Strawberry under Rosetta is unsupported "
+"and known to have issues. If you want to use Strawberry on the current CPU, "
+"you should build Strawberry from source. For instructions see.: https://wiki."
+"strawberrymusicplayer.org/wiki/Compile"
 msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:301

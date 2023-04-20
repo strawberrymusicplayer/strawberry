@@ -49,7 +49,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-04-11 12:54-0400\n"
+"PO-Revision-Date: 2023-04-20 03:23-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -2890,18 +2890,12 @@ msgstr ""
 
 #: core/mainwindow.cpp:1058
 msgid ""
-"It is detected that Strawberry is running under Rosetta. Strawberry "
-"currently have limited macOS support, and running Strawberry under Rosetta "
-"is unsupported and known to have issues. If you want to use Strawberry on "
-"the current CPU, you should build Strawberry from source. For instructions "
-"see.: https://wiki.strawberrymusicplayer.org/wiki/Compile"
+"It seems that Strawberry is running under Rosetta. Strawberry currently has "
+"limited macOS support, and running Strawberry under Rosetta is unsupported "
+"and known to have issues. If you want to use Strawberry on the current CPU, "
+"you should build Strawberry from source. For instructions see.: https://wiki."
+"strawberrymusicplayer.org/wiki/Compile"
 msgstr ""
-"Il est détecté que Strawberry fonctionne sous Rosetta. Strawberry a "
-"actuellement une prise en charge limitée de macOS, et l'exécution de "
-"Strawberry sous Rosetta n'est pas prise en charge et est connue pour avoir "
-"des problèmes. Si vous souhaitez utiliser Strawberry sur le processeur "
-"actuel, vous devez compiler Strawberry à partir de la source. Pour les "
-"instructions, voir : https://wiki.strawberrymusicplayer.org/wiki/Compile"
 
 #: ../build/src/ui_behavioursettingspage.h:301
 msgid "Jump to previous song right away"
@@ -3159,7 +3153,7 @@ msgstr "Moyen (%1 fps)"
 
 #: ../build/src/ui_messagedialog.h:117
 msgid "Message Dialog"
-msgstr ""
+msgstr "Boîte de dialogue des messages"
 
 #: ../build/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
@@ -5025,7 +5019,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:1058
 msgid "Strawberry running under Rosetta"
-msgstr ""
+msgstr " Strawberry fonctionnant sous Rosetta"
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Strawberry was unable to find results for this file"
