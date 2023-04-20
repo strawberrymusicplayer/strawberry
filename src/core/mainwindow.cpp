@@ -1055,7 +1055,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
       rosetta_message->set_settings_group(kSettingsGroup);
       rosetta_message->set_do_not_show_message_again("ignore_rosetta");
       rosetta_message->setAttribute(Qt::WA_DeleteOnClose);
-      rosetta_message->ShowMessage(tr("Strawberry running under Rosetta"), tr("It is detected that Strawberry is running under Rosetta. Strawberry currently have limited macOS support, and running Strawberry under Rosetta is unsupported and known to have issues. If you want to use Strawberry on the current CPU, you should build Strawberry from source. For instructions see.: https://wiki.strawberrymusicplayer.org/wiki/Compile"), IconLoader::Load("dialog-warning"));
+      rosetta_message->ShowMessage(tr("Strawberry running under Rosetta"), tr("It seems that Strawberry is running under Rosetta. Strawberry currently has limited macOS support, and running Strawberry under Rosetta is unsupported and known to have issues. If you want to use Strawberry on the current CPU, you should build Strawberry from source. For instructions see.: https://wiki.strawberrymusicplayer.org/wiki/Compile"), IconLoader::Load("dialog-warning"));
     }
   }
 #endif
