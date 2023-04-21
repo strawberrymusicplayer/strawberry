@@ -111,7 +111,7 @@ class Song {
     Stream = 91
   };
 
-  Song(Source source = Source::Unknown);
+  Song(const Source source = Source::Unknown);
   Song(const Song &other);
   ~Song();
 
@@ -164,8 +164,8 @@ class Song {
   static void SortSongsListAlphabetically(QList<Song> *songs);
 
   // Constructors
-  void Init(const QString &title, const QString &artist, const QString &album, qint64 length_nanosec);
-  void Init(const QString &title, const QString &artist, const QString &album, qint64 beginning, qint64 end);
+  void Init(const QString &title, const QString &artist, const QString &album, const qint64 length_nanosec);
+  void Init(const QString &title, const QString &artist, const QString &album, const qint64 beginning, const qint64 end);
   void InitFromProtobuf(const spb::tagreader::SongMetadata &pb);
   void InitFromQuery(const SqlRow &query, const bool reliable_metadata);
   void InitFromFilePartial(const QString &filename, const QFileInfo &fileinfo);
@@ -364,9 +364,9 @@ class Song {
   void set_album_id(const QString &v);
   void set_song_id(const QString &v);
 
-  void set_beginning_nanosec(qint64 v);
-  void set_end_nanosec(qint64 v);
-  void set_length_nanosec(qint64 v);
+  void set_beginning_nanosec(const qint64 v);
+  void set_end_nanosec(const qint64 v);
+  void set_length_nanosec(const qint64 v);
 
   void set_bitrate(const int v);
   void set_samplerate(const int v);

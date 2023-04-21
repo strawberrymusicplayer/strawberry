@@ -925,7 +925,7 @@ void Song::SortSongsListAlphabetically(SongList *songs) {
   std::sort(songs->begin(), songs->end(), CompareSongsName);
 }
 
-void Song::Init(const QString &title, const QString &artist, const QString &album, qint64 length_nanosec) {
+void Song::Init(const QString &title, const QString &artist, const QString &album, const qint64 length_nanosec) {
 
   d->valid_ = true;
 
@@ -937,7 +937,7 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
 
 }
 
-void Song::Init(const QString &title, const QString &artist, const QString &album, qint64 beginning, qint64 end) {
+void Song::Init(const QString &title, const QString &artist, const QString &album, const qint64 beginning, const qint64 end) {
 
   d->valid_ = true;
 
