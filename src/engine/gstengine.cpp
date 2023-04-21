@@ -183,8 +183,9 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
 
   bool crossfade = current_pipeline_ && ((crossfade_enabled_ && change & Engine::TrackChangeType::Manual) || (autocrossfade_enabled_ && change & Engine::TrackChangeType::Auto) || ((crossfade_enabled_ || autocrossfade_enabled_) && change & Engine::TrackChangeType::Intro));
 
-  if (change & Engine::TrackChangeType::Auto && change & Engine::TrackChangeType::SameAlbum && !crossfade_same_album_)
+  if (change & Engine::TrackChangeType::Auto && change & Engine::TrackChangeType::SameAlbum && !crossfade_same_album_) {
     crossfade = false;
+  }
 
   if (!crossfade && current_pipeline_ && current_pipeline_->stream_url() == gst_url && change & Engine::TrackChangeType::Auto) {
     // We're not crossfading, and the pipeline is already playing the URI we want, so just do nothing.
@@ -510,9 +511,9 @@ void GstEngine::timerEvent(QTimerEvent *e) {
     const qint64 fudge = kTimerIntervalNanosec + 100 * kNsecPerMsec;  // Mmm fudge
     const qint64 gap = static_cast<qint64>(buffer_duration_nanosec_) + (autocrossfade_enabled_ ? fadeout_duration_nanosec_ : kPreloadGapNanosec);
 
-    // only if we know the length of the current stream...
+    // Only if we know the length of the current stream...
     if (current_length > 0) {
-      // emit TrackAboutToEnd when we're a few seconds away from finishing
+      // Emit TrackAboutToEnd when we're a few seconds away from finishing
       if (remaining < gap + fudge) {
         EmitAboutToEnd();
       }
@@ -523,20 +524,22 @@ void GstEngine::timerEvent(QTimerEvent *e) {
 
 void GstEngine::EndOfStreamReached(const int pipeline_id, const bool has_next_track) {
 
-  if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id)
+  if (!current_pipeline_ || current_pipeline_->id() != pipeline_id) {
     return;
+  }
 
   if (!has_next_track) {
     current_pipeline_.reset();
     BufferingFinished();
   }
+
   emit TrackEnded();
 
 }
 
 void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, const int error_code, const QString &message, const QString &debugstr) {
 
-  if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id) return;
+  if (!current_pipeline_ || current_pipeline_->id() != pipeline_id) return;
 
   qLog(Error) << "GStreamer error:" << domain << error_code << message;
 
@@ -565,7 +568,7 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, con
 
 void GstEngine::NewMetaData(const int pipeline_id, const Engine::SimpleMetaBundle &bundle) {
 
-  if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id) return;
+  if (!current_pipeline_|| current_pipeline_->id() != pipeline_id) return;
   emit MetaData(bundle);
 
 }
@@ -588,8 +591,10 @@ void GstEngine::AddBufferToScope(GstBuffer *buf, const int pipeline_id, const QS
 }
 
 void GstEngine::FadeoutFinished() {
+
   fadeout_pipeline_.reset();
   emit FadeoutFinishedSignal();
+
 }
 
 void GstEngine::FadeoutPauseFinished() {
@@ -673,10 +678,12 @@ void GstEngine::BufferingProgress(const int percent) {
 }
 
 void GstEngine::BufferingFinished() {
+
   if (buffering_task_id_ != -1) {
     task_manager_->SetTaskFinished(buffering_task_id_);
     buffering_task_id_ = -1;
   }
+
 }
 
 GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) const {
