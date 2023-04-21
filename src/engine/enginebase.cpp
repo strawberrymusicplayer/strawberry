@@ -197,7 +197,9 @@ void Engine::Base::EmitAboutToEnd() {
   }
 
   about_to_end_emitted_ = true;
+
   emit TrackAboutToEnd();
+
 }
 
 bool Engine::Base::ValidOutput(const QString &output) {
