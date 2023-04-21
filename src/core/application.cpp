@@ -149,7 +149,7 @@ class ApplicationImpl {
           return cover_providers;
         }),
         album_cover_loader_([app]() {
-          AlbumCoverLoader *loader = new AlbumCoverLoader(app->network(), app);
+          AlbumCoverLoader *loader = new AlbumCoverLoader(app);
           app->MoveToNewThread(loader);
           return loader;
         }),

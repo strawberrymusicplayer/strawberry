@@ -51,7 +51,7 @@ class AlbumCoverLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit AlbumCoverLoader(NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit AlbumCoverLoader(QObject *parent = nullptr);
 
   enum class State {
     None,
