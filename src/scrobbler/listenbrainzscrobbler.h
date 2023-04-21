@@ -71,6 +71,12 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void Scrobble(const Song &song) override;
   void Love() override;
 
+  enum class ReplyResult {
+    Success,
+    ServerError,
+    APIError
+  };
+
  signals:
   void AuthenticationComplete(const bool success, const QString &error = QString());
 
@@ -82,15 +88,15 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void AuthenticateReplyFinished(QNetworkReply *reply);
   void RequestNewAccessToken() { RequestAccessToken(); }
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
-  void ScrobbleRequestFinished(QNetworkReply *reply, const QList<quint64> &list);
+  void ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCacheItemPtrList cache_items);
   void LoveRequestFinished(QNetworkReply *reply);
 
  private:
   QNetworkReply *CreateRequest(const QUrl &url, const QJsonDocument &json_doc);
-  QByteArray GetReplyData(QNetworkReply *reply);
+  ReplyResult GetJsonObject(QNetworkReply *reply, QJsonObject &json_obj, QString &error_description);
   QJsonObject JsonTrackMetadata(const ScrobbleMetadata &metadata) const;
   void AuthError(const QString &error);
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
+  void Error(const QString &error, const QVariant &debug = QVariant());
   void RequestAccessToken(const QUrl &redirect_url = QUrl(), const QString &code = QString());
   void StartSubmit(const bool initial = false) override;
   void CheckScrobblePrevSong();

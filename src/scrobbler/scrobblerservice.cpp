@@ -36,32 +36,21 @@ ScrobblerService::ScrobblerService(const QString &name, Application *app, QObjec
 
 }
 
-QJsonObject ScrobblerService::ExtractJsonObj(const QByteArray &data, const bool ignore_empty) {
+bool ScrobblerService::ExtractJsonObj(const QByteArray &data, QJsonObject &json_obj, QString &error_description) {
 
-  QJsonParseError error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
+  QJsonParseError json_parse_error;
+  const QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_parse_error);
 
-  if (error.error != QJsonParseError::NoError) {
-    Error("Reply from server missing Json data.", data);
-    return QJsonObject();
-  }
-  if (json_doc.isEmpty()) {
-    Error("Received empty Json document.", json_doc);
-    return QJsonObject();
-  }
-  if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
-    return QJsonObject();
-  }
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    if (!ignore_empty) {
-      Error("Received empty Json object.", json_doc);
-    }
-    return QJsonObject();
+  if (json_parse_error.error != QJsonParseError::NoError) {
+    error_description = json_parse_error.errorString();
+    return false;
   }
 
-  return json_obj;
+  if (json_doc.isObject()) {
+    json_obj = json_doc.object();
+  }
+
+  return true;
 
 }
 

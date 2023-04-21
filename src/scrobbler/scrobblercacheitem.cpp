@@ -27,4 +27,5 @@
 ScrobblerCacheItem::ScrobblerCacheItem(const ScrobbleMetadata &_metadata, const quint64 _timestamp)
     : metadata(_metadata),
       timestamp(_timestamp),
-      sent(false) {}
+      sent(false),
+      error(false) {}

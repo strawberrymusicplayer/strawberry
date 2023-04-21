@@ -61,8 +61,7 @@ class ScrobblerService : public QObject {
   using ParamList = QList<Param>;
   using EncodedParam = QPair<QByteArray, QByteArray>;
 
-  QJsonObject ExtractJsonObj(const QByteArray &data, const bool ignore_empty = false);
-  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
+  bool ExtractJsonObj(const QByteArray &data, QJsonObject &json_obj, QString &error_description);
 
   QString StripAlbum(QString album) const;
   QString StripTitle(QString title) const;

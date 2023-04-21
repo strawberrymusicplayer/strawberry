@@ -79,11 +79,16 @@ class ScrobblingAPI20 : public ScrobblerService {
   void RedirectArrived();
   void AuthenticateReplyFinished(QNetworkReply *reply);
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
-  void ScrobbleRequestFinished(QNetworkReply *reply, const QList<quint64> &list);
-  void SingleScrobbleRequestFinished(QNetworkReply *reply, const quint64 timestamp);
+  void ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCacheItemPtrList cache_items);
+  void SingleScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCacheItemPtr cache_item);
   void LoveRequestFinished(QNetworkReply *reply);
 
  private:
+  enum class ReplyResult {
+    Success,
+    ServerError,
+    APIError
+  };
 
   enum class ScrobbleErrorCode {
     NoError = 1,
@@ -120,12 +125,12 @@ class ScrobblingAPI20 : public ScrobblerService {
   static const int kScrobblesPerRequest;
 
   QNetworkReply *CreateRequest(const ParamList &request_params);
-  QByteArray GetReplyData(QNetworkReply *reply);
+  ReplyResult GetJsonObject(QNetworkReply *reply, QJsonObject &json_obj, QString &error_description);
 
   void RequestSession(const QString &token);
   void AuthError(const QString &error);
   void SendSingleScrobble(ScrobblerCacheItemPtr item);
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
+  void Error(const QString &error, const QVariant &debug = QVariant());
   static QString ErrorString(const ScrobbleErrorCode error);
   void StartSubmit(const bool initial = false) override;
   void CheckScrobblePrevSong();

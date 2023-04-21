@@ -27,7 +27,6 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
-#include <QHash>
 #include <QString>
 
 #include "scrobblercacheitem.h"
@@ -45,13 +44,12 @@ class ScrobblerCache : public QObject {
   void ReadCache();
 
   ScrobblerCacheItemPtr Add(const Song &song, const quint64 timestamp);
-  ScrobblerCacheItemPtr Get(const quint64 hash);
-  void Remove(const quint64 hash);
-  void Remove(ScrobblerCacheItemPtr item);
+  void Remove(ScrobblerCacheItemPtr cache_item);
   int Count() const { return scrobbler_cache_.size(); };
-  ScrobblerCacheItemPtrList List() const { return scrobbler_cache_.values(); }
-  void ClearSent(const QList<quint64> &list);
-  void Flush(const QList<quint64> &list);
+  ScrobblerCacheItemPtrList List() const { return scrobbler_cache_; }
+  void ClearSent(ScrobblerCacheItemPtrList cache_items);
+  void SetError(ScrobblerCacheItemPtrList cache_items);
+  void Flush(ScrobblerCacheItemPtrList cache_items);
 
  public slots:
   void WriteCache();
@@ -60,7 +58,7 @@ class ScrobblerCache : public QObject {
   QTimer *timer_flush_;
   QString filename_;
   bool loaded_;
-  QHash<quint64, ScrobblerCacheItemPtr> scrobbler_cache_;
+  QList<ScrobblerCacheItemPtr> scrobbler_cache_;
 
 };
 

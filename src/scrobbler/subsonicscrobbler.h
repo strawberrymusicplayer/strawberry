@@ -52,7 +52,6 @@ class SubsonicScrobbler : public ScrobblerService {
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;
   void Scrobble(const Song &song) override;
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
   void StartSubmit(const bool initial = false) override { Q_UNUSED(initial) }
   void Submitted() override { submitted_ = true; }

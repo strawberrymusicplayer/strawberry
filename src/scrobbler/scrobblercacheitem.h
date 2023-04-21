@@ -36,6 +36,7 @@ class ScrobblerCacheItem {
   ScrobbleMetadata metadata;
   quint64 timestamp;
   bool sent;
+  bool error;
 };
 
 using ScrobblerCacheItemPtr = std::shared_ptr<ScrobblerCacheItem>;

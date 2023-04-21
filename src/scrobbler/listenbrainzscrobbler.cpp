@@ -227,6 +227,45 @@ void ListenBrainzScrobbler::RedirectArrived() {
 
 }
 
+ListenBrainzScrobbler::ReplyResult ListenBrainzScrobbler::GetJsonObject(QNetworkReply *reply, QJsonObject &json_obj, QString &error_description) {
+
+  ReplyResult reply_error_type = ReplyResult::ServerError;
+
+  if (reply->error() == QNetworkReply::NoError) {
+    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
+      reply_error_type = ReplyResult::Success;
+    }
+    else {
+      error_description = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+    }
+  }
+  else {
+    error_description = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+  }
+
+  // See if there is Json data containing "error" and "error_description" or "code" and "error" - then use that instead.
+  if (reply->error() == QNetworkReply::NoError || reply->error() >= 200) {
+    const QByteArray data = reply->readAll();
+    if (!data.isEmpty() && ExtractJsonObj(data, json_obj, error_description)) {
+      if (json_obj.contains("error") && json_obj.contains("error_description")) {
+        error_description = json_obj["error_description"].toString();
+        reply_error_type = ReplyResult::APIError;
+      }
+      else if (json_obj.contains("code") && json_obj.contains("error")) {
+        error_description = QString("%1 (%2)").arg(json_obj["error"].toString()).arg(json_obj["code"].toInt());
+        reply_error_type = ReplyResult::APIError;
+      }
+    }
+    if (reply->error() == QNetworkReply::ContentAccessDenied || reply->error() == QNetworkReply::ContentOperationNotPermittedError || reply->error() == QNetworkReply::AuthenticationRequiredError) {
+      // Session is probably expired
+      Logout();
+    }
+  }
+
+  return reply_error_type;
+
+}
+
 void ListenBrainzScrobbler::RequestAccessToken(const QUrl &redirect_url, const QString &code) {
 
   refresh_login_timer_.stop();
@@ -271,50 +310,10 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data;
-
-  if (reply->error() == QNetworkReply::NoError && reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-    data = reply->readAll();
-  }
-  else {
-    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-      // This is a network error, there is nothing more to do.
-      AuthError(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    }
-    else {
-      // See if there is Json data containing "error" and "error_description" - then use that instead.
-      data = reply->readAll();
-      QString error;
-      QJsonParseError json_error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
-        QJsonObject json_obj = json_doc.object();
-        if (json_obj.contains("error") && json_obj.contains("error_description")) {
-          error = json_obj["error_description"].toString();
-        }
-      }
-      if (error.isEmpty()) {
-        if (reply->error() != QNetworkReply::NoError) {
-          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-        }
-        else {
-          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-        }
-      }
-      AuthError(error);
-    }
-    return;
-  }
-
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
-    AuthError("Json document from server was empty.");
-    return;
-  }
-
-  if (json_obj.contains("error") && json_obj.contains("error_description")) {
-    QString failure_reason = json_obj["error_description"].toString();
-    AuthError(failure_reason);
+  QJsonObject json_obj;
+  QString error_message;
+  if (GetJsonObject(reply, json_obj, error_message) != ReplyResult::Success) {
+    AuthError(error_message);
     return;
   }
 
@@ -365,56 +364,6 @@ QNetworkReply *ListenBrainzScrobbler::CreateRequest(const QUrl &url, const QJson
   //qLog(Debug) << "ListenBrainz: Sending request" << json_doc.toJson();
 
   return reply;
-
-}
-
-QByteArray ListenBrainzScrobbler::GetReplyData(QNetworkReply *reply) {
-
-  QByteArray data;
-
-  if (reply->error() == QNetworkReply::NoError && reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-    data = reply->readAll();
-  }
-  else {
-    if (reply->error() < 200) {
-      // This is a network error, there is nothing more to do.
-      Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    }
-    else {
-      // See if there is Json data containing "code" and "error" - then use that instead.
-      data = reply->readAll();
-      QString error;
-      QJsonParseError json_error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
-        QJsonObject json_obj = json_doc.object();
-        if (json_obj.contains("code") && json_obj.contains("error")) {
-          int error_code = json_obj["code"].toInt();
-          QString error_message = json_obj["error"].toString();
-          error = QString("%1 (%2)").arg(error_message).arg(error_code);
-        }
-        else {
-          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-        }
-      }
-      if (error.isEmpty()) {
-        if (reply->error() != QNetworkReply::NoError) {
-          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-        }
-        else {
-          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-        }
-      }
-      if (reply->error() == QNetworkReply::ContentAccessDenied || reply->error() == QNetworkReply::ContentOperationNotPermittedError || reply->error() == QNetworkReply::AuthenticationRequiredError) {
-        // Session is probably expired
-        Logout();
-      }
-      Error(error);
-    }
-    return QByteArray();
-  }
-
-  return data;
 
 }
 
@@ -524,30 +473,21 @@ void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply);
-  if (data.isEmpty()) {
-    return;
-  }
-
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
-    return;
-  }
-
-  if (json_obj.contains("code") && json_obj.contains("error_description")) {
-    QString error_desc = json_obj["error_description"].toString();
-    Error(error_desc);
+  QJsonObject json_obj;
+  QString error_description;
+  if (GetJsonObject(reply, json_obj, error_description) != ReplyResult::Success) {
+    Error(error_description);
     return;
   }
 
   if (!json_obj.contains("status")) {
-    Error("Missing status from server.", json_obj);
+    Error("Now playing request is missing status from server.");
     return;
   }
 
   QString status = json_obj["status"].toString();
   if (status.compare("ok", Qt::CaseInsensitive) != 0) {
-    Error(status);
+    Error(QString("Received %1 status for now playing.").arg(status));
   }
 
 }
@@ -600,22 +540,21 @@ void ListenBrainzScrobbler::Submit() {
   if (!IsEnabled() || !IsAuthenticated() || app_->scrobbler()->IsOffline()) return;
 
   QJsonArray array;
-  int i = 0;
-  QList<quint64> list;
-  ScrobblerCacheItemPtrList cache_items = cache_->List();
-  for (ScrobblerCacheItemPtr cache_item : cache_items) {
+  ScrobblerCacheItemPtrList cache_items_sent;
+  ScrobblerCacheItemPtrList all_cache_items = cache_->List();
+  for (ScrobblerCacheItemPtr cache_item : all_cache_items) {
     if (cache_item->sent) continue;
+    if (cache_item->error && cache_items_sent.count() > 0) break;
     cache_item->sent = true;
-    ++i;
-    list << cache_item->timestamp;
+    cache_items_sent << cache_item;
     QJsonObject object_listen;
     object_listen.insert("listened_at", QJsonValue::fromVariant(cache_item->timestamp));
     object_listen.insert("track_metadata", JsonTrackMetadata(cache_item->metadata));
     array.append(QJsonValue::fromVariant(object_listen));
-    if (i >= kScrobblesPerRequest) break;
+    if (cache_items_sent.count() >= kScrobblesPerRequest || cache_item->error) break;
   }
 
-  if (i <= 0) return;
+  if (cache_items_sent.count() <= 0) return;
 
   submitted_ = true;
 
@@ -626,11 +565,11 @@ void ListenBrainzScrobbler::Submit() {
 
   QUrl url(QString("%1/1/submit-listens").arg(kApiUrl));
   QNetworkReply *reply = CreateRequest(url, doc);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, list]() { ScrobbleRequestFinished(reply, list); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, cache_items_sent]() { ScrobbleRequestFinished(reply, cache_items_sent); });
 
 }
 
-void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, const QList<quint64> &list) {
+void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCacheItemPtrList cache_items) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -639,38 +578,40 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, const 
 
   submitted_ = false;
 
-  QByteArray data = GetReplyData(reply);
-  if (data.isEmpty()) {
-    cache_->ClearSent(list);
+  QJsonObject json_obj;
+  QString error_message;
+  const ReplyResult reply_result = GetJsonObject(reply, json_obj, error_message);
+  if (reply_result == ReplyResult::Success) {
+    if (json_obj.contains("status")) {
+      QString status = json_obj["status"].toString();
+      qLog(Debug) << "ListenBrainz: Received scrobble status:" << status;
+    }
+    else {
+      qLog(Debug) << "ListenBrainz: Received scrobble reply without status.";
+    }
+    cache_->Flush(cache_items);
+    submit_error_ = false;
+  }
+  else {
     submit_error_ = true;
-    StartSubmit();
-    return;
+    if (reply_result == ReplyResult::APIError) {
+      if (cache_items.count() == 1) {
+        const ScrobbleMetadata &metadata = cache_items.first()->metadata;
+        Error(tr("Unable to scrobble %1 - %2 because of error: %3").arg(metadata.effective_albumartist()).arg(metadata.title).arg(error_message));
+        cache_->Flush(cache_items);
+      }
+      else {
+        Error(error_message);
+        cache_->SetError(cache_items);
+        cache_->ClearSent(cache_items);
+      }
+    }
+    else {
+      Error(error_message);
+      cache_->ClearSent(cache_items);
+    }
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
-    cache_->ClearSent(list);
-    submit_error_ = true;
-    StartSubmit();
-    return;
-  }
-
-  if (json_obj.contains("code") && json_obj.contains("error_description")) {
-    QString error_desc = json_obj["error_description"].toString();
-    Error(error_desc);
-    cache_->ClearSent(list);
-    submit_error_ = true;
-    StartSubmit();
-    return;
-  }
-
-  if (json_obj.contains("status")) {
-    QString status = json_obj["status"].toString();
-    qLog(Debug) << "ListenBrainz: Received scrobble status:" << status;
-  }
-
-  cache_->Flush(list);
-  submit_error_ = false;
   StartSubmit();
 
 }
@@ -682,7 +623,7 @@ void ListenBrainzScrobbler::Love() {
   if (!IsAuthenticated()) app_->scrobbler()->ShowConfig();
 
   if (song_playing_.musicbrainz_recording_id().isEmpty()) {
-    qLog(Error) << "ListenBrainz: Missing MusicBrainz recording ID for" << song_playing_.artist() << song_playing_.album() << song_playing_.title();
+    Error(tr("Missing MusicBrainz recording ID for %1 %2 %3").arg(song_playing_.artist()).arg(song_playing_.album()).arg(song_playing_.title()));
     return;
   }
 
@@ -705,36 +646,34 @@ void ListenBrainzScrobbler::LoveRequestFinished(QNetworkReply *reply) {
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply);
-  if (data.isEmpty()) {
-    return;
-  }
-
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
-    return;
-  }
-
-  if (json_obj.contains("code") && json_obj.contains("error_description")) {
-    Error(json_obj["error_description"].toString());
+  QJsonObject json_obj;
+  QString error_message;
+  if (GetJsonObject(reply, json_obj, error_message) != ReplyResult::Success) {
+    Error(error_message);
     return;
   }
 
   if (json_obj.contains("status")) {
-    QString status = json_obj["status"].toString();
-    qLog(Debug) << "ListenBrainz: Received recording-feedback status:" << status;
+    qLog(Debug) << "ListenBrainz: Received recording-feedback status:" << json_obj["status"].toString();
   }
 
 }
 
 void ListenBrainzScrobbler::AuthError(const QString &error) {
+
+  qLog(Error) << "ListenBrainz" << error;
   emit AuthenticationComplete(false, error);
+
 }
 
 void ListenBrainzScrobbler::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "ListenBrainz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
+  if (app_->scrobbler()->ShowErrorDialog()) {
+    emit ErrorMessage(tr("ListenBrainz error: %1").arg(error));
+  }
 
 }
 

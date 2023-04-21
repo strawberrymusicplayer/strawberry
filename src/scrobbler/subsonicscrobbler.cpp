@@ -109,10 +109,3 @@ void SubsonicScrobbler::Submit() {
   service_->Scrobble(song_playing_.song_id(), true, time_);
 
 }
-
-void SubsonicScrobbler::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << "SubsonicScrobbler:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
-
-}

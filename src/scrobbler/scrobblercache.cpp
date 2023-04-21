@@ -25,7 +25,6 @@
 
 #include <QObject>
 #include <QStandardPaths>
-#include <QHash>
 #include <QString>
 #include <QFile>
 #include <QIODevice>
@@ -183,9 +182,8 @@ void ScrobblerCache::ReadCache() {
       metadata.musicbrainz_work_id = json_obj_track["musicbrainz_work_id"].toString();
     }
 
-    if (scrobbler_cache_.contains(timestamp)) continue;
-    std::shared_ptr<ScrobblerCacheItem> cache_item = std::make_shared<ScrobblerCacheItem>(metadata, timestamp);
-    scrobbler_cache_.insert(timestamp, cache_item);
+    ScrobblerCacheItemPtr cache_item = std::make_shared<ScrobblerCacheItem>(metadata, timestamp);
+    scrobbler_cache_ << cache_item;
 
   }
 
@@ -204,8 +202,7 @@ void ScrobblerCache::WriteCache() {
   }
 
   QJsonArray array;
-  for (QHash <quint64, std::shared_ptr<ScrobblerCacheItem>> ::iterator i = scrobbler_cache_.begin(); i != scrobbler_cache_.end(); ++i) {
-    ScrobblerCacheItemPtr cache_item = i.value();
+  for (ScrobblerCacheItemPtr cache_item : scrobbler_cache_) {
     QJsonObject object;
     object.insert("timestamp", QJsonValue::fromVariant(cache_item->timestamp));
     object.insert("artist", QJsonValue::fromVariant(cache_item->metadata.artist));
@@ -251,11 +248,9 @@ void ScrobblerCache::WriteCache() {
 
 ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 timestamp) {
 
-  if (scrobbler_cache_.contains(timestamp)) return nullptr;
-
   ScrobblerCacheItemPtr cache_item = std::make_shared<ScrobblerCacheItem>(ScrobbleMetadata(song), timestamp);
 
-  scrobbler_cache_.insert(timestamp, cache_item);
+  scrobbler_cache_ << cache_item;
 
   if (loaded_ && !timer_flush_->isActive()) {
     timer_flush_->start();
@@ -265,43 +260,35 @@ ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 timest
 
 }
 
-ScrobblerCacheItemPtr ScrobblerCache::Get(const quint64 hash) {
+void ScrobblerCache::Remove(ScrobblerCacheItemPtr cache_item) {
 
-  if (scrobbler_cache_.contains(hash)) { return scrobbler_cache_.value(hash); }
-  else return nullptr;
-
-}
-
-void ScrobblerCache::Remove(const quint64 hash) {
-
-  if (!scrobbler_cache_.contains(hash)) {
-    qLog(Error) << "Tried to remove non-existing hash" << hash;
-    return;
+  if (scrobbler_cache_.contains(cache_item)) {
+    scrobbler_cache_.removeAll(cache_item);
   }
-
-  scrobbler_cache_.remove(hash);
-
 }
 
-void ScrobblerCache::Remove(ScrobblerCacheItemPtr item) {
-  scrobbler_cache_.remove(item->timestamp);
-}
+void ScrobblerCache::ClearSent(ScrobblerCacheItemPtrList cache_items) {
 
-void ScrobblerCache::ClearSent(const QList<quint64> &list) {
-
-  for (const quint64 timestamp : list) {
-    if (!scrobbler_cache_.contains(timestamp)) continue;
-    ScrobblerCacheItemPtr item = scrobbler_cache_.value(timestamp);
-    item->sent = false;
+  for (ScrobblerCacheItemPtr cache_item : cache_items) {
+    cache_item->sent = false;
   }
 
 }
 
-void ScrobblerCache::Flush(const QList<quint64> &list) {
+void ScrobblerCache::SetError(ScrobblerCacheItemPtrList cache_items) {
 
-  for (const quint64 timestamp : list) {
-    if (!scrobbler_cache_.contains(timestamp)) continue;
-    scrobbler_cache_.remove(timestamp);
+  for (ScrobblerCacheItemPtr item : cache_items) {
+    item->error = true;
+  }
+
+}
+
+void ScrobblerCache::Flush(ScrobblerCacheItemPtrList cache_items) {
+
+  for (ScrobblerCacheItemPtr cache_item : cache_items) {
+    if (scrobbler_cache_.contains(cache_item)) {
+      scrobbler_cache_.removeAll(cache_item);
+    }
   }
 
   if (!timer_flush_->isActive()) {
