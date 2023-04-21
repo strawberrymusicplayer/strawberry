@@ -47,7 +47,7 @@ class UrlHandler : public QObject {
       NoMoreTracks,
 
       // There might be another track available but the handler needs to do some work (eg. fetching a remote playlist) to find out.
-      // AsyncLoadComplete will be emitted later with the same original_url.
+      // AsyncLoadComplete will be emitted later with the same media_url.
       WillLoadAsynchronously,
 
       // There was a track available.  Its url is in stream_url.
@@ -57,18 +57,18 @@ class UrlHandler : public QObject {
       Error,
     };
 
-    explicit LoadResult(const QUrl &original_url = QUrl(), const Type type = Type::NoMoreTracks, const QUrl &stream_url = QUrl(), const Song::FileType filetype = Song::FileType::Stream, const int samplerate = -1, const int bit_depth = -1, const qint64 length_nanosec = -1, const QString &error = QString());
+    explicit LoadResult(const QUrl &media_url = QUrl(), const Type type = Type::NoMoreTracks, const QUrl &stream_url = QUrl(), const Song::FileType filetype = Song::FileType::Stream, const int samplerate = -1, const int bit_depth = -1, const qint64 length_nanosec = -1, const QString &error = QString());
 
-    explicit LoadResult(const QUrl &original_url, const Type type, const QString &error);
+    explicit LoadResult(const QUrl &media_url, const Type type, const QString &error);
 
     // The url that the playlist item has in Url().
     // Might be something unplayable like lastfm://...
-    QUrl original_url_;
+    QUrl media_url_;
 
     // Result type
     Type type_;
 
-    // The actual url to something that gstreamer can play.
+    // The actual URL to something that gstreamer can play.
     QUrl stream_url_;
 
     // The type of the stream

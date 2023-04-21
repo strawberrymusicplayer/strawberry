@@ -68,7 +68,7 @@ class Base : public QObject {
   virtual bool Init() = 0;
   virtual State state() const = 0;
   virtual void StartPreloading(const QUrl&, const QUrl&, const bool, const qint64, const qint64) {}
-  virtual bool Load(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
+  virtual bool Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
   virtual bool Play(const quint64 offset_nanosec) = 0;
   virtual void Stop(const bool stop_after = false) = 0;
   virtual void Pause() = 0;
@@ -96,7 +96,7 @@ class Base : public QObject {
 
   // Plays a media stream represented with the URL 'u' from the given 'beginning' to the given 'end' (usually from 0 to a song's length).
   // Both markers should be passed in nanoseconds. 'end' can be negative, indicating that the real length of 'u' stream is unknown.
-  bool Play(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const quint64 offset_nanosec);
+  bool Play(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const quint64 offset_nanosec);
   void SetVolume(const uint volume);
 
  public slots:
@@ -169,8 +169,8 @@ class Base : public QObject {
   uint volume_;
   quint64 beginning_nanosec_;
   qint64 end_nanosec_;
+  QUrl media_url_;
   QUrl stream_url_;
-  QUrl original_url_;
   Scope scope_;
   bool buffering_;
   bool equalizer_enabled_;
@@ -231,7 +231,7 @@ struct SimpleMetaBundle {
     Next
   };
   Type type;
-  QUrl url;
+  QUrl media_url;
   QUrl stream_url;
   QString title;
   QString artist;

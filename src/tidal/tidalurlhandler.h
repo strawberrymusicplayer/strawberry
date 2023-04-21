@@ -47,8 +47,8 @@ class TidalUrlHandler : public UrlHandler {
   void CancelTask(const int task_id);
 
  private slots:
-  void GetStreamURLFailure(const uint id, const QUrl &original_url, const QString &error);
-  void GetStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
+  void GetStreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
+  void GetStreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
  private:
   struct Request {

@@ -100,9 +100,9 @@ bool VLCEngine::Init() {
 
 }
 
-bool VLCEngine::Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
+bool VLCEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
 
-  Q_UNUSED(original_url);
+  Q_UNUSED(media_url);
   Q_UNUSED(change);
   Q_UNUSED(force_stop_at_end);
   Q_UNUSED(beginning_nanosec);

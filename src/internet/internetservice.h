@@ -129,8 +129,8 @@ class InternetService : public QObject {
   void RemoveSongsByList(const SongList &songs);
   void RemoveSongsByMap(const SongMap &songs);
 
-  void StreamURLFailure(const uint id, const QUrl &original_url, const QString &error);
-  void StreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
+  void StreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
+  void StreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
  protected:
   Application *app_;

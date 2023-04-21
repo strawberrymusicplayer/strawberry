@@ -41,13 +41,13 @@
 #include "tidalbaserequest.h"
 #include "tidalstreamurlrequest.h"
 
-TidalStreamURLRequest::TidalStreamURLRequest(TidalService *service, NetworkAccessManager *network, const QUrl &original_url, const uint id, QObject *parent)
+TidalStreamURLRequest::TidalStreamURLRequest(TidalService *service, NetworkAccessManager *network, const QUrl &media_url, const uint id, QObject *parent)
     : TidalBaseRequest(service, network, parent),
       service_(service),
       reply_(nullptr),
-      original_url_(original_url),
+      media_url_(media_url),
       id_(id),
-      song_id_(original_url.path().toInt()),
+      song_id_(media_url.path().toInt()),
       tries_(0),
       need_login_(false) {}
 
@@ -67,7 +67,7 @@ void TidalStreamURLRequest::LoginComplete(const bool success, const QString &err
   need_login_ = false;
 
   if (!success) {
-    emit StreamURLFailure(id_, original_url_, error);
+    emit StreamURLFailure(id_, media_url_, error);
     return;
   }
 
@@ -79,11 +79,11 @@ void TidalStreamURLRequest::Process() {
 
   if (!authenticated()) {
     if (oauth()) {
-      emit StreamURLFailure(id_, original_url_, tr("Not authenticated with Tidal."));
+      emit StreamURLFailure(id_, media_url_, tr("Not authenticated with Tidal."));
       return;
     }
     else if (api_token().isEmpty() || username().isEmpty() || password().isEmpty()) {
-      emit StreamURLFailure(id_, original_url_, tr("Missing Tidal API token, username or password."));
+      emit StreamURLFailure(id_, media_url_, tr("Missing Tidal API token, username or password."));
       return;
     }
     need_login_ = true;
@@ -101,7 +101,7 @@ void TidalStreamURLRequest::Cancel() {
     reply_->abort();
   }
   else {
-    emit StreamURLFailure(id_, original_url_, tr("Cancelled."));
+    emit StreamURLFailure(id_, media_url_, tr("Cancelled."));
   }
 
 }
@@ -158,25 +158,25 @@ void TidalStreamURLRequest::StreamURLReceived() {
       need_login_ = true;
       return;
     }
-    emit StreamURLFailure(id_, original_url_, errors_.first());
+    emit StreamURLFailure(id_, media_url_, errors_.first());
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    emit StreamURLFailure(id_, original_url_, errors_.first());
+    emit StreamURLFailure(id_, media_url_, errors_.first());
     return;
   }
 
   if (!json_obj.contains("trackId")) {
     Error("Invalid Json reply, stream missing trackId.", json_obj);
-    emit StreamURLFailure(id_, original_url_, errors_.first());
+    emit StreamURLFailure(id_, media_url_, errors_.first());
     return;
   }
   int track_id(json_obj["trackId"].toInt());
   if (track_id != song_id_) {
     Error("Incorrect track ID returned.", json_obj);
-    emit StreamURLFailure(id_, original_url_, errors_.first());
+    emit StreamURLFailure(id_, media_url_, errors_.first());
     return;
   }
 
@@ -212,7 +212,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
       json_obj = ExtractJsonObj(data_manifest);
       if (json_obj.isEmpty()) {
-        emit StreamURLFailure(id_, original_url_, errors_.first());
+        emit StreamURLFailure(id_, media_url_, errors_.first());
         return;
       }
 
@@ -221,14 +221,14 @@ void TidalStreamURLRequest::StreamURLReceived() {
         QString key_id = json_obj["keyId"].toString();
         if (!encryption_type.isEmpty() && !key_id.isEmpty()) {
           Error(tr("Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.").arg(encryption_type));
-          emit StreamURLFailure(id_, original_url_, errors_.first());
+          emit StreamURLFailure(id_, media_url_, errors_.first());
           return;
         }
       }
 
       if (!json_obj.contains("mimeType")) {
         Error("Invalid Json reply, stream url reply manifest is missing mimeType.", json_obj);
-        emit StreamURLFailure(id_, original_url_, errors_.first());
+        emit StreamURLFailure(id_, media_url_, errors_.first());
         return;
       }
 
@@ -251,7 +251,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
     QJsonValue json_urls = json_obj["urls"];
     if (!json_urls.isArray()) {
       Error("Invalid Json reply, urls is not an array.", json_urls);
-      emit StreamURLFailure(id_, original_url_, errors_.first());
+      emit StreamURLFailure(id_, media_url_, errors_.first());
       return;
     }
     QJsonArray json_array_urls = json_urls.toArray();
@@ -274,7 +274,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
     QString encryption_key = json_obj["encryptionKey"].toString();
     if (!encryption_key.isEmpty()) {
       Error(tr("Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."));
-      emit StreamURLFailure(id_, original_url_, errors_.first());
+      emit StreamURLFailure(id_, media_url_, errors_.first());
       return;
     }
   }
@@ -284,18 +284,18 @@ void TidalStreamURLRequest::StreamURLReceived() {
     QString security_token = json_obj["securityToken"].toString();
     if (!security_type.isEmpty() && !security_token.isEmpty()) {
       Error(tr("Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."));
-      emit StreamURLFailure(id_, original_url_, errors_.first());
+      emit StreamURLFailure(id_, media_url_, errors_.first());
       return;
     }
   }
 
   if (urls.isEmpty()) {
     Error("Missing stream urls.", json_obj);
-    emit StreamURLFailure(id_, original_url_, errors_.first());
+    emit StreamURLFailure(id_, media_url_, errors_.first());
     return;
   }
 
-  emit StreamURLSuccess(id_, original_url_, urls.first(), filetype);
+  emit StreamURLSuccess(id_, media_url_, urls.first(), filetype);
 
 }
 

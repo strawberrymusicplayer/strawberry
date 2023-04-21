@@ -103,7 +103,7 @@ class QobuzRequest : public QobuzBaseRequest {
   void Results(const int id, const SongMap &songs, const QString &error);
   void UpdateStatus(const int id, const QString &text);
   void UpdateProgress(const int id, const int max);
-  void StreamURLFinished(const QUrl &original_url, const QUrl &url, const Song::FileType filetype, const QString &error = QString());
+  void StreamURLFinished(const QUrl &media_url, const QUrl &url, const Song::FileType filetype, const QString &error = QString());
 
  private slots:
   void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);

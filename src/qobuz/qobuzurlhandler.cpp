@@ -59,23 +59,23 @@ UrlHandler::LoadResult QobuzUrlHandler::StartLoading(const QUrl &url) {
 
 }
 
-void QobuzUrlHandler::GetStreamURLFailure(const uint id, const QUrl &original_url, const QString &error) {
+void QobuzUrlHandler::GetStreamURLFailure(const uint id, const QUrl &media_url, const QString &error) {
 
   if (!requests_.contains(id)) return;
   Request req = requests_.take(id);
   CancelTask(req.task_id);
 
-  emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Type::Error, error));
+  emit AsyncLoadComplete(LoadResult(media_url, LoadResult::Type::Error, error));
 
 }
 
-void QobuzUrlHandler::GetStreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration) {
+void QobuzUrlHandler::GetStreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration) {
 
   if (!requests_.contains(id)) return;
   Request req = requests_.take(id);
   CancelTask(req.task_id);
 
-  emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Type::TrackAvailable, stream_url, filetype, samplerate, bit_depth, duration));
+  emit AsyncLoadComplete(LoadResult(media_url, LoadResult::Type::TrackAvailable, stream_url, filetype, samplerate, bit_depth, duration));
 
 }
 

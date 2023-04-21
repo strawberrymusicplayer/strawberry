@@ -40,7 +40,7 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   Q_OBJECT
 
  public:
-  explicit QobuzStreamURLRequest(QobuzService *service, NetworkAccessManager *network, const QUrl &original_url, const uint id, QObject *parent = nullptr);
+  explicit QobuzStreamURLRequest(QobuzService *service, NetworkAccessManager *network, const QUrl &media_url, const uint id, QObject *parent = nullptr);
   ~QobuzStreamURLRequest();
 
   void GetStreamURL();
@@ -48,14 +48,14 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   void NeedLogin() { need_login_ = true; }
   void Cancel();
 
-  QUrl original_url() { return original_url_; }
+  QUrl media_url() { return media_url_; }
   int song_id() { return song_id_; }
   bool need_login() { return need_login_; }
 
  signals:
   void TryLogin();
-  void StreamURLFailure(const uint id, const QUrl &original_url, const QString &error);
-  void StreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
+  void StreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
+  void StreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
  private slots:
   void StreamURLReceived();
@@ -68,7 +68,7 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
 
   QobuzService *service_;
   QNetworkReply *reply_;
-  QUrl original_url_;
+  QUrl media_url_;
   uint id_;
   int song_id_;
   int tries_;

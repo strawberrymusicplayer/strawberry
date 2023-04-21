@@ -235,8 +235,8 @@ void Player::SaveVolume() {
 
 void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
-  if (loading_async_.contains(result.original_url_)) {
-    loading_async_.removeAll(result.original_url_);
+  if (loading_async_.contains(result.media_url_)) {
+    loading_async_.removeAll(result.media_url_);
   }
 
   // Might've been an async load, so check we're still on the same item
@@ -254,10 +254,10 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
   bool is_current(false);
   bool is_next(false);
 
-  if (result.original_url_ == item->Url()) {
+  if (result.media_url_ == item->Url()) {
     is_current = true;
   }
-  else if (has_next_row && next_item->Url() == result.original_url_) {
+  else if (has_next_row && next_item->Url() == result.media_url_) {
     is_next = true;
   }
   else {
@@ -267,19 +267,19 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
   switch (result.type_) {
     case UrlHandler::LoadResult::Type::Error:
       if (is_current) {
-        InvalidSongRequested(result.original_url_);
+        InvalidSongRequested(result.media_url_);
       }
       emit Error(result.error_);
       break;
 
     case UrlHandler::LoadResult::Type::NoMoreTracks:
-      qLog(Debug) << "URL handler for" << result.original_url_ << "said no more tracks" << is_current;
+      qLog(Debug) << "URL handler for" << result.media_url_ << "said no more tracks" << is_current;
       if (is_current) NextItem(stream_change_type_, autoscroll_);
       break;
 
     case UrlHandler::LoadResult::Type::TrackAvailable: {
 
-      qLog(Debug) << "URL handler for" << result.original_url_ << "returned" << result.stream_url_;
+      qLog(Debug) << "URL handler for" << result.media_url_ << "returned" << result.stream_url_;
 
       Song song;
       if (is_current) song = item->Metadata();
@@ -341,23 +341,23 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       if (is_current) {
         qLog(Debug) << "Playing song" << item->Metadata().title() << result.stream_url_ << "position" << play_offset_nanosec_;
-        engine_->Play(result.stream_url_, result.original_url_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec(), play_offset_nanosec_);
+        engine_->Play(result.media_url_, result.stream_url_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec(), play_offset_nanosec_);
         current_item_ = item;
         play_offset_nanosec_ = 0;
       }
       else if (is_next && !item->Metadata().is_module_music()) {
         qLog(Debug) << "Preloading next song" << next_item->Metadata().title() << result.stream_url_;
-        engine_->StartPreloading(result.stream_url_, next_item->Url(), song.has_cue(), song.beginning_nanosec(), song.end_nanosec());
+        engine_->StartPreloading(next_item->Url(), result.stream_url_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec());
       }
 
       break;
     }
 
     case UrlHandler::LoadResult::Type::WillLoadAsynchronously:
-      qLog(Debug) << "URL handler for" << result.original_url_ << "is loading asynchronously";
+      qLog(Debug) << "URL handler for" << result.media_url_ << "is loading asynchronously";
 
       // We'll get called again later with either NoMoreTracks or TrackAvailable
-      loading_async_ << result.original_url_;
+      loading_async_ << result.media_url_;
       break;
   }
 
@@ -731,7 +731,7 @@ void Player::PlayAt(const int index, const quint64 offset_nanosec, Engine::Track
   }
   else {
     qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url << "position" << offset_nanosec;
-    engine_->Play(url, current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec(), offset_nanosec);
+    engine_->Play(current_item_->Url(), url, change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec(), offset_nanosec);
   }
 
 }
@@ -778,7 +778,7 @@ void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
 
   if (bundle.type == Engine::SimpleMetaBundle::Type::Any || bundle.type == Engine::SimpleMetaBundle::Type::Current) {
     PlaylistItemPtr item = app_->playlist_manager()->active()->current_item();
-    if (item && bundle.url == item->Url()) {
+    if (item && bundle.media_url == item->Url()) {
       Song song = item->Metadata();
       bool minor = song.MergeFromSimpleMetaBundle(bundle);
       app_->playlist_manager()->active()->SetStreamMetadata(item->Url(), song, minor);
@@ -790,7 +790,7 @@ void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
     int next_row = app_->playlist_manager()->active()->next_row();
     if (next_row != -1) {
       PlaylistItemPtr next_item = app_->playlist_manager()->active()->item_at(next_row);
-      if (bundle.url == next_item->Url()) {
+      if (bundle.media_url == next_item->Url()) {
         Song song = next_item->Metadata();
         song.MergeFromSimpleMetaBundle(bundle);
         next_item->SetTemporaryMetadata(song);
@@ -892,7 +892,7 @@ void Player::TrackAboutToEnd() {
         loading_async_ << url;
         return;
       case UrlHandler::LoadResult::Type::TrackAvailable:
-        qLog(Debug) << "URL handler for" << result.original_url_ << "returned" << result.stream_url_;
+        qLog(Debug) << "URL handler for" << result.media_url_ << "returned" << result.stream_url_;
         url = result.stream_url_;
         Song song = next_item->Metadata();
         song.set_stream_url(url);
@@ -907,7 +907,7 @@ void Player::TrackAboutToEnd() {
     return;
   }
 
-  engine_->StartPreloading(url, next_item->Url(), next_item->Metadata().has_cue(), next_item->effective_beginning_nanosec(), next_item->effective_end_nanosec());
+  engine_->StartPreloading(next_item->Url(), url, next_item->Metadata().has_cue(), next_item->effective_beginning_nanosec(), next_item->effective_end_nanosec());
 
 }
 

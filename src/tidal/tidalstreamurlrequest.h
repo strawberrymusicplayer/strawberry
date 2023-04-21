@@ -41,7 +41,7 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   Q_OBJECT
 
  public:
-  explicit TidalStreamURLRequest(TidalService *service, NetworkAccessManager *network, const QUrl &original_url, const uint id, QObject *parent = nullptr);
+  explicit TidalStreamURLRequest(TidalService *service, NetworkAccessManager *network, const QUrl &media_url, const uint id, QObject *parent = nullptr);
   ~TidalStreamURLRequest() override;
 
   void GetStreamURL();
@@ -50,7 +50,7 @@ class TidalStreamURLRequest : public TidalBaseRequest {
 
   bool oauth() { return service_->oauth(); }
   TidalSettingsPage::StreamUrlMethod stream_url_method() { return service_->stream_url_method(); }
-  QUrl original_url() { return original_url_; }
+  QUrl media_url() { return media_url_; }
   int song_id() { return song_id_; }
 
   void set_need_login() override { need_login_ = true; }
@@ -58,8 +58,8 @@ class TidalStreamURLRequest : public TidalBaseRequest {
 
  signals:
   void TryLogin();
-  void StreamURLFailure(const uint id, const QUrl &original_url, const QString &error);
-  void StreamURLSuccess(const uint id, const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate = -1, const int bit_depth = -1, const qint64 duration = -1);
+  void StreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
+  void StreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate = -1, const int bit_depth = -1, const qint64 duration = -1);
 
  private slots:
   void StreamURLReceived();
@@ -72,7 +72,7 @@ class TidalStreamURLRequest : public TidalBaseRequest {
 
   TidalService *service_;
   QNetworkReply *reply_;
-  QUrl original_url_;
+  QUrl media_url_;
   uint id_;
   int song_id_;
   int tries_;

@@ -78,7 +78,7 @@ class GstEnginePipeline : public QObject {
   void set_fading_enabled(const bool enabled);
 
   // Creates the pipeline, returns false on error
-  bool InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec, QString &error);
+  bool InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, QString &error);
 
   // GstBufferConsumers get fed audio data.  Thread-safe.
   void AddBufferConsumer(GstBufferConsumer *consumer);
@@ -95,16 +95,18 @@ class GstEnginePipeline : public QObject {
   void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction = QTimeLine::Forward, const QEasingCurve::Type shape = QEasingCurve::Linear, const bool use_fudge_timer = true);
 
   // If this is set then it will be loaded automatically when playback finishes for gapless playback
-  void SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, qint64 beginning_nanosec, qint64 end_nanosec);
-  bool has_next_valid_url() const { return !next_stream_url_.isEmpty(); }
+  void SetNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_nanosec, const qint64 end_nanosec);
+  bool has_next_valid_url() const { return next_stream_url_.isValid(); }
 
   void SetSourceDevice(const QString &device) { source_device_ = device; }
 
   // Get information about the music playback
-  QByteArray stream_url() const { return stream_url_; }
-  QByteArray next_stream_url() const { return next_stream_url_; }
-  QUrl original_url() const { return original_url_; }
-  QUrl next_original_url() const { return next_original_url_; }
+  QUrl media_url() const { return media_url_; }
+  QUrl stream_url() const { return stream_url_; }
+  QByteArray gst_url() const { return gst_url_; }
+  QUrl next_media_url() const { return next_media_url_; }
+  QUrl next_stream_url() const { return next_stream_url_; }
+  QByteArray next_gst_url() const { return next_gst_url_; }
   bool is_valid() const { return valid_; }
 
   // Please note that this method (unlike GstEngine's.position()) is multiple-section media unaware.
@@ -239,10 +241,12 @@ class GstEnginePipeline : public QObject {
   bool segment_start_received_;
 
   // The URL that is currently playing, and the URL that is to be preloaded when the current track is close to finishing.
-  QByteArray stream_url_;
-  QUrl original_url_;
-  QByteArray next_stream_url_;
-  QUrl next_original_url_;
+  QUrl media_url_;
+  QUrl stream_url_;
+  QByteArray gst_url_;
+  QUrl next_media_url_;
+  QUrl next_stream_url_;
+  QByteArray next_gst_url_;
 
   // If this is > 0 then the pipeline will be forced to stop when playback goes past this position.
   qint64 end_offset_nanosec_;

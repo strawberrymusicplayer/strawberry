@@ -288,10 +288,11 @@ GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const 
 
 }
 
-bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 end_nanosec, QString &error) {
+bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, QString &error) {
 
+  media_url_ = media_url;
   stream_url_ = stream_url;
-  original_url_ = original_url;
+  gst_url_ = gst_url;
   end_offset_nanosec_ = end_nanosec;
 
   guint version_major = 0, version_minor = 0, version_micro = 0, version_nano = 0;
@@ -331,7 +332,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl &or
   flags &= ~0x00000010;
   g_object_set(G_OBJECT(pipeline_), "flags", flags, nullptr);
 
-  g_object_set(G_OBJECT(pipeline_), "uri", stream_url.constData(), nullptr);
+  g_object_set(G_OBJECT(pipeline_), "uri", gst_url.constData(), nullptr);
 
   pipeline_is_connected_ = true;
 
@@ -1075,8 +1076,9 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     if (instance->has_next_valid_url() && instance->next_stream_url_ == instance->stream_url_ && instance->next_beginning_offset_nanosec_ == instance->end_offset_nanosec_) {
       // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
       instance->end_offset_nanosec_ = instance->next_end_offset_nanosec_;
+      instance->next_media_url_.clear();
       instance->next_stream_url_.clear();
-      instance->next_original_url_.clear();
+      instance->next_gst_url_.clear();
       instance->next_beginning_offset_nanosec_ = 0;
       instance->next_end_offset_nanosec_ = 0;
 
@@ -1104,7 +1106,7 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
     // Set the next uri. When the current song ends it will be played automatically and a STREAM_START message is send to the bus.
     // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
     instance->next_uri_set_ = true;
-    g_object_set(G_OBJECT(instance->pipeline_), "uri", instance->next_stream_url_.constData(), nullptr);
+    g_object_set(G_OBJECT(instance->pipeline_), "uri", instance->next_gst_url_.constData(), nullptr);
   }
 
 }
@@ -1204,11 +1206,13 @@ void GstEnginePipeline::StreamStartMessageReceived() {
   if (next_uri_set_) {
     next_uri_set_ = false;
 
+    media_url_ = next_media_url_;
     stream_url_ = next_stream_url_;
-    original_url_ = next_original_url_;
+    gst_url_ = next_gst_url_;
     end_offset_nanosec_ = next_end_offset_nanosec_;
     next_stream_url_.clear();
-    next_original_url_.clear();
+    next_media_url_.clear();
+    next_gst_url_.clear();
     next_beginning_offset_nanosec_ = 0;
     next_end_offset_nanosec_ = 0;
 
@@ -1300,7 +1304,8 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
 
   Engine::SimpleMetaBundle bundle;
   bundle.type = Engine::SimpleMetaBundle::Type::Current;
-  bundle.url = original_url_;
+  bundle.media_url = media_url_;
+  bundle.stream_url = stream_url_;
   bundle.title = ParseStrTag(taglist, GST_TAG_TITLE);
   bundle.artist = ParseStrTag(taglist, GST_TAG_ARTIST);
   bundle.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
@@ -1396,7 +1401,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
     if (next_uri_set_ && new_state == GST_STATE_READY) {
       // Revert uri and go back to PLAY state again
       next_uri_set_ = false;
-      g_object_set(G_OBJECT(pipeline_), "uri", stream_url_.constData(), nullptr);
+      g_object_set(G_OBJECT(pipeline_), "uri", gst_url_.constData(), nullptr);
       SetState(GST_STATE_PLAYING);
     }
   }
@@ -1649,10 +1654,11 @@ void GstEnginePipeline::RemoveAllBufferConsumers() {
   buffer_consumers_.clear();
 }
 
-void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 beginning_nanosec, const qint64 end_nanosec) {
+void GstEnginePipeline::SetNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_nanosec, const qint64 end_nanosec) {
 
+  next_media_url_ = media_url;
   next_stream_url_ = stream_url;
-  next_original_url_ = original_url;
+  next_gst_url_ = gst_url;
   next_beginning_offset_nanosec_ = beginning_nanosec;
   next_end_offset_nanosec_ = end_nanosec;
 
