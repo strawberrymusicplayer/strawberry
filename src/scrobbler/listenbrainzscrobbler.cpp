@@ -384,7 +384,9 @@ QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &met
 
   QJsonObject object_additional_info;
 
-  object_additional_info.insert("duration_ms", metadata.length_nanosec / kNsecPerMsec);
+  if (metadata.length_nanosec > 0) {
+    object_additional_info.insert("duration_ms", metadata.length_nanosec / kNsecPerMsec);
+  }
 
   if (metadata.track > 0) {
     object_additional_info.insert("tracknumber", metadata.track);
