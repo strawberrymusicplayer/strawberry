@@ -40,7 +40,10 @@
 #include "coverfromurldialog.h"
 #include "ui_coverfromurldialog.h"
 
-CoverFromURLDialog::CoverFromURLDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_CoverFromURLDialog), network_(new NetworkAccessManager(this)) {
+CoverFromURLDialog::CoverFromURLDialog(NetworkAccessManager *network, QWidget *parent)
+    : QDialog(parent),
+      network_(network),
+      ui_(new Ui_CoverFromURLDialog) {
 
   ui_->setupUi(this);
   ui_->busy->hide();

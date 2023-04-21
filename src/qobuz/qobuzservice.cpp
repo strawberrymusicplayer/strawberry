@@ -76,7 +76,7 @@ constexpr char QobuzService::kSongsFtsTable[] = "qobuz_songs_fts";
 QobuzService::QobuzService(Application *app, QObject *parent)
     : InternetService(Song::Source::Qobuz, "Qobuz", "qobuz", QobuzSettingsPage::kSettingsGroup, SettingsDialog::Page::Qobuz, app, parent),
       app_(app),
-      network_(new NetworkAccessManager(this)),
+      network_(app->network()),
       url_handler_(new QobuzUrlHandler(app, this)),
       artists_collection_backend_(nullptr),
       albums_collection_backend_(nullptr),

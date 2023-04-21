@@ -43,7 +43,7 @@ class AcoustidClient : public QObject {
   // IDs are provided by the caller when a request is started and included in the Finished signal - they have no meaning to AcoustidClient.
 
  public:
-  explicit AcoustidClient(QObject *parent = nullptr);
+  explicit AcoustidClient(NetworkAccessManager *network, QObject *parent = nullptr);
   ~AcoustidClient() override;
 
   // Network requests will be aborted after this interval.

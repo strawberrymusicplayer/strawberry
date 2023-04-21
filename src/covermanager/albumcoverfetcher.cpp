@@ -37,10 +37,10 @@ using namespace std::chrono_literals;
 
 const int AlbumCoverFetcher::kMaxConcurrentRequests = 5;
 
-AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *parent, NetworkAccessManager *network)
+AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, NetworkAccessManager *network, QObject *parent)
     : QObject(parent),
       cover_providers_(cover_providers),
-      network_(network ? network : new NetworkAccessManager(this)),
+      network_(network),
       next_id_(0),
       request_starter_(new QTimer(this)) {
 

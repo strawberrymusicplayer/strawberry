@@ -87,7 +87,7 @@ using namespace std::chrono_literals;
 TidalService::TidalService(Application *app, QObject *parent)
     : InternetService(Song::Source::Tidal, "Tidal", "tidal", TidalSettingsPage::kSettingsGroup, SettingsDialog::Page::Tidal, app, parent),
       app_(app),
-      network_(new NetworkAccessManager(this)),
+      network_(app->network()),
       url_handler_(new TidalUrlHandler(app, this)),
       artists_collection_backend_(nullptr),
       albums_collection_backend_(nullptr),

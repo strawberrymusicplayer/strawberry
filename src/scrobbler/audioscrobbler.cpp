@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <QMutex>
+#include <QList>
 #include <QString>
 #include <QSettings>
 
@@ -29,7 +31,6 @@
 #include "settings/scrobblersettingspage.h"
 
 #include "audioscrobbler.h"
-#include "scrobblerservices.h"
 #include "scrobblerservice.h"
 #include "lastfmscrobbler.h"
 #include "librefmscrobbler.h"
@@ -41,7 +42,6 @@
 AudioScrobbler::AudioScrobbler(Application *app, QObject *parent)
     : QObject(parent),
       app_(app),
-      scrobbler_services_(new ScrobblerServices(this)),
       enabled_(false),
       offline_(false),
       scrobble_button_(false),
@@ -50,18 +50,66 @@ AudioScrobbler::AudioScrobbler(Application *app, QObject *parent)
       prefer_albumartist_(false),
       show_error_dialog_(false) {
 
-  scrobbler_services_->AddService(new LastFMScrobbler(app_, scrobbler_services_));
-  scrobbler_services_->AddService(new LibreFMScrobbler(app_, scrobbler_services_));
-  scrobbler_services_->AddService(new ListenBrainzScrobbler(app_, scrobbler_services_));
-#ifdef HAVE_SUBSONIC
-  scrobbler_services_->AddService(new SubsonicScrobbler(app_, scrobbler_services_));
-#endif
-
   ReloadSettings();
 
-  for (ScrobblerService *service : scrobbler_services_->List()) {
-    QObject::connect(service, &ScrobblerService::ErrorMessage, this, &AudioScrobbler::ErrorReceived);
+}
+
+AudioScrobbler::~AudioScrobbler() {
+
+  while (!services_.isEmpty()) {
+    delete services_.take(services_.firstKey());
   }
+
+}
+
+void AudioScrobbler::AddService(ScrobblerService *service) {
+
+  {
+    QMutexLocker locker(&mutex_);
+    services_.insert(service->name(), service);
+  }
+
+  QObject::connect(service, &ScrobblerService::ErrorMessage, this, &AudioScrobbler::ErrorReceived);
+
+  qLog(Debug) << "Registered scrobbler service" << service->name();
+
+}
+
+void AudioScrobbler::RemoveService(ScrobblerService *service) {
+
+  if (!service || !services_.contains(service->name())) return;
+
+  {
+    QMutexLocker locker(&mutex_);
+    services_.remove(service->name());
+    QObject::disconnect(service, nullptr, this, nullptr);
+  }
+
+  QObject::disconnect(service, &ScrobblerService::ErrorMessage, this, &AudioScrobbler::ErrorReceived);
+
+  qLog(Debug) << "Unregistered scrobbler service" << service->name();
+
+}
+
+int AudioScrobbler::NextId() { return next_id_.fetchAndAddRelaxed(1); }
+
+QList<ScrobblerService*> AudioScrobbler::GetAll() {
+
+  QList<ScrobblerService*> services;
+
+  {
+    QMutexLocker locker(&mutex_);
+    services = services_.values();
+  }
+
+  return services;
+
+}
+
+ScrobblerService *AudioScrobbler::ServiceByName(const QString &name) {
+
+  if (services_.contains(name)) return services_.value(name);
+  return nullptr;
 
 }
 
@@ -104,7 +152,8 @@ void AudioScrobbler::ReloadSettings() {
   emit ScrobbleButtonVisibilityChanged(scrobble_button_);
   emit LoveButtonVisibilityChanged(love_button_);
 
-  for (ScrobblerService *service : scrobbler_services_->List()) {
+  QList<ScrobblerService*> services = services_.values();
+  for (ScrobblerService *service : services) {
     service->ReloadSettings();
   }
 
@@ -150,7 +199,8 @@ void AudioScrobbler::UpdateNowPlaying(const Song &song) {
 
   qLog(Debug) << "Sending now playing for song" << song.artist() << song.album() << song.title();
 
-  for (ScrobblerService *service : scrobbler_services_->List()) {
+  QList<ScrobblerService*> services = GetAll();
+  for (ScrobblerService *service : services) {
     if (!service->IsEnabled()) continue;
     service->UpdateNowPlaying(song);
   }
@@ -159,7 +209,8 @@ void AudioScrobbler::UpdateNowPlaying(const Song &song) {
 
 void AudioScrobbler::ClearPlaying() {
 
-  for (ScrobblerService *service : scrobbler_services_->List()) {
+  QList<ScrobblerService*> services = GetAll();
+  for (ScrobblerService *service : services) {
     if (!service->IsEnabled()) continue;
     service->ClearPlaying();
   }
@@ -172,7 +223,8 @@ void AudioScrobbler::Scrobble(const Song &song, const qint64 scrobble_point) {
 
   qLog(Debug) << "Scrobbling song" << song.artist() << song.album() << song.title() << "at" << scrobble_point;
 
-  for (ScrobblerService *service : scrobbler_services_->List()) {
+  QList<ScrobblerService*> services = GetAll();
+  for (ScrobblerService *service : services) {
     if (!service->IsEnabled()) continue;
     service->Scrobble(song);
   }
@@ -181,7 +233,8 @@ void AudioScrobbler::Scrobble(const Song &song, const qint64 scrobble_point) {
 
 void AudioScrobbler::Love() {
 
-  for (ScrobblerService *service : scrobbler_services_->List()) {
+  QList<ScrobblerService*> services = GetAll();
+  for (ScrobblerService *service : services) {
     if (!service->IsEnabled() || !service->IsAuthenticated()) continue;
     service->Love();
   }
@@ -190,7 +243,8 @@ void AudioScrobbler::Love() {
 
 void AudioScrobbler::Submit() {
 
-  for (ScrobblerService *service : scrobbler_services_->List()) {
+  QList<ScrobblerService*> services = GetAll();
+  for (ScrobblerService *service : services) {
     if (!service->IsEnabled() || !service->IsAuthenticated() || service->IsSubmitted()) continue;
     service->StartSubmit();
   }
@@ -199,7 +253,8 @@ void AudioScrobbler::Submit() {
 
 void AudioScrobbler::WriteCache() {
 
-  for (ScrobblerService *service : scrobbler_services_->List()) {
+  QList<ScrobblerService*> services = GetAll();
+  for (ScrobblerService *service : services) {
     if (!service->IsEnabled()) continue;
     service->WriteCache();
   }

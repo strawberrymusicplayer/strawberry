@@ -51,7 +51,7 @@ class AlbumCoverLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit AlbumCoverLoader(QObject *parent = nullptr);
+  explicit AlbumCoverLoader(NetworkAccessManager *network, QObject *parent = nullptr);
 
   enum class State {
     None,
@@ -135,6 +135,8 @@ class AlbumCoverLoader : public QObject {
   void NextState(TaskPtr task);
   TryLoadResult TryLoadImage(TaskPtr task);
 
+  NetworkAccessManager *network_;
+
   bool stop_requested_;
 
   QMutex mutex_load_image_async_;
@@ -143,8 +145,6 @@ class AlbumCoverLoader : public QObject {
   QHash<QNetworkReply*, TaskPtr> remote_tasks_;
   quint64 load_image_async_id_;
   quint64 save_image_async_id_;
-
-  NetworkAccessManager *network_;
 
   static const int kMaxRedirects = 3;
 

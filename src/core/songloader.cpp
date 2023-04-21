@@ -46,6 +46,7 @@
 
 #include "signalchecker.h"
 #include "player.h"
+#include "networkaccessmanager.h"
 #include "song.h"
 #include "songloader.h"
 #include "tagreaderclient.h"
@@ -66,9 +67,10 @@
 QSet<QString> SongLoader::sRawUriSchemes;
 const int SongLoader::kDefaultTimeout = 5000;
 
-SongLoader::SongLoader(CollectionBackendInterface *collection, const Player *player, QObject *parent)
+SongLoader::SongLoader(CollectionBackendInterface *collection, const Player *player, NetworkAccessManager *network, QObject *parent)
     : QObject(parent),
       player_(player),
+      network_(network),
       collection_(collection),
       timeout_timer_(new QTimer(this)),
       playlist_parser_(new PlaylistParser(collection, this)),
@@ -191,7 +193,7 @@ SongLoader::Result SongLoader::LoadAudioCD() {
 
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
   if (player_->engine()->type() == Engine::EngineType::GStreamer) {
-    CddaSongLoader *cdda_song_loader = new CddaSongLoader(QUrl(), this);
+    CddaSongLoader *cdda_song_loader = new CddaSongLoader(QUrl(), network_, this);
     QObject::connect(cdda_song_loader, &CddaSongLoader::SongsDurationLoaded, this, &SongLoader::AudioCDTracksLoadFinishedSlot);
     QObject::connect(cdda_song_loader, &CddaSongLoader::SongsMetadataLoaded, this, &SongLoader::AudioCDTracksTagsLoaded);
     cdda_song_loader->LoadSongs();

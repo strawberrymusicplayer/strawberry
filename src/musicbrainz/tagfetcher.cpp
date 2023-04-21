@@ -29,17 +29,18 @@
 #include <QFutureWatcher>
 #include <QString>
 
+#include "core/networkaccessmanager.h"
 #include "utilities/timeconstants.h"
 #include "engine/chromaprinter.h"
 #include "acoustidclient.h"
 #include "musicbrainzclient.h"
 #include "tagfetcher.h"
 
-TagFetcher::TagFetcher(QObject *parent)
+TagFetcher::TagFetcher(NetworkAccessManager *network, QObject *parent)
     : QObject(parent),
       fingerprint_watcher_(nullptr),
-      acoustid_client_(new AcoustidClient(this)),
-      musicbrainz_client_(new MusicBrainzClient(this)) {
+      acoustid_client_(new AcoustidClient(network, this)),
+      musicbrainz_client_(new MusicBrainzClient(network, this)) {
 
   QObject::connect(acoustid_client_, &AcoustidClient::Finished, this, &TagFetcher::PuidsFound);
   QObject::connect(musicbrainz_client_, &MusicBrainzClient::Finished, this, &TagFetcher::TagsFetched);

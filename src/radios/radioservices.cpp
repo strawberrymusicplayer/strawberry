@@ -34,7 +34,7 @@
 
 RadioServices::RadioServices(Application *app, QObject *parent)
     : QObject(parent),
-      network_(new NetworkAccessManager(this)),
+      network_(app->network()),
       backend_(nullptr),
       model_(new RadioModel(app, this)),
       sort_model_(new QSortFilterProxyModel(this)),

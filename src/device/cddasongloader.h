@@ -40,12 +40,14 @@
 #  include "musicbrainz/musicbrainzclient.h"
 #endif
 
+class NetworkAccessManager;
+
 // This class provides a (hopefully) nice, high level interface to get CD information and load tracks
 class CddaSongLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit CddaSongLoader(const QUrl &url = QUrl(), QObject *parent = nullptr);
+  explicit CddaSongLoader(const QUrl &url, NetworkAccessManager *network, QObject *parent = nullptr);
   ~CddaSongLoader() override;
 
   // Load songs. Signals declared below will be emitted anytime new information will be available.
@@ -68,7 +70,8 @@ class CddaSongLoader : public QObject {
 #endif
 
  private:
-  QUrl url_;
+  const QUrl url_;
+  NetworkAccessManager *network_;
   GstElement *cdda_;
   CdIo_t *cdio_;
   QMutex mutex_load_;

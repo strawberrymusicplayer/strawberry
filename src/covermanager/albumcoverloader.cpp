@@ -53,12 +53,12 @@
 #include "albumcoverloaderresult.h"
 #include "albumcoverimageresult.h"
 
-AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
+AlbumCoverLoader::AlbumCoverLoader(NetworkAccessManager *network, QObject *parent)
     : QObject(parent),
+      network_(network),
       stop_requested_(false),
       load_image_async_id_(1),
       save_image_async_id_(1),
-      network_(new NetworkAccessManager(this)),
       original_thread_(nullptr) {
 
   original_thread_ = thread();

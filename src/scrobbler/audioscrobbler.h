@@ -22,22 +22,39 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
+#include <QMutex>
 #include <QList>
+#include <QMap>
 #include <QString>
+#include <QAtomicInt>
 
 #include "core/song.h"
-#include "scrobblerservices.h"
 
 class Application;
-class Song;
 class ScrobblerService;
+class Song;
 
 class AudioScrobbler : public QObject {
   Q_OBJECT
 
  public:
   explicit AudioScrobbler(Application *app, QObject *parent = nullptr);
+  ~AudioScrobbler();
+
+  void AddService(ScrobblerService *service);
+  void RemoveService(ScrobblerService *service);
+  QList<ScrobblerService*> List() const { return services_.values(); }
+  bool HasAnyServices() const { return !services_.isEmpty(); }
+  int NextId();
+
+  QList<ScrobblerService*> GetAll();
+  ScrobblerService *ServiceByName(const QString &name);
+  template<typename T>
+  T *Service() {
+    return qobject_cast<T*>(ServiceByName(T::kName));
+  }
 
   void ReloadSettings();
 
@@ -50,25 +67,19 @@ class AudioScrobbler : public QObject {
   bool ShowErrorDialog() const { return show_error_dialog_; }
   QList<Song::Source> sources() const { return sources_; }
 
+  void ShowConfig();
+
   void UpdateNowPlaying(const Song &song);
   void ClearPlaying();
   void Scrobble(const Song &song, const qint64 scrobble_point);
-  void ShowConfig();
-
-  ScrobblerService *ServiceByName(const QString &name) const { return scrobbler_services_->ServiceByName(name); }
-
-  template<typename T>
-  T *Service() {
-    return qobject_cast<T*>(ServiceByName(T::kName));
-  }
 
  public slots:
   void ToggleScrobbling();
   void ToggleOffline();
+  void ErrorReceived(const QString &error);
   void Submit();
   void Love();
   void WriteCache();
-  void ErrorReceived(const QString &error);
 
  signals:
   void ErrorMessage(const QString &error);
@@ -79,7 +90,10 @@ class AudioScrobbler : public QObject {
 
  private:
   Application *app_;
-  ScrobblerServices *scrobbler_services_;
+
+  QMap<QString, ScrobblerService*> services_;
+  QMutex mutex_;
+  QAtomicInt next_id_;
 
   bool enabled_;
   bool offline_;
@@ -90,6 +104,7 @@ class AudioScrobbler : public QObject {
   bool show_error_dialog_;
   QList<Song::Source> sources_;
 
+  Q_DISABLE_COPY(AudioScrobbler)
 };
 
 #endif  // AUDIOSCROBBLER_H

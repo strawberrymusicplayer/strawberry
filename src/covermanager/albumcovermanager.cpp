@@ -106,7 +106,7 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
       filter_all_(nullptr),
       filter_with_covers_(nullptr),
       filter_without_covers_(nullptr),
-      cover_fetcher_(new AlbumCoverFetcher(app_->cover_providers(), this)),
+      cover_fetcher_(new AlbumCoverFetcher(app_->cover_providers(), app_->network(), this)),
       cover_searcher_(nullptr),
       cover_export_(nullptr),
       cover_exporter_(new AlbumCoverExporter(this)),

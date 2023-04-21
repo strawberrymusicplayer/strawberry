@@ -55,9 +55,9 @@ const int MusicBrainzClient::kRequestsDelay = 1200;
 const int MusicBrainzClient::kDefaultTimeout = 8000;
 const int MusicBrainzClient::kMaxRequestPerTrack = 3;
 
-MusicBrainzClient::MusicBrainzClient(QObject *parent, QNetworkAccessManager *network)
+MusicBrainzClient::MusicBrainzClient(QNetworkAccessManager *network, QObject *parent)
     : QObject(parent),
-      network_(network ? network : new NetworkAccessManager(this)),
+      network_(network),
       timeouts_(new NetworkTimeouts(kDefaultTimeout, this)),
       timer_flush_requests_(new QTimer(this)) {
 

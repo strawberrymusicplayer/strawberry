@@ -132,7 +132,7 @@ void AlbumCoverChoiceController::Init(Application *app) {
 
   app_ = app;
 
-  cover_fetcher_ = new AlbumCoverFetcher(app_->cover_providers(), this);
+  cover_fetcher_ = new AlbumCoverFetcher(app_->cover_providers(), app->network(), this);
   cover_searcher_ = new AlbumCoverSearcher(QIcon(":/pictures/cdcase.png"), app, this);
   cover_searcher_->Init(cover_fetcher_);
 
@@ -322,7 +322,7 @@ QUrl AlbumCoverChoiceController::LoadCoverFromURL(Song *song) {
 
 AlbumCoverImageResultPtr AlbumCoverChoiceController::LoadImageFromURL() {
 
-  if (!cover_from_url_dialog_) { cover_from_url_dialog_ = new CoverFromURLDialog(this); }
+  if (!cover_from_url_dialog_) { cover_from_url_dialog_ = new CoverFromURLDialog(app_->network(), this); }
 
   return cover_from_url_dialog_->Exec();
 

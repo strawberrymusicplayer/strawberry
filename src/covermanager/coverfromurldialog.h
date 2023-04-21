@@ -40,7 +40,7 @@ class CoverFromURLDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit CoverFromURLDialog(QWidget *parent = nullptr);
+  explicit CoverFromURLDialog(NetworkAccessManager *network, QWidget *parent = nullptr);
   ~CoverFromURLDialog() override;
 
   // Opens the dialog. This returns an image found at the URL chosen by user or null image if the dialog got rejected.
@@ -51,9 +51,8 @@ class CoverFromURLDialog : public QDialog {
   void LoadCoverFromURLFinished();
 
  private:
-  Ui_CoverFromURLDialog *ui_;
-
   NetworkAccessManager *network_;
+  Ui_CoverFromURLDialog *ui_;
   AlbumCoverImageResultPtr last_album_cover_;
 };
 

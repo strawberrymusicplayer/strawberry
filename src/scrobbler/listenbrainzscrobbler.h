@@ -39,7 +39,7 @@
 
 class QNetworkReply;
 
-class Application;
+class AudioScrobbler;
 class NetworkAccessManager;
 class LocalRedirectServer;
 
@@ -47,7 +47,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   Q_OBJECT
 
  public:
-  explicit ListenBrainzScrobbler(Application *app, QObject *parent = nullptr);
+  explicit ListenBrainzScrobbler(AudioScrobbler *scrobbler, NetworkAccessManager *network, QObject *parent = nullptr);
   ~ListenBrainzScrobbler() override;
 
   static const char *kName;
@@ -110,7 +110,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   static const char *kCacheFile;
   static const int kScrobblesPerRequest;
 
-  Application *app_;
+  AudioScrobbler *scrobbler_;
   NetworkAccessManager *network_;
   ScrobblerCache *cache_;
   LocalRedirectServer *server_;

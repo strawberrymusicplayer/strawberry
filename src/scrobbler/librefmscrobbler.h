@@ -27,13 +27,14 @@
 
 #include "scrobblingapi20.h"
 
-class Application;
+class AudioScrobbler;
+class NetworkAccessManager;
 
 class LibreFMScrobbler : public ScrobblingAPI20 {
   Q_OBJECT
 
  public:
-  explicit LibreFMScrobbler(Application *app, QObject *parent = nullptr);
+  explicit LibreFMScrobbler(AudioScrobbler *scrobbler, NetworkAccessManager *network, QObject *parent = nullptr);
 
   static const char *kName;
   static const char *kSettingsGroup;

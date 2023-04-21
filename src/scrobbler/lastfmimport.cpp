@@ -48,9 +48,9 @@
 
 const int LastFMImport::kRequestsDelay = 2000;
 
-LastFMImport::LastFMImport(QObject *parent)
+LastFMImport::LastFMImport(NetworkAccessManager *network, QObject *parent)
     : QObject(parent),
-      network_(new NetworkAccessManager(this)),
+      network_(network),
       timer_flush_requests_(new QTimer(this)),
       lastplayed_(false),
       playcount_(false),

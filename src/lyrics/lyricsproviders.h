@@ -30,7 +30,6 @@
 #include <QString>
 #include <QAtomicInt>
 
-class NetworkAccessManager;
 class LyricsProvider;
 
 class LyricsProviders : public QObject {
@@ -49,8 +48,6 @@ class LyricsProviders : public QObject {
   bool HasAnyProviders() const { return !lyrics_providers_.isEmpty(); }
   int NextId();
 
-  NetworkAccessManager *network() const { return network_; }
-
  private slots:
   void ProviderDestroyed();
 
@@ -58,8 +55,6 @@ class LyricsProviders : public QObject {
   Q_DISABLE_COPY(LyricsProviders)
 
   static int NextOrderId;
-
-  NetworkAccessManager *network_;
 
   QMap<LyricsProvider*, QString> lyrics_providers_;
   QList<LyricsProvider*> ordered_providers_;

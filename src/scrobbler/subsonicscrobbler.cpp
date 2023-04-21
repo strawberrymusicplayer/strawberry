@@ -39,12 +39,14 @@
 
 const char *SubsonicScrobbler::kName = "Subsonic";
 
-SubsonicScrobbler::SubsonicScrobbler(Application *app, QObject *parent)
-    : ScrobblerService(kName, app, parent),
-      app_(app),
-      service_(app->internet_services()->Service<SubsonicService>()),
+SubsonicScrobbler::SubsonicScrobbler(AudioScrobbler *scrobbler, SubsonicService *service, QObject *parent)
+    : ScrobblerService(kName, parent),
+      scrobbler_(scrobbler),
+      service_(service),
       enabled_(false),
       submitted_(false) {
+
+  ReloadSettings();
 
   timer_submit_.setSingleShot(true);
   QObject::connect(&timer_submit_, &QTimer::timeout, this, &SubsonicScrobbler::Submit);
@@ -67,7 +69,7 @@ void SubsonicScrobbler::UpdateNowPlaying(const Song &song) {
   song_playing_ = song;
   time_ = QDateTime::currentDateTime();
 
-  if (!song.is_metadata_good() || app_->scrobbler()->IsOffline()) return;
+  if (!song.is_metadata_good() || scrobbler_->IsOffline()) return;
 
   service_->Scrobble(song.song_id(), false, time_);
 
@@ -84,15 +86,15 @@ void SubsonicScrobbler::Scrobble(const Song &song) {
 
   if (song.source() != Song::Source::Subsonic || song.id() != song_playing_.id() || song.url() != song_playing_.url() || !song.is_metadata_good()) return;
 
-  if (app_->scrobbler()->IsOffline()) return;
+  if (scrobbler_->IsOffline()) return;
 
   if (!submitted_) {
     submitted_ = true;
-    if (app_->scrobbler()->SubmitDelay() <= 0) {
+    if (scrobbler_->SubmitDelay() <= 0) {
       Submit();
     }
     else if (!timer_submit_.isActive()) {
-      timer_submit_.setInterval(static_cast<int>(app_->scrobbler()->SubmitDelay() * kMsecPerSec));
+      timer_submit_.setInterval(static_cast<int>(scrobbler_->SubmitDelay() * kMsecPerSec));
       timer_submit_.start();
     }
   }
@@ -104,7 +106,7 @@ void SubsonicScrobbler::Submit() {
   qLog(Debug) << "SubsonicScrobbler: Submitting scrobble for" << song_playing_.artist() << song_playing_.title();
   submitted_ = false;
 
-  if (app_->scrobbler()->IsOffline()) return;
+  if (scrobbler_->IsOffline()) return;
 
   service_->Scrobble(song_playing_.song_id(), true, time_);
 

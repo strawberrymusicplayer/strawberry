@@ -38,6 +38,7 @@
 #include "database.h"
 #include "taskmanager.h"
 #include "player.h"
+#include "networkaccessmanager.h"
 
 #include "engine/devicefinders.h"
 #ifndef Q_OS_WIN
@@ -66,7 +67,13 @@
 #include "lyrics/lyricscomlyricsprovider.h"
 
 #include "scrobbler/audioscrobbler.h"
+#include "scrobbler/lastfmscrobbler.h"
+#include "scrobbler/librefmscrobbler.h"
+#include "scrobbler/listenbrainzscrobbler.h"
 #include "scrobbler/lastfmimport.h"
+#ifdef HAVE_SUBSONIC
+#  include "scrobbler/subsonicscrobbler.h"
+#endif
 
 #include "internet/internetservices.h"
 
@@ -111,6 +118,7 @@ class ApplicationImpl {
         }),
         task_manager_([app]() { return new TaskManager(app); }),
         player_([app]() { return new Player(app, app); }),
+        network_([app]() { return new NetworkAccessManager(app); }),
         device_finders_([app]() { return new DeviceFinders(app); }),
 #ifndef Q_OS_WIN
         device_manager_([app]() { return new DeviceManager(app, app); }),
@@ -125,23 +133,23 @@ class ApplicationImpl {
         cover_providers_([app]() {
           CoverProviders *cover_providers = new CoverProviders(app);
           // Initialize the repository of cover providers.
-          cover_providers->AddProvider(new LastFmCoverProvider(app, cover_providers->network(), app));
-          cover_providers->AddProvider(new MusicbrainzCoverProvider(app, cover_providers->network(), app));
-          cover_providers->AddProvider(new DiscogsCoverProvider(app, cover_providers->network(), app));
-          cover_providers->AddProvider(new DeezerCoverProvider(app, cover_providers->network(), app));
-          cover_providers->AddProvider(new MusixmatchCoverProvider(app, cover_providers->network(), app));
-          cover_providers->AddProvider(new SpotifyCoverProvider(app, cover_providers->network(), app));
+          cover_providers->AddProvider(new LastFmCoverProvider(app, app->network(), app));
+          cover_providers->AddProvider(new MusicbrainzCoverProvider(app, app->network(), app));
+          cover_providers->AddProvider(new DiscogsCoverProvider(app, app->network(), app));
+          cover_providers->AddProvider(new DeezerCoverProvider(app, app->network(), app));
+          cover_providers->AddProvider(new MusixmatchCoverProvider(app, app->network(), app));
+          cover_providers->AddProvider(new SpotifyCoverProvider(app, app->network(), app));
 #ifdef HAVE_TIDAL
-          cover_providers->AddProvider(new TidalCoverProvider(app, cover_providers->network(), app));
+          cover_providers->AddProvider(new TidalCoverProvider(app, app->network(), app));
 #endif
 #ifdef HAVE_QOBUZ
-          cover_providers->AddProvider(new QobuzCoverProvider(app, cover_providers->network(), app));
+          cover_providers->AddProvider(new QobuzCoverProvider(app, app->network(), app));
 #endif
           cover_providers->ReloadSettings();
           return cover_providers;
         }),
         album_cover_loader_([app]() {
-          AlbumCoverLoader *loader = new AlbumCoverLoader(app);
+          AlbumCoverLoader *loader = new AlbumCoverLoader(app->network(), app);
           app->MoveToNewThread(loader);
           return loader;
         }),
@@ -149,13 +157,13 @@ class ApplicationImpl {
         lyrics_providers_([app]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           // Initialize the repository of lyrics providers.
-          lyrics_providers->AddProvider(new AuddLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->AddProvider(new GeniusLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->AddProvider(new OVHLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->AddProvider(new LoloLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->AddProvider(new MusixmatchLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->AddProvider(new ChartLyricsProvider(lyrics_providers->network(), app));
-          lyrics_providers->AddProvider(new LyricsComLyricsProvider(lyrics_providers->network(), app));
+          lyrics_providers->AddProvider(new AuddLyricsProvider(app->network(), app));
+          lyrics_providers->AddProvider(new GeniusLyricsProvider(app->network(), app));
+          lyrics_providers->AddProvider(new OVHLyricsProvider(app->network(), app));
+          lyrics_providers->AddProvider(new LoloLyricsProvider(app->network(), app));
+          lyrics_providers->AddProvider(new MusixmatchLyricsProvider(app->network(), app));
+          lyrics_providers->AddProvider(new ChartLyricsProvider(app->network(), app));
+          lyrics_providers->AddProvider(new LyricsComLyricsProvider(app->network(), app));
           lyrics_providers->ReloadSettings();
           return lyrics_providers;
         }),
@@ -173,18 +181,25 @@ class ApplicationImpl {
           return internet_services;
         }),
         radio_services_([app]() { return new RadioServices(app, app); }),
-        scrobbler_([app]() { return new AudioScrobbler(app, app); }),
+        scrobbler_([app]() {
+          AudioScrobbler *scrobbler = new AudioScrobbler(app);
+          scrobbler->AddService(new LastFMScrobbler(scrobbler, app->network(), app));
+          scrobbler->AddService(new LibreFMScrobbler(scrobbler, app->network(), app));
+          scrobbler->AddService(new ListenBrainzScrobbler(scrobbler, app->network(), app));
+          return scrobbler;
+        }),
 #ifdef HAVE_MOODBAR
         moodbar_loader_([app]() { return new MoodbarLoader(app, app); }),
         moodbar_controller_([app]() { return new MoodbarController(app, app); }),
 #endif
-        lastfm_import_([app]() { return new LastFMImport(app); })
+        lastfm_import_([app]() { return new LastFMImport(app->network(), app); })
   {}
 
   Lazy<TagReaderClient> tag_reader_client_;
   Lazy<Database> database_;
   Lazy<TaskManager> task_manager_;
   Lazy<Player> player_;
+  Lazy<NetworkAccessManager> network_;
   Lazy<DeviceFinders> device_finders_;
 #ifndef Q_OS_WIN
   Lazy<DeviceManager> device_manager_;
@@ -317,6 +332,7 @@ TagReaderClient *Application::tag_reader_client() const { return p_->tag_reader_
 Database *Application::database() const { return p_->database_.get(); }
 TaskManager *Application::task_manager() const { return p_->task_manager_.get(); }
 Player *Application::player() const { return p_->player_.get(); }
+NetworkAccessManager *Application::network() const { return p_->network_.get(); }
 DeviceFinders *Application::device_finders() const { return p_->device_finders_.get(); }
 #ifndef Q_OS_WIN
 DeviceManager *Application::device_manager() const { return p_->device_manager_.get(); }

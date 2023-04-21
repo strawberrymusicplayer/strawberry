@@ -57,6 +57,8 @@
 #include "subsonicscrobblerequest.h"
 #include "settings/settingsdialog.h"
 #include "settings/subsonicsettingspage.h"
+#include "scrobbler/audioscrobbler.h"
+#include "scrobbler/subsonicscrobbler.h"
 
 const Song::Source SubsonicService::kSource = Song::Source::Subsonic;
 const char *SubsonicService::kClientName = "Strawberry";
@@ -96,6 +98,8 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
   collection_sort_model_->sort(0);
 
   SubsonicService::ReloadSettings();
+
+  app->scrobbler()->AddService(new SubsonicScrobbler(app->scrobbler(), this, this));
 
 }
 

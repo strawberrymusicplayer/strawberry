@@ -34,13 +34,14 @@
 #include "scrobblerservice.h"
 
 class Application;
+class AudioScrobbler;
 class SubsonicService;
 
 class SubsonicScrobbler : public ScrobblerService {
   Q_OBJECT
 
  public:
-  explicit SubsonicScrobbler(Application *app, QObject *parent = nullptr);
+  explicit SubsonicScrobbler(AudioScrobbler *scrobbler, SubsonicService *service, QObject *parent = nullptr);
 
   static const char *kName;
 
@@ -62,7 +63,7 @@ class SubsonicScrobbler : public ScrobblerService {
   void Submit() override;
 
  private:
-  Application *app_;
+  AudioScrobbler *scrobbler_;
   SubsonicService *service_;
   bool enabled_;
   bool submitted_;

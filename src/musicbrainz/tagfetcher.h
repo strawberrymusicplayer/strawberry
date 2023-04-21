@@ -32,6 +32,7 @@
 #include "core/song.h"
 #include "musicbrainzclient.h"
 
+class NetworkAccessManager;
 class AcoustidClient;
 
 class TagFetcher : public QObject {
@@ -40,7 +41,7 @@ class TagFetcher : public QObject {
   // High level interface to Fingerprinter, AcoustidClient and MusicBrainzClient.
 
  public:
-  explicit TagFetcher(QObject *parent = nullptr);
+  explicit TagFetcher(NetworkAccessManager *network, QObject *parent = nullptr);
 
   void StartFetch(const SongList &songs);
 

@@ -44,7 +44,6 @@
 #include <QJsonValue>
 #include <QFlags>
 
-#include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/logging.h"
@@ -63,15 +62,15 @@ const char *ScrobblingAPI20::kApiKey = "211990b4c96782c05d1536e7219eb56e";
 const char *ScrobblingAPI20::kSecret = "80fd738f49596e9709b1bf9319c444a8";
 const int ScrobblingAPI20::kScrobblesPerRequest = 50;
 
-ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, Application *app, QObject *parent)
-    : ScrobblerService(name, app, parent),
+ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, AudioScrobbler *scrobbler, NetworkAccessManager *network, QObject *parent)
+    : ScrobblerService(name, parent),
       name_(name),
       settings_group_(settings_group),
       auth_url_(auth_url),
       api_url_(api_url),
       batch_(batch),
-      app_(app),
-      network_(new NetworkAccessManager(this)),
+      scrobbler_(scrobbler),
+      network_(network),
       cache_(new ScrobblerCache(cache_file, this)),
       server_(nullptr),
       enabled_(false),
@@ -398,7 +397,7 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
   timestamp_ = QDateTime::currentDateTime().toSecsSinceEpoch();
   scrobbled_ = false;
 
-  if (!IsAuthenticated() || !song.is_metadata_good() || app_->scrobbler()->IsOffline()) return;
+  if (!IsAuthenticated() || !song.is_metadata_good() || scrobbler_->IsOffline()) return;
 
   ParamList params = ParamList()
     << Param("method", "track.updateNowPlaying")
@@ -457,10 +456,10 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
 
   cache_->Add(song, timestamp_);
 
-  if (app_->scrobbler()->IsOffline()) return;
+  if (scrobbler_->IsOffline()) return;
 
   if (!IsAuthenticated()) {
-    if (app_->scrobbler()->ShowErrorDialog()) {
+    if (scrobbler_->ShowErrorDialog()) {
       emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_));
     }
     return;
@@ -472,14 +471,14 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
 void ScrobblingAPI20::StartSubmit(const bool initial) {
 
   if (!submitted_ && cache_->Count() > 0) {
-    if (initial && (!batch_ || app_->scrobbler()->SubmitDelay() <= 0) && !submit_error_) {
+    if (initial && (!batch_ || scrobbler_->SubmitDelay() <= 0) && !submit_error_) {
       if (timer_submit_.isActive()) {
         timer_submit_.stop();
       }
       Submit();
     }
     else if (!timer_submit_.isActive()) {
-      int submit_delay = static_cast<int>(std::max(app_->scrobbler()->SubmitDelay(), submit_error_ ? 30 : 5) * kMsecPerSec);
+      int submit_delay = static_cast<int>(std::max(scrobbler_->SubmitDelay(), submit_error_ ? 30 : 5) * kMsecPerSec);
       timer_submit_.setInterval(submit_delay);
       timer_submit_.start();
     }
@@ -489,7 +488,7 @@ void ScrobblingAPI20::StartSubmit(const bool initial) {
 
 void ScrobblingAPI20::Submit() {
 
-  if (!IsEnabled() || !IsAuthenticated() || app_->scrobbler()->IsOffline()) return;
+  if (!IsEnabled() || !IsAuthenticated() || scrobbler_->IsOffline()) return;
 
   qLog(Debug) << name_ << "Submitting scrobbles.";
 
@@ -827,7 +826,7 @@ void ScrobblingAPI20::Love() {
 
   if (!song_playing_.is_valid() || !song_playing_.is_metadata_good()) return;
 
-  if (!IsAuthenticated()) app_->scrobbler()->ShowConfig();
+  if (!IsAuthenticated()) scrobbler_->ShowConfig();
 
   qLog(Debug) << name_ << "Sending love for song" << song_playing_.artist() << song_playing_.album() << song_playing_.title();
 
@@ -909,7 +908,7 @@ void ScrobblingAPI20::Error(const QString &error, const QVariant &debug) {
   qLog(Error) << name_ << error;
   if (debug.isValid()) qLog(Debug) << debug;
 
-  if (app_->scrobbler()->ShowErrorDialog()) {
+  if (scrobbler_->ShowErrorDialog()) {
     emit ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_, error));
   }
 }

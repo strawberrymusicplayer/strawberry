@@ -28,7 +28,6 @@
 #include <QSettings>
 
 #include "core/logging.h"
-#include "core/networkaccessmanager.h"
 
 #include "lyricsprovider.h"
 #include "lyricsproviders.h"
@@ -37,7 +36,7 @@
 
 int LyricsProviders::NextOrderId = 0;
 
-LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), network_(new NetworkAccessManager(this)) {}
+LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent) {}
 
 LyricsProviders::~LyricsProviders() {
 

@@ -39,11 +39,13 @@
 
 #include "cddasongloader.h"
 #include "core/logging.h"
+#include "core/networkaccessmanager.h"
 #include "utilities/timeconstants.h"
 
-CddaSongLoader::CddaSongLoader(const QUrl &url, QObject *parent)
+CddaSongLoader::CddaSongLoader(const QUrl &url, NetworkAccessManager *network, QObject *parent)
     : QObject(parent),
       url_(url),
+      network_(network),
       cdda_(nullptr),
       cdio_(nullptr) {}
 
@@ -195,7 +197,7 @@ void CddaSongLoader::LoadSongs() {
       QString musicbrainz_discid(string_mb);
       qLog(Info) << "MusicBrainz discid: " << musicbrainz_discid;
 
-      MusicBrainzClient *musicbrainz_client = new MusicBrainzClient;
+      MusicBrainzClient *musicbrainz_client = new MusicBrainzClient(network_);
       QObject::connect(musicbrainz_client, &MusicBrainzClient::DiscIdFinished, this, &CddaSongLoader::AudioCDTagsLoaded);
       musicbrainz_client->StartDiscIdRequest(musicbrainz_discid);
       g_free(string_mb);

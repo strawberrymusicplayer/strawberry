@@ -40,7 +40,7 @@ class LastFMImport : public QObject {
   Q_OBJECT
 
  public:
-  explicit LastFMImport(QObject *parent = nullptr);
+  explicit LastFMImport(NetworkAccessManager *network, QObject *parent = nullptr);
   ~LastFMImport() override;
 
   void ReloadSettings();

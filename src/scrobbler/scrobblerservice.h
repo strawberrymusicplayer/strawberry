@@ -32,13 +32,11 @@
 
 #include "core/song.h"
 
-class Application;
-
 class ScrobblerService : public QObject {
   Q_OBJECT
 
  public:
-  explicit ScrobblerService(const QString &name, Application *app, QObject *parent);
+  explicit ScrobblerService(const QString &name, QObject *parent);
 
   QString name() const { return name_; }
 

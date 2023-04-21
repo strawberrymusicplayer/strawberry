@@ -1024,7 +1024,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   if (!sparkle_url.isEmpty()) {
     qLog(Debug) << "Creating Qt Sparkle updater";
     qtsparkle::Updater *updater = new qtsparkle::Updater(sparkle_url, this);
-    updater->SetNetworkAccessManager(new NetworkAccessManager(this));
+    updater->SetNetworkAccessManager(app->network());
     updater->SetVersion(STRAWBERRY_VERSION_PACKAGE);
     QObject::connect(check_updates, &QAction::triggered, updater, &qtsparkle::Updater::CheckNow);
   }
@@ -2933,7 +2933,7 @@ void MainWindow::AutoCompleteTags() {
 
   // Create the tag fetching stuff if it hasn't been already
   if (!tag_fetcher_) {
-    tag_fetcher_ = std::make_unique<TagFetcher>();
+    tag_fetcher_ = std::make_unique<TagFetcher>(app_->network());
     track_selection_dialog_ = std::make_unique<TrackSelectionDialog>();
     track_selection_dialog_->set_save_on_close(true);
 

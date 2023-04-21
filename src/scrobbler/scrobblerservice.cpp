@@ -30,11 +30,7 @@
 
 #include "core/song.h"
 
-ScrobblerService::ScrobblerService(const QString &name, Application *app, QObject *parent) : QObject(parent), name_(name) {
-
-  Q_UNUSED(app);
-
-}
+ScrobblerService::ScrobblerService(const QString &name, QObject *parent) : QObject(parent), name_(name) {}
 
 bool ScrobblerService::ExtractJsonObj(const QByteArray &data, QJsonObject &json_obj, QString &error_description) {
 

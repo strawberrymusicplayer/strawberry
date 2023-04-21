@@ -109,7 +109,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       app_(app),
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
 #ifdef HAVE_MUSICBRAINZ
-      tag_fetcher_(new TagFetcher(this)),
+      tag_fetcher_(new TagFetcher(app->network(), this)),
       results_dialog_(new TrackSelectionDialog(this)),
 #endif
       image_no_cover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(128, 128))),

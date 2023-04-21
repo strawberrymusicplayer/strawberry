@@ -32,7 +32,6 @@
 #include <QString>
 #include <QAtomicInt>
 
-class NetworkAccessManager;
 class CoverProvider;
 
 // This is a repository for cover providers.
@@ -60,8 +59,6 @@ class CoverProviders : public QObject {
 
   int NextId();
 
-  NetworkAccessManager *network() const { return network_; }
-
  private slots:
   void ProviderDestroyed();
 
@@ -69,8 +66,6 @@ class CoverProviders : public QObject {
   Q_DISABLE_COPY(CoverProviders)
 
   static int NextOrderId;
-
-  NetworkAccessManager *network_;
 
   QMap<CoverProvider*, QString> cover_providers_;
   QMutex mutex_;

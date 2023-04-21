@@ -845,7 +845,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     }
   }
   else if (data->hasFormat(kCddaMimeType)) {
-    SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_, backend_->app()->player());
+    SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_, backend_->app()->player(), backend_->app()->network());
     QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
     inserter->LoadAudioCD(this, row, play_now, enqueue_now, enqueue_next_now);
   }
@@ -860,7 +860,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
 
 void Playlist::InsertUrls(const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
-  SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_, backend_->app()->player());
+  SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_, backend_->app()->player(), backend_->app()->network());
   QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
 
   inserter->Load(this, pos, play_now, enqueue, enqueue_next, urls);
