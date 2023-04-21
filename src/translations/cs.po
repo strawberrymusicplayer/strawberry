@@ -100,7 +100,7 @@ msgstr " sekund"
 msgid " songs"
 msgstr "skladby"
 
-#: scrobbler/scrobblingapi20.cpp:172 scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:216 scrobbler/scrobblingapi20.cpp:225
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Ověření systému pro doporučování hudby (scrobbler)"
@@ -1149,7 +1149,7 @@ msgstr "Mezipaměť"
 msgid "Buffer duration"
 msgstr "Délka vyrovnávací paměti"
 
-#: engine/gstengine.cpp:666
+#: engine/gstengine.cpp:671
 msgid "Buffering"
 msgstr "Ukládá se do vyrovnávací paměti"
 
@@ -1158,7 +1158,7 @@ msgstr "Ukládá se do vyrovnávací paměti"
 msgid "C&onsole"
 msgstr "&Konzola"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Přehrávání disků CD je možné pouze za použití GStreamer enginu."
 
@@ -1440,37 +1440,37 @@ msgstr ""
 "Nepodařilo se vytvořit prvek GStreamer \"%1\" - ujistěte se, že máte "
 "nainstalovány všechny požadované přídavné moduly GStreamer"
 
-#: core/songloader.cpp:314
+#: core/songloader.cpp:316
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:225
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 "Nelze otevřít adresu URL. Prosím otevřete tuto URL ve vašem prohlížeči"
 
-#: core/songloader.cpp:282
+#: core/songloader.cpp:284
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:372
+#: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:497
+#: core/songloader.cpp:499
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr ""
 
-#: core/songloader.cpp:480
+#: core/songloader.cpp:482
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: core/songloader.cpp:490
+#: core/songloader.cpp:492
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
@@ -1497,7 +1497,7 @@ msgstr ""
 "Nepodařilo se najít kodér \"%1\" - ujistěte se, že máte nainstalovány "
 "správné přídavné moduly GStreamer"
 
-#: core/songloader.cpp:503
+#: core/songloader.cpp:505
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
@@ -1889,7 +1889,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Stahovat obaly alb"
 
-#: musicbrainz/tagfetcher.cpp:129
+#: musicbrainz/tagfetcher.cpp:130
 msgid "Downloading metadata"
 msgstr "Stahují se popisná data"
 
@@ -2106,19 +2106,19 @@ msgstr "Chyba při mazání písní"
 msgid "Error processing %1: %2"
 msgstr "Chyba při zpracovávání %1: %2"
 
-#: playlist/songloaderinserter.cpp:113
+#: playlist/songloaderinserter.cpp:115
 msgid "Error while loading audio CD."
 msgstr "Chyba při načítání zvukového CD"
 
-#: device/cddasongloader.cpp:114 device/cddasongloader.cpp:123
+#: device/cddasongloader.cpp:116 device/cddasongloader.cpp:125
 msgid "Error while querying CDDA tracks."
 msgstr "Chyba při dotazování na CDDA stopy."
 
-#: device/cddasongloader.cpp:102
+#: device/cddasongloader.cpp:104
 msgid "Error while setting CDDA device to pause state."
 msgstr "Chyba při přenastavování CCDA zařízení do pozastaveného stavu."
 
-#: device/cddasongloader.cpp:94
+#: device/cddasongloader.cpp:96
 msgid "Error while setting CDDA device to ready state."
 msgstr "Chyba při přenastavování CCDA zařízení do připraveného stavu."
 
@@ -2284,17 +2284,17 @@ msgstr "Stahování dokončeno"
 msgid "Fetch entire albums when searching songs"
 msgstr "Načítat celá alba při vyhledávání"
 
-#: covermanager/coverfromurldialog.cpp:88
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:105
 msgid "Fetching cover error"
 msgstr "Chyba při stahování obalu"
 
-#: core/songloader.cpp:165 core/songloader.cpp:269
+#: core/songloader.cpp:167 core/songloader.cpp:271
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:329
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Soubor %1 nebyl rozpoznán jako platný zvukový soubor."
@@ -2358,7 +2358,7 @@ msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 " Najít skladby z kolekce, které odpovídají kritériům, která specifikujete."
 
-#: musicbrainz/tagfetcher.cpp:77
+#: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
 msgstr "Určení písně"
 
@@ -2666,7 +2666,7 @@ msgstr "Velikosti ikon"
 msgid "Icons on top"
 msgstr "Ikony nahoře"
 
-#: musicbrainz/tagfetcher.cpp:67 musicbrainz/tagfetcher.cpp:111
+#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
 msgstr "Určuje se píseň"
 
@@ -2784,7 +2784,7 @@ msgstr "Zobrazení karet Internetu"
 msgid "Intro tracks"
 msgstr "Skladby úvodu"
 
-#: scrobbler/scrobblingapi20.cpp:215
+#: scrobbler/scrobblingapi20.cpp:259
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Špatná odpověď od prohlížeče. Token chybí."
 
@@ -2885,9 +2885,14 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr "Omezení"
 
-#: scrobbler/listenbrainzscrobbler.cpp:191
+#: scrobbler/listenbrainzscrobbler.cpp:190
 msgid "ListenBrainz Authentication"
 msgstr "Přihlášení na ListenBrainz"
+
+#: scrobbler/listenbrainzscrobbler.cpp:676
+#, qt-format
+msgid "ListenBrainz error: %1"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:436
 msgid "Listenbrainz"
@@ -2938,11 +2943,11 @@ msgstr "Nahrávání chytrého playlistu"
 msgid "Loading songs"
 msgstr "Nahrávají se písně"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
+#: playlist/songloaderinserter.cpp:172 dialogs/edittagdialog.cpp:411
 msgid "Loading tracks"
 msgstr "Nahrávají se skladby"
 
-#: playlist/songloaderinserter.cpp:200
+#: playlist/songloaderinserter.cpp:202
 msgid "Loading tracks info"
 msgstr "Nahrávají se informace o skladbě"
 
@@ -3084,6 +3089,11 @@ msgstr "Nejnižší datový tok"
 msgid "Missing API token."
 msgstr "Chybějící API token."
 
+#: scrobbler/listenbrainzscrobbler.cpp:627
+#, qt-format
+msgid "Missing MusicBrainz recording ID for %1 %2 %3"
+msgstr ""
+
 #: qobuz/qobuzservice.cpp:738 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
 msgstr "Chybějící ID aplikace, nebo tajemství služby Qobuz."
@@ -3140,7 +3150,7 @@ msgstr "Chybějící heslo."
 msgid "Missing server url, username or password."
 msgstr "Chybějící URL serveru, uživatelské jméno nebo heslo."
 
-#: subsonic/subsonicservice.cpp:427
+#: subsonic/subsonicservice.cpp:431
 msgid "Missing username or password."
 msgstr "Chybějící uživatelské jméno nebo heslo."
 
@@ -3411,7 +3421,7 @@ msgstr "Zobrazit pouze první"
 msgid "Opacity"
 msgstr "Neprůhlednost"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid "Open URL in web browser?"
 msgstr "Otevřít URL v prohlížeči?"
 
@@ -3692,7 +3702,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Zavřete, prosím, svůj prohlížeč a vraťte se do Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:191
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
 msgstr "Prosím navštivte tuto adresu URL ve vašem prohlížeči."
 
@@ -3741,7 +3751,7 @@ msgstr ""
 "Zadejte jméno pole před slovo abyste limitovali vyhledávání na zadané pole, "
 "např.:"
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr "Funkce přednačítání nebyla nastavena pro operaci blokování."
 
@@ -3749,7 +3759,7 @@ msgstr "Funkce přednačítání nebyla nastavena pro operaci blokování."
 msgid "Preset:"
 msgstr "Předvolba:"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3900,11 +3910,11 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:217
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
 msgstr "Obdržena špatná odpověď od prohlížeče."
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:263
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3981,7 +3991,7 @@ msgstr "Přesměrování z Genius chybí kód položek dotazu nebo stav."
 msgid "Redirect missing token code or state!"
 msgstr "Přesměrování chybí kód tokenu nebo stav!"
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:213
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
 msgstr "Přesměrování chybí kód tokenu!"
 
@@ -4320,12 +4330,12 @@ msgstr "Velikost měřítka"
 msgid "Scrobbler"
 msgstr "doporučování hudby"
 
-#: scrobbler/scrobblingapi20.cpp:1020
+#: scrobbler/scrobblingapi20.cpp:912
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:534
+#: scrobbler/scrobblingapi20.cpp:463
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Systém pro doporučování hudby %1 není přihlášen!"
@@ -4442,7 +4452,7 @@ msgstr "Sériové číslo"
 msgid "Server URL"
 msgstr "URL serveru"
 
-#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:426 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "Adresa serveru není správná."
 
@@ -5056,11 +5066,11 @@ msgstr "Internetová kolekce je prázdná!"
 msgid "The second value must be greater than the first one!"
 msgstr ""
 
-#: covermanager/coverfromurldialog.cpp:88
+#: covermanager/coverfromurldialog.cpp:91
 msgid "The site you requested does not exist!"
 msgstr "Požadovaná stránka neexistuje!"
 
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:105
 msgid "The site you requested is not an image!"
 msgstr "Požadovaná stránka není obrázek!"
 
@@ -5293,6 +5303,11 @@ msgstr ""
 #: collection/collectionbackend.cpp:111
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
+#: scrobbler/listenbrainzscrobbler.cpp:601
+#, qt-format
+msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr ""
 
 #: playlist/playlistcontainer.cpp:222
@@ -5671,7 +5686,7 @@ msgid ""
 msgstr ""
 "Můžete podpořit autora na %1. Také můžete jednorázově přispět pomocí %2."
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "Pro tento odkaz je potřeba GStreamer."
 

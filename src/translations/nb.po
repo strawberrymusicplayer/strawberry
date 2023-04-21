@@ -104,7 +104,7 @@ msgstr " sekunder"
 msgid " songs"
 msgstr " sanger"
 
-#: scrobbler/scrobblingapi20.cpp:172 scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:216 scrobbler/scrobblingapi20.cpp:225
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler bruker autentisering"
@@ -1157,7 +1157,7 @@ msgstr "Buffer"
 msgid "Buffer duration"
 msgstr "Mellomlagringslengde"
 
-#: engine/gstengine.cpp:666
+#: engine/gstengine.cpp:671
 msgid "Buffering"
 msgstr "Mellomlagring"
 
@@ -1165,7 +1165,7 @@ msgstr "Mellomlagring"
 msgid "C&onsole"
 msgstr "K&onsoll"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD avspilling er kun mulig med gstreamer"
 
@@ -1450,36 +1450,36 @@ msgstr ""
 "Kunne ikke opprette GStreamer-elementet \"%1\" - sørg for at du har alle "
 "nødvendige GStreamer-programutvidelser installert"
 
-#: core/songloader.cpp:314
+#: core/songloader.cpp:316
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr "Kunne ikke åpne CUE fil %1 for lesing: %2"
 
-#: scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:225
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Kunne ikke åpne URL. Prøv å åpne denne URLen  i din nettleser"
 
-#: core/songloader.cpp:282
+#: core/songloader.cpp:284
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr "Kunne ikke åpne fil %1 for lesing: %2"
 
-#: core/songloader.cpp:372
+#: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr "Kunne ikke åpne spilleliste %1 for lesing: %2"
 
-#: core/songloader.cpp:497
+#: core/songloader.cpp:499
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr ""
 
-#: core/songloader.cpp:480
+#: core/songloader.cpp:482
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr "Kunne ikke opprette gstreamer kilde element for %1"
 
-#: core/songloader.cpp:490
+#: core/songloader.cpp:492
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
@@ -1506,7 +1506,7 @@ msgstr ""
 "Kunne ikke finne noen koder for %1, kontroller at du har de riktige "
 "GStreamer-modulene installert"
 
-#: core/songloader.cpp:503
+#: core/songloader.cpp:505
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
@@ -1900,7 +1900,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Last ned album kover"
 
-#: musicbrainz/tagfetcher.cpp:129
+#: musicbrainz/tagfetcher.cpp:130
 msgid "Downloading metadata"
 msgstr "Laster ned metadata"
 
@@ -2117,19 +2117,19 @@ msgstr "Kunne ikke slette sanger"
 msgid "Error processing %1: %2"
 msgstr "Kunne ikke behandle %1: %2"
 
-#: playlist/songloaderinserter.cpp:113
+#: playlist/songloaderinserter.cpp:115
 msgid "Error while loading audio CD."
 msgstr "Feil ved lasting av CD"
 
-#: device/cddasongloader.cpp:114 device/cddasongloader.cpp:123
+#: device/cddasongloader.cpp:116 device/cddasongloader.cpp:125
 msgid "Error while querying CDDA tracks."
 msgstr "Feil ved henting av CDDA spor"
 
-#: device/cddasongloader.cpp:102
+#: device/cddasongloader.cpp:104
 msgid "Error while setting CDDA device to pause state."
 msgstr "Feil ved setting av CDDA enhet til pause status"
 
-#: device/cddasongloader.cpp:94
+#: device/cddasongloader.cpp:96
 msgid "Error while setting CDDA device to ready state."
 msgstr "Feil ved setting av CDDA enhet til klar status"
 
@@ -2295,17 +2295,17 @@ msgstr "Innhenting fullført"
 msgid "Fetch entire albums when searching songs"
 msgstr "Hent hele album når en søker etter sanger"
 
-#: covermanager/coverfromurldialog.cpp:88
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:105
 msgid "Fetching cover error"
 msgstr "Kunne ikke hente albumgrafikk"
 
-#: core/songloader.cpp:165 core/songloader.cpp:269
+#: core/songloader.cpp:167 core/songloader.cpp:271
 #, qt-format
 msgid "File %1 does not exist."
 msgstr "Fil %1 eksisterer ikke."
 
-#: core/songloader.cpp:185 core/songloader.cpp:329
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Fil %1 er ikke gjenkjent som en lydfil"
@@ -2368,7 +2368,7 @@ msgstr "Filtype"
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr "Finn sanger i samlingen som svarer til kriteriene du spesifiserer"
 
-#: musicbrainz/tagfetcher.cpp:77
+#: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
 msgstr "Vannmerker sangen"
 
@@ -2674,7 +2674,7 @@ msgstr "Ikon størrelser"
 msgid "Icons on top"
 msgstr "Ikoner øverst"
 
-#: musicbrainz/tagfetcher.cpp:67 musicbrainz/tagfetcher.cpp:111
+#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
 msgstr "Identifiserer sangen"
 
@@ -2790,7 +2790,7 @@ msgstr "Internett tabb visning"
 msgid "Intro tracks"
 msgstr "Introspor"
 
-#: scrobbler/scrobblingapi20.cpp:215
+#: scrobbler/scrobblingapi20.cpp:259
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Ugyldig svar fra nettleseren. Mangler token."
 
@@ -2889,9 +2889,14 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr "Begrensninger"
 
-#: scrobbler/listenbrainzscrobbler.cpp:191
+#: scrobbler/listenbrainzscrobbler.cpp:190
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz autentisering"
+
+#: scrobbler/listenbrainzscrobbler.cpp:676
+#, qt-format
+msgid "ListenBrainz error: %1"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:436
 msgid "Listenbrainz"
@@ -2942,11 +2947,11 @@ msgstr "Laster smart spilleliste"
 msgid "Loading songs"
 msgstr "Åpner sanger"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
+#: playlist/songloaderinserter.cpp:172 dialogs/edittagdialog.cpp:411
 msgid "Loading tracks"
 msgstr "Åpner spor"
 
-#: playlist/songloaderinserter.cpp:200
+#: playlist/songloaderinserter.cpp:202
 msgid "Loading tracks info"
 msgstr "Henter informasjon om spor"
 
@@ -3087,6 +3092,11 @@ msgstr "Minimal bitrate"
 msgid "Missing API token."
 msgstr "Mangler API nøkkel."
 
+#: scrobbler/listenbrainzscrobbler.cpp:627
+#, qt-format
+msgid "Missing MusicBrainz recording ID for %1 %2 %3"
+msgstr ""
+
 #: qobuz/qobuzservice.cpp:738 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
 msgstr "Mangler Qobuz app ID eller secret."
@@ -3143,7 +3153,7 @@ msgstr "Mangler passord."
 msgid "Missing server url, username or password."
 msgstr "Mangler server URL, brukernavn eller passord."
 
-#: subsonic/subsonicservice.cpp:427
+#: subsonic/subsonicservice.cpp:431
 msgid "Missing username or password."
 msgstr "Mangler brukernavn eller passord."
 
@@ -3409,7 +3419,7 @@ msgstr "Bare vis de første"
 msgid "Opacity"
 msgstr "Dekkevne"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid "Open URL in web browser?"
 msgstr "Åpne URL i nettleseren?"
 
@@ -3690,7 +3700,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Lukk nettleseren og gå tilbake til Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:191
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
 msgstr "Vennligst åpne denne URLen i din nettleser"
 
@@ -3738,7 +3748,7 @@ msgid ""
 msgstr ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr "Preload function was not set for blocking operation."
 
@@ -3746,7 +3756,7 @@ msgstr "Preload function was not set for blocking operation."
 msgid "Preset:"
 msgstr "Forhåndsinnstilling:"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3903,11 +3913,11 @@ msgstr ""
 "strøm."
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:217
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
 msgstr "Mottok ugyldig svar fra nettleseren."
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:263
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3984,7 +3994,7 @@ msgstr "Redirect from Genius is missing query items code or state."
 msgid "Redirect missing token code or state!"
 msgstr "Redirect missing token code or state!"
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:213
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
 msgstr "Redirect missing token code!"
 
@@ -4321,12 +4331,12 @@ msgstr "Skaler størrelse"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1020
+#: scrobbler/scrobblingapi20.cpp:912
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Skrobbler %1 error: %2"
 
-#: scrobbler/scrobblingapi20.cpp:534
+#: scrobbler/scrobblingapi20.cpp:463
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 er ikke autentisert!"
@@ -4442,7 +4452,7 @@ msgstr "Serienummer"
 msgid "Server URL"
 msgstr "Server URL"
 
-#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:426 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "Server URL er ugyldig."
 
@@ -5052,11 +5062,11 @@ msgstr "Internett samlingen er tom!"
 msgid "The second value must be greater than the first one!"
 msgstr "Andre verdi må være høyere enne den første!"
 
-#: covermanager/coverfromurldialog.cpp:88
+#: covermanager/coverfromurldialog.cpp:91
 msgid "The site you requested does not exist!"
 msgstr "Siden du forespurte finnes ikke!"
 
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:105
 msgid "The site you requested is not an image!"
 msgstr "Siden du forespurte er ikke et bilde!"
 
@@ -5288,6 +5298,11 @@ msgstr ""
 #: collection/collectionbackend.cpp:111
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
+#: scrobbler/listenbrainzscrobbler.cpp:601
+#, qt-format
+msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr ""
 
 #: playlist/playlistcontainer.cpp:222
@@ -5665,7 +5680,7 @@ msgstr ""
 "Du kan sponse Strawberry på %1. Du kan også gi en engangsbetaling gjennom %2."
 ""
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "Du trenge gstreamer for denne URLen"
 

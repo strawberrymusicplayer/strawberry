@@ -103,7 +103,7 @@ msgstr " 초"
 msgid " songs"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:172 scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:216 scrobbler/scrobblingapi20.cpp:225
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 스크로블러 인증"
@@ -1149,7 +1149,7 @@ msgstr "버퍼"
 msgid "Buffer duration"
 msgstr "버퍼 시간"
 
-#: engine/gstengine.cpp:666
+#: engine/gstengine.cpp:671
 msgid "Buffering"
 msgstr "버퍼링"
 
@@ -1157,7 +1157,7 @@ msgstr "버퍼링"
 msgid "C&onsole"
 msgstr "콘솔(&O)"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD 재생은 GStreamer 엔진에서만 지원합니다."
 
@@ -1437,36 +1437,36 @@ msgid ""
 msgstr ""
 "GStreamer 엘리먼트 \"%1\"을(를) 찾을 수 없습니다. 필요한 모든 GStreamer 플러그인 설치 상태를 확인하십시오"
 
-#: core/songloader.cpp:314
+#: core/songloader.cpp:316
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:225
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "URL을 열 수 없습니다. 웹 브라우저에서 여십시오"
 
-#: core/songloader.cpp:282
+#: core/songloader.cpp:284
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:372
+#: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:497
+#: core/songloader.cpp:499
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr ""
 
-#: core/songloader.cpp:480
+#: core/songloader.cpp:482
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: core/songloader.cpp:490
+#: core/songloader.cpp:492
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
@@ -1489,7 +1489,7 @@ msgid ""
 "plugins installed"
 msgstr "%1 인코더를 찾을 수 없습니다. GStreamer 플러그인 설치 상태를 확인하십시오"
 
-#: core/songloader.cpp:503
+#: core/songloader.cpp:505
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
@@ -1881,7 +1881,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "앨범아트 다운로드 중"
 
-#: musicbrainz/tagfetcher.cpp:129
+#: musicbrainz/tagfetcher.cpp:130
 msgid "Downloading metadata"
 msgstr "메타데이터 다운로드 중"
 
@@ -2098,19 +2098,19 @@ msgstr "노래 삭제 오류"
 msgid "Error processing %1: %2"
 msgstr "%1 처리 오류: %2"
 
-#: playlist/songloaderinserter.cpp:113
+#: playlist/songloaderinserter.cpp:115
 msgid "Error while loading audio CD."
 msgstr "오디오 CD를 불러오는 중 오류가 발생했습니다."
 
-#: device/cddasongloader.cpp:114 device/cddasongloader.cpp:123
+#: device/cddasongloader.cpp:116 device/cddasongloader.cpp:125
 msgid "Error while querying CDDA tracks."
 msgstr "CDDA 트랙을 로딩하는데 오류가 있습니다."
 
-#: device/cddasongloader.cpp:102
+#: device/cddasongloader.cpp:104
 msgid "Error while setting CDDA device to pause state."
 msgstr "CDDA 디바이스를 일시정지하는데 오류가 있습니다."
 
-#: device/cddasongloader.cpp:94
+#: device/cddasongloader.cpp:96
 msgid "Error while setting CDDA device to ready state."
 msgstr "CDDA 디바이스를 준비하는데 오류가 있습니다."
 
@@ -2276,17 +2276,17 @@ msgstr "가져오기 완료"
 msgid "Fetch entire albums when searching songs"
 msgstr "곡을 검색할 때 전체 앨범 가져오기"
 
-#: covermanager/coverfromurldialog.cpp:88
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:105
 msgid "Fetching cover error"
 msgstr "표지 가져오기 오류"
 
-#: core/songloader.cpp:165 core/songloader.cpp:269
+#: core/songloader.cpp:167 core/songloader.cpp:271
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:329
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "%1 파일은 올바른 오디오 파일이 아닌 것 같습니다."
@@ -2349,7 +2349,7 @@ msgstr "파일 형식"
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:77
+#: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
 msgstr "노래 정보 추출 중"
 
@@ -2653,7 +2653,7 @@ msgstr "아이콘 크기"
 msgid "Icons on top"
 msgstr "상단에 아이콘"
 
-#: musicbrainz/tagfetcher.cpp:67 musicbrainz/tagfetcher.cpp:111
+#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
 msgstr "음악 식별 중"
 
@@ -2763,7 +2763,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "인트로 트랙"
 
-#: scrobbler/scrobblingapi20.cpp:215
+#: scrobbler/scrobblingapi20.cpp:259
 msgid "Invalid reply from web browser. Missing token."
 msgstr "웹 브라우저에서 잘못된 응답을 받았습니다. 토큰이 없습니다."
 
@@ -2862,9 +2862,14 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:191
+#: scrobbler/listenbrainzscrobbler.cpp:190
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz 인증"
+
+#: scrobbler/listenbrainzscrobbler.cpp:676
+#, qt-format
+msgid "ListenBrainz error: %1"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:436
 msgid "Listenbrainz"
@@ -2915,11 +2920,11 @@ msgstr "스마트 재생 목록 로딩"
 msgid "Loading songs"
 msgstr "노래 불러오는 중"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
+#: playlist/songloaderinserter.cpp:172 dialogs/edittagdialog.cpp:411
 msgid "Loading tracks"
 msgstr "트랙 불러오는 중"
 
-#: playlist/songloaderinserter.cpp:200
+#: playlist/songloaderinserter.cpp:202
 msgid "Loading tracks info"
 msgstr "트랙 정보 불러오는 중"
 
@@ -3060,6 +3065,11 @@ msgstr "최소 비트 전송률"
 msgid "Missing API token."
 msgstr "API 토큰이 없습니다."
 
+#: scrobbler/listenbrainzscrobbler.cpp:627
+#, qt-format
+msgid "Missing MusicBrainz recording ID for %1 %2 %3"
+msgstr ""
+
 #: qobuz/qobuzservice.cpp:738 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
 msgstr "Qobuz 앱 ID나 비밀 값이 없습니다."
@@ -3116,7 +3126,7 @@ msgstr "패스워드가 없습니다."
 msgid "Missing server url, username or password."
 msgstr "서버 URL, 사용자 이름이나 암호가 없습니다."
 
-#: subsonic/subsonicservice.cpp:427
+#: subsonic/subsonicservice.cpp:431
 msgid "Missing username or password."
 msgstr "사용자 이름이나 암호가 없습니다."
 
@@ -3382,7 +3392,7 @@ msgstr ""
 msgid "Opacity"
 msgstr "불투명도"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid "Open URL in web browser?"
 msgstr "웹 브라우저에서 URL을 여시겠습니까?"
 
@@ -3661,7 +3671,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "브라우저를 닫고 Strawberry로 돌아오십시오."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:191
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
 msgstr "웹 브라우저에서 다음 URL을 여십시오"
 
@@ -3708,7 +3718,7 @@ msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr "검색어 앞에 필드 이름을 입력하면 해당 필드에서만 검색합니다. 예:"
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr "차단하는 작업의 프리로드 함수를 설정하지 않았습니다."
 
@@ -3716,7 +3726,7 @@ msgstr "차단하는 작업의 프리로드 함수를 설정하지 않았습니�
 msgid "Preset:"
 msgstr "사전 설정:"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3865,11 +3875,11 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:217
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
 msgstr "웹 브라우저에서 잘못된 응답을 받았습니다."
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:263
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3946,7 +3956,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:213
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
 msgstr "넘겨주기 응답에 토큰 코드가 없습니다!"
 
@@ -4281,12 +4291,12 @@ msgstr "크기 조정"
 msgid "Scrobbler"
 msgstr "스크로블러"
 
-#: scrobbler/scrobblingapi20.cpp:1020
+#: scrobbler/scrobblingapi20.cpp:912
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:534
+#: scrobbler/scrobblingapi20.cpp:463
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "스크로블러 %1이(가) 인증되지 않았습니다!"
@@ -4402,7 +4412,7 @@ msgstr "일련 번호"
 msgid "Server URL"
 msgstr "서버 URL"
 
-#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:426 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "서버 URL이 잘못되었습니다."
 
@@ -5007,11 +5017,11 @@ msgstr "인터넷 라이브러리가 비어 있습니다!"
 msgid "The second value must be greater than the first one!"
 msgstr "두번째 값은 첫번째보다 커야 합니다."
 
-#: covermanager/coverfromurldialog.cpp:88
+#: covermanager/coverfromurldialog.cpp:91
 msgid "The site you requested does not exist!"
 msgstr "요청한 사이트가 존재하지 않습니다!"
 
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:105
 msgid "The site you requested is not an image!"
 msgstr "요청한 사이트는 이미지가 아닙니다!"
 
@@ -5228,6 +5238,11 @@ msgstr ""
 #: collection/collectionbackend.cpp:111
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
+#: scrobbler/listenbrainzscrobbler.cpp:601
+#, qt-format
+msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr ""
 
 #: playlist/playlistcontainer.cpp:222
@@ -5597,7 +5612,7 @@ msgid ""
 "through %2."
 msgstr ""
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "이 URL에 접근하려면 GStreamer가 필요합니다."
 

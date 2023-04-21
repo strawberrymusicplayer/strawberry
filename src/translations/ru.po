@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-04-09 02:11-0400\n"
+"PO-Revision-Date: 2023-04-21 04:17-0400\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -128,7 +128,7 @@ msgstr " секунд"
 msgid " songs"
 msgstr " песен"
 
-#: scrobbler/scrobblingapi20.cpp:172 scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:216 scrobbler/scrobblingapi20.cpp:225
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "Аутентификация скробблера %1"
@@ -1183,7 +1183,7 @@ msgstr "Буфер"
 msgid "Buffer duration"
 msgstr "Размер буфера"
 
-#: engine/gstengine.cpp:666
+#: engine/gstengine.cpp:671
 msgid "Buffering"
 msgstr "Буферизация"
 
@@ -1191,7 +1191,7 @@ msgstr "Буферизация"
 msgid "C&onsole"
 msgstr "&Консоль"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Воспроизведение CD доступно только с движком GStreamer."
 
@@ -1474,37 +1474,37 @@ msgstr ""
 "Не удалось создать элемент GStreamer «%1» — убедитесь, что у вас установлены "
 "все необходимые модули GStreamer"
 
-#: core/songloader.cpp:314
+#: core/songloader.cpp:316
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr "Не удалось открыть CUE-файл %1 для чтения: %2"
 
-#: scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:225
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 "Не удалось открыть адрес. Пожалуйста, откройте эту ссылку в вашем браузере"
 
-#: core/songloader.cpp:282
+#: core/songloader.cpp:284
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr "Не удалось открыть файл %1 для чтения: %2"
 
-#: core/songloader.cpp:372
+#: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr "Не удалось открыть файл плейлиста %1 для чтения: %2"
 
-#: core/songloader.cpp:497
+#: core/songloader.cpp:499
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr "Не удалось создать элемент GStreamer fakesink для %1"
 
-#: core/songloader.cpp:480
+#: core/songloader.cpp:482
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr "Не удалось создать объект источника GStreamer для %1"
 
-#: core/songloader.cpp:490
+#: core/songloader.cpp:492
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr "Не удалось создать элемент GStreamer typefind для %1"
@@ -1531,7 +1531,7 @@ msgstr ""
 "Не удалось найти кодировщик для %1, проверьте, что у вас установлены все "
 "необходимые модули GStreamer"
 
-#: core/songloader.cpp:503
+#: core/songloader.cpp:505
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
@@ -1926,7 +1926,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Скачивать обложки альбомов"
 
-#: musicbrainz/tagfetcher.cpp:129
+#: musicbrainz/tagfetcher.cpp:130
 msgid "Downloading metadata"
 msgstr "Загрузка метаданных"
 
@@ -2143,19 +2143,19 @@ msgstr "Ошибка удаления композиций"
 msgid "Error processing %1: %2"
 msgstr "Ошибка при обработке %1: %2"
 
-#: playlist/songloaderinserter.cpp:113
+#: playlist/songloaderinserter.cpp:115
 msgid "Error while loading audio CD."
 msgstr "Ошибка при загрузке аудио-CD."
 
-#: device/cddasongloader.cpp:114 device/cddasongloader.cpp:123
+#: device/cddasongloader.cpp:116 device/cddasongloader.cpp:125
 msgid "Error while querying CDDA tracks."
 msgstr "Ошибка при запросе треков CDDA."
 
-#: device/cddasongloader.cpp:102
+#: device/cddasongloader.cpp:104
 msgid "Error while setting CDDA device to pause state."
 msgstr "Ошибка при установке устройства CDDA в состояние паузы."
 
-#: device/cddasongloader.cpp:94
+#: device/cddasongloader.cpp:96
 msgid "Error while setting CDDA device to ready state."
 msgstr "Ошибка при установке устройства CDDA в состояние готовности."
 
@@ -2321,17 +2321,17 @@ msgstr "Получение завершено"
 msgid "Fetch entire albums when searching songs"
 msgstr "Получать весь альбом при поиске песен"
 
-#: covermanager/coverfromurldialog.cpp:88
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:105
 msgid "Fetching cover error"
 msgstr "Ошибка получения обложки"
 
-#: core/songloader.cpp:165 core/songloader.cpp:269
+#: core/songloader.cpp:167 core/songloader.cpp:271
 #, qt-format
 msgid "File %1 does not exist."
 msgstr "Файл %1 не существует."
 
-#: core/songloader.cpp:185 core/songloader.cpp:329
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Файл %1 не распознан как допустимый аудиофайл."
@@ -2394,7 +2394,7 @@ msgstr "Тип файла"
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr "Найти композиции в фонотеке по указанным вами критериям."
 
-#: musicbrainz/tagfetcher.cpp:77
+#: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
 msgstr "Получение отпечатка песни"
 
@@ -2699,7 +2699,7 @@ msgstr "Размер значков"
 msgid "Icons on top"
 msgstr "Значки сверху"
 
-#: musicbrainz/tagfetcher.cpp:67 musicbrainz/tagfetcher.cpp:111
+#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
 msgstr "Определение песни"
 
@@ -2818,7 +2818,7 @@ msgstr "Обзор вкладок в Интернете"
 msgid "Intro tracks"
 msgstr "Вступительные треки"
 
-#: scrobbler/scrobblingapi20.cpp:215
+#: scrobbler/scrobblingapi20.cpp:259
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Неверный ответ от веб-браузера. Отсутствует токен."
 
@@ -2842,6 +2842,12 @@ msgid ""
 "you should build Strawberry from source. For instructions see.: https://wiki."
 "strawberrymusicplayer.org/wiki/Compile"
 msgstr ""
+"Похоже, что Strawberry работает под управлением Rosetta. Strawberry в "
+"настоящее время имеет ограниченную поддержку macOS, а работа в Rosetta не "
+"поддерживается и вызывает проблемы. Если вы хотите использовать Strawberry "
+"на текущем процессоре, вам следует собрать приложение из исходного кода. См. "
+"инструкции:\n"
+"https://wiki.strawberrymusicplayer.org/wiki/Compile"
 
 #: ../build/src/ui_behavioursettingspage.h:301
 msgid "Jump to previous song right away"
@@ -2919,9 +2925,14 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr "Ограничения"
 
-#: scrobbler/listenbrainzscrobbler.cpp:191
+#: scrobbler/listenbrainzscrobbler.cpp:190
 msgid "ListenBrainz Authentication"
 msgstr "Аутентификация ListenBrainz"
+
+#: scrobbler/listenbrainzscrobbler.cpp:676
+#, qt-format
+msgid "ListenBrainz error: %1"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:436
 msgid "Listenbrainz"
@@ -2972,11 +2983,11 @@ msgstr "Загрузка умного плейлиста"
 msgid "Loading songs"
 msgstr "Загрузка песен"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
+#: playlist/songloaderinserter.cpp:172 dialogs/edittagdialog.cpp:411
 msgid "Loading tracks"
 msgstr "Загрузка композиций"
 
-#: playlist/songloaderinserter.cpp:200
+#: playlist/songloaderinserter.cpp:202
 msgid "Loading tracks info"
 msgstr "Загрузка сведений о треках"
 
@@ -3099,7 +3110,7 @@ msgstr "Средняя (%1 к/с)"
 
 #: ../build/src/ui_messagedialog.h:117
 msgid "Message Dialog"
-msgstr ""
+msgstr "Диалог сообщения"
 
 #: ../build/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
@@ -3116,6 +3127,11 @@ msgstr "Минимальный битрейт"
 #: settings/tidalsettingspage.cpp:158
 msgid "Missing API token."
 msgstr "Отсутствует токен API."
+
+#: scrobbler/listenbrainzscrobbler.cpp:627
+#, qt-format
+msgid "Missing MusicBrainz recording ID for %1 %2 %3"
+msgstr ""
 
 #: qobuz/qobuzservice.cpp:738 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
@@ -3173,7 +3189,7 @@ msgstr "Отсутствует пароль."
 msgid "Missing server url, username or password."
 msgstr "Отсутствует адрес сервера, имя пользователя или пароль."
 
-#: subsonic/subsonicservice.cpp:427
+#: subsonic/subsonicservice.cpp:431
 msgid "Missing username or password."
 msgstr "Отсутствует имя пользователя или пароль."
 
@@ -3444,7 +3460,7 @@ msgstr "Показывать только первый"
 msgid "Opacity"
 msgstr "Непрозрачность"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid "Open URL in web browser?"
 msgstr "Открыть адрес в веб-браузере?"
 
@@ -3730,7 +3746,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Пожалуйста, закройте браузер и вернитесь в Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:191
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
 msgstr "Пожалуйста, откройте эту ссылку в вашем браузере"
 
@@ -3778,7 +3794,7 @@ msgid ""
 msgstr ""
 "Начните с название поля для ограничения поиска по этому полю. Например:"
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr ""
 "Функция предварительной нагрузки не была установлена ​​для операции "
@@ -3788,7 +3804,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "Предустановка:"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3946,11 +3962,11 @@ msgstr ""
 "не поддерживает шифрованные потоки."
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:217
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
 msgstr "Получен неверный ответ от веб-браузера."
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:263
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4030,7 +4046,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr "В перенаправлении отсутствует код или состояние токена!"
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:213
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
 msgstr "В перенаправлении отсутствует код токена!"
 
@@ -4368,12 +4384,12 @@ msgstr "Размер масштабирования"
 msgid "Scrobbler"
 msgstr "Скробблер"
 
-#: scrobbler/scrobblingapi20.cpp:1020
+#: scrobbler/scrobblingapi20.cpp:912
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Ошибка %1 скробблера: %2"
 
-#: scrobbler/scrobblingapi20.cpp:534
+#: scrobbler/scrobblingapi20.cpp:463
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Скробблер %1 не аутентифицирован!"
@@ -4489,7 +4505,7 @@ msgstr "Серийный номер"
 msgid "Server URL"
 msgstr "Адрес сервера"
 
-#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:426 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "Адрес сервера недействителен."
 
@@ -4945,7 +4961,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:1058
 msgid "Strawberry running under Rosetta"
-msgstr ""
+msgstr "Strawberry запущен под управлением Rosetta"
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Strawberry was unable to find results for this file"
@@ -5103,11 +5119,11 @@ msgstr "Интернет-фонотека пуста!"
 msgid "The second value must be greater than the first one!"
 msgstr "Второе значение должно быть выше первого!"
 
-#: covermanager/coverfromurldialog.cpp:88
+#: covermanager/coverfromurldialog.cpp:91
 msgid "The site you requested does not exist!"
 msgstr "Запрошенный сайт не существует!"
 
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:105
 msgid "The site you requested is not an image!"
 msgstr "Запрошенная ссылка не является изображением!"
 
@@ -5340,6 +5356,11 @@ msgstr "Невозможно выполнить запрос SQL: %1"
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
 msgstr "Невозможно выполнить запрос SQL к фонотеке: %1"
+
+#: scrobbler/listenbrainzscrobbler.cpp:601
+#, qt-format
+msgid "Unable to scrobble %1 - %2 because of error: %3"
+msgstr ""
 
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
@@ -5723,7 +5744,7 @@ msgstr ""
 "Вы можете материально поддержать автора на %1. Также можно произвести "
 "единовременный платёж через %2."
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "Вам нужен GStreamer для этого адреса."
 

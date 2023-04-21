@@ -98,7 +98,7 @@ msgstr " sekuntia"
 msgid " songs"
 msgstr "kappaleet"
 
-#: scrobbler/scrobblingapi20.cpp:172 scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:216 scrobbler/scrobblingapi20.cpp:225
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler-tunnistautuminen"
@@ -1145,7 +1145,7 @@ msgstr "Puskuri"
 msgid "Buffer duration"
 msgstr "Puskurin kesto"
 
-#: engine/gstengine.cpp:666
+#: engine/gstengine.cpp:671
 msgid "Buffering"
 msgstr "Puskuroidaan"
 
@@ -1153,7 +1153,7 @@ msgstr "Puskuroidaan"
 msgid "C&onsole"
 msgstr "K&onsoli"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD-toisto on saatavilla vain GStreamer-moottorilla"
 
@@ -1436,37 +1436,37 @@ msgstr ""
 "GStreamer-elementin \"%1\" luonti epäonnistui - varmista, että kaikki "
 "vaaditut GStreamer-liitännäiset on asennettu"
 
-#: core/songloader.cpp:314
+#: core/songloader.cpp:316
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:225
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 "URL-osoitetta ei voitu avata. Ole hyvä ja kokeile avata URL selaimessasi"
 
-#: core/songloader.cpp:282
+#: core/songloader.cpp:284
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:372
+#: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:497
+#: core/songloader.cpp:499
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr ""
 
-#: core/songloader.cpp:480
+#: core/songloader.cpp:482
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: core/songloader.cpp:490
+#: core/songloader.cpp:492
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
@@ -1493,7 +1493,7 @@ msgstr ""
 "Ei löydetty %1 -enkooderia, tarkista että sinulla on oikeat GStreamer-"
 "liitännäiset asennettuna"
 
-#: core/songloader.cpp:503
+#: core/songloader.cpp:505
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
@@ -1885,7 +1885,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Lataa albumien kansikuvat"
 
-#: musicbrainz/tagfetcher.cpp:129
+#: musicbrainz/tagfetcher.cpp:130
 msgid "Downloading metadata"
 msgstr "Noudetaan metatietoja"
 
@@ -2102,19 +2102,19 @@ msgstr "Virhe kappaleita poistaessa"
 msgid "Error processing %1: %2"
 msgstr "Virhe käsitellessä %1:%2"
 
-#: playlist/songloaderinserter.cpp:113
+#: playlist/songloaderinserter.cpp:115
 msgid "Error while loading audio CD."
 msgstr ""
 
-#: device/cddasongloader.cpp:114 device/cddasongloader.cpp:123
+#: device/cddasongloader.cpp:116 device/cddasongloader.cpp:125
 msgid "Error while querying CDDA tracks."
 msgstr "CDDA-raitojen kysely epäonnistui."
 
-#: device/cddasongloader.cpp:102
+#: device/cddasongloader.cpp:104
 msgid "Error while setting CDDA device to pause state."
 msgstr ""
 
-#: device/cddasongloader.cpp:94
+#: device/cddasongloader.cpp:96
 msgid "Error while setting CDDA device to ready state."
 msgstr ""
 
@@ -2282,17 +2282,17 @@ msgstr "Nouto suoritettu"
 msgid "Fetch entire albums when searching songs"
 msgstr "Nouda koko albumi hakiessa kappaleita"
 
-#: covermanager/coverfromurldialog.cpp:88
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:105
 msgid "Fetching cover error"
 msgstr "Virhe kansikuvan noudossa"
 
-#: core/songloader.cpp:165 core/songloader.cpp:269
+#: core/songloader.cpp:167 core/songloader.cpp:271
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:329
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Tiedostoa %1 ei tunnistettu äänitiedostoksi."
@@ -2355,7 +2355,7 @@ msgstr "Tiedoston tyyppi"
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:77
+#: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
 msgstr "Luodaan sormenjälkeä kappaleesta..."
 
@@ -2660,7 +2660,7 @@ msgstr "Kuvakkeen koot"
 msgid "Icons on top"
 msgstr "Kuvakkeet ylhäällä"
 
-#: musicbrainz/tagfetcher.cpp:67 musicbrainz/tagfetcher.cpp:111
+#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
 msgstr "Tunnistetaan kappaletta"
 
@@ -2776,7 +2776,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Intro-kappaleet"
 
-#: scrobbler/scrobblingapi20.cpp:215
+#: scrobbler/scrobblingapi20.cpp:259
 msgid "Invalid reply from web browser. Missing token."
 msgstr ""
 
@@ -2875,9 +2875,14 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:191
+#: scrobbler/listenbrainzscrobbler.cpp:190
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz-tunnistautuminen"
+
+#: scrobbler/listenbrainzscrobbler.cpp:676
+#, qt-format
+msgid "ListenBrainz error: %1"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:436
 msgid "Listenbrainz"
@@ -2928,11 +2933,11 @@ msgstr "Ladataan älykästä soittolistaa"
 msgid "Loading songs"
 msgstr "Ladataan kappaleita"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
+#: playlist/songloaderinserter.cpp:172 dialogs/edittagdialog.cpp:411
 msgid "Loading tracks"
 msgstr "Ladataan kappaleita"
 
-#: playlist/songloaderinserter.cpp:200
+#: playlist/songloaderinserter.cpp:202
 msgid "Loading tracks info"
 msgstr "Lataa kappaleen tietoja"
 
@@ -3074,6 +3079,11 @@ msgstr "Pienin bittinopeus"
 msgid "Missing API token."
 msgstr "API-avain puuttuu."
 
+#: scrobbler/listenbrainzscrobbler.cpp:627
+#, qt-format
+msgid "Missing MusicBrainz recording ID for %1 %2 %3"
+msgstr ""
+
 #: qobuz/qobuzservice.cpp:738 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
 msgstr "Qobuz-sovellustunniste tai -salaisuus puuttuu."
@@ -3130,7 +3140,7 @@ msgstr "Salasana puuttuu."
 msgid "Missing server url, username or password."
 msgstr "Puuttuva palvelimen osoite, käyttäjätunnus tai salasana"
 
-#: subsonic/subsonicservice.cpp:427
+#: subsonic/subsonicservice.cpp:431
 msgid "Missing username or password."
 msgstr "Puuttuva käyttäjänimi tai salasana."
 
@@ -3399,7 +3409,7 @@ msgstr "Näytä pelkästään ensimmäinen"
 msgid "Opacity"
 msgstr "Läpinäkyvyys"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid "Open URL in web browser?"
 msgstr "Avataanko osoite verkkoselaimessa?"
 
@@ -3678,7 +3688,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Sulje selain ja palaa Strawberryen."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:191
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
 msgstr "Avaa tämä sivu selaimessasi"
 
@@ -3725,7 +3735,7 @@ msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr ""
 
@@ -3733,7 +3743,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "Asetus:"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3882,11 +3892,11 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:217
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:263
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3961,7 +3971,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:213
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
 msgstr ""
 
@@ -4299,12 +4309,12 @@ msgstr "Skaalaa koko"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1020
+#: scrobbler/scrobblingapi20.cpp:912
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 virhe: %2"
 
-#: scrobbler/scrobblingapi20.cpp:534
+#: scrobbler/scrobblingapi20.cpp:463
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -4420,7 +4430,7 @@ msgstr "Sarjanumero"
 msgid "Server URL"
 msgstr "Palvelimen URL"
 
-#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:426 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "Palvelimen osoite ei kelpaa"
 
@@ -5025,11 +5035,11 @@ msgstr "Verkkokokoelmasi on tyhjä!"
 msgid "The second value must be greater than the first one!"
 msgstr ""
 
-#: covermanager/coverfromurldialog.cpp:88
+#: covermanager/coverfromurldialog.cpp:91
 msgid "The site you requested does not exist!"
 msgstr "Hakemaasi sivua ei ole olemassa!"
 
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:105
 msgid "The site you requested is not an image!"
 msgstr "Hakemasi sivu ei ole kuva!"
 
@@ -5259,6 +5269,11 @@ msgstr ""
 #: collection/collectionbackend.cpp:111
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
+#: scrobbler/listenbrainzscrobbler.cpp:601
+#, qt-format
+msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr ""
 
 #: playlist/playlistcontainer.cpp:222
@@ -5636,7 +5651,7 @@ msgstr ""
 "Voit sponsoroida tekijää %1:ssa. Voit myös tehdä kertalahjoituksen "
 "osoiteessa %2."
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "Tarvitset GStreamerin tätä URL-osoitetta varten."
 

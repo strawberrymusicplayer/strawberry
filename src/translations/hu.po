@@ -114,7 +114,7 @@ msgstr " másodperc"
 msgid " songs"
 msgstr " számok"
 
-#: scrobbler/scrobblingapi20.cpp:172 scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:216 scrobbler/scrobblingapi20.cpp:225
 #, fuzzy, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 scrobbler hitelesítés"
@@ -1168,7 +1168,7 @@ msgstr "Puffer"
 msgid "Buffer duration"
 msgstr "Puffer hossza"
 
-#: engine/gstengine.cpp:666
+#: engine/gstengine.cpp:671
 msgid "Buffering"
 msgstr "Pufferelés"
 
@@ -1176,7 +1176,7 @@ msgstr "Pufferelés"
 msgid "C&onsole"
 msgstr "&Konzol"
 
-#: core/songloader.cpp:202
+#: core/songloader.cpp:204
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "A CD-lejátszás csak a GStreamer motorral érhető el."
 
@@ -1462,36 +1462,36 @@ msgstr ""
 "Nem hozható létre a(z) „%1” GStreamer elem – győződjön meg róla, hogy "
 "telepített-e minden szükséges GStreamer bővítményt"
 
-#: core/songloader.cpp:314
+#: core/songloader.cpp:316
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:181
+#: scrobbler/scrobblingapi20.cpp:225
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Nem lehet megnyitni az URL-t. Próbálja meg böngészőben megnyitni"
 
-#: core/songloader.cpp:282
+#: core/songloader.cpp:284
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:372
+#: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:497
+#: core/songloader.cpp:499
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr ""
 
-#: core/songloader.cpp:480
+#: core/songloader.cpp:482
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: core/songloader.cpp:490
+#: core/songloader.cpp:492
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
@@ -1518,7 +1518,7 @@ msgstr ""
 "Nem található kódoló a(z) %1 számára, győződjön meg róla, hogy telepített-e "
 "minden szükséges GStreamer bővítményt"
 
-#: core/songloader.cpp:503
+#: core/songloader.cpp:505
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
@@ -1910,7 +1910,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Albumborítók letöltése"
 
-#: musicbrainz/tagfetcher.cpp:129
+#: musicbrainz/tagfetcher.cpp:130
 msgid "Downloading metadata"
 msgstr "Metaadatok letöltése"
 
@@ -2128,19 +2128,19 @@ msgstr "Hiba történt a számok törlésekor"
 msgid "Error processing %1: %2"
 msgstr "Hiba a(z) %1 feldolgozásakor: %2"
 
-#: playlist/songloaderinserter.cpp:113
+#: playlist/songloaderinserter.cpp:115
 msgid "Error while loading audio CD."
 msgstr "Hiba a zenei CD betöltésekor."
 
-#: device/cddasongloader.cpp:114 device/cddasongloader.cpp:123
+#: device/cddasongloader.cpp:116 device/cddasongloader.cpp:125
 msgid "Error while querying CDDA tracks."
 msgstr "Hiba történt a CDDA számok lekérdezésekor"
 
-#: device/cddasongloader.cpp:102
+#: device/cddasongloader.cpp:104
 msgid "Error while setting CDDA device to pause state."
 msgstr "Hiba történt a CDDA-eszköz szünetre állításakor."
 
-#: device/cddasongloader.cpp:94
+#: device/cddasongloader.cpp:96
 msgid "Error while setting CDDA device to ready state."
 msgstr "Hiba történt a CDDA eszköz készre állításakor."
 
@@ -2306,17 +2306,17 @@ msgstr "Letöltés sikeres"
 msgid "Fetch entire albums when searching songs"
 msgstr "Számok keresésekor a teljes albumok letöltése"
 
-#: covermanager/coverfromurldialog.cpp:88
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:105
 msgid "Fetching cover error"
 msgstr "Hiba a borító betöltése közben"
 
-#: core/songloader.cpp:165 core/songloader.cpp:269
+#: core/songloader.cpp:167 core/songloader.cpp:271
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:185 core/songloader.cpp:329
+#: core/songloader.cpp:187 core/songloader.cpp:331
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "A(z) %1 fájl nem ismerhető fel érvényes hangfájlként."
@@ -2381,7 +2381,7 @@ msgstr ""
 "Számok keresése a gyűjteményében, melyek megfelelnek a megadott "
 "kritériumoknak."
 
-#: musicbrainz/tagfetcher.cpp:77
+#: musicbrainz/tagfetcher.cpp:78
 msgid "Fingerprinting song"
 msgstr "Ujjlenyomat készítése a számhoz"
 
@@ -2687,7 +2687,7 @@ msgstr "Ikonméretek"
 msgid "Icons on top"
 msgstr "Ikonok felül"
 
-#: musicbrainz/tagfetcher.cpp:67 musicbrainz/tagfetcher.cpp:111
+#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
 msgid "Identifying song"
 msgstr "Szám azonosítása"
 
@@ -2805,7 +2805,7 @@ msgstr "Internet lap nézet"
 msgid "Intro tracks"
 msgstr "Bevezető számok"
 
-#: scrobbler/scrobblingapi20.cpp:215
+#: scrobbler/scrobblingapi20.cpp:259
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Érvénytelen válasz a böngészőből. Hiányzó token."
 
@@ -2906,9 +2906,14 @@ msgstr "Libre.fm"
 msgid "Limits"
 msgstr "Korlátok"
 
-#: scrobbler/listenbrainzscrobbler.cpp:191
+#: scrobbler/listenbrainzscrobbler.cpp:190
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz hitelesítés"
+
+#: scrobbler/listenbrainzscrobbler.cpp:676
+#, qt-format
+msgid "ListenBrainz error: %1"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:436
 msgid "Listenbrainz"
@@ -2959,11 +2964,11 @@ msgstr "Okos lejátszólista betöltése"
 msgid "Loading songs"
 msgstr "Számok betöltése"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
+#: playlist/songloaderinserter.cpp:172 dialogs/edittagdialog.cpp:411
 msgid "Loading tracks"
 msgstr "Számok betöltése"
 
-#: playlist/songloaderinserter.cpp:200
+#: playlist/songloaderinserter.cpp:202
 msgid "Loading tracks info"
 msgstr "Száminformációk betöltése"
 
@@ -3104,6 +3109,11 @@ msgstr "Minimális bitráta"
 msgid "Missing API token."
 msgstr "Hiányzó API token."
 
+#: scrobbler/listenbrainzscrobbler.cpp:627
+#, qt-format
+msgid "Missing MusicBrainz recording ID for %1 %2 %3"
+msgstr ""
+
 #: qobuz/qobuzservice.cpp:738 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
 msgstr "Hiányzó Qobuz alkalmazás ID vagy secret"
@@ -3160,7 +3170,7 @@ msgstr "Hiányzó jelszó."
 msgid "Missing server url, username or password."
 msgstr "Hiányzó szerver URL, felhasználónév vagy jelszó."
 
-#: subsonic/subsonicservice.cpp:427
+#: subsonic/subsonicservice.cpp:431
 msgid "Missing username or password."
 msgstr "Hiányzó felhasználónév vagy jelszó."
 
@@ -3433,7 +3443,7 @@ msgstr "Csak az első megjelenítése"
 msgid "Opacity"
 msgstr "Átlátszatlanság"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid "Open URL in web browser?"
 msgstr "URL megnyitása böngészőben?"
 
@@ -3714,7 +3724,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Zárja be a böngészőjét, és térjen vissza a Strawberry-be."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:191
+#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
 msgstr "Nyissa meg ezt az URL-t a böngészőben"
 
@@ -3763,7 +3773,7 @@ msgstr ""
 "Írja elé a mező nevét, amelyben keresni szeretne, hogy pontosítsa a "
 "találatokat, pl.: "
 
-#: core/songloader.cpp:152
+#: core/songloader.cpp:154
 msgid "Preload function was not set for blocking operation."
 msgstr "Nem volt előtöltési függvény beállítva a blokkoló művelethez."
 
@@ -3771,7 +3781,7 @@ msgstr "Nem volt előtöltési függvény beállítva a blokkoló művelethez."
 msgid "Preset:"
 msgstr "Beállítás:"
 
-#: scrobbler/scrobblingapi20.cpp:172
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3925,11 +3935,11 @@ msgid ""
 msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:217
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
 msgstr "Érvénytelen válasz érkezett a böngészőből."
 
-#: scrobbler/scrobblingapi20.cpp:219
+#: scrobbler/scrobblingapi20.cpp:263
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -4007,7 +4017,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr "Az átirányításból hiányzik a token kód vagy az állapot."
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:213
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
 msgstr "Az átirányításból hiányzik a token kód."
 
@@ -4343,12 +4353,12 @@ msgstr "Skála méret"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:1020
+#: scrobbler/scrobblingapi20.cpp:912
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler %1 hiba: %2"
 
-#: scrobbler/scrobblingapi20.cpp:534
+#: scrobbler/scrobblingapi20.cpp:463
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "A %1 scrobbler nincs hitelesítve!"
@@ -4464,7 +4474,7 @@ msgstr "Sorozatszám"
 msgid "Server URL"
 msgstr "Szerver URL"
 
-#: subsonic/subsonicservice.cpp:422 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:426 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "A szerver URL-je érvénytelen."
 
@@ -5077,11 +5087,11 @@ msgstr "Az internetes gyűjtemény üres!"
 msgid "The second value must be greater than the first one!"
 msgstr "A második értéknek nagyobbnak kell lennie, mint az elsőnek!"
 
-#: covermanager/coverfromurldialog.cpp:88
+#: covermanager/coverfromurldialog.cpp:91
 msgid "The site you requested does not exist!"
 msgstr "A kért oldal nem létezik!"
 
-#: covermanager/coverfromurldialog.cpp:102
+#: covermanager/coverfromurldialog.cpp:105
 msgid "The site you requested is not an image!"
 msgstr "A kért oldal nem egy kép!"
 
@@ -5316,6 +5326,11 @@ msgstr ""
 #: collection/collectionbackend.cpp:111
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
+#: scrobbler/listenbrainzscrobbler.cpp:601
+#, qt-format
+msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr ""
 
 #: playlist/playlistcontainer.cpp:222
@@ -5695,7 +5710,7 @@ msgstr ""
 "A szerzőt itt szponzorálhatja: %1. Egyszeri összeggel ezen az oldalon "
 "támogathat: %2."
 
-#: core/songloader.cpp:133 core/songloader.cpp:138
+#: core/songloader.cpp:135 core/songloader.cpp:140
 msgid "You need GStreamer for this URL."
 msgstr "Ehhez az URL-hez szüksége van a GStreamerre."
 
