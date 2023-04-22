@@ -95,7 +95,8 @@ class GstEnginePipeline : public QObject {
   void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction = QTimeLine::Forward, const QEasingCurve::Type shape = QEasingCurve::Linear, const bool use_fudge_timer = true);
 
   // If this is set then it will be loaded automatically when playback finishes for gapless playback
-  void SetNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_nanosec, const qint64 end_nanosec);
+  void PrepareNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_nanosec, const qint64 end_nanosec);
+  void SetNextUrl();
   bool has_next_valid_url() const { return next_stream_url_.isValid(); }
 
   void SetSourceDevice(const QString &device) { source_device_ = device; }
@@ -139,6 +140,8 @@ class GstEnginePipeline : public QObject {
   void BufferingStarted();
   void BufferingProgress(const int percent);
   void BufferingFinished();
+
+  void AboutToFinish();
 
  protected:
   void timerEvent(QTimerEvent*) override;
@@ -316,6 +319,8 @@ class GstEnginePipeline : public QObject {
   GstSegment last_playbin_segment_{};
 
   bool logged_unsupported_analyzer_format_;
+
+  bool about_to_finish_;
 
 };
 

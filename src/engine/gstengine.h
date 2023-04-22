@@ -159,9 +159,9 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   static const char *kDirectSoundSink;
   static const char *kOSXAudioSink;
   static const int kDiscoveryTimeoutS;
-  static const qint64 kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
-  static const qint64 kPreloadGapNanosec = 5000 * kNsecPerMsec;     // 5s
-  static const qint64 kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
+  static const qint64 kTimerIntervalNanosec;
+  static const qint64 kPreloadGapNanosec;
+  static const qint64 kSeekDelayNanosec;
 
   TaskManager *task_manager_;
   GstStartup *gst_startup_;
@@ -172,7 +172,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   std::shared_ptr<GstEnginePipeline> current_pipeline_;
   std::shared_ptr<GstEnginePipeline> fadeout_pipeline_;
   std::shared_ptr<GstEnginePipeline> fadeout_pause_pipeline_;
-  QUrl preloaded_url_;
 
   QList<GstBufferConsumer*> buffer_consumers_;
 
@@ -202,7 +201,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
   int discovery_finished_cb_id_;
   int discovery_discovered_cb_id_;
-
 };
 
 #endif  // GSTENGINE_H

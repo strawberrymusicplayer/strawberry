@@ -190,7 +190,7 @@ void Engine::Base::ReloadSettings() {
 
 }
 
-void Engine::Base::EmitAboutToEnd() {
+void Engine::Base::EmitAboutToFinish() {
 
   if (about_to_end_emitted_) {
     return;

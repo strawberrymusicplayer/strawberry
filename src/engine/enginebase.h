@@ -102,9 +102,7 @@ class Base : public QObject {
  public slots:
   virtual void ReloadSettings();
   void UpdateVolume(const uint volume);
-
- protected:
-  void EmitAboutToEnd();
+  void EmitAboutToFinish();
 
  public:
 
@@ -217,7 +215,6 @@ class Base : public QObject {
   bool http2_enabled_;
   bool strict_ssl_enabled_;
 
- private:
   bool about_to_end_emitted_;
   Q_DISABLE_COPY(Base)
 

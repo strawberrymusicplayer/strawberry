@@ -70,6 +70,9 @@ const char *GstEngine::InterAudiosink = "interaudiosink";
 const char *GstEngine::kDirectSoundSink = "directsoundsink";
 const char *GstEngine::kOSXAudioSink = "osxaudiosink";
 const int GstEngine::kDiscoveryTimeoutS = 10;
+const qint64 GstEngine::kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
+const qint64 GstEngine::kPreloadGapNanosec = 8000 * kNsecPerMsec;     // 8s
+const qint64 GstEngine::kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
 
 GstEngine::GstEngine(TaskManager *task_manager, QObject *parent)
     : Engine::Base(Engine::EngineType::GStreamer, parent),
@@ -162,7 +165,7 @@ void GstEngine::StartPreloading(const QUrl &media_url, const QUrl &stream_url, c
 
   // No crossfading, so we can just queue the new URL in the existing pipeline and get gapless playback (hopefully)
   if (current_pipeline_) {
-    current_pipeline_->SetNextUrl(media_url, stream_url, gst_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
+    current_pipeline_->PrepareNextUrl(media_url, stream_url, gst_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
     // Add request to discover the stream
     if (discoverer_) {
       if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.constData())) {
@@ -502,20 +505,18 @@ void GstEngine::timerEvent(QTimerEvent *e) {
 
   if (e->timerId() != timer_id_) return;
 
-  if (current_pipeline_) {
-    const qint64 current_position = position_nanosec();
+  if (current_pipeline_ && !about_to_end_emitted_) {
     const qint64 current_length = length_nanosec();
-
-    const qint64 remaining = current_length - current_position;
-
-    const qint64 fudge = kTimerIntervalNanosec + 100 * kNsecPerMsec;  // Mmm fudge
-    const qint64 gap = static_cast<qint64>(buffer_duration_nanosec_) + (autocrossfade_enabled_ ? fadeout_duration_nanosec_ : kPreloadGapNanosec);
-
     // Only if we know the length of the current stream...
     if (current_length > 0) {
+      const qint64 current_position = position_nanosec();
+      const qint64 remaining = current_length - current_position;
+      const qint64 fudge = kTimerIntervalNanosec + 100 * kNsecPerMsec;  // Mmm fudge
+      const qint64 gap = static_cast<qint64>(buffer_duration_nanosec_) + (autocrossfade_enabled_ ? fadeout_duration_nanosec_ : kPreloadGapNanosec);
       // Emit TrackAboutToEnd when we're a few seconds away from finishing
       if (remaining < gap + fudge) {
-        EmitAboutToEnd();
+        qLog(Debug) << "Stream from URL" << media_url_.toString() << "about to end in" << remaining / kNsecPerSec << "seconds. Fuge:" << fudge / kNsecPerMsec << "+" << "Gap:" << gap / kNsecPerMsec;
+        EmitAboutToFinish();
       }
     }
   }
@@ -782,15 +783,19 @@ void GstEngine::StartFadeoutPause() {
 }
 
 void GstEngine::StartTimers() {
+
   StopTimers();
   timer_id_ = startTimer(kTimerIntervalNanosec / kNsecPerMsec);
+
 }
 
 void GstEngine::StopTimers() {
+
   if (timer_id_ != -1) {
     killTimer(timer_id_);
     timer_id_ = -1;
   }
+
 }
 
 std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
@@ -824,6 +829,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   QObject::connect(ret.get(), &GstEnginePipeline::BufferingProgress, this, &GstEngine::BufferingProgress);
   QObject::connect(ret.get(), &GstEnginePipeline::BufferingFinished, this, &GstEngine::BufferingFinished);
   QObject::connect(ret.get(), &GstEnginePipeline::VolumeChanged, this, &EngineBase::UpdateVolume);
+  QObject::connect(ret.get(), &GstEnginePipeline::AboutToFinish, this, &EngineBase::EmitAboutToFinish);
 
   return ret;
 

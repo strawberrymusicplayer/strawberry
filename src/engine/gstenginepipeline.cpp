@@ -123,7 +123,8 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       notify_source_cb_id_(-1),
       about_to_finish_cb_id_(-1),
       notify_volume_cb_id_(-1),
-      logged_unsupported_analyzer_format_(false) {
+      logged_unsupported_analyzer_format_(false),
+      about_to_finish_(false) {
 
   eq_band_gains_.reserve(kEqBandCount);
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
@@ -1102,12 +1103,15 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
+  qLog(Debug) << "Stream from URL" << instance->gst_url_ << "about to finish.";
+
+  instance->about_to_finish_ = true;
+
   if (instance->has_next_valid_url() && !instance->next_uri_set_) {
-    // Set the next uri. When the current song ends it will be played automatically and a STREAM_START message is send to the bus.
-    // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
-    instance->next_uri_set_ = true;
-    g_object_set(G_OBJECT(instance->pipeline_), "uri", instance->next_gst_url_.constData(), nullptr);
+    instance->SetNextUrl();
   }
+
+  emit instance->AboutToFinish();
 
 }
 
@@ -1204,8 +1208,9 @@ void GstEnginePipeline::StreamStatusMessageReceived(GstMessage *msg) {
 void GstEnginePipeline::StreamStartMessageReceived() {
 
   if (next_uri_set_) {
+    qLog(Debug) << "Stream changed from URL" << gst_url_ << "to" << next_gst_url_;
     next_uri_set_ = false;
-
+    about_to_finish_ = false;
     media_url_ = next_media_url_;
     stream_url_ = next_stream_url_;
     gst_url_ = next_gst_url_;
@@ -1654,12 +1659,29 @@ void GstEnginePipeline::RemoveAllBufferConsumers() {
   buffer_consumers_.clear();
 }
 
-void GstEnginePipeline::SetNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_nanosec, const qint64 end_nanosec) {
+void GstEnginePipeline::PrepareNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_nanosec, const qint64 end_nanosec) {
 
   next_media_url_ = media_url;
   next_stream_url_ = stream_url;
   next_gst_url_ = gst_url;
   next_beginning_offset_nanosec_ = beginning_nanosec;
   next_end_offset_nanosec_ = end_nanosec;
+
+  if (about_to_finish_) {
+    SetNextUrl();
+  }
+
+}
+
+void GstEnginePipeline::SetNextUrl() {
+
+  if (about_to_finish_ && has_next_valid_url() && !next_uri_set_) {
+    // Set the next uri. When the current song ends it will be played automatically and a STREAM_START message is send to the bus.
+    // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
+    next_uri_set_ = true;
+    qLog(Debug) << "Setting next URL to" << next_gst_url_;
+    g_object_set(G_OBJECT(pipeline_), "uri", next_gst_url_.constData(), nullptr);
+    about_to_finish_ = false;
+  }
 
 }
