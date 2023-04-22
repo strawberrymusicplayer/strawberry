@@ -57,10 +57,6 @@
 #include "gstbufferconsumer.h"
 #include "enginemetadata.h"
 
-#ifdef _MSC_VER
-#define strcasecmp _stricmp
-#endif
-
 const char *GstEngine::kAutoSink = "autoaudiosink";
 const char *GstEngine::kALSASink = "alsasink";
 const char *GstEngine::kOpenALSASink = "openalsink";
@@ -413,7 +409,7 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
   for (GList *future = features; future; future = g_list_next(future)) {
     GstElementFactory *factory = GST_ELEMENT_FACTORY(future->data);
     const gchar *metadata = gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS);
-    if (strcasecmp(metadata, "Sink/Audio") == 0) {
+    if (QString(metadata).startsWith("Sink/Audio", Qt::CaseInsensitive)) {
       OutputDetails output;
       output.name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
       output.description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
