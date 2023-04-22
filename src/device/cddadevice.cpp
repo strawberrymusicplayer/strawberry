@@ -24,7 +24,6 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/application.h"
 #include "collection/collectionmodel.h"
 #include "cddasongloader.h"
 #include "connecteddevice.h"
