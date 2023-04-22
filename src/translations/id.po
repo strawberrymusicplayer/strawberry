@@ -106,22 +106,22 @@ msgstr ""
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autentikasi Scrobbler"
 
-#: context/contextview.cpp:450
+#: context/contextview.cpp:448
 #, qt-format
 msgid "%1 album"
 msgstr ""
 
-#: context/contextview.cpp:451
+#: context/contextview.cpp:449
 #, qt-format
 msgid "%1 albums"
 msgstr ""
 
-#: context/contextview.cpp:446
+#: context/contextview.cpp:444
 #, qt-format
 msgid "%1 artist"
 msgstr ""
 
-#: context/contextview.cpp:447
+#: context/contextview.cpp:445
 #, qt-format
 msgid "%1 artists"
 msgstr ""
@@ -162,7 +162,7 @@ msgstr "%1 daftar putar (%2)"
 msgid "%1 selected of"
 msgstr "%1 terpilih dari"
 
-#: context/contextview.cpp:442
+#: context/contextview.cpp:440
 #, qt-format
 msgid "%1 song"
 msgstr ""
@@ -172,7 +172,7 @@ msgstr ""
 msgid "%1 song%2"
 msgstr "%1 lagu%2"
 
-#: context/contextview.cpp:443
+#: context/contextview.cpp:441
 #, qt-format
 msgid "%1 songs"
 msgstr ""
@@ -565,7 +565,7 @@ msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 
-#: core/mainwindow.cpp:2224
+#: core/mainwindow.cpp:2222
 msgid "Add file"
 msgstr "Tambah berkas"
 
@@ -581,7 +581,7 @@ msgstr "Tambah berkas ke transkoder"
 msgid "Add files to transcode"
 msgstr "Tambah berkas untuk ditranskode"
 
-#: core/mainwindow.cpp:2250 transcoder/transcodedialog.cpp:414
+#: core/mainwindow.cpp:2248 transcoder/transcodedialog.cpp:414
 msgid "Add folder"
 msgstr "Tambah folder"
 
@@ -691,7 +691,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Tambahkan ke album"
 
-#: core/mainwindow.cpp:2026
+#: core/mainwindow.cpp:2024
 msgid "Add to another playlist"
 msgstr "Tambahkan ke daftar putar lainnya"
 
@@ -805,7 +805,7 @@ msgstr "Album dengan sampul"
 msgid "Albums without covers"
 msgstr "Album tanpa sampul"
 
-#: core/mainwindow.cpp:221
+#: core/mainwindow.cpp:219
 msgid "All Files (*)"
 msgstr "Semua Berkas (*)"
 
@@ -1012,7 +1012,7 @@ msgstr "Secara otomatis membuka kategori tunggal di pohon pustaka"
 msgid "Automatically search for album cover"
 msgstr ""
 
-#: context/contextview.cpp:314 ../build/src/ui_contextsettingspage.h:438
+#: context/contextview.cpp:312 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
 msgstr ""
 
@@ -1080,7 +1080,7 @@ msgstr "Perilaku"
 msgid "Best"
 msgstr "Terbaik"
 
-#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:146
+#: context/contextview.cpp:209 collection/savedgroupingmanager.cpp:146
 #: playlist/playlist.cpp:1372 organize/organizedialog.cpp:118
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:826
@@ -1091,7 +1091,7 @@ msgstr "Kedalaman bit"
 msgid "Bit rate"
 msgstr "Laju bit"
 
-#: context/contextview.cpp:212 collection/savedgroupingmanager.cpp:149
+#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:149
 #: playlist/playlist.cpp:1373 ../build/src/ui_groupbydialog.h:209
 #: ../build/src/ui_groupbydialog.h:231 ../build/src/ui_groupbydialog.h:253
 #: ../build/src/ui_transcoderoptionsaac.h:132
@@ -1123,7 +1123,7 @@ msgstr "Besaran kekaburan"
 msgid "Body"
 msgstr "Badan"
 
-#: analyzer/boomanalyzer.cpp:46
+#: analyzer/boomanalyzer.cpp:43
 msgid "Boom analyzer"
 msgstr "Penganalisis dentuman"
 
@@ -1147,7 +1147,7 @@ msgstr "Buffer"
 msgid "Buffer duration"
 msgstr "Durasi Bufer"
 
-#: engine/gstengine.cpp:671
+#: engine/gstengine.cpp:679
 msgid "Buffering"
 msgstr "Membufer..."
 
@@ -1155,7 +1155,7 @@ msgstr "Membufer..."
 msgid "C&onsole"
 msgstr "K&onsol"
 
-#: core/songloader.cpp:204
+#: core/songloader.cpp:201
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Pemutaran CD hanya tersedia dengan mesin GStreamer."
 
@@ -1199,7 +1199,7 @@ msgstr "Ganti lagu yang diputar saat ini"
 msgid "Change the language"
 msgstr "Ubah bahasa"
 
-#: core/mainwindow.cpp:806
+#: core/mainwindow.cpp:804
 msgid "Check for updates..."
 msgstr "Periksa pembaruan..."
 
@@ -1248,7 +1248,7 @@ msgstr ""
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2315 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2313 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
@@ -1293,7 +1293,7 @@ msgstr "Menutup jendela ini akan menghentikan pencarian sampul album."
 msgid "Club"
 msgstr "Klub"
 
-#: core/mainwindow.cpp:371 ../build/src/ui_collectionsettingspage.h:523
+#: core/mainwindow.cpp:369 ../build/src/ui_collectionsettingspage.h:523
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Pustakascan"
@@ -1306,7 +1306,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Pengelompokan pustaka lanjutan"
 
-#: core/mainwindow.cpp:2884
+#: core/mainwindow.cpp:2882
 msgid "Collection rescan notice"
 msgstr "Pemberitahuan pemindaian ulang pustaka"
 
@@ -1363,7 +1363,7 @@ msgstr "Konfigurasi %1..."
 msgid "Configure buttons"
 msgstr ""
 
-#: core/mainwindow.cpp:683
+#: core/mainwindow.cpp:681
 msgid "Configure collection..."
 msgstr "Konfigurasi pustaka..."
 
@@ -1379,7 +1379,7 @@ msgstr "Konsol"
 msgid "Constant bitrate"
 msgstr "Lajubit konstan"
 
-#: core/mainwindow.cpp:370 ../build/src/ui_contextsettingspage.h:363
+#: core/mainwindow.cpp:368 ../build/src/ui_contextsettingspage.h:363
 msgid "Context"
 msgstr "Konteks"
 
@@ -1400,7 +1400,7 @@ msgstr "Konversi semua musik"
 msgid "Convert any music that the device can't play"
 msgstr "Konversi semua musik yang tidak dapat diputar oleh perangkat."
 
-#: core/mainwindow.cpp:752
+#: core/mainwindow.cpp:750
 msgid "Copy URL(s)..."
 msgstr ""
 
@@ -1408,7 +1408,7 @@ msgstr ""
 msgid "Copy album cover artwork"
 msgstr "Salin sampul album"
 
-#: core/mainwindow.cpp:756 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:754 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:246
 msgid "Copy to collection..."
 msgstr "Salin ke pustaka..."
@@ -1417,7 +1417,7 @@ msgstr "Salin ke pustaka..."
 msgid "Copy to device"
 msgstr ""
 
-#: core/mainwindow.cpp:759 collection/collectionview.cpp:359
+#: core/mainwindow.cpp:757 collection/collectionview.cpp:359
 #: playlist/playlistlistcontainer.cpp:89 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "Salin ke perangkat..."
@@ -1437,7 +1437,7 @@ msgstr ""
 "Tidak dapat membuat elemen GStreamer \"%1\" - pastikan Anda memiliki semua "
 "plugin GStreamer yang dibutuhkan terpasang"
 
-#: core/songloader.cpp:316
+#: core/songloader.cpp:313
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
@@ -1446,27 +1446,27 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
-#: core/songloader.cpp:284
+#: core/songloader.cpp:281
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:374
+#: core/songloader.cpp:371
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:499
+#: core/songloader.cpp:496
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr ""
 
-#: core/songloader.cpp:482
+#: core/songloader.cpp:479
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: core/songloader.cpp:492
+#: core/songloader.cpp:489
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
@@ -1493,7 +1493,7 @@ msgstr ""
 "Tidak dapat menemukan enkoder untuk %1, periksa apakah Anda memiliki plugin "
 "GStreamer yang benar terpasang"
 
-#: core/songloader.cpp:505
+#: core/songloader.cpp:502
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
@@ -1716,7 +1716,7 @@ msgstr "Hapus berkas"
 msgid "Delete from device..."
 msgstr "Hapus dari perangkat..."
 
-#: core/mainwindow.cpp:761 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:759 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "Hapus dari diska..."
@@ -1742,11 +1742,11 @@ msgstr "Hapus berkas yang asli"
 msgid "Deleting files"
 msgstr "Menghapus berkas"
 
-#: core/mainwindow.cpp:1941
+#: core/mainwindow.cpp:1939
 msgid "Dequeue selected tracks"
 msgstr "Buang antrean trek terpilih"
 
-#: core/mainwindow.cpp:1940
+#: core/mainwindow.cpp:1938
 msgid "Dequeue track"
 msgstr "Buang antrean trek"
 
@@ -1758,7 +1758,7 @@ msgstr "Tujuan"
 msgid "Details..."
 msgstr "Detail..."
 
-#: context/contextview.cpp:179 device/giolister.cpp:192
+#: context/contextview.cpp:177 device/giolister.cpp:192
 #: ../build/src/ui_backendsettingspage.h:565
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -1772,7 +1772,7 @@ msgstr "Properti Perangkat"
 msgid "Device properties..."
 msgstr "Properti perangkat..."
 
-#: core/mainwindow.cpp:378
+#: core/mainwindow.cpp:376
 msgid "Devices"
 msgstr "Perangkat"
 
@@ -1909,7 +1909,7 @@ msgstr ""
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:1984
+#: core/mainwindow.cpp:1982
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Sunting tag \"%1\"..."
@@ -2018,7 +2018,7 @@ msgstr "Kualitas mesin enkode"
 msgid "Encoding mode"
 msgstr "Mode enkode"
 
-#: context/contextview.cpp:178 ../build/src/ui_backendsettingspage.h:568
+#: context/contextview.cpp:176 ../build/src/ui_backendsettingspage.h:568
 msgid "Engine"
 msgstr "Mesin"
 
@@ -2079,7 +2079,7 @@ msgstr "Setara dengan --log-level *: 1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
-#: core/mainwindow.cpp:2615 core/mainwindow.cpp:2766
+#: core/mainwindow.cpp:2613 core/mainwindow.cpp:2764
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Kesalahan"
@@ -2102,7 +2102,7 @@ msgstr "Terjadi kesalahan saat menghapus lagu"
 msgid "Error processing %1: %2"
 msgstr "Terjadi kesalahan saat memproses %1: %2"
 
-#: playlist/songloaderinserter.cpp:115
+#: playlist/songloaderinserter.cpp:113
 msgid "Error while loading audio CD."
 msgstr "Terjadi kesalahan saat memuat CD audio."
 
@@ -2285,12 +2285,12 @@ msgstr "Ambil seluruh album saat mencari lagu"
 msgid "Fetching cover error"
 msgstr "Terjadi kesalahan saat mengambil sampul"
 
-#: core/songloader.cpp:167 core/songloader.cpp:271
+#: core/songloader.cpp:164 core/songloader.cpp:268
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:187 core/songloader.cpp:331
+#: core/songloader.cpp:184 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Berkas %1 bukanlah berkas audio yang benar."
@@ -2333,7 +2333,7 @@ msgstr "Nama berkas"
 msgid "Filename:"
 msgstr "Nama berkas:"
 
-#: core/mainwindow.cpp:375
+#: core/mainwindow.cpp:373
 msgid "Files"
 msgstr "Berkas"
 
@@ -2345,7 +2345,7 @@ msgstr "Berkas untuk ditranskode"
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
-#: context/contextview.cpp:208
+#: context/contextview.cpp:206
 msgid "Filetype"
 msgstr "Tipe berkas"
 
@@ -2442,7 +2442,7 @@ msgstr "Form"
 msgid "Format"
 msgstr "Format"
 
-#: analyzer/analyzercontainer.cpp:64
+#: analyzer/analyzercontainer.cpp:63
 msgid "Framerate"
 msgstr "Lajubingkai"
 
@@ -2633,7 +2633,7 @@ msgstr ""
 msgid "High"
 msgstr "Tinggi"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Tinggi (%1 fps)"
@@ -2786,7 +2786,7 @@ msgstr ""
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr ""
 
-#: core/mainwindow.cpp:1058
+#: core/mainwindow.cpp:1056
 msgid ""
 "It seems that Strawberry is running under Rosetta. Strawberry currently has "
 "limited macOS support, and running Strawberry under Rosetta is unsupported "
@@ -2858,7 +2858,7 @@ msgstr ""
 msgid "Left"
 msgstr "Kiri"
 
-#: context/contextview.cpp:209 playlist/playlist.cpp:1358
+#: context/contextview.cpp:207 playlist/playlist.cpp:1358
 #: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:824
 msgid "Length"
 msgstr "Durasi"
@@ -2929,11 +2929,11 @@ msgstr ""
 msgid "Loading songs"
 msgstr "Memuat lagu"
 
-#: playlist/songloaderinserter.cpp:172 dialogs/edittagdialog.cpp:411
+#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
 msgid "Loading tracks"
 msgstr "Memuat trek"
 
-#: playlist/songloaderinserter.cpp:202
+#: playlist/songloaderinserter.cpp:200
 msgid "Loading tracks info"
 msgstr "Memuat info trek"
 
@@ -2970,7 +2970,7 @@ msgstr "Profil prediksi jangka panjang (LTP)"
 msgid "Love"
 msgstr "Suka"
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:76
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Rendah (%1 fps)"
@@ -3049,7 +3049,7 @@ msgstr "Lajubit maksimum"
 msgid "Maximum number of login attempts reached."
 msgstr "Jumlah maksimum upaya masuk tercapai."
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Sedang (%1 fps)"
@@ -3189,7 +3189,7 @@ msgstr "Titik kait"
 msgid "Move down"
 msgstr "Pindah turun"
 
-#: core/mainwindow.cpp:757 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:755 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Pindah ke pustaka..."
 
@@ -3198,7 +3198,7 @@ msgstr "Pindah ke pustaka..."
 msgid "Move up"
 msgstr "Pindah naik"
 
-#: core/mainwindow.cpp:2224 transcoder/transcodedialog.cpp:323
+#: core/mainwindow.cpp:2222 transcoder/transcodedialog.cpp:323
 msgid "Music"
 msgstr "Musik"
 
@@ -3242,7 +3242,7 @@ msgstr "Jangan mulai memutar"
 msgid "New folder"
 msgstr "Folder baru"
 
-#: core/mainwindow.cpp:2042
+#: core/mainwindow.cpp:2040
 msgid "New playlist"
 msgstr "Daftar putar baru"
 
@@ -3278,7 +3278,7 @@ msgstr ""
 msgid "Next week"
 msgstr "Minggu depan"
 
-#: analyzer/analyzercontainer.cpp:91
+#: analyzer/analyzercontainer.cpp:90
 msgid "No analyzer"
 msgstr "Tidak ada penganalisis"
 
@@ -3309,7 +3309,7 @@ msgstr ""
 msgid "No short blocks"
 msgstr "Tanpa blok pendek"
 
-#: context/contextview.cpp:439
+#: context/contextview.cpp:437
 msgid "No song playing"
 msgstr "Tidak ada lagu yang berputar"
 
@@ -3319,7 +3319,7 @@ msgstr "Tidak ada lagu yang berputar"
 msgid "None"
 msgstr "Nihil"
 
-#: core/mainwindow.cpp:2615 core/mainwindow.cpp:2766
+#: core/mainwindow.cpp:2613 core/mainwindow.cpp:2764
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3463,7 +3463,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr ""
 
-#: core/mainwindow.cpp:755 collection/collectionview.cpp:357
+#: core/mainwindow.cpp:753 collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr ""
 
@@ -3551,8 +3551,8 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1340 core/mainwindow.cpp:1839
-#: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
+#: core/mainwindow.cpp:1338 core/mainwindow.cpp:1837
+#: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Jeda"
 
@@ -3579,9 +3579,9 @@ msgstr "Piksel"
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
-#: core/mainwindow.cpp:724 core/mainwindow.cpp:1297 core/mainwindow.cpp:1324
-#: core/mainwindow.cpp:1843 core/qtsystemtrayicon.cpp:157
-#: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
+#: core/mainwindow.cpp:722 core/mainwindow.cpp:1295 core/mainwindow.cpp:1322
+#: core/mainwindow.cpp:1841 core/qtsystemtrayicon.cpp:160
+#: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Putar"
 
@@ -3651,7 +3651,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "Daftar putar selesai"
 
-#: core/mainwindow.cpp:2315
+#: core/mainwindow.cpp:2313
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3675,7 +3675,7 @@ msgstr ""
 msgid "Playlist type"
 msgstr ""
 
-#: core/mainwindow.cpp:373
+#: core/mainwindow.cpp:371
 msgid "Playlists"
 msgstr "Daftar putar"
 
@@ -3731,7 +3731,7 @@ msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
 
-#: core/songloader.cpp:154
+#: core/songloader.cpp:151
 msgid "Preload function was not set for blocking operation."
 msgstr "Fungsi preload tidak diatur untuk operasi memblokir."
 
@@ -3796,7 +3796,7 @@ msgstr "Kemajuan"
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:387 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:385 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3819,24 +3819,24 @@ msgstr "Kualitas"
 msgid "Querying device..."
 msgstr "Meminta perangkat..."
 
-#: core/mainwindow.cpp:372
+#: core/mainwindow.cpp:370
 msgid "Queue"
 msgstr "Antrean"
 
-#: core/mainwindow.cpp:1943
+#: core/mainwindow.cpp:1941
 msgid "Queue selected tracks"
 msgstr "Antre trek terpilih"
 
-#: core/mainwindow.cpp:730 core/mainwindow.cpp:1947
+#: core/mainwindow.cpp:728 core/mainwindow.cpp:1945
 msgid "Queue selected tracks to play next"
 msgstr "Antre trek terpilih untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1950 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1948 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "Antre untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1942 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1940 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -3854,7 +3854,7 @@ msgstr "Radio (kenyaringan sama untuk semua trek)"
 msgid "Radio Paradise"
 msgstr ""
 
-#: core/mainwindow.cpp:376
+#: core/mainwindow.cpp:374
 msgid "Radios"
 msgstr ""
 
@@ -4106,7 +4106,7 @@ msgstr ""
 msgid "Rescan song(s)"
 msgstr "Pindai ulang lagu"
 
-#: core/mainwindow.cpp:746
+#: core/mainwindow.cpp:744
 msgid "Rescan song(s)..."
 msgstr ""
 
@@ -4212,7 +4212,7 @@ msgstr "Secara aman melepas perangkat setelah menyalin"
 msgid "Sample rate"
 msgstr "Laju sampel"
 
-#: context/contextview.cpp:210
+#: context/contextview.cpp:208
 msgid "Samplerate"
 msgstr "Lajusampel"
 
@@ -4435,7 +4435,7 @@ msgstr "URL server tidak benar."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1983
+#: core/mainwindow.cpp:1981
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Tetapkan %1 ke \"%2\"..."
@@ -4514,7 +4514,7 @@ msgstr "Tampilkan OSD cantik"
 msgid "Show above status bar"
 msgstr "Tampilkan di atas bilah status"
 
-#: context/contextview.cpp:298
+#: context/contextview.cpp:296
 msgid "Show album cover"
 msgstr ""
 
@@ -4522,7 +4522,7 @@ msgstr ""
 msgid "Show album cover art in collection"
 msgstr "Tampilkan sampul album di pustaka"
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:670
 msgid "Show all songs"
 msgstr "Tampilkan semua lagu"
 
@@ -4542,7 +4542,7 @@ msgstr ""
 msgid "Show dividers"
 msgstr "Tampilkan pembagi"
 
-#: context/contextview.cpp:306
+#: context/contextview.cpp:304
 msgid "Show engine and device"
 msgstr "Tampilkan mesin dan perangkat"
 
@@ -4550,7 +4550,7 @@ msgstr "Tampilkan mesin dan perangkat"
 msgid "Show fullsize..."
 msgstr "Tampilkan ukuran penuh..."
 
-#: core/mainwindow.cpp:753
+#: core/mainwindow.cpp:751
 msgid "Show in collection..."
 msgstr "Tampilkan di pustaka..."
 
@@ -4558,7 +4558,7 @@ msgstr "Tampilkan di pustaka..."
 msgid "Show in file browser"
 msgstr "Tampilkan di peramban berkas"
 
-#: core/mainwindow.cpp:754 collection/collectionview.cpp:366
+#: core/mainwindow.cpp:752 collection/collectionview.cpp:366
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Tampilkan di peramban berkas..."
@@ -4575,11 +4575,11 @@ msgstr "Tampilkan tombol suka"
 msgid "Show moodbar"
 msgstr "Tampilkan moodbar"
 
-#: core/mainwindow.cpp:673
+#: core/mainwindow.cpp:671
 msgid "Show only duplicates"
 msgstr "Tampilkan hanya duplikat"
 
-#: core/mainwindow.cpp:674
+#: core/mainwindow.cpp:672
 msgid "Show only untagged"
 msgstr "Tampilkan hanya tidak bertag"
 
@@ -4595,7 +4595,7 @@ msgstr "Tampilkan tombol scrobble"
 msgid "Show sidebar"
 msgstr ""
 
-#: context/contextview.cpp:310
+#: context/contextview.cpp:308
 msgid "Show song lyrics"
 msgstr "Tampilkan lirik lagu"
 
@@ -4603,7 +4603,7 @@ msgstr "Tampilkan lirik lagu"
 msgid "Show song progress on system tray icon"
 msgstr ""
 
-#: context/contextview.cpp:302
+#: context/contextview.cpp:300
 msgid "Show song technical data"
 msgstr "Tampilkan data teknis lagu"
 
@@ -4676,11 +4676,11 @@ msgstr "Lewati hitungan"
 msgid "Skip forwards in playlist"
 msgstr "Lewati maju di dalam daftar putar"
 
-#: core/mainwindow.cpp:1956
+#: core/mainwindow.cpp:1954
 msgid "Skip selected tracks"
 msgstr "Lewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1955
+#: core/mainwindow.cpp:1953
 msgid "Skip track"
 msgstr "Lewati trek"
 
@@ -4696,7 +4696,7 @@ msgstr "Bilah sisi kecil"
 msgid "Smart playlist"
 msgstr ""
 
-#: core/mainwindow.cpp:374
+#: core/mainwindow.cpp:372
 msgid "Smart playlists"
 msgstr ""
 
@@ -4743,7 +4743,7 @@ msgstr ""
 msgid "Songs search limit"
 msgstr "Batasan pencarian lagu"
 
-#: analyzer/sonogram.cpp:29
+#: analyzer/sonogram.cpp:31
 msgid "Sonogram"
 msgstr ""
 
@@ -4804,7 +4804,7 @@ msgstr "Berhenti setelah masing-masing trek"
 msgid "Stop after every track"
 msgstr "Berhenti setelah setiap trek"
 
-#: core/mainwindow.cpp:726 ../build/src/ui_mainwindow.h:630
+#: core/mainwindow.cpp:724 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "Berhenti setelah trek ini"
 
@@ -4875,7 +4875,7 @@ msgid ""
 "restrictions such as accessing certain devices or network shares."
 msgstr ""
 
-#: core/mainwindow.cpp:1058
+#: core/mainwindow.cpp:1056
 msgid "Strawberry running under Rosetta"
 msgstr ""
 
@@ -4908,7 +4908,7 @@ msgstr ""
 msgid "Submit scrobbles every"
 msgstr "Kirimkan scrobble setiap"
 
-#: core/mainwindow.cpp:381 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:379 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4936,7 +4936,7 @@ msgstr "Tag yang disarankan"
 msgid "Summary"
 msgstr "Ringkasan"
 
-#: analyzer/analyzercontainer.cpp:80
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Sangat tinggi (%1 fps)"
@@ -5043,7 +5043,7 @@ msgstr "Situs yang Anda minta tidak ada!"
 msgid "The site you requested is not an image!"
 msgstr "Situs yang Anda minta bukan sebuah gambar!"
 
-#: core/mainwindow.cpp:2879
+#: core/mainwindow.cpp:2877
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5149,7 +5149,7 @@ msgstr "Opsi ini dapat diubah di pengaturan \"Perilaku\""
 msgid "This type of device is not supported: %1"
 msgstr "Tipe perangkat ini tidak didukung: %1"
 
-#: core/mainwindow.cpp:384 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:382 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -5179,7 +5179,7 @@ msgstr "Hari Ini"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:727 core/mainwindow.cpp:1944
+#: core/mainwindow.cpp:725 core/mainwindow.cpp:1942
 msgid "Toggle queue status"
 msgstr "Alihkan status antrean"
 
@@ -5187,7 +5187,7 @@ msgstr "Alihkan status antrean"
 msgid "Toggle scrobbling"
 msgstr "Alihkan scrobbling"
 
-#: core/mainwindow.cpp:733 core/mainwindow.cpp:1957
+#: core/mainwindow.cpp:731 core/mainwindow.cpp:1955
 msgid "Toggle skip status"
 msgstr "Alihkan status melewati"
 
@@ -5289,7 +5289,7 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:726 collection/collectionmodel.cpp:477
+#: core/song.cpp:725 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:1663 collection/savedgroupingmanager.cpp:153
@@ -5319,11 +5319,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Tak set sampul"
 
-#: core/mainwindow.cpp:1954
+#: core/mainwindow.cpp:1952
 msgid "Unskip selected tracks"
 msgstr "Taklewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1953
+#: core/mainwindow.cpp:1951
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
@@ -5576,7 +5576,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2883
+#: core/mainwindow.cpp:2881
 msgid "Would you like to run a full rescan right now?"
 msgstr "Apakah Anda ingin menjalankan pemindaian ulang menyeluruh sekarang?"
 
@@ -5655,7 +5655,7 @@ msgid ""
 "through %2."
 msgstr ""
 
-#: core/songloader.cpp:135 core/songloader.cpp:140
+#: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
 msgstr "Anda memerlukan GStreamer untuk URL ini."
 
@@ -5789,7 +5789,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:531 context/contextview.cpp:653
+#: context/contextview.cpp:529 context/contextview.cpp:651
 #: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:787
 msgid "kbps"
 msgstr "kbps"

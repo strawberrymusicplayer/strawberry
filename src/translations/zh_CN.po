@@ -107,22 +107,22 @@ msgstr " 首曲目"
 msgid "%1 Scrobbler Authentication"
 msgstr ""
 
-#: context/contextview.cpp:450
+#: context/contextview.cpp:448
 #, qt-format
 msgid "%1 album"
 msgstr "%1 张专辑"
 
-#: context/contextview.cpp:451
+#: context/contextview.cpp:449
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 张专辑"
 
-#: context/contextview.cpp:446
+#: context/contextview.cpp:444
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 位艺术家"
 
-#: context/contextview.cpp:447
+#: context/contextview.cpp:445
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 位艺术家"
@@ -163,7 +163,7 @@ msgstr "%1 播放列表 (%2)"
 msgid "%1 selected of"
 msgstr "%1 选定"
 
-#: context/contextview.cpp:442
+#: context/contextview.cpp:440
 #, qt-format
 msgid "%1 song"
 msgstr "%1 首歌曲"
@@ -173,7 +173,7 @@ msgstr "%1 首歌曲"
 msgid "%1 song%2"
 msgstr "%1 首歌曲%2"
 
-#: context/contextview.cpp:443
+#: context/contextview.cpp:441
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 首歌曲"
@@ -564,7 +564,7 @@ msgstr "添加目录及其子目录的所有曲目"
 msgid "Add directory..."
 msgstr "添加目录..."
 
-#: core/mainwindow.cpp:2224
+#: core/mainwindow.cpp:2222
 msgid "Add file"
 msgstr "添加文件"
 
@@ -580,7 +580,7 @@ msgstr "添加文件至转码器"
 msgid "Add files to transcode"
 msgstr "添加需转码文件"
 
-#: core/mainwindow.cpp:2250 transcoder/transcodedialog.cpp:414
+#: core/mainwindow.cpp:2248 transcoder/transcodedialog.cpp:414
 msgid "Add folder"
 msgstr "添加文件夹"
 
@@ -690,7 +690,7 @@ msgstr "添加流..."
 msgid "Add to albums"
 msgstr "添加到专辑"
 
-#: core/mainwindow.cpp:2026
+#: core/mainwindow.cpp:2024
 msgid "Add to another playlist"
 msgstr "添加到另一播放列表"
 
@@ -804,7 +804,7 @@ msgstr "有封面的专辑"
 msgid "Albums without covers"
 msgstr "无封面的专辑"
 
-#: core/mainwindow.cpp:221
+#: core/mainwindow.cpp:219
 msgid "All Files (*)"
 msgstr "全部文件 (*)"
 
@@ -1011,7 +1011,7 @@ msgstr "自动打开媒体库树重的单个分类"
 msgid "Automatically search for album cover"
 msgstr "自动搜索专辑封面"
 
-#: context/contextview.cpp:314 ../build/src/ui_contextsettingspage.h:438
+#: context/contextview.cpp:312 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
 msgstr "自动搜索歌曲歌词"
 
@@ -1079,7 +1079,7 @@ msgstr "行为"
 msgid "Best"
 msgstr "最佳"
 
-#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:146
+#: context/contextview.cpp:209 collection/savedgroupingmanager.cpp:146
 #: playlist/playlist.cpp:1372 organize/organizedialog.cpp:118
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:826
@@ -1090,7 +1090,7 @@ msgstr "位深"
 msgid "Bit rate"
 msgstr "位速率"
 
-#: context/contextview.cpp:212 collection/savedgroupingmanager.cpp:149
+#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:149
 #: playlist/playlist.cpp:1373 ../build/src/ui_groupbydialog.h:209
 #: ../build/src/ui_groupbydialog.h:231 ../build/src/ui_groupbydialog.h:253
 #: ../build/src/ui_transcoderoptionsaac.h:132
@@ -1122,7 +1122,7 @@ msgstr "模糊量"
 msgid "Body"
 msgstr "通知正文"
 
-#: analyzer/boomanalyzer.cpp:46
+#: analyzer/boomanalyzer.cpp:43
 msgid "Boom analyzer"
 msgstr "轰鸣音分析器"
 
@@ -1146,7 +1146,7 @@ msgstr "缓冲"
 msgid "Buffer duration"
 msgstr "缓冲时长"
 
-#: engine/gstengine.cpp:671
+#: engine/gstengine.cpp:679
 msgid "Buffering"
 msgstr "缓冲中"
 
@@ -1154,7 +1154,7 @@ msgstr "缓冲中"
 msgid "C&onsole"
 msgstr ""
 
-#: core/songloader.cpp:204
+#: core/songloader.cpp:201
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "只有 GStreamer 引擎可使用 CD 回放。"
 
@@ -1198,7 +1198,7 @@ msgstr "改变正在播放歌曲"
 msgid "Change the language"
 msgstr "更改语言"
 
-#: core/mainwindow.cpp:806
+#: core/mainwindow.cpp:804
 msgid "Check for updates..."
 msgstr "检查更新..."
 
@@ -1247,7 +1247,7 @@ msgstr "清空磁盘缓存"
 msgid "Clear cover"
 msgstr "清除封面"
 
-#: core/mainwindow.cpp:2315 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2313 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "清空播放列表"
 
@@ -1292,7 +1292,7 @@ msgstr "关闭此窗口将停止寻找专辑封面。"
 msgid "Club"
 msgstr "俱乐部"
 
-#: core/mainwindow.cpp:371 ../build/src/ui_collectionsettingspage.h:523
+#: core/mainwindow.cpp:369 ../build/src/ui_collectionsettingspage.h:523
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "媒体库"
@@ -1305,7 +1305,7 @@ msgstr "媒体库筛选器"
 msgid "Collection advanced grouping"
 msgstr "媒体库高级分组"
 
-#: core/mainwindow.cpp:2884
+#: core/mainwindow.cpp:2882
 msgid "Collection rescan notice"
 msgstr "重新扫描媒体库提示"
 
@@ -1362,7 +1362,7 @@ msgstr "配置 %1 ..."
 msgid "Configure buttons"
 msgstr "配置按钮"
 
-#: core/mainwindow.cpp:683
+#: core/mainwindow.cpp:681
 msgid "Configure collection..."
 msgstr "配置媒体库..."
 
@@ -1378,7 +1378,7 @@ msgstr "终端"
 msgid "Constant bitrate"
 msgstr "固定位速率"
 
-#: core/mainwindow.cpp:370 ../build/src/ui_contextsettingspage.h:363
+#: core/mainwindow.cpp:368 ../build/src/ui_contextsettingspage.h:363
 msgid "Context"
 msgstr ""
 
@@ -1398,7 +1398,7 @@ msgstr "转换全部音乐"
 msgid "Convert any music that the device can't play"
 msgstr "转换设备不能播放的音乐"
 
-#: core/mainwindow.cpp:752
+#: core/mainwindow.cpp:750
 msgid "Copy URL(s)..."
 msgstr "复制 URL..."
 
@@ -1406,7 +1406,7 @@ msgstr "复制 URL..."
 msgid "Copy album cover artwork"
 msgstr "复制专辑封面图稿"
 
-#: core/mainwindow.cpp:756 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:754 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:246
 msgid "Copy to collection..."
 msgstr "复制到媒体库..."
@@ -1415,7 +1415,7 @@ msgstr "复制到媒体库..."
 msgid "Copy to device"
 msgstr "复制到设备"
 
-#: core/mainwindow.cpp:759 collection/collectionview.cpp:359
+#: core/mainwindow.cpp:757 collection/collectionview.cpp:359
 #: playlist/playlistlistcontainer.cpp:89 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "复制到设备..."
@@ -1433,7 +1433,7 @@ msgid ""
 "required GStreamer plugins installed"
 msgstr "无法创建GStreamer元素 \"%1\" - 请确认您已安装了所需GStreamer插件"
 
-#: core/songloader.cpp:316
+#: core/songloader.cpp:313
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
@@ -1442,27 +1442,27 @@ msgstr ""
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
-#: core/songloader.cpp:284
+#: core/songloader.cpp:281
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:374
+#: core/songloader.cpp:371
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:499
+#: core/songloader.cpp:496
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr ""
 
-#: core/songloader.cpp:482
+#: core/songloader.cpp:479
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: core/songloader.cpp:492
+#: core/songloader.cpp:489
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
@@ -1485,7 +1485,7 @@ msgid ""
 "plugins installed"
 msgstr "无法找到适合 %1 的解码器，请确认您正确安装了GStreamer插件"
 
-#: core/songloader.cpp:505
+#: core/songloader.cpp:502
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
@@ -1708,7 +1708,7 @@ msgstr "删除文件"
 msgid "Delete from device..."
 msgstr "从设备删除..."
 
-#: core/mainwindow.cpp:761 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:759 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "从硬盘删除..."
@@ -1734,11 +1734,11 @@ msgstr "删除原始文件"
 msgid "Deleting files"
 msgstr "删除文件"
 
-#: core/mainwindow.cpp:1941
+#: core/mainwindow.cpp:1939
 msgid "Dequeue selected tracks"
 msgstr "移除选定曲目"
 
-#: core/mainwindow.cpp:1940
+#: core/mainwindow.cpp:1938
 msgid "Dequeue track"
 msgstr "移除曲目"
 
@@ -1750,7 +1750,7 @@ msgstr "目标"
 msgid "Details..."
 msgstr "详情..."
 
-#: context/contextview.cpp:179 device/giolister.cpp:192
+#: context/contextview.cpp:177 device/giolister.cpp:192
 #: ../build/src/ui_backendsettingspage.h:565
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -1764,7 +1764,7 @@ msgstr "设备属性"
 msgid "Device properties..."
 msgstr "设备属性..."
 
-#: core/mainwindow.cpp:378
+#: core/mainwindow.cpp:376
 msgid "Devices"
 msgstr "设备"
 
@@ -1901,7 +1901,7 @@ msgstr "编辑智能播放列表"
 msgid "Edit smart playlist..."
 msgstr "编辑智能播放列表..."
 
-#: core/mainwindow.cpp:1984
+#: core/mainwindow.cpp:1982
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "编辑标签 \"%1\"..."
@@ -2010,7 +2010,7 @@ msgstr "编码引擎质量"
 msgid "Encoding mode"
 msgstr "编码模式"
 
-#: context/contextview.cpp:178 ../build/src/ui_backendsettingspage.h:568
+#: context/contextview.cpp:176 ../build/src/ui_backendsettingspage.h:568
 msgid "Engine"
 msgstr "引擎"
 
@@ -2071,7 +2071,7 @@ msgstr "相当于 --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "相当于 --log-levels *:3"
 
-#: core/mainwindow.cpp:2615 core/mainwindow.cpp:2766
+#: core/mainwindow.cpp:2613 core/mainwindow.cpp:2764
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "错误"
@@ -2094,7 +2094,7 @@ msgstr "删除曲目出错"
 msgid "Error processing %1: %2"
 msgstr "处理 %1 出错：%2"
 
-#: playlist/songloaderinserter.cpp:115
+#: playlist/songloaderinserter.cpp:113
 msgid "Error while loading audio CD."
 msgstr ""
 
@@ -2277,12 +2277,12 @@ msgstr ""
 msgid "Fetching cover error"
 msgstr "获取封面出错"
 
-#: core/songloader.cpp:167 core/songloader.cpp:271
+#: core/songloader.cpp:164 core/songloader.cpp:268
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:187 core/songloader.cpp:331
+#: core/songloader.cpp:184 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr ""
@@ -2325,7 +2325,7 @@ msgstr "文件名"
 msgid "Filename:"
 msgstr "文件名："
 
-#: core/mainwindow.cpp:375
+#: core/mainwindow.cpp:373
 msgid "Files"
 msgstr "文件"
 
@@ -2337,7 +2337,7 @@ msgstr "要转换的文件"
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
-#: context/contextview.cpp:208
+#: context/contextview.cpp:206
 msgid "Filetype"
 msgstr "文件类型"
 
@@ -2432,7 +2432,7 @@ msgstr "表格"
 msgid "Format"
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:64
+#: analyzer/analyzercontainer.cpp:63
 msgid "Framerate"
 msgstr "帧速率"
 
@@ -2623,7 +2623,7 @@ msgstr "隐藏主窗口"
 msgid "High"
 msgstr "高"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "高(%1 fps)"
@@ -2772,7 +2772,7 @@ msgstr ""
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr ""
 
-#: core/mainwindow.cpp:1058
+#: core/mainwindow.cpp:1056
 msgid ""
 "It seems that Strawberry is running under Rosetta. Strawberry currently has "
 "limited macOS support, and running Strawberry under Rosetta is unsupported "
@@ -2844,7 +2844,7 @@ msgstr ""
 msgid "Left"
 msgstr "左"
 
-#: context/contextview.cpp:209 playlist/playlist.cpp:1358
+#: context/contextview.cpp:207 playlist/playlist.cpp:1358
 #: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:824
 msgid "Length"
 msgstr "长度"
@@ -2915,11 +2915,11 @@ msgstr "正在加载智能播放列表"
 msgid "Loading songs"
 msgstr "加载曲目"
 
-#: playlist/songloaderinserter.cpp:172 dialogs/edittagdialog.cpp:411
+#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
 msgid "Loading tracks"
 msgstr "正在载入曲目"
 
-#: playlist/songloaderinserter.cpp:202
+#: playlist/songloaderinserter.cpp:200
 msgid "Loading tracks info"
 msgstr "正在加载曲目信息"
 
@@ -2956,7 +2956,7 @@ msgstr "长期预测 (LTP)"
 msgid "Love"
 msgstr "喜欢"
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:76
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "低（%1 fps）"
@@ -3035,7 +3035,7 @@ msgstr "最大位速率"
 msgid "Maximum number of login attempts reached."
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "中（%1 fps）"
@@ -3175,7 +3175,7 @@ msgstr "挂载点"
 msgid "Move down"
 msgstr "下移"
 
-#: core/mainwindow.cpp:757 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:755 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "移动至媒体库..."
 
@@ -3184,7 +3184,7 @@ msgstr "移动至媒体库..."
 msgid "Move up"
 msgstr "上移"
 
-#: core/mainwindow.cpp:2224 transcoder/transcodedialog.cpp:323
+#: core/mainwindow.cpp:2222 transcoder/transcodedialog.cpp:323
 msgid "Music"
 msgstr "音乐"
 
@@ -3228,7 +3228,7 @@ msgstr "从未播放"
 msgid "New folder"
 msgstr "创建新文件夹"
 
-#: core/mainwindow.cpp:2042
+#: core/mainwindow.cpp:2040
 msgid "New playlist"
 msgstr "新建播放列表"
 
@@ -3264,7 +3264,7 @@ msgstr "下一曲目"
 msgid "Next week"
 msgstr "下一周"
 
-#: analyzer/analyzercontainer.cpp:91
+#: analyzer/analyzercontainer.cpp:90
 msgid "No analyzer"
 msgstr "无均衡器"
 
@@ -3293,7 +3293,7 @@ msgstr "未选择提供方。"
 msgid "No short blocks"
 msgstr "无短块"
 
-#: context/contextview.cpp:439
+#: context/contextview.cpp:437
 msgid "No song playing"
 msgstr "没有歌曲在播放"
 
@@ -3303,7 +3303,7 @@ msgstr "没有歌曲在播放"
 msgid "None"
 msgstr "无"
 
-#: core/mainwindow.cpp:2615 core/mainwindow.cpp:2766
+#: core/mainwindow.cpp:2613 core/mainwindow.cpp:2764
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "已选择的曲目均不适合复制到设备"
@@ -3445,7 +3445,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "整理文件"
 
-#: core/mainwindow.cpp:755 collection/collectionview.cpp:357
+#: core/mainwindow.cpp:753 collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr "整理文件..."
 
@@ -3533,8 +3533,8 @@ msgstr "路径"
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1340 core/mainwindow.cpp:1839
-#: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
+#: core/mainwindow.cpp:1338 core/mainwindow.cpp:1837
+#: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "暂停"
 
@@ -3561,9 +3561,9 @@ msgstr "像素"
 msgid "Plain sidebar"
 msgstr "普通侧边栏"
 
-#: core/mainwindow.cpp:724 core/mainwindow.cpp:1297 core/mainwindow.cpp:1324
-#: core/mainwindow.cpp:1843 core/qtsystemtrayicon.cpp:157
-#: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
+#: core/mainwindow.cpp:722 core/mainwindow.cpp:1295 core/mainwindow.cpp:1322
+#: core/mainwindow.cpp:1841 core/qtsystemtrayicon.cpp:160
+#: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "播放"
 
@@ -3633,7 +3633,7 @@ msgstr ""
 msgid "Playlist finished"
 msgstr "已完成播放列表"
 
-#: core/mainwindow.cpp:2315
+#: core/mainwindow.cpp:2313
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3657,7 +3657,7 @@ msgstr ""
 msgid "Playlist type"
 msgstr "播放列表类型"
 
-#: core/mainwindow.cpp:373
+#: core/mainwindow.cpp:371
 msgid "Playlists"
 msgstr "播放列表"
 
@@ -3713,7 +3713,7 @@ msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
 
-#: core/songloader.cpp:154
+#: core/songloader.cpp:151
 msgid "Preload function was not set for blocking operation."
 msgstr ""
 
@@ -3778,7 +3778,7 @@ msgstr "进度"
 msgid "Put songs in a random order"
 msgstr "以随机顺序排布歌曲"
 
-#: core/mainwindow.cpp:387 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:385 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3801,24 +3801,24 @@ msgstr "质量"
 msgid "Querying device..."
 msgstr "正在查询设备..."
 
-#: core/mainwindow.cpp:372
+#: core/mainwindow.cpp:370
 msgid "Queue"
 msgstr ""
 
-#: core/mainwindow.cpp:1943
+#: core/mainwindow.cpp:1941
 msgid "Queue selected tracks"
 msgstr "将选定曲目加入队列"
 
-#: core/mainwindow.cpp:730 core/mainwindow.cpp:1947
+#: core/mainwindow.cpp:728 core/mainwindow.cpp:1945
 msgid "Queue selected tracks to play next"
 msgstr ""
 
-#: core/mainwindow.cpp:1950 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1948 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr ""
 
-#: core/mainwindow.cpp:1942 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1940 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -3836,7 +3836,7 @@ msgstr "电台(所有曲目采用相同的音量)"
 msgid "Radio Paradise"
 msgstr ""
 
-#: core/mainwindow.cpp:376
+#: core/mainwindow.cpp:374
 msgid "Radios"
 msgstr ""
 
@@ -4086,7 +4086,7 @@ msgstr ""
 msgid "Rescan song(s)"
 msgstr "重新扫描歌曲..."
 
-#: core/mainwindow.cpp:746
+#: core/mainwindow.cpp:744
 msgid "Rescan song(s)..."
 msgstr "重新扫描歌曲..."
 
@@ -4190,7 +4190,7 @@ msgstr "复制后安全移除设备"
 msgid "Sample rate"
 msgstr "采样率"
 
-#: context/contextview.cpp:210
+#: context/contextview.cpp:208
 msgid "Samplerate"
 msgstr "采样率"
 
@@ -4413,7 +4413,7 @@ msgstr "无效的服务器 URL。"
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1983
+#: core/mainwindow.cpp:1981
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "将 %1 设置为 %2..."
@@ -4492,7 +4492,7 @@ msgstr "显示漂亮的 OSD"
 msgid "Show above status bar"
 msgstr "在状态栏之上显示"
 
-#: context/contextview.cpp:298
+#: context/contextview.cpp:296
 msgid "Show album cover"
 msgstr "显示专辑封面"
 
@@ -4500,7 +4500,7 @@ msgstr "显示专辑封面"
 msgid "Show album cover art in collection"
 msgstr "在媒体库中显示专辑封面图稿"
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:670
 msgid "Show all songs"
 msgstr "显示所有歌曲"
 
@@ -4520,7 +4520,7 @@ msgstr "显示错误对话框"
 msgid "Show dividers"
 msgstr "显示分频器"
 
-#: context/contextview.cpp:306
+#: context/contextview.cpp:304
 msgid "Show engine and device"
 msgstr "显示引擎与设备"
 
@@ -4528,7 +4528,7 @@ msgstr "显示引擎与设备"
 msgid "Show fullsize..."
 msgstr "显示完整尺寸..."
 
-#: core/mainwindow.cpp:753
+#: core/mainwindow.cpp:751
 msgid "Show in collection..."
 msgstr "在媒体库中显示..."
 
@@ -4536,7 +4536,7 @@ msgstr "在媒体库中显示..."
 msgid "Show in file browser"
 msgstr "在文件管理器中显示"
 
-#: core/mainwindow.cpp:754 collection/collectionview.cpp:366
+#: core/mainwindow.cpp:752 collection/collectionview.cpp:366
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "在文件管理器中显示..."
@@ -4553,11 +4553,11 @@ msgstr "显示喜欢按钮"
 msgid "Show moodbar"
 msgstr "显示情绪栏"
 
-#: core/mainwindow.cpp:673
+#: core/mainwindow.cpp:671
 msgid "Show only duplicates"
 msgstr "只显示重复"
 
-#: core/mainwindow.cpp:674
+#: core/mainwindow.cpp:672
 msgid "Show only untagged"
 msgstr "只显示未加标签的"
 
@@ -4573,7 +4573,7 @@ msgstr ""
 msgid "Show sidebar"
 msgstr "显示侧边栏"
 
-#: context/contextview.cpp:310
+#: context/contextview.cpp:308
 msgid "Show song lyrics"
 msgstr "显示歌词"
 
@@ -4581,7 +4581,7 @@ msgstr "显示歌词"
 msgid "Show song progress on system tray icon"
 msgstr "在系统托盘图标上显示歌曲进度"
 
-#: context/contextview.cpp:302
+#: context/contextview.cpp:300
 msgid "Show song technical data"
 msgstr "显示歌曲技术规格"
 
@@ -4654,11 +4654,11 @@ msgstr "跳过计数"
 msgid "Skip forwards in playlist"
 msgstr "在播放列表中前进"
 
-#: core/mainwindow.cpp:1956
+#: core/mainwindow.cpp:1954
 msgid "Skip selected tracks"
 msgstr "跳过所选择的曲目"
 
-#: core/mainwindow.cpp:1955
+#: core/mainwindow.cpp:1953
 msgid "Skip track"
 msgstr "跳过曲目"
 
@@ -4674,7 +4674,7 @@ msgstr "小侧边栏"
 msgid "Smart playlist"
 msgstr "智能播放列表"
 
-#: core/mainwindow.cpp:374
+#: core/mainwindow.cpp:372
 msgid "Smart playlists"
 msgstr "智能播放列表"
 
@@ -4718,7 +4718,7 @@ msgstr ""
 msgid "Songs search limit"
 msgstr ""
 
-#: analyzer/sonogram.cpp:29
+#: analyzer/sonogram.cpp:31
 msgid "Sonogram"
 msgstr ""
 
@@ -4779,7 +4779,7 @@ msgstr "播放完每个曲目后停止"
 msgid "Stop after every track"
 msgstr "播放每个曲目前停止"
 
-#: core/mainwindow.cpp:726 ../build/src/ui_mainwindow.h:630
+#: core/mainwindow.cpp:724 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "在此曲目后停止"
 
@@ -4848,7 +4848,7 @@ msgid ""
 "restrictions such as accessing certain devices or network shares."
 msgstr ""
 
-#: core/mainwindow.cpp:1058
+#: core/mainwindow.cpp:1056
 msgid "Strawberry running under Rosetta"
 msgstr ""
 
@@ -4881,7 +4881,7 @@ msgstr "风格"
 msgid "Submit scrobbles every"
 msgstr ""
 
-#: core/mainwindow.cpp:381 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:379 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4909,7 +4909,7 @@ msgstr "推荐标签"
 msgid "Summary"
 msgstr "总览"
 
-#: analyzer/analyzercontainer.cpp:80
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "很高(%1 fps)"
@@ -5016,7 +5016,7 @@ msgstr "请求的站点不存在!"
 msgid "The site you requested is not an image!"
 msgstr "您请求的站点并不是一个图片!"
 
-#: core/mainwindow.cpp:2879
+#: core/mainwindow.cpp:2877
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5104,7 +5104,7 @@ msgstr "这些选项可以在“行为”设置中修改"
 msgid "This type of device is not supported: %1"
 msgstr "这类设备不受支持：%1"
 
-#: core/mainwindow.cpp:384 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:382 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -5134,7 +5134,7 @@ msgstr "今日"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:727 core/mainwindow.cpp:1944
+#: core/mainwindow.cpp:725 core/mainwindow.cpp:1942
 msgid "Toggle queue status"
 msgstr "切换队列状态"
 
@@ -5142,7 +5142,7 @@ msgstr "切换队列状态"
 msgid "Toggle scrobbling"
 msgstr "切换歌曲记录"
 
-#: core/mainwindow.cpp:733 core/mainwindow.cpp:1957
+#: core/mainwindow.cpp:731 core/mainwindow.cpp:1955
 msgid "Toggle skip status"
 msgstr ""
 
@@ -5244,7 +5244,7 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:726 collection/collectionmodel.cpp:477
+#: core/song.cpp:725 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:1663 collection/savedgroupingmanager.cpp:153
@@ -5274,11 +5274,11 @@ msgstr "撤销"
 msgid "Unset cover"
 msgstr "撤销封面"
 
-#: core/mainwindow.cpp:1954
+#: core/mainwindow.cpp:1952
 msgid "Unskip selected tracks"
 msgstr "取消略过的选定曲目"
 
-#: core/mainwindow.cpp:1953
+#: core/mainwindow.cpp:1951
 msgid "Unskip track"
 msgstr "取消掠过曲目"
 
@@ -5526,7 +5526,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2883
+#: core/mainwindow.cpp:2881
 msgid "Would you like to run a full rescan right now?"
 msgstr "您要立即做个全部重新扫描？"
 
@@ -5602,7 +5602,7 @@ msgid ""
 "through %2."
 msgstr ""
 
-#: core/songloader.cpp:135 core/songloader.cpp:140
+#: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
 msgstr ""
 
@@ -5735,7 +5735,7 @@ msgstr ""
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:531 context/contextview.cpp:653
+#: context/contextview.cpp:529 context/contextview.cpp:651
 #: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:787
 msgid "kbps"
 msgstr "kbps"

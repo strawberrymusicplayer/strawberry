@@ -120,22 +120,22 @@ msgstr " låtar"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Skrobblarautentisering"
 
-#: context/contextview.cpp:450
+#: context/contextview.cpp:448
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:451
+#: context/contextview.cpp:449
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 album"
 
-#: context/contextview.cpp:446
+#: context/contextview.cpp:444
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artist"
 
-#: context/contextview.cpp:447
+#: context/contextview.cpp:445
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artister"
@@ -176,7 +176,7 @@ msgstr "%1 spellistor (%2)"
 msgid "%1 selected of"
 msgstr "%1 valda av"
 
-#: context/contextview.cpp:442
+#: context/contextview.cpp:440
 #, qt-format
 msgid "%1 song"
 msgstr "%1 låt"
@@ -186,7 +186,7 @@ msgstr "%1 låt"
 msgid "%1 song%2"
 msgstr "%1 låt%2"
 
-#: context/contextview.cpp:443
+#: context/contextview.cpp:441
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 låtar"
@@ -586,7 +586,7 @@ msgstr "Lägg till alla låtar från en mapp och alla dess undermappar"
 msgid "Add directory..."
 msgstr "Lägg till mapp..."
 
-#: core/mainwindow.cpp:2224
+#: core/mainwindow.cpp:2222
 msgid "Add file"
 msgstr "Lägg till fil"
 
@@ -602,7 +602,7 @@ msgstr "Lägg till fil(er) i omkodaren"
 msgid "Add files to transcode"
 msgstr "Lägg till filer för omkodning"
 
-#: core/mainwindow.cpp:2250 transcoder/transcodedialog.cpp:414
+#: core/mainwindow.cpp:2248 transcoder/transcodedialog.cpp:414
 msgid "Add folder"
 msgstr "Lägg till mapp"
 
@@ -712,7 +712,7 @@ msgstr "Lägg till flöde..."
 msgid "Add to albums"
 msgstr "Lägg till i album"
 
-#: core/mainwindow.cpp:2026
+#: core/mainwindow.cpp:2024
 msgid "Add to another playlist"
 msgstr "Lägg till i en annan spellista"
 
@@ -826,7 +826,7 @@ msgstr "Album med omslag"
 msgid "Albums without covers"
 msgstr "Album utan omslag"
 
-#: core/mainwindow.cpp:221
+#: core/mainwindow.cpp:219
 msgid "All Files (*)"
 msgstr "Alla filer (*)"
 
@@ -1035,7 +1035,7 @@ msgstr "Öppna enskilda kategorier automatiskt i samlingsträdet"
 msgid "Automatically search for album cover"
 msgstr "Sök automatiskt efter albumomslag"
 
-#: context/contextview.cpp:314 ../build/src/ui_contextsettingspage.h:438
+#: context/contextview.cpp:312 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
 msgstr "Sök automatiskt efter låttexter"
 
@@ -1103,7 +1103,7 @@ msgstr "Beteende"
 msgid "Best"
 msgstr "Bästa"
 
-#: context/contextview.cpp:211 collection/savedgroupingmanager.cpp:146
+#: context/contextview.cpp:209 collection/savedgroupingmanager.cpp:146
 #: playlist/playlist.cpp:1372 organize/organizedialog.cpp:118
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:826
@@ -1114,7 +1114,7 @@ msgstr "Bitdjup"
 msgid "Bit rate"
 msgstr "Bithastighet"
 
-#: context/contextview.cpp:212 collection/savedgroupingmanager.cpp:149
+#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:149
 #: playlist/playlist.cpp:1373 ../build/src/ui_groupbydialog.h:209
 #: ../build/src/ui_groupbydialog.h:231 ../build/src/ui_groupbydialog.h:253
 #: ../build/src/ui_transcoderoptionsaac.h:132
@@ -1146,7 +1146,7 @@ msgstr "Suddighet"
 msgid "Body"
 msgstr "Brödtext"
 
-#: analyzer/boomanalyzer.cpp:46
+#: analyzer/boomanalyzer.cpp:43
 msgid "Boom analyzer"
 msgstr "Boom-analysator"
 
@@ -1170,7 +1170,7 @@ msgstr "Buffert"
 msgid "Buffer duration"
 msgstr "Buffert varaktighet"
 
-#: engine/gstengine.cpp:671
+#: engine/gstengine.cpp:679
 msgid "Buffering"
 msgstr "Buffrar"
 
@@ -1178,7 +1178,7 @@ msgstr "Buffrar"
 msgid "C&onsole"
 msgstr "K&onsol"
 
-#: core/songloader.cpp:204
+#: core/songloader.cpp:201
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD-uppspelning är endast tillgänglig med GStreamer-motorn."
 
@@ -1222,7 +1222,7 @@ msgstr "Byta låt som nu spelas"
 msgid "Change the language"
 msgstr "Ändra språket"
 
-#: core/mainwindow.cpp:806
+#: core/mainwindow.cpp:804
 msgid "Check for updates..."
 msgstr "Sök efter uppdateringar..."
 
@@ -1272,7 +1272,7 @@ msgstr "Rensa diskcache"
 msgid "Clear cover"
 msgstr "Rensa omslag"
 
-#: core/mainwindow.cpp:2315 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2313 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Rensa spellista"
 
@@ -1318,7 +1318,7 @@ msgstr ""
 msgid "Club"
 msgstr "Klubb"
 
-#: core/mainwindow.cpp:371 ../build/src/ui_collectionsettingspage.h:523
+#: core/mainwindow.cpp:369 ../build/src/ui_collectionsettingspage.h:523
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Samling"
@@ -1331,7 +1331,7 @@ msgstr "Samlingsfilter"
 msgid "Collection advanced grouping"
 msgstr "Samling avancerad gruppering"
 
-#: core/mainwindow.cpp:2884
+#: core/mainwindow.cpp:2882
 msgid "Collection rescan notice"
 msgstr "Notis om omskanning av samling"
 
@@ -1388,7 +1388,7 @@ msgstr "Anpassa %1..."
 msgid "Configure buttons"
 msgstr "Anpassa knappar"
 
-#: core/mainwindow.cpp:683
+#: core/mainwindow.cpp:681
 msgid "Configure collection..."
 msgstr "Anpassa samling..."
 
@@ -1404,7 +1404,7 @@ msgstr "Konsol"
 msgid "Constant bitrate"
 msgstr "Konstant bitfrekvens"
 
-#: core/mainwindow.cpp:370 ../build/src/ui_contextsettingspage.h:363
+#: core/mainwindow.cpp:368 ../build/src/ui_contextsettingspage.h:363
 msgid "Context"
 msgstr "Kontext"
 
@@ -1424,7 +1424,7 @@ msgstr "Konvertera all musik"
 msgid "Convert any music that the device can't play"
 msgstr "Konvertera all musik som inte kan spelas av enheten"
 
-#: core/mainwindow.cpp:752
+#: core/mainwindow.cpp:750
 msgid "Copy URL(s)..."
 msgstr "Kopiera webbadress(er)..."
 
@@ -1432,7 +1432,7 @@ msgstr "Kopiera webbadress(er)..."
 msgid "Copy album cover artwork"
 msgstr "Kopiera albumomslag"
 
-#: core/mainwindow.cpp:756 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:754 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:246
 msgid "Copy to collection..."
 msgstr "Kopiera till samling..."
@@ -1441,7 +1441,7 @@ msgstr "Kopiera till samling..."
 msgid "Copy to device"
 msgstr "Kopiera till enhet"
 
-#: core/mainwindow.cpp:759 collection/collectionview.cpp:359
+#: core/mainwindow.cpp:757 collection/collectionview.cpp:359
 #: playlist/playlistlistcontainer.cpp:89 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "Kopiera till enhet..."
@@ -1463,7 +1463,7 @@ msgstr ""
 "Kunde inte skapa GStreamer-elementet \"%1\" - kontrollera att du har alla "
 "GStreamer-insticksmoduler som krävs installerade"
 
-#: core/songloader.cpp:316
+#: core/songloader.cpp:313
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr "Det gick inte att öppna CUE-filen %1 för läsning: %2"
@@ -1474,27 +1474,27 @@ msgstr ""
 "Det gick inte att öppna webbadressen. Öppna den här webbadressen i din "
 "webbläsare"
 
-#: core/songloader.cpp:284
+#: core/songloader.cpp:281
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr "Det gick inte att öppna filen %1 för läsning: %2"
 
-#: core/songloader.cpp:374
+#: core/songloader.cpp:371
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr "Det gick inte att öppna spellistefilen %1 för läsning: %2"
 
-#: core/songloader.cpp:499
+#: core/songloader.cpp:496
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr "Det gick inte att skapa GStreamer fakesink-element för %1"
 
-#: core/songloader.cpp:482
+#: core/songloader.cpp:479
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr "Det gick inte att skapa GStreamer-källelementet för %1"
 
-#: core/songloader.cpp:492
+#: core/songloader.cpp:489
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr "Det gick inte att skapa GStreamer typfind-element för %1"
@@ -1521,7 +1521,7 @@ msgstr ""
 "Kunde inte hitta en kodare för %1, kontrollera att du har de korrekta "
 "GStreamer-insticksmodulerna installerade"
 
-#: core/songloader.cpp:505
+#: core/songloader.cpp:502
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
@@ -1745,7 +1745,7 @@ msgstr "Ta bort filer"
 msgid "Delete from device..."
 msgstr "Ta bort från enhet..."
 
-#: core/mainwindow.cpp:761 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:759 collection/collectionview.cpp:361
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "Ta bort från disk..."
@@ -1771,11 +1771,11 @@ msgstr "Ta bort originalfiler"
 msgid "Deleting files"
 msgstr "Tar bort filer"
 
-#: core/mainwindow.cpp:1941
+#: core/mainwindow.cpp:1939
 msgid "Dequeue selected tracks"
 msgstr "Ta bort valda spår från kön"
 
-#: core/mainwindow.cpp:1940
+#: core/mainwindow.cpp:1938
 msgid "Dequeue track"
 msgstr "Ta bort spår från kön"
 
@@ -1787,7 +1787,7 @@ msgstr "Destination"
 msgid "Details..."
 msgstr "Detaljer..."
 
-#: context/contextview.cpp:179 device/giolister.cpp:192
+#: context/contextview.cpp:177 device/giolister.cpp:192
 #: ../build/src/ui_backendsettingspage.h:565
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -1801,7 +1801,7 @@ msgstr "Enhetsegenskaper"
 msgid "Device properties..."
 msgstr "Enhetsegenskaper..."
 
-#: core/mainwindow.cpp:378
+#: core/mainwindow.cpp:376
 msgid "Devices"
 msgstr "Enheter"
 
@@ -1940,7 +1940,7 @@ msgstr "Redigera smart spellista"
 msgid "Edit smart playlist..."
 msgstr "Redigera smart spellista..."
 
-#: core/mainwindow.cpp:1984
+#: core/mainwindow.cpp:1982
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Redigera taggen \"%1\"..."
@@ -2049,7 +2049,7 @@ msgstr "Kodningsmotorns kvalitet"
 msgid "Encoding mode"
 msgstr "Kodningsläge"
 
-#: context/contextview.cpp:178 ../build/src/ui_backendsettingspage.h:568
+#: context/contextview.cpp:176 ../build/src/ui_backendsettingspage.h:568
 msgid "Engine"
 msgstr "Motor"
 
@@ -2110,7 +2110,7 @@ msgstr "Motsvarar --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Motsvarar --log-levels *:3"
 
-#: core/mainwindow.cpp:2615 core/mainwindow.cpp:2766
+#: core/mainwindow.cpp:2613 core/mainwindow.cpp:2764
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Fel"
@@ -2133,7 +2133,7 @@ msgstr "Fel vid borttagning av låtar"
 msgid "Error processing %1: %2"
 msgstr "Fel vid bearbetning av %1: %2"
 
-#: playlist/songloaderinserter.cpp:115
+#: playlist/songloaderinserter.cpp:113
 msgid "Error while loading audio CD."
 msgstr "Fel vid inläsning av ljud-CD."
 
@@ -2316,12 +2316,12 @@ msgstr "Hämta hela album vid sökning av låtar"
 msgid "Fetching cover error"
 msgstr "Fel vid hämtning av omslag"
 
-#: core/songloader.cpp:167 core/songloader.cpp:271
+#: core/songloader.cpp:164 core/songloader.cpp:268
 #, qt-format
 msgid "File %1 does not exist."
 msgstr "Filen %1 finns inte."
 
-#: core/songloader.cpp:187 core/songloader.cpp:331
+#: core/songloader.cpp:184 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Filen %1 känns inte igen som en giltig ljudfil."
@@ -2364,7 +2364,7 @@ msgstr "Filnamn"
 msgid "Filename:"
 msgstr "Filnamn:"
 
-#: core/mainwindow.cpp:375
+#: core/mainwindow.cpp:373
 msgid "Files"
 msgstr "Filer"
 
@@ -2376,7 +2376,7 @@ msgstr "Filer att omkoda"
 msgid "Files, playlists and queue buttons"
 msgstr "Filer, spellistor och köknappar"
 
-#: context/contextview.cpp:208
+#: context/contextview.cpp:206
 msgid "Filetype"
 msgstr "Filtyp"
 
@@ -2473,7 +2473,7 @@ msgstr "Formulär"
 msgid "Format"
 msgstr "Format"
 
-#: analyzer/analyzercontainer.cpp:64
+#: analyzer/analyzercontainer.cpp:63
 msgid "Framerate"
 msgstr "Bildfrekvens"
 
@@ -2664,7 +2664,7 @@ msgstr "Dölj huvudfönstret"
 msgid "High"
 msgstr "Hög"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Hög (%1 fps)"
@@ -2823,7 +2823,7 @@ msgstr ""
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr "Det upptäcktes att Strawberry körs som en Snap"
 
-#: core/mainwindow.cpp:1058
+#: core/mainwindow.cpp:1056
 msgid ""
 "It seems that Strawberry is running under Rosetta. Strawberry currently has "
 "limited macOS support, and running Strawberry under Rosetta is unsupported "
@@ -2895,7 +2895,7 @@ msgstr "Minst omtyckta spår"
 msgid "Left"
 msgstr "Vänster"
 
-#: context/contextview.cpp:209 playlist/playlist.cpp:1358
+#: context/contextview.cpp:207 playlist/playlist.cpp:1358
 #: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:824
 msgid "Length"
 msgstr "Längd"
@@ -2966,11 +2966,11 @@ msgstr "Läser in smart spellista"
 msgid "Loading songs"
 msgstr "Läser in låtar"
 
-#: playlist/songloaderinserter.cpp:172 dialogs/edittagdialog.cpp:411
+#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
 msgid "Loading tracks"
 msgstr "Läser in spår"
 
-#: playlist/songloaderinserter.cpp:202
+#: playlist/songloaderinserter.cpp:200
 msgid "Loading tracks info"
 msgstr "Läser in låtinformation"
 
@@ -3007,7 +3007,7 @@ msgstr "Långsiktig förutsägelseprofil (LTP)"
 msgid "Love"
 msgstr "Älska"
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:76
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Låg (%1 fps)"
@@ -3086,7 +3086,7 @@ msgstr "Högsta bitfrekvensen"
 msgid "Maximum number of login attempts reached."
 msgstr "Högsta antalet inloggningsförsök har uppnåtts."
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Mellan (%1 fps)"
@@ -3226,7 +3226,7 @@ msgstr "Monteringspunkter"
 msgid "Move down"
 msgstr "Flytta nedåt"
 
-#: core/mainwindow.cpp:757 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:755 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Flytta till samling..."
 
@@ -3235,7 +3235,7 @@ msgstr "Flytta till samling..."
 msgid "Move up"
 msgstr "Flytta uppåt"
 
-#: core/mainwindow.cpp:2224 transcoder/transcodedialog.cpp:323
+#: core/mainwindow.cpp:2222 transcoder/transcodedialog.cpp:323
 msgid "Music"
 msgstr "Musik"
 
@@ -3279,7 +3279,7 @@ msgstr "Aldrig starta uppspelning"
 msgid "New folder"
 msgstr "Ny mapp"
 
-#: core/mainwindow.cpp:2042
+#: core/mainwindow.cpp:2040
 msgid "New playlist"
 msgstr "Ny spellista"
 
@@ -3315,7 +3315,7 @@ msgstr "Nästa spår"
 msgid "Next week"
 msgstr "Nästa vecka"
 
-#: analyzer/analyzercontainer.cpp:91
+#: analyzer/analyzercontainer.cpp:90
 msgid "No analyzer"
 msgstr "Ingen analysator"
 
@@ -3345,7 +3345,7 @@ msgstr "Ingen leverantör vald."
 msgid "No short blocks"
 msgstr "Inga korta block"
 
-#: context/contextview.cpp:439
+#: context/contextview.cpp:437
 msgid "No song playing"
 msgstr "Ingen låt spelas"
 
@@ -3355,7 +3355,7 @@ msgstr "Ingen låt spelas"
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2615 core/mainwindow.cpp:2766
+#: core/mainwindow.cpp:2613 core/mainwindow.cpp:2764
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ingen av de valda låtarna lämpar sig för kopiering till en enhet"
@@ -3500,7 +3500,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "Organisera filer"
 
-#: core/mainwindow.cpp:755 collection/collectionview.cpp:357
+#: core/mainwindow.cpp:753 collection/collectionview.cpp:357
 msgid "Organize files..."
 msgstr "Organisera filer..."
 
@@ -3588,8 +3588,8 @@ msgstr "Sökväg"
 msgid "Pattern"
 msgstr "Mönster"
 
-#: core/mainwindow.cpp:1340 core/mainwindow.cpp:1839
-#: core/qtsystemtrayicon.cpp:144 globalshortcuts/globalshortcutsmanager.cpp:62
+#: core/mainwindow.cpp:1338 core/mainwindow.cpp:1837
+#: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Pausa"
 
@@ -3616,9 +3616,9 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Vanligt sidofält"
 
-#: core/mainwindow.cpp:724 core/mainwindow.cpp:1297 core/mainwindow.cpp:1324
-#: core/mainwindow.cpp:1843 core/qtsystemtrayicon.cpp:157
-#: core/qtsystemtrayicon.cpp:171 globalshortcuts/globalshortcutsmanager.cpp:61
+#: core/mainwindow.cpp:722 core/mainwindow.cpp:1295 core/mainwindow.cpp:1322
+#: core/mainwindow.cpp:1841 core/qtsystemtrayicon.cpp:160
+#: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Spela"
 
@@ -3689,7 +3689,7 @@ msgstr "Spellistknappar"
 msgid "Playlist finished"
 msgstr "Spellistan är klar"
 
-#: core/mainwindow.cpp:2315
+#: core/mainwindow.cpp:2313
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3715,7 +3715,7 @@ msgstr "Låtfärg för uppspelning av spellista "
 msgid "Playlist type"
 msgstr "Spellistetyp"
 
-#: core/mainwindow.cpp:373
+#: core/mainwindow.cpp:371
 msgid "Playlists"
 msgstr "Spellistor"
 
@@ -3773,7 +3773,7 @@ msgstr ""
 "Använd ett fältnamn som prefix för ett ord för att begränsa sökningen till "
 "det fältet, t.ex.:"
 
-#: core/songloader.cpp:154
+#: core/songloader.cpp:151
 msgid "Preload function was not set for blocking operation."
 msgstr "Förinläsningsfunktionen var inte inställd för blockering."
 
@@ -3840,7 +3840,7 @@ msgstr "Förlopp"
 msgid "Put songs in a random order"
 msgstr "Lägg till låtar i slumpmässig ordning"
 
-#: core/mainwindow.cpp:387 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:385 ../build/src/ui_scrobblersettingspage.h:423
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3866,24 +3866,24 @@ msgstr "Kvalitet"
 msgid "Querying device..."
 msgstr "Kommunicerar med enhet..."
 
-#: core/mainwindow.cpp:372
+#: core/mainwindow.cpp:370
 msgid "Queue"
 msgstr "Kö"
 
-#: core/mainwindow.cpp:1943
+#: core/mainwindow.cpp:1941
 msgid "Queue selected tracks"
 msgstr "Lägg till valda spår i kön"
 
-#: core/mainwindow.cpp:730 core/mainwindow.cpp:1947
+#: core/mainwindow.cpp:728 core/mainwindow.cpp:1945
 msgid "Queue selected tracks to play next"
 msgstr "Lägg till valda spår i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1950 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1948 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "Lägg till i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1942 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1940 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -3901,7 +3901,7 @@ msgstr "Radio (samma ljudstyrka för alla spår"
 msgid "Radio Paradise"
 msgstr "Radio Paradise"
 
-#: core/mainwindow.cpp:376
+#: core/mainwindow.cpp:374
 msgid "Radios"
 msgstr "Radiokanaler"
 
@@ -4159,7 +4159,7 @@ msgstr "Skapa en ny blandning"
 msgid "Rescan song(s)"
 msgstr "Skanna om av låt(ar)..."
 
-#: core/mainwindow.cpp:746
+#: core/mainwindow.cpp:744
 msgid "Rescan song(s)..."
 msgstr "Skanna om låt(ar)..."
 
@@ -4265,7 +4265,7 @@ msgstr "Säker borttagning av enheten efter kopiering"
 msgid "Sample rate"
 msgstr "Samplingsfrekvens"
 
-#: context/contextview.cpp:210
+#: context/contextview.cpp:208
 msgid "Samplerate"
 msgstr "Samplingsfrekvens"
 
@@ -4488,7 +4488,7 @@ msgstr "Serverwebbadressen är ogiltig."
 msgid "Server-side scrobbling"
 msgstr "Skrobbling på serversidan"
 
-#: core/mainwindow.cpp:1983
+#: core/mainwindow.cpp:1981
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Ställ in %1 till \"%2\"..."
@@ -4567,7 +4567,7 @@ msgstr "Visa en snygg avisering"
 msgid "Show above status bar"
 msgstr "Visa ovanför statusraden"
 
-#: context/contextview.cpp:298
+#: context/contextview.cpp:296
 msgid "Show album cover"
 msgstr "Visa albumomslag"
 
@@ -4575,7 +4575,7 @@ msgstr "Visa albumomslag"
 msgid "Show album cover art in collection"
 msgstr "Visa omslagsbilder i samlingen"
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:670
 msgid "Show all songs"
 msgstr "Visa alla låtar"
 
@@ -4595,7 +4595,7 @@ msgstr "Visa dialogruta vid fel"
 msgid "Show dividers"
 msgstr "Visa avdelare"
 
-#: context/contextview.cpp:306
+#: context/contextview.cpp:304
 msgid "Show engine and device"
 msgstr "Visa motor och enhet"
 
@@ -4603,7 +4603,7 @@ msgstr "Visa motor och enhet"
 msgid "Show fullsize..."
 msgstr "Visa i full storlek..."
 
-#: core/mainwindow.cpp:753
+#: core/mainwindow.cpp:751
 msgid "Show in collection..."
 msgstr "Visa i samlingen..."
 
@@ -4611,7 +4611,7 @@ msgstr "Visa i samlingen..."
 msgid "Show in file browser"
 msgstr "Visa i filhanteraren"
 
-#: core/mainwindow.cpp:754 collection/collectionview.cpp:366
+#: core/mainwindow.cpp:752 collection/collectionview.cpp:366
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Visa i filhanterare..."
@@ -4628,11 +4628,11 @@ msgstr "Visa knappen älska"
 msgid "Show moodbar"
 msgstr "Visa stämningsdiagram"
 
-#: core/mainwindow.cpp:673
+#: core/mainwindow.cpp:671
 msgid "Show only duplicates"
 msgstr "Visa endast dubbletter"
 
-#: core/mainwindow.cpp:674
+#: core/mainwindow.cpp:672
 msgid "Show only untagged"
 msgstr "Visa endast utan taggar"
 
@@ -4648,7 +4648,7 @@ msgstr "Visa knappen skrobbla"
 msgid "Show sidebar"
 msgstr "Visa sidofält"
 
-#: context/contextview.cpp:310
+#: context/contextview.cpp:308
 msgid "Show song lyrics"
 msgstr "Visa låttexter"
 
@@ -4656,7 +4656,7 @@ msgstr "Visa låttexter"
 msgid "Show song progress on system tray icon"
 msgstr "Visa sångförlopp på systemfältikonen"
 
-#: context/contextview.cpp:302
+#: context/contextview.cpp:300
 msgid "Show song technical data"
 msgstr "Visa låttekniska data"
 
@@ -4729,11 +4729,11 @@ msgstr "Antal överhoppningar"
 msgid "Skip forwards in playlist"
 msgstr "Hoppa framåt i spellista"
 
-#: core/mainwindow.cpp:1956
+#: core/mainwindow.cpp:1954
 msgid "Skip selected tracks"
 msgstr "Hoppa över valda spår"
 
-#: core/mainwindow.cpp:1955
+#: core/mainwindow.cpp:1953
 msgid "Skip track"
 msgstr "Hoppa över spår"
 
@@ -4749,7 +4749,7 @@ msgstr "Litet sidofält"
 msgid "Smart playlist"
 msgstr "Smart spellista"
 
-#: core/mainwindow.cpp:374
+#: core/mainwindow.cpp:372
 msgid "Smart playlists"
 msgstr "Smarta spellistor"
 
@@ -4796,7 +4796,7 @@ msgstr ""
 msgid "Songs search limit"
 msgstr "Sökgräns för låtar"
 
-#: analyzer/sonogram.cpp:29
+#: analyzer/sonogram.cpp:31
 msgid "Sonogram"
 msgstr "Sonogram"
 
@@ -4857,7 +4857,7 @@ msgstr "Stoppa efter varje låt"
 msgid "Stop after every track"
 msgstr "Stoppa efter varje låt"
 
-#: core/mainwindow.cpp:726 ../build/src/ui_mainwindow.h:630
+#: core/mainwindow.cpp:724 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "Stoppa efter det här spåret"
 
@@ -4933,7 +4933,7 @@ msgstr ""
 "Åtkomst till rotfilsystemet (/) fungerar inte. Det kan också finnas andra "
 "begränsningar som att komma åt vissa enheter eller nätverksresurser."
 
-#: core/mainwindow.cpp:1058
+#: core/mainwindow.cpp:1056
 msgid "Strawberry running under Rosetta"
 msgstr ""
 
@@ -4966,7 +4966,7 @@ msgstr "Format"
 msgid "Submit scrobbles every"
 msgstr "Skicka skrobblingar varje"
 
-#: core/mainwindow.cpp:381 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:379 ../build/src/ui_scrobblersettingspage.h:419
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -4994,7 +4994,7 @@ msgstr "Föreslagna taggar"
 msgid "Summary"
 msgstr "Sammandrag"
 
-#: analyzer/analyzercontainer.cpp:80
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Väldigt hög (%1 fps)"
@@ -5101,7 +5101,7 @@ msgstr "Webbplatsen du söker finns inte!"
 msgid "The site you requested is not an image!"
 msgstr "Webbplatsen du söker är inte en bild!"
 
-#: core/mainwindow.cpp:2879
+#: core/mainwindow.cpp:2877
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5206,7 +5206,7 @@ msgstr "Det här alternativet kan ändras i inställningarna för \"Beteende\""
 msgid "This type of device is not supported: %1"
 msgstr "Den här typen av enhet stöds inte: %1"
 
-#: core/mainwindow.cpp:384 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:382 ../build/src/ui_scrobblersettingspage.h:421
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -5238,7 +5238,7 @@ msgstr "Idag"
 msgid "Toggle Pretty OSD"
 msgstr "Växla snygg avisering"
 
-#: core/mainwindow.cpp:727 core/mainwindow.cpp:1944
+#: core/mainwindow.cpp:725 core/mainwindow.cpp:1942
 msgid "Toggle queue status"
 msgstr "Växla köstatus"
 
@@ -5246,7 +5246,7 @@ msgstr "Växla köstatus"
 msgid "Toggle scrobbling"
 msgstr "Växla skrobbling"
 
-#: core/mainwindow.cpp:733 core/mainwindow.cpp:1957
+#: core/mainwindow.cpp:731 core/mainwindow.cpp:1955
 msgid "Toggle skip status"
 msgstr "Växla status för hoppa över"
 
@@ -5348,7 +5348,7 @@ msgstr "Ångra"
 msgid "Uninstall the snap with:"
 msgstr "Avinstallera snap med:"
 
-#: core/song.cpp:726 collection/collectionmodel.cpp:477
+#: core/song.cpp:725 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:1663 collection/savedgroupingmanager.cpp:153
@@ -5378,11 +5378,11 @@ msgstr "Inte inställt"
 msgid "Unset cover"
 msgstr "Ta bort omslag"
 
-#: core/mainwindow.cpp:1954
+#: core/mainwindow.cpp:1952
 msgid "Unskip selected tracks"
 msgstr "Hoppa inte över valda spår"
 
-#: core/mainwindow.cpp:1953
+#: core/mainwindow.cpp:1951
 msgid "Unskip track"
 msgstr "Hoppa inte över valt spår"
 
@@ -5640,7 +5640,7 @@ msgstr ""
 "Vill du flytta de andra låtarna i det här albumet till diverse artister "
 "också?"
 
-#: core/mainwindow.cpp:2883
+#: core/mainwindow.cpp:2881
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vill du köra en fullständig omskanning nu?"
 
@@ -5722,7 +5722,7 @@ msgstr ""
 "Du kan sponsra upphovsmannen på %1. Du kan också göra en engångsbetalning "
 "genom %2."
 
-#: core/songloader.cpp:135 core/songloader.cpp:140
+#: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
 msgstr "Du behöver GStreamer för den här webbadressen."
 
@@ -5858,7 +5858,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "de senaste"
 
-#: context/contextview.cpp:531 context/contextview.cpp:653
+#: context/contextview.cpp:529 context/contextview.cpp:651
 #: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:787
 msgid "kbps"
 msgstr "kbps"
