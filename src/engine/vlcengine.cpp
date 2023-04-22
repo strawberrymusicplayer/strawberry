@@ -219,30 +219,35 @@ qint64 VLCEngine::length_nanosec() const {
 
 EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
 
-  PluginDetailsList plugins = GetPluginList();
-  OutputDetailsList ret;
-  ret.reserve(plugins.count());
-  for (const PluginDetails &plugin : plugins) {
-    OutputDetails output;
-    output.name = plugin.name;
-    output.description = plugin.description;
-    if (plugin.name == "auto") output.iconname = "soundcard";
-    else if ((plugin.name == "alsa")||(plugin.name == "oss")) output.iconname = "alsa";
-    else if (plugin.name== "jack") output.iconname = "jack";
-    else if (plugin.name == "pulse") output.iconname = "pulseaudio";
-    else if (plugin.name == "afile") output.iconname = "document-new";
-    else output.iconname = "soundcard";
-    ret.append(output);
-  }
+  OutputDetailsList outputs;
+  OutputDetails output_auto;
+  output_auto.name = "auto";
+  output_auto.description = "Automatically detected";
+  outputs << output_auto;
 
-  return ret;
+  libvlc_audio_output_t *audio_output_list = libvlc_audio_output_list_get(instance_);
+  for (libvlc_audio_output_t *audio_output = audio_output_list; audio_output; audio_output = audio_output->p_next) {
+    OutputDetails output;
+    output.name = QString::fromUtf8(audio_output->psz_name);
+    output.description = QString::fromUtf8(audio_output->psz_description);
+    if (output.name == "auto") output.iconname = "soundcard";
+    else if ((output.name == "alsa")||(output.name == "oss")) output.iconname = "alsa";
+    else if (output.name== "jack") output.iconname = "jack";
+    else if (output.name == "pulse") output.iconname = "pulseaudio";
+    else if (output.name == "afile") output.iconname = "document-new";
+    else output.iconname = "soundcard";
+    outputs << output;
+  }
+  libvlc_audio_output_list_release(audio_output_list);
+
+  return outputs;
 
 }
 
 bool VLCEngine::ValidOutput(const QString &output) {
 
-  PluginDetailsList plugins = GetPluginList();
-  return std::any_of(plugins.begin(), plugins.end(), [output](const PluginDetails &plugin) { return plugin.name == output; });
+  const OutputDetailsList output_details = GetOutputsList();
+  return std::any_of(output_details.begin(), output_details.end(), [output](const OutputDetails &output_detail) { return output_detail.name == output; });
 
 }
 
@@ -321,32 +326,6 @@ void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
       emit engine->TrackEnded();
       break;
   }
-
-}
-
-EngineBase::PluginDetailsList VLCEngine::GetPluginList() const {
-
-  PluginDetailsList ret;
-  libvlc_audio_output_t *audio_output_list = libvlc_audio_output_list_get(instance_);
-
-  {
-    PluginDetails details;
-    details.name = "auto";
-    details.description = "Automatically detected";
-    ret << details;
-  }
-
-  for (libvlc_audio_output_t *audio_output = audio_output_list; audio_output; audio_output = audio_output->p_next) {
-    PluginDetails details;
-    details.name = QString::fromUtf8(audio_output->psz_name);
-    details.description = QString::fromUtf8(audio_output->psz_description);
-    ret << details;
-    //GetDevicesList(audio_output->psz_name);
-  }
-
-  libvlc_audio_output_list_release(audio_output_list);
-
-  return ret;
 
 }
 

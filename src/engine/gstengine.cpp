@@ -402,23 +402,30 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
 
   const_cast<GstEngine*>(this)->EnsureInitialized();
 
-  PluginDetailsList plugins = GetPluginList("Sink/Audio");
-  EngineBase::OutputDetailsList ret;
-  ret.reserve(plugins.count());
-  for (const PluginDetails &plugin : plugins) {
-    OutputDetails output;
-    output.name = plugin.name;
-    output.description = plugin.description;
-    if (plugin.name == kAutoSink) output.iconname = "soundcard";
-    else if (plugin.name == kALSASink || plugin.name == kOSS4Sink) output.iconname = "alsa";
-    else if (plugin.name == kJackAudioSink) output.iconname = "jack";
-    else if (plugin.name == kPulseSink) output.iconname = "pulseaudio";
-    else if (plugin.name == kA2DPSink || plugin.name == kAVDTPSink) output.iconname = "bluetooth";
-    else output.iconname = "soundcard";
-    ret.append(output);
+  OutputDetailsList outputs;
+
+  GstRegistry *registry = gst_registry_get();
+  GList *const features = gst_registry_get_feature_list(registry, GST_TYPE_ELEMENT_FACTORY);
+  for (GList *future = features; future; future = g_list_next(future)) {
+    GstElementFactory *factory = GST_ELEMENT_FACTORY(future->data);
+    const gchar *metadata = gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS);
+    if (strcasecmp(metadata, "Sink/Audio") == 0) {
+      OutputDetails output;
+      output.name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
+      output.description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
+      if (output.name == kAutoSink) output.iconname = "soundcard";
+      else if (output.name == kALSASink || output.name == kOSS4Sink) output.iconname = "alsa";
+      else if (output.name == kJackAudioSink) output.iconname = "jack";
+      else if (output.name == kPulseSink) output.iconname = "pulseaudio";
+      else if (output.name == kA2DPSink || output.name == kAVDTPSink) output.iconname = "bluetooth";
+      else output.iconname = "soundcard";
+      outputs << output;
+    }
   }
 
-  return ret;
+  gst_plugin_feature_list_free(features);
+
+  return outputs;
 
 }
 
@@ -426,8 +433,8 @@ bool GstEngine::ValidOutput(const QString &output) {
 
   EnsureInitialized();
 
-  PluginDetailsList plugins = GetPluginList("Sink/Audio");
-  return std::any_of(plugins.begin(), plugins.end(), [output](const PluginDetails &plugin) { return plugin.name == output; });
+  const OutputDetailsList output_details = GetOutputsList();
+  return std::any_of(output_details.begin(), output_details.end(), [output](const OutputDetails &output_detail) { return output_detail.name == output; });
 
 }
 
@@ -684,36 +691,6 @@ void GstEngine::BufferingFinished() {
     task_manager_->SetTaskFinished(buffering_task_id_);
     buffering_task_id_ = -1;
   }
-
-}
-
-GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) const {
-
-  const_cast<GstEngine*>(this)->EnsureInitialized();
-
-  PluginDetailsList ret;
-
-  GstRegistry *registry = gst_registry_get();
-  GList *const features = gst_registry_get_feature_list(registry, GST_TYPE_ELEMENT_FACTORY);
-
-  GList *p = features;
-  while (p) {
-    GstElementFactory *factory = GST_ELEMENT_FACTORY(p->data);
-    if (QString(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS)).contains(classname)) {
-      PluginDetails details;
-      details.name = QString::fromUtf8(gst_plugin_feature_get_name(p->data));
-      details.description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
-      if (details.name == "wasapi2sink" && details.description == "Stream audio to an audio capture device through WASAPI") {
-        details.description += " 2";
-      }
-      ret << details;
-      //qLog(Debug) << details.name << details.description;
-    }
-    p = g_list_next(p);
-  }
-
-  gst_plugin_feature_list_free(features);
-  return ret;
 
 }
 

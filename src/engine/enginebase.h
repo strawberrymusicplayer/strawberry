@@ -154,14 +154,6 @@ class Base : public QObject {
   void VolumeChanged(const uint volume);
 
  protected:
-
-  struct PluginDetails {
-    QString name;
-    QString description;
-    QString iconname;
-  };
-  using PluginDetailsList = QList<PluginDetails>;
-
   EngineType type_;
   bool volume_control_;
   uint volume_;

@@ -123,7 +123,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void BufferingFinished();
 
  private:
-  PluginDetailsList GetPluginList(const QString &classname) const;
   QByteArray FixupUrl(const QUrl &url);
 
   void StartFadeout();
