@@ -45,7 +45,6 @@
 
 class QTimer;
 class Player;
-class NetworkAccessManager;
 class CollectionBackendInterface;
 class PlaylistParser;
 class ParserBase;
@@ -59,7 +58,7 @@ class SongLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit SongLoader(CollectionBackendInterface *collection, const Player *player, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit SongLoader(CollectionBackendInterface *collection, const Player *player, QObject *parent = nullptr);
   ~SongLoader() override;
 
   enum class Result {
@@ -145,7 +144,6 @@ class SongLoader : public QObject {
   SongList songs_;
 
   const Player *player_;
-  NetworkAccessManager *network_;
   CollectionBackendInterface *collection_;
   QTimer *timeout_timer_;
   PlaylistParser *playlist_parser_;

@@ -32,7 +32,6 @@
 #include "core/song.h"
 
 class Player;
-class NetworkAccessManager;
 class SongLoader;
 class TaskManager;
 class CollectionBackendInterface;
@@ -42,7 +41,7 @@ class SongLoaderInserter : public QObject {
   Q_OBJECT
 
  public:
-  explicit SongLoaderInserter(TaskManager *task_manager, CollectionBackendInterface *collection, const Player *player, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit SongLoaderInserter(TaskManager *task_manager, CollectionBackendInterface *collection, const Player *player, QObject *parent = nullptr);
   ~SongLoaderInserter() override;
 
   void Load(Playlist *destination, int row, bool play_now, bool enqueue, bool enqueue_next, const QList<QUrl> &urls);
@@ -76,8 +75,6 @@ class SongLoaderInserter : public QObject {
   QList<SongLoader*> pending_;
   CollectionBackendInterface *collection_;
   const Player *player_;
-  NetworkAccessManager *network_;
-
 };
 
 #endif  // SONGLOADERINSERTER_H

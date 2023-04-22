@@ -42,10 +42,10 @@
 #include "core/networkaccessmanager.h"
 #include "utilities/timeconstants.h"
 
-CddaSongLoader::CddaSongLoader(const QUrl &url, NetworkAccessManager *network, QObject *parent)
+CddaSongLoader::CddaSongLoader(const QUrl &url, QObject *parent)
     : QObject(parent),
       url_(url),
-      network_(network),
+      network_(new NetworkAccessManager(this)),
       cdda_(nullptr),
       cdio_(nullptr) {}
 
