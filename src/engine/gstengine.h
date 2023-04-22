@@ -49,11 +49,6 @@ class QTimerEvent;
 class TaskManager;
 class GstEnginePipeline;
 
-/**
- * @class GstEngine
- * @short GStreamer engine plugin
- * @author Mark Kretschmann <markey@web.de>
- */
 class GstEngine : public Engine::Base, public GstBufferConsumer {
   Q_OBJECT
 
