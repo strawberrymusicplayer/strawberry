@@ -486,11 +486,11 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
   const int task_id = app_->task_manager()->StartTask(tr("Integrity check"));
 
   bool ok = false;
-  bool error_reported = false;
   // Ask for 10 error messages at most.
   SqlQuery q(db);
   q.prepare("PRAGMA integrity_check(10)");
   if (q.Exec()) {
+    bool error_reported = false;
     while (q.next()) {
       QString message = q.value(0).toString();
 
