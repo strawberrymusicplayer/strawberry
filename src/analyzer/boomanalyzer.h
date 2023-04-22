@@ -36,7 +36,7 @@
 class QWidget;
 class QResizeEvent;
 
-class BoomAnalyzer : public Analyzer::Base {
+class BoomAnalyzer : public AnalyzerBase {
   Q_OBJECT
 
  public:
@@ -44,8 +44,8 @@ class BoomAnalyzer : public Analyzer::Base {
 
   static const char *kName;
 
-  void transform(Analyzer::Scope &s) override;
-  void analyze(QPainter &p, const Analyzer::Scope&, const bool new_frame) override;
+  void transform(Scope &s) override;
+  void analyze(QPainter &p, const Scope&, const bool new_frame) override;
 
  public slots:
   void changeK_barHeight(int);
@@ -59,7 +59,7 @@ class BoomAnalyzer : public Analyzer::Base {
   static const int kMinBandCount;
 
   int bands_;
-  Analyzer::Scope scope_;
+  Scope scope_;
   QColor fg_;
 
   double K_barHeight_, F_peakSpeed_, F_;

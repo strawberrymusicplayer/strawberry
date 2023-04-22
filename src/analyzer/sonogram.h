@@ -29,7 +29,7 @@
 
 #include "analyzerbase.h"
 
-class Sonogram : public Analyzer::Base {
+class Sonogram : public AnalyzerBase {
   Q_OBJECT
  public:
   Q_INVOKABLE explicit Sonogram(QWidget *parent);
@@ -38,8 +38,8 @@ class Sonogram : public Analyzer::Base {
 
  protected:
   void resizeEvent(QResizeEvent *e) override;
-  void analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) override;
-  void transform(Analyzer::Scope &scope) override;
+  void analyze(QPainter &p, const Scope &s, bool new_frame) override;
+  void transform(Scope &scope) override;
   void demo(QPainter &p) override;
 
  private:

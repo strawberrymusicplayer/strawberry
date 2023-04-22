@@ -83,8 +83,8 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
 
   AddAnalyzerType<BlockAnalyzer>();
   AddAnalyzerType<BoomAnalyzer>();
-  AddAnalyzerType<Rainbow::NyanCatAnalyzer>();
-  AddAnalyzerType<Rainbow::RainbowDashAnalyzer>();
+  AddAnalyzerType<NyanCatAnalyzer>();
+  AddAnalyzerType<RainbowDashAnalyzer>();
   AddAnalyzerType<Sonogram>();
 
   disable_action_ = context_menu_->addAction(tr("No analyzer"), this, &AnalyzerContainer::DisableAnalyzer);
@@ -149,7 +149,7 @@ void AnalyzerContainer::ChangeAnalyzer(const int id) {
   }
 
   delete current_analyzer_;
-  current_analyzer_ = qobject_cast<Analyzer::Base*>(instance);
+  current_analyzer_ = qobject_cast<AnalyzerBase*>(instance);
   current_analyzer_->set_engine(engine_);
   // Even if it is not supposed to happen, I don't want to get a dbz error
   current_framerate_ = current_framerate_ == 0 ? kMediumFramerate : current_framerate_;

@@ -46,15 +46,11 @@ class QShowEvent;
 class QPaintEvent;
 class QTimerEvent;
 
-namespace Analyzer {
-
-using Scope = std::vector<float>;
-
-class Base : public QWidget {
+class AnalyzerBase : public QWidget {
   Q_OBJECT
 
  public:
-  ~Base() override;
+  ~AnalyzerBase() override;
 
   int timeout() const { return timeout_; }
 
@@ -65,7 +61,8 @@ class Base : public QWidget {
   virtual void framerateChanged() {}
 
  protected:
-  explicit Base(QWidget*, const uint scopeSize = 7);
+  using Scope = std::vector<float>;
+  explicit AnalyzerBase(QWidget*, const uint scopeSize = 7);
 
   void hideEvent(QHideEvent*) override;
   void showEvent(QShowEvent*) override;
@@ -79,6 +76,9 @@ class Base : public QWidget {
   virtual void analyze(QPainter &p, const Scope&, const bool new_frame) = 0;
   virtual void demo(QPainter &p);
 
+  void interpolate(const Scope&, Scope&);
+  void initSin(Scope&, const uint = 6000);
+
  protected:
   QBasicTimer timer_;
   FHT *fht_;
@@ -89,11 +89,6 @@ class Base : public QWidget {
   bool is_playing_;
   int timeout_;
 };
-
-void interpolate(const Scope&, Scope&);
-void initSin(Scope&, const uint = 6000);
-
-}  //  namespace Analyzer
 
 #endif  // ANALYZERBASE_H
 

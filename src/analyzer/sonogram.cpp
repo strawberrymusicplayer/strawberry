@@ -31,7 +31,7 @@
 const char *Sonogram::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Sonogram");
 
 Sonogram::Sonogram(QWidget *parent)
-    : Analyzer::Base(parent, 9) {}
+    : AnalyzerBase(parent, 9) {}
 
 void Sonogram::resizeEvent(QResizeEvent *e) {
 
@@ -42,7 +42,7 @@ void Sonogram::resizeEvent(QResizeEvent *e) {
 
 }
 
-void Sonogram::analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) {
+void Sonogram::analyze(QPainter &p, const Scope &s, bool new_frame) {
 
   if (!new_frame || engine_->state() == EngineBase::State::Paused) {
     p.drawPixmap(0, 0, canvas_);
@@ -52,7 +52,7 @@ void Sonogram::analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) {
   QPainter canvas_painter(&canvas_);
   canvas_painter.drawPixmap(0, 0, canvas_, 1, 0, width() - 1, -1);
 
-  Analyzer::Scope::const_iterator it = s.begin(), end = s.end();
+  Scope::const_iterator it = s.begin(), end = s.end();
 
   for (int y = height() - 1; y;) {
     QColor c;
@@ -81,7 +81,7 @@ void Sonogram::analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) {
 
 }
 
-void Sonogram::transform(Analyzer::Scope &scope) {
+void Sonogram::transform(Scope &scope) {
 
   fht_->power2(scope.data());
   fht_->scale(scope.data(), 1.0 / 256);
@@ -90,5 +90,5 @@ void Sonogram::transform(Analyzer::Scope &scope) {
 }
 
 void Sonogram::demo(QPainter &p) {
-  analyze(p, Analyzer::Scope(fht_->size(), 0), new_frame_);
+  analyze(p, Scope(fht_->size(), 0), new_frame_);
 }

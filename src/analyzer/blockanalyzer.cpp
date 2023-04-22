@@ -46,7 +46,7 @@ const int BlockAnalyzer::kFadeSize = 90;
 const char *BlockAnalyzer::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Block analyzer");
 
 BlockAnalyzer::BlockAnalyzer(QWidget *parent)
-    : Analyzer::Base(parent, 9),
+    : AnalyzerBase(parent, 9),
       columns_(0),
       rows_(0),
       y_(0),
@@ -124,7 +124,7 @@ void BlockAnalyzer::framerateChanged() {
   determineStep();
 }
 
-void BlockAnalyzer::transform(Analyzer::Scope &s) {
+void BlockAnalyzer::transform(Scope &s) {
 
   for (uint x = 0; x < s.size(); ++x) s[x] *= 2;
 
@@ -136,7 +136,7 @@ void BlockAnalyzer::transform(Analyzer::Scope &s) {
 
 }
 
-void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) {
+void BlockAnalyzer::analyze(QPainter &p, const Scope &s, bool new_frame) {
 
   // y = 2 3 2 1 0 2
   //     . . . . # .
@@ -158,7 +158,7 @@ void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_fram
 
   QPainter canvas_painter(&canvas_);
 
-  Analyzer::interpolate(s, scope_);
+  interpolate(s, scope_);
 
   // Paint the background
   canvas_painter.drawPixmap(0, 0, background_);

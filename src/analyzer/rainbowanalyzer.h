@@ -40,8 +40,7 @@ class QWidget;
 class QTimerEvent;
 class QResizeEvent;
 
-namespace Rainbow {
-class RainbowAnalyzer : public Analyzer::Base {
+class RainbowAnalyzer : public AnalyzerBase {
   Q_OBJECT
 
  public:
@@ -53,8 +52,8 @@ class RainbowAnalyzer : public Analyzer::Base {
   RainbowAnalyzer(const RainbowType rbtype, QWidget *parent);
 
  protected:
-  void transform(Analyzer::Scope&) override;
-  void analyze(QPainter &p, const Analyzer::Scope&, bool new_frame) override;
+  void transform(Scope&) override;
+  void analyze(QPainter &p, const Scope&, bool new_frame) override;
 
   void timerEvent(QTimerEvent *e) override;
   void resizeEvent(QResizeEvent *e) override;
@@ -142,6 +141,5 @@ class RainbowDashAnalyzer : public RainbowAnalyzer {
 
   static const char *kName;
 };
-}  // namespace Rainbow
 
 #endif  // RAINBOWANALYZER_H

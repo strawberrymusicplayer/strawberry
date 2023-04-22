@@ -41,23 +41,21 @@
 #include "fht.h"
 #include "analyzerbase.h"
 
-using Analyzer::Scope;
+const int RainbowAnalyzer::kHeight[] = { 21, 33 };
+const int RainbowAnalyzer::kWidth[] = { 34, 53 };
+const int RainbowAnalyzer::kFrameCount[] = { 6, 16 };
+const int RainbowAnalyzer::kRainbowHeight[] = { 21, 16 };
+const int RainbowAnalyzer::kRainbowOverlap[] = { 13, 15 };
+const int RainbowAnalyzer::kSleepingHeight[] = { 24, 33 };
 
-const int Rainbow::RainbowAnalyzer::kHeight[] = { 21, 33 };
-const int Rainbow::RainbowAnalyzer::kWidth[] = { 34, 53 };
-const int Rainbow::RainbowAnalyzer::kFrameCount[] = { 6, 16 };
-const int Rainbow::RainbowAnalyzer::kRainbowHeight[] = { 21, 16 };
-const int Rainbow::RainbowAnalyzer::kRainbowOverlap[] = { 13, 15 };
-const int Rainbow::RainbowAnalyzer::kSleepingHeight[] = { 24, 33 };
+const char *NyanCatAnalyzer::kName = "Nyanalyzer Cat";
+const char *RainbowDashAnalyzer::kName = "Rainbow Dash";
+const float RainbowAnalyzer::kPixelScale = 0.02F;
 
-const char *Rainbow::NyanCatAnalyzer::kName = "Nyanalyzer Cat";
-const char *Rainbow::RainbowDashAnalyzer::kName = "Rainbow Dash";
-const float Rainbow::RainbowAnalyzer::kPixelScale = 0.02F;
+RainbowAnalyzer::RainbowType RainbowAnalyzer::rainbowtype;
 
-Rainbow::RainbowAnalyzer::RainbowType Rainbow::RainbowAnalyzer::rainbowtype;
-
-Rainbow::RainbowAnalyzer::RainbowAnalyzer(const RainbowType rbtype, QWidget *parent)
-    : Analyzer::Base(parent, 9),
+RainbowAnalyzer::RainbowAnalyzer(const RainbowType rbtype, QWidget *parent)
+    : AnalyzerBase(parent, 9),
       timer_id_(startTimer(kFrameIntervalMs)),
       frame_(0),
       current_buffer_(0),
@@ -81,20 +79,20 @@ Rainbow::RainbowAnalyzer::RainbowAnalyzer(const RainbowType rbtype, QWidget *par
 
 }
 
-void Rainbow::RainbowAnalyzer::transform(Scope &s) { fht_->spectrum(s.data()); }
+void RainbowAnalyzer::transform(Scope &s) { fht_->spectrum(s.data()); }
 
-void Rainbow::RainbowAnalyzer::timerEvent(QTimerEvent *e) {
+void RainbowAnalyzer::timerEvent(QTimerEvent *e) {
 
   if (e->timerId() == timer_id_) {
     frame_ = (frame_ + 1) % kFrameCount[rainbowtype];
   }
   else {
-    Analyzer::Base::timerEvent(e);
+    AnalyzerBase::timerEvent(e);
   }
 
 }
 
-void Rainbow::RainbowAnalyzer::resizeEvent(QResizeEvent *e) {
+void RainbowAnalyzer::resizeEvent(QResizeEvent *e) {
 
   Q_UNUSED(e);
 
@@ -108,7 +106,7 @@ void Rainbow::RainbowAnalyzer::resizeEvent(QResizeEvent *e) {
 
 }
 
-void Rainbow::RainbowAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) {
+void RainbowAnalyzer::analyze(QPainter &p, const Scope &s, bool new_frame) {
 
   // Discard the second half of the transform
   const int scope_size = static_cast<int>(s.size() / 2);
@@ -203,8 +201,8 @@ void Rainbow::RainbowAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bo
 
 }
 
-Rainbow::NyanCatAnalyzer::NyanCatAnalyzer(QWidget *parent)
-    : RainbowAnalyzer(Rainbow::RainbowAnalyzer::Nyancat, parent) {}
+NyanCatAnalyzer::NyanCatAnalyzer(QWidget *parent)
+    : RainbowAnalyzer(RainbowAnalyzer::Nyancat, parent) {}
 
-Rainbow::RainbowDashAnalyzer::RainbowDashAnalyzer(QWidget *parent)
-    : RainbowAnalyzer(Rainbow::RainbowAnalyzer::Dash, parent) {}
+RainbowDashAnalyzer::RainbowDashAnalyzer(QWidget *parent)
+    : RainbowAnalyzer(RainbowAnalyzer::Dash, parent) {}

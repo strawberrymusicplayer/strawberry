@@ -37,7 +37,7 @@
 class QWidget;
 class QResizeEvent;
 
-class BlockAnalyzer : public Analyzer::Base {
+class BlockAnalyzer : public AnalyzerBase {
   Q_OBJECT
 
  public:
@@ -53,8 +53,8 @@ class BlockAnalyzer : public Analyzer::Base {
   static const char *kName;
 
  protected:
-  void transform(Analyzer::Scope&) override;
-  void analyze(QPainter &p, const Analyzer::Scope&, bool new_frame) override;
+  void transform(Scope&) override;
+  void analyze(QPainter &p, const Scope&, bool new_frame) override;
   void resizeEvent(QResizeEvent*) override;
   virtual void paletteChange(const QPalette&);
   void framerateChanged() override;
@@ -71,7 +71,7 @@ class BlockAnalyzer : public Analyzer::Base {
   QPixmap topbarpixmap_;
   QPixmap background_;
   QPixmap canvas_;
-  Analyzer::Scope scope_;  // so we don't create a vector every frame
+  Scope scope_;  // so we don't create a vector every frame
   QVector<double> store_;  // current bar heights
   QVector<double> yscale_;
 

@@ -36,9 +36,7 @@ class QTimer;
 class QMouseEvent;
 class QWheelEvent;
 
-namespace Analyzer {
-class Base;
-}  // namespace Analyzer
+class AnalyzerBase;
 
 class AnalyzerContainer : public QWidget {
   Q_OBJECT
@@ -94,7 +92,7 @@ class AnalyzerContainer : public QWidget {
   QPoint last_click_pos_;
   bool ignore_next_click_;
 
-  Analyzer::Base *current_analyzer_;
+  AnalyzerBase *current_analyzer_;
   EngineBase *engine_;
 };
 

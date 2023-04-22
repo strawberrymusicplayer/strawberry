@@ -50,7 +50,7 @@
 // Make an INSTRUCTIONS file
 // can't mod scope in analyze you have to use transform for 2D use setErasePixmap Qt function insetead of m_background
 
-Analyzer::Base::Base(QWidget *parent, const uint scopeSize)
+AnalyzerBase::AnalyzerBase(QWidget *parent, const uint scopeSize)
     : QWidget(parent),
       fht_(new FHT(scopeSize)),
       engine_(nullptr),
@@ -63,19 +63,19 @@ Analyzer::Base::Base(QWidget *parent, const uint scopeSize)
 
 }
 
-Analyzer::Base::~Base() {
+AnalyzerBase::~AnalyzerBase() {
   delete fht_;
 }
 
-void Analyzer::Base::showEvent(QShowEvent*) {
+void AnalyzerBase::showEvent(QShowEvent*) {
   timer_.start(timeout(), this);
 }
 
-void Analyzer::Base::hideEvent(QHideEvent*) {
+void AnalyzerBase::hideEvent(QHideEvent*) {
   timer_.stop();
 }
 
-void Analyzer::Base::ChangeTimeout(const int timeout) {
+void AnalyzerBase::ChangeTimeout(const int timeout) {
 
   timeout_ = timeout;
   if (timer_.isActive()) {
@@ -85,7 +85,7 @@ void Analyzer::Base::ChangeTimeout(const int timeout) {
 
 }
 
-void Analyzer::Base::transform(Scope &scope) {
+void AnalyzerBase::transform(Scope &scope) {
 
   QVector<float> aux(fht_->size());
   if (static_cast<unsigned long int>(aux.size()) >= scope.size()) {
@@ -102,7 +102,7 @@ void Analyzer::Base::transform(Scope &scope) {
 
 }
 
-void Analyzer::Base::paintEvent(QPaintEvent *e) {
+void AnalyzerBase::paintEvent(QPaintEvent *e) {
 
   QPainter p(this);
   p.fillRect(e->rect(), palette().color(QPalette::Window));
@@ -140,7 +140,7 @@ void Analyzer::Base::paintEvent(QPaintEvent *e) {
 
 }
 
-int Analyzer::Base::resizeExponent(int exp) {
+int AnalyzerBase::resizeExponent(int exp) {
 
   if (exp < 3) {
     exp = 3;
@@ -157,7 +157,7 @@ int Analyzer::Base::resizeExponent(int exp) {
 
 }
 
-int Analyzer::Base::resizeForBands(const int bands) {
+int AnalyzerBase::resizeForBands(const int bands) {
 
   int exp = 0;
   if (bands <= 8) {
@@ -184,7 +184,7 @@ int Analyzer::Base::resizeForBands(const int bands) {
 
 }
 
-void Analyzer::Base::demo(QPainter &p) {
+void AnalyzerBase::demo(QPainter &p) {
 
   static int t = 201;  // FIXME make static to namespace perhaps
 
@@ -209,7 +209,7 @@ void Analyzer::Base::demo(QPainter &p) {
 
 }
 
-void Analyzer::interpolate(const Scope &inVec, Scope &outVec) {
+void AnalyzerBase::interpolate(const Scope &inVec, Scope &outVec) {
 
   double pos = 0.0;
   const double step = static_cast<double>(inVec.size()) / static_cast<double>(outVec.size());
@@ -235,7 +235,7 @@ void Analyzer::interpolate(const Scope &inVec, Scope &outVec) {
 
 }
 
-void Analyzer::initSin(Scope &v, const uint size) {
+void AnalyzerBase::initSin(Scope &v, const uint size) {
 
   double step = (M_PI * 2) / size;
   double radian = 0;
@@ -247,7 +247,7 @@ void Analyzer::initSin(Scope &v, const uint size) {
 
 }
 
-void Analyzer::Base::timerEvent(QTimerEvent *e) {
+void AnalyzerBase::timerEvent(QTimerEvent *e) {
 
   QWidget::timerEvent(e);
   if (e->timerId() != timer_.timerId()) {
