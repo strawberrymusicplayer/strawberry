@@ -245,7 +245,7 @@ class EngineBase : public QObject {
   Q_DISABLE_COPY(EngineBase)
 };
 
-Q_DECLARE_METATYPE(EngineBase::Type);
+Q_DECLARE_METATYPE(EngineBase::Type)
 Q_DECLARE_METATYPE(EngineBase::State)
 Q_DECLARE_METATYPE(EngineBase::TrackChangeType)
 Q_DECLARE_METATYPE(EngineBase::OutputDetails)
