@@ -25,8 +25,6 @@ Files: src/core/main.h
        src/context/contextview.h
        src/context/contextalbum.cpp
        src/context/contextalbum.h
-       src/engine/enginetype.cpp
-       src/engine/enginetype.h
        src/engine/alsadevicefinder.cpp
        src/engine/alsadevicefinder.h
        src/engine/alsapcmdevicefinder.cpp
@@ -37,6 +35,8 @@ Files: src/core/main.h
        src/engine/devicefinder.h
        src/engine/enginedevice.cpp
        src/engine/enginedevice.h
+       src/engine/enginemetadata.cpp
+       src/engine/enginemetadata.h
        src/internet/internetservice.cpp
        src/internet/internetservice.h
        src/internet/internettabsview.cpp
@@ -376,7 +376,7 @@ License: Apache-2.0
   On Debian systems, the complete text of the Apache 2.0 license can be
   found in the file
   `/usr/share/common-licenses/Apache-2.0`.
- 
+
 License: BSD-3-clause
  Copyright (c) The Regents of the University of California.
  All rights reserved.
