@@ -57,6 +57,10 @@
 #include "gstbufferconsumer.h"
 #include "enginemetadata.h"
 
+#ifdef _MSC_VER
+#define strcasecmp _stricmp
+#endif
+
 const char *GstEngine::kAutoSink = "autoaudiosink";
 const char *GstEngine::kALSASink = "alsasink";
 const char *GstEngine::kOpenALSASink = "openalsink";
