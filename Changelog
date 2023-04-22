@@ -2,6 +2,27 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed reading disc from QObuz songs (#1168).
+    * Fixed volume being reset on playback with PulseAudio (#1174).
+    * Fixed <br> tags in SQL query error message.
+    * Fixed compile with Qt 6 without XCB (QX11Application).
+    * Fixed smart playlist editor not properly loading search terms (#1172).
+    * Fixed use of fixed icon for playlist favorite star icon (#1178).
+    * Possible fix for collection thumbnails using disk cache having identical covers for albums with hashtag (#) in the album title (#1183).
+    * Fixed listenbrainz scrobbling for songs with multiple artist mbids.
+    * Fixed listenbrainz scrobbling for songs without duration.
+    * Fixed gapless playback sometimes not working.
+    * (macOS) Fixed "Show this message" checkbox having no affect on Rosetta warning dialog (#1180).
+
+  Enhancements:
+    * Reduce memory overhead with album cover handling (#1046).
+    * Improved listenbrainz error handling.
+    * Show error dialog for listenbrainz errors similar to last.fm/libre.fm.
+    * Reduce NetworkAccessManager instances.
+
 Version 1.0.17 (2023.03.29):
 
   Bugfixes:
