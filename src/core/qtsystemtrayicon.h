@@ -83,11 +83,10 @@ class SystemTrayIcon : public QSystemTrayIcon {
  private:
   QMenu *menu_;
   QString app_name_;
-  QIcon icon_;
-  QPixmap normal_icon_;
-  QPixmap grey_icon_;
-  QPixmap playing_icon_;
-  QPixmap paused_icon_;
+  QPixmap pixmap_normal_;
+  QPixmap pixmap_grey_;
+  QPixmap pixmap_playing_;
+  QPixmap pixmap_paused_;
 
   QAction *action_play_pause_;
   QAction *action_stop_;

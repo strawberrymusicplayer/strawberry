@@ -38,11 +38,8 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
     : QSystemTrayIcon(parent),
       menu_(new QMenu),
       app_name_(QCoreApplication::applicationName()),
-      icon_(IconLoader::Load("strawberry")),
-      normal_icon_(icon_.pixmap(48, QIcon::Normal)),
-      grey_icon_(icon_.pixmap(48, QIcon::Disabled)),
-      playing_icon_(":/pictures/tiny-play.png"),
-      paused_icon_(":/pictures/tiny-pause.png"),
+      pixmap_playing_(":/pictures/tiny-play.png"),
+      pixmap_paused_(":/pictures/tiny-pause.png"),
       action_play_pause_(nullptr),
       action_stop_(nullptr),
       action_stop_after_this_track_(nullptr),
@@ -53,14 +50,20 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
       song_progress_(0) {
 
   app_name_[0] = app_name_[0].toUpper();
-  QIcon theme_icon_grey = IconLoader::Load("strawberry-grey");
-  if (!theme_icon_grey.isNull()) {
-    grey_icon_ = theme_icon_grey.pixmap(48, QIcon::Disabled);
+
+  const QIcon icon = IconLoader::Load("strawberry");
+  const QIcon icon_grey = IconLoader::Load("strawberry-grey");
+  pixmap_normal_ = icon.pixmap(48, QIcon::Normal);
+  if (icon_grey.isNull()) {
+    pixmap_grey_ = icon.pixmap(48, QIcon::Disabled);
+  }
+  else {
+    pixmap_grey_ = icon_grey.pixmap(48, QIcon::Disabled);
   }
 
   if (isSystemTrayAvailable()) {
     available_ = true;
-    setIcon(normal_icon_);
+    setIcon(icon);
     setToolTip(app_name_);
   }
 
@@ -129,13 +132,13 @@ void SystemTrayIcon::ShowPopup(const QString &summary, const QString &message, c
 
 void SystemTrayIcon::UpdateIcon() {
 
-  if (available_) setIcon(CreateIcon(normal_icon_, grey_icon_));
+  if (available_) setIcon(CreateIcon(pixmap_normal_, pixmap_grey_));
 
 }
 
 void SystemTrayIcon::SetPlaying(bool enable_play_pause) {
 
-  current_state_icon_ = playing_icon_;
+  current_state_icon_ = pixmap_playing_;
   UpdateIcon();
 
   action_stop_->setEnabled(true);
@@ -148,7 +151,7 @@ void SystemTrayIcon::SetPlaying(bool enable_play_pause) {
 
 void SystemTrayIcon::SetPaused() {
 
-  current_state_icon_ = paused_icon_;
+  current_state_icon_ = pixmap_paused_;
   UpdateIcon();
 
   action_stop_->setEnabled(true);
