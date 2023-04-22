@@ -38,7 +38,7 @@
 #include <qdbusextratypes.h>
 #include <QJsonObject>
 
-#include "engine/engine_fwd.h"
+#include "engine/enginebase.h"
 #include "covermanager/albumcoverloaderresult.h"
 
 class Application;
@@ -203,7 +203,7 @@ class Mpris2 : public QObject {
 
  private slots:
   void AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResultPtr result = AlbumCoverLoaderResultPtr());
-  void EngineStateChanged(Engine::State newState);
+  void EngineStateChanged(EngineBase::State newState);
   void VolumeChanged();
 
   void PlaylistManagerInitialized();
@@ -218,11 +218,11 @@ class Mpris2 : public QObject {
   void EmitNotification(const QString &name, const QVariant &value);
   void EmitNotification(const QString &name, const QVariant &value, const QString &mprisEntity);
 
-  QString PlaybackStatus(Engine::State state) const;
+  QString PlaybackStatus(EngineBase::State state) const;
 
   QString current_track_id() const;
 
-  bool CanSeek(Engine::State state) const;
+  bool CanSeek(EngineBase::State state) const;
 
   QString DesktopEntryAbsolutePath() const;
 

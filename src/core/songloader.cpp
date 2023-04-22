@@ -51,7 +51,6 @@
 #include "tagreaderclient.h"
 #include "database.h"
 #include "sqlrow.h"
-#include "engine/enginetype.h"
 #include "engine/enginebase.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionquery.h"
@@ -125,7 +124,7 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
     return Result::Success;
   }
 
-  if (player_->engine()->type() == Engine::EngineType::GStreamer) {
+  if (player_->engine()->type() == EngineBase::Type::GStreamer) {
 #ifdef HAVE_GSTREAMER
     preload_func_ = std::bind(&SongLoader::LoadRemote, this);
     return Result::BlockingLoadRequired;
@@ -190,7 +189,7 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
 SongLoader::Result SongLoader::LoadAudioCD() {
 
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
-  if (player_->engine()->type() == Engine::EngineType::GStreamer) {
+  if (player_->engine()->type() == EngineBase::Type::GStreamer) {
     CddaSongLoader *cdda_song_loader = new CddaSongLoader(QUrl(), this);
     QObject::connect(cdda_song_loader, &CddaSongLoader::SongsDurationLoaded, this, &SongLoader::AudioCDTracksLoadFinishedSlot);
     QObject::connect(cdda_song_loader, &CddaSongLoader::SongsMetadataLoaded, this, &SongLoader::AudioCDTracksTagsLoaded);

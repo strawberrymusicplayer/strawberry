@@ -38,25 +38,54 @@
 #include <QString>
 #include <QUrl>
 
-#include "engine_fwd.h"
-#include "enginetype.h"
 #include "devicefinders.h"
+#include "enginemetadata.h"
 #include "core/song.h"
 
-namespace Engine {
-
-struct SimpleMetaBundle;
-
-using Scope = std::vector<int16_t>;
-
-class Base : public QObject {
+class EngineBase : public QObject {
   Q_OBJECT
 
  protected:
-  Base(const EngineType type = EngineType::None, QObject *parent = nullptr);
+  EngineBase(QObject *parent = nullptr);
 
  public:
-  ~Base() override;
+  ~EngineBase() override;
+
+  enum class Type {
+    None,
+    GStreamer,
+    VLC,
+    Xine
+  };
+
+ // State:
+ // Playing when playing,
+ // Paused when paused
+ // Idle when you still have a URL loaded (ie you have not been told to stop())
+ // Empty when you have been told to stop(),
+ // Error when an error occurred and you stopped yourself
+ //
+ // It is vital to be Idle just after the track has ended!
+
+  enum class State {
+    Empty,
+    Idle,
+    Playing,
+    Paused,
+    Error
+  };
+
+  enum TrackChangeType {
+    // One of:
+    First = 0x01,
+    Manual = 0x02,
+    Auto = 0x04,
+    Intro = 0x08,
+
+    // Any of:
+    SameAlbum = 0x10
+  };
+  Q_DECLARE_FLAGS(TrackChangeFlags, TrackChangeType)
 
   struct OutputDetails {
     QString name;
@@ -65,6 +94,13 @@ class Base : public QObject {
   };
   using OutputDetailsList = QList<OutputDetails>;
 
+  using Scope = std::vector<int16_t>;
+
+  static Type TypeFromName(const QString &name);
+  static QString Name(const Type type);
+  static QString Description(const Type type);
+
+  virtual Type type() const = 0;
   virtual bool Init() = 0;
   virtual State state() const = 0;
   virtual void StartPreloading(const QUrl&, const QUrl&, const bool, const qint64, const qint64) {}
@@ -105,9 +141,7 @@ class Base : public QObject {
   void EmitAboutToFinish();
 
  public:
-
   // Simple accessors
-  EngineType type() const { return type_; }
   bool volume_control() const { return volume_control_; }
   inline uint volume() const { return volume_; }
 
@@ -145,16 +179,15 @@ class Base : public QObject {
   // Emitted when Engine successfully started playing a song with the given QUrl.
   void ValidSongRequested(const QUrl &url);
 
-  void MetaData(const Engine::SimpleMetaBundle &bundle);
+  void MetaData(const EngineMetadata &metadata);
 
   // Signals that the engine's state has changed (a stream was stopped for example).
   // Always use the state from event, because it's not guaranteed that immediate subsequent call to state() won't return a stale value.
-  void StateChanged(const Engine::State state);
+  void StateChanged(const State state);
 
   void VolumeChanged(const uint volume);
 
  protected:
-  EngineType type_;
   bool volume_control_;
   uint volume_;
   quint64 beginning_nanosec_;
@@ -208,38 +241,13 @@ class Base : public QObject {
   bool strict_ssl_enabled_;
 
   bool about_to_end_emitted_;
-  Q_DISABLE_COPY(Base)
 
+  Q_DISABLE_COPY(EngineBase)
 };
 
-struct SimpleMetaBundle {
-  SimpleMetaBundle() : type(Type::Any), length(-1), year(-1), track(-1), filetype(Song::FileType::Unknown), samplerate(-1), bitdepth(-1), bitrate(-1) {}
-  enum class Type {
-    Any,
-    Current,
-    Next
-  };
-  Type type;
-  QUrl media_url;
-  QUrl stream_url;
-  QString title;
-  QString artist;
-  QString album;
-  QString comment;
-  QString genre;
-  qint64 length;
-  int year;
-  int track;
-  Song::FileType filetype;
-  int samplerate;
-  int bitdepth;
-  int bitrate;
-  QString lyrics;
-};
-
-}  // namespace Engine
-
+Q_DECLARE_METATYPE(EngineBase::Type);
+Q_DECLARE_METATYPE(EngineBase::State)
+Q_DECLARE_METATYPE(EngineBase::TrackChangeType)
 Q_DECLARE_METATYPE(EngineBase::OutputDetails)
-Q_DECLARE_METATYPE(Engine::SimpleMetaBundle)
 
 #endif  // ENGINEBASE_H

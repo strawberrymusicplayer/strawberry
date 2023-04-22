@@ -24,6 +24,8 @@
 #include <QPainter>
 #include <QResizeEvent>
 
+#include "engine/enginebase.h"
+
 #include "sonogram.h"
 
 const char *Sonogram::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Sonogram");
@@ -42,7 +44,7 @@ void Sonogram::resizeEvent(QResizeEvent *e) {
 
 void Sonogram::analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) {
 
-  if (!new_frame || engine_->state() == Engine::State::Paused) {
+  if (!new_frame || engine_->state() == EngineBase::State::Paused) {
     p.drawPixmap(0, 0, canvas_);
     return;
   }

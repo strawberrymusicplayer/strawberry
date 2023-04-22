@@ -43,10 +43,8 @@
 #include "core/iconloader.h"
 #include "core/player.h"
 #include "core/logging.h"
-#include "engine/engine_fwd.h"
 #include "engine/enginebase.h"
 #include "engine/devicefinders.h"
-#include "engine/enginetype.h"
 #include "engine/devicefinder.h"
 #include "widgets/lineedit.h"
 #include "widgets/stickyslider.h"
@@ -67,7 +65,7 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent
       ui_(new Ui_BackendSettingsPage),
       configloaded_(false),
       engineloaded_(false),
-      enginetype_current_(Engine::EngineType::None) {
+      enginetype_current_(EngineBase::Type::None) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("soundcard", true, 0, 32));
@@ -113,15 +111,15 @@ void BackendSettingsPage::Load() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
 
-  Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::EngineType::None)).toString());
-  if (enginetype == Engine::EngineType::None && engine()) enginetype = engine()->type();
+  EngineBase::Type enginetype = EngineBase::TypeFromName(s.value("engine", EngineBase::Name(EngineBase::Type::None)).toString());
+  if (enginetype == EngineBase::Type::None && engine()) enginetype = engine()->type();
 
   ui_->combobox_engine->clear();
 #ifdef HAVE_GSTREAMER
-  ui_->combobox_engine->addItem(IconLoader::Load("gstreamer"), EngineDescription(Engine::EngineType::GStreamer), static_cast<int>(Engine::EngineType::GStreamer));
+  ui_->combobox_engine->addItem(IconLoader::Load("gstreamer"), EngineBase::Description(EngineBase::Type::GStreamer), static_cast<int>(EngineBase::Type::GStreamer));
 #endif
 #ifdef HAVE_VLC
-  ui_->combobox_engine->addItem(IconLoader::Load("vlc"), EngineDescription(Engine::EngineType::VLC), static_cast<int>(Engine::EngineType::VLC));
+  ui_->combobox_engine->addItem(IconLoader::Load("vlc"), EngineBase::Description(EngineBase::Type::VLC), static_cast<int>(EngineBase::Type::VLC));
 #endif
 
   enginetype_current_ = enginetype;
@@ -189,7 +187,7 @@ void BackendSettingsPage::Load() {
 
   if (!EngineInitialized()) return;
 
-  if (engine()->state() == Engine::State::Empty) {
+  if (engine()->state() == EngineBase::State::Empty) {
     if (ui_->combobox_engine->count() > 1) ui_->combobox_engine->setEnabled(true);
     else ui_->combobox_engine->setEnabled(false);
   }
@@ -208,7 +206,7 @@ void BackendSettingsPage::Load() {
 
   // Check if engine, output or device is set to a different setting than the configured to force saving settings.
 
-  enginetype = ui_->combobox_engine->itemData(ui_->combobox_engine->currentIndex()).value<Engine::EngineType>();
+  enginetype = ui_->combobox_engine->itemData(ui_->combobox_engine->currentIndex()).value<EngineBase::Type>();
   QString output_name;
   if (ui_->combobox_output->currentText().isEmpty()) {
     output_name = engine()->DefaultOutput();
@@ -232,7 +230,7 @@ void BackendSettingsPage::Load() {
 
 bool BackendSettingsPage::EngineInitialized() {
 
-  if (!engine() || engine()->type() == Engine::EngineType::None) {
+  if (!engine() || engine()->type() == EngineBase::Type::None) {
     errordialog_.ShowMessage("Engine is not initialized! Please restart.");
     return false;
   }
@@ -240,7 +238,7 @@ bool BackendSettingsPage::EngineInitialized() {
 
 }
 
-void BackendSettingsPage::Load_Engine(const Engine::EngineType enginetype) {
+void BackendSettingsPage::Load_Engine(const EngineBase::Type enginetype) {
 
   if (!EngineInitialized()) return;
 
@@ -260,7 +258,7 @@ void BackendSettingsPage::Load_Engine(const Engine::EngineType enginetype) {
 
   if (engine()->type() != enginetype) {
     qLog(Debug) << "Switching engine.";
-    Engine::EngineType new_enginetype = dialog()->app()->player()->CreateEngine(enginetype);
+    EngineBase::Type new_enginetype = dialog()->app()->player()->CreateEngine(enginetype);
     dialog()->app()->player()->Init();
     if (new_enginetype != enginetype) {
       ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(engine()->type())));
@@ -307,7 +305,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
     }
   }
 
-  if (engine()->type() == Engine::EngineType::GStreamer) {
+  if (engine()->type() == EngineBase::Type::GStreamer) {
     ui_->groupbox_buffer->setEnabled(true);
     ui_->groupbox_replaygain->setEnabled(true);
   }
@@ -333,7 +331,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   ui_->lineedit_device->clear();
 
 #ifdef Q_OS_WIN
-  if (engine()->type() != Engine::EngineType::GStreamer)
+  if (engine()->type() != EngineBase::Type::GStreamer)
 #endif
     ui_->combobox_device->addItem(IconLoader::Load("soundcard"), kOutputAutomaticallySelect, QVariant());
 
@@ -436,7 +434,7 @@ void BackendSettingsPage::Save() {
   if (!EngineInitialized()) return;
 
   QVariant enginetype_v = ui_->combobox_engine->itemData(ui_->combobox_engine->currentIndex());
-  Engine::EngineType enginetype = enginetype_v.value<Engine::EngineType>();
+  EngineBase::Type enginetype = enginetype_v.value<EngineBase::Type>();
   QString output_name;
   QVariant device_value;
 
@@ -455,7 +453,7 @@ void BackendSettingsPage::Save() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
 
-  s.setValue("engine", EngineName(enginetype));
+  s.setValue("engine", EngineBase::Name(enginetype));
   s.setValue("output", output_name);
   s.setValue("device", device_value);
 
@@ -512,11 +510,11 @@ void BackendSettingsPage::EngineChanged(const int index) {
   if (!configloaded_ || !EngineInitialized()) return;
 
   QVariant v = ui_->combobox_engine->itemData(index);
-  Engine::EngineType enginetype = v.value<Engine::EngineType>();
+  EngineBase::Type enginetype = v.value<EngineBase::Type>();
 
   if (engine()->type() == enginetype) return;
 
-  if (engine()->state() != Engine::State::Empty) {
+  if (engine()->state() != EngineBase::State::Empty) {
     errordialog_.ShowMessage("Can't switch engine while playing!");
     ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(engine()->type())));
     return;
@@ -797,7 +795,7 @@ void BackendSettingsPage::FadingOptionsChanged() {
   if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
-  if (engine()->type() == Engine::EngineType::GStreamer &&
+  if (engine()->type() == EngineBase::Type::GStreamer &&
       !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty() && (ui_->lineedit_device->text().contains(QRegularExpression("^hw:.*")) || ui_->lineedit_device->text().contains(QRegularExpression("^plughw:.*"))))) {
     ui_->groupbox_fading->setEnabled(true);
   }

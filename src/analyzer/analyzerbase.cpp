@@ -108,8 +108,8 @@ void Analyzer::Base::paintEvent(QPaintEvent *e) {
   p.fillRect(e->rect(), palette().color(QPalette::Window));
 
   switch (engine_->state()) {
-    case Engine::State::Playing: {
-      const Engine::Scope &thescope = engine_->scope(timeout_);
+    case EngineBase::State::Playing: {
+      const EngineBase::Scope &thescope = engine_->scope(timeout_);
       int i = 0;
 
       // convert to mono here - our built in analyzers need mono, but the engines provide interleaved pcm
@@ -126,7 +126,7 @@ void Analyzer::Base::paintEvent(QPaintEvent *e) {
 
       break;
     }
-    case Engine::State::Paused:
+    case EngineBase::State::Paused:
       is_playing_ = false;
       analyze(p, lastscope_, new_frame_);
       break;

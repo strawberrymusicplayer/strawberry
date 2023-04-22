@@ -1307,24 +1307,24 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   GstTagList *taglist = nullptr;
   gst_message_parse_tag(msg, &taglist);
 
-  Engine::SimpleMetaBundle bundle;
-  bundle.type = Engine::SimpleMetaBundle::Type::Current;
-  bundle.media_url = media_url_;
-  bundle.stream_url = stream_url_;
-  bundle.title = ParseStrTag(taglist, GST_TAG_TITLE);
-  bundle.artist = ParseStrTag(taglist, GST_TAG_ARTIST);
-  bundle.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
-  bundle.album = ParseStrTag(taglist, GST_TAG_ALBUM);
-  bundle.bitrate = static_cast<int>(ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000);
-  bundle.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
+  EngineMetadata engine_metadata;
+  engine_metadata.type = EngineMetadata::Type::Current;
+  engine_metadata.media_url = media_url_;
+  engine_metadata.stream_url = stream_url_;
+  engine_metadata.title = ParseStrTag(taglist, GST_TAG_TITLE);
+  engine_metadata.artist = ParseStrTag(taglist, GST_TAG_ARTIST);
+  engine_metadata.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
+  engine_metadata.album = ParseStrTag(taglist, GST_TAG_ALBUM);
+  engine_metadata.bitrate = static_cast<int>(ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000);
+  engine_metadata.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
 
-  if (!bundle.title.isEmpty() && bundle.artist.isEmpty() && bundle.album.isEmpty()) {
+  if (!engine_metadata.title.isEmpty() && engine_metadata.artist.isEmpty() && engine_metadata.album.isEmpty()) {
     QStringList title_splitted;
-    if (bundle.title.contains(" - ")) {
-      title_splitted = bundle.title.split(" - ");
+    if (engine_metadata.title.contains(" - ")) {
+      title_splitted = engine_metadata.title.split(" - ");
     }
-    else if (bundle.title.contains('~')) {
-      title_splitted = bundle.title.split('~');
+    else if (engine_metadata.title.contains('~')) {
+      title_splitted = engine_metadata.title.split('~');
     }
     if (!title_splitted.isEmpty() && title_splitted.count() >= 2) {
       int i = 0;
@@ -1332,13 +1332,13 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
         ++i;
         switch (i) {
           case 1:
-            bundle.artist = title_part.trimmed();
+            engine_metadata.artist = title_part.trimmed();
             break;
           case 2:
-            bundle.title = title_part.trimmed();
+            engine_metadata.title = title_part.trimmed();
             break;
           case 3:
-            bundle.album = title_part.trimmed();
+            engine_metadata.album = title_part.trimmed();
             break;
           default:
             break;
@@ -1349,7 +1349,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
 
   gst_tag_list_unref(taglist);
 
-  emit MetadataFound(id(), bundle);
+  emit MetadataFound(id(), engine_metadata);
 
 }
 

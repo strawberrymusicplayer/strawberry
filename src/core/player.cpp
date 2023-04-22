@@ -43,7 +43,7 @@
 #include "application.h"
 
 #include "engine/enginebase.h"
-#include "engine/enginetype.h"
+#include "engine/enginemetadata.h"
 
 #ifdef HAVE_GSTREAMER
 #  include "engine/gstengine.h"
@@ -79,9 +79,9 @@ Player::Player(Application *app, QObject *parent)
 #endif
       analyzer_(nullptr),
       equalizer_(nullptr),
-      stream_change_type_(Engine::TrackChangeType::First),
+      stream_change_type_(EngineBase::TrackChangeType::First),
       autoscroll_(Playlist::AutoScroll::Maybe),
-      last_state_(Engine::State::Empty),
+      last_state_(EngineBase::State::Empty),
       nb_errors_received_(0),
       volume_(100),
       volume_before_mute_(100),
@@ -94,23 +94,23 @@ Player::Player(Application *app, QObject *parent)
 
   QSettings s;
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
-  Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::EngineType::GStreamer)).toString().toLower());
+  EngineBase::Type enginetype = EngineBase::TypeFromName(s.value("engine", EngineBase::Name(EngineBase::Type::GStreamer)).toString().toLower());
   s.endGroup();
 
   CreateEngine(enginetype);
 
 }
 
-Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
+EngineBase::Type Player::CreateEngine(EngineBase::Type enginetype) {
 
-  Engine::EngineType use_enginetype(Engine::EngineType::None);
+  EngineBase::Type use_enginetype = EngineBase::Type::None;
 
-  for (int i = 0; use_enginetype == Engine::EngineType::None; i++) {
+  for (int i = 0; use_enginetype == EngineBase::Type::None; i++) {
     switch (enginetype) {
-      case Engine::EngineType::None:
+      case EngineBase::Type::None:
 #ifdef HAVE_GSTREAMER
-      case Engine::EngineType::GStreamer:{
-        use_enginetype=Engine::EngineType::GStreamer;
+      case EngineBase::Type::GStreamer:{
+        use_enginetype=EngineBase::Type::GStreamer;
         std::unique_ptr<GstEngine> gst_engine(new GstEngine(app_->task_manager()));
         gst_engine->SetStartup(gst_startup_);
         engine_.reset(gst_engine.release());
@@ -118,8 +118,8 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
       }
 #endif
 #ifdef HAVE_VLC
-      case Engine::EngineType::VLC:
-        use_enginetype = Engine::EngineType::VLC;
+      case EngineBase::Type::VLC:
+        use_enginetype = EngineBase::Type::VLC;
         engine_ = std::make_shared<VLCEngine>(app_->task_manager());
         break;
 #endif
@@ -127,7 +127,7 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
         if (i > 0) {
           qFatal("No engine available!");
         }
-        enginetype = Engine::EngineType::None;
+        enginetype = EngineBase::Type::None;
         break;
     }
   }
@@ -135,7 +135,7 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
   if (use_enginetype != enginetype) {  // Engine was set to something else. Reset output and device.
     QSettings s;
     s.beginGroup(BackendSettingsPage::kSettingsGroup);
-    s.setValue("engine", EngineName(use_enginetype));
+    s.setValue("engine", EngineBase::Name(use_enginetype));
     s.setValue("output", engine_->DefaultOutput());
     s.setValue("device", QVariant());
     s.endGroup();
@@ -157,7 +157,7 @@ void Player::Init() {
 
   if (!engine_) {
     s.beginGroup(BackendSettingsPage::kSettingsGroup);
-    Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::EngineType::GStreamer)).toString().toLower());
+    EngineBase::Type enginetype = EngineBase::TypeFromName(s.value("engine", EngineBase::Name(EngineBase::Type::GStreamer)).toString().toLower());
     s.endGroup();
     CreateEngine(enginetype);
   }
@@ -363,9 +363,9 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
 }
 
-void Player::Next() { NextInternal(Engine::TrackChangeType::Manual, Playlist::AutoScroll::Always); }
+void Player::Next() { NextInternal(EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Always); }
 
-void Player::NextInternal(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll) {
+void Player::NextInternal(const EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll) {
 
   pause_time_ = QDateTime();
   play_offset_nanosec_ = 0;
@@ -376,7 +376,7 @@ void Player::NextInternal(const Engine::TrackChangeFlags change, const Playlist:
 
 }
 
-void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll) {
+void Player::NextItem(const EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll) {
 
   pause_time_ = QDateTime();
   play_offset_nanosec_ = 0;
@@ -384,7 +384,7 @@ void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::Aut
   Playlist *active_playlist = app_->playlist_manager()->active();
 
   // If we received too many errors in auto change, with repeat enabled, we stop
-  if (change == Engine::TrackChangeType::Auto) {
+  if (change == EngineBase::TrackChangeType::Auto) {
     const PlaylistSequence::RepeatMode repeat_mode = active_playlist->sequence()->repeat_mode();
     if (repeat_mode != PlaylistSequence::RepeatMode::Off) {
       if ((repeat_mode == PlaylistSequence::RepeatMode::Track && nb_errors_received_ >= 3) || (nb_errors_received_ >= app_->playlist_manager()->active()->filter()->rowCount())) {
@@ -397,7 +397,7 @@ void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::Aut
   }
 
   // Manual track changes override "Repeat track"
-  const bool ignore_repeat_track = change & Engine::TrackChangeType::Manual;
+  const bool ignore_repeat_track = change & EngineBase::TrackChangeType::Manual;
 
   int i = active_playlist->next_row(ignore_repeat_track);
   if (i == -1) {
@@ -413,10 +413,10 @@ void Player::NextItem(const Engine::TrackChangeFlags change, const Playlist::Aut
 }
 
 void Player::PlayPlaylist(const QString &playlist_name) {
-  PlayPlaylistInternal(Engine::TrackChangeType::Manual, Playlist::AutoScroll::Always, playlist_name);
+  PlayPlaylistInternal(EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Always, playlist_name);
 }
 
-void Player::PlayPlaylistInternal(const Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const QString &playlist_name) {
+void Player::PlayPlaylistInternal(const EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const QString &playlist_name) {
 
   pause_time_ = QDateTime();
   play_offset_nanosec_ = 0;
@@ -474,19 +474,19 @@ void Player::TrackEnded() {
 
   if (HandleStopAfter(Playlist::AutoScroll::Maybe)) return;
 
-  NextInternal(Engine::TrackChangeType::Auto, Playlist::AutoScroll::Maybe);
+  NextInternal(EngineBase::TrackChangeType::Auto, Playlist::AutoScroll::Maybe);
 
 }
 
 void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll autoscroll) {
 
   switch (engine_->state()) {
-    case Engine::State::Paused:
+    case EngineBase::State::Paused:
       UnPause();
       emit Resumed();
       break;
 
-    case Engine::State::Playing: {
+    case EngineBase::State::Playing: {
       if (current_item_->options() & PlaylistItem::Option::PauseDisabled) {
         Stop();
       }
@@ -498,9 +498,9 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
       break;
     }
 
-    case Engine::State::Empty:
-    case Engine::State::Error:
-    case Engine::State::Idle: {
+    case EngineBase::State::Empty:
+    case EngineBase::State::Error:
+    case EngineBase::State::Idle: {
       pause_time_ = QDateTime();
       play_offset_nanosec_ = offset_nanosec;
       app_->playlist_manager()->SetActivePlaylist(app_->playlist_manager()->current_id());
@@ -508,7 +508,7 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
       int i = app_->playlist_manager()->active()->current_row();
       if (i == -1) i = app_->playlist_manager()->active()->last_played_row();
       if (i == -1) i = 0;
-      PlayAt(i, offset_nanosec, Engine::TrackChangeType::First, autoscroll, true);
+      PlayAt(i, offset_nanosec, EngineBase::TrackChangeType::First, autoscroll, true);
       break;
     }
   }
@@ -572,14 +572,14 @@ bool Player::PreviousWouldRestartTrack() const {
 
 }
 
-void Player::Previous() { PreviousItem(Engine::TrackChangeType::Manual); }
+void Player::Previous() { PreviousItem(EngineBase::TrackChangeType::Manual); }
 
-void Player::PreviousItem(const Engine::TrackChangeFlags change) {
+void Player::PreviousItem(const EngineBase::TrackChangeFlags change) {
 
   pause_time_ = QDateTime();
   play_offset_nanosec_ = 0;
 
-  const bool ignore_repeat_track = change & Engine::TrackChangeType::Manual;
+  const bool ignore_repeat_track = change & EngineBase::TrackChangeType::Manual;
 
   if (menu_previousmode_ == BehaviourSettingsPage::PreviousBehaviour::Restart) {
     // Check if it has been over two seconds since previous button was pressed
@@ -604,9 +604,9 @@ void Player::PreviousItem(const Engine::TrackChangeFlags change) {
 
 }
 
-void Player::EngineStateChanged(const Engine::State state) {
+void Player::EngineStateChanged(const EngineBase::State state) {
 
-  if (state == Engine::State::Error) {
+  if (state == EngineBase::State::Error) {
     nb_errors_received_++;
   }
   else {
@@ -614,21 +614,21 @@ void Player::EngineStateChanged(const Engine::State state) {
   }
 
   switch (state) {
-    case Engine::State::Paused:
+    case EngineBase::State::Paused:
       pause_time_ = QDateTime::currentDateTime();
       play_offset_nanosec_ = engine_->position_nanosec();
       emit Paused();
       break;
-    case Engine::State::Playing:
+    case EngineBase::State::Playing:
       pause_time_ = QDateTime();
       play_offset_nanosec_ = 0;
       emit Playing();
       break;
-    case Engine::State::Error:
+    case EngineBase::State::Error:
       emit Error();
       [[fallthrough]];
-    case Engine::State::Empty:
-    case Engine::State::Idle:
+    case EngineBase::State::Empty:
+    case EngineBase::State::Idle:
       pause_time_ = QDateTime();
       play_offset_nanosec_ = 0;
       emit Stopped();
@@ -695,17 +695,17 @@ void Player::VolumeDown() {
 
 }
 
-void Player::PlayAt(const int index, const quint64 offset_nanosec, Engine::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform) {
+void Player::PlayAt(const int index, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform) {
 
   pause_time_ = QDateTime();
   play_offset_nanosec_ = offset_nanosec;
 
-  if (current_item_ && change == Engine::TrackChangeType::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
+  if (current_item_ && change == EngineBase::TrackChangeType::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
     emit TrackSkipped(current_item_);
   }
 
   if (current_item_ && app_->playlist_manager()->active()->has_item_at(index) && current_item_->Metadata().IsOnSameAlbum(app_->playlist_manager()->active()->item_at(index)->Metadata())) {
-    change |= Engine::TrackChangeType::SameAlbum;
+    change |= EngineBase::TrackChangeType::SameAlbum;
   }
 
   if (reshuffle) app_->playlist_manager()->active()->ReshuffleIndices();
@@ -774,25 +774,25 @@ void Player::SeekBackward() {
   SeekTo(engine()->position_nanosec() / kNsecPerSec - seek_step_sec_);
 }
 
-void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
+void Player::EngineMetadataReceived(const EngineMetadata &engine_metadata) {
 
-  if (bundle.type == Engine::SimpleMetaBundle::Type::Any || bundle.type == Engine::SimpleMetaBundle::Type::Current) {
+  if (engine_metadata.type == EngineMetadata::Type::Any || engine_metadata.type == EngineMetadata::Type::Current) {
     PlaylistItemPtr item = app_->playlist_manager()->active()->current_item();
-    if (item && bundle.media_url == item->Url()) {
+    if (item && engine_metadata.media_url == item->Url()) {
       Song song = item->Metadata();
-      bool minor = song.MergeFromSimpleMetaBundle(bundle);
+      bool minor = song.MergeFromEngineMetadata(engine_metadata);
       app_->playlist_manager()->active()->SetStreamMetadata(item->Url(), song, minor);
       return;
     }
   }
 
-  if (bundle.type == Engine::SimpleMetaBundle::Type::Any || bundle.type == Engine::SimpleMetaBundle::Type::Next) {
+  if (engine_metadata.type == EngineMetadata::Type::Any || engine_metadata.type == EngineMetadata::Type::Next) {
     int next_row = app_->playlist_manager()->active()->next_row();
     if (next_row != -1) {
       PlaylistItemPtr next_item = app_->playlist_manager()->active()->item_at(next_row);
-      if (bundle.media_url == next_item->Url()) {
+      if (engine_metadata.media_url == next_item->Url()) {
         Song song = next_item->Metadata();
-        song.MergeFromSimpleMetaBundle(bundle);
+        song.MergeFromEngineMetadata(engine_metadata);
         next_item->SetTemporaryMetadata(song);
         app_->playlist_manager()->active()->ItemChanged(next_row);
       }
@@ -828,10 +828,10 @@ void Player::Pause() { engine_->Pause(); }
 void Player::Play(const quint64 offset_nanosec) {
 
   switch (GetState()) {
-    case Engine::State::Playing:
+    case EngineBase::State::Playing:
       SeekTo(offset_nanosec);
       break;
-    case Engine::State::Paused:
+    case EngineBase::State::Paused:
       UnPause();
       break;
     default:
@@ -929,7 +929,7 @@ void Player::InvalidSongRequested(const QUrl &url) {
     return;
   }
 
-  NextItem(Engine::TrackChangeType::Auto, Playlist::AutoScroll::Maybe);
+  NextItem(EngineBase::TrackChangeType::Auto, Playlist::AutoScroll::Maybe);
 
 }
 

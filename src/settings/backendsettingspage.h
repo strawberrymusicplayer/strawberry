@@ -26,13 +26,11 @@
 #include <QVariant>
 #include <QString>
 
-#include "engine/enginetype.h"
-#include "dialogs/errordialog.h"
-#include "settingspage.h"
-
 #include "core/application.h"
 #include "core/player.h"
-#include "engine/engine_fwd.h"
+#include "engine/enginebase.h"
+#include "dialogs/errordialog.h"
+#include "settingspage.h"
 
 class SettingsDialog;
 class Ui_BackendSettingsPage;
@@ -80,7 +78,7 @@ class BackendSettingsPage : public SettingsPage {
 
   bool EngineInitialized();
 
-  void Load_Engine(Engine::EngineType enginetype);
+  void Load_Engine(const EngineBase::Type enginetype);
   void Load_Output(QString output, QVariant device);
   void Load_Device(const QString &output, const QVariant &device);
 #ifdef HAVE_ALSA
@@ -97,7 +95,7 @@ class BackendSettingsPage : public SettingsPage {
   bool engineloaded_;
   ErrorDialog errordialog_;
 
-  Engine::EngineType enginetype_current_;
+  EngineBase::Type enginetype_current_;
   QString output_current_;
   QVariant device_current_;
 

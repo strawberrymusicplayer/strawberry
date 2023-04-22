@@ -32,7 +32,6 @@
 #include <QPalette>
 #include <QColor>
 
-#include "engine/engine_fwd.h"
 #include "engine/enginebase.h"
 #include "fht.h"
 #include "analyzerbase.h"
@@ -110,7 +109,7 @@ void BoomAnalyzer::transform(Scope &s) {
 
 void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame) {
 
-  if (!new_frame || engine_->state() == Engine::State::Paused) {
+  if (!new_frame || engine_->state() == EngineBase::State::Paused) {
     p.drawPixmap(0, 0, canvas_);
     return;
   }

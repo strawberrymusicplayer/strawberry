@@ -30,7 +30,7 @@
 #include <QAction>
 #include <QActionGroup>
 
-#include "engine/engine_fwd.h"
+#include "engine/enginebase.h"
 
 class QTimer;
 class QMouseEvent;

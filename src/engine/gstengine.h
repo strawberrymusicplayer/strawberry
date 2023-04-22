@@ -39,7 +39,6 @@
 #include <QUrl>
 
 #include "utilities/timeconstants.h"
-#include "engine_fwd.h"
 #include "enginebase.h"
 #include "gststartup.h"
 #include "gstbufferconsumer.h"
@@ -49,7 +48,7 @@ class QTimerEvent;
 class TaskManager;
 class GstEnginePipeline;
 
-class GstEngine : public Engine::Base, public GstBufferConsumer {
+class GstEngine : public EngineBase, public GstBufferConsumer {
   Q_OBJECT
 
  public:
@@ -58,10 +57,11 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
   static const char *kAutoSink;
 
+  Type type() const override { return Type::GStreamer; }
   bool Init() override;
-  Engine::State state() const override;
+  EngineBase::State state() const override;
   void StartPreloading(const QUrl &media_url, const QUrl &stream_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec) override;
-  bool Load(const QUrl &media_url, const QUrl &stream_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) override;
+  bool Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) override;
   bool Play(const quint64 offset_nanosec) override;
   void Stop(const bool stop_after = false) override;
   void Pause() override;
@@ -74,7 +74,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
  public:
   qint64 position_nanosec() const override;
   qint64 length_nanosec() const override;
-  const Engine::Scope &scope(const int chunk_length) override;
+  const EngineBase::Scope &scope(const int chunk_length) override;
 
   OutputDetailsList GetOutputsList() const override;
   bool ValidOutput(const QString &output) override;
@@ -111,7 +111,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
  private slots:
   void EndOfStreamReached(const int pipeline_id, const bool has_next_track);
   void HandlePipelineError(const int pipeline_id, const int domain, const int error_code, const QString &message, const QString &debugstr);
-  void NewMetaData(const int pipeline_id, const Engine::SimpleMetaBundle &bundle);
+  void NewMetaData(const int pipeline_id, const EngineMetadata &engine_metadata);
   void AddBufferToScope(GstBuffer *buf, const int pipeline_id, const QString &format);
   void FadeoutFinished();
   void FadeoutPauseFinished();

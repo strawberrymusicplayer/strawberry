@@ -41,9 +41,7 @@
 
 class SqlQuery;
 
-namespace Engine {
-struct SimpleMetaBundle;
-}  // namespace Engine
+class EngineMetadata;
 
 namespace spb {
 namespace tagreader {
@@ -172,7 +170,7 @@ class Song {
   void InitArtManual();
   void InitArtAutomatic();
 
-  bool MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle);
+  bool MergeFromEngineMetadata(const EngineMetadata &engine_metadata);
 
 #ifdef HAVE_LIBGPOD
   void InitFromItdb(_Itdb_Track *track, const QString &prefix);

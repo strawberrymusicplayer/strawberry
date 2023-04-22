@@ -52,8 +52,7 @@
 #include "platforminterface.h"
 #include "song.h"
 #include "tagreaderclient.h"
-#include "engine/enginetype.h"
-#include "engine/engine_fwd.h"
+#include "engine/enginebase.h"
 #include "osd/osdbase.h"
 #include "collection/collectionmodel.h"
 #include "playlist/playlist.h"
@@ -142,7 +141,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
  private slots:
   void FilePathChanged(const QString &path);
 
-  void EngineChanged(Engine::EngineType enginetype);
+  void EngineChanged(const EngineBase::Type enginetype);
   void MediaStopped();
   void MediaPaused();
   void MediaPlaying();

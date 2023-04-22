@@ -55,9 +55,7 @@
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
 #include "widgets/resizabletextedit.h"
-#include "engine/engine_fwd.h"
 #include "engine/enginebase.h"
-#include "engine/enginetype.h"
 #include "engine/devicefinders.h"
 #include "engine/devicefinder.h"
 #include "collection/collectionbackend.h"
@@ -544,12 +542,12 @@ void ContextView::SetSong() {
 
   if (action_show_output_->isChecked()) {
     widget_play_output_->show();
-    Engine::EngineType enginetype(Engine::EngineType::None);
+    EngineBase::Type enginetype = EngineBase::Type::None;
     if (app_->player()->engine()) enginetype = app_->player()->engine()->type();
-    QIcon icon_engine = IconLoader::Load(EngineName(enginetype), true, 32);
+    QIcon icon_engine = IconLoader::Load(EngineBase::Name(enginetype), true, 32);
 
     label_engine_icon_->setPixmap(icon_engine.pixmap(QSize(32, 32)));
-    label_engine_->setText(EngineDescription(enginetype));
+    label_engine_->setText(EngineBase::Description(enginetype));
     spacer_play_output_->changeSize(20, 20, QSizePolicy::Fixed);
 
     DeviceFinder::Device device;

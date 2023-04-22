@@ -58,10 +58,10 @@ set(SOURCES
   utilities/coverutils.cpp
   utilities/screenutils.cpp
 
-  engine/enginetype.cpp
   engine/enginebase.cpp
   engine/devicefinders.cpp
   engine/devicefinder.cpp
+  engine/enginemetadata.cpp
 
   analyzer/fht.cpp
   analyzer/analyzerbase.cpp

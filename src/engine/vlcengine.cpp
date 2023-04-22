@@ -32,17 +32,15 @@
 #include "core/taskmanager.h"
 #include "core/logging.h"
 #include "utilities/timeconstants.h"
-#include "engine_fwd.h"
 #include "enginebase.h"
-#include "enginetype.h"
 #include "vlcengine.h"
 #include "vlcscopedref.h"
 
 VLCEngine::VLCEngine(TaskManager *task_manager, QObject *parent)
-    : Engine::Base(Engine::EngineType::VLC, parent),
+    : EngineBase(parent),
       instance_(nullptr),
       player_(nullptr),
-      state_(Engine::State::Empty) {
+      state_(State::Empty) {
 
   Q_UNUSED(task_manager);
 
@@ -52,7 +50,7 @@ VLCEngine::VLCEngine(TaskManager *task_manager, QObject *parent)
 
 VLCEngine::~VLCEngine() {
 
-  if (state_ == Engine::State::Playing || state_ == Engine::State::Paused) {
+  if (state_ == State::Playing || state_ == State::Paused) {
     libvlc_media_player_stop(player_);
   }
 
@@ -100,7 +98,7 @@ bool VLCEngine::Init() {
 
 }
 
-bool VLCEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
+bool VLCEngine::Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
 
   Q_UNUSED(media_url);
   Q_UNUSED(change);
@@ -197,7 +195,7 @@ void VLCEngine::SetVolumeSW(const uint percent) {
 
 qint64 VLCEngine::position_nanosec() const {
 
-  if (state_ == Engine::State::Empty) return 0;
+  if (state_ == State::Empty) return 0;
   const qint64 result = (position() * kNsecPerMsec);
   return qMax(0LL, result);
 
@@ -205,7 +203,7 @@ qint64 VLCEngine::position_nanosec() const {
 
 qint64 VLCEngine::length_nanosec() const {
 
-  if (state_ == Engine::State::Empty) return 0;
+  if (state_ == State::Empty) return 0;
   const qint64 result = (end_nanosec_ - static_cast<qint64>(beginning_nanosec_));
   if (result > 0) {
     return result;
@@ -297,32 +295,32 @@ void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
       break;
 
     case libvlc_MediaPlayerStopped:{
-      const Engine::State state = engine->state_;
-      engine->state_ = Engine::State::Empty;
-      if (state == Engine::State::Playing) {
+      const EngineBase::State state = engine->state_;
+      engine->state_ = EngineBase::State::Empty;
+      if (state == EngineBase::State::Playing) {
         emit engine->StateChanged(engine->state_);
       }
       break;
     }
 
     case libvlc_MediaPlayerEncounteredError:
-      engine->state_ = Engine::State::Error;
+      engine->state_ = EngineBase::State::Error;
       emit engine->StateChanged(engine->state_);
       emit engine->FatalError();
       break;
 
     case libvlc_MediaPlayerPlaying:
-      engine->state_ = Engine::State::Playing;
+      engine->state_ = EngineBase::State::Playing;
       emit engine->StateChanged(engine->state_);
       break;
 
     case libvlc_MediaPlayerPaused:
-      engine->state_ = Engine::State::Paused;
+      engine->state_ = EngineBase::State::Paused;
       emit engine->StateChanged(engine->state_);
       break;
 
     case libvlc_MediaPlayerEndReached:
-      engine->state_ = Engine::State::Idle;
+      engine->state_ = EngineBase::State::Idle;
       emit engine->TrackEnded();
       break;
   }

@@ -48,8 +48,7 @@
 #include <QStandardPaths>
 
 #include "core/iconloader.h"
-
-#include "engine/enginebase.h"
+#include "engine/enginemetadata.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
 #include "utilities/coverutils.h"
@@ -1386,7 +1385,7 @@ void Song::ToMTP(LIBMTP_track_t *track) const {
 }
 #endif
 
-bool Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
+bool Song::MergeFromEngineMetadata(const EngineMetadata &engine_metadata) {
 
   d->valid_ = true;
 
@@ -1394,47 +1393,47 @@ bool Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
 
   if (d->init_from_file_ || is_collection_song() || d->url_.isLocalFile()) {
     // This Song was already loaded using taglib. Our tags are probably better than the engine's.
-    if (title() != bundle.title && title().isEmpty() && !bundle.title.isEmpty()) {
-      set_title(bundle.title);
+    if (title() != engine_metadata.title && title().isEmpty() && !engine_metadata.title.isEmpty()) {
+      set_title(engine_metadata.title);
       minor = false;
     }
-    if (artist() != bundle.artist && artist().isEmpty() && !bundle.artist.isEmpty()) {
-      set_artist(bundle.artist);
+    if (artist() != engine_metadata.artist && artist().isEmpty() && !engine_metadata.artist.isEmpty()) {
+      set_artist(engine_metadata.artist);
       minor = false;
     }
-    if (album() != bundle.album && album().isEmpty() && !bundle.album.isEmpty()) {
-      set_album(bundle.album);
+    if (album() != engine_metadata.album && album().isEmpty() && !engine_metadata.album.isEmpty()) {
+      set_album(engine_metadata.album);
       minor = false;
     }
-    if (comment().isEmpty() && !bundle.comment.isEmpty()) set_comment(bundle.comment);
-    if (genre().isEmpty() && !bundle.genre.isEmpty()) set_genre(bundle.genre);
-    if (lyrics().isEmpty() && !bundle.lyrics.isEmpty()) set_lyrics(bundle.lyrics);
+    if (comment().isEmpty() && !engine_metadata.comment.isEmpty()) set_comment(engine_metadata.comment);
+    if (genre().isEmpty() && !engine_metadata.genre.isEmpty()) set_genre(engine_metadata.genre);
+    if (lyrics().isEmpty() && !engine_metadata.lyrics.isEmpty()) set_lyrics(engine_metadata.lyrics);
   }
   else {
-    if (title() != bundle.title && !bundle.title.isEmpty()) {
-      set_title(bundle.title);
+    if (title() != engine_metadata.title && !engine_metadata.title.isEmpty()) {
+      set_title(engine_metadata.title);
       minor = false;
     }
-    if (artist() != bundle.artist && !bundle.artist.isEmpty()) {
-      set_artist(bundle.artist);
+    if (artist() != engine_metadata.artist && !engine_metadata.artist.isEmpty()) {
+      set_artist(engine_metadata.artist);
       minor = false;
     }
-    if (album() != bundle.album && !bundle.album.isEmpty()) {
-      set_album(bundle.album);
+    if (album() != engine_metadata.album && !engine_metadata.album.isEmpty()) {
+      set_album(engine_metadata.album);
       minor = false;
     }
-    if (!bundle.comment.isEmpty()) set_comment(bundle.comment);
-    if (!bundle.genre.isEmpty()) set_genre(bundle.genre);
-    if (!bundle.lyrics.isEmpty()) set_lyrics(bundle.lyrics);
+    if (!engine_metadata.comment.isEmpty()) set_comment(engine_metadata.comment);
+    if (!engine_metadata.genre.isEmpty()) set_genre(engine_metadata.genre);
+    if (!engine_metadata.lyrics.isEmpty()) set_lyrics(engine_metadata.lyrics);
   }
 
-  if (bundle.length > 0) set_length_nanosec(bundle.length);
-  if (bundle.year > 0) d->year_ = bundle.year;
-  if (bundle.track > 0) d->track_ = bundle.track;
-  if (bundle.filetype != FileType::Unknown) d->filetype_ = bundle.filetype;
-  if (bundle.samplerate > 0) d->samplerate_ = bundle.samplerate;
-  if (bundle.bitdepth > 0) d->bitdepth_ = bundle.bitdepth;
-  if (bundle.bitrate > 0) d->bitrate_ = bundle.bitrate;
+  if (engine_metadata.length > 0) set_length_nanosec(engine_metadata.length);
+  if (engine_metadata.year > 0) d->year_ = engine_metadata.year;
+  if (engine_metadata.track > 0) d->track_ = engine_metadata.track;
+  if (engine_metadata.filetype != FileType::Unknown) d->filetype_ = engine_metadata.filetype;
+  if (engine_metadata.samplerate > 0) d->samplerate_ = engine_metadata.samplerate;
+  if (engine_metadata.bitdepth > 0) d->bitdepth_ = engine_metadata.bitdepth;
+  if (engine_metadata.bitrate > 0) d->bitrate_ = engine_metadata.bitrate;
 
   return minor;
 

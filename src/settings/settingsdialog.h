@@ -34,7 +34,7 @@
 #include <QString>
 #include <QSettings>
 
-#include "engine/engine_fwd.h"
+#include "engine/enginebase.h"
 #include "osd/osdbase.h"
 
 class QMainWindow;

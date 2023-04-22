@@ -22,7 +22,7 @@
 #include "core/application.h"
 #include "core/player.h"
 #include "core/song.h"
-#include "engine/engine_fwd.h"
+#include "engine/enginebase.h"
 #include "settings/moodbarsettingspage.h"
 #include "playlist/playlistmanager.h"
 
@@ -94,9 +94,9 @@ void MoodbarController::AsyncLoadComplete(MoodbarPipeline *pipeline, const QUrl 
   }
   // Did we stop the song?
   switch (app_->player()->GetState()) {
-    case Engine::State::Error:
-    case Engine::State::Empty:
-    case Engine::State::Idle:
+    case EngineBase::State::Error:
+    case EngineBase::State::Empty:
+    case EngineBase::State::Idle:
       return;
 
     default:

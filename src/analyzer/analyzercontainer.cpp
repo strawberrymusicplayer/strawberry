@@ -44,7 +44,6 @@
 
 #include "core/logging.h"
 #include "engine/enginebase.h"
-#include "engine/enginetype.h"
 
 using namespace std::chrono_literals;
 
@@ -104,7 +103,7 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
 
 void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
 
-  if (engine_->type() != Engine::EngineType::GStreamer) {
+  if (engine_->type() != EngineBase::Type::GStreamer) {
     return;
   }
 

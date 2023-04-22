@@ -39,7 +39,6 @@
 #include <QPainter>
 
 #include "analyzer/fht.h"
-#include "engine/engine_fwd.h"
 #include "engine/enginebase.h"
 
 class QHideEvent;

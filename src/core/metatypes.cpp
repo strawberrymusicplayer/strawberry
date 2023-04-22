@@ -47,9 +47,8 @@
 
 #include "song.h"
 
-#include "engine/engine_fwd.h"
 #include "engine/enginebase.h"
-#include "engine/enginetype.h"
+#include "engine/enginemetadata.h"
 #ifdef HAVE_GSTREAMER
 #  include "engine/gstenginepipeline.h"
 #endif
@@ -103,11 +102,11 @@ void RegisterMetaTypes() {
   qRegisterMetaType<SongMap>("SongMap");
   qRegisterMetaType<Song::Source>("Song::Source");
   qRegisterMetaType<Song::FileType>("Song::FileType");
-  qRegisterMetaType<Engine::EngineType>("Engine::EngineType");
-  qRegisterMetaType<Engine::SimpleMetaBundle>("Engine::SimpleMetaBundle");
-  qRegisterMetaType<Engine::State>("Engine::State");
-  qRegisterMetaType<Engine::TrackChangeFlags>("Engine::TrackChangeFlags");
+  qRegisterMetaType<EngineBase::Type>("EngineBase::Type");
+  qRegisterMetaType<EngineBase::State>("EngineBase::State");
+  qRegisterMetaType<EngineBase::TrackChangeFlags>("EngineBase::TrackChangeFlags");
   qRegisterMetaType<EngineBase::OutputDetails>("EngineBase::OutputDetails");
+  qRegisterMetaType<EngineMetadata>("EngineMetadata");
 #ifdef HAVE_GSTREAMER
   qRegisterMetaType<GstBuffer*>("GstBuffer*");
   qRegisterMetaType<GstElement*>("GstElement*");
