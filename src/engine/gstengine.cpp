@@ -699,7 +699,7 @@ GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) 
   GList *p = features;
   while (p) {
     GstElementFactory *factory = GST_ELEMENT_FACTORY(p->data);
-    if (QString(gst_element_factory_get_klass(factory)).contains(classname)) {
+    if (QString(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS)).contains(classname)) {
       PluginDetails details;
       details.name = QString::fromUtf8(gst_plugin_feature_get_name(p->data));
       details.description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));

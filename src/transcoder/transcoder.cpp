@@ -107,7 +107,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
     GstElementFactory *factory = GST_ELEMENT_FACTORY(f->data);
 
     // Is this the right type of plugin?
-    if (QString(gst_element_factory_get_klass(factory)).contains(element_type)) {
+    if (QString(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS)).contains(element_type)) {
       const GList *const templates = gst_element_factory_get_static_pad_templates(factory);
       for (const GList *t = templates; t; t = g_list_next(t)) {
         // Only interested in source pads
