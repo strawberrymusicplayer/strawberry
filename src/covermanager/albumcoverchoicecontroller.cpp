@@ -334,7 +334,7 @@ QUrl AlbumCoverChoiceController::SearchForCover(Song *song) {
 
   // Get something sensible to stick in the search box
   AlbumCoverImageResultPtr result = SearchForImage(song);
-  if (result->is_valid()) {
+  if (result && result->is_valid()) {
     return SaveCoverAutomatic(song, result);
   }
   else {
