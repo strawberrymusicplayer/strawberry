@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-04-14 05:51-0400\n"
+"PO-Revision-Date: 2023-04-24 01:06-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -118,7 +118,7 @@ msgstr " låtar"
 #: scrobbler/scrobblingapi20.cpp:216 scrobbler/scrobblingapi20.cpp:225
 #, qt-format
 msgid "%1 Scrobbler Authentication"
-msgstr "%1 Skrobblarautentisering"
+msgstr "%1 skrobblarautentisering"
 
 #: context/contextview.cpp:448
 #, qt-format
@@ -2831,6 +2831,11 @@ msgid ""
 "you should build Strawberry from source. For instructions see.: https://wiki."
 "strawberrymusicplayer.org/wiki/Compile"
 msgstr ""
+"Det verkar som att Strawberry kör under Rosetta. Strawberry har för "
+"närvarande begränsat macOS-stöd, och att köra Strawberry under Rosetta stöds "
+"inte och är känt för att ha problem. Om du vill använda Strawberry på den "
+"nuvarande CPU:n bör du bygga Strawberry från källan. För instruktioner se.: "
+"https://wiki.strawberrymusicplayer.org/wiki/Compile"
 
 #: ../build/src/ui_behavioursettingspage.h:301
 msgid "Jump to previous song right away"
@@ -2915,7 +2920,7 @@ msgstr "ListenBrainz-autentisering"
 #: scrobbler/listenbrainzscrobbler.cpp:676
 #, qt-format
 msgid "ListenBrainz error: %1"
-msgstr ""
+msgstr "ListenBrainz-fel: %1"
 
 #: ../build/src/ui_scrobblersettingspage.h:436
 msgid "Listenbrainz"
@@ -3093,7 +3098,7 @@ msgstr "Mellan (%1 fps)"
 
 #: ../build/src/ui_messagedialog.h:117
 msgid "Message Dialog"
-msgstr ""
+msgstr "Meddelandedialogruta"
 
 #: ../build/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
@@ -3114,7 +3119,7 @@ msgstr "API-token saknas."
 #: scrobbler/listenbrainzscrobbler.cpp:627
 #, qt-format
 msgid "Missing MusicBrainz recording ID for %1 %2 %3"
-msgstr ""
+msgstr "MusicBrainz-inspelnings-ID saknas för %1 %2 %3"
 
 #: qobuz/qobuzservice.cpp:738 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
@@ -4935,7 +4940,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:1056
 msgid "Strawberry running under Rosetta"
-msgstr ""
+msgstr "Strawberry körs under Rosetta"
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Strawberry was unable to find results for this file"
@@ -5338,7 +5343,7 @@ msgstr "Det gick inte att köra samlings-SQL-förfråga: %1"
 #: scrobbler/listenbrainzscrobbler.cpp:601
 #, qt-format
 msgid "Unable to scrobble %1 - %2 because of error: %3"
-msgstr ""
+msgstr "Det gick inte att skrobbla %1 - %2 på grund av fel: %3"
 
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
