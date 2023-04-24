@@ -711,7 +711,7 @@ jobs:
 
       - name: Copy gstreamer plugins
         working-directory: build
-        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/gstreamer-1.0/*.dll ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/gstreamer-1.0/{libgstaes.dll,libgstaiff.dll,libgstapetag.dll,libgstapp.dll,libgstasf.dll,libgstasfmux.dll,libgstaudioconvert.dll,libgstaudiofx.dll,libgstaudiomixer.dll,libgstaudioparsers.dll,libgstaudiorate.dll,libgstaudioresample.dll,libgstaudiotestsrc.dll,libgstautodetect.dll,libgstbs2b.dll,libgstcoreelements.dll,libgstdash.dll,libgstdirectsound.dll,libgstequalizer.dll,libgstfaac.dll,libgstfaad.dll,libgstfdkaac.dll,libgstflac.dll,libgstgio.dll,libgstgme.dll,libgsthls.dll,libgsticydemux.dll,libgstid3demux.dll,libgstid3tag.dll,libgstisomp4.dll,libgstlame.dll,libgstlibav.dll,libgstmpg123.dll,libgstmusepack.dll,libgstogg.dll,libgstopenmpt.dll,libgstopus.dll,libgstopusparse.dll,libgstpbtypes.dll,libgstplayback.dll,libgstreplaygain.dll,libgstrtp.dll,libgstrtsp.dll,libgstsoup.dll,libgstspectrum.dll,libgstspeex.dll,libgsttaglib.dll,libgsttcp.dll,libgsttwolame.dll,libgsttypefindfunctions.dll,libgstudp.dll,libgstvolume.dll,libgstvorbis.dll,libgstwasapi.dll,libgstwavenc.dll,libgstwavpack.dll,libgstwavparse.dll,libgstxingmux.dll} ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
 
       - name: Copy extra binaries
         working-directory: build
@@ -749,6 +749,25 @@ jobs:
       - name: Copy COPYING license file
         working-directory: build
         run: cp ${GITHUB_WORKSPACE}/COPYING .
+
+      - name: Check that all files are included in nsi
+        working-directory: build
+        run: |
+          files_missing=
+          for i in $(ls -1 *.dll *.exe); do
+            nsi_file_entry=$(grep -i "^\s\+File\s\+\"$i\"$" strawberry.nsi || true)
+            if [ "${nsi_file_entry}" = "" ]; then
+              if [ "${files_missing}" = "" ]; then
+                files_missing="${i}"
+              else
+                files_missing="${files_missing} $i"
+              fi
+            fi
+          done
+          if ! [ "${files_missing}" = "" ]; then
+            echo "Files missing in nsi: ${files_missing}"
+            exit 1
+          fi
 
       - name: Build Windows installer
         working-directory: build
@@ -1028,6 +1047,26 @@ jobs:
       - name: list files
         working-directory: build
         run: dir
+
+      - name: Check that all files are included in nsi
+        working-directory: build
+        shell: bash
+        run: |
+          files_missing=
+          for i in $(ls -1 *.dll *.exe); do
+            nsi_file_entry=$(grep -i "^\s\+File\s\+\"$i\"$" strawberry.nsi || true)
+            if [ "${nsi_file_entry}" = "" ]; then
+              if [ "${files_missing}" = "" ]; then
+                files_missing="${i}"
+              else
+                files_missing="${files_missing} $i"
+              fi
+            fi
+          done
+          if ! [ "${files_missing}" = "" ]; then
+            echo "Files missing in nsi: ${files_missing}"
+            exit 1
+          fi
 
       - name: Create nsis installer
         working-directory: build
