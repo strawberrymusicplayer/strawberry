@@ -49,7 +49,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-04-20 03:23-0400\n"
+"PO-Revision-Date: 2023-04-28 02:58-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -2896,6 +2896,13 @@ msgid ""
 "you should build Strawberry from source. For instructions see.: https://wiki."
 "strawberrymusicplayer.org/wiki/Compile"
 msgstr ""
+"Il semblerait que Strawberry est en cours d'exécution sous Rosetta. "
+"Strawberry a actuellement une prise en charge limitée de macOS, et "
+"l'exécution de Strawberry sous Rosetta n'est pas prise en charge et est "
+"connue pour avoir des problèmes. Si vous souhaitez utiliser Strawberry sur "
+"le processeur actuel, vous devez compiler Strawberry à partir de la source. "
+"Pour les instructions, voir : https://wiki.strawberrymusicplayer.org/wiki/"
+"Compile"
 
 #: ../build/src/ui_behavioursettingspage.h:301
 msgid "Jump to previous song right away"
@@ -2980,7 +2987,7 @@ msgstr "Authentification à ListenBrainz"
 #: scrobbler/listenbrainzscrobbler.cpp:676
 #, qt-format
 msgid "ListenBrainz error: %1"
-msgstr ""
+msgstr "Erreur ListenBrainz %1"
 
 #: ../build/src/ui_scrobblersettingspage.h:436
 msgid "Listenbrainz"
@@ -3179,7 +3186,7 @@ msgstr "Jeton de l'API manquant."
 #: scrobbler/listenbrainzscrobbler.cpp:627
 #, qt-format
 msgid "Missing MusicBrainz recording ID for %1 %2 %3"
-msgstr ""
+msgstr "ID d'enregistrement MusicBrainz manquant pour %1 %2 %3"
 
 #: qobuz/qobuzservice.cpp:738 qobuz/qobuzstreamurlrequest.cpp:81
 msgid "Missing Qobuz app ID or secret."
@@ -5438,7 +5445,7 @@ msgstr "Impossible d'exécuter la requête SQL de la collection : %1"
 #: scrobbler/listenbrainzscrobbler.cpp:601
 #, qt-format
 msgid "Unable to scrobble %1 - %2 because of error: %3"
-msgstr ""
+msgstr "Impossible de scrobbler %1 - %2 à cause d'une erreur : %3"
 
 #: playlist/playlistcontainer.cpp:222
 msgid "Undo"
