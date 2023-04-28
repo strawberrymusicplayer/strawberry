@@ -50,6 +50,7 @@ class CueParser : public ParserBase {
   static const char *kPerformer;
   static const char *kTitle;
   static const char *kSongWriter;
+  static const char *kComposer;
   static const char *kFile;
   static const char *kTrack;
   static const char *kIndex;
