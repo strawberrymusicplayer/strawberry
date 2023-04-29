@@ -474,8 +474,8 @@ jobs:
           rm -rf build
 
 
-  build-macos:
-    name: Build macOS
+  build-macos-homebrew:
+    name: Build macOS Homebrew
     runs-on: macos-11
     steps:
 
@@ -602,12 +602,104 @@ jobs:
           path: build/strawberry-*.dmg
 
 
+  build-macos-macports:
+    name: Build macOS Macports
+    runs-on: macos-10.15
+    steps:
+      - name: Install macports
+        run: |
+          wget https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1-10.15-Catalina.pkg
+          sudo installer -pkg ./MacPorts-2.7.1-10.15-Catalina.pkg -target /
+
+      - name: Uninstall homebrew
+        run: |
+          curl -sLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
+          chmod +x ./uninstall.sh
+          sudo ./uninstall.sh --force
+
+      - name: Update macports
+        run: sudo /opt/local/bin/port -v selfupdate
+
+      - name: Install packages
+        run: sudo /opt/local/bin/port -N -p install wget gettext glib2 pkgconfig cmake boost protobuf-cpp sqlite3 gnutls chromaprint fftw taglib libcdio libmtp
+
+      - name: Install gstreamer
+        run: sudo /opt/local/bin/port -N -p install gstreamer1 gstreamer1-gst-plugins-base gstreamer1-gst-plugins-good gstreamer1-gst-plugins-bad gstreamer1-gst-plugins-ugly gstreamer1-gst-libav
+
+      - name: Install gst-plugins-bad
+        run: sudo /opt/local/bin/port -N -p install gstreamer1-gst-plugins-bad +faac
+
+      - name: Install qt6-qtbase
+        run: sudo /opt/local/bin/port -N -p install qt6-qtbase
+
+      - name: Install qt6-qttools
+        run: sudo /opt/local/bin/port -N -p install qt6-qttools || true
+
+      - name: Install qt6-sqlite-plugin
+        run: sudo /opt/local/bin/port -N -p install qt6-sqlite-plugin
+
+      - name: Install libgpod
+        run: sudo /opt/local/bin/port -N -p install libgpod || true
+
+      - name: Install create-dmg
+        shell: bash
+        run: |
+          mkdir -p ~/build
+          cd ~/build
+          git clone https://github.com/create-dmg/create-dmg
+          cd create-dmg
+          sudo make install
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Create Build Environment
+        run: /opt/local/bin/cmake -E make_directory build
+
+      - name: Configure CMake
+        env:
+          MACOSX_DEPLOYMENT_TARGET: 10.15
+          PKG_CONFIG_PATH: /opt/local/lib/pkgconfig
+          GIO_EXTRA_MODULES: /opt/local/lib/gio/modules
+          GST_PLUGIN_SCANNER: /opt/local/libexec/gstreamer-1.0/gst-plugin-scanner
+          GST_PLUGIN_PATH: /opt/local/lib/gstreamer-1.0
+        working-directory: build
+        run: /opt/local/libexec/qt6/bin/qt-cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=OFF -DUSE_BUNDLE=ON -DENABLE_DBUS=OFF
+
+      - name: Build
+        working-directory: build
+        run: /opt/local/bin/cmake --build . --config Release --parallel 4
+
+      - name: Install
+        working-directory: build
+        run: make install
+
+      - name: Fix macdeployqt and macdeploycheck
+        working-directory: build
+        run: |
+          install_name_tool -change "@rpath/QtCore.framework/Versions/A/QtCore" "/opt/local/libexec/qt6/lib/QtCore.Framework/Versions/A/QtCore" 3rdparty/macdeployqt/macdeployqt
+          install_name_tool -change "@rpath/QtCore.framework/Versions/A/QtCore" "/opt/local/libexec/qt6/lib/QtCore.Framework/Versions/A/QtCore" ext/macdeploycheck/macdeploycheck
+
+      - name: Deploy
+        working-directory: build
+        run: make deploy
+
+      - name: Deploy check
+        working-directory: build
+        run: make deploycheck
+
+      - name: Create DMG
+        working-directory: build
+        run: make dmg
+
+
   upload-macos:
     name: Upload macOS DMG
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/macos'
     needs:
-      - build-macos
+      - build-macos-homebrew
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
