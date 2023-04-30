@@ -355,10 +355,11 @@ if(WIN32)
   endif()
 endif()
 
-if(WIN32 AND MSVC)
+if(WIN32)
   add_subdirectory(3rdparty/getopt)
   set(GETOPT_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/getopt)
   set(GETOPT_LIBRARIES getopt)
+  add_definitions(-DSTATIC_GETOPT -D_UNICODE)
 endif()
 
 if(WIN32 AND NOT MSVC)

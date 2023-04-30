@@ -22,10 +22,14 @@
 #include "version.h"
 
 #include <cstdlib>
-#include <getopt.h>
 #include <iostream>
 
 #include <QtGlobal>
+
+#ifdef Q_OS_WIN32
+#  include <windows.h>
+#endif
+
 #include <QObject>
 #include <QIODevice>
 #include <QDataStream>
@@ -38,6 +42,8 @@
 
 #include "commandlineoptions.h"
 #include "core/logging.h"
+
+#include <getopt.h>
 
 const char *CommandlineOptions::kHelpText =
     "%1: strawberry [%2] [%3]\n"
@@ -80,7 +86,11 @@ const char *CommandlineOptions::kVersionText = "Strawberry %1";
 
 CommandlineOptions::CommandlineOptions(int argc, char **argv)
     : argc_(argc),
+#ifdef Q_OS_WIN32
+      argv_(CommandLineToArgvW(GetCommandLineW(), &argc)),
+#else
       argv_(argv),
+#endif
       url_list_action_(UrlListAction::None),
       player_action_(PlayerAction::None),
       set_volume_(-1),
@@ -92,6 +102,10 @@ CommandlineOptions::CommandlineOptions(int argc, char **argv)
       toggle_pretty_osd_(false),
       log_levels_(logging::kDefaultLogLevels) {
 
+#ifdef Q_OS_WIN32
+  Q_UNUSED(argv);
+#endif
+
 #ifdef Q_OS_MACOS
   // Remove -psn_xxx option that Mac passes when opened from Finder.
   RemoveArg("-psn", 1);
@@ -99,12 +113,13 @@ CommandlineOptions::CommandlineOptions(int argc, char **argv)
 
   // Remove the -session option that KDE passes
   RemoveArg("-session", 2);
+
 }
 
 void CommandlineOptions::RemoveArg(const QString &starts_with, int count) {
 
   for (int i = 0; i < argc_; ++i) {
-    QString opt(argv_[i]);
+    const QString opt = OptArgToString(argv_[i]);
     if (opt.startsWith(starts_with)) {
       for (int j = i; j < argc_ - count + 1; ++j) {
         argv_[j] = argv_[j + count];
@@ -119,41 +134,79 @@ void CommandlineOptions::RemoveArg(const QString &starts_with, int count) {
 bool CommandlineOptions::Parse() {
 
   static const struct option kOptions[] = {
-      {"help", no_argument, nullptr, 'h'},
-      {"play", no_argument, nullptr, 'p'},
-      {"play-pause", no_argument, nullptr, 't'},
-      {"pause", no_argument, nullptr, 'u'},
-      {"stop", no_argument, nullptr, 's'},
-      {"stop-after-current", no_argument, nullptr, 'q'},
-      {"previous", no_argument, nullptr, 'r'},
-      {"next", no_argument, nullptr, 'f'},
-      {"volume", required_argument, nullptr, 'v'},
-      {"volume-up", no_argument, nullptr, LongOptions::VolumeUp},
-      {"volume-down", no_argument, nullptr, LongOptions::VolumeDown},
-      {"volume-increase-by", required_argument, nullptr, LongOptions::VolumeIncreaseBy},
-      {"volume-decrease-by", required_argument, nullptr, LongOptions::VolumeDecreaseBy},
-      {"seek-to", required_argument, nullptr, LongOptions::SeekTo},
-      {"seek-by", required_argument, nullptr, LongOptions::SeekBy},
-      {"restart-or-previous", no_argument, nullptr, LongOptions::RestartOrPrevious},
-      {"create", required_argument, nullptr, 'c'},
-      {"append", no_argument, nullptr, 'a'},
-      {"load", no_argument, nullptr, 'l'},
-      {"play-track", required_argument, nullptr, 'k'},
-      {"play-playlist", required_argument, nullptr, 'i'},
-      {"show-osd", no_argument, nullptr, 'o'},
-      {"toggle-pretty-osd", no_argument, nullptr, 'y'},
-      {"language", required_argument, nullptr, 'g'},
-      {"resize-window", required_argument, nullptr, 'w'},
-      {"quiet", no_argument, nullptr, LongOptions::Quiet},
-      {"verbose", no_argument, nullptr, LongOptions::Verbose},
-      {"log-levels", required_argument, nullptr, LongOptions::LogLevels},
-      {"version", no_argument, nullptr, LongOptions::Version},
-      {nullptr, 0, nullptr, 0}};
+#ifdef Q_OS_WIN32
+      {L"help", no_argument, nullptr, 'h'},
+      {L"play", no_argument, nullptr, 'p'},
+      {L"play-pause", no_argument, nullptr, 't'},
+      {L"pause", no_argument, nullptr, 'u'},
+      {L"stop", no_argument, nullptr, 's'},
+      {L"stop-after-current", no_argument, nullptr, 'q'},
+      {L"previous", no_argument, nullptr, 'r'},
+      {L"next", no_argument, nullptr, 'f'},
+      {L"volume", required_argument, nullptr, 'v'},
+      {L"volume-up", no_argument, nullptr, LongOptions::VolumeUp},
+      {L"volume-down", no_argument, nullptr, LongOptions::VolumeDown},
+      {L"volume-increase-by", required_argument, nullptr, LongOptions::VolumeIncreaseBy},
+      {L"volume-decrease-by", required_argument, nullptr, LongOptions::VolumeDecreaseBy},
+      {L"seek-to", required_argument, nullptr, LongOptions::SeekTo},
+      {L"seek-by", required_argument, nullptr, LongOptions::SeekBy},
+      {L"restart-or-previous", no_argument, nullptr, LongOptions::RestartOrPrevious },
+      {L"create", required_argument, nullptr, 'c' },
+      {L"append", no_argument, nullptr, 'a' },
+      {L"load", no_argument, nullptr, 'l'},
+      {L"play-track", required_argument, nullptr, 'k'},
+      {L"play-playlist", required_argument, nullptr, 'i'},
+      {L"show-osd", no_argument, nullptr, 'o'},
+      {L"toggle-pretty-osd", no_argument, nullptr, 'y'},
+      {L"language", required_argument, nullptr, 'g'},
+      {L"resize-window", required_argument, nullptr, 'w'},
+      {L"quiet", no_argument, nullptr, LongOptions::Quiet},
+      {L"verbose", no_argument, nullptr, LongOptions::Verbose},
+      {L"log-levels", required_argument, nullptr, LongOptions::LogLevels},
+      {L"version", no_argument, nullptr, LongOptions::Version},
+      {nullptr, 0, nullptr, 0}
+#else
+    { "help", no_argument, nullptr, 'h' },
+    { "play", no_argument, nullptr, 'p' },
+    { "play-pause", no_argument, nullptr, 't' },
+    { "pause", no_argument, nullptr, 'u' },
+    { "stop", no_argument, nullptr, 's' },
+    { "stop-after-current", no_argument, nullptr, 'q' },
+    { "previous", no_argument, nullptr, 'r' },
+    { "next", no_argument, nullptr, 'f' },
+    { "volume", required_argument, nullptr, 'v' },
+    { "volume-up", no_argument, nullptr, LongOptions::VolumeUp },
+    { "volume-down", no_argument, nullptr, LongOptions::VolumeDown },
+    { "volume-increase-by", required_argument, nullptr, LongOptions::VolumeIncreaseBy },
+    { "volume-decrease-by", required_argument, nullptr, LongOptions::VolumeDecreaseBy },
+    { "seek-to", required_argument, nullptr, LongOptions::SeekTo },
+    { "seek-by", required_argument, nullptr, LongOptions::SeekBy },
+    { "restart-or-previous", no_argument, nullptr, LongOptions::RestartOrPrevious },
+    { "create", required_argument, nullptr, 'c' },
+    { "append", no_argument, nullptr, 'a' },
+    { "load", no_argument, nullptr, 'l' },
+    { "play-track", required_argument, nullptr, 'k' },
+    { "play-playlist", required_argument, nullptr, 'i' },
+    { "show-osd", no_argument, nullptr, 'o' },
+    { "toggle-pretty-osd", no_argument, nullptr, 'y' },
+    { "language", required_argument, nullptr, 'g' },
+    { "resize-window", required_argument, nullptr, 'w' },
+    { "quiet", no_argument, nullptr, LongOptions::Quiet },
+    { "verbose", no_argument, nullptr, LongOptions::Verbose },
+    { "log-levels", required_argument, nullptr, LongOptions::LogLevels },
+    { "version", no_argument, nullptr, LongOptions::Version },
+    { nullptr, 0, nullptr, 0 }
+#endif
+};
 
   // Parse the arguments
   bool ok = false;
   forever {
+#ifdef Q_OS_WIN32
+    int c = getopt_long(argc_, argv_, L"hptusqrfv:c:alk:i:oyg:w:", kOptions, nullptr);
+#else
     int c = getopt_long(argc_, argv_, "hptusqrfv:c:alk:i:oyg:w:", kOptions, nullptr);
+#endif
 
     // End of the options
     if (c == -1) break;
@@ -162,36 +215,36 @@ bool CommandlineOptions::Parse() {
       case 'h': {
         QString translated_help_text =
             QString(kHelpText)
-                .arg(tr("Usage"), tr("options"), tr("URL(s)"),
-                     tr("Player options"),
-                     tr("Start the playlist currently playing"),
-                     tr("Play if stopped, pause if playing"),
-                     tr("Pause playback"), tr("Stop playback"),
-                     tr("Stop playback after current track"))
-                .arg(tr("Skip backwards in playlist"),
-                     tr("Skip forwards in playlist"),
-                     tr("Set the volume to <value> percent"),
-                     tr("Increase the volume by 4 percent"),
-                     tr("Decrease the volume by 4 percent"),
-                     tr("Increase the volume by <value> percent"),
-                     tr("Decrease the volume by <value> percent"))
-                .arg(tr("Seek the currently playing track to an absolute position"),
-                     tr("Seek the currently playing track by a relative amount"),
-                     tr("Restart the track, or play the previous track if within 8 seconds of start."),
-                     tr("Playlist options"),
-                     tr("Create a new playlist with files"),
-                     tr("Append files/URLs to the playlist"),
-                     tr("Loads files/URLs, replacing current playlist"),
-                     tr("Play the <n>th track in the playlist"),
-                     tr("Play given playlist"))
-                .arg(tr("Other options"), tr("Display the on-screen-display"),
-                     tr("Toggle visibility for the pretty on-screen-display"),
-                     tr("Change the language"),
-                     tr("Resize the window"),
-                     tr("Equivalent to --log-levels *:1"),
-                     tr("Equivalent to --log-levels *:3"),
-                     tr("Comma separated list of class:level, level is 0-3"))
-                .arg(tr("Print out version information"));
+                .arg(QObject::tr("Usage"), QObject::tr("options"), QObject::tr("URL(s)"),
+                     QObject::tr("Player options"),
+                     QObject::tr("Start the playlist currently playing"),
+                     QObject::tr("Play if stopped, pause if playing"),
+                     QObject::tr("Pause playback"), QObject::tr("Stop playback"),
+                     QObject::tr("Stop playback after current track"))
+                .arg(QObject::tr("Skip backwards in playlist"),
+                     QObject::tr("Skip forwards in playlist"),
+                     QObject::tr("Set the volume to <value> percent"),
+                     QObject::tr("Increase the volume by 4 percent"),
+                     QObject::tr("Decrease the volume by 4 percent"),
+                     QObject::tr("Increase the volume by <value> percent"),
+                     QObject::tr("Decrease the volume by <value> percent"))
+                .arg(QObject::tr("Seek the currently playing track to an absolute position"),
+                     QObject::tr("Seek the currently playing track by a relative amount"),
+                     QObject::tr("Restart the track, or play the previous track if within 8 seconds of start."),
+                     QObject::tr("Playlist options"),
+                     QObject::tr("Create a new playlist with files"),
+                     QObject::tr("Append files/URLs to the playlist"),
+                     QObject::tr("Loads files/URLs, replacing current playlist"),
+                     QObject::tr("Play the <n>th track in the playlist"),
+                     QObject::tr("Play given playlist"))
+                .arg(QObject::tr("Other options"), QObject::tr("Display the on-screen-display"),
+                     QObject::tr("Toggle visibility for the pretty on-screen-display"),
+                     QObject::tr("Change the language"),
+                     QObject::tr("Resize the window"),
+                     QObject::tr("Equivalent to --log-levels *:1"),
+                     QObject::tr("Equivalent to --log-levels *:3"),
+                     QObject::tr("Comma separated list of class:level, level is 0-3"))
+                .arg(QObject::tr("Print out version information"));
 
         std::cout << translated_help_text.toLocal8Bit().constData();
         return false;
@@ -220,11 +273,11 @@ bool CommandlineOptions::Parse() {
         break;
       case 'i':
         player_action_ = PlayerAction::PlayPlaylist;
-        playlist_name_ = QString(optarg);
+        playlist_name_ = OptArgToString(optarg);
         break;
       case 'c':
         url_list_action_ = UrlListAction::CreateNew;
-        playlist_name_ = QString(optarg);
+        playlist_name_ = OptArgToString(optarg);
         break;
       case 'a':
         url_list_action_ = UrlListAction::Append;
@@ -239,7 +292,7 @@ bool CommandlineOptions::Parse() {
         toggle_pretty_osd_ = true;
         break;
       case 'g':
-        language_ = QString(optarg);
+        language_ = OptArgToString(optarg);
         break;
       case LongOptions::VolumeUp:
         volume_modifier_ = +4;
@@ -254,7 +307,7 @@ bool CommandlineOptions::Parse() {
         log_levels_ = "3";
         break;
       case LongOptions::LogLevels:
-        log_levels_ = QString(optarg);
+        log_levels_ = OptArgToString(optarg);
         break;
       case LongOptions::Version: {
         QString version_text = QString(kVersionText).arg(STRAWBERRY_VERSION_DISPLAY);
@@ -262,27 +315,27 @@ bool CommandlineOptions::Parse() {
         std::exit(0);
       }
       case 'v':
-        set_volume_ = QString(optarg).toInt(&ok);
+        set_volume_ = OptArgToString(optarg).toInt(&ok);
         if (!ok) set_volume_ = -1;
         break;
 
       case LongOptions::VolumeIncreaseBy:
-        volume_modifier_ = QString(optarg).toInt(&ok);
+        volume_modifier_ = OptArgToString(optarg).toInt(&ok);
         if (!ok) volume_modifier_ = 0;
         break;
 
       case LongOptions::VolumeDecreaseBy:
-        volume_modifier_ = -QString(optarg).toInt(&ok);
+        volume_modifier_ = -OptArgToString(optarg).toInt(&ok);
         if (!ok) volume_modifier_ = 0;
         break;
 
       case LongOptions::SeekTo:
-        seek_to_ = QString(optarg).toInt(&ok);
+        seek_to_ = OptArgToString(optarg).toInt(&ok);
         if (!ok) seek_to_ = -1;
         break;
 
       case LongOptions::SeekBy:
-        seek_by_ = QString(optarg).toInt(&ok);
+        seek_by_ = OptArgToString(optarg).toInt(&ok);
         if (!ok) seek_by_ = 0;
         break;
 
@@ -291,12 +344,12 @@ bool CommandlineOptions::Parse() {
         break;
 
       case 'k':
-        play_track_at_ = QString(optarg).toInt(&ok);
+        play_track_at_ = OptArgToString(optarg).toInt(&ok);
         if (!ok) play_track_at_ = -1;
         break;
 
       case 'w':
-        window_size_ = QString(optarg);
+        window_size_ = OptArgToString(optarg);
         player_action_ = PlayerAction::ResizeWindow;
         break;
 
@@ -308,10 +361,10 @@ bool CommandlineOptions::Parse() {
 
   // Get any filenames or URLs following the arguments
   for (int i = optind; i < argc_; ++i) {
-    QString value = QFile::decodeName(argv_[i]);
-    QFileInfo file_info(value);
-    if (file_info.exists()) {
-      urls_ << QUrl::fromLocalFile(file_info.canonicalFilePath());
+    const QString value = DecodeName(argv_[i]);
+    QFileInfo fileinfo(value);
+    if (fileinfo.exists()) {
+      urls_ << QUrl::fromLocalFile(fileinfo.canonicalFilePath());
     }
     else {
       urls_ << QUrl::fromUserInput(value);
@@ -362,9 +415,29 @@ void CommandlineOptions::Load(const QByteArray &serialized) {
 
 }
 
-QString CommandlineOptions::tr(const char *source_text) {
-  return QObject::tr(source_text);  // clazy:exclude=tr-non-literal
+#ifdef Q_OS_WIN32
+QString CommandlineOptions::OptArgToString(wchar_t *opt) {
+
+  return QString::fromWCharArray(opt);
+
 }
+
+QString CommandlineOptions::DecodeName(wchar_t *opt) {
+
+  return QString::fromWCharArray(opt);
+}
+#else
+QString CommandlineOptions::OptArgToString(char *opt) {
+
+  return QString(opt);
+}
+
+QString CommandlineOptions::DecodeName(char *opt) {
+
+  return QFile::decodeName(opt);
+
+}
+#endif
 
 QDataStream &operator<<(QDataStream &s, const CommandlineOptions &a) {
 

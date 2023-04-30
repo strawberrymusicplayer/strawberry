@@ -27,4 +27,4 @@ Can safely be deleted on other platforms.
 
 getopt
 ------
-getopt included only when compiling with MSVC on Windows.
+getopt included only when compiling on Windows.

@@ -23,11 +23,16 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QDataStream>
 #include <QByteArray>
 #include <QList>
 #include <QString>
 #include <QUrl>
+
+#ifdef Q_OS_WIN32
+#  include <windows.h>
+#endif
 
 class CommandlineOptions {
   friend QDataStream &operator<<(QDataStream &s, const CommandlineOptions &a);
@@ -100,12 +105,23 @@ class CommandlineOptions {
     RestartOrPrevious
   };
 
-  static QString tr(const char *source_text);
   void RemoveArg(const QString &starts_with, int count);
+
+#ifdef Q_OS_WIN32
+  static QString OptArgToString(wchar_t *opt);
+  static QString DecodeName(wchar_t *opt);
+#else
+  static QString OptArgToString(char *opt);
+  static QString DecodeName(char *opt);
+#endif
 
  private:
   int argc_;
+#ifdef Q_OS_WIN32
+  LPWSTR *argv_;
+#else
   char **argv_;
+#endif
 
   UrlListAction url_list_action_;
   PlayerAction player_action_;
