@@ -896,7 +896,7 @@ msgstr "Megjelenés"
 msgid "Append explicit to album title for explicit albums"
 msgstr "Szókimondó felirat hozzáfűzése a korhatáros albumokhoz"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:236
 msgid "Append files/URLs to the playlist"
 msgstr "Fájlok/URL-ek hozzáfűzése a lejátszólistához"
 
@@ -1216,7 +1216,7 @@ msgstr ""
 msgid "Change the currently playing song"
 msgstr "Váltás a legutóbb játszott számra"
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:242
 msgid "Change the language"
 msgstr "Nyelv módosítása"
 
@@ -1337,7 +1337,7 @@ msgstr "Gyűjtemény újraolvasási figyelmeztetés"
 msgid "Collection search"
 msgstr "Keresés a gyűjteményben"
 
-#: core/commandlineoptions.cpp:193
+#: core/commandlineoptions.cpp:246
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr ""
 "Vesszővel elválasztott lista az osztály:szint pároknak, a szintek 0-3 "
@@ -1580,7 +1580,7 @@ msgstr "Borítók"
 msgid "Covers from %1"
 msgstr "Borítók innen: %1"
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:235
 msgid "Create a new playlist with files"
 msgstr "Új lejátszólista létrehozása fájlokkal"
 
@@ -1704,11 +1704,11 @@ msgstr "Módosítás dátuma"
 msgid "Days"
 msgstr "Napok"
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:228
 msgid "Decrease the volume by 4 percent"
 msgstr "Hangerő csökkentése 4 százalékkal"
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:230
 msgid "Decrease the volume by <value> percent"
 msgstr "Hangerő csökkentése <value> százalékkal"
 
@@ -1846,7 +1846,7 @@ msgstr "Lemezgyorsítótár mérete"
 msgid "Display options"
 msgstr "Megjelenítési beállítások"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:240
 msgid "Display the on-screen-display"
 msgstr "OSD megjelenítése"
 
@@ -2097,11 +2097,11 @@ msgstr "Teljes gyűjtemény"
 msgid "Equalizer"
 msgstr "Hangszínszabályzó"
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:244
 msgid "Equivalent to --log-levels *:1"
 msgstr "Megegyezik a --log-levels *:1 kapcsolóval"
 
-#: core/commandlineoptions.cpp:192
+#: core/commandlineoptions.cpp:245
 msgid "Equivalent to --log-levels *:3"
 msgstr "Megegyezik a --log-levels *:3 kapcsolóval"
 
@@ -2765,11 +2765,11 @@ msgstr "Albumborító megjelenítése az értesítésben"
 msgid "Include all songs"
 msgstr "Tartalmazza az összes számot"
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:227
 msgid "Increase the volume by 4 percent"
 msgstr "Hangerő megnövelése 4 %-kal"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:229
 msgid "Increase the volume by <value> percent"
 msgstr "Hangerő növelése <value> százalékkal"
 
@@ -2978,7 +2978,7 @@ msgstr "Száminformációk betöltése"
 msgid "Loading..."
 msgstr "Betöltés..."
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:237
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Fájlok/URL-ek betöltése, lejátszólista cseréje"
 
@@ -3528,7 +3528,7 @@ msgstr "Eredeti megjelenés - Album"
 msgid "Original year - Album - Disc"
 msgstr "Megjelenési év - Album - Lemez"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:240
 msgid "Other options"
 msgstr "Egyéb beállítások"
 
@@ -3594,7 +3594,7 @@ msgstr "Minta"
 msgid "Pause"
 msgstr "Szünet"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:222
 msgid "Pause playback"
 msgstr "Lejátszás szüneteltetése"
 
@@ -3635,11 +3635,11 @@ msgstr "Lejátszások száma"
 msgid "Play counts"
 msgstr "Lejátszások száma"
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:239
 msgid "Play given playlist"
 msgstr "Adott lejátszólista lejátszása"
 
-#: core/commandlineoptions.cpp:168
+#: core/commandlineoptions.cpp:221
 msgid "Play if stopped, pause if playing"
 msgstr "Lejátszás, ha le van állítva, különben szünet"
 
@@ -3652,7 +3652,7 @@ msgstr "Lejátszás, ha nincs lejátszás folyamatban"
 msgid "Play next"
 msgstr "Lejátszás következőként"
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:238
 msgid "Play the <n>th track in the playlist"
 msgstr "A(z) <n>. szám lejátszása a lejátszólistában"
 
@@ -3670,7 +3670,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr ""
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:219
 msgid "Player options"
 msgstr "Lejátszó beállítások"
 
@@ -3702,7 +3702,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr "A lejátszási lista először meg kell lennie nyitva."
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:234
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Lejátszólista beállítások"
@@ -3824,7 +3824,7 @@ msgstr "Előző"
 msgid "Previous track"
 msgstr "Előző szám"
 
-#: core/commandlineoptions.cpp:194
+#: core/commandlineoptions.cpp:247
 msgid "Print out version information"
 msgstr "Verzióinformáció megjelenítése"
 
@@ -4170,7 +4170,7 @@ msgstr "Lejátszás számlálók visszaállítása"
 msgid "Reset song play statistics"
 msgstr ""
 
-#: core/commandlineoptions.cpp:190
+#: core/commandlineoptions.cpp:243
 msgid "Resize the window"
 msgstr "Ablak átméretezése"
 
@@ -4178,7 +4178,7 @@ msgstr "Ablak átméretezése"
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "Szám újraindítása és újbóli megnyomáskor ugrás az előzőre"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:233
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
@@ -4422,11 +4422,11 @@ msgstr ""
 msgid "Seek forward"
 msgstr ""
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:232
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Tekerés hátra"
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:231
 msgid "Seek the currently playing track to an absolute position"
 msgstr "A lejátszott szám adott pozícióra tekerése"
 
@@ -4487,7 +4487,7 @@ msgstr "Szerveloldali scrobble"
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 beállítása erre: \"%2\"..."
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:226
 msgid "Set the volume to <value> percent"
 msgstr "Hangerő beállítása <value> százalékra"
 
@@ -4711,7 +4711,7 @@ msgstr "Méret:"
 msgid "Ska"
 msgstr "Ska"
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:224
 msgid "Skip backwards in playlist"
 msgstr "Visszaléptetés a lejátszólistában"
 
@@ -4719,7 +4719,7 @@ msgstr "Visszaléptetés a lejátszólistában"
 msgid "Skip count"
 msgstr "Kihagyások száma"
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:225
 msgid "Skip forwards in playlist"
 msgstr "Előreléptetés a lejátszólistában"
 
@@ -4826,7 +4826,7 @@ msgstr "Normál"
 msgid "Star playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:167
+#: core/commandlineoptions.cpp:220
 msgid "Start the playlist currently playing"
 msgstr "Az éppen játszott lejátszólista indítása"
 
@@ -4855,11 +4855,11 @@ msgstr "Leállítás minden szám után"
 msgid "Stop after this track"
 msgstr "Leállítás az aktuális szám után"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:222
 msgid "Stop playback"
 msgstr "Lejátszás leállítása"
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:223
 msgid "Stop playback after current track"
 msgstr "Leállítás az aktuális szám után"
 
@@ -5243,7 +5243,7 @@ msgstr "Scrobble funkció váltása"
 msgid "Toggle skip status"
 msgstr "Kihagyási állapot be/ki"
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:241
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "OSD láthatóság bekapcsolása"
 
@@ -5306,7 +5306,7 @@ msgstr ""
 msgid "URI"
 msgstr "URI"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "URL(s)"
 msgstr "URL(-ek)"
 
@@ -5414,7 +5414,7 @@ msgstr "Balra fent"
 msgid "Upper Right"
 msgstr "Jobbra fent"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "Usage"
 msgstr "Használat"
 
@@ -5898,7 +5898,7 @@ msgstr "legrégebbi először"
 msgid "on"
 msgstr "rajta van"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "options"
 msgstr "beállítások"
 

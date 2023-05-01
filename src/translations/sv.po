@@ -897,7 +897,7 @@ msgstr "Utseende"
 msgid "Append explicit to album title for explicit albums"
 msgstr "Lägg uttryckligen till albumtitel för explicita album"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:236
 msgid "Append files/URLs to the playlist"
 msgstr "Lägg till filer/webbadresser till spellistan"
 
@@ -1218,7 +1218,7 @@ msgstr "Ändra blandningsläge"
 msgid "Change the currently playing song"
 msgstr "Byta låt som nu spelas"
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:242
 msgid "Change the language"
 msgstr "Ändra språket"
 
@@ -1339,7 +1339,7 @@ msgstr "Notis om omskanning av samling"
 msgid "Collection search"
 msgstr "Samlingssökning"
 
-#: core/commandlineoptions.cpp:193
+#: core/commandlineoptions.cpp:246
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Kommaseparerad lista över class:level; level är 0-3"
 
@@ -1584,7 +1584,7 @@ msgstr "Omslag"
 msgid "Covers from %1"
 msgstr "Omslag från %1"
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:235
 msgid "Create a new playlist with files"
 msgstr "Skapa en ny spellista med filer"
 
@@ -1708,11 +1708,11 @@ msgstr "Datum ändrad"
 msgid "Days"
 msgstr "Dagar"
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:228
 msgid "Decrease the volume by 4 percent"
 msgstr "Sänk volymen med 4 procent"
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:230
 msgid "Decrease the volume by <value> percent"
 msgstr "Sänk volymen med <value> procent"
 
@@ -1850,7 +1850,7 @@ msgstr "Diskcache storlek"
 msgid "Display options"
 msgstr "Visningsalternativ"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:240
 msgid "Display the on-screen-display"
 msgstr "Visa avisering"
 
@@ -2102,11 +2102,11 @@ msgstr "Hela samlingen"
 msgid "Equalizer"
 msgstr "Frekvenskorrigerare"
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:244
 msgid "Equivalent to --log-levels *:1"
 msgstr "Motsvarar --log-levels *:1"
 
-#: core/commandlineoptions.cpp:192
+#: core/commandlineoptions.cpp:245
 msgid "Equivalent to --log-levels *:3"
 msgstr "Motsvarar --log-levels *:3"
 
@@ -2767,11 +2767,11 @@ msgstr "Inkludera albumomslag i aviseringen"
 msgid "Include all songs"
 msgstr "Inkludera alla spår"
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:227
 msgid "Increase the volume by 4 percent"
 msgstr "Höj volymen med 4 procent"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:229
 msgid "Increase the volume by <value> percent"
 msgstr "Höj volymen med <value> procent"
 
@@ -2985,7 +2985,7 @@ msgstr "Läser in låtinformation"
 msgid "Loading..."
 msgstr "Läser in..."
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:237
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Läser in filer/webbadresser, ersätter aktuell spellista"
 
@@ -3532,7 +3532,7 @@ msgstr "Originalår - Album"
 msgid "Original year - Album - Disc"
 msgstr "Originalår - Album - Skiva"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:240
 msgid "Other options"
 msgstr "Övriga flaggor"
 
@@ -3598,7 +3598,7 @@ msgstr "Mönster"
 msgid "Pause"
 msgstr "Pausa"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:222
 msgid "Pause playback"
 msgstr "Pausa uppspelning"
 
@@ -3639,11 +3639,11 @@ msgstr "Antal spelningar"
 msgid "Play counts"
 msgstr "Spelningsantal"
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:239
 msgid "Play given playlist"
 msgstr "Spela given spellista"
 
-#: core/commandlineoptions.cpp:168
+#: core/commandlineoptions.cpp:221
 msgid "Play if stopped, pause if playing"
 msgstr "Spela om stoppad, pausa vid spelning"
 
@@ -3656,7 +3656,7 @@ msgstr "Spela om ingenting redan spelas"
 msgid "Play next"
 msgstr "Spela nästa"
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:238
 msgid "Play the <n>th track in the playlist"
 msgstr "Spela det <n> spåret i spellistan"
 
@@ -3675,7 +3675,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr "Uppspelningsantal för %1 mottagna låtar."
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:219
 msgid "Player options"
 msgstr "Spelaralternativ"
 
@@ -3707,7 +3707,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr "Spellistan måste vara öppen först."
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:234
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Alternativ för spellista"
@@ -3829,7 +3829,7 @@ msgstr "Föregående"
 msgid "Previous track"
 msgstr "Föregående spår"
 
-#: core/commandlineoptions.cpp:194
+#: core/commandlineoptions.cpp:247
 msgid "Print out version information"
 msgstr "Visa versionsinformation"
 
@@ -4180,7 +4180,7 @@ msgstr "Återställ spelningsantal"
 msgid "Reset song play statistics"
 msgstr "Återställ låtuppspelningsstatistik"
 
-#: core/commandlineoptions.cpp:190
+#: core/commandlineoptions.cpp:243
 msgid "Resize the window"
 msgstr "Ändra storlek på fönstret"
 
@@ -4188,7 +4188,7 @@ msgstr "Ändra storlek på fönstret"
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "Starta om låten, hoppa till föregående låt vid dubbelklickning"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:233
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
@@ -4433,11 +4433,11 @@ msgstr "Sök bakåt"
 msgid "Seek forward"
 msgstr "Sök framåt"
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:232
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Hoppa till en relativ position i spår som nu spelas"
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:231
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Hoppa till en absolut position i spår som nu spelas"
 
@@ -4498,7 +4498,7 @@ msgstr "Skrobbling på serversidan"
 msgid "Set %1 to \"%2\"..."
 msgstr "Ställ in %1 till \"%2\"..."
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:226
 msgid "Set the volume to <value> percent"
 msgstr "Ställ in volymen till <value> procent"
 
@@ -4722,7 +4722,7 @@ msgstr "Storlek:"
 msgid "Ska"
 msgstr "Ska"
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:224
 msgid "Skip backwards in playlist"
 msgstr "Hoppa bakåt i spellista"
 
@@ -4730,7 +4730,7 @@ msgstr "Hoppa bakåt i spellista"
 msgid "Skip count"
 msgstr "Antal överhoppningar"
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:225
 msgid "Skip forwards in playlist"
 msgstr "Hoppa framåt i spellista"
 
@@ -4837,7 +4837,7 @@ msgstr "Standard"
 msgid "Star playlist"
 msgstr "Stjärnmarkera spellista"
 
-#: core/commandlineoptions.cpp:167
+#: core/commandlineoptions.cpp:220
 msgid "Start the playlist currently playing"
 msgstr "Starta spellistan som nu spelas"
 
@@ -4866,11 +4866,11 @@ msgstr "Stoppa efter varje låt"
 msgid "Stop after this track"
 msgstr "Stoppa efter det här spåret"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:222
 msgid "Stop playback"
 msgstr "Stoppa uppspelning"
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:223
 msgid "Stop playback after current track"
 msgstr "Stoppa uppspelning efter aktuellt spår"
 
@@ -5255,7 +5255,7 @@ msgstr "Växla skrobbling"
 msgid "Toggle skip status"
 msgstr "Växla status för hoppa över"
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:241
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Växla synlighet för snygg avisering"
 
@@ -5318,7 +5318,7 @@ msgstr "Typ"
 msgid "URI"
 msgstr "URI"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "URL(s)"
 msgstr "Webbadress(er)"
 
@@ -5426,7 +5426,7 @@ msgstr "Övre vänster"
 msgid "Upper Right"
 msgstr "Övre högra"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "Usage"
 msgstr "Användning"
 
@@ -5915,7 +5915,7 @@ msgstr "äldsta först"
 msgid "on"
 msgstr "på"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "options"
 msgstr "alternativ"
 

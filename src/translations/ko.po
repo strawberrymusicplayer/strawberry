@@ -878,7 +878,7 @@ msgstr "모양"
 msgid "Append explicit to album title for explicit albums"
 msgstr ""
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:236
 msgid "Append files/URLs to the playlist"
 msgstr "재생 목록에 파일/URL 추가"
 
@@ -1197,7 +1197,7 @@ msgstr ""
 msgid "Change the currently playing song"
 msgstr "지금 재생 중인 음악 변경"
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:242
 msgid "Change the language"
 msgstr "언어 변경"
 
@@ -1316,7 +1316,7 @@ msgstr "라이브러리 재탐색 알림"
 msgid "Collection search"
 msgstr "라이브러리 검색"
 
-#: core/commandlineoptions.cpp:193
+#: core/commandlineoptions.cpp:246
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "쉼표로 구분된 class:level 목록, level은 0-3"
 
@@ -1551,7 +1551,7 @@ msgstr "앨범아트"
 msgid "Covers from %1"
 msgstr "%1의 표지"
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:235
 msgid "Create a new playlist with files"
 msgstr "지정한 파일을 포함하는 새 재생 목록 만들기"
 
@@ -1675,11 +1675,11 @@ msgstr "수정한 날짜"
 msgid "Days"
 msgstr ""
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:228
 msgid "Decrease the volume by 4 percent"
 msgstr "4퍼센트만큼 음량 내리기"
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:230
 msgid "Decrease the volume by <value> percent"
 msgstr "<value>%만큼 음량 내리기"
 
@@ -1817,7 +1817,7 @@ msgstr "디스크 캐시 크기"
 msgid "Display options"
 msgstr "옵션 표시"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:240
 msgid "Display the on-screen-display"
 msgstr "OSD 표시"
 
@@ -2067,11 +2067,11 @@ msgstr "전체 라이브러리"
 msgid "Equalizer"
 msgstr "이퀄라이저"
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:244
 msgid "Equivalent to --log-levels *:1"
 msgstr "--log-levels *:1과 동일함"
 
-#: core/commandlineoptions.cpp:192
+#: core/commandlineoptions.cpp:245
 msgid "Equivalent to --log-levels *:3"
 msgstr "--log-levels *:3과 동일함"
 
@@ -2723,11 +2723,11 @@ msgstr "알림에 앨범 커버 포함"
 msgid "Include all songs"
 msgstr "모든 곡 추가"
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:227
 msgid "Increase the volume by 4 percent"
 msgstr "4퍼센트만큼 음량 올리기"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:229
 msgid "Increase the volume by <value> percent"
 msgstr "<value>%만큼 음량 올리기"
 
@@ -2934,7 +2934,7 @@ msgstr "트랙 정보 불러오는 중"
 msgid "Loading..."
 msgstr "불러오는 중..."
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:237
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "불러올 파일이나 URL, 현재 재생 목록을 대체함"
 
@@ -3477,7 +3477,7 @@ msgstr "원본 년도 - 앨범"
 msgid "Original year - Album - Disc"
 msgstr ""
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:240
 msgid "Other options"
 msgstr "기타 옵션"
 
@@ -3543,7 +3543,7 @@ msgstr ""
 msgid "Pause"
 msgstr "일시 정지"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:222
 msgid "Pause playback"
 msgstr "재생 일시 정지"
 
@@ -3584,11 +3584,11 @@ msgstr "재생 횟수"
 msgid "Play counts"
 msgstr "재생 횟수"
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:239
 msgid "Play given playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:168
+#: core/commandlineoptions.cpp:221
 msgid "Play if stopped, pause if playing"
 msgstr "정지 상태라면 재생, 재생 상태라면 일시 정지"
 
@@ -3601,7 +3601,7 @@ msgstr "재생 중인 곡이 없다면 재생"
 msgid "Play next"
 msgstr "다음 재생"
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:238
 msgid "Play the <n>th track in the playlist"
 msgstr "재생 목록의 <n>번째 곡 재생"
 
@@ -3619,7 +3619,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr ""
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:219
 msgid "Player options"
 msgstr "재생기 옵션"
 
@@ -3649,7 +3649,7 @@ msgstr "재생 목록에 %1곡이 있습니다. 실행 취소하기에는 너무
 msgid "Playlist must be open first."
 msgstr ""
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:234
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "재생 목록 옵션"
@@ -3767,7 +3767,7 @@ msgstr "이전"
 msgid "Previous track"
 msgstr "이전 트랙"
 
-#: core/commandlineoptions.cpp:194
+#: core/commandlineoptions.cpp:247
 msgid "Print out version information"
 msgstr "버전 정보 표시"
 
@@ -4109,7 +4109,7 @@ msgstr "재생 횟수 초기화"
 msgid "Reset song play statistics"
 msgstr ""
 
-#: core/commandlineoptions.cpp:190
+#: core/commandlineoptions.cpp:243
 msgid "Resize the window"
 msgstr ""
 
@@ -4117,7 +4117,7 @@ msgstr ""
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "트랙을 다시 시작하고 다시 누르면 이전 트랙을 재생합니다"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:233
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr "트랙을 다시 시작하거나, 재생한 지 8초 이내라면 이전 트랙을 재생합니다."
@@ -4360,11 +4360,11 @@ msgstr ""
 msgid "Seek forward"
 msgstr ""
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:232
 msgid "Seek the currently playing track by a relative amount"
 msgstr "현재 재생 중인 트랙을 상대적 양만큼 이동"
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:231
 msgid "Seek the currently playing track to an absolute position"
 msgstr "현재 재생 중인 트랙의 절대적 위치로 이동"
 
@@ -4425,7 +4425,7 @@ msgstr "서버 사이드 스크로블링"
 msgid "Set %1 to \"%2\"..."
 msgstr "%1을(를) \"%2\"(으)로 설정..."
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:226
 msgid "Set the volume to <value> percent"
 msgstr "음량을 <value> 퍼센트로 설정"
 
@@ -4649,7 +4649,7 @@ msgstr "크기:"
 msgid "Ska"
 msgstr "스카"
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:224
 msgid "Skip backwards in playlist"
 msgstr "재생 목록의 이전 곡으로 전환"
 
@@ -4657,7 +4657,7 @@ msgstr "재생 목록의 이전 곡으로 전환"
 msgid "Skip count"
 msgstr "건너뛴 횟수"
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:225
 msgid "Skip forwards in playlist"
 msgstr "재생 목록의 다음 곡으로 전환"
 
@@ -4763,7 +4763,7 @@ msgstr "표준"
 msgid "Star playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:167
+#: core/commandlineoptions.cpp:220
 msgid "Start the playlist currently playing"
 msgstr "현재 재생 중인 재생 목록 시작"
 
@@ -4792,11 +4792,11 @@ msgstr "모든 트랙 이후에 정지"
 msgid "Stop after this track"
 msgstr "현재 트랙 이후 정지"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:222
 msgid "Stop playback"
 msgstr "재생 정지"
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:223
 msgid "Stop playback after current track"
 msgstr "현재 트랙 이후에 재생 정지"
 
@@ -5155,7 +5155,7 @@ msgstr "스크로블 전환"
 msgid "Toggle skip status"
 msgstr "건너뛰기 상태 전환"
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:241
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "예쁜 OSD 표시 여부 전환"
 
@@ -5218,7 +5218,7 @@ msgstr ""
 msgid "URI"
 msgstr "URI"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "URL(s)"
 msgstr "URL"
 
@@ -5326,7 +5326,7 @@ msgstr "왼쪽 위"
 msgid "Upper Right"
 msgstr "오른쪽 위"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "Usage"
 msgstr "사용"
 
@@ -5797,7 +5797,7 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "options"
 msgstr "옵션"
 

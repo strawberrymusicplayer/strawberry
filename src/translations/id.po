@@ -876,7 +876,7 @@ msgstr "Penampilan"
 msgid "Append explicit to album title for explicit albums"
 msgstr ""
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:236
 msgid "Append files/URLs to the playlist"
 msgstr "Tambahkan berkas/URL ke daftar putar"
 
@@ -1195,7 +1195,7 @@ msgstr ""
 msgid "Change the currently playing song"
 msgstr "Ganti lagu yang diputar saat ini"
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:242
 msgid "Change the language"
 msgstr "Ubah bahasa"
 
@@ -1314,7 +1314,7 @@ msgstr "Pemberitahuan pemindaian ulang pustaka"
 msgid "Collection search"
 msgstr ""
 
-#: core/commandlineoptions.cpp:193
+#: core/commandlineoptions.cpp:246
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Daftar yang dipisahkan koma dari kelas:level, level adalah 0-3"
 
@@ -1555,7 +1555,7 @@ msgstr ""
 msgid "Covers from %1"
 msgstr "Sampul dari %1"
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:235
 msgid "Create a new playlist with files"
 msgstr "Buat daftar putar baru dengan berkas"
 
@@ -1679,11 +1679,11 @@ msgstr "Tanggal diubah"
 msgid "Days"
 msgstr ""
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:228
 msgid "Decrease the volume by 4 percent"
 msgstr "Kurangi volume 4 persen"
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:230
 msgid "Decrease the volume by <value> percent"
 msgstr "Kurangi volume <value> persen"
 
@@ -1821,7 +1821,7 @@ msgstr ""
 msgid "Display options"
 msgstr "Opsi tampilan"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:240
 msgid "Display the on-screen-display"
 msgstr "Tampilkan tampilan-pada-layar"
 
@@ -2071,11 +2071,11 @@ msgstr "Semua koleksi"
 msgid "Equalizer"
 msgstr "Ekualiser"
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:244
 msgid "Equivalent to --log-levels *:1"
 msgstr "Setara dengan --log-level *: 1"
 
-#: core/commandlineoptions.cpp:192
+#: core/commandlineoptions.cpp:245
 msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
@@ -2732,11 +2732,11 @@ msgstr "Sertakan sampul album di dalam pemberitahuan"
 msgid "Include all songs"
 msgstr ""
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:227
 msgid "Increase the volume by 4 percent"
 msgstr "Naikkan volume 4 persen"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:229
 msgid "Increase the volume by <value> percent"
 msgstr "Naikkan volume <value> persen"
 
@@ -2943,7 +2943,7 @@ msgstr "Memuat info trek"
 msgid "Loading..."
 msgstr "Memuat..."
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:237
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Muat berkas/URL, menggantikan daftar putar saat ini"
 
@@ -3490,7 +3490,7 @@ msgstr "Tahun asli - Album"
 msgid "Original year - Album - Disc"
 msgstr ""
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:240
 msgid "Other options"
 msgstr "Opsi lainnya"
 
@@ -3556,7 +3556,7 @@ msgstr ""
 msgid "Pause"
 msgstr "Jeda"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:222
 msgid "Pause playback"
 msgstr "Jeda pemutaran"
 
@@ -3597,11 +3597,11 @@ msgstr "Jumlah putar"
 msgid "Play counts"
 msgstr ""
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:239
 msgid "Play given playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:168
+#: core/commandlineoptions.cpp:221
 msgid "Play if stopped, pause if playing"
 msgstr "Putar jika berhenti, jeda jika berputar"
 
@@ -3614,7 +3614,7 @@ msgstr "Putar jika tidak ada yang sedang diputar"
 msgid "Play next"
 msgstr ""
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:238
 msgid "Play the <n>th track in the playlist"
 msgstr "Putar trek ke <n> dalam daftar putar"
 
@@ -3632,7 +3632,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr ""
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:219
 msgid "Player options"
 msgstr "Opsi pemutar"
 
@@ -3662,7 +3662,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr ""
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:234
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Opsi daftar putar"
@@ -3780,7 +3780,7 @@ msgstr "Sebelumnya"
 msgid "Previous track"
 msgstr "Trek sebelumnya"
 
-#: core/commandlineoptions.cpp:194
+#: core/commandlineoptions.cpp:247
 msgid "Print out version information"
 msgstr "Cetak informasi versi"
 
@@ -4122,7 +4122,7 @@ msgstr "Setel-ulang jumlah putar"
 msgid "Reset song play statistics"
 msgstr ""
 
-#: core/commandlineoptions.cpp:190
+#: core/commandlineoptions.cpp:243
 msgid "Resize the window"
 msgstr ""
 
@@ -4130,7 +4130,7 @@ msgstr ""
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "Mulai ulang lagu, lalu lompat ke yang sebelumnya jika ditekan lagi"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:233
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
@@ -4375,11 +4375,11 @@ msgstr ""
 msgid "Seek forward"
 msgstr ""
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:232
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Jangkau trek yang sedang diputar berdasarkan nilai relatif"
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:231
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Jangkau yang sedang diputar ke posisi mutlak"
 
@@ -4440,7 +4440,7 @@ msgstr ""
 msgid "Set %1 to \"%2\"..."
 msgstr "Tetapkan %1 ke \"%2\"..."
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:226
 msgid "Set the volume to <value> percent"
 msgstr "Tetapkan volume ke <value> persen"
 
@@ -4664,7 +4664,7 @@ msgstr "Ukuran:"
 msgid "Ska"
 msgstr "Ska"
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:224
 msgid "Skip backwards in playlist"
 msgstr "Lewati mundur di dalam daftar putar"
 
@@ -4672,7 +4672,7 @@ msgstr "Lewati mundur di dalam daftar putar"
 msgid "Skip count"
 msgstr "Lewati hitungan"
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:225
 msgid "Skip forwards in playlist"
 msgstr "Lewati maju di dalam daftar putar"
 
@@ -4779,7 +4779,7 @@ msgstr "Standar"
 msgid "Star playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:167
+#: core/commandlineoptions.cpp:220
 msgid "Start the playlist currently playing"
 msgstr "Mulai daftar putar yang berputar saat ini"
 
@@ -4808,11 +4808,11 @@ msgstr "Berhenti setelah setiap trek"
 msgid "Stop after this track"
 msgstr "Berhenti setelah trek ini"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:222
 msgid "Stop playback"
 msgstr "Hentikan pemutaran"
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:223
 msgid "Stop playback after current track"
 msgstr "Hentikan pemutaran setelah trek saat ini"
 
@@ -5191,7 +5191,7 @@ msgstr "Alihkan scrobbling"
 msgid "Toggle skip status"
 msgstr "Alihkan status melewati"
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:241
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Alihkan kenampakan tampilan-pada-layar cantik"
 
@@ -5254,7 +5254,7 @@ msgstr ""
 msgid "URI"
 msgstr "URI"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "URL(s)"
 msgstr "URL"
 
@@ -5362,7 +5362,7 @@ msgstr "Kiri Atas"
 msgid "Upper Right"
 msgstr "Kanan Atas"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "Usage"
 msgstr "Penggunaan"
 
@@ -5841,7 +5841,7 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "options"
 msgstr "opsi"
 

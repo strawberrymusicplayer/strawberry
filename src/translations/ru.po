@@ -910,7 +910,7 @@ msgstr "Внешний вид"
 msgid "Append explicit to album title for explicit albums"
 msgstr "Добавить явно к названию альбома для явных альбомов"
 
-#: core/commandlineoptions.cpp:183
+#: core/commandlineoptions.cpp:236
 msgid "Append files/URLs to the playlist"
 msgstr "Добавить файлы/адреса в плейлист"
 
@@ -1231,7 +1231,7 @@ msgstr "Сменить режим перемешивания"
 msgid "Change the currently playing song"
 msgstr "Сменить активный трек"
 
-#: core/commandlineoptions.cpp:189
+#: core/commandlineoptions.cpp:242
 msgid "Change the language"
 msgstr "Сменить язык"
 
@@ -1350,7 +1350,7 @@ msgstr "Уведомление о пересканировании фоноте�
 msgid "Collection search"
 msgstr "Поиск фонотеки"
 
-#: core/commandlineoptions.cpp:193
+#: core/commandlineoptions.cpp:246
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Разделённый запятыми список «класс:уровень», где уровень от 0 до 3"
 
@@ -1594,7 +1594,7 @@ msgstr "Обложки"
 msgid "Covers from %1"
 msgstr "Обложки из %1"
 
-#: core/commandlineoptions.cpp:182
+#: core/commandlineoptions.cpp:235
 msgid "Create a new playlist with files"
 msgstr "Создать новый плейлист с файлами"
 
@@ -1718,11 +1718,11 @@ msgstr "Дата изменения"
 msgid "Days"
 msgstr "Дни"
 
-#: core/commandlineoptions.cpp:175
+#: core/commandlineoptions.cpp:228
 msgid "Decrease the volume by 4 percent"
 msgstr "Уменьшить громкость на 4 процента"
 
-#: core/commandlineoptions.cpp:177
+#: core/commandlineoptions.cpp:230
 msgid "Decrease the volume by <value> percent"
 msgstr "Уменьшить громкость на <value> процентов"
 
@@ -1860,7 +1860,7 @@ msgstr "Размер кэша диска"
 msgid "Display options"
 msgstr "Настройки вида"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:240
 msgid "Display the on-screen-display"
 msgstr "Показывать экранное уведомление"
 
@@ -2112,11 +2112,11 @@ msgstr "Вся фонотека"
 msgid "Equalizer"
 msgstr "Эквалайзер"
 
-#: core/commandlineoptions.cpp:191
+#: core/commandlineoptions.cpp:244
 msgid "Equivalent to --log-levels *:1"
 msgstr "Аналогично --log-levels *:1"
 
-#: core/commandlineoptions.cpp:192
+#: core/commandlineoptions.cpp:245
 msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
@@ -2778,11 +2778,11 @@ msgstr "Показывать обложку альбома в уведомлен
 msgid "Include all songs"
 msgstr "Включить все песни"
 
-#: core/commandlineoptions.cpp:174
+#: core/commandlineoptions.cpp:227
 msgid "Increase the volume by 4 percent"
 msgstr "Увеличить громкость на 4 процента"
 
-#: core/commandlineoptions.cpp:176
+#: core/commandlineoptions.cpp:229
 msgid "Increase the volume by <value> percent"
 msgstr "Увеличить громкость на <value> процентов"
 
@@ -2997,7 +2997,7 @@ msgstr "Загрузка сведений о треках"
 msgid "Loading..."
 msgstr "Загрузка…"
 
-#: core/commandlineoptions.cpp:184
+#: core/commandlineoptions.cpp:237
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Загрузка файлов/ссылок с заменой текущего плейлиста"
 
@@ -3545,7 +3545,7 @@ msgstr "Год оригинала - Альбом"
 msgid "Original year - Album - Disc"
 msgstr "Год оригинала - Альбом - Диск"
 
-#: core/commandlineoptions.cpp:187
+#: core/commandlineoptions.cpp:240
 msgid "Other options"
 msgstr "Прочие настройки"
 
@@ -3614,7 +3614,7 @@ msgstr "Шаблон"
 msgid "Pause"
 msgstr "Пауза"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:222
 msgid "Pause playback"
 msgstr "Приостановить воспроизведение"
 
@@ -3655,11 +3655,11 @@ msgstr "Разы"
 msgid "Play counts"
 msgstr "Счётчики прослушивания"
 
-#: core/commandlineoptions.cpp:186
+#: core/commandlineoptions.cpp:239
 msgid "Play given playlist"
 msgstr "Проиграть данный плейлист"
 
-#: core/commandlineoptions.cpp:168
+#: core/commandlineoptions.cpp:221
 msgid "Play if stopped, pause if playing"
 msgstr "Играть если остановлено, пауза если воспроизводится"
 
@@ -3672,7 +3672,7 @@ msgstr "Проиграть, если ничего не играет"
 msgid "Play next"
 msgstr "Играть следующий"
 
-#: core/commandlineoptions.cpp:185
+#: core/commandlineoptions.cpp:238
 msgid "Play the <n>th track in the playlist"
 msgstr "Играть <n> трек в плейлисте"
 
@@ -3692,7 +3692,7 @@ msgstr ""
 msgid "Playcounts for %1 songs received."
 msgstr "Получены счётчики прослушивания для %1 песен."
 
-#: core/commandlineoptions.cpp:166
+#: core/commandlineoptions.cpp:219
 msgid "Player options"
 msgstr "Настройки проигрывателя"
 
@@ -3724,7 +3724,7 @@ msgstr ""
 msgid "Playlist must be open first."
 msgstr "Сначала надо открыть плейлист."
 
-#: core/commandlineoptions.cpp:181
+#: core/commandlineoptions.cpp:234
 #: ../build/src/ui_playlistsaveoptionsdialog.h:91
 msgid "Playlist options"
 msgstr "Настройки плейлиста"
@@ -3847,7 +3847,7 @@ msgstr "Предыдущий"
 msgid "Previous track"
 msgstr "Предыдущий трек"
 
-#: core/commandlineoptions.cpp:194
+#: core/commandlineoptions.cpp:247
 msgid "Print out version information"
 msgstr "Вывести информацию о версии"
 
@@ -4199,7 +4199,7 @@ msgstr "Сбросить счётчики прослушивания"
 msgid "Reset song play statistics"
 msgstr "Сбросить статистику воспроизведения песни"
 
-#: core/commandlineoptions.cpp:190
+#: core/commandlineoptions.cpp:243
 msgid "Resize the window"
 msgstr "Изменить размер окна"
 
@@ -4207,7 +4207,7 @@ msgstr "Изменить размер окна"
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "Перезапуск песни, при повторном нажатии — переход к предыдущей"
 
-#: core/commandlineoptions.cpp:180
+#: core/commandlineoptions.cpp:233
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
@@ -4453,11 +4453,11 @@ msgstr "Перемотка назад"
 msgid "Seek forward"
 msgstr "Перемотка вперёд"
 
-#: core/commandlineoptions.cpp:179
+#: core/commandlineoptions.cpp:232
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Перемотать активный трек на относительную позицию"
 
-#: core/commandlineoptions.cpp:178
+#: core/commandlineoptions.cpp:231
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Перемотать активный трек на абсолютную позицию"
 
@@ -4518,7 +4518,7 @@ msgstr "Скробблинг на стороне сервера"
 msgid "Set %1 to \"%2\"..."
 msgstr "Установить %1 в «%2»…"
 
-#: core/commandlineoptions.cpp:173
+#: core/commandlineoptions.cpp:226
 msgid "Set the volume to <value> percent"
 msgstr "Установить громкость в <value> процентов"
 
@@ -4742,7 +4742,7 @@ msgstr "Размер:"
 msgid "Ska"
 msgstr "Ска"
 
-#: core/commandlineoptions.cpp:171
+#: core/commandlineoptions.cpp:224
 msgid "Skip backwards in playlist"
 msgstr "Переместить назад в плейлисте"
 
@@ -4750,7 +4750,7 @@ msgstr "Переместить назад в плейлисте"
 msgid "Skip count"
 msgstr "Пропуски"
 
-#: core/commandlineoptions.cpp:172
+#: core/commandlineoptions.cpp:225
 msgid "Skip forwards in playlist"
 msgstr "Переместить вперёд в плейлисте"
 
@@ -4857,7 +4857,7 @@ msgstr "Стандартное"
 msgid "Star playlist"
 msgstr "Убрать/добавить в избранное"
 
-#: core/commandlineoptions.cpp:167
+#: core/commandlineoptions.cpp:220
 msgid "Start the playlist currently playing"
 msgstr "Запустить проигрываемый сейчас плейлист"
 
@@ -4886,11 +4886,11 @@ msgstr "Стоп после каждого трека"
 msgid "Stop after this track"
 msgstr "Стоп после этого трека"
 
-#: core/commandlineoptions.cpp:169
+#: core/commandlineoptions.cpp:222
 msgid "Stop playback"
 msgstr "Остановить воспроизведение"
 
-#: core/commandlineoptions.cpp:170
+#: core/commandlineoptions.cpp:223
 msgid "Stop playback after current track"
 msgstr "Остановить после текущего трека"
 
@@ -5272,7 +5272,7 @@ msgstr "Вкл./откл. скробблинг"
 msgid "Toggle skip status"
 msgstr "Переключить статус пропуска"
 
-#: core/commandlineoptions.cpp:188
+#: core/commandlineoptions.cpp:241
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Переключить видимость модного экранного меню"
 
@@ -5335,7 +5335,7 @@ msgstr "Тип"
 msgid "URI"
 msgstr "Ссылка"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "URL(s)"
 msgstr "Ссылки"
 
@@ -5443,7 +5443,7 @@ msgstr "Сверху слева"
 msgid "Upper Right"
 msgstr "Сверху справа"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "Usage"
 msgstr "Использование"
 
@@ -5932,7 +5932,7 @@ msgstr "сначала самые старые"
 msgid "on"
 msgstr "на"
 
-#: core/commandlineoptions.cpp:165
+#: core/commandlineoptions.cpp:218
 msgid "options"
 msgstr "параметры"
 
