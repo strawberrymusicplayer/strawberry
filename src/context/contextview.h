@@ -166,10 +166,9 @@ class ContextView : public QWidget {
   QString lyrics_;
   QString title_fmt_;
   QString summary_fmt_;
-  QString font_headline_;
-  QString font_normal_;
-  qreal font_size_headline_;
-  qreal font_size_normal_;
+  QFont font_headline_;
+  QFont font_normal_;
+  QFont font_nosong_;
 
   QList<QLabel*> labels_play_;
   QList<ResizableTextEdit*> textedit_play_;

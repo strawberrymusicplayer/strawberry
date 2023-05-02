@@ -120,9 +120,7 @@ ContextView::ContextView(QWidget *parent)
       label_device_icon_(new QLabel(this)),
       label_engine_icon_(new QLabel(this)),
       lyrics_tried_(false),
-      lyrics_id_(-1),
-      font_size_headline_(0),
-      font_size_normal_(0) {
+      lyrics_id_(-1) {
 
   setLayout(layout_container_);
 
@@ -341,10 +339,12 @@ void ContextView::ReloadSettings() {
   action_show_output_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE)], false).toBool());
   action_show_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS)], true).toBool());
   action_search_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS)], true).toBool());
-  font_headline_ = s.value("font_headline", font().family()).toString();
-  font_normal_ = s.value("font_normal", font().family()).toString();
-  font_size_headline_ = s.value("font_size_headline", ContextSettingsPage::kDefaultFontSizeHeadline).toReal();
-  font_size_normal_ = s.value("font_size_normal", font().pointSizeF()).toReal();
+  font_headline_.setFamily(s.value("font_headline", font().family()).toString());
+  font_headline_.setPointSizeF(s.value("font_size_headline", ContextSettingsPage::kDefaultFontSizeHeadline).toReal());
+  font_nosong_.setFamily(font_headline_.family());
+  font_nosong_.setPointSizeF(font_headline_.pointSizeF() * 1.6F);
+  font_normal_.setFamily(s.value("font_normal", font().family()).toString());
+  font_normal_.setPointSizeF(s.value("font_size_normal", font().pointSizeF()).toReal());
   s.endGroup();
 
   UpdateFonts();
@@ -433,7 +433,7 @@ void ContextView::NoSong() {
     widget_album_->show();
   }
 
-  textedit_top_->setFont(QFont(font_headline_, static_cast<int>(font_size_headline_ * 1.6)));
+  textedit_top_->setFont(font_nosong_);
   textedit_top_->SetText(tr("No song playing"));
 
   QString html;
@@ -449,27 +449,25 @@ void ContextView::NoSong() {
   else html += tr("%1 albums").arg(collectionview_->TotalAlbums());
   html += "<br />";
 
-  label_stop_summary_->setFont(QFont(font_normal_, static_cast<int>(font_size_normal_)));
+  label_stop_summary_->setFont(font_normal_);
   label_stop_summary_->setText(html);
 
 }
 
 void ContextView::UpdateFonts() {
 
-  QFont font(font_normal_, static_cast<int>(font_size_normal_));
-  font.setBold(false);
   for (QLabel *l : labels_play_all_) {
-    l->setFont(font);
+    l->setFont(font_normal_);
   }
   for (QTextEdit *e : textedit_play_) {
-    e->setFont(font);
+    e->setFont(font_normal_);
   }
 
 }
 
 void ContextView::SetSong() {
 
-  textedit_top_->setFont(QFont(font_headline_, static_cast<int>(font_size_headline_)));
+  textedit_top_->setFont(font_headline_);
   textedit_top_->SetText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song_playing_, "<br />", true)));
 
   label_stop_summary_->clear();
