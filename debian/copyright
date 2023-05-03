@@ -267,8 +267,8 @@ Copyright: 2010, Spotify AB
            2011, Joachim Bengtsson
 License: BSD-3-clause
 
-Files: 3rdparty/singleapplication/*
-Copyright: 2015-2022, Itay Grudev
+Files: 3rdparty/kdsingleapplication/*
+Copyright: 2019-2023 Klarälvdalens Datakonsult AB, a KDAB Group company <info@kdab.com>
 License: MIT
 
 

@@ -328,13 +328,10 @@ if(NOT TAGLIB_FOUND AND NOT TAGPARSER_FOUND)
 endif()
 
 # SingleApplication
-add_subdirectory(3rdparty/singleapplication)
-set(SINGLEAPPLICATION_INCLUDE_DIRS
-  ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/singleapplication/singleapplication
-  ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/singleapplication/singlecoreapplication
-)
-set(SINGLEAPPLICATION_LIBRARIES singleapplication)
-set(SINGLECOREAPPLICATION_LIBRARIES singlecoreapplication)
+add_subdirectory(3rdparty/kdsingleapplication)
+set(SINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/kdsingleapplication)
+set(SINGLEAPPLICATION_LIBRARIES kdsingleapplication)
+add_definitions(-DKDSINGLEAPPLICATION_STATIC_BUILD)
 
 if(APPLE)
   add_subdirectory(3rdparty/SPMediaKeyTap)

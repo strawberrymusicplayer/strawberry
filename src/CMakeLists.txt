@@ -972,7 +972,6 @@ link_directories(
   ${SQLITE_LIBRARY_DIRS}
   ${PROTOBUF_LIBRARY_DIRS}
   ${SINGLEAPPLICATION_LIBRARY_DIRS}
-  ${SINGLECOREAPPLICATION_LIBRARY_DIRS}
 )
 
 if(HAVE_ICU)
@@ -1080,7 +1079,6 @@ target_include_directories(strawberry_lib PUBLIC
   ${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader
   ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
   ${SINGLEAPPLICATION_INCLUDE_DIRS}
-  ${SINGLECOREAPPLICATION_INCLUDE_DIRS}
 )
 
 target_link_libraries(strawberry_lib PUBLIC
@@ -1092,7 +1090,6 @@ target_link_libraries(strawberry_lib PUBLIC
   ${QT_LIBRARIES}
   ${Protobuf_LIBRARIES}
   ${SINGLEAPPLICATION_LIBRARIES}
-  ${SINGLECOREAPPLICATION_LIBRARIES}
   libstrawberry-common
   libstrawberry-tagreader
 )

@@ -1,2 +1,0 @@
-#cmakedefine HAVE_GETEUID
-#cmakedefine HAVE_GETPWUID

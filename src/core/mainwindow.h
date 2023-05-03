@@ -272,7 +272,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void FocusSearchField();
 
  public slots:
-  void CommandlineOptionsReceived(const quint32 instanceId, const QByteArray &string_options);
+  void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();
 
  private:

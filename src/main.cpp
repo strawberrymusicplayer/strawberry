@@ -66,8 +66,7 @@
 
 #include "core/logging.h"
 
-#include <singleapplication.h>
-#include <singlecoreapplication.h>
+#include <kdsingleapplication.h>
 
 #ifdef HAVE_QTSPARKLE
 #  if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
@@ -148,15 +147,16 @@ int main(int argc, char *argv[]) {
   {
     // Only start a core application now, so we can check if there's another instance without requiring an X server.
     // This MUST be done before parsing the commandline options so QTextCodec gets the right system locale for filenames.
-    SingleCoreApplication core_app(argc, argv, true, SingleCoreApplication::Mode::User | SingleCoreApplication::Mode::ExcludeAppVersion | SingleCoreApplication::Mode::ExcludeAppPath);
+    QCoreApplication core_app(argc, argv);
+    KDSingleApplication single_app(QCoreApplication::applicationName());
     // Parse commandline options - need to do this before starting the full QApplication, so it works without an X server
     if (!options.Parse()) return 1;
     logging::SetLevels(options.log_levels());
-    if (core_app.isSecondary()) {
+    if (!single_app.isPrimaryInstance()) {
       if (options.is_empty()) {
         qLog(Info) << "Strawberry is already running - activating existing window (1)";
       }
-      if (!core_app.sendMessage(options.Serialize(), 5000)) {
+      if (!single_app.sendMessage(options.Serialize())) {
         qLog(Error) << "Could not send message to primary instance.";
       }
       return 0;
@@ -182,14 +182,13 @@ int main(int argc, char *argv[]) {
 
   QGuiApplication::setQuitOnLastWindowClosed(false);
 
-  // important: Do not remove this.
-  // This must also be done as a SingleApplication, in case SingleCoreApplication was compiled with a different appdata.
-  SingleApplication a(argc, argv, true, SingleApplication::Mode::User | SingleApplication::Mode::ExcludeAppVersion | SingleApplication::Mode::ExcludeAppPath);
-  if (a.isSecondary()) {
+  QApplication a(argc, argv);
+  KDSingleApplication single_app(QCoreApplication::applicationName());
+  if (!single_app.isPrimaryInstance()) {
     if (options.is_empty()) {
       qLog(Info) << "Strawberry is already running - activating existing window (2)";
     }
-    if (!a.sendMessage(options.Serialize(), 5000)) {
+    if (!single_app.sendMessage(options.Serialize())) {
       qLog(Error) << "Could not send message to primary instance.";
     }
     return 0;
@@ -319,9 +318,10 @@ int main(int argc, char *argv[]) {
 #ifdef HAVE_DBUS
   QObject::connect(&mpris2, &mpris::Mpris2::RaiseMainWindow, &w, &MainWindow::Raise);
 #endif
-  QObject::connect(&a, &SingleApplication::receivedMessage, &w, QOverload<quint32, const QByteArray&>::of(&MainWindow::CommandlineOptionsReceived));
+  QObject::connect(&single_app, &KDSingleApplication::messageReceived, &w, QOverload<const QByteArray&>::of(&MainWindow::CommandlineOptionsReceived));
 
   int ret = QCoreApplication::exec();
 
   return ret;
+
 }

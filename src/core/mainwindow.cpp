@@ -2330,9 +2330,7 @@ void MainWindow::PlaylistEditFinished(const int playlist_id, const QModelIndex &
 
 }
 
-void MainWindow::CommandlineOptionsReceived(const quint32 instanceId, const QByteArray &string_options) {
-
-  Q_UNUSED(instanceId);
+void MainWindow::CommandlineOptionsReceived(const QByteArray &string_options) {
 
   CommandlineOptions options;
   options.Load(string_options);
@@ -2342,9 +2340,10 @@ void MainWindow::CommandlineOptionsReceived(const quint32 instanceId, const QByt
     show();
     activateWindow();
     hidden_ = false;
+    return;
   }
-  else
-    CommandlineOptionsReceived(options);
+
+  CommandlineOptionsReceived(options);
 
 }
 
