@@ -21,7 +21,6 @@
 #include "config.h"
 
 #include <QWidget>
-#include <QTimer>
 #include <QIODevice>
 #include <QFile>
 #include <QMessageBox>
@@ -30,6 +29,7 @@
 #include <QPainter>
 #include <QPalette>
 #include <QDateTime>
+#include <QMetaObject>
 #include <QPropertyAnimation>
 #include <QKeyEvent>
 #include <QEnterEvent>
@@ -292,7 +292,7 @@ void SmartPlaylistSearchTermWidget::resizeEvent(QResizeEvent *e) {
 
   QWidget::resizeEvent(e);
   if (overlay_ && overlay_->isVisible()) {
-    QTimer::singleShot(0, this, &SmartPlaylistSearchTermWidget::Grab);
+    QMetaObject::invokeMethod(this, &SmartPlaylistSearchTermWidget::Grab);
   }
 
 }
@@ -301,7 +301,7 @@ void SmartPlaylistSearchTermWidget::showEvent(QShowEvent *e) {
 
   QWidget::showEvent(e);
   if (overlay_) {
-    QTimer::singleShot(0, this, &SmartPlaylistSearchTermWidget::Grab);
+    QMetaObject::invokeMethod(this, &SmartPlaylistSearchTermWidget::Grab);
   }
 
 }

@@ -24,9 +24,9 @@
 
 #include <QWidget>
 #include <QLocale>
-#include <QTimer>
 #include <QDate>
 #include <QString>
+#include <QMetaObject>
 #include <QLineEdit>
 #include <QEvent>
 #include <QKeyEvent>
@@ -91,7 +91,7 @@ void LoginStateWidget::SetLoggedIn(const State state, const QString &account_nam
     // A login just failed - give focus back to the last crediental field (usually password).
     // We have to do this after control gets back to the
     // event loop because the user might have just closed a dialog and our widget might not be active yet.
-    QTimer::singleShot(0, this, &LoginStateWidget::FocusLastCredentialField);
+    QMetaObject::invokeMethod(this, &LoginStateWidget::FocusLastCredentialField);
   }
 
 }

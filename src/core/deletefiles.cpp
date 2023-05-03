@@ -23,10 +23,10 @@
 
 #include <QtGlobal>
 #include <QThread>
-#include <QTimer>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QMetaObject>
 
 #include "taskmanager.h"
 #include "song.h"
@@ -123,6 +123,6 @@ void DeleteFiles::ProcessSomeFiles() {
     }
   }
 
-  QTimer::singleShot(0, this, &DeleteFiles::ProcessSomeFiles);
+  QMetaObject::invokeMethod(this, &DeleteFiles::ProcessSomeFiles);
 
 }

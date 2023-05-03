@@ -27,7 +27,7 @@
 #include <QAbstractItemModel>
 #include <QItemSelectionModel>
 #include <QList>
-#include <QTimer>
+#include <QMetaObject>
 #include <QSettings>
 #include <QKeySequence>
 #include <QLabel>
@@ -120,7 +120,7 @@ void QueueView::CurrentPlaylistChanged(Playlist *playlist) {
   QObject::connect(ui_->list->selectionModel(), &QItemSelectionModel::currentChanged, this, &QueueView::UpdateButtonState);
   QObject::connect(ui_->list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &QueueView::UpdateButtonState);
 
-  QTimer::singleShot(0, current_playlist_->queue(), &Queue::UpdateSummaryText);
+  QMetaObject::invokeMethod(current_playlist_->queue(), &Queue::UpdateSummaryText);
 
 }
 
