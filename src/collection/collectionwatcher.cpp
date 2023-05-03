@@ -115,7 +115,7 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
 }
 
 void CollectionWatcher::ExitAsync() {
-  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &CollectionWatcher::Exit, Qt::QueuedConnection);
 }
 
 void CollectionWatcher::Exit() {
@@ -131,7 +131,7 @@ void CollectionWatcher::Exit() {
 
 void CollectionWatcher::ReloadSettingsAsync() {
 
-  QMetaObject::invokeMethod(this, "ReloadSettings", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &CollectionWatcher::ReloadSettings, Qt::QueuedConnection);
 
 }
 
@@ -1118,13 +1118,13 @@ void CollectionWatcher::SetRescanPaused(bool pause) {
 
 void CollectionWatcher::IncrementalScanAsync() {
 
-  QMetaObject::invokeMethod(this, "IncrementalScanNow", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &CollectionWatcher::IncrementalScanNow, Qt::QueuedConnection);
 
 }
 
 void CollectionWatcher::FullScanAsync() {
 
-  QMetaObject::invokeMethod(this, "FullScanNow", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &CollectionWatcher::FullScanNow, Qt::QueuedConnection);
 
 }
 

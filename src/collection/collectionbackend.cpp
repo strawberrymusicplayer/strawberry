@@ -89,7 +89,7 @@ void CollectionBackend::Close() {
 }
 
 void CollectionBackend::ExitAsync() {
-  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &CollectionBackend::Exit, Qt::QueuedConnection);
 }
 
 void CollectionBackend::Exit() {
@@ -115,19 +115,19 @@ void CollectionBackend::ReportErrors(const CollectionQuery &query) {
 }
 
 void CollectionBackend::LoadDirectoriesAsync() {
-  QMetaObject::invokeMethod(this, "LoadDirectories", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &CollectionBackend::LoadDirectories, Qt::QueuedConnection);
 }
 
 void CollectionBackend::UpdateTotalSongCountAsync() {
-  QMetaObject::invokeMethod(this, "UpdateTotalSongCount", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &CollectionBackend::UpdateTotalSongCount, Qt::QueuedConnection);
 }
 
 void CollectionBackend::UpdateTotalArtistCountAsync() {
-  QMetaObject::invokeMethod(this, "UpdateTotalArtistCount", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &CollectionBackend::UpdateTotalArtistCount, Qt::QueuedConnection);
 }
 
 void CollectionBackend::UpdateTotalAlbumCountAsync() {
-  QMetaObject::invokeMethod(this, "UpdateTotalAlbumCount", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &CollectionBackend::UpdateTotalAlbumCount, Qt::QueuedConnection);
 }
 
 void CollectionBackend::IncrementPlayCountAsync(const int id) {
@@ -1825,7 +1825,7 @@ bool CollectionBackend::ResetPlayStatistics(const QStringList &id_str_list) {
 
 void CollectionBackend::DeleteAllAsync() {
 
-  QMetaObject::invokeMethod(this, "DeleteAll", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &CollectionBackend::DeleteAll, Qt::QueuedConnection);
 
 }
 

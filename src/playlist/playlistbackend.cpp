@@ -73,7 +73,7 @@ void PlaylistBackend::Close() {
 }
 
 void PlaylistBackend::ExitAsync() {
-  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &PlaylistBackend::Exit, Qt::QueuedConnection);
 }
 
 void PlaylistBackend::Exit() {

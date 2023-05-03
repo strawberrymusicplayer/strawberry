@@ -68,7 +68,7 @@ AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
 void AlbumCoverLoader::ExitAsync() {
 
   stop_requested_ = true;
-  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &AlbumCoverLoader::Exit, Qt::QueuedConnection);
 
 }
 
@@ -166,7 +166,7 @@ quint64 AlbumCoverLoader::EnqueueTask(TaskPtr task) {
     tasks_.enqueue(task);
   }
 
-  QMetaObject::invokeMethod(this, "ProcessTasks", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &AlbumCoverLoader::ProcessTasks, Qt::QueuedConnection);
 
   return task->id;
 

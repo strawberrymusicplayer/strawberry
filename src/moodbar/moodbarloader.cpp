@@ -160,7 +160,7 @@ void MoodbarLoader::MaybeTakeNextRequest() {
   active_requests_ << url;
 
   qLog(Info) << "Creating moodbar data for" << url.toLocalFile();
-  QMetaObject::invokeMethod(requests_[url], "Start", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(requests_[url], &MoodbarPipeline::Start, Qt::QueuedConnection);
 
 }
 

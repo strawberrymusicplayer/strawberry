@@ -54,7 +54,7 @@ TagReaderClient::TagReaderClient(QObject *parent) : QObject(parent), worker_pool
 void TagReaderClient::Start() { worker_pool_->Start(); }
 
 void TagReaderClient::ExitAsync() {
-  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &TagReaderClient::Exit, Qt::QueuedConnection);
 }
 
 void TagReaderClient::Exit() {

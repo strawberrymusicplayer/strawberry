@@ -91,7 +91,7 @@ Database::~Database() {
 }
 
 void Database::ExitAsync() {
-  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &Database::Exit, Qt::QueuedConnection);
 }
 
 void Database::Exit() {

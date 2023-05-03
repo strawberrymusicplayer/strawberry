@@ -1490,7 +1490,7 @@ void Playlist::ScheduleSaveAsync() {
     ScheduleSave();
   }
   else {
-    QMetaObject::invokeMethod(this, "ScheduleSave", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, &Playlist::ScheduleSave, Qt::QueuedConnection);
   }
 
 }

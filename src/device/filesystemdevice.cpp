@@ -85,7 +85,7 @@ bool FilesystemDevice::Init() {
 }
 
 void FilesystemDevice::CloseAsync() {
-  QMetaObject::invokeMethod(this, "Close", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &FilesystemDevice::Close, Qt::QueuedConnection);
 }
 
 void FilesystemDevice::Close() {

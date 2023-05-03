@@ -87,7 +87,7 @@ void DeviceLister::MountDevice(const QString &id, const int request_id) {
 }
 
 void DeviceLister::ExitAsync() {
-  QMetaObject::invokeMethod(this, "Exit", Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &DeviceLister::Exit, Qt::QueuedConnection);
 }
 
 void DeviceLister::Exit() {
