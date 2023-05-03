@@ -130,8 +130,8 @@ msgstr "%1 アーティスト"
 msgid "%1 artists"
 msgstr "%1 アーティスト"
 
-#: equalizer/equalizerslider.cpp:42 equalizer/equalizerslider.cpp:44
-#: equalizer/equalizerslider.cpp:47 equalizer/equalizerslider.cpp:64
+#: equalizer/equalizerslider.cpp:41 equalizer/equalizerslider.cpp:42
+#: equalizer/equalizerslider.cpp:59
 #, qt-format
 msgid "%1 dB"
 msgstr "%1 dB"
@@ -198,7 +198,7 @@ msgid ""
 "them all?"
 msgstr "%2 個の異なるディレクトリにある %1 曲が選択されていますが、それらをすべて開いてもよろしいですか？"
 
-#: dialogs/edittagdialog.cpp:691
+#: dialogs/edittagdialog.cpp:690
 #, qt-format
 msgid "%1 songs selected."
 msgstr "%1 曲が選択されました"
@@ -427,7 +427,7 @@ msgid ""
 "immediately)."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:102
+#: dialogs/edittagdialog.cpp:101
 msgid "(different across multiple songs)"
 msgstr "(複数の曲で一致しません)"
 
@@ -513,7 +513,7 @@ msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
 #: covermanager/albumcovermanager.cpp:144
-#: covermanager/albumcoversearcher.cpp:198
+#: covermanager/albumcoversearcher.cpp:192
 #: ../build/src/ui_internetcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "中止"
@@ -568,7 +568,7 @@ msgstr "ディレクトリとサブディレクトリにあるすべてのトラ
 msgid "Add directory..."
 msgstr "ディレクトリを追加..."
 
-#: core/mainwindow.cpp:2222
+#: core/mainwindow.cpp:2218
 msgid "Add file"
 msgstr "ファイルを追加"
 
@@ -584,7 +584,7 @@ msgstr "ファイルをトランスコーダーに追加"
 msgid "Add files to transcode"
 msgstr "変換するファイルを追加"
 
-#: core/mainwindow.cpp:2248 transcoder/transcodedialog.cpp:414
+#: core/mainwindow.cpp:2244 transcoder/transcodedialog.cpp:414
 msgid "Add folder"
 msgstr "フォルダーを追加"
 
@@ -694,7 +694,7 @@ msgstr "ストリームを追加..."
 msgid "Add to albums"
 msgstr "アルバムに追加"
 
-#: core/mainwindow.cpp:2024
+#: core/mainwindow.cpp:2020
 msgid "Add to another playlist"
 msgstr "別のプレイリストに追加"
 
@@ -779,7 +779,7 @@ msgstr "アルバム - ディスク"
 msgid "Album artist"
 msgstr "アルバムアーティスト"
 
-#: dialogs/edittagdialog.cpp:877
+#: dialogs/edittagdialog.cpp:876
 msgid "Album cover editing is only available for collection songs."
 msgstr "アルバムカバーの編集はコレクションだけで可能です。"
 
@@ -820,7 +820,7 @@ msgstr "すべてのアルバム"
 msgid "All artists"
 msgstr "すべてのアーティスト"
 
-#: covermanager/albumcoverchoicecontroller.cpp:83
+#: covermanager/albumcoverchoicecontroller.cpp:81
 msgid "All files (*)"
 msgstr "すべてのファイル (*)"
 
@@ -854,7 +854,7 @@ msgstr "常に再生を開始する"
 msgid "An error occurred loading the iTunes database"
 msgstr "iTunes のデータベースを読み込み中にエラーが発生しました"
 
-#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1399
+#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1398
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "メタデータを '%1' へ書き込み中にエラーが発生しました"
@@ -908,7 +908,7 @@ msgstr "本当に続行しますか?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "プリセット「%1」を削除してもよろしいですか?"
 
-#: dialogs/edittagdialog.cpp:1275
+#: dialogs/edittagdialog.cpp:1274
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 
@@ -1002,7 +1002,7 @@ msgstr "自動"
 msgid "Automatic updating"
 msgstr "自動更新中"
 
-#: dialogs/edittagdialog.cpp:872
+#: dialogs/edittagdialog.cpp:871
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
 msgstr ""
@@ -1015,7 +1015,7 @@ msgstr "下位カテゴリが 1 つしかないときは、ライブラリツリ
 msgid "Automatically search for album cover"
 msgstr "アルバムカバーの自動検索"
 
-#: context/contextview.cpp:312 ../build/src/ui_contextsettingspage.h:438
+#: context/contextview.cpp:310 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
 msgstr "歌詞の自動検索"
 
@@ -1083,7 +1083,7 @@ msgstr "動作"
 msgid "Best"
 msgstr "良"
 
-#: context/contextview.cpp:209 collection/savedgroupingmanager.cpp:146
+#: context/contextview.cpp:207 collection/savedgroupingmanager.cpp:146
 #: playlist/playlist.cpp:1372 organize/organizedialog.cpp:118
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:826
@@ -1094,7 +1094,7 @@ msgstr "ビット深度"
 msgid "Bit rate"
 msgstr "ビットレート"
 
-#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:149
+#: context/contextview.cpp:208 collection/savedgroupingmanager.cpp:149
 #: playlist/playlist.cpp:1373 ../build/src/ui_groupbydialog.h:209
 #: ../build/src/ui_groupbydialog.h:231 ../build/src/ui_groupbydialog.h:253
 #: ../build/src/ui_transcoderoptionsaac.h:132
@@ -1247,11 +1247,11 @@ msgstr "クリア"
 msgid "Clear Disk Cache"
 msgstr "ディスクキャッシュをクリア"
 
-#: covermanager/albumcoverchoicecontroller.cpp:113
+#: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Clear cover"
 msgstr "カバーを選択"
 
-#: core/mainwindow.cpp:2313 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2309 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "プレイリストをクリア"
 
@@ -1309,7 +1309,7 @@ msgstr "コレクションフィルター"
 msgid "Collection advanced grouping"
 msgstr "ライブラリの高度なグループ化"
 
-#: core/mainwindow.cpp:2882
+#: core/mainwindow.cpp:2878
 msgid "Collection rescan notice"
 msgstr "ライブラリー再スキャン通知"
 
@@ -1502,40 +1502,40 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "カバーマネージャー"
 
-#: dialogs/edittagdialog.cpp:866
+#: dialogs/edittagdialog.cpp:865
 #, qt-format
 msgid "Cover art automatically loaded from %1"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:863
+#: dialogs/edittagdialog.cpp:862
 msgid "Cover art from embedded image"
 msgstr "埋め込み画像からのカバーアート"
 
-#: dialogs/edittagdialog.cpp:857
+#: dialogs/edittagdialog.cpp:856
 msgid "Cover art manually unset"
 msgstr "カバーアートは手動で未設定にされています"
 
-#: dialogs/edittagdialog.cpp:854
+#: dialogs/edittagdialog.cpp:853
 msgid "Cover art not set"
 msgstr "カバーアートが設定されていません"
 
-#: dialogs/edittagdialog.cpp:838
+#: dialogs/edittagdialog.cpp:837
 msgid "Cover changed: Will be cleared when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:844
+#: dialogs/edittagdialog.cpp:843
 msgid "Cover changed: Will be deleted when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:841
+#: dialogs/edittagdialog.cpp:840
 msgid "Cover changed: Will be unset when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:847
+#: dialogs/edittagdialog.cpp:846
 msgid "Cover changed: Will set new when saved."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:188
+#: covermanager/albumcoverchoicecontroller.cpp:186
 #, qt-format
 msgid "Cover file %1 is empty."
 msgstr ""
@@ -1548,7 +1548,7 @@ msgstr "カバー提供者"
 msgid "Covers"
 msgstr "カバー"
 
-#: covermanager/albumcoversearcher.cpp:132
+#: covermanager/albumcoversearcher.cpp:126
 #: covermanager/coversearchstatisticsdialog.cpp:73
 #, qt-format
 msgid "Covers from %1"
@@ -1703,7 +1703,7 @@ msgstr "デフォルト"
 msgid "Delete"
 msgstr "削除"
 
-#: covermanager/albumcoverchoicecontroller.cpp:112
+#: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Delete cover"
 msgstr "カバーを削除"
 
@@ -1741,11 +1741,11 @@ msgstr "元のファイルを削除する"
 msgid "Deleting files"
 msgstr "ファイルの削除中"
 
-#: core/mainwindow.cpp:1939
+#: core/mainwindow.cpp:1935
 msgid "Dequeue selected tracks"
 msgstr "選択されたトラックをキューから削除する"
 
-#: core/mainwindow.cpp:1938
+#: core/mainwindow.cpp:1934
 msgid "Dequeue track"
 msgstr "トラックをキューから削除"
 
@@ -1757,7 +1757,7 @@ msgstr "フォルダー"
 msgid "Details..."
 msgstr "詳細..."
 
-#: context/contextview.cpp:177 device/giolister.cpp:192
+#: context/contextview.cpp:175 device/giolister.cpp:192
 #: ../build/src/ui_backendsettingspage.h:565
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -1775,7 +1775,7 @@ msgstr "デバイスのプロパティ..."
 msgid "Devices"
 msgstr "デバイス"
 
-#: dialogs/edittagdialog.cpp:103
+#: dialogs/edittagdialog.cpp:102
 msgid "Different art across multiple songs."
 msgstr ""
 
@@ -1908,7 +1908,7 @@ msgstr "スマートプレイリストを編集"
 msgid "Edit smart playlist..."
 msgstr "スマートプレイリストを編集..."
 
-#: core/mainwindow.cpp:1982
+#: core/mainwindow.cpp:1978
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "タグ「%1」を編集..."
@@ -1930,7 +1930,7 @@ msgstr "トラック情報の編集..."
 msgid "Edit tracks information..."
 msgstr "トラック情報の編集..."
 
-#: dialogs/edittagdialog.cpp:823
+#: dialogs/edittagdialog.cpp:822
 msgid "Embedded"
 msgstr "埋め込み"
 
@@ -2017,7 +2017,7 @@ msgstr "エンコーディングエンジンの品質"
 msgid "Encoding mode"
 msgstr "エンコーディングモード"
 
-#: context/contextview.cpp:176 ../build/src/ui_backendsettingspage.h:568
+#: context/contextview.cpp:174 ../build/src/ui_backendsettingspage.h:568
 msgid "Engine"
 msgstr "エンジン"
 
@@ -2078,7 +2078,7 @@ msgstr "--log-levels *:1 と同じ"
 msgid "Equivalent to --log-levels *:3"
 msgstr "--log-levels *:3 と同じ"
 
-#: core/mainwindow.cpp:2613 core/mainwindow.cpp:2764
+#: core/mainwindow.cpp:2609 core/mainwindow.cpp:2760
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "エラー"
@@ -2158,12 +2158,12 @@ msgstr "ダウンロードしたカバーをエクスポートする"
 msgid "Export embedded covers"
 msgstr "埋め込みカバーをエクスポートする"
 
-#: covermanager/albumcovermanager.cpp:1034
-#: covermanager/albumcovermanager.cpp:1060
+#: covermanager/albumcovermanager.cpp:1030
+#: covermanager/albumcovermanager.cpp:1056
 msgid "Export finished"
 msgstr "エクスポートが完了しました"
 
-#: covermanager/albumcovermanager.cpp:1045
+#: covermanager/albumcovermanager.cpp:1041
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "%2 個中 %1 個のカバーをエクスポートしました (%3 個スキップしました)"
@@ -2218,34 +2218,34 @@ msgstr "フェードの長さ"
 msgid "Failed SQL query: %1"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:408
-#: covermanager/albumcoverchoicecontroller.cpp:425
+#: covermanager/albumcoverchoicecontroller.cpp:404
+#: covermanager/albumcoverchoicecontroller.cpp:421
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:198
+#: covermanager/albumcoverchoicecontroller.cpp:196
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:274
-#: covermanager/albumcoverchoicecontroller.cpp:648
+#: covermanager/albumcoverchoicecontroller.cpp:270
+#: covermanager/albumcoverchoicecontroller.cpp:642
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:642
+#: covermanager/albumcoverchoicecontroller.cpp:636
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:280
+#: covermanager/albumcoverchoicecontroller.cpp:276
 #, qt-format
 msgid "Failed writing cover to file %1."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:268
+#: covermanager/albumcoverchoicecontroller.cpp:264
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
@@ -2279,8 +2279,8 @@ msgstr "取得完了"
 msgid "Fetch entire albums when searching songs"
 msgstr "曲検索時にアルバム全体を取得する"
 
-#: covermanager/coverfromurldialog.cpp:91
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:89
+#: covermanager/coverfromurldialog.cpp:99
 msgid "Fetching cover error"
 msgstr "カバーの取得エラー"
 
@@ -2344,7 +2344,7 @@ msgstr "トランスコードするファイル"
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
-#: context/contextview.cpp:206
+#: context/contextview.cpp:204
 msgid "Filetype"
 msgstr "ファイルタイプ"
 
@@ -2677,11 +2677,11 @@ msgid ""
 "donating."
 msgstr "もし Strawberry が気に入って利用する場合は、後援または寄付を検討してください"
 
-#: covermanager/albumcoverchoicecontroller.cpp:81
+#: covermanager/albumcoverchoicecontroller.cpp:79
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr "画像 (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:82
+#: covermanager/albumcoverchoicecontroller.cpp:80
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "画像 (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
@@ -2779,7 +2779,7 @@ msgstr ""
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr ""
 
-#: core/mainwindow.cpp:1056
+#: core/mainwindow.cpp:1052
 msgid ""
 "It seems that Strawberry is running under Rosetta. Strawberry currently has "
 "limited macOS support, and running Strawberry under Rosetta is unsupported "
@@ -2851,7 +2851,7 @@ msgstr ""
 msgid "Left"
 msgstr "左"
 
-#: context/contextview.cpp:207 playlist/playlist.cpp:1358
+#: context/contextview.cpp:205 playlist/playlist.cpp:1358
 #: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:824
 msgid "Length"
 msgstr "長さ"
@@ -2889,16 +2889,16 @@ msgstr "読み込み"
 msgid "Load cover from URL"
 msgstr "URL からカバーの読み込み"
 
-#: covermanager/albumcoverchoicecontroller.cpp:109
+#: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Load cover from URL..."
 msgstr "URL からカバーの読み込み..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:177
-#: covermanager/albumcoverchoicecontroller.cpp:209
+#: covermanager/albumcoverchoicecontroller.cpp:175
+#: covermanager/albumcoverchoicecontroller.cpp:207
 msgid "Load cover from disk"
 msgstr "ディスクからカバーの読み込み"
 
-#: covermanager/albumcoverchoicecontroller.cpp:107
+#: covermanager/albumcoverchoicecontroller.cpp:105
 msgid "Load cover from disk..."
 msgstr "ディスクからカバーの読み込み..."
 
@@ -2922,7 +2922,7 @@ msgstr ""
 msgid "Loading songs"
 msgstr "曲の読み込み中"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
+#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:410
 msgid "Loading tracks"
 msgstr "トラックの読み込み中"
 
@@ -3004,12 +3004,12 @@ msgstr "Main プロファイル (MAIN)"
 msgid "Manage saved groupings"
 msgstr "保存した分類を管理する"
 
-#: dialogs/edittagdialog.cpp:869
+#: dialogs/edittagdialog.cpp:868
 #, qt-format
 msgid "Manually cover art from %1 is missing"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:860
+#: dialogs/edittagdialog.cpp:859
 #, qt-format
 msgid "Manually set cover art from %1"
 msgstr ""
@@ -3191,7 +3191,7 @@ msgstr "ライブラリへ移動..."
 msgid "Move up"
 msgstr "上へ移動"
 
-#: core/mainwindow.cpp:2222 transcoder/transcodedialog.cpp:323
+#: core/mainwindow.cpp:2218 transcoder/transcodedialog.cpp:323
 msgid "Music"
 msgstr "ミュージック"
 
@@ -3217,7 +3217,7 @@ msgstr "低速回線 (NB)"
 msgid "Network Proxy"
 msgstr "ネットワークプロキシ"
 
-#: playlist/playlistdelegates.cpp:346 dialogs/edittagdialog.cpp:888
+#: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:887
 msgid "Never"
 msgstr "なし"
 
@@ -3235,7 +3235,7 @@ msgstr "再生を開始しない"
 msgid "New folder"
 msgstr "新しいフォルダー"
 
-#: core/mainwindow.cpp:2040
+#: core/mainwindow.cpp:2036
 msgid "New playlist"
 msgstr "新しいプレイリスト"
 
@@ -3259,7 +3259,7 @@ msgstr "新しいトラックは自動的に追加されます"
 msgid "Newest tracks"
 msgstr "新しい順"
 
-#: dialogs/edittagdialog.cpp:224 dialogs/trackselectiondialog.cpp:70
+#: dialogs/edittagdialog.cpp:223 dialogs/trackselectiondialog.cpp:70
 msgid "Next"
 msgstr "次へ"
 
@@ -3275,7 +3275,7 @@ msgstr "次週"
 msgid "No analyzer"
 msgstr "アナライザーなし"
 
-#: covermanager/albumcovermanager.cpp:1035
+#: covermanager/albumcovermanager.cpp:1031
 msgid "No covers to export."
 msgstr "エクスポートしたカバーはありません"
 
@@ -3304,13 +3304,13 @@ msgstr "短いブロックなし"
 msgid "No song playing"
 msgstr "曲が再生されていません"
 
-#: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:810
-#: dialogs/edittagdialog.cpp:820 ../build/src/ui_groupbydialog.h:190
+#: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:809
+#: dialogs/edittagdialog.cpp:819 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 msgid "None"
 msgstr "なし"
 
-#: core/mainwindow.cpp:2613 core/mainwindow.cpp:2764
+#: core/mainwindow.cpp:2609 core/mainwindow.cpp:2760
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "デバイスへのコピーに適切な曲が選択されていません"
@@ -3540,7 +3540,7 @@ msgstr "パス"
 msgid "Pattern"
 msgstr "パターン"
 
-#: core/mainwindow.cpp:1338 core/mainwindow.cpp:1837
+#: core/mainwindow.cpp:1334 core/mainwindow.cpp:1833
 #: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "一時停止"
@@ -3568,8 +3568,8 @@ msgstr "ピクセル"
 msgid "Plain sidebar"
 msgstr "プレーンサイドバー"
 
-#: core/mainwindow.cpp:722 core/mainwindow.cpp:1295 core/mainwindow.cpp:1322
-#: core/mainwindow.cpp:1841 core/qtsystemtrayicon.cpp:160
+#: core/mainwindow.cpp:722 core/mainwindow.cpp:1291 core/mainwindow.cpp:1318
+#: core/mainwindow.cpp:1837 core/qtsystemtrayicon.cpp:160
 #: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "再生"
@@ -3640,7 +3640,7 @@ msgstr "プレイリストボタン"
 msgid "Playlist finished"
 msgstr "プレイリストが完了しました"
 
-#: core/mainwindow.cpp:2313
+#: core/mainwindow.cpp:2309
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3760,7 +3760,7 @@ msgstr "Pretty OSD のオプション"
 msgid "Preview"
 msgstr "プレビュー"
 
-#: dialogs/edittagdialog.cpp:223 dialogs/trackselectiondialog.cpp:69
+#: dialogs/edittagdialog.cpp:222 dialogs/trackselectiondialog.cpp:69
 msgid "Previous"
 msgstr "前へ"
 
@@ -3814,20 +3814,20 @@ msgstr "デバイスを照会しています..."
 msgid "Queue"
 msgstr "キュー"
 
-#: core/mainwindow.cpp:1941
+#: core/mainwindow.cpp:1937
 msgid "Queue selected tracks"
 msgstr "選択されたトラックをキューに追加"
 
-#: core/mainwindow.cpp:728 core/mainwindow.cpp:1945
+#: core/mainwindow.cpp:728 core/mainwindow.cpp:1941
 msgid "Queue selected tracks to play next"
 msgstr "選択したトラックを次に再生する"
 
-#: core/mainwindow.cpp:1948 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1944 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "次に再生する"
 
-#: core/mainwindow.cpp:1940 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1936 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -4109,7 +4109,7 @@ msgstr "リセット"
 msgid "Reset play counts"
 msgstr "再生回数のリセット"
 
-#: dialogs/edittagdialog.cpp:1275
+#: dialogs/edittagdialog.cpp:1274
 msgid "Reset song play statistics"
 msgstr ""
 
@@ -4201,7 +4201,7 @@ msgstr "コピー後にデバイスを安全に取り外す"
 msgid "Sample rate"
 msgstr "サンプルレート"
 
-#: context/contextview.cpp:208
+#: context/contextview.cpp:206
 msgid "Samplerate"
 msgstr "サンプルレート"
 
@@ -4209,7 +4209,7 @@ msgstr "サンプルレート"
 msgid "Save &playlist..."
 msgstr "プレイリストを保存(&s)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:248
+#: covermanager/albumcoverchoicecontroller.cpp:244
 msgid "Save album cover"
 msgstr "カバーアートの保存"
 
@@ -4225,7 +4225,7 @@ msgstr "アルバムカバーをアルバムディレクトリに保存"
 msgid "Save album covers in cache directory"
 msgstr "アルバムカバーをキャッシュディレクトリに保存"
 
-#: covermanager/albumcoverchoicecontroller.cpp:108
+#: covermanager/albumcoverchoicecontroller.cpp:106
 msgid "Save cover to disk..."
 msgstr "カバーをディスクに保存..."
 
@@ -4279,7 +4279,7 @@ msgstr "アルバムカバーを保存"
 msgid "Saving playcounts and ratings"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:306 dialogs/trackselectiondialog.cpp:289
+#: dialogs/edittagdialog.cpp:305 dialogs/trackselectiondialog.cpp:289
 msgid "Saving tracks"
 msgstr "トラックの保存中"
 
@@ -4305,14 +4305,14 @@ msgstr "Scrobbler %1 のエラー: %2"
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
 
-#: covermanager/albumcoversearcher.cpp:206
-#: covermanager/albumcoversearcher.cpp:224
+#: covermanager/albumcoversearcher.cpp:200
+#: covermanager/albumcoversearcher.cpp:218
 #: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_internettabsview.h:116
 msgid "Search"
 msgstr "検索"
 
-#: covermanager/albumcoverchoicecontroller.cpp:118
+#: covermanager/albumcoverchoicecontroller.cpp:116
 msgid "Search automatically"
 msgstr "自動的に検索する"
 
@@ -4321,7 +4321,7 @@ msgstr "自動的に検索する"
 msgid "Search delay"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:110
+#: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Search for album covers..."
 msgstr "アルバムカバーの検索..."
 
@@ -4424,7 +4424,7 @@ msgstr "サーバーURLが不正です。"
 msgid "Server-side scrobbling"
 msgstr "サーバーサイドの scrobbling"
 
-#: core/mainwindow.cpp:1981
+#: core/mainwindow.cpp:1977
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 を「%2」に設定します..."
@@ -4503,7 +4503,7 @@ msgstr "Pretty OSD を表示する"
 msgid "Show above status bar"
 msgstr "ステータスバーの上に表示"
 
-#: context/contextview.cpp:296
+#: context/contextview.cpp:294
 msgid "Show album cover"
 msgstr "アルバムカバーを表示"
 
@@ -4531,11 +4531,11 @@ msgstr "エラーダイアログを表示"
 msgid "Show dividers"
 msgstr "区切りを表示する"
 
-#: context/contextview.cpp:304
+#: context/contextview.cpp:302
 msgid "Show engine and device"
 msgstr "エンジンとデバイスを表示"
 
-#: covermanager/albumcoverchoicecontroller.cpp:116
+#: covermanager/albumcoverchoicecontroller.cpp:114
 msgid "Show fullsize..."
 msgstr "原寸表示..."
 
@@ -4584,7 +4584,7 @@ msgstr "Scrobbleボタンを表示"
 msgid "Show sidebar"
 msgstr "サイドバーを表示"
 
-#: context/contextview.cpp:308
+#: context/contextview.cpp:306
 msgid "Show song lyrics"
 msgstr "歌詞を表示"
 
@@ -4592,7 +4592,7 @@ msgstr "歌詞を表示"
 msgid "Show song progress on system tray icon"
 msgstr "システムトレイアイコンで曲の進行状況を表示"
 
-#: context/contextview.cpp:300
+#: context/contextview.cpp:298
 msgid "Show song technical data"
 msgstr "曲のテクニカルデータを表示"
 
@@ -4665,11 +4665,11 @@ msgstr "スキップ回数"
 msgid "Skip forwards in playlist"
 msgstr "プレイリストで前にスキップ"
 
-#: core/mainwindow.cpp:1954
+#: core/mainwindow.cpp:1950
 msgid "Skip selected tracks"
 msgstr "選択したトラックをスキップする"
 
-#: core/mainwindow.cpp:1953
+#: core/mainwindow.cpp:1949
 msgid "Skip track"
 msgstr "トラックをスキップする"
 
@@ -4861,7 +4861,7 @@ msgstr ""
 "Strawberry はスナップとして実行する場合、遅く、制限があります。ルートファイルシステム ( /) "
 "へのアクセスはできません。特定のデバイスやネットワーク共有へのアクセスなど、他の制限もある場合があります。"
 
-#: core/mainwindow.cpp:1056
+#: core/mainwindow.cpp:1052
 msgid "Strawberry running under Rosetta"
 msgstr ""
 
@@ -5021,15 +5021,15 @@ msgstr ""
 msgid "The second value must be greater than the first one!"
 msgstr ""
 
-#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:89
 msgid "The site you requested does not exist!"
 msgstr "指定されたサイトは存在しません!"
 
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:99
 msgid "The site you requested is not an image!"
 msgstr "指定されたサイトは画像ではありません!"
 
-#: core/mainwindow.cpp:2877
+#: core/mainwindow.cpp:2873
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5147,7 +5147,7 @@ msgstr "今日"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:725 core/mainwindow.cpp:1942
+#: core/mainwindow.cpp:725 core/mainwindow.cpp:1938
 msgid "Toggle queue status"
 msgstr "キュー状態の切り替え"
 
@@ -5155,7 +5155,7 @@ msgstr "キュー状態の切り替え"
 msgid "Toggle scrobbling"
 msgstr "scrobbling の切り替え"
 
-#: core/mainwindow.cpp:731 core/mainwindow.cpp:1955
+#: core/mainwindow.cpp:731 core/mainwindow.cpp:1951
 msgid "Toggle skip status"
 msgstr ""
 
@@ -5260,10 +5260,10 @@ msgstr ""
 #: core/song.cpp:725 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:1663 collection/savedgroupingmanager.cpp:153
-#: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:550
-#: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:765
-#: dialogs/edittagdialog.cpp:792 ../build/src/ui_scrobblersettingspage.h:428
+#: collection/collectionmodel.cpp:1661 collection/savedgroupingmanager.cpp:153
+#: playlist/playlistdelegates.cpp:356 playlist/playlistmanager.cpp:550
+#: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:764
+#: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "不明"
 
@@ -5279,19 +5279,19 @@ msgstr ""
 msgid "Unknown playlist extension"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:813
+#: dialogs/edittagdialog.cpp:812
 msgid "Unset"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:111
+#: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Unset cover"
 msgstr "カバーを未設定にする"
 
-#: core/mainwindow.cpp:1952
+#: core/mainwindow.cpp:1948
 msgid "Unskip selected tracks"
 msgstr "選択したトラックをスキップしない"
 
-#: core/mainwindow.cpp:1951
+#: core/mainwindow.cpp:1947
 msgid "Unskip track"
 msgstr "トラックをスキップしない"
 
@@ -5299,7 +5299,7 @@ msgstr "トラックをスキップしない"
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry の起動時にライブラリを更新する"
 
-#: collection/collectionwatcher.cpp:205
+#: collection/collectionwatcher.cpp:206
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 の更新中"
@@ -5314,7 +5314,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "更新しています %1%..."
 
-#: collection/collectionwatcher.cpp:202
+#: collection/collectionwatcher.cpp:203
 msgid "Updating collection"
 msgstr "ライブラリの更新中"
 
@@ -5540,7 +5540,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2881
+#: core/mainwindow.cpp:2877
 msgid "Would you like to run a full rescan right now?"
 msgstr "全体の再スキャンを今すぐ実行しますか?"
 
@@ -5748,8 +5748,8 @@ msgstr "hw"
 msgid "in the last"
 msgstr "最後の時間"
 
-#: context/contextview.cpp:529 context/contextview.cpp:651
-#: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:787
+#: context/contextview.cpp:527 context/contextview.cpp:649
+#: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:786
 msgid "kbps"
 msgstr "kbps"
 
@@ -5846,7 +5846,7 @@ msgstr "曲の並び替え"
 msgid "starts with"
 msgstr "で始まる"
 
-#: playlist/playlistdelegates.cpp:227
+#: playlist/playlistdelegates.cpp:223
 msgid "stop"
 msgstr "停止"
 
@@ -5855,6 +5855,6 @@ msgstr "停止"
 msgid "track %1"
 msgstr "トラック %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:243
+#: covermanager/albumcoverchoicecontroller.cpp:239
 msgid "unknown"
 msgstr "不明"

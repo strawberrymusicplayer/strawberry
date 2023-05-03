@@ -125,8 +125,8 @@ msgstr "%1 umělec"
 msgid "%1 artists"
 msgstr "%1 umělci"
 
-#: equalizer/equalizerslider.cpp:42 equalizer/equalizerslider.cpp:44
-#: equalizer/equalizerslider.cpp:47 equalizer/equalizerslider.cpp:64
+#: equalizer/equalizerslider.cpp:41 equalizer/equalizerslider.cpp:42
+#: equalizer/equalizerslider.cpp:59
 #, qt-format
 msgid "%1 dB"
 msgstr "%1 dB"
@@ -195,7 +195,7 @@ msgstr ""
 "Je vybráno %1 skladeb obsažených v %2 různých složkách, chcete je všechny "
 "otevřít?"
 
-#: dialogs/edittagdialog.cpp:691
+#: dialogs/edittagdialog.cpp:690
 #, qt-format
 msgid "%1 songs selected."
 msgstr ""
@@ -424,7 +424,7 @@ msgid ""
 "immediately)."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:102
+#: dialogs/edittagdialog.cpp:101
 msgid "(different across multiple songs)"
 msgstr "(liší se u jednotlivých písní)"
 
@@ -512,7 +512,7 @@ msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
 
 #: covermanager/albumcovermanager.cpp:144
-#: covermanager/albumcoversearcher.cpp:198
+#: covermanager/albumcoversearcher.cpp:192
 #: ../build/src/ui_internetcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "Přerušit"
@@ -567,7 +567,7 @@ msgstr "Přidat všechny skladby z adresáři a všech jeho podadresářů"
 msgid "Add directory..."
 msgstr "Přidat složku..."
 
-#: core/mainwindow.cpp:2222
+#: core/mainwindow.cpp:2218
 msgid "Add file"
 msgstr "Přidat soubor"
 
@@ -583,7 +583,7 @@ msgstr "Přidat soubor(y) k překódování"
 msgid "Add files to transcode"
 msgstr "Přidat soubory pro překódování"
 
-#: core/mainwindow.cpp:2248 transcoder/transcodedialog.cpp:414
+#: core/mainwindow.cpp:2244 transcoder/transcodedialog.cpp:414
 msgid "Add folder"
 msgstr "Přidat složku"
 
@@ -693,7 +693,7 @@ msgstr "Přidat přenos..."
 msgid "Add to albums"
 msgstr "Přidat do alb"
 
-#: core/mainwindow.cpp:2024
+#: core/mainwindow.cpp:2020
 msgid "Add to another playlist"
 msgstr "Přidat do jiného seznamu skladeb"
 
@@ -778,7 +778,7 @@ msgstr "Album - Disk"
 msgid "Album artist"
 msgstr "Umělec alba"
 
-#: dialogs/edittagdialog.cpp:877
+#: dialogs/edittagdialog.cpp:876
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
 
@@ -819,7 +819,7 @@ msgstr "Všechna alba"
 msgid "All artists"
 msgstr "Všichni umělci"
 
-#: covermanager/albumcoverchoicecontroller.cpp:83
+#: covermanager/albumcoverchoicecontroller.cpp:81
 msgid "All files (*)"
 msgstr "Všechny soubory (*)"
 
@@ -853,7 +853,7 @@ msgstr "Vždy začít přehrávat"
 msgid "An error occurred loading the iTunes database"
 msgstr "Při nahrávání databáze iTunes nastala chyba"
 
-#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1399
+#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1398
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Při zápisu údajů do '%1' se vyskytla chyba"
@@ -907,7 +907,7 @@ msgstr "Opravdu chcete pokračovat?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Opravdu chcete smazat nastavení \"%1\"?"
 
-#: dialogs/edittagdialog.cpp:1275
+#: dialogs/edittagdialog.cpp:1274
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 
@@ -1001,7 +1001,7 @@ msgstr "Automaticky"
 msgid "Automatic updating"
 msgstr "Automatická aktualizace"
 
-#: dialogs/edittagdialog.cpp:872
+#: dialogs/edittagdialog.cpp:871
 #, qt-format
 msgid "Automatically cover art from %1 is missing"
 msgstr ""
@@ -1014,7 +1014,7 @@ msgstr "Automaticky otevřít jednotlivé skupiny ve stromu sbírky"
 msgid "Automatically search for album cover"
 msgstr "Automaticky vyhledat obal alba"
 
-#: context/contextview.cpp:312 ../build/src/ui_contextsettingspage.h:438
+#: context/contextview.cpp:310 ../build/src/ui_contextsettingspage.h:438
 msgid "Automatically search for song lyrics"
 msgstr "Automaticky najít texty skladeb"
 
@@ -1082,7 +1082,7 @@ msgstr "Chování"
 msgid "Best"
 msgstr "Nejlepší"
 
-#: context/contextview.cpp:209 collection/savedgroupingmanager.cpp:146
+#: context/contextview.cpp:207 collection/savedgroupingmanager.cpp:146
 #: playlist/playlist.cpp:1372 organize/organizedialog.cpp:118
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:826
@@ -1093,7 +1093,7 @@ msgstr "Bitová hloubka"
 msgid "Bit rate"
 msgstr "Datový tok"
 
-#: context/contextview.cpp:210 collection/savedgroupingmanager.cpp:149
+#: context/contextview.cpp:208 collection/savedgroupingmanager.cpp:149
 #: playlist/playlist.cpp:1373 ../build/src/ui_groupbydialog.h:209
 #: ../build/src/ui_groupbydialog.h:231 ../build/src/ui_groupbydialog.h:253
 #: ../build/src/ui_transcoderoptionsaac.h:132
@@ -1248,11 +1248,11 @@ msgstr "Smazat"
 msgid "Clear Disk Cache"
 msgstr "Vyčistit mezipaměť na disku"
 
-#: covermanager/albumcoverchoicecontroller.cpp:113
+#: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2313 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2309 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Vyprázdnit seznam skladeb"
 
@@ -1310,7 +1310,7 @@ msgstr "Filtr Kolekce"
 msgid "Collection advanced grouping"
 msgstr "Pokročilé seskupování sbírky"
 
-#: core/mainwindow.cpp:2882
+#: core/mainwindow.cpp:2878
 msgid "Collection rescan notice"
 msgstr "Zpráva o prohledání sbírky"
 
@@ -1507,40 +1507,40 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "Správce obalů"
 
-#: dialogs/edittagdialog.cpp:866
+#: dialogs/edittagdialog.cpp:865
 #, qt-format
 msgid "Cover art automatically loaded from %1"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:863
+#: dialogs/edittagdialog.cpp:862
 msgid "Cover art from embedded image"
 msgstr "Obal z vloženého obrázku"
 
-#: dialogs/edittagdialog.cpp:857
+#: dialogs/edittagdialog.cpp:856
 msgid "Cover art manually unset"
 msgstr "Obal zrušený ručně"
 
-#: dialogs/edittagdialog.cpp:854
+#: dialogs/edittagdialog.cpp:853
 msgid "Cover art not set"
 msgstr "Obal nenastaven"
 
-#: dialogs/edittagdialog.cpp:838
+#: dialogs/edittagdialog.cpp:837
 msgid "Cover changed: Will be cleared when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:844
+#: dialogs/edittagdialog.cpp:843
 msgid "Cover changed: Will be deleted when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:841
+#: dialogs/edittagdialog.cpp:840
 msgid "Cover changed: Will be unset when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:847
+#: dialogs/edittagdialog.cpp:846
 msgid "Cover changed: Will set new when saved."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:188
+#: covermanager/albumcoverchoicecontroller.cpp:186
 #, qt-format
 msgid "Cover file %1 is empty."
 msgstr ""
@@ -1553,7 +1553,7 @@ msgstr "Poskytovatel obalů alb"
 msgid "Covers"
 msgstr "Obaly alb"
 
-#: covermanager/albumcoversearcher.cpp:132
+#: covermanager/albumcoversearcher.cpp:126
 #: covermanager/coversearchstatisticsdialog.cpp:73
 #, qt-format
 msgid "Covers from %1"
@@ -1708,7 +1708,7 @@ msgstr "Výchozí nastavení"
 msgid "Delete"
 msgstr "Smazat"
 
-#: covermanager/albumcoverchoicecontroller.cpp:112
+#: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Delete cover"
 msgstr ""
 
@@ -1746,11 +1746,11 @@ msgstr "Smazat původní soubory"
 msgid "Deleting files"
 msgstr "Probíhá mazání souborů"
 
-#: core/mainwindow.cpp:1939
+#: core/mainwindow.cpp:1935
 msgid "Dequeue selected tracks"
 msgstr "Odstranit vybrané skladby z řady"
 
-#: core/mainwindow.cpp:1938
+#: core/mainwindow.cpp:1934
 msgid "Dequeue track"
 msgstr "Odstranit skladbu z řady"
 
@@ -1762,7 +1762,7 @@ msgstr "Cíl"
 msgid "Details..."
 msgstr "Podrobnosti..."
 
-#: context/contextview.cpp:177 device/giolister.cpp:192
+#: context/contextview.cpp:175 device/giolister.cpp:192
 #: ../build/src/ui_backendsettingspage.h:565
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Device"
@@ -1780,7 +1780,7 @@ msgstr "Vlastnosti zařízení..."
 msgid "Devices"
 msgstr "Zařízení"
 
-#: dialogs/edittagdialog.cpp:103
+#: dialogs/edittagdialog.cpp:102
 msgid "Different art across multiple songs."
 msgstr ""
 
@@ -1913,7 +1913,7 @@ msgstr "Upravit chytrý playlist"
 msgid "Edit smart playlist..."
 msgstr "Upravit chytrý playlist..."
 
-#: core/mainwindow.cpp:1982
+#: core/mainwindow.cpp:1978
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Upravit značku \"%1\"..."
@@ -1935,7 +1935,7 @@ msgstr "Upravit informace o skladbě..."
 msgid "Edit tracks information..."
 msgstr "Upravit informace o skladbách..."
 
-#: dialogs/edittagdialog.cpp:823
+#: dialogs/edittagdialog.cpp:822
 msgid "Embedded"
 msgstr ""
 
@@ -2022,7 +2022,7 @@ msgstr "Kvalita kódovacího stroje"
 msgid "Encoding mode"
 msgstr "Režim kódování"
 
-#: context/contextview.cpp:176 ../build/src/ui_backendsettingspage.h:568
+#: context/contextview.cpp:174 ../build/src/ui_backendsettingspage.h:568
 msgid "Engine"
 msgstr "Engine"
 
@@ -2083,7 +2083,7 @@ msgstr "Rovnocenné s --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Rovnocenné s --log-levels *:3"
 
-#: core/mainwindow.cpp:2613 core/mainwindow.cpp:2764
+#: core/mainwindow.cpp:2609 core/mainwindow.cpp:2760
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Chyba"
@@ -2163,12 +2163,12 @@ msgstr "Uložit stažené obaly"
 msgid "Export embedded covers"
 msgstr "Uložit vložené obaly"
 
-#: covermanager/albumcovermanager.cpp:1034
-#: covermanager/albumcovermanager.cpp:1060
+#: covermanager/albumcovermanager.cpp:1030
+#: covermanager/albumcovermanager.cpp:1056
 msgid "Export finished"
 msgstr "Uložení dokončeno"
 
-#: covermanager/albumcovermanager.cpp:1045
+#: covermanager/albumcovermanager.cpp:1041
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Uloženo %1 obalů z %2 (%3 přeskočeno)"
@@ -2223,34 +2223,34 @@ msgstr "Doba slábnutí"
 msgid "Failed SQL query: %1"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:408
-#: covermanager/albumcoverchoicecontroller.cpp:425
+#: covermanager/albumcoverchoicecontroller.cpp:404
+#: covermanager/albumcoverchoicecontroller.cpp:421
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:198
+#: covermanager/albumcoverchoicecontroller.cpp:196
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:274
-#: covermanager/albumcoverchoicecontroller.cpp:648
+#: covermanager/albumcoverchoicecontroller.cpp:270
+#: covermanager/albumcoverchoicecontroller.cpp:642
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:642
+#: covermanager/albumcoverchoicecontroller.cpp:636
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:280
+#: covermanager/albumcoverchoicecontroller.cpp:276
 #, qt-format
 msgid "Failed writing cover to file %1."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:268
+#: covermanager/albumcoverchoicecontroller.cpp:264
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
@@ -2284,8 +2284,8 @@ msgstr "Stahování dokončeno"
 msgid "Fetch entire albums when searching songs"
 msgstr "Načítat celá alba při vyhledávání"
 
-#: covermanager/coverfromurldialog.cpp:91
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:89
+#: covermanager/coverfromurldialog.cpp:99
 msgid "Fetching cover error"
 msgstr "Chyba při stahování obalu"
 
@@ -2349,7 +2349,7 @@ msgstr "Soubory k překódování"
 msgid "Files, playlists and queue buttons"
 msgstr "Soubory, playlisty a tlačítka fronty"
 
-#: context/contextview.cpp:206
+#: context/contextview.cpp:204
 msgid "Filetype"
 msgstr "Typ souboru"
 
@@ -2692,12 +2692,12 @@ msgid ""
 "donating."
 msgstr "Líbí se a vyhovuje vám-li Strawberry, zvažte příspěvek."
 
-#: covermanager/albumcoverchoicecontroller.cpp:81
+#: covermanager/albumcoverchoicecontroller.cpp:79
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr ""
 "Obrázky (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:82
+#: covermanager/albumcoverchoicecontroller.cpp:80
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Obrázky (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
@@ -2800,7 +2800,7 @@ msgstr ""
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr "Bylo zjištěno, že Strawberry běží jako Snap"
 
-#: core/mainwindow.cpp:1056
+#: core/mainwindow.cpp:1052
 msgid ""
 "It seems that Strawberry is running under Rosetta. Strawberry currently has "
 "limited macOS support, and running Strawberry under Rosetta is unsupported "
@@ -2872,7 +2872,7 @@ msgstr "Nejméně oblíbené skladby"
 msgid "Left"
 msgstr "Vlevo"
 
-#: context/contextview.cpp:207 playlist/playlist.cpp:1358
+#: context/contextview.cpp:205 playlist/playlist.cpp:1358
 #: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:824
 msgid "Length"
 msgstr "Délka"
@@ -2910,16 +2910,16 @@ msgstr "Načíst"
 msgid "Load cover from URL"
 msgstr "Nahrát obal z adresy (URL)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:109
+#: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Load cover from URL..."
 msgstr "Nahrát obal z adresy (URL)..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:177
-#: covermanager/albumcoverchoicecontroller.cpp:209
+#: covermanager/albumcoverchoicecontroller.cpp:175
+#: covermanager/albumcoverchoicecontroller.cpp:207
 msgid "Load cover from disk"
 msgstr "Nahrát obal z disku"
 
-#: covermanager/albumcoverchoicecontroller.cpp:107
+#: covermanager/albumcoverchoicecontroller.cpp:105
 msgid "Load cover from disk..."
 msgstr "Nahrát obal na disku..."
 
@@ -2943,7 +2943,7 @@ msgstr "Nahrávání chytrého playlistu"
 msgid "Loading songs"
 msgstr "Nahrávají se písně"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:411
+#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:410
 msgid "Loading tracks"
 msgstr "Nahrávají se skladby"
 
@@ -3026,12 +3026,12 @@ msgstr "Hlavní profil"
 msgid "Manage saved groupings"
 msgstr "Spravovat uložená seskupení"
 
-#: dialogs/edittagdialog.cpp:869
+#: dialogs/edittagdialog.cpp:868
 #, qt-format
 msgid "Manually cover art from %1 is missing"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:860
+#: dialogs/edittagdialog.cpp:859
 #, qt-format
 msgid "Manually set cover art from %1"
 msgstr ""
@@ -3213,7 +3213,7 @@ msgstr "Přesunout do sbírky..."
 msgid "Move up"
 msgstr "Posunout nahoru"
 
-#: core/mainwindow.cpp:2222 transcoder/transcodedialog.cpp:323
+#: core/mainwindow.cpp:2218 transcoder/transcodedialog.cpp:323
 msgid "Music"
 msgstr "Hudba"
 
@@ -3239,7 +3239,7 @@ msgstr "Úzké pásmo"
 msgid "Network Proxy"
 msgstr "Síťová proxy"
 
-#: playlist/playlistdelegates.cpp:346 dialogs/edittagdialog.cpp:888
+#: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:887
 msgid "Never"
 msgstr "Nikdy"
 
@@ -3257,7 +3257,7 @@ msgstr "Nikdy nezačít přehrávání"
 msgid "New folder"
 msgstr "Nová složka"
 
-#: core/mainwindow.cpp:2040
+#: core/mainwindow.cpp:2036
 msgid "New playlist"
 msgstr "Nový seznam skladeb"
 
@@ -3281,7 +3281,7 @@ msgstr "Nové skladby budou přidány automaticky."
 msgid "Newest tracks"
 msgstr "Nejnovější skladby"
 
-#: dialogs/edittagdialog.cpp:224 dialogs/trackselectiondialog.cpp:70
+#: dialogs/edittagdialog.cpp:223 dialogs/trackselectiondialog.cpp:70
 msgid "Next"
 msgstr "Další"
 
@@ -3297,7 +3297,7 @@ msgstr "Příští týden"
 msgid "No analyzer"
 msgstr "Žádný analyzátor"
 
-#: covermanager/albumcovermanager.cpp:1035
+#: covermanager/albumcovermanager.cpp:1031
 msgid "No covers to export."
 msgstr "Žádné obaly k uložení"
 
@@ -3328,13 +3328,13 @@ msgstr "Žádné krátké bloky"
 msgid "No song playing"
 msgstr "Žádná skladba se nepřehrává"
 
-#: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:810
-#: dialogs/edittagdialog.cpp:820 ../build/src/ui_groupbydialog.h:190
+#: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:809
+#: dialogs/edittagdialog.cpp:819 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 msgid "None"
 msgstr "Žádná"
 
-#: core/mainwindow.cpp:2613 core/mainwindow.cpp:2764
+#: core/mainwindow.cpp:2609 core/mainwindow.cpp:2760
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Žádná z vybraných písní nebyla vhodná ke zkopírování do zařízení"
@@ -3567,7 +3567,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1338 core/mainwindow.cpp:1837
+#: core/mainwindow.cpp:1334 core/mainwindow.cpp:1833
 #: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Pozastavit"
@@ -3595,8 +3595,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Prostý postranní panel"
 
-#: core/mainwindow.cpp:722 core/mainwindow.cpp:1295 core/mainwindow.cpp:1322
-#: core/mainwindow.cpp:1841 core/qtsystemtrayicon.cpp:160
+#: core/mainwindow.cpp:722 core/mainwindow.cpp:1291 core/mainwindow.cpp:1318
+#: core/mainwindow.cpp:1837 core/qtsystemtrayicon.cpp:160
 #: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Přehrát"
@@ -3667,7 +3667,7 @@ msgstr "Tlačítka playlistů"
 msgid "Playlist finished"
 msgstr "Seznam skladeb dokončen"
 
-#: core/mainwindow.cpp:2313
+#: core/mainwindow.cpp:2309
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3793,7 +3793,7 @@ msgstr "Možnosti vzhledu OSD"
 msgid "Preview"
 msgstr "Náhled"
 
-#: dialogs/edittagdialog.cpp:223 dialogs/trackselectiondialog.cpp:69
+#: dialogs/edittagdialog.cpp:222 dialogs/trackselectiondialog.cpp:69
 msgid "Previous"
 msgstr "Předchozí"
 
@@ -3845,20 +3845,20 @@ msgstr "Dotazování se zařízení..."
 msgid "Queue"
 msgstr "Fronta"
 
-#: core/mainwindow.cpp:1941
+#: core/mainwindow.cpp:1937
 msgid "Queue selected tracks"
 msgstr "Přidat vybrané skladby do řady"
 
-#: core/mainwindow.cpp:728 core/mainwindow.cpp:1945
+#: core/mainwindow.cpp:728 core/mainwindow.cpp:1941
 msgid "Queue selected tracks to play next"
 msgstr "Přidat vybrané skladby do fronty"
 
-#: core/mainwindow.cpp:1948 collection/collectionview.cpp:354
+#: core/mainwindow.cpp:1944 collection/collectionview.cpp:354
 #: internet/internetcollectionview.cpp:320
 msgid "Queue to play next"
 msgstr "Do fronty jako další"
 
-#: core/mainwindow.cpp:1940 collection/collectionview.cpp:353
+#: core/mainwindow.cpp:1936 collection/collectionview.cpp:353
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 #: internet/internetsearchview.cpp:323 internet/internetcollectionview.cpp:319
 msgid "Queue track"
@@ -4140,7 +4140,7 @@ msgstr "Obnovit výchozí"
 msgid "Reset play counts"
 msgstr "Vynulovat počty přehrání"
 
-#: dialogs/edittagdialog.cpp:1275
+#: dialogs/edittagdialog.cpp:1274
 msgid "Reset song play statistics"
 msgstr ""
 
@@ -4236,7 +4236,7 @@ msgstr "Po dokončení kopírování bezpečně odebrat zařízení"
 msgid "Sample rate"
 msgstr "Vzorkovací kmitočet"
 
-#: context/contextview.cpp:208
+#: context/contextview.cpp:206
 msgid "Samplerate"
 msgstr "Vzorkovací frekvence"
 
@@ -4244,7 +4244,7 @@ msgstr "Vzorkovací frekvence"
 msgid "Save &playlist..."
 msgstr "Uložit seznam skladeb..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:248
+#: covermanager/albumcoverchoicecontroller.cpp:244
 msgid "Save album cover"
 msgstr "Uložit obal alba"
 
@@ -4260,7 +4260,7 @@ msgstr "Ukládat obaly alb ve složce alba"
 msgid "Save album covers in cache directory"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:108
+#: covermanager/albumcoverchoicecontroller.cpp:106
 msgid "Save cover to disk..."
 msgstr "Uložit obal na disk..."
 
@@ -4314,7 +4314,7 @@ msgstr "Ukládání obalů alb"
 msgid "Saving playcounts and ratings"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:306 dialogs/trackselectiondialog.cpp:289
+#: dialogs/edittagdialog.cpp:305 dialogs/trackselectiondialog.cpp:289
 msgid "Saving tracks"
 msgstr "Ukládají se skladby"
 
@@ -4340,14 +4340,14 @@ msgstr ""
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Systém pro doporučování hudby %1 není přihlášen!"
 
-#: covermanager/albumcoversearcher.cpp:206
-#: covermanager/albumcoversearcher.cpp:224
+#: covermanager/albumcoversearcher.cpp:200
+#: covermanager/albumcoversearcher.cpp:218
 #: ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_internettabsview.h:116
 msgid "Search"
 msgstr "Hledat"
 
-#: covermanager/albumcoverchoicecontroller.cpp:118
+#: covermanager/albumcoverchoicecontroller.cpp:116
 msgid "Search automatically"
 msgstr "Hledat automaticky"
 
@@ -4356,7 +4356,7 @@ msgstr "Hledat automaticky"
 msgid "Search delay"
 msgstr "Zpožděné vyhledávání"
 
-#: covermanager/albumcoverchoicecontroller.cpp:110
+#: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Search for album covers..."
 msgstr "Hledat obaly alb..."
 
@@ -4460,7 +4460,7 @@ msgstr "Adresa serveru není správná."
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:1981
+#: core/mainwindow.cpp:1977
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Nastavit %1 na \"%2\"..."
@@ -4541,7 +4541,7 @@ msgstr "Ukazovat OSD"
 msgid "Show above status bar"
 msgstr "Ukazovat nad stavovým řádkem"
 
-#: context/contextview.cpp:296
+#: context/contextview.cpp:294
 msgid "Show album cover"
 msgstr "Ukazovat obal alba"
 
@@ -4569,11 +4569,11 @@ msgstr ""
 msgid "Show dividers"
 msgstr "Ukazovat oddělovače"
 
-#: context/contextview.cpp:304
+#: context/contextview.cpp:302
 msgid "Show engine and device"
 msgstr "Zobrazit engine a zařízení"
 
-#: covermanager/albumcoverchoicecontroller.cpp:116
+#: covermanager/albumcoverchoicecontroller.cpp:114
 msgid "Show fullsize..."
 msgstr "Ukázat v plné velikosti..."
 
@@ -4622,7 +4622,7 @@ msgstr "Zobrazit tlačítko pro doporučování hudby"
 msgid "Show sidebar"
 msgstr "Zobrazovat boční panel"
 
-#: context/contextview.cpp:308
+#: context/contextview.cpp:306
 msgid "Show song lyrics"
 msgstr "Zobrazovat texty skladeb"
 
@@ -4630,7 +4630,7 @@ msgstr "Zobrazovat texty skladeb"
 msgid "Show song progress on system tray icon"
 msgstr ""
 
-#: context/contextview.cpp:300
+#: context/contextview.cpp:298
 msgid "Show song technical data"
 msgstr "Zobrazovat technická data"
 
@@ -4703,11 +4703,11 @@ msgstr "Počet přeskočení"
 msgid "Skip forwards in playlist"
 msgstr "Další skladba v seznamu skladeb"
 
-#: core/mainwindow.cpp:1954
+#: core/mainwindow.cpp:1950
 msgid "Skip selected tracks"
 msgstr "Přeskočit vybrané skladby"
 
-#: core/mainwindow.cpp:1953
+#: core/mainwindow.cpp:1949
 msgid "Skip track"
 msgstr "Přeskočit skladbu"
 
@@ -4905,7 +4905,7 @@ msgid ""
 "restrictions such as accessing certain devices or network shares."
 msgstr ""
 
-#: core/mainwindow.cpp:1056
+#: core/mainwindow.cpp:1052
 msgid "Strawberry running under Rosetta"
 msgstr ""
 
@@ -5066,15 +5066,15 @@ msgstr "Internetová kolekce je prázdná!"
 msgid "The second value must be greater than the first one!"
 msgstr ""
 
-#: covermanager/coverfromurldialog.cpp:91
+#: covermanager/coverfromurldialog.cpp:89
 msgid "The site you requested does not exist!"
 msgstr "Požadovaná stránka neexistuje!"
 
-#: covermanager/coverfromurldialog.cpp:105
+#: covermanager/coverfromurldialog.cpp:99
 msgid "The site you requested is not an image!"
 msgstr "Požadovaná stránka není obrázek!"
 
-#: core/mainwindow.cpp:2877
+#: core/mainwindow.cpp:2873
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5208,7 +5208,7 @@ msgstr "Dnes"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:725 core/mainwindow.cpp:1942
+#: core/mainwindow.cpp:725 core/mainwindow.cpp:1938
 msgid "Toggle queue status"
 msgstr "Přepnout stav řady"
 
@@ -5216,7 +5216,7 @@ msgstr "Přepnout stav řady"
 msgid "Toggle scrobbling"
 msgstr "Přepnout odesílání informací o přehrávání"
 
-#: core/mainwindow.cpp:731 core/mainwindow.cpp:1955
+#: core/mainwindow.cpp:731 core/mainwindow.cpp:1951
 msgid "Toggle skip status"
 msgstr "Přepnout stav přeskakování"
 
@@ -5321,10 +5321,10 @@ msgstr ""
 #: core/song.cpp:725 collection/collectionmodel.cpp:477
 #: collection/collectionmodel.cpp:482 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
-#: collection/collectionmodel.cpp:1663 collection/savedgroupingmanager.cpp:153
-#: playlist/playlistdelegates.cpp:360 playlist/playlistmanager.cpp:550
-#: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:765
-#: dialogs/edittagdialog.cpp:792 ../build/src/ui_scrobblersettingspage.h:428
+#: collection/collectionmodel.cpp:1661 collection/savedgroupingmanager.cpp:153
+#: playlist/playlistdelegates.cpp:356 playlist/playlistmanager.cpp:550
+#: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:764
+#: dialogs/edittagdialog.cpp:791 ../build/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Neznámý"
 
@@ -5340,19 +5340,19 @@ msgstr ""
 msgid "Unknown playlist extension"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:813
+#: dialogs/edittagdialog.cpp:812
 msgid "Unset"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:111
+#: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Unset cover"
 msgstr "Odebrat obal"
 
-#: core/mainwindow.cpp:1952
+#: core/mainwindow.cpp:1948
 msgid "Unskip selected tracks"
 msgstr "Zrušit přeskočení vybraných skladeb"
 
-#: core/mainwindow.cpp:1951
+#: core/mainwindow.cpp:1947
 msgid "Unskip track"
 msgstr "Zrušit přeskočení skladby"
 
@@ -5360,7 +5360,7 @@ msgstr "Zrušit přeskočení skladby"
 msgid "Update the collection when Strawberry starts"
 msgstr "Při spuštění Strawberry obnovit hudební sbírku"
 
-#: collection/collectionwatcher.cpp:205
+#: collection/collectionwatcher.cpp:206
 #, qt-format
 msgid "Updating %1"
 msgstr "Obnovuje se %1"
@@ -5375,7 +5375,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "Obnovuje se %1%..."
 
-#: collection/collectionwatcher.cpp:202
+#: collection/collectionwatcher.cpp:203
 msgid "Updating collection"
 msgstr "Obnovuje se hudební sbírka"
 
@@ -5605,7 +5605,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2881
+#: core/mainwindow.cpp:2877
 msgid "Would you like to run a full rescan right now?"
 msgstr "Chcete spustit toto úplné nové prohledání hned teď?"
 
@@ -5822,8 +5822,8 @@ msgstr "hardware"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:529 context/contextview.cpp:651
-#: playlist/playlistview.cpp:269 dialogs/edittagdialog.cpp:787
+#: context/contextview.cpp:527 context/contextview.cpp:649
+#: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:786
 msgid "kbps"
 msgstr "kb/s"
 
@@ -5921,7 +5921,7 @@ msgstr "Třídit skladby"
 msgid "starts with"
 msgstr ""
 
-#: playlist/playlistdelegates.cpp:227
+#: playlist/playlistdelegates.cpp:223
 msgid "stop"
 msgstr "zastavit"
 
@@ -5930,6 +5930,6 @@ msgstr "zastavit"
 msgid "track %1"
 msgstr "skladba %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:243
+#: covermanager/albumcoverchoicecontroller.cpp:239
 msgid "unknown"
 msgstr "neznámý"
