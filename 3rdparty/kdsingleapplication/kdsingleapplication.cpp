@@ -23,8 +23,6 @@ class KDSingleApplicationPrivate
 public:
     explicit KDSingleApplicationPrivate(const QString &name, KDSingleApplication *q);
 
-    void initialize();
-
     QString name() const
     {
         return m_name;
