@@ -1342,7 +1342,7 @@ msgstr "Фильтр фонотеки"
 msgid "Collection advanced grouping"
 msgstr "Расширенная группировка фонотеки"
 
-#: core/mainwindow.cpp:2878
+#: core/mainwindow.cpp:2877
 msgid "Collection rescan notice"
 msgstr "Уведомление о пересканировании фонотеки"
 
@@ -2120,7 +2120,7 @@ msgstr "Аналогично --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
-#: core/mainwindow.cpp:2609 core/mainwindow.cpp:2760
+#: core/mainwindow.cpp:2608 core/mainwindow.cpp:2759
 #: collection/collectionview.cpp:586
 msgid "Error"
 msgstr "Ошибка"
@@ -3373,7 +3373,7 @@ msgstr "Ничего не играет"
 msgid "None"
 msgstr "Нет"
 
-#: core/mainwindow.cpp:2609 core/mainwindow.cpp:2760
+#: core/mainwindow.cpp:2608 core/mainwindow.cpp:2759
 #: collection/collectionview.cpp:586
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ни одна из выбранных песен не подходит для копирования на устройство"
@@ -5127,7 +5127,7 @@ msgstr "Запрошенный сайт не существует!"
 msgid "The site you requested is not an image!"
 msgstr "Запрошенная ссылка не является изображением!"
 
-#: core/mainwindow.cpp:2873
+#: core/mainwindow.cpp:2872
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5664,7 +5664,7 @@ msgstr ""
 "Хотите ли вы переместить и другие песни из этого альбома в «Различные "
 "артисты»?"
 
-#: core/mainwindow.cpp:2877
+#: core/mainwindow.cpp:2876
 msgid "Would you like to run a full rescan right now?"
 msgstr "Хотите выполнить полное пересканирование сейчас?"
 
