@@ -16,12 +16,16 @@ Unreleased:
     * Fixed listenbrainz scrobbling for songs without duration.
     * Fixed gapless playback sometimes not working.
     * (macOS) Fixed "Show this message" checkbox having no affect on Rosetta warning dialog (#1180).
+    * (macOS) Disable unused D-Bus.
+    * (Windows) Fixed command line options not working with diacritics (#1191).
 
   Enhancements:
     * Reduce memory overhead with album cover handling (#1046).
     * Improved listenbrainz error handling.
     * Show error dialog for listenbrainz errors similar to last.fm/libre.fm.
     * Reduce NetworkAccessManager instances.
+    * Replace SingleApplication with KDSingleApplication.
+    * Require Qt 5.12 or higher.
 
 Version 1.0.17 (2023.03.29):
 
