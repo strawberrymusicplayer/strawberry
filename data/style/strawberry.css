@@ -64,11 +64,3 @@ QToolButton::menu-button {
   width: 16px;
   border: none;
 }
-
-macos {
-  font-size: 11pt;
-}
-
-macos QMenu {
-  font-size: 13pt;
-}
