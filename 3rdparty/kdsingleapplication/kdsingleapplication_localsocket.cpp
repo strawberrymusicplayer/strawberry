@@ -35,8 +35,10 @@
 #  include <qt_windows.h>
 #endif
 
-static const auto LOCALSOCKET_CONNECTION_TIMEOUT = std::chrono::seconds(5);
-static const char LOCALSOCKET_PROTOCOL_VERSION = 2;
+namespace {
+static constexpr auto LOCALSOCKET_CONNECTION_TIMEOUT = std::chrono::seconds(5);
+static constexpr char LOCALSOCKET_PROTOCOL_VERSION = 2;
+}  // namespace
 
 Q_LOGGING_CATEGORY(kdsaLocalSocket, "kdsingleapplication.localsocket", QtWarningMsg);
 
