@@ -331,7 +331,11 @@ void ContextView::AddActions() {
 void ContextView::ReloadSettings() {
 
   QString default_font;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   if (QFontDatabase::families().contains(ContextSettingsPage::kDefaultFontFamily)) {
+#else
+  if (QFontDatabase().families().contains(ContextSettingsPage::kDefaultFontFamily)) {
+#endif
     default_font = ContextSettingsPage::kDefaultFontFamily;
   }
   else {
