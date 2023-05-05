@@ -120,22 +120,22 @@ msgstr " låtar"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 skrobblarautentisering"
 
-#: context/contextview.cpp:448
+#: context/contextview.cpp:460
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:449
+#: context/contextview.cpp:461
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 album"
 
-#: context/contextview.cpp:444
+#: context/contextview.cpp:456
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artist"
 
-#: context/contextview.cpp:445
+#: context/contextview.cpp:457
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artister"
@@ -176,7 +176,7 @@ msgstr "%1 spellistor (%2)"
 msgid "%1 selected of"
 msgstr "%1 valda av"
 
-#: context/contextview.cpp:440
+#: context/contextview.cpp:452
 #, qt-format
 msgid "%1 song"
 msgstr "%1 låt"
@@ -186,7 +186,7 @@ msgstr "%1 låt"
 msgid "%1 song%2"
 msgstr "%1 låt%2"
 
-#: context/contextview.cpp:441
+#: context/contextview.cpp:453
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 låtar"
@@ -3350,7 +3350,7 @@ msgstr "Ingen leverantör vald."
 msgid "No short blocks"
 msgstr "Inga korta block"
 
-#: context/contextview.cpp:437
+#: context/contextview.cpp:449
 msgid "No song playing"
 msgstr "Ingen låt spelas"
 
@@ -5863,7 +5863,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "de senaste"
 
-#: context/contextview.cpp:527 context/contextview.cpp:649
+#: context/contextview.cpp:539 context/contextview.cpp:661
 #: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:786
 msgid "kbps"
 msgstr "kbps"

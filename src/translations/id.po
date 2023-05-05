@@ -106,22 +106,22 @@ msgstr ""
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autentikasi Scrobbler"
 
-#: context/contextview.cpp:448
+#: context/contextview.cpp:460
 #, qt-format
 msgid "%1 album"
 msgstr ""
 
-#: context/contextview.cpp:449
+#: context/contextview.cpp:461
 #, qt-format
 msgid "%1 albums"
 msgstr ""
 
-#: context/contextview.cpp:444
+#: context/contextview.cpp:456
 #, qt-format
 msgid "%1 artist"
 msgstr ""
 
-#: context/contextview.cpp:445
+#: context/contextview.cpp:457
 #, qt-format
 msgid "%1 artists"
 msgstr ""
@@ -162,7 +162,7 @@ msgstr "%1 daftar putar (%2)"
 msgid "%1 selected of"
 msgstr "%1 terpilih dari"
 
-#: context/contextview.cpp:440
+#: context/contextview.cpp:452
 #, qt-format
 msgid "%1 song"
 msgstr ""
@@ -172,7 +172,7 @@ msgstr ""
 msgid "%1 song%2"
 msgstr "%1 lagu%2"
 
-#: context/contextview.cpp:441
+#: context/contextview.cpp:453
 #, qt-format
 msgid "%1 songs"
 msgstr ""
@@ -3309,7 +3309,7 @@ msgstr ""
 msgid "No short blocks"
 msgstr "Tanpa blok pendek"
 
-#: context/contextview.cpp:437
+#: context/contextview.cpp:449
 msgid "No song playing"
 msgstr "Tidak ada lagu yang berputar"
 
@@ -5789,7 +5789,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:527 context/contextview.cpp:649
+#: context/contextview.cpp:539 context/contextview.cpp:661
 #: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:786
 msgid "kbps"
 msgstr "kbps"

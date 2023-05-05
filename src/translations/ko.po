@@ -108,22 +108,22 @@ msgstr ""
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 스크로블러 인증"
 
-#: context/contextview.cpp:448
+#: context/contextview.cpp:460
 #, qt-format
 msgid "%1 album"
 msgstr "앨범 %1개"
 
-#: context/contextview.cpp:449
+#: context/contextview.cpp:461
 #, qt-format
 msgid "%1 albums"
 msgstr "앨범 %1개"
 
-#: context/contextview.cpp:444
+#: context/contextview.cpp:456
 #, qt-format
 msgid "%1 artist"
 msgstr "아티스트 %1명"
 
-#: context/contextview.cpp:445
+#: context/contextview.cpp:457
 #, qt-format
 msgid "%1 artists"
 msgstr "아티스트 %1명"
@@ -164,7 +164,7 @@ msgstr "재생 목록 %1개(%2)"
 msgid "%1 selected of"
 msgstr "%1개 선택됨,"
 
-#: context/contextview.cpp:440
+#: context/contextview.cpp:452
 #, qt-format
 msgid "%1 song"
 msgstr "노래 %1곡"
@@ -174,7 +174,7 @@ msgstr "노래 %1곡"
 msgid "%1 song%2"
 msgstr "노래 %1곡"
 
-#: context/contextview.cpp:441
+#: context/contextview.cpp:453
 #, qt-format
 msgid "%1 songs"
 msgstr "노래 %1곡"
@@ -3298,7 +3298,7 @@ msgstr "아무 곳도 선택되지 않았습니다."
 msgid "No short blocks"
 msgstr "짧은 블록 없음"
 
-#: context/contextview.cpp:437
+#: context/contextview.cpp:449
 msgid "No song playing"
 msgstr "재생 중인 곡 없음"
 
@@ -5745,7 +5745,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:527 context/contextview.cpp:649
+#: context/contextview.cpp:539 context/contextview.cpp:661
 #: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:786
 msgid "kbps"
 msgstr "kbps"

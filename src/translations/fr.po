@@ -145,22 +145,22 @@ msgstr " morceaux"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 authentification Scrobbler"
 
-#: context/contextview.cpp:448
+#: context/contextview.cpp:460
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:449
+#: context/contextview.cpp:461
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 albums"
 
-#: context/contextview.cpp:444
+#: context/contextview.cpp:456
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artiste"
 
-#: context/contextview.cpp:445
+#: context/contextview.cpp:457
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artistes"
@@ -201,7 +201,7 @@ msgstr "%1 listes de lecture (%2)"
 msgid "%1 selected of"
 msgstr "%1 sélectionnés de"
 
-#: context/contextview.cpp:440
+#: context/contextview.cpp:452
 #, qt-format
 msgid "%1 song"
 msgstr "%1 morceau"
@@ -211,7 +211,7 @@ msgstr "%1 morceau"
 msgid "%1 song%2"
 msgstr "%1 morceau %2"
 
-#: context/contextview.cpp:441
+#: context/contextview.cpp:453
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 morceaux"
@@ -3422,7 +3422,7 @@ msgstr "Aucun fournisseur sélectionné."
 msgid "No short blocks"
 msgstr "Aucun bloc court"
 
-#: context/contextview.cpp:437
+#: context/contextview.cpp:449
 msgid "No song playing"
 msgstr "Aucun morceau en cours de lecture"
 
@@ -5971,7 +5971,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "à la fin"
 
-#: context/contextview.cpp:527 context/contextview.cpp:649
+#: context/contextview.cpp:539 context/contextview.cpp:661
 #: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:786
 msgid "kbps"
 msgstr "kbps"

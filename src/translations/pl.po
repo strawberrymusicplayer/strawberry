@@ -117,22 +117,22 @@ msgstr "utwory"
 msgid "%1 Scrobbler Authentication"
 msgstr "Uwierzytelnianie w scrobblera %1"
 
-#: context/contextview.cpp:448
+#: context/contextview.cpp:460
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:449
+#: context/contextview.cpp:461
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 albumy(ów)"
 
-#: context/contextview.cpp:444
+#: context/contextview.cpp:456
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artysta"
 
-#: context/contextview.cpp:445
+#: context/contextview.cpp:457
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artyści(ów)"
@@ -173,7 +173,7 @@ msgstr "%1 list(y) odtwarzania (%2)"
 msgid "%1 selected of"
 msgstr "zaznaczono %1 z"
 
-#: context/contextview.cpp:440
+#: context/contextview.cpp:452
 #, qt-format
 msgid "%1 song"
 msgstr "%1 utwór"
@@ -183,7 +183,7 @@ msgstr "%1 utwór"
 msgid "%1 song%2"
 msgstr "%1 utwory(ów)%2"
 
-#: context/contextview.cpp:441
+#: context/contextview.cpp:453
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 utwory(ów)"
@@ -3343,7 +3343,7 @@ msgstr "Nie wybrano żadnego dostawcy."
 msgid "No short blocks"
 msgstr "Bez krótkich bloków"
 
-#: context/contextview.cpp:437
+#: context/contextview.cpp:449
 msgid "No song playing"
 msgstr "Żaden utwór nie jest odtwarzany"
 
@@ -5854,7 +5854,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "w ciągu ostatnich"
 
-#: context/contextview.cpp:527 context/contextview.cpp:649
+#: context/contextview.cpp:539 context/contextview.cpp:661
 #: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:786
 msgid "kbps"
 msgstr "kb/s"

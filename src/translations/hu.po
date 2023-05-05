@@ -119,22 +119,22 @@ msgstr " számok"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 scrobbler hitelesítés"
 
-#: context/contextview.cpp:448
+#: context/contextview.cpp:460
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:449
+#: context/contextview.cpp:461
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 album"
 
-#: context/contextview.cpp:444
+#: context/contextview.cpp:456
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 előadó"
 
-#: context/contextview.cpp:445
+#: context/contextview.cpp:457
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 előadó"
@@ -175,7 +175,7 @@ msgstr "%1 lejátszólista (%2)"
 msgid "%1 selected of"
 msgstr "%1 kiválasztva ennyiből:"
 
-#: context/contextview.cpp:440
+#: context/contextview.cpp:452
 #, qt-format
 msgid "%1 song"
 msgstr "%1 szám"
@@ -185,7 +185,7 @@ msgstr "%1 szám"
 msgid "%1 song%2"
 msgstr "%1 szám%2"
 
-#: context/contextview.cpp:441
+#: context/contextview.cpp:453
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 szám"
@@ -3344,7 +3344,7 @@ msgstr "Nincsenek szolgáltatók kiválasztva."
 msgid "No short blocks"
 msgstr "Rövid blokkok nélkül"
 
-#: context/contextview.cpp:437
+#: context/contextview.cpp:449
 msgid "No song playing"
 msgstr "Nincs lejátszott szám"
 
@@ -5846,7 +5846,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "a végén"
 
-#: context/contextview.cpp:527 context/contextview.cpp:649
+#: context/contextview.cpp:539 context/contextview.cpp:661
 #: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:786
 msgid "kbps"
 msgstr "kb/s"
