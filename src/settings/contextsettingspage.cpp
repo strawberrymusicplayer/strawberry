@@ -56,6 +56,7 @@ const char *ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSe
   "SearchLyricsEnable",
 };
 
+const char ContextSettingsPage::kDefaultFontFamily[] = "Noto Sans";
 const qreal ContextSettingsPage::kDefaultFontSizeHeadline = 11;
 
 ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent)
@@ -141,12 +142,12 @@ void ContextSettingsPage::Load() {
 
   // Fonts
   QString default_font;
-  int i = ui_->font_headline->findText("Noto Sans");
+  int i = ui_->font_headline->findText(kDefaultFontFamily);
   if (i >= 0) {
-    default_font = "Noto Sans";
+    default_font = kDefaultFontFamily;
   }
   else {
-    default_font = QWidget().font().family();
+    default_font = font().family();
   }
   ui_->font_headline->setCurrentFont(s.value("font_headline", default_font).toString());
   ui_->font_normal->setCurrentFont(s.value("font_normal", default_font).toString());
