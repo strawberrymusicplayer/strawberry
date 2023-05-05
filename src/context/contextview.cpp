@@ -330,6 +330,14 @@ void ContextView::AddActions() {
 
 void ContextView::ReloadSettings() {
 
+  QString default_font;
+  if (QFontDatabase::families().contains(ContextSettingsPage::kDefaultFontFamily)) {
+    default_font = ContextSettingsPage::kDefaultFontFamily;
+  }
+  else {
+    default_font = font().family();
+  }
+
   QSettings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
   title_fmt_ = s.value(ContextSettingsPage::kSettingsTitleFmt, "%title% - %artist%").toString();
@@ -339,11 +347,11 @@ void ContextView::ReloadSettings() {
   action_show_output_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE)], false).toBool());
   action_show_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS)], true).toBool());
   action_search_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS)], true).toBool());
-  font_headline_.setFamily(s.value("font_headline", font().family()).toString());
+  font_headline_.setFamily(s.value("font_headline", default_font).toString());
   font_headline_.setPointSizeF(s.value("font_size_headline", ContextSettingsPage::kDefaultFontSizeHeadline).toReal());
   font_nosong_.setFamily(font_headline_.family());
   font_nosong_.setPointSizeF(font_headline_.pointSizeF() * 1.6F);
-  font_normal_.setFamily(s.value("font_normal", font().family()).toString());
+  font_normal_.setFamily(s.value("font_normal", default_font).toString());
   font_normal_.setPointSizeF(s.value("font_size_normal", font().pointSizeF()).toReal());
   s.endGroup();
 
