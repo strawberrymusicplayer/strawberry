@@ -25,14 +25,14 @@
 #include <chrono>
 #include <algorithm>
 
-#if defined(Q_OS_UNIX)
+#ifdef Q_OS_UNIX
 // for ::getuid()
-#include <sys/types.h>
-#include <unistd.h>
+#  include <sys/types.h>
+#  include <unistd.h>
 #endif
 
-#if defined(Q_OS_WIN)
-#include <qt_windows.h>
+#ifdef Q_OS_WIN
+#  include <qt_windows.h>
 #endif
 
 static const auto LOCALSOCKET_CONNECTION_TIMEOUT = std::chrono::seconds(5);
