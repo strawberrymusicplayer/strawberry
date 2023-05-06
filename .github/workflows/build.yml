@@ -299,6 +299,86 @@ jobs:
         run: rpmbuild -ba ../dist/unix/strawberry.spec
 
 
+  build_mageia:
+    name: Build Mageia
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mageia_version: [ '8' ]
+    container:
+      image: mageia:${{matrix.mageia_version}}
+    steps:
+      - name: Update repositories
+        run: urpmi.update --auto -a
+      - name: Upgrade packages
+        run: urpmi --auto --auto-update
+      - name: Install dependencies
+        run: >
+          urpmi --auto --force urpmi-debuginfo-install
+          git
+          glibc
+          gcc-c++
+          binutils
+          make
+          cmake
+          man
+          tar
+          rpmdevtools
+          gettext
+          lib64boost-devel
+          lib64protobuf-devel
+          lib64sqlite3-devel
+          lib64alsa2-devel
+          lib64pulseaudio-devel
+          lib64gstreamer1.0-devel
+          lib64gstreamer-plugins-base1.0-devel
+          lib64cdio-devel
+          lib64gpod-devel
+          lib64mtp-devel
+          lib64taglib-devel
+          lib64chromaprint-devel
+          lib64icu-devel
+          lib64gnutls-devel
+          lib64fftw-devel
+          lib64dbus-devel
+          lib64appstream-devel
+          protobuf-compiler
+          desktop-file-utils
+          appstream-util
+          hicolor-icon-theme
+      - name: Install Qt 5
+        if: matrix.mageia_version == '8'
+        run: urpmi --auto --force urpmi-debuginfo-install lib64qt5core-devel lib64qt5gui-devel lib64qt5widgets-devel lib64qt5network-devel lib64qt5concurrent-devel lib64qt5sql-devel lib64qt5dbus-devel lib64qt5help-devel lib64qt5test-devel lib64qt5x11extras-devel
+      - name: Install Qt 6
+        if: matrix.mageia_version == 'cauldron'
+        run: urpmi --auto --force urpmi-debuginfo-install lib64qt6core-devel lib64qt6gui-devel lib64qt6widgets-devel lib64qt6network-devel lib64qt6concurrent-devel lib64qt6sql-devel lib64qt6dbus-devel lib64qt6help-devel lib64qt6test-devel
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Add safe git directory
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
+      - name: Create Build Environment
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        working-directory: build
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
+      - name: Build RPM
+        env:
+          RPM_BUILD_NCPUS: "2"
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
   build_debian:
     name: Build Debian
     runs-on: ubuntu-latest
