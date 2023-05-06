@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 jobs:
 
-  build_opensuse:
+  build-opensuse:
     name: Build openSUSE
     runs-on: ubuntu-latest
     strategy:
@@ -38,6 +38,7 @@ jobs:
             make
             cmake
             gettext-tools
+            rsync
             glibc-devel
             libboost_headers-devel
             boost-devel
@@ -97,7 +98,8 @@ jobs:
       - name: Install tagparser
         if: matrix.opensuse_version == 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys in tagparser-devel
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -125,9 +127,34 @@ jobs:
           CC: gcc-10
           CXX: g++-10
         run: rpmbuild -ba ../dist/unix/strawberry.spec
+      - name: Set opensuse subdir
+        run: echo "opensuse_subdir=$(echo ${{matrix.opensuse_version}} | sed 's/leap:/lp/g' | sed 's/\.//g')" > $GITHUB_ENV
+      - name: Upload artifacts
+        if: matrix.opensuse_version != 'tumbleweed'
+        uses: actions/upload-artifact@v3
+        with:
+          name: opensuse-${{env.opensuse_subdir}}
+          path: |
+            /usr/src/packages/SOURCES/*.xz
+            /usr/src/packages/SRPMS/*.rpm
+            /usr/src/packages/RPMS/x86_64/*.rpm
+      - name: SSH key setup
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+      - name: Create server path
+        if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/source ${{secrets.BUILDS_PATH}}/opensuse/${{env.opensuse_subdir}}
+      - name: rsync source
+        if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version == 'tumbleweed'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /usr/src/packages/SOURCES/*.xz ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/opensuse/${{env.opensuse_subdir}}/
+      - name: rsync rpms
+        if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version != 'tumbleweed'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /usr/src/packages/SRPMS/*.rpm /usr/src/packages/RPMS/x86_64/*.rpm ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/opensuse/${{env.opensuse_subdir}}/
 
 
-  build_fedora:
+  build-fedora:
     name: Build Fedora
     runs-on: ubuntu-latest
     strategy:
@@ -159,6 +186,7 @@ jobs:
             tar
             gettext
             openssh
+            rsync
             boost-devel
             dbus-devel
             protobuf-devel
@@ -185,7 +213,8 @@ jobs:
             hicolor-icon-theme
       - name: Remove dangling Qt 6 SQL CMake files
         run: rm -rf /usr/lib64/cmake/Qt6Sql/{Qt6QMYSQL*,Qt6QODBCD*,Qt6QPSQL*}
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -208,9 +237,27 @@ jobs:
           RPM_BUILD_NCPUS: "2"
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: fedora-${{matrix.fedora_version}}
+          path: |
+            /github/home/rpmbuild/SRPMS/*.rpm
+            /github/home/rpmbuild/RPMS/x86_64/*.rpm
+      - name: SSH key setup
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+      - name: Create server path
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/fedora/${{matrix.fedora_version}}
+      - name: rsync
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /github/home/rpmbuild/SRPMS/*.rpm /github/home/rpmbuild/RPMS/x86_64/*.rpm ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/fedora/${{matrix.fedora_version}}/
 
 
-  build_openmandriva:
+  build-openmandriva:
     name: Build OpenMandriva
     runs-on: ubuntu-latest
     strategy:
@@ -238,6 +285,7 @@ jobs:
           lsb-release
           rpmdevtools
           rpm-build
+          rsync
           glibc-devel
           boost-devel
           dbus-devel
@@ -271,7 +319,8 @@ jobs:
           appstream
           appstream-util
           hicolor-icon-theme
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -294,9 +343,27 @@ jobs:
           RPM_BUILD_NCPUS: "2"
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: openmandriva-${{matrix.openmandriva_version}}
+          path: |
+            /github/home/rpmbuild/SRPMS/*.rpm
+            /github/home/rpmbuild/RPMS/x86_64/*.rpm
+      - name: SSH key setup
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+      - name: Create server path
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/openmandriva/${{matrix.openmandriva_version}}
+      - name: rsync
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /github/home/rpmbuild/SRPMS/*.rpm /github/home/rpmbuild/RPMS/x86_64/*.rpm ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/openmandriva/${{matrix.openmandriva_version}}/
 
 
-  build_mageia:
+  build-mageia:
     name: Build Mageia
     runs-on: ubuntu-latest
     strategy:
@@ -323,6 +390,7 @@ jobs:
           tar
           rpmdevtools
           gettext
+          rsync
           lib64boost-devel
           lib64protobuf-devel
           lib64sqlite3-devel
@@ -350,7 +418,8 @@ jobs:
       - name: Install Qt 6
         if: matrix.mageia_version == 'cauldron'
         run: urpmi --auto --force urpmi-debuginfo-install lib64qt6core-devel lib64qt6gui-devel lib64qt6widgets-devel lib64qt6network-devel lib64qt6concurrent-devel lib64qt6sql-devel lib64qt6dbus-devel lib64qt6help-devel lib64qt6test-devel
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -373,9 +442,27 @@ jobs:
           RPM_BUILD_NCPUS: "2"
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: mageia-${{matrix.mageia_version}}
+          path:
+            /github/home/rpmbuild/SRPMS/*.rpm
+            /github/home/rpmbuild/RPMS/x86_64/*.rpm
+      - name: SSH key setup
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+      - name: Create server path
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/mageia/${{matrix.mageia_version}}
+      - name: rsync
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /github/home/rpmbuild/SRPMS/*.rpm /github/home/rpmbuild/RPMS/x86_64/*.rpm ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/mageia/${{matrix.mageia_version}}/
 
 
-  build_debian:
+  build-debian:
     name: Build Debian
     runs-on: ubuntu-latest
     strategy:
@@ -404,8 +491,9 @@ jobs:
             fakeroot
             gettext
             lsb-release
-            libglib2.0-dev
+            rsync
             dpkg-dev
+            libglib2.0-dev
             libdbus-1-dev
             libboost-dev
             libprotobuf-dev
@@ -435,7 +523,8 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: apt install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -446,9 +535,27 @@ jobs:
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: make deb
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
+      - name: Copy deb
+        run: cp ../*.deb .
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: debian-${{matrix.debian_version}}
+          path: "*.deb"
+      - name: SSH key setup
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+      - name: Create server path
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/debian/${{matrix.debian_version}}
+      - name: rsync
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var *.deb ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/debian/${{matrix.debian_version}}/
 
 
-  build_ubuntu:
+  build-ubuntu:
     name: Build Ubuntu
     runs-on: ubuntu-latest
     strategy:
@@ -479,6 +586,7 @@ jobs:
             curl
             gettext
             lsb-release
+            rsync
             dpkg-dev
             libglib2.0-dev
             libboost-dev
@@ -511,7 +619,8 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: apt install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -522,13 +631,34 @@ jobs:
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: make deb
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
+      - name: Copy deb
+        run: cp ../*.deb ../*.ddeb .
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ubuntu-${{matrix.ubuntu_version}}
+          path: |
+            *.deb
+            *.ddeb
+      - name: SSH key setup
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+      - name: Create server path
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/ubuntu/${{matrix.ubuntu_version}}
+      - name: rsync
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var *.deb *.ddeb ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/ubuntu/${{matrix.ubuntu_version}}/
 
 
   build-freebsd:
     name: Build FreeBSD
     runs-on: macos-10.15
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Build FreeBSD
@@ -563,7 +693,7 @@ jobs:
 
       - name: Install packages
         run: |
-          brew install pkg-config cmake ninja meson bison flex wget create-dmg gettext boost protobuf protobuf-c
+          brew install pkg-config cmake ninja meson bison flex wget create-dmg gettext boost protobuf protobuf-c rsync
           brew install glib glib-openssl glib-utils glib-networking gdk-pixbuf gobject-introspection orc
           brew install libffi openssl gnutls sqlite fftw libmtp libplist libxml2 libsoup
           brew install libogg libvorbis flac wavpack opus speex mpg123 lame twolame taglib chromaprint libbs2b libcdio libopenmpt faad2 faac fdk-aac musepack game-music-emu
@@ -621,7 +751,8 @@ jobs:
           make -j 4
           sudo make install
 
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -667,10 +798,25 @@ jobs:
         working-directory: build
         run: make dmg
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
         with:
-          name: upload-macos
-          path: build/strawberry-*.dmg
+          name: macos
+          path: build/*.dmg
+
+      - name: SSH key setup
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+
+      - name: Create server path
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/macos
+
+      - name: rsync
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/macos/
 
 
   build-macos-macports:
@@ -721,7 +867,8 @@ jobs:
           cd create-dmg
           sudo make install
 
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -763,30 +910,6 @@ jobs:
         run: make dmg
 
 
-  upload-macos:
-    name: Upload macOS DMG
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/macos'
-    needs:
-      - build-macos-homebrew
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
-        with:
-          path: uploads
-      - name: Install SSH keys
-        uses: shimataro/ssh-key-action@v2
-        with:
-          known_hosts: ${{ secrets.KNOWN_HOSTS2 }}
-          key: ${{ secrets.SSH_KEY }}
-      - name: rsync
-        run: |
-          set -x
-          for i in $(find uploads -type f -name 'strawberry-*.dmg'); do
-            rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/macos/
-          done
-
-
   build-windows-mingw:
     name: Build Windows MinGW
     runs-on: ubuntu-latest
@@ -798,7 +921,11 @@ jobs:
     container:
       image: jonaski/strawberry-mxe-${{matrix.arch}}-${{matrix.build_type}}
     steps:
-      - uses: actions/checkout@v3
+      - name: Install rsync
+        run: zypper -n --gpg-auto-import-keys in rsync
+
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -939,6 +1066,26 @@ jobs:
         working-directory: build
         run: makensis strawberry.nsi
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-mingw
+          path: build/StrawberrySetup*.exe
+
+      - name: SSH key setup
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+
+      - name: Create server path
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/windows/mingw
+
+      - name: rsync
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/windows/mingw/
+
 
   build-windows-msvc:
     name: Build Windows MSVC
@@ -950,6 +1097,20 @@ jobs:
         build_type: [ 'debug', 'release' ]
     steps:
 
+      - name: Delete conflicting files
+        shell: bash
+        run: rm -rf /c/strawberry/c "/c/program files/OpenSSL" "/c/program files/postgresql"
+
+      - name: Delete conflicting mingw
+        shell: bash
+        run: rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe,ccache.exe}
+
+      - name: Delete conflicting icu
+        shell: bash
+        run: |
+          find "/c/program files (x86)/windows kits/" -name 'icu*.lib' -delete
+          find "/c/program files (x86)/windows kits/" -name 'icu*.h' -delete
+
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{matrix.arch}}
@@ -957,15 +1118,10 @@ jobs:
           vsversion: 17
           toolset: 14.3
 
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - name: Delete conflicting files
-        shell: bash
-        run: |
-          rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe,ccache.exe}
-          rm -f /c/strawberry/c/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,ld.exe,nm.exe,ranlib.exe,readelf.exe,widl.exe,windmc.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.3.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe}
 
       - name: Get latest MSVC dependencies
         shell: bash
@@ -1238,31 +1394,37 @@ jobs:
         working-directory: build
         run: makensis strawberry.nsi
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
         with:
-          name: upload-windows
+          name: windows-msvc
           path: build/StrawberrySetup*.exe
 
 
-  upload-windows-msvc:
-    name: Upload Windows MSVC Setup
+  rsync-windows-msvc-builds:
+    name: Rsync Windows MSVC builds
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/msvc'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
     needs:
       - build-windows-msvc
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
         with:
-          path: uploads
-      - name: Install SSH keys
+          name: windows-msvc
+          path: builds
+      - name: View files
+        run: find builds
+      - name: SSH key setup
         uses: shimataro/ssh-key-action@v2
         with:
-          known_hosts: ${{ secrets.KNOWN_HOSTS2 }}
-          key: ${{ secrets.SSH_KEY }}
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{secrets.SSH_KEY}}
+      - name: Create server path
+        shell: bash
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/windows/msvc
       - name: rsync
-        run: |
-          set -x
-          for i in $(find uploads -type f -name 'StrawberrySetup*.exe'); do
-            rsync -e "ssh -p 50220 -o StrictHostKeyChecking=no" -va $i travis@echoes.jkvinge.net:/home/travis/builds/windows/
-          done
+        shell: bash
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var builds/StrawberrySetup-*-msvc-*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/windows/msvc/
