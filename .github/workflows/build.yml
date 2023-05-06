@@ -105,8 +105,7 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DUSE_TAGLIB=ON
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DUSE_TAGLIB=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -194,8 +193,7 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -281,8 +279,7 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -361,8 +358,7 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -447,8 +443,7 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: make deb
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
@@ -524,8 +519,7 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
       - name: make deb
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
 
@@ -547,9 +541,8 @@ jobs:
         run: |
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           cmake -E make_directory build
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE="Debug"
-          cmake --build . --config Debug --parallel 4
+          cmake -S . -B build -DCMAKE_BUILD_TYPE="Debug"
+          cmake --build build --config Debug --parallel 4
           cd ..
           rm -rf build
 
@@ -642,12 +635,10 @@ jobs:
           GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
           GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
-        working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=OFF -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake -DICU_ROOT=/usr/local/opt/icu4c -DENABLE_DBUS=OFF
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=OFF -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake -DICU_ROOT=/usr/local/opt/icu4c -DENABLE_DBUS=OFF
 
       - name: Build
-        working-directory: build
-        run: cmake --build . --config Release --parallel 4
+        run: cmake --build build --config Release --parallel 4
 
       - name: Install
         working-directory: build
@@ -744,12 +735,10 @@ jobs:
           GIO_EXTRA_MODULES: /opt/local/lib/gio/modules
           GST_PLUGIN_SCANNER: /opt/local/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /opt/local/lib/gstreamer-1.0
-        working-directory: build
-        run: /opt/local/libexec/qt6/bin/qt-cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=OFF -DUSE_BUNDLE=ON -DENABLE_DBUS=OFF
+        run: /opt/local/libexec/qt6/bin/qt-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=OFF -DUSE_BUNDLE=ON -DENABLE_DBUS=OFF
 
       - name: Build
-        working-directory: build
-        run: /opt/local/bin/cmake --build . --config Release --parallel 4
+        run: /opt/local/bin/cmake --build build --config Release --parallel 4
 
       - name: Install
         working-directory: build
@@ -833,9 +822,10 @@ jobs:
       - name: Run CMake
         env:
           PKG_CONFIG_PATH: /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/lib/pkgconfig
-        working-directory: build
         run: >
-          cmake ..
+          cmake
+          -S .
+          -B build
           -DCMAKE_TOOLCHAIN_FILE="../cmake/Toolchain-${{matrix.arch}}-w64-mingw32-shared.cmake"
           -DCMAKE_BUILD_TYPE="${{matrix.build_type}}"
           -DCMAKE_PREFIX_PATH="/strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6"
@@ -850,8 +840,7 @@ jobs:
           -DProtobuf_PROTOC_EXECUTABLE="/strawberry-mxe/usr/x86_64-pc-linux-gnu/bin/protoc"
 
       - name: Run Make
-        working-directory: build
-        run: cmake --build . --config Release --parallel $(nproc)
+        run: cmake --build build --config Release --parallel $(nproc)
 
       - name: Create directories
         working-directory: build
@@ -1056,9 +1045,10 @@ jobs:
         run: echo "win32_console=OFF" >> $GITHUB_ENV
 
       - name: Run CMake
-        working-directory: build
         run: >
-          cmake ..
+          cmake
+          -S .
+          -B build
           -G "Ninja"
           -DCMAKE_BUILD_TYPE="${{matrix.build_type}}"
           -DCMAKE_PREFIX_PATH="c:/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}/lib/cmake"
@@ -1073,8 +1063,7 @@ jobs:
       - name: Run Make
         env:
           CL: "/MP"
-        working-directory: build
-        run: cmake --build . --config ${{matrix.build_type}} --parallel 4
+        run: cmake --build build --config ${{matrix.build_type}} --parallel 4
 
       - name: list files
         working-directory: build
