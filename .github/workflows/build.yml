@@ -653,6 +653,97 @@ jobs:
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var *.deb *.ddeb ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/ubuntu/${{matrix.ubuntu_version}}/
 
 
+  upload-ubuntu-ppa:
+    name: Upload Ubuntu PPA
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ubuntu_version: [ 'focal', 'jammy', 'kinetic', 'lunar' ]
+    container:
+      image: ubuntu:${{matrix.ubuntu_version}}
+    steps:
+      - name: Update repositories
+        run: apt update -y
+      - name: Install packages
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: >
+            apt install -y
+            git
+            ssh
+            build-essential
+            dh-make
+            make
+            cmake
+            pkg-config
+            gcc
+            g++
+            fakeroot
+            gettext
+            lsb-release
+            gpg
+            dput
+            dpkg-dev
+            libglib2.0-dev
+            libboost-dev
+            libdbus-1-dev
+            libprotobuf-dev
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            libtag1-dev
+            libicu-dev
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            libgstreamer-plugins-good1.0-dev
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            protobuf-compiler
+      - name: Install Qt 5
+        if: matrix.ubuntu_version == 'focal'
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: apt install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev
+      - name: Install Qt 6
+        if: matrix.ubuntu_version != 'focal'
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: apt install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Add safe git directory
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
+      - name: Create Build Environment
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+      - name: Delete build directory
+        run: rm -rf build
+      - name: Import Ubuntu PPA GPG private key
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{secrets.UBUNTU_PPA_GPG_PRIVATE_KEY}}
+      - name: dpkg-buildpackage
+        run: dpkg-buildpackage -S -d -k573D197B5EA20EDF
+      - name: Upload Unstable PPA
+        run: dput ppa:jonaski/strawberry-unstable ../*_source.changes
+      - name: Get release version
+        run: echo "release_version=$(git describe --tags --exact-match ${GITHUB_SHA} 2>/dev/null | head -1)" >> $GITHUB_ENV
+      - name: Upload Stable PPA
+        if: env.release_version != ''
+        run: dput ppa:jonaski/strawberry-stable ../*_source.changes
+
+
   build-freebsd:
     name: Build FreeBSD
     runs-on: macos-10.15
