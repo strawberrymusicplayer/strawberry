@@ -1428,3 +1428,85 @@ jobs:
         shell: bash
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var builds/StrawberrySetup-*-msvc-*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/windows/msvc/
+
+
+  upload-release:
+    name: Upload release
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+    needs:
+      - build-opensuse
+      - build-fedora
+      - build-openmandriva
+      - build-mageia
+      - build-debian
+      - build-ubuntu
+      - build-macos-homebrew
+      - build-windows-mingw
+      - build-windows-msvc
+    steps:
+      - name: Install rsync
+        run: sudo apt install -y rsync
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get release version
+        run: echo "release_version=$(git describe --tags --exact-match ${GITHUB_SHA} 2>/dev/null | head -1)" >> $GITHUB_ENV
+
+      - name: Show release version
+        if: env.release_version != ''
+        run: echo "Release version:" ${{env.release_version}}
+
+      - name: Show release assets
+        if: env.release_version != ''
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: hub release show -f "%as" ${{env.release_version}}
+
+      - name: Download artifacts
+        if: env.release_version != ''
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+
+      - name: SSH key setup
+        if: env.release_version != ''
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{secrets.SSH_KEY}}
+
+      - name: Add artifacts to release
+        if: env.release_version != ''
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          echo "Release version: ${{env.release_version}}"
+          a_files=()
+          for i in $(find artifacts -type f); do
+            filename=$(basename $i)
+            existing_asset=$(hub release show -f "%as" ${{env.release_version}} | tr -d '[:blank:]' | grep ".*/${filename}\$" 2>/dev/null || true)
+            if [ "${existing_asset}" = "" ]; then
+              echo "Adding file: ${filename}"
+              if [ "${file_list}" = "" ]; then
+                file_list="$i"
+              else
+                file_list="${file_list} $i"
+              fi
+              a_files+=("-a" "${i}")
+            else
+              echo "Skipping existing file: ${filename}"
+            fi
+          done
+          if ! [ "${file_list}" = "" ]; then
+            echo "Uploading files: ${file_list}"
+            rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var ${file_list} ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.RELEASES_PATH}}/
+          fi
+          a_file_list="${a_files[@]}"
+          if ! [ "${a_file_list}" = "" ]; then
+            echo "Adding files to GitHub release: ${file_list}"
+            hub release edit -m "Strawberry ${{env.release_version}}" ${a_file_list} "${{env.release_version}}"
+          fi
