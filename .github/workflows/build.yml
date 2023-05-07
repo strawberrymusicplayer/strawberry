@@ -1211,7 +1211,7 @@ jobs:
       - name: Extract Windows MSVC dependencies
         shell: bash
         run: |
-          tar -xf /d/a/strawberry-copy/strawberry-copy/downloads/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
+          tar -xf /d/a/strawberry/strawberry/downloads/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
           mv strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}} /c/
 
       - name: Update PATH
