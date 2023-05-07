@@ -147,8 +147,8 @@ jobs:
         if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/source ${{secrets.BUILDS_PATH}}/opensuse/${{env.opensuse_subdir}}
       - name: rsync source
-        if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version == 'tumbleweed'
-        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /usr/src/packages/SOURCES/*.xz ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/opensuse/${{env.opensuse_subdir}}/
+        if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version == 'tumbleweed' && matrix.qt_version == 'qt6'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /usr/src/packages/SOURCES/*.xz ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/source/
       - name: rsync rpms
         if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version != 'tumbleweed'
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /usr/src/packages/SRPMS/*.rpm /usr/src/packages/RPMS/x86_64/*.rpm ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/opensuse/${{env.opensuse_subdir}}/
