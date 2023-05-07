@@ -1188,33 +1188,14 @@ jobs:
         build_type: [ 'debug', 'release' ]
     steps:
 
-      - name: Delete conflicting files
-        shell: bash
-        run: rm -rf /c/strawberry/c "/c/program files/OpenSSL" "/c/program files/postgresql"
-
-      - name: Delete conflicting mingw
-        shell: bash
-        run: rm -f /c/programdata/chocolatey/bin/{addr2line.exe,ar.exe,as.exe,c++.exe,c++filt.exe,cc1.exe,cc1plus.exe,cpp.exe,g++.exe,gcc-ar.exe,gcc-nm.exe,gcc-ranlib.exe,gcc.exe,gdb.exe,gfortran.exe,ld.bfd.exe,ld.exe,ld.gold.exe,nm.exe,ranlib.exe,readelf.exe,windres.exe,x86_64-w64-mingw32-c++.exe,x86_64-w64-mingw32-g++.exe,x86_64-w64-mingw32-gcc-8.1.0.exe,x86_64-w64-mingw32-gcc-ar.exe,x86_64-w64-mingw32-gcc-nm.exe,x86_64-w64-mingw32-gcc-ranlib.exe,x86_64-w64-mingw32-gcc.exe,x86_64-w64-mingw32-gfortran.exe,ccache.exe}
-
-      - name: Delete conflicting icu
+      - name: Set prefix path
         shell: bash
         run: |
-          find "/c/program files (x86)/windows kits/" -name 'icu*.lib' -delete
-          find "/c/program files (x86)/windows kits/" -name 'icu*.h' -delete
+          echo "prefix_path_backslash=c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}" >> $GITHUB_ENV
+          echo "prefix_path_forwardslash=c:/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}" >> $GITHUB_ENV
+          echo "prefix_path_unix=/c/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}" >> $GITHUB_ENV
 
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: ${{matrix.arch}}
-          sdk: 10.0.20348.0
-          vsversion: 17
-          toolset: 14.3
-
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Get latest MSVC dependencies
+      - name: Get the latest MSVC dependencies
         shell: bash
         run: |
           msvc_deps_version=$(curl -s 'https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | head -1)
@@ -1226,6 +1207,33 @@ jobs:
           url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/${{env.msvc_deps_version}}/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz)!"
           target: downloads/
           auto-match: true
+
+      - name: Extract Windows MSVC dependencies
+        shell: bash
+        run: |
+          tar -xf /d/a/strawberry-copy/strawberry-copy/downloads/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
+          mv strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}} /c/
+
+      - name: Update PATH
+        run: echo "${{env.prefix_path_backslash}}\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Copy bin files
+        shell: bash
+        run: cp /c/strawberry/c/bin/{patch.exe,strip.exe,strings.exe,objdump.exe} ${{env.prefix_path_unix}}/bin
+
+      - name: Uninstall conflicting mingw
+        shell: cmd
+        run: choco uninstall mingw -y -f
+
+      - name: Delete conflicting files
+        shell: bash
+        run: rm -rf /c/strawberry/c "/c/program files/OpenSSL" "/c/program files/postgresql"
+
+      - name: Delete conflicting icu
+        shell: bash
+        run: |
+          find "/c/program files (x86)/windows kits/" -name 'icu*.lib' -delete
+          find "/c/program files (x86)/windows kits/" -name 'icu*.h' -delete
 
       - name: Download LockedList plugin for NSIS
         uses: suisei-cn/actions-download-file@v1
@@ -1265,14 +1273,18 @@ jobs:
           copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
           copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/INetC.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
 
-      - name: Extract Windows MSVC dependencies
-        shell: bash
-        run: |
-          tar -xf /d/a/strawberry/strawberry//downloads/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
-          mv strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}} /c/
+      - name: Setup MSVC Environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{matrix.arch}}
+          sdk: 10.0.20348.0
+          vsversion: 17
+          toolset: 14.3
 
-      - name: Update PATH
-        run: echo "c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Add safe git directory
         shell: bash
@@ -1298,33 +1310,29 @@ jobs:
           -B build
           -G "Ninja"
           -DCMAKE_BUILD_TYPE="${{matrix.build_type}}"
-          -DCMAKE_PREFIX_PATH="c:/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}/lib/cmake"
+          -DCMAKE_PREFIX_PATH="${{env.prefix_path_forwardslash}}/lib/cmake"
           -DBUILD_WITH_QT6=ON
           -DBUILD_WERROR=OFF
           -DARCH="${{matrix.arch}}"
           -DENABLE_WIN32_CONSOLE=${{env.win32_console}}
           -DUSE_TAGLIB=ON
-          -DPKG_CONFIG_EXECUTABLE="c:/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}/bin/pkg-config.exe"
-          -DICU_ROOT="c:/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}"
+          -DPKG_CONFIG_EXECUTABLE="${{env.prefix_path_forwardslash}}/bin/pkg-config.exe"
+          -DICU_ROOT="${{env.prefix_path_forwardslash}}"
 
       - name: Run Make
         env:
           CL: "/MP"
         run: cmake --build build --config ${{matrix.build_type}} --parallel 4
 
-      - name: list files
-        working-directory: build
-        run: dir
-
       - name: Copy extra binaries
         working-directory: build
         run: |
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\libssl-3*.dll
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\libcrypto-3*.dll
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\soup-3.0-0.dll
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\gst-launch-1.0.exe
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\gst-discoverer-1.0.exe
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\bin\sqlite3.exe
+          copy ${{env.prefix_path_backslash}}\bin\libssl-3*.dll
+          copy ${{env.prefix_path_backslash}}\bin\libcrypto-3*.dll
+          copy ${{env.prefix_path_backslash}}\bin\soup-3.0-0.dll
+          copy ${{env.prefix_path_backslash}}\bin\gst-launch-1.0.exe
+          copy ${{env.prefix_path_backslash}}\bin\gst-discoverer-1.0.exe
+          copy ${{env.prefix_path_backslash}}\bin\sqlite3.exe
 
       - name: Create directories
         working-directory: build
@@ -1340,89 +1348,89 @@ jobs:
 
       - name: Copy GIO modules
         working-directory: build
-        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gio\modules\*.dll .\gio-modules\
+        run: copy ${{env.prefix_path_backslash}}\lib\gio\modules\*.dll .\gio-modules\
 
       - name: Copy Qt platform plugins
         working-directory: build
-        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\plugins\platforms\qwindows*.dll .\platforms\
+        run: copy ${{env.prefix_path_backslash}}\plugins\platforms\qwindows*.dll .\platforms\
 
       - name: Copy Qt styles
         working-directory: build
-        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\plugins\styles\qwindowsvistastyle*.dll .\styles\
+        run: copy ${{env.prefix_path_backslash}}\plugins\styles\qwindowsvistastyle*.dll .\styles\
 
       - name: Copy Qt TLS plugins
         working-directory: build
-        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\plugins\tls\*.dll .\tls\
+        run: copy ${{env.prefix_path_backslash}}\plugins\tls\*.dll .\tls\
 
       - name: Copy Qt SQL drivers
         working-directory: build
-        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\plugins\sqldrivers\qsqlite*.dll .\sqldrivers\
+        run: copy ${{env.prefix_path_backslash}}\plugins\sqldrivers\qsqlite*.dll .\sqldrivers\
 
       - name: Copy Qt imageformats plugins
         working-directory: build
-        run: copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\plugins\imageformats\*.dll .\imageformats\
+        run: copy ${{env.prefix_path_backslash}}\plugins\imageformats\*.dll .\imageformats\
 
       - name: Copy gstreamer plugins
         working-directory: build
         run: |
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaes.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstasf.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstasfmux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudioconvert.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudiofx.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudiomixer.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudioparsers.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudiorate.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstbs2b.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstfaac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstfaad.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstgme.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsthls.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstid3tag.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstopenmpt.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstpbtypes.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsttaglib.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstwavenc.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
-          copy c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaes.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstapp.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstasf.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstasfmux.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaudioconvert.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaudiofx.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaudiomixer.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaudioparsers.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaudiorate.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaudioresample.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaudiotestsrc.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstautodetect.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstbs2b.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstcoreelements.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstdash.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstdirectsound.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstequalizer.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstfaac.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstfaad.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstfdkaac.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstflac.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstgio.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstgme.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gsthls.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gsticydemux.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstid3demux.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstid3tag.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstogg.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstopenmpt.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstopus.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstopusparse.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstpbtypes.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstplayback.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstreplaygain.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstrtp.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstrtsp.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstsoup.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstspectrum.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstspeex.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gsttaglib.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gsttcp.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gsttwolame.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gsttypefindfunctions.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstudp.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstwavenc.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstxingmux.dll .\gstreamer-plugins\
 
       - name: Download copydlldeps.sh
         shell: bash
@@ -1444,7 +1452,7 @@ jobs:
           -F ./imageformats
           -F ./gio-modules
           -F ./gstreamer-plugins
-          -R /c/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}/bin
+          -R ${{env.prefix_path_unix}}/bin
 
       - name: Copy nsis files
         working-directory: build
@@ -1457,7 +1465,7 @@ jobs:
         working-directory: build
         run: copy ..\COPYING .
 
-      - name: list files
+      - name: List files
         working-directory: build
         run: dir
 
