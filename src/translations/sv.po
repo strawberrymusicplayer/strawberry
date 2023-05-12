@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-04-24 01:06-0400\n"
+"PO-Revision-Date: 2023-05-11 01:48-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -2139,7 +2139,7 @@ msgstr "Fel vid inläsning av ljud-CD."
 
 #: device/cddasongloader.cpp:116 device/cddasongloader.cpp:125
 msgid "Error while querying CDDA tracks."
-msgstr "Fel vid frågan om CDDA-spår."
+msgstr "Fel vid förfrågan om CDDA-spår."
 
 #: device/cddasongloader.cpp:104
 msgid "Error while setting CDDA device to pause state."
@@ -2248,7 +2248,7 @@ msgstr "Toningsvaraktighet"
 #: core/database.cpp:478 collection/collectionbackend.cpp:112
 #, qt-format
 msgid "Failed SQL query: %1"
-msgstr ""
+msgstr "Misslyckad SQL-förfråga: %1"
 
 #: covermanager/albumcoverchoicecontroller.cpp:404
 #: covermanager/albumcoverchoicecontroller.cpp:421
