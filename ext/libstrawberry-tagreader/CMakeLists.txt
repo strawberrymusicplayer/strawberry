@@ -1,5 +1,14 @@
 cmake_minimum_required(VERSION 3.7)
 
+# Workaround a bug in protobuf-generate.cmake (https://github.com/protocolbuffers/protobuf/issues/12450)
+if(NOT protobuf_PROTOC_EXE)
+  set(protobuf_PROTOC_EXE "protobuf::protoc")
+endif()
+
+if(NOT Protobuf_LIBRARIES)
+  set(Protobuf_LIBRARIES protobuf::libprotobuf protobuf::libprotoc)
+endif()
+
 set(SOURCES tagreaderbase.cpp tagreadermessages.proto)
 
 if(USE_TAGLIB AND TAGLIB_FOUND)
@@ -46,14 +55,6 @@ target_link_libraries(libstrawberry-tagreader PRIVATE
   ${QtGui_LIBRARIES}
   libstrawberry-common
 )
-
-if(WIN32 AND Protobuf_VERSION VERSION_GREATER_EQUAL 4.22.0)
-  if (MSVC)
-    target_link_libraries(libstrawberry-tagreader PRIVATE abseil_dll)
-  else()
-    target_link_libraries(libstrawberry-tagreader PRIVATE absl_log_internal_message absl_log_internal_check_op)
-  endif()
-endif()
 
 if(USE_TAGLIB AND TAGLIB_FOUND)
   target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE ${TAGLIB_INCLUDE_DIRS})
