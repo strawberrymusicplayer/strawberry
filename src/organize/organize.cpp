@@ -222,7 +222,7 @@ void Organize::ProcessSomeFiles() {
     job.remove_original_ = !copy_;
     job.playlist_ = playlist_;
 
-    if (task.song_info_.song_.art_manual_is_valid() && !task.song_info_.song_.has_manually_unset_cover()) {
+    if (task.song_info_.song_.art_manual_is_valid() && !task.song_info_.song_.art_unset()) {
       if (task.song_info_.song_.art_manual().isLocalFile() && QFile::exists(task.song_info_.song_.art_manual().toLocalFile())) {
         job.cover_source_ = task.song_info_.song_.art_manual().toLocalFile();
       }
@@ -230,7 +230,7 @@ void Organize::ProcessSomeFiles() {
         job.cover_source_ = task.song_info_.song_.art_manual().path();
       }
     }
-    else if (task.song_info_.song_.art_automatic_is_valid() && !task.song_info_.song_.has_embedded_cover()) {
+    else if (task.song_info_.song_.art_automatic_is_valid()) {
       if (task.song_info_.song_.art_automatic().isLocalFile() && QFile::exists(task.song_info_.song_.art_automatic().toLocalFile())) {
         job.cover_source_ = task.song_info_.song_.art_automatic().toLocalFile();
       }

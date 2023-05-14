@@ -1,6 +1,6 @@
 /* This file is part of Strawberry.
    Copyright 2013, David Sansome <me@davidsansome.com>
-   Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+   Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
 
    Strawberry is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -96,10 +96,10 @@ class TagReaderTagLib : public TagReaderBase {
   void SetRating(TagLib::MP4::Tag *tag, const spb::tagreader::SongMetadata &song) const;
   void SetRating(TagLib::ASF::Tag *tag, const spb::tagreader::SongMetadata &song) const;
 
-  void SetEmbeddedArt(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data) const;
-  void SetEmbeddedArt(TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data) const;
-  void SetEmbeddedArt(TagLib::MPEG::File *file_mp3, TagLib::ID3v2::Tag *tag, const QByteArray &data) const;
-  void SetEmbeddedArt(TagLib::MP4::File *aac_file, TagLib::MP4::Tag *tag, const QByteArray &data) const;
+  void SetEmbeddedArt(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data, const QString &mime_type) const;
+  void SetEmbeddedArt(TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data, const QString &mime_type) const;
+  void SetEmbeddedArt(TagLib::MPEG::File *file_mp3, TagLib::ID3v2::Tag *tag, const QByteArray &data, const QString &mime_type) const;
+  void SetEmbeddedArt(TagLib::MP4::File *aac_file, TagLib::MP4::Tag *tag, const QByteArray &data, const QString &mime_type) const;
 
  private:
   FileRefFactory *factory_;

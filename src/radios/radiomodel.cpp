@@ -47,12 +47,6 @@ RadioModel::RadioModel(Application *app, QObject *parent)
 
   root_->lazy_loaded = true;
 
-  cover_loader_options_.get_image_data_ = false;
-  cover_loader_options_.get_image_ = true;
-  cover_loader_options_.scale_output_image_ = true;
-  cover_loader_options_.pad_output_image_ = true;
-  cover_loader_options_.desired_height_ = kTreeIconSize;
-
   if (app_) {
     QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &RadioModel::AlbumCoverLoaded);
   }
@@ -298,7 +292,7 @@ QPixmap RadioModel::ChannelIcon(const QModelIndex &idx) {
   if (!songs.isEmpty()) {
     Song song = songs.first();
     song.set_art_automatic(item->channel.thumbnail_url);
-    const quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, song);
+    const quint64 id = app_->album_cover_loader()->LoadImageAsync(AlbumCoverLoaderOptions(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage, QSize(kTreeIconSize, kTreeIconSize)), song);
     pending_art_[id] = ItemAndCacheKey(item, cache_key);
     pending_cache_keys_.insert(cache_key);
   }
@@ -319,7 +313,7 @@ void RadioModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult
 
   pending_cache_keys_.remove(cache_key);
 
-  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
+  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::Unset) {
     QPixmapCache::insert(cache_key, ServiceIcon(item));
   }
   else {

@@ -107,7 +107,6 @@ class AlbumCoverSearcher : public QDialog {
   QStandardItemModel *model_;
 
   QIcon no_cover_icon_;
-  AlbumCoverLoaderOptions options_;
   AlbumCoverFetcher *fetcher_;
 
   quint64 id_;

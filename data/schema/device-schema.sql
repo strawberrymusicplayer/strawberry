@@ -59,8 +59,10 @@ CREATE TABLE device_%deviceid_songs (
   compilation_off INTEGER NOT NULL DEFAULT 0,
   compilation_effective INTEGER NOT NULL DEFAULT 0,
 
+  art_embedded INTEGER DEFAULT 0,
   art_automatic TEXT,
   art_manual TEXT,
+  art_unset INTEGER DEFAULT 0,
 
   effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,

@@ -224,7 +224,7 @@ bool TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
       song->set_track(tag->value(TagParser::KnownField::TrackPosition).toInteger());
       song->set_disc(tag->value(TagParser::KnownField::DiskPosition).toInteger());
       if (!tag->value(TagParser::KnownField::Cover).empty() && tag->value(TagParser::KnownField::Cover).dataSize() > 0) {
-        song->set_art_automatic(kEmbeddedCover);
+        song->set_art_embedded(true);
       }
       const float rating = ConvertPOPMRating(tag->value(TagParser::KnownField::Rating));
       if (song->rating() <= 0 && rating > 0.0 && rating <= 1.0) {

@@ -27,6 +27,7 @@
 #include <QQueue>
 #include <QString>
 
+#include "albumcoverloaderoptions.h"
 #include "albumcoverexport.h"
 
 class QThreadPool;
@@ -42,6 +43,7 @@ class AlbumCoverExporter : public QObject {
   static const int kMaxConcurrentRequests;
 
   void SetDialogResult(const AlbumCoverExport::DialogResult &dialog_result);
+  void SetCoverTypes(const AlbumCoverLoaderOptions::Types cover_types);
   void AddExportRequest(const Song &song);
   void StartExporting();
   void Cancel();
@@ -57,6 +59,8 @@ class AlbumCoverExporter : public QObject {
 
  private:
   void AddJobsToPool();
+
+  AlbumCoverLoaderOptions::Types cover_types_;
   AlbumCoverExport::DialogResult dialog_result_;
 
   QQueue<CoverExportRunnable*> requests_;

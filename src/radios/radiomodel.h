@@ -33,7 +33,6 @@
 
 #include "core/song.h"
 #include "core/simpletreemodel.h"
-#include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "radioitem.h"
 #include "radiochannel.h"
@@ -91,7 +90,6 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
   using ItemAndCacheKey = QPair<RadioItem*, QString>;
 
   Application *app_;
-  AlbumCoverLoaderOptions cover_loader_options_;
   QMap<Song::Source, RadioItem*> container_nodes_;
   QList<RadioItem*> items_;
   QMap<quint64, ItemAndCacheKey> pending_art_;

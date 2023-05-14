@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,8 +38,10 @@
 #include <QMutex>
 
 #include "core/song.h"
+#include "core/tagreaderclient.h"
 #include "utilities/coveroptions.h"
 #include "settings/collectionsettingspage.h"
+#include "albumcoverloaderoptions.h"
 #include "albumcoverimageresult.h"
 
 class QFileDialog;
@@ -108,22 +110,21 @@ class AlbumCoverChoiceController : public QWidget {
 
   // Downloads the cover from an URL given by user.
   // This returns the downloaded image or null image if something went wrong for example when user cancelled the dialog.
-  QUrl LoadCoverFromURL(Song *song);
+  void LoadCoverFromURL(Song *song);
   AlbumCoverImageResult LoadImageFromURL();
 
   // Lets the user choose a cover among all that have been found on last.fm.
   // Returns the chosen cover or null cover if user didn't choose anything.
-  QUrl SearchForCover(Song *song);
+  void SearchForCover(Song *song);
   AlbumCoverImageResult SearchForImage(Song *song);
 
-  // Returns a path which indicates that the cover has been unset manually.
-  QUrl UnsetCover(Song *song, const bool clear_art_automatic = false);
+  void UnsetCover(Song *song);
 
   // Clears any album cover art associated with the song.
-  void ClearCover(Song *song, const bool clear_art_automatic = false);
+  void ClearCover(Song *song);
 
   // Physically deletes associated album covers from disk.
-  bool DeleteCover(Song *song, const bool manually_unset = false);
+  bool DeleteCover(Song *song, const bool unset = false);
 
   // Shows the cover of given song in it's original size.
   void ShowCover(const Song &song, const QImage &image = QImage());
@@ -133,20 +134,25 @@ class AlbumCoverChoiceController : public QWidget {
   quint64 SearchCoverAutomatically(const Song &song);
 
   // Saves the chosen cover as manual cover path of this song in collection.
+  void SaveArtEmbeddedToSong(Song *song, const bool art_embedded);
   void SaveArtAutomaticToSong(Song *song, const QUrl &art_automatic);
-  void SaveArtManualToSong(Song *song, const QUrl &art_manual, const bool clear_art_automatic = false);
+  void SaveArtManualToSong(Song *song, const QUrl &art_manual);
+  void ClearAlbumCoverForSong(Song *song);
+  void UnsetAlbumCoverForSong(Song *song);
 
   // Saves the cover that the user picked through a drag and drop operation.
-  QUrl SaveCover(Song *song, const QDropEvent *e);
+  void SaveCover(Song *song, const QDropEvent *e);
 
   // Saves the given image in album directory or cache as a cover for 'album artist' - 'album'. The method returns path of the image.
   QUrl SaveCoverAutomatic(Song *song, const AlbumCoverImageResult &result);
+
   QUrl SaveCoverToFileAutomatic(const Song *song, const AlbumCoverImageResult &result, const bool force_overwrite = false);
   QUrl SaveCoverToFileAutomatic(const Song::Source source, const QString &artist, const QString &album, const QString &album_id, const QString &album_dir, const AlbumCoverImageResult &result, const bool force_overwrite = false);
-  void SaveCoverEmbeddedAutomatic(const Song &song, const AlbumCoverImageResult &result);
-  void SaveCoverEmbeddedAutomatic(const Song &song, const QUrl &cover_url);
-  void SaveCoverEmbeddedAutomatic(const Song &song, const QString &cover_filename);
-  void SaveCoverEmbeddedAutomatic(const QList<QUrl> &urls, const QImage &image);
+
+  void SaveCoverEmbeddedToCollectionSongs(const Song &song, const AlbumCoverImageResult &result);
+  void SaveCoverEmbeddedToCollectionSongs(const Song &song, const QString &cover_filename, const QByteArray &image_data = QByteArray(), const QString &mime_type = QString());
+  void SaveCoverEmbeddedToCollectionSongs(const QString &effective_albumartist, const QString &effective_album, const QString &cover_filename, const QByteArray &image_data = QByteArray(), const QString &mime_type = QString());
+  void SaveCoverEmbeddedToSong(const Song &song, const QString &cover_filename, const QByteArray &image_data, const QString &mime_type = QString());
 
   static bool CanAcceptDrag(const QDragEnterEvent *e);
 
@@ -155,7 +161,7 @@ class AlbumCoverChoiceController : public QWidget {
 
  private slots:
   void AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics);
-  void SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success, const bool cleared);
+  void SaveEmbeddedCoverFinished(TagReaderReply *reply, Song song, const bool art_embedded);
 
  signals:
   void Error(const QString &error);
@@ -187,12 +193,13 @@ class AlbumCoverChoiceController : public QWidget {
   QAction *search_cover_auto_;
 
   QMap<quint64, Song> cover_fetching_tasks_;
-  QMap<quint64, Song> cover_save_tasks_;
+  QList<Song> cover_save_tasks_;
   QMutex mutex_cover_save_tasks_;
 
   CoverOptions cover_options_;
   bool save_embedded_cover_override_;
 
+  AlbumCoverLoaderOptions::Types cover_types_;
 };
 
 #endif  // ALBUMCOVERCHOICECONTROLLER_H

@@ -42,7 +42,6 @@
 
 #include "core/song.h"
 #include "collection/collectionmodel.h"
-#include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "settings/settingsdialog.h"
 
@@ -215,7 +214,6 @@ class InternetSearchView : public QWidget {
   QMap<int, DelayedSearch> delayed_searches_;
   QMap<int, PendingState> pending_searches_;
 
-  AlbumCoverLoaderOptions cover_loader_options_;
   QMap<quint64, QPair<QModelIndex, QString>> cover_loader_tasks_;
 
 };

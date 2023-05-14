@@ -48,7 +48,7 @@
          </widget>
          <widget class="QTabWidget" name="tab_widget">
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_summary">
            <property name="sizePolicy">
@@ -162,8 +162,38 @@
               <property name="sizeConstraint">
                <enum>QLayout::SetMinimumSize</enum>
               </property>
-              <item row="6" column="1">
-               <widget class="QLabel" name="ctime">
+              <item row="15" column="0">
+               <widget class="QLabel" name="label_samplerate">
+                <property name="text">
+                 <string>Sample rate</string>
+                </property>
+                <property name="field_label" stdset="0">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="22" column="0">
+               <widget class="QLabel" name="label_art_unset">
+                <property name="text">
+                 <string>Art Unset</string>
+                </property>
+               </widget>
+              </item>
+              <item row="20" column="0">
+               <widget class="QLabel" name="label_art_manual">
+                <property name="text">
+                 <string>Art Manual</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="1">
+               <widget class="QLabel" name="length">
+                <property name="baseSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
                 <property name="wordWrap">
                  <bool>true</bool>
                 </property>
@@ -172,22 +202,17 @@
                 </property>
                </widget>
               </item>
-              <item row="9" column="0">
-               <widget class="QLabel" name="label_length">
-                <property name="text">
-                 <string>Length</string>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="filename">
+                <property name="styleSheet">
+                 <string notr="true">QLineEdit {
+  background: transparent;
+}</string>
                 </property>
-                <property name="field_label" stdset="0">
-                 <bool>true</bool>
+                <property name="frame">
+                 <bool>false</bool>
                 </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_filetype">
-                <property name="text">
-                 <string>File type</string>
-                </property>
-                <property name="field_label" stdset="0">
+                <property name="readOnly">
                  <bool>true</bool>
                 </property>
                </widget>
@@ -202,8 +227,28 @@
                 </property>
                </widget>
               </item>
-              <item row="17" column="1">
-               <widget class="QLabel" name="playcount">
+              <item row="7" column="1">
+               <widget class="QLabel" name="mtime">
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_filesize">
+                <property name="text">
+                 <string>File size</string>
+                </property>
+                <property name="field_label" stdset="0">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="16" column="1">
+               <widget class="QLabel" name="bitdepth">
                 <property name="wordWrap">
                  <bool>true</bool>
                 </property>
@@ -225,6 +270,26 @@
                 </property>
                </widget>
               </item>
+              <item row="12" column="0">
+               <widget class="QLabel" name="label_bitrate">
+                <property name="text">
+                 <string>Bit rate</string>
+                </property>
+                <property name="field_label" stdset="0">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="1">
+               <widget class="QLabel" name="lastplayed">
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+                </property>
+               </widget>
+              </item>
               <item row="15" column="1">
                <widget class="QLabel" name="samplerate">
                 <property name="wordWrap">
@@ -235,13 +300,33 @@
                 </property>
                </widget>
               </item>
-              <item row="16" column="1">
-               <widget class="QLabel" name="bitdepth">
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_filetype">
+                <property name="text">
+                 <string>File type</string>
+                </property>
+                <property name="field_label" stdset="0">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QLabel" name="filesize">
                 <property name="wordWrap">
                  <bool>true</bool>
                 </property>
                 <property name="textInteractionFlags">
                  <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+                </property>
+               </widget>
+              </item>
+              <item row="17" column="0">
+               <widget class="QLabel" name="label_playcount">
+                <property name="text">
+                 <string>Play count</string>
+                </property>
+                <property name="field_label" stdset="0">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -258,48 +343,8 @@
                 </property>
                </widget>
               </item>
-              <item row="8" column="1">
-               <widget class="QLabel" name="lastplayed">
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-                <property name="textInteractionFlags">
-                 <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-                </property>
-               </widget>
-              </item>
-              <item row="18" column="0">
-               <widget class="QLabel" name="label_skipcount">
-                <property name="text">
-                 <string>Skip count</string>
-                </property>
-                <property name="field_label" stdset="0">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="7" column="0">
-               <widget class="QLabel" name="label_mtime">
-                <property name="text">
-                 <string>Date modified</string>
-                </property>
-                <property name="field_label" stdset="0">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="17" column="0">
-               <widget class="QLabel" name="label_playcount">
-                <property name="text">
-                 <string>Play count</string>
-                </property>
-                <property name="field_label" stdset="0">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="7" column="1">
-               <widget class="QLabel" name="mtime">
+              <item row="18" column="1">
+               <widget class="QLabel" name="skipcount">
                 <property name="wordWrap">
                  <bool>true</bool>
                 </property>
@@ -325,8 +370,25 @@
                 </property>
                </widget>
               </item>
-              <item row="5" column="1">
-               <widget class="QLabel" name="filesize">
+              <item row="21" column="0">
+               <widget class="QLabel" name="label_art_automatic">
+                <property name="text">
+                 <string>Art Automatic</string>
+                </property>
+               </widget>
+              </item>
+              <item row="18" column="0">
+               <widget class="QLabel" name="label_skipcount">
+                <property name="text">
+                 <string>Skip count</string>
+                </property>
+                <property name="field_label" stdset="0">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="17" column="1">
+               <widget class="QLabel" name="playcount">
                 <property name="wordWrap">
                  <bool>true</bool>
                 </property>
@@ -335,18 +397,28 @@
                 </property>
                </widget>
               </item>
-              <item row="15" column="0">
-               <widget class="QLabel" name="label_samplerate">
+              <item row="6" column="1">
+               <widget class="QLabel" name="ctime">
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QLabel" name="label_mtime">
                 <property name="text">
-                 <string>Sample rate</string>
+                 <string>Date modified</string>
                 </property>
                 <property name="field_label" stdset="0">
                  <bool>true</bool>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="filename">
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="path">
                 <property name="styleSheet">
                  <string notr="true">QLineEdit {
   background: transparent;
@@ -360,13 +432,37 @@
                 </property>
                </widget>
               </item>
-              <item row="8" column="0">
-               <widget class="QLabel" name="label_lastplayed">
+              <item row="22" column="1">
+               <widget class="QLineEdit" name="art_unset">
+                <property name="styleSheet">
+                 <string notr="true">QLineEdit {
+  background: transparent;
+}</string>
+                </property>
+                <property name="frame">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="0">
+               <widget class="QLabel" name="label_length">
                 <property name="text">
-                 <string comment="A playlist's tag.">Last played</string>
+                 <string>Length</string>
                 </property>
                 <property name="field_label" stdset="0">
                  <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="21" column="1">
+               <widget class="QLineEdit" name="art_automatic">
+                <property name="styleSheet">
+                 <string notr="true">QLineEdit {
+  background: transparent;
+}</string>
+                </property>
+                <property name="frame">
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -386,82 +482,7 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="path">
-                <property name="styleSheet">
-                 <string notr="true">QLineEdit {
-  background: transparent;
-}</string>
-                </property>
-                <property name="frame">
-                 <bool>false</bool>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="9" column="1">
-               <widget class="QLabel" name="length">
-                <property name="baseSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-                <property name="textInteractionFlags">
-                 <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-                </property>
-               </widget>
-              </item>
-              <item row="19" column="0">
-               <widget class="QLabel" name="label_art_manual">
-                <property name="text">
-                 <string>Art Manual</string>
-                </property>
-               </widget>
-              </item>
-              <item row="12" column="0">
-               <widget class="QLabel" name="label_bitrate">
-                <property name="text">
-                 <string>Bit rate</string>
-                </property>
-                <property name="field_label" stdset="0">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="0">
-               <widget class="QLabel" name="label_filesize">
-                <property name="text">
-                 <string>File size</string>
-                </property>
-                <property name="field_label" stdset="0">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="18" column="1">
-               <widget class="QLabel" name="skipcount">
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-                <property name="textInteractionFlags">
-                 <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-                </property>
-               </widget>
-              </item>
-              <item row="20" column="0">
-               <widget class="QLabel" name="label_art_automatic">
-                <property name="text">
-                 <string>Art Automatic</string>
-                </property>
-               </widget>
-              </item>
-              <item row="19" column="1">
+              <item row="20" column="1">
                <widget class="QLineEdit" name="art_manual">
                 <property name="styleSheet">
                  <string notr="true">QLineEdit {
@@ -473,8 +494,25 @@
                 </property>
                </widget>
               </item>
-              <item row="20" column="1">
-               <widget class="QLineEdit" name="art_automatic">
+              <item row="8" column="0">
+               <widget class="QLabel" name="label_lastplayed">
+                <property name="text">
+                 <string comment="A playlist's tag.">Last played</string>
+                </property>
+                <property name="field_label" stdset="0">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="19" column="0">
+               <widget class="QLabel" name="label_art_embedded">
+                <property name="text">
+                 <string>Art Embedded</string>
+                </property>
+               </widget>
+              </item>
+              <item row="19" column="1">
+               <widget class="QLineEdit" name="art_embedded">
                 <property name="styleSheet">
                  <string notr="true">QLineEdit {
   background: transparent;

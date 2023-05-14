@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@
 #include <QIcon>
 
 #include "core/song.h"
+#include "core/tagreaderclient.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
 #include "albumcoverchoicecontroller.h"
@@ -79,8 +80,6 @@ class AlbumCoverManager : public QMainWindow {
   explicit AlbumCoverManager(Application *app, CollectionBackend *collection_backend, QMainWindow *mainwindow, QWidget *parent = nullptr);
   ~AlbumCoverManager() override;
 
-  static const char *kSettingsGroup;
-
   void Reset();
   void Init();
 
@@ -108,8 +107,10 @@ class AlbumCoverManager : public QMainWindow {
   enum Role {
     Role_AlbumArtist = Qt::UserRole + 1,
     Role_Album,
-    Role_PathAutomatic,
-    Role_PathManual,
+    Role_ArtEmbedded,
+    Role_ArtAutomatic,
+    Role_ArtManual,
+    Role_ArtUnset,
     Role_Filetype,
     Role_CuePath,
     Role_ImageData,
@@ -132,19 +133,21 @@ class AlbumCoverManager : public QMainWindow {
   // Returns the first of the selected elements in form of a Song ready to be used by AlbumCoverChoiceController or invalid song if there's nothing selected.
   Song GetFirstSelectedAsSong();
 
-  Song ItemAsSong(QListWidgetItem *item) { return ItemAsSong(static_cast<AlbumItem*>(item)); }
-  static Song ItemAsSong(AlbumItem *item);
+  Song AlbumItemAsSong(QListWidgetItem *list_widget_item) { return AlbumItemAsSong(static_cast<AlbumItem*>(list_widget_item)); }
+  static Song AlbumItemAsSong(AlbumItem *album_item);
 
   void UpdateStatusText();
-  bool ShouldHide(const AlbumItem &item, const QString &filter, const HideCovers hide_covers) const;
-  void SaveAndSetCover(AlbumItem *item, const AlbumCoverImageResult &result);
+  bool ShouldHide(const AlbumItem &album_item, const QString &filter, const HideCovers hide_covers) const;
+  void SaveAndSetCover(AlbumItem *album_item, const AlbumCoverImageResult &result);
 
   void SaveImageToAlbums(Song *song, const AlbumCoverImageResult &result);
 
   SongList GetSongsInAlbums(const QModelIndexList &indexes) const;
   SongMimeData *GetMimeDataForAlbums(const QModelIndexList &indexes) const;
 
-  bool ItemHasCover(const AlbumItem &item) const;
+  bool ItemHasCover(const AlbumItem &album_item) const;
+
+  void LoadAlbumCoverAsync(AlbumItem *album_item);
 
  signals:
   void Error(const QString &error);
@@ -176,12 +179,15 @@ class AlbumCoverManager : public QMainWindow {
   void AddSelectedToPlaylist();
   void LoadSelectedToPlaylist();
 
-  void UpdateCoverInList(AlbumItem *item, const QUrl &cover);
+  void UpdateCoverInList(AlbumItem *album_item, const QUrl &cover);
   void UpdateExportStatus(const int exported, const int skipped, const int max);
 
-  void SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success);
+  void SaveEmbeddedCoverFinished(TagReaderReply *reply, AlbumItem *album_item, const QUrl &url, const bool art_embedded);
 
  private:
+  static const char *kSettingsGroup;
+  static const int kThumbnailSize;
+
   Ui_CoverManager *ui_;
   QMainWindow *mainwindow_;
   Application *app_;
@@ -192,7 +198,6 @@ class AlbumCoverManager : public QMainWindow {
   QAction *filter_with_covers_;
   QAction *filter_without_covers_;
 
-  AlbumCoverLoaderOptions cover_loader_options_;
   QMap<quint64, AlbumItem*> cover_loading_tasks_;
 
   AlbumCoverFetcher *cover_fetcher_;
@@ -215,11 +220,11 @@ class AlbumCoverManager : public QMainWindow {
   QPushButton *abort_progress_;
   int jobs_;
 
-  QMultiMap<quint64, AlbumItem*> cover_save_tasks_;
-  QList<AlbumItem*> cover_save_tasks2_;
+  QMultiMap<AlbumItem*, QUrl> cover_save_tasks_;
 
   QListWidgetItem *all_artists_;
 
+  AlbumCoverLoaderOptions::Types cover_types_;
 };
 
 #endif  // ALBUMCOVERMANAGER_H

@@ -69,7 +69,7 @@ message SongMetadata {
   optional int64 lastplayed = 29;
   optional int64 lastseen = 30;
 
-  optional string art_automatic = 31;
+  optional bool art_embedded = 31;
 
   optional float rating = 32;
 
@@ -97,6 +97,7 @@ message IsMediaFileRequest {
 
 message IsMediaFileResponse {
   optional bool success = 1;
+  optional string error = 2;
 }
 
 message ReadFileRequest {
@@ -105,6 +106,7 @@ message ReadFileRequest {
 
 message ReadFileResponse {
   optional SongMetadata metadata = 1;
+  optional string error = 2;
 }
 
 message SaveFileRequest {
@@ -116,11 +118,12 @@ message SaveFileRequest {
   optional SongMetadata metadata = 6;
   optional string cover_filename = 7;
   optional bytes cover_data = 8;
-  optional bool cover_is_jpeg = 9;
+  optional string cover_mime_type = 9;
 }
 
 message SaveFileResponse {
   optional bool success = 1;
+  optional string error = 2;
 }
 
 message LoadEmbeddedArtRequest {
@@ -129,17 +132,19 @@ message LoadEmbeddedArtRequest {
 
 message LoadEmbeddedArtResponse {
   optional bytes data = 1;
+  optional string error = 2;
 }
 
 message SaveEmbeddedArtRequest {
   optional string filename = 1;
   optional string cover_filename = 2;
   optional bytes cover_data = 3;
-  optional bool cover_is_jpeg = 4;
+  optional string cover_mime_type = 4;
 }
 
 message SaveEmbeddedArtResponse {
   optional bool success = 1;
+  optional string error = 2;
 }
 
 message SaveSongPlaycountToFileRequest {
@@ -149,6 +154,7 @@ message SaveSongPlaycountToFileRequest {
 
 message SaveSongPlaycountToFileResponse {
   optional bool success = 1;
+  optional string error = 2;
 }
 
 message SaveSongRatingToFileRequest {
@@ -158,6 +164,7 @@ message SaveSongRatingToFileRequest {
 
 message SaveSongRatingToFileResponse {
   optional bool success = 1;
+  optional string error = 2;
 }
 
 message Message {

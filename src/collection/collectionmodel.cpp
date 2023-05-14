@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,6 +71,7 @@
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "settings/collectionsettingspage.h"
+#include "settings/coverssettingspage.h"
 
 const int CollectionModel::kPrettyCoverSize = 32;
 const char *CollectionModel::kPixmapDiskCacheDir = "pixmapcache";
@@ -100,12 +101,6 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   group_by_[0] = GroupBy::AlbumArtist;
   group_by_[1] = GroupBy::AlbumDisc;
   group_by_[2] = GroupBy::None;
-
-  cover_loader_options_.get_image_data_ = false;
-  cover_loader_options_.get_image_ = true;
-  cover_loader_options_.scale_output_image_ = true;
-  cover_loader_options_.pad_output_image_ = true;
-  cover_loader_options_.desired_height_ = kPrettyCoverSize;
 
   if (app_) {
     QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CollectionModel::AlbumCoverLoaded);
@@ -150,6 +145,7 @@ void CollectionModel::set_pretty_covers(const bool use_pretty_covers) {
     use_pretty_covers_ = use_pretty_covers;
     Reset();
   }
+
 }
 
 void CollectionModel::set_show_dividers(const bool show_dividers) {
@@ -176,6 +172,8 @@ void CollectionModel::ReloadSettings() {
   }
 
   s.endGroup();
+
+  cover_types_ = AlbumCoverLoaderOptions::LoadTypes();
 
   if (!use_disk_cache_) {
     ClearDiskCache();
@@ -652,7 +650,10 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
   // No art is cached and we're not loading it already.  Load art for the first song in the album.
   SongList songs = GetChildSongs(idx);
   if (!songs.isEmpty()) {
-    const quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, songs.first());
+    AlbumCoverLoaderOptions cover_loader_options(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
+    cover_loader_options.desired_scaled_size = QSize(kPrettyCoverSize, kPrettyCoverSize);
+    cover_loader_options.types = cover_types_;
+    const quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options, songs.first());
     pending_art_[id] = ItemAndCacheKey(item, cache_key);
     pending_cache_keys_.insert(cache_key);
   }
@@ -674,7 +675,7 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
   pending_cache_keys_.remove(cache_key);
 
   // Insert this image in the cache.
-  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
+  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::Unset) {
     // Set the no_cover image so we don't continually try to load art.
     QPixmapCache::insert(cache_key, no_cover_icon_);
   }

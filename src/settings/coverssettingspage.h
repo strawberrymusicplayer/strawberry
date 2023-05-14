@@ -42,6 +42,14 @@ class CoversSettingsPage : public SettingsPage {
   ~CoversSettingsPage() override;
 
   static const char *kSettingsGroup;
+  static const char *kProviders;
+  static const char *kTypes;
+  static const char *kSaveType;
+  static const char *kSaveFilename;
+  static const char *kSavePattern;
+  static const char *kSaveOverwrite;
+  static const char *kSaveLowercase;
+  static const char *kSaveReplaceSpaces;
 
   void Load() override;
   void Save() override;
@@ -52,21 +60,35 @@ class CoversSettingsPage : public SettingsPage {
   void DisableAuthentication();
   void DisconnectAuthentication(CoverProvider *provider) const;
   static bool ProviderCompareOrder(CoverProvider *a, CoverProvider *b);
+  void AddAlbumCoverArtType(const QString &name, const QString &description, const bool enabled);
+  QString AlbumCoverArtTypeDescription(const QString &type) const;
+  void TypesMove(const int d);
 
  private slots:
-  void CurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous);
-  void ItemSelectionChanged();
-  void ItemChanged(QListWidgetItem *item);
+  void ProvidersCurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous);
+  void ProvidersItemSelectionChanged();
+  void ProvidersItemChanged(QListWidgetItem *item);
   void ProvidersMoveUp();
   void ProvidersMoveDown();
   void AuthenticateClicked();
   void LogoutClicked();
   void AuthenticationSuccess();
   void AuthenticationFailure(const QStringList &errors);
+  void CoverSaveInAlbumDirChanged();
+  void TypesCurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous);
+  void TypesItemSelectionChanged();
+  void TypesItemChanged(QListWidgetItem *item);
+  void TypesMoveUp();
+  void TypesMoveDown();
 
  private:
+  enum Type_Role {
+    Type_Role_Name = Qt::UserRole + 1
+  };
+
   Ui_CoversSettingsPage *ui_;
   bool provider_selected_;
+  bool types_selected_;
 };
 
 #endif  // COVERSSETTINGSPAGE_H

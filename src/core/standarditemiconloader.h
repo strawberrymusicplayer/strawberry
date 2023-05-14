@@ -29,7 +29,6 @@
 #include <QUrl>
 #include <QImage>
 
-#include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 
 class QAbstractItemModel;
@@ -38,16 +37,12 @@ class QStandardItem;
 class Song;
 class AlbumCoverLoader;
 
-class QModelIndex;
-
 // Uses an AlbumCoverLoader to asynchronously load and set an icon on a QStandardItem.
 class StandardItemIconLoader : public QObject {
   Q_OBJECT
 
  public:
   explicit StandardItemIconLoader(AlbumCoverLoader *cover_loader, QObject *parent = nullptr);
-
-  AlbumCoverLoaderOptions *options() { return &cover_options_; }
 
   void SetModel(QAbstractItemModel *model);
 
@@ -61,10 +56,7 @@ class StandardItemIconLoader : public QObject {
 
  private:
   AlbumCoverLoader *cover_loader_;
-  AlbumCoverLoaderOptions cover_options_;
-
   QAbstractItemModel *model_;
-
   QMap<quint64, QStandardItem*> pending_covers_;
 };
 

@@ -1,5 +1,5 @@
 /* This file is part of Strawberry.
-   Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+   Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
 
    Strawberry is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,6 +36,14 @@ class TagReaderBase {
   explicit TagReaderBase();
   ~TagReaderBase();
 
+  class Cover {
+   public:
+    explicit Cover(const QByteArray &_data = QByteArray(), const QString &_mime_type = QString()) : data(_data), mime_type(_mime_type) {}
+    QByteArray data;
+    QString mime_type;
+    QString error;
+  };
+
   virtual bool IsMediaFile(const QString &filename) const = 0;
 
   virtual bool ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const = 0;
@@ -50,14 +58,11 @@ class TagReaderBase {
   static float ConvertPOPMRating(const int POPM_rating);
   static int ConvertToPOPMRating(const float rating);
 
-  static QByteArray LoadCoverDataFromRequest(const spb::tagreader::SaveFileRequest &request);
-  static QByteArray LoadCoverDataFromRequest(const spb::tagreader::SaveEmbeddedArtRequest &request);
+  static Cover LoadCoverFromRequest(const spb::tagreader::SaveFileRequest &request);
+  static Cover LoadCoverFromRequest(const spb::tagreader::SaveEmbeddedArtRequest &request);
 
  private:
-  static QByteArray LoadCoverDataFromRequest(const QString &song_filename, const QString &cover_filename, QByteArray cover_data, const bool cover_is_jpeg);
-
- protected:
-  static const std::string kEmbeddedCover;
+  static Cover LoadCoverFromRequest(const QString &song_filename, const QString &cover_filename, QByteArray cover_data, QString cover_mime_type);
 
   Q_DISABLE_COPY(TagReaderBase)
 };

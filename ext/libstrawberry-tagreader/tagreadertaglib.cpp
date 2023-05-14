@@ -1,6 +1,6 @@
 /* This file is part of Strawberry.
    Copyright 2013, David Sansome <me@davidsansome.com>
-   Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+   Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
 
    Strawberry is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -287,7 +287,7 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
     if (!pictures.isEmpty()) {
       for (TagLib::FLAC::Picture *picture : pictures) {
         if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
-          song->set_art_automatic(kEmbeddedCover);
+          song->set_art_embedded(true);
           break;
         }
       }
@@ -302,7 +302,7 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
       if (!pictures.isEmpty()) {
         for (TagLib::FLAC::Picture *picture : pictures) {
           if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
-            song->set_art_automatic(kEmbeddedCover);
+            song->set_art_embedded(true);
             break;
           }
         }
@@ -362,7 +362,7 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         TStringToStdString(map["SYLT"].front()->toString(), song->mutable_lyrics());
       }
 
-      if (map.contains("APIC")) song->set_art_automatic(kEmbeddedCover);
+      if (map.contains("APIC")) song->set_art_embedded(true);
 
       // Find a suitable comment tag.  For now we ignore iTunNORM comments.
       for (uint i = 0; i < map["COMM"].size(); ++i) {
@@ -469,7 +469,7 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
       // Find album cover art
       if (mp4_tag->item("covr").isValid()) {
-        song->set_art_automatic(kEmbeddedCover);
+        song->set_art_embedded(true);
       }
 
       if (mp4_tag->item("disk").isValid()) {
@@ -715,8 +715,8 @@ void TagReaderTagLib::ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString 
 
   if (map.contains("DISCNUMBER")) *disc = TStringToQString(map["DISCNUMBER"].front()).trimmed();
   if (map.contains("COMPILATION")) *compilation = TStringToQString(map["COMPILATION"].front()).trimmed();
-  if (map.contains("COVERART")) song->set_art_automatic(kEmbeddedCover);
-  if (map.contains("METADATA_BLOCK_PICTURE")) song->set_art_automatic(kEmbeddedCover);
+  if (map.contains("COVERART")) song->set_art_embedded(true);
+  if (map.contains("METADATA_BLOCK_PICTURE")) song->set_art_embedded(true);
 
   if (map.contains("FMPS_PLAYCOUNT") && song->playcount() <= 0) {
     const int playcount = TStringToQString(map["FMPS_PLAYCOUNT"].front()).trimmed().toInt();
@@ -753,7 +753,7 @@ void TagReaderTagLib::ParseAPETag(const TagLib::APE::ItemListMap &map, QString *
     }
   }
 
-  if (map.find("COVER ART (FRONT)") != map.end()) song->set_art_automatic(kEmbeddedCover);
+  if (map.find("COVER ART (FRONT)") != map.end()) song->set_art_embedded(true);
   if (map.contains("COMPILATION")) {
     *compilation = TStringToQString(TagLib::String::number(map["COMPILATION"].toString().toInt()));
   }
@@ -853,7 +853,7 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
 
   qLog(Debug) << "Saving" << save_tags_options.join(", ") << "to" << filename;
 
-  const QByteArray cover_data = LoadCoverDataFromRequest(request);
+  const Cover cover = LoadCoverFromRequest(request);
 
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   if (!fileref || fileref->isNull()) return false;
@@ -883,7 +883,7 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
       SetRating(xiph_comment, song);
     }
     if (save_cover) {
-      SetEmbeddedArt(file_flac, xiph_comment, cover_data);
+      SetEmbeddedArt(file_flac, xiph_comment, cover.data, cover.mime_type);
     }
   }
 
@@ -949,7 +949,7 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
       SetRating(tag, song);
     }
     if (save_cover) {
-      SetEmbeddedArt(file_mpeg, tag, cover_data);
+      SetEmbeddedArt(file_mpeg, tag, cover.data, cover.mime_type);
     }
   }
 
@@ -971,7 +971,7 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
       SetRating(tag, song);
     }
     if (save_cover) {
-      SetEmbeddedArt(file_mp4, tag, cover_data);
+      SetEmbeddedArt(file_mp4, tag, cover.data, cover.mime_type);
     }
   }
 
@@ -989,20 +989,20 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
         SetRating(xiph_comment, song);
       }
       if (save_cover) {
-        SetEmbeddedArt(xiph_comment, cover_data);
+        SetEmbeddedArt(xiph_comment, cover.data, cover.mime_type);
       }
     }
   }
 
-  const bool result = fileref->save();
+  const bool success = fileref->save();
 #ifdef Q_OS_LINUX
-  if (result) {
+  if (success) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
     utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
   }
 #endif  // Q_OS_LINUX
 
-  return result;
+  return success;
 
 }
 
@@ -1238,7 +1238,7 @@ QByteArray TagReaderTagLib::LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &m
 
 }
 
-void TagReaderTagLib::SetEmbeddedArt(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data) const {
+void TagReaderTagLib::SetEmbeddedArt(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data, const QString &mime_type) const {
 
   (void)xiph_comment;
 
@@ -1247,28 +1247,28 @@ void TagReaderTagLib::SetEmbeddedArt(TagLib::FLAC::File *flac_file, TagLib::Ogg:
   if (!data.isEmpty()) {
     TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
     picture->setType(TagLib::FLAC::Picture::FrontCover);
-    picture->setMimeType("image/jpeg");
+    picture->setMimeType(QStringToTString(mime_type));
     picture->setData(TagLib::ByteVector(data.constData(), data.size()));
     flac_file->addPicture(picture);
   }
 
 }
 
-void TagReaderTagLib::SetEmbeddedArt(TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data) const {
+void TagReaderTagLib::SetEmbeddedArt(TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data, const QString &mime_type) const {
 
   xiph_comment->removeAllPictures();
 
   if (!data.isEmpty()) {
     TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
     picture->setType(TagLib::FLAC::Picture::FrontCover);
-    picture->setMimeType("image/jpeg");
+    picture->setMimeType(QStringToTString(mime_type));
     picture->setData(TagLib::ByteVector(data.constData(), data.size()));
     xiph_comment->addPicture(picture);
   }
 
 }
 
-void TagReaderTagLib::SetEmbeddedArt(TagLib::MPEG::File *file_mp3, TagLib::ID3v2::Tag *tag, const QByteArray &data) const {
+void TagReaderTagLib::SetEmbeddedArt(TagLib::MPEG::File *file_mp3, TagLib::ID3v2::Tag *tag, const QByteArray &data, const QString &mime_type) const {
 
   (void)file_mp3;
 
@@ -1284,14 +1284,14 @@ void TagReaderTagLib::SetEmbeddedArt(TagLib::MPEG::File *file_mp3, TagLib::ID3v2
     TagLib::ID3v2::AttachedPictureFrame *frontcover = nullptr;
     frontcover = new TagLib::ID3v2::AttachedPictureFrame("APIC");
     frontcover->setType(TagLib::ID3v2::AttachedPictureFrame::FrontCover);
-    frontcover->setMimeType("image/jpeg");
+    frontcover->setMimeType(QStringToTString(mime_type));
     frontcover->setPicture(TagLib::ByteVector(data.constData(), data.size()));
     tag->addFrame(frontcover);
   }
 
 }
 
-void TagReaderTagLib::SetEmbeddedArt(TagLib::MP4::File *aac_file, TagLib::MP4::Tag *tag, const QByteArray &data) const {
+void TagReaderTagLib::SetEmbeddedArt(TagLib::MP4::File *aac_file, TagLib::MP4::Tag *tag, const QByteArray &data, const QString &mime_type) const {
 
   (void)aac_file;
 
@@ -1300,7 +1300,17 @@ void TagReaderTagLib::SetEmbeddedArt(TagLib::MP4::File *aac_file, TagLib::MP4::T
     if (tag->contains("covr")) tag->removeItem("covr");
   }
   else {
-    covers.append(TagLib::MP4::CoverArt(TagLib::MP4::CoverArt::JPEG, TagLib::ByteVector(data.constData(), data.size())));
+    TagLib::MP4::CoverArt::Format cover_format;
+    if (mime_type == "image/jpeg") {
+      cover_format = TagLib::MP4::CoverArt::Format::JPEG;
+    }
+    else if (mime_type == "image/png") {
+      cover_format = TagLib::MP4::CoverArt::Format::PNG;
+    }
+    else {
+      return;
+    }
+    covers.append(TagLib::MP4::CoverArt(cover_format, TagLib::ByteVector(data.constData(), data.size())));
     tag->setItem("covr", covers);
   }
 
@@ -1314,7 +1324,7 @@ bool TagReaderTagLib::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtReque
 
   qLog(Debug) << "Saving art to" << filename;
 
-  const QByteArray cover_data = LoadCoverDataFromRequest(request);
+  const Cover cover = LoadCoverFromRequest(request);
 
 #ifdef Q_OS_WIN32
   TagLib::FileRef fileref(filename.toStdWString().c_str());
@@ -1328,40 +1338,40 @@ bool TagReaderTagLib::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtReque
   if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref.file())) {
     TagLib::Ogg::XiphComment *xiph_comment = flac_file->xiphComment(true);
     if (!xiph_comment) return false;
-    SetEmbeddedArt(flac_file, xiph_comment, cover_data);
+    SetEmbeddedArt(flac_file, xiph_comment, cover.data, cover.mime_type);
   }
 
   // Ogg Vorbis / Opus / Speex
   else if (TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref.file()->tag())) {
-    SetEmbeddedArt(xiph_comment, cover_data);
+    SetEmbeddedArt(xiph_comment, cover.data, cover.mime_type);
   }
 
   // MP3
   else if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(fileref.file())) {
     TagLib::ID3v2::Tag *tag = file_mp3->ID3v2Tag();
     if (!tag) return false;
-    SetEmbeddedArt(file_mp3, tag, cover_data);
+    SetEmbeddedArt(file_mp3, tag, cover.data, cover.mime_type);
   }
 
   // MP4/AAC
   else if (TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(fileref.file())) {
     TagLib::MP4::Tag *tag = aac_file->tag();
     if (!tag) return false;
-    SetEmbeddedArt(aac_file, tag, cover_data);
+    SetEmbeddedArt(aac_file, tag, cover.data, cover.mime_type);
   }
 
   // Not supported.
   else return false;
 
-  const bool result = fileref.file()->save();
+  const bool success = fileref.file()->save();
 #ifdef Q_OS_LINUX
-  if (result) {
+  if (success) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
     utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
   }
 #endif  // Q_OS_LINUX
 
-  return result;
+  return success;
 
 }
 
@@ -1490,15 +1500,15 @@ bool TagReaderTagLib::SaveSongPlaycountToFile(const QString &filename, const spb
     return true;
   }
 
-  bool ret = fileref->save();
+  bool success = fileref->save();
 #ifdef Q_OS_LINUX
-  if (ret) {
+  if (success) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
     utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
   }
 #endif  // Q_OS_LINUX
 
-  return ret;
+  return success;
 
 }
 
@@ -1602,14 +1612,14 @@ bool TagReaderTagLib::SaveSongRatingToFile(const QString &filename, const spb::t
     return true;
   }
 
-  bool ret = fileref->save();
+  const bool success = fileref->save();
 #ifdef Q_OS_LINUX
-  if (ret) {
+  if (success) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
     utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
   }
 #endif  // Q_OS_LINUX
 
-  return ret;
+  return success;
 
 }

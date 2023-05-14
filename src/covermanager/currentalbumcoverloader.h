@@ -48,7 +48,10 @@ class CurrentAlbumCoverLoader : public QObject {
   const AlbumCoverLoaderOptions &options() const { return options_; }
   const Song &last_song() const { return last_song_; }
 
+  void ReloadSettingsAsync();
+
  public slots:
+  void ReloadSettings();
   void LoadAlbumCover(const Song &song);
 
  signals:

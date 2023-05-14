@@ -32,35 +32,33 @@ class AlbumCoverLoaderResult {
 
   enum class Type {
     None,
-    ManuallyUnset,
+    Unset,
     Embedded,
     Automatic,
-    Manual,
-    Remote
+    Manual
   };
 
   explicit AlbumCoverLoaderResult(const bool _success = false,
                                   const Type _type = Type::None,
                                   AlbumCoverImageResult _album_cover = AlbumCoverImageResult(),
                                   const QImage &_image_scaled = QImage(),
-                                  const QImage &_image_thumbnail = QImage(),
+                                  const bool _remote_cover = false,
                                   const bool _updated = false) :
                                   success(_success),
                                   type(_type),
                                   album_cover(_album_cover),
                                   image_scaled(_image_scaled),
-                                  image_thumbnail(_image_thumbnail),
+                                  remote_cover(_remote_cover),
                                   updated(_updated) {}
 
   bool success;
   Type type;
   AlbumCoverImageResult album_cover;
   QImage image_scaled;
-  QImage image_thumbnail;
+  bool remote_cover;
   bool updated;
 
   QUrl temp_cover_url;
-
 };
 
 Q_DECLARE_METATYPE(AlbumCoverLoaderResult)

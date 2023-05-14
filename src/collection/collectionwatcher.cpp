@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -156,10 +156,10 @@ void CollectionWatcher::ReloadSettings() {
   overwrite_rating_ = s.value("overwrite_rating", false).toBool();
   s.endGroup();
 
-  best_image_filters_.clear();
+  best_art_filters_.clear();
   for (const QString &filter : filters) {
     QString str = filter.trimmed();
-    if (!str.isEmpty()) best_image_filters_ << str;
+    if (!str.isEmpty()) best_art_filters_ << str;
   }
 
   if (!monitor_ && was_monitoring_before) {
@@ -539,8 +539,8 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
       bool changed = (matching_song.mtime() != qMax(fileinfo.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added || cue_changed;
 
       // Also want to look to see whether the album art has changed
-      QUrl image = ImageForSong(file, album_art);
-      if ((matching_song.art_automatic().isEmpty() && !image.isEmpty()) || (!matching_song.art_automatic().isEmpty() && !matching_song.has_embedded_cover() && !QFile::exists(matching_song.art_automatic().toLocalFile()))) {
+      const QUrl art_automatic = ArtForSong(file, album_art);
+      if (matching_song.art_automatic() != art_automatic || (!matching_song.art_automatic().isEmpty() && !matching_song.art_automatic_is_valid())) {
         changed = true;
       }
 
@@ -573,16 +573,16 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
 #endif
 
         if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
-          UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, image, cue_deleted, t);
+          UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, cue_deleted, t);
         }
         else {  // If CUE associated.
-          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, image, matching_songs, t);
+          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, matching_songs, t);
         }
 
       }
 
       // Nothing has changed - mark the song available without re-scanning
-      else if (matching_song.is_unavailable()) {
+      else if (matching_song.unavailable()) {
         t->readded_songs << matching_songs;
       }
 
@@ -633,13 +633,13 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
         }
 
         // Get new album art
-        QUrl image = ImageForSong(file, album_art);
+        const QUrl art_automatic = ArtForSong(file, album_art);
 
         if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
-          UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, image, matching_songs_has_cue && new_cue_mtime == 0, t);
+          UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, matching_songs_has_cue && new_cue_mtime == 0, t);
         }
         else {  // If CUE associated.
-          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, image, matching_songs, t);
+          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, matching_songs, t);
         }
 
       }
@@ -653,12 +653,12 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
 
         qLog(Debug) << file << "is new.";
 
-        // Choose an image for the song(s)
-        QUrl image = ImageForSong(file, album_art);
+        // Choose art for the song(s)
+        const QUrl art_automatic = ArtForSong(file, album_art);
 
         for (Song song : songs) {
           song.set_directory_id(t->dir());
-          if (song.art_automatic().isEmpty()) song.set_art_automatic(image);
+          if (song.art_automatic().isEmpty()) song.set_art_automatic(art_automatic);
           t->new_songs << song;
         }
       }
@@ -669,7 +669,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
   // Look for deleted songs
   for (const Song &song : songs_in_db) {
     QString file = song.url().toLocalFile();
-    if (!song.is_unavailable() && !files_on_disk.contains(file) && !t->files_changed_path_.contains(file)) {
+    if (!song.unavailable() && !files_on_disk.contains(file) && !t->files_changed_path_.contains(file)) {
       qLog(Debug) << "Song deleted from disk:" << file;
       t->deleted_songs << song;
     }
@@ -704,7 +704,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
                                                  const QString &path,
                                                  const QString &fingerprint,
                                                  const QString &matching_cue,
-                                                 const QUrl &image,
+                                                 const QUrl &art_automatic,
                                                  const SongList &old_cue_songs,
                                                  ScanTransaction *t) {
 
@@ -733,7 +733,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
     if (sections_map.contains(new_cue_song.beginning_nanosec())) {  // Changed section
       const Song matching_cue_song = sections_map[new_cue_song.beginning_nanosec()];
       new_cue_song.set_id(matching_cue_song.id());
-      if (!new_cue_song.has_embedded_cover()) new_cue_song.set_art_automatic(image);
+      new_cue_song.set_art_automatic(art_automatic);
       new_cue_song.MergeUserSetData(matching_cue_song, true, true);
       AddChangedSong(file, matching_cue_song, new_cue_song, t);
       used_ids.insert(matching_cue_song.id());
@@ -755,7 +755,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
 void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
                                                    const QString &fingerprint,
                                                    const SongList &matching_songs,
-                                                   const QUrl &image,
+                                                   const QUrl &art_automatic,
                                                    const bool cue_deleted,
                                                    ScanTransaction *t) {
 
@@ -776,7 +776,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
     song_on_disk.set_directory_id(t->dir());
     song_on_disk.set_id(matching_song.id());
     song_on_disk.set_fingerprint(fingerprint);
-    if (!song_on_disk.has_embedded_cover()) song_on_disk.set_art_automatic(image);
+    song_on_disk.set_art_automatic(art_automatic);
     song_on_disk.MergeUserSetData(matching_song, !overwrite_playcount_, !overwrite_rating_);
     AddChangedSong(file, matching_song, song_on_disk, t);
   }
@@ -838,7 +838,7 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
   bool notify_new = false;
   QStringList changes;
 
-  if (matching_song.is_unavailable()) {
+  if (matching_song.unavailable()) {
     qLog(Debug) << "unavailable song" << file << "restored.";
     notify_new = true;
   }
@@ -1039,20 +1039,20 @@ void CollectionWatcher::RescanPathsNow() {
 
 }
 
-QString CollectionWatcher::PickBestImage(const QStringList &images) {
+QString CollectionWatcher::PickBestArt(const QStringList &art_automatic_list) {
 
   // This is used when there is more than one image in a directory.
   // Pick the biggest image that matches the most important filter
 
   QStringList filtered;
 
-  for (const QString &filter_text : best_image_filters_) {
+  for (const QString &filter_text : best_art_filters_) {
     // The images in the images list are represented by a full path, so we need to isolate just the filename
-    for (const QString &image : images) {
-      QFileInfo fileinfo(image);
+    for (const QString &art_automatic : art_automatic_list) {
+      QFileInfo fileinfo(art_automatic);
       QString filename(fileinfo.fileName());
       if (filename.contains(filter_text, Qt::CaseInsensitive))
-        filtered << image;
+        filtered << art_automatic;
     }
 
     // We assume the filters are give in the order best to worst, so if we've got a result, we go with it.
@@ -1062,7 +1062,7 @@ QString CollectionWatcher::PickBestImage(const QStringList &images) {
 
   if (filtered.isEmpty()) {
     // The filter was too restrictive, just use the original list
-    filtered = images;
+    filtered = art_automatic_list;
   }
 
   int biggest_size = 0;
@@ -1085,20 +1085,21 @@ QString CollectionWatcher::PickBestImage(const QStringList &images) {
 
 }
 
-QUrl CollectionWatcher::ImageForSong(const QString &path, QMap<QString, QStringList> &album_art) {
+QUrl CollectionWatcher::ArtForSong(const QString &path, QMap<QString, QStringList> &art_automatic_list) {
 
   QString dir(DirectoryPart(path));
 
-  if (album_art.contains(dir)) {
-    if (album_art[dir].count() == 1) {
-      return QUrl::fromLocalFile(album_art[dir][0]);
+  if (art_automatic_list.contains(dir)) {
+    if (art_automatic_list[dir].count() == 1) {
+      return QUrl::fromLocalFile(art_automatic_list[dir][0]);
     }
     else {
-      QString best_image = PickBestImage(album_art[dir]);
-      album_art[dir] = QStringList() << best_image;
-      return QUrl::fromLocalFile(best_image);
+      const QString best_art = PickBestArt(art_automatic_list[dir]);
+      art_automatic_list[dir] = QStringList() << best_art;
+      return QUrl::fromLocalFile(best_art);
     }
   }
+
   return QUrl();
 
 }

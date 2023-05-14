@@ -39,11 +39,8 @@ class ImageUtils {
   static QStringList SupportedImageFormats();
   static QByteArray SaveImageToJpegData(const QImage &image = QImage());
   static QByteArray FileToJpegData(const QString &filename);
-  static QPixmap TryLoadPixmap(const QUrl &automatic, const QUrl &manual, const QUrl &url = QUrl());
-  static QImage ScaleAndPad(const QImage &image, const bool scale, const bool pad, const int desired_height, const qreal device_pixel_ratio = 1.0F);
-  static QImage CreateThumbnail(const QImage &image, const bool pad, const QSize size);
-  static QImage GenerateNoCoverImage(const QSize size = QSize());
-
+  static QImage ScaleImage(const QImage &image, const QSize desired_size, const qreal device_pixel_ratio = 1.0F, const bool pad = true);
+  static QImage GenerateNoCoverImage(const QSize size, const qreal device_pixel_ratio);
 };
 
 #endif  // IMAGEUTILS_H

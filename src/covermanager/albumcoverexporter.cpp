@@ -24,6 +24,7 @@
 #include <QThreadPool>
 
 #include "core/song.h"
+#include "albumcoverloaderoptions.h"
 #include "albumcoverexport.h"
 #include "albumcoverexporter.h"
 #include "coverexportrunnable.h"
@@ -43,9 +44,15 @@ void AlbumCoverExporter::SetDialogResult(const AlbumCoverExport::DialogResult &d
   dialog_result_ = dialog_result;
 }
 
+void AlbumCoverExporter::SetCoverTypes(const AlbumCoverLoaderOptions::Types cover_types) {
+  cover_types_ = cover_types;
+}
+
 void AlbumCoverExporter::AddExportRequest(const Song &song) {
-  requests_.append(new CoverExportRunnable(dialog_result_, song));
+
+  requests_.append(new CoverExportRunnable(dialog_result_, cover_types_, song));
   all_ = static_cast<int>(requests_.count());
+
 }
 
 void AlbumCoverExporter::Cancel() { requests_.clear(); }

@@ -1468,12 +1468,7 @@ void PlaylistView::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResu
   current_song_cover_art_ = result.album_cover.image;
 
   if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Album) {
-    if (song.art_automatic().isEmpty() && song.art_manual().isEmpty()) {
-      set_background_image(QImage());
-    }
-    else {
-      set_background_image(current_song_cover_art_);
-    }
+    set_background_image(result.success && result.type != AlbumCoverLoaderResult::Type::None && result.type != AlbumCoverLoaderResult::Type::Unset ? current_song_cover_art_ : QImage());
     force_background_redraw_ = true;
     update();
   }

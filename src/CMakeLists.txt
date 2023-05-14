@@ -147,6 +147,7 @@ set(SOURCES
   covermanager/albumcovermanager.cpp
   covermanager/albumcovermanagerlist.cpp
   covermanager/albumcoverloader.cpp
+  covermanager/albumcoverloaderoptions.cpp
   covermanager/albumcoverfetcher.cpp
   covermanager/albumcoverfetchersearch.cpp
   covermanager/albumcoversearcher.cpp

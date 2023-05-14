@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,12 +54,14 @@ class CollectionBackendInterface : public QObject {
   explicit CollectionBackendInterface(QObject *parent = nullptr) : QObject(parent) {}
 
   struct Album {
-    Album() : filetype(Song::FileType::Unknown) {}
-    Album(const QString &_album_artist, const QString &_album, const QUrl &_art_automatic, const QUrl &_art_manual, const QList<QUrl> &_urls, const Song::FileType _filetype, const QString &_cue_path)
+    Album() : art_embedded(false), art_unset(false), filetype(Song::FileType::Unknown) {}
+    Album(const QString &_album_artist, const QString &_album, const bool _art_embedded, const QUrl &_art_automatic, const QUrl &_art_manual, const bool _art_unset, const QList<QUrl> &_urls, const Song::FileType _filetype, const QString &_cue_path)
         : album_artist(_album_artist),
           album(_album),
+          art_embedded(_art_embedded),
           art_automatic(_art_automatic),
           art_manual(_art_manual),
+          art_unset(_art_unset),
           urls(_urls),
           filetype(_filetype),
           cue_path(_cue_path) {}
@@ -67,8 +69,10 @@ class CollectionBackendInterface : public QObject {
     QString album_artist;
     QString album;
 
+    bool art_embedded;
     QUrl art_automatic;
     QUrl art_manual;
+    bool art_unset;
     QList<QUrl> urls;
     Song::FileType filetype;
     QString cue_path;
@@ -109,8 +113,10 @@ class CollectionBackendInterface : public QObject {
   virtual AlbumList GetAlbumsByArtist(const QString &artist, const CollectionFilterOptions &opt = CollectionFilterOptions()) = 0;
   virtual AlbumList GetCompilationAlbums(const CollectionFilterOptions &opt = CollectionFilterOptions()) = 0;
 
-  virtual void UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false) = 0;
-  virtual void UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual = false) = 0;
+  virtual void UpdateEmbeddedAlbumArtAsync(const QString &effective_albumartist, const QString &album, const bool art_embedded) = 0;
+  virtual void UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &art_manual) = 0;
+  virtual void UnsetAlbumArtAsync(const QString &effective_albumartist, const QString &album) = 0;
+  virtual void ClearAlbumArtAsync(const QString &effective_albumartist, const QString &album, const bool art_unset) = 0;
 
   virtual Album GetAlbumArt(const QString &effective_albumartist, const QString &album) = 0;
 
@@ -179,8 +185,10 @@ class CollectionBackend : public CollectionBackendInterface {
   AlbumList GetCompilationAlbums(const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
   AlbumList GetAlbumsByArtist(const QString &artist, const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
 
-  void UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false) override;
-  void UpdateAutomaticAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual = false) override;
+  void UpdateEmbeddedAlbumArtAsync(const QString &effective_albumartist, const QString &album, const bool art_embedded) override;
+  void UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &art_manual) override;
+  void UnsetAlbumArtAsync(const QString &effective_albumartist, const QString &album) override;
+  void ClearAlbumArtAsync(const QString &effective_albumartist, const QString &album, const bool art_unset) override;
 
   Album GetAlbumArt(const QString &effective_albumartist, const QString &album) override;
 
@@ -232,8 +240,10 @@ class CollectionBackend : public CollectionBackendInterface {
   void MarkSongsUnavailable(const SongList &songs, const bool unavailable = true);
   void AddOrUpdateSubdirs(const CollectionSubdirectoryList &subdirs);
   void CompilationsNeedUpdating();
-  void UpdateManualAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_automatic = false);
-  void UpdateAutomaticAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &cover_url, const bool clear_art_manual = false);
+  void UpdateEmbeddedAlbumArt(const QString &effective_albumartist, const QString &album, const bool art_embedded);
+  void UpdateManualAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &art_manual);
+  void UnsetAlbumArt(const QString &effective_albumartist, const QString &album);
+  void ClearAlbumArt(const QString &effective_albumartist, const QString &album, const bool art_unset);
   void ForceCompilation(const QString &album, const QList<QString> &artists, const bool on);
   void IncrementPlayCount(const int id);
   void IncrementSkipCount(const int id, const float progress);
@@ -303,7 +313,6 @@ class CollectionBackend : public CollectionBackendInterface {
   QString subdirs_table_;
   QString fts_table_;
   QThread *original_thread_;
-
 };
 
 #endif  // COLLECTIONBACKEND_H

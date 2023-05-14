@@ -1,0 +1,37 @@
+ALTER TABLE songs ADD COLUMN art_embedded INTEGER DEFAULT 0;
+
+ALTER TABLE songs ADD COLUMN art_unset INTEGER DEFAULT 0;
+
+ALTER TABLE subsonic_songs ADD COLUMN art_embedded INTEGER DEFAULT 0;
+
+ALTER TABLE subsonic_songs ADD COLUMN art_unset INTEGER DEFAULT 0;
+
+ALTER TABLE tidal_artists_songs ADD COLUMN art_embedded INTEGER DEFAULT 0;
+
+ALTER TABLE tidal_artists_songs ADD COLUMN art_unset INTEGER DEFAULT 0;
+
+ALTER TABLE tidal_albums_songs ADD COLUMN art_embedded INTEGER DEFAULT 0;
+
+ALTER TABLE tidal_albums_songs ADD COLUMN art_unset INTEGER DEFAULT 0;
+
+ALTER TABLE tidal_songs ADD COLUMN art_embedded INTEGER DEFAULT 0;
+
+ALTER TABLE tidal_songs ADD COLUMN art_unset INTEGER DEFAULT 0;
+
+ALTER TABLE qobuz_artists_songs ADD COLUMN art_embedded INTEGER DEFAULT 0;
+
+ALTER TABLE qobuz_artists_songs ADD COLUMN art_unset INTEGER DEFAULT 0;
+
+ALTER TABLE qobuz_albums_songs ADD COLUMN art_embedded INTEGER DEFAULT 0;
+
+ALTER TABLE qobuz_albums_songs ADD COLUMN art_unset INTEGER DEFAULT 0;
+
+ALTER TABLE qobuz_songs ADD COLUMN art_embedded INTEGER DEFAULT 0;
+
+ALTER TABLE qobuz_songs ADD COLUMN art_unset INTEGER DEFAULT 0;
+
+ALTER TABLE playlist_items ADD COLUMN art_embedded INTEGER DEFAULT 0;
+
+ALTER TABLE playlist_items ADD COLUMN art_unset INTEGER DEFAULT 0;
+
+UPDATE schema_version SET version=17;

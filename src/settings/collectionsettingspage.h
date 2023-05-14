@@ -67,7 +67,6 @@ class CollectionSettingsPage : public SettingsPage {
   void CurrentRowChanged(const QModelIndex &idx);
   void SongTrackingToggled();
   void DiskCacheEnable(const int state);
-  void CoverSaveInAlbumDirChanged();
   void ClearPixmapDiskCache();
   void CacheSizeUnitChanged(int index);
   void DiskCacheSizeUnitChanged(int index);

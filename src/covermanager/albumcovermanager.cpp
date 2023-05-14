@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -95,6 +95,7 @@
 #include "ui_albumcovermanager.h"
 
 const char *AlbumCoverManager::kSettingsGroup = "CoverManager";
+constexpr int AlbumCoverManager::kThumbnailSize = 120;
 
 AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collection_backend, QMainWindow *mainwindow, QWidget *parent)
     : QMainWindow(parent),
@@ -112,7 +113,7 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
       cover_exporter_(new AlbumCoverExporter(this)),
       artist_icon_(IconLoader::Load("folder-sound")),
       all_artists_icon_(IconLoader::Load("library-music")),
-      image_nocover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(120 * devicePixelRatio(), 120 * devicePixelRatio()))),
+      image_nocover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(120, 120), devicePixelRatio())),
       icon_nocover_item_(QPixmap::fromImage(image_nocover_thumbnail_)),
       context_menu_(new QMenu(this)),
       progress_bar_(new QProgressBar(this)),
@@ -149,11 +150,6 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
 
   QShortcut *close = new QShortcut(QKeySequence::Close, this);
   QObject::connect(close, &QShortcut::activated, this, &AlbumCoverManager::close);
-
-  cover_loader_options_.scale_output_image_ = true;
-  cover_loader_options_.pad_output_image_ = true;
-  cover_loader_options_.desired_height_ = 120 * devicePixelRatio();
-  cover_loader_options_.create_thumbnail_ = false;
 
   EnableCoversButtons();
 
@@ -236,7 +232,6 @@ void AlbumCoverManager::Init() {
   s.endGroup();
 
   QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &AlbumCoverManager::AlbumCoverLoaded);
-  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::SaveEmbeddedCoverAsyncFinished, this, &AlbumCoverManager::SaveEmbeddedCoverAsyncFinished);
 
   cover_searcher_->Init(cover_fetcher_);
 
@@ -248,6 +243,7 @@ void AlbumCoverManager::showEvent(QShowEvent *e) {
 
   if (!e->spontaneous()) {
     LoadGeometry();
+    cover_types_ = AlbumCoverLoaderOptions::LoadTypes();
     album_cover_choice_controller_->ReloadSettings();
     Reset();
   }
@@ -321,7 +317,6 @@ void AlbumCoverManager::CancelRequests() {
 #endif
   cover_loading_tasks_.clear();
   cover_save_tasks_.clear();
-  cover_save_tasks2_.clear();
 
   cover_exporter_->Cancel();
 
@@ -390,41 +385,43 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
   // Sort by album name.  The list is already sorted by sqlite but it was done case sensitively.
   std::stable_sort(albums.begin(), albums.end(), CompareAlbumNameNocase);
 
-  for (const CollectionBackend::Album &info : albums) {
+  for (const CollectionBackend::Album &album_info : albums) {
 
     // Don't show songs without an album, obviously
-    if (info.album.isEmpty()) continue;
+    if (album_info.album.isEmpty()) continue;
 
     QString display_text;
 
     if (current->type() == Specific_Artist) {
-      display_text = info.album;
+      display_text = album_info.album;
     }
     else {
-      display_text = info.album_artist + " - " + info.album;
+      display_text = album_info.album_artist + " - " + album_info.album;
     }
 
-    AlbumItem *item = new AlbumItem(icon_nocover_item_, display_text, ui_->albums);
-    item->setData(Role_AlbumArtist, info.album_artist);
-    item->setData(Role_Album, info.album);
-    item->setData(Role_Filetype, QVariant::fromValue(info.filetype));
-    item->setData(Role_CuePath, info.cue_path);
-    item->setData(Qt::TextAlignmentRole, QVariant(Qt::AlignTop | Qt::AlignHCenter));
-    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled);
-    item->urls = info.urls;
+    AlbumItem *album_item = new AlbumItem(icon_nocover_item_, display_text, ui_->albums);
+    album_item->setData(Role_AlbumArtist, album_info.album_artist);
+    album_item->setData(Role_Album, album_info.album);
+    album_item->setData(Role_Filetype, QVariant::fromValue(album_info.filetype));
+    album_item->setData(Role_CuePath, album_info.cue_path);
+    album_item->setData(Qt::TextAlignmentRole, QVariant(Qt::AlignTop | Qt::AlignHCenter));
+    album_item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled);
+    album_item->urls = album_info.urls;
 
-    if (info.album_artist.isEmpty()) {
-      item->setToolTip(info.album);
+    if (album_info.album_artist.isEmpty()) {
+      album_item->setToolTip(album_info.album);
     }
     else {
-      item->setToolTip(info.album_artist + " - " + info.album);
+      album_item->setToolTip(album_info.album_artist + " - " + album_info.album);
     }
 
-    if (!info.art_automatic.isEmpty() || !info.art_manual.isEmpty()) {
-      item->setData(Role_PathAutomatic, info.art_automatic);
-      item->setData(Role_PathManual, info.art_manual);
-      quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, info.art_automatic, info.art_manual, info.urls.first());
-      cover_loading_tasks_[id] = item;
+    album_item->setData(Role_ArtEmbedded, album_info.art_embedded);
+    album_item->setData(Role_ArtAutomatic, album_info.art_automatic);
+    album_item->setData(Role_ArtManual, album_info.art_manual);
+    album_item->setData(Role_ArtUnset, album_info.art_unset);
+
+    if (album_info.art_embedded || !album_info.art_automatic.isEmpty() || !album_info.art_manual.isEmpty()) {
+      LoadAlbumCoverAsync(album_item);
     }
 
   }
@@ -437,17 +434,14 @@ void AlbumCoverManager::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoade
 
   if (!cover_loading_tasks_.contains(id)) return;
 
-  AlbumItem *item = cover_loading_tasks_.take(id);
+  AlbumItem *album_item = cover_loading_tasks_.take(id);
 
-  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::ManuallyUnset) {
-    item->setIcon(icon_nocover_item_);
+  if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::Unset) {
+    album_item->setIcon(icon_nocover_item_);
   }
   else {
-    item->setIcon(QPixmap::fromImage(result.image_scaled));
+    album_item->setIcon(QPixmap::fromImage(result.image_scaled));
   }
-
-  //item->setData(Role_Image, result.image_original);
-  //item->setData(Role_ImageData, result.image_data);
 
   UpdateFilter();
 
@@ -471,13 +465,13 @@ void AlbumCoverManager::UpdateFilter() {
   qint32 without_cover = 0;
 
   for (int i = 0; i < ui_->albums->count(); ++i) {
-    AlbumItem *item = static_cast<AlbumItem*>(ui_->albums->item(i));
-    bool should_hide = ShouldHide(*item, filter, hide_covers);
-    item->setHidden(should_hide);
+    AlbumItem *album_item = static_cast<AlbumItem*>(ui_->albums->item(i));
+    bool should_hide = ShouldHide(*album_item, filter, hide_covers);
+    album_item->setHidden(should_hide);
 
     if (!should_hide) {
       ++total_count;
-      if (!ItemHasCover(*item)) {
+      if (!ItemHasCover(*album_item)) {
         ++without_cover;
       }
     }
@@ -488,9 +482,9 @@ void AlbumCoverManager::UpdateFilter() {
 
 }
 
-bool AlbumCoverManager::ShouldHide(const AlbumItem &item, const QString &filter, const HideCovers hide_covers) const {
+bool AlbumCoverManager::ShouldHide(const AlbumItem &album_item, const QString &filter, const HideCovers hide_covers) const {
 
-  bool has_cover = ItemHasCover(item);
+  bool has_cover = ItemHasCover(album_item);
   if (hide_covers == HideCovers::WithCovers && has_cover) {
     return true;
   }
@@ -504,8 +498,8 @@ bool AlbumCoverManager::ShouldHide(const AlbumItem &item, const QString &filter,
 
   QStringList query = filter.split(' ');
   for (const QString &s : query) {
-    bool in_text = item.text().contains(s, Qt::CaseInsensitive);
-    bool in_albumartist = item.data(Role_AlbumArtist).toString().contains(s, Qt::CaseInsensitive);
+    bool in_text = album_item.text().contains(s, Qt::CaseInsensitive);
+    bool in_albumartist = album_item.data(Role_AlbumArtist).toString().contains(s, Qt::CaseInsensitive);
     if (!in_text && !in_albumartist) {
       return true;
     }
@@ -518,12 +512,12 @@ bool AlbumCoverManager::ShouldHide(const AlbumItem &item, const QString &filter,
 void AlbumCoverManager::FetchAlbumCovers() {
 
   for (int i = 0; i < ui_->albums->count(); ++i) {
-    AlbumItem *item = static_cast<AlbumItem*>(ui_->albums->item(i));
-    if (item->isHidden()) continue;
-    if (ItemHasCover(*item)) continue;
+    AlbumItem *album_item = static_cast<AlbumItem*>(ui_->albums->item(i));
+    if (album_item->isHidden()) continue;
+    if (ItemHasCover(*album_item)) continue;
 
-    quint64 id = cover_fetcher_->FetchAlbumCover(item->data(Role_AlbumArtist).toString(), item->data(Role_Album).toString(), QString(), true);
-    cover_fetching_tasks_[id] = item;
+    quint64 id = cover_fetcher_->FetchAlbumCover(album_item->data(Role_AlbumArtist).toString(), album_item->data(Role_Album).toString(), QString(), true);
+    cover_fetching_tasks_[id] = album_item;
     jobs_++;
   }
 
@@ -541,9 +535,9 @@ void AlbumCoverManager::AlbumCoverFetched(const quint64 id, const AlbumCoverImag
 
   if (!cover_fetching_tasks_.contains(id)) return;
 
-  AlbumItem *item = cover_fetching_tasks_.take(id);
+  AlbumItem *album_item = cover_fetching_tasks_.take(id);
   if (!result.image.isNull()) {
-    SaveAndSetCover(item, result);
+    SaveAndSetCover(album_item, result);
   }
 
   if (cover_fetching_tasks_.isEmpty()) {
@@ -593,13 +587,13 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
     bool some_unset = false;
     bool some_clear = false;
 
-    for (QListWidgetItem *item : context_menu_items_) {
-      AlbumItem *album_item = static_cast<AlbumItem*>(item);
+    for (QListWidgetItem *list_widget_item : context_menu_items_) {
+      AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
       if (ItemHasCover(*album_item)) some_with_covers = true;
-      if (album_item->data(Role_PathManual).toUrl().path() == Song::kManuallyUnsetCover) {
+      if (album_item->data(Role_ArtUnset).toBool()) {
         some_unset = true;
       }
-      else if (album_item->data(Role_PathAutomatic).toUrl().isEmpty() && album_item->data(Role_PathManual).toUrl().isEmpty()) {
+      else if (!album_item->data(Role_ArtEmbedded).toBool() && album_item->data(Role_ArtAutomatic).toUrl().isEmpty() && album_item->data(Role_ArtManual).toUrl().isEmpty()) {
         some_clear = true;
       }
     }
@@ -623,19 +617,19 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
 }
 
 Song AlbumCoverManager::GetSingleSelectionAsSong() {
-  return context_menu_items_.size() != 1 ? Song() : ItemAsSong(context_menu_items_[0]);
+  return context_menu_items_.size() != 1 ? Song() : AlbumItemAsSong(context_menu_items_[0]);
 }
 
 Song AlbumCoverManager::GetFirstSelectedAsSong() {
-  return context_menu_items_.isEmpty() ? Song() : ItemAsSong(context_menu_items_[0]);
+  return context_menu_items_.isEmpty() ? Song() : AlbumItemAsSong(context_menu_items_[0]);
 }
 
-Song AlbumCoverManager::ItemAsSong(AlbumItem *item) {
+Song AlbumCoverManager::AlbumItemAsSong(AlbumItem *album_item) {
 
   Song result(Song::Source::Collection);
 
-  QString title = item->data(Role_Album).toString();
-  QString artist_name = item->data(Role_AlbumArtist).toString();
+  QString title = album_item->data(Role_Album).toString();
+  QString artist_name = album_item->data(Role_AlbumArtist).toString();
   if (!artist_name.isEmpty()) {
     result.set_title(artist_name + " - " + title);
   }
@@ -643,27 +637,30 @@ Song AlbumCoverManager::ItemAsSong(AlbumItem *item) {
     result.set_title(title);
   }
 
-  result.set_artist(item->data(Role_AlbumArtist).toString());
-  result.set_albumartist(item->data(Role_AlbumArtist).toString());
-  result.set_album(item->data(Role_Album).toString());
+  result.set_artist(album_item->data(Role_AlbumArtist).toString());
+  result.set_albumartist(album_item->data(Role_AlbumArtist).toString());
+  result.set_album(album_item->data(Role_Album).toString());
 
-  result.set_filetype(static_cast<Song::FileType>(item->data(Role_Filetype).toInt()));
-  result.set_url(item->urls.first());
-  result.set_cue_path(item->data(Role_CuePath).toString());
+  result.set_filetype(static_cast<Song::FileType>(album_item->data(Role_Filetype).toInt()));
+  result.set_url(album_item->urls.first());
+  result.set_cue_path(album_item->data(Role_CuePath).toString());
 
-  result.set_art_automatic(item->data(Role_PathAutomatic).toUrl());
-  result.set_art_manual(item->data(Role_PathManual).toUrl());
+  result.set_art_embedded(album_item->data(Role_ArtEmbedded).toBool());
+  result.set_art_automatic(album_item->data(Role_ArtAutomatic).toUrl());
+  result.set_art_manual(album_item->data(Role_ArtManual).toUrl());
+  result.set_art_unset(album_item->data(Role_ArtUnset).toBool());
 
   // force validity
   result.set_valid(true);
   result.set_id(0);
 
   return result;
+
 }
 
 void AlbumCoverManager::ShowCover() {
 
-  Song song = GetSingleSelectionAsSong();
+  const Song song = GetSingleSelectionAsSong();
   if (!song.is_valid()) return;
 
   album_cover_choice_controller_->ShowCover(song);
@@ -672,8 +669,8 @@ void AlbumCoverManager::ShowCover() {
 
 void AlbumCoverManager::FetchSingleCover() {
 
-  for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+  for (QListWidgetItem *list_widget_item : context_menu_items_) {
+    AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
     quint64 id = cover_fetcher_->FetchAlbumCover(album_item->data(Role_AlbumArtist).toString(), album_item->data(Role_Album).toString(), QString(), false);
     cover_fetching_tasks_[id] = album_item;
     jobs_++;
@@ -686,11 +683,11 @@ void AlbumCoverManager::FetchSingleCover() {
 
 }
 
-void AlbumCoverManager::UpdateCoverInList(AlbumItem *item, const QUrl &cover_url) {
+void AlbumCoverManager::UpdateCoverInList(AlbumItem *album_item, const QUrl &cover_url) {
 
-  quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, QUrl(), cover_url);
-  item->setData(Role_PathManual, cover_url);
-  cover_loading_tasks_[id] = item;
+  album_item->setData(Role_ArtManual, cover_url);
+  album_item->setData(Role_ArtUnset, false);
+  LoadAlbumCoverAsync(album_item);
 
 }
 
@@ -709,26 +706,31 @@ void AlbumCoverManager::LoadCoverFromFile() {
 void AlbumCoverManager::SaveCoverToFile() {
 
   Song song = GetSingleSelectionAsSong();
-  if (!song.is_valid() || song.has_manually_unset_cover()) return;
-
-  AlbumCoverImageResult result;
+  if (!song.is_valid() || song.art_unset()) return;
 
   // Load the image from disk
-
-  if (!song.art_manual().isEmpty() && !song.has_manually_unset_cover() && song.art_manual().isLocalFile() && QFile::exists(song.art_manual().toLocalFile())) {
-    result.image_data = Utilities::ReadDataFromFile(song.art_manual().toLocalFile());
-  }
-  else if (!song.art_manual().isEmpty() && !song.art_manual().path().isEmpty() && song.art_manual().scheme().isEmpty() && QFile::exists(song.art_manual().path())) {
-    result.image_data = Utilities::ReadDataFromFile(song.art_manual().path());
-  }
-  else if (song.has_embedded_cover()) {
-    result.image_data = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(song.url().toLocalFile());
-  }
-  else if (!song.art_automatic().isEmpty() && song.art_automatic().isLocalFile() && QFile::exists(song.art_automatic().toLocalFile())) {
-    result.image_data = Utilities::ReadDataFromFile(song.art_automatic().toLocalFile());
-  }
-  else if (!song.art_automatic().isEmpty() && !song.art_automatic().path().isEmpty() && song.art_automatic().scheme().isEmpty() && QFile::exists(song.art_automatic().path())) {
-    result.image_data = Utilities::ReadDataFromFile(song.art_automatic().path());
+  AlbumCoverImageResult result;
+  for (const AlbumCoverLoaderOptions::Type cover_type : cover_types_) {
+    switch (cover_type) {
+      case AlbumCoverLoaderOptions::Type::Unset:
+        return;
+      case AlbumCoverLoaderOptions::Type::Embedded:
+        if (song.art_embedded()) {
+          result.image_data = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(song.url().toLocalFile());
+        }
+        break;
+      case AlbumCoverLoaderOptions::Type::Automatic:
+        if (song.art_automatic_is_valid()) {
+          result.image_data = Utilities::ReadDataFromFile(song.art_automatic().toLocalFile());
+        }
+        break;
+      case AlbumCoverLoaderOptions::Type::Manual:
+        if (song.art_manual_is_valid()) {
+          result.image_data = Utilities::ReadDataFromFile(song.art_manual().toLocalFile());
+        }
+        break;
+    }
+    if (result.is_valid()) break;
   }
 
   if (!result.is_valid()) return;
@@ -778,24 +780,32 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
       }
       break;
     case CoverOptions::CoverType::Embedded:
-      cover_url = QUrl::fromLocalFile(Song::kEmbeddedCover);
+      cover_url.clear();
       break;
   }
 
   // Force the found cover on all of the selected items
   QList<QUrl> urls;
   QList<AlbumItem*> album_items;
-  for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+  for (QListWidgetItem *list_widget_item : context_menu_items_) {
+    AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
     switch (album_cover_choice_controller_->get_save_album_cover_type()) {
       case CoverOptions::CoverType::Cache:
       case CoverOptions::CoverType::Album:{
-        Song current_song = ItemAsSong(album_item);
+        Song current_song = AlbumItemAsSong(album_item);
         album_cover_choice_controller_->SaveArtManualToSong(&current_song, cover_url);
         UpdateCoverInList(album_item, cover_url);
         break;
       }
       case CoverOptions::CoverType::Embedded:{
+        for (const QUrl &url : album_item->urls) {
+          const bool art_embedded = !result.image_data.isEmpty();
+          TagReaderReply *reply = app_->tag_reader_client()->SaveEmbeddedArt(url.toLocalFile(), TagReaderClient::SaveCoverOptions(result.image_data, result.mime_type));
+          QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded]() {
+            SaveEmbeddedCoverFinished(reply, album_item, url, art_embedded);
+          });
+          cover_save_tasks_.insert(album_item, url);
+        }
         urls << album_item->urls;
         album_items << album_item;
         break;
@@ -803,78 +813,53 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
     }
   }
 
-  if (album_cover_choice_controller_->get_save_album_cover_type() == CoverOptions::CoverType::Embedded && !urls.isEmpty()) {
-    quint64 id = -1;
-    if (result.is_jpeg()) {
-      id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image_data);
-    }
-    else {
-      id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image);
-    }
-    for (AlbumItem *album_item : album_items) {
-      cover_save_tasks_.insert(id, album_item);
-    }
-  }
-
 }
 
 void AlbumCoverManager::UnsetCover() {
 
-  Song song = GetFirstSelectedAsSong();
-  if (!song.is_valid()) return;
-
-  AlbumItem *first_album_item = static_cast<AlbumItem*>(context_menu_items_[0]);
-
-  QUrl cover_url = album_cover_choice_controller_->UnsetCover(&song);
+  if (context_menu_items_.isEmpty()) return;
 
   // Force the 'none' cover on all of the selected items
-  for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+  for (QListWidgetItem *list_widget_item : context_menu_items_) {
+    AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
     album_item->setIcon(icon_nocover_item_);
-    album_item->setData(Role_PathManual, cover_url);
+    album_item->setData(Role_ArtManual, QUrl());
+    album_item->setData(Role_ArtUnset, true);
 
-    // Don't save the first one twice
-    if (album_item != first_album_item) {
-      Song current_song = ItemAsSong(album_item);
-      album_cover_choice_controller_->SaveArtManualToSong(&current_song, cover_url);
-    }
+    Song current_song = AlbumItemAsSong(album_item);
+    album_cover_choice_controller_->UnsetAlbumCoverForSong(&current_song);
   }
 
 }
 
 void AlbumCoverManager::ClearCover() {
 
-  Song song = GetFirstSelectedAsSong();
-  if (!song.is_valid()) return;
-
-  AlbumItem *first_album_item = static_cast<AlbumItem*>(context_menu_items_[0]);
-
-  album_cover_choice_controller_->ClearCover(&song);
+  if (context_menu_items_.isEmpty()) return;
 
   // Force the 'none' cover on all of the selected items
-  for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
+  for (QListWidgetItem *list_widget_item : context_menu_items_) {
+    AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
     album_item->setIcon(icon_nocover_item_);
-    album_item->setData(Role_PathManual, QUrl());
+    album_item->setData(Role_ArtEmbedded, false);
+    album_item->setData(Role_ArtAutomatic, QUrl());
+    album_item->setData(Role_ArtManual, QUrl());
 
-    // Don't save the first one twice
-    if (album_item != first_album_item) {
-      Song current_song = ItemAsSong(album_item);
-      album_cover_choice_controller_->SaveArtManualToSong(&current_song, QUrl(), false);
-    }
+    Song current_song = AlbumItemAsSong(album_item);
+    album_cover_choice_controller_->ClearAlbumCoverForSong(&current_song);
   }
 
 }
 
 void AlbumCoverManager::DeleteCover() {
 
-  for (QListWidgetItem *item : context_menu_items_) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(item);
-    Song song = ItemAsSong(album_item);
+  for (QListWidgetItem *list_widget_item : context_menu_items_) {
+    AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
+    Song song = AlbumItemAsSong(album_item);
     album_cover_choice_controller_->DeleteCover(&song);
     album_item->setIcon(icon_nocover_item_);
-    album_item->setData(Role_PathManual, QUrl());
-    album_item->setData(Role_PathAutomatic, QUrl());
+    album_item->setData(Role_ArtEmbedded, QUrl());
+    album_item->setData(Role_ArtManual, QUrl());
+    album_item->setData(Role_ArtAutomatic, QUrl());
   }
 
 }
@@ -933,9 +918,9 @@ SongMimeData *AlbumCoverManager::GetMimeDataForAlbums(const QModelIndexList &ind
 
 void AlbumCoverManager::AlbumDoubleClicked(const QModelIndex &idx) {
 
-  AlbumItem *item = static_cast<AlbumItem*>(idx.internalPointer());
-  if (!item) return;
-  album_cover_choice_controller_->ShowCover(ItemAsSong(item));
+  AlbumItem *album_item = static_cast<AlbumItem*>(idx.internalPointer());
+  if (!album_item) return;
+  album_cover_choice_controller_->ShowCover(AlbumItemAsSong(album_item));
 
 }
 
@@ -953,29 +938,25 @@ void AlbumCoverManager::LoadSelectedToPlaylist() {
 
 }
 
-void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, const AlbumCoverImageResult &result) {
+void AlbumCoverManager::SaveAndSetCover(AlbumItem *album_item, const AlbumCoverImageResult &result) {
 
-  const QString albumartist = item->data(Role_AlbumArtist).toString();
-  const QString album = item->data(Role_Album).toString();
-  const QList<QUrl> &urls = item->urls;
-  const Song::FileType filetype = static_cast<Song::FileType>(item->data(Role_Filetype).toInt());
-  const bool has_cue = !item->data(Role_CuePath).toString().isEmpty();
+  const QList<QUrl> &urls = album_item->urls;
+  const Song::FileType filetype = static_cast<Song::FileType>(album_item->data(Role_Filetype).toInt());
+  const bool has_cue = !album_item->data(Role_CuePath).toString().isEmpty();
 
   if (album_cover_choice_controller_->get_save_album_cover_type() == CoverOptions::CoverType::Embedded && Song::save_embedded_cover_supported(filetype) && !has_cue) {
-    if (result.is_jpeg()) {
-      quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image_data);
-      cover_save_tasks_.insert(id, item);
-    }
-    else if (!result.image.isNull()) {
-      quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.image);
-      cover_save_tasks_.insert(id, item);
-    }
-    else if (!result.cover_url.isEmpty() && result.cover_url.isLocalFile()) {
-      quint64 id = app_->album_cover_loader()->SaveEmbeddedCoverAsync(urls, result.cover_url.toLocalFile());
-      cover_save_tasks_.insert(id, item);
+    for (const QUrl &url : urls) {
+      const bool art_embedded = !result.image_data.isEmpty();
+      TagReaderReply *reply = app_->tag_reader_client()->SaveEmbeddedArt(url.toLocalFile(), TagReaderClient::SaveCoverOptions(result.cover_url.isValid() ? result.cover_url.toLocalFile() : QString(), result.image_data, result.mime_type));
+      QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded]() {
+        SaveEmbeddedCoverFinished(reply, album_item, url, art_embedded);
+      });
+      cover_save_tasks_.insert(album_item, url);
     }
   }
   else {
+    const QString albumartist = album_item->data(Role_AlbumArtist).toString();
+    const QString album = album_item->data(Role_Album).toString();
     QUrl cover_url;
     if (!result.cover_url.isEmpty() && result.cover_url.isValid() && result.cover_url.isLocalFile()) {
       cover_url = result.cover_url;
@@ -990,7 +971,7 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *item, const AlbumCoverImageRe
     collection_backend_->UpdateManualAlbumArtAsync(albumartist, album, cover_url);
 
     // Update the icon in our list
-    UpdateCoverInList(item, cover_url);
+    UpdateCoverInList(album_item, cover_url);
   }
 
 }
@@ -1006,16 +987,17 @@ void AlbumCoverManager::ExportCovers() {
   DisableCoversButtons();
 
   cover_exporter_->SetDialogResult(result);
+  cover_exporter_->SetCoverTypes(cover_types_);
 
   for (int i = 0; i < ui_->albums->count(); ++i) {
-    AlbumItem *item = static_cast<AlbumItem*>(ui_->albums->item(i));
+    AlbumItem *album_item = static_cast<AlbumItem*>(ui_->albums->item(i));
 
     // skip hidden and coverless albums
-    if (item->isHidden() || !ItemHasCover(*item)) {
+    if (album_item->isHidden() || !ItemHasCover(*album_item)) {
       continue;
     }
 
-    cover_exporter_->AddExportRequest(ItemAsSong(item));
+    cover_exporter_->AddExportRequest(AlbumItemAsSong(album_item));
   }
 
   if (cover_exporter_->request_count() > 0) {
@@ -1060,20 +1042,40 @@ void AlbumCoverManager::UpdateExportStatus(const int exported, const int skipped
 
 }
 
-bool AlbumCoverManager::ItemHasCover(const AlbumItem &item) const {
-  return item.icon().cacheKey() != icon_nocover_item_.cacheKey();
+bool AlbumCoverManager::ItemHasCover(const AlbumItem &album_item) const {
+  return album_item.icon().cacheKey() != icon_nocover_item_.cacheKey();
 }
 
-void AlbumCoverManager::SaveEmbeddedCoverAsyncFinished(quint64 id, const bool success) {
+void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReply *reply, AlbumItem *album_item, const QUrl &url, const bool art_embedded) {
 
-  while (cover_save_tasks_.contains(id)) {
-    AlbumItem *album_item = cover_save_tasks_.take(id);
-    if (!success) continue;
-    album_item->setData(Role_PathAutomatic, QUrl::fromLocalFile(Song::kEmbeddedCover));
-    Song song = ItemAsSong(album_item);
-    album_cover_choice_controller_->SaveArtAutomaticToSong(&song, QUrl::fromLocalFile(Song::kEmbeddedCover));
-    quint64 cover_load_id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, album_item->data(Role_PathAutomatic).toUrl(), album_item->data(Role_PathManual).toUrl(), album_item->urls.first());
-    cover_loading_tasks_[cover_load_id] = album_item;
+  if (cover_save_tasks_.contains(album_item, url)) {
+    cover_save_tasks_.remove(album_item, url);
   }
+
+  if (!reply->is_successful()) {
+    emit Error(tr("Could not save cover to file %1.").arg(url.toLocalFile()));
+    return;
+  }
+
+  if (cover_save_tasks_.contains(album_item)) {
+    return;
+  }
+
+  album_item->setData(Role_ArtEmbedded, true);
+  album_item->setData(Role_ArtUnset, false);
+  Song song = AlbumItemAsSong(album_item);
+  album_cover_choice_controller_->SaveArtEmbeddedToSong(&song, art_embedded);
+  LoadAlbumCoverAsync(album_item);
+
+}
+
+void AlbumCoverManager::LoadAlbumCoverAsync(AlbumItem *album_item) {
+
+  AlbumCoverLoaderOptions cover_options(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
+  cover_options.types = cover_types_;
+  cover_options.desired_scaled_size = QSize(kThumbnailSize, kThumbnailSize);
+  cover_options.device_pixel_ratio = devicePixelRatioF();
+  quint64 cover_load_id = app_->album_cover_loader()->LoadImageAsync(cover_options, album_item->data(Role_ArtEmbedded).toBool(), album_item->data(Role_ArtAutomatic).toUrl(), album_item->data(Role_ArtManual).toUrl(), album_item->data(Role_ArtUnset).toBool(), album_item->urls.first());
+  cover_loading_tasks_.insert(cover_load_id, album_item);
 
 }

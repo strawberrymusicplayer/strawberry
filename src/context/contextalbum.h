@@ -33,8 +33,6 @@
 #include <QPixmap>
 #include <QMovie>
 
-#include "covermanager/albumcoverloaderoptions.h"
-
 class QMenu;
 class QTimeLine;
 class QPainter;
@@ -99,7 +97,6 @@ class ContextAlbum : public QWidget {
   QMenu *menu_;
   ContextView *context_view_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
-  AlbumCoverLoaderOptions cover_loader_options_;
   bool downloading_covers_;
   QTimeLine *timeline_fade_;
   QImage image_strawberry_;
@@ -107,6 +104,7 @@ class ContextAlbum : public QWidget {
   QPixmap pixmap_current_;
   qreal pixmap_current_opacity_;
   std::unique_ptr<QMovie> spinner_animation_;
+  int desired_height_;
 };
 
 #endif  // CONTEXTALBUM_H

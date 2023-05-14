@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -178,17 +178,17 @@ class CollectionWatcher : public QObject {
   inline static QString NoExtensionPart(const QString &fileName);
   inline static QString ExtensionPart(const QString &fileName);
   inline static QString DirectoryPart(const QString &fileName);
-  QString PickBestImage(const QStringList &images);
-  QUrl ImageForSong(const QString &path, QMap<QString, QStringList> &album_art);
+  QString PickBestArt(const QStringList &art_automatic_list);
+  QUrl ArtForSong(const QString &path, QMap<QString, QStringList> &art_automatic_list);
   void AddWatch(const CollectionDirectory &dir, const QString &path);
   void RemoveWatch(const CollectionDirectory &dir, const CollectionSubdirectory &subdir);
   static quint64 GetMtimeForCue(const QString &cue_path);
   void PerformScan(const bool incremental, const bool ignore_mtimes);
 
   // Updates the sections of a cue associated and altered (according to mtime) media file during a scan.
-  void UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QUrl &image, const SongList &old_cue_songs, ScanTransaction *t);
+  void UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QUrl &art_automatic, const SongList &old_cue_songs, ScanTransaction *t);
   // Updates a single non-cue associated and altered (according to mtime) song during a scan.
-  void UpdateNonCueAssociatedSong(const QString &file, const QString &fingerprint, const SongList &matching_songs, const QUrl &image, const bool cue_deleted, ScanTransaction *t);
+  void UpdateNonCueAssociatedSong(const QString &file, const QString &fingerprint, const SongList &matching_songs, const QUrl &art_automatic, const bool cue_deleted, ScanTransaction *t);
   // Scans a single media file that's present on the disk but not yet in the collection.
   // It may result in a multiple files added to the collection when the media file has many sections (like a CUE related media file).
   SongList ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, QSet<QString> *cues_processed);
@@ -210,9 +210,9 @@ class CollectionWatcher : public QObject {
   QThread *original_thread_;
   QHash<QString, CollectionDirectory> subdir_mapping_;
 
-  // A list of words use to try to identify the (likely) best image found in an directory to use as cover artwork.
+  // A list of words use to try to identify the (likely) best album cover art found in an directory to use as cover artwork.
   // e.g. using ["front", "cover"] would identify front.jpg and exclude back.jpg.
-  QStringList best_image_filters_;
+  QStringList best_art_filters_;
 
   bool scan_on_startup_;
   bool monitor_;

@@ -29,13 +29,14 @@
 #include <QString>
 
 #include "core/song.h"
+#include "albumcoverloaderoptions.h"
 #include "albumcoverexport.h"
 
 class CoverExportRunnable : public QObject, public QRunnable {
   Q_OBJECT
 
  public:
-  explicit CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const Song &song, QObject *parent = nullptr);
+  explicit CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const AlbumCoverLoaderOptions::Types cover_types, const Song &song, QObject *parent = nullptr);
 
   void run() override;
 
@@ -49,11 +50,10 @@ class CoverExportRunnable : public QObject, public QRunnable {
 
   void ProcessAndExportCover();
   void ExportCover();
-  QString GetCoverPath();
 
   AlbumCoverExport::DialogResult dialog_result_;
+  AlbumCoverLoaderOptions::Types cover_types_;
   Song song_;
-
 };
 
 #endif  // COVEREXPORTRUNNABLE_H

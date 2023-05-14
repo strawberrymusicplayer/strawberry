@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,34 +20,40 @@
 #ifndef ALBUMCOVERLOADEROPTIONS_H
 #define ALBUMCOVERLOADEROPTIONS_H
 
-#include "config.h"
-
+#include <QList>
 #include <QImage>
 #include <QSize>
 
 class AlbumCoverLoaderOptions {
  public:
-  explicit AlbumCoverLoaderOptions()
-      : get_image_data_(true),
-        get_image_(true),
-        scale_output_image_(true),
-        pad_output_image_(true),
-        create_thumbnail_(false),
-        pad_thumbnail_image_(false),
-        desired_height_(120),
-        thumbnail_size_(120, 120) {}
+  enum class Option {
+    NoOptions = 0x0,
+    RawImageData = 0x2,
+    OriginalImage = 0x4,
+    ScaledImage = 0x8,
+    PadScaledImage = 0x16
+  };
+  Q_DECLARE_FLAGS(Options, Option)
 
-  bool get_image_data_;
-  bool get_image_;
-  bool scale_output_image_;
-  bool pad_output_image_;
-  bool create_thumbnail_;
-  bool pad_thumbnail_image_;
-  int desired_height_;
-  QSize thumbnail_size_;
-  QImage default_output_image_;
-  QImage default_scaled_image_;
-  QImage default_thumbnail_image_;
+  enum class Type {
+    Embedded,
+    Automatic,
+    Manual,
+    Unset
+  };
+  using Types = QList<Type>;
+
+  explicit AlbumCoverLoaderOptions(const Options _options = AlbumCoverLoaderOptions::Option::ScaledImage, const QSize _desired_scaled_size = QSize(32, 32), const qreal device_pixel_ratio = 1.0F, const Types _types = QList<AlbumCoverLoaderOptions::Type>() << AlbumCoverLoaderOptions::Type::Embedded << AlbumCoverLoaderOptions::Type::Automatic << AlbumCoverLoaderOptions::Type::Manual);
+
+  Options options;
+  QSize desired_scaled_size;
+  qreal device_pixel_ratio;
+  Types types;
+  QString default_cover;
+
+  static Types LoadTypes();
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(AlbumCoverLoaderOptions::Options)
 
 #endif  // ALBUMCOVERLOADEROPTIONS_H

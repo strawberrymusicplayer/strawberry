@@ -139,10 +139,6 @@ InternetSearchView::InternetSearchView(QWidget *parent)
   ui_->progressbar->hide();
   ui_->progressbar->reset();
 
-  cover_loader_options_.desired_height_ = kArtHeight;
-  cover_loader_options_.pad_output_image_ = true;
-  cover_loader_options_.scale_output_image_ = true;
-
 }
 
 InternetSearchView::~InternetSearchView() { delete ui_; }
@@ -851,7 +847,9 @@ void InternetSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
     item_album->setData(cached_pixmap, Qt::DecorationRole);
   }
   else {
-    quint64 loader_id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, result.metadata_);
+    AlbumCoverLoaderOptions cover_loader_options(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
+    cover_loader_options.desired_scaled_size = QSize(kArtHeight, kArtHeight);
+    quint64 loader_id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options, result.metadata_);
     cover_loader_tasks_[loader_id] = qMakePair(source_index, result.pixmap_cache_key_);
   }
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>460</width>
-    <height>600</height>
+    <height>897</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -137,6 +137,180 @@
          </spacer>
         </item>
        </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_album_cover_art_types">
+     <property name="title">
+      <string>Album cover types</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QListWidget" name="types">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="layout_move_up_down">
+        <item>
+         <widget class="QPushButton" name="types_up">
+          <property name="text">
+           <string>Move up</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="types_down">
+          <property name="text">
+           <string>Move down</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_types_updown">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_albumcovers">
+     <property name="title">
+      <string>Saving album covers</string>
+     </property>
+     <layout class="QVBoxLayout" name="layout_albumcovers">
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QGroupBox" name="groupbox_save_options">
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QRadioButton" name="radiobutton_save_albumcover_albumdir">
+           <property name="text">
+            <string>Save album covers in album directory</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radiobutton_save_albumcover_cache">
+           <property name="text">
+            <string>Save album covers in cache directory</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radiobutton_save_albumcover_embedded">
+           <property name="text">
+            <string>Save album covers as embedded cover</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupbox_cover_filename">
+        <property name="title">
+         <string>Filename:</string>
+        </property>
+        <layout class="QVBoxLayout" name="layout_cover_filename">
+         <item>
+          <widget class="QWidget" name="groupbox_cover_type" native="true">
+           <layout class="QHBoxLayout" name="layout_cover_type">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QRadioButton" name="radiobutton_cover_pattern">
+              <property name="text">
+               <string>Pattern</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radiobutton_cover_hash">
+              <property name="text">
+               <string>Random</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="spacer_cover_filename_bttons">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineedit_cover_pattern">
+           <property name="text">
+            <string>%albumartist-%album</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkbox_cover_overwrite">
+           <property name="text">
+            <string>Overwrite existing file</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkbox_cover_lowercase">
+           <property name="text">
+            <string>Lowercase filename</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkbox_cover_replace_spaces">
+           <property name="text">
+            <string>Replace spaces with dashes</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
      </layout>
     </widget>

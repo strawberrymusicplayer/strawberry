@@ -45,7 +45,6 @@
 #include "core/iconloader.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
-#include "utilities/coveroptions.h"
 #include "collection/collection.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectiondirectorymodel.h"
@@ -89,10 +88,6 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
 #ifdef HAVE_SONGFINGERPRINTING
   QObject::connect(ui_->song_tracking, &QCheckBox::toggled, this, &CollectionSettingsPage::SongTrackingToggled);
 #endif
-
-  QObject::connect(ui_->radiobutton_save_albumcover_albumdir, &QRadioButton::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
-  QObject::connect(ui_->radiobutton_cover_hash, &QRadioButton::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
-  QObject::connect(ui_->radiobutton_cover_pattern, &QRadioButton::toggled, this, &CollectionSettingsPage::CoverSaveInAlbumDirChanged);
 
   QObject::connect(ui_->checkbox_disk_cache, &QCheckBox::stateChanged, this, &CollectionSettingsPage::DiskCacheEnable);
   QObject::connect(ui_->button_clear_disk_cache, &QPushButton::clicked, dialog->app(), &Application::ClearPixmapDiskCache);
@@ -189,34 +184,6 @@ void CollectionSettingsPage::Load() {
   QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
   ui_->cover_art_patterns->setText(filters.join(","));
 
-  const CoverOptions::CoverType save_cover_type = static_cast<CoverOptions::CoverType>(s.value("save_cover_type", static_cast<int>(CoverOptions::CoverType::Cache)).toInt());
-  switch (save_cover_type) {
-    case CoverOptions::CoverType::Cache:
-      ui_->radiobutton_save_albumcover_cache->setChecked(true);
-      break;
-    case CoverOptions::CoverType::Album:
-      ui_->radiobutton_save_albumcover_albumdir->setChecked(true);
-      break;
-    case CoverOptions::CoverType::Embedded:
-      ui_->radiobutton_save_albumcover_embedded->setChecked(true);
-      break;
-  }
-
-  const CoverOptions::CoverFilename save_cover_filename = static_cast<CoverOptions::CoverFilename>(s.value("save_cover_filename", static_cast<int>(CoverOptions::CoverFilename::Pattern)).toInt());
-  switch (save_cover_filename) {
-    case CoverOptions::CoverFilename::Hash:
-      ui_->radiobutton_cover_hash->setChecked(true);
-      break;
-    case CoverOptions::CoverFilename::Pattern:
-      ui_->radiobutton_cover_pattern->setChecked(true);
-      break;
-  }
-  QString cover_pattern = s.value("cover_pattern").toString();
-  if (!cover_pattern.isEmpty()) ui_->lineedit_cover_pattern->setText(cover_pattern);
-  ui_->checkbox_cover_overwrite->setChecked(s.value("cover_overwrite", false).toBool());
-  ui_->checkbox_cover_lowercase->setChecked(s.value("cover_lowercase", true).toBool());
-  ui_->checkbox_cover_replace_spaces->setChecked(s.value("cover_replace_spaces", true).toBool());
-
   ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, kSettingsCacheSizeDefault).toInt());
   ui_->combobox_cache_size->setCurrentIndex(ui_->combobox_cache_size->findData(s.value(kSettingsCacheSizeUnit, static_cast<int>(CacheSizeUnit::MB)).toInt()));
   ui_->checkbox_disk_cache->setChecked(s.value(kSettingsDiskCacheEnable, false).toBool());
@@ -270,22 +237,6 @@ void CollectionSettingsPage::Save() {
 
   s.setValue("cover_art_patterns", filters);
 
-  CoverOptions::CoverType save_cover_type = CoverOptions::CoverType::Cache;
-  if (ui_->radiobutton_save_albumcover_cache->isChecked()) save_cover_type = CoverOptions::CoverType::Cache;
-  else if (ui_->radiobutton_save_albumcover_albumdir->isChecked()) save_cover_type = CoverOptions::CoverType::Album;
-  else if (ui_->radiobutton_save_albumcover_embedded->isChecked()) save_cover_type = CoverOptions::CoverType::Embedded;
-  s.setValue("save_cover_type", static_cast<int>(save_cover_type));
-
-  CoverOptions::CoverFilename save_cover_filename = CoverOptions::CoverFilename::Hash;
-  if (ui_->radiobutton_cover_hash->isChecked()) save_cover_filename = CoverOptions::CoverFilename::Hash;
-  else if (ui_->radiobutton_cover_pattern->isChecked()) save_cover_filename = CoverOptions::CoverFilename::Pattern;
-  s.setValue("save_cover_filename", static_cast<int>(save_cover_filename));
-
-  s.setValue("cover_pattern", ui_->lineedit_cover_pattern->text());
-  s.setValue("cover_overwrite", ui_->checkbox_cover_overwrite->isChecked());
-  s.setValue("cover_lowercase", ui_->checkbox_cover_lowercase->isChecked());
-  s.setValue("cover_replace_spaces", ui_->checkbox_cover_replace_spaces->isChecked());
-
   s.setValue(kSettingsCacheSize, ui_->spinbox_cache_size->value());
   s.setValue(kSettingsCacheSizeUnit, ui_->combobox_cache_size->currentData().toInt());
   s.setValue(kSettingsDiskCacheEnable, ui_->checkbox_disk_cache->isChecked());
@@ -300,33 +251,6 @@ void CollectionSettingsPage::Save() {
   s.setValue("delete_files", ui_->checkbox_delete_files->isChecked());
 
   s.endGroup();
-
-}
-
-void CollectionSettingsPage::CoverSaveInAlbumDirChanged() {
-
-  if (ui_->radiobutton_save_albumcover_albumdir->isChecked()) {
-    if (!ui_->groupbox_cover_filename->isEnabled()) {
-      ui_->groupbox_cover_filename->setEnabled(true);
-    }
-    if (ui_->radiobutton_cover_pattern->isChecked()) {
-      if (!ui_->lineedit_cover_pattern->isEnabled()) ui_->lineedit_cover_pattern->setEnabled(true);
-      if (!ui_->checkbox_cover_overwrite->isEnabled()) ui_->checkbox_cover_overwrite->setEnabled(true);
-      if (!ui_->checkbox_cover_lowercase->isEnabled()) ui_->checkbox_cover_lowercase->setEnabled(true);
-      if (!ui_->checkbox_cover_replace_spaces->isEnabled()) ui_->checkbox_cover_replace_spaces->setEnabled(true);
-    }
-    else {
-      if (ui_->lineedit_cover_pattern->isEnabled()) ui_->lineedit_cover_pattern->setEnabled(false);
-      if (ui_->checkbox_cover_overwrite->isEnabled()) ui_->checkbox_cover_overwrite->setEnabled(false);
-      if (ui_->checkbox_cover_lowercase->isEnabled()) ui_->checkbox_cover_lowercase->setEnabled(false);
-      if (ui_->checkbox_cover_replace_spaces->isEnabled()) ui_->checkbox_cover_replace_spaces->setEnabled(false);
-    }
-  }
-  else {
-    if (ui_->groupbox_cover_filename->isEnabled()) {
-      ui_->groupbox_cover_filename->setEnabled(false);
-    }
-  }
 
 }
 

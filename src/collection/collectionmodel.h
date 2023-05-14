@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,11 +49,11 @@
 #include "core/song.h"
 #include "core/sqlrow.h"
 #include "covermanager/albumcoverloader.h"
+#include "covermanager/albumcoverloaderoptions.h"
 #include "collectionfilteroptions.h"
 #include "collectionquery.h"
 #include "collectionqueryoptions.h"
 #include "collectionitem.h"
-#include "covermanager/albumcoverloaderoptions.h"
 
 class QSettings;
 
@@ -310,7 +310,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   bool use_disk_cache_;
   bool use_lazy_loading_;
 
-  AlbumCoverLoaderOptions cover_loader_options_;
+  AlbumCoverLoaderOptions::Types cover_types_;
 
   using ItemAndCacheKey = QPair<CollectionItem*, QString>;
   QMap<quint64, ItemAndCacheKey> pending_art_;

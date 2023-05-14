@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,24 +93,29 @@ TagReaderReply *TagReaderClient::ReadFile(const QString &filename) {
 
 }
 
-TagReaderReply *TagReaderClient::SaveFile(const QString &filename, const Song &metadata, const SaveTags save_tags, const SavePlaycount save_playcount, const SaveRating save_rating, const SaveCoverOptions &save_cover_options) {
+TagReaderReply *TagReaderClient::SaveFile(const QString &filename, const Song &metadata, const SaveTypes save_types, const SaveCoverOptions &save_cover_options) {
 
   spb::tagreader::Message message;
   spb::tagreader::SaveFileRequest *request = message.mutable_save_file_request();
 
   const QByteArray filename_data = filename.toUtf8();
   request->set_filename(filename_data.constData(), filename_data.length());
-  request->set_save_tags(save_tags == SaveTags::On);
-  request->set_save_playcount(save_playcount == SavePlaycount::On);
-  request->set_save_rating(save_rating == SaveRating::On);
-  request->set_save_cover(save_cover_options.enabled);
-  request->set_cover_is_jpeg(save_cover_options.is_jpeg);
+
+  request->set_save_tags(save_types.testFlag(SaveType::Tags));
+  request->set_save_playcount(save_types.testFlag(SaveType::PlayCount));
+  request->set_save_rating(save_types.testFlag(SaveType::Rating));
+  request->set_save_cover(save_types.testFlag(SaveType::Cover));
+
   if (save_cover_options.cover_filename.length() > 0) {
-    const QByteArray cover_filename = filename.toUtf8();
+    const QByteArray cover_filename = save_cover_options.cover_filename.toUtf8();
     request->set_cover_filename(cover_filename.constData(), cover_filename.length());
   }
   if (save_cover_options.cover_data.length() > 0) {
     request->set_cover_data(save_cover_options.cover_data.constData(), save_cover_options.cover_data.length());
+  }
+  if (save_cover_options.mime_type.length() > 0) {
+    const QByteArray cover_mime_type = save_cover_options.mime_type.toUtf8();
+    request->set_cover_mime_type(cover_mime_type.constData(), cover_mime_type.length());
   }
   metadata.ToProtobuf(request->mutable_metadata());
 
@@ -139,15 +144,17 @@ TagReaderReply *TagReaderClient::SaveEmbeddedArt(const QString &filename, const 
 
   const QByteArray filename_data = filename.toUtf8();
   request->set_filename(filename_data.constData(), filename_data.length());
-  request->set_cover_is_jpeg(save_cover_options.is_jpeg);
   if (save_cover_options.cover_filename.length() > 0) {
-    const QByteArray cover_filename = filename.toUtf8();
+    const QByteArray cover_filename = save_cover_options.cover_filename.toUtf8();
     request->set_cover_filename(cover_filename.constData(), cover_filename.length());
   }
   if (save_cover_options.cover_data.length() > 0) {
     request->set_cover_data(save_cover_options.cover_data.constData(), save_cover_options.cover_data.length());
   }
-
+  if (save_cover_options.mime_type.length() > 0) {
+    const QByteArray cover_mime_type = save_cover_options.mime_type.toUtf8();
+    request->set_cover_mime_type(cover_mime_type.constData(), cover_mime_type.length());
+  }
 
   return worker_pool_->SendMessageWithReply(&message);
 
@@ -225,13 +232,13 @@ void TagReaderClient::ReadFileBlocking(const QString &filename, Song *song) {
 
 }
 
-bool TagReaderClient::SaveFileBlocking(const QString &filename, const Song &metadata, const SaveTags save_tags, const SavePlaycount save_playcount, const SaveRating save_rating, const SaveCoverOptions &save_cover_options) {
+bool TagReaderClient::SaveFileBlocking(const QString &filename, const Song &metadata, const SaveTypes save_types, const SaveCoverOptions &save_cover_options) {
 
   Q_ASSERT(QThread::currentThread() != thread());
 
   bool ret = false;
 
-  TagReaderReply *reply = SaveFile(filename, metadata, save_tags, save_playcount, save_rating, save_cover_options);
+  TagReaderReply *reply = SaveFile(filename, metadata, save_types, save_cover_options);
   if (reply->WaitForFinished()) {
     ret = reply->message().save_file_response().success();
   }

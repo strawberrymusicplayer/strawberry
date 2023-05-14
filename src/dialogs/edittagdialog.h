@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,10 +66,6 @@ class EditTagDialog : public QDialog {
   explicit EditTagDialog(Application *app, QWidget *parent = nullptr);
   ~EditTagDialog() override;
 
-  static const char *kSettingsGroup;
-  static const char *kTagsDifferentHintText;
-  static const char *kArtDifferentHintText;
-
   void SetSongs(const SongList &songs, const PlaylistItemPtrList &items = PlaylistItemPtrList());
 
   PlaylistItemPtrList playlist_items() const { return playlist_items_; }
@@ -85,6 +81,11 @@ class EditTagDialog : public QDialog {
   void hideEvent(QHideEvent *e) override;
 
  private:
+  static const char kSettingsGroup[];
+  static const char kTagsDifferentHintText[];
+  static const char kArtDifferentHintText[];
+  static const int kSmallImageSize;
+
   enum class UpdateCoverAction {
     None = 0,
     Clear,
@@ -120,7 +121,7 @@ class EditTagDialog : public QDialog {
   void FetchTag();
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);
 
-  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &cover_result);
 
   void LoadCoverFromFile();
   void SaveCoverToFile();
@@ -147,7 +148,7 @@ class EditTagDialog : public QDialog {
   };
 
   Song *GetFirstSelected();
-  void UpdateCover(const UpdateCoverAction action, const AlbumCoverImageResult &result = AlbumCoverImageResult());
+  void UpdateCover(const UpdateCoverAction cover_action, const AlbumCoverImageResult &cover_result = AlbumCoverImageResult());
 
   bool DoesValueVary(const QModelIndexList &sel, const QString &id) const;
   bool IsValueModified(const QModelIndexList &sel, const QString &id) const;
@@ -157,10 +158,11 @@ class EditTagDialog : public QDialog {
   void UpdateModifiedField(const FieldData &field, const QModelIndexList &sel);
   void ResetFieldValue(const FieldData &field, const QModelIndexList &sel);
 
-  void UpdateSummaryTab(const Song &song, const UpdateCoverAction cover_action);
+  void UpdateSummaryTab(const Song &song);
   void UpdateStatisticsTab(const Song &song);
 
-  static QString GetArtSummary(const Song &song, const UpdateCoverAction cover_action);
+  QString GetArtSummary(const Song &song, const AlbumCoverLoaderResult::Type cover_type);
+  QString GetArtSummary(const UpdateCoverAction cover_action);
 
   void UpdateUI(const QModelIndexList &indexes);
 
@@ -194,7 +196,6 @@ class EditTagDialog : public QDialog {
 
   bool ignore_edits_;
 
-  AlbumCoverLoaderOptions cover_options_;
   quint64 summary_cover_art_id_;
   quint64 tags_cover_art_id_;
   bool cover_art_is_set_;
@@ -207,6 +208,8 @@ class EditTagDialog : public QDialog {
   int save_tag_pending_;
 
   QMap<int, Song> collection_songs_;
+
+  AlbumCoverLoaderOptions::Types cover_types_;
 };
 
 #endif  // EDITTAGDIALOG_H

@@ -30,14 +30,13 @@
 #include <QIcon>
 
 #include "covermanager/albumcoverloader.h"
+#include "covermanager/albumcoverloaderoptions.h"
 #include "standarditemiconloader.h"
 
 StandardItemIconLoader::StandardItemIconLoader(AlbumCoverLoader *cover_loader, QObject *parent)
     : QObject(parent),
       cover_loader_(cover_loader),
       model_(nullptr) {
-
-  cover_options_.desired_height_ = 16;
 
   QObject::connect(cover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &StandardItemIconLoader::AlbumCoverLoaded);
 
@@ -58,14 +57,20 @@ void StandardItemIconLoader::SetModel(QAbstractItemModel *model) {
 
 void StandardItemIconLoader::LoadIcon(const QUrl &art_automatic, const QUrl &art_manual, QStandardItem *for_item) {
 
-  const quint64 id = cover_loader_->LoadImageAsync(cover_options_, art_automatic, art_manual);
-  pending_covers_[id] = for_item;
+  AlbumCoverLoaderOptions cover_options(AlbumCoverLoaderOptions::Option::ScaledImage);
+  cover_options.desired_scaled_size = QSize(16, 16);
+  const quint64 id = cover_loader_->LoadImageAsync(cover_options, false, art_automatic, art_manual, false);
+  pending_covers_.insert(id, for_item);
 
 }
 
 void StandardItemIconLoader::LoadIcon(const Song &song, QStandardItem *for_item) {
-  const quint64 id = cover_loader_->LoadImageAsync(cover_options_, song);
-  pending_covers_[id] = for_item;
+
+  AlbumCoverLoaderOptions cover_options(AlbumCoverLoaderOptions::Option::ScaledImage);
+  cover_options.desired_scaled_size = QSize(16, 16);
+  const quint64 id = cover_loader_->LoadImageAsync(cover_options, song);
+  pending_covers_.insert(id, for_item);
+
 }
 
 void StandardItemIconLoader::RowsAboutToBeRemoved(const QModelIndex &parent, int begin, int end) {
@@ -76,7 +81,7 @@ void StandardItemIconLoader::RowsAboutToBeRemoved(const QModelIndex &parent, int
 
     if (item_parent && item_parent->index() == parent && item->index().row() >= begin && item->index().row() <= end) {
       cover_loader_->CancelTask(it.key());
-      it = pending_covers_.erase(it);  // clazy:exclude=strict-iterators
+      it = pending_covers_.erase(it);
     }
     else {
       ++it;
@@ -103,7 +108,7 @@ void StandardItemIconLoader::AlbumCoverLoaded(const quint64 id, const AlbumCover
   QStandardItem *item = pending_covers_.take(id);
   if (!item) return;
 
-  if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type::ManuallyUnset) {
+  if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type::Unset) {
     item->setIcon(QIcon(QPixmap::fromImage(result.image_scaled)));
   }
 

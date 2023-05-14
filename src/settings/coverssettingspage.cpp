@@ -39,28 +39,48 @@
 #include "ui_coverssettingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
+#include "utilities/coveroptions.h"
 #include "covermanager/coverproviders.h"
 #include "covermanager/coverprovider.h"
 #include "widgets/loginstatewidget.h"
 
 const char *CoversSettingsPage::kSettingsGroup = "Covers";
+const char *CoversSettingsPage::kProviders = "providers";
+const char *CoversSettingsPage::kTypes = "types";
+const char *CoversSettingsPage::kSaveType = "save_type";
+const char *CoversSettingsPage::kSaveFilename = "save_filename";
+const char *CoversSettingsPage::kSavePattern = "save_pattern";
+const char *CoversSettingsPage::kSaveOverwrite = "save_overwrite";
+const char *CoversSettingsPage::kSaveLowercase = "save_lowercase";
+const char *CoversSettingsPage::kSaveReplaceSpaces = "save_replace_spaces";
 
 CoversSettingsPage::CoversSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::CoversSettingsPage),
-      provider_selected_(false) {
+      provider_selected_(false),
+      types_selected_(false) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("cdcase", true, 0, 32));
 
   QObject::connect(ui_->providers_up, &QPushButton::clicked, this, &CoversSettingsPage::ProvidersMoveUp);
   QObject::connect(ui_->providers_down, &QPushButton::clicked, this, &CoversSettingsPage::ProvidersMoveDown);
-  QObject::connect(ui_->providers, &QListWidget::currentItemChanged, this, &CoversSettingsPage::CurrentItemChanged);
-  QObject::connect(ui_->providers, &QListWidget::itemSelectionChanged, this, &CoversSettingsPage::ItemSelectionChanged);
-  QObject::connect(ui_->providers, &QListWidget::itemChanged, this, &CoversSettingsPage::ItemChanged);
+  QObject::connect(ui_->providers, &QListWidget::currentItemChanged, this, &CoversSettingsPage::ProvidersCurrentItemChanged);
+  QObject::connect(ui_->providers, &QListWidget::itemSelectionChanged, this, &CoversSettingsPage::ProvidersItemSelectionChanged);
+  QObject::connect(ui_->providers, &QListWidget::itemChanged, this, &CoversSettingsPage::ProvidersItemChanged);
 
   QObject::connect(ui_->button_authenticate, &QPushButton::clicked, this, &CoversSettingsPage::AuthenticateClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &CoversSettingsPage::LogoutClicked);
+
+  QObject::connect(ui_->types_up, &QPushButton::clicked, this, &CoversSettingsPage::TypesMoveUp);
+  QObject::connect(ui_->types_down, &QPushButton::clicked, this, &CoversSettingsPage::TypesMoveDown);
+  QObject::connect(ui_->types, &QListWidget::currentItemChanged, this, &CoversSettingsPage::TypesCurrentItemChanged);
+  QObject::connect(ui_->types, &QListWidget::itemSelectionChanged, this, &CoversSettingsPage::TypesItemSelectionChanged);
+  QObject::connect(ui_->types, &QListWidget::itemChanged, this, &CoversSettingsPage::TypesItemChanged);
+
+  QObject::connect(ui_->radiobutton_save_albumcover_albumdir, &QRadioButton::toggled, this, &CoversSettingsPage::CoverSaveInAlbumDirChanged);
+  QObject::connect(ui_->radiobutton_cover_hash, &QRadioButton::toggled, this, &CoversSettingsPage::CoverSaveInAlbumDirChanged);
+  QObject::connect(ui_->radiobutton_cover_pattern, &QRadioButton::toggled, this, &CoversSettingsPage::CoverSaveInAlbumDirChanged);
 
   ui_->login_state->AddCredentialGroup(ui_->widget_authenticate);
 
@@ -87,6 +107,57 @@ void CoversSettingsPage::Load() {
     item->setForeground(provider->is_enabled() ? palette().color(QPalette::Active, QPalette::Text) : palette().color(QPalette::Disabled, QPalette::Text));
   }
 
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+
+  const QStringList all_types = QStringList() << "art_unset"
+                                              << "art_manual"
+                                              << "art_automatic"
+                                              << "art_embedded";
+
+  const QStringList types = s.value(kTypes, all_types).toStringList();
+
+  ui_->types->clear();
+  for (const QString &type : types) {
+    AddAlbumCoverArtType(type, AlbumCoverArtTypeDescription(type), true);
+  }
+
+  for (const QString &type : all_types) {
+    if (!types.contains(type)) {
+      AddAlbumCoverArtType(type, AlbumCoverArtTypeDescription(type), false);
+    }
+  }
+
+  const CoverOptions::CoverType save_cover_type = static_cast<CoverOptions::CoverType>(s.value(kSaveType, static_cast<int>(CoverOptions::CoverType::Cache)).toInt());
+  switch (save_cover_type) {
+    case CoverOptions::CoverType::Cache:
+      ui_->radiobutton_save_albumcover_cache->setChecked(true);
+      break;
+    case CoverOptions::CoverType::Album:
+      ui_->radiobutton_save_albumcover_albumdir->setChecked(true);
+      break;
+    case CoverOptions::CoverType::Embedded:
+      ui_->radiobutton_save_albumcover_embedded->setChecked(true);
+      break;
+  }
+
+  const CoverOptions::CoverFilename save_cover_filename = static_cast<CoverOptions::CoverFilename>(s.value(kSaveFilename, static_cast<int>(CoverOptions::CoverFilename::Pattern)).toInt());
+  switch (save_cover_filename) {
+    case CoverOptions::CoverFilename::Hash:
+      ui_->radiobutton_cover_hash->setChecked(true);
+      break;
+    case CoverOptions::CoverFilename::Pattern:
+      ui_->radiobutton_cover_pattern->setChecked(true);
+      break;
+  }
+  QString cover_pattern = s.value(kSavePattern).toString();
+  if (!cover_pattern.isEmpty()) ui_->lineedit_cover_pattern->setText(cover_pattern);
+  ui_->checkbox_cover_overwrite->setChecked(s.value(kSaveOverwrite, false).toBool());
+  ui_->checkbox_cover_lowercase->setChecked(s.value(kSaveLowercase, true).toBool());
+  ui_->checkbox_cover_replace_spaces->setChecked(s.value(kSaveReplaceSpaces, true).toBool());
+
+  s.endGroup();
+
   Init(ui_->layout_coverssettingspage->parentWidget());
 
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
@@ -95,20 +166,47 @@ void CoversSettingsPage::Load() {
 
 void CoversSettingsPage::Save() {
 
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+
   QStringList providers;
   for (int i = 0; i < ui_->providers->count(); ++i) {
     const QListWidgetItem *item = ui_->providers->item(i);
-    if (item->checkState() == Qt::Checked) providers << item->text();  // clazy:exclude=reserve-candidates
+    if (item->checkState() == Qt::Checked) providers << item->text();
+  }
+  s.setValue(kProviders, providers);
+
+  QStringList types;
+  for (int i = 0; i < ui_->types->count(); ++i) {
+    const QListWidgetItem *item = ui_->types->item(i);
+    if (item->checkState() == Qt::Checked) {
+      types << item->data(Type_Role_Name).toString();
+    }
   }
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("providers", providers);
+  s.setValue(kTypes, types);
+
+  CoverOptions::CoverType save_cover_type = CoverOptions::CoverType::Cache;
+  if (ui_->radiobutton_save_albumcover_cache->isChecked()) save_cover_type = CoverOptions::CoverType::Cache;
+  else if (ui_->radiobutton_save_albumcover_albumdir->isChecked()) save_cover_type = CoverOptions::CoverType::Album;
+  else if (ui_->radiobutton_save_albumcover_embedded->isChecked()) save_cover_type = CoverOptions::CoverType::Embedded;
+  s.setValue(kSaveType, static_cast<int>(save_cover_type));
+
+  CoverOptions::CoverFilename save_cover_filename = CoverOptions::CoverFilename::Hash;
+  if (ui_->radiobutton_cover_hash->isChecked()) save_cover_filename = CoverOptions::CoverFilename::Hash;
+  else if (ui_->radiobutton_cover_pattern->isChecked()) save_cover_filename = CoverOptions::CoverFilename::Pattern;
+  s.setValue(kSaveFilename, static_cast<int>(save_cover_filename));
+
+  s.setValue(kSavePattern, ui_->lineedit_cover_pattern->text());
+  s.setValue(kSaveOverwrite, ui_->checkbox_cover_overwrite->isChecked());
+  s.setValue(kSaveLowercase, ui_->checkbox_cover_lowercase->isChecked());
+  s.setValue(kSaveReplaceSpaces, ui_->checkbox_cover_replace_spaces->isChecked());
+
   s.endGroup();
 
 }
 
-void CoversSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous) {
+void CoversSettingsPage::ProvidersCurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous) {
 
   if (item_previous) {
     CoverProvider *provider = dialog()->app()->cover_providers()->ProviderByName(item_previous->text());
@@ -155,7 +253,7 @@ void CoversSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QList
 
 }
 
-void CoversSettingsPage::ItemSelectionChanged() {
+void CoversSettingsPage::ProvidersItemSelectionChanged() {
 
   if (ui_->providers->selectedItems().count() == 0) {
     DisableAuthentication();
@@ -166,7 +264,7 @@ void CoversSettingsPage::ItemSelectionChanged() {
   }
   else {
     if (ui_->providers->currentItem() && !provider_selected_) {
-      CurrentItemChanged(ui_->providers->currentItem(), nullptr);
+      ProvidersCurrentItemChanged(ui_->providers->currentItem(), nullptr);
     }
   }
 
@@ -187,7 +285,7 @@ void CoversSettingsPage::ProvidersMove(const int d) {
 
 }
 
-void CoversSettingsPage::ItemChanged(QListWidgetItem *item) {
+void CoversSettingsPage::ProvidersItemChanged(QListWidgetItem *item) {
 
   item->setForeground((item->checkState() == Qt::Checked) ? palette().color(QPalette::Active, QPalette::Text) : palette().color(QPalette::Disabled, QPalette::Text));
 
@@ -280,4 +378,115 @@ void CoversSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
 bool CoversSettingsPage::ProviderCompareOrder(CoverProvider *a, CoverProvider *b) {
   return a->order() < b->order();
+}
+
+void CoversSettingsPage::CoverSaveInAlbumDirChanged() {
+
+  if (ui_->radiobutton_save_albumcover_albumdir->isChecked()) {
+    if (!ui_->groupbox_cover_filename->isEnabled()) {
+      ui_->groupbox_cover_filename->setEnabled(true);
+    }
+    if (ui_->radiobutton_cover_pattern->isChecked()) {
+      if (!ui_->lineedit_cover_pattern->isEnabled()) ui_->lineedit_cover_pattern->setEnabled(true);
+      if (!ui_->checkbox_cover_overwrite->isEnabled()) ui_->checkbox_cover_overwrite->setEnabled(true);
+      if (!ui_->checkbox_cover_lowercase->isEnabled()) ui_->checkbox_cover_lowercase->setEnabled(true);
+      if (!ui_->checkbox_cover_replace_spaces->isEnabled()) ui_->checkbox_cover_replace_spaces->setEnabled(true);
+    }
+    else {
+      if (ui_->lineedit_cover_pattern->isEnabled()) ui_->lineedit_cover_pattern->setEnabled(false);
+      if (ui_->checkbox_cover_overwrite->isEnabled()) ui_->checkbox_cover_overwrite->setEnabled(false);
+      if (ui_->checkbox_cover_lowercase->isEnabled()) ui_->checkbox_cover_lowercase->setEnabled(false);
+      if (ui_->checkbox_cover_replace_spaces->isEnabled()) ui_->checkbox_cover_replace_spaces->setEnabled(false);
+    }
+  }
+  else {
+    if (ui_->groupbox_cover_filename->isEnabled()) {
+      ui_->groupbox_cover_filename->setEnabled(false);
+    }
+  }
+
+}
+
+void CoversSettingsPage::AddAlbumCoverArtType(const QString &name, const QString &description, const bool enabled) {
+
+  QListWidgetItem *item = new QListWidgetItem;
+  item->setData(Type_Role_Name, name);
+  item->setText(description);
+  item->setCheckState(enabled ? Qt::Checked : Qt::Unchecked);
+  ui_->types->addItem(item);
+
+}
+
+QString CoversSettingsPage::AlbumCoverArtTypeDescription(const QString &type) const {
+
+  if (type == "art_unset") {
+    return tr("Manually unset (%1)").arg(type);
+  }
+  if (type == "art_manual") {
+    return tr("Set through album cover search (%1)").arg(type);
+  }
+  if (type == "art_automatic") {
+    return tr("Automatically picked up from album directory (%1)").arg(type);
+  }
+  if (type == "art_embedded") {
+    return tr("Embedded album cover art (%1)").arg(type);
+  }
+
+  return QString();
+
+}
+
+void CoversSettingsPage::TypesMoveUp() { TypesMove(-1); }
+
+void CoversSettingsPage::TypesMoveDown() { TypesMove(+1); }
+
+void CoversSettingsPage::TypesMove(const int d) {
+
+  const int row = ui_->types->currentRow();
+  QListWidgetItem *item = ui_->types->takeItem(row);
+  ui_->types->insertItem(row + d, item);
+  ui_->types->setCurrentRow(row + d);
+
+  set_changed();
+
+}
+
+void CoversSettingsPage::TypesItemChanged(QListWidgetItem *item) {
+
+  item->setForeground((item->checkState() == Qt::Checked) ? palette().color(QPalette::Active, QPalette::Text) : palette().color(QPalette::Disabled, QPalette::Text));
+
+  set_changed();
+
+}
+
+void CoversSettingsPage::TypesCurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous) {
+
+  Q_UNUSED(item_previous)
+
+  if (item_current) {
+    const int row = ui_->types->row(item_current);
+    ui_->types_up->setEnabled(row != 0);
+    ui_->types_down->setEnabled(row != ui_->types->count() - 1);
+    types_selected_ = true;
+  }
+  else {
+    ui_->types_up->setEnabled(false);
+    ui_->types_down->setEnabled(false);
+    types_selected_ = false;
+  }
+
+}
+
+void CoversSettingsPage::TypesItemSelectionChanged() {
+
+  if (ui_->types->selectedItems().count() == 0) {
+    ui_->types_up->setEnabled(false);
+    ui_->types_down->setEnabled(false);
+  }
+  else {
+    if (ui_->providers->currentItem() && !types_selected_) {
+      TypesCurrentItemChanged(ui_->types->currentItem(), nullptr);
+    }
+  }
+
 }

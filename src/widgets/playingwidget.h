@@ -35,7 +35,6 @@
 #include <QMovie>
 
 #include "core/song.h"
-#include "covermanager/albumcoverloaderoptions.h"
 
 class QTimeLine;
 class QTextDocument;
@@ -123,8 +122,8 @@ class PlayingWidget : public QWidget {
   bool playing_;
   bool active_;
   int small_ideal_height_;
-  AlbumCoverLoaderOptions cover_loader_options_;
   int total_height_;
+  int desired_height_;
   bool fit_width_;
   QTimeLine *timeline_show_hide_;
   QTimeLine *timeline_fade_;
