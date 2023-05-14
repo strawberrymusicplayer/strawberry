@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
 
-set(MESSAGES tagreadermessages.proto)
-set(SOURCES tagreaderbase.cpp)
+set(SOURCES tagreaderbase.cpp tagreadermessages.proto)
 
 if(USE_TAGLIB AND TAGLIB_FOUND)
   list(APPEND SOURCES tagreadertaglib.cpp tagreadergme.cpp)
@@ -10,8 +9,6 @@ endif()
 if(USE_TAGPARSER AND TAGPARSER_FOUND)
   list(APPEND SOURCES tagreadertagparser.cpp)
 endif()
-
-protobuf_generate_cpp(PROTO_SOURCES PROTO_HEADERS ${MESSAGES})
 
 link_directories(
   ${GLIB_LIBRARY_DIRS}
@@ -67,3 +64,5 @@ if(USE_TAGPARSER AND TAGPARSER_FOUND)
   target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE ${TAGPARSER_INCLUDE_DIRS})
   target_link_libraries(libstrawberry-tagreader PRIVATE ${TAGPARSER_LIBRARIES})
 endif()
+
+protobuf_generate(TARGET libstrawberry-tagreader)
