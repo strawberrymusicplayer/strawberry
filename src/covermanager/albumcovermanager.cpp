@@ -748,7 +748,7 @@ void AlbumCoverManager::LoadCoverFromURL() {
   Song song = GetSingleSelectionAsSong();
   if (!song.is_valid()) return;
 
-  const AlbumCoverImageResult &result = album_cover_choice_controller_->LoadImageFromURL();
+  const AlbumCoverImageResult result = album_cover_choice_controller_->LoadImageFromURL();
   if (result.is_valid()) {
     SaveImageToAlbums(&song, result);
   }
