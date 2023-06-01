@@ -23,13 +23,14 @@
 #include "config.h"
 
 #include "devicefinder.h"
+#include "enginedevice.h"
 
 class MMDeviceFinder : public DeviceFinder {
  public:
   explicit MMDeviceFinder();
 
   virtual bool Initialize() { return true; }
-  virtual DeviceList ListDevices();
+  virtual EngineDeviceList ListDevices();
 };
 
 #endif  // MMDEVICEFINDER_H

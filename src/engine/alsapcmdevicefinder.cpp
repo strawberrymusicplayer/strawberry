@@ -25,14 +25,14 @@
 
 #include <core/logging.h>
 
-#include "devicefinder.h"
 #include "alsapcmdevicefinder.h"
+#include "enginedevice.h"
 
 AlsaPCMDeviceFinder::AlsaPCMDeviceFinder() : DeviceFinder("alsa", { "alsa", "alsasink" }) {}
 
-DeviceFinder::DeviceList AlsaPCMDeviceFinder::ListDevices() {
+EngineDeviceList AlsaPCMDeviceFinder::ListDevices() {
 
-  DeviceList ret;
+  EngineDeviceList ret;
 
   void **hints = nullptr;
   if (snd_device_name_hint(-1, "pcm", &hints) < 0) {
@@ -63,10 +63,10 @@ DeviceFinder::DeviceList AlsaPCMDeviceFinder::ListDevices() {
         description.append(desc_last);
       }
 
-      Device device;
+      EngineDevice device;
       device.value = name;
       device.description = description;
-      device.iconname = GuessIconName(device.description);
+      device.iconname = device.GuessIconName();
       ret << device;  // clazy:exclude=reserve-candidates
     }
     if (hint_io) free(hint_io);

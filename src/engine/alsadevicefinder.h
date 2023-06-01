@@ -23,13 +23,14 @@
 #include "config.h"
 
 #include "devicefinder.h"
+#include "enginedevice.h"
 
 class AlsaDeviceFinder : public DeviceFinder {
  public:
   explicit AlsaDeviceFinder();
 
   bool Initialize() override { return true; }
-  DeviceList ListDevices() override;
+  EngineDeviceList ListDevices() override;
 
  private:
   Q_DISABLE_COPY(AlsaDeviceFinder)

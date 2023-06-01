@@ -24,33 +24,3 @@
 #include "devicefinder.h"
 
 DeviceFinder::DeviceFinder(const QString &name, const QStringList &outputs) : name_(name), outputs_(outputs) {}
-
-QString DeviceFinder::GuessIconName(const QString &description) {
-
-  QString description_lower = description.toLower();
-
-  if (description_lower.contains("mcintosh")) {
-    return "mcintosh";
-  }
-  if (description_lower.contains("electrocompaniet")) {
-    return "electrocompaniet";
-  }
-  if (description_lower.contains("intel")) {
-    return "intel";
-  }
-  if (description_lower.contains("realtek")) {
-    return "realtek";
-  }
-  if (description_lower.contains("nvidia")) {
-    return "nvidia";
-  }
-  if (description_lower.contains("headset")) {
-    return "headset";
-  }
-  if (description_lower.contains("pulseaudio")) {
-    return "pulseaudio";
-  }
-
-  return "soundcard";
-
-}

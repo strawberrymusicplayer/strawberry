@@ -28,6 +28,7 @@
 #include <pulse/mainloop.h>
 
 #include "devicefinder.h"
+#include "enginedevice.h"
 
 class PulseDeviceFinder : public DeviceFinder {
  public:
@@ -35,14 +36,14 @@ class PulseDeviceFinder : public DeviceFinder {
   ~PulseDeviceFinder() override;
 
   bool Initialize() override;
-  DeviceList ListDevices() override;
+  EngineDeviceList ListDevices() override;
 
  private:
   struct ListDevicesState {
     ListDevicesState() : finished(false) {}
 
     bool finished;
-    DeviceList devices;
+    EngineDeviceList devices;
   };
 
   bool Reconnect();

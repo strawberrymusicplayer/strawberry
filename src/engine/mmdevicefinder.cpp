@@ -33,6 +33,7 @@
 #include <QString>
 
 #include "mmdevicefinder.h"
+#include "enginedevice.h"
 #include "core/logging.h"
 
 #ifdef _MSC_VER
@@ -42,14 +43,14 @@
 
 MMDeviceFinder::MMDeviceFinder() : DeviceFinder("mmdevice", { "wasapisink" }) {}
 
-DeviceFinder::DeviceList MMDeviceFinder::ListDevices() {
+EngineDeviceList MMDeviceFinder::ListDevices() {
 
   HRESULT hr_coinit = CoInitializeEx(NULL, COINIT_MULTITHREADED);
 
-  DeviceList devices;
-  Device default_device;
+  EngineDeviceList devices;
+  EngineDevice default_device;
   default_device.description = "Default device";
-  default_device.iconname = GuessIconName(default_device.description);
+  default_device.iconname = default_device.GuessIconName();
   devices.append(default_device);
 
   IMMDeviceEnumerator *enumerator = nullptr;
@@ -75,9 +76,9 @@ DeviceFinder::DeviceList MMDeviceFinder::ListDevices() {
                 PropVariantInit(&var_name);
                 hr = props->GetValue(PKEY_Device_FriendlyName, &var_name);
                 if (hr == S_OK) {
-                  Device device;
+                  EngineDevice device;
                   device.description = QString::fromWCharArray(var_name.pwszVal);
-                  device.iconname = GuessIconName(device.description);
+                  device.iconname = device.GuessIconName();
                   device.value = QString::fromStdWString(pwszid);
                   devices.append(device);
                   PropVariantClear(&var_name);

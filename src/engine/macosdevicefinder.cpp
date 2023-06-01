@@ -30,6 +30,7 @@
 #include "core/scoped_cftyperef.h"
 
 #include "macosdevicefinder.h"
+#include "enginedevice.h"
 
 namespace {
 
@@ -63,9 +64,7 @@ std::unique_ptr<T> GetProperty(const AudioDeviceID &device_id, const AudioObject
 
 MacOsDeviceFinder::MacOsDeviceFinder() : DeviceFinder("osxaudio", { "osxaudio", "osx", "osxaudiosink" }) {}
 
-DeviceFinder::DeviceList MacOsDeviceFinder::ListDevices() {
-
-  DeviceList ret;
+EngineDeviceList MacOsDeviceFinder::ListDevices() {
 
   AudioObjectPropertyAddress address = {
     kAudioHardwarePropertyDevices,
@@ -76,11 +75,12 @@ DeviceFinder::DeviceList MacOsDeviceFinder::ListDevices() {
   UInt32 device_size_bytes = 0;
   std::unique_ptr<AudioDeviceID> devices = GetProperty<AudioDeviceID>(kAudioObjectSystemObject, address, &device_size_bytes);
   if (!devices) {
-    return ret;
+    return EngineDeviceList();
   }
   const UInt32 device_count = device_size_bytes / sizeof(AudioDeviceID);
 
   address.mScope = kAudioDevicePropertyScopeOutput;
+  EngineDeviceList device_list;
   for (UInt32 i = 0; i < device_count; ++i) {
     const AudioDeviceID id = devices.get()[i];
 
@@ -99,14 +99,15 @@ DeviceFinder::DeviceList MacOsDeviceFinder::ListDevices() {
       continue;
     }
 
-    Device dev;
-    dev.value = id;
-    dev.description = QString::fromUtf8(CFStringGetCStringPtr(*device_name, CFStringGetSystemEncoding()));
-    if (dev.description.isEmpty()) dev.description = QString("Unknown device " + dev.value.toString());
-    dev.iconname = GuessIconName(dev.description);
-    ret.append(dev);
+    EngineDevice device;
+    device.value = id;
+    device.description = QString::fromUtf8(CFStringGetCStringPtr(*device_name, CFStringGetSystemEncoding()));
+    if (device.description.isEmpty()) device.description = QString("Unknown device " + device.value.toString());
+    device.iconname = device.GuessIconName();
+    device_list.append(device);
   }
-  return ret;
+
+  return device_list;
 
 }
 

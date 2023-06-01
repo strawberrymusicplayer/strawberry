@@ -30,8 +30,8 @@
 #include <QString>
 
 #include "core/logging.h"
-#include "devicefinder.h"
 #include "pulsedevicefinder.h"
+#include "enginedevice.h"
 
 PulseDeviceFinder::PulseDeviceFinder() : DeviceFinder("pulseaudio", { "pulseaudio", "pulse", "pulsesink" }), mainloop_(nullptr), context_(nullptr) {}
 
@@ -80,10 +80,10 @@ bool PulseDeviceFinder::Reconnect() {
   }
 }
 
-DeviceFinder::DeviceList PulseDeviceFinder::ListDevices() {
+EngineDeviceList PulseDeviceFinder::ListDevices() {
 
   if (!context_ || pa_context_get_state(context_) != PA_CONTEXT_READY) {
-    return DeviceList();
+    return EngineDeviceList();
   }
 
 retry:
@@ -121,12 +121,12 @@ void PulseDeviceFinder::GetSinkInfoCallback(pa_context *c, const pa_sink_info *i
   if (!state) return;
 
   if (info) {
-    Device dev;
-    dev.description = QString::fromUtf8(info->description);
-    dev.value = QString::fromUtf8(info->name);
-    dev.iconname = GuessIconName(dev.description);
+    EngineDevice device;
+    device.description = QString::fromUtf8(info->description);
+    device.value = QString::fromUtf8(info->name);
+    device.iconname = device.GuessIconName();
 
-    state->devices.append(dev);
+    state->devices.append(device);
   }
 
   if (eol > 0) {

@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include "devicefinder.h"
+#include "enginedevice.h"
 
 class UWPDeviceFinder : public DeviceFinder {
  public:

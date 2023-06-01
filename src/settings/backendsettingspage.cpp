@@ -44,6 +44,7 @@
 #include "core/player.h"
 #include "core/logging.h"
 #include "engine/enginebase.h"
+#include "engine/enginedevice.h"
 #include "engine/devicefinders.h"
 #include "engine/devicefinder.h"
 #include "widgets/lineedit.h"
@@ -320,7 +321,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   if (!EngineInitialized()) return;
 
   int devices = 0;
-  DeviceFinder::Device df_device;
+  EngineDevice df_device;
 
   ui_->combobox_device->clear();
   ui_->lineedit_device->clear();
@@ -332,7 +333,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
 
   for (DeviceFinder *f : dialog()->app()->device_finders()->ListFinders()) {
     if (!f->outputs().contains(output)) continue;
-    for (const DeviceFinder::Device &d : f->ListDevices()) {
+    for (const EngineDevice &d : f->ListDevices()) {
       devices++;
       ui_->combobox_device->addItem(IconLoader::Load(d.iconname), d.description, d.value);
       if (d.value == device) { df_device = d; }

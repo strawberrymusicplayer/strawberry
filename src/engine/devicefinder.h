@@ -24,24 +24,13 @@
 
 #include "config.h"
 
-#include <QList>
-#include <QVariant>
 #include <QString>
+
+#include "enginedevice.h"
 
 // Finds audio output devices
 class DeviceFinder {
-
  public:
-  struct Device {
-    Device() : card(0), device(0) {}
-    QString description;
-    QVariant value;
-    QString iconname;
-    int card;
-    int device;
-  };
-  using DeviceList = QList<Device>;
-
   virtual ~DeviceFinder() {}
 
   QString name() const { return name_; }
@@ -52,12 +41,10 @@ class DeviceFinder {
   virtual bool Initialize() = 0;
 
   // Returns a list of available devices.
-  virtual DeviceList ListDevices() = 0;
+  virtual EngineDeviceList ListDevices() = 0;
 
  protected:
   explicit DeviceFinder(const QString &name, const QStringList &outputs);
-
-  static QString GuessIconName(const QString &description);
 
  private:
   QString name_;

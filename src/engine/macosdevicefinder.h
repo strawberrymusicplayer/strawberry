@@ -24,13 +24,14 @@
 #include "config.h"
 
 #include "devicefinder.h"
+#include "enginedevice.h"
 
 class MacOsDeviceFinder : public DeviceFinder {
  public:
   explicit MacOsDeviceFinder();
 
   virtual bool Initialize() { return true; }
-  virtual DeviceList ListDevices();
+  virtual EngineDeviceList ListDevices();
 };
 
 #endif  // MACOSDEVICEFINDER_H

@@ -32,6 +32,7 @@
 #include "AsyncOperations.h"
 
 #include "uwpdevicefinder.h"
+#include "enginedevice.h"
 #include "core/logging.h"
 
 using namespace Microsoft::WRL;
@@ -69,45 +70,45 @@ static std::string hstring_to_stdstring(HString *hstr) {
 
 }  // namespace
 
-DeviceFinder::DeviceList UWPDeviceFinder::ListDevices() {
+EngineDeviceList UWPDeviceFinder::ListDevices() {
 
   ComPtr<IDeviceInformationStatics> device_info_statics;
   HRESULT hr = ABI::Windows::Foundation::GetActivationFactory(HStringReference(RuntimeClass_Windows_Devices_Enumeration_DeviceInformation).Get(), &device_info_statics);
   if (FAILED(hr)) {
-    return DeviceList();
+    return EngineDeviceList();
   }
 
   ComPtr<IAsyncOperation<DeviceInformationCollection*>> async_op;
   hr = device_info_statics->FindAllAsyncDeviceClass(DeviceClass::DeviceClass_AudioRender, &async_op);
   device_info_statics.Reset();
   if (FAILED(hr)) {
-    return DeviceList();
+    return EngineDeviceList();
   }
 
   hr = SyncWait<DeviceInformationCollection*>(async_op.Get());
   if (FAILED(hr)) {
-    return DeviceList();
+    return EngineDeviceList();
   }
 
   ComPtr<IVectorView<DeviceInformation*>> device_list;
   hr = async_op->GetResults(&device_list);
   async_op.Reset();
   if (FAILED(hr)) {
-    return DeviceList();
+    return EngineDeviceList();
   }
 
   unsigned int count = 0;
   hr = device_list->get_Size(&count);
   if (FAILED(hr)) {
-    return DeviceList();
+    return EngineDeviceList();
   }
 
-  DeviceList devices;
+  EngineDeviceList devices;
 
   {
-    Device default_device;
+    EngineDevice default_device;
     default_device.description = "Default device";
-    default_device.iconname = GuessIconName(default_device.description);
+    default_device.iconname = default_device.GuessIconName();
     devices.append(default_device);
   }
 
@@ -137,10 +138,10 @@ DeviceFinder::DeviceList UWPDeviceFinder::ListDevices() {
       continue;
     }
 
-    Device device;
+    EngineDevice device;
     device.value = QString::fromStdString(hstring_to_stdstring(&id));
     device.description = QString::fromStdString(hstring_to_stdstring(&name));
-    device.iconname = GuessIconName(device.description);
+    device.iconname = device.GuessIconName();
     devices.append(device);
   }
 

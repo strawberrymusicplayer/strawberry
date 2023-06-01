@@ -59,6 +59,7 @@ set(SOURCES
   utilities/screenutils.cpp
 
   engine/enginebase.cpp
+  engine/enginedevice.cpp
   engine/devicefinders.cpp
   engine/devicefinder.cpp
   engine/enginemetadata.cpp
