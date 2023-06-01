@@ -30,7 +30,7 @@ class UWPDeviceFinder : public DeviceFinder {
   explicit UWPDeviceFinder();
 
   virtual bool Initialize() { return true; }
-  virtual DeviceList ListDevices();
+  virtual EngineDeviceList ListDevices();
 };
 
 #endif  // UWPDEVICEFINDER_H
