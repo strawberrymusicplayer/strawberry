@@ -84,6 +84,21 @@ void GstStartup::InitializeGStreamer() {
   gstfastspectrum_register_static();
 #endif
 
+#if defined(Q_OS_WIN32) && defined(__MINGW32__)
+  // MinGW does not have wasapi2sink and wasapisink does not support device switching, so use directsoundsink as the default sink.
+  GstRegistry *reg = gst_registry_get();
+  if (reg) {
+    GstPluginFeature *directsoundsink = gst_registry_lookup_feature(reg, "directsoundsink");
+    GstPluginFeature *wasapisink = gst_registry_lookup_feature(reg, "wasapisink");
+    if (directsoundsink && wasapisink) {
+      gst_plugin_feature_set_rank(directsoundsink, GST_RANK_PRIMARY);
+      gst_plugin_feature_set_rank(wasapisink, GST_RANK_SECONDARY);
+    }
+    if (directsoundsink) gst_object_unref(directsoundsink);
+    if (wasapisink) gst_object_unref(wasapisink);
+  }
+#endif
+
 }
 
 void GstStartup::SetEnvironment() {
