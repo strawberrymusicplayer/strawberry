@@ -164,13 +164,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkbox_engine_device">
-        <property name="text">
-         <string>Engine and Device</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QCheckBox" name="checkbox_song_lyrics">
         <property name="text">
          <string>Song Lyrics</string>

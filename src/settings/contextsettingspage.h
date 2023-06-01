@@ -44,7 +44,6 @@ class ContextSettingsPage : public SettingsPage {
 
   enum class ContextSettingsOrder {
     ALBUM,
-    ENGINE_AND_DEVICE,
     TECHNICAL_DATA,
     SONG_LYRICS,
     SEARCH_COVER,
