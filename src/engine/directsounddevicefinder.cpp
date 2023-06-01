@@ -27,7 +27,6 @@
 
 #include <dsound.h>
 
-#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QUuid>
@@ -37,7 +36,7 @@
 
 DirectSoundDeviceFinder::DirectSoundDeviceFinder() : DeviceFinder("directsound", { "directsound", "dsound", "directsoundsink", "directx", "directx2" }) {}
 
-QList<DeviceFinder::Device> DirectSoundDeviceFinder::ListDevices() {
+DeviceFinder::DeviceList DirectSoundDeviceFinder::ListDevices() {
   State state;
   DirectSoundEnumerateA(&DirectSoundDeviceFinder::EnumerateCallback, &state);
   return state.devices;

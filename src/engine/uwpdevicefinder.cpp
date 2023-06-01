@@ -23,7 +23,6 @@
 #include <locale>
 #include <codecvt>
 
-#include <QList>
 #include <QString>
 
 #include <wrl.h>
@@ -70,40 +69,40 @@ static std::string hstring_to_stdstring(HString *hstr) {
 
 }  // namespace
 
-QList<DeviceFinder::Device> UWPDeviceFinder::ListDevices() {
+DeviceFinder::DeviceList UWPDeviceFinder::ListDevices() {
 
   ComPtr<IDeviceInformationStatics> device_info_statics;
   HRESULT hr = ABI::Windows::Foundation::GetActivationFactory(HStringReference(RuntimeClass_Windows_Devices_Enumeration_DeviceInformation).Get(), &device_info_statics);
   if (FAILED(hr)) {
-    return QList<Device>();
+    return DeviceList();
   }
 
   ComPtr<IAsyncOperation<DeviceInformationCollection*>> async_op;
   hr = device_info_statics->FindAllAsyncDeviceClass(DeviceClass::DeviceClass_AudioRender, &async_op);
   device_info_statics.Reset();
   if (FAILED(hr)) {
-    return QList<Device>();
+    return DeviceList();
   }
 
   hr = SyncWait<DeviceInformationCollection*>(async_op.Get());
   if (FAILED(hr)) {
-    return QList<Device>();
+    return DeviceList();
   }
 
   ComPtr<IVectorView<DeviceInformation*>> device_list;
   hr = async_op->GetResults(&device_list);
   async_op.Reset();
   if (FAILED(hr)) {
-    return QList<Device>();
+    return DeviceList();
   }
 
   unsigned int count = 0;
   hr = device_list->get_Size(&count);
   if (FAILED(hr)) {
-    return QList<Device>();
+    return DeviceList();
   }
 
-  QList<Device> devices;
+  DeviceList devices;
 
   {
     Device default_device;

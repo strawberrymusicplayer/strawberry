@@ -29,7 +29,7 @@ class UWPDeviceFinder : public DeviceFinder {
   explicit UWPDeviceFinder();
 
   virtual bool Initialize() { return true; }
-  virtual QList<Device> ListDevices();
+  virtual DeviceList ListDevices();
 };
 
 #endif  // UWPDEVICEFINDER_H

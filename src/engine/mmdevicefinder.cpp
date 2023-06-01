@@ -29,7 +29,6 @@
 #endif
 #include <mmdeviceapi.h>
 
-#include <QList>
 #include <QVariant>
 #include <QString>
 
@@ -43,11 +42,11 @@
 
 MMDeviceFinder::MMDeviceFinder() : DeviceFinder("mmdevice", { "wasapisink" }) {}
 
-QList<DeviceFinder::Device> MMDeviceFinder::ListDevices() {
+DeviceFinder::DeviceList MMDeviceFinder::ListDevices() {
 
   HRESULT hr_coinit = CoInitializeEx(NULL, COINIT_MULTITHREADED);
 
-  QList<Device> devices;
+  DeviceList devices;
   Device default_device;
   default_device.description = "Default device";
   default_device.iconname = GuessIconName(default_device.description);

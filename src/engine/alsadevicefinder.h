@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <QList>
-
 #include "devicefinder.h"
 
 class AlsaDeviceFinder : public DeviceFinder {
@@ -31,7 +29,7 @@ class AlsaDeviceFinder : public DeviceFinder {
   explicit AlsaDeviceFinder();
 
   bool Initialize() override { return true; }
-  QList<Device> ListDevices() override;
+  DeviceList ListDevices() override;
 
  private:
   Q_DISABLE_COPY(AlsaDeviceFinder)

@@ -33,11 +33,11 @@ class DirectSoundDeviceFinder : public DeviceFinder {
   explicit DirectSoundDeviceFinder();
 
   virtual bool Initialize() { return true; }
-  virtual QList<Device> ListDevices();
+  virtual DeviceList ListDevices();
 
  private:
   struct State {
-    QList<Device> devices;
+    DeviceList devices;
   };
 
   static BOOL CALLBACK EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr);

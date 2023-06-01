@@ -24,7 +24,6 @@
 
 #include <CoreAudio/AudioHardware.h>
 
-#include <QList>
 #include <QString>
 
 #include "core/logging.h"
@@ -64,9 +63,9 @@ std::unique_ptr<T> GetProperty(const AudioDeviceID &device_id, const AudioObject
 
 MacOsDeviceFinder::MacOsDeviceFinder() : DeviceFinder("osxaudio", { "osxaudio", "osx", "osxaudiosink" }) {}
 
-QList<DeviceFinder::Device> MacOsDeviceFinder::ListDevices() {
+DeviceFinder::DeviceList MacOsDeviceFinder::ListDevices() {
 
-  QList<Device> ret;
+  DeviceList ret;
 
   AudioObjectPropertyAddress address = {
     kAudioHardwarePropertyDevices,

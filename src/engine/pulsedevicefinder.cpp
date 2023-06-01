@@ -80,10 +80,10 @@ bool PulseDeviceFinder::Reconnect() {
   }
 }
 
-QList<DeviceFinder::Device> PulseDeviceFinder::ListDevices() {
+DeviceFinder::DeviceList PulseDeviceFinder::ListDevices() {
 
   if (!context_ || pa_context_get_state(context_) != PA_CONTEXT_READY) {
-    return QList<Device>();
+    return DeviceList();
   }
 
 retry:

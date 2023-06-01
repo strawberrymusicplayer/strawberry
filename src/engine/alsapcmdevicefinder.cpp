@@ -21,7 +21,6 @@
 
 #include <alsa/asoundlib.h>
 
-#include <QList>
 #include <QString>
 
 #include <core/logging.h>
@@ -31,9 +30,9 @@
 
 AlsaPCMDeviceFinder::AlsaPCMDeviceFinder() : DeviceFinder("alsa", { "alsa", "alsasink" }) {}
 
-QList<DeviceFinder::Device> AlsaPCMDeviceFinder::ListDevices() {
+DeviceFinder::DeviceList AlsaPCMDeviceFinder::ListDevices() {
 
-  QList<Device> ret;
+  DeviceList ret;
 
   void **hints = nullptr;
   if (snd_device_name_hint(-1, "pcm", &hints) < 0) {

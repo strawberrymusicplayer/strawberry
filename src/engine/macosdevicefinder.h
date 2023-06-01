@@ -23,8 +23,6 @@
 
 #include "config.h"
 
-#include <QList>
-
 #include "devicefinder.h"
 
 class MacOsDeviceFinder : public DeviceFinder {
@@ -32,7 +30,7 @@ class MacOsDeviceFinder : public DeviceFinder {
   explicit MacOsDeviceFinder();
 
   virtual bool Initialize() { return true; }
-  virtual QList<Device> ListDevices();
+  virtual DeviceList ListDevices();
 };
 
 #endif  // MACOSDEVICEFINDER_H

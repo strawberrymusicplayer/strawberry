@@ -24,7 +24,6 @@
 #include <alsa/asoundlib.h>
 #include <boost/scope_exit.hpp>
 
-#include <QList>
 #include <QString>
 
 #include <core/logging.h>
@@ -34,9 +33,9 @@
 
 AlsaDeviceFinder::AlsaDeviceFinder() : DeviceFinder("alsa", { "alsa", "alsasink" }) {}
 
-QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
+DeviceFinder::DeviceList AlsaDeviceFinder::ListDevices() {
 
-  QList<Device> ret;
+  DeviceList ret;
 
   snd_pcm_stream_name(SND_PCM_STREAM_PLAYBACK);
 

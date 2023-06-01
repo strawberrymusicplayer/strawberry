@@ -40,6 +40,7 @@ class DeviceFinder {
     int card;
     int device;
   };
+  using DeviceList = QList<Device>;
 
   virtual ~DeviceFinder() {}
 
@@ -51,7 +52,7 @@ class DeviceFinder {
   virtual bool Initialize() = 0;
 
   // Returns a list of available devices.
-  virtual QList<Device> ListDevices() = 0;
+  virtual DeviceList ListDevices() = 0;
 
  protected:
   explicit DeviceFinder(const QString &name, const QStringList &outputs);
