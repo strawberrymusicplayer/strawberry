@@ -1427,6 +1427,7 @@ jobs:
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstvolume.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstvorbis.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstwasapi.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstwasapi2.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstwavenc.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstwavpack.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstwavparse.dll .\gstreamer-plugins\
