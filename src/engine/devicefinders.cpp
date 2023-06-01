@@ -43,7 +43,10 @@
 #ifdef Q_OS_WIN32
 #  include "directsounddevicefinder.h"
 #  include "mmdevicefinder.h"
-#endif
+#  ifdef _MSC_VER
+#    include "uwpdevicefinder.h"
+#  endif  // _MSC_VER
+#endif  // Q_OS_WIN32
 
 DeviceFinders::DeviceFinders(QObject *parent) : QObject(parent) {}
 
@@ -68,7 +71,10 @@ void DeviceFinders::Init() {
 #ifdef Q_OS_WIN32
   device_finders.append(new DirectSoundDeviceFinder);
   device_finders.append(new MMDeviceFinder);
-#endif
+#  ifdef _MSC_VER
+  device_finders.append(new UWPDeviceFinder);
+#  endif  // _MSC_VER
+#endif  // Q_OS_WIN32
 
   for (DeviceFinder *finder : device_finders) {
     if (!finder->Initialize()) {

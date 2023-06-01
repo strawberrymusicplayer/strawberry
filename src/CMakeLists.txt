@@ -838,6 +838,7 @@ optional_source(WIN32
   HEADERS
     core/windows7thumbbar.h
 )
+optional_source(MSVC SOURCES engine/uwpdevicefinder.cpp)
 
 optional_source(HAVE_SUBSONIC
   SOURCES
@@ -1198,6 +1199,9 @@ endif()
 
 if(WIN32)
   target_link_libraries(strawberry_lib PRIVATE dsound dwmapi)
+  if(MSVC)
+    target_link_libraries(strawberry_lib PRIVATE WindowsApp)
+  endif()
   if(GETOPT_INCLUDE_DIRS)
     target_include_directories(strawberry_lib SYSTEM PRIVATE ${GETOPT_INCLUDE_DIRS})
   endif()
