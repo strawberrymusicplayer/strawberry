@@ -413,6 +413,9 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
       OutputDetails output;
       output.name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
       output.description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
+      if (output.name == "wasapi2sink" && output.description == "Stream audio to an audio capture device through WASAPI") {
+        output.description.append("2");
+      }
       if (output.name == kAutoSink) output.iconname = "soundcard";
       else if (output.name == kALSASink || output.name == kOSS4Sink) output.iconname = "alsa";
       else if (output.name == kJackAudioSink) output.iconname = "jack";
