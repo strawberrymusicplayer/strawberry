@@ -950,6 +950,9 @@ jobs:
       - name: Install libgpod
         run: sudo /opt/local/bin/port -N -p install libgpod || true
 
+      - name: Add /opt/local/bin to PATH
+        run: echo "/opt/local/bin" >> $GITHUB_PATH
+
       - name: Install create-dmg
         shell: bash
         run: |
