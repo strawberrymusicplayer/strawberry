@@ -852,7 +852,7 @@ jobs:
 
       - name: Configure CMake
         env:
-          MACOSX_DEPLOYMENT_TARGET: 10.15
+          MACOSX_DEPLOYMENT_TARGET: 11.0
           PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
           GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
           GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
@@ -968,7 +968,7 @@ jobs:
 
       - name: Configure CMake
         env:
-          MACOSX_DEPLOYMENT_TARGET: 10.15
+          MACOSX_DEPLOYMENT_TARGET: 11.0
           PKG_CONFIG_PATH: /opt/local/lib/pkgconfig
           GIO_EXTRA_MODULES: /opt/local/lib/gio/modules
           GST_PLUGIN_SCANNER: /opt/local/libexec/gstreamer-1.0/gst-plugin-scanner
