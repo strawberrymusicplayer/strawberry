@@ -916,8 +916,9 @@ jobs:
     steps:
       - name: Install macports
         run: |
-          wget https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1-10.15-Catalina.pkg
-          sudo installer -pkg ./MacPorts-2.7.1-10.15-Catalina.pkg -target /
+          macports_version=$(wget -q -O- 'https://github.com/macports/macports-base' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | sed 's/^v//g' | sort -V | tail -1)
+          wget https://github.com/macports/macports-base/releases/download/v${macports_version}/MacPorts-${macports_version}-11-BigSur.pkg
+          sudo installer -pkg ./MacPorts-${macports_version}-11-BigSur.pkg -target /
 
       - name: Uninstall homebrew
         run: |
