@@ -489,6 +489,12 @@ Section "Strawberry" Strawberry
   File "zlibd.dll"
 !endif
 
+  ; Used by libfftw3-3.dll because fftw is compiled with MinGW.
+!ifdef arch_x86
+  File "libgcc_s_sjlj-1.dll"
+  File "libwinpthread-1.dll"
+!endif
+
 !endif ; MSVC
 
   ; Common files
@@ -1036,6 +1042,11 @@ Section "Uninstall"
   Delete "$INSTDIR\pcre2-16d.dll"
   Delete "$INSTDIR\twolamed.dll"
   Delete "$INSTDIR\zlibd.dll"
+!endif
+
+!ifdef arch_x86
+  Delete "$INSTDIR\libgcc_s_sjlj-1.dll"
+  Delete "$INSTDIR\libwinpthread-1.dll"
 !endif
 
 !endif ; MSVC
