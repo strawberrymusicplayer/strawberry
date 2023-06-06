@@ -117,6 +117,67 @@ class LexicalLeComparator : public SearchTermComparator {
   QString search_term_;
 };
 
+// Float Comparators are for the rating
+class FloatEqComparator : public SearchTermComparator {
+ public:
+  explicit FloatEqComparator(const float value) : search_term_(value) {}
+  bool Matches(const QString &element) const override {
+    return search_term_ == element.toFloat();
+  }
+ private:
+  float search_term_;
+};
+
+class FloatNeComparator : public SearchTermComparator {
+ public:
+  explicit FloatNeComparator(const float &value) : search_term_(value) {}
+  bool Matches(const QString &element) const override {
+    return search_term_ != element.toFloat();
+  }
+ private:
+  float search_term_;
+};
+
+class FloatGtComparator : public SearchTermComparator {
+ public:
+  explicit FloatGtComparator(const float &value) : search_term_(value) {}
+  bool Matches(const QString &element) const override {
+    return element.toFloat() > search_term_;
+  }
+ private:
+  float search_term_;
+};
+
+class FloatGeComparator : public SearchTermComparator {
+ public:
+  explicit FloatGeComparator(const float &value) : search_term_(value) {}
+  bool Matches(const QString &element) const override {
+    return element.toFloat() >= search_term_;
+  }
+ private:
+  float search_term_;
+};
+
+class FloatLtComparator : public SearchTermComparator {
+ public:
+  explicit FloatLtComparator(const float &value) : search_term_(value) {}
+  bool Matches(const QString &element) const override {
+    return element.toFloat() < search_term_;
+  }
+ private:
+  float search_term_;
+};
+
+class FloatLeComparator : public SearchTermComparator {
+ public:
+  explicit FloatLeComparator(const float &value) : search_term_(value) {}
+  bool Matches(const QString &element) const override {
+    return element.toFloat() <= search_term_;
+  }
+ private:
+  float search_term_;
+};
+
 class GtComparator : public SearchTermComparator {
  public:
   explicit GtComparator(const int value) : search_term_(value) {}
@@ -454,7 +515,34 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
   // here comes a mess :/
   // well, not that much of a mess, but so many options -_-
   SearchTermComparator *cmp = nullptr;
-  if (prefix == "!=" || prefix == "<>") {
+
+  // Handle the float based Rating Column
+  if (columns_[col] == Playlist::Column_Rating) {
+    float parsedSearch = parseRating(search);
+
+    if (prefix == "=") {
+      cmp = new FloatEqComparator(parsedSearch);
+    }
+    else if (prefix == "!=" || prefix == "<>") {
+      cmp = new FloatNeComparator(parsedSearch);
+    }
+    else if (prefix == ">") {
+      cmp = new FloatGtComparator(parsedSearch);
+    }
+    else if (prefix == ">=") {
+      cmp = new FloatGeComparator(parsedSearch);
+    }
+    else if (prefix == "<") {
+      cmp = new FloatLtComparator(parsedSearch);
+    }
+    else if (prefix == "<=") {
+      cmp = new FloatLeComparator(parsedSearch);
+    }
+    else {
+      cmp = new FloatEqComparator(parsedSearch);
+    }
+  }
+  else if (prefix == "!=" || prefix == "<>") {
     cmp = new NeComparator(search);
   }
   else if (!col.isEmpty() && columns_.contains(col) && numerical_columns_.contains(columns_[col])) {
@@ -504,6 +592,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
       cmp = new DefaultComparator(search);
     }
   }
+
   if (columns_.contains(col)) {
     if (columns_[col] == Playlist::Column_Length) {
       cmp = new DropTailComparatorDecorator(cmp);
@@ -551,4 +640,39 @@ int FilterParser::parseTime(const QString &time_str) {
   }
   seconds = seconds * 60 + accum;
   return seconds;
+}
+
+// The rating column contains the rating as a float from 0-1 or -1 if unrated.
+// If the rating is a number from 0-5, map it to 0-1
+// To use float values directly, the search term can be prefixed with "f" (rating:>f0.2)
+// If search is 0, or by default, uses -1
+float FilterParser::parseRating(const QString &rating_str) {
+  if (rating_str.isEmpty()) {
+    return -1;
+  }
+  float rating = -1;
+  bool ok = false;
+  float rating_input = rating_str.toFloat(&ok);
+  // is valid int from 0-5: convert to float
+  if (ok && rating_input >= 0 && rating_input <= 5) {
+    rating = rating_input / 5.;
+  }
+
+  // check if the search is a float
+  else if (rating_str.at(0) == 'f') {
+    QString rating_float = rating_str;
+    rating_float = rating_float.remove(0, 1);
+
+    ok = false;
+    rating_float.toFloat(&ok);
+    if (ok) {
+      rating = rating_float.toFloat(&ok);
+    }
+  }
+  // Songs with zero rating have -1 in the DB
+  if (rating == 0) {
+    rating = -1;
+  }
+
+  return rating;
 }
