@@ -80,7 +80,7 @@ QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
   arg << static_cast<qint32>(i.height());
   arg << static_cast<qint32>(i.bytesPerLine());
   arg << i.hasAlphaChannel();
-  qint32 channels = i.isGrayscale() ? 1 : (i.hasAlphaChannel() ? 4 : 3);
+  qint32 channels = i.hasAlphaChannel() ? 4 : 3;
   qint32 bitspersample = i.depth() / channels;
   arg << bitspersample;
   arg << channels;
