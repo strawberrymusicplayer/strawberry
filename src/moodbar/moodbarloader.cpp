@@ -91,6 +91,12 @@ QStringList MoodbarLoader::MoodFilenames(const QString &song_filename) {
 
 }
 
+QUrl MoodbarLoader::CacheUrlEntry(const QString &filename) {
+
+  return QUrl(QUrl::toPercentEncoding(filename));
+
+}
+
 MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, QByteArray *data, MoodbarPipeline **async_pipeline) {
 
   if (!url.isLocalFile() || has_cue) {
@@ -122,12 +128,16 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, Q
   }
 
   // Maybe it exists in the cache?
-  std::unique_ptr<QIODevice> cache_device(cache_->data(url));
-  if (cache_device) {
-    qLog(Info) << "Loading cached moodbar data for" << filename;
-    *data = cache_device->readAll();
-    if (!data->isEmpty()) {
-      return Result::Loaded;
+
+  QNetworkCacheMetaData disk_cache_metadata = cache_->metaData(CacheUrlEntry(filename));
+  if (disk_cache_metadata.isValid()) {
+    std::unique_ptr<QIODevice> device_cache_file(cache_->data(disk_cache_metadata.url()));
+    if (device_cache_file) {
+      qLog(Info) << "Loading cached moodbar data for" << filename;
+      *data = device_cache_file->readAll();
+      if (!data->isEmpty()) {
+        return Result::Loaded;
+      }
     }
   }
 
@@ -169,16 +179,23 @@ void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
   Q_ASSERT(QThread::currentThread() == qApp->thread());
 
   if (request->success()) {
-    qLog(Info) << "Moodbar data generated successfully for" << url.toLocalFile();
+
+    const QString filename = url.toLocalFile();
+
+    qLog(Info) << "Moodbar data generated successfully for" << filename;
 
     // Save the data in the cache
-    QNetworkCacheMetaData metadata;
-    metadata.setUrl(url);
+    QNetworkCacheMetaData disk_cache_metadata;
+    disk_cache_metadata.setSaveToDisk(true);
+    disk_cache_metadata.setUrl(CacheUrlEntry(filename));
+    // Qt 6 now ignores any entry without headers, so add a fake header.
+    disk_cache_metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray(), QByteArray()));
 
-    QIODevice *cache_file = cache_->prepare(metadata);
-    if (cache_file) {
-      if (cache_file->write(request->data()) > 0) {
-        cache_->insert(cache_file);
+    QIODevice *device_cache_file = cache_->prepare(disk_cache_metadata);
+    if (device_cache_file) {
+      const qint64 data_written = device_cache_file->write(request->data());
+      if (data_written > 0) {
+        cache_->insert(device_cache_file);
       }
     }
 

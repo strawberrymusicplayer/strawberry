@@ -62,6 +62,7 @@ class MoodbarLoader : public QObject {
 
  private:
   static QStringList MoodFilenames(const QString &song_filename);
+  static QUrl CacheUrlEntry(const QString &filename);
 
  private:
   QNetworkDiskCache *cache_;
