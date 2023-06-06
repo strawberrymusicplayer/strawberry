@@ -85,7 +85,7 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
   timer_submit_.setSingleShot(true);
   QObject::connect(&timer_submit_, &QTimer::timeout, this, &ScrobblingAPI20::Submit);
 
-  ReloadSettings();
+  ScrobblingAPI20::ReloadSettings();
   LoadSession();
 
 }

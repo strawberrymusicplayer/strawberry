@@ -86,7 +86,7 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(AudioScrobbler *scrobbler, NetworkA
   timer_submit_.setSingleShot(true);
   QObject::connect(&timer_submit_, &QTimer::timeout, this, &ListenBrainzScrobbler::Submit);
 
-  ReloadSettings();
+  ListenBrainzScrobbler::ReloadSettings();
   LoadSession();
 
 }

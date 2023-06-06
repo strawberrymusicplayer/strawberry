@@ -46,7 +46,7 @@ SubsonicScrobbler::SubsonicScrobbler(AudioScrobbler *scrobbler, SubsonicService 
       enabled_(false),
       submitted_(false) {
 
-  ReloadSettings();
+  SubsonicScrobbler::ReloadSettings();
 
   timer_submit_.setSingleShot(true);
   QObject::connect(&timer_submit_, &QTimer::timeout, this, &SubsonicScrobbler::Submit);
