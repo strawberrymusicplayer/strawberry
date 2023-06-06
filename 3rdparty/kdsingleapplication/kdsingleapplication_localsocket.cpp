@@ -47,9 +47,9 @@ KDSingleApplicationLocalSocket::KDSingleApplicationLocalSocket(const QString &na
 {
 #if defined(Q_OS_UNIX)
     /* cppcheck-suppress useInitializationList */
-    m_socketName = QStringLiteral("kdsingleapp-%1-%2-%3")
+    m_socketName = QStringLiteral("kdsingleapp-%1-%2")
                        .arg(::getuid())
-                       .arg(qEnvironmentVariable("XDG_SESSION_ID"), name);
+                       .arg(name);
 #elif defined(Q_OS_WIN)
     // I'm not sure of a "global session identifier" on Windows; are
     // multiple logins from the same user a possibility? For now, following this:
