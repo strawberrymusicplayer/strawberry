@@ -56,6 +56,7 @@ PlaylistFilter::PlaylistFilter(QObject *parent)
   column_names_["filename"] = Playlist::Column_Filename;
   column_names_["grouping"] = Playlist::Column_Grouping;
   column_names_["comment"] = Playlist::Column_Comment;
+  column_names_["rating"] = Playlist::Column_Rating;
 
   numerical_columns_ << Playlist::Column_Year
                      << Playlist::Column_OriginalYear
