@@ -182,7 +182,7 @@ void KDSingleApplicationLocalSocket::handleNewConnection()
 {
     Q_ASSERT(m_localServer);
 
-    QLocalSocket *socket;
+    QLocalSocket *socket = nullptr;
     while ((socket = m_localServer->nextPendingConnection())) {
         qCDebug(kdsaLocalSocket) << "Got new connection on" << m_socketName << "state" << socket->state();
 
