@@ -125,7 +125,7 @@ bool KDSingleApplicationLocalSocket::sendMessage(const QByteArray &message, int 
     // until we hit the timeout.
     do {
         socket.connectToServer(m_socketName);
-        if (socket.waitForConnected(deadline.remainingTime()))
+        if (socket.waitForConnected(static_cast<int>(deadline.remainingTime())))
             break;
     } while (!deadline.hasExpired());
 
@@ -152,7 +152,7 @@ bool KDSingleApplicationLocalSocket::sendMessage(const QByteArray &message, int 
     // Should there be one?
 
     while (socket.bytesToWrite() > 0) {
-        if (!socket.waitForBytesWritten(deadline.remainingTime())) {
+        if (!socket.waitForBytesWritten(static_cast<int>(deadline.remainingTime()))) {
             qCWarning(kdsaLocalSocket) << "Message to primary timed out";
             return false;
         }
@@ -168,7 +168,7 @@ bool KDSingleApplicationLocalSocket::sendMessage(const QByteArray &message, int 
         return true;
     }
 
-    if (!socket.waitForDisconnected(deadline.remainingTime())) {
+    if (!socket.waitForDisconnected(static_cast<int>(deadline.remainingTime()))) {
         qCWarning(kdsaLocalSocket) << "Disconnection from primary timed out";
         return false;
     }
