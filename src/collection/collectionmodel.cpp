@@ -693,6 +693,8 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
       QNetworkCacheMetaData disk_cache_metadata;
       disk_cache_metadata.setSaveToDisk(true);
       disk_cache_metadata.setUrl(disk_cache_key);
+      // Qt 6 now ignores any entry without headers, so add a fake header.
+      disk_cache_metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray(), QByteArray()));
       QIODevice *device_iconcache = sIconCache->prepare(disk_cache_metadata);
       if (device_iconcache) {
         result.image_scaled.save(device_iconcache, "XPM");
