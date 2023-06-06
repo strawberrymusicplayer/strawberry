@@ -186,7 +186,7 @@ void KDSingleApplicationLocalSocket::handleNewConnection()
     while ((socket = m_localServer->nextPendingConnection())) {
         qCDebug(kdsaLocalSocket) << "Got new connection on" << m_socketName << "state" << socket->state();
 
-        Connection c(std::move(socket));
+        Connection c(socket);
         socket = c.socket.get();
 
         c.readDataConnection = QObjectConnectionHolder(
