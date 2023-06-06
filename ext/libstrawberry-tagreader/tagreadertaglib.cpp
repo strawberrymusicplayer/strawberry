@@ -1300,7 +1300,7 @@ void TagReaderTagLib::SetEmbeddedArt(TagLib::MP4::File *aac_file, TagLib::MP4::T
     if (tag->contains("covr")) tag->removeItem("covr");
   }
   else {
-    TagLib::MP4::CoverArt::Format cover_format;
+    TagLib::MP4::CoverArt::Format cover_format = TagLib::MP4::CoverArt::Format::JPEG;
     if (mime_type == "image/jpeg") {
       cover_format = TagLib::MP4::CoverArt::Format::JPEG;
     }
