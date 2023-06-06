@@ -1156,27 +1156,27 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
 
   d->init_from_file_ = true;
   d->valid_ = pb.valid();
-  set_title(QString::fromUtf8(pb.title().data(), pb.title().size()));
-  set_album(QString::fromUtf8(pb.album().data(), pb.album().size()));
-  set_artist(QString::fromUtf8(pb.artist().data(), pb.artist().size()));
-  set_albumartist(QString::fromUtf8(pb.albumartist().data(), pb.albumartist().size()));
+  set_title(QString::fromUtf8(pb.title().data(), static_cast<qint64>(pb.title().size())));
+  set_album(QString::fromUtf8(pb.album().data(), static_cast<qint64>(pb.album().size())));
+  set_artist(QString::fromUtf8(pb.artist().data(), static_cast<qint64>(pb.artist().size())));
+  set_albumartist(QString::fromUtf8(pb.albumartist().data(), static_cast<qint64>(pb.albumartist().size())));
   d->track_ = pb.track();
   d->disc_ = pb.disc();
   d->year_ = pb.year();
   d->originalyear_ = pb.originalyear();
-  d->genre_ = QString::fromUtf8(pb.genre().data(), pb.genre().size());
+  d->genre_ = QString::fromUtf8(pb.genre().data(), static_cast<qint64>(pb.genre().size()));
   d->compilation_ = pb.compilation();
-  d->composer_ = QString::fromUtf8(pb.composer().data(), pb.composer().size());
-  d->performer_ = QString::fromUtf8(pb.performer().data(), pb.performer().size());
-  d->grouping_ = QString::fromUtf8(pb.grouping().data(), pb.grouping().size());
-  d->comment_ = QString::fromUtf8(pb.comment().data(), pb.comment().size());
-  d->lyrics_ = QString::fromUtf8(pb.lyrics().data(), pb.lyrics().size());
+  d->composer_ = QString::fromUtf8(pb.composer().data(), static_cast<qint64>(pb.composer().size()));
+  d->performer_ = QString::fromUtf8(pb.performer().data(), static_cast<qint64>(pb.performer().size()));
+  d->grouping_ = QString::fromUtf8(pb.grouping().data(), static_cast<qint64>(pb.grouping().size()));
+  d->comment_ = QString::fromUtf8(pb.comment().data(), static_cast<qint64>(pb.comment().size()));
+  d->lyrics_ = QString::fromUtf8(pb.lyrics().data(), static_cast<qint64>(pb.lyrics().size()));
   set_length_nanosec(static_cast<qint64>(pb.length_nanosec()));
   d->bitrate_ = pb.bitrate();
   d->samplerate_ = pb.samplerate();
   d->bitdepth_ = pb.bitdepth();
   set_url(QUrl::fromEncoded(QByteArray(pb.url().data(), static_cast<qint64>(pb.url().size()))));
-  d->basefilename_ = QString::fromUtf8(pb.basefilename().data(), pb.basefilename().size());
+  d->basefilename_ = QString::fromUtf8(pb.basefilename().data(), static_cast<qint64>(pb.basefilename().size()));
   d->filetype_ = static_cast<FileType>(pb.filetype());
   d->filesize_ = pb.filesize();
   d->mtime_ = pb.mtime();
@@ -1194,19 +1194,19 @@ void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
 
   d->art_embedded_ = pb.has_art_embedded();
 
-  d->acoustid_id_ = QString::fromUtf8(pb.acoustid_id().data(), pb.acoustid_id().size());
-  d->acoustid_fingerprint_ = QString::fromUtf8(pb.acoustid_fingerprint().data(), pb.acoustid_fingerprint().size());
+  d->acoustid_id_ = QString::fromUtf8(pb.acoustid_id().data(), static_cast<qint64>(pb.acoustid_id().size()));
+  d->acoustid_fingerprint_ = QString::fromUtf8(pb.acoustid_fingerprint().data(), static_cast<qint64>(pb.acoustid_fingerprint().size()));
 
-  d->musicbrainz_album_artist_id_ = QString::fromUtf8(pb.musicbrainz_album_artist_id().data(), pb.musicbrainz_album_artist_id().size());
-  d->musicbrainz_artist_id_ = QString::fromUtf8(pb.musicbrainz_artist_id().data(), pb.musicbrainz_artist_id().size());
-  d->musicbrainz_original_artist_id_ = QString::fromUtf8(pb.musicbrainz_original_artist_id().data(), pb.musicbrainz_original_artist_id().size());
-  d->musicbrainz_album_id_ = QString::fromUtf8(pb.musicbrainz_album_id().data(), pb.musicbrainz_album_id().size());
-  d->musicbrainz_original_album_id_ = QString::fromUtf8(pb.musicbrainz_original_album_id().data(), pb.musicbrainz_original_album_id().size());
-  d->musicbrainz_recording_id_ = QString::fromUtf8(pb.musicbrainz_recording_id().data(), pb.musicbrainz_recording_id().size());
-  d->musicbrainz_track_id_ = QString::fromUtf8(pb.musicbrainz_track_id().data(), pb.musicbrainz_track_id().size());
-  d->musicbrainz_disc_id_ = QString::fromUtf8(pb.musicbrainz_disc_id().data(), pb.musicbrainz_disc_id().size());
-  d->musicbrainz_release_group_id_ = QString::fromUtf8(pb.musicbrainz_release_group_id().data(), pb.musicbrainz_release_group_id().size());
-  d->musicbrainz_work_id_ = QString::fromUtf8(pb.musicbrainz_work_id().data(), pb.musicbrainz_work_id().size());
+  d->musicbrainz_album_artist_id_ = QString::fromUtf8(pb.musicbrainz_album_artist_id().data(), static_cast<qint64>(pb.musicbrainz_album_artist_id().size()));
+  d->musicbrainz_artist_id_ = QString::fromUtf8(pb.musicbrainz_artist_id().data(), static_cast<qint64>(pb.musicbrainz_artist_id().size()));
+  d->musicbrainz_original_artist_id_ = QString::fromUtf8(pb.musicbrainz_original_artist_id().data(), static_cast<qint64>(pb.musicbrainz_original_artist_id().size()));
+  d->musicbrainz_album_id_ = QString::fromUtf8(pb.musicbrainz_album_id().data(), static_cast<qint64>(pb.musicbrainz_album_id().size()));
+  d->musicbrainz_original_album_id_ = QString::fromUtf8(pb.musicbrainz_original_album_id().data(), static_cast<qint64>(pb.musicbrainz_original_album_id().size()));
+  d->musicbrainz_recording_id_ = QString::fromUtf8(pb.musicbrainz_recording_id().data(), static_cast<qint64>(pb.musicbrainz_recording_id().size()));
+  d->musicbrainz_track_id_ = QString::fromUtf8(pb.musicbrainz_track_id().data(), static_cast<qint64>(pb.musicbrainz_track_id().size()));
+  d->musicbrainz_disc_id_ = QString::fromUtf8(pb.musicbrainz_disc_id().data(), static_cast<qint64>(pb.musicbrainz_disc_id().size()));
+  d->musicbrainz_release_group_id_ = QString::fromUtf8(pb.musicbrainz_release_group_id().data(), static_cast<qint64>(pb.musicbrainz_release_group_id().size()));
+  d->musicbrainz_work_id_ = QString::fromUtf8(pb.musicbrainz_work_id().data(), static_cast<qint64>(pb.musicbrainz_work_id().size()));
 
   d->suspicious_tags_ = pb.suspicious_tags();
 

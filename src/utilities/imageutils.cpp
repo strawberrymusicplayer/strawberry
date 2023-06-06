@@ -98,7 +98,7 @@ QImage ImageUtils::ScaleImage(const QImage &image, const QSize desired_size, con
     return image;
   }
 
-  QSize scale_size(desired_size.width() * device_pixel_ratio, desired_size.height() * device_pixel_ratio);
+  QSize scale_size(static_cast<int>(desired_size.width() * device_pixel_ratio), static_cast<int>(desired_size.height() * device_pixel_ratio));
 
   // Scale the image
   QImage image_scaled = image.scaled(scale_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -124,7 +124,7 @@ QImage ImageUtils::ScaleImage(const QImage &image, const QSize desired_size, con
 QImage ImageUtils::GenerateNoCoverImage(const QSize size, const qreal device_pixel_ratio) {
 
   QImage image(":/pictures/cdcase.png");
-  QSize scale_size(size.width() * device_pixel_ratio, size.height() * device_pixel_ratio);
+  QSize scale_size(static_cast<int>(size.width() * device_pixel_ratio), static_cast<int>(size.height() * device_pixel_ratio));
 
   // Get a square version of the nocover image with some transparency:
   QImage image_scaled = image.scaled(scale_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);

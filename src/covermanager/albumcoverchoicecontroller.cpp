@@ -491,13 +491,13 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixm
   if (desktop_width < desktop_height) {
     const int new_width = static_cast<int>(static_cast<double>(desktop_width) * 0.95);
     if (new_width < pixmap.width()) {
-      label->setPixmap(pixmap.scaledToWidth(new_width * pixmap.devicePixelRatioF(), Qt::SmoothTransformation));
+      label->setPixmap(pixmap.scaledToWidth(static_cast<int>(new_width * pixmap.devicePixelRatioF()), Qt::SmoothTransformation));
     }
   }
   else {
     const int new_height = static_cast<int>(static_cast<double>(desktop_height) * 0.85);
     if (new_height < pixmap.height()) {
-      label->setPixmap(pixmap.scaledToHeight(new_height * pixmap.devicePixelRatioF(), Qt::SmoothTransformation));
+      label->setPixmap(pixmap.scaledToHeight(static_cast<int>(new_height * pixmap.devicePixelRatioF()), Qt::SmoothTransformation));
     }
   }
 

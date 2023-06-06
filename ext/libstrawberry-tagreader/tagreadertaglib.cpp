@@ -665,8 +665,8 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
   if (compilation.isEmpty()) {
     // well, it wasn't set, but if the artist is VA assume it's a compilation
-    const QString albumartist = QString::fromUtf8(song->albumartist().data(), song->albumartist().size());
-    const QString artist = QString::fromUtf8(song->artist().data(), song->artist().size());
+    const QString albumartist = QString::fromUtf8(song->albumartist().data(), static_cast<qint64>(song->albumartist().size()));
+    const QString artist = QString::fromUtf8(song->artist().data(), static_cast<qint64>(song->artist().size()));
     if (artist.compare("various artists") == 0 || albumartist.compare("various artists") == 0) {
       song->set_compilation(true);
     }
@@ -830,7 +830,7 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
 
   if (request.filename().empty()) return false;
 
-  const QString filename = QString::fromUtf8(request.filename().data(), request.filename().size());
+  const QString filename = QString::fromUtf8(request.filename().data(), static_cast<qint64>(request.filename().size()));
   const spb::tagreader::SongMetadata song = request.metadata();
   const bool save_tags = request.has_save_tags() && request.save_tags();
   const bool save_playcount = request.has_save_playcount() && request.save_playcount();
@@ -1320,7 +1320,7 @@ bool TagReaderTagLib::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtReque
 
   if (request.filename().empty()) return false;
 
-  const QString filename = QString::fromUtf8(request.filename().data(), request.filename().size());
+  const QString filename = QString::fromUtf8(request.filename().data(), static_cast<qint64>(request.filename().size()));
 
   qLog(Debug) << "Saving art to" << filename;
 

@@ -89,7 +89,7 @@ void ContextAlbum::Init(ContextView *context_view, AlbumCoverChoiceController *a
 
 QSize ContextAlbum::sizeHint() const {
 
-  return QSize(pixmap_current_.width() / devicePixelRatioF(), pixmap_current_.height() / devicePixelRatioF());
+  return QSize(static_cast<int>(pixmap_current_.width() / devicePixelRatioF()), static_cast<int>(pixmap_current_.height() / devicePixelRatioF()));
 
 }
 
@@ -180,7 +180,7 @@ void ContextAlbum::DrawImage(QPainter *p, const QPixmap &pixmap, const qreal opa
   if (qFuzzyCompare(opacity, static_cast<qreal>(0.0))) return;
 
   p->setOpacity(opacity);
-  p->drawPixmap(0, 0, pixmap.width() / pixmap.devicePixelRatioF(), pixmap.height() / pixmap.devicePixelRatioF(), pixmap);
+  p->drawPixmap(0, 0, static_cast<int>(pixmap.width() / pixmap.devicePixelRatioF()), static_cast<int>(pixmap.height() / pixmap.devicePixelRatioF()), pixmap);
 
 }
 

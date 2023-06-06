@@ -63,18 +63,18 @@ TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const spb::tagreader::S
     return Cover();
   }
 
-  const QString song_filename = QString::fromUtf8(request.filename().data(), request.filename().size());
+  const QString song_filename = QString::fromUtf8(request.filename().data(), static_cast<qint64>(request.filename().size()));
   QString cover_filename;
   if (request.has_cover_filename()) {
-    cover_filename = QString::fromUtf8(request.cover_filename().data(), request.cover_filename().size());
+    cover_filename = QString::fromUtf8(request.cover_filename().data(), static_cast<qint64>(request.cover_filename().size()));
   }
   QByteArray cover_data;
   if (request.has_cover_data()) {
-    cover_data = QByteArray(request.cover_data().data(), request.cover_data().size());
+    cover_data = QByteArray(request.cover_data().data(), static_cast<qint64>(request.cover_data().size()));
   }
   QString cover_mime_type;
   if (request.has_cover_mime_type()) {
-    cover_mime_type = QByteArray(request.cover_mime_type().data(), request.cover_mime_type().size());
+    cover_mime_type = QByteArray(request.cover_mime_type().data(), static_cast<qint64>(request.cover_mime_type().size()));
   }
 
   return LoadCoverFromRequest(song_filename, cover_filename, cover_data, cover_mime_type);
@@ -83,18 +83,18 @@ TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const spb::tagreader::S
 
 TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const spb::tagreader::SaveEmbeddedArtRequest &request) {
 
-  const QString song_filename = QString::fromUtf8(request.filename().data(), request.filename().size());
+  const QString song_filename = QString::fromUtf8(request.filename().data(), static_cast<qint64>(request.filename().size()));
   QString cover_filename;
   if (request.has_cover_filename()) {
-    cover_filename = QString::fromUtf8(request.cover_filename().data(), request.cover_filename().size());
+    cover_filename = QString::fromUtf8(request.cover_filename().data(), static_cast<qint64>(request.cover_filename().size()));
   }
   QByteArray cover_data;
   if (request.has_cover_data()) {
-    cover_data = QByteArray(request.cover_data().data(), request.cover_data().size());
+    cover_data = QByteArray(request.cover_data().data(), static_cast<qint64>(request.cover_data().size()));
   }
   QString cover_mime_type;
   if (request.has_cover_mime_type()) {
-    cover_mime_type = QByteArray(request.cover_mime_type().data(), request.cover_mime_type().size());
+    cover_mime_type = QByteArray(request.cover_mime_type().data(), static_cast<qint64>(request.cover_mime_type().size()));
   }
 
   return LoadCoverFromRequest(song_filename, cover_filename, cover_data, cover_mime_type);
