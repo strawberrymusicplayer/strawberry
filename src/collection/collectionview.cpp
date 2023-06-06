@@ -117,7 +117,7 @@ void CollectionView::SaveFocus() {
 
   QModelIndex current = currentIndex();
   QVariant type = model()->data(current, CollectionModel::Role_Type);
-  if (!type.isValid() || !(type.toInt() == CollectionItem::Type_Song || type.toInt() == CollectionItem::Type_Container || type.toInt() == CollectionItem::Type_Divider)) {
+  if (!type.isValid() || (type.toInt() != CollectionItem::Type_Song && type.toInt() != CollectionItem::Type_Container && type.toInt() != CollectionItem::Type_Divider)) {
     return;
   }
 
@@ -154,7 +154,7 @@ void CollectionView::SaveContainerPath(const QModelIndex &child) {
 
   QModelIndex current = model()->parent(child);
   QVariant type = model()->data(current, CollectionModel::Role_Type);
-  if (!type.isValid() || !(type.toInt() == CollectionItem::Type_Container || type.toInt() == CollectionItem::Type_Divider)) {
+  if (!type.isValid() || (type.toInt() != CollectionItem::Type_Container && type.toInt() != CollectionItem::Type_Divider)) {
     return;
   }
 

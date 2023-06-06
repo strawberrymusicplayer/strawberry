@@ -792,7 +792,7 @@ void BackendSettingsPage::FadingOptionsChanged() {
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   if (engine()->type() == EngineBase::Type::GStreamer &&
-      !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty() && (ui_->lineedit_device->text().contains(QRegularExpression("^hw:.*")) || ui_->lineedit_device->text().contains(QRegularExpression("^plughw:.*"))))) {
+      (!engine()->ALSADeviceSupport(output.name) || ui_->lineedit_device->text().isEmpty() || (!ui_->lineedit_device->text().contains(QRegularExpression("^hw:.*")) && !ui_->lineedit_device->text().contains(QRegularExpression("^plughw:.*"))))) {
     ui_->groupbox_fading->setEnabled(true);
   }
   else {
