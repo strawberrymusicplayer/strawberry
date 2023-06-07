@@ -139,12 +139,13 @@ jobs:
             /usr/src/packages/SRPMS/*.rpm
             /usr/src/packages/RPMS/x86_64/*.rpm
       - name: SSH key setup
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
       - name: Create server path
-        if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/source ${{secrets.BUILDS_PATH}}/opensuse/${{env.opensuse_subdir}}
       - name: rsync source
         if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version == 'tumbleweed' && matrix.qt_version == 'qt6'
@@ -258,6 +259,7 @@ jobs:
             /github/home/rpmbuild/SRPMS/*.rpm
             /github/home/rpmbuild/RPMS/x86_64/*.rpm
       - name: SSH key setup
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
@@ -364,6 +366,7 @@ jobs:
             /github/home/rpmbuild/SRPMS/*.rpm
             /github/home/rpmbuild/RPMS/x86_64/*.rpm
       - name: SSH key setup
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
@@ -463,6 +466,7 @@ jobs:
             /github/home/rpmbuild/SRPMS/*.rpm
             /github/home/rpmbuild/RPMS/x86_64/*.rpm
       - name: SSH key setup
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
@@ -556,6 +560,7 @@ jobs:
           name: debian-${{matrix.debian_version}}
           path: "*.deb"
       - name: SSH key setup
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
@@ -654,6 +659,7 @@ jobs:
             *.deb
             *.ddeb
       - name: SSH key setup
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
@@ -909,6 +915,7 @@ jobs:
           path: build/*.dmg
 
       - name: SSH key setup
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
@@ -1181,6 +1188,7 @@ jobs:
           path: build/StrawberrySetup*.exe
 
       - name: SSH key setup
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
