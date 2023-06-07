@@ -620,9 +620,6 @@
    <property name="text">
     <string>Edit tag...</string>
    </property>
-   <property name="shortcut">
-    <string>F2</string>
-   </property>
   </action>
   <action name="action_settings">
    <property name="text">
