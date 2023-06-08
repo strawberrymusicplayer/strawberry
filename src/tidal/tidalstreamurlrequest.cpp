@@ -173,11 +173,9 @@ void TidalStreamURLRequest::StreamURLReceived() {
     emit StreamURLFailure(id_, media_url_, errors_.first());
     return;
   }
-  int track_id(json_obj["trackId"].toInt());
+  int track_id = json_obj["trackId"].toInt();
   if (track_id != song_id_) {
-    Error("Incorrect track ID returned.", json_obj);
-    emit StreamURLFailure(id_, media_url_, errors_.first());
-    return;
+    qLog(Debug) << "Tidal returned track ID" << track_id << "for" << media_url_;
   }
 
   Song::FileType filetype(Song::FileType::Stream);
