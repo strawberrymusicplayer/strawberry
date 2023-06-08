@@ -15,6 +15,12 @@ Unreleased:
     * Fixed listenbrainz scrobbling for songs with multiple artist mbids.
     * Fixed listenbrainz scrobbling for songs without duration.
     * Fixed gapless playback sometimes not working.
+    * Fixed writing PNG images as embedded covers (#1209).
+    * Fixed greyscale album covers not working in OSD D-Bus (#1205).
+    * Fixed collection thumbnail disk cache with Qt 6.5.1 and newer.
+    * Fixed moodbar disk cache with Qt 6.5.1 and newer.
+    * Fixed playlist edit tag F2 shortcut only working for title tag (#1210).
+    * Append number to filename if the destination file already exist when transcoding audio (#1200).
     * (macOS) Fixed "Show this message" checkbox having no affect on Rosetta warning dialog (#1180).
     * (macOS) Disable unused D-Bus.
     * (Windows) Fixed command line options not working with diacritics (#1191).
@@ -26,6 +32,11 @@ Unreleased:
     * Reduce NetworkAccessManager instances.
     * Replace SingleApplication with KDSingleApplication.
     * Require Qt 5.12 or higher.
+    * Add new database fields for art_embedded and art_unset.
+    * Rewrite album cover loader.
+    * Move cover filename settings from collection to covers settings.
+    * Add setting to set priorities for album cover types.
+    * (Windows|MSVC) Add WSAPI2 plugin.
 
 Version 1.0.17 (2023.03.29):
 
