@@ -40,7 +40,14 @@ static constexpr auto LOCALSOCKET_CONNECTION_TIMEOUT = std::chrono::seconds(5);
 static constexpr char LOCALSOCKET_PROTOCOL_VERSION = 2;
 }  // namespace
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
+#endif
 Q_LOGGING_CATEGORY(kdsaLocalSocket, "kdsingleapplication.localsocket", QtWarningMsg)
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 KDSingleApplicationLocalSocket::KDSingleApplicationLocalSocket(const QString &name, QObject *parent)
     : QObject(parent)
