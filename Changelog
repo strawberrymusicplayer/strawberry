@@ -36,6 +36,7 @@ Unreleased:
     * Rewrite album cover loader.
     * Move cover filename settings from collection to covers settings.
     * Add setting to set priorities for album cover types.
+    * Add rating filtering to playlist search (#1212).
     * (Windows|MSVC) Add WSAPI2 plugin.
 
 Version 1.0.17 (2023.03.29):
