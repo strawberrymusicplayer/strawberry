@@ -261,10 +261,14 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
   [self setDelegate:delegate_];
 
   // FIXME
+#ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
   [[NSUserNotificationCenter defaultUserNotificationCenter]setDelegate:delegate_];
+#ifdef __GNUC__
 #pragma GCC diagnostic pop
+#endif
 
 }
 

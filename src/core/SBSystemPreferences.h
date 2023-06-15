@@ -13,9 +13,11 @@
     SBSystemPreferencesWindow, SBSystemPreferencesPane,
     SBSystemPreferencesAnchor;
 
+#ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmultichar"
 #pragma GCC diagnostic ignored "-Wfour-char-constants"
+#endif
 
 enum SBSystemPreferencesSaveOptions {
   SBSystemPreferencesSaveOptionsYes = 'yes ' /* Save the file. */,
@@ -32,7 +34,9 @@ enum SBSystemPreferencesPrintingErrorHandling {
       'lwdt' /* print a detailed report of PostScript errors */
 };
 
+#ifdef __GNUC__
 #pragma GCC diagnostic pop
+#endif
 
 typedef enum SBSystemPreferencesPrintingErrorHandling
     SBSystemPreferencesPrintingErrorHandling;
