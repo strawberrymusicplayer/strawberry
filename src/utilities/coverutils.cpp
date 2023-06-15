@@ -21,6 +21,7 @@
 #include <QString>
 #include <QRegularExpression>
 #include <QUrl>
+#include <QFileInfo>
 #include <QDir>
 #include <QStandardPaths>
 #include <QCryptographicHash>
@@ -80,7 +81,7 @@ QString CoverUtils::CoverFilePath(const CoverOptions &options, const Song::Sourc
   }
 
   QDir dir;
-  if (!dir.mkpath(path)) {
+  if (!QFileInfo::exists(path) && !dir.mkpath(path)) {
     qLog(Error) << "Unable to create directory" << path;
     path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
   }
