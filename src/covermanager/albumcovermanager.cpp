@@ -823,7 +823,9 @@ void AlbumCoverManager::UnsetCover() {
   for (QListWidgetItem *list_widget_item : context_menu_items_) {
     AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
     album_item->setIcon(icon_nocover_item_);
+    album_item->setData(Role_ArtEmbedded, false);
     album_item->setData(Role_ArtManual, QUrl());
+    album_item->setData(Role_ArtAutomatic, QUrl());
     album_item->setData(Role_ArtUnset, true);
 
     Song current_song = AlbumItemAsSong(album_item);
@@ -843,6 +845,7 @@ void AlbumCoverManager::ClearCover() {
     album_item->setData(Role_ArtEmbedded, false);
     album_item->setData(Role_ArtAutomatic, QUrl());
     album_item->setData(Role_ArtManual, QUrl());
+    album_item->setData(Role_ArtUnset, false);
 
     Song current_song = AlbumItemAsSong(album_item);
     album_cover_choice_controller_->ClearAlbumCoverForSong(&current_song);
@@ -857,7 +860,7 @@ void AlbumCoverManager::DeleteCover() {
     Song song = AlbumItemAsSong(album_item);
     album_cover_choice_controller_->DeleteCover(&song);
     album_item->setIcon(icon_nocover_item_);
-    album_item->setData(Role_ArtEmbedded, QUrl());
+    album_item->setData(Role_ArtEmbedded, false);
     album_item->setData(Role_ArtManual, QUrl());
     album_item->setData(Role_ArtAutomatic, QUrl());
   }
