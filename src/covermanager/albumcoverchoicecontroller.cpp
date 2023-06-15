@@ -642,7 +642,7 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song *song, cons
                                   song->effective_albumartist(),
                                   song->effective_album(),
                                   song->album_id(),
-                                  song->url().adjusted(QUrl::RemoveFilename).path(),
+                                  QFileInfo(song->url().toLocalFile()).path(),
                                   result,
                                   force_overwrite);
 

@@ -33,6 +33,7 @@
 #include <QScreen>
 #include <QItemSelectionModel>
 #include <QListWidgetItem>
+#include <QFileInfo>
 #include <QFile>
 #include <QSet>
 #include <QVariant>
@@ -965,7 +966,7 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *album_item, const AlbumCoverI
       cover_url = result.cover_url;
     }
     else if (!result.image_data.isEmpty() || !result.image.isNull()) {
-      cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(Song::Source::Collection, albumartist, album, QString(), urls.first().adjusted(QUrl::RemoveFilename).path(), result, false);
+      cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(Song::Source::Collection, albumartist, album, QString(), QFileInfo(urls.first().toLocalFile()).path(), result, false);
     }
 
     if (cover_url.isEmpty()) return;
