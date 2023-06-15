@@ -713,7 +713,7 @@ void EditTagDialog::SelectionChanged() {
     album_cover_choice_controller_->cover_from_url_action()->setEnabled(enable_change_art);
     album_cover_choice_controller_->search_for_cover_action()->setEnabled(app_->cover_providers()->HasAnyProviders() && enable_change_art);
     album_cover_choice_controller_->unset_cover_action()->setEnabled(enable_change_art && !first_song.art_unset());
-    album_cover_choice_controller_->clear_cover_action()->setEnabled(enable_change_art && !first_song.art_manual().isEmpty());
+    album_cover_choice_controller_->clear_cover_action()->setEnabled(enable_change_art && (!first_song.art_manual().isEmpty() || first_song.art_unset()));
     album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && (first_song.art_embedded() || !first_song.art_automatic().isEmpty() || !first_song.art_manual().isEmpty()));
     AlbumCoverLoaderOptions cover_options(AlbumCoverLoaderOptions::Option::RawImageData | AlbumCoverLoaderOptions::Option::OriginalImage | AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
     cover_options.types = cover_types_;
