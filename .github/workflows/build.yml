@@ -485,7 +485,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        debian_version: [ 'bullseye', 'bookworm' ]
+        debian_version: [ 'bullseye', 'bookworm', 'trixie' ]
     container:
       image: debian:${{matrix.debian_version}}
     steps:
