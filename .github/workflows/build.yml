@@ -278,7 +278,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        openmandriva_version: [ "4.2" ]
+        openmandriva_version: [ "cooker" ]
     container:
       image: openmandriva/${{matrix.openmandriva_version}}
     steps:
@@ -366,16 +366,16 @@ jobs:
             /github/home/rpmbuild/SRPMS/*.rpm
             /github/home/rpmbuild/RPMS/x86_64/*.rpm
       - name: SSH key setup
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        if: matrix.openmandriva_version != 'cooker' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
       - name: Create server path
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        if: matrix.openmandriva_version != 'cooker' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/openmandriva/${{matrix.openmandriva_version}}
       - name: rsync
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
+        if: matrix.openmandriva_version != 'cooker' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /github/home/rpmbuild/SRPMS/*.rpm /github/home/rpmbuild/RPMS/x86_64/*.rpm ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/openmandriva/${{matrix.openmandriva_version}}/
 
 
@@ -1562,7 +1562,6 @@ jobs:
     needs:
       - build-opensuse
       - build-fedora
-      - build-openmandriva
       - build-mageia
       - build-debian
       - build-ubuntu
