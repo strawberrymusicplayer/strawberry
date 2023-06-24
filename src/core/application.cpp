@@ -58,7 +58,6 @@
 #include "covermanager/spotifycoverprovider.h"
 
 #include "lyrics/lyricsproviders.h"
-#include "lyrics/auddlyricsprovider.h"
 #include "lyrics/geniuslyricsprovider.h"
 #include "lyrics/ovhlyricsprovider.h"
 #include "lyrics/lololyricsprovider.h"
@@ -157,7 +156,6 @@ class ApplicationImpl {
         lyrics_providers_([app]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           // Initialize the repository of lyrics providers.
-          lyrics_providers->AddProvider(new AuddLyricsProvider(app->network(), app));
           lyrics_providers->AddProvider(new GeniusLyricsProvider(app->network(), app));
           lyrics_providers->AddProvider(new OVHLyricsProvider(app->network(), app));
           lyrics_providers->AddProvider(new LoloLyricsProvider(app->network(), app));
