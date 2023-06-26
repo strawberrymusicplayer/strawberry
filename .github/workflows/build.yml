@@ -773,7 +773,7 @@ jobs:
         fetch-depth: 0
     - name: Build FreeBSD
       id: build-freebsd
-      uses: vmactions/freebsd-vm@v0.3.0
+      uses: vmactions/freebsd-vm@v0.3.1
       with:
         usesh: true
         mem: 4096
