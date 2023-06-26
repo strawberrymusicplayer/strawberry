@@ -35,7 +35,7 @@
 #include "core/scopedtransaction.h"
 #include "devicedatabasebackend.h"
 
-const int DeviceDatabaseBackend::kDeviceSchemaVersion = 3;
+const int DeviceDatabaseBackend::kDeviceSchemaVersion = 4;
 
 DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent)
     : QObject(parent),
