@@ -68,6 +68,9 @@ class BackendSettingsPage : public SettingsPage {
   void DeviceStringChanged();
   void RgPreampChanged(const int value);
   void RgFallbackGainChanged(const int value);
+#ifdef HAVE_GSTREAMER
+  void EbuR128TargetLevelChanged(const int value);
+#endif
   void radiobutton_alsa_hw_clicked(const bool checked);
   void radiobutton_alsa_plughw_clicked(const bool checked);
   void radiobutton_alsa_pcm_clicked(const bool checked);
