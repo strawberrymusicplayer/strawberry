@@ -74,6 +74,8 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent
   ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).horizontalAdvance("-WW.W dB"));
   ui_->label_replaygainfallbackgain->setMinimumWidth(QFontMetrics(ui_->label_replaygainfallbackgain->font()).horizontalAdvance("-WW.W dB"));
 
+  ui_->label_ebur128_target_level->setMinimumWidth(QFontMetrics(ui_->label_ebur128_target_level->font()).horizontalAdvance("-WW.W LUFS"));
+
   QObject::connect(ui_->combobox_engine, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &BackendSettingsPage::EngineChanged);
   QObject::connect(ui_->combobox_output, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &BackendSettingsPage::OutputChanged);
   QObject::connect(ui_->combobox_device, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &BackendSettingsPage::DeviceSelectionChanged);
@@ -85,6 +87,9 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent
 #endif
   QObject::connect(ui_->stickyslider_replaygainpreamp, &StickySlider::valueChanged, this, &BackendSettingsPage::RgPreampChanged);
   QObject::connect(ui_->stickyslider_replaygainfallbackgain, &StickySlider::valueChanged, this, &BackendSettingsPage::RgFallbackGainChanged);
+#ifdef HAVE_GSTREAMER
+  QObject::connect(ui_->stickyslider_ebur128_target_level, &StickySlider::valueChanged, this, &BackendSettingsPage::EbuR128TargetLevelChanged);
+#endif
   QObject::connect(ui_->checkbox_fadeout_stop, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
   QObject::connect(ui_->checkbox_fadeout_cross, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
   QObject::connect(ui_->checkbox_fadeout_auto, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
@@ -161,11 +166,20 @@ void BackendSettingsPage::Load() {
   ui_->spinbox_low_watermark->setValue(s.value("bufferlowwatermark", kDefaultBufferLowWatermark).toDouble());
   ui_->spinbox_high_watermark->setValue(s.value("bufferhighwatermark", kDefaultBufferHighWatermark).toDouble());
 
-  ui_->checkbox_replaygain->setChecked(s.value("rgenabled", false).toBool());
+  ui_->radiobutton_replaygain->setChecked(s.value("rgenabled", false).toBool());
   ui_->combobox_replaygainmode->setCurrentIndex(s.value("rgmode", 0).toInt());
   ui_->stickyslider_replaygainpreamp->setValue(static_cast<int>(s.value("rgpreamp", 0.0).toDouble() * 10 + 600));
   ui_->checkbox_replaygaincompression->setChecked(s.value("rgcompression", true).toBool());
   ui_->stickyslider_replaygainfallbackgain->setValue(static_cast<int>(s.value("rgfallbackgain", 0.0).toDouble() * 10 + 600));
+
+#ifdef HAVE_GSTREAMER
+  ui_->groupbox_ebur128->show();
+#else
+  ui_->groupbox_ebur128->hide();
+#endif
+
+  ui_->radiobutton_ebur128_loudness_normalization->setChecked(s.value("ebur128_loudness_normalization", false).toBool());
+  ui_->stickyslider_ebur128_target_level->setValue(static_cast<int>(s.value("ebur128_target_level_lufs", -23.0).toDouble() * 10));
 
 #ifdef HAVE_ALSA
   bool fade_default = false;
@@ -196,6 +210,10 @@ void BackendSettingsPage::Load() {
   FadingOptionsChanged();
   RgPreampChanged(ui_->stickyslider_replaygainpreamp->value());
   RgFallbackGainChanged(ui_->stickyslider_replaygainfallbackgain->value());
+
+#ifdef HAVE_GSTREAMER
+  EbuR128TargetLevelChanged(ui_->stickyslider_ebur128_target_level->value());
+#endif
 
   Init(ui_->layout_backendsettingspage->parentWidget());
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
@@ -251,6 +269,7 @@ void BackendSettingsPage::Load_Engine(const EngineBase::Type enginetype) {
   ui_->lineedit_device->clear();
 
   ui_->groupbox_replaygain->setEnabled(false);
+  ui_->groupbox_ebur128->setEnabled(false);
 
   if (engine()->type() != enginetype) {
     qLog(Debug) << "Switching engine.";
@@ -304,10 +323,12 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   if (engine()->type() == EngineBase::Type::GStreamer) {
     ui_->groupbox_buffer->setEnabled(true);
     ui_->groupbox_replaygain->setEnabled(true);
+    ui_->groupbox_ebur128->setEnabled(true);
   }
   else {
     ui_->groupbox_buffer->setEnabled(false);
     ui_->groupbox_replaygain->setEnabled(false);
+    ui_->groupbox_ebur128->setEnabled(false);
   }
 
   if (ui_->combobox_output->count() >= 1) Load_Device(output, device);
@@ -474,11 +495,14 @@ void BackendSettingsPage::Save() {
   s.setValue("bufferlowwatermark", ui_->spinbox_low_watermark->value());
   s.setValue("bufferhighwatermark", ui_->spinbox_high_watermark->value());
 
-  s.setValue("rgenabled", ui_->checkbox_replaygain->isChecked());
+  s.setValue("rgenabled", ui_->radiobutton_replaygain->isChecked());
   s.setValue("rgmode", ui_->combobox_replaygainmode->currentIndex());
   s.setValue("rgpreamp", static_cast<double>(ui_->stickyslider_replaygainpreamp->value()) / 10 - 60);
   s.setValue("rgfallbackgain", static_cast<double>(ui_->stickyslider_replaygainfallbackgain->value()) / 10 - 60);
   s.setValue("rgcompression", ui_->checkbox_replaygaincompression->isChecked());
+
+  s.setValue("ebur128_loudness_normalization", ui_->radiobutton_ebur128_loudness_normalization->isChecked());
+  s.setValue("ebur128_target_level_lufs", static_cast<double>(ui_->stickyslider_ebur128_target_level->value()) / 10);
 
   s.setValue("FadeoutEnabled", ui_->checkbox_fadeout_stop->isChecked());
   s.setValue("CrossfadeEnabled", ui_->checkbox_fadeout_cross->isChecked());
@@ -637,6 +661,16 @@ void BackendSettingsPage::RgFallbackGainChanged(const int value) {
   ui_->label_replaygainfallbackgain->setText(db_str);
 
 }
+
+#ifdef HAVE_GSTREAMER
+void BackendSettingsPage::EbuR128TargetLevelChanged(const int value) {
+
+  double db = static_cast<double>(value) / 10;
+  QString db_str = QString::asprintf("%+.1f LUFS", db);
+  ui_->label_ebur128_target_level->setText(db_str);
+
+}
+#endif
 
 #ifdef HAVE_ALSA
 void BackendSettingsPage::SwitchALSADevices(const ALSAPluginType alsa_plugin_type) {

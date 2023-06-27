@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>583</width>
-    <height>1097</height>
+    <width>717</width>
+    <height>1245</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -409,131 +409,235 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupbox_replaygain">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
+    <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>Replay Gain</string>
+      <string>Audio normalization</string>
      </property>
-     <layout class="QVBoxLayout" name="layout_replay_gain">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QCheckBox" name="checkbox_replaygain">
-        <property name="enabled">
+       <widget class="QRadioButton" name="radiobutton_no_audio_normalization">
+        <property name="text">
+         <string>No audio normalization</string>
+        </property>
+        <property name="checked">
          <bool>true</bool>
         </property>
-        <property name="text">
-         <string>Use Replay Gain metadata if it is available</string>
-        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup_audio_normalization</string>
+        </attribute>
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="widget_replaygain" native="true">
+       <widget class="QGroupBox" name="groupbox_replaygain">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
-        <layout class="QFormLayout" name="formLayout_4">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_regainmode">
-           <property name="text">
-            <string>Replay Gain mode</string>
+        <property name="title">
+         <string>Replay Gain</string>
+        </property>
+        <layout class="QVBoxLayout" name="layout_replay_gain">
+         <item>
+          <widget class="QRadioButton" name="radiobutton_replaygain">
+           <property name="enabled">
+            <bool>true</bool>
            </property>
+           <property name="text">
+            <string>Use Replay Gain metadata if it is available</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroup_audio_normalization</string>
+           </attribute>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="combobox_replaygainmode">
-           <item>
-            <property name="text">
-             <string>Radio (equal loudness for all tracks)</string>
+         <item>
+          <widget class="QWidget" name="widget_replaygain" native="true">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <layout class="QFormLayout" name="formLayout_4">
+            <property name="leftMargin">
+             <number>0</number>
             </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Album (ideal loudness for all tracks)</string>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-           </item>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_regainmode">
+              <property name="text">
+               <string>Replay Gain mode</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="combobox_replaygainmode">
+              <item>
+               <property name="text">
+                <string>Radio (equal loudness for all tracks)</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Album (ideal loudness for all tracks)</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_preamp">
+              <property name="text">
+               <string>Pre-amp</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <layout class="QHBoxLayout" name="layout_replayagainpreamp">
+              <item>
+               <widget class="QLabel" name="label_replaygainpreamp"/>
+              </item>
+              <item>
+               <widget class="StickySlider" name="stickyslider_replaygainpreamp">
+                <property name="maximum">
+                 <number>1200</number>
+                </property>
+                <property name="value">
+                 <number>600</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sticky_center" stdset="0">
+                 <number>600</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="4" column="0" colspan="2">
+             <widget class="QCheckBox" name="checkbox_replaygaincompression">
+              <property name="text">
+               <string>Apply compression to prevent clipping</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <layout class="QHBoxLayout" name="layout_replaygainfallbackgain">
+              <item>
+               <widget class="QLabel" name="label_replaygainfallbackgain"/>
+              </item>
+              <item>
+               <widget class="StickySlider" name="stickyslider_replaygainfallbackgain">
+                <property name="minimum">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <number>1200</number>
+                </property>
+                <property name="value">
+                 <number>600</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sticky_center" stdset="0">
+                 <number>600</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_fallbackgain">
+              <property name="text">
+               <string>Fallback-gain</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_preamp">
-           <property name="text">
-            <string>Pre-amp</string>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupbox_ebur128">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="title">
+         <string>EBU R 128 Loudness Normalization</string>
+        </property>
+        <layout class="QVBoxLayout" name="layout_ebur128">
+         <item>
+          <widget class="QRadioButton" name="radiobutton_ebur128_loudness_normalization">
+           <property name="enabled">
+            <bool>true</bool>
            </property>
+           <property name="text">
+            <string>Perform track loudness normalization</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroup_audio_normalization</string>
+           </attribute>
           </widget>
          </item>
-         <item row="1" column="1">
-          <layout class="QHBoxLayout" name="layout_replayagainpreamp">
-           <item>
-            <widget class="QLabel" name="label_replaygainpreamp"/>
-           </item>
-           <item>
-            <widget class="StickySlider" name="stickyslider_replaygainpreamp">
-             <property name="maximum">
-              <number>1200</number>
-             </property>
-             <property name="value">
-              <number>600</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sticky_center" stdset="0">
-              <number>600</number>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="4" column="0" colspan="2">
-          <widget class="QCheckBox" name="checkbox_replaygaincompression">
-           <property name="text">
-            <string>Apply compression to prevent clipping</string>
+         <item>
+          <widget class="QWidget" name="widget_ebur128" native="true">
+           <property name="enabled">
+            <bool>false</bool>
            </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <layout class="QHBoxLayout" name="layout_replaygainfallbackgain">
-           <item>
-            <widget class="QLabel" name="label_replaygainfallbackgain"/>
-           </item>
-           <item>
-            <widget class="StickySlider" name="stickyslider_replaygainfallbackgain">
-             <property name="minimum">
-              <number>0</number>
-             </property>
-             <property name="maximum">
-              <number>1200</number>
-             </property>
-             <property name="value">
-              <number>600</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sticky_center" stdset="0">
-              <number>600</number>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_fallbackgain">
-           <property name="text">
-            <string>Fallback-gain</string>
-           </property>
+           <layout class="QFormLayout" name="formLayout_ebur128">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_ebur128_target_level_label">
+              <property name="text">
+               <string>Target Level</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <layout class="QHBoxLayout" name="layout_ebur128_target_level">
+              <item>
+               <widget class="QLabel" name="label_ebur128_target_level"/>
+              </item>
+              <item>
+               <widget class="StickySlider" name="stickyslider_ebur128_target_level">
+                <property name="minimum">
+                 <number>-480</number>
+                </property>
+                <property name="maximum">
+                 <number>0</number>
+                </property>
+                <property name="value">
+                 <number>-230</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sticky_center" stdset="0">
+                 <number>-230</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
@@ -735,7 +839,7 @@
   <tabstop>spinbox_low_watermark</tabstop>
   <tabstop>spinbox_high_watermark</tabstop>
   <tabstop>button_buffer_defaults</tabstop>
-  <tabstop>checkbox_replaygain</tabstop>
+  <tabstop>radiobutton_replaygain</tabstop>
   <tabstop>combobox_replaygainmode</tabstop>
   <tabstop>stickyslider_replaygainpreamp</tabstop>
   <tabstop>stickyslider_replaygainfallbackgain</tabstop>
@@ -751,20 +855,43 @@
  <resources/>
  <connections>
   <connection>
-   <sender>checkbox_replaygain</sender>
+   <sender>radiobutton_ebur128_loudness_normalization</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>widget_ebur128</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>429</x>
+     <y>835</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>429</x>
+     <y>890</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radiobutton_replaygain</sender>
    <signal>toggled(bool)</signal>
    <receiver>widget_replaygain</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>110</x>
-     <y>465</y>
+     <x>429</x>
+     <y>640</y>
     </hint>
     <hint type="destinationlabel">
-     <x>164</x>
-     <y>573</y>
+     <x>429</x>
+     <y>717</y>
     </hint>
    </hints>
   </connection>
  </connections>
+ <buttongroups>
+  <buttongroup name="buttonGroup_audio_normalization">
+   <property name="exclusive">
+    <bool>true</bool>
+   </property>
+  </buttongroup>
+ </buttongroups>
 </ui>
