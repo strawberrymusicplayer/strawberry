@@ -61,7 +61,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   bool Init() override;
   EngineBase::State state() const override;
   void StartPreloading(const QUrl &media_url, const QUrl &stream_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec) override;
-  bool Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) override;
+  bool Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) override;
   bool Play(const quint64 offset_nanosec) override;
   void Stop(const bool stop_after = false) override;
   void Pause() override;
@@ -132,7 +132,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   void StopTimers();
 
   std::shared_ptr<GstEnginePipeline> CreatePipeline();
-  std::shared_ptr<GstEnginePipeline> CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec);
+  std::shared_ptr<GstEnginePipeline> CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db);
 
   void UpdateScope(int chunk_length);
 

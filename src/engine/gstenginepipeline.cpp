@@ -78,6 +78,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       rg_preamp_(0.0),
       rg_fallbackgain_(0.0),
       rg_compression_(true),
+      ebur128_loudness_normalization_(false),
       buffer_duration_nanosec_(BackendSettingsPage::kDefaultBufferDuration * kNsecPerMsec),
       buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
       buffer_high_watermark_(BackendSettingsPage::kDefaultBufferHighWatermark),
@@ -99,6 +100,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       pending_seek_nanosec_(-1),
       last_known_position_ns_(0),
       next_uri_set_(false),
+      ebur128_loudness_normalizing_gain_db_(0.0),
       volume_set_(false),
       volume_internal_(-1.0),
       volume_percent_(100),
@@ -237,6 +239,12 @@ void GstEnginePipeline::set_replaygain(const bool enabled, const int mode, const
 
 }
 
+void GstEnginePipeline::set_ebur128_loudness_normalization(const bool enabled) {
+
+  ebur128_loudness_normalization_ = enabled;
+
+}
+
 void GstEnginePipeline::set_buffer_duration_nanosec(const quint64 buffer_duration_nanosec) {
   buffer_duration_nanosec_ = buffer_duration_nanosec;
 }
@@ -289,11 +297,12 @@ GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const 
 
 }
 
-bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, QString &error) {
+bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db, QString &error) {
 
   media_url_ = media_url;
   stream_url_ = stream_url;
   gst_url_ = gst_url;
+  ebur128_loudness_normalizing_gain_db_ = ebur128_loudness_normalizing_gain_db;
   end_offset_nanosec_ = end_nanosec;
 
   guint version_major = 0, version_minor = 0, version_micro = 0, version_nano = 0;

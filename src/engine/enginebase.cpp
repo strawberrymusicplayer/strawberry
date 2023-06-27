@@ -43,6 +43,7 @@ EngineBase::EngineBase(QObject *parent)
       volume_(100),
       beginning_nanosec_(0),
       end_nanosec_(0),
+      ebur128_loudness_normalizing_gain_db_(0.0),
       scope_(kScopeSize),
       buffering_(false),
       equalizer_enabled_(false),
@@ -51,6 +52,8 @@ EngineBase::EngineBase(QObject *parent)
       rg_preamp_(0.0),
       rg_fallbackgain_(0.0),
       rg_compression_(true),
+      ebur128_loudness_normalization_(false),
+      ebur128_target_level_lufs_(-23.0),
       buffer_duration_nanosec_(BackendSettingsPage::kDefaultBufferDuration * kNsecPerMsec),
       buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
       buffer_high_watermark_(BackendSettingsPage::kDefaultBufferHighWatermark),
@@ -104,7 +107,7 @@ QString EngineBase::Description(const Type type) {
 
 }
 
-bool EngineBase::Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
+bool EngineBase::Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
 
   Q_UNUSED(force_stop_at_end);
 
@@ -113,15 +116,27 @@ bool EngineBase::Load(const QUrl &media_url, const QUrl &stream_url, const Track
   beginning_nanosec_ = beginning_nanosec;
   end_nanosec_ = end_nanosec;
 
+  ebur128_loudness_normalizing_gain_db_ = 0.0;
+  if (ebur128_loudness_normalization_ && ebur128_integrated_loudness_lufs) {
+    auto computeGain_dB = [](double source_dB, double target_dB) {
+      // Let's suppose the `source_dB` is -12 dB, while `target_dB` is -23 dB.
+      // In that case, we'd need to apply -11 dB of gain, which is computed as:
+      //   -12 dB + x dB = -23 dB --> x dB = -23 dB - (-12 dB)
+      return target_dB - source_dB;
+    };
+
+    ebur128_loudness_normalizing_gain_db_ = computeGain_dB(*ebur128_integrated_loudness_lufs, ebur128_target_level_lufs_);
+  }
+
   about_to_end_emitted_ = false;
 
   return true;
 
 }
 
-bool EngineBase::Play(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const quint64 offset_nanosec) {
+bool EngineBase::Play(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const quint64 offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
 
-  if (!Load(media_url, stream_url, flags, force_stop_at_end, beginning_nanosec, end_nanosec)) {
+  if (!Load(media_url, stream_url, flags, force_stop_at_end, beginning_nanosec, end_nanosec, ebur128_integrated_loudness_lufs)) {
     return false;
   }
 
@@ -166,6 +181,9 @@ void EngineBase::ReloadSettings() {
   rg_preamp_ = s.value("rgpreamp", 0.0).toDouble();
   rg_fallbackgain_ = s.value("rgfallbackgain", 0.0).toDouble();
   rg_compression_ = s.value("rgcompression", true).toBool();
+
+  ebur128_loudness_normalization_ = s.value("ebur128_loudness_normalization", false).toBool();
+  ebur128_target_level_lufs_ = s.value("ebur128_target_level_lufs", -23.0).toDouble();
 
   fadeout_enabled_ = s.value("FadeoutEnabled", false).toBool();
   crossfade_enabled_ = s.value("CrossfadeEnabled", false).toBool();

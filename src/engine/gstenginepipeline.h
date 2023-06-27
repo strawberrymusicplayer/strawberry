@@ -66,6 +66,7 @@ class GstEnginePipeline : public QObject {
   void set_stereo_balancer_enabled(const bool enabled);
   void set_equalizer_enabled(const bool enabled);
   void set_replaygain(const bool enabled, const int mode, const double preamp, const double fallbackgain, const bool compression);
+  void set_ebur128_loudness_normalization(const bool enabled);
   void set_buffer_duration_nanosec(const quint64 duration_nanosec);
   void set_buffer_low_watermark(const double value);
   void set_buffer_high_watermark(const double value);
@@ -76,7 +77,7 @@ class GstEnginePipeline : public QObject {
   void set_fading_enabled(const bool enabled);
 
   // Creates the pipeline, returns false on error
-  bool InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, QString &error);
+  bool InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db, QString &error);
 
   // GstBufferConsumers get fed audio data.  Thread-safe.
   void AddBufferConsumer(GstBufferConsumer *consumer);
@@ -102,6 +103,7 @@ class GstEnginePipeline : public QObject {
   // Get information about the music playback
   QUrl media_url() const { return media_url_; }
   QUrl stream_url() const { return stream_url_; }
+  double ebur128_loudness_normalizing_gain_db() const { return ebur128_loudness_normalizing_gain_db_; }
   QByteArray gst_url() const { return gst_url_; }
   QUrl next_media_url() const { return next_media_url_; }
   QUrl next_stream_url() const { return next_stream_url_; }
@@ -215,6 +217,9 @@ class GstEnginePipeline : public QObject {
   double rg_fallbackgain_;
   bool rg_compression_;
 
+  // EBU R 128 Loudness Normalization
+  bool ebur128_loudness_normalization_;
+
   // Buffering
   quint64 buffer_duration_nanosec_;
   double buffer_low_watermark_;
@@ -282,6 +287,7 @@ class GstEnginePipeline : public QObject {
   // Complete the transition to the next song when it starts playing
   bool next_uri_set_;
 
+  double ebur128_loudness_normalizing_gain_db_;
   bool volume_set_;
   gdouble volume_internal_;
   uint volume_percent_;
