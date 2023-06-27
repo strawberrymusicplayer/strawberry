@@ -540,3 +540,23 @@ QString RatingItemDelegate::displayText(const QVariant &value, const QLocale&) c
   return QString::number(rating, 'f', 1);
 
 }
+
+QString Ebur128LoudnessLUFSItemDelegate::displayText(const QVariant &value, const QLocale&) const {
+
+  bool ok = false;
+  double v = value.toDouble(&ok);
+
+  if (ok) return Song::Ebur128LoudnessLUFSToText(v);
+  return QString();
+
+}
+
+QString Ebur128LoudnessRangeLUItemDelegate::displayText(const QVariant &value, const QLocale&) const {
+
+  bool ok = false;
+  double v = value.toDouble(&ok);
+
+  if (ok) return Song::Ebur128LoudnessRangeLUToText(v);
+  return QString();
+
+}

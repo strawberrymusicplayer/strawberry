@@ -323,6 +323,10 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
           if (role == Qt::DisplayRole)  return song.comment().simplified();
           return song.comment();
 
+        case Column_EBUR128IntegratedLoudness: return song.ebur128_integrated_loudness_lufs() ? *song.ebur128_integrated_loudness_lufs() : QVariant();
+
+        case Column_EBUR128LoudnessRange: return song.ebur128_loudness_range_lu() ? *song.ebur128_loudness_range_lu() : QVariant();
+
         case Column_Source:             return QVariant::fromValue(song.source());
 
         case Column_Rating:             return song.rating();
@@ -1325,6 +1329,9 @@ bool Playlist::CompareItems(const int column, const Qt::SortOrder order, std::sh
 
     case Column_HasCUE:       cmp(has_cue);
 
+    case Column_EBUR128IntegratedLoudness: cmp(ebur128_integrated_loudness_lufs);
+    case Column_EBUR128LoudnessRange: cmp(ebur128_loudness_range_lu);
+
     default: qLog(Error) << "No such column" << column;
   }
 
@@ -1384,6 +1391,10 @@ QString Playlist::column_name(Column column) {
     case Column_Mood:         return tr("Mood");
     case Column_Rating:       return tr("Rating");
     case Column_HasCUE:       return tr("CUE");
+
+    case Column_EBUR128IntegratedLoudness: return tr("Integrated loudness");
+    case Column_EBUR128LoudnessRange: return tr("Loudness range");
+
     default:                  qLog(Error) << "No such column" << column;;
   }
   return "";

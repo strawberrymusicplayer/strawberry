@@ -231,4 +231,20 @@ class RatingItemDelegate : public PlaylistDelegateBase {
   QModelIndexList selected_indexes_;
 };
 
+class Ebur128LoudnessLUFSItemDelegate : public PlaylistDelegateBase {
+  Q_OBJECT
+
+ public:
+  explicit Ebur128LoudnessLUFSItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
+  QString displayText(const QVariant &value, const QLocale &locale) const override;
+};
+
+class Ebur128LoudnessRangeLUItemDelegate : public PlaylistDelegateBase {
+  Q_OBJECT
+
+ public:
+  explicit Ebur128LoudnessRangeLUItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
+  QString displayText(const QVariant &value, const QLocale &locale) const override;
+};
+
 #endif  // PLAYLISTDELEGATES_H
