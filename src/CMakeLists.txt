@@ -1149,6 +1149,10 @@ if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   target_link_libraries(strawberry_lib PRIVATE ${CHROMAPRINT_LIBRARIES})
 endif()
 
+if(HAVE_EBUR128)
+  target_link_libraries(strawberry_lib PRIVATE PkgConfig::LIBEBUR128)
+endif()
+
 if(X11_FOUND)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${X11_INCLUDE_DIR})
   target_link_libraries(strawberry_lib PRIVATE ${X11_LIBRARIES})

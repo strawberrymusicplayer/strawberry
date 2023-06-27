@@ -57,4 +57,6 @@
 
 #cmakedefine HAVE_QX11APPLICATION
 
+#cmakedefine HAVE_EBUR128
+
 #endif // CONFIG_H_IN
