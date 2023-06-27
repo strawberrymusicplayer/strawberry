@@ -176,11 +176,11 @@ void GstEngine::StartPreloading(const QUrl &media_url, const QUrl &stream_url, c
 
 }
 
-bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
+bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
 
   EnsureInitialized();
 
-  EngineBase::Load(stream_url, media_url, change, force_stop_at_end, beginning_nanosec, end_nanosec);
+  EngineBase::Load(stream_url, media_url, change, force_stop_at_end, beginning_nanosec, end_nanosec, ebur128_integrated_loudness_lufs);
 
   const QByteArray gst_url = FixupUrl(stream_url);
 
@@ -195,7 +195,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
     return true;
   }
 
-  std::shared_ptr<GstEnginePipeline> pipeline = CreatePipeline(media_url, stream_url, gst_url, force_stop_at_end ? end_nanosec : 0);
+  std::shared_ptr<GstEnginePipeline> pipeline = CreatePipeline(media_url, stream_url, gst_url, force_stop_at_end ? end_nanosec : 0, ebur128_loudness_normalizing_gain_db_);
   if (!pipeline) return false;
 
   if (crossfade) StartFadeout();
@@ -648,7 +648,7 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const quint64 offset_na
     const QByteArray redirect_url = current_pipeline_->redirect_url();
     if (!redirect_url.isEmpty() && redirect_url != current_pipeline_->gst_url()) {
       qLog(Info) << "Redirecting to" << redirect_url;
-      current_pipeline_ = CreatePipeline(current_pipeline_->media_url(), current_pipeline_->stream_url(), redirect_url, end_nanosec_);
+      current_pipeline_ = CreatePipeline(current_pipeline_->media_url(), current_pipeline_->stream_url(), redirect_url, end_nanosec_, current_pipeline_->ebur128_loudness_normalizing_gain_db());
       Play(offset_nanosec);
       return;
     }
@@ -788,6 +788,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
   ret->set_equalizer_enabled(equalizer_enabled_);
   ret->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_fallbackgain_, rg_compression_);
+  ret->set_ebur128_loudness_normalization(ebur128_loudness_normalization_);
   ret->set_buffer_duration_nanosec(buffer_duration_nanosec_);
   ret->set_buffer_low_watermark(buffer_low_watermark_);
   ret->set_buffer_high_watermark(buffer_high_watermark_);
@@ -815,11 +816,11 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
 }
 
-std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec) {
+std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db) {
 
   std::shared_ptr<GstEnginePipeline> ret = CreatePipeline();
   QString error;
-  if (!ret->InitFromUrl(media_url, stream_url, gst_url, end_nanosec, error)) {
+  if (!ret->InitFromUrl(media_url, stream_url, gst_url, end_nanosec, ebur128_loudness_normalizing_gain_db, error)) {
     ret.reset();
     emit Error(error);
     emit StateChanged(EngineBase::State::Error);

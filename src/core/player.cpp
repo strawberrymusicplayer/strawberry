@@ -341,7 +341,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       if (is_current) {
         qLog(Debug) << "Playing song" << item->Metadata().title() << result.stream_url_ << "position" << play_offset_nanosec_;
-        engine_->Play(result.media_url_, result.stream_url_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec(), play_offset_nanosec_);
+        engine_->Play(result.media_url_, result.stream_url_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec(), play_offset_nanosec_, song.ebur128_integrated_loudness_lufs());
         current_item_ = item;
         play_offset_nanosec_ = 0;
       }
@@ -731,7 +731,7 @@ void Player::PlayAt(const int index, const quint64 offset_nanosec, EngineBase::T
   }
   else {
     qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url << "position" << offset_nanosec;
-    engine_->Play(current_item_->Url(), url, change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec(), offset_nanosec);
+    engine_->Play(current_item_->Url(), url, change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec(), offset_nanosec, current_item_->effective_ebur128_integrated_loudness_lufs());
   }
 
 }
