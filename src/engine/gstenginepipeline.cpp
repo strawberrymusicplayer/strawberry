@@ -110,6 +110,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       audiosink_(nullptr),
       audioqueue_(nullptr),
       audioqueueconverter_(nullptr),
+      ebur128_volume_(nullptr),
       volume_(nullptr),
       volume_sw_(nullptr),
       volume_fading_(nullptr),
@@ -567,8 +568,9 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   }
 
-  // Create the replaygain elements if it's enabled.
   eventprobe_ = audioqueueconverter_;
+
+  // Create the replaygain elements if it's enabled.
   GstElement *rgvolume = nullptr;
   GstElement *rglimiter = nullptr;
   GstElement *rgconverter = nullptr;
@@ -591,6 +593,20 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     g_object_set(G_OBJECT(rgvolume), "pre-amp", rg_preamp_, nullptr);
     g_object_set(G_OBJECT(rgvolume), "fallback-gain", rg_fallbackgain_, nullptr);
     g_object_set(G_OBJECT(rglimiter), "enabled", static_cast<int>(rg_compression_), nullptr);
+  }
+
+  // Create the EBU R 128 loudness normalization volume element if enabled.
+  if (ebur128_loudness_normalization_) {
+    ebur128_volume_ = CreateElement("volume", "ebur128_volume", audiobin_, error);
+    if (!ebur128_volume_) {
+      return false;
+    }
+
+    auto dB_to_mult = [](const double gain_dB) { return std::pow(10., gain_dB / 20.); };
+
+    g_object_set(G_OBJECT(ebur128_volume_), "volume", dB_to_mult(ebur128_loudness_normalizing_gain_db_), nullptr);
+
+    eventprobe_ = ebur128_volume_;
   }
 
   GstElement *bs2b = nullptr;
@@ -649,6 +665,15 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       return false;
     }
     element_link = rgconverter;
+  }
+
+  // Link EBU R 128 loudness normalization volume element if enabled.
+  if (ebur128_loudness_normalization_ && ebur128_volume_) {
+    if (!gst_element_link(element_link, ebur128_volume_)) {
+      error = "Failed to link EBU R 128 volume element.";
+      return false;
+    }
+    element_link = ebur128_volume_;
   }
 
   // Link equalizer elements if enabled.
