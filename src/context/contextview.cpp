@@ -98,11 +98,15 @@ ContextView::ContextView(QWidget *parent)
       label_samplerate_title_(new QLabel(this)),
       label_bitdepth_title_(new QLabel(this)),
       label_bitrate_title_(new QLabel(this)),
+      label_ebur128_integrated_loudness_title_(new QLabel(this)),
+      label_ebur128_loudness_range_title_(new QLabel(this)),
       label_filetype_(new QLabel(this)),
       label_length_(new QLabel(this)),
       label_samplerate_(new QLabel(this)),
       label_bitdepth_(new QLabel(this)),
       label_bitrate_(new QLabel(this)),
+      label_ebur128_integrated_loudness_(new QLabel(this)),
+      label_ebur128_loudness_range_(new QLabel(this)),
       lyrics_tried_(false),
       lyrics_id_(-1) {
 
@@ -160,18 +164,24 @@ ContextView::ContextView(QWidget *parent)
   label_samplerate_title_->setText(tr("Samplerate"));
   label_bitdepth_title_->setText(tr("Bit depth"));
   label_bitrate_title_->setText(tr("Bitrate"));
+  label_ebur128_integrated_loudness_title_->setText(tr("EBU R 128 Integrated Loudness"));
+  label_ebur128_loudness_range_title_->setText(tr("EBU R 128 Loudness Range"));
 
   label_filetype_title_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   label_length_title_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   label_samplerate_title_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   label_bitdepth_title_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   label_bitrate_title_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  label_ebur128_integrated_loudness_title_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  label_ebur128_loudness_range_title_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
   label_filetype_->setWordWrap(true);
   label_length_->setWordWrap(true);
   label_samplerate_->setWordWrap(true);
   label_bitdepth_->setWordWrap(true);
   label_bitrate_->setWordWrap(true);
+  label_ebur128_integrated_loudness_->setWordWrap(true);
+  label_ebur128_loudness_range_->setWordWrap(true);
 
   layout_play_data_->setContentsMargins(0, 0, 0, 0);
   layout_play_data_->addWidget(label_filetype_title_, 0, 0);
@@ -185,6 +195,11 @@ ContextView::ContextView(QWidget *parent)
   layout_play_data_->addWidget(label_bitrate_title_, 4, 0);
   layout_play_data_->addWidget(label_bitrate_, 4, 1);
 
+  layout_play_data_->addWidget(label_ebur128_integrated_loudness_title_, 5, 0);
+  layout_play_data_->addWidget(label_ebur128_integrated_loudness_, 5, 1);
+  layout_play_data_->addWidget(label_ebur128_loudness_range_title_, 6, 0);
+  layout_play_data_->addWidget(label_ebur128_loudness_range_, 6, 1);
+
   widget_play_data_->setLayout(layout_play_data_);
 
   textedit_play_lyrics_->setReadOnly(true);
@@ -197,17 +212,21 @@ ContextView::ContextView(QWidget *parent)
   layout_play_->addWidget(textedit_play_lyrics_);
   layout_play_->addSpacerItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding));
 
-  labels_play_  << label_filetype_title_
+  labels_play_ << label_filetype_title_
                << label_length_title_
                << label_samplerate_title_
                << label_bitdepth_title_
-               << label_bitrate_title_;
+               << label_bitrate_title_
+               << label_ebur128_integrated_loudness_title_
+               << label_ebur128_loudness_range_title_;
 
   labels_play_data_ << label_filetype_
                     << label_length_
                     << label_samplerate_
                     << label_bitdepth_
-                    << label_bitrate_;
+                    << label_bitrate_
+                    << label_ebur128_integrated_loudness_
+                    << label_ebur128_loudness_range_;
 
   labels_play_all_ = labels_play_ << labels_play_data_;
 
@@ -477,6 +496,26 @@ void ContextView::SetSong() {
       label_bitrate_->show();
       SetLabelText(label_bitrate_, song_playing_.bitrate(), tr("kbps"));
     }
+    if (!song_playing_.ebur128_integrated_loudness_lufs()) {
+      label_ebur128_integrated_loudness_title_->hide();
+      label_ebur128_integrated_loudness_->hide();
+      label_ebur128_integrated_loudness_->clear();
+    }
+    else {
+      label_ebur128_integrated_loudness_title_->show();
+      label_ebur128_integrated_loudness_->show();
+      label_ebur128_integrated_loudness_->setText(song_playing_.Ebur128LoudnessLUFSToText());
+    }
+    if (!song_playing_.ebur128_loudness_range_lu()) {
+      label_ebur128_loudness_range_title_->hide();
+      label_ebur128_loudness_range_->hide();
+      label_ebur128_loudness_range_->clear();
+    }
+    else {
+      label_ebur128_loudness_range_title_->show();
+      label_ebur128_loudness_range_->show();
+      label_ebur128_loudness_range_->setText(song_playing_.Ebur128LoudnessRangeLUToText());
+    }
     spacer_play_data_->changeSize(20, 20, QSizePolicy::Fixed);
   }
   else {
@@ -486,6 +525,8 @@ void ContextView::SetSong() {
     label_samplerate_->clear();
     label_bitdepth_->clear();
     label_bitrate_->clear();
+    label_ebur128_integrated_loudness_->clear();
+    label_ebur128_loudness_range_->clear();
     spacer_play_data_->changeSize(0, 0, QSizePolicy::Fixed);
   }
 
@@ -556,6 +597,12 @@ void ContextView::UpdateSong(const Song &song) {
         label_bitrate_->show();
         SetLabelText(label_bitrate_, song.bitrate(), tr("kbps"));
       }
+    }
+    if (song.ebur128_integrated_loudness_lufs() != song_playing_.ebur128_integrated_loudness_lufs()) {
+      label_ebur128_integrated_loudness_->setText(song_playing_.Ebur128LoudnessLUFSToText());
+    }
+    if (song.ebur128_loudness_range_lu() != song_playing_.ebur128_loudness_range_lu()) {
+      label_ebur128_loudness_range_->setText(song_playing_.Ebur128LoudnessRangeLUToText());
     }
   }
 

@@ -138,11 +138,17 @@ class ContextView : public QWidget {
   QLabel *label_bitdepth_title_;
   QLabel *label_bitrate_title_;
 
+  QLabel *label_ebur128_integrated_loudness_title_;
+  QLabel *label_ebur128_loudness_range_title_;
+
   QLabel *label_filetype_;
   QLabel *label_length_;
   QLabel *label_samplerate_;
   QLabel *label_bitdepth_;
   QLabel *label_bitrate_;
+
+  QLabel *label_ebur128_integrated_loudness_;
+  QLabel *label_ebur128_loudness_range_;
 
   Song song_playing_;
   Song song_prev_;
