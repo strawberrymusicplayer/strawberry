@@ -55,8 +55,12 @@
 #include "collectionwatcher.h"
 #include "playlistparsers/cueparser.h"
 #include "settings/collectionsettingspage.h"
+#include "engine/ebur128measures.h"
 #ifdef HAVE_SONGFINGERPRINTING
 #  include "engine/chromaprinter.h"
+#endif
+#ifdef HAVE_EBUR128
+#  include "engine/ebur128analysis.h"
 #endif
 
 // This is defined by one of the windows headers that is included by taglib.
@@ -78,6 +82,7 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
       scan_on_startup_(true),
       monitor_(true),
       song_tracking_(false),
+      song_ebur128_loudness_analysis_(false),
       mark_songs_unavailable_(source_ == Song::Source::Collection),
       expire_unavailable_songs_days_(60),
       overwrite_playcount_(false),
@@ -145,10 +150,12 @@ void CollectionWatcher::ReloadSettings() {
   QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
   if (source_ == Song::Source::Collection) {
     song_tracking_ = s.value("song_tracking", false).toBool();
+    song_ebur128_loudness_analysis_ = s.value("song_ebur128_loudness_analysis", false).toBool();
     mark_songs_unavailable_ = song_tracking_ ? true : s.value("mark_songs_unavailable", true).toBool();
   }
   else {
     song_tracking_ = false;
+    song_ebur128_loudness_analysis_ = false;
     mark_songs_unavailable_ = false;
   }
   expire_unavailable_songs_days_ = s.value("expire_unavailable_songs", 60).toInt();
@@ -442,13 +449,19 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
   }
 
   bool songs_missing_fingerprint = false;
+  bool songs_missing_loudness_characteristics = false;
 #ifdef HAVE_SONGFINGERPRINTING
   if (song_tracking_) {
     songs_missing_fingerprint = t->HasSongsWithMissingFingerprint(path);
   }
 #endif
+#ifdef HAVE_EBUR128
+  if (song_ebur128_loudness_analysis_) {
+    songs_missing_loudness_characteristics = t->HasSongsWithMissingLoudnessCharacteristics(path);
+  }
+#endif
 
-  if (!t->ignores_mtime() && !force_noincremental && t->is_incremental() && subdir.mtime == path_info.lastModified().toSecsSinceEpoch() && !songs_missing_fingerprint) {
+  if (!t->ignores_mtime() && !force_noincremental && t->is_incremental() && subdir.mtime == path_info.lastModified().toSecsSinceEpoch() && !songs_missing_fingerprint && !songs_missing_loudness_characteristics) {
     // The directory hasn't changed since last time
     t->AddToProgress(files_count);
     return;
@@ -561,9 +574,15 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
       }
 
       bool missing_fingerprint = false;
+      bool missing_loudness_characteristics = false;
 #ifdef HAVE_SONGFINGERPRINTING
       if (song_tracking_ && matching_song.fingerprint().isEmpty()) {
         missing_fingerprint = true;
+      }
+#endif
+#ifdef HAVE_EBUR128
+      if (song_ebur128_loudness_analysis_ && (!matching_song.ebur128_integrated_loudness_lufs() || !matching_song.ebur128_loudness_range_lu())) {
+        missing_loudness_characteristics = true;
       }
 #endif
 
@@ -573,9 +592,12 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
       else if (missing_fingerprint) {
         qLog(Debug) << file << "is missing fingerprint.";
       }
+      else if (missing_loudness_characteristics) {
+        qLog(Debug) << file << "is missing EBU R 128 loudness characteristics.";
+      }
 
       // The song's changed or missing fingerprint - create fingerprint and reread the metadata from file.
-      if (t->ignores_mtime() || changed || missing_fingerprint) {
+      if (t->ignores_mtime() || changed || missing_fingerprint || missing_loudness_characteristics) {
 
         QString fingerprint;
 #ifdef HAVE_SONGFINGERPRINTING
@@ -588,13 +610,20 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
         }
 #endif
 
+        SongList songs;
+
         if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
-          UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, cue_deleted, t);
+          songs.append(UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, cue_deleted, t));
         }
         else {  // If CUE associated.
-          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, matching_songs, t);
+          songs = UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, matching_songs, t);
         }
 
+#ifdef HAVE_EBUR128
+        if (song_ebur128_loudness_analysis_) {
+          PerformEBUR128Analysis(songs, t);
+        }
+#endif
       }
 
       // Nothing has changed - mark the song available without re-scanning
@@ -669,6 +698,14 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
 
         qLog(Debug) << file << "is new.";
 
+#ifdef HAVE_EBUR128
+        if (song_ebur128_loudness_analysis_) {
+          // We don't pass `ScanTransaction*` here because later on
+          // all the songs will be addede to `t->new_songs` unconditionally.
+          PerformEBUR128Analysis(songs, nullptr);
+        }
+#endif
+
         // Choose art for the song(s)
         const QUrl art_automatic = ArtForSong(file, album_art);
 
@@ -716,13 +753,13 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
 
 }
 
-void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
-                                                 const QString &path,
-                                                 const QString &fingerprint,
-                                                 const QString &matching_cue,
-                                                 const QUrl &art_automatic,
-                                                 const SongList &old_cue_songs,
-                                                 ScanTransaction *t) {
+SongList CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
+                                                     const QString &path,
+                                                     const QString &fingerprint,
+                                                     const QString &matching_cue,
+                                                     const QUrl &art_automatic,
+                                                     const SongList &old_cue_songs,
+                                                     ScanTransaction *t) {
 
   QHash<quint64, Song> sections_map;
   for (const Song &song : old_cue_songs) {
@@ -731,10 +768,10 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
 
   // Load new CUE songs
   QFile cue_file(matching_cue);
-  if (!cue_file.exists()) return;
+  if (!cue_file.exists()) return SongList();
   if (!cue_file.open(QIODevice::ReadOnly)) {
     qLog(Error) << "Could not open CUE file" << matching_cue << "for reading:" << cue_file.errorString();
-    return;
+    return SongList();
   }
   const SongList songs = cue_parser_->Load(&cue_file, matching_cue, path, false);
   cue_file.close();
@@ -766,9 +803,11 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
     }
   }
 
+  return songs;
+
 }
 
-void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
+Song CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
                                                    const QString &fingerprint,
                                                    const SongList &matching_songs,
                                                    const QUrl &art_automatic,
@@ -796,6 +835,8 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
     song_on_disk.MergeUserSetData(matching_song, !overwrite_playcount_, !overwrite_rating_);
     AddChangedSong(file, matching_song, song_on_disk, t);
   }
+
+  return song_on_disk;
 
 }
 
@@ -912,6 +953,32 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
   }
 
 }
+
+#ifdef HAVE_EBUR128
+void CollectionWatcher::PerformEBUR128Analysis(SongList &songs, ScanTransaction *t) {
+
+  if (!song_ebur128_loudness_analysis_) return;
+
+  // FIXME: this should probably be done on thread pool.
+  for (Song &song : songs) {
+    std::optional<EBUR128Measures> loudness_characteristics = EBUR128Analysis::Compute(song);
+    if (loudness_characteristics) {
+      song.set_ebur128_integrated_loudness_lufs(loudness_characteristics->loudness_lufs);
+      song.set_ebur128_loudness_range_lu(loudness_characteristics->range_lu);
+      if (t) {
+        // We have updated the song and we must make note of that,
+        // but we should avoid doing that multiple times,
+        // because that will result in spurious/pointless DB updates.
+        if (!t->new_songs.contains(song)) {
+          t->new_songs << song;
+        }
+        t->touched_songs.removeAll(song);
+      }
+    }
+  }
+
+}
+#endif
 
 quint64 CollectionWatcher::GetMtimeForCue(const QString &cue_path) {
 
