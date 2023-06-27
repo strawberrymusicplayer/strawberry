@@ -72,6 +72,12 @@ void SqlQuery::BindFloatValue(const QString &placeholder, const float value) {
 
 }
 
+void SqlQuery::BindDoubleOrNullValue(const QString &placeholder, const std::optional<double> value) {
+
+  BindValue(placeholder, value.has_value() ? *value : QVariant());
+
+}
+
 void SqlQuery::BindBoolValue(const QString &placeholder, const bool value) {
 
   BindValue(placeholder, value ? 1 : 0);

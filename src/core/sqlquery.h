@@ -22,6 +22,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QMap>
 #include <QVariant>
 #include <QString>
@@ -40,6 +42,7 @@ class SqlQuery : public QSqlQuery {
   void BindLongLongValue(const QString &placeholder, const qint64 value);
   void BindLongLongValueOrZero(const QString &placeholder, const qint64 value);
   void BindFloatValue(const QString &placeholder, const float value);
+  void BindDoubleOrNullValue(const QString &placeholder, const std::optional<double> value);
   void BindBoolValue(const QString &placeholder, const bool value);
   void BindNotNullIntValue(const QString &placeholder, const int value);
 
