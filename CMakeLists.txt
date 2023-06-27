@@ -479,6 +479,11 @@ optional_component(MOODBAR ON "Moodbar"
   DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
+optional_component(EBUR128 ON "EBU R 128 loudness normalization"
+  DEPENDS "libebur128" LIBEBUR128_FOUND
+  DEPENDS "gstreamer" HAVE_GSTREAMER
+)
+
 if(APPLE OR WIN32)
   option(USE_BUNDLE "Bundle dependencies" ON)
 else()
