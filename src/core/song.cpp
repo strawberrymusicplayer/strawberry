@@ -133,6 +133,9 @@ const QStringList Song::kColumns = QStringList() << "title"
                                                  << "musicbrainz_release_group_id"
                                                  << "musicbrainz_work_id"
 
+                                                 << "ebur128_integrated_loudness_lufs"
+                                                 << "ebur128_loudness_range_lu"
+
 						 ;
 
 const QString Song::kColumnSpec = Song::kColumns.join(", ");
@@ -242,6 +245,9 @@ struct Song::Private : public QSharedData {
   QString musicbrainz_disc_id_;
   QString musicbrainz_release_group_id_;
   QString musicbrainz_work_id_;
+
+  std::optional<double> ebur128_integrated_loudness_lufs_;
+  std::optional<double> ebur128_loudness_range_lu_;
 
   bool init_from_file_;         // Whether this song was loaded from a file using taglib.
   bool suspicious_tags_;        // Whether our encoding guesser thinks these tags might be incorrectly encoded.
@@ -391,6 +397,9 @@ const QString &Song::musicbrainz_disc_id() const { return d->musicbrainz_disc_id
 const QString &Song::musicbrainz_release_group_id() const { return d->musicbrainz_release_group_id_; }
 const QString &Song::musicbrainz_work_id() const { return d->musicbrainz_work_id_; }
 
+std::optional<double> Song::ebur128_integrated_loudness_lufs() const { return d->ebur128_integrated_loudness_lufs_; }
+std::optional<double> Song::ebur128_loudness_range_lu() const { return d->ebur128_loudness_range_lu_; }
+
 bool Song::init_from_file() const { return d->init_from_file_; }
 
 const QString &Song::title_sortable() const { return d->title_sortable_; }
@@ -474,6 +483,9 @@ void Song::set_musicbrainz_track_id(const QString &v) { d->musicbrainz_track_id_
 void Song::set_musicbrainz_disc_id(const QString &v) { d->musicbrainz_disc_id_ = v; }
 void Song::set_musicbrainz_release_group_id(const QString &v) { d->musicbrainz_release_group_id_ = v; }
 void Song::set_musicbrainz_work_id(const QString &v) { d->musicbrainz_work_id_ = v; }
+
+void Song::set_ebur128_integrated_loudness_lufs(const std::optional<double> &v) { d->ebur128_integrated_loudness_lufs_ = v; }
+void Song::set_ebur128_loudness_range_lu(const std::optional<double> &v) { d->ebur128_loudness_range_lu_ = v; }
 
 void Song::set_stream_url(const QUrl &v) { d->stream_url_ = v; }
 
@@ -1292,6 +1304,12 @@ void Song::InitFromQuery(const SqlRow &q, const bool reliable_metadata) {
   d->bitrate_ = q.ValueToInt("bitrate");
   d->samplerate_ = q.ValueToInt("samplerate");
   d->bitdepth_ = q.ValueToInt("bitdepth");
+  if (!q.value("ebur128_integrated_loudness_lufs").isNull()) {
+    d->ebur128_integrated_loudness_lufs_ = q.value("ebur128_integrated_loudness_lufs").toDouble();
+  }
+  if (!q.value("ebur128_loudness_range_lu").isNull()) {
+    d->ebur128_loudness_range_lu_ = q.value("ebur128_loudness_range_lu").toDouble();
+  }
   d->source_ = static_cast<Source>(q.value("source").isNull() ? 0 : q.value("source").toInt());
   d->directory_id_ = q.ValueToInt("directory_id");
   set_url(QUrl::fromEncoded(q.ValueToString("url").toUtf8()));
@@ -1642,6 +1660,9 @@ void Song::BindToQuery(SqlQuery *query) const {
   query->BindStringValue(":musicbrainz_disc_id", d->musicbrainz_disc_id_);
   query->BindStringValue(":musicbrainz_release_group_id", d->musicbrainz_release_group_id_);
   query->BindStringValue(":musicbrainz_work_id", d->musicbrainz_work_id_);
+
+  query->BindDoubleOrNullValue(":ebur128_integrated_loudness_lufs", d->ebur128_integrated_loudness_lufs_);
+  query->BindDoubleOrNullValue(":ebur128_loudness_range_lu", d->ebur128_loudness_range_lu_);
 
 }
 

@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QSharedData>
 #include <QSharedDataPointer>
@@ -211,6 +213,9 @@ class Song {
   const QString &musicbrainz_release_group_id() const;
   const QString &musicbrainz_work_id() const;
 
+  std::optional<double> ebur128_integrated_loudness_lufs() const;
+  std::optional<double> ebur128_loudness_range_lu() const;
+
   bool init_from_file() const;
 
   const QString &title_sortable() const;
@@ -295,6 +300,9 @@ class Song {
   void set_musicbrainz_disc_id(const QString &v);
   void set_musicbrainz_release_group_id(const QString &v);
   void set_musicbrainz_work_id(const QString &v);
+
+  void set_ebur128_integrated_loudness_lufs(const std::optional<double> &v);
+  void set_ebur128_loudness_range_lu(const std::optional<double> &v);
 
   void set_stream_url(const QUrl &v);
 
