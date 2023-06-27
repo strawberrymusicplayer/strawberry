@@ -95,6 +95,7 @@ class CollectionBackendInterface : public QObject {
 
   virtual SongList FindSongsInDirectory(const int id) = 0;
   virtual SongList SongsWithMissingFingerprint(const int id) = 0;
+  virtual SongList SongsWithMissingLoudnessCharacteristics(const int id) = 0;
   virtual CollectionSubdirectoryList SubdirsInDirectory(const int id) = 0;
   virtual CollectionDirectoryList GetAllDirectories() = 0;
   virtual void ChangeDirPath(const int id, const QString &old_path, const QString &new_path) = 0;
@@ -166,6 +167,7 @@ class CollectionBackend : public CollectionBackendInterface {
 
   SongList FindSongsInDirectory(const int id) override;
   SongList SongsWithMissingFingerprint(const int id) override;
+  SongList SongsWithMissingLoudnessCharacteristics(const int id) override;
   CollectionSubdirectoryList SubdirsInDirectory(const int id) override;
   CollectionDirectoryList GetAllDirectories() override;
   void ChangeDirPath(const int id, const QString &old_path, const QString &new_path) override;

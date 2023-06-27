@@ -195,6 +195,7 @@ CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, 
       watcher_(watcher),
       cached_songs_dirty_(true),
       cached_songs_missing_fingerprint_dirty_(true),
+      cached_songs_missing_loudness_characteristics_dirty_(true),
       known_subdirs_dirty_(true) {
 
   QString description;
@@ -326,6 +327,21 @@ bool CollectionWatcher::ScanTransaction::HasSongsWithMissingFingerprint(const QS
   }
 
   return cached_songs_missing_fingerprint_.contains(path);
+
+}
+
+bool CollectionWatcher::ScanTransaction::HasSongsWithMissingLoudnessCharacteristics(const QString &path) {
+
+  if (cached_songs_missing_loudness_characteristics_dirty_) {
+    const SongList songs = watcher_->backend_->SongsWithMissingLoudnessCharacteristics(dir_);
+    for (const Song &song : songs) {
+      const QString p = song.url().toLocalFile().section('/', 0, -2);
+      cached_songs_missing_loudness_characteristics_.insert(p, song);
+    }
+    cached_songs_missing_loudness_characteristics_dirty_ = false;
+  }
+
+  return cached_songs_missing_loudness_characteristics_.contains(path);
 
 }
 

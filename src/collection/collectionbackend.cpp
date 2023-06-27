@@ -434,6 +434,29 @@ SongList CollectionBackend::SongsWithMissingFingerprint(const int id) {
 
 }
 
+SongList CollectionBackend::SongsWithMissingLoudnessCharacteristics(const int id) {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  SqlQuery q(db);
+  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE directory_id = :directory_id AND unavailable = 0 AND (ebur128_integrated_loudness_lufs IS NULL OR ebur128_loudness_range_lu IS NULL)").arg(songs_table_));
+  q.BindValue(":directory_id", id);
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+    return SongList();
+  }
+
+  SongList ret;
+  while (q.next()) {
+    Song song(source_);
+    song.InitFromQuery(q, true);
+    ret << song;
+  }
+  return ret;
+
+}
+
 void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_file, const std::optional<int> new_collection_directory_id) {
 
   // Take a song and update its path
