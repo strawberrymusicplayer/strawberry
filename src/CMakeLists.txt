@@ -927,6 +927,11 @@ optional_source(HAVE_MOODBAR
     settings/moodbarsettingspage.ui
 )
 
+# EBU R 128
+optional_source(HAVE_EBUR128
+  SOURCES engine/ebur128analysis.cpp
+)
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
