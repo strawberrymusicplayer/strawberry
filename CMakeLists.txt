@@ -328,6 +328,8 @@ if(USE_TAGPARSER)
   pkg_check_modules(TAGPARSER REQUIRED tagparser)
 endif()
 
+pkg_check_modules(LIBEBUR128 IMPORTED_TARGET libebur128)
+
 if(NOT TAGLIB_FOUND AND NOT TAGPARSER_FOUND)
   message(FATAL_ERROR "You need either TagLib or TagParser!")
 endif()
