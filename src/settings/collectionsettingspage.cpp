@@ -102,6 +102,10 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
   ui_->song_tracking->hide();
 #endif
 
+#ifndef HAVE_EBUR128
+  ui_->song_ebur128_loudness_analysis->hide();
+#endif
+
 }
 
 CollectionSettingsPage::~CollectionSettingsPage() { delete ui_; }
@@ -178,6 +182,7 @@ void CollectionSettingsPage::Load() {
   ui_->startup_scan->setChecked(s.value("startup_scan", true).toBool());
   ui_->monitor->setChecked(s.value("monitor", true).toBool());
   ui_->song_tracking->setChecked(s.value("song_tracking", false).toBool());
+  ui_->song_ebur128_loudness_analysis->setChecked(s.value("song_ebur128_loudness_analysis", false).toBool());
   ui_->mark_songs_unavailable->setChecked(ui_->song_tracking->isChecked() ? true : s.value("mark_songs_unavailable", true).toBool());
   ui_->expire_unavailable_songs_days->setValue(s.value("expire_unavailable_songs", 60).toInt());
 
@@ -224,6 +229,7 @@ void CollectionSettingsPage::Save() {
   s.setValue("startup_scan", ui_->startup_scan->isChecked());
   s.setValue("monitor", ui_->monitor->isChecked());
   s.setValue("song_tracking", ui_->song_tracking->isChecked());
+  s.setValue("song_ebur128_loudness_analysis", ui_->song_ebur128_loudness_analysis->isChecked());
   s.setValue("mark_songs_unavailable", ui_->song_tracking->isChecked() ? true : ui_->mark_songs_unavailable->isChecked());
   s.setValue("expire_unavailable_songs", ui_->expire_unavailable_songs_days->value());
 
