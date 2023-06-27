@@ -783,6 +783,8 @@ void EditTagDialog::UpdateSummaryTab(const Song &song) {
   SetText(ui_->samplerate, song.samplerate(), "Hz");
   SetText(ui_->bitdepth, song.bitdepth(), "Bit");
   SetText(ui_->bitrate, song.bitrate(), tr("kbps"));
+  ui_->ebur128_integrated_loudness->setText(song.Ebur128LoudnessLUFSToText());
+  ui_->ebur128_loudness_range->setText(song.Ebur128LoudnessRangeLUToText());
   SetDate(ui_->mtime, song.mtime());
   SetDate(ui_->ctime, song.ctime());
 
