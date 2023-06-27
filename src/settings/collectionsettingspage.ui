@@ -107,6 +107,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="song_ebur128_loudness_analysis">
+        <property name="text">
+         <string>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QWidget" name="widget" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="leftMargin">
