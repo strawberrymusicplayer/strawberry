@@ -274,6 +274,8 @@ void PlaylistView::SetItemDelegates() {
   rating_delegate_ = new RatingItemDelegate(this);
   setItemDelegateForColumn(Playlist::Column_Rating, rating_delegate_);
 
+  setItemDelegateForColumn(Playlist::Column_EBUR128IntegratedLoudness, new Ebur128LoudnessLUFSItemDelegate(this));
+  setItemDelegateForColumn(Playlist::Column_EBUR128LoudnessRange, new Ebur128LoudnessRangeLUItemDelegate(this));
 }
 
 void PlaylistView::setModel(QAbstractItemModel *m) {
@@ -391,6 +393,8 @@ void PlaylistView::RestoreHeaderState() {
     header_->HideSection(Playlist::Column_Mood);
     header_->HideSection(Playlist::Column_Rating);
     header_->HideSection(Playlist::Column_HasCUE);
+    header_->HideSection(Playlist::Column_EBUR128IntegratedLoudness);
+    header_->HideSection(Playlist::Column_EBUR128LoudnessRange);
 
     header_->moveSection(header_->visualIndex(Playlist::Column_Track), 0);
 

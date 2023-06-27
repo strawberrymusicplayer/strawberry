@@ -131,6 +131,8 @@ class Playlist : public QAbstractListModel {
     Column_Mood,
     Column_Rating,
     Column_HasCUE,
+    Column_EBUR128IntegratedLoudness,
+    Column_EBUR128LoudnessRange,
     ColumnCount
   };
 
