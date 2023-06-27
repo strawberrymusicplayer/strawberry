@@ -102,6 +102,7 @@ class CollectionWatcher : public QObject {
 
     SongList FindSongsInSubdirectory(const QString &path);
     bool HasSongsWithMissingFingerprint(const QString &path);
+    bool HasSongsWithMissingLoudnessCharacteristics(const QString &path);
     bool HasSeenSubdir(const QString &path);
     void SetKnownSubdirs(const CollectionSubdirectoryList &subdirs);
     CollectionSubdirectoryList GetImmediateSubdirs(const QString &path);
@@ -155,6 +156,9 @@ class CollectionWatcher : public QObject {
 
     QMultiMap<QString, Song> cached_songs_missing_fingerprint_;
     bool cached_songs_missing_fingerprint_dirty_;
+
+    QMultiMap<QString, Song> cached_songs_missing_loudness_characteristics_;
+    bool cached_songs_missing_loudness_characteristics_dirty_;
 
     CollectionSubdirectoryList known_subdirs_;
     bool known_subdirs_dirty_;
