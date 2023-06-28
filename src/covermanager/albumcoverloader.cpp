@@ -213,7 +213,7 @@ void AlbumCoverLoader::ProcessTask(TaskPtr task) {
 void AlbumCoverLoader::FinishTask(TaskPtr task, const AlbumCoverLoaderResult::Type result_type) {
 
   QImage image_scaled;
-  if (task->success) {
+  if (!task->album_cover.image_data.isEmpty() && !task->album_cover.image.isNull()) {
     task->result_type = result_type;
     task->album_cover.mime_type = Utilities::MimeTypeFromData(task->album_cover.image_data);
     if (task->scaled_image()) {
