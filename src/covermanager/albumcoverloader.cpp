@@ -227,7 +227,7 @@ void AlbumCoverLoader::FinishTask(TaskPtr task, const AlbumCoverLoaderResult::Ty
     }
   }
 
-  emit AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(task->success, task->result_type, task->album_cover, image_scaled, task->art_updated));
+  emit AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(task->success, task->result_type, task->album_cover, image_scaled, task->art_manual_updated, task->art_automatic_updated));
 
 }
 
@@ -237,13 +237,13 @@ void AlbumCoverLoader::InitArt(TaskPtr task) {
   if (task->song.is_valid() && (task->song.source() == Song::Source::LocalFile || task->song.is_radio()) && !task->song.art_manual_is_valid() && !task->song.art_automatic_is_valid()) {
     task->song.InitArtManual();
     if (task->song.art_manual_is_valid()) {
-      task->art_updated = true;
+      task->art_manual_updated = task->song.art_manual();
       task->art_manual = task->song.art_manual();
     }
     if (task->song.url().isLocalFile()) {
       task->song.InitArtAutomatic();
       if (task->song.art_automatic_is_valid()) {
-        task->art_updated = true;
+        task->art_automatic_updated = task->song.art_automatic();
         task->art_automatic = task->song.art_automatic();
       }
     }

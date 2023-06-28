@@ -42,21 +42,21 @@ class AlbumCoverLoaderResult {
                                   const Type _type = Type::None,
                                   AlbumCoverImageResult _album_cover = AlbumCoverImageResult(),
                                   const QImage &_image_scaled = QImage(),
-                                  const bool _remote_cover = false,
-                                  const bool _updated = false) :
+                                  const QUrl _art_manual_updated = QUrl(),
+                                  const QUrl _art_automatic_updated = QUrl()) :
                                   success(_success),
                                   type(_type),
                                   album_cover(_album_cover),
                                   image_scaled(_image_scaled),
-                                  remote_cover(_remote_cover),
-                                  updated(_updated) {}
+                                  art_manual_updated(_art_manual_updated),
+                                  art_automatic_updated(_art_automatic_updated) {}
 
   bool success;
   Type type;
   AlbumCoverImageResult album_cover;
   QImage image_scaled;
-  bool remote_cover;
-  bool updated;
+  QUrl art_manual_updated;
+  QUrl art_automatic_updated;
 
   QUrl temp_cover_url;
 };

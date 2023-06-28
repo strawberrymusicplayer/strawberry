@@ -59,7 +59,7 @@ class CurrentAlbumCoverLoader : public QObject {
   void ThumbnailLoaded(const Song &song, const QUrl &thumbnail_uri, const QImage &image);
 
  private slots:
-  void TempAlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResult result);
+  void AlbumCoverReady(const quint64 id, AlbumCoverLoaderResult result);
 
  private:
   Application *app_;

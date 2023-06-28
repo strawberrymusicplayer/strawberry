@@ -46,8 +46,8 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *pare
   options_.desired_scaled_size = QSize(120, 120);
   options_.default_cover = ":/pictures/cdcase.png";
 
-  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CurrentAlbumCoverLoader::TempAlbumCoverLoaded);
   QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &CurrentAlbumCoverLoader::LoadAlbumCover);
+  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CurrentAlbumCoverLoader::AlbumCoverReady);
 
   ReloadSettingsAsync();
 
@@ -79,7 +79,7 @@ void CurrentAlbumCoverLoader::LoadAlbumCover(const Song &song) {
 
 }
 
-void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResult result) {
+void CurrentAlbumCoverLoader::AlbumCoverReady(const quint64 id, AlbumCoverLoaderResult result) {
 
   if (id != id_) return;
   id_ = 0;
@@ -117,8 +117,11 @@ void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverL
     }
   }
 
-  if (result.updated) {
-    last_song_.set_art_manual(result.album_cover.cover_url);
+  if (result.art_manual_updated.isValid()) {
+    last_song_.set_art_manual(result.art_manual_updated);
+  }
+  if (result.art_automatic_updated.isValid()) {
+    last_song_.set_art_automatic(result.art_automatic_updated);
   }
 
   emit AlbumCoverLoaded(last_song_, result);

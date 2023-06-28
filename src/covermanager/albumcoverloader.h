@@ -69,7 +69,7 @@ class AlbumCoverLoader : public QObject {
  private:
   class Task {
    public:
-    explicit Task() : id(0), success(false), art_embedded(false), art_unset(false), result_type(AlbumCoverLoaderResult::Type::None), art_updated(false), redirects(0) {}
+    explicit Task() : id(0), success(false), art_embedded(false), art_unset(false), song_source(Song::Source::Unknown), result_type(AlbumCoverLoaderResult::Type::None), redirects(0) {}
 
     quint64 id;
     bool success;
@@ -90,7 +90,8 @@ class AlbumCoverLoader : public QObject {
     Song song;
     AlbumCoverImageResult album_cover;
     AlbumCoverLoaderResult::Type result_type;
-    bool art_updated;
+    QUrl art_manual_updated;
+    QUrl art_automatic_updated;
     int redirects;
   };
   using TaskPtr = shared_ptr<Task>;
@@ -110,7 +111,6 @@ class AlbumCoverLoader : public QObject {
  private:
   quint64 EnqueueTask(TaskPtr task);
   void ProcessTask(TaskPtr task);
-  void NextState(TaskPtr task);
   void InitArt(TaskPtr task);
   LoadImageResult LoadImage(TaskPtr task, const AlbumCoverLoaderOptions::Type &type);
   LoadImageResult LoadEmbeddedImage(TaskPtr task);
