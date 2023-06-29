@@ -2,6 +2,12 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 1.0.19 (?):
+
+  New features
+    * Support performing song loudness analysis using `libebur128` (#1216).
+    * Support song playback loudness normalization, as per EBU R 128 (#1216).
+
 Version 1.0.18 (2023.07.02):
 
   Bugfixes:
