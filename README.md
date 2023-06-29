@@ -48,6 +48,7 @@ Funding developers is a way to contribute to open source projects you appreciate
   * Playlist management
   * Smart and dynamic playlists
   * Advanced audio output and device configuration for bit-perfect playback on Linux
+  * In-player song loudness analysis and song playback loudness normalization, as per EBU R 128
   * Edit tags on audio files
   * Fetch tags from MusicBrainz
   * Album cover art from [Last.fm](https://www.last.fm/), [Musicbrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/), [Musixmatch](https://www.musixmatch.com/), [Deezer](https://www.deezer.com/), [Tidal](https://www.tidal.com/), [Qobuz](https://www.qobuz.com/) and [Spotify](https://www.spotify.com/)
