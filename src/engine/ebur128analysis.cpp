@@ -282,9 +282,10 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
   GstElement *src = CreateElement("filesrc", pipeline);
   GstElement *decode = CreateElement("decodebin", pipeline);
   GstElement *convert = CreateElement("audioconvert", pipeline);
+  GstElement *queue = CreateElement("queue2", pipeline);
   GstElement *sink = CreateElement("appsink", pipeline);
 
-  if (!src || !decode || !convert || !sink) {
+  if (!src || !decode || !convert || !queue || !sink) {
     gst_object_unref(pipeline);
     return std::nullopt;
   }
@@ -300,15 +301,29 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
     "layout = (string) interleaved");
 
   GstCaps *caps = gst_static_caps_get(&static_caps);
-  gst_element_link_filtered(convert, sink, caps);
+  // Place a queue before the sink. It really does matter for performance.
+  gst_element_link_filtered(convert, queue, caps);
+  gst_element_link_many(queue, sink, nullptr);
   gst_caps_unref(caps);
+
+  // Allow the queue to contain up to 60s of audio. It is a magical number,
+  // going higher does not appear to be beneficial for performance,
+  // and while it can be lower, that generally restricts decoding parallelizm.
+  g_object_set(G_OBJECT(queue), "max-size-time", 60 * GST_SECOND, nullptr);
+  // And disable the default buffer and byte limits.
+  g_object_set(G_OBJECT(queue), "max-size-buffers", 0, nullptr);
+  g_object_set(G_OBJECT(queue), "max-size-bytes", 0, nullptr);
 
   GstAppSinkCallbacks callbacks;
   memset(&callbacks, 0, sizeof(callbacks));
   callbacks.new_sample = NewBufferCallback;
   gst_app_sink_set_callbacks(reinterpret_cast<GstAppSink*>(sink), &callbacks, &impl, nullptr);
+  g_object_set(G_OBJECT(sink), "buffer-list", FALSE, nullptr);
   g_object_set(G_OBJECT(sink), "sync", FALSE, nullptr);
   g_object_set(G_OBJECT(sink), "emit-signals", TRUE, nullptr);
+
+  // Disable in-appsink buffering, since we place a proper queue before it.
+  g_object_set(G_OBJECT(sink), "max-buffers", 1, nullptr);
 
   // Set the filename
   g_object_set(src, "location", song.url().toLocalFile().toUtf8().constData(), nullptr);
