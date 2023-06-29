@@ -154,9 +154,6 @@ const QString Song::kFtsColumnSpec = Song::kFtsColumns.join(", ");
 const QString Song::kFtsBindSpec = Utilities::Prepend(":", Song::kFtsColumns).join(", ");
 const QString Song::kFtsUpdateSpec = Utilities::Updateify(Song::kFtsColumns).join(", ");
 
-const QString Song::kManuallyUnsetCover = "(unset)";
-const QString Song::kEmbeddedCover = "(embedded)";
-
 const QRegularExpression Song::kAlbumRemoveDisc(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$", QRegularExpression::CaseInsensitiveOption);
 const QRegularExpression Song::kAlbumRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|([0-9]{1,4}) *Remaster|Explicit) ?((\\)|\\])?)$", QRegularExpression::CaseInsensitiveOption);
 const QRegularExpression Song::kTitleRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|Remastered Version|([0-9]{1,4}) *Remaster) ?((\\)|\\])?)$", QRegularExpression::CaseInsensitiveOption);
@@ -1315,32 +1312,9 @@ void Song::InitFromQuery(const SqlRow &q, const bool reliable_metadata) {
   d->compilation_off_ = q.ValueToBool("compilation_off");
 
   d->art_embedded_ = q.ValueToBool("art_embedded");
+  d->art_automatic_ = QUrl::fromEncoded(q.ValueToString("art_automatic").toUtf8());
+  d->art_manual_ = QUrl::fromEncoded(q.ValueToString("art_manual").toUtf8());
   d->art_unset_ = q.ValueToBool("art_unset");
-
-  const QString art_automatic = q.ValueToString("art_automatic");
-  if (!art_automatic.isEmpty()) {
-    QUrl url_art_automatic = QUrl::fromEncoded(art_automatic.toUtf8());
-    if (url_art_automatic.isValid()) {
-      if (url_art_automatic.path() == kEmbeddedCover) {
-        d->art_embedded_ = true;
-      }
-      else {
-        d->art_automatic_ = url_art_automatic;
-      }
-    }
-  }
-  const QString art_manual = q.ValueToString("art_manual");
-  if (!art_manual.isEmpty()) {
-    const QUrl url_art_manual = QUrl::fromEncoded(art_manual.toUtf8());
-    if (url_art_manual.isValid()) {
-      if (url_art_manual.path() == kManuallyUnsetCover) {
-        d->art_unset_ = true;
-      }
-      else {
-        d->art_manual_ = url_art_manual;
-      }
-    }
-  }
 
   d->cue_path_ = q.ValueToString("cue_path");
   d->rating_ = q.ValueToFloat("rating");

@@ -427,8 +427,6 @@ class Song {
   QString AlbumKey() const;
 
  private:
-  static const QString kManuallyUnsetCover;
-  static const QString kEmbeddedCover;
   struct Private;
 
   static QString sortable(const QString &v);
