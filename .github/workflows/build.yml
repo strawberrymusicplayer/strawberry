@@ -161,7 +161,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        fedora_version: [ '36', '37', '38', '39' ]
+        fedora_version: [ '37', '38', '39' ]
     container:
       image: fedora:${{matrix.fedora_version}}
     steps:
