@@ -26,6 +26,7 @@ Unreleased:
     * (macOS) Disable unused D-Bus.
     * (Windows) Fixed command line options not working with diacritics (#1191).
     * (Windows) Fixed issue with saving album covers in album directory being saved in temp directory instead.
+    * (Windows) Fixed crash when trying a play a song which doesn't exist, gstreamer issue #1683 (#1214).
 
   Enhancements:
     * Reduce memory overhead with album cover handling (#1046).
