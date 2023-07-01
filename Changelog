@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.18 (2023.07.02):
 
   Bugfixes:
     * Fixed reading disc from QObuz songs (#1168).
