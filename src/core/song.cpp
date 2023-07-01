@@ -54,7 +54,6 @@
 #include "utilities/coverutils.h"
 #include "utilities/timeconstants.h"
 #include "song.h"
-#include "application.h"
 #include "sqlquery.h"
 #include "mpris_common.h"
 #include "sqlrow.h"
