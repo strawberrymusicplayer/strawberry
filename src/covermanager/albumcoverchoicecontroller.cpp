@@ -179,13 +179,13 @@ AlbumCoverImageResult AlbumCoverChoiceController::LoadImageFromFile(Song *song) 
   QString cover_file = QFileDialog::getOpenFileName(this, tr("Load cover from disk"), GetInitialPathForFileDialog(*song, QString()), tr(kLoadImageFileFilter) + ";;" + tr(kAllFilesFilter));
   if (cover_file.isEmpty()) return AlbumCoverImageResult();
 
-  AlbumCoverImageResult result;
   QFile file(cover_file);
   if (!file.open(QIODevice::ReadOnly)) {
     qLog(Error) << "Failed to open cover file" << cover_file << "for reading:" << file.errorString();
     emit Error(tr("Failed to open cover file %1 for reading: %2").arg(cover_file, file.errorString()));
     return AlbumCoverImageResult();
   }
+  AlbumCoverImageResult result;
   result.image_data = file.readAll();
   file.close();
   if (result.image_data.isEmpty()) {
