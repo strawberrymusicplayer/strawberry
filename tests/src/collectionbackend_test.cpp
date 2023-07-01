@@ -338,7 +338,7 @@ TEST_F(SingleSong, MarkSongsUnavailable) {
   // Check the song is marked as deleted.
   Song song = backend_->GetSongById(1);
   EXPECT_TRUE(song.is_valid());
-  EXPECT_TRUE(song.is_unavailable());
+  EXPECT_TRUE(song.unavailable());
 
   // And the artist or album shouldn't show up either
   QStringList artists = backend_->GetAllArtists();
