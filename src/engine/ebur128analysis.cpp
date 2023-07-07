@@ -29,6 +29,7 @@
 #include <glib-object.h>
 #include <glib.h>
 #include <gst/app/gstappsink.h>
+#include <gst/audio/audio-channels.h>
 #include <gst/gst.h>
 
 #include <QCoreApplication>
@@ -54,6 +55,100 @@ struct GstSampleDeleter {
   void operator()(GstSample *s) const { gst_sample_unref(s); };
 };
 
+// Remap from the channels defined in SMPTE 2036-2-2008
+// to the channels defined in ITU R-REC-BS 1770-4.
+//
+// As specified in ITU R-REC-BS 1770-4, TABLE 4,
+// "Position-dependent weightings of the channels",
+// if the nominal position of the speaker is:
+// *     |Elevation (phi)| < 30deg
+// * and 60deg <= |Azimuth (theta)| <= 120° (i.e. +-90deg +- 30deg)
+// ... then the channel is weighted at +1.5 dB.
+//
+// ITU R-REC-BS 1770-4 uppper and bottom position channels are at +-45deg,
+// So only the middle-position channels are affected.
+channel gst_channel_to_ebur_channel(GstAudioChannelPosition pos) {
+
+  switch (pos) {
+    case GST_AUDIO_CHANNEL_POSITION_NONE:
+    case GST_AUDIO_CHANNEL_POSITION_INVALID:
+    case GST_AUDIO_CHANNEL_POSITION_LFE1:
+    case GST_AUDIO_CHANNEL_POSITION_LFE2:
+      return EBUR128_UNUSED;
+
+    case GST_AUDIO_CHANNEL_POSITION_MONO:
+      return EBUR128_DUAL_MONO; // +6 dB
+
+    case GST_AUDIO_CHANNEL_POSITION_SURROUND_LEFT:
+      return EBUR128_LEFT_SURROUND;
+    case GST_AUDIO_CHANNEL_POSITION_SURROUND_RIGHT:
+      return EBUR128_RIGHT_SURROUND;
+
+    case GST_AUDIO_CHANNEL_POSITION_BOTTOM_FRONT_CENTER:
+      return EBUR128_Bp000;
+
+    case GST_AUDIO_CHANNEL_POSITION_BOTTOM_FRONT_LEFT:
+      return EBUR128_Bm045;
+    case GST_AUDIO_CHANNEL_POSITION_BOTTOM_FRONT_RIGHT:
+      return EBUR128_Bp045;
+
+    case GST_AUDIO_CHANNEL_POSITION_TOP_CENTER:
+    case GST_AUDIO_CHANNEL_POSITION_TOP_FRONT_CENTER:
+      return EBUR128_Up000;
+
+    case GST_AUDIO_CHANNEL_POSITION_TOP_REAR_CENTER:
+      return EBUR128_Up180;
+
+    case GST_AUDIO_CHANNEL_POSITION_TOP_SIDE_LEFT:
+      return EBUR128_Um090;
+    case GST_AUDIO_CHANNEL_POSITION_TOP_SIDE_RIGHT:
+      return EBUR128_Up090;
+
+    case GST_AUDIO_CHANNEL_POSITION_TOP_FRONT_LEFT:
+      return EBUR128_Um045;
+    case GST_AUDIO_CHANNEL_POSITION_TOP_FRONT_RIGHT:
+      return EBUR128_Up045;
+
+    case GST_AUDIO_CHANNEL_POSITION_TOP_REAR_LEFT:
+      return EBUR128_Um135;
+    case GST_AUDIO_CHANNEL_POSITION_TOP_REAR_RIGHT:
+      return EBUR128_Up135;
+
+    case GST_AUDIO_CHANNEL_POSITION_FRONT_CENTER:
+      return EBUR128_Mp000;
+
+    case GST_AUDIO_CHANNEL_POSITION_REAR_CENTER:
+      return EBUR128_Mp180;
+
+    case GST_AUDIO_CHANNEL_POSITION_FRONT_LEFT:
+      return EBUR128_Mm030;
+    case GST_AUDIO_CHANNEL_POSITION_FRONT_RIGHT:
+      return EBUR128_Mp030;
+
+    case GST_AUDIO_CHANNEL_POSITION_FRONT_LEFT_OF_CENTER:
+      return EBUR128_MmSC;
+    case GST_AUDIO_CHANNEL_POSITION_FRONT_RIGHT_OF_CENTER:
+      return EBUR128_MpSC;
+
+    case GST_AUDIO_CHANNEL_POSITION_WIDE_LEFT:
+      return EBUR128_Mm060; // +1.5 dB
+    case GST_AUDIO_CHANNEL_POSITION_WIDE_RIGHT:
+      return EBUR128_Mp060; // +1.5 dB
+
+    case GST_AUDIO_CHANNEL_POSITION_SIDE_LEFT:
+      return EBUR128_Mm090; // +1.5 dB
+    case GST_AUDIO_CHANNEL_POSITION_SIDE_RIGHT:
+      return EBUR128_Mp090; // +1.5 dB
+
+    case GST_AUDIO_CHANNEL_POSITION_REAR_LEFT:
+      return EBUR128_Mm110; // +1.5 dB
+    case GST_AUDIO_CHANNEL_POSITION_REAR_RIGHT:
+      return EBUR128_Mp110; // +1.5 dB
+  }
+  Q_UNREACHABLE();
+
+}
+
 struct FrameFormat {
   enum class DataFormat {
     S16,
@@ -63,6 +158,7 @@ struct FrameFormat {
   };
 
   int channels;
+  guint64 channel_mask;
   int samplerate;
   DataFormat format;
 
@@ -110,6 +206,7 @@ FrameFormat::FrameFormat(GstCaps *caps) {
   QString format_str = gst_structure_get_string(structure, "format");
   gst_structure_get_int(structure, "rate", &samplerate);
   gst_structure_get_int(structure, "channels", &channels);
+  channel_mask = gst_value_get_bitmask(gst_structure_get_value(structure, "channel-mask"));
 
   if (format_str == "S16LE") {
     format = DataFormat::S16;
@@ -132,7 +229,7 @@ FrameFormat::FrameFormat(GstCaps *caps) {
 
 bool operator==(const FrameFormat &lhs, const FrameFormat &rhs) {
 
-  return std::tie(lhs.channels, lhs.samplerate, lhs.format) == std::tie(rhs.channels, rhs.samplerate, rhs.format);
+  return std::tie(lhs.channels, lhs.channel_mask, lhs.samplerate, lhs.format) == std::tie(rhs.channels, rhs.channel_mask, rhs.samplerate, rhs.format);
 
 }
 bool operator!=(const FrameFormat &lhs, const FrameFormat &rhs) {
@@ -145,6 +242,16 @@ EBUR128State::EBUR128State(FrameFormat dsc_) : dsc(dsc_) {
 
   st.reset(ebur128_init(dsc.channels, dsc.samplerate, EBUR128_MODE_I | EBUR128_MODE_LRA));
   Q_ASSERT(st);
+
+  std::vector<GstAudioChannelPosition> positions(dsc.channels, GST_AUDIO_CHANNEL_POSITION_INVALID);
+  gboolean success = gst_audio_channel_positions_from_mask(dsc.channels, dsc.channel_mask, positions.data());
+  Q_ASSERT(success);
+
+  // Propagate our knowledge of audio channel mapping to libebur128, doing so
+  // is important because loudness measurement is channel-position dependent.
+  for (int channel_number = 0; channel_number != dsc.channels; ++channel_number) {
+    ebur128_set_channel(&*st, channel_number, gst_channel_to_ebur_channel(positions[channel_number]));
+  }
 
 };
 
