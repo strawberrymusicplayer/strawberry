@@ -87,6 +87,7 @@ class GstEnginePipeline : public QObject {
   // Control the music playback
   QFuture<GstStateChangeReturn> SetState(const GstState state);
   Q_INVOKABLE bool Seek(const qint64 nanosec);
+  void SetEBUR128LoudnessNormalizingGain_dB(const double ebur128_loudness_normalizing_gain_db);
   void SetVolume(const uint volume_percent);
   void SetStereoBalance(const float value);
   void SetEqualizerParams(const int preamp, const QList<int> &band_gains);
@@ -175,6 +176,7 @@ class GstEnginePipeline : public QObject {
   static QString ParseStrTag(GstTagList *list, const char *tag);
   static guint ParseUIntTag(GstTagList *list, const char *tag);
 
+  void UpdateEBUR128LoudnessNormalizingGaindB();
   void UpdateStereoBalance();
   void UpdateEqualizer();
 

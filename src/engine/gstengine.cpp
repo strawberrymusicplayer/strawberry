@@ -190,9 +190,9 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
     crossfade = false;
   }
 
-  if (!crossfade && current_pipeline_ && current_pipeline_->stream_url() == stream_url && current_pipeline_->ebur128_loudness_normalizing_gain_db() == ebur128_loudness_normalizing_gain_db_ && change & EngineBase::TrackChangeType::Auto) {
+  if (!crossfade && current_pipeline_ && current_pipeline_->stream_url() == stream_url && change & EngineBase::TrackChangeType::Auto) {
     // We're not crossfading, and the pipeline is already playing the URI we want, so just do nothing.
-    // FIXME: can we handle changing of loudness-normalizing gain here?
+    current_pipeline_->SetEBUR128LoudnessNormalizingGain_dB(ebur128_loudness_normalizing_gain_db_);
     return true;
   }
 
