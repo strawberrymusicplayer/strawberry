@@ -602,9 +602,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       return false;
     }
 
-    auto dB_to_mult = [](const double gain_dB) { return std::pow(10., gain_dB / 20.); };
-
-    g_object_set(G_OBJECT(ebur128_volume_), "volume", dB_to_mult(ebur128_loudness_normalizing_gain_db_), nullptr);
+    UpdateEBUR128LoudnessNormalizingGaindB();
 
     eventprobe_ = ebur128_volume_;
   }
@@ -1532,6 +1530,23 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
   pending_seek_nanosec_ = -1;
   last_known_position_ns_ = nanosec;
   return gst_element_seek_simple(pipeline_, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, nanosec);
+
+}
+
+void GstEnginePipeline::SetEBUR128LoudnessNormalizingGain_dB(const double ebur128_loudness_normalizing_gain_db) {
+
+  ebur128_loudness_normalizing_gain_db_ = ebur128_loudness_normalizing_gain_db;
+  UpdateEBUR128LoudnessNormalizingGaindB();
+
+}
+
+void GstEnginePipeline::UpdateEBUR128LoudnessNormalizingGaindB() {
+
+  if (ebur128_volume_) {
+    auto dB_to_mult = [](const double gain_dB) { return std::pow(10., gain_dB / 20.); };
+
+    g_object_set(G_OBJECT(ebur128_volume_), "volume", dB_to_mult(ebur128_loudness_normalizing_gain_db_), nullptr);
+  }
 
 }
 
