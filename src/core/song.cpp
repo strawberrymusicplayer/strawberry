@@ -788,6 +788,13 @@ bool Song::IsMusicBrainzEqual(const Song &other) const {
 
 }
 
+bool Song::IsEBUR128Equal(const Song &other) const {
+
+  return d->ebur128_integrated_loudness_lufs_ == other.d->ebur128_integrated_loudness_lufs_ &&
+    d->ebur128_loudness_range_lu_ == other.d->ebur128_loudness_range_lu_;
+
+}
+
 bool Song::IsArtEqual(const Song &other) const {
 
   return d->art_embedded_ == other.d->art_embedded_ &&

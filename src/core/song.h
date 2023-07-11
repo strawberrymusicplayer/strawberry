@@ -374,6 +374,7 @@ class Song {
   bool IsFingerprintEqual(const Song &other) const;
   bool IsAcoustIdEqual(const Song &other) const;
   bool IsMusicBrainzEqual(const Song &other) const;
+  bool IsEBUR128Equal(const Song &other) const;
   bool IsArtEqual(const Song &other) const;
   bool IsAllMetadataEqual(const Song &other) const;
 
