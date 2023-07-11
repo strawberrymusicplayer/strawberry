@@ -6,7 +6,7 @@ if(NOT protobuf_PROTOC_EXE)
 endif()
 
 if(NOT Protobuf_LIBRARIES)
-  set(Protobuf_LIBRARIES protobuf::libprotobuf protobuf::libprotoc)
+  set(Protobuf_LIBRARIES protobuf::libprotobuf)
 endif()
 
 set(SOURCES tagreaderbase.cpp tagreadermessages.proto)
