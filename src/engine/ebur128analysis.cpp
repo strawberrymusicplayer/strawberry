@@ -200,7 +200,7 @@ class EBUR128AnalysisImpl {
   static GstFlowReturn NewBufferCallback(GstAppSink *app_sink, gpointer self);
 };
 
-FrameFormat::FrameFormat(GstCaps *caps) {
+FrameFormat::FrameFormat(GstCaps *caps) : channels(0), samplerate(0) {
 
   GstStructure *structure = gst_caps_get_structure(caps, 0);
   QString format_str = gst_structure_get_string(structure, "format");
@@ -279,7 +279,7 @@ void EBUR128State::AddFrames(const char *data, size_t size) {
   Q_ASSERT(size % bytes_per_frame == 0);
   auto num_frames = size / bytes_per_frame;
 
-  int ebur_error;
+  int ebur_error = 0;
   switch (dsc.format) {
     case FrameFormat::DataFormat::S16:
       ebur_error = ebur128_add_frames_short(&*st, reinterpret_cast<const int16_t*>(data), num_frames);
