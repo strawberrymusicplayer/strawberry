@@ -174,7 +174,7 @@ class EBUR128State {
   EBUR128State &operator=(const EBUR128State&) = delete;
   EBUR128State &operator=(EBUR128State&&) = delete;
 
-  explicit EBUR128State(FrameFormat dsc_);
+  explicit EBUR128State(FrameFormat _dsc);
   const FrameFormat dsc;
 
   void AddFrames(const char *data, size_t size);
@@ -238,7 +238,7 @@ bool operator!=(const FrameFormat &lhs, const FrameFormat &rhs) {
 
 }
 
-EBUR128State::EBUR128State(FrameFormat dsc_) : dsc(dsc_) {
+EBUR128State::EBUR128State(FrameFormat _dsc) : dsc(_dsc) {
 
   st.reset(ebur128_init(dsc.channels, dsc.samplerate, EBUR128_MODE_I | EBUR128_MODE_LRA));
   Q_ASSERT(st);
