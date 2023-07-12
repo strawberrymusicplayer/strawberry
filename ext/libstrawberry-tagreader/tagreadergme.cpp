@@ -120,6 +120,7 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
     if (fade_length_in_ms > 0x7FFF) {
       fade_length_in_ms = fade_bytes[0] | (fade_bytes[1] << 8) | (fade_bytes[2] << 16) | (fade_bytes[3] << 24);
     }
+    Q_UNUSED(fade_length_in_ms)
   }
 
   // Check for XID6 data -- this is infrequently used, but being able to fill in data from this is ideal before trying to rely on APETAG values.
@@ -141,7 +142,7 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
         qint8 type = arr[1];
         Q_UNUSED(id);
         Q_UNUSED(type);
-        qint16 length = arr[2] | (arr[3] << 8);
+        qint16 length = static_cast<qint16>(arr[2] | (arr[3] << 8));
 
         file.read(GetNextMemAddressAlign32bit(length));
       }
@@ -161,8 +162,8 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
     TagReaderTagLib::TStringToStdString(tag->album(), song_info->mutable_album());
     TagReaderTagLib::TStringToStdString(tag->title(), song_info->mutable_title());
     TagReaderTagLib::TStringToStdString(tag->genre(), song_info->mutable_genre());
-    song_info->set_track(tag->track());
-    song_info->set_year(tag->year());
+    song_info->set_track(static_cast<std::int32_t>(tag->track()));
+    song_info->set_year(static_cast<std::int32_t>(tag->year()));
   }
 
   song_info->set_valid(true);
@@ -171,7 +172,7 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
 }
 
 qint16 GME::SPC::GetNextMemAddressAlign32bit(qint16 input) {
-  return ((input + 0x3) & ~0x3);
+  return static_cast<qint16>((input + 0x3) & ~0x3);
   // Plus 0x3 for rounding up (not down), AND NOT to flatten out on a 32 bit level.
 }
 
@@ -211,7 +212,7 @@ void GME::VGM::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
 
   if (!GetPlaybackLength(sample_count_bytes, loop_count_bytes, length)) return;
 
-  file.seek(GD3_TAG_PTR + pt);
+  file.seek(static_cast<qint64>(GD3_TAG_PTR + pt));
   QByteArray gd3_version = file.read(4);
 
   file.seek(file.pos() + 4);
