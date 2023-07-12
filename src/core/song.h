@@ -225,12 +225,6 @@ class Song {
 
   const QUrl &stream_url() const;
 
-  static QString Ebur128LoudnessLUFSToText(const std::optional<double> &v);
-  QString Ebur128LoudnessLUFSToText() const;
-
-  static QString Ebur128LoudnessRangeLUToText(const std::optional<double> &v);
-  QString Ebur128LoudnessRangeLUToText() const;
-
   // Setters
   void set_id(const int id);
   void set_valid(const bool v);
@@ -362,6 +356,12 @@ class Song {
   QString TitleWithCompilationArtist() const;
 
   QString SampleRateBitDepthToText() const;
+
+  static QString Ebur128LoudnessLUFSToText(const std::optional<double> &v);
+  QString Ebur128LoudnessLUFSToText() const;
+
+  static QString Ebur128LoudnessRangeLUToText(const std::optional<double> &v);
+  QString Ebur128LoudnessRangeLUToText() const;
 
   QString PrettyRating() const;
 
