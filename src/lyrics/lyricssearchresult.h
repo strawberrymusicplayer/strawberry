@@ -20,8 +20,9 @@
 #ifndef LYRICSSEARCHRESULT_H
 #define LYRICSSEARCHRESULT_H
 
-#include <QString>
 #include <QMetaType>
+#include <QList>
+#include <QString>
 
 class LyricsSearchResult {
  public:
