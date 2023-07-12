@@ -20,6 +20,7 @@
 #ifndef RADIOCHANNEL_H
 #define RADIOCHANNEL_H
 
+#include <QMetaType>
 #include <QList>
 #include <QString>
 #include <QUrl>

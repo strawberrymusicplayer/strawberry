@@ -22,6 +22,7 @@
 
 #include <QtGlobal>
 #include <QString>
+#include <QMetaType>
 
 class LyricsSearchRequest {
  public:

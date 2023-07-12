@@ -24,6 +24,7 @@
 
 #include <QImage>
 #include <QUrl>
+#include <QMetaType>
 
 #include "albumcoverimageresult.h"
 

@@ -23,6 +23,7 @@
 
 #include "config.h"
 
+#include <QMetaType>
 #include <QList>
 #include <QDataStream>
 #include <QVariant>

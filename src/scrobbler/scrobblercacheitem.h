@@ -25,6 +25,7 @@
 #include <memory>
 
 #include <QtGlobal>
+#include <QMetaType>
 
 #include "scrobblemetadata.h"
 

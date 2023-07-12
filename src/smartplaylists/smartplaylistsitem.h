@@ -23,6 +23,7 @@
 
 #include "config.h"
 
+#include <QMetaType>
 #include <QByteArray>
 
 #include "core/simpletreeitem.h"

@@ -21,6 +21,7 @@
 #define RADIOSERVICE_H
 
 #include <QObject>
+#include <QMetaType>
 #include <QList>
 #include <QVariant>
 #include <QByteArray>
