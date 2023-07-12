@@ -655,7 +655,7 @@ float FilterParser::parseRating(const QString &rating_str) {
   float rating_input = rating_str.toFloat(&ok);
   // is valid int from 0-5: convert to float
   if (ok && rating_input >= 0 && rating_input <= 5) {
-    rating = rating_input / 5.;
+    rating = rating_input / 5.0F;
   }
 
   // check if the search is a float
