@@ -941,7 +941,7 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
 
 }
 
-void CollectionWatcher::PerformEBUR128Analysis(Song &song) {
+void CollectionWatcher::PerformEBUR128Analysis(Song &song) const {
 
   if (!song_ebur128_loudness_analysis_) return;
 

@@ -199,7 +199,7 @@ class CollectionWatcher : public QObject {
 
   static void AddChangedSong(const QString &file, const Song &matching_song, const Song &new_song, ScanTransaction *t);
 
-  void PerformEBUR128Analysis(Song &song);
+  void PerformEBUR128Analysis(Song &song) const;
 
   quint64 FilesCountForPath(ScanTransaction *t, const QString &path);
   quint64 FilesCountForSubdirs(ScanTransaction *t, const CollectionSubdirectoryList &subdirs, QMap<QString, quint64> &subdir_files_count);
