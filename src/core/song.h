@@ -301,8 +301,8 @@ class Song {
   void set_musicbrainz_release_group_id(const QString &v);
   void set_musicbrainz_work_id(const QString &v);
 
-  void set_ebur128_integrated_loudness_lufs(const std::optional<double> &v);
-  void set_ebur128_loudness_range_lu(const std::optional<double> &v);
+  void set_ebur128_integrated_loudness_lufs(const std::optional<double> v);
+  void set_ebur128_loudness_range_lu(const std::optional<double> v);
 
   void set_stream_url(const QUrl &v);
 
@@ -357,10 +357,10 @@ class Song {
 
   QString SampleRateBitDepthToText() const;
 
-  static QString Ebur128LoudnessLUFSToText(const std::optional<double> &v);
+  static QString Ebur128LoudnessLUFSToText(const std::optional<double> v);
   QString Ebur128LoudnessLUFSToText() const;
 
-  static QString Ebur128LoudnessRangeLUToText(const std::optional<double> &v);
+  static QString Ebur128LoudnessRangeLUToText(const std::optional<double> v);
   QString Ebur128LoudnessRangeLUToText() const;
 
   QString PrettyRating() const;

@@ -484,8 +484,8 @@ void Song::set_musicbrainz_disc_id(const QString &v) { d->musicbrainz_disc_id_ =
 void Song::set_musicbrainz_release_group_id(const QString &v) { d->musicbrainz_release_group_id_ = v; }
 void Song::set_musicbrainz_work_id(const QString &v) { d->musicbrainz_work_id_ = v; }
 
-void Song::set_ebur128_integrated_loudness_lufs(const std::optional<double> &v) { d->ebur128_integrated_loudness_lufs_ = v; }
-void Song::set_ebur128_loudness_range_lu(const std::optional<double> &v) { d->ebur128_loudness_range_lu_ = v; }
+void Song::set_ebur128_integrated_loudness_lufs(const std::optional<double> v) { d->ebur128_integrated_loudness_lufs_ = v; }
+void Song::set_ebur128_loudness_range_lu(const std::optional<double> v) { d->ebur128_loudness_range_lu_ = v; }
 
 void Song::set_stream_url(const QUrl &v) { d->stream_url_ = v; }
 
@@ -685,7 +685,7 @@ QString Song::SampleRateBitDepthToText() const {
 
 }
 
-QString Song::Ebur128LoudnessLUFSToText(const std::optional<double> &v) {
+QString Song::Ebur128LoudnessLUFSToText(const std::optional<double> v) {
 
   if (!v) return QObject::tr("Unknown");
 
@@ -697,7 +697,7 @@ QString Song::Ebur128LoudnessLUFSToText() const {
   return Ebur128LoudnessLUFSToText(d->ebur128_integrated_loudness_lufs_);
 }
 
-QString Song::Ebur128LoudnessRangeLUToText(const std::optional<double> &v) {
+QString Song::Ebur128LoudnessRangeLUToText(const std::optional<double> v) {
 
   if (!v) return QObject::tr("Unknown");
 
