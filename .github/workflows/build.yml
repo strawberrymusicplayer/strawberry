@@ -756,10 +756,12 @@ jobs:
         run: dpkg-buildpackage -S -d -k573D197B5EA20EDF
       - name: Upload Unstable PPA
         run: dput ppa:jonaski/strawberry-unstable ../*_source.changes
+      - name: Set is release
+        run: echo "is_release=$(grep '^\s*set\s*(\s*INCLUDE_GIT_REVISION\s\+OFF\s*)\s*$' cmake/Version.cmake >/dev/null 2>&1 && echo 1 || echo 0)" >> $GITHUB_ENV
       - name: Get release version
         run: echo "release_version=$(git describe --tags --exact-match ${GITHUB_SHA} 2>/dev/null | head -1)" >> $GITHUB_ENV
       - name: Upload Stable PPA
-        if: env.release_version != ''
+        if: env.is_release == '1' && env.release_version != ''
         run: dput ppa:jonaski/strawberry ../*_source.changes
 
 
@@ -1577,6 +1579,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set is release
+        run: echo "is_release=$(grep '^\s*set\s*(\s*INCLUDE_GIT_REVISION\s\+OFF\s*)\s*$' cmake/Version.cmake >/dev/null 2>&1 && echo 1 || echo 0)" >> $GITHUB_ENV
+
       - name: Get release version
         run: echo "release_version=$(git describe --tags --exact-match ${GITHUB_SHA} 2>/dev/null | head -1)" >> $GITHUB_ENV
 
@@ -1604,7 +1609,7 @@ jobs:
           key: ${{secrets.SSH_KEY}}
 
       - name: Add artifacts to release
-        if: env.release_version != ''
+        if: env.is_release == '1' && env.release_version != ''
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
