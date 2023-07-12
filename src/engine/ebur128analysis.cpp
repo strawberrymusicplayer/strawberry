@@ -145,6 +145,7 @@ channel gst_channel_to_ebur_channel(GstAudioChannelPosition pos) {
     case GST_AUDIO_CHANNEL_POSITION_REAR_RIGHT:
       return EBUR128_Mp110; // +1.5 dB
   }
+
   Q_UNREACHABLE();
 
 }

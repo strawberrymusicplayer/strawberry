@@ -602,6 +602,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
   else {
     return new FilterTerm(cmp, columns_.values());
   }
+
 }
 
 // Try and parse the string as '[[h:]m:]s' (ignoring all spaces),
@@ -639,7 +640,9 @@ int FilterParser::parseTime(const QString &time_str) {
     }
   }
   seconds = seconds * 60 + accum;
+
   return seconds;
+
 }
 
 // The rating column contains the rating as a float from 0-1 or -1 if unrated.
@@ -647,6 +650,7 @@ int FilterParser::parseTime(const QString &time_str) {
 // To use float values directly, the search term can be prefixed with "f" (rating:>f0.2)
 // If search is 0, or by default, uses -1
 float FilterParser::parseRating(const QString &rating_str) {
+
   if (rating_str.isEmpty()) {
     return -1;
   }
@@ -675,4 +679,5 @@ float FilterParser::parseRating(const QString &rating_str) {
   }
 
   return rating;
+
 }

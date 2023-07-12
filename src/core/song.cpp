@@ -690,6 +690,7 @@ QString Song::Ebur128LoudnessLUFSToText(const std::optional<double> &v) {
   if (!v) return QObject::tr("Unknown");
 
   return QString::asprintf("%+.2f ", *v) + QObject::tr("LUFS");
+
 }
 QString Song::Ebur128LoudnessLUFSToText() const {
   return Ebur128LoudnessLUFSToText(d->ebur128_integrated_loudness_lufs_);
@@ -700,6 +701,7 @@ QString Song::Ebur128LoudnessRangeLUToText(const std::optional<double> &v) {
   if (!v) return QObject::tr("Unknown");
 
   return QString::asprintf("%.2f ", *v) + QObject::tr("LU");
+
 }
 QString Song::Ebur128LoudnessRangeLUToText() const {
   return Ebur128LoudnessRangeLUToText(d->ebur128_loudness_range_lu_);
