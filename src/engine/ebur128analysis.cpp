@@ -254,7 +254,7 @@ EBUR128State::EBUR128State(FrameFormat _dsc) : dsc(_dsc) {
     ebur128_set_channel(&*st, channel_number, gst_channel_to_ebur_channel(positions[channel_number]));
   }
 
-};
+}
 
 void EBUR128State::AddFrames(const char *data, size_t size) {
 
@@ -494,7 +494,7 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
 
 }
 
-};  // namespace
+}  // namespace
 
 std::optional<EBUR128Measures> EBUR128Analysis::Compute(const Song &song) {
 
