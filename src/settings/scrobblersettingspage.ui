@@ -225,13 +225,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkbox_lastfm_https">
-        <property name="text">
-         <string>Use HTTPS for local redirectserver</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="LoginStateWidget" name="widget_lastfm_login_state" native="true"/>
       </item>
       <item>
@@ -438,7 +431,6 @@
   <tabstop>checkbox_source_somafm</tabstop>
   <tabstop>checkbox_source_radioparadise</tabstop>
   <tabstop>checkbox_lastfm_enable</tabstop>
-  <tabstop>checkbox_lastfm_https</tabstop>
   <tabstop>button_lastfm_login</tabstop>
   <tabstop>checkbox_librefm_enable</tabstop>
   <tabstop>button_librefm_login</tabstop>

@@ -87,7 +87,6 @@ void GeniusLyricsProvider::Authenticate() {
 
   if (!server_) {
     server_ = new LocalRedirectServer(this);
-    server_->set_https(false);
     server_->set_port(redirect_url.port());
     if (!server_->Listen()) {
       AuthError(server_->error());

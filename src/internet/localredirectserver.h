@@ -29,9 +29,6 @@
 #include <QString>
 #include <QUrl>
 #include <QTcpServer>
-#include <QSslCertificate>
-#include <QSslKey>
-#include <QSslError>
 
 class QAbstractSocket;
 
@@ -42,7 +39,6 @@ class LocalRedirectServer : public QTcpServer {
   explicit LocalRedirectServer(QObject *parent = nullptr);
   ~LocalRedirectServer() override;
 
-  void set_https(const bool https) { https_ = https; }
   void set_port(const int port) { port_ = port; }
   bool Listen();
   const QUrl &url() const { return url_; }
@@ -55,7 +51,6 @@ class LocalRedirectServer : public QTcpServer {
  public slots:
   void NewConnection();
   void incomingConnection(qintptr socket_descriptor) override;
-  void SSLErrors(const QList<QSslError> &errors);
   void Encrypted();
   void Connected();
   void Disconnected();
@@ -71,8 +66,6 @@ class LocalRedirectServer : public QTcpServer {
   int port_;
   QUrl url_;
   QUrl request_url_;
-  QSslCertificate ssl_certificate_;
-  QSslKey ssl_key_;
   QAbstractSocket *socket_;
   QByteArray buffer_;
   QString error_;

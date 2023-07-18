@@ -54,14 +54,13 @@ class ScrobblingAPI20 : public ScrobblerService {
   void LoadSession();
 
   bool IsEnabled() const override { return enabled_; }
-  bool IsUseHTTPS() const { return https_; }
   bool IsAuthenticated() const override { return !username_.isEmpty() && !session_key_.isEmpty(); }
   bool IsSubscriber() const { return subscriber_; }
   bool IsSubmitted() const override { return submitted_; }
   void Submitted() override { submitted_ = true; }
   QString username() const { return username_; }
 
-  void Authenticate(const bool https = false);
+  void Authenticate();
   void Logout();
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;
@@ -148,7 +147,6 @@ class ScrobblingAPI20 : public ScrobblerService {
   LocalRedirectServer *server_;
 
   bool enabled_;
-  bool https_;
   bool prefer_albumartist_;
 
   bool subscriber_;

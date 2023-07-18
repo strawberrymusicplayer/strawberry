@@ -103,7 +103,6 @@ void SpotifyCoverProvider::Authenticate() {
 
   if (!server_) {
     server_ = new LocalRedirectServer(this);
-    server_->set_https(false);
     int port = redirect_url.port();
     int port_max = port + 10;
     bool success = false;

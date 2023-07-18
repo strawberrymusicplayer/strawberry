@@ -74,7 +74,6 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
       cache_(new ScrobblerCache(cache_file, this)),
       server_(nullptr),
       enabled_(false),
-      https_(false),
       prefer_albumartist_(false),
       subscriber_(false),
       submitted_(false),
@@ -113,7 +112,6 @@ void ScrobblingAPI20::ReloadSettings() {
 
   s.beginGroup(settings_group_);
   enabled_ = s.value("enabled", false).toBool();
-  https_ = s.value("https", false).toBool();
   s.endGroup();
 
   s.beginGroup(ScrobblerSettingsPage::kSettingsGroup);
@@ -193,11 +191,10 @@ ScrobblingAPI20::ReplyResult ScrobblingAPI20::GetJsonObject(QNetworkReply *reply
 
 }
 
-void ScrobblingAPI20::Authenticate(const bool https) {
+void ScrobblingAPI20::Authenticate() {
 
   if (!server_) {
     server_ = new LocalRedirectServer(this);
-    server_->set_https(https);
     if (!server_->Listen()) {
       AuthError(server_->error());
       delete server_;
@@ -260,7 +257,7 @@ void ScrobblingAPI20::RedirectArrived() {
       }
     }
     else {
-      AuthError(tr("Received invalid reply from web browser. Try the HTTPS option, or use another browser like Chromium or Chrome."));
+      AuthError(tr("Received invalid reply from web browser. Try another browser."));
     }
   }
   else {

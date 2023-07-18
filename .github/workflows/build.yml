@@ -47,7 +47,6 @@ jobs:
             dbus-1-devel
             alsa-devel
             libnotify-devel
-            libgnutls-devel
             protobuf-devel
             sqlite3-devel
             libpulse-devel
@@ -210,7 +209,6 @@ jobs:
             alsa-lib-devel
             pulseaudio-libs-devel
             libnotify-devel
-            gnutls-devel
             libicu-devel
             qt6-qtbase-devel
             qt6-qtbase-private-devel
@@ -311,7 +309,6 @@ jobs:
           sqlite-devel
           libasound-devel
           pulseaudio-devel
-          gnutls-devel
           lib64GL-devel
           libgst-plugins-base1.0-devel
           taglib-devel
@@ -424,7 +421,6 @@ jobs:
           lib64chromaprint-devel
           lib64ebur128-devel
           lib64icu-devel
-          lib64gnutls-devel
           lib64fftw-devel
           lib64dbus-devel
           lib64appstream-devel
@@ -520,7 +516,6 @@ jobs:
             libprotobuf-dev
             protobuf-compiler
             libsqlite3-dev
-            libgnutls28-dev
             libasound2-dev
             libpulse-dev
             libtag1-dev
@@ -617,7 +612,6 @@ jobs:
             libprotobuf-dev
             protobuf-compiler
             libsqlite3-dev
-            libgnutls28-dev
             libasound2-dev
             libpulse-dev
             libtag1-dev
@@ -716,7 +710,6 @@ jobs:
             libdbus-1-dev
             libprotobuf-dev
             libsqlite3-dev
-            libgnutls28-dev
             libasound2-dev
             libpulse-dev
             libtag1-dev
@@ -786,7 +779,7 @@ jobs:
       with:
         usesh: true
         mem: 4096
-        prepare: pkg install -y git cmake pkgconf gettext-tools boost-libs glib gnutls qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 protobuf protobuf-c taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 googletest iconv icu
+        prepare: pkg install -y git cmake pkgconf gettext-tools boost-libs glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 protobuf protobuf-c taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 googletest iconv icu
         run: |
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           cmake -E make_directory build
@@ -814,7 +807,7 @@ jobs:
         run: |
           brew install pkg-config cmake ninja meson bison flex wget create-dmg gettext boost protobuf protobuf-c rsync
           brew install glib glib-openssl glib-utils glib-networking gdk-pixbuf gobject-introspection orc
-          brew install libffi openssl gnutls sqlite fftw libmtp libplist libxml2 libsoup
+          brew install libffi openssl sqlite fftw libmtp libplist libxml2 libsoup
           brew install libogg libvorbis flac wavpack opus speex mpg123 lame twolame taglib chromaprint libebur128 libbs2b libcdio libopenmpt faad2 faac fdk-aac musepack game-music-emu
           brew install qt6
 
@@ -959,7 +952,7 @@ jobs:
         run: sudo /opt/local/bin/port -v selfupdate
 
       - name: Install packages
-        run: sudo /opt/local/bin/port -N -p install wget gettext glib2 pkgconfig cmake boost protobuf-cpp sqlite3 gnutls chromaprint libebur128 fftw taglib libcdio libmtp
+        run: sudo /opt/local/bin/port -N -p install wget gettext glib2 pkgconfig cmake boost protobuf-cpp sqlite3 chromaprint libebur128 fftw taglib libcdio libmtp
 
       - name: Install gstreamer
         run: sudo /opt/local/bin/port -N -p install gstreamer1 gstreamer1-gst-plugins-base gstreamer1-gst-plugins-good gstreamer1-gst-plugins-bad gstreamer1-gst-plugins-ugly gstreamer1-gst-libav

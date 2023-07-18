@@ -112,7 +112,6 @@ void ScrobblerSettingsPage::Load() {
   ui_->checkbox_source_unknown->setChecked(scrobbler_->sources().contains(Song::Source::Unknown));
 
   ui_->checkbox_lastfm_enable->setChecked(lastfmscrobbler_->IsEnabled());
-  ui_->checkbox_lastfm_https->setChecked(lastfmscrobbler_->IsUseHTTPS());
   LastFM_RefreshControls(lastfmscrobbler_->IsAuthenticated());
 
   ui_->checkbox_librefm_enable->setChecked(librefmscrobbler_->IsEnabled());
@@ -160,7 +159,6 @@ void ScrobblerSettingsPage::Save() {
 
   s.beginGroup(LastFMScrobbler::kSettingsGroup);
   s.setValue("enabled", ui_->checkbox_lastfm_enable->isChecked());
-  s.setValue("https", ui_->checkbox_lastfm_https->isChecked());
   s.endGroup();
 
   s.beginGroup(LibreFMScrobbler::kSettingsGroup);
@@ -180,7 +178,7 @@ void ScrobblerSettingsPage::LastFM_Login() {
 
   lastfm_waiting_for_auth_ = true;
   ui_->widget_lastfm_login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
-  lastfmscrobbler_->Authenticate(ui_->checkbox_lastfm_https->isChecked());
+  lastfmscrobbler_->Authenticate();
 
 }
 
