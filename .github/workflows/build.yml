@@ -1120,7 +1120,7 @@ jobs:
 
       - name: Copy extra binaries
         working-directory: build
-        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-discoverer-1.0.exe,libsoup-3.0-0.dll,libnghttp2.dll} .
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-play-1.0.exe,gst-discoverer-1.0.exe,libsoup-3.0-0.dll,libnghttp2.dll} .
 
       - name: Copy extra binaries (debug)
         if: matrix.build_type == 'debug'
@@ -1358,6 +1358,7 @@ jobs:
           copy ${{env.prefix_path_backslash}}\bin\libcrypto-3*.dll
           copy ${{env.prefix_path_backslash}}\bin\soup-3.0-0.dll
           copy ${{env.prefix_path_backslash}}\bin\gst-launch-1.0.exe
+          copy ${{env.prefix_path_backslash}}\bin\gst-play-1.0.exe
           copy ${{env.prefix_path_backslash}}\bin\gst-discoverer-1.0.exe
           copy ${{env.prefix_path_backslash}}\bin\sqlite3.exe
 

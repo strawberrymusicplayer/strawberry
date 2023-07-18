@@ -235,6 +235,7 @@ Section "Strawberry" Strawberry
   File "strawberry.ico"
   File "sqlite3.exe"
   File "gst-launch-1.0.exe"
+  File "gst-play-1.0.exe"
   File "gst-discoverer-1.0.exe"
 
   ; MinGW specific files
@@ -790,6 +791,7 @@ Section "Uninstall"
   Delete "$INSTDIR\strawberry.ico"
   Delete "$INSTDIR\sqlite3.exe"
   Delete "$INSTDIR\gst-launch-1.0.exe"
+  Delete "$INSTDIR\gst-play-1.0.exe"
   Delete "$INSTDIR\gst-discoverer-1.0.exe"
 
   ; MinGW specific files
