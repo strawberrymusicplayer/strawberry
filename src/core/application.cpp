@@ -233,6 +233,13 @@ Application::Application(QObject *parent)
 
 Application::~Application() {
 
+  // It's important that the lyrics providers are deleted before the network manager.
+  // Deleting the network manager deletes all requests that have been created in its thread,
+  // that are still tracked by the lyrics providers.
+  for (LyricsProvider *provider : p_->lyrics_providers_->List()) {
+    delete provider;
+  }
+
   // It's important that the device manager is deleted before the database.
   // Deleting the database deletes all objects that have been created in its thread, including some device collection backends.
 #ifndef Q_OS_WIN
