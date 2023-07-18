@@ -667,10 +667,15 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Link EBU R 128 loudness normalization volume element if enabled.
   if (ebur128_loudness_normalization_ && ebur128_volume_) {
-    if (!gst_element_link(element_link, ebur128_volume_)) {
+    GstStaticCaps static_raw_fp_audio_caps = GST_STATIC_CAPS(
+      "audio/x-raw,"
+      "format = (string) { F32LE, F64LE }");
+    GstCaps *raw_fp_audio_caps = gst_static_caps_get(&static_raw_fp_audio_caps);
+    if (!gst_element_link_filtered(element_link, ebur128_volume_, raw_fp_audio_caps)) {
       error = "Failed to link EBU R 128 volume element.";
       return false;
     }
+    gst_caps_unref(raw_fp_audio_caps);
     element_link = ebur128_volume_;
   }
 
