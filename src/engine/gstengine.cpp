@@ -785,6 +785,7 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
   std::shared_ptr<GstEnginePipeline> ret = std::make_shared<GstEnginePipeline>();
   ret->set_output_device(output_, device_);
+  ret->set_force_floating_point(force_floating_point_);
   ret->set_volume_enabled(volume_control_);
   ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
   ret->set_equalizer_enabled(equalizer_enabled_);

@@ -62,6 +62,7 @@ class GstEnginePipeline : public QObject {
 
   // Call these setters before Init
   void set_output_device(const QString &output, const QVariant &device);
+  void set_force_floating_point(const bool enabled);
   void set_volume_enabled(const bool enabled);
   void set_stereo_balancer_enabled(const bool enabled);
   void set_equalizer_enabled(const bool enabled);
@@ -198,6 +199,7 @@ class GstEnginePipeline : public QObject {
   bool valid_;
   QString output_;
   QVariant device_;
+  bool force_floating_point_;
   bool volume_enabled_;
   bool stereo_balancer_enabled_;
   bool eq_enabled_;

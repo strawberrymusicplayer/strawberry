@@ -151,6 +151,8 @@ void BackendSettingsPage::Load() {
 
   if (EngineInitialized()) Load_Engine(enginetype);
 
+  ui_->checkbox_force_floating_point->setChecked(s.value("force_floating_point", false).toBool());
+
   ui_->checkbox_volume_control->setChecked(s.value("volume_control", true).toBool());
 
   ui_->checkbox_channels->setChecked(s.value("channels_enabled", false).toBool());
@@ -268,6 +270,8 @@ void BackendSettingsPage::Load_Engine(const EngineBase::Type enginetype) {
   ui_->lineedit_device->setEnabled(false);
   ui_->lineedit_device->clear();
 
+  ui_->checkbox_force_floating_point->setEnabled(false);
+
   ui_->groupbox_replaygain->setEnabled(false);
   ui_->groupbox_ebur128->setEnabled(false);
 
@@ -321,11 +325,13 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   }
 
   if (engine()->type() == EngineBase::Type::GStreamer) {
+    ui_->checkbox_force_floating_point->setEnabled(true);
     ui_->groupbox_buffer->setEnabled(true);
     ui_->groupbox_replaygain->setEnabled(true);
     ui_->groupbox_ebur128->setEnabled(true);
   }
   else {
+    ui_->checkbox_force_floating_point->setEnabled(false);
     ui_->groupbox_buffer->setEnabled(false);
     ui_->groupbox_replaygain->setEnabled(false);
     ui_->groupbox_ebur128->setEnabled(false);
@@ -480,6 +486,8 @@ void BackendSettingsPage::Save() {
   else if (ui_->radiobutton_alsa_pcm->isChecked()) s.setValue("alsaplugin", static_cast<int>(ALSAPluginType::PCM));
   else s.remove("alsaplugin");
 #endif
+
+  s.setValue("force_floating_point", ui_->checkbox_force_floating_point->isChecked());
 
   s.setValue("volume_control", ui_->checkbox_volume_control->isChecked());
 

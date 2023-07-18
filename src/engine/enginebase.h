@@ -142,6 +142,7 @@ class EngineBase : public QObject {
 
  public:
   // Simple accessors
+  bool force_floating_point() const { return force_floating_point_; }
   bool volume_control() const { return volume_control_; }
   inline uint volume() const { return volume_; }
 
@@ -188,6 +189,7 @@ class EngineBase : public QObject {
   void VolumeChanged(const uint volume);
 
  protected:
+  bool force_floating_point_;
   bool volume_control_;
   uint volume_;
   quint64 beginning_nanosec_;

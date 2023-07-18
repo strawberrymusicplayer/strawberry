@@ -67,6 +67,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
     : QObject(parent),
       id_(sId++),
       valid_(false),
+      force_floating_point_(false),
       volume_enabled_(true),
       stereo_balancer_enabled_(false),
       eq_enabled_(false),
@@ -211,6 +212,10 @@ void GstEnginePipeline::set_output_device(const QString &output, const QVariant 
   output_ = output;
   device_ = device;
 
+}
+
+void GstEnginePipeline::set_force_floating_point(const bool enabled) {
+  force_floating_point_ = enabled;
 }
 
 void GstEnginePipeline::set_volume_enabled(const bool enabled) {
@@ -649,10 +654,19 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Link all elements
 
-  if (!gst_element_link(audioqueue_, audioqueueconverter_)) {
+  GstStaticCaps static_raw_audio_caps = GST_STATIC_CAPS(
+    "audio/x-raw");
+  GstStaticCaps static_raw_fp_audio_caps = GST_STATIC_CAPS(
+    "audio/x-raw,"
+    "format = (string) { F32LE, F64LE }");
+
+  GstCaps *raw_audio_caps = gst_static_caps_get(&static_raw_audio_caps);
+  GstCaps *raw_fp_audio_caps = gst_static_caps_get(&static_raw_fp_audio_caps);
+  if (!gst_element_link_filtered(audioqueue_, audioqueueconverter_, force_floating_point_ ? raw_fp_audio_caps : raw_audio_caps)) {
     error = "Failed to link audio queue to audio queue converter.";
     return false;
   }
+  gst_caps_unref(raw_audio_caps);
 
   GstElement *element_link = audioqueueconverter_;  // The next element to link from.
 
@@ -667,12 +681,13 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Link EBU R 128 loudness normalization volume element if enabled.
   if (ebur128_loudness_normalization_ && ebur128_volume_) {
-    if (!gst_element_link(element_link, ebur128_volume_)) {
+    if (!gst_element_link_filtered(element_link, ebur128_volume_, raw_fp_audio_caps)) {
       error = "Failed to link EBU R 128 volume element.";
       return false;
     }
     element_link = ebur128_volume_;
   }
+  gst_caps_unref(raw_fp_audio_caps);
 
   // Link equalizer elements if enabled.
   if (eq_enabled_ && equalizer_ && equalizer_preamp_) {

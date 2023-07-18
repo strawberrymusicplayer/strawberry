@@ -163,6 +163,13 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
+       <widget class="QCheckBox" name="checkbox_force_floating_point">
+        <property name="text">
+         <string>Convert audio to floating-point data format immediately after decoding</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkbox_volume_control">
         <property name="text">
          <string>Enable volume control</string>
