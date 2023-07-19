@@ -91,6 +91,7 @@ Optional dependencies:
 * Audio CD: [libcdio](https://www.gnu.org/software/libcdio/)
 * MTP devices: [libmtp](http://libmtp.sourceforge.net/)
 * iPod Classic devices: [libgpod](http://www.gtkpod.org/libgpod/)
+* EBU R 128 loudness normalization [libebur128](https://github.com/jiixyj/libebur128)
 
 You should also install the gstreamer plugins base and good, and optionally bad, ugly and libav to support all audio formats.
 
