@@ -284,7 +284,7 @@ Song::FileType Transcoder::PickBestFormat(const QList<Song::FileType> &supported
   best_formats << Song::FileType::WavPack;
 
   for (Song::FileType type : best_formats) {
-    if (supported.isEmpty() || supported.contains(type)) return type;
+    if (supported.contains(type)) return type;
   }
 
   return supported[0];
