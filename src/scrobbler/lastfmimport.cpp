@@ -150,11 +150,10 @@ QByteArray LastFMImport::GetReplyData(QNetworkReply *reply) {
       data = reply->readAll();
       QJsonParseError json_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      int error_code = -1;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (json_obj.contains("error") && json_obj.contains("message")) {
-          error_code = json_obj["error"].toInt();
+          int error_code = json_obj["error"].toInt();
           QString error_message = json_obj["message"].toString();
           error = QString("%1 (%2)").arg(error_message).arg(error_code);
         }
