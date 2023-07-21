@@ -127,7 +127,7 @@ bool CollectionItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *vie
 
   QString text = displayText(idx.data(), QLocale::system());
 
-  if (text.isEmpty() || !event) return false;
+  if (text.isEmpty()) return false;
 
   switch (event->type()) {
     case QEvent::ToolTip: {
