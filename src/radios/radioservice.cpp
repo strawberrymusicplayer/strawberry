@@ -26,8 +26,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "core/application.h"
 #include "core/logging.h"
+#include "core/application.h"
 #include "radioservice.h"
 
 RadioService::RadioService(const Song::Source source, const QString &name, const QIcon &icon, Application *app, NetworkAccessManager *network, QObject *parent)

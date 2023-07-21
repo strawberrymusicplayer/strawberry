@@ -48,10 +48,9 @@
 #include "core/simpletreemodel.h"
 #include "core/song.h"
 #include "core/sqlrow.h"
-#include "covermanager/albumcoverloader.h"
 #include "covermanager/albumcoverloaderoptions.h"
+#include "covermanager/albumcoverloaderresult.h"
 #include "collectionfilteroptions.h"
-#include "collectionquery.h"
 #include "collectionqueryoptions.h"
 #include "collectionitem.h"
 

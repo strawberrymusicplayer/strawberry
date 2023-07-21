@@ -33,11 +33,11 @@
 #include <QString>
 #include <QUrl>
 
-#include "collection/collectionmodel.h"
-#include "collection/collectionbackend.h"
 #include "core/logging.h"
 #include "core/application.h"
 #include "core/musicstorage.h"
+#include "collection/collectionmodel.h"
+#include "collection/collectionbackend.h"
 #include "connecteddevice.h"
 #include "mtpdevice.h"
 #include "mtploader.h"

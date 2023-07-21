@@ -41,9 +41,9 @@
 #include <QSettings>
 #include <QSortFilterProxyModel>
 
+#include "core/logging.h"
 #include "core/application.h"
 #include "core/player.h"
-#include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/database.h"
 #include "core/song.h"

@@ -19,9 +19,9 @@
 
 #include "config.h"
 
-#include <string>
 #include <memory>
 #include <cstdio>
+#include <string>
 
 #ifdef HAVE_ICU
 #  include <unicode/translit.h>

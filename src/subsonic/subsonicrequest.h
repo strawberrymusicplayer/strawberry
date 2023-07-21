@@ -146,7 +146,6 @@ class SubsonicRequest : public SubsonicBaseRequest {
   bool no_results_;
   QList<QNetworkReply*> replies_;
   QList<QNetworkReply*> album_cover_replies_;
-
 };
 
 #endif  // SUBSONICREQUEST_H

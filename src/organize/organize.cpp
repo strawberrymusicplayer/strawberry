@@ -19,10 +19,11 @@
  *
  */
 
+#include <QtGlobal>
+
 #include <functional>
 #include <chrono>
 
-#include <QtGlobal>
 #include <QThread>
 #include <QFile>
 #include <QFileInfo>

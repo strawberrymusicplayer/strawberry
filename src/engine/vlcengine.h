@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <vlc/vlc.h>
 
 #include <QtGlobal>

@@ -68,10 +68,10 @@
 #include "collectionmodel.h"
 #include "playlist/playlistmanager.h"
 #include "playlist/songmimedata.h"
-#include "covermanager/albumcoverloader.h"
+#include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
+#include "covermanager/albumcoverloader.h"
 #include "settings/collectionsettingspage.h"
-#include "settings/coverssettingspage.h"
 
 const int CollectionModel::kPrettyCoverSize = 32;
 const char *CollectionModel::kPixmapDiskCacheDir = "pixmapcache";

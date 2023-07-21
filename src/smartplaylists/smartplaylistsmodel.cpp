@@ -27,15 +27,14 @@
 #include <QMimeData>
 #include <QSettings>
 
+#include "core/logging.h"
 #include "core/application.h"
-#include "core/database.h"
 #include "core/iconloader.h"
 #include "core/simpletreemodel.h"
 #include "collection/collectionbackend.h"
 
 #include "smartplaylistsitem.h"
 #include "smartplaylistsmodel.h"
-#include "smartplaylistsview.h"
 #include "smartplaylistsearch.h"
 #include "playlistgenerator.h"
 #include "playlistgeneratormimedata.h"

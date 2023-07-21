@@ -127,7 +127,6 @@
 #include "collection/collectiondirectorymodel.h"
 #include "collection/collectionfilterwidget.h"
 #include "collection/collectionmodel.h"
-#include "collection/collectionquery.h"
 #include "collection/collectionview.h"
 #include "collection/collectionviewcontainer.h"
 #include "playlist/playlist.h"
@@ -163,6 +162,7 @@
 #include "settings/settingsdialog.h"
 #include "settings/behavioursettingspage.h"
 #include "settings/backendsettingspage.h"
+#include "settings/collectionsettingspage.h"
 #include "settings/playlistsettingspage.h"
 #ifdef HAVE_SUBSONIC
 #  include "settings/subsonicsettingspage.h"
@@ -199,7 +199,6 @@
 #endif
 
 #include "smartplaylists/smartplaylistsviewcontainer.h"
-#include "smartplaylists/smartplaylistsview.h"
 
 #ifdef Q_OS_WIN
 #  include "windows7thumbbar.h"

@@ -25,6 +25,7 @@
 #include "config.h"
 
 #include <memory>
+
 #include <libmtp.h>
 
 #include <QtGlobal>

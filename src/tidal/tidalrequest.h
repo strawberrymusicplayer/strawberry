@@ -38,6 +38,7 @@
 #include <QJsonObject>
 
 #include "core/song.h"
+
 #include "tidalbaserequest.h"
 
 class QNetworkReply;

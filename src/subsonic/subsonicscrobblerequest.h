@@ -81,7 +81,6 @@ class SubsonicScrobbleRequest : public SubsonicBaseRequest {
 
   QStringList errors_;
   QList<QNetworkReply*> replies_;
-
 };
 
 #endif  // SUBSONICSCROBBLEREQUEST_H

@@ -18,9 +18,9 @@
  *
  */
 
-#include <memory>
-
 #include <QtGlobal>
+
+#include <memory>
 
 #include <QByteArray>
 #include <QString>

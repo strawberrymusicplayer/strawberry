@@ -43,7 +43,6 @@
 #include "core/song.h"
 #include "collection/collectionmodel.h"
 #include "covermanager/albumcoverloaderresult.h"
-#include "settings/settingsdialog.h"
 
 class QSortFilterProxyModel;
 class QMimeData;

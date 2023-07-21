@@ -44,11 +44,9 @@
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
-#include "utilities/strutils.h"
 #include "utilities/randutils.h"
 #include "internet/localredirectserver.h"
 #include "jsonlyricsprovider.h"
-#include "lyricsfetcher.h"
 #include "geniuslyricsprovider.h"
 
 const char *GeniusLyricsProvider::kSettingsGroup = "GeniusLyrics";

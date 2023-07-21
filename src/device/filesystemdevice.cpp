@@ -25,8 +25,8 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/application.h"
 #include "core/logging.h"
+#include "core/application.h"
 #include "core/song.h"
 
 #include "collection/collectionbackend.h"

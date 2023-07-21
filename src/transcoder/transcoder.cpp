@@ -21,13 +21,15 @@
 
 #include "config.h"
 
-#include <memory>
+#include <QtGlobal>
+
 #include <algorithm>
+#include <memory>
+
 #include <glib.h>
 #include <glib/gtypes.h>
 #include <gst/gst.h>
 
-#include <QtGlobal>
 #include <QThread>
 #include <QCoreApplication>
 #include <QStandardPaths>

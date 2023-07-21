@@ -41,7 +41,6 @@
 #include "core/song.h"
 #include "internet/internetservices.h"
 #include "qobuz/qobuzservice.h"
-#include "qobuz/qobuzbaserequest.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
 #include "qobuzcoverprovider.h"

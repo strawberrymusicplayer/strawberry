@@ -36,7 +36,6 @@
 class QNetworkReply;
 class Application;
 class NetworkAccessManager;
-class QobuzService;
 
 class QobuzCoverProvider : public JsonCoverProvider {
   Q_OBJECT

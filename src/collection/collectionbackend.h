@@ -34,10 +34,8 @@
 #include <QStringList>
 #include <QUrl>
 #include <QSqlDatabase>
-#include <QSqlQuery>
 
 #include "core/song.h"
-#include "core/sqlquery.h"
 #include "collectionfilteroptions.h"
 #include "collectionquery.h"
 #include "collectiondirectory.h"

@@ -44,10 +44,10 @@
 
 #include "devicemanager.h"
 
+#include "core/logging.h"
 #include "core/application.h"
 #include "core/database.h"
 #include "core/iconloader.h"
-#include "core/logging.h"
 #include "core/musicstorage.h"
 #include "core/taskmanager.h"
 #include "core/simpletreemodel.h"

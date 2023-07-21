@@ -31,8 +31,6 @@
 #include <QHash>
 #include <QString>
 
-#include "collectionquery.h"
-#include "collectionqueryoptions.h"
 #include "collectionmodel.h"
 
 class QTimer;
@@ -135,7 +133,6 @@ class CollectionFilterWidget : public QWidget {
   QString settings_group_;
   QString saved_groupings_settings_group_;
   QString settings_prefix_;
-
 };
 
 #endif  // COLLECTIONFILTERWIDGET_H

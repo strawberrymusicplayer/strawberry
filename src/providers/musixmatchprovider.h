@@ -21,7 +21,6 @@
 #define MUSIXMATCHPROVIDER_H
 
 #include <QString>
-#include <QRegularExpression>
 
 class MusixmatchProvider {
 

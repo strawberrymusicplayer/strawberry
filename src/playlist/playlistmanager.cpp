@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-#include <functional>
 #include <utility>
 
 #include <QtGlobal>

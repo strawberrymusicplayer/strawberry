@@ -54,7 +54,6 @@
 #include "tagreaderclient.h"
 #include "engine/enginebase.h"
 #include "osd/osdbase.h"
-#include "collection/collectionmodel.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistitem.h"
 #include "settings/settingsdialog.h"

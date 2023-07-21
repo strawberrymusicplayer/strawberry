@@ -32,7 +32,6 @@
 #include <QSqlQuery>
 
 #include "collectionfilteroptions.h"
-#include "collectionqueryoptions.h"
 
 class CollectionQuery : public QSqlQuery {
  public:

@@ -26,7 +26,6 @@
 #include <QList>
 
 #include "core/logging.h"
-#include "lyricsfetcher.h"
 #include "lyricsfetchersearch.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"

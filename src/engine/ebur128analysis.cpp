@@ -22,15 +22,17 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
-#include <memory>
 #include <optional>
+#include <tuple>
+#include <vector>
+#include <memory>
 
-#include <ebur128.h>
 #include <glib-object.h>
 #include <glib.h>
-#include <gst/app/gstappsink.h>
-#include <gst/audio/audio-channels.h>
 #include <gst/gst.h>
+#include <gst/audio/audio-channels.h>
+#include <gst/app/gstappsink.h>
+#include <ebur128.h>
 
 #include <QCoreApplication>
 #include <QElapsedTimer>

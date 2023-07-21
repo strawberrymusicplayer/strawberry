@@ -17,8 +17,10 @@
 
 #include "moodbarpipeline.h"
 
-#include <memory>
 #include <cstdlib>
+
+#include <memory>
+
 #include <glib.h>
 #include <glib-object.h>
 #include <gst/gst.h>

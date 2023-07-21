@@ -26,6 +26,7 @@
 #include "config.h"
 
 #include <memory>
+#include <optional>
 
 #include <gst/gst.h>
 #include <gst/pbutils/pbutils.h>
@@ -38,7 +39,6 @@
 #include <QString>
 #include <QUrl>
 
-#include "utilities/timeconstants.h"
 #include "enginebase.h"
 #include "gststartup.h"
 #include "gstbufferconsumer.h"

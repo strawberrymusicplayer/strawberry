@@ -33,9 +33,7 @@
 #include "smartplaylistsviewcontainer.h"
 #include "smartplaylistsmodel.h"
 #include "smartplaylistsview.h"
-#include "smartplaylistsearchterm.h"
 #include "smartplaylistwizard.h"
-#include "playlistquerygenerator.h"
 #include "playlistgenerator_fwd.h"
 
 #include "ui_smartplaylistsviewcontainer.h"

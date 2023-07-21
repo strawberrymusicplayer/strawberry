@@ -32,8 +32,9 @@
 #include <QString>
 #include <QPixmap>
 
-#include "widgets/autoexpandingtreeview.h"
 #include "core/song.h"
+
+#include "widgets/autoexpandingtreeview.h"
 
 class QWidget;
 class QMenu;

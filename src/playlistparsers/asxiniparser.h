@@ -21,13 +21,14 @@
 #ifndef ASXINIPARSER_H
 #define ASXINIPARSER_H
 
+#include "config.h"
+
 #include <QObject>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
 #include <QDir>
 
-#include "config.h"
 #include "core/song.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"

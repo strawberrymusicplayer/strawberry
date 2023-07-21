@@ -32,13 +32,10 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
-#include "core/logging.h"
-#include "core/sqlquery.h"
 #include "core/song.h"
 
 #include "collectionquery.h"
 #include "collectionfilteroptions.h"
-#include "collectionqueryoptions.h"
 
 CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const CollectionFilterOptions &filter_options)
     : QSqlQuery(db),

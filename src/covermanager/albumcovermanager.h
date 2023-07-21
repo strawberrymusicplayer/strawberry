@@ -42,7 +42,6 @@
 #include "albumcoverloaderresult.h"
 #include "albumcoverchoicecontroller.h"
 #include "coversearchstatistics.h"
-#include "settings/collectionsettingspage.h"
 
 class QWidget;
 class QMimeData;

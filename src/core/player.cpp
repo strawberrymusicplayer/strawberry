@@ -64,9 +64,6 @@
 #include "settings/backendsettingspage.h"
 #include "settings/behavioursettingspage.h"
 #include "settings/playlistsettingspage.h"
-#include "internet/internetservices.h"
-#include "internet/internetservice.h"
-#include "scrobbler/audioscrobbler.h"
 
 const char *Player::kSettingsGroup = "Player";
 

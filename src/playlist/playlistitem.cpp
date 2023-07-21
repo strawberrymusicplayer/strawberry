@@ -30,7 +30,6 @@
 #include "core/sqlquery.h"
 #include "core/song.h"
 
-#include "collection/collection.h"
 #include "collection/collectionplaylistitem.h"
 #include "playlistitem.h"
 #include "songplaylistitem.h"

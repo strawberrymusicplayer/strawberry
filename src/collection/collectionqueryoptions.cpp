@@ -21,7 +21,6 @@
 #include <QString>
 
 #include "collectionqueryoptions.h"
-#include "collectionfilteroptions.h"
 
 CollectionQueryOptions::CollectionQueryOptions()
     : compilation_requirement_(CollectionQueryOptions::CompilationRequirement::None),

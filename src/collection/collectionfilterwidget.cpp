@@ -48,7 +48,6 @@
 #include "core/logging.h"
 #include "collectionfilteroptions.h"
 #include "collectionmodel.h"
-#include "collectionquery.h"
 #include "savedgroupingmanager.h"
 #include "collectionfilterwidget.h"
 #include "groupbydialog.h"

@@ -21,8 +21,8 @@
 
 #include "config.h"
 
-#include <algorithm>
 #include <cmath>
+#include <algorithm>
 
 #include <QObject>
 #include <QCoreApplication>

@@ -36,7 +36,6 @@
 
 #include "song.h"
 #include "tagreaderclient.h"
-#include "settings/collectionsettingspage.h"
 
 const char *TagReaderClient::kWorkerExecutableName = "strawberry-tagreader";
 TagReaderClient *TagReaderClient::sInstance = nullptr;

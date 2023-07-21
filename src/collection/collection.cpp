@@ -31,7 +31,6 @@
 #include "core/application.h"
 #include "core/taskmanager.h"
 #include "core/database.h"
-#include "core/player.h"
 #include "core/tagreaderclient.h"
 #include "core/thread.h"
 #include "core/song.h"
@@ -41,7 +40,6 @@
 #include "collectionwatcher.h"
 #include "collectionbackend.h"
 #include "collectionmodel.h"
-#include "playlist/playlistmanager.h"
 #include "scrobbler/lastfmimport.h"
 #include "settings/collectionsettingspage.h"
 

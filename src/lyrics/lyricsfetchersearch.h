@@ -27,7 +27,6 @@
 #include <QMap>
 #include <QString>
 
-#include "lyricsfetcher.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
 

@@ -34,7 +34,6 @@
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
-#include "utilities/strutils.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
 #include "lyricscomlyricsprovider.h"

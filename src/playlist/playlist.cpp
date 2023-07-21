@@ -67,7 +67,7 @@
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionplaylistitem.h"
-#include "covermanager/albumcoverloader.h"
+#include "covermanager/albumcoverloaderresult.h"
 #include "queue/queue.h"
 #include "playlist.h"
 #include "playlistitem.h"
@@ -87,6 +87,7 @@
 
 #include "internet/internetplaylistitem.h"
 #include "internet/internetsongmimedata.h"
+#include "internet/internetservice.h"
 
 #include "radios/radiomimedata.h"
 #include "radios/radioplaylistitem.h"

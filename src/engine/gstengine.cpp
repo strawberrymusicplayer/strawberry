@@ -22,12 +22,13 @@
 
 #include "config.h"
 
+#include <cmath>
+#include <algorithm>
+#include <optional>
+#include <memory>
+
 #include <glib.h>
 #include <glib-object.h>
-#include <memory>
-#include <algorithm>
-#include <vector>
-#include <cmath>
 
 #include <gst/gst.h>
 #include <gst/pbutils/pbutils.h>

@@ -55,7 +55,6 @@
 #include "utilities/filenameconstants.h"
 #include "utilities/strutils.h"
 #include "utilities/mimeutils.h"
-#include "utilities/imageutils.h"
 #include "utilities/coveroptions.h"
 #include "utilities/coverutils.h"
 #include "utilities/screenutils.h"

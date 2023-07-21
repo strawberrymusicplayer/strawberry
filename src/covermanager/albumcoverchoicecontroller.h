@@ -40,7 +40,6 @@
 #include "core/song.h"
 #include "core/tagreaderclient.h"
 #include "utilities/coveroptions.h"
-#include "settings/collectionsettingspage.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverimageresult.h"
 

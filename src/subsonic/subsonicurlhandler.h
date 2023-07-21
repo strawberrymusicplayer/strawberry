@@ -49,7 +49,6 @@ class SubsonicUrlHandler : public UrlHandler {
 
  private:
   SubsonicService *service_;
-
 };
 
 #endif  // SUBSONICURLHANDLER_H

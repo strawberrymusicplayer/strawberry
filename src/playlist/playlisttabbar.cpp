@@ -43,8 +43,8 @@
 #include <QtEvents>
 #include <QSettings>
 
-#include "core/iconloader.h"
 #include "core/logging.h"
+#include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "widgets/favoritewidget.h"
 #include "widgets/renametablineedit.h"
