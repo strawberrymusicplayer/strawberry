@@ -111,7 +111,7 @@ void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame
     p.drawPixmap(0, 0, canvas_);
     return;
   }
-  double h = 0.0;
+
   const uint MAX_HEIGHT = height() - 1;
 
   QPainter canvas_painter(&canvas_);
@@ -120,7 +120,7 @@ void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame
   interpolate(scope, scope_);
 
   for (int i = 0, x = 0, y = 0; i < bands_; ++i, x += kColumnWidth + 1) {
-    h = log10(scope_[i] * 256.0) * F_;
+    double h = log10(scope_[i] * 256.0) * F_;
 
     if (h > MAX_HEIGHT) h = MAX_HEIGHT;
 
