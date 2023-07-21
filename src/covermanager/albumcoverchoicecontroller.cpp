@@ -716,7 +716,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedToCollectionSongs(const QStrin
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QFuture<SongList> future = QtConcurrent::run(&CollectionBackend::GetAlbumSongs, app_->collection_backend(), effective_albumartist, effective_album, CollectionFilterOptions());
 #else
-  QFuture<SongList> future = QtConcurrent::run(app_->collection_backend(), &CollectionBackend::GetAlbumSongs, effective_albumartist, effective_album, CollectionFilterOptions());
+  QFuture<SongList> future = QtConcurrent::run(&*app_->collection_backend(), &CollectionBackend::GetAlbumSongs, effective_albumartist, effective_album, CollectionFilterOptions());
 #endif
   QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
   QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, cover_filename, image_data, mime_type]() {

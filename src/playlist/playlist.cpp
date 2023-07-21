@@ -1537,7 +1537,7 @@ void Playlist::Restore() {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistItems, backend_, id_);
 #else
-  QFuture<PlaylistItemPtrList> future = QtConcurrent::run(backend_, &PlaylistBackend::GetPlaylistItems, id_);
+  QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&*backend_, &PlaylistBackend::GetPlaylistItems, id_);
 #endif
   QFutureWatcher<PlaylistItemPtrList> *watcher = new QFutureWatcher<PlaylistItemPtrList>();
   QObject::connect(watcher, &QFutureWatcher<PlaylistItemPtrList>::finished, this, &Playlist::ItemsLoaded);
