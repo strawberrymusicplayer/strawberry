@@ -62,7 +62,6 @@ class LocalRedirectServer : public QTcpServer {
   QUrl ParseUrlFromRequest(const QByteArray &request) const;
 
  private:
-  bool https_;
   int port_;
   QUrl url_;
   QUrl request_url_;
