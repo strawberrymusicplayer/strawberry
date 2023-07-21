@@ -110,8 +110,8 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
   QString content = data;
-  QString data_begin = "var __mxmState = ";
-  QString data_end = ";</script>";
+  const QString data_begin = "var __mxmState = ";
+  const QString data_end = ";</script>";
   qint64 begin_idx = content.indexOf(data_begin);
   QString content_json;
   if (begin_idx > 0) {
