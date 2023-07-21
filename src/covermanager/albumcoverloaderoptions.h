@@ -43,7 +43,7 @@ class AlbumCoverLoaderOptions {
   };
   using Types = QList<Type>;
 
-  explicit AlbumCoverLoaderOptions(const Options _options = AlbumCoverLoaderOptions::Option::ScaledImage, const QSize _desired_scaled_size = QSize(32, 32), const qreal device_pixel_ratio = 1.0F, const Types _types = QList<AlbumCoverLoaderOptions::Type>() << AlbumCoverLoaderOptions::Type::Embedded << AlbumCoverLoaderOptions::Type::Automatic << AlbumCoverLoaderOptions::Type::Manual);
+  explicit AlbumCoverLoaderOptions(const Options _options = AlbumCoverLoaderOptions::Option::ScaledImage, const QSize _desired_scaled_size = QSize(32, 32), const qreal device_pixel_ratio = 1.0F, const Types &_types = QList<AlbumCoverLoaderOptions::Type>() << AlbumCoverLoaderOptions::Type::Embedded << AlbumCoverLoaderOptions::Type::Automatic << AlbumCoverLoaderOptions::Type::Manual);
 
   Options options;
   QSize desired_scaled_size;

@@ -43,7 +43,7 @@ class AlbumCoverExporter : public QObject {
   static const int kMaxConcurrentRequests;
 
   void SetDialogResult(const AlbumCoverExport::DialogResult &dialog_result);
-  void SetCoverTypes(const AlbumCoverLoaderOptions::Types cover_types);
+  void SetCoverTypes(const AlbumCoverLoaderOptions::Types &cover_types);
   void AddExportRequest(const Song &song);
   void StartExporting();
   void Cancel();

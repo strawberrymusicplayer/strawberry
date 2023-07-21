@@ -44,7 +44,7 @@ void AlbumCoverExporter::SetDialogResult(const AlbumCoverExport::DialogResult &d
   dialog_result_ = dialog_result;
 }
 
-void AlbumCoverExporter::SetCoverTypes(const AlbumCoverLoaderOptions::Types cover_types) {
+void AlbumCoverExporter::SetCoverTypes(const AlbumCoverLoaderOptions::Types &cover_types) {
   cover_types_ = cover_types;
 }
 

@@ -23,7 +23,7 @@
 
 #include "settings/coverssettingspage.h"
 
-AlbumCoverLoaderOptions::AlbumCoverLoaderOptions(const Options _options, const QSize _desired_scaled_size, const qreal _device_pixel_ratio, const Types _types)
+AlbumCoverLoaderOptions::AlbumCoverLoaderOptions(const Options _options, const QSize _desired_scaled_size, const qreal _device_pixel_ratio, const Types &_types)
     : options(_options),
       desired_scaled_size(_desired_scaled_size),
       device_pixel_ratio(_device_pixel_ratio),

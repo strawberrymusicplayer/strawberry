@@ -36,7 +36,7 @@ class CoverExportRunnable : public QObject, public QRunnable {
   Q_OBJECT
 
  public:
-  explicit CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const AlbumCoverLoaderOptions::Types cover_types, const Song &song, QObject *parent = nullptr);
+  explicit CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const AlbumCoverLoaderOptions::Types &cover_types, const Song &song, QObject *parent = nullptr);
 
   void run() override;
 

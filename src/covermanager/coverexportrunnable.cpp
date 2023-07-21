@@ -32,7 +32,7 @@
 #include "albumcoverexport.h"
 #include "coverexportrunnable.h"
 
-CoverExportRunnable::CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const AlbumCoverLoaderOptions::Types cover_types, const Song &song, QObject *parent)
+CoverExportRunnable::CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const AlbumCoverLoaderOptions::Types &cover_types, const Song &song, QObject *parent)
     : QObject(parent),
       dialog_result_(dialog_result),
       cover_types_(cover_types),
