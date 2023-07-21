@@ -77,7 +77,6 @@ class LyricsFetcher : public QObject {
   QHash<quint64, LyricsFetcherSearch*> active_requests_;
 
   QTimer *request_starter_;
-
 };
 
 #endif  // LYRICSFETCHER_H

@@ -79,7 +79,6 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
   int native_key_;
   int native_key2_;
   int native_mods_;
-
 };
 
 #endif  // GLOBALSHORTCUT_H

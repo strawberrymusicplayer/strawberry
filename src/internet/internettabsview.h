@@ -74,7 +74,6 @@ class InternetTabsView : public QWidget {
   QString settings_group_;
   SettingsDialog::Page settings_page_;
   Ui_InternetTabsView *ui_;
-
 };
 
 #endif  // INTERNETTABSVIEW_H

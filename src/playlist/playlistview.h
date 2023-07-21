@@ -305,7 +305,6 @@ class PlaylistView : public QTreeView {
 
   QPixmap pixmap_tinyplay_;
   QPixmap pixmap_tinypause_;
-
 };
 
 #endif  // PLAYLISTVIEW_H

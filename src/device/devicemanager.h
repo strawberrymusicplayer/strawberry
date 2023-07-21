@@ -170,7 +170,6 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   QThreadPool thread_pool_;
 
   QList<QObject*> wait_for_exit_;
-
 };
 
 template<typename T>

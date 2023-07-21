@@ -51,7 +51,6 @@ class GlobalShortcutsBackendWin : public GlobalShortcutsBackend {
 
   QList<GlobalShortcut*> shortcuts_;
   GlobalShortcut *gshortcut_init_;
-
 };
 
 #endif  // GLOBALSHORTCUTSBACKEND_WIN_H

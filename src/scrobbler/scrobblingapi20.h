@@ -162,7 +162,6 @@ class ScrobblingAPI20 : public ScrobblerService {
   QTimer timer_submit_;
 
   QList<QNetworkReply*> replies_;
-
 };
 
 #endif  // SCROBBLINGAPI20_H

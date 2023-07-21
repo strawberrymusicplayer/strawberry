@@ -132,7 +132,6 @@ class ListenBrainzScrobbler : public ScrobblerService {
   bool prefer_albumartist_;
 
   QList<QNetworkReply*> replies_;
-
 };
 
 #endif  // LISTENBRAINZSCROBBLER_H

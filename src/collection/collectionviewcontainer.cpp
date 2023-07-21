@@ -44,8 +44,11 @@ CollectionViewContainer::CollectionViewContainer(QWidget *parent) : QWidget(pare
 }
 
 CollectionViewContainer::~CollectionViewContainer() { delete ui_; }
+
 CollectionView *CollectionViewContainer::view() const { return ui_->view; }
+
 CollectionFilterWidget *CollectionViewContainer::filter_widget() const { return ui_->filter; }
+
 void CollectionViewContainer::ReloadSettings() const {
   filter_widget()->ReloadSettings();
   view()->ReloadSettings();

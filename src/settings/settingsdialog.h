@@ -56,7 +56,6 @@ class SettingsPage;
 
 class Ui_SettingsDialog;
 
-
 class SettingsItemDelegate : public QStyledItemDelegate {
   Q_OBJECT
 

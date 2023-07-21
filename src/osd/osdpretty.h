@@ -173,7 +173,6 @@ class OSDPretty : public QWidget {
   bool toggle_mode_;
 
   QMap<QString, QScreen*> screens_;
-
 };
 
 #endif  // OSDPRETTY_H

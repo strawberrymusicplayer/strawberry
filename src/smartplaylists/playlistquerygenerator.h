@@ -57,7 +57,6 @@ class PlaylistQueryGenerator : public PlaylistGenerator {
 
   QList<int> previous_ids_;
   int current_pos_;
-
 };
 
 #endif  // PLAYLISTQUERYGENERATOR_H

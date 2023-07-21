@@ -53,7 +53,6 @@ class LoloLyricsProvider : public LyricsProvider {
  private:
   static const char *kUrlSearch;
   QList<QNetworkReply*> replies_;
-
 };
 
 #endif  // LOLOLYRICSPROVIDER_H

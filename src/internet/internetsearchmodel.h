@@ -93,7 +93,6 @@ class InternetSearchModel : public QStandardItemModel {
   QPixmap no_cover_icon_;
   CollectionModel::Grouping group_by_;
   QMap<ContainerKey, QStandardItem*> containers_;
-
 };
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)

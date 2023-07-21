@@ -75,7 +75,6 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchPro
   QList<LyricsSearchContextPtr> requests_search_;
   QList<QNetworkReply*> replies_;
   bool use_api_;
-
 };
 
 #endif  // MUSIXMATCHLYRICSPROVIDER_H

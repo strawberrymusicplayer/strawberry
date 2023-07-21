@@ -46,7 +46,6 @@ struct CoverSearchStatistics {
   quint64 chosen_height_;
 
   QString AverageDimensions() const;
-
 };
 
 #endif  // COVERSEARCHSTATISTICS_H

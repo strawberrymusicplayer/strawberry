@@ -72,7 +72,6 @@ class AcoustidClient : public QObject {
   NetworkAccessManager *network_;
   NetworkTimeouts *timeouts_;
   QMap<int, QNetworkReply*> requests_;
-
 };
 
 #endif  // ACOUSTIDCLIENT_H

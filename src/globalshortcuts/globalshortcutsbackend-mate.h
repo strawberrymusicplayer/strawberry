@@ -56,7 +56,6 @@ class GlobalShortcutsBackendMate : public GlobalShortcutsBackend {
 
   OrgMateSettingsDaemonMediaKeysInterface *interface_;
   bool is_connected_;
-
 };
 
 #endif  // GLOBALSHORTCUTSBACKEND_Mate_H

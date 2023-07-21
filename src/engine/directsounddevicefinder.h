@@ -42,7 +42,6 @@ class DirectSoundDeviceFinder : public DeviceFinder {
   };
 
   static BOOL CALLBACK EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr);
-
 };
 
 #endif  // DIRECTSOUNDDEVICEFINDER_H

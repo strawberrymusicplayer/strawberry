@@ -37,7 +37,6 @@ class DeleteConfirmationDialog : public QDialog {
 
  private:
   QDialogButtonBox *button_box_;
-
 };
 
 #endif  // DELETECONFIRMATIONDIALOG_H

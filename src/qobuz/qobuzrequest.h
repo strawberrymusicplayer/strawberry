@@ -241,7 +241,6 @@ class QobuzRequest : public QobuzBaseRequest {
   bool no_results_;
   QList<QNetworkReply*> replies_;
   QList<QNetworkReply*> album_cover_replies_;
-
 };
 
 #endif  // QOBUZREQUEST_H

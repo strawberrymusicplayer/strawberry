@@ -80,7 +80,6 @@ class VLCEngine : public EngineBase {
   static void StateChangedCallback(const libvlc_event_t *e, void *data);
 
   void GetDevicesList(const QString &output) const;
-
 };
 
 #endif  // VLCENGINE_H

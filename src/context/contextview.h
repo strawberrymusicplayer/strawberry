@@ -166,7 +166,6 @@ class ContextView : public QWidget {
   QList<ResizableTextEdit*> textedit_play_;
   QList<QLabel*> labels_play_data_;
   QList<QLabel*> labels_play_all_;
-
 };
 
 #endif  // CONTEXTVIEW_H

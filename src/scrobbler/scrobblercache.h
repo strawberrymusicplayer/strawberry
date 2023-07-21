@@ -59,7 +59,6 @@ class ScrobblerCache : public QObject {
   QString filename_;
   bool loaded_;
   QList<ScrobblerCacheItemPtr> scrobbler_cache_;
-
 };
 
 #endif  // SCROBBLERCACHE_H

@@ -120,7 +120,6 @@ class OSDBase : public QObject {
   Song last_song_;
   QUrl last_image_uri_;
   QImage last_image_;
-
 };
 
 #endif  // OSDBASE_H

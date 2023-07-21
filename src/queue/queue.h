@@ -97,7 +97,6 @@ class Queue : public QAbstractProxyModel {
   const Playlist *playlist_;
   quint64 total_length_ns_;
   QMetaObject::Connection signal_item_count_changed_;
-
 };
 
 #endif  // QUEUE_H

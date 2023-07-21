@@ -102,4 +102,3 @@ bool MtpLoader::TryLoad() {
   return !abort_;
 
 }
-

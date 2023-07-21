@@ -217,7 +217,6 @@ class QobuzService : public InternetService {
 
   QList<QObject*> wait_for_exit_;
   QList<QNetworkReply*> replies_;
-
 };
 
 #endif  // QOBUZSERVICE_H

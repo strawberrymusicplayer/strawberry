@@ -215,7 +215,6 @@ class InternetSearchView : public QWidget {
   QMap<int, PendingState> pending_searches_;
 
   QMap<quint64, QPair<QModelIndex, QString>> cover_loader_tasks_;
-
 };
 Q_DECLARE_METATYPE(InternetSearchView::Result)
 Q_DECLARE_METATYPE(InternetSearchView::ResultList)

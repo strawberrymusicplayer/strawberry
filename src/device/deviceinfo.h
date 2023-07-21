@@ -120,7 +120,6 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
   bool forget_;
 
   Q_DISABLE_COPY(DeviceInfo)
-
 };
 
 #endif  // DEVICEINFO_H

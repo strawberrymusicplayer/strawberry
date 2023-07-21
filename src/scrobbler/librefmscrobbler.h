@@ -43,7 +43,6 @@ class LibreFMScrobbler : public ScrobblingAPI20 {
   static const char *kAuthUrl;
   static const char *kApiUrl;
   static const char *kCacheFile;
-
 };
 
 #endif  // LIBREFMSCROBBLER_H

@@ -43,7 +43,6 @@ class LastFMScrobbler : public ScrobblingAPI20 {
  private:
   static const char *kAuthUrl;
   static const char *kCacheFile;
-
 };
 
 #endif  // LASTFMSCROBBLER_H

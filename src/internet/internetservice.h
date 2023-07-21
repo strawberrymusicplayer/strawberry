@@ -141,7 +141,6 @@ class InternetService : public QObject {
   QString url_scheme_;
   QString settings_group_;
   SettingsDialog::Page settings_page_;
-
 };
 Q_DECLARE_METATYPE(InternetService*)
 

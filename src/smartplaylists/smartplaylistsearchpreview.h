@@ -67,7 +67,6 @@ class SmartPlaylistSearchPreview : public QWidget {
   SmartPlaylistSearch pending_search_;
   SmartPlaylistSearch last_search_;
   PlaylistGeneratorPtr generator_;
-
 };
 
 #endif  // SMARTPLAYLISTSEARCHPREVIEW_H

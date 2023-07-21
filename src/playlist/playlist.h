@@ -436,7 +436,6 @@ class Playlist : public QAbstractListModel {
   bool auto_sort_;
   int sort_column_;
   Qt::SortOrder sort_order_;
-
 };
 
 #endif  // PLAYLIST_H

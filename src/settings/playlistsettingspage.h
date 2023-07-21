@@ -53,7 +53,6 @@ class PlaylistSettingsPage : public SettingsPage {
 
  private:
   Ui_PlaylistSettingsPage *ui_;
-
 };
 
 Q_DECLARE_METATYPE(PlaylistSettingsPage::PathType)

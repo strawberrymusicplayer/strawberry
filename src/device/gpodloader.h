@@ -70,7 +70,6 @@ class GPodLoader : public QObject {
   TaskManager *task_manager_;
   CollectionBackend *backend_;
   bool abort_;
-
 };
 
 #endif  // GPODLOADER_H

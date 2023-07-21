@@ -27,7 +27,6 @@ class SnapDialog : public MessageDialog {
 
  public:
   explicit SnapDialog(QWidget *parent = nullptr);
-
 };
 
 #endif  // SNAPDIALOG_H
