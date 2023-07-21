@@ -84,7 +84,7 @@ Database::~Database() {
 
   QMutexLocker l(&connect_mutex_);
 
-  for (QString &connection_id : QSqlDatabase::connectionNames()) {
+  for (const QString &connection_id : QSqlDatabase::connectionNames()) {
     qLog(Error) << "Connection" << connection_id << "is still open!";
   }
 
