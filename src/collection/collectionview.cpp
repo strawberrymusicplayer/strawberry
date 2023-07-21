@@ -404,7 +404,6 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   }
 
   const int songs_selected = regular_elements;
-  const bool regular_elements_only = songs_selected == regular_elements && regular_elements > 0;
 
   // in all modes
   action_load_->setEnabled(songs_selected > 0);
@@ -432,8 +431,8 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   action_delete_files_->setVisible(false);
 #endif
 
-  action_show_in_various_->setVisible(regular_elements_only);
-  action_no_show_in_various_->setVisible(regular_elements_only);
+  action_show_in_various_->setVisible(songs_selected > 0);
+  action_no_show_in_various_->setVisible(songs_selected > 0);
 
   // only when all selected items are editable
   action_organize_->setEnabled(regular_elements == regular_editable);
