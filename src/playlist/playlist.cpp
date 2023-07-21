@@ -58,6 +58,7 @@
 #include <QSettings>
 #include <QTimer>
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/mimedata.h"
@@ -92,6 +93,7 @@
 #include "radios/radiomimedata.h"
 #include "radios/radioplaylistitem.h"
 
+using std::make_shared;
 using namespace std::chrono_literals;
 
 const char *Playlist::kCddaMimeType = "x-content/audio-cdda";
@@ -112,7 +114,7 @@ const int Playlist::kUndoItemLimit = 500;
 const qint64 Playlist::kMinScrobblePointNsecs = 31LL * kNsecPerSec;
 const qint64 Playlist::kMaxScrobblePointNsecs = 240LL * kNsecPerSec;
 
-Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, const int id, const QString &special_type, const bool favorite, QObject *parent)
+Playlist::Playlist(SharedPtr<PlaylistBackend> backend, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend, const int id, const QString &special_type, const bool favorite, QObject *parent)
     : QAbstractListModel(parent),
       is_loading_(false),
       filter_(new PlaylistFilter(this)),
@@ -120,7 +122,7 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
       timer_save_(new QTimer(this)),
       backend_(backend),
       task_manager_(task_manager),
-      collection_(collection),
+      collection_backend_(collection_backend),
       id_(id),
       favorite_(favorite),
       current_is_paused_(false),
@@ -175,7 +177,7 @@ void Playlist::InsertSongItems(const SongList &songs, const int pos, const bool 
   PlaylistItemPtrList items;
   items.reserve(songs.count());
   for (const Song &song : songs) {
-    items << std::make_shared<T>(song);
+    items << make_shared<T>(song);
   }
 
   InsertItems(items, pos, play_now, enqueue, enqueue_next);
@@ -730,7 +732,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
 
 void Playlist::InsertDynamicItems(const int count) {
 
-  PlaylistGeneratorInserter *inserter = new PlaylistGeneratorInserter(task_manager_, collection_, this);
+  PlaylistGeneratorInserter *inserter = new PlaylistGeneratorInserter(task_manager_, collection_backend_, this);
   QObject::connect(inserter, &PlaylistGeneratorInserter::Error, this, &Playlist::Error);
   QObject::connect(inserter, &PlaylistGeneratorInserter::PlayRequested, this, &Playlist::PlayRequested);
 
@@ -850,7 +852,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     }
   }
   else if (data->hasFormat(kCddaMimeType)) {
-    SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_, backend_->app()->player());
+    SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_backend_, backend_->app()->player());
     QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
     inserter->LoadAudioCD(this, row, play_now, enqueue_now, enqueue_next_now);
   }
@@ -865,7 +867,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
 
 void Playlist::InsertUrls(const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
-  SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_, backend_->app()->player());
+  SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_backend_, backend_->app()->player());
   QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
 
   inserter->Load(this, pos, play_now, enqueue, enqueue_next, urls);
@@ -876,10 +878,10 @@ void Playlist::InsertSmartPlaylist(PlaylistGeneratorPtr generator, const int pos
 
   // Hack: If the generator hasn't got a collection set then use the main one
   if (!generator->collection()) {
-    generator->set_collection(collection_);
+    generator->set_collection_backend(collection_backend_);
   }
 
-  PlaylistGeneratorInserter *inserter = new PlaylistGeneratorInserter(task_manager_, collection_, this);
+  PlaylistGeneratorInserter *inserter = new PlaylistGeneratorInserter(task_manager_, collection_backend_, this);
   QObject::connect(inserter, &PlaylistGeneratorInserter::Error, this, &Playlist::Error);
 
   inserter->Load(this, pos, play_now, enqueue, enqueue_next, generator);
@@ -1142,18 +1144,18 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos
   for (const Song &song : songs) {
     if (song.url().isLocalFile()) {
       if (song.is_collection_song()) {
-        items << std::make_shared<CollectionPlaylistItem>(song);
+        items << make_shared<CollectionPlaylistItem>(song);
       }
       else {
-        items << std::make_shared<SongPlaylistItem>(song);
+        items << make_shared<SongPlaylistItem>(song);
       }
     }
     else {
       if (song.is_radio()) {
-        items << std::make_shared<RadioPlaylistItem>(song);
+        items << make_shared<RadioPlaylistItem>(song);
       }
       else {
-        items << std::make_shared<InternetPlaylistItem>(song);
+        items << make_shared<InternetPlaylistItem>(song);
       }
     }
   }
@@ -1161,12 +1163,12 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos
 
 }
 
-void Playlist::InsertInternetItems(InternetService *service, const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
+void Playlist::InsertInternetItems(InternetServicePtr service, const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
   PlaylistItemPtrList playlist_items;
   playlist_items.reserve(songs.count());
   for (const Song &song : songs) {
-    playlist_items << std::make_shared<InternetPlaylistItem>(service, song);
+    playlist_items << make_shared<InternetPlaylistItem>(service, song);
   }
 
   InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
@@ -1178,7 +1180,7 @@ void Playlist::InsertRadioItems(const SongList &songs, const int pos, const bool
   PlaylistItemPtrList playlist_items;
   playlist_items.reserve(songs.count());
   for (const Song &song : songs) {
-    playlist_items << std::make_shared<RadioPlaylistItem>(song);
+    playlist_items << make_shared<RadioPlaylistItem>(song);
   }
 
   InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
@@ -1205,20 +1207,20 @@ void Playlist::UpdateItems(SongList songs) {
         PlaylistItemPtr new_item;
         if (song.url().isLocalFile()) {
           if (song.is_collection_song()) {
-            new_item = std::make_shared<CollectionPlaylistItem>(song);
+            new_item = make_shared<CollectionPlaylistItem>(song);
             if (collection_items_by_id_.contains(song.id(), item)) collection_items_by_id_.remove(song.id(), item);
             collection_items_by_id_.insert(song.id(), new_item);
           }
           else {
-            new_item = std::make_shared<SongPlaylistItem>(song);
+            new_item = make_shared<SongPlaylistItem>(song);
           }
         }
         else {
           if (song.is_radio()) {
-            new_item = std::make_shared<RadioPlaylistItem>(song);
+            new_item = make_shared<RadioPlaylistItem>(song);
           }
           else {
-            new_item = std::make_shared<InternetPlaylistItem>(song);
+            new_item = make_shared<InternetPlaylistItem>(song);
           }
         }
         items_[i] = new_item;
@@ -1284,10 +1286,10 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
 
 }
 
-bool Playlist::CompareItems(const int column, const Qt::SortOrder order, std::shared_ptr<PlaylistItem> _a, std::shared_ptr<PlaylistItem> _b) {
+bool Playlist::CompareItems(const int column, const Qt::SortOrder order, SharedPtr<PlaylistItem> _a, SharedPtr<PlaylistItem> _b) {
 
-  std::shared_ptr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
-  std::shared_ptr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
+  SharedPtr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
+  SharedPtr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
 
 #define cmp(field) return a->Metadata().field() < b->Metadata().field()
 #define strcmp(field) return QString::localeAwareCompare(a->Metadata().field().toLower(), b->Metadata().field().toLower()) < 0;
@@ -1343,10 +1345,10 @@ bool Playlist::CompareItems(const int column, const Qt::SortOrder order, std::sh
 
 }
 
-bool Playlist::ComparePathDepths(const Qt::SortOrder order, std::shared_ptr<PlaylistItem> _a, std::shared_ptr<PlaylistItem> _b) {
+bool Playlist::ComparePathDepths(const Qt::SortOrder order, SharedPtr<PlaylistItem> _a, SharedPtr<PlaylistItem> _b) {
 
-  std::shared_ptr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
-  std::shared_ptr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
+  SharedPtr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
+  SharedPtr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
 
   qint64 a_dir_level = a->Url().path().count('/');
   qint64 b_dir_level = b->Url().path().count('/');
@@ -1462,11 +1464,11 @@ void Playlist::ReOrderWithoutUndo(const PlaylistItemPtrList &new_items) {
 
   QHash<const PlaylistItem*, int> new_rows;
   for (int i = 0; i < new_items.length(); ++i) {
-    new_rows[new_items[i].get()] = i;
+    new_rows[&*new_items[i]] = i;
   }
 
   for (const QModelIndex &idx : persistentIndexList()) {
-    const PlaylistItem *item = old_items[idx.row()].get();
+    const PlaylistItem *item = &*old_items[idx.row()];
     changePersistentIndex(idx, index(new_rows[item], idx.column(), idx.parent()));
   }
 
@@ -1574,11 +1576,11 @@ void Playlist::ItemsLoaded() {
     PlaylistGeneratorPtr gen = PlaylistGenerator::Create(p.dynamic_type);
     if (gen) {
 
-      CollectionBackend *backend = nullptr;
-      if (p.dynamic_backend == collection_->songs_table()) backend = collection_;
+      SharedPtr<CollectionBackend> backend = nullptr;
+      if (p.dynamic_backend == collection_backend_->songs_table()) backend = collection_backend_;
 
       if (backend) {
-        gen->set_collection(backend);
+        gen->set_collection_backend(collection_backend_);
         gen->Load(p.dynamic_data);
         TurnOnDynamicPlaylist(gen);
       }
@@ -2365,7 +2367,7 @@ void Playlist::RateSong(const QModelIndex &idx, const float rating) {
   if (has_item_at(idx.row())) {
     PlaylistItemPtr item = item_at(idx.row());
     if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
-      collection_->UpdateSongRatingAsync(item->Metadata().id(), rating);
+      collection_backend_->UpdateSongRatingAsync(item->Metadata().id(), rating);
     }
   }
 
@@ -2383,6 +2385,6 @@ void Playlist::RateSongs(const QModelIndexList &index_list, const float rating) 
       }
     }
   }
-  collection_->UpdateSongsRatingAsync(id_list, rating);
+  collection_backend_->UpdateSongsRatingAsync(id_list, rating);
 
 }

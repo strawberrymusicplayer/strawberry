@@ -37,6 +37,7 @@
 #include <QUrl>
 #include <QSqlDatabase>
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/database.h"
 #include "core/logging.h"
@@ -50,6 +51,8 @@
 #include "playlistbackend.h"
 #include "playlistparsers/cueparser.h"
 #include "smartplaylists/playlistgenerator.h"
+
+using std::make_shared;
 
 const int PlaylistBackend::kSongTableJoins = 2;
 
@@ -193,7 +196,7 @@ PlaylistItemPtrList PlaylistBackend::GetPlaylistItems(const int playlist) {
     }
 
     // it's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
-    std::shared_ptr<NewSongFromQueryState> state_ptr = std::make_shared<NewSongFromQueryState>();
+    SharedPtr<NewSongFromQueryState> state_ptr = make_shared<NewSongFromQueryState>();
     while (q.next()) {
       playlistitems << NewPlaylistItemFromQuery(SqlRow(q), state_ptr);
     }
@@ -228,7 +231,7 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
     }
 
     // it's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
-    std::shared_ptr<NewSongFromQueryState> state_ptr = std::make_shared<NewSongFromQueryState>();
+    SharedPtr<NewSongFromQueryState> state_ptr = make_shared<NewSongFromQueryState>();
     while (q.next()) {
       songs << NewSongFromQuery(SqlRow(q), state_ptr);
     }
@@ -243,7 +246,7 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
 
 }
 
-PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state) {
+PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state) {
 
   // The song tables get joined first, plus one each for the song ROWIDs
   const int playlist_row = static_cast<int>(Song::kColumns.count() + 1) * kSongTableJoins;
@@ -259,7 +262,7 @@ PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, std
 
 }
 
-Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state) {
+Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state) {
 
   return NewPlaylistItemFromQuery(row, state)->Metadata();
 
@@ -267,7 +270,7 @@ Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, std::shared_ptr<NewSon
 
 // If song had a CUE and the CUE still exists, the metadata from it will be applied here.
 
-PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::shared_ptr<NewSongFromQueryState> state) {
+PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<NewSongFromQueryState> state) {
 
   // We need collection to run a CueParser; also, this method applies only to file-type PlaylistItems
   if (item->source() != Song::Source::LocalFile) return item;
@@ -305,7 +308,7 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::share
   for (const Song &from_list : song_list) {
     if (from_list.url().toEncoded() == song.url().toEncoded() && from_list.beginning_nanosec() == song.beginning_nanosec()) {
       // We found a matching section; replace the input item with a new one containing CUE metadata
-      return std::make_shared<SongPlaylistItem>(from_list);
+      return make_shared<SongPlaylistItem>(from_list);
     }
   }
 

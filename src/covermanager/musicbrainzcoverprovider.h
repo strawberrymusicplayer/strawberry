@@ -30,6 +30,7 @@
 #include <QString>
 #include <QJsonObject>
 
+#include "core/shared_ptr.h"
 #include "jsoncoverprovider.h"
 
 class QNetworkReply;
@@ -41,7 +42,7 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit MusicbrainzCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit MusicbrainzCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~MusicbrainzCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
 #include <cstddef>
 
 #include <QObject>
@@ -35,6 +34,8 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+
+#include "core/scoped_ptr.h"
 
 class QMimeData;
 
@@ -112,7 +113,7 @@ class MergedProxyModel : public QAbstractProxyModel {
 
   QHash<QAbstractItemModel*, QModelIndex> old_merge_points_;
 
-  std::unique_ptr<MergedProxyModelPrivate> p_;
+  ScopedPtr<MergedProxyModelPrivate> p_;
 };
 
 #endif  // MERGEDPROXYMODEL_H

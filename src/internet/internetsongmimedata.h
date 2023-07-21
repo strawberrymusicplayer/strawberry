@@ -21,6 +21,7 @@
 #ifndef INTERNETSONGMIMEDATA_H
 #define INTERNETSONGMIMEDATA_H
 
+#include "core/shared_ptr.h"
 #include "core/mimedata.h"
 #include "core/song.h"
 
@@ -30,9 +31,9 @@ class InternetSongMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  explicit InternetSongMimeData(InternetService *_service, QObject* = nullptr) : service(_service) {}
+  explicit InternetSongMimeData(SharedPtr<InternetService> _service, QObject* = nullptr) : service(_service) {}
 
-  InternetService *service;
+  SharedPtr<InternetService> service;
   SongList songs;
 };
 

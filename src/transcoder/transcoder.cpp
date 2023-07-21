@@ -43,8 +43,11 @@
 #include <QSettings>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/signalchecker.h"
 #include "transcoder.h"
+
+using std::make_shared;
 
 int Transcoder::JobFinishedEvent::sEventType = -1;
 
@@ -418,7 +421,7 @@ void Transcoder::JobState::ReportError(GstMessage *msg) const {
 
 bool Transcoder::StartJob(const Job &job) {
 
-  std::shared_ptr<JobState> state = std::make_shared<JobState>(job, this);
+  SharedPtr<JobState> state = make_shared<JobState>(job, this);
 
   emit LogLine(tr("Starting %1").arg(QDir::toNativeSeparators(job.input)));
 
@@ -529,7 +532,7 @@ void Transcoder::Cancel() {
   // Stop the running ones
   JobStateList::iterator it = current_jobs_.begin();
   while (it != current_jobs_.end()) {
-    std::shared_ptr<JobState> state(*it);
+    SharedPtr<JobState> state(*it);
 
     // Remove event handlers from the gstreamer pipeline, so they don't get called after the pipeline is shutting down
     gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(state->pipeline_)), nullptr, nullptr, nullptr);

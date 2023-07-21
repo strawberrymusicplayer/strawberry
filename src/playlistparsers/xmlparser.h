@@ -28,6 +28,7 @@
 #include <QString>
 #include <QXmlStreamWriter>
 
+#include "core/shared_ptr.h"
 #include "parserbase.h"
 
 class CollectionBackendInterface;
@@ -36,7 +37,7 @@ class XMLParser : public ParserBase {
   Q_OBJECT
 
  protected:
-  explicit XMLParser(CollectionBackendInterface *collection, QObject *parent);
+  explicit XMLParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent);
 
   class StreamElement {
    public:

@@ -35,7 +35,9 @@
 
 #include "core/song.h"
 
-class MtpConnection : public QObject, public std::enable_shared_from_this<MtpConnection> {
+using std::enable_shared_from_this;
+
+class MtpConnection : public QObject, public enable_shared_from_this<MtpConnection> {
   Q_OBJECT
 
  public:

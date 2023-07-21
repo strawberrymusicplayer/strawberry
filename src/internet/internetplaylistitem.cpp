@@ -39,7 +39,7 @@ InternetPlaylistItem::InternetPlaylistItem(const Song &metadata)
   InitMetadata();
 }
 
-InternetPlaylistItem::InternetPlaylistItem(InternetService *service, const Song &metadata)
+InternetPlaylistItem::InternetPlaylistItem(InternetServicePtr service, const Song &metadata)
     : PlaylistItem(metadata.source()),
       source_(service->source()),
       metadata_(metadata) {

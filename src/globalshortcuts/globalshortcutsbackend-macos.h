@@ -24,14 +24,14 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include "globalshortcutsbackend.h"
 
 #include <QObject>
 #include <QMap>
 #include <QAction>
 #include <QKeySequence>
+
+#include "core/scoped_ptr.h"
 
 class GlobalShortcutsBackendMacOSPrivate;
 
@@ -59,7 +59,7 @@ class GlobalShortcutsBackendMacOS : public GlobalShortcutsBackend {
   QMap<QKeySequence, QAction*> shortcuts_;
 
   friend class GlobalShortcutsBackendMacOSPrivate;
-  std::unique_ptr<GlobalShortcutsBackendMacOSPrivate> p_;
+  ScopedPtr<GlobalShortcutsBackendMacOSPrivate> p_;
 };
 
 #endif  // GLOBALSHORTCUTSBACKEND_MACOS_H

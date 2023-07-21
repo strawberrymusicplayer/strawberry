@@ -30,6 +30,7 @@
 #include <QStringList>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
 #include "core/filesystemmusicstorage.h"
 #include "connecteddevice.h"
 
@@ -43,7 +44,7 @@ class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicS
   Q_OBJECT
 
  public:
-  Q_INVOKABLE FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  Q_INVOKABLE FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
   ~FilesystemDevice() override;
 
   Song::Source source() const final { return Song::Source::Device; }

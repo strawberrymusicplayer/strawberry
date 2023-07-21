@@ -34,8 +34,8 @@ TidalUrlHandler::TidalUrlHandler(Application *app, TidalService *service)
       app_(app),
       service_(service) {
 
-  QObject::connect(service, &TidalService::StreamURLFailure, this, &TidalUrlHandler::GetStreamURLFailure);
-  QObject::connect(service, &TidalService::StreamURLSuccess, this, &TidalUrlHandler::GetStreamURLSuccess);
+  QObject::connect(&*service, &TidalService::StreamURLFailure, this, &TidalUrlHandler::GetStreamURLFailure);
+  QObject::connect(&*service, &TidalService::StreamURLSuccess, this, &TidalUrlHandler::GetStreamURLSuccess);
 
 }
 

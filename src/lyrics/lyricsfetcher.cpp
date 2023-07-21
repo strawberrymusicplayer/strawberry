@@ -26,6 +26,7 @@
 #include <QTimer>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "lyricsfetcher.h"
 #include "lyricsfetchersearch.h"
@@ -36,7 +37,7 @@ using namespace std::chrono_literals;
 
 const int LyricsFetcher::kMaxConcurrentRequests = 5;
 
-LyricsFetcher::LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent)
+LyricsFetcher::LyricsFetcher(SharedPtr<LyricsProviders> lyrics_providers, QObject *parent)
     : QObject(parent),
       lyrics_providers_(lyrics_providers),
       next_id_(0),

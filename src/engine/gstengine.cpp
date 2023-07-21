@@ -48,6 +48,7 @@
 #include <QMetaObject>
 #include <QTimerEvent>
 
+#include "core/shared_ptr.h"
 #include "core/logging.h"
 #include "core/taskmanager.h"
 #include "core/signalchecker.h"
@@ -57,6 +58,8 @@
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
 #include "enginemetadata.h"
+
+using std::make_shared;
 
 const char *GstEngine::kAutoSink = "autoaudiosink";
 const char *GstEngine::kALSASink = "alsasink";
@@ -75,7 +78,7 @@ const qint64 GstEngine::kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
 const qint64 GstEngine::kPreloadGapNanosec = 8000 * kNsecPerMsec;     // 8s
 const qint64 GstEngine::kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
 
-GstEngine::GstEngine(TaskManager *task_manager, QObject *parent)
+GstEngine::GstEngine(SharedPtr<TaskManager> task_manager, QObject *parent)
     : EngineBase(parent),
       task_manager_(task_manager),
       gst_startup_(nullptr),
@@ -197,7 +200,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
     return true;
   }
 
-  std::shared_ptr<GstEnginePipeline> pipeline = CreatePipeline(media_url, stream_url, gst_url, force_stop_at_end ? end_nanosec : 0, ebur128_loudness_normalizing_gain_db_);
+  SharedPtr<GstEnginePipeline> pipeline = CreatePipeline(media_url, stream_url, gst_url, force_stop_at_end ? end_nanosec : 0, ebur128_loudness_normalizing_gain_db_);
   if (!pipeline) return false;
 
   if (crossfade) StartFadeout();
@@ -269,7 +272,7 @@ void GstEngine::Stop(const bool stop_after) {
 
   // Check if we started a fade out. If it isn't finished yet and the user pressed stop, we cancel the fader and just stop the playback.
   if (is_fading_out_to_pause_) {
-    QObject::disconnect(current_pipeline_.get(), &GstEnginePipeline::FaderFinished, nullptr, nullptr);
+    QObject::disconnect(&*current_pipeline_, &GstEnginePipeline::FaderFinished, nullptr, nullptr);
     is_fading_out_to_pause_ = false;
     has_faded_out_ = true;
 
@@ -291,7 +294,7 @@ void GstEngine::Pause() {
 
   // Check if we started a fade out. If it isn't finished yet and the user pressed play, we inverse the fader and resume the playback.
   if (is_fading_out_to_pause_) {
-    QObject::disconnect(current_pipeline_.get(), &GstEnginePipeline::FaderFinished, nullptr, nullptr);
+    QObject::disconnect(&*current_pipeline_, &GstEnginePipeline::FaderFinished, nullptr, nullptr);
     current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QEasingCurve::InOutQuad, false);
     is_fading_out_to_pause_ = false;
     has_faded_out_ = false;
@@ -322,7 +325,7 @@ void GstEngine::Unpause() {
     // Check if we faded out last time. If yes, fade in no matter what the settings say.
     // If we pause with fadeout, deactivate fadeout and resume playback, the player would be muted if not faded in.
     if (has_faded_out_) {
-      QObject::disconnect(current_pipeline_.get(), &GstEnginePipeline::FaderFinished, nullptr, nullptr);
+      QObject::disconnect(&*current_pipeline_, &GstEnginePipeline::FaderFinished, nullptr, nullptr);
       current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QEasingCurve::InOutQuad, false);
       has_faded_out_ = false;
     }
@@ -742,24 +745,24 @@ void GstEngine::StartFadeout() {
   if (is_fading_out_to_pause_) return;
 
   fadeout_pipeline_ = current_pipeline_;
-  QObject::disconnect(fadeout_pipeline_.get(), nullptr, nullptr, nullptr);
+  QObject::disconnect(&*fadeout_pipeline_, nullptr, nullptr, nullptr);
   fadeout_pipeline_->RemoveAllBufferConsumers();
 
   fadeout_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward);
-  QObject::connect(fadeout_pipeline_.get(), &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutFinished);
+  QObject::connect(&*fadeout_pipeline_, &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutFinished);
 
 }
 
 void GstEngine::StartFadeoutPause() {
 
   fadeout_pause_pipeline_ = current_pipeline_;
-  QObject::disconnect(fadeout_pause_pipeline_.get(), &GstEnginePipeline::FaderFinished, nullptr, nullptr);
+  QObject::disconnect(&*fadeout_pause_pipeline_, &GstEnginePipeline::FaderFinished, nullptr, nullptr);
 
   fadeout_pause_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QEasingCurve::InOutQuad, false);
   if (fadeout_pipeline_ && fadeout_pipeline_->state() == GST_STATE_PLAYING) {
     fadeout_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QEasingCurve::Linear, false);
   }
-  QObject::connect(fadeout_pause_pipeline_.get(), &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutPauseFinished);
+  QObject::connect(&*fadeout_pause_pipeline_, &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutPauseFinished);
   is_fading_out_to_pause_ = true;
 
 }
@@ -780,11 +783,11 @@ void GstEngine::StopTimers() {
 
 }
 
-std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
+SharedPtr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
   EnsureInitialized();
 
-  std::shared_ptr<GstEnginePipeline> ret = std::make_shared<GstEnginePipeline>();
+  SharedPtr<GstEnginePipeline> ret = make_shared<GstEnginePipeline>();
   ret->set_output_device(output_, device_);
   ret->set_volume_enabled(volume_control_);
   ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
@@ -805,22 +808,22 @@ std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
     ret->AddBufferConsumer(consumer);
   }
 
-  QObject::connect(ret.get(), &GstEnginePipeline::EndOfStreamReached, this, &GstEngine::EndOfStreamReached);
-  QObject::connect(ret.get(), &GstEnginePipeline::Error, this, &GstEngine::HandlePipelineError);
-  QObject::connect(ret.get(), &GstEnginePipeline::MetadataFound, this, &GstEngine::NewMetaData);
-  QObject::connect(ret.get(), &GstEnginePipeline::BufferingStarted, this, &GstEngine::BufferingStarted);
-  QObject::connect(ret.get(), &GstEnginePipeline::BufferingProgress, this, &GstEngine::BufferingProgress);
-  QObject::connect(ret.get(), &GstEnginePipeline::BufferingFinished, this, &GstEngine::BufferingFinished);
-  QObject::connect(ret.get(), &GstEnginePipeline::VolumeChanged, this, &EngineBase::UpdateVolume);
-  QObject::connect(ret.get(), &GstEnginePipeline::AboutToFinish, this, &EngineBase::EmitAboutToFinish);
+  QObject::connect(&*ret, &GstEnginePipeline::EndOfStreamReached, this, &GstEngine::EndOfStreamReached);
+  QObject::connect(&*ret, &GstEnginePipeline::Error, this, &GstEngine::HandlePipelineError);
+  QObject::connect(&*ret, &GstEnginePipeline::MetadataFound, this, &GstEngine::NewMetaData);
+  QObject::connect(&*ret, &GstEnginePipeline::BufferingStarted, this, &GstEngine::BufferingStarted);
+  QObject::connect(&*ret, &GstEnginePipeline::BufferingProgress, this, &GstEngine::BufferingProgress);
+  QObject::connect(&*ret, &GstEnginePipeline::BufferingFinished, this, &GstEngine::BufferingFinished);
+  QObject::connect(&*ret, &GstEnginePipeline::VolumeChanged, this, &EngineBase::UpdateVolume);
+  QObject::connect(&*ret, &GstEnginePipeline::AboutToFinish, this, &EngineBase::EmitAboutToFinish);
 
   return ret;
 
 }
 
-std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db) {
+SharedPtr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db) {
 
-  std::shared_ptr<GstEnginePipeline> ret = CreatePipeline();
+  SharedPtr<GstEnginePipeline> ret = CreatePipeline();
   QString error;
   if (!ret->InitFromUrl(media_url, stream_url, gst_url, end_nanosec, ebur128_loudness_normalizing_gain_db, error)) {
     ret.reset();

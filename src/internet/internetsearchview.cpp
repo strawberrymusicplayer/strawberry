@@ -83,6 +83,8 @@
 #include "ui_internetsearchview.h"
 #include "settings/appearancesettingspage.h"
 
+using std::make_unique;
+
 const int InternetSearchView::kSwapModelsTimeoutMsec = 250;
 const int InternetSearchView::kDelayedSearchTimeoutMs = 200;
 const int InternetSearchView::kArtHeight = 32;
@@ -143,7 +145,7 @@ InternetSearchView::InternetSearchView(QWidget *parent)
 
 InternetSearchView::~InternetSearchView() { delete ui_; }
 
-void InternetSearchView::Init(Application *app, InternetService *service) {
+void InternetSearchView::Init(Application *app, InternetServicePtr service) {
 
   app_ = app;
   service_ = service;
@@ -191,13 +193,13 @@ void InternetSearchView::Init(Application *app, InternetService *service) {
   QObject::connect(ui_->results, &AutoExpandingTreeView::AddToPlaylistSignal, this, &InternetSearchView::AddToPlaylist);
   QObject::connect(ui_->results, &AutoExpandingTreeView::FocusOnFilterSignal, this, &InternetSearchView::FocusOnFilter);
 
-  QObject::connect(service_, &InternetService::SearchUpdateStatus, this, &InternetSearchView::UpdateStatus);
-  QObject::connect(service_, &InternetService::SearchProgressSetMaximum, this, &InternetSearchView::ProgressSetMaximum);
-  QObject::connect(service_, &InternetService::SearchUpdateProgress, this, &InternetSearchView::UpdateProgress);
-  QObject::connect(service_, &InternetService::SearchResults, this, &InternetSearchView::SearchDone);
+  QObject::connect(&*service_, &InternetService::SearchUpdateStatus, this, &InternetSearchView::UpdateStatus);
+  QObject::connect(&*service_, &InternetService::SearchProgressSetMaximum, this, &InternetSearchView::ProgressSetMaximum);
+  QObject::connect(&*service_, &InternetService::SearchUpdateProgress, this, &InternetSearchView::UpdateProgress);
+  QObject::connect(&*service_, &InternetService::SearchResults, this, &InternetSearchView::SearchDone);
 
   QObject::connect(app_, &Application::SettingsChanged, this, &InternetSearchView::ReloadSettings);
-  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &InternetSearchView::AlbumCoverLoaded);
+  QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &InternetSearchView::AlbumCoverLoaded);
 
   QObject::connect(ui_->settings, &QToolButton::clicked, ui_->settings, &QToolButton::showMenu);
 
@@ -679,8 +681,8 @@ void InternetSearchView::GroupByClicked(QAction *action) {
 
   if (action->property("group_by").isNull()) {
     if (!group_by_dialog_) {
-      group_by_dialog_ = std::make_unique<GroupByDialog>();
-      QObject::connect(group_by_dialog_.get(), &GroupByDialog::Accepted, this, &InternetSearchView::SetGroupBy);
+      group_by_dialog_ = make_unique<GroupByDialog>();
+      QObject::connect(&*group_by_dialog_, &GroupByDialog::Accepted, this, &InternetSearchView::SetGroupBy);
     }
 
     group_by_dialog_->show();

@@ -30,6 +30,7 @@
 #include <QString>
 #include <QStringList>
 
+#include "core/shared_ptr.h"
 #include "albumcoverfetcher.h"
 
 class Application;
@@ -41,7 +42,7 @@ class CoverProvider : public QObject {
   Q_OBJECT
 
  public:
-  explicit CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, NetworkAccessManager *network, QObject *parent);
+  explicit CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent);
 
   // A name (very short description) of this provider, like "last.fm".
   QString name() const { return name_; }
@@ -79,7 +80,7 @@ class CoverProvider : public QObject {
   using ParamList = QList<Param>;
 
   Application *app_;
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   QString name_;
   bool enabled_;
   int order_;

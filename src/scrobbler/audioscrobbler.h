@@ -22,15 +22,17 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QtGlobal>
 #include <QObject>
-#include <QMutex>
 #include <QList>
 #include <QMap>
 #include <QString>
-#include <QAtomicInt>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
+#include "scrobblersettings.h"
 
 class Application;
 class ScrobblerService;
@@ -43,29 +45,30 @@ class AudioScrobbler : public QObject {
   explicit AudioScrobbler(Application *app, QObject *parent = nullptr);
   ~AudioScrobbler();
 
-  void AddService(ScrobblerService *service);
-  void RemoveService(ScrobblerService *service);
-  QList<ScrobblerService*> List() const { return services_.values(); }
+  void AddService(SharedPtr<ScrobblerService> service);
+  void RemoveService(SharedPtr<ScrobblerService> service);
+  QList<SharedPtr<ScrobblerService>> List() const { return services_.values(); }
   bool HasAnyServices() const { return !services_.isEmpty(); }
   int NextId();
 
-  QList<ScrobblerService*> GetAll();
-  ScrobblerService *ServiceByName(const QString &name);
+  QList<SharedPtr<ScrobblerService>> GetAll();
+  SharedPtr<ScrobblerService> ServiceByName(const QString &name);
   template<typename T>
-  T *Service() {
-    return qobject_cast<T*>(ServiceByName(T::kName));
+  SharedPtr<T> Service() {
+    return std::static_pointer_cast<T>(ServiceByName(T::kName));
   }
 
   void ReloadSettings();
+  SharedPtr<ScrobblerSettings> settings() { return settings_; }
 
-  bool IsEnabled() const { return enabled_; }
-  bool IsOffline() const { return offline_; }
-  bool ScrobbleButton() const { return scrobble_button_; }
-  bool LoveButton() const { return love_button_; }
-  int SubmitDelay() const { return submit_delay_; }
-  bool PreferAlbumArtist() const { return prefer_albumartist_; }
-  bool ShowErrorDialog() const { return show_error_dialog_; }
-  QList<Song::Source> sources() const { return sources_; }
+  bool enabled() const { return settings_->enabled(); }
+  bool offline() const { return settings_->offline(); }
+  bool scrobble_button() const { return settings_->scrobble_button(); }
+  bool love_button() const { return settings_->love_button(); }
+  int submit_delay() const { return settings_->submit_delay(); }
+  bool prefer_albumartist() const { return settings_->prefer_albumartist(); }
+  bool ShowErrorDialog() const { return settings_->show_error_dialog(); }
+  QList<Song::Source> sources() const { return settings_->sources(); }
 
   void ShowConfig();
 
@@ -83,26 +86,11 @@ class AudioScrobbler : public QObject {
 
  signals:
   void ErrorMessage(const QString &error);
-  void ScrobblingEnabledChanged(const bool value);
-  void ScrobblingOfflineChanged(const bool value);
-  void ScrobbleButtonVisibilityChanged(const bool value);
-  void LoveButtonVisibilityChanged(const bool value);
 
  private:
   Application *app_;
-
-  QMap<QString, ScrobblerService*> services_;
-  QMutex mutex_;
-  QAtomicInt next_id_;
-
-  bool enabled_;
-  bool offline_;
-  bool scrobble_button_;
-  bool love_button_;
-  int submit_delay_;
-  bool prefer_albumartist_;
-  bool show_error_dialog_;
-  QList<Song::Source> sources_;
+  SharedPtr<ScrobblerSettings> settings_;
+  QMap<QString, SharedPtr<ScrobblerService>> services_;
 
   Q_DISABLE_COPY(AudioScrobbler)
 };

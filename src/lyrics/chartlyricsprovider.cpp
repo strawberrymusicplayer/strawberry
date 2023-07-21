@@ -30,6 +30,7 @@
 #include <QXmlStreamReader>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/strutils.h"
 #include "lyricssearchrequest.h"
@@ -38,7 +39,7 @@
 
 const char *ChartLyricsProvider::kUrlSearch = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect";
 
-ChartLyricsProvider::ChartLyricsProvider(NetworkAccessManager *network, QObject *parent) : LyricsProvider("ChartLyrics", false, false, network, parent) {}
+ChartLyricsProvider::ChartLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider("ChartLyrics", false, false, network, parent) {}
 
 ChartLyricsProvider::~ChartLyricsProvider() {
 

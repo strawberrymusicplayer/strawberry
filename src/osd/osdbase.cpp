@@ -31,6 +31,7 @@
 #include "osdbase.h"
 #include "osdpretty.h"
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/logging.h"
 #ifdef Q_OS_MACOS
@@ -43,7 +44,7 @@
 
 const char *OSDBase::kSettingsGroup = "OSD";
 
-OSDBase::OSDBase(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QObject *parent)
+OSDBase::OSDBase(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject *parent)
     : QObject(parent),
       app_(app),
       tray_icon_(tray_icon),
@@ -61,7 +62,7 @@ OSDBase::OSDBase(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QO
       ignore_next_stopped_(false),
       playing_(false) {
 
-  QObject::connect(app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::ThumbnailLoaded, this, &OSDBase::AlbumCoverLoaded);
+  QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::ThumbnailLoaded, this, &OSDBase::AlbumCoverLoaded);
 
   app_name_[0] = app_name_[0].toUpper();
 

@@ -30,6 +30,7 @@
 #include <QStringList>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "settings/playlistsettingspage.h"
 #include "playlistparser.h"
 #include "parserbase.h"
@@ -43,16 +44,16 @@
 
 const int PlaylistParser::kMagicSize = 512;
 
-PlaylistParser::PlaylistParser(CollectionBackendInterface *collection, QObject *parent) : QObject(parent) {
+PlaylistParser::PlaylistParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent) : QObject(parent) {
 
-  default_parser_ = new XSPFParser(collection, this);
+  default_parser_ = new XSPFParser(collection_backend, this);
   parsers_ << default_parser_;
-  parsers_ << new M3UParser(collection, this);
-  parsers_ << new PLSParser(collection, this);
-  parsers_ << new ASXParser(collection, this);
-  parsers_ << new AsxIniParser(collection, this);
-  parsers_ << new CueParser(collection, this);
-  parsers_ << new WplParser(collection, this);
+  parsers_ << new M3UParser(collection_backend, this);
+  parsers_ << new PLSParser(collection_backend, this);
+  parsers_ << new ASXParser(collection_backend, this);
+  parsers_ << new AsxIniParser(collection_backend, this);
+  parsers_ << new CueParser(collection_backend, this);
+  parsers_ << new WplParser(collection_backend, this);
 
 }
 

@@ -19,7 +19,11 @@
 #define LAZY_H
 
 #include <functional>
-#include <memory>
+#include <type_traits>
+
+#include "core/logging.h"
+
+#include "shared_ptr.h"
 
 // Helper for lazy initialization of objects.
 // Usage:
@@ -38,6 +42,11 @@ class Lazy {
     return ptr_.get();
   }
 
+  SharedPtr<T> ptr() const {
+    CheckInitialized();
+    return ptr_;
+  }
+
   typename std::add_lvalue_reference<T>::type operator*() const {
     CheckInitialized();
     return *ptr_;
@@ -54,12 +63,13 @@ class Lazy {
  private:
   void CheckInitialized() const {
     if (!ptr_) {
-      ptr_.reset(init_(), [](T*obj) { obj->deleteLater(); });
+      ptr_ = SharedPtr<T>(init_(), [](T*obj) { qLog(Debug) << obj << "deleted"; delete obj; });
+      qLog(Debug) << &*ptr_ << "created";
     }
   }
 
   const std::function<T*()> init_;
-  mutable std::shared_ptr<T> ptr_;
+  mutable SharedPtr<T> ptr_;
 };
 
 #endif  // LAZY_H

@@ -32,6 +32,7 @@
 #include <QJsonValue>
 #include <QJsonObject>
 
+#include "core/shared_ptr.h"
 #include "jsoncoverprovider.h"
 #include "tidal/tidalservice.h"
 
@@ -43,7 +44,7 @@ class TidalCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit TidalCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit TidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~TidalCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
@@ -64,7 +65,7 @@ class TidalCoverProvider : public JsonCoverProvider {
  private:
   static const int kLimit;
 
-  TidalService *service_;
+  TidalServicePtr service_;
   QList<QNetworkReply*> replies_;
 };
 

@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QMetaType>
 #include <QPair>
@@ -37,6 +35,7 @@
 #include <QString>
 #include <QJsonObject>
 
+#include "core/shared_ptr.h"
 #include "jsoncoverprovider.h"
 #include "albumcoverfetcher.h"
 
@@ -49,7 +48,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit DiscogsCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit DiscogsCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~DiscogsCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
@@ -77,12 +76,12 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   };
 
  private:
-  void SendSearchRequest(std::shared_ptr<DiscogsCoverSearchContext> search);
+  void SendSearchRequest(SharedPtr<DiscogsCoverSearchContext> search);
   void SendReleaseRequest(const DiscogsCoverReleaseContext &release);
   QNetworkReply *CreateRequest(QUrl url, const ParamList &params_provided = ParamList());
   QByteArray GetReplyData(QNetworkReply *reply);
-  void StartReleaseRequest(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url);
-  void EndSearch(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id = 0);
+  void StartReleaseRequest(SharedPtr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url);
+  void EndSearch(SharedPtr<DiscogsCoverSearchContext> search, const quint64 release_id = 0);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private slots:
@@ -97,9 +96,9 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   static const int kRequestsDelay;
 
   QTimer *timer_flush_requests_;
-  QQueue<std::shared_ptr<DiscogsCoverSearchContext>> queue_search_requests_;
+  QQueue<SharedPtr<DiscogsCoverSearchContext>> queue_search_requests_;
   QQueue<DiscogsCoverReleaseContext> queue_release_requests_;
-  QMap<int, std::shared_ptr<DiscogsCoverSearchContext>> requests_search_;
+  QMap<int, SharedPtr<DiscogsCoverSearchContext>> requests_search_;
   QList<QNetworkReply*> replies_;
 };
 

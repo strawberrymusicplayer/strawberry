@@ -35,8 +35,11 @@
 #include <QPalette>
 #include <QEvent>
 
+#include "shared_ptr.h"
 #include "core/logging.h"
 #include "stylesheetloader.h"
+
+using std::make_shared;
 
 StyleSheetLoader::StyleSheetLoader(QObject *parent) : QObject(parent) {}
 
@@ -57,7 +60,7 @@ void StyleSheetLoader::SetStyleSheet(QWidget *widget, const QString &filename) {
   }
   file.close();
 
-  std::shared_ptr<StyleSheetData> styledata = std::make_shared<StyleSheetData>();
+  SharedPtr<StyleSheetData> styledata = make_shared<StyleSheetData>();
   styledata->filename_ = filename;
   styledata->stylesheet_template_ = stylesheet;
   styledata->stylesheet_current_ = widget->styleSheet();
@@ -68,7 +71,7 @@ void StyleSheetLoader::SetStyleSheet(QWidget *widget, const QString &filename) {
 
 }
 
-void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, std::shared_ptr<StyleSheetData> styledata) {
+void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetData> styledata) {
 
   QString stylesheet = styledata->stylesheet_template_;
 

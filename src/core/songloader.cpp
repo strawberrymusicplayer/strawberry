@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-#include <memory>
 #include <algorithm>
 
 #ifdef HAVE_GSTREAMER
@@ -44,6 +43,7 @@
 
 #include "core/logging.h"
 
+#include "shared_ptr.h"
 #include "signalchecker.h"
 #include "player.h"
 #include "song.h"
@@ -65,13 +65,13 @@
 QSet<QString> SongLoader::sRawUriSchemes;
 const int SongLoader::kDefaultTimeout = 5000;
 
-SongLoader::SongLoader(CollectionBackendInterface *collection, const Player *player, QObject *parent)
+SongLoader::SongLoader(SharedPtr<CollectionBackendInterface> collection_backend, const SharedPtr<Player> player, QObject *parent)
     : QObject(parent),
       player_(player),
-      collection_(collection),
+      collection_backend_(collection_backend),
       timeout_timer_(new QTimer(this)),
-      playlist_parser_(new PlaylistParser(collection, this)),
-      cue_parser_(new CueParser(collection, this)),
+      playlist_parser_(new PlaylistParser(collection_backend, this)),
+      cue_parser_(new CueParser(collection_backend, this)),
       parser_(nullptr),
       state_(State::WaitingForType),
       timeout_(kDefaultTimeout),
@@ -233,10 +233,10 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   // Search in the database.
   QUrl url = QUrl::fromLocalFile(filename);
 
-  QMutexLocker l(collection_->db()->Mutex());
-  QSqlDatabase db(collection_->db()->Connect());
+  QMutexLocker l(collection_backend_->db()->Mutex());
+  QSqlDatabase db(collection_backend_->db()->Connect());
 
-  CollectionQuery query(db, collection_->songs_table(), collection_->fts_table());
+  CollectionQuery query(db, collection_backend_->songs_table(), collection_backend_->fts_table());
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
   query.AddWhere("url", url.toEncoded());
 
@@ -348,7 +348,7 @@ void SongLoader::EffectiveSongLoad(Song *song) {
   }
 
   // First, try to get the song from the collection
-  Song collection_song = collection_->GetSongByUrl(song->url());
+  Song collection_song = collection_backend_->GetSongByUrl(song->url());
   if (collection_song.is_valid()) {
     *song = collection_song;
   }
@@ -429,7 +429,7 @@ void SongLoader::StopTypefind() {
 #ifdef HAVE_GSTREAMER
   // Destroy the pipeline
   if (pipeline_) {
-    gst_element_set_state(pipeline_.get(), GST_STATE_NULL);
+    gst_element_set_state(&*pipeline_, GST_STATE_NULL);
     CleanupPipeline();
   }
 #endif
@@ -471,7 +471,7 @@ SongLoader::Result SongLoader::LoadRemote() {
   ScheduleTimeoutAsync();
 
   // Create the pipeline - it gets unreffed if it goes out of scope
-  std::shared_ptr<GstElement> pipeline(gst_pipeline_new(nullptr), std::bind(&gst_object_unref, std::placeholders::_1));
+  SharedPtr<GstElement> pipeline(gst_pipeline_new(nullptr), std::bind(&gst_object_unref, std::placeholders::_1));
 
   // Create the source element automatically based on the URL
   GstElement *source = gst_element_make_from_uri(GST_URI_SRC, url_.toEncoded().constData(), nullptr, nullptr);
@@ -479,7 +479,7 @@ SongLoader::Result SongLoader::LoadRemote() {
     errors_ << tr("Couldn't create GStreamer source element for %1").arg(url_.toString());
     return Result::Error;
   }
-  gst_bin_add(GST_BIN(pipeline.get()), source);
+  gst_bin_add(GST_BIN(&*pipeline), source);
 
   g_object_set(source, "ssl-strict", FALSE, nullptr);
 
@@ -489,14 +489,14 @@ SongLoader::Result SongLoader::LoadRemote() {
     errors_ << tr("Couldn't create GStreamer typefind element for %1").arg(url_.toString());
     return Result::Error;
   }
-  gst_bin_add(GST_BIN(pipeline.get()), typefind);
+  gst_bin_add(GST_BIN(&*pipeline), typefind);
 
   fakesink_ = gst_element_factory_make("fakesink", nullptr);
   if (!fakesink_) {
     errors_ << tr("Couldn't create GStreamer fakesink element for %1").arg(url_.toString());
     return Result::Error;
   }
-  gst_bin_add(GST_BIN(pipeline.get()), fakesink_);
+  gst_bin_add(GST_BIN(&*pipeline), fakesink_);
 
   if (!gst_element_link_many(source, typefind, fakesink_, nullptr)) {
     errors_ << tr("Couldn't link GStreamer source, typefind and fakesink elements for %1").arg(url_.toString());
@@ -505,7 +505,7 @@ SongLoader::Result SongLoader::LoadRemote() {
 
   // Connect callbacks
   CHECKED_GCONNECT(typefind, "have-type", &TypeFound, this);
-  GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline.get()));
+  GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(&*pipeline));
   if (bus) {
     gst_bus_set_sync_handler(bus, BusCallbackSync, this, nullptr);
     gst_bus_add_watch(bus, BusWatchCallback, this);
@@ -524,7 +524,7 @@ SongLoader::Result SongLoader::LoadRemote() {
 
   // Start "playing"
   pipeline_ = pipeline;
-  gst_element_set_state(pipeline.get(), GST_STATE_PLAYING);
+  gst_element_set_state(&*pipeline, GST_STATE_PLAYING);
 
   // Wait until loading is finished
   loop.exec();
@@ -718,7 +718,7 @@ bool SongLoader::IsPipelinePlaying() {
 
   GstState state = GST_STATE_NULL;
   GstState pending_state = GST_STATE_NULL;
-  GstStateChangeReturn ret = gst_element_get_state(pipeline_.get(), &state, &pending_state, GST_SECOND);
+  GstStateChangeReturn ret = gst_element_get_state(&*pipeline_, &state, &pending_state, GST_SECOND);
 
   if (ret == GST_STATE_CHANGE_ASYNC && pending_state == GST_STATE_PLAYING) {
     // We're still on the way to playing
@@ -763,7 +763,7 @@ void SongLoader::CleanupPipeline() {
 
   if (pipeline_) {
 
-    gst_element_set_state(pipeline_.get(), GST_STATE_NULL);
+    gst_element_set_state(&*pipeline_, GST_STATE_NULL);
 
     if (fakesink_ && buffer_probe_cb_id_ != 0) {
       GstPad *pad = gst_element_get_static_pad(fakesink_, "src");
@@ -774,7 +774,7 @@ void SongLoader::CleanupPipeline() {
     }
 
     {
-      GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_.get()));
+      GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(&*pipeline_));
       if (bus) {
         gst_bus_remove_watch(bus);
         gst_bus_set_sync_handler(bus, nullptr, nullptr, nullptr);

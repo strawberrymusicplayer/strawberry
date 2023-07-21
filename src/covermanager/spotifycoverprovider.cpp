@@ -41,6 +41,7 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
@@ -60,7 +61,7 @@ const char *SpotifyCoverProvider::kClientSecretB64 = "N2ZlMDMxODk1NTBlNDE3ZGI1ZW
 const char *SpotifyCoverProvider::kApiUrl = "https://api.spotify.com/v1";
 const int SpotifyCoverProvider::kLimit = 10;
 
-SpotifyCoverProvider::SpotifyCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+SpotifyCoverProvider::SpotifyCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider("Spotify", true, true, 2.5, true, true, app, network, parent),
       server_(nullptr),
       expires_in_(0),

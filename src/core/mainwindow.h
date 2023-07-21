@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -48,6 +46,8 @@
 #include <QSettings>
 #include <QtEvents>
 
+#include "scoped_ptr.h"
+#include "shared_ptr.h"
 #include "lazy.h"
 #include "platforminterface.h"
 #include "song.h"
@@ -104,7 +104,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
 
  public:
-  explicit MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent = nullptr);
+  explicit MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent = nullptr);
   ~MainWindow() override;
 
   static const char *kSettingsGroup;
@@ -297,7 +297,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #endif
 
   Application *app_;
-  std::shared_ptr<SystemTrayIcon> tray_icon_;
+  SharedPtr<SystemTrayIcon> tray_icon_;
   OSDBase *osd_;
   Lazy<About> about_dialog_;
   Lazy<Console> console_;
@@ -318,7 +318,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Lazy<ErrorDialog> error_dialog_;
   Lazy<SettingsDialog> settings_dialog_;
   Lazy<AlbumCoverManager> cover_manager_;
-  std::unique_ptr<Equalizer> equalizer_;
+  SharedPtr<Equalizer> equalizer_;
   Lazy<OrganizeDialog> organize_dialog_;
 #ifdef HAVE_GSTREAMER
   Lazy<TranscodeDialog> transcode_dialog_;
@@ -326,9 +326,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Lazy<AddStreamDialog> add_stream_dialog_;
 
 #ifdef HAVE_MUSICBRAINZ
-  std::unique_ptr<TagFetcher> tag_fetcher_;
+  ScopedPtr<TagFetcher> tag_fetcher_;
 #endif
-  std::unique_ptr<TrackSelectionDialog> track_selection_dialog_;
+  ScopedPtr<TrackSelectionDialog> track_selection_dialog_;
   PlaylistItemPtrList autocomplete_tag_items_;
 
   SmartPlaylistsViewContainer *smartplaylists_view_;

@@ -35,8 +35,8 @@ MoodbarController::MoodbarController(Application *app, QObject *parent)
       app_(app),
       enabled_(false) {
 
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &MoodbarController::CurrentSongChanged);
-  QObject::connect(app_->player(), &Player::Stopped, this, &MoodbarController::PlaybackStopped);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &MoodbarController::CurrentSongChanged);
+  QObject::connect(&*app_->player(), &Player::Stopped, this, &MoodbarController::PlaybackStopped);
 
   ReloadSettings();
 

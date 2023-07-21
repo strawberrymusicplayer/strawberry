@@ -33,6 +33,7 @@
 #include <QJsonParseError>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
@@ -43,7 +44,7 @@ const char *LyricsComLyricsProvider::kLyricsUrl = "https://www.lyrics.com/lyrics
 const char *LyricsComLyricsProvider::kUID = "11363";
 const char *LyricsComLyricsProvider::kTokenB64 = "b3FOYmxhV1ZKRGxIMnV4OA==";
 
-LyricsComLyricsProvider::LyricsComLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Lyrics.com", true, false, network, parent), use_api_(true) {}
+LyricsComLyricsProvider::LyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider("Lyrics.com", true, false, network, parent), use_api_(true) {}
 
 LyricsComLyricsProvider::~LyricsComLyricsProvider() {
 

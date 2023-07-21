@@ -33,6 +33,7 @@
 #include <cdio/cdio.h>
 #include <gst/audio/gstaudiocdsrc.h>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "core/musicstorage.h"
 #include "cddasongloader.h"
@@ -46,7 +47,7 @@ class CddaDevice : public ConnectedDevice {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE explicit CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  Q_INVOKABLE explicit CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
 
   bool Init() override;
   void Refresh() override;

@@ -29,6 +29,7 @@
 #include <QStringList>
 #include <QDir>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/playlistsettingspage.h"
 #include "xmlparser.h"
@@ -42,7 +43,7 @@ class ASXParser : public XMLParser {
   Q_OBJECT
 
  public:
-  explicit ASXParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
+  explicit ASXParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   QString name() const override { return "ASX"; }
   QStringList file_extensions() const override { return QStringList() << "asx"; }

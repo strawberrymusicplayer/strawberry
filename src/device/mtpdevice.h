@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QMutex>
 #include <QList>
@@ -33,6 +31,8 @@
 #include <QStringList>
 #include <QUrl>
 
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "connecteddevice.h"
 
@@ -48,7 +48,7 @@ class MtpDevice : public ConnectedDevice {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  Q_INVOKABLE MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
   ~MtpDevice() override;
 
   static QStringList url_schemes() { return QStringList() << "mtp"; }
@@ -90,8 +90,7 @@ class MtpDevice : public ConnectedDevice {
   SongList songs_to_add_;
   SongList songs_to_remove_;
 
-  std::unique_ptr<MtpConnection> connection_;
-
+  ScopedPtr<MtpConnection> connection_;
 };
 
 #endif  // MTPDEVICE_H

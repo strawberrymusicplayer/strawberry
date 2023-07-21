@@ -27,6 +27,7 @@
 #include <QVBoxLayout>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/iconloader.h"
 
 #include "smartplaylistquerywizardplugin.h"
@@ -58,7 +59,7 @@ class SmartPlaylistWizard::FinishPage : public QWizardPage {  // clazy:exclude=m
 
 };
 
-SmartPlaylistWizard::SmartPlaylistWizard(Application *app, CollectionBackend *collection_backend, QWidget *parent)
+SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionBackend> collection_backend, QWidget *parent)
     : QWizard(parent),
       app_(app),
       collection_backend_(collection_backend),

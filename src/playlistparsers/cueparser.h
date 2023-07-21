@@ -31,6 +31,7 @@
 #include <QStringList>
 #include <QDir>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
@@ -60,7 +61,7 @@ class CueParser : public ParserBase {
   static const char *kDate;
   static const char *kDisc;
 
-  explicit CueParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
+  explicit CueParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   QString name() const override { return "CUE"; }
   QStringList file_extensions() const override { return QStringList() << "cue"; }

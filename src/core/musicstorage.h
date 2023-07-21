@@ -35,6 +35,7 @@
 #include <QList>
 #include <QImage>
 
+#include "shared_ptr.h"
 #include "song.h"
 
 class MusicStorage {
@@ -102,6 +103,6 @@ class MusicStorage {
 };
 
 Q_DECLARE_METATYPE(MusicStorage*)
-Q_DECLARE_METATYPE(std::shared_ptr<MusicStorage>)
+Q_DECLARE_METATYPE(SharedPtr<MusicStorage>)
 
 #endif  // MUSICSTORAGE_H

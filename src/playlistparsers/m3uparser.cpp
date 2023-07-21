@@ -27,6 +27,7 @@
 #include <QStringList>
 #include <QSettings>
 
+#include "core/shared_ptr.h"
 #include "core/logging.h"
 #include "utilities/timeconstants.h"
 #include "settings/playlistsettingspage.h"
@@ -35,8 +36,8 @@
 
 class CollectionBackendInterface;
 
-M3UParser::M3UParser(CollectionBackendInterface *collection, QObject *parent)
-    : ParserBase(collection, parent) {}
+M3UParser::M3UParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : ParserBase(collection_backend, parent) {}
 
 SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
 

@@ -38,6 +38,8 @@
 #include "core/logging.h"
 #include "utilities/timeconstants.h"
 
+#include "scoped_ptr.h"
+#include "shared_ptr.h"
 #include "song.h"
 #include "urlhandler.h"
 #include "application.h"
@@ -64,6 +66,8 @@
 #include "settings/backendsettingspage.h"
 #include "settings/behavioursettingspage.h"
 #include "settings/playlistsettingspage.h"
+
+using std::make_shared;
 
 const char *Player::kSettingsGroup = "Player";
 
@@ -108,7 +112,7 @@ EngineBase::Type Player::CreateEngine(EngineBase::Type enginetype) {
 #ifdef HAVE_GSTREAMER
       case EngineBase::Type::GStreamer:{
         use_enginetype=EngineBase::Type::GStreamer;
-        std::unique_ptr<GstEngine> gst_engine(new GstEngine(app_->task_manager()));
+        ScopedPtr<GstEngine> gst_engine(new GstEngine(app_->task_manager()));
         gst_engine->SetStartup(gst_startup_);
         engine_.reset(gst_engine.release());
         break;
@@ -117,7 +121,7 @@ EngineBase::Type Player::CreateEngine(EngineBase::Type enginetype) {
 #ifdef HAVE_VLC
       case EngineBase::Type::VLC:
         use_enginetype = EngineBase::Type::VLC;
-        engine_ = std::make_shared<VLCEngine>(app_->task_manager());
+        engine_ = make_shared<VLCEngine>(app_->task_manager());
         break;
 #endif
       default:
@@ -163,23 +167,23 @@ void Player::Init() {
     qFatal("Error initializing audio engine");
   }
 
-  analyzer_->SetEngine(engine_.get());
+  analyzer_->SetEngine(engine_);
 
-  QObject::connect(engine_.get(), &EngineBase::Error, this, &Player::Error);
-  QObject::connect(engine_.get(), &EngineBase::FatalError, this, &Player::FatalError);
-  QObject::connect(engine_.get(), &EngineBase::ValidSongRequested, this, &Player::ValidSongRequested);
-  QObject::connect(engine_.get(), &EngineBase::InvalidSongRequested, this, &Player::InvalidSongRequested);
-  QObject::connect(engine_.get(), &EngineBase::StateChanged, this, &Player::EngineStateChanged);
-  QObject::connect(engine_.get(), &EngineBase::TrackAboutToEnd, this, &Player::TrackAboutToEnd);
-  QObject::connect(engine_.get(), &EngineBase::TrackEnded, this, &Player::TrackEnded);
-  QObject::connect(engine_.get(), &EngineBase::MetaData, this, &Player::EngineMetadataReceived);
-  QObject::connect(engine_.get(), &EngineBase::VolumeChanged, this, &Player::SetVolumeFromEngine);
+  QObject::connect(&*engine_, &EngineBase::Error, this, &Player::Error);
+  QObject::connect(&*engine_, &EngineBase::FatalError, this, &Player::FatalError);
+  QObject::connect(&*engine_, &EngineBase::ValidSongRequested, this, &Player::ValidSongRequested);
+  QObject::connect(&*engine_, &EngineBase::InvalidSongRequested, this, &Player::InvalidSongRequested);
+  QObject::connect(&*engine_, &EngineBase::StateChanged, this, &Player::EngineStateChanged);
+  QObject::connect(&*engine_, &EngineBase::TrackAboutToEnd, this, &Player::TrackAboutToEnd);
+  QObject::connect(&*engine_, &EngineBase::TrackEnded, this, &Player::TrackEnded);
+  QObject::connect(&*engine_, &EngineBase::MetaData, this, &Player::EngineMetadataReceived);
+  QObject::connect(&*engine_, &EngineBase::VolumeChanged, this, &Player::SetVolumeFromEngine);
 
   // Equalizer
-  QObject::connect(equalizer_, &Equalizer::StereoBalancerEnabledChanged, app_->player()->engine(), &EngineBase::SetStereoBalancerEnabled);
-  QObject::connect(equalizer_, &Equalizer::StereoBalanceChanged, app_->player()->engine(), &EngineBase::SetStereoBalance);
-  QObject::connect(equalizer_, &Equalizer::EqualizerEnabledChanged, app_->player()->engine(), &EngineBase::SetEqualizerEnabled);
-  QObject::connect(equalizer_, &Equalizer::EqualizerParametersChanged, app_->player()->engine(), &EngineBase::SetEqualizerParameters);
+  QObject::connect(&*equalizer_, &Equalizer::StereoBalancerEnabledChanged, &*app_->player()->engine(), &EngineBase::SetStereoBalancerEnabled);
+  QObject::connect(&*equalizer_, &Equalizer::StereoBalanceChanged, &*app_->player()->engine(), &EngineBase::SetStereoBalance);
+  QObject::connect(&*equalizer_, &Equalizer::EqualizerEnabledChanged, &*app_->player()->engine(), &EngineBase::SetEqualizerEnabled);
+  QObject::connect(&*equalizer_, &Equalizer::EqualizerParametersChanged, &*app_->player()->engine(), &EngineBase::SetEqualizerParameters);
 
   engine_->SetStereoBalancerEnabled(equalizer_->is_stereo_balancer_enabled());
   engine_->SetStereoBalance(equalizer_->stereo_balance());

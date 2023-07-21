@@ -37,7 +37,7 @@
 #include "internetsearchmodel.h"
 #include "internetsearchview.h"
 
-InternetSearchModel::InternetSearchModel(InternetService *service, QObject *parent)
+InternetSearchModel::InternetSearchModel(InternetServicePtr service, QObject *parent)
     : QStandardItemModel(parent),
       service_(service),
       proxy_(nullptr),

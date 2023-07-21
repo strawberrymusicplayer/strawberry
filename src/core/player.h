@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QMap>
@@ -33,6 +31,7 @@
 #include <QString>
 #include <QUrl>
 
+#include "shared_ptr.h"
 #include "urlhandler.h"
 #include "engine/enginebase.h"
 #include "engine/enginemetadata.h"
@@ -54,7 +53,7 @@ class PlayerInterface : public QObject {
  public:
   explicit PlayerInterface(QObject *parent = nullptr) : QObject(parent) {}
 
-  virtual EngineBase *engine() const = 0;
+  virtual SharedPtr<EngineBase> engine() const = 0;
   virtual EngineBase::State GetState() const = 0;
   virtual uint GetVolume() const = 0;
 
@@ -130,14 +129,14 @@ class Player : public PlayerInterface {
   Q_OBJECT
 
  public:
-  explicit Player(Application *app, QObject *parent);
+  explicit Player(Application *app, QObject *parent = nullptr);
 
   static const char *kSettingsGroup;
 
   EngineBase::Type CreateEngine(EngineBase::Type Type);
   void Init();
 
-  EngineBase *engine() const override { return engine_.get(); }
+  SharedPtr<EngineBase> engine() const override { return engine_; }
   EngineBase::State GetState() const override { return last_state_; }
   uint GetVolume() const override;
 
@@ -152,7 +151,7 @@ class Player : public PlayerInterface {
   bool PreviousWouldRestartTrack() const;
 
   void SetAnalyzer(AnalyzerContainer *analyzer) { analyzer_ = analyzer; }
-  void SetEqualizer(Equalizer *equalizer) { equalizer_ = equalizer; }
+  void SetEqualizer(SharedPtr<Equalizer> equalizer) { equalizer_ = equalizer; }
 
  public slots:
   void ReloadSettings() override;
@@ -218,12 +217,12 @@ class Player : public PlayerInterface {
 
  private:
   Application *app_;
-  std::shared_ptr<EngineBase> engine_;
+  SharedPtr<EngineBase> engine_;
 #ifdef HAVE_GSTREAMER
   GstStartup *gst_startup_;
 #endif
   AnalyzerContainer *analyzer_;
-  Equalizer *equalizer_;
+  SharedPtr<Equalizer> equalizer_;
 
   PlaylistItemPtr current_item_;
 

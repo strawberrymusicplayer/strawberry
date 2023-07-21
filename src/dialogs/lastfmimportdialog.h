@@ -26,6 +26,8 @@
 #include <QDialog>
 #include <QString>
 
+#include "core/shared_ptr.h"
+
 #include "ui_lastfmimportdialog.h"
 
 class QCloseEvent;
@@ -35,7 +37,7 @@ class LastFMImportDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit LastFMImportDialog(LastFMImport *lastfm_import, QWidget *parent = nullptr);
+  explicit LastFMImportDialog(SharedPtr<LastFMImport> lastfm_import, QWidget *parent = nullptr);
   ~LastFMImportDialog() override;
 
  protected:
@@ -59,7 +61,7 @@ class LastFMImportDialog : public QDialog {
 
  private:
   Ui_LastFMImportDialog *ui_;
-  LastFMImport *lastfm_import_;
+  SharedPtr<LastFMImport> lastfm_import_;
 
   bool finished_;
   int playcount_total_;

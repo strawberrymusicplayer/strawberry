@@ -35,6 +35,7 @@
 #include <QUrl>
 #include <QImage>
 
+#include "core/shared_ptr.h"
 #include "albumcoverfetcher.h"
 #include "coversearchstatistics.h"
 #include "albumcoverimageresult.h"
@@ -52,10 +53,10 @@ class AlbumCoverFetcherSearch : public QObject {
   Q_OBJECT
 
  public:
-  explicit AlbumCoverFetcherSearch(const CoverSearchRequest &request, NetworkAccessManager *network, QObject *parent);
+  explicit AlbumCoverFetcherSearch(const CoverSearchRequest &request, SharedPtr<NetworkAccessManager> network, QObject *parent);
   ~AlbumCoverFetcherSearch() override;
 
-  void Start(CoverProviders *cover_providers);
+  void Start(SharedPtr<CoverProviders> cover_providers);
 
   // Cancels all pending requests.  No Finished signals will be emitted, and it is the caller's responsibility to delete the AlbumCoverFetcherSearch.
   void Cancel();
@@ -114,7 +115,7 @@ class AlbumCoverFetcherSearch : public QObject {
   };
   QMultiMap<float, CandidateImage> candidate_images_;
 
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
 
   bool cancel_requested_;
 

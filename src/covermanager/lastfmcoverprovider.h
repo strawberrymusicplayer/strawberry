@@ -29,6 +29,7 @@
 #include <QString>
 #include <QJsonObject>
 
+#include "core/shared_ptr.h"
 #include "jsoncoverprovider.h"
 
 class NetworkAccessManager;
@@ -39,7 +40,7 @@ class LastFmCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit LastFmCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit LastFmCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~LastFmCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

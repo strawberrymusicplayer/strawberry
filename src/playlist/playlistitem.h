@@ -36,6 +36,7 @@
 #include <QUrl>
 #include <QColor>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 
 class QAction;
@@ -43,13 +44,15 @@ class QAction;
 class SqlQuery;
 class SqlRow;
 
-class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
+using std::enable_shared_from_this;
+
+class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
  public:
   explicit PlaylistItem(const Song::Source source) : should_skip_(false), source_(source) {}
   virtual ~PlaylistItem();
 
-  static std::shared_ptr<PlaylistItem> NewFromSource(const Song::Source source);
-  static std::shared_ptr<PlaylistItem> NewFromSong(const Song &song);
+  static SharedPtr<PlaylistItem> NewFromSource(const Song::Source source);
+  static SharedPtr<PlaylistItem> NewFromSong(const Song &song);
 
   enum class Option {
     Default = 0x00,
@@ -133,7 +136,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
 
   Q_DISABLE_COPY(PlaylistItem)
 };
-using PlaylistItemPtr = std::shared_ptr<PlaylistItem>;
+using PlaylistItemPtr = SharedPtr<PlaylistItem>;
 using PlaylistItemPtrList = QList<PlaylistItemPtr>;
 
 Q_DECLARE_METATYPE(PlaylistItemPtr)

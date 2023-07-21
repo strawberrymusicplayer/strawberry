@@ -37,19 +37,21 @@
 #include "internet/internetplaylistitem.h"
 #include "radios/radioplaylistitem.h"
 
+using std::make_shared;
+
 PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
 
   switch (source) {
     case Song::Source::Collection:
-      return std::make_shared<CollectionPlaylistItem>();
+      return make_shared<CollectionPlaylistItem>();
     case Song::Source::Subsonic:
     case Song::Source::Tidal:
     case Song::Source::Qobuz:
-      return std::make_shared<InternetPlaylistItem>(source);
+      return make_shared<InternetPlaylistItem>(source);
     case Song::Source::Stream:
     case Song::Source::RadioParadise:
     case Song::Source::SomaFM:
-      return std::make_shared<RadioPlaylistItem>(source);
+      return make_shared<RadioPlaylistItem>(source);
     case Song::Source::LocalFile:
     case Song::Source::CDDA:
     case Song::Source::Device:
@@ -57,7 +59,7 @@ PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
       break;
   }
 
-  return std::make_shared<SongPlaylistItem>(source);
+  return make_shared<SongPlaylistItem>(source);
 
 }
 
@@ -65,15 +67,15 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
 
   switch (song.source()) {
     case Song::Source::Collection:
-      return std::make_shared<CollectionPlaylistItem>(song);
+      return make_shared<CollectionPlaylistItem>(song);
     case Song::Source::Subsonic:
     case Song::Source::Tidal:
     case Song::Source::Qobuz:
-      return std::make_shared<InternetPlaylistItem>(song);
+      return make_shared<InternetPlaylistItem>(song);
     case Song::Source::Stream:
     case Song::Source::RadioParadise:
     case Song::Source::SomaFM:
-      return std::make_shared<RadioPlaylistItem>(song);
+      return make_shared<RadioPlaylistItem>(song);
     case Song::Source::LocalFile:
     case Song::Source::CDDA:
     case Song::Source::Device:
@@ -81,7 +83,7 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
       break;
   }
 
-  return std::make_shared<SongPlaylistItem>(song);
+  return make_shared<SongPlaylistItem>(song);
 
 }
 

@@ -29,10 +29,13 @@
 #include <QFile>
 
 #include "core/logging.h"
+#include "core/scoped_ptr.h"
 
 #include "fileutils.h"
 
 namespace Utilities {
+
+using std::unique_ptr;
 
 QByteArray ReadDataFromFile(const QString &filename) {
 
@@ -56,7 +59,7 @@ bool Copy(QIODevice *source, QIODevice *destination) {
   if (!destination->open(QIODevice::WriteOnly)) return false;
 
   const qint64 bytes = source->size();
-  std::unique_ptr<char[]> data(new char[bytes]);
+  unique_ptr<char[]> data(new char[bytes]);
   qint64 pos = 0;
 
   qint64 bytes_read = 0;

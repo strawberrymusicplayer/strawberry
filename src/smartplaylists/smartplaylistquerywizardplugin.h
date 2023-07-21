@@ -23,11 +23,11 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QString>
 
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "smartplaylistwizardplugin.h"
 #include "smartplaylistsearch.h"
 
@@ -41,7 +41,7 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
   Q_OBJECT
 
  public:
-  explicit SmartPlaylistQueryWizardPlugin(Application *app, CollectionBackend *collection_backend, QObject *parent);
+  explicit SmartPlaylistQueryWizardPlugin(Application *app, SharedPtr<CollectionBackend> collection_backend, QObject *parent);
   ~SmartPlaylistQueryWizardPlugin() override;
 
   PlaylistGenerator::Type type() const override { return PlaylistGenerator::Type::Query; }
@@ -71,7 +71,7 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
 
   SmartPlaylistSearch MakeSearch() const;
 
-  std::unique_ptr<Ui_SmartPlaylistQuerySortPage> sort_ui_;
+  ScopedPtr<Ui_SmartPlaylistQuerySortPage> sort_ui_;
   SearchPage *search_page_;
 
   int previous_scrollarea_max_;

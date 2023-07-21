@@ -50,12 +50,12 @@ SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *dialog, QWidget *pare
   setWindowIcon(IconLoader::Load("subsonic", true, 0, 32));
 
   QObject::connect(ui_->button_test, &QPushButton::clicked, this, &SubsonicSettingsPage::TestClicked);
-  QObject::connect(ui_->button_deletesongs, &QPushButton::clicked, service_, &SubsonicService::DeleteSongs);
+  QObject::connect(ui_->button_deletesongs, &QPushButton::clicked, &*service_, &SubsonicService::DeleteSongs);
 
-  QObject::connect(this, &SubsonicSettingsPage::Test, service_, &SubsonicService::SendPingWithCredentials);
+  QObject::connect(this, &SubsonicSettingsPage::Test, &*service_, &SubsonicService::SendPingWithCredentials);
 
-  QObject::connect(service_, &SubsonicService::TestFailure, this, &SubsonicSettingsPage::TestFailure);
-  QObject::connect(service_, &SubsonicService::TestSuccess, this, &SubsonicSettingsPage::TestSuccess);
+  QObject::connect(&*service_, &SubsonicService::TestFailure, this, &SubsonicSettingsPage::TestFailure);
+  QObject::connect(&*service_, &SubsonicService::TestSuccess, this, &SubsonicSettingsPage::TestSuccess);
 
   dialog->installEventFilter(this);
 

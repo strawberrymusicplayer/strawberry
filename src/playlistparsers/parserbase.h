@@ -22,6 +22,8 @@
 #ifndef PARSERBASE_H
 #define PARSERBASE_H
 
+#include "config.h"
+
 #include <QtGlobal>
 #include <QObject>
 #include <QDir>
@@ -30,7 +32,7 @@
 #include <QStringList>
 #include <QUrl>
 
-#include "config.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/playlistsettingspage.h"
 
@@ -41,7 +43,7 @@ class ParserBase : public QObject {
   Q_OBJECT
 
  public:
-  explicit ParserBase(CollectionBackendInterface *collection, QObject *parent = nullptr);
+  explicit ParserBase(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   virtual QString name() const = 0;
   virtual QStringList file_extensions() const = 0;
@@ -72,7 +74,7 @@ class ParserBase : public QObject {
   static QString URLOrFilename(const QUrl &url, const QDir &dir, const PlaylistSettingsPage::PathType path_type);
 
  private:
-  CollectionBackendInterface *collection_;
+  SharedPtr<CollectionBackendInterface> collection_backend_;
 };
 
 #endif  // PARSERBASE_H

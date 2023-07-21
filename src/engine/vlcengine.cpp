@@ -32,6 +32,7 @@
 #include <QByteArray>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
 #include "core/taskmanager.h"
 #include "core/logging.h"
 #include "utilities/timeconstants.h"
@@ -39,7 +40,7 @@
 #include "vlcengine.h"
 #include "vlcscopedref.h"
 
-VLCEngine::VLCEngine(TaskManager *task_manager, QObject *parent)
+VLCEngine::VLCEngine(SharedPtr<TaskManager> task_manager, QObject *parent)
     : EngineBase(parent),
       instance_(nullptr),
       player_(nullptr),

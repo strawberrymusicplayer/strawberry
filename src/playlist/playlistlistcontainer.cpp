@@ -63,6 +63,8 @@
 #  include "device/devicestatefiltermodel.h"
 #endif
 
+using std::make_unique;
+
 PlaylistListContainer::PlaylistListContainer(QWidget *parent)
     : QWidget(parent),
       app_(nullptr),
@@ -120,8 +122,8 @@ PlaylistListContainer::~PlaylistListContainer() { delete ui_; }
 void PlaylistListContainer::SetApplication(Application *app) {
 
   app_ = app;
-  PlaylistManager *manager = app_->playlist_manager();
-  Player *player = app_->player();
+  PlaylistManager *manager = &*app_->playlist_manager();
+  Player *player = &*app_->player();
 
   QObject::connect(manager, &PlaylistManager::PlaylistAdded, this, &PlaylistListContainer::AddPlaylist);
   QObject::connect(manager, &PlaylistManager::PlaylistFavorited, this, &PlaylistListContainer::PlaylistFavoriteStateChanged);
@@ -370,7 +372,7 @@ void PlaylistListContainer::CopyToDevice() {
 
     // Reuse the organize dialog, but set the detail about the playlist name
     if (!organize_dialog_) {
-      organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
+      organize_dialog_ = make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
     }
     organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
     organize_dialog_->SetCopy(true);

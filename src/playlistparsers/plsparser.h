@@ -29,6 +29,7 @@
 #include <QString>
 #include <QStringList>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
@@ -40,7 +41,7 @@ class PLSParser : public ParserBase {
   Q_OBJECT
 
  public:
-  explicit PLSParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
+  explicit PLSParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   QString name() const override { return "PLS"; }
   QStringList file_extensions() const override { return QStringList() << "pls"; }

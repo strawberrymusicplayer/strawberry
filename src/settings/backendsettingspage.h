@@ -26,6 +26,7 @@
 #include <QVariant>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/player.h"
 #include "engine/enginebase.h"
@@ -51,7 +52,7 @@ class BackendSettingsPage : public SettingsPage {
   void Save() override;
   void Cancel() override;
 
-  EngineBase *engine() const { return dialog()->app()->player()->engine(); }
+  SharedPtr<EngineBase> engine() const { return dialog()->app()->player()->engine(); }
 
 #ifdef HAVE_ALSA
   enum class ALSAPluginType {

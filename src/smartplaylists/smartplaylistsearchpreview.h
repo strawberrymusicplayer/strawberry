@@ -26,6 +26,8 @@
 #include <QWidget>
 #include <QList>
 
+#include "core/shared_ptr.h"
+
 #include "smartplaylistsearch.h"
 #include "playlistgenerator_fwd.h"
 
@@ -44,7 +46,7 @@ class SmartPlaylistSearchPreview : public QWidget {
   ~SmartPlaylistSearchPreview() override;
 
   void set_application(Application *app);
-  void set_collection(CollectionBackend *backend);
+  void set_collection(SharedPtr<CollectionBackend> backend);
 
   void Update(const SmartPlaylistSearch &search);
 
@@ -61,7 +63,7 @@ class SmartPlaylistSearchPreview : public QWidget {
   Ui_SmartPlaylistSearchPreview *ui_;
   QList<SmartPlaylistSearchTerm::Field> fields_;
 
-  CollectionBackend *backend_;
+  SharedPtr<CollectionBackend> collection_backend_;
   Playlist *model_;
 
   SmartPlaylistSearch pending_search_;

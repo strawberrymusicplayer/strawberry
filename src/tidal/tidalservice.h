@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QPair>
@@ -38,6 +36,7 @@
 #include <QDateTime>
 #include <QSslError>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "internet/internetservice.h"
 #include "internet/internetsearchview.h"
@@ -60,7 +59,7 @@ class TidalService : public InternetService {
   Q_OBJECT
 
  public:
-  explicit TidalService(Application *app, QObject *parent);
+  explicit TidalService(Application *app, QObject *parent = nullptr);
   ~TidalService() override;
 
   static const Song::Source kSource;
@@ -104,9 +103,9 @@ class TidalService : public InternetService {
 
   uint GetStreamURL(const QUrl &url, QString &error);
 
-  CollectionBackend *artists_collection_backend() override { return artists_collection_backend_; }
-  CollectionBackend *albums_collection_backend() override { return albums_collection_backend_; }
-  CollectionBackend *songs_collection_backend() override { return songs_collection_backend_; }
+  SharedPtr<CollectionBackend> artists_collection_backend() override { return artists_collection_backend_; }
+  SharedPtr<CollectionBackend> albums_collection_backend() override { return albums_collection_backend_; }
+  SharedPtr<CollectionBackend> songs_collection_backend() override { return songs_collection_backend_; }
 
   CollectionModel *artists_collection_model() override { return artists_collection_model_; }
   CollectionModel *albums_collection_model() override { return albums_collection_model_; }
@@ -177,12 +176,12 @@ class TidalService : public InternetService {
   static const char kSongsFtsTable[];
 
   Application *app_;
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   TidalUrlHandler *url_handler_;
 
-  CollectionBackend *artists_collection_backend_;
-  CollectionBackend *albums_collection_backend_;
-  CollectionBackend *songs_collection_backend_;
+  SharedPtr<CollectionBackend> artists_collection_backend_;
+  SharedPtr<CollectionBackend> albums_collection_backend_;
+  SharedPtr<CollectionBackend> songs_collection_backend_;
 
   CollectionModel *artists_collection_model_;
   CollectionModel *albums_collection_model_;
@@ -196,10 +195,10 @@ class TidalService : public InternetService {
   QTimer *timer_login_attempt_;
   QTimer *timer_refresh_login_;
 
-  std::shared_ptr<TidalRequest> artists_request_;
-  std::shared_ptr<TidalRequest> albums_request_;
-  std::shared_ptr<TidalRequest> songs_request_;
-  std::shared_ptr<TidalRequest> search_request_;
+  SharedPtr<TidalRequest> artists_request_;
+  SharedPtr<TidalRequest> albums_request_;
+  SharedPtr<TidalRequest> songs_request_;
+  SharedPtr<TidalRequest> search_request_;
   TidalFavoriteRequest *favorite_request_;
 
   bool enabled_;
@@ -240,13 +239,14 @@ class TidalService : public InternetService {
   QString code_challenge_;
 
   uint next_stream_url_request_id_;
-  QMap<uint, std::shared_ptr<TidalStreamURLRequest>> stream_url_requests_;
+  QMap<uint, SharedPtr<TidalStreamURLRequest>> stream_url_requests_;
 
   QStringList login_errors_;
 
   QList<QObject*> wait_for_exit_;
   QList<QNetworkReply*> replies_;
-
 };
+
+using TidalServicePtr = SharedPtr<TidalService>;
 
 #endif  // TIDALSERVICE_H

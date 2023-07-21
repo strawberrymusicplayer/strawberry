@@ -34,6 +34,7 @@
 #  include <QStringConverter>
 #endif
 
+#include "core/shared_ptr.h"
 #include "core/logging.h"
 #include "utilities/timeconstants.h"
 #include "settings/playlistsettingspage.h"
@@ -59,8 +60,8 @@ const char *CueParser::kGenre = "genre";
 const char *CueParser::kDate = "date";
 const char *CueParser::kDisc = "discnumber";
 
-CueParser::CueParser(CollectionBackendInterface *collection, QObject *parent)
-    : ParserBase(collection, parent) {}
+CueParser::CueParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : ParserBase(collection_backend, parent) {}
 
 SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
 

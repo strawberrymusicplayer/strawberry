@@ -19,7 +19,6 @@
 
 #include "config.h"
 
-#include <memory>
 #include <cstdio>
 #include <string>
 
@@ -32,6 +31,7 @@
 #include <QByteArray>
 #include <QString>
 
+#include "core/scoped_ptr.h"
 #include "transliterate.h"
 
 namespace Utilities {
@@ -41,7 +41,7 @@ QString Transliterate(const QString &accented_str) {
 #ifdef HAVE_ICU
 
   UErrorCode errorcode = U_ZERO_ERROR;
-  std::unique_ptr<icu::Transliterator> transliterator;
+  ScopedPtr<icu::Transliterator> transliterator;
   transliterator.reset(icu::Transliterator::createInstance("Any-Latin; Latin-ASCII;", UTRANS_FORWARD, errorcode));
 
   if (!transliterator) return accented_str;

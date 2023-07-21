@@ -45,6 +45,8 @@
 
 #include "ebur128analysis.h"
 
+using std::unique_ptr;
+
 static const int kTimeoutSecs = 60;
 
 namespace {
@@ -185,7 +187,7 @@ class EBUR128State {
   static std::optional<EBUR128Measures> Finalize(EBUR128State &&state);
 
  private:
-  std::unique_ptr<ebur128_state, ebur128_state_deleter> st;
+  unique_ptr<ebur128_state, ebur128_state_deleter> st;
 };
 
 class EBUR128AnalysisImpl {
@@ -342,7 +344,7 @@ GstFlowReturn EBUR128AnalysisImpl::NewBufferCallback(GstAppSink *app_sink, gpoin
 
   EBUR128AnalysisImpl *me = reinterpret_cast<EBUR128AnalysisImpl*>(self);
 
-  std::unique_ptr<GstSample, GstSampleDeleter> sample(gst_app_sink_pull_sample(app_sink));
+  unique_ptr<GstSample, GstSampleDeleter> sample(gst_app_sink_pull_sample(app_sink));
   if (!sample) return GST_FLOW_ERROR;
 
   const FrameFormat dsc(gst_sample_get_caps(&*sample));

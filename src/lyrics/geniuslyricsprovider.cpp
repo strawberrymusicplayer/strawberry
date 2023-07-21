@@ -43,11 +43,14 @@
 #include <QMessageBox>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/randutils.h"
 #include "internet/localredirectserver.h"
 #include "jsonlyricsprovider.h"
 #include "geniuslyricsprovider.h"
+
+using std::make_shared;
 
 const char *GeniusLyricsProvider::kSettingsGroup = "GeniusLyrics";
 const char *GeniusLyricsProvider::kOAuthAuthorizeUrl = "https://api.genius.com/oauth/authorize";
@@ -57,7 +60,7 @@ const char *GeniusLyricsProvider::kUrlSearch = "https://api.genius.com/search/";
 const char *GeniusLyricsProvider::kClientIDB64 = "RUNTNXU4U1VyMU1KUU5hdTZySEZteUxXY2hkanFiY3lfc2JjdXBpNG5WMU9SNUg4dTBZelEtZTZCdFg2dl91SQ==";
 const char *GeniusLyricsProvider::kClientSecretB64 = "VE9pMU9vUjNtTXZ3eFR3YVN0QVRyUjVoUlhVWDI1Ylp5X240eEt1M0ZkYlNwRG5JUnd0LXFFbHdGZkZkRWY2VzJ1S011UnQzM3c2Y3hqY0tVZ3NGN2c=";
 
-GeniusLyricsProvider::GeniusLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Genius", true, true, network, parent), server_(nullptr) {
+GeniusLyricsProvider::GeniusLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider("Genius", true, true, network, parent), server_(nullptr) {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -287,7 +290,7 @@ bool GeniusLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &
 
   if (access_token_.isEmpty()) return false;
 
-  GeniusLyricsSearchContextPtr search = std::make_shared<GeniusLyricsSearchContext>();
+  GeniusLyricsSearchContextPtr search = make_shared<GeniusLyricsSearchContext>();
   search->id = id;
   search->request = request;
   requests_search_.insert(id, search);

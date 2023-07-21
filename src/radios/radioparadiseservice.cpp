@@ -24,7 +24,7 @@
 #include "radioparadiseservice.h"
 #include "radiochannel.h"
 
-RadioParadiseService::RadioParadiseService(Application *app, NetworkAccessManager *network, QObject *parent)
+RadioParadiseService::RadioParadiseService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : RadioService(Song::Source::RadioParadise, "Radio Paradise", IconLoader::Load("radioparadise"), app, network, parent) {}
 
 QUrl RadioParadiseService::Homepage() { return QUrl("https://radioparadise.com/"); }

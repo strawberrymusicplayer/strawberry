@@ -34,6 +34,7 @@
 #include <QUrl>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/musicstorage.h"
 #include "collection/collectionmodel.h"
@@ -48,7 +49,7 @@ class DeviceManager;
 
 bool MtpDevice::sInitializedLibMTP = false;
 
-MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent)
+MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
     : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
       loader_(nullptr),
       loader_thread_(nullptr),

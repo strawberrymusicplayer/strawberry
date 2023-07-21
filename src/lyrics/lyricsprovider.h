@@ -29,6 +29,7 @@
 #include <QString>
 #include <QRegularExpression>
 
+#include "core/shared_ptr.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
 
@@ -38,7 +39,7 @@ class LyricsProvider : public QObject {
   Q_OBJECT
 
  public:
-  explicit LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, NetworkAccessManager *network, QObject *parent);
+  explicit LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, SharedPtr<NetworkAccessManager> network, QObject *parent);
 
   QString name() const { return name_; }
   bool is_enabled() const { return enabled_; }
@@ -66,7 +67,7 @@ class LyricsProvider : public QObject {
   void SearchFinished(const int id, const LyricsSearchResults &results = LyricsSearchResults());
 
  protected:
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   QString name_;
   bool enabled_;
   int order_;

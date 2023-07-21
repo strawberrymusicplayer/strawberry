@@ -38,8 +38,9 @@
 #include <QJsonArray>
 #include <QJsonValue>
 
-#include "core/networkaccessmanager.h"
 #include "core/logging.h"
+#include "core/shared_ptr.h"
+#include "core/networkaccessmanager.h"
 
 #include "lastfmimport.h"
 
@@ -48,7 +49,7 @@
 
 const int LastFMImport::kRequestsDelay = 2000;
 
-LastFMImport::LastFMImport(NetworkAccessManager *network, QObject *parent)
+LastFMImport::LastFMImport(SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       network_(network),
       timer_flush_requests_(new QTimer(this)),

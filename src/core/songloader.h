@@ -41,6 +41,7 @@
 #include <QStringList>
 #include <QUrl>
 
+#include "shared_ptr.h"
 #include "song.h"
 
 class QTimer;
@@ -58,7 +59,7 @@ class SongLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit SongLoader(CollectionBackendInterface *collection, const Player *player, QObject *parent = nullptr);
+  explicit SongLoader(SharedPtr<CollectionBackendInterface> collection_backend, const SharedPtr<Player> player, QObject *parent = nullptr);
   ~SongLoader() override;
 
   enum class Result {
@@ -143,8 +144,8 @@ class SongLoader : public QObject {
   QUrl url_;
   SongList songs_;
 
-  const Player *player_;
-  CollectionBackendInterface *collection_;
+  const SharedPtr<Player> player_;
+  SharedPtr<CollectionBackendInterface> collection_backend_;
   QTimer *timeout_timer_;
   PlaylistParser *playlist_parser_;
   CueParser *cue_parser_;
@@ -158,7 +159,7 @@ class SongLoader : public QObject {
   int timeout_;
 
 #ifdef HAVE_GSTREAMER
-  std::shared_ptr<GstElement> pipeline_;
+  SharedPtr<GstElement> pipeline_;
   GstElement *fakesink_;
   gulong buffer_probe_cb_id_;
 #endif

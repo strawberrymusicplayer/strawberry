@@ -29,6 +29,7 @@
 #include <QSizePolicy>
 #include <QPaintEvent>
 
+#include "core/shared_ptr.h"
 #include "core/taskmanager.h"
 #include "multiloadingindicator.h"
 #include "widgets/busyindicator.h"
@@ -56,10 +57,10 @@ QSize MultiLoadingIndicator::sizeHint() const {
 
 }
 
-void MultiLoadingIndicator::SetTaskManager(TaskManager *task_manager) {
+void MultiLoadingIndicator::SetTaskManager(SharedPtr<TaskManager> task_manager) {
 
   task_manager_ = task_manager;
-  QObject::connect(task_manager_, &TaskManager::TasksChanged, this, &MultiLoadingIndicator::UpdateText);
+  QObject::connect(&*task_manager_, &TaskManager::TasksChanged, this, &MultiLoadingIndicator::UpdateText);
 
 }
 

@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
 #include <glib.h>
 #include <glib-object.h>
 #include <gst/gst.h>
@@ -37,6 +36,7 @@
 #include <QString>
 #include <QEvent>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 
 struct TranscoderPreset {
@@ -140,7 +140,7 @@ class Transcoder : public QObject {
   static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage *msg, gpointer data);
 
  private:
-  using JobStateList = QList<std::shared_ptr<JobState>>;
+  using JobStateList = QList<SharedPtr<JobState>>;
 
   int max_threads_;
   QList<Job> queued_jobs_;

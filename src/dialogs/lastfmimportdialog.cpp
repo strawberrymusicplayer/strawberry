@@ -27,10 +27,11 @@
 #include "lastfmimportdialog.h"
 #include "ui_lastfmimportdialog.h"
 
+#include "core/shared_ptr.h"
 #include "core/iconloader.h"
 #include "scrobbler/lastfmimport.h"
 
-LastFMImportDialog::LastFMImportDialog(LastFMImport *lastfm_import, QWidget *parent)
+LastFMImportDialog::LastFMImportDialog(SharedPtr<LastFMImport> lastfm_import, QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_LastFMImportDialog),
       lastfm_import_(lastfm_import),

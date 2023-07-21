@@ -29,6 +29,7 @@
 #include <QStringList>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "tidalservice.h"
 #include "tidalbaserequest.h"
@@ -41,7 +42,7 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   Q_OBJECT
 
  public:
-  explicit TidalStreamURLRequest(TidalService *service, NetworkAccessManager *network, const QUrl &media_url, const uint id, QObject *parent = nullptr);
+  explicit TidalStreamURLRequest(TidalService *service, SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent = nullptr);
   ~TidalStreamURLRequest() override;
 
   void GetStreamURL();
@@ -78,7 +79,6 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   int tries_;
   bool need_login_;
   QStringList errors_;
-
 };
 
 #endif  // TIDALSTREAMURLREQUEST_H

@@ -24,13 +24,13 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QPair>
 #include <QHash>
 #include <QPalette>
 #include <QString>
+
+#include "shared_ptr.h"
 
 class QWidget;
 class QEvent;
@@ -58,11 +58,11 @@ class StyleSheetLoader : public QObject {
   };
 
  private:
-  void UpdateStyleSheet(QWidget *widget, std::shared_ptr<StyleSheetData> styledata);
+  void UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetData> styledata);
   static void ReplaceColor(QString *css, const QString &name, const QPalette &palette, const QPalette::ColorRole role);
 
  private:
-  QHash<QWidget*, std::shared_ptr<StyleSheetData>> styledata_;
+  QHash<QWidget*, SharedPtr<StyleSheetData>> styledata_;
 };
 
 #endif  // STYLESHEETLOADER_H

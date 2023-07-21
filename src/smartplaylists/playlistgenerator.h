@@ -29,11 +29,14 @@
 #include <QByteArray>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "playlist/playlistitem.h"
 
 class CollectionBackend;
 
-class PlaylistGenerator : public QObject, public std::enable_shared_from_this<PlaylistGenerator> {
+using std::enable_shared_from_this;
+
+class PlaylistGenerator : public QObject, public enable_shared_from_this<PlaylistGenerator> {
   Q_OBJECT
 
  public:
@@ -49,12 +52,12 @@ class PlaylistGenerator : public QObject, public std::enable_shared_from_this<Pl
   };
 
   // Creates a new PlaylistGenerator of the given type
-  static std::shared_ptr<PlaylistGenerator> Create(const Type type = Type::Query);
+  static SharedPtr<PlaylistGenerator> Create(const Type type = Type::Query);
 
   // Should be called before Load on a new PlaylistGenerator
-  void set_collection(CollectionBackend *backend) { backend_ = backend; }
+  void set_collection_backend(SharedPtr<CollectionBackend> collection_backend) { collection_backend_ = collection_backend; }
   void set_name(const QString &name) { name_ = name; }
-  CollectionBackend *collection() const { return backend_; }
+  SharedPtr<CollectionBackend> collection() const { return collection_backend_; }
   QString name() const { return name_; }
 
   // Name of the subclass
@@ -88,7 +91,7 @@ class PlaylistGenerator : public QObject, public std::enable_shared_from_this<Pl
   void Error(const QString &message);
 
  protected:
-  CollectionBackend *backend_;
+  SharedPtr<CollectionBackend> collection_backend_;
 
  private:
   QString name_;

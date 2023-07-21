@@ -24,9 +24,9 @@
 
 #include "analyzerbase.h"
 
-#include <algorithm>
-#include <cmath>
 #include <cstdint>
+#include <cmath>
+#include <algorithm>
 
 #include <QWidget>
 #include <QVector>

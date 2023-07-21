@@ -37,8 +37,9 @@
 #include <QUrl>
 #include <QSettings>
 
-#include "core/application.h"
 #include "core/logging.h"
+#include "core/scoped_ptr.h"
+#include "core/application.h"
 
 #include "moodbarpipeline.h"
 
@@ -131,7 +132,7 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, Q
 
   QNetworkCacheMetaData disk_cache_metadata = cache_->metaData(CacheUrlEntry(filename));
   if (disk_cache_metadata.isValid()) {
-    std::unique_ptr<QIODevice> device_cache_file(cache_->data(disk_cache_metadata.url()));
+    ScopedPtr<QIODevice> device_cache_file(cache_->data(disk_cache_metadata.url()));
     if (device_cache_file) {
       qLog(Info) << "Loading cached moodbar data for" << filename;
       *data = device_cache_file->readAll();

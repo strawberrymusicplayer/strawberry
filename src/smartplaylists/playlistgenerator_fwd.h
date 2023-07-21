@@ -23,10 +23,10 @@
 
 #include "config.h"
 
-#include <memory>
+#include "core/shared_ptr.h"
 
 class PlaylistGenerator;
 
-using PlaylistGeneratorPtr = std::shared_ptr<PlaylistGenerator>;
+using PlaylistGeneratorPtr = SharedPtr<PlaylistGenerator>;
 
 #endif  // PLAYLISTGENERATOR_FWD_H

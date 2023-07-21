@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -40,6 +38,8 @@
 #include <QPixmap>
 #include <QMetaType>
 
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "collection/collectionmodel.h"
 #include "covermanager/albumcoverloaderresult.h"
@@ -81,7 +81,7 @@ class InternetSearchView : public QWidget {
   };
   using ResultList = QList<Result>;
 
-  void Init(Application *app, InternetService *service);
+  void Init(Application *app, SharedPtr<InternetService> service);
 
   bool SearchFieldHasFocus() const;
   void FocusSearchField();
@@ -183,9 +183,9 @@ class InternetSearchView : public QWidget {
 
  private:
   Application *app_;
-  InternetService *service_;
+  SharedPtr<InternetService> service_;
   Ui_InternetSearchView *ui_;
-  std::unique_ptr<GroupByDialog> group_by_dialog_;
+  ScopedPtr<GroupByDialog> group_by_dialog_;
 
   QMenu *context_menu_;
   QList<QAction*> context_actions_;

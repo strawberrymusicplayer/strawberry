@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-#include <memory>
 #include <algorithm>
 
 #include <QObject>
@@ -64,6 +63,8 @@
 #include <QSize>
 #include <QtEvents>
 
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/tagreaderclient.h"
@@ -97,7 +98,7 @@
 const char *AlbumCoverManager::kSettingsGroup = "CoverManager";
 constexpr int AlbumCoverManager::kThumbnailSize = 120;
 
-AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collection_backend, QMainWindow *mainwindow, QWidget *parent)
+AlbumCoverManager::AlbumCoverManager(Application *app, SharedPtr<CollectionBackend> collection_backend, QMainWindow *mainwindow, QWidget *parent)
     : QMainWindow(parent),
       ui_(new Ui_CoverManager),
       mainwindow_(mainwindow),
@@ -231,7 +232,7 @@ void AlbumCoverManager::Init() {
 
   s.endGroup();
 
-  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &AlbumCoverManager::AlbumCoverLoaded);
+  QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &AlbumCoverManager::AlbumCoverLoaded);
 
   cover_searcher_->Init(cover_fetcher_);
 
@@ -255,7 +256,7 @@ void AlbumCoverManager::showEvent(QShowEvent *e) {
 void AlbumCoverManager::closeEvent(QCloseEvent *e) {
 
   if (!cover_fetching_tasks_.isEmpty()) {
-    std::unique_ptr<QMessageBox> message_box(new QMessageBox(QMessageBox::Question, tr("Really cancel?"), tr("Closing this window will stop searching for album covers."), QMessageBox::Abort, this));
+    ScopedPtr<QMessageBox> message_box(new QMessageBox(QMessageBox::Question, tr("Really cancel?"), tr("Closing this window will stop searching for album covers."), QMessageBox::Abort, this));
     message_box->addButton(tr("Don't stop!"), QMessageBox::AcceptRole);
 
     if (message_box->exec() != QMessageBox::Abort) {

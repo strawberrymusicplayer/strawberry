@@ -26,6 +26,7 @@
 #include <QString>
 #include <QTextStream>
 
+#include "core/shared_ptr.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
 #include "asxiniparser.h"
@@ -38,8 +39,8 @@ constexpr auto qt_endl = Qt::endl;
 constexpr auto qt_endl = endl;
 #endif
 
-AsxIniParser::AsxIniParser(CollectionBackendInterface *collection, QObject *parent)
-    : ParserBase(collection, parent) {}
+AsxIniParser::AsxIniParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : ParserBase(collection_backend, parent) {}
 
 bool AsxIniParser::TryMagic(const QByteArray &data) const {
   return data.toLower().contains("[reference]");

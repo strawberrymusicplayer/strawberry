@@ -34,6 +34,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "qobuzservice.h"
 
@@ -44,7 +45,7 @@ class QobuzBaseRequest : public QObject {
   Q_OBJECT
 
  public:
-  explicit QobuzBaseRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit QobuzBaseRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~QobuzBaseRequest();
 
   enum class QueryType {
@@ -95,8 +96,7 @@ class QobuzBaseRequest : public QObject {
 
  private:
   QobuzService *service_;
-  NetworkAccessManager *network_;
-
+  SharedPtr<NetworkAccessManager> network_;
 };
 
 #endif  // QOBUZBASEREQUEST_H

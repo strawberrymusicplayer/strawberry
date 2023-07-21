@@ -31,6 +31,7 @@
 #include <QSettings>
 #include <QIcon>
 
+#include "core/shared_ptr.h"
 #include "core/simpletreemodel.h"
 #include "smartplaylistsitem.h"
 #include "playlistgenerator_fwd.h"
@@ -45,7 +46,7 @@ class SmartPlaylistsModel : public SimpleTreeModel<SmartPlaylistsItem> {
   Q_OBJECT
 
  public:
-  explicit SmartPlaylistsModel(CollectionBackend *backend, QObject *parent = nullptr);
+  explicit SmartPlaylistsModel(SharedPtr<CollectionBackend> backend, QObject *parent = nullptr);
   ~SmartPlaylistsModel();
 
   void Init();
@@ -80,11 +81,10 @@ class SmartPlaylistsModel : public SimpleTreeModel<SmartPlaylistsItem> {
   void ItemFromSmartPlaylist(const QSettings &s, const bool notify);
 
  private:
-  CollectionBackend *backend_;
+  SharedPtr<CollectionBackend> collection_backend_;
   QIcon icon_;
   DefaultGenerators default_smart_playlists_;
   QList<SmartPlaylistsItem*> items_;
-
 };
 
 #endif  // SMARTPLAYLISTSMODEL_H

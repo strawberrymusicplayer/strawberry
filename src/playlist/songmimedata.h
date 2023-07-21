@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QMimeData>
 
+#include "core/shared_ptr.h"
 #include "core/mimedata.h"
 #include "core/song.h"
 
@@ -37,7 +38,7 @@ class SongMimeData : public MimeData {
  public:
   explicit SongMimeData(QObject* = nullptr) : MimeData(), backend(nullptr) {}
 
-  CollectionBackendInterface *backend;
+  SharedPtr<CollectionBackendInterface> backend;
   SongList songs;
 };
 

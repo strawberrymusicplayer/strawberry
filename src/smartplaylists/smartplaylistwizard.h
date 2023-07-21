@@ -25,6 +25,8 @@
 
 #include <QWizard>
 
+#include "core/shared_ptr.h"
+
 #include "playlistgenerator_fwd.h"
 
 class Application;
@@ -35,7 +37,7 @@ class SmartPlaylistWizard : public QWizard {
   Q_OBJECT
 
  public:
-  explicit SmartPlaylistWizard(Application *app, CollectionBackend *collection_backend, QWidget *parent);
+  explicit SmartPlaylistWizard(Application *app, SharedPtr<CollectionBackend> collection_backend, QWidget *parent);
   ~SmartPlaylistWizard() override;
 
   void SetGenerator(PlaylistGeneratorPtr gen);
@@ -55,14 +57,13 @@ class SmartPlaylistWizard : public QWizard {
 
  private:
   Application *app_;
-  CollectionBackend *collection_backend_;
+  SharedPtr<CollectionBackend> collection_backend_;
   TypePage *type_page_;
   FinishPage *finish_page_;
   int finish_id_;
 
   int type_index_;
   QList<SmartPlaylistWizardPlugin*> plugins_;
-
 };
 
 #endif  // SMARTPLAYLISTWIZARD_H

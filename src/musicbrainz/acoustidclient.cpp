@@ -40,17 +40,19 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
-#include "acoustidclient.h"
+#include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
-#include "core/logging.h"
 #include "utilities/timeconstants.h"
+
+#include "acoustidclient.h"
 
 const char *AcoustidClient::kClientId = "0qjUoxbowg";
 const char *AcoustidClient::kUrl = "https://api.acoustid.org/v2/lookup";
 const int AcoustidClient::kDefaultTimeout = 5000;  // msec
 
-AcoustidClient::AcoustidClient(NetworkAccessManager *network, QObject *parent)
+AcoustidClient::AcoustidClient(SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       network_(network),
       timeouts_(new NetworkTimeouts(kDefaultTimeout, this)) {}

@@ -30,6 +30,7 @@
 #include <QString>
 #include <QJsonObject>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 
 class ScrobblerService : public QObject {
@@ -42,8 +43,8 @@ class ScrobblerService : public QObject {
 
   virtual void ReloadSettings() = 0;
 
-  virtual bool IsEnabled() const { return false; }
-  virtual bool IsAuthenticated() const { return false; }
+  virtual bool enabled() const { return false; }
+  virtual bool authenticated() const { return false; }
 
   virtual void UpdateNowPlaying(const Song &song) = 0;
   virtual void ClearPlaying() = 0;
@@ -51,8 +52,7 @@ class ScrobblerService : public QObject {
   virtual void Love() {}
 
   virtual void StartSubmit(const bool initial = false) = 0;
-  virtual void Submitted() = 0;
-  virtual bool IsSubmitted() const { return false; }
+  virtual bool submitted() const { return false; }
 
  protected:
   using Param = QPair<QString, QString>;
@@ -74,5 +74,7 @@ class ScrobblerService : public QObject {
  private:
   QString name_;
 };
+
+using ScrobblerServicePtr = SharedPtr<ScrobblerService>;
 
 #endif  // SCROBBLERSERVICE_H

@@ -30,6 +30,7 @@
 #include <QString>
 #include <QTimer>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
@@ -37,7 +38,7 @@
 
 class QNetworkReply;
 
-class AudioScrobbler;
+class ScrobblerSettings;
 class NetworkAccessManager;
 class LocalRedirectServer;
 
@@ -45,7 +46,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   Q_OBJECT
 
  public:
-  explicit ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, AudioScrobbler *scrobbler, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~ScrobblingAPI20() override;
 
   static const char *kApiKey;
@@ -53,11 +54,10 @@ class ScrobblingAPI20 : public ScrobblerService {
   void ReloadSettings() override;
   void LoadSession();
 
-  bool IsEnabled() const override { return enabled_; }
-  bool IsAuthenticated() const override { return !username_.isEmpty() && !session_key_.isEmpty(); }
-  bool IsSubscriber() const { return subscriber_; }
-  bool IsSubmitted() const override { return submitted_; }
-  void Submitted() override { submitted_ = true; }
+  bool enabled() const override { return enabled_; }
+  bool authenticated() const override { return !username_.isEmpty() && !session_key_.isEmpty(); }
+  bool subscriber() const { return subscriber_; }
+  bool submitted() const override { return submitted_; }
   QString username() const { return username_; }
 
   void Authenticate();
@@ -141,8 +141,8 @@ class ScrobblingAPI20 : public ScrobblerService {
   QString api_url_;
   bool batch_;
 
-  AudioScrobbler *scrobbler_;
-  NetworkAccessManager *network_;
+  SharedPtr<ScrobblerSettings> settings_;
+  SharedPtr<NetworkAccessManager> network_;
   ScrobblerCache *cache_;
   LocalRedirectServer *server_;
 

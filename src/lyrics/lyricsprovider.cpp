@@ -24,10 +24,11 @@
 #include <QRegularExpression>
 
 #include "utilities/strutils.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "lyricsprovider.h"
 
-LyricsProvider::LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, NetworkAccessManager *network, QObject *parent)
+LyricsProvider::LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent), network_(network), name_(name), enabled_(enabled), order_(0), authentication_required_(authentication_required) {}
 
 QString LyricsProvider::ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple) {

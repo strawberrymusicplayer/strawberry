@@ -32,6 +32,7 @@
 #include <QJsonDocument>
 #include <QTimer>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
@@ -39,7 +40,7 @@
 
 class QNetworkReply;
 
-class AudioScrobbler;
+class ScrobblerSettings;
 class NetworkAccessManager;
 class LocalRedirectServer;
 
@@ -47,7 +48,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   Q_OBJECT
 
  public:
-  explicit ListenBrainzScrobbler(AudioScrobbler *scrobbler, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit ListenBrainzScrobbler(SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~ListenBrainzScrobbler() override;
 
   static const char *kName;
@@ -56,10 +57,9 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void ReloadSettings() override;
   void LoadSession();
 
-  bool IsEnabled() const override { return enabled_; }
-  bool IsAuthenticated() const override { return !access_token_.isEmpty() && !user_token_.isEmpty(); }
-  bool IsSubmitted() const override { return submitted_; }
-  void Submitted() override { submitted_ = true; }
+  bool enabled() const override { return enabled_; }
+  bool authenticated() const override { return !access_token_.isEmpty() && !user_token_.isEmpty(); }
+  bool submitted() const override { return submitted_; }
   QString user_token() const { return user_token_; }
 
   void Authenticate();
@@ -110,8 +110,8 @@ class ListenBrainzScrobbler : public ScrobblerService {
   static const char *kCacheFile;
   static const int kScrobblesPerRequest;
 
-  AudioScrobbler *scrobbler_;
-  NetworkAccessManager *network_;
+  SharedPtr<ScrobblerSettings> settings_;
+  SharedPtr<NetworkAccessManager> network_;
   ScrobblerCache *cache_;
   LocalRedirectServer *server_;
   bool enabled_;

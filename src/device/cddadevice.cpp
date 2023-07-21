@@ -24,6 +24,7 @@
 #include <QString>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
 #include "collection/collectionmodel.h"
 #include "cddasongloader.h"
 #include "connecteddevice.h"
@@ -33,7 +34,7 @@ class Application;
 class DeviceLister;
 class DeviceManager;
 
-CddaDevice::CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time, QObject *parent)
+CddaDevice::CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, int database_id, bool first_time, QObject *parent)
     : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
       cdda_song_loader_(url) {
 

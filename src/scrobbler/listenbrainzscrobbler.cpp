@@ -40,6 +40,7 @@
 #include <QJsonArray>
 #include <QJsonValue>
 
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/logging.h"
@@ -47,7 +48,7 @@
 #include "internet/localredirectserver.h"
 #include "settings/scrobblersettingspage.h"
 
-#include "audioscrobbler.h"
+#include "scrobblersettings.h"
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
 #include "scrobblercacheitem.h"
@@ -65,9 +66,9 @@ const char *ListenBrainzScrobbler::kClientSecretB64 = "Uk9GZ2hrZVEzRjNvUHlFaHFpe
 const char *ListenBrainzScrobbler::kCacheFile = "listenbrainzscrobbler.cache";
 const int ListenBrainzScrobbler::kScrobblesPerRequest = 10;
 
-ListenBrainzScrobbler::ListenBrainzScrobbler(AudioScrobbler *scrobbler, NetworkAccessManager *network, QObject *parent)
+ListenBrainzScrobbler::ListenBrainzScrobbler(SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : ScrobblerService(kName, parent),
-      scrobbler_(scrobbler),
+      settings_(settings),
       network_(network),
       cache_(new ScrobblerCache(kCacheFile, this)),
       server_(nullptr),
@@ -449,7 +450,7 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   scrobbled_ = false;
   timestamp_ = QDateTime::currentDateTime().toSecsSinceEpoch();
 
-  if (!song.is_metadata_good() || !IsAuthenticated() || scrobbler_->IsOffline()) return;
+  if (!song.is_metadata_good() || !authenticated() || settings_->offline()) return;
 
   QJsonObject object_listen;
   object_listen.insert("track_metadata", JsonTrackMetadata(ScrobbleMetadata(song)));
@@ -509,7 +510,7 @@ void ListenBrainzScrobbler::Scrobble(const Song &song) {
 
   cache_->Add(song, timestamp_);
 
-  if (scrobbler_->IsOffline() || !IsAuthenticated()) return;
+  if (settings_->offline() || !authenticated()) return;
 
   StartSubmit();
 
@@ -518,14 +519,14 @@ void ListenBrainzScrobbler::Scrobble(const Song &song) {
 void ListenBrainzScrobbler::StartSubmit(const bool initial) {
 
   if (!submitted_ && cache_->Count() > 0) {
-    if (initial && scrobbler_->SubmitDelay() <= 0 && !submit_error_) {
+    if (initial && settings_->submit_delay() <= 0 && !submit_error_) {
       if (timer_submit_.isActive()) {
         timer_submit_.stop();
       }
       Submit();
     }
     else if (!timer_submit_.isActive()) {
-      int submit_delay = static_cast<int>(std::max(scrobbler_->SubmitDelay(), submit_error_ ? 30 : 5) * kMsecPerSec);
+      int submit_delay = static_cast<int>(std::max(settings_->submit_delay(), submit_error_ ? 30 : 5) * kMsecPerSec);
       timer_submit_.setInterval(submit_delay);
       timer_submit_.start();
     }
@@ -537,7 +538,7 @@ void ListenBrainzScrobbler::Submit() {
 
   qLog(Debug) << "ListenBrainz: Submitting scrobbles.";
 
-  if (!IsEnabled() || !IsAuthenticated() || scrobbler_->IsOffline()) return;
+  if (!enabled() || !authenticated() || settings_->offline()) return;
 
   QJsonArray array;
   ScrobblerCacheItemPtrList cache_items_sent;
@@ -620,7 +621,7 @@ void ListenBrainzScrobbler::Love() {
 
   if (!song_playing_.is_valid() || !song_playing_.is_metadata_good()) return;
 
-  if (!IsAuthenticated()) scrobbler_->ShowConfig();
+  if (!authenticated()) settings_->ShowConfig();
 
   if (song_playing_.musicbrainz_recording_id().isEmpty()) {
     Error(tr("Missing MusicBrainz recording ID for %1 %2 %3").arg(song_playing_.artist()).arg(song_playing_.album()).arg(song_playing_.title()));
@@ -671,7 +672,7 @@ void ListenBrainzScrobbler::Error(const QString &error, const QVariant &debug) {
   qLog(Error) << "ListenBrainz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
 
-  if (scrobbler_->ShowErrorDialog()) {
+  if (settings_->show_error_dialog()) {
     emit ErrorMessage(tr("ListenBrainz error: %1").arg(error));
   }
 

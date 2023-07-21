@@ -34,6 +34,7 @@
 #include <QKeyEvent>
 #include <QEnterEvent>
 
+#include "core/shared_ptr.h"
 #include "core/iconloader.h"
 #include "utilities/colorutils.h"
 #include "playlist/playlist.h"
@@ -73,7 +74,7 @@ class SmartPlaylistSearchTermWidget::Overlay : public QWidget {  // clazy:exclud
 const int SmartPlaylistSearchTermWidget::Overlay::kSpacing = 6;
 const int SmartPlaylistSearchTermWidget::Overlay::kIconSize = 22;
 
-SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(CollectionBackend *collection_backend, QWidget *parent)
+SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(SharedPtr<CollectionBackend> collection_backend, QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_SmartPlaylistSearchTermWidget),
       collection_backend_(collection_backend),

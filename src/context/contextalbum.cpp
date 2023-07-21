@@ -37,11 +37,15 @@
 #include <QContextMenuEvent>
 #include <QPaintEvent>
 
+#include "core/shared_ptr.h"
 #include "utilities/imageutils.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 
 #include "contextview.h"
 #include "contextalbum.h"
+
+using std::make_unique;
+using std::make_shared;
 
 const int ContextAlbum::kFadeTimeLineMs = 1000;
 
@@ -155,15 +159,15 @@ void ContextAlbum::SetImage(QImage image) {
   ScaleCover();
 
   if (!pixmap_previous.isNull()) {
-    std::shared_ptr<PreviousCover> previous_cover = std::make_shared<PreviousCover>();
+    SharedPtr<PreviousCover> previous_cover = make_shared<PreviousCover>();
     previous_cover->image = image_previous;
     previous_cover->pixmap =  pixmap_previous;
     previous_cover->opacity = opacity_previous;
     previous_cover->timeline.reset(new QTimeLine(kFadeTimeLineMs), [](QTimeLine *timeline) { timeline->deleteLater(); });
     previous_cover->timeline->setDirection(QTimeLine::Backward);
     previous_cover->timeline->setCurrentTime(timeline_fade_->state() == QTimeLine::Running ? timeline_fade_->currentTime() : kFadeTimeLineMs);
-    QObject::connect(previous_cover->timeline.get(), &QTimeLine::valueChanged, this, [this, previous_cover]() { FadePreviousCover(previous_cover); });
-    QObject::connect(previous_cover->timeline.get(), &QTimeLine::finished, this, [this, previous_cover]() { FadePreviousCoverFinished(previous_cover); });
+    QObject::connect(&*previous_cover->timeline, &QTimeLine::valueChanged, this, [this, previous_cover]() { FadePreviousCover(previous_cover); });
+    QObject::connect(&*previous_cover->timeline, &QTimeLine::finished, this, [this, previous_cover]() { FadePreviousCoverFinished(previous_cover); });
     previous_covers_ << previous_cover;
     previous_cover->timeline->start();
   }
@@ -194,7 +198,7 @@ void ContextAlbum::DrawSpinner(QPainter *p) {
 
 void ContextAlbum::DrawPreviousCovers(QPainter *p) {
 
-  for (std::shared_ptr<PreviousCover> previous_cover : previous_covers_) {
+  for (SharedPtr<PreviousCover> previous_cover : previous_covers_) {
     DrawImage(p, previous_cover->pixmap, previous_cover->opacity);
   }
 
@@ -217,7 +221,7 @@ void ContextAlbum::FadeCurrentCoverFinished() {
 
 }
 
-void ContextAlbum::FadePreviousCover(std::shared_ptr<PreviousCover> previous_cover) {
+void ContextAlbum::FadePreviousCover(SharedPtr<PreviousCover> previous_cover) {
 
   if (previous_cover->timeline->currentValue() >= previous_cover->opacity) return;
 
@@ -225,7 +229,7 @@ void ContextAlbum::FadePreviousCover(std::shared_ptr<PreviousCover> previous_cov
 
 }
 
-void ContextAlbum::FadePreviousCoverFinished(std::shared_ptr<PreviousCover> previous_cover) {
+void ContextAlbum::FadePreviousCoverFinished(SharedPtr<PreviousCover> previous_cover) {
 
   previous_covers_.removeAll(previous_cover);
 
@@ -245,7 +249,7 @@ void ContextAlbum::ScaleCover() {
 
 void ContextAlbum::ScalePreviousCovers() {
 
-  for (std::shared_ptr<PreviousCover> previous_cover : previous_covers_) {
+  for (SharedPtr<PreviousCover> previous_cover : previous_covers_) {
     QImage image = ImageUtils::ScaleImage(previous_cover->image, QSize(desired_height_, desired_height_), devicePixelRatioF(), true);
     if (image.isNull()) {
       previous_cover->pixmap = QPixmap();
@@ -262,8 +266,8 @@ void ContextAlbum::SearchCoverInProgress() {
   downloading_covers_ = true;
 
   // Show a spinner animation
-  spinner_animation_ = std::make_unique<QMovie>(":/pictures/spinner.gif", QByteArray(), this);
-  QObject::connect(spinner_animation_.get(), &QMovie::updated, this, &ContextAlbum::Update);
+  spinner_animation_ = make_unique<QMovie>(":/pictures/spinner.gif", QByteArray(), this);
+  QObject::connect(&*spinner_animation_, &QMovie::updated, this, &ContextAlbum::Update);
   spinner_animation_->start();
   update();
 

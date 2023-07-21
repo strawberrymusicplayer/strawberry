@@ -119,6 +119,12 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
 
 }
 
+CollectionWatcher::~CollectionWatcher() {
+
+  qLog(Debug) << "Collection watcher" << this << "for" << Song::TextForSource(source_) << "deleted.";
+
+}
+
 void CollectionWatcher::ExitAsync() {
   QMetaObject::invokeMethod(this, &CollectionWatcher::Exit, Qt::QueuedConnection);
 }

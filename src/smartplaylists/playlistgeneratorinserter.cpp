@@ -26,6 +26,7 @@
 #include <QFuture>
 #include <QFutureWatcher>
 
+#include "core/shared_ptr.h"
 #include "core/taskmanager.h"
 
 #include "playlist/playlist.h"
@@ -34,10 +35,10 @@
 
 class CollectionBackend;
 
-PlaylistGeneratorInserter::PlaylistGeneratorInserter(TaskManager *task_manager, CollectionBackend *collection, QObject *parent)
+PlaylistGeneratorInserter::PlaylistGeneratorInserter(SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend, QObject *parent)
     : QObject(parent),
       task_manager_(task_manager),
-      collection_(collection),
+      collection_backend_(collection_backend),
       task_id_(-1),
       destination_(nullptr),
       row_(0),
@@ -68,7 +69,7 @@ void PlaylistGeneratorInserter::Load(Playlist *destination, const int row, const
   enqueue_next_ = enqueue_next;
   is_dynamic_ = generator->is_dynamic();
 
-  QObject::connect(generator.get(), &PlaylistGenerator::Error, this, &PlaylistGeneratorInserter::Error);
+  QObject::connect(&*generator, &PlaylistGenerator::Error, this, &PlaylistGeneratorInserter::Error);
 
   QFuture<PlaylistItemPtrList> future = QtConcurrent::run(PlaylistGeneratorInserter::Generate, generator, dynamic_count);
   QFutureWatcher<PlaylistItemPtrList> *watcher = new QFutureWatcher<PlaylistItemPtrList>();

@@ -33,6 +33,9 @@
 #include <QPixmap>
 #include <QMovie>
 
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
+
 class QMenu;
 class QTimeLine;
 class QPainter;
@@ -64,10 +67,10 @@ class ContextAlbum : public QWidget {
     QImage image;
     QPixmap pixmap;
     qreal opacity;
-    std::shared_ptr<QTimeLine> timeline;
+    SharedPtr<QTimeLine> timeline;
   };
 
-  QList<std::shared_ptr<PreviousCover>> previous_covers_;
+  QList<SharedPtr<PreviousCover>> previous_covers_;
 
   void DrawImage(QPainter *p, const QPixmap &pixmap, const qreal opacity);
   void DrawSpinner(QPainter *p);
@@ -84,8 +87,8 @@ class ContextAlbum : public QWidget {
   void AutomaticCoverSearchDone();
   void FadeCurrentCover(const qreal value);
   void FadeCurrentCoverFinished();
-  void FadePreviousCover(std::shared_ptr<PreviousCover> previouscover);
-  void FadePreviousCoverFinished(std::shared_ptr<PreviousCover> previouscover);
+  void FadePreviousCover(SharedPtr<PreviousCover> previouscover);
+  void FadePreviousCoverFinished(SharedPtr<PreviousCover> previouscover);
 
  public slots:
   void SearchCoverInProgress();
@@ -103,7 +106,7 @@ class ContextAlbum : public QWidget {
   QImage image_original_;
   QPixmap pixmap_current_;
   qreal pixmap_current_opacity_;
-  std::unique_ptr<QMovie> spinner_animation_;
+  ScopedPtr<QMovie> spinner_animation_;
   int desired_height_;
 };
 

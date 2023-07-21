@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QPair>
 #include <QSet>
@@ -38,6 +36,8 @@
 #include <QSslError>
 #include <QDateTime>
 
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "internet/internetservice.h"
 #include "settings/subsonicsettingspage.h"
@@ -56,7 +56,7 @@ class SubsonicService : public InternetService {
   Q_OBJECT
 
  public:
-  explicit SubsonicService(Application *app, QObject *parent);
+  explicit SubsonicService(Application *app, QObject *parent = nullptr);
   ~SubsonicService() override;
 
   static const Song::Source kSource;
@@ -76,11 +76,11 @@ class SubsonicService : public InternetService {
   bool download_album_covers() const { return download_album_covers_; }
   SubsonicSettingsPage::AuthMethod auth_method() const { return auth_method_; }
 
-  CollectionBackend *collection_backend() const { return collection_backend_; }
+  SharedPtr<CollectionBackend> collection_backend() const { return collection_backend_; }
   CollectionModel *collection_model() const { return collection_model_; }
   QSortFilterProxyModel *collection_sort_model() const { return collection_sort_model_; }
 
-  CollectionBackend *songs_collection_backend() override { return collection_backend_; }
+  SharedPtr<CollectionBackend> songs_collection_backend() override { return collection_backend_; }
   CollectionModel *songs_collection_model() override { return collection_model_; }
   QSortFilterProxyModel *songs_collection_sort_model() override { return collection_sort_model_; }
 
@@ -108,15 +108,15 @@ class SubsonicService : public InternetService {
   static const int kMaxRedirects;
 
   Application *app_;
-  std::unique_ptr<QNetworkAccessManager> network_;
+  ScopedPtr<QNetworkAccessManager> network_;
   SubsonicUrlHandler *url_handler_;
 
-  CollectionBackend *collection_backend_;
+  SharedPtr<CollectionBackend> collection_backend_;
   CollectionModel *collection_model_;
   QSortFilterProxyModel *collection_sort_model_;
 
-  std::shared_ptr<SubsonicRequest> songs_request_;
-  std::shared_ptr<SubsonicScrobbleRequest> scrobble_request_;
+  SharedPtr<SubsonicRequest> songs_request_;
+  SharedPtr<SubsonicScrobbleRequest> scrobble_request_;
 
   QUrl server_url_;
   QString username_;
@@ -130,7 +130,8 @@ class SubsonicService : public InternetService {
   int ping_redirects_;
 
   QList<QNetworkReply*> replies_;
-
 };
+
+using SubsonicServicePtr = SharedPtr<SubsonicService>;
 
 #endif  // SUBSONICSERVICE_H

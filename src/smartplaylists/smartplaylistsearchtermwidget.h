@@ -26,6 +26,7 @@
 #include <QWidget>
 #include <QPushButton>
 
+#include "core/shared_ptr.h"
 #include "smartplaylistsearchterm.h"
 
 class QPropertyAnimation;
@@ -43,7 +44,7 @@ class SmartPlaylistSearchTermWidget : public QWidget {
   Q_PROPERTY(float overlay_opacity READ overlay_opacity WRITE set_overlay_opacity)
 
  public:
-  explicit SmartPlaylistSearchTermWidget(CollectionBackend *collection_backend, QWidget *parent);
+  explicit SmartPlaylistSearchTermWidget(SharedPtr<CollectionBackend> collection_backend, QWidget *parent);
   ~SmartPlaylistSearchTermWidget() override;
 
   void SetActive(const bool active);
@@ -81,7 +82,7 @@ class SmartPlaylistSearchTermWidget : public QWidget {
   friend class Overlay;
 
   Ui_SmartPlaylistSearchTermWidget *ui_;
-  CollectionBackend *collection_backend_;
+  SharedPtr<CollectionBackend> collection_backend_;
 
   Overlay *overlay_;
   QPropertyAnimation *animation_;

@@ -23,12 +23,12 @@
 #include <QString>
 #include <QUrl>
 
-#include <memory>
-
 #include <glib.h>
 #include <glib-object.h>
 #include <gst/gst.h>
 #include <gst/app/gstappsink.h>
+
+#include "core/scoped_ptr.h"
 
 class MoodbarBuilder;
 
@@ -69,7 +69,7 @@ class MoodbarPipeline : public QObject {
   GstElement *pipeline_;
   GstElement *convert_element_;
 
-  std::unique_ptr<MoodbarBuilder> builder_;
+  ScopedPtr<MoodbarBuilder> builder_;
 
   bool success_;
   bool running_;

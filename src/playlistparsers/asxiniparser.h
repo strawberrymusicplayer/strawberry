@@ -29,6 +29,7 @@
 #include <QStringList>
 #include <QDir>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
@@ -40,7 +41,7 @@ class AsxIniParser : public ParserBase {
   Q_OBJECT
 
  public:
-  explicit AsxIniParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
+  explicit AsxIniParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   QString name() const override { return "ASX/INI"; }
   QStringList file_extensions() const override { return QStringList() << "asxini"; }

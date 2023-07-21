@@ -36,6 +36,7 @@
 #include <QIcon>
 #include <QPixmap>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "collection/collectionmodel.h"
 #include "internetsearchview.h"
@@ -50,7 +51,7 @@ class InternetSearchModel : public QStandardItemModel {
   Q_OBJECT
 
  public:
-  explicit InternetSearchModel(InternetService *service, QObject *parent = nullptr);
+  explicit InternetSearchModel(SharedPtr<InternetService> service, QObject *parent = nullptr);
 
   enum Role {
     Role_Result = CollectionModel::LastRole,
@@ -85,7 +86,7 @@ class InternetSearchModel : public QStandardItemModel {
   void GetChildResults(const QStandardItem *item, InternetSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const;
 
  private:
-  InternetService *service_;
+  SharedPtr<InternetService> service_;
   QSortFilterProxyModel *proxy_;
   bool use_pretty_covers_;
   QIcon artist_icon_;

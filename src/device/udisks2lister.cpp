@@ -42,6 +42,8 @@
 #include <QJsonArray>
 
 #include "core/logging.h"
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "utilities/diskutils.h"
 
 #include "udisks2lister.h"
@@ -51,6 +53,9 @@
 #include "udisks2drive.h"
 #include "udisks2filesystem.h"
 #include "udisks2job.h"
+
+using std::make_unique;
+using std::make_shared;
 
 Udisks2Lister::Udisks2Lister(QObject *parent) : DeviceLister(parent) {}
 
@@ -180,7 +185,7 @@ void Udisks2Lister::UpdateDeviceFreeSpace(const QString &id) {
 
 bool Udisks2Lister::Init() {
 
-  udisks2_interface_ = std::make_unique<OrgFreedesktopDBusObjectManagerInterface>(udisks2_service_, "/org/freedesktop/UDisks2", QDBusConnection::systemBus());
+  udisks2_interface_ = make_unique<OrgFreedesktopDBusObjectManagerInterface>(udisks2_service_, "/org/freedesktop/UDisks2", QDBusConnection::systemBus());
 
   QDBusPendingReply<ManagedObjectList> reply = udisks2_interface_->GetManagedObjects();
   reply.waitForFinished();
@@ -206,8 +211,8 @@ bool Udisks2Lister::Init() {
     emit DeviceAdded(id);
   }
 
-  QObject::connect(udisks2_interface_.get(), &OrgFreedesktopDBusObjectManagerInterface::InterfacesAdded, this, &Udisks2Lister::DBusInterfaceAdded);
-  QObject::connect(udisks2_interface_.get(), &OrgFreedesktopDBusObjectManagerInterface::InterfacesRemoved, this, &Udisks2Lister::DBusInterfaceRemoved);
+  QObject::connect(&*udisks2_interface_, &OrgFreedesktopDBusObjectManagerInterface::InterfacesAdded, this, &Udisks2Lister::DBusInterfaceAdded);
+  QObject::connect(&*udisks2_interface_, &OrgFreedesktopDBusObjectManagerInterface::InterfacesRemoved, this, &Udisks2Lister::DBusInterfaceRemoved);
 
   return true;
 
@@ -219,7 +224,7 @@ void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const Interf
 
     if (interface.key() != "org.freedesktop.UDisks2.Job") continue;
 
-    std::shared_ptr<OrgFreedesktopUDisks2JobInterface> job = std::make_shared<OrgFreedesktopUDisks2JobInterface>(udisks2_service_, path.path(), QDBusConnection::systemBus());
+    SharedPtr<OrgFreedesktopUDisks2JobInterface> job = make_shared<OrgFreedesktopUDisks2JobInterface>(udisks2_service_, path.path(), QDBusConnection::systemBus());
 
     if (!job->isValid()) continue;
 
@@ -247,7 +252,7 @@ void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const Interf
       mounting_jobs_[path].dbus_interface = job;
       mounting_jobs_[path].is_mount = is_mount_job;
       mounting_jobs_[path].mounted_partitions = mounted_partitions;
-      QObject::connect(job.get(), &OrgFreedesktopUDisks2JobInterface::Completed, this, &Udisks2Lister::JobCompleted);
+      QObject::connect(&*job, &OrgFreedesktopUDisks2JobInterface::Completed, this, &Udisks2Lister::JobCompleted);
     }
   }
 }

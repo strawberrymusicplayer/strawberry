@@ -102,7 +102,7 @@ void AlbumCoverLoader::CancelTasks(const QSet<quint64> &ids) {
 
 quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, const Song &song) {
 
-  TaskPtr task = std::make_shared<Task>();
+  TaskPtr task = make_shared<Task>();
   task->options = options;
   task->art_embedded = song.art_embedded();
   task->art_automatic = song.art_automatic();
@@ -118,7 +118,7 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
 
 quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, const bool art_embedded, const QUrl &art_automatic, const QUrl &art_manual, const bool art_unset, const QUrl &song_url, const Song::Source song_source) {
 
-  TaskPtr task = std::make_shared<Task>();
+  TaskPtr task = make_shared<Task>();
   task->options = options;
   task->art_embedded = art_embedded;
   task->art_automatic = art_automatic;

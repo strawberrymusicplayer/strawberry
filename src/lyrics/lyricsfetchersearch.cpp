@@ -26,6 +26,7 @@
 #include <QList>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "lyricsfetchersearch.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
@@ -56,7 +57,7 @@ void LyricsFetcherSearch::TerminateSearch() {
 
 }
 
-void LyricsFetcherSearch::Start(LyricsProviders *lyrics_providers) {
+void LyricsFetcherSearch::Start(SharedPtr<LyricsProviders> lyrics_providers) {
 
   // Ignore Radio Paradise "commercial" break.
   if (request_.artist.compare("commercial-free", Qt::CaseInsensitive) == 0 && request_.title.compare("listener-supported", Qt::CaseInsensitive) == 0) {

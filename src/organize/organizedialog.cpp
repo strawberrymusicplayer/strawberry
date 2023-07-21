@@ -21,9 +21,9 @@
 
 #include "config.h"
 
-#include <memory>
 #include <functional>
 #include <algorithm>
+#include <memory>
 
 #include <QtGlobal>
 #include <QGuiApplication>
@@ -55,6 +55,7 @@
 #include <QCloseEvent>
 #include <QSettings>
 
+#include "core/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
 #include "core/tagreaderclient.h"
@@ -72,15 +73,17 @@
 #  include "transcoder/transcoder.h"
 #endif
 
+using std::make_unique;
+
 constexpr char OrganizeDialog::kSettingsGroup[] = "OrganizeDialog";
 constexpr char OrganizeDialog::kDefaultFormat[] = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
 
-OrganizeDialog::OrganizeDialog(TaskManager *task_manager, CollectionBackend *backend, QWidget *parentwindow, QWidget *parent)
+OrganizeDialog::OrganizeDialog(SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend, QWidget *parentwindow, QWidget *parent)
     : QDialog(parent),
       parentwindow_(parentwindow),
       ui_(new Ui_OrganizeDialog),
       task_manager_(task_manager),
-      backend_(backend),
+      collection_backend_(collection_backend),
       total_size_(0),
       devices_(false) {
 
@@ -179,7 +182,7 @@ void OrganizeDialog::accept() {
   SaveSettings();
 
   const QModelIndex destination = ui_->destination->model()->index(ui_->destination->currentIndex(), 0);
-  std::shared_ptr<MusicStorage> storage = destination.data(MusicStorage::Role_StorageForceConnect).value<std::shared_ptr<MusicStorage>>();
+  SharedPtr<MusicStorage> storage = destination.data(MusicStorage::Role_StorageForceConnect).value<SharedPtr<MusicStorage>>();
 
   if (!storage) return;
 
@@ -188,8 +191,8 @@ void OrganizeDialog::accept() {
   Organize *organize = new Organize(task_manager_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, ui_->eject_after->isChecked(), playlist_);
   QObject::connect(organize, &Organize::Finished, this, &OrganizeDialog::OrganizeFinished);
   QObject::connect(organize, &Organize::FileCopied, this, &OrganizeDialog::FileCopied);
-  if (backend_) {
-    QObject::connect(organize, &Organize::SongPathChanged, backend_, &CollectionBackend::SongPathChanged);
+  if (collection_backend_) {
+    QObject::connect(organize, &Organize::SongPathChanged, &*collection_backend_, &CollectionBackend::SongPathChanged);
   }
 
   organize->Start();
@@ -468,11 +471,11 @@ void OrganizeDialog::UpdatePreviews() {
   }
 
   const QModelIndex destination = ui_->destination->model()->index(ui_->destination->currentIndex(), 0);
-  std::shared_ptr<MusicStorage> storage;
+  SharedPtr<MusicStorage> storage;
   bool has_local_destination = false;
 
   if (destination.isValid()) {
-    storage = destination.data(MusicStorage::Role_Storage).value<std::shared_ptr<MusicStorage>>();
+    storage = destination.data(MusicStorage::Role_Storage).value<SharedPtr<MusicStorage>>();
     if (storage) {
       has_local_destination = !storage->LocalPath().isEmpty();
     }
@@ -550,7 +553,7 @@ void OrganizeDialog::OrganizeFinished(const QStringList &files_with_errors, cons
 
   if (files_with_errors.isEmpty()) return;
 
-  error_dialog_ = std::make_unique<OrganizeErrorDialog>();
+  error_dialog_ = make_unique<OrganizeErrorDialog>();
   error_dialog_->Show(OrganizeErrorDialog::OperationType::Copy, files_with_errors, log);
 
 }

@@ -29,16 +29,20 @@
 #include <QFuture>
 #include <QFutureWatcher>
 
+#include "core/shared_ptr.h"
+
 #include "smartplaylistsearchpreview.h"
 #include "ui_smartplaylistsearchpreview.h"
 
 #include "playlist/playlist.h"
 #include "playlistquerygenerator.h"
 
+using std::make_shared;
+
 SmartPlaylistSearchPreview::SmartPlaylistSearchPreview(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_SmartPlaylistSearchPreview),
-      backend_(nullptr),
+      collection_backend_(nullptr),
       model_(nullptr) {
 
   ui_->setupUi(this);
@@ -64,11 +68,11 @@ void SmartPlaylistSearchPreview::set_application(Application *app) {
 
 }
 
-void SmartPlaylistSearchPreview::set_collection(CollectionBackend *backend) {
+void SmartPlaylistSearchPreview::set_collection(SharedPtr<CollectionBackend> collection_backend) {
 
-  backend_ = backend;
+  collection_backend_ = collection_backend;
 
-  model_ = new Playlist(nullptr, nullptr, backend_, -1, QString(), false, this);
+  model_ = new Playlist(nullptr, nullptr, collection_backend_, -1, QString(), false, this);
   ui_->tree->setModel(model_);
   ui_->tree->SetPlaylist(model_);
   ui_->tree->SetItemDelegates();
@@ -110,8 +114,8 @@ PlaylistItemPtrList DoRunSearch(PlaylistGeneratorPtr gen) { return gen->Generate
 
 void SmartPlaylistSearchPreview::RunSearch(const SmartPlaylistSearch &search) {
 
-  generator_ = std::make_shared<PlaylistQueryGenerator>();
-  generator_->set_collection(backend_);
+  generator_ = make_shared<PlaylistQueryGenerator>();
+  generator_->set_collection_backend(collection_backend_);
   std::dynamic_pointer_cast<PlaylistQueryGenerator>(generator_)->Load(search);
 
   ui_->busy_container->show();

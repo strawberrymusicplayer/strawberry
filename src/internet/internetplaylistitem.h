@@ -27,6 +27,7 @@
 #include <QVariant>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "core/sqlrow.h"
 #include "playlist/playlistitem.h"
@@ -38,7 +39,7 @@ class InternetPlaylistItem : public PlaylistItem {
  public:
   explicit InternetPlaylistItem(const Song::Source source);
   explicit InternetPlaylistItem(const Song &metadata);
-  explicit InternetPlaylistItem(InternetService *service, const Song &metadata);
+  explicit InternetPlaylistItem(SharedPtr<InternetService> service, const Song &metadata);
 
   bool InitFromQuery(const SqlRow &query) override;
   Song Metadata() const override;

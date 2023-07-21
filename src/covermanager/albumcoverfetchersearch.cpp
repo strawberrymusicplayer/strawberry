@@ -36,6 +36,7 @@
 #include <QNetworkReply>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
 #include "utilities/imageutils.h"
@@ -51,7 +52,7 @@ const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 6000;
 const int AlbumCoverFetcherSearch::kTargetSize = 500;
 const float AlbumCoverFetcherSearch::kGoodScore = 4.0;
 
-AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(const CoverSearchRequest &request, NetworkAccessManager *network, QObject *parent)
+AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(const CoverSearchRequest &request, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       request_(request),
       image_load_timeout_(new NetworkTimeouts(kImageLoadTimeoutMs, this)),
@@ -79,7 +80,7 @@ void AlbumCoverFetcherSearch::TerminateSearch() {
 
 }
 
-void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
+void AlbumCoverFetcherSearch::Start(SharedPtr<CoverProviders> cover_providers) {
 
   // Ignore Radio Paradise "commercial" break.
   if (request_.artist.compare("commercial-free", Qt::CaseInsensitive) == 0 && request_.title.compare("listener-supported", Qt::CaseInsensitive) == 0) {

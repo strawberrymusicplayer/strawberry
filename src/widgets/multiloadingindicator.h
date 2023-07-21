@@ -26,6 +26,8 @@
 #include <QSize>
 #include <QString>
 
+#include "core/shared_ptr.h"
+
 class QPaintEvent;
 
 class BusyIndicator;
@@ -41,7 +43,7 @@ class MultiLoadingIndicator : public QWidget {
   static const int kHorizontalPadding;
   static const int kSpacing;
 
-  void SetTaskManager(TaskManager *task_manager);
+  void SetTaskManager(SharedPtr<TaskManager> task_manager);
 
   QSize sizeHint() const override;
 
@@ -55,7 +57,7 @@ class MultiLoadingIndicator : public QWidget {
   void UpdateText();
 
  private:
-  TaskManager *task_manager_;
+  SharedPtr<TaskManager> task_manager_;
 
   BusyIndicator *spinner_;
   QString text_;

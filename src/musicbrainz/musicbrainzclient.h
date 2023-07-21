@@ -33,10 +33,12 @@
 #include <QString>
 #include <QStringList>
 
-class QNetworkAccessManager;
+#include "core/shared_ptr.h"
+
 class QNetworkReply;
 class QTimer;
 class QXmlStreamReader;
+class NetworkAccessManager;
 class NetworkTimeouts;
 
 class MusicBrainzClient : public QObject {
@@ -50,7 +52,7 @@ class MusicBrainzClient : public QObject {
  public:
   // The second argument allows for specifying a custom network access manager.
   // It is used in tests. The ownership of network is not transferred.
-  explicit MusicBrainzClient(QNetworkAccessManager *network, QObject *parent = nullptr);
+  explicit MusicBrainzClient(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~MusicBrainzClient() override;
 
   struct Result {
@@ -208,7 +210,7 @@ class MusicBrainzClient : public QObject {
   static const int kDefaultTimeout;
   static const int kMaxRequestPerTrack;
 
-  QNetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   NetworkTimeouts *timeouts_;
   QMultiMap<int, Request> requests_pending_;
   QMultiMap<int, QNetworkReply*> requests_;

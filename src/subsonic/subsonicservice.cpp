@@ -42,13 +42,13 @@
 #include <QSettings>
 #include <QSortFilterProxyModel>
 
-#include "utilities/randutils.h"
+#include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/player.h"
-#include "core/logging.h"
-#include "core/networkaccessmanager.h"
 #include "core/database.h"
 #include "core/song.h"
+#include "utilities/randutils.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "subsonicservice.h"
@@ -57,8 +57,9 @@
 #include "subsonicscrobblerequest.h"
 #include "settings/settingsdialog.h"
 #include "settings/subsonicsettingspage.h"
-#include "scrobbler/audioscrobbler.h"
-#include "scrobbler/subsonicscrobbler.h"
+
+using std::make_unique;
+using std::make_shared;
 
 const Song::Source SubsonicService::kSource = Song::Source::Subsonic;
 const char *SubsonicService::kClientName = "Strawberry";
@@ -84,7 +85,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
 
   // Backend
 
-  collection_backend_ = new CollectionBackend();
+  collection_backend_ = make_shared<CollectionBackend>();
   collection_backend_->moveToThread(app_->database()->thread());
   collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Subsonic, kSongsTable, kSongsFtsTable);
 
@@ -99,8 +100,6 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
 
   SubsonicService::ReloadSettings();
 
-  app->scrobbler()->AddService(new SubsonicScrobbler(app->scrobbler(), this, this));
-
 }
 
 SubsonicService::~SubsonicService() {
@@ -112,13 +111,11 @@ SubsonicService::~SubsonicService() {
     reply->deleteLater();
   }
 
-  collection_backend_->deleteLater();
-
 }
 
 void SubsonicService::Exit() {
 
-  QObject::connect(collection_backend_, &CollectionBackend::ExitFinished, this, &SubsonicService::ExitFinished);
+  QObject::connect(&*collection_backend_, &CollectionBackend::ExitFinished, this, &SubsonicService::ExitFinished);
   collection_backend_->ExitAsync();
 
 }
@@ -154,7 +151,7 @@ void SubsonicService::SendPing() {
 void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method, const bool redirect) {
 
   if (!network_ || !redirect) {
-    network_ = std::make_unique<QNetworkAccessManager>();
+    network_ = make_unique<QNetworkAccessManager>();
     network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
     ping_redirects_ = 0;
   }
@@ -413,8 +410,8 @@ void SubsonicService::Scrobble(const QString &song_id, const bool submission, co
 void SubsonicService::ResetSongsRequest() {
 
   if (songs_request_) {
-    QObject::disconnect(songs_request_.get(), nullptr, this, nullptr);
-    QObject::disconnect(this, nullptr, songs_request_.get(), nullptr);
+    QObject::disconnect(&*songs_request_, nullptr, this, nullptr);
+    QObject::disconnect(this, nullptr, &*songs_request_, nullptr);
     songs_request_.reset();
   }
 
@@ -434,10 +431,10 @@ void SubsonicService::GetSongs() {
 
   ResetSongsRequest();
   songs_request_.reset(new SubsonicRequest(this, url_handler_, app_), [](SubsonicRequest *request) { request->deleteLater(); });
-  QObject::connect(songs_request_.get(), &SubsonicRequest::Results, this, &SubsonicService::SongsResultsReceived);
-  QObject::connect(songs_request_.get(), &SubsonicRequest::UpdateStatus, this, &SubsonicService::SongsUpdateStatus);
-  QObject::connect(songs_request_.get(), &SubsonicRequest::ProgressSetMaximum, this, &SubsonicService::SongsProgressSetMaximum);
-  QObject::connect(songs_request_.get(), &SubsonicRequest::UpdateProgress, this, &SubsonicService::SongsUpdateProgress);
+  QObject::connect(&*songs_request_, &SubsonicRequest::Results, this, &SubsonicService::SongsResultsReceived);
+  QObject::connect(&*songs_request_, &SubsonicRequest::UpdateStatus, this, &SubsonicService::SongsUpdateStatus);
+  QObject::connect(&*songs_request_, &SubsonicRequest::ProgressSetMaximum, this, &SubsonicService::SongsProgressSetMaximum);
+  QObject::connect(&*songs_request_, &SubsonicRequest::UpdateProgress, this, &SubsonicService::SongsUpdateProgress);
 
   songs_request_->GetAlbums();
 

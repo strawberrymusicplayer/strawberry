@@ -30,6 +30,7 @@
 #include <QIcon>
 #include <QJsonObject>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "radiochannel.h"
 
@@ -42,7 +43,7 @@ class RadioService : public QObject {
   Q_OBJECT
 
  public:
-  explicit RadioService(const Song::Source source, const QString &name, const QIcon &icon, Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit RadioService(const Song::Source source, const QString &name, const QIcon &icon, Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
   Song::Source source() const { return source_; }
   QString name() const { return name_; }
@@ -66,7 +67,7 @@ class RadioService : public QObject {
 
  protected:
   Application *app_;
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   Song::Source source_;
   QString name_;
   QIcon icon_;

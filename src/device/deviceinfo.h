@@ -102,7 +102,7 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
   const Backend *BestBackend() const;
 
   int database_id_;  // -1 if not remembered in the database
-  std::shared_ptr<ConnectedDevice> device_;  // nullptr if not connected
+  SharedPtr<ConnectedDevice> device_;  // nullptr if not connected
   QList<Backend> backends_;
 
   QString friendly_name_;

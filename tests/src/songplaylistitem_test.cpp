@@ -30,7 +30,10 @@
 
 #include "test_utils.h"
 
+#include "core/scoped_ptr.h"
 #include "playlist/songplaylistitem.h"
+
+using std::make_unique;
 
 // clazy:excludeall=non-pod-global-static
 
@@ -49,7 +52,7 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
     song_.Init("Title", "Artist", "Album", 123);
     song_.set_url(QUrl::fromLocalFile(absolute_file_name_));
 
-    item_ = std::make_unique<SongPlaylistItem>(song_);
+    item_ = make_unique<SongPlaylistItem>(song_);
 
     if (!absolute_file_name_.startsWith('/'))
       absolute_file_name_.prepend('/');
@@ -58,7 +61,7 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
   Song song_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
   QTemporaryFile temp_file_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
   QString absolute_file_name_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-  std::unique_ptr<SongPlaylistItem> item_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  ScopedPtr<SongPlaylistItem> item_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
 INSTANTIATE_TEST_SUITE_P(RealFiles, SongPlaylistItemTest, testing::Values(  // clazy:exclude=function-args-by-value,clazy-non-pod-global-static

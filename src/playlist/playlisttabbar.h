@@ -46,6 +46,8 @@ class QTimerEvent;
 class PlaylistManager;
 class RenameTabLineEdit;
 
+#include "core/shared_ptr.h"
+
 class PlaylistTabBar : public QTabBar {
   Q_OBJECT
 
@@ -56,7 +58,7 @@ class PlaylistTabBar : public QTabBar {
   static const char *kSettingsGroup;
 
   void SetActions(QAction *new_playlist, QAction *load_playlist);
-  void SetManager(PlaylistManager *manager);
+  void SetManager(SharedPtr<PlaylistManager> manager);
 
   // We use IDs to refer to tabs so the tabs can be moved around (and their indexes change).
   int index_of(const int id) const;
@@ -106,7 +108,7 @@ class PlaylistTabBar : public QTabBar {
   void SaveSlot();
 
  private:
-  PlaylistManager *manager_;
+  SharedPtr<PlaylistManager> manager_;
 
   QMenu *menu_;
   int menu_index_;

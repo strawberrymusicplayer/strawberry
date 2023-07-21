@@ -28,6 +28,7 @@
 #include <QString>
 
 #include "qobuzbaserequest.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 
 class QNetworkReply;
@@ -38,7 +39,7 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
   Q_OBJECT
 
  public:
-  explicit QobuzFavoriteRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit QobuzFavoriteRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~QobuzFavoriteRequest();
 
  private:
@@ -80,7 +81,7 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
   void RemoveFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs);
 
   QobuzService *service_;
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   QList<QNetworkReply*> replies_;
 };
 

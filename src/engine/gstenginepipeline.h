@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
 #include <glib.h>
 #include <glib-object.h>
 #include <glib/gtypes.h>
@@ -44,6 +43,7 @@
 #include <QString>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
 #include "enginemetadata.h"
 
 class QTimerEvent;
@@ -294,7 +294,7 @@ class GstEnginePipeline : public QObject {
   gdouble volume_internal_;
   uint volume_percent_;
 
-  std::shared_ptr<QTimeLine> fader_;
+  SharedPtr<QTimeLine> fader_;
   QBasicTimer fader_fudge_timer_;
   bool use_fudge_timer_;
 

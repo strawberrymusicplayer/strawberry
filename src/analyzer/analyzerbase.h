@@ -38,6 +38,7 @@
 #include <QString>
 #include <QPainter>
 
+#include "core/shared_ptr.h"
 #include "analyzer/fht.h"
 #include "engine/enginebase.h"
 
@@ -54,7 +55,7 @@ class AnalyzerBase : public QWidget {
 
   int timeout() const { return timeout_; }
 
-  void set_engine(EngineBase *engine) { engine_ = engine; }
+  void set_engine(SharedPtr<EngineBase> engine) { engine_ = engine; }
 
   void ChangeTimeout(const int timeout);
 
@@ -82,7 +83,7 @@ class AnalyzerBase : public QWidget {
  protected:
   QBasicTimer timer_;
   FHT *fht_;
-  EngineBase *engine_;
+  SharedPtr<EngineBase> engine_;
   Scope lastscope_;
 
   bool new_frame_;

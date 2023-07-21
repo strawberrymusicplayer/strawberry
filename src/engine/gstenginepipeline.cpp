@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-#include <memory>
 #include <cstdint>
 #include <cstring>
 #include <cmath>
@@ -1655,8 +1654,8 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
     }
     timeline->deleteLater();
   });
-  QObject::connect(fader_.get(), &QTimeLine::valueChanged, this, &GstEnginePipeline::SetFaderVolume);
-  QObject::connect(fader_.get(), &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
+  QObject::connect(&*fader_, &QTimeLine::valueChanged, this, &GstEnginePipeline::SetFaderVolume);
+  QObject::connect(&*fader_, &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
   fader_->setDirection(direction);
   fader_->setEasingCurve(shape);
   fader_->setCurrentTime(static_cast<int>(start_time));

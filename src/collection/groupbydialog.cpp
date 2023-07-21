@@ -21,7 +21,7 @@
 
 #include "config.h"
 
-#include <functional>
+#include <memory>
 
 #include <QDialog>
 #include <QWidget>
@@ -40,6 +40,8 @@
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index_container_fwd.hpp>
 #include <boost/operators.hpp>
+
+using std::make_unique;
 
 using boost::multi_index_container;
 using boost::multi_index::indexed_by;
@@ -69,7 +71,7 @@ class GroupByDialogPrivate {
   MappingContainer mapping_;
 };
 
-GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_GroupByDialog), p_(new GroupByDialogPrivate) {
+GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(make_unique<Ui_GroupByDialog>()), p_(make_unique<GroupByDialogPrivate>()) {
 
   ui_->setupUi(this);
   Reset();

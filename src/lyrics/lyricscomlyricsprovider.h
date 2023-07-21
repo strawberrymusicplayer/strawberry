@@ -27,6 +27,7 @@
 #include <QString>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
 #include "jsonlyricsprovider.h"
 #include "lyricssearchrequest.h"
 
@@ -37,7 +38,7 @@ class LyricsComLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit LyricsComLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit LyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~LyricsComLyricsProvider() override;
 
   bool StartSearch(const int id, const LyricsSearchRequest &request) override;

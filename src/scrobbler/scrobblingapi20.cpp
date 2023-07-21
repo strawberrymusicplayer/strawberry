@@ -44,6 +44,7 @@
 #include <QJsonValue>
 #include <QFlags>
 
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/logging.h"
@@ -51,7 +52,7 @@
 #include "internet/localredirectserver.h"
 #include "settings/scrobblersettingspage.h"
 
-#include "audioscrobbler.h"
+#include "scrobblersettings.h"
 #include "scrobblerservice.h"
 #include "scrobblingapi20.h"
 #include "scrobblercache.h"
@@ -62,14 +63,14 @@ const char *ScrobblingAPI20::kApiKey = "211990b4c96782c05d1536e7219eb56e";
 const char *ScrobblingAPI20::kSecret = "80fd738f49596e9709b1bf9319c444a8";
 const int ScrobblingAPI20::kScrobblesPerRequest = 50;
 
-ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, AudioScrobbler *scrobbler, NetworkAccessManager *network, QObject *parent)
+ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : ScrobblerService(name, parent),
       name_(name),
       settings_group_(settings_group),
       auth_url_(auth_url),
       api_url_(api_url),
       batch_(batch),
-      scrobbler_(scrobbler),
+      settings_(settings),
       network_(network),
       cache_(new ScrobblerCache(cache_file, this)),
       server_(nullptr),
@@ -394,7 +395,7 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
   timestamp_ = QDateTime::currentDateTime().toSecsSinceEpoch();
   scrobbled_ = false;
 
-  if (!IsAuthenticated() || !song.is_metadata_good() || scrobbler_->IsOffline()) return;
+  if (!authenticated() || !song.is_metadata_good() || settings_->offline()) return;
 
   ParamList params = ParamList()
     << Param("method", "track.updateNowPlaying")
@@ -453,10 +454,10 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
 
   cache_->Add(song, timestamp_);
 
-  if (scrobbler_->IsOffline()) return;
+  if (settings_->offline()) return;
 
-  if (!IsAuthenticated()) {
-    if (scrobbler_->ShowErrorDialog()) {
+  if (!authenticated()) {
+    if (settings_->show_error_dialog()) {
       emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_));
     }
     return;
@@ -468,14 +469,14 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
 void ScrobblingAPI20::StartSubmit(const bool initial) {
 
   if (!submitted_ && cache_->Count() > 0) {
-    if (initial && (!batch_ || scrobbler_->SubmitDelay() <= 0) && !submit_error_) {
+    if (initial && (!batch_ || settings_->submit_delay() <= 0) && !submit_error_) {
       if (timer_submit_.isActive()) {
         timer_submit_.stop();
       }
       Submit();
     }
     else if (!timer_submit_.isActive()) {
-      int submit_delay = static_cast<int>(std::max(scrobbler_->SubmitDelay(), submit_error_ ? 30 : 5) * kMsecPerSec);
+      int submit_delay = static_cast<int>(std::max(settings_->submit_delay(), submit_error_ ? 30 : 5) * kMsecPerSec);
       timer_submit_.setInterval(submit_delay);
       timer_submit_.start();
     }
@@ -485,7 +486,7 @@ void ScrobblingAPI20::StartSubmit(const bool initial) {
 
 void ScrobblingAPI20::Submit() {
 
-  if (!IsEnabled() || !IsAuthenticated() || scrobbler_->IsOffline()) return;
+  if (!enabled() || !authenticated() || settings_->offline()) return;
 
   qLog(Debug) << name_ << "Submitting scrobbles.";
 
@@ -823,7 +824,7 @@ void ScrobblingAPI20::Love() {
 
   if (!song_playing_.is_valid() || !song_playing_.is_metadata_good()) return;
 
-  if (!IsAuthenticated()) scrobbler_->ShowConfig();
+  if (!authenticated()) settings_->ShowConfig();
 
   qLog(Debug) << name_ << "Sending love for song" << song_playing_.artist() << song_playing_.album() << song_playing_.title();
 
@@ -905,7 +906,7 @@ void ScrobblingAPI20::Error(const QString &error, const QVariant &debug) {
   qLog(Error) << name_ << error;
   if (debug.isValid()) qLog(Debug) << debug;
 
-  if (scrobbler_->ShowErrorDialog()) {
+  if (settings_->show_error_dialog()) {
     emit ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_, error));
   }
 }

@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
@@ -35,6 +33,7 @@
 #include <QSslError>
 #include <QJsonArray>
 
+#include "core/shared_ptr.h"
 #include "jsonlyricsprovider.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
@@ -47,7 +46,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit GeniusLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit GeniusLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~GeniusLyricsProvider() override;
 
   bool IsAuthenticated() const override { return !access_token_.isEmpty(); }
@@ -72,7 +71,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
     LyricsSearchResults results;
   };
 
-  using GeniusLyricsSearchContextPtr = std::shared_ptr<GeniusLyricsSearchContext>;
+  using GeniusLyricsSearchContextPtr = SharedPtr<GeniusLyricsSearchContext>;
 
  private:
   void RequestAccessToken(const QUrl &url, const QUrl &redirect_url);
@@ -102,7 +101,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   QString code_challenge_;
   QString access_token_;
   QStringList login_errors_;
-  QMap<int, std::shared_ptr<GeniusLyricsSearchContext>> requests_search_;
+  QMap<int, SharedPtr<GeniusLyricsSearchContext>> requests_search_;
   QList<QNetworkReply*> replies_;
 };
 

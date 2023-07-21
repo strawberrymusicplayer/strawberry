@@ -48,7 +48,7 @@ RadioModel::RadioModel(Application *app, QObject *parent)
   root_->lazy_loaded = true;
 
   if (app_) {
-    QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &RadioModel::AlbumCoverLoaded);
+    QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &RadioModel::AlbumCoverLoaded);
   }
 
 }

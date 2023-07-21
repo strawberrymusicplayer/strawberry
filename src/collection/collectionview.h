@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
@@ -33,6 +31,7 @@
 #include <QPixmap>
 #include <QSet>
 
+#include "core/scoped_ptr.h"
 #include "core/song.h"
 #include "widgets/autoexpandingtreeview.h"
 
@@ -148,8 +147,8 @@ class CollectionView : public AutoExpandingTreeView {
   QAction *action_no_show_in_various_;
   QAction *action_delete_files_;
 
-  std::unique_ptr<OrganizeDialog> organize_dialog_;
-  std::unique_ptr<EditTagDialog> edit_tag_dialog_;
+  ScopedPtr<OrganizeDialog> organize_dialog_;
+  ScopedPtr<EditTagDialog> edit_tag_dialog_;
 
   bool is_in_keyboard_search_;
   bool delete_files_;

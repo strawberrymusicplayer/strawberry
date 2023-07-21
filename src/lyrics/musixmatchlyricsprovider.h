@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
@@ -31,6 +29,7 @@
 #include <QString>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
 #include "jsonlyricsprovider.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
@@ -43,7 +42,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchPro
   Q_OBJECT
 
  public:
-  explicit MusixmatchLyricsProvider(NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit MusixmatchLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~MusixmatchLyricsProvider() override;
 
   bool StartSearch(const int id, const LyricsSearchRequest &request) override;
@@ -58,7 +57,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchPro
     LyricsSearchResults results;
   };
 
-  using LyricsSearchContextPtr = std::shared_ptr<LyricsSearchContext>;
+  using LyricsSearchContextPtr = SharedPtr<LyricsSearchContext>;
 
   bool SendSearchRequest(LyricsSearchContextPtr search);
   bool CreateLyricsRequest(LyricsSearchContextPtr search);

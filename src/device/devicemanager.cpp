@@ -21,8 +21,8 @@
 
 #include "config.h"
 
-#include <memory>
 #include <functional>
+#include <memory>
 
 #include <QtGlobal>
 #include <QApplication>
@@ -45,6 +45,8 @@
 #include "devicemanager.h"
 
 #include "core/logging.h"
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/database.h"
 #include "core/iconloader.h"
@@ -81,6 +83,8 @@
 #  include "giolister.h"  // Needs to be last because of #undef signals.
 #endif
 
+using std::make_unique;
+
 const int DeviceManager::kDeviceIconSize = 32;
 const int DeviceManager::kDeviceIconOverlaySize = 16;
 
@@ -90,10 +94,10 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
       not_connected_overlay_(IconLoader::Load("edit-delete")) {
 
   thread_pool_.setMaxThreadCount(1);
-  QObject::connect(app_->task_manager(), &TaskManager::TasksChanged, this, &DeviceManager::TasksChanged);
+  QObject::connect(&*app_->task_manager(), &TaskManager::TasksChanged, this, &DeviceManager::TasksChanged);
 
   // Create the backend in the database thread
-  backend_ = new DeviceDatabaseBackend;
+  backend_ = make_unique<DeviceDatabaseBackend>();
   backend_->moveToThread(app_->database()->thread());
   backend_->Init(app_->database());
 
@@ -151,9 +155,6 @@ DeviceManager::~DeviceManager() {
   delete root_;
   root_ = nullptr;
 
-  backend_->deleteLater();
-  backend_ = nullptr;
-
 }
 
 void DeviceManager::Exit() {
@@ -164,9 +165,9 @@ void DeviceManager::CloseDevices() {
 
   for (DeviceInfo *info : devices_) {
     if (!info->device_) continue;
-    if (wait_for_exit_.contains(info->device_.get())) continue;
-    wait_for_exit_ << info->device_.get();
-    QObject::connect(info->device_.get(), &ConnectedDevice::destroyed, this, &DeviceManager::DeviceDestroyed);
+    if (wait_for_exit_.contains(&*info->device_)) continue;
+    wait_for_exit_ << &*info->device_;
+    QObject::connect(&*info->device_, &ConnectedDevice::destroyed, this, &DeviceManager::DeviceDestroyed);
     info->device_->Close();
   }
   if (wait_for_exit_.isEmpty()) CloseListers();
@@ -187,9 +188,9 @@ void DeviceManager::CloseListers() {
 
 void DeviceManager::CloseBackend() {
 
-  if (!backend_ || wait_for_exit_.contains(backend_)) return;
-  wait_for_exit_ << backend_;
-  QObject::connect(backend_, &DeviceDatabaseBackend::ExitFinished, this, &DeviceManager::BackendClosed);
+  if (!backend_ || wait_for_exit_.contains(&*backend_)) return;
+  wait_for_exit_ << &*backend_;
+  QObject::connect(&*backend_, &DeviceDatabaseBackend::ExitFinished, this, &DeviceManager::BackendClosed);
   backend_->ExitAsync();
 
 }
@@ -290,7 +291,7 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
       if (info->size_ > 0) {
         text = text + QString(" (%1)").arg(Utilities::PrettySize(info->size_));
       }
-      if (info->device_.get()) info->device_->Refresh();
+      if (&*info->device_) info->device_->Refresh();
       return text;
     }
 
@@ -341,14 +342,14 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
         const_cast<DeviceManager*>(this)->Connect(info);
       }
       if (!info->device_) return QVariant();
-      return QVariant::fromValue<std::shared_ptr<MusicStorage>>(info->device_);
+      return QVariant::fromValue<SharedPtr<MusicStorage>>(info->device_);
 
     case MusicStorage::Role_StorageForceConnect:
       if (!info->BestBackend()) return QVariant();
       if (!info->device_) {
         if (info->database_id_ == -1 && !info->BestBackend()->lister_->DeviceNeedsMount(info->BestBackend()->unique_id_)) {
           if (info->BestBackend()->lister_->AskForScan(info->BestBackend()->unique_id_)) {
-            std::unique_ptr<QMessageBox> dialog(new QMessageBox(QMessageBox::Information, tr("Connect device"), tr("This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."), QMessageBox::Cancel));
+            ScopedPtr<QMessageBox> dialog(new QMessageBox(QMessageBox::Information, tr("Connect device"), tr("This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."), QMessageBox::Cancel));
             QPushButton *pushbutton = dialog->addButton(tr("Connect device"), QMessageBox::AcceptRole);
             dialog->exec();
             if (dialog->clickedButton() != pushbutton) return QVariant();
@@ -357,7 +358,7 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
         const_cast<DeviceManager*>(this)->Connect(info);
       }
       if (!info->device_) return QVariant();
-      return QVariant::fromValue<std::shared_ptr<MusicStorage>>(info->device_);
+      return QVariant::fromValue<SharedPtr<MusicStorage>>(info->device_);
 
     case Role_MountPath: {
       if (!info->device_) return QVariant();
@@ -551,9 +552,9 @@ void DeviceManager::PhysicalDeviceChanged(const QString &id) {
 
 }
 
-std::shared_ptr<ConnectedDevice> DeviceManager::Connect(const QModelIndex &idx) {
+SharedPtr<ConnectedDevice> DeviceManager::Connect(const QModelIndex &idx) {
 
-  std::shared_ptr<ConnectedDevice> ret;
+  SharedPtr<ConnectedDevice> ret;
 
   DeviceInfo *info = IndexToItem(idx);
   if (!info) return ret;
@@ -562,9 +563,9 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(const QModelIndex &idx) 
 
 }
 
-std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
+SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
 
-  std::shared_ptr<ConnectedDevice> ret;
+  SharedPtr<ConnectedDevice> ret;
 
   if (!info) return ret;
   if (info->device_) {  // Already connected
@@ -661,10 +662,10 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
 
   emit dataChanged(idx, idx);
 
-  QObject::connect(info->device_.get(), &ConnectedDevice::TaskStarted, this, &DeviceManager::DeviceTaskStarted);
-  QObject::connect(info->device_.get(), &ConnectedDevice::SongCountUpdated, this, &DeviceManager::DeviceSongCountUpdated);
-  QObject::connect(info->device_.get(), &ConnectedDevice::DeviceConnectFinished, this, &DeviceManager::DeviceConnectFinished);
-  QObject::connect(info->device_.get(), &ConnectedDevice::DeviceCloseFinished, this, &DeviceManager::DeviceCloseFinished);
+  QObject::connect(&*info->device_, &ConnectedDevice::TaskStarted, this, &DeviceManager::DeviceTaskStarted);
+  QObject::connect(&*info->device_, &ConnectedDevice::SongCountUpdated, this, &DeviceManager::DeviceSongCountUpdated);
+  QObject::connect(&*info->device_, &ConnectedDevice::DeviceConnectFinished, this, &DeviceManager::DeviceConnectFinished);
+  QObject::connect(&*info->device_, &ConnectedDevice::DeviceCloseFinished, this, &DeviceManager::DeviceCloseFinished);
   ret->ConnectAsync();
   return ret;
 
@@ -717,18 +718,18 @@ DeviceInfo *DeviceManager::GetDevice(const QModelIndex &idx) const {
 
 }
 
-std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(const QModelIndex &idx) const {
+SharedPtr<ConnectedDevice> DeviceManager::GetConnectedDevice(const QModelIndex &idx) const {
 
-  std::shared_ptr<ConnectedDevice> ret;
+  SharedPtr<ConnectedDevice> ret;
   DeviceInfo *info = IndexToItem(idx);
   if (!info) return ret;
   return info->device_;
 
 }
 
-std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(DeviceInfo *info) const {
+SharedPtr<ConnectedDevice> DeviceManager::GetConnectedDevice(DeviceInfo *info) const {
 
-  std::shared_ptr<ConnectedDevice> ret;
+  SharedPtr<ConnectedDevice> ret;
   if (!info) return ret;
   return info->device_;
 
@@ -829,7 +830,7 @@ void DeviceManager::DeviceTaskStarted(const int id) {
 
   for (int i = 0; i < devices_.count(); ++i) {
     DeviceInfo *info = devices_[i];
-    if (info->device_.get() == device) {
+    if (&*info->device_ == device) {
       QModelIndex index = ItemToIndex(info);
       if (!index.isValid()) continue;
       active_tasks_[id] = index;

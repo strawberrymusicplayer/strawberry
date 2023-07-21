@@ -30,12 +30,13 @@
 #include <QString>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "core/taskmanager.h"
 #include "collection/collectionbackend.h"
 #include "gpodloader.h"
 
-GPodLoader::GPodLoader(const QString &mount_point, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device, QObject *parent)
+GPodLoader::GPodLoader(const QString &mount_point, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> backend, SharedPtr<ConnectedDevice> device, QObject *parent)
     : QObject(parent),
       device_(device),
       mount_point_(mount_point),

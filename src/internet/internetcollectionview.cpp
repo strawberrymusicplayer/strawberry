@@ -36,6 +36,7 @@
 #include <QMenu>
 #include <QtEvents>
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
@@ -79,11 +80,11 @@ InternetCollectionView::InternetCollectionView(QWidget *parent)
 
 }
 
-void InternetCollectionView::Init(Application *app, CollectionBackend *backend, CollectionModel *model, const bool favorite) {
+void InternetCollectionView::Init(Application *app, SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, const bool favorite) {
 
   app_ = app;
-  collection_backend_ = backend;
-  collection_model_ = model;
+  collection_backend_ = collection_backend;
+  collection_model_ = collection_model;
   favorite_ = favorite;
 
   collection_model_->set_pretty_covers(true);

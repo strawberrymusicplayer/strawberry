@@ -50,7 +50,7 @@
 const char *DeezerCoverProvider::kApiUrl = "https://api.deezer.com";
 const int DeezerCoverProvider::kLimit = 10;
 
-DeezerCoverProvider::DeezerCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+DeezerCoverProvider::DeezerCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider("Deezer", true, false, 2.0, true, true, app, network, parent) {}
 
 DeezerCoverProvider::~DeezerCoverProvider() {

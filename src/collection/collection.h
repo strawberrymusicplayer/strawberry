@@ -29,6 +29,8 @@
 #include <QHash>
 #include <QString>
 
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 
 class QThread;
@@ -42,7 +44,7 @@ class SCollection : public QObject {
   Q_OBJECT
 
  public:
-  explicit SCollection(Application *app, QObject *parent);
+  explicit SCollection(Application *app, QObject *parent = nullptr);
   ~SCollection() override;
 
   static const char *kSongsTable;
@@ -53,7 +55,7 @@ class SCollection : public QObject {
   void Init();
   void Exit();
 
-  CollectionBackend *backend() const { return backend_; }
+  SharedPtr<CollectionBackend> backend() const { return backend_; }
   CollectionModel *model() const { return model_; }
 
   QString full_rescan_reason(int schema_version) const { return full_rescan_revisions_.value(schema_version, QString()); }
@@ -86,10 +88,10 @@ class SCollection : public QObject {
 
  private:
   Application *app_;
-  CollectionBackend *backend_;
+  SharedPtr<CollectionBackend> backend_;
   CollectionModel *model_;
 
-  CollectionWatcher *watcher_;
+  ScopedPtr<CollectionWatcher> watcher_;
   Thread *watcher_thread_;
   QThread *original_thread_;
 

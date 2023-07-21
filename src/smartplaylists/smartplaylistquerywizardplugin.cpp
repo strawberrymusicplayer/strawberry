@@ -20,8 +20,8 @@
 
 #include "config.h"
 
-#include <memory>
 #include <algorithm>
+#include <memory>
 
 #include <QWizardPage>
 #include <QList>
@@ -29,11 +29,16 @@
 #include <QVBoxLayout>
 #include <QScrollBar>
 
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "playlistquerygenerator.h"
 #include "smartplaylistquerywizardplugin.h"
 #include "smartplaylistsearchtermwidget.h"
 #include "ui_smartplaylistquerysearchpage.h"
 #include "ui_smartplaylistquerysortpage.h"
+
+using std::make_unique;
+using std::make_shared;
 
 class SmartPlaylistQueryWizardPlugin::SearchPage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
 
@@ -64,7 +69,7 @@ class SmartPlaylistQueryWizardPlugin::SearchPage : public QWizardPage {  // claz
 
   SmartPlaylistSearchPreview *preview_;
 
-  std::unique_ptr<Ui_SmartPlaylistQuerySearchPage> ui_;
+  ScopedPtr<Ui_SmartPlaylistQuerySearchPage> ui_;
 };
 
 class SmartPlaylistQueryWizardPlugin::SortPage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
@@ -80,7 +85,7 @@ class SmartPlaylistQueryWizardPlugin::SortPage : public QWizardPage {  // clazy:
   SmartPlaylistQueryWizardPlugin *plugin_;
 };
 
-SmartPlaylistQueryWizardPlugin::SmartPlaylistQueryWizardPlugin(Application *app, CollectionBackend *collection_backend, QObject *parent)
+SmartPlaylistQueryWizardPlugin::SmartPlaylistQueryWizardPlugin(Application *app, SharedPtr<CollectionBackend> collection_backend, QObject *parent)
     : SmartPlaylistWizardPlugin(app, collection_backend, parent),
       search_page_(nullptr),
       previous_scrollarea_max_(0) {}
@@ -99,7 +104,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
   search_page_ = new SearchPage(wizard);
 
   QWizardPage *sort_page = new SortPage(this, wizard, finish_page_id);
-  sort_ui_ = std::make_unique<Ui_SmartPlaylistQuerySortPage>();
+  sort_ui_ = make_unique<Ui_SmartPlaylistQuerySortPage>();
   sort_ui_->setupUi(sort_page);
 
   sort_ui_->limit_value->setValue(PlaylistGenerator::kDefaultLimit);
@@ -167,7 +172,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
 
 void SmartPlaylistQueryWizardPlugin::SetGenerator(PlaylistGeneratorPtr g) {
 
-  std::shared_ptr<PlaylistQueryGenerator> gen = std::dynamic_pointer_cast<PlaylistQueryGenerator>(g);
+  SharedPtr<PlaylistQueryGenerator> gen = std::dynamic_pointer_cast<PlaylistQueryGenerator>(g);
   if (!gen) return;
   SmartPlaylistSearch search = gen->search();
 
@@ -206,7 +211,7 @@ void SmartPlaylistQueryWizardPlugin::SetGenerator(PlaylistGeneratorPtr g) {
 
 PlaylistGeneratorPtr SmartPlaylistQueryWizardPlugin::CreateGenerator() const {
 
-  std::shared_ptr<PlaylistQueryGenerator> gen = std::make_shared<PlaylistQueryGenerator>();
+  SharedPtr<PlaylistQueryGenerator> gen = make_shared<PlaylistQueryGenerator>();
   gen->Load(MakeSearch());
 
   return std::static_pointer_cast<PlaylistGenerator>(gen);

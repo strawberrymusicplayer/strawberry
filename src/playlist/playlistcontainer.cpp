@@ -46,6 +46,7 @@
 #include <QtEvents>
 #include <QSettings>
 
+#include "core/shared_ptr.h"
 #include "core/iconloader.h"
 #include "playlist.h"
 #include "playlisttabbar.h"
@@ -146,27 +147,27 @@ void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist
   QObject::connect(next_playlist, &QAction::triggered, this, &PlaylistContainer::GoToNextPlaylistTab);
   QObject::connect(previous_playlist, &QAction::triggered, this, &PlaylistContainer::GoToPreviousPlaylistTab);
   QObject::connect(clear_playlist, &QAction::triggered, this, &PlaylistContainer::ClearPlaylist);
-  QObject::connect(save_all_playlists, &QAction::triggered, manager_, &PlaylistManager::SaveAllPlaylists);
+  QObject::connect(save_all_playlists, &QAction::triggered, &*manager_, &PlaylistManager::SaveAllPlaylists);
 
 }
 
-void PlaylistContainer::SetManager(PlaylistManager *manager) {
+void PlaylistContainer::SetManager(SharedPtr<PlaylistManager> manager) {
 
   manager_ = manager;
   ui_->tab_bar->SetManager(manager);
 
-  QObject::connect(ui_->tab_bar, &PlaylistTabBar::CurrentIdChanged, manager, &PlaylistManager::SetCurrentPlaylist);
-  QObject::connect(ui_->tab_bar, &PlaylistTabBar::Rename, manager, &PlaylistManager::Rename);
-  QObject::connect(ui_->tab_bar, &PlaylistTabBar::Close, manager, &PlaylistManager::Close);
-  QObject::connect(ui_->tab_bar, &PlaylistTabBar::PlaylistFavorited, manager, &PlaylistManager::Favorite);
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::CurrentIdChanged, &*manager, &PlaylistManager::SetCurrentPlaylist);
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::Rename, &*manager, &PlaylistManager::Rename);
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::Close, &*manager, &PlaylistManager::Close);
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::PlaylistFavorited, &*manager, &PlaylistManager::Favorite);
 
-  QObject::connect(ui_->tab_bar, &PlaylistTabBar::PlaylistOrderChanged, manager, &PlaylistManager::ChangePlaylistOrder);
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::PlaylistOrderChanged, &*manager, &PlaylistManager::ChangePlaylistOrder);
 
-  QObject::connect(manager, &PlaylistManager::CurrentChanged, this, &PlaylistContainer::SetViewModel);
-  QObject::connect(manager, &PlaylistManager::PlaylistAdded, this, &PlaylistContainer::PlaylistAdded);
-  QObject::connect(manager, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistContainer::Started);
-  QObject::connect(manager, &PlaylistManager::PlaylistClosed, this, &PlaylistContainer::PlaylistClosed);
-  QObject::connect(manager, &PlaylistManager::PlaylistRenamed, this, &PlaylistContainer::PlaylistRenamed);
+  QObject::connect(&*manager, &PlaylistManager::CurrentChanged, this, &PlaylistContainer::SetViewModel);
+  QObject::connect(&*manager, &PlaylistManager::PlaylistAdded, this, &PlaylistContainer::PlaylistAdded);
+  QObject::connect(&*manager, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistContainer::Started);
+  QObject::connect(&*manager, &PlaylistManager::PlaylistClosed, this, &PlaylistContainer::PlaylistClosed);
+  QObject::connect(&*manager, &PlaylistManager::PlaylistRenamed, this, &PlaylistContainer::PlaylistRenamed);
 
 }
 

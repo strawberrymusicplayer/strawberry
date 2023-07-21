@@ -35,6 +35,7 @@
 #include <gst/gstelement.h>
 #include <gst/audio/gstaudiocdsrc.h>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #ifdef HAVE_MUSICBRAINZ
 #  include "musicbrainz/musicbrainzclient.h"
@@ -71,7 +72,7 @@ class CddaSongLoader : public QObject {
 
  private:
   const QUrl url_;
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   GstElement *cdda_;
   CdIo_t *cdio_;
   QMutex mutex_load_;

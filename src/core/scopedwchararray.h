@@ -21,10 +21,10 @@
 #ifndef SCOPEDWCHARARRAY_H
 #define SCOPEDWCHARARRAY_H
 
-#include <memory>
-
 #include <QObject>
 #include <QString>
+
+#include "scoped_ptr.h"
 
 class ScopedWCharArray {
  public:
@@ -42,7 +42,7 @@ class ScopedWCharArray {
   Q_DISABLE_COPY(ScopedWCharArray)
 
   qint64 chars_;
-  std::unique_ptr<wchar_t[]> data_;
+  ScopedPtr<wchar_t[]> data_;
 };
 
 #endif  // SCOPEDWCHARARRAY_H

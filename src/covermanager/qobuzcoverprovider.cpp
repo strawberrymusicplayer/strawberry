@@ -35,6 +35,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
@@ -47,7 +48,7 @@
 
 constexpr int QobuzCoverProvider::kLimit = 10;
 
-QobuzCoverProvider::QobuzCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+QobuzCoverProvider::QobuzCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider("Qobuz", true, true, 2.0, true, true, app, network, parent),
       service_(app->internet_services()->Service<QobuzService>()) {}
 

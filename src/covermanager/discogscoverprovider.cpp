@@ -41,6 +41,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
@@ -49,12 +50,14 @@
 #include "jsoncoverprovider.h"
 #include "discogscoverprovider.h"
 
+using std::make_shared;
+
 const char *DiscogsCoverProvider::kUrlSearch = "https://api.discogs.com/database/search";
 const char *DiscogsCoverProvider::kAccessKeyB64 = "dGh6ZnljUGJlZ1NEeXBuSFFxSVk=";
 const char *DiscogsCoverProvider::kSecretKeyB64 = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZVmdxeXFLWUl0UXI=";
 const int DiscogsCoverProvider::kRequestsDelay = 1000;
 
-DiscogsCoverProvider::DiscogsCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+DiscogsCoverProvider::DiscogsCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider("Discogs", false, false, 0.0, false, false, app, network, parent),
       timer_flush_requests_(new QTimer(this)) {
 
@@ -86,7 +89,7 @@ bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &alb
 
   if (artist.isEmpty() || album.isEmpty()) return false;
 
-  std::shared_ptr<DiscogsCoverSearchContext> search = std::make_shared<DiscogsCoverSearchContext>(id, artist, album);
+  SharedPtr<DiscogsCoverSearchContext> search = make_shared<DiscogsCoverSearchContext>(id, artist, album);
 
   requests_search_.insert(search->id, search);
   queue_search_requests_.enqueue(search);
@@ -121,7 +124,7 @@ void DiscogsCoverProvider::FlushRequests() {
 
 }
 
-void DiscogsCoverProvider::SendSearchRequest(std::shared_ptr<DiscogsCoverSearchContext> search) {
+void DiscogsCoverProvider::SendSearchRequest(SharedPtr<DiscogsCoverSearchContext> search) {
 
   ParamList params = ParamList() << Param("format", "album")
                                  << Param("artist", search->artist.toLower())
@@ -227,7 +230,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
   reply->deleteLater();
 
   if (!requests_search_.contains(id)) return;
-  std::shared_ptr<DiscogsCoverSearchContext> search = requests_search_.value(id);
+  SharedPtr<DiscogsCoverSearchContext> search = requests_search_.value(id);
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
@@ -307,7 +310,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
 
 }
 
-void DiscogsCoverProvider::StartReleaseRequest(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url) {
+void DiscogsCoverProvider::StartReleaseRequest(SharedPtr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url) {
 
   DiscogsCoverReleaseContext release(search->id, release_id, url);
   search->requests_release_.insert(release_id, release);
@@ -334,7 +337,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
   reply->deleteLater();
 
   if (!requests_search_.contains(search_id)) return;
-  std::shared_ptr<DiscogsCoverSearchContext> search = requests_search_.value(search_id);
+  SharedPtr<DiscogsCoverSearchContext> search = requests_search_.value(search_id);
 
   if (!search->requests_release_.contains(release_id)) return;
   const DiscogsCoverReleaseContext &release = search->requests_release_.value(release_id);
@@ -447,7 +450,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
 
 }
 
-void DiscogsCoverProvider::EndSearch(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id) {
+void DiscogsCoverProvider::EndSearch(SharedPtr<DiscogsCoverSearchContext> search, const quint64 release_id) {
 
   if (search->requests_release_.contains(release_id)) {
     search->requests_release_.remove(release_id);

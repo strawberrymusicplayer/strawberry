@@ -365,7 +365,7 @@ QWidget *TextItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
   return new QLineEdit(parent);
 }
 
-TagCompletionModel::TagCompletionModel(CollectionBackend *backend, const Playlist::Column column, QObject *parent) : QStringListModel(parent) {
+TagCompletionModel::TagCompletionModel(SharedPtr<CollectionBackend> backend, const Playlist::Column column, QObject *parent) : QStringListModel(parent) {
 
   QString col = database_column(column);
   if (!col.isEmpty()) {
@@ -395,13 +395,13 @@ QString TagCompletionModel::database_column(Playlist::Column column) {
 
 }
 
-static TagCompletionModel *InitCompletionModel(CollectionBackend *backend, Playlist::Column column) {
+static TagCompletionModel *InitCompletionModel(SharedPtr<CollectionBackend> backend, Playlist::Column column) {
 
   return new TagCompletionModel(backend, column);
 
 }
 
-TagCompleter::TagCompleter(CollectionBackend *backend, Playlist::Column column, QLineEdit *editor) : QCompleter(editor), editor_(editor) {
+TagCompleter::TagCompleter(SharedPtr<CollectionBackend> backend, Playlist::Column column, QLineEdit *editor) : QCompleter(editor), editor_(editor) {
 
   QFuture<TagCompletionModel*> future = QtConcurrent::run(&InitCompletionModel, backend, column);
   QFutureWatcher<TagCompletionModel*> *watcher = new QFutureWatcher<TagCompletionModel*>();

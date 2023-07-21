@@ -26,6 +26,7 @@
 #include <QString>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
 #include "settings/settingspage.h"
 
 class QEvent;
@@ -62,7 +63,7 @@ class SubsonicSettingsPage : public SettingsPage {
 
  private:
   Ui_SubsonicSettingsPage *ui_;
-  SubsonicService *service_;
+  SharedPtr<SubsonicService> service_;
 };
 
 #endif  // SUBSONICSETTINGSPAGE_H

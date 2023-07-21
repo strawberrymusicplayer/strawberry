@@ -36,6 +36,8 @@
 #include "albumcoverloaderresult.h"
 #include "currentalbumcoverloader.h"
 
+using std::make_unique;
+
 CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *parent)
     : QObject(parent),
       app_(app),
@@ -46,8 +48,8 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *pare
   options_.desired_scaled_size = QSize(120, 120);
   options_.default_cover = ":/pictures/cdcase.png";
 
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &CurrentAlbumCoverLoader::LoadAlbumCover);
-  QObject::connect(app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CurrentAlbumCoverLoader::AlbumCoverReady);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &CurrentAlbumCoverLoader::LoadAlbumCover);
+  QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CurrentAlbumCoverLoader::AlbumCoverReady);
 
   ReloadSettingsAsync();
 
@@ -85,7 +87,7 @@ void CurrentAlbumCoverLoader::AlbumCoverReady(const quint64 id, AlbumCoverLoader
   id_ = 0;
 
   if (!result.album_cover.image.isNull()) {
-    temp_cover_ = std::make_unique<QTemporaryFile>(temp_file_pattern_);
+    temp_cover_ = make_unique<QTemporaryFile>(temp_file_pattern_);
     temp_cover_->setAutoRemove(true);
     if (temp_cover_->open()) {
       if (result.album_cover.image.save(temp_cover_->fileName(), "JPEG")) {
@@ -102,7 +104,7 @@ void CurrentAlbumCoverLoader::AlbumCoverReady(const quint64 id, AlbumCoverLoader
 
   QUrl thumbnail_url;
   if (!result.image_scaled.isNull()) {
-    temp_cover_thumbnail_ = std::make_unique<QTemporaryFile>(temp_file_pattern_);
+    temp_cover_thumbnail_ = make_unique<QTemporaryFile>(temp_file_pattern_);
     temp_cover_thumbnail_->setAutoRemove(true);
     if (temp_cover_thumbnail_->open()) {
       if (result.image_scaled.save(temp_cover_thumbnail_->fileName(), "JPEG")) {

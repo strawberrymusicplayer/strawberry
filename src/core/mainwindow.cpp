@@ -22,11 +22,11 @@
 #include "config.h"
 #include "version.h"
 
-#include <memory>
+#include <cmath>
 #include <functional>
 #include <algorithm>
 #include <chrono>
-#include <cmath>
+#include <memory>
 
 #include <QMainWindow>
 #include <QApplication>
@@ -79,6 +79,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "shared_ptr.h"
 #include "commandlineoptions.h"
 #include "mimedata.h"
 #include "iconloader.h"
@@ -166,7 +167,6 @@
 #include "settings/playlistsettingspage.h"
 #ifdef HAVE_SUBSONIC
 #  include "settings/subsonicsettingspage.h"
-#  include "scrobbler/subsonicscrobbler.h"
 #endif
 #ifdef HAVE_TIDAL
 #  include "tidal/tidalservice.h"
@@ -212,6 +212,8 @@
 #  endif
 #endif  // HAVE_QTSPARKLE
 
+using std::make_unique;
+using std::make_shared;
 using namespace std::chrono_literals;
 
 const char *MainWindow::kSettingsGroup = "MainWindow";
@@ -238,7 +240,7 @@ constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-
 #  endif
 #endif
 
-MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent)
+MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent)
     : QMainWindow(parent),
       ui_(new Ui_MainWindow),
 #ifdef Q_OS_WIN
@@ -397,7 +399,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   // Start initializing the player
   qLog(Debug) << "Initializing player";
   app_->player()->SetAnalyzer(ui_->analyzer);
-  app_->player()->SetEqualizer(equalizer_.get());
+  app_->player()->SetEqualizer(equalizer_);
   app_->player()->Init();
   EngineChanged(app_->player()->engine()->type());
   const uint volume = app_->player()->GetVolume();
@@ -504,17 +506,17 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   file_view_->SetTaskManager(app_->task_manager());
 
   // Action connections
-  QObject::connect(ui_->action_next_track, &QAction::triggered, app_->player(), &Player::Next);
-  QObject::connect(ui_->action_previous_track, &QAction::triggered, app_->player(), &Player::Previous);
-  QObject::connect(ui_->action_play_pause, &QAction::triggered, app_->player(), &Player::PlayPauseHelper);
-  QObject::connect(ui_->action_stop, &QAction::triggered, app_->player(), &Player::Stop);
+  QObject::connect(ui_->action_next_track, &QAction::triggered, &*app_->player(), &Player::Next);
+  QObject::connect(ui_->action_previous_track, &QAction::triggered, &*app_->player(), &Player::Previous);
+  QObject::connect(ui_->action_play_pause, &QAction::triggered, &*app_->player(), &Player::PlayPauseHelper);
+  QObject::connect(ui_->action_stop, &QAction::triggered, &*app_->player(), &Player::Stop);
   QObject::connect(ui_->action_quit, &QAction::triggered, this, &MainWindow::Exit);
   QObject::connect(ui_->action_stop_after_this_track, &QAction::triggered, this, &MainWindow::StopAfterCurrent);
-  QObject::connect(ui_->action_mute, &QAction::triggered, app_->player(), &Player::Mute);
+  QObject::connect(ui_->action_mute, &QAction::triggered, &*app_->player(), &Player::Mute);
 
   QObject::connect(ui_->action_clear_playlist, &QAction::triggered, this, &MainWindow::PlaylistClearCurrent);
-  QObject::connect(ui_->action_remove_duplicates, &QAction::triggered, app_->playlist_manager(), &PlaylistManager::RemoveDuplicatesCurrent);
-  QObject::connect(ui_->action_remove_unavailable, &QAction::triggered, app_->playlist_manager(), &PlaylistManager::RemoveUnavailableCurrent);
+  QObject::connect(ui_->action_remove_duplicates, &QAction::triggered, &*app_->playlist_manager(), &PlaylistManager::RemoveDuplicatesCurrent);
+  QObject::connect(ui_->action_remove_unavailable, &QAction::triggered, &*app_->playlist_manager(), &PlaylistManager::RemoveUnavailableCurrent);
   QObject::connect(ui_->action_remove_from_playlist, &QAction::triggered, this, &MainWindow::PlaylistRemoveCurrent);
   QObject::connect(ui_->action_edit_track, &QAction::triggered, this, &MainWindow::EditTracks);
   QObject::connect(ui_->action_renumber_tracks, &QAction::triggered, this, &MainWindow::RenumberTracks);
@@ -528,7 +530,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(ui_->action_toggle_show_sidebar, &QAction::toggled, this, &MainWindow::ToggleSidebar);
   QObject::connect(ui_->action_about_strawberry, &QAction::triggered, this, &MainWindow::ShowAboutDialog);
   QObject::connect(ui_->action_about_qt, &QAction::triggered, qApp, &QApplication::aboutQt);
-  QObject::connect(ui_->action_shuffle, &QAction::triggered, app_->playlist_manager(), &PlaylistManager::ShuffleCurrent);
+  QObject::connect(ui_->action_shuffle, &QAction::triggered, &*app_->playlist_manager(), &PlaylistManager::ShuffleCurrent);
   QObject::connect(ui_->action_open_file, &QAction::triggered, this, &MainWindow::AddFile);
   QObject::connect(ui_->action_open_cd, &QAction::triggered, this, &MainWindow::AddCDTracks);
   QObject::connect(ui_->action_add_file, &QAction::triggered, this, &MainWindow::AddFile);
@@ -542,9 +544,9 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   ui_->action_transcoder->setDisabled(true);
 #endif
   QObject::connect(ui_->action_jump, &QAction::triggered, ui_->playlist->view(), &PlaylistView::JumpToCurrentlyPlayingTrack);
-  QObject::connect(ui_->action_update_collection, &QAction::triggered, app_->collection(), &SCollection::IncrementalScan);
-  QObject::connect(ui_->action_full_collection_scan, &QAction::triggered, app_->collection(), &SCollection::FullScan);
-  QObject::connect(ui_->action_abort_collection_scan, &QAction::triggered, app_->collection(), &SCollection::AbortScan);
+  QObject::connect(ui_->action_update_collection, &QAction::triggered, &*app_->collection(), &SCollection::IncrementalScan);
+  QObject::connect(ui_->action_full_collection_scan, &QAction::triggered, &*app_->collection(), &SCollection::FullScan);
+  QObject::connect(ui_->action_abort_collection_scan, &QAction::triggered, &*app_->collection(), &SCollection::AbortScan);
 #if defined(HAVE_GSTREAMER)
   QObject::connect(ui_->action_add_files_to_transcoder, &QAction::triggered, this, &MainWindow::AddFilesToTranscoder);
   ui_->action_add_files_to_transcoder->setIcon(IconLoader::Load("tools-wizard"));
@@ -552,9 +554,9 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   ui_->action_add_files_to_transcoder->setDisabled(true);
 #endif
 
-  QObject::connect(ui_->action_toggle_scrobbling, &QAction::triggered, app_->scrobbler(), &AudioScrobbler::ToggleScrobbling);
+  QObject::connect(ui_->action_toggle_scrobbling, &QAction::triggered, &*app_->scrobbler(), &AudioScrobbler::ToggleScrobbling);
   QObject::connect(ui_->action_love, &QAction::triggered, this, &MainWindow::Love);
-  QObject::connect(app_->scrobbler(), &AudioScrobbler::ErrorMessage, this, &MainWindow::ShowErrorDialog);
+  QObject::connect(&*app_->scrobbler(), &AudioScrobbler::ErrorMessage, this, &MainWindow::ShowErrorDialog);
 
   // Playlist view actions
   ui_->action_next_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString("Ctrl+Tab") << QKeySequence::fromString("Ctrl+PgDown"));
@@ -584,55 +586,55 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   ui_->stop_button->setMenu(stop_menu);
 
   // Player connections
-  QObject::connect(ui_->volume, &VolumeSlider::valueChanged, app_->player(), &Player::SetVolumeFromSlider);
+  QObject::connect(ui_->volume, &VolumeSlider::valueChanged, &*app_->player(), &Player::SetVolumeFromSlider);
 
-  QObject::connect(app_->player(), &Player::EngineChanged, this, &MainWindow::EngineChanged);
-  QObject::connect(app_->player(), &Player::Error, this, &MainWindow::ShowErrorDialog);
-  QObject::connect(app_->player(), &Player::SongChangeRequestProcessed, app_->playlist_manager(), &PlaylistManager::SongChangeRequestProcessed);
+  QObject::connect(&*app_->player(), &Player::EngineChanged, this, &MainWindow::EngineChanged);
+  QObject::connect(&*app_->player(), &Player::Error, this, &MainWindow::ShowErrorDialog);
+  QObject::connect(&*app_->player(), &Player::SongChangeRequestProcessed, &*app_->playlist_manager(), &PlaylistManager::SongChangeRequestProcessed);
 
-  QObject::connect(app_->player(), &Player::Paused, this, &MainWindow::MediaPaused);
-  QObject::connect(app_->player(), &Player::Playing, this, &MainWindow::MediaPlaying);
-  QObject::connect(app_->player(), &Player::Stopped, this, &MainWindow::MediaStopped);
-  QObject::connect(app_->player(), &Player::Seeked, this, &MainWindow::Seeked);
-  QObject::connect(app_->player(), &Player::TrackSkipped, this, &MainWindow::TrackSkipped);
-  QObject::connect(app_->player(), &Player::VolumeChanged, this, &MainWindow::VolumeChanged);
+  QObject::connect(&*app_->player(), &Player::Paused, this, &MainWindow::MediaPaused);
+  QObject::connect(&*app_->player(), &Player::Playing, this, &MainWindow::MediaPlaying);
+  QObject::connect(&*app_->player(), &Player::Stopped, this, &MainWindow::MediaStopped);
+  QObject::connect(&*app_->player(), &Player::Seeked, this, &MainWindow::Seeked);
+  QObject::connect(&*app_->player(), &Player::TrackSkipped, this, &MainWindow::TrackSkipped);
+  QObject::connect(&*app_->player(), &Player::VolumeChanged, this, &MainWindow::VolumeChanged);
 
-  QObject::connect(app_->player(), &Player::Paused, ui_->playlist, &PlaylistContainer::ActivePaused);
-  QObject::connect(app_->player(), &Player::Playing, ui_->playlist, &PlaylistContainer::ActivePlaying);
-  QObject::connect(app_->player(), &Player::Stopped, ui_->playlist, &PlaylistContainer::ActiveStopped);
+  QObject::connect(&*app_->player(), &Player::Paused, ui_->playlist, &PlaylistContainer::ActivePaused);
+  QObject::connect(&*app_->player(), &Player::Playing, ui_->playlist, &PlaylistContainer::ActivePlaying);
+  QObject::connect(&*app_->player(), &Player::Stopped, ui_->playlist, &PlaylistContainer::ActiveStopped);
 
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, osd_, &OSDBase::SongChanged);
-  QObject::connect(app_->player(), &Player::Paused, osd_, &OSDBase::Paused);
-  QObject::connect(app_->player(), &Player::Resumed, osd_, &OSDBase::Resumed);
-  QObject::connect(app_->player(), &Player::Stopped, osd_, &OSDBase::Stopped);
-  QObject::connect(app_->player(), &Player::PlaylistFinished, osd_, &OSDBase::PlaylistFinished);
-  QObject::connect(app_->player(), &Player::VolumeChanged, osd_, &OSDBase::VolumeChanged);
-  QObject::connect(app_->player(), &Player::VolumeChanged, ui_->volume, &VolumeSlider::SetValue);
-  QObject::connect(app_->player(), &Player::ForceShowOSD, this, &MainWindow::ForceShowOSD);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, osd_, &OSDBase::SongChanged);
+  QObject::connect(&*app_->player(), &Player::Paused, osd_, &OSDBase::Paused);
+  QObject::connect(&*app_->player(), &Player::Resumed, osd_, &OSDBase::Resumed);
+  QObject::connect(&*app_->player(), &Player::Stopped, osd_, &OSDBase::Stopped);
+  QObject::connect(&*app_->player(), &Player::PlaylistFinished, osd_, &OSDBase::PlaylistFinished);
+  QObject::connect(&*app_->player(), &Player::VolumeChanged, osd_, &OSDBase::VolumeChanged);
+  QObject::connect(&*app_->player(), &Player::VolumeChanged, ui_->volume, &VolumeSlider::SetValue);
+  QObject::connect(&*app_->player(), &Player::ForceShowOSD, this, &MainWindow::ForceShowOSD);
 
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &MainWindow::SongChanged);
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, app_->player(), &Player::CurrentMetadataChanged);
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::EditingFinished, this, &MainWindow::PlaylistEditFinished);
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::Error, this, &MainWindow::ShowErrorDialog);
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::SummaryTextChanged, ui_->playlist_summary, &QLabel::setText);
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::PlayRequested, this, &MainWindow::PlayIndex);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &MainWindow::SongChanged);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->player(), &Player::CurrentMetadataChanged);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::EditingFinished, this, &MainWindow::PlaylistEditFinished);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::Error, this, &MainWindow::ShowErrorDialog);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::SummaryTextChanged, ui_->playlist_summary, &QLabel::setText);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::PlayRequested, this, &MainWindow::PlayIndex);
 
   QObject::connect(ui_->playlist->view(), &PlaylistView::doubleClicked, this, &MainWindow::PlaylistDoubleClick);
   QObject::connect(ui_->playlist->view(), &PlaylistView::PlayItem, this, &MainWindow::PlayIndex);
-  QObject::connect(ui_->playlist->view(), &PlaylistView::PlayPause, app_->player(), &Player::PlayPause);
+  QObject::connect(ui_->playlist->view(), &PlaylistView::PlayPause, &*app_->player(), &Player::PlayPause);
   QObject::connect(ui_->playlist->view(), &PlaylistView::RightClicked, this, &MainWindow::PlaylistRightClick);
-  QObject::connect(ui_->playlist->view(), &PlaylistView::SeekForward, app_->player(), &Player::SeekForward);
-  QObject::connect(ui_->playlist->view(), &PlaylistView::SeekBackward, app_->player(), &Player::SeekBackward);
+  QObject::connect(ui_->playlist->view(), &PlaylistView::SeekForward, &*app_->player(), &Player::SeekForward);
+  QObject::connect(ui_->playlist->view(), &PlaylistView::SeekBackward, &*app_->player(), &Player::SeekBackward);
   QObject::connect(ui_->playlist->view(), &PlaylistView::BackgroundPropertyChanged, this, &MainWindow::RefreshStyleSheet);
 
-  QObject::connect(ui_->track_slider, &TrackSlider::ValueChangedSeconds, app_->player(), &Player::SeekTo);
-  QObject::connect(ui_->track_slider, &TrackSlider::SeekForward, app_->player(), &Player::SeekForward);
-  QObject::connect(ui_->track_slider, &TrackSlider::SeekBackward, app_->player(), &Player::SeekBackward);
-  QObject::connect(ui_->track_slider, &TrackSlider::Previous, app_->player(), &Player::Previous);
-  QObject::connect(ui_->track_slider, &TrackSlider::Next, app_->player(), &Player::Next);
+  QObject::connect(ui_->track_slider, &TrackSlider::ValueChangedSeconds, &*app_->player(), &Player::SeekTo);
+  QObject::connect(ui_->track_slider, &TrackSlider::SeekForward, &*app_->player(), &Player::SeekForward);
+  QObject::connect(ui_->track_slider, &TrackSlider::SeekBackward, &*app_->player(), &Player::SeekBackward);
+  QObject::connect(ui_->track_slider, &TrackSlider::Previous, &*app_->player(), &Player::Previous);
+  QObject::connect(ui_->track_slider, &TrackSlider::Next, &*app_->player(), &Player::Next);
 
   // Collection connections
-  QObject::connect(app_->collection(), &SCollection::Error, this, &MainWindow::ShowErrorDialog);
+  QObject::connect(&*app_->collection(), &SCollection::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(collection_view_->view(), &CollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(collection_view_->view(), &CollectionView::ShowConfigDialog, this, &MainWindow::ShowCollectionConfig);
   QObject::connect(collection_view_->view(), &CollectionView::Error, this, &MainWindow::ShowErrorDialog);
@@ -642,10 +644,10 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(app_->collection_model(), &CollectionModel::modelAboutToBeReset, collection_view_->view(), &CollectionView::SaveFocus);
   QObject::connect(app_->collection_model(), &CollectionModel::modelReset, collection_view_->view(), &CollectionView::RestoreFocus);
 
-  QObject::connect(app_->task_manager(), &TaskManager::PauseCollectionWatchers, app_->collection(), &SCollection::PauseWatcher);
-  QObject::connect(app_->task_manager(), &TaskManager::ResumeCollectionWatchers, app_->collection(), &SCollection::ResumeWatcher);
+  QObject::connect(&*app_->task_manager(), &TaskManager::PauseCollectionWatchers, &*app_->collection(), &SCollection::PauseWatcher);
+  QObject::connect(&*app_->task_manager(), &TaskManager::ResumeCollectionWatchers, &*app_->collection(), &SCollection::ResumeWatcher);
 
-  QObject::connect(app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &MainWindow::AlbumCoverLoaded);
+  QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &MainWindow::AlbumCoverLoaded);
   QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &MainWindow::LoadCoverFromFile);
   QObject::connect(album_cover_choice_controller_->cover_to_file_action(), &QAction::triggered, this, &MainWindow::SaveCoverToFile);
@@ -700,8 +702,8 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(tidal_view_->albums_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(tidal_view_->songs_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(tidal_view_->search_view(), &InternetSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
-  if (TidalService *tidalservice = qobject_cast<TidalService*>(app_->internet_services()->ServiceBySource(Song::Source::Tidal))) {
-    QObject::connect(this, &MainWindow::AuthorizationUrlReceived, tidalservice, &TidalService::AuthorizationUrlReceived);
+  if (TidalServicePtr tidalservice = app_->internet_services()->Service<TidalService>()) {
+    QObject::connect(this, &MainWindow::AuthorizationUrlReceived, &*tidalservice, &TidalService::AuthorizationUrlReceived);
   }
 #endif
 
@@ -712,8 +714,8 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(qobuz_view_->search_view(), &InternetSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
 #endif
 
-  QObject::connect(radio_view_, &RadioViewContainer::Refresh, app_->radio_services(), &RadioServices::RefreshChannels);
-  QObject::connect(radio_view_->view(), &RadioView::GetChannels, app_->radio_services(), &RadioServices::GetChannels);
+  QObject::connect(radio_view_, &RadioViewContainer::Refresh, &*app_->radio_services(), &RadioServices::RefreshChannels);
+  QObject::connect(radio_view_->view(), &RadioView::GetChannels, &*app_->radio_services(), &RadioServices::GetChannels);
   QObject::connect(radio_view_->view(), &RadioView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
 
   // Playlist menu
@@ -777,22 +779,22 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   QObject::connect(app_->device_manager()->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, playlist_copy_to_device_, &QAction::setDisabled);
 #endif
 
-  QObject::connect(app_->scrobbler(), &AudioScrobbler::ScrobblingEnabledChanged, this, &MainWindow::ScrobblingEnabledChanged);
-  QObject::connect(app_->scrobbler(), &AudioScrobbler::ScrobbleButtonVisibilityChanged, this, &MainWindow::ScrobbleButtonVisibilityChanged);
-  QObject::connect(app_->scrobbler(), &AudioScrobbler::LoveButtonVisibilityChanged, this, &MainWindow::LoveButtonVisibilityChanged);
+  QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettings::ScrobblingEnabledChanged, this, &MainWindow::ScrobblingEnabledChanged);
+  QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettings::ScrobbleButtonVisibilityChanged, this, &MainWindow::ScrobbleButtonVisibilityChanged);
+  QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettings::LoveButtonVisibilityChanged, this, &MainWindow::LoveButtonVisibilityChanged);
 
 #ifdef Q_OS_MACOS
   mac::SetApplicationHandler(this);
 #endif
   // Tray icon
   tray_icon_->SetupMenu(ui_->action_previous_track, ui_->action_play_pause, ui_->action_stop, ui_->action_stop_after_this_track, ui_->action_next_track, ui_->action_mute, ui_->action_love, ui_->action_quit);
-  QObject::connect(tray_icon_.get(), &SystemTrayIcon::PlayPause, app_->player(), &Player::PlayPauseHelper);
-  QObject::connect(tray_icon_.get(), &SystemTrayIcon::SeekForward, app_->player(), &Player::SeekForward);
-  QObject::connect(tray_icon_.get(), &SystemTrayIcon::SeekBackward, app_->player(), &Player::SeekBackward);
-  QObject::connect(tray_icon_.get(), &SystemTrayIcon::NextTrack, app_->player(), &Player::Next);
-  QObject::connect(tray_icon_.get(), &SystemTrayIcon::PreviousTrack, app_->player(), &Player::Previous);
-  QObject::connect(tray_icon_.get(), &SystemTrayIcon::ShowHide, this, &MainWindow::ToggleShowHide);
-  QObject::connect(tray_icon_.get(), &SystemTrayIcon::ChangeVolume, this, &MainWindow::VolumeWheelEvent);
+  QObject::connect(&*tray_icon_, &SystemTrayIcon::PlayPause, &*app_->player(), &Player::PlayPauseHelper);
+  QObject::connect(&*tray_icon_, &SystemTrayIcon::SeekForward, &*app_->player(), &Player::SeekForward);
+  QObject::connect(&*tray_icon_, &SystemTrayIcon::SeekBackward, &*app_->player(), &Player::SeekBackward);
+  QObject::connect(&*tray_icon_, &SystemTrayIcon::NextTrack, &*app_->player(), &Player::Next);
+  QObject::connect(&*tray_icon_, &SystemTrayIcon::PreviousTrack, &*app_->player(), &Player::Previous);
+  QObject::connect(&*tray_icon_, &SystemTrayIcon::ShowHide, this, &MainWindow::ToggleShowHide);
+  QObject::connect(&*tray_icon_, &SystemTrayIcon::ChangeVolume, this, &MainWindow::VolumeWheelEvent);
 
   // Windows 7 thumbbar buttons
 #ifdef Q_OS_WIN
@@ -806,35 +808,35 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 
 #ifdef HAVE_GLOBALSHORTCUTS
   // Global shortcuts
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Play, app_->player(), &Player::PlayHelper);
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Pause, app_->player(), &Player::Pause);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Play, &*app_->player(), &Player::PlayHelper);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Pause, &*app_->player(), &Player::Pause);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::PlayPause, ui_->action_play_pause, &QAction::trigger);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Stop, ui_->action_stop, &QAction::trigger);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::StopAfter, ui_->action_stop_after_this_track, &QAction::trigger);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Next, ui_->action_next_track, &QAction::trigger);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Previous, ui_->action_previous_track, &QAction::trigger);
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::IncVolume, app_->player(), &Player::VolumeUp);
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::DecVolume, app_->player(), &Player::VolumeDown);
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Mute, app_->player(), &Player::Mute);
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::SeekForward, app_->player(), &Player::SeekForward);
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::SeekBackward, app_->player(), &Player::SeekBackward);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::IncVolume, &*app_->player(), &Player::VolumeUp);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::DecVolume, &*app_->player(), &Player::VolumeDown);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Mute, &*app_->player(), &Player::Mute);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::SeekForward, &*app_->player(), &Player::SeekForward);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::SeekBackward, &*app_->player(), &Player::SeekBackward);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::ShowHide, this, &MainWindow::ToggleShowHide);
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::ShowOSD, app_->player(), &Player::ShowOSD);
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::TogglePrettyOSD, app_->player(), &Player::TogglePrettyOSD);
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::ToggleScrobbling, app_->scrobbler(), &AudioScrobbler::ToggleScrobbling);
-  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Love, app_->scrobbler(), &AudioScrobbler::Love);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::ShowOSD, &*app_->player(), &Player::ShowOSD);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::TogglePrettyOSD, &*app_->player(), &Player::TogglePrettyOSD);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::ToggleScrobbling, &*app_->scrobbler(), &AudioScrobbler::ToggleScrobbling);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Love, &*app_->scrobbler(), &AudioScrobbler::Love);
 #endif
 
   // Fancy tabs
   QObject::connect(ui_->tabs, &FancyTabWidget::CurrentChanged, this, &MainWindow::TabSwitched);
 
   // Context
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, context_view_, &ContextView::SongChanged);
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::SongMetadataChanged, context_view_, &ContextView::SongChanged);
-  QObject::connect(app_->player(), &Player::PlaylistFinished, context_view_, &ContextView::Stopped);
-  QObject::connect(app_->player(), &Player::Playing, context_view_, &ContextView::Playing);
-  QObject::connect(app_->player(), &Player::Stopped, context_view_, &ContextView::Stopped);
-  QObject::connect(app_->player(), &Player::Error, context_view_, &ContextView::Error);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, context_view_, &ContextView::SongChanged);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::SongMetadataChanged, context_view_, &ContextView::SongChanged);
+  QObject::connect(&*app_->player(), &Player::PlaylistFinished, context_view_, &ContextView::Stopped);
+  QObject::connect(&*app_->player(), &Player::Playing, context_view_, &ContextView::Playing);
+  QObject::connect(&*app_->player(), &Player::Stopped, context_view_, &ContextView::Stopped);
+  QObject::connect(&*app_->player(), &Player::Error, context_view_, &ContextView::Error);
   QObject::connect(this, &MainWindow::AlbumCoverReady, context_view_, &ContextView::AlbumCoverLoaded);
   QObject::connect(this, &MainWindow::SearchCoverInProgress, context_view_->album_widget(), &ContextAlbum::SearchCoverInProgress);
   QObject::connect(context_view_, &ContextView::AlbumEnabledChanged, this, &MainWindow::TabSwitched);
@@ -851,17 +853,17 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
 
 #ifdef HAVE_MOODBAR
   // Moodbar connections
-  QObject::connect(app_->moodbar_controller(), &MoodbarController::CurrentMoodbarDataChanged, ui_->track_slider->moodbar_style(), &MoodbarProxyStyle::SetMoodbarData);
+  QObject::connect(&*app_->moodbar_controller(), &MoodbarController::CurrentMoodbarDataChanged, ui_->track_slider->moodbar_style(), &MoodbarProxyStyle::SetMoodbarData);
 #endif
 
   // Playing widget
   qLog(Debug) << "Creating playing widget";
   ui_->widget_playing->set_ideal_height(ui_->status_bar->sizeHint().height() + ui_->player_controls->sizeHint().height());
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, ui_->widget_playing, &PlayingWidget::SongChanged);
-  QObject::connect(app_->player(), &Player::PlaylistFinished, ui_->widget_playing, &PlayingWidget::Stopped);
-  QObject::connect(app_->player(), &Player::Playing, ui_->widget_playing, &PlayingWidget::Playing);
-  QObject::connect(app_->player(), &Player::Stopped, ui_->widget_playing, &PlayingWidget::Stopped);
-  QObject::connect(app_->player(), &Player::Error, ui_->widget_playing, &PlayingWidget::Error);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, ui_->widget_playing, &PlayingWidget::SongChanged);
+  QObject::connect(&*app_->player(), &Player::PlaylistFinished, ui_->widget_playing, &PlayingWidget::Stopped);
+  QObject::connect(&*app_->player(), &Player::Playing, ui_->widget_playing, &PlayingWidget::Playing);
+  QObject::connect(&*app_->player(), &Player::Stopped, ui_->widget_playing, &PlayingWidget::Stopped);
+  QObject::connect(&*app_->player(), &Player::Error, ui_->widget_playing, &PlayingWidget::Error);
   QObject::connect(ui_->widget_playing, &PlayingWidget::ShowAboveStatusBarChanged, this, &MainWindow::PlayingWidgetPositionChanged);
   QObject::connect(this, &MainWindow::AlbumCoverReady, ui_->widget_playing, &PlayingWidget::AlbumCoverLoaded);
   QObject::connect(this, &MainWindow::SearchCoverInProgress, ui_->widget_playing, &PlayingWidget::SearchCoverInProgress);
@@ -891,15 +893,15 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   // Smart playlists
   QObject::connect(smartplaylists_view_, &SmartPlaylistsViewContainer::AddToPlaylist, this, &MainWindow::AddToPlaylist);
 
-  ScrobbleButtonVisibilityChanged(app_->scrobbler()->ScrobbleButton());
-  LoveButtonVisibilityChanged(app_->scrobbler()->LoveButton());
-  ScrobblingEnabledChanged(app_->scrobbler()->IsEnabled());
+  ScrobbleButtonVisibilityChanged(app_->scrobbler()->scrobble_button());
+  LoveButtonVisibilityChanged(app_->scrobbler()->love_button());
+  ScrobblingEnabledChanged(app_->scrobbler()->enabled());
 
   // Last.fm ImportData
-  QObject::connect(app_->lastfm_import(), &LastFMImport::Finished, lastfm_import_dialog_, &LastFMImportDialog::Finished);
-  QObject::connect(app_->lastfm_import(), &LastFMImport::FinishedWithError, lastfm_import_dialog_, &LastFMImportDialog::FinishedWithError);
-  QObject::connect(app_->lastfm_import(), &LastFMImport::UpdateTotal, lastfm_import_dialog_, &LastFMImportDialog::UpdateTotal);
-  QObject::connect(app_->lastfm_import(), &LastFMImport::UpdateProgress, lastfm_import_dialog_, &LastFMImportDialog::UpdateProgress);
+  QObject::connect(&*app_->lastfm_import(), &LastFMImport::Finished, lastfm_import_dialog_, &LastFMImportDialog::Finished);
+  QObject::connect(&*app_->lastfm_import(), &LastFMImport::FinishedWithError, lastfm_import_dialog_, &LastFMImportDialog::FinishedWithError);
+  QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateTotal, lastfm_import_dialog_, &LastFMImportDialog::UpdateTotal);
+  QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateProgress, lastfm_import_dialog_, &LastFMImportDialog::UpdateProgress);
 
   // Load settings
   qLog(Debug) << "Loading settings";
@@ -1008,7 +1010,7 @@ MainWindow::MainWindow(Application *app, std::shared_ptr<SystemTrayIcon> tray_ic
   if (!options.contains_play_options()) {
     LoadPlaybackStatus();
   }
-  if (app_->scrobbler()->IsEnabled() && !app_->scrobbler()->IsOffline()) {
+  if (app_->scrobbler()->enabled() && !app_->scrobbler()->offline()) {
     app_->scrobbler()->Submit();
   }
 
@@ -1134,7 +1136,6 @@ void MainWindow::ReloadSettings() {
   else {
     ui_->tabs->DisableTab(subsonic_view_);
   }
-  app_->scrobbler()->Service<SubsonicScrobbler>()->ReloadSettings();
 #endif
 
 #ifdef HAVE_TIDAL
@@ -1239,7 +1240,7 @@ void MainWindow::Exit() {
   else {
     if (app_->player()->engine()->is_fadeout_enabled()) {
       // To shut down the application when fadeout will be finished
-      QObject::connect(app_->player()->engine(), &EngineBase::FadeoutFinishedSignal, this, &MainWindow::DoExit);
+      QObject::connect(&*app_->player()->engine(), &EngineBase::FadeoutFinishedSignal, this, &MainWindow::DoExit);
       if (app_->player()->GetState() == EngineBase::State::Playing) {
         app_->player()->Stop();
         ignore_close_ = true;
@@ -1355,7 +1356,7 @@ void MainWindow::SendNowPlaying() {
 
   // Send now playing to scrobble services
   Playlist *playlist = app_->playlist_manager()->active();
-  if (app_->scrobbler()->IsEnabled() && playlist && playlist->current_item() && playlist->current_item()->Metadata().is_metadata_good()) {
+  if (app_->scrobbler()->enabled() && playlist && playlist->current_item() && playlist->current_item()->Metadata().is_metadata_good()) {
     app_->scrobbler()->UpdateNowPlaying(playlist->current_item()->Metadata());
     ui_->action_love->setEnabled(true);
     ui_->button_love->setEnabled(true);
@@ -1480,8 +1481,8 @@ void MainWindow::LoadPlaybackStatus() {
   s.endGroup();
 
   if (resume_playback && playback_state != EngineBase::State::Empty && playback_state != EngineBase::State::Idle) {
-    std::shared_ptr<QMetaObject::Connection> connection = std::make_shared<QMetaObject::Connection>();
-    *connection = QObject::connect(app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, [this, connection]() {
+    SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+    *connection = QObject::connect(&*app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, [this, connection]() {
       QObject::disconnect(*connection);
       QTimer::singleShot(400ms, this, &MainWindow::ResumePlayback);
     });
@@ -1504,10 +1505,10 @@ void MainWindow::ResumePlayback() {
     // Set active to current to resume playback on correct playlist.
     app_->playlist_manager()->SetActiveToCurrent();
     if (playback_state == EngineBase::State::Paused) {
-      std::shared_ptr<QMetaObject::Connection> connection = std::make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(app_->player(), &Player::Playing, app_->player(), [this, connection]() {
+      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+      *connection = QObject::connect(&*app_->player(), &Player::Playing, &*app_->player(), [this, connection]() {
         QObject::disconnect(*connection);
-        QTimer::singleShot(300, app_->player(), &Player::PlayPauseHelper);
+        QTimer::singleShot(300, &*app_->player(), &Player::PlayPauseHelper);
       });
     }
     app_->player()->Play(playback_position * kNsecPerSec);
@@ -1682,7 +1683,7 @@ void MainWindow::UpdateTrackPosition() {
   if (position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
   // Send Scrobble
-  if (app_->scrobbler()->IsEnabled() && item->Metadata().is_metadata_good()) {
+  if (app_->scrobbler()->enabled() && item->Metadata().is_metadata_good()) {
     Playlist *playlist = app_->playlist_manager()->active();
     if (playlist && !playlist->scrobbled()) {
       const qint64 scrobble_point = (playlist->scrobble_point_nanosec() / kNsecPerSec);
@@ -2926,15 +2927,15 @@ void MainWindow::AutoCompleteTags() {
 
   // Create the tag fetching stuff if it hasn't been already
   if (!tag_fetcher_) {
-    tag_fetcher_ = std::make_unique<TagFetcher>(app_->network());
-    track_selection_dialog_ = std::make_unique<TrackSelectionDialog>();
+    tag_fetcher_ = make_unique<TagFetcher>(app_->network());
+    track_selection_dialog_ = make_unique<TrackSelectionDialog>();
     track_selection_dialog_->set_save_on_close(true);
 
-    QObject::connect(tag_fetcher_.get(), &TagFetcher::ResultAvailable, track_selection_dialog_.get(), &TrackSelectionDialog::FetchTagFinished, Qt::QueuedConnection);
-    QObject::connect(tag_fetcher_.get(), &TagFetcher::Progress, track_selection_dialog_.get(), &TrackSelectionDialog::FetchTagProgress);
-    QObject::connect(track_selection_dialog_.get(), &TrackSelectionDialog::accepted, this, &MainWindow::AutoCompleteTagsAccepted);
-    QObject::connect(track_selection_dialog_.get(), &TrackSelectionDialog::finished, tag_fetcher_.get(), &TagFetcher::Cancel);
-    QObject::connect(track_selection_dialog_.get(), &TrackSelectionDialog::Error, this, &MainWindow::ShowErrorDialog);
+    QObject::connect(&*tag_fetcher_, &TagFetcher::ResultAvailable, &*track_selection_dialog_, &TrackSelectionDialog::FetchTagFinished, Qt::QueuedConnection);
+    QObject::connect(&*tag_fetcher_, &TagFetcher::Progress, &*track_selection_dialog_, &TrackSelectionDialog::FetchTagProgress);
+    QObject::connect(&*track_selection_dialog_, &TrackSelectionDialog::accepted, this, &MainWindow::AutoCompleteTagsAccepted);
+    QObject::connect(&*track_selection_dialog_, &TrackSelectionDialog::finished, &*tag_fetcher_, &TagFetcher::Cancel);
+    QObject::connect(&*track_selection_dialog_, &TrackSelectionDialog::Error, this, &MainWindow::ShowErrorDialog);
   }
 
   // Get the selected songs and start fetching tags for them
@@ -3104,14 +3105,14 @@ void MainWindow::GetCoverAutomatically() {
 }
 
 void MainWindow::ScrobblingEnabledChanged(const bool value) {
-  if (app_->scrobbler()->ScrobbleButton()) SetToggleScrobblingIcon(value);
+  if (app_->scrobbler()->scrobble_button()) SetToggleScrobblingIcon(value);
 }
 
 void MainWindow::ScrobbleButtonVisibilityChanged(const bool value) {
 
   ui_->button_scrobble->setVisible(value);
   ui_->action_toggle_scrobbling->setVisible(value);
-  if (value) SetToggleScrobblingIcon(app_->scrobbler()->IsEnabled());
+  if (value) SetToggleScrobblingIcon(app_->scrobbler()->enabled());
 
 }
 
@@ -3180,7 +3181,7 @@ void MainWindow::PlaylistDelete() {
     app_->player()->Next();
   }
 
-  std::shared_ptr<MusicStorage> storage = std::make_shared<FilesystemMusicStorage>(Song::Source::LocalFile, "/");
+  SharedPtr<MusicStorage> storage = make_shared<FilesystemMusicStorage>(Song::Source::LocalFile, "/");
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, true);
   //QObject::connect(delete_files, &DeleteFiles::Finished, this, &MainWindow::DeleteFinished);
   delete_files->Start(selected_songs);

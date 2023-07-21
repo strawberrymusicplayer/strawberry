@@ -269,6 +269,7 @@ set(SOURCES
   radios/radioparadiseservice.cpp
 
   scrobbler/audioscrobbler.cpp
+  scrobbler/scrobblersettings.cpp
   scrobbler/scrobblerservice.cpp
   scrobbler/scrobblercache.cpp
   scrobbler/scrobblercacheitem.cpp
@@ -502,6 +503,7 @@ set(HEADERS
   radios/radioparadiseservice.h
 
   scrobbler/audioscrobbler.h
+  scrobbler/scrobblersettings.h
   scrobbler/scrobblerservice.h
   scrobbler/scrobblercache.h
   scrobbler/scrobblingapi20.h

@@ -21,8 +21,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QWidget>
 #include <QStringList>
 #include <QUrl>
@@ -33,6 +31,7 @@
 #include <QMimeData>
 #include <QDropEvent>
 
+#include "core/scoped_ptr.h"
 #include "core/song.h"
 #include "collection/collectionbackend.h"
 #include "playlist/songmimedata.h"
@@ -63,10 +62,10 @@ QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem*> items) 
   }
 
   // Get the QAbstractItemModel data so the picture works
-  std::unique_ptr<QMimeData> orig_data(QListWidget::mimeData(items));
+  ScopedPtr<QMimeData> orig_data(QListWidget::mimeData(items));
 
   SongMimeData *mime_data = new SongMimeData;
-  mime_data->backend = manager_->backend();
+  mime_data->backend = manager_->collection_backend();
   mime_data->songs = songs;
   mime_data->setUrls(urls);
   mime_data->setData(orig_data->formats()[0], orig_data->data(orig_data->formats()[0]));

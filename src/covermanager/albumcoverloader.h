@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QMutex>
@@ -34,6 +32,7 @@
 #include <QString>
 #include <QImage>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
@@ -42,8 +41,6 @@
 class QThread;
 class QNetworkReply;
 class NetworkAccessManager;
-
-using std::shared_ptr;
 
 class AlbumCoverLoader : public QObject {
   Q_OBJECT
@@ -94,7 +91,7 @@ class AlbumCoverLoader : public QObject {
     QUrl art_automatic_updated;
     int redirects;
   };
-  using TaskPtr = shared_ptr<Task>;
+  using TaskPtr = SharedPtr<Task>;
 
   class LoadImageResult {
    public:
@@ -127,7 +124,7 @@ class AlbumCoverLoader : public QObject {
 
  private:
   static const int kMaxRedirects = 3;
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   bool stop_requested_;
   QMutex mutex_load_image_async_;
   QQueue<TaskPtr> tasks_;

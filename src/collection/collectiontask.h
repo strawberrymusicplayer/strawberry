@@ -23,15 +23,17 @@
 #include <QtGlobal>
 #include <QString>
 
+#include "core/shared_ptr.h"
+
 class TaskManager;
 
 class CollectionTask {
  public:
-  explicit CollectionTask(TaskManager *task_manager, const QString &message);
+  explicit CollectionTask(SharedPtr<TaskManager> task_manager, const QString &message);
   ~CollectionTask();
 
  private:
-  TaskManager *task_manager_;
+  SharedPtr<TaskManager> task_manager_;
   int task_id_;
 
   Q_DISABLE_COPY(CollectionTask)

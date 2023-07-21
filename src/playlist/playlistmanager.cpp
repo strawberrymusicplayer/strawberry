@@ -42,6 +42,7 @@
 #include <QSettings>
 #include <QMessageBox>
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/player.h"
 #include "utilities/filenameconstants.h"
@@ -73,9 +74,9 @@ PlaylistManager::PlaylistManager(Application *app, QObject *parent)
       active_(-1),
       playlists_loading_(0) {
 
-  QObject::connect(app_->player(), &Player::Paused, this, &PlaylistManager::SetActivePaused);
-  QObject::connect(app_->player(), &Player::Playing, this, &PlaylistManager::SetActivePlaying);
-  QObject::connect(app_->player(), &Player::Stopped, this, &PlaylistManager::SetActiveStopped);
+  QObject::connect(&*app_->player(), &Player::Paused, this, &PlaylistManager::SetActivePaused);
+  QObject::connect(&*app_->player(), &Player::Playing, this, &PlaylistManager::SetActivePlaying);
+  QObject::connect(&*app_->player(), &Player::Stopped, this, &PlaylistManager::SetActiveStopped);
 
 }
 
@@ -86,7 +87,7 @@ PlaylistManager::~PlaylistManager() {
 
 }
 
-void PlaylistManager::Init(CollectionBackend *collection_backend, PlaylistBackend *playlist_backend, PlaylistSequence *sequence, PlaylistContainer *playlist_container) {
+void PlaylistManager::Init(SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, PlaylistSequence *sequence, PlaylistContainer *playlist_container) {
 
   collection_backend_ = collection_backend;
   playlist_backend_ = playlist_backend;
@@ -94,9 +95,9 @@ void PlaylistManager::Init(CollectionBackend *collection_backend, PlaylistBacken
   parser_ = new PlaylistParser(collection_backend, this);
   playlist_container_ = playlist_container;
 
-  QObject::connect(collection_backend_, &CollectionBackend::SongsDiscovered, this, &PlaylistManager::SongsDiscovered);
-  QObject::connect(collection_backend_, &CollectionBackend::SongsStatisticsChanged, this, &PlaylistManager::SongsDiscovered);
-  QObject::connect(collection_backend_, &CollectionBackend::SongsRatingChanged, this, &PlaylistManager::SongsDiscovered);
+  QObject::connect(&*collection_backend_, &CollectionBackend::SongsDiscovered, this, &PlaylistManager::SongsDiscovered);
+  QObject::connect(&*collection_backend_, &CollectionBackend::SongsStatisticsChanged, this, &PlaylistManager::SongsDiscovered);
+  QObject::connect(&*collection_backend_, &CollectionBackend::SongsRatingChanged, this, &PlaylistManager::SongsDiscovered);
 
   for (const PlaylistBackend::Playlist &p : playlist_backend->GetAllOpenPlaylists()) {
     ++playlists_loading_;
@@ -156,7 +157,7 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
   QObject::connect(ret, &Playlist::Error, this, &PlaylistManager::Error);
   QObject::connect(ret, &Playlist::PlayRequested, this, &PlaylistManager::PlayRequested);
   QObject::connect(playlist_container_->view(), &PlaylistView::ColumnAlignmentChanged, ret, &Playlist::SetColumnAlignment);
-  QObject::connect(app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, ret, &Playlist::AlbumCoverLoaded);
+  QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, ret, &Playlist::AlbumCoverLoaded);
 
   playlists_[id] = Data(ret, name);
 

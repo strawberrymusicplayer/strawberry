@@ -44,6 +44,8 @@
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "playingwidget.h"
 
+using std::make_unique;
+
 const char *PlayingWidget::kSettingsGroup = "PlayingWidget";
 
 // Space between the cover and the details in small mode
@@ -545,8 +547,8 @@ void PlayingWidget::SearchCoverInProgress() {
   downloading_covers_ = true;
 
   // Show a spinner animation
-  spinner_animation_ = std::make_unique<QMovie>(":/pictures/spinner.gif", QByteArray(), this);
-  QObject::connect(spinner_animation_.get(), &QMovie::updated, this, &PlayingWidget::Update);
+  spinner_animation_ = make_unique<QMovie>(":/pictures/spinner.gif", QByteArray(), this);
+  QObject::connect(&*spinner_animation_, &QMovie::updated, this, &PlayingWidget::Update);
   spinner_animation_->start();
   update();
 

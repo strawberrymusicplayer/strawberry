@@ -23,13 +23,14 @@
 #include <QMutexLocker>
 #include <QSqlDatabase>
 
+#include "core/shared_ptr.h"
 #include "core/database.h"
 #include "core/sqlquery.h"
 #include "core/song.h"
 #include "radiobackend.h"
 #include "radiochannel.h"
 
-RadioBackend::RadioBackend(Database *db, QObject *parent)
+RadioBackend::RadioBackend(SharedPtr<Database> db, QObject *parent)
     : QObject(parent),
       db_(db),
       original_thread_(thread()) {}

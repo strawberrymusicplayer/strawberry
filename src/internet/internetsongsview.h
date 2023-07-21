@@ -27,6 +27,7 @@
 #include <QMap>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/settingsdialog.h"
 #include "ui_internetcollectionviewcontainer.h"
@@ -41,7 +42,7 @@ class InternetSongsView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit InternetSongsView(Application *app, InternetService *service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  explicit InternetSongsView(Application *app, SharedPtr<InternetService> service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
   ~InternetSongsView() override;
 
   void ReloadSettings();
@@ -59,7 +60,7 @@ class InternetSongsView : public QWidget {
 
  private:
   Application *app_;
-  InternetService *service_;
+  SharedPtr<InternetService> service_;
   QString settings_group_;
   SettingsDialog::Page settings_page_;
   Ui_InternetCollectionViewContainer *ui_;

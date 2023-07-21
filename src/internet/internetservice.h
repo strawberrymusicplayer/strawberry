@@ -28,6 +28,7 @@
 #include <QUrl>
 #include <QIcon>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/settingsdialog.h"
 #include "internetsearchview.h"
@@ -60,9 +61,9 @@ class InternetService : public QObject {
   virtual int Search(const QString &query, InternetSearchView::SearchType type) { Q_UNUSED(query); Q_UNUSED(type); return 0; }
   virtual void CancelSearch() {}
 
-  virtual CollectionBackend *artists_collection_backend() { return nullptr; }
-  virtual CollectionBackend *albums_collection_backend() { return nullptr; }
-  virtual CollectionBackend *songs_collection_backend() { return nullptr; }
+  virtual SharedPtr<CollectionBackend> artists_collection_backend() { return nullptr; }
+  virtual SharedPtr<CollectionBackend> albums_collection_backend() { return nullptr; }
+  virtual SharedPtr<CollectionBackend> songs_collection_backend() { return nullptr; }
 
   virtual CollectionModel *artists_collection_model() { return nullptr; }
   virtual CollectionModel *albums_collection_model() { return nullptr; }
@@ -142,6 +143,10 @@ class InternetService : public QObject {
   QString settings_group_;
   SettingsDialog::Page settings_page_;
 };
+
+using InternetServicePtr = SharedPtr<InternetService>;
+
 Q_DECLARE_METATYPE(InternetService*)
+Q_DECLARE_METATYPE(InternetServicePtr)
 
 #endif  // INTERNETSERVICE_H

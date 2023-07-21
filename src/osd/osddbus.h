@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QString>
@@ -35,6 +33,7 @@
 #include <QDBusArgument>
 #include <QVersionNumber>
 
+#include "core/scoped_ptr.h"
 #include "osdbase.h"
 
 class OrgFreedesktopNotificationsInterface;
@@ -47,7 +46,7 @@ class OSDDBus : public OSDBase {
   Q_OBJECT
 
  public:
-  explicit OSDDBus(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QObject *parent = nullptr);
+  explicit OSDDBus(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject *parent = nullptr);
   ~OSDDBus() override;
 
   static const char *kSettingsGroup;
@@ -63,7 +62,7 @@ class OSDDBus : public OSDBase {
   void CallFinished(QDBusPendingCallWatcher *watcher);
 
  private:
-  std::unique_ptr<OrgFreedesktopNotificationsInterface> interface_;
+  ScopedPtr<OrgFreedesktopNotificationsInterface> interface_;
   QVersionNumber version_;
   uint notification_id_;
   QDateTime last_notification_time_;

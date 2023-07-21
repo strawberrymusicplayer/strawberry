@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QList>
 #include <QSet>
@@ -36,6 +34,7 @@
 #include <QSslError>
 #include <QJsonObject>
 
+#include "core/scoped_ptr.h"
 #include "subsonicservice.h"
 #include "settings/subsonicsettingspage.h"
 
@@ -76,8 +75,7 @@ class SubsonicBaseRequest : public QObject {
 
  private:
   SubsonicService *service_;
-  std::unique_ptr<QNetworkAccessManager> network_;
-
+  ScopedPtr<QNetworkAccessManager> network_;
 };
 
 #endif  // SUBSONICBASEREQUEST_H

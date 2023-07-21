@@ -34,6 +34,7 @@
 #include <QString>
 #include <QSettings>
 
+#include "core/shared_ptr.h"
 #include "engine/enginebase.h"
 #include "osd/osdbase.h"
 
@@ -104,8 +105,8 @@ class SettingsDialog : public QDialog {
 
   Application *app() const { return app_; }
   OSDBase *osd() const { return osd_; }
-  Player *player() const { return player_; }
-  EngineBase *engine() const { return engine_; }
+  SharedPtr<Player> player() const { return player_; }
+  SharedPtr<EngineBase> engine() const { return engine_; }
   CollectionDirectoryModel *collection_directory_model() const { return model_; }
   GlobalShortcutsManager *global_shortcuts_manager() const { return manager_; }
 
@@ -150,8 +151,8 @@ class SettingsDialog : public QDialog {
   QMainWindow *mainwindow_;
   Application *app_;
   OSDBase *osd_;
-  Player *player_;
-  EngineBase *engine_;
+  SharedPtr<Player> player_;
+  SharedPtr<EngineBase> engine_;
   CollectionDirectoryModel *model_;
   GlobalShortcutsManager *manager_;
 

@@ -28,14 +28,15 @@
 #include <QThread>
 #include <QtDebug>
 
-#include "test_utils.h"
-
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "core/database.h"
-#include "core/logging.h"
 #include "utilities/timeconstants.h"
 #include "collection/collectionbackend.h"
 #include "collection/collection.h"
+
+using std::make_unique;
 
 // clazy:excludeall=non-pod-global-static,returning-void-expression
 
@@ -45,8 +46,8 @@ class CollectionBackendTest : public ::testing::Test {
  protected:
   void SetUp() override {
     database_.reset(new MemoryDatabase(nullptr));
-    backend_ = std::make_unique<CollectionBackend>();
-    backend_->Init(database_.get(), nullptr, Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+    backend_ = make_unique<CollectionBackend>();
+    backend_->Init(database_, nullptr, Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
   }
 
   static Song MakeDummySong(int directory_id) {
@@ -60,8 +61,8 @@ class CollectionBackendTest : public ::testing::Test {
     return ret;
   }
 
-  std::shared_ptr<Database> database_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-  std::unique_ptr<CollectionBackend> backend_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  SharedPtr<Database> database_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  ScopedPtr<CollectionBackend> backend_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
 TEST_F(CollectionBackendTest, EmptyDatabase) {
@@ -77,7 +78,7 @@ TEST_F(CollectionBackendTest, EmptyDatabase) {
 
 TEST_F(CollectionBackendTest, AddDirectory) {
 
-  QSignalSpy spy(backend_.get(), &CollectionBackend::DirectoryDiscovered);
+  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryDiscovered);
 
   backend_->AddDirectory("/tmp");
 
@@ -98,7 +99,7 @@ TEST_F(CollectionBackendTest, RemoveDirectory) {
   dir.path = "/tmp";
   backend_->AddDirectory(dir.path);
 
-  QSignalSpy spy(backend_.get(), &CollectionBackend::DirectoryDeleted);
+  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryDeleted);
 
   // Remove the directory again
   backend_->RemoveDirectory(dir);
@@ -131,8 +132,8 @@ class SingleSong : public CollectionBackendTest {
   }
 
   void AddDummySong() {
-    QSignalSpy added_spy(backend_.get(), &CollectionBackend::SongsDiscovered);
-    QSignalSpy deleted_spy(backend_.get(), &CollectionBackend::SongsDeleted);
+    QSignalSpy added_spy(&*backend_, &CollectionBackend::SongsDiscovered);
+    QSignalSpy deleted_spy(&*backend_, &CollectionBackend::SongsDeleted);
 
     // Add the song
     backend_->AddOrUpdateSongs(SongList() << song_);
@@ -264,8 +265,8 @@ TEST_F(SingleSong, UpdateSong) {
   new_song.set_id(1);
   new_song.set_title("A different title");
 
-  QSignalSpy deleted_spy(backend_.get(), &CollectionBackend::SongsDeleted);
-  QSignalSpy added_spy(backend_.get(), &CollectionBackend::SongsDiscovered);
+  QSignalSpy deleted_spy(&*backend_, &CollectionBackend::SongsDeleted);
+  QSignalSpy added_spy(&*backend_, &CollectionBackend::SongsDiscovered);
 
   backend_->AddOrUpdateSongs(SongList() << new_song);
 
@@ -291,7 +292,7 @@ TEST_F(SingleSong, DeleteSongs) {
   Song new_song(song_);
   new_song.set_id(1);
 
-  QSignalSpy deleted_spy(backend_.get(), &CollectionBackend::SongsDeleted);
+  QSignalSpy deleted_spy(&*backend_, &CollectionBackend::SongsDeleted);
 
   backend_->DeleteSongs(SongList() << new_song);
 
@@ -324,7 +325,7 @@ TEST_F(SingleSong, MarkSongsUnavailable) {
   Song new_song(song_);
   new_song.set_id(1);
 
-  QSignalSpy deleted_spy(backend_.get(), &CollectionBackend::SongsDeleted);
+  QSignalSpy deleted_spy(&*backend_, &CollectionBackend::SongsDeleted);
 
   backend_->MarkSongsUnavailable(SongList() << new_song);
 
@@ -388,7 +389,7 @@ TEST_F(TestUrls, TestUrls) {
 
   }
 
-  QSignalSpy spy(backend_.get(), &CollectionBackend::SongsDiscovered);
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsDiscovered);
 
   backend_->AddOrUpdateSongs(songs);
   if (HasFatalFailure()) return;
@@ -473,7 +474,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
     }
 
-    QSignalSpy spy(backend_.get(), &CollectionBackend::SongsDiscovered);
+    QSignalSpy spy(&*backend_, &CollectionBackend::SongsDiscovered);
 
     backend_->UpdateSongsBySongID(songs);
 
@@ -511,8 +512,8 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
   }
 
   {  // Remove some songs
-    QSignalSpy spy1(backend_.get(), &CollectionBackend::SongsDiscovered);
-    QSignalSpy spy2(backend_.get(), &CollectionBackend::SongsDeleted);
+    QSignalSpy spy1(&*backend_, &CollectionBackend::SongsDiscovered);
+    QSignalSpy spy2(&*backend_, &CollectionBackend::SongsDeleted);
 
     SongMap songs;
 
@@ -556,8 +557,8 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
   }
 
   {  // Update some songs
-    QSignalSpy spy1(backend_.get(), &CollectionBackend::SongsDeleted);
-    QSignalSpy spy2(backend_.get(), &CollectionBackend::SongsDiscovered);
+    QSignalSpy spy1(&*backend_, &CollectionBackend::SongsDeleted);
+    QSignalSpy spy2(&*backend_, &CollectionBackend::SongsDiscovered);
 
     SongMap songs;
 

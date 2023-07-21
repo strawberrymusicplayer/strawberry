@@ -24,12 +24,12 @@
 
 #include "config.h"
 
-#include <memory>
 #include <gpod/itdb.h>
 
 #include <QObject>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 
 class QThread;
@@ -41,7 +41,7 @@ class GPodLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit GPodLoader(const QString &mount_point, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device, QObject *parent = nullptr);
+  explicit GPodLoader(const QString &mount_point, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> backend, SharedPtr<ConnectedDevice> device, QObject *parent = nullptr);
   ~GPodLoader() override;
 
   void set_music_path_prefix(const QString &prefix) { path_prefix_ = prefix; }
@@ -61,14 +61,14 @@ class GPodLoader : public QObject {
   Itdb_iTunesDB *TryLoad();
 
  private:
-  std::shared_ptr<ConnectedDevice> device_;
+  SharedPtr<ConnectedDevice> device_;
   QThread *original_thread_;
 
   QString mount_point_;
   QString path_prefix_;
   Song::FileType type_;
-  TaskManager *task_manager_;
-  CollectionBackend *backend_;
+  SharedPtr<TaskManager> task_manager_;
+  SharedPtr<CollectionBackend> backend_;
   bool abort_;
 };
 

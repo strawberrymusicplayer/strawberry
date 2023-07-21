@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <cstddef>
 #include <glib.h>
 #include <glib/gtypes.h>
@@ -39,13 +41,16 @@
 
 #include "cddasongloader.h"
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/timeconstants.h"
+
+using std::make_shared;
 
 CddaSongLoader::CddaSongLoader(const QUrl &url, QObject *parent)
     : QObject(parent),
       url_(url),
-      network_(new NetworkAccessManager(this)),
+      network_(make_shared<NetworkAccessManager>()),
       cdda_(nullptr),
       cdio_(nullptr) {}
 

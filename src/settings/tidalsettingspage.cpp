@@ -54,11 +54,11 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &TidalSettingsPage::LogoutClicked);
   QObject::connect(ui_->oauth, &QCheckBox::toggled, this, &TidalSettingsPage::OAuthClicked);
 
-  QObject::connect(this, &TidalSettingsPage::Authorize, service_, &TidalService::StartAuthorization);
-  QObject::connect(this, &TidalSettingsPage::Login, service_, &TidalService::SendLoginWithCredentials);
+  QObject::connect(this, &TidalSettingsPage::Authorize, &*service_, &TidalService::StartAuthorization);
+  QObject::connect(this, &TidalSettingsPage::Login, &*service_, &TidalService::SendLoginWithCredentials);
 
-  QObject::connect(service_, &InternetService::LoginFailure, this, &TidalSettingsPage::LoginFailure);
-  QObject::connect(service_, &InternetService::LoginSuccess, this, &TidalSettingsPage::LoginSuccess);
+  QObject::connect(&*service_, &InternetService::LoginFailure, this, &TidalSettingsPage::LoginFailure);
+  QObject::connect(&*service_, &InternetService::LoginSuccess, this, &TidalSettingsPage::LoginSuccess);
 
   dialog->installEventFilter(this);
 

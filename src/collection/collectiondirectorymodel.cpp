@@ -20,12 +20,15 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QObject>
 #include <QStandardItemModel>
 #include <QAbstractItemModel>
 #include <QVariant>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "core/filesystemmusicstorage.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
@@ -34,24 +37,24 @@
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
 
-CollectionDirectoryModel::CollectionDirectoryModel(CollectionBackend *backend, QObject *parent)
+using std::make_shared;
+
+CollectionDirectoryModel::CollectionDirectoryModel(SharedPtr<CollectionBackend> backend, QObject *parent)
     : QStandardItemModel(parent),
       dir_icon_(IconLoader::Load("document-open-folder")),
       backend_(backend) {
 
-  QObject::connect(backend_, &CollectionBackend::DirectoryDiscovered, this, &CollectionDirectoryModel::DirectoryDiscovered);
-  QObject::connect(backend_, &CollectionBackend::DirectoryDeleted, this, &CollectionDirectoryModel::DirectoryDeleted);
+  QObject::connect(&*backend_, &CollectionBackend::DirectoryDiscovered, this, &CollectionDirectoryModel::DirectoryDiscovered);
+  QObject::connect(&*backend_, &CollectionBackend::DirectoryDeleted, this, &CollectionDirectoryModel::DirectoryDeleted);
 
 }
-
-CollectionDirectoryModel::~CollectionDirectoryModel() = default;
 
 void CollectionDirectoryModel::DirectoryDiscovered(const CollectionDirectory &dir) {
 
   QStandardItem *item = new QStandardItem(dir.path);
   item->setData(dir.id, kIdRole);
   item->setIcon(dir_icon_);
-  storage_ << std::make_shared<FilesystemMusicStorage>(backend_->source(), dir.path, dir.id);
+  storage_ << make_shared<FilesystemMusicStorage>(backend_->source(), dir.path, dir.id);
   appendRow(item);
 
 }

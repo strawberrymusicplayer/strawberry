@@ -43,6 +43,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
+#include "core/shared_ptr.h"
 #include "core/logging.h"
 #include "core/database.h"
 #include "core/scopedtransaction.h"
@@ -67,7 +68,13 @@ CollectionBackend::CollectionBackend(QObject *parent)
 
 }
 
-void CollectionBackend::Init(Database *db, TaskManager *task_manager, const Song::Source source, const QString &songs_table, const QString &fts_table, const QString &dirs_table, const QString &subdirs_table) {
+CollectionBackend::~CollectionBackend() {
+
+  qLog(Debug) << "Collection backend" << this << "for" << Song::TextForSource(source_) << "deleted";
+
+}
+
+void CollectionBackend::Init(SharedPtr<Database> db, SharedPtr<TaskManager> task_manager, const Song::Source source, const QString &songs_table, const QString &fts_table, const QString &dirs_table, const QString &subdirs_table) {
 
   db_ = db;
   task_manager_ = task_manager;

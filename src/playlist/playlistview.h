@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractItemDelegate>
@@ -47,6 +45,7 @@
 #include <QBasicTimer>
 #include <QCommonStyle>
 
+#include "core/scoped_ptr.h"
 #include "core/song.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "settings/appearancesettingspage.h"
@@ -91,7 +90,7 @@ class PlaylistProxyStyle : public QProxyStyle {
   void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const override;
 
  private:
-  std::unique_ptr<QCommonStyle> common_style_;
+  ScopedPtr<QCommonStyle> common_style_;
 };
 
 class PlaylistView : public QTreeView {

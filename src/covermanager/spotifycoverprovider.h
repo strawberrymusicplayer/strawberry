@@ -34,6 +34,7 @@
 #include <QJsonObject>
 #include <QTimer>
 
+#include "core/shared_ptr.h"
 #include "jsoncoverprovider.h"
 
 class QNetworkReply;
@@ -45,7 +46,7 @@ class SpotifyCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit SpotifyCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit SpotifyCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~SpotifyCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

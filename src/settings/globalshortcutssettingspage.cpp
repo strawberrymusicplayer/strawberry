@@ -54,7 +54,7 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog,
     : SettingsPage(dialog, parent),
       ui_(new Ui_GlobalShortcutsSettingsPage),
       initialized_(false),
-      grabber_(new GlobalShortcutGrabber) {
+      grabber_(new GlobalShortcutGrabber()) {
 
   ui_->setupUi(this);
   ui_->shortcut_options->setEnabled(false);

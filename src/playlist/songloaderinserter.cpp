@@ -27,12 +27,13 @@
 #include <QUrl>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/songloader.h"
 #include "core/taskmanager.h"
 #include "playlist.h"
 #include "songloaderinserter.h"
 
-SongLoaderInserter::SongLoaderInserter(TaskManager *task_manager, CollectionBackendInterface *collection, const Player *player, QObject *parent)
+SongLoaderInserter::SongLoaderInserter(SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackendInterface> collection_backend, const SharedPtr<Player> player, QObject *parent)
     : QObject(parent),
       task_manager_(task_manager),
       destination_(nullptr),
@@ -40,7 +41,7 @@ SongLoaderInserter::SongLoaderInserter(TaskManager *task_manager, CollectionBack
       play_now_(true),
       enqueue_(false),
       enqueue_next_(false),
-      collection_(collection),
+      collection_backend_(collection_backend),
       player_(player) {}
 
 SongLoaderInserter::~SongLoaderInserter() { qDeleteAll(pending_); }
@@ -58,7 +59,7 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
   QObject::connect(this, &SongLoaderInserter::EffectiveLoadFinished, destination, &Playlist::UpdateItems);
 
   for (const QUrl &url : urls) {
-    SongLoader *loader = new SongLoader(collection_, player_, this);
+    SongLoader *loader = new SongLoader(collection_backend_, player_, this);
 
     SongLoader::Result ret = loader->Load(url);
 
@@ -103,7 +104,7 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
   enqueue_ = enqueue;
   enqueue_next_ = enqueue_next;
 
-  SongLoader *loader = new SongLoader(collection_, player_, this);
+  SongLoader *loader = new SongLoader(collection_backend_, player_, this);
   QObject::connect(loader, &SongLoader::AudioCDTracksLoadFinished, this, [this, loader]() { AudioCDTracksLoadFinished(loader); });
   QObject::connect(loader, &SongLoader::LoadAudioCDFinished, this, &SongLoaderInserter::AudioCDTagsLoaded);
   qLog(Info) << "Loading audio CD...";

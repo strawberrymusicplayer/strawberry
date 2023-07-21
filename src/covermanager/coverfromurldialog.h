@@ -28,6 +28,7 @@
 #include <QDialog>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "albumcoverimageresult.h"
 
 class QWidget;
@@ -40,7 +41,7 @@ class CoverFromURLDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit CoverFromURLDialog(NetworkAccessManager *network, QWidget *parent = nullptr);
+  explicit CoverFromURLDialog(SharedPtr<NetworkAccessManager> network, QWidget *parent = nullptr);
   ~CoverFromURLDialog() override;
 
   // Opens the dialog. This returns an image found at the URL chosen by user or null image if the dialog got rejected.
@@ -51,7 +52,7 @@ class CoverFromURLDialog : public QDialog {
   void LoadCoverFromURLFinished();
 
  private:
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   Ui_CoverFromURLDialog *ui_;
   AlbumCoverImageResult last_album_cover_;
 };

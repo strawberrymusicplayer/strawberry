@@ -35,6 +35,7 @@
 #include <QUrl>
 
 #include "collectiondirectory.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 
 class QThread;
@@ -50,11 +51,12 @@ class CollectionWatcher : public QObject {
 
  public:
   explicit CollectionWatcher(Song::Source source, QObject *parent = nullptr);
+  ~CollectionWatcher();
 
   Song::Source source() { return source_; }
 
-  void set_backend(CollectionBackend *backend) { backend_ = backend; }
-  void set_task_manager(TaskManager *task_manager) { task_manager_ = task_manager; }
+  void set_backend(SharedPtr<CollectionBackend> backend) { backend_ = backend; }
+  void set_task_manager(SharedPtr<TaskManager> task_manager) { task_manager_ = task_manager; }
   void set_device_name(const QString &device_name) { device_name_ = device_name; }
 
   void IncrementalScanAsync();
@@ -208,8 +210,8 @@ class CollectionWatcher : public QObject {
 
  private:
   Song::Source source_;
-  CollectionBackend *backend_;
-  TaskManager *task_manager_;
+  SharedPtr<CollectionBackend> backend_;
+  SharedPtr<TaskManager> task_manager_;
   QString device_name_;
 
   FileSystemWatcherInterface *fs_watcher_;

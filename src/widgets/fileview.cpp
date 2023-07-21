@@ -18,6 +18,8 @@
  *
  */
 
+#include <memory>
+
 #include <QWidget>
 #include <QUndoStack>
 #include <QDir>
@@ -34,6 +36,7 @@
 #include <QToolButton>
 #include <QtEvents>
 
+#include "core/shared_ptr.h"
 #include "core/deletefiles.h"
 #include "core/filesystemmusicstorage.h"
 #include "core/iconloader.h"
@@ -44,6 +47,8 @@
 #include "ui_fileview.h"
 #include "organize/organizeerrordialog.h"
 #include "settings/appearancesettingspage.h"
+
+using std::make_unique;
 
 const char *FileView::kFileFilter =
     "*.wav *.flac *.wv *.ogg *.oga *.opus *.spx *.ape *.mpc "
@@ -124,7 +129,7 @@ void FileView::SetPath(const QString &path) {
 
 }
 
-void FileView::SetTaskManager(TaskManager *task_manager) {
+void FileView::SetTaskManager(SharedPtr<TaskManager> task_manager) {
   task_manager_ = task_manager;
 }
 
@@ -268,8 +273,8 @@ void FileView::showEvent(QShowEvent *e) {
 
   model_ = new QFileSystemModel(this);
   if (!model_->iconProvider() || model_->iconProvider()->icon(QFileIconProvider::Folder).isNull()) {
-    file_icon_provider_ = std::make_unique<QFileIconProvider>();
-    model_->setIconProvider(file_icon_provider_.get());
+    file_icon_provider_ = make_unique<QFileIconProvider>();
+    model_->setIconProvider(&*file_icon_provider_);
   }
 
   model_->setNameFilters(filter_list_);

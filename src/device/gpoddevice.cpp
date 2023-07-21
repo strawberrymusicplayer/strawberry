@@ -40,6 +40,7 @@
 #include <QStandardPaths>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -50,7 +51,9 @@
 class DeviceLister;
 class DeviceManager;
 
-GPodDevice::GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent)
+using std::make_shared;
+
+GPodDevice::GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
     : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
       loader_(nullptr),
       loader_thread_(nullptr),
@@ -197,7 +200,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
       QString temp_path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 #endif
       if (!QDir(temp_path).exists()) QDir().mkpath(temp_path);
-      std::shared_ptr<QTemporaryFile> cover_file = std::make_shared<QTemporaryFile>(temp_path + "/track-albumcover-XXXXXX.jpg");
+      SharedPtr<QTemporaryFile> cover_file = make_shared<QTemporaryFile>(temp_path + "/track-albumcover-XXXXXX.jpg");
       cover_file->setAutoRemove(true);
       if (cover_file->open()) {
         cover_file->close();

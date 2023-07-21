@@ -24,13 +24,13 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QWidget>
 #include <QString>
 #include <QIcon>
 #include <QModelIndex>
+
+#include "core/scoped_ptr.h"
 
 class QStandardItem;
 class QSortFilterProxyModel;
@@ -115,7 +115,7 @@ class PlaylistListContainer : public QWidget {
 
   int active_playlist_id_;
 
-  std::unique_ptr<OrganizeDialog> organize_dialog_;
+  ScopedPtr<OrganizeDialog> organize_dialog_;
 };
 
 #endif  // PLAYLISTLISTCONTAINER_H

@@ -37,6 +37,7 @@
 #include <QUrl>
 #include <QSslError>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "internet/internetservice.h"
 #include "internet/internetsearchview.h"
@@ -57,7 +58,7 @@ class QobuzService : public InternetService {
   Q_OBJECT
 
  public:
-  explicit QobuzService(Application *app, QObject *parent);
+  explicit QobuzService(Application *app, QObject *parent = nullptr);
   ~QobuzService();
 
   static const Song::Source kSource;
@@ -95,9 +96,9 @@ class QobuzService : public InternetService {
 
   uint GetStreamURL(const QUrl &url, QString &error);
 
-  CollectionBackend *artists_collection_backend() override { return artists_collection_backend_; }
-  CollectionBackend *albums_collection_backend() override { return albums_collection_backend_; }
-  CollectionBackend *songs_collection_backend() override { return songs_collection_backend_; }
+  SharedPtr<CollectionBackend> artists_collection_backend() override { return artists_collection_backend_; }
+  SharedPtr<CollectionBackend> albums_collection_backend() override { return albums_collection_backend_; }
+  SharedPtr<CollectionBackend> songs_collection_backend() override { return songs_collection_backend_; }
 
   CollectionModel *artists_collection_model() override { return artists_collection_model_; }
   CollectionModel *albums_collection_model() override { return albums_collection_model_; }
@@ -160,12 +161,12 @@ class QobuzService : public InternetService {
   static const char kSongsFtsTable[];
 
   Application *app_;
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   QobuzUrlHandler *url_handler_;
 
-  CollectionBackend *artists_collection_backend_;
-  CollectionBackend *albums_collection_backend_;
-  CollectionBackend *songs_collection_backend_;
+  SharedPtr<CollectionBackend> artists_collection_backend_;
+  SharedPtr<CollectionBackend> albums_collection_backend_;
+  SharedPtr<CollectionBackend> songs_collection_backend_;
 
   CollectionModel *artists_collection_model_;
   CollectionModel *albums_collection_model_;
@@ -178,10 +179,10 @@ class QobuzService : public InternetService {
   QTimer *timer_search_delay_;
   QTimer *timer_login_attempt_;
 
-  std::shared_ptr<QobuzRequest> artists_request_;
-  std::shared_ptr<QobuzRequest> albums_request_;
-  std::shared_ptr<QobuzRequest> songs_request_;
-  std::shared_ptr<QobuzRequest> search_request_;
+  SharedPtr<QobuzRequest> artists_request_;
+  SharedPtr<QobuzRequest> albums_request_;
+  SharedPtr<QobuzRequest> songs_request_;
+  SharedPtr<QobuzRequest> search_request_;
   QobuzFavoriteRequest *favorite_request_;
 
   QString app_id_;
@@ -211,12 +212,14 @@ class QobuzService : public InternetService {
   int login_attempts_;
 
   uint next_stream_url_request_id_;
-  QMap<uint, std::shared_ptr<QobuzStreamURLRequest>> stream_url_requests_;
+  QMap<uint, SharedPtr<QobuzStreamURLRequest>> stream_url_requests_;
 
   QStringList login_errors_;
 
   QList<QObject*> wait_for_exit_;
   QList<QNetworkReply*> replies_;
 };
+
+using QobuzServicePtr = SharedPtr<QobuzService>;
 
 #endif  // QOBUZSERVICE_H

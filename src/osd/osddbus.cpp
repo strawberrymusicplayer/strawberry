@@ -41,9 +41,12 @@
 #include <QDBusPendingCallWatcher>
 
 #include "core/logging.h"
+#include "core/scoped_ptr.h"
 #include "osddbus.h"
 
 #include "notification.h"
+
+using std::make_unique;
 
 QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
 
@@ -101,7 +104,7 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image) {
 
 }
 
-OSDDBus::OSDDBus(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QObject *parent)
+OSDDBus::OSDDBus(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject *parent)
     : OSDBase(tray_icon, app, parent),
       version_(1, 1),
       notification_id_(0) {
@@ -114,7 +117,7 @@ OSDDBus::~OSDDBus() = default;
 
 void OSDDBus::Init() {
 
-  interface_ = std::make_unique<OrgFreedesktopNotificationsInterface>(OrgFreedesktopNotificationsInterface::staticInterfaceName(), "/org/freedesktop/Notifications", QDBusConnection::sessionBus());
+  interface_ = make_unique<OrgFreedesktopNotificationsInterface>(OrgFreedesktopNotificationsInterface::staticInterfaceName(), "/org/freedesktop/Notifications", QDBusConnection::sessionBus());
   if (!interface_->isValid()) {
     qLog(Warning) << "Error connecting to notifications service.";
   }
@@ -173,7 +176,7 @@ void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, 
 
 void OSDDBus::CallFinished(QDBusPendingCallWatcher *watcher) {
 
-  std::unique_ptr<QDBusPendingCallWatcher> w(watcher);
+  ScopedPtr<QDBusPendingCallWatcher> w(watcher);
 
   QDBusPendingReply<uint> reply = *w;
   if (reply.isError()) {

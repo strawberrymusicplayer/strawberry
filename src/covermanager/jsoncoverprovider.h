@@ -27,6 +27,7 @@
 #include <QString>
 #include <QJsonObject>
 
+#include "core/shared_ptr.h"
 #include "coverprovider.h"
 
 class Application;
@@ -36,7 +37,7 @@ class JsonCoverProvider : public CoverProvider {
   Q_OBJECT
 
  public:
-  explicit JsonCoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, NetworkAccessManager *network, QObject *parent);
+  explicit JsonCoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent);
 
  protected:
   QJsonObject ExtractJsonObj(const QByteArray &data);

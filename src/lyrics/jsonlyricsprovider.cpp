@@ -27,10 +27,11 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "jsonlyricsprovider.h"
 
-JsonLyricsProvider::JsonLyricsProvider(const QString &name, const bool enabled, const bool authentication_required, NetworkAccessManager *network, QObject *parent) : LyricsProvider(name, enabled, authentication_required, network, parent) {}
+JsonLyricsProvider::JsonLyricsProvider(const QString &name, const bool enabled, const bool authentication_required, SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider(name, enabled, authentication_required, network, parent) {}
 
 QByteArray JsonLyricsProvider::ExtractData(QNetworkReply *reply) {
 

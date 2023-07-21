@@ -43,6 +43,7 @@
 #include "sonogram.h"
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "engine/enginebase.h"
 
 using namespace std::chrono_literals;
@@ -125,7 +126,7 @@ void AnalyzerContainer::wheelEvent(QWheelEvent *e) {
   emit WheelEvent(e->angleDelta().y());
 }
 
-void AnalyzerContainer::SetEngine(EngineBase *engine) {
+void AnalyzerContainer::SetEngine(SharedPtr<EngineBase> engine) {
 
   if (current_analyzer_) current_analyzer_->set_engine(engine);
   engine_ = engine;

@@ -29,6 +29,7 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
+#include "core/shared_ptr.h"
 #include "utilities/xmlutils.h"
 #include "settings/playlistsettingspage.h"
 #include "xmlparser.h"
@@ -36,8 +37,8 @@
 
 class CollectionBackendInterface;
 
-ASXParser::ASXParser(CollectionBackendInterface *collection, QObject *parent)
-    : XMLParser(collection, parent) {}
+ASXParser::ASXParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : XMLParser(collection_backend, parent) {}
 
 SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
 

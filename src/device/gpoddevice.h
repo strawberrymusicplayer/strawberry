@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <gpod/itdb.h>
 
 #include <QObject>
@@ -37,6 +35,7 @@
 #include <QUrl>
 #include <QTemporaryFile>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "core/musicstorage.h"
 #include "connecteddevice.h"
@@ -51,7 +50,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  Q_INVOKABLE GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
   ~GPodDevice() override;
 
   bool Init() override;
@@ -98,7 +97,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   QMutex db_busy_;
   SongList songs_to_add_;
   SongList songs_to_remove_;
-  QList<std::shared_ptr<QTemporaryFile>> cover_files_;
+  QList<SharedPtr<QTemporaryFile>> cover_files_;
 };
 
 #endif  // GPODDEVICE_H

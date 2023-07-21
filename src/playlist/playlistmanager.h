@@ -33,6 +33,7 @@
 #include <QString>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/playlistsettingspage.h"
 #include "playlist.h"
@@ -73,8 +74,8 @@ class PlaylistManagerInterface : public QObject {
 
   virtual QString GetPlaylistName(const int index) const = 0;
 
-  virtual CollectionBackend *collection_backend() const = 0;
-  virtual PlaylistBackend *playlist_backend() const = 0;
+  virtual SharedPtr<CollectionBackend> collection_backend() const = 0;
+  virtual SharedPtr<PlaylistBackend> playlist_backend() const = 0;
   virtual PlaylistSequence *sequence() const = 0;
   virtual PlaylistParser *parser() const = 0;
   virtual PlaylistContainer *playlist_container() const = 0;
@@ -171,10 +172,10 @@ class PlaylistManager : public PlaylistManagerInterface {
   QString GetPlaylistName(const int index) const override { return playlists_[index].name; }
   bool IsPlaylistFavorite(const int index) const { return playlists_[index].p->is_favorite(); }
 
-  void Init(CollectionBackend *collection_backend, PlaylistBackend *playlist_backend, PlaylistSequence *sequence, PlaylistContainer *playlist_container);
+  void Init(SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, PlaylistSequence *sequence, PlaylistContainer *playlist_container);
 
-  CollectionBackend *collection_backend() const override { return collection_backend_; }
-  PlaylistBackend *playlist_backend() const override { return playlist_backend_; }
+  SharedPtr<CollectionBackend> collection_backend() const override { return collection_backend_; }
+  SharedPtr<PlaylistBackend> playlist_backend() const override { return playlist_backend_; }
   PlaylistSequence *sequence() const override { return sequence_; }
   PlaylistParser *parser() const override { return parser_; }
   PlaylistContainer *playlist_container() const override { return playlist_container_; }
@@ -249,8 +250,8 @@ class PlaylistManager : public PlaylistManagerInterface {
   };
 
   Application *app_;
-  PlaylistBackend *playlist_backend_;
-  CollectionBackend *collection_backend_;
+  SharedPtr<PlaylistBackend> playlist_backend_;
+  SharedPtr<CollectionBackend> collection_backend_;
   PlaylistSequence *sequence_;
   PlaylistParser *parser_;
   PlaylistContainer *playlist_container_;

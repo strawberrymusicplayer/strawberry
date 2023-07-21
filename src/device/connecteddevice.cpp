@@ -19,12 +19,15 @@
  *
  */
 
+#include <memory>
+
 #include <QObject>
 #include <QAbstractItemModel>
 #include <QString>
 #include <QUrl>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/database.h"
 #include "collection/collectionbackend.h"
@@ -35,7 +38,9 @@
 #include "devicemanager.h"
 #include "deviceinfo.h"
 
-ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time, QObject *parent)
+using std::make_shared;
+
+ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
     : QObject(parent),
       app_(app),
       url_(url),
@@ -51,12 +56,12 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
   qLog(Info) << "Connected" << url << unique_id << first_time;
 
   // Create the backend in the database thread.
-  backend_ = new CollectionBackend();
+  backend_ = make_shared<CollectionBackend>();
   backend_->moveToThread(app_->database()->thread());
-  qLog(Debug) << backend_ << "for device" << unique_id_ << "moved to thread" << app_->database()->thread();
+  qLog(Debug) << &*backend_ << "for device" << unique_id_ << "moved to thread" << app_->database()->thread();
 
   if (url_.scheme() != "cdda") {
-    QObject::connect(backend_, &CollectionBackend::TotalSongCountUpdated, this, &ConnectedDevice::BackendTotalSongCountUpdated);
+    QObject::connect(&*backend_, &CollectionBackend::TotalSongCountUpdated, this, &ConnectedDevice::BackendTotalSongCountUpdated);
   }
 
   backend_->Init(app_->database(),
@@ -70,10 +75,6 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
   // Create the model
   model_ = new CollectionModel(backend_, app_, this);
 
-}
-
-ConnectedDevice::~ConnectedDevice() {
-  backend_->deleteLater();
 }
 
 void ConnectedDevice::InitBackendDirectory(const QString &mount_point, const bool first_time, const bool rewrite_path) {
@@ -108,7 +109,7 @@ void ConnectedDevice::ConnectAsync() { emit DeviceConnectFinished(unique_id_, tr
 
 void ConnectedDevice::Close() {
 
-  QObject::connect(backend_, &CollectionBackend::ExitFinished, this, &ConnectedDevice::BackendCloseFinished);
+  QObject::connect(&*backend_, &CollectionBackend::ExitFinished, this, &ConnectedDevice::BackendCloseFinished);
   backend_->ExitAsync();
 
 }

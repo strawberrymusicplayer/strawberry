@@ -29,13 +29,14 @@
 #include <QNetworkReply>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 #include "qobuzfavoriterequest.h"
 
-QobuzFavoriteRequest::QobuzFavoriteRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent)
+QobuzFavoriteRequest::QobuzFavoriteRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
       service_(service),
       network_(network) {}

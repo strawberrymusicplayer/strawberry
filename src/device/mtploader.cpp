@@ -23,17 +23,21 @@
 
 #include <libmtp.h>
 
-#include <QObject>
-#include <QUrl>
 #include <memory>
 
+#include <QObject>
+#include <QUrl>
+
+#include "core/shared_ptr.h"
 #include "core/taskmanager.h"
 #include "core/song.h"
 #include "collection/collectionbackend.h"
 #include "mtpconnection.h"
 #include "mtploader.h"
 
-MtpLoader::MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend, QObject *parent)
+using std::make_unique;
+
+MtpLoader::MtpLoader(const QUrl &url, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> backend, QObject *parent)
     : QObject(parent),
       url_(url),
       task_manager_(task_manager),
@@ -62,7 +66,7 @@ void MtpLoader::LoadDatabase() {
 
 bool MtpLoader::TryLoad() {
 
-  connection_ = std::make_unique<MtpConnection>(url_);
+  connection_ = make_unique<MtpConnection>(url_);
 
   if (!connection_ || !connection_->is_valid()) {
     emit Error(tr("Error connecting MTP device %1").arg(url_.toString()));

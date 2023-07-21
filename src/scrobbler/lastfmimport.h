@@ -31,6 +31,8 @@
 #include <QQueue>
 #include <QDateTime>
 
+#include "core/shared_ptr.h"
+
 class QTimer;
 class QNetworkReply;
 
@@ -40,7 +42,7 @@ class LastFMImport : public QObject {
   Q_OBJECT
 
  public:
-  explicit LastFMImport(NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit LastFMImport(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~LastFMImport() override;
 
   void ReloadSettings();
@@ -94,7 +96,7 @@ class LastFMImport : public QObject {
  private:
   static const int kRequestsDelay;
 
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_flush_requests_;
 
   QString username_;

@@ -88,7 +88,7 @@ PlaylistItemPtrList PlaylistQueryGenerator::GenerateMore(const int count) {
     current_pos_ += search_copy.limit_;
   }
 
-  SongList songs = backend_->SmartPlaylistsFindSongs(search_copy);
+  SongList songs = collection_backend_->SmartPlaylistsFindSongs(search_copy);
   PlaylistItemPtrList items;
   items.reserve(songs.count());
   for (const Song &song : songs) {

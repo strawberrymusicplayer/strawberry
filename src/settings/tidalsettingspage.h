@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "settings/settingspage.h"
 
 class QEvent;
@@ -65,7 +66,7 @@ class TidalSettingsPage : public SettingsPage {
 
  private:
   Ui_TidalSettingsPage *ui_;
-  TidalService *service_;
+  SharedPtr<TidalService> service_;
 };
 
 #endif  // TIDALSETTINGSPAGE_H

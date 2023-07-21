@@ -34,6 +34,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
@@ -46,7 +47,7 @@
 
 constexpr int TidalCoverProvider::kLimit = 10;
 
-TidalCoverProvider::TidalCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+TidalCoverProvider::TidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider("Tidal", true, true, 2.5, true, true, app, network, parent),
       service_(app->internet_services()->Service<TidalService>()) {}
 

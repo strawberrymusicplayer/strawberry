@@ -36,6 +36,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
@@ -48,7 +49,7 @@ const char *MusicbrainzCoverProvider::kAlbumCoverUrl = "https://coverartarchive.
 const int MusicbrainzCoverProvider::kLimit = 8;
 const int MusicbrainzCoverProvider::kRequestsDelay = 1000;
 
-MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent)
+MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider("MusicBrainz", true, false, 1.5, true, false, app, network, parent),
       timer_flush_requests_(new QTimer(this)) {
 

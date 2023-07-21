@@ -31,13 +31,16 @@
 #include <QSortFilterProxyModel>
 #include <QtDebug>
 
-#include "test_utils.h"
-
 #include "core/logging.h"
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/database.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionbackend.h"
 #include "collection/collection.h"
+
+using std::make_unique;
+using std::make_shared;
 
 // clazy:excludeall=non-pod-global-static,returning-void-expression
 
@@ -49,15 +52,15 @@ class CollectionModelTest : public ::testing::Test {
 
  protected:
   void SetUp() override {
-    database_ = std::make_shared<MemoryDatabase>(nullptr);
-    backend_ = std::make_unique<CollectionBackend>();
-    backend_->Init(database_.get(), nullptr, Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
-    model_ = std::make_unique<CollectionModel>(backend_.get(), nullptr);
+    database_ = make_shared<MemoryDatabase>(nullptr);
+    backend_ = make_shared<CollectionBackend>();
+    backend_->Init(database_, nullptr, Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
+    model_ = make_unique<CollectionModel>(backend_, nullptr);
 
     added_dir_ = false;
 
-    model_sorted_ =  std::make_unique<QSortFilterProxyModel>();
-    model_sorted_->setSourceModel(model_.get());
+    model_sorted_ =  make_unique<QSortFilterProxyModel>();
+    model_sorted_->setSourceModel(&*model_);
     model_sorted_->setSortRole(CollectionModel::Role_SortText);
     model_sorted_->setDynamicSortFilter(true);
     model_sorted_->sort(0);
@@ -88,10 +91,10 @@ class CollectionModelTest : public ::testing::Test {
     return AddSong(song);
   }
 
-  std::shared_ptr<Database> database_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-  std::unique_ptr<CollectionBackend> backend_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-  std::unique_ptr<CollectionModel> model_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-  std::unique_ptr<QSortFilterProxyModel> model_sorted_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  SharedPtr<Database> database_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  SharedPtr<CollectionBackend> backend_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  ScopedPtr<CollectionModel> model_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  ScopedPtr<QSortFilterProxyModel> model_sorted_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
   bool added_dir_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
@@ -258,9 +261,9 @@ TEST_F(CollectionModelTest, RemoveSongsLazyLoaded) {
   ASSERT_EQ(3, model_->rowCount(album_index));
 
   // Remove the first two songs
-  QSignalSpy spy_preremove(model_.get(), &CollectionModel::rowsAboutToBeRemoved);
-  QSignalSpy spy_remove(model_.get(), &CollectionModel::rowsRemoved);
-  QSignalSpy spy_reset(model_.get(), &CollectionModel::modelReset);
+  QSignalSpy spy_preremove(&*model_, &CollectionModel::rowsAboutToBeRemoved);
+  QSignalSpy spy_remove(&*model_, &CollectionModel::rowsRemoved);
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
 
   backend_->DeleteSongs(SongList() << one << two);
 
@@ -283,9 +286,9 @@ TEST_F(CollectionModelTest, RemoveSongsNotLazyLoaded) {
   model_->Init(false);
 
   // Remove the first two songs
-  QSignalSpy spy_preremove(model_.get(), &CollectionModel::rowsAboutToBeRemoved);
-  QSignalSpy spy_remove(model_.get(), &CollectionModel::rowsRemoved);
-  QSignalSpy spy_reset(model_.get(), &CollectionModel::modelReset);
+  QSignalSpy spy_preremove(&*model_, &CollectionModel::rowsAboutToBeRemoved);
+  QSignalSpy spy_remove(&*model_, &CollectionModel::rowsRemoved);
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
 
   backend_->DeleteSongs(SongList() << one << two);
 
@@ -548,28 +551,28 @@ TEST_F(CollectionModelTest, TestContainerNodes) {
 
         qLog(Debug) << "Testing collection model grouping: " << f << s << t;
 
-        std::unique_ptr<Database> database1;
-        std::unique_ptr<Database> database2;
-        std::unique_ptr<Database> database3;
-        std::unique_ptr<CollectionBackend> backend1;
-        std::unique_ptr<CollectionBackend> backend2;
-        std::unique_ptr<CollectionBackend> backend3;
-        std::unique_ptr<CollectionModel> model1;
-        std::unique_ptr<CollectionModel> model2;
-        std::unique_ptr<CollectionModel> model3;
+        ScopedPtr<Database> database1;
+        ScopedPtr<Database> database2;
+        ScopedPtr<Database> database3;
+        ScopedPtr<CollectionBackend> backend1;
+        ScopedPtr<CollectionBackend> backend2;
+        ScopedPtr<CollectionBackend> backend3;
+        ScopedPtr<CollectionModel> model1;
+        ScopedPtr<CollectionModel> model2;
+        ScopedPtr<CollectionModel> model3;
 
-        database1 = std::make_unique<MemoryDatabase>(nullptr);
-        database2 = std::make_unique<MemoryDatabase>(nullptr);
-        database3 = std::make_unique<MemoryDatabase>(nullptr);
-        backend1 = std::make_unique<CollectionBackend>();
-        backend2= std::make_unique<CollectionBackend>();
-        backend3 = std::make_unique<CollectionBackend>();
+        database1 = make_unique<MemoryDatabase>(nullptr);
+        database2 = make_unique<MemoryDatabase>(nullptr);
+        database3 = make_unique<MemoryDatabase>(nullptr);
+        backend1 = make_unique<CollectionBackend>();
+        backend2= make_unique<CollectionBackend>();
+        backend3 = make_unique<CollectionBackend>();
         backend1->Init(database1.get(), Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
         backend2->Init(database2.get(), Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
         backend3->Init(database3.get(), Song::Source::Collection, SCollection::kSongsTable, SCollection::kFtsTable, SCollection::kDirsTable, SCollection::kSubdirsTable);
-        model1 = std::make_unique<CollectionModel>(backend1.get(), nullptr);
-        model2 = std::make_unique<CollectionModel>(backend2.get(), nullptr);
-        model3 = std::make_unique<CollectionModel>(backend3.get(), nullptr);
+        model1 = make_unique<CollectionModel>(backend1.get(), nullptr);
+        model2 = make_unique<CollectionModel>(backend2.get(), nullptr);
+        model3 = make_unique<CollectionModel>(backend3.get(), nullptr);
 
         backend1->AddDirectory("/mnt/music");
         backend2->AddDirectory("/mnt/music");

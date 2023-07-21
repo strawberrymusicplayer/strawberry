@@ -58,21 +58,21 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *pa
   setWindowIcon(IconLoader::Load("scrobble", true, 0, 32));
 
   // Last.fm
-  QObject::connect(lastfmscrobbler_, &LastFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LastFM_AuthenticationComplete);
+  QObject::connect(&*lastfmscrobbler_, &LastFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LastFM_AuthenticationComplete);
   QObject::connect(ui_->button_lastfm_login, &QPushButton::clicked, this, &ScrobblerSettingsPage::LastFM_Login);
   QObject::connect(ui_->widget_lastfm_login_state, &LoginStateWidget::LoginClicked, this, &ScrobblerSettingsPage::LastFM_Login);
   QObject::connect(ui_->widget_lastfm_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::LastFM_Logout);
   ui_->widget_lastfm_login_state->AddCredentialGroup(ui_->widget_lastfm_login);
 
   // Libre.fm
-  QObject::connect(librefmscrobbler_, &LibreFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LibreFM_AuthenticationComplete);
+  QObject::connect(&*librefmscrobbler_, &LibreFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LibreFM_AuthenticationComplete);
   QObject::connect(ui_->button_librefm_login, &QPushButton::clicked, this, &ScrobblerSettingsPage::LibreFM_Login);
   QObject::connect(ui_->widget_librefm_login_state, &LoginStateWidget::LoginClicked, this, &ScrobblerSettingsPage::LibreFM_Login);
   QObject::connect(ui_->widget_librefm_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::LibreFM_Logout);
   ui_->widget_librefm_login_state->AddCredentialGroup(ui_->widget_librefm_login);
 
   // ListenBrainz
-  QObject::connect(listenbrainzscrobbler_, &ListenBrainzScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete);
+  QObject::connect(&*listenbrainzscrobbler_, &ListenBrainzScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete);
   QObject::connect(ui_->button_listenbrainz_login, &QPushButton::clicked, this, &ScrobblerSettingsPage::ListenBrainz_Login);
   QObject::connect(ui_->widget_listenbrainz_login_state, &LoginStateWidget::LoginClicked, this, &ScrobblerSettingsPage::ListenBrainz_Login);
   QObject::connect(ui_->widget_listenbrainz_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::ListenBrainz_Logout);
@@ -91,12 +91,12 @@ void ScrobblerSettingsPage::Load() {
   QSettings s;
   if (!s.contains(kSettingsGroup)) set_changed();
 
-  ui_->checkbox_enable->setChecked(scrobbler_->IsEnabled());
-  ui_->checkbox_scrobble_button->setChecked(scrobbler_->ScrobbleButton());
-  ui_->checkbox_love_button->setChecked(scrobbler_->LoveButton());
-  ui_->checkbox_offline->setChecked(scrobbler_->IsOffline());
-  ui_->spinbox_submit->setValue(scrobbler_->SubmitDelay());
-  ui_->checkbox_albumartist->setChecked(scrobbler_->PreferAlbumArtist());
+  ui_->checkbox_enable->setChecked(scrobbler_->enabled());
+  ui_->checkbox_scrobble_button->setChecked(scrobbler_->scrobble_button());
+  ui_->checkbox_love_button->setChecked(scrobbler_->love_button());
+  ui_->checkbox_offline->setChecked(scrobbler_->offline());
+  ui_->spinbox_submit->setValue(scrobbler_->submit_delay());
+  ui_->checkbox_albumartist->setChecked(scrobbler_->prefer_albumartist());
   ui_->checkbox_show_error_dialog->setChecked(scrobbler_->ShowErrorDialog());
 
   ui_->checkbox_source_collection->setChecked(scrobbler_->sources().contains(Song::Source::Collection));
@@ -111,15 +111,15 @@ void ScrobblerSettingsPage::Load() {
   ui_->checkbox_source_radioparadise->setChecked(scrobbler_->sources().contains(Song::Source::RadioParadise));
   ui_->checkbox_source_unknown->setChecked(scrobbler_->sources().contains(Song::Source::Unknown));
 
-  ui_->checkbox_lastfm_enable->setChecked(lastfmscrobbler_->IsEnabled());
-  LastFM_RefreshControls(lastfmscrobbler_->IsAuthenticated());
+  ui_->checkbox_lastfm_enable->setChecked(lastfmscrobbler_->enabled());
+  LastFM_RefreshControls(lastfmscrobbler_->authenticated());
 
-  ui_->checkbox_librefm_enable->setChecked(librefmscrobbler_->IsEnabled());
-  LibreFM_RefreshControls(librefmscrobbler_->IsAuthenticated());
+  ui_->checkbox_librefm_enable->setChecked(librefmscrobbler_->enabled());
+  LibreFM_RefreshControls(librefmscrobbler_->authenticated());
 
-  ui_->checkbox_listenbrainz_enable->setChecked(listenbrainzscrobbler_->IsEnabled());
+  ui_->checkbox_listenbrainz_enable->setChecked(listenbrainzscrobbler_->enabled());
   ui_->lineedit_listenbrainz_user_token->setText(listenbrainzscrobbler_->user_token());
-  ListenBrainz_RefreshControls(listenbrainzscrobbler_->IsAuthenticated());
+  ListenBrainz_RefreshControls(listenbrainzscrobbler_->authenticated());
 
   Init(ui_->layout_scrobblersettingspage->parentWidget());
 

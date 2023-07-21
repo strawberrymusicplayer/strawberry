@@ -35,6 +35,7 @@
 #include <QTimer>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/application.h"
@@ -55,7 +56,7 @@ constexpr int TidalRequest::kMaxConcurrentAlbumSongsRequests = 3;
 constexpr int TidalRequest::kMaxConcurrentAlbumCoverRequests = 1;
 constexpr int TidalRequest::kFlushRequestsDelay = 200;
 
-TidalRequest::TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType query_type, QObject *parent)
+TidalRequest::TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, SharedPtr<NetworkAccessManager> network, QueryType query_type, QObject *parent)
     : TidalBaseRequest(service, network, parent),
       service_(service),
       url_handler_(url_handler),

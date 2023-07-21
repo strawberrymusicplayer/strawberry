@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QString>
@@ -33,6 +31,7 @@
 #include <QDateTime>
 #include <QImage>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "playlist/playlistsequence.h"
 
@@ -44,7 +43,7 @@ class OSDBase : public QObject {
   Q_OBJECT
 
  public:
-  explicit OSDBase(std::shared_ptr<SystemTrayIcon> tray_icon, Application *app, QObject *parent = nullptr);
+  explicit OSDBase(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject *parent = nullptr);
   ~OSDBase() override;
 
   static const char *kSettingsGroup;
@@ -97,7 +96,7 @@ class OSDBase : public QObject {
 
  private:
   Application *app_;
-  std::shared_ptr<SystemTrayIcon> tray_icon_;
+  SharedPtr<SystemTrayIcon> tray_icon_;
   OSDPretty *pretty_popup_;
 
   QString app_name_;

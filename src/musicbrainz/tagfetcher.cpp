@@ -29,6 +29,7 @@
 #include <QFutureWatcher>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/timeconstants.h"
 #include "engine/chromaprinter.h"
@@ -36,7 +37,7 @@
 #include "musicbrainzclient.h"
 #include "tagfetcher.h"
 
-TagFetcher::TagFetcher(NetworkAccessManager *network, QObject *parent)
+TagFetcher::TagFetcher(SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       fingerprint_watcher_(nullptr),
       acoustid_client_(new AcoustidClient(network, this)),

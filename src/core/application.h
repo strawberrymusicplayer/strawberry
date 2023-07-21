@@ -25,11 +25,12 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QList>
 #include <QString>
+
+#include "scoped_ptr.h"
+#include "shared_ptr.h"
 
 #include "settings/settingsdialog.h"
 
@@ -71,40 +72,40 @@ class Application : public QObject {
   explicit Application(QObject *parent = nullptr);
   ~Application() override;
 
-  TagReaderClient *tag_reader_client() const;
-  Database *database() const;
-  TaskManager *task_manager() const;
-  Player *player() const;
-  NetworkAccessManager *network() const;
-  DeviceFinders *device_finders() const;
+  SharedPtr<TagReaderClient> tag_reader_client() const;
+  SharedPtr<Database> database() const;
+  SharedPtr<TaskManager> task_manager() const;
+  SharedPtr<Player> player() const;
+  SharedPtr<NetworkAccessManager> network() const;
+  SharedPtr<DeviceFinders> device_finders() const;
 #ifndef Q_OS_WIN
-  DeviceManager *device_manager() const;
+  SharedPtr<DeviceManager> device_manager() const;
 #endif
 
-  SCollection *collection() const;
-  CollectionBackend *collection_backend() const;
+  SharedPtr<SCollection> collection() const;
+  SharedPtr<CollectionBackend> collection_backend() const;
   CollectionModel *collection_model() const;
 
-  PlaylistBackend *playlist_backend() const;
-  PlaylistManager *playlist_manager() const;
+  SharedPtr<PlaylistBackend> playlist_backend() const;
+  SharedPtr<PlaylistManager> playlist_manager() const;
 
-  CoverProviders *cover_providers() const;
-  AlbumCoverLoader *album_cover_loader() const;
-  CurrentAlbumCoverLoader *current_albumcover_loader() const;
+  SharedPtr<CoverProviders> cover_providers() const;
+  SharedPtr<AlbumCoverLoader> album_cover_loader() const;
+  SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader() const;
 
-  LyricsProviders *lyrics_providers() const;
+  SharedPtr<LyricsProviders> lyrics_providers() const;
 
-  AudioScrobbler *scrobbler() const;
+  SharedPtr<AudioScrobbler> scrobbler() const;
 
-  InternetServices *internet_services() const;
-  RadioServices *radio_services() const;
+  SharedPtr<InternetServices> internet_services() const;
+  SharedPtr<RadioServices> radio_services() const;
 
 #ifdef HAVE_MOODBAR
-  MoodbarController *moodbar_controller() const;
-  MoodbarLoader *moodbar_loader() const;
+  SharedPtr<MoodbarController> moodbar_controller() const;
+  SharedPtr<MoodbarLoader> moodbar_loader() const;
 #endif
 
-  LastFMImport *lastfm_import() const;
+  SharedPtr<LastFMImport> lastfm_import() const;
 
   void Exit();
 
@@ -127,7 +128,7 @@ class Application : public QObject {
   void ClearPixmapDiskCache();
 
  private:
-  std::unique_ptr<ApplicationImpl> p_;
+  ScopedPtr<ApplicationImpl> p_;
   QList<QThread*> threads_;
   QList<QObject*> wait_for_exit_;
 

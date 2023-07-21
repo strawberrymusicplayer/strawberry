@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
 #include <optional>
 
 #include <QObject>
@@ -37,6 +36,7 @@
 #include <QString>
 #include <QStringList>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "organizeformat.h"
 
@@ -63,7 +63,7 @@ class Organize : public QObject {
   };
   using NewSongInfoList = QList<NewSongInfo>;
 
-  explicit Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool albumcover, const NewSongInfoList &songs, const bool eject_after, const QString &playlist = QString(), QObject *parent = nullptr);
+  explicit Organize(SharedPtr<TaskManager> task_manager, SharedPtr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool albumcover, const NewSongInfoList &songs, const bool eject_after, const QString &playlist = QString(), QObject *parent = nullptr);
   ~Organize() override;
 
   static const int kBatchSize;
@@ -108,12 +108,12 @@ class Organize : public QObject {
 
   QThread *thread_;
   QThread *original_thread_;
-  TaskManager *task_manager_;
+  SharedPtr<TaskManager> task_manager_;
 #ifdef HAVE_GSTREAMER
   Transcoder *transcoder_;
 #endif
   QTimer *process_files_timer_;
-  std::shared_ptr<MusicStorage> destination_;
+  SharedPtr<MusicStorage> destination_;
   QList<Song::FileType> supported_filetypes_;
 
   const OrganizeFormat format_;

@@ -28,6 +28,7 @@
 #include <QSettings>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/simpletreemodel.h"
@@ -44,9 +45,9 @@ const char *SmartPlaylistsModel::kSettingsGroup = "SerializedSmartPlaylists";
 const char *SmartPlaylistsModel::kSmartPlaylistsMimeType = "application/x-strawberry-smart-playlist-generator";
 const int SmartPlaylistsModel::kSmartPlaylistsVersion = 1;
 
-SmartPlaylistsModel::SmartPlaylistsModel(CollectionBackend *backend, QObject *parent)
+SmartPlaylistsModel::SmartPlaylistsModel(SharedPtr<CollectionBackend> collection_backend, QObject *parent)
     : SimpleTreeModel<SmartPlaylistsItem>(new SmartPlaylistsItem(this), parent),
-      backend_(backend),
+      collection_backend_(collection_backend),
       icon_(IconLoader::Load("view-media-playlist")) {
 
   root_->lazy_loaded = true;
@@ -117,7 +118,7 @@ void SmartPlaylistsModel::Init() {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
-  int version = s.value(backend_->songs_table() + "_version", 0).toInt();
+  int version = s.value(collection_backend_->songs_table() + "_version", 0).toInt();
 
   // How many defaults do we have to write?
   int unwritten_defaults = 0;
@@ -128,11 +129,11 @@ void SmartPlaylistsModel::Init() {
   // Save the defaults if there are any unwritten ones
   if (unwritten_defaults > 0) {
     // How many items are stored already?
-    int playlist_index = s.beginReadArray(backend_->songs_table());
+    int playlist_index = s.beginReadArray(collection_backend_->songs_table());
     s.endArray();
 
     // Append the new ones
-    s.beginWriteArray(backend_->songs_table(), playlist_index + unwritten_defaults);
+    s.beginWriteArray(collection_backend_->songs_table(), playlist_index + unwritten_defaults);
     for (; version < default_smart_playlists_.count(); ++version) {
       for (PlaylistGeneratorPtr gen : default_smart_playlists_[version]) {  // clazy:exclude=range-loop-reference
         SaveGenerator(&s, playlist_index++, gen);
@@ -141,9 +142,9 @@ void SmartPlaylistsModel::Init() {
     s.endArray();
   }
 
-  s.setValue(backend_->songs_table() + "_version", version);
+  s.setValue(collection_backend_->songs_table() + "_version", version);
 
-  const int count = s.beginReadArray(backend_->songs_table());
+  const int count = s.beginReadArray(collection_backend_->songs_table());
   for (int i = 0; i < count; ++i) {
     s.setArrayIndex(i);
     ItemFromSmartPlaylist(s, false);
@@ -172,11 +173,11 @@ void SmartPlaylistsModel::AddGenerator(PlaylistGeneratorPtr gen) {
   s.beginGroup(kSettingsGroup);
 
   // Count the existing items
-  const int count = s.beginReadArray(backend_->songs_table());
+  const int count = s.beginReadArray(collection_backend_->songs_table());
   s.endArray();
 
   // Add this one to the end
-  s.beginWriteArray(backend_->songs_table(), count + 1);
+  s.beginWriteArray(collection_backend_->songs_table(), count + 1);
   SaveGenerator(&s, count, gen);
 
   // Add it to the model
@@ -198,10 +199,10 @@ void SmartPlaylistsModel::UpdateGenerator(const QModelIndex &idx, PlaylistGenera
   s.beginGroup(kSettingsGroup);
 
   // Count the existing items
-  const int count = s.beginReadArray(backend_->songs_table());
+  const int count = s.beginReadArray(collection_backend_->songs_table());
   s.endArray();
 
-  s.beginWriteArray(backend_->songs_table(), count);
+  s.beginWriteArray(collection_backend_->songs_table(), count);
   SaveGenerator(&s, idx.row(), gen);
 
   s.endArray();
@@ -227,7 +228,7 @@ void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
   s.beginGroup(kSettingsGroup);
 
   // Rewrite all the items to the settings
-  s.beginWriteArray(backend_->songs_table(), static_cast<int>(root_->children.count()));
+  s.beginWriteArray(collection_backend_->songs_table(), static_cast<int>(root_->children.count()));
   int i = 0;
   for (SmartPlaylistsItem *item : root_->children) {
     s.setArrayIndex(i++);
@@ -260,7 +261,7 @@ PlaylistGeneratorPtr SmartPlaylistsModel::CreateGenerator(const QModelIndex &idx
   if (!ret) return ret;
 
   ret->set_name(item->display_text);
-  ret->set_collection(backend_);
+  ret->set_collection_backend(collection_backend_);
   ret->Load(item->smart_playlist_data);
 
   return ret;

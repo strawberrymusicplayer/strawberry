@@ -24,14 +24,13 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QSettings>
 #include <QMap>
 #include <QString>
 #include <QKeySequence>
 
+#include "core/scoped_ptr.h"
 #include "globalshortcuts/globalshortcutsmanager.h"
 #include "settingspage.h"
 
@@ -77,7 +76,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   Ui_GlobalShortcutsSettingsPage *ui_;
 
   bool initialized_;
-  std::unique_ptr<GlobalShortcutGrabber> grabber_;
+  ScopedPtr<GlobalShortcutGrabber> grabber_;
 
   QMap<QString, Shortcut> shortcuts_;
 

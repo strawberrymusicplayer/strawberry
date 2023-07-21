@@ -28,6 +28,7 @@
 #include <QVariant>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "jsoncoverprovider.h"
 #include "providers/musixmatchprovider.h"
 
@@ -38,7 +39,7 @@ class MusixmatchCoverProvider : public JsonCoverProvider, MusixmatchProvider {
   Q_OBJECT
 
  public:
-  explicit MusixmatchCoverProvider(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit MusixmatchCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~MusixmatchCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

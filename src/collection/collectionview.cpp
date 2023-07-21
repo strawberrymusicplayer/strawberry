@@ -71,6 +71,8 @@
 #include "organize/organizeerrordialog.h"
 #include "settings/collectionsettingspage.h"
 
+using std::make_unique;
+
 CollectionView::CollectionView(QWidget *parent)
     : AutoExpandingTreeView(parent),
       app_(nullptr),
@@ -573,7 +575,7 @@ SongList CollectionView::GetSelectedSongs() const {
 void CollectionView::Organize() {
 
   if (!organize_dialog_) {
-    organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), app_->collection_backend(), this);
+    organize_dialog_ = make_unique<OrganizeDialog>(app_->task_manager(), app_->collection_backend(), this);
   }
 
   organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
@@ -591,8 +593,8 @@ void CollectionView::Organize() {
 void CollectionView::EditTracks() {
 
   if (!edit_tag_dialog_) {
-    edit_tag_dialog_ = std::make_unique<EditTagDialog>(app_, this);
-    QObject::connect(edit_tag_dialog_.get(), &EditTagDialog::Error, this, &CollectionView::EditTagError);
+    edit_tag_dialog_ = make_unique<EditTagDialog>(app_, this);
+    QObject::connect(&*edit_tag_dialog_, &EditTagDialog::Error, this, &CollectionView::EditTagError);
   }
   const SongList songs = GetSelectedSongs();
   edit_tag_dialog_->SetSongs(songs);
@@ -614,7 +616,7 @@ void CollectionView::CopyToDevice() {
 
 #ifndef Q_OS_WIN
   if (!organize_dialog_) {
-    organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
+    organize_dialog_ = make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
   }
 
   organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
@@ -686,7 +688,7 @@ void CollectionView::Delete() {
   if (DeleteConfirmationDialog::warning(files) != QDialogButtonBox::Yes) return;
 
   // We can cheat and always take the storage of the first directory, since they'll all be FilesystemMusicStorage in a collection and deleting doesn't check the actual directory.
-  std::shared_ptr<MusicStorage> storage = app_->collection_model()->directory_model()->index(0, 0).data(MusicStorage::Role_Storage).value<std::shared_ptr<MusicStorage>>();
+  SharedPtr<MusicStorage> storage = app_->collection_model()->directory_model()->index(0, 0).data(MusicStorage::Role_Storage).value<SharedPtr<MusicStorage>>();
 
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, true);
   QObject::connect(delete_files, &DeleteFiles::Finished, this, &CollectionView::DeleteFilesFinished);

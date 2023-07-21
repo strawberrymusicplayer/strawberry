@@ -29,6 +29,7 @@
 #include <QString>
 #include <QStringList>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/playlistsettingspage.h"
 #include "xmlparser.h"
@@ -43,7 +44,7 @@ class WplParser : public XMLParser {
   Q_OBJECT
 
  public:
-  explicit WplParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
+  explicit WplParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   QString name() const override { return "WPL"; }
   QStringList file_extensions() const override { return QStringList() << "wpl"; }

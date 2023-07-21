@@ -41,6 +41,7 @@
 #include <QColor>
 #include <QRgb>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "core/tagreaderclient.h"
 #include "covermanager/albumcoverloaderresult.h"
@@ -94,7 +95,7 @@ class Playlist : public QAbstractListModel {
   friend class PlaylistUndoCommands::ReOrderItems;
 
  public:
-  explicit Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, const int id, const QString &special_type = QString(), const bool favorite = false, QObject *parent = nullptr);
+  explicit Playlist(SharedPtr<PlaylistBackend> playlist_backend, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend, const int id, const QString &special_type = QString(), const bool favorite = false, QObject *parent = nullptr);
   ~Playlist() override;
 
   void SkipTracks(const QModelIndexList &source_indexes);
@@ -236,7 +237,7 @@ class Playlist : public QAbstractListModel {
   void InsertSongs(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertSongsOrCollectionItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertSmartPlaylist(PlaylistGeneratorPtr gen, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
-  void InsertInternetItems(InternetService *service, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertInternetItems(SharedPtr<InternetService> service, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertRadioItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
 
   void ReshuffleIndices();
@@ -387,9 +388,9 @@ class Playlist : public QAbstractListModel {
 
   QList<QModelIndex> temp_dequeue_change_indexes_;
 
-  PlaylistBackend *backend_;
-  TaskManager *task_manager_;
-  CollectionBackend *collection_;
+  SharedPtr<PlaylistBackend> backend_;
+  SharedPtr<TaskManager> task_manager_;
+  SharedPtr<CollectionBackend> collection_backend_;
   int id_;
   QString ui_path_;
   bool favorite_;

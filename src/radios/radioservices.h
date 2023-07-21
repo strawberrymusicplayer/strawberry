@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QMap>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "radiochannel.h"
 
@@ -39,7 +40,6 @@ class RadioServices : public QObject {
 
  public:
   explicit RadioServices(Application *app, QObject *parent = nullptr);
-  ~RadioServices();
 
   void AddService(RadioService *service);
   void RemoveService(RadioService *service);
@@ -53,7 +53,7 @@ class RadioServices : public QObject {
 
   void ReloadSettings();
 
-  RadioBackend *radio_backend() const { return backend_; }
+  SharedPtr<RadioBackend> radio_backend() const { return backend_; }
   QSortFilterProxyModel *sort_model() const { return sort_model_; }
 
  private slots:
@@ -66,8 +66,8 @@ class RadioServices : public QObject {
   void RefreshChannels();
 
  private:
-  NetworkAccessManager *network_;
-  RadioBackend *backend_;
+  SharedPtr<NetworkAccessManager> network_;
+  SharedPtr<RadioBackend> backend_;
   RadioModel *model_;
   QSortFilterProxyModel *sort_model_;
   QMap<Song::Source, RadioService*> services_;

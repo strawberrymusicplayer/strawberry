@@ -30,6 +30,7 @@
 #include <QAction>
 #include <QActionGroup>
 
+#include "core/shared_ptr.h"
 #include "engine/enginebase.h"
 
 class QTimer;
@@ -44,7 +45,7 @@ class AnalyzerContainer : public QWidget {
  public:
   explicit AnalyzerContainer(QWidget *parent);
 
-  void SetEngine(EngineBase *engine);
+  void SetEngine(SharedPtr<EngineBase> engine);
   void SetActions(QAction *visualisation);
 
   static const char *kSettingsGroup;
@@ -93,7 +94,7 @@ class AnalyzerContainer : public QWidget {
   bool ignore_next_click_;
 
   AnalyzerBase *current_analyzer_;
-  EngineBase *engine_;
+  SharedPtr<EngineBase> engine_;
 };
 
 template<typename T>

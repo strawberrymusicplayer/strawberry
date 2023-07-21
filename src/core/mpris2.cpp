@@ -118,16 +118,16 @@ Mpris2::Mpris2(Application *app, QObject *parent)
     return;
   }
 
-  QObject::connect(app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &Mpris2::AlbumCoverLoaded);
+  QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &Mpris2::AlbumCoverLoaded);
 
-  QObject::connect(app_->player()->engine(), &EngineBase::StateChanged, this, &Mpris2::EngineStateChanged);
-  QObject::connect(app_->player(), &Player::VolumeChanged, this, &Mpris2::VolumeChanged);
-  QObject::connect(app_->player(), &Player::Seeked, this, &Mpris2::Seeked);
+  QObject::connect(&*app_->player()->engine(), &EngineBase::StateChanged, this, &Mpris2::EngineStateChanged);
+  QObject::connect(&*app_->player(), &Player::VolumeChanged, this, &Mpris2::VolumeChanged);
+  QObject::connect(&*app_->player(), &Player::Seeked, this, &Mpris2::Seeked);
 
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::PlaylistManagerInitialized, this, &Mpris2::PlaylistManagerInitialized);
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &Mpris2::CurrentSongChanged);
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::PlaylistChanged, this, &Mpris2::PlaylistChangedSlot);
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentChanged, this, &Mpris2::PlaylistCollectionChanged);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::PlaylistManagerInitialized, this, &Mpris2::PlaylistManagerInitialized);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &Mpris2::CurrentSongChanged);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::PlaylistChanged, this, &Mpris2::PlaylistChangedSlot);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentChanged, this, &Mpris2::PlaylistCollectionChanged);
 
   app_name_[0] = app_name_[0].toUpper();
 

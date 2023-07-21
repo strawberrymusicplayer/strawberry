@@ -27,14 +27,15 @@
 #include <QRegularExpression>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
 #include "core/logging.h"
 #include "core/tagreaderclient.h"
 #include "collection/collectionbackend.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
 
-ParserBase::ParserBase(CollectionBackendInterface *collection, QObject *parent)
-    : QObject(parent), collection_(collection) {}
+ParserBase::ParserBase(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : QObject(parent), collection_backend_(collection_backend) {}
 
 void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning, const QDir &dir, Song *song, const bool collection_search) const {
 
@@ -79,8 +80,8 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
   const QUrl url = QUrl::fromLocalFile(filename);
 
   // Search in the collection
-  if (collection_ && collection_search) {
-    Song collection_song = collection_->GetSongByUrl(url, beginning);
+  if (collection_backend_ && collection_search) {
+    Song collection_song = collection_backend_->GetSongByUrl(url, beginning);
     // If it was found in the collection then use it, otherwise load metadata from disk.
     if (collection_song.is_valid()) {
       *song = collection_song;

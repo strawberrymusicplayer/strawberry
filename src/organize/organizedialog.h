@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QDialog>
@@ -37,6 +35,8 @@
 #include <QUrl>
 #include <QtEvents>
 
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "organize.h"
 #include "organizeformat.h"
@@ -56,7 +56,7 @@ class OrganizeDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit OrganizeDialog(TaskManager *task_manager, CollectionBackend *backend = nullptr, QWidget *parentwindow = nullptr, QWidget *parent = nullptr);
+  explicit OrganizeDialog(SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend = nullptr, QWidget *parentwindow = nullptr, QWidget *parent = nullptr);
   ~OrganizeDialog() override;
 
   void SetDestinationModel(QAbstractItemModel *model, const bool devices = false);
@@ -110,8 +110,8 @@ class OrganizeDialog : public QDialog {
 
   QWidget *parentwindow_;
   Ui_OrganizeDialog *ui_;
-  TaskManager *task_manager_;
-  CollectionBackend *backend_;
+  SharedPtr<TaskManager> task_manager_;
+  SharedPtr<CollectionBackend> collection_backend_;
 
   OrganizeFormat format_;
 
@@ -121,7 +121,7 @@ class OrganizeDialog : public QDialog {
   quint64 total_size_;
   QString playlist_;
 
-  std::unique_ptr<OrganizeErrorDialog> error_dialog_;
+  ScopedPtr<OrganizeErrorDialog> error_dialog_;
 
   bool devices_;
 };

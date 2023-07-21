@@ -24,13 +24,13 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QWidget>
 #include <QString>
 #include <QIcon>
 #include <QPixmap>
+
+#include "core/scoped_ptr.h"
 
 class QMenu;
 class QAction;
@@ -92,7 +92,7 @@ class PlaylistSequence : public QWidget {
 
  private:
   Ui_PlaylistSequence *ui_;
-  std::unique_ptr<SettingsProvider> settings_;
+  ScopedPtr<SettingsProvider> settings_;
 
   QMenu *repeat_menu_;
   QMenu *shuffle_menu_;

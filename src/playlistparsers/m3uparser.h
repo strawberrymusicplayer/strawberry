@@ -30,6 +30,7 @@
 #include <QStringList>
 #include <QDir>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
@@ -41,7 +42,7 @@ class M3UParser : public ParserBase {
   Q_OBJECT
 
  public:
-  explicit M3UParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
+  explicit M3UParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   QString name() const override { return "M3U"; }
   QStringList file_extensions() const override { return QStringList() << "m3u" << "m3u8"; }

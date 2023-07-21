@@ -34,6 +34,7 @@
 #include <QJsonArray>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/strutils.h"
 #include "jsonlyricsprovider.h"
@@ -42,7 +43,9 @@
 #include "musixmatchlyricsprovider.h"
 #include "providers/musixmatchprovider.h"
 
-MusixmatchLyricsProvider::MusixmatchLyricsProvider(NetworkAccessManager *network, QObject *parent) : JsonLyricsProvider("Musixmatch", true, false, network, parent), use_api_(true) {}
+using std::make_shared;
+
+MusixmatchLyricsProvider::MusixmatchLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider("Musixmatch", true, false, network, parent), use_api_(true) {}
 
 MusixmatchLyricsProvider::~MusixmatchLyricsProvider() {
 
@@ -57,7 +60,7 @@ MusixmatchLyricsProvider::~MusixmatchLyricsProvider() {
 
 bool MusixmatchLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
-  LyricsSearchContextPtr search = std::make_shared<LyricsSearchContext>();
+  LyricsSearchContextPtr search = make_shared<LyricsSearchContext>();
   search->id = id;
   search->request = request;
   requests_search_.append(search);

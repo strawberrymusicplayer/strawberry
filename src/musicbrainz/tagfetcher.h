@@ -29,6 +29,7 @@
 #include <QString>
 #include <QStringList>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "musicbrainzclient.h"
 
@@ -41,7 +42,7 @@ class TagFetcher : public QObject {
   // High level interface to Fingerprinter, AcoustidClient and MusicBrainzClient.
 
  public:
-  explicit TagFetcher(NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit TagFetcher(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
   void StartFetch(const SongList &songs);
 

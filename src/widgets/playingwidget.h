@@ -22,8 +22,6 @@
 #ifndef PLAYINGWIDGET_H
 #define PLAYINGWIDGET_H
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -34,6 +32,7 @@
 #include <QAction>
 #include <QMovie>
 
+#include "core/scoped_ptr.h"
 #include "core/song.h"
 
 class QTimeLine;
@@ -137,7 +136,7 @@ class PlayingWidget : public QWidget {
   QImage image_original_;
   QPixmap pixmap_cover_;
   QPixmap pixmap_previous_track_;
-  std::unique_ptr<QMovie> spinner_animation_;
+  ScopedPtr<QMovie> spinner_animation_;
 
   void SetVisible(const bool visible);
   void CreateModeAction(const Mode mode, const QString &text, QActionGroup *group);

@@ -34,6 +34,7 @@
 #include <QJsonObject>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "utilities/timeconstants.h"
@@ -41,7 +42,7 @@
 #include "qobuzbaserequest.h"
 #include "qobuzstreamurlrequest.h"
 
-QobuzStreamURLRequest::QobuzStreamURLRequest(QobuzService *service, NetworkAccessManager *network, const QUrl &media_url, const uint id, QObject *parent)
+QobuzStreamURLRequest::QobuzStreamURLRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
       service_(service),
       reply_(nullptr),

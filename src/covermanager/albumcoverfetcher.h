@@ -36,6 +36,8 @@
 #include <QUrl>
 #include <QImage>
 
+#include "core/shared_ptr.h"
+
 #include "coversearchstatistics.h"
 #include "albumcoverimageresult.h"
 
@@ -107,7 +109,7 @@ class AlbumCoverFetcher : public QObject {
   Q_OBJECT
 
  public:
-  explicit AlbumCoverFetcher(CoverProviders *cover_providers, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit AlbumCoverFetcher(SharedPtr<CoverProviders> cover_providers, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~AlbumCoverFetcher() override;
 
   static const int kMaxConcurrentRequests;
@@ -129,8 +131,8 @@ class AlbumCoverFetcher : public QObject {
  private:
   void AddRequest(const CoverSearchRequest &req);
 
-  CoverProviders *cover_providers_;
-  NetworkAccessManager *network_;
+  SharedPtr<CoverProviders> cover_providers_;
+  SharedPtr<NetworkAccessManager> network_;
   quint64 next_id_;
 
   QQueue<CoverSearchRequest> queued_requests_;

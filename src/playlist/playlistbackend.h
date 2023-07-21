@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QMutex>
 #include <QHash>
@@ -34,6 +32,7 @@
 #include <QString>
 #include <QSqlQuery>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "core/sqlquery.h"
 #include "core/sqlrow.h"
@@ -102,9 +101,9 @@ class PlaylistBackend : public QObject {
     QMutex mutex_;
   };
 
-  Song NewSongFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state);
-  PlaylistItemPtr NewPlaylistItemFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state);
-  PlaylistItemPtr RestoreCueData(PlaylistItemPtr item, std::shared_ptr<NewSongFromQueryState> state);
+  Song NewSongFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state);
+  PlaylistItemPtr NewPlaylistItemFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state);
+  PlaylistItemPtr RestoreCueData(PlaylistItemPtr item, SharedPtr<NewSongFromQueryState> state);
 
   enum GetPlaylistsFlags {
     GetPlaylists_OpenInUi = 1,
@@ -114,7 +113,7 @@ class PlaylistBackend : public QObject {
   PlaylistList GetPlaylists(const GetPlaylistsFlags flags);
 
   Application *app_;
-  Database *db_;
+  SharedPtr<Database> db_;
   QThread *original_thread_;
 };
 

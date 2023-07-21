@@ -23,14 +23,14 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QStandardItemModel>
 #include <QList>
 #include <QVariant>
 #include <QString>
 #include <QIcon>
+
+#include "core/shared_ptr.h"
 
 class QModelIndex;
 
@@ -42,8 +42,7 @@ class CollectionDirectoryModel : public QStandardItemModel {
   Q_OBJECT
 
  public:
-  explicit CollectionDirectoryModel(CollectionBackend *backend, QObject *parent = nullptr);
-  ~CollectionDirectoryModel() override;
+  explicit CollectionDirectoryModel(SharedPtr<CollectionBackend> collection_backend, QObject *parent = nullptr);
 
   // To be called by GUIs
   void AddDirectory(const QString &path);
@@ -60,8 +59,8 @@ class CollectionDirectoryModel : public QStandardItemModel {
   static const int kIdRole = Qt::UserRole + 1;
 
   QIcon dir_icon_;
-  CollectionBackend *backend_;
-  QList<std::shared_ptr<MusicStorage>> storage_;
+  SharedPtr<CollectionBackend> backend_;
+  QList<SharedPtr<MusicStorage>> storage_;
 };
 
 #endif  // COLLECTIONDIRECTORYMODEL_H

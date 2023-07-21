@@ -28,16 +28,18 @@
 #include "playlistgenerator.h"
 #include "playlistquerygenerator.h"
 
+using std::make_shared;
+
 const int PlaylistGenerator::kDefaultLimit = 20;
 const int PlaylistGenerator::kDefaultDynamicHistory = 5;
 const int PlaylistGenerator::kDefaultDynamicFuture = 15;
 
-PlaylistGenerator::PlaylistGenerator(QObject *parent) : QObject(parent), backend_(nullptr) {}
+PlaylistGenerator::PlaylistGenerator(QObject *parent) : QObject(parent), collection_backend_(nullptr) {}
 
 PlaylistGeneratorPtr PlaylistGenerator::Create(const Type type) {
 
   Q_UNUSED(type)
 
-  return std::make_shared<PlaylistQueryGenerator>();
+  return make_shared<PlaylistQueryGenerator>();
 
 }

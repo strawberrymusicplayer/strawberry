@@ -30,6 +30,7 @@
 #include <QString>
 #include <QStringList>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/playlistsettingspage.h"
 
@@ -41,7 +42,7 @@ class PlaylistParser : public QObject {
   Q_OBJECT
 
  public:
-  explicit PlaylistParser(CollectionBackendInterface *collection = nullptr, QObject *parent = nullptr);
+  explicit PlaylistParser(SharedPtr<CollectionBackendInterface> collection_backend = nullptr, QObject *parent = nullptr);
 
   enum class Type {
     Load,

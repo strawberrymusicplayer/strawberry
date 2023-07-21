@@ -45,6 +45,7 @@
 #include <QPixmap>
 #include <QNetworkDiskCache>
 
+#include "core/shared_ptr.h"
 #include "core/simpletreemodel.h"
 #include "core/song.h"
 #include "core/sqlrow.h"
@@ -64,7 +65,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   Q_OBJECT
 
  public:
-  explicit CollectionModel(CollectionBackend *backend, Application *app, QObject *parent = nullptr);
+  explicit CollectionModel(SharedPtr<CollectionBackend> backend, Application *app, QObject *parent = nullptr);
   ~CollectionModel() override;
 
   static const int kPrettyCoverSize;
@@ -131,7 +132,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     bool create_va;
   };
 
-  CollectionBackend *backend() const { return backend_; }
+  SharedPtr<CollectionBackend> backend() const { return backend_; }
   CollectionDirectoryModel *directory_model() const { return dir_model_; }
 
   // Call before Init()
@@ -273,7 +274,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static qint64 MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default);
 
  private:
-  CollectionBackend *backend_;
+  SharedPtr<CollectionBackend> backend_;
   Application *app_;
   CollectionDirectoryModel *dir_model_;
   bool show_various_artists_;

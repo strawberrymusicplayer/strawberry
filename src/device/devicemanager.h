@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QMetaObject>
 #include <QThreadPool>
@@ -39,6 +37,8 @@
 #include <QUrl>
 #include <QIcon>
 
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "core/musicstorage.h"
 #include "core/simpletreemodel.h"
@@ -95,8 +95,8 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   int GetDatabaseId(const QModelIndex &idx) const;
   DeviceLister *GetLister(const QModelIndex &idx) const;
   DeviceInfo *GetDevice(const QModelIndex &idx) const;
-  std::shared_ptr<ConnectedDevice> GetConnectedDevice(const QModelIndex &idx) const;
-  std::shared_ptr<ConnectedDevice> GetConnectedDevice(DeviceInfo *info) const;
+  SharedPtr<ConnectedDevice> GetConnectedDevice(const QModelIndex &idx) const;
+  SharedPtr<ConnectedDevice> GetConnectedDevice(DeviceInfo *info) const;
 
   DeviceInfo *FindDeviceById(const QString &id) const;
   DeviceInfo *FindDeviceByUrl(const QList<QUrl> &url) const;
@@ -104,8 +104,8 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   DeviceInfo *FindEquivalentDevice(DeviceInfo *info) const;
 
   // Actions on devices
-  std::shared_ptr<ConnectedDevice> Connect(DeviceInfo *info);
-  std::shared_ptr<ConnectedDevice> Connect(const QModelIndex &idx);
+  SharedPtr<ConnectedDevice> Connect(DeviceInfo *info);
+  SharedPtr<ConnectedDevice> Connect(const QModelIndex &idx);
   void Disconnect(DeviceInfo *info, const QModelIndex &idx);
   void Forget(const QModelIndex &idx);
   void UnmountAsync(const QModelIndex &idx);
@@ -153,7 +153,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
  private:
   Application *app_;
-  DeviceDatabaseBackend *backend_;
+  ScopedPtr<DeviceDatabaseBackend> backend_;
 
   DeviceStateFilterModel *connected_devices_model_;
 

@@ -44,6 +44,7 @@
 #include <QSettings>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "widgets/favoritewidget.h"
@@ -100,11 +101,11 @@ void PlaylistTabBar::SetActions(QAction *new_playlist, QAction *load_playlist) {
 
 }
 
-void PlaylistTabBar::SetManager(PlaylistManager *manager) {
+void PlaylistTabBar::SetManager(SharedPtr<PlaylistManager> manager) {
 
   manager_ = manager;
-  QObject::connect(manager_, &PlaylistManager::PlaylistFavorited, this, &PlaylistTabBar::PlaylistFavoritedSlot);
-  QObject::connect(manager_, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistTabBar::PlaylistManagerInitialized);
+  QObject::connect(&*manager_, &PlaylistManager::PlaylistFavorited, this, &PlaylistTabBar::PlaylistFavoritedSlot);
+  QObject::connect(&*manager_, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistTabBar::PlaylistManagerInitialized);
 
 }
 
@@ -112,7 +113,7 @@ void PlaylistTabBar::PlaylistManagerInitialized() {
 
   // Signal that we are done loading and thus further changes should be committed to the db.
   initialized_ = true;
-  QObject::disconnect(manager_, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistTabBar::PlaylistManagerInitialized);
+  QObject::disconnect(&*manager_, &PlaylistManager::PlaylistManagerInitialized, this, &PlaylistTabBar::PlaylistManagerInitialized);
 
 }
 

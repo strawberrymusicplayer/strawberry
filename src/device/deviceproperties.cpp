@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include <functional>
-#include <memory>
 
 #include <QtGlobal>
 #include <QWidget>
@@ -46,6 +45,7 @@
 #include <QStackedWidget>
 #include <QTableWidget>
 
+#include "core/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
 #include "widgets/freespacebar.h"
@@ -75,12 +75,12 @@ DeviceProperties::DeviceProperties(QWidget *parent)
 
 DeviceProperties::~DeviceProperties() { delete ui_; }
 
-void DeviceProperties::SetDeviceManager(DeviceManager *manager) {
+void DeviceProperties::SetDeviceManager(SharedPtr<DeviceManager> manager) {
 
   manager_ = manager;
-  QObject::connect(manager_, &DeviceManager::dataChanged, this, &DeviceProperties::ModelChanged);
-  QObject::connect(manager_, &DeviceManager::rowsInserted, this, &DeviceProperties::ModelChanged);
-  QObject::connect(manager_, &DeviceManager::rowsRemoved, this, &DeviceProperties::ModelChanged);
+  QObject::connect(&*manager_, &DeviceManager::dataChanged, this, &DeviceProperties::ModelChanged);
+  QObject::connect(&*manager_, &DeviceManager::rowsInserted, this, &DeviceProperties::ModelChanged);
+  QObject::connect(&*manager_, &DeviceManager::rowsRemoved, this, &DeviceProperties::ModelChanged);
 
 }
 
@@ -204,7 +204,7 @@ void DeviceProperties::UpdateHardwareInfo() {
 void DeviceProperties::UpdateFormats() {
 
   DeviceLister *lister = manager_->GetLister(index_);
-  std::shared_ptr<ConnectedDevice> device = manager_->GetConnectedDevice(index_);
+  SharedPtr<ConnectedDevice> device = manager_->GetConnectedDevice(index_);
 
   // Transcode mode
   MusicStorage::TranscodeMode mode = static_cast<MusicStorage::TranscodeMode>(index_.data(DeviceManager::Role_TranscodeMode).toInt());

@@ -33,6 +33,8 @@
 #include <QString>
 #include <QUrl>
 
+#include "core/shared_ptr.h"
+
 #include "enginebase.h"
 
 struct libvlc_event_t;
@@ -43,7 +45,7 @@ class VLCEngine : public EngineBase {
   Q_OBJECT
 
  public:
-  explicit VLCEngine(TaskManager *task_manager, QObject *parent = nullptr);
+  explicit VLCEngine(SharedPtr<TaskManager> task_manager, QObject *parent = nullptr);
   ~VLCEngine() override;
 
   Type type() const override { return Type::VLC; }

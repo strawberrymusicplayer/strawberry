@@ -48,6 +48,7 @@
 #include <QMessageBox>
 #include <QtEvents>
 
+#include "core/scoped_ptr.h"
 #include "core/iconloader.h"
 #include "core/application.h"
 #include "core/deletefiles.h"
@@ -65,6 +66,8 @@
 #include "devicemanager.h"
 #include "deviceproperties.h"
 #include "deviceview.h"
+
+using std::make_unique;
 
 const int DeviceItemDelegate::kIconPadding = 6;
 
@@ -203,11 +206,11 @@ void DeviceView::SetApplication(Application *app) {
   Q_ASSERT(app_ == nullptr);
   app_ = app;
 
-  QObject::connect(app_->device_manager(), &DeviceManager::DeviceConnected, this, &DeviceView::DeviceConnected);
-  QObject::connect(app_->device_manager(), &DeviceManager::DeviceDisconnected, this, &DeviceView::DeviceDisconnected);
+  QObject::connect(&*app_->device_manager(), &DeviceManager::DeviceConnected, this, &DeviceView::DeviceConnected);
+  QObject::connect(&*app_->device_manager(), &DeviceManager::DeviceDisconnected, this, &DeviceView::DeviceDisconnected);
 
   sort_model_ = new QSortFilterProxyModel(this);
-  sort_model_->setSourceModel(app_->device_manager());
+  sort_model_->setSourceModel(&*app_->device_manager());
   sort_model_->setDynamicSortFilter(true);
   sort_model_->setSortCaseSensitivity(Qt::CaseInsensitive);
   sort_model_->sort(0);
@@ -220,7 +223,7 @@ void DeviceView::SetApplication(Application *app) {
 
   properties_dialog_->SetDeviceManager(app_->device_manager());
 
-  organize_dialog_ = std::make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
+  organize_dialog_ = make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
   organize_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
 
 }
@@ -266,7 +269,7 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
 
     bool is_filesystem_device = false;
     if (parent_device_index.isValid()) {
-      std::shared_ptr<ConnectedDevice> device = app_->device_manager()->GetConnectedDevice(parent_device_index);
+      SharedPtr<ConnectedDevice> device = app_->device_manager()->GetConnectedDevice(parent_device_index);
       if (device && !device->LocalPath().isEmpty()) is_filesystem_device = true;
     }
 
@@ -312,7 +315,7 @@ void DeviceView::DeviceConnected(const QModelIndex &idx) {
 
   if (!idx.isValid()) return;
 
-  std::shared_ptr<ConnectedDevice> device = app_->device_manager()->GetConnectedDevice(idx);
+  SharedPtr<ConnectedDevice> device = app_->device_manager()->GetConnectedDevice(idx);
   if (!device) return;
 
   QModelIndex sort_idx = sort_model_->mapFromSource(idx);
@@ -339,7 +342,7 @@ void DeviceView::Forget() {
   QModelIndex device_idx = MapToDevice(menu_index_);
   QString unique_id = app_->device_manager()->data(device_idx, DeviceManager::Role_UniqueId).toString();
   if (app_->device_manager()->GetLister(device_idx) && app_->device_manager()->GetLister(device_idx)->AskForScan(unique_id)) {
-    std::unique_ptr<QMessageBox> dialog(new QMessageBox(
+    ScopedPtr<QMessageBox> dialog(new QMessageBox(
         QMessageBox::Question, tr("Forget device"),
         tr("Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."),
         QMessageBox::Cancel, this));
@@ -427,7 +430,7 @@ void DeviceView::Delete() {
     return;
   }
 
-  std::shared_ptr<MusicStorage> storage = device_index.data(MusicStorage::Role_Storage).value<std::shared_ptr<MusicStorage>>();
+  SharedPtr<MusicStorage> storage = device_index.data(MusicStorage::Role_Storage).value<SharedPtr<MusicStorage>>();
 
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, false);
   QObject::connect(delete_files, &DeleteFiles::Finished, this, &DeviceView::DeleteFinished);

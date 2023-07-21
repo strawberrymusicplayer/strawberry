@@ -39,6 +39,8 @@
 
 #include "ext/gstmoodbar/gstfastspectrum.h"
 
+using std::make_unique;
+
 const int MoodbarPipeline::kBands = 128;
 
 MoodbarPipeline::MoodbarPipeline(const QUrl &url, QObject *parent)
@@ -109,7 +111,7 @@ void MoodbarPipeline::Start() {
     return;
   }
 
-  builder_ = std::make_unique<MoodbarBuilder>();
+  builder_ = make_unique<MoodbarBuilder>();
 
   // Set properties
 

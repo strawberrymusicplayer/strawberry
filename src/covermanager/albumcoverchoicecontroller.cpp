@@ -577,7 +577,7 @@ void AlbumCoverChoiceController::SaveArtManualToSong(Song *song, const QUrl &art
     case Song::Source::Tidal:
     case Song::Source::Qobuz:
     case Song::Source::Subsonic:
-      InternetService *service = app_->internet_services()->ServiceBySource(song->source());
+      InternetServicePtr service = app_->internet_services()->ServiceBySource(song->source());
       if (!service) break;
       if (service->artists_collection_backend()) {
         service->artists_collection_backend()->UpdateManualAlbumArtAsync(song->effective_albumartist(), song->album(), art_manual);

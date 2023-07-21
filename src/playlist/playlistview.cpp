@@ -232,11 +232,11 @@ void PlaylistView::Init(Application *app) {
 
   SetItemDelegates();
 
-  QObject::connect(app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &PlaylistView::SongChanged);
-  QObject::connect(app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &PlaylistView::AlbumCoverLoaded);
-  QObject::connect(app_->player(), &Player::Playing, this, &PlaylistView::StartGlowing);
-  QObject::connect(app_->player(), &Player::Paused, this, &PlaylistView::StopGlowing);
-  QObject::connect(app_->player(), &Player::Stopped, this, &PlaylistView::Stopped);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &PlaylistView::SongChanged);
+  QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &PlaylistView::AlbumCoverLoaded);
+  QObject::connect(&*app_->player(), &Player::Playing, this, &PlaylistView::StartGlowing);
+  QObject::connect(&*app_->player(), &Player::Paused, this, &PlaylistView::StopGlowing);
+  QObject::connect(&*app_->player(), &Player::Stopped, this, &PlaylistView::Stopped);
 
 }
 

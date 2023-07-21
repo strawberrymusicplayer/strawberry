@@ -151,7 +151,7 @@ class TagCompletionModel : public QStringListModel {
   Q_OBJECT
 
  public:
-  explicit TagCompletionModel(CollectionBackend *backend, const Playlist::Column column, QObject *parent = nullptr);
+  explicit TagCompletionModel(SharedPtr<CollectionBackend> backend, const Playlist::Column column, QObject *parent = nullptr);
 
  private:
   static QString database_column(Playlist::Column column);
@@ -161,7 +161,7 @@ class TagCompleter : public QCompleter {
   Q_OBJECT
 
  public:
-  explicit TagCompleter(CollectionBackend *backend, Playlist::Column column, QLineEdit *editor);
+  explicit TagCompleter(SharedPtr<CollectionBackend> backend, Playlist::Column column, QLineEdit *editor);
   ~TagCompleter() override;
 
  private slots:
@@ -175,12 +175,12 @@ class TagCompletionItemDelegate : public PlaylistDelegateBase {
   Q_OBJECT
 
  public:
-  explicit TagCompletionItemDelegate(QObject *parent, CollectionBackend *backend, Playlist::Column column) : PlaylistDelegateBase(parent), backend_(backend), column_(column) {};
+  explicit TagCompletionItemDelegate(QObject *parent, SharedPtr<CollectionBackend> backend, Playlist::Column column) : PlaylistDelegateBase(parent), backend_(backend), column_(column) {};
 
   QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
  private:
-  CollectionBackend *backend_;
+  SharedPtr<CollectionBackend> backend_;
   Playlist::Column column_;
 };
 

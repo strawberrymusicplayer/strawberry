@@ -24,10 +24,9 @@
 
 #include <QtGlobal>
 
-#include <glib.h>
 #include <cstdlib>
-#include <memory>
 #include <ctime>
+#include <memory>
 
 #ifdef Q_OS_UNIX
 #  include <unistd.h>
@@ -42,6 +41,8 @@
 #  include <windows.h>
 #  include <iostream>
 #endif  // Q_OS_WIN32
+
+#include <glib.h>
 
 #include <QObject>
 #include <QApplication>
@@ -65,6 +66,9 @@
 #include "main.h"
 
 #include "core/logging.h"
+
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 
 #include <kdsingleapplication.h>
 
@@ -108,6 +112,8 @@
 #else
 #  include "osd/osdbase.h"
 #endif
+
+using std::make_shared;
 
 int main(int argc, char *argv[]) {
 
@@ -270,7 +276,7 @@ int main(int argc, char *argv[]) {
 
   const QString language = override_language.isEmpty() ? system_language : override_language;
 
-  std::unique_ptr<Translations> translations(new Translations);
+  ScopedPtr<Translations> translations(new Translations);
 
 #  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   translations->LoadTranslation("qt", QLibraryInfo::path(QLibraryInfo::TranslationsPath), language);
@@ -294,7 +300,7 @@ int main(int argc, char *argv[]) {
   QNetworkProxyFactory::setApplicationProxyFactory(NetworkProxyFactory::Instance());
 
   // Create the tray icon and OSD
-  std::shared_ptr<SystemTrayIcon> tray_icon = std::make_shared<SystemTrayIcon>();
+  SharedPtr<SystemTrayIcon> tray_icon = make_shared<SystemTrayIcon>();
 
 #if defined(Q_OS_MACOS)
   OSDMac osd(tray_icon, &app);

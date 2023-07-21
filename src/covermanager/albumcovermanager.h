@@ -36,6 +36,7 @@
 #include <QImage>
 #include <QIcon>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "core/tagreaderclient.h"
 #include "albumcoverloaderoptions.h"
@@ -76,7 +77,7 @@ class AlbumCoverManager : public QMainWindow {
   Q_OBJECT
 
  public:
-  explicit AlbumCoverManager(Application *app, CollectionBackend *collection_backend, QMainWindow *mainwindow, QWidget *parent = nullptr);
+  explicit AlbumCoverManager(Application *app, SharedPtr<CollectionBackend> collection_backend, QMainWindow *mainwindow, QWidget *parent = nullptr);
   ~AlbumCoverManager() override;
 
   void Reset();
@@ -87,7 +88,7 @@ class AlbumCoverManager : public QMainWindow {
 
   SongList GetSongsInAlbum(const QModelIndex &idx) const;
 
-  CollectionBackend *backend() const { return collection_backend_; }
+  SharedPtr<CollectionBackend> collection_backend() const { return collection_backend_; }
 
  protected:
   void showEvent(QShowEvent *e) override;
@@ -190,7 +191,7 @@ class AlbumCoverManager : public QMainWindow {
   Ui_CoverManager *ui_;
   QMainWindow *mainwindow_;
   Application *app_;
-  CollectionBackend *collection_backend_;
+  SharedPtr<CollectionBackend> collection_backend_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
 
   QAction *filter_all_;

@@ -24,14 +24,13 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QObject>
 #include <QStyleOption>
 #include <QStyleOptionViewItem>
 #include <QAbstractItemModel>
 #include <QString>
 
+#include "core/scoped_ptr.h"
 #include "core/song.h"
 #include "collection/collectionitemdelegate.h"
 #include "widgets/autoexpandingtreeview.h"
@@ -107,8 +106,8 @@ class DeviceView : public AutoExpandingTreeView {
   MergedProxyModel *merged_model_;
   QSortFilterProxyModel *sort_model_;
 
-  std::unique_ptr<DeviceProperties> properties_dialog_;
-  std::unique_ptr<OrganizeDialog> organize_dialog_;
+  ScopedPtr<DeviceProperties> properties_dialog_;
+  ScopedPtr<OrganizeDialog> organize_dialog_;
 
   QMenu *device_menu_;
   QAction *eject_action_;

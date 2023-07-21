@@ -21,8 +21,6 @@
 #ifndef FILEVIEW_H
 #define FILEVIEW_H
 
-#include <memory>
-
 #include <QObject>
 #include <QWidget>
 #include <QAbstractItemModel>
@@ -32,6 +30,8 @@
 #include <QUrl>
 #include <QUndoCommand>
 
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 
 class QMimeData;
@@ -57,7 +57,7 @@ class FileView : public QWidget {
   void ReloadSettings();
 
   void SetPath(const QString &path);
-  void SetTaskManager(TaskManager *task_manager);
+  void SetTaskManager(SharedPtr<TaskManager> task_manager);
 
  protected:
   void showEvent(QShowEvent*) override;
@@ -114,14 +114,14 @@ class FileView : public QWidget {
   QFileSystemModel *model_;
   QUndoStack *undo_stack_;
 
-  TaskManager *task_manager_;
-  std::shared_ptr<MusicStorage> storage_;
+  SharedPtr<TaskManager> task_manager_;
+  SharedPtr<MusicStorage> storage_;
 
   QString lazy_set_path_;
 
   QStringList filter_list_;
 
-  std::unique_ptr<QFileIconProvider> file_icon_provider_;
+  ScopedPtr<QFileIconProvider> file_icon_provider_;
 };
 
 #endif  // FILEVIEW_H

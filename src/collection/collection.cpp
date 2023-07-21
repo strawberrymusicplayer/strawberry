@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QThread>
@@ -43,6 +45,9 @@
 #include "scrobbler/lastfmimport.h"
 #include "settings/collectionsettingspage.h"
 
+using std::make_unique;
+using std::make_shared;
+
 const char *SCollection::kSongsTable = "songs";
 const char *SCollection::kFtsTable = "songs_fts";
 const char *SCollection::kDirsTable = "directories";
@@ -61,9 +66,9 @@ SCollection::SCollection(Application *app, QObject *parent)
 
   original_thread_ = thread();
 
-  backend_ = new CollectionBackend();
+  backend_ = make_shared<CollectionBackend>();
   backend()->moveToThread(app->database()->thread());
-  qLog(Debug) << backend_ << "moved to thread" << app->database()->thread();
+  qLog(Debug) << &*backend_ << "moved to thread" << app->database()->thread();
 
   backend_->Init(app->database(), app->task_manager(), Song::Source::Collection, kSongsTable, kFtsTable, kDirsTable, kSubdirsTable);
 
@@ -83,44 +88,43 @@ SCollection::~SCollection() {
     watcher_thread_->exit();
     watcher_thread_->wait(5000);
   }
-  backend_->deleteLater();
 
 }
 
 void SCollection::Init() {
 
-  watcher_ = new CollectionWatcher(Song::Source::Collection);
+  watcher_ = make_unique<CollectionWatcher>(Song::Source::Collection);
   watcher_thread_ = new Thread(this);
 
   watcher_thread_->SetIoPriority(Utilities::IoPriority::IOPRIO_CLASS_IDLE);
 
   watcher_->moveToThread(watcher_thread_);
 
-  qLog(Debug) << watcher_ << "moved to thread" << watcher_thread_;
+  qLog(Debug) << &*watcher_ << "moved to thread" << watcher_thread_;
 
   watcher_thread_->start(QThread::IdlePriority);
 
   watcher_->set_backend(backend_);
   watcher_->set_task_manager(app_->task_manager());
 
-  QObject::connect(backend_, &CollectionBackend::Error, this, &SCollection::Error);
-  QObject::connect(backend_, &CollectionBackend::DirectoryDiscovered, watcher_, &CollectionWatcher::AddDirectory);
-  QObject::connect(backend_, &CollectionBackend::DirectoryDeleted, watcher_, &CollectionWatcher::RemoveDirectory);
-  QObject::connect(backend_, &CollectionBackend::SongsRatingChanged, this, &SCollection::SongsRatingChanged);
-  QObject::connect(backend_, &CollectionBackend::SongsStatisticsChanged, this, &SCollection::SongsPlaycountChanged);
+  QObject::connect(&*backend_, &CollectionBackend::Error, this, &SCollection::Error);
+  QObject::connect(&*backend_, &CollectionBackend::DirectoryDiscovered, &*watcher_, &CollectionWatcher::AddDirectory);
+  QObject::connect(&*backend_, &CollectionBackend::DirectoryDeleted, &*watcher_, &CollectionWatcher::RemoveDirectory);
+  QObject::connect(&*backend_, &CollectionBackend::SongsRatingChanged, this, &SCollection::SongsRatingChanged);
+  QObject::connect(&*backend_, &CollectionBackend::SongsStatisticsChanged, this, &SCollection::SongsPlaycountChanged);
 
-  QObject::connect(watcher_, &CollectionWatcher::NewOrUpdatedSongs, backend_, &CollectionBackend::AddOrUpdateSongs);
-  QObject::connect(watcher_, &CollectionWatcher::SongsMTimeUpdated, backend_, &CollectionBackend::UpdateMTimesOnly);
-  QObject::connect(watcher_, &CollectionWatcher::SongsDeleted, backend_, &CollectionBackend::DeleteSongs);
-  QObject::connect(watcher_, &CollectionWatcher::SongsUnavailable, backend_, &CollectionBackend::MarkSongsUnavailable);
-  QObject::connect(watcher_, &CollectionWatcher::SongsReadded, backend_, &CollectionBackend::MarkSongsUnavailable);
-  QObject::connect(watcher_, &CollectionWatcher::SubdirsDiscovered, backend_, &CollectionBackend::AddOrUpdateSubdirs);
-  QObject::connect(watcher_, &CollectionWatcher::SubdirsMTimeUpdated, backend_, &CollectionBackend::AddOrUpdateSubdirs);
-  QObject::connect(watcher_, &CollectionWatcher::CompilationsNeedUpdating, backend_, &CollectionBackend::CompilationsNeedUpdating);
-  QObject::connect(watcher_, &CollectionWatcher::UpdateLastSeen, backend_, &CollectionBackend::UpdateLastSeen);
+  QObject::connect(&*watcher_, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&*watcher_, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
+  QObject::connect(&*watcher_, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
+  QObject::connect(&*watcher_, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(&*watcher_, &CollectionWatcher::SongsReadded, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(&*watcher_, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(&*watcher_, &CollectionWatcher::SubdirsMTimeUpdated, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(&*watcher_, &CollectionWatcher::CompilationsNeedUpdating, &*backend_, &CollectionBackend::CompilationsNeedUpdating);
+  QObject::connect(&*watcher_, &CollectionWatcher::UpdateLastSeen, &*backend_, &CollectionBackend::UpdateLastSeen);
 
-  QObject::connect(app_->lastfm_import(), &LastFMImport::UpdateLastPlayed, backend_, &CollectionBackend::UpdateLastPlayed);
-  QObject::connect(app_->lastfm_import(), &LastFMImport::UpdatePlayCount, backend_, &CollectionBackend::UpdatePlayCount);
+  QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateLastPlayed, &*backend_, &CollectionBackend::UpdateLastPlayed);
+  QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdatePlayCount, &*backend_, &CollectionBackend::UpdatePlayCount);
 
   // This will start the watcher checking for updates
   backend_->LoadDirectoriesAsync();
@@ -129,13 +133,13 @@ void SCollection::Init() {
 
 void SCollection::Exit() {
 
-  wait_for_exit_ << backend_ << watcher_;
+  wait_for_exit_ << &*backend_ << &*watcher_;
 
-  QObject::disconnect(backend_, nullptr, watcher_, nullptr);
-  QObject::disconnect(watcher_, nullptr, backend_, nullptr);
+  QObject::disconnect(&*backend_, nullptr, &*watcher_, nullptr);
+  QObject::disconnect(&*watcher_, nullptr, &*backend_, nullptr);
 
-  QObject::connect(backend_, &CollectionBackend::ExitFinished, this, &SCollection::ExitReceived);
-  QObject::connect(watcher_, &CollectionWatcher::ExitFinished, this, &SCollection::ExitReceived);
+  QObject::connect(&*backend_, &CollectionBackend::ExitFinished, this, &SCollection::ExitReceived);
+  QObject::connect(&*watcher_, &CollectionWatcher::ExitFinished, this, &SCollection::ExitReceived);
   backend_->ExitAsync();
   watcher_->Abort();
   watcher_->ExitAsync();

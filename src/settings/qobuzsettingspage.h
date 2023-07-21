@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "settings/settingspage.h"
 
 class QEvent;
@@ -55,7 +56,7 @@ class QobuzSettingsPage : public SettingsPage {
 
  private:
   Ui_QobuzSettingsPage *ui_;
-  QobuzService *service_;
+  SharedPtr<QobuzService> service_;
 };
 
 #endif  // QOBUZSETTINGSPAGE_H

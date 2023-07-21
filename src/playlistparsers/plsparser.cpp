@@ -28,6 +28,7 @@
 #include <QRegularExpression>
 #include <QTextStream>
 
+#include "core/shared_ptr.h"
 #include "utilities/timeconstants.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
@@ -41,8 +42,8 @@ constexpr auto qt_endl = Qt::endl;
 constexpr auto qt_endl = endl;
 #endif
 
-PLSParser::PLSParser(CollectionBackendInterface *collection, QObject *parent)
-    : ParserBase(collection, parent) {}
+PLSParser::PLSParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : ParserBase(collection_backend, parent) {}
 
 SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
 

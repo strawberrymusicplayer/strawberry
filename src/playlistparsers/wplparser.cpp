@@ -29,6 +29,7 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
+#include "core/shared_ptr.h"
 #include "utilities/xmlutils.h"
 #include "settings/playlistsettingspage.h"
 #include "xmlparser.h"
@@ -36,8 +37,8 @@
 
 class CollectionBackendInterface;
 
-WplParser::WplParser(CollectionBackendInterface *collection, QObject *parent)
-    : XMLParser(collection, parent) {}
+WplParser::WplParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : XMLParser(collection_backend, parent) {}
 
 bool WplParser::TryMagic(const QByteArray &data) const {
   return data.contains("<?wpl") || data.contains("<smil>");

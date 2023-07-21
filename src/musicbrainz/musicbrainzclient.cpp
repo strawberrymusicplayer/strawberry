@@ -43,6 +43,7 @@
 #include <QTimer>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
 #include "utilities/xmlutils.h"
@@ -55,7 +56,7 @@ const int MusicBrainzClient::kRequestsDelay = 1200;
 const int MusicBrainzClient::kDefaultTimeout = 8000;
 const int MusicBrainzClient::kMaxRequestPerTrack = 3;
 
-MusicBrainzClient::MusicBrainzClient(QNetworkAccessManager *network, QObject *parent)
+MusicBrainzClient::MusicBrainzClient(SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       network_(network),
       timeouts_(new NetworkTimeouts(kDefaultTimeout, this)),

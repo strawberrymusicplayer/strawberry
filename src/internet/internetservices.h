@@ -24,11 +24,14 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QObject>
 #include <QList>
 #include <QMap>
 #include <QString>
 
+#include <core/shared_ptr.h>
 #include "core/song.h"
 
 class InternetService;
@@ -40,14 +43,15 @@ class InternetServices : public QObject {
   explicit InternetServices(QObject *parent = nullptr);
   ~InternetServices() override;
 
-  InternetService *ServiceBySource(const Song::Source source) const;
+  SharedPtr<InternetService> ServiceBySource(const Song::Source source) const;
+
   template <typename T>
-  T *Service() {
-    return static_cast<T*>(ServiceBySource(T::kSource));
+  SharedPtr<T> Service() {
+    return std::static_pointer_cast<T>(ServiceBySource(T::kSource));
   }
 
-  void AddService(InternetService *service);
-  void RemoveService(InternetService *service);
+  void AddService(SharedPtr<InternetService> service);
+  void RemoveService(SharedPtr<InternetService> service);
   void ReloadSettings();
   void Exit();
 
@@ -58,7 +62,7 @@ class InternetServices : public QObject {
   void ExitReceived();
 
  private:
-  QMap<Song::Source, InternetService*> services_;
+  QMap<Song::Source, SharedPtr<InternetService>> services_;
   QList<InternetService*> wait_for_exit_;
 };
 

@@ -30,6 +30,7 @@
 #include <QString>
 #include <QSqlDatabase>
 
+#include "core/shared_ptr.h"
 #include "core/database.h"
 #include "core/sqlquery.h"
 #include "core/scopedtransaction.h"
@@ -46,7 +47,7 @@ DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent)
 
 }
 
-void DeviceDatabaseBackend::Init(Database *db) { db_ = db; }
+void DeviceDatabaseBackend::Init(SharedPtr<Database> db) { db_ = db; }
 
 void DeviceDatabaseBackend::Close() {
 

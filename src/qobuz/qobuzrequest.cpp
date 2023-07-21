@@ -35,6 +35,7 @@
 #include <QTimer>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/application.h"
@@ -54,7 +55,7 @@ constexpr int QobuzRequest::kMaxConcurrentAlbumSongsRequests = 3;
 constexpr int QobuzRequest::kMaxConcurrentAlbumCoverRequests = 1;
 constexpr int QobuzRequest::kFlushRequestsDelay = 200;
 
-QobuzRequest::QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, NetworkAccessManager *network, const QueryType query_type, QObject *parent)
+QobuzRequest::QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, SharedPtr<NetworkAccessManager> network, const QueryType query_type, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
       service_(service),
       url_handler_(url_handler),

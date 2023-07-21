@@ -35,6 +35,7 @@
 #include <QImage>
 
 #include "core/logging.h"
+#include "core/shared_ptr.h"
 #include "core/taskmanager.h"
 #include "core/musicstorage.h"
 #include "core/tagreaderclient.h"
@@ -54,7 +55,7 @@ const int Organize::kBatchSize = 10;
 const int Organize::kTranscodeProgressInterval = 500;
 #endif
 
-Organize::Organize(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool albumcover, const NewSongInfoList &songs_info, const bool eject_after, const QString &playlist, QObject *parent)
+Organize::Organize(SharedPtr<TaskManager> task_manager, SharedPtr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool albumcover, const NewSongInfoList &songs_info, const bool eject_after, const QString &playlist, QObject *parent)
     : QObject(parent),
       thread_(nullptr),
       task_manager_(task_manager),

@@ -20,29 +20,33 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QVariant>
 #include <QString>
 #include <QDateTime>
 #include <QTimer>
 
+#include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/song.h"
 #include "core/logging.h"
 #include "utilities/timeconstants.h"
-#include "internet/internetservices.h"
 #include "settings/subsonicsettingspage.h"
+#include "internet/internetservices.h"
 #include "subsonic/subsonicservice.h"
 
-#include "audioscrobbler.h"
+#include "scrobblersettings.h"
 #include "scrobblerservice.h"
 #include "subsonicscrobbler.h"
 
 const char *SubsonicScrobbler::kName = "Subsonic";
 
-SubsonicScrobbler::SubsonicScrobbler(AudioScrobbler *scrobbler, SubsonicService *service, QObject *parent)
+SubsonicScrobbler::SubsonicScrobbler(SharedPtr<ScrobblerSettings> settings, Application *app, QObject *parent)
     : ScrobblerService(kName, parent),
-      scrobbler_(scrobbler),
-      service_(service),
+      settings_(settings),
+      app_(app),
+      service_(nullptr),
       enabled_(false),
       submitted_(false) {
 
@@ -62,6 +66,16 @@ void SubsonicScrobbler::ReloadSettings() {
 
 }
 
+SubsonicServicePtr SubsonicScrobbler::service() {
+
+  if (!service_) {
+    service_ = app_->internet_services()->Service<SubsonicService>();
+  }
+
+  return service_;
+
+}
+
 void SubsonicScrobbler::UpdateNowPlaying(const Song &song) {
 
   if (song.source() != Song::Source::Subsonic) return;
@@ -69,9 +83,9 @@ void SubsonicScrobbler::UpdateNowPlaying(const Song &song) {
   song_playing_ = song;
   time_ = QDateTime::currentDateTime();
 
-  if (!song.is_metadata_good() || scrobbler_->IsOffline()) return;
+  if (!song.is_metadata_good() || settings_->offline() || !service()) return;
 
-  service_->Scrobble(song.song_id(), false, time_);
+  service()->Scrobble(song.song_id(), false, time_);
 
 }
 
@@ -86,15 +100,15 @@ void SubsonicScrobbler::Scrobble(const Song &song) {
 
   if (song.source() != Song::Source::Subsonic || song.id() != song_playing_.id() || song.url() != song_playing_.url() || !song.is_metadata_good()) return;
 
-  if (scrobbler_->IsOffline()) return;
+  if (settings_->offline()) return;
 
   if (!submitted_) {
     submitted_ = true;
-    if (scrobbler_->SubmitDelay() <= 0) {
+    if (settings_->submit_delay() <= 0) {
       Submit();
     }
     else if (!timer_submit_.isActive()) {
-      timer_submit_.setInterval(static_cast<int>(scrobbler_->SubmitDelay() * kMsecPerSec));
+      timer_submit_.setInterval(static_cast<int>(settings_->submit_delay() * kMsecPerSec));
       timer_submit_.start();
     }
   }
@@ -106,8 +120,8 @@ void SubsonicScrobbler::Submit() {
   qLog(Debug) << "SubsonicScrobbler: Submitting scrobble for" << song_playing_.artist() << song_playing_.title();
   submitted_ = false;
 
-  if (scrobbler_->IsOffline()) return;
+  if (settings_->offline() || !service()) return;
 
-  service_->Scrobble(song_playing_.song_id(), true, time_);
+  service()->Scrobble(song_playing_.song_id(), true, time_);
 
 }

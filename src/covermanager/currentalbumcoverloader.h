@@ -24,14 +24,13 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QString>
 #include <QImage>
 #include <QTemporaryFile>
 
+#include "core/scoped_ptr.h"
 #include "core/song.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
@@ -67,12 +66,11 @@ class CurrentAlbumCoverLoader : public QObject {
 
   QString temp_file_pattern_;
 
-  std::unique_ptr<QTemporaryFile> temp_cover_;
-  std::unique_ptr<QTemporaryFile> temp_cover_thumbnail_;
+  ScopedPtr<QTemporaryFile> temp_cover_;
+  ScopedPtr<QTemporaryFile> temp_cover_thumbnail_;
   quint64 id_;
 
   Song last_song_;
-
 };
 
 #endif  // CURRENTALBUMCOVERLOADER_H

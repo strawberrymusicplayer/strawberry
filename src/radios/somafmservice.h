@@ -34,7 +34,7 @@ class SomaFMService : public RadioService {
   Q_OBJECT
 
  public:
-  explicit SomaFMService(Application *app, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit SomaFMService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~SomaFMService();
 
   QUrl Homepage() override;

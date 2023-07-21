@@ -34,12 +34,13 @@ InternetServices::InternetServices(QObject *parent) : QObject(parent) {}
 InternetServices::~InternetServices() {
 
   while (!services_.isEmpty()) {
-    delete services_.take(services_.firstKey());
+    InternetServicePtr service = services_.first();
+    RemoveService(service);
   }
 
 }
 
-void InternetServices::AddService(InternetService *service) {
+void InternetServices::AddService(InternetServicePtr service) {
 
   services_.insert(service->source(), service);
   if (service->has_initial_load_settings()) service->InitialLoadSettings();
@@ -49,17 +50,17 @@ void InternetServices::AddService(InternetService *service) {
 
 }
 
-void InternetServices::RemoveService(InternetService *service) {
+void InternetServices::RemoveService(InternetServicePtr service) {
 
   if (!services_.contains(service->source())) return;
   services_.remove(service->source());
-  QObject::disconnect(service, nullptr, this, nullptr);
+  QObject::disconnect(&*service, nullptr, this, nullptr);
 
   qLog(Debug) << "Removed internet service" << service->name();
 
 }
 
-InternetService *InternetServices::ServiceBySource(const Song::Source source) const {
+InternetServicePtr InternetServices::ServiceBySource(const Song::Source source) const {
 
   if (services_.contains(source)) return services_.value(source);
   return nullptr;
@@ -68,8 +69,8 @@ InternetService *InternetServices::ServiceBySource(const Song::Source source) co
 
 void InternetServices::ReloadSettings() {
 
-  QList<InternetService*> services = services_.values();
-  for (InternetService *service : services) {
+  QList<InternetServicePtr> services = services_.values();
+  for (InternetServicePtr service : services) {
     service->ReloadSettings();
   }
 
@@ -77,10 +78,10 @@ void InternetServices::ReloadSettings() {
 
 void InternetServices::Exit() {
 
-  QList<InternetService*> services = services_.values();
-  for (InternetService *service : services) {
-    wait_for_exit_ << service;
-    QObject::connect(service, &InternetService::ExitFinished, this, &InternetServices::ExitReceived);
+  QList<InternetServicePtr> services = services_.values();
+  for (InternetServicePtr service : services) {
+    wait_for_exit_ << &*service;
+    QObject::connect(&*service, &InternetService::ExitFinished, this, &InternetServices::ExitReceived);
     service->Exit();
   }
   if (wait_for_exit_.isEmpty()) emit ExitFinished();

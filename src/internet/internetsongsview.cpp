@@ -39,7 +39,7 @@
 #include "internetcollectionview.h"
 #include "ui_internetcollectionviewcontainer.h"
 
-InternetSongsView::InternetSongsView(Application *app, InternetService *service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
+InternetSongsView::InternetSongsView(Application *app, InternetServicePtr service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
     : QWidget(parent),
       app_(app),
       service_(service),
@@ -61,15 +61,15 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
   ui_->filter_widget->AddMenuAction(action_configure);
 
   QObject::connect(ui_->view, &InternetCollectionView::GetSongs, this, &InternetSongsView::GetSongs);
-  QObject::connect(ui_->view, &InternetCollectionView::RemoveSongs, service_, &InternetService::RemoveSongsByList);
+  QObject::connect(ui_->view, &InternetCollectionView::RemoveSongs, &*service_, &InternetService::RemoveSongsByList);
 
   QObject::connect(ui_->refresh, &QPushButton::clicked, this, &InternetSongsView::GetSongs);
   QObject::connect(ui_->close, &QPushButton::clicked, this, &InternetSongsView::AbortGetSongs);
   QObject::connect(ui_->abort, &QPushButton::clicked, this, &InternetSongsView::AbortGetSongs);
-  QObject::connect(service_, &InternetService::SongsResults, this, &InternetSongsView::SongsFinished);
-  QObject::connect(service_, &InternetService::SongsUpdateStatus, ui_->status, &QLabel::setText);
-  QObject::connect(service_, &InternetService::SongsProgressSetMaximum, ui_->progressbar, &QProgressBar::setMaximum);
-  QObject::connect(service_, &InternetService::SongsUpdateProgress, ui_->progressbar, &QProgressBar::setValue);
+  QObject::connect(&*service_, &InternetService::SongsResults, this, &InternetSongsView::SongsFinished);
+  QObject::connect(&*service_, &InternetService::SongsUpdateStatus, ui_->status, &QLabel::setText);
+  QObject::connect(&*service_, &InternetService::SongsProgressSetMaximum, ui_->progressbar, &QProgressBar::setMaximum);
+  QObject::connect(&*service_, &InternetService::SongsUpdateProgress, ui_->progressbar, &QProgressBar::setValue);
 
   QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalArtistCountUpdated, ui_->view, &InternetCollectionView::TotalArtistCountUpdated);
   QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalAlbumCountUpdated, ui_->view, &InternetCollectionView::TotalAlbumCountUpdated);

@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QObject>
 #include <QDialog>
 #include <QFuture>
@@ -31,6 +33,7 @@
 #include <QList>
 #include <QString>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 
 class QWidget;
@@ -45,7 +48,7 @@ class DeviceProperties : public QDialog {
   explicit DeviceProperties(QWidget *parent = nullptr);
   ~DeviceProperties() override;
 
-  void SetDeviceManager(DeviceManager *manager);
+  void SetDeviceManager(SharedPtr<DeviceManager> manager);
   void ShowDevice(const QModelIndex &idx);
 
  public slots:
@@ -64,7 +67,7 @@ class DeviceProperties : public QDialog {
  private:
   Ui_DeviceProperties *ui_;
 
-  DeviceManager *manager_;
+  SharedPtr<DeviceManager> manager_;
   QPersistentModelIndex index_;
 
   bool updating_formats_;
