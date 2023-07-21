@@ -60,7 +60,10 @@ void Console::RunQuery() {
 
   QSqlDatabase db = app_->database()->Connect();
   QSqlQuery query(db);
-  query.prepare(ui_.query->text());
+  if (!query.prepare(ui_.query->text())) {
+    qLog(Error) << query.lastError();
+    return;
+  }
   if (!query.exec()) {
     qLog(Error) << query.lastError();
     return;

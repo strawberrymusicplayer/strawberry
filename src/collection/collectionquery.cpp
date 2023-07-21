@@ -210,7 +210,7 @@ bool CollectionQuery::Exec() {
   sql.replace("%fts_table_noprefix", fts_table_.section('.', -1, -1));
   sql.replace("%fts_table", fts_table_);
 
-  QSqlQuery::prepare(sql);
+  if (!QSqlQuery::prepare(sql)) return false;
 
   // Bind values
   for (const QVariant &value : bound_values_) {
