@@ -143,7 +143,7 @@ void ScrobblerCache::ReadCache() {
     metadata.albumartist = json_obj_track["albumartist"].toString();
     metadata.length_nanosec = json_obj_track["length_nanosec"].toVariant().toLongLong();
 
-    if (timestamp <= 0 || metadata.artist.isEmpty() || metadata.title.isEmpty() || metadata.length_nanosec <= 0) {
+    if (timestamp == 0 || metadata.artist.isEmpty() || metadata.title.isEmpty() || metadata.length_nanosec <= 0) {
       qLog(Error) << "Invalid cache data" << "for song" << metadata.title;
       continue;
     }

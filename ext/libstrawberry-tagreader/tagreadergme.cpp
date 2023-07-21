@@ -98,9 +98,8 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
 
   file.seek(INTRO_LENGTH_OFFSET);
   QByteArray length_bytes = file.read(INTRO_LENGTH_SIZE);
-  quint64 length_in_sec = 0;
   if (length_bytes.size() >= INTRO_LENGTH_SIZE) {
-    length_in_sec = ConvertSPCStringToNum(length_bytes);
+    quint64 length_in_sec = ConvertSPCStringToNum(length_bytes);
 
     if (!length_in_sec || length_in_sec >= 0x1FFF) {
       // This means that parsing the length as a string failed, so get value LE.
@@ -250,11 +249,11 @@ bool GME::VGM::GetPlaybackLength(const QByteArray &sample_count_bytes, const QBy
 
   quint64 sample_count = GME::UnpackBytes32(sample_count_bytes.constData(), sample_count_bytes.size());
 
-  if (sample_count <= 0) return false;
+  if (sample_count == 0) return false;
 
   quint64 loop_sample_count = GME::UnpackBytes32(loop_count_bytes.constData(), loop_count_bytes.size());
 
-  if (loop_sample_count <= 0) {
+  if (loop_sample_count == 0) {
     out_length = sample_count * 1000 / SAMPLE_TIMEBASE;
     return true;
   }
