@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-05-29 06:51-0400\n"
-"Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
+"PO-Revision-Date: 2023-07-02 08:39-0400\n"
+"Last-Translator: bovirus <bovirus@gmail.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -84,9 +84,9 @@ msgstr ""
 msgid " kbps"
 msgstr " kbps"
 
-#: ../build/src/ui_backendsettingspage.h:581
-#: ../build/src/ui_backendsettingspage.h:601
-#: ../build/src/ui_backendsettingspage.h:604
+#: ../build/src/ui_backendsettingspage.h:663
+#: ../build/src/ui_backendsettingspage.h:688
+#: ../build/src/ui_backendsettingspage.h:691
 msgid " ms"
 msgstr " ms"
 
@@ -99,7 +99,7 @@ msgstr " pt"
 msgid " s"
 msgstr " s"
 
-#: ../build/src/ui_scrobblersettingspage.h:412
+#: ../build/src/ui_scrobblersettingspage.h:405
 #: ../build/src/ui_notificationssettingspage.h:484
 msgid " seconds"
 msgstr " secondi"
@@ -108,27 +108,27 @@ msgstr " secondi"
 msgid " songs"
 msgstr " brani"
 
-#: scrobbler/scrobblingapi20.cpp:216 scrobbler/scrobblingapi20.cpp:225
+#: scrobbler/scrobblingapi20.cpp:214 scrobbler/scrobblingapi20.cpp:223
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 autenticazione Scrobbler"
 
-#: context/contextview.cpp:399
+#: context/contextview.cpp:418
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:400
+#: context/contextview.cpp:419
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 album"
 
-#: context/contextview.cpp:395
+#: context/contextview.cpp:414
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artista"
 
-#: context/contextview.cpp:396
+#: context/contextview.cpp:415
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artisti"
@@ -159,7 +159,7 @@ msgstr "'%1' non necessita di autenticazione."
 msgid "%1 needs authentication."
 msgstr "'%1' richiede l'autenticazione."
 
-#: playlistparsers/playlistparser.cpp:120
+#: playlistparsers/playlistparser.cpp:121
 #, qt-format
 msgid "%1 playlists (%2)"
 msgstr "%1 playlist (%2)"
@@ -169,27 +169,27 @@ msgstr "%1 playlist (%2)"
 msgid "%1 selected of"
 msgstr "%1 selezionate di"
 
-#: context/contextview.cpp:391
+#: context/contextview.cpp:410
 #, qt-format
 msgid "%1 song"
 msgstr "%1 brano"
 
-#: device/deviceview.cpp:143
+#: device/deviceview.cpp:146
 #, qt-format
 msgid "%1 song%2"
 msgstr "%1 brano%2"
 
-#: context/contextview.cpp:392
+#: context/contextview.cpp:411
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 brani"
 
-#: smartplaylists/smartplaylistsearchpreview.cpp:152
+#: smartplaylists/smartplaylistsearchpreview.cpp:156
 #, qt-format
 msgid "%1 songs found"
 msgstr "'%1' brani trovati"
 
-#: smartplaylists/smartplaylistsearchpreview.cpp:149
+#: smartplaylists/smartplaylistsearchpreview.cpp:153
 #, qt-format
 msgid "%1 songs found (showing %2)"
 msgstr "'%1' brani trovati (visualizza '%2')"
@@ -425,7 +425,7 @@ msgstr "&Usa colori predefiniti di sistema"
 msgid "&Use the system proxy settings"
 msgstr "&Usa le impostazioni proxy di sistema"
 
-#: ../build/src/ui_scrobblersettingspage.h:414
+#: ../build/src/ui_scrobblersettingspage.h:407
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 seconds will submit scrobbles "
@@ -485,7 +485,7 @@ msgstr ""
 msgid "A Taste of Strawbs"
 msgstr "Un assaggio di Strawbs"
 
-#: smartplaylists/smartplaylistwizard.cpp:81
+#: smartplaylists/smartplaylistwizard.cpp:82
 msgid ""
 "A smart playlist is a dynamic list of songs that come from your collection.  "
 "There are different types of smart playlist that offer different ways of "
@@ -496,7 +496,7 @@ msgstr ""
 "Esistono diversi tipi di playlist intelligenti che offrono diversi modi di "
 "selezionare i brani."
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:157
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:162
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
 msgstr "Un brano verrà incluso nella playlist se soddisfa queste condizioni."
@@ -513,7 +513,7 @@ msgstr "A-Z"
 msgid "AAC"
 msgstr "AAC"
 
-#: ../build/src/ui_backendsettingspage.h:569
+#: ../build/src/ui_backendsettingspage.h:651
 msgid "ALSA plugin:"
 msgstr "Plugin ALSA:"
 
@@ -578,11 +578,11 @@ msgid "Add all tracks from a directory and all its subdirectories"
 msgstr ""
 "Aggiungi tutte le tracce da una cartella e da tutte le sue sottocartelle"
 
-#: settings/collectionsettingspage.cpp:115
+#: settings/collectionsettingspage.cpp:119
 msgid "Add directory..."
 msgstr "Aggiungi cartella..."
 
-#: core/mainwindow.cpp:2219
+#: core/mainwindow.cpp:2218
 msgid "Add file"
 msgstr "Aggiungi file"
 
@@ -598,15 +598,15 @@ msgstr "Aggiungi file al convertitore"
 msgid "Add files to transcode"
 msgstr "Aggiungi file da convertire"
 
-#: core/mainwindow.cpp:2245 transcoder/transcodedialog.cpp:416
+#: core/mainwindow.cpp:2244 transcoder/transcodedialog.cpp:416
 msgid "Add folder"
 msgstr "Aggiungi cartella"
 
-#: ../build/src/ui_collectionsettingspage.h:418
+#: ../build/src/ui_collectionsettingspage.h:424
 msgid "Add new folder..."
 msgstr "Aggiungi nuova cartella..."
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:431
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:432
 msgid "Add search term"
 msgstr "Aggiungi termine di ricerca"
 
@@ -704,15 +704,15 @@ msgstr "Aggiungi tag anno al brano"
 msgid "Add stream..."
 msgstr "Aggiungi flusso..."
 
-#: internet/internetsearchview.cpp:328
+#: internet/internetsearchview.cpp:330
 msgid "Add to albums"
 msgstr "Aggiungi agli album"
 
-#: core/mainwindow.cpp:2021
+#: core/mainwindow.cpp:2020
 msgid "Add to another playlist"
 msgstr "Aggiungi ad un'altra playlist"
 
-#: internet/internetsearchview.cpp:325
+#: internet/internetsearchview.cpp:327
 msgid "Add to artists"
 msgstr "Aggiungi agli artisti"
 
@@ -720,7 +720,7 @@ msgstr "Aggiungi agli artisti"
 msgid "Add to playlist"
 msgstr "Aggiungi alla playlist"
 
-#: internet/internetsearchview.cpp:331
+#: internet/internetsearchview.cpp:333
 msgid "Add to songs"
 msgstr "Aggiungi ai brani"
 
@@ -754,7 +754,7 @@ msgstr "Aggiunti oggi"
 msgid "Added within three months"
 msgstr "Aggiunti negli ultimi tre mesi"
 
-#: collection/collectionfilterwidget.cpp:328
+#: collection/collectionfilterwidget.cpp:327
 msgid "Advanced grouping..."
 msgstr "Raggruppamento avanzato..."
 
@@ -766,18 +766,18 @@ msgstr "Dopo la copia..."
 msgid "Albu&m cover"
 msgstr "Copertina albu&m"
 
-#: collection/savedgroupingmanager.cpp:98 playlist/playlist.cpp:1355
-#: organize/organizedialog.cpp:102 ../build/src/ui_groupbydialog.h:193
+#: collection/savedgroupingmanager.cpp:98 playlist/playlist.cpp:1365
+#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:193
 #: ../build/src/ui_groupbydialog.h:215 ../build/src/ui_groupbydialog.h:237
 #: ../build/src/ui_albumcoversearcher.h:107
 #: ../build/src/ui_albumcoversearcher.h:109
 #: ../build/src/ui_contextsettingspage.h:427
-#: ../build/src/ui_edittagdialog.h:882
+#: ../build/src/ui_edittagdialog.h:910
 #: ../build/src/ui_trackselectiondialog.h:207
 msgid "Album"
 msgstr "Album"
 
-#: ../build/src/ui_backendsettingspage.h:590
+#: ../build/src/ui_backendsettingspage.h:674
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (volume ideale per tutte le tracce)"
 
@@ -786,20 +786,20 @@ msgstr "Album (volume ideale per tutte le tracce)"
 msgid "Album - Disc"
 msgstr "Album - Disco"
 
-#: collection/savedgroupingmanager.cpp:92 playlist/playlist.cpp:1362
-#: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:192
+#: collection/savedgroupingmanager.cpp:92 playlist/playlist.cpp:1372
+#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:192
 #: ../build/src/ui_groupbydialog.h:214 ../build/src/ui_groupbydialog.h:236
-#: ../build/src/ui_edittagdialog.h:881
+#: ../build/src/ui_edittagdialog.h:909
 msgid "Album artist"
 msgstr "Artista album"
 
-#: dialogs/edittagdialog.cpp:854
+#: dialogs/edittagdialog.cpp:856
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
 "La modifica della copertina dell'album è disponibile solo per i brani della "
 "raccolta."
 
-#: ../build/src/ui_collectionsettingspage.h:436
+#: ../build/src/ui_collectionsettingspage.h:443
 msgid "Album cover pixmap cache"
 msgstr "Cache pixmap copertina album"
 
@@ -809,7 +809,7 @@ msgstr "Dimensione cover album"
 
 #: ../build/src/ui_coverssettingspage.h:313
 msgid "Album cover types"
-msgstr ""
+msgstr "Tipo copertina album"
 
 #: ../build/src/ui_internettabsview.h:114
 msgid "Albums"
@@ -828,7 +828,7 @@ msgstr "Album con copertina"
 msgid "Albums without covers"
 msgstr "Album senza copertina"
 
-#: core/mainwindow.cpp:219
+#: core/mainwindow.cpp:220
 msgid "All Files (*)"
 msgstr "Tutti i file (*)"
 
@@ -840,11 +840,11 @@ msgstr "Tutti gli album"
 msgid "All artists"
 msgstr "Tutti gli artisti"
 
-#: covermanager/albumcoverchoicecontroller.cpp:82
+#: covermanager/albumcoverchoicecontroller.cpp:81
 msgid "All files (*)"
 msgstr "Tutti i file (*)"
 
-#: playlistparsers/playlistparser.cpp:102
+#: playlistparsers/playlistparser.cpp:103
 #, qt-format
 msgid "All playlists (%1)"
 msgstr "Tutte le scalette (%1)"
@@ -870,12 +870,12 @@ msgstr "Insieme agli originali"
 msgid "Always start playing"
 msgstr "Inizia sempre la riproduzione"
 
-#: device/gpodloader.cpp:80
+#: device/gpodloader.cpp:81
 msgid "An error occurred loading the iTunes database"
 msgstr ""
 "Si è verificato un errore durante il caricamento del database di iTunes"
 
-#: playlist/playlist.cpp:419 dialogs/edittagdialog.cpp:1448
+#: playlist/playlist.cpp:426 dialogs/edittagdialog.cpp:1450
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Si è verificato un errore durante la scrittura dei metadati in '%1'"
@@ -904,11 +904,11 @@ msgstr "Aggiungi esplicito al titolo dell'album per gli album espliciti"
 msgid "Append files/URLs to the playlist"
 msgstr "Aggiungi file/URL alla playlist"
 
-#: collection/collectionview.cpp:348
-#: smartplaylists/smartplaylistsviewcontainer.cpp:67
-#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:314
-#: internet/internetcollectionview.cpp:314 radios/radioview.cpp:69
-#: device/deviceview.cpp:241
+#: collection/collectionview.cpp:350
+#: smartplaylists/smartplaylistsviewcontainer.cpp:65
+#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:316
+#: internet/internetcollectionview.cpp:315 radios/radioview.cpp:69
+#: device/deviceview.cpp:244
 msgid "Append to current playlist"
 msgstr "Aggiungi alla playlist attuale"
 
@@ -916,7 +916,7 @@ msgstr "Aggiungi alla playlist attuale"
 msgid "Append to the playlist"
 msgstr "Aggiungi alla playlist"
 
-#: ../build/src/ui_backendsettingspage.h:593
+#: ../build/src/ui_backendsettingspage.h:677
 msgid "Apply compression to prevent clipping"
 msgstr "Applica la compressione per evitare il fruscio"
 
@@ -929,13 +929,13 @@ msgstr "Sei sicuro di voler continuare?"
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Sei sicuro di voler eliminare la preimpostazione '%1'?"
 
-#: dialogs/edittagdialog.cpp:1325
+#: dialogs/edittagdialog.cpp:1327
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 "Sei sicuro di voler reimpostare le statistiche di riproduzione di questo "
 "brano?"
 
-#: settings/collectionsettingspage.cpp:295
+#: settings/collectionsettingspage.cpp:301
 msgid ""
 "Are you sure you want to write song playcounts and ratings to file for all "
 "songs in your collection?"
@@ -943,32 +943,32 @@ msgstr ""
 "Sei sicuro di voler scrivere per tutti i brani della raccolta il numero di "
 "riproduzioni e le classificazioni dei brani in un file?"
 
-#: ../build/src/ui_edittagdialog.h:868
+#: ../build/src/ui_edittagdialog.h:882
 msgid "Art Automatic"
 msgstr "Arte automatica"
 
-#: ../build/src/ui_edittagdialog.h:873
+#: ../build/src/ui_edittagdialog.h:884
 msgid "Art Embedded"
-msgstr ""
+msgstr "Copertina incorporata"
 
-#: ../build/src/ui_edittagdialog.h:858
+#: ../build/src/ui_edittagdialog.h:898
 msgid "Art Manual"
 msgstr "Arte manuale"
 
-#: ../build/src/ui_edittagdialog.h:857
+#: ../build/src/ui_edittagdialog.h:896
 msgid "Art Unset"
-msgstr ""
+msgstr "Copertina non impostata"
 
-#: collection/savedgroupingmanager.cpp:95 playlist/playlist.cpp:1354
-#: organize/organizedialog.cpp:103 ../build/src/ui_groupbydialog.h:191
+#: collection/savedgroupingmanager.cpp:95 playlist/playlist.cpp:1364
+#: organize/organizedialog.cpp:106 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 #: ../build/src/ui_albumcoversearcher.h:103
-#: ../build/src/ui_albumcoversearcher.h:105 ../build/src/ui_edittagdialog.h:885
+#: ../build/src/ui_albumcoversearcher.h:105 ../build/src/ui_edittagdialog.h:913
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Artist"
 msgstr "Artista"
 
-#: organize/organizedialog.cpp:104
+#: organize/organizedialog.cpp:107
 msgid "Artist's initial"
 msgstr "Iniziale artista"
 
@@ -990,7 +990,11 @@ msgstr "&Chiedi durante il salvataggio"
 msgid "Audio format"
 msgstr "Formato audio"
 
-#: ../build/src/ui_backendsettingspage.h:564
+#: ../build/src/ui_backendsettingspage.h:668
+msgid "Audio normalization"
+msgstr ""
+
+#: ../build/src/ui_backendsettingspage.h:646
 msgid "Audio output"
 msgstr "Uscita audio"
 
@@ -998,7 +1002,7 @@ msgstr "Uscita audio"
 msgid "Audio quality"
 msgstr "Qualità audio"
 
-#: tidal/tidalrequest.cpp:141 qobuz/qobuzservice.cpp:286
+#: tidal/tidalrequest.cpp:142 qobuz/qobuzservice.cpp:289
 msgid "Authenticating..."
 msgstr "Autenticazione..."
 
@@ -1031,24 +1035,24 @@ msgstr "Automatica"
 msgid "Automatic"
 msgstr "Automatico"
 
-#: ../build/src/ui_collectionsettingspage.h:420
+#: ../build/src/ui_collectionsettingspage.h:426
 msgid "Automatic updating"
 msgstr "Aggiornamento automatico"
 
-#: ../build/src/ui_collectionsettingspage.h:433
+#: ../build/src/ui_collectionsettingspage.h:440
 msgid "Automatically open single categories in the collection tree"
 msgstr "Apri automaticamente categorie singole nella struttura raccolta"
 
 #: settings/coverssettingspage.cpp:429
 #, qt-format
 msgid "Automatically picked up from album directory (%1)"
-msgstr ""
+msgstr "Prelevato automaticamente dalla cartella dell'album (%1)"
 
 #: ../build/src/ui_contextsettingspage.h:430
 msgid "Automatically search for album cover"
 msgstr "Cerca automaticamente copertina album"
 
-#: context/contextview.cpp:252 ../build/src/ui_contextsettingspage.h:431
+#: context/contextview.cpp:271 ../build/src/ui_contextsettingspage.h:431
 msgid "Automatically search for song lyrics"
 msgstr "Cerca automaticamente i testi dei brani"
 
@@ -1064,7 +1068,7 @@ msgstr "Ordina automaticamente playlist durante l'inserimento brani"
 msgid "Available"
 msgstr "Disponibile"
 
-#: collection/collectionfilterwidget.cpp:90
+#: collection/collectionfilterwidget.cpp:89
 msgid "Available fields"
 msgstr "Campi disponibili"
 
@@ -1076,7 +1080,7 @@ msgstr "Bitrate medio"
 msgid "Average image size"
 msgstr "Dimensione media immagine"
 
-#: ../build/src/ui_backendsettingspage.h:563
+#: ../build/src/ui_backendsettingspage.h:645
 msgid "Backend"
 msgstr "Sistema"
 
@@ -1116,19 +1120,19 @@ msgstr "Comportamento"
 msgid "Best"
 msgstr "Migliore"
 
-#: context/contextview.cpp:161 collection/savedgroupingmanager.cpp:146
-#: playlist/playlist.cpp:1372 organize/organizedialog.cpp:118
+#: context/contextview.cpp:165 collection/savedgroupingmanager.cpp:146
+#: playlist/playlist.cpp:1382 organize/organizedialog.cpp:121
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
-#: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:859
+#: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:889
 msgid "Bit depth"
 msgstr "Profondità bit"
 
-#: ../build/src/ui_edittagdialog.h:862
+#: ../build/src/ui_edittagdialog.h:891
 msgid "Bit rate"
 msgstr "Bitrate"
 
-#: context/contextview.cpp:162 collection/savedgroupingmanager.cpp:149
-#: playlist/playlist.cpp:1373 ../build/src/ui_groupbydialog.h:209
+#: context/contextview.cpp:166 collection/savedgroupingmanager.cpp:149
+#: playlist/playlist.cpp:1383 ../build/src/ui_groupbydialog.h:209
 #: ../build/src/ui_groupbydialog.h:231 ../build/src/ui_groupbydialog.h:253
 #: ../build/src/ui_transcoderoptionsaac.h:132
 #: ../build/src/ui_transcoderoptionsopus.h:76
@@ -1138,7 +1142,7 @@ msgstr "Bitrate"
 msgid "Bitrate"
 msgstr "Bitrate"
 
-#: organize/organizedialog.cpp:116
+#: organize/organizedialog.cpp:119
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
 msgstr "Bitrate"
@@ -1175,15 +1179,15 @@ msgstr "In basso a destra"
 msgid "Browse..."
 msgstr "Sfoglia..."
 
-#: ../build/src/ui_backendsettingspage.h:580
+#: ../build/src/ui_backendsettingspage.h:662
 msgid "Buffer"
 msgstr "Buffer"
 
-#: ../build/src/ui_backendsettingspage.h:582
+#: ../build/src/ui_backendsettingspage.h:664
 msgid "Buffer duration"
 msgstr "Durata buffer"
 
-#: engine/gstengine.cpp:682
+#: engine/gstengine.cpp:687
 msgid "Buffering"
 msgstr "Riempimento buffer"
 
@@ -1195,11 +1199,11 @@ msgstr "C&onsole"
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "La riproduzione CD è disponibile unicamente tramite motore GStreamer."
 
-#: ../build/src/ui_scrobblersettingspage.h:424
+#: ../build/src/ui_scrobblersettingspage.h:417
 msgid "CDDA"
 msgstr "CDDA"
 
-#: playlist/playlist.cpp:1386
+#: playlist/playlist.cpp:1396
 msgid "CUE"
 msgstr "CUE"
 
@@ -1207,11 +1211,11 @@ msgstr "CUE"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: tidal/tidalstreamurlrequest.cpp:104 qobuz/qobuzstreamurlrequest.cpp:100
+#: tidal/tidalstreamurlrequest.cpp:105 qobuz/qobuzstreamurlrequest.cpp:101
 msgid "Cancelled."
 msgstr "Annullato."
 
-#: ../build/src/ui_edittagdialog.h:877
+#: ../build/src/ui_edittagdialog.h:905
 msgid "Change art"
 msgstr "Modifica copertina"
 
@@ -1235,11 +1239,11 @@ msgstr "Modifica il brano attualmente in riproduzione"
 msgid "Change the language"
 msgstr "Modifica lingua interfaccia"
 
-#: core/mainwindow.cpp:804
+#: core/mainwindow.cpp:805
 msgid "Check for updates..."
 msgstr "Controlla aggiornamenti..."
 
-#: smartplaylists/smartplaylistwizard.cpp:87
+#: smartplaylists/smartplaylistwizard.cpp:88
 msgid "Choose a name for your smart playlist"
 msgstr "Scegli un nome per la playlist intelligente"
 
@@ -1255,7 +1259,7 @@ msgstr "Scegli i dati da importare da last.fm"
 msgid "Choose font..."
 msgstr "Scegli carattere..."
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:159
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr "Scegli come è ordinata la playlist e quanti brani conterrà."
 
@@ -1276,15 +1280,15 @@ msgstr "Classica"
 msgid "Clear"
 msgstr "Svuota"
 
-#: ../build/src/ui_collectionsettingspage.h:442
+#: ../build/src/ui_collectionsettingspage.h:449
 msgid "Clear Disk Cache"
 msgstr "Svuota cache disco"
 
-#: covermanager/albumcoverchoicecontroller.cpp:112
+#: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Clear cover"
 msgstr "Rimuovi copertina"
 
-#: core/mainwindow.cpp:2310 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2309 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Azzera playlist"
 
@@ -1296,11 +1300,11 @@ msgstr "Autori di Clementine"
 msgid "Clementine contributors"
 msgstr "Contributori di Clementine"
 
-#: collection/collectionview.cpp:326
+#: collection/collectionview.cpp:328
 msgid "Click here to add some music"
 msgstr "Fai clic qui per aggiungere della musica"
 
-#: internet/internetcollectionview.cpp:292
+#: internet/internetcollectionview.cpp:293
 msgid "Click here to retrieve music"
 msgstr "Fai clic qui per recuperare la musica"
 
@@ -1317,7 +1321,7 @@ msgstr "ID client"
 msgid "Close"
 msgstr "Chiudi"
 
-#: playlist/playlisttabbar.cpp:78
+#: playlist/playlisttabbar.cpp:79
 msgid "Close playlist"
 msgstr "Chiudi playlist"
 
@@ -1329,8 +1333,8 @@ msgstr "La chiusura di questa finestra fermerà la ricerca delle copertine."
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:369 ../build/src/ui_collectionsettingspage.h:416
-#: ../build/src/ui_scrobblersettingspage.h:418
+#: core/mainwindow.cpp:370 ../build/src/ui_collectionsettingspage.h:422
+#: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Collection"
 msgstr "Raccolta"
 
@@ -1342,11 +1346,11 @@ msgstr "Filtro raccolta"
 msgid "Collection advanced grouping"
 msgstr "Raggruppamento avanzato della raccolta"
 
-#: core/mainwindow.cpp:2878
+#: core/mainwindow.cpp:2877
 msgid "Collection rescan notice"
 msgstr "Notifica nuova scansione della raccolta"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:90
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:95
 msgid "Collection search"
 msgstr "Ricerca raccolta"
 
@@ -1354,16 +1358,16 @@ msgstr "Ricerca raccolta"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Elenco separato da virgole (classe:livello, dove livello è 0-3)"
 
-#: playlist/playlist.cpp:1382 smartplaylists/smartplaylistsearchterm.cpp:391
-#: organize/organizedialog.cpp:114 ../build/src/ui_edittagdialog.h:889
+#: playlist/playlist.cpp:1392 smartplaylists/smartplaylistsearchterm.cpp:391
+#: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:917
 msgid "Comment"
 msgstr "Commento"
 
-#: ../build/src/ui_edittagdialog.h:891
+#: ../build/src/ui_edittagdialog.h:919
 msgid "Compilation"
 msgstr "Compilation"
 
-#: ../build/src/ui_edittagdialog.h:887
+#: ../build/src/ui_edittagdialog.h:915
 msgid "Complete tags automatically"
 msgstr "Completa automaticamente i tag"
 
@@ -1371,10 +1375,10 @@ msgstr "Completa automaticamente i tag"
 msgid "Complete tags automatically..."
 msgstr "Completa automaticamente i tag..."
 
-#: collection/savedgroupingmanager.cpp:128 playlist/playlist.cpp:1363
-#: organize/organizedialog.cpp:106 ../build/src/ui_groupbydialog.h:203
+#: collection/savedgroupingmanager.cpp:128 playlist/playlist.cpp:1373
+#: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:203
 #: ../build/src/ui_groupbydialog.h:225 ../build/src/ui_groupbydialog.h:247
-#: ../build/src/ui_edittagdialog.h:886
+#: ../build/src/ui_edittagdialog.h:914
 msgid "Composer"
 msgstr "Compositore"
 
@@ -1389,7 +1393,7 @@ msgstr "Configurazione non completa"
 msgid "Configuration incorrect"
 msgstr "Configurazione non corretta"
 
-#: internet/internetsearchview.cpp:177 internet/internetsearchview.cpp:343
+#: internet/internetsearchview.cpp:179 internet/internetsearchview.cpp:345
 #: internet/internetsongsview.cpp:59 internet/internettabsview.cpp:62
 #, qt-format
 msgid "Configure %1..."
@@ -1399,11 +1403,11 @@ msgstr "Configura %1..."
 msgid "Configure buttons"
 msgstr "Configura pulsanti"
 
-#: core/mainwindow.cpp:681
+#: core/mainwindow.cpp:682
 msgid "Configure collection..."
 msgstr "Configura raccolta..."
 
-#: device/devicemanager.cpp:351 device/devicemanager.cpp:352
+#: device/devicemanager.cpp:352 device/devicemanager.cpp:353
 msgid "Connect device"
 msgstr "Connetti dispositivo"
 
@@ -1415,7 +1419,7 @@ msgstr "Console"
 msgid "Constant bitrate"
 msgstr "Bitrate costante"
 
-#: core/mainwindow.cpp:368 ../build/src/ui_contextsettingspage.h:357
+#: core/mainwindow.cpp:369 ../build/src/ui_contextsettingspage.h:357
 msgid "Context"
 msgstr "Contesto"
 
@@ -1437,7 +1441,7 @@ msgstr "Converti tutta la musica"
 msgid "Convert any music that the device can't play"
 msgstr "Converti qualsiasi musica che il dispositivo non può riprodurre"
 
-#: core/mainwindow.cpp:750
+#: core/mainwindow.cpp:751
 msgid "Copy URL(s)..."
 msgstr "Copia URL..."
 
@@ -1445,17 +1449,17 @@ msgstr "Copia URL..."
 msgid "Copy album cover artwork"
 msgstr "Copia copertina album"
 
-#: core/mainwindow.cpp:754 widgets/fileviewlist.cpp:46
-#: device/deviceview.cpp:246
+#: core/mainwindow.cpp:755 widgets/fileviewlist.cpp:46
+#: device/deviceview.cpp:249
 msgid "Copy to collection..."
 msgstr "Copia nella raccolta..."
 
-#: playlist/playlistlistcontainer.cpp:364
+#: playlist/playlistlistcontainer.cpp:366
 msgid "Copy to device"
 msgstr "Copia nel dispositivo"
 
-#: core/mainwindow.cpp:757 collection/collectionview.cpp:359
-#: playlist/playlistlistcontainer.cpp:89 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:758 collection/collectionview.cpp:361
+#: playlist/playlistlistcontainer.cpp:91 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "Copia nel dispositivo..."
 
@@ -1467,7 +1471,7 @@ msgstr ""
 "Prima di disinstallare lo snap copia il straw.conf e straw.db dalla cartella "
 "~/snap per evitare di perdere la configurazione:"
 
-#: transcoder/transcoder.cpp:67
+#: transcoder/transcoder.cpp:72
 #, qt-format
 msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
@@ -1481,7 +1485,7 @@ msgstr ""
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr "Impossibile aprire il file CUE '%1' per la lettura: '%2'"
 
-#: scrobbler/scrobblingapi20.cpp:225
+#: scrobbler/scrobblingapi20.cpp:223
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Impossibile aprire l'URL, apri questo URL nel browser"
 
@@ -1496,10 +1500,10 @@ msgid "Could not open playlist file %1 for reading: %2"
 msgstr "Impossibile aprire il file della playlist '%1' in lettura: '%2'"
 
 #: covermanager/albumcovermanager.cpp:1060
-#: covermanager/albumcoverchoicecontroller.cpp:824
+#: covermanager/albumcoverchoicecontroller.cpp:823
 #, qt-format
 msgid "Could not save cover to file %1."
-msgstr ""
+msgstr "Impossibile salvare la copertina nel file %1."
 
 #: core/songloader.cpp:496
 #, qt-format
@@ -1520,7 +1524,7 @@ msgstr "Impossibile creare l'elemento typefind di GStreamer per '%1'"
 msgid "Couldn't create playlist"
 msgstr "Impossibile creare la playlist"
 
-#: transcoder/transcoder.cpp:445
+#: transcoder/transcoder.cpp:450
 #, qt-format
 msgid ""
 "Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
@@ -1529,7 +1533,7 @@ msgstr ""
 "Impossibile trovare un muxer per '%1', verifica l'installazione del plugin "
 "GStreamer corretto"
 
-#: transcoder/transcoder.cpp:440
+#: transcoder/transcoder.cpp:445
 #, qt-format
 msgid ""
 "Couldn't find an encoder for %1, check you have the correct GStreamer "
@@ -1550,43 +1554,43 @@ msgstr ""
 msgid "Cover Manager"
 msgstr "Gestione copertine"
 
-#: dialogs/edittagdialog.cpp:849
+#: dialogs/edittagdialog.cpp:851
 msgid "Cover art not set"
 msgstr "Copertina non impostata"
 
-#: dialogs/edittagdialog.cpp:865
+#: dialogs/edittagdialog.cpp:867
 msgid "Cover changed: Will be cleared when saved."
 msgstr "Copertina modificata: verrà cancellata quando verrà salvata."
 
-#: dialogs/edittagdialog.cpp:869
+#: dialogs/edittagdialog.cpp:871
 msgid "Cover changed: Will be deleted when saved."
 msgstr "Copertina modificata: verrà eliminata quando verrà salvata."
 
-#: dialogs/edittagdialog.cpp:867
+#: dialogs/edittagdialog.cpp:869
 msgid "Cover changed: Will be unset when saved."
 msgstr "Copertina modificata: verrà annullata quando verrà salvata."
 
-#: dialogs/edittagdialog.cpp:871
+#: dialogs/edittagdialog.cpp:873
 msgid "Cover changed: Will set new when saved."
 msgstr "Copertina modificata: verrà impostata una nuova quando verrà salvata."
 
-#: covermanager/albumcoverchoicecontroller.cpp:193
+#: covermanager/albumcoverchoicecontroller.cpp:192
 #, qt-format
 msgid "Cover file %1 is empty."
 msgstr "Il file copertina '%1' è vuoto."
 
-#: dialogs/edittagdialog.cpp:841 dialogs/edittagdialog.cpp:844
+#: dialogs/edittagdialog.cpp:843 dialogs/edittagdialog.cpp:846
 #, qt-format
 msgid "Cover from %1"
-msgstr ""
+msgstr "Copertina da %1"
 
-#: dialogs/edittagdialog.cpp:838
+#: dialogs/edittagdialog.cpp:840
 msgid "Cover from embedded image."
-msgstr ""
+msgstr "Copertina dall'immagine incorporata."
 
-#: dialogs/edittagdialog.cpp:835
+#: dialogs/edittagdialog.cpp:837
 msgid "Cover is unset."
-msgstr ""
+msgstr "Copertina non impostata"
 
 #: ../build/src/ui_coverssettingspage.h:306
 msgid "Cover providers"
@@ -1606,11 +1610,11 @@ msgstr "Copertine da '%1'"
 msgid "Create a new playlist with files"
 msgstr "Crea una nuova playlist con i file"
 
-#: ../build/src/ui_backendsettingspage.h:598
+#: ../build/src/ui_backendsettingspage.h:685
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Dissolvenza incrociata al cambio automatico di traccia"
 
-#: ../build/src/ui_backendsettingspage.h:597
+#: ../build/src/ui_backendsettingspage.h:684
 msgid "Cross-fade when changing tracks manually"
 msgstr "Dissolvenza incrociata al cambio manuale di traccia"
 
@@ -1674,7 +1678,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Sù"
 
-#: ../build/src/ui_collectionsettingspage.h:440
+#: ../build/src/ui_collectionsettingspage.h:447
 msgid "Current disk cache in use:"
 msgstr "Cache del disco attualmente in uso:"
 
@@ -1702,7 +1706,7 @@ msgstr "Impostazioni testo personalizzato"
 msgid "Custom..."
 msgstr "Personalizzato..."
 
-#: device/udisks2lister.cpp:114
+#: device/udisks2lister.cpp:119
 msgid "D-Bus path"
 msgstr "Percorso D-Bus"
 
@@ -1714,11 +1718,11 @@ msgstr "Dance"
 msgid "Database corruption detected."
 msgstr "Rilevato danneggiamento del database."
 
-#: playlist/playlist.cpp:1380 ../build/src/ui_edittagdialog.h:866
+#: playlist/playlist.cpp:1390 ../build/src/ui_edittagdialog.h:880
 msgid "Date created"
 msgstr "Data modifica"
 
-#: playlist/playlist.cpp:1379 ../build/src/ui_edittagdialog.h:870
+#: playlist/playlist.cpp:1389 ../build/src/ui_edittagdialog.h:883
 msgid "Date modified"
 msgstr "Data creazione"
 
@@ -1742,28 +1746,28 @@ msgstr "Diminuisci volume"
 msgid "Default bac&kground image"
 msgstr "Immagine di sf&ondo predefinita"
 
-#: ../build/src/ui_backendsettingspage.h:585
+#: ../build/src/ui_backendsettingspage.h:667
 msgid "Defaults"
 msgstr "Predefiniti"
 
-#: playlist/playlistlistcontainer.cpp:86
+#: playlist/playlistlistcontainer.cpp:88
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "Elimina"
 
-#: covermanager/albumcoverchoicecontroller.cpp:111
+#: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Delete cover"
 msgstr "Elimina copertina"
 
-#: dialogs/deleteconfirmationdialog.cpp:46 device/deviceview.cpp:426
+#: dialogs/deleteconfirmationdialog.cpp:46 device/deviceview.cpp:429
 msgid "Delete files"
 msgstr "Elimina i file"
 
-#: device/deviceview.cpp:247
+#: device/deviceview.cpp:250
 msgid "Delete from device..."
 msgstr "Elimina da dispositivo..."
 
-#: core/mainwindow.cpp:759 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:760 collection/collectionview.cpp:363
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "Elimina dal disco..."
@@ -1772,7 +1776,7 @@ msgstr "Elimina dal disco..."
 msgid "Delete preset"
 msgstr "Elimina preimpostazione"
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:79
+#: smartplaylists/smartplaylistsviewcontainer.cpp:77
 #: ../build/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
 msgstr "Elimina playlist intelligente"
@@ -1785,15 +1789,15 @@ msgstr "Elimina brani"
 msgid "Delete the original files"
 msgstr "Elimina i file originali"
 
-#: core/deletefiles.cpp:58
+#: core/deletefiles.cpp:59
 msgid "Deleting files"
 msgstr "Eliminazione file"
 
-#: core/mainwindow.cpp:1936
+#: core/mainwindow.cpp:1935
 msgid "Dequeue selected tracks"
 msgstr "Rimuovi tracce selezionate dalla coda"
 
-#: core/mainwindow.cpp:1935
+#: core/mainwindow.cpp:1934
 msgid "Dequeue track"
 msgstr "Rimuovi tracce dalla coda"
 
@@ -1805,8 +1809,8 @@ msgstr "Destinazione"
 msgid "Details..."
 msgstr "Dettagli..."
 
-#: device/giolister.cpp:192 ../build/src/ui_backendsettingspage.h:565
-#: ../build/src/ui_scrobblersettingspage.h:422
+#: device/giolister.cpp:193 ../build/src/ui_backendsettingspage.h:647
+#: ../build/src/ui_scrobblersettingspage.h:415
 msgid "Device"
 msgstr "Dispositivo"
 
@@ -1814,11 +1818,11 @@ msgstr "Dispositivo"
 msgid "Device Properties"
 msgstr "Proprietà dispositivo"
 
-#: device/deviceview.cpp:238
+#: device/deviceview.cpp:241
 msgid "Device properties..."
 msgstr "Proprietà dispositivo..."
 
-#: core/mainwindow.cpp:376
+#: core/mainwindow.cpp:377
 msgid "Devices"
 msgstr "Dispositivi"
 
@@ -1847,10 +1851,10 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Disabilitata"
 
-#: collection/savedgroupingmanager.cpp:116 playlist/playlist.cpp:1357
-#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:195
+#: collection/savedgroupingmanager.cpp:116 playlist/playlist.cpp:1367
+#: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:195
 #: ../build/src/ui_groupbydialog.h:217 ../build/src/ui_groupbydialog.h:239
-#: ../build/src/ui_edittagdialog.h:879
+#: ../build/src/ui_edittagdialog.h:907
 msgid "Disc"
 msgstr "Disco"
 
@@ -1858,12 +1862,12 @@ msgstr "Disco"
 msgid "Discontinuous transmission"
 msgstr "Trasmissione discontinua"
 
-#: ../build/src/ui_collectionsettingspage.h:439
+#: ../build/src/ui_collectionsettingspage.h:446
 msgid "Disk Cache Size"
 msgstr "Dimensioni cache disco"
 
-#: collection/collectionfilterwidget.cpp:131
-#: ../build/src/ui_collectionsettingspage.h:432
+#: collection/collectionfilterwidget.cpp:130
+#: ../build/src/ui_collectionsettingspage.h:439
 msgid "Display options"
 msgstr "Opzioni visualizzazione"
 
@@ -1887,15 +1891,15 @@ msgstr "Non sovrascrivere"
 msgid "Do not show this message again."
 msgstr "Non visualizzare più questo messaggio."
 
-#: osd/osdbase.cpp:361 ../build/src/ui_playlistsequence.h:108
+#: osd/osdbase.cpp:362 ../build/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
 msgstr "Non ripetere"
 
-#: collection/collectionview.cpp:374
+#: collection/collectionview.cpp:376
 msgid "Don't show in various artists"
 msgstr "Non mostrare in artisti vari"
 
-#: osd/osdbase.cpp:346 ../build/src/ui_playlistsequence.h:114
+#: osd/osdbase.cpp:347 ../build/src/ui_playlistsequence.h:114
 msgid "Don't shuffle"
 msgstr "Non mescolare"
 
@@ -1907,7 +1911,7 @@ msgstr "Non fermare!"
 msgid "Donate"
 msgstr "Dona"
 
-#: device/deviceview.cpp:136
+#: device/deviceview.cpp:139
 msgid "Double click to open"
 msgstr "Doppio clic per aprire"
 
@@ -1919,7 +1923,7 @@ msgstr "Il doppio clic in un brano nella playlist..."
 msgid "Double clicking a song will..."
 msgstr "Con un doppio clic su un brano..."
 
-#: playlist/playlisttabbar.cpp:356
+#: playlist/playlisttabbar.cpp:357
 msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
@@ -1934,7 +1938,7 @@ msgstr ""
 msgid "Download album covers"
 msgstr "Scarica copertine album"
 
-#: musicbrainz/tagfetcher.cpp:130
+#: musicbrainz/tagfetcher.cpp:131
 msgid "Downloading metadata"
 msgstr "Scarica metadati"
 
@@ -1950,15 +1954,35 @@ msgstr "La modalità dinamica è attiva"
 msgid "Dynamic random mix"
 msgstr "Mix casuale dinamico"
 
+#: context/contextview.cpp:167
+msgid "EBU R 128 Integrated Loudness"
+msgstr ""
+
+#: ../build/src/ui_backendsettingspage.h:679
+msgid "EBU R 128 Loudness Normalization"
+msgstr ""
+
+#: context/contextview.cpp:168
+msgid "EBU R 128 Loudness Range"
+msgstr ""
+
+#: ../build/src/ui_edittagdialog.h:890
+msgid "EBU R 128 integrated loudness"
+msgstr ""
+
+#: ../build/src/ui_edittagdialog.h:899
+msgid "EBU R 128 loudness range"
+msgstr ""
+
 #: ../build/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
 msgstr "Modifica playlist intelligente"
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:78
+#: smartplaylists/smartplaylistsviewcontainer.cpp:76
 msgid "Edit smart playlist..."
 msgstr "Modifica playlist intelligente..."
 
-#: core/mainwindow.cpp:1979
+#: core/mainwindow.cpp:1978
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Modifica tag '%1'..."
@@ -1967,43 +1991,43 @@ msgstr "Modifica tag '%1'..."
 msgid "Edit tag..."
 msgstr "Modifica tag..."
 
-#: ../build/src/ui_edittagdialog.h:854
+#: ../build/src/ui_edittagdialog.h:878
 msgid "Edit track information"
 msgstr "Modifica informazioni traccia"
 
-#: collection/collectionview.cpp:364 widgets/fileviewlist.cpp:52
+#: collection/collectionview.cpp:366 widgets/fileviewlist.cpp:52
 #: ../build/src/ui_mainwindow.h:642
 msgid "Edit track information..."
 msgstr "Modifica informazioni traccia..."
 
-#: collection/collectionview.cpp:365
+#: collection/collectionview.cpp:367
 msgid "Edit tracks information..."
 msgstr "Modifica le informazioni tracce..."
 
 #: settings/coverssettingspage.cpp:432
 #, qt-format
 msgid "Embedded album cover art (%1)"
-msgstr ""
+msgstr "Copertina incorporata nell'album (%1)"
 
-#: ../build/src/ui_edittagdialog.h:878
+#: ../build/src/ui_edittagdialog.h:906
 msgid "Embedded cover"
 msgstr "Copertina incorporata"
 
-#: ../build/src/ui_scrobblersettingspage.h:406
-#: ../build/src/ui_scrobblersettingspage.h:430
-#: ../build/src/ui_scrobblersettingspage.h:434
-#: ../build/src/ui_scrobblersettingspage.h:437
+#: ../build/src/ui_scrobblersettingspage.h:399
+#: ../build/src/ui_scrobblersettingspage.h:423
+#: ../build/src/ui_scrobblersettingspage.h:426
+#: ../build/src/ui_scrobblersettingspage.h:429
 #: ../build/src/ui_subsonicsettingspage.h:244
 #: ../build/src/ui_tidalsettingspage.h:319
 #: ../build/src/ui_qobuzsettingspage.h:277
 msgid "Enable"
 msgstr "Abilita"
 
-#: ../build/src/ui_collectionsettingspage.h:438
+#: ../build/src/ui_collectionsettingspage.h:445
 msgid "Enable Disk Cache"
 msgstr "Abilita cache disco"
 
-#: ../build/src/ui_backendsettingspage.h:578
+#: ../build/src/ui_backendsettingspage.h:660
 msgid "Enable HTTP/2 for streaming"
 msgstr "Abilita HTTP/2 per lo streaming"
 
@@ -2011,7 +2035,7 @@ msgstr "Abilita HTTP/2 per lo streaming"
 msgid "Enable Items"
 msgstr "Abilita elementi"
 
-#: ../build/src/ui_collectionsettingspage.h:449
+#: ../build/src/ui_collectionsettingspage.h:456
 #: ../build/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
 msgstr "Abilita l'eliminazione file nel menu contestuale tasto destro"
@@ -2032,7 +2056,7 @@ msgstr "Abilita pulsante cancellazione playlist"
 msgid "Enable playlist toolbar"
 msgstr "Abilita barra strumenti playlist"
 
-#: ../build/src/ui_scrobblersettingspage.h:417
+#: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Enable scrobbling for the following sources:"
 msgstr "Abilita scrobbling per le seguenti sorgenti:"
 
@@ -2044,7 +2068,7 @@ msgstr "Abilita la modifica in linea dei metadati di un brano con un clic"
 msgid "Enable stereo balancer"
 msgstr "Abilita bilanciatore stereo"
 
-#: ../build/src/ui_backendsettingspage.h:574
+#: ../build/src/ui_backendsettingspage.h:656
 msgid "Enable volume control"
 msgstr "Abilita controllo volume"
 
@@ -2068,7 +2092,7 @@ msgstr "Qualità motore codifica"
 msgid "Encoding mode"
 msgstr "Modalità codifica"
 
-#: ../build/src/ui_backendsettingspage.h:568
+#: ../build/src/ui_backendsettingspage.h:650
 msgid "Engine"
 msgstr "Motore"
 
@@ -2080,11 +2104,11 @@ msgstr "Inserisci una URL per scaricare una copertina da Internet:"
 msgid "Enter a filename for exported covers (no extension):"
 msgstr "Digita un nome file per le copertine esportate (nessuna estensione):"
 
-#: playlist/playlisttabbar.cpp:179
+#: playlist/playlisttabbar.cpp:180
 msgid "Enter a new name for this playlist"
 msgstr "Inserisci un nuovo nome per questa playlist"
 
-#: internet/internetsearchview.cpp:402 ../build/src/ui_internetsearchview.h:229
+#: internet/internetsearchview.cpp:404 ../build/src/ui_internetsearchview.h:229
 msgid "Enter search terms above to find music"
 msgstr ""
 "Inserisci qui sopra i termini per la ricerca per trovare la musica che "
@@ -2099,7 +2123,7 @@ msgstr "Inserisci qui i termini di ricerca"
 msgid "Enter the URL of a stream:"
 msgstr "Inserisci URL del flusso:"
 
-#: playlist/playlistlistcontainer.cpp:207
+#: playlist/playlistlistcontainer.cpp:209
 msgid "Enter the name of the folder"
 msgstr "Digita il nome della cartella"
 
@@ -2127,12 +2151,12 @@ msgstr "Equivalente a --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente a --log-levels *:3"
 
-#: core/mainwindow.cpp:2609 core/mainwindow.cpp:2760
-#: collection/collectionview.cpp:586
+#: core/mainwindow.cpp:2608 core/mainwindow.cpp:2759
+#: collection/collectionview.cpp:587
 msgid "Error"
 msgstr "Errore"
 
-#: device/mtploader.cpp:68
+#: device/mtploader.cpp:72
 #, qt-format
 msgid "Error connecting MTP device %1"
 msgstr "Errore durante la connessione MTP al dispositivo '%1'"
@@ -2145,25 +2169,25 @@ msgstr "Errore durante la copia dei brani"
 msgid "Error deleting songs"
 msgstr "Errore durante l'eliminazione dei brani"
 
-#: transcoder/transcoder.cpp:413
+#: transcoder/transcoder.cpp:418
 #, qt-format
 msgid "Error processing %1: %2"
 msgstr "Errore durante l'elaborazione di '%1': '%2'"
 
-#: playlist/songloaderinserter.cpp:113
+#: playlist/songloaderinserter.cpp:114
 msgid "Error while loading audio CD."
 msgstr "Errore durante il caricamento del CD audio."
 
-#: device/cddasongloader.cpp:116 device/cddasongloader.cpp:125
+#: device/cddasongloader.cpp:121 device/cddasongloader.cpp:130
 msgid "Error while querying CDDA tracks."
 msgstr "Errore durante l'interrogazione delle tracce CDDA."
 
-#: device/cddasongloader.cpp:104
+#: device/cddasongloader.cpp:109
 msgid "Error while setting CDDA device to pause state."
 msgstr ""
 "Errore durante l'impostazione del dispositivo CDDA nello stato di pausa."
 
-#: device/cddasongloader.cpp:96
+#: device/cddasongloader.cpp:101
 msgid "Error while setting CDDA device to ready state."
 msgstr ""
 "Errore durante l'impostazione del dispositivo CDDA nello stato pronto."
@@ -2172,7 +2196,7 @@ msgstr ""
 msgid "Ever played"
 msgstr "Mai riprodotto"
 
-#: ../build/src/ui_backendsettingspage.h:599
+#: ../build/src/ui_backendsettingspage.h:686
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Ad eccezione delle tracce dello stesso album o dello stesso CUE sheet"
 
@@ -2184,7 +2208,7 @@ msgstr "Copertine esistenti"
 msgid "Expand"
 msgstr "Espandi"
 
-#: ../build/src/ui_collectionsettingspage.h:425
+#: ../build/src/ui_collectionsettingspage.h:432
 msgid "Expire unavailable songs after"
 msgstr "Fai scadere i brani non disponibili dopo"
 
@@ -2243,61 +2267,61 @@ msgstr "F8"
 msgid "FLAC"
 msgstr "FLAC"
 
-#: ../build/src/ui_backendsettingspage.h:602
+#: ../build/src/ui_backendsettingspage.h:689
 msgid "Fade out on pause / fade in on resume"
 msgstr "Dissolvenza in uscita in pausa / dissolvenza in entrata al ripristino"
 
-#: ../build/src/ui_backendsettingspage.h:596
+#: ../build/src/ui_backendsettingspage.h:683
 msgid "Fade out when stopping a track"
 msgstr "Dissolvenza all'interruzione di una traccia"
 
-#: ../build/src/ui_backendsettingspage.h:595
+#: ../build/src/ui_backendsettingspage.h:682
 msgid "Fading"
 msgstr "Dissolvenza"
 
-#: ../build/src/ui_backendsettingspage.h:600
-#: ../build/src/ui_backendsettingspage.h:603
+#: ../build/src/ui_backendsettingspage.h:687
+#: ../build/src/ui_backendsettingspage.h:690
 msgid "Fading duration"
 msgstr "Durata dissolvenza"
 
-#: core/database.cpp:478 collection/collectionbackend.cpp:112
+#: core/database.cpp:478 collection/collectionbackend.cpp:119
 #, qt-format
 msgid "Failed SQL query: %1"
 msgstr "Interrogazione SQL non riuscita: %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:380
-#: covermanager/albumcoverchoicecontroller.cpp:397
+#: covermanager/albumcoverchoicecontroller.cpp:379
+#: covermanager/albumcoverchoicecontroller.cpp:396
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
 msgstr "Impossibile eliminare il file copertina '%1': '%2'"
 
-#: covermanager/albumcoverchoicecontroller.cpp:185
+#: covermanager/albumcoverchoicecontroller.cpp:184
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
 msgstr "Impossibile aprire il file copertina '%1' in lettura: '%2'"
 
-#: covermanager/albumcoverchoicecontroller.cpp:263
-#: covermanager/albumcoverchoicecontroller.cpp:685
+#: covermanager/albumcoverchoicecontroller.cpp:262
+#: covermanager/albumcoverchoicecontroller.cpp:684
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr "Impossibile aprire il file copertina '%1' in scrittura: '%2'"
 
-#: covermanager/albumcoverchoicecontroller.cpp:679
+#: covermanager/albumcoverchoicecontroller.cpp:678
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr "Impossibile scrivere la copertina nel file '%1': '%2'"
 
-#: covermanager/albumcoverchoicecontroller.cpp:278
+#: covermanager/albumcoverchoicecontroller.cpp:277
 #, qt-format
 msgid "Failed writing cover to file %1."
 msgstr "Impossibile scrivere la copertina nel file '%1'."
 
-#: covermanager/albumcoverchoicecontroller.cpp:269
+#: covermanager/albumcoverchoicecontroller.cpp:268
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
 msgstr "Impossibile scrivere la copertina nel file '%1': '%2'"
 
-#: ../build/src/ui_backendsettingspage.h:594
+#: ../build/src/ui_backendsettingspage.h:678
 msgid "Fallback-gain"
 msgstr "Guadagno fallback"
 
@@ -2326,8 +2350,8 @@ msgstr "Recupero completato"
 msgid "Fetch entire albums when searching songs"
 msgstr "Recupera gli album interi quando cerchi dei brani"
 
-#: covermanager/coverfromurldialog.cpp:89
-#: covermanager/coverfromurldialog.cpp:99
+#: covermanager/coverfromurldialog.cpp:90
+#: covermanager/coverfromurldialog.cpp:100
 msgid "Fetching cover error"
 msgstr "Errore recupero copertina"
 
@@ -2341,7 +2365,7 @@ msgstr "Il file '%1' non esiste."
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Il file '%1' non è stato riconosciuto come un file audio valido."
 
-#: organize/organizedialog.cpp:119
+#: organize/organizedialog.cpp:122
 msgid "File extension"
 msgstr "Estensione file"
 
@@ -2349,11 +2373,11 @@ msgstr "Estensione file"
 msgid "File formats"
 msgstr "Formati di file"
 
-#: playlist/playlist.cpp:1375
+#: playlist/playlist.cpp:1385
 msgid "File name"
 msgstr "Nome file"
 
-#: playlist/playlist.cpp:1376
+#: playlist/playlist.cpp:1386
 msgid "File name (without path)"
 msgstr "Nome file (senza percorso)"
 
@@ -2361,17 +2385,17 @@ msgstr "Nome file (senza percorso)"
 msgid "File paths"
 msgstr "Percorsi file"
 
-#: playlist/playlist.cpp:1377 ../build/src/ui_edittagdialog.h:860
+#: playlist/playlist.cpp:1387 ../build/src/ui_edittagdialog.h:897
 msgid "File size"
 msgstr "Dimensione file"
 
-#: collection/savedgroupingmanager.cpp:137 playlist/playlist.cpp:1378
+#: collection/savedgroupingmanager.cpp:137 playlist/playlist.cpp:1388
 #: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
-#: ../build/src/ui_groupbydialog.h:250 ../build/src/ui_edittagdialog.h:863
+#: ../build/src/ui_groupbydialog.h:250 ../build/src/ui_edittagdialog.h:886
 msgid "File type"
 msgstr "Tipo di file"
 
-#: ../build/src/ui_edittagdialog.h:861 ../build/src/ui_transcodedialog.h:219
+#: ../build/src/ui_edittagdialog.h:895 ../build/src/ui_transcodedialog.h:219
 msgid "Filename"
 msgstr "Nome file"
 
@@ -2379,7 +2403,7 @@ msgstr "Nome file"
 msgid "Filename:"
 msgstr "Nome file:"
 
-#: core/mainwindow.cpp:373
+#: core/mainwindow.cpp:374
 msgid "Files"
 msgstr "File"
 
@@ -2391,20 +2415,20 @@ msgstr "File da convertire"
 msgid "Files, playlists and queue buttons"
 msgstr "Pulsanti file, playlist e coda"
 
-#: context/contextview.cpp:158
+#: context/contextview.cpp:162
 msgid "Filetype"
 msgstr "Tipo di file"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:93
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:98
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 "Trova i brani nella raccolta che corrispondono ai criteri specificati."
 
-#: musicbrainz/tagfetcher.cpp:78
+#: musicbrainz/tagfetcher.cpp:79
 msgid "Fingerprinting song"
 msgstr "Creazione impronta digitale brano"
 
-#: smartplaylists/smartplaylistwizard.cpp:86
+#: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Finish"
 msgstr "Fine"
 
@@ -2412,7 +2436,7 @@ msgstr "Fine"
 msgid "First level"
 msgstr "Primo livello"
 
-#: widgets/playingwidget.cpp:103
+#: widgets/playingwidget.cpp:105
 msgid "Fit cover to width"
 msgstr "Adatta la copertina alla larghezza"
 
@@ -2447,12 +2471,12 @@ msgstr "Per un'esperienza migliore, considera le altre opzioni di cui sopra."
 msgid "Force mono encoding"
 msgstr "Forza codifica mono"
 
-#: device/deviceview.cpp:236 device/deviceview.cpp:343
-#: device/deviceview.cpp:346
+#: device/deviceview.cpp:239 device/deviceview.cpp:346
+#: device/deviceview.cpp:349
 msgid "Forget device"
 msgstr "Elimina dispositivo"
 
-#: device/deviceview.cpp:344
+#: device/deviceview.cpp:347
 msgid ""
 "Forgetting a device will remove it from this list and Strawberry will have "
 "to rescan all the songs again next time you connect it."
@@ -2490,7 +2514,7 @@ msgstr "Modulo"
 msgid "Format"
 msgstr "Formato"
 
-#: analyzer/analyzercontainer.cpp:63
+#: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
 msgstr "Velocità fotogrammi"
 
@@ -2526,10 +2550,10 @@ msgstr "Impostazioni generali"
 msgid "Genius Authentication"
 msgstr "Autenticazione Genius"
 
-#: collection/savedgroupingmanager.cpp:125 playlist/playlist.cpp:1361
-#: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:197
+#: collection/savedgroupingmanager.cpp:125 playlist/playlist.cpp:1371
+#: organize/organizedialog.cpp:116 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
-#: ../build/src/ui_edittagdialog.h:888
+#: ../build/src/ui_edittagdialog.h:916
 msgid "Genre"
 msgstr "Genere"
 
@@ -2574,79 +2598,79 @@ msgstr "Disabilita i brani non disponibili nelle playlist all'avvio"
 msgid "Group Collection by..."
 msgstr "Raggruppa raccolta per..."
 
-#: collection/collectionfilterwidget.cpp:125
-#: internet/internetsearchview.cpp:341
+#: collection/collectionfilterwidget.cpp:124
+#: internet/internetsearchview.cpp:343
 msgid "Group by"
 msgstr "Raggruppa per"
 
-#: collection/collectionfilterwidget.cpp:293
+#: collection/collectionfilterwidget.cpp:292
 msgid "Group by Album"
 msgstr "Raggruppa per album"
 
-#: collection/collectionfilterwidget.cpp:290
+#: collection/collectionfilterwidget.cpp:289
 msgid "Group by Album Artist"
 msgstr "Raggruppa per artista album"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:276
 msgid "Group by Album artist/Album"
 msgstr "Raggruppa per artista album/album"
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:277
 msgid "Group by Album artist/Album - Disc"
 msgstr "Raggruppa per artista album/disco - album"
 
-#: collection/collectionfilterwidget.cpp:279
+#: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album artist/Year - Album"
 msgstr "Raggruppa per artista album/anno - album"
 
-#: collection/collectionfilterwidget.cpp:280
+#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Raggruppa per artista album/anno - album - disco"
 
-#: collection/collectionfilterwidget.cpp:291
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Artist"
 msgstr "Raggruppa per artista"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:281
 msgid "Group by Artist/Album"
 msgstr "Raggruppa per artista/album"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Artist/Album - Disc"
 msgstr "Raggruppa per artista/album - disco"
 
-#: collection/collectionfilterwidget.cpp:284
+#: collection/collectionfilterwidget.cpp:283
 msgid "Group by Artist/Year - Album"
 msgstr "Raggruppa per artista/anno - album"
 
-#: collection/collectionfilterwidget.cpp:285
+#: collection/collectionfilterwidget.cpp:284
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Raggruppa per artista/anno - album - disco"
 
-#: collection/collectionfilterwidget.cpp:294
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Genre/Album"
 msgstr "Raggruppa per genere/album"
 
-#: collection/collectionfilterwidget.cpp:287
+#: collection/collectionfilterwidget.cpp:286
 msgid "Group by Genre/Album artist/Album"
 msgstr "Raggruppa per genere/artista album/album"
 
-#: collection/collectionfilterwidget.cpp:288
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Genre/Artist/Album"
 msgstr "Raggruppa per genere/artista/album"
 
-#: collection/savedgroupingmanager.cpp:134 playlist/playlist.cpp:1365
-#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:205
+#: collection/savedgroupingmanager.cpp:134 playlist/playlist.cpp:1375
+#: organize/organizedialog.cpp:111 ../build/src/ui_groupbydialog.h:205
 #: ../build/src/ui_groupbydialog.h:227 ../build/src/ui_groupbydialog.h:249
-#: ../build/src/ui_edittagdialog.h:880
+#: ../build/src/ui_edittagdialog.h:908
 msgid "Grouping"
 msgstr "Gruppo"
 
-#: collection/collectionfilterwidget.cpp:351
+#: collection/collectionfilterwidget.cpp:350
 msgid "Grouping Name"
 msgstr "Nome raggruppamento"
 
-#: collection/collectionfilterwidget.cpp:351
+#: collection/collectionfilterwidget.cpp:350
 msgid "Grouping name:"
 msgstr "Nome raggruppamento:"
 
@@ -2684,12 +2708,12 @@ msgstr "Nascondi la finestra principale"
 msgid "High"
 msgstr "Alto"
 
-#: analyzer/analyzercontainer.cpp:78
+#: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Alto (%1 fps)"
 
-#: ../build/src/ui_backendsettingspage.h:583
+#: ../build/src/ui_backendsettingspage.h:665
 msgid "High watermark"
 msgstr "Filigrana grande"
 
@@ -2709,7 +2733,7 @@ msgstr "Dimensioni icona"
 msgid "Icons on top"
 msgstr "Icone in alto"
 
-#: musicbrainz/tagfetcher.cpp:68 musicbrainz/tagfetcher.cpp:112
+#: musicbrainz/tagfetcher.cpp:69 musicbrainz/tagfetcher.cpp:113
 msgid "Identifying song"
 msgstr "Identificazione del brano"
 
@@ -2721,7 +2745,7 @@ msgstr ""
 "Se attivata, il clic su un brano selezionato nella vista della playlist ti "
 "consentirà di modificare direttamente il valore di un tag"
 
-#: device/devicemanager.cpp:609 device/devicemanager.cpp:617
+#: device/devicemanager.cpp:610 device/devicemanager.cpp:618
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
@@ -2737,12 +2761,12 @@ msgstr ""
 "Se ti piace Strawberry e puoi farne uso, prendi in considerazione la "
 "sponsorizzazione o la donazione."
 
-#: covermanager/albumcoverchoicecontroller.cpp:80
+#: covermanager/albumcoverchoicecontroller.cpp:79
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr ""
 "Immagini (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:81
+#: covermanager/albumcoverchoicecontroller.cpp:80
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Immagini (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
@@ -2758,7 +2782,7 @@ msgstr "Importa dati da last.fm..."
 msgid "Import..."
 msgstr "Importa..."
 
-#: ../build/src/ui_backendsettingspage.h:577
+#: ../build/src/ui_backendsettingspage.h:659
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr "Migliorare l'ascolto in cuffia di registrazioni audio stereo (bs2b)"
 
@@ -2812,6 +2836,10 @@ msgstr "Inserisci..."
 msgid "Install strawberry through PPA:"
 msgstr "Installa Strawberry tramite PPA:"
 
+#: playlist/playlist.cpp:1398
+msgid "Integrated loudness"
+msgstr ""
+
 #: core/database.cpp:486
 msgid "Integrity check"
 msgstr "Controllo integrità"
@@ -2824,11 +2852,11 @@ msgstr "Vista ricerca internet"
 msgid "Internet Tabs View"
 msgstr "Vista schede internet"
 
-#: osd/osdbase.cpp:366 ../build/src/ui_playlistsequence.h:113
+#: osd/osdbase.cpp:367 ../build/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
 msgstr "Tracce introduzione"
 
-#: scrobbler/scrobblingapi20.cpp:259
+#: scrobbler/scrobblingapi20.cpp:257
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Risposta non valida dal browser web. Token mancante."
 
@@ -2875,6 +2903,14 @@ msgstr "Quando la finestra è chiusa mantieni l'esecuzione sullo sfondo"
 msgid "Keep the original files"
 msgstr "Mantieni i file originali"
 
+#: core/song.cpp:704
+msgid "LU"
+msgstr ""
+
+#: core/song.cpp:692
+msgid "LUFS"
+msgstr ""
+
 #: ../build/src/ui_behavioursettingspage.h:291
 msgid "Language"
 msgstr "Lingua"
@@ -2887,7 +2923,7 @@ msgstr "Portatile/cuffie"
 msgid "Large Hall"
 msgstr "Sala grande"
 
-#: widgets/playingwidget.cpp:100
+#: widgets/playingwidget.cpp:102
 msgid "Large album cover"
 msgstr "Copertina grande"
 
@@ -2895,22 +2931,22 @@ msgstr "Copertina grande"
 msgid "Large sidebar"
 msgstr "Pannello laterale grande"
 
-#: playlist/playlist.cpp:1369 smartplaylists/smartplaylistsmodel.cpp:91
+#: playlist/playlist.cpp:1379 smartplaylists/smartplaylistsmodel.cpp:91
 #: ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Ultima riproduzione"
 
-#: ../build/src/ui_edittagdialog.h:872
+#: ../build/src/ui_edittagdialog.h:885
 msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Ultima riproduzione"
 
-#: dialogs/lastfmimportdialog.cpp:157
+#: dialogs/lastfmimportdialog.cpp:158
 #, qt-format
 msgid "Last played for %1 songs received."
 msgstr "Ultima riproduzione per %1 brani ricevuti."
 
-#: ../build/src/ui_scrobblersettingspage.h:429
+#: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2922,12 +2958,12 @@ msgstr "Tracce meno preferite"
 msgid "Left"
 msgstr "Sinistra"
 
-#: context/contextview.cpp:159 playlist/playlist.cpp:1358
-#: organize/organizedialog.cpp:115 ../build/src/ui_edittagdialog.h:871
+#: context/contextview.cpp:163 playlist/playlist.cpp:1368
+#: organize/organizedialog.cpp:118 ../build/src/ui_edittagdialog.h:887
 msgid "Length"
 msgstr "Durata"
 
-#: ../build/src/ui_scrobblersettingspage.h:433
+#: ../build/src/ui_scrobblersettingspage.h:425
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2944,7 +2980,7 @@ msgstr "Autenticazione ListenBrainz"
 msgid "ListenBrainz error: %1"
 msgstr "Errore di ListenBrainz: %1"
 
-#: ../build/src/ui_scrobblersettingspage.h:436
+#: ../build/src/ui_scrobblersettingspage.h:428
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2960,48 +2996,48 @@ msgstr "Carica"
 msgid "Load cover from URL"
 msgstr "Carica copertina da URL"
 
-#: covermanager/albumcoverchoicecontroller.cpp:108
+#: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Load cover from URL..."
 msgstr "Carica copertina da URL..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:179
-#: covermanager/albumcoverchoicecontroller.cpp:210
+#: covermanager/albumcoverchoicecontroller.cpp:178
+#: covermanager/albumcoverchoicecontroller.cpp:209
 msgid "Load cover from disk"
 msgstr "Carica copertina dal disco"
 
-#: covermanager/albumcoverchoicecontroller.cpp:106
+#: covermanager/albumcoverchoicecontroller.cpp:105
 msgid "Load cover from disk..."
 msgstr "Carica copertina dal disco..."
 
-#: playlist/playlistcontainer.cpp:342
+#: playlist/playlistcontainer.cpp:343
 msgid "Load playlist"
 msgstr "Carica playlist"
 
-#: device/mtploader.cpp:51
+#: device/mtploader.cpp:55
 msgid "Loading MTP device"
 msgstr "Caricamento dispositivo MTP"
 
-#: device/gpodloader.cpp:53
+#: device/gpodloader.cpp:54
 msgid "Loading iPod database"
 msgstr "Caricamento database iPod"
 
-#: smartplaylists/playlistgeneratorinserter.cpp:62
+#: smartplaylists/playlistgeneratorinserter.cpp:63
 msgid "Loading smart playlist"
 msgstr "Caricamento playlist intelligente"
 
-#: collection/collectionmodel.cpp:196
+#: collection/collectionmodel.cpp:202
 msgid "Loading songs"
 msgstr "Caricamento brani"
 
-#: playlist/songloaderinserter.cpp:170 dialogs/edittagdialog.cpp:408
+#: playlist/songloaderinserter.cpp:171 dialogs/edittagdialog.cpp:408
 msgid "Loading tracks"
 msgstr "Caricamento tracce"
 
-#: playlist/songloaderinserter.cpp:200
+#: playlist/songloaderinserter.cpp:201
 msgid "Loading tracks info"
 msgstr "Caricamento informazioni traccia"
 
-#: collection/collectionmodel.cpp:189
+#: collection/collectionmodel.cpp:195
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:280
 msgid "Loading..."
@@ -3011,13 +3047,13 @@ msgstr "Caricamento..."
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Carica file/URL, sostituendo la playlist attuale"
 
-#: ../build/src/ui_scrobblersettingspage.h:420
+#: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Local file"
 msgstr "File locale"
 
+#: ../build/src/ui_scrobblersettingspage.h:424
+#: ../build/src/ui_scrobblersettingspage.h:427
 #: ../build/src/ui_scrobblersettingspage.h:432
-#: ../build/src/ui_scrobblersettingspage.h:435
-#: ../build/src/ui_scrobblersettingspage.h:440
 #: ../build/src/ui_coverssettingspage.h:312
 #: ../build/src/ui_lyricssettingspage.h:169
 #: ../build/src/ui_tidalsettingspage.h:327
@@ -3029,12 +3065,16 @@ msgstr "Accedi"
 msgid "Long term prediction profile (LTP)"
 msgstr "Profilo con predizione di lungo termine (LTP)"
 
+#: playlist/playlist.cpp:1399
+msgid "Loudness range"
+msgstr ""
+
 #: globalshortcuts/globalshortcutsmanager.cpp:79
 #: ../build/src/ui_mainwindow.h:634
 msgid "Love"
 msgstr "Amore"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Basso (%1 fps)"
@@ -3043,7 +3083,7 @@ msgstr "Basso (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Profilo a bassa complessità (LC)"
 
-#: ../build/src/ui_backendsettingspage.h:584
+#: ../build/src/ui_backendsettingspage.h:666
 msgid "Low watermark"
 msgstr "Filigrana bassa"
 
@@ -3051,7 +3091,7 @@ msgstr "Filigrana bassa"
 msgid "Lowercase filename"
 msgstr "Nome file in minuscolo"
 
-#: ../build/src/ui_lyricssettingspage.h:162 ../build/src/ui_edittagdialog.h:896
+#: ../build/src/ui_lyricssettingspage.h:162 ../build/src/ui_edittagdialog.h:924
 msgid "Lyrics"
 msgstr "Testi"
 
@@ -3078,13 +3118,13 @@ msgstr "Gestisci raggruppamenti salvati"
 #: settings/coverssettingspage.cpp:423
 #, qt-format
 msgid "Manually unset (%1)"
-msgstr ""
+msgstr "Manualmente disabilitata (%1)"
 
 #: device/deviceproperties.cpp:175
 msgid "Manufacturer"
 msgstr "Produttore"
 
-#: ../build/src/ui_collectionsettingspage.h:424
+#: ../build/src/ui_collectionsettingspage.h:430
 msgid "Mark disappeared songs unavailable"
 msgstr "Segna i brani scomparsi come non disponibili"
 
@@ -3104,11 +3144,11 @@ msgstr "Dimensione massima copertina"
 msgid "Maximum bitrate"
 msgstr "Bitrate massimo"
 
-#: qobuz/qobuzservice.cpp:495
+#: qobuz/qobuzservice.cpp:498
 msgid "Maximum number of login attempts reached."
 msgstr "Raggiunto numero massimo tentativi di accesso."
 
-#: analyzer/analyzercontainer.cpp:77
+#: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Medio (%1 fps)"
@@ -3138,21 +3178,21 @@ msgstr "Token API mancante."
 msgid "Missing MusicBrainz recording ID for %1 %2 %3"
 msgstr "ID registrazione MusicBrainz mancante per %1 %2 %3"
 
-#: qobuz/qobuzservice.cpp:738 qobuz/qobuzstreamurlrequest.cpp:81
+#: qobuz/qobuzservice.cpp:741 qobuz/qobuzstreamurlrequest.cpp:82
 msgid "Missing Qobuz app ID or secret."
 msgstr "ID app (o segreto) Qobuz mancante."
 
-#: qobuz/qobuzservice.cpp:499 qobuz/qobuzservice.cpp:528
-#: qobuz/qobuzservice.cpp:578 qobuz/qobuzservice.cpp:628
-#: qobuz/qobuzservice.cpp:690
+#: qobuz/qobuzservice.cpp:502 qobuz/qobuzservice.cpp:531
+#: qobuz/qobuzservice.cpp:581 qobuz/qobuzservice.cpp:631
+#: qobuz/qobuzservice.cpp:693
 msgid "Missing Qobuz app ID."
 msgstr "ID app Qobuz mancante."
 
-#: qobuz/qobuzservice.cpp:507
+#: qobuz/qobuzservice.cpp:510
 msgid "Missing Qobuz password."
 msgstr "Password Qobuz mancante."
 
-#: qobuz/qobuzservice.cpp:503
+#: qobuz/qobuzservice.cpp:506
 msgid "Missing Qobuz username."
 msgstr "Nome utente Qobuz mancante."
 
@@ -3160,13 +3200,13 @@ msgstr "Nome utente Qobuz mancante."
 msgid "Missing Subsonic username or password."
 msgstr "Nome utente o password di Subsonic mancante."
 
-#: tidal/tidalservice.cpp:748 tidal/tidalservice.cpp:803
-#: tidal/tidalservice.cpp:858 tidal/tidalservice.cpp:921
-#: tidal/tidalservice.cpp:984 tidal/tidalstreamurlrequest.cpp:86
+#: tidal/tidalservice.cpp:746 tidal/tidalservice.cpp:801
+#: tidal/tidalservice.cpp:856 tidal/tidalservice.cpp:919
+#: tidal/tidalservice.cpp:982 tidal/tidalstreamurlrequest.cpp:87
 msgid "Missing Tidal API token, username or password."
 msgstr "Token API Tidal, nome utente o password mancanti."
 
-#: tidal/tidalservice.cpp:709
+#: tidal/tidalservice.cpp:707
 msgid "Missing Tidal API token."
 msgstr "Token API Tidal mancante."
 
@@ -3174,11 +3214,11 @@ msgstr "Token API Tidal mancante."
 msgid "Missing Tidal client ID."
 msgstr "ID client Tidal mancante."
 
-#: tidal/tidalservice.cpp:717
+#: tidal/tidalservice.cpp:715
 msgid "Missing Tidal password."
 msgstr "Password Tidal mancante."
 
-#: tidal/tidalservice.cpp:713
+#: tidal/tidalservice.cpp:711
 msgid "Missing Tidal username."
 msgstr "Nome utente Tidal mancante."
 
@@ -3194,7 +3234,7 @@ msgstr "Password mancante."
 msgid "Missing server url, username or password."
 msgstr "URL del server, nome utente o password mancanti."
 
-#: subsonic/subsonicservice.cpp:431
+#: subsonic/subsonicservice.cpp:428
 msgid "Missing username or password."
 msgstr "Nome utente o password mancanti."
 
@@ -3210,7 +3250,7 @@ msgstr "Nome utente mancante."
 msgid "Model"
 msgstr "Modello"
 
-#: ../build/src/ui_collectionsettingspage.h:422
+#: ../build/src/ui_collectionsettingspage.h:428
 msgid "Monitor the collection for changes"
 msgstr "Monitora cambiamenti raccolta"
 
@@ -3218,7 +3258,7 @@ msgstr "Monitora cambiamenti raccolta"
 msgid "Months"
 msgstr "Mesi"
 
-#: playlist/playlist.cpp:1384
+#: playlist/playlist.cpp:1394
 msgid "Mood"
 msgstr "Umore"
 
@@ -3235,11 +3275,11 @@ msgstr "Stile barra dell'umore"
 msgid "Most played"
 msgstr "Più riprodotti"
 
-#: device/giolister.cpp:191
+#: device/giolister.cpp:192
 msgid "Mount point"
 msgstr "Punto di montaggio"
 
-#: device/udisks2lister.cpp:116
+#: device/udisks2lister.cpp:121
 msgid "Mount points"
 msgstr "Punti di montaggio"
 
@@ -3249,7 +3289,7 @@ msgstr "Punti di montaggio"
 msgid "Move down"
 msgstr "Sposta in basso"
 
-#: core/mainwindow.cpp:755 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:756 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Sposta nella raccolta..."
 
@@ -3259,7 +3299,7 @@ msgstr "Sposta nella raccolta..."
 msgid "Move up"
 msgstr "Sposta in alto"
 
-#: core/mainwindow.cpp:2219 transcoder/transcodedialog.cpp:325
+#: core/mainwindow.cpp:2218 transcoder/transcodedialog.cpp:325
 msgid "Music"
 msgstr "Musica"
 
@@ -3285,7 +3325,7 @@ msgstr "Banda stretta (NB)"
 msgid "Network Proxy"
 msgstr "Proxy di rete"
 
-#: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:884
+#: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:886
 msgid "Never"
 msgstr "Mai"
 
@@ -3298,12 +3338,12 @@ msgstr "Mai riprodotti"
 msgid "Never start playing"
 msgstr "Non iniziare mai la riproduzione"
 
-#: playlist/playlistlistcontainer.cpp:85 playlist/playlistlistcontainer.cpp:207
+#: playlist/playlistlistcontainer.cpp:87 playlist/playlistlistcontainer.cpp:209
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "Nuova cartella"
 
-#: core/mainwindow.cpp:2037
+#: core/mainwindow.cpp:2036
 msgid "New playlist"
 msgstr "Nuova playlist"
 
@@ -3311,7 +3351,7 @@ msgstr "Nuova playlist"
 msgid "New smart playlist"
 msgstr "Nuova playlist intelligente"
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:65
+#: smartplaylists/smartplaylistsviewcontainer.cpp:63
 msgid "New smart playlist..."
 msgstr "Nuova playlist intelligente..."
 
@@ -3339,13 +3379,17 @@ msgstr "Traccia successiva"
 msgid "Next week"
 msgstr "Settimana prossima"
 
-#: dialogs/edittagdialog.cpp:807 dialogs/edittagdialog.cpp:823
+#: dialogs/edittagdialog.cpp:809 dialogs/edittagdialog.cpp:825
 msgid "No"
-msgstr ""
+msgstr "No"
 
-#: analyzer/analyzercontainer.cpp:90
+#: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
 msgstr "Nessun analizzatore"
+
+#: ../build/src/ui_backendsettingspage.h:669
+msgid "No audio normalization"
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:1017
 msgid "No covers to export."
@@ -3355,11 +3399,11 @@ msgstr "Nessuna copertina da esportare."
 msgid "No long blocks"
 msgstr "Nessun blocco lungo"
 
-#: tidal/tidalrequest.cpp:1361 qobuz/qobuzrequest.cpp:1423
+#: tidal/tidalrequest.cpp:1362 qobuz/qobuzrequest.cpp:1424
 msgid "No match."
 msgstr "Nessuna corrispondenza."
 
-#: playlist/playlistcontainer.cpp:436
+#: playlist/playlistcontainer.cpp:437
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -3374,18 +3418,18 @@ msgstr "Nessun forrnitore selezionato."
 msgid "No short blocks"
 msgstr "Nessun blocco corto"
 
-#: context/contextview.cpp:388
+#: context/contextview.cpp:407
 msgid "No song playing"
 msgstr "Nessuna brano in riproduzione"
 
-#: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:810
-#: dialogs/edittagdialog.cpp:817 ../build/src/ui_groupbydialog.h:190
+#: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:812
+#: dialogs/edittagdialog.cpp:819 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_groupbydialog.h:212 ../build/src/ui_groupbydialog.h:234
 msgid "None"
 msgstr "Nessuna"
 
-#: core/mainwindow.cpp:2609 core/mainwindow.cpp:2760
-#: collection/collectionview.cpp:586
+#: core/mainwindow.cpp:2608 core/mainwindow.cpp:2759
+#: collection/collectionview.cpp:587
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Nessuno dei brani selezionati era adatto alla copia in un dispositivo"
 
@@ -3397,29 +3441,29 @@ msgstr "Normale"
 msgid "Normal block type"
 msgstr "Tipo di blocco normale"
 
-#: qobuz/qobuzservice.cpp:533 qobuz/qobuzservice.cpp:583
-#: qobuz/qobuzservice.cpp:633
+#: qobuz/qobuzservice.cpp:536 qobuz/qobuzservice.cpp:586
+#: qobuz/qobuzservice.cpp:636
 msgid "Not authenticated with Qobuz."
 msgstr "Non sei autenticato su Qobuz."
 
-#: tidal/tidalservice.cpp:721
+#: tidal/tidalservice.cpp:719
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Non sei autenticato su Tidal ed hai raggiunto il massimo numero di tentativi "
 "di accesso."
 
-#: tidal/tidalservice.cpp:743 tidal/tidalservice.cpp:798
-#: tidal/tidalservice.cpp:853 tidal/tidalservice.cpp:916
-#: tidal/tidalservice.cpp:980 tidal/tidalstreamurlrequest.cpp:82
+#: tidal/tidalservice.cpp:741 tidal/tidalservice.cpp:796
+#: tidal/tidalservice.cpp:851 tidal/tidalservice.cpp:914
+#: tidal/tidalservice.cpp:978 tidal/tidalstreamurlrequest.cpp:83
 msgid "Not authenticated with Tidal."
 msgstr "Non sei autenticato su Tidal."
 
-#: device/deviceview.cpp:128
+#: device/deviceview.cpp:131
 msgid "Not connected"
 msgstr "Non connesso"
 
-#: device/deviceview.cpp:132
+#: device/deviceview.cpp:135
 msgid "Not mounted - double click to mount"
 msgstr "Non montato - doppio clic per montare"
 
@@ -3443,7 +3487,7 @@ msgstr "So&vrascrivi tutto"
 msgid "OSD Preview"
 msgstr "Anteprima OSD"
 
-#: osd/osdbase.cpp:269
+#: osd/osdbase.cpp:270
 msgid "Off"
 msgstr "Disattivato"
 
@@ -3457,7 +3501,7 @@ msgstr ""
 "nella maggior parte dei loro derivati. \n"
 "Per ulteriori informazioni vedi '%1' ."
 
-#: osd/osdbase.cpp:269
+#: osd/osdbase.cpp:270
 msgid "On"
 msgstr "Attivato"
 
@@ -3473,7 +3517,7 @@ msgstr "Visualizza solo il primo"
 msgid "Opacity"
 msgstr "Opacità"
 
-#: scrobbler/scrobblingapi20.cpp:216
+#: scrobbler/scrobblingapi20.cpp:214
 msgid "Open URL in web browser?"
 msgstr "Vuoi aprire l'URL nel browser web?"
 
@@ -3493,11 +3537,11 @@ msgstr "Apri dispositivo"
 msgid "Open homepage"
 msgstr "Apri sito web"
 
-#: collection/collectionview.cpp:350
-#: smartplaylists/smartplaylistsviewcontainer.cpp:69
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:316
-#: internet/internetcollectionview.cpp:316 radios/radioview.cpp:77
-#: device/deviceview.cpp:243 ../build/src/ui_behavioursettingspage.h:307
+#: collection/collectionview.cpp:352
+#: smartplaylists/smartplaylistsviewcontainer.cpp:67
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:318
+#: internet/internetcollectionview.cpp:317 radios/radioview.cpp:77
+#: device/deviceview.cpp:246 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
 msgstr "Apri in nuova playlist"
 
@@ -3515,7 +3559,7 @@ msgstr "Otti&mizza per il bitrate"
 msgid "Optimize for &quality"
 msgstr "Ottimizza per la &qualità"
 
-#: ../build/src/ui_backendsettingspage.h:573
+#: ../build/src/ui_backendsettingspage.h:655
 msgid "Options"
 msgstr "Opzioni"
 
@@ -3531,11 +3575,11 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "Organizza file"
 
-#: core/mainwindow.cpp:753 collection/collectionview.cpp:357
+#: core/mainwindow.cpp:754 collection/collectionview.cpp:359
 msgid "Organize files..."
 msgstr "Organizza file..."
 
-#: organize/organize.cpp:104
+#: organize/organize.cpp:106
 msgid "Organizing files"
 msgstr "Organizzazione file"
 
@@ -3543,8 +3587,8 @@ msgstr "Organizzazione file"
 msgid "Original tags"
 msgstr "Tag originali"
 
-#: collection/savedgroupingmanager.cpp:122 playlist/playlist.cpp:1360
-#: organize/organizedialog.cpp:112 ../build/src/ui_groupbydialog.h:201
+#: collection/savedgroupingmanager.cpp:122 playlist/playlist.cpp:1370
+#: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:201
 #: ../build/src/ui_groupbydialog.h:223 ../build/src/ui_groupbydialog.h:245
 msgid "Original year"
 msgstr "Anno originale"
@@ -3563,7 +3607,7 @@ msgid "Other options"
 msgstr "Altre opzioni"
 
 #: ../build/src/ui_albumcoverexport.h:201
-#: ../build/src/ui_backendsettingspage.h:567
+#: ../build/src/ui_backendsettingspage.h:649
 msgid "Output"
 msgstr "Uscita"
 
@@ -3571,13 +3615,13 @@ msgstr "Uscita"
 msgid "Output options"
 msgstr "Opzioni destinazione"
 
-#: ../build/src/ui_collectionsettingspage.h:446
+#: ../build/src/ui_collectionsettingspage.h:453
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
 "Sovrascrivi il numero di riproduzioni nel database quando i brani vengono "
 "riletti dal disco"
 
-#: ../build/src/ui_collectionsettingspage.h:447
+#: ../build/src/ui_collectionsettingspage.h:454
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 "Sovrascrivi la valutazione nel database quando i brani vengono riletti dal "
@@ -3599,7 +3643,7 @@ msgstr "Sovrascrivi solamente i più &piccoli"
 msgid "P&laylist"
 msgstr "P&laylist"
 
-#: device/udisks2lister.cpp:117
+#: device/udisks2lister.cpp:122
 msgid "Partition label"
 msgstr "Etichetta partizione"
 
@@ -3615,7 +3659,7 @@ msgstr "Party"
 msgid "Password"
 msgstr "Password"
 
-#: ../build/src/ui_edittagdialog.h:867
+#: ../build/src/ui_edittagdialog.h:894
 msgid "Path"
 msgstr "Percorso"
 
@@ -3623,7 +3667,7 @@ msgstr "Percorso"
 msgid "Pattern"
 msgstr "Modello"
 
-#: core/mainwindow.cpp:1335 core/mainwindow.cpp:1834
+#: core/mainwindow.cpp:1334 core/mainwindow.cpp:1833
 #: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Pausa"
@@ -3632,14 +3676,24 @@ msgstr "Pausa"
 msgid "Pause playback"
 msgstr "Sospendi riproduzione"
 
-#: osd/osdbase.cpp:210 osd/osdbase.cpp:213
+#: osd/osdbase.cpp:211 osd/osdbase.cpp:214
 msgid "Paused"
 msgstr "In pausa"
 
-#: collection/savedgroupingmanager.cpp:131 playlist/playlist.cpp:1364
-#: organize/organizedialog.cpp:107 ../build/src/ui_groupbydialog.h:204
+#: ../build/src/ui_collectionsettingspage.h:431
+msgid ""
+"Perform song EBU R 128 analysis (required for EBU R 128 loudness "
+"normalization)"
+msgstr ""
+
+#: ../build/src/ui_backendsettingspage.h:680
+msgid "Perform track loudness normalization"
+msgstr ""
+
+#: collection/savedgroupingmanager.cpp:131 playlist/playlist.cpp:1374
+#: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:204
 #: ../build/src/ui_groupbydialog.h:226 ../build/src/ui_groupbydialog.h:248
-#: ../build/src/ui_edittagdialog.h:890
+#: ../build/src/ui_edittagdialog.h:918
 msgid "Performer"
 msgstr "Musicista"
 
@@ -3651,8 +3705,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Barra laterale semplice"
 
-#: core/mainwindow.cpp:722 core/mainwindow.cpp:1292 core/mainwindow.cpp:1319
-#: core/mainwindow.cpp:1838 core/qtsystemtrayicon.cpp:160
+#: core/mainwindow.cpp:723 core/mainwindow.cpp:1291 core/mainwindow.cpp:1318
+#: core/mainwindow.cpp:1837 core/qtsystemtrayicon.cpp:160
 #: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Riproduci"
@@ -3661,7 +3715,7 @@ msgstr "Riproduci"
 msgid "Play control buttons"
 msgstr "Pulsanti controllo riproduzione"
 
-#: playlist/playlist.cpp:1367 ../build/src/ui_edittagdialog.h:864
+#: playlist/playlist.cpp:1377 ../build/src/ui_edittagdialog.h:888
 msgid "Play count"
 msgstr "Contatore riproduzione"
 
@@ -3682,7 +3736,7 @@ msgstr "Riproduci se fermata, sospendi se in riproduzione"
 msgid "Play if there is nothing already playing"
 msgstr "Riproduci se non c'è altro in riproduzione"
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:73
+#: smartplaylists/smartplaylistsviewcontainer.cpp:71
 msgid "Play next"
 msgstr "Riproduci successivo"
 
@@ -3694,14 +3748,14 @@ msgstr "Riproduci la traccia numero <n> della playlist"
 msgid "Play/Pause"
 msgstr "Riproduci/pausa"
 
-#: dialogs/lastfmimportdialog.cpp:154
+#: dialogs/lastfmimportdialog.cpp:155
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
 "Numero di riproduzioni per '%1' brani e ultima riproduzione per '%2' brani "
 "ricevuti."
 
-#: dialogs/lastfmimportdialog.cpp:160
+#: dialogs/lastfmimportdialog.cpp:161
 #, qt-format
 msgid "Playcounts for %1 songs received."
 msgstr "Numero di riproduzioni per '%1' brani ricevuti."
@@ -3710,10 +3764,10 @@ msgstr "Numero di riproduzioni per '%1' brani ricevuti."
 msgid "Player options"
 msgstr "Opzioni riproduttore"
 
-#: playlist/playlistcontainer.cpp:337 playlist/playlistlistcontainer.cpp:272
-#: playlist/playlistlistcontainer.cpp:369 playlist/playlistmanager.cpp:109
+#: playlist/playlistcontainer.cpp:338 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistlistcontainer.cpp:371 playlist/playlistmanager.cpp:109
 #: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:542
-#: playlist/playlisttabbar.cpp:432 ../build/src/ui_playlistsettingspage.h:177
+#: playlist/playlisttabbar.cpp:433 ../build/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr "Playlist"
 
@@ -3721,11 +3775,11 @@ msgstr "Playlist"
 msgid "Playlist buttons"
 msgstr "Pulsanti playlist"
 
-#: osd/osdbase.cpp:277
+#: osd/osdbase.cpp:278
 msgid "Playlist finished"
 msgstr "Playlist terminata"
 
-#: core/mainwindow.cpp:2310
+#: core/mainwindow.cpp:2309
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3734,7 +3788,7 @@ msgstr ""
 "La playlist contiene '%1' brani, troppo grande per essere annullata, sei "
 "sicuro di voler pulire la playlist?"
 
-#: playlist/playlistlistcontainer.cpp:364
+#: playlist/playlistlistcontainer.cpp:366
 msgid "Playlist must be open first."
 msgstr "Prima è necessario aprire la playlist."
 
@@ -3747,11 +3801,11 @@ msgstr "Opzioni playlist"
 msgid "Playlist playing song color"
 msgstr "Colore brano in riproduzione della playlist"
 
-#: smartplaylists/smartplaylistwizard.cpp:80
+#: smartplaylists/smartplaylistwizard.cpp:81
 msgid "Playlist type"
 msgstr "Tipo playlist"
 
-#: core/mainwindow.cpp:371
+#: core/mainwindow.cpp:372
 msgid "Playlists"
 msgstr "Playlist"
 
@@ -3780,11 +3834,11 @@ msgstr "Porta"
 msgid "Position"
 msgstr "Posizione"
 
-#: equalizer/equalizer.cpp:66 ../build/src/ui_backendsettingspage.h:592
+#: equalizer/equalizer.cpp:66 ../build/src/ui_backendsettingspage.h:676
 msgid "Pre-amp"
 msgstr "Preamplificazione"
 
-#: ../build/src/ui_scrobblersettingspage.h:415
+#: ../build/src/ui_scrobblersettingspage.h:408
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Preferisci l'artista dell'album nell'invio degli scrobble"
 
@@ -3794,7 +3848,7 @@ msgstr "Preferisci l'artista dell'album nell'invio degli scrobble"
 msgid "Preferences"
 msgstr "Preferenze"
 
-#: ../build/src/ui_collectionsettingspage.h:427
+#: ../build/src/ui_collectionsettingspage.h:434
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Nomi file copertina preferiti (separati da virgole)"
 
@@ -3802,7 +3856,7 @@ msgstr "Nomi file copertina preferiti (separati da virgole)"
 msgid "Preferred format"
 msgstr "Formato preferito"
 
-#: collection/collectionfilterwidget.cpp:80
+#: collection/collectionfilterwidget.cpp:79
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -3819,7 +3873,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "Preimpostazione:"
 
-#: scrobbler/scrobblingapi20.cpp:216
+#: scrobbler/scrobblingapi20.cpp:214
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3878,7 +3932,7 @@ msgstr "Avanzamento"
 msgid "Put songs in a random order"
 msgstr "Ordina i brani in ordine casuale"
 
-#: core/mainwindow.cpp:385 ../build/src/ui_scrobblersettingspage.h:423
+#: core/mainwindow.cpp:386 ../build/src/ui_scrobblersettingspage.h:416
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr "Qobuz"
@@ -3904,26 +3958,26 @@ msgstr "Qualità"
 msgid "Querying device..."
 msgstr "Interrogazione dispositivo..."
 
-#: core/mainwindow.cpp:370
+#: core/mainwindow.cpp:371
 msgid "Queue"
 msgstr "Coda"
 
-#: core/mainwindow.cpp:1938
+#: core/mainwindow.cpp:1937
 msgid "Queue selected tracks"
 msgstr "Accoda le tracce selezionate"
 
-#: core/mainwindow.cpp:728 core/mainwindow.cpp:1942
+#: core/mainwindow.cpp:729 core/mainwindow.cpp:1941
 msgid "Queue selected tracks to play next"
 msgstr "Accoda i brani selezionati per riprodurli successivamente"
 
-#: core/mainwindow.cpp:1945 collection/collectionview.cpp:354
-#: internet/internetcollectionview.cpp:320
+#: core/mainwindow.cpp:1944 collection/collectionview.cpp:356
+#: internet/internetcollectionview.cpp:321
 msgid "Queue to play next"
 msgstr "Accoda cosa riprodurre dopo"
 
-#: core/mainwindow.cpp:1937 collection/collectionview.cpp:353
-#: smartplaylists/smartplaylistsviewcontainer.cpp:72
-#: internet/internetsearchview.cpp:319 internet/internetcollectionview.cpp:319
+#: core/mainwindow.cpp:1936 collection/collectionview.cpp:355
+#: smartplaylists/smartplaylistsviewcontainer.cpp:70
+#: internet/internetsearchview.cpp:321 internet/internetcollectionview.cpp:320
 msgid "Queue track"
 msgstr "Accoda la traccia"
 
@@ -3931,15 +3985,15 @@ msgstr "Accoda la traccia"
 msgid "QueueView"
 msgstr "Vista coda"
 
-#: ../build/src/ui_backendsettingspage.h:589
+#: ../build/src/ui_backendsettingspage.h:673
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Radio (volume uguale per tutte le tracce)"
 
-#: ../build/src/ui_scrobblersettingspage.h:427
+#: ../build/src/ui_scrobblersettingspage.h:420
 msgid "Radio Paradise"
 msgstr "Radio Paradise"
 
-#: core/mainwindow.cpp:374
+#: core/mainwindow.cpp:375
 msgid "Radios"
 msgstr "Radio"
 
@@ -3947,7 +4001,7 @@ msgstr "Radio"
 msgid "Random"
 msgstr "Casuale"
 
-#: playlist/playlist.cpp:1385 ../build/src/ui_edittagdialog.h:893
+#: playlist/playlist.cpp:1395 ../build/src/ui_edittagdialog.h:921
 msgid "Rating"
 msgstr "Valutazione"
 
@@ -3959,7 +4013,7 @@ msgstr "Re&lativo"
 msgid "Really cancel?"
 msgstr "Vuoi davvero annullare?"
 
-#: tidal/tidalstreamurlrequest.cpp:221
+#: tidal/tidalstreamurlrequest.cpp:222
 #, qt-format
 msgid ""
 "Received URL with %1 encrypted stream from Tidal. Strawberry does not "
@@ -3968,7 +4022,7 @@ msgstr ""
 "URL ricevuto da Tidal con flusso crittografato '%1'.\n"
 "Strawberry attualmente non supporta i flussi crittografati."
 
-#: tidal/tidalstreamurlrequest.cpp:274 tidal/tidalstreamurlrequest.cpp:284
+#: tidal/tidalstreamurlrequest.cpp:275 tidal/tidalstreamurlrequest.cpp:285
 msgid ""
 "Received URL with encrypted stream from Tidal. Strawberry does not currently "
 "support encrypted streams."
@@ -3981,75 +4035,70 @@ msgstr ""
 msgid "Received invalid reply from web browser."
 msgstr "Ricevuta una risposta non valida dal browser web."
 
-#: scrobbler/scrobblingapi20.cpp:263
-msgid ""
-"Received invalid reply from web browser. Try the HTTPS option, or use "
-"another browser like Chromium or Chrome."
+#: scrobbler/scrobblingapi20.cpp:261
+msgid "Received invalid reply from web browser. Try another browser."
 msgstr ""
-"Ricevuta una risposta non valida dal browser web. \n"
-"Prova ad usare l'opzione HTTPS, oppure usa un altro browser come Chromium o "
-"Chrome."
 
-#: tidal/tidalrequest.cpp:1194 qobuz/qobuzrequest.cpp:1256
+#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1257
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr "Ricezione copertina album per '%1' album..."
 
-#: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1257
+#: tidal/tidalrequest.cpp:1196 qobuz/qobuzrequest.cpp:1258
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
 msgstr "Ricezione copertine album per' %1' album..."
 
-#: tidal/tidalrequest.cpp:547 qobuz/qobuzrequest.cpp:549
+#: tidal/tidalrequest.cpp:548 qobuz/qobuzrequest.cpp:550
 #, qt-format
 msgid "Receiving albums for %1 artist..."
 msgstr "Ricezione album per '%1' artista..."
 
-#: tidal/tidalrequest.cpp:548 qobuz/qobuzrequest.cpp:550
+#: tidal/tidalrequest.cpp:549 qobuz/qobuzrequest.cpp:551
 #, qt-format
 msgid "Receiving albums for %1 artists..."
 msgstr "Receiving albums for '%1' artists..."
 
-#: tidal/tidalrequest.cpp:272 qobuz/qobuzrequest.cpp:252
+#: tidal/tidalrequest.cpp:273 qobuz/qobuzrequest.cpp:253
 msgid "Receiving albums..."
 msgstr "Ricezione album..."
 
-#: tidal/tidalrequest.cpp:224 qobuz/qobuzrequest.cpp:200
+#: tidal/tidalrequest.cpp:225 qobuz/qobuzrequest.cpp:201
 msgid "Receiving artists..."
 msgstr "Ricezione artisti..."
 
-#: dialogs/lastfmimportdialog.cpp:74
+#: dialogs/lastfmimportdialog.cpp:75
 msgid "Receiving initial data from last.fm..."
 msgstr "Ricezione dati iniziali da last.fm..."
 
-#: dialogs/lastfmimportdialog.cpp:134
+#: dialogs/lastfmimportdialog.cpp:135
 #, qt-format
 msgid "Receiving last played for %1 songs."
 msgstr "Ricezione ultimi brani riprodotti per '%1'."
 
-#: dialogs/lastfmimportdialog.cpp:131
+#: dialogs/lastfmimportdialog.cpp:132
 #, qt-format
 msgid "Receiving playcount for %1 songs and last played for %2 songs."
 msgstr ""
 "Ricezione numero riproduzioni per '%1' brani e ultima riproduzione per '%2' "
 "brani."
 
-#: dialogs/lastfmimportdialog.cpp:137
+#: dialogs/lastfmimportdialog.cpp:138
 #, qt-format
 msgid "Receiving playcounts for %1 songs."
 msgstr "Ricezione numero riproduzioni per '%1' brani."
 
-#: tidal/tidalrequest.cpp:817 qobuz/qobuzrequest.cpp:806
+#: tidal/tidalrequest.cpp:818 qobuz/qobuzrequest.cpp:807
 #, qt-format
 msgid "Receiving songs for %1 album..."
 msgstr "Ricezione brani per '%1' album..."
 
-#: tidal/tidalrequest.cpp:818 qobuz/qobuzrequest.cpp:807
+#: tidal/tidalrequest.cpp:819 qobuz/qobuzrequest.cpp:808
 #, qt-format
 msgid "Receiving songs for %1 albums..."
 msgstr "Ricezione brani per '%1' album..."
 
-#: tidal/tidalrequest.cpp:320 qobuz/qobuzrequest.cpp:304
+#: tidal/tidalrequest.cpp:321 qobuz/qobuzrequest.cpp:305
 msgid "Receiving songs..."
 msgstr "Ricezione brani..."
 
@@ -4067,7 +4116,7 @@ msgstr "Reindirizza il codice o lo stato del token mancante!"
 msgid "Redirect missing token code!"
 msgstr "Manca il codice del token per il reindirizzamento!"
 
-#: playlist/playlistcontainer.cpp:223
+#: playlist/playlistcontainer.cpp:224
 msgid "Redo"
 msgstr "Ripeti operazione"
 
@@ -4108,11 +4157,11 @@ msgstr "Rimuovi &duplicati dalla playlist"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Rimuovi tracce &non disponibili dalla playlist"
 
-#: ../build/src/ui_collectionsettingspage.h:419
+#: ../build/src/ui_collectionsettingspage.h:425
 msgid "Remove folder"
 msgstr "Rimuovi cartella"
 
-#: internet/internetcollectionview.cpp:325
+#: internet/internetcollectionview.cpp:326
 msgid "Remove from favorites"
 msgstr "Rimuovi dai preferiti"
 
@@ -4120,11 +4169,11 @@ msgstr "Rimuovi dai preferiti"
 msgid "Remove from playlist"
 msgstr "Rimuovi dalla playlist"
 
-#: playlist/playlisttabbar.cpp:227
+#: playlist/playlisttabbar.cpp:228
 msgid "Remove playlist"
 msgstr "Rimuovi playlist"
 
-#: playlist/playlistlistcontainer.cpp:411
+#: playlist/playlistlistcontainer.cpp:413
 msgid "Remove playlists"
 msgstr "Rimuovi playlist"
 
@@ -4132,11 +4181,11 @@ msgstr "Rimuovi playlist"
 msgid "Remove problematic characters from filenames"
 msgstr "Rimuovi dai nomi dei file i caratteri problematici"
 
-#: playlist/playlisttabbar.cpp:179
+#: playlist/playlisttabbar.cpp:180
 msgid "Rename playlist"
 msgstr "Rinomina playlist"
 
-#: playlist/playlisttabbar.cpp:79
+#: playlist/playlisttabbar.cpp:80
 msgid "Rename playlist..."
 msgstr "Rinomina playlist..."
 
@@ -4148,23 +4197,23 @@ msgstr "Ricorda l'ordine delle tracce..."
 msgid "Repeat"
 msgstr "Ripeti"
 
-#: osd/osdbase.cpp:363 ../build/src/ui_playlistsequence.h:110
+#: osd/osdbase.cpp:364 ../build/src/ui_playlistsequence.h:110
 msgid "Repeat album"
 msgstr "Ripeti album"
 
-#: osd/osdbase.cpp:364 ../build/src/ui_playlistsequence.h:111
+#: osd/osdbase.cpp:365 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat playlist"
 msgstr "Ripeti playlist"
 
-#: osd/osdbase.cpp:362 ../build/src/ui_playlistsequence.h:109
+#: osd/osdbase.cpp:363 ../build/src/ui_playlistsequence.h:109
 msgid "Repeat track"
 msgstr "Ripeti traccia"
 
-#: collection/collectionview.cpp:349
-#: smartplaylists/smartplaylistsviewcontainer.cpp:68
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:315
-#: internet/internetcollectionview.cpp:315 radios/radioview.cpp:73
-#: device/deviceview.cpp:242
+#: collection/collectionview.cpp:351
+#: smartplaylists/smartplaylistsviewcontainer.cpp:66
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:317
+#: internet/internetcollectionview.cpp:316 radios/radioview.cpp:73
+#: device/deviceview.cpp:245
 msgid "Replace current playlist"
 msgstr "Sostituisci playlist attuale"
 
@@ -4180,15 +4229,15 @@ msgstr "Sostituisci spazzi con trattini bassi"
 msgid "Replace the playlist"
 msgstr "Sostituisci la playlist"
 
-#: ../build/src/ui_backendsettingspage.h:586
+#: ../build/src/ui_backendsettingspage.h:670
 msgid "Replay Gain"
 msgstr "Guadagno di riproduzione"
 
-#: ../build/src/ui_backendsettingspage.h:588
+#: ../build/src/ui_backendsettingspage.h:672
 msgid "Replay Gain mode"
 msgstr "Modalità Guadagno di riproduzione"
 
-#: tidal/tidalservice.cpp:374
+#: tidal/tidalservice.cpp:372
 msgid "Reply from Tidal is missing query items."
 msgstr "Alla risposta del server Tidal mancano elementi della richiesta."
 
@@ -4196,11 +4245,11 @@ msgstr "Alla risposta del server Tidal mancano elementi della richiesta."
 msgid "Repopulate"
 msgstr "Ripopola"
 
-#: collection/collectionview.cpp:370
+#: collection/collectionview.cpp:372
 msgid "Rescan song(s)"
 msgstr "Riscansione brano/i"
 
-#: core/mainwindow.cpp:744
+#: core/mainwindow.cpp:745
 msgid "Rescan song(s)..."
 msgstr "Nuova scansione brani..."
 
@@ -4208,11 +4257,11 @@ msgstr "Nuova scansione brani..."
 msgid "Reset"
 msgstr "Ripristina"
 
-#: ../build/src/ui_edittagdialog.h:874
+#: ../build/src/ui_edittagdialog.h:902
 msgid "Reset play counts"
 msgstr "Azzera contatori riproduzione"
 
-#: dialogs/edittagdialog.cpp:1325
+#: dialogs/edittagdialog.cpp:1327
 msgid "Reset song play statistics"
 msgstr "Ripristina statistiche riproduzione brano"
 
@@ -4291,7 +4340,7 @@ msgstr "M&escola playlist"
 msgid "SOCKS proxy"
 msgstr "Proxy SOCKS"
 
-#: device/deviceview.cpp:235
+#: device/deviceview.cpp:238
 msgid "Safely remove device"
 msgstr "Rimuovi il dispositivo in sicurezza"
 
@@ -4299,14 +4348,14 @@ msgstr "Rimuovi il dispositivo in sicurezza"
 msgid "Safely remove the device after copying"
 msgstr "Rimuovi il dispositivo in sicurezza al termine della copia"
 
-#: collection/savedgroupingmanager.cpp:143 playlist/playlist.cpp:1371
-#: organize/organizedialog.cpp:117 ../build/src/ui_groupbydialog.h:207
+#: collection/savedgroupingmanager.cpp:143 playlist/playlist.cpp:1381
+#: organize/organizedialog.cpp:120 ../build/src/ui_groupbydialog.h:207
 #: ../build/src/ui_groupbydialog.h:229 ../build/src/ui_groupbydialog.h:251
-#: ../build/src/ui_edittagdialog.h:856
+#: ../build/src/ui_edittagdialog.h:893
 msgid "Sample rate"
 msgstr "Freq. campionamento"
 
-#: context/contextview.cpp:160
+#: context/contextview.cpp:164
 msgid "Samplerate"
 msgstr "Freq. campionamento"
 
@@ -4314,7 +4363,7 @@ msgstr "Freq. campionamento"
 msgid "Save &playlist..."
 msgstr "Salva &playlist..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:244
+#: covermanager/albumcoverchoicecontroller.cpp:243
 msgid "Save album cover"
 msgstr "Salva copertina album"
 
@@ -4330,7 +4379,7 @@ msgstr "Salva copertine album nella cartella album"
 msgid "Save album covers in cache directory"
 msgstr "Salva le copertine degli album nella cartella della cache"
 
-#: covermanager/albumcoverchoicecontroller.cpp:107
+#: covermanager/albumcoverchoicecontroller.cpp:106
 msgid "Save cover to disk..."
 msgstr "Salva copertina nel disco..."
 
@@ -4338,15 +4387,15 @@ msgstr "Salva copertina nel disco..."
 msgid "Save current grouping"
 msgstr "Salva raggruppamento attuale"
 
-#: ../build/src/ui_collectionsettingspage.h:448
+#: ../build/src/ui_collectionsettingspage.h:455
 msgid "Save playcounts and ratings to files now"
 msgstr "Salva numero riproduzioni e valutazioni file"
 
-#: ../build/src/ui_collectionsettingspage.h:444
+#: ../build/src/ui_collectionsettingspage.h:451
 msgid "Save playcounts to song tags when possible"
 msgstr "Salva numeri riproduzioni nei tag brani quando possibile"
 
-#: playlist/playlistlistcontainer.cpp:87
+#: playlist/playlistlistcontainer.cpp:89
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Salva playlist"
@@ -4356,7 +4405,7 @@ msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Salva playlist"
 
-#: playlist/playlisttabbar.cpp:80
+#: playlist/playlisttabbar.cpp:81
 msgid "Save playlist..."
 msgstr "Salva playlist..."
 
@@ -4364,7 +4413,7 @@ msgstr "Salva playlist..."
 msgid "Save preset"
 msgstr "Salva preimpostazione"
 
-#: ../build/src/ui_collectionsettingspage.h:445
+#: ../build/src/ui_collectionsettingspage.h:452
 msgid "Save ratings to song tags when possible"
 msgstr "Salva valutazioni nei tag dei brani quando possibile"
 
@@ -4380,7 +4429,7 @@ msgstr "Gestione raggruppamenti salvati"
 msgid "Saving album covers"
 msgstr "Salvataggio copertine album"
 
-#: collection/collection.cpp:201
+#: collection/collection.cpp:203
 msgid "Saving playcounts and ratings"
 msgstr "Salvataggio numero riproduzioni valutazioni"
 
@@ -4396,16 +4445,16 @@ msgstr "Profilo con campionamento scalabile (SSR)"
 msgid "Scale size"
 msgstr "Dimensione scala"
 
-#: ../build/src/ui_scrobblersettingspage.h:405
+#: ../build/src/ui_scrobblersettingspage.h:398
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:912
+#: scrobbler/scrobblingapi20.cpp:910
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr "Scrobbler '%1' errore: '%2'"
 
-#: scrobbler/scrobblingapi20.cpp:463
+#: scrobbler/scrobblingapi20.cpp:461
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler '%1' non è autenticato!"
@@ -4417,7 +4466,7 @@ msgstr "Scrobbler '%1' non è autenticato!"
 msgid "Search"
 msgstr "Cerca"
 
-#: covermanager/albumcoverchoicecontroller.cpp:117
+#: covermanager/albumcoverchoicecontroller.cpp:116
 msgid "Search automatically"
 msgstr "Cerca automaticamente"
 
@@ -4426,11 +4475,11 @@ msgstr "Cerca automaticamente"
 msgid "Search delay"
 msgstr "Ritardo ricerca"
 
-#: covermanager/albumcoverchoicecontroller.cpp:109
+#: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Search for album covers..."
 msgstr "Cerca copertine album..."
 
-#: internet/internetsearchview.cpp:337
+#: internet/internetsearchview.cpp:339
 msgid "Search for this"
 msgstr "Cerca questo"
 
@@ -4438,18 +4487,18 @@ msgstr "Cerca questo"
 msgid "Search mode"
 msgstr "Modalità ricerca"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:158
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid "Search options"
 msgstr "Opzioni ricerca"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:156
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:161
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
 msgstr "Termini di ricerca"
 
-#: tidal/tidalrequest.cpp:368 tidal/tidalrequest.cpp:382
-#: tidal/tidalrequest.cpp:396 qobuz/qobuzrequest.cpp:356
-#: qobuz/qobuzrequest.cpp:370 qobuz/qobuzrequest.cpp:384
+#: tidal/tidalrequest.cpp:369 tidal/tidalrequest.cpp:383
+#: tidal/tidalrequest.cpp:397 qobuz/qobuzrequest.cpp:357
+#: qobuz/qobuzrequest.cpp:371 qobuz/qobuzrequest.cpp:385
 msgid "Searching..."
 msgstr "Ricerca..."
 
@@ -4514,7 +4563,7 @@ msgstr "Seleziona..."
 msgid "Separate albums by grouping tag"
 msgstr "Separa gli album raggruppando i tag"
 
-#: device/udisks2lister.cpp:115
+#: device/udisks2lister.cpp:120
 msgid "Serial number"
 msgstr "Numero seriale"
 
@@ -4522,7 +4571,7 @@ msgstr "Numero seriale"
 msgid "Server URL"
 msgstr "URL server"
 
-#: subsonic/subsonicservice.cpp:426 settings/subsonicsettingspage.cpp:136
+#: subsonic/subsonicservice.cpp:423 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
 msgstr "L'URL del server non è valida."
 
@@ -4530,7 +4579,7 @@ msgstr "L'URL del server non è valida."
 msgid "Server-side scrobbling"
 msgstr "Scrobbling lato server"
 
-#: core/mainwindow.cpp:1978
+#: core/mainwindow.cpp:1977
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Imposta '%1' a '%2'..."
@@ -4542,7 +4591,7 @@ msgstr "Imposta il volume al <value> %"
 #: settings/coverssettingspage.cpp:426
 #, qt-format
 msgid "Set through album cover search (%1)"
-msgstr ""
+msgstr "Impostato tramite la ricerca della copertina dell'album (%1)"
 
 #: ../build/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
@@ -4566,7 +4615,7 @@ msgstr "Scorciatoia"
 msgid "Shortcut for %1"
 msgstr "Scorciatoia per '%1'"
 
-#: collection/collectionfilterwidget.cpp:115
+#: collection/collectionfilterwidget.cpp:114
 msgid "Show"
 msgstr "Visualizza"
 
@@ -4614,19 +4663,19 @@ msgstr "Visualizza una notifica d&alla barra notifiche"
 msgid "Show a pretty OSD"
 msgstr "Visualizza un OSD gradevole"
 
-#: widgets/playingwidget.cpp:138
+#: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
 msgstr "Visualizza barra di stato superiore"
 
-#: context/contextview.cpp:240
+#: context/contextview.cpp:259
 msgid "Show album cover"
 msgstr "Visualizza copertina album"
 
-#: ../build/src/ui_collectionsettingspage.h:434
+#: ../build/src/ui_collectionsettingspage.h:441
 msgid "Show album cover art in collection"
 msgstr "Visualizza copertina album nella collezione"
 
-#: core/mainwindow.cpp:670
+#: core/mainwindow.cpp:671
 msgid "Show all songs"
 msgstr "Visualizza tutti i brani"
 
@@ -4638,19 +4687,19 @@ msgstr "Visualizza tutte i brani"
 msgid "Show bars on the currently playing track"
 msgstr "Visualizza barre sulla traccia attualmente in riproduzione"
 
-#: ../build/src/ui_scrobblersettingspage.h:416
+#: ../build/src/ui_scrobblersettingspage.h:409
 msgid "Show dialog for errors"
 msgstr "Visualizza finestra di dialogo per gli errori"
 
-#: ../build/src/ui_collectionsettingspage.h:435
+#: ../build/src/ui_collectionsettingspage.h:442
 msgid "Show dividers"
 msgstr "Visualizza separatori"
 
-#: covermanager/albumcoverchoicecontroller.cpp:115
+#: covermanager/albumcoverchoicecontroller.cpp:114
 msgid "Show fullsize..."
 msgstr "Visualizza a dimensioni originali..."
 
-#: core/mainwindow.cpp:751
+#: core/mainwindow.cpp:752
 msgid "Show in collection..."
 msgstr "Visualizza nella raccolta..."
 
@@ -4658,16 +4707,16 @@ msgstr "Visualizza nella raccolta..."
 msgid "Show in file browser"
 msgstr "Visualizza nel navigatore file"
 
-#: core/mainwindow.cpp:752 collection/collectionview.cpp:366
+#: core/mainwindow.cpp:753 collection/collectionview.cpp:368
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Visualizza nel navigatore file..."
 
-#: collection/collectionview.cpp:373
+#: collection/collectionview.cpp:375
 msgid "Show in various artists"
 msgstr "Visualizza in artisti vari"
 
-#: ../build/src/ui_scrobblersettingspage.h:410
+#: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Show love button"
 msgstr "Visualizza il pulsante love"
 
@@ -4675,11 +4724,11 @@ msgstr "Visualizza il pulsante love"
 msgid "Show moodbar"
 msgstr "Visualizza la barra dell'umore"
 
-#: core/mainwindow.cpp:671
+#: core/mainwindow.cpp:672
 msgid "Show only duplicates"
 msgstr "Visualizza solo i duplicati"
 
-#: core/mainwindow.cpp:672
+#: core/mainwindow.cpp:673
 msgid "Show only untagged"
 msgstr "Visualizza solo i brani senza tag"
 
@@ -4687,7 +4736,7 @@ msgstr "Visualizza solo i brani senza tag"
 msgid "Show playing widget"
 msgstr "Visualizza il widget di riproduzione"
 
-#: ../build/src/ui_scrobblersettingspage.h:409
+#: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Show scrobble button"
 msgstr "Visualizza il pulsante di scrobble"
 
@@ -4695,7 +4744,7 @@ msgstr "Visualizza il pulsante di scrobble"
 msgid "Show sidebar"
 msgstr "Visualizza barra laterale"
 
-#: context/contextview.cpp:248
+#: context/contextview.cpp:267
 msgid "Show song lyrics"
 msgstr "Visualizza il testo del brano"
 
@@ -4703,7 +4752,7 @@ msgstr "Visualizza il testo del brano"
 msgid "Show song progress on system tray icon"
 msgstr "Visualizza avanzamento del brano nell'icona della barra applicazioni"
 
-#: context/contextview.cpp:244
+#: context/contextview.cpp:263
 msgid "Show song technical data"
 msgstr "Visualizza i dati tecnici del brano"
 
@@ -4731,15 +4780,15 @@ msgstr "Visualizza/nascondi"
 msgid "Shuffle"
 msgstr "Mescola"
 
-#: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:117
+#: osd/osdbase.cpp:350 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle albums"
 msgstr "Mescola album"
 
-#: osd/osdbase.cpp:347 ../build/src/ui_playlistsequence.h:116
+#: osd/osdbase.cpp:348 ../build/src/ui_playlistsequence.h:116
 msgid "Shuffle all"
 msgstr "Mescola tutti"
 
-#: osd/osdbase.cpp:348 ../build/src/ui_playlistsequence.h:115
+#: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:115
 msgid "Shuffle tracks in this album"
 msgstr "Mescola le tracce di questo album"
 
@@ -4752,7 +4801,7 @@ msgid "Signing in..."
 msgstr "Registrazione..."
 
 #: ../build/src/ui_albumcoverexport.h:209
-#: ../build/src/ui_collectionsettingspage.h:437
+#: ../build/src/ui_collectionsettingspage.h:444
 msgid "Size"
 msgstr "Dimensioni"
 
@@ -4768,7 +4817,7 @@ msgstr "Ska"
 msgid "Skip backwards in playlist"
 msgstr "Salta indietro nella playlist"
 
-#: playlist/playlist.cpp:1368 ../build/src/ui_edittagdialog.h:869
+#: playlist/playlist.cpp:1378 ../build/src/ui_edittagdialog.h:892
 msgid "Skip count"
 msgstr "Salta il conteggio"
 
@@ -4776,15 +4825,15 @@ msgstr "Salta il conteggio"
 msgid "Skip forwards in playlist"
 msgstr "Salta in avanti nella playlist"
 
-#: core/mainwindow.cpp:1951
+#: core/mainwindow.cpp:1950
 msgid "Skip selected tracks"
 msgstr "Salta le tracce selezionate"
 
-#: core/mainwindow.cpp:1950
+#: core/mainwindow.cpp:1949
 msgid "Skip track"
 msgstr "Salta la traccia"
 
-#: widgets/playingwidget.cpp:99
+#: widgets/playingwidget.cpp:101
 msgid "Small album cover"
 msgstr "Copertine piccole"
 
@@ -4792,11 +4841,11 @@ msgstr "Copertine piccole"
 msgid "Small sidebar"
 msgstr "Pannello laterale piccolo"
 
-#: smartplaylists/smartplaylistwizard.cpp:70
+#: smartplaylists/smartplaylistwizard.cpp:71
 msgid "Smart playlist"
 msgstr "Playlist intelligente"
 
-#: core/mainwindow.cpp:372
+#: core/mainwindow.cpp:373
 msgid "Smart playlists"
 msgstr "Playlist intelligenti"
 
@@ -4808,7 +4857,7 @@ msgstr "Soft"
 msgid "Soft Rock"
 msgstr "Rock leggero"
 
-#: ../build/src/ui_scrobblersettingspage.h:425
+#: ../build/src/ui_scrobblersettingspage.h:418
 msgid "SomaFM"
 msgstr "SomaFM"
 
@@ -4816,11 +4865,11 @@ msgstr "SomaFM"
 msgid "Song Lyrics"
 msgstr "Testo brano"
 
-#: ../build/src/ui_collectionsettingspage.h:423
+#: ../build/src/ui_collectionsettingspage.h:429
 msgid "Song fingerprinting and tracking"
 msgstr "Impronta digitale e tracciamento brani"
 
-#: ../build/src/ui_collectionsettingspage.h:443
+#: ../build/src/ui_collectionsettingspage.h:450
 msgid "Song playcounts and ratings"
 msgstr "Numero riproduzioni e valutazioni dei brani"
 
@@ -4828,7 +4877,7 @@ msgstr "Numero riproduzioni e valutazioni dei brani"
 msgid "Songs"
 msgstr "Brani"
 
-#: ../build/src/ui_scrobblersettingspage.h:407
+#: ../build/src/ui_scrobblersettingspage.h:400
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -4859,7 +4908,7 @@ msgstr "Ordina i brani per"
 msgid "Sorting"
 msgstr "Ordinamento"
 
-#: playlist/playlist.cpp:1383
+#: playlist/playlist.cpp:1393
 msgid "Source"
 msgstr "Sorgente"
 
@@ -4875,7 +4924,7 @@ msgstr "Autenticazione Spotify"
 msgid "Standard"
 msgstr "Standard"
 
-#: playlist/playlisttabbar.cpp:77
+#: playlist/playlisttabbar.cpp:78
 msgid "Star playlist"
 msgstr "Stella playlist"
 
@@ -4887,7 +4936,7 @@ msgstr "Avvia la playlist attualmente in riproduzione"
 msgid "Start transcoding"
 msgstr "Avvia conversione"
 
-#: transcoder/transcoder.cpp:421
+#: transcoder/transcoder.cpp:426
 #, qt-format
 msgid "Starting %1"
 msgstr "Avvio di %1"
@@ -4900,11 +4949,11 @@ msgstr "Interrompi"
 msgid "Stop after each track"
 msgstr "Ferma dopo ogni traccia"
 
-#: osd/osdbase.cpp:365
+#: osd/osdbase.cpp:366
 msgid "Stop after every track"
 msgstr "Ferma dopo tutte le tracce"
 
-#: core/mainwindow.cpp:724 ../build/src/ui_mainwindow.h:630
+#: core/mainwindow.cpp:725 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "Ferma dopo questa traccia"
 
@@ -4920,12 +4969,12 @@ msgstr "Ferma la riproduzione dopo la traccia attuale"
 msgid "Stop playing after current track"
 msgstr "Interrompi riproduzione dopo il brano attuale"
 
-#: osd/osdbase.cpp:269
+#: osd/osdbase.cpp:270
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Ferma la riproduzione dopo la traccia: %1"
 
-#: osd/osdbase.cpp:256 osd/osdbase.cpp:259
+#: osd/osdbase.cpp:257 osd/osdbase.cpp:260
 msgid "Stopped"
 msgstr "Fermato"
 
@@ -4992,7 +5041,7 @@ msgstr "Strawberry in esecuzione tramite Rosetta"
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry non ha trovato risultati per questo file"
 
-#: ../build/src/ui_scrobblersettingspage.h:426
+#: ../build/src/ui_scrobblersettingspage.h:419
 msgid "Stream"
 msgstr "Flusso"
 
@@ -5013,11 +5062,11 @@ msgstr "Allarga l'immagine per riempire la playlist"
 msgid "Style"
 msgstr "Stile"
 
-#: ../build/src/ui_scrobblersettingspage.h:411
+#: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Submit scrobbles every"
 msgstr "Invia gli scrobble ogni"
 
-#: core/mainwindow.cpp:379 ../build/src/ui_scrobblersettingspage.h:419
+#: core/mainwindow.cpp:380 ../build/src/ui_scrobblersettingspage.h:412
 #: ../build/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr "Subsonic"
@@ -5030,7 +5079,7 @@ msgstr "L'URL del server Subsonic non è valida."
 msgid "Success!"
 msgstr "Completato!"
 
-#: transcoder/transcoder.cpp:194
+#: transcoder/transcoder.cpp:199
 #, qt-format
 msgid "Successfully written %1"
 msgstr "'%1' scritti correttamente"
@@ -5041,11 +5090,11 @@ msgstr "Tag consigliati"
 
 #: ../build/src/ui_contextsettingspage.h:423
 #: ../build/src/ui_notificationssettingspage.h:495
-#: ../build/src/ui_edittagdialog.h:875
+#: ../build/src/ui_edittagdialog.h:903
 msgid "Summary"
 msgstr "Riepilogo"
 
-#: analyzer/analyzercontainer.cpp:79
+#: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Molto alto (%1 fps)"
@@ -5082,9 +5131,13 @@ msgstr "Schede in alto"
 msgid "Tag fetcher"
 msgstr "Strumento di recupero dei tag"
 
-#: ../build/src/ui_edittagdialog.h:894
+#: ../build/src/ui_edittagdialog.h:922
 msgid "Tags"
 msgstr "Tag"
+
+#: ../build/src/ui_backendsettingspage.h:681
+msgid "Target Level"
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
@@ -5136,23 +5189,23 @@ msgstr "La copertina dell'album del brano attualmente in riproduzione"
 msgid "The following files will be deleted from disk:"
 msgstr "Verranno eliminati dal disco i seguenti file:"
 
-#: internet/internetcollectionview.cpp:286
+#: internet/internetcollectionview.cpp:287
 msgid "The internet collection is empty!"
 msgstr "La raccolta internet è vuota!"
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:420
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:421
 msgid "The second value must be greater than the first one!"
 msgstr "Il secondo valore deve essere maggiore del primo!"
 
-#: covermanager/coverfromurldialog.cpp:89
+#: covermanager/coverfromurldialog.cpp:90
 msgid "The site you requested does not exist!"
 msgstr "Il sito richiesto non esiste!"
 
-#: covermanager/coverfromurldialog.cpp:99
+#: covermanager/coverfromurldialog.cpp:100
 msgid "The site you requested is not an image!"
 msgstr "Il sito richiesto non è un'immagine!"
 
-#: core/mainwindow.cpp:2873
+#: core/mainwindow.cpp:2872
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5160,7 +5213,7 @@ msgstr ""
 "La versione di Strawberry appena aggiornata richiede una scansione completa "
 "della raccolta, a causa delle nuove funzionalità elencate di seguito:"
 
-#: collection/collectionview.cpp:482
+#: collection/collectionview.cpp:483
 msgid "There are other songs in this album"
 msgstr "Ci sono altri brani in questo album"
 
@@ -5180,7 +5233,7 @@ msgstr ""
 "Si sono verificati dei problemi durante l'eliminazione di alcuni brani. \n"
 "Non è stato possibile eliminare i seguenti file:"
 
-#: device/deviceview.cpp:426
+#: device/deviceview.cpp:429
 msgid ""
 "These files will be deleted from the device, are you sure you want to "
 "continue?"
@@ -5188,7 +5241,7 @@ msgstr ""
 "Questi file saranno eliminati dal dispositivo, sei sicuro di voler "
 "continuare?"
 
-#: ../build/src/ui_collectionsettingspage.h:417
+#: ../build/src/ui_collectionsettingspage.h:423
 msgid "These folders will be scanned for music to make up your collection"
 msgstr ""
 "Queste cartelle saranno analizzate alla ricerca di musica per creare la "
@@ -5226,23 +5279,23 @@ msgstr ""
 msgid "This device supports the following file formats:"
 msgstr "Questo dispositivo usa i seguenti formati file:"
 
-#: device/devicemanager.cpp:607 device/devicemanager.cpp:615
+#: device/devicemanager.cpp:608 device/devicemanager.cpp:616
 msgid "This device will not work properly"
 msgstr "Il dispositivo non funzionerà correttamente"
 
-#: device/devicemanager.cpp:608
+#: device/devicemanager.cpp:609
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr ""
 "Questo è un dispositivo MTP, ma hai compilato Strawberry senza il supporto a "
 "libmtp."
 
-#: device/devicemanager.cpp:616
+#: device/devicemanager.cpp:617
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr ""
 "Questo è un iPod, ma hai compilato Strawberry senza il supporto a libgpod."
 
-#: device/devicemanager.cpp:351
+#: device/devicemanager.cpp:352
 msgid ""
 "This is the first time you have connected this device.  Strawberry will now "
 "scan the device to find music files - this may take some time."
@@ -5251,17 +5304,17 @@ msgstr ""
 "Strawberry effettuerà una scansione del dispositivo alla ricerca di file "
 "musicali - l'operazione potrebbe richiedere del tempo."
 
-#: playlist/playlisttabbar.cpp:239
+#: playlist/playlisttabbar.cpp:240
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr ""
 "Questa opzione può essere modificata nelle preferenze di \"Comportamento\""
 
-#: device/devicemanager.cpp:631
+#: device/devicemanager.cpp:632
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Questi tipo di dispositivo non è supportato: '%1'"
 
-#: core/mainwindow.cpp:382 ../build/src/ui_scrobblersettingspage.h:421
+#: core/mainwindow.cpp:383 ../build/src/ui_scrobblersettingspage.h:414
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr "Tidal"
@@ -5279,9 +5332,9 @@ msgstr ""
 msgid "Time step"
 msgstr "Intervallo di tempo"
 
-#: playlist/playlist.cpp:1353 organize/organizedialog.cpp:101
+#: playlist/playlist.cpp:1363 organize/organizedialog.cpp:104
 #: ../build/src/ui_contextsettingspage.h:422
-#: ../build/src/ui_edittagdialog.h:884
+#: ../build/src/ui_edittagdialog.h:912
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Title"
 msgstr "Titolo"
@@ -5294,7 +5347,7 @@ msgstr "Oggi"
 msgid "Toggle Pretty OSD"
 msgstr "Attiva/disattiva OSD gradevole"
 
-#: core/mainwindow.cpp:725 core/mainwindow.cpp:1939
+#: core/mainwindow.cpp:726 core/mainwindow.cpp:1938
 msgid "Toggle queue status"
 msgstr "Modifica lo stato della coda"
 
@@ -5302,7 +5355,7 @@ msgstr "Modifica lo stato della coda"
 msgid "Toggle scrobbling"
 msgstr "Attiva/disattiova scrobbling"
 
-#: core/mainwindow.cpp:731 core/mainwindow.cpp:1952
+#: core/mainwindow.cpp:732 core/mainwindow.cpp:1951
 msgid "Toggle skip status"
 msgstr "Attiva/disattiva stato salto"
 
@@ -5330,8 +5383,8 @@ msgstr "Totale byte trasferiti"
 msgid "Total network requests made"
 msgstr "Totale richieste di rete effettuate"
 
-#: playlist/playlist.cpp:1356 organize/organizedialog.cpp:109
-#: ../build/src/ui_edittagdialog.h:892
+#: playlist/playlist.cpp:1366 organize/organizedialog.cpp:112
+#: ../build/src/ui_edittagdialog.h:920
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Track"
 msgstr "Traccia"
@@ -5348,7 +5401,7 @@ msgstr "Registro eventi conversione"
 msgid "Transcoding"
 msgstr "Conversione"
 
-#: transcoder/transcoder.cpp:336
+#: transcoder/transcoder.cpp:341
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
 msgstr "Conversione di '%1' file usando '%2' thread"
@@ -5365,7 +5418,7 @@ msgstr "Disabilita"
 msgid "Type"
 msgstr "Tipo"
 
-#: device/giolister.cpp:193
+#: device/giolister.cpp:194
 msgid "URI"
 msgstr "URI"
 
@@ -5373,7 +5426,7 @@ msgstr "URI"
 msgid "URL(s)"
 msgstr "URL"
 
-#: device/udisks2lister.cpp:118
+#: device/udisks2lister.cpp:123
 msgid "UUID"
 msgstr "UUID"
 
@@ -5386,7 +5439,7 @@ msgstr "Banda ultra larga (UWB)"
 msgid "Unable to execute SQL query: %1"
 msgstr "Impossibile eseguire l'interrogazione SQL: %1"
 
-#: collection/collectionbackend.cpp:111
+#: collection/collectionbackend.cpp:118
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
 msgstr "Impossibile eseguire l'interrogazione di collezione SQL: %1"
@@ -5397,7 +5450,7 @@ msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr ""
 "Impossibile effettuare lo scrobble '%1' - '%2' a causa dell'errore: %3"
 
-#: playlist/playlistcontainer.cpp:222
+#: playlist/playlistcontainer.cpp:223
 msgid "Undo"
 msgstr "Annulla operazione"
 
@@ -5405,17 +5458,18 @@ msgstr "Annulla operazione"
 msgid "Uninstall the snap with:"
 msgstr "Disinstalla lo snap con:"
 
-#: core/song.cpp:920 collection/collectionmodel.cpp:475
-#: collection/collectionmodel.cpp:480 collection/collectionmodel.cpp:484
-#: collection/collectionmodel.cpp:488 collection/collectionmodel.cpp:492
-#: collection/collectionmodel.cpp:1664 collection/savedgroupingmanager.cpp:153
-#: playlist/playlistdelegates.cpp:356 playlist/playlistmanager.cpp:550
-#: playlist/playlistmanager.cpp:551 dialogs/edittagdialog.cpp:763
-#: dialogs/edittagdialog.cpp:790 ../build/src/ui_scrobblersettingspage.h:428
+#: core/song.cpp:690 core/song.cpp:702 core/song.cpp:963
+#: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
+#: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
+#: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1670
+#: collection/savedgroupingmanager.cpp:153 playlist/playlistdelegates.cpp:356
+#: playlist/playlistmanager.cpp:550 playlist/playlistmanager.cpp:551
+#: dialogs/edittagdialog.cpp:763 dialogs/edittagdialog.cpp:792
+#: ../build/src/ui_scrobblersettingspage.h:421
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1429
+#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1430
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
@@ -5427,42 +5481,42 @@ msgstr "Estensione file playlist sconosciuta."
 msgid "Unknown playlist extension"
 msgstr "Estensione playlist sconosciuta"
 
-#: covermanager/albumcoverchoicecontroller.cpp:110
+#: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Unset cover"
 msgstr "Rimuovi copertina"
 
-#: core/mainwindow.cpp:1949
+#: core/mainwindow.cpp:1948
 msgid "Unskip selected tracks"
 msgstr "Ripristina tracce selezionate"
 
-#: core/mainwindow.cpp:1948
+#: core/mainwindow.cpp:1947
 msgid "Unskip track"
 msgstr "Ripristina traccia"
 
-#: ../build/src/ui_collectionsettingspage.h:421
+#: ../build/src/ui_collectionsettingspage.h:427
 msgid "Update the collection when Strawberry starts"
 msgstr "Aggiorna la raccolta all'avvio di Strawberry"
 
-#: collection/collectionwatcher.cpp:206
+#: collection/collectionwatcher.cpp:220
 #, qt-format
 msgid "Updating %1"
 msgstr "Aggiornamento di %1"
 
-#: collection/collectionbackend.cpp:697
+#: collection/collectionbackend.cpp:727
 #, qt-format
 msgid "Updating %1 database."
 msgstr "Aggiornamento database '%1'."
 
-#: device/deviceview.cpp:123
+#: device/deviceview.cpp:126
 #, qt-format
 msgid "Updating %1%..."
 msgstr "Aggiornamento %1%..."
 
-#: collection/collectionwatcher.cpp:203
+#: collection/collectionwatcher.cpp:217
 msgid "Updating collection"
 msgstr "Aggiornamento raccolta"
 
-#: ../build/src/ui_backendsettingspage.h:575
+#: ../build/src/ui_backendsettingspage.h:657
 msgid "Upmix / downmix to"
 msgstr "Upmix / downmix in"
 
@@ -5486,10 +5540,6 @@ msgstr "Usa le scorciatoie di Gnome (GSD) quando disponibili"
 msgid "Use HTTP/2 when possible"
 msgstr "Usa HTTP/2 quando possibile"
 
-#: ../build/src/ui_scrobblersettingspage.h:431
-msgid "Use HTTPS for local redirectserver"
-msgstr "Usa HTTPS per il server di reindirizzamento locale"
-
 #: ../build/src/ui_globalshortcutssettingspage.h:273
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr "Usa le scorciatoie di KDE (KGlobalAccel) quando disponibili"
@@ -5506,7 +5556,7 @@ msgstr "Usa OAuth"
 msgid "Use Qobuz settings to authenticate."
 msgstr "Usa le impostazioni di Qobuz per l'autenticazione."
 
-#: ../build/src/ui_backendsettingspage.h:587
+#: ../build/src/ui_backendsettingspage.h:671
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Usa i metadati del guadagno di riproduzione se disponibili"
 
@@ -5550,7 +5600,7 @@ msgstr "Usa sfondo sfumato"
 msgid "Use proxy settings for streaming"
 msgstr "Usa impostazioni di proxy per lo streaming"
 
-#: ../build/src/ui_backendsettingspage.h:579
+#: ../build/src/ui_backendsettingspage.h:661
 msgid "Use strict SSL mode"
 msgstr "Usa modalità SSL rigorosa"
 
@@ -5574,7 +5624,7 @@ msgstr "Usato"
 msgid "User interface"
 msgstr "Interfaccia utente"
 
-#: ../build/src/ui_scrobblersettingspage.h:438
+#: ../build/src/ui_scrobblersettingspage.h:430
 msgid "User token:"
 msgstr "Token utente:"
 
@@ -5603,7 +5653,7 @@ msgstr "L'uso del menu per aggiungere un brano..."
 msgid "Variable bit rate"
 msgstr "Bitrate variabile"
 
-#: collection/collectionmodel.cpp:286 collection/collectionmodel.cpp:287
+#: collection/collectionmodel.cpp:292 collection/collectionmodel.cpp:293
 #: playlist/playlistmanager.cpp:562 covermanager/albumcovermanager.cpp:347
 #: internet/internetsearchmodel.cpp:93 internet/internetsearchmodel.cpp:105
 msgid "Various artists"
@@ -5626,7 +5676,7 @@ msgstr "Visualizza"
 msgid "Voice activity detection"
 msgstr "Rilevazione attività vocale"
 
-#: osd/osdbase.cpp:285
+#: osd/osdbase.cpp:286
 #, qt-format
 msgid "Volume %1%"
 msgstr "Volume %1%"
@@ -5635,7 +5685,7 @@ msgstr "Volume %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:236 ../build/src/ui_playlistsettingspage.h:181
+#: playlist/playlisttabbar.cpp:237 ../build/src/ui_playlistsettingspage.h:181
 msgid "Warn me when closing a playlist tab"
 msgstr "Avvisami alla chiusura di una scheda della playlist"
 
@@ -5660,7 +5710,7 @@ msgstr "WavPack"
 msgid "Weeks"
 msgstr "Settimane"
 
-#: ../build/src/ui_collectionsettingspage.h:429
+#: ../build/src/ui_collectionsettingspage.h:436
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -5683,22 +5733,22 @@ msgstr "Banda larga (WB)"
 msgid "Without cover:"
 msgstr "Senza copertina:"
 
-#: ../build/src/ui_scrobblersettingspage.h:408
+#: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Lavora in modalità offline (solo scrobble in cache)"
 
-#: collection/collectionview.cpp:482
+#: collection/collectionview.cpp:483
 msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"
 msgstr ""
 "Vuoi spostare anche gli altri brani di questo album in 'Artisti vari'?"
 
-#: core/mainwindow.cpp:2877
+#: core/mainwindow.cpp:2876
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vuoi eseguire subito una nuova scansione completa?"
 
-#: settings/collectionsettingspage.cpp:295
+#: settings/collectionsettingspage.cpp:301
 msgid "Write all playcounts and ratings to files"
 msgstr "Scrivi tutti i numeri riproduzioni e valutazioni nei file"
 
@@ -5706,10 +5756,10 @@ msgstr "Scrivi tutti i numeri riproduzioni e valutazioni nei file"
 msgid "Write metadata when saving playlists"
 msgstr "Quando si salvano le playlist scrivi i metadati"
 
-#: collection/savedgroupingmanager.cpp:119 playlist/playlist.cpp:1359
-#: organize/organizedialog.cpp:111 ../build/src/ui_groupbydialog.h:198
+#: collection/savedgroupingmanager.cpp:119 playlist/playlist.cpp:1369
+#: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
-#: ../build/src/ui_edittagdialog.h:883
+#: ../build/src/ui_edittagdialog.h:911
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Year"
 msgstr "Anno"
@@ -5728,21 +5778,21 @@ msgstr "Anno - album - disco"
 msgid "Years"
 msgstr "Anni"
 
-#: dialogs/edittagdialog.cpp:807 dialogs/edittagdialog.cpp:823
+#: dialogs/edittagdialog.cpp:809 dialogs/edittagdialog.cpp:825
 msgid "Yes"
-msgstr ""
+msgstr "Sì"
 
 #: utilities/timeutils.cpp:86
 msgid "Yesterday"
 msgstr "Ieri"
 
-#: playlist/playlistlistcontainer.cpp:411
+#: playlist/playlistlistcontainer.cpp:413
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Stai per rimuovere %1 playlist dai preferiti, sei sicuro?"
 
-#: playlist/playlisttabbar.cpp:230
+#: playlist/playlisttabbar.cpp:231
 msgid ""
 "You are about to remove a playlist which is not part of your favorite "
 "playlists: the playlist will be deleted (this action cannot be undone). \n"
@@ -5808,7 +5858,7 @@ msgstr ""
 "Se modifichi la lingua dell'interfaccia per applicare le modifiche dovrai "
 "riavviare Strawberry ."
 
-#: collection/collectionview.cpp:320
+#: collection/collectionview.cpp:322
 msgid "Your collection is empty!"
 msgstr "La raccolta è vuota!"
 
@@ -5842,7 +5892,7 @@ msgstr "album"
 msgid "and"
 msgstr "e"
 
-#: collection/collectionfilterwidget.cpp:83
+#: collection/collectionfilterwidget.cpp:82
 msgid "artist"
 msgstr "artista"
 
@@ -5866,7 +5916,7 @@ msgstr "tra"
 msgid "biggest first"
 msgstr "più grande prima"
 
-#: ../build/src/ui_backendsettingspage.h:576
+#: ../build/src/ui_backendsettingspage.h:658
 msgid "channels"
 msgstr "canali"
 
@@ -5874,7 +5924,7 @@ msgstr "canali"
 msgid "contains"
 msgstr "contiene"
 
-#: ../build/src/ui_collectionsettingspage.h:426
+#: ../build/src/ui_collectionsettingspage.h:433
 msgid "days"
 msgstr "giorni"
 
@@ -5884,7 +5934,7 @@ msgstr "giorni"
 msgid "disabled"
 msgstr "disabilitata"
 
-#: osd/osdbase.cpp:154
+#: osd/osdbase.cpp:155
 #, qt-format
 msgid "disc %1"
 msgstr "disco %1"
@@ -5909,7 +5959,7 @@ msgstr "equivale"
 msgid "greater than"
 msgstr "più grande di"
 
-#: ../build/src/ui_backendsettingspage.h:570
+#: ../build/src/ui_backendsettingspage.h:652
 msgid "hw"
 msgstr "hw"
 
@@ -5917,7 +5967,7 @@ msgstr "hw"
 msgid "in the last"
 msgstr "nell'ultimo"
 
-#: context/contextview.cpp:478 context/contextview.cpp:557
+#: context/contextview.cpp:497 context/contextview.cpp:598
 #: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:785
 msgid "kbps"
 msgstr "kbps"
@@ -5973,11 +6023,11 @@ msgstr "in"
 msgid "options"
 msgstr "opzioni"
 
-#: ../build/src/ui_backendsettingspage.h:571
+#: ../build/src/ui_backendsettingspage.h:653
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: ../build/src/ui_backendsettingspage.h:572
+#: ../build/src/ui_backendsettingspage.h:654
 msgid "pcm"
 msgstr "pcm"
 
@@ -5987,7 +6037,7 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "rimuovi %n brani"
 
-#: collection/collectionfilterwidget.cpp:87
+#: collection/collectionfilterwidget.cpp:86
 msgid "searches the collection for all artists that contain the word"
 msgstr ""
 "cerca in tutta la collezione gli artisti il quale nome contiene la parola"
@@ -6020,11 +6070,11 @@ msgstr "inizia con"
 msgid "stop"
 msgstr "ferma"
 
-#: osd/osdbase.cpp:157
+#: osd/osdbase.cpp:158
 #, qt-format
 msgid "track %1"
 msgstr "traccia %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:239
+#: covermanager/albumcoverchoicecontroller.cpp:238
 msgid "unknown"
 msgstr "sconosciuto"
