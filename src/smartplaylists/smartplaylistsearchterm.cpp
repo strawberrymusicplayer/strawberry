@@ -95,7 +95,7 @@ QString SmartPlaylistSearchTerm::ToSql() const {
     }
   }
   else if (TypeOf(field_) == Type::Rating) {
-    col = "CAST ((" + col + " + 0.05) * 10 AS INTEGER)";
+    col = "CAST ((replace(" + col + ", -1, 0) + 0.05) * 10 AS INTEGER)";
     value = "CAST ((" + value + " + 0.05) * 10 AS INTEGER)";
   }
 
