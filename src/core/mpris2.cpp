@@ -212,6 +212,7 @@ void Mpris2::EmitNotification(const QString &name) {
   else if (name == "LoopStatus") value = LoopStatus();
   else if (name == "Shuffle") value = Shuffle();
   else if (name == "Metadata") value = Metadata();
+  else if (name == "Rating") value = Rating();
   else if (name == "Volume") value = Volume();
   else if (name == "Position") value = Position();
   else if (name == "CanPlay") value = CanPlay();
@@ -368,6 +369,22 @@ void Mpris2::SetShuffle(bool enable) {
 }
 
 QVariantMap Mpris2::Metadata() const { return last_metadata_; }
+
+double Mpris2::Rating() const {
+  float rating = app_->playlist_manager()->active()->current_item_metadata().rating();
+  return (rating <= 0) ? 0 : rating;
+}
+
+void Mpris2::SetRating(double rating) {
+  if (rating > 1.0) {
+    rating = 1.0;
+  }
+  else if (rating <= 0.0) {
+    rating = -1.0;
+  }
+
+  app_->playlist_manager()->RateCurrentSong(rating);
+}
 
 QString Mpris2::current_track_id() const {
   return QString("/org/strawberrymusicplayer/strawberry/Track/%1").arg(QString::number(app_->playlist_manager()->active()->current_row()));
