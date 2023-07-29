@@ -84,18 +84,23 @@ void GstStartup::InitializeGStreamer() {
   gstfastspectrum_register_static();
 #endif
 
-#if defined(Q_OS_WIN32) && defined(__MINGW32__)
-  // MinGW does not have wasapi2sink and wasapisink does not support device switching, so use directsoundsink as the default sink.
+#ifdef Q_OS_WIN32
+  // Use directsoundsink as the default sink on Windows.
+  // wasapisink does not support device switching and wasapi2sink has issues, see #1227.
   GstRegistry *reg = gst_registry_get();
   if (reg) {
-    GstPluginFeature *directsoundsink = gst_registry_lookup_feature(reg, "directsoundsink");
-    GstPluginFeature *wasapisink = gst_registry_lookup_feature(reg, "wasapisink");
-    if (directsoundsink && wasapisink) {
+    if (GstPluginFeature *directsoundsink = gst_registry_lookup_feature(reg, "directsoundsink")) {
       gst_plugin_feature_set_rank(directsoundsink, GST_RANK_PRIMARY);
-      gst_plugin_feature_set_rank(wasapisink, GST_RANK_SECONDARY);
+      gst_object_unref(directsoundsink);
     }
-    if (directsoundsink) gst_object_unref(directsoundsink);
-    if (wasapisink) gst_object_unref(wasapisink);
+    if (GstPluginFeature *wasapisink = gst_registry_lookup_feature(reg, "wasapisink")) {
+      gst_plugin_feature_set_rank(wasapisink, GST_RANK_SECONDARY);
+      gst_object_unref(wasapisink);
+    }
+    if (GstPluginFeature *wasapi2sink = gst_registry_lookup_feature(reg, "wasapi2sink")) {
+      gst_plugin_feature_set_rank(wasapi2sink, GST_RANK_SECONDARY);
+      gst_object_unref(wasapi2sink);
+    }
   }
 #endif
 
