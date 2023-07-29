@@ -374,6 +374,16 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
         }
       }
 
+      if (TagLib::ID3v2::UserTextIdentificationFrame *frame_fmps_playcount = TagLib::ID3v2::UserTextIdentificationFrame::find(file_mpeg->ID3v2Tag(), "FMPS_Playcount")) {
+        TagLib::StringList frame_field_list = frame_fmps_playcount->fieldList();
+        if (frame_field_list.size() > 1) {
+          int playcount = TStringToQString(frame_field_list[1]).toInt();
+          if (song->playcount() <= 0 && playcount > 0) {
+            song->set_playcount(playcount);
+          }
+        }
+      }
+
       if (TagLib::ID3v2::UserTextIdentificationFrame *frame_fmps_rating = TagLib::ID3v2::UserTextIdentificationFrame::find(file_mpeg->ID3v2Tag(), "FMPS_Rating")) {
         TagLib::StringList frame_field_list = frame_fmps_rating->fieldList();
         if (frame_field_list.size() > 1) {
