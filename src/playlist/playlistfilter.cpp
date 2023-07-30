@@ -57,6 +57,8 @@ PlaylistFilter::PlaylistFilter(QObject *parent)
   column_names_["grouping"] = Playlist::Column_Grouping;
   column_names_["comment"] = Playlist::Column_Comment;
   column_names_["rating"] = Playlist::Column_Rating;
+  column_names_["playcount"] = Playlist::Column_PlayCount;
+  column_names_["skipcount"] = Playlist::Column_SkipCount;
 
   numerical_columns_ << Playlist::Column_Year
                      << Playlist::Column_OriginalYear
@@ -65,7 +67,9 @@ PlaylistFilter::PlaylistFilter(QObject *parent)
                      << Playlist::Column_Length
                      << Playlist::Column_Samplerate
                      << Playlist::Column_Bitdepth
-                     << Playlist::Column_Bitrate;
+                     << Playlist::Column_Bitrate
+                     << Playlist::Column_PlayCount
+                     << Playlist::Column_SkipCount;
 
 }
 
