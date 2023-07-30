@@ -205,13 +205,16 @@ class EBUR128AnalysisImpl {
   static GstFlowReturn NewBufferCallback(GstAppSink *app_sink, gpointer self);
 };
 
-FrameFormat::FrameFormat(GstCaps *caps) : channels(0), samplerate(0) {
+FrameFormat::FrameFormat(GstCaps *caps) : channels(0), channel_mask(0), samplerate(0) {
 
   GstStructure *structure = gst_caps_get_structure(caps, 0);
   QString format_str = gst_structure_get_string(structure, "format");
   gst_structure_get_int(structure, "rate", &samplerate);
   gst_structure_get_int(structure, "channels", &channels);
-  channel_mask = gst_value_get_bitmask(gst_structure_get_value(structure, "channel-mask"));
+  const GValue *value = gst_structure_get_value(structure, "channel-mask");
+  if (value) {
+    channel_mask = gst_value_get_bitmask(value);
+  }
 
   if (format_str == "S16LE") {
     format = DataFormat::S16;
