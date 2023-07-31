@@ -34,6 +34,7 @@
 
 #include "playlist.h"
 #include "playlistfilterparser.h"
+#include "utilities/searchparserutils.h"
 
 class SearchTermComparator {
  public:
@@ -518,28 +519,28 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
 
   // Handle the float based Rating Column
   if (columns_[col] == Playlist::Column_Rating) {
-    float parsedSearch = parseRating(search);
+    float parsed_search = Utilities::ParseSearchRating(search);
 
     if (prefix == "=") {
-      cmp = new FloatEqComparator(parsedSearch);
+      cmp = new FloatEqComparator(parsed_search);
     }
     else if (prefix == "!=" || prefix == "<>") {
-      cmp = new FloatNeComparator(parsedSearch);
+      cmp = new FloatNeComparator(parsed_search);
     }
     else if (prefix == ">") {
-      cmp = new FloatGtComparator(parsedSearch);
+      cmp = new FloatGtComparator(parsed_search);
     }
     else if (prefix == ">=") {
-      cmp = new FloatGeComparator(parsedSearch);
+      cmp = new FloatGeComparator(parsed_search);
     }
     else if (prefix == "<") {
-      cmp = new FloatLtComparator(parsedSearch);
+      cmp = new FloatLtComparator(parsed_search);
     }
     else if (prefix == "<=") {
-      cmp = new FloatLeComparator(parsedSearch);
+      cmp = new FloatLeComparator(parsed_search);
     }
     else {
-      cmp = new FloatEqComparator(parsedSearch);
+      cmp = new FloatEqComparator(parsed_search);
     }
   }
   else if (prefix == "!=" || prefix == "<>") {
@@ -549,7 +550,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
     // the length column contains the time in seconds (nanoseconds, actually - the "nano" part is handled by the DropTailComparatorDecorator,  though).
     int search_value = 0;
     if (columns_[col] == Playlist::Column_Length) {
-      search_value = parseTime(search);
+      search_value = Utilities::ParseSearchTime(search);
     }
     else {
       search_value = search.toInt();
@@ -602,82 +603,5 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
   else {
     return new FilterTerm(cmp, columns_.values());
   }
-
-}
-
-// Try and parse the string as '[[h:]m:]s' (ignoring all spaces),
-// and return the number of seconds if it parses correctly.
-// If not, the original string is returned.
-// The 'h', 'm' and 's' components can have any length (including 0).
-//
-// A few examples:
-//  "::"       is parsed to "0"
-//  "1::"      is parsed to "3600"
-//  "3:45"     is parsed to "225"
-//  "1:165"    is parsed to "225"
-//  "225"      is parsed to "225" (srsly! ^.^)
-//  "2:3:4:5"  is parsed to "2:3:4:5"
-//  "25m"      is parsed to "25m"
-int FilterParser::parseTime(const QString &time_str) {
-
-  int seconds = 0;
-  int accum = 0;
-  int colon_count = 0;
-  for (const QChar &c : time_str) {
-    if (c.isDigit()) {
-      accum = accum * 10 + c.digitValue();
-    }
-    else if (c == ':') {
-      seconds = seconds * 60 + accum;
-      accum = 0;
-      ++colon_count;
-      if (colon_count > 2) {
-        return 0;
-      }
-    }
-    else if (!c.isSpace()) {
-      return 0;
-    }
-  }
-  seconds = seconds * 60 + accum;
-
-  return seconds;
-
-}
-
-// The rating column contains the rating as a float from 0-1 or -1 if unrated.
-// If the rating is a number from 0-5, map it to 0-1
-// To use float values directly, the search term can be prefixed with "f" (rating:>f0.2)
-// If search is 0, or by default, uses -1
-float FilterParser::parseRating(const QString &rating_str) {
-
-  if (rating_str.isEmpty()) {
-    return -1;
-  }
-  float rating = -1;
-  bool ok = false;
-  float rating_input = rating_str.toFloat(&ok);
-  // is valid int from 0-5: convert to float
-  if (ok && rating_input >= 0 && rating_input <= 5) {
-    rating = rating_input / 5.0F;
-  }
-
-  // check if the search is a float
-  else if (rating_str.at(0) == 'f') {
-    QString rating_float = rating_str;
-    rating_float = rating_float.remove(0, 1);
-
-    ok = false;
-    rating_float.toFloat(&ok);
-    if (ok) {
-      rating = rating_float.toFloat(&ok);
-    }
-  }
-  // Songs with zero rating have -1 in the DB
-  if (rating == 0) {
-    rating = -1;
-  }
-
-  return rating;
 
 }

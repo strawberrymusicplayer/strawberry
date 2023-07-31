@@ -73,6 +73,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   ui_->setupUi(this);
 
   QString available_fields = Song::kFtsColumns.join(", ").replace(QRegularExpression("\\bfts"), "");
+  available_fields += QString(", ") + Song::kNumericalColumns.join(", ");
 
   ui_->search_field->setToolTip(
     QString("<html><head/><body><p>") +
@@ -80,18 +81,26 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
     QString(" ") +
     QString("<span style=\"font-weight:600;\">") +
     tr("artist") +
-    QString(":") +
-    QString("</span><span style=\"font-style:italic;\">Strawbs</span>") +
-    QString(" ") +
-    tr("searches the collection for all artists that contain the word") +
-    QString(" Strawbs.") +
+    QString(":</span><span style=\"font-style:italic;\">Strawbs</span> ") +
+    tr("searches the collection for all artists that contain the word %1. ").arg("Strawbs") +
+    QString("</p><p>") +
+    tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")
+      .arg(" =, !=, &lt;, &gt;, &lt;=", "&gt;=") +
+    QString("<span style=\"font-weight:600;\">") +
+    tr("rating") +
+    QString("</span>") +
+    QString(":>=") +
+    QString("<span style=\"font-weight:italic;\">4</span>") +
+
     QString("</p><p><span style=\"font-weight:600;\">") +
     tr("Available fields") +
     QString(": ") +
-    "</span><span style=\"font-style:italic;\">" +
+    QString("</span>") +
+    QString("<span style=\"font-style:italic;\">") +
     available_fields +
     QString("</span>.") +
-    QString("</p></body></html>"));
+    QString("</p></body></html>")
+  );
 
   QObject::connect(ui_->search_field, &QSearchField::returnPressed, this, &CollectionFilterWidget::ReturnPressed);
   QObject::connect(filter_delay_, &QTimer::timeout, this, &CollectionFilterWidget::FilterDelayTimeout);

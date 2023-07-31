@@ -61,10 +61,15 @@ class CollectionQuery : public QSqlQuery {
   void SetOrderBy(const QString &order_by) { order_by_ = order_by; }
 
   void SetWhereClauses(const QStringList &where_clauses) { where_clauses_ = where_clauses; }
+
+  // Removes = < > <= >= <> from the beginning of the input string and returns the operator
+  // If the input String has no operator, returns "="
+  QString RemoveSqlOperator(QString &token);
   // Adds a fragment of WHERE clause. When executed, this Query will connect all the fragments with AND operator.
   // Please note that IN operator expects a QStringList as value.
   void AddWhere(const QString &column, const QVariant &value, const QString &op = "=");
   void AddWhereArtist(const QVariant &value);
+  void AddWhereRating(const QVariant &value, const QString &op = "=");
 
   void SetBoundValues(const QVariantList &bound_values) { bound_values_ = bound_values; }
   void SetDuplicatesOnly(const bool duplicates_only) { duplicates_only_ = duplicates_only; }

@@ -123,7 +123,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   QObject::connect(ui_->playlist, &PlaylistView::FocusOnFilterSignal, this, &PlaylistContainer::FocusOnFilter);
   ui_->search_field->installEventFilter(this);
 
-  QString available_fields = PlaylistFilter().column_names_.keys().join(", ");
+  QString available_fields = PlaylistFilter().column_names().keys().join(", ");
   ui_->search_field->setToolTip(
     QString("<html><head/><body><p>") +
     tr("Prefix a search term with a field name to limit the search to that field, e.g.:") +
@@ -131,7 +131,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
     QString("<span style=\"font-weight:600;\">") +
     tr("artist") +
     QString(":</span><span style=\"font-style:italic;\">Strawbs</span> ") +
-    tr("searches the collection for all artists that contain the word %1. ").arg("Strawbs") +
+    tr("searches the playlist for all artists that contain the word %1. ").arg("Strawbs") +
     QString("</p><p>") +
 
     tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")

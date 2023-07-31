@@ -36,6 +36,7 @@
 
 #include "collectionquery.h"
 #include "collectionfilteroptions.h"
+#include "utilities/searchparserutils.h"
 
 CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const CollectionFilterOptions &filter_options)
     : QSqlQuery(db),
@@ -78,6 +79,29 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
             query += "fts" + columntoken + "\"" + subtoken + "\"*";
           }
         }
+        else if (Song::kNumericalColumns.contains(token.section(':', 0, 0), Qt::CaseInsensitive)) {
+          // Account for multiple colons.
+          QString columntoken = token.section(':', 0, 0);
+          QString subtoken = token.section(':', 1, -1);
+          subtoken = subtoken.trimmed();
+          if (!subtoken.isEmpty()) {
+            QString comparator = RemoveSqlOperator(subtoken);
+            if (columntoken.compare("rating", Qt::CaseInsensitive) == 0) {
+              subtoken.replace(":", " ");
+              AddWhereRating(subtoken, comparator);
+            }
+            else if (columntoken.compare("length", Qt::CaseInsensitive) == 0) {
+              // time is saved in nanoseconds, so add 9 0's
+              QString parsedTime = QString::number(Utilities::ParseSearchTime(subtoken)) + "000000000";
+              AddWhere(columntoken, parsedTime, comparator);
+            }
+            else {
+              subtoken.replace(":", " ");
+              AddWhere(columntoken, subtoken, comparator);
+            }
+          }
+        }
+        // not a valid filter, remove
         else {
           token.replace(":", " ");
           token = token.trimmed();
@@ -115,6 +139,23 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
   if (filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Untagged) {
     where_clauses_ << "(artist = '' OR album = '' OR title ='')";
   }
+
+}
+
+QString CollectionQuery::RemoveSqlOperator(QString &token) {
+
+  QString op = "=";
+  static QRegularExpression rxOp("^(=|<[>=]?|>=?|!=)");
+  QRegularExpressionMatch match = rxOp.match(token);
+  if (match.hasMatch()) {
+    op = match.captured(0);
+  }
+  token.remove(rxOp);
+
+  if (op == "!=") {
+    op = "<>";
+  }
+  return op;
 
 }
 
@@ -164,6 +205,37 @@ void CollectionQuery::AddWhereArtist(const QVariant &value) {
   where_clauses_ << QString("((artist = ? AND albumartist = '') OR albumartist = ?)");
   bound_values_ << value;
   bound_values_ << value;
+
+}
+
+void CollectionQuery::AddWhereRating(const QVariant &value, const QString &op) {
+
+  float parsed_rating = Utilities::ParseSearchRating(value.toString());
+
+  // You can't query the database for a float, due to float precision errors,
+  // So we have to use a certain tolerance, so that the searched value is definetly included.
+  const float tolerance = 0.001;
+  if (op == "<") {
+    AddWhere("rating", parsed_rating-tolerance, "<");
+  }
+  else if (op == ">") {
+    AddWhere("rating", parsed_rating+tolerance, ">");
+  }
+  else if (op == "<=") {
+    AddWhere("rating", parsed_rating+tolerance, "<=");
+  }
+  else if (op == ">=") {
+    AddWhere("rating", parsed_rating-tolerance, ">=");
+  }
+  else if (op == "<>") {
+    where_clauses_ << QString("(rating<? OR rating>?)");
+    bound_values_ << parsed_rating - tolerance;
+    bound_values_ << parsed_rating + tolerance;
+  }
+  else /* (op == "=") */ {
+    AddWhere("rating", parsed_rating+tolerance, "<");
+    AddWhere("rating", parsed_rating-tolerance, ">");
+  }
 
 }
 
