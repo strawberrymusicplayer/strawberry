@@ -123,6 +123,38 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   QObject::connect(ui_->playlist, &PlaylistView::FocusOnFilterSignal, this, &PlaylistContainer::FocusOnFilter);
   ui_->search_field->installEventFilter(this);
 
+  QString available_fields = PlaylistFilter().column_names_.keys().join(", ");
+  ui_->search_field->setToolTip(
+    QString("<html><head/><body><p>") +
+    tr("Prefix a search term with a field name to limit the search to that field, e.g.:") +
+    QString(" ") +
+    QString("<span style=\"font-weight:600;\">") +
+    tr("artist") +
+    QString(":</span><span style=\"font-style:italic;\">Strawbs</span> ") +
+    tr("searches the collection for all artists that contain the word %1. ").arg("Strawbs") +
+    QString("</p><p>") +
+
+    tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")
+      .arg(" =, !=, &lt;, &gt;, &lt;=", "&gt;=") +
+    QString("<span style=\"font-weight:600;\">") +
+    tr("rating") +
+    QString("</span>") +
+    QString(":>=") +
+    QString("<span style=\"font-weight:italic;\">4</span>") +
+    QString("</p><p>") +
+
+    tr("Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. ")
+      .arg("AND", "OR") +
+
+    QString("</p><p><span style=\"font-weight:600;\">") +
+    tr("Available fields") +
+    QString(": ") + QString("</span><span style=\"font-style:italic;\">") +
+    available_fields +
+    QString("</span>.") +
+    QString("</p></body></html>")
+  );
+
+
   ReloadSettings();
 
 }
