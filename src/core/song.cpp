@@ -142,6 +142,17 @@ const QString Song::kColumnSpec = Song::kColumns.join(", ");
 const QString Song::kBindSpec = Utilities::Prepend(":", Song::kColumns).join(", ");
 const QString Song::kUpdateSpec = Utilities::Updateify(Song::kColumns).join(", ");
 
+// used to indicate, what columns can be filtered numerically. Used by the CollectionQuery.
+const QStringList Song::kNumericalColumns = QStringList() << "year"
+                                                          << "length"
+                                                          << "samplerate"
+                                                          << "bitdepth"
+                                                          << "bitrate"
+                                                          << "rating"
+                                                          << "playcount"
+                                                          << "skipcount";
+
+
 const QStringList Song::kFtsColumns = QStringList() << "ftstitle"
                                                     << "ftsalbum"
                                                     << "ftsartist"
