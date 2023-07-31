@@ -52,6 +52,8 @@ class PlaylistFilter : public QSortFilterProxyModel {
 
   QString filter_text() const { return filter_text_; }
 
+  QMap<QString, int> column_names_;
+
  private:
   // Mutable because they're modified from filterAcceptsRow() const
   mutable QScopedPointer<FilterTree> filter_tree_;
@@ -61,7 +63,6 @@ class PlaylistFilter : public QSortFilterProxyModel {
   mutable uint query_hash_;
 #endif
 
-  QMap<QString, int> column_names_;
   QSet<int> numerical_columns_;
   QString filter_text_;
 };
