@@ -107,7 +107,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       pipeline_(nullptr),
       audiobin_(nullptr),
       audiosink_(nullptr),
-      audioqueue_(nullptr),
+      inputaudioqueue_(nullptr),
       audioqueueconverter_(nullptr),
       ebur128_volume_(nullptr),
       volume_(nullptr),
@@ -486,8 +486,8 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Create all the other elements
 
-  audioqueue_ = CreateElement("queue2", "audioqueue", audiobin_, error);
-  if (!audioqueue_) {
+  inputaudioqueue_ = CreateElement("queue2", "inputaudioqueue", audiobin_, error);
+  if (!inputaudioqueue_) {
     return false;
   }
 
@@ -623,7 +623,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   }
 
   {  // Create a pad on the outside of the audiobin and connect it to the pad of the first element.
-    GstPad *pad = gst_element_get_static_pad(audioqueue_, "sink");
+    GstPad *pad = gst_element_get_static_pad(inputaudioqueue_, "sink");
     if (pad) {
       gst_element_add_pad(audiobin_, gst_ghost_pad_new("sink", pad));
       gst_object_unref(pad);
@@ -644,20 +644,20 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // We set this on this queue instead of the playbin because setting it on the playbin only affects network sources.
   // Disable the default buffer and byte limits, so we only buffer based on time.
 
-  g_object_set(G_OBJECT(audioqueue_), "max-size-buffers", 0, nullptr);
-  g_object_set(G_OBJECT(audioqueue_), "max-size-bytes", 0, nullptr);
+  g_object_set(G_OBJECT(inputaudioqueue_), "max-size-buffers", 0, nullptr);
+  g_object_set(G_OBJECT(inputaudioqueue_), "max-size-bytes", 0, nullptr);
   if (buffer_duration_nanosec_ > 0) {
     qLog(Debug) << "Setting buffer duration:" << buffer_duration_nanosec_ << "low watermark:" << buffer_low_watermark_ << "high watermark:" << buffer_high_watermark_;
-    g_object_set(G_OBJECT(audioqueue_), "use-buffering", true, nullptr);
-    g_object_set(G_OBJECT(audioqueue_), "max-size-time", buffer_duration_nanosec_, nullptr);
-    g_object_set(G_OBJECT(audioqueue_), "low-watermark", buffer_low_watermark_, nullptr);
-    g_object_set(G_OBJECT(audioqueue_), "high-watermark", buffer_high_watermark_, nullptr);
+    g_object_set(G_OBJECT(inputaudioqueue_), "use-buffering", true, nullptr);
+    g_object_set(G_OBJECT(inputaudioqueue_), "max-size-time", buffer_duration_nanosec_, nullptr);
+    g_object_set(G_OBJECT(inputaudioqueue_), "low-watermark", buffer_low_watermark_, nullptr);
+    g_object_set(G_OBJECT(inputaudioqueue_), "high-watermark", buffer_high_watermark_, nullptr);
   }
 
   // Link all elements
 
-  if (!gst_element_link(audioqueue_, audioqueueconverter_)) {
-    error = "Failed to link audio queue to audio queue converter.";
+  if (!gst_element_link(inputaudioqueue_, audioqueueconverter_)) {
+    error = "Failed to link input audio queue to audio queue converter.";
     return false;
   }
 
@@ -1460,7 +1460,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
 void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 
   // Only handle buffering messages from the queue2 element in audiobin - not the one that's created automatically by playbin.
-  if (GST_ELEMENT(GST_MESSAGE_SRC(msg)) != audioqueue_) {
+  if (GST_ELEMENT(GST_MESSAGE_SRC(msg)) != inputaudioqueue_) {
     return;
   }
 

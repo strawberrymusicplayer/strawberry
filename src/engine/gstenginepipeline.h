@@ -301,7 +301,7 @@ class GstEnginePipeline : public QObject {
   GstElement *pipeline_;
   GstElement *audiobin_;
   GstElement *audiosink_;
-  GstElement *audioqueue_;
+  GstElement *inputaudioqueue_;
   GstElement *audioqueueconverter_;
   GstElement *ebur128_volume_;
   GstElement *volume_;
