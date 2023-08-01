@@ -736,6 +736,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     error = "Failed to link audio sink converter.";
     return false;
   }
+  element_link = audiosinkconverter;
 
   {
     GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
@@ -753,6 +754,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       error = "Failed to link audio sink converter to audio sink with filter for " + output_;
       return false;
     }
+    element_link = audiosink_;
   }
 
   {  // Add probes and handlers.
