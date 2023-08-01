@@ -663,6 +663,10 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     }
   }
 
+  // We do not care about the buffering status of the input queue,
+  // only of the output one.
+  g_object_set(G_OBJECT(inputaudioqueue_), "use-buffering", false, nullptr);
+
   // Link all elements
 
   if (!gst_element_link(inputaudioqueue_, audioqueueconverter_)) {
@@ -1476,8 +1480,12 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
 
 void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 
-  // Only handle buffering messages from the queue2 element in audiobin - not the one that's created automatically by playbin.
-  if (GST_ELEMENT(GST_MESSAGE_SRC(msg)) != inputaudioqueue_) {
+  // Only handle buffering messages from the output queue2 element in audiobin - not the one that's created automatically by playbin.
+  // We want to monitor the output queue specifically, not the input queue,
+  // because there are other processing elements inbetween,
+  // and if the replenishing rate of the *output* queue is below real-time,
+  // we will certainly have stuttering.
+  if (GST_ELEMENT(GST_MESSAGE_SRC(msg)) != outputaudioqueue_) {
     return;
   }
 
