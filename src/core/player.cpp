@@ -397,6 +397,11 @@ void Player::NextItem(const EngineBase::TrackChangeFlags change, const Playlist:
     }
   }
 
+  if (nb_errors_received_ >= 100) {
+    Stop();
+    return;
+  }
+
   // Manual track changes override "Repeat track"
   const bool ignore_repeat_track = change & EngineBase::TrackChangeType::Manual;
 
