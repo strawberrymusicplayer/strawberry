@@ -108,6 +108,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       audiobin_(nullptr),
       audiosink_(nullptr),
       inputaudioqueue_(nullptr),
+      outputaudioqueue_(nullptr),
       audioqueueconverter_(nullptr),
       ebur128_volume_(nullptr),
       volume_(nullptr),
@@ -622,6 +623,12 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     }
   }
 
+
+  outputaudioqueue_ = CreateElement("queue2", "outputaudioqueue", audiobin_, error);
+  if (!outputaudioqueue_) {
+    return false;
+  }
+
   {  // Create a pad on the outside of the audiobin and connect it to the pad of the first element.
     GstPad *pad = gst_element_get_static_pad(inputaudioqueue_, "sink");
     if (pad) {
@@ -641,17 +648,19 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   }
 
   // Set the buffer duration.
-  // We set this on this queue instead of the playbin because setting it on the playbin only affects network sources.
+  // We set this on our queues instead of the playbin because setting it on the playbin only affects network sources.
   // Disable the default buffer and byte limits, so we only buffer based on time.
 
-  g_object_set(G_OBJECT(inputaudioqueue_), "max-size-buffers", 0, nullptr);
-  g_object_set(G_OBJECT(inputaudioqueue_), "max-size-bytes", 0, nullptr);
-  if (buffer_duration_nanosec_ > 0) {
-    qLog(Debug) << "Setting buffer duration:" << buffer_duration_nanosec_ << "low watermark:" << buffer_low_watermark_ << "high watermark:" << buffer_high_watermark_;
-    g_object_set(G_OBJECT(inputaudioqueue_), "use-buffering", true, nullptr);
-    g_object_set(G_OBJECT(inputaudioqueue_), "max-size-time", buffer_duration_nanosec_, nullptr);
-    g_object_set(G_OBJECT(inputaudioqueue_), "low-watermark", buffer_low_watermark_, nullptr);
-    g_object_set(G_OBJECT(inputaudioqueue_), "high-watermark", buffer_high_watermark_, nullptr);
+  for(GstElement *audioqueue : {inputaudioqueue_, outputaudioqueue_}) {
+    g_object_set(G_OBJECT(audioqueue), "max-size-buffers", 0, nullptr);
+    g_object_set(G_OBJECT(audioqueue), "max-size-bytes", 0, nullptr);
+    if (buffer_duration_nanosec_ > 0) {
+      qLog(Debug) << "Setting buffer duration:" << buffer_duration_nanosec_ << "low watermark:" << buffer_low_watermark_ << "high watermark:" << buffer_high_watermark_;
+      g_object_set(G_OBJECT(audioqueue), "use-buffering", true, nullptr);
+      g_object_set(G_OBJECT(audioqueue), "max-size-time", buffer_duration_nanosec_, nullptr);
+      g_object_set(G_OBJECT(audioqueue), "low-watermark", buffer_low_watermark_, nullptr);
+      g_object_set(G_OBJECT(audioqueue), "high-watermark", buffer_high_watermark_, nullptr);
+    }
   }
 
   // Link all elements
@@ -748,14 +757,20 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       qLog(Debug) << "Setting channels to" << channels_;
       gst_caps_set_simple(caps, "channels", G_TYPE_INT, channels_, nullptr);
     }
-    const bool link_filtered_result = gst_element_link_filtered(audiosinkconverter, audiosink_, caps);
+    const bool link_filtered_result = gst_element_link_filtered(element_link, outputaudioqueue_, caps);
     gst_caps_unref(caps);
     if (!link_filtered_result) {
-      error = "Failed to link audio sink converter to audio sink with filter for " + output_;
+      error = "Failed to link audio sink converter to output audio queue with filter";
       return false;
     }
-    element_link = audiosink_;
+    element_link = outputaudioqueue_;
   }
+
+  if (!gst_element_link(element_link, audiosink_)) {
+    error = "Failed to link output audio queue to audio sink for " + output_;
+    return false;
+  }
+  element_link = audiosink_;
 
   {  // Add probes and handlers.
     GstPad *pad = gst_element_get_static_pad(audioqueueconverter_, "src");
