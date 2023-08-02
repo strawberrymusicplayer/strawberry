@@ -1558,6 +1558,17 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
 }
 
+static void flush_pipeline(GstElement *pipeline) {
+  // FIXME: is this really the right way to flush pipeline without seeking?
+  gint64 position_ns_;
+  gst_element_query_position(pipeline, GST_FORMAT_TIME, &position_ns_);
+  gst_element_seek_simple (pipeline, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, position_ns_);
+}
+
+QFuture<void> GstEnginePipeline::FlushPipeline() {
+  return QtConcurrent::run(&set_state_threadpool_, &flush_pipeline, pipeline_);
+}
+
 void GstEnginePipeline::SetEBUR128LoudnessNormalizingGain_dB(const double ebur128_loudness_normalizing_gain_db) {
 
   ebur128_loudness_normalizing_gain_db_ = ebur128_loudness_normalizing_gain_db;
@@ -1571,6 +1582,8 @@ void GstEnginePipeline::UpdateEBUR128LoudnessNormalizingGaindB() {
     auto dB_to_mult = [](const double gain_dB) { return std::pow(10., gain_dB / 20.); };
 
     g_object_set(G_OBJECT(ebur128_volume_), "volume", dB_to_mult(ebur128_loudness_normalizing_gain_db_), nullptr);
+
+    FlushPipeline();
   }
 
 }
@@ -1588,6 +1601,10 @@ void GstEnginePipeline::SetVolume(const uint volume_percent) {
     }
   }
 
+  if (volume_ == volume_sw_) {
+    FlushPipeline();
+  }
+
   volume_percent_ = volume_percent;
 
 }
@@ -1596,6 +1613,7 @@ void GstEnginePipeline::SetFaderVolume(const qreal volume) {
 
   if (volume_fading_) {
     g_object_set(G_OBJECT(volume_fading_), "volume", volume, nullptr);
+    FlushPipeline(); // FIXME: this is not the right solution.
   }
 
 }
@@ -1611,6 +1629,8 @@ void GstEnginePipeline::UpdateStereoBalance() {
 
   if (audiopanorama_) {
     g_object_set(G_OBJECT(audiopanorama_), "panorama", stereo_balance_, nullptr);
+
+    FlushPipeline();
   }
 
 }
@@ -1649,6 +1669,8 @@ void GstEnginePipeline::UpdateEqualizer() {
   if (eq_enabled_) preamp = static_cast<float>(eq_preamp_ + 100) * 0.01F;  // To scale from 0.0 to 2.0
 
   g_object_set(G_OBJECT(equalizer_preamp_), "volume", preamp, nullptr);
+
+  FlushPipeline();
 
 }
 
