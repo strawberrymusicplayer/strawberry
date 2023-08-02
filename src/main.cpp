@@ -187,6 +187,7 @@ int main(int argc, char *argv[]) {
 #endif
 
   QGuiApplication::setApplicationDisplayName("Strawberry Music Player");
+  QGuiApplication::setDesktopFileName("org.strawberrymusicplayer.strawberry");
   QGuiApplication::setQuitOnLastWindowClosed(false);
 
   QApplication a(argc, argv);
