@@ -740,7 +740,7 @@ msgstr "今日追加されたもの"
 msgid "Added within three months"
 msgstr "3 ヶ月以内に追加されたもの"
 
-#: collection/collectionfilterwidget.cpp:327
+#: collection/collectionfilterwidget.cpp:336
 msgid "Advanced grouping..."
 msgstr "高度なグループ化..."
 
@@ -1047,7 +1047,7 @@ msgstr "曲を挿入時にプレイリストを自動的に並べ替える"
 msgid "Available"
 msgstr "空き"
 
-#: collection/collectionfilterwidget.cpp:89
+#: collection/collectionfilterwidget.cpp:96 playlist/playlistcontainer.cpp:150
 msgid "Available fields"
 msgstr "利用可能なフィールド"
 
@@ -1836,7 +1836,7 @@ msgstr "不連続送信 (DTX)"
 msgid "Disk Cache Size"
 msgstr "ディスクキャッシュサイズ"
 
-#: collection/collectionfilterwidget.cpp:130
+#: collection/collectionfilterwidget.cpp:139
 #: ../build/src/ui_collectionsettingspage.h:439
 msgid "Display options"
 msgstr "画面のオプション"
@@ -2556,64 +2556,64 @@ msgstr "起動時にプレイリストで利用できない曲をグレーアウ
 msgid "Group Collection by..."
 msgstr "ライブラリのグループ化..."
 
-#: collection/collectionfilterwidget.cpp:124
+#: collection/collectionfilterwidget.cpp:133
 #: internet/internetsearchview.cpp:343
 msgid "Group by"
 msgstr "グループ化"
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:301
 msgid "Group by Album"
 msgstr "アルバムでグループ化"
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:298
 msgid "Group by Album Artist"
 msgstr "アーティストでアルバムをグループ化"
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:285
 msgid "Group by Album artist/Album"
 msgstr "アーティスト/アルバムでアルバムをグループ化"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:286
 msgid "Group by Album artist/Album - Disc"
 msgstr "アーティスト/アルバム - ディスクでアルバムをグループ化"
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Album artist/Year - Album"
 msgstr "アーティスト/年 - アルバムでアルバムをグループ化"
 
-#: collection/collectionfilterwidget.cpp:279
+#: collection/collectionfilterwidget.cpp:288
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "アーティスト/年 - アルバム - ディスクでアルバムをグループ化"
 
-#: collection/collectionfilterwidget.cpp:290
+#: collection/collectionfilterwidget.cpp:299
 msgid "Group by Artist"
 msgstr "アーティストでグループ化"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Artist/Album"
 msgstr "アーティスト/アルバムでグループ化"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:291
 msgid "Group by Artist/Album - Disc"
 msgstr "アーティスト/アルバム - ディスクでグループ化"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:292
 msgid "Group by Artist/Year - Album"
 msgstr "アーティスト/年 - アルバムでグループ化"
 
-#: collection/collectionfilterwidget.cpp:284
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "アーティスト/年 - アルバム - ディスクでグループ化"
 
-#: collection/collectionfilterwidget.cpp:293
+#: collection/collectionfilterwidget.cpp:302
 msgid "Group by Genre/Album"
 msgstr "ジャンル/アルバムでグループ化"
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:295
 msgid "Group by Genre/Album artist/Album"
 msgstr "ジャンル/アルバム、アーティスト/アルバムでグループ化"
 
-#: collection/collectionfilterwidget.cpp:287
+#: collection/collectionfilterwidget.cpp:296
 msgid "Group by Genre/Artist/Album"
 msgstr "ジャンル/アーティスト/アルバムでグループ化"
 
@@ -2624,11 +2624,11 @@ msgstr "ジャンル/アーティスト/アルバムでグループ化"
 msgid "Grouping"
 msgstr "分類"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:359
 msgid "Grouping Name"
 msgstr "分類名"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:359
 msgid "Grouping name:"
 msgstr "分類名:"
 
@@ -2842,11 +2842,11 @@ msgstr "ウィンドウを閉じたときバックグラウンドで起動し続
 msgid "Keep the original files"
 msgstr "元のファイルを保持する"
 
-#: core/song.cpp:704
+#: core/song.cpp:715
 msgid "LU"
 msgstr ""
 
-#: core/song.cpp:692
+#: core/song.cpp:703
 msgid "LUFS"
 msgstr ""
 
@@ -2948,7 +2948,7 @@ msgstr "ディスクからカバーの読み込み"
 msgid "Load cover from disk..."
 msgstr "ディスクからカバーの読み込み..."
 
-#: playlist/playlistcontainer.cpp:343
+#: playlist/playlistcontainer.cpp:375
 msgid "Load playlist"
 msgstr "プレイリストの読み込み"
 
@@ -3238,6 +3238,13 @@ msgstr "ライブラリへ移動..."
 msgid "Move up"
 msgstr "上へ移動"
 
+#: playlist/playlistcontainer.cpp:146
+#, qt-format
+msgid ""
+"Multiple search terms can also be combined with \"%1\" (default) and \"%2\", "
+"as well as grouped with parentheses. "
+msgstr ""
+
 #: core/mainwindow.cpp:2218 transcoder/transcodedialog.cpp:325
 msgid "Music"
 msgstr "ミュージック"
@@ -3342,7 +3349,7 @@ msgstr "長いブロックなし"
 msgid "No match."
 msgstr "見つかりません"
 
-#: playlist/playlistcontainer.cpp:437
+#: playlist/playlistcontainer.cpp:469
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "見つかりません。再びプレイリスト全体を表示するには検索ボックスをクリアします。"
@@ -3690,7 +3697,7 @@ msgstr "%1 曲の再生回数を受信しました。"
 msgid "Player options"
 msgstr "プレーヤーのオプション"
 
-#: playlist/playlistcontainer.cpp:338 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistcontainer.cpp:370 playlist/playlistlistcontainer.cpp:274
 #: playlist/playlistlistcontainer.cpp:371 playlist/playlistmanager.cpp:109
 #: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:542
 #: playlist/playlisttabbar.cpp:433 ../build/src/ui_playlistsettingspage.h:177
@@ -3780,7 +3787,13 @@ msgstr "優先するアルバムアートのファイル名 (コンマ区切り)
 msgid "Preferred format"
 msgstr "優先する形式"
 
-#: collection/collectionfilterwidget.cpp:79
+#: playlist/playlistcontainer.cpp:129
+msgid ""
+"Prefix a search term with a field name to limit the search to that field, e."
+"g.:"
+msgstr ""
+
+#: collection/collectionfilterwidget.cpp:80
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -4025,7 +4038,7 @@ msgstr "不足しているトークンコードまたは状態をリダイレク
 msgid "Redirect missing token code!"
 msgstr "不足しているトークンコードをリダイレクトしてください！"
 
-#: playlist/playlistcontainer.cpp:224
+#: playlist/playlistcontainer.cpp:256
 msgid "Redo"
 msgstr ""
 
@@ -4403,6 +4416,13 @@ msgstr "検索オプション"
 msgid "Search terms"
 msgstr "検索語"
 
+#: collection/collectionfilterwidget.cpp:87 playlist/playlistcontainer.cpp:137
+#, qt-format
+msgid ""
+"Search terms for numerical fields can be prefixed with %1 or %2 to refine "
+"the search, e.g.: "
+msgstr ""
+
 #: tidal/tidalrequest.cpp:369 tidal/tidalrequest.cpp:383
 #: tidal/tidalrequest.cpp:397 qobuz/qobuzrequest.cpp:357
 #: qobuz/qobuzrequest.cpp:371 qobuz/qobuzrequest.cpp:385
@@ -4521,7 +4541,7 @@ msgstr "ショートカット"
 msgid "Shortcut for %1"
 msgstr "%1 のショートカット"
 
-#: collection/collectionfilterwidget.cpp:114
+#: collection/collectionfilterwidget.cpp:123
 msgid "Show"
 msgstr "表示"
 
@@ -5315,7 +5335,7 @@ msgstr ""
 msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr ""
 
-#: playlist/playlistcontainer.cpp:223
+#: playlist/playlistcontainer.cpp:255
 msgid "Undo"
 msgstr ""
 
@@ -5323,7 +5343,7 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:690 core/song.cpp:702 core/song.cpp:963
+#: core/song.cpp:701 core/song.cpp:713 core/song.cpp:974
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1670
@@ -5736,7 +5756,7 @@ msgstr "アルバム"
 msgid "and"
 msgstr "かつ"
 
-#: collection/collectionfilterwidget.cpp:82
+#: collection/collectionfilterwidget.cpp:83 playlist/playlistcontainer.cpp:132
 msgid "artist"
 msgstr "アーティスト"
 
@@ -5875,15 +5895,25 @@ msgstr "p&lughw"
 msgid "pcm"
 msgstr "pcm"
 
+#: collection/collectionfilterwidget.cpp:90 playlist/playlistcontainer.cpp:140
+msgid "rating"
+msgstr ""
+
 #: playlist/playlistundocommands.cpp:68 playlist/playlistundocommands.cpp:96
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
 msgstr "%n 曲の削除"
 
-#: collection/collectionfilterwidget.cpp:86
-msgid "searches the collection for all artists that contain the word"
-msgstr "単語を含むすべてのアーティストをコレクションで検索する"
+#: collection/collectionfilterwidget.cpp:85
+#, qt-format
+msgid "searches the collection for all artists that contain the word %1. "
+msgstr ""
+
+#: playlist/playlistcontainer.cpp:134
+#, qt-format
+msgid "searches the playlist for all artists that contain the word %1. "
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "shortest first"

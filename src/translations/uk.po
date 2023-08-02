@@ -748,7 +748,7 @@ msgstr "Додано сьогодні"
 msgid "Added within three months"
 msgstr "Додано за три місяці"
 
-#: collection/collectionfilterwidget.cpp:327
+#: collection/collectionfilterwidget.cpp:336
 msgid "Advanced grouping..."
 msgstr "Розширене групування..."
 
@@ -1057,7 +1057,7 @@ msgstr "Автоматично сортувати список відтворе�
 msgid "Available"
 msgstr "Доступне"
 
-#: collection/collectionfilterwidget.cpp:89
+#: collection/collectionfilterwidget.cpp:96 playlist/playlistcontainer.cpp:150
 msgid "Available fields"
 msgstr "Доступні поля"
 
@@ -1860,7 +1860,7 @@ msgstr "Переривчаста передача"
 msgid "Disk Cache Size"
 msgstr "Розмір кешу диска"
 
-#: collection/collectionfilterwidget.cpp:130
+#: collection/collectionfilterwidget.cpp:139
 #: ../build/src/ui_collectionsettingspage.h:439
 msgid "Display options"
 msgstr "Налаштування відображення"
@@ -2587,64 +2587,64 @@ msgstr "Виділяти сірим недоступні пісні у спис�
 msgid "Group Collection by..."
 msgstr "Групувати фонотеку за..."
 
-#: collection/collectionfilterwidget.cpp:124
+#: collection/collectionfilterwidget.cpp:133
 #: internet/internetsearchview.cpp:343
 msgid "Group by"
 msgstr "Групувати за"
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:301
 msgid "Group by Album"
 msgstr "Групувати за альбомом"
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:298
 msgid "Group by Album Artist"
 msgstr "Групувати за виконавцем альбому"
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:285
 msgid "Group by Album artist/Album"
 msgstr "Групувати за виконавцем альбому/альбомом"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:286
 msgid "Group by Album artist/Album - Disc"
 msgstr "Групувати за виконавцем альбому/альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Album artist/Year - Album"
 msgstr "Групувати за виконавцем альбому/роком - альбомом"
 
-#: collection/collectionfilterwidget.cpp:279
+#: collection/collectionfilterwidget.cpp:288
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Групувати за виконавцем альбому/роком - альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:290
+#: collection/collectionfilterwidget.cpp:299
 msgid "Group by Artist"
 msgstr "Групувати за виконавцем"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Artist/Album"
 msgstr "Групувати за виконавецем/альбомом"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:291
 msgid "Group by Artist/Album - Disc"
 msgstr "Групувати за виконавцем/альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:292
 msgid "Group by Artist/Year - Album"
 msgstr "Групувати за виконавцем/роком - альбомом"
 
-#: collection/collectionfilterwidget.cpp:284
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Групувати за виконавцем/роком - альбомом - диском"
 
-#: collection/collectionfilterwidget.cpp:293
+#: collection/collectionfilterwidget.cpp:302
 msgid "Group by Genre/Album"
 msgstr "Групувати за жанром/альбомом"
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:295
 msgid "Group by Genre/Album artist/Album"
 msgstr "Групувати за жанром/виконавцем альбому/альбомом"
 
-#: collection/collectionfilterwidget.cpp:287
+#: collection/collectionfilterwidget.cpp:296
 msgid "Group by Genre/Artist/Album"
 msgstr "Групувати за жанром/виконавцем/альбомом"
 
@@ -2655,11 +2655,11 @@ msgstr "Групувати за жанром/виконавцем/альбомо
 msgid "Grouping"
 msgstr "Групування"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:359
 msgid "Grouping Name"
 msgstr "Назва групування"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:359
 msgid "Grouping name:"
 msgstr "Назва групування:"
 
@@ -2884,11 +2884,11 @@ msgstr "Продовжувати виконання у фоні коли вік�
 msgid "Keep the original files"
 msgstr "Зберегти оригінальні файли"
 
-#: core/song.cpp:704
+#: core/song.cpp:715
 msgid "LU"
 msgstr ""
 
-#: core/song.cpp:692
+#: core/song.cpp:703
 msgid "LUFS"
 msgstr ""
 
@@ -2990,7 +2990,7 @@ msgstr "Завантаження обкладинки з диска"
 msgid "Load cover from disk..."
 msgstr "Завантажити обкладинку з диска..."
 
-#: playlist/playlistcontainer.cpp:343
+#: playlist/playlistcontainer.cpp:375
 msgid "Load playlist"
 msgstr "Завантажити список відтворення"
 
@@ -3280,6 +3280,13 @@ msgstr "Перемістити до фонотеки..."
 msgid "Move up"
 msgstr "Перемістити вгору"
 
+#: playlist/playlistcontainer.cpp:146
+#, qt-format
+msgid ""
+"Multiple search terms can also be combined with \"%1\" (default) and \"%2\", "
+"as well as grouped with parentheses. "
+msgstr ""
+
 #: core/mainwindow.cpp:2218 transcoder/transcodedialog.cpp:325
 msgid "Music"
 msgstr "Музика"
@@ -3384,7 +3391,7 @@ msgstr "Без довгих блоків"
 msgid "No match."
 msgstr "Немає збігів."
 
-#: playlist/playlistcontainer.cpp:437
+#: playlist/playlistcontainer.cpp:469
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -3742,7 +3749,7 @@ msgstr "Кількість відтворень для %1 отриманих к�
 msgid "Player options"
 msgstr "Налаштування програвача"
 
-#: playlist/playlistcontainer.cpp:338 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistcontainer.cpp:370 playlist/playlistlistcontainer.cpp:274
 #: playlist/playlistlistcontainer.cpp:371 playlist/playlistmanager.cpp:109
 #: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:542
 #: playlist/playlisttabbar.cpp:433 ../build/src/ui_playlistsettingspage.h:177
@@ -3835,7 +3842,13 @@ msgstr "Бажані імена файлів для обкладинок, роз
 msgid "Preferred format"
 msgstr "Бажаний формат"
 
-#: collection/collectionfilterwidget.cpp:79
+#: playlist/playlistcontainer.cpp:129
+msgid ""
+"Prefix a search term with a field name to limit the search to that field, e."
+"g.:"
+msgstr ""
+
+#: collection/collectionfilterwidget.cpp:80
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -4091,7 +4104,7 @@ msgstr "Переспрямування не містить код або ста�
 msgid "Redirect missing token code!"
 msgstr "Переспрямування не містить код маркера!"
 
-#: playlist/playlistcontainer.cpp:224
+#: playlist/playlistcontainer.cpp:256
 msgid "Redo"
 msgstr ""
 
@@ -4473,6 +4486,13 @@ msgstr "Параметри пошуку"
 msgid "Search terms"
 msgstr "Критерії пошуку"
 
+#: collection/collectionfilterwidget.cpp:87 playlist/playlistcontainer.cpp:137
+#, qt-format
+msgid ""
+"Search terms for numerical fields can be prefixed with %1 or %2 to refine "
+"the search, e.g.: "
+msgstr ""
+
 #: tidal/tidalrequest.cpp:369 tidal/tidalrequest.cpp:383
 #: tidal/tidalrequest.cpp:397 qobuz/qobuzrequest.cpp:357
 #: qobuz/qobuzrequest.cpp:371 qobuz/qobuzrequest.cpp:385
@@ -4591,7 +4611,7 @@ msgstr "Сполучення клавіш"
 msgid "Shortcut for %1"
 msgstr "Сполучення клавіш для %1"
 
-#: collection/collectionfilterwidget.cpp:114
+#: collection/collectionfilterwidget.cpp:123
 msgid "Show"
 msgstr "Показати"
 
@@ -5409,7 +5429,7 @@ msgstr ""
 msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr ""
 
-#: playlist/playlistcontainer.cpp:223
+#: playlist/playlistcontainer.cpp:255
 msgid "Undo"
 msgstr ""
 
@@ -5417,7 +5437,7 @@ msgstr ""
 msgid "Uninstall the snap with:"
 msgstr "Видалити snap з:"
 
-#: core/song.cpp:690 core/song.cpp:702 core/song.cpp:963
+#: core/song.cpp:701 core/song.cpp:713 core/song.cpp:974
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1670
@@ -5848,7 +5868,7 @@ msgstr "альбоми"
 msgid "and"
 msgstr "і"
 
-#: collection/collectionfilterwidget.cpp:82
+#: collection/collectionfilterwidget.cpp:83 playlist/playlistcontainer.cpp:132
 msgid "artist"
 msgstr "виконавець"
 
@@ -5987,15 +6007,25 @@ msgstr "p&lughw"
 msgid "pcm"
 msgstr "pcm"
 
+#: collection/collectionfilterwidget.cpp:90 playlist/playlistcontainer.cpp:140
+msgid "rating"
+msgstr ""
+
 #: playlist/playlistundocommands.cpp:68 playlist/playlistundocommands.cpp:96
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
 msgstr "вилучити %n композицій"
 
-#: collection/collectionfilterwidget.cpp:86
-msgid "searches the collection for all artists that contain the word"
-msgstr "пошук у фонотеці всіх виконавців, що містять це слово"
+#: collection/collectionfilterwidget.cpp:85
+#, qt-format
+msgid "searches the collection for all artists that contain the word %1. "
+msgstr ""
+
+#: playlist/playlistcontainer.cpp:134
+#, qt-format
+msgid "searches the playlist for all artists that contain the word %1. "
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "shortest first"

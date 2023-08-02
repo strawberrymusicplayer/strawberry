@@ -744,7 +744,7 @@ msgstr "Añadidas hoy"
 msgid "Added within three months"
 msgstr "Añadidas en los últimos tres meses"
 
-#: collection/collectionfilterwidget.cpp:327
+#: collection/collectionfilterwidget.cpp:336
 msgid "Advanced grouping..."
 msgstr "Agrupamiento avanzado…"
 
@@ -1055,7 +1055,7 @@ msgstr "Ordenar la lista automáticamente al insertar temas"
 msgid "Available"
 msgstr "Disponible"
 
-#: collection/collectionfilterwidget.cpp:89
+#: collection/collectionfilterwidget.cpp:96 playlist/playlistcontainer.cpp:150
 msgid "Available fields"
 msgstr "Campos disponibles"
 
@@ -1852,7 +1852,7 @@ msgstr "Transmisión discontinua"
 msgid "Disk Cache Size"
 msgstr "Tamaño de caché de disco"
 
-#: collection/collectionfilterwidget.cpp:130
+#: collection/collectionfilterwidget.cpp:139
 #: ../build/src/ui_collectionsettingspage.h:439
 msgid "Display options"
 msgstr "Opciones de visualización"
@@ -2585,64 +2585,64 @@ msgstr ""
 msgid "Group Collection by..."
 msgstr "Agrupar colección por…"
 
-#: collection/collectionfilterwidget.cpp:124
+#: collection/collectionfilterwidget.cpp:133
 #: internet/internetsearchview.cpp:343
 msgid "Group by"
 msgstr "Agrupar por"
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:301
 msgid "Group by Album"
 msgstr "Agrupar por álbum"
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:298
 msgid "Group by Album Artist"
 msgstr "Agrupar por artista del álbum"
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:285
 msgid "Group by Album artist/Album"
 msgstr "Agrupar por artista del álbum/álbum"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:286
 msgid "Group by Album artist/Album - Disc"
 msgstr "Agrupar por artista del álbum/álbum - disco"
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Album artist/Year - Album"
 msgstr "Agrupar por artista del álbum/año - álbum"
 
-#: collection/collectionfilterwidget.cpp:279
+#: collection/collectionfilterwidget.cpp:288
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Agrupar por artista del álbum/año - álbum - disco"
 
-#: collection/collectionfilterwidget.cpp:290
+#: collection/collectionfilterwidget.cpp:299
 msgid "Group by Artist"
 msgstr "Agrupar por artista"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Artist/Album"
 msgstr "Agrupar por artista/álbum"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:291
 msgid "Group by Artist/Album - Disc"
 msgstr "Agrupar por artista/álbum - disco"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:292
 msgid "Group by Artist/Year - Album"
 msgstr "Agrupar por artista/año - álbum"
 
-#: collection/collectionfilterwidget.cpp:284
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Agrupar por artista/año - álbum - disco"
 
-#: collection/collectionfilterwidget.cpp:293
+#: collection/collectionfilterwidget.cpp:302
 msgid "Group by Genre/Album"
 msgstr "Agrupar por género/álbum"
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:295
 msgid "Group by Genre/Album artist/Album"
 msgstr "Agrupar por género/artista del álbum/álbum"
 
-#: collection/collectionfilterwidget.cpp:287
+#: collection/collectionfilterwidget.cpp:296
 msgid "Group by Genre/Artist/Album"
 msgstr "Agrupar por género/artista/álbum"
 
@@ -2653,11 +2653,11 @@ msgstr "Agrupar por género/artista/álbum"
 msgid "Grouping"
 msgstr "Agrupamiento"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:359
 msgid "Grouping Name"
 msgstr "Nombre de agrupamiento"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:359
 msgid "Grouping name:"
 msgstr "Nombre de agrupamiento:"
 
@@ -2884,11 +2884,11 @@ msgstr "Seguir ejecutando el programa en segundo plano al cerrar la ventana"
 msgid "Keep the original files"
 msgstr "Mantener los archivos originales"
 
-#: core/song.cpp:704
+#: core/song.cpp:715
 msgid "LU"
 msgstr ""
 
-#: core/song.cpp:692
+#: core/song.cpp:703
 msgid "LUFS"
 msgstr ""
 
@@ -2990,7 +2990,7 @@ msgstr "Cargar portada desde disco"
 msgid "Load cover from disk..."
 msgstr "Cargar portada desde disco…"
 
-#: playlist/playlistcontainer.cpp:343
+#: playlist/playlistcontainer.cpp:375
 msgid "Load playlist"
 msgstr "Cargar lista de reproducción"
 
@@ -3280,6 +3280,13 @@ msgstr "Mover a la colección…"
 msgid "Move up"
 msgstr "Subir"
 
+#: playlist/playlistcontainer.cpp:146
+#, qt-format
+msgid ""
+"Multiple search terms can also be combined with \"%1\" (default) and \"%2\", "
+"as well as grouped with parentheses. "
+msgstr ""
+
 #: core/mainwindow.cpp:2218 transcoder/transcodedialog.cpp:325
 msgid "Music"
 msgstr "Música"
@@ -3384,7 +3391,7 @@ msgstr "Sin bloques largos"
 msgid "No match."
 msgstr "Sin coincidencias."
 
-#: playlist/playlistcontainer.cpp:437
+#: playlist/playlistcontainer.cpp:469
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -3740,7 +3747,7 @@ msgstr "Nº de reproducciones para %1 temas recibidas."
 msgid "Player options"
 msgstr "Opciones del reproductor"
 
-#: playlist/playlistcontainer.cpp:338 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistcontainer.cpp:370 playlist/playlistlistcontainer.cpp:274
 #: playlist/playlistlistcontainer.cpp:371 playlist/playlistmanager.cpp:109
 #: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:542
 #: playlist/playlisttabbar.cpp:433 ../build/src/ui_playlistsettingspage.h:177
@@ -3832,7 +3839,13 @@ msgstr "Nombres de archivo preferidos para las portadas (separados por comas)"
 msgid "Preferred format"
 msgstr "Formato preferido"
 
-#: collection/collectionfilterwidget.cpp:79
+#: playlist/playlistcontainer.cpp:129
+msgid ""
+"Prefix a search term with a field name to limit the search to that field, e."
+"g.:"
+msgstr ""
+
+#: collection/collectionfilterwidget.cpp:80
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -4089,7 +4102,7 @@ msgstr "¡Falta código de token o estado!"
 msgid "Redirect missing token code!"
 msgstr "¡Falta código del token de redirección!"
 
-#: playlist/playlistcontainer.cpp:224
+#: playlist/playlistcontainer.cpp:256
 msgid "Redo"
 msgstr "Volver a hacer"
 
@@ -4471,6 +4484,13 @@ msgstr "Opciones de búsqueda"
 msgid "Search terms"
 msgstr "Términos de búsqueda"
 
+#: collection/collectionfilterwidget.cpp:87 playlist/playlistcontainer.cpp:137
+#, qt-format
+msgid ""
+"Search terms for numerical fields can be prefixed with %1 or %2 to refine "
+"the search, e.g.: "
+msgstr ""
+
 #: tidal/tidalrequest.cpp:369 tidal/tidalrequest.cpp:383
 #: tidal/tidalrequest.cpp:397 qobuz/qobuzrequest.cpp:357
 #: qobuz/qobuzrequest.cpp:371 qobuz/qobuzrequest.cpp:385
@@ -4589,7 +4609,7 @@ msgstr "Atajo"
 msgid "Shortcut for %1"
 msgstr "Atajo para %1"
 
-#: collection/collectionfilterwidget.cpp:114
+#: collection/collectionfilterwidget.cpp:123
 msgid "Show"
 msgstr "Mostrar"
 
@@ -5414,7 +5434,7 @@ msgstr ""
 msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr ""
 
-#: playlist/playlistcontainer.cpp:223
+#: playlist/playlistcontainer.cpp:255
 msgid "Undo"
 msgstr "Deshacer"
 
@@ -5422,7 +5442,7 @@ msgstr "Deshacer"
 msgid "Uninstall the snap with:"
 msgstr "Desinstale el «snap» con:"
 
-#: core/song.cpp:690 core/song.cpp:702 core/song.cpp:963
+#: core/song.cpp:701 core/song.cpp:713 core/song.cpp:974
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1670
@@ -5856,7 +5876,7 @@ msgstr "álbumes"
 msgid "and"
 msgstr "y"
 
-#: collection/collectionfilterwidget.cpp:82
+#: collection/collectionfilterwidget.cpp:83 playlist/playlistcontainer.cpp:132
 msgid "artist"
 msgstr "artista"
 
@@ -5995,15 +6015,25 @@ msgstr "p&lughw"
 msgid "pcm"
 msgstr "pcm"
 
+#: collection/collectionfilterwidget.cpp:90 playlist/playlistcontainer.cpp:140
+msgid "rating"
+msgstr ""
+
 #: playlist/playlistundocommands.cpp:68 playlist/playlistundocommands.cpp:96
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
 msgstr "quitar %n temas"
 
-#: collection/collectionfilterwidget.cpp:86
-msgid "searches the collection for all artists that contain the word"
-msgstr "busca en la colección todos los artistas que contengan la palabra"
+#: collection/collectionfilterwidget.cpp:85
+#, qt-format
+msgid "searches the collection for all artists that contain the word %1. "
+msgstr ""
+
+#: playlist/playlistcontainer.cpp:134
+#, qt-format
+msgid "searches the playlist for all artists that contain the word %1. "
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "shortest first"

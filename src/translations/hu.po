@@ -755,7 +755,7 @@ msgstr "Hozzáadva ma"
 msgid "Added within three months"
 msgstr "Hozzáadva három hónapon belül"
 
-#: collection/collectionfilterwidget.cpp:327
+#: collection/collectionfilterwidget.cpp:336
 msgid "Advanced grouping..."
 msgstr "Speciális csoportosítás…"
 
@@ -1065,7 +1065,7 @@ msgstr "Lejátszólista automatikus rendezése számok beillesztésekor"
 msgid "Available"
 msgstr "Elérhető"
 
-#: collection/collectionfilterwidget.cpp:89
+#: collection/collectionfilterwidget.cpp:96 playlist/playlistcontainer.cpp:150
 msgid "Available fields"
 msgstr "Elérhető mezők"
 
@@ -1868,7 +1868,7 @@ msgstr "Szakaszos átvitel"
 msgid "Disk Cache Size"
 msgstr "Lemezgyorsítótár mérete"
 
-#: collection/collectionfilterwidget.cpp:130
+#: collection/collectionfilterwidget.cpp:139
 #: ../build/src/ui_collectionsettingspage.h:439
 msgid "Display options"
 msgstr "Megjelenítési beállítások"
@@ -2594,64 +2594,64 @@ msgstr "Nem elérhető számok kiszürkítése induláskor"
 msgid "Group Collection by..."
 msgstr "Gyűjtemény csoportosítása…"
 
-#: collection/collectionfilterwidget.cpp:124
+#: collection/collectionfilterwidget.cpp:133
 #: internet/internetsearchview.cpp:343
 msgid "Group by"
 msgstr "Csoportosítás"
 
-#: collection/collectionfilterwidget.cpp:292
+#: collection/collectionfilterwidget.cpp:301
 msgid "Group by Album"
 msgstr "Csoportosítás album szerint"
 
-#: collection/collectionfilterwidget.cpp:289
+#: collection/collectionfilterwidget.cpp:298
 msgid "Group by Album Artist"
 msgstr "Csoportosítás albumelőadó szerint"
 
-#: collection/collectionfilterwidget.cpp:276
+#: collection/collectionfilterwidget.cpp:285
 msgid "Group by Album artist/Album"
 msgstr "Csoportosítás albumelőadó/album szerint"
 
-#: collection/collectionfilterwidget.cpp:277
+#: collection/collectionfilterwidget.cpp:286
 msgid "Group by Album artist/Album - Disc"
 msgstr "Csoportosítás albumelőadó/album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:278
+#: collection/collectionfilterwidget.cpp:287
 msgid "Group by Album artist/Year - Album"
 msgstr "Csoportosítás albumelőadó/év - album szerint"
 
-#: collection/collectionfilterwidget.cpp:279
+#: collection/collectionfilterwidget.cpp:288
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Csoportosítás albumelőadó/év - album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:290
+#: collection/collectionfilterwidget.cpp:299
 msgid "Group by Artist"
 msgstr "Csoportosítás előadó szerint"
 
-#: collection/collectionfilterwidget.cpp:281
+#: collection/collectionfilterwidget.cpp:290
 msgid "Group by Artist/Album"
 msgstr "Csoportosítás előadó/album szerint"
 
-#: collection/collectionfilterwidget.cpp:282
+#: collection/collectionfilterwidget.cpp:291
 msgid "Group by Artist/Album - Disc"
 msgstr "Csoportosítás előadó/album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:283
+#: collection/collectionfilterwidget.cpp:292
 msgid "Group by Artist/Year - Album"
 msgstr "Csoportosítás előadó/év - album szerint"
 
-#: collection/collectionfilterwidget.cpp:284
+#: collection/collectionfilterwidget.cpp:293
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Csoportosítás előadó/év - album - lemez szerint"
 
-#: collection/collectionfilterwidget.cpp:293
+#: collection/collectionfilterwidget.cpp:302
 msgid "Group by Genre/Album"
 msgstr "Csoportosítás műfaj/album szerint"
 
-#: collection/collectionfilterwidget.cpp:286
+#: collection/collectionfilterwidget.cpp:295
 msgid "Group by Genre/Album artist/Album"
 msgstr "Csoportosítás műfaj/albumelőadó/album szerint"
 
-#: collection/collectionfilterwidget.cpp:287
+#: collection/collectionfilterwidget.cpp:296
 msgid "Group by Genre/Artist/Album"
 msgstr "Csoportosítás műfaj/előadó/album szerint"
 
@@ -2662,11 +2662,11 @@ msgstr "Csoportosítás műfaj/előadó/album szerint"
 msgid "Grouping"
 msgstr "Csoportosítás"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:359
 msgid "Grouping Name"
 msgstr "Csoportosítás neve"
 
-#: collection/collectionfilterwidget.cpp:350
+#: collection/collectionfilterwidget.cpp:359
 msgid "Grouping name:"
 msgstr "Csoportosítás neve:"
 
@@ -2897,11 +2897,11 @@ msgstr "Bezárt ablak esetén futás a háttérben"
 msgid "Keep the original files"
 msgstr "Eredeti fájlok megőrzése"
 
-#: core/song.cpp:704
+#: core/song.cpp:715
 msgid "LU"
 msgstr ""
 
-#: core/song.cpp:692
+#: core/song.cpp:703
 msgid "LUFS"
 msgstr ""
 
@@ -3003,7 +3003,7 @@ msgstr "Borító betöltése lemezről"
 msgid "Load cover from disk..."
 msgstr "Borító betöltése lemezről…"
 
-#: playlist/playlistcontainer.cpp:343
+#: playlist/playlistcontainer.cpp:375
 msgid "Load playlist"
 msgstr "Lejátszólista betöltése"
 
@@ -3293,6 +3293,13 @@ msgstr "Áthelyezés a gyűjteménybe…"
 msgid "Move up"
 msgstr "Mozgatás felfelé"
 
+#: playlist/playlistcontainer.cpp:146
+#, qt-format
+msgid ""
+"Multiple search terms can also be combined with \"%1\" (default) and \"%2\", "
+"as well as grouped with parentheses. "
+msgstr ""
+
 #: core/mainwindow.cpp:2218 transcoder/transcodedialog.cpp:325
 msgid "Music"
 msgstr "Zene"
@@ -3397,7 +3404,7 @@ msgstr "Hosszú blokkok nélkül"
 msgid "No match."
 msgstr "Nincs egyezés."
 
-#: playlist/playlistcontainer.cpp:437
+#: playlist/playlistcontainer.cpp:469
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -3758,7 +3765,7 @@ msgstr "Lejátszásszám fogadva %1 számhoz."
 msgid "Player options"
 msgstr "Lejátszó beállításai"
 
-#: playlist/playlistcontainer.cpp:338 playlist/playlistlistcontainer.cpp:274
+#: playlist/playlistcontainer.cpp:370 playlist/playlistlistcontainer.cpp:274
 #: playlist/playlistlistcontainer.cpp:371 playlist/playlistmanager.cpp:109
 #: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:542
 #: playlist/playlisttabbar.cpp:433 ../build/src/ui_playlistsettingspage.h:177
@@ -3850,7 +3857,13 @@ msgstr "Előnyben részesített albumborító-fájlnevek (vesszővel elválasztv
 msgid "Preferred format"
 msgstr "Előnyben részesített formátum"
 
-#: collection/collectionfilterwidget.cpp:79
+#: playlist/playlistcontainer.cpp:129
+msgid ""
+"Prefix a search term with a field name to limit the search to that field, e."
+"g.:"
+msgstr ""
+
+#: collection/collectionfilterwidget.cpp:80
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
@@ -4107,7 +4120,7 @@ msgstr "Az átirányításból hiányzik a token kód vagy az állapot."
 msgid "Redirect missing token code!"
 msgstr "Az átirányításból hiányzik a token kód."
 
-#: playlist/playlistcontainer.cpp:224
+#: playlist/playlistcontainer.cpp:256
 msgid "Redo"
 msgstr "Újra"
 
@@ -4487,6 +4500,13 @@ msgstr "Keresési beállítások"
 msgid "Search terms"
 msgstr "Keresési kifejezések"
 
+#: collection/collectionfilterwidget.cpp:87 playlist/playlistcontainer.cpp:137
+#, qt-format
+msgid ""
+"Search terms for numerical fields can be prefixed with %1 or %2 to refine "
+"the search, e.g.: "
+msgstr ""
+
 #: tidal/tidalrequest.cpp:369 tidal/tidalrequest.cpp:383
 #: tidal/tidalrequest.cpp:397 qobuz/qobuzrequest.cpp:357
 #: qobuz/qobuzrequest.cpp:371 qobuz/qobuzrequest.cpp:385
@@ -4605,7 +4625,7 @@ msgstr "Gyorsbillentyű"
 msgid "Shortcut for %1"
 msgstr "Gyorsbillentyű ehhez: %1"
 
-#: collection/collectionfilterwidget.cpp:114
+#: collection/collectionfilterwidget.cpp:123
 msgid "Show"
 msgstr "Megjelenítés"
 
@@ -5423,7 +5443,7 @@ msgstr "Nem lehet végrehajtani a gyűjtemény SQL lekérdezését: %1"
 msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr "Hibás scrobble a(z) %1 – %2 számnál: %3"
 
-#: playlist/playlistcontainer.cpp:223
+#: playlist/playlistcontainer.cpp:255
 msgid "Undo"
 msgstr "Visszavonás"
 
@@ -5431,7 +5451,7 @@ msgstr "Visszavonás"
 msgid "Uninstall the snap with:"
 msgstr "Snap eltávolítása ezzel:"
 
-#: core/song.cpp:690 core/song.cpp:702 core/song.cpp:963
+#: core/song.cpp:701 core/song.cpp:713 core/song.cpp:974
 #: collection/collectionmodel.cpp:481 collection/collectionmodel.cpp:486
 #: collection/collectionmodel.cpp:490 collection/collectionmodel.cpp:494
 #: collection/collectionmodel.cpp:498 collection/collectionmodel.cpp:1670
@@ -5863,7 +5883,7 @@ msgstr "albumok"
 msgid "and"
 msgstr "és"
 
-#: collection/collectionfilterwidget.cpp:82
+#: collection/collectionfilterwidget.cpp:83 playlist/playlistcontainer.cpp:132
 msgid "artist"
 msgstr "előadó"
 
@@ -6002,15 +6022,25 @@ msgstr "p&lughw"
 msgid "pcm"
 msgstr "pcm"
 
+#: collection/collectionfilterwidget.cpp:90 playlist/playlistcontainer.cpp:140
+msgid "rating"
+msgstr ""
+
 #: playlist/playlistundocommands.cpp:68 playlist/playlistundocommands.cpp:96
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
 msgstr "%n szám eltávolítása"
 
-#: collection/collectionfilterwidget.cpp:86
-msgid "searches the collection for all artists that contain the word"
-msgstr "a szót tartalmazó előadók keresése a gyűjteményben"
+#: collection/collectionfilterwidget.cpp:85
+#, qt-format
+msgid "searches the collection for all artists that contain the word %1. "
+msgstr ""
+
+#: playlist/playlistcontainer.cpp:134
+#, qt-format
+msgid "searches the playlist for all artists that contain the word %1. "
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "shortest first"
