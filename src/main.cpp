@@ -186,6 +186,7 @@ int main(int argc, char *argv[]) {
   Utilities::IncreaseFDLimit();
 #endif
 
+  QGuiApplication::setApplicationDisplayName("Strawberry Music Player");
   QGuiApplication::setQuitOnLastWindowClosed(false);
 
   QApplication a(argc, argv);
