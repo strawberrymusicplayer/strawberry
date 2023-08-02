@@ -765,30 +765,6 @@ jobs:
         run: dput ppa:jonaski/strawberry ../*_source.changes
 
 
-  build-freebsd:
-    name: Build FreeBSD
-    runs-on: macos-12
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Build FreeBSD
-      id: build-freebsd
-      uses: vmactions/freebsd-vm@v0.3.1
-      with:
-        usesh: true
-        mem: 4096
-        prepare: pkg install -y git cmake pkgconf gettext-tools boost-libs glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 protobuf protobuf-c taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 googletest iconv icu
-        run: |
-          git config --global --add safe.directory ${GITHUB_WORKSPACE}
-          cmake -E make_directory build
-          cmake -S . -B build -DCMAKE_BUILD_TYPE="Debug"
-          cmake --build build --config Debug --parallel 4
-          cd ..
-          rm -rf build
-
-
   build-macos-homebrew:
     name: Build macOS Homebrew
     runs-on: macos-11
