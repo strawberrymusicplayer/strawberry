@@ -239,9 +239,7 @@ class Mpris2 : public QObject {
   Application *app_;
 
   QString app_name_;
-  QStringList data_dirs_;
-  QStringList desktop_files_;
-  QString desktop_file_;
+  QString desktopfilepath_;
   QVariantMap last_metadata_;
 
 };

@@ -131,27 +131,26 @@ Mpris2::Mpris2(Application *app, QObject *parent)
 
   app_name_[0] = app_name_[0].toUpper();
 
-  if (!QGuiApplication::desktopFileName().isEmpty()) {
-    desktop_files_ << QGuiApplication::desktopFileName();
+  QStringList data_dirs = QString(qgetenv("XDG_DATA_DIRS")).split(":");
+
+  if (!data_dirs.contains("/usr/local/share")) {
+    data_dirs.append("/usr/local/share");
   }
 
-  QStringList domain_split = QCoreApplication::organizationDomain().split(".");
-  std::reverse(domain_split.begin(), domain_split.end());
-  desktop_files_ << QStringList() << domain_split.join(".") + "." + QCoreApplication::applicationName().toLower();
-  desktop_files_ << QCoreApplication::applicationName().toLower();
-  desktop_file_ = desktop_files_.first();
+  if (!data_dirs.contains("/usr/share")) {
+    data_dirs.append("/usr/share");
+  }
 
-  data_dirs_ = QString(qgetenv("XDG_DATA_DIRS")).split(":");
-  data_dirs_.append("/usr/local/share");
-  data_dirs_.append("/usr/share");
-
-  for (const QString &directory : data_dirs_) {
-    for (const QString &desktop_file : desktop_files_) {
-      QString path = QString("%1/applications/%2.desktop").arg(directory, desktop_file);
-      if (QFile::exists(path)) {
-        desktop_file_ = desktop_file;
-      }
+  for (const QString &data_dir : data_dirs) {
+    const QString desktopfilepath = QString("%1/applications/%2.desktop").arg(data_dir, QGuiApplication::desktopFileName());
+    if (QFile::exists(desktopfilepath)) {
+      desktopfilepath_ = desktopfilepath;
+      break;
     }
+  }
+
+  if (desktopfilepath_.isEmpty()) {
+    desktopfilepath_ = QGuiApplication::desktopFileName() + ".desktop";
   }
 
 }
@@ -237,19 +236,11 @@ QString Mpris2::Identity() const { return app_name_; }
 
 QString Mpris2::DesktopEntryAbsolutePath() const {
 
-  for (const QString &directory : data_dirs_) {
-    for (const QString &desktop_file : desktop_files_) {
-      QString path = QString("%1/applications/%2.desktop").arg(directory, desktop_file);
-      if (QFile::exists(path)) {
-        return path;
-      }
-    }
-  }
-  return QString();
+  return desktopfilepath_;
 
 }
 
-QString Mpris2::DesktopEntry() const { return desktop_file_; }
+QString Mpris2::DesktopEntry() const { return QGuiApplication::desktopFileName() + ".desktop"; }
 
 QStringList Mpris2::SupportedUriSchemes() const {
 
