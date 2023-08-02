@@ -576,8 +576,6 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   }
 
-  eventprobe_ = audioqueueconverter_;
-
   // Create the replaygain elements if it's enabled.
   GstElement *rgvolume = nullptr;
   GstElement *rglimiter = nullptr;
@@ -595,7 +593,6 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     if (!rgconverter) {
       return false;
     }
-    eventprobe_ = rgconverter;
     // Set replaygain settings
     g_object_set(G_OBJECT(rgvolume), "album-mode", rg_mode_, nullptr);
     g_object_set(G_OBJECT(rgvolume), "pre-amp", rg_preamp_, nullptr);
@@ -612,7 +609,6 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
     UpdateEBUR128LoudnessNormalizingGaindB();
 
-    eventprobe_ = ebur128_volume_;
   }
 
   GstElement *bs2b = nullptr;
@@ -633,16 +629,6 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     GstPad *pad = gst_element_get_static_pad(inputaudioqueue_, "sink");
     if (pad) {
       gst_element_add_pad(audiobin_, gst_ghost_pad_new("sink", pad));
-      gst_object_unref(pad);
-    }
-  }
-
-  // Add a data probe on the src pad of the audioconvert element for our scope.
-  // We do it here because we want pre-equalized and pre-volume samples so that our visualization are not be affected by them.
-  {
-    GstPad *pad = gst_element_get_static_pad(eventprobe_, "src");
-    if (pad) {
-      upstream_events_probe_cb_id_ = gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_EVENT_UPSTREAM, &UpstreamEventsProbeCallback, this, nullptr);
       gst_object_unref(pad);
     }
   }
@@ -767,6 +753,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       error = "Failed to link audio sink converter to output audio queue with filter";
       return false;
     }
+    eventprobe_ = outputaudioqueue_;
     element_link = outputaudioqueue_;
   }
 
@@ -777,8 +764,9 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   element_link = audiosink_;
 
   {  // Add probes and handlers.
-    GstPad *pad = gst_element_get_static_pad(audioqueueconverter_, "src");
+    GstPad *pad = gst_element_get_static_pad(eventprobe_, "src");
     if (pad) {
+      upstream_events_probe_cb_id_ = gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_EVENT_UPSTREAM, &UpstreamEventsProbeCallback, this, nullptr);
       buffer_probe_cb_id_ = gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, BufferProbeCallback, this, nullptr);
       gst_object_unref(pad);
     }
