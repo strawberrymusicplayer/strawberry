@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include <sqlite3.h>
-#include <boost/scope_exit.hpp>
 
 #include <QObject>
 #include <QThread>
@@ -39,6 +38,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QStandardPaths>
+#include <QScopeGuard>
 
 #include "core/logging.h"
 #include "taskmanager.h"
@@ -559,13 +559,15 @@ void Database::BackupFile(const QString &filename) {
   sqlite3 *source_connection = nullptr;
   sqlite3 *dest_connection = nullptr;
 
-  BOOST_SCOPE_EXIT((&source_connection)(&dest_connection)(task_id)(app_)) {  // clazy:exclude=rule-of-three NOLINT(google-explicit-constructor)
-    // Harmless to call sqlite3_close() with a nullptr pointer.
-    sqlite3_close(source_connection);
-    sqlite3_close(dest_connection);
+  const QScopeGuard db_backup_finish = qScopeGuard([this, task_id, &source_connection, &dest_connection]() {
+    if (source_connection) {
+      sqlite3_close(source_connection);
+    }
+    if (dest_connection) {
+      sqlite3_close(dest_connection);
+    }
     app_->task_manager()->SetTaskFinished(task_id);
-  }
-  BOOST_SCOPE_EXIT_END
+  });
 
   bool success = OpenDatabase(filename, &source_connection);
   if (!success) {
