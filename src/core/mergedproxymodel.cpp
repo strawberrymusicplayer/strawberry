@@ -71,7 +71,7 @@ struct tag_by_pointer {};
 
 class MergedProxyModelPrivate {
  private:
-  using MappingContainer = multi_index_container<Mapping *, indexed_by<hashed_unique<tag<tag_by_source>, member<Mapping, QModelIndex, &Mapping::source_index>>, ordered_unique<tag<tag_by_pointer>, identity<Mapping *>>>>;
+  using MappingContainer = multi_index_container<Mapping*, indexed_by<hashed_unique<tag<tag_by_source>, member<Mapping, QModelIndex, &Mapping::source_index>>, ordered_unique<tag<tag_by_pointer>, identity<Mapping*>>>>;
 
  public:
   MappingContainer mappings_;
