@@ -579,7 +579,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'focal', 'jammy', 'kinetic', 'lunar', 'mantic' ]
+        ubuntu_version: [ 'focal', 'jammy', 'lunar', 'mantic' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
@@ -679,7 +679,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'focal', 'jammy', 'kinetic', 'lunar', 'mantic' ]
+        ubuntu_version: [ 'focal', 'jammy', 'lunar', 'mantic' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
