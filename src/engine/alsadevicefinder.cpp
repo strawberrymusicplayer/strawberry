@@ -22,9 +22,9 @@
 #include <cstdio>
 #include <cerrno>
 #include <alsa/asoundlib.h>
-#include <boost/scope_exit.hpp>
 
 #include <QString>
+#include <QScopeGuard>
 
 #include <core/logging.h>
 
@@ -60,8 +60,7 @@ EngineDeviceList AlsaDeviceFinder::ListDevices() {
       qLog(Error) << "Unable to open soundcard" << card << ":" << snd_strerror(result);
       continue;
     }
-    BOOST_SCOPE_EXIT(&handle) { snd_ctl_close(handle); }  // clazy:exclude=rule-of-three NOLINT(google-explicit-constructor)
-    BOOST_SCOPE_EXIT_END
+    const QScopeGuard snd_ctl_handle_close = qScopeGuard([&handle]() { snd_ctl_close(handle); });
 
     result = snd_ctl_card_info(handle, cardinfo);
     if (result < 0) {
