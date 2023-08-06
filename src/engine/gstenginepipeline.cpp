@@ -109,10 +109,10 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       audiosink_(nullptr),
       audioqueue_(nullptr),
       audioqueueconverter_(nullptr),
-      ebur128_volume_(nullptr),
       volume_(nullptr),
       volume_sw_(nullptr),
       volume_fading_(nullptr),
+      volume_ebur128_(nullptr),
       audiopanorama_(nullptr),
       equalizer_(nullptr),
       equalizer_preamp_(nullptr),
@@ -604,14 +604,14 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Create the EBU R 128 loudness normalization volume element if enabled.
   if (ebur128_loudness_normalization_) {
-    ebur128_volume_ = CreateElement("volume", "ebur128_volume", audiobin_, error);
-    if (!ebur128_volume_) {
+    volume_ebur128_ = CreateElement("volume", "ebur128_volume", audiobin_, error);
+    if (!volume_ebur128_) {
       return false;
     }
 
     UpdateEBUR128LoudnessNormalizingGaindB();
 
-    eventprobe_ = ebur128_volume_;
+    eventprobe_ = volume_ebur128_;
   }
 
   GstElement *bs2b = nullptr;
@@ -673,17 +673,17 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   }
 
   // Link EBU R 128 loudness normalization volume element if enabled.
-  if (ebur128_loudness_normalization_ && ebur128_volume_) {
+  if (ebur128_loudness_normalization_ && volume_ebur128_) {
     GstStaticCaps static_raw_fp_audio_caps = GST_STATIC_CAPS(
       "audio/x-raw,"
       "format = (string) { F32LE, F64LE }");
     GstCaps *raw_fp_audio_caps = gst_static_caps_get(&static_raw_fp_audio_caps);
-    if (!gst_element_link_filtered(element_link, ebur128_volume_, raw_fp_audio_caps)) {
+    if (!gst_element_link_filtered(element_link, volume_ebur128_, raw_fp_audio_caps)) {
       error = "Failed to link EBU R 128 volume element.";
       return false;
     }
     gst_caps_unref(raw_fp_audio_caps);
-    element_link = ebur128_volume_;
+    element_link = volume_ebur128_;
   }
 
   // Link equalizer elements if enabled.
@@ -1554,10 +1554,10 @@ void GstEnginePipeline::SetEBUR128LoudnessNormalizingGain_dB(const double ebur12
 
 void GstEnginePipeline::UpdateEBUR128LoudnessNormalizingGaindB() {
 
-  if (ebur128_volume_) {
+  if (volume_ebur128_) {
     auto dB_to_mult = [](const double gain_dB) { return std::pow(10., gain_dB / 20.); };
 
-    g_object_set(G_OBJECT(ebur128_volume_), "volume", dB_to_mult(ebur128_loudness_normalizing_gain_db_), nullptr);
+    g_object_set(G_OBJECT(volume_ebur128_), "volume", dB_to_mult(ebur128_loudness_normalizing_gain_db_), nullptr);
   }
 
 }

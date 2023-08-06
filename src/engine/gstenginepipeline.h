@@ -303,10 +303,10 @@ class GstEnginePipeline : public QObject {
   GstElement *audiosink_;
   GstElement *audioqueue_;
   GstElement *audioqueueconverter_;
-  GstElement *ebur128_volume_;
   GstElement *volume_;
   GstElement *volume_sw_;
   GstElement *volume_fading_;
+  GstElement *volume_ebur128_;
   GstElement *audiopanorama_;
   GstElement *equalizer_;
   GstElement *equalizer_preamp_;
