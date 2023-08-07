@@ -28,11 +28,10 @@
 #include <QStyle>
 #include <QLabel>
 #include <QTextEdit>
+#include <QCloseEvent>
 
 #include "errordialog.h"
 #include "ui_errordialog.h"
-
-class QHideEvent;
 
 ErrorDialog::ErrorDialog(QWidget *parent)
     : QDialog(parent),
@@ -68,9 +67,13 @@ void ErrorDialog::ShowMessage(const QString &message) {
 
 }
 
-void ErrorDialog::hideEvent(QHideEvent *) {
+void ErrorDialog::closeEvent(QCloseEvent *e) {
+
   current_messages_.clear();
   UpdateContent();
+
+  QDialog::closeEvent(e);
+
 }
 
 void ErrorDialog::UpdateContent() {

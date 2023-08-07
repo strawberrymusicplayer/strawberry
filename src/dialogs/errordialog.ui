@@ -75,7 +75,7 @@
    <sender>buttonbox</sender>
    <signal>accepted()</signal>
    <receiver>ErrorDialog</receiver>
-   <slot>accept()</slot>
+   <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>299</x>
@@ -91,7 +91,7 @@
    <sender>buttonbox</sender>
    <signal>rejected()</signal>
    <receiver>ErrorDialog</receiver>
-   <slot>reject()</slot>
+   <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>299</x>
