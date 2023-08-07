@@ -14,14 +14,14 @@
    <string>Strawberry Error</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../../data/icons.qrc">
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="layout_errordialog">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="container">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="layout_left">
        <item>
         <widget class="QLabel" name="icon"/>
        </item>
@@ -56,7 +56,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
+    <widget class="QDialogButtonBox" name="buttonbox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -68,38 +68,38 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../data/data.qrc"/>
+  <include location="../../data/icons.qrc"/>
  </resources>
  <connections>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>buttonbox</sender>
    <signal>accepted()</signal>
    <receiver>ErrorDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>299</x>
+     <y>237</y>
     </hint>
     <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>299</x>
+     <y>129</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>buttonbox</sender>
    <signal>rejected()</signal>
    <receiver>ErrorDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>299</x>
+     <y>237</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>299</x>
+     <y>129</y>
     </hint>
    </hints>
   </connection>
