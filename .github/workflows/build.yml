@@ -1141,12 +1141,20 @@ jobs:
         run: ls
 
       - name: Check that all files are included in nsi
+        shell: bash
         working-directory: build
         run: |
           files_missing=
           for i in $(ls -1 *.dll *.exe); do
             nsi_file_entry=$(grep -i "^\s\+File\s\+\"$i\"$" strawberry.nsi || true)
             if [ "${nsi_file_entry}" = "" ]; then
+              echo "File ${i} is missing File entry."
+            fi
+            nsi_file_delete_entry=$(grep -i "^\s\+Delete\s\+\"\$INSTDIR\\\\$i\"$" strawberry.nsi || true)
+            if [ "${nsi_file_delete_entry}" = "" ] ; then
+              echo "File ${i} is missing Delete entry."
+            fi
+            if [ "${nsi_file_entry}" = "" ] || [ "${nsi_file_delete_entry}" = "" ] ; then
               if [ "${files_missing}" = "" ]; then
                 files_missing="${i}"
               else
@@ -1479,13 +1487,20 @@ jobs:
         run: dir
 
       - name: Check that all files are included in nsi
-        working-directory: build
         shell: bash
+        working-directory: build
         run: |
           files_missing=
           for i in $(ls -1 *.dll *.exe); do
             nsi_file_entry=$(grep -i "^\s\+File\s\+\"$i\"$" strawberry.nsi || true)
             if [ "${nsi_file_entry}" = "" ]; then
+              echo "File ${i} is missing File entry."
+            fi
+            nsi_file_delete_entry=$(grep -i "^\s\+Delete\s\+\"\$INSTDIR\\\\$i\"$" strawberry.nsi || true)
+            if [ "${nsi_file_delete_entry}" = "" ] ; then
+              echo "File ${i} is missing Delete entry."
+            fi
+            if [ "${nsi_file_entry}" = "" ] || [ "${nsi_file_delete_entry}" = "" ] ; then
               if [ "${files_missing}" = "" ]; then
                 files_missing="${i}"
               else
