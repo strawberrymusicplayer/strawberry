@@ -1230,7 +1230,7 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\gstxingmux.dll"
 !endif ; msvc
 
-  Delete $INSTDIR\Uninstall.exe"
+  Delete "$INSTDIR\Uninstall.exe"
 
   ; Remove the installation folders.
   RMDir "$INSTDIR\platforms"
