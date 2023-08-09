@@ -1136,6 +1136,10 @@ jobs:
         working-directory: build
         run: cp ${GITHUB_WORKSPACE}/COPYING .
 
+      - name: List files
+        working-directory: build
+        run: ls
+
       - name: Check that all files are included in nsi
         working-directory: build
         run: |
