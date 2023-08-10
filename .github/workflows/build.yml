@@ -165,19 +165,6 @@ jobs:
     container:
       image: fedora:${{matrix.fedora_version}}
     steps:
-      - name: Fix /etc/dnf/dnf.conf
-        if: matrix.fedora_version == '39'
-        run: |
-          dnf_conf_main=$(grep '^\[main\]$' /etc/dnf/dnf.conf 2>/dev/null || true)
-          if [ "${dnf_conf_main}" = "" ]; then
-            echo "[main]" > /etc/dnf/dnf.conf
-            echo "gpgcheck=True" >> /etc/dnf/dnf.conf
-            echo "installonly_limit=3" >> /etc/dnf/dnf.conf
-            echo "clean_requirements_on_remove=True" >> /etc/dnf/dnf.conf
-            echo "best=False" >> /etc/dnf/dnf.conf
-            echo "skip_if_unavailable=True" >> /etc/dnf/dnf.conf
-            echo "tsflags=nodocs" >> /etc/dnf/dnf.conf
-          fi
       - name: Update repositories
         run: dnf update -y
       - name: Upgrade packages
@@ -225,8 +212,6 @@ jobs:
             desktop-file-utils
             libappstream-glib
             hicolor-icon-theme
-      - name: Remove dangling Qt 6 SQL CMake files
-        run: rm -rf /usr/lib64/cmake/Qt6Sql/{Qt6QMYSQL*,Qt6QODBCD*,Qt6QPSQL*}
       - name: Checkout
         uses: actions/checkout@v3
         with:
