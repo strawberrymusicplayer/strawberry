@@ -166,12 +166,17 @@ jobs:
       image: fedora:${{matrix.fedora_version}}
     steps:
       - name: Update repositories
-        run: dnf update -y
+        run: dnf -y update
+      - name: Fix dnf
+        run: |
+          if [ -f "/usr/bin/dnf5" ] && ! [ -f "/usr/bin/dnf" ]; then
+            ln -s /usr/bin/dnf5 /usr/bin/dnf
+          fi
       - name: Upgrade packages
-        run: dnf upgrade -y
+        run: dnf -y upgrade
       - name: Install dependencies
         run: >
-            dnf install -y
+            dnf -y install
             @development-tools
             redhat-lsb-core
             which
