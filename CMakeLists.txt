@@ -309,7 +309,6 @@ if(APPLE)
   add_subdirectory(3rdparty/SPMediaKeyTap)
   set(SPMEDIAKEYTAP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/SPMediaKeyTap)
   set(SPMEDIAKEYTAP_LIBRARIES SPMediaKeyTap)
-  add_subdirectory(3rdparty/macdeployqt)
   add_subdirectory(ext/macdeploycheck)
 endif()
 
@@ -407,7 +406,7 @@ optional_component(GIO ON "Devices: GIO device backend"
 
 optional_component(GIO_UNIX ON "Devices: GIO device backend (Unix support)"
   DEPENDS "libgio-unix" GIO_UNIX_FOUND
-  DEPENDS "Unix" "UNIX"
+  DEPENDS "Unix or Windows" "NOT APPLE"
 )
 
 optional_component(LIBGPOD ON "Devices: iPod classic support"

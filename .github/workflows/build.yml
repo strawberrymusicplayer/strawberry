@@ -974,10 +974,7 @@ jobs:
         env:
           MACOSX_DEPLOYMENT_TARGET: 11.0
           PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
-          GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
-          GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
-          GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=OFF -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake -DICU_ROOT=/usr/local/opt/icu4c -DENABLE_DBUS=OFF -DPROTOBUF_INCLUDE_DIRS=/usr/local/include
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=OFF -DUSE_BUNDLE=ON -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/lib/cmake -DICU_ROOT=/usr/local/opt/icu4c -DPROTOBUF_INCLUDE_DIRS=/usr/local/include
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
@@ -998,6 +995,10 @@ jobs:
           cp /usr/local/lib/{libsoup-3.0.0.dylib,libswresample.4.dylib,libswscale.7.dylib,libpostproc.57.dylib} strawberry.app/Contents/Frameworks/
 
       - name: Deploy
+        env:
+          GIO_EXTRA_MODULES: /usr/local/lib/gio/modules
+          GST_PLUGIN_SCANNER: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
+          GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
         working-directory: build
         run: make deploy
 
@@ -1074,9 +1075,6 @@ jobs:
         env:
           MACOSX_DEPLOYMENT_TARGET: 11.0
           PKG_CONFIG_PATH: /opt/local/lib/pkgconfig
-          GIO_EXTRA_MODULES: /opt/local/lib/gio/modules
-          GST_PLUGIN_SCANNER: /opt/local/libexec/gstreamer-1.0/gst-plugin-scanner
-          GST_PLUGIN_PATH: /opt/local/lib/gstreamer-1.0
         run: /opt/local/libexec/qt6/bin/qt-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DBUILD_WERROR=OFF -DUSE_BUNDLE=ON -DENABLE_DBUS=OFF
 
       - name: Build
@@ -1087,6 +1085,10 @@ jobs:
         run: make install
 
       - name: Deploy
+        env:
+          GIO_EXTRA_MODULES: /opt/local/lib/gio/modules
+          GST_PLUGIN_SCANNER: /opt/local/libexec/gstreamer-1.0/gst-plugin-scanner
+          GST_PLUGIN_PATH: /opt/local/lib/gstreamer-1.0
         working-directory: build
         run: make deploy
 

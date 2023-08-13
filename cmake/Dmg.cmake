@@ -1,5 +1,4 @@
-#find_program(MACDEPLOYQT_EXECUTABLE NAMES macdeployqt PATHS /usr/local/opt/qt6/bin /usr/local/opt/qt5/bin /usr/local/bin REQUIRED)
-set(MACDEPLOYQT_EXECUTABLE "${CMAKE_BINARY_DIR}/3rdparty/macdeployqt/macdeployqt")
+find_program(MACDEPLOYQT_EXECUTABLE NAMES macdeployqt PATHS /usr/bin /usr/local/bin /opt/local/bin /usr/local/opt/qt6/bin /usr/local/opt/qt5/bin REQUIRED)
 if(MACDEPLOYQT_EXECUTABLE)
   message(STATUS "Found macdeployqt: ${MACDEPLOYQT_EXECUTABLE}")
 else()
@@ -14,16 +13,14 @@ else()
 endif()
 
 if(MACDEPLOYQT_EXECUTABLE)
-  add_custom_target(copy_gstreamer_plugins
-    #COMMAND ${CMAKE_SOURCE_DIR}/dist/macos/macgstcopy.sh strawberry.app
-  )
   add_custom_target(deploy
     COMMAND mkdir -p ${CMAKE_BINARY_DIR}/strawberry.app/Contents/{Frameworks,Resources}
     COMMAND cp -v ${CMAKE_SOURCE_DIR}/dist/macos/Info.plist ${CMAKE_BINARY_DIR}/strawberry.app/Contents/
     COMMAND cp -v ${CMAKE_SOURCE_DIR}/dist/macos/strawberry.icns ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources/
-    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader
+    COMMAND ${CMAKE_SOURCE_DIR}/dist/macos/macgstcopy.sh ${CMAKE_BINARY_DIR}/strawberry.app
+    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/gst-plugin-scanner -executable=strawberry.app/Contents/PlugIns/gio-modules/libgioopenssl.so -executable=strawberry.app/Contents/PlugIns/gio-modules/libgiognutls.so
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS strawberry strawberry-tagreader copy_gstreamer_plugins macdeployqt
+    DEPENDS strawberry strawberry-tagreader
   )
   add_custom_target(deploycheck
     COMMAND ${CMAKE_BINARY_DIR}/ext/macdeploycheck/macdeploycheck strawberry.app
