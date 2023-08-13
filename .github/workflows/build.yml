@@ -817,6 +817,30 @@ jobs:
           HOMEBREW_NO_INSTALL_FROM_API: 1
         run: brew reinstall --build-from-source gst-libav
 
+      - name: Fix rpaths
+        run: |
+          sudo install_name_tool -change "@loader_path/../../../../opt/freetype/lib/libfreetype.6.dylib" "/usr/local/opt/freetype/lib/libfreetype.6.dylib" /usr/local/lib/libharfbuzz.0.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/glib/lib/libglib-2.0.0.dylib" "/usr/local/opt/glib/lib/libglib-2.0.0.dylib" /usr/local/lib/libharfbuzz.0.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/graphite2/lib/libgraphite2.3.dylib" "/usr/local/opt/graphite2/lib/libgraphite2.3.dylib" /usr/local/lib/libharfbuzz.0.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/gettext/lib/libintl.8.dylib" "/usr/local/opt/gettext/lib/libintl.8.dylib" /usr/local/lib/libgnutls.30.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/p11-kit/lib/libp11-kit.0.dylib" "/usr/local/opt/p11-kit/lib/libp11-kit.0.dylib" /usr/local/lib/libgnutls.30.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/libidn2/lib/libidn2.0.dylib" "/usr/local/opt/libidn2/lib/libidn2.0.dylib" /usr/local/lib/libgnutls.30.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/libunistring/lib/libunistring.5.dylib" "/usr/local/opt/libunistring/lib/libunistring.5.dylib" /usr/local/lib/libgnutls.30.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/libtasn1/lib/libtasn1.6.dylib" "/usr/local/opt/libtasn1/lib/libtasn1.6.dylib" /usr/local/lib/libgnutls.30.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/nettle/lib/libnettle.8.dylib" "/usr/local/opt/nettle/lib/libnettle.8.dylib" /usr/local/lib/libgnutls.30.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/nettle/lib/libhogweed.6.dylib" "/usr/local/opt/nettle/lib/libhogweed.6.dylib" /usr/local/lib/libgnutls.30.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/gmp/lib/libgmp.10.dylib" "/usr/local/opt/gmp/lib/libgmp.10.dylib" /usr/local/lib/libgnutls.30.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/leptonica/lib/libleptonica.6.dylib" "/usr/local/opt/leptonica/lib/libleptonica.6.dylib" /usr/local/lib/libtesseract.5.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/libarchive/lib/libarchive.13.dylib" "/usr/local/opt/leptonica/lib/libarchive.13.dylib" /usr/local/lib/libtesseract.5.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/libsamplerate/lib/libsamplerate.0.dylib" "/usr/local/opt/libsamplerate/lib/libsamplerate.0.dylib" /usr/local/lib/librubberband.2.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/libpng/lib/libpng16.16.dylib" "/usr/local/opt/libpng/lib/libpng16.16.dylib" /usr/local/lib/libleptonica.6.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/jpeg-turbo/lib/libjpeg.8.dylib" "/usr/local/opt/jpeg-turbo/lib/libjpeg.8.dylib" /usr/local/lib/libleptonica.6.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/giflib/lib/libgif.dylib" "/usr/local/opt/giflib/lib/libgif.dylib" /usr/local/lib/libleptonica.6.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/libtiff/lib/libtiff.6.dylib" "/usr/local/opt/libtiff/lib/libtiff.6.dylib" /usr/local/lib/libleptonica.6.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/webp/lib/libwebp.7.dylib" "/usr/local/opt/webp/lib/libwebp.7.dylib" /usr/local/lib/libleptonica.6.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/webp/lib/libwebpmux.3.dylib" "/usr/local/opt/webp/lib/libwebpmux.3.dylib" /usr/local/lib/libleptonica.6.dylib
+          sudo install_name_tool -change "@loader_path/../../../../opt/openjpeg/lib/libopenjp2.7.dylib" "/usr/local/opt/openjpeg/lib/libopenjp2.7.dylib" /usr/local/lib/libleptonica.6.dylib
+
       - name: Build libgpod
         env:
           PERL_MM_USE_DEFAULT: 1
