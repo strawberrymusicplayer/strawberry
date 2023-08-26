@@ -69,7 +69,7 @@ EngineDeviceList MacOsDeviceFinder::ListDevices() {
   AudioObjectPropertyAddress address = {
     kAudioHardwarePropertyDevices,
     kAudioObjectPropertyScopeGlobal,
-    kAudioObjectPropertyElementMaster
+    kAudioObjectPropertyElementMain
   };
 
   UInt32 device_size_bytes = 0;
