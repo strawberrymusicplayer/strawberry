@@ -155,7 +155,7 @@ bool MacOsDeviceLister::Init() {
   DASessionScheduleWithRunLoop(loop_session_, run_loop_, kCFRunLoopDefaultMode);
 
   // Register for USB device connection/disconnection.
-  IONotificationPortRef notification_port = IONotificationPortCreate(kIOMasterPortDefault);
+  IONotificationPortRef notification_port = IONotificationPortCreate(kIOMainPortDefault);
   CFMutableDictionaryRef matching_dict = IOServiceMatching(kIOUSBDeviceClassName);
   // IOServiceAddMatchingNotification decreases reference count.
   CFRetain(matching_dict);
