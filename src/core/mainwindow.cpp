@@ -1067,20 +1067,24 @@ void MainWindow::ReloadSettings() {
 
   QSettings s;
 
-#ifndef Q_OS_MACOS
+#ifdef Q_OS_MACOS
+  constexpr bool keeprunning_available = true;
+#else
+  const bool systemtray_available = tray_icon_->IsSystemTrayAvailable();
+  const bool keeprunning_available = systemtray_available;
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  bool showtrayicon = s.value("showtrayicon", tray_icon_->IsSystemTrayAvailable()).toBool();
+  const bool showtrayicon = s.value("showtrayicon", systemtray_available).toBool();
   s.endGroup();
-  if (tray_icon_->IsSystemTrayAvailable()) {
+  if (systemtray_available) {
     tray_icon_->setVisible(showtrayicon);
   }
-  if ((!showtrayicon || !tray_icon_->IsSystemTrayAvailable()) && !isVisible()) {
+  if ((!showtrayicon || !systemtray_available) && !isVisible()) {
     show();
   }
 #endif
 
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  keep_running_ = showtrayicon && s.value("keeprunning", false).toBool();
+  keep_running_ = keeprunning_available && s.value("keeprunning", false).toBool();
   playing_widget_ = s.value("playing_widget", true).toBool();
   bool trayicon_progress = s.value("trayicon_progress", false).toBool();
   if (playing_widget_ != ui_->widget_playing->IsEnabled()) TabSwitched();
