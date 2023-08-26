@@ -83,7 +83,6 @@ class BehaviourSettingsPage : public SettingsPage {
  private:
   Ui_BehaviourSettingsPage *ui_;
   QMap<QString, QString> language_map_;
-  bool systemtray_available_;
 };
 
 #endif  // BEHAVIOURSETTINGSPAGE_H
