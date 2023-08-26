@@ -164,7 +164,7 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   NSSearchField *search = [[QocoaSearchField alloc] init];
   QSearchFieldDelegate *delegate = [[QSearchFieldDelegate alloc] init];
   pimpl = delegate->pimpl = new QSearchFieldPrivate(this, search);
-  [search setDelegate:(id<NSSearchFieldDelegate>)delegate];
+  [search setDelegate:static_cast<id<NSSearchFieldDelegate>>(delegate)];
 
   new QVBoxLayout(this);
   layout()->setContentsMargins(0, 0, 0, 0);
