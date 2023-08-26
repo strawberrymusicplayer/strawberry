@@ -1080,7 +1080,7 @@ void MainWindow::ReloadSettings() {
 #endif
 
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  keep_running_ = s.value("keeprunning", false).toBool();
+  keep_running_ = showtrayicon && s.value("keeprunning", false).toBool();
   playing_widget_ = s.value("playing_widget", true).toBool();
   bool trayicon_progress = s.value("trayicon_progress", false).toBool();
   if (playing_widget_ != ui_->widget_playing->IsEnabled()) TabSwitched();
