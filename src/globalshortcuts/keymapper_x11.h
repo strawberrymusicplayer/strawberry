@@ -153,7 +153,11 @@ static const QMap<Qt::Key, quint32> keymapper_x11_ = {  // clazy:exclude=non-pod
     { Qt::Key_twosuperior,        XK_twosuperior },
     { Qt::Key_threesuperior,      XK_threesuperior },
     { Qt::Key_acute,              XK_acute },
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    { Qt::Key_micro,              XK_mu },
+#else
     { Qt::Key_mu,                 XK_mu },
+#endif
     { Qt::Key_paragraph,          XK_paragraph },
     { Qt::Key_periodcentered,     XK_periodcentered },
     { Qt::Key_cedilla,            XK_cedilla },
