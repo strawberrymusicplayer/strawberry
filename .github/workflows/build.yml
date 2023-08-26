@@ -769,6 +769,9 @@ jobs:
       - name: Upgrade packages
         run: brew upgrade || true
 
+      - name: brew tap
+        run: brew tap homebrew/core
+
       - name: Install packages
         run: |
           brew install pkg-config cmake ninja meson bison flex wget create-dmg gettext boost protobuf protobuf-c rsync
@@ -785,7 +788,7 @@ jobs:
           wget https://files.strawberrymusicplayer.org/patches/gst-plugins-bad.rb
           wget https://files.strawberrymusicplayer.org/patches/gst-plugins-ugly.rb
           wget https://files.strawberrymusicplayer.org/patches/gst-libav.rb
-          mv gstreamer.rb gst-plugins-{base,good,bad,ugly}.rb gst-libav.rb /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
+          mv gstreamer.rb gst-plugins-{base,good,bad,ugly}.rb gst-libav.rb /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/g/
 
       - name: Build and install gstreamer
         env:
