@@ -22,6 +22,7 @@
 
 #include <memory>
 
+#include <AvailabilityMacros.h>
 #include <CoreAudio/AudioHardware.h>
 
 #include <QString>
@@ -69,7 +70,11 @@ EngineDeviceList MacOsDeviceFinder::ListDevices() {
   AudioObjectPropertyAddress address = {
     kAudioHardwarePropertyDevices,
     kAudioObjectPropertyScopeGlobal,
+#if defined(MAC_OS_VERSION_12_0) && (MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_12_0)
     kAudioObjectPropertyElementMain
+#else
+    kAudioObjectPropertyElementMaster
+#endif
   };
 
   UInt32 device_size_bytes = 0;

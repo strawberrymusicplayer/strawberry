@@ -21,6 +21,7 @@
 
 #include <libmtp.h>
 
+#include <AvailabilityMacros.h>
 #include <CoreFoundation/CFRunLoop.h>
 #include <DiskArbitration/DiskArbitration.h>
 #include <IOKit/kext/KextManager.h>
@@ -155,7 +156,13 @@ bool MacOsDeviceLister::Init() {
   DASessionScheduleWithRunLoop(loop_session_, run_loop_, kCFRunLoopDefaultMode);
 
   // Register for USB device connection/disconnection.
-  IONotificationPortRef notification_port = IONotificationPortCreate(kIOMainPortDefault);
+  IONotificationPortRef notification_port = IONotificationPortCreate(
+#if defined(MAC_OS_VERSION_12_0) && (MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_12_0)
+        kIOMainPortDefault
+#else
+        kIOMasterPortDefault
+#endif
+        );
   CFMutableDictionaryRef matching_dict = IOServiceMatching(kIOUSBDeviceClassName);
   // IOServiceAddMatchingNotification decreases reference count.
   CFRetain(matching_dict);
