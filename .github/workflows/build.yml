@@ -760,8 +760,8 @@ jobs:
     runs-on: macos-11
     steps:
 
-      - name: Remove packages
-        run: brew remove aliyun-cli ant aws-sam-cli azure-cli bazelisk bicep composer geckodriver ghostscript helm httpd imagemagick kotlin maven mongodb-community@5.0 mongodb-database-tools mongosh nginx php postgresql@14 ruby@2.7 rustup-init sbt selenium-server swiftformat switchaudio-osx firefox google-chrome julia microsoft-edge r session-manager-plugin
+      - name: Remove installed brew packages
+        run: brew uninstall $(brew list)
 
       - name: Update packages
         run: brew update
@@ -773,12 +773,7 @@ jobs:
         run: brew tap homebrew/core
 
       - name: Install packages
-        run: |
-          brew install pkg-config cmake ninja meson bison flex wget create-dmg gettext boost protobuf protobuf-c rsync
-          brew install glib glib-openssl glib-utils glib-networking gdk-pixbuf gobject-introspection orc
-          brew install libffi openssl sqlite fftw libmtp libplist libxml2 libsoup
-          brew install libogg libvorbis flac wavpack opus speex mpg123 lame twolame taglib chromaprint libebur128 libbs2b libcdio libopenmpt faad2 faac fdk-aac musepack game-music-emu
-          brew install qt6
+        run: brew install pkg-config cmake ninja meson bison flex wget create-dmg gettext boost protobuf protobuf-c rsync glib glib-openssl glib-utils glib-networking gdk-pixbuf gobject-introspection orc libffi openssl sqlite fftw libmtp libplist libxml2 libsoup libogg libvorbis flac wavpack opus speex mpg123 lame twolame taglib chromaprint libebur128 libbs2b libcdio libopenmpt faad2 faac fdk-aac musepack game-music-emu qt6 || true
 
       - name: Use modified gstreamer plugin formulas
         run: |
