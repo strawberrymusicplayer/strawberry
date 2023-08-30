@@ -2464,10 +2464,10 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
     AddToPlaylist(mimedata);
   }
 
-  if (options.set_volume() != -1) app_->player()->SetVolume(options.set_volume());
+  if (options.set_volume() != -1) app_->player()->SetVolume(static_cast<uint>(qBound(0, options.set_volume(), 100)));
 
   if (options.volume_modifier() != 0) {
-    app_->player()->SetVolume(app_->player()->GetVolume() + options.volume_modifier());
+    app_->player()->SetVolume(static_cast<uint>(qBound(0, static_cast<int>(app_->player()->GetVolume()) + options.volume_modifier(), 100)));
   }
 
   if (options.seek_to() != -1) {
