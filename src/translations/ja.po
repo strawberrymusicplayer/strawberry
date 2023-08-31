@@ -568,7 +568,7 @@ msgstr "ディレクトリとサブディレクトリにあるすべてのトラ
 msgid "Add directory..."
 msgstr "ディレクトリを追加..."
 
-#: core/mainwindow.cpp:2218
+#: core/mainwindow.cpp:2222
 msgid "Add file"
 msgstr "ファイルを追加"
 
@@ -584,7 +584,7 @@ msgstr "ファイルをトランスコーダーに追加"
 msgid "Add files to transcode"
 msgstr "変換するファイルを追加"
 
-#: core/mainwindow.cpp:2244 transcoder/transcodedialog.cpp:416
+#: core/mainwindow.cpp:2248 transcoder/transcodedialog.cpp:416
 msgid "Add folder"
 msgstr "フォルダーを追加"
 
@@ -694,7 +694,7 @@ msgstr "ストリームを追加..."
 msgid "Add to albums"
 msgstr "アルバムに追加"
 
-#: core/mainwindow.cpp:2020
+#: core/mainwindow.cpp:2024
 msgid "Add to another playlist"
 msgstr "別のプレイリストに追加"
 
@@ -1267,7 +1267,7 @@ msgstr "ディスクキャッシュをクリア"
 msgid "Clear cover"
 msgstr "カバーを選択"
 
-#: core/mainwindow.cpp:2309 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2313 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "プレイリストをクリア"
 
@@ -1325,7 +1325,7 @@ msgstr "コレクションフィルター"
 msgid "Collection advanced grouping"
 msgstr "ライブラリの高度なグループ化"
 
-#: core/mainwindow.cpp:2877
+#: core/mainwindow.cpp:2881
 msgid "Collection rescan notice"
 msgstr "ライブラリー再スキャン通知"
 
@@ -1763,11 +1763,11 @@ msgstr "元のファイルを削除する"
 msgid "Deleting files"
 msgstr "ファイルの削除中"
 
-#: core/mainwindow.cpp:1935
+#: core/mainwindow.cpp:1939
 msgid "Dequeue selected tracks"
 msgstr "選択されたトラックをキューから削除する"
 
-#: core/mainwindow.cpp:1934
+#: core/mainwindow.cpp:1938
 msgid "Dequeue track"
 msgstr "トラックをキューから削除"
 
@@ -1949,7 +1949,7 @@ msgstr "スマートプレイリストを編集"
 msgid "Edit smart playlist..."
 msgstr "スマートプレイリストを編集..."
 
-#: core/mainwindow.cpp:1978
+#: core/mainwindow.cpp:1982
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "タグ「%1」を編集..."
@@ -2116,7 +2116,7 @@ msgstr "--log-levels *:1 と同じ"
 msgid "Equivalent to --log-levels *:3"
 msgstr "--log-levels *:3 と同じ"
 
-#: core/mainwindow.cpp:2608 core/mainwindow.cpp:2759
+#: core/mainwindow.cpp:2612 core/mainwindow.cpp:2763
 #: collection/collectionview.cpp:587
 msgid "Error"
 msgstr "エラー"
@@ -3245,7 +3245,7 @@ msgid ""
 "as well as grouped with parentheses. "
 msgstr ""
 
-#: core/mainwindow.cpp:2218 transcoder/transcodedialog.cpp:325
+#: core/mainwindow.cpp:2222 transcoder/transcodedialog.cpp:325
 msgid "Music"
 msgstr "ミュージック"
 
@@ -3289,7 +3289,7 @@ msgstr "再生を開始しない"
 msgid "New folder"
 msgstr "新しいフォルダー"
 
-#: core/mainwindow.cpp:2036
+#: core/mainwindow.cpp:2040
 msgid "New playlist"
 msgstr "新しいプレイリスト"
 
@@ -3372,7 +3372,7 @@ msgstr "曲が再生されていません"
 msgid "None"
 msgstr "なし"
 
-#: core/mainwindow.cpp:2608 core/mainwindow.cpp:2759
+#: core/mainwindow.cpp:2612 core/mainwindow.cpp:2763
 #: collection/collectionview.cpp:587
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "デバイスへのコピーに適切な曲が選択されていません"
@@ -3602,7 +3602,7 @@ msgstr "パス"
 msgid "Pattern"
 msgstr "パターン"
 
-#: core/mainwindow.cpp:1334 core/mainwindow.cpp:1833
+#: core/mainwindow.cpp:1338 core/mainwindow.cpp:1837
 #: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "一時停止"
@@ -3640,8 +3640,8 @@ msgstr "ピクセル"
 msgid "Plain sidebar"
 msgstr "プレーンサイドバー"
 
-#: core/mainwindow.cpp:723 core/mainwindow.cpp:1291 core/mainwindow.cpp:1318
-#: core/mainwindow.cpp:1837 core/qtsystemtrayicon.cpp:160
+#: core/mainwindow.cpp:723 core/mainwindow.cpp:1295 core/mainwindow.cpp:1322
+#: core/mainwindow.cpp:1841 core/qtsystemtrayicon.cpp:160
 #: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "再生"
@@ -3712,7 +3712,7 @@ msgstr "プレイリストボタン"
 msgid "Playlist finished"
 msgstr "プレイリストが完了しました"
 
-#: core/mainwindow.cpp:2309
+#: core/mainwindow.cpp:2313
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3892,20 +3892,20 @@ msgstr "デバイスを照会しています..."
 msgid "Queue"
 msgstr "キュー"
 
-#: core/mainwindow.cpp:1937
+#: core/mainwindow.cpp:1941
 msgid "Queue selected tracks"
 msgstr "選択されたトラックをキューに追加"
 
-#: core/mainwindow.cpp:729 core/mainwindow.cpp:1941
+#: core/mainwindow.cpp:729 core/mainwindow.cpp:1945
 msgid "Queue selected tracks to play next"
 msgstr "選択したトラックを次に再生する"
 
-#: core/mainwindow.cpp:1944 collection/collectionview.cpp:356
+#: core/mainwindow.cpp:1948 collection/collectionview.cpp:356
 #: internet/internetcollectionview.cpp:321
 msgid "Queue to play next"
 msgstr "次に再生する"
 
-#: core/mainwindow.cpp:1936 collection/collectionview.cpp:355
+#: core/mainwindow.cpp:1940 collection/collectionview.cpp:355
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
 #: internet/internetsearchview.cpp:321 internet/internetcollectionview.cpp:320
 msgid "Queue track"
@@ -4505,7 +4505,7 @@ msgstr "サーバーURLが不正です。"
 msgid "Server-side scrobbling"
 msgstr "サーバーサイドの scrobbling"
 
-#: core/mainwindow.cpp:1977
+#: core/mainwindow.cpp:1981
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1 を「%2」に設定します..."
@@ -4747,11 +4747,11 @@ msgstr "スキップ回数"
 msgid "Skip forwards in playlist"
 msgstr "プレイリストで前にスキップ"
 
-#: core/mainwindow.cpp:1950
+#: core/mainwindow.cpp:1954
 msgid "Skip selected tracks"
 msgstr "選択したトラックをスキップする"
 
-#: core/mainwindow.cpp:1949
+#: core/mainwindow.cpp:1953
 msgid "Skip track"
 msgstr "トラックをスキップする"
 
@@ -5115,7 +5115,7 @@ msgstr "指定されたサイトは存在しません!"
 msgid "The site you requested is not an image!"
 msgstr "指定されたサイトは画像ではありません!"
 
-#: core/mainwindow.cpp:2872
+#: core/mainwindow.cpp:2876
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5233,7 +5233,7 @@ msgstr "今日"
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:726 core/mainwindow.cpp:1938
+#: core/mainwindow.cpp:726 core/mainwindow.cpp:1942
 msgid "Toggle queue status"
 msgstr "キュー状態の切り替え"
 
@@ -5241,7 +5241,7 @@ msgstr "キュー状態の切り替え"
 msgid "Toggle scrobbling"
 msgstr "scrobbling の切り替え"
 
-#: core/mainwindow.cpp:732 core/mainwindow.cpp:1951
+#: core/mainwindow.cpp:732 core/mainwindow.cpp:1955
 msgid "Toggle skip status"
 msgstr ""
 
@@ -5370,11 +5370,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "カバーを未設定にする"
 
-#: core/mainwindow.cpp:1948
+#: core/mainwindow.cpp:1952
 msgid "Unskip selected tracks"
 msgstr "選択したトラックをスキップしない"
 
-#: core/mainwindow.cpp:1947
+#: core/mainwindow.cpp:1951
 msgid "Unskip track"
 msgstr "トラックをスキップしない"
 
@@ -5619,7 +5619,7 @@ msgid ""
 "well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2876
+#: core/mainwindow.cpp:2880
 msgid "Would you like to run a full rescan right now?"
 msgstr "全体の再スキャンを今すぐ実行しますか?"
 
