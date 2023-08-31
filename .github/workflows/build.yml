@@ -988,12 +988,6 @@ jobs:
         working-directory: build
         run: make install
 
-      - name: Fix macdeployqt and macdeploycheck
-        working-directory: build
-        run: |
-          install_name_tool -change "@rpath/QtCore.framework/Versions/A/QtCore" "/opt/local/libexec/qt6/lib/QtCore.Framework/Versions/A/QtCore" 3rdparty/macdeployqt/macdeployqt
-          install_name_tool -change "@rpath/QtCore.framework/Versions/A/QtCore" "/opt/local/libexec/qt6/lib/QtCore.Framework/Versions/A/QtCore" ext/macdeploycheck/macdeploycheck
-
       - name: Deploy
         working-directory: build
         run: make deploy
