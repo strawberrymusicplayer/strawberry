@@ -64,7 +64,6 @@
 #include "lyrics/lololyricsprovider.h"
 #include "lyrics/musixmatchlyricsprovider.h"
 #include "lyrics/chartlyricsprovider.h"
-#include "lyrics/lyricscomlyricsprovider.h"
 
 #include "scrobbler/audioscrobbler.h"
 #include "scrobbler/lastfmscrobbler.h"
@@ -163,7 +162,6 @@ class ApplicationImpl {
           lyrics_providers->AddProvider(new LoloLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new MusixmatchLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new ChartLyricsProvider(app->network()));
-          lyrics_providers->AddProvider(new LyricsComLyricsProvider(app->network()));
           lyrics_providers->ReloadSettings();
           return lyrics_providers;
         }),
