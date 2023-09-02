@@ -1367,27 +1367,27 @@ QString Playlist::column_name(Column column) {
     case Column_Disc:         return tr("Disc");
     case Column_Length:       return tr("Length");
     case Column_Year:         return tr("Year");
-    case Column_OriginalYear: return tr("Original year");
+    case Column_OriginalYear: return tr("Original Year");
     case Column_Genre:        return tr("Genre");
-    case Column_AlbumArtist:  return tr("Album artist");
+    case Column_AlbumArtist:  return tr("Album Artist");
     case Column_Composer:     return tr("Composer");
     case Column_Performer:    return tr("Performer");
     case Column_Grouping:     return tr("Grouping");
 
-    case Column_PlayCount:    return tr("Play count");
-    case Column_SkipCount:    return tr("Skip count");
-    case Column_LastPlayed:   return tr("Last played");
+    case Column_PlayCount:    return tr("Play Count");
+    case Column_SkipCount:    return tr("Skip Count");
+    case Column_LastPlayed:   return tr("Last Played");
 
-    case Column_Samplerate:   return tr("Sample rate");
-    case Column_Bitdepth:     return tr("Bit depth");
+    case Column_Samplerate:   return tr("Sample Rate");
+    case Column_Bitdepth:     return tr("Bit Depth");
     case Column_Bitrate:      return tr("Bitrate");
 
-    case Column_Filename:     return tr("File name");
-    case Column_BaseFilename: return tr("File name (without path)");
-    case Column_Filesize:     return tr("File size");
-    case Column_Filetype:     return tr("File type");
-    case Column_DateModified: return tr("Date modified");
-    case Column_DateCreated:  return tr("Date created");
+    case Column_Filename:     return tr("File Name");
+    case Column_BaseFilename: return tr("File Name (without path)");
+    case Column_Filesize:     return tr("File Size");
+    case Column_Filetype:     return tr("File Type");
+    case Column_DateModified: return tr("Date Modified");
+    case Column_DateCreated:  return tr("Date Created");
 
     case Column_Comment:      return tr("Comment");
     case Column_Source:       return tr("Source");
@@ -1395,8 +1395,8 @@ QString Playlist::column_name(Column column) {
     case Column_Rating:       return tr("Rating");
     case Column_HasCUE:       return tr("CUE");
 
-    case Column_EBUR128IntegratedLoudness: return tr("Integrated loudness");
-    case Column_EBUR128LoudnessRange: return tr("Loudness range");
+    case Column_EBUR128IntegratedLoudness: return tr("Integrated Loudness");
+    case Column_EBUR128LoudnessRange: return tr("Loudness Range");
 
     default:                  qLog(Error) << "No such column" << column;;
   }
