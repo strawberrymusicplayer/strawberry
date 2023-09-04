@@ -99,7 +99,7 @@ jobs:
         if: matrix.opensuse_version == 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys in tagparser-devel
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -218,7 +218,7 @@ jobs:
             libappstream-glib
             hicolor-icon-theme
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -325,7 +325,7 @@ jobs:
           appstream-util
           hicolor-icon-theme
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -425,7 +425,7 @@ jobs:
         if: matrix.mageia_version == 'cauldron'
         run: urpmi --auto --force urpmi-debuginfo-install lib64qt6core-devel lib64qt6gui-devel lib64qt6widgets-devel lib64qt6network-devel lib64qt6concurrent-devel lib64qt6sql-devel lib64qt6dbus-devel lib64qt6help-devel lib64qt6test-devel
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -531,7 +531,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: apt install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -628,7 +628,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: apt install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -727,7 +727,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: apt install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Add safe git directory
@@ -844,7 +844,7 @@ jobs:
           done
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -965,7 +965,7 @@ jobs:
           sudo make install
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -1022,7 +1022,7 @@ jobs:
         run: zypper -n --gpg-auto-import-keys in rsync
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -1301,7 +1301,7 @@ jobs:
           toolset: 14.3
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -1575,7 +1575,7 @@ jobs:
         run: sudo apt install -y rsync
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
