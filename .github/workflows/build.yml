@@ -1208,24 +1208,16 @@ jobs:
           echo "prefix_path_forwardslash=c:/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}" >> $GITHUB_ENV
           echo "prefix_path_unix=/c/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}" >> $GITHUB_ENV
 
-      - name: Get the latest MSVC dependencies
-        shell: bash
-        run: |
-          msvc_deps_version=$(curl -s 'https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | head -1)
-          echo "msvc_deps_version=${msvc_deps_version}" >> $GITHUB_ENV
-
       - name: Download Windows MSVC dependencies
         uses: suisei-cn/actions-download-file@v1
         with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/download/${{env.msvc_deps_version}}/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz)!"
+          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/latest/download/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz)!"
           target: downloads/
           auto-match: true
 
       - name: Extract Windows MSVC dependencies
         shell: bash
-        run: |
-          tar -xf /d/a/strawberry/strawberry/downloads/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
-          mv strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}} /c/
+        run: tar -C /c -xf /d/a/strawberry/strawberry/downloads/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
 
       - name: Update PATH
         run: echo "${{env.prefix_path_backslash}}\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
