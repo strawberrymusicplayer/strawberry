@@ -49,6 +49,11 @@ Q_LOGGING_CATEGORY(kdsaLocalSocket, "kdsingleapplication.localsocket", QtWarning
 #pragma GCC diagnostic pop
 #endif
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+#endif
+
 KDSingleApplicationLocalSocket::KDSingleApplicationLocalSocket(const QString &name, QObject *parent)
     : QObject(parent)
 {
@@ -313,3 +318,7 @@ KDSingleApplicationLocalSocket::Connection::Connection(QLocalSocket *_socket)
 {
     timeoutTimer->start(LOCALSOCKET_CONNECTION_TIMEOUT);
 }
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
