@@ -22,12 +22,22 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
 #include <iostream>
 #include <memory>
+
 #ifndef _MSC_VER
 #  include <cxxabi.h>
 #endif
+
+#ifdef __clang__
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wold-style-cast"
+#endif
 #include <glib.h>
+#ifdef __clang__
+#  pragma clang diagnostic pop
+#endif
 
 #ifdef HAVE_BACKTRACE
 #  include <execinfo.h>
