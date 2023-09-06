@@ -105,7 +105,7 @@ int main(int argc, char **argv) {
         else if (library.startsWith("@executable_path")) {
           QString real_path = library;
           real_path = real_path.replace("@executable_path", bundle_path + "/Contents/MacOS");
-          if (!QFile(real_path).exists()) {
+          if (!QFile::exists(real_path)) {
             qLog(Error) << real_path << "does not exist for" << filepath;
             success = false;
           }
@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
         else if (library.startsWith("@rpath")) {
           QString real_path = library;
           real_path = real_path.replace("@rpath", bundle_path + "/Contents/Frameworks");
-          if (!QFile(real_path).exists() && !real_path.endsWith("QtSvg")) {  // FIXME: Ignore broken svg image plugin.
+          if (!QFile::exists(real_path) && !real_path.endsWith("QtSvg")) {  // FIXME: Ignore broken svg image plugin.
             qLog(Error) << real_path << "does not exist for" << filepath;
             success = false;
           }
@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
           QString loader_path = QFileInfo(filepath).path();
           QString real_path = library;
           real_path = real_path.replace("@loader_path", loader_path);
-          if (!QFile(real_path).exists()) {
+          if (!QFile::exists(real_path)) {
             qLog(Error) << real_path << "does not exist for" << filepath;
             success = false;
           }
