@@ -1306,15 +1306,18 @@ jobs:
           echo "prefix_path_forwardslash=c:/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}" >> $GITHUB_ENV
           echo "prefix_path_unix=/c/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}" >> $GITHUB_ENV
 
+      - name: Create downloads directory
+        shell: cmd
+        run: mkdir downloads
+
       - name: Download Windows MSVC dependencies
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Windows MSVC dependencies [this](https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/latest/download/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz)!"
-          target: downloads/
-          auto-match: true
+        shell: cmd
+        working-directory: downloads
+        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/latest/download/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
 
       - name: Extract Windows MSVC dependencies
         shell: bash
+        working-directory: downloads
         run: tar -C /c -xf /d/a/strawberry/strawberry/downloads/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
 
       - name: Update PATH
@@ -1338,43 +1341,45 @@ jobs:
           find "/c/program files (x86)/windows kits/" -name 'icu*.lib' -delete
           find "/c/program files (x86)/windows kits/" -name 'icu*.h' -delete
 
-      - name: Download LockedList plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "LockedList [this](https://nsis.sourceforge.io/mediawiki/images/d/d3/LockedList.zip)!"
-          target: downloads/
-          auto-match: true
+      - name: Download NSIS LockedList plugin
+        shell: cmd
+        working-directory: downloads
+        run: curl -f -O -L https://nsis.sourceforge.io/mediawiki/images/d/d3/LockedList.zip
 
       - name: Extract NSIS LockedList plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/LockedList.zip"
+        shell: cmd
+        working-directory: downloads
+        run: 7z x LockedList.zip
 
-      - name: Download Registry plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Registry [this](https://nsis.sourceforge.io/mediawiki/images/4/47/Registry.zip)!"
-          target: downloads/
-          auto-match: true
+      - name: Download NSIS Registry plugin
+        shell: cmd
+        working-directory: downloads
+        run: curl -f -O -L https://nsis.sourceforge.io/mediawiki/images/4/47/Registry.zip
 
       - name: Extract NSIS Registry plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Registry.zip"
+        shell: cmd
+        working-directory: downloads
+        run: 7z x Registry.zip
 
-      - name: Download Inetc plugin for NSIS
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "Inetc [this](https://nsis.sourceforge.io/mediawiki/images/c/c9/Inetc.zip)!"
-          target: downloads/
-          auto-match: true
+      - name: Download NSIS Inetc plugin
+        shell: cmd
+        working-directory: downloads
+        run: curl -f -O -L https://nsis.sourceforge.io/mediawiki/images/c/c9/Inetc.zip
 
       - name: Extract NSIS Inetc plugin
-        run: 7z x -o"${{github.workspace}}/NSIS_Plugins" "${{github.workspace}}/downloads/Inetc.zip"
+        shell: cmd
+        working-directory: downloads
+        run: 7z x Inetc.zip
 
       - name: Install NSIS plugins
+        shell: cmd
+        working-directory: downloads
         run: |
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/LockedList64.dll" "C:/Program Files (x86)/NSIS/Plugins/"
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/LockedList.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/"
-          copy "${{github.workspace}}/NSIS_Plugins/Desktop/Plugin/registry.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
-          copy "${{github.workspace}}/NSIS_Plugins/Plugins/x86-unicode/INetC.dll" "C:/Program Files (x86)/NSIS/Plugins/x86-unicode/"
+          copy "Plugins\LockedList64.dll" "C:\Program Files (x86)\NSIS\Plugins\"
+          copy "Plugins\x86-unicode\LockedList.dll" "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\"
+          copy "Desktop\Plugin\registry.dll" "C:\Program Files (x86)\NSIS\Plugins\"
+          copy "Desktop\Plugin\registry.dll" "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\"
+          copy "Plugins\x86-unicode\INetC.dll" "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\"
 
       - name: Setup MSVC Environment
         uses: ilammy/msvc-dev-cmd@v1
@@ -1394,6 +1399,7 @@ jobs:
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
 
       - name: Create Build Environment
+        shell: cmd
         run: cmake -E make_directory build
 
       - name: Set ENABLE_WIN32_CONSOLE (debug)
@@ -1407,6 +1413,7 @@ jobs:
         run: echo "win32_console=OFF" >> $GITHUB_ENV
 
       - name: Run CMake
+        shell: cmd
         run: >
           cmake
           -S .
@@ -1423,11 +1430,13 @@ jobs:
           -DICU_ROOT="${{env.prefix_path_forwardslash}}"
 
       - name: Run Make
+        shell: cmd
         env:
           CL: "/MP"
         run: cmake --build build --config ${{matrix.build_type}} --parallel 4
 
       - name: Copy extra binaries
+        shell: cmd
         working-directory: build
         run: |
           copy ${{env.prefix_path_backslash}}\bin\libssl-3*.dll
@@ -1439,6 +1448,7 @@ jobs:
           copy ${{env.prefix_path_backslash}}\bin\sqlite3.exe
 
       - name: Create directories
+        shell: cmd
         working-directory: build
         run: |
           mkdir gio-modules
@@ -1451,30 +1461,37 @@ jobs:
           mkdir nsisplugins
 
       - name: Copy GIO modules
+        shell: cmd
         working-directory: build
         run: copy ${{env.prefix_path_backslash}}\lib\gio\modules\*.dll .\gio-modules\
 
       - name: Copy Qt platform plugins
+        shell: cmd
         working-directory: build
         run: copy ${{env.prefix_path_backslash}}\plugins\platforms\qwindows*.dll .\platforms\
 
       - name: Copy Qt styles
+        shell: cmd
         working-directory: build
         run: copy ${{env.prefix_path_backslash}}\plugins\styles\qwindowsvistastyle*.dll .\styles\
 
       - name: Copy Qt TLS plugins
+        shell: cmd
         working-directory: build
         run: copy ${{env.prefix_path_backslash}}\plugins\tls\*.dll .\tls\
 
       - name: Copy Qt SQL drivers
+        shell: cmd
         working-directory: build
         run: copy ${{env.prefix_path_backslash}}\plugins\sqldrivers\qsqlite*.dll .\sqldrivers\
 
       - name: Copy Qt imageformats plugins
+        shell: cmd
         working-directory: build
         run: copy ${{env.prefix_path_backslash}}\plugins\imageformats\*.dll .\imageformats\
 
       - name: Copy gstreamer plugins
+        shell: cmd
         working-directory: build
         run: |
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaes.dll .\gstreamer-plugins\
@@ -1540,7 +1557,7 @@ jobs:
       - name: Download copydlldeps.sh
         shell: bash
         working-directory: build
-        run: curl -O -L https://raw.githubusercontent.com/strawberrymusicplayer/strawberry-mxe/master/tools/copydlldeps.sh
+        run: curl -f -O -L https://raw.githubusercontent.com/strawberrymusicplayer/strawberry-mxe/master/tools/copydlldeps.sh
 
       - name: Copy dependencies
         shell: bash
@@ -1560,6 +1577,7 @@ jobs:
           -R ${{env.prefix_path_unix}}/bin
 
       - name: Copy nsis files
+        shell: cmd
         working-directory: build
         run: |
           copy ..\dist\windows\*.nsi .
@@ -1567,10 +1585,12 @@ jobs:
           copy ..\dist\windows\*.ico .
 
       - name: Copy COPYING license file
+        shell: cmd
         working-directory: build
         run: copy ..\COPYING .
 
       - name: List files
+        shell: cmd
         working-directory: build
         run: dir
 
@@ -1602,6 +1622,7 @@ jobs:
           fi
 
       - name: Create nsis installer
+        shell: cmd
         working-directory: build
         run: makensis strawberry.nsi
 
