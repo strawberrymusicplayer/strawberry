@@ -755,6 +755,125 @@ jobs:
         run: dput ppa:jonaski/strawberry ../*_source.changes
 
 
+  build-macos:
+    name: Build macOS
+    runs-on: macos-11
+
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ 'x86_64' ]
+        buildtype: [ 'release' ]
+
+    steps:
+
+      - name: Set buildtype
+        run: echo "buildtype=$(echo ${{matrix.buildtype}} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Set cmake buildtype
+        run: echo "cmake_buildtype=$(echo ${{env.buildtype}} | awk '{print toupper(substr($0,0,1))tolower(substr($0,2))}')" >> $GITHUB_ENV
+
+      - name: Uninstall homebrew
+        run: |
+          curl -sfLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
+          chmod +x ./uninstall.sh
+          sudo ./uninstall.sh --force
+          rm -f uninstall.sh
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download macOS dependencies
+        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies/releases/latest/download/strawberry-macos-${{matrix.arch}}-${{env.buildtype}}.tar.xz
+
+      - name: Extract macOS dependencies
+        run: sudo tar -C / -xf strawberry-macos-${{matrix.arch}}-${{env.buildtype}}.tar.xz
+
+      - name: Set prefix path
+        run: echo "prefix_path=/opt/strawberry_macos_${{matrix.arch}}_${{env.buildtype}}" >> $GITHUB_ENV
+
+      - name: Update PATH
+        run: echo "${{env.prefix_path}}/bin" >> $GITHUB_PATH
+
+      - name: Change rpath for lconvert
+        run: sudo install_name_tool -change @rpath/QtCore.framework/Versions/A/QtCore /opt/strawberry_macos_x86_64_release/lib/QtCore.framework/QtCore /opt/strawberry_macos_x86_64_release/bin/lconvert
+
+      - name: Create Build Environment
+        run: cmake -E make_directory build
+
+      - name: Configure CMake
+        env:
+          MACOSX_DEPLOYMENT_TARGET: 11.0
+          PKG_CONFIG_PATH: ${{env.prefix_path}}/lib/pkgconfig
+          LDFLAGS: -L${{env.prefix_path}}/lib -Wl,-rpath,${{env.prefix_path}}/lib
+        run: >
+          cmake
+          --log-level="DEBUG"
+          -S .
+          -B build
+          -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
+          -DBUILD_WITH_QT6=ON
+          -DBUILD_WERROR=OFF
+          -DUSE_BUNDLE=ON
+          -DCMAKE_PREFIX_PATH="${{env.prefix_path}}/lib/cmake"
+          -DENABLE_DBUS=OFF
+          -DPROTOBUF_INCLUDE_DIRS="${{env.prefix_path}}/include"
+          -DICU_ROOT="${{env.prefix_path}}"
+          -DFFTW3_DIR="${{env.prefix_path}}"
+
+      - name: Build
+        run: cmake --build build --config Release --parallel 4
+
+      - name: Install
+        working-directory: build
+        run: make install
+
+      - name: Manually copy files not handled by macdeployqt
+        working-directory: build
+        run: |
+          mkdir -p strawberry.app/Contents/Frameworks/
+          cp ${{env.prefix_path}}/lib/libsoup-3.0.0.dylib strawberry.app/Contents/Frameworks/
+
+      - name: Deploy
+        env:
+          GIO_EXTRA_MODULES: ${{env.prefix_path}}/lib/gio/modules
+          GST_PLUGIN_SCANNER: ${{env.prefix_path}}/libexec/gstreamer-1.0/gst-plugin-scanner
+          GST_PLUGIN_PATH: ${{env.prefix_path}}/lib/gstreamer-1.0
+        working-directory: build
+        run: make deploy
+
+      - name: Deploy check
+        working-directory: build
+        run: make deploycheck
+
+      - name: Create DMG
+        working-directory: build
+        run: make dmg
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos
+          path: build/*.dmg
+
+      - name: SSH key setup
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos'
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+
+      - name: Create server path
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos'
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/macos
+
+      - name: rsync
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos'
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/macos/
+
+
   build-macos-homebrew:
     name: Build macOS Homebrew
     runs-on: macos-11
@@ -1553,7 +1672,7 @@ jobs:
       - build-mageia
       - build-debian
       - build-ubuntu
-      - build-macos-homebrew
+      - build-macos
       - build-windows-mingw
       - build-windows-msvc
     steps:
