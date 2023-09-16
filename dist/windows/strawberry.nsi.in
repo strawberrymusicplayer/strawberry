@@ -738,7 +738,8 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=gstvolume.dll" "gstreamer-plugins\gstvolume.dll"
   File "/oname=gstvorbis.dll" "gstreamer-plugins\gstvorbis.dll"
   File "/oname=gstwasapi.dll" "gstreamer-plugins\gstwasapi.dll"
-  File "/oname=gstwasapi2.dll" "gstreamer-plugins\gstwasapi2.dll"
+  ; Disable wasapi2 until issue (https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/2870) is fixed.
+  ;File "/oname=gstwasapi2.dll" "gstreamer-plugins\gstwasapi2.dll"
   File "/oname=gstwavenc.dll" "gstreamer-plugins\gstwavenc.dll"
   File "/oname=gstwavpack.dll" "gstreamer-plugins\gstwavpack.dll"
   File "/oname=gstwavparse.dll" "gstreamer-plugins\gstwavparse.dll"
