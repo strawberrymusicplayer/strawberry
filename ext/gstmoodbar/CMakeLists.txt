@@ -31,5 +31,5 @@ target_link_libraries(gstmoodbar PRIVATE
   ${GSTREAMER_BASE_LIBRARIES}
   ${GSTREAMER_AUDIO_LIBRARIES}
   ${FFTW3_FFTW_LIBRARY}
-  ${QtCore_LIBRARIES}
+  Qt${QT_VERSION_MAJOR}::Core
 )

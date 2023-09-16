@@ -54,11 +54,11 @@ target_include_directories(test_utils PRIVATE
 target_link_libraries(test_utils PRIVATE
   ${GTEST_BOTH_LIBRARIES}
   ${GMOCK_LIBRARY}
-  ${QtCore_LIBRARIES}
-  ${QtWidgets_LIBRARIES}
-  ${QtNetwork_LIBRARIES}
-  ${QtSql_LIBRARIES}
-  ${QtTest_LIBRARIES}
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt${QT_VERSION_MAJOR}::Network
+  Qt${QT_VERSION_MAJOR}::Sql
+  Qt${QT_VERSION_MAJOR}::Test
 )
 
 add_custom_target(strawberry_tests echo "Running Strawberry tests" WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
@@ -111,12 +111,12 @@ macro(add_test_file test_source gui_required)
       ${TAGLIB_INCLUDE_DIRS}
     )
     target_link_libraries(${TEST_NAME} PRIVATE
-      ${QtCore_LIBRARIES}
-      ${QtConcurrent_LIBRARIES}
-      ${QtWidgets_LIBRARIES}
-      ${QtNetwork_LIBRARIES}
-      ${QtSql_LIBRARIES}
-      ${QtTest_LIBRARIES}
+      Qt${QT_VERSION_MAJOR}::Core
+      Qt${QT_VERSION_MAJOR}::Concurrent
+      Qt${QT_VERSION_MAJOR}::Widgets
+      Qt${QT_VERSION_MAJOR}::Network
+      Qt${QT_VERSION_MAJOR}::Sql
+      Qt${QT_VERSION_MAJOR}::Test
     )
     target_link_libraries(${TEST_NAME} PRIVATE test_utils)
     set(GUI_REQUIRED ${gui_required})

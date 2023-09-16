@@ -34,8 +34,8 @@ endif()
 target_link_libraries(libstrawberry-common PRIVATE
   ${CMAKE_THREAD_LIBS_INIT}
   ${GLIB_LIBRARIES}
-  ${QtCore_LIBRARIES}
-  ${QtNetwork_LIBRARIES}
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Network
 )
 
 if(Backtrace_FOUND)

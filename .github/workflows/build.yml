@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         opensuse_version: [ 'tumbleweed', 'leap:15.4', 'leap:15.5' ]
-        qt_version: [ 'qt5', 'qt6' ]
+        qt_version: [ '5', '6' ]
     container:
       image: opensuse/${{matrix.opensuse_version}}
     steps:
@@ -65,7 +65,7 @@ jobs:
             appstream-glib
             hicolor-icon-theme
       - name: Install Qt 5
-        if: matrix.qt_version == 'qt5'
+        if: matrix.qt_version == '5'
         run: >
             zypper -n --gpg-auto-import-keys in
             libQt5Core-devel
@@ -81,7 +81,7 @@ jobs:
             libqt5-linguist-devel
             libqt5-qtx11extras-devel
       - name: Install Qt 6
-        if: matrix.qt_version == 'qt6'
+        if: matrix.qt_version == '6'
         run: >
             zypper -n --gpg-auto-import-keys in
             qt6-core-devel
@@ -107,7 +107,7 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DUSE_TAGLIB=ON
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DUSE_TAGLIB=ON -DQT_VERSION_MAJOR=${{matrix.qt_version}}
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -148,7 +148,7 @@ jobs:
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/source ${{secrets.BUILDS_PATH}}/opensuse/${{env.opensuse_subdir}}
       - name: rsync source
-        if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version == 'tumbleweed' && matrix.qt_version == 'qt6'
+        if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version == 'tumbleweed' && matrix.qt_version == '6'
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /usr/src/packages/SOURCES/*.xz ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/source/
       - name: rsync rpms
         if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version != 'tumbleweed'

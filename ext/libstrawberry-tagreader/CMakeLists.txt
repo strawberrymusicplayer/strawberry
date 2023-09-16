@@ -50,9 +50,9 @@ target_include_directories(libstrawberry-tagreader PRIVATE
 target_link_libraries(libstrawberry-tagreader PRIVATE
   ${GLIB_LIBRARIES}
   ${Protobuf_LIBRARIES}
-  ${QtCore_LIBRARIES}
-  ${QtNetwork_LIBRARIES}
-  ${QtGui_LIBRARIES}
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Network
+  Qt${QT_VERSION_MAJOR}::Gui
   libstrawberry-common
 )
 

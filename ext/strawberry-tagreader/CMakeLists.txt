@@ -33,8 +33,8 @@ target_include_directories(strawberry-tagreader PRIVATE
 
 target_link_libraries(strawberry-tagreader PRIVATE
   ${GLIB_LIBRARIES}
-  ${QtCore_LIBRARIES}
-  ${QtNetwork_LIBRARIES}
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Network
   libstrawberry-common
   libstrawberry-tagreader
 )

@@ -1091,12 +1091,25 @@ target_link_libraries(strawberry_lib PUBLIC
   ${GLIB_LIBRARIES}
   ${GOBJECT_LIBRARIES}
   ${SQLITE_LIBRARIES}
-  ${QT_LIBRARIES}
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Concurrent
+  Qt${QT_VERSION_MAJOR}::Gui
+  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt${QT_VERSION_MAJOR}::Network
+  Qt${QT_VERSION_MAJOR}::Sql
   ${Protobuf_LIBRARIES}
   ${SINGLEAPPLICATION_LIBRARIES}
   libstrawberry-common
   libstrawberry-tagreader
 )
+
+if(HAVE_DBUS)
+  target_link_libraries(strawberry_lib PUBLIC Qt${QT_VERSION_MAJOR}::DBus)
+endif()
+
+if(HAVE_X11_GLOBALSHORTCUTS AND HAVE_X11EXTRAS)
+  target_link_libraries(strawberry_lib PUBLIC Qt${QT_VERSION_MAJOR}::X11Extras)
+endif()
 
 if(HAVE_ICU)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${ICU_INCLUDE_DIRS})

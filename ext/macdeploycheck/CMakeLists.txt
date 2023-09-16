@@ -11,5 +11,5 @@ target_include_directories(macdeploycheck PUBLIC
 target_link_libraries(macdeploycheck PUBLIC
   "-framework AppKit"
   ${GLIB_LIBRARIES}
-  ${QtCore_LIBRARIES}
+  Qt${QT_VERSION_MAJOR}::Core
 )
