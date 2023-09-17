@@ -2190,7 +2190,7 @@ void CollectionBackend::ExpireSongs(const int directory_id, const int expire_una
     QMutexLocker l(db_->Mutex());
     QSqlDatabase db(db_->Connect());
     SqlQuery q(db);
-    q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE directory_id = :directory_id AND unavailable = 1 AND lastseen > 0 AND lastseen < :time").arg(songs_table_));
+    q.prepare(QString("SELECT %1.ROWID, " + Song::JoinSpec("%1") + " FROM %1 LEFT JOIN playlist_items ON %1.ROWID = playlist_items.collection_id WHERE %1.directory_id = :directory_id AND %1.unavailable = 1 AND %1.lastseen > 0 AND %1.lastseen < :time AND playlist_items.collection_id IS NULL").arg(songs_table_));
     q.BindValue(":directory_id", directory_id);
     q.BindValue(":time", QDateTime::currentDateTime().toSecsSinceEpoch() - (expire_unavailable_songs_days * 86400));
     if (!q.Exec()) {
