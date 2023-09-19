@@ -52,7 +52,7 @@ Funding developers is a way to contribute to open source projects you appreciate
   * Edit tags on audio files
   * Fetch tags from MusicBrainz
   * Album cover art from [Last.fm](https://www.last.fm/), [Musicbrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/), [Musixmatch](https://www.musixmatch.com/), [Deezer](https://www.deezer.com/), [Tidal](https://www.tidal.com/), [Qobuz](https://www.qobuz.com/) and [Spotify](https://www.spotify.com/)
-  * Song lyrics from [Genius](https://genius.com/), [Musixmatch](https://www.musixmatch.com/), [ChartLyrics](http://www.chartlyrics.com/), [lyrics.ovh](https://lyrics.ovh/), [lololyrics.com](https://www.lololyrics.com/) and [songlyrics.com](https://www.songlyrics.com/)
+  * Song lyrics from [Genius](https://genius.com/), [Musixmatch](https://www.musixmatch.com/), [ChartLyrics](http://www.chartlyrics.com/), [lyrics.ovh](https://lyrics.ovh/), [lololyrics.com](https://www.lololyrics.com/), [songlyrics.com](https://www.songlyrics.com/) and [azlyrics.com](https://www.azlyrics.com/)
   * Support for multiple backends
   * Audio analyzer
   * Audio equalizer

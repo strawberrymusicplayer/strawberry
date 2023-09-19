@@ -184,6 +184,7 @@ set(SOURCES
   lyrics/musixmatchlyricsprovider.cpp
   lyrics/chartlyricsprovider.cpp
   lyrics/songlyricscomlyricsprovider.cpp
+  lyrics/azlyricscomlyricsprovider.cpp
 
   providers/musixmatchprovider.cpp
 
@@ -422,6 +423,7 @@ set(HEADERS
   lyrics/musixmatchlyricsprovider.h
   lyrics/chartlyricsprovider.h
   lyrics/songlyricscomlyricsprovider.h
+  lyrics/azlyricscomlyricsprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h
