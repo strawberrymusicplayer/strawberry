@@ -74,6 +74,8 @@ QString LyricsProvider::ParseLyricsFromHTML(const QString &content, const QRegul
         lyrics.append("\n");
       }
       lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx)
+                           .remove('\r')
+                           .remove('\n')
                            .replace(QRegularExpression("<br[^>]*>"), "\n")
                            .remove(QRegularExpression("<[^>]*>"))
                            .trimmed());
