@@ -757,15 +757,20 @@ jobs:
 
   build-macos:
     name: Build macOS
-    runs-on: macos-11
 
     strategy:
       fail-fast: false
       matrix:
-        arch: [ 'x86_64' ]
+        runner: [ 'macos-11', 'macos-arm64' ]
         buildtype: [ 'release' ]
 
+    runs-on: ${{ matrix.runner }}
+
     steps:
+
+      - name: Set arch
+        shell: bash
+        run: echo "arch=$(uname -m)" >> $GITHUB_ENV
 
       - name: Set buildtype
         run: echo "buildtype=$(echo ${{matrix.buildtype}} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
@@ -774,6 +779,7 @@ jobs:
         run: echo "cmake_buildtype=$(echo ${{env.buildtype}} | awk '{print toupper(substr($0,0,1))tolower(substr($0,2))}')" >> $GITHUB_ENV
 
       - name: Uninstall homebrew
+        if: matrix.runner == 'macos-11'
         run: |
           curl -sfLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
           chmod +x ./uninstall.sh
@@ -786,19 +792,19 @@ jobs:
           fetch-depth: 0
 
       - name: Download macOS dependencies
-        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies/releases/latest/download/strawberry-macos-${{matrix.arch}}-${{env.buildtype}}.tar.xz
+        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
 
       - name: Extract macOS dependencies
-        run: sudo tar -C / -xf strawberry-macos-${{matrix.arch}}-${{env.buildtype}}.tar.xz
+        run: sudo tar -C / -xf strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
 
       - name: Set prefix path
-        run: echo "prefix_path=/opt/strawberry_macos_${{matrix.arch}}_${{env.buildtype}}" >> $GITHUB_ENV
+        run: echo "prefix_path=/opt/strawberry_macos_${{env.arch}}_${{env.buildtype}}" >> $GITHUB_ENV
 
       - name: Update PATH
         run: echo "${{env.prefix_path}}/bin" >> $GITHUB_PATH
 
       - name: Change rpath for lconvert
-        run: sudo install_name_tool -change @rpath/QtCore.framework/Versions/A/QtCore /opt/strawberry_macos_x86_64_release/lib/QtCore.framework/QtCore /opt/strawberry_macos_x86_64_release/bin/lconvert
+        run: sudo install_name_tool -change @rpath/QtCore.framework/Versions/A/QtCore /opt/strawberry_macos_${{env.arch}}_release/lib/QtCore.framework/QtCore /opt/strawberry_macos_${{env.arch}}_release/bin/lconvert
 
       - name: Create Build Environment
         run: cmake -E make_directory build
@@ -852,26 +858,34 @@ jobs:
         working-directory: build
         run: make dmg
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: macos
-          path: build/*.dmg
-
       - name: SSH key setup
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos'
+        if: matrix.runner == 'macos-11' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
 
+      - name: Set is release
+        run: echo "is_release=$(grep '^\s*set\s*(\s*INCLUDE_GIT_REVISION\s\+OFF\s*)\s*$' cmake/Version.cmake >/dev/null 2>&1 && echo 1 || echo 0)" >> $GITHUB_ENV
+
+      - name: Get release version
+        run: echo "release_version=$(git describe --tags --exact-match ${GITHUB_SHA} 2>/dev/null | head -1)" >> $GITHUB_ENV
+
+      - name: Set Upload path
+        run: |
+          if [ "${{env.is_release}}" = "1" ] && ! [ "${{env.release_version}}" = "" ]; then
+            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/stable_releases/macos" >> $GITHUB_ENV
+          else
+            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/development_releases/macos" >> $GITHUB_ENV
+          fi
+
       - name: Create server path
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos'
-        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/macos
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{env.upload_path}}
 
       - name: rsync
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos'
-        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/macos/
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{env.upload_path}}/
 
 
   build-macos-homebrew:
@@ -1674,7 +1688,6 @@ jobs:
       - build-mageia
       - build-debian
       - build-ubuntu
-      - build-macos
       - build-windows-mingw
       - build-windows-msvc
     steps:
@@ -1721,28 +1734,30 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
           echo "Release version: ${{env.release_version}}"
+          filenames=()
+          files=()
           a_files=()
           for i in $(find artifacts -type f); do
             filename=$(basename $i)
+            if [[ ${filenames[@]} =~ ${filename} ]]; then
+              echo "Skipping duplicate file: ${filename}"
+              continue
+            fi
+            filenames+=("${filename}")
             existing_asset=$(hub release show -f "%as" ${{env.release_version}} | tr -d '[:blank:]' | grep ".*/${filename}\$" 2>/dev/null || true)
             if [ "${existing_asset}" = "" ]; then
               echo "Adding file: ${filename}"
-              if [ "${file_list}" = "" ]; then
-                file_list="$i"
-              else
-                file_list="${file_list} $i"
-              fi
+              files+=("$i")
               a_files+=("-a" "${i}")
             else
-              echo "Skipping existing file: ${filename}"
+              echo "Release already has file: ${filename}"
             fi
           done
-          if ! [ "${file_list}" = "" ]; then
-            echo "Uploading files: ${file_list}"
-            rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var ${file_list} ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.RELEASES_PATH}}/
+          if ! [ "${files[@]}" = "" ]; then
+            echo "Uploading files: ${files[@]}"
+            rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var ${files[@]} ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.RELEASES_PATH}}/
           fi
-          a_file_list="${a_files[@]}"
-          if ! [ "${a_file_list}" = "" ]; then
-            echo "Adding files to GitHub release: ${file_list}"
-            hub release edit -m "Strawberry ${{env.release_version}}" ${a_file_list} "${{env.release_version}}"
+          if ! [ "${a_files[@]}" = "" ]; then
+            echo "Adding files to GitHub release: ${files}"
+            hub release edit -m "Strawberry ${{env.release_version}}" ${a_files[@]} "${{env.release_version}}"
           fi
