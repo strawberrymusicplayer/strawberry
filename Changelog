@@ -16,6 +16,7 @@ Unreleased:
   Enhancements:
     * Add Mpris2 property to read/write rating (#1246).
     * Capitalize playlist column names (#1264).
+    * Added lyrics from songlyrics.com, azlyrics.com, elyrics.net and lyricsmode.com.
     * (Windows) Add gst-play-1.0.exe for debugging purposes.
 
   New features
