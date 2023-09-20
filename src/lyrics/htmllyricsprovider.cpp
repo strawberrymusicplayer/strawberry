@@ -156,6 +156,7 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
       lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx)
                            .remove('\r')
                            .remove('\n')
+                           .remove(QRegularExpression("<script>.*</script>"))
                            .replace(QRegularExpression("<br[^>]*>"), "\n")
                            .remove(QRegularExpression("<[^>]*>"))
                            .trimmed());
