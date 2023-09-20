@@ -37,7 +37,7 @@ const char SongLyricsComLyricsProvider::kLyricsStart[] = "<p id=\"songLyricsDiv\
 SongLyricsComLyricsProvider::SongLyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
     : HtmlLyricsProvider("songlyrics.com", true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
 
-QUrl SongLyricsComLyricsProvider::GetUrl(const LyricsSearchRequest &request) {
+QUrl SongLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
   return QUrl(kUrl + StringFixup(request.artist) + "/" + StringFixup(request.title) + "-lyrics/");
 

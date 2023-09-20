@@ -49,8 +49,7 @@ class HtmlLyricsProvider : public LyricsProvider {
   static QString ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple);
 
  protected:
-  virtual QUrl GetUrl(const LyricsSearchRequest &request) = 0;
-  virtual QString StringFixup(QString string) = 0;
+  virtual QUrl Url(const LyricsSearchRequest &request) = 0;
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  protected slots:

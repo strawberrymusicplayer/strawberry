@@ -39,8 +39,10 @@ class SongLyricsComLyricsProvider : public HtmlLyricsProvider {
   explicit SongLyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
  protected:
-  QUrl GetUrl(const LyricsSearchRequest &request) override;
-  QString StringFixup(QString string) override;
+  QUrl Url(const LyricsSearchRequest &request) override;
+
+ private:
+  QString StringFixup(QString string);
 
  private:
   static const char kUrl[];

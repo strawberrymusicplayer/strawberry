@@ -37,7 +37,7 @@ const char AzLyricsComLyricsProvider::kLyricsStart[] = "<!-- Usage of azlyrics.c
 AzLyricsComLyricsProvider::AzLyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
     : HtmlLyricsProvider("azlyrics.com", true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
 
-QUrl AzLyricsComLyricsProvider::GetUrl(const LyricsSearchRequest &request) {
+QUrl AzLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
   return QUrl(kUrl + StringFixup(request.artist) + "/" + StringFixup(request.title) + ".html");
 

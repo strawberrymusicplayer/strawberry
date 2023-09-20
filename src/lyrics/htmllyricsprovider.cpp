@@ -51,7 +51,9 @@ HtmlLyricsProvider::~HtmlLyricsProvider() {
 
 bool HtmlLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
-  QUrl url(GetUrl(request));
+  if (request.artist.isEmpty() || request.title.isEmpty()) return false;
+
+  QUrl url(Url(request));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   QNetworkReply *reply = network_->get(req);
