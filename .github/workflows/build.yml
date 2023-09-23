@@ -855,8 +855,14 @@ jobs:
         run: make deploycheck
 
       - name: Create DMG
+        if: matrix.runner != 'macos-arm64'
         working-directory: build
         run: make dmg
+
+      - name: Create DMG
+        if: matrix.runner == 'macos-arm64'
+        working-directory: build
+        run: make dmg2
 
       - name: SSH key setup
         if: matrix.runner == 'macos-11' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')
