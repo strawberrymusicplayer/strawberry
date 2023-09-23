@@ -11,7 +11,9 @@ Unreleased:
     * Always stop playing after 100 errors to prevent flooding the error dialog (#1220).
     * Fixed volume going to 100% when decreasing volume beyond zero (#1262).
     * Fixed error dialog sometimes showing empty.
-    * (Windows) Disable broken volume sync (#1220).
+    * (Windows) Removed broken volume sync (#1220).
+    * (Windows) Fixed shuttering / choppy audio (#1227).
+    * (macOS) Fixed missing search bars (#1221).
 
   Enhancements:
     * Add Mpris2 property to read/write rating (#1246).
