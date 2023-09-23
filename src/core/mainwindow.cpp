@@ -1862,7 +1862,6 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   int in_skipped = 0;
   int not_in_skipped = 0;
   int local_songs = 0;
-  int collection_songs = 0;
 
   for (const QModelIndex &idx : selection) {
 
@@ -1873,7 +1872,6 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
     if (!item) continue;
 
     if (item->Metadata().url().isLocalFile()) ++local_songs;
-    if (item->Metadata().source() == Song::Source::Collection) ++collection_songs;
 
     if (item->Metadata().has_cue()) {
       cue_selected = true;

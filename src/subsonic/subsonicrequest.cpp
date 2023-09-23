@@ -433,7 +433,6 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
   bool compilation = false;
   bool multidisc = false;
   SongList songs;
-  int songs_received = 0;
   for (const QJsonValueRef value_song : array_songs) {
 
     if (!value_song.isObject()) {
@@ -442,7 +441,6 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
     }
     QJsonObject obj_song = value_song.toObject();
 
-    ++songs_received;
     Song song(Song::Source::Subsonic);
     ParseSong(song, obj_song, artist_id, album_id, album_artist, created);
     if (!song.is_valid()) continue;
