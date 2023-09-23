@@ -820,14 +820,14 @@ jobs:
           -S .
           -B build
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
+          -DCMAKE_PREFIX_PATH="${{env.prefix_path}}/lib/cmake"
           -DBUILD_WITH_QT6=ON
           -DBUILD_WERROR=OFF
           -DUSE_BUNDLE=ON
-          -DCMAKE_PREFIX_PATH="${{env.prefix_path}}/lib/cmake"
           -DENABLE_DBUS=OFF
-          -DPROTOBUF_INCLUDE_DIRS="${{env.prefix_path}}/include"
           -DICU_ROOT="${{env.prefix_path}}"
           -DFFTW3_DIR="${{env.prefix_path}}"
+          -DCREATEDMG_SKIP_JENKINS=$(test "${{matrix.runner}}" = "macos-11" && echo "ON" || echo "OFF")
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
@@ -855,14 +855,8 @@ jobs:
         run: make deploycheck
 
       - name: Create DMG
-        if: matrix.runner != 'macos-arm64'
         working-directory: build
         run: make dmg
-
-      - name: Create DMG
-        if: matrix.runner == 'macos-arm64'
-        working-directory: build
-        run: make dmg2
 
       - name: SSH key setup
         if: matrix.runner == 'macos-11' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')

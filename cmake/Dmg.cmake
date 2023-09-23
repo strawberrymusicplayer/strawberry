@@ -13,12 +13,21 @@ else()
 endif()
 
 if(MACDEPLOYQT_EXECUTABLE)
+
+  if(APPLE_DEVELOPER_ID)
+    set(MACDEPLOYQT_CODESIGN -codesign=${APPLE_DEVELOPER_ID})
+    set(CREATEDMG_CODESIGN --codesign ${APPLE_DEVELOPER_ID})
+  endif()
+  if(CREATEDMG_SKIP_JENKINS)
+    set(CREATEDMG_SKIP_JENKINS_ARG "--skip-jenkins")
+  endif()
+
   add_custom_target(deploy
     COMMAND mkdir -p ${CMAKE_BINARY_DIR}/strawberry.app/Contents/{Frameworks,Resources}
     COMMAND cp -v ${CMAKE_SOURCE_DIR}/dist/macos/Info.plist ${CMAKE_BINARY_DIR}/strawberry.app/Contents/
     COMMAND cp -v ${CMAKE_SOURCE_DIR}/dist/macos/strawberry.icns ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources/
     COMMAND ${CMAKE_SOURCE_DIR}/dist/macos/macgstcopy.sh ${CMAKE_BINARY_DIR}/strawberry.app
-    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/gst-plugin-scanner -executable=strawberry.app/Contents/PlugIns/gio-modules/libgioopenssl.so -executable=strawberry.app/Contents/PlugIns/gio-modules/libgiognutls.so
+    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/gst-plugin-scanner -executable=strawberry.app/Contents/PlugIns/gio-modules/libgioopenssl.so -executable=strawberry.app/Contents/PlugIns/gio-modules/libgiognutls.so ${MACDEPLOYQT_CODESIGN}
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     DEPENDS strawberry strawberry-tagreader
   )
@@ -28,11 +37,7 @@ if(MACDEPLOYQT_EXECUTABLE)
   )
   if(CREATEDMG_EXECUTABLE)
     add_custom_target(dmg
-      COMMAND ${CREATEDMG_EXECUTABLE} --volname strawberry --background "${CMAKE_SOURCE_DIR}/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon strawberry.app 150 218 --window-size 600 450 strawberry-${STRAWBERRY_VERSION_PACKAGE}-${CMAKE_HOST_SYSTEM_PROCESSOR}.dmg strawberry.app
-      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
-    add_custom_target(dmg2
-      COMMAND ${CREATEDMG_EXECUTABLE} --volname strawberry --background "${CMAKE_SOURCE_DIR}/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon strawberry.app 150 218 --window-size 600 450 --skip-jenkins strawberry-${STRAWBERRY_VERSION_PACKAGE}-${CMAKE_HOST_SYSTEM_PROCESSOR}.dmg strawberry.app
+      COMMAND ${CREATEDMG_EXECUTABLE} --volname strawberry --background "${CMAKE_SOURCE_DIR}/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon strawberry.app 150 218 --window-size 600 450 ${CREATEDMG_CODESIGN} ${CREATEDMG_SKIP_JENKINS_ARG} strawberry-${STRAWBERRY_VERSION_PACKAGE}-${CMAKE_HOST_SYSTEM_PROCESSOR}.dmg strawberry.app
       WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
   endif()
