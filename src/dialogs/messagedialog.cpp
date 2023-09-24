@@ -64,6 +64,7 @@ void MessageDialog::ShowMessage(const QString &title, const QString &message, co
   ui_->label_text->setText(message);
   ui_->label_text->adjustSize();
   adjustSize();
+  setMinimumWidth(520);
 
   if (parent_) {
     Utilities::CenterWidgetOnScreen(Utilities::GetScreen(parent_), this);
