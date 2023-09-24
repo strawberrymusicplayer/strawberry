@@ -2,6 +2,11 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 1.0.20 (2023.09.24):
+
+  Bugfixes:
+    * Fixed appdata validation.
+
 Version 1.0.19 (2023.09.24):
 
   Bugfixes:
