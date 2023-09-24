@@ -1753,11 +1753,13 @@ jobs:
               echo "Release already has file: ${filename}"
             fi
           done
-          if ! [ "${files[@]}" = "" ]; then
-            echo "Uploading files: ${files[@]}"
-            rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var ${files[@]} ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.RELEASES_PATH}}/
+          files_list="${files[@]}"
+          a_files_list="${a_files[@]}"
+          if ! [ "${files_list}" = "" ]; then
+            echo "Uploading files: ${files_list}"
+            rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var ${files_list} ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.RELEASES_PATH}}/
           fi
-          if ! [ "${a_files[@]}" = "" ]; then
-            echo "Adding files to GitHub release: ${files}"
-            hub release edit -m "Strawberry ${{env.release_version}}" ${a_files[@]} "${{env.release_version}}"
+          if ! [ "${a_files_list}" = "" ]; then
+            echo "Adding files to GitHub release: ${files_list}"
+            hub release edit -m "Strawberry ${{env.release_version}}" ${a_files_list} "${{env.release_version}}"
           fi
