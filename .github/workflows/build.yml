@@ -1334,7 +1334,7 @@ jobs:
       - name: Extract Windows MSVC dependencies
         shell: bash
         working-directory: downloads
-        run: tar -C /c -xf /d/a/strawberry/strawberry/downloads/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
+        run: tar -C /c -xf strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
 
       - name: Update PATH
         run: echo "${{env.prefix_path_backslash}}\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
