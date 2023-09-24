@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.19 (2023.09.24):
 
   Bugfixes:
     * Use shared pointers for objects to fix potential crashes on exit (#1239).

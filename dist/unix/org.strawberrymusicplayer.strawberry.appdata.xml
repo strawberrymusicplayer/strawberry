@@ -51,5 +51,6 @@
   <update_contact>eclipseo@fedoraproject.org</update_contact>
     <releases>
         <release version="1.0.18" date="2023-07-02"/>
+        <release version="1.0.19" date="2023-09-24"/>
     </releases>
 </component>
