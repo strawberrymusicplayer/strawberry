@@ -827,7 +827,7 @@ jobs:
           -DENABLE_DBUS=OFF
           -DICU_ROOT="${{env.prefix_path}}"
           -DFFTW3_DIR="${{env.prefix_path}}"
-          -DCREATEDMG_SKIP_JENKINS=$(test "${{matrix.runner}}" = "macos-11" && echo "ON" || echo "OFF")
+          -DCREATEDMG_SKIP_JENKINS=$(test "${{matrix.runner}}" = "macos-arm64" && echo "ON" || echo "OFF")
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
