@@ -27,6 +27,7 @@ Resources:
 * Search for the issue to see if it is already solved, or if there is an open issue for it already. If there is an open issue already, you can comment on it if you have additional information that could be useful to us.
 * For technical problems, discussion, questions and feature suggestions use the forum (https://forum.strawberrymusicplayer.org/) instead. The forum is better suited for discussion.
 * We do not take feature requests from users on GitHub. Any issues related to feature requests will be closed. This does not necessarily mean that we won't add new features, but we don't have time to take feature requests or answer questions about new features from users. It is still possible to suggest or discuss new features on the forum (https://forum.strawberrymusicplayer.org/).
+* We do not maintain the Flatpak package. Do not report issues related to Flatpak unless the issue can be reproduced with a native package, use Flatpak support instead https://flatpak.org/about/
 
 ### :moneybag:	Sponsoring:
 
@@ -63,7 +64,7 @@ Funding developers is a way to contribute to open source projects you appreciate
 
 It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
 
-**There currently isn't any macOS developers actively working on this project, so we might not be able to help you with issues related to macOS.**
+**macOS releases are currently limited to sponsors. This is because macOS releases require a developer account, Apple hardware and maintaining all libraries strawberry depends on. If you are sponsoring strawberry, e-mail support@strawberrymusicplayer.org for access to downloads.**
 
 ### :heavy_exclamation_mark: Requirements
 
