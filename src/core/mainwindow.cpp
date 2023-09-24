@@ -1054,6 +1054,21 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   }
 #endif
 
+  {
+    QSettings s;
+    s.beginGroup(kSettingsGroup);
+    const QString do_not_show_sponsor_message_key = QString("do_not_show_sponsor_message");
+    const bool do_not_show_sponsor_message = s.value(do_not_show_sponsor_message_key, false).toBool();
+    s.endGroup();
+    if (!do_not_show_sponsor_message) {
+      MessageDialog *sponsor_message = new MessageDialog(this);
+      sponsor_message->set_settings_group(kSettingsGroup);
+      sponsor_message->set_do_not_show_message_again(do_not_show_sponsor_message_key);
+      sponsor_message->setAttribute(Qt::WA_DeleteOnClose);
+      sponsor_message->ShowMessage(tr("Sponsoring Strawberry"), tr("Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1").arg("<a href= \"https://www.strawberrymusicplayer.org/\">www.strawberrymusicplayer.org</a>"), IconLoader::Load("dialog-information"));
+    }
+  }
+
   qLog(Debug) << "Started" << QThread::currentThread();
   initialized_ = true;
 
