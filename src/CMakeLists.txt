@@ -602,7 +602,6 @@ set(UI
 )
 
 set(RESOURCES ../data/data.qrc ../data/icons.qrc)
-set(OTHER_SOURCES)
 
 option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
 
@@ -974,8 +973,7 @@ if(HAVE_TRANSLATIONS)
     ${SOURCES}
     ${MOC}
     ${UIC}
-    ${OTHER_SOURCES}
-    ../data/html/oauthsuccess.html
+    ${CMAKE_SOURCE_DIR}/data/html/oauthsuccess.html
   )
   add_po(PO strawberry_ LANGUAGES ${LANGUAGES} DIRECTORY translations)
 
