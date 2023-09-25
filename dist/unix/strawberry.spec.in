@@ -86,6 +86,7 @@ BuildRequires:  pkgconfig(libchromaprint)
 %endif
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  pkgconfig(libcdio)
+BuildRequires:  pkgconfig(libebur128)
 BuildRequires:  pkgconfig(libgpod-1.0)
 BuildRequires:  pkgconfig(libmtp)
 %if 0%{?suse_version} || 0%{?fedora_version}
