@@ -1123,10 +1123,15 @@ jobs:
       fail-fast: false
       matrix:
         arch: [ 'i686', 'x86_64' ]
-        build_type: [ 'debug', 'release' ]
+        buildtype: [ 'debug', 'release' ]
     container:
-      image: jonaski/strawberry-mxe-${{matrix.arch}}-${{matrix.build_type}}
+      image: jonaski/strawberry-mxe-${{matrix.arch}}-${{matrix.buildtype}}
     steps:
+
+      - name: Set cmake buildtype
+        shell: bash
+        run: echo "cmake_buildtype=$(echo ${{matrix.buildtype}} | sed 's/.*/\u&/')" >> $GITHUB_ENV
+
       - name: Install rsync
         run: zypper -n --gpg-auto-import-keys in rsync
 
@@ -1144,14 +1149,6 @@ jobs:
       - name: Link MXE directory
         run: ln -s /strawberry-mxe ~/mxe-shared
 
-      - name: Set ENABLE_WIN32_CONSOLE (debug)
-        if: matrix.build_type == 'debug'
-        run: echo "win32_console=ON" >> $GITHUB_ENV
-
-      - name: Set ENABLE_WIN32_CONSOLE (release)
-        if: matrix.build_type == 'release'
-        run: echo "win32_console=OFF" >> $GITHUB_ENV
-
       - name: Run CMake
         env:
           PKG_CONFIG_PATH: /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/lib/pkgconfig
@@ -1160,12 +1157,12 @@ jobs:
           -S .
           -B build
           -DCMAKE_TOOLCHAIN_FILE="../cmake/Toolchain-${{matrix.arch}}-w64-mingw32-shared.cmake"
-          -DCMAKE_BUILD_TYPE="${{matrix.build_type}}"
+          -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_PREFIX_PATH="/strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6"
           -DBUILD_WITH_QT6=ON
           -DBUILD_WERROR=OFF
           -DARCH="${{matrix.arch}}"
-          -DENABLE_WIN32_CONSOLE=${{env.win32_console}}
+          -DENABLE_WIN32_CONSOLE=$(test "${{matrix.buildtype}}" = "debug" && echo "ON" || echo "OFF")
           -DENABLE_DBUS=OFF
           -DENABLE_LIBGPOD=OFF
           -DENABLE_LIBMTP=OFF
@@ -1173,7 +1170,7 @@ jobs:
           -DProtobuf_PROTOC_EXECUTABLE="/strawberry-mxe/usr/x86_64-pc-linux-gnu/bin/protoc"
 
       - name: Run Make
-        run: cmake --build build --config Release --parallel $(nproc)
+        run: cmake --build build --config "${{env.cmake_buildtype}}" --parallel $(nproc)
 
       - name: Create directories
         working-directory: build
@@ -1212,7 +1209,7 @@ jobs:
         run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/{sqlite3.exe,gst-launch-1.0.exe,gst-play-1.0.exe,gst-discoverer-1.0.exe,libsoup-3.0-0.dll,libnghttp2.dll} .
 
       - name: Copy extra binaries (debug)
-        if: matrix.build_type == 'debug'
+        if: matrix.buildtype == 'debug'
         working-directory: build
         run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/{gdb.exe,libreadline8.dll} .
 
@@ -1232,12 +1229,12 @@ jobs:
           -R /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared
 
       - name: Strip binaries
-        if: matrix.build_type == 'release'
+        if: matrix.buildtype == 'release'
         working-directory: build
         run: find . -type f \( -iname \*.dll -o -iname \*.exe \) -exec /strawberry-mxe/usr/bin/${{matrix.arch}}-w64-mingw32.shared-strip {} \;
 
       - name: Strip gdb.exe
-        if: matrix.build_type == 'debug'
+        if: matrix.buildtype == 'debug'
         working-directory: build
         run: /strawberry-mxe/usr/bin/${{matrix.arch}}-w64-mingw32.shared-strip gdb.exe
 
@@ -1313,15 +1310,19 @@ jobs:
       fail-fast: false
       matrix:
         arch: [ 'x86', 'x86_64' ]
-        build_type: [ 'debug', 'release' ]
+        buildtype: [ 'debug', 'release' ]
     steps:
 
       - name: Set prefix path
         shell: bash
         run: |
-          echo "prefix_path_backslash=c:\strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}" >> $GITHUB_ENV
-          echo "prefix_path_forwardslash=c:/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}" >> $GITHUB_ENV
-          echo "prefix_path_unix=/c/strawberry_msvc_${{matrix.arch}}_${{matrix.build_type}}" >> $GITHUB_ENV
+          echo "prefix_path_backslash=c:\strawberry_msvc_${{matrix.arch}}_${{matrix.buildtype}}" >> $GITHUB_ENV
+          echo "prefix_path_forwardslash=c:/strawberry_msvc_${{matrix.arch}}_${{matrix.buildtype}}" >> $GITHUB_ENV
+          echo "prefix_path_unix=/c/strawberry_msvc_${{matrix.arch}}_${{matrix.buildtype}}" >> $GITHUB_ENV
+
+      - name: Set cmake buildtype
+        shell: bash
+        run: echo "cmake_buildtype=$(echo ${{matrix.buildtype}} | sed 's/.*/\u&/')" >> $GITHUB_ENV
 
       - name: Create downloads directory
         shell: cmd
@@ -1330,12 +1331,12 @@ jobs:
       - name: Download Windows MSVC dependencies
         shell: cmd
         working-directory: downloads
-        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/latest/download/strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
+        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/latest/download/strawberry-msvc-${{matrix.arch}}-${{matrix.buildtype}}.tar.xz
 
       - name: Extract Windows MSVC dependencies
         shell: bash
         working-directory: downloads
-        run: tar -C /c -xf strawberry-msvc-${{matrix.arch}}-${{matrix.build_type}}.tar.xz
+        run: tar -C /c -xf strawberry-msvc-${{matrix.arch}}-${{matrix.buildtype}}.tar.xz
 
       - name: Update PATH
         run: echo "${{env.prefix_path_backslash}}\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
@@ -1436,7 +1437,7 @@ jobs:
           -S .
           -B build
           -G "Ninja"
-          -DCMAKE_BUILD_TYPE="${{matrix.build_type}}"
+          -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_PREFIX_PATH="${{env.prefix_path_forwardslash}}/lib/cmake"
           -DBUILD_WITH_QT6=ON
           -DBUILD_WERROR=OFF
@@ -1450,7 +1451,7 @@ jobs:
         shell: cmd
         env:
           CL: "/MP"
-        run: cmake --build build --config ${{matrix.build_type}} --parallel 4
+        run: cmake --build build --config "${{env.cmake_buildtype}}" --parallel 4
 
       - name: Copy extra binaries
         shell: cmd
