@@ -1356,8 +1356,8 @@ jobs:
       - name: Delete conflicting icu
         shell: bash
         run: |
-          find "/c/program files (x86)/windows kits/" -name 'icu*.lib' -delete
-          find "/c/program files (x86)/windows kits/" -name 'icu*.h' -delete
+          find "/c/program files (x86)/windows kits/" -iname 'icu*.lib' -delete
+          find "/c/program files (x86)/windows kits/" -iname 'icu*.h' -delete
 
       - name: Download NSIS LockedList plugin
         shell: cmd
