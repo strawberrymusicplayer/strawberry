@@ -25,7 +25,8 @@ Build-Depends: debhelper (>= 11),
                libgpod-dev,
                libmtp-dev,
                libchromaprint-dev,
-               libfftw3-dev
+               libfftw3-dev,
+               libebur128-dev
 Standards-Version: 4.6.1
 
 Package: strawberry
