@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-07-21 04:26-0400\n"
+"PO-Revision-Date: 2023-09-10 06:26-0400\n"
 "Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -586,7 +586,7 @@ msgstr "Lägg till alla låtar från en mapp och alla dess undermappar"
 msgid "Add directory..."
 msgstr "Lägg till mapp..."
 
-#: core/mainwindow.cpp:2222
+#: core/mainwindow.cpp:2235
 msgid "Add file"
 msgstr "Lägg till fil"
 
@@ -602,7 +602,7 @@ msgstr "Lägg till fil(er) i omkodaren"
 msgid "Add files to transcode"
 msgstr "Lägg till filer för omkodning"
 
-#: core/mainwindow.cpp:2248 transcoder/transcodedialog.cpp:416
+#: core/mainwindow.cpp:2261 transcoder/transcodedialog.cpp:416
 msgid "Add folder"
 msgstr "Lägg till mapp"
 
@@ -712,7 +712,7 @@ msgstr "Lägg till flöde..."
 msgid "Add to albums"
 msgstr "Lägg till i album"
 
-#: core/mainwindow.cpp:2024
+#: core/mainwindow.cpp:2037
 msgid "Add to another playlist"
 msgstr "Lägg till i en annan spellista"
 
@@ -790,10 +790,13 @@ msgstr "Album (lämplig ljudstyrka för alla spår)"
 msgid "Album - Disc"
 msgstr "Album - Skiva"
 
-#: collection/savedgroupingmanager.cpp:92 playlist/playlist.cpp:1372
-#: organize/organizedialog.cpp:108 ../build/src/ui_groupbydialog.h:192
-#: ../build/src/ui_groupbydialog.h:214 ../build/src/ui_groupbydialog.h:236
-#: ../build/src/ui_edittagdialog.h:909
+#: playlist/playlist.cpp:1372
+msgid "Album Artist"
+msgstr ""
+
+#: collection/savedgroupingmanager.cpp:92 organize/organizedialog.cpp:108
+#: ../build/src/ui_groupbydialog.h:192 ../build/src/ui_groupbydialog.h:214
+#: ../build/src/ui_groupbydialog.h:236 ../build/src/ui_edittagdialog.h:909
 msgid "Album artist"
 msgstr "Albumartist"
 
@@ -948,7 +951,7 @@ msgstr "Automatiska omslag"
 
 #: ../build/src/ui_edittagdialog.h:884
 msgid "Art Embedded"
-msgstr ""
+msgstr "Omslaget inbäddat"
 
 #: ../build/src/ui_edittagdialog.h:898
 msgid "Art Manual"
@@ -956,7 +959,7 @@ msgstr "Manuella omslag"
 
 #: ../build/src/ui_edittagdialog.h:896
 msgid "Art Unset"
-msgstr ""
+msgstr "Omslaget inte inställt"
 
 #: collection/savedgroupingmanager.cpp:95 playlist/playlist.cpp:1364
 #: organize/organizedialog.cpp:106 ../build/src/ui_groupbydialog.h:191
@@ -991,7 +994,7 @@ msgstr "Ljudformat"
 
 #: ../build/src/ui_backendsettingspage.h:668
 msgid "Audio normalization"
-msgstr ""
+msgstr "Ljudnormalisering"
 
 #: ../build/src/ui_backendsettingspage.h:646
 msgid "Audio output"
@@ -1119,10 +1122,14 @@ msgstr "Beteende"
 msgid "Best"
 msgstr "Bästa"
 
+#: playlist/playlist.cpp:1382
+msgid "Bit Depth"
+msgstr ""
+
 #: context/contextview.cpp:165 collection/savedgroupingmanager.cpp:146
-#: playlist/playlist.cpp:1382 organize/organizedialog.cpp:121
-#: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
-#: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:889
+#: organize/organizedialog.cpp:121 ../build/src/ui_groupbydialog.h:208
+#: ../build/src/ui_groupbydialog.h:230 ../build/src/ui_groupbydialog.h:252
+#: ../build/src/ui_edittagdialog.h:889
 msgid "Bit depth"
 msgstr "Bitdjup"
 
@@ -1288,7 +1295,7 @@ msgstr "Rensa diskcache"
 msgid "Clear cover"
 msgstr "Rensa omslag"
 
-#: core/mainwindow.cpp:2313 ../build/src/ui_mainwindow.h:637
+#: core/mainwindow.cpp:2326 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Rensa spellista"
 
@@ -1347,7 +1354,7 @@ msgstr "Samlingsfilter"
 msgid "Collection advanced grouping"
 msgstr "Samling avancerad gruppering"
 
-#: core/mainwindow.cpp:2881
+#: core/mainwindow.cpp:2894
 msgid "Collection rescan notice"
 msgstr "Notis om omskanning av samling"
 
@@ -1568,7 +1575,7 @@ msgstr "Omslaget bytt: kommer att tas bort när det sparas. "
 
 #: dialogs/edittagdialog.cpp:869
 msgid "Cover changed: Will be unset when saved."
-msgstr "Omslaget bytt: återställer när det sparas. "
+msgstr "Omslaget bytt: återställs när det sparas. "
 
 #: dialogs/edittagdialog.cpp:873
 msgid "Cover changed: Will set new when saved."
@@ -1718,11 +1725,19 @@ msgstr "Dans"
 msgid "Database corruption detected."
 msgstr "Databasskada upptäcktes."
 
-#: playlist/playlist.cpp:1390 ../build/src/ui_edittagdialog.h:880
+#: playlist/playlist.cpp:1390
+msgid "Date Created"
+msgstr ""
+
+#: playlist/playlist.cpp:1389
+msgid "Date Modified"
+msgstr ""
+
+#: ../build/src/ui_edittagdialog.h:880
 msgid "Date created"
 msgstr "Datum skapad"
 
-#: playlist/playlist.cpp:1389 ../build/src/ui_edittagdialog.h:883
+#: ../build/src/ui_edittagdialog.h:883
 msgid "Date modified"
 msgstr "Datum ändrad"
 
@@ -1793,11 +1808,11 @@ msgstr "Ta bort originalfiler"
 msgid "Deleting files"
 msgstr "Tar bort filer"
 
-#: core/mainwindow.cpp:1939
+#: core/mainwindow.cpp:1952
 msgid "Dequeue selected tracks"
 msgstr "Ta bort valda spår från kön"
 
-#: core/mainwindow.cpp:1938
+#: core/mainwindow.cpp:1951
 msgid "Dequeue track"
 msgstr "Ta bort spår från kön"
 
@@ -1955,23 +1970,23 @@ msgstr "Dynamisk slumpmässig mixning"
 
 #: context/contextview.cpp:167
 msgid "EBU R 128 Integrated Loudness"
-msgstr ""
+msgstr "EBU R 128 integrerad ljudstyrka"
 
 #: ../build/src/ui_backendsettingspage.h:679
 msgid "EBU R 128 Loudness Normalization"
-msgstr ""
+msgstr "EBU R 128 ljudstyrkenormalisering"
 
 #: context/contextview.cpp:168
 msgid "EBU R 128 Loudness Range"
-msgstr ""
+msgstr "EBU R 128 ljudstyrkeintervall"
 
 #: ../build/src/ui_edittagdialog.h:890
 msgid "EBU R 128 integrated loudness"
-msgstr ""
+msgstr "EBU R 128 integrerad ljudstyrka"
 
 #: ../build/src/ui_edittagdialog.h:899
 msgid "EBU R 128 loudness range"
-msgstr ""
+msgstr "EBU R 128 ljudstyrkeintervall"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
@@ -1981,7 +1996,7 @@ msgstr "Redigera smart spellista"
 msgid "Edit smart playlist..."
 msgstr "Redigera smart spellista..."
 
-#: core/mainwindow.cpp:1982
+#: core/mainwindow.cpp:1995
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Redigera taggen \"%1\"..."
@@ -2148,7 +2163,7 @@ msgstr "Motsvarar --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Motsvarar --log-levels *:3"
 
-#: core/mainwindow.cpp:2612 core/mainwindow.cpp:2763
+#: core/mainwindow.cpp:2625 core/mainwindow.cpp:2776
 #: collection/collectionview.cpp:587
 msgid "Error"
 msgstr "Fel"
@@ -2360,6 +2375,22 @@ msgstr "Filen %1 finns inte."
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Filen %1 känns inte igen som en giltig ljudfil."
 
+#: playlist/playlist.cpp:1385
+msgid "File Name"
+msgstr ""
+
+#: playlist/playlist.cpp:1386
+msgid "File Name (without path)"
+msgstr ""
+
+#: playlist/playlist.cpp:1387
+msgid "File Size"
+msgstr ""
+
+#: playlist/playlist.cpp:1388
+msgid "File Type"
+msgstr ""
+
 #: organize/organizedialog.cpp:122
 msgid "File extension"
 msgstr "Filändelse"
@@ -2368,25 +2399,17 @@ msgstr "Filändelse"
 msgid "File formats"
 msgstr "Filformat"
 
-#: playlist/playlist.cpp:1385
-msgid "File name"
-msgstr "Filnamn"
-
-#: playlist/playlist.cpp:1386
-msgid "File name (without path)"
-msgstr "Filnamn (utan sökväg)"
-
 #: ../build/src/ui_playlistsaveoptionsdialog.h:92
 msgid "File paths"
 msgstr "Filsökvägar"
 
-#: playlist/playlist.cpp:1387 ../build/src/ui_edittagdialog.h:897
+#: ../build/src/ui_edittagdialog.h:897
 msgid "File size"
 msgstr "Filstorlek"
 
-#: collection/savedgroupingmanager.cpp:137 playlist/playlist.cpp:1388
-#: ../build/src/ui_groupbydialog.h:206 ../build/src/ui_groupbydialog.h:228
-#: ../build/src/ui_groupbydialog.h:250 ../build/src/ui_edittagdialog.h:886
+#: collection/savedgroupingmanager.cpp:137 ../build/src/ui_groupbydialog.h:206
+#: ../build/src/ui_groupbydialog.h:228 ../build/src/ui_groupbydialog.h:250
+#: ../build/src/ui_edittagdialog.h:886
 msgid "File type"
 msgstr "Filtyp"
 
@@ -2539,7 +2562,7 @@ msgstr "Allmänt"
 msgid "General settings"
 msgstr "Allmänna inställningar"
 
-#: lyrics/geniuslyricsprovider.cpp:119
+#: lyrics/geniuslyricsprovider.cpp:120
 msgid "Genius Authentication"
 msgstr "Genius-autentisering"
 
@@ -2826,7 +2849,7 @@ msgid "Install strawberry through PPA:"
 msgstr "Installera strawberry via PPA:"
 
 #: playlist/playlist.cpp:1398
-msgid "Integrated loudness"
+msgid "Integrated Loudness"
 msgstr ""
 
 #: core/database.cpp:486
@@ -2861,20 +2884,6 @@ msgstr ""
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr "Det upptäcktes att Strawberry körs som en Snap"
 
-#: core/mainwindow.cpp:1052
-msgid ""
-"It seems that Strawberry is running under Rosetta. Strawberry currently has "
-"limited macOS support, and running Strawberry under Rosetta is unsupported "
-"and known to have issues. If you want to use Strawberry on the current CPU, "
-"you should build Strawberry from source. For instructions see.: https://wiki."
-"strawberrymusicplayer.org/wiki/Compile"
-msgstr ""
-"Det verkar som att Strawberry kör under Rosetta. Strawberry har för "
-"närvarande begränsat macOS-stöd, och att köra Strawberry under Rosetta stöds "
-"inte och är känt för att ha problem. Om du vill använda Strawberry på den "
-"nuvarande CPU:n bör du bygga Strawberry från källan. För instruktioner se.: "
-"https://wiki.strawberrymusicplayer.org/wiki/Compile"
-
 #: ../build/src/ui_behavioursettingspage.h:301
 msgid "Jump to previous song right away"
 msgstr "Hoppa till föregående låt direkt"
@@ -2893,11 +2902,11 @@ msgstr "Behåll originalfiler"
 
 #: core/song.cpp:715
 msgid "LU"
-msgstr ""
+msgstr "LU"
 
 #: core/song.cpp:703
 msgid "LUFS"
-msgstr ""
+msgstr "LUFS"
 
 #: ../build/src/ui_behavioursettingspage.h:291
 msgid "Language"
@@ -2919,7 +2928,11 @@ msgstr "Stort albumomslag"
 msgid "Large sidebar"
 msgstr "Stort sidofält"
 
-#: playlist/playlist.cpp:1379 smartplaylists/smartplaylistsmodel.cpp:91
+#: playlist/playlist.cpp:1379
+msgid "Last Played"
+msgstr ""
+
+#: smartplaylists/smartplaylistsmodel.cpp:91
 #: ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Senast spelade"
@@ -3054,7 +3067,7 @@ msgid "Long term prediction profile (LTP)"
 msgstr "Långsiktig förutsägelseprofil (LTP)"
 
 #: playlist/playlist.cpp:1399
-msgid "Loudness range"
+msgid "Loudness Range"
 msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:79
@@ -3293,8 +3306,10 @@ msgid ""
 "Multiple search terms can also be combined with \"%1\" (default) and \"%2\", "
 "as well as grouped with parentheses. "
 msgstr ""
+"Flera söktermer kan också kombineras med \"%1\" (standard) och \"%2\", samt "
+"grupperas med parenteser."
 
-#: core/mainwindow.cpp:2222 transcoder/transcodedialog.cpp:325
+#: core/mainwindow.cpp:2235 transcoder/transcodedialog.cpp:325
 msgid "Music"
 msgstr "Musik"
 
@@ -3338,7 +3353,7 @@ msgstr "Aldrig starta uppspelning"
 msgid "New folder"
 msgstr "Ny mapp"
 
-#: core/mainwindow.cpp:2040
+#: core/mainwindow.cpp:2053
 msgid "New playlist"
 msgstr "Ny spellista"
 
@@ -3384,7 +3399,7 @@ msgstr "Ingen analysator"
 
 #: ../build/src/ui_backendsettingspage.h:669
 msgid "No audio normalization"
-msgstr ""
+msgstr "Ingen ljudnormalisering"
 
 #: covermanager/albumcovermanager.cpp:1017
 msgid "No covers to export."
@@ -3422,7 +3437,7 @@ msgstr "Ingen låt spelas"
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2612 core/mainwindow.cpp:2763
+#: core/mainwindow.cpp:2625 core/mainwindow.cpp:2776
 #: collection/collectionview.cpp:587
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ingen av de valda låtarna lämpar sig för kopiering till en enhet"
@@ -3467,10 +3482,6 @@ msgstr "Aviseringstyp"
 #: ../build/src/ui_notificationssettingspage.h:415
 msgid "Notifications"
 msgstr "Aviseringar"
-
-#: core/macsystemtrayicon.mm:73
-msgid "Now Playing"
-msgstr "Spelas just nu"
 
 #: ../build/src/ui_albumcoverexport.h:207
 msgid "O&verwrite all"
@@ -3575,13 +3586,17 @@ msgstr "Organisera filer..."
 msgid "Organizing files"
 msgstr "Organiserar filer"
 
+#: playlist/playlist.cpp:1370
+msgid "Original Year"
+msgstr ""
+
 #: dialogs/trackselectiondialog.cpp:192
 msgid "Original tags"
 msgstr "Ursprungliga taggar"
 
-#: collection/savedgroupingmanager.cpp:122 playlist/playlist.cpp:1370
-#: organize/organizedialog.cpp:115 ../build/src/ui_groupbydialog.h:201
-#: ../build/src/ui_groupbydialog.h:223 ../build/src/ui_groupbydialog.h:245
+#: collection/savedgroupingmanager.cpp:122 organize/organizedialog.cpp:115
+#: ../build/src/ui_groupbydialog.h:201 ../build/src/ui_groupbydialog.h:223
+#: ../build/src/ui_groupbydialog.h:245
 msgid "Original year"
 msgstr "Originalår"
 
@@ -3655,7 +3670,7 @@ msgstr "Sökväg"
 msgid "Pattern"
 msgstr "Mönster"
 
-#: core/mainwindow.cpp:1338 core/mainwindow.cpp:1837
+#: core/mainwindow.cpp:1353 core/mainwindow.cpp:1852
 #: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
 msgstr "Pausa"
@@ -3673,10 +3688,11 @@ msgid ""
 "Perform song EBU R 128 analysis (required for EBU R 128 loudness "
 "normalization)"
 msgstr ""
+"Utför låt EBU R 128 analys (krävs för EBU R 128 ljudstyrkenormalisering)"
 
 #: ../build/src/ui_backendsettingspage.h:680
 msgid "Perform track loudness normalization"
-msgstr ""
+msgstr "Utför normalisering av spårets ljudstyrka"
 
 #: collection/savedgroupingmanager.cpp:131 playlist/playlist.cpp:1374
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:204
@@ -3693,17 +3709,21 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Vanligt sidofält"
 
-#: core/mainwindow.cpp:723 core/mainwindow.cpp:1295 core/mainwindow.cpp:1322
-#: core/mainwindow.cpp:1841 core/qtsystemtrayicon.cpp:160
+#: core/mainwindow.cpp:723 core/mainwindow.cpp:1310 core/mainwindow.cpp:1337
+#: core/mainwindow.cpp:1856 core/qtsystemtrayicon.cpp:160
 #: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
 msgstr "Spela"
+
+#: playlist/playlist.cpp:1377
+msgid "Play Count"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:553
 msgid "Play control buttons"
 msgstr "Spela kontrollknappar"
 
-#: playlist/playlist.cpp:1377 ../build/src/ui_edittagdialog.h:888
+#: ../build/src/ui_edittagdialog.h:888
 msgid "Play count"
 msgstr "Antal spelningar"
 
@@ -3766,7 +3786,7 @@ msgstr "Spellistknappar"
 msgid "Playlist finished"
 msgstr "Spellistan är klar"
 
-#: core/mainwindow.cpp:2313
+#: core/mainwindow.cpp:2326
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3801,7 +3821,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Stäng din webbläsare och återgå till Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
-#: lyrics/geniuslyricsprovider.cpp:119 scrobbler/listenbrainzscrobbler.cpp:190
+#: lyrics/geniuslyricsprovider.cpp:120 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
 msgstr "Öppna den här webbadressen i din webbläsare"
 
@@ -3848,6 +3868,8 @@ msgid ""
 "Prefix a search term with a field name to limit the search to that field, e."
 "g.:"
 msgstr ""
+"Prefix en sökterm med ett fältnamn för att begränsa sökningen till det "
+"fältet, t.ex.:"
 
 #: collection/collectionfilterwidget.cpp:80
 msgid ""
@@ -3953,20 +3975,20 @@ msgstr "Kommunicerar med enhet..."
 msgid "Queue"
 msgstr "Kö"
 
-#: core/mainwindow.cpp:1941
+#: core/mainwindow.cpp:1954
 msgid "Queue selected tracks"
 msgstr "Lägg till valda spår i kön"
 
-#: core/mainwindow.cpp:729 core/mainwindow.cpp:1945
+#: core/mainwindow.cpp:729 core/mainwindow.cpp:1958
 msgid "Queue selected tracks to play next"
 msgstr "Lägg till valda spår i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1948 collection/collectionview.cpp:356
+#: core/mainwindow.cpp:1961 collection/collectionview.cpp:356
 #: internet/internetcollectionview.cpp:321
 msgid "Queue to play next"
 msgstr "Lägg till i kön för att spela som nästa"
 
-#: core/mainwindow.cpp:1940 collection/collectionview.cpp:355
+#: core/mainwindow.cpp:1953 collection/collectionview.cpp:355
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
 #: internet/internetsearchview.cpp:321 internet/internetcollectionview.cpp:320
 msgid "Queue track"
@@ -4022,13 +4044,13 @@ msgstr ""
 "närvarande inte krypterade flöden."
 
 #: covermanager/spotifycoverprovider.cpp:198
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:216
+#: lyrics/geniuslyricsprovider.cpp:148 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
 msgstr "Tog emot ogiltigt svar från webbläsaren."
 
 #: scrobbler/scrobblingapi20.cpp:261
 msgid "Received invalid reply from web browser. Try another browser."
-msgstr ""
+msgstr "Fick ogiltigt svar från webbläsaren. Prova en annan webbläsare."
 
 #: tidal/tidalrequest.cpp:1195 qobuz/qobuzrequest.cpp:1257
 #, qt-format
@@ -4092,7 +4114,7 @@ msgstr "Tar emot låtar för %1 album..."
 msgid "Receiving songs..."
 msgstr "Tar emot låtar..."
 
-#: lyrics/geniuslyricsprovider.cpp:191
+#: lyrics/geniuslyricsprovider.cpp:192
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 "Omdirigering från Genius saknar förfrågningsobjektkod eller tillstånd."
@@ -4101,7 +4123,7 @@ msgstr ""
 msgid "Redirect missing token code or state!"
 msgstr "Omdirigering saknar tokenkod eller tillstånd!"
 
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:212
+#: lyrics/geniuslyricsprovider.cpp:144 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
 msgstr "Omdirigering saknar token-kod!"
 
@@ -4281,12 +4303,12 @@ msgstr "Begränsa till tecken som är tillåtna i FAT-filsystem"
 msgid "Resume playback on start"
 msgstr "Fortsätt uppspelning vid start"
 
-#: subsonic/subsonicrequest.cpp:690
+#: subsonic/subsonicrequest.cpp:688
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Hämtar albumomslag för %1 album..."
 
-#: subsonic/subsonicrequest.cpp:691
+#: subsonic/subsonicrequest.cpp:689
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Hämtar albumomslag för %1 album..."
@@ -4337,10 +4359,13 @@ msgstr "Säker borttagning av enhet"
 msgid "Safely remove the device after copying"
 msgstr "Säker borttagning av enheten efter kopiering"
 
-#: collection/savedgroupingmanager.cpp:143 playlist/playlist.cpp:1381
-#: organize/organizedialog.cpp:120 ../build/src/ui_groupbydialog.h:207
-#: ../build/src/ui_groupbydialog.h:229 ../build/src/ui_groupbydialog.h:251
-#: ../build/src/ui_edittagdialog.h:893
+#: playlist/playlist.cpp:1381
+msgid "Sample Rate"
+msgstr ""
+
+#: collection/savedgroupingmanager.cpp:143 organize/organizedialog.cpp:120
+#: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
+#: ../build/src/ui_groupbydialog.h:251 ../build/src/ui_edittagdialog.h:893
 msgid "Sample rate"
 msgstr "Samplingsfrekvens"
 
@@ -4491,6 +4516,8 @@ msgid ""
 "Search terms for numerical fields can be prefixed with %1 or %2 to refine "
 "the search, e.g.: "
 msgstr ""
+"Söktermer för numeriska fält kan prefixas med %1 eller %2 för att förfina "
+"sökningen, t.ex.:"
 
 #: tidal/tidalrequest.cpp:369 tidal/tidalrequest.cpp:383
 #: tidal/tidalrequest.cpp:397 qobuz/qobuzrequest.cpp:357
@@ -4574,7 +4601,7 @@ msgstr "Serverwebbadressen är ogiltig."
 msgid "Server-side scrobbling"
 msgstr "Skrobbling på serversidan"
 
-#: core/mainwindow.cpp:1981
+#: core/mainwindow.cpp:1994
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Ställ in %1 till \"%2\"..."
@@ -4804,11 +4831,15 @@ msgstr "Storlek:"
 msgid "Ska"
 msgstr "Ska"
 
+#: playlist/playlist.cpp:1378
+msgid "Skip Count"
+msgstr ""
+
 #: core/commandlineoptions.cpp:224
 msgid "Skip backwards in playlist"
 msgstr "Hoppa bakåt i spellista"
 
-#: playlist/playlist.cpp:1378 ../build/src/ui_edittagdialog.h:892
+#: ../build/src/ui_edittagdialog.h:892
 msgid "Skip count"
 msgstr "Antal överhoppningar"
 
@@ -4816,11 +4847,11 @@ msgstr "Antal överhoppningar"
 msgid "Skip forwards in playlist"
 msgstr "Hoppa framåt i spellista"
 
-#: core/mainwindow.cpp:1954
+#: core/mainwindow.cpp:1967
 msgid "Skip selected tracks"
 msgstr "Hoppa över valda spår"
 
-#: core/mainwindow.cpp:1953
+#: core/mainwindow.cpp:1966
 msgid "Skip track"
 msgstr "Hoppa över spår"
 
@@ -4906,6 +4937,10 @@ msgstr "Källa"
 #: ../build/src/ui_transcodersettingspage.h:191
 msgid "Speex"
 msgstr "Speex"
+
+#: core/mainwindow.cpp:1068
+msgid "Sponsoring Strawberry"
+msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:149
 msgid "Spotify Authentication"
@@ -4996,6 +5031,14 @@ msgstr "Strawberry kan visa ett meddelande vid byte av spår."
 #: dialogs/about.cpp:111
 msgid "Strawberry is a music player and music collection organizer."
 msgstr "Strawberry är en musikspelare och musiksamlingsorganisatör."
+
+#: core/mainwindow.cpp:1068
+#, qt-format
+msgid ""
+"Strawberry is free and open source software. If you like Strawberry, please "
+"consider sponsoring the project. For more information about sponsorship see "
+"our website %1"
+msgstr ""
 
 #: dialogs/about.cpp:117
 #, qt-format
@@ -5124,7 +5167,7 @@ msgstr "Taggar"
 
 #: ../build/src/ui_backendsettingspage.h:681
 msgid "Target Level"
-msgstr ""
+msgstr "Målnivå"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
@@ -5192,7 +5235,7 @@ msgstr "Webbplatsen du söker finns inte!"
 msgid "The site you requested is not an image!"
 msgstr "Webbplatsen du söker är inte en bild!"
 
-#: core/mainwindow.cpp:2876
+#: core/mainwindow.cpp:2889
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -5329,7 +5372,7 @@ msgstr "Idag"
 msgid "Toggle Pretty OSD"
 msgstr "Växla snygg avisering"
 
-#: core/mainwindow.cpp:726 core/mainwindow.cpp:1942
+#: core/mainwindow.cpp:726 core/mainwindow.cpp:1955
 msgid "Toggle queue status"
 msgstr "Växla köstatus"
 
@@ -5337,7 +5380,7 @@ msgstr "Växla köstatus"
 msgid "Toggle scrobbling"
 msgstr "Växla skrobbling"
 
-#: core/mainwindow.cpp:732 core/mainwindow.cpp:1955
+#: core/mainwindow.cpp:732 core/mainwindow.cpp:1968
 msgid "Toggle skip status"
 msgstr "Växla status för hoppa över"
 
@@ -5450,7 +5493,7 @@ msgstr "Avinstallera snap med:"
 msgid "Unknown"
 msgstr "Okänt"
 
-#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1430
+#: subsonic/subsonicrequest.cpp:881 qobuz/qobuzrequest.cpp:1430
 msgid "Unknown error"
 msgstr "Okänt fel"
 
@@ -5466,11 +5509,11 @@ msgstr "Okänd ändelse för spellista"
 msgid "Unset cover"
 msgstr "Ta bort omslag"
 
-#: core/mainwindow.cpp:1952
+#: core/mainwindow.cpp:1965
 msgid "Unskip selected tracks"
 msgstr "Hoppa inte över valda spår"
 
-#: core/mainwindow.cpp:1951
+#: core/mainwindow.cpp:1964
 msgid "Unskip track"
 msgstr "Hoppa inte över valt spår"
 
@@ -5724,7 +5767,7 @@ msgstr ""
 "Vill du flytta de andra låtarna i det här albumet till diverse artister "
 "också?"
 
-#: core/mainwindow.cpp:2880
+#: core/mainwindow.cpp:2893
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vill du köra en fullständig omskanning nu?"
 
@@ -5787,6 +5830,14 @@ msgstr ""
 #: ../build/src/ui_loginstatewidget.h:165
 msgid "You are not signed in."
 msgstr "Du är inte inloggad."
+
+#: core/mainwindow.cpp:1052
+#, qt-format
+msgid ""
+"You are running Strawberry under Rosetta. Running Strawberry under Rosetta "
+"is unsupported and known to have issues. You should download Strawberry for "
+"the correct CPU architecture from %1"
+msgstr ""
 
 #: widgets/loginstatewidget.cpp:83
 #, qt-format
@@ -6012,7 +6063,7 @@ msgstr "pcm"
 
 #: collection/collectionfilterwidget.cpp:90 playlist/playlistcontainer.cpp:140
 msgid "rating"
-msgstr ""
+msgstr "betyg"
 
 #: playlist/playlistundocommands.cpp:68 playlist/playlistundocommands.cpp:96
 #, c-format, qt-plural-format
@@ -6023,12 +6074,12 @@ msgstr "ta bort %n låtar"
 #: collection/collectionfilterwidget.cpp:85
 #, qt-format
 msgid "searches the collection for all artists that contain the word %1. "
-msgstr ""
+msgstr "söker i samlingen efter alla artister som innehåller ordet %1."
 
 #: playlist/playlistcontainer.cpp:134
 #, qt-format
 msgid "searches the playlist for all artists that contain the word %1. "
-msgstr ""
+msgstr "söker i spellistan efter alla artister som innehåller ordet %1."
 
 #: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "shortest first"
