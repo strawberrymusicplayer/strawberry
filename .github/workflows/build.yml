@@ -452,7 +452,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mageia-${{matrix.mageia_version}}
-          path:
+          path: |
             /github/home/rpmbuild/SRPMS/*.rpm
             /github/home/rpmbuild/RPMS/x86_64/*.rpm
       - name: SSH key setup
