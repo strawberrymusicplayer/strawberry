@@ -23,6 +23,26 @@ if [ "${GST_PLUGIN_PATH}" = "" ]; then
   exit 1
 fi
 
+if ! [ -e "${GIO_EXTRA_MODULES}/libgiognutls.so" ] && ! [ -e "${GIO_EXTRA_MODULES}/libgioopenssl.so" ]; then
+  echo "Error: Missing ${GIO_EXTRA_MODULES}/libgiognutls.so or ${GIO_EXTRA_MODULES}/libgioopenssl.so."
+  exit 1
+fi
+
+if ! [ -e "${GST_PLUGIN_SCANNER}" ]; then
+  echo "Error: Missing ${GST_PLUGIN_SCANNER}"
+  exit 1
+fi
+
+if ! [ -d "${GST_PLUGIN_PATH}" ]; then
+  echo "Error: GStreamer plugins path ${GST_PLUGIN_PATH} does not exist."
+  exit 1
+fi
+
+if ! [ -e "${GST_PLUGIN_PATH}/libgstcoreelements.so" ] && ! [ -e "${GST_PLUGIN_PATH}/libgstcoreelements.dylib" ]; then
+  echo "Error: Missing libgstcoreelements.{so,dylib} in GStreamer plugins path ${GST_PLUGIN_PATH}."
+  exit 1
+fi
+
 mkdir -p "${bundledir}/Contents/PlugIns/gio-modules" || exit 1
 mkdir -p "${bundledir}/Contents/PlugIns/gstreamer" || exit 1
 
@@ -38,82 +58,75 @@ else
   echo "Warning: Missing ${GIO_EXTRA_MODULES}/libgioopenssl.so"
 fi
 
-if ! [ -e "${GST_PLUGIN_SCANNER}" ]; then
-  echo "Error: Missing ${GST_PLUGIN_SCANNER}"
-  exit 1
-fi
 cp -v -f "${GST_PLUGIN_SCANNER}" "${bundledir}/Contents/PlugIns/" || exit 1
 
-if ! [ -d "${GST_PLUGIN_PATH}" ]; then
-  echo "Error: GStreamer plugins path ${GST_PLUGIN_PATH} does not exist."
-  exit 1
-fi
-
 gst_plugins="
-libgstaes.dylib
-libgstaiff.dylib
-libgstapetag.dylib
-libgstapp.dylib
-libgstasf.dylib
-libgstasfmux.dylib
-libgstaudioconvert.dylib
-libgstaudiofx.dylib
-libgstaudiomixer.dylib
-libgstaudioparsers.dylib
-libgstaudiorate.dylib
-libgstaudioresample.dylib
-libgstaudiotestsrc.dylib
-libgstautodetect.dylib
-libgstbs2b.dylib
-libgstcdio.dylib
-libgstcoreelements.dylib
-libgstdash.dylib
-libgstequalizer.dylib
-libgstfaac.dylib
-libgstfaad.dylib
-libgstfdkaac.dylib
-libgstflac.dylib
-libgstgio.dylib
-libgsthls.dylib
-libgsticydemux.dylib
-libgstid3demux.dylib
-libgstid3tag.dylib
-libgstisomp4.dylib
-libgstlame.dylib
-libgstlibav.dylib
-libgstmpg123.dylib
-libgstmusepack.dylib
-libgstogg.dylib
-libgstopenmpt.dylib
-libgstopus.dylib
-libgstopusparse.dylib
-libgstosxaudio.dylib
-libgstpbtypes.dylib
-libgstplayback.dylib
-libgstreplaygain.dylib
-libgstrtp.dylib
-libgstrtsp.dylib
-libgstsoup.dylib
-libgstspectrum.dylib
-libgstspeex.dylib
-libgsttaglib.dylib
-libgsttcp.dylib
-libgsttwolame.dylib
-libgsttypefindfunctions.dylib
-libgstudp.dylib
-libgstvolume.dylib
-libgstvorbis.dylib
-libgstwavenc.dylib
-libgstwavpack.dylib
-libgstwavparse.dylib
-libgstxingmux.dylib
+libgstaes
+libgstaiff
+libgstapetag
+libgstapp
+libgstasf
+libgstasfmux
+libgstaudioconvert
+libgstaudiofx
+libgstaudiomixer
+libgstaudioparsers
+libgstaudiorate
+libgstaudioresample
+libgstaudiotestsrc
+libgstautodetect
+libgstbs2b
+libgstcdio
+libgstcoreelements
+libgstdash
+libgstequalizer
+libgstfaac
+libgstfaad
+libgstfdkaac
+libgstflac
+libgstgio
+libgsthls
+libgsticydemux
+libgstid3demux
+libgstid3tag
+libgstisomp4
+libgstlame
+libgstlibav
+libgstmpg123
+libgstmusepack
+libgstogg
+libgstopenmpt
+libgstopus
+libgstopusparse
+libgstosxaudio
+libgstpbtypes
+libgstplayback
+libgstreplaygain
+libgstrtp
+libgstrtsp
+libgstsoup
+libgstspectrum
+libgstspeex
+libgsttaglib
+libgsttcp
+libgsttwolame
+libgsttypefindfunctions
+libgstudp
+libgstvolume
+libgstvorbis
+libgstwavenc
+libgstwavpack
+libgstwavparse
+libgstxingmux
 "
 
 gst_plugins=$(echo "$gst_plugins" | tr '\n' ' ' | sed -e 's/^ //g' | sed -e 's/  / /g')
 for gst_plugin in $gst_plugins; do
-  if [ -e "${GST_PLUGIN_PATH}/${gst_plugin}" ]; then
-    cp -v -f "${GST_PLUGIN_PATH}/${gst_plugin}" "${bundledir}/Contents/PlugIns/gstreamer/" || exit 1
+  if [ -e "${GST_PLUGIN_PATH}/${gst_plugin}.dylib" ]; then
+    cp -v -f "${GST_PLUGIN_PATH}/${gst_plugin}.dylib" "${bundledir}/Contents/PlugIns/gstreamer/" || exit 1
+  elif [ -e "${GST_PLUGIN_PATH}/${gst_plugin}.so" ]; then
+    cp -v -f "${GST_PLUGIN_PATH}/${gst_plugin}.so" "${bundledir}/Contents/PlugIns/gstreamer/" || exit 1
   else
-    echo "Warning: Missing gstreamer plugin ${gst_plugin}"
+    echo "Warning: Missing gstreamer plugin ${gst_plugin}."
   fi
 done
