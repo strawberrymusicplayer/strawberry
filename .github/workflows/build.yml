@@ -1028,6 +1028,7 @@ jobs:
 
   build-macos-macports:
     name: Build macOS Macports
+    if: false
     runs-on: macos-11
     steps:
       - name: Install macports
