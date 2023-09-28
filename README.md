@@ -36,7 +36,8 @@ There are currently 3 options for sponsoring:
 
 1. [GitHub Sponsors](https://github.com/sponsors/jonaski)
 2. [Patreon](https://www.patreon.com/jonaskvinge)
-3. [PayPal](https://paypal.me/jonaskvinge)
+3. [Ko-fi](https://ko-fi.com/jonaskvinge)
+4. [PayPal](https://paypal.me/jonaskvinge)
 
 Funding developers is a way to contribute to open source projects you appreciate, it helps developers get the resources they need, and recognize contributors working behind the scenes to make open source better for everyone.
 
