@@ -510,7 +510,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
     else {
       QString ext_part(ExtensionPart(child));
       QString dir_part(DirectoryPart(child));
-      if (kIgnoredExtensions.contains(child_info.suffix()) || child_info.baseName() == "qt_temp") {
+      if (kIgnoredExtensions.contains(child_info.suffix(), Qt::CaseInsensitive) || child_info.baseName() == "qt_temp") {
         t->AddToProgress(1);
       }
       else if (sValidImages.contains(ext_part)) {
