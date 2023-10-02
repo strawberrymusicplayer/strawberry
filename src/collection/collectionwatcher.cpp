@@ -71,6 +71,7 @@
 using namespace std::chrono_literals;
 
 QStringList CollectionWatcher::sValidImages = QStringList() << "jpg" << "png" << "gif" << "jpeg";
+QStringList CollectionWatcher::kIgnoredExtensions = QStringList() << "tmp" << "tar" << "gz" << "bz2" << "xz" << "tbz" << "tgz" << "z" << "zip" << "rar";
 
 CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
     : QObject(parent),
@@ -509,7 +510,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
     else {
       QString ext_part(ExtensionPart(child));
       QString dir_part(DirectoryPart(child));
-      if (child_info.suffix() == "tmp" || child_info.baseName() == "qt_temp") {
+      if (kIgnoredExtensions.contains(child_info.suffix()) || child_info.baseName() == "qt_temp") {
         t->AddToProgress(1);
       }
       else if (sValidImages.contains(ext_part)) {
