@@ -38,6 +38,7 @@ jobs:
             make
             cmake
             gettext-tools
+            openssh-clients
             rsync
             glibc-devel
             libboost_headers-devel
