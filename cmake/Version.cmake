@@ -25,7 +25,7 @@ if(INCLUDE_GIT_REVISION AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
 
   find_program(GIT_EXECUTABLE git)
   if(NOT GIT_EXECUTABLE OR GIT_EXECUTABLE-NOTFOUND)
-    message(FATAL_ERROR "Missing GIT executable." )
+    message(FATAL_ERROR "Missing Git executable." )
   endif()
 
   # Get the current working branch
@@ -48,7 +48,7 @@ if(INCLUDE_GIT_REVISION AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
   )
 
   if(NOT ${GIT_CMD_RESULT_REVISION} EQUAL 0)
-    message(FATAL_ERROR "GIT command failed to get revision string '${GIT_REVISION}'")
+    message(FATAL_ERROR "Git command failed to get revision string '${GIT_REVISION}'")
   endif()
 
 endif()
@@ -67,7 +67,7 @@ if(GIT_REVISION)
 
   list(LENGTH GIT_PARTS GIT_PARTS_LENGTH)
   if(NOT GIT_PARTS_LENGTH EQUAL 3)
-    message(FATAL_ERROR "Failed to parse git revision string '${GIT_REVISION}'")
+    set(GIT_PARTS "${majorminorpatch};0;${GIT_REVISION}")
   endif()
 
   list(GET GIT_PARTS 0 GIT_TAGNAME)
