@@ -5521,7 +5521,7 @@ msgstr "Hoppa inte över valt spår"
 msgid "Update the collection when Strawberry starts"
 msgstr "Uppdatera samlingen när Strawberry startar"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "Uppdaterar %1"
@@ -5536,7 +5536,7 @@ msgstr "Uppdaterar %1-databasen."
 msgid "Updating %1%..."
 msgstr "Uppdaterar %1%..."
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Uppdaterar samlingen"
 

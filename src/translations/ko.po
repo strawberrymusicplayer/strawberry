@@ -5419,7 +5419,7 @@ msgstr "트랙 건너뛰기 해제"
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry 시작 시 라이브러리 업데이트"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 업데이트 중"
@@ -5434,7 +5434,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "%1% 업데이트 중..."
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "라이브러리 업데이트 중"
 

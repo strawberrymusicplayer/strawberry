@@ -5423,7 +5423,7 @@ msgstr "トラックをスキップしない"
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry の起動時にライブラリを更新する"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 の更新中"
@@ -5438,7 +5438,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "更新しています %1%..."
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "ライブラリの更新中"
 

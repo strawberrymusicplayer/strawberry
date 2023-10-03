@@ -5552,7 +5552,7 @@ msgstr "Ripristina traccia"
 msgid "Update the collection when Strawberry starts"
 msgstr "Aggiorna la raccolta all'avvio di Strawberry"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "Aggiornamento di %1"
@@ -5567,7 +5567,7 @@ msgstr "Aggiornamento database '%1'."
 msgid "Updating %1%..."
 msgstr "Aggiornamento %1%..."
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Aggiornamento raccolta"
 

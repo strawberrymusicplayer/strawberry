@@ -5452,7 +5452,7 @@ msgstr ""
 msgid "Update the collection when Strawberry starts"
 msgstr "Päivitä kirjasto Strawberry käynnistyessä"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "Päivitetään %1"
@@ -5467,7 +5467,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "Päivitetään %1 %..."
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Päivitetään kirjastoa"
 

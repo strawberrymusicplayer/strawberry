@@ -5525,7 +5525,7 @@ msgstr "Szám kihagyásának visszavonása"
 msgid "Update the collection when Strawberry starts"
 msgstr "Gyűjtemény frissítése a Strawberry indításakor"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 frissítése"
@@ -5540,7 +5540,7 @@ msgstr "%1 adatbázis frissítése."
 msgid "Updating %1%..."
 msgstr "Frissítés: %1%…"
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Gyűjtemény frissítése"
 

@@ -5498,7 +5498,7 @@ msgstr "Nummer niet overslaan"
 msgid "Update the collection when Strawberry starts"
 msgstr "Bibliotheek bijwerken zodra Strawberry gestart wordt"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 bijwerken"
@@ -5513,7 +5513,7 @@ msgstr "%1 database bijwerken."
 msgid "Updating %1%..."
 msgstr "Bijwerken, %1%…"
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Bibliotheek wordt bijgewerkt"
 

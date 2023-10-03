@@ -5484,7 +5484,7 @@ msgstr "Zrušit přeskočení skladby"
 msgid "Update the collection when Strawberry starts"
 msgstr "Při spuštění Strawberry obnovit hudební sbírku"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "Obnovuje se %1"
@@ -5499,7 +5499,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "Obnovuje se %1%..."
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Obnovuje se hudební sbírka"
 

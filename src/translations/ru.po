@@ -5538,7 +5538,7 @@ msgstr "Не пропускать трек"
 msgid "Update the collection when Strawberry starts"
 msgstr "Обновлять фонотеку при запуске Strawberry"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "Идёт обновление %1"
@@ -5553,7 +5553,7 @@ msgstr "Идёт обновление базы данных %1."
 msgid "Updating %1%..."
 msgstr "Идёт обновление %1%…"
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Обновляется фонотека"
 

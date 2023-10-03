@@ -5467,7 +5467,7 @@ msgstr "No ometis la peça"
 msgid "Update the collection when Strawberry starts"
 msgstr "Actualitza la col·lecció quan l’Strawberry s’iniciï"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "S’està actualitzant %1"
@@ -5482,7 +5482,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "S’està actualitzant %1%…"
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "S’està actualitzant la col·lecció"
 

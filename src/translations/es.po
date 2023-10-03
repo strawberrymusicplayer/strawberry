@@ -5532,7 +5532,7 @@ msgstr "No omitir pista"
 msgid "Update the collection when Strawberry starts"
 msgstr "Actualizar la colección al iniciar Strawberry"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "Actualizando %1"
@@ -5547,7 +5547,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "Actualizando… (%1%)"
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Actualizando la colección"
 

@@ -5600,7 +5600,7 @@ msgstr "Titel nicht überspringen"
 msgid "Update the collection when Strawberry starts"
 msgstr "Bibliothek beim Programmstart aktualisieren"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "Aktualisiere %1"
@@ -5615,7 +5615,7 @@ msgstr "Aktualisieren der Datenbank %1."
 msgid "Updating %1%..."
 msgstr "%1% wird aktualisiert …"
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Bibliothek wird aktualisiert"
 

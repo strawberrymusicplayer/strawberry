@@ -5460,7 +5460,7 @@ msgstr "Não pular faixa"
 msgid "Update the collection when Strawberry starts"
 msgstr "Atualizar a biblioteca quando o Strawberry iniciar"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "Atualizando %1"
@@ -5475,7 +5475,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "Atualizando %1%..."
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Atualizando biblioteca"
 

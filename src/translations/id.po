@@ -5455,7 +5455,7 @@ msgstr "Taklewati trek"
 msgid "Update the collection when Strawberry starts"
 msgstr "Perbarui pustaka ketika memulai Strawberry"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "Memperbarui %1"
@@ -5470,7 +5470,7 @@ msgstr ""
 msgid "Updating %1%..."
 msgstr "Memperbarui %1%..."
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Memperbarui pustaka"
 

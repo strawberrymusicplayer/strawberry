@@ -35,7 +35,6 @@
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Sébastien Morin <sebsweb@gmail.com>, 2019. #zanata
 # David Geiger <geiger.david68210@gmail.com>, 2020. #zanata
-# Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
 # Papoteur <yves.brungard_mageia@gadz.org>, 2020. #zanata
 # Sébastien Morin <sebsweb@gmail.com>, 2020. #zanata
 # David Geiger <geiger.david68210@gmail.com>, 2021. #zanata
@@ -49,7 +48,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-09-13 10:33-0400\n"
+"PO-Revision-Date: 2023-09-27 12:01-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -293,7 +292,7 @@ msgstr "%rating%"
 
 #: ../build/src/ui_contextsettingspage.h:420
 msgid "%title - %artist%"
-msgstr "%titre - %artiste%"
+msgstr "%title - %artist%"
 
 #: ../build/src/ui_contextsettingspage.h:407
 #: ../build/src/ui_notificationssettingspage.h:468
@@ -823,7 +822,7 @@ msgstr "Album - CD"
 
 #: playlist/playlist.cpp:1372
 msgid "Album Artist"
-msgstr ""
+msgstr "Artiste de l'album"
 
 #: collection/savedgroupingmanager.cpp:92 organize/organizedialog.cpp:108
 #: ../build/src/ui_groupbydialog.h:192 ../build/src/ui_groupbydialog.h:214
@@ -1162,7 +1161,7 @@ msgstr "Meilleur"
 
 #: playlist/playlist.cpp:1382
 msgid "Bit Depth"
-msgstr ""
+msgstr "Codage en bit"
 
 #: context/contextview.cpp:165 collection/savedgroupingmanager.cpp:146
 #: organize/organizedialog.cpp:121 ../build/src/ui_groupbydialog.h:208
@@ -1775,11 +1774,11 @@ msgstr "Corruption de la base de données détectée."
 
 #: playlist/playlist.cpp:1390
 msgid "Date Created"
-msgstr ""
+msgstr "Date de création"
 
 #: playlist/playlist.cpp:1389
 msgid "Date Modified"
-msgstr ""
+msgstr "Date de modification"
 
 #: ../build/src/ui_edittagdialog.h:880
 msgid "Date created"
@@ -2433,19 +2432,19 @@ msgstr "Le fichier %1 n'est pas un fichier audio valide."
 
 #: playlist/playlist.cpp:1385
 msgid "File Name"
-msgstr ""
+msgstr "Nom du fichier"
 
 #: playlist/playlist.cpp:1386
 msgid "File Name (without path)"
-msgstr ""
+msgstr "Nom du fichier (sans l'emplacement)"
 
 #: playlist/playlist.cpp:1387
 msgid "File Size"
-msgstr ""
+msgstr "Taille du fichier"
 
 #: playlist/playlist.cpp:1388
 msgid "File Type"
-msgstr ""
+msgstr "Type de fichier"
 
 #: organize/organizedialog.cpp:122
 msgid "File extension"
@@ -2834,8 +2833,8 @@ msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
-"Si vous aimez ce logiciel Strawberry et que pouvez en faire usage, envisagez "
-"de sponsoriser ou de faire un don."
+"Si vous aimez ce logiciel Strawberry et que vous pouvez en faire usage, "
+"envisagez de sponsoriser ou de faire un don."
 
 #: covermanager/albumcoverchoicecontroller.cpp:79
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2995,7 +2994,7 @@ msgstr "Barre latérale large"
 
 #: playlist/playlist.cpp:1379
 msgid "Last Played"
-msgstr ""
+msgstr "Dernière écoute"
 
 #: smartplaylists/smartplaylistsmodel.cpp:91
 #: ../build/src/ui_lastfmimportdialog.h:150
@@ -3662,7 +3661,7 @@ msgstr "Organisation des fichiers"
 
 #: playlist/playlist.cpp:1370
 msgid "Original Year"
-msgstr ""
+msgstr "Année d'origine"
 
 #: dialogs/trackselectiondialog.cpp:192
 msgid "Original tags"
@@ -3794,7 +3793,7 @@ msgstr "Lecture"
 
 #: playlist/playlist.cpp:1377
 msgid "Play Count"
-msgstr ""
+msgstr "Compteur d'écoutes"
 
 #: ../build/src/ui_appearancesettingspage.h:553
 msgid "Play control buttons"
@@ -4445,7 +4444,7 @@ msgstr "Enlever le périphérique en toute sécurité à la fin de la copie"
 
 #: playlist/playlist.cpp:1381
 msgid "Sample Rate"
-msgstr ""
+msgstr "Échantillonnage"
 
 #: collection/savedgroupingmanager.cpp:143 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
@@ -4924,7 +4923,7 @@ msgstr "Ska"
 
 #: playlist/playlist.cpp:1378
 msgid "Skip Count"
-msgstr ""
+msgstr "Compteur de morceaux sautés"
 
 #: core/commandlineoptions.cpp:224
 msgid "Skip backwards in playlist"
@@ -5031,7 +5030,7 @@ msgstr "Speex"
 
 #: core/mainwindow.cpp:1068
 msgid "Sponsoring Strawberry"
-msgstr ""
+msgstr "Sponsor de Strawberry"
 
 #: covermanager/spotifycoverprovider.cpp:149
 msgid "Spotify Authentication"
@@ -5132,6 +5131,9 @@ msgid ""
 "consider sponsoring the project. For more information about sponsorship see "
 "our website %1"
 msgstr ""
+"Strawberry est un logiciel libre et open source. Si vous aimez ce logiciel, "
+"envisagez de sponsoriser le projet. Pour plus d'informations sur le "
+"parrainage/sponsoring, consultez notre site Web %1"
 
 #: dialogs/about.cpp:117
 #, qt-format
@@ -5159,7 +5161,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:1052
 msgid "Strawberry running under Rosetta"
-msgstr " Strawberry fonctionnant sous Rosetta"
+msgstr "Strawberry fonctionnant sous Rosetta"
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Strawberry was unable to find results for this file"
@@ -5621,7 +5623,7 @@ msgstr "Ne pas passer la piste"
 msgid "Update the collection when Strawberry starts"
 msgstr "Mettre à jour la bibliothèque au lancement de Strawberry"
 
-#: collection/collectionwatcher.cpp:220
+#: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
 msgstr "Mise à jour %1"
@@ -5636,7 +5638,7 @@ msgstr "Mise à jour de la base de données %1."
 msgid "Updating %1%..."
 msgstr "Mise à jour %1%..."
 
-#: collection/collectionwatcher.cpp:217
+#: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
 msgstr "Mise à jour de la bibliothèque"
 
@@ -5942,6 +5944,10 @@ msgid ""
 "is unsupported and known to have issues. You should download Strawberry for "
 "the correct CPU architecture from %1"
 msgstr ""
+"Vous exécutez Strawberry sous Rosetta. L'exécution de Strawberry sous "
+"Rosetta n'est pas prise en charge et est connue pour avoir des problèmes. "
+"Vous devez télécharger Strawberry pour la bonne architecture du processeur à "
+"partir de %1"
 
 #: widgets/loginstatewidget.cpp:83
 #, qt-format
