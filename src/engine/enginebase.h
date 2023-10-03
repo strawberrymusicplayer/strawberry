@@ -75,7 +75,7 @@ class EngineBase : public QObject {
     Error
   };
 
-  enum TrackChangeType {
+  enum class TrackChangeType {
     // One of:
     First = 0x01,
     Manual = 0x02,
@@ -254,5 +254,6 @@ Q_DECLARE_METATYPE(EngineBase::Type)
 Q_DECLARE_METATYPE(EngineBase::State)
 Q_DECLARE_METATYPE(EngineBase::TrackChangeType)
 Q_DECLARE_METATYPE(EngineBase::OutputDetails)
+Q_DECLARE_OPERATORS_FOR_FLAGS(EngineBase::TrackChangeFlags)
 
 #endif  // ENGINEBASE_H

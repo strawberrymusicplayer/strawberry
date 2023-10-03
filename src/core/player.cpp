@@ -385,7 +385,7 @@ void Player::NextItem(const EngineBase::TrackChangeFlags change, const Playlist:
   Playlist *active_playlist = app_->playlist_manager()->active();
 
   // If we received too many errors in auto change, with repeat enabled, we stop
-  if (change == EngineBase::TrackChangeType::Auto) {
+  if (change & EngineBase::TrackChangeType::Auto) {
     const PlaylistSequence::RepeatMode repeat_mode = active_playlist->sequence()->repeat_mode();
     if (repeat_mode != PlaylistSequence::RepeatMode::Off) {
       if ((repeat_mode == PlaylistSequence::RepeatMode::Track && nb_errors_received_ >= 3) || (nb_errors_received_ >= app_->playlist_manager()->active()->filter()->rowCount())) {
@@ -706,7 +706,7 @@ void Player::PlayAt(const int index, const quint64 offset_nanosec, EngineBase::T
   pause_time_ = QDateTime();
   play_offset_nanosec_ = offset_nanosec;
 
-  if (current_item_ && change == EngineBase::TrackChangeType::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
+  if (current_item_ && change & EngineBase::TrackChangeType::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
     emit TrackSkipped(current_item_);
   }
 
