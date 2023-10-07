@@ -92,7 +92,7 @@ PlaylistProxyStyle::PlaylistProxyStyle(const QString &style) : QProxyStyle(style
 
 void PlaylistProxyStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
 
-  if (element == CE_Header) {
+  if (element == CE_HeaderLabel) {
     const QStyleOptionHeader *header_option = qstyleoption_cast<const QStyleOptionHeader*>(option);
     const QRect &rect = header_option->rect;
     const QString &text = header_option->text;
