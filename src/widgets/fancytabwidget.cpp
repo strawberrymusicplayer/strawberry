@@ -425,7 +425,7 @@ void FancyTabWidget::currentTabChanged(const int idx) {
 class FancyTabWidgetProxyStyle : public QProxyStyle {  // clazy:exclude=missing-qobject-macro
 
  public:
-  explicit FancyTabWidgetProxyStyle(QStyle *style) : QProxyStyle(style), common_style_(new QCommonStyle()) {}
+  explicit FancyTabWidgetProxyStyle(const QString &style) : QProxyStyle(style), common_style_(new QCommonStyle()) {}
   ~FancyTabWidgetProxyStyle() override { common_style_->deleteLater(); }
 
   QRect subElementRect(QStyle::SubElement element, const QStyleOption *option, const QWidget *widget = nullptr) const override {
@@ -462,7 +462,11 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
   setElideMode(Qt::ElideNone);
   setUsesScrollButtons(true);
   if (QApplication::style() && QApplication::style()->objectName().contains(QRegularExpression("^adwaita.*$", QRegularExpression::CaseInsensitiveOption))) {
-    style_ = new FancyTabWidgetProxyStyle(style());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    style_ = new FancyTabWidgetProxyStyle(style()->name());
+#else
+    style_ = new FancyTabWidgetProxyStyle(style()->objectName());
+#endif
     setStyle(style_);
   }
 
