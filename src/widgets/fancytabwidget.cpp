@@ -463,9 +463,9 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
   setUsesScrollButtons(true);
   if (QApplication::style() && QApplication::style()->objectName().contains(QRegularExpression("^adwaita.*$", QRegularExpression::CaseInsensitiveOption))) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    style_ = new FancyTabWidgetProxyStyle(style()->name());
+    style_ = new FancyTabWidgetProxyStyle(QApplication::style()->name());
 #else
-    style_ = new FancyTabWidgetProxyStyle(style()->objectName());
+    style_ = new FancyTabWidgetProxyStyle(QApplication::style()->objectName());
 #endif
     setStyle(style_);
   }
