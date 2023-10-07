@@ -67,9 +67,6 @@ class PlaylistContainer : public QWidget {
   bool eventFilter(QObject *objectWatched, QEvent *event) override;
 
  signals:
-  void TabChanged(const int id);
-  void Rename(const int id, const QString &new_name);
-
   void UndoRedoActionsChanged(QAction *undo, QAction *redo);
   void ViewSelectionModelChanged();
 
