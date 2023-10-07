@@ -88,7 +88,7 @@ const int PlaylistView::kAutoscrollGraceTimeout = 30;  // seconds
 const int PlaylistView::kDropIndicatorWidth = 2;
 const int PlaylistView::kDropIndicatorGradientWidth = 5;
 
-PlaylistProxyStyle::PlaylistProxyStyle(QObject*) : QProxyStyle(nullptr), common_style_(new QCommonStyle) {}
+PlaylistProxyStyle::PlaylistProxyStyle(const QString &style) : QProxyStyle(style), common_style_(new QCommonStyle) {}
 
 void PlaylistProxyStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
 
@@ -131,7 +131,7 @@ void PlaylistProxyStyle::drawPrimitive(PrimitiveElement element, const QStyleOpt
 PlaylistView::PlaylistView(QWidget *parent)
     : QTreeView(parent),
       app_(nullptr),
-      style_(new PlaylistProxyStyle()),
+      style_(new PlaylistProxyStyle(QApplication::style()->name())),
       playlist_(nullptr),
       header_(new PlaylistHeader(Qt::Horizontal, this, this)),
       background_image_type_(AppearanceSettingsPage::BackgroundImageType::Default),
