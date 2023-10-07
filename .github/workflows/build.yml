@@ -320,7 +320,7 @@ jobs:
           lib64Qt6Test-devel
           qt6-cmake
           qt6-qtbase-tools
-          qt6-qttools
+          qt6-qttools-linguist
           desktop-file-utils
           appstream
           appstream-util

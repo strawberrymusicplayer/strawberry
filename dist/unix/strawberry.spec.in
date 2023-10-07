@@ -1,9 +1,9 @@
 Name:           strawberry
 Version:        @STRAWBERRY_VERSION_RPM_V@
-%if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos} || "%{?_vendor}" == "openmandriva"
-Release:        @STRAWBERRY_VERSION_RPM_R@%{?dist}
-%else
+%if 0%{?suse_version} || 0%{?mageia}
 Release:        @STRAWBERRY_VERSION_RPM_R@.@RPM_DISTRO@
+%else
+Release:        @STRAWBERRY_VERSION_RPM_R@%{?dist}
 %endif
 Summary:        A music player and music collection organizer
 Group:          Productivity/Multimedia/Sound/Players
@@ -11,7 +11,7 @@ License:        GPL-3.0+
 URL:            https://www.strawberrymusicplayer.org/
 Source0:        %{name}-@STRAWBERRY_VERSION_PACKAGE@.tar.xz
 
-%if 0%{?suse_version} && 0%{?suse_version} > 1325
+%if 0%{?suse_version}
 BuildRequires:  libboost_headers-devel
 %else
 BuildRequires:  boost-devel
@@ -25,15 +25,13 @@ BuildRequires:  gettext
 BuildRequires:  desktop-file-utils
 %if 0%{?suse_version}
 BuildRequires:  update-desktop-files
-%endif
-%if 0%{?suse_version}
 BuildRequires:  appstream-glib
-%else
-  %if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
+%endif
+%if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
 BuildRequires:  libappstream-glib
-  %else
+%endif
+%if 0%{?mageia} || "%{?_vendor}" == "openmandriva"
 BuildRequires:  appstream-util
-  %endif
 %endif
 BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(glib-2.0)
@@ -44,46 +42,28 @@ BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  pkgconfig(protobuf)
 BuildRequires:  pkgconfig(sqlite3) >= 3.9
-%if ! 0%{?centos} && ! 0%{?mageia}
 BuildRequires:  pkgconfig(taglib)
-%endif
 BuildRequires:  pkgconfig(fftw3)
 BuildRequires:  pkgconfig(icu-uc)
 BuildRequires:  pkgconfig(icu-i18n)
-%if "@QT_VERSION_MAJOR@" == "5" && ( 0%{?fedora} || 0%{?rhel_version} || 0%{?centos} )
-BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Core)
-BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Gui)
-BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Widgets)
-BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Concurrent)
-BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Network)
-BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Sql)
-BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@DBus)
-BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@Test)
-BuildRequires:  pkgconfig(Qt@QT_VERSION_MAJOR@X11Extras)
-%else
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Core)
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Gui)
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Widgets)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Concurrent)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Network)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Sql)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@DBus)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Gui)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Widgets)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Test)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@LinguistTools)
 %if "@QT_VERSION_MAJOR@" == "5"
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@X11Extras)
-%endif
-%endif
-%if 0%{?suse_version} || 0%{?fedora_version} || 0%{?mageia}
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@LinguistTools)
 %endif
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-app-1.0)
 BuildRequires:  pkgconfig(gstreamer-audio-1.0)
 BuildRequires:  pkgconfig(gstreamer-base-1.0)
 BuildRequires:  pkgconfig(gstreamer-tag-1.0)
-%if ! 0%{?centos}
 BuildRequires:  pkgconfig(libchromaprint)
-%endif
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  pkgconfig(libcdio)
 BuildRequires:  pkgconfig(libebur128)
@@ -139,22 +119,19 @@ Features:
 %if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
   export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
 %endif
-%{cmake} -DQT_VERSION_MAJOR=@QT_VERSION_MAJOR@
-%if 0%{?centos} || (0%{?mageia} && 0%{?mageia} <= 7) || "%{?_vendor}" == "openmandriva"
-  %make_build
+%if "%{?_vendor}" == "openmandriva"
+%{cmake} -DQT_VERSION_MAJOR=@QT_VERSION_MAJOR@ -DENABLE_TRANSLATIONS=OFF
+%make_build
 %else
-  %cmake_build
+%{cmake} -DQT_VERSION_MAJOR=@QT_VERSION_MAJOR@
+%cmake_build
 %endif
 
 %install
-%if 0%{?centos}
-  %make_install
-%else
 %if 0%{?mageia} || "%{?_vendor}" == "openmandriva"
   %make_install -C build
 %else
   %cmake_install
-%endif
 %endif
 
 %if 0%{?suse_version}
