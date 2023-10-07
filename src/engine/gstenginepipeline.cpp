@@ -1488,7 +1488,10 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 qint64 GstEnginePipeline::position() const {
 
   if (pipeline_is_initialized_) {
-    gst_element_query_position(pipeline_, GST_FORMAT_TIME, &last_known_position_ns_);
+    gint64 current_position = 0;
+    if (gst_element_query_position(pipeline_, GST_FORMAT_TIME, &current_position)) {
+      last_known_position_ns_ = current_position;
+    }
   }
 
   return last_known_position_ns_;
