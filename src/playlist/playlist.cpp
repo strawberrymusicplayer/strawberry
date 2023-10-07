@@ -1286,10 +1286,10 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
 
 }
 
-bool Playlist::CompareItems(const int column, const Qt::SortOrder order, SharedPtr<PlaylistItem> _a, SharedPtr<PlaylistItem> _b) {
+bool Playlist::CompareItems(const int column, const Qt::SortOrder order, PlaylistItemPtr _a, PlaylistItemPtr _b) {
 
-  SharedPtr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
-  SharedPtr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
+  PlaylistItemPtr a = order == Qt::AscendingOrder ? _a : _b;
+  PlaylistItemPtr b = order == Qt::AscendingOrder ? _b : _a;
 
 #define cmp(field) return a->Metadata().field() < b->Metadata().field()
 #define strcmp(field) return QString::localeAwareCompare(a->Metadata().field().toLower(), b->Metadata().field().toLower()) < 0;
@@ -1345,10 +1345,10 @@ bool Playlist::CompareItems(const int column, const Qt::SortOrder order, SharedP
 
 }
 
-bool Playlist::ComparePathDepths(const Qt::SortOrder order, SharedPtr<PlaylistItem> _a, SharedPtr<PlaylistItem> _b) {
+bool Playlist::ComparePathDepths(const Qt::SortOrder order, PlaylistItemPtr _a, PlaylistItemPtr _b) {
 
-  SharedPtr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
-  SharedPtr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
+  PlaylistItemPtr a = order == Qt::AscendingOrder ? _a : _b;
+  PlaylistItemPtr b = order == Qt::AscendingOrder ? _b : _a;
 
   qint64 a_dir_level = a->Url().path().count('/');
   qint64 b_dir_level = b->Url().path().count('/');
