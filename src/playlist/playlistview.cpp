@@ -32,8 +32,6 @@
 #include <QTreeView>
 #include <QHeaderView>
 #include <QClipboard>
-#include <QCommonStyle>
-#include <QFontMetrics>
 #include <QKeySequence>
 #include <QMimeData>
 #include <QMetaType>
@@ -55,9 +53,7 @@
 #include <QPoint>
 #include <QRect>
 #include <QRegion>
-#include <QStyleOptionHeader>
 #include <QStyleOptionViewItem>
-#include <QProxyStyle>
 #include <QLinearGradient>
 #include <QScrollBar>
 #include <QtEvents>
@@ -73,6 +69,7 @@
 #include "playlistheader.h"
 #include "playlistview.h"
 #include "playlistfilter.h"
+#include "playlistproxystyle.h"
 #include "covermanager/currentalbumcoverloader.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "settings/appearancesettingspage.h"
@@ -87,46 +84,6 @@ const int PlaylistView::kGlowIntensitySteps = 24;
 const int PlaylistView::kAutoscrollGraceTimeout = 30;  // seconds
 const int PlaylistView::kDropIndicatorWidth = 2;
 const int PlaylistView::kDropIndicatorGradientWidth = 5;
-
-PlaylistProxyStyle::PlaylistProxyStyle(const QString &style) : QProxyStyle(style), common_style_(new QCommonStyle) {}
-
-void PlaylistProxyStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
-
-  if (element == CE_HeaderLabel) {
-    const QStyleOptionHeader *header_option = qstyleoption_cast<const QStyleOptionHeader*>(option);
-    const QRect &rect = header_option->rect;
-    const QString &text = header_option->text;
-    const QFontMetrics &font_metrics = header_option->fontMetrics;
-
-    // Spaces added to make transition less abrupt
-    if (rect.width() < font_metrics.horizontalAdvance(text + "  ")) {
-      const Playlist::Column column = static_cast<Playlist::Column>(header_option->section);
-      QStyleOptionHeader new_option(*header_option);
-      new_option.text = Playlist::abbreviated_column_name(column);
-      QProxyStyle::drawControl(element, &new_option, painter, widget);
-      return;
-    }
-  }
-
-  if (element == CE_ItemViewItem) {
-    common_style_->drawControl(element, option, painter, widget);
-  }
-  else {
-    QProxyStyle::drawControl(element, option, painter, widget);
-  }
-
-}
-
-void PlaylistProxyStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
-
-  if (element == QStyle::PE_PanelItemViewRow || element == QStyle::PE_PanelItemViewItem) {
-    common_style_->drawPrimitive(element, option, painter, widget);
-  }
-  else {
-    QProxyStyle::drawPrimitive(element, option, painter, widget);
-  }
-
-}
 
 PlaylistView::PlaylistView(QWidget *parent)
     : QTreeView(parent),

@@ -113,6 +113,7 @@ set(SOURCES
   playlist/playlisttabbar.cpp
   playlist/playlistundocommands.cpp
   playlist/playlistview.cpp
+  playlist/playlistproxystyle.cpp
   playlist/songloaderinserter.cpp
   playlist/songplaylistitem.cpp
   playlist/dynamicplaylistcontrols.cpp
@@ -359,6 +360,7 @@ set(HEADERS
   playlist/playlistsequence.h
   playlist/playlisttabbar.h
   playlist/playlistview.h
+  playlist/playlistproxystyle.h
   playlist/playlistitemmimedata.h
   playlist/songloaderinserter.h
   playlist/songmimedata.h
