@@ -131,7 +131,11 @@ void PlaylistProxyStyle::drawPrimitive(PrimitiveElement element, const QStyleOpt
 PlaylistView::PlaylistView(QWidget *parent)
     : QTreeView(parent),
       app_(nullptr),
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
       style_(new PlaylistProxyStyle(QApplication::style()->name())),
+#else
+      style_(new PlaylistProxyStyle(QApplication::style()->objectName())),
+#endif
       playlist_(nullptr),
       header_(new PlaylistHeader(Qt::Horizontal, this, this)),
       background_image_type_(AppearanceSettingsPage::BackgroundImageType::Default),
