@@ -128,10 +128,10 @@ Features:
 %endif
 
 %install
-%if 0%{?mageia} || "%{?_vendor}" == "openmandriva"
-  %make_install -C build
+%if "%{?_vendor}" == "openmandriva"
+%make_install -C build
 %else
-  %cmake_install
+%cmake_install
 %endif
 
 %if 0%{?suse_version}
@@ -140,10 +140,10 @@ Features:
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawberrymusicplayer.strawberry.desktop
-%if 0%{?fedora_version}
-  appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.strawberrymusicplayer.strawberry.appdata.xml
-%else
+%if 0%{?suse_version}
   appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.strawberrymusicplayer.strawberry.appdata.xml
+%else
+  appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.strawberrymusicplayer.strawberry.appdata.xml
 %endif
 
 %files
@@ -154,13 +154,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawberrymusicpl
 %{_bindir}/strawberry-tagreader
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/apps/strawberry.*
-%if 0%{?fedora_version}
-  %{_metainfodir}/*.appdata.xml
-%else
-  %{_datadir}/metainfo/*.appdata.xml
-%endif
 %{_mandir}/man1/%{name}.1.*
 %{_mandir}/man1/%{name}-tagreader.1.*
+%if 0%{?suse_version}
+%{_datadir}/metainfo/*.appdata.xml
+%else
+%{_metainfodir}/*.appdata.xml
+%endif
 
 %changelog
 * @RPM_DATE@ Jonas Kvinge <jonas@jkvinge.net> - @STRAWBERRY_VERSION_RPM_V@
