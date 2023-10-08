@@ -1,6 +1,6 @@
 Name:           strawberry
 Version:        @STRAWBERRY_VERSION_RPM_V@
-%if 0%{?suse_version} || 0%{?mageia}
+%if 0%{?suse_version}
 Release:        @STRAWBERRY_VERSION_RPM_R@.@RPM_DISTRO@
 %else
 Release:        @STRAWBERRY_VERSION_RPM_R@%{?dist}
