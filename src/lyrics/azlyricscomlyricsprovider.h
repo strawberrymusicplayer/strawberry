@@ -42,7 +42,7 @@ class AzLyricsComLyricsProvider : public HtmlLyricsProvider {
   QUrl Url(const LyricsSearchRequest &request) override;
 
  private:
-  QString StringFixup(QString string);
+  QString StringFixup(QString text);
 
  private:
   static const char kUrl[];

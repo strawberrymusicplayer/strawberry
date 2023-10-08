@@ -25,7 +25,7 @@
 class MusixmatchProvider {
 
  protected:
-  QString StringFixup(QString string);
+  QString StringFixup(QString text);
 
  protected:
   static const char *kApiUrl;

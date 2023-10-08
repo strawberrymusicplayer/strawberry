@@ -43,14 +43,15 @@ QUrl SongLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 }
 
-QString SongLyricsComLyricsProvider::StringFixup(QString string) {
+QString SongLyricsComLyricsProvider::StringFixup(QString text) {
 
-  return string.replace('/', '-')
-    .replace('\'', '-')
-    .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
-    .simplified()
-    .replace(' ', '-')
-    .replace(QRegularExpression("(-)\\1+"), "-")
-    .toLower();
+  return text.replace('/', '-')
+             .replace('\'', '-')
+             .remove(QRegularExpression("[^\\w0-9\\- ]"))
+             .replace(QRegularExpression(" {2,}"), " ")
+             .simplified()
+             .replace(' ', '-')
+             .replace(QRegularExpression("(-)\\1+"), "-")
+             .toLower();
 
 }

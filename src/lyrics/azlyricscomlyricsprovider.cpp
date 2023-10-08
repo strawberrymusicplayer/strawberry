@@ -26,6 +26,7 @@
 
 #include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
+#include "utilities/transliterate.h"
 #include "lyricssearchrequest.h"
 #include "azlyricscomlyricsprovider.h"
 
@@ -43,8 +44,8 @@ QUrl AzLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 }
 
-QString AzLyricsComLyricsProvider::StringFixup(QString string) {
+QString AzLyricsComLyricsProvider::StringFixup(QString text) {
 
-  return string.remove(QRegularExpression("[^\\w0-9\\-]", QRegularExpression::UseUnicodePropertiesOption)).simplified().toLower();
+  return Utilities::Transliterate(text).remove(QRegularExpression("[^\\w0-9\\-]")).toLower();
 
 }

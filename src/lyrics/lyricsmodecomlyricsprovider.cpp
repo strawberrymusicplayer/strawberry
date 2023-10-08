@@ -43,12 +43,14 @@ QUrl LyricsModeComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 }
 
-QString LyricsModeComLyricsProvider::StringFixup(QString string) {
+QString LyricsModeComLyricsProvider::StringFixup(QString text) {
 
-  return string
-    .replace(' ', '_')
-    .remove(QRegularExpression("[^\\w0-9_-]", QRegularExpression::UseUnicodePropertiesOption))
+  return text
+    .remove(QRegularExpression("[^\\w0-9_\\- ]"))
+    .replace(QRegularExpression(" {2,}"), " ")
     .simplified()
+    .replace(' ', '_')
+    .replace('-', '_')
     .toLower();
 
 }

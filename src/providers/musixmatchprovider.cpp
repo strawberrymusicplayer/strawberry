@@ -25,14 +25,15 @@
 const char *MusixmatchProvider::kApiUrl = "https://api.musixmatch.com/ws/1.1";
 const char *MusixmatchProvider::kApiKey = "Y2FhMDRlN2Y4OWE5OTIxYmZlOGMzOWQzOGI3ZGU4MjE=";
 
-QString MusixmatchProvider::StringFixup(QString string) {
+QString MusixmatchProvider::StringFixup(QString text) {
 
-  return string.replace('/', '-')
-               .replace('\'', '-')
-               .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
-               .simplified()
-               .replace(' ', '-')
-               .replace(QRegularExpression("(-)\\1+"), "-")
-               .toLower();
+  return text.replace('/', '-')
+             .replace('\'', '-')
+             .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
+             .replace(QRegularExpression(" {2,}"), " ")
+             .simplified()
+             .replace(' ', '-')
+             .replace(QRegularExpression("(-)\\1+"), "-")
+             .toLower();
 
 }

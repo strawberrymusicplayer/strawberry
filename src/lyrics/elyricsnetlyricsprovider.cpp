@@ -26,6 +26,7 @@
 
 #include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
+#include "utilities/transliterate.h"
 #include "lyricssearchrequest.h"
 #include "elyricsnetlyricsprovider.h"
 
@@ -43,12 +44,13 @@ QUrl ElyricsNetLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 }
 
-QString ElyricsNetLyricsProvider::StringFixup(QString string) {
+QString ElyricsNetLyricsProvider::StringFixup(QString text) {
 
-  return string
-    .replace(' ', '-')
-    .replace(QRegularExpression("[^\\w0-9_-]", QRegularExpression::UseUnicodePropertiesOption), "_")
+  return Utilities::Transliterate(text)
+    .replace(QRegularExpression("[^\\w0-9_,&\\-\\(\\) ]"), "_")
+    .replace(QRegularExpression(" {2,}"), " ")
     .simplified()
+    .replace(' ', '-')
     .toLower();
 
 }
