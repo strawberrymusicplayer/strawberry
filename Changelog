@@ -7,6 +7,12 @@ Unreleased:
   Bugfixes:
     * Fixed seekbar position resetting to zero before showing actual position when seeking.
     * Fixed compressed files showing up in collection (#1274).
+    * Fixed connecting devices.
+    * Fixed device schema missing ebur128 fields.
+    * (Windows) Fixed playlist header colors in dark mode.
+
+  Enhancements:
+    * Improved lyrics matching.
 
 Version 1.0.20 (2023.09.24):
 
