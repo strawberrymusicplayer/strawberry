@@ -2724,7 +2724,7 @@ msgstr "Icono"
 msgid "Icon sizes"
 msgstr "Tamaños de iconos"
 
-#: widgets/fancytabwidget.cpp:728
+#: widgets/fancytabwidget.cpp:732
 msgid "Icons on top"
 msgstr "Iconos en la parte superior"
 
@@ -2907,7 +2907,7 @@ msgstr "Salón grande"
 msgid "Large album cover"
 msgstr "Cubierta de álbum grande"
 
-#: widgets/fancytabwidget.cpp:724
+#: widgets/fancytabwidget.cpp:728
 msgid "Large sidebar"
 msgstr "Barra lateral grande"
 
@@ -3687,7 +3687,7 @@ msgstr "Intérprete"
 msgid "Pixel"
 msgstr "Píxel"
 
-#: widgets/fancytabwidget.cpp:726
+#: widgets/fancytabwidget.cpp:730
 msgid "Plain sidebar"
 msgstr "Barra lateral simple"
 
@@ -4834,7 +4834,7 @@ msgstr "Omitir pista"
 msgid "Small album cover"
 msgstr "Cubierta de álbum pequeña"
 
-#: widgets/fancytabwidget.cpp:725
+#: widgets/fancytabwidget.cpp:729
 msgid "Small sidebar"
 msgstr "Barra lateral pequeña"
 
@@ -5125,7 +5125,7 @@ msgstr "Barra pequeña"
 msgid "Tabbar small mode"
 msgstr "Barra grande"
 
-#: widgets/fancytabwidget.cpp:727
+#: widgets/fancytabwidget.cpp:731
 msgid "Tabs on top"
 msgstr "Pestañas en la parte superior"
 
@@ -5973,7 +5973,7 @@ msgid "in the last"
 msgstr "en el último"
 
 #: context/contextview.cpp:497 context/contextview.cpp:598
-#: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:785
+#: playlist/playlistview.cpp:224 dialogs/edittagdialog.cpp:785
 msgid "kbps"
 msgstr "kb/s"
 

@@ -2752,7 +2752,7 @@ msgstr "Значок"
 msgid "Icon sizes"
 msgstr "Размер значков"
 
-#: widgets/fancytabwidget.cpp:728
+#: widgets/fancytabwidget.cpp:732
 msgid "Icons on top"
 msgstr "Значки сверху"
 
@@ -2935,7 +2935,7 @@ msgstr "Большой зал"
 msgid "Large album cover"
 msgstr "Крупная обложка альбома"
 
-#: widgets/fancytabwidget.cpp:724
+#: widgets/fancytabwidget.cpp:728
 msgid "Large sidebar"
 msgstr "Широкая боковая панель"
 
@@ -3721,7 +3721,7 @@ msgstr "Исполнитель"
 msgid "Pixel"
 msgstr "Пиксель"
 
-#: widgets/fancytabwidget.cpp:726
+#: widgets/fancytabwidget.cpp:730
 msgid "Plain sidebar"
 msgstr "Обычная боковая панель"
 
@@ -4879,7 +4879,7 @@ msgstr "Пропустить трек"
 msgid "Small album cover"
 msgstr "Маленькая обложка альбома"
 
-#: widgets/fancytabwidget.cpp:725
+#: widgets/fancytabwidget.cpp:729
 msgid "Small sidebar"
 msgstr "Узкая боковая панель"
 
@@ -5174,7 +5174,7 @@ msgstr "Режим широкой боковой панели"
 msgid "Tabbar small mode"
 msgstr "Режим узкой боковой панели"
 
-#: widgets/fancytabwidget.cpp:727
+#: widgets/fancytabwidget.cpp:731
 msgid "Tabs on top"
 msgstr "Вкладки сверху"
 
@@ -6015,7 +6015,7 @@ msgid "in the last"
 msgstr "в последние"
 
 #: context/contextview.cpp:497 context/contextview.cpp:598
-#: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:785
+#: playlist/playlistview.cpp:224 dialogs/edittagdialog.cpp:785
 msgid "kbps"
 msgstr "кбит/с"
 

@@ -2701,7 +2701,7 @@ msgstr "图标"
 msgid "Icon sizes"
 msgstr "图标大小"
 
-#: widgets/fancytabwidget.cpp:728
+#: widgets/fancytabwidget.cpp:732
 msgid "Icons on top"
 msgstr "图标在上"
 
@@ -2873,7 +2873,7 @@ msgstr "大礼堂"
 msgid "Large album cover"
 msgstr "大专辑封面"
 
-#: widgets/fancytabwidget.cpp:724
+#: widgets/fancytabwidget.cpp:728
 msgid "Large sidebar"
 msgstr "大侧边栏"
 
@@ -3647,7 +3647,7 @@ msgstr "表演者"
 msgid "Pixel"
 msgstr "像素"
 
-#: widgets/fancytabwidget.cpp:726
+#: widgets/fancytabwidget.cpp:730
 msgid "Plain sidebar"
 msgstr "普通侧边栏"
 
@@ -4779,7 +4779,7 @@ msgstr "跳过曲目"
 msgid "Small album cover"
 msgstr "小专辑封面"
 
-#: widgets/fancytabwidget.cpp:725
+#: widgets/fancytabwidget.cpp:729
 msgid "Small sidebar"
 msgstr "小侧边栏"
 
@@ -5063,7 +5063,7 @@ msgstr "大标签栏模式"
 msgid "Tabbar small mode"
 msgstr "小标签栏模式"
 
-#: widgets/fancytabwidget.cpp:727
+#: widgets/fancytabwidget.cpp:731
 msgid "Tabs on top"
 msgstr "标签在上"
 
@@ -5870,7 +5870,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:497 context/contextview.cpp:598
-#: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:785
+#: playlist/playlistview.cpp:224 dialogs/edittagdialog.cpp:785
 msgid "kbps"
 msgstr "kbps"
 

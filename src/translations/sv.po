@@ -2742,7 +2742,7 @@ msgstr "Ikon"
 msgid "Icon sizes"
 msgstr "Ikonstorlekar"
 
-#: widgets/fancytabwidget.cpp:728
+#: widgets/fancytabwidget.cpp:732
 msgid "Icons on top"
 msgstr "Ikoner längst upp"
 
@@ -2924,7 +2924,7 @@ msgstr "Stor sal"
 msgid "Large album cover"
 msgstr "Stort albumomslag"
 
-#: widgets/fancytabwidget.cpp:724
+#: widgets/fancytabwidget.cpp:728
 msgid "Large sidebar"
 msgstr "Stort sidofält"
 
@@ -3705,7 +3705,7 @@ msgstr "Aktör"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:726
+#: widgets/fancytabwidget.cpp:730
 msgid "Plain sidebar"
 msgstr "Vanligt sidofält"
 
@@ -4859,7 +4859,7 @@ msgstr "Hoppa över spår"
 msgid "Small album cover"
 msgstr "Litet albumomslag"
 
-#: widgets/fancytabwidget.cpp:725
+#: widgets/fancytabwidget.cpp:729
 msgid "Small sidebar"
 msgstr "Litet sidofält"
 
@@ -5153,7 +5153,7 @@ msgstr "Stort läge för flikfält"
 msgid "Tabbar small mode"
 msgstr "Litet läge för flikfält"
 
-#: widgets/fancytabwidget.cpp:727
+#: widgets/fancytabwidget.cpp:731
 msgid "Tabs on top"
 msgstr "Flikar längst upp"
 
@@ -5998,7 +5998,7 @@ msgid "in the last"
 msgstr "de senaste"
 
 #: context/contextview.cpp:497 context/contextview.cpp:598
-#: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:785
+#: playlist/playlistview.cpp:224 dialogs/edittagdialog.cpp:785
 msgid "kbps"
 msgstr "kbps"
 

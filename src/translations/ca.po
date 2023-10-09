@@ -2713,7 +2713,7 @@ msgstr "Icona"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:728
+#: widgets/fancytabwidget.cpp:732
 msgid "Icons on top"
 msgstr "Icones a la part superior"
 
@@ -2891,7 +2891,7 @@ msgstr "Saló gran"
 msgid "Large album cover"
 msgstr "Coberta d’àlbum gran"
 
-#: widgets/fancytabwidget.cpp:724
+#: widgets/fancytabwidget.cpp:728
 msgid "Large sidebar"
 msgstr "Barra lateral gran"
 
@@ -3669,7 +3669,7 @@ msgstr "Intèrpret"
 msgid "Pixel"
 msgstr "Píxel"
 
-#: widgets/fancytabwidget.cpp:726
+#: widgets/fancytabwidget.cpp:730
 msgid "Plain sidebar"
 msgstr "Barra lateral senzilla"
 
@@ -4809,7 +4809,7 @@ msgstr "Omet la peça"
 msgid "Small album cover"
 msgstr "Coberta d’àlbum petita"
 
-#: widgets/fancytabwidget.cpp:725
+#: widgets/fancytabwidget.cpp:729
 msgid "Small sidebar"
 msgstr "Barra lateral petita"
 
@@ -5097,7 +5097,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:727
+#: widgets/fancytabwidget.cpp:731
 msgid "Tabs on top"
 msgstr "Pestanyes a dalt de tot"
 
@@ -5934,7 +5934,7 @@ msgid "in the last"
 msgstr ""
 
 #: context/contextview.cpp:497 context/contextview.cpp:598
-#: playlist/playlistview.cpp:263 dialogs/edittagdialog.cpp:785
+#: playlist/playlistview.cpp:224 dialogs/edittagdialog.cpp:785
 msgid "kbps"
 msgstr "kb/s"
 
