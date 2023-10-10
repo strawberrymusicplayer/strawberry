@@ -94,11 +94,12 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       next_end_offset_nanosec_(-1),
       ignore_next_seek_(false),
       ignore_tags_(false),
-      pipeline_is_initialized_(false),
+      pipeline_is_active_(false),
       pipeline_is_connected_(false),
       pending_seek_nanosec_(-1),
       last_known_position_ns_(0),
       next_uri_set_(false),
+      next_uri_reset_(false),
       ebur128_loudness_normalizing_gain_db_(0.0),
       volume_set_(false),
       volume_internal_(-1.0),
@@ -279,6 +280,25 @@ void GstEnginePipeline::set_strict_ssl_enabled(const bool enabled) {
 
 void GstEnginePipeline::set_fading_enabled(const bool enabled) {
   fading_enabled_ = enabled;
+}
+
+QString GstEnginePipeline::GstStateText(const GstState state) {
+
+  switch (state) {
+    case GST_STATE_VOID_PENDING:
+      return "Pending";
+    case GST_STATE_NULL:
+      return "Null";
+    case GST_STATE_READY:
+      return "Ready";
+    case GST_STATE_PAUSED:
+      return "Paused";
+    case GST_STATE_PLAYING:
+      return "Playing";
+    default:
+      return "Unknown";
+  }
+
 }
 
 GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const {
@@ -929,7 +949,7 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
   instance->playbin_probe_cb_id_ = gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM | GST_PAD_PROBE_TYPE_EVENT_FLUSH), PlaybinProbeCallback, instance, nullptr);
 
   instance->pipeline_is_connected_ = true;
-  if (instance->pending_seek_nanosec_ != -1 && instance->pipeline_is_initialized_) {
+  if (instance->pending_seek_nanosec_ != -1 && instance->pipeline_is_active_) {
     QMetaObject::invokeMethod(instance, "Seek", Qt::QueuedConnection, Q_ARG(qint64, instance->pending_seek_nanosec_));
   }
 
@@ -1252,6 +1272,7 @@ void GstEnginePipeline::StreamStartMessageReceived() {
   if (next_uri_set_) {
     qLog(Debug) << "Stream changed from URL" << gst_url_ << "to" << next_gst_url_;
     next_uri_set_ = false;
+    next_uri_reset_ = false;
     about_to_finish_ = false;
     media_url_ = next_media_url_;
     stream_url_ = next_stream_url_;
@@ -1312,7 +1333,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   g_error_free(error);
   g_free(debugs);
 
-  if (pipeline_is_initialized_ && next_uri_set_ && (domain == GST_CORE_ERROR || domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
+  if (pipeline_is_active_ && next_uri_set_ && (domain == GST_CORE_ERROR || domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
     // A track is still playing and the next uri is not playable. We ignore the error here so it can play until the end.
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
     qLog(Info) << "Ignoring error" << domain << code << message << debugstr << "when loading next track";
@@ -1430,26 +1451,44 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   GstState old_state = GST_STATE_NULL, new_state = GST_STATE_NULL, pending = GST_STATE_NULL;
   gst_message_parse_state_changed(msg, &old_state, &new_state, &pending);
 
-  if (!pipeline_is_initialized_ && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
-    qLog(Debug) << "Pipeline initialized: State changed from" << old_state << "to" << new_state;
-    pipeline_is_initialized_ = true;
-    if (!volume_set_) {
-      SetVolume(volume_percent_);
-    }
-    if (pending_seek_nanosec_ != -1 && pipeline_is_connected_) {
-      QMetaObject::invokeMethod(this, "Seek", Qt::QueuedConnection, Q_ARG(qint64, pending_seek_nanosec_));
+  qLog(Debug) << "Pipeline state changed from" << GstStateText(old_state) << "to" << GstStateText(new_state);
+
+  if (!pipeline_is_active_ && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
+    qLog(Debug) << "Pipeline changed to active";
+    pipeline_is_active_ = true;
+    if (pipeline_is_connected_) {
+      if (!volume_set_) {
+        SetVolume(volume_percent_);
+      }
+      if (pending_seek_nanosec_ != -1) {
+        if (next_uri_reset_ && new_state == GST_STATE_PAUSED) {
+          qLog(Debug) << "Reverting next uri and going to playing state.";
+          next_uri_reset_ = false;
+          SeekDelayed(pending_seek_nanosec_);
+          SetStateDelayed(GST_STATE_PLAYING);
+        }
+        else {
+          SeekQueued(pending_seek_nanosec_);
+        }
+      }
     }
   }
 
-  if (pipeline_is_initialized_ && new_state != GST_STATE_PAUSED && new_state != GST_STATE_PLAYING) {
-    qLog(Debug) << "Pipeline uninitialized: State changed from" << old_state << "to" << new_state;
-    pipeline_is_initialized_ = false;
-
+  else if (pipeline_is_active_ && new_state != GST_STATE_PAUSED && new_state != GST_STATE_PLAYING) {
+    qLog(Debug) << "Pipeline changed to inactive";
+    pipeline_is_active_ = false;
     if (next_uri_set_ && new_state == GST_STATE_READY) {
-      // Revert uri and go back to PLAY state again
       next_uri_set_ = false;
       g_object_set(G_OBJECT(pipeline_), "uri", gst_url_.constData(), nullptr);
-      SetState(GST_STATE_PLAYING);
+      if (pending_seek_nanosec_ == -1) {
+        qLog(Debug) << "Reverting next uri and going to playing state.";
+        SetState(GST_STATE_PLAYING);
+      }
+      else {
+        qLog(Debug) << "Reverting next uri and going to paused state.";
+        next_uri_reset_ = true;
+        SetState(GST_STATE_PAUSED);
+      }
     }
   }
 
@@ -1487,7 +1526,7 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 
 qint64 GstEnginePipeline::position() const {
 
-  if (pipeline_is_initialized_) {
+  if (pipeline_is_active_) {
     gint64 current_position = 0;
     if (gst_element_query_position(pipeline_, GST_FORMAT_TIME, &current_position)) {
       last_known_position_ns_ = current_position;
@@ -1519,7 +1558,16 @@ GstState GstEnginePipeline::state() const {
 }
 
 QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) {
+
+  qLog(Debug) << "Setting pipeline state to" << GstStateText(state);
   return QtConcurrent::run(&set_state_threadpool_, &gst_element_set_state, pipeline_, state);
+
+}
+
+void GstEnginePipeline::SetStateDelayed(const GstState state) {
+
+  QTimer::singleShot(300, this, [this, state]() { SetState(state); });
+
 }
 
 bool GstEnginePipeline::Seek(const qint64 nanosec) {
@@ -1529,7 +1577,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
     return true;
   }
 
-  if (!pipeline_is_connected_ || !pipeline_is_initialized_) {
+  if (!pipeline_is_connected_ || !pipeline_is_active_) {
     pending_seek_nanosec_ = nanosec;
     return true;
   }
@@ -1542,7 +1590,22 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
   pending_seek_nanosec_ = -1;
   last_known_position_ns_ = nanosec;
+
+  qLog(Debug) << "Seeking to" << nanosec;
+
   return gst_element_seek_simple(pipeline_, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, nanosec);
+
+}
+
+void GstEnginePipeline::SeekQueued(const qint64 nanosec) {
+
+  QMetaObject::invokeMethod(this, "Seek", Qt::QueuedConnection, Q_ARG(qint64, nanosec));
+
+}
+
+void GstEnginePipeline::SeekDelayed(const qint64 nanosec) {
+
+  QTimer::singleShot(100, this, [this, nanosec]() { SeekQueued(nanosec); });
 
 }
 
@@ -1570,7 +1633,7 @@ void GstEnginePipeline::SetVolume(const uint volume_percent) {
     if (!volume_set_ || volume_internal != volume_internal_) {
       volume_internal_ = volume_internal;
       g_object_set(G_OBJECT(volume_), "volume", volume_internal, nullptr);
-      if (pipeline_is_initialized_) {
+      if (pipeline_is_active_) {
         volume_set_ = true;
       }
     }

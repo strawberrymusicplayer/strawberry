@@ -85,8 +85,11 @@ class GstEnginePipeline : public QObject {
   void RemoveAllBufferConsumers();
 
   // Control the music playback
-  QFuture<GstStateChangeReturn> SetState(const GstState state);
+  Q_INVOKABLE QFuture<GstStateChangeReturn> SetState(const GstState state);
+  void SetStateDelayed(const GstState state);
   Q_INVOKABLE bool Seek(const qint64 nanosec);
+  void SeekQueued(const qint64 nanosec);
+  void SeekDelayed(const qint64 nanosec);
   void SetEBUR128LoudnessNormalizingGain_dB(const double ebur128_loudness_normalizing_gain_db);
   void SetVolume(const uint volume_percent);
   void SetStereoBalance(const float value);
@@ -148,6 +151,7 @@ class GstEnginePipeline : public QObject {
   void timerEvent(QTimerEvent*) override;
 
  private:
+  static QString GstStateText(const GstState state);
   GstElement *CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const;
   bool InitAudioBin(QString &error);
   void SetupVolume(GstElement *element);
@@ -277,7 +281,7 @@ class GstEnginePipeline : public QObject {
 
   // Seeking while the pipeline is in the READY state doesn't work, so we have to wait until it goes to PAUSED or PLAYING.
   // Also, we have to wait for the playbin to be connected.
-  bool pipeline_is_initialized_;
+  bool pipeline_is_active_;
   bool pipeline_is_connected_;
   qint64 pending_seek_nanosec_;
 
@@ -288,6 +292,7 @@ class GstEnginePipeline : public QObject {
 
   // Complete the transition to the next song when it starts playing
   bool next_uri_set_;
+  bool next_uri_reset_;
 
   double ebur128_loudness_normalizing_gain_db_;
   bool volume_set_;
