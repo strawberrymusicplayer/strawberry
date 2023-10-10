@@ -342,22 +342,6 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
 
   if (!InitAudioBin(error)) return false;
 
-#ifdef Q_OS_WIN32
-  if (volume_enabled_ && !volume_ && volume_sw_) {
-    SetupVolume(volume_sw_);
-  }
-#else
-  if (volume_enabled_ && !volume_) {
-    if (output_ == GstEngine::kAutoSink) {
-      element_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(audiobin_), "deep-element-added", &ElementAddedCallback, this);
-    }
-    else if (volume_sw_) {
-      qLog(Debug) << output_ << "does not have volume, using own volume.";
-      SetupVolume(volume_sw_);
-    }
-  }
-#endif
-
   // Set playbin's sink to be our custom audio-sink.
   g_object_set(GST_OBJECT(pipeline_), "audio-sink", audiobin_, nullptr);
 
@@ -527,6 +511,8 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     if (!volume_sw_) {
       return false;
     }
+    qLog(Debug) << output_ << "does not have volume, using own volume.";
+    SetupVolume(volume_sw_);
   }
 
   if (fading_enabled_) {
