@@ -54,59 +54,48 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
     //  3) Remove colons which don't correspond to column names.
 
     // Split on whitespace
+    QString filter_text = filter_options.filter_text().replace(QRegularExpression(":\\s+"), ":");
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-    QStringList tokens(filter_options.filter_text().split(QRegularExpression("\\s+"), Qt::SkipEmptyParts));
+    QStringList tokens(filter_text.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts));
 #else
-    QStringList tokens(filter_options.filter_text().split(QRegularExpression("\\s+"), QString::SkipEmptyParts));
+    QStringList tokens(filter_text.split(QRegularExpression("\\s+"), QString::SkipEmptyParts));
 #endif
     QString query;
     for (QString token : tokens) {
-      token.remove('(');
-      token.remove(')');
-      token.remove('"');
-      token.replace('-', ' ');
+      token.remove('(')
+           .remove(')')
+           .remove('"')
+           .replace('-', ' ');
 
       if (token.contains(':')) {
-        // Only prefix fts if the token is a valid column name.
-        if (Song::kFtsColumns.contains("fts" + token.section(':', 0, 0), Qt::CaseInsensitive)) {
-          // Account for multiple colons.
-          QString columntoken = token.section(':', 0, 0, QString::SectionIncludeTrailingSep);
-          QString subtoken = token.section(':', 1, -1);
-          subtoken.replace(":", " ");
-          subtoken = subtoken.trimmed();
-          if (!subtoken.isEmpty()) {
-            if (!query.isEmpty()) query.append(" ");
-            query += "fts" + columntoken + "\"" + subtoken + "\"*";
-          }
-        }
-        else if (Song::kNumericalColumns.contains(token.section(':', 0, 0), Qt::CaseInsensitive)) {
-          // Account for multiple colons.
-          QString columntoken = token.section(':', 0, 0);
-          QString subtoken = token.section(':', 1, -1);
-          subtoken = subtoken.trimmed();
-          if (!subtoken.isEmpty()) {
-            QString comparator = RemoveSqlOperator(subtoken);
-            if (columntoken.compare("rating", Qt::CaseInsensitive) == 0) {
-              subtoken.replace(":", " ");
-              AddWhereRating(subtoken, comparator);
-            }
-            else if (columntoken.compare("length", Qt::CaseInsensitive) == 0) {
-              // time is saved in nanoseconds, so add 9 0's
-              QString parsedTime = QString::number(Utilities::ParseSearchTime(subtoken)) + "000000000";
-              AddWhere(columntoken, parsedTime, comparator);
-            }
-            else {
-              subtoken.replace(":", " ");
-              AddWhere(columntoken, subtoken, comparator);
-            }
-          }
-        }
-        // not a valid filter, remove
-        else {
-          token.replace(":", " ");
-          token = token.trimmed();
+        const QString columntoken = token.section(':', 0, 0);
+        QString subtoken = token.section(':', 1, -1).replace(":", " ").trimmed();
+        if (subtoken.isEmpty()) continue;
+        if (Song::kFtsColumns.contains("fts" + columntoken, Qt::CaseInsensitive)) {
           if (!query.isEmpty()) query.append(" ");
-          query += "\"" + token + "\"*";
+          query += "fts" + columntoken + ":\"" + subtoken + "\"*";
+        }
+        else if (Song::kNumericalColumns.contains(columntoken, Qt::CaseInsensitive)) {
+          QString comparator = RemoveSqlOperator(subtoken);
+          if (columntoken.compare("rating", Qt::CaseInsensitive) == 0) {
+            AddWhereRating(subtoken, comparator);
+          }
+          else if (columntoken.compare("length", Qt::CaseInsensitive) == 0) {
+            // Time is saved in nanoseconds, so add 9 0's
+            QString parsedTime = QString::number(Utilities::ParseSearchTime(subtoken)) + "000000000";
+            AddWhere(columntoken, parsedTime, comparator);
+          }
+          else {
+            AddWhere(columntoken, subtoken, comparator);
+          }
+        }
+        // Not a valid filter, remove
+        else {
+          token = token.replace(":", " ").trimmed();
+          if (!token.isEmpty()) {
+            if (!query.isEmpty()) query.append(" ");
+            query += "\"" + token + "\"*";
+          }
         }
       }
       else {
@@ -155,6 +144,7 @@ QString CollectionQuery::RemoveSqlOperator(QString &token) {
   if (op == "!=") {
     op = "<>";
   }
+
   return op;
 
 }
