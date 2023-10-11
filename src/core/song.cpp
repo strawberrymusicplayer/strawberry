@@ -1073,6 +1073,7 @@ Song::FileType Song::FiletypeByMimetype(const QString &mimetype) {
   else if (mimetype.compare("audio/aac", Qt::CaseInsensitive) == 0) return FileType::MP4;
   else if (mimetype.compare("audio/x-wma", Qt::CaseInsensitive) == 0) return FileType::ASF;
   else if (mimetype.compare("audio/aiff", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-aiff", Qt::CaseInsensitive) == 0) return FileType::AIFF;
+  else if (mimetype.compare("audio/x-musepack", Qt::CaseInsensitive) == 0) return FileType::MPC;
   else if (mimetype.compare("application/x-project", Qt::CaseInsensitive) == 0) return FileType::MPC;
   else if (mimetype.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return FileType::DSF;
   else if (mimetype.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
@@ -1099,6 +1100,7 @@ Song::FileType Song::FiletypeByDescription(const QString &text) {
   else if (text.compare("WMA", Qt::CaseInsensitive) == 0) return FileType::ASF;
   else if (text.compare("Audio Interchange File Format", Qt::CaseInsensitive) == 0) return FileType::AIFF;
   else if (text.compare("MPC", Qt::CaseInsensitive) == 0) return FileType::MPC;
+  else if (text.compare("Musepack (MPC)", Qt::CaseInsensitive) == 0) return FileType::MPC;
   else if (text.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return FileType::DSF;
   else if (text.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
   else if (text.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return FileType::APE;
