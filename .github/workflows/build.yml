@@ -1696,8 +1696,11 @@ jobs:
       - build-windows-mingw
       - build-windows-msvc
     steps:
-      - name: Install rsync
-        run: sudo apt install -y rsync
+
+      - name: Install packages
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: sudo apt install -y git rsync hub
 
       - name: Checkout
         uses: actions/checkout@v4
