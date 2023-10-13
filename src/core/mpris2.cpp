@@ -367,6 +367,7 @@ double Mpris2::Rating() const {
 }
 
 void Mpris2::SetRating(double rating) {
+
   if (rating > 1.0) {
     rating = 1.0;
   }
@@ -374,7 +375,8 @@ void Mpris2::SetRating(double rating) {
     rating = -1.0;
   }
 
-  app_->playlist_manager()->RateCurrentSong(rating);
+  app_->playlist_manager()->RateCurrentSong(static_cast<float>(rating));
+
 }
 
 QString Mpris2::current_track_id() const {
