@@ -1440,7 +1440,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   qLog(Debug) << "Pipeline state changed from" << GstStateText(old_state) << "to" << GstStateText(new_state);
 
   if (!pipeline_is_active_ && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
-    qLog(Debug) << "Pipeline changed to active";
+    qLog(Debug) << "Pipeline is active";
     pipeline_is_active_ = true;
     if (pipeline_is_connected_) {
       if (!volume_set_) {
@@ -1461,7 +1461,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   }
 
   else if (pipeline_is_active_ && new_state != GST_STATE_PAUSED && new_state != GST_STATE_PLAYING) {
-    qLog(Debug) << "Pipeline changed to inactive";
+    qLog(Debug) << "Pipeline is inactive";
     pipeline_is_active_ = false;
     if (next_uri_set_ && new_state == GST_STATE_READY) {
       next_uri_set_ = false;
