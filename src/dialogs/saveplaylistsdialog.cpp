@@ -31,7 +31,7 @@
 
 #include "playlist/playlist.h"
 
-SavePlaylistsDialog::SavePlaylistsDialog(const QStringList &types, const QString &default_extension) : ui_(new Ui_SavePlaylistsDialog) {
+SavePlaylistsDialog::SavePlaylistsDialog(const QStringList &types, const QString &default_extension, QWidget *parent) : QDialog(parent), ui_(new Ui_SavePlaylistsDialog) {
 
   ui_->setupUi(this);
 

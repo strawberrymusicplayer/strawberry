@@ -31,7 +31,7 @@ class SavePlaylistsDialog : public QDialog {
  Q_OBJECT
 
  public:
-  explicit SavePlaylistsDialog(const QStringList &types, const QString &default_extension);
+  explicit SavePlaylistsDialog(const QStringList &types, const QString &default_extension, QWidget *parent = nullptr);
   ~SavePlaylistsDialog();
 
   QString path() const { return ui_->lineedit_path->text(); }
