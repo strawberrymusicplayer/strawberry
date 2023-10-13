@@ -158,7 +158,7 @@ QVariant Queue::data(const QModelIndex &proxy_index, int role) const {
       const QString title = source_index.sibling(source_index.row(), Playlist::Column_Title).data().toString();
 
       if (artist.isEmpty()) return title;
-      return QString(artist + " - " + title);
+      return QString("%1 - %2").arg(artist, title);
     }
 
     default:

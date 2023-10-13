@@ -297,7 +297,7 @@ bool GeniusLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &
   requests_search_.insert(id, search);
 
   QUrlQuery url_query;
-  url_query.addQueryItem("q", QUrl::toPercentEncoding(QString(request.artist + " " + request.title)));
+  url_query.addQueryItem("q", QUrl::toPercentEncoding(QString("%1 %2").arg(request.artist, request.title)));
 
   QUrl url(kUrlSearch);
   url.setQuery(url_query);

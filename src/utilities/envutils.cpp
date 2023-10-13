@@ -54,7 +54,7 @@ QString DesktopEnvironment() {
   QString session = GetEnv("DESKTOP_SESSION");
   qint64 slash = session.lastIndexOf('/');
   if (slash != -1) {
-    QSettings desktop_file(QString(session + ".desktop"), QSettings::IniFormat);
+    QSettings desktop_file(QString("%1.desktop").arg(session), QSettings::IniFormat);
     desktop_file.beginGroup("Desktop Entry");
     QString name = desktop_file.value("DesktopNames").toString();
     desktop_file.endGroup();
