@@ -120,7 +120,7 @@ void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
     if (!icon.isNull() && icon.userType() == QMetaType::QString) {
       QString icon_name = icon.toString();
       if (!icon_name.isEmpty()) {
-        QString hint = QString(icons.first().toString() + name_hint).toLower();
+        QString hint = icons.first().toString().toLower() + name_hint.toLower();
         if (hint.contains("phone")) icon_name_ = "device-phone";
         else if (hint.contains("ipod") || hint.contains("apple")) icon_name_ = "device-ipod";
         else if ((hint.contains("usb")) && (hint.contains("reader"))) icon_name_ = "device-usb-flash";
