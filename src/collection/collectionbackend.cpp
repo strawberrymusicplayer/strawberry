@@ -401,7 +401,7 @@ SongList CollectionBackend::FindSongsInDirectory(const int id) {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE directory_id = :directory_id").arg(songs_table_));
+  q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE directory_id = :directory_id").arg(Song::kColumnSpec, songs_table_));
   q.BindValue(":directory_id", id);
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -424,7 +424,7 @@ SongList CollectionBackend::SongsWithMissingFingerprint(const int id) {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE directory_id = :directory_id AND unavailable = 0 AND (fingerprint IS NULL OR fingerprint = '')").arg(songs_table_));
+  q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE directory_id = :directory_id AND unavailable = 0 AND (fingerprint IS NULL OR fingerprint = '')").arg(Song::kColumnSpec, songs_table_));
   q.BindValue(":directory_id", id);
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -447,7 +447,7 @@ SongList CollectionBackend::SongsWithMissingLoudnessCharacteristics(const int id
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE directory_id = :directory_id AND unavailable = 0 AND (ebur128_integrated_loudness_lufs IS NULL OR ebur128_loudness_range_lu IS NULL)").arg(songs_table_));
+  q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE directory_id = :directory_id AND unavailable = 0 AND (ebur128_integrated_loudness_lufs IS NULL OR ebur128_loudness_range_lu IS NULL)").arg(Song::kColumnSpec, songs_table_));
   q.BindValue(":directory_id", id);
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -548,7 +548,7 @@ SongList CollectionBackend::GetAllSongs() {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1").arg(songs_table_));
+  q.prepare(QString("SELECT ROWID, %1 FROM %2").arg(Song::kColumnSpec, songs_table_));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return SongList();
@@ -604,7 +604,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
       // Update
       {
         SqlQuery q(db);
-        q.prepare(QString("UPDATE %1 SET " + Song::kUpdateSpec + " WHERE ROWID = :id").arg(songs_table_));
+        q.prepare(QString("UPDATE %1 SET %2 WHERE ROWID = :id").arg(songs_table_, Song::kUpdateSpec));
         song.BindToQuery(&q);
         q.BindValue(":id", song.id());
         if (!q.Exec()) {
@@ -615,7 +615,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
       {
         SqlQuery q(db);
-        q.prepare(QString("UPDATE %1 SET " + Song::kFtsUpdateSpec + " WHERE ROWID = :id").arg(fts_table_));
+        q.prepare(QString("UPDATE %1 SET %2 WHERE ROWID = :id").arg(fts_table_, Song::kFtsUpdateSpec));
         song.BindToFtsQuery(&q);
         q.BindValue(":id", song.id());
         if (!q.Exec()) {
@@ -643,7 +643,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
         // Update
         {
           SqlQuery q(db);
-          q.prepare(QString("UPDATE %1 SET " + Song::kUpdateSpec + " WHERE ROWID = :id").arg(songs_table_));
+          q.prepare(QString("UPDATE %1 SET %2 WHERE ROWID = :id").arg(songs_table_, Song::kUpdateSpec));
           new_song.BindToQuery(&q);
           q.BindValue(":id", new_song.id());
           if (!q.Exec()) {
@@ -654,7 +654,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
         {
           SqlQuery q(db);
-          q.prepare(QString("UPDATE %1 SET " + Song::kFtsUpdateSpec + " WHERE ROWID = :id").arg(fts_table_));
+          q.prepare(QString("UPDATE %1 SET %2 WHERE ROWID = :id").arg(fts_table_, Song::kFtsUpdateSpec));
           new_song.BindToFtsQuery(&q);
           q.BindValue(":id", new_song.id());
           if (!q.Exec()) {
@@ -675,7 +675,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
     int id = -1;
     {  // Insert the row and create a new ID
       SqlQuery q(db);
-      q.prepare(QString("INSERT INTO %1 (" + Song::kColumnSpec + ") VALUES (" + Song::kBindSpec + ")").arg(songs_table_));
+      q.prepare(QString("INSERT INTO %1 (%2) VALUES (%3)").arg(songs_table_, Song::kColumnSpec, Song::kBindSpec));
       song.BindToQuery(&q);
       if (!q.Exec()) {
         db_->ReportErrors(q);
@@ -689,7 +689,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
     {  // Add to the FTS index
       SqlQuery q(db);
-      q.prepare(QString("INSERT INTO %1 (ROWID, " + Song::kFtsColumnSpec + ") VALUES (:id, " + Song::kFtsBindSpec + ")").arg(fts_table_));
+      q.prepare(QString("INSERT INTO %1 (ROWID, %2) VALUES (:id, %3)").arg(fts_table_, Song::kFtsColumnSpec, Song::kFtsBindSpec));
       q.BindValue(":id", id);
       song.BindToFtsQuery(&q);
       if (!q.Exec()) {
@@ -750,7 +750,7 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
 
         {
           SqlQuery q(db);
-          q.prepare(QString("UPDATE %1 SET " + Song::kUpdateSpec + " WHERE ROWID = :id").arg(songs_table_));
+          q.prepare(QString("UPDATE %1 SET %2 WHERE ROWID = :id").arg(songs_table_, Song::kUpdateSpec));
           new_song.BindToQuery(&q);
           q.BindValue(":id", old_song.id());
           if (!q.Exec()) {
@@ -760,7 +760,7 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
         }
         {
           SqlQuery q(db);
-          q.prepare(QString("UPDATE %1 SET " + Song::kFtsUpdateSpec + " WHERE ROWID = :id").arg(fts_table_));
+          q.prepare(QString("UPDATE %1 SET %2 WHERE ROWID = :id").arg(fts_table_, Song::kFtsUpdateSpec));
           new_song.BindToFtsQuery(&q);
           q.BindValue(":id", old_song.id());
           if (!q.Exec()) {
@@ -781,7 +781,7 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
       int id = -1;
       {
         SqlQuery q(db);
-        q.prepare(QString("INSERT INTO %1 (" + Song::kColumnSpec + ") VALUES (" + Song::kBindSpec + ")").arg(songs_table_));
+        q.prepare(QString("INSERT INTO %1 (%2) VALUES (%3)").arg(songs_table_, Song::kColumnSpec, Song::kBindSpec));
         new_song.BindToQuery(&q);
         if (!q.Exec()) {
           db_->ReportErrors(q);
@@ -795,7 +795,7 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
 
       {  // Add to the FTS index
         SqlQuery q(db);
-        q.prepare(QString("INSERT INTO %1 (ROWID, " + Song::kFtsColumnSpec + ") VALUES (:id, " + Song::kFtsBindSpec + ")").arg(fts_table_));
+        q.prepare(QString("INSERT INTO %1 (ROWID, %2) VALUES (:id, %3)").arg(fts_table_, Song::kFtsColumnSpec, Song::kFtsBindSpec));
         q.BindValue(":id", id);
         new_song.BindToFtsQuery(&q);
         if (!q.Exec()) {
@@ -1133,7 +1133,7 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
   QString in = ids.join(",");
 
   SqlQuery q(db);
-  q.prepare(QString("SELECT %2.ROWID, " + Song::kColumnSpec + ", %2.%3 FROM %2, %1 WHERE %2.%3 IN (%4) AND %1.ROWID = %2.ROWID AND unavailable = 0").arg(songs_table_, table, column, in));
+  q.prepare(QString("SELECT %3.ROWID, %2, %3.%4 FROM %3, %1 WHERE %3.%4 IN (in) AND %1.ROWID = %3.ROWID AND unavailable = 0").arg(songs_table_, Song::kColumnSpec, table, column, in));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return SongList();
@@ -1164,7 +1164,7 @@ SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &d
   QString in = ids.join(",");
 
   SqlQuery q(db);
-  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE ROWID IN (%2)").arg(songs_table_, in));
+  q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE ROWID IN (%3)").arg(Song::kColumnSpec, songs_table_, in));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return SongList();
@@ -1186,7 +1186,7 @@ Song CollectionBackend::GetSongByUrl(const QUrl &url, const qint64 beginning) {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND beginning = :beginning AND unavailable = 0").arg(songs_table_));
+  q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND beginning = :beginning AND unavailable = 0").arg(Song::kColumnSpec, songs_table_));
 
   q.BindValue(":url1", url);
   q.BindValue(":url2", url.toString());
@@ -1216,7 +1216,7 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url, const bool unavailabl
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = :unavailable").arg(songs_table_));
+  q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = :unavailable").arg(Song::kColumnSpec, songs_table_));
 
   q.BindValue(":url1", url);
   q.BindValue(":url2", url.toString());
@@ -1276,7 +1276,7 @@ SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDa
   QString in = song_ids2.join(",");
 
   SqlQuery q(db);
-  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE SONG_ID IN (%2)").arg(songs_table_, in));
+  q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE SONG_ID IN (%3)").arg(Song::kColumnSpec, songs_table_, in));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return SongList();
@@ -1299,7 +1299,7 @@ SongList CollectionBackend::GetSongsByFingerprint(const QString &fingerprint) {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE fingerprint = :fingerprint").arg(songs_table_));
+  q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE fingerprint = :fingerprint").arg(Song::kColumnSpec, songs_table_));
   q.BindValue(":fingerprint", fingerprint);
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -1422,7 +1422,7 @@ bool CollectionBackend::UpdateCompilations(const QSqlDatabase &db, SongList &del
 
   {  // Get song, so we can tell the model its updated
     SqlQuery q(db);
-    q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = 0").arg(songs_table_));
+    q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = 0").arg(Song::kColumnSpec, songs_table_));
     q.BindValue(":url1", url);
     q.BindValue(":url2", url.toString());
     q.BindValue(":url3", url.toString(QUrl::FullyEncoded));
@@ -2043,10 +2043,10 @@ SongList CollectionBackend::GetSongsBy(const QString &artist, const QString &alb
   SongList songs;
   SqlQuery q(db);
   if (album.isEmpty()) {
-    q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE artist = :artist COLLATE NOCASE AND title = :title COLLATE NOCASE").arg(songs_table_));
+    q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE artist = :artist COLLATE NOCASE AND title = :title COLLATE NOCASE").arg(Song::kColumnSpec, songs_table_));
   }
   else {
-    q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE artist = :artist COLLATE NOCASE AND album = :album COLLATE NOCASE AND title = :title COLLATE NOCASE").arg(songs_table_));
+    q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE artist = :artist COLLATE NOCASE AND album = :album COLLATE NOCASE AND title = :title COLLATE NOCASE").arg(Song::kColumnSpec, songs_table_));
   }
   q.BindValue(":artist", artist);
   if (!album.isEmpty()) q.BindValue(":album", album);
