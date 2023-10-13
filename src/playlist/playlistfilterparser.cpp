@@ -131,7 +131,7 @@ class FloatEqComparator : public SearchTermComparator {
 
 class FloatNeComparator : public SearchTermComparator {
  public:
-  explicit FloatNeComparator(const float &value) : search_term_(value) {}
+  explicit FloatNeComparator(const float value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return search_term_ != element.toFloat();
   }
@@ -141,7 +141,7 @@ class FloatNeComparator : public SearchTermComparator {
 
 class FloatGtComparator : public SearchTermComparator {
  public:
-  explicit FloatGtComparator(const float &value) : search_term_(value) {}
+  explicit FloatGtComparator(const float value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toFloat() > search_term_;
   }
@@ -151,7 +151,7 @@ class FloatGtComparator : public SearchTermComparator {
 
 class FloatGeComparator : public SearchTermComparator {
  public:
-  explicit FloatGeComparator(const float &value) : search_term_(value) {}
+  explicit FloatGeComparator(const float value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toFloat() >= search_term_;
   }
@@ -161,7 +161,7 @@ class FloatGeComparator : public SearchTermComparator {
 
 class FloatLtComparator : public SearchTermComparator {
  public:
-  explicit FloatLtComparator(const float &value) : search_term_(value) {}
+  explicit FloatLtComparator(const float value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toFloat() < search_term_;
   }
@@ -171,7 +171,7 @@ class FloatLtComparator : public SearchTermComparator {
 
 class FloatLeComparator : public SearchTermComparator {
  public:
-  explicit FloatLeComparator(const float &value) : search_term_(value) {}
+  explicit FloatLeComparator(const float value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toFloat() <= search_term_;
   }

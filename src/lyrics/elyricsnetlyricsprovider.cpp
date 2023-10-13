@@ -44,7 +44,7 @@ QUrl ElyricsNetLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 }
 
-QString ElyricsNetLyricsProvider::StringFixup(QString text) {
+QString ElyricsNetLyricsProvider::StringFixup(const QString &text) {
 
   return Utilities::Transliterate(text)
     .replace(QRegularExpression("[^\\w0-9_,&\\-\\(\\) ]"), "_")

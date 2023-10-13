@@ -251,7 +251,7 @@ void AlbumCoverLoader::InitArt(TaskPtr task) {
 
 }
 
-AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadImage(TaskPtr task, const AlbumCoverLoaderOptions::Type &type) {
+AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadImage(TaskPtr task, const AlbumCoverLoaderOptions::Type type) {
 
   switch (type) {
     case AlbumCoverLoaderOptions::Type::Unset:{

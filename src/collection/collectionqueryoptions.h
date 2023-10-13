@@ -30,7 +30,7 @@ class CollectionQueryOptions {
   explicit CollectionQueryOptions();
 
   struct Where {
-    explicit Where(const QString _column = QString(), const QVariant _value = QString(), const QString _op = QString()) : column(_column), value(_value), op(_op) {}
+    explicit Where(const QString &_column = QString(), const QVariant &_value = QString(), const QString &_op = QString()) : column(_column), value(_value), op(_op) {}
     QString column;
     QVariant value;
     QString op;

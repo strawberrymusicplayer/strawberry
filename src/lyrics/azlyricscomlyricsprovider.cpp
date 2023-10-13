@@ -44,7 +44,7 @@ QUrl AzLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 }
 
-QString AzLyricsComLyricsProvider::StringFixup(QString text) {
+QString AzLyricsComLyricsProvider::StringFixup(const QString &text) {
 
   return Utilities::Transliterate(text).remove(QRegularExpression("[^\\w0-9\\-]")).toLower();
 

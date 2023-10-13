@@ -41,10 +41,10 @@ class AlbumCoverLoaderResult {
 
   explicit AlbumCoverLoaderResult(const bool _success = false,
                                   const Type _type = Type::None,
-                                  AlbumCoverImageResult _album_cover = AlbumCoverImageResult(),
+                                  const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult(),
                                   const QImage &_image_scaled = QImage(),
-                                  const QUrl _art_manual_updated = QUrl(),
-                                  const QUrl _art_automatic_updated = QUrl()) :
+                                  const QUrl &_art_manual_updated = QUrl(),
+                                  const QUrl &_art_automatic_updated = QUrl()) :
                                   success(_success),
                                   type(_type),
                                   album_cover(_album_cover),
