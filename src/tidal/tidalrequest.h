@@ -111,7 +111,7 @@ class TidalRequest : public TidalBaseRequest {
   void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
 
   void AlbumsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
-  void AlbumsReceived(QNetworkReply *reply, const Artist &artist_artist, const int limit_requested, const int offset_requested, const bool auto_login);
+  void AlbumsReceived(QNetworkReply *reply, const Artist &artist_requested, const int limit_requested, const int offset_requested, const bool auto_login);
 
   void SongsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
   void SongsReceived(QNetworkReply *reply, const Artist &artist, const Album &album, const int limit_requested, const int offset_requested, const bool auto_login = false);

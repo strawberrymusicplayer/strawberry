@@ -34,7 +34,7 @@ namespace GME {
 bool IsSupportedFormat(const QFileInfo &file_info);
 bool ReadFile(const QFileInfo &file_info, spb::tagreader::SongMetadata *song_info);
 
-uint32_t UnpackBytes32(const char *const arr, size_t length);
+uint32_t UnpackBytes32(const char *const bytes, size_t length);
 
 namespace SPC {
 // SPC SPEC: http://vspcplay.raphnet.net/spc_file_format.txt

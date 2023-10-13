@@ -143,7 +143,7 @@ class QobuzService : public InternetService {
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
 
-  QString DecodeAppSecret(const QString &app_secret_encoded) const;
+  QString DecodeAppSecret(const QString &app_secret_base64) const;
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
