@@ -124,8 +124,10 @@ gst_plugins=$(echo "$gst_plugins" | tr '\n' ' ' | sed -e 's/^ //g' | sed -e 's/ 
 for gst_plugin in $gst_plugins; do
   if [ -e "${GST_PLUGIN_PATH}/${gst_plugin}.dylib" ]; then
     cp -v -f "${GST_PLUGIN_PATH}/${gst_plugin}.dylib" "${bundledir}/Contents/PlugIns/gstreamer/" || exit 1
+    install_name_tool -id "@rpath/${gst_plugin}.dylib" "${bundledir}/Contents/PlugIns/gstreamer/${gst_plugin}.dylib"
   elif [ -e "${GST_PLUGIN_PATH}/${gst_plugin}.so" ]; then
     cp -v -f "${GST_PLUGIN_PATH}/${gst_plugin}.so" "${bundledir}/Contents/PlugIns/gstreamer/" || exit 1
+    install_name_tool -id "@rpath/${gst_plugin}.so" "${bundledir}/Contents/PlugIns/gstreamer/${gst_plugin}.so"
   else
     echo "Warning: Missing gstreamer plugin ${gst_plugin}."
   fi
@@ -138,6 +140,7 @@ else
   if [ -e "${LIBSOUP_LIBRARY_PATH}" ]; then
     mkdir -p "${bundledir}/Contents/Frameworks" || exit 1
     cp -v -f "${LIBSOUP_LIBRARY_PATH}" "${bundledir}/Contents/Frameworks/" || exit 1
+    install_name_tool -id "@rpath/$(basename ${LIBSOUP_LIBRARY_PATH})" "${bundledir}/Contents/Frameworks/$(basename ${LIBSOUP_LIBRARY_PATH})"
   else
     echo "Warning: Missing libsoup ${LIBSOUP_LIBRARY_PATH}."
   fi
