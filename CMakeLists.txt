@@ -452,19 +452,11 @@ optional_component(EBUR128 ON "EBU R 128 loudness normalization"
 )
 
 if(APPLE OR WIN32)
-  option(USE_BUNDLE "Bundle dependencies" ON)
+  set(USE_BUNDLE_DEFAULT ON)
 else()
-  option(USE_BUNDLE "Bundle dependencies" OFF)
+  set(USE_BUNDLE_DEFAULT OFF)
 endif()
-
-if(USE_BUNDLE AND NOT USE_BUNDLE_DIR)
-  if(LINUX)
-    set(USE_BUNDLE_DIR "../plugins")
-  endif()
-  if(APPLE)
-    set(USE_BUNDLE_DIR "../PlugIns")
-  endif()
-endif()
+option(USE_BUNDLE "Bundle dependencies" USE_BUNDLE_DEFAULT)
 
 if(NOT CMAKE_CROSSCOMPILING)
   # Check that we have Qt with sqlite driver
