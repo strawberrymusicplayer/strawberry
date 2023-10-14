@@ -31,6 +31,7 @@
 #include <QMutex>
 #include <QLocalServer>
 #include <QProcess>
+#include <QDir>
 #include <QFile>
 #include <QList>
 #include <QQueue>
@@ -245,8 +246,8 @@ void WorkerPool<HandlerType>::DoStart() {
   search_path << "/usr/libexec";
   search_path << "/usr/local/libexec";
 #endif
-#if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
-  search_path << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
+#if defined(Q_OS_MACOS)
+  search_path << QDir::cleanPath(QCoreApplication::applicationDirPath() + "/../PlugIns");
 #endif
 
   for (const QString &path_prefix : search_path) {
