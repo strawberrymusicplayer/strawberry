@@ -110,26 +110,40 @@ void GstStartup::SetEnvironment() {
 
 #ifdef USE_BUNDLE
 
-  QString app_path = QCoreApplication::applicationDirPath();
-  QString bundle_path = app_path + "/" + USE_BUNDLE_DIR;
+  const QString app_path = QCoreApplication::applicationDirPath();
 
-  QString gio_module_path;
-  QString gst_plugin_scanner;
-  QString gst_plugin_path;
-  QString libsoup_library_path;
+  // Set DYLD_FALLBACK_LIBRARY_PATH - Needed by gstsouploader on macOS.
+#ifdef Q_OS_MACOS
+  const QString library_path = QDir::cleanPath(app_path + "/../Frameworks");
+  qLog(Debug) << "Setting DYLD_FALLBACK_LIBRARY_PATH to" << library_path;
+  Utilities::SetEnv("DYLD_FALLBACK_LIBRARY_PATH", library_path);
+#endif
 
-#  if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
-  gio_module_path = bundle_path + "/gio-modules";
-#  endif
-#  if defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
-  gst_plugin_scanner = bundle_path + "/gst-plugin-scanner";
-  gst_plugin_path = bundle_path + "/gstreamer";
-#  endif
-#  if defined(Q_OS_WIN32)
-  gst_plugin_path = bundle_path + "/gstreamer-plugins";
-#  endif
+  // Set plugin root path
+  QString plugin_root_path;
 #  if defined(Q_OS_MACOS)
-  libsoup_library_path = app_path + "/../Frameworks/libsoup-3.0.0.dylib";
+  plugin_root_path = QDir::cleanPath(app_path + "/../PlugIns");
+#  elif defined(Q_OS_UNIX)
+  plugin_root_path = QDir::cleanPath(app_path + "/../plugins");
+#  elif defined(Q_OS_WIN32)
+  plugin_root_path = app_path;
+#  endif
+
+  // Set GIO module path
+  const QString gio_module_path = plugin_root_path + "/gio-modules";
+
+  // Set GStreamer plugin scanner path
+  QString gst_plugin_scanner;
+#  if defined(Q_OS_UNIX)
+  gst_plugin_scanner = plugin_root_path + "/gst-plugin-scanner";
+#  endif
+
+  // Set GStreamer plugin path
+  QString gst_plugin_path;
+#  if defined(Q_OS_WIN32)
+  gst_plugin_path = plugin_root_path + "/gstreamer-plugins";
+#  else
+  gst_plugin_path = plugin_root_path + "/gstreamer";
 #  endif
 
   if (!gio_module_path.isEmpty()) {
@@ -138,7 +152,7 @@ void GstStartup::SetEnvironment() {
       Utilities::SetEnv("GIO_EXTRA_MODULES", gio_module_path);
     }
     else {
-      qLog(Debug) << "GIO module path does not exist:" << gio_module_path;
+      qLog(Error) << "GIO module path" << gio_module_path << "does not exist.";
     }
   }
 
@@ -148,7 +162,7 @@ void GstStartup::SetEnvironment() {
       Utilities::SetEnv("GST_PLUGIN_SCANNER", gst_plugin_scanner);
     }
     else {
-      qLog(Debug) << "GStreamer plugin scanner does not exist:" << gst_plugin_scanner;
+      qLog(Error) << "GStreamer plugin scanner" << gst_plugin_scanner << "does not exist.";
     }
   }
 
@@ -160,16 +174,7 @@ void GstStartup::SetEnvironment() {
       Utilities::SetEnv("GST_PLUGIN_SYSTEM_PATH", gst_plugin_path);
     }
     else {
-      qLog(Debug) << "GStreamer plugin path does not exist:" << gst_plugin_path;
-    }
-  }
-
-  if (!libsoup_library_path.isEmpty()) {
-    if (QFile::exists(libsoup_library_path)) {
-      Utilities::SetEnv("LIBSOUP3_LIBRARY_PATH", libsoup_library_path);
-    }
-    else {
-      qLog(Debug) << "libsoup path does not exist:" << libsoup_library_path;
+      qLog(Error) << "GStreamer plugin path" << gst_plugin_path << "does not exist.";
     }
   }
 
