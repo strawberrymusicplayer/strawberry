@@ -456,7 +456,7 @@ if(APPLE OR WIN32)
 else()
   set(USE_BUNDLE_DEFAULT OFF)
 endif()
-option(USE_BUNDLE "Bundle dependencies" USE_BUNDLE_DEFAULT)
+option(USE_BUNDLE "Bundle dependencies" ${USE_BUNDLE_DEFAULT})
 
 if(NOT CMAKE_CROSSCOMPILING)
   # Check that we have Qt with sqlite driver
