@@ -204,7 +204,7 @@ void CollectionQuery::AddWhereRating(const QVariant &value, const QString &op) {
 
   // You can't query the database for a float, due to float precision errors,
   // So we have to use a certain tolerance, so that the searched value is definetly included.
-  const float tolerance = 0.001;
+  const float tolerance = 0.001F;
   if (op == "<") {
     AddWhere("rating", parsed_rating-tolerance, "<");
   }
