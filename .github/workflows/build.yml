@@ -838,17 +838,12 @@ jobs:
         working-directory: build
         run: make install
 
-      - name: Manually copy files not handled by macdeployqt
-        working-directory: build
-        run: |
-          mkdir -p strawberry.app/Contents/Frameworks/
-          cp ${{env.prefix_path}}/lib/libsoup-3.0.0.dylib strawberry.app/Contents/Frameworks/
-
       - name: Deploy
         env:
           GIO_EXTRA_MODULES: ${{env.prefix_path}}/lib/gio/modules
           GST_PLUGIN_SCANNER: ${{env.prefix_path}}/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: ${{env.prefix_path}}/lib/gstreamer-1.0
+          LIBSOUP_LIBRARY_PATH: ${{env.prefix_path}}/lib/libsoup-3.0.0.dylib
         working-directory: build
         run: make deploy
 
