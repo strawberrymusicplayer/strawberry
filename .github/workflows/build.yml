@@ -1130,9 +1130,6 @@ jobs:
         shell: bash
         run: echo "cmake_buildtype=$(echo ${{matrix.buildtype}} | sed 's/.*/\u&/')" >> $GITHUB_ENV
 
-      - name: Install rsync
-        run: zypper -n --gpg-auto-import-keys in rsync
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -1438,7 +1435,6 @@ jobs:
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_PREFIX_PATH="${{env.prefix_path_forwardslash}}/lib/cmake"
           -DBUILD_WITH_QT6=ON
-          -DBUILD_WERROR=OFF
           -DARCH="${{matrix.arch}}"
           -DENABLE_WIN32_CONSOLE=${{env.win32_console}}
           -DUSE_TAGLIB=ON
