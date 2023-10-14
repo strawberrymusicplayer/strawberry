@@ -130,3 +130,15 @@ for gst_plugin in $gst_plugins; do
     echo "Warning: Missing gstreamer plugin ${gst_plugin}."
   fi
 done
+
+# libsoup is dynamically loaded by gstreamer, so it needs to be copied.
+if [ "${LIBSOUP_LIBRARY_PATH}" = "" ]; then
+  echo "Warning: Set the LIBSOUP_LIBRARY_PATH environment variable for copying libsoup."
+else
+  if [ -e "${LIBSOUP_LIBRARY_PATH}" ]; then
+    mkdir -p "${bundledir}/Contents/Frameworks" || exit 1
+    cp -v -f "${LIBSOUP_LIBRARY_PATH}" "${bundledir}/Contents/Frameworks/" || exit 1
+  else
+    echo "Warning: Missing libsoup ${LIBSOUP_LIBRARY_PATH}."
+  fi
+fi
