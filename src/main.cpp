@@ -70,6 +70,8 @@
 #include "core/scoped_ptr.h"
 #include "core/shared_ptr.h"
 
+#include "utilities/envutils.h"
+
 #include <kdsingleapplication.h>
 
 #ifdef HAVE_QTSPARKLE
@@ -171,7 +173,7 @@ int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_MACOS
   // Must happen after QCoreApplication::setOrganizationName().
-  setenv("XDG_CONFIG_HOME", QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation).toLocal8Bit().constData(), 1);
+  Utilities::SetEnv("XDG_CONFIG_HOME", QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
 #endif
 
   // Output the version, so when people attach log output to bug reports they don't have to tell us which version they're using.
