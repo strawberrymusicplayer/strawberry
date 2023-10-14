@@ -205,19 +205,7 @@ int main(int argc, char *argv[]) {
   QGuiApplication::setWindowIcon(IconLoader::Load("strawberry"));
 
 #if defined(USE_BUNDLE)
-  {
-    QStringList library_paths;
-#ifdef Q_OS_MACOS
-    library_paths.append(QCoreApplication::applicationDirPath() + "/../Frameworks");
-#endif
-#if defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
-    library_paths.append(QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR);
-#endif
-    if (!library_paths.isEmpty()) {
-      qLog(Debug) << "Looking for resources in" << library_paths;
-      QCoreApplication::setLibraryPaths(library_paths);
-    }
-  }
+  qLog(Debug) << "Looking for resources in" << QCoreApplication::libraryPaths();
 #endif
 
   // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad idea, and makes some menus in Strawberry look confusing.
