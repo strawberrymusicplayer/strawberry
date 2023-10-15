@@ -855,6 +855,11 @@ jobs:
         working-directory: build
         run: make deploy
 
+      - name: Codesign libsoup
+        if: matrix.runner == 'macos-11'
+        working-directory: build
+        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libsoup-3.0.0.dylib,libnghttp2.14.dylib,libpsl.5.dylib} strawberry.app
+
       - name: Deploy check
         working-directory: build
         run: make deploycheck
