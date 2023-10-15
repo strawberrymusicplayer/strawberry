@@ -187,4 +187,14 @@ void GstStartup::SetEnvironment() {
   Utilities::SetEnv("GST_REGISTRY", gst_registry_filename);
 #endif
 
+#ifdef Q_OS_MACOS
+  const QString libsoup_library_path = QDir::cleanPath(app_path + "/../Frameworks/libsoup-3.0.0.dylib");
+  if (QFile::exists(libsoup_library_path)) {
+    Utilities::SetEnv("LIBSOUP3_LIBRARY_PATH", libsoup_library_path);
+  }
+  else {
+    qLog(Debug) << "libsoup library" << libsoup_library_path << "does not exist.";
+  }
+#endif
+
 }
