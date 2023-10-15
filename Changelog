@@ -17,6 +17,7 @@ Unreleased:
   Enhancements:
     * Support using system KDSingleApplication when available.
     * Improved lyrics matching.
+    * (macOS) Fully codesign binaries and DMG.
 
 Version 1.0.20 (2023.09.24):
 
