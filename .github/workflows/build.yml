@@ -864,6 +864,10 @@ jobs:
         working-directory: build
         run: make deploycheck
 
+      - name: Verify code-signing
+        working-directory: build
+        run: codesign --deep -v strawberry.app
+
       - name: Create DMG
         working-directory: build
         run: make dmg
