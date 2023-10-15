@@ -793,6 +793,39 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Write certificate file
+        if: matrix.runner == 'macos-11'
+        env:
+          APPLE_DEVELOPER_ID_CERTIFICATE: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE }}
+        run: echo ${APPLE_DEVELOPER_ID_CERTIFICATE} | base64 --decode > certificate.p12
+
+      - name: Create keychain
+        if: matrix.runner == 'macos-11'
+        run: security create-keychain -p ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }} build.keychain
+
+      - name: Set keychain
+        if: matrix.runner == 'macos-11'
+        run: security default-keychain -s build.keychain
+
+      - name: Unlock keychain
+        if: matrix.runner == 'macos-11'
+        run: security unlock-keychain -p ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }} build.keychain
+
+      - name: Unlock keychain
+        if: matrix.runner == 'macos-arm64'
+        run: security unlock-keychain -p ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD2 }}
+
+      - name: Import certificate
+        if: matrix.runner == 'macos-11'
+        run: security import certificate.p12 -k build.keychain -P ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }} -T /usr/bin/codesign
+
+      - name: Show certificate
+        run: security find-identity -v
+
+      - name: Allow certificate
+        if: matrix.runner == 'macos-11'
+        run: security set-key-partition-list -S 'apple-tool:,apple:,codesign:' -s -k ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }} build.keychain
+
       - name: Download macOS dependencies
         run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
 
@@ -829,6 +862,7 @@ jobs:
           -DENABLE_DBUS=OFF
           -DICU_ROOT="${{env.prefix_path}}"
           -DFFTW3_DIR="${{env.prefix_path}}"
+          -DAPPLE_DEVELOPER_ID=$(test "${{matrix.runner}}" = "macos-arm64" && echo "383J84DVB6" || echo "")
           -DCREATEDMG_SKIP_JENKINS=$(test "${{matrix.runner}}" = "macos-arm64" && echo "ON" || echo "OFF")
 
       - name: Build
