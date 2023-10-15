@@ -838,9 +838,6 @@ jobs:
       - name: Update PATH
         run: echo "${{env.prefix_path}}/bin" >> $GITHUB_PATH
 
-      - name: Change rpath for lconvert
-        run: sudo install_name_tool -change @rpath/QtCore.framework/Versions/A/QtCore /opt/strawberry_macos_${{env.arch}}_release/lib/QtCore.framework/QtCore /opt/strawberry_macos_${{env.arch}}_release/bin/lconvert
-
       - name: Create Build Environment
         run: cmake -E make_directory build
 
@@ -863,7 +860,6 @@ jobs:
           -DICU_ROOT="${{env.prefix_path}}"
           -DFFTW3_DIR="${{env.prefix_path}}"
           -DAPPLE_DEVELOPER_ID=$(test "${{matrix.runner}}" = "macos-arm64" && echo "383J84DVB6" || echo "")
-          -DCREATEDMG_SKIP_JENKINS=$(test "${{matrix.runner}}" = "macos-arm64" && echo "ON" || echo "OFF")
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
