@@ -1357,10 +1357,6 @@ jobs:
         shell: bash
         run: cp /c/strawberry/c/bin/{patch.exe,strip.exe,strings.exe,objdump.exe} ${{env.prefix_path_unix}}/bin
 
-      - name: Uninstall conflicting mingw
-        shell: cmd
-        run: choco uninstall mingw -y -f
-
       - name: Delete conflicting files
         shell: bash
         run: rm -rf /c/strawberry/c "/c/program files/OpenSSL" "/c/program files/postgresql"
