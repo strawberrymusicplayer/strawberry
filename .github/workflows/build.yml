@@ -1359,7 +1359,7 @@ jobs:
 
       - name: Delete conflicting files
         shell: bash
-        run: rm -rf /c/strawberry/c "/c/program files/OpenSSL" "/c/program files/postgresql"
+        run: rm -rf /c/msys64 /c/mingw32 /c/mingw64 /c/strawberry/c "/c/program files/OpenSSL" "/c/program files/postgresql"
 
       - name: Delete conflicting icu
         shell: bash
