@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-09-24 03:54-0400\n"
+"PO-Revision-Date: 2023-10-15 08:23-0400\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -805,7 +805,7 @@ msgstr "raАльбом - Диск"
 
 #: playlist/playlist.cpp:1372
 msgid "Album Artist"
-msgstr ""
+msgstr "Артист альбома"
 
 #: collection/savedgroupingmanager.cpp:92 organize/organizedialog.cpp:108
 #: ../build/src/ui_groupbydialog.h:192 ../build/src/ui_groupbydialog.h:214
@@ -1137,7 +1137,7 @@ msgstr "Лучшее"
 
 #: playlist/playlist.cpp:1382
 msgid "Bit Depth"
-msgstr ""
+msgstr "Разрядность"
 
 #: context/contextview.cpp:165 collection/savedgroupingmanager.cpp:146
 #: organize/organizedialog.cpp:121 ../build/src/ui_groupbydialog.h:208
@@ -1737,11 +1737,11 @@ msgstr "Обнаружено повреждение базы данных."
 
 #: playlist/playlist.cpp:1390
 msgid "Date Created"
-msgstr ""
+msgstr "Дата создания"
 
 #: playlist/playlist.cpp:1389
 msgid "Date Modified"
-msgstr ""
+msgstr "Дата изменения"
 
 #: ../build/src/ui_edittagdialog.h:880
 msgid "Date created"
@@ -2387,19 +2387,19 @@ msgstr "Файл %1 не распознан как допустимый ауди
 
 #: playlist/playlist.cpp:1385
 msgid "File Name"
-msgstr ""
+msgstr "Имя файла"
 
 #: playlist/playlist.cpp:1386
 msgid "File Name (without path)"
-msgstr ""
+msgstr "Имя файла (без пути)"
 
 #: playlist/playlist.cpp:1387
 msgid "File Size"
-msgstr ""
+msgstr "Размер файла"
 
 #: playlist/playlist.cpp:1388
 msgid "File Type"
-msgstr ""
+msgstr "Тип файла"
 
 #: organize/organizedialog.cpp:122
 msgid "File extension"
@@ -2861,7 +2861,7 @@ msgstr "Установить Strawberry через PPA:"
 
 #: playlist/playlist.cpp:1398
 msgid "Integrated Loudness"
-msgstr ""
+msgstr "Встроенная громкость"
 
 #: core/database.cpp:486
 msgid "Integrity check"
@@ -2941,7 +2941,7 @@ msgstr "Широкая боковая панель"
 
 #: playlist/playlist.cpp:1379
 msgid "Last Played"
-msgstr ""
+msgstr "Последний раз"
 
 #: smartplaylists/smartplaylistsmodel.cpp:91
 #: ../build/src/ui_lastfmimportdialog.h:150
@@ -3079,7 +3079,7 @@ msgstr "Профиль Long term prediction (LTP)"
 
 #: playlist/playlist.cpp:1399
 msgid "Loudness Range"
-msgstr ""
+msgstr "Диапазон громкости"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:79
 #: ../build/src/ui_mainwindow.h:634
@@ -3600,7 +3600,7 @@ msgstr "Организация файлов"
 
 #: playlist/playlist.cpp:1370
 msgid "Original Year"
-msgstr ""
+msgstr "Год оригинала"
 
 #: dialogs/trackselectiondialog.cpp:192
 msgid "Original tags"
@@ -3733,7 +3733,7 @@ msgstr "Играть"
 
 #: playlist/playlist.cpp:1377
 msgid "Play Count"
-msgstr ""
+msgstr "Разы"
 
 #: ../build/src/ui_appearancesettingspage.h:553
 msgid "Play control buttons"
@@ -4380,7 +4380,7 @@ msgstr "Безопасно извлечь устройство после коп
 
 #: playlist/playlist.cpp:1381
 msgid "Sample Rate"
-msgstr ""
+msgstr "Частота"
 
 #: collection/savedgroupingmanager.cpp:143 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:207 ../build/src/ui_groupbydialog.h:229
@@ -4853,7 +4853,7 @@ msgstr "Ска"
 
 #: playlist/playlist.cpp:1378
 msgid "Skip Count"
-msgstr ""
+msgstr "Пропуски"
 
 #: core/commandlineoptions.cpp:224
 msgid "Skip backwards in playlist"
@@ -4960,7 +4960,7 @@ msgstr "Speex"
 
 #: core/mainwindow.cpp:1068
 msgid "Sponsoring Strawberry"
-msgstr ""
+msgstr "Поддержать Strawberry"
 
 #: covermanager/spotifycoverprovider.cpp:149
 msgid "Spotify Authentication"
@@ -5059,6 +5059,9 @@ msgid ""
 "consider sponsoring the project. For more information about sponsorship see "
 "our website %1"
 msgstr ""
+"Strawberry — это бесплатное и открытое программное обеспечение. Если вам "
+"приглянулось оно, пожалуйста, рассмотрите возможность пожертвования. Для "
+"подробностей о спонсорстве посетите наш сайт %1"
 
 #: dialogs/about.cpp:117
 #, qt-format
@@ -5855,6 +5858,9 @@ msgid ""
 "is unsupported and known to have issues. You should download Strawberry for "
 "the correct CPU architecture from %1"
 msgstr ""
+"Вы запустили Strawberry под управлением Rosetta. Работа проигрывателя в "
+"Rosetta не поддерживается и вызывает проблемы. Вам следует скачать "
+"Strawberry для нужной архитектуры ЦП из %1"
 
 #: widgets/loginstatewidget.cpp:83
 #, qt-format
