@@ -1095,6 +1095,7 @@ Song::FileType Song::FiletypeByDescription(const QString &text) {
   else if (text.compare("Vorbis", Qt::CaseInsensitive) == 0) return FileType::OggVorbis;
   else if (text.compare("Opus", Qt::CaseInsensitive) == 0) return FileType::OggOpus;
   else if (text.compare("Speex", Qt::CaseInsensitive) == 0) return FileType::OggSpeex;
+  else if (text.compare("MPEG-1 Layer 2 (MP2)", Qt::CaseInsensitive) == 0) return FileType::MPEG;
   else if (text.compare("MPEG-1 Layer 3 (MP3)", Qt::CaseInsensitive) == 0) return FileType::MPEG;
   else if (text.compare("MPEG-4 AAC", Qt::CaseInsensitive) == 0) return FileType::MP4;
   else if (text.compare("WMA", Qt::CaseInsensitive) == 0) return FileType::ASF;
