@@ -112,13 +112,6 @@ void GstStartup::SetEnvironment() {
 
   const QString app_path = QCoreApplication::applicationDirPath();
 
-  // Set DYLD_FALLBACK_LIBRARY_PATH - Needed by gstsouploader on macOS.
-#ifdef Q_OS_MACOS
-  const QString library_path = QDir::cleanPath(app_path + "/../Frameworks");
-  qLog(Debug) << "Setting DYLD_FALLBACK_LIBRARY_PATH to" << library_path;
-  Utilities::SetEnv("DYLD_FALLBACK_LIBRARY_PATH", library_path);
-#endif
-
   // Set plugin root path
   QString plugin_root_path;
 #  if defined(Q_OS_MACOS)
@@ -185,16 +178,6 @@ void GstStartup::SetEnvironment() {
   QString gst_registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
   qLog(Debug) << "Setting GStreamer registry file to" << gst_registry_filename;
   Utilities::SetEnv("GST_REGISTRY", gst_registry_filename);
-#endif
-
-#ifdef Q_OS_MACOS
-  const QString libsoup_library_path = QDir::cleanPath(app_path + "/../Frameworks/libsoup-3.0.0.dylib");
-  if (QFile::exists(libsoup_library_path)) {
-    Utilities::SetEnv("LIBSOUP3_LIBRARY_PATH", libsoup_library_path);
-  }
-  else {
-    qLog(Debug) << "libsoup library" << libsoup_library_path << "does not exist.";
-  }
 #endif
 
 }
