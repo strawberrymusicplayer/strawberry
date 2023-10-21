@@ -1120,6 +1120,7 @@ Song::FileType Song::FiletypeByExtension(const QString &ext) {
   else if (ext.compare("ogg", Qt::CaseInsensitive) == 0 || ext.compare("oga", Qt::CaseInsensitive) == 0) return FileType::OggVorbis;
   else if (ext.compare("opus", Qt::CaseInsensitive) == 0) return FileType::OggOpus;
   else if (ext.compare("speex", Qt::CaseInsensitive) == 0 || ext.compare("spx", Qt::CaseInsensitive) == 0) return FileType::OggSpeex;
+  else if (ext.compare("mp2", Qt::CaseInsensitive) == 0) return FileType::MPEG;
   else if (ext.compare("mp3", Qt::CaseInsensitive) == 0) return FileType::MPEG;
   else if (ext.compare("mp4", Qt::CaseInsensitive) == 0 || ext.compare("m4a", Qt::CaseInsensitive) == 0 || ext.compare("aac", Qt::CaseInsensitive) == 0) return FileType::MP4;
   else if (ext.compare("asf", Qt::CaseInsensitive) == 0 || ext.compare("wma", Qt::CaseInsensitive) == 0) return FileType::ASF;
