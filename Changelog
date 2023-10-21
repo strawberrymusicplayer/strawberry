@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.21 (2023.10.21):
 
   Bugfixes:
     * Fixed seekbar position resetting to zero before showing actual position when seeking.
