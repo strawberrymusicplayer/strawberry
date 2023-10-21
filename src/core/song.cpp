@@ -952,7 +952,7 @@ QString Song::TextForFiletype(const FileType filetype) {
     case FileType::OggVorbis:   return "Ogg Vorbis";
     case FileType::OggOpus:     return "Ogg Opus";
     case FileType::OggSpeex:    return "Ogg Speex";
-    case FileType::MPEG:        return "MP3";
+    case FileType::MPEG:        return "MPEG";
     case FileType::MP4:         return "MP4 AAC";
     case FileType::ASF:         return "Windows Media audio";
     case FileType::AIFF:        return "AIFF";
