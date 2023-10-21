@@ -58,4 +58,6 @@
 
 #cmakedefine HAVE_EBUR128
 
+#cmakedefine HAVE_KDSINGLEAPPLICATION_OPTIONS
+
 #endif // CONFIG_H_IN

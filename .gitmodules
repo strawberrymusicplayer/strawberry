@@ -1,0 +1,4 @@
+[submodule "3rdparty/kdsingleapplication/KDSingleApplication"]
+	path = 3rdparty/kdsingleapplication/KDSingleApplication
+	url = git@github.com:KDAB/KDSingleApplication.git
+	branch = master

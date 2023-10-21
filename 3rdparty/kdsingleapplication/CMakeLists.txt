@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
-set(SOURCES kdsingleapplication.cpp kdsingleapplication_localsocket.cpp)
-set(HEADERS kdsingleapplication.h kdsingleapplication_localsocket_p.h)
+set(SOURCES KDSingleApplication/src/kdsingleapplication.cpp KDSingleApplication/src/kdsingleapplication_localsocket.cpp)
+set(HEADERS KDSingleApplication/src/kdsingleapplication.h KDSingleApplication/src/kdsingleapplication_localsocket_p.h)
 qt_wrap_cpp(MOC ${HEADERS})
 add_library(kdsingleapplication STATIC ${SOURCES} ${MOC})
 target_compile_definitions(kdsingleapplication PRIVATE -DKDSINGLEAPPLICATION_STATIC_BUILD)
