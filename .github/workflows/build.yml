@@ -845,7 +845,7 @@ jobs:
           -DENABLE_DBUS=OFF
           -DICU_ROOT="${{env.prefix_path}}"
           -DFFTW3_DIR="${{env.prefix_path}}"
-          -DAPPLE_DEVELOPER_ID=$(test "${{github.repository}}" = "strawberrymusicplayer/strawberry" && echo "383J84DVB6" || "")
+          -DAPPLE_DEVELOPER_ID=$(test "${{github.repository}}" = "strawberrymusicplayer/strawberry" && echo "383J84DVB6" || echo "")
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
