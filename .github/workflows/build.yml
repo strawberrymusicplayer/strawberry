@@ -5,7 +5,7 @@ jobs:
 
   build-opensuse:
     name: Build openSUSE
-    if: true
+    if: github.repository != 'strawberrymusicplayer/strawberry-private'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -160,7 +160,7 @@ jobs:
 
   build-fedora:
     name: Build Fedora
-    if: true
+    if: github.repository != 'strawberrymusicplayer/strawberry-private'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -269,7 +269,7 @@ jobs:
 
   build-openmandriva:
     name: Build OpenMandriva
-    if: true
+    if: github.repository != 'strawberrymusicplayer/strawberry-private'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -378,7 +378,7 @@ jobs:
 
   build-mageia:
     name: Build Mageia
-    if: true
+    if: github.repository != 'strawberrymusicplayer/strawberry-private'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -480,7 +480,7 @@ jobs:
 
   build-debian:
     name: Build Debian
-    if: true
+    if: github.repository != 'strawberrymusicplayer/strawberry-private'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -576,7 +576,7 @@ jobs:
 
   build-ubuntu:
     name: Build Ubuntu
-    if: true
+    if: github.repository != 'strawberrymusicplayer/strawberry-private'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -770,9 +770,9 @@ jobs:
         run: dput ppa:jonaski/strawberry ../*_source.changes
 
 
-  build-macos:
-    name: Build macOS
-    if: true
+  build-macos-public:
+    name: Build macOS Public
+    if: github.repository != 'strawberrymusicplayer/strawberry-private'
 
     strategy:
       fail-fast: false
@@ -795,7 +795,6 @@ jobs:
         run: echo "cmake_buildtype=$(echo ${{env.buildtype}} | awk '{print toupper(substr($0,0,1))tolower(substr($0,2))}')" >> $GITHUB_ENV
 
       - name: Uninstall homebrew
-        if: matrix.runner == 'macos-11'
         run: |
           curl -sfLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
           chmod +x ./uninstall.sh
@@ -809,15 +808,11 @@ jobs:
           submodules: recursive
 
       - name: Import certificate file
-        if: github.repository == 'strawberrymusicplayer/strawberry' && matrix.runner == 'macos-11'
+        if: github.repository == 'strawberrymusicplayer/strawberry'
         uses: apple-actions/import-codesign-certs@v2
         with:
           p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE }}
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }}
-
-      - name: Unlock keychain
-        if: github.repository == 'strawberrymusicplayer/strawberry' && matrix.runner == 'macos-arm64'
-        run: security unlock-keychain -p ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD2 }}
 
       - name: Download macOS dependencies
         run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
@@ -871,7 +866,7 @@ jobs:
         run: make deploy
 
       - name: Codesign libsoup
-        if: github.repository == 'strawberrymusicplayer/strawberry' && matrix.runner == 'macos-11'
+        if: github.repository == 'strawberrymusicplayer/strawberry'
         working-directory: build
         run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libsoup-3.0.0.dylib,libnghttp2.14.dylib,libpsl.5.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libzstd.1.dylib} strawberry.app
 
@@ -889,7 +884,7 @@ jobs:
         run: make dmg
 
       - name: SSH key setup
-        if: github.repository == 'strawberrymusicplayer/strawberry' && matrix.runner == 'macos-11' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')
+        if: github.repository == 'strawberrymusicplayer/strawberry' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
@@ -919,9 +914,126 @@ jobs:
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{env.upload_path}}/
 
 
+  build-macos-private:
+    name: Build macOS Private
+    if: github.repository == 'strawberrymusicplayer/strawberry-private'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ 'macos-arm64' ]
+        buildtype: [ 'release' ]
+
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+
+      - name: Set arch
+        shell: bash
+        run: echo "arch=$(uname -m)" >> $GITHUB_ENV
+
+      - name: Set buildtype
+        run: echo "buildtype=$(echo ${{matrix.buildtype}} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Set cmake buildtype
+        run: echo "cmake_buildtype=$(echo ${{env.buildtype}} | awk '{print toupper(substr($0,0,1))tolower(substr($0,2))}')" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Unlock keychain
+        run: security unlock-keychain -p ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD2 }}
+
+      - name: Set prefix path
+        run: echo "prefix_path=/opt/strawberry_macos_${{env.arch}}_${{env.buildtype}}" >> $GITHUB_ENV
+
+      - name: Update PATH
+        run: echo "${{env.prefix_path}}/bin" >> $GITHUB_PATH
+
+      - name: Create Build Environment
+        run: cmake -E make_directory build
+
+      - name: Configure CMake
+        env:
+          MACOSX_DEPLOYMENT_TARGET: 11.0
+          PKG_CONFIG_PATH: ${{env.prefix_path}}/lib/pkgconfig
+          LDFLAGS: -L${{env.prefix_path}}/lib -Wl,-rpath,${{env.prefix_path}}/lib
+        run: >
+          cmake
+          --log-level="DEBUG"
+          -S .
+          -B build
+          -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
+          -DCMAKE_PREFIX_PATH="${{env.prefix_path}}/lib/cmake"
+          -DBUILD_WITH_QT6=ON
+          -DBUILD_WERROR=OFF
+          -DUSE_BUNDLE=ON
+          -DENABLE_DBUS=OFF
+          -DICU_ROOT="${{env.prefix_path}}"
+          -DFFTW3_DIR="${{env.prefix_path}}"
+          -DAPPLE_DEVELOPER_ID="383J84DVB6"
+
+      - name: Build
+        run: cmake --build build --config Release --parallel 4
+
+      - name: Install
+        working-directory: build
+        run: make install
+
+      - name: Deploy
+        env:
+          GIO_EXTRA_MODULES: ${{env.prefix_path}}/lib/gio/modules
+          GST_PLUGIN_SCANNER: ${{env.prefix_path}}/libexec/gstreamer-1.0/gst-plugin-scanner
+          GST_PLUGIN_PATH: ${{env.prefix_path}}/lib/gstreamer-1.0
+          LIBSOUP_LIBRARY_PATH: ${{env.prefix_path}}/lib/libsoup-3.0.0.dylib
+        working-directory: build
+        run: make deploy
+
+      - name: Deploy check
+        working-directory: build
+        run: make deploycheck
+
+      - name: Verify code-signing
+        working-directory: build
+        run: codesign --deep -v strawberry.app
+
+      - name: Create DMG
+        working-directory: build
+        run: make dmg
+
+      - name: SSH key setup
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+
+      - name: Set is release
+        run: echo "is_release=$(grep '^\s*set\s*(\s*INCLUDE_GIT_REVISION\s\+OFF\s*)\s*$' cmake/Version.cmake >/dev/null 2>&1 && echo 1 || echo 0)" >> $GITHUB_ENV
+
+      - name: Get release version
+        run: echo "release_version=$(git describe --tags --exact-match ${GITHUB_SHA} 2>/dev/null | head -1)" >> $GITHUB_ENV
+
+      - name: Set Upload path
+        run: |
+          if [ "${{env.is_release}}" = "1" ] && ! [ "${{env.release_version}}" = "" ]; then
+            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/stable_releases/macos" >> $GITHUB_ENV
+          else
+            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/development_releases/macos" >> $GITHUB_ENV
+          fi
+
+      - name: Create server path
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{env.upload_path}}
+
+      - name: rsync
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{env.upload_path}}/
+
+
   build-windows-mingw:
     name: Build Windows MinGW
-    if: true
+    if: github.repository != 'strawberrymusicplayer/strawberry-private'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -1107,7 +1219,7 @@ jobs:
 
   build-windows-msvc:
     name: Build Windows MSVC
-    if: true
+    if: github.repository != 'strawberrymusicplayer/strawberry-private'
     runs-on: windows-2022
     strategy:
       fail-fast: false
