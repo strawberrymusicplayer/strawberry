@@ -945,7 +945,7 @@ jobs:
           submodules: recursive
 
       - name: Unlock keychain
-        run: security unlock-keychain -p ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD2 }}
+        run: security unlock-keychain -p ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
 
       - name: Set prefix path
         run: echo "prefix_path=/opt/strawberry_macos_${{env.arch}}_${{env.buildtype}}" >> $GITHUB_ENV
