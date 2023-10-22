@@ -301,7 +301,7 @@ endif()
 
 # SingleApplication
 if(QT_VERSION_MAJOR EQUAL 5)
-  set(KDSINGLEAPPLICATION_NAME "KDSingleApplication-qt")
+  set(KDSINGLEAPPLICATION_NAME "KDSingleApplication")
 else()
   set(KDSINGLEAPPLICATION_NAME "KDSingleApplication-qt${QT_VERSION_MAJOR}")
 endif()
