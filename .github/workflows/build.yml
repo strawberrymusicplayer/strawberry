@@ -1004,12 +1004,6 @@ jobs:
         working-directory: build
         run: make dmg
 
-      - name: SSH key setup
-        uses: shimataro/ssh-key-action@v2
-        with:
-          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
-          key: ${{ secrets.SSH_KEY }}
-
       - name: Set is release
         run: echo "is_release=$(grep '^\s*set\s*(\s*INCLUDE_GIT_REVISION\s\+OFF\s*)\s*$' cmake/Version.cmake >/dev/null 2>&1 && echo 1 || echo 0)" >> $GITHUB_ENV
 
