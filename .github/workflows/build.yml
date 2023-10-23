@@ -61,6 +61,7 @@ jobs:
             libgpod-devel
             libmtp-devel
             libchromaprint-devel
+            fftw3-devel
             libebur128-devel
             desktop-file-utils
             update-desktop-files
