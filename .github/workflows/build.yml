@@ -1007,12 +1007,9 @@ jobs:
       - name: Set is release
         run: echo "is_release=$(grep '^\s*set\s*(\s*INCLUDE_GIT_REVISION\s\+OFF\s*)\s*$' cmake/Version.cmake >/dev/null 2>&1 && echo 1 || echo 0)" >> $GITHUB_ENV
 
-      - name: Get release version
-        run: echo "release_version=$(git describe --tags --exact-match ${GITHUB_SHA} 2>/dev/null | head -1)" >> $GITHUB_ENV
-
       - name: Set Upload path
         run: |
-          if [ "${{env.is_release}}" = "1" ] && ! [ "${{env.release_version}}" = "" ]; then
+          if [ "${{env.is_release}}" = "1" ]; then
             echo "upload_path=${{secrets.DOWNLOADS_PATH}}/stable_releases/macos" >> $GITHUB_ENV
           else
             echo "upload_path=${{secrets.DOWNLOADS_PATH}}/development_releases/macos" >> $GITHUB_ENV
