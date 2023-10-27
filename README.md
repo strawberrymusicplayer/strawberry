@@ -101,7 +101,7 @@ You should also install the gstreamer plugins base and good, and optionally bad,
 
 ### Get the code:
 
-    git clone https://github.com/strawberrymusicplayer/strawberry
+    git clone --recursive https://github.com/strawberrymusicplayer/strawberry
 
 ### Compile and install:
 
