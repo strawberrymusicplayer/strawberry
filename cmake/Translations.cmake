@@ -59,7 +59,7 @@ macro(add_po outfiles po_prefix)
     # Convert the .po files to .qm files
     add_custom_command(
       OUTPUT ${_qm_filepath}
-      COMMAND ${QT_LCONVERT_EXECUTABLE} ARGS ${_po_filepath} -o ${_qm_filepath} -of qm
+      COMMAND ${QT_LCONVERT_EXECUTABLE} ARGS ${_po_filepath} -o ${_qm_filepath} -of qm -target-language ${_lang}
       DEPENDS ${_po_filepath} ${_po_filepath}
     )
 
