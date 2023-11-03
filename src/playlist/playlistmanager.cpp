@@ -449,8 +449,7 @@ void PlaylistManager::UpdateSummaryText() {
     nanoseconds = current()->GetTotalLength();
   }
 
-  // TODO: Make the plurals translatable
-  summary += tracks == 1 ? tr("1 track") : tr("%1 tracks").arg(tracks);
+  summary += tr("%n track(s)", "", tracks);
 
   if (nanoseconds > 0) {
     summary += " - [ " + Utilities::WordyTimeNanosec(nanoseconds) + " ]";

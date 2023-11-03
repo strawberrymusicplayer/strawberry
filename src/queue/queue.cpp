@@ -249,7 +249,7 @@ void Queue::UpdateSummaryText() {
   int tracks = ItemCount();
   quint64 nanoseconds = GetTotalLength();
 
-  summary += tracks == 1 ? tr("1 track") : tr("%1 tracks").arg(tracks);
+  summary += tr("%n track(s)", "", tracks);
 
   if (nanoseconds > 0) {
     summary += " - [ " + Utilities::WordyTimeNanosec(nanoseconds) + " ]";
