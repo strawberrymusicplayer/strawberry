@@ -32,10 +32,9 @@ class PoTranslator : public QTranslator {
  public:
   PoTranslator(QObject *parent = nullptr) : QTranslator(parent) {}
   QString translate(const char *context, const char *source_text, const char *disambiguation = nullptr, int n = -1) const override {
-    Q_UNUSED(n);
-    QString ret = QTranslator::translate(context, source_text, disambiguation);
+    QString ret = QTranslator::translate(context, source_text, disambiguation, n);
     if (!ret.isEmpty()) return ret;
-    return QTranslator::translate(nullptr, source_text, disambiguation);
+    return QTranslator::translate(nullptr, source_text, disambiguation, n);
   }
 };
 
