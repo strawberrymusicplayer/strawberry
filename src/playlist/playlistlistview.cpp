@@ -23,6 +23,7 @@
 
 #include <QWidget>
 #include <QFont>
+#include <QMimeData>
 #include <QPainter>
 #include <QPalette>
 #include <QRect>
@@ -30,6 +31,7 @@
 
 #include "widgets/autoexpandingtreeview.h"
 #include "playlistlistview.h"
+#include "playlist.h"
 
 PlaylistListView::PlaylistListView(QWidget *parent) : AutoExpandingTreeView(parent) {}
 
@@ -63,4 +65,73 @@ bool PlaylistListView::ItemsSelected() const {
 
 void PlaylistListView::selectionChanged(const QItemSelection&, const QItemSelection&) {
   emit ItemsSelectedChanged(selectionModel()->selectedRows().count() > 0);
+}
+
+void PlaylistListView::dragEnterEvent(QDragEnterEvent *e) {
+
+  if (e->mimeData()->hasFormat(Playlist::kRowsMimetype)) {
+    e->acceptProposedAction();
+  }
+  else {
+    AutoExpandingTreeView::dragEnterEvent(e);
+  }
+
+}
+
+void PlaylistListView::dragMoveEvent(QDragMoveEvent *e) {
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QModelIndex drag_hover_tab_ = indexAt(e->position().toPoint());
+#else
+    QModelIndex drag_hover_tab_ = indexAt(e->pos());
+#endif
+
+  if (e->mimeData()->hasFormat(Playlist::kRowsMimetype)) {
+    if (drag_hover_tab_ != currentIndex()) {
+      e->setDropAction(Qt::CopyAction);
+      e->accept(visualRect(drag_hover_tab_));
+      setCurrentIndex(drag_hover_tab_);
+      if (drag_hover_timer_.isActive()) {
+        drag_hover_timer_.stop();
+      }
+      drag_hover_timer_.start(kDragHoverTimeout, this);
+    }
+  }
+  else {
+    AutoExpandingTreeView::dragMoveEvent(e);
+  }
+
+}
+
+void PlaylistListView::dragLeaveEvent(QDragLeaveEvent *e) {
+
+  if (drag_hover_timer_.isActive()) {
+    drag_hover_timer_.stop();
+  }
+  AutoExpandingTreeView::dragLeaveEvent(e);
+
+}
+
+void PlaylistListView::timerEvent(QTimerEvent *e) {
+
+  QTreeView::timerEvent(e);
+  if (e->timerId() == drag_hover_timer_.timerId()) {
+    drag_hover_timer_.stop();
+    emit doubleClicked(currentIndex());
+  }
+
+}
+
+void PlaylistListView::dropEvent(QDropEvent *e) {
+
+  if (e->mimeData()->hasFormat(Playlist::kRowsMimetype)) {
+    if (drag_hover_timer_.isActive()) {
+      drag_hover_timer_.stop();
+    }
+    emit ItemMimeDataDroppedSignal(currentIndex(), e->mimeData());
+  }
+  else  {
+    AutoExpandingTreeView::dropEvent(e);
+  }
+
 }

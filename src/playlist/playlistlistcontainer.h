@@ -63,6 +63,7 @@ class PlaylistListContainer : public QWidget {
   // From the UI
   void NewFolderClicked();
   void ItemDoubleClicked(const QModelIndex &proxy_idx);
+  void ItemMimeDataDropped(const QModelIndex &proxy_idx, const QMimeData *q_mimedata);
 
   // From the model
   void PlaylistPathChanged(const int id, const QString &new_path);
