@@ -21,19 +21,20 @@
 # Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
 # Piotr Orzechowski <piotr@orzechowski.tech>, 2020. #zanata
 # Janusz Kostorz <janusz.kostorz@gmail.com>, 2021. #zanata
+# Michał Walenciak <michalwalenciak@gmail.com>, 2023. #poedit
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-05-02 11:10-0400\n"
-"Last-Translator: Janusz Kostorz <janusz.kostorz@gmail.com>\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2023-11-03 19:13+0100\n"
+"Last-Translator: Michał Walenciak <michalwalenciak@gmail.com>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
-"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
-"n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Generator: Zanata 4.6.2\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: playlist/playlistlistview.cpp:49
 msgid ""
@@ -212,11 +213,6 @@ msgstr ""
 msgid "%1 songs selected."
 msgstr "Wybrane %1 utwory(ów)."
 
-#: playlist/playlistmanager.cpp:453 queue/queue.cpp:252
-#, qt-format
-msgid "%1 tracks"
-msgstr "%1 ścieżki(ek)"
-
 #: covermanager/albumcovermanager.cpp:561
 #, qt-format
 msgid "%1 transferred"
@@ -253,6 +249,14 @@ msgstr "zakończonych: %n"
 msgctxt ""
 msgid "%n remaining"
 msgstr "pozostało %n"
+
+#: playlist/playlistmanager.cpp:453 queue/queue.cpp:252
+#, c-format, qt-plural-format
+msgid "%n track(s)"
+msgid_plural "%n track(s)"
+msgstr[0] "%n ścieżka"
+msgstr[1] "%n ścieżki"
+msgstr[2] "%n ścieżek"
 
 #: ../build/src/ui_contextsettingspage.h:415
 #: ../build/src/ui_notificationssettingspage.h:472
@@ -456,10 +460,6 @@ msgstr "0 px"
 #: utilities/timeutils.cpp:67
 msgid "1 day"
 msgstr "1 dzień"
-
-#: playlist/playlistmanager.cpp:453 queue/queue.cpp:252
-msgid "1 track"
-msgstr "1 ścieżka"
 
 #: ../build/src/ui_appearancesettingspage.h:549
 msgid "40%"
