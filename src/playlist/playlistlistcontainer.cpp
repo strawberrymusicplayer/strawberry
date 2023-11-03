@@ -44,6 +44,7 @@
 #include <QToolButton>
 #include <QShowEvent>
 #include <QContextMenuEvent>
+#include <QMimeData>
 
 #include "core/application.h"
 #include "core/iconloader.h"
@@ -110,6 +111,7 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
 
   QObject::connect(ui_->tree, &PlaylistListView::ItemsSelectedChanged, this, &PlaylistListContainer::ItemsSelectedChanged);
   QObject::connect(ui_->tree, &PlaylistListView::doubleClicked, this, &PlaylistListContainer::ItemDoubleClicked);
+  QObject::connect(ui_->tree, &PlaylistListView::ItemMimeDataDroppedSignal, this, &PlaylistListContainer::ItemMimeDataDropped);
 
   model_->invisibleRootItem()->setData(PlaylistListModel::Type_Folder, PlaylistListModel::Role_Type);
 
@@ -344,6 +346,19 @@ void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_idx) {
   // Is it a playlist?
   if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
     app_->playlist_manager()->SetCurrentOrOpen(idx.data(PlaylistListModel::Role_PlaylistId).toInt());
+  }
+
+}
+
+void PlaylistListContainer::ItemMimeDataDropped(const QModelIndex &proxy_idx, const QMimeData *q_mimedata) {
+
+  const QModelIndex idx = proxy_->mapToSource(proxy_idx);
+  if (!idx.isValid()) return;
+
+  // Drop playlist rows if type is playlist and it's not active, to prevent selfcopy
+  int playlis_id = idx.data(PlaylistListModel::Role_PlaylistId).toInt();
+  if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist && playlis_id != app_->playlist_manager()->active_id()) {
+    app_->playlist_manager()->playlist(playlis_id)->dropMimeData(q_mimedata, Qt::CopyAction, -1, 0, QModelIndex());
   }
 
 }
