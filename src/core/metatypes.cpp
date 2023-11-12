@@ -110,6 +110,7 @@ void RegisterMetaTypes() {
 #ifdef HAVE_GSTREAMER
   qRegisterMetaType<GstBuffer*>("GstBuffer*");
   qRegisterMetaType<GstElement*>("GstElement*");
+  qRegisterMetaType<GstState>("GstState");
   qRegisterMetaType<GstEnginePipeline*>("GstEnginePipeline*");
 #endif
   qRegisterMetaType<CollectionDirectory>("CollectionDirectory");

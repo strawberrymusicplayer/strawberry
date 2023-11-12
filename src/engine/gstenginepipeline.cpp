@@ -1552,7 +1552,9 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
 
 void GstEnginePipeline::SetStateDelayed(const GstState state) {
 
-  QTimer::singleShot(300, this, [this, state]() { SetState(state); });
+  QMetaObject::invokeMethod(this, [this, state]() {
+    QTimer::singleShot(300, this, [this, state]() { SetState(state); });
+  }, Qt::QueuedConnection);
 
 }
 
@@ -1591,7 +1593,9 @@ void GstEnginePipeline::SeekQueued(const qint64 nanosec) {
 
 void GstEnginePipeline::SeekDelayed(const qint64 nanosec) {
 
-  QTimer::singleShot(100, this, [this, nanosec]() { SeekQueued(nanosec); });
+  QMetaObject::invokeMethod(this, [this, nanosec]() {
+    QTimer::singleShot(100, this, [this, nanosec]() { Seek(nanosec); });
+  }, Qt::QueuedConnection);
 
 }
 
