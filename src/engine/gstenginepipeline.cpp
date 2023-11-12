@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+
 #include <cstdint>
 #include <cstring>
 #include <cmath>
@@ -30,7 +32,13 @@
 #include <gst/gst.h>
 #include <gst/audio/audio.h>
 
-#include <QtGlobal>
+#ifdef Q_OS_UNIX
+#  include <pthread.h>
+#endif
+#ifdef Q_OS_WIN32
+#  include <windows.h>
+#endif
+
 #include <QObject>
 #include <QCoreApplication>
 #include <QtConcurrent>
@@ -1288,14 +1296,15 @@ void GstEnginePipeline::TaskEnterCallback(GstTask *task, GThread *thread, gpoint
   Q_UNUSED(thread)
   Q_UNUSED(self)
 
-  // Bump the priority of the thread only on macOS
-
-#ifdef Q_OS_MACOS
-  sched_param param;
+#ifdef Q_OS_UNIX
+  sched_param param{};
   memset(&param, 0, sizeof(param));
-
-  param.sched_priority = 99;
+  param.sched_priority = 40;
   pthread_setschedparam(pthread_self(), SCHED_RR, &param);
+#endif
+
+#ifdef Q_OS_WIN32
+  SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
 #endif
 
 }
