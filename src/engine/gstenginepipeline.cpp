@@ -650,11 +650,18 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // We set this on this queue instead of the playbin because setting it on the playbin only affects network sources.
   // Disable the default buffer and byte limits, so we only buffer based on time.
 
-  qLog(Debug) << "Setting buffer duration:" << buffer_duration_nanosec_ << "low watermark:" << buffer_low_watermark_ << "high watermark:" << buffer_high_watermark_;
   g_object_set(G_OBJECT(audioqueue_), "use-buffering", true, nullptr);
-  g_object_set(G_OBJECT(audioqueue_), "max-size-buffers", 0, nullptr);
-  g_object_set(G_OBJECT(audioqueue_), "max-size-bytes", 0, nullptr);
-  g_object_set(G_OBJECT(audioqueue_), "max-size-time", buffer_duration_nanosec_, nullptr);
+
+  if (buffer_duration_nanosec_ > 0) {
+    qLog(Debug) << "Setting buffer duration:" << buffer_duration_nanosec_ << "low watermark:" << buffer_low_watermark_ << "high watermark:" << buffer_high_watermark_;
+    g_object_set(G_OBJECT(audioqueue_), "max-size-buffers", 0, nullptr);
+    g_object_set(G_OBJECT(audioqueue_), "max-size-bytes", 0, nullptr);
+    g_object_set(G_OBJECT(audioqueue_), "max-size-time", buffer_duration_nanosec_, nullptr);
+  }
+  else {
+    qLog(Debug) << "Setting low watermark:" << buffer_low_watermark_ << "high watermark:" << buffer_high_watermark_;
+  }
+
   g_object_set(G_OBJECT(audioqueue_), "low-watermark", buffer_low_watermark_, nullptr);
   g_object_set(G_OBJECT(audioqueue_), "high-watermark", buffer_high_watermark_, nullptr);
 
