@@ -136,8 +136,6 @@ SetCompressor /SOLID lzma
   ReserveFile "${NSISDIR}\Plugins\x86-unicode\INetC.dll"
 !endif
 
-!define LockedListPATH	$InstallDir
-
 ; Installer pages
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE COPYING
@@ -184,19 +182,22 @@ FunctionEnd
 Function CheckPreviousInstall
 
   ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} ${PRODUCT_UNINST_KEY} "UninstallString"
-  StrCmp $R0 "" done
+  StrCmp $R0 "" Done
 
-  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
-  "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the \
-  previous version or `Cancel` to cancel this upgrade." \
-  IDOK uninst
+${IfNot} ${Silent}
+  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the previous version or `Cancel` to cancel this upgrade." IDOK Uninstall
   Abort
-; Run the uninstaller
-uninst:
-  ClearErrors
-  ExecWait '$R0' ; Do not copy the uninstaller to a temp file
+${EndIf}
 
-done:
+  Uninstall:
+  ClearErrors
+  ${If} ${Silent}
+  ExecWait '$R0 /S'
+  ${Else}
+  ExecWait '$R0'
+  ${EndIf}
+
+  Done:
 
 FunctionEnd
 
