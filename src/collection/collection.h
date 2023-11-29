@@ -29,7 +29,6 @@
 #include <QHash>
 #include <QString>
 
-#include "core/scoped_ptr.h"
 #include "core/shared_ptr.h"
 #include "core/song.h"
 
@@ -91,7 +90,7 @@ class SCollection : public QObject {
   SharedPtr<CollectionBackend> backend_;
   CollectionModel *model_;
 
-  ScopedPtr<CollectionWatcher> watcher_;
+  CollectionWatcher *watcher_;
   Thread *watcher_thread_;
   QThread *original_thread_;
 
