@@ -88,6 +88,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<QVector<int>>("QVector<int>");
   qRegisterMetaType<QList<QUrl>>("QList<QUrl>");
   qRegisterMetaType<QFileInfo>("QFileInfo");
+  qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
   qRegisterMetaType<QNetworkReply*>("QNetworkReply*");
   qRegisterMetaType<QNetworkReply**>("QNetworkReply**");
   qRegisterMetaType<QItemSelection>("QItemSelection");
