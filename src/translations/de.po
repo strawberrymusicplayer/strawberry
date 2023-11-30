@@ -1916,7 +1916,7 @@ msgstr "Unterbrochene Übertragung"
 
 #: ../build/src/ui_collectionsettingspage.h:446
 msgid "Disk Cache Size"
-msgstr "Größe des Cachespeichers auf der Fesplatte"
+msgstr "Größe des Cachespeichers auf der Festplatte"
 
 #: collection/collectionfilterwidget.cpp:139
 #: ../build/src/ui_collectionsettingspage.h:439
