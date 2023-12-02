@@ -4458,7 +4458,7 @@ msgstr "Gestione raggruppamenti salvati"
 msgid "Saving album covers"
 msgstr "Salvataggio copertine album"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr "Salvataggio numero riproduzioni valutazioni"
 

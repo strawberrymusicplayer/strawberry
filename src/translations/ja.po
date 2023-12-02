@@ -4371,7 +4371,7 @@ msgstr "保存した分類マネージャー"
 msgid "Saving album covers"
 msgstr "アルバムカバーを保存"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr ""
 

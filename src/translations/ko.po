@@ -4367,7 +4367,7 @@ msgstr "그룹 관리자 저장됨"
 msgid "Saving album covers"
 msgstr "앨범아트 저장 중"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr ""
 

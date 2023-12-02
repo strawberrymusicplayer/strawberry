@@ -4417,7 +4417,7 @@ msgstr "Gestor de agrupamientos guardados"
 msgid "Saving album covers"
 msgstr "Guardando cubiertas de álbumes"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr ""
 

@@ -4510,7 +4510,7 @@ msgstr "Gespeicherte Sortierung verwalten"
 msgid "Saving album covers"
 msgstr "Speichere Titelbilder"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr "Speichern von Wiedergabezahlen und Bewertungen"
 

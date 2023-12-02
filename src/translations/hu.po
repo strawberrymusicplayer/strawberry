@@ -4449,7 +4449,7 @@ msgstr "Csoportosításkezelő mentése"
 msgid "Saving album covers"
 msgstr "Albumborítók mentése"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr "Lejátszásszámok és értékelések mentése"
 

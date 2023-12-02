@@ -4390,7 +4390,7 @@ msgstr "Gestor d'agrupacions desades"
 msgid "Saving album covers"
 msgstr ""
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr ""
 

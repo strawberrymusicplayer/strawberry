@@ -4406,7 +4406,7 @@ msgstr "Spravce uložených seskupení"
 msgid "Saving album covers"
 msgstr "Ukládání obalů alb"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr ""
 

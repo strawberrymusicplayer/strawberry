@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-10-15 08:23-0400\n"
+"PO-Revision-Date: 2023-11-29 06:45-0500\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -268,7 +268,7 @@ msgstr "%n осталось"
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n track(s)"
-msgstr ""
+msgstr "%n трек(ов)"
 
 #: ../build/src/ui_contextsettingspage.h:415
 #: ../build/src/ui_notificationssettingspage.h:472
@@ -798,7 +798,7 @@ msgstr "Альбом (идеальная громкость всех треко�
 #: collection/savedgroupingmanager.cpp:101 ../build/src/ui_groupbydialog.h:195
 #: ../build/src/ui_groupbydialog.h:217 ../build/src/ui_groupbydialog.h:239
 msgid "Album - Disc"
-msgstr "raАльбом - Диск"
+msgstr "Альбом - Диск"
 
 #: playlist/playlist.cpp:1372
 msgid "Album Artist"
@@ -3634,8 +3634,8 @@ msgstr "Выходные параметры"
 #: ../build/src/ui_collectionsettingspage.h:453
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
-"Перезаписать счётчики воспроизведения базы данных при повторном считывании "
-"песен с диска"
+"Перезаписать счётчики воспроизведения базы данных при повторном чтении песен "
+"с диска"
 
 #: ../build/src/ui_collectionsettingspage.h:454
 msgid "Overwrite database rating when songs are re-read from disk"
@@ -3705,7 +3705,7 @@ msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:680
 msgid "Perform track loudness normalization"
-msgstr "Выполнить нормализацию громкости дорожки"
+msgstr "Выполнять нормализацию громкости дорожки"
 
 #: collection/savedgroupingmanager.cpp:131 playlist/playlist.cpp:1374
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:205
@@ -3871,7 +3871,7 @@ msgstr "Настройки"
 
 #: ../build/src/ui_collectionsettingspage.h:434
 msgid "Preferred album art filenames (comma separated)"
-msgstr "Приоритетные имена файлов обложек (через запятые)"
+msgstr "Приоритетные имена файлов обложек (через запятую)"
 
 #: ../build/src/ui_deviceproperties.h:382
 msgid "Preferred format"
@@ -4001,7 +4001,7 @@ msgstr "Очередь выбранных треков для последующ
 #: core/mainwindow.cpp:1961 collection/collectionview.cpp:356
 #: internet/internetcollectionview.cpp:321
 msgid "Queue to play next"
-msgstr "В очередь для игры следующим"
+msgstr "Добавить в начало очереди"
 
 #: core/mainwindow.cpp:1953 collection/collectionview.cpp:355
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
@@ -4460,7 +4460,7 @@ msgstr "Менеджер сохранённых групп"
 msgid "Saving album covers"
 msgstr "Сохранение обложек альбомов"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr "Сохранение счётчиков прослушивания и оценок"
 

@@ -4418,7 +4418,7 @@ msgstr "Opgeslagen groeperingbeheerder"
 msgid "Saving album covers"
 msgstr "Album hoezen weg schrijven"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr ""
 

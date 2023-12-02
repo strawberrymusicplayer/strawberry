@@ -4387,7 +4387,7 @@ msgstr ""
 msgid "Saving album covers"
 msgstr "Tallennetaan kansikuvia"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr ""
 

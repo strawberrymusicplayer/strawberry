@@ -4441,7 +4441,7 @@ msgstr "Керування збереженими групуваннями"
 msgid "Saving album covers"
 msgstr "Збереження обкладинок альбомів"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr "Збереження кількостей відтворювань і рейтингів композицій"
 

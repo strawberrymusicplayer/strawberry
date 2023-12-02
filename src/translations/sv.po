@@ -4440,7 +4440,7 @@ msgstr "Sparad grupperingshanterare"
 msgid "Saving album covers"
 msgstr "Spara albumomslag"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr "Sparar antal spelningar och betyg"
 

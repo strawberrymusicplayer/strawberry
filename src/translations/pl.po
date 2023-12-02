@@ -4434,7 +4434,7 @@ msgstr "Menedżer zapisanych grupowań"
 msgid "Saving album covers"
 msgstr "Zapisywanie okładek albumów"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr ""
 

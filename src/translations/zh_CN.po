@@ -4362,7 +4362,7 @@ msgstr "已保存的分组管理器"
 msgid "Saving album covers"
 msgstr "正在保存专辑封面"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr "正在保存播放计数和评分"
 

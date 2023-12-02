@@ -4407,7 +4407,7 @@ msgstr "Behandler for lagrede grupperinger"
 msgid "Saving album covers"
 msgstr "Lagrer album kover"
 
-#: collection/collection.cpp:203
+#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr "Lagrer spilletellere og vurderinger"
 
