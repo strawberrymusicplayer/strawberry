@@ -867,6 +867,9 @@ void Player::TrackAboutToEnd() {
   if (engine_->is_autocrossfade_enabled()) {
     // Crossfade is on, so just start playing the next track.  The current one will fade out, and the new one will fade in
 
+    // If the decoding failed, current_item_ will be null
+    if (!current_item_) return;
+
     // But, if there's no next track, and we don't want to fade out, then do nothing and just let the track finish to completion.
     if (!engine_->is_fadeout_enabled() && !has_next_row) return;
 
