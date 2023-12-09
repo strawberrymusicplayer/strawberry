@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.22 (2023.12.09):
 
   Bugfixes:
     * Fixed KDSingleApplication cmake version check.
