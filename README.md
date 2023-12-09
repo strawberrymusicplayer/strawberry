@@ -21,7 +21,7 @@ Resources:
   * Ubuntu Unstable PPA: https://launchpad.net/~jonaski/+archive/ubuntu/strawberry-unstable
   * Translations: https://translate.zanata.org/iteration/view/strawberry/master
 
-### :bangbang: Opening an issue:
+### :bangbang: Opening an issue
 
 * Read the FAQ: https://wiki.strawberrymusicplayer.org/wiki/FAQ
 * Search for the issue to see if it is already solved, or if there is an open issue for it already. If there is an open issue already, you can comment on it if you have additional information that could be useful to us.
@@ -29,7 +29,7 @@ Resources:
 * We do not take feature requests from users on GitHub. Any issues related to feature requests will be closed. This does not necessarily mean that we won't add new features, but we don't have time to take feature requests or answer questions about new features from users. It is still possible to suggest or discuss new features on the forum (https://forum.strawberrymusicplayer.org/).
 * We do not maintain the Flatpak package. Do not report issues related to Flatpak unless the issue can be reproduced with a native package, use Flatpak support instead https://flatpak.org/about/
 
-### :moneybag:	Sponsoring:
+### :moneybag:	Sponsoring
 
 The program is free software, released under GPL. If you like this program and can make use of it, consider sponsoring or donating to help fund the project.
 There are currently 3 options for sponsoring:
@@ -41,7 +41,7 @@ There are currently 3 options for sponsoring:
 
 Funding developers is a way to contribute to open source projects you appreciate, it helps developers get the resources they need, and recognize contributors working behind the scenes to make open source better for everyone.
 
-### :heavy_check_mark: Features:
+### :heavy_check_mark: Features
 
   * Play and organize music
   * Supports WAV, FLAC, WavPack, Ogg FLAC, Ogg Vorbis, Ogg Opus, Ogg Speex, MPC, TrueAudio, AIFF, MP4, MP3, ASF and Monkey's Audio.
