@@ -2,6 +2,22 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed KDSingleApplication cmake version check.
+    * Fixed KDSingleApplication Qt 5 detection (#1299).
+    * Fixed timer started in wrong thread (#1302).
+    * Fixed erratic seeking behaviour if buffer duration is set to zero (#1302).
+    * Fixed SCollection related crash on exit with Qt 5 (#1316).
+    * Fixed track about to end related crash on playback failure (#1332).
+    * Fixed playlist column widths not remembered if stretch mode is off with Qt 6.6.1 and higher (#1328).
+    * (Windows) Properly handle silent uninstall (#1323).
+
+  Enhancements:
+    * Increase thread priority for playback threads.
+    * Allow drag and drop of songs to favorite playlists.
+
 Version 1.0.21 (2023.10.21):
 
   Bugfixes:
