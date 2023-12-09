@@ -166,17 +166,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        fedora_version: [ '37', '38', '39' ]
+        fedora_version: [ '38', '39', '40' ]
     container:
       image: fedora:${{matrix.fedora_version}}
     steps:
       - name: Update repositories
         run: dnf -y update
-      - name: Fix dnf
-        run: |
-          if [ -f "/usr/bin/dnf5" ] && ! [ -f "/usr/bin/dnf" ]; then
-            ln -s /usr/bin/dnf5 /usr/bin/dnf
-          fi
       - name: Upgrade packages
         run: dnf -y upgrade
       - name: Install dependencies
