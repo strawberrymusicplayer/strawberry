@@ -48,8 +48,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-09-27 12:01-0400\n"
-"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
+"PO-Revision-Date: 2023-12-11 11:29-0500\n"
+"Last-Translator: hatstand <john.maguire@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -280,7 +280,7 @@ msgstr "%n restant"
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n track(s)"
-msgstr ""
+msgstr "%n morceau(x)"
 
 #: ../build/src/ui_contextsettingspage.h:415
 #: ../build/src/ui_notificationssettingspage.h:472

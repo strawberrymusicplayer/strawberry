@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-11-29 06:45-0500\n"
+"PO-Revision-Date: 2023-12-04 06:08-0500\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -878,7 +878,7 @@ msgstr "Разрешить кодирование в виде суммы и ра
 
 #: ../build/src/ui_transcodedialog.h:231
 msgid "Alongside the originals"
-msgstr "Вместе с оригиналами"
+msgstr "Рядом с исходными"
 
 #: ../build/src/ui_behavioursettingspage.h:298
 #: ../build/src/ui_behavioursettingspage.h:312
@@ -912,7 +912,7 @@ msgstr "Внешний вид"
 
 #: ../build/src/ui_tidalsettingspage.h:339
 msgid "Append explicit to album title for explicit albums"
-msgstr "Добавить явно к названию альбома для явных альбомов"
+msgstr "Добавлять «Explicit» в имена альбомов с нецензурной лексикой"
 
 #: core/commandlineoptions.cpp:236
 msgid "Append files/URLs to the playlist"
@@ -2054,7 +2054,7 @@ msgstr "Включить HTTP/2 для потокового вещания"
 
 #: ../build/src/ui_contextsettingspage.h:426
 msgid "Enable Items"
-msgstr "Задействовать объекты"
+msgstr "Задействовать элементы"
 
 #: ../build/src/ui_collectionsettingspage.h:456
 #: ../build/src/ui_playlistsettingspage.h:188
@@ -2471,7 +2471,7 @@ msgstr "Шрифт"
 
 #: ../build/src/ui_contextsettingspage.h:437
 msgid "Font for data and lyrics"
-msgstr "Шрифт для данных и текста песен"
+msgstr "Шрифт данных и текста песни"
 
 #: ../build/src/ui_contextsettingspage.h:432
 msgid "Font for headline"
@@ -3634,8 +3634,8 @@ msgstr "Выходные параметры"
 #: ../build/src/ui_collectionsettingspage.h:453
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
-"Перезаписать счётчики воспроизведения базы данных при повторном чтении песен "
-"с диска"
+"Обновлять счётчик прослушивания базы данных при повторном чтении песен с "
+"диска"
 
 #: ../build/src/ui_collectionsettingspage.h:454
 msgid "Overwrite database rating when songs are re-read from disk"
@@ -4035,7 +4035,7 @@ msgstr "Оценка"
 
 #: ../build/src/ui_playlistsettingspage.h:193
 msgid "Re&lative"
-msgstr "&Относительно"
+msgstr "&Относительные"
 
 #: covermanager/albumcovermanager.cpp:259
 msgid "Really cancel?"
@@ -4785,7 +4785,7 @@ msgstr "Показать текст песни"
 
 #: ../build/src/ui_behavioursettingspage.h:282
 msgid "Show song progress on system tray icon"
-msgstr "Показывать прогресс песни на значке в трее"
+msgstr "Показывать ход проигрывания песни на значке в трее"
 
 #: context/contextview.cpp:263
 msgid "Show song technical data"
@@ -5102,11 +5102,11 @@ msgstr "Метод адреса потока"
 
 #: settings/settingsdialog.cpp:158
 msgid "Streaming"
-msgstr "Прослушивание потоков"
+msgstr "Проигрывание потоков"
 
 #: ../build/src/ui_appearancesettingspage.h:543
 msgid "Stretch image to fill playlist"
-msgstr "Подгонять изображение к размеру плейлиста"
+msgstr "Подгонять к размеру плейлиста"
 
 #: ../build/src/ui_appearancesettingspage.h:515
 #: ../build/src/ui_appearancesettingspage.h:516
@@ -5702,7 +5702,7 @@ msgstr "Различные артисты"
 
 #: ../build/src/ui_subsonicsettingspage.h:254
 msgid "Verify server certificate"
-msgstr "Верифицировать сертификат сервера"
+msgstr "Проверять сертификат сервера"
 
 #: dialogs/about.cpp:107
 #, qt-format

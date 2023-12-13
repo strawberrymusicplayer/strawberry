@@ -43,13 +43,14 @@
 # Guido T. <GuidoTelscher@web.de>, 2022. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2022. #zanata
 # Daniel Ostertag <dakes@vivaldi.net>, 2023. #zanata
+# Stefan Skopnik <sskopnik@gmail.com>, 2023. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-08-03 08:26-0400\n"
-"Last-Translator: Daniel Ostertag <dakes@vivaldi.net>\n"
+"PO-Revision-Date: 2023-12-02 05:25-0500\n"
+"Last-Translator: Stefan Skopnik <sskopnik@gmail.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -283,7 +284,7 @@ msgstr "%n verbleibend"
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n track(s)"
-msgstr ""
+msgstr "%n Stück(e)"
 
 #: ../build/src/ui_contextsettingspage.h:415
 #: ../build/src/ui_notificationssettingspage.h:472
@@ -821,7 +822,7 @@ msgstr "Album - Disc"
 
 #: playlist/playlist.cpp:1372
 msgid "Album Artist"
-msgstr ""
+msgstr "Album-Interpret"
 
 #: collection/savedgroupingmanager.cpp:92 organize/organizedialog.cpp:108
 #: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_groupbydialog.h:215
@@ -1156,7 +1157,7 @@ msgstr "Optimal"
 
 #: playlist/playlist.cpp:1382
 msgid "Bit Depth"
-msgstr ""
+msgstr "Bit-Tiefe"
 
 #: context/contextview.cpp:165 collection/savedgroupingmanager.cpp:146
 #: organize/organizedialog.cpp:121 ../build/src/ui_groupbydialog.h:209
@@ -1764,11 +1765,11 @@ msgstr "Datenbankfehler festgestellt"
 
 #: playlist/playlist.cpp:1390
 msgid "Date Created"
-msgstr ""
+msgstr "Erstellungsdatum"
 
 #: playlist/playlist.cpp:1389
 msgid "Date Modified"
-msgstr ""
+msgstr "Änderungsdatum"
 
 #: ../build/src/ui_edittagdialog.h:881
 msgid "Date created"
@@ -1916,7 +1917,7 @@ msgstr "Unterbrochene Übertragung"
 
 #: ../build/src/ui_collectionsettingspage.h:446
 msgid "Disk Cache Size"
-msgstr "Größe des Cachespeichers auf der Fesplatte"
+msgstr "Größe des Cachespeichers auf der Festplatte"
 
 #: collection/collectionfilterwidget.cpp:139
 #: ../build/src/ui_collectionsettingspage.h:439
@@ -2419,19 +2420,19 @@ msgstr "Datei %1 kann nicht als korrekte Audiodatei erkannt werden."
 
 #: playlist/playlist.cpp:1385
 msgid "File Name"
-msgstr ""
+msgstr "Dateiname"
 
 #: playlist/playlist.cpp:1386
 msgid "File Name (without path)"
-msgstr ""
+msgstr "Dateiname (ohne Dateipfad)"
 
 #: playlist/playlist.cpp:1387
 msgid "File Size"
-msgstr ""
+msgstr "Dateigröße"
 
 #: playlist/playlist.cpp:1388
 msgid "File Type"
-msgstr ""
+msgstr "Dateityp"
 
 #: organize/organizedialog.cpp:122
 msgid "File extension"
@@ -2899,7 +2900,7 @@ msgstr "Strawberry aus PPA installieren:"
 
 #: playlist/playlist.cpp:1398
 msgid "Integrated Loudness"
-msgstr ""
+msgstr "Integrierte Lautheit"
 
 #: core/database.cpp:486
 msgid "Integrity check"
@@ -2980,7 +2981,7 @@ msgstr "Große Seitenleiste"
 
 #: playlist/playlist.cpp:1379
 msgid "Last Played"
-msgstr ""
+msgstr "Zuletzt gespielt"
 
 #: smartplaylists/smartplaylistsmodel.cpp:91
 #: ../build/src/ui_lastfmimportdialog.h:150
@@ -3118,7 +3119,7 @@ msgstr "Langzeitvorhersageprofil (LTP)"
 
 #: playlist/playlist.cpp:1399
 msgid "Loudness Range"
-msgstr ""
+msgstr "Lautstärkeumfang"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:79
 #: ../build/src/ui_mainwindow.h:634
@@ -3641,7 +3642,7 @@ msgstr "Dateien organisieren"
 
 #: playlist/playlist.cpp:1370
 msgid "Original Year"
-msgstr ""
+msgstr "Ursprüngliches Jahr"
 
 #: dialogs/trackselectiondialog.cpp:192
 msgid "Original tags"
@@ -3775,7 +3776,7 @@ msgstr "Wiedergabe"
 
 #: playlist/playlist.cpp:1377
 msgid "Play Count"
-msgstr ""
+msgstr "Wiedergabezähler"
 
 #: ../build/src/ui_appearancesettingspage.h:553
 msgid "Play control buttons"
@@ -4428,7 +4429,7 @@ msgstr "Das Gerät nach dem Kopiervorgang sicher entfernen"
 
 #: playlist/playlist.cpp:1381
 msgid "Sample Rate"
-msgstr ""
+msgstr "Abtastrate"
 
 #: collection/savedgroupingmanager.cpp:143 organize/organizedialog.cpp:120
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
@@ -4904,7 +4905,7 @@ msgstr "Ska"
 
 #: playlist/playlist.cpp:1378
 msgid "Skip Count"
-msgstr ""
+msgstr "Übersprungzähler"
 
 #: core/commandlineoptions.cpp:224
 msgid "Skip backwards in playlist"
@@ -5011,7 +5012,7 @@ msgstr "Speex"
 
 #: core/mainwindow.cpp:1068
 msgid "Sponsoring Strawberry"
-msgstr ""
+msgstr "Sponsoring Strawberry"
 
 #: covermanager/spotifycoverprovider.cpp:149
 msgid "Spotify Authentication"
@@ -5110,6 +5111,9 @@ msgid ""
 "consider sponsoring the project. For more information about sponsorship see "
 "our website %1"
 msgstr ""
+"Strawberry ist freie Open-Source Software. Wenn Ihnen Strawberry gefällt, "
+"können sie das Projekt sponsern. Für weitere Informationen zum Thema "
+"Sponsorschaft schauen Sie auf unsere Web-Seite %1"
 
 #: dialogs/about.cpp:117
 #, qt-format
@@ -5915,6 +5919,9 @@ msgid ""
 "is unsupported and known to have issues. You should download Strawberry for "
 "the correct CPU architecture from %1"
 msgstr ""
+"Sie betreiben Strawberry unter Rosetta. Der Betrieb von Strawberry unter "
+"Rosetta wird nicht unterstützt und führt zu Problemen. Bitte laden Sie "
+"Strawberry für die korrekte CPU-Architektur von %1 herunter"
 
 #: widgets/loginstatewidget.cpp:83
 #, qt-format
