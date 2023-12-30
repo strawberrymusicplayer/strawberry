@@ -103,6 +103,7 @@ class CollectionView : public AutoExpandingTreeView {
   void AddToPlaylistEnqueue();
   void AddToPlaylistEnqueueNext();
   void OpenInNewPlaylist();
+  void SearchForThis();
   void Organize();
   void CopyToDevice();
   void EditTracks();
@@ -137,6 +138,8 @@ class CollectionView : public AutoExpandingTreeView {
   QAction *action_add_to_playlist_enqueue_next_;
   QAction *action_open_in_new_playlist_;
   QAction *action_organize_;
+  QAction *action_search_for_this_;
+
 #ifndef Q_OS_WIN
   QAction *action_copy_to_device_;
 #endif

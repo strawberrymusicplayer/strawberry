@@ -372,6 +372,10 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
     action_add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, &CollectionView::AddToPlaylistEnqueueNext);
 
     context_menu_->addSeparator();
+
+    action_search_for_this_ = context_menu_->addAction(IconLoader::Load("edit-find"), tr("Search for this"), this, &CollectionView::SearchForThis);
+
+    context_menu_->addSeparator();
     action_organize_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, &CollectionView::Organize);
 #ifndef Q_OS_WIN
     action_copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, &CollectionView::CopyToDevice);
@@ -558,6 +562,100 @@ void CollectionView::OpenInNewPlaylist() {
     mimedata->open_in_new_playlist_ = true;
   }
   emit AddToPlaylistSignal(q_mimedata);
+
+}
+
+void CollectionView::SearchForThis() {
+
+  QModelIndex current = currentIndex();
+  QVariant type = model()->data(current, CollectionModel::Role_Type);
+  if (!type.isValid() || (type.toInt() != CollectionItem::Type_Song && type.toInt() != CollectionItem::Type_Container && type.toInt() != CollectionItem::Type_Divider)) {
+    return;
+  }
+  QString search;
+  QModelIndex index = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
+
+  switch (type.toInt()) {
+    case CollectionItem::Type_Song:{
+      SongList songs = app_->collection_model()->GetChildSongs(index);
+      if (!songs.isEmpty()) {
+        last_selected_song_ = songs.last();
+      }
+      search = QString("title:%1").arg(last_selected_song_.title());
+      break;
+    }
+
+    case CollectionItem::Type_Divider:{
+      break;
+    }
+
+    case CollectionItem::Type_Container:{
+      CollectionItem *item = app_->collection_model()->IndexToItem(index);
+
+      int container_level = item->container_level;
+      CollectionModel::GroupBy container_group_by = app_->collection_model()->GetGroupBy()[container_level];
+
+      switch (container_group_by) {
+        case CollectionModel::GroupBy::AlbumArtist:
+          search = QString("albumartist:%1").arg(item->metadata.effective_albumartist());
+          break;
+        case CollectionModel::GroupBy::Artist:
+          search = QString("artist:%1").arg(item->metadata.artist());
+          break;
+        case CollectionModel::GroupBy::Album:
+          search = QString("album:%1").arg(item->metadata.album());
+          break;
+        case CollectionModel::GroupBy::AlbumDisc:
+          search = QString("album:%1").arg(item->metadata.album());
+          break;
+        case CollectionModel::GroupBy::YearAlbum:
+        case CollectionModel::GroupBy::YearAlbumDisc:{
+          search = QString("year:%1 album:%2").arg(item->metadata.year()).arg(item->metadata.album());
+          break;
+        }
+        case CollectionModel::GroupBy::OriginalYearAlbum:
+        case CollectionModel::GroupBy::OriginalYearAlbumDisc:{
+          search = QString("year:%1 album:%2").arg(item->metadata.effective_originalyear()).arg(item->metadata.album());
+          break;
+        }
+        case CollectionModel::GroupBy::Year:
+          search = QString("year:%1").arg(item->metadata.year());
+          break;
+        case CollectionModel::GroupBy::OriginalYear:
+          search = QString("year:%1").arg(item->metadata.effective_originalyear());
+          break;
+        case CollectionModel::GroupBy::Genre:
+          search = QString("genre:%1").arg(item->metadata.genre());
+          break;
+        case CollectionModel::GroupBy::Composer:
+          search = QString("composer:%1").arg(item->metadata.composer());
+          break;
+        case CollectionModel::GroupBy::Performer:
+          search = QString("performer:%1").arg(item->metadata.performer());
+          break;
+        case CollectionModel::GroupBy::Grouping:
+          search = QString("grouping:%1").arg(item->metadata.grouping());
+          break;
+        case CollectionModel::GroupBy::Samplerate:
+          search = QString("samplerate:%1").arg(item->metadata.samplerate());
+          break;
+        case CollectionModel::GroupBy::Bitdepth:
+          search = QString("bitdepth:%1").arg(item->metadata.bitdepth());
+          break;
+        case CollectionModel::GroupBy::Bitrate:
+          search = QString("bitrate:%1").arg(item->metadata.bitrate());
+          break;
+        default:
+          search = model()->data(current, Qt::DisplayRole).toString();
+      }
+      break;
+    }
+
+    default:
+      return;
+  }
+
+  filter_->ShowInCollection(search);
 
 }
 
