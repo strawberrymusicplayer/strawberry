@@ -35,7 +35,7 @@
 
 class CollectionQuery : public QSqlQuery {
  public:
-  explicit CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const CollectionFilterOptions &filter_options = CollectionFilterOptions());
+  explicit CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const CollectionFilterOptions &filter_options = CollectionFilterOptions());
 
   QVariant Value(const int column) const;
   QVariant value(const int column) const { return Value(column); }
@@ -50,7 +50,6 @@ class CollectionQuery : public QSqlQuery {
   QStringList where_clauses() const { return where_clauses_; }
   QVariantList bound_values() const { return bound_values_; }
   bool include_unavailable() const { return include_unavailable_; }
-  bool join_with_fts() const { return join_with_fts_; }
   bool duplicates_only() const { return duplicates_only_; }
   int limit() const { return limit_; }
 
@@ -82,7 +81,6 @@ class CollectionQuery : public QSqlQuery {
 
   QSqlDatabase db_;
   QString songs_table_;
-  QString fts_table_;
 
   QString column_spec_;
   QString order_by_;
@@ -90,7 +88,6 @@ class CollectionQuery : public QSqlQuery {
   QVariantList bound_values_;
 
   bool include_unavailable_;
-  bool join_with_fts_;
   bool duplicates_only_;
   int limit_;
 };

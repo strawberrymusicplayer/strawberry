@@ -38,77 +38,12 @@
 #include "collectionfilteroptions.h"
 #include "utilities/searchparserutils.h"
 
-CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const CollectionFilterOptions &filter_options)
+CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const CollectionFilterOptions &filter_options)
     : QSqlQuery(db),
       songs_table_(songs_table),
-      fts_table_(fts_table),
       include_unavailable_(false),
-      join_with_fts_(false),
       duplicates_only_(false),
       limit_(-1) {
-
-  if (!filter_options.filter_text().isEmpty()) {
-    // We need to munge the filter text a little bit to get it to work as expected with sqlite's FTS5:
-    //  1) Append * to all tokens.
-    //  2) Prefix "fts" to column names.
-    //  3) Remove colons which don't correspond to column names.
-
-    // Split on whitespace
-    QString filter_text = filter_options.filter_text().replace(QRegularExpression(":\\s+"), ":");
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-    QStringList tokens(filter_text.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts));
-#else
-    QStringList tokens(filter_text.split(QRegularExpression("\\s+"), QString::SkipEmptyParts));
-#endif
-    QString query;
-    for (QString token : tokens) {
-      token.remove('(')
-           .remove(')')
-           .remove('"')
-           .replace('-', ' ');
-
-      if (token.contains(':')) {
-        const QString columntoken = token.section(':', 0, 0);
-        QString subtoken = token.section(':', 1, -1).replace(":", " ").trimmed();
-        if (subtoken.isEmpty()) continue;
-        if (Song::kFtsColumns.contains("fts" + columntoken, Qt::CaseInsensitive)) {
-          if (!query.isEmpty()) query.append(" ");
-          query += "fts" + columntoken + ":\"" + subtoken + "\"*";
-        }
-        else if (Song::kNumericalColumns.contains(columntoken, Qt::CaseInsensitive)) {
-          QString comparator = RemoveSqlOperator(subtoken);
-          if (columntoken.compare("rating", Qt::CaseInsensitive) == 0) {
-            AddWhereRating(subtoken, comparator);
-          }
-          else if (columntoken.compare("length", Qt::CaseInsensitive) == 0) {
-            // Time is saved in nanoseconds, so add 9 0's
-            QString parsedTime = QString::number(Utilities::ParseSearchTime(subtoken)) + "000000000";
-            AddWhere(columntoken, parsedTime, comparator);
-          }
-          else {
-            AddWhere(columntoken, subtoken, comparator);
-          }
-        }
-        // Not a valid filter, remove
-        else {
-          token = token.replace(":", " ").trimmed();
-          if (!token.isEmpty()) {
-            if (!query.isEmpty()) query.append(" ");
-            query += "\"" + token + "\"*";
-          }
-        }
-      }
-      else {
-        if (!query.isEmpty()) query.append(" ");
-        query += "\"" + token + "\"*";
-      }
-    }
-    if (!query.isEmpty()) {
-      where_clauses_ << "fts.%fts_table_noprefix MATCH ?";
-      bound_values_ << query;
-      join_with_fts_ = true;
-    }
-  }
 
   if (filter_options.max_age() != -1) {
     qint64 cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - filter_options.max_age();
@@ -117,12 +52,6 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
     bound_values_ << cutoff;
   }
 
-  // TODO: Currently you cannot use any FilterMode other than All and FTS at the same time.
-  // Joining songs, duplicated_songs and songs_fts all together takes a huge amount of time.
-  // The query takes about 20 seconds on my machine then. Why?
-  // Untagged mode could work with additional filtering but I'm disabling it just to be consistent
-  // this way filtering is available only in the All mode.
-  // Remember though that when you fix the Duplicates + FTS cooperation, enable the filtering in both Duplicates and Untagged modes.
   duplicates_only_ = filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates;
 
   if (filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Untagged) {
@@ -231,8 +160,6 @@ void CollectionQuery::AddWhereRating(const QVariant &value, const QString &op) {
 
 void CollectionQuery::AddCompilationRequirement(const bool compilation) {
   // The unary + is added to prevent sqlite from using the index idx_comp_artist.
-  // When joining with fts, sqlite 3.8 has a tendency to use this index and thereby nesting the tables in an order which gives very poor performance
-
   where_clauses_ << QString("+compilation_effective = %1").arg(compilation ? 1 : 0);
 
 }
@@ -248,14 +175,7 @@ QString CollectionQuery::GetInnerQuery() const {
 
 bool CollectionQuery::Exec() {
 
-  QString sql;
-
-  if (join_with_fts_) {
-    sql = QString("SELECT %1 FROM %2 INNER JOIN %3 AS fts ON %2.ROWID = fts.ROWID").arg(column_spec_, songs_table_, fts_table_);
-  }
-  else {
-    sql = QString("SELECT %1 FROM %2 %3").arg(column_spec_, songs_table_, GetInnerQuery());
-  }
+  QString sql = QString("SELECT %1 FROM %2 %3").arg(column_spec_, songs_table_, GetInnerQuery());
 
   QStringList where_clauses(where_clauses_);
   if (!include_unavailable_) {
@@ -269,8 +189,6 @@ bool CollectionQuery::Exec() {
   if (limit_ != -1) sql += " LIMIT " + QString::number(limit_);
 
   sql.replace("%songs_table", songs_table_);
-  sql.replace("%fts_table_noprefix", fts_table_.section('.', -1, -1));
-  sql.replace("%fts_table", fts_table_);
 
   if (!QSqlQuery::prepare(sql)) return false;
 

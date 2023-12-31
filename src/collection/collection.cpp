@@ -69,7 +69,7 @@ SCollection::SCollection(Application *app, QObject *parent)
   backend()->moveToThread(app->database()->thread());
   qLog(Debug) << &*backend_ << "moved to thread" << app->database()->thread();
 
-  backend_->Init(app->database(), app->task_manager(), Song::Source::Collection, kSongsTable, kFtsTable, kDirsTable, kSubdirsTable);
+  backend_->Init(app->database(), app->task_manager(), Song::Source::Collection, kSongsTable, kDirsTable, kSubdirsTable);
 
   model_ = new CollectionModel(backend_, app_, this);
 

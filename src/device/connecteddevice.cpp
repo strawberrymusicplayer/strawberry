@@ -68,7 +68,6 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
                  app_->task_manager(),
                  Song::Source::Device,
                  QString("device_%1_songs").arg(database_id),
-                 QString("device_%1_fts").arg(database_id),
                  QString("device_%1_directories").arg(database_id),
                  QString("device_%1_subdirectories").arg(database_id));
 

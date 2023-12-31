@@ -116,12 +116,8 @@ class Song {
   static const QString kBindSpec;
   static const QString kUpdateSpec;
 
-  static const QStringList kNumericalColumns;
-
-  static const QStringList kFtsColumns;
-  static const QString kFtsColumnSpec;
-  static const QString kFtsBindSpec;
-  static const QString kFtsUpdateSpec;
+  static const QStringList kTextSearchColumns;
+  static const QStringList kNumericalSearchColumns;
 
   static const QRegularExpression kAlbumRemoveDisc;
   static const QRegularExpression kAlbumRemoveMisc;
@@ -429,7 +425,6 @@ class Song {
 
   // Save
   void BindToQuery(SqlQuery *query) const;
-  void BindToFtsQuery(SqlQuery *query) const;
   void ToXesam(QVariantMap *map) const;
   void ToProtobuf(spb::tagreader::SongMetadata *pb) const;
 
