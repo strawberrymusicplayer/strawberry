@@ -141,7 +141,7 @@ jobs:
         run: echo "opensuse_subdir=$(echo ${{matrix.opensuse_version}} | sed 's/leap:/lp/g' | sed 's/\.//g')" > $GITHUB_ENV
       - name: Upload artifacts
         if: matrix.opensuse_version != 'tumbleweed'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: opensuse-${{env.opensuse_subdir}}
           path: |
@@ -250,7 +250,7 @@ jobs:
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: fedora-${{matrix.fedora_version}}
           path: |
@@ -359,7 +359,7 @@ jobs:
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: openmandriva-${{matrix.openmandriva_version}}
           path: |
@@ -461,7 +461,7 @@ jobs:
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mageia-${{matrix.mageia_version}}
           path: |
@@ -559,7 +559,7 @@ jobs:
       - name: Copy deb
         run: cp ../*.deb .
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: debian-${{matrix.debian_version}}
           path: "*.deb"
@@ -658,7 +658,7 @@ jobs:
       - name: Copy deb
         run: cp ../*.deb ../*.ddeb .
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ubuntu-${{matrix.ubuntu_version}}
           path: |
@@ -1190,7 +1190,7 @@ jobs:
         run: makensis strawberry.nsi
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows-mingw
           path: build/StrawberrySetup*.exe
@@ -1550,7 +1550,7 @@ jobs:
         run: makensis strawberry.nsi
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows-msvc
           path: build/StrawberrySetup*.exe
