@@ -143,7 +143,7 @@ jobs:
         if: matrix.opensuse_version != 'tumbleweed'
         uses: actions/upload-artifact@v4
         with:
-          name: opensuse-${{env.opensuse_subdir}}
+          name: opensuse-${{env.opensuse_subdir}}-qt${{matrix.qt_version}}
           path: |
             /usr/src/packages/SOURCES/*.xz
             /usr/src/packages/SRPMS/*.rpm
@@ -1192,7 +1192,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: windows-mingw
+          name: windows-mingw-${{matrix.arch}}-${{matrix.buildtype}}
           path: build/StrawberrySetup*.exe
 
       - name: SSH key setup
@@ -1552,7 +1552,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: windows-msvc
+          name: windows-msvc-${{matrix.arch}}-${{matrix.buildtype}}
           path: build/StrawberrySetup*.exe
 
 
@@ -1566,8 +1566,8 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: windows-msvc
           path: builds
+          pattern: windows-msvc-*
       - name: View files
         run: find builds
       - name: SSH key setup
@@ -1582,7 +1582,7 @@ jobs:
       - name: rsync
         shell: bash
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
-        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var builds/StrawberrySetup-*-msvc-*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/windows/msvc/
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var builds/*/StrawberrySetup-*-msvc-*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/windows/msvc/
 
 
   upload-release:
