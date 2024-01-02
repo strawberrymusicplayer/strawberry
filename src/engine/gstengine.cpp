@@ -569,7 +569,7 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, con
         error_code == static_cast<int>(GST_RESOURCE_ERROR_OPEN_READ) ||
         error_code == static_cast<int>(GST_RESOURCE_ERROR_NOT_AUTHORIZED)
       ))
-      || (domain == static_cast<int>(GST_STREAM_ERROR) && error_code == static_cast<int>(GST_STREAM_ERROR_TYPE_NOT_FOUND))
+      || (domain == static_cast<int>(GST_STREAM_ERROR))
       ) {
      emit InvalidSongRequested(stream_url_);
    }
