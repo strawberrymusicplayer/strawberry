@@ -1592,7 +1592,6 @@ jobs:
     needs:
       - build-opensuse
       - build-fedora
-      - build-mageia
       - build-debian
       - build-ubuntu
       - build-windows-mingw
