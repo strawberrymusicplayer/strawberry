@@ -272,7 +272,7 @@ jobs:
 
   build-openmandriva:
     name: Build OpenMandriva
-    if: github.repository != 'strawberrymusicplayer/strawberry-private'
+    if: github.repository != 'strawberrymusicplayer/strawberry-private' && false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -381,12 +381,12 @@ jobs:
 
   build-mageia:
     name: Build Mageia
-    if: github.repository != 'strawberrymusicplayer/strawberry-private'
+    if: github.repository != 'strawberrymusicplayer/strawberry-private' && false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        mageia_version: [ '8' ]
+        mageia_version: [ '9' ]
     container:
       image: mageia:${{matrix.mageia_version}}
     steps:
