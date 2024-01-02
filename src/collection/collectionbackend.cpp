@@ -907,14 +907,14 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool u
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  SqlQuery remove(db);
-  remove.prepare(QString("UPDATE %1 SET unavailable = %2 WHERE ROWID = :id").arg(songs_table_).arg(static_cast<int>(unavailable)));
+  SqlQuery query(db);
+  query.prepare(QString("UPDATE %1 SET unavailable = %2 WHERE ROWID = :id").arg(songs_table_).arg(static_cast<int>(unavailable)));
 
   ScopedTransaction transaction(&db);
   for (const Song &song : songs) {
-    remove.BindValue(":id", song.id());
-    if (!remove.Exec()) {
-      db_->ReportErrors(remove);
+    query.BindValue(":id", song.id());
+    if (!query.Exec()) {
+      db_->ReportErrors(query);
       return;
     }
   }
