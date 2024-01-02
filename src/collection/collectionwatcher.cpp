@@ -627,6 +627,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
 
       // Nothing has changed - mark the song available without re-scanning
       else if (matching_song.unavailable()) {
+        qLog(Debug) << "Unavailable song" << file << "restored.";
         t->readded_songs << matching_songs;
       }
 
@@ -886,7 +887,7 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
   QStringList changes;
 
   if (matching_song.unavailable()) {
-    qLog(Debug) << "unavailable song" << file << "restored.";
+    qLog(Debug) << "Unavailable song" << file << "restored.";
     notify_new = true;
   }
   else {
