@@ -272,7 +272,7 @@ jobs:
 
   build-openmandriva:
     name: Build OpenMandriva
-    if: github.repository != 'strawberrymusicplayer/strawberry-private' && false
+    if: github.repository != 'strawberrymusicplayer/strawberry-private'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -281,13 +281,12 @@ jobs:
     container:
       image: openmandriva/${{matrix.openmandriva_version}}
     steps:
-      - name: Update repositories
-        run: dnf update -y
-      - name: Upgrade packages
-        run: dnf upgrade -y
+      - name: Update distro
+        run: dnf distro-sync --assumeyes
       - name: Install dependencies
         run: >
           dnf install -y
+          which
           glibc
           gcc-c++
           git
@@ -308,7 +307,7 @@ jobs:
           sqlite-devel
           libasound-devel
           pulseaudio-devel
-          lib64GL-devel
+          libGL-devel
           libgst-plugins-base1.0-devel
           taglib-devel
           chromaprint-devel
@@ -333,6 +332,8 @@ jobs:
           appstream
           appstream-util
           hicolor-icon-theme
+      - name: Remove files
+        run: rm -rf /usr/lib64/qt6/lib/cmake/Qt6Sql/{Qt6QMYSQL*,Qt6QODBCD*,Qt6QPSQL*,Qt6QIBase*}
       - name: Checkout
         uses: actions/checkout@v4
         with:
