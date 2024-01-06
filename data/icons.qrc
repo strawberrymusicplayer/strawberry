@@ -290,8 +290,8 @@
         <file>icons/48x48/moodbar.png</file>
         <file>icons/48x48/love.png</file>
         <file>icons/48x48/subsonic.png</file>
-	<file>icons/48x48/tidal.png</file>
-	<file>icons/48x48/qobuz.png</file>
+        <file>icons/48x48/tidal.png</file>
+        <file>icons/48x48/qobuz.png</file>
         <file>icons/48x48/multimedia-player-ipod-standard-black.png</file>
         <file>icons/48x48/radio.png</file>
         <file>icons/48x48/somafm.png</file>
@@ -501,5 +501,6 @@
         <file>icons/22x22/somafm.png</file>
         <file>icons/22x22/radioparadise.png</file>
         <file>icons/22x22/musicbrainz.png</file>
+        <file>icons/32x32/network-remote.png</file>
     </qresource>
 </RCC>

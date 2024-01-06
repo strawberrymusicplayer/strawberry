@@ -205,6 +205,7 @@ set(SOURCES
   settings/appearancesettingspage.cpp
   settings/contextsettingspage.cpp
   settings/notificationssettingspage.cpp
+  settings/networkremotesettingspage.cpp
 
   dialogs/about.cpp
   dialogs/console.cpp
@@ -290,6 +291,8 @@ set(SOURCES
   organize/organizeformat.cpp
   organize/organizedialog.cpp
   organize/organizeerrordialog.cpp
+
+  networkremote/networkremote.cpp
 
 )
 
@@ -446,6 +449,7 @@ set(HEADERS
   settings/appearancesettingspage.h
   settings/contextsettingspage.h
   settings/notificationssettingspage.h
+  settings/networkremotesettingspage.h
 
   dialogs/about.h
   dialogs/errordialog.h
@@ -527,6 +531,8 @@ set(HEADERS
   organize/organizedialog.h
   organize/organizeerrordialog.h
 
+  networkremote/networkremote.h
+
 )
 
 set(UI
@@ -571,6 +577,7 @@ set(UI
   settings/networkproxysettingspage.ui
   settings/appearancesettingspage.ui
   settings/notificationssettingspage.ui
+  settings/networkremotesettingspage.ui
 
   equalizer/equalizer.ui
   equalizer/equalizerslider.ui
