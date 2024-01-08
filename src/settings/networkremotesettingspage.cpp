@@ -24,8 +24,6 @@ NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWi
   setWindowIcon(IconLoader::Load("network-remote", true, 0,32));
 
   QObject::connect(ui_->useRemoteClient,&QPushButton::clicked, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
-  // QObject::connect(ui_->localConnectionsOnly,&QPushButton::clicked, this,&NetworkRemoteSettingsPage::LocalConnectButtonClicked);
-  // QObject::connect(ui_->portSelected,static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),this,&NetworkRemoteSettingsPage::RemotePortSet);
 }
 
 NetworkRemoteSettingsPage::~NetworkRemoteSettingsPage()
@@ -39,18 +37,17 @@ void NetworkRemoteSettingsPage::Load()
   ui_->ip_address->setText("0.0.0.0");
 
   s.beginGroup(NetworkRemoteSettingsPage::kSettingsGroup);
-  qLog(Debug) << "QSettings file is in" << s.fileName() << "Group" << kSettingsGroup;
   if (s.contains("useRemote")){
-    qLog(Debug) << "Loading QSettings";
     ui_->useRemoteClient->setChecked(s.value("useRemote", false).toBool());
     if (s.value("useRemote").toBool()){
       ui_->localConnectionsOnly->setCheckable(true);
-      ui_->localConnectionsOnly->setChecked(s.value("localOnly", false).toBool());
+      ui_->portSelected->setReadOnly(false);
+      ui_->localConnectionsOnly->setChecked(s.value("localOnly", true).toBool());
       ui_->portSelected->setValue(s.value("remotePort", 5050).toInt());
     }
     else {
       ui_->localConnectionsOnly->setCheckable(false);
-      ui_->portSelected->isReadOnly();
+      ui_->portSelected->setReadOnly(true);
     }
   }
   else{
@@ -59,7 +56,6 @@ void NetworkRemoteSettingsPage::Load()
     s.setValue("localOnly",false);
     s.setValue("remotePort",5050);
   }
-  qLog(Debug) << s.allKeys();
   s.endGroup();
 
   Init(ui_->layout_networkremotesettingspage->parentWidget());
@@ -67,7 +63,6 @@ void NetworkRemoteSettingsPage::Load()
 
 void NetworkRemoteSettingsPage::Save()
 {
-  qLog(Debug) << "Save Settings =================";
   s.beginGroup(NetworkRemoteSettingsPage::kSettingsGroup);
   s.setValue("useRemote",ui_->useRemoteClient->isChecked());
   s.setValue("localOnly",ui_->localConnectionsOnly->isChecked());
@@ -82,9 +77,7 @@ void NetworkRemoteSettingsPage::DisplayIP()
 
 void NetworkRemoteSettingsPage::RemoteButtonClicked()
 {
-  qLog(Debug) << "Remote Button Code";
   Save();
   Load();
-  // NetworkRemoteSettingsPage::Load();
 }
 

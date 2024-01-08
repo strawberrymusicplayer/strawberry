@@ -24,7 +24,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="settingsBox">
        <property name="title">
         <string/>
        </property>
