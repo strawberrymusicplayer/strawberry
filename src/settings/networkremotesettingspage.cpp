@@ -6,9 +6,9 @@
 #include <QLineEdit>
 #include <QRadioButton>
 #include <QSpinBox>
+#include <QSettings>
 
 #include "core/iconloader.h"
-#include "config.h"
 #include "qpushbutton.h"
 #include "settings/settingsdialog.h"
 #include "networkremotesettingspage.h"
@@ -23,13 +23,9 @@ NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWi
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("network-remote", true, 0,32));
 
-  ui_->portSelected->setRange(5050, 65535);
-  ui_->ip_address->setText("0.0.0.0");
-
-  QObject::connect(ui_->useRemoteClient,&QPushButton::clicked, this, &NetworkRemoteSettingsPage::EnableRemote);
-  QObject::connect(ui_->localConnectionsOnly,&QPushButton::clicked, this,&NetworkRemoteSettingsPage::LocalConnectButtonClicked);
-  QObject::connect(ui_->portSelected,static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),this,&NetworkRemoteSettingsPage::RemotePortSet);
-
+  QObject::connect(ui_->useRemoteClient,&QPushButton::clicked, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
+  // QObject::connect(ui_->localConnectionsOnly,&QPushButton::clicked, this,&NetworkRemoteSettingsPage::LocalConnectButtonClicked);
+  // QObject::connect(ui_->portSelected,static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),this,&NetworkRemoteSettingsPage::RemotePortSet);
 }
 
 NetworkRemoteSettingsPage::~NetworkRemoteSettingsPage()
@@ -39,22 +35,44 @@ NetworkRemoteSettingsPage::~NetworkRemoteSettingsPage()
 
 void NetworkRemoteSettingsPage::Load()
 {
+  ui_->portSelected->setRange(5050, 65535);
+  ui_->ip_address->setText("0.0.0.0");
+
+  s.beginGroup(NetworkRemoteSettingsPage::kSettingsGroup);
+  qLog(Debug) << "QSettings file is in" << s.fileName() << "Group" << kSettingsGroup;
+  if (s.contains("useRemote")){
+    qLog(Debug) << "Loading QSettings";
+    ui_->useRemoteClient->setChecked(s.value("useRemote", false).toBool());
+    if (s.value("useRemote").toBool()){
+      ui_->localConnectionsOnly->setCheckable(true);
+      ui_->localConnectionsOnly->setChecked(s.value("localOnly", false).toBool());
+      ui_->portSelected->setValue(s.value("remotePort", 5050).toInt());
+    }
+    else {
+      ui_->localConnectionsOnly->setCheckable(false);
+      ui_->portSelected->isReadOnly();
+    }
+  }
+  else{
+    qLog(Debug) << "First time run the Network Remote";
+    s.setValue("useRemote", false);
+    s.setValue("localOnly",false);
+    s.setValue("remotePort",5050);
+  }
+  qLog(Debug) << s.allKeys();
+  s.endGroup();
+
   Init(ui_->layout_networkremotesettingspage->parentWidget());
 }
 
 void NetworkRemoteSettingsPage::Save()
 {
-
-}
-
-void NetworkRemoteSettingsPage::EnableRemote()
-{
-  qLog(Debug) << "Enable Remote Code";
-}
-
-void NetworkRemoteSettingsPage::LocalConnectOnly()
-{
-  qLog(Debug) << "Local Connection Code";
+  qLog(Debug) << "Save Settings =================";
+  s.beginGroup(NetworkRemoteSettingsPage::kSettingsGroup);
+  s.setValue("useRemote",ui_->useRemoteClient->isChecked());
+  s.setValue("localOnly",ui_->localConnectionsOnly->isChecked());
+  s.setValue("remotePort",int(ui_->portSelected->value()));
+  s.endGroup();
 }
 
 void NetworkRemoteSettingsPage::DisplayIP()
@@ -65,14 +83,8 @@ void NetworkRemoteSettingsPage::DisplayIP()
 void NetworkRemoteSettingsPage::RemoteButtonClicked()
 {
   qLog(Debug) << "Remote Button Code";
+  Save();
+  Load();
+  // NetworkRemoteSettingsPage::Load();
 }
 
-void NetworkRemoteSettingsPage::LocalConnectButtonClicked()
-{
-  qLog(Debug) << "ELocal Connection Code";
-}
-
-void NetworkRemoteSettingsPage::RemotePortSet()
-{
-  qLog(Debug) << "Remote Port Code";
-}

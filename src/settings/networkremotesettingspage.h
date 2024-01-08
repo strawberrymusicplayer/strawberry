@@ -6,8 +6,6 @@
 #include <QString>
 #include <QSpinBox>
 
-#include "config.h"
-#include "qlabel.h"
 #include "settingspage.h"
 
 class SettingsDialog;
@@ -30,14 +28,13 @@ public:
 
 private:
   Ui_NetworkRemoteSettingsPage *ui_;
-  void EnableRemote();
-  void LocalConnectOnly();
+  QSettings s;
+  //void EnableRemote();
+  //void LocalConnectOnly();
   void DisplayIP();
 
 private slots:
   void RemoteButtonClicked();
-  void LocalConnectButtonClicked();
-  void RemotePortSet();
 };
 
 #endif // NETWORKREMOTESETTINGSPAGE_H
