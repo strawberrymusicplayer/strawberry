@@ -48,24 +48,27 @@ small as possible.
 
 ### Commit messages
 
-The first line should start with "Class:", which referer to the class
-that is changed. Don't use a trailing period after the first line.
-If this change affects more than one class, omit the class and write a
+The first line should start with the class name that is changed
+followed by a colon then a short explanation of the commit.
+Don't use a trailing period after the first line.
+If this change affects more than one class, omit the class name and write a
 more general message.
+
 You only need to include a main description (body) for larger changes
 where the one line is not enough to describe everything.
 The main description starts after two newlines, it is normal prose and
 should use normal punctuation and capital letters where appropriate.
+It should explain exactly what's changed, why it's changed,
+and what bugs were fixed.
 
 An example of the expected format for git commit messages is as follows:
 
 ```
-class: Short explanation of the commit
+StretchHeaderView: Set default section size
 
-Longer explanation explaining exactly what's changed, why it's changed,
-and what bugs were fixed.
+As of Qt 6.6.1, style changes are resetting the column sizes. To prevent this, we set a default section size.
 
-Fixes #1234
+Fixes #1328
 ```
 
 
