@@ -293,6 +293,7 @@ set(SOURCES
   organize/organizeerrordialog.cpp
 
   networkremote/networkremote.cpp
+  networkremote/tcpserver.cpp
 
 )
 
@@ -532,6 +533,7 @@ set(HEADERS
   organize/organizeerrordialog.h
 
   networkremote/networkremote.h
+  networkremote/tcpserver.h
 
 )
 
