@@ -48,7 +48,7 @@ small as possible.
 
 ### Commit messages
 
-The first line should start with the class name that is changed
+The first line should start with the name of the class that is changed
 followed by a colon then a short explanation of the commit.
 Don't use a trailing period after the first line.
 If this change affects more than one class, omit the class name and write a
