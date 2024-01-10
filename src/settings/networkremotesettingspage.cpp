@@ -1,12 +1,6 @@
-#include <QVariant>
-#include <QSettings>
-#include <QNetworkProxy>
-#include <QComboBox>
-#include <QGroupBox>
-#include <QLineEdit>
-#include <QRadioButton>
-#include <QSpinBox>
-#include <QSettings>
+#include <QHostInfo>
+#include <QHostAddress>
+#include <QNetworkInterface>
 
 #include "core/iconloader.h"
 #include "qpushbutton.h"
@@ -57,6 +51,7 @@ void NetworkRemoteSettingsPage::Load()
     s.setValue("remotePort",5050);
   }
   s.endGroup();
+  DisplayIP();
 
   Init(ui_->layout_networkremotesettingspage->parentWidget());
 }
@@ -73,6 +68,19 @@ void NetworkRemoteSettingsPage::Save()
 void NetworkRemoteSettingsPage::DisplayIP()
 {
   qLog(Debug) << "Display IP Code";
+  QString ipAddresses;
+  QList<QHostAddress> hostList = QNetworkInterface::allAddresses();
+
+  for (const QHostAddress &address : hostList)
+  {
+    if (address.protocol() == QAbstractSocket::IPv4Protocol && address.isLoopback() == false){
+      if (!ipAddresses.isEmpty()){
+      ipAddresses.append(", ");
+}
+      ipAddresses = ipAddresses.append(address.toString());
+    }
+  }
+  ui_->ip_address->setText(ipAddresses);
 }
 
 void NetworkRemoteSettingsPage::RemoteButtonClicked()

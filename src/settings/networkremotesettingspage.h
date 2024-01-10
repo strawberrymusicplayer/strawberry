@@ -3,8 +3,6 @@
 
 #include <QWidget>
 #include <QObject>
-#include <QString>
-#include <QSpinBox>
 
 #include "settingspage.h"
 
@@ -24,13 +22,9 @@ public:
     void Load() override;
     void Save() override;
 
-
-
 private:
   Ui_NetworkRemoteSettingsPage *ui_;
   QSettings s;
-  //void EnableRemote();
-  //void LocalConnectOnly();
   void DisplayIP();
 
 private slots:
