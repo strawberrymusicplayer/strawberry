@@ -2,6 +2,19 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed possible duplication of song entries after organizing (#1341).
+    * Fixed possible crash when connecting devices (#1313).
+    * Fixed playlist sorting of original year (#1349).
+    * (macOS) Fixed crash when adding collection directory (QTBUG-120469) (#1350).
+
+  Enhancements:
+    * Treat all stream errors as non-fatal (#1347).
+    * Require KDSingleApplication 1.1.0.
+    * Fix logging of restored unavailable songs.
+
 Version 1.0.22 (2023.12.09):
 
   Bugfixes:
