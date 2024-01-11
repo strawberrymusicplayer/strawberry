@@ -1303,7 +1303,7 @@ bool Playlist::CompareItems(const int column, const Qt::SortOrder order, Playlis
     case Column_Track:        cmp(track);
     case Column_Disc:         cmp(disc);
     case Column_Year:         cmp(year);
-    case Column_OriginalYear: cmp(originalyear);
+    case Column_OriginalYear: cmp(effective_originalyear);
     case Column_Genre:        strcmp(genre);
     case Column_AlbumArtist:  strcmp(playlist_albumartist_sortable);
     case Column_Composer:     strcmp(composer);
