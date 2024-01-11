@@ -50,6 +50,7 @@
   </screenshots>
   <update_contact>eclipseo@fedoraproject.org</update_contact>
     <releases>
+        <release version="1.0.23" date="2024-01-11"/>
         <release version="1.0.22" date="2023-12-09"/>
         <release version="1.0.21" date="2023-10-21"/>
         <release version="1.0.20" date="2023-09-24"/>

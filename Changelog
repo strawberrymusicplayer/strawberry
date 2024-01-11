@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.0.23 (2024.01.11):
 
   Bugfixes:
     * Fixed possible duplication of song entries after organizing (#1341).
