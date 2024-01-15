@@ -124,7 +124,7 @@
       <item>
        <widget class="QRadioButton" name="auth_method_md5">
         <property name="text">
-         <string>MD5 token</string>
+         <string>MD5 token (Recommended)</string>
         </property>
        </widget>
       </item>
