@@ -1,12 +1,13 @@
 #ifndef TCPSERVER_H
 #define TCPSERVER_H
 
-#include "core/shared_ptr.h"
 #include <QObject>
+#include <QHostAddress>
+#include <QNetworkInterface>
 #include <QTcpServer>
 #include <QTcpSocket>
 
-class TcpServer : public QTcpServer
+class TcpServer : public QObject
 {
      Q_OBJECT
 public:
@@ -15,20 +16,20 @@ public:
     explicit TcpServer(QObject *parent = nullptr);
     ~TcpServer();
 
-signals:
+  bool ServerUp();
 
 public slots:
-  void SetupServer();
-  void StartServer();
-  void AcceptConnections();
+  void NewConnection();
+  void StartServer(QHostAddress ipAddr, int port);
   void StopServer();
   void CreateRemoteClient();
 
+
+signals:
+
 private:
-  SharedPtr<QTcpServer> server_;
-  bool use_remote_;
-  bool use_local_only_;
-  qint16 port_;
+  QTcpServer *server_;
+  QTcpSocket *socket_;
 
 };
 

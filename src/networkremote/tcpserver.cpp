@@ -1,38 +1,47 @@
 #include "tcpserver.h"
+#include "core/logging.h"
 
 TcpServer::TcpServer(QObject *parent)
-    : QTcpServer{parent}
+    : QObject{parent}
 {
-
+  server_ = new QTcpServer(this);
+  connect(server_, SIGNAL(newConnection()),this,SLOT(newConnection()));
 }
 
 TcpServer::~TcpServer()
 {
-
 }
 
-void TcpServer::SetupServer()
+void TcpServer::StartServer(QHostAddress ipAddr, int port)
 {
+  bool ok = false;
 
+  ok = server_->listen(ipAddr, port);
+  if (ok){
+    qLog(Debug) << "Server Started";
+  }
 }
 
-void TcpServer::StartServer()
+void TcpServer::NewConnection()
 {
-
-}
-
-void TcpServer::AcceptConnections()
-{
-
+  //QTcpSocket *socket = server_->nextPendingConnection();
+  socket_ = server_->nextPendingConnection();
+  qLog(Debug) << "New Socket";
+  qLog(Debug) << socket_->currentReadChannel();
 }
 
 void TcpServer::StopServer()
 {
-
+  server_->close();
 }
 
 void TcpServer::CreateRemoteClient()
 {
 
+}
+
+bool TcpServer::ServerUp()
+{
+  return server_->isListening();
 }
 

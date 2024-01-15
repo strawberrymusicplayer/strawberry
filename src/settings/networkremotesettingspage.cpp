@@ -5,7 +5,7 @@
 #include "core/iconloader.h"
 #include "qpushbutton.h"
 #include "settings/settingsdialog.h"
-#include "networkremotesettingspage.h"
+#include "settings/networkremotesettingspage.h"
 #include "ui_networkremotesettingspage.h"
 
 const char *NetworkRemoteSettingsPage::kSettingsGroup = "Remote";
@@ -30,6 +30,7 @@ void NetworkRemoteSettingsPage::Load()
   ui_->portSelected->setRange(5050, 65535);
   ui_->ip_address->setText("0.0.0.0");
 
+
   s.beginGroup(NetworkRemoteSettingsPage::kSettingsGroup);
   if (s.contains("useRemote")){
     ui_->useRemoteClient->setChecked(s.value("useRemote", false).toBool());
@@ -49,6 +50,7 @@ void NetworkRemoteSettingsPage::Load()
     s.setValue("useRemote", false);
     s.setValue("localOnly",false);
     s.setValue("remotePort",5050);
+    s.setValue("ipAddress","0.0.0.0");
   }
   s.endGroup();
   DisplayIP();
@@ -62,25 +64,26 @@ void NetworkRemoteSettingsPage::Save()
   s.setValue("useRemote",ui_->useRemoteClient->isChecked());
   s.setValue("localOnly",ui_->localConnectionsOnly->isChecked());
   s.setValue("remotePort",int(ui_->portSelected->value()));
+  s.setValue("ipAddress",ipAddr_);
   s.endGroup();
 }
 
 void NetworkRemoteSettingsPage::DisplayIP()
 {
-  qLog(Debug) << "Display IP Code";
-  QString ipAddresses;
+  bool found = false;
   QList<QHostAddress> hostList = QNetworkInterface::allAddresses();
 
   for (const QHostAddress &address : hostList)
   {
-    if (address.protocol() == QAbstractSocket::IPv4Protocol && address.isLoopback() == false){
-      if (!ipAddresses.isEmpty()){
-      ipAddresses.append(", ");
-}
-      ipAddresses = ipAddresses.append(address.toString());
-    }
+    if (address.protocol() == QAbstractSocket::IPv4Protocol && address.isLoopback() == false && !found){
+    // NOTE: this code currently only takes the first ip address it finds
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    qInfo("Warning: The code only pickst the first IPv4 address");
+      found = true;
+      ipAddr_ = address.toString();
+   }
   }
-  ui_->ip_address->setText(ipAddresses);
+  ui_->ip_address->setText(ipAddr_);
 }
 
 void NetworkRemoteSettingsPage::RemoteButtonClicked()

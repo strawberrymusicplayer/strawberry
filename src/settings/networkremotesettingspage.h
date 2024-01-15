@@ -26,6 +26,7 @@ private:
   Ui_NetworkRemoteSettingsPage *ui_;
   QSettings s;
   void DisplayIP();
+  QString ipAddr_;
 
 private slots:
   void RemoteButtonClicked();

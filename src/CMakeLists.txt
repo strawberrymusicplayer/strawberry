@@ -534,6 +534,8 @@ set(HEADERS
 
   networkremote/networkremote.h
   networkremote/tcpserver.h
+  networkremote/remoteclient.cpp
+  networkremote/remoteclient.h
 
 )
 
