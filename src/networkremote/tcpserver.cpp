@@ -5,7 +5,7 @@ TcpServer::TcpServer(QObject *parent)
     : QObject{parent}
 {
   server_ = new QTcpServer(this);
-  connect(server_, SIGNAL(newConnection()),this,SLOT(newConnection()));
+  connect(server_,&QTcpServer::newConnection, this, &TcpServer::NewTcpConnection);
 }
 
 TcpServer::~TcpServer()
@@ -15,24 +15,23 @@ TcpServer::~TcpServer()
 void TcpServer::StartServer(QHostAddress ipAddr, int port)
 {
   bool ok = false;
-
   ok = server_->listen(ipAddr, port);
   if (ok){
-    qLog(Debug) << "Server Started";
+    qLog(Debug) << "TCP Server Started ----------------------";
   }
 }
 
-void TcpServer::NewConnection()
+void TcpServer::NewTcpConnection()
 {
   //QTcpSocket *socket = server_->nextPendingConnection();
   socket_ = server_->nextPendingConnection();
-  qLog(Debug) << "New Socket";
-  qLog(Debug) << socket_->currentReadChannel();
+  qLog(Debug) << "New Socket -------------------";
 }
 
 void TcpServer::StopServer()
 {
   server_->close();
+  qLog(Debug) << "TCP Server Stopped ----------------------";
 }
 
 void TcpServer::CreateRemoteClient()

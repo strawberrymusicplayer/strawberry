@@ -26,9 +26,11 @@ void NetworkRemote::Init()
 {
   LoadSettings();
   if (use_remote_){
-    server_->StartServer(ipAddr_,remote_port_);
+    start();
   }
-
+  else {
+    stop();
+  }
 }
 
 void NetworkRemote::LoadSettings()
@@ -44,15 +46,18 @@ void NetworkRemote::LoadSettings()
 
 void NetworkRemote::start()
 {
-
+  server_->StartServer(ipAddr_,remote_port_);
 }
 
 void NetworkRemote::stop()
 {
-
+  if (server_->ServerUp()){
+    server_->StopServer();
+  }
 }
 
-void NetworkRemote::newConnection()
+void NetworkRemote::useRemoteClicked()
 {
 
 }
+

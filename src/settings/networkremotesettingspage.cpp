@@ -7,6 +7,7 @@
 #include "settings/settingsdialog.h"
 #include "settings/networkremotesettingspage.h"
 #include "ui_networkremotesettingspage.h"
+#include "networkremote/networkremote.h"
 
 const char *NetworkRemoteSettingsPage::kSettingsGroup = "Remote";
 
@@ -17,7 +18,7 @@ NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWi
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("network-remote", true, 0,32));
 
-  QObject::connect(ui_->useRemoteClient,&QPushButton::clicked, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
+  connect(ui_->useRemoteClient,&QPushButton::clicked, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
 }
 
 NetworkRemoteSettingsPage::~NetworkRemoteSettingsPage()
@@ -29,7 +30,6 @@ void NetworkRemoteSettingsPage::Load()
 {
   ui_->portSelected->setRange(5050, 65535);
   ui_->ip_address->setText("0.0.0.0");
-
 
   s.beginGroup(NetworkRemoteSettingsPage::kSettingsGroup);
   if (s.contains("useRemote")){

@@ -19,7 +19,7 @@ public:
   bool ServerUp();
 
 public slots:
-  void NewConnection();
+  void NewTcpConnection();
   void StartServer(QHostAddress ipAddr, int port);
   void StopServer();
   void CreateRemoteClient();
@@ -30,7 +30,6 @@ signals:
 private:
   QTcpServer *server_;
   QTcpSocket *socket_;
-
 };
 
 #endif // TCPSERVER_H

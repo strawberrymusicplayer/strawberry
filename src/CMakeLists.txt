@@ -294,6 +294,7 @@ set(SOURCES
 
   networkremote/networkremote.cpp
   networkremote/tcpserver.cpp
+  networkremote/remoteclient.cpp
 
 )
 
@@ -534,7 +535,6 @@ set(HEADERS
 
   networkremote/networkremote.h
   networkremote/tcpserver.h
-  networkremote/remoteclient.cpp
   networkremote/remoteclient.h
 
 )

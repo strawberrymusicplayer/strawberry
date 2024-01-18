@@ -23,7 +23,7 @@ public:
 public slots:
   void start();
   void stop();
-  void newConnection();
+  void useRemoteClicked();
 
 signals:
 
