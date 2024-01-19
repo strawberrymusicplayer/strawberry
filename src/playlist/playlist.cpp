@@ -269,6 +269,10 @@ bool Playlist::set_column_value(Song &song, Playlist::Column column, const QVari
 
 QVariant Playlist::data(const QModelIndex &idx, int role) const {
 
+  if (!idx.isValid()) {
+    return QVariant();
+  }
+
   switch (role) {
     case Role_IsCurrent:
       return current_item_index_.isValid() && idx.row() == current_item_index_.row();
