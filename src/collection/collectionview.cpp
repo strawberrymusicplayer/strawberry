@@ -343,6 +343,22 @@ void CollectionView::mouseReleaseEvent(QMouseEvent *e) {
 
 }
 
+void CollectionView::keyPressEvent(QKeyEvent *e) {
+
+  switch (e->key()) {
+    case Qt::Key_Enter:
+    case Qt::Key_Return:
+      if (currentIndex().isValid()) {
+        AddToPlaylist();
+      }
+      e->accept();
+      break;
+  }
+
+  AutoExpandingTreeView::keyPressEvent(e);
+
+}
+
 void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {

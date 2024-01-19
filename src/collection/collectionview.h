@@ -93,6 +93,7 @@ class CollectionView : public AutoExpandingTreeView {
  protected:
   // QWidget
   void paintEvent(QPaintEvent *event) override;
+  void keyPressEvent(QKeyEvent *e) override;
   void mouseReleaseEvent(QMouseEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
 
