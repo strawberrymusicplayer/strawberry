@@ -1111,7 +1111,7 @@ jobs:
 
       - name: Copy gstreamer plugins
         working-directory: build
-        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/gstreamer-1.0/{libgstaes.dll,libgstaiff.dll,libgstapetag.dll,libgstapp.dll,libgstasf.dll,libgstasfmux.dll,libgstaudioconvert.dll,libgstaudiofx.dll,libgstaudiomixer.dll,libgstaudioparsers.dll,libgstaudiorate.dll,libgstaudioresample.dll,libgstaudiotestsrc.dll,libgstautodetect.dll,libgstbs2b.dll,libgstcoreelements.dll,libgstdash.dll,libgstdirectsound.dll,libgstequalizer.dll,libgstfaac.dll,libgstfaad.dll,libgstfdkaac.dll,libgstflac.dll,libgstgio.dll,libgstgme.dll,libgsthls.dll,libgsticydemux.dll,libgstid3demux.dll,libgstid3tag.dll,libgstisomp4.dll,libgstlame.dll,libgstlibav.dll,libgstmpg123.dll,libgstmusepack.dll,libgstogg.dll,libgstopenmpt.dll,libgstopus.dll,libgstopusparse.dll,libgstpbtypes.dll,libgstplayback.dll,libgstreplaygain.dll,libgstrtp.dll,libgstrtsp.dll,libgstsoup.dll,libgstspectrum.dll,libgstspeex.dll,libgsttaglib.dll,libgsttcp.dll,libgsttwolame.dll,libgsttypefindfunctions.dll,libgstudp.dll,libgstvolume.dll,libgstvorbis.dll,libgstwasapi.dll,libgstwavenc.dll,libgstwavpack.dll,libgstwavparse.dll,libgstxingmux.dll} ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/bin/gstreamer-1.0/{libgstadaptivedemux2.dll,libgstaes.dll,libgstaiff.dll,libgstapetag.dll,libgstapp.dll,libgstasf.dll,libgstasfmux.dll,libgstaudioconvert.dll,libgstaudiofx.dll,libgstaudiomixer.dll,libgstaudioparsers.dll,libgstaudiorate.dll,libgstaudioresample.dll,libgstaudiotestsrc.dll,libgstautodetect.dll,libgstbs2b.dll,libgstcoreelements.dll,libgstdash.dll,libgstdirectsound.dll,libgstequalizer.dll,libgstfaac.dll,libgstfaad.dll,libgstfdkaac.dll,libgstflac.dll,libgstgio.dll,libgstgme.dll,libgsthls.dll,libgsticydemux.dll,libgstid3demux.dll,libgstid3tag.dll,libgstisomp4.dll,libgstlame.dll,libgstmpegpsdemux.dll,libgstmpegpsmux.dll,libgstmpegtsdemux.dll,libgstmpegtsmux.dll,libgstlibav.dll,libgstmpg123.dll,libgstmusepack.dll,libgstogg.dll,libgstopenmpt.dll,libgstopus.dll,libgstopusparse.dll,libgstpbtypes.dll,libgstplayback.dll,libgstreplaygain.dll,libgstrtp.dll,libgstrtsp.dll,libgstsoup.dll,libgstspectrum.dll,libgstspeex.dll,libgsttaglib.dll,libgsttcp.dll,libgsttwolame.dll,libgsttypefindfunctions.dll,libgstudp.dll,libgstvolume.dll,libgstvorbis.dll,libgstwasapi.dll,libgstwavenc.dll,libgstwavpack.dll,libgstwavparse.dll,libgstxingmux.dll} ${GITHUB_WORKSPACE}/build/gstreamer-plugins/
 
       - name: Copy extra binaries
         working-directory: build
@@ -1418,6 +1418,7 @@ jobs:
         shell: cmd
         working-directory: build
         run: |
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstadaptivedemux2.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaes.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstaiff.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstapetag.dll .\gstreamer-plugins\
@@ -1449,6 +1450,10 @@ jobs:
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstid3tag.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstisomp4.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstlame.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstmpegpsdemux.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstmpegpsmux.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstmpegtsdemux.dll .\gstreamer-plugins\
+          copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstmpegtsmux.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstlibav.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstmpg123.dll .\gstreamer-plugins\
           copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\gstmusepack.dll .\gstreamer-plugins\
