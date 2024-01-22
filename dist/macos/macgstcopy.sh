@@ -62,6 +62,7 @@ cp -v -f "${GST_PLUGIN_SCANNER}" "${bundledir}/Contents/PlugIns/" || exit 1
 install_name_tool -add_rpath "@loader_path/../Frameworks" "${bundledir}/Contents/PlugIns/$(basename ${GST_PLUGIN_SCANNER})" || exit 1
 
 gst_plugins="
+libgstadaptivedemux2
 libgstaes
 libgstaiff
 libgstapetag
@@ -92,6 +93,10 @@ libgstid3demux
 libgstid3tag
 libgstisomp4
 libgstlame
+libgstmpegpsdemux
+libgstmpegpsmux
+libgstmpegtsdemux
+libgstmpegtsmux
 libgstlibav
 libgstmpg123
 libgstmusepack
