@@ -238,7 +238,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
   GError *error = nullptr;
   itdb_cp_track_to_ipod(track, QDir::toNativeSeparators(job.source_).toLocal8Bit().constData(), &error);
   if (error) {
-    error_text = tr("Could not copy %1 to %2: %3").arg(job.metadata_.url().toLocalFile(), QString::fromUtf8(error->message));
+    error_text = tr("Could not copy %1 to %2: %3").arg(job.metadata_.url().toLocalFile(), url_.path(), QString::fromUtf8(error->message));
     g_error_free(error);
     qLog(Error) << error_text;
     app_->AddError(error_text);
