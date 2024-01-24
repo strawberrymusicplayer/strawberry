@@ -45,13 +45,17 @@ class MtpConnection : public QObject, public enable_shared_from_this<MtpConnecti
   ~MtpConnection() override;
 
   bool is_valid() const { return device_; }
+  QString error_text() const { return error_text_; }
   LIBMTP_mtpdevice_t *device() const { return device_; }
   bool GetSupportedFiletypes(QList<Song::FileType> *ret);
+
+  static QString ErrorString(const LIBMTP_error_number_t error_number);
 
  private:
   Q_DISABLE_COPY(MtpConnection)
 
   LIBMTP_mtpdevice_t *device_;
+  QString error_text_;
 };
 
 #endif  // MTPCONNECTION_H

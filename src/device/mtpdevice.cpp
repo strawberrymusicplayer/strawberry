@@ -143,7 +143,8 @@ bool MtpDevice::StartCopy(QList<Song::FileType> *supported_types) {
   // Did the caller want a list of supported types?
   if (supported_types) {
     if (!GetSupportedFiletypes(supported_types, connection_->device())) {
-      FinishCopy(false);
+      QString error_text;
+      FinishCopy(false, error_text);
       return false;
     }
   }
@@ -161,7 +162,7 @@ static int ProgressCallback(uint64_t const sent, uint64_t const total, void cons
 
 }
 
-bool MtpDevice::CopyToStorage(const CopyJob &job) {
+bool MtpDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
 
   if (!connection_ || !connection_->is_valid()) return false;
 
@@ -171,7 +172,15 @@ bool MtpDevice::CopyToStorage(const CopyJob &job) {
 
   // Send the file
   int ret = LIBMTP_Send_Track_From_File(connection_->device(), job.source_.toUtf8().constData(), &track, ProgressCallback, &job);
-  if (ret != 0) return false;
+  if (ret != 0) {
+    LIBMTP_error_struct *error = LIBMTP_Get_Errorstack(connection_->device());
+    if (error) {
+      error_text = QString::fromUtf8(error->error_text);
+      qLog(Error) << error_text;
+      LIBMTP_Clear_Errorstack(connection_->device());
+    }
+    return false;
+  }
 
   // Add it to our CollectionModel
   Song metadata_on_device(Song::Source::Device);
@@ -190,7 +199,7 @@ bool MtpDevice::CopyToStorage(const CopyJob &job) {
 
 }
 
-void MtpDevice::FinishCopy(const bool success) {
+bool MtpDevice::FinishCopy(const bool success, QString &error_text) {
 
   if (success) {
     if (!songs_to_add_.isEmpty()) backend_->AddOrUpdateSongs(songs_to_add_);
@@ -205,7 +214,7 @@ void MtpDevice::FinishCopy(const bool success) {
 
   db_busy_.unlock();
 
-  ConnectedDevice::FinishCopy(success);
+  return ConnectedDevice::FinishCopy(success, error_text);
 
 }
 
@@ -234,7 +243,7 @@ bool MtpDevice::DeleteFromStorage(const DeleteJob &job) {
 
 }
 
-void MtpDevice::FinishDelete(const bool success) { FinishCopy(success); }
+bool MtpDevice::FinishDelete(const bool success, QString &error_text) { return FinishCopy(success, error_text); }
 
 bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret) {
 

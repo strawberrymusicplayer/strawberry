@@ -39,7 +39,7 @@ class FilesystemMusicStorage : public virtual MusicStorage {
   QString LocalPath() const override { return root_; }
   std::optional<int> collection_directory_id() const override { return collection_directory_id_; }
 
-  bool CopyToStorage(const CopyJob &job) override;
+  bool CopyToStorage(const CopyJob &job, QString &error_text) override;
   bool DeleteFromStorage(const DeleteJob &job) override;
 
  private:

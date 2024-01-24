@@ -63,12 +63,12 @@ class MtpDevice : public ConnectedDevice {
   int GetCapacity();
 
   bool StartCopy(QList<Song::FileType> *supported_types) override;
-  bool CopyToStorage(const CopyJob &job) override;
-  void FinishCopy(const bool success) override;
+  bool CopyToStorage(const CopyJob &job, QString &error_text) override;
+  bool FinishCopy(const bool success, QString &error_text) override;
 
   void StartDelete() override;
   bool DeleteFromStorage(const DeleteJob &job) override;
-  void FinishDelete(const bool success) override;
+  bool FinishDelete(const bool success, QString &error_text) override;
 
  private slots:
   void LoadFinished(bool success, MtpConnection *connection);

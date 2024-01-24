@@ -185,7 +185,7 @@ void GPodDevice::AddTrackToModel(Itdb_Track *track, const QString &prefix) {
 
 }
 
-bool GPodDevice::CopyToStorage(const CopyJob &job) {
+bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
 
   Q_ASSERT(db_);
 
@@ -238,9 +238,10 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
   GError *error = nullptr;
   itdb_cp_track_to_ipod(track, QDir::toNativeSeparators(job.source_).toLocal8Bit().constData(), &error);
   if (error) {
-    qLog(Error) << "Copying failed:" << error->message;
-    app_->AddError(QString::fromUtf8(error->message));
+    error_text = tr("Could not copy %1 to %2: %3").arg(job.metadata_.url().toLocalFile(), QString::fromUtf8(error->message));
     g_error_free(error);
+    qLog(Error) << error_text;
+    app_->AddError(error_text);
 
     // Need to remove the track from the db again
     itdb_track_remove(track);
@@ -272,19 +273,24 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
 
 }
 
-bool GPodDevice::WriteDatabase() {
+bool GPodDevice::WriteDatabase(QString &error_text) {
 
   // Write the itunes database
   GError *error = nullptr;
-  itdb_write(db_, &error);
+  const bool success = itdb_write(db_, &error);
   cover_files_.clear();
-  if (error) {
-    qLog(Error) << "Writing database failed:" << error->message;
-    app_->AddError(QString::fromUtf8(error->message));
-    g_error_free(error);
-    return false;
+  if (!success) {
+    if (error) {
+      error_text = tr("Writing database failed: %1").arg(error->message);
+      g_error_free(error);
+    }
+    else {
+      error_text = tr("Writing database failed.");
+    }
+    app_->AddError(error_text);
   }
-  else return true;
+
+  return success;
 
 }
 
@@ -307,11 +313,11 @@ void GPodDevice::Finish(const bool success) {
 
 }
 
-void GPodDevice::FinishCopy(bool success) {
+bool GPodDevice::FinishCopy(bool success, QString &error_text) {
 
-  if (success) success = WriteDatabase();
+  if (success) success = WriteDatabase(error_text);
   Finish(success);
-  ConnectedDevice::FinishCopy(success);
+  return ConnectedDevice::FinishCopy(success, error_text);
 
 }
 
@@ -378,11 +384,11 @@ bool GPodDevice::DeleteFromStorage(const DeleteJob &job) {
 
 }
 
-void GPodDevice::FinishDelete(bool success) {
+bool GPodDevice::FinishDelete(bool success, QString &error_text) {
 
-  if (success) success = WriteDatabase();
+  if (success) success = WriteDatabase(error_text);
   Finish(success);
-  ConnectedDevice::FinishDelete(success);
+  return ConnectedDevice::FinishDelete(success, error_text);
 
 }
 

@@ -132,12 +132,14 @@ void ConnectedDevice::Eject() {
 
 }
 
-void ConnectedDevice::FinishCopy(bool) {
+bool ConnectedDevice::FinishCopy(bool success, QString&) {
   lister_->UpdateDeviceFreeSpace(unique_id_);
+  return success;
 }
 
-void ConnectedDevice::FinishDelete(bool) {
+bool ConnectedDevice::FinishDelete(bool success, QString&) {
   lister_->UpdateDeviceFreeSpace(unique_id_);
+  return success;
 }
 
 MusicStorage::TranscodeMode ConnectedDevice::GetTranscodeMode() const {

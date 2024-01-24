@@ -67,8 +67,8 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public enab
   QUrl url() const { return url_; }
   qint64 song_count() const { return song_count_; }
 
-  void FinishCopy(bool success) override;
-  void FinishDelete(bool success) override;
+  bool FinishCopy(bool success, QString &error_text) override;
+  bool FinishDelete(bool success, QString &error_text) override;
 
   void Eject() override;
   virtual void Close();
