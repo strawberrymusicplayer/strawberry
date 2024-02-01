@@ -3,11 +3,10 @@
 #include <QNetworkInterface>
 
 #include "core/iconloader.h"
-#include "qpushbutton.h"
 #include "settings/settingsdialog.h"
 #include "settings/networkremotesettingspage.h"
 #include "ui_networkremotesettingspage.h"
-#include "networkremote/networkremote.h"
+#include "networkremote/networkremotehelper.h"
 
 const char *NetworkRemoteSettingsPage::kSettingsGroup = "Remote";
 
@@ -18,7 +17,9 @@ NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWi
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("network-remote", true, 0,32));
 
-  connect(ui_->useRemoteClient,&QPushButton::clicked, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
+  QObject::connect(ui_->useRemoteClient,&QCheckBox::stateChanged, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
+  QObject::connect(ui_->localConnectionsOnly, &QCheckBox::stateChanged, this, &NetworkRemoteSettingsPage::LocalConnectButtonClicked);
+  QObject::connect(ui_->portSelected, &QSpinBox::valueChanged, this, &NetworkRemoteSettingsPage::PortChanged);
 }
 
 NetworkRemoteSettingsPage::~NetworkRemoteSettingsPage()
@@ -68,6 +69,16 @@ void NetworkRemoteSettingsPage::Save()
   s.endGroup();
 }
 
+void NetworkRemoteSettingsPage::Refresh()
+{
+  Save();
+  Load();
+  if (NetworkRemoteHelper::Instance()) {
+    qInfo() << "Helper Instance is up";
+    NetworkRemoteHelper::Instance()->ReloadSettings();
+  }
+}
+
 void NetworkRemoteSettingsPage::DisplayIP()
 {
   bool found = false;
@@ -78,7 +89,7 @@ void NetworkRemoteSettingsPage::DisplayIP()
     if (address.protocol() == QAbstractSocket::IPv4Protocol && address.isLoopback() == false && !found){
     // NOTE: this code currently only takes the first ip address it finds
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    qInfo("Warning: The code only pickst the first IPv4 address");
+    // qInfo("Warning: The code only picks the first IPv4 address");
       found = true;
       ipAddr_ = address.toString();
    }
@@ -88,7 +99,16 @@ void NetworkRemoteSettingsPage::DisplayIP()
 
 void NetworkRemoteSettingsPage::RemoteButtonClicked()
 {
-  Save();
-  Load();
+  Refresh();
+}
+
+void NetworkRemoteSettingsPage::LocalConnectButtonClicked()
+{
+  Refresh();
+}
+
+void NetworkRemoteSettingsPage::PortChanged()
+{
+  Refresh();
 }
 

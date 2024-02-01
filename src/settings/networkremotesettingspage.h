@@ -8,6 +8,7 @@
 
 class SettingsDialog;
 class Ui_NetworkRemoteSettingsPage;
+class NetworkRemote;
 
 class NetworkRemoteSettingsPage : public SettingsPage
 {
@@ -21,6 +22,10 @@ public:
 
     void Load() override;
     void Save() override;
+    void Refresh();
+
+signals:
+  void remoteSettingsChanged();
 
 private:
   Ui_NetworkRemoteSettingsPage *ui_;
@@ -30,6 +35,8 @@ private:
 
 private slots:
   void RemoteButtonClicked();
+  void LocalConnectButtonClicked();
+  void PortChanged();
 };
 
 #endif // NETWORKREMOTESETTINGSPAGE_H

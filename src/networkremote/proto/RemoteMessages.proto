@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package network.remote;
+
+enum MsgType {
+    UNKNOWN = 0;
+
+    // Client messages
+    CONNECT = 1;
+    DISCONNECT = 2;
+    NEXT = 3;
+    PREVIOUS = 4;
+    PAUSE = 5;
+    STOP = 6;
+
+    // Server messages
+    INFO = 7;
+}
+
+message SongMetadata{
+    enum Type {
+        UNKNOWN = 0;
+        ASF = 1;
+        FLAC = 2;
+        MP4 = 3;
+        MPC = 4;
+        MPEG = 5;
+        OGGFLAC = 6;
+        OGGSPEEX = 7;
+        OGGVORBIS = 8;
+        AIFF = 9;
+        WAV = 10;
+        TRUEAUDIO = 11;
+        CDDA = 12;
+        OGGOPUS = 13;
+        WAVPACK = 14;
+        SPC = 15;
+        VGM = 16;
+        APE = 17;
+        STREAM = 99;
+}
+    int32 id = 1;
+    string title = 2;
+    string album = 3;
+    string artist = 4;
+    string albumartist = 5;
+    int32 track = 6;
+    string stryear = 7;
+    string genre = 8;
+    int32 playcount = 9;
+    string strlength = 10;
+}
+message RequestSongMetadata {
+    SongMetadata song_metadata = 1;
+}
+
+message ResponseSongMetadata {
+    SongMetadata song_metadata = 1;
+}
+
+message RequestNextTrack {
+    bool next = 1;
+}
+
+message RequestPreviousTrack {
+    bool previous = 1;
+}
+
+message Message {
+    int32 version = 1;
+    MsgType type = 2;
+    RequestSongMetadata request_song_Metadata = 3;
+    ResponseSongMetadata response_song_metadata = 4;
+    RequestNextTrack request_next_track = 5;
+    RequestPreviousTrack request_previous_track = 6;
+}
+

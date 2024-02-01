@@ -17,19 +17,14 @@ public:
     static const char* kSettingsGroup;
     explicit NetworkRemote(Application* app, QObject *parent = nullptr);
     ~NetworkRemote() override;
-    void Init();
-    void LoadSettings();
 
 public slots:
-  void start();
-  void stop();
-  void useRemoteClicked();
-
-signals:
+  void Init();
+  void startTcpServer();
+  void stopTcpServer();
 
 private:
   Application *app_;
-  static NetworkRemote *sInstance;
   bool use_remote_;
   bool local_only_;
   int remote_port_;
