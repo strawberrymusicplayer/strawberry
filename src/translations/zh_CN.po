@@ -745,7 +745,7 @@ msgstr "复制后..."
 msgid "Albu&m cover"
 msgstr "专辑封面(&M)"
 
-#: collection/savedgroupingmanager.cpp:98 playlist/playlist.cpp:1365
+#: collection/savedgroupingmanager.cpp:98 playlist/playlist.cpp:1369
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 #: ../build/src/ui_albumcoversearcher.h:108
@@ -765,7 +765,7 @@ msgstr "专辑（所有曲目采用合适音量）"
 msgid "Album - Disc"
 msgstr "专辑 - 碟片"
 
-#: playlist/playlist.cpp:1372
+#: playlist/playlist.cpp:1376
 msgid "Album Artist"
 msgstr ""
 
@@ -854,7 +854,7 @@ msgstr "总是开始播放"
 msgid "An error occurred loading the iTunes database"
 msgstr "加载 iTunes 数据库时出错"
 
-#: playlist/playlist.cpp:426 dialogs/edittagdialog.cpp:1450
+#: playlist/playlist.cpp:430 dialogs/edittagdialog.cpp:1450
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "向 '%1' 写入元数据时出错"
@@ -883,7 +883,7 @@ msgstr ""
 msgid "Append files/URLs to the playlist"
 msgstr "添加文件/URL 到播放列表"
 
-#: collection/collectionview.cpp:350
+#: collection/collectionview.cpp:366
 #: smartplaylists/smartplaylistsviewcontainer.cpp:65
 #: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:316
 #: internet/internetcollectionview.cpp:315 radios/radioview.cpp:69
@@ -934,7 +934,7 @@ msgstr "艺术手册"
 msgid "Art Unset"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:95 playlist/playlist.cpp:1364
+#: collection/savedgroupingmanager.cpp:95 playlist/playlist.cpp:1368
 #: organize/organizedialog.cpp:106 ../build/src/ui_groupbydialog.h:192
 #: ../build/src/ui_groupbydialog.h:214 ../build/src/ui_groupbydialog.h:236
 #: ../build/src/ui_albumcoversearcher.h:104
@@ -1095,7 +1095,7 @@ msgstr "行为"
 msgid "Best"
 msgstr "最佳"
 
-#: playlist/playlist.cpp:1382
+#: playlist/playlist.cpp:1386
 msgid "Bit Depth"
 msgstr ""
 
@@ -1111,7 +1111,7 @@ msgid "Bit rate"
 msgstr "位速率"
 
 #: context/contextview.cpp:166 collection/savedgroupingmanager.cpp:149
-#: playlist/playlist.cpp:1383 ../build/src/ui_groupbydialog.h:210
+#: playlist/playlist.cpp:1387 ../build/src/ui_groupbydialog.h:210
 #: ../build/src/ui_groupbydialog.h:232 ../build/src/ui_groupbydialog.h:254
 #: ../build/src/ui_transcoderoptionsaac.h:132
 #: ../build/src/ui_transcoderoptionsopus.h:76
@@ -1182,7 +1182,7 @@ msgstr "只有 GStreamer 引擎可使用 CD 回放。"
 msgid "CDDA"
 msgstr "CDDA"
 
-#: playlist/playlist.cpp:1396
+#: playlist/playlist.cpp:1400
 msgid "CUE"
 msgstr "CUE"
 
@@ -1337,7 +1337,7 @@ msgstr "媒体库搜索"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "class:level 列表用逗号分隔，level 范围 0-3"
 
-#: playlist/playlist.cpp:1392 smartplaylists/smartplaylistsearchterm.cpp:391
+#: playlist/playlist.cpp:1396 smartplaylists/smartplaylistsearchterm.cpp:391
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:918
 msgid "Comment"
 msgstr "备注"
@@ -1354,7 +1354,7 @@ msgstr "自动补全标签"
 msgid "Complete tags automatically..."
 msgstr "自动补全标签..."
 
-#: collection/savedgroupingmanager.cpp:128 playlist/playlist.cpp:1373
+#: collection/savedgroupingmanager.cpp:128 playlist/playlist.cpp:1377
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:204
 #: ../build/src/ui_groupbydialog.h:226 ../build/src/ui_groupbydialog.h:248
 #: ../build/src/ui_edittagdialog.h:915
@@ -1435,7 +1435,7 @@ msgstr "复制到媒体库..."
 msgid "Copy to device"
 msgstr "复制到设备"
 
-#: core/mainwindow.cpp:758 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:758 collection/collectionview.cpp:381
 #: playlist/playlistlistcontainer.cpp:92 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "复制到设备..."
@@ -1444,6 +1444,16 @@ msgstr "复制到设备..."
 msgid ""
 "Copy your strawberry.conf and strawberry.db from your ~/snap directory to "
 "avoid losing configuration before you uninstall the snap:"
+msgstr ""
+
+#: device/gpoddevice.cpp:241
+#, qt-format
+msgid "Could not copy %1 to %2: %3"
+msgstr ""
+
+#: core/filesystemmusicstorage.cpp:98
+#, qt-format
+msgid "Could not copy file %1 to %2."
 msgstr ""
 
 #: transcoder/transcoder.cpp:72
@@ -1456,6 +1466,10 @@ msgstr "无法创建GStreamer元素 \"%1\" - 请确认您已安装了所需GStre
 #: core/songloader.cpp:313
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
+#: device/mtpconnection.cpp:75 device/mtpconnection.cpp:109
+msgid "Could not open MTP device."
 msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:223
@@ -1685,11 +1699,11 @@ msgstr "舞曲"
 msgid "Database corruption detected."
 msgstr "检测到数据库损坏。"
 
-#: playlist/playlist.cpp:1390
+#: playlist/playlist.cpp:1394
 msgid "Date Created"
 msgstr ""
 
-#: playlist/playlist.cpp:1389
+#: playlist/playlist.cpp:1393
 msgid "Date Modified"
 msgstr ""
 
@@ -1742,7 +1756,7 @@ msgstr "删除文件"
 msgid "Delete from device..."
 msgstr "从设备删除..."
 
-#: core/mainwindow.cpp:760 collection/collectionview.cpp:363
+#: core/mainwindow.cpp:760 collection/collectionview.cpp:383
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "从硬盘删除..."
@@ -1779,6 +1793,16 @@ msgstr "移除曲目"
 #: ../build/src/ui_organizedialog.h:261 ../build/src/ui_transcodedialog.h:230
 msgid "Destination"
 msgstr "目标"
+
+#: core/filesystemmusicstorage.cpp:92
+#, qt-format
+msgid "Destination file %1 exists, but not allowed to overwrite"
+msgstr ""
+
+#: core/filesystemmusicstorage.cpp:73
+#, qt-format
+msgid "Destination file %1 exists, but not allowed to overwrite."
+msgstr ""
 
 #: ../build/src/ui_transcodedialog.h:235
 msgid "Details..."
@@ -1826,7 +1850,7 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "禁用"
 
-#: collection/savedgroupingmanager.cpp:116 playlist/playlist.cpp:1367
+#: collection/savedgroupingmanager.cpp:116 playlist/playlist.cpp:1371
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:908
@@ -1870,7 +1894,7 @@ msgstr "不再显示此消息。"
 msgid "Don't repeat"
 msgstr "不循环播放"
 
-#: collection/collectionview.cpp:376
+#: collection/collectionview.cpp:396
 msgid "Don't show in various artists"
 msgstr "不在群星中显示"
 
@@ -1967,12 +1991,12 @@ msgstr "编辑标签..."
 msgid "Edit track information"
 msgstr "编辑曲目信息"
 
-#: collection/collectionview.cpp:366 widgets/fileviewlist.cpp:52
+#: collection/collectionview.cpp:386 widgets/fileviewlist.cpp:52
 #: ../build/src/ui_mainwindow.h:642
 msgid "Edit track information..."
 msgstr "编辑曲目信息..."
 
-#: collection/collectionview.cpp:367
+#: collection/collectionview.cpp:387
 msgid "Edit tracks information..."
 msgstr "编辑曲目信息..."
 
@@ -2122,7 +2146,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "相当于 --log-levels *:3"
 
 #: core/mainwindow.cpp:2625 core/mainwindow.cpp:2776
-#: collection/collectionview.cpp:587
+#: collection/collectionview.cpp:701
 msgid "Error"
 msgstr "错误"
 
@@ -2130,6 +2154,11 @@ msgstr "错误"
 #, qt-format
 msgid "Error connecting MTP device %1"
 msgstr "连接 MTP 设备 %1 时发生错误"
+
+#: device/mtploader.cpp:77
+#, qt-format
+msgid "Error connecting MTP device %1: %2"
+msgstr ""
 
 #: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
@@ -2257,6 +2286,11 @@ msgstr "淡入淡出时长"
 msgid "Failed SQL query: %1"
 msgstr ""
 
+#: core/filesystemmusicstorage.cpp:57
+#, qt-format
+msgid "Failed to create directory %1."
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:379
 #: covermanager/albumcoverchoicecontroller.cpp:396
 #, qt-format
@@ -2333,19 +2367,19 @@ msgstr ""
 msgid "File %1 is not recognized as a valid audio file."
 msgstr ""
 
-#: playlist/playlist.cpp:1385
+#: playlist/playlist.cpp:1389
 msgid "File Name"
 msgstr ""
 
-#: playlist/playlist.cpp:1386
+#: playlist/playlist.cpp:1390
 msgid "File Name (without path)"
 msgstr ""
 
-#: playlist/playlist.cpp:1387
+#: playlist/playlist.cpp:1391
 msgid "File Size"
 msgstr ""
 
-#: playlist/playlist.cpp:1388
+#: playlist/playlist.cpp:1392
 msgid "File Type"
 msgstr ""
 
@@ -2522,7 +2556,7 @@ msgstr "常规设置"
 msgid "Genius Authentication"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:125 playlist/playlist.cpp:1371
+#: collection/savedgroupingmanager.cpp:125 playlist/playlist.cpp:1375
 #: organize/organizedialog.cpp:116 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:917
@@ -2630,7 +2664,7 @@ msgstr "按流派/专辑艺术家/专辑分组"
 msgid "Group by Genre/Artist/Album"
 msgstr "按流派/艺人/专辑分组"
 
-#: collection/savedgroupingmanager.cpp:134 playlist/playlist.cpp:1375
+#: collection/savedgroupingmanager.cpp:134 playlist/playlist.cpp:1379
 #: organize/organizedialog.cpp:111 ../build/src/ui_groupbydialog.h:206
 #: ../build/src/ui_groupbydialog.h:228 ../build/src/ui_groupbydialog.h:250
 #: ../build/src/ui_edittagdialog.h:909
@@ -2796,7 +2830,7 @@ msgstr "插入..."
 msgid "Install strawberry through PPA:"
 msgstr ""
 
-#: playlist/playlist.cpp:1398
+#: playlist/playlist.cpp:1402
 msgid "Integrated Loudness"
 msgstr ""
 
@@ -2815,6 +2849,11 @@ msgstr "互联网标签页视图"
 #: osd/osdbase.cpp:367 ../build/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
 msgstr "代表曲目"
+
+#: device/mtpconnection.cpp:57
+#, qt-format
+msgid "Invalid MTP device: %1"
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:257
 msgid "Invalid reply from web browser. Missing token."
@@ -2874,7 +2913,7 @@ msgstr "大专辑封面"
 msgid "Large sidebar"
 msgstr "大侧边栏"
 
-#: playlist/playlist.cpp:1379
+#: playlist/playlist.cpp:1383
 msgid "Last Played"
 msgstr ""
 
@@ -2905,7 +2944,7 @@ msgstr ""
 msgid "Left"
 msgstr "左"
 
-#: context/contextview.cpp:163 playlist/playlist.cpp:1368
+#: context/contextview.cpp:163 playlist/playlist.cpp:1372
 #: organize/organizedialog.cpp:118 ../build/src/ui_edittagdialog.h:888
 msgid "Length"
 msgstr "长度"
@@ -3012,7 +3051,7 @@ msgstr "登录"
 msgid "Long term prediction profile (LTP)"
 msgstr "长期预测 (LTP)"
 
-#: playlist/playlist.cpp:1399
+#: playlist/playlist.cpp:1403
 msgid "Loudness Range"
 msgstr ""
 
@@ -3047,12 +3086,21 @@ msgid "Lyrics providers"
 msgstr "歌词提供方"
 
 #: ../build/src/ui_subsonicsettingspage.h:251
-msgid "MD5 token"
-msgstr "MD5 令牌"
+msgid "MD5 token (Recommended)"
+msgstr ""
 
 #: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
 msgstr "MP3"
+
+#: device/mtpconnection.cpp:100
+msgid "MTP device not found."
+msgstr ""
+
+#: device/mtpconnection.cpp:86
+#, qt-format
+msgid "MTP error: %1"
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsaac.h:135
 msgid "Main profile (MAIN)"
@@ -3205,7 +3253,7 @@ msgstr "监控媒体库的更改"
 msgid "Months"
 msgstr "月份"
 
-#: playlist/playlist.cpp:1394
+#: playlist/playlist.cpp:1398
 msgid "Mood"
 msgstr "情绪"
 
@@ -3381,7 +3429,7 @@ msgid "None"
 msgstr "无"
 
 #: core/mainwindow.cpp:2625 core/mainwindow.cpp:2776
-#: collection/collectionview.cpp:587
+#: collection/collectionview.cpp:701
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "已选择的曲目均不适合复制到设备"
 
@@ -3480,7 +3528,7 @@ msgstr "打开设备"
 msgid "Open homepage"
 msgstr "打开主页"
 
-#: collection/collectionview.cpp:352
+#: collection/collectionview.cpp:368
 #: smartplaylists/smartplaylistsviewcontainer.cpp:67
 #: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:318
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:77
@@ -3518,7 +3566,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "整理文件"
 
-#: core/mainwindow.cpp:754 collection/collectionview.cpp:359
+#: core/mainwindow.cpp:754 collection/collectionview.cpp:379
 msgid "Organize files..."
 msgstr "整理文件..."
 
@@ -3526,7 +3574,7 @@ msgstr "整理文件..."
 msgid "Organizing files"
 msgstr "正在整理文件"
 
-#: playlist/playlist.cpp:1370
+#: playlist/playlist.cpp:1374
 msgid "Original Year"
 msgstr ""
 
@@ -3633,7 +3681,7 @@ msgstr ""
 msgid "Perform track loudness normalization"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:131 playlist/playlist.cpp:1374
+#: collection/savedgroupingmanager.cpp:131 playlist/playlist.cpp:1378
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:205
 #: ../build/src/ui_groupbydialog.h:227 ../build/src/ui_groupbydialog.h:249
 #: ../build/src/ui_edittagdialog.h:919
@@ -3654,7 +3702,7 @@ msgstr "普通侧边栏"
 msgid "Play"
 msgstr "播放"
 
-#: playlist/playlist.cpp:1377
+#: playlist/playlist.cpp:1381
 msgid "Play Count"
 msgstr ""
 
@@ -3910,12 +3958,12 @@ msgstr "将选定曲目加入队列"
 msgid "Queue selected tracks to play next"
 msgstr ""
 
-#: core/mainwindow.cpp:1961 collection/collectionview.cpp:356
+#: core/mainwindow.cpp:1961 collection/collectionview.cpp:372
 #: internet/internetcollectionview.cpp:321
 msgid "Queue to play next"
 msgstr ""
 
-#: core/mainwindow.cpp:1953 collection/collectionview.cpp:355
+#: core/mainwindow.cpp:1953 collection/collectionview.cpp:371
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
 #: internet/internetsearchview.cpp:321 internet/internetcollectionview.cpp:320
 msgid "Queue track"
@@ -3941,7 +3989,7 @@ msgstr ""
 msgid "Random"
 msgstr ""
 
-#: playlist/playlist.cpp:1395 ../build/src/ui_edittagdialog.h:922
+#: playlist/playlist.cpp:1399 ../build/src/ui_edittagdialog.h:922
 msgid "Rating"
 msgstr ""
 
@@ -4141,7 +4189,7 @@ msgstr "播放列表循环"
 msgid "Repeat track"
 msgstr "单曲循环"
 
-#: collection/collectionview.cpp:351
+#: collection/collectionview.cpp:367
 #: smartplaylists/smartplaylistsviewcontainer.cpp:66
 #: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316 radios/radioview.cpp:73
@@ -4177,7 +4225,7 @@ msgstr ""
 msgid "Repopulate"
 msgstr ""
 
-#: collection/collectionview.cpp:372
+#: collection/collectionview.cpp:392
 msgid "Rescan song(s)"
 msgstr "重新扫描歌曲..."
 
@@ -4278,7 +4326,7 @@ msgstr "安全移除设备"
 msgid "Safely remove the device after copying"
 msgstr "复制后安全移除设备"
 
-#: playlist/playlist.cpp:1381
+#: playlist/playlist.cpp:1385
 msgid "Sample Rate"
 msgstr ""
 
@@ -4412,7 +4460,7 @@ msgstr "延迟搜索"
 msgid "Search for album covers..."
 msgstr "搜索专辑封面..."
 
-#: internet/internetsearchview.cpp:339
+#: collection/collectionview.cpp:376 internet/internetsearchview.cpp:339
 msgid "Search for this"
 msgstr ""
 
@@ -4642,12 +4690,12 @@ msgstr "在媒体库中显示..."
 msgid "Show in file browser"
 msgstr "在文件管理器中显示"
 
-#: core/mainwindow.cpp:753 collection/collectionview.cpp:368
+#: core/mainwindow.cpp:753 collection/collectionview.cpp:388
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "在文件管理器中显示..."
 
-#: collection/collectionview.cpp:375
+#: collection/collectionview.cpp:395
 msgid "Show in various artists"
 msgstr "在群星中显示"
 
@@ -4748,7 +4796,7 @@ msgstr "大小："
 msgid "Ska"
 msgstr "Ska"
 
-#: playlist/playlist.cpp:1378
+#: playlist/playlist.cpp:1382
 msgid "Skip Count"
 msgstr ""
 
@@ -4844,7 +4892,7 @@ msgstr ""
 msgid "Sorting"
 msgstr "排序"
 
-#: playlist/playlist.cpp:1393
+#: playlist/playlist.cpp:1397
 msgid "Source"
 msgstr "来源"
 
@@ -5148,7 +5196,7 @@ msgid ""
 "rescan because of the new features listed below:"
 msgstr "已更新Strawberry，由于添加了如下特性，您需要更新您的收藏："
 
-#: collection/collectionview.cpp:483
+#: collection/collectionview.cpp:503
 msgid "There are other songs in this album"
 msgstr "此专辑中还有其它歌曲"
 
@@ -5245,7 +5293,7 @@ msgstr ""
 msgid "Time step"
 msgstr "时间步长"
 
-#: playlist/playlist.cpp:1363 organize/organizedialog.cpp:104
+#: playlist/playlist.cpp:1367 organize/organizedialog.cpp:104
 #: ../build/src/ui_contextsettingspage.h:422
 #: ../build/src/ui_edittagdialog.h:913
 #: ../build/src/ui_trackselectiondialog.h:210
@@ -5296,7 +5344,7 @@ msgstr "已传输字节总数"
 msgid "Total network requests made"
 msgstr "已发出网络连接总数"
 
-#: playlist/playlist.cpp:1366 organize/organizedialog.cpp:112
+#: playlist/playlist.cpp:1370 organize/organizedialog.cpp:112
 #: ../build/src/ui_edittagdialog.h:921
 #: ../build/src/ui_trackselectiondialog.h:212
 msgid "Track"
@@ -5639,7 +5687,7 @@ msgstr "无封面:"
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr ""
 
-#: collection/collectionview.cpp:483
+#: collection/collectionview.cpp:503
 msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"
@@ -5657,7 +5705,16 @@ msgstr ""
 msgid "Write metadata when saving playlists"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:119 playlist/playlist.cpp:1369
+#: device/gpoddevice.cpp:288
+msgid "Writing database failed."
+msgstr ""
+
+#: device/gpoddevice.cpp:284
+#, qt-format
+msgid "Writing database failed: %1"
+msgstr ""
+
+#: collection/savedgroupingmanager.cpp:119 playlist/playlist.cpp:1373
 #: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:199
 #: ../build/src/ui_groupbydialog.h:221 ../build/src/ui_groupbydialog.h:243
 #: ../build/src/ui_edittagdialog.h:912
