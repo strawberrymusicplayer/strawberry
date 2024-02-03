@@ -103,7 +103,6 @@
 #include "radios/radiobackend.h"
 
 #include "networkremote/networkremote.h"
-#include "networkremote/networkremotehelper.h"
 
 using std::make_shared;
 using namespace std::chrono_literals;
@@ -209,8 +208,7 @@ class ApplicationImpl {
           NetworkRemote *remote = new NetworkRemote(app);
           app->MoveToNewThread(remote);
           return remote;
-        }),
-        network_remote_helper_([app](){ return new NetworkRemoteHelper(app); })
+        })
 {}
 
   Lazy<TagReaderClient> tag_reader_client_;
@@ -238,7 +236,6 @@ class ApplicationImpl {
 #endif
   Lazy<LastFMImport> lastfm_import_;
   Lazy<NetworkRemote> network_remote_;
-  Lazy<NetworkRemoteHelper> network_remote_helper_;
 
 };
 
@@ -249,7 +246,6 @@ Application::Application(QObject *parent)
   collection()->Init();
   tag_reader_client();
   network_remote()->Init();
-  network_remote_helper();
 
   QObject::connect(&*database(), &Database::Error, this, &Application::ErrorAdded);
 
@@ -370,7 +366,6 @@ SharedPtr<RadioServices> Application::radio_services() const { return p_->radio_
 SharedPtr<AudioScrobbler> Application::scrobbler() const { return p_->scrobbler_.ptr(); }
 SharedPtr<LastFMImport> Application::lastfm_import() const { return p_->lastfm_import_.ptr(); }
 SharedPtr<NetworkRemote> Application::network_remote() const { return p_->network_remote_.ptr();}
-SharedPtr<NetworkRemoteHelper> Application::network_remote_helper() const { return p_->network_remote_helper_.ptr();}
 #ifdef HAVE_MOODBAR
 SharedPtr<MoodbarController> Application::moodbar_controller() const { return p_->moodbar_controller_.ptr(); }
 SharedPtr<MoodbarLoader> Application::moodbar_loader() const { return p_->moodbar_loader_.ptr(); }

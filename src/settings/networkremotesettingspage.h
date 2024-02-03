@@ -19,7 +19,6 @@ public:
     ~NetworkRemoteSettingsPage() override;
 
     static const char *kSettingsGroup;
-
     void Load() override;
     void Save() override;
     void Refresh();
@@ -29,7 +28,7 @@ signals:
 
 private:
   Ui_NetworkRemoteSettingsPage *ui_;
-  QSettings s;
+  QSettings s_;
   void DisplayIP();
   QString ipAddr_;
 

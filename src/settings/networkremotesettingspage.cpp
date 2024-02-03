@@ -3,10 +3,10 @@
 #include <QNetworkInterface>
 
 #include "core/iconloader.h"
+#include "networkremote/networkremote.h"
 #include "settings/settingsdialog.h"
 #include "settings/networkremotesettingspage.h"
 #include "ui_networkremotesettingspage.h"
-#include "networkremote/networkremotehelper.h"
 
 const char *NetworkRemoteSettingsPage::kSettingsGroup = "Remote";
 
@@ -14,12 +14,13 @@ NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWi
     SettingsPage(dialog,parent),
     ui_(new Ui_NetworkRemoteSettingsPage)
 {
+
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("network-remote", true, 0,32));
 
-  QObject::connect(ui_->useRemoteClient,&QCheckBox::stateChanged, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
-  QObject::connect(ui_->localConnectionsOnly, &QCheckBox::stateChanged, this, &NetworkRemoteSettingsPage::LocalConnectButtonClicked);
-  QObject::connect(ui_->portSelected, &QSpinBox::valueChanged, this, &NetworkRemoteSettingsPage::PortChanged);
+  QObject::connect(ui_->useRemoteClient,&QAbstractButton::clicked, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
+  QObject::connect(ui_->localConnectionsOnly, &QAbstractButton::clicked, this, &NetworkRemoteSettingsPage::LocalConnectButtonClicked);
+  QObject::connect(ui_->portSelected, &QAbstractSpinBox::editingFinished, this, &NetworkRemoteSettingsPage::PortChanged);
 }
 
 NetworkRemoteSettingsPage::~NetworkRemoteSettingsPage()
@@ -32,14 +33,16 @@ void NetworkRemoteSettingsPage::Load()
   ui_->portSelected->setRange(5050, 65535);
   ui_->ip_address->setText("0.0.0.0");
 
-  s.beginGroup(NetworkRemoteSettingsPage::kSettingsGroup);
-  if (s.contains("useRemote")){
-    ui_->useRemoteClient->setChecked(s.value("useRemote", false).toBool());
-    if (s.value("useRemote").toBool()){
+  s_.beginGroup(NetworkRemoteSettingsPage::kSettingsGroup);
+
+  if (s_.contains("useRemote")){
+    ui_->useRemoteClient->setCheckable(true);
+    ui_->useRemoteClient->setChecked(s_.value("useRemote", false).toBool());
+    if (s_.value("useRemote").toBool()){
       ui_->localConnectionsOnly->setCheckable(true);
+      ui_->localConnectionsOnly->setChecked(s_.value("localOnly", false).toBool());
       ui_->portSelected->setReadOnly(false);
-      ui_->localConnectionsOnly->setChecked(s.value("localOnly", true).toBool());
-      ui_->portSelected->setValue(s.value("remotePort", 5050).toInt());
+      ui_->portSelected->setValue(s_.value("remotePort", 5050).toInt());
     }
     else {
       ui_->localConnectionsOnly->setCheckable(false);
@@ -48,34 +51,40 @@ void NetworkRemoteSettingsPage::Load()
   }
   else{
     qLog(Debug) << "First time run the Network Remote";
-    s.setValue("useRemote", false);
-    s.setValue("localOnly",false);
-    s.setValue("remotePort",5050);
-    s.setValue("ipAddress","0.0.0.0");
+    s_.setValue("useRemote", false);
+    s_.setValue("localOnly",false);
+    s_.setValue("remotePort",5050);
+    s_.setValue("ipAddress","0.0.0.0");
   }
-  s.endGroup();
+  s_.endGroup();
+
   DisplayIP();
+  qInfo("Loaded QSettings ++++++++++++++++");
 
   Init(ui_->layout_networkremotesettingspage->parentWidget());
 }
 
 void NetworkRemoteSettingsPage::Save()
 {
-  s.beginGroup(NetworkRemoteSettingsPage::kSettingsGroup);
-  s.setValue("useRemote",ui_->useRemoteClient->isChecked());
-  s.setValue("localOnly",ui_->localConnectionsOnly->isChecked());
-  s.setValue("remotePort",int(ui_->portSelected->value()));
-  s.setValue("ipAddress",ipAddr_);
-  s.endGroup();
+  s_.beginGroup(NetworkRemoteSettingsPage::kSettingsGroup);
+  s_.setValue("useRemote",ui_->useRemoteClient->isChecked());
+  s_.setValue("localOnly",ui_->localConnectionsOnly->isChecked());
+  s_.setValue("remotePort",int(ui_->portSelected->value()));
+  s_.setValue("ipAddress",ipAddr_);
+  s_.endGroup();
+
+  qInfo("Saving QSettings ++++++++++++++++");
 }
 
 void NetworkRemoteSettingsPage::Refresh()
 {
+  s_.sync();
   Save();
   Load();
-  if (NetworkRemoteHelper::Instance()) {
-    qInfo() << "Helper Instance is up";
-    NetworkRemoteHelper::Instance()->ReloadSettings();
+
+  if (NetworkRemote::Instance()) {
+    qInfo() << "NetworkRemote Instance is up";
+    NetworkRemote::Instance()->Update();
   }
 }
 
