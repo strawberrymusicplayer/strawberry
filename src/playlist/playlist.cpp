@@ -2164,10 +2164,14 @@ void Playlist::InvalidateDeletedSongs() {
         // gray out the song if it's not there
         item->SetForegroundColor(kInvalidSongPriority, kInvalidSongColor);
         invalidated_rows.append(row);  // clazy:exclude=reserve-candidates
+        // skip invalid song
+        item->SetShouldSkip(true);
       }
       else if (exists && item->HasForegroundColor(kInvalidSongPriority)) {
         item->RemoveForegroundColor(kInvalidSongPriority);
         invalidated_rows.append(row);  // clazy:exclude=reserve-candidates
+        // song is valid again; do not skip it
+        item->SetShouldSkip(false);
       }
     }
   }
@@ -2285,9 +2289,13 @@ bool Playlist::ApplyValidityOnCurrentSong(const QUrl &url, const bool valid) {
     // Gray out the song if it's now broken; otherwise undo the gray color
     if (valid) {
       current->RemoveForegroundColor(kInvalidSongPriority);
+      // Song is valid again; do not skip it
+      current->SetShouldSkip(false);
     }
     else {
       current->SetForegroundColor(kInvalidSongPriority, kInvalidSongColor);
+      // Skip invalid song
+      current->SetShouldSkip(true);
     }
   }
 
