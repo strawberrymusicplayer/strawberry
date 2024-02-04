@@ -25,6 +25,7 @@ public:
 public slots:
   void Init();
   void Update();
+  void LoadSettings();
   void startTcpServer();
   void stopTcpServer();
 

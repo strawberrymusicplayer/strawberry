@@ -29,11 +29,7 @@ NetworkRemote::~NetworkRemote()
 
 void NetworkRemote::Init()
 {
-  use_remote_ = s_->UserRemote();
-  local_only_ = s_->LocalOnly();
-  remote_port_ = s_->GetPort();
-  ipAddr_.setAddress(s_->GetIpAddress());
-
+  LoadSettings();
   if (use_remote_){
     startTcpServer();
   }
@@ -45,9 +41,25 @@ void NetworkRemote::Init()
 
 void NetworkRemote::Update()
 {
-  //s_->Save();
-  //stopTcpServer();
-  qLog(Debug) << "NetworkRemote Update() ";
+  LoadSettings();
+  if (use_remote_){
+    stopTcpServer();
+    startTcpServer();
+  }
+  else {
+    stopTcpServer();
+  }
+
+  qLog(Debug) << "NetworkRemote Updated ==== ";
+}
+
+void NetworkRemote::LoadSettings()
+{
+  s_->Load();
+  use_remote_ = s_->UserRemote();
+  local_only_ = s_->LocalOnly();
+  remote_port_ = s_->GetPort();
+  ipAddr_.setAddress(s_->GetIpAddress());
 }
 
 void NetworkRemote::startTcpServer()
