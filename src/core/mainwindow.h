@@ -202,6 +202,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void Seeked(const qint64 microseconds);
   void UpdateTrackPosition();
   void UpdateTrackSliderPosition();
+  void UpdateTaskbarProgress(const bool visible, const double position, const double length);
 
   void TaskCountChanged(const int count);
 

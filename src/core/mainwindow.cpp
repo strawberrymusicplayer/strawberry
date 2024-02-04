@@ -73,6 +73,8 @@
 #include <QToolButton>
 #include <QCheckBox>
 #include <QClipboard>
+#include <QDBusConnection>
+#include <QDBusMessage>
 
 #include "core/logging.h"
 
@@ -1269,6 +1271,9 @@ void MainWindow::Exit() {
         return;  // Don't quit the application now: wait for the fadeout finished signal
       }
     }
+
+    UpdateTaskbarProgress(false, 0, 0);
+
     DoExit();
   }
 
@@ -1320,6 +1325,8 @@ void MainWindow::MediaStopped() {
   ui_->track_slider->SetStopped();
   tray_icon_->SetProgress(0);
   tray_icon_->SetStopped();
+
+  UpdateTaskbarProgress(false, 0, 0);
 
   song_playing_ = Song();
   song_ = Song();
@@ -1396,6 +1403,8 @@ void MainWindow::SongChanged(const Song &song) {
   song_ = song;
   setWindowTitle(song.PrettyTitleWithArtist());
   tray_icon_->SetProgress(0);
+
+  UpdateTaskbarProgress(false, 0, 0);
 
   SendNowPlaying();
 
@@ -1686,6 +1695,8 @@ void MainWindow::Seeked(const qint64 microseconds) {
   const qint64 length = app_->player()->GetCurrentItem()->Metadata().length_nanosec() / kNsecPerSec;
   tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
+  UpdateTaskbarProgress(true, position, length);
+
 }
 
 void MainWindow::UpdateTrackPosition() {
@@ -1699,6 +1710,8 @@ void MainWindow::UpdateTrackPosition() {
 
   // Update the tray icon every 10 seconds
   if (position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
+
+  UpdateTaskbarProgress(true, position, length);
 
   // Send Scrobble
   if (app_->scrobbler()->enabled() && item->Metadata().is_metadata_good()) {
@@ -1723,6 +1736,21 @@ void MainWindow::UpdateTrackSliderPosition() {
 
   // Update the slider
   ui_->track_slider->SetValue(slider_position, slider_length);
+
+}
+
+void MainWindow::UpdateTaskbarProgress(const bool visible, const double position, const double length) {
+
+  QVariantMap map;
+  QDBusMessage msg = QDBusMessage::createSignal(QStringLiteral("/org/strawberrymusicplayer/strawberry"),
+		                                QStringLiteral("com.canonical.Unity.LauncherEntry"), 
+						QStringLiteral("Update"));
+
+  map.insert(QStringLiteral("progress-visible"), visible);
+  map.insert(QStringLiteral("progress"), position / length);
+  msg << QString("application://org.strawberrymusicplayer.strawberry.desktop") << map;
+
+  QDBusConnection::sessionBus().send(msg);
 
 }
 
