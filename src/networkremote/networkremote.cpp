@@ -29,24 +29,10 @@ NetworkRemote::~NetworkRemote()
 
 void NetworkRemote::Init()
 {
-  s_.beginGroup(NetworkRemote::kSettingsGroup);
-  use_remote_ = s_.value("useRemote").toBool();
-  local_only_ = s_.value("localOnly").toBool();
-  remote_port_ = s_.value("remotePort").toInt();
-  ipAddr_.setAddress(s_.value("ipAddress").toString());
-
-  bool aa = s_.value("useRemote").toBool();
-  bool bb = s_.value("localOnly").toBool();
-  int cc = s_.value("remotePort").toInt();
-  QString dd =s_.value("ipAddress").toString();
-  qLog(Debug) << "Settings " << s_.fileName();
-  qLog(Debug) << "Keys are " << s_.allKeys();
-  qLog(Debug) << "aa = " << aa;
-  qLog(Debug) << "bb = " << bb;
-  qLog(Debug) << "cc = " << cc;
-  qLog(Debug) << "dd = " << dd;
-
-  s_.endGroup();
+  use_remote_ = s_->UserRemote();
+  local_only_ = s_->LocalOnly();
+  remote_port_ = s_->GetPort();
+  ipAddr_.setAddress(s_->GetIpAddress());
 
   if (use_remote_){
     startTcpServer();
@@ -54,33 +40,14 @@ void NetworkRemote::Init()
   else {
     stopTcpServer();
   }
+  qLog(Debug) << "NetworkRemote Init() ";
 }
 
 void NetworkRemote::Update()
 {
-  s_.beginGroup(NetworkRemote::kSettingsGroup);
-  bool aa = s_.value("useRemote").toBool();
-  bool bb = s_.value("localOnly").toBool();
-  int cc = s_.value("remotePort").toInt();
-  QString dd =s_.value("ipAddress").toString();
-
-  if (remote_port_ != s_.value("useRemote").toBool()){
-    qLog(Debug) << "use_remote_ changed";
-  }
-  if (use_remote_ != s_.value("remotePort").toInt()){
-    qLog(Debug) << "remote_port_ changed";
-  }
-  if (ipAddr_.toString() != s_.value("ipAddress").toString()){
-    qLog(Debug) << "IP addres changed";
-  }
-/*
-  use_remote_ = s.value("useRemote").toBool();
-  local_only_ = s.value("localOnly").toBool();
-  remote_port_ = s.value("remotePort").toInt();
-  ipAddr_.setAddress(s.value("ipAddress").toString());
-*/
-  s_.endGroup();
-
+  //s_->Save();
+  //stopTcpServer();
+  qLog(Debug) << "NetworkRemote Update() ";
 }
 
 void NetworkRemote::startTcpServer()

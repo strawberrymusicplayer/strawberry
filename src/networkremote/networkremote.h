@@ -6,7 +6,9 @@
 #include <QTcpSocket>
 #include <QHostAddress>
 #include <QSettings>
+
 #include "tcpserver.h"
+#include "networkremote/remotesettings.h"
 
 class Application;
 class QThread;
@@ -28,7 +30,6 @@ public slots:
 
 private:
   Application *app_;
-  QSettings s_;
   bool use_remote_;
   bool local_only_;
   int remote_port_;
@@ -36,6 +37,8 @@ private:
   TcpServer *server_ = new TcpServer();
   QThread *original_thread_;
   static NetworkRemote* sInstance;
+  RemoteSettings *s_ = new RemoteSettings;
+
 };
 
 #endif // NETWORKREMOTE_H
