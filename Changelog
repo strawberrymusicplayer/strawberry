@@ -2,6 +2,16 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed crash when pressing CTRL + C (#1359).
+    * (macOS/Windows) Fixed dash and hls streaming, plugins were missing.
+
+  Enhancements:
+    * Improve error messages when connecting and copying to devices.
+    * Allow enter to be used with multiselection to add songs to playlist (#1360)
+
 Version 1.0.23 (2024.01.11):
 
   Bugfixes:
