@@ -1742,9 +1742,7 @@ void MainWindow::UpdateTrackSliderPosition() {
 void MainWindow::UpdateTaskbarProgress(const bool visible, const double position, const double length) {
 
   QVariantMap map;
-  QDBusMessage msg = QDBusMessage::createSignal(QStringLiteral("/org/strawberrymusicplayer/strawberry"),
-		                                QStringLiteral("com.canonical.Unity.LauncherEntry"), 
-						QStringLiteral("Update"));
+  QDBusMessage msg = QDBusMessage::createSignal(QStringLiteral("/org/strawberrymusicplayer/strawberry"), QStringLiteral("com.canonical.Unity.LauncherEntry"), QStringLiteral("Update"));
 
   map.insert(QStringLiteral("progress-visible"), visible);
   map.insert(QStringLiteral("progress"), position / length);
