@@ -202,7 +202,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void Seeked(const qint64 microseconds);
   void UpdateTrackPosition();
   void UpdateTrackSliderPosition();
+#ifdef HAVE_DBUS
   void UpdateTaskbarProgress(const bool visible, const double position, const double length);
+#endif
 
   void TaskCountChanged(const int count);
 
