@@ -1,5 +1,10 @@
 name: Build
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  release:
+    types: [published]
 
 jobs:
 
@@ -149,19 +154,19 @@ jobs:
             /usr/src/packages/SRPMS/*.rpm
             /usr/src/packages/RPMS/x86_64/*.rpm
       - name: SSH key setup
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version != 'tumbleweed' && matrix.qt_version == '6'
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
       - name: Create server path
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version != 'tumbleweed' && matrix.qt_version == '6'
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/source ${{secrets.BUILDS_PATH}}/opensuse/${{env.opensuse_subdir}}
       - name: rsync source
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version == 'tumbleweed' && matrix.qt_version == '6'
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version == 'tumbleweed' && matrix.qt_version == '6'
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /usr/src/packages/SOURCES/*.xz ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/source/
       - name: rsync rpms
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version != 'tumbleweed'
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci') && matrix.opensuse_version != 'tumbleweed' && matrix.qt_version == '6'
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /usr/src/packages/SRPMS/*.rpm /usr/src/packages/RPMS/x86_64/*.rpm ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/opensuse/${{env.opensuse_subdir}}/
 
 
@@ -257,16 +262,16 @@ jobs:
             /github/home/rpmbuild/SRPMS/*.rpm
             /github/home/rpmbuild/RPMS/x86_64/*.rpm
       - name: SSH key setup
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
       - name: Create server path
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/fedora/${{matrix.fedora_version}}
       - name: rsync
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /github/home/rpmbuild/SRPMS/*.rpm /github/home/rpmbuild/RPMS/x86_64/*.rpm ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/fedora/${{matrix.fedora_version}}/
 
 
@@ -367,16 +372,16 @@ jobs:
             /github/home/rpmbuild/SRPMS/*.rpm
             /github/home/rpmbuild/RPMS/x86_64/*.rpm
       - name: SSH key setup
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.openmandriva_version != 'cooker' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.openmandriva_version != 'cooker' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
       - name: Create server path
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.openmandriva_version != 'cooker' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.openmandriva_version != 'cooker' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/openmandriva/${{matrix.openmandriva_version}}
       - name: rsync
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.openmandriva_version != 'cooker' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.openmandriva_version != 'cooker' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /github/home/rpmbuild/SRPMS/*.rpm /github/home/rpmbuild/RPMS/x86_64/*.rpm ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/openmandriva/${{matrix.openmandriva_version}}/
 
 
@@ -469,16 +474,16 @@ jobs:
             /github/home/rpmbuild/SRPMS/*.rpm
             /github/home/rpmbuild/RPMS/x86_64/*.rpm
       - name: SSH key setup
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
       - name: Create server path
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/mageia/${{matrix.mageia_version}}
       - name: rsync
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var /github/home/rpmbuild/SRPMS/*.rpm /github/home/rpmbuild/RPMS/x86_64/*.rpm ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/mageia/${{matrix.mageia_version}}/
 
 
@@ -565,16 +570,16 @@ jobs:
           name: debian-${{matrix.debian_version}}
           path: "*.deb"
       - name: SSH key setup
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
       - name: Create server path
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/debian/${{matrix.debian_version}}
       - name: rsync
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var *.deb ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/debian/${{matrix.debian_version}}/
 
 
@@ -666,16 +671,16 @@ jobs:
             *.deb
             *.ddeb
       - name: SSH key setup
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
       - name: Create server path
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/ubuntu/${{matrix.ubuntu_version}}
       - name: rsync
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var *.deb *.ddeb ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/ubuntu/${{matrix.ubuntu_version}}/
 
 
@@ -762,15 +767,11 @@ jobs:
           gpg_private_key: ${{secrets.UBUNTU_PPA_GPG_PRIVATE_KEY}}
       - name: dpkg-buildpackage
         run: dpkg-buildpackage -S -d -k573D197B5EA20EDF
-      - name: Set is release
-        run: echo "is_release=$(grep '^\s*set\s*(\s*INCLUDE_GIT_REVISION\s\+OFF\s*)\s*$' cmake/Version.cmake >/dev/null 2>&1 && echo 1 || echo 0)" >> $GITHUB_ENV
-      - name: Get release version
-        run: echo "release_version=$(git describe --tags --exact-match ${GITHUB_SHA} 2>/dev/null | head -1)" >> $GITHUB_ENV
       - name: Upload Unstable PPA
-        if: env.is_release != '1' && env.release_version == ''
+        if: github.event_name == 'push'
         run: dput ppa:jonaski/strawberry-unstable ../*_source.changes
       - name: Upload Stable PPA
-        if: env.is_release == '1' && env.release_version != ''
+        if: github.event_name == 'release'
         run: dput ppa:jonaski/strawberry ../*_source.changes
 
 
@@ -894,16 +895,10 @@ jobs:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
 
-      - name: Set is release
-        run: echo "is_release=$(grep '^\s*set\s*(\s*INCLUDE_GIT_REVISION\s\+OFF\s*)\s*$' cmake/Version.cmake >/dev/null 2>&1 && echo 1 || echo 0)" >> $GITHUB_ENV
-
-      - name: Get release version
-        run: echo "release_version=$(git describe --tags --exact-match ${GITHUB_SHA} 2>/dev/null | head -1)" >> $GITHUB_ENV
-
       - name: Set Upload path
         if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')
         run: |
-          if [ "${{env.is_release}}" = "1" ] && ! [ "${{env.release_version}}" = "" ]; then
+          if [ "${{github.event_name}}" = "release" ]; then
             echo "upload_path=${{secrets.DOWNLOADS_PATH}}/stable_releases/macos" >> $GITHUB_ENV
           else
             echo "upload_path=${{secrets.DOWNLOADS_PATH}}/development_releases/macos" >> $GITHUB_ENV
@@ -1012,12 +1007,9 @@ jobs:
         working-directory: build
         run: make dmg
 
-      - name: Set is release
-        run: echo "is_release=$(grep '^\s*set\s*(\s*INCLUDE_GIT_REVISION\s\+OFF\s*)\s*$' cmake/Version.cmake >/dev/null 2>&1 && echo 1 || echo 0)" >> $GITHUB_ENV
-
       - name: Set Upload path
         run: |
-          if [ "${{env.is_release}}" = "1" ]; then
+          if [ "${{github.event_name}}" = "release" ]; then
             echo "upload_path=${{secrets.DOWNLOADS_PATH}}/stable_releases/macos" >> $GITHUB_ENV
           else
             echo "upload_path=${{secrets.DOWNLOADS_PATH}}/development_releases/macos" >> $GITHUB_ENV
@@ -1201,18 +1193,18 @@ jobs:
           path: build/StrawberrySetup*.exe
 
       - name: SSH key setup
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
 
       - name: Create server path
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/windows/mingw
 
       - name: rsync
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+        if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/windows/mingw/
 
 
@@ -1568,7 +1560,7 @@ jobs:
 
   rsync-windows-msvc-builds:
     name: Rsync Windows MSVC builds
-    if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+    if: github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
     runs-on: ubuntu-latest
     needs:
       - build-windows-msvc
@@ -1587,17 +1579,15 @@ jobs:
           key: ${{secrets.SSH_KEY}}
       - name: Create server path
         shell: bash
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{secrets.BUILDS_PATH}}/windows/msvc
       - name: rsync
         shell: bash
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci'
         run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var builds/*/StrawberrySetup-*-msvc-*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.BUILDS_PATH}}/windows/msvc/
 
 
   upload-release:
     name: Upload release
-    if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+    if: github.event_name == 'release'
     runs-on: ubuntu-latest
     needs:
       - build-opensuse
@@ -1618,41 +1608,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set is release
-        run: echo "is_release=$(grep '^\s*set\s*(\s*INCLUDE_GIT_REVISION\s\+OFF\s*)\s*$' cmake/Version.cmake >/dev/null 2>&1 && echo 1 || echo 0)" >> $GITHUB_ENV
-
-      - name: Get release version
-        run: echo "release_version=$(git describe --tags --exact-match ${GITHUB_SHA} 2>/dev/null | head -1)" >> $GITHUB_ENV
-
-      - name: Show release version
-        if: env.release_version != ''
-        run: echo "Release version:" ${{env.release_version}}
-
       - name: Show release assets
-        if: env.release_version != ''
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: hub release show -f "%as" ${{env.release_version}}
+        run: hub release show -f "%as" ${{github.tagname}}
 
       - name: Download artifacts
-        if: env.release_version != ''
         uses: actions/download-artifact@v4
         with:
           path: artifacts
 
       - name: SSH key setup
-        if: env.release_version != ''
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{secrets.SSH_KEY}}
 
       - name: Add artifacts to release
-        if: env.is_release == '1' && env.release_version != ''
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          echo "Release version: ${{env.release_version}}"
+          echo "Release version: ${{github.tagname}}"
           filenames=()
           files=()
           a_files=()
@@ -1663,7 +1639,7 @@ jobs:
               continue
             fi
             filenames+=("${filename}")
-            existing_asset=$(hub release show -f "%as" ${{env.release_version}} | tr -d '[:blank:]' | grep ".*/${filename}\$" 2>/dev/null || true)
+            existing_asset=$(hub release show -f "%as" ${{github.tagname}} | tr -d '[:blank:]' | grep ".*/${filename}\$" 2>/dev/null || true)
             if [ "${existing_asset}" = "" ]; then
               echo "Adding file: ${filename}"
               files+=("$i")
@@ -1680,5 +1656,5 @@ jobs:
           fi
           if ! [ "${a_files_list}" = "" ]; then
             echo "Adding files to GitHub release: ${files_list}"
-            hub release edit -m "Strawberry ${{env.release_version}}" ${a_files_list} "${{env.release_version}}"
+            hub release edit -m "Strawberry ${{github.tagname}}" ${a_files_list} "${{github.tagname}}"
           fi
