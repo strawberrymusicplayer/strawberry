@@ -686,7 +686,7 @@ jobs:
 
   upload-ubuntu-ppa:
     name: Upload Ubuntu PPA
-    if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')
+    if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && (github.event_name == 'release' || (github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')))
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -1611,7 +1611,7 @@ jobs:
       - name: Show release assets
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: hub release show -f "%as" ${{github.tagname}}
+        run: hub release show -f "%as" ${{github.event.release.tag_name}}
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -1628,7 +1628,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          echo "Release version: ${{github.tagname}}"
+          echo "Release version: ${{github.event.release.tag_name}}"
           filenames=()
           files=()
           a_files=()
@@ -1639,7 +1639,7 @@ jobs:
               continue
             fi
             filenames+=("${filename}")
-            existing_asset=$(hub release show -f "%as" ${{github.tagname}} | tr -d '[:blank:]' | grep ".*/${filename}\$" 2>/dev/null || true)
+            existing_asset=$(hub release show -f "%as" ${{github.event.release.tag_name}} | tr -d '[:blank:]' | grep ".*/${filename}\$" 2>/dev/null || true)
             if [ "${existing_asset}" = "" ]; then
               echo "Adding file: ${filename}"
               files+=("$i")
@@ -1656,5 +1656,5 @@ jobs:
           fi
           if ! [ "${a_files_list}" = "" ]; then
             echo "Adding files to GitHub release: ${files_list}"
-            hub release edit -m "Strawberry ${{github.tagname}}" ${a_files_list} "${{github.tagname}}"
+            hub release edit -m "Strawberry ${{github.event.release.tag_name}}" ${a_files_list} "${{github.event.release.tag_name}}"
           fi
