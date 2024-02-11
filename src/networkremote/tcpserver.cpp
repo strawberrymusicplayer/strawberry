@@ -1,10 +1,14 @@
 #include "tcpserver.h"
 #include "core/logging.h"
+#include "networkremote/clientmanager.h"
 
-TcpServer::TcpServer(QObject *parent)
-    : QObject{parent}
+
+TcpServer::TcpServer(Application* app, QObject *parent)
+    : QObject{parent},
+      app_(app)
 {
   server_ = new QTcpServer(this);
+  clientMgr_ = new ClientManager(app_);
   connect(server_,&QTcpServer::newConnection, this, &TcpServer::NewTcpConnection);
 }
 
@@ -23,8 +27,8 @@ void TcpServer::StartServer(QHostAddress ipAddr, int port)
 
 void TcpServer::NewTcpConnection()
 {
-  //QTcpSocket *socket = server_->nextPendingConnection();
   socket_ = server_->nextPendingConnection();
+  clientMgr_->AddClient(socket_);
   qLog(Debug) << "New Socket -------------------";
 }
 
@@ -34,10 +38,6 @@ void TcpServer::StopServer()
   qLog(Debug) << "TCP Server Stopped ----------------------";
 }
 
-void TcpServer::CreateRemoteClient()
-{
-
-}
 
 bool TcpServer::ServerUp()
 {

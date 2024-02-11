@@ -294,8 +294,11 @@ set(SOURCES
 
   networkremote/networkremote.cpp
   networkremote/tcpserver.cpp
-  networkremote/remoteclient.cpp
   networkremote/remotesettings.cpp
+  networkremote/client.cpp
+  networkremote/clientmanager.cpp
+  networkremote/incomingmsg.cpp
+  networkremote/outgoingmsg.cpp
 )
 
 set(HEADERS
@@ -535,8 +538,11 @@ set(HEADERS
 
   networkremote/networkremote.h
   networkremote/tcpserver.h
-  networkremote/remoteclient.h
   networkremote/remotesettings.h
+  networkremote/client.h
+  networkremote/clientmanager.h
+  networkremote/incomingmsg.h
+  networkremote/outgoingmsg.h
 )
 
 set(UI

@@ -35,7 +35,7 @@ private:
   bool local_only_;
   int remote_port_;
   QHostAddress ipAddr_;
-  TcpServer *server_ = new TcpServer();
+  TcpServer *server_;
   QThread *original_thread_;
   static NetworkRemote* sInstance;
   RemoteSettings *s_ = new RemoteSettings;

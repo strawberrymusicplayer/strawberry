@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package network.remote;
+package spb.remote;
 
 enum MsgType {
     UNKNOWN = 0;

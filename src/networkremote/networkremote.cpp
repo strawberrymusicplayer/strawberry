@@ -5,9 +5,7 @@
 #include "networkremote/networkremote.h"
 #include "core/logging.h"
 
-
-class TcpServer;
-
+//class TcpServer;
 
 NetworkRemote* NetworkRemote::sInstance = nullptr;
 const char *NetworkRemote::kSettingsGroup = "Remote";
@@ -17,9 +15,10 @@ NetworkRemote::NetworkRemote(Application* app, QObject *parent)
       app_(app),
       original_thread_(nullptr)
 {
-  setObjectName("Network Remote");
+  setObjectName("Strawberry Remote");
   original_thread_ = thread();
   sInstance = this;
+  server_ = new TcpServer(app_);
 }
 
 NetworkRemote::~NetworkRemote()
