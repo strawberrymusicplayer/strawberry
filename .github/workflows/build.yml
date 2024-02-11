@@ -345,7 +345,7 @@ jobs:
         working-directory: build
         run: rpmbuild -ba ../dist/unix/strawberry.spec
       - name: Upload artifacts
-        if: matrix.opensuse_version != 'cooker'
+        if: matrix.openmandriva_version != 'cooker'
         uses: actions/upload-artifact@v4
         with:
           name: openmandriva-${{matrix.openmandriva_version}}
