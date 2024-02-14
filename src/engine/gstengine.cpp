@@ -413,14 +413,19 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
   GList *const features = gst_registry_get_feature_list(registry, GST_TYPE_ELEMENT_FACTORY);
   for (GList *future = features; future; future = g_list_next(future)) {
     GstElementFactory *factory = GST_ELEMENT_FACTORY(future->data);
-    const gchar *metadata = gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS);
-    if (QString(metadata).startsWith("Sink/Audio", Qt::CaseInsensitive)) {
-      OutputDetails output;
-      output.name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
-      output.description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
-      if (output.name == "wasapi2sink" && output.description == "Stream audio to an audio capture device through WASAPI") {
-        output.description.append("2");
+    const QString metadata = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS));
+    const QString name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
+    if (metadata.startsWith("Sink/Audio", Qt::CaseInsensitive) || name == "pipewiresink") {
+      QString description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
+      if (name == "wasapi2sink" && description == "Stream audio to an audio capture device through WASAPI") {
+        description.append("2");
       }
+      else if (name == "pipewiresink" && description == "Send video to PipeWire") {
+        description = "Send audio to PipeWire";
+      }
+      OutputDetails output;
+      output.name = name;
+      output.description = description;
       if (output.name == kAutoSink) output.iconname = "soundcard";
       else if (output.name == kALSASink || output.name == kOSS4Sink) output.iconname = "alsa";
       else if (output.name == kJackAudioSink) output.iconname = "jack";
