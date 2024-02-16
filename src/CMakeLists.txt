@@ -850,7 +850,7 @@ optional_source(WIN32
   HEADERS
     core/windows7thumbbar.h
 )
-optional_source(MSVC SOURCES engine/uwpdevicefinder.cpp)
+optional_source(MSVC SOURCES engine/uwpdevicefinder.cpp engine/asiodevicefinder.cpp)
 
 optional_source(HAVE_SUBSONIC
   SOURCES
