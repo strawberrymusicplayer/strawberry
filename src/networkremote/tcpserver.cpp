@@ -1,6 +1,7 @@
 #include "tcpserver.h"
 #include "core/logging.h"
 #include "networkremote/clientmanager.h"
+#include <QNetworkProxy>
 
 
 TcpServer::TcpServer(Application* app, QObject *parent)
@@ -19,6 +20,7 @@ TcpServer::~TcpServer()
 void TcpServer::StartServer(QHostAddress ipAddr, int port)
 {
   bool ok = false;
+  server_->setProxy(QNetworkProxy::NoProxy);
   ok = server_->listen(ipAddr, port);
   if (ok){
     qLog(Debug) << "TCP Server Started ----------------------";
