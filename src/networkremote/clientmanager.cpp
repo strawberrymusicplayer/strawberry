@@ -21,14 +21,18 @@ void ClientManager::AddClient(QTcpSocket *socket)
   client_ = new Client(app_);
   client_->Init(socket_);
   clients_->append(client_);
+  qLog(Debug) << "Socket State is " << socket_->state();;
   qLog(Debug) << "There are now +++++++++++++++" << clients_->count() << "clients connected";
 }
 
 void ClientManager::RemoveClient()
 {
+  for (Client* client : *clients_)  {
+    if (client->GetSocket() == socket_){
+      clients_->removeAt(clients_->indexOf(client));
+    }
+  }
   socket_->close();
-  //int pos = clients_->indexOf(client_->so);
-  //clients_->removeAll(pos);
   qLog(Debug) << "There are now +++++++++++++++" << clients_->count() << "clients connected";
 }
 
@@ -42,7 +46,7 @@ void ClientManager::Error(QAbstractSocket::SocketError socketError)
     switch (socketError) {
     case QAbstractSocket::RemoteHostClosedError:
         qLog(Debug) << "Remote Host closed";
-        RemoveClient();
+        //RemoveClient();
         break;
     case QAbstractSocket::HostNotFoundError:
         qLog(Debug) << "The host was not found. Please check the host name and port settings.";
@@ -58,5 +62,9 @@ void ClientManager::Error(QAbstractSocket::SocketError socketError)
 
 void ClientManager::StateChanged()
 {
+  qLog(Debug) << socket_->state();
   qLog(Debug) << "State Changed";
+  if (socket_->state() == QAbstractSocket::UnconnectedState){
+    RemoveClient();
+  }
 }
