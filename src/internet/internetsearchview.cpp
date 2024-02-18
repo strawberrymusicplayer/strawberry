@@ -176,7 +176,7 @@ void InternetSearchView::Init(Application *app, InternetServicePtr service) {
   QMenu *settings_menu = new QMenu(this);
   settings_menu->addActions(group_by_actions_->actions());
   settings_menu->addSeparator();
-  settings_menu->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, &InternetSearchView::OpenSettingsDialog);
+  settings_menu->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this, &InternetSearchView::OpenSettingsDialog);
   ui_->settings->setMenu(settings_menu);
 
   swap_models_timer_->setSingleShot(true);
