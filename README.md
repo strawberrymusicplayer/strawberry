@@ -29,7 +29,7 @@ Resources:
 * We do not take feature requests from users on GitHub. Any issues related to feature requests will be closed. This does not necessarily mean that we won't add new features, but we don't have time to take feature requests or answer questions about new features from users. It is still possible to suggest or discuss new features on the forum (https://forum.strawberrymusicplayer.org/).
 * We do not maintain the Flatpak package. Do not report issues related to Flatpak unless the issue can be reproduced with a native package, use Flatpak support instead https://flatpak.org/about/
 
-### :moneybag:	Sponsoring
+### :moneybag: Sponsoring
 
 The program is free software, released under GPL. If you like this program and can make use of it, consider sponsoring or donating to help fund the project.
 There are currently 4 options for sponsoring:
@@ -97,7 +97,7 @@ Optional dependencies:
 
 You should also install the gstreamer plugins base and good, and optionally bad, ugly and libav to support all audio formats.
 
-### :wrench:	Compiling from source
+### :wrench: Compiling from source
 
 ### Get the code:
 
@@ -118,6 +118,6 @@ Strawberry is backwards compatible with Qt 5, to compile with Qt 5 use:
 
 To compile on Windows with Visual Studio 2019 or 2022, see https://github.com/strawberrymusicplayer/strawberry-msvc
 
-### :penguin:	Packaging status
+### :penguin: Packaging status
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/strawberry.svg?exclude_unsupported=1)](https://repology.org/metapackage/strawberry/versions)

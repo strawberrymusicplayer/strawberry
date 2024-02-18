@@ -171,7 +171,7 @@ void PlaylistSequence::SetRepeatMode(const RepeatMode mode) {
     case RepeatMode::Album:    ui_->action_repeat_album->setChecked(true);    break;
     case RepeatMode::Playlist: ui_->action_repeat_playlist->setChecked(true); break;
     case RepeatMode::OneByOne: ui_->action_repeat_onebyone->setChecked(true); break;
-    case RepeatMode::Intro: ui_->action_repeat_intro->setChecked(true);	 break;
+    case RepeatMode::Intro: ui_->action_repeat_intro->setChecked(true);       break;
 
   }
 
@@ -234,11 +234,11 @@ void PlaylistSequence::CycleRepeatMode() {
   RepeatMode mode = RepeatMode::Off;
   //we cycle through the repeat modes
   switch (repeat_mode()) {
-    case RepeatMode::Off:		mode = RepeatMode::Track;	break;
-    case RepeatMode::Track:		mode = RepeatMode::Album;	break;
-    case RepeatMode::Album:		mode = RepeatMode::Playlist;    break;
-    case RepeatMode::Playlist:	        mode = RepeatMode::OneByOne;    break;
-    case RepeatMode::OneByOne:	        mode = RepeatMode::Intro;	break;
+    case RepeatMode::Off:       mode = RepeatMode::Track;     break;
+    case RepeatMode::Track:     mode = RepeatMode::Album;     break;
+    case RepeatMode::Album:     mode = RepeatMode::Playlist;  break;
+    case RepeatMode::Playlist:  mode = RepeatMode::OneByOne;  break;
+    case RepeatMode::OneByOne:  mode = RepeatMode::Intro;     break;
     case RepeatMode::Intro:
       break;
   }

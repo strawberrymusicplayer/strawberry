@@ -136,7 +136,7 @@ const QStringList Song::kColumns = QStringList() << "title"
                                                  << "ebur128_integrated_loudness_lufs"
                                                  << "ebur128_loudness_range_lu"
 
-						 ;
+                                                 ;
 
 const QString Song::kColumnSpec = Song::kColumns.join(", ");
 const QString Song::kBindSpec = Utilities::Prepend(":", Song::kColumns).join(", ");
