@@ -73,6 +73,7 @@ const char *GstEngine::kAVDTPSink = "avdtpsink";
 const char *GstEngine::InterAudiosink = "interaudiosink";
 const char *GstEngine::kDirectSoundSink = "directsoundsink";
 const char *GstEngine::kOSXAudioSink = "osxaudiosink";
+const char *GstEngine::kWASAPISink = "wasapisink";
 const int GstEngine::kDiscoveryTimeoutS = 10;
 const qint64 GstEngine::kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
 const qint64 GstEngine::kPreloadGapNanosec = 8000 * kNsecPerMsec;     // 8s
@@ -459,6 +460,10 @@ bool GstEngine::ALSADeviceSupport(const QString &output) {
   return (output == kALSASink);
 }
 
+bool GstEngine::ExclusiveModeSupport(const QString &output) {
+  return output == kWASAPISink;
+}
+
 void GstEngine::ReloadSettings() {
 
   EngineBase::ReloadSettings();
@@ -794,6 +799,7 @@ SharedPtr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
   SharedPtr<GstEnginePipeline> ret = make_shared<GstEnginePipeline>();
   ret->set_output_device(output_, device_);
+  ret->set_exclusive_mode(exclusive_mode_);
   ret->set_volume_enabled(volume_control_);
   ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
   ret->set_equalizer_enabled(equalizer_enabled_);

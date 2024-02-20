@@ -74,6 +74,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
     : QObject(parent),
       id_(sId++),
       valid_(false),
+      exclusive_mode_(false),
       volume_enabled_(true),
       stereo_balancer_enabled_(false),
       eq_enabled_(false),
@@ -219,6 +220,10 @@ void GstEnginePipeline::set_output_device(const QString &output, const QVariant 
   output_ = output;
   device_ = device;
 
+}
+
+void GstEnginePipeline::set_exclusive_mode(const bool exclusive_mode) {
+  exclusive_mode_ = exclusive_mode;
 }
 
 void GstEnginePipeline::set_volume_enabled(const bool enabled) {
@@ -518,6 +523,13 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       }
     }
 
+  }
+
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "exclusive")) {
+    if (exclusive_mode_) {
+      qLog(Debug) << "Setting exclusive mode for" << output_;
+    }
+    g_object_set(G_OBJECT(audiosink_), "exclusive", exclusive_mode_, nullptr);
   }
 
 #ifndef Q_OS_WIN32

@@ -70,6 +70,7 @@ class VLCEngine : public EngineBase {
   QString DefaultOutput() override { return ""; }
   bool CustomDeviceSupport(const QString &output) override;
   bool ALSADeviceSupport(const QString &output) override;
+  bool ExclusiveModeSupport(const QString &output) override;
 
  private:
   libvlc_instance_t *instance_;
