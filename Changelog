@@ -6,11 +6,18 @@ Unreleased:
 
   Bugfixes:
     * Fixed crash when pressing CTRL + C (#1359).
+    * Pass on scroll events to page in settings to avoid changing settings when scrolling with mouse (#1380).
     * (macOS/Windows) Fixed dash and hls streaming, plugins were missing.
 
   Enhancements:
     * Improve error messages when connecting and copying to devices.
     * Allow enter to be used with multiselection to add songs to playlist (#1360)
+    * Add song progress to taskbar using D-Bus.
+    * Use API to receive Radio Paradise channels.
+    * (Unix) Add experimental GStreamer pipewire support.
+    * (Windows) Add experimental exclusive mode for WASAPI.
+    * (Windows MSVC) Add ASIO support.
+    * (Windows MSVC) Add back WASAPI2.
 
 Version 1.0.23 (2024.01.11):
 
