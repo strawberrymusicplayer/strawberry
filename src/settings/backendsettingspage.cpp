@@ -341,11 +341,11 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
     ui_->groupbox_ebur128->setEnabled(false);
   }
 
-  if (ui_->combobox_output->count() >= 1) Load_Device(output, device);
-
 #ifdef Q_OS_WIN32
   ui_->widget_exclusive_mode->setEnabled(engine()->ExclusiveModeSupport(output));
 #endif
+
+  if (ui_->combobox_output->count() >= 1) Load_Device(output, device);
 
   FadingOptionsChanged();
 
@@ -568,6 +568,11 @@ void BackendSettingsPage::OutputChanged(const int index) {
   if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
+
+#ifdef Q_OS_WIN32
+  ui_->widget_exclusive_mode->setEnabled(engine()->ExclusiveModeSupport(output.name));
+#endif
+
   Load_Device(output.name, QVariant());
 
 }
