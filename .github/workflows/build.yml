@@ -1268,6 +1268,7 @@ jobs:
           -DUSE_TAGLIB=ON
           -DPKG_CONFIG_EXECUTABLE="${{env.prefix_path_forwardslash}}/bin/pkg-config.exe"
           -DICU_ROOT="${{env.prefix_path_forwardslash}}"
+          -DFFTW3_DIR="${{env.prefix_path_forwardslash}}"
 
       - name: Run Make
         shell: cmd
