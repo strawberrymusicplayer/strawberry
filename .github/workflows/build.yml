@@ -1226,7 +1226,7 @@ jobs:
         with:
           arch: ${{matrix.arch}}
           sdk: 10.0.20348.0
-          vsversion: 17
+          vsversion: 2022
           toolset: 14.3
 
       - name: Checkout
