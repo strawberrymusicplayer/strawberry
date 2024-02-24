@@ -1479,7 +1479,7 @@ jobs:
       - name: Install packages
         env:
           DEBIAN_FRONTEND: noninteractive
-        run: sudo apt install -y git hub
+        run: sudo apt install -y git jq gh
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -1487,7 +1487,7 @@ jobs:
       - name: Show release assets
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: hub release show -f "%as" ${{github.event.release.tag_name}}
+        run: gh release view "${{github.event.release.tag_name}}" --json assets | jq -r '.assets[].name'
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -1498,7 +1498,7 @@ jobs:
         run: |
           echo "Release version: ${{github.event.release.tag_name}}"
           filenames=()
-          a_files=()
+          files=()
           for i in $(find artifacts -type f); do
             filename=$(basename $i)
             if [[ ${filenames[@]} =~ ${filename} ]]; then
@@ -1506,16 +1506,16 @@ jobs:
               continue
             fi
             filenames+=("${filename}")
-            existing_asset=$(hub release show -f "%as" ${{github.event.release.tag_name}} | tr -d '[:blank:]' | grep ".*/${filename}\$" 2>/dev/null || true)
+            existing_asset=$(gh release view "${{github.event.release.tag_name}}" --json assets | jq -r '.assets[].name' | tr -d '[:blank:]' | grep ".*/${filename}\$" 2>/dev/null || true)
             if [ "${existing_asset}" = "" ]; then
               echo "Adding file: ${filename}"
-              a_files+=("-a" "${i}")
+              files+=("${i}")
             else
               echo "Release already has file: ${filename}"
             fi
           done
-          a_files_list="${a_files[@]}"
-          if ! [ "${a_files_list}" = "" ]; then
+          files_list="${files[@]}"
+          if ! [ "${files_list}" = "" ]; then
             echo "Adding files to GitHub release"
-            hub release edit -m "Strawberry ${{github.event.release.tag_name}}" ${a_files_list} "${{github.event.release.tag_name}}"
+            gh release upload "${{github.event.release.tag_name}}" ${files_list}
           fi
