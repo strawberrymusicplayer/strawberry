@@ -35,32 +35,32 @@
   background-color: %palette-base;
 }
 
-QToolButton {
+QToolButton[accessibleName="MenuPopupToolButton"] {
   border: 2px solid transparent;
   border-radius: 3px;
   padding: 1px;
 }
 
-QToolButton:hover {
+QToolButton:hover[accessibleName="MenuPopupToolButton"] {
   border: 2px solid %palette-highlight;
   background-color: %palette-highlight-lighter;
 }
 
-QToolButton:pressed {
+QToolButton:pressed[accessibleName="MenuPopupToolButton"] {
   border: 2px solid %palette-highlight-darker;
   background-color: %palette-highlight-lighter;
 }
 
-QToolButton[popupMode="MenuButtonPopup"], QToolButton:hover[popupMode="MenuButtonPopup"], QToolButton:pressed[popupMode="MenuButtonPopup"] {
+QToolButton[popupMode="MenuButtonPopup"][accessibleName="MenuPopupToolButton"], QToolButton:hover[popupMode="MenuButtonPopup"][accessibleName="MenuPopupToolButton"], QToolButton:pressed[popupMode="MenuButtonPopup"][accessibleName="MenuPopupToolButton"] {
   padding-right: 16px;
 }
 
 /* For backwards compatibility with Qt 5 as it does not support property name */
-QToolButton[popupMode="1"], QToolButton:hover[popupMode="1"], QToolButton:pressed[popupMode="1"] {
+QToolButton[popupMode="1"][accessibleName="MenuPopupToolButton"], QToolButton:hover[popupMode="1"][accessibleName="MenuPopupToolButton"], QToolButton:pressed[popupMode="1"][accessibleName="MenuPopupToolButton"] {
   padding-right: 16px;
 }
 
-QToolButton::menu-button {
+QToolButton::menu-button[accessibleName="MenuPopupToolButton"] {
   width: 16px;
   border: none;
 }

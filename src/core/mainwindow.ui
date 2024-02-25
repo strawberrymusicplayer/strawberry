@@ -122,6 +122,9 @@
                 </property>
                 <item>
                  <widget class="QToolButton" name="back_button">
+                  <property name="accessibleName">
+                   <string>MenuPopupToolButton</string>
+                  </property>
                   <property name="iconSize">
                    <size>
                     <width>32</width>
@@ -135,6 +138,9 @@
                 </item>
                 <item>
                  <widget class="QToolButton" name="pause_play_button">
+                  <property name="accessibleName">
+                   <string>MenuPopupToolButton</string>
+                  </property>
                   <property name="iconSize">
                    <size>
                     <width>32</width>
@@ -150,6 +156,9 @@
                  <widget class="QToolButton" name="stop_button">
                   <property name="enabled">
                    <bool>false</bool>
+                  </property>
+                  <property name="accessibleName">
+                   <string>MenuPopupToolButton</string>
                   </property>
                   <property name="iconSize">
                    <size>
@@ -167,6 +176,9 @@
                 </item>
                 <item>
                  <widget class="QToolButton" name="forward_button">
+                  <property name="accessibleName">
+                   <string>MenuPopupToolButton</string>
+                  </property>
                   <property name="iconSize">
                    <size>
                     <width>32</width>
@@ -205,6 +217,9 @@
                    </item>
                    <item>
                     <widget class="QToolButton" name="button_love">
+                     <property name="accessibleName">
+                      <string>MenuPopupToolButton</string>
+                     </property>
                      <property name="iconSize">
                       <size>
                        <width>32</width>

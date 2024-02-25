@@ -54,6 +54,9 @@
               <height>0</height>
              </size>
             </property>
+            <property name="accessibleName">
+             <string>MenuPopupToolButton</string>
+            </property>
             <property name="iconSize">
              <size>
               <width>16</width>

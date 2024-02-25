@@ -38,6 +38,9 @@
    </item>
    <item>
     <widget class="QToolButton" name="options">
+     <property name="accessibleName">
+      <string>MenuPopupToolButton</string>
+     </property>
      <property name="iconSize">
       <size>
        <width>16</width>
