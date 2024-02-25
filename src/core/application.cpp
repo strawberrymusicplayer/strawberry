@@ -67,7 +67,6 @@
 #include "lyrics/songlyricscomlyricsprovider.h"
 #include "lyrics/azlyricscomlyricsprovider.h"
 #include "lyrics/elyricsnetlyricsprovider.h"
-#include "lyrics/lyricsmodecomlyricsprovider.h"
 
 #include "scrobbler/audioscrobbler.h"
 #include "scrobbler/lastfmscrobbler.h"
@@ -169,7 +168,6 @@ class ApplicationImpl {
           lyrics_providers->AddProvider(new SongLyricsComLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new AzLyricsComLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new ElyricsNetLyricsProvider(app->network()));
-          lyrics_providers->AddProvider(new LyricsModeComLyricsProvider(app->network()));
           lyrics_providers->ReloadSettings();
           return lyrics_providers;
         }),
