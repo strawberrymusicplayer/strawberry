@@ -20,6 +20,7 @@ public:
 
 signals:
 
+
 private:
   Application *app_;
   QTcpSocket *socket_;

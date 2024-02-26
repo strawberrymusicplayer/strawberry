@@ -6,21 +6,20 @@ Client::Client(Application *app, QObject *parent)
       msgReceived_(new IncomingMsg),
       newMsg_(new OutgoingMsg)
 {
-
 }
 
 Client::~Client()
 {
-
 }
 
 void Client::Init(QTcpSocket *socket)
 {
   socket_ = socket;
-  // socket_->setSocketDescriptor(socket_, 3, ReadWrite)
+  msgReceived_->Init(socket_);
 }
 
 QTcpSocket* Client::GetSocket()
 {
   return socket_;
 }
+

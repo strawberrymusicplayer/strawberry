@@ -1,23 +1,32 @@
 cmake_minimum_required(VERSION 3.14)
 
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
+set(SOURCES RemoteMessages.proto)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+link_directories(
+  ${GLIB_LIBRARY_DIRS}
+  ${PROTOBUF_LIBRARY_DIRS}
+)
 
-#find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
-#find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
+add_library(lib-networkremote OBJECT ${PROTO_SOURCES} ${SOURCES})
 
-add_subdirectory(proto)
+target_include_directories(lib-networkremote SYSTEM PRIVATE
+  ${GLIB_INCLUDE_DIRS}
+  ${PROTOBUF_INCLUDE_DIRS}
+)
 
-#target_link_libraries(MyProtoBuffTest Qt${QT_VERSION_MAJOR}::Core)
-#target_include_directories(MyProtoBuffTest PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+target_include_directories(lib-networkremote PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
+  ${CMAKE_SOURCE_DIR}/src
+  ${CMAKE_BINARY_DIR}/src
+)
 
+target_link_libraries(lib-networkremote PRIVATE
+  ${GLIB_LIBRARIES}
+  ${Protobuf_LIBRARIES}
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Network
+  Qt${QT_VERSION_MAJOR}::Gui
+)
 
-#include(GNUInstallDirs)
-#install(TARGETS MyProtoBuffTest
-#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-
+protobuf_generate(TARGET lib-networkremote)

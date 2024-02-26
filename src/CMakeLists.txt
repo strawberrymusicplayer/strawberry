@@ -1128,6 +1128,7 @@ target_link_libraries(strawberry_lib PUBLIC
   ${SINGLEAPPLICATION_LIBRARIES}
   libstrawberry-common
   libstrawberry-tagreader
+  lib-networkremote
 )
 
 if(HAVE_DBUS)

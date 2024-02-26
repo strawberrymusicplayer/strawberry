@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+option optimize_for = LITE_RUNTIME;
+
+package nw.remote;
+
+enum MsgType {
+    MSG_TYPE_UNSPECIFIED = 0;
+
+    // Client messages
+    MSG_TYPE_CONNECT = 1;
+    MSG_TYPE_DISCONNECT = 2;
+    MSG_TYPE_PLAY = 3;
+    MSG_TYPE_NEXT = 4;
+    MSG_TYPE_PREVIOUS = 5;
+    MSG_TYPE_PAUSE = 6;
+    MSG_TYPE_STOP = 7;
+
+}
+
+message RequestConnect {
+    bool send_current_song = 1;
+}
+
+enum ReasonDisconnect {
+    REASON_DISCONNECT_SERVER_SHUTDOWN = 0;
+    REASON_DISCONNECT_CLIENT_SHUTDOWN = 1;
+}
+
+message RequestDisconnect {
+    ReasonDisconnect reason_disconnect = 1;
+}
+
+message SongMetadata{
+    uint32 id = 1;
+    string title = 2;
+    string album = 3;
+    string artist = 4;
+    string albumartist = 5;
+    uint32 track = 6;
+    string stryear = 7;
+    string genre = 8;
+    uint32 playcount = 9;
+    string songlength = 10;
+}
+message RequestSongMetadata {
+    SongMetadata song_metadata = 1;
+}
+
+message ResponseSongMetadata {
+    SongMetadata song_metadata = 1;
+}
+
+message RequestNextTrack {
+    bool next = 1;
+}
+
+message RequestPreviousTrack {
+    bool previous = 1;
+}
+
+message RequestPlay {
+    bool play = 1;
+}
+
+message RequestPause {
+    bool pause = 1;
+}
+
+message RequestStop {
+    bool stop = 1;
+}
+message Message {
+    uint32 version = 1;
+    MsgType type = 2;
+    RequestSongMetadata request_song_metadata = 3;
+    ResponseSongMetadata response_song_metadata = 4;
+    RequestNextTrack request_next_track = 5;
+    RequestPreviousTrack request_previous_track = 6;
+    RequestPlay request_play = 7;
+    RequestPause request_pause = 8;
+    RequestStop request_stop = 9;
+    RequestConnect request_connect = 10;
+    RequestDisconnect request_disconnect = 11;
+}
+
