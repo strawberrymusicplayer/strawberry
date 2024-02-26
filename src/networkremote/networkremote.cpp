@@ -64,7 +64,7 @@ void NetworkRemote::LoadSettings()
 void NetworkRemote::startTcpServer()
 {
   server_->StartServer(ipAddr_,remote_port_);
-  qLog(Debug) << "TcpServer started on IP " << ipAddr_<< " and port" << remote_port_;
+  //qLog(Debug) << "TcpServer started on IP " << ipAddr_<< " and port" << remote_port_;
 }
 
 void NetworkRemote::stopTcpServer()

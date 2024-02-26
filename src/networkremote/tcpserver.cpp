@@ -23,7 +23,7 @@ void TcpServer::StartServer(QHostAddress ipAddr, int port)
   server_->setProxy(QNetworkProxy::NoProxy);
   ok = server_->listen(ipAddr, port);
   if (ok){
-    qLog(Debug) << "TCP Server Started ----------------------";
+    qLog(Debug) << "TCP Server Started on --- " << ipAddr.toString() << " and port -- " << port;
   }
 }
 
