@@ -163,6 +163,7 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
                            .remove(QRegularExpression("<script>[^>]*</script>"))
                            .remove(QRegularExpression("<div [^>]*>×</div>"))
                            .replace(QRegularExpression("<br[^>]*>"), "\n")
+                           .replace(QRegularExpression("</p>"), "\n\n")
                            .remove(QRegularExpression("<[^>]*>"))
                            .trimmed());
     }
