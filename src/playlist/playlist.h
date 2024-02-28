@@ -74,18 +74,6 @@ using ColumnAlignmentMap = QMap<int, Qt::Alignment>;
 Q_DECLARE_METATYPE(Qt::Alignment)
 Q_DECLARE_METATYPE(ColumnAlignmentMap)
 
-// Objects that may prevent a song being added to the playlist.
-// When there is something about to be inserted into it,
-// Playlist notifies all of its listeners about the fact and every one of them picks 'invalid' songs.
-class SongInsertVetoListener : public QObject {
-  Q_OBJECT
-
- public:
-  // Listener returns a list of 'invalid' songs.
-  // 'old_songs' are songs that are currently in the playlist and 'new_songs' are the songs about to be added if nobody exercises a veto.
-  virtual SongList AboutToInsertSongs(const SongList &old_songs, const SongList &new_songs) = 0;
-};
-
 class Playlist : public QAbstractListModel {
   Q_OBJECT
 
@@ -258,11 +246,6 @@ class Playlist : public QAbstractListModel {
   void ReloadItemsBlocking(const QList<int> &rows);
   void InformOfCurrentSongChange(const AutoScroll autoscroll, const bool minor);
 
-  // Registers an object which will get notifications when new songs are about to be inserted into this playlist.
-  void AddSongInsertVetoListener(SongInsertVetoListener *listener);
-  // Unregisters a SongInsertVetoListener object.
-  void RemoveSongInsertVetoListener(SongInsertVetoListener *listener);
-
   // Just emits the dataChanged() signal so the mood column is repainted.
 #ifdef HAVE_MOODBAR
   void MoodbarUpdated(const QModelIndex &idx);
@@ -376,7 +359,6 @@ class Playlist : public QAbstractListModel {
   void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx, const Song &old_metadata);
   void ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit);
   void ItemsLoaded();
-  void SongInsertVetoListenerDestroyed();
   void ScheduleSave();
   void Save();
 
@@ -419,8 +401,6 @@ class Playlist : public QAbstractListModel {
   QUndoStack *undo_stack_;
 
   ColumnAlignmentMap column_alignments_;
-
-  QList<SongInsertVetoListener*> veto_listeners_;
 
   QString special_type_;
 
