@@ -18,8 +18,6 @@
  */
 
 #include <QObject>
-#include <QByteArray>
-#include <QVariant>
 #include <QString>
 #include <QUrl>
 #include <QRegularExpression>

@@ -22,8 +22,6 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QList>
-#include <QVariant>
 #include <QString>
 #include <QUrl>
 
