@@ -1,5 +1,7 @@
 #include "clientmanager.h"
+#include "core/application.h"
 #include "core/logging.h"
+
 
 ClientManager::ClientManager(Application *app, QObject *parent)
     : QObject{parent},
@@ -21,6 +23,7 @@ void ClientManager::AddClient(QTcpSocket *socket)
   client_ = new Client(app_);
   client_->Init(socket_);
   clients_->append(client_);
+
   qLog(Debug) << "Socket State is " << socket_->state();;
   qLog(Debug) << "There are now +++++++++++++++" << clients_->count() << "clients connected";
 }
@@ -30,9 +33,11 @@ void ClientManager::RemoveClient()
   for (Client* client : *clients_)  {
     if (client->GetSocket() == socket_){
       clients_->removeAt(clients_->indexOf(client));
+      client->deleteLater();
     }
   }
   socket_->close();
+
   qLog(Debug) << "There are now +++++++++++++++" << clients_->count() << "clients connected";
 }
 

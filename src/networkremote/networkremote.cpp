@@ -3,9 +3,10 @@
 #include <QThread>
 
 #include "networkremote/networkremote.h"
+#include "core/application.h"
 #include "core/logging.h"
+#include "core/player.h"
 
-//class TcpServer;
 
 NetworkRemote* NetworkRemote::sInstance = nullptr;
 const char *NetworkRemote::kSettingsGroup = "Remote";
@@ -35,6 +36,7 @@ void NetworkRemote::Init()
   else {
     stopTcpServer();
   }
+
   qLog(Debug) << "NetworkRemote Init() ";
 }
 
@@ -64,7 +66,7 @@ void NetworkRemote::LoadSettings()
 void NetworkRemote::startTcpServer()
 {
   server_->StartServer(ipAddr_,remote_port_);
-  //qLog(Debug) << "TcpServer started on IP " << ipAddr_<< " and port" << remote_port_;
+
 }
 
 void NetworkRemote::stopTcpServer()
@@ -80,6 +82,7 @@ NetworkRemote* NetworkRemote::Instance() {
     // Error
     return nullptr;
   }
+
   qLog(Debug) << "NetworkRemote instance is up ";
   return sInstance;
 }

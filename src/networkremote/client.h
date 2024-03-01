@@ -6,6 +6,7 @@
 
 #include "incomingmsg.h"
 #include "outgoingmsg.h"
+#include "core/player.h"
 
 class Application;
 
@@ -18,8 +19,12 @@ public:
     void Init(QTcpSocket*);
     QTcpSocket* GetSocket();
 
-signals:
+public slots:
+  void Respond();
 
+signals:
+  void ReceiveMsg();
+  void PrepareResponse();
 
 private:
   Application *app_;
