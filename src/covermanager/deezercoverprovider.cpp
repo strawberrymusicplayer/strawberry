@@ -265,12 +265,9 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
     }
     QString album = obj_album["title"].toString();
 
-    album = album.remove(Song::kAlbumRemoveDisc);
-    album = album.remove(Song::kAlbumRemoveMisc);
-
     CoverProviderSearchResult cover_result;
     cover_result.artist = artist;
-    cover_result.album = album;
+    cover_result.album = Song::AlbumRemoveDiscMisc(album);
 
     bool have_cover = false;
     QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QString("cover_xl"), QSize(1000, 1000))

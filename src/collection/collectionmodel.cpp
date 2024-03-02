@@ -1681,7 +1681,7 @@ QString CollectionModel::PrettyYearAlbum(const int year, const QString &album) {
 
 QString CollectionModel::PrettyAlbumDisc(const QString &album, const int disc) {
 
-  if (disc <= 0 || album.contains(Song::kAlbumRemoveDisc)) return TextOrUnknown(album);
+  if (disc <= 0 || Song::AlbumContainsDisc(album)) return TextOrUnknown(album);
   else return TextOrUnknown(album) + " - (Disc " + QString::number(disc) + ")";
 
 }
@@ -1693,7 +1693,7 @@ QString CollectionModel::PrettyYearAlbumDisc(const int year, const QString &albu
   if (year <= 0) str = TextOrUnknown(album);
   else str = QString::number(year) + " - " + TextOrUnknown(album);
 
-  if (!album.contains(Song::kAlbumRemoveDisc) && disc > 0) str += " - (Disc " + QString::number(disc) + ")";
+  if (!Song::AlbumContainsDisc(album) && disc > 0) str += " - (Disc " + QString::number(disc) + ")";
 
   return str;
 

@@ -66,9 +66,7 @@ quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString 
   CoverSearchRequest request;
   request.id = ++next_id_;
   request.artist = artist;
-  request.album = album;
-  request.album = request.album.remove(Song::kAlbumRemoveDisc);
-  request.album = request.album.remove(Song::kAlbumRemoveMisc);
+  request.album = Song::AlbumRemoveDiscMisc(album);
   request.title = title;
   request.search = false;
   request.batch = batch;
@@ -83,9 +81,7 @@ quint64 AlbumCoverFetcher::SearchForCovers(const QString &artist, const QString 
   CoverSearchRequest request;
   request.id = ++next_id_;
   request.artist = artist;
-  request.album = album;
-  request.album = request.album.remove(Song::kAlbumRemoveDisc);
-  request.album = request.album.remove(Song::kAlbumRemoveMisc);
+  request.album = Song::AlbumRemoveDiscMisc(album);
   request.title = title;
   request.search = true;
   request.batch = false;

@@ -333,7 +333,7 @@ AlbumCoverImageResult AlbumCoverChoiceController::SearchForImage(Song *song) {
   if (!song->url().isValid() || !song->url().isLocalFile() || song->effective_albumartist().isEmpty() || song->album().isEmpty()) return AlbumCoverImageResult();
 
   QString album = song->effective_album();
-  album = album.remove(Song::kAlbumRemoveDisc).remove(Song::kAlbumRemoveMisc);
+  album = Song::AlbumRemoveDiscMisc(album);
 
   // Get something sensible to stick in the search box
   return cover_searcher_->Exec(song->effective_albumartist(), album);
