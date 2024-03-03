@@ -125,6 +125,8 @@ class Song {
 
   using RegularExpressionList = QList<QRegularExpression>;
   static const RegularExpressionList kAlbumDisc;
+  static const RegularExpressionList kRemastered;
+  static const RegularExpressionList kExplicit;
   static const RegularExpressionList kAlbumMisc;
   static const RegularExpressionList kTitleMisc;
 

@@ -172,15 +172,23 @@ const Song::RegularExpressionList Song::kAlbumDisc = Song::RegularExpressionList
     << QRegularExpression("\\s+-*\\s*\\(\\s*(Disc|CD)\\s*([0-9]{1,2})\\)$", QRegularExpression::CaseInsensitiveOption)
     << QRegularExpression("\\s+-*\\s*\\[\\s*(Disc|CD)\\s*([0-9]{1,2})\\]$", QRegularExpression::CaseInsensitiveOption);
 
+const Song::RegularExpressionList Song::kRemastered = Song::RegularExpressionList()
+    << QRegularExpression("\\s+-*\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*$", QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression("\\s+-*\\s*\\(\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*\\)\\s*$", QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression("\\s+-*\\s*\\[\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*\\]\\s*$", QRegularExpression::CaseInsensitiveOption);
+
+const Song::RegularExpressionList Song::kExplicit = Song::RegularExpressionList()
+    << QRegularExpression("\\s+-*\\s*Explicit\\s*$", QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression("\\s+-*\\s*\\(\\s*Explicit\\s*\\)\\s*$", QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression("\\s+-*\\s*\\[\\s*Explicit\\s*\\]\\s*$", QRegularExpression::CaseInsensitiveOption);
+
 const Song::RegularExpressionList Song::kAlbumMisc = Song::RegularExpressionList()
-    << QRegularExpression("\\s+-*\\s*(Remastered|([0-9]{1,4})\\s*Remaster|Explicit)\\s*$", QRegularExpression::CaseInsensitiveOption)
-    << QRegularExpression("\\s+-*\\s*\\(\\s*(Remastered|([0-9]{1,4})\\s*Remaster|Explicit)\\s*\\)\\s*$", QRegularExpression::CaseInsensitiveOption)
-    << QRegularExpression("\\s+-*\\s*\\[\\s*(Remastered|([0-9]{1,4})\\s*Remaster|Explicit)\\s*\\]\\s*$", QRegularExpression::CaseInsensitiveOption);
+    << kRemastered
+    << kExplicit;
 
 const Song::RegularExpressionList Song::kTitleMisc = Song::RegularExpressionList()
-    << QRegularExpression("\\s+-*\\s*(Remastered|Remastered Version|([0-9]{1,4})\\s*Remaster)\\s*$", QRegularExpression::CaseInsensitiveOption)
-    << QRegularExpression("\\s+-*\\s*\\(\\s*(Remastered|Remastered Version|([0-9]{1,4})\\s*Remaster)\\s*\\)\\s*$", QRegularExpression::CaseInsensitiveOption)
-    << QRegularExpression("\\s+-*\\s*\\[\\s*(Remastered|Remastered Version|([0-9]{1,4})\\s*Remaster)\\s*\\]\\s*$", QRegularExpression::CaseInsensitiveOption);
+    << kRemastered
+    << kExplicit;
 
 const QStringList Song::kArticles = QStringList() << "the " << "a " << "an ";
 
