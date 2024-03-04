@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "core/application.h"
+#include "playlist/playlist.h"
 #include "playlist/playlistitem.h"
 #include "qtcpsocket.h"
 #include "networkremote/RemoteMessages.pb.h"
@@ -15,6 +16,7 @@ public:
   ~OutgoingMsg()  ;
   void ProcessMsg(QTcpSocket*, qint32);
   void SendCurrentTrackInfo();
+  void SendMsg();
 
 private slots:
 
@@ -25,10 +27,17 @@ private:
 
   Application *app_;
   PlaylistItemPtr currentItem_;
+  Playlist *playlist_;
   QTcpSocket *socket_;
   qint32 msgType_;
   QByteArray msgStream_;
-
+  nw::remote::Message *msg_;
+  long bytesOut_;
+  std::string msgString_;
+  nw::remote::SongMetadata *song_;
+  nw::remote::ResponseSongMetadata *responeSong_;
+  EngineBase::State playerState_;
+  SharedPtr<Player> player_ ;
 };
 
 #endif // OUTGOINGMSG_H

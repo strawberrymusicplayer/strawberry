@@ -10,14 +10,22 @@ enum MsgType {
     // Client messages
     MSG_TYPE_CONNECT = 1;
     MSG_TYPE_DISCONNECT = 2;
-    MSG_TYPE_PLAY = 3;
-    MSG_TYPE_NEXT = 4;
-    MSG_TYPE_PREVIOUS = 5;
-    MSG_TYPE_PAUSE = 6;
-    MSG_TYPE_STOP = 7;
+    MSG_TYPE_REQUEST_SONG_INFO = 3;
+    MSG_TYPE_PLAY = 4;
+    MSG_TYPE_NEXT = 5;
+    MSG_TYPE_PREVIOUS = 6;
+    MSG_TYPE_PAUSE = 7;
+    MSG_TYPE_STOP = 8;
+
+    // Server messages
+    MSG_TYPE_CONNECT_OK = 9;
 
 }
 
+enum PlayerState{
+    PLAYER_STATUS_UNSPECIFIED = 0;
+    PLAYER_STATUS_PLAYING = 1;
+}
 message RequestConnect {
     bool send_current_song = 1;
 }
@@ -49,6 +57,7 @@ message RequestSongMetadata {
 
 message ResponseSongMetadata {
     SongMetadata song_metadata = 1;
+    PlayerState player_state = 2;
 }
 
 message RequestNextTrack {
