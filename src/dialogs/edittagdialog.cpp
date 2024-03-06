@@ -87,6 +87,7 @@
 #  include "musicbrainz/tagfetcher.h"
 #  include "trackselectiondialog.h"
 #endif
+#include "lyrics/lyricsfetcher.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/albumcoverloaderoptions.h"
@@ -112,13 +113,15 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       tag_fetcher_(new TagFetcher(app->network(), this)),
       results_dialog_(new TrackSelectionDialog(this)),
 #endif
+      lyrics_fetcher_(new LyricsFetcher(app->lyrics_providers(), this)),
       image_no_cover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(128, 128), devicePixelRatioF())),
       loading_(false),
       ignore_edits_(false),
       summary_cover_art_id_(-1),
       tags_cover_art_id_(-1),
       cover_art_is_set_(false),
-      save_tag_pending_(0) {
+      save_tag_pending_(0),
+      lyrics_id_(-1) {
 
   QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &EditTagDialog::AlbumCoverLoaded);
 
@@ -128,6 +131,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   QObject::connect(results_dialog_, &TrackSelectionDialog::SongChosen, this, &EditTagDialog::FetchTagSongChosen);
   QObject::connect(results_dialog_, &TrackSelectionDialog::finished, tag_fetcher_, &TagFetcher::Cancel);
 #endif
+  QObject::connect(lyrics_fetcher_, &LyricsFetcher::LyricsFetched, this, &EditTagDialog::UpdateLyrics);
 
   album_cover_choice_controller_->Init(app_);
 
@@ -193,6 +197,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 #ifdef HAVE_MUSICBRAINZ
   QObject::connect(ui_->fetch_tag, &QPushButton::clicked, this, &EditTagDialog::FetchTag);
 #endif
+  QObject::connect(ui_->fetch_lyrics, &QPushButton::clicked, this, &EditTagDialog::FetchLyrics);
 
   // Set up the album cover menu
   cover_menu_ = new QMenu(this);
@@ -605,6 +610,8 @@ void EditTagDialog::SelectionChanged() {
 
   // Set the editable fields
   UpdateUI(indexes);
+
+  lyrics_id_ = -1;
 
   // If we're editing multiple songs then we have to disable certain tabs
   const bool multiple = indexes.count() > 1;
@@ -1408,6 +1415,31 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
   Q_UNUSED(original_song)
   Q_UNUSED(new_metadata)
 #endif
+
+}
+
+void EditTagDialog::FetchLyrics() {
+
+  if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
+  const Song &song = data_[ui_->song_list->selectionModel()->selectedIndexes().first().row()].current_;
+  lyrics_fetcher_->Clear();
+  ui_->lyrics->setPlainText(tr("loading..."));
+  lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song.effective_albumartist(), song.artist(), song.album(), song.title()));
+
+}
+
+void EditTagDialog::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics) {
+
+  Q_UNUSED(provider);
+
+  if (static_cast<qint64>(id) != lyrics_id_) return;
+  lyrics_id_ = -1;
+  if (lyrics.isEmpty()) {
+    ui_->lyrics->setPlainText(tr("Not found."));
+  }
+  else {
+    ui_->lyrics->setPlainText(lyrics);
+  }
 
 }
 
