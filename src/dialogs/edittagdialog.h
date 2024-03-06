@@ -57,6 +57,7 @@ class Ui_EditTagDialog;
 #ifdef HAVE_MUSICBRAINZ
 class TrackSelectionDialog;
 class TagFetcher;
+class LyricsFetcher;
 #endif
 
 class EditTagDialog : public QDialog {
@@ -120,6 +121,8 @@ class EditTagDialog : public QDialog {
   void SongRated(const float rating);
   void FetchTag();
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);
+  void FetchLyrics();
+  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
 
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &cover_result);
 
@@ -185,6 +188,7 @@ class EditTagDialog : public QDialog {
   TagFetcher *tag_fetcher_;
   TrackSelectionDialog *results_dialog_;
 #endif
+  LyricsFetcher *lyrics_fetcher_;
 
   const QImage image_no_cover_thumbnail_;
 

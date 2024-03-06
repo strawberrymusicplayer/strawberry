@@ -1131,6 +1131,13 @@
               </property>
              </widget>
             </item>
+            <item row="21" column="1">
+              <widget class="QPushButton" name="fetch_lyrics">
+                <property name="text">
+                  <string>Complete lyrics automatically</string>
+                </property>
+              </widget>
+            </item>
            </layout>
           </widget>
          </widget>
@@ -1213,6 +1220,7 @@
   <tabstop>fetch_tag</tabstop>
   <tabstop>comment</tabstop>
   <tabstop>lyrics</tabstop>
+  <tabstop>fetch_lyrics</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>

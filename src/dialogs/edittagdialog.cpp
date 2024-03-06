@@ -87,6 +87,7 @@
 #  include "musicbrainz/tagfetcher.h"
 #  include "trackselectiondialog.h"
 #endif
+#include "lyrics/lyricsfetcher.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/albumcoverloaderoptions.h"
@@ -112,6 +113,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       tag_fetcher_(new TagFetcher(app->network(), this)),
       results_dialog_(new TrackSelectionDialog(this)),
 #endif
+      lyrics_fetcher_(new LyricsFetcher(app->lyrics_providers(), this)),
       image_no_cover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(128, 128), devicePixelRatioF())),
       loading_(false),
       ignore_edits_(false),
@@ -128,6 +130,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   QObject::connect(results_dialog_, &TrackSelectionDialog::SongChosen, this, &EditTagDialog::FetchTagSongChosen);
   QObject::connect(results_dialog_, &TrackSelectionDialog::finished, tag_fetcher_, &TagFetcher::Cancel);
 #endif
+  QObject::connect(lyrics_fetcher_, &LyricsFetcher::LyricsFetched, this, &EditTagDialog::UpdateLyrics);
 
   album_cover_choice_controller_->Init(app_);
 
@@ -193,6 +196,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 #ifdef HAVE_MUSICBRAINZ
   QObject::connect(ui_->fetch_tag, &QPushButton::clicked, this, &EditTagDialog::FetchTag);
 #endif
+  QObject::connect(ui_->fetch_lyrics, &QPushButton::clicked, this, &EditTagDialog::FetchLyrics);
 
   // Set up the album cover menu
   cover_menu_ = new QMenu(this);
@@ -1408,6 +1412,23 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
   Q_UNUSED(original_song)
   Q_UNUSED(new_metadata)
 #endif
+
+}
+
+void EditTagDialog::FetchLyrics() {
+
+  Song song = data_[ui_->song_list->selectionModel()->selectedIndexes().first().row()].original_;
+  lyrics_fetcher_->Clear();
+  lyrics_fetcher_->Search(song.effective_albumartist(), song.artist(), song.album(), song.title());
+
+}
+
+void EditTagDialog::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics) {
+
+  Q_UNUSED(id);
+  Q_UNUSED(provider);
+
+  ui_->lyrics->setPlainText(lyrics);
 
 }
 
