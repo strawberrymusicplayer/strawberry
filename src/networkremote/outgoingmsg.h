@@ -19,7 +19,7 @@ public:
   void SendMsg();
 
 private slots:
-
+  void EngineChanged();
 
 signals:
 
@@ -38,6 +38,7 @@ private:
   nw::remote::ResponseSongMetadata *responeSong_;
   EngineBase::State playerState_;
   SharedPtr<Player> player_ ;
+  bool statusOk_;
 };
 
 #endif // OUTGOINGMSG_H

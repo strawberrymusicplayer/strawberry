@@ -29,8 +29,8 @@ signals:
 private:
   Application *app_;
   QTcpSocket *socket_;
-  IncomingMsg *msgReceived_;
-  OutgoingMsg *newMsg_;
+  IncomingMsg *incomingMsg_;
+  OutgoingMsg *outgoingMsg_;
 };
 
 #endif // CLIENT_H

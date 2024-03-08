@@ -3,23 +3,23 @@
 Client::Client(Application *app, QObject *parent)
     : QObject{parent},
       app_(app),
-      msgReceived_(new IncomingMsg(app)),
-      newMsg_(new OutgoingMsg(app))
+      incomingMsg_(new IncomingMsg(app)),
+      outgoingMsg_(new OutgoingMsg(app))
 {
 }
 
 Client::~Client()
 {
-  msgReceived_->deleteLater();
-  newMsg_->deleteLater();
+  incomingMsg_->deleteLater();
+  outgoingMsg_->deleteLater();
 }
 
 void Client::Init(QTcpSocket *socket)
 {
   socket_ = socket;
-  QObject::connect(msgReceived_,&IncomingMsg::InMsgParsed,this, &Client::Respond);
+  QObject::connect(incomingMsg_,&IncomingMsg::InMsgParsed,this, &Client::Respond);
 
-  msgReceived_->Init(socket_);
+  incomingMsg_->Init(socket_);
 }
 
 QTcpSocket* Client::GetSocket()
@@ -29,6 +29,6 @@ QTcpSocket* Client::GetSocket()
 
 void Client::Respond()
 {
-  newMsg_->ProcessMsg(socket_, msgReceived_->GetMsgType());
+  outgoingMsg_->ProcessMsg(socket_, incomingMsg_->GetMsgType());
 }
 

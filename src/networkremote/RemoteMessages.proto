@@ -7,27 +7,32 @@ package nw.remote;
 enum MsgType {
     MSG_TYPE_UNSPECIFIED = 0;
 
-    // Client messages
-    MSG_TYPE_CONNECT = 1;
-    MSG_TYPE_DISCONNECT = 2;
-    MSG_TYPE_REQUEST_SONG_INFO = 3;
-    MSG_TYPE_PLAY = 4;
-    MSG_TYPE_NEXT = 5;
-    MSG_TYPE_PREVIOUS = 6;
-    MSG_TYPE_PAUSE = 7;
-    MSG_TYPE_STOP = 8;
+    // Client message
+    MSG_TYPE_REQUEST_SONG_INFO = 1;
+    MSG_TYPE_PLAY = 2;
+    MSG_TYPE_NEXT = 3;
+    MSG_TYPE_PREVIOUS = 4;
+    MSG_TYPE_PAUSE = 5;
+    MSG_TYPE_STOP = 6;
 
     // Server messages
-    MSG_TYPE_CONNECT_OK = 9;
+    MSG_TYPE_REPLY_SONG_INFO = 7;
+    MSG_TYPE_ENGINE_STATE_CHANGE = 8;
 
+    // Bidirectional messages
+    MSG_TYPE_DISCONNECT = 9;
 }
 
 enum PlayerState{
     PLAYER_STATUS_UNSPECIFIED = 0;
     PLAYER_STATUS_PLAYING = 1;
 }
-message RequestConnect {
-    bool send_current_song = 1;
+
+enum EngineState {
+    ENGINE_STATE_EMPTY = 0;
+    ENGINE_STATE_IDELE = 1;
+    ENGINE_STATE_PLAYING = 2;
+    ENGINE_STATE_PAUSED = 3;
 }
 
 enum ReasonDisconnect {
@@ -52,7 +57,7 @@ message SongMetadata{
     string songlength = 10;
 }
 message RequestSongMetadata {
-    SongMetadata song_metadata = 1;
+    bool send = 1;
 }
 
 message ResponseSongMetadata {
@@ -79,17 +84,20 @@ message RequestPause {
 message RequestStop {
     bool stop = 1;
 }
+
+message EngineStateChange {
+    EngineState state = 1;
+}
 message Message {
-    uint32 version = 1;
-    MsgType type = 2;
-    RequestSongMetadata request_song_metadata = 3;
-    ResponseSongMetadata response_song_metadata = 4;
-    RequestNextTrack request_next_track = 5;
-    RequestPreviousTrack request_previous_track = 6;
-    RequestPlay request_play = 7;
-    RequestPause request_pause = 8;
-    RequestStop request_stop = 9;
-    RequestConnect request_connect = 10;
-    RequestDisconnect request_disconnect = 11;
+    MsgType type = 1;
+    RequestSongMetadata request_song_metadata = 2;
+    ResponseSongMetadata response_song_metadata = 3;
+    RequestNextTrack request_next_track = 4;
+    RequestPreviousTrack request_previous_track = 5;
+    RequestPlay request_play = 6;
+    RequestPause request_pause = 7;
+    RequestStop request_stop = 8;
+    EngineStateChange engine_state_change = 9;
+    RequestDisconnect request_disconnect = 10;
 }
 
