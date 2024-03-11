@@ -1423,6 +1423,7 @@ void EditTagDialog::FetchLyrics() {
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
   const Song song = data_[ui_->song_list->selectionModel()->selectedIndexes().first().row()].current_;
   lyrics_fetcher_->Clear();
+  ui_->lyrics->setPlainText(tr("loading..."));
   lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song.effective_albumartist(), song.artist(), song.album(), song.title()));
 
 }
@@ -1433,8 +1434,11 @@ void EditTagDialog::UpdateLyrics(const quint64 id, const QString &provider, cons
 
   if (static_cast<qint64>(id) != lyrics_id_) return;
   lyrics_id_ = -1;
-  ui_->lyrics->setPlainText(lyrics);
-
+  if (lyrics != nullptr) {
+      ui_->lyrics->setPlainText(lyrics);
+  } else {
+      ui_->lyrics->setPlainText(tr("Not found."));
+  }
 }
 
 void EditTagDialog::SongSaveTagsComplete(TagReaderReply *reply, const QString &filename, Song song, const UpdateCoverAction cover_action) {

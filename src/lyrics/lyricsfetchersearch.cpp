@@ -133,6 +133,8 @@ void LyricsFetcherSearch::AllProvidersFinished() {
   if (!results_.isEmpty()) {
     qLog(Debug) << "Using lyrics from" << results_.last().provider << "for" << request_.artist << request_.title << "with score" << results_.last().score;
     emit LyricsFetched(id_, results_.last().provider, results_.last().lyrics);
+  } else {
+    emit LyricsFetched(id_, nullptr, nullptr);
   }
 
   emit SearchFinished(id_, results_);
