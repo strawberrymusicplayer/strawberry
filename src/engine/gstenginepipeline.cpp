@@ -483,6 +483,9 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
           }
           break;
         }
+        default:
+          qLog(Warning) << "Unknown device clsid" << device_;
+          break;
       }
     }
     else if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "port-pattern")) {
