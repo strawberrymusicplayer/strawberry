@@ -214,6 +214,8 @@ class EditTagDialog : public QDialog {
   QMap<int, Song> collection_songs_;
 
   AlbumCoverLoaderOptions::Types cover_types_;
+
+  qint64 lyrics_id_;
 };
 
 #endif  // EDITTAGDIALOG_H

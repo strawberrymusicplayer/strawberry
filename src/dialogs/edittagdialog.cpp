@@ -120,7 +120,8 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       summary_cover_art_id_(-1),
       tags_cover_art_id_(-1),
       cover_art_is_set_(false),
-      save_tag_pending_(0) {
+      save_tag_pending_(0),
+      lyrics_id_(-1) {
 
   QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &EditTagDialog::AlbumCoverLoaded);
 
@@ -609,6 +610,8 @@ void EditTagDialog::SelectionChanged() {
 
   // Set the editable fields
   UpdateUI(indexes);
+
+  lyrics_id_ = -1;
 
   // If we're editing multiple songs then we have to disable certain tabs
   const bool multiple = indexes.count() > 1;
@@ -1417,17 +1420,19 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
 
 void EditTagDialog::FetchLyrics() {
 
-  Song song = data_[ui_->song_list->selectionModel()->selectedIndexes().first().row()].original_;
+  if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
+  const Song song = data_[ui_->song_list->selectionModel()->selectedIndexes().first().row()].current_;
   lyrics_fetcher_->Clear();
-  lyrics_fetcher_->Search(song.effective_albumartist(), song.artist(), song.album(), song.title());
+  lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song.effective_albumartist(), song.artist(), song.album(), song.title()));
 
 }
 
 void EditTagDialog::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics) {
 
-  Q_UNUSED(id);
   Q_UNUSED(provider);
 
+  if (static_cast<qint64>(id) != lyrics_id_) return;
+  lyrics_id_ = -1;
   ui_->lyrics->setPlainText(lyrics);
 
 }
