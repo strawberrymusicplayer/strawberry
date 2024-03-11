@@ -86,6 +86,7 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
       app_(app),
       dir_model_(new CollectionDirectoryModel(backend, this)),
       show_various_artists_(true),
+      sort_skips_articles_(true),
       total_song_count_(0),
       total_artist_count_(0),
       total_album_count_(0),
@@ -158,6 +159,15 @@ void CollectionModel::set_show_dividers(const bool show_dividers) {
 
   if (show_dividers != show_dividers_) {
     show_dividers_ = show_dividers;
+    Reset();
+  }
+
+}
+
+void CollectionModel::set_sort_skips_articles(const bool sort_skips_articles) {
+
+  if (sort_skips_articles != sort_skips_articles_) {
+    sort_skips_articles_ = sort_skips_articles;
     Reset();
   }
 
@@ -1242,14 +1252,14 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy group_by, const boo
       item->metadata.set_albumartist(row.value(0).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.albumartist());
-      item->sort_text = SortTextForArtist(item->metadata.albumartist());
+      item->sort_text = SortTextForArtist(item->metadata.albumartist(), sort_skips_articles_);
       break;
     }
     case GroupBy::Artist:{
       item->metadata.set_artist(row.value(0).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.artist());
-      item->sort_text = SortTextForArtist(item->metadata.artist());
+      item->sort_text = SortTextForArtist(item->metadata.artist(), sort_skips_articles_);
       break;
     }
     case GroupBy::Album:{
@@ -1258,7 +1268,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy group_by, const boo
       item->metadata.set_grouping(row.value(2).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.album());
-      item->sort_text = SortTextForArtist(item->metadata.album());
+      item->sort_text = SortTextForArtist(item->metadata.album(), sort_skips_articles_);
       break;
     }
     case GroupBy::AlbumDisc:{
@@ -1343,28 +1353,28 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy group_by, const boo
       item->metadata.set_genre(row.value(0).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.genre());
-      item->sort_text = SortTextForArtist(item->metadata.genre());
+      item->sort_text = SortTextForArtist(item->metadata.genre(), sort_skips_articles_);
       break;
     }
     case GroupBy::Composer:{
       item->metadata.set_composer(row.value(0).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.composer());
-      item->sort_text = SortTextForArtist(item->metadata.composer());
+      item->sort_text = SortTextForArtist(item->metadata.composer(), sort_skips_articles_);
       break;
     }
     case GroupBy::Performer:{
       item->metadata.set_performer(row.value(0).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.performer());
-      item->sort_text = SortTextForArtist(item->metadata.performer());
+      item->sort_text = SortTextForArtist(item->metadata.performer(), sort_skips_articles_);
       break;
     }
     case GroupBy::Grouping:{
       item->metadata.set_grouping(row.value(0).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.grouping());
-      item->sort_text = SortTextForArtist(item->metadata.grouping());
+      item->sort_text = SortTextForArtist(item->metadata.grouping(), sort_skips_articles_);
       break;
     }
     case GroupBy::FileType:{
@@ -1441,14 +1451,14 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
       item->metadata.set_albumartist(s.effective_albumartist());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       item->display_text = TextOrUnknown(s.effective_albumartist());
-      item->sort_text = SortTextForArtist(s.effective_albumartist());
+      item->sort_text = SortTextForArtist(s.effective_albumartist(), sort_skips_articles_);
       break;
     }
     case GroupBy::Artist:{
       item->metadata.set_artist(s.artist());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       item->display_text = TextOrUnknown(s.artist());
-      item->sort_text = SortTextForArtist(s.artist());
+      item->sort_text = SortTextForArtist(s.artist(), sort_skips_articles_);
       break;
     }
     case GroupBy::Album:{
@@ -1457,7 +1467,7 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
       item->metadata.set_grouping(s.grouping());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       item->display_text = TextOrUnknown(s.album());
-      item->sort_text = SortTextForArtist(s.album());
+      item->sort_text = SortTextForArtist(s.album(), sort_skips_articles_);
       break;
     }
     case GroupBy::AlbumDisc:{
@@ -1542,28 +1552,28 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
       item->metadata.set_genre(s.genre());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       item->display_text = TextOrUnknown(s.genre());
-      item->sort_text = SortTextForArtist(s.genre());
+      item->sort_text = SortTextForArtist(s.genre(), sort_skips_articles_);
       break;
     }
     case GroupBy::Composer:{
       item->metadata.set_composer(s.composer());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       item->display_text = TextOrUnknown(s.composer());
-      item->sort_text = SortTextForArtist(s.composer());
+      item->sort_text = SortTextForArtist(s.composer(), sort_skips_articles_);
       break;
     }
     case GroupBy::Performer:{
       item->metadata.set_performer(s.performer());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       item->display_text = TextOrUnknown(s.performer());
-      item->sort_text = SortTextForArtist(s.performer());
+      item->sort_text = SortTextForArtist(s.performer(), sort_skips_articles_);
       break;
     }
     case GroupBy::Grouping:{
       item->metadata.set_grouping(s.grouping());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, s));
       item->display_text = TextOrUnknown(s.grouping());
-      item->sort_text = SortTextForArtist(s.grouping());
+      item->sort_text = SortTextForArtist(s.grouping(), sort_skips_articles_);
       break;
     }
     case GroupBy::FileType:{
@@ -1719,15 +1729,17 @@ QString CollectionModel::SortText(QString text) {
 
 }
 
-QString CollectionModel::SortTextForArtist(QString artist) {
+QString CollectionModel::SortTextForArtist(QString artist, const bool skip_articles) {
 
   artist = SortText(artist);
 
-  for (const auto &i : Song::kArticles) {
-    if (artist.startsWith(i)) {
-      qint64 ilen = i.length();
-      artist = artist.right(artist.length() - ilen) + ", " + i.left(ilen - 1);
-      break;
+  if (skip_articles) {
+    for (const auto &i : Song::kArticles) {
+      if (artist.startsWith(i)) {
+        qint64 ilen = i.length();
+        artist = artist.right(artist.length() - ilen) + ", " + i.left(ilen - 1);
+        break;
+      }
     }
   }
 

@@ -89,6 +89,7 @@ void InternetCollectionView::Init(Application *app, SharedPtr<CollectionBackend>
 
   collection_model_->set_pretty_covers(true);
   collection_model_->set_show_dividers(true);
+  collection_model_->set_sort_skips_articles(true);
 
   ReloadSettings();
 
