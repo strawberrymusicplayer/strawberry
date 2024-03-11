@@ -7,6 +7,7 @@
 #include "incomingmsg.h"
 #include "outgoingmsg.h"
 #include "core/player.h"
+#include "networkremote/RemoteMessages.pb.h"
 
 class Application;
 
@@ -18,9 +19,11 @@ public:
     ~Client();
     void Init(QTcpSocket*);
     QTcpSocket* GetSocket();
+    void ProcessIncoming();
 
 public slots:
   void Respond();
+  void EngineChanged();
 
 signals:
   void ReceiveMsg();
@@ -31,6 +34,8 @@ private:
   QTcpSocket *socket_;
   IncomingMsg *incomingMsg_;
   OutgoingMsg *outgoingMsg_;
+  qint32 msgType_;
+  SharedPtr<Player> player_;
 };
 
 #endif // CLIENT_H

@@ -9,18 +9,26 @@ enum MsgType {
 
     // Client message
     MSG_TYPE_REQUEST_SONG_INFO = 1;
-    MSG_TYPE_PLAY = 2;
-    MSG_TYPE_NEXT = 3;
-    MSG_TYPE_PREVIOUS = 4;
-    MSG_TYPE_PAUSE = 5;
-    MSG_TYPE_STOP = 6;
+    MSG_TYPE_REQUEST_PLAY = 2;
+    MSG_TYPE_REQUEST_NEXT = 3;
+    MSG_TYPE_REQUEST_PREVIOUS = 4;
+    MSG_TYPE_REQUEST_PAUSE = 5;
+    MSG_TYPE_REQUEST_STOP = 6;
+    MSG_TYPE_REQUEST_FINISH = 7;
+
 
     // Server messages
-    MSG_TYPE_REPLY_SONG_INFO = 7;
-    MSG_TYPE_ENGINE_STATE_CHANGE = 8;
+    MSG_TYPE_REPLY_SONG_INFO = 8;
+    MSG_TYPE_REPLY_PLAY = 9;
+    MSG_TYPE_REPLY_NEXT = 10;
+    MSG_TYPE_REPLY_PREVIOUS = 11;
+    MSG_TYPE_REPLY_PAUSE = 12;
+    MSG_TYPE_REPLY_STOP = 13;
+    MSG_TYPE_REPLY_FINISH = 14;
+    MSG_TYPE_ENGINE_STATE_CHANGE = 15;
 
     // Bidirectional messages
-    MSG_TYPE_DISCONNECT = 9;
+    MSG_TYPE_DISCONNECT = 16;
 }
 
 enum PlayerState{
@@ -69,7 +77,15 @@ message RequestNextTrack {
     bool next = 1;
 }
 
+message ResponseNextTrack {
+    bool next = 1;
+}
+
 message RequestPreviousTrack {
+    bool previous = 1;
+}
+
+message ResponsePreviousTrack {
     bool previous = 1;
 }
 
@@ -77,7 +93,15 @@ message RequestPlay {
     bool play = 1;
 }
 
+message ResponsePlay {
+    bool play = 1;
+}
+
 message RequestPause {
+    bool pause = 1;
+}
+
+message ResponsePause {
     bool pause = 1;
 }
 
@@ -99,5 +123,9 @@ message Message {
     RequestStop request_stop = 8;
     EngineStateChange engine_state_change = 9;
     RequestDisconnect request_disconnect = 10;
+    ResponseNextTrack response_next_track = 11;
+    ResponsePreviousTrack response_previous_track = 12;
+    ResponsePlay response_play = 13;
+    ResponsePause response_pause = 14;
 }
 

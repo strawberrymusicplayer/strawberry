@@ -13,18 +13,16 @@ class OutgoingMsg : public QObject
      Q_OBJECT
 public:
   explicit OutgoingMsg(Application *app, QObject *parent = nullptr);
-  ~OutgoingMsg()  ;
-  void ProcessMsg(QTcpSocket*, qint32);
+  ~OutgoingMsg();
+  void Init(QTcpSocket*, SharedPtr<Player>);
   void SendCurrentTrackInfo();
   void SendMsg();
 
 private slots:
-  void EngineChanged();
 
 signals:
 
 private:
-
   Application *app_;
   PlaylistItemPtr currentItem_;
   Playlist *playlist_;
@@ -39,6 +37,7 @@ private:
   EngineBase::State playerState_;
   SharedPtr<Player> player_ ;
   bool statusOk_;
+
 };
 
 #endif // OUTGOINGMSG_H

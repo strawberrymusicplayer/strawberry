@@ -8,41 +8,26 @@ OutgoingMsg::OutgoingMsg(Application *app, QObject *parent)
       app_(app),
       msg_(new nw::remote::Message),
       song_(new nw::remote::SongMetadata),
-      responeSong_(new nw::remote::ResponseSongMetadata),
-      player_(app_->player())
+      responeSong_(new nw::remote::ResponseSongMetadata)
 {
-  //QObject::connect(&*app_->player(), &Player::TrackSkipped, this, &MainWindow::TrackSkipped);
-  //QObject::connect(&*app_->player(), &Player::EngineChanged, this, &OutgoingMsg::EngineChanged);
-  QObject::connect(&*app_->player()->engine(), &EngineBase::StateChanged, this, &OutgoingMsg::EngineChanged);
 }
 
 OutgoingMsg::~OutgoingMsg()
 {
 }
 
-void OutgoingMsg::ProcessMsg(QTcpSocket * socket, qint32 msgType)
+void OutgoingMsg::Init(QTcpSocket *socket, SharedPtr<Player> player)
 {
   socket_ = socket;
-  msgType_ = msgType;
-  msg_->Clear();
-
-  switch (msgType_) {
-    case nw::remote::MSG_TYPE_REQUEST_SONG_INFO:
-      SendCurrentTrackInfo();
-      break;
-  default:
-      qLog(Debug) << "Unknow Message Type " << msgType_;
-      break;
-  }
-  SendMsg();
+  player_ = player;
 }
+
 
 void OutgoingMsg::SendCurrentTrackInfo()
 {
   msg_->Clear();
   song_->Clear();
   responeSong_->Clear();
-
   playerState_ = player_->engine()->state();
   playlist_ = app_->playlist_manager()->current();
 
@@ -99,7 +84,3 @@ void OutgoingMsg::SendMsg()
   }
 }
 
-void OutgoingMsg::EngineChanged()
-{
-  qInfo("Engine has changed");
-}
