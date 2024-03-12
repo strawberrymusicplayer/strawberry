@@ -1421,7 +1421,7 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
 void EditTagDialog::FetchLyrics() {
 
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
-  const Song song = data_[ui_->song_list->selectionModel()->selectedIndexes().first().row()].current_;
+  const Song &song = data_[ui_->song_list->selectionModel()->selectedIndexes().first().row()].current_;
   lyrics_fetcher_->Clear();
   ui_->lyrics->setPlainText(tr("loading..."));
   lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song.effective_albumartist(), song.artist(), song.album(), song.title()));
