@@ -633,7 +633,8 @@ void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const 
 
   if (lyrics.isEmpty()) {
     lyrics_ = "\n\nLyrics not found.\n";
-  } else {
+  }
+  else {
     lyrics_ = lyrics + "\n\n(Lyrics from " + provider + ")\n";
   }
   lyrics_id_ = -1;
