@@ -7,7 +7,6 @@ OutgoingMsg::OutgoingMsg(Application *app, QObject *parent)
     : QObject{parent},
       app_(app),
       msg_(new nw::remote::Message),
-      song_(new nw::remote::SongMetadata),
       responeSong_(new nw::remote::ResponseSongMetadata)
 {
 }
@@ -26,11 +25,10 @@ void OutgoingMsg::Init(QTcpSocket *socket, SharedPtr<Player> player)
 void OutgoingMsg::SendCurrentTrackInfo()
 {
   msg_->Clear();
-  song_->Clear();
+  song_ = new nw::remote::SongMetadata;
   responeSong_->Clear();
   playerState_ = player_->engine()->state();
   playlist_ = app_->playlist_manager()->current();
-
 
   if (playerState_ == EngineBase::State::Playing){
     Song currentSong = playlist_->current_item_metadata();

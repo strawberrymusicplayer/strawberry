@@ -39,16 +39,25 @@ void Client::ProcessIncoming()
       outgoingMsg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_PLAY:
+      player_->Play();
+      // In case the player was paused when the client started send the song info again
+      outgoingMsg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_NEXT:
+      player_->Next();
+      outgoingMsg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_PREVIOUS:
+      player_->Previous();
+      outgoingMsg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_PAUSE:
+      player_->Pause();
       break;
     case nw::remote::MSG_TYPE_REQUEST_STOP:
       break;
     case nw::remote::MSG_TYPE_REQUEST_FINISH:
+      player_->Stop();
       break;
     case nw::remote::MSG_TYPE_DISCONNECT:
       break;

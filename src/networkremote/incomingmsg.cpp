@@ -12,7 +12,7 @@ IncomingMsg::IncomingMsg(Application *app, QObject *parent)
 void IncomingMsg::Init(QTcpSocket *socket)
 {
   socket_ = socket;
-  QObject::connect(socket_, &QAbstractSocket::readyRead, this, &IncomingMsg::ReadyRead);
+  QObject::connect(socket_, &QIODevice::readyRead, this, &IncomingMsg::ReadyRead);
 }
 
 void IncomingMsg::SetMsgType()
