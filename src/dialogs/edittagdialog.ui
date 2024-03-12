@@ -635,6 +635,9 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="tags_art_button">
+                  <property name="accessibleName">
+                   <string>MenuPopupToolButton</string>
+                  </property>
                   <property name="text">
                    <string>Change art</string>
                   </property>

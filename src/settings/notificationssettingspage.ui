@@ -236,6 +236,9 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="accessibleName">
+            <string>MenuPopupToolButton</string>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -266,6 +269,9 @@
           <widget class="QToolButton" name="notifications_exp_chooser2">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="accessibleName">
+            <string>MenuPopupToolButton</string>
            </property>
            <property name="text">
             <string/>

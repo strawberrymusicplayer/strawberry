@@ -62,7 +62,7 @@ enum ENUM_ORDERING {
 
 //
 //
-//		Ansi structures and functions follow
+// Ansi structures and functions follow
 //
 //
 
@@ -409,7 +409,7 @@ int _getopt_long_only_r_a(int argc, char *const *argv, const char *options, cons
 
 //
 //
-//	Unicode Structures and Functions
+// Unicode Structures and Functions
 //
 //
 

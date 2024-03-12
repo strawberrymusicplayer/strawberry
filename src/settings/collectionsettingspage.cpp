@@ -179,6 +179,7 @@ void CollectionSettingsPage::Load() {
   ui_->auto_open->setChecked(s.value("auto_open", true).toBool());
   ui_->pretty_covers->setChecked(s.value("pretty_covers", true).toBool());
   ui_->show_dividers->setChecked(s.value("show_dividers", true).toBool());
+  ui_->sort_skips_articles->setChecked(s.value("sort_skips_articles", true).toBool());
   ui_->startup_scan->setChecked(s.value("startup_scan", true).toBool());
   ui_->monitor->setChecked(s.value("monitor", true).toBool());
   ui_->song_tracking->setChecked(s.value("song_tracking", false).toBool());
@@ -226,6 +227,7 @@ void CollectionSettingsPage::Save() {
   s.setValue("auto_open", ui_->auto_open->isChecked());
   s.setValue("pretty_covers", ui_->pretty_covers->isChecked());
   s.setValue("show_dividers", ui_->show_dividers->isChecked());
+  s.setValue("sort_skips_articles", ui_->sort_skips_articles->isChecked());
   s.setValue("startup_scan", ui_->startup_scan->isChecked());
   s.setValue("monitor", ui_->monitor->isChecked());
   s.setValue("song_tracking", ui_->song_tracking->isChecked());

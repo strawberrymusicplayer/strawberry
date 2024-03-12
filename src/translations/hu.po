@@ -764,7 +764,7 @@ msgstr "Másolás után…"
 msgid "Albu&m cover"
 msgstr "&Albumborító"
 
-#: collection/savedgroupingmanager.cpp:98 playlist/playlist.cpp:1365
+#: collection/savedgroupingmanager.cpp:98 playlist/playlist.cpp:1369
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_groupbydialog.h:216 ../build/src/ui_groupbydialog.h:238
 #: ../build/src/ui_albumcoversearcher.h:108
@@ -784,7 +784,7 @@ msgstr "Album (ideális hangerő minden számhoz)"
 msgid "Album - Disc"
 msgstr "Album - Lemez"
 
-#: playlist/playlist.cpp:1372
+#: playlist/playlist.cpp:1376
 msgid "Album Artist"
 msgstr ""
 
@@ -874,7 +874,7 @@ msgstr "Mindig indítsa el a lejátszást"
 msgid "An error occurred loading the iTunes database"
 msgstr "Hiba történt az iTunes adatbázis betöltésekor"
 
-#: playlist/playlist.cpp:426 dialogs/edittagdialog.cpp:1450
+#: playlist/playlist.cpp:430 dialogs/edittagdialog.cpp:1450
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Hiba történt a(z) „%1” metaadatainak írásakor"
@@ -903,7 +903,7 @@ msgstr "Szókimondó felirat hozzáfűzése a korhatáros albumokhoz"
 msgid "Append files/URLs to the playlist"
 msgstr "Fájlok/URL-ek hozzáfűzése a lejátszólistához"
 
-#: collection/collectionview.cpp:350
+#: collection/collectionview.cpp:366
 #: smartplaylists/smartplaylistsviewcontainer.cpp:65
 #: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:316
 #: internet/internetcollectionview.cpp:315 radios/radioview.cpp:69
@@ -956,7 +956,7 @@ msgstr "Kézi albumborító"
 msgid "Art Unset"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:95 playlist/playlist.cpp:1364
+#: collection/savedgroupingmanager.cpp:95 playlist/playlist.cpp:1368
 #: organize/organizedialog.cpp:106 ../build/src/ui_groupbydialog.h:192
 #: ../build/src/ui_groupbydialog.h:214 ../build/src/ui_groupbydialog.h:236
 #: ../build/src/ui_albumcoversearcher.h:104
@@ -1117,7 +1117,7 @@ msgstr "Működés"
 msgid "Best"
 msgstr "Legjobb"
 
-#: playlist/playlist.cpp:1382
+#: playlist/playlist.cpp:1386
 msgid "Bit Depth"
 msgstr ""
 
@@ -1133,7 +1133,7 @@ msgid "Bit rate"
 msgstr "Bitráta"
 
 #: context/contextview.cpp:166 collection/savedgroupingmanager.cpp:149
-#: playlist/playlist.cpp:1383 ../build/src/ui_groupbydialog.h:210
+#: playlist/playlist.cpp:1387 ../build/src/ui_groupbydialog.h:210
 #: ../build/src/ui_groupbydialog.h:232 ../build/src/ui_groupbydialog.h:254
 #: ../build/src/ui_transcoderoptionsaac.h:132
 #: ../build/src/ui_transcoderoptionsopus.h:76
@@ -1205,7 +1205,7 @@ msgstr "A CD-lejátszás csak a GStreamer motorral érhető el."
 msgid "CDDA"
 msgstr "CDDA"
 
-#: playlist/playlist.cpp:1396
+#: playlist/playlist.cpp:1400
 msgid "CUE"
 msgstr "CUE"
 
@@ -1364,7 +1364,7 @@ msgstr ""
 "Vesszővel elválasztott lista az osztály:szint pároknak, a szintek 0-3 "
 "értékeket vehetnek fel"
 
-#: playlist/playlist.cpp:1392 smartplaylists/smartplaylistsearchterm.cpp:391
+#: playlist/playlist.cpp:1396 smartplaylists/smartplaylistsearchterm.cpp:391
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:918
 msgid "Comment"
 msgstr "Megjegyzés"
@@ -1381,7 +1381,7 @@ msgstr "Címkék automatikus kiegészítése"
 msgid "Complete tags automatically..."
 msgstr "Címkék automatikus kiegészítése…"
 
-#: collection/savedgroupingmanager.cpp:128 playlist/playlist.cpp:1373
+#: collection/savedgroupingmanager.cpp:128 playlist/playlist.cpp:1377
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:204
 #: ../build/src/ui_groupbydialog.h:226 ../build/src/ui_groupbydialog.h:248
 #: ../build/src/ui_edittagdialog.h:915
@@ -1463,7 +1463,7 @@ msgstr "Másolás a gyűjteménybe…"
 msgid "Copy to device"
 msgstr "Másolás eszközre"
 
-#: core/mainwindow.cpp:758 collection/collectionview.cpp:361
+#: core/mainwindow.cpp:758 collection/collectionview.cpp:381
 #: playlist/playlistlistcontainer.cpp:92 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "Másolás eszközre…"
@@ -1476,6 +1476,16 @@ msgstr ""
 "Másolja ki a strawberry.conf és a strawberry.db fájlokat a ~/snap "
 "könyvtárból, hogy elkerülje a konfiguráció elvesztését a snap eltávolítása "
 "előtt:"
+
+#: device/gpoddevice.cpp:241
+#, qt-format
+msgid "Could not copy %1 to %2: %3"
+msgstr ""
+
+#: core/filesystemmusicstorage.cpp:98
+#, qt-format
+msgid "Could not copy file %1 to %2."
+msgstr ""
 
 #: transcoder/transcoder.cpp:72
 #, qt-format
@@ -1490,6 +1500,10 @@ msgstr ""
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr "Nem sikerült olvasásra megnyitni a(z) %1 CUE-fájlt: %2"
+
+#: device/mtpconnection.cpp:75 device/mtpconnection.cpp:109
+msgid "Could not open MTP device."
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:223
 msgid "Could not open URL. Please open this URL in your browser"
@@ -1724,11 +1738,11 @@ msgstr "Dance"
 msgid "Database corruption detected."
 msgstr "Adatbázis-sérülés észlelve."
 
-#: playlist/playlist.cpp:1390
+#: playlist/playlist.cpp:1394
 msgid "Date Created"
 msgstr ""
 
-#: playlist/playlist.cpp:1389
+#: playlist/playlist.cpp:1393
 msgid "Date Modified"
 msgstr ""
 
@@ -1781,7 +1795,7 @@ msgstr "Fájlok törlése"
 msgid "Delete from device..."
 msgstr "Törlés az eszközről…"
 
-#: core/mainwindow.cpp:760 collection/collectionview.cpp:363
+#: core/mainwindow.cpp:760 collection/collectionview.cpp:383
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "Törlés a lemezről…"
@@ -1818,6 +1832,16 @@ msgstr "Szám eltávolítása a lejátszási sorból"
 #: ../build/src/ui_organizedialog.h:261 ../build/src/ui_transcodedialog.h:230
 msgid "Destination"
 msgstr "Cél"
+
+#: core/filesystemmusicstorage.cpp:92
+#, qt-format
+msgid "Destination file %1 exists, but not allowed to overwrite"
+msgstr ""
+
+#: core/filesystemmusicstorage.cpp:73
+#, qt-format
+msgid "Destination file %1 exists, but not allowed to overwrite."
+msgstr ""
 
 #: ../build/src/ui_transcodedialog.h:235
 msgid "Details..."
@@ -1865,7 +1889,7 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Letiltva"
 
-#: collection/savedgroupingmanager.cpp:116 playlist/playlist.cpp:1367
+#: collection/savedgroupingmanager.cpp:116 playlist/playlist.cpp:1371
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:908
@@ -1909,7 +1933,7 @@ msgstr "Ne jelenítse meg újra ezt az üzenetet."
 msgid "Don't repeat"
 msgstr "Nincs ismétlés"
 
-#: collection/collectionview.cpp:376
+#: collection/collectionview.cpp:396
 msgid "Don't show in various artists"
 msgstr "Ne jelenítse meg a különböző előadók között"
 
@@ -2008,12 +2032,12 @@ msgstr "Címke szerkesztése…"
 msgid "Edit track information"
 msgstr "Száminformációk szerkesztése"
 
-#: collection/collectionview.cpp:366 widgets/fileviewlist.cpp:52
+#: collection/collectionview.cpp:386 widgets/fileviewlist.cpp:52
 #: ../build/src/ui_mainwindow.h:642
 msgid "Edit track information..."
 msgstr "Száminformációk szerkesztése…"
 
-#: collection/collectionview.cpp:367
+#: collection/collectionview.cpp:387
 msgid "Edit tracks information..."
 msgstr "Száminformációk szerkesztése…"
 
@@ -2163,7 +2187,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Megegyezik a --log-levels *:3 kapcsolóval"
 
 #: core/mainwindow.cpp:2625 core/mainwindow.cpp:2776
-#: collection/collectionview.cpp:587
+#: collection/collectionview.cpp:701
 msgid "Error"
 msgstr "Hiba"
 
@@ -2171,6 +2195,11 @@ msgstr "Hiba"
 #, qt-format
 msgid "Error connecting MTP device %1"
 msgstr "Hiba az MTP-eszköz csatlakoztatásakor: %1"
+
+#: device/mtploader.cpp:77
+#, qt-format
+msgid "Error connecting MTP device %1: %2"
+msgstr ""
 
 #: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
@@ -2298,6 +2327,11 @@ msgstr "Elhalkulás hossza"
 msgid "Failed SQL query: %1"
 msgstr "Sikertelen SQL lekérdezés: %1"
 
+#: core/filesystemmusicstorage.cpp:57
+#, qt-format
+msgid "Failed to create directory %1."
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:379
 #: covermanager/albumcoverchoicecontroller.cpp:396
 #, qt-format
@@ -2374,19 +2408,19 @@ msgstr "A(z) %1 fájl nem létezik."
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "A(z) %1 fájl nem ismerhető fel érvényes hangfájlként."
 
-#: playlist/playlist.cpp:1385
+#: playlist/playlist.cpp:1389
 msgid "File Name"
 msgstr ""
 
-#: playlist/playlist.cpp:1386
+#: playlist/playlist.cpp:1390
 msgid "File Name (without path)"
 msgstr ""
 
-#: playlist/playlist.cpp:1387
+#: playlist/playlist.cpp:1391
 msgid "File Size"
 msgstr ""
 
-#: playlist/playlist.cpp:1388
+#: playlist/playlist.cpp:1392
 msgid "File Type"
 msgstr ""
 
@@ -2567,7 +2601,7 @@ msgstr "Általános beállítások"
 msgid "Genius Authentication"
 msgstr "Genius hitelesítés"
 
-#: collection/savedgroupingmanager.cpp:125 playlist/playlist.cpp:1371
+#: collection/savedgroupingmanager.cpp:125 playlist/playlist.cpp:1375
 #: organize/organizedialog.cpp:116 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:917
@@ -2675,7 +2709,7 @@ msgstr "Csoportosítás műfaj/albumelőadó/album szerint"
 msgid "Group by Genre/Artist/Album"
 msgstr "Csoportosítás műfaj/előadó/album szerint"
 
-#: collection/savedgroupingmanager.cpp:134 playlist/playlist.cpp:1375
+#: collection/savedgroupingmanager.cpp:134 playlist/playlist.cpp:1379
 #: organize/organizedialog.cpp:111 ../build/src/ui_groupbydialog.h:206
 #: ../build/src/ui_groupbydialog.h:228 ../build/src/ui_groupbydialog.h:250
 #: ../build/src/ui_edittagdialog.h:909
@@ -2850,7 +2884,7 @@ msgstr "Beszúrás…"
 msgid "Install strawberry through PPA:"
 msgstr "A strawberry telepítése PPA-ból:"
 
-#: playlist/playlist.cpp:1398
+#: playlist/playlist.cpp:1402
 msgid "Integrated Loudness"
 msgstr ""
 
@@ -2869,6 +2903,11 @@ msgstr "Internetes lapnézet"
 #: osd/osdbase.cpp:367 ../build/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
 msgstr "Bevezető számok"
+
+#: device/mtpconnection.cpp:57
+#, qt-format
+msgid "Invalid MTP device: %1"
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:257
 msgid "Invalid reply from web browser. Missing token."
@@ -2930,7 +2969,7 @@ msgstr "Nagy albumborító"
 msgid "Large sidebar"
 msgstr "Nagy oldalsáv"
 
-#: playlist/playlist.cpp:1379
+#: playlist/playlist.cpp:1383
 msgid "Last Played"
 msgstr ""
 
@@ -2961,7 +3000,7 @@ msgstr "Legkevésbé kedvelt számok"
 msgid "Left"
 msgstr "Bal"
 
-#: context/contextview.cpp:163 playlist/playlist.cpp:1368
+#: context/contextview.cpp:163 playlist/playlist.cpp:1372
 #: organize/organizedialog.cpp:118 ../build/src/ui_edittagdialog.h:888
 msgid "Length"
 msgstr "Időtartam"
@@ -3068,7 +3107,7 @@ msgstr "Bejelentkezés"
 msgid "Long term prediction profile (LTP)"
 msgstr "Hosszú távú előrejelzésen alapuló profil (LTP)"
 
-#: playlist/playlist.cpp:1399
+#: playlist/playlist.cpp:1403
 msgid "Loudness Range"
 msgstr ""
 
@@ -3103,12 +3142,21 @@ msgid "Lyrics providers"
 msgstr "Dalszöveg-szolgáltatók"
 
 #: ../build/src/ui_subsonicsettingspage.h:251
-msgid "MD5 token"
-msgstr "MD5 token"
+msgid "MD5 token (Recommended)"
+msgstr ""
 
 #: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
 msgstr "MP3"
+
+#: device/mtpconnection.cpp:100
+msgid "MTP device not found."
+msgstr ""
+
+#: device/mtpconnection.cpp:86
+#, qt-format
+msgid "MTP error: %1"
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsaac.h:135
 msgid "Main profile (MAIN)"
@@ -3261,7 +3309,7 @@ msgstr "Gyűjtemény figyelése változások után"
 msgid "Months"
 msgstr "Hónapok"
 
-#: playlist/playlist.cpp:1394
+#: playlist/playlist.cpp:1398
 msgid "Mood"
 msgstr "Hangulat"
 
@@ -3439,7 +3487,7 @@ msgid "None"
 msgstr "Egyik sem"
 
 #: core/mainwindow.cpp:2625 core/mainwindow.cpp:2776
-#: collection/collectionview.cpp:587
+#: collection/collectionview.cpp:701
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Egy kiválasztott szám sem alkalmas az eszközre való másoláshoz"
 
@@ -3543,7 +3591,7 @@ msgstr "Eszköz megnyitása"
 msgid "Open homepage"
 msgstr "Honlap megnyitása"
 
-#: collection/collectionview.cpp:352
+#: collection/collectionview.cpp:368
 #: smartplaylists/smartplaylistsviewcontainer.cpp:67
 #: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:318
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:77
@@ -3581,7 +3629,7 @@ msgstr "Opus"
 msgid "Organize Files"
 msgstr "Fájlok rendszerezése"
 
-#: core/mainwindow.cpp:754 collection/collectionview.cpp:359
+#: core/mainwindow.cpp:754 collection/collectionview.cpp:379
 msgid "Organize files..."
 msgstr "Fájlok rendszerezése…"
 
@@ -3589,7 +3637,7 @@ msgstr "Fájlok rendszerezése…"
 msgid "Organizing files"
 msgstr "Fájlok rendszerezése"
 
-#: playlist/playlist.cpp:1370
+#: playlist/playlist.cpp:1374
 msgid "Original Year"
 msgstr ""
 
@@ -3700,7 +3748,7 @@ msgstr ""
 msgid "Perform track loudness normalization"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:131 playlist/playlist.cpp:1374
+#: collection/savedgroupingmanager.cpp:131 playlist/playlist.cpp:1378
 #: organize/organizedialog.cpp:110 ../build/src/ui_groupbydialog.h:205
 #: ../build/src/ui_groupbydialog.h:227 ../build/src/ui_groupbydialog.h:249
 #: ../build/src/ui_edittagdialog.h:919
@@ -3721,7 +3769,7 @@ msgstr "Egyszerű oldalsáv"
 msgid "Play"
 msgstr "Lejátszás"
 
-#: playlist/playlist.cpp:1377
+#: playlist/playlist.cpp:1381
 msgid "Play Count"
 msgstr ""
 
@@ -3988,12 +4036,12 @@ msgstr "Kijelölt számok hozzáadása a lejátszási sorhoz"
 msgid "Queue selected tracks to play next"
 msgstr "Kijelölt számok lejátszása következőként"
 
-#: core/mainwindow.cpp:1961 collection/collectionview.cpp:356
+#: core/mainwindow.cpp:1961 collection/collectionview.cpp:372
 #: internet/internetcollectionview.cpp:321
 msgid "Queue to play next"
 msgstr "Lejátszás következőként"
 
-#: core/mainwindow.cpp:1953 collection/collectionview.cpp:355
+#: core/mainwindow.cpp:1953 collection/collectionview.cpp:371
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
 #: internet/internetsearchview.cpp:321 internet/internetcollectionview.cpp:320
 msgid "Queue track"
@@ -4019,7 +4067,7 @@ msgstr "Rádiók"
 msgid "Random"
 msgstr "Véletlenszerű"
 
-#: playlist/playlist.cpp:1395 ../build/src/ui_edittagdialog.h:922
+#: playlist/playlist.cpp:1399 ../build/src/ui_edittagdialog.h:922
 msgid "Rating"
 msgstr "Értékelés"
 
@@ -4226,7 +4274,7 @@ msgstr "Lejátszólista ismétlése"
 msgid "Repeat track"
 msgstr "Szám ismétlése"
 
-#: collection/collectionview.cpp:351
+#: collection/collectionview.cpp:367
 #: smartplaylists/smartplaylistsviewcontainer.cpp:66
 #: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:317
 #: internet/internetcollectionview.cpp:316 radios/radioview.cpp:73
@@ -4262,7 +4310,7 @@ msgstr "A Tidal válaszából hiányoznak a lekérdezett elemek."
 msgid "Repopulate"
 msgstr "Újrafeltöltés"
 
-#: collection/collectionview.cpp:372
+#: collection/collectionview.cpp:392
 msgid "Rescan song(s)"
 msgstr "Számok újraellenőrzése"
 
@@ -4365,7 +4413,7 @@ msgstr "Eszköz biztonságos eltávolítása"
 msgid "Safely remove the device after copying"
 msgstr "Eszköz biztonságos eltávolítása másolás után"
 
-#: playlist/playlist.cpp:1381
+#: playlist/playlist.cpp:1385
 msgid "Sample Rate"
 msgstr ""
 
@@ -4499,7 +4547,7 @@ msgstr "Keresés késleltetése"
 msgid "Search for album covers..."
 msgstr "Albumborítók keresése…"
 
-#: internet/internetsearchview.cpp:339
+#: collection/collectionview.cpp:376 internet/internetsearchview.cpp:339
 msgid "Search for this"
 msgstr "Keresés erre"
 
@@ -4729,12 +4777,12 @@ msgstr "Megjelenítés a gyűjteményben…"
 msgid "Show in file browser"
 msgstr "Megnyitás a fájlböngészőben"
 
-#: core/mainwindow.cpp:753 collection/collectionview.cpp:368
+#: core/mainwindow.cpp:753 collection/collectionview.cpp:388
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Megnyitás a fájlböngészőben…"
 
-#: collection/collectionview.cpp:375
+#: collection/collectionview.cpp:395
 msgid "Show in various artists"
 msgstr "Megjelenítés a különböző előadók között"
 
@@ -4835,7 +4883,7 @@ msgstr "Méret:"
 msgid "Ska"
 msgstr "Ska"
 
-#: playlist/playlist.cpp:1378
+#: playlist/playlist.cpp:1382
 msgid "Skip Count"
 msgstr ""
 
@@ -4934,7 +4982,7 @@ msgstr "Számok rendezése eszerint"
 msgid "Sorting"
 msgstr "Rendezés"
 
-#: playlist/playlist.cpp:1393
+#: playlist/playlist.cpp:1397
 msgid "Source"
 msgstr "Forrás"
 
@@ -5247,7 +5295,7 @@ msgstr ""
 "A Strawberry most frissült verziójának szüksége van a teljes gyűjtemény "
 "újraolvasására az alább sorolt új funkciók használatához:"
 
-#: collection/collectionview.cpp:483
+#: collection/collectionview.cpp:503
 msgid "There are other songs in this album"
 msgstr "Más számok is vannak ebben az albumban"
 
@@ -5358,7 +5406,7 @@ msgstr ""
 msgid "Time step"
 msgstr "Léptetés ideje"
 
-#: playlist/playlist.cpp:1363 organize/organizedialog.cpp:104
+#: playlist/playlist.cpp:1367 organize/organizedialog.cpp:104
 #: ../build/src/ui_contextsettingspage.h:422
 #: ../build/src/ui_edittagdialog.h:913
 #: ../build/src/ui_trackselectiondialog.h:210
@@ -5409,7 +5457,7 @@ msgstr "Összes átküldött bájt"
 msgid "Total network requests made"
 msgstr "Összes hálózati kérés"
 
-#: playlist/playlist.cpp:1366 organize/organizedialog.cpp:112
+#: playlist/playlist.cpp:1370 organize/organizedialog.cpp:112
 #: ../build/src/ui_edittagdialog.h:921
 #: ../build/src/ui_trackselectiondialog.h:212
 msgid "Track"
@@ -5761,7 +5809,7 @@ msgstr "Borító nélkül:"
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Működés kapcsolat nélküli módban (csak gyorsítótárazás)"
 
-#: collection/collectionview.cpp:483
+#: collection/collectionview.cpp:503
 msgid ""
 "Would you like to move the other songs on this album to Various Artists as "
 "well?"
@@ -5779,7 +5827,16 @@ msgstr "Az összes lejátszásszám és értékelés fájlba írása"
 msgid "Write metadata when saving playlists"
 msgstr "Metaadatok írása a lejátszólisták mentésekor"
 
-#: collection/savedgroupingmanager.cpp:119 playlist/playlist.cpp:1369
+#: device/gpoddevice.cpp:288
+msgid "Writing database failed."
+msgstr ""
+
+#: device/gpoddevice.cpp:284
+#, qt-format
+msgid "Writing database failed: %1"
+msgstr ""
+
+#: collection/savedgroupingmanager.cpp:119 playlist/playlist.cpp:1373
 #: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:199
 #: ../build/src/ui_groupbydialog.h:221 ../build/src/ui_groupbydialog.h:243
 #: ../build/src/ui_edittagdialog.h:912

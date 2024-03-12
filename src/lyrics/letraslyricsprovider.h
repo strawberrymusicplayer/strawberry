@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,13 +17,11 @@
  *
  */
 
-#ifndef LYRICSMODECOMLYRICSPROVIDER_H
-#define LYRICSMODECOMLYRICSPROVIDER_H
+#ifndef LETRASLYRICSPROVIDER_H
+#define LETRASLYRICSPROVIDER_H
 
 #include <QtGlobal>
 #include <QObject>
-#include <QList>
-#include <QVariant>
 #include <QString>
 #include <QUrl>
 
@@ -32,17 +30,17 @@
 #include "htmllyricsprovider.h"
 #include "lyricssearchrequest.h"
 
-class LyricsModeComLyricsProvider : public HtmlLyricsProvider {
+class LetrasLyricsProvider : public HtmlLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit LyricsModeComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit LetrasLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
  protected:
   QUrl Url(const LyricsSearchRequest &request) override;
 
  private:
-  QString StringFixup(QString text);
+  QString StringFixup(const QString &text);
 
  private:
   static const char kUrl[];
@@ -51,4 +49,4 @@ class LyricsModeComLyricsProvider : public HtmlLyricsProvider {
   static const char kLyricsStart[];
 };
 
-#endif  // LYRICSMODECOMLYRICSPROVIDER_H
+#endif  // LETRASLYRICSPROVIDER_H

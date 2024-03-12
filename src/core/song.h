@@ -123,9 +123,12 @@ class Song {
   static const QString kFtsBindSpec;
   static const QString kFtsUpdateSpec;
 
-  static const QRegularExpression kAlbumRemoveDisc;
-  static const QRegularExpression kAlbumRemoveMisc;
-  static const QRegularExpression kTitleRemoveMisc;
+  using RegularExpressionList = QList<QRegularExpression>;
+  static const RegularExpressionList kAlbumDisc;
+  static const RegularExpressionList kRemastered;
+  static const RegularExpressionList kExplicit;
+  static const RegularExpressionList kAlbumMisc;
+  static const RegularExpressionList kTitleMisc;
 
   static const QStringList kArticles;
 
@@ -442,6 +445,14 @@ class Song {
   // Two songs that are on the same album will have the same AlbumKey.
   // It is more efficient to use IsOnSameAlbum, but this function can be used when you need to hash the key to do fast lookups.
   QString AlbumKey() const;
+
+  static bool ContainsRegexList(const QString &str, const RegularExpressionList &regex_list);
+  static QString StripRegexList(QString str, const RegularExpressionList &regex_list);
+  static bool AlbumContainsDisc(const QString &album);
+  static QString AlbumRemoveDisc(const QString &album);
+  static QString AlbumRemoveMisc(const QString &album);
+  static QString AlbumRemoveDiscMisc(const QString &album);
+  static QString TitleRemoveMisc(const QString &title);
 
  private:
   struct Private;

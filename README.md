@@ -29,12 +29,12 @@ Resources:
 * We do not take feature requests from users on GitHub. Any issues related to feature requests will be closed. This does not necessarily mean that we won't add new features, but we don't have time to take feature requests or answer questions about new features from users. It is still possible to suggest or discuss new features on the forum (https://forum.strawberrymusicplayer.org/).
 * We do not maintain the Flatpak package. Do not report issues related to Flatpak unless the issue can be reproduced with a native package, use Flatpak support instead https://flatpak.org/about/
 
-### :moneybag:	Sponsoring
+### :moneybag: Sponsoring
 
 The program is free software, released under GPL. If you like this program and can make use of it, consider sponsoring or donating to help fund the project.
-There are currently 3 options for sponsoring:
+There are currently 4 options for sponsoring:
 
-1. [GitHub Sponsors](https://github.com/sponsors/jonaski)
+1. [GitHub](https://github.com/sponsors/jonaski)
 2. [Patreon](https://www.patreon.com/jonaskvinge)
 3. [Ko-fi](https://ko-fi.com/jonaskvinge)
 4. [PayPal](https://paypal.me/jonaskvinge)
@@ -54,7 +54,7 @@ Funding developers is a way to contribute to open source projects you appreciate
   * Edit tags on audio files
   * Fetch tags from MusicBrainz
   * Album cover art from [Last.fm](https://www.last.fm/), [Musicbrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/), [Musixmatch](https://www.musixmatch.com/), [Deezer](https://www.deezer.com/), [Tidal](https://www.tidal.com/), [Qobuz](https://www.qobuz.com/) and [Spotify](https://www.spotify.com/)
-  * Song lyrics from [Genius](https://genius.com/), [Musixmatch](https://www.musixmatch.com/), [ChartLyrics](http://www.chartlyrics.com/), [lyrics.ovh](https://lyrics.ovh/), [lololyrics.com](https://www.lololyrics.com/), [songlyrics.com](https://www.songlyrics.com/), [azlyrics.com](https://www.azlyrics.com/), [elyrics.net](https://www.elyrics.net/) and [lyricsmode.com](https://www.lyricsmode.com/)
+  * Song lyrics from [Genius](https://genius.com/), [Musixmatch](https://www.musixmatch.com/), [ChartLyrics](http://www.chartlyrics.com/), [lyrics.ovh](https://lyrics.ovh/), [lololyrics.com](https://www.lololyrics.com/), [songlyrics.com](https://www.songlyrics.com/), [azlyrics.com](https://www.azlyrics.com/) and [elyrics.net](https://www.elyrics.net/)
   * Support for multiple backends
   * Audio analyzer
   * Audio equalizer
@@ -65,7 +65,7 @@ Funding developers is a way to contribute to open source projects you appreciate
 
 It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
 
-**macOS releases are currently limited to sponsors. This is because macOS releases require a developer account, Apple hardware and maintaining all libraries strawberry depends on. If you are sponsoring strawberry, e-mail support@strawberrymusicplayer.org for access to downloads.**
+**macOS releases are currently limited to sponsors. This is because Strawberry mainly has one contributor/developer and supporting macOS requires Apple hardware, building libraries Strawberry depends and a Apple developer account for signing releases. If you are sponsoring strawberry through Patreon, releases are available directly on Patreon, if you are sponsoring through GitHub, Ko-fi or Paypal, please e-mail support@strawberrymusicplayer.org for access to downloads.**
 
 ### :heavy_exclamation_mark: Requirements
 
@@ -97,7 +97,7 @@ Optional dependencies:
 
 You should also install the gstreamer plugins base and good, and optionally bad, ugly and libav to support all audio formats.
 
-### :wrench:	Compiling from source
+### :wrench: Compiling from source
 
 ### Get the code:
 
@@ -118,6 +118,6 @@ Strawberry is backwards compatible with Qt 5, to compile with Qt 5 use:
 
 To compile on Windows with Visual Studio 2019 or 2022, see https://github.com/strawberrymusicplayer/strawberry-msvc
 
-### :penguin:	Packaging status
+### :penguin: Packaging status
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/strawberry.svg?exclude_unsupported=1)](https://repology.org/metapackage/strawberry/versions)

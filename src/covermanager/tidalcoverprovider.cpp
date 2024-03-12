@@ -241,15 +241,11 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
       continue;
     }
     QString album = obj_album["title"].toString();
-    QString cover = obj_album["cover"].toString();
-
-    album = album.remove(Song::kAlbumRemoveDisc);
-    album = album.remove(Song::kAlbumRemoveMisc);
-    cover = cover.replace("-", "/");
+    QString cover = obj_album["cover"].toString().replace("-", "/");
 
     CoverProviderSearchResult cover_result;
     cover_result.artist = artist;
-    cover_result.album = album;
+    cover_result.album = Song::AlbumRemoveDiscMisc(album);
     cover_result.number = ++i;
 
     QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QString("1280x1280"), QSize(1280, 1280))

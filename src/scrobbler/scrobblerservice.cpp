@@ -50,14 +50,14 @@ bool ScrobblerService::ExtractJsonObj(const QByteArray &data, QJsonObject &json_
 
 }
 
-QString ScrobblerService::StripAlbum(QString album) const {
+QString ScrobblerService::StripAlbum(const QString &album) const {
 
-  return album.remove(Song::kAlbumRemoveDisc).remove(Song::kAlbumRemoveMisc);
+  return Song::AlbumRemoveDisc(album);
 
 }
 
-QString ScrobblerService::StripTitle(QString title) const {
+QString ScrobblerService::StripTitle(const QString &title) const {
 
-  return title.remove(Song::kTitleRemoveMisc);
+  return Song::TitleRemoveMisc(title);
 
 }

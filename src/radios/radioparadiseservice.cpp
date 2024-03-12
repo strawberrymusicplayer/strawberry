@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,20 @@
 
 #include <QObject>
 #include <QUrl>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QJsonValue>
+#include <QJsonObject>
+#include <QJsonArray>
 
+#include "core/application.h"
+#include "core/networkaccessmanager.h"
+#include "core/taskmanager.h"
 #include "core/iconloader.h"
 #include "radioparadiseservice.h"
 #include "radiochannel.h"
+
+const char *RadioParadiseService::kApiChannelsUrl = "https://api.radioparadise.com/api/list_streams";
 
 RadioParadiseService::RadioParadiseService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : RadioService(Song::Source::RadioParadise, "Radio Paradise", IconLoader::Load("radioparadise"), app, network, parent) {}
@@ -30,17 +40,86 @@ RadioParadiseService::RadioParadiseService(Application *app, SharedPtr<NetworkAc
 QUrl RadioParadiseService::Homepage() { return QUrl("https://radioparadise.com/"); }
 QUrl RadioParadiseService::Donate() { return QUrl("https://payments.radioparadise.com/rp2s-content.php?name=Support&file=support"); }
 
+void RadioParadiseService::Abort() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    QObject::disconnect(reply, nullptr, this, nullptr);
+    if (reply->isRunning()) reply->abort();
+    reply->deleteLater();
+  }
+
+  channels_.clear();
+
+}
+
 void RadioParadiseService::GetChannels() {
 
-  emit NewChannels(RadioChannelList()
-    << RadioChannel(source_, "Main Mix 320k AAC", QUrl("https://stream.radioparadise.com/aac-320"))
-    << RadioChannel(source_, "Mellow Mix 320k AAC", QUrl("https://stream.radioparadise.com/mellow-320"))
-    << RadioChannel(source_, "Rock Mix 320k AAC", QUrl("https://stream.radioparadise.com/rock-320"))
-    << RadioChannel(source_, "World/Etc Mix 320k AAC", QUrl("https://stream.radioparadise.com/world-etc-320"))
-    << RadioChannel(source_, "Main Mix FLAC", QUrl("https://stream.radioparadise.com/flacm"))
-    << RadioChannel(source_, "Mellow Mix FLAC", QUrl("https://stream.radioparadise.com/mellow-flacm"))
-    << RadioChannel(source_, "Rock Mix FLAC", QUrl("https://stream.radioparadise.com/rock-flacm"))
-    << RadioChannel(source_, "World/Etc Mix FLAC", QUrl("https://stream.radioparadise.com/world-etc-flacm"))
-  );
+  Abort();
+
+  QUrl url(kApiChannelsUrl);
+  QNetworkRequest req(url);
+  QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
+  const int task_id = app_->task_manager()->StartTask(tr("Getting %1 channels").arg(name_));
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task_id]() { GetChannelsReply(reply, task_id); });
+
+}
+
+void RadioParadiseService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
+
+  if (replies_.contains(reply)) replies_.removeAll(reply);
+  reply->deleteLater();
+
+  QJsonObject object = ExtractJsonObj(reply);
+  if (object.isEmpty()) {
+    app_->task_manager()->SetTaskFinished(task_id);
+    emit NewChannels();
+    return;
+  }
+
+  if (!object.contains("channels") || !object["channels"].isArray()) {
+    Error("Missing JSON channels array.", object);
+    app_->task_manager()->SetTaskFinished(task_id);
+    emit NewChannels();
+    return;
+  }
+  QJsonArray array_channels = object["channels"].toArray();
+
+  RadioChannelList channels;
+  for (const QJsonValueRef value_channel : array_channels) {
+    if (!value_channel.isObject()) continue;
+    QJsonObject obj_channel = value_channel.toObject();
+    if (!obj_channel.contains("chan_name") || !obj_channel.contains("streams")) {
+      continue;
+    }
+    QString name = obj_channel["chan_name"].toString();
+    QJsonValue value_streams = obj_channel["streams"];
+    if (!value_streams.isArray()) {
+      continue;
+    }
+    QJsonArray array_streams = obj_channel["streams"].toArray();
+    for (const QJsonValueRef value_stream : array_streams) {
+      if (!value_stream.isObject()) continue;
+      QJsonObject obj_stream = value_stream.toObject();
+      if (!obj_stream.contains("label") || !obj_stream.contains("url")) {
+        continue;
+      }
+      QString label = obj_stream["label"].toString();
+      QString url = obj_stream["url"].toString();
+      if (!url.contains(QRegularExpression("^[0-9a-zA-Z]*:\\/\\/", QRegularExpression::CaseInsensitiveOption))) {
+        url.prepend("https://");
+      }
+      RadioChannel channel;
+      channel.source = source_;
+      channel.name = name + " - " + label;
+      channel.url.setUrl(url);
+      channels << channel;
+    }
+  }
+
+  app_->task_manager()->SetTaskFinished(task_id);
+
+  emit NewChannels(channels);
 
 }

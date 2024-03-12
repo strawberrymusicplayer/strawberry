@@ -830,7 +830,7 @@ void DeviceManager::DeviceTaskStarted(const int id) {
 
   for (int i = 0; i < devices_.count(); ++i) {
     DeviceInfo *info = devices_[i];
-    if (&*info->device_ == device) {
+    if (info->device_ && &*info->device_ == device) {
       QModelIndex index = ItemToIndex(info);
       if (!index.isValid()) continue;
       active_tasks_[id] = index;

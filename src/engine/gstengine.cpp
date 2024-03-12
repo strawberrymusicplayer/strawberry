@@ -73,6 +73,7 @@ const char *GstEngine::kAVDTPSink = "avdtpsink";
 const char *GstEngine::InterAudiosink = "interaudiosink";
 const char *GstEngine::kDirectSoundSink = "directsoundsink";
 const char *GstEngine::kOSXAudioSink = "osxaudiosink";
+const char *GstEngine::kWASAPISink = "wasapisink";
 const int GstEngine::kDiscoveryTimeoutS = 10;
 const qint64 GstEngine::kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
 const qint64 GstEngine::kPreloadGapNanosec = 8000 * kNsecPerMsec;     // 8s
@@ -413,14 +414,19 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
   GList *const features = gst_registry_get_feature_list(registry, GST_TYPE_ELEMENT_FACTORY);
   for (GList *future = features; future; future = g_list_next(future)) {
     GstElementFactory *factory = GST_ELEMENT_FACTORY(future->data);
-    const gchar *metadata = gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS);
-    if (QString(metadata).startsWith("Sink/Audio", Qt::CaseInsensitive)) {
-      OutputDetails output;
-      output.name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
-      output.description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
-      if (output.name == "wasapi2sink" && output.description == "Stream audio to an audio capture device through WASAPI") {
-        output.description.append("2");
+    const QString metadata = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS));
+    const QString name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
+    if (metadata.startsWith("Sink/Audio", Qt::CaseInsensitive) || name == "pipewiresink" || (metadata.startsWith("Source/Audio", Qt::CaseInsensitive) && name.contains("sink"))) {
+      QString description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
+      if (name == "wasapi2sink" && description == "Stream audio to an audio capture device through WASAPI") {
+        description.append("2");
       }
+      else if (name == "pipewiresink" && description == "Send video to PipeWire") {
+        description = "Send audio to PipeWire";
+      }
+      OutputDetails output;
+      output.name = name;
+      output.description = description;
       if (output.name == kAutoSink) output.iconname = "soundcard";
       else if (output.name == kALSASink || output.name == kOSS4Sink) output.iconname = "alsa";
       else if (output.name == kJackAudioSink) output.iconname = "jack";
@@ -452,6 +458,10 @@ bool GstEngine::CustomDeviceSupport(const QString &output) {
 
 bool GstEngine::ALSADeviceSupport(const QString &output) {
   return (output == kALSASink);
+}
+
+bool GstEngine::ExclusiveModeSupport(const QString &output) {
+  return output == kWASAPISink;
 }
 
 void GstEngine::ReloadSettings() {
@@ -789,6 +799,7 @@ SharedPtr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
   SharedPtr<GstEnginePipeline> ret = make_shared<GstEnginePipeline>();
   ret->set_output_device(output_, device_);
+  ret->set_exclusive_mode(exclusive_mode_);
   ret->set_volume_enabled(volume_control_);
   ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
   ret->set_equalizer_enabled(equalizer_enabled_);

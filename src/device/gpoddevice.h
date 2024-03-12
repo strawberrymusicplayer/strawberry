@@ -64,12 +64,12 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   bool GetSupportedFiletypes(QList<Song::FileType> *ret) override;
 
   bool StartCopy(QList<Song::FileType> *supported_filetypes) override;
-  bool CopyToStorage(const CopyJob &job) override;
-  void FinishCopy(bool success) override;
+  bool CopyToStorage(const CopyJob &job, QString &error_text) override;
+  bool FinishCopy(bool success, QString &error_text) override;
 
   void StartDelete() override;
   bool DeleteFromStorage(const DeleteJob &job) override;
-  void FinishDelete(bool success) override;
+  bool FinishDelete(bool success, QString &error_text) override;
 
  protected slots:
   void LoadFinished(Itdb_iTunesDB *db, const bool success);
@@ -83,7 +83,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
  private:
   void Start();
   void Finish(const bool success);
-  bool WriteDatabase();
+  bool WriteDatabase(QString &error_text);
 
  protected:
   GPodLoader *loader_;

@@ -136,7 +136,7 @@ const QStringList Song::kColumns = QStringList() << "title"
                                                  << "ebur128_integrated_loudness_lufs"
                                                  << "ebur128_loudness_range_lu"
 
-						 ;
+                                                 ;
 
 const QString Song::kColumnSpec = Song::kColumns.join(", ");
 const QString Song::kBindSpec = Utilities::Prepend(":", Song::kColumns).join(", ");
@@ -167,9 +167,28 @@ const QString Song::kFtsColumnSpec = Song::kFtsColumns.join(", ");
 const QString Song::kFtsBindSpec = Utilities::Prepend(":", Song::kFtsColumns).join(", ");
 const QString Song::kFtsUpdateSpec = Utilities::Updateify(Song::kFtsColumns).join(", ");
 
-const QRegularExpression Song::kAlbumRemoveDisc(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$", QRegularExpression::CaseInsensitiveOption);
-const QRegularExpression Song::kAlbumRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|([0-9]{1,4}) *Remaster|Explicit) ?((\\)|\\])?)$", QRegularExpression::CaseInsensitiveOption);
-const QRegularExpression Song::kTitleRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|Remastered Version|([0-9]{1,4}) *Remaster) ?((\\)|\\])?)$", QRegularExpression::CaseInsensitiveOption);
+const Song::RegularExpressionList Song::kAlbumDisc = Song::RegularExpressionList()
+    << QRegularExpression("\\s+-*\\s*(Disc|CD)\\s*([0-9]{1,2})$", QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression("\\s+-*\\s*\\(\\s*(Disc|CD)\\s*([0-9]{1,2})\\)$", QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression("\\s+-*\\s*\\[\\s*(Disc|CD)\\s*([0-9]{1,2})\\]$", QRegularExpression::CaseInsensitiveOption);
+
+const Song::RegularExpressionList Song::kRemastered = Song::RegularExpressionList()
+    << QRegularExpression("\\s+-*\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*$", QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression("\\s+-*\\s*\\(\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*\\)\\s*$", QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression("\\s+-*\\s*\\[\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*\\]\\s*$", QRegularExpression::CaseInsensitiveOption);
+
+const Song::RegularExpressionList Song::kExplicit = Song::RegularExpressionList()
+    << QRegularExpression("\\s+-*\\s*Explicit\\s*$", QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression("\\s+-*\\s*\\(\\s*Explicit\\s*\\)\\s*$", QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression("\\s+-*\\s*\\[\\s*Explicit\\s*\\]\\s*$", QRegularExpression::CaseInsensitiveOption);
+
+const Song::RegularExpressionList Song::kAlbumMisc = Song::RegularExpressionList()
+    << kRemastered
+    << kExplicit;
+
+const Song::RegularExpressionList Song::kTitleMisc = Song::RegularExpressionList()
+    << kRemastered
+    << kExplicit;
 
 const QStringList Song::kArticles = QStringList() << "the " << "a " << "an ";
 
@@ -1842,4 +1861,54 @@ uint qHash(const Song &song) {
 size_t HashSimilar(const Song &song) {
   // Should compare the same fields as function IsSimilar
   return qHash(song.title().toLower()) ^ qHash(song.artist().toLower()) ^ qHash(song.album().toLower());
+}
+
+bool Song::ContainsRegexList(const QString &str, const RegularExpressionList &regex_list) {
+
+  for (const QRegularExpression &regex : regex_list) {
+    if (str.contains(regex)) return true;
+  }
+
+  return false;
+
+}
+
+QString Song::StripRegexList(QString str, const RegularExpressionList &regex_list) {
+
+  for (const QRegularExpression &regex : regex_list) {
+    str = str.remove(regex);
+  }
+
+  return str;
+
+}
+
+bool Song::AlbumContainsDisc(const QString &album) {
+
+  return ContainsRegexList(album, kAlbumDisc);
+
+}
+
+QString Song::AlbumRemoveDisc(const QString &album) {
+
+  return StripRegexList(album, kAlbumDisc);
+
+}
+
+QString Song::AlbumRemoveMisc(const QString &album) {
+
+  return StripRegexList(album, kAlbumMisc);
+
+}
+
+QString Song::AlbumRemoveDiscMisc(const QString &album) {
+
+  return StripRegexList(album, RegularExpressionList() << kAlbumDisc << kAlbumMisc);
+
+}
+
+QString Song::TitleRemoveMisc(const QString &title) {
+
+  return StripRegexList(title, kTitleMisc);
+
 }

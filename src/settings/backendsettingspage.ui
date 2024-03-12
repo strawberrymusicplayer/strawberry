@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>717</width>
-    <height>1245</height>
+    <height>1259</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -146,6 +146,47 @@
             <size>
              <width>0</width>
              <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_exclusive_mode" native="true">
+        <layout class="QHBoxLayout" name="layout_exclusive_mode">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="checkbox_exclusive_mode">
+           <property name="text">
+            <string>Exclusive mode (Experimental)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacer_exclusive_mode">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
             </size>
            </property>
           </spacer>

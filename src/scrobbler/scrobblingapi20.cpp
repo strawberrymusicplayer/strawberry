@@ -174,13 +174,10 @@ ScrobblingAPI20::ReplyResult ScrobblingAPI20::GetJsonObject(QNetworkReply *reply
       reply_error_type = ReplyResult::APIError;
     }
     const ScrobbleErrorCode lastfm_error_code = static_cast<ScrobbleErrorCode>(error_code);
-    if (reply->error() == QNetworkReply::ContentAccessDenied ||
-        reply->error() == QNetworkReply::ContentOperationNotPermittedError ||
-        reply->error() == QNetworkReply::AuthenticationRequiredError ||
+    if (reply->error() == QNetworkReply::AuthenticationRequiredError ||
         lastfm_error_code == ScrobbleErrorCode::InvalidSessionKey ||
         lastfm_error_code == ScrobbleErrorCode::UnauthorizedToken ||
         lastfm_error_code == ScrobbleErrorCode::LoginRequired ||
-        lastfm_error_code == ScrobbleErrorCode::AuthenticationFailed ||
         lastfm_error_code == ScrobbleErrorCode::APIKeySuspended
     ) {
       // Session is probably expired

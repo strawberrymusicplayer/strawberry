@@ -2,6 +2,36 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed crash when pressing CTRL + C (#1359).
+    * Pass on scroll events to page in settings to avoid changing settings when scrolling with mouse (#1380).
+    * (macOS/Windows) Fixed dash and hls streaming, plugins were missing.
+
+  Enhancements:
+    * Improve error messages when connecting and copying to devices.
+    * Allow enter to be used with multiselection to add songs to playlist (#1360)
+    * Add song progress to taskbar using D-Bus.
+    * Use API to receive Radio Paradise channels.
+    * (Unix) Add experimental GStreamer pipewire support.
+    * (Windows) Add experimental exclusive mode for WASAPI.
+    * (Windows MSVC) Add ASIO support.
+    * (Windows MSVC) Add back WASAPI2.
+
+Version 1.0.23 (2024.01.11):
+
+  Bugfixes:
+    * Fixed possible duplication of song entries after organizing (#1341).
+    * Fixed possible crash when connecting devices (#1313).
+    * Fixed playlist sorting of original year (#1349).
+    * (macOS) Fixed crash when adding collection directory (QTBUG-120469) (#1350).
+
+  Enhancements:
+    * Treat all stream errors as non-fatal (#1347).
+    * Require KDSingleApplication 1.1.0.
+    * Fix logging of restored unavailable songs.
+
 Version 1.0.22 (2023.12.09):
 
   Bugfixes:

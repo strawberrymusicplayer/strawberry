@@ -87,6 +87,9 @@
           </item>
           <item>
            <widget class="QToolButton" name="view">
+            <property name="accessibleName">
+             <string>MenuPopupToolButton</string>
+            </property>
             <property name="text">
              <string>View</string>
             </property>

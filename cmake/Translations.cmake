@@ -1,21 +1,33 @@
-find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
-if(NOT GETTEXT_XGETTEXT_EXECUTABLE)
-  message(FATAL_ERROR "Could not find xgettext executable")
-endif(NOT GETTEXT_XGETTEXT_EXECUTABLE)
+find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext REQUIRED)
+find_program(CAT_EXECUTABLE cat REQUIRED)
 
-set (XGETTEXT_OPTIONS
-    --qt
-    --keyword=tr:1,2c
-    --keyword=tr --flag=tr:1:pass-c-format --flag=tr:1:pass-qt-format
-    --keyword=trUtf8 --flag=tr:1:pass-c-format --flag=tr:1:pass-qt-format
-    --keyword=translate:2,3c
-    --keyword=translate:2 --flag=translate:2:pass-c-format --flag=translate:2:pass-qt-format
-    --keyword=QT_TR_NOOP --flag=QT_TR_NOOP:1:pass-c-format --flag=QT_TR_NOOP:1:pass-qt-format
-    --keyword=QT_TRANSLATE_NOOP:2 --flag=QT_TRANSLATE_NOOP:2:pass-c-format --flag=QT_TRANSLATE_NOOP:2:pass-qt-format
-    --keyword=_ --flag=_:1:pass-c-format --flag=_:1:pass-qt-format
-    --keyword=N_ --flag=N_:1:pass-c-format --flag=N_:1:pass-qt-format
-    --from-code=utf-8
-    )
+list(APPEND XGETTEXT_OPTIONS
+  --qt
+  --keyword=tr:1,2c
+  --keyword=tr
+  --flag=tr:1:pass-c-format
+  --flag=tr:1:pass-qt-format
+  --keyword=trUtf8
+  --flag=tr:1:pass-c-format
+  --flag=tr:1:pass-qt-format
+  --keyword=translate:2,3c
+  --keyword=translate:2
+  --flag=translate:2:pass-c-format
+  --flag=translate:2:pass-qt-format
+  --keyword=QT_TR_NOOP
+  --flag=QT_TR_NOOP:1:pass-c-format
+  --flag=QT_TR_NOOP:1:pass-qt-format
+  --keyword=QT_TRANSLATE_NOOP:2
+  --flag=QT_TRANSLATE_NOOP:2:pass-c-format
+  --flag=QT_TRANSLATE_NOOP:2:pass-qt-format
+  --keyword=_
+  --flag=_:1:pass-c-format
+  --flag=_:1:pass-qt-format
+  --keyword=N_
+  --flag=N_:1:pass-c-format
+  --flag=N_:1:pass-qt-format
+  --from-code=utf-8
+)
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/translations)
 
@@ -32,7 +44,7 @@ macro(add_pot outfiles header pot)
   add_custom_command(
     OUTPUT ${pot}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_OPTIONS} -s -C --omit-header --output=${CMAKE_CURRENT_BINARY_DIR}/pot.temp ${add_pot_sources}
+    COMMAND xgettext ${XGETTEXT_OPTIONS} -s -C --omit-header --output="${CMAKE_CURRENT_BINARY_DIR}/pot.temp" ${add_pot_sources}
     COMMAND cat ${header} ${CMAKE_CURRENT_BINARY_DIR}/pot.temp > ${pot}
     DEPENDS ${add_pot_sources} ${header}
   )

@@ -96,6 +96,12 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent
   QObject::connect(ui_->checkbox_channels, &QCheckBox::toggled, ui_->widget_channels, &QSpinBox::setEnabled);
   QObject::connect(ui_->button_buffer_defaults, &QPushButton::clicked, this, &BackendSettingsPage::BufferDefaults);
 
+#ifdef Q_OS_WIN32
+  ui_->widget_exclusive_mode->show();
+#else
+  ui_->widget_exclusive_mode->hide();
+#endif
+
 }
 
 BackendSettingsPage::~BackendSettingsPage() {
@@ -147,6 +153,10 @@ void BackendSettingsPage::Load() {
 #else
   ui_->lineedit_device->hide();
   ui_->widget_alsa_plugin->hide();
+#endif
+
+#ifdef Q_OS_WIN32
+  ui_->checkbox_exclusive_mode->setChecked(s.value("exclusive_mode", false).toBool());
 #endif
 
   if (EngineInitialized()) Load_Engine(enginetype);
@@ -331,6 +341,10 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
     ui_->groupbox_ebur128->setEnabled(false);
   }
 
+#ifdef Q_OS_WIN32
+  ui_->widget_exclusive_mode->setEnabled(engine()->ExclusiveModeSupport(output));
+#endif
+
   if (ui_->combobox_output->count() >= 1) Load_Device(output, device);
 
   FadingOptionsChanged();
@@ -481,6 +495,10 @@ void BackendSettingsPage::Save() {
   else s.remove("alsaplugin");
 #endif
 
+#ifdef Q_OS_WIN32
+  s.setValue("exclusive_mode", ui_->checkbox_exclusive_mode->isChecked());
+#endif
+
   s.setValue("volume_control", ui_->checkbox_volume_control->isChecked());
 
   s.setValue("channels_enabled", ui_->checkbox_channels->isChecked());
@@ -550,6 +568,11 @@ void BackendSettingsPage::OutputChanged(const int index) {
   if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
+
+#ifdef Q_OS_WIN32
+  ui_->widget_exclusive_mode->setEnabled(engine()->ExclusiveModeSupport(output.name));
+#endif
+
   Load_Device(output.name, QVariant());
 
 }

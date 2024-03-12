@@ -81,6 +81,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   QString DefaultOutput() override { return kAutoSink; }
   bool CustomDeviceSupport(const QString &output) override;
   bool ALSADeviceSupport(const QString &output) override;
+  bool ExclusiveModeSupport(const QString &output) override;
 
   void SetStartup(GstStartup *gst_startup) { gst_startup_ = gst_startup; }
   void EnsureInitialized() { gst_startup_->EnsureInitialized(); }
@@ -152,6 +153,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   static const char *InterAudiosink;
   static const char *kDirectSoundSink;
   static const char *kOSXAudioSink;
+  static const char *kWASAPISink;
   static const int kDiscoveryTimeoutS;
   static const qint64 kTimerIntervalNanosec;
   static const qint64 kPreloadGapNanosec;

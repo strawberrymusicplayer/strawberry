@@ -36,7 +36,7 @@
 
 FilesystemMusicStorage::FilesystemMusicStorage(const Song::Source source, const QString &root, const std::optional<int> collection_directory_id) : source_(source), root_(root), collection_directory_id_(collection_directory_id) {}
 
-bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
+bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job, QString &error_text) {
 
   const QFileInfo src = QFileInfo(job.source_);
   const QFileInfo dest = QFileInfo(root_ + "/" + job.destination_);
@@ -54,7 +54,8 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
   // Create directories as required
   QDir dir;
   if (!dir.mkpath(dest.absolutePath())) {
-    qLog(Warning) << "Failed to create directory" << dest.dir().absolutePath();
+    error_text = QObject::tr("Failed to create directory %1.").arg(dest.dir().absolutePath());
+    qLog(Error) << error_text;
     return false;
   }
 
@@ -65,10 +66,12 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
   }
 
   // Copy or move
-  bool result(true);
+  bool result = true;
   if (job.remove_original_) {
     if (dest.exists() && !job.overwrite_) {
       result = false;
+      error_text = QObject::tr("Destination file %1 exists, but not allowed to overwrite.").arg(dest.absoluteFilePath());
+      qLog(Error) << error_text;
     }
     else {
       result = QFile::rename(src.absoluteFilePath(), dest.absoluteFilePath());
@@ -86,9 +89,15 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
   else {
     if (dest.exists() && !job.overwrite_) {
       result = false;
+      error_text = QObject::tr("Destination file %1 exists, but not allowed to overwrite").arg(dest.absoluteFilePath());
+      qLog(Error) << error_text;
     }
     else {
       result = QFile::copy(src.absoluteFilePath(), dest.absoluteFilePath());
+      if (!result) {
+        error_text = QObject::tr("Could not copy file %1 to %2.").arg(src.absoluteFilePath(), dest.absoluteFilePath());
+        qLog(Error) << error_text;
+      }
     }
     if ((!cover_dest.exists() || job.overwrite_) && !cover_src.filePath().isEmpty() && !cover_dest.filePath().isEmpty()) {
       QFile::copy(cover_src.absoluteFilePath(), cover_dest.absoluteFilePath());

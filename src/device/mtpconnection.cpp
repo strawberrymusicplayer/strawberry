@@ -54,7 +54,8 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
     device_num = url_query.queryItemValue("devnum").toUInt();
   }
   else {
-    qLog(Warning) << "Invalid MTP device:" << hostname;
+    error_text_ = tr("Invalid MTP device: %1").arg(hostname);
+    qLog(Error) << error_text_;
     return;
   }
 
@@ -70,15 +71,20 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
     raw_device->devnum = device_num;
 
     device_ = LIBMTP_Open_Raw_Device(raw_device);  // NOLINT(clang-analyzer-unix.Malloc)
+    if (!device_) {
+      error_text_ = tr("Could not open MTP device.");
+      qLog(Error) << error_text_;
+    }
     return;
   }
 
   // Get a list of devices from libmtp and figure out which one is ours
   int count = 0;
   LIBMTP_raw_device_t *raw_devices = nullptr;
-  LIBMTP_error_number_t err = LIBMTP_Detect_Raw_Devices(&raw_devices, &count);
-  if (err != LIBMTP_ERROR_NONE) {
-    qLog(Warning) << "MTP error:" << err;
+  LIBMTP_error_number_t error_number = LIBMTP_Detect_Raw_Devices(&raw_devices, &count);
+  if (error_number != LIBMTP_ERROR_NONE) {
+    error_text_ = tr("MTP error: %1").arg(ErrorString(error_number));
+    qLog(Error) << error_text_;
     return;
   }
 
@@ -91,13 +97,18 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
   }
 
   if (!raw_device) {
-    qLog(Warning) << "MTP device not found";
+    error_text_ = tr("MTP device not found.");
+    qLog(Error) << error_text_;
     free(raw_devices);
     return;
   }
 
   // Connect to the device
   device_ = LIBMTP_Open_Raw_Device(raw_device);
+  if (!device_) {
+    error_text_ = tr("Could not open MTP device.");
+    qLog(Error) << error_text_;
+  }
 
   free(raw_devices);
 
@@ -105,6 +116,24 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
 
 MtpConnection::~MtpConnection() {
   if (device_) LIBMTP_Release_Device(device_);
+}
+
+QString MtpConnection::ErrorString(const LIBMTP_error_number_t error_number) {
+
+  switch(error_number) {
+    case LIBMTP_ERROR_NO_DEVICE_ATTACHED:
+      return "No Devices have been found.";
+    case LIBMTP_ERROR_CONNECTING:
+      return "There has been an error connecting.";
+    case LIBMTP_ERROR_MEMORY_ALLOCATION:
+      return "Memory Allocation Error.";
+    case LIBMTP_ERROR_GENERAL:
+    default:
+      return "Unknown error, please report this to the libmtp developers.";
+    case LIBMTP_ERROR_NONE:
+      return "Successfully connected.";
+  }
+
 }
 
 bool MtpConnection::GetSupportedFiletypes(QList<Song::FileType> *ret) {

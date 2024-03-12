@@ -68,8 +68,13 @@ bool MtpLoader::TryLoad() {
 
   connection_ = make_unique<MtpConnection>(url_);
 
-  if (!connection_ || !connection_->is_valid()) {
+  if (!connection_) {
     emit Error(tr("Error connecting MTP device %1").arg(url_.toString()));
+    return false;
+  }
+
+  if (!connection_->is_valid()) {
+    emit Error(tr("Error connecting MTP device %1: %2").arg(url_.toString(), connection_->error_text()));
     return false;
   }
 
@@ -84,7 +89,7 @@ bool MtpLoader::TryLoad() {
 
     Song song(Song::Source::Device);
     song.InitFromMTP(track, url_.host());
-    if (song.is_valid() && !song.artist().isEmpty() && !song.title().isEmpty()) {
+    if (song.is_valid() && !song.title().isEmpty()) {
       song.set_directory_id(1);
       songs << song;
     }

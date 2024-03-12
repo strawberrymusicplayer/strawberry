@@ -45,6 +45,7 @@
 #  include "mmdevicefinder.h"
 #  ifdef _MSC_VER
 #    include "uwpdevicefinder.h"
+#    include "asiodevicefinder.h"
 #  endif  // _MSC_VER
 #endif  // Q_OS_WIN32
 
@@ -73,6 +74,7 @@ void DeviceFinders::Init() {
   device_finders.append(new MMDeviceFinder);
 #  ifdef _MSC_VER
   device_finders.append(new UWPDeviceFinder);
+  device_finders.append(new AsioDeviceFinder);
 #  endif  // _MSC_VER
 #endif  // Q_OS_WIN32
 

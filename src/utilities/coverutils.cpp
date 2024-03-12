@@ -152,7 +152,7 @@ QString CoverUtils::CoverFilenameFromSource(const Song::Source source, const QUr
 
 QString CoverUtils::CoverFilenameFromVariable(const CoverOptions &options, const QString &artist, QString album, const QString &extension) {
 
-  album = album.remove(Song::kAlbumRemoveDisc);
+  album = Song::AlbumRemoveDisc(album);
 
   QString filename(options.cover_pattern);
   filename.replace("%albumartist", artist);
