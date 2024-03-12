@@ -71,16 +71,14 @@ libgstasf
 libgstasfmux
 libgstaudioconvert
 libgstaudiofx
-libgstaudiomixer
 libgstaudioparsers
-libgstaudiorate
 libgstaudioresample
-libgstaudiotestsrc
 libgstautodetect
 libgstbs2b
 libgstcdio
 libgstcoreelements
 libgstdash
+libgstdsd
 libgstequalizer
 libgstfaac
 libgstfaad
