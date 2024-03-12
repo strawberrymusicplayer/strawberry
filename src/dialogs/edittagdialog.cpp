@@ -1434,7 +1434,7 @@ void EditTagDialog::UpdateLyrics(const quint64 id, const QString &provider, cons
 
   if (static_cast<qint64>(id) != lyrics_id_) return;
   lyrics_id_ = -1;
-  if (lyrics != nullptr) {
+  if (!lyrics.isEmpty()) {
       ui_->lyrics->setPlainText(lyrics);
   }
   else {
