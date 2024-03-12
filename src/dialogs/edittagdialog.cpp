@@ -1436,7 +1436,8 @@ void EditTagDialog::UpdateLyrics(const quint64 id, const QString &provider, cons
   lyrics_id_ = -1;
   if (lyrics != nullptr) {
       ui_->lyrics->setPlainText(lyrics);
-  } else {
+  }
+  else {
       ui_->lyrics->setPlainText(tr("Not found."));
   }
 }
