@@ -660,7 +660,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
 
   current_item_index_ = new_current_item_index;
 
-  // if the given item is the first in the queue, remove it from the queue
+  // If the given item is the first in the queue, remove it from the queue
   if (current_item_index_.isValid() && current_item_index_.row() == queue_->PeekNext()) {
     queue_->TakeNext();
   }
@@ -721,7 +721,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
       if (0 < remove_count) RemoveItemsWithoutUndo(0, remove_count);
     }
 
-    // the above actions make all commands on the undo stack invalid, so we better clear it.
+    // The above actions make all commands on the undo stack invalid, so we better clear it.
     undo_stack_->clear();
   }
 
@@ -1629,13 +1629,13 @@ bool Playlist::removeRows(QList<int> &rows) {
 
   QList<int> part;
   while (!rows.isEmpty()) {
-    // we're splitting the input list into sequences of consecutive numbers
+    // We're splitting the input list into sequences of consecutive numbers
     part.append(rows.takeFirst());
     while (!rows.isEmpty() && rows.first() == part.last() - 1) {
       part.append(rows.takeFirst());
     }
 
-    // and now we're removing the current sequence
+    // And now we're removing the current sequence
     if (!removeRows(part.last(), static_cast<int>(part.size()))) {
       return false;
     }
@@ -2109,7 +2109,7 @@ void Playlist::InvalidateDeletedSongs() {
       bool exists = QFile::exists(song.url().toLocalFile());
 
       if (!exists && !item->HasForegroundColor(kInvalidSongPriority)) {
-        // gray out the song if it's not there
+        // Gray out the song if it's not there
         item->SetForegroundColor(kInvalidSongPriority, kInvalidSongColor);
         invalidated_rows.append(row);  // clazy:exclude=reserve-candidates
       }
