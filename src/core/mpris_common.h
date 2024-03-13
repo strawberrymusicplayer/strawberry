@@ -57,7 +57,7 @@ inline void AddMetadata(const QString &key, const QDateTime &metadata, QVariantM
 }
 
 inline void AddMetadata(const QString &key, const QDBusObjectPath &metadata, QVariantMap *map) {
-  if (metadata.path().length() > 0) (*map)[key] = metadata;
+  if (metadata.path().length() > 0) (*map)[key] = QVariant::fromValue<QDBusObjectPath>(metadata);
 }
 
 inline QString AsMPRISDateTimeType(const qint64 time) {
