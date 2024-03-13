@@ -225,7 +225,7 @@ class Mpris2 : public QObject {
 
   QString PlaybackStatus(EngineBase::State state) const;
 
-  QString current_track_id() const;
+  QDBusObjectPath current_track_id() const;
 
   bool CanSeek(EngineBase::State state) const;
 

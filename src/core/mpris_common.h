@@ -28,6 +28,7 @@
 #include <QDateTime>
 #include <QString>
 #include <QStringList>
+#include <QDBusObjectPath>
 
 namespace mpris {
 
@@ -53,6 +54,10 @@ inline void AddMetadata(const QString &key, double metadata, QVariantMap *map) {
 
 inline void AddMetadata(const QString &key, const QDateTime &metadata, QVariantMap *map) {
   if (metadata.isValid()) (*map)[key] = metadata;
+}
+
+inline void AddMetadata(const QString &key, const QDBusObjectPath &metadata, QVariantMap *map) {
+  if (metadata.path().length() > 0) (*map)[key] = metadata;
 }
 
 inline QString AsMPRISDateTimeType(const qint64 time) {
