@@ -379,8 +379,8 @@ void Mpris2::SetRating(double rating) {
 
 }
 
-QString Mpris2::current_track_id() const {
-  return QString("/org/strawberrymusicplayer/strawberry/Track/%1").arg(QString::number(app_->playlist_manager()->active()->current_row()));
+QDBusObjectPath Mpris2::current_track_id() const {
+  return QDBusObjectPath(QString("/org/strawberrymusicplayer/strawberry/Track/%1").arg(QString::number(app_->playlist_manager()->active()->current_row())));
 }
 
 // We send Metadata change notification as soon as the process of changing song starts...
@@ -512,7 +512,7 @@ void Mpris2::Seek(qint64 offset) {
 
 void Mpris2::SetPosition(const QDBusObjectPath &trackId, qint64 offset) {
 
-  if (CanSeek() && trackId.path() == current_track_id() && offset >= 0) {
+  if (CanSeek() && trackId == current_track_id() && offset >= 0) {
     offset *= kNsecPerUsec;
 
     if (offset < app_->player()->GetCurrentItem()->Metadata().length_nanosec()) {
