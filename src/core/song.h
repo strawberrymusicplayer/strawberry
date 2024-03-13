@@ -433,7 +433,9 @@ class Song {
   // Save
   void BindToQuery(SqlQuery *query) const;
   void BindToFtsQuery(SqlQuery *query) const;
+#ifdef HAVE_DBUS
   void ToXesam(QVariantMap *map) const;
+#endif
   void ToProtobuf(spb::tagreader::SongMetadata *pb) const;
 
   bool MergeFromEngineMetadata(const EngineMetadata &engine_metadata);

@@ -55,8 +55,10 @@
 #include "utilities/timeconstants.h"
 #include "song.h"
 #include "sqlquery.h"
-#include "mpris_common.h"
 #include "sqlrow.h"
+#ifdef HAVE_DBUS
+#  include "mpris_common.h"
+#endif
 #include "tagreadermessages.pb.h"
 
 const QStringList Song::kColumns = QStringList() << "title"
@@ -1745,6 +1747,7 @@ void Song::BindToFtsQuery(SqlQuery *query) const {
 
 }
 
+#ifdef HAVE_DBUS
 void Song::ToXesam(QVariantMap *map) const {
 
   using mpris::AddMetadata;
@@ -1771,6 +1774,7 @@ void Song::ToXesam(QVariantMap *map) const {
   }
 
 }
+#endif
 
 bool Song::MergeFromEngineMetadata(const EngineMetadata &engine_metadata) {
 
