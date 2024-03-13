@@ -1434,12 +1434,13 @@ void EditTagDialog::UpdateLyrics(const quint64 id, const QString &provider, cons
 
   if (static_cast<qint64>(id) != lyrics_id_) return;
   lyrics_id_ = -1;
-  if (!lyrics.isEmpty()) {
-      ui_->lyrics->setPlainText(lyrics);
+  if (lyrics.isEmpty()) {
+    ui_->lyrics->setPlainText(tr("Not found."));
   }
   else {
-      ui_->lyrics->setPlainText(tr("Not found."));
+    ui_->lyrics->setPlainText(lyrics);
   }
+
 }
 
 void EditTagDialog::SongSaveTagsComplete(TagReaderReply *reply, const QString &filename, Song song, const UpdateCoverAction cover_action) {
