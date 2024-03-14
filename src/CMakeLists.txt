@@ -188,7 +188,7 @@ set(SOURCES
   lyrics/songlyricscomlyricsprovider.cpp
   lyrics/azlyricscomlyricsprovider.cpp
   lyrics/elyricsnetlyricsprovider.cpp
-  lyrics/lyricsmodecomlyricsprovider.cpp
+  lyrics/letraslyricsprovider.cpp
 
   providers/musixmatchprovider.cpp
 
@@ -439,7 +439,7 @@ set(HEADERS
   lyrics/songlyricscomlyricsprovider.h
   lyrics/azlyricscomlyricsprovider.h
   lyrics/elyricsnetlyricsprovider.h
-  lyrics/lyricsmodecomlyricsprovider.h
+  lyrics/letraslyricsprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h
@@ -867,7 +867,7 @@ optional_source(WIN32
   HEADERS
     core/windows7thumbbar.h
 )
-optional_source(MSVC SOURCES engine/uwpdevicefinder.cpp)
+optional_source(MSVC SOURCES engine/uwpdevicefinder.cpp engine/asiodevicefinder.cpp)
 
 optional_source(HAVE_SUBSONIC
   SOURCES

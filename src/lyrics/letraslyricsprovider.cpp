@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,31 +24,33 @@
 
 #include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
+#include "core/logging.h"
 #include "utilities/transliterate.h"
 #include "lyricssearchrequest.h"
-#include "elyricsnetlyricsprovider.h"
+#include "letraslyricsprovider.h"
 
-const char ElyricsNetLyricsProvider::kUrl[] = "https://www.elyrics.net/read/";
-const char ElyricsNetLyricsProvider::kStartTag[] = "<div[^>]*>";
-const char ElyricsNetLyricsProvider::kEndTag[] = "<\\/div>";
-const char ElyricsNetLyricsProvider::kLyricsStart[] = "<div id='inlyr'>";
+const char LetrasLyricsProvider::kUrl[] = "https://www.letras.mus.br/winamp.php";
+const char LetrasLyricsProvider::kStartTag[] = "<div[^>]*>";
+const char LetrasLyricsProvider::kEndTag[] = "<\\/div>";
+const char LetrasLyricsProvider::kLyricsStart[] = "<div id=\"letra-cnt\">";
 
-ElyricsNetLyricsProvider::ElyricsNetLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : HtmlLyricsProvider("elyrics.net", true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
+LetrasLyricsProvider::LetrasLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : HtmlLyricsProvider("letras.mus.br", true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
 
-QUrl ElyricsNetLyricsProvider::Url(const LyricsSearchRequest &request) {
+QUrl LetrasLyricsProvider::Url(const LyricsSearchRequest &request) {
 
-  return QUrl(kUrl + request.artist[0].toLower() + "/" + StringFixup(request.artist) + "-lyrics/" + StringFixup(request.title) + "-lyrics.html");
+  return QUrl(QString(kUrl) + QStringLiteral("?musica=") + StringFixup(request.artist) + "&artista=" + StringFixup(request.title));
 
 }
 
-QString ElyricsNetLyricsProvider::StringFixup(const QString &text) {
+QString LetrasLyricsProvider::StringFixup(const QString &text) {
 
-  return Utilities::Transliterate(text)
+  return QUrl::toPercentEncoding(Utilities::Transliterate(text)
     .replace(QRegularExpression("[^\\w0-9_,&\\-\\(\\) ]"), "_")
     .replace(QRegularExpression(" {2,}"), " ")
     .simplified()
     .replace(' ', '-')
-    .toLower();
+    .toLower()
+    );
 
 }

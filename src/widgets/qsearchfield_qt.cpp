@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <QIcon>
 #include <QPointer>
 #include <QLineEdit>
-#include <QToolButton>
+#include <QPushButton>
 #include <QStyle>
 #include <QSize>
 #include <QBoxLayout>
@@ -43,7 +43,7 @@ THE SOFTWARE.
 class QSearchFieldPrivate : public QObject {  // clazy:exclude=missing-qobject-macro
 
  public:
-  QSearchFieldPrivate(QSearchField *searchField, QLineEdit *lineedit, QToolButton *clearbutton)
+  QSearchFieldPrivate(QSearchField *searchField, QLineEdit *lineedit, QPushButton *clearbutton)
       : QObject(searchField), lineedit_(lineedit), clearbutton_(clearbutton) {}
 
   int lineEditFrameWidth() const {
@@ -59,7 +59,7 @@ class QSearchFieldPrivate : public QObject {  // clazy:exclude=missing-qobject-m
   }
 
   QPointer<QLineEdit> lineedit_;
-  QPointer<QToolButton> clearbutton_;
+  QPointer<QPushButton> clearbutton_;
 
 };
 
@@ -71,7 +71,7 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   QObject::connect(lineEdit, &QLineEdit::returnPressed, this, &QSearchField::returnPressed);
   QObject::connect(lineEdit, &QLineEdit::textChanged, this, &QSearchField::setText);
 
-  QToolButton *clearbutton = new QToolButton(this);
+  QPushButton *clearbutton = new QPushButton(this);
   QIcon clearIcon(IconLoader::Load("edit-clear-locationbar-ltr"));
 
   clearbutton->setIcon(clearIcon);
@@ -79,7 +79,7 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   clearbutton->setStyleSheet("border: none; padding: 2px;");
   clearbutton->resize(clearbutton->sizeHint());
 
-  QObject::connect(clearbutton, &QToolButton::clicked, this, &QSearchField::clear);
+  QObject::connect(clearbutton, &QPushButton::clicked, this, &QSearchField::clear);
 
   pimpl = new QSearchFieldPrivate(this, lineEdit, clearbutton);
 

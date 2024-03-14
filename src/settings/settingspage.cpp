@@ -23,6 +23,7 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QSpinBox>
+#include <QDoubleSpinBox>
 #include <QRadioButton>
 #include <QSlider>
 #include <QLineEdit>
@@ -63,15 +64,26 @@ void SettingsPage::Init(QWidget *ui_widget) {
       radiobuttons_ << qMakePair(radiobutton, radiobutton->isChecked());
     }
     else if (QComboBox *combobox = qobject_cast<QComboBox*>(w)) {
+      combobox->setFocusPolicy(Qt::StrongFocus);
+      combobox->installEventFilter(this);
       comboboxes_ << qMakePair(combobox, combobox->currentText());
     }
     else if (QSpinBox *spinbox = qobject_cast<QSpinBox*>(w)) {
+      spinbox->setFocusPolicy(Qt::StrongFocus);
+      spinbox->installEventFilter(this);
       spinboxes_ << qMakePair(spinbox, spinbox->value());
+    }
+    else if (QDoubleSpinBox *double_spinbox = qobject_cast<QDoubleSpinBox*>(w)) {
+      double_spinbox->setFocusPolicy(Qt::StrongFocus);
+      double_spinbox->installEventFilter(this);
+      double_spinboxes_ << qMakePair(double_spinbox, double_spinbox->value());
     }
     else if (QLineEdit *lineedit = qobject_cast<QLineEdit*>(w)) {
       lineedits_ << qMakePair(lineedit, lineedit->text());
     }
     else if (QSlider *slider = qobject_cast<QSlider*>(w)) {
+      slider->setFocusPolicy(Qt::StrongFocus);
+      slider->installEventFilter(this);
       sliders_ << qMakePair(slider, slider->value());
     }
   }
@@ -113,6 +125,11 @@ void SettingsPage::Apply() {
     if (spinbox.first->value() == spinbox.second) continue;
     changed_ = true;
     qLog(Info) << spinbox.first->objectName() << "is changed for" << windowTitle() << "settings.";
+  }
+  for (QPair<QDoubleSpinBox*, int> &double_spinbox : double_spinboxes_) {
+    if (double_spinbox.first->value() == double_spinbox.second) continue;
+    changed_ = true;
+    qLog(Info) << double_spinbox.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }
   for (QPair<QLineEdit*, QString> &lineedit : lineedits_) {
     if (lineedit.first->text() == lineedit.second) continue;
@@ -158,6 +175,35 @@ void SettingsPage::ComboBoxLoadFromSettingsByIndex(const QSettings &s, QComboBox
   int i = s.value(setting, default_value).toInt();
   if (i <= 0 || i >= combobox->count()) i = 0;
   combobox->setCurrentIndex(i);
+
+}
+
+bool SettingsPage::eventFilter(QObject *obj, QEvent *e) {
+
+  if (e->type() == QEvent::Wheel) {
+    if (QComboBox *combobox = qobject_cast<QComboBox*>(obj)) {
+      if (!combobox->hasFocus()) {
+        return event(e);
+      }
+    }
+    else if (QSpinBox *spinbox = qobject_cast<QSpinBox*>(obj)) {
+      if (!spinbox->hasFocus()) {
+        return event(e);
+      }
+    }
+    else if (QDoubleSpinBox *double_spinbox = qobject_cast<QDoubleSpinBox*>(obj)) {
+      if (!double_spinbox->hasFocus()) {
+        return event(e);
+      }
+    }
+    else if (QSlider *slider = qobject_cast<QSlider*>(obj)) {
+      if (!slider->hasFocus()) {
+        return event(e);
+      }
+    }
+  }
+
+  return false;
 
 }
 

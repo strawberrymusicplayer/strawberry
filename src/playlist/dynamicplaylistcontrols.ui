@@ -12,17 +12,17 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#container {
-	background: rgba(200, 200, 200, 50%);
+    background: rgba(200, 200, 200, 50%);
     border-radius: 10px;
     border: 1px solid rgba(200, 200, 200, 75%);
 }
 
 #label1 {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 #label2 {
-	font-size: 7.5pt;
+  font-size: 7.5pt;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="layout_dynamic_playlist_controls">

@@ -162,6 +162,9 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   // Whether or not to show letters heading in the collection view
   void set_show_dividers(const bool show_dividers);
 
+  // Whether to skip articles such as “The” when sorting artist names
+  void set_sort_skips_articles(const bool sort_skips_articles);
+
   // Reload settings.
   void ReloadSettings();
 
@@ -173,7 +176,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static QString PrettyDisc(const int disc);
   static QString SortText(QString text);
   static QString SortTextForNumber(const int number);
-  static QString SortTextForArtist(QString artist);
+  static QString SortTextForArtist(QString artist, const bool skip_articles);
   static QString SortTextForSong(const Song &song);
   static QString SortTextForYear(const int year);
   static QString SortTextForBitrate(const int bitrate);
@@ -278,6 +281,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   Application *app_;
   CollectionDirectoryModel *dir_model_;
   bool show_various_artists_;
+  bool sort_skips_articles_;
 
   int total_song_count_;
   int total_artist_count_;

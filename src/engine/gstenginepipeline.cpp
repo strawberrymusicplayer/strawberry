@@ -74,6 +74,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
     : QObject(parent),
       id_(sId++),
       valid_(false),
+      exclusive_mode_(false),
       volume_enabled_(true),
       stereo_balancer_enabled_(false),
       eq_enabled_(false),
@@ -221,6 +222,10 @@ void GstEnginePipeline::set_output_device(const QString &output, const QVariant 
 
 }
 
+void GstEnginePipeline::set_exclusive_mode(const bool exclusive_mode) {
+  exclusive_mode_ = exclusive_mode;
+}
+
 void GstEnginePipeline::set_volume_enabled(const bool enabled) {
   volume_enabled_ = enabled;
 }
@@ -335,7 +340,7 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
 
   guint version_major = 0, version_minor = 0, version_micro = 0, version_nano = 0;
   gst_plugins_base_version(&version_major, &version_minor, &version_micro, &version_nano);
-  if (QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor), static_cast<int>(version_micro)), QVersionNumber(1, 22, 0)) >= 0) {
+  if (QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor)), QVersionNumber(1, 22)) >= 0) {
     pipeline_ = CreateElement("playbin3", "pipeline", nullptr, error);
   }
   else {
@@ -448,7 +453,41 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
           break;
       }
     }
-
+    else if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "device-clsid")) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+      switch (device_.metaType().id()) {
+#else
+      switch (device_.type()) {
+#endif
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::QString:{
+#else
+        case QVariant::String:{
+#endif
+          QString device = device_.toString();
+          if (!device.isEmpty()) {
+            qLog(Debug) << "Setting device-clsid" << device << "for" << output_;
+            g_object_set(G_OBJECT(audiosink_), "device-clsid", device.toUtf8().constData(), nullptr);
+          }
+          break;
+        }
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::QByteArray:{
+#else
+        case QVariant::ByteArray:{
+#endif
+          QByteArray device = device_.toByteArray();
+          if (!device.isEmpty()) {
+            qLog(Debug) << "Setting device-clsid" << device_ << "for" << output_;
+            g_object_set(G_OBJECT(audiosink_), "device-clsid", device.constData(), nullptr);
+          }
+          break;
+        }
+        default:
+          qLog(Warning) << "Unknown device clsid" << device_;
+          break;
+      }
+    }
     else if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "port-pattern")) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
       switch (device_.metaType().id()) {
@@ -487,6 +526,13 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       }
     }
 
+  }
+
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "exclusive")) {
+    if (exclusive_mode_) {
+      qLog(Debug) << "Setting exclusive mode for" << output_;
+    }
+    g_object_set(G_OBJECT(audiosink_), "exclusive", exclusive_mode_, nullptr);
   }
 
 #ifndef Q_OS_WIN32

@@ -39,6 +39,7 @@
 
 EngineBase::EngineBase(QObject *parent)
     : QObject(parent),
+      exclusive_mode_(false),
       volume_control_(true),
       volume_(100),
       beginning_nanosec_(0),
@@ -166,6 +167,8 @@ void EngineBase::ReloadSettings() {
 
   output_ = s.value("output").toString();
   device_ = s.value("device");
+
+  exclusive_mode_ = s.value("exclusive_mode", false).toBool();
 
   volume_control_ = s.value("volume_control", true).toBool();
 

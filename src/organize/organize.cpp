@@ -146,7 +146,10 @@ void Organize::ProcessSomeFiles() {
 
     UpdateProgress();
 
-    destination_->FinishCopy(files_with_errors_.isEmpty());
+    QString error_text;
+    if (!destination_->FinishCopy(files_with_errors_.isEmpty(), error_text) && !error_text.isEmpty()) {
+      log_ << error_text;
+    }
     if (eject_after_) destination_->Eject();
 
     task_manager_->SetTaskFinished(task_id_);
@@ -250,7 +253,8 @@ void Organize::ProcessSomeFiles() {
 
     job.progress_ = std::bind(&Organize::SetSongProgress, this, std::placeholders::_1, !task.transcoded_filename_.isEmpty());
 
-    if (destination_->CopyToStorage(job)) {
+    QString error_text;
+    if (destination_->CopyToStorage(job, error_text)) {
       if (job.remove_original_ && song.is_collection_song() && destination_->source() == Song::Source::Collection) {
         // Notify other aspects of system that song has been invalidated
         QString root = destination_->LocalPath();
@@ -260,6 +264,9 @@ void Organize::ProcessSomeFiles() {
     }
     else {
       files_with_errors_ << task.song_info_.song_.basefilename();
+      if (!error_text.isEmpty()) {
+        log_ << error_text;
+      }
     }
 
     // Clean up the temporary transcoded file

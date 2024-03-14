@@ -89,12 +89,12 @@ class MusicStorage {
   virtual bool GetSupportedFiletypes(QList<Song::FileType> *ret) { Q_UNUSED(ret); return true; }
 
   virtual bool StartCopy(QList<Song::FileType> *supported_types) { Q_UNUSED(supported_types); return true; }
-  virtual bool CopyToStorage(const CopyJob &job) = 0;
-  virtual void FinishCopy(bool success) { Q_UNUSED(success); }
+  virtual bool CopyToStorage(const CopyJob &job, QString &error_text) = 0;
+  virtual bool FinishCopy(bool success, QString &error_text) { Q_UNUSED(error_text); return success; }
 
   virtual void StartDelete() {}
   virtual bool DeleteFromStorage(const DeleteJob &job) = 0;
-  virtual void FinishDelete(bool success) { Q_UNUSED(success); }
+  virtual bool FinishDelete(bool success, QString &error_text) { Q_UNUSED(error_text); return success; }
 
   virtual void Eject() {}
 

@@ -264,6 +264,11 @@ bool VLCEngine::ALSADeviceSupport(const QString &output) {
   return (output == "alsa");
 }
 
+bool VLCEngine::ExclusiveModeSupport(const QString &output) {
+  Q_UNUSED(output);
+  return false;
+}
+
 uint VLCEngine::position() const {
 
   if (!Initialized() || !libvlc_media_player_is_playing(player_)) return 0;

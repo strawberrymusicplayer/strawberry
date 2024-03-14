@@ -61,8 +61,8 @@ class ScrobblerService : public QObject {
 
   bool ExtractJsonObj(const QByteArray &data, QJsonObject &json_obj, QString &error_description);
 
-  QString StripAlbum(QString album) const;
-  QString StripTitle(QString title) const;
+  QString StripAlbum(const QString &album) const;
+  QString StripTitle(const QString &title) const;
 
  public slots:
   virtual void Submit() = 0;

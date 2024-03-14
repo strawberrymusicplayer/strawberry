@@ -223,7 +223,7 @@ static const QMap<Qt::Key, quint32> keymapper_x11_ = {  // clazy:exclude=non-pod
     { Qt::Key_MediaPrevious,      XF86XK_AudioPrev },
     { Qt::Key_MediaNext,          XF86XK_AudioNext },
     { Qt::Key_MediaRecord,        XF86XK_AudioRecord },
-    { Qt::Key_MediaPause,	  XF86XK_AudioPause },
+    { Qt::Key_MediaPause,         XF86XK_AudioPause },
     { Qt::Key_HomePage,           XF86XK_HomePage },
     { Qt::Key_Favorites,          XF86XK_Favorites },
     { Qt::Key_Search,             XF86XK_Search },

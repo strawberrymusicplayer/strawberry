@@ -39,6 +39,7 @@ class QCheckBox;
 class QComboBox;
 class QRadioButton;
 class QSpinBox;
+class QDoubleSpinBox;
 class QSlider;
 class QLineEdit;
 class QShowEvent;
@@ -75,6 +76,9 @@ class SettingsPage : public QWidget {
   virtual void Save() = 0;
   virtual void Cancel() {}
 
+ protected:
+  bool eventFilter(QObject *obj, QEvent *e) override;
+
  signals:
   void NotificationPreview(const OSDBase::Behaviour, const QString&, const QString&);
 
@@ -86,6 +90,7 @@ class SettingsPage : public QWidget {
   QList<QPair<QRadioButton*, bool>> radiobuttons_;
   QList<QPair<QComboBox*, QString>> comboboxes_;
   QList<QPair<QSpinBox*, int>> spinboxes_;
+  QList<QPair<QDoubleSpinBox*, int>> double_spinboxes_;
   QList<QPair<QSlider*, int>> sliders_;
   QList<QPair<QLineEdit*, QString>> lineedits_;
 };

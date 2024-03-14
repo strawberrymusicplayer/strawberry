@@ -269,6 +269,10 @@ bool Playlist::set_column_value(Song &song, Playlist::Column column, const QVari
 
 QVariant Playlist::data(const QModelIndex &idx, int role) const {
 
+  if (!idx.isValid()) {
+    return QVariant();
+  }
+
   switch (role) {
     case Role_IsCurrent:
       return current_item_index_.isValid() && idx.row() == current_item_index_.row();
@@ -1022,44 +1026,6 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
 
   PlaylistItemPtrList items = itemsIn;
 
-  // Exercise vetoes
-  SongList songs;
-  songs.reserve(items.count());
-  for (PlaylistItemPtr item : items) {  // clazy:exclude=range-loop-reference
-    songs << item->Metadata();
-  }
-
-  const qint64 song_count = songs.length();
-  QSet<Song> vetoed;
-  for (SongInsertVetoListener *listener : veto_listeners_) {
-    for (const Song &song : listener->AboutToInsertSongs(GetAllSongs(), songs)) {
-      // Avoid veto-ing a song multiple times
-      vetoed.insert(song);
-    }
-    if (vetoed.count() == song_count) {
-      // All songs were vetoed and there's nothing more to do (there's no need for an undo step)
-      return;
-    }
-  }
-
-  if (!vetoed.isEmpty()) {
-    QMutableListIterator<PlaylistItemPtr> it(items);
-    while (it.hasNext()) {
-      PlaylistItemPtr item = it.next();
-      const Song &current = item->Metadata();
-
-      if (vetoed.contains(current)) {
-        vetoed.remove(current);
-        it.remove();
-      }
-    }
-
-    // Check for empty items once again after veto
-    if (items.isEmpty()) {
-      return;
-    }
-  }
-
   const int start = pos == -1 ? static_cast<int>(items_.count()) : pos;
 
   if (items.count() > kUndoItemLimit) {
@@ -1303,7 +1269,7 @@ bool Playlist::CompareItems(const int column, const Qt::SortOrder order, Playlis
     case Column_Track:        cmp(track);
     case Column_Disc:         cmp(disc);
     case Column_Year:         cmp(year);
-    case Column_OriginalYear: cmp(originalyear);
+    case Column_OriginalYear: cmp(effective_originalyear);
     case Column_Genre:        strcmp(genre);
     case Column_AlbumArtist:  strcmp(playlist_albumartist_sortable);
     case Column_Composer:     strcmp(composer);
@@ -1899,20 +1865,6 @@ void Playlist::ReloadItemsBlocking(const QList<int> &rows) {
     ItemReloadComplete(idx, old_metadata, false);
   }
 
-}
-
-void Playlist::AddSongInsertVetoListener(SongInsertVetoListener *listener) {
-  veto_listeners_.append(listener);
-  QObject::connect(listener, &SongInsertVetoListener::destroyed, this, &Playlist::SongInsertVetoListenerDestroyed);
-}
-
-void Playlist::RemoveSongInsertVetoListener(SongInsertVetoListener *listener) {
-  QObject::disconnect(listener, &SongInsertVetoListener::destroyed, this, &Playlist::SongInsertVetoListenerDestroyed);
-  veto_listeners_.removeAll(listener);
-}
-
-void Playlist::SongInsertVetoListenerDestroyed() {
-  veto_listeners_.removeAll(qobject_cast<SongInsertVetoListener*>(sender()));
 }
 
 void Playlist::Shuffle() {
