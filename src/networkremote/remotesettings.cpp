@@ -4,13 +4,11 @@
 #include "remotesettings.h"
 #include "core/logging.h"
 
-
 const char *RemoteSettings::kSettingsGroup = "NetworkRemote";
 
 RemoteSettings::RemoteSettings(QObject *parent)
     : QObject{parent}
-{
-}
+{}
 
 RemoteSettings::~RemoteSettings()
 {}

@@ -5,7 +5,6 @@
 #include <QTcpSocket>
 #include "networkremote/RemoteMessages.pb.h"
 #include "core/application.h"
-#include "playlist/playlistitem.h"
 
 class IncomingMsg : public QObject
 {
@@ -29,7 +28,6 @@ private:
   QByteArray msgStream_;
   std::string msgString_;
   Application *app_;
-
   qint32 msgType_;
 };
 

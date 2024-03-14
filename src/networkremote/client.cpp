@@ -7,7 +7,6 @@ Client::Client(Application *app, QObject *parent)
       outgoingMsg_(new OutgoingMsg(app)),
       player_(app_->player())
 {
-  QObject::connect(&*app_->player()->engine(), &EngineBase::StateChanged, this, &Client::EngineChanged);
 }
 
 Client::~Client()
@@ -57,23 +56,13 @@ void Client::ProcessIncoming()
     case nw::remote::MSG_TYPE_REQUEST_STOP:
       break;
     case nw::remote::MSG_TYPE_REQUEST_FINISH:
-      player_->Stop();
+      emit ClientIsLeaving();
       break;
     case nw::remote::MSG_TYPE_DISCONNECT:
       break;
     default:
         qInfo("Unknown mwessage type");
       break;
-}
-}
-
-void Client::Respond()
-{
-  //outgoingMsg_->ProcessMsg(socket_, incomingMsg_->GetMsgType());
-}
-
-void Client::EngineChanged()
-{
-  qInfo("Engine has changed");
+  }
 }
 

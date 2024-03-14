@@ -18,10 +18,6 @@ public:
   void SendCurrentTrackInfo();
   void SendMsg();
 
-private slots:
-
-signals:
-
 private:
   Application *app_;
   PlaylistItemPtr currentItem_;
@@ -34,7 +30,6 @@ private:
   std::string msgString_;
   nw::remote::SongMetadata *song_;
   nw::remote::ResponseSongMetadata *responeSong_;
-  EngineBase::State playerState_;
   SharedPtr<Player> player_ ;
   bool statusOk_;
 

@@ -1,5 +1,3 @@
-
-
 #include <QThread>
 
 #include "networkremote/networkremote.h"
@@ -36,7 +34,6 @@ void NetworkRemote::Init()
   else {
     stopTcpServer();
   }
-
   qLog(Debug) << "NetworkRemote Init() ";
 }
 
@@ -50,7 +47,6 @@ void NetworkRemote::Update()
   else {
     stopTcpServer();
   }
-
   qLog(Debug) << "NetworkRemote Updated ==== ";
 }
 
@@ -66,7 +62,6 @@ void NetworkRemote::LoadSettings()
 void NetworkRemote::startTcpServer()
 {
   server_->StartServer(ipAddr_,remote_port_);
-
 }
 
 void NetworkRemote::stopTcpServer()

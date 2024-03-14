@@ -23,6 +23,7 @@ void ClientManager::AddClient(QTcpSocket *socket)
   client_ = new Client(app_);
   client_->Init(socket_);
   clients_->append(client_);
+  QObject::connect(client_, &Client::ClientIsLeaving, this, &ClientManager::RemoveClient);
 
   qLog(Debug) << "Socket State is " << socket_->state();;
   qLog(Debug) << "There are now +++++++++++++++" << clients_->count() << "clients connected";
@@ -51,7 +52,6 @@ void ClientManager::Error(QAbstractSocket::SocketError socketError)
     switch (socketError) {
     case QAbstractSocket::RemoteHostClosedError:
         qLog(Debug) << "Remote Host closed";
-        //RemoveClient();
         break;
     case QAbstractSocket::HostNotFoundError:
         qLog(Debug) << "The host was not found. Please check the host name and port settings.";
@@ -62,7 +62,6 @@ void ClientManager::Error(QAbstractSocket::SocketError socketError)
     default:
         qLog(Debug)  << "The following error occurred: %1." << socket_->errorString();
     }
-
 }
 
 void ClientManager::StateChanged()

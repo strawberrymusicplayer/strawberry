@@ -7,7 +7,7 @@
 #include "incomingmsg.h"
 #include "outgoingmsg.h"
 #include "core/player.h"
-#include "networkremote/RemoteMessages.pb.h"
+
 
 class Application;
 
@@ -21,13 +21,10 @@ public:
     QTcpSocket* GetSocket();
     void ProcessIncoming();
 
-public slots:
-  void Respond();
-  void EngineChanged();
-
 signals:
   void ReceiveMsg();
   void PrepareResponse();
+  void ClientIsLeaving();
 
 private:
   Application *app_;

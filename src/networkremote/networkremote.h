@@ -9,8 +9,6 @@
 
 #include "tcpserver.h"
 #include "networkremote/remotesettings.h"
-#include "playlist/playlist.h"
-#include "playlist/playlistitem.h"
 
 class Application;
 class QThread;
