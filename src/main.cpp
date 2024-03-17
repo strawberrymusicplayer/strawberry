@@ -135,6 +135,8 @@ int main(int argc, char *argv[]) {
   QCoreApplication::setApplicationVersion(STRAWBERRY_VERSION_DISPLAY);
   QCoreApplication::setOrganizationDomain("strawberrymusicplayer.org");
 
+  QCoreApplication::setQuitLockEnabled(false);
+
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
