@@ -320,65 +320,95 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(content_json.toUtf8());
-  if (json_obj.isEmpty()) {
+  QJsonObject obj_data = ExtractJsonObj(content_json.toUtf8());
+  if (obj_data.isEmpty()) {
     EndSearch(search, url);
     return;
   }
 
-  if (!json_obj.contains("props") || !json_obj["props"].isObject()) {
-    Error("Json reply is missing props.", json_obj);
+  if (!obj_data.contains("props") || !obj_data["props"].isObject()) {
+    Error("Json reply is missing props.", obj_data);
     EndSearch(search, url);
     return;
   }
-  json_obj = json_obj["props"].toObject();
+  obj_data = obj_data["props"].toObject();
 
-  if (!json_obj.contains("pageProps") || !json_obj["pageProps"].isObject()) {
-    Error("Json reply is missing pageProps.", json_obj);
+  if (!obj_data.contains("pageProps") || !obj_data["pageProps"].isObject()) {
+    Error("Json props is missing pageProps.", obj_data);
     EndSearch(search, url);
     return;
   }
-  json_obj = json_obj["pageProps"].toObject();
+  obj_data = obj_data["pageProps"].toObject();
 
-  if (!json_obj.contains("data") || !json_obj["data"].isObject()) {
-    Error("Json reply is missing data.", json_obj);
+  if (!obj_data.contains("data") || !obj_data["data"].isObject()) {
+    Error("Json pageProps is missing data.", obj_data);
     EndSearch(search, url);
     return;
   }
-  json_obj = json_obj["data"].toObject();
+  obj_data = obj_data["data"].toObject();
 
 
-  if (!json_obj.contains("trackInfo") || !json_obj["trackInfo"].isObject()) {
-    Error("Json reply is missing trackInfo.", json_obj);
+  if (!obj_data.contains("trackInfo") || !obj_data["trackInfo"].isObject()) {
+    Error("Json data is missing trackInfo.", obj_data);
     EndSearch(search, url);
     return;
   }
-  json_obj = json_obj["trackInfo"].toObject();
+  obj_data = obj_data["trackInfo"].toObject();
 
-  if (!json_obj.contains("data") || !json_obj["data"].isObject()) {
-    Error("Json reply is missing data.", json_obj);
+  if (!obj_data.contains("data") || !obj_data["data"].isObject()) {
+    Error("Json trackInfo reply is missing data.", obj_data);
     EndSearch(search, url);
     return;
   }
-  json_obj = json_obj["data"].toObject();
+  obj_data = obj_data["data"].toObject();
 
-  if (!json_obj.contains("lyrics") || !json_obj["lyrics"].isObject()) {
-    Error("Json reply is missing lyrics.", json_obj);
+  if (!obj_data.contains("track") || !obj_data["track"].isObject()) {
+    Error("Json data is missing track.", obj_data);
     EndSearch(search, url);
     return;
   }
-  json_obj = json_obj["lyrics"].toObject();
 
-  if (!json_obj.contains("body") || !json_obj["body"].isString()) {
-    Error("Json reply is missing body.", json_obj);
+  const QJsonObject obj_track = obj_data["track"].toObject();
+
+  if (!obj_track.contains("hasLyrics") || !obj_track["hasLyrics"].isBool()) {
+    Error("Json track is missing hasLyrics.", obj_track);
     EndSearch(search, url);
     return;
   }
-  const QString lyrics = json_obj["body"].toString();
 
-  if (!lyrics.isEmpty()) {
-    LyricsSearchResult result;
-    result.lyrics = Utilities::DecodeHtmlEntities(lyrics);
+  const bool has_lyrics = obj_track["hasLyrics"].toBool();
+  if (!has_lyrics) {
+    EndSearch(search, url);
+    return;
+  }
+
+  LyricsSearchResult result;
+  if (obj_track.contains("artistName") && obj_track["artistName"].isString()) {
+    result.artist = obj_track["artistName"].toString();
+  }
+  if (obj_track.contains("albumName") && obj_track["albumName"].isString()) {
+    result.album = obj_track["albumName"].toString();
+  }
+  if (obj_track.contains("name") && obj_track["name"].isString()) {
+    result.title = obj_track["name"].toString();
+  }
+
+  if (!obj_data.contains("lyrics") || !obj_data["lyrics"].isObject()) {
+    Error("Json data is missing lyrics.", obj_data);
+    EndSearch(search, url);
+    return;
+  }
+  QJsonObject obj_lyrics = obj_data["lyrics"].toObject();
+
+  if (!obj_lyrics.contains("body") || !obj_lyrics["body"].isString()) {
+    Error("Json lyrics reply is missing body.", obj_lyrics);
+    EndSearch(search, url);
+    return;
+  }
+  result.lyrics = obj_lyrics["body"].toString();
+
+  if (!result.lyrics.isEmpty()) {
+    result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
     search->results.append(result);
   }
 
