@@ -126,7 +126,7 @@ void SettingsPage::Apply() {
     changed_ = true;
     qLog(Info) << spinbox.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }
-  for (QPair<QDoubleSpinBox*, int> &double_spinbox : double_spinboxes_) {
+  for (QPair<QDoubleSpinBox*, double> &double_spinbox : double_spinboxes_) {
     if (double_spinbox.first->value() == double_spinbox.second) continue;
     changed_ = true;
     qLog(Info) << double_spinbox.first->objectName() << "is changed for" << windowTitle() << "settings.";

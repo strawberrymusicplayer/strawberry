@@ -90,7 +90,7 @@ class SettingsPage : public QWidget {
   QList<QPair<QRadioButton*, bool>> radiobuttons_;
   QList<QPair<QComboBox*, QString>> comboboxes_;
   QList<QPair<QSpinBox*, int>> spinboxes_;
-  QList<QPair<QDoubleSpinBox*, int>> double_spinboxes_;
+  QList<QPair<QDoubleSpinBox*, double>> double_spinboxes_;
   QList<QPair<QSlider*, int>> sliders_;
   QList<QPair<QLineEdit*, QString>> lineedits_;
 };
