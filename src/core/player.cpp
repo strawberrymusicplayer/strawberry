@@ -386,7 +386,7 @@ void Player::NextItem(const EngineBase::TrackChangeFlags change, const Playlist:
 
   // If we received too many errors in auto change, with repeat enabled, we stop
   if (change & EngineBase::TrackChangeType::Auto) {
-    const PlaylistSequence::RepeatMode repeat_mode = active_playlist->sequence()->repeat_mode();
+    const PlaylistSequence::RepeatMode repeat_mode = active_playlist->RepeatMode();
     if (repeat_mode != PlaylistSequence::RepeatMode::Off) {
       if ((repeat_mode == PlaylistSequence::RepeatMode::Track && nb_errors_received_ >= 3) || (nb_errors_received_ >= app_->playlist_manager()->active()->filter()->rowCount())) {
         // We received too many "Error" state changes: probably looping over a playlist which contains only unavailable elements: stop now.
@@ -561,6 +561,7 @@ void Player::Stop(const bool stop_after) {
 
   engine_->Stop(stop_after);
   app_->playlist_manager()->active()->set_current_row(-1);
+  app_->playlist_manager()->active()->reset_played_indexes();
   current_item_.reset();
   pause_time_ = QDateTime();
   play_offset_nanosec_ = 0;

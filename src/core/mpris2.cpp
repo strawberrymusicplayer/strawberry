@@ -312,7 +312,7 @@ QString Mpris2::LoopStatus() const {
     return "None";
   }
 
-  switch (app_->playlist_manager()->sequence()->repeat_mode()) {
+  switch (app_->playlist_manager()->active() ? app_->playlist_manager()->active()->RepeatMode() : app_->playlist_manager()->sequence()->repeat_mode()) {
     case PlaylistSequence::RepeatMode::Album:
     case PlaylistSequence::RepeatMode::Playlist: return "Playlist";
     case PlaylistSequence::RepeatMode::Track: return "Track";
@@ -351,7 +351,8 @@ void Mpris2::SetRate(double rate) {
 
 bool Mpris2::Shuffle() const {
 
-  return app_->playlist_manager()->sequence()->shuffle_mode() != PlaylistSequence::ShuffleMode::Off;
+  const PlaylistSequence::ShuffleMode shuffle_mode = app_->playlist_manager()->active() ? app_->playlist_manager()->active()->RepeatMode() : app_->playlist_manager()->sequence()->repeat_mode();
+  return shuffle_mode != PlaylistSequence::ShuffleMode::Off;
 
 }
 

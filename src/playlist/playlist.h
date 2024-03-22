@@ -182,8 +182,9 @@ class Playlist : public QAbstractListModel {
   int current_row() const;
   int last_played_row() const;
   void reset_last_played() { last_played_item_index_ = QPersistentModelIndex(); }
-  int next_row(const bool ignore_repeat_track = false) const;
-  int previous_row(const bool ignore_repeat_track = false) const;
+  void reset_played_indexes() { played_indexes_.clear(); }
+  int next_row(const bool ignore_repeat_track = false);
+  int previous_row(const bool ignore_repeat_track = false);
 
   const QModelIndex current_index() const;
 
@@ -210,6 +211,9 @@ class Playlist : public QAbstractListModel {
 
   void set_sequence(PlaylistSequence *v);
   PlaylistSequence *sequence() const { return playlist_sequence_; }
+
+  PlaylistSequence::ShuffleMode ShuffleMode() const { return playlist_sequence_ && !is_dynamic() ? playlist_sequence_->shuffle_mode() : PlaylistSequence::ShuffleMode::Off; }
+  PlaylistSequence::RepeatMode RepeatMode() const { return playlist_sequence_ && !is_dynamic() ? playlist_sequence_->repeat_mode() : PlaylistSequence::RepeatMode::Off; }
 
   QUndoStack *undo_stack() const { return undo_stack_; }
 
@@ -363,6 +367,8 @@ class Playlist : public QAbstractListModel {
   void Save();
 
  private:
+  static const int kMaxPlayedIndexes;
+
   bool is_loading_;
   PlaylistFilter *filter_;
   Queue *queue_;
@@ -382,6 +388,8 @@ class Playlist : public QAbstractListModel {
   // Contains the indices into items_ in the order that they will be played.
   QList<int> virtual_items_;
 
+  QList<QPersistentModelIndex> played_indexes_;
+
   // A map of collection ID to playlist item - for fast lookups when collection items change.
   QMultiMap<int, PlaylistItemPtr> collection_items_by_id_;
 
@@ -390,8 +398,6 @@ class Playlist : public QAbstractListModel {
   QPersistentModelIndex stop_after_;
   bool current_is_paused_;
   int current_virtual_index_;
-
-  bool is_shuffled_;
 
   PlaylistSequence *playlist_sequence_;
 

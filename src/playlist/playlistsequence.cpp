@@ -47,8 +47,7 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
       shuffle_menu_(new QMenu(this)),
       loading_(false),
       repeat_mode_(RepeatMode::Off),
-      shuffle_mode_(ShuffleMode::Off),
-      dynamic_(false) {
+      shuffle_mode_(ShuffleMode::Off) {
 
   ui_->setupUi(this);
 
@@ -205,11 +204,11 @@ void PlaylistSequence::SetShuffleMode(const ShuffleMode mode) {
 }
 
 PlaylistSequence::ShuffleMode PlaylistSequence::shuffle_mode() const {
-  return dynamic_ ? ShuffleMode::Off : shuffle_mode_;
+  return shuffle_mode_;
 }
 
 PlaylistSequence::RepeatMode PlaylistSequence::repeat_mode() const {
-  return dynamic_ ? RepeatMode::Off : repeat_mode_;
+  return repeat_mode_;
 }
 
 // Called from global shortcut
