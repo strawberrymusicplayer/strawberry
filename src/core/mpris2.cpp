@@ -351,7 +351,7 @@ void Mpris2::SetRate(double rate) {
 
 bool Mpris2::Shuffle() const {
 
-  const PlaylistSequence::ShuffleMode shuffle_mode = app_->playlist_manager()->active() ? app_->playlist_manager()->active()->RepeatMode() : app_->playlist_manager()->sequence()->repeat_mode();
+  const PlaylistSequence::ShuffleMode shuffle_mode = app_->playlist_manager()->active() ? app_->playlist_manager()->active()->ShuffleMode() : app_->playlist_manager()->sequence()->shuffle_mode();
   return shuffle_mode != PlaylistSequence::ShuffleMode::Off;
 
 }

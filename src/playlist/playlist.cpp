@@ -489,7 +489,7 @@ int Playlist::last_played_row() const {
   return last_played_item_index_.isValid() ? last_played_item_index_.row() : -1;
 }
 
-void Playlist::ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode) {
+void Playlist::ShuffleModeChanged(const PlaylistSequence::ShuffleMode) {
   ReshuffleIndices();
 }
 
@@ -731,9 +731,15 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
   if (current_item_index_.isValid()) {
     last_played_item_index_ = current_item_index_;
     played_indexes_.append(current_item_index_);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     if (played_indexes_.count() > kMaxPlayedIndexes) {
       played_indexes_.remove(0, played_indexes_.count() - kMaxPlayedIndexes);
     }
+#else
+    while (played_indexes_.count() > kMaxPlayedIndexes) {
+      played_indexes_.removeFirst();
+    }
+#endif
     ScheduleSave();
   }
 
@@ -1729,7 +1735,7 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
       virtual_items_[virtual_items_.indexOf(i)] = i - count;
     }
     else {
-      virtual_items_.remove(virtual_items_.indexOf(i));
+      virtual_items_.removeAt(virtual_items_.indexOf(i));
     }
   }
 
@@ -1985,7 +1991,7 @@ void Playlist::ReshuffleIndices() {
       QSet<QString> album_key_set;    // unique keys
 
       // Find all the unique albums in the playlist
-      for (QList<int>::const_iterator it = virtual_items_.begin(); it != virtual_items_.end(); ++it) {
+      for (QList<int>::const_iterator it = virtual_items_.constBegin(); it != virtual_items_.constEnd(); ++it) {
         const int index = *it;
         const QString key = items_[index]->Metadata().AlbumKey();
         album_keys[index] = key;

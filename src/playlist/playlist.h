@@ -298,7 +298,7 @@ class Playlist : public QAbstractListModel {
   void RemoveUnavailableSongs();
   void Shuffle();
 
-  void ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode);
+  void ShuffleModeChanged(const PlaylistSequence::ShuffleMode);
 
   void SetColumnAlignment(const ColumnAlignmentMap &alignment);
 
