@@ -7,6 +7,14 @@ Unreleased:
   Bugfixes:
     * Fixed crash when pressing CTRL + C (#1359).
     * Pass on scroll events to page in settings to avoid changing settings when scrolling with mouse (#1380).
+    * Fixed misredered playlist search field with Wayland using scaling (#1255).
+    * Fixed Azlyrics lyrics provider because of website changes.
+    * Fixed Musixmatch lyrics provider because of website changes.
+    * Fixed application exiting when closing file dialog (#1401).
+    * Fixed playlist shuffle randomness (#707).
+    * Fixed playlist shuffle order always the same when restarting playback (#1381).
+    * Fixed dynamic random mix not always ignoring shuffle and repeat mode (#1366).
+    * Fixed manual shuffle while playing not setting current song to new index (##1353).
     * (macOS/Windows) Fixed dash and hls streaming, plugins were missing.
 
   Enhancements:
@@ -14,10 +22,14 @@ Unreleased:
     * Allow enter to be used with multiselection to add songs to playlist (#1360)
     * Add song progress to taskbar using D-Bus.
     * Use API to receive Radio Paradise channels.
+    * Added letras lyrics provider.
     * (Unix) Add experimental GStreamer pipewire support.
     * (Windows) Add experimental exclusive mode for WASAPI.
     * (Windows MSVC) Add ASIO support.
     * (Windows MSVC) Add back WASAPI2.
+
+  Removed features:
+    * Removed now broken lyricsmode.com lyrics provider because of website changes.
 
 Version 1.0.23 (2024.01.11):
 
