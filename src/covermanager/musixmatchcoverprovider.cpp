@@ -68,9 +68,6 @@ bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &
   QUrl url(QString("https://www.musixmatch.com/album/%1/%2").arg(artist_stripped, album_stripped));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-  req.setAttribute(QNetworkRequest::Http2AllowedAttribute, false);
-#endif
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, artist, album]() { HandleSearchReply(reply, id, artist, album); });
@@ -110,8 +107,12 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
   QString content = data;
-  const QString data_begin = "var __mxmState = ";
-  const QString data_end = ";</script>";
+  const QString data_begin = "<script id=\"__NEXT_DATA__\" type=\"application/json\">";
+  const QString data_end = "</script>";
+  if (!content.contains(data_begin) || !content.contains(data_end)) {
+    emit SearchFinished(id, results);
+    return;
+  }
   qint64 begin_idx = content.indexOf(data_begin);
   QString content_json;
   if (begin_idx > 0) {
@@ -153,49 +154,68 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
+  QJsonObject obj_data = json_doc.object();
+  if (obj_data.isEmpty()) {
     Error("Received empty Json object.", json_doc);
     emit SearchFinished(id, results);
     return;
   }
 
-  if (!json_obj.contains("page") || !json_obj["page"].isObject()) {
-    Error("Json reply is missing page object.", json_obj);
+  if (!obj_data.contains("props") || !obj_data["props"].isObject()) {
+    Error("Json reply is missing props.", obj_data);
     emit SearchFinished(id, results);
     return;
   }
-  json_obj = json_obj["page"].toObject();
+  obj_data = obj_data["props"].toObject();
 
-  if (!json_obj.contains("album") || !json_obj["album"].isObject()) {
-    Error("Json page object is missing album object.", json_obj);
+  if (!obj_data.contains("pageProps") || !obj_data["pageProps"].isObject()) {
+    Error("Json props is missing pageProps.", obj_data);
     emit SearchFinished(id, results);
     return;
   }
-  QJsonObject obj_album = json_obj["album"].toObject();
+  obj_data = obj_data["pageProps"].toObject();
 
-  if (!obj_album.contains("artistName") || !obj_album.contains("name")) {
-    Error("Json album object is missing artistName or name.", obj_album);
+  if (!obj_data.contains("data") || !obj_data["data"].isObject()) {
+    Error("Json pageProps is missing data.", obj_data);
     emit SearchFinished(id, results);
     return;
   }
+  obj_data = obj_data["data"].toObject();
+
+  if (!obj_data.contains("albumGet") || !obj_data["albumGet"].isObject()) {
+    Error("Json data is missing albumGet.", obj_data);
+    emit SearchFinished(id, results);
+    return;
+  }
+  obj_data = obj_data["albumGet"].toObject();
+
+  if (!obj_data.contains("data") || !obj_data["data"].isObject()) {
+    Error("Json albumGet reply is missing data.", obj_data);
+    emit SearchFinished(id, results);
+    return;
+  }
+  obj_data = obj_data["data"].toObject();
 
   CoverProviderSearchResult result;
-  result.artist = obj_album["artistName"].toString();
-  result.album = obj_album["name"].toString();
+  if (obj_data.contains("artistName") && obj_data["artistName"].isString()) {
+    result.artist = obj_data["artistName"].toString();
+  }
+  if (obj_data.contains("name") && obj_data["name"].isString()) {
+    result.album = obj_data["name"].toString();
+  }
 
   if (result.artist.compare(artist, Qt::CaseInsensitive) != 0 && result.album.compare(album, Qt::CaseInsensitive) != 0) {
     emit SearchFinished(id, results);
     return;
   }
 
-  QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QString("coverart800x800"), QSize(800, 800))
-                                                                            << qMakePair(QString("coverart500x500"), QSize(500, 500))
-                                                                            << qMakePair(QString("coverart350x350"), QSize(350, 350));
+  QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QString("coverImage800x800"), QSize(800, 800))
+                                                                            << qMakePair(QString("coverImage500x500"), QSize(500, 500))
+                                                                            << qMakePair(QString("coverImage350x350"), QSize(350, 350));
 
   for (const QPair<QString, QSize> &cover_size : cover_sizes) {
-    if (!obj_album.contains(cover_size.first)) continue;
-    QUrl cover_url(obj_album[cover_size.first].toString());
+    if (!obj_data.contains(cover_size.first)) continue;
+    QUrl cover_url(obj_data[cover_size.first].toString());
     if (cover_url.isValid()) {
       result.image_url = cover_url;
       result.image_size = cover_size.second;
