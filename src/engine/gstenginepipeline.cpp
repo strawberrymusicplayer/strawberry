@@ -131,6 +131,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       buffer_probe_cb_id_(0),
       playbin_probe_cb_id_(0),
       element_added_cb_id_(-1),
+      element_removed_cb_id_(-1),
       pad_added_cb_id_(-1),
       notify_source_cb_id_(-1),
       about_to_finish_cb_id_(-1),
@@ -156,6 +157,10 @@ GstEnginePipeline::~GstEnginePipeline() {
 
     if (element_added_cb_id_ != -1) {
       g_signal_handler_disconnect(G_OBJECT(audiobin_), element_added_cb_id_);
+    }
+
+    if (element_removed_cb_id_ != -1) {
+      g_signal_handler_disconnect(G_OBJECT(audiobin_), element_removed_cb_id_);
     }
 
     if (pad_added_cb_id_ != -1) {
@@ -354,6 +359,23 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
   about_to_finish_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
 
   if (!InitAudioBin(error)) return false;
+
+#ifdef Q_OS_WIN32
+  if (volume_enabled_ && !volume_ && volume_sw_) {
+    SetupVolume(volume_sw_);
+  }
+#else
+  if (volume_enabled_ && !volume_) {
+    if (output_ == GstEngine::kAutoSink) {
+      element_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(audiobin_), "deep-element-added", &ElementAddedCallback, this);
+      element_removed_cb_id_ = CHECKED_GCONNECT(G_OBJECT(audiobin_), "deep-element-removed", &ElementRemovedCallback, this);
+    }
+    else if (volume_sw_) {
+      qLog(Debug) << output_ << "does not have volume, using own volume.";
+      SetupVolume(volume_sw_);
+    }
+  }
+#endif
 
   // Set playbin's sink to be our custom audio-sink.
   g_object_set(GST_OBJECT(pipeline_), "audio-sink", audiobin_, nullptr);
@@ -565,8 +587,6 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     if (!volume_sw_) {
       return false;
     }
-    qLog(Debug) << output_ << "does not have volume, using own volume.";
-    SetupVolume(volume_sw_);
   }
 
   if (fading_enabled_) {
@@ -845,10 +865,27 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
 void GstEnginePipeline::SetupVolume(GstElement *element) {
 
-  if (volume_) return;
+  if (volume_) {
+    qLog(Debug) << "Disonnecting volume notify on" << volume_;
+    g_signal_handler_disconnect(G_OBJECT(volume_), notify_volume_cb_id_);
+    notify_volume_cb_id_ = -1;
+    volume_ = nullptr;
+  }
 
-  volume_ = element;
+  qLog(Debug) << "Connecting volume notify on" << element;
   notify_volume_cb_id_ = CHECKED_GCONNECT(G_OBJECT(element), "notify::volume", &NotifyVolumeCallback, this);
+  volume_ = element;
+  volume_set_ = false;
+
+  // Make sure the unused volume element is set to 1.0.
+  if (volume_sw_ && volume_sw_ != volume_) {
+    double volume_internal = 1.0;
+    g_object_get(G_OBJECT(volume_sw_), "volume", &volume_internal, nullptr);
+    if (volume_internal != 1.0) {
+      volume_internal = 1.0;
+      g_object_set(G_OBJECT(volume_sw_), "volume", volume_internal, nullptr);
+    }
+  }
 
 }
 
@@ -885,23 +922,39 @@ void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin*, GstElement *e
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
-  if (bin != GST_BIN(instance->audiobin_) || GST_ELEMENT(gst_element_get_parent(element)) != instance->audiosink_ || instance->volume_) return;
+  gchar *element_name_char = gst_element_get_name(element);
+  const QString element_name(element_name_char);
+  g_free(element_name_char);
 
-  g_signal_handler_disconnect(G_OBJECT(instance->audiobin_), instance->element_added_cb_id_);
-  instance->element_added_cb_id_ = -1;
+  if (bin != GST_BIN(instance->audiobin_) || element_name == QStringLiteral("fake-audio-sink") || GST_ELEMENT(gst_element_get_parent(element)) != instance->audiosink_) return;
 
   GstElement *volume = nullptr;
   if (GST_IS_STREAM_VOLUME(element)) {
-    qLog(Debug) << instance->output_ << "has volume, enabling volume synchronization.";
+    qLog(Debug) << element_name << "has volume, enabling volume synchronization.";
     volume = element;
   }
   else {
-    qLog(Debug) << instance->output_ << "does not have volume, using own volume.";
+    qLog(Debug) << element_name << "does not have volume, using own volume.";
     volume = instance->volume_sw_;
   }
 
   instance->SetupVolume(volume);
   instance->SetVolume(instance->volume_percent_);
+
+}
+
+void GstEnginePipeline::ElementRemovedCallback(GstBin *bin, GstBin*, GstElement *element, gpointer self) {
+
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+
+  if (bin != GST_BIN(instance->audiobin_)) return;
+
+  if (instance->notify_volume_cb_id_ != -1 && element == instance->volume_) {
+    qLog(Debug) << "Disconnecting volume notify on" << instance->volume_;
+    g_signal_handler_disconnect(G_OBJECT(instance->volume_), instance->notify_volume_cb_id_);
+    instance->notify_volume_cb_id_ = -1;
+    instance->volume_ = nullptr;
+  }
 
 }
 

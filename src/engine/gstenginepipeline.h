@@ -162,6 +162,7 @@ class GstEnginePipeline : public QObject {
   static GstPadProbeReturn BufferProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
   static GstPadProbeReturn PlaybinProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
   static void ElementAddedCallback(GstBin *bin, GstBin*, GstElement *element, gpointer self);
+  static void ElementRemovedCallback(GstBin *bin, GstBin*, GstElement *element, gpointer self);
   static void PadAddedCallback(GstElement *element, GstPad *pad, gpointer self);
   static void SourceSetupCallback(GstElement *playbin, GstElement *source, gpointer self);
   static void NotifyVolumeCallback(GstElement *element, GParamSpec *param_spec, gpointer self);
@@ -323,6 +324,7 @@ class GstEnginePipeline : public QObject {
   gulong buffer_probe_cb_id_;
   gulong playbin_probe_cb_id_;
   glong element_added_cb_id_;
+  glong element_removed_cb_id_;
   glong pad_added_cb_id_;
   glong notify_source_cb_id_;
   glong about_to_finish_cb_id_;
