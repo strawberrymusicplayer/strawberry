@@ -171,6 +171,7 @@ set(SOURCES
   covermanager/qobuzcoverprovider.cpp
   covermanager/musixmatchcoverprovider.cpp
   covermanager/spotifycoverprovider.cpp
+  covermanager/opentidalcoverprovider.cpp
 
   lyrics/lyricsproviders.cpp
   lyrics/lyricsprovider.cpp
@@ -416,6 +417,7 @@ set(HEADERS
   covermanager/qobuzcoverprovider.h
   covermanager/musixmatchcoverprovider.h
   covermanager/spotifycoverprovider.h
+  covermanager/opentidalcoverprovider.h
 
   lyrics/lyricsproviders.h
   lyrics/lyricsprovider.h

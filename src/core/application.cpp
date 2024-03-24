@@ -57,6 +57,7 @@
 #include "covermanager/deezercoverprovider.h"
 #include "covermanager/musixmatchcoverprovider.h"
 #include "covermanager/spotifycoverprovider.h"
+#include "covermanager/opentidalcoverprovider.h"
 
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/geniuslyricsprovider.h"
@@ -143,6 +144,7 @@ class ApplicationImpl {
           cover_providers->AddProvider(new DeezerCoverProvider(app, app->network()));
           cover_providers->AddProvider(new MusixmatchCoverProvider(app, app->network()));
           cover_providers->AddProvider(new SpotifyCoverProvider(app, app->network()));
+          cover_providers->AddProvider(new OpenTidalCoverProvider(app, app->network()));
 #ifdef HAVE_TIDAL
           cover_providers->AddProvider(new TidalCoverProvider(app, app->network()));
 #endif
