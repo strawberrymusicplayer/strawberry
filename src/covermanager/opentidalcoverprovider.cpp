@@ -57,7 +57,7 @@ constexpr const int kRequestsDelay = 1000;
 using std::make_shared;
 
 OpenTidalCoverProvider::OpenTidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider("OpenTidal", true, true, 2.5, true, true, app, network, parent),
+    : JsonCoverProvider("OpenTidal", true, false, 2.5, true, false, app, network, parent),
       login_timer_(new QTimer(this)),
       timer_flush_requests_(new QTimer(this)),
       login_in_progress_(false),
