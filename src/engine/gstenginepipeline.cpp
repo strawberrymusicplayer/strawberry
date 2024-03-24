@@ -954,6 +954,7 @@ void GstEnginePipeline::ElementRemovedCallback(GstBin *bin, GstBin*, GstElement 
     g_signal_handler_disconnect(G_OBJECT(instance->volume_), instance->notify_volume_cb_id_);
     instance->notify_volume_cb_id_ = -1;
     instance->volume_ = nullptr;
+    instance->volume_set_ = false;
   }
 
 }
