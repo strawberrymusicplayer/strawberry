@@ -46,7 +46,7 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
 
   QByteArray user_agent;
   if (request.hasRawHeader("User-Agent")) {
-    user_agent = request.rawHeader("User-Agent");
+    user_agent = request.header(QNetworkRequest::UserAgentHeader).toByteArray();
   }
   else {
     user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion()).toUtf8();
@@ -54,7 +54,7 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
 
   QNetworkRequest new_request(request);
   new_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  new_request.setRawHeader("User-Agent", user_agent);
+  new_request.setHeader(QNetworkRequest::UserAgentHeader, user_agent);
 
   if (op == QNetworkAccessManager::PostOperation && !new_request.header(QNetworkRequest::ContentTypeHeader).isValid()) {
     new_request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
