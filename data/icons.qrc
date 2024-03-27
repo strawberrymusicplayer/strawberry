@@ -501,5 +501,6 @@
         <file>icons/22x22/somafm.png</file>
         <file>icons/22x22/radioparadise.png</file>
         <file>icons/22x22/musicbrainz.png</file>
+        <file>icons/32x32/network-remote.png</file>
     </qresource>
 </RCC>

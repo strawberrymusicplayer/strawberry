@@ -65,6 +65,8 @@ class MoodbarController;
 class MoodbarLoader;
 #endif
 
+class NetworkRemote;
+
 class Application : public QObject {
   Q_OBJECT
 
@@ -106,6 +108,8 @@ class Application : public QObject {
 #endif
 
   SharedPtr<LastFMImport> lastfm_import() const;
+
+  SharedPtr<NetworkRemote> network_remote() const;
 
   void Exit();
 

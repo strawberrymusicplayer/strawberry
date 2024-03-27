@@ -1,0 +1,64 @@
+Source: strawberry
+Section: sound
+Priority: optional
+Maintainer: Jonas Kvinge <jonas@jkvinge.net>
+Build-Depends: debhelper (>= 11),
+               git,
+               make,
+               cmake,
+               gcc,
+               g++,
+               protobuf-compiler,
+               libglib2.0-dev,
+               libdbus-1-dev,
+               libprotobuf-dev,
+               libboost-dev,
+               libsqlite3-dev,
+               libasound2-dev,
+               libpulse-dev,
+               libtag1-dev,
+               libicu-dev,
+               qt6-base-dev,qt6-base-dev-tools,qt6-tools-dev,qt6-tools-dev-tools,qt6-l10n-tools,
+               libgstreamer1.0-dev,
+               libgstreamer-plugins-base1.0-dev,
+               libcdio-dev,
+               libgpod-dev,
+               libmtp-dev,
+               libchromaprint-dev,
+               libfftw3-dev,
+               libebur128-dev
+Standards-Version: 4.6.1
+
+Package: strawberry
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libqt6sql6-sqlite,qt6-qpa-plugins,
+         gstreamer1.0-plugins-base,
+         gstreamer1.0-plugins-good,
+         gstreamer1.0-alsa,
+         gstreamer1.0-pulseaudio
+Homepage: http://www.strawberrymusicplayer.org/
+Description: music player and music collection organizer
+ Strawberry is a music player aimed at music collectors and audiophiles.
+ .
+ Features:
+  - Play and organize music
+  - Supports WAV, FLAC, WavPack, Ogg Vorbis, Speex, MPC, TrueAudio, AIFF, MP4, MP3 and ASF
+  - Audio CD playback
+  - Native desktop notifications
+  - Playlist management and playlists in multiple formats
+  - Smart and dynamic playlists
+  - Advanced audio output and device configuration for bit-perfect playback on Linux
+  - Edit tags on audio files
+  - Automatically retrieve tags from MusicBrainz
+  - Album cover art from Last.fm, Musicbrainz, Discogs, Musixmatch, Deezer, Tidal, Qobuz and Spotify
+  - Song lyrics from Genius, Musixmatch, ChartLyrics, lyrics.ovh, lololyrics.com, songlyrics.com, azlyrics.com, elyrics.net and lyricsmode.com
+  - Audio analyzer
+  - Audio equalizer
+  - Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic
+  - Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
+  - Streaming support for Subsonic-compatible servers
+  - Unofficial streaming support for Tidal and Qobuz
+ .
+ It is a fork of Clementine. The name is inspired by the band Strawbs.
