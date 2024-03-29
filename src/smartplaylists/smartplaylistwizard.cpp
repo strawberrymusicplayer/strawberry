@@ -25,6 +25,7 @@
 #include <QLabel>
 #include <QRadioButton>
 #include <QVBoxLayout>
+#include <QStyle>
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
@@ -75,6 +76,11 @@ SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionB
 #ifdef Q_OS_MACOS
   // MacStyle leaves an ugly empty space on the left side of the dialog.
   setWizardStyle(QWizard::ClassicStyle);
+#endif
+#ifdef Q_OS_WIN32
+  if (QApplication::style() && QApplication::style()->objectName() == "fusion") {
+    setWizardStyle(QWizard::ClassicStyle);
+  }
 #endif
 
   // Type page
