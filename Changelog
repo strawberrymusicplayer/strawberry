@@ -15,7 +15,10 @@ Unreleased:
     * Fixed playlist shuffle order always the same when restarting playback (#1381).
     * Fixed dynamic random mix not always ignoring shuffle and repeat mode (#1366).
     * Fixed manual shuffle while playing not setting current song to new index (##1353).
+    * Fixed volume sync with PA when output is set to auto (#1123).
+    * Fixed mpris:trackid type with KDE 6 (#1397).
     * (macOS/Windows) Fixed dash and hls streaming, plugins were missing.
+    * (Windows) Fixed incorrect colors in smart playlist wizard with Fusion in dark mode (#1399).
 
   Enhancements:
     * Improve error messages when connecting and copying to devices.
@@ -23,6 +26,10 @@ Unreleased:
     * Add song progress to taskbar using D-Bus.
     * Use API to receive Radio Paradise channels.
     * Added letras lyrics provider.
+    * Added Open Tidal API (openapi.tidal.com) cover provider.
+    * Added button for fetching lyrics to tag editor (#1391).
+    * Added option not to skip "A", "An" and "The” when sorting artist names in collection (#1393).
+    * Improved album and title disc, remastered, etc matching and stripping (#1387).
     * (Unix) Add experimental GStreamer pipewire support.
     * (Windows) Add experimental exclusive mode for WASAPI.
     * (Windows MSVC) Add ASIO support.
