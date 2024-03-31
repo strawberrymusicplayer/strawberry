@@ -257,7 +257,8 @@ jobs:
 
   build-openmandriva:
     name: Build OpenMandriva
-    if: github.repository != 'strawberrymusicplayer/strawberry-private'
+    if: false
+    #if: github.repository != 'strawberrymusicplayer/strawberry-private'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
