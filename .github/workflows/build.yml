@@ -456,8 +456,10 @@ jobs:
     container:
       image: debian:${{matrix.debian_version}}
     steps:
-      - name: Update repositories
+      - name: Update packages
         run: apt update -y
+      - name: Upgrade packages
+        run: apt upgrade -y
       - name: Install packages
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -465,7 +467,6 @@ jobs:
             apt install -y
             build-essential
             dh-make
-            ssh
             git
             make
             cmake
@@ -475,7 +476,6 @@ jobs:
             fakeroot
             gettext
             lsb-release
-            rsync
             dpkg-dev
             libglib2.0-dev
             libdbus-1-dev
@@ -540,8 +540,10 @@ jobs:
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
-      - name: Update repositories
+      - name: Update packages
         run: apt update -y
+      - name: Upgrade packages
+        run: apt upgrade -y
       - name: Install packages
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -549,7 +551,6 @@ jobs:
             apt install -y
             build-essential
             dh-make
-            ssh
             git
             make
             cmake
@@ -561,7 +562,6 @@ jobs:
             curl
             gettext
             lsb-release
-            rsync
             dpkg-dev
             libglib2.0-dev
             libboost-dev
@@ -629,15 +629,16 @@ jobs:
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
-      - name: Update repositories
+      - name: Update packages
         run: apt update -y
+      - name: Upgrade packages
+        run: apt upgrade -y
       - name: Install packages
         env:
           DEBIAN_FRONTEND: noninteractive
         run: >
             apt install -y
             git
-            ssh
             build-essential
             dh-make
             make
@@ -672,6 +673,11 @@ jobs:
             gstreamer1.0-alsa
             gstreamer1.0-pulseaudio
             protobuf-compiler
+      - name: Install keyboxd
+        if: matrix.ubuntu_version == 'noble'
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: apt install -y keyboxd
       - name: Install Qt 5
         if: matrix.ubuntu_version == 'focal'
         env:
