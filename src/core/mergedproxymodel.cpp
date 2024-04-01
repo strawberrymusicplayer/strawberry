@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include <functional>
-#include <limits>
 
 #include <QObject>
 #include <QMimeData>
@@ -120,13 +119,15 @@ void MergedProxyModel::RemoveSubModel(const QModelIndex &source_parent) {
 
   // Remove all the children of the item that got deleted
   QModelIndex proxy_parent = mapFromSource(source_parent);
-
-  // We can't know how many children it had, since we can't dereference it
-  // FIXME: This is a bad idea.
-  resetting_model_ = submodel;
-  beginRemoveRows(proxy_parent, 0, std::numeric_limits<int>::max() - 1);
-  endRemoveRows();
-  resetting_model_ = nullptr;
+  if (proxy_parent.isValid()) {
+    const int row_count = rowCount(proxy_parent);
+    if (row_count > 0) {
+      resetting_model_ = submodel;
+      beginRemoveRows(proxy_parent, 0, row_count - 1);
+      endRemoveRows();
+      resetting_model_ = nullptr;
+    }
+  }
 
   // Delete all the mappings that reference the submodel
   auto it = p_->mappings_.get<tag_by_pointer>().begin();
@@ -192,10 +193,15 @@ void MergedProxyModel::SubModelAboutToBeReset() {
   QModelIndex source_parent = merge_points_.value(submodel);
   QModelIndex proxy_parent = mapFromSource(source_parent);
 
-  resetting_model_ = submodel;
-  beginRemoveRows(proxy_parent, 0, submodel->rowCount());
-  endRemoveRows();
-  resetting_model_ = nullptr;
+  if (proxy_parent.isValid()) {
+    const int row_count = submodel->rowCount();
+    if (row_count > 0) {
+      resetting_model_ = submodel;
+      beginRemoveRows(proxy_parent, 0, row_count - 1);
+      endRemoveRows();
+      resetting_model_ = nullptr;
+    }
+  }
 
   // Delete all the mappings that reference the submodel
   auto it = p_->mappings_.get<tag_by_pointer>().begin();
