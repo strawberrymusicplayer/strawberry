@@ -86,7 +86,7 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
     proc.startDetached(command, QStringList() << command_params << "--select" << url.toLocalFile());
   }
   else if (command.startsWith("dolphin") || command.startsWith("konqueror") || command.startsWith("kfmclient")) {
-    proc.startDetached(command, QStringList() << command_params << "--select" << "--new-window" << url.toLocalFile());
+    proc.startDetached(command, QStringList() << command_params << "--select" << url.toLocalFile());
   }
   else if (command.startsWith("caja")) {
     proc.startDetached(command, QStringList() << command_params << "--no-desktop" << path);
