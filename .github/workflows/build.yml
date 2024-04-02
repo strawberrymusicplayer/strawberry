@@ -1033,7 +1033,7 @@ jobs:
 
       - name: Copy Qt styles
         working-directory: build
-        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6/plugins/styles/qwindowsvistastyle.dll ${GITHUB_WORKSPACE}/build/styles/
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6/plugins/styles/qmodernwindowsstyle.dll ${GITHUB_WORKSPACE}/build/styles/
 
       - name: Copy Qt TLS plugins
         working-directory: build
@@ -1321,7 +1321,7 @@ jobs:
       - name: Copy Qt styles
         shell: cmd
         working-directory: build
-        run: copy ${{env.prefix_path_backslash}}\plugins\styles\qwindowsvistastyle*.dll .\styles\
+        run: copy ${{env.prefix_path_backslash}}\plugins\styles\qmodernwindowsstyle*.dll .\styles\
 
       - name: Copy Qt TLS plugins
         shell: cmd
