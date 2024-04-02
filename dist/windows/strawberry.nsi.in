@@ -588,9 +588,9 @@ SectionEnd
 Section "Qt styles" styles
   SetOutPath "$INSTDIR\styles"
 !ifdef msvc && debug
-  File "/oname=qwindowsvistastyled.dll" "styles\qwindowsvistastyled.dll"
+  File "/oname=qmodernwindowsstyled.dll" "styles\qmodernwindowsstyled.dll"
 !else
-  File "/oname=qwindowsvistastyle.dll" "styles\qwindowsvistastyle.dll"
+  File "/oname=qmodernwindowsstyle.dll" "styles\qmodernwindowsstyle.dll"
 !endif
 SectionEnd
 
@@ -1111,7 +1111,7 @@ Section "Uninstall"
 
 !ifdef msvc && debug
   Delete "$INSTDIR\platforms\qwindowsd.dll"
-  Delete "$INSTDIR\styles\qwindowsvistastyled.dll"
+  Delete "$INSTDIR\styles\qmodernwindowsstyled.dll"
   Delete "$INSTDIR\tls\qschannelbackendd.dll"
   Delete "$INSTDIR\tls\qopensslbackendd.dll"
   Delete "$INSTDIR\sqldrivers\qsqlited.dll"
@@ -1120,7 +1120,7 @@ Section "Uninstall"
   Delete "$INSTDIR\imageformats\qjpegd.dll"
 !else
   Delete "$INSTDIR\platforms\qwindows.dll"
-  Delete "$INSTDIR\styles\qwindowsvistastyle.dll"
+  Delete "$INSTDIR\styles\qmodernwindowsstyle.dll"
   Delete "$INSTDIR\tls\qschannelbackend.dll"
   Delete "$INSTDIR\tls\qopensslbackend.dll"
   Delete "$INSTDIR\sqldrivers\qsqlite.dll"
