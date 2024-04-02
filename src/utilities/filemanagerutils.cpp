@@ -50,7 +50,11 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
 #endif
   proc.waitForFinished();
   QString desktop_file = proc.readLine().simplified();
-  QStringList data_dirs = QString(qgetenv("XDG_DATA_DIRS")).split(":");
+  QString xdg_data_dirs = QString(qgetenv("XDG_DATA_DIRS"));
+  if (xdg_data_dirs.isEmpty()) {
+    xdg_data_dirs = "/usr/local/share/:/usr/share/";
+  }
+  QStringList data_dirs = xdg_data_dirs.split(":");
 
   QString command;
   QStringList command_params;
