@@ -80,6 +80,7 @@ Player::Player(Application *app, QObject *parent)
 #endif
       analyzer_(nullptr),
       equalizer_(nullptr),
+      timer_save_volume_(new QTimer(this)),
       stream_change_type_(EngineBase::TrackChangeType::First),
       autoscroll_(Playlist::AutoScroll::Maybe),
       last_state_(EngineBase::State::Empty),
@@ -99,6 +100,10 @@ Player::Player(Application *app, QObject *parent)
   s.endGroup();
 
   CreateEngine(enginetype);
+
+  timer_save_volume_->setSingleShot(true);
+  timer_save_volume_->setInterval(5000);
+  QObject::connect(timer_save_volume_, &QTimer::timeout, this, &Player::SaveVolume);
 
 }
 
@@ -659,6 +664,7 @@ void Player::SetVolumeFromSlider(const int value) {
     volume_ = volume;
     engine_->SetVolume(volume);
     emit VolumeChanged(volume);
+    timer_save_volume_->start();
   }
 
 }
@@ -669,6 +675,7 @@ void Player::SetVolumeFromEngine(const uint volume) {
   if (new_volume != volume_) {
     volume_ = new_volume;
     emit VolumeChanged(new_volume);
+    timer_save_volume_->start();
   }
 
 }
@@ -680,6 +687,7 @@ void Player::SetVolume(const uint volume) {
     volume_ = new_volume;
     engine_->SetVolume(new_volume);
     emit VolumeChanged(new_volume);
+    timer_save_volume_->start();
   }
 
 }

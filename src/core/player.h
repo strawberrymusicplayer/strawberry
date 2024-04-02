@@ -39,6 +39,7 @@
 #include "playlist/playlistitem.h"
 #include "settings/behavioursettingspage.h"
 
+class QTimer;
 class Application;
 class Song;
 class AnalyzerContainer;
@@ -223,6 +224,7 @@ class Player : public PlayerInterface {
 #endif
   AnalyzerContainer *analyzer_;
   SharedPtr<Equalizer> equalizer_;
+  QTimer *timer_save_volume_;
 
   PlaylistItemPtr current_item_;
 
