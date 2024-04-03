@@ -549,6 +549,26 @@ bool Song::has_valid_art() const { return art_embedded() || art_automatic_is_val
 void Song::clear_art_automatic() { d->art_automatic_.clear(); }
 void Song::clear_art_manual() { d->art_manual_.clear(); }
 
+bool Song::write_tags_supported() const {
+
+  return d->filetype_ == FileType::FLAC ||
+         d->filetype_ == FileType::WavPack ||
+         d->filetype_ == FileType::OggFlac ||
+         d->filetype_ == FileType::OggVorbis ||
+         d->filetype_ == FileType::OggOpus ||
+         d->filetype_ == FileType::OggSpeex ||
+         d->filetype_ == FileType::MPEG ||
+         d->filetype_ == FileType::MP4 ||
+         d->filetype_ == FileType::ASF ||
+         d->filetype_ == FileType::AIFF ||
+         d->filetype_ == FileType::MPC ||
+         d->filetype_ == FileType::TrueAudio ||
+         d->filetype_ == FileType::APE ||
+         d->filetype_ == FileType::DSF ||
+         d->filetype_ == FileType::DSDIFF;
+
+}
+
 bool Song::additional_tags_supported() const {
 
   return d->filetype_ == FileType::FLAC ||
@@ -752,7 +772,7 @@ QString Song::PrettyRating() const {
 }
 
 bool Song::IsEditable() const {
-  return d->valid_ && d->url_.isValid() && (d->url_.isLocalFile() || d->source_ == Source::Stream) && !has_cue();
+  return d->valid_ && d->url_.isValid() && ((d->url_.isLocalFile() && write_tags_supported() && !has_cue()) || d->source_ == Source::Stream);
 }
 
 bool Song::IsMetadataEqual(const Song &other) const {

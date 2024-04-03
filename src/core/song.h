@@ -335,6 +335,7 @@ class Song {
   void clear_art_automatic();
   void clear_art_manual();
 
+  bool write_tags_supported() const;
   bool additional_tags_supported() const;
   bool albumartist_supported() const;
   bool composer_supported() const;
