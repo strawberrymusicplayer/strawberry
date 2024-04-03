@@ -142,7 +142,9 @@ CollectionModel::~CollectionModel() {
 
   qLog(Debug) << "Collection model" << this << "for" << Song::TextForSource(backend_->source()) << "deleted";
 
-  delete root_;
+  beginResetModel();
+  Clear();
+  endResetModel();
 
 }
 
@@ -199,6 +201,8 @@ void CollectionModel::ReloadSettings() {
 
 void CollectionModel::Init(const bool async) {
 
+  if (!root_) return;
+
   if (async) {
     // Show a loading indicator in the model.
     CollectionItem *loading = new CollectionItem(CollectionItem::Type_LoadingIndicator, root_);
@@ -221,6 +225,8 @@ void CollectionModel::Init(const bool async) {
 }
 
 void CollectionModel::SongsDiscovered(const SongList &songs) {
+
+  if (!root_) return;
 
   for (const Song &song : songs) {
 
@@ -518,6 +524,8 @@ QString CollectionModel::DividerDisplayText(const GroupBy group_by, const QStrin
 }
 
 void CollectionModel::SongsDeleted(const SongList &songs) {
+
+  if (!root_) return;
 
   // Delete the actual song nodes first, keeping track of each parent so we might check to see if they're empty later.
   QSet<CollectionItem*> parents;
@@ -923,6 +931,8 @@ CollectionModel::QueryResult CollectionModel::RunQuery(const CollectionFilterOpt
 
 void CollectionModel::PostQuery(CollectionItem *parent, const CollectionModel::QueryResult &result, const bool signal) {
 
+  if (!root_) return;
+
   // Information about what we want the children to be
   int child_level = parent == root_ ? 0 : parent->container_level + 1;
   GroupBy child_group_by = child_level >= 3 ? GroupBy::None : group_by_[child_level];
@@ -949,6 +959,8 @@ void CollectionModel::PostQuery(CollectionItem *parent, const CollectionModel::Q
 
 void CollectionModel::LazyPopulate(CollectionItem *parent, const bool signal) {
 
+  if (!root_) return;
+
   if (parent->lazy_loaded) return;
   parent->lazy_loaded = true;
 
@@ -959,6 +971,8 @@ void CollectionModel::LazyPopulate(CollectionItem *parent, const bool signal) {
 }
 
 void CollectionModel::ResetAsync() {
+
+  if (!root_) return;
 
   CollectionQueryOptions query_options = PrepareQuery(root_);
 
@@ -974,6 +988,8 @@ void CollectionModel::ResetAsync() {
 }
 
 void CollectionModel::ResetAsyncQueryFinished() {
+
+  if (!root_) return;
 
   QFutureWatcher<CollectionModel::QueryResult> *watcher = static_cast<QFutureWatcher<CollectionModel::QueryResult>*>(sender());
   const struct QueryResult result = watcher->result();
@@ -995,10 +1011,12 @@ void CollectionModel::ResetAsyncQueryFinished() {
 
 }
 
-void CollectionModel::BeginReset() {
+void CollectionModel::Clear() {
 
-  beginResetModel();
-  delete root_;
+  if (root_) {
+    delete root_;
+    root_ = nullptr;
+  }
   song_nodes_.clear();
   container_nodes_[0].clear();
   container_nodes_[1].clear();
@@ -1006,6 +1024,13 @@ void CollectionModel::BeginReset() {
   divider_nodes_.clear();
   pending_art_.clear();
   pending_cache_keys_.clear();
+
+}
+
+void CollectionModel::BeginReset() {
+
+  beginResetModel();
+  Clear();
 
   root_ = new CollectionItem(this);
   root_->compilation_artist_node_ = nullptr;
@@ -1641,6 +1666,8 @@ CollectionItem *CollectionModel::ItemFromSong(const GroupBy group_by, const bool
 
 void CollectionModel::FinishItem(const GroupBy group_by, const bool signal, const bool create_divider, CollectionItem *parent, CollectionItem *item) {
 
+  if (!root_) return;
+
   if (group_by == GroupBy::None) item->lazy_loaded = true;
 
   if (signal) {
@@ -1981,6 +2008,8 @@ void CollectionModel::ClearDiskCache() {
 }
 
 void CollectionModel::ExpandAll(CollectionItem *item) const {
+
+  if (!root_) return;
 
   if (!item) item = root_;
   const_cast<CollectionModel*>(this)->LazyPopulate(const_cast<CollectionItem*>(item), false);

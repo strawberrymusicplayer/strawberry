@@ -245,6 +245,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   bool HasCompilations(const QSqlDatabase &db, const CollectionFilterOptions &filter_options, const CollectionQueryOptions &query_options);
 
+  void Clear();
   void BeginReset();
 
   // Functions for working with queries and creating items.
