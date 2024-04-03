@@ -270,6 +270,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void FocusSearchField();
 
+  void DeleteFilesFinished(const SongList &songs_with_errors);
+
  public slots:
   void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();

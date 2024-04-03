@@ -204,6 +204,8 @@
 
 #include "smartplaylists/smartplaylistsviewcontainer.h"
 
+#include "organize/organizeerrordialog.h"
+
 #ifdef Q_OS_WIN
 #  include "windows7thumbbar.h"
 #endif
@@ -3239,8 +3241,18 @@ void MainWindow::PlaylistDelete() {
 
   SharedPtr<MusicStorage> storage = make_shared<FilesystemMusicStorage>(Song::Source::LocalFile, "/");
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, true);
-  //QObject::connect(delete_files, &DeleteFiles::Finished, this, &MainWindow::DeleteFinished);
+  QObject::connect(delete_files, &DeleteFiles::Finished, this, &MainWindow::DeleteFilesFinished);
   delete_files->Start(selected_songs);
+
+}
+
+void MainWindow::DeleteFilesFinished(const SongList &songs_with_errors) {
+
+  if (songs_with_errors.isEmpty()) return;
+
+  OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
+  dialog->Show(OrganizeErrorDialog::OperationType::Delete, songs_with_errors);
+  // It deletes itself when the user closes it
 
 }
 
