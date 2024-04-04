@@ -65,7 +65,6 @@ class SubsonicScrobbler : public ScrobblerService {
   void Submit() override;
 
  private:
-  SharedPtr<ScrobblerSettings> settings_;
   Application *app_;
   SharedPtr<SubsonicService> service_;
   bool enabled_;

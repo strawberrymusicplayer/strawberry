@@ -64,13 +64,12 @@ const char *ScrobblingAPI20::kSecret = "80fd738f49596e9709b1bf9319c444a8";
 const int ScrobblingAPI20::kScrobblesPerRequest = 50;
 
 ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : ScrobblerService(name, parent),
+    : ScrobblerService(name, settings, parent),
       name_(name),
       settings_group_(settings_group),
       auth_url_(auth_url),
       api_url_(api_url),
       batch_(batch),
-      settings_(settings),
       network_(network),
       cache_(new ScrobblerCache(cache_file, this)),
       server_(nullptr),

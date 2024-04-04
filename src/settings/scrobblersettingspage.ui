@@ -120,6 +120,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_strip_remastered">
+     <property name="text">
+      <string>Strip &quot;remastered&quot; and similar from album and title</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_sources">
      <property name="title">
       <string>Enable scrobbling for the following sources:</string>

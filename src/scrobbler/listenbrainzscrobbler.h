@@ -110,7 +110,6 @@ class ListenBrainzScrobbler : public ScrobblerService {
   static const char *kCacheFile;
   static const int kScrobblesPerRequest;
 
-  SharedPtr<ScrobblerSettings> settings_;
   SharedPtr<NetworkAccessManager> network_;
   ScrobblerCache *cache_;
   LocalRedirectServer *server_;

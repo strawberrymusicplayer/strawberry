@@ -141,7 +141,6 @@ class ScrobblingAPI20 : public ScrobblerService {
   QString api_url_;
   bool batch_;
 
-  SharedPtr<ScrobblerSettings> settings_;
   SharedPtr<NetworkAccessManager> network_;
   ScrobblerCache *cache_;
   LocalRedirectServer *server_;

@@ -68,6 +68,7 @@ class AudioScrobbler : public QObject {
   int submit_delay() const { return settings_->submit_delay(); }
   bool prefer_albumartist() const { return settings_->prefer_albumartist(); }
   bool ShowErrorDialog() const { return settings_->show_error_dialog(); }
+  bool strip_remastered() const { return settings_->strip_remastered(); }
   QList<Song::Source> sources() const { return settings_->sources(); }
 
   void ShowConfig();

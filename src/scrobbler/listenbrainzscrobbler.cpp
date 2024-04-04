@@ -67,8 +67,7 @@ const char *ListenBrainzScrobbler::kCacheFile = "listenbrainzscrobbler.cache";
 const int ListenBrainzScrobbler::kScrobblesPerRequest = 10;
 
 ListenBrainzScrobbler::ListenBrainzScrobbler(SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : ScrobblerService(kName, parent),
-      settings_(settings),
+    : ScrobblerService(kName, settings, parent),
       network_(network),
       cache_(new ScrobblerCache(kCacheFile, this)),
       server_(nullptr),

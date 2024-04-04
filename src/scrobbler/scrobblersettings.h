@@ -47,6 +47,7 @@ class ScrobblerSettings : public QObject {
   int submit_delay() const { return submit_delay_; }
   bool prefer_albumartist() const { return prefer_albumartist_; }
   bool show_error_dialog() const { return show_error_dialog_; }
+  bool strip_remastered() const { return strip_remastered_; }
   QList<Song::Source> sources() const { return sources_; }
 
   void ShowConfig();
@@ -73,6 +74,7 @@ class ScrobblerSettings : public QObject {
   int submit_delay_;
   bool prefer_albumartist_;
   bool show_error_dialog_;
+  bool strip_remastered_;
   QList<Song::Source> sources_;
 
   Q_DISABLE_COPY(ScrobblerSettings)

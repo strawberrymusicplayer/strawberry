@@ -43,8 +43,7 @@
 const char *SubsonicScrobbler::kName = "Subsonic";
 
 SubsonicScrobbler::SubsonicScrobbler(SharedPtr<ScrobblerSettings> settings, Application *app, QObject *parent)
-    : ScrobblerService(kName, parent),
-      settings_(settings),
+    : ScrobblerService(kName, settings, parent),
       app_(app),
       service_(nullptr),
       enabled_(false),

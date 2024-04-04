@@ -38,7 +38,8 @@ ScrobblerSettings::ScrobblerSettings(Application *app, QObject *parent)
       love_button_(false),
       submit_delay_(0),
       prefer_albumartist_(false),
-      show_error_dialog_(false) {
+      show_error_dialog_(false),
+      strip_remastered_(false) {
 
   ReloadSettings();
 
@@ -55,6 +56,7 @@ void ScrobblerSettings::ReloadSettings() {
   submit_delay_ = s.value("submit", 0).toInt();
   prefer_albumartist_ = s.value("albumartist", false).toBool();
   show_error_dialog_ = s.value("show_error_dialog", true).toBool();
+  strip_remastered_ = s.value("strip_remastered", true).toBool();
   QStringList sources = s.value("sources").toStringList();
   s.endGroup();
 

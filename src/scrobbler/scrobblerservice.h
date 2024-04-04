@@ -33,11 +33,13 @@
 #include "core/shared_ptr.h"
 #include "core/song.h"
 
+#include "scrobblersettings.h"
+
 class ScrobblerService : public QObject {
   Q_OBJECT
 
  public:
-  explicit ScrobblerService(const QString &name, QObject *parent);
+  explicit ScrobblerService(const QString &name, SharedPtr<ScrobblerSettings> settings, QObject *parent);
 
   QString name() const { return name_; }
 
@@ -71,8 +73,9 @@ class ScrobblerService : public QObject {
  signals:
   void ErrorMessage(const QString &error);
 
- private:
+ protected:
   QString name_;
+  SharedPtr<ScrobblerSettings> settings_;
 };
 
 using ScrobblerServicePtr = SharedPtr<ScrobblerService>;

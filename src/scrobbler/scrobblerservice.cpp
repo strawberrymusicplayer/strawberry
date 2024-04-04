@@ -27,10 +27,11 @@
 #include <QJsonObject>
 
 #include "scrobblerservice.h"
+#include "scrobblersettings.h"
 
 #include "core/song.h"
 
-ScrobblerService::ScrobblerService(const QString &name, QObject *parent) : QObject(parent), name_(name) {}
+ScrobblerService::ScrobblerService(const QString &name, SharedPtr<ScrobblerSettings> settings, QObject *parent) : QObject(parent), name_(name), settings_(settings) {}
 
 bool ScrobblerService::ExtractJsonObj(const QByteArray &data, QJsonObject &json_obj, QString &error_description) {
 
@@ -52,12 +53,20 @@ bool ScrobblerService::ExtractJsonObj(const QByteArray &data, QJsonObject &json_
 
 QString ScrobblerService::StripAlbum(const QString &album) const {
 
-  return Song::AlbumRemoveDisc(album);
+  if (settings_->strip_remastered()) {
+    return Song::AlbumRemoveDiscMisc(album);
+  }
+
+  return Song::AlbumRemoveDisc(album);;
 
 }
 
 QString ScrobblerService::StripTitle(const QString &title) const {
 
-  return Song::TitleRemoveMisc(title);
+  if (settings_->strip_remastered()) {
+    return Song::TitleRemoveMisc(title);
+  }
+
+  return title;
 
 }

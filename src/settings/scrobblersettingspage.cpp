@@ -98,6 +98,7 @@ void ScrobblerSettingsPage::Load() {
   ui_->spinbox_submit->setValue(scrobbler_->submit_delay());
   ui_->checkbox_albumartist->setChecked(scrobbler_->prefer_albumartist());
   ui_->checkbox_show_error_dialog->setChecked(scrobbler_->ShowErrorDialog());
+  ui_->checkbox_strip_remastered->setChecked(scrobbler_->strip_remastered());
 
   ui_->checkbox_source_collection->setChecked(scrobbler_->sources().contains(Song::Source::Collection));
   ui_->checkbox_source_local->setChecked(scrobbler_->sources().contains(Song::Source::LocalFile));
@@ -139,6 +140,7 @@ void ScrobblerSettingsPage::Save() {
   s.setValue("submit", ui_->spinbox_submit->value());
   s.setValue("albumartist", ui_->checkbox_albumartist->isChecked());
   s.setValue("show_error_dialog", ui_->checkbox_show_error_dialog->isChecked());
+  s.setValue("strip_remastered", ui_->checkbox_strip_remastered->isChecked());
 
   QStringList sources;
   if (ui_->checkbox_source_collection->isChecked()) sources << Song::TextForSource(Song::Source::Collection);
