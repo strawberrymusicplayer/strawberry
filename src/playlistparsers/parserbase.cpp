@@ -37,7 +37,7 @@
 ParserBase::ParserBase(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : QObject(parent), collection_backend_(collection_backend) {}
 
-void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning, const QDir &dir, Song *song, const bool collection_search) const {
+void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning, const int track, const QDir &dir, Song *song, const bool collection_search) const {
 
   if (filename_or_url.isEmpty()) {
     return;
@@ -81,7 +81,13 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
 
   // Search in the collection
   if (collection_backend_ && collection_search) {
-    Song collection_song = collection_backend_->GetSongByUrl(url, beginning);
+    Song collection_song;
+    if (track > 0) {
+      collection_song = collection_backend_->GetSongByUrlAndTrack(url, track);
+    }
+    if (!collection_song.is_valid()) {
+      collection_song = collection_backend_->GetSongByUrl(url, beginning);
+    }
     // If it was found in the collection then use it, otherwise load metadata from disk.
     if (collection_song.is_valid()) {
       *song = collection_song;
@@ -89,14 +95,16 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     }
   }
 
-  TagReaderClient::Instance()->ReadFileBlocking(filename, song);
+  if (!song->has_cue()) {
+    TagReaderClient::Instance()->ReadFileBlocking(filename, song);
+  }
 
 }
 
-Song ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning, const QDir &dir, const bool collection_search) const {
+Song ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning, const int track, const QDir &dir, const bool collection_search) const {
 
   Song song(Song::Source::LocalFile);
-  LoadSong(filename_or_url, beginning, dir, &song, collection_search);
+  LoadSong(filename_or_url, beginning, track, dir, &song, collection_search);
 
   return song;
 

@@ -59,7 +59,7 @@ SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, con
     QString value = line.mid(equals + 1);
 
     if (key.startsWith("ref")) {
-      Song song = LoadSong(value, 0, dir, collection_search);
+      Song song = LoadSong(value, 0, 0, dir, collection_search);
       if (song.is_valid()) {
         ret << song;
       }

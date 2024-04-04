@@ -117,7 +117,7 @@ Song ASXParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool
   }
 
 return_song:
-  Song song = LoadSong(ref, 0, dir, collection_search);
+  Song song = LoadSong(ref, 0, 0, dir, collection_search);
 
   // Override metadata with what was in the playlist
   if (song.source() != Song::Source::Collection) {

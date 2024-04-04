@@ -246,7 +246,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
   for (int i = 0; i < entries.length(); i++) {
     CueEntry entry = entries.at(i);
 
-    Song song = LoadSong(entry.file, IndexToMarker(entry.index), dir, collection_search);
+    Song song = LoadSong(entry.file, IndexToMarker(entry.index), 0, dir, collection_search);
 
     // Cue song has mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
     if (cue_mtime.isValid()) {

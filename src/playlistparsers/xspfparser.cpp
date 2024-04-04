@@ -120,7 +120,7 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const boo
   }
 
 return_song:
-  Song song = LoadSong(location, 0, dir, collection_search);
+  Song song = LoadSong(location, 0, track_num, dir, collection_search);
 
   // Override metadata with what was in the playlist
   if (song.source() != Song::Source::Collection) {
@@ -169,10 +169,13 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
       if (song.length_nanosec() != -1) {
         writer.writeTextElement("duration", QString::number(song.length_nanosec() / kNsecPerMsec));
       }
-      if (song.track() > 0) {
-        writer.writeTextElement("trackNum", QString::number(song.track()));
-      }
+    }
 
+    if ((write_metadata || song.has_cue() || (song.is_stream() && !song.is_radio())) && song.track() > 0) {
+      writer.writeTextElement("trackNum", QString::number(song.track()));
+    }
+
+    if (write_metadata || (song.is_stream() && !song.is_radio())) {
       const QUrl cover_url = song.art_manual().isEmpty() || !song.art_manual().isValid() ? song.art_automatic() : song.art_manual();
       // Ignore images that are in our resource bundle.
       if (!cover_url.isEmpty() && cover_url.isValid()) {

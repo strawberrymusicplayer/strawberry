@@ -1210,6 +1210,36 @@ Song CollectionBackend::GetSongByUrl(const QUrl &url, const qint64 beginning) {
 
 }
 
+Song CollectionBackend::GetSongByUrlAndTrack(const QUrl &url, const int track) {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  SqlQuery q(db);
+  q.prepare(QString("SELECT ROWID, %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND track = :track AND unavailable = 0").arg(Song::kColumnSpec, songs_table_));
+
+  q.BindValue(":url1", url);
+  q.BindValue(":url2", url.toString());
+  q.BindValue(":url3", url.toString(QUrl::FullyEncoded));
+  q.BindValue(":url4", url.toEncoded());
+  q.BindValue(":track", track);
+
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+    return Song();
+  }
+
+  if (!q.next()) {
+    return Song();
+  }
+
+  Song song(source_);
+  song.InitFromQuery(q, true);
+
+  return song;
+
+}
+
 SongList CollectionBackend::GetSongsByUrl(const QUrl &url, const bool unavailable) {
 
   QMutexLocker l(db_->Mutex());

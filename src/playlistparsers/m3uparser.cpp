@@ -71,7 +71,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
       }
     }
     else if (!line.isEmpty()) {
-      Song song = LoadSong(line, 0, dir, collection_search);
+      Song song = LoadSong(line, 0, 0, dir, collection_search);
       if (!current_metadata.title.isEmpty()) {
         song.set_title(current_metadata.title);
       }
