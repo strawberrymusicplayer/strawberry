@@ -339,6 +339,9 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       track_slider_timer_(new QTimer(this)),
       keep_running_(false),
       playing_widget_(true),
+#ifdef HAVE_DBUS
+      taskbar_progress_(false),
+#endif
       doubleclick_addmode_(BehaviourSettingsPage::AddBehaviour::Append),
       doubleclick_playmode_(BehaviourSettingsPage::PlayBehaviour::Never),
       doubleclick_playlist_addmode_(BehaviourSettingsPage::PlaylistAddBehaviour::Play),
@@ -1108,6 +1111,9 @@ void MainWindow::ReloadSettings() {
   keep_running_ = keeprunning_available && s.value("keeprunning", false).toBool();
   playing_widget_ = s.value("playing_widget", true).toBool();
   bool trayicon_progress = s.value("trayicon_progress", false).toBool();
+#ifdef HAVE_DBUS
+  const bool taskbar_progress = s.value("taskbar_progress", true).toBool();
+#endif
   if (playing_widget_ != ui_->widget_playing->IsEnabled()) TabSwitched();
   doubleclick_addmode_ = static_cast<BehaviourSettingsPage::AddBehaviour>(s.value("doubleclick_addmode", static_cast<int>(BehaviourSettingsPage::AddBehaviour::Append)).toInt());
   doubleclick_playmode_ = static_cast<BehaviourSettingsPage::PlayBehaviour>(s.value("doubleclick_playmode", static_cast<int>(BehaviourSettingsPage::PlayBehaviour::Never)).toInt());
@@ -1120,6 +1126,13 @@ void MainWindow::ReloadSettings() {
   s.endGroup();
 
   tray_icon_->SetTrayiconProgress(trayicon_progress);
+
+#ifdef HAVE_DBUS
+  if (taskbar_progress_ && !taskbar_progress) {
+    UpdateTaskbarProgress(false);
+  }
+  taskbar_progress_ = taskbar_progress;
+#endif
 
   ui_->back_button->setIconSize(QSize(iconsize, iconsize));
   ui_->pause_play_button->setIconSize(QSize(iconsize, iconsize));
@@ -1277,7 +1290,9 @@ void MainWindow::Exit() {
     }
 
 #ifdef HAVE_DBUS
-    UpdateTaskbarProgress(false, 0, 0);
+    if (taskbar_progress_) {
+      UpdateTaskbarProgress(false);
+    }
 #endif
 
     DoExit();
@@ -1333,7 +1348,9 @@ void MainWindow::MediaStopped() {
   tray_icon_->SetStopped();
 
 #ifdef HAVE_DBUS
-  UpdateTaskbarProgress(false, 0, 0);
+  if (taskbar_progress_) {
+    UpdateTaskbarProgress(false);
+  }
 #endif
 
   song_playing_ = Song();
@@ -1413,7 +1430,9 @@ void MainWindow::SongChanged(const Song &song) {
   tray_icon_->SetProgress(0);
 
 #ifdef HAVE_DBUS
-  UpdateTaskbarProgress(false, 0, 0);
+  if (taskbar_progress_) {
+    UpdateTaskbarProgress(false);
+  }
 #endif
 
   SendNowPlaying();
@@ -1706,7 +1725,9 @@ void MainWindow::Seeked(const qint64 microseconds) {
   tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
 #ifdef HAVE_DBUS
-  UpdateTaskbarProgress(true, position, length);
+  if (taskbar_progress_) {
+    UpdateTaskbarProgress(true, position, length);
+  }
 #endif
 
 }
@@ -1724,7 +1745,9 @@ void MainWindow::UpdateTrackPosition() {
   if (position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
 #ifdef HAVE_DBUS
-  UpdateTaskbarProgress(true, position, length);
+  if (taskbar_progress_) {
+    UpdateTaskbarProgress(true, position, length);
+  }
 #endif
 
   // Send Scrobble

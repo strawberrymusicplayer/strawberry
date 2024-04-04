@@ -293,7 +293,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void SetToggleScrobblingIcon(const bool value);
 
 #ifdef HAVE_DBUS
-  void UpdateTaskbarProgress(const bool visible, const double position, const double length);
+  void UpdateTaskbarProgress(const bool visible, const double position = 0, const double length = 0);
 #endif
 
  private:
@@ -383,6 +383,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   bool keep_running_;
   bool playing_widget_;
+#ifdef HAVE_DBUS
+  bool taskbar_progress_;
+#endif
   BehaviourSettingsPage::AddBehaviour doubleclick_addmode_;
   BehaviourSettingsPage::PlayBehaviour doubleclick_playmode_;
   BehaviourSettingsPage::PlaylistAddBehaviour doubleclick_playlist_addmode_;
