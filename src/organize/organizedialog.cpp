@@ -179,7 +179,6 @@ void OrganizeDialog::closeEvent(QCloseEvent*) {
 void OrganizeDialog::accept() {
 
   SaveGeometry();
-  SaveSettings();
 
   const QModelIndex destination = ui_->destination->model()->index(ui_->destination->currentIndex(), 0);
   SharedPtr<MusicStorage> storage = destination.data(MusicStorage::Role_StorageForceConnect).value<SharedPtr<MusicStorage>>();
@@ -280,8 +279,6 @@ void OrganizeDialog::RestoreDefaults() {
   ui_->overwrite->setChecked(false);
   ui_->albumcover->setChecked(true);
   ui_->eject_after->setChecked(false);
-
-  SaveSettings();
 
 }
 
