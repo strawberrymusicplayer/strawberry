@@ -1427,7 +1427,7 @@ jobs:
 
   upload:
     name: Upload
-    if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')))
+    if: (success() || failure()) && github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci')))
     runs-on: ubuntu-latest
     needs:
       - build-opensuse
@@ -1476,7 +1476,7 @@ jobs:
 
   attach:
     name: Attach to release
-    if: github.event_name == 'release'
+    if: (success() || failure()) && github.event_name == 'release'
     runs-on: ubuntu-latest
     needs:
       - build-opensuse
