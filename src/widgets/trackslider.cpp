@@ -94,8 +94,8 @@ void TrackSlider::SetApplication(Application *app) {
 void TrackSlider::UpdateLabelWidth() {
 
   // We set the label's minimum size, so it won't resize itself when the user is dragging the slider.
-  UpdateLabelWidth(ui_->elapsed, "0:00:00");
-  UpdateLabelWidth(ui_->remaining, "-0:00:00");
+  UpdateLabelWidth(ui_->elapsed, QStringLiteral("0:00:00"));
+  UpdateLabelWidth(ui_->remaining, QStringLiteral("-0:00:00"));
 
 }
 
@@ -158,8 +158,8 @@ void TrackSlider::UpdateTimes(const int elapsed) {
 void TrackSlider::SetStopped() {
 
   setEnabled(false);
-  ui_->elapsed->setText("0:00:00");
-  ui_->remaining->setText("0:00:00");
+  ui_->elapsed->setText(QStringLiteral("0:00:00"));
+  ui_->remaining->setText(QStringLiteral("0:00:00"));
 
   setting_value_ = true;
   ui_->slider->setValue(0);

@@ -68,7 +68,7 @@ SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionB
       finish_page_(new FinishPage(this)),
       type_index_(-1) {
 
-  setWindowIcon(IconLoader::Load("strawberry"));
+  setWindowIcon(IconLoader::Load(QStringLiteral("strawberry")));
   setWindowTitle(tr("Smart playlist"));
 
   resize(788, 628);
@@ -86,7 +86,7 @@ SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionB
   // Type page
   type_page_->setTitle(tr("Playlist type"));
   type_page_->setSubTitle(tr("A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs."));
-  type_page_->setStyleSheet("QRadioButton { font-weight: bold; } QLabel { margin-bottom: 1em; margin-left: 24px; }");
+  type_page_->setStyleSheet(QStringLiteral("QRadioButton { font-weight: bold; } QLabel { margin-bottom: 1em; margin-left: 24px; }"));
   addPage(type_page_);
 
   // Finish page

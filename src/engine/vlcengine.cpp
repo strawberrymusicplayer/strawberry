@@ -226,8 +226,8 @@ EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
 
   OutputDetailsList outputs;
   OutputDetails output_auto;
-  output_auto.name = "auto";
-  output_auto.description = "Automatically detected";
+  output_auto.name = QStringLiteral("auto");
+  output_auto.description = QStringLiteral("Automatically detected");
   outputs << output_auto;
 
   libvlc_audio_output_t *audio_output_list = libvlc_audio_output_list_get(instance_);
@@ -235,12 +235,12 @@ EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
     OutputDetails output;
     output.name = QString::fromUtf8(audio_output->psz_name);
     output.description = QString::fromUtf8(audio_output->psz_description);
-    if (output.name == "auto") output.iconname = "soundcard";
-    else if ((output.name == "alsa")||(output.name == "oss")) output.iconname = "alsa";
-    else if (output.name== "jack") output.iconname = "jack";
-    else if (output.name == "pulse") output.iconname = "pulseaudio";
-    else if (output.name == "afile") output.iconname = "document-new";
-    else output.iconname = "soundcard";
+    if (output.name == "auto") output.iconname = QStringLiteral("soundcard");
+    else if ((output.name == "alsa")||(output.name == "oss")) output.iconname = QStringLiteral("alsa");
+    else if (output.name== "jack") output.iconname = QStringLiteral("jack");
+    else if (output.name == "pulse") output.iconname = QStringLiteral("pulseaudio");
+    else if (output.name == "afile") output.iconname = QStringLiteral("document-new");
+    else output.iconname = QStringLiteral("soundcard");
     outputs << output;
   }
   libvlc_audio_output_list_release(audio_output_list);

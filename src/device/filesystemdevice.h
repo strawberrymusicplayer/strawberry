@@ -52,7 +52,7 @@ class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicS
   bool Init() override;
   void CloseAsync();
 
-  static QStringList url_schemes() { return QStringList() << "file"; }
+  static QStringList url_schemes() { return QStringList() << QStringLiteral("file"); }
 
  private slots:
   void Close() override;

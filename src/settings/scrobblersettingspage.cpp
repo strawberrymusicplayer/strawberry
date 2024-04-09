@@ -55,7 +55,7 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *pa
       listenbrainz_waiting_for_auth_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("scrobble", true, 0, 32));
+  setWindowIcon(IconLoader::Load(QStringLiteral("scrobble"), true, 0, 32));
 
   // Last.fm
   QObject::connect(&*lastfmscrobbler_, &LastFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LastFM_AuthenticationComplete);
@@ -200,7 +200,7 @@ void ScrobblerSettingsPage::LastFM_AuthenticationComplete(const bool success, co
     Save();
   }
   else {
-    if (!error.isEmpty()) QMessageBox::warning(this, "Authentication failed", error);
+    if (!error.isEmpty()) QMessageBox::warning(this, QStringLiteral("Authentication failed"), error);
   }
 
   LastFM_RefreshControls(success);
@@ -235,7 +235,7 @@ void ScrobblerSettingsPage::LibreFM_AuthenticationComplete(const bool success, c
     Save();
   }
   else {
-    QMessageBox::warning(this, "Authentication failed", error);
+    QMessageBox::warning(this, QStringLiteral("Authentication failed"), error);
   }
 
   LibreFM_RefreshControls(success);
@@ -270,7 +270,7 @@ void ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete(const bool succe
     Save();
   }
   else {
-    QMessageBox::warning(this, "Authentication failed", error);
+    QMessageBox::warning(this, QStringLiteral("Authentication failed"), error);
   }
 
   ListenBrainz_RefreshControls(success);

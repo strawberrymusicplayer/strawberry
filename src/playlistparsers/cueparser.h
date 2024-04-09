@@ -63,15 +63,15 @@ class CueParser : public ParserBase {
 
   explicit CueParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
-  QString name() const override { return "CUE"; }
-  QStringList file_extensions() const override { return QStringList() << "cue"; }
-  QString mime_type() const override { return "application/x-cue"; }
+  QString name() const override { return QStringLiteral("CUE"); }
+  QStringList file_extensions() const override { return QStringList() << QStringLiteral("cue"); }
+  QString mime_type() const override { return QStringLiteral("application/x-cue"); }
   bool load_supported() const override { return true; }
   bool save_supported() const override { return false; }
 
   bool TryMagic(const QByteArray &data) const override;
 
-  SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir(), const bool collection_search = true) const override;
+  SongList Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_search = true) const override;
   void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType::Automatic) const override;
 
   static QString FindCueFilename(const QString &filename);

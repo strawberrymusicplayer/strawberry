@@ -61,10 +61,10 @@ CddaSongLoader::~CddaSongLoader() {
 QUrl CddaSongLoader::GetUrlFromTrack(int track_number) const {
 
   if (url_.isEmpty()) {
-    return QUrl(QString("cdda://%1a").arg(track_number));
+    return QUrl(QStringLiteral("cdda://%1a").arg(track_number));
   }
   else {
-    return QUrl(QString("cdda://%1/%2").arg(url_.path()).arg(track_number));
+    return QUrl(QStringLiteral("cdda://%1/%2").arg(url_.path()).arg(track_number));
   }
 
 }
@@ -74,7 +74,7 @@ void CddaSongLoader::LoadSongs() {
   QMutexLocker locker(&mutex_load_);
   cdio_ = cdio_open(url_.path().toLocal8Bit().constData(), DRIVER_DEVICE);
   if (cdio_ == nullptr) {
-    Error("Unable to open CDIO device.");
+    Error(QStringLiteral("Unable to open CDIO device."));
     return;
   }
 
@@ -82,7 +82,7 @@ void CddaSongLoader::LoadSongs() {
   GError *error = nullptr;
   cdda_ = gst_element_make_from_uri(GST_URI_SRC, "cdda://", nullptr, &error);
   if (error) {
-    Error(QString("%1: %2").arg(error->code).arg(error->message));
+    Error(QStringLiteral("%1: %2").arg(error->code).arg(error->message));
   }
   if (!cdda_) return;
 
@@ -140,7 +140,7 @@ void CddaSongLoader::LoadSongs() {
     song.set_valid(true);
     song.set_filetype(Song::FileType::CDDA);
     song.set_url(GetUrlFromTrack(track_number));
-    song.set_title(QString("Track %1").arg(track_number));
+    song.set_title(QStringLiteral("Track %1").arg(track_number));
     song.set_track(track_number);
     songs << song;
   }

@@ -677,7 +677,7 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
     // well, it wasn't set, but if the artist is VA assume it's a compilation
     const QString albumartist = QString::fromUtf8(song->albumartist().data(), static_cast<qint64>(song->albumartist().size()));
     const QString artist = QString::fromUtf8(song->artist().data(), static_cast<qint64>(song->artist().size()));
-    if (artist.compare("various artists") == 0 || albumartist.compare("various artists") == 0) {
+    if (artist.compare(QLatin1String("various artists")) == 0 || albumartist.compare(QLatin1String("various artists")) == 0) {
       song->set_compilation(true);
     }
   }
@@ -824,7 +824,7 @@ void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment
   vorbis_comment->addField("PERFORMER", StdStringToTaglibString(song.performer()), true);
   vorbis_comment->addField("GROUPING", StdStringToTaglibString(song.grouping()), true);
   vorbis_comment->addField("DISCNUMBER", QStringToTaglibString(song.disc() <= 0 ? QString() : QString::number(song.disc())), true);
-  vorbis_comment->addField("COMPILATION", QStringToTaglibString(song.compilation() ? "1" : QString()), true);
+  vorbis_comment->addField("COMPILATION", QStringToTaglibString(song.compilation() ? QStringLiteral("1") : QString()), true);
 
   // Try to be coherent, the two forms are used but the first one is preferred
 
@@ -849,19 +849,19 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
 
   QStringList save_tags_options;
   if (save_tags) {
-    save_tags_options << "tags";
+    save_tags_options << QStringLiteral("tags");
   }
   if (save_playcount) {
-    save_tags_options << "playcount";
+    save_tags_options << QStringLiteral("playcount");
   }
   if (save_rating) {
-    save_tags_options << "rating";
+    save_tags_options << QStringLiteral("rating");
   }
   if (save_cover) {
-    save_tags_options << "embedded cover";
+    save_tags_options << QStringLiteral("embedded cover");
   }
 
-  qLog(Debug) << "Saving" << save_tags_options.join(", ") << "to" << filename;
+  qLog(Debug) << "Saving" << save_tags_options.join(QStringLiteral(", ")) << "to" << filename;
 
   const Cover cover = LoadCoverFromRequest(request);
 
@@ -1427,7 +1427,7 @@ void TagReaderTagLib::SetPlaycount(TagLib::APE::Tag *tag, const spb::tagreader::
 
 void TagReaderTagLib::SetPlaycount(TagLib::ID3v2::Tag *tag, const spb::tagreader::SongMetadata &song) const {
 
-  SetUserTextFrame("FMPS_Playcount", QString::number(song.playcount()), tag);
+  SetUserTextFrame(QStringLiteral("FMPS_Playcount"), QString::number(song.playcount()), tag);
   TagLib::ID3v2::PopularimeterFrame *frame = GetPOPMFrameFromTag(tag);
   if (frame) {
     frame->setCounter(song.playcount());
@@ -1546,7 +1546,7 @@ void TagReaderTagLib::SetRating(TagLib::APE::Tag *tag, const spb::tagreader::Son
 
 void TagReaderTagLib::SetRating(TagLib::ID3v2::Tag *tag, const spb::tagreader::SongMetadata &song) const {
 
-  SetUserTextFrame("FMPS_Rating", QString::number(song.rating()), tag);
+  SetUserTextFrame(QStringLiteral("FMPS_Rating"), QString::number(song.rating()), tag);
   TagLib::ID3v2::PopularimeterFrame *frame = GetPOPMFrameFromTag(tag);
   if (frame) {
     frame->setRating(ConvertToPOPMRating(song.rating()));

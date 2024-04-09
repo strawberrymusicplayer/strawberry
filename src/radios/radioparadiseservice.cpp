@@ -35,10 +35,10 @@
 const char *RadioParadiseService::kApiChannelsUrl = "https://api.radioparadise.com/api/list_streams";
 
 RadioParadiseService::RadioParadiseService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : RadioService(Song::Source::RadioParadise, "Radio Paradise", IconLoader::Load("radioparadise"), app, network, parent) {}
+    : RadioService(Song::Source::RadioParadise, QStringLiteral("Radio Paradise"), IconLoader::Load(QStringLiteral("radioparadise")), app, network, parent) {}
 
-QUrl RadioParadiseService::Homepage() { return QUrl("https://radioparadise.com/"); }
-QUrl RadioParadiseService::Donate() { return QUrl("https://payments.radioparadise.com/rp2s-content.php?name=Support&file=support"); }
+QUrl RadioParadiseService::Homepage() { return QUrl(QStringLiteral("https://radioparadise.com/")); }
+QUrl RadioParadiseService::Donate() { return QUrl(QStringLiteral("https://payments.radioparadise.com/rp2s-content.php?name=Support&file=support")); }
 
 void RadioParadiseService::Abort() {
 
@@ -78,36 +78,36 @@ void RadioParadiseService::GetChannelsReply(QNetworkReply *reply, const int task
     return;
   }
 
-  if (!object.contains("channels") || !object["channels"].isArray()) {
-    Error("Missing JSON channels array.", object);
+  if (!object.contains(QStringLiteral("channels")) || !object[QStringLiteral("channels")].isArray()) {
+    Error(QStringLiteral("Missing JSON channels array."), object);
     app_->task_manager()->SetTaskFinished(task_id);
     emit NewChannels();
     return;
   }
-  QJsonArray array_channels = object["channels"].toArray();
+  QJsonArray array_channels = object[QStringLiteral("channels")].toArray();
 
   RadioChannelList channels;
   for (const QJsonValueRef value_channel : array_channels) {
     if (!value_channel.isObject()) continue;
     QJsonObject obj_channel = value_channel.toObject();
-    if (!obj_channel.contains("chan_name") || !obj_channel.contains("streams")) {
+    if (!obj_channel.contains(QStringLiteral("chan_name")) || !obj_channel.contains(QStringLiteral("streams"))) {
       continue;
     }
-    QString name = obj_channel["chan_name"].toString();
-    QJsonValue value_streams = obj_channel["streams"];
+    QString name = obj_channel[QStringLiteral("chan_name")].toString();
+    QJsonValue value_streams = obj_channel[QStringLiteral("streams")];
     if (!value_streams.isArray()) {
       continue;
     }
-    QJsonArray array_streams = obj_channel["streams"].toArray();
+    QJsonArray array_streams = obj_channel[QStringLiteral("streams")].toArray();
     for (const QJsonValueRef value_stream : array_streams) {
       if (!value_stream.isObject()) continue;
       QJsonObject obj_stream = value_stream.toObject();
-      if (!obj_stream.contains("label") || !obj_stream.contains("url")) {
+      if (!obj_stream.contains(QStringLiteral("label")) || !obj_stream.contains(QStringLiteral("url"))) {
         continue;
       }
-      QString label = obj_stream["label"].toString();
-      QString url = obj_stream["url"].toString();
-      if (!url.contains(QRegularExpression("^[0-9a-zA-Z]*:\\/\\/", QRegularExpression::CaseInsensitiveOption))) {
+      QString label = obj_stream[QStringLiteral("label")].toString();
+      QString url = obj_stream[QStringLiteral("url")].toString();
+      if (!url.contains(QRegularExpression(QStringLiteral("^[0-9a-zA-Z]*:\\/\\/"), QRegularExpression::CaseInsensitiveOption))) {
         url.prepend("https://");
       }
       RadioChannel channel;

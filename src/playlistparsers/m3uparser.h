@@ -44,15 +44,15 @@ class M3UParser : public ParserBase {
  public:
   explicit M3UParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
-  QString name() const override { return "M3U"; }
-  QStringList file_extensions() const override { return QStringList() << "m3u" << "m3u8"; }
-  QString mime_type() const override { return "text/uri-list"; }
+  QString name() const override { return QStringLiteral("M3U"); }
+  QStringList file_extensions() const override { return QStringList() << QStringLiteral("m3u") << QStringLiteral("m3u8"); }
+  QString mime_type() const override { return QStringLiteral("text/uri-list"); }
   bool load_supported() const override { return true; }
   bool save_supported() const override { return true; }
 
   bool TryMagic(const QByteArray &data) const override;
 
-  SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir(), const bool collection_search = true) const override;
+  SongList Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_search = true) const override;
   void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType::Automatic) const override;
 
  private:

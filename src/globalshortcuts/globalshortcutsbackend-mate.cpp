@@ -116,9 +116,9 @@ void GlobalShortcutsBackendMate::DoUnregister() {
 void GlobalShortcutsBackendMate::MateMediaKeyPressed(const QString&, const QString &key) {
 
   auto shortcuts = manager_->shortcuts();
-  if (key == "Play") shortcuts["play_pause"].action->trigger();
-  if (key == "Stop") shortcuts["stop"].action->trigger();
-  if (key == "Next") shortcuts["next_track"].action->trigger();
-  if (key == "Previous") shortcuts["prev_track"].action->trigger();
+  if (key == "Play") shortcuts[QStringLiteral("play_pause")].action->trigger();
+  if (key == "Stop") shortcuts[QStringLiteral("stop")].action->trigger();
+  if (key == "Next") shortcuts[QStringLiteral("next_track")].action->trigger();
+  if (key == "Previous") shortcuts[QStringLiteral("prev_track")].action->trigger();
 
 }

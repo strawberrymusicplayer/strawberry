@@ -65,15 +65,15 @@ FileView::FileView(QWidget *parent)
       model_(nullptr),
       undo_stack_(new QUndoStack(this)),
       task_manager_(nullptr),
-      storage_(new FilesystemMusicStorage(Song::Source::LocalFile, "/")) {
+      storage_(new FilesystemMusicStorage(Song::Source::LocalFile, QStringLiteral("/"))) {
 
   ui_->setupUi(this);
 
   // Icons
-  ui_->back->setIcon(IconLoader::Load("go-previous"));
-  ui_->forward->setIcon(IconLoader::Load("go-next"));
-  ui_->home->setIcon(IconLoader::Load("go-home"));
-  ui_->up->setIcon(IconLoader::Load("go-up"));
+  ui_->back->setIcon(IconLoader::Load(QStringLiteral("go-previous")));
+  ui_->forward->setIcon(IconLoader::Load(QStringLiteral("go-next")));
+  ui_->home->setIcon(IconLoader::Load(QStringLiteral("go-home")));
+  ui_->up->setIcon(IconLoader::Load(QStringLiteral("go-up")));
 
   QObject::connect(ui_->back, &QToolButton::clicked, undo_stack_, &QUndoStack::undo);
   QObject::connect(ui_->forward, &QToolButton::clicked, undo_stack_, &QUndoStack::redo);
@@ -94,7 +94,7 @@ FileView::FileView(QWidget *parent)
   QObject::connect(ui_->list, &FileViewList::EditTags, this, &FileView::EditTags);
 
   QString filter(FileView::kFileFilter);
-  filter_list_ << filter.split(" ");
+  filter_list_ << filter.split(QStringLiteral(" "));
 
   ReloadSettings();
 

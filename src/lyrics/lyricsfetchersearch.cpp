@@ -60,7 +60,7 @@ void LyricsFetcherSearch::TerminateSearch() {
 void LyricsFetcherSearch::Start(SharedPtr<LyricsProviders> lyrics_providers) {
 
   // Ignore Radio Paradise "commercial" break.
-  if (request_.artist.compare("commercial-free", Qt::CaseInsensitive) == 0 && request_.title.compare("listener-supported", Qt::CaseInsensitive) == 0) {
+  if (request_.artist.compare(QLatin1String("commercial-free"), Qt::CaseInsensitive) == 0 && request_.title.compare(QLatin1String("listener-supported"), Qt::CaseInsensitive) == 0) {
     TerminateSearch();
     return;
   }

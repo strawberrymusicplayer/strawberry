@@ -110,48 +110,48 @@ QString GetIpodColour(Itdb_IpodModel model) {
     case ITDB_IPOD_MODEL_MINI_GREEN:
     case ITDB_IPOD_MODEL_NANO_GREEN:
     case ITDB_IPOD_MODEL_SHUFFLE_GREEN:
-      return "green";
+      return QStringLiteral("green");
 
     case ITDB_IPOD_MODEL_MINI_BLUE:
     case ITDB_IPOD_MODEL_NANO_BLUE:
     case ITDB_IPOD_MODEL_SHUFFLE_BLUE:
-      return "blue";
+      return QStringLiteral("blue");
 
     case ITDB_IPOD_MODEL_MINI_PINK:
     case ITDB_IPOD_MODEL_NANO_PINK:
     case ITDB_IPOD_MODEL_SHUFFLE_PINK:
-      return "pink";
+      return QStringLiteral("pink");
 
     case ITDB_IPOD_MODEL_MINI_GOLD:
-      return "gold";
+      return QStringLiteral("gold");
 
     case ITDB_IPOD_MODEL_NANO_WHITE:
     case ITDB_IPOD_MODEL_VIDEO_WHITE:
-      return "white";
+      return QStringLiteral("white");
 
     case ITDB_IPOD_MODEL_NANO_SILVER:
     case ITDB_IPOD_MODEL_CLASSIC_SILVER:
-      return "silver";
+      return QStringLiteral("silver");
 
     case ITDB_IPOD_MODEL_NANO_RED:
     case ITDB_IPOD_MODEL_SHUFFLE_RED:
-      return "red";
+      return QStringLiteral("red");
 
     case ITDB_IPOD_MODEL_NANO_YELLOW:
-      return "yellow";
+      return QStringLiteral("yellow");
 
     case ITDB_IPOD_MODEL_NANO_PURPLE:
     case ITDB_IPOD_MODEL_SHUFFLE_PURPLE:
-      return "purple";
+      return QStringLiteral("purple");
 
     case ITDB_IPOD_MODEL_NANO_ORANGE:
     case ITDB_IPOD_MODEL_SHUFFLE_ORANGE:
-      return "orange";
+      return QStringLiteral("orange");
 
     case ITDB_IPOD_MODEL_NANO_BLACK:
     case ITDB_IPOD_MODEL_VIDEO_BLACK:
     case ITDB_IPOD_MODEL_CLASSIC_BLACK:
-      return "black";
+      return QStringLiteral("black");
 
     default:
       return QString();
@@ -167,7 +167,7 @@ QString GetIpodModel(Itdb_IpodModel model) {
     case ITDB_IPOD_MODEL_MINI_PINK:
     case ITDB_IPOD_MODEL_MINI_GREEN:
     case ITDB_IPOD_MODEL_MINI_GOLD:
-      return "mini";
+      return QStringLiteral("mini");
 
     case ITDB_IPOD_MODEL_NANO_WHITE:
     case ITDB_IPOD_MODEL_NANO_BLACK:
@@ -179,7 +179,7 @@ QString GetIpodModel(Itdb_IpodModel model) {
     case ITDB_IPOD_MODEL_NANO_YELLOW:
     case ITDB_IPOD_MODEL_NANO_PURPLE:
     case ITDB_IPOD_MODEL_NANO_ORANGE:
-      return "nano";
+      return QStringLiteral("nano");
 
     case ITDB_IPOD_MODEL_SHUFFLE:
     case ITDB_IPOD_MODEL_SHUFFLE_SILVER:
@@ -188,17 +188,17 @@ QString GetIpodModel(Itdb_IpodModel model) {
     case ITDB_IPOD_MODEL_SHUFFLE_GREEN:
     case ITDB_IPOD_MODEL_SHUFFLE_ORANGE:
     case ITDB_IPOD_MODEL_SHUFFLE_RED:
-      return "shuffle";
+      return QStringLiteral("shuffle");
 
     case ITDB_IPOD_MODEL_COLOR:
     case ITDB_IPOD_MODEL_REGULAR:
     case ITDB_IPOD_MODEL_CLASSIC_SILVER:
     case ITDB_IPOD_MODEL_CLASSIC_BLACK:
-      return "standard";
+      return QStringLiteral("standard");
 
     case ITDB_IPOD_MODEL_COLOR_U2:
     case ITDB_IPOD_MODEL_REGULAR_U2:
-      return "U2";
+      return QStringLiteral("U2");
 
     default:
       return QString();
@@ -213,7 +213,7 @@ QUrl DeviceLister::MakeUrlFromLocalPath(const QString &path) const {
 
   if (IsIpod(path)) {
     QUrl ret;
-    ret.setScheme("ipod");
+    ret.setScheme(QStringLiteral("ipod"));
     ret.setPath(QDir::fromNativeSeparators(path));
     return ret;
   }
@@ -246,10 +246,10 @@ QVariantList DeviceLister::GuessIconForPath(const QString &path) {
       QString colour = GetIpodColour(info->ipod_model);
 
       if (!model.isEmpty()) {
-        QString model_icon = QString("multimedia-player-ipod-%1").arg(model);
+        QString model_icon = QStringLiteral("multimedia-player-ipod-%1").arg(model);
         if (QFile(model_icon).exists()) ret << model_icon;
         if (!colour.isEmpty()) {
-          QString colour_icon = QString("multimedia-player-ipod-%1-%2").arg(model, colour);
+          QString colour_icon = QStringLiteral("multimedia-player-ipod-%1-%2").arg(model, colour);
           if (QFile(colour_icon).exists()) ret << colour_icon;
         }
       }
@@ -274,7 +274,7 @@ QVariantList DeviceLister::GuessIconForPath(const QString &path) {
 QVariantList DeviceLister::GuessIconForModel(const QString &vendor, const QString &model) {
 
   QVariantList ret;
-  if (vendor.startsWith("Google") && model.contains("Nexus")) {
+  if (vendor.startsWith(QLatin1String("Google")) && model.contains(QLatin1String("Nexus"))) {
     ret << "phone-google-nexus-one";
   }
   return ret;

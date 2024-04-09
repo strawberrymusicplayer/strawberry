@@ -103,7 +103,7 @@ TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
   QList<TranscoderPreset> presets = Transcoder::GetAllPresets();
   std::sort(presets.begin(), presets.end(), ComparePresetsByName);
   for (const TranscoderPreset &preset : presets) {
-    ui_->format->addItem(QString("%1 (.%2)").arg(preset.name_, preset.extension_), QVariant::fromValue(preset));
+    ui_->format->addItem(QStringLiteral("%1 (.%2)").arg(preset.name_, preset.extension_), QVariant::fromValue(preset));
   }
 
   // Load settings
@@ -310,7 +310,7 @@ void TranscodeDialog::UpdateStatusText() {
     sections << "<font color=\"#b60000\">" + tr("%n failed", "", finished_failed_) + "</font>";
   }
 
-  ui_->progress_text->setText(sections.join(", "));
+  ui_->progress_text->setText(sections.join(QStringLiteral(", ")));
 
 }
 
@@ -322,7 +322,7 @@ void TranscodeDialog::Add() {
 
   QStringList filenames = QFileDialog::getOpenFileNames(
       this, tr("Add files to transcode"), last_add_dir_,
-      QString("%1 (%2);;%3").arg(tr("Music"), FileView::kFileFilter, tr(MainWindow::kAllFilesFilterSpec)));
+      QStringLiteral("%1 (%2);;%3").arg(tr("Music"), FileView::kFileFilter, tr(MainWindow::kAllFilesFilterSpec)));
 
   if (filenames.isEmpty()) return;
 
@@ -345,7 +345,7 @@ void TranscodeDialog::Import() {
   QStringList filenames;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-  QStringList audioTypes = QString(FileView::kFileFilter).split(" ", Qt::SkipEmptyParts);
+  QStringList audioTypes = QString(FileView::kFileFilter).split(QStringLiteral(" "), Qt::SkipEmptyParts);
 #else
   QStringList audioTypes = QString(FileView::kFileFilter).split(" ", QString::SkipEmptyParts);
 #endif
@@ -383,7 +383,7 @@ void TranscodeDialog::Remove() { qDeleteAll(ui_->files->selectedItems()); }
 void TranscodeDialog::LogLine(const QString &message) {
 
   QString date(QDateTime::currentDateTime().toString(Qt::TextDate));
-  log_ui_->log->appendPlainText(QString("%1: %2").arg(date, message));
+  log_ui_->log->appendPlainText(QStringLiteral("%1: %2").arg(date, message));
 
 }
 
@@ -421,7 +421,7 @@ void TranscodeDialog::AddDestination() {
       ui_->destination->removeItem(1);  // The oldest folder item.
     }
 
-    QIcon icon = IconLoader::Load("folder");
+    QIcon icon = IconLoader::Load(QStringLiteral("folder"));
     QVariant data_var = QVariant::fromValue(dir);
     // Do not insert duplicates.
     int duplicate_index = ui_->destination->findData(data_var);
@@ -461,7 +461,7 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
     QFileInfo fileinfo(output_filepath);
     const QString original_filename = fileinfo.completeBaseName();
     for (int i = 1; fileinfo.exists(); ++i) {
-      fileinfo.setFile(QString("%1/%2-%3.%4").arg(fileinfo.path(), original_filename).arg(i).arg(fileinfo.suffix()));
+      fileinfo.setFile(QStringLiteral("%1/%2-%3.%4").arg(fileinfo.path(), original_filename).arg(i).arg(fileinfo.suffix()));
     }
     output_filepath = fileinfo.filePath();
   }

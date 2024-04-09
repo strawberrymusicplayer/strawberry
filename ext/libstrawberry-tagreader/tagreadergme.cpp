@@ -36,16 +36,16 @@
 #include "tagreadertaglib.h"
 
 bool GME::IsSupportedFormat(const QFileInfo &file_info) {
-  return file_info.exists() && (file_info.completeSuffix().endsWith("spc", Qt::CaseInsensitive) || file_info.completeSuffix().endsWith("vgm"), Qt::CaseInsensitive);
+  return file_info.exists() && (file_info.completeSuffix().endsWith(QLatin1String("spc"), Qt::CaseInsensitive) || file_info.completeSuffix().endsWith(QLatin1String("vgm")), Qt::CaseInsensitive);
 }
 
 bool GME::ReadFile(const QFileInfo &file_info, spb::tagreader::SongMetadata *song_info) {
 
-  if (file_info.completeSuffix().endsWith("spc"), Qt::CaseInsensitive) {
+  if (file_info.completeSuffix().endsWith(QLatin1String("spc")), Qt::CaseInsensitive) {
     SPC::Read(file_info, song_info);
     return true;
   }
-  if (file_info.completeSuffix().endsWith("vgm", Qt::CaseInsensitive)) {
+  if (file_info.completeSuffix().endsWith(QLatin1String("vgm"), Qt::CaseInsensitive)) {
     VGM::Read(file_info, song_info);
     return true;
   }
@@ -75,7 +75,7 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
   qLog(Debug) << "Reading tags from SPC file" << file_info.fileName();
 
   // Check for header -- more reliable than file name alone.
-  if (!file.read(33).startsWith(QString("SNES-SPC700").toLatin1())) return;
+  if (!file.read(33).startsWith(QStringLiteral("SNES-SPC700").toLatin1())) return;
 
   // First order of business -- get any tag values that exist within the core file information.
   // These only allow for a certain number of bytes per field,
@@ -125,7 +125,7 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
   // Check for XID6 data -- this is infrequently used, but being able to fill in data from this is ideal before trying to rely on APETAG values.
   // XID6 format follows EA's binary file format standard named "IFF"
   file.seek(XID6_OFFSET);
-  if (has_id6 && file.read(4) == QString("xid6").toLatin1()) {
+  if (has_id6 && file.read(4) == QStringLiteral("xid6").toLatin1()) {
     QByteArray xid6_head_data = file.read(4);
     if (xid6_head_data.size() >= 4) {
       qint64 xid6_size = xid6_head_data[0] | (xid6_head_data[1] << 8) | (xid6_head_data[2] << 16) | xid6_head_data[3];
@@ -195,7 +195,7 @@ void GME::VGM::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
 
   qLog(Debug) << "Reading tags from VGM file" << file_info.fileName();
 
-  if (!file.read(4).startsWith(QString("Vgm ").toLatin1())) return;
+  if (!file.read(4).startsWith(QStringLiteral("Vgm ").toLatin1())) return;
 
   file.seek(GD3_TAG_PTR);
   QByteArray gd3_head = file.read(4);

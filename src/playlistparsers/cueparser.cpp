@@ -152,7 +152,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
     }
 
     // if this is a data file, all of its tracks will be ignored
-    bool valid_file = file_type.compare("BINARY", Qt::CaseInsensitive) != 0 && file_type.compare("MOTOROLA", Qt::CaseInsensitive) != 0;
+    bool valid_file = file_type.compare(QLatin1String("BINARY"), Qt::CaseInsensitive) != 0 && file_type.compare(QLatin1String("MOTOROLA"), Qt::CaseInsensitive) != 0;
 
     QString track_type;
     QString index;
@@ -173,7 +173,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
       const QString &line_name = splitted[0];
       const QString &line_value = splitted[1];
-      QString line_additional = splitted.size() > 2 ? splitted[2].toLower() : "";
+      QString line_additional = splitted.size() > 2 ? splitted[2].toLower() : QLatin1String("");
 
       if (line_name.compare(kTrack, Qt::CaseInsensitive) == 0) {
 
@@ -184,7 +184,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
         }
 
         // clear the state
-        track_type = index = artist = composer = title = date = genre = "";
+        track_type = index = artist = composer = title = date = genre = QLatin1String("");
 
         if (!line_additional.isEmpty()) {
           track_type = line_additional;
@@ -292,7 +292,7 @@ QStringList CueParser::SplitCueLine(const QString &line) {
   }
 
   // Let's remove the empty entries while we're at it
-  return re_match.capturedTexts().filter(QRegularExpression(".+")).mid(1, -1).replaceInStrings(QRegularExpression("^\"\"$"), "");
+  return re_match.capturedTexts().filter(QRegularExpression(QStringLiteral(".+"))).mid(1, -1).replaceInStrings(QRegularExpression(QStringLiteral("^\"\"$")), QLatin1String(""));
 
 }
 

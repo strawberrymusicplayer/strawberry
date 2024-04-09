@@ -68,7 +68,7 @@ QString PlaylistListModel::ItemPath(const QStandardItem *item) {
     current = current->parent();
   }
 
-  return components.join("/");
+  return components.join(QStringLiteral("/"));
 
 }
 

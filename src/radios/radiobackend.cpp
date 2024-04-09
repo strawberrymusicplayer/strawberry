@@ -67,13 +67,13 @@ void RadioBackend::AddChannels(const RadioChannelList &channels) {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QString("INSERT INTO radio_channels (source, name, url, thumbnail_url) VALUES (:source, :name, :url, :thumbnail_url)"));
+  q.prepare(QStringLiteral("INSERT INTO radio_channels (source, name, url, thumbnail_url) VALUES (:source, :name, :url, :thumbnail_url)"));
 
   for (const RadioChannel &channel : channels) {
-    q.BindValue(":source", static_cast<int>(channel.source));
-    q.BindValue(":name", channel.name);
-    q.BindValue(":url", channel.url);
-    q.BindValue(":thumbnail_url", channel.thumbnail_url);
+    q.BindValue(QStringLiteral(":source"), static_cast<int>(channel.source));
+    q.BindValue(QStringLiteral(":name"), channel.name);
+    q.BindValue(QStringLiteral(":url"), channel.url);
+    q.BindValue(QStringLiteral(":thumbnail_url"), channel.thumbnail_url);
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return;
@@ -96,7 +96,7 @@ void RadioBackend::GetChannels() {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare("SELECT source, name, url, thumbnail_url FROM radio_channels");
+  q.prepare(QStringLiteral("SELECT source, name, url, thumbnail_url FROM radio_channels"));
 
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -127,7 +127,7 @@ void RadioBackend::DeleteChannels() {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare("DELETE FROM radio_channels");
+  q.prepare(QStringLiteral("DELETE FROM radio_channels"));
 
   if (!q.Exec()) {
     db_->ReportErrors(q);

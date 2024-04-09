@@ -59,7 +59,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetServicePtr service,
   QObject::connect(ui_->search_view, &InternetSearchView::AddAlbumsSignal, &*service_, &InternetService::AddAlbums);
   QObject::connect(ui_->search_view, &InternetSearchView::AddSongsSignal, &*service_, &InternetService::AddSongs);
 
-  QAction *action_configure = new QAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this);
+  QAction *action_configure = new QAction(IconLoader::Load(QStringLiteral("configure")), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this);
   QObject::connect(action_configure, &QAction::triggered, this, &InternetTabsView::OpenSettingsDialog);
 
   if (service_->artists_collection_model()) {
@@ -68,7 +68,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetServicePtr service,
     ui_->artists_collection->view()->setModel(service_->artists_collection_sort_model());
     ui_->artists_collection->view()->SetFilter(ui_->artists_collection->filter_widget());
     ui_->artists_collection->filter_widget()->SetSettingsGroup(settings_group);
-    ui_->artists_collection->filter_widget()->SetSettingsPrefix("artists");
+    ui_->artists_collection->filter_widget()->SetSettingsPrefix(QStringLiteral("artists"));
     ui_->artists_collection->filter_widget()->Init(service_->artists_collection_model());
     ui_->artists_collection->filter_widget()->AddMenuAction(action_configure);
 
@@ -100,7 +100,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetServicePtr service,
     ui_->albums_collection->view()->setModel(service_->albums_collection_sort_model());
     ui_->albums_collection->view()->SetFilter(ui_->albums_collection->filter_widget());
     ui_->albums_collection->filter_widget()->SetSettingsGroup(settings_group);
-    ui_->albums_collection->filter_widget()->SetSettingsPrefix("albums");
+    ui_->albums_collection->filter_widget()->SetSettingsPrefix(QStringLiteral("albums"));
     ui_->albums_collection->filter_widget()->Init(service_->albums_collection_model());
     ui_->albums_collection->filter_widget()->AddMenuAction(action_configure);
 
@@ -132,7 +132,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetServicePtr service,
     ui_->songs_collection->view()->setModel(service_->songs_collection_sort_model());
     ui_->songs_collection->view()->SetFilter(ui_->songs_collection->filter_widget());
     ui_->songs_collection->filter_widget()->SetSettingsGroup(settings_group);
-    ui_->songs_collection->filter_widget()->SetSettingsPrefix("songs");
+    ui_->songs_collection->filter_widget()->SetSettingsPrefix(QStringLiteral("songs"));
     ui_->songs_collection->filter_widget()->Init(service_->songs_collection_model());
     ui_->songs_collection->filter_widget()->AddMenuAction(action_configure);
 

@@ -48,7 +48,7 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
       service_(dialog->app()->internet_services()->Service<TidalService>()) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("tidal", true, 0, 32));
+  setWindowIcon(IconLoader::Load(QStringLiteral("tidal"), true, 0, 32));
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &TidalSettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &TidalSettingsPage::LogoutClicked);
@@ -62,20 +62,20 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
 
   dialog->installEventFilter(this);
 
-  ui_->quality->addItem("Low", "LOW");
-  ui_->quality->addItem("High", "HIGH");
-  ui_->quality->addItem("Lossless", "LOSSLESS");
-  ui_->quality->addItem("Hi resolution", "HI_RES");
+  ui_->quality->addItem(QStringLiteral("Low"), "LOW");
+  ui_->quality->addItem(QStringLiteral("High"), "HIGH");
+  ui_->quality->addItem(QStringLiteral("Lossless"), "LOSSLESS");
+  ui_->quality->addItem(QStringLiteral("Hi resolution"), "HI_RES");
 
-  ui_->coversize->addItem("160x160", "160x160");
-  ui_->coversize->addItem("320x320", "320x320");
-  ui_->coversize->addItem("640x640", "640x640");
-  ui_->coversize->addItem("750x750", "750x750");
-  ui_->coversize->addItem("1280x1280", "1280x1280");
+  ui_->coversize->addItem(QStringLiteral("160x160"), "160x160");
+  ui_->coversize->addItem(QStringLiteral("320x320"), "320x320");
+  ui_->coversize->addItem(QStringLiteral("640x640"), "640x640");
+  ui_->coversize->addItem(QStringLiteral("750x750"), "750x750");
+  ui_->coversize->addItem(QStringLiteral("1280x1280"), "1280x1280");
 
-  ui_->streamurl->addItem("streamurl", static_cast<int>(StreamUrlMethod::StreamUrl));
-  ui_->streamurl->addItem("urlpostpaywall", static_cast<int>(StreamUrlMethod::UrlPostPaywall));
-  ui_->streamurl->addItem("playbackinfopostpaywall", static_cast<int>(StreamUrlMethod::PlaybackInfoPostPaywall));
+  ui_->streamurl->addItem(QStringLiteral("streamurl"), static_cast<int>(StreamUrlMethod::StreamUrl));
+  ui_->streamurl->addItem(QStringLiteral("urlpostpaywall"), static_cast<int>(StreamUrlMethod::UrlPostPaywall));
+  ui_->streamurl->addItem(QStringLiteral("playbackinfopostpaywall"), static_cast<int>(StreamUrlMethod::PlaybackInfoPostPaywall));
 
 }
 
@@ -96,14 +96,14 @@ void TidalSettingsPage::Load() {
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
 
-  ComboBoxLoadFromSettings(s, ui_->quality, "quality", "LOSSLESS");
+  ComboBoxLoadFromSettings(s, ui_->quality, QStringLiteral("quality"), QStringLiteral("LOSSLESS"));
   ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
   ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 4).toInt());
   ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());
   ui_->songssearchlimit->setValue(s.value("songssearchlimit", 10).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
-  ComboBoxLoadFromSettings(s, ui_->coversize, "coversize", "640x640");
+  ComboBoxLoadFromSettings(s, ui_->coversize, QStringLiteral("coversize"), QStringLiteral("640x640"));
   ui_->streamurl->setCurrentIndex(ui_->streamurl->findData(s.value("streamurl", static_cast<int>(StreamUrlMethod::StreamUrl)).toInt()));
   ui_->checkbox_album_explicit->setChecked(s.value("album_explicit", false).toBool());
 

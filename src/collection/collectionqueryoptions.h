@@ -51,7 +51,7 @@ class CollectionQueryOptions {
   void set_query_have_compilations(const bool query_have_compilations) { query_have_compilations_ = query_have_compilations; }
 
   QList<Where> where_clauses() const { return where_clauses_; }
-  void AddWhere(const QString &column, const QVariant &value, const QString &op = "=");
+  void AddWhere(const QString &column, const QVariant &value, const QString &op = QStringLiteral("="));
 
  private:
   QString column_spec_;

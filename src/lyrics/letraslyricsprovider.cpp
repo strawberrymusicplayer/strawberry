@@ -35,7 +35,7 @@ const char LetrasLyricsProvider::kEndTag[] = "<\\/div>";
 const char LetrasLyricsProvider::kLyricsStart[] = "<div id=\"letra-cnt\">";
 
 LetrasLyricsProvider::LetrasLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : HtmlLyricsProvider("letras.mus.br", true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
+    : HtmlLyricsProvider(QStringLiteral("letras.mus.br"), true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
 
 QUrl LetrasLyricsProvider::Url(const LyricsSearchRequest &request) {
 
@@ -46,8 +46,8 @@ QUrl LetrasLyricsProvider::Url(const LyricsSearchRequest &request) {
 QString LetrasLyricsProvider::StringFixup(const QString &text) {
 
   return QUrl::toPercentEncoding(Utilities::Transliterate(text)
-    .replace(QRegularExpression("[^\\w0-9_,&\\-\\(\\) ]"), "_")
-    .replace(QRegularExpression(" {2,}"), " ")
+    .replace(QRegularExpression(QStringLiteral("[^\\w0-9_,&\\-\\(\\) ]")), QStringLiteral("_"))
+    .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
     .simplified()
     .replace(' ', '-')
     .toLower()

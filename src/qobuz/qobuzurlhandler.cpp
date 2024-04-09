@@ -42,7 +42,7 @@ QobuzUrlHandler::QobuzUrlHandler(Application *app, QobuzService *service)
 UrlHandler::LoadResult QobuzUrlHandler::StartLoading(const QUrl &url) {
 
   Request req;
-  req.task_id = app_->task_manager()->StartTask(QString("Loading %1 stream...").arg(url.scheme()));
+  req.task_id = app_->task_manager()->StartTask(QStringLiteral("Loading %1 stream...").arg(url.scheme()));
   QString error;
   req.id = service_->GetStreamURL(url, error);
   if (req.id == 0) {

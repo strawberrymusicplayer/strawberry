@@ -60,27 +60,27 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(Application *app, QWidg
 
   model_->Init();
 
-  action_new_smart_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("New smart playlist..."), this, &SmartPlaylistsViewContainer::NewSmartPlaylist);
+  action_new_smart_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("New smart playlist..."), this, &SmartPlaylistsViewContainer::NewSmartPlaylist);
 
-  action_append_to_playlist_ = context_menu_selected_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &SmartPlaylistsViewContainer::AppendToPlaylist);
-  action_replace_current_playlist_ = context_menu_selected_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &SmartPlaylistsViewContainer::ReplaceCurrentPlaylist);
-  action_open_in_new_playlist_ = context_menu_selected_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &SmartPlaylistsViewContainer::OpenInNewPlaylist);
+  action_append_to_playlist_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &SmartPlaylistsViewContainer::AppendToPlaylist);
+  action_replace_current_playlist_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &SmartPlaylistsViewContainer::ReplaceCurrentPlaylist);
+  action_open_in_new_playlist_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &SmartPlaylistsViewContainer::OpenInNewPlaylist);
 
   context_menu_selected_->addSeparator();
-  action_add_to_playlist_enqueue_ = context_menu_selected_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &SmartPlaylistsViewContainer::AddToPlaylistEnqueue);
-  action_add_to_playlist_enqueue_next_ = context_menu_selected_->addAction(IconLoader::Load("go-next"), tr("Play next"), this, &SmartPlaylistsViewContainer::AddToPlaylistEnqueueNext);
+  action_add_to_playlist_enqueue_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue track"), this, &SmartPlaylistsViewContainer::AddToPlaylistEnqueue);
+  action_add_to_playlist_enqueue_next_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Play next"), this, &SmartPlaylistsViewContainer::AddToPlaylistEnqueueNext);
   context_menu_selected_->addSeparator();
 
   context_menu_selected_->addSeparator();
   context_menu_selected_->addActions(QList<QAction*>() << action_new_smart_playlist_);
-  action_edit_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load("edit-rename"), tr("Edit smart playlist..."), this, &SmartPlaylistsViewContainer::EditSmartPlaylistFromContext);
-  action_delete_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load("edit-delete"), tr("Delete smart playlist"), this, &SmartPlaylistsViewContainer::DeleteSmartPlaylistFromContext);
+  action_edit_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("edit-rename")), tr("Edit smart playlist..."), this, &SmartPlaylistsViewContainer::EditSmartPlaylistFromContext);
+  action_delete_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Delete smart playlist"), this, &SmartPlaylistsViewContainer::DeleteSmartPlaylistFromContext);
 
   context_menu_selected_->addSeparator();
 
   ui_->new_->setDefaultAction(action_new_smart_playlist_);
-  ui_->edit_->setIcon(IconLoader::Load("edit-rename"));
-  ui_->delete_->setIcon(IconLoader::Load("edit-delete"));
+  ui_->edit_->setIcon(IconLoader::Load(QStringLiteral("edit-rename")));
+  ui_->delete_->setIcon(IconLoader::Load(QStringLiteral("edit-delete")));
 
   QObject::connect(ui_->edit_, &QToolButton::clicked, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFromButton);
   QObject::connect(ui_->delete_, &QToolButton::clicked, this, &SmartPlaylistsViewContainer::DeleteSmartPlaylistFromButton);

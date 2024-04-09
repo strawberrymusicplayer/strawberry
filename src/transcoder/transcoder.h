@@ -55,7 +55,7 @@ class Transcoder : public QObject {
   Q_OBJECT
 
  public:
-  explicit Transcoder(QObject *parent = nullptr, const QString &settings_postfix = "");
+  explicit Transcoder(QObject *parent = nullptr, const QString &settings_postfix = QLatin1String(""));
 
   static TranscoderPreset PresetForFileType(const Song::FileType filetype);
   static QList<TranscoderPreset> GetAllPresets();

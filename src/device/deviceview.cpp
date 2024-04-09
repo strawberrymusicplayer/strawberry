@@ -143,7 +143,7 @@ void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         QVariant song_count = idx.data(DeviceManager::Role_SongCount);
         if (song_count.isValid()) {
           int count = song_count.toInt();
-          status_text = tr("%1 song%2").arg(count).arg(count == 1 ? "" : "s");
+          status_text = tr("%1 song%2").arg(count).arg(count == 1 ? QLatin1String("") : QLatin1String("s"));
         }
         else {
           status_text = idx.data(DeviceManager::Role_MountPath).toString();
@@ -235,19 +235,19 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
     collection_menu_ = new QMenu(this);
 
     // Device menu
-    eject_action_ = device_menu_->addAction(IconLoader::Load("media-eject"), tr("Safely remove device"), this, &DeviceView::Unmount);
-    forget_action_ = device_menu_->addAction(IconLoader::Load("list-remove"), tr("Forget device"), this, &DeviceView::Forget);
+    eject_action_ = device_menu_->addAction(IconLoader::Load(QStringLiteral("media-eject")), tr("Safely remove device"), this, &DeviceView::Unmount);
+    forget_action_ = device_menu_->addAction(IconLoader::Load(QStringLiteral("list-remove")), tr("Forget device"), this, &DeviceView::Forget);
     device_menu_->addSeparator();
-    properties_action_ = device_menu_->addAction(IconLoader::Load("configure"), tr("Device properties..."), this, &DeviceView::Properties);
+    properties_action_ = device_menu_->addAction(IconLoader::Load(QStringLiteral("configure")), tr("Device properties..."), this, &DeviceView::Properties);
 
     // Collection menu
-    add_to_playlist_action_ = collection_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &DeviceView::AddToPlaylist);
-    load_action_ = collection_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &DeviceView::Load);
-    open_in_new_playlist_ = collection_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &DeviceView::OpenInNewPlaylist);
+    add_to_playlist_action_ = collection_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &DeviceView::AddToPlaylist);
+    load_action_ = collection_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &DeviceView::Load);
+    open_in_new_playlist_ = collection_menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &DeviceView::OpenInNewPlaylist);
 
     collection_menu_->addSeparator();
-    organize_action_ = collection_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, &DeviceView::Organize);
-    delete_action_ = collection_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from device..."), this, &DeviceView::Delete);
+    organize_action_ = collection_menu_->addAction(IconLoader::Load(QStringLiteral("edit-copy")), tr("Copy to collection..."), this, &DeviceView::Organize);
+    delete_action_ = collection_menu_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Delete from device..."), this, &DeviceView::Delete);
   }
 
   menu_index_ = currentIndex();

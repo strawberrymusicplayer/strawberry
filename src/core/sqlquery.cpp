@@ -38,13 +38,13 @@ void SqlQuery::BindValue(const QString &placeholder, const QVariant &value) {
 
 void SqlQuery::BindStringValue(const QString &placeholder, const QString &value) {
 
-  BindValue(placeholder, value.isNull() ? "" : value);
+  BindValue(placeholder, value.isNull() ? QLatin1String("") : value);
 
 }
 
 void SqlQuery::BindUrlValue(const QString &placeholder, const QUrl &value) {
 
-  BindValue(placeholder, value.isValid() ? value.toString(QUrl::FullyEncoded) : "");
+  BindValue(placeholder, value.isValid() ? value.toString(QUrl::FullyEncoded) : QLatin1String(""));
 
 }
 

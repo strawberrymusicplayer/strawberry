@@ -260,10 +260,10 @@ bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view,
   // Special case: we want newlines in the comment tooltip
   if (idx.column() == Playlist::Column_Comment) {
     text = idx.data(Qt::ToolTipRole).toString().toHtmlEscaped();
-    text.replace("\\r\\n", "<br />");
-    text.replace("\\n", "<br />");
-    text.replace("\r\n", "<br />");
-    text.replace("\n", "<br />");
+    text.replace(QLatin1String("\\r\\n"), QLatin1String("<br />"));
+    text.replace(QLatin1String("\\n"), QLatin1String("<br />"));
+    text.replace(QLatin1String("\r\n"), QLatin1String("<br />"));
+    text.replace(QLatin1String("\n"), QLatin1String("<br />"));
   }
 
   if (text.isEmpty() || !event) return false;
@@ -381,13 +381,13 @@ TagCompletionModel::TagCompletionModel(SharedPtr<CollectionBackend> backend, con
 QString TagCompletionModel::database_column(Playlist::Column column) {
 
   switch (column) {
-    case Playlist::Column_Artist:       return "artist";
-    case Playlist::Column_Album:        return "album";
-    case Playlist::Column_AlbumArtist:  return "albumartist";
-    case Playlist::Column_Composer:     return "composer";
-    case Playlist::Column_Performer:    return "performer";
-    case Playlist::Column_Grouping:     return "grouping";
-    case Playlist::Column_Genre:        return "genre";
+    case Playlist::Column_Artist:       return QStringLiteral("artist");
+    case Playlist::Column_Album:        return QStringLiteral("album");
+    case Playlist::Column_AlbumArtist:  return QStringLiteral("albumartist");
+    case Playlist::Column_Composer:     return QStringLiteral("composer");
+    case Playlist::Column_Performer:    return QStringLiteral("performer");
+    case Playlist::Column_Grouping:     return QStringLiteral("grouping");
+    case Playlist::Column_Genre:        return QStringLiteral("genre");
     default:
       qLog(Warning) << "Unknown column" << column;
       return QString();
@@ -446,7 +446,7 @@ QString NativeSeparatorsDelegate::displayText(const QVariant &value, const QLoca
 #endif
     url = value.toUrl();
   }
-  else if (string_value.contains("://")) {
+  else if (string_value.contains(QLatin1String("://"))) {
     url = QUrl::fromEncoded(string_value.toLatin1());
   }
   else {
@@ -470,7 +470,7 @@ QString SongSourceDelegate::displayText(const QVariant &value, const QLocale&) c
 QPixmap SongSourceDelegate::LookupPixmap(const Song::Source source, const QSize size, const qreal device_pixel_ratio) const {
 
   QPixmap pixmap;
-  const QString pixmap_cache_key = QString("%1-%2x%3-%4").arg(Song::TextForSource(source)).arg(size.width()).arg(size.height()).arg(device_pixel_ratio);
+  const QString pixmap_cache_key = QStringLiteral("%1-%2x%3-%4").arg(Song::TextForSource(source)).arg(size.width()).arg(size.height()).arg(device_pixel_ratio);
   if (QPixmapCache::find(pixmap_cache_key, &pixmap)) {
     return pixmap;
   }

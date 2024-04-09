@@ -72,11 +72,11 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   QObject::connect(lineEdit, &QLineEdit::textChanged, this, &QSearchField::setText);
 
   QPushButton *clearbutton = new QPushButton(this);
-  QIcon clearIcon(IconLoader::Load("edit-clear-locationbar-ltr"));
+  QIcon clearIcon(IconLoader::Load(QStringLiteral("edit-clear-locationbar-ltr")));
 
   clearbutton->setIcon(clearIcon);
   clearbutton->setIconSize(QSize(20, 20));
-  clearbutton->setStyleSheet("border: none; padding: 2px;");
+  clearbutton->setStyleSheet(QStringLiteral("border: none; padding: 2px;"));
   clearbutton->resize(clearbutton->sizeHint());
 
   QObject::connect(clearbutton, &QPushButton::clicked, this, &QSearchField::clear);
@@ -85,7 +85,7 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
 
   const int frame_width = lineEdit->style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
 
-  lineEdit->setStyleSheet(QString("QLineEdit { padding-left: %1px; } ").arg(clearbutton->width()));
+  lineEdit->setStyleSheet(QStringLiteral("QLineEdit { padding-left: %1px; } ").arg(clearbutton->width()));
   const int width = frame_width + qMax(lineEdit->minimumSizeHint().width(), pimpl->clearButtonPaddedWidth());
   const int height = frame_width + qMax(lineEdit->minimumSizeHint().height(), pimpl->clearButtonPaddedHeight());
   lineEdit->setMinimumSize(width, height);
@@ -103,7 +103,7 @@ void QSearchField::setIconSize(const int iconsize) {
   pimpl->clearbutton_->setIconSize(QSize(iconsize, iconsize));
   pimpl->clearbutton_->resize(pimpl->clearbutton_->sizeHint());
 
-  pimpl->lineedit_->setStyleSheet(QString("QLineEdit { padding-left: %1px; } ").arg(pimpl->clearbutton_->width()));
+  pimpl->lineedit_->setStyleSheet(QStringLiteral("QLineEdit { padding-left: %1px; } ").arg(pimpl->clearbutton_->width()));
   const int frame_width = pimpl->lineedit_->style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
   const int width = frame_width + qMax(pimpl->lineedit_->minimumSizeHint().width(), pimpl->clearButtonPaddedWidth());
   const int height = frame_width + qMax(pimpl->lineedit_->minimumSizeHint().height(), pimpl->clearButtonPaddedHeight());

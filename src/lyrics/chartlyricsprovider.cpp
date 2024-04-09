@@ -39,7 +39,7 @@
 
 const char *ChartLyricsProvider::kUrlSearch = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect";
 
-ChartLyricsProvider::ChartLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider("ChartLyrics", false, false, network, parent) {}
+ChartLyricsProvider::ChartLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider(QStringLiteral("ChartLyrics"), false, false, network, parent) {}
 
 ChartLyricsProvider::~ChartLyricsProvider() {
 
@@ -55,8 +55,8 @@ ChartLyricsProvider::~ChartLyricsProvider() {
 bool ChartLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   QUrlQuery url_query;
-  url_query.addQueryItem("artist", QUrl::toPercentEncoding(request.artist));
-  url_query.addQueryItem("song", QUrl::toPercentEncoding(request.title));
+  url_query.addQueryItem(QStringLiteral("artist"), QUrl::toPercentEncoding(request.artist));
+  url_query.addQueryItem(QStringLiteral("song"), QUrl::toPercentEncoding(request.title));
 
   QUrl url(kUrlSearch);
   url.setQuery(url_query);
@@ -80,13 +80,13 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     emit SearchFinished(id);
     return;
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    Error(QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
+    Error(QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
     emit SearchFinished(id);
     return;
   }

@@ -208,7 +208,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
     // Restore any label text that was hidden/cached for the IconOnlyTabs mode
     if (labelCache.count() > 0 && tabWidget->mode() != FancyTabWidget::Mode::IconOnlyTabs) {
       for (int i = 0; i < count(); ++i) {
-        setTabToolTip(i, "");
+        setTabToolTip(i, QLatin1String(""));
         setTabText(i, labelCache[tabWidget->widget(i)]);
       }
       labelCache.clear();
@@ -219,7 +219,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
         for (int i = 0; i < count(); ++i) {
           labelCache[tabWidget->widget(i)] = tabText(i);
           setTabToolTip(i, tabText(i));
-          setTabText(i, "");
+          setTabText(i, QLatin1String(""));
         }
       }
       QTabBar::paintEvent(pe);
@@ -461,7 +461,7 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
   setMovable(true);
   setElideMode(Qt::ElideNone);
   setUsesScrollButtons(true);
-  if (QApplication::style() && QApplication::style()->objectName().contains(QRegularExpression("^adwaita.*$", QRegularExpression::CaseInsensitiveOption))) {
+  if (QApplication::style() && QApplication::style()->objectName().contains(QRegularExpression(QStringLiteral("^adwaita.*$"), QRegularExpression::CaseInsensitiveOption))) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     style_ = new FancyTabWidgetProxyStyle(QApplication::style()->name());
 #else

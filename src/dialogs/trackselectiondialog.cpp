@@ -66,8 +66,8 @@ TrackSelectionDialog::TrackSelectionDialog(QWidget *parent)
   SetLoading(QString());
 
   // Add the next/previous buttons
-  previous_button_ = new QPushButton(IconLoader::Load("go-previous"), tr("Previous"), this);
-  next_button_ = new QPushButton(IconLoader::Load("go-next"), tr("Next"), this);
+  previous_button_ = new QPushButton(IconLoader::Load(QStringLiteral("go-previous")), tr("Previous"), this);
+  next_button_ = new QPushButton(IconLoader::Load(QStringLiteral("go-next")), tr("Next"), this);
   ui_->button_box->addButton(previous_button_, QDialogButtonBox::ResetRole);
   ui_->button_box->addButton(next_button_, QDialogButtonBox::ResetRole);
 

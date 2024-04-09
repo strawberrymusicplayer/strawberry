@@ -29,11 +29,11 @@ QString MusixmatchProvider::StringFixup(QString text) {
 
   return text.replace('/', '-')
              .replace('\'', '-')
-             .remove(QRegularExpression("[^\\w0-9\\- ]", QRegularExpression::UseUnicodePropertiesOption))
-             .replace(QRegularExpression(" {2,}"), " ")
+             .remove(QRegularExpression(QStringLiteral("[^\\w0-9\\- ]"), QRegularExpression::UseUnicodePropertiesOption))
+             .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
              .simplified()
              .replace(' ', '-')
-             .replace(QRegularExpression("(-)\\1+"), "-")
+             .replace(QRegularExpression(QStringLiteral("(-)\\1+")), QStringLiteral("-"))
              .toLower();
 
 }

@@ -72,15 +72,15 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
   ui_->list->setItemDelegate(new NativeSeparatorsDelegate(this));
 
   // Icons
-  setWindowIcon(IconLoader::Load("library-music", true, 0, 32));
-  ui_->add->setIcon(IconLoader::Load("document-open-folder"));
+  setWindowIcon(IconLoader::Load(QStringLiteral("library-music"), true, 0, 32));
+  ui_->add->setIcon(IconLoader::Load(QStringLiteral("document-open-folder")));
 
-  ui_->combobox_cache_size->addItem("KB", static_cast<int>(CacheSizeUnit::KB));
-  ui_->combobox_cache_size->addItem("MB", static_cast<int>(CacheSizeUnit::MB));
+  ui_->combobox_cache_size->addItem(QStringLiteral("KB"), static_cast<int>(CacheSizeUnit::KB));
+  ui_->combobox_cache_size->addItem(QStringLiteral("MB"), static_cast<int>(CacheSizeUnit::MB));
 
-  ui_->combobox_disk_cache_size->addItem("KB", static_cast<int>(CacheSizeUnit::KB));
-  ui_->combobox_disk_cache_size->addItem("MB", static_cast<int>(CacheSizeUnit::MB));
-  ui_->combobox_disk_cache_size->addItem("GB", static_cast<int>(CacheSizeUnit::GB));
+  ui_->combobox_disk_cache_size->addItem(QStringLiteral("KB"), static_cast<int>(CacheSizeUnit::KB));
+  ui_->combobox_disk_cache_size->addItem(QStringLiteral("MB"), static_cast<int>(CacheSizeUnit::MB));
+  ui_->combobox_disk_cache_size->addItem(QStringLiteral("GB"), static_cast<int>(CacheSizeUnit::GB));
 
   QObject::connect(ui_->add, &QPushButton::clicked, this, &CollectionSettingsPage::Add);
   QObject::connect(ui_->remove, &QPushButton::clicked, this, &CollectionSettingsPage::Remove);
@@ -187,8 +187,8 @@ void CollectionSettingsPage::Load() {
   ui_->mark_songs_unavailable->setChecked(ui_->song_tracking->isChecked() ? true : s.value("mark_songs_unavailable", true).toBool());
   ui_->expire_unavailable_songs_days->setValue(s.value("expire_unavailable_songs", 60).toInt());
 
-  QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
-  ui_->cover_art_patterns->setText(filters.join(","));
+  QStringList filters = s.value("cover_art_patterns", QStringList() << QStringLiteral("front") << QStringLiteral("cover")).toStringList();
+  ui_->cover_art_patterns->setText(filters.join(QStringLiteral(",")));
 
   ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, kSettingsCacheSizeDefault).toInt());
   ui_->combobox_cache_size->setCurrentIndex(ui_->combobox_cache_size->findData(s.value(kSettingsCacheSizeUnit, static_cast<int>(CacheSizeUnit::MB)).toInt()));
@@ -212,7 +212,7 @@ void CollectionSettingsPage::Load() {
 
   DiskCacheEnable(ui_->checkbox_disk_cache->checkState());
 
-  ui_->disk_cache_in_use->setText((dialog()->app()->collection_model()->icon_cache_disk_size() == 0 ? "empty" : Utilities::PrettySize(dialog()->app()->collection_model()->icon_cache_disk_size())));
+  ui_->disk_cache_in_use->setText((dialog()->app()->collection_model()->icon_cache_disk_size() == 0 ? QStringLiteral("empty") : Utilities::PrettySize(dialog()->app()->collection_model()->icon_cache_disk_size())));
 
   Init(ui_->layout_collectionsettingspage->parentWidget());
   if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
@@ -264,7 +264,7 @@ void CollectionSettingsPage::Save() {
 
 void CollectionSettingsPage::ClearPixmapDiskCache() {
 
-  ui_->disk_cache_in_use->setText("empty");
+  ui_->disk_cache_in_use->setText(QStringLiteral("empty"));
 
 }
 

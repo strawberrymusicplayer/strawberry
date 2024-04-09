@@ -51,7 +51,7 @@ const char *DeezerCoverProvider::kApiUrl = "https://api.deezer.com";
 const int DeezerCoverProvider::kLimit = 10;
 
 DeezerCoverProvider::DeezerCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider("Deezer", true, false, 2.0, true, true, app, network, parent) {}
+    : JsonCoverProvider(QStringLiteral("Deezer"), true, false, 2.0, true, true, app, network, parent) {}
 
 DeezerCoverProvider::~DeezerCoverProvider() {
 
@@ -71,12 +71,12 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
   QString resource;
   QString query = artist;
   if (album.isEmpty() && !title.isEmpty()) {
-    resource = "search/track";
+    resource = QStringLiteral("search/track");
     if (!query.isEmpty()) query.append(" ");
     query.append(title);
   }
   else {
-    resource = "search/album";
+    resource = QStringLiteral("search/album");
     if (!album.isEmpty()) {
       if (!query.isEmpty()) query.append(" ");
       query.append(album);
@@ -92,7 +92,7 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(kApiUrl + QString("/") + resource);
+  QUrl url(kApiUrl + QStringLiteral("/") + resource);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -116,7 +116,7 @@ QByteArray DeezerCoverProvider::GetReplyData(QNetworkReply *reply) {
   else {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      QString error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      QString error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
       Error(error);
     }
     else {
@@ -127,22 +127,22 @@ QByteArray DeezerCoverProvider::GetReplyData(QNetworkReply *reply) {
       QString error;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (json_obj.contains("error")) {
-          QJsonValue value_error = json_obj["error"];
+        if (json_obj.contains(QStringLiteral("error"))) {
+          QJsonValue value_error = json_obj[QStringLiteral("error")];
           if (value_error.isObject()) {
             QJsonObject obj_error = value_error.toObject();
-            int code = obj_error["code"].toInt();
-            QString message = obj_error["message"].toString();
-            error = QString("%1 (%2)").arg(message).arg(code);
+            int code = obj_error[QStringLiteral("code")].toInt();
+            QString message = obj_error[QStringLiteral("message")].toString();
+            error = QStringLiteral("%1 (%2)").arg(message).arg(code);
           }
         }
       }
       if (error.isEmpty()) {
         if (reply->error() != QNetworkReply::NoError) {
-          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
         else {
-          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+          error = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
         }
       }
       Error(error);
@@ -159,27 +159,27 @@ QJsonValue DeezerCoverProvider::ExtractData(const QByteArray &data) {
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) return QJsonObject();
 
-  if (json_obj.contains("error")) {
-    QJsonValue value_error = json_obj["error"];
+  if (json_obj.contains(QStringLiteral("error"))) {
+    QJsonValue value_error = json_obj[QStringLiteral("error")];
     if (!value_error.isObject()) {
-      Error("Error missing object", json_obj);
+      Error(QStringLiteral("Error missing object"), json_obj);
       return QJsonValue();
     }
     QJsonObject obj_error = value_error.toObject();
-    const int code = obj_error["code"].toInt();
-    QString message = obj_error["message"].toString();
-    Error(QString("%1 (%2)").arg(message).arg(code));
+    const int code = obj_error[QStringLiteral("code")].toInt();
+    QString message = obj_error[QStringLiteral("message")].toString();
+    Error(QStringLiteral("%1 (%2)").arg(message).arg(code));
     return QJsonValue();
   }
 
-  if (!json_obj.contains("data") && !json_obj.contains("DATA")) {
-    Error("Json reply object is missing data.", json_obj);
+  if (!json_obj.contains(QStringLiteral("data")) && !json_obj.contains(QStringLiteral("DATA"))) {
+    Error(QStringLiteral("Json reply object is missing data."), json_obj);
     return QJsonValue();
   }
 
   QJsonValue value_data;
-  if (json_obj.contains("data")) value_data = json_obj["data"];
-  else value_data = json_obj["DATA"];
+  if (json_obj.contains(QStringLiteral("data"))) value_data = json_obj[QStringLiteral("data")];
+  else value_data = json_obj[QStringLiteral("DATA")];
 
   return value_data;
 
@@ -215,63 +215,63 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
   for (const QJsonValueRef json_value : array_data) {
 
     if (!json_value.isObject()) {
-      Error("Invalid Json reply, data array value is not a object.");
+      Error(QStringLiteral("Invalid Json reply, data array value is not a object."));
       continue;
     }
     QJsonObject json_obj = json_value.toObject();
     QJsonObject obj_album;
-    if (json_obj.contains("album") && json_obj["album"].isObject()) {  // Song search, so extract the album.
-      obj_album = json_obj["album"].toObject();
+    if (json_obj.contains(QStringLiteral("album")) && json_obj[QStringLiteral("album")].isObject()) {  // Song search, so extract the album.
+      obj_album = json_obj[QStringLiteral("album")].toObject();
     }
     else {
       obj_album = json_obj;
     }
 
-    if (!json_obj.contains("id") || !obj_album.contains("id")) {
-      Error("Invalid Json reply, data array value object is missing ID.", json_obj);
+    if (!json_obj.contains(QStringLiteral("id")) || !obj_album.contains(QStringLiteral("id"))) {
+      Error(QStringLiteral("Invalid Json reply, data array value object is missing ID."), json_obj);
       continue;
     }
 
-    if (!obj_album.contains("type")) {
-      Error("Invalid Json reply, data array value album object is missing type.", obj_album);
+    if (!obj_album.contains(QStringLiteral("type"))) {
+      Error(QStringLiteral("Invalid Json reply, data array value album object is missing type."), obj_album);
       continue;
     }
-    QString type = obj_album["type"].toString();
+    QString type = obj_album[QStringLiteral("type")].toString();
     if (type != "album") {
-      Error("Invalid Json reply, data array value album object has incorrect type returned", obj_album);
+      Error(QStringLiteral("Invalid Json reply, data array value album object has incorrect type returned"), obj_album);
       continue;
     }
 
-    if (!json_obj.contains("artist")) {
-      Error("Invalid Json reply, data array value object is missing artist.", json_obj);
+    if (!json_obj.contains(QStringLiteral("artist"))) {
+      Error(QStringLiteral("Invalid Json reply, data array value object is missing artist."), json_obj);
       continue;
     }
-    QJsonValue value_artist = json_obj["artist"];
+    QJsonValue value_artist = json_obj[QStringLiteral("artist")];
     if (!value_artist.isObject()) {
-      Error("Invalid Json reply, data array value artist is not a object.", value_artist);
+      Error(QStringLiteral("Invalid Json reply, data array value artist is not a object."), value_artist);
       continue;
     }
     QJsonObject obj_artist = value_artist.toObject();
 
-    if (!obj_artist.contains("name")) {
-      Error("Invalid Json reply, data array value artist object is missing name.", obj_artist);
+    if (!obj_artist.contains(QStringLiteral("name"))) {
+      Error(QStringLiteral("Invalid Json reply, data array value artist object is missing name."), obj_artist);
       continue;
     }
-    QString artist = obj_artist["name"].toString();
+    QString artist = obj_artist[QStringLiteral("name")].toString();
 
-    if (!obj_album.contains("title")) {
-      Error("Invalid Json reply, data array value album object is missing title.", obj_album);
+    if (!obj_album.contains(QStringLiteral("title"))) {
+      Error(QStringLiteral("Invalid Json reply, data array value album object is missing title."), obj_album);
       continue;
     }
-    QString album = obj_album["title"].toString();
+    QString album = obj_album[QStringLiteral("title")].toString();
 
     CoverProviderSearchResult cover_result;
     cover_result.artist = artist;
     cover_result.album = Song::AlbumRemoveDiscMisc(album);
 
     bool have_cover = false;
-    QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QString("cover_xl"), QSize(1000, 1000))
-                                                                              << qMakePair(QString("cover_big"), QSize(500, 500));
+    QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QStringLiteral("cover_xl"), QSize(1000, 1000))
+                                                                              << qMakePair(QStringLiteral("cover_big"), QSize(500, 500));
     for (const QPair<QString, QSize> &cover_size : cover_sizes) {
       if (!obj_album.contains(cover_size.first)) continue;
       QString cover = obj_album[cover_size.first].toString();
@@ -289,7 +289,7 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
     }
 
     if (!have_cover) {
-      Error("Invalid Json reply, data array value album object is missing cover.", obj_album);
+      Error(QStringLiteral("Invalid Json reply, data array value album object is missing cover."), obj_album);
     }
 
   }

@@ -61,7 +61,7 @@ inline void AddMetadata(const QString &key, const QDBusObjectPath &metadata, QVa
 }
 
 inline QString AsMPRISDateTimeType(const qint64 time) {
-  return time != -1 ? QDateTime::fromSecsSinceEpoch(time).toString(Qt::ISODate) : "";
+  return time != -1 ? QDateTime::fromSecsSinceEpoch(time).toString(Qt::ISODate) : QLatin1String("");
 }
 
 }  // namespace mpris

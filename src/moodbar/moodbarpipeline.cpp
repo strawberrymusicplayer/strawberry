@@ -90,10 +90,10 @@ void MoodbarPipeline::Start() {
 
   pipeline_ = gst_pipeline_new("moodbar-pipeline");
 
-  GstElement *decodebin = CreateElement("uridecodebin");
-  convert_element_ = CreateElement("audioconvert");
-  GstElement *spectrum = CreateElement("fastspectrum");
-  GstElement *fakesink = CreateElement("fakesink");
+  GstElement *decodebin = CreateElement(QStringLiteral("uridecodebin"));
+  convert_element_ = CreateElement(QStringLiteral("audioconvert"));
+  GstElement *spectrum = CreateElement(QStringLiteral("fastspectrum"));
+  GstElement *fakesink = CreateElement(QStringLiteral("fakesink"));
 
   if (!decodebin || !convert_element_ || !spectrum || !fakesink) {
     gst_object_unref(GST_OBJECT(pipeline_));

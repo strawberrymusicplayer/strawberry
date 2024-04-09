@@ -61,128 +61,128 @@
 #endif
 #include "tagreadermessages.pb.h"
 
-const QStringList Song::kColumns = QStringList() << "title"
-                                                 << "album"
-                                                 << "artist"
-                                                 << "albumartist"
-                                                 << "track"
-                                                 << "disc"
-                                                 << "year"
-                                                 << "originalyear"
-                                                 << "genre"
-                                                 << "compilation"
-                                                 << "composer"
-                                                 << "performer"
-                                                 << "grouping"
-                                                 << "comment"
-                                                 << "lyrics"
+const QStringList Song::kColumns = QStringList() << QStringLiteral("title")
+                                                 << QStringLiteral("album")
+                                                 << QStringLiteral("artist")
+                                                 << QStringLiteral("albumartist")
+                                                 << QStringLiteral("track")
+                                                 << QStringLiteral("disc")
+                                                 << QStringLiteral("year")
+                                                 << QStringLiteral("originalyear")
+                                                 << QStringLiteral("genre")
+                                                 << QStringLiteral("compilation")
+                                                 << QStringLiteral("composer")
+                                                 << QStringLiteral("performer")
+                                                 << QStringLiteral("grouping")
+                                                 << QStringLiteral("comment")
+                                                 << QStringLiteral("lyrics")
 
-                                                 << "artist_id"
-                                                 << "album_id"
-                                                 << "song_id"
+                                                 << QStringLiteral("artist_id")
+                                                 << QStringLiteral("album_id")
+                                                 << QStringLiteral("song_id")
 
-                                                 << "beginning"
-                                                 << "length"
+                                                 << QStringLiteral("beginning")
+                                                 << QStringLiteral("length")
 
-                                                 << "bitrate"
-                                                 << "samplerate"
-                                                 << "bitdepth"
+                                                 << QStringLiteral("bitrate")
+                                                 << QStringLiteral("samplerate")
+                                                 << QStringLiteral("bitdepth")
 
-                                                 << "source"
-                                                 << "directory_id"
-                                                 << "url"
-                                                 << "filetype"
-                                                 << "filesize"
-                                                 << "mtime"
-                                                 << "ctime"
-                                                 << "unavailable"
+                                                 << QStringLiteral("source")
+                                                 << QStringLiteral("directory_id")
+                                                 << QStringLiteral("url")
+                                                 << QStringLiteral("filetype")
+                                                 << QStringLiteral("filesize")
+                                                 << QStringLiteral("mtime")
+                                                 << QStringLiteral("ctime")
+                                                 << QStringLiteral("unavailable")
 
-                                                 << "fingerprint"
+                                                 << QStringLiteral("fingerprint")
 
-                                                 << "playcount"
-                                                 << "skipcount"
-                                                 << "lastplayed"
-                                                 << "lastseen"
+                                                 << QStringLiteral("playcount")
+                                                 << QStringLiteral("skipcount")
+                                                 << QStringLiteral("lastplayed")
+                                                 << QStringLiteral("lastseen")
 
-                                                 << "compilation_detected"
-                                                 << "compilation_on"
-                                                 << "compilation_off"
-                                                 << "compilation_effective"
+                                                 << QStringLiteral("compilation_detected")
+                                                 << QStringLiteral("compilation_on")
+                                                 << QStringLiteral("compilation_off")
+                                                 << QStringLiteral("compilation_effective")
 
-                                                 << "art_embedded"
-                                                 << "art_automatic"
-                                                 << "art_manual"
-                                                 << "art_unset"
+                                                 << QStringLiteral("art_embedded")
+                                                 << QStringLiteral("art_automatic")
+                                                 << QStringLiteral("art_manual")
+                                                 << QStringLiteral("art_unset")
 
-                                                 << "effective_albumartist"
-                                                 << "effective_originalyear"
+                                                 << QStringLiteral("effective_albumartist")
+                                                 << QStringLiteral("effective_originalyear")
 
-                                                 << "cue_path"
+                                                 << QStringLiteral("cue_path")
 
-                                                 << "rating"
+                                                 << QStringLiteral("rating")
 
-                                                 << "acoustid_id"
-                                                 << "acoustid_fingerprint"
+                                                 << QStringLiteral("acoustid_id")
+                                                 << QStringLiteral("acoustid_fingerprint")
 
-                                                 << "musicbrainz_album_artist_id"
-                                                 << "musicbrainz_artist_id"
-                                                 << "musicbrainz_original_artist_id"
-                                                 << "musicbrainz_album_id"
-                                                 << "musicbrainz_original_album_id"
-                                                 << "musicbrainz_recording_id"
-                                                 << "musicbrainz_track_id"
-                                                 << "musicbrainz_disc_id"
-                                                 << "musicbrainz_release_group_id"
-                                                 << "musicbrainz_work_id"
+                                                 << QStringLiteral("musicbrainz_album_artist_id")
+                                                 << QStringLiteral("musicbrainz_artist_id")
+                                                 << QStringLiteral("musicbrainz_original_artist_id")
+                                                 << QStringLiteral("musicbrainz_album_id")
+                                                 << QStringLiteral("musicbrainz_original_album_id")
+                                                 << QStringLiteral("musicbrainz_recording_id")
+                                                 << QStringLiteral("musicbrainz_track_id")
+                                                 << QStringLiteral("musicbrainz_disc_id")
+                                                 << QStringLiteral("musicbrainz_release_group_id")
+                                                 << QStringLiteral("musicbrainz_work_id")
 
-                                                 << "ebur128_integrated_loudness_lufs"
-                                                 << "ebur128_loudness_range_lu"
+                                                 << QStringLiteral("ebur128_integrated_loudness_lufs")
+                                                 << QStringLiteral("ebur128_loudness_range_lu")
 
                                                  ;
 
-const QString Song::kColumnSpec = Song::kColumns.join(", ");
-const QString Song::kBindSpec = Utilities::Prepend(":", Song::kColumns).join(", ");
-const QString Song::kUpdateSpec = Utilities::Updateify(Song::kColumns).join(", ");
+const QString Song::kColumnSpec = Song::kColumns.join(QStringLiteral(", "));
+const QString Song::kBindSpec = Utilities::Prepend(QStringLiteral(":"), Song::kColumns).join(QStringLiteral(", "));
+const QString Song::kUpdateSpec = Utilities::Updateify(Song::kColumns).join(QStringLiteral(", "));
 
 // used to indicate, what columns can be filtered numerically. Used by the CollectionQuery.
-const QStringList Song::kNumericalColumns = QStringList() << "year"
-                                                          << "length"
-                                                          << "samplerate"
-                                                          << "bitdepth"
-                                                          << "bitrate"
-                                                          << "rating"
-                                                          << "playcount"
-                                                          << "skipcount";
+const QStringList Song::kNumericalColumns = QStringList() << QStringLiteral("year")
+                                                          << QStringLiteral("length")
+                                                          << QStringLiteral("samplerate")
+                                                          << QStringLiteral("bitdepth")
+                                                          << QStringLiteral("bitrate")
+                                                          << QStringLiteral("rating")
+                                                          << QStringLiteral("playcount")
+                                                          << QStringLiteral("skipcount");
 
 
-const QStringList Song::kFtsColumns = QStringList() << "ftstitle"
-                                                    << "ftsalbum"
-                                                    << "ftsartist"
-                                                    << "ftsalbumartist"
-                                                    << "ftscomposer"
-                                                    << "ftsperformer"
-                                                    << "ftsgrouping"
-                                                    << "ftsgenre"
-                                                    << "ftscomment";
+const QStringList Song::kFtsColumns = QStringList() << QStringLiteral("ftstitle")
+                                                    << QStringLiteral("ftsalbum")
+                                                    << QStringLiteral("ftsartist")
+                                                    << QStringLiteral("ftsalbumartist")
+                                                    << QStringLiteral("ftscomposer")
+                                                    << QStringLiteral("ftsperformer")
+                                                    << QStringLiteral("ftsgrouping")
+                                                    << QStringLiteral("ftsgenre")
+                                                    << QStringLiteral("ftscomment");
 
-const QString Song::kFtsColumnSpec = Song::kFtsColumns.join(", ");
-const QString Song::kFtsBindSpec = Utilities::Prepend(":", Song::kFtsColumns).join(", ");
-const QString Song::kFtsUpdateSpec = Utilities::Updateify(Song::kFtsColumns).join(", ");
+const QString Song::kFtsColumnSpec = Song::kFtsColumns.join(QStringLiteral(", "));
+const QString Song::kFtsBindSpec = Utilities::Prepend(QStringLiteral(":"), Song::kFtsColumns).join(QStringLiteral(", "));
+const QString Song::kFtsUpdateSpec = Utilities::Updateify(Song::kFtsColumns).join(QStringLiteral(", "));
 
 const Song::RegularExpressionList Song::kAlbumDisc = Song::RegularExpressionList()
-    << QRegularExpression("\\s+-*\\s*(Disc|CD)\\s*([0-9]{1,2})$", QRegularExpression::CaseInsensitiveOption)
-    << QRegularExpression("\\s+-*\\s*\\(\\s*(Disc|CD)\\s*([0-9]{1,2})\\)$", QRegularExpression::CaseInsensitiveOption)
-    << QRegularExpression("\\s+-*\\s*\\[\\s*(Disc|CD)\\s*([0-9]{1,2})\\]$", QRegularExpression::CaseInsensitiveOption);
+    << QRegularExpression(QStringLiteral("\\s+-*\\s*(Disc|CD)\\s*([0-9]{1,2})$"), QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression(QStringLiteral("\\s+-*\\s*\\(\\s*(Disc|CD)\\s*([0-9]{1,2})\\)$"), QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression(QStringLiteral("\\s+-*\\s*\\[\\s*(Disc|CD)\\s*([0-9]{1,2})\\]$"), QRegularExpression::CaseInsensitiveOption);
 
 const Song::RegularExpressionList Song::kRemastered = Song::RegularExpressionList()
-    << QRegularExpression("\\s+-*\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*$", QRegularExpression::CaseInsensitiveOption)
-    << QRegularExpression("\\s+-*\\s*\\(\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*\\)\\s*$", QRegularExpression::CaseInsensitiveOption)
-    << QRegularExpression("\\s+-*\\s*\\[\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*\\]\\s*$", QRegularExpression::CaseInsensitiveOption);
+    << QRegularExpression(QStringLiteral("\\s+-*\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*$"), QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression(QStringLiteral("\\s+-*\\s*\\(\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*\\)\\s*$"), QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression(QStringLiteral("\\s+-*\\s*\\[\\s*(([0-9]{4})*\\s*Remastered|([0-9]{4})*\\s*Remaster)\\s*(Version)*\\s*\\]\\s*$"), QRegularExpression::CaseInsensitiveOption);
 
 const Song::RegularExpressionList Song::kExplicit = Song::RegularExpressionList()
-    << QRegularExpression("\\s+-*\\s*Explicit\\s*$", QRegularExpression::CaseInsensitiveOption)
-    << QRegularExpression("\\s+-*\\s*\\(\\s*Explicit\\s*\\)\\s*$", QRegularExpression::CaseInsensitiveOption)
-    << QRegularExpression("\\s+-*\\s*\\[\\s*Explicit\\s*\\]\\s*$", QRegularExpression::CaseInsensitiveOption);
+    << QRegularExpression(QStringLiteral("\\s+-*\\s*Explicit\\s*$"), QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression(QStringLiteral("\\s+-*\\s*\\(\\s*Explicit\\s*\\)\\s*$"), QRegularExpression::CaseInsensitiveOption)
+    << QRegularExpression(QStringLiteral("\\s+-*\\s*\\[\\s*Explicit\\s*\\]\\s*$"), QRegularExpression::CaseInsensitiveOption);
 
 const Song::RegularExpressionList Song::kAlbumMisc = Song::RegularExpressionList()
     << kRemastered
@@ -192,12 +192,12 @@ const Song::RegularExpressionList Song::kTitleMisc = Song::RegularExpressionList
     << kRemastered
     << kExplicit;
 
-const QStringList Song::kArticles = QStringList() << "the " << "a " << "an ";
+const QStringList Song::kArticles = QStringList() << QStringLiteral("the ") << QStringLiteral("a ") << QStringLiteral("an ");
 
-const QStringList Song::kAcceptedExtensions = QStringList() << "wav" << "flac" << "wv" << "ogg" << "oga" << "opus" << "spx" << "ape" << "mpc"
-                                                            << "mp2" << "mp3" <<  "m4a" << "mp4" << "aac" << "asf" << "asx" << "wma"
-                                                            << "aif << aiff" << "mka" << "tta" << "dsf" << "dsd"
-                                                            << "ac3" << "dts" << "spc" << "vgm";
+const QStringList Song::kAcceptedExtensions = QStringList() << QStringLiteral("wav") << QStringLiteral("flac") << QStringLiteral("wv") << QStringLiteral("ogg") << QStringLiteral("oga") << QStringLiteral("opus") << QStringLiteral("spx") << QStringLiteral("ape") << QStringLiteral("mpc")
+                                                            << QStringLiteral("mp2") << QStringLiteral("mp3") <<  QStringLiteral("m4a") << QStringLiteral("mp4") << QStringLiteral("aac") << QStringLiteral("asf") << QStringLiteral("asx") << QStringLiteral("wma")
+                                                            << QStringLiteral("aif << aiff") << QStringLiteral("mka") << QStringLiteral("tta") << QStringLiteral("dsf") << QStringLiteral("dsd")
+                                                            << QStringLiteral("ac3") << QStringLiteral("dts") << QStringLiteral("spc") << QStringLiteral("vgm");
 
 struct Song::Private : public QSharedData {
 
@@ -373,9 +373,9 @@ const QString &Song::grouping() const { return d->grouping_; }
 const QString &Song::comment() const { return d->comment_; }
 const QString &Song::lyrics() const { return d->lyrics_; }
 
-QString Song::artist_id() const { return d->artist_id_.isNull() ? "" : d->artist_id_; }
-QString Song::album_id() const { return d->album_id_.isNull() ? "" : d->album_id_; }
-QString Song::song_id() const { return d->song_id_.isNull() ? "" : d->song_id_; }
+QString Song::artist_id() const { return d->artist_id_.isNull() ? QLatin1String("") : d->artist_id_; }
+QString Song::album_id() const { return d->album_id_.isNull() ? QLatin1String("") : d->album_id_; }
+QString Song::song_id() const { return d->song_id_.isNull() ? QLatin1String("") : d->song_id_; }
 
 qint64 Song::beginning_nanosec() const { return d->beginning_; }
 qint64 Song::end_nanosec() const { return d->end_; }
@@ -668,7 +668,7 @@ QString Song::sortable(const QString &v) {
 }
 
 QString Song::JoinSpec(const QString &table) {
-  return Utilities::Prepend(table + ".", kColumns).join(", ");
+  return Utilities::Prepend(table + ".", kColumns).join(QStringLiteral(", "));
 }
 
 QString Song::PrettyTitle() const {
@@ -722,7 +722,7 @@ QString Song::TitleWithCompilationArtist() const {
 
   if (title.isEmpty()) title = d->basefilename_;
 
-  if (is_compilation() && !d->artist_.isEmpty() && !d->artist_.contains("various", Qt::CaseInsensitive)) title = d->artist_ + " - " + title;
+  if (is_compilation() && !d->artist_.isEmpty() && !d->artist_.contains(QLatin1String("various"), Qt::CaseInsensitive)) title = d->artist_ + " - " + title;
 
   return title;
 
@@ -730,10 +730,10 @@ QString Song::TitleWithCompilationArtist() const {
 
 QString Song::SampleRateBitDepthToText() const {
 
-  if (d->samplerate_ == -1) return QString("");
-  if (d->bitdepth_ == -1) return QString("%1 hz").arg(d->samplerate_);
+  if (d->samplerate_ == -1) return QLatin1String("");
+  if (d->bitdepth_ == -1) return QStringLiteral("%1 hz").arg(d->samplerate_);
 
-  return QString("%1 hz / %2 bit").arg(d->samplerate_).arg(d->bitdepth_);
+  return QStringLiteral("%1 hz / %2 bit").arg(d->samplerate_).arg(d->bitdepth_);
 
 }
 
@@ -765,7 +765,7 @@ QString Song::PrettyRating() const {
 
   float rating = d->rating_;
 
-  if (rating == -1.0F) return "0";
+  if (rating == -1.0F) return QStringLiteral("0");
 
   return QString::number(static_cast<int>(rating * 100));
 
@@ -899,10 +899,10 @@ Song::Source Song::SourceFromURL(const QUrl &url) {
   else if (url.scheme() == "subsonic") return Source::Subsonic;
   else if (url.scheme() == "qobuz") return Source::Qobuz;
   else if (url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "rtsp") {
-    if (url.host().endsWith("tidal.com", Qt::CaseInsensitive)) { return Source::Tidal; }
-    if (url.host().endsWith("qobuz.com", Qt::CaseInsensitive)) { return Source::Qobuz; }
-    if (url.host().endsWith("somafm.com", Qt::CaseInsensitive)) { return Source::SomaFM; }
-    if (url.host().endsWith("radioparadise.com", Qt::CaseInsensitive)) { return Source::RadioParadise; }
+    if (url.host().endsWith(QLatin1String("tidal.com"), Qt::CaseInsensitive)) { return Source::Tidal; }
+    if (url.host().endsWith(QLatin1String("qobuz.com"), Qt::CaseInsensitive)) { return Source::Qobuz; }
+    if (url.host().endsWith(QLatin1String("somafm.com"), Qt::CaseInsensitive)) { return Source::SomaFM; }
+    if (url.host().endsWith(QLatin1String("radioparadise.com"), Qt::CaseInsensitive)) { return Source::RadioParadise; }
     return Source::Stream;
   }
   else return Source::Unknown;
@@ -912,53 +912,53 @@ Song::Source Song::SourceFromURL(const QUrl &url) {
 QString Song::TextForSource(const Source source) {
 
   switch (source) {
-    case Source::LocalFile:     return "file";
-    case Source::Collection:    return "collection";
-    case Source::CDDA:          return "cd";
-    case Source::Device:        return "device";
-    case Source::Stream:        return "stream";
-    case Source::Tidal:         return "tidal";
-    case Source::Subsonic:      return "subsonic";
-    case Source::Qobuz:         return "qobuz";
-    case Source::SomaFM:        return "somafm";
-    case Source::RadioParadise: return "radioparadise";
-    case Source::Unknown:       return "unknown";
+    case Source::LocalFile:     return QStringLiteral("file");
+    case Source::Collection:    return QStringLiteral("collection");
+    case Source::CDDA:          return QStringLiteral("cd");
+    case Source::Device:        return QStringLiteral("device");
+    case Source::Stream:        return QStringLiteral("stream");
+    case Source::Tidal:         return QStringLiteral("tidal");
+    case Source::Subsonic:      return QStringLiteral("subsonic");
+    case Source::Qobuz:         return QStringLiteral("qobuz");
+    case Source::SomaFM:        return QStringLiteral("somafm");
+    case Source::RadioParadise: return QStringLiteral("radioparadise");
+    case Source::Unknown:       return QStringLiteral("unknown");
   }
-  return "unknown";
+  return QStringLiteral("unknown");
 
 }
 
 QString Song::DescriptionForSource(const Source source) {
 
   switch (source) {
-    case Source::LocalFile:     return "File";
-    case Source::Collection:    return "Collection";
-    case Source::CDDA:          return "CD";
-    case Source::Device:        return "Device";
-    case Source::Stream:        return "Stream";
-    case Source::Tidal:         return "Tidal";
-    case Source::Subsonic:      return "Subsonic";
-    case Source::Qobuz:         return "Qobuz";
-    case Source::SomaFM:        return "SomaFM";
-    case Source::RadioParadise: return "Radio Paradise";
-    case Source::Unknown:       return "Unknown";
+    case Source::LocalFile:     return QStringLiteral("File");
+    case Source::Collection:    return QStringLiteral("Collection");
+    case Source::CDDA:          return QStringLiteral("CD");
+    case Source::Device:        return QStringLiteral("Device");
+    case Source::Stream:        return QStringLiteral("Stream");
+    case Source::Tidal:         return QStringLiteral("Tidal");
+    case Source::Subsonic:      return QStringLiteral("Subsonic");
+    case Source::Qobuz:         return QStringLiteral("Qobuz");
+    case Source::SomaFM:        return QStringLiteral("SomaFM");
+    case Source::RadioParadise: return QStringLiteral("Radio Paradise");
+    case Source::Unknown:       return QStringLiteral("Unknown");
   }
-  return "unknown";
+  return QStringLiteral("unknown");
 
 }
 
 Song::Source Song::SourceFromText(const QString &source) {
 
-  if (source.compare("file", Qt::CaseInsensitive) == 0) return Source::LocalFile;
-  if (source.compare("collection", Qt::CaseInsensitive) == 0) return Source::Collection;
-  if (source.compare("cd", Qt::CaseInsensitive) == 0) return Source::CDDA;
-  if (source.compare("device", Qt::CaseInsensitive) == 0) return Source::Device;
-  if (source.compare("stream", Qt::CaseInsensitive) == 0) return Source::Stream;
-  if (source.compare("tidal", Qt::CaseInsensitive) == 0) return Source::Tidal;
-  if (source.compare("subsonic", Qt::CaseInsensitive) == 0) return Source::Subsonic;
-  if (source.compare("qobuz", Qt::CaseInsensitive) == 0) return Source::Qobuz;
-  if (source.compare("somafm", Qt::CaseInsensitive) == 0) return Source::SomaFM;
-  if (source.compare("radioparadise", Qt::CaseInsensitive) == 0) return Source::RadioParadise;
+  if (source.compare(QLatin1String("file"), Qt::CaseInsensitive) == 0) return Source::LocalFile;
+  if (source.compare(QLatin1String("collection"), Qt::CaseInsensitive) == 0) return Source::Collection;
+  if (source.compare(QLatin1String("cd"), Qt::CaseInsensitive) == 0) return Source::CDDA;
+  if (source.compare(QLatin1String("device"), Qt::CaseInsensitive) == 0) return Source::Device;
+  if (source.compare(QLatin1String("stream"), Qt::CaseInsensitive) == 0) return Source::Stream;
+  if (source.compare(QLatin1String("tidal"), Qt::CaseInsensitive) == 0) return Source::Tidal;
+  if (source.compare(QLatin1String("subsonic"), Qt::CaseInsensitive) == 0) return Source::Subsonic;
+  if (source.compare(QLatin1String("qobuz"), Qt::CaseInsensitive) == 0) return Source::Qobuz;
+  if (source.compare(QLatin1String("somafm"), Qt::CaseInsensitive) == 0) return Source::SomaFM;
+  if (source.compare(QLatin1String("radioparadise"), Qt::CaseInsensitive) == 0) return Source::RadioParadise;
 
   return Source::Unknown;
 
@@ -967,50 +967,50 @@ Song::Source Song::SourceFromText(const QString &source) {
 QIcon Song::IconForSource(const Source source) {
 
   switch (source) {
-    case Source::LocalFile:     return IconLoader::Load("folder-sound");
-    case Source::Collection:    return IconLoader::Load("library-music");
-    case Source::CDDA:          return IconLoader::Load("media-optical");
-    case Source::Device:        return IconLoader::Load("device");
-    case Source::Stream:        return IconLoader::Load("applications-internet");
-    case Source::Tidal:         return IconLoader::Load("tidal");
-    case Source::Subsonic:      return IconLoader::Load("subsonic");
-    case Source::Qobuz:         return IconLoader::Load("qobuz");
-    case Source::SomaFM:        return IconLoader::Load("somafm");
-    case Source::RadioParadise: return IconLoader::Load("radioparadise");
-    case Source::Unknown:       return IconLoader::Load("edit-delete");
+    case Source::LocalFile:     return IconLoader::Load(QStringLiteral("folder-sound"));
+    case Source::Collection:    return IconLoader::Load(QStringLiteral("library-music"));
+    case Source::CDDA:          return IconLoader::Load(QStringLiteral("media-optical"));
+    case Source::Device:        return IconLoader::Load(QStringLiteral("device"));
+    case Source::Stream:        return IconLoader::Load(QStringLiteral("applications-internet"));
+    case Source::Tidal:         return IconLoader::Load(QStringLiteral("tidal"));
+    case Source::Subsonic:      return IconLoader::Load(QStringLiteral("subsonic"));
+    case Source::Qobuz:         return IconLoader::Load(QStringLiteral("qobuz"));
+    case Source::SomaFM:        return IconLoader::Load(QStringLiteral("somafm"));
+    case Source::RadioParadise: return IconLoader::Load(QStringLiteral("radioparadise"));
+    case Source::Unknown:       return IconLoader::Load(QStringLiteral("edit-delete"));
   }
-  return IconLoader::Load("edit-delete");
+  return IconLoader::Load(QStringLiteral("edit-delete"));
 
 }
 
 QString Song::TextForFiletype(const FileType filetype) {
 
   switch (filetype) {
-    case FileType::WAV:         return "Wav";
-    case FileType::FLAC:        return "FLAC";
-    case FileType::WavPack:     return "WavPack";
-    case FileType::OggFlac:     return "Ogg FLAC";
-    case FileType::OggVorbis:   return "Ogg Vorbis";
-    case FileType::OggOpus:     return "Ogg Opus";
-    case FileType::OggSpeex:    return "Ogg Speex";
-    case FileType::MPEG:        return "MPEG";
-    case FileType::MP4:         return "MP4 AAC";
-    case FileType::ASF:         return "Windows Media audio";
-    case FileType::AIFF:        return "AIFF";
-    case FileType::MPC:         return "MPC";
-    case FileType::TrueAudio:   return "TrueAudio";
-    case FileType::DSF:         return "DSF";
-    case FileType::DSDIFF:      return "DSDIFF";
-    case FileType::PCM:         return "PCM";
-    case FileType::APE:         return "Monkey's Audio";
-    case FileType::MOD:         return "Module Music Format";
-    case FileType::S3M:         return "Module Music Format";
-    case FileType::XM:          return "Module Music Format";
-    case FileType::IT:          return "Module Music Format";
-    case FileType::CDDA:        return "CDDA";
-    case FileType::SPC:         return "SNES SPC700";
-    case FileType::VGM:         return "VGM";
-    case FileType::Stream:      return "Stream";
+    case FileType::WAV:         return QStringLiteral("Wav");
+    case FileType::FLAC:        return QStringLiteral("FLAC");
+    case FileType::WavPack:     return QStringLiteral("WavPack");
+    case FileType::OggFlac:     return QStringLiteral("Ogg FLAC");
+    case FileType::OggVorbis:   return QStringLiteral("Ogg Vorbis");
+    case FileType::OggOpus:     return QStringLiteral("Ogg Opus");
+    case FileType::OggSpeex:    return QStringLiteral("Ogg Speex");
+    case FileType::MPEG:        return QStringLiteral("MPEG");
+    case FileType::MP4:         return QStringLiteral("MP4 AAC");
+    case FileType::ASF:         return QStringLiteral("Windows Media audio");
+    case FileType::AIFF:        return QStringLiteral("AIFF");
+    case FileType::MPC:         return QStringLiteral("MPC");
+    case FileType::TrueAudio:   return QStringLiteral("TrueAudio");
+    case FileType::DSF:         return QStringLiteral("DSF");
+    case FileType::DSDIFF:      return QStringLiteral("DSDIFF");
+    case FileType::PCM:         return QStringLiteral("PCM");
+    case FileType::APE:         return QStringLiteral("Monkey's Audio");
+    case FileType::MOD:         return QStringLiteral("Module Music Format");
+    case FileType::S3M:         return QStringLiteral("Module Music Format");
+    case FileType::XM:          return QStringLiteral("Module Music Format");
+    case FileType::IT:          return QStringLiteral("Module Music Format");
+    case FileType::CDDA:        return QStringLiteral("CDDA");
+    case FileType::SPC:         return QStringLiteral("SNES SPC700");
+    case FileType::VGM:         return QStringLiteral("VGM");
+    case FileType::Stream:      return QStringLiteral("Stream");
     case FileType::Unknown:
     default:                         return QObject::tr("Unknown");
   }
@@ -1020,30 +1020,30 @@ QString Song::TextForFiletype(const FileType filetype) {
 QString Song::ExtensionForFiletype(const FileType filetype) {
 
   switch (filetype) {
-    case FileType::WAV:         return "wav";
-    case FileType::FLAC:        return "flac";
-    case FileType::WavPack:     return "wv";
-    case FileType::OggFlac:     return "flac";
-    case FileType::OggVorbis:   return "ogg";
-    case FileType::OggOpus:     return "opus";
-    case FileType::OggSpeex:    return "spx";
-    case FileType::MPEG:        return "mp3";
-    case FileType::MP4:         return "mp4";
-    case FileType::ASF:         return "wma";
-    case FileType::AIFF:        return "aiff";
-    case FileType::MPC:         return "mpc";
-    case FileType::TrueAudio:   return "tta";
-    case FileType::DSF:         return "dsf";
-    case FileType::DSDIFF:      return "dsd";
-    case FileType::APE:         return "ape";
-    case FileType::MOD:         return "mod";
-    case FileType::S3M:         return "s3m";
-    case FileType::XM:          return "xm";
-    case FileType::IT:          return "it";
-    case FileType::SPC:         return "spc";
-    case FileType::VGM:         return "vgm";
+    case FileType::WAV:         return QStringLiteral("wav");
+    case FileType::FLAC:        return QStringLiteral("flac");
+    case FileType::WavPack:     return QStringLiteral("wv");
+    case FileType::OggFlac:     return QStringLiteral("flac");
+    case FileType::OggVorbis:   return QStringLiteral("ogg");
+    case FileType::OggOpus:     return QStringLiteral("opus");
+    case FileType::OggSpeex:    return QStringLiteral("spx");
+    case FileType::MPEG:        return QStringLiteral("mp3");
+    case FileType::MP4:         return QStringLiteral("mp4");
+    case FileType::ASF:         return QStringLiteral("wma");
+    case FileType::AIFF:        return QStringLiteral("aiff");
+    case FileType::MPC:         return QStringLiteral("mpc");
+    case FileType::TrueAudio:   return QStringLiteral("tta");
+    case FileType::DSF:         return QStringLiteral("dsf");
+    case FileType::DSDIFF:      return QStringLiteral("dsd");
+    case FileType::APE:         return QStringLiteral("ape");
+    case FileType::MOD:         return QStringLiteral("mod");
+    case FileType::S3M:         return QStringLiteral("s3m");
+    case FileType::XM:          return QStringLiteral("xm");
+    case FileType::IT:          return QStringLiteral("it");
+    case FileType::SPC:         return QStringLiteral("spc");
+    case FileType::VGM:         return QStringLiteral("vgm");
     case FileType::Unknown:
-    default:                         return "dat";
+    default:                         return QStringLiteral("dat");
   }
 
 }
@@ -1051,31 +1051,31 @@ QString Song::ExtensionForFiletype(const FileType filetype) {
 QIcon Song::IconForFiletype(const FileType filetype) {
 
   switch (filetype) {
-    case FileType::WAV:         return IconLoader::Load("wav");
-    case FileType::FLAC:        return IconLoader::Load("flac");
-    case FileType::WavPack:     return IconLoader::Load("wavpack");
-    case FileType::OggFlac:     return IconLoader::Load("flac");
-    case FileType::OggVorbis:   return IconLoader::Load("vorbis");
-    case FileType::OggOpus:     return IconLoader::Load("opus");
-    case FileType::OggSpeex:    return IconLoader::Load("speex");
-    case FileType::MPEG:        return IconLoader::Load("mp3");
-    case FileType::MP4:         return IconLoader::Load("mp4");
-    case FileType::ASF:         return IconLoader::Load("wma");
-    case FileType::AIFF:        return IconLoader::Load("aiff");
-    case FileType::MPC:         return IconLoader::Load("mpc");
-    case FileType::TrueAudio:   return IconLoader::Load("trueaudio");
-    case FileType::DSF:         return IconLoader::Load("dsf");
-    case FileType::DSDIFF:      return IconLoader::Load("dsd");
-    case FileType::PCM:         return IconLoader::Load("pcm");
-    case FileType::APE:         return IconLoader::Load("ape");
-    case FileType::MOD:         return IconLoader::Load("mod");
-    case FileType::S3M:         return IconLoader::Load("s3m");
-    case FileType::XM:          return IconLoader::Load("xm");
-    case FileType::IT:          return IconLoader::Load("it");
-    case FileType::CDDA:        return IconLoader::Load("cd");
-    case FileType::Stream:      return IconLoader::Load("applications-internet");
+    case FileType::WAV:         return IconLoader::Load(QStringLiteral("wav"));
+    case FileType::FLAC:        return IconLoader::Load(QStringLiteral("flac"));
+    case FileType::WavPack:     return IconLoader::Load(QStringLiteral("wavpack"));
+    case FileType::OggFlac:     return IconLoader::Load(QStringLiteral("flac"));
+    case FileType::OggVorbis:   return IconLoader::Load(QStringLiteral("vorbis"));
+    case FileType::OggOpus:     return IconLoader::Load(QStringLiteral("opus"));
+    case FileType::OggSpeex:    return IconLoader::Load(QStringLiteral("speex"));
+    case FileType::MPEG:        return IconLoader::Load(QStringLiteral("mp3"));
+    case FileType::MP4:         return IconLoader::Load(QStringLiteral("mp4"));
+    case FileType::ASF:         return IconLoader::Load(QStringLiteral("wma"));
+    case FileType::AIFF:        return IconLoader::Load(QStringLiteral("aiff"));
+    case FileType::MPC:         return IconLoader::Load(QStringLiteral("mpc"));
+    case FileType::TrueAudio:   return IconLoader::Load(QStringLiteral("trueaudio"));
+    case FileType::DSF:         return IconLoader::Load(QStringLiteral("dsf"));
+    case FileType::DSDIFF:      return IconLoader::Load(QStringLiteral("dsd"));
+    case FileType::PCM:         return IconLoader::Load(QStringLiteral("pcm"));
+    case FileType::APE:         return IconLoader::Load(QStringLiteral("ape"));
+    case FileType::MOD:         return IconLoader::Load(QStringLiteral("mod"));
+    case FileType::S3M:         return IconLoader::Load(QStringLiteral("s3m"));
+    case FileType::XM:          return IconLoader::Load(QStringLiteral("xm"));
+    case FileType::IT:          return IconLoader::Load(QStringLiteral("it"));
+    case FileType::CDDA:        return IconLoader::Load(QStringLiteral("cd"));
+    case FileType::Stream:      return IconLoader::Load(QStringLiteral("applications-internet"));
     case FileType::Unknown:
-    default:                         return IconLoader::Load("edit-delete");
+    default:                         return IconLoader::Load(QStringLiteral("edit-delete"));
   }
 
 }
@@ -1103,26 +1103,26 @@ bool Song::IsFileLossless() const {
 
 Song::FileType Song::FiletypeByMimetype(const QString &mimetype) {
 
-  if (mimetype.compare("audio/wav", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-wav", Qt::CaseInsensitive) == 0) return FileType::WAV;
-  else if (mimetype.compare("audio/x-flac", Qt::CaseInsensitive) == 0) return FileType::FLAC;
-  else if (mimetype.compare("audio/x-wavpack", Qt::CaseInsensitive) == 0) return FileType::WavPack;
-  else if (mimetype.compare("audio/x-vorbis", Qt::CaseInsensitive) == 0) return FileType::OggVorbis;
-  else if (mimetype.compare("audio/x-opus", Qt::CaseInsensitive) == 0) return FileType::OggOpus;
-  else if (mimetype.compare("audio/x-speex", Qt::CaseInsensitive) == 0)  return FileType::OggSpeex;
+  if (mimetype.compare(QLatin1String("audio/wav"), Qt::CaseInsensitive) == 0 || mimetype.compare(QLatin1String("audio/x-wav"), Qt::CaseInsensitive) == 0) return FileType::WAV;
+  else if (mimetype.compare(QLatin1String("audio/x-flac"), Qt::CaseInsensitive) == 0) return FileType::FLAC;
+  else if (mimetype.compare(QLatin1String("audio/x-wavpack"), Qt::CaseInsensitive) == 0) return FileType::WavPack;
+  else if (mimetype.compare(QLatin1String("audio/x-vorbis"), Qt::CaseInsensitive) == 0) return FileType::OggVorbis;
+  else if (mimetype.compare(QLatin1String("audio/x-opus"), Qt::CaseInsensitive) == 0) return FileType::OggOpus;
+  else if (mimetype.compare(QLatin1String("audio/x-speex"), Qt::CaseInsensitive) == 0)  return FileType::OggSpeex;
   // Gstreamer returns audio/mpeg for both MP3 and MP4/AAC.
   // else if (mimetype.compare("audio/mpeg", Qt::CaseInsensitive) == 0) return FileType::MPEG;
-  else if (mimetype.compare("audio/aac", Qt::CaseInsensitive) == 0) return FileType::MP4;
-  else if (mimetype.compare("audio/x-wma", Qt::CaseInsensitive) == 0) return FileType::ASF;
-  else if (mimetype.compare("audio/aiff", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-aiff", Qt::CaseInsensitive) == 0) return FileType::AIFF;
-  else if (mimetype.compare("audio/x-musepack", Qt::CaseInsensitive) == 0) return FileType::MPC;
-  else if (mimetype.compare("application/x-project", Qt::CaseInsensitive) == 0) return FileType::MPC;
-  else if (mimetype.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return FileType::DSF;
-  else if (mimetype.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
-  else if (mimetype.compare("audio/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("application/x-ape", Qt::CaseInsensitive) == 0 || mimetype.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return FileType::APE;
-  else if (mimetype.compare("audio/x-mod", Qt::CaseInsensitive) == 0) return FileType::MOD;
-  else if (mimetype.compare("audio/x-s3m", Qt::CaseInsensitive) == 0) return FileType::S3M;
-  else if (mimetype.compare("audio/x-spc", Qt::CaseInsensitive) == 0) return FileType::SPC;
-  else if (mimetype.compare("audio/x-vgm", Qt::CaseInsensitive) == 0) return FileType::VGM;
+  else if (mimetype.compare(QLatin1String("audio/aac"), Qt::CaseInsensitive) == 0) return FileType::MP4;
+  else if (mimetype.compare(QLatin1String("audio/x-wma"), Qt::CaseInsensitive) == 0) return FileType::ASF;
+  else if (mimetype.compare(QLatin1String("audio/aiff"), Qt::CaseInsensitive) == 0 || mimetype.compare(QLatin1String("audio/x-aiff"), Qt::CaseInsensitive) == 0) return FileType::AIFF;
+  else if (mimetype.compare(QLatin1String("audio/x-musepack"), Qt::CaseInsensitive) == 0) return FileType::MPC;
+  else if (mimetype.compare(QLatin1String("application/x-project"), Qt::CaseInsensitive) == 0) return FileType::MPC;
+  else if (mimetype.compare(QLatin1String("audio/x-dsf"), Qt::CaseInsensitive) == 0) return FileType::DSF;
+  else if (mimetype.compare(QLatin1String("audio/x-dsd"), Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
+  else if (mimetype.compare(QLatin1String("audio/x-ape"), Qt::CaseInsensitive) == 0 || mimetype.compare(QLatin1String("application/x-ape"), Qt::CaseInsensitive) == 0 || mimetype.compare(QLatin1String("audio/x-ffmpeg-parsed-ape"), Qt::CaseInsensitive) == 0) return FileType::APE;
+  else if (mimetype.compare(QLatin1String("audio/x-mod"), Qt::CaseInsensitive) == 0) return FileType::MOD;
+  else if (mimetype.compare(QLatin1String("audio/x-s3m"), Qt::CaseInsensitive) == 0) return FileType::S3M;
+  else if (mimetype.compare(QLatin1String("audio/x-spc"), Qt::CaseInsensitive) == 0) return FileType::SPC;
+  else if (mimetype.compare(QLatin1String("audio/x-vgm"), Qt::CaseInsensitive) == 0) return FileType::VGM;
 
   else return FileType::Unknown;
 
@@ -1130,56 +1130,56 @@ Song::FileType Song::FiletypeByMimetype(const QString &mimetype) {
 
 Song::FileType Song::FiletypeByDescription(const QString &text) {
 
-  if (text.compare("WAV", Qt::CaseInsensitive) == 0) return FileType::WAV;
-  else if (text.compare("Free Lossless Audio Codec (FLAC)", Qt::CaseInsensitive) == 0) return FileType::FLAC;
-  else if (text.compare("Wavpack", Qt::CaseInsensitive) == 0) return FileType::WavPack;
-  else if (text.compare("Vorbis", Qt::CaseInsensitive) == 0) return FileType::OggVorbis;
-  else if (text.compare("Opus", Qt::CaseInsensitive) == 0) return FileType::OggOpus;
-  else if (text.compare("Speex", Qt::CaseInsensitive) == 0) return FileType::OggSpeex;
-  else if (text.compare("MPEG-1 Layer 2 (MP2)", Qt::CaseInsensitive) == 0) return FileType::MPEG;
-  else if (text.compare("MPEG-1 Layer 3 (MP3)", Qt::CaseInsensitive) == 0) return FileType::MPEG;
-  else if (text.compare("MPEG-4 AAC", Qt::CaseInsensitive) == 0) return FileType::MP4;
-  else if (text.compare("WMA", Qt::CaseInsensitive) == 0) return FileType::ASF;
-  else if (text.compare("Audio Interchange File Format", Qt::CaseInsensitive) == 0) return FileType::AIFF;
-  else if (text.compare("MPC", Qt::CaseInsensitive) == 0) return FileType::MPC;
-  else if (text.compare("Musepack (MPC)", Qt::CaseInsensitive) == 0) return FileType::MPC;
-  else if (text.compare("audio/x-dsf", Qt::CaseInsensitive) == 0) return FileType::DSF;
-  else if (text.compare("audio/x-dsd", Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
-  else if (text.compare("audio/x-ffmpeg-parsed-ape", Qt::CaseInsensitive) == 0) return FileType::APE;
-  else if (text.compare("Module Music Format (MOD)", Qt::CaseInsensitive) == 0) return FileType::MOD;
-  else if (text.compare("Module Music Format (MOD)", Qt::CaseInsensitive) == 0) return FileType::S3M;
-  else if (text.compare("SNES SPC700", Qt::CaseInsensitive) == 0) return FileType::SPC;
-  else if (text.compare("VGM", Qt::CaseInsensitive) == 0) return FileType::VGM;
+  if (text.compare(QLatin1String("WAV"), Qt::CaseInsensitive) == 0) return FileType::WAV;
+  else if (text.compare(QLatin1String("Free Lossless Audio Codec (FLAC)"), Qt::CaseInsensitive) == 0) return FileType::FLAC;
+  else if (text.compare(QLatin1String("Wavpack"), Qt::CaseInsensitive) == 0) return FileType::WavPack;
+  else if (text.compare(QLatin1String("Vorbis"), Qt::CaseInsensitive) == 0) return FileType::OggVorbis;
+  else if (text.compare(QLatin1String("Opus"), Qt::CaseInsensitive) == 0) return FileType::OggOpus;
+  else if (text.compare(QLatin1String("Speex"), Qt::CaseInsensitive) == 0) return FileType::OggSpeex;
+  else if (text.compare(QLatin1String("MPEG-1 Layer 2 (MP2)"), Qt::CaseInsensitive) == 0) return FileType::MPEG;
+  else if (text.compare(QLatin1String("MPEG-1 Layer 3 (MP3)"), Qt::CaseInsensitive) == 0) return FileType::MPEG;
+  else if (text.compare(QLatin1String("MPEG-4 AAC"), Qt::CaseInsensitive) == 0) return FileType::MP4;
+  else if (text.compare(QLatin1String("WMA"), Qt::CaseInsensitive) == 0) return FileType::ASF;
+  else if (text.compare(QLatin1String("Audio Interchange File Format"), Qt::CaseInsensitive) == 0) return FileType::AIFF;
+  else if (text.compare(QLatin1String("MPC"), Qt::CaseInsensitive) == 0) return FileType::MPC;
+  else if (text.compare(QLatin1String("Musepack (MPC)"), Qt::CaseInsensitive) == 0) return FileType::MPC;
+  else if (text.compare(QLatin1String("audio/x-dsf"), Qt::CaseInsensitive) == 0) return FileType::DSF;
+  else if (text.compare(QLatin1String("audio/x-dsd"), Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
+  else if (text.compare(QLatin1String("audio/x-ffmpeg-parsed-ape"), Qt::CaseInsensitive) == 0) return FileType::APE;
+  else if (text.compare(QLatin1String("Module Music Format (MOD)"), Qt::CaseInsensitive) == 0) return FileType::MOD;
+  else if (text.compare(QLatin1String("Module Music Format (MOD)"), Qt::CaseInsensitive) == 0) return FileType::S3M;
+  else if (text.compare(QLatin1String("SNES SPC700"), Qt::CaseInsensitive) == 0) return FileType::SPC;
+  else if (text.compare(QLatin1String("VGM"), Qt::CaseInsensitive) == 0) return FileType::VGM;
   else return FileType::Unknown;
 
 }
 
 Song::FileType Song::FiletypeByExtension(const QString &ext) {
 
-  if (ext.compare("wav", Qt::CaseInsensitive) == 0 || ext.compare("wave", Qt::CaseInsensitive) == 0) return FileType::WAV;
-  else if (ext.compare("flac", Qt::CaseInsensitive) == 0) return FileType::FLAC;
-  else if (ext.compare("wavpack", Qt::CaseInsensitive) == 0 || ext.compare("wv", Qt::CaseInsensitive) == 0) return FileType::WavPack;
-  else if (ext.compare("ogg", Qt::CaseInsensitive) == 0 || ext.compare("oga", Qt::CaseInsensitive) == 0) return FileType::OggVorbis;
-  else if (ext.compare("opus", Qt::CaseInsensitive) == 0) return FileType::OggOpus;
-  else if (ext.compare("speex", Qt::CaseInsensitive) == 0 || ext.compare("spx", Qt::CaseInsensitive) == 0) return FileType::OggSpeex;
-  else if (ext.compare("mp2", Qt::CaseInsensitive) == 0) return FileType::MPEG;
-  else if (ext.compare("mp3", Qt::CaseInsensitive) == 0) return FileType::MPEG;
-  else if (ext.compare("mp4", Qt::CaseInsensitive) == 0 || ext.compare("m4a", Qt::CaseInsensitive) == 0 || ext.compare("aac", Qt::CaseInsensitive) == 0) return FileType::MP4;
-  else if (ext.compare("asf", Qt::CaseInsensitive) == 0 || ext.compare("wma", Qt::CaseInsensitive) == 0) return FileType::ASF;
-  else if (ext.compare("aiff", Qt::CaseInsensitive) == 0 || ext.compare("aif", Qt::CaseInsensitive) == 0 || ext.compare("aifc", Qt::CaseInsensitive) == 0) return FileType::AIFF;
-  else if (ext.compare("mpc", Qt::CaseInsensitive) == 0 || ext.compare("mp+", Qt::CaseInsensitive) == 0 || ext.compare("mpp", Qt::CaseInsensitive) == 0) return FileType::MPC;
-  else if (ext.compare("dsf", Qt::CaseInsensitive) == 0) return FileType::DSF;
-  else if (ext.compare("dsd", Qt::CaseInsensitive) == 0 || ext.compare("dff", Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
-  else if (ext.compare("ape", Qt::CaseInsensitive) == 0) return FileType::APE;
-  else if (ext.compare("mod", Qt::CaseInsensitive) == 0 ||
-           ext.compare("module", Qt::CaseInsensitive) == 0 ||
-           ext.compare("nst", Qt::CaseInsensitive) == 0||
-           ext.compare("wow", Qt::CaseInsensitive) == 0) return FileType::MOD;
-  else if (ext.compare("s3m", Qt::CaseInsensitive) == 0) return FileType::S3M;
-  else if (ext.compare("xm", Qt::CaseInsensitive) == 0) return FileType::XM;
-  else if (ext.compare("it", Qt::CaseInsensitive) == 0) return FileType::IT;
-  else if (ext.compare("spc", Qt::CaseInsensitive) == 0) return FileType::SPC;
-  else if (ext.compare("vgm", Qt::CaseInsensitive) == 0) return FileType::VGM;
+  if (ext.compare(QLatin1String("wav"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("wave"), Qt::CaseInsensitive) == 0) return FileType::WAV;
+  else if (ext.compare(QLatin1String("flac"), Qt::CaseInsensitive) == 0) return FileType::FLAC;
+  else if (ext.compare(QLatin1String("wavpack"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("wv"), Qt::CaseInsensitive) == 0) return FileType::WavPack;
+  else if (ext.compare(QLatin1String("ogg"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("oga"), Qt::CaseInsensitive) == 0) return FileType::OggVorbis;
+  else if (ext.compare(QLatin1String("opus"), Qt::CaseInsensitive) == 0) return FileType::OggOpus;
+  else if (ext.compare(QLatin1String("speex"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("spx"), Qt::CaseInsensitive) == 0) return FileType::OggSpeex;
+  else if (ext.compare(QLatin1String("mp2"), Qt::CaseInsensitive) == 0) return FileType::MPEG;
+  else if (ext.compare(QLatin1String("mp3"), Qt::CaseInsensitive) == 0) return FileType::MPEG;
+  else if (ext.compare(QLatin1String("mp4"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("m4a"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("aac"), Qt::CaseInsensitive) == 0) return FileType::MP4;
+  else if (ext.compare(QLatin1String("asf"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("wma"), Qt::CaseInsensitive) == 0) return FileType::ASF;
+  else if (ext.compare(QLatin1String("aiff"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("aif"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("aifc"), Qt::CaseInsensitive) == 0) return FileType::AIFF;
+  else if (ext.compare(QLatin1String("mpc"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("mp+"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("mpp"), Qt::CaseInsensitive) == 0) return FileType::MPC;
+  else if (ext.compare(QLatin1String("dsf"), Qt::CaseInsensitive) == 0) return FileType::DSF;
+  else if (ext.compare(QLatin1String("dsd"), Qt::CaseInsensitive) == 0 || ext.compare(QLatin1String("dff"), Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
+  else if (ext.compare(QLatin1String("ape"), Qt::CaseInsensitive) == 0) return FileType::APE;
+  else if (ext.compare(QLatin1String("mod"), Qt::CaseInsensitive) == 0 ||
+           ext.compare(QLatin1String("module"), Qt::CaseInsensitive) == 0 ||
+           ext.compare(QLatin1String("nst"), Qt::CaseInsensitive) == 0||
+           ext.compare(QLatin1String("wow"), Qt::CaseInsensitive) == 0) return FileType::MOD;
+  else if (ext.compare(QLatin1String("s3m"), Qt::CaseInsensitive) == 0) return FileType::S3M;
+  else if (ext.compare(QLatin1String("xm"), Qt::CaseInsensitive) == 0) return FileType::XM;
+  else if (ext.compare(QLatin1String("it"), Qt::CaseInsensitive) == 0) return FileType::IT;
+  else if (ext.compare(QLatin1String("spc"), Qt::CaseInsensitive) == 0) return FileType::SPC;
+  else if (ext.compare(QLatin1String("vgm"), Qt::CaseInsensitive) == 0) return FileType::VGM;
 
   else return FileType::Unknown;
 
@@ -1366,76 +1366,76 @@ void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
 
 void Song::InitFromQuery(const SqlRow &q, const bool reliable_metadata) {
 
-  d->id_ = q.value("rowid").isNull() ? -1 : q.value("rowid").toInt();
+  d->id_ = q.value(QStringLiteral("rowid")).isNull() ? -1 : q.value(QStringLiteral("rowid")).toInt();
 
-  set_title(q.ValueToString("title"));
-  set_album(q.ValueToString("album"));
-  set_artist(q.ValueToString("artist"));
-  set_albumartist(q.ValueToString("albumartist"));
-  d->track_ = q.ValueToInt("track");
-  d->disc_ = q.ValueToInt("disc");
-  d->year_ = q.ValueToInt("year");
-  d->originalyear_ = q.ValueToInt("originalyear");
-  d->genre_ = q.ValueToString("genre");
-  d->compilation_ = q.value("compilation").toBool();
-  d->composer_ = q.ValueToString("composer");
-  d->performer_ = q.ValueToString("performer");
-  d->grouping_ = q.ValueToString("grouping");
-  d->comment_ = q.ValueToString("comment");
-  d->lyrics_ = q.ValueToString("lyrics");
-  d->artist_id_ = q.ValueToString("artist_id");
-  d->album_id_ = q.ValueToString("album_id");
-  d->song_id_ = q.ValueToString("song_id");
-  d->beginning_ = q.value("beginning").isNull() ? 0 : q.value("beginning").toLongLong();
-  set_length_nanosec(q.ValueToLongLong("length"));
-  d->bitrate_ = q.ValueToInt("bitrate");
-  d->samplerate_ = q.ValueToInt("samplerate");
-  d->bitdepth_ = q.ValueToInt("bitdepth");
-  if (!q.value("ebur128_integrated_loudness_lufs").isNull()) {
-    d->ebur128_integrated_loudness_lufs_ = q.value("ebur128_integrated_loudness_lufs").toDouble();
+  set_title(q.ValueToString(QStringLiteral("title")));
+  set_album(q.ValueToString(QStringLiteral("album")));
+  set_artist(q.ValueToString(QStringLiteral("artist")));
+  set_albumartist(q.ValueToString(QStringLiteral("albumartist")));
+  d->track_ = q.ValueToInt(QStringLiteral("track"));
+  d->disc_ = q.ValueToInt(QStringLiteral("disc"));
+  d->year_ = q.ValueToInt(QStringLiteral("year"));
+  d->originalyear_ = q.ValueToInt(QStringLiteral("originalyear"));
+  d->genre_ = q.ValueToString(QStringLiteral("genre"));
+  d->compilation_ = q.value(QStringLiteral("compilation")).toBool();
+  d->composer_ = q.ValueToString(QStringLiteral("composer"));
+  d->performer_ = q.ValueToString(QStringLiteral("performer"));
+  d->grouping_ = q.ValueToString(QStringLiteral("grouping"));
+  d->comment_ = q.ValueToString(QStringLiteral("comment"));
+  d->lyrics_ = q.ValueToString(QStringLiteral("lyrics"));
+  d->artist_id_ = q.ValueToString(QStringLiteral("artist_id"));
+  d->album_id_ = q.ValueToString(QStringLiteral("album_id"));
+  d->song_id_ = q.ValueToString(QStringLiteral("song_id"));
+  d->beginning_ = q.value(QStringLiteral("beginning")).isNull() ? 0 : q.value(QStringLiteral("beginning")).toLongLong();
+  set_length_nanosec(q.ValueToLongLong(QStringLiteral("length")));
+  d->bitrate_ = q.ValueToInt(QStringLiteral("bitrate"));
+  d->samplerate_ = q.ValueToInt(QStringLiteral("samplerate"));
+  d->bitdepth_ = q.ValueToInt(QStringLiteral("bitdepth"));
+  if (!q.value(QStringLiteral("ebur128_integrated_loudness_lufs")).isNull()) {
+    d->ebur128_integrated_loudness_lufs_ = q.value(QStringLiteral("ebur128_integrated_loudness_lufs")).toDouble();
   }
-  if (!q.value("ebur128_loudness_range_lu").isNull()) {
-    d->ebur128_loudness_range_lu_ = q.value("ebur128_loudness_range_lu").toDouble();
+  if (!q.value(QStringLiteral("ebur128_loudness_range_lu")).isNull()) {
+    d->ebur128_loudness_range_lu_ = q.value(QStringLiteral("ebur128_loudness_range_lu")).toDouble();
   }
-  d->source_ = static_cast<Source>(q.value("source").isNull() ? 0 : q.value("source").toInt());
-  d->directory_id_ = q.ValueToInt("directory_id");
-  set_url(QUrl::fromEncoded(q.ValueToString("url").toUtf8()));
+  d->source_ = static_cast<Source>(q.value(QStringLiteral("source")).isNull() ? 0 : q.value(QStringLiteral("source")).toInt());
+  d->directory_id_ = q.ValueToInt(QStringLiteral("directory_id"));
+  set_url(QUrl::fromEncoded(q.ValueToString(QStringLiteral("url")).toUtf8()));
   d->basefilename_ = QFileInfo(d->url_.toLocalFile()).fileName();
-  d->filetype_ = FileType(q.value("filetype").isNull() ? 0 : q.value("filetype").toInt());
-  d->filesize_ = q.ValueToLongLong("filesize");
-  d->mtime_ = q.ValueToLongLong("mtime");
-  d->ctime_ = q.ValueToLongLong("ctime");
-  d->unavailable_ = q.value("unavailable").toBool();
-  d->fingerprint_ = q.ValueToString("fingerprint");
-  d->playcount_ = q.ValueToUInt("playcount");
-  d->skipcount_ = q.ValueToUInt("skipcount");
-  d->lastplayed_ = q.ValueToLongLong("lastplayed");
-  d->lastseen_ = q.ValueToLongLong("lastseen");
-  d->compilation_detected_ = q.ValueToBool("compilation_detected");
-  d->compilation_on_ = q.ValueToBool("compilation_on");
-  d->compilation_off_ = q.ValueToBool("compilation_off");
+  d->filetype_ = FileType(q.value(QStringLiteral("filetype")).isNull() ? 0 : q.value(QStringLiteral("filetype")).toInt());
+  d->filesize_ = q.ValueToLongLong(QStringLiteral("filesize"));
+  d->mtime_ = q.ValueToLongLong(QStringLiteral("mtime"));
+  d->ctime_ = q.ValueToLongLong(QStringLiteral("ctime"));
+  d->unavailable_ = q.value(QStringLiteral("unavailable")).toBool();
+  d->fingerprint_ = q.ValueToString(QStringLiteral("fingerprint"));
+  d->playcount_ = q.ValueToUInt(QStringLiteral("playcount"));
+  d->skipcount_ = q.ValueToUInt(QStringLiteral("skipcount"));
+  d->lastplayed_ = q.ValueToLongLong(QStringLiteral("lastplayed"));
+  d->lastseen_ = q.ValueToLongLong(QStringLiteral("lastseen"));
+  d->compilation_detected_ = q.ValueToBool(QStringLiteral("compilation_detected"));
+  d->compilation_on_ = q.ValueToBool(QStringLiteral("compilation_on"));
+  d->compilation_off_ = q.ValueToBool(QStringLiteral("compilation_off"));
 
-  d->art_embedded_ = q.ValueToBool("art_embedded");
-  d->art_automatic_ = QUrl::fromEncoded(q.ValueToString("art_automatic").toUtf8());
-  d->art_manual_ = QUrl::fromEncoded(q.ValueToString("art_manual").toUtf8());
-  d->art_unset_ = q.ValueToBool("art_unset");
+  d->art_embedded_ = q.ValueToBool(QStringLiteral("art_embedded"));
+  d->art_automatic_ = QUrl::fromEncoded(q.ValueToString(QStringLiteral("art_automatic")).toUtf8());
+  d->art_manual_ = QUrl::fromEncoded(q.ValueToString(QStringLiteral("art_manual")).toUtf8());
+  d->art_unset_ = q.ValueToBool(QStringLiteral("art_unset"));
 
-  d->cue_path_ = q.ValueToString("cue_path");
-  d->rating_ = q.ValueToFloat("rating");
+  d->cue_path_ = q.ValueToString(QStringLiteral("cue_path"));
+  d->rating_ = q.ValueToFloat(QStringLiteral("rating"));
 
-  d->acoustid_id_ = q.ValueToString("acoustid_id");
-  d->acoustid_fingerprint_ = q.ValueToString("acoustid_fingerprint");
+  d->acoustid_id_ = q.ValueToString(QStringLiteral("acoustid_id"));
+  d->acoustid_fingerprint_ = q.ValueToString(QStringLiteral("acoustid_fingerprint"));
 
-  d->musicbrainz_album_artist_id_ = q.ValueToString("musicbrainz_album_artist_id");
-  d->musicbrainz_artist_id_ = q.ValueToString("musicbrainz_artist_id");
-  d->musicbrainz_original_artist_id_ = q.ValueToString("musicbrainz_original_artist_id");
-  d->musicbrainz_album_id_ = q.ValueToString("musicbrainz_album_id");
-  d->musicbrainz_original_album_id_ = q.ValueToString("musicbrainz_original_album_id");
-  d->musicbrainz_recording_id_ = q.ValueToString("musicbrainz_recording_id");
-  d->musicbrainz_track_id_ = q.ValueToString("musicbrainz_track_id");
-  d->musicbrainz_disc_id_ = q.ValueToString("musicbrainz_disc_id");
-  d->musicbrainz_release_group_id_ = q.ValueToString("musicbrainz_release_group_id");
-  d->musicbrainz_work_id_ = q.ValueToString("musicbrainz_work_id");
+  d->musicbrainz_album_artist_id_ = q.ValueToString(QStringLiteral("musicbrainz_album_artist_id"));
+  d->musicbrainz_artist_id_ = q.ValueToString(QStringLiteral("musicbrainz_artist_id"));
+  d->musicbrainz_original_artist_id_ = q.ValueToString(QStringLiteral("musicbrainz_original_artist_id"));
+  d->musicbrainz_album_id_ = q.ValueToString(QStringLiteral("musicbrainz_album_id"));
+  d->musicbrainz_original_album_id_ = q.ValueToString(QStringLiteral("musicbrainz_original_album_id"));
+  d->musicbrainz_recording_id_ = q.ValueToString(QStringLiteral("musicbrainz_recording_id"));
+  d->musicbrainz_track_id_ = q.ValueToString(QStringLiteral("musicbrainz_track_id"));
+  d->musicbrainz_disc_id_ = q.ValueToString(QStringLiteral("musicbrainz_disc_id"));
+  d->musicbrainz_release_group_id_ = q.ValueToString(QStringLiteral("musicbrainz_release_group_id"));
+  d->musicbrainz_work_id_ = q.ValueToString(QStringLiteral("musicbrainz_work_id"));
 
   d->valid_ = true;
   d->init_from_file_ = reliable_metadata;
@@ -1475,7 +1475,7 @@ void Song::InitArtAutomatic() {
     // Pick the first image file in the album directory.
     QFileInfo file(d->url_.toLocalFile());
     QDir dir(file.path());
-    QStringList files = dir.entryList(QStringList() << "*.jpg" << "*.png" << "*.gif" << "*.jpeg", QDir::Files|QDir::Readable, QDir::Name);
+    QStringList files = dir.entryList(QStringList() << QStringLiteral("*.jpg") << QStringLiteral("*.png") << QStringLiteral("*.gif") << QStringLiteral("*.jpeg"), QDir::Files|QDir::Readable, QDir::Name);
     if (files.count() > 0) {
       d->art_automatic_ = QUrl::fromLocalFile(file.path() + QDir::separator() + files.first());
     }
@@ -1510,7 +1510,7 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
   d->source_ = Source::Device;
   QString filename = QString::fromLocal8Bit(track->ipod_path);
   filename.replace(':', '/');
-  if (prefix.contains("://")) {
+  if (prefix.contains(QLatin1String("://"))) {
     set_url(QUrl(prefix + filename));
   }
   else {
@@ -1591,7 +1591,7 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
   d->composer_ = QString::fromUtf8(track->composer);
   d->track_ = track->tracknumber;
 
-  d->url_ = QUrl(QString("mtp://%1/%2").arg(host, QString::number(track->item_id)));
+  d->url_ = QUrl(QStringLiteral("mtp://%1/%2").arg(host, QString::number(track->item_id)));
   d->basefilename_ = QString::number(track->item_id);
   d->filesize_ = static_cast<qint64>(track->filesize);
   d->mtime_ = track->modificationdate;
@@ -1674,96 +1674,96 @@ void Song::BindToQuery(SqlQuery *query) const {
 
   // Remember to bind these in the same order as kBindSpec
 
-  query->BindStringValue(":title", d->title_);
-  query->BindStringValue(":album", d->album_);
-  query->BindStringValue(":artist", d->artist_);
-  query->BindStringValue(":albumartist", d->albumartist_);
-  query->BindIntValue(":track", d->track_);
-  query->BindIntValue(":disc", d->disc_);
-  query->BindIntValue(":year", d->year_);
-  query->BindIntValue(":originalyear", d->originalyear_);
-  query->BindStringValue(":genre", d->genre_);
-  query->BindBoolValue(":compilation", d->compilation_);
-  query->BindStringValue(":composer", d->composer_);
-  query->BindStringValue(":performer", d->performer_);
-  query->BindStringValue(":grouping", d->grouping_);
-  query->BindStringValue(":comment", d->comment_);
-  query->BindStringValue(":lyrics", d->lyrics_);
+  query->BindStringValue(QStringLiteral(":title"), d->title_);
+  query->BindStringValue(QStringLiteral(":album"), d->album_);
+  query->BindStringValue(QStringLiteral(":artist"), d->artist_);
+  query->BindStringValue(QStringLiteral(":albumartist"), d->albumartist_);
+  query->BindIntValue(QStringLiteral(":track"), d->track_);
+  query->BindIntValue(QStringLiteral(":disc"), d->disc_);
+  query->BindIntValue(QStringLiteral(":year"), d->year_);
+  query->BindIntValue(QStringLiteral(":originalyear"), d->originalyear_);
+  query->BindStringValue(QStringLiteral(":genre"), d->genre_);
+  query->BindBoolValue(QStringLiteral(":compilation"), d->compilation_);
+  query->BindStringValue(QStringLiteral(":composer"), d->composer_);
+  query->BindStringValue(QStringLiteral(":performer"), d->performer_);
+  query->BindStringValue(QStringLiteral(":grouping"), d->grouping_);
+  query->BindStringValue(QStringLiteral(":comment"), d->comment_);
+  query->BindStringValue(QStringLiteral(":lyrics"), d->lyrics_);
 
-  query->BindStringValue(":artist_id", d->artist_id_);
-  query->BindStringValue(":album_id", d->album_id_);
-  query->BindStringValue(":song_id", d->song_id_);
+  query->BindStringValue(QStringLiteral(":artist_id"), d->artist_id_);
+  query->BindStringValue(QStringLiteral(":album_id"), d->album_id_);
+  query->BindStringValue(QStringLiteral(":song_id"), d->song_id_);
 
-  query->BindValue(":beginning", d->beginning_);
-  query->BindLongLongValue(":length", length_nanosec());
+  query->BindValue(QStringLiteral(":beginning"), d->beginning_);
+  query->BindLongLongValue(QStringLiteral(":length"), length_nanosec());
 
-  query->BindIntValue(":bitrate", d->bitrate_);
-  query->BindIntValue(":samplerate", d->samplerate_);
-  query->BindIntValue(":bitdepth", d->bitdepth_);
+  query->BindIntValue(QStringLiteral(":bitrate"), d->bitrate_);
+  query->BindIntValue(QStringLiteral(":samplerate"), d->samplerate_);
+  query->BindIntValue(QStringLiteral(":bitdepth"), d->bitdepth_);
 
-  query->BindValue(":source", static_cast<int>(d->source_));
-  query->BindNotNullIntValue(":directory_id", d->directory_id_);
-  query->BindUrlValue(":url", d->url_);
-  query->BindValue(":filetype", static_cast<int>(d->filetype_));
-  query->BindLongLongValueOrZero(":filesize", d->filesize_);
-  query->BindLongLongValueOrZero(":mtime", d->mtime_);
-  query->BindLongLongValueOrZero(":ctime", d->ctime_);
-  query->BindBoolValue(":unavailable", d->unavailable_);
+  query->BindValue(QStringLiteral(":source"), static_cast<int>(d->source_));
+  query->BindNotNullIntValue(QStringLiteral(":directory_id"), d->directory_id_);
+  query->BindUrlValue(QStringLiteral(":url"), d->url_);
+  query->BindValue(QStringLiteral(":filetype"), static_cast<int>(d->filetype_));
+  query->BindLongLongValueOrZero(QStringLiteral(":filesize"), d->filesize_);
+  query->BindLongLongValueOrZero(QStringLiteral(":mtime"), d->mtime_);
+  query->BindLongLongValueOrZero(QStringLiteral(":ctime"), d->ctime_);
+  query->BindBoolValue(QStringLiteral(":unavailable"), d->unavailable_);
 
-  query->BindStringValue(":fingerprint", d->fingerprint_);
+  query->BindStringValue(QStringLiteral(":fingerprint"), d->fingerprint_);
 
-  query->BindValue(":playcount", d->playcount_);
-  query->BindValue(":skipcount", d->skipcount_);
-  query->BindLongLongValue(":lastplayed", d->lastplayed_);
-  query->BindLongLongValue(":lastseen", d->lastseen_);
+  query->BindValue(QStringLiteral(":playcount"), d->playcount_);
+  query->BindValue(QStringLiteral(":skipcount"), d->skipcount_);
+  query->BindLongLongValue(QStringLiteral(":lastplayed"), d->lastplayed_);
+  query->BindLongLongValue(QStringLiteral(":lastseen"), d->lastseen_);
 
-  query->BindBoolValue(":compilation_detected", d->compilation_detected_);
-  query->BindBoolValue(":compilation_on", d->compilation_on_);
-  query->BindBoolValue(":compilation_off", d->compilation_off_);
-  query->BindBoolValue(":compilation_effective", is_compilation());
+  query->BindBoolValue(QStringLiteral(":compilation_detected"), d->compilation_detected_);
+  query->BindBoolValue(QStringLiteral(":compilation_on"), d->compilation_on_);
+  query->BindBoolValue(QStringLiteral(":compilation_off"), d->compilation_off_);
+  query->BindBoolValue(QStringLiteral(":compilation_effective"), is_compilation());
 
-  query->BindBoolValue(":art_embedded", d->art_embedded_);
-  query->BindUrlValue(":art_automatic", d->art_automatic_);
-  query->BindUrlValue(":art_manual", d->art_manual_);
-  query->BindBoolValue(":art_unset", d->art_unset_);
+  query->BindBoolValue(QStringLiteral(":art_embedded"), d->art_embedded_);
+  query->BindUrlValue(QStringLiteral(":art_automatic"), d->art_automatic_);
+  query->BindUrlValue(QStringLiteral(":art_manual"), d->art_manual_);
+  query->BindBoolValue(QStringLiteral(":art_unset"), d->art_unset_);
 
-  query->BindStringValue(":effective_albumartist", effective_albumartist());
-  query->BindIntValue(":effective_originalyear", effective_originalyear());
+  query->BindStringValue(QStringLiteral(":effective_albumartist"), effective_albumartist());
+  query->BindIntValue(QStringLiteral(":effective_originalyear"), effective_originalyear());
 
-  query->BindValue(":cue_path", d->cue_path_);
+  query->BindValue(QStringLiteral(":cue_path"), d->cue_path_);
 
-  query->BindFloatValue(":rating", d->rating_);
+  query->BindFloatValue(QStringLiteral(":rating"), d->rating_);
 
-  query->BindStringValue(":acoustid_id", d->acoustid_id_);
-  query->BindStringValue(":acoustid_fingerprint", d->acoustid_fingerprint_);
+  query->BindStringValue(QStringLiteral(":acoustid_id"), d->acoustid_id_);
+  query->BindStringValue(QStringLiteral(":acoustid_fingerprint"), d->acoustid_fingerprint_);
 
-  query->BindStringValue(":musicbrainz_album_artist_id", d->musicbrainz_album_artist_id_);
-  query->BindStringValue(":musicbrainz_artist_id", d->musicbrainz_artist_id_);
-  query->BindStringValue(":musicbrainz_original_artist_id", d->musicbrainz_original_artist_id_);
-  query->BindStringValue(":musicbrainz_album_id", d->musicbrainz_album_id_);
-  query->BindStringValue(":musicbrainz_original_album_id", d->musicbrainz_original_album_id_);
-  query->BindStringValue(":musicbrainz_recording_id", d->musicbrainz_recording_id_);
-  query->BindStringValue(":musicbrainz_track_id", d->musicbrainz_track_id_);
-  query->BindStringValue(":musicbrainz_disc_id", d->musicbrainz_disc_id_);
-  query->BindStringValue(":musicbrainz_release_group_id", d->musicbrainz_release_group_id_);
-  query->BindStringValue(":musicbrainz_work_id", d->musicbrainz_work_id_);
+  query->BindStringValue(QStringLiteral(":musicbrainz_album_artist_id"), d->musicbrainz_album_artist_id_);
+  query->BindStringValue(QStringLiteral(":musicbrainz_artist_id"), d->musicbrainz_artist_id_);
+  query->BindStringValue(QStringLiteral(":musicbrainz_original_artist_id"), d->musicbrainz_original_artist_id_);
+  query->BindStringValue(QStringLiteral(":musicbrainz_album_id"), d->musicbrainz_album_id_);
+  query->BindStringValue(QStringLiteral(":musicbrainz_original_album_id"), d->musicbrainz_original_album_id_);
+  query->BindStringValue(QStringLiteral(":musicbrainz_recording_id"), d->musicbrainz_recording_id_);
+  query->BindStringValue(QStringLiteral(":musicbrainz_track_id"), d->musicbrainz_track_id_);
+  query->BindStringValue(QStringLiteral(":musicbrainz_disc_id"), d->musicbrainz_disc_id_);
+  query->BindStringValue(QStringLiteral(":musicbrainz_release_group_id"), d->musicbrainz_release_group_id_);
+  query->BindStringValue(QStringLiteral(":musicbrainz_work_id"), d->musicbrainz_work_id_);
 
-  query->BindDoubleOrNullValue(":ebur128_integrated_loudness_lufs", d->ebur128_integrated_loudness_lufs_);
-  query->BindDoubleOrNullValue(":ebur128_loudness_range_lu", d->ebur128_loudness_range_lu_);
+  query->BindDoubleOrNullValue(QStringLiteral(":ebur128_integrated_loudness_lufs"), d->ebur128_integrated_loudness_lufs_);
+  query->BindDoubleOrNullValue(QStringLiteral(":ebur128_loudness_range_lu"), d->ebur128_loudness_range_lu_);
 
 }
 
 void Song::BindToFtsQuery(SqlQuery *query) const {
 
-  query->BindValue(":ftstitle", d->title_);
-  query->BindValue(":ftsalbum", d->album_);
-  query->BindValue(":ftsartist", d->artist_);
-  query->BindValue(":ftsalbumartist", d->albumartist_);
-  query->BindValue(":ftscomposer", d->composer_);
-  query->BindValue(":ftsperformer", d->performer_);
-  query->BindValue(":ftsgrouping", d->grouping_);
-  query->BindValue(":ftsgenre", d->genre_);
-  query->BindValue(":ftscomment", d->comment_);
+  query->BindValue(QStringLiteral(":ftstitle"), d->title_);
+  query->BindValue(QStringLiteral(":ftsalbum"), d->album_);
+  query->BindValue(QStringLiteral(":ftsartist"), d->artist_);
+  query->BindValue(QStringLiteral(":ftsalbumartist"), d->albumartist_);
+  query->BindValue(QStringLiteral(":ftscomposer"), d->composer_);
+  query->BindValue(QStringLiteral(":ftsperformer"), d->performer_);
+  query->BindValue(QStringLiteral(":ftsgrouping"), d->grouping_);
+  query->BindValue(QStringLiteral(":ftsgenre"), d->genre_);
+  query->BindValue(QStringLiteral(":ftscomment"), d->comment_);
 
 }
 
@@ -1774,23 +1774,23 @@ void Song::ToXesam(QVariantMap *map) const {
   using mpris::AddMetadataAsList;
   using mpris::AsMPRISDateTimeType;
 
-  AddMetadata("xesam:url", effective_stream_url().toString(), map);
-  AddMetadata("xesam:title", PrettyTitle(), map);
-  AddMetadataAsList("xesam:artist", artist(), map);
-  AddMetadata("xesam:album", album(), map);
-  AddMetadataAsList("xesam:albumArtist", albumartist(), map);
-  AddMetadata("mpris:length", (length_nanosec() / kNsecPerUsec), map);
-  AddMetadata("xesam:trackNumber", track(), map);
-  AddMetadataAsList("xesam:genre", genre(), map);
-  AddMetadata("xesam:discNumber", disc(), map);
-  AddMetadataAsList("xesam:comment", comment(), map);
-  AddMetadata("xesam:contentCreated", AsMPRISDateTimeType(ctime()), map);
-  AddMetadata("xesam:lastUsed", AsMPRISDateTimeType(lastplayed()), map);
-  AddMetadataAsList("xesam:composer", composer(), map);
-  AddMetadata("xesam:useCount", static_cast<int>(playcount()), map);
+  AddMetadata(QStringLiteral("xesam:url"), effective_stream_url().toString(), map);
+  AddMetadata(QStringLiteral("xesam:title"), PrettyTitle(), map);
+  AddMetadataAsList(QStringLiteral("xesam:artist"), artist(), map);
+  AddMetadata(QStringLiteral("xesam:album"), album(), map);
+  AddMetadataAsList(QStringLiteral("xesam:albumArtist"), albumartist(), map);
+  AddMetadata(QStringLiteral("mpris:length"), (length_nanosec() / kNsecPerUsec), map);
+  AddMetadata(QStringLiteral("xesam:trackNumber"), track(), map);
+  AddMetadataAsList(QStringLiteral("xesam:genre"), genre(), map);
+  AddMetadata(QStringLiteral("xesam:discNumber"), disc(), map);
+  AddMetadataAsList(QStringLiteral("xesam:comment"), comment(), map);
+  AddMetadata(QStringLiteral("xesam:contentCreated"), AsMPRISDateTimeType(ctime()), map);
+  AddMetadata(QStringLiteral("xesam:lastUsed"), AsMPRISDateTimeType(lastplayed()), map);
+  AddMetadataAsList(QStringLiteral("xesam:composer"), composer(), map);
+  AddMetadata(QStringLiteral("xesam:useCount"), static_cast<int>(playcount()), map);
 
   if (rating() != -1.0) {
-    AddMetadata("xesam:userRating", rating(), map);
+    AddMetadata(QStringLiteral("xesam:userRating"), rating(), map);
   }
 
 }
@@ -1870,7 +1870,7 @@ void Song::MergeUserSetData(const Song &other, const bool merge_playcount, const
 }
 
 QString Song::AlbumKey() const {
-  return QString("%1|%2|%3").arg(is_compilation() ? "_compilation" : effective_albumartist(), has_cue() ? cue_path() : "", effective_album());
+  return QStringLiteral("%1|%2|%3").arg(is_compilation() ? QStringLiteral("_compilation") : effective_albumartist(), has_cue() ? cue_path() : QLatin1String(""), effective_album());
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)

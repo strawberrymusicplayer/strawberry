@@ -55,7 +55,7 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(QString(TidalService::kApiUrl) + QString("/") + ressource_name);
+  QUrl url(QString(TidalService::kApiUrl) + QStringLiteral("/") + ressource_name);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -90,7 +90,7 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
   else {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     else {
       // See if there is Json data containing "status" and "userMessage" - then use that instead.
@@ -102,19 +102,19 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
       int sub_status = 0;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
-          status = json_obj["status"].toInt();
-          sub_status = json_obj["subStatus"].toInt();
-          QString user_message = json_obj["userMessage"].toString();
-          error = QString("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
+        if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("status")) && json_obj.contains(QStringLiteral("userMessage"))) {
+          status = json_obj[QStringLiteral("status")].toInt();
+          sub_status = json_obj[QStringLiteral("subStatus")].toInt();
+          QString user_message = json_obj[QStringLiteral("userMessage")].toString();
+          error = QStringLiteral("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
       if (error.isEmpty()) {
         if (reply->error() != QNetworkReply::NoError) {
-          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
         else {
-          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+          error = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
         }
       }
       if (status == 401 && sub_status == 6001) {  // User does not have a valid session
@@ -151,23 +151,23 @@ QJsonObject TidalBaseRequest::ExtractJsonObj(const QByteArray &data) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    Error("Reply from server missing Json data.", data);
+    Error(QStringLiteral("Reply from server missing Json data."), data);
     return QJsonObject();
   }
 
   if (json_doc.isEmpty()) {
-    Error("Received empty Json document.", data);
+    Error(QStringLiteral("Received empty Json document."), data);
     return QJsonObject();
   }
 
   if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
+    Error(QStringLiteral("Json document is not an object."), json_doc);
     return QJsonObject();
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
+    Error(QStringLiteral("Received empty Json object."), json_doc);
     return QJsonObject();
   }
 
@@ -185,11 +185,11 @@ QJsonValue TidalBaseRequest::ExtractItems(const QByteArray &data) {
 
 QJsonValue TidalBaseRequest::ExtractItems(const QJsonObject &json_obj) {
 
-  if (!json_obj.contains("items")) {
-    Error("Json reply is missing items.", json_obj);
+  if (!json_obj.contains(QStringLiteral("items"))) {
+    Error(QStringLiteral("Json reply is missing items."), json_obj);
     return QJsonArray();
   }
-  QJsonValue json_items = json_obj["items"];
+  QJsonValue json_items = json_obj[QStringLiteral("items")];
   return json_items;
 
 }

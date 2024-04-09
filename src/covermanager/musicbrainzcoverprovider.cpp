@@ -50,7 +50,7 @@ const int MusicbrainzCoverProvider::kLimit = 8;
 const int MusicbrainzCoverProvider::kRequestsDelay = 1000;
 
 MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider("MusicBrainz", true, false, 1.5, true, false, app, network, parent),
+    : JsonCoverProvider(QStringLiteral("MusicBrainz"), true, false, 1.5, true, false, app, network, parent),
       timer_flush_requests_(new QTimer(this)) {
 
   timer_flush_requests_->setInterval(kRequestsDelay);
@@ -89,12 +89,12 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
 
 void MusicbrainzCoverProvider::SendSearchRequest(const SearchRequest &request) {
 
-  QString query = QString("release:\"%1\" AND artist:\"%2\"").arg(request.album.trimmed().replace('"', "\\\""), request.artist.trimmed().replace('"', "\\\""));
+  QString query = QStringLiteral("release:\"%1\" AND artist:\"%2\"").arg(request.album.trimmed().replace('"', QLatin1String("\\\"")), request.artist.trimmed().replace('"', QLatin1String("\\\"")));
 
   QUrlQuery url_query;
-  url_query.addQueryItem("query", query);
-  url_query.addQueryItem("limit", QString::number(kLimit));
-  url_query.addQueryItem("fmt", "json");
+  url_query.addQueryItem(QStringLiteral("query"), query);
+  url_query.addQueryItem(QStringLiteral("limit"), QString::number(kLimit));
+  url_query.addQueryItem(QStringLiteral("fmt"), QStringLiteral("json"));
 
   QUrl url(kReleaseSearchUrl);
   url.setQuery(url_query);
@@ -138,21 +138,21 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     return;
   }
 
-  if (!json_obj.contains("releases")) {
-    if (json_obj.contains("error")) {
-      QString error = json_obj["error"].toString();
+  if (!json_obj.contains(QStringLiteral("releases"))) {
+    if (json_obj.contains(QStringLiteral("error"))) {
+      QString error = json_obj[QStringLiteral("error")].toString();
       Error(error);
     }
     else {
-      Error(QString("Json reply is missing releases."), json_obj);
+      Error(QStringLiteral("Json reply is missing releases."), json_obj);
     }
     emit SearchFinished(search_id, results);
     return;
   }
-  QJsonValue value_releases = json_obj["releases"];
+  QJsonValue value_releases = json_obj[QStringLiteral("releases")];
 
   if (!value_releases.isArray()) {
-    Error("Json releases is not an array.", value_releases);
+    Error(QStringLiteral("Json releases is not an array."), value_releases);
     emit SearchFinished(search_id, results);
     return;
   }
@@ -166,18 +166,18 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
   for (const QJsonValueRef value_release : array_releases) {
 
     if (!value_release.isObject()) {
-      Error("Invalid Json reply, releases array value is not an object.");
+      Error(QStringLiteral("Invalid Json reply, releases array value is not an object."));
       continue;
     }
     QJsonObject obj_release = value_release.toObject();
-    if (!obj_release.contains("id") || !obj_release.contains("artist-credit") || !obj_release.contains("title")) {
-      Error("Invalid Json reply, releases array object is missing id, artist-credit or title.", obj_release);
+    if (!obj_release.contains(QStringLiteral("id")) || !obj_release.contains(QStringLiteral("artist-credit")) || !obj_release.contains(QStringLiteral("title"))) {
+      Error(QStringLiteral("Invalid Json reply, releases array object is missing id, artist-credit or title."), obj_release);
       continue;
     }
 
-    QJsonValue json_artists = obj_release["artist-credit"];
+    QJsonValue json_artists = obj_release[QStringLiteral("artist-credit")];
     if (!json_artists.isArray()) {
-      Error("Invalid Json reply, artist-credit is not a array.", json_artists);
+      Error(QStringLiteral("Invalid Json reply, artist-credit is not a array."), json_artists);
       continue;
     }
     QJsonArray array_artists = json_artists.toArray();
@@ -185,33 +185,33 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     QString artist;
     for (const QJsonValueRef value_artist : array_artists) {
       if (!value_artist.isObject()) {
-        Error("Invalid Json reply, artist is not a object.");
+        Error(QStringLiteral("Invalid Json reply, artist is not a object."));
         continue;
       }
       QJsonObject obj_artist = value_artist.toObject();
 
-      if (!obj_artist.contains("artist")) {
-        Error("Invalid Json reply, artist is missing.", obj_artist);
+      if (!obj_artist.contains(QStringLiteral("artist"))) {
+        Error(QStringLiteral("Invalid Json reply, artist is missing."), obj_artist);
         continue;
       }
-      QJsonValue value_artist2 = obj_artist["artist"];
+      QJsonValue value_artist2 = obj_artist[QStringLiteral("artist")];
       if (!value_artist2.isObject()) {
-        Error("Invalid Json reply, artist is not an object.", value_artist2);
+        Error(QStringLiteral("Invalid Json reply, artist is not an object."), value_artist2);
         continue;
       }
       QJsonObject obj_artist2 = value_artist2.toObject();
 
-      if (!obj_artist2.contains("name")) {
-        Error("Invalid Json reply, artist is missing name.", value_artist2);
+      if (!obj_artist2.contains(QStringLiteral("name"))) {
+        Error(QStringLiteral("Invalid Json reply, artist is missing name."), value_artist2);
         continue;
       }
-      artist = obj_artist2["name"].toString();
+      artist = obj_artist2[QStringLiteral("name")].toString();
       ++i;
     }
-    if (i > 1) artist = "Various artists";
+    if (i > 1) artist = QStringLiteral("Various artists");
 
-    QString id = obj_release["id"].toString();
-    QString album = obj_release["title"].toString();
+    QString id = obj_release[QStringLiteral("id")].toString();
+    QString album = obj_release[QStringLiteral("title")].toString();
 
     CoverProviderSearchResult cover_result;
     QUrl url(QString(kAlbumCoverUrl).arg(id));
@@ -234,7 +234,7 @@ QByteArray MusicbrainzCoverProvider::GetReplyData(QNetworkReply *reply) {
   else {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      QString failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      QString failure_reason = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
       Error(failure_reason);
     }
     else {
@@ -245,16 +245,16 @@ QByteArray MusicbrainzCoverProvider::GetReplyData(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (json_obj.contains("error")) {
-          error = json_obj["error"].toString();
+        if (json_obj.contains(QStringLiteral("error"))) {
+          error = json_obj[QStringLiteral("error")].toString();
         }
       }
       if (error.isEmpty()) {
         if (reply->error() != QNetworkReply::NoError) {
-          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
         else {
-          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+          error = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
         }
       }
       Error(error);

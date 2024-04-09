@@ -34,7 +34,7 @@ RadioViewContainer::RadioViewContainer(QWidget *parent)
 
   QObject::connect(ui_->refresh, &QToolButton::clicked, this, &RadioViewContainer::Refresh);
 
-  ui_->refresh->setIcon(IconLoader::Load("view-refresh"));
+  ui_->refresh->setIcon(IconLoader::Load(QStringLiteral("view-refresh")));
 
   ReloadSettings();
 

@@ -59,7 +59,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   bool IsLoading() override { return loader_; }
   QObject *Loader() { return loader_; }
 
-  static QStringList url_schemes() { return QStringList() << "ipod"; }
+  static QStringList url_schemes() { return QStringList() << QStringLiteral("ipod"); }
 
   bool GetSupportedFiletypes(QList<Song::FileType> *ret) override;
 

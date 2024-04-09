@@ -45,16 +45,16 @@ void SetEnv(const char *key, const QString &value) {
 
 QString DesktopEnvironment() {
 
-  const QString de = GetEnv("XDG_CURRENT_DESKTOP");
+  const QString de = GetEnv(QStringLiteral("XDG_CURRENT_DESKTOP"));
   if (!de.isEmpty()) return de;
 
-  if (!qEnvironmentVariableIsEmpty("KDE_FULL_SESSION"))         return "KDE";
-  if (!qEnvironmentVariableIsEmpty("GNOME_DESKTOP_SESSION_ID")) return "Gnome";
+  if (!qEnvironmentVariableIsEmpty("KDE_FULL_SESSION"))         return QStringLiteral("KDE");
+  if (!qEnvironmentVariableIsEmpty("GNOME_DESKTOP_SESSION_ID")) return QStringLiteral("Gnome");
 
-  QString session = GetEnv("DESKTOP_SESSION");
+  QString session = GetEnv(QStringLiteral("DESKTOP_SESSION"));
   qint64 slash = session.lastIndexOf('/');
   if (slash != -1) {
-    QSettings desktop_file(QString("%1.desktop").arg(session), QSettings::IniFormat);
+    QSettings desktop_file(QStringLiteral("%1.desktop").arg(session), QSettings::IniFormat);
     desktop_file.beginGroup("Desktop Entry");
     QString name = desktop_file.value("DesktopNames").toString();
     desktop_file.endGroup();
@@ -62,11 +62,11 @@ QString DesktopEnvironment() {
     session = session.mid(slash + 1);
   }
 
-  if (session == "kde")           return "KDE";
-  else if (session == "gnome")    return "Gnome";
-  else if (session == "xfce")     return "XFCE";
+  if (session == "kde")           return QStringLiteral("KDE");
+  else if (session == "gnome")    return QStringLiteral("Gnome");
+  else if (session == "xfce")     return QStringLiteral("XFCE");
 
-  return "Unknown";
+  return QStringLiteral("Unknown");
 
 }
 

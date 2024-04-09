@@ -36,8 +36,8 @@ FavoriteWidget::FavoriteWidget(const int tab_index, const bool favorite, QWidget
     : QWidget(parent),
       tab_index_(tab_index),
       favorite_(favorite),
-      on_(IconLoader::Load("star")),
-      off_(IconLoader::Load("star-grey")),
+      on_(IconLoader::Load(QStringLiteral("star"))),
+      off_(IconLoader::Load(QStringLiteral("star-grey"))),
       rect_(0, 0, kStarSize, kStarSize) {}
 
 void FavoriteWidget::SetFavorite(const bool favorite) {

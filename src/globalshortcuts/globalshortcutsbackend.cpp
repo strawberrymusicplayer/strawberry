@@ -35,19 +35,19 @@ QString GlobalShortcutsBackend::name() const {
 
   switch (type_) {
     case Type::None:
-      return "None";
+      return QStringLiteral("None");
     case Type::KDE:
-      return "KDE";
+      return QStringLiteral("KDE");
     case Type::Gnome:
-      return "Gnome";
+      return QStringLiteral("Gnome");
     case Type::Mate:
-      return "Mate";
+      return QStringLiteral("Mate");
     case Type::X11:
-      return "X11";
+      return QStringLiteral("X11");
     case Type::macOS:
-      return "macOS";
+      return QStringLiteral("macOS");
     case Type::Win:
-      return "Windows";
+      return QStringLiteral("Windows");
   }
 
   return QString();

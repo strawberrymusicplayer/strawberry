@@ -189,7 +189,7 @@ void PlaylistManager::New(const QString &name, const SongList &songs, const QStr
 
   // If the name is just "Playlist", append the id
   if (name == tr("Playlist")) {
-    Rename(id, QString("%1 %2").arg(name).arg(id));
+    Rename(id, QStringLiteral("%1 %2").arg(name).arg(id));
   }
 
 }

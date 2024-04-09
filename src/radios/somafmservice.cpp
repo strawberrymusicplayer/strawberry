@@ -37,14 +37,14 @@
 const char *SomaFMService::kApiChannelsUrl = "https://somafm.com/channels.json";
 
 SomaFMService::SomaFMService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : RadioService(Song::Source::SomaFM, "SomaFM", IconLoader::Load("somafm"), app, network, parent) {}
+    : RadioService(Song::Source::SomaFM, QStringLiteral("SomaFM"), IconLoader::Load(QStringLiteral("somafm")), app, network, parent) {}
 
 SomaFMService::~SomaFMService() {
   Abort();
 }
 
-QUrl SomaFMService::Homepage() { return QUrl("https://somafm.com/"); }
-QUrl SomaFMService::Donate() { return QUrl("https://somafm.com/support/"); }
+QUrl SomaFMService::Homepage() { return QUrl(QStringLiteral("https://somafm.com/")); }
+QUrl SomaFMService::Donate() { return QUrl(QStringLiteral("https://somafm.com/support/")); }
 
 void SomaFMService::Abort() {
 
@@ -84,39 +84,39 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
     return;
   }
 
-  if (!object.contains("channels") || !object["channels"].isArray()) {
-    Error("Missing JSON channels array.", object);
+  if (!object.contains(QStringLiteral("channels")) || !object[QStringLiteral("channels")].isArray()) {
+    Error(QStringLiteral("Missing JSON channels array."), object);
     app_->task_manager()->SetTaskFinished(task_id);
     emit NewChannels();
     return;
   }
-  QJsonArray array_channels = object["channels"].toArray();
+  QJsonArray array_channels = object[QStringLiteral("channels")].toArray();
 
   RadioChannelList channels;
   for (const QJsonValueRef value_channel : array_channels) {
     if (!value_channel.isObject()) continue;
     QJsonObject obj_channel = value_channel.toObject();
-    if (!obj_channel.contains("title") || !obj_channel.contains("image")) {
+    if (!obj_channel.contains(QStringLiteral("title")) || !obj_channel.contains(QStringLiteral("image"))) {
       continue;
     }
-    QString name = obj_channel["title"].toString();
-    QString image = obj_channel["image"].toString();
-    QJsonArray playlists = obj_channel["playlists"].toArray();
+    QString name = obj_channel[QStringLiteral("title")].toString();
+    QString image = obj_channel[QStringLiteral("image")].toString();
+    QJsonArray playlists = obj_channel[QStringLiteral("playlists")].toArray();
     for (const QJsonValueRef playlist : playlists) {
       if (!playlist.isObject()) continue;
       QJsonObject obj_playlist = playlist.toObject();
-      if (!obj_playlist.contains("url") || !obj_playlist.contains("quality")) {
+      if (!obj_playlist.contains(QStringLiteral("url")) || !obj_playlist.contains(QStringLiteral("quality"))) {
         continue;
       }
       RadioChannel channel;
-      QString quality = obj_playlist["quality"].toString();
+      QString quality = obj_playlist[QStringLiteral("quality")].toString();
       if (quality != "highest") continue;
       channel.source = source_;
       channel.name = name;
-      channel.url.setUrl(obj_playlist["url"].toString());
+      channel.url.setUrl(obj_playlist[QStringLiteral("url")].toString());
       channel.thumbnail_url.setUrl(image);
-      if (obj_playlist.contains("format")) {
-        channel.name.append(" " + obj_playlist["format"].toString().toUpper());
+      if (obj_playlist.contains(QStringLiteral("format"))) {
+        channel.name.append(" " + obj_playlist[QStringLiteral("format")].toString().toUpper());
       }
       channels << channel;
     }

@@ -112,7 +112,7 @@ CommandlineOptions::CommandlineOptions(int argc, char **argv)
 #endif
 
   // Remove the -session option that KDE passes
-  RemoveArg("-session", 2);
+  RemoveArg(QStringLiteral("-session"), 2);
 
 }
 
@@ -301,16 +301,16 @@ bool CommandlineOptions::Parse() {
         volume_modifier_ = -4;
         break;
       case LongOptions::Quiet:
-        log_levels_ = "1";
+        log_levels_ = QStringLiteral("1");
         break;
       case LongOptions::Verbose:
-        log_levels_ = "3";
+        log_levels_ = QStringLiteral("3");
         break;
       case LongOptions::LogLevels:
         log_levels_ = OptArgToString(optarg);
         break;
       case LongOptions::Version: {
-        QString version_text = QString(kVersionText).arg(STRAWBERRY_VERSION_DISPLAY);
+        QString version_text = QString::fromUtf8(kVersionText).arg(QStringLiteral(STRAWBERRY_VERSION_DISPLAY));
         std::cout << version_text.toLocal8Bit().constData() << std::endl;
         std::exit(0);
       }

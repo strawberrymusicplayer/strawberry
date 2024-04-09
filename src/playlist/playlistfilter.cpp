@@ -37,28 +37,28 @@ PlaylistFilter::PlaylistFilter(QObject *parent)
 
   setDynamicSortFilter(true);
 
-  column_names_["title"] = Playlist::Column_Title;
-  column_names_["name"] = Playlist::Column_Title;
-  column_names_["artist"] = Playlist::Column_Artist;
-  column_names_["album"] = Playlist::Column_Album;
-  column_names_["albumartist"] = Playlist::Column_AlbumArtist;
-  column_names_["performer"] = Playlist::Column_Performer;
-  column_names_["composer"] = Playlist::Column_Composer;
-  column_names_["year"] = Playlist::Column_Year;
-  column_names_["originalyear"] = Playlist::Column_OriginalYear;
-  column_names_["track"] = Playlist::Column_Track;
-  column_names_["disc"] = Playlist::Column_Disc;
-  column_names_["length"] = Playlist::Column_Length;
-  column_names_["genre"] = Playlist::Column_Genre;
-  column_names_["samplerate"] = Playlist::Column_Samplerate;
-  column_names_["bitdepth"] = Playlist::Column_Bitdepth;
-  column_names_["bitrate"] = Playlist::Column_Bitrate;
-  column_names_["filename"] = Playlist::Column_Filename;
-  column_names_["grouping"] = Playlist::Column_Grouping;
-  column_names_["comment"] = Playlist::Column_Comment;
-  column_names_["rating"] = Playlist::Column_Rating;
-  column_names_["playcount"] = Playlist::Column_PlayCount;
-  column_names_["skipcount"] = Playlist::Column_SkipCount;
+  column_names_[QStringLiteral("title")] = Playlist::Column_Title;
+  column_names_[QStringLiteral("name")] = Playlist::Column_Title;
+  column_names_[QStringLiteral("artist")] = Playlist::Column_Artist;
+  column_names_[QStringLiteral("album")] = Playlist::Column_Album;
+  column_names_[QStringLiteral("albumartist")] = Playlist::Column_AlbumArtist;
+  column_names_[QStringLiteral("performer")] = Playlist::Column_Performer;
+  column_names_[QStringLiteral("composer")] = Playlist::Column_Composer;
+  column_names_[QStringLiteral("year")] = Playlist::Column_Year;
+  column_names_[QStringLiteral("originalyear")] = Playlist::Column_OriginalYear;
+  column_names_[QStringLiteral("track")] = Playlist::Column_Track;
+  column_names_[QStringLiteral("disc")] = Playlist::Column_Disc;
+  column_names_[QStringLiteral("length")] = Playlist::Column_Length;
+  column_names_[QStringLiteral("genre")] = Playlist::Column_Genre;
+  column_names_[QStringLiteral("samplerate")] = Playlist::Column_Samplerate;
+  column_names_[QStringLiteral("bitdepth")] = Playlist::Column_Bitdepth;
+  column_names_[QStringLiteral("bitrate")] = Playlist::Column_Bitrate;
+  column_names_[QStringLiteral("filename")] = Playlist::Column_Filename;
+  column_names_[QStringLiteral("grouping")] = Playlist::Column_Grouping;
+  column_names_[QStringLiteral("comment")] = Playlist::Column_Comment;
+  column_names_[QStringLiteral("rating")] = Playlist::Column_Rating;
+  column_names_[QStringLiteral("playcount")] = Playlist::Column_PlayCount;
+  column_names_[QStringLiteral("skipcount")] = Playlist::Column_SkipCount;
 
   numerical_columns_ << Playlist::Column_Year
                      << Playlist::Column_OriginalYear

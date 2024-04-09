@@ -57,7 +57,7 @@ InternetCollectionView::InternetCollectionView(QWidget *parent)
       total_song_count_(0),
       total_artist_count_(0),
       total_album_count_(0),
-      nomusic_(":/pictures/nomusic.png"),
+      nomusic_(QStringLiteral(":/pictures/nomusic.png")),
       context_menu_(nullptr),
       load_(nullptr),
       add_to_playlist_(nullptr),
@@ -76,7 +76,7 @@ InternetCollectionView::InternetCollectionView(QWidget *parent)
   setSelectionMode(QAbstractItemView::ExtendedSelection);
   SetAutoOpen(false);
 
-  setStyleSheet("QTreeView::item{padding-top:1px;}");
+  setStyleSheet(QStringLiteral("QTreeView::item{padding-top:1px;}"));
 
 }
 
@@ -313,18 +313,18 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    add_to_playlist_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &InternetCollectionView::AddToPlaylist);
-    load_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &InternetCollectionView::Load);
-    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &InternetCollectionView::OpenInNewPlaylist);
+    add_to_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &InternetCollectionView::AddToPlaylist);
+    load_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &InternetCollectionView::Load);
+    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &InternetCollectionView::OpenInNewPlaylist);
 
     context_menu_->addSeparator();
-    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &InternetCollectionView::AddToPlaylistEnqueue);
-    add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, &InternetCollectionView::AddToPlaylistEnqueueNext);
+    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue track"), this, &InternetCollectionView::AddToPlaylistEnqueue);
+    add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue to play next"), this, &InternetCollectionView::AddToPlaylistEnqueueNext);
 
     context_menu_->addSeparator();
 
     if (favorite_) {
-      remove_songs_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Remove from favorites"), this, &InternetCollectionView::RemoveSelectedSongs);
+      remove_songs_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Remove from favorites"), this, &InternetCollectionView::RemoveSelectedSongs);
       context_menu_->addSeparator();
     }
 

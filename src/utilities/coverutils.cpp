@@ -49,7 +49,7 @@ QString CoverUtils::AlbumCoverFilename(QString artist, QString album, const QStr
   QString filename = artist + "-" + album;
   filename = Utilities::Transliterate(filename.toLower());
   filename = filename.replace(' ', '-')
-               .replace("--", "-")
+               .replace(QLatin1String("--"), QLatin1String("-"))
                .remove(QRegularExpression(QString(kInvalidFatCharactersRegex), QRegularExpression::CaseInsensitiveOption))
                .simplified();
 
@@ -94,7 +94,7 @@ QString CoverUtils::CoverFilePath(const CoverOptions &options, const Song::Sourc
     filename = CoverFilenameFromVariable(options, artist, album);
     filename.remove(QRegularExpression(QString(kInvalidFatCharactersRegex), QRegularExpression::CaseInsensitiveOption)).remove('/').remove('\\');
     if (options.cover_lowercase) filename = filename.toLower();
-    if (options.cover_replace_spaces) filename.replace(QRegularExpression("\\s"), "-");
+    if (options.cover_replace_spaces) filename.replace(QRegularExpression(QStringLiteral("\\s")), QStringLiteral("-"));
     if (!extension.isEmpty()) {
       filename.append('.');
       filename.append(extension);
@@ -155,9 +155,9 @@ QString CoverUtils::CoverFilenameFromVariable(const CoverOptions &options, const
   album = Song::AlbumRemoveDisc(album);
 
   QString filename(options.cover_pattern);
-  filename.replace("%albumartist", artist);
-  filename.replace("%artist", artist);
-  filename.replace("%album", album);
+  filename.replace(QLatin1String("%albumartist"), artist);
+  filename.replace(QLatin1String("%artist"), artist);
+  filename.replace(QLatin1String("%album"), album);
   if (!extension.isEmpty()) {
     filename.append('.');
     filename.append(extension);

@@ -37,7 +37,7 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
 
   QString hostname = url.host();
   // Parse the URL
-  QRegularExpression host_re("^usb-(\\d+)-(\\d+)$");
+  QRegularExpression host_re(QStringLiteral("^usb-(\\d+)-(\\d+)$"));
 
   unsigned int bus_location = 0;
   unsigned int device_num = 0;
@@ -49,9 +49,9 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
     bus_location = re_match.captured(1).toUInt();
     device_num = re_match.captured(2).toUInt();
   }
-  else if (url_query.hasQueryItem("busnum")) {
-    bus_location = url_query.queryItemValue("busnum").toUInt();
-    device_num = url_query.queryItemValue("devnum").toUInt();
+  else if (url_query.hasQueryItem(QStringLiteral("busnum"))) {
+    bus_location = url_query.queryItemValue(QStringLiteral("busnum")).toUInt();
+    device_num = url_query.queryItemValue(QStringLiteral("devnum")).toUInt();
   }
   else {
     error_text_ = tr("Invalid MTP device: %1").arg(hostname);
@@ -59,13 +59,13 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
     return;
   }
 
-  if (url_query.hasQueryItem("vendor")) {
+  if (url_query.hasQueryItem(QStringLiteral("vendor"))) {
     LIBMTP_raw_device_t *raw_device = static_cast<LIBMTP_raw_device_t*>(malloc(sizeof(LIBMTP_raw_device_t)));
-    raw_device->device_entry.vendor = url_query.queryItemValue("vendor").toLatin1().data();
-    raw_device->device_entry.product = url_query.queryItemValue("product").toLatin1().data();
-    raw_device->device_entry.vendor_id = url_query.queryItemValue("vendor_id").toUShort();
-    raw_device->device_entry.product_id = url_query.queryItemValue("product_id").toUShort();
-    raw_device->device_entry.device_flags = url_query.queryItemValue("quirks").toUInt();
+    raw_device->device_entry.vendor = url_query.queryItemValue(QStringLiteral("vendor")).toLatin1().data();
+    raw_device->device_entry.product = url_query.queryItemValue(QStringLiteral("product")).toLatin1().data();
+    raw_device->device_entry.vendor_id = url_query.queryItemValue(QStringLiteral("vendor_id")).toUShort();
+    raw_device->device_entry.product_id = url_query.queryItemValue(QStringLiteral("product_id")).toUShort();
+    raw_device->device_entry.device_flags = url_query.queryItemValue(QStringLiteral("quirks")).toUInt();
 
     raw_device->bus_location = bus_location;
     raw_device->devnum = device_num;
@@ -122,16 +122,16 @@ QString MtpConnection::ErrorString(const LIBMTP_error_number_t error_number) {
 
   switch(error_number) {
     case LIBMTP_ERROR_NO_DEVICE_ATTACHED:
-      return "No Devices have been found.";
+      return QStringLiteral("No Devices have been found.");
     case LIBMTP_ERROR_CONNECTING:
-      return "There has been an error connecting.";
+      return QStringLiteral("There has been an error connecting.");
     case LIBMTP_ERROR_MEMORY_ALLOCATION:
-      return "Memory Allocation Error.";
+      return QStringLiteral("Memory Allocation Error.");
     case LIBMTP_ERROR_GENERAL:
     default:
-      return "Unknown error, please report this to the libmtp developers.";
+      return QStringLiteral("Unknown error, please report this to the libmtp developers.");
     case LIBMTP_ERROR_NONE:
-      return "Successfully connected.";
+      return QStringLiteral("Successfully connected.");
   }
 
 }

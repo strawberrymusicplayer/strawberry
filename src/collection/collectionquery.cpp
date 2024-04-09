@@ -54,9 +54,9 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
     //  3) Remove colons which don't correspond to column names.
 
     // Split on whitespace
-    QString filter_text = filter_options.filter_text().replace(QRegularExpression(":\\s+"), ":");
+    QString filter_text = filter_options.filter_text().replace(QRegularExpression(QStringLiteral(":\\s+")), QStringLiteral(":"));
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-    QStringList tokens(filter_text.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts));
+    QStringList tokens(filter_text.split(QRegularExpression(QStringLiteral("\\s+")), Qt::SkipEmptyParts));
 #else
     QStringList tokens(filter_text.split(QRegularExpression("\\s+"), QString::SkipEmptyParts));
 #endif
@@ -69,7 +69,7 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
 
       if (token.contains(':')) {
         const QString columntoken = token.section(':', 0, 0);
-        QString subtoken = token.section(':', 1, -1).replace(":", " ").trimmed();
+        QString subtoken = token.section(':', 1, -1).replace(QLatin1String(":"), QLatin1String(" ")).trimmed();
         if (subtoken.isEmpty()) continue;
         if (Song::kFtsColumns.contains("fts" + columntoken, Qt::CaseInsensitive)) {
           if (!query.isEmpty()) query.append(" ");
@@ -77,10 +77,10 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
         }
         else if (Song::kNumericalColumns.contains(columntoken, Qt::CaseInsensitive)) {
           QString comparator = RemoveSqlOperator(subtoken);
-          if (columntoken.compare("rating", Qt::CaseInsensitive) == 0) {
+          if (columntoken.compare(QLatin1String("rating"), Qt::CaseInsensitive) == 0) {
             AddWhereRating(subtoken, comparator);
           }
-          else if (columntoken.compare("length", Qt::CaseInsensitive) == 0) {
+          else if (columntoken.compare(QLatin1String("length"), Qt::CaseInsensitive) == 0) {
             // Time is saved in nanoseconds, so add 9 0's
             QString parsedTime = QString::number(Utilities::ParseSearchTime(subtoken)) + "000000000";
             AddWhere(columntoken, parsedTime, comparator);
@@ -91,7 +91,7 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
         }
         // Not a valid filter, remove
         else {
-          token = token.replace(":", " ").trimmed();
+          token = token.replace(QLatin1String(":"), QLatin1String(" ")).trimmed();
           if (!token.isEmpty()) {
             if (!query.isEmpty()) query.append(" ");
             query += "\"" + token + "\"*";
@@ -104,7 +104,7 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
       }
     }
     if (!query.isEmpty()) {
-      where_clauses_ << "fts.%fts_table_noprefix MATCH ?";
+      where_clauses_ << QStringLiteral("fts.%fts_table_noprefix MATCH ?");
       bound_values_ << query;
       join_with_fts_ = true;
     }
@@ -113,7 +113,7 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
   if (filter_options.max_age() != -1) {
     qint64 cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - filter_options.max_age();
 
-    where_clauses_ << "ctime > ?";
+    where_clauses_ << QStringLiteral("ctime > ?");
     bound_values_ << cutoff;
   }
 
@@ -126,15 +126,15 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
   duplicates_only_ = filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates;
 
   if (filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Untagged) {
-    where_clauses_ << "(artist = '' OR album = '' OR title ='')";
+    where_clauses_ << QStringLiteral("(artist = '' OR album = '' OR title ='')");
   }
 
 }
 
 QString CollectionQuery::RemoveSqlOperator(QString &token) {
 
-  QString op = "=";
-  static QRegularExpression rxOp("^(=|<[>=]?|>=?|!=)");
+  QString op = QStringLiteral("=");
+  static QRegularExpression rxOp(QStringLiteral("^(=|<[>=]?|>=?|!=)"));
   QRegularExpressionMatch match = rxOp.match(token);
   if (match.hasMatch()) {
     op = match.captured(0);
@@ -142,7 +142,7 @@ QString CollectionQuery::RemoveSqlOperator(QString &token) {
   token.remove(rxOp);
 
   if (op == "!=") {
-    op = "<>";
+    op = QStringLiteral("<>");
   }
 
   return op;
@@ -152,16 +152,16 @@ QString CollectionQuery::RemoveSqlOperator(QString &token) {
 void CollectionQuery::AddWhere(const QString &column, const QVariant &value, const QString &op) {
 
   // Ignore 'literal' for IN
-  if (op.compare("IN", Qt::CaseInsensitive) == 0) {
+  if (op.compare(QLatin1String("IN"), Qt::CaseInsensitive) == 0) {
     QStringList values = value.toStringList();
     QStringList final_values;
     final_values.reserve(values.count());
     for (const QString &single_value : values) {
-      final_values.append("?");
+      final_values.append(QStringLiteral("?"));
       bound_values_ << single_value;
     }
 
-    where_clauses_ << QString("%1 IN (" + final_values.join(",") + ")").arg(column);
+    where_clauses_ << QString("%1 IN (" + final_values.join(QStringLiteral(",")) + ")").arg(column);
   }
   else {
     // Do integers inline - sqlite seems to get confused when you pass integers to bound parameters
@@ -170,7 +170,7 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
 #else
     if (value.type() == QVariant::Int) {
 #endif
-      where_clauses_ << QString("%1 %2 %3").arg(column, op, value.toString());
+      where_clauses_ << QStringLiteral("%1 %2 %3").arg(column, op, value.toString());
     }
     else if (
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -179,11 +179,11 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
       value.type() == QVariant::String
 #endif
       && value.toString().isNull()) {
-      where_clauses_ << QString("%1 %2 ?").arg(column, op);
-      bound_values_ << QString("");
+      where_clauses_ << QStringLiteral("%1 %2 ?").arg(column, op);
+      bound_values_ << QLatin1String("");
     }
     else {
-      where_clauses_ << QString("%1 %2 ?").arg(column, op);
+      where_clauses_ << QStringLiteral("%1 %2 ?").arg(column, op);
       bound_values_ << value;
     }
   }
@@ -192,7 +192,7 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
 
 void CollectionQuery::AddWhereArtist(const QVariant &value) {
 
-  where_clauses_ << QString("((artist = ? AND albumartist = '') OR albumartist = ?)");
+  where_clauses_ << QStringLiteral("((artist = ? AND albumartist = '') OR albumartist = ?)");
   bound_values_ << value;
   bound_values_ << value;
 
@@ -206,25 +206,25 @@ void CollectionQuery::AddWhereRating(const QVariant &value, const QString &op) {
   // So we have to use a certain tolerance, so that the searched value is definetly included.
   const float tolerance = 0.001F;
   if (op == "<") {
-    AddWhere("rating", parsed_rating-tolerance, "<");
+    AddWhere(QStringLiteral("rating"), parsed_rating-tolerance, QStringLiteral("<"));
   }
   else if (op == ">") {
-    AddWhere("rating", parsed_rating+tolerance, ">");
+    AddWhere(QStringLiteral("rating"), parsed_rating+tolerance, QStringLiteral(">"));
   }
   else if (op == "<=") {
-    AddWhere("rating", parsed_rating+tolerance, "<=");
+    AddWhere(QStringLiteral("rating"), parsed_rating+tolerance, QStringLiteral("<="));
   }
   else if (op == ">=") {
-    AddWhere("rating", parsed_rating-tolerance, ">=");
+    AddWhere(QStringLiteral("rating"), parsed_rating-tolerance, QStringLiteral(">="));
   }
   else if (op == "<>") {
-    where_clauses_ << QString("(rating<? OR rating>?)");
+    where_clauses_ << QStringLiteral("(rating<? OR rating>?)");
     bound_values_ << parsed_rating - tolerance;
     bound_values_ << parsed_rating + tolerance;
   }
   else /* (op == "=") */ {
-    AddWhere("rating", parsed_rating+tolerance, "<");
-    AddWhere("rating", parsed_rating-tolerance, ">");
+    AddWhere(QStringLiteral("rating"), parsed_rating+tolerance, QStringLiteral("<"));
+    AddWhere(QStringLiteral("rating"), parsed_rating-tolerance, QStringLiteral(">"));
   }
 
 }
@@ -233,7 +233,7 @@ void CollectionQuery::AddCompilationRequirement(const bool compilation) {
   // The unary + is added to prevent sqlite from using the index idx_comp_artist.
   // When joining with fts, sqlite 3.8 has a tendency to use this index and thereby nesting the tables in an order which gives very poor performance
 
-  where_clauses_ << QString("+compilation_effective = %1").arg(compilation ? 1 : 0);
+  where_clauses_ << QStringLiteral("+compilation_effective = %1").arg(compilation ? 1 : 0);
 
 }
 
@@ -251,26 +251,26 @@ bool CollectionQuery::Exec() {
   QString sql;
 
   if (join_with_fts_) {
-    sql = QString("SELECT %1 FROM %2 INNER JOIN %3 AS fts ON %2.ROWID = fts.ROWID").arg(column_spec_, songs_table_, fts_table_);
+    sql = QStringLiteral("SELECT %1 FROM %2 INNER JOIN %3 AS fts ON %2.ROWID = fts.ROWID").arg(column_spec_, songs_table_, fts_table_);
   }
   else {
-    sql = QString("SELECT %1 FROM %2 %3").arg(column_spec_, songs_table_, GetInnerQuery());
+    sql = QStringLiteral("SELECT %1 FROM %2 %3").arg(column_spec_, songs_table_, GetInnerQuery());
   }
 
   QStringList where_clauses(where_clauses_);
   if (!include_unavailable_) {
-    where_clauses << "unavailable = 0";
+    where_clauses << QStringLiteral("unavailable = 0");
   }
 
-  if (!where_clauses.isEmpty()) sql += " WHERE " + where_clauses.join(" AND ");
+  if (!where_clauses.isEmpty()) sql += " WHERE " + where_clauses.join(QStringLiteral(" AND "));
 
   if (!order_by_.isEmpty()) sql += " ORDER BY " + order_by_;
 
   if (limit_ != -1) sql += " LIMIT " + QString::number(limit_);
 
-  sql.replace("%songs_table", songs_table_);
-  sql.replace("%fts_table_noprefix", fts_table_.section('.', -1, -1));
-  sql.replace("%fts_table", fts_table_);
+  sql.replace(QLatin1String("%songs_table"), songs_table_);
+  sql.replace(QLatin1String("%fts_table_noprefix"), fts_table_.section('.', -1, -1));
+  sql.replace(QLatin1String("%fts_table"), fts_table_);
 
   if (!QSqlQuery::prepare(sql)) return false;
 

@@ -125,7 +125,7 @@ QVariant RadioModel::data(const RadioItem *item, int role) const {
 }
 
 QStringList RadioModel::mimeTypes() const {
-  return QStringList() << "text/uri-list";
+  return QStringList() << QStringLiteral("text/uri-list");
 }
 
 QMimeData *RadioModel::mimeData(const QModelIndexList &indexes) const {
@@ -330,12 +330,12 @@ void RadioModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult
 QString RadioModel::SortText(QString text) {
 
   if (text.isEmpty()) {
-    text = " unknown";
+    text = QStringLiteral(" unknown");
   }
   else {
     text = text.toLower();
   }
-  text = text.remove(QRegularExpression("[^\\w ]", QRegularExpression::UseUnicodePropertiesOption));
+  text = text.remove(QRegularExpression(QStringLiteral("[^\\w ]"), QRegularExpression::UseUnicodePropertiesOption));
 
   return text;
 

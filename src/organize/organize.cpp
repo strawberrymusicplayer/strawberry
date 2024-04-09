@@ -393,6 +393,6 @@ void Organize::timerEvent(QTimerEvent *e) {
 void Organize::LogLine(const QString &message) {
 
   QString date(QDateTime::currentDateTime().toString(Qt::TextDate));
-  log_.append(QString("%1: %2").arg(date, message));
+  log_.append(QStringLiteral("%1: %2").arg(date, message));
 
 }

@@ -28,7 +28,7 @@
 #include "alsapcmdevicefinder.h"
 #include "enginedevice.h"
 
-AlsaPCMDeviceFinder::AlsaPCMDeviceFinder() : DeviceFinder("alsa", { "alsa", "alsasink" }) {}
+AlsaPCMDeviceFinder::AlsaPCMDeviceFinder() : DeviceFinder(QStringLiteral("alsa"), { "alsa", "alsasink" }) {}
 
 EngineDeviceList AlsaPCMDeviceFinder::ListDevices() {
 

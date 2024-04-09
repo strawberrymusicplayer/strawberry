@@ -54,7 +54,7 @@ class CddaDevice : public ConnectedDevice {
   bool CopyToStorage(const CopyJob&, QString&) override { return false; }
   bool DeleteFromStorage(const MusicStorage::DeleteJob&) override { return false; }
 
-  static QStringList url_schemes() { return QStringList() << "cdda"; }
+  static QStringList url_schemes() { return QStringList() << QStringLiteral("cdda"); }
 
  signals:
   void SongsDiscovered(const SongList &songs);

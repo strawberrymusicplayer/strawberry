@@ -225,8 +225,8 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   ui_->summary_art->installEventFilter(this);
 
   // Add the next/previous buttons
-  previous_button_ = new QPushButton(IconLoader::Load("go-previous"), tr("Previous"), this);
-  next_button_ = new QPushButton(IconLoader::Load("go-next"), tr("Next"), this);
+  previous_button_ = new QPushButton(IconLoader::Load(QStringLiteral("go-previous")), tr("Previous"), this);
+  next_button_ = new QPushButton(IconLoader::Load(QStringLiteral("go-next")), tr("Next"), this);
   ui_->button_box->addButton(previous_button_, QDialogButtonBox::ResetRole);
   ui_->button_box->addButton(next_button_, QDialogButtonBox::ResetRole);
 
@@ -240,11 +240,11 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   new QShortcut(QKeySequence::MoveToNextPage, next_button_, SLOT(click()));
 
   // Show the shortcuts as tooltips
-  previous_button_->setToolTip(QString("%1 (%2 / %3)").arg(
+  previous_button_->setToolTip(QStringLiteral("%1 (%2 / %3)").arg(
       previous_button_->text(),
       QKeySequence(QKeySequence::Back).toString(QKeySequence::NativeText),
       QKeySequence(QKeySequence::MoveToPreviousPage).toString(QKeySequence::NativeText)));
-  next_button_->setToolTip(QString("%1 (%2 / %3)").arg(
+  next_button_->setToolTip(QStringLiteral("%1 (%2 / %3)").arg(
       next_button_->text(),
       QKeySequence(QKeySequence::Forward).toString(QKeySequence::NativeText),
       QKeySequence(QKeySequence::MoveToNextPage).toString(QKeySequence::NativeText)));
@@ -690,9 +690,9 @@ void EditTagDialog::SelectionChanged() {
     summary += "<p><b>" + first_song.PrettyTitleWithArtist().toHtmlEscaped() + "</b></p>";
   }
   else {
-    summary += "<p><b>";
+    summary += QLatin1String("<p><b>");
     summary += tr("%1 songs selected.").arg(indexes.count());
-    summary += "</b></p>";
+    summary += QLatin1String("</b></p>");
   }
   ui_->tags_summary->setText(summary);
 
@@ -787,8 +787,8 @@ void EditTagDialog::UpdateSummaryTab(const Song &song) {
 
   ui_->length->setText(Utilities::PrettyTimeNanosec(song.length_nanosec()));
 
-  SetText(ui_->samplerate, song.samplerate(), "Hz");
-  SetText(ui_->bitdepth, song.bitdepth(), "Bit");
+  SetText(ui_->samplerate, song.samplerate(), QStringLiteral("Hz"));
+  SetText(ui_->bitdepth, song.bitdepth(), QStringLiteral("Bit"));
   SetText(ui_->bitrate, song.bitrate(), tr("kbps"));
   ui_->ebur128_integrated_loudness->setText(song.Ebur128LoudnessLUFSToText());
   ui_->ebur128_loudness_range->setText(song.Ebur128LoudnessRangeLUToText());
@@ -859,7 +859,7 @@ QString EditTagDialog::GetArtSummary(const Song &song, const AlbumCoverLoaderRes
   }
 
   if (!song.is_collection_song()) {
-    if (!summary.isEmpty()) summary += "<br />";
+    if (!summary.isEmpty()) summary += QLatin1String("<br />");
     summary = tr("Album cover editing is only available for collection songs.");
   }
 
@@ -906,8 +906,8 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     if (ui_->song_list->selectionModel()->selectedIndexes().count() > 0) {
       const QModelIndex idx = ui_->song_list->selectionModel()->selectedIndexes().first();
       QString summary = ui_->summary->toPlainText();
-      summary += "<br />";
-      summary += "<br />";
+      summary += QLatin1String("<br />");
+      summary += QLatin1String("<br />");
       summary += GetArtSummary(data_[idx.row()].current_, result.type);
       ui_->summary->setText(summary);
     }
@@ -932,8 +932,8 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     bool enable_change_art = false;
     if (first_song.is_valid()) {
       QString summary = ui_->tags_summary->toPlainText();
-      summary += "<br />";
-      summary += "<br />";
+      summary += QLatin1String("<br />");
+      summary += QLatin1String("<br />");
       if (cover_action == UpdateCoverAction::None) {
         summary += GetArtSummary(first_song, result.type);
       }

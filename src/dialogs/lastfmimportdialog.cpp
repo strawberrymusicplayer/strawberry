@@ -41,7 +41,7 @@ LastFMImportDialog::LastFMImportDialog(SharedPtr<LastFMImport> lastfm_import, QW
 
   ui_->setupUi(this);
 
-  setWindowIcon(IconLoader::Load("scrobble"));
+  setWindowIcon(IconLoader::Load(QStringLiteral("scrobble")));
 
   ui_->stackedWidget->setCurrentWidget(ui_->page_start);
 

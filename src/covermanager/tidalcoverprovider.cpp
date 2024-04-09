@@ -48,7 +48,7 @@
 constexpr int TidalCoverProvider::kLimit = 10;
 
 TidalCoverProvider::TidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider("Tidal", true, true, 2.5, true, true, app, network, parent),
+    : JsonCoverProvider(QStringLiteral("Tidal"), true, true, 2.5, true, true, app, network, parent),
       service_(app->internet_services()->Service<TidalService>()) {}
 
 TidalCoverProvider::~TidalCoverProvider() {
@@ -71,12 +71,12 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
   QString resource;
   QString query = artist;
   if (album.isEmpty() && !title.isEmpty()) {
-    resource = "search/tracks";
+    resource = QStringLiteral("search/tracks");
     if (!query.isEmpty()) query.append(" ");
     query.append(title);
   }
   else {
-    resource = "search/albums";
+    resource = QStringLiteral("search/albums");
     if (!album.isEmpty()) {
       if (!query.isEmpty()) query.append(" ");
       query.append(album);
@@ -92,7 +92,7 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(QString(TidalService::kApiUrl) + QString("/") + resource);
+  QUrl url(QString(TidalService::kApiUrl) + QStringLiteral("/") + resource);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -120,7 +120,7 @@ QByteArray TidalCoverProvider::GetReplyData(QNetworkReply *reply) {
   else {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     else {
       // See if there is Json data containing "status" and "userMessage" - then use that instead.
@@ -132,19 +132,19 @@ QByteArray TidalCoverProvider::GetReplyData(QNetworkReply *reply) {
       QString error;
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
-          status = json_obj["status"].toInt();
-          sub_status = json_obj["subStatus"].toInt();
-          QString user_message = json_obj["userMessage"].toString();
-          error = QString("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
+        if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("status")) && json_obj.contains(QStringLiteral("userMessage"))) {
+          status = json_obj[QStringLiteral("status")].toInt();
+          sub_status = json_obj[QStringLiteral("subStatus")].toInt();
+          QString user_message = json_obj[QStringLiteral("userMessage")].toString();
+          error = QStringLiteral("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
       if (error.isEmpty()) {
         if (reply->error() != QNetworkReply::NoError) {
-          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
         else {
-          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+          error = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
         }
       }
       if (status == 401 && sub_status == 6001) {  // User does not have a valid session
@@ -178,12 +178,12 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     return;
   }
 
-  if (!json_obj.contains("items")) {
-    Error("Json object is missing items.", json_obj);
+  if (!json_obj.contains(QStringLiteral("items"))) {
+    Error(QStringLiteral("Json object is missing items."), json_obj);
     emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
-  QJsonValue value_items = json_obj["items"];
+  QJsonValue value_items = json_obj[QStringLiteral("items")];
 
   if (!value_items.isArray()) {
     emit SearchFinished(id, CoverProviderSearchResults());
@@ -200,35 +200,35 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
   for (const QJsonValueRef value_item : array_items) {
 
     if (!value_item.isObject()) {
-      Error("Invalid Json reply, items array item is not a object.");
+      Error(QStringLiteral("Invalid Json reply, items array item is not a object."));
       continue;
     }
     QJsonObject obj_item = value_item.toObject();
 
-    if (!obj_item.contains("artist")) {
-      Error("Invalid Json reply, items array item is missing artist.", obj_item);
+    if (!obj_item.contains(QStringLiteral("artist"))) {
+      Error(QStringLiteral("Invalid Json reply, items array item is missing artist."), obj_item);
       continue;
     }
-    QJsonValue value_artist = obj_item["artist"];
+    QJsonValue value_artist = obj_item[QStringLiteral("artist")];
     if (!value_artist.isObject()) {
-      Error("Invalid Json reply, items array item artist is not a object.", value_artist);
+      Error(QStringLiteral("Invalid Json reply, items array item artist is not a object."), value_artist);
       continue;
     }
     QJsonObject obj_artist = value_artist.toObject();
-    if (!obj_artist.contains("name")) {
-      Error("Invalid Json reply, items array item artist is missing name.", obj_artist);
+    if (!obj_artist.contains(QStringLiteral("name"))) {
+      Error(QStringLiteral("Invalid Json reply, items array item artist is missing name."), obj_artist);
       continue;
     }
-    QString artist = obj_artist["name"].toString();
+    QString artist = obj_artist[QStringLiteral("name")].toString();
 
     QJsonObject obj_album;
-    if (obj_item.contains("album")) {
-      QJsonValue value_album = obj_item["album"];
+    if (obj_item.contains(QStringLiteral("album"))) {
+      QJsonValue value_album = obj_item[QStringLiteral("album")];
       if (value_album.isObject()) {
         obj_album = value_album.toObject();
       }
       else {
-        Error("Invalid Json reply, items array item album is not a object.", value_album);
+        Error(QStringLiteral("Invalid Json reply, items array item album is not a object."), value_album);
         continue;
       }
     }
@@ -236,23 +236,23 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
       obj_album = obj_item;
     }
 
-    if (!obj_album.contains("title") || !obj_album.contains("cover")) {
-      Error("Invalid Json reply, items array item album is missing title or cover.", obj_album);
+    if (!obj_album.contains(QStringLiteral("title")) || !obj_album.contains(QStringLiteral("cover"))) {
+      Error(QStringLiteral("Invalid Json reply, items array item album is missing title or cover."), obj_album);
       continue;
     }
-    QString album = obj_album["title"].toString();
-    QString cover = obj_album["cover"].toString().replace("-", "/");
+    QString album = obj_album[QStringLiteral("title")].toString();
+    QString cover = obj_album[QStringLiteral("cover")].toString().replace(QLatin1String("-"), QLatin1String("/"));
 
     CoverProviderSearchResult cover_result;
     cover_result.artist = artist;
     cover_result.album = Song::AlbumRemoveDiscMisc(album);
     cover_result.number = ++i;
 
-    QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QString("1280x1280"), QSize(1280, 1280))
-                                                                              << qMakePair(QString("750x750"), QSize(750, 750))
-                                                                              << qMakePair(QString("640x640"), QSize(640, 640));
+    QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QStringLiteral("1280x1280"), QSize(1280, 1280))
+                                                                              << qMakePair(QStringLiteral("750x750"), QSize(750, 750))
+                                                                              << qMakePair(QStringLiteral("640x640"), QSize(640, 640));
     for (const QPair<QString, QSize> &cover_size : cover_sizes) {
-      QUrl cover_url(QString("%1/images/%2/%3.jpg").arg(TidalService::kResourcesUrl, cover, cover_size.first));
+      QUrl cover_url(QStringLiteral("%1/images/%2/%3.jpg").arg(TidalService::kResourcesUrl, cover, cover_size.first));
       cover_result.image_url = cover_url;
       cover_result.image_size = cover_size.second;
       results << cover_result;

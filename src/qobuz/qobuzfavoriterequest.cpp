@@ -56,12 +56,12 @@ QString QobuzFavoriteRequest::FavoriteText(const FavoriteType type) {
 
   switch (type) {
     case FavoriteType::Artists:
-      return "artists";
+      return QStringLiteral("artists");
     case FavoriteType::Albums:
-      return "albums";
+      return QStringLiteral("albums");
     case FavoriteType::Songs:
     default:
-      return "tracks";
+      return QStringLiteral("tracks");
   }
 
 }
@@ -70,13 +70,13 @@ QString QobuzFavoriteRequest::FavoriteMethod(const FavoriteType type) {
 
   switch (type) {
     case FavoriteType::Artists:
-      return "artist_ids";
+      return QStringLiteral("artist_ids");
       break;
     case FavoriteType::Albums:
-      return "album_ids";
+      return QStringLiteral("album_ids");
       break;
     case FavoriteType::Songs:
-      return "track_ids";
+      return QStringLiteral("track_ids");
       break;
   }
 
@@ -141,7 +141,7 @@ void QobuzFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QS
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QNetworkReply *reply = CreateRequest("favorite/create", params);
+  QNetworkReply *reply = CreateRequest(QStringLiteral("favorite/create"), params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { AddFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
@@ -236,7 +236,7 @@ void QobuzFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QNetworkReply *reply = CreateRequest("favorite/delete", params);
+  QNetworkReply *reply = CreateRequest(QStringLiteral("favorite/delete"), params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });
   replies_ << reply;
 

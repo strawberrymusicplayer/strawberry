@@ -35,7 +35,7 @@ AlbumCoverLoaderOptions::Types AlbumCoverLoaderOptions::LoadTypes() {
 
   QSettings s;
   s.beginGroup(CoversSettingsPage::kSettingsGroup);
-  const QStringList all_cover_types = QStringList() << "art_unset" << "art_embedded" << "art_manual" << "art_automatic";
+  const QStringList all_cover_types = QStringList() << QStringLiteral("art_unset") << QStringLiteral("art_embedded") << QStringLiteral("art_manual") << QStringLiteral("art_automatic");
   const QStringList cover_types_strlist = s.value(CoversSettingsPage::kTypes, all_cover_types).toStringList();
   for (const QString &cover_type_str : cover_types_strlist) {
     if (cover_type_str == "art_unset") {

@@ -135,7 +135,7 @@ TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const QString &song_fil
       cover_image.save(&buffer, "JPEG");
       buffer.close();
     }
-    return Cover(cover_data, "image/jpeg");
+    return Cover(cover_data, QStringLiteral("image/jpeg"));
   }
 
   return Cover();

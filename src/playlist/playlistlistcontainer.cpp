@@ -167,14 +167,14 @@ void PlaylistListContainer::showEvent(QShowEvent *e) {
   if (!loaded_icons_) {
     loaded_icons_ = true;
 
-    action_new_folder_->setIcon(IconLoader::Load("folder-new"));
-    action_remove_->setIcon(IconLoader::Load("edit-delete"));
-    action_save_playlist_->setIcon(IconLoader::Load("document-save"));
+    action_new_folder_->setIcon(IconLoader::Load(QStringLiteral("folder-new")));
+    action_remove_->setIcon(IconLoader::Load(QStringLiteral("edit-delete")));
+    action_save_playlist_->setIcon(IconLoader::Load(QStringLiteral("document-save")));
 #ifndef Q_OS_WIN
-    action_copy_to_device_->setIcon(IconLoader::Load("device"));
+    action_copy_to_device_->setIcon(IconLoader::Load(QStringLiteral("device")));
 #endif
 
-    model_->SetIcons(IconLoader::Load("view-media-playlist"), IconLoader::Load("folder"));
+    model_->SetIcons(IconLoader::Load(QStringLiteral("view-media-playlist")), IconLoader::Load(QStringLiteral("folder")));
 
     // Apply these icons to items that have already been created.
     RecursivelySetIcons(model_->invisibleRootItem());
@@ -213,7 +213,7 @@ void PlaylistListContainer::NewFolderClicked() {
     return;
   }
 
-  name.replace("/", " ");
+  name.replace(QLatin1String("/"), QLatin1String(" "));
 
   model_->invisibleRootItem()->appendRow(model_->NewFolder(name));
 
@@ -489,7 +489,7 @@ void PlaylistListContainer::contextMenuEvent(QContextMenuEvent *e) {
 void PlaylistListContainer::ActivePlaying() {
 
   if (padded_play_icon_.isNull()) {
-    QPixmap pixmap(":/pictures/tiny-play.png");
+    QPixmap pixmap(QStringLiteral(":/pictures/tiny-play.png"));
     QPixmap new_pixmap(QSize(pixmap.height(), pixmap.height()));
     new_pixmap.fill(Qt::transparent);
 

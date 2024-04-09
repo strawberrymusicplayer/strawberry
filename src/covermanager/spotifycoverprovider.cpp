@@ -62,7 +62,7 @@ const char *SpotifyCoverProvider::kApiUrl = "https://api.spotify.com/v1";
 const int SpotifyCoverProvider::kLimit = 10;
 
 SpotifyCoverProvider::SpotifyCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider("Spotify", true, true, 2.5, true, true, app, network, parent),
+    : JsonCoverProvider(QStringLiteral("Spotify"), true, true, 2.5, true, true, app, network, parent),
       server_(nullptr),
       expires_in_(0),
       login_time_(0) {
@@ -146,7 +146,7 @@ void SpotifyCoverProvider::Authenticate() {
 
   const bool result = QDesktopServices::openUrl(url);
   if (!result) {
-    QMessageBox messagebox(QMessageBox::Information, tr("Spotify Authentication"), tr("Please open this URL in your browser") + QString(":<br /><a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
+    QMessageBox messagebox(QMessageBox::Information, tr("Spotify Authentication"), tr("Please open this URL in your browser") + QStringLiteral(":<br /><a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
     messagebox.setTextFormat(Qt::RichText);
     messagebox.exec();
   }
@@ -180,12 +180,12 @@ void SpotifyCoverProvider::RedirectArrived() {
     QUrl url = server_->request_url();
     if (url.isValid()) {
       QUrlQuery url_query(url);
-      if (url_query.hasQueryItem("error")) {
-        AuthError(QUrlQuery(url).queryItemValue("error"));
+      if (url_query.hasQueryItem(QStringLiteral("error"))) {
+        AuthError(QUrlQuery(url).queryItemValue(QStringLiteral("error")));
       }
-      else if (url_query.hasQueryItem("code") && url_query.hasQueryItem("state")) {
+      else if (url_query.hasQueryItem(QStringLiteral("code")) && url_query.hasQueryItem(QStringLiteral("state"))) {
         qLog(Debug) << "Spotify: Authorization URL Received" << url;
-        QString code = url_query.queryItemValue("code");
+        QString code = url_query.queryItemValue(QStringLiteral("code"));
         QUrl redirect_url(kOAuthRedirectUrl);
         redirect_url.setPort(server_->url().port());
         RequestAccessToken(code, redirect_url);
@@ -237,7 +237,7 @@ void SpotifyCoverProvider::RequestAccessToken(const QString &code, const QUrl &r
   QNetworkRequest req(new_url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  QString auth_header_data = QByteArray::fromBase64(kClientIDB64) + QString(":") + QByteArray::fromBase64(kClientSecretB64);
+  QString auth_header_data = QByteArray::fromBase64(kClientIDB64) + QStringLiteral(":") + QByteArray::fromBase64(kClientSecretB64);
   req.setRawHeader("Authorization", "Basic " + auth_header_data.toUtf8().toBase64());
 
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
@@ -267,7 +267,7 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      AuthError(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      AuthError(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
       return;
     }
     else {
@@ -277,18 +277,18 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("error") && json_obj.contains("error_description")) {
-          QString error = json_obj["error"].toString();
-          QString error_description = json_obj["error_description"].toString();
-          login_errors_ << QString("Authentication failure: %1 (%2)").arg(error, error_description);
+        if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("error")) && json_obj.contains(QStringLiteral("error_description"))) {
+          QString error = json_obj[QStringLiteral("error")].toString();
+          QString error_description = json_obj[QStringLiteral("error_description")].toString();
+          login_errors_ << QStringLiteral("Authentication failure: %1 (%2)").arg(error, error_description);
         }
       }
       if (login_errors_.isEmpty()) {
         if (reply->error() != QNetworkReply::NoError) {
-          login_errors_ << QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          login_errors_ << QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
         else {
-          login_errors_ << QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+          login_errors_ << QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
         }
       }
       AuthError();
@@ -302,36 +302,36 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    Error(QString("Failed to parse Json data in authentication reply: %1").arg(json_error.errorString()));
+    Error(QStringLiteral("Failed to parse Json data in authentication reply: %1").arg(json_error.errorString()));
     return;
   }
 
   if (json_doc.isEmpty()) {
-    AuthError("Authentication reply from server has empty Json document.");
+    AuthError(QStringLiteral("Authentication reply from server has empty Json document."));
     return;
   }
 
   if (!json_doc.isObject()) {
-    AuthError("Authentication reply from server has Json document that is not an object.", json_doc);
+    AuthError(QStringLiteral("Authentication reply from server has Json document that is not an object."), json_doc);
     return;
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    AuthError("Authentication reply from server has empty Json object.", json_doc);
+    AuthError(QStringLiteral("Authentication reply from server has empty Json object."), json_doc);
     return;
   }
 
-  if (!json_obj.contains("access_token") || !json_obj.contains("expires_in")) {
-    AuthError("Authentication reply from server is missing access token or expires in.", json_obj);
+  if (!json_obj.contains(QStringLiteral("access_token")) || !json_obj.contains(QStringLiteral("expires_in"))) {
+    AuthError(QStringLiteral("Authentication reply from server is missing access token or expires in."), json_obj);
     return;
   }
 
-  access_token_ = json_obj["access_token"].toString();
-  if (json_obj.contains("refresh_token")) {
-    refresh_token_ = json_obj["refresh_token"].toString();
+  access_token_ = json_obj[QStringLiteral("access_token")].toString();
+  if (json_obj.contains(QStringLiteral("refresh_token"))) {
+    refresh_token_ = json_obj[QStringLiteral("refresh_token")].toString();
   }
-  expires_in_ = json_obj["expires_in"].toInt();
+  expires_in_ = json_obj[QStringLiteral("expires_in")].toInt();
   login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
 
   QSettings s;
@@ -364,14 +364,14 @@ bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &alb
   QString extract;
   QString query = artist;
   if (album.isEmpty() && !title.isEmpty()) {
-    type = "track";
-    extract = "tracks";
+    type = QStringLiteral("track");
+    extract = QStringLiteral("tracks");
     if (!query.isEmpty()) query.append(" ");
     query.append(title);
   }
   else {
-    type = "album";
-    extract = "albums";
+    type = QStringLiteral("album");
+    extract = QStringLiteral("albums");
     if (!album.isEmpty()) {
       if (!query.isEmpty()) query.append(" ");
       query.append(album);
@@ -387,7 +387,7 @@ bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &alb
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(kApiUrl + QString("/search"));
+  QUrl url(kApiUrl + QStringLiteral("/search"));
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -414,7 +414,7 @@ QByteArray SpotifyCoverProvider::GetReplyData(QNetworkReply *reply) {
   else {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     else {
       data = reply->readAll();
@@ -423,12 +423,12 @@ QByteArray SpotifyCoverProvider::GetReplyData(QNetworkReply *reply) {
       QString error;
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("error") && json_obj["error"].isObject()) {
-          QJsonObject obj_error = json_obj["error"].toObject();
-          if (obj_error.contains("status") && obj_error.contains("message")) {
-            int status = obj_error["status"].toInt();
-            QString message = obj_error["message"].toString();
-            error = QString("%1 (%2)").arg(message).arg(status);
+        if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("error")) && json_obj[QStringLiteral("error")].isObject()) {
+          QJsonObject obj_error = json_obj[QStringLiteral("error")].toObject();
+          if (obj_error.contains(QStringLiteral("status")) && obj_error.contains(QStringLiteral("message"))) {
+            int status = obj_error[QStringLiteral("status")].toInt();
+            QString message = obj_error[QStringLiteral("message")].toString();
+            error = QStringLiteral("%1 (%2)").arg(message).arg(status);
             if (status == 401) access_token_.clear();
           }
         }
@@ -436,10 +436,10 @@ QByteArray SpotifyCoverProvider::GetReplyData(QNetworkReply *reply) {
       if (error.isEmpty()) {
         if (reply->error() != QNetworkReply::NoError) {
           if (reply->error() == 204) access_token_.clear();
-          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
         else {
-          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+          error = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
         }
       }
       Error(error);
@@ -471,19 +471,19 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
   }
 
   if (!json_obj.contains(extract) || !json_obj[extract].isObject()) {
-    Error(QString("Json object is missing %1 object.").arg(extract), json_obj);
+    Error(QStringLiteral("Json object is missing %1 object.").arg(extract), json_obj);
     emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
   json_obj = json_obj[extract].toObject();
 
-  if (!json_obj.contains("items") || !json_obj["items"].isArray()) {
-    Error(QString("%1 object is missing items array.").arg(extract), json_obj);
+  if (!json_obj.contains(QStringLiteral("items")) || !json_obj[QStringLiteral("items")].isArray()) {
+    Error(QStringLiteral("%1 object is missing items array.").arg(extract), json_obj);
     emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
-  QJsonArray array_items = json_obj["items"].toArray();
+  QJsonArray array_items = json_obj[QStringLiteral("items")].toArray();
   if (array_items.isEmpty()) {
     emit SearchFinished(id, CoverProviderSearchResults());
     return;
@@ -498,33 +498,33 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
     QJsonObject obj_item = value_item.toObject();
 
     QJsonObject obj_album = obj_item;
-    if (obj_item.contains("album") && obj_item["album"].isObject()) {
-      obj_album = obj_item["album"].toObject();
+    if (obj_item.contains(QStringLiteral("album")) && obj_item[QStringLiteral("album")].isObject()) {
+      obj_album = obj_item[QStringLiteral("album")].toObject();
     }
 
-    if (!obj_album.contains("artists") || !obj_album.contains("name") || !obj_album.contains("images") || !obj_album["artists"].isArray() || !obj_album["images"].isArray()) {
+    if (!obj_album.contains(QStringLiteral("artists")) || !obj_album.contains(QStringLiteral("name")) || !obj_album.contains(QStringLiteral("images")) || !obj_album[QStringLiteral("artists")].isArray() || !obj_album[QStringLiteral("images")].isArray()) {
       continue;
     }
-    QJsonArray array_artists = obj_album["artists"].toArray();
-    QJsonArray array_images = obj_album["images"].toArray();
-    QString album = obj_album["name"].toString();
+    QJsonArray array_artists = obj_album[QStringLiteral("artists")].toArray();
+    QJsonArray array_images = obj_album[QStringLiteral("images")].toArray();
+    QString album = obj_album[QStringLiteral("name")].toString();
 
     QStringList artists;
     for (const QJsonValueRef value_artist : array_artists) {
       if (!value_artist.isObject()) continue;
       QJsonObject obj_artist = value_artist.toObject();
-      if (!obj_artist.contains("name")) continue;
-      artists << obj_artist["name"].toString();
+      if (!obj_artist.contains(QStringLiteral("name"))) continue;
+      artists << obj_artist[QStringLiteral("name")].toString();
     }
 
     for (const QJsonValueRef value_image : array_images) {
       if (!value_image.isObject()) continue;
       QJsonObject obj_image = value_image.toObject();
-      if (!obj_image.contains("url") || !obj_image.contains("width") || !obj_image.contains("height")) continue;
-      int width = obj_image["width"].toInt();
-      int height = obj_image["height"].toInt();
+      if (!obj_image.contains(QStringLiteral("url")) || !obj_image.contains(QStringLiteral("width")) || !obj_image.contains(QStringLiteral("height"))) continue;
+      int width = obj_image[QStringLiteral("width")].toInt();
+      int height = obj_image[QStringLiteral("height")].toInt();
       if (width < 300 || height < 300) continue;
-      QUrl url(obj_image["url"].toString());
+      QUrl url(obj_image[QStringLiteral("url")].toString());
       CoverProviderSearchResult result;
       result.album = album;
       result.image_url = url;

@@ -93,7 +93,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   no_matches_label_->setPalette(no_matches_palette);
 
   // Remove QFrame border
-  ui_->toolbar->setStyleSheet("QFrame { border: 0px; }");
+  ui_->toolbar->setStyleSheet(QStringLiteral("QFrame { border: 0px; }"));
 
   // Make it bold
   QFont no_matches_font = no_matches_label_->font();
@@ -123,35 +123,35 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   QObject::connect(ui_->playlist, &PlaylistView::FocusOnFilterSignal, this, &PlaylistContainer::FocusOnFilter);
   ui_->search_field->installEventFilter(this);
 
-  QString available_fields = PlaylistFilter().column_names().keys().join(", ");
+  QString available_fields = PlaylistFilter().column_names().keys().join(QStringLiteral(", "));
   ui_->search_field->setToolTip(
-    QString("<html><head/><body><p>") +
+    QStringLiteral("<html><head/><body><p>") +
     tr("Prefix a search term with a field name to limit the search to that field, e.g.:") +
-    QString(" ") +
-    QString("<span style=\"font-weight:600;\">") +
+    QStringLiteral(" ") +
+    QStringLiteral("<span style=\"font-weight:600;\">") +
     tr("artist") +
-    QString(":</span><span style=\"font-style:italic;\">Strawbs</span> ") +
-    tr("searches the playlist for all artists that contain the word %1. ").arg("Strawbs") +
-    QString("</p><p>") +
+    QStringLiteral(":</span><span style=\"font-style:italic;\">Strawbs</span> ") +
+    tr("searches the playlist for all artists that contain the word %1. ").arg(QStringLiteral("Strawbs")) +
+    QStringLiteral("</p><p>") +
 
     tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")
       .arg(" =, !=, &lt;, &gt;, &lt;=", "&gt;=") +
-    QString("<span style=\"font-weight:600;\">") +
+    QStringLiteral("<span style=\"font-weight:600;\">") +
     tr("rating") +
-    QString("</span>") +
-    QString(":>=") +
-    QString("<span style=\"font-weight:italic;\">4</span>") +
-    QString("</p><p>") +
+    QStringLiteral("</span>") +
+    QStringLiteral(":>=") +
+    QStringLiteral("<span style=\"font-weight:italic;\">4</span>") +
+    QStringLiteral("</p><p>") +
 
     tr("Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. ")
       .arg("AND", "OR") +
 
-    QString("</p><p><span style=\"font-weight:600;\">") +
+    QStringLiteral("</p><p><span style=\"font-weight:600;\">") +
     tr("Available fields") +
-    QString(": ") + QString("</span><span style=\"font-style:italic;\">") +
+    QStringLiteral(": ") + QStringLiteral("</span><span style=\"font-style:italic;\">") +
     available_fields +
-    QString("</span>.") +
-    QString("</p></body></html>")
+    QStringLiteral("</span>.") +
+    QStringLiteral("</p></body></html>")
   );
 
 
@@ -254,9 +254,9 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
   delete redo_;
   undo_ = playlist->undo_stack()->createUndoAction(this, tr("Undo"));
   redo_ = playlist->undo_stack()->createRedoAction(this, tr("Redo"));
-  undo_->setIcon(IconLoader::Load("edit-undo"));
+  undo_->setIcon(IconLoader::Load(QStringLiteral("edit-undo")));
   undo_->setShortcut(QKeySequence::Undo);
-  redo_->setIcon(IconLoader::Load("edit-redo"));
+  redo_->setIcon(IconLoader::Load(QStringLiteral("edit-redo")));
   redo_->setShortcut(QKeySequence::Redo);
 
   ui_->undo->setDefaultAction(undo_);

@@ -55,10 +55,10 @@ bool LocalRedirectServer::Listen() {
     return false;
   }
 
-  url_.setScheme("http");
-  url_.setHost("localhost");
+  url_.setScheme(QStringLiteral("http"));
+  url_.setHost(QStringLiteral("localhost"));
   url_.setPort(serverPort());
-  url_.setPath("/");
+  url_.setPath(QStringLiteral("/"));
   QObject::connect(this, &QTcpServer::newConnection, this, &LocalRedirectServer::NewConnection);
 
   return true;
@@ -86,7 +86,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
   if (!tcp_socket->setSocketDescriptor(socket_descriptor)) {
     delete tcp_socket;
     close();
-    error_ = "Unable to set socket descriptor";
+    error_ = QStringLiteral("Unable to set socket descriptor");
     emit Finished();
     return;
   }
@@ -124,12 +124,12 @@ void LocalRedirectServer::ReadyRead() {
 
 void LocalRedirectServer::WriteTemplate() const {
 
-  QFile page_file(":/html/oauthsuccess.html");
+  QFile page_file(QStringLiteral(":/html/oauthsuccess.html"));
   if (!page_file.open(QIODevice::ReadOnly)) return;
   QString page_data = QString::fromUtf8(page_file.readAll());
   page_file.close();
 
-  QRegularExpression tr_regexp("tr\\(\"([^\"]+)\"\\)");
+  QRegularExpression tr_regexp(QStringLiteral("tr\\(\"([^\"]+)\"\\)"));
   qint64 offset = 0;
   forever {
     QRegularExpressionMatch re_match = tr_regexp.match(page_data, offset);
@@ -151,7 +151,7 @@ void LocalRedirectServer::WriteTemplate() const {
         .pixmap(16)
         .toImage()
         .save(&image_buffer, "PNG");
-    page_data.replace("@IMAGE_DATA@", image_buffer.data().toBase64());
+    page_data.replace(QLatin1String("@IMAGE_DATA@"), image_buffer.data().toBase64());
     image_buffer.close();
   }
 

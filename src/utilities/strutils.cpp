@@ -94,17 +94,17 @@ QStringList Updateify(const QStringList &list) {
 QString DecodeHtmlEntities(const QString &text) {
 
   QString copy(text);
-  copy.replace("&amp;", "&")
-      .replace("&#38;", "&")
-      .replace("&quot;", "\"")
-      .replace("&#34;", "\"")
-      .replace("&apos;", "'")
-      .replace("&#39;", "'")
-      .replace("&lt;", "<")
-      .replace("&#60;", "<")
-      .replace("&gt;", ">")
-      .replace("&#62;", ">")
-      .replace("&#x27;", "'");
+  copy.replace(QLatin1String("&amp;"), QLatin1String("&"))
+      .replace(QLatin1String("&#38;"), QLatin1String("&"))
+      .replace(QLatin1String("&quot;"), QLatin1String("\""))
+      .replace(QLatin1String("&#34;"), QLatin1String("\""))
+      .replace(QLatin1String("&apos;"), QLatin1String("'"))
+      .replace(QLatin1String("&#39;"), QLatin1String("'"))
+      .replace(QLatin1String("&lt;"), QLatin1String("<"))
+      .replace(QLatin1String("&#60;"), QLatin1String("<"))
+      .replace(QLatin1String("&gt;"), QLatin1String(">"))
+      .replace(QLatin1String("&#62;"), QLatin1String(">"))
+      .replace(QLatin1String("&#x27;"), QLatin1String("'"));
 
   return copy;
 
@@ -112,7 +112,7 @@ QString DecodeHtmlEntities(const QString &text) {
 
 QString ReplaceMessage(const QString &message, const Song &song, const QString &newline, const bool html_escaped) {
 
-  QRegularExpression variable_replacer("[%][a-z]+[%]");
+  QRegularExpression variable_replacer(QStringLiteral("[%][a-z]+[%]"));
   QString copy(message);
 
   // Replace the first line
@@ -125,7 +125,7 @@ QString ReplaceMessage(const QString &message, const Song &song, const QString &
     pos += match.capturedLength();
   }
 
-  qint64 index_of = copy.indexOf(QRegularExpression(" - (>|$)"));
+  qint64 index_of = copy.indexOf(QRegularExpression(QStringLiteral(" - (>|$)")));
   if (index_of >= 0) copy = copy.remove(index_of, 3);
 
   return copy;

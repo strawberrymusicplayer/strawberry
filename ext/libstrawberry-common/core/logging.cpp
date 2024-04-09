@@ -158,7 +158,7 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QStr
   }
 
   for (const QString &line : message.split('\n')) {
-    BufferedDebug d = CreateLogger<BufferedDebug>(level, "unknown", -1, nullptr);
+    BufferedDebug d = CreateLogger<BufferedDebug>(level, QStringLiteral("unknown"), -1, nullptr);
     d << line.toLocal8Bit().constData();
     if (d.buf_) {
       d.buf_->close();
@@ -228,7 +228,7 @@ static QString ParsePrettyFunction(const char *pretty_function) {
   QString class_name = pretty_function;
   const qint64 paren = class_name.indexOf('(');
   if (paren != -1) {
-    const qint64 colons = class_name.lastIndexOf("::", paren);
+    const qint64 colons = class_name.lastIndexOf(QLatin1String("::"), paren);
     if (colons != -1) {
       class_name = class_name.left(colons);
     }
@@ -284,7 +284,7 @@ static T CreateLogger(Level level, const QString &class_name, int line, const ch
   }
 
   T ret(type);
-  ret.nospace() << QDateTime::currentDateTime().toString("hh:mm:ss.zzz").toLatin1().constData() << level_name << function_line.leftJustified(32).toLatin1().constData();
+  ret.nospace() << QDateTime::currentDateTime().toString(QStringLiteral("hh:mm:ss.zzz")).toLatin1().constData() << level_name << function_line.leftJustified(32).toLatin1().constData();
 
   return ret.space();
 
@@ -310,7 +310,7 @@ QString CXXDemangle(const QString &mangled_function) {
 QString LinuxDemangle(const QString &symbol);
 QString LinuxDemangle(const QString &symbol) {
 
-  QRegularExpression regex("\\(([^+]+)");
+  QRegularExpression regex(QStringLiteral("\\(([^+]+)"));
   QRegularExpressionMatch match = regex.match(symbol);
   if (!match.hasMatch()) {
     return symbol;
@@ -392,7 +392,7 @@ namespace {
 
 template<typename T>
 QString print_duration(T duration, const std::string &unit) {
-  return QString("%1%2").arg(duration.count()).arg(unit.c_str());
+  return QStringLiteral("%1%2").arg(duration.count()).arg(unit.c_str());
 }
 
 }  // namespace

@@ -52,12 +52,12 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
   ui_->setupUi(this);
 
   // Icons
-  ui_->repeat->setIcon(AddDesaturatedIcon(IconLoader::Load("media-playlist-repeat")));
-  ui_->shuffle->setIcon(AddDesaturatedIcon(IconLoader::Load("media-playlist-shuffle")));
+  ui_->repeat->setIcon(AddDesaturatedIcon(IconLoader::Load(QStringLiteral("media-playlist-repeat"))));
+  ui_->shuffle->setIcon(AddDesaturatedIcon(IconLoader::Load(QStringLiteral("media-playlist-shuffle"))));
 
   // Remove arrow indicators
-  ui_->repeat->setStyleSheet("QToolButton::menu-indicator { image: none; }");
-  ui_->shuffle->setStyleSheet("QToolButton::menu-indicator { image: none; }");
+  ui_->repeat->setStyleSheet(QStringLiteral("QToolButton::menu-indicator { image: none; }"));
+  ui_->shuffle->setStyleSheet(QStringLiteral("QToolButton::menu-indicator { image: none; }"));
 
   settings_->set_group(kSettingsGroup);
 
@@ -93,8 +93,8 @@ PlaylistSequence::~PlaylistSequence() {
 void PlaylistSequence::Load() {
 
   loading_ = true;  // Stops these setter functions calling Save()
-  SetShuffleMode(static_cast<ShuffleMode>(settings_->value("shuffle_mode", static_cast<int>(ShuffleMode::Off)).toInt()));
-  SetRepeatMode(static_cast<RepeatMode>(settings_->value("repeat_mode", static_cast<int>(RepeatMode::Off)).toInt()));
+  SetShuffleMode(static_cast<ShuffleMode>(settings_->value(QStringLiteral("shuffle_mode"), static_cast<int>(ShuffleMode::Off)).toInt()));
+  SetRepeatMode(static_cast<RepeatMode>(settings_->value(QStringLiteral("repeat_mode"), static_cast<int>(RepeatMode::Off)).toInt()));
   loading_ = false;
 
 }
@@ -103,8 +103,8 @@ void PlaylistSequence::Save() {
 
   if (loading_) return;
 
-  settings_->setValue("shuffle_mode", static_cast<int>(shuffle_mode_));
-  settings_->setValue("repeat_mode", static_cast<int>(repeat_mode_));
+  settings_->setValue(QStringLiteral("shuffle_mode"), static_cast<int>(shuffle_mode_));
+  settings_->setValue(QStringLiteral("repeat_mode"), static_cast<int>(repeat_mode_));
 
 }
 

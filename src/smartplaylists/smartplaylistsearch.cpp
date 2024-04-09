@@ -62,7 +62,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   }
 
   if (!terms_.isEmpty() && search_type_ != SearchType::All) {
-    QString boolean_op = search_type_ == SearchType::And ? " AND " : " OR ";
+    QString boolean_op = search_type_ == SearchType::And ? QStringLiteral(" AND ") : QStringLiteral(" OR ");
     where_clauses << "(" + term_where_clauses.join(boolean_op) + ")";
   }
 
@@ -77,15 +77,15 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
 
   // We never want to include songs that have been deleted,
   // but are still kept in the database in case the directory containing them has just been unmounted.
-  where_clauses << "unavailable = 0";
+  where_clauses << QStringLiteral("unavailable = 0");
 
   if (!where_clauses.isEmpty()) {
-    sql += " WHERE " + where_clauses.join(" AND ");
+    sql += " WHERE " + where_clauses.join(QStringLiteral(" AND "));
   }
 
   // Add sort by
   if (sort_type_ == SortType::Random) {
-    sql += " ORDER BY random()";
+    sql += QLatin1String(" ORDER BY random()");
   }
   else {
     sql += " ORDER BY " + SmartPlaylistSearchTerm::FieldColumnName(sort_field_) + (sort_type_ == SortType::FieldAsc ? " ASC" : " DESC");
@@ -93,7 +93,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
 
   // Add limit
   if (first_item_ > 0) {
-    sql += QString(" LIMIT %1 OFFSET %2").arg(limit_).arg(first_item_);
+    sql += QStringLiteral(" LIMIT %1 OFFSET %2").arg(limit_).arg(first_item_);
   }
   else if (limit_ != -1) {
     sql += " LIMIT " + QString::number(limit_);

@@ -34,7 +34,7 @@ const char AzLyricsComLyricsProvider::kEndTag[] = "</div>";
 const char AzLyricsComLyricsProvider::kLyricsStart[] = "<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->";
 
 AzLyricsComLyricsProvider::AzLyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : HtmlLyricsProvider("azlyrics.com", true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
+    : HtmlLyricsProvider(QStringLiteral("azlyrics.com"), true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
 
 QUrl AzLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
@@ -44,6 +44,6 @@ QUrl AzLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 QString AzLyricsComLyricsProvider::StringFixup(const QString &text) {
 
-  return Utilities::Transliterate(text).remove(QRegularExpression("[^\\w0-9\\-]")).toLower();
+  return Utilities::Transliterate(text).remove(QRegularExpression(QStringLiteral("[^\\w0-9\\-]"))).toLower();
 
 }

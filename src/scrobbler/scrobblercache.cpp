@@ -99,11 +99,11 @@ void ScrobblerCache::ReadCache() {
     qLog(Error) << "Scrobbler cache has empty JSON object.";
     return;
   }
-  if (!json_obj.contains("tracks")) {
+  if (!json_obj.contains(QStringLiteral("tracks"))) {
     qLog(Error) << "Scrobbler cache is missing JSON tracks.";
     return;
   }
-  QJsonValue json_tracks = json_obj["tracks"];
+  QJsonValue json_tracks = json_obj[QStringLiteral("tracks")];
   if (!json_tracks.isArray()) {
     qLog(Error) << "Scrobbler cache JSON tracks is not an array.";
     return;
@@ -121,13 +121,13 @@ void ScrobblerCache::ReadCache() {
     }
     QJsonObject json_obj_track = value.toObject();
     if (
-        !json_obj_track.contains("timestamp") ||
-        !json_obj_track.contains("artist") ||
-        !json_obj_track.contains("album") ||
-        !json_obj_track.contains("title") ||
-        !json_obj_track.contains("track") ||
-        !json_obj_track.contains("albumartist") ||
-        !json_obj_track.contains("length_nanosec")
+        !json_obj_track.contains(QStringLiteral("timestamp")) ||
+        !json_obj_track.contains(QStringLiteral("artist")) ||
+        !json_obj_track.contains(QStringLiteral("album")) ||
+        !json_obj_track.contains(QStringLiteral("title")) ||
+        !json_obj_track.contains(QStringLiteral("track")) ||
+        !json_obj_track.contains(QStringLiteral("albumartist")) ||
+        !json_obj_track.contains(QStringLiteral("length_nanosec"))
     ) {
       qLog(Error) << "Scrobbler cache JSON tracks array value is missing data.";
       qLog(Debug) << value;
@@ -135,52 +135,52 @@ void ScrobblerCache::ReadCache() {
     }
 
     ScrobbleMetadata metadata;
-    quint64 timestamp = json_obj_track["timestamp"].toVariant().toULongLong();
-    metadata.artist = json_obj_track["artist"].toString();
-    metadata.album = json_obj_track["album"].toString();
-    metadata.title = json_obj_track["title"].toString();
-    metadata.track = json_obj_track["track"].toInt();
-    metadata.albumartist = json_obj_track["albumartist"].toString();
-    metadata.length_nanosec = json_obj_track["length_nanosec"].toVariant().toLongLong();
+    quint64 timestamp = json_obj_track[QStringLiteral("timestamp")].toVariant().toULongLong();
+    metadata.artist = json_obj_track[QStringLiteral("artist")].toString();
+    metadata.album = json_obj_track[QStringLiteral("album")].toString();
+    metadata.title = json_obj_track[QStringLiteral("title")].toString();
+    metadata.track = json_obj_track[QStringLiteral("track")].toInt();
+    metadata.albumartist = json_obj_track[QStringLiteral("albumartist")].toString();
+    metadata.length_nanosec = json_obj_track[QStringLiteral("length_nanosec")].toVariant().toLongLong();
 
     if (timestamp == 0 || metadata.artist.isEmpty() || metadata.title.isEmpty() || metadata.length_nanosec <= 0) {
       qLog(Error) << "Invalid cache data" << "for song" << metadata.title;
       continue;
     }
 
-    if (json_obj_track.contains("grouping")) {
-      metadata.grouping = json_obj_track["grouping"].toString();
+    if (json_obj_track.contains(QStringLiteral("grouping"))) {
+      metadata.grouping = json_obj_track[QStringLiteral("grouping")].toString();
     }
 
-    if (json_obj_track.contains("musicbrainz_album_artist_id")) {
-      metadata.musicbrainz_album_artist_id = json_obj_track["musicbrainz_album_artist_id"].toString();
+    if (json_obj_track.contains(QStringLiteral("musicbrainz_album_artist_id"))) {
+      metadata.musicbrainz_album_artist_id = json_obj_track[QStringLiteral("musicbrainz_album_artist_id")].toString();
     }
-    if (json_obj_track.contains("musicbrainz_artist_id")) {
-      metadata.musicbrainz_artist_id = json_obj_track["musicbrainz_artist_id"].toString();
+    if (json_obj_track.contains(QStringLiteral("musicbrainz_artist_id"))) {
+      metadata.musicbrainz_artist_id = json_obj_track[QStringLiteral("musicbrainz_artist_id")].toString();
     }
-    if (json_obj_track.contains("musicbrainz_original_artist_id")) {
-      metadata.musicbrainz_original_artist_id = json_obj_track["musicbrainz_original_artist_id"].toString();
+    if (json_obj_track.contains(QStringLiteral("musicbrainz_original_artist_id"))) {
+      metadata.musicbrainz_original_artist_id = json_obj_track[QStringLiteral("musicbrainz_original_artist_id")].toString();
     }
-    if (json_obj_track.contains("musicbrainz_album_id")) {
-      metadata.musicbrainz_album_id = json_obj_track["musicbrainz_album_id"].toString();
+    if (json_obj_track.contains(QStringLiteral("musicbrainz_album_id"))) {
+      metadata.musicbrainz_album_id = json_obj_track[QStringLiteral("musicbrainz_album_id")].toString();
     }
-    if (json_obj_track.contains("musicbrainz_original_album_id")) {
-      metadata.musicbrainz_original_album_id = json_obj_track["musicbrainz_original_album_id"].toString();
+    if (json_obj_track.contains(QStringLiteral("musicbrainz_original_album_id"))) {
+      metadata.musicbrainz_original_album_id = json_obj_track[QStringLiteral("musicbrainz_original_album_id")].toString();
     }
-    if (json_obj_track.contains("musicbrainz_recording_id")) {
-      metadata.musicbrainz_recording_id = json_obj_track["musicbrainz_recording_id"].toString();
+    if (json_obj_track.contains(QStringLiteral("musicbrainz_recording_id"))) {
+      metadata.musicbrainz_recording_id = json_obj_track[QStringLiteral("musicbrainz_recording_id")].toString();
     }
-    if (json_obj_track.contains("musicbrainz_track_id")) {
-      metadata.musicbrainz_track_id = json_obj_track["musicbrainz_track_id"].toString();
+    if (json_obj_track.contains(QStringLiteral("musicbrainz_track_id"))) {
+      metadata.musicbrainz_track_id = json_obj_track[QStringLiteral("musicbrainz_track_id")].toString();
     }
-    if (json_obj_track.contains("musicbrainz_disc_id")) {
-      metadata.musicbrainz_disc_id = json_obj_track["musicbrainz_disc_id"].toString();
+    if (json_obj_track.contains(QStringLiteral("musicbrainz_disc_id"))) {
+      metadata.musicbrainz_disc_id = json_obj_track[QStringLiteral("musicbrainz_disc_id")].toString();
     }
-    if (json_obj_track.contains("musicbrainz_release_group_id")) {
-      metadata.musicbrainz_release_group_id = json_obj_track["musicbrainz_release_group_id"].toString();
+    if (json_obj_track.contains(QStringLiteral("musicbrainz_release_group_id"))) {
+      metadata.musicbrainz_release_group_id = json_obj_track[QStringLiteral("musicbrainz_release_group_id")].toString();
     }
-    if (json_obj_track.contains("musicbrainz_work_id")) {
-      metadata.musicbrainz_work_id = json_obj_track["musicbrainz_work_id"].toString();
+    if (json_obj_track.contains(QStringLiteral("musicbrainz_work_id"))) {
+      metadata.musicbrainz_work_id = json_obj_track[QStringLiteral("musicbrainz_work_id")].toString();
     }
 
     ScrobblerCacheItemPtr cache_item = make_shared<ScrobblerCacheItem>(metadata, timestamp);
@@ -205,29 +205,29 @@ void ScrobblerCache::WriteCache() {
   QJsonArray array;
   for (ScrobblerCacheItemPtr cache_item : scrobbler_cache_) {
     QJsonObject object;
-    object.insert("timestamp", QJsonValue::fromVariant(cache_item->timestamp));
-    object.insert("artist", QJsonValue::fromVariant(cache_item->metadata.artist));
-    object.insert("album", QJsonValue::fromVariant(cache_item->metadata.album));
-    object.insert("title", QJsonValue::fromVariant(cache_item->metadata.title));
-    object.insert("track", QJsonValue::fromVariant(cache_item->metadata.track));
-    object.insert("albumartist", QJsonValue::fromVariant(cache_item->metadata.albumartist));
-    object.insert("grouping", QJsonValue::fromVariant(cache_item->metadata.grouping));
-    object.insert("musicbrainz_album_artist_id", QJsonValue::fromVariant(cache_item->metadata.musicbrainz_album_artist_id));
-    object.insert("musicbrainz_artist_id", QJsonValue::fromVariant(cache_item->metadata.musicbrainz_artist_id));
-    object.insert("musicbrainz_original_artist_id", QJsonValue::fromVariant(cache_item->metadata.musicbrainz_original_artist_id));
-    object.insert("musicbrainz_album_id", QJsonValue::fromVariant(cache_item->metadata.musicbrainz_album_id));
-    object.insert("musicbrainz_original_album_id", QJsonValue::fromVariant(cache_item->metadata.musicbrainz_original_album_id));
-    object.insert("musicbrainz_recording_id", QJsonValue::fromVariant(cache_item->metadata.musicbrainz_recording_id));
-    object.insert("musicbrainz_track_id", QJsonValue::fromVariant(cache_item->metadata.musicbrainz_track_id));
-    object.insert("musicbrainz_disc_id", QJsonValue::fromVariant(cache_item->metadata.musicbrainz_disc_id));
-    object.insert("musicbrainz_release_group_id", QJsonValue::fromVariant(cache_item->metadata.musicbrainz_release_group_id));
-    object.insert("musicbrainz_work_id", QJsonValue::fromVariant(cache_item->metadata.musicbrainz_work_id));
-    object.insert("length_nanosec", QJsonValue::fromVariant(cache_item->metadata.length_nanosec));
+    object.insert(QStringLiteral("timestamp"), QJsonValue::fromVariant(cache_item->timestamp));
+    object.insert(QStringLiteral("artist"), QJsonValue::fromVariant(cache_item->metadata.artist));
+    object.insert(QStringLiteral("album"), QJsonValue::fromVariant(cache_item->metadata.album));
+    object.insert(QStringLiteral("title"), QJsonValue::fromVariant(cache_item->metadata.title));
+    object.insert(QStringLiteral("track"), QJsonValue::fromVariant(cache_item->metadata.track));
+    object.insert(QStringLiteral("albumartist"), QJsonValue::fromVariant(cache_item->metadata.albumartist));
+    object.insert(QStringLiteral("grouping"), QJsonValue::fromVariant(cache_item->metadata.grouping));
+    object.insert(QStringLiteral("musicbrainz_album_artist_id"), QJsonValue::fromVariant(cache_item->metadata.musicbrainz_album_artist_id));
+    object.insert(QStringLiteral("musicbrainz_artist_id"), QJsonValue::fromVariant(cache_item->metadata.musicbrainz_artist_id));
+    object.insert(QStringLiteral("musicbrainz_original_artist_id"), QJsonValue::fromVariant(cache_item->metadata.musicbrainz_original_artist_id));
+    object.insert(QStringLiteral("musicbrainz_album_id"), QJsonValue::fromVariant(cache_item->metadata.musicbrainz_album_id));
+    object.insert(QStringLiteral("musicbrainz_original_album_id"), QJsonValue::fromVariant(cache_item->metadata.musicbrainz_original_album_id));
+    object.insert(QStringLiteral("musicbrainz_recording_id"), QJsonValue::fromVariant(cache_item->metadata.musicbrainz_recording_id));
+    object.insert(QStringLiteral("musicbrainz_track_id"), QJsonValue::fromVariant(cache_item->metadata.musicbrainz_track_id));
+    object.insert(QStringLiteral("musicbrainz_disc_id"), QJsonValue::fromVariant(cache_item->metadata.musicbrainz_disc_id));
+    object.insert(QStringLiteral("musicbrainz_release_group_id"), QJsonValue::fromVariant(cache_item->metadata.musicbrainz_release_group_id));
+    object.insert(QStringLiteral("musicbrainz_work_id"), QJsonValue::fromVariant(cache_item->metadata.musicbrainz_work_id));
+    object.insert(QStringLiteral("length_nanosec"), QJsonValue::fromVariant(cache_item->metadata.length_nanosec));
     array.append(QJsonValue::fromVariant(object));
   }
 
   QJsonObject object;
-  object.insert("tracks", array);
+  object.insert(QStringLiteral("tracks"), array);
   QJsonDocument doc(object);
 
   QFile file(filename_);

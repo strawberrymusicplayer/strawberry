@@ -145,21 +145,21 @@ void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, 
 
   QVariantMap hints;
   QString summary_stripped = summary;
-  summary_stripped = summary_stripped.remove(QRegularExpression("[&\"<>]")).simplified();
+  summary_stripped = summary_stripped.remove(QRegularExpression(QStringLiteral("[&\"<>]"))).simplified();
 
   if (!image.isNull()) {
     if (version_ >= QVersionNumber(1, 2)) {
-      hints["image-data"] = QVariant(image);
+      hints[QStringLiteral("image-data")] = QVariant(image);
     }
     else if (version_ >= QVersionNumber(1, 1)) {
-      hints["image_data"] = QVariant(image);
+      hints[QStringLiteral("image_data")] = QVariant(image);
     }
     else {
-      hints["icon_data"] = QVariant(image);
+      hints[QStringLiteral("icon_data")] = QVariant(image);
     }
   }
 
-  hints["transient"] = QVariant(true);
+  hints[QStringLiteral("transient")] = QVariant(true);
 
   quint64 id = 0;
   if (last_notification_time_.secsTo(QDateTime::currentDateTime()) * 1000 < timeout_msec()) {

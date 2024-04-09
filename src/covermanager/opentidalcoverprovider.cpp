@@ -57,7 +57,7 @@ constexpr const int kRequestsDelay = 1000;
 using std::make_shared;
 
 OpenTidalCoverProvider::OpenTidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider("OpenTidal", true, false, 2.5, true, false, app, network, parent),
+    : JsonCoverProvider(QStringLiteral("OpenTidal"), true, false, 2.5, true, false, app, network, parent),
       login_timer_(new QTimer(this)),
       timer_flush_requests_(new QTimer(this)),
       login_in_progress_(false),
@@ -160,7 +160,7 @@ void OpenTidalCoverProvider::Login() {
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setRawHeader("Authorization", "Basic " + QByteArray(QByteArray::fromBase64(kApiClientIdB64) + ":" + QByteArray::fromBase64(kApiClientSecretB64)).toBase64());
   QUrlQuery url_query;
-  url_query.addQueryItem("grant_type", "client_credentials");
+  url_query.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("client_credentials"));
   QNetworkReply *reply = network_->post(req, url_query.toString(QUrl::FullyEncoded).toUtf8());
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &OpenTidalCoverProvider::HandleLoginSSLErrors);
@@ -192,21 +192,21 @@ void OpenTidalCoverProvider::LoginFinished(QNetworkReply *reply) {
     return;
   }
 
-  if (!json_obj.contains("access_token") ||
-      !json_obj.contains("token_type") ||
-      !json_obj.contains("expires_in") ||
-      !json_obj["access_token"].isString() ||
-      !json_obj["token_type"].isString()) {
+  if (!json_obj.contains(QStringLiteral("access_token")) ||
+      !json_obj.contains(QStringLiteral("token_type")) ||
+      !json_obj.contains(QStringLiteral("expires_in")) ||
+      !json_obj[QStringLiteral("access_token")].isString() ||
+      !json_obj[QStringLiteral("token_type")].isString()) {
     qLog(Error) << "OpenTidal: Invalid login reply.";
     FinishAllSearches();
     return;
   }
 
   have_login_ = true;
-  token_type_ = json_obj["token_type"].toString();
-  access_token_ = json_obj["access_token"].toString();
+  token_type_ = json_obj[QStringLiteral("token_type")].toString();
+  access_token_ = json_obj[QStringLiteral("access_token")].toString();
   login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
-  expires_in_ = json_obj["expires_in"].toInt();
+  expires_in_ = json_obj[QStringLiteral("expires_in")].toInt();
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -261,19 +261,19 @@ QJsonObject OpenTidalCoverProvider::GetJsonObject(QNetworkReply *reply) {
       return QJsonObject();
     }
     QJsonObject json_obj = ExtractJsonObj(data);
-    if (json_obj.contains("errors") && json_obj["errors"].isArray()) {
-      QJsonArray array = json_obj["errors"].toArray();
+    if (json_obj.contains(QStringLiteral("errors")) && json_obj[QStringLiteral("errors")].isArray()) {
+      QJsonArray array = json_obj[QStringLiteral("errors")].toArray();
       for (const QJsonValue &value : array) {
         if (!value.isObject()) continue;
         QJsonObject obj = value.toObject();
-        if (!obj.contains("category") ||
-            !obj.contains("code") ||
-            !obj.contains("detail")) {
+        if (!obj.contains(QStringLiteral("category")) ||
+            !obj.contains(QStringLiteral("code")) ||
+            !obj.contains(QStringLiteral("detail"))) {
           continue;
         }
-        QString category = obj["category"].toString();
-        QString code = obj["code"].toString();
-        QString detail = obj["detail"].toString();
+        QString category = obj[QStringLiteral("category")].toString();
+        QString code = obj[QStringLiteral("code")].toString();
+        QString detail = obj[QStringLiteral("detail")].toString();
         qLog(Error) << "OpenTidal:" << category << code << detail;
       }
     }
@@ -302,10 +302,10 @@ void OpenTidalCoverProvider::SendSearchRequest(SearchRequestPtr search_request) 
   }
 
   QUrlQuery url_query;
-  url_query.addQueryItem("query", QUrl::toPercentEncoding(query));
-  url_query.addQueryItem("limit", QString::number(kLimit));
-  url_query.addQueryItem("countryCode", "US");
-  QUrl url(QString(kApiUrl) + QString("/search"));
+  url_query.addQueryItem(QStringLiteral("query"), QUrl::toPercentEncoding(query));
+  url_query.addQueryItem(QStringLiteral("limit"), QString::number(kLimit));
+  url_query.addQueryItem(QStringLiteral("countryCode"), QStringLiteral("US"));
+  QUrl url(QString(kApiUrl) + QStringLiteral("/search"));
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -331,13 +331,13 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
     return;
   }
 
-  if (!json_obj.contains("albums") || !json_obj["albums"].isArray()) {
+  if (!json_obj.contains(QStringLiteral("albums")) || !json_obj[QStringLiteral("albums")].isArray()) {
     qLog(Debug) << "OpenTidal: Json object is missing albums.";
     emit SearchFinished(search_request->id, CoverProviderSearchResults());
     return;
   }
 
-  QJsonArray array_albums = json_obj["albums"].toArray();
+  QJsonArray array_albums = json_obj[QStringLiteral("albums")].toArray();
   if (array_albums.isEmpty()) {
     emit SearchFinished(search_request->id, CoverProviderSearchResults());
     return;
@@ -353,55 +353,55 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
     }
     QJsonObject obj_album = value_album.toObject();
 
-    if (!obj_album.contains("resource") || !obj_album["resource"].isObject()) {
+    if (!obj_album.contains(QStringLiteral("resource")) || !obj_album[QStringLiteral("resource")].isObject()) {
       qLog(Debug) << "OpenTidal: Invalid Json reply: Albums array album is missing resource object.";
       continue;
     }
-    QJsonObject obj_resource = obj_album["resource"].toObject();
+    QJsonObject obj_resource = obj_album[QStringLiteral("resource")].toObject();
 
-    if (!obj_resource.contains("artists") || !obj_resource["artists"].isArray()) {
+    if (!obj_resource.contains(QStringLiteral("artists")) || !obj_resource[QStringLiteral("artists")].isArray()) {
       qLog(Debug) << "OpenTidal: Invalid Json reply: Resource is missing artists array.";
       continue;
     }
 
-    if (!obj_resource.contains("title") || !obj_resource["title"].isString()) {
+    if (!obj_resource.contains(QStringLiteral("title")) || !obj_resource[QStringLiteral("title")].isString()) {
       qLog(Debug) << "OpenTidal: Invalid Json reply: Resource is missing title.";
       continue;
     }
 
-    if (!obj_resource.contains("imageCover") || !obj_resource["imageCover"].isArray()) {
+    if (!obj_resource.contains(QStringLiteral("imageCover")) || !obj_resource[QStringLiteral("imageCover")].isArray()) {
       qLog(Debug) << "OpenTidal: Invalid Json reply: Resource is missing imageCover array.";
       continue;
     }
 
     QString artist;
-    const QString album = obj_resource["title"].toString();
+    const QString album = obj_resource[QStringLiteral("title")].toString();
 
-    QJsonArray array_artists = obj_resource["artists"].toArray();
+    QJsonArray array_artists = obj_resource[QStringLiteral("artists")].toArray();
     for (const QJsonValueRef value_artist : array_artists) {
       if (!value_artist.isObject()) {
         continue;
       }
       QJsonObject obj_artist = value_artist.toObject();
-      if (!obj_artist.contains("name")) {
+      if (!obj_artist.contains(QStringLiteral("name"))) {
         continue;
       }
-      artist = obj_artist["name"].toString();
+      artist = obj_artist[QStringLiteral("name")].toString();
       break;
     }
 
-    QJsonArray array_covers = obj_resource["imageCover"].toArray();
+    QJsonArray array_covers = obj_resource[QStringLiteral("imageCover")].toArray();
     for (const QJsonValueRef value_cover : array_covers) {
       if (!value_cover.isObject()) {
         continue;
       }
       QJsonObject obj_cover = value_cover.toObject();
-      if (!obj_cover.contains("url") || !obj_cover.contains("width") || !obj_cover.contains("height")) {
+      if (!obj_cover.contains(QStringLiteral("url")) || !obj_cover.contains(QStringLiteral("width")) || !obj_cover.contains(QStringLiteral("height"))) {
         continue;
       }
-      const QUrl url(obj_cover["url"].toString());
-      const int width = obj_cover["width"].toInt();
-      const int height = obj_cover["height"].toInt();
+      const QUrl url(obj_cover[QStringLiteral("url")].toString());
+      const int width = obj_cover[QStringLiteral("width")].toInt();
+      const int height = obj_cover[QStringLiteral("height")].toInt();
       if (!url.isValid()) continue;
       if (width < 640 || height < 640) continue;
       CoverProviderSearchResult cover_result;

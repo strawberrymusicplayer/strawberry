@@ -60,8 +60,8 @@ Equalizer::Equalizer(QWidget *parent)
   ui_->setupUi(this);
 
   // Icons
-  ui_->preset_del->setIcon(IconLoader::Load("list-remove"));
-  ui_->preset_save->setIcon(IconLoader::Load("document-save"));
+  ui_->preset_del->setIcon(IconLoader::Load(QStringLiteral("list-remove")));
+  ui_->preset_save->setIcon(IconLoader::Load(QStringLiteral("document-save")));
 
   preamp_ = AddSlider(tr("Pre-amp"));
 

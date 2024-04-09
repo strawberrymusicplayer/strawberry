@@ -51,7 +51,7 @@ LyricsSettingsPage::LyricsSettingsPage(SettingsDialog *dialog, QWidget *parent)
       provider_selected_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("view-media-lyrics", true, 0, 32));
+  setWindowIcon(IconLoader::Load(QStringLiteral("view-media-lyrics"), true, 0, 32));
 
   QObject::connect(ui_->providers_up, &QPushButton::clicked, this, &LyricsSettingsPage::ProvidersMoveUp);
   QObject::connect(ui_->providers_down, &QPushButton::clicked, this, &LyricsSettingsPage::ProvidersMoveDown);
@@ -126,11 +126,11 @@ void LyricsSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QList
         ui_->button_authenticate->setEnabled(true);
         ui_->button_authenticate->show();
         ui_->login_state->show();
-        ui_->label_auth_info->setText(QString("%1 needs authentication.").arg(provider->name()));
+        ui_->label_auth_info->setText(QStringLiteral("%1 needs authentication.").arg(provider->name()));
       }
       else {
         DisableAuthentication();
-        ui_->label_auth_info->setText(QString("%1 does not need authentication.").arg(provider->name()));
+        ui_->label_auth_info->setText(QStringLiteral("%1 does not need authentication.").arg(provider->name()));
       }
       provider_selected_ = true;
     }
@@ -251,7 +251,7 @@ void LyricsSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
   if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
-  QMessageBox::warning(this, tr("Authentication failed"), errors.join("\n"));
+  QMessageBox::warning(this, tr("Authentication failed"), errors.join(QStringLiteral("\n")));
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_authenticate->setEnabled(true);

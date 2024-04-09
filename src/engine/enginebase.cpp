@@ -79,8 +79,8 @@ EngineBase::~EngineBase() = default;
 
 EngineBase::Type EngineBase::TypeFromName(const QString &name) {
 
-  if (name.compare("gstreamer", Qt::CaseInsensitive) == 0) return Type::GStreamer;
-  if (name.compare("vlc", Qt::CaseInsensitive) == 0)  return Type::VLC;
+  if (name.compare(QLatin1String("gstreamer"), Qt::CaseInsensitive) == 0) return Type::GStreamer;
+  if (name.compare(QLatin1String("vlc"), Qt::CaseInsensitive) == 0)  return Type::VLC;
 
   return Type::None;
 
@@ -89,10 +89,10 @@ EngineBase::Type EngineBase::TypeFromName(const QString &name) {
 QString EngineBase::Name(const Type type) {
 
   switch (type) {
-    case Type::GStreamer:  return QString("gstreamer");
-    case Type::VLC:        return QString("vlc");
+    case Type::GStreamer:  return QStringLiteral("gstreamer");
+    case Type::VLC:        return QStringLiteral("vlc");
     case Type::None:
-    default:               return QString("None");
+    default:               return QStringLiteral("None");
   }
 
 }
@@ -100,10 +100,10 @@ QString EngineBase::Name(const Type type) {
 QString EngineBase::Description(const Type type) {
 
   switch (type) {
-    case Type::GStreamer:  return QString("GStreamer");
-    case Type::VLC:        return QString("VLC");
+    case Type::GStreamer:  return QStringLiteral("GStreamer");
+    case Type::VLC:        return QStringLiteral("VLC");
     case Type::None:
-    default:               return QString("None");
+    default:               return QStringLiteral("None");
   }
 
 }
@@ -203,8 +203,8 @@ void EngineBase::ReloadSettings() {
   bool http2_enabled = s.value("http2", false).toBool();
   if (http2_enabled != http2_enabled_) {
     http2_enabled_ = http2_enabled;
-    Utilities::SetEnv("SOUP_FORCE_HTTP1", http2_enabled_ ? "" : "1");
-    qLog(Debug) << "SOUP_FORCE_HTTP1:" << (http2_enabled_ ? "OFF" : "ON");
+    Utilities::SetEnv("SOUP_FORCE_HTTP1", http2_enabled_ ? QLatin1String("") : QStringLiteral("1"));
+    qLog(Debug) << "SOUP_FORCE_HTTP1:" << (http2_enabled_ ? QLatin1String("OFF") : QLatin1String("ON"));
   }
 
   strict_ssl_enabled_ = s.value("strict_ssl", false).toBool();
@@ -223,7 +223,7 @@ void EngineBase::ReloadSettings() {
       proxy_pass_.clear();
     }
     else {
-      proxy_address_ = QString("%1:%2").arg(proxy_host).arg(proxy_port);
+      proxy_address_ = QStringLiteral("%1:%2").arg(proxy_host).arg(proxy_port);
       proxy_authentication_ = s.value("use_authentication").toBool();
       proxy_user_ = s.value("username").toString();
       proxy_pass_ = s.value("password").toString();

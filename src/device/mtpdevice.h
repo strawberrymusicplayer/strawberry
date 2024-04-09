@@ -51,7 +51,7 @@ class MtpDevice : public ConnectedDevice {
   Q_INVOKABLE MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
   ~MtpDevice() override;
 
-  static QStringList url_schemes() { return QStringList() << "mtp"; }
+  static QStringList url_schemes() { return QStringList() << QStringLiteral("mtp"); }
 
   bool Init() override;
   void ConnectAsync() override;

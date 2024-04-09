@@ -122,18 +122,18 @@ SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(SharedPtr<Collectio
   }
 
   // Icons on the buttons
-  ui_->remove->setIcon(IconLoader::Load("list-remove"));
+  ui_->remove->setIcon(IconLoader::Load(QStringLiteral("list-remove")));
 
   // Set stylesheet
-  QFile stylesheet_file(":/style/smartplaylistsearchterm.css");
+  QFile stylesheet_file(QStringLiteral(":/style/smartplaylistsearchterm.css"));
   if (stylesheet_file.open(QIODevice::ReadOnly)) {
     QString stylesheet = QString::fromLatin1(stylesheet_file.readAll());
     stylesheet_file.close();
     const QColor base(222, 97, 97, 128);
-    stylesheet.replace("%light2", Utilities::ColorToRgba(base.lighter(140)));
-    stylesheet.replace("%light", Utilities::ColorToRgba(base.lighter(120)));
-    stylesheet.replace("%dark", Utilities::ColorToRgba(base.darker(120)));
-    stylesheet.replace("%base", Utilities::ColorToRgba(base));
+    stylesheet.replace(QLatin1String("%light2"), Utilities::ColorToRgba(base.lighter(140)));
+    stylesheet.replace(QLatin1String("%light"), Utilities::ColorToRgba(base.lighter(120)));
+    stylesheet.replace(QLatin1String("%dark"), Utilities::ColorToRgba(base.darker(120)));
+    stylesheet.replace(QLatin1String("%base"), Utilities::ColorToRgba(base));
     setStyleSheet(stylesheet);
   }
 
@@ -326,7 +326,7 @@ void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term)
   switch (SmartPlaylistSearchTerm::TypeOf(term.field_)) {
     case SmartPlaylistSearchTerm::Type::Text:
       if (ui_->value_stack->currentWidget() == ui_->page_empty) {
-        ui_->value_text->setText("");
+        ui_->value_text->setText(QLatin1String(""));
       }
       else {
         ui_->value_text->setText(term.value_.toString());
@@ -418,7 +418,7 @@ void SmartPlaylistSearchTermWidget::RelativeValueChanged() {
   }
   // Explain the user why he can't proceed
   if (ui_->value_date_numeric1->value() >= ui_->value_date_numeric2->value()) {
-    QMessageBox::warning(this, "Strawberry", tr("The second value must be greater than the first one!"));
+    QMessageBox::warning(this, QStringLiteral("Strawberry"), tr("The second value must be greater than the first one!"));
   }
   // Emit the signal in any case, so the Next button will be disabled
   emit Changed();
@@ -430,7 +430,7 @@ SmartPlaylistSearchTermWidget::Overlay::Overlay(SmartPlaylistSearchTermWidget *p
       parent_(parent),
       opacity_(0.0),
       text_(tr("Add search term")),
-      icon_(IconLoader::Load("list-add").pixmap(kIconSize)) {
+      icon_(IconLoader::Load(QStringLiteral("list-add")).pixmap(kIconSize)) {
 
   raise();
   setFocusPolicy(Qt::TabFocus);

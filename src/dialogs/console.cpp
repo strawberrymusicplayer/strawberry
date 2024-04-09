@@ -48,7 +48,7 @@ Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_{}, ap
 
   QObject::connect(ui_.run, &QPushButton::clicked, this, &Console::RunQuery);
 
-  QFont font("Monospace");
+  QFont font(QStringLiteral("Monospace"));
   font.setStyleHint(QFont::TypeWriter);
 
   ui_.output->setFont(font);
@@ -79,7 +79,7 @@ void Console::RunQuery() {
       values.append(record.value(i).toString());
     }
 
-    ui_.output->append(values.join("|"));
+    ui_.output->append(values.join(QStringLiteral("|")));
 
   }
 

@@ -33,7 +33,7 @@ const char SongLyricsComLyricsProvider::kEndTag[] = "<\\/p>";
 const char SongLyricsComLyricsProvider::kLyricsStart[] = "<p id=\"songLyricsDiv\"[^>]+>";
 
 SongLyricsComLyricsProvider::SongLyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : HtmlLyricsProvider("songlyrics.com", true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
+    : HtmlLyricsProvider(QStringLiteral("songlyrics.com"), true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
 
 QUrl SongLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
@@ -45,11 +45,11 @@ QString SongLyricsComLyricsProvider::StringFixup(QString text) {
 
   return text.replace('/', '-')
              .replace('\'', '-')
-             .remove(QRegularExpression("[^\\w0-9\\- ]"))
-             .replace(QRegularExpression(" {2,}"), " ")
+             .remove(QRegularExpression(QStringLiteral("[^\\w0-9\\- ]")))
+             .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
              .simplified()
              .replace(' ', '-')
-             .replace(QRegularExpression("(-)\\1+"), "-")
+             .replace(QRegularExpression(QStringLiteral("(-)\\1+")), QStringLiteral("-"))
              .toLower();
 
 }

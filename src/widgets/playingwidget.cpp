@@ -117,8 +117,8 @@ PlayingWidget::PlayingWidget(QWidget *parent)
   details_->setUndoRedoEnabled(false);
   // add placeholder text to get the correct height
   if (mode_ == Mode::LargeSongDetails) {
-    details_->setDefaultStyleSheet("p { font-size: small; font-weight: bold; }");
-    details_->setHtml(QString("<p align=center><i></i><br/><br/></p>"));
+    details_->setDefaultStyleSheet(QStringLiteral("p { font-size: small; font-weight: bold; }"));
+    details_->setHtml(QStringLiteral("<p align=center><i></i><br/><br/></p>"));
   }
 
   UpdateHeight();
@@ -402,20 +402,20 @@ void PlayingWidget::UpdateHeight() {
 void PlayingWidget::UpdateDetailsText() {
 
   QString html;
-  details_->setDefaultStyleSheet("p { font-size: small; font-weight: bold; }");
+  details_->setDefaultStyleSheet(QStringLiteral("p { font-size: small; font-weight: bold; }"));
   switch (mode_) {
     case Mode::SmallSongDetails:
       details_->setTextWidth(-1);
-      html += "<p>";
+      html += QLatin1String("<p>");
       break;
     case Mode::LargeSongDetails:
       details_->setTextWidth(desired_height_);
-      html += "<p align=center>";
+      html += QLatin1String("<p align=center>");
       break;
   }
 
-  html += QString("%1<br/>%2<br/>%3").arg(song_.PrettyTitle().toHtmlEscaped(), song_.artist().toHtmlEscaped(), song_.album().toHtmlEscaped());
-  html += "</p>";
+  html += QStringLiteral("%1<br/>%2<br/>%3").arg(song_.PrettyTitle().toHtmlEscaped(), song_.artist().toHtmlEscaped(), song_.album().toHtmlEscaped());
+  html += QLatin1String("</p>");
 
   details_->setHtml(html);
 

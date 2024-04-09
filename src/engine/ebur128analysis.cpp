@@ -394,11 +394,11 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
     return std::nullopt;
   }
 
-  GstElement *src = CreateElement("filesrc", pipeline);
-  GstElement *decode = CreateElement("decodebin", pipeline);
-  GstElement *convert = CreateElement("audioconvert", pipeline);
-  GstElement *queue = CreateElement("queue2", pipeline);
-  GstElement *sink = CreateElement("appsink", pipeline);
+  GstElement *src = CreateElement(QStringLiteral("filesrc"), pipeline);
+  GstElement *decode = CreateElement(QStringLiteral("decodebin"), pipeline);
+  GstElement *convert = CreateElement(QStringLiteral("audioconvert"), pipeline);
+  GstElement *queue = CreateElement(QStringLiteral("queue2"), pipeline);
+  GstElement *sink = CreateElement(QStringLiteral("appsink"), pipeline);
 
   if (!src || !decode || !convert || !queue || !sink) {
     gst_object_unref(pipeline);

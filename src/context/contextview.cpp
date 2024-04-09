@@ -409,15 +409,15 @@ void ContextView::NoSong() {
   QString html;
   if (collectionview_->TotalSongs() == 1) html += tr("%1 song").arg(collectionview_->TotalSongs());
   else html += tr("%1 songs").arg(collectionview_->TotalSongs());
-  html += "<br />";
+  html += QLatin1String("<br />");
 
   if (collectionview_->TotalArtists() == 1) html += tr("%1 artist").arg(collectionview_->TotalArtists());
   else html += tr("%1 artists").arg(collectionview_->TotalArtists());
-  html += "<br />";
+  html += QLatin1String("<br />");
 
   if (collectionview_->TotalAlbums() == 1) html += tr("%1 album").arg(collectionview_->TotalAlbums());
   else html += tr("%1 albums").arg(collectionview_->TotalAlbums());
-  html += "<br />";
+  html += QLatin1String("<br />");
 
   label_stop_summary_->setFont(font_normal_);
   label_stop_summary_->setText(html);
@@ -438,7 +438,7 @@ void ContextView::UpdateFonts() {
 void ContextView::SetSong() {
 
   textedit_top_->setFont(font_headline_);
-  textedit_top_->SetText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song_playing_, "<br />", true)));
+  textedit_top_->SetText(QStringLiteral("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, QStringLiteral("<br />"), true), Utilities::ReplaceMessage(summary_fmt_, song_playing_, QStringLiteral("<br />"), true)));
 
   label_stop_summary_->clear();
 
@@ -474,7 +474,7 @@ void ContextView::SetSong() {
     else {
       label_samplerate_title_->show();
       label_samplerate_->show();
-      SetLabelText(label_samplerate_, song_playing_.samplerate(), "Hz");
+      SetLabelText(label_samplerate_, song_playing_.samplerate(), QStringLiteral("Hz"));
     }
     if (song_playing_.bitdepth() <= 0) {
       label_bitdepth_title_->hide();
@@ -484,7 +484,7 @@ void ContextView::SetSong() {
     else {
       label_bitdepth_title_->show();
       label_bitdepth_->show();
-      SetLabelText(label_bitdepth_, song_playing_.bitdepth(), "Bit");
+      SetLabelText(label_bitdepth_, song_playing_.bitdepth(), QStringLiteral("Bit"));
     }
     if (song_playing_.bitrate() <= 0) {
       label_bitrate_title_->hide();
@@ -546,7 +546,7 @@ void ContextView::SetSong() {
 
 void ContextView::UpdateSong(const Song &song) {
 
-  textedit_top_->SetText(QString("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, "<br />", true), Utilities::ReplaceMessage(summary_fmt_, song, "<br />", true)));
+  textedit_top_->SetText(QStringLiteral("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, QStringLiteral("<br />"), true), Utilities::ReplaceMessage(summary_fmt_, song, QStringLiteral("<br />"), true)));
 
   if (action_show_data_->isChecked()) {
     if (song.filetype() != song_playing_.filetype()) label_filetype_->setText(song.TextForFiletype());
@@ -571,7 +571,7 @@ void ContextView::UpdateSong(const Song &song) {
       else {
         label_samplerate_title_->show();
         label_samplerate_->show();
-        SetLabelText(label_samplerate_, song.samplerate(), "Hz");
+        SetLabelText(label_samplerate_, song.samplerate(), QStringLiteral("Hz"));
       }
     }
     if (song.bitdepth() != song_playing_.bitdepth()) {
@@ -583,7 +583,7 @@ void ContextView::UpdateSong(const Song &song) {
       else {
         label_bitdepth_title_->show();
         label_bitdepth_->show();
-        SetLabelText(label_bitdepth_, song.bitdepth(), "Bit");
+        SetLabelText(label_bitdepth_, song.bitdepth(), QStringLiteral("Bit"));
       }
     }
     if (song.bitrate() != song_playing_.bitrate()) {
@@ -632,7 +632,7 @@ void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const 
   if (static_cast<qint64>(id) != lyrics_id_) return;
 
   if (lyrics.isEmpty()) {
-    lyrics_ = "No lyrics found.\n";
+    lyrics_ = QStringLiteral("No lyrics found.\n");
   }
   else {
     lyrics_ = lyrics + "\n\n(Lyrics from " + provider + ")\n";

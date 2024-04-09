@@ -58,7 +58,7 @@ SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, con
     QString key = line.left(equals).toLower();
     QString value = line.mid(equals + 1);
 
-    if (key.startsWith("ref")) {
+    if (key.startsWith(QLatin1String("ref"))) {
       Song song = LoadSong(value, 0, 0, dir, collection_search);
       if (song.is_valid()) {
         ret << song;

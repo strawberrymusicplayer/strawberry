@@ -112,8 +112,8 @@ AlbumCoverManager::AlbumCoverManager(Application *app, SharedPtr<CollectionBacke
       cover_searcher_(nullptr),
       cover_export_(nullptr),
       cover_exporter_(new AlbumCoverExporter(this)),
-      artist_icon_(IconLoader::Load("folder-sound")),
-      all_artists_icon_(IconLoader::Load("library-music")),
+      artist_icon_(IconLoader::Load(QStringLiteral("folder-sound"))),
+      all_artists_icon_(IconLoader::Load(QStringLiteral("library-music"))),
       image_nocover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(120, 120), devicePixelRatio())),
       icon_nocover_item_(QPixmap::fromImage(image_nocover_thumbnail_)),
       context_menu_(new QMenu(this)),
@@ -126,12 +126,12 @@ AlbumCoverManager::AlbumCoverManager(Application *app, SharedPtr<CollectionBacke
   ui_->albums->set_cover_manager(this);
 
   // Icons
-  ui_->action_fetch->setIcon(IconLoader::Load("download"));
-  ui_->export_covers->setIcon(IconLoader::Load("document-save"));
-  ui_->view->setIcon(IconLoader::Load("view-choose"));
-  ui_->button_fetch->setIcon(IconLoader::Load("download"));
-  ui_->action_add_to_playlist->setIcon(IconLoader::Load("media-playback-start"));
-  ui_->action_load->setIcon(IconLoader::Load("media-playback-start"));
+  ui_->action_fetch->setIcon(IconLoader::Load(QStringLiteral("download")));
+  ui_->export_covers->setIcon(IconLoader::Load(QStringLiteral("document-save")));
+  ui_->view->setIcon(IconLoader::Load(QStringLiteral("view-choose")));
+  ui_->button_fetch->setIcon(IconLoader::Load(QStringLiteral("download")));
+  ui_->action_add_to_playlist->setIcon(IconLoader::Load(QStringLiteral("media-playback-start")));
+  ui_->action_load->setIcon(IconLoader::Load(QStringLiteral("media-playback-start")));
 
   album_cover_choice_controller_->Init(app_);
 
@@ -877,12 +877,12 @@ SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &idx) const {
 
   CollectionQuery q(db, collection_backend_->songs_table(), collection_backend_->fts_table());
   q.SetColumnSpec("ROWID," + Song::kColumnSpec);
-  q.AddWhere("album", idx.data(Role_Album).toString());
-  q.SetOrderBy("disc, track, title");
+  q.AddWhere(QStringLiteral("album"), idx.data(Role_Album).toString());
+  q.SetOrderBy(QStringLiteral("disc, track, title"));
 
   QString albumartist = idx.data(Role_AlbumArtist).toString();
   if (!albumartist.isEmpty()) {
-    q.AddWhere("effective_albumartist", albumartist);
+    q.AddWhere(QStringLiteral("effective_albumartist"), albumartist);
   }
 
   q.AddCompilationRequirement(albumartist.isEmpty());

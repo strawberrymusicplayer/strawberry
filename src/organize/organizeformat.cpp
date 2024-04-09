@@ -46,29 +46,29 @@
 constexpr char OrganizeFormat::kBlockPattern[] = "\\{([^{}]+)\\}";
 constexpr char OrganizeFormat::kTagPattern[] = "\\%([a-zA-Z]*)";
 
-const QStringList OrganizeFormat::kKnownTags = QStringList() << "title"
-                                                             << "album"
-                                                             << "artist"
-                                                             << "artistinitial"
-                                                             << "albumartist"
-                                                             << "composer"
-                                                             << "track"
-                                                             << "disc"
-                                                             << "year"
-                                                             << "originalyear"
-                                                             << "genre"
-                                                             << "comment"
-                                                             << "length"
-                                                             << "bitrate"
-                                                             << "samplerate"
-                                                             << "bitdepth"
-                                                             << "extension"
-                                                             << "performer"
-                                                             << "grouping"
-                                                             << "lyrics";
+const QStringList OrganizeFormat::kKnownTags = QStringList() << QStringLiteral("title")
+                                                             << QStringLiteral("album")
+                                                             << QStringLiteral("artist")
+                                                             << QStringLiteral("artistinitial")
+                                                             << QStringLiteral("albumartist")
+                                                             << QStringLiteral("composer")
+                                                             << QStringLiteral("track")
+                                                             << QStringLiteral("disc")
+                                                             << QStringLiteral("year")
+                                                             << QStringLiteral("originalyear")
+                                                             << QStringLiteral("genre")
+                                                             << QStringLiteral("comment")
+                                                             << QStringLiteral("length")
+                                                             << QStringLiteral("bitrate")
+                                                             << QStringLiteral("samplerate")
+                                                             << QStringLiteral("bitdepth")
+                                                             << QStringLiteral("extension")
+                                                             << QStringLiteral("performer")
+                                                             << QStringLiteral("grouping")
+                                                             << QStringLiteral("lyrics");
 
-const QStringList OrganizeFormat::kUniqueTags = QStringList() << "title"
-                                                              << "track";
+const QStringList OrganizeFormat::kUniqueTags = QStringList() << QStringLiteral("title")
+                                                              << QStringLiteral("track");
 
 const QRgb OrganizeFormat::SyntaxHighlighter::kValidTagColorLight = qRgb(64, 64, 255);
 const QRgb OrganizeFormat::SyntaxHighlighter::kInvalidTagColorLight = qRgb(255, 64, 64);
@@ -175,7 +175,7 @@ OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(cons
   filepath.append(info.completeBaseName());
 
   // Fix any parts of the path that start with dots.
-  QStringList parts_old = filepath.split("/");
+  QStringList parts_old = filepath.split(QStringLiteral("/"));
   QStringList parts_new;
   for (int i = 0; i < parts_old.count(); ++i) {
     QString part = parts_old[i];
@@ -188,12 +188,12 @@ OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(cons
     part = part.trimmed();
     parts_new.append(part);
   }
-  filepath = parts_new.join("/");
+  filepath = parts_new.join(QStringLiteral("/"));
 
-  if (replace_spaces_) filepath.replace(QRegularExpression("\\s"), "_");
+  if (replace_spaces_) filepath.replace(QRegularExpression(QStringLiteral("\\s")), QStringLiteral("_"));
 
   if (!extension.isEmpty()) {
-    filepath.append(QString(".%1").arg(extension));
+    filepath.append(QStringLiteral(".%1").arg(extension));
   }
 
   return GetFilenameForSongResult(filepath, unique_filename);
@@ -211,7 +211,7 @@ QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *have_t
     // Recursively parse the block
     bool empty = false;
     QString value = ParseBlock(re_match.captured(1), song, have_tagdata, &empty);
-    if (empty) value = "";
+    if (empty) value = QLatin1String("");
 
     // Replace the block's value
     block.replace(pos, re_match.capturedLength(), value);
@@ -306,15 +306,15 @@ QString OrganizeFormat::TagValue(const QString &tag, const Song &song) const {
   else if (tag == "artistinitial") {
     value = song.effective_albumartist().trimmed();
     if (!value.isEmpty()) {
-      value.replace(QRegularExpression("^the\\s+", QRegularExpression::CaseInsensitiveOption), "");
+      value.replace(QRegularExpression(QStringLiteral("^the\\s+"), QRegularExpression::CaseInsensitiveOption), QLatin1String(""));
       value = value[0].toUpper();
     }
   }
   else if (tag == "albumartist") {
-    value = song.is_compilation() ? "Various Artists" : song.effective_albumartist();
+    value = song.is_compilation() ? QStringLiteral("Various Artists") : song.effective_albumartist();
   }
 
-  if (value == "0" || value == "-1") value = "";
+  if (value == "0" || value == "-1") value = QLatin1String("");
 
   // Prepend a 0 to single-digit track numbers
   if (tag == "track" && value.length() == 1) value.prepend('0');

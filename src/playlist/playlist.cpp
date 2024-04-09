@@ -772,7 +772,7 @@ Qt::ItemFlags Playlist::flags(const QModelIndex &idx) const {
 
 QStringList Playlist::mimeTypes() const {
 
-  return QStringList() << "text/uri-list" << kRowsMimetype;
+  return QStringList() << QStringLiteral("text/uri-list") << kRowsMimetype;
 
 }
 
@@ -1411,7 +1411,7 @@ QString Playlist::column_name(Column column) {
 
     default:                  qLog(Error) << "No such column" << column;;
   }
-  return "";
+  return QLatin1String("");
 
 }
 
@@ -1424,11 +1424,11 @@ QString Playlist::abbreviated_column_name(const Column column) {
     case Column_PlayCount:
     case Column_SkipCount:
     case Column_Track:
-      return QString("%1#").arg(column_name[0]);
+      return QStringLiteral("%1#").arg(column_name[0]);
     default:
       return column_name;
   }
-  return "";
+  return QLatin1String("");
 
 }
 

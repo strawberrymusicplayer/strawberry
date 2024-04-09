@@ -416,23 +416,23 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
     GstElementFactory *factory = GST_ELEMENT_FACTORY(future->data);
     const QString metadata = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS));
     const QString name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
-    if (metadata.startsWith("Sink/Audio", Qt::CaseInsensitive) || name == "pipewiresink" || (metadata.startsWith("Source/Audio", Qt::CaseInsensitive) && name.contains("sink"))) {
+    if (metadata.startsWith(QLatin1String("Sink/Audio"), Qt::CaseInsensitive) || name == "pipewiresink" || (metadata.startsWith(QLatin1String("Source/Audio"), Qt::CaseInsensitive) && name.contains(QLatin1String("sink")))) {
       QString description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
       if (name == "wasapi2sink" && description == "Stream audio to an audio capture device through WASAPI") {
         description.append("2");
       }
       else if (name == "pipewiresink" && description == "Send video to PipeWire") {
-        description = "Send audio to PipeWire";
+        description = QStringLiteral("Send audio to PipeWire");
       }
       OutputDetails output;
       output.name = name;
       output.description = description;
-      if (output.name == kAutoSink) output.iconname = "soundcard";
-      else if (output.name == kALSASink || output.name == kOSS4Sink) output.iconname = "alsa";
-      else if (output.name == kJackAudioSink) output.iconname = "jack";
-      else if (output.name == kPulseSink) output.iconname = "pulseaudio";
-      else if (output.name == kA2DPSink || output.name == kAVDTPSink) output.iconname = "bluetooth";
-      else output.iconname = "soundcard";
+      if (output.name == kAutoSink) output.iconname = QStringLiteral("soundcard");
+      else if (output.name == kALSASink || output.name == kOSS4Sink) output.iconname = QStringLiteral("alsa");
+      else if (output.name == kJackAudioSink) output.iconname = QStringLiteral("jack");
+      else if (output.name == kPulseSink) output.iconname = QStringLiteral("pulseaudio");
+      else if (output.name == kA2DPSink || output.name == kAVDTPSink) output.iconname = QStringLiteral("bluetooth");
+      else output.iconname = QStringLiteral("soundcard");
       outputs << output;
     }
   }
@@ -736,8 +736,8 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
       // So we handle them ourselves: we extract the track number and re-create a URL with only cdda:// + the track number (which can be handled by Gstreamer).
       // We keep the device in mind, and we will set it later using SourceSetupCallback
       QStringList path = url.path().split('/');
-      str = QString("cdda://%1").arg(path.takeLast());
-      QString device = path.join("/");
+      str = QStringLiteral("cdda://%1").arg(path.takeLast());
+      QString device = path.join(QStringLiteral("/"));
       if (current_pipeline_) current_pipeline_->SetSourceDevice(device);
     }
     uri = str.toUtf8();
@@ -886,12 +886,12 @@ void GstEngine::UpdateScope(const int chunk_length) {
 
   scope_chunk_++;
 
-  if (buffer_format_.startsWith("S16LE") ||
-      buffer_format_.startsWith("U16LE") ||
-      buffer_format_.startsWith("S24LE") ||
-      buffer_format_.startsWith("S24_32LE") ||
-      buffer_format_.startsWith("S32LE") ||
-      buffer_format_.startsWith("F32LE")
+  if (buffer_format_.startsWith(QLatin1String("S16LE")) ||
+      buffer_format_.startsWith(QLatin1String("U16LE")) ||
+      buffer_format_.startsWith(QLatin1String("S24LE")) ||
+      buffer_format_.startsWith(QLatin1String("S24_32LE")) ||
+      buffer_format_.startsWith(QLatin1String("S32LE")) ||
+      buffer_format_.startsWith(QLatin1String("F32LE"))
   ) {
     memcpy(dest, source, bytes);
   }
@@ -919,7 +919,7 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
   GstDiscovererResult result = gst_discoverer_info_get_result(info);
   if (result != GST_DISCOVERER_OK) {
     QString error_message = GSTdiscovererErrorMessage(result);
-    qLog(Error) << QString("Stream discovery for %1 failed: %2").arg(discovered_url, error_message);
+    qLog(Error) << QStringLiteral("Stream discovery for %1 failed: %2").arg(discovered_url, error_message);
     return;
   }
 
@@ -989,12 +989,12 @@ void GstEngine::StreamDiscoveryFinished(GstDiscoverer*, gpointer) {}
 QString GstEngine::GSTdiscovererErrorMessage(GstDiscovererResult result) {
 
   switch (result) {
-    case GST_DISCOVERER_URI_INVALID:     return "The URI is invalid";
-    case GST_DISCOVERER_TIMEOUT:         return "The discovery timed-out";
-    case GST_DISCOVERER_BUSY:            return "The discoverer was already discovering a file";
-    case GST_DISCOVERER_MISSING_PLUGINS: return "Some plugins are missing for full discovery";
+    case GST_DISCOVERER_URI_INVALID:     return QStringLiteral("The URI is invalid");
+    case GST_DISCOVERER_TIMEOUT:         return QStringLiteral("The discovery timed-out");
+    case GST_DISCOVERER_BUSY:            return QStringLiteral("The discoverer was already discovering a file");
+    case GST_DISCOVERER_MISSING_PLUGINS: return QStringLiteral("Some plugins are missing for full discovery");
     case GST_DISCOVERER_ERROR:
-    default:                             return "An error happened and the GError is set";
+    default:                             return QStringLiteral("An error happened and the GError is set");
   }
 
 }

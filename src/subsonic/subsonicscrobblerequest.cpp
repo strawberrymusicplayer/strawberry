@@ -77,7 +77,7 @@ void SubsonicScrobbleRequest::FlushScrobbleRequests() {
                                    << Param("submission", QVariant(request.submission).toString())
                                    << Param("time", QVariant(request.time_ms).toString());
 
-    QNetworkReply *reply = CreateGetRequest("scrobble", params);
+    QNetworkReply *reply = CreateGetRequest(QStringLiteral("scrobble"), params);
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { ScrobbleReplyReceived(reply); });
 
@@ -109,22 +109,22 @@ void SubsonicScrobbleRequest::ScrobbleReplyReceived(QNetworkReply *reply) {
     return;
   }
 
-  if (json_obj.contains("error")) {
-    QJsonValue json_error = json_obj["error"];
+  if (json_obj.contains(QStringLiteral("error"))) {
+    QJsonValue json_error = json_obj[QStringLiteral("error")];
     if (!json_error.isObject()) {
-      Error("Json error is not an object.", json_obj);
+      Error(QStringLiteral("Json error is not an object."), json_obj);
       FinishCheck();
       return;
     }
     json_obj = json_error.toObject();
-    if (!json_obj.isEmpty() && json_obj.contains("code") && json_obj.contains("message")) {
-      int code = json_obj["code"].toInt();
-      QString message = json_obj["message"].toString();
-      Error(QString("%1 (%2)").arg(message).arg(code));
+    if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("code")) && json_obj.contains(QStringLiteral("message"))) {
+      int code = json_obj[QStringLiteral("code")].toInt();
+      QString message = json_obj[QStringLiteral("message")].toString();
+      Error(QStringLiteral("%1 (%2)").arg(message).arg(code));
       FinishCheck();
     }
     else {
-      Error("Json error object is missing code or message.", json_obj);
+      Error(QStringLiteral("Json error object is missing code or message."), json_obj);
       FinishCheck();
       return;
     }

@@ -41,7 +41,7 @@ QStringList CddaLister::DeviceUniqueIDs() { return devices_list_; }
 
 QVariantList CddaLister::DeviceIcons(const QString &) {
   QVariantList icons;
-  icons << QString("media-optical");
+  icons << QStringLiteral("media-optical");
   return icons;
 }
 
@@ -88,7 +88,7 @@ QString CddaLister::MakeFriendlyName(const QString &id) {
     return QString(cd_info.psz_model);
   }
   cdio_destroy(cdio);
-  return QString("CD (") + id + ")";
+  return QStringLiteral("CD (") + id + ")";
 
 }
 

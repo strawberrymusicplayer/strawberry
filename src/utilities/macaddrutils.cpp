@@ -41,7 +41,7 @@ QString MacAddress() {
     }
   }
 
-  if (ret.isEmpty()) ret = "00:00:00:00:00:00";
+  if (ret.isEmpty()) ret = QStringLiteral("00:00:00:00:00:00");
 
   return ret;
 

@@ -69,12 +69,12 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent
       enginetype_current_(EngineBase::Type::None) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("soundcard", true, 0, 32));
+  setWindowIcon(IconLoader::Load(QStringLiteral("soundcard"), true, 0, 32));
 
-  ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).horizontalAdvance("-WW.W dB"));
-  ui_->label_replaygainfallbackgain->setMinimumWidth(QFontMetrics(ui_->label_replaygainfallbackgain->font()).horizontalAdvance("-WW.W dB"));
+  ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).horizontalAdvance(QStringLiteral("-WW.W dB")));
+  ui_->label_replaygainfallbackgain->setMinimumWidth(QFontMetrics(ui_->label_replaygainfallbackgain->font()).horizontalAdvance(QStringLiteral("-WW.W dB")));
 
-  ui_->label_ebur128_target_level->setMinimumWidth(QFontMetrics(ui_->label_ebur128_target_level->font()).horizontalAdvance("-WW.W LUFS"));
+  ui_->label_ebur128_target_level->setMinimumWidth(QFontMetrics(ui_->label_ebur128_target_level->font()).horizontalAdvance(QStringLiteral("-WW.W LUFS")));
 
   QObject::connect(ui_->combobox_engine, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &BackendSettingsPage::EngineChanged);
   QObject::connect(ui_->combobox_output, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &BackendSettingsPage::OutputChanged);
@@ -123,10 +123,10 @@ void BackendSettingsPage::Load() {
 
   ui_->combobox_engine->clear();
 #ifdef HAVE_GSTREAMER
-  ui_->combobox_engine->addItem(IconLoader::Load("gstreamer"), EngineBase::Description(EngineBase::Type::GStreamer), static_cast<int>(EngineBase::Type::GStreamer));
+  ui_->combobox_engine->addItem(IconLoader::Load(QStringLiteral("gstreamer")), EngineBase::Description(EngineBase::Type::GStreamer), static_cast<int>(EngineBase::Type::GStreamer));
 #endif
 #ifdef HAVE_VLC
-  ui_->combobox_engine->addItem(IconLoader::Load("vlc"), EngineBase::Description(EngineBase::Type::VLC), static_cast<int>(EngineBase::Type::VLC));
+  ui_->combobox_engine->addItem(IconLoader::Load(QStringLiteral("vlc")), EngineBase::Description(EngineBase::Type::VLC), static_cast<int>(EngineBase::Type::VLC));
 #endif
 
   enginetype_current_ = enginetype;
@@ -255,7 +255,7 @@ void BackendSettingsPage::Load() {
 bool BackendSettingsPage::EngineInitialized() {
 
   if (!engine() || engine()->type() == EngineBase::Type::None) {
-    errordialog_.ShowMessage("Engine is not initialized! Please restart.");
+    errordialog_.ShowMessage(QStringLiteral("Engine is not initialized! Please restart."));
     return false;
   }
   return true;
@@ -364,7 +364,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
 #ifdef Q_OS_WIN
   if (engine()->type() != EngineBase::Type::GStreamer)
 #endif
-    ui_->combobox_device->addItem(IconLoader::Load("soundcard"), kOutputAutomaticallySelect, QVariant());
+    ui_->combobox_device->addItem(IconLoader::Load(QStringLiteral("soundcard")), kOutputAutomaticallySelect, QVariant());
 
   for (DeviceFinder *f : dialog()->app()->device_finders()->ListFinders()) {
     if (!f->outputs().contains(output)) continue;
@@ -376,7 +376,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   }
 
   if (engine()->CustomDeviceSupport(output)) {
-    ui_->combobox_device->addItem(IconLoader::Load("soundcard"), kOutputCustom, QVariant());
+    ui_->combobox_device->addItem(IconLoader::Load(QStringLiteral("soundcard")), kOutputCustom, QVariant());
     ui_->lineedit_device->setEnabled(true);
   }
   else {
@@ -389,15 +389,15 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
     ui_->radiobutton_alsa_hw->setEnabled(true);
     ui_->radiobutton_alsa_plughw->setEnabled(true);
     ui_->radiobutton_alsa_pcm->setEnabled(true);
-    if (device.toString().contains(QRegularExpression("^hw:.*"))) {
+    if (device.toString().contains(QRegularExpression(QStringLiteral("^hw:.*")))) {
       ui_->radiobutton_alsa_hw->setChecked(true);
       SwitchALSADevices(ALSAPluginType::HW);
     }
-    else if (device.toString().contains(QRegularExpression("^plughw:.*"))) {
+    else if (device.toString().contains(QRegularExpression(QStringLiteral("^plughw:.*")))) {
       ui_->radiobutton_alsa_plughw->setChecked(true);
       SwitchALSADevices(ALSAPluginType::PlugHW);
     }
-    else if (device.toString().contains(QRegularExpression("^.*:.*CARD=.*")) || device.toString().contains(QRegularExpression("^.*:.*DEV=.*"))) {
+    else if (device.toString().contains(QRegularExpression(QStringLiteral("^.*:.*CARD=.*"))) || device.toString().contains(QRegularExpression(QStringLiteral("^.*:.*DEV=.*")))) {
       ui_->radiobutton_alsa_pcm->setChecked(true);
       SwitchALSADevices(ALSAPluginType::PCM);
     }
@@ -553,7 +553,7 @@ void BackendSettingsPage::EngineChanged(const int index) {
   if (engine()->type() == enginetype) return;
 
   if (engine()->state() != EngineBase::State::Empty) {
-    errordialog_.ShowMessage("Can't switch engine while playing!");
+    errordialog_.ShowMessage(QStringLiteral("Can't switch engine while playing!"));
     ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(engine()->type())));
     return;
   }
@@ -614,15 +614,15 @@ void BackendSettingsPage::DeviceStringChanged() {
 
 #ifdef HAVE_ALSA
   if (engine()->ALSADeviceSupport(output.name)) {
-    if (ui_->lineedit_device->text().contains(QRegularExpression("^hw:.*")) && !ui_->radiobutton_alsa_hw->isChecked()) {
+    if (ui_->lineedit_device->text().contains(QRegularExpression(QStringLiteral("^hw:.*"))) && !ui_->radiobutton_alsa_hw->isChecked()) {
       ui_->radiobutton_alsa_hw->setChecked(true);
       SwitchALSADevices(ALSAPluginType::HW);
     }
-    else if (ui_->lineedit_device->text().contains(QRegularExpression("^plughw:.*")) && !ui_->radiobutton_alsa_plughw->isChecked()) {
+    else if (ui_->lineedit_device->text().contains(QRegularExpression(QStringLiteral("^plughw:.*"))) && !ui_->radiobutton_alsa_plughw->isChecked()) {
       ui_->radiobutton_alsa_plughw->setChecked(true);
       SwitchALSADevices(ALSAPluginType::PlugHW);
     }
-    else if ((ui_->lineedit_device->text().contains(QRegularExpression("^.*:.*CARD=.*")) || ui_->lineedit_device->text().contains(QRegularExpression("^.*:.*DEV=.*"))) && !ui_->radiobutton_alsa_pcm->isChecked()) {
+    else if ((ui_->lineedit_device->text().contains(QRegularExpression(QStringLiteral("^.*:.*CARD=.*"))) || ui_->lineedit_device->text().contains(QRegularExpression(QStringLiteral("^.*:.*DEV=.*")))) && !ui_->radiobutton_alsa_pcm->isChecked()) {
       ui_->radiobutton_alsa_pcm->setChecked(true);
       SwitchALSADevices(ALSAPluginType::PCM);
     }
@@ -703,11 +703,11 @@ void BackendSettingsPage::SwitchALSADevices(const ALSAPluginType alsa_plugin_typ
   for (int i = 0; i < ui_->combobox_device->count(); ++i) {
     QListView *view = qobject_cast<QListView*>(ui_->combobox_device->view());
     if (!view) continue;
-    if ((ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^hw:.*")) && alsa_plugin_type != ALSAPluginType::HW)
+    if ((ui_->combobox_device->itemData(i).toString().contains(QRegularExpression(QStringLiteral("^hw:.*"))) && alsa_plugin_type != ALSAPluginType::HW)
         ||
-        (ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^plughw:.*")) && alsa_plugin_type != ALSAPluginType::PlugHW)
+        (ui_->combobox_device->itemData(i).toString().contains(QRegularExpression(QStringLiteral("^plughw:.*"))) && alsa_plugin_type != ALSAPluginType::PlugHW)
         ||
-        ((ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^.*:.*CARD=.*")) || ui_->combobox_device->itemData(i).toString().contains(QRegularExpression("^.*:.*DEV=.*"))) && alsa_plugin_type != ALSAPluginType::PCM)
+        ((ui_->combobox_device->itemData(i).toString().contains(QRegularExpression(QStringLiteral("^.*:.*CARD=.*"))) || ui_->combobox_device->itemData(i).toString().contains(QRegularExpression(QStringLiteral("^.*:.*DEV=.*")))) && alsa_plugin_type != ALSAPluginType::PCM)
     ) {
       view->setRowHidden(i, true);
     }
@@ -734,11 +734,11 @@ void BackendSettingsPage::radiobutton_alsa_hw_clicked(const bool checked) {
 
   QString device_new = ui_->lineedit_device->text();
 
-  if (device_new.contains(QRegularExpression("^plughw:.*"))) {
-    device_new = device_new.replace(QRegularExpression("^plughw:"), "hw:");
+  if (device_new.contains(QRegularExpression(QStringLiteral("^plughw:.*")))) {
+    device_new = device_new.replace(QRegularExpression(QStringLiteral("^plughw:")), QStringLiteral("hw:"));
   }
 
-  if (!device_new.contains(QRegularExpression("^hw:.*"))) {
+  if (!device_new.contains(QRegularExpression(QStringLiteral("^hw:.*")))) {
     device_new.clear();
   }
 
@@ -763,11 +763,11 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(const bool checked) {
 
   QString device_new = ui_->lineedit_device->text();
 
-  if (device_new.contains(QRegularExpression("^hw:.*"))) {
-    device_new = device_new.replace(QRegularExpression("^hw:"), "plughw:");
+  if (device_new.contains(QRegularExpression(QStringLiteral("^hw:.*")))) {
+    device_new = device_new.replace(QRegularExpression(QStringLiteral("^hw:")), QStringLiteral("plughw:"));
   }
 
-  if (!device_new.contains(QRegularExpression("^plughw:.*"))) {
+  if (!device_new.contains(QRegularExpression(QStringLiteral("^plughw:.*")))) {
     device_new.clear();
   }
 
@@ -792,7 +792,7 @@ void BackendSettingsPage::radiobutton_alsa_pcm_clicked(const bool checked) {
 
   QString device_new = ui_->lineedit_device->text();
 
-  if (!device_new.contains(QRegularExpression("^.*:.*CARD=.*")) && !device_new.contains(QRegularExpression("^.*:.*DEV=.*"))) {
+  if (!device_new.contains(QRegularExpression(QStringLiteral("^.*:.*CARD=.*"))) && !device_new.contains(QRegularExpression(QStringLiteral("^.*:.*DEV=.*")))) {
     device_new.clear();
   }
 
@@ -849,7 +849,7 @@ void BackendSettingsPage::FadingOptionsChanged() {
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   if (engine()->type() == EngineBase::Type::GStreamer &&
-      (!engine()->ALSADeviceSupport(output.name) || ui_->lineedit_device->text().isEmpty() || (!ui_->lineedit_device->text().contains(QRegularExpression("^hw:.*")) && !ui_->lineedit_device->text().contains(QRegularExpression("^plughw:.*"))))) {
+      (!engine()->ALSADeviceSupport(output.name) || ui_->lineedit_device->text().isEmpty() || (!ui_->lineedit_device->text().contains(QRegularExpression(QStringLiteral("^hw:.*"))) && !ui_->lineedit_device->text().contains(QRegularExpression(QStringLiteral("^plughw:.*")))))) {
     ui_->groupbox_fading->setEnabled(true);
   }
   else {

@@ -148,7 +148,7 @@ class MemoryDatabase : public Database {
 
  public:
   explicit MemoryDatabase(Application *app, QObject *parent = nullptr)
-      : Database(app, parent, ":memory:") {}
+      : Database(app, parent, QStringLiteral(":memory:")) {}
   ~MemoryDatabase() override {
     // Make sure Qt doesn't reuse the same database
     QSqlDatabase::removeDatabase(Connect().connectionName());

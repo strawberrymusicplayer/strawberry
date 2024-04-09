@@ -91,8 +91,8 @@ PlaylistItem::~PlaylistItem() = default;
 
 void PlaylistItem::BindToQuery(SqlQuery *query) const {
 
-  query->BindValue(":type", static_cast<int>(source_));
-  query->BindValue(":collection_id", DatabaseValue(Column_CollectionId));
+  query->BindValue(QStringLiteral(":type"), static_cast<int>(source_));
+  query->BindValue(QStringLiteral(":collection_id"), DatabaseValue(Column_CollectionId));
 
   DatabaseSongMetadata().BindToQuery(query);
 

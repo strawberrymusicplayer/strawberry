@@ -60,7 +60,7 @@ CoverSearchStatistics &CoverSearchStatistics::operator+=(const CoverSearchStatis
 QString CoverSearchStatistics::AverageDimensions() const {
 
   if (chosen_images_ == 0) {
-    return "0x0";
+    return QStringLiteral("0x0");
   }
 
   return QString::number(chosen_width_ / chosen_images_) + "x" + QString::number(chosen_height_ / chosen_images_);

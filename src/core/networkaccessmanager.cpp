@@ -49,7 +49,7 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
     user_agent = request.header(QNetworkRequest::UserAgentHeader).toByteArray();
   }
   else {
-    user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion()).toUtf8();
+    user_agent = QStringLiteral("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion()).toUtf8();
   }
 
   QNetworkRequest new_request(request);

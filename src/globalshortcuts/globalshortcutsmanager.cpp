@@ -58,25 +58,25 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent) : QWidget(parent
   settings_.beginGroup(GlobalShortcutsSettingsPage::kSettingsGroup);
 
   // Create actions
-  AddShortcut("play", tr("Play"), std::bind(&GlobalShortcutsManager::Play, this));
-  AddShortcut("pause", tr("Pause"), std::bind(&GlobalShortcutsManager::Pause, this));
-  AddShortcut("play_pause", tr("Play/Pause"), std::bind(&GlobalShortcutsManager::PlayPause, this), QKeySequence(Qt::Key_MediaPlay));
-  AddShortcut("stop", tr("Stop"), std::bind(&GlobalShortcutsManager::Stop, this), QKeySequence(Qt::Key_MediaStop));
-  AddShortcut("stop_after", tr("Stop playing after current track"), std::bind(&GlobalShortcutsManager::StopAfter, this));
-  AddShortcut("next_track", tr("Next track"), std::bind(&GlobalShortcutsManager::Next, this), QKeySequence(Qt::Key_MediaNext));
-  AddShortcut("prev_track", tr("Previous track"), std::bind(&GlobalShortcutsManager::Previous, this), QKeySequence(Qt::Key_MediaPrevious));
-  AddShortcut("inc_volume", tr("Increase volume"), std::bind(&GlobalShortcutsManager::IncVolume, this));
-  AddShortcut("dec_volume", tr("Decrease volume"), std::bind(&GlobalShortcutsManager::DecVolume, this));
-  AddShortcut("mute", tr("Mute"), std::bind(&GlobalShortcutsManager::Mute, this));
-  AddShortcut("seek_forward", tr("Seek forward"), std::bind(&GlobalShortcutsManager::SeekForward, this));
-  AddShortcut("seek_backward", tr("Seek backward"), std::bind(&GlobalShortcutsManager::SeekBackward, this));
-  AddShortcut("show_hide", tr("Show/Hide"), std::bind(&GlobalShortcutsManager::ShowHide, this));
-  AddShortcut("show_osd", tr("Show OSD"), std::bind(&GlobalShortcutsManager::ShowOSD, this));
-  AddShortcut("toggle_pretty_osd", tr("Toggle Pretty OSD"), std::bind(&GlobalShortcutsManager::TogglePrettyOSD, this));  // Toggling possible only for pretty OSD
-  AddShortcut("shuffle_mode", tr("Change shuffle mode"), std::bind(&GlobalShortcutsManager::CycleShuffleMode, this));
-  AddShortcut("repeat_mode", tr("Change repeat mode"), std::bind(&GlobalShortcutsManager::CycleRepeatMode, this));
-  AddShortcut("toggle_scrobbling", tr("Enable/disable scrobbling"), std::bind(&GlobalShortcutsManager::ToggleScrobbling, this));
-  AddShortcut("love", tr("Love"), std::bind(&GlobalShortcutsManager::Love, this));
+  AddShortcut(QStringLiteral("play"), tr("Play"), std::bind(&GlobalShortcutsManager::Play, this));
+  AddShortcut(QStringLiteral("pause"), tr("Pause"), std::bind(&GlobalShortcutsManager::Pause, this));
+  AddShortcut(QStringLiteral("play_pause"), tr("Play/Pause"), std::bind(&GlobalShortcutsManager::PlayPause, this), QKeySequence(Qt::Key_MediaPlay));
+  AddShortcut(QStringLiteral("stop"), tr("Stop"), std::bind(&GlobalShortcutsManager::Stop, this), QKeySequence(Qt::Key_MediaStop));
+  AddShortcut(QStringLiteral("stop_after"), tr("Stop playing after current track"), std::bind(&GlobalShortcutsManager::StopAfter, this));
+  AddShortcut(QStringLiteral("next_track"), tr("Next track"), std::bind(&GlobalShortcutsManager::Next, this), QKeySequence(Qt::Key_MediaNext));
+  AddShortcut(QStringLiteral("prev_track"), tr("Previous track"), std::bind(&GlobalShortcutsManager::Previous, this), QKeySequence(Qt::Key_MediaPrevious));
+  AddShortcut(QStringLiteral("inc_volume"), tr("Increase volume"), std::bind(&GlobalShortcutsManager::IncVolume, this));
+  AddShortcut(QStringLiteral("dec_volume"), tr("Decrease volume"), std::bind(&GlobalShortcutsManager::DecVolume, this));
+  AddShortcut(QStringLiteral("mute"), tr("Mute"), std::bind(&GlobalShortcutsManager::Mute, this));
+  AddShortcut(QStringLiteral("seek_forward"), tr("Seek forward"), std::bind(&GlobalShortcutsManager::SeekForward, this));
+  AddShortcut(QStringLiteral("seek_backward"), tr("Seek backward"), std::bind(&GlobalShortcutsManager::SeekBackward, this));
+  AddShortcut(QStringLiteral("show_hide"), tr("Show/Hide"), std::bind(&GlobalShortcutsManager::ShowHide, this));
+  AddShortcut(QStringLiteral("show_osd"), tr("Show OSD"), std::bind(&GlobalShortcutsManager::ShowOSD, this));
+  AddShortcut(QStringLiteral("toggle_pretty_osd"), tr("Toggle Pretty OSD"), std::bind(&GlobalShortcutsManager::TogglePrettyOSD, this));  // Toggling possible only for pretty OSD
+  AddShortcut(QStringLiteral("shuffle_mode"), tr("Change shuffle mode"), std::bind(&GlobalShortcutsManager::CycleShuffleMode, this));
+  AddShortcut(QStringLiteral("repeat_mode"), tr("Change repeat mode"), std::bind(&GlobalShortcutsManager::CycleRepeatMode, this));
+  AddShortcut(QStringLiteral("toggle_scrobbling"), tr("Enable/disable scrobbling"), std::bind(&GlobalShortcutsManager::ToggleScrobbling, this));
+  AddShortcut(QStringLiteral("love"), tr("Love"), std::bind(&GlobalShortcutsManager::Love, this));
 
   // Create backends - these do the actual shortcut registration
 

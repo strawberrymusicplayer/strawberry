@@ -60,11 +60,11 @@ QString TidalFavoriteRequest::FavoriteText(const FavoriteType type) {
 
   switch (type) {
     case FavoriteType::Artists:
-      return "artists";
+      return QStringLiteral("artists");
     case FavoriteType::Albums:
-      return "albums";
+      return QStringLiteral("albums");
     case FavoriteType::Songs:
-      return "tracks";
+      return QStringLiteral("tracks");
   }
 
   return QString();
@@ -75,11 +75,11 @@ QString TidalFavoriteRequest::FavoriteMethod(const FavoriteType type) {
 
   switch (type) {
     case FavoriteType::Artists:
-      return "artistIds";
+      return QStringLiteral("artistIds");
     case FavoriteType::Albums:
-      return "albumIds";
+      return QStringLiteral("albumIds");
     case FavoriteType::Songs:
-      return "trackIds";
+      return QStringLiteral("trackIds");
   }
 
   return QString();
@@ -142,7 +142,7 @@ void TidalFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QS
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(QString(TidalService::kApiUrl) + QString("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type));
+  QUrl url(QString(TidalService::kApiUrl) + QStringLiteral("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -251,7 +251,7 @@ void TidalFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(QString(TidalService::kApiUrl) + QString("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type) + QString("/") + id);
+  QUrl url(QString(TidalService::kApiUrl) + QStringLiteral("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type) + QStringLiteral("/") + id);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);

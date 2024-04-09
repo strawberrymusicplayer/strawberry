@@ -75,10 +75,10 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent)
   setUsesScrollButtons(true);
   setTabsClosable(true);
 
-  action_star_ = menu_->addAction(IconLoader::Load("star"), tr("Star playlist"), this, &PlaylistTabBar::StarSlot);
-  action_close_ = menu_->addAction(IconLoader::Load("list-remove"), tr("Close playlist"), this, &PlaylistTabBar::CloseSlot);
-  action_rename_ = menu_->addAction(IconLoader::Load("edit-rename"), tr("Rename playlist..."), this, &PlaylistTabBar::RenameSlot);
-  action_save_ = menu_->addAction(IconLoader::Load("document-save"), tr("Save playlist..."), this, &PlaylistTabBar::SaveSlot);
+  action_star_ = menu_->addAction(IconLoader::Load(QStringLiteral("star")), tr("Star playlist"), this, &PlaylistTabBar::StarSlot);
+  action_close_ = menu_->addAction(IconLoader::Load(QStringLiteral("list-remove")), tr("Close playlist"), this, &PlaylistTabBar::CloseSlot);
+  action_rename_ = menu_->addAction(IconLoader::Load(QStringLiteral("edit-rename")), tr("Rename playlist..."), this, &PlaylistTabBar::RenameSlot);
+  action_save_ = menu_->addAction(IconLoader::Load(QStringLiteral("document-save")), tr("Save playlist..."), this, &PlaylistTabBar::SaveSlot);
   menu_->addSeparator();
 
   rename_editor_->setVisible(false);
@@ -159,7 +159,7 @@ void PlaylistTabBar::mouseDoubleClickEvent(QMouseEvent *e) {
     else {
       menu_index_ = index;
       QString new_text = tabText(index);
-      new_text = new_text.replace("&&", "&");
+      new_text = new_text.replace(QLatin1String("&&"), QLatin1String("&"));
       rename_editor_->setGeometry(tabRect(index));
       rename_editor_->setText(new_text);
       rename_editor_->setVisible(true);
@@ -176,7 +176,7 @@ void PlaylistTabBar::RenameSlot() {
   if (menu_index_ == -1) return;
 
   QString name = tabText(menu_index_);
-  name = name.replace("&&", "&");
+  name = name.replace(QLatin1String("&&"), QLatin1String("&"));
   QString new_name = QInputDialog::getText(this, tr("Rename playlist"), tr("Enter a new name for this playlist"), QLineEdit::Normal, name);
 
   if (new_name.isEmpty()) return;
@@ -332,7 +332,7 @@ void PlaylistTabBar::RemoveTab(const int id) {
 void PlaylistTabBar::set_text_by_id(const int id, const QString &text) {
 
   QString new_text = text;
-  new_text = new_text.replace("&", "&&");
+  new_text = new_text.replace(QLatin1String("&"), QLatin1String("&&"));
   setTabText(index_of(id), new_text);
   setTabToolTip(index_of(id), text);
 
@@ -346,7 +346,7 @@ void PlaylistTabBar::InsertTab(const int id, const int index, const QString &tex
 
   QString new_text = text;
   if (new_text.contains('&')) {
-    new_text = new_text.replace('&', "&&");
+    new_text = new_text.replace('&', QLatin1String("&&"));
   }
 
   suppress_current_changed_ = true;

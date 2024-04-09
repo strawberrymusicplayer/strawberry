@@ -76,7 +76,7 @@ void CoverExportRunnable::ProcessAndExportCover() {
         if (song_.art_embedded() && dialog_result_.export_embedded_) {
           image = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(song_.url().toLocalFile());
           if (!image.isNull()) {
-            extension = "jpg";
+            extension = QStringLiteral("jpg");
           }
         }
         break;
@@ -111,7 +111,7 @@ void CoverExportRunnable::ProcessAndExportCover() {
   }
 
   QString cover_dir = song_.url().toLocalFile().section('/', 0, -2);
-  QString new_file = cover_dir + '/' + dialog_result_.filename_ + '.' + (song_.art_embedded() ? "jpg" : extension);
+  QString new_file = cover_dir + '/' + dialog_result_.filename_ + '.' + (song_.art_embedded() ? QStringLiteral("jpg") : extension);
 
   // If the file exists, do not override!
   if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode::None && QFile::exists(new_file)) {
@@ -169,7 +169,7 @@ void CoverExportRunnable::ExportCover() {
           image = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(song_.url().toLocalFile());
           if (!image.isNull()) {
             embedded_cover = true;
-            extension = "jpg";
+            extension = QStringLiteral("jpg");
           }
         }
         break;

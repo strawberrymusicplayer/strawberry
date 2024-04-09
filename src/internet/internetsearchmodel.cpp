@@ -42,8 +42,8 @@ InternetSearchModel::InternetSearchModel(InternetServicePtr service, QObject *pa
       service_(service),
       proxy_(nullptr),
       use_pretty_covers_(true),
-      artist_icon_(IconLoader::Load("folder-sound")),
-      album_icon_(IconLoader::Load("cdcase")) {
+      artist_icon_(IconLoader::Load(QStringLiteral("folder-sound"))),
+      album_icon_(IconLoader::Load(QStringLiteral("cdcase"))) {
 
   group_by_[0] = CollectionModel::GroupBy::AlbumArtist;
   group_by_[1] = CollectionModel::GroupBy::AlbumDisc;
@@ -91,7 +91,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
     case CollectionModel::GroupBy::AlbumArtist:
       if (s.is_compilation()) {
         display_text = tr("Various artists");
-        sort_text = "aaaaaa";
+        sort_text = QStringLiteral("aaaaaa");
       }
       else {
         display_text = CollectionModel::TextOrUnknown(s.effective_albumartist());
@@ -103,7 +103,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
     case CollectionModel::GroupBy::Artist:
       if (s.is_compilation()) {
         display_text = tr("Various artists");
-        sort_text = "aaaaaa";
+        sort_text = QStringLiteral("aaaaaa");
       }
       else {
         display_text = CollectionModel::TextOrUnknown(s.artist());
@@ -221,10 +221,10 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       }
       else {
         if (s.bitdepth() <= 0) {
-          display_text = QString("%1 (%2)").arg(s.TextForFiletype(), QString::number(s.samplerate() / 1000.0, 'G', 5));
+          display_text = QStringLiteral("%1 (%2)").arg(s.TextForFiletype(), QString::number(s.samplerate() / 1000.0, 'G', 5));
         }
         else {
-          display_text = QString("%1 (%2/%3)").arg(s.TextForFiletype(), QString::number(s.samplerate() / 1000.0, 'G', 5), QString::number(s.bitdepth()));
+          display_text = QStringLiteral("%1 (%2/%3)").arg(s.TextForFiletype(), QString::number(s.samplerate() / 1000.0, 'G', 5), QString::number(s.bitdepth()));
         }
       }
       sort_text = display_text;
@@ -250,8 +250,8 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       return parent;
   }
 
-  if (display_text.isEmpty()) display_text = "Unknown";
-  if (sort_text.isEmpty()) sort_text = "Unknown";
+  if (display_text.isEmpty()) display_text = QStringLiteral("Unknown");
+  if (sort_text.isEmpty()) sort_text = QStringLiteral("Unknown");
 
   // Find a container for this level
   key->group_[level] = display_text + unique_tag;

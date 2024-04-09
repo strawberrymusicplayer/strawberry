@@ -81,7 +81,7 @@ void ErrorDialog::UpdateContent() {
   QString html;
   for (const QString &message : current_messages_) {
     if (!html.isEmpty()) {
-      html += "<hr/>";
+      html += QLatin1String("<hr/>");
     }
     html += message.toHtmlEscaped();
   }

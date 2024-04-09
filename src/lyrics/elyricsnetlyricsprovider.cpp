@@ -34,7 +34,7 @@ const char ElyricsNetLyricsProvider::kEndTag[] = "<\\/div>";
 const char ElyricsNetLyricsProvider::kLyricsStart[] = "<div id='inlyr'>";
 
 ElyricsNetLyricsProvider::ElyricsNetLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : HtmlLyricsProvider("elyrics.net", true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
+    : HtmlLyricsProvider(QStringLiteral("elyrics.net"), true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
 
 QUrl ElyricsNetLyricsProvider::Url(const LyricsSearchRequest &request) {
 
@@ -45,8 +45,8 @@ QUrl ElyricsNetLyricsProvider::Url(const LyricsSearchRequest &request) {
 QString ElyricsNetLyricsProvider::StringFixup(const QString &text) {
 
   return Utilities::Transliterate(text)
-    .replace(QRegularExpression("[^\\w0-9_,&\\-\\(\\) ]"), "_")
-    .replace(QRegularExpression(" {2,}"), " ")
+    .replace(QRegularExpression(QStringLiteral("[^\\w0-9_,&\\-\\(\\) ]")), QStringLiteral("_"))
+    .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
     .simplified()
     .replace(' ', '-')
     .toLower();

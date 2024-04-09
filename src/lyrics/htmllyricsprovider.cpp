@@ -101,7 +101,7 @@ void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, c
   }
 
   const QString lyrics = ParseLyricsFromHTML(QString::fromUtf8(data), QRegularExpression(start_tag_), QRegularExpression(end_tag_), QRegularExpression(lyrics_start_), multiple_);
-  if (lyrics.isEmpty() || lyrics.contains("we do not have the lyrics for", Qt::CaseInsensitive)) {
+  if (lyrics.isEmpty() || lyrics.contains(QLatin1String("we do not have the lyrics for"), Qt::CaseInsensitive)) {
     qLog(Debug) << name_ << "No lyrics for" << request.artist << request.album << request.title;
     emit SearchFinished(id);
     return;
@@ -159,12 +159,12 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
       lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx)
                            .remove('\r')
                            .remove('\n')
-                           .remove(QRegularExpression("<a [^>]*>[^<]*</a>"))
-                           .remove(QRegularExpression("<script>[^>]*</script>"))
-                           .remove(QRegularExpression("<div [^>]*>×</div>"))
-                           .replace(QRegularExpression("<br[^>]*>"), "\n")
-                           .replace(QRegularExpression("</p>"), "\n\n")
-                           .remove(QRegularExpression("<[^>]*>"))
+                           .remove(QRegularExpression(QStringLiteral("<a [^>]*>[^<]*</a>")))
+                           .remove(QRegularExpression(QStringLiteral("<script>[^>]*</script>")))
+                           .remove(QRegularExpression(QStringLiteral("<div [^>]*>×</div>")))
+                           .replace(QRegularExpression(QStringLiteral("<br[^>]*>")), QStringLiteral("\n"))
+                           .replace(QRegularExpression(QStringLiteral("</p>")), QStringLiteral("\n\n"))
+                           .remove(QRegularExpression(QStringLiteral("<[^>]*>")))
                            .trimmed());
     }
     else {
@@ -174,7 +174,7 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
   }
   while (start_idx > 0 && multiple);
 
-  if (lyrics.length() > 6000 || lyrics.contains("there are no lyrics to", Qt::CaseInsensitive)) {
+  if (lyrics.length() > 6000 || lyrics.contains(QLatin1String("there are no lyrics to"), Qt::CaseInsensitive)) {
     return QString();
   }
 

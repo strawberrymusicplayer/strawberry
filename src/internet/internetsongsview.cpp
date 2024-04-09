@@ -56,7 +56,7 @@ InternetSongsView::InternetSongsView(Application *app, InternetServicePtr servic
   ui_->filter_widget->SetSettingsGroup(settings_group);
   ui_->filter_widget->Init(service_->songs_collection_model());
 
-  QAction *action_configure = new QAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this);
+  QAction *action_configure = new QAction(IconLoader::Load(QStringLiteral("configure")), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this);
   QObject::connect(action_configure, &QAction::triggered, this, &InternetSongsView::OpenSettingsDialog);
   ui_->filter_widget->AddMenuAction(action_configure);
 

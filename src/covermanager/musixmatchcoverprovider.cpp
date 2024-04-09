@@ -41,7 +41,7 @@
 #include "musixmatchcoverprovider.h"
 
 MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider("Musixmatch", true, false, 1.0, true, false, app, network, parent) {}
+    : JsonCoverProvider(QStringLiteral("Musixmatch"), true, false, 1.0, true, false, app, network, parent) {}
 
 MusixmatchCoverProvider::~MusixmatchCoverProvider() {
 
@@ -65,7 +65,7 @@ bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &
 
   if (artist_stripped.isEmpty() || album_stripped.isEmpty()) return false;
 
-  QUrl url(QString("https://www.musixmatch.com/album/%1/%2").arg(artist_stripped, album_stripped));
+  QUrl url(QStringLiteral("https://www.musixmatch.com/album/%1/%2").arg(artist_stripped, album_stripped));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   QNetworkReply *reply = network_->get(req);
@@ -90,25 +90,25 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
   CoverProviderSearchResults results;
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     emit SearchFinished(id, results);
     return;
   }
   else if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    Error(QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
+    Error(QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
     emit SearchFinished(id, results);
     return;
   }
 
   QByteArray data = reply->readAll();
   if (data.isEmpty()) {
-    Error("Empty reply received from server.");
+    Error(QStringLiteral("Empty reply received from server."));
     emit SearchFinished(id, results);
     return;
   }
   QString content = data;
-  const QString data_begin = "<script id=\"__NEXT_DATA__\" type=\"application/json\">";
-  const QString data_end = "</script>";
+  const QString data_begin = QStringLiteral("<script id=\"__NEXT_DATA__\" type=\"application/json\">");
+  const QString data_end = QStringLiteral("</script>");
   if (!content.contains(data_begin) || !content.contains(data_end)) {
     emit SearchFinished(id, results);
     return;
@@ -128,7 +128,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  if (content_json.contains(QRegularExpression("<[^>]*>"))) {  // Make sure it's not HTML code.
+  if (content_json.contains(QRegularExpression(QStringLiteral("<[^>]*>")))) {  // Make sure it's not HTML code.
     emit SearchFinished(id, results);
     return;
   }
@@ -137,71 +137,71 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
   QJsonDocument json_doc = QJsonDocument::fromJson(content_json.toUtf8(), &error);
 
   if (error.error != QJsonParseError::NoError) {
-    Error(QString("Failed to parse json data: %1").arg(error.errorString()));
+    Error(QStringLiteral("Failed to parse json data: %1").arg(error.errorString()));
     emit SearchFinished(id, results);
     return;
   }
 
   if (json_doc.isEmpty()) {
-    Error("Received empty Json document.", data);
+    Error(QStringLiteral("Received empty Json document."), data);
     emit SearchFinished(id, results);
     return;
   }
 
   if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
+    Error(QStringLiteral("Json document is not an object."), json_doc);
     emit SearchFinished(id, results);
     return;
   }
 
   QJsonObject obj_data = json_doc.object();
   if (obj_data.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
+    Error(QStringLiteral("Received empty Json object."), json_doc);
     emit SearchFinished(id, results);
     return;
   }
 
-  if (!obj_data.contains("props") || !obj_data["props"].isObject()) {
-    Error("Json reply is missing props.", obj_data);
+  if (!obj_data.contains(QStringLiteral("props")) || !obj_data[QStringLiteral("props")].isObject()) {
+    Error(QStringLiteral("Json reply is missing props."), obj_data);
     emit SearchFinished(id, results);
     return;
   }
-  obj_data = obj_data["props"].toObject();
+  obj_data = obj_data[QStringLiteral("props")].toObject();
 
-  if (!obj_data.contains("pageProps") || !obj_data["pageProps"].isObject()) {
-    Error("Json props is missing pageProps.", obj_data);
+  if (!obj_data.contains(QStringLiteral("pageProps")) || !obj_data[QStringLiteral("pageProps")].isObject()) {
+    Error(QStringLiteral("Json props is missing pageProps."), obj_data);
     emit SearchFinished(id, results);
     return;
   }
-  obj_data = obj_data["pageProps"].toObject();
+  obj_data = obj_data[QStringLiteral("pageProps")].toObject();
 
-  if (!obj_data.contains("data") || !obj_data["data"].isObject()) {
-    Error("Json pageProps is missing data.", obj_data);
+  if (!obj_data.contains(QStringLiteral("data")) || !obj_data[QStringLiteral("data")].isObject()) {
+    Error(QStringLiteral("Json pageProps is missing data."), obj_data);
     emit SearchFinished(id, results);
     return;
   }
-  obj_data = obj_data["data"].toObject();
+  obj_data = obj_data[QStringLiteral("data")].toObject();
 
-  if (!obj_data.contains("albumGet") || !obj_data["albumGet"].isObject()) {
-    Error("Json data is missing albumGet.", obj_data);
+  if (!obj_data.contains(QStringLiteral("albumGet")) || !obj_data[QStringLiteral("albumGet")].isObject()) {
+    Error(QStringLiteral("Json data is missing albumGet."), obj_data);
     emit SearchFinished(id, results);
     return;
   }
-  obj_data = obj_data["albumGet"].toObject();
+  obj_data = obj_data[QStringLiteral("albumGet")].toObject();
 
-  if (!obj_data.contains("data") || !obj_data["data"].isObject()) {
-    Error("Json albumGet reply is missing data.", obj_data);
+  if (!obj_data.contains(QStringLiteral("data")) || !obj_data[QStringLiteral("data")].isObject()) {
+    Error(QStringLiteral("Json albumGet reply is missing data."), obj_data);
     emit SearchFinished(id, results);
     return;
   }
-  obj_data = obj_data["data"].toObject();
+  obj_data = obj_data[QStringLiteral("data")].toObject();
 
   CoverProviderSearchResult result;
-  if (obj_data.contains("artistName") && obj_data["artistName"].isString()) {
-    result.artist = obj_data["artistName"].toString();
+  if (obj_data.contains(QStringLiteral("artistName")) && obj_data[QStringLiteral("artistName")].isString()) {
+    result.artist = obj_data[QStringLiteral("artistName")].toString();
   }
-  if (obj_data.contains("name") && obj_data["name"].isString()) {
-    result.album = obj_data["name"].toString();
+  if (obj_data.contains(QStringLiteral("name")) && obj_data[QStringLiteral("name")].isString()) {
+    result.album = obj_data[QStringLiteral("name")].toString();
   }
 
   if (result.artist.compare(artist, Qt::CaseInsensitive) != 0 && result.album.compare(album, Qt::CaseInsensitive) != 0) {
@@ -209,9 +209,9 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QString("coverImage800x800"), QSize(800, 800))
-                                                                            << qMakePair(QString("coverImage500x500"), QSize(500, 500))
-                                                                            << qMakePair(QString("coverImage350x350"), QSize(350, 350));
+  QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QStringLiteral("coverImage800x800"), QSize(800, 800))
+                                                                            << qMakePair(QStringLiteral("coverImage500x500"), QSize(500, 500))
+                                                                            << qMakePair(QStringLiteral("coverImage350x350"), QSize(350, 350));
 
   for (const QPair<QString, QSize> &cover_size : cover_sizes) {
     if (!obj_data.contains(cover_size.first)) continue;

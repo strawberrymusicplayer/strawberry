@@ -79,7 +79,7 @@ QVariantList Udisks2Lister::DeviceIcons(const QString &id) {
 QString Udisks2Lister::DeviceManufacturer(const QString &id) {
 
   QReadLocker locker(&device_data_lock_);
-  if (!device_data_.contains(id)) return "";
+  if (!device_data_.contains(id)) return QLatin1String("");
   return device_data_[id].vendor;
 
 }
@@ -87,7 +87,7 @@ QString Udisks2Lister::DeviceManufacturer(const QString &id) {
 QString Udisks2Lister::DeviceModel(const QString &id) {
 
   QReadLocker locker(&device_data_lock_);
-  if (!device_data_.contains(id)) return "";
+  if (!device_data_.contains(id)) return QLatin1String("");
   return device_data_[id].model;
 
 }
@@ -118,7 +118,7 @@ QVariantMap Udisks2Lister::DeviceHardwareInfo(const QString &id) {
   const PartitionData &data = device_data_[id];
   result[QT_TR_NOOP("D-Bus path")] = data.dbus_path;
   result[QT_TR_NOOP("Serial number")] = data.serial;
-  result[QT_TR_NOOP("Mount points")] = data.mount_paths.join(", ");
+  result[QT_TR_NOOP("Mount points")] = data.mount_paths.join(QStringLiteral(", "));
   result[QT_TR_NOOP("Partition label")] = data.label;
   result[QT_TR_NOOP("UUID")] = data.uuid;
 
@@ -129,7 +129,7 @@ QVariantMap Udisks2Lister::DeviceHardwareInfo(const QString &id) {
 QString Udisks2Lister::MakeFriendlyName(const QString &id) {
 
   QReadLocker locker(&device_data_lock_);
-  if (!device_data_.contains(id)) return "";
+  if (!device_data_.contains(id)) return QLatin1String("");
   return device_data_[id].friendly_name;
 
 }
@@ -408,7 +408,7 @@ Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectP
 }
 
 QString Udisks2Lister::PartitionData::unique_id() const {
-  return QString("Udisks2/%1/%2/%3/%4/%5")
+  return QStringLiteral("Udisks2/%1/%2/%3/%4/%5")
       .arg(serial, vendor, model)
       .arg(capacity)
       .arg(uuid);

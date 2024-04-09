@@ -61,7 +61,7 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(QString(QobuzService::kApiUrl) + QString("/") + ressource_name);
+  QUrl url(QString(QobuzService::kApiUrl) + QStringLiteral("/") + ressource_name);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -96,7 +96,7 @@ QByteArray QobuzBaseRequest::GetReplyData(QNetworkReply *reply) {
   else {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     else {
       // See if there is Json data containing "status", "code" and "message" - then use that instead.
@@ -106,18 +106,18 @@ QByteArray QobuzBaseRequest::GetReplyData(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("code") && json_obj.contains("message")) {
-          int code = json_obj["code"].toInt();
-          QString message = json_obj["message"].toString();
-          error = QString("%1 (%2)").arg(message).arg(code);
+        if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("status")) && json_obj.contains(QStringLiteral("code")) && json_obj.contains(QStringLiteral("message"))) {
+          int code = json_obj[QStringLiteral("code")].toInt();
+          QString message = json_obj[QStringLiteral("message")].toString();
+          error = QStringLiteral("%1 (%2)").arg(message).arg(code);
         }
       }
       if (error.isEmpty()) {
         if (reply->error() != QNetworkReply::NoError) {
-          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
         else {
-          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+          error = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
         }
       }
       Error(error);
@@ -135,23 +135,23 @@ QJsonObject QobuzBaseRequest::ExtractJsonObj(QByteArray &data) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    Error("Reply from server missing Json data.", data);
+    Error(QStringLiteral("Reply from server missing Json data."), data);
     return QJsonObject();
   }
 
   if (json_doc.isEmpty()) {
-    Error("Received empty Json document.", data);
+    Error(QStringLiteral("Received empty Json document."), data);
     return QJsonObject();
   }
 
   if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
+    Error(QStringLiteral("Json document is not an object."), json_doc);
     return QJsonObject();
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
+    Error(QStringLiteral("Received empty Json object."), json_doc);
     return QJsonObject();
   }
 
@@ -169,11 +169,11 @@ QJsonValue QobuzBaseRequest::ExtractItems(QByteArray &data) {
 
 QJsonValue QobuzBaseRequest::ExtractItems(QJsonObject &json_obj) {
 
-  if (!json_obj.contains("items")) {
-    Error("Json reply is missing items.", json_obj);
+  if (!json_obj.contains(QStringLiteral("items"))) {
+    Error(QStringLiteral("Json reply is missing items."), json_obj);
     return QJsonArray();
   }
-  QJsonValue json_items = json_obj["items"];
+  QJsonValue json_items = json_obj[QStringLiteral("items")];
   return json_items;
 
 }

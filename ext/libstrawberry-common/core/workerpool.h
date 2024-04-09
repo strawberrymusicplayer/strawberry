@@ -171,7 +171,7 @@ WorkerPool<HandlerType>::WorkerPool(QObject *parent)
   local_server_name_ = qApp->applicationName().toLower();
 
   if (local_server_name_.isEmpty()) {
-    local_server_name_ = "workerpool";
+    local_server_name_ = QStringLiteral("workerpool");
   }
 
 }
@@ -243,8 +243,8 @@ void WorkerPool<HandlerType>::DoStart() {
   QStringList search_path;
   search_path << QCoreApplication::applicationDirPath();
 #if defined(Q_OS_UNIX)
-  search_path << "/usr/libexec";
-  search_path << "/usr/local/libexec";
+  search_path << QStringLiteral("/usr/libexec");
+  search_path << QStringLiteral("/usr/local/libexec");
 #endif
 #if defined(Q_OS_MACOS)
   search_path << QDir::cleanPath(QCoreApplication::applicationDirPath() + "/../PlugIns");
@@ -294,7 +294,7 @@ void WorkerPool<HandlerType>::StartOneWorker(Worker *worker) {
   // Create a server, find an unused name and start listening
   forever {
     const quint32 unique_number = QRandomGenerator::global()->bounded(static_cast<quint32>(quint64(this) & 0xFFFFFFFF));
-    const QString name = QString("%1_%2").arg(local_server_name_).arg(unique_number);
+    const QString name = QStringLiteral("%1_%2").arg(local_server_name_).arg(unique_number);
 
     if (worker->local_server_->listen(name)) {
       break;

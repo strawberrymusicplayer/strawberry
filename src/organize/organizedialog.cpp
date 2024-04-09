@@ -91,35 +91,35 @@ OrganizeDialog::OrganizeDialog(SharedPtr<TaskManager> task_manager, SharedPtr<Co
 
   setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
 
-  QPushButton *button_save = ui_->button_box->addButton("Save settings", QDialogButtonBox::ApplyRole);
+  QPushButton *button_save = ui_->button_box->addButton(QStringLiteral("Save settings"), QDialogButtonBox::ApplyRole);
   QObject::connect(button_save, &QPushButton::clicked, this, &OrganizeDialog::SaveSettings);
-  button_save->setIcon(IconLoader::Load("document-save"));
-  ui_->button_box->button(QDialogButtonBox::RestoreDefaults)->setIcon(IconLoader::Load("edit-undo"));
+  button_save->setIcon(IconLoader::Load(QStringLiteral("document-save")));
+  ui_->button_box->button(QDialogButtonBox::RestoreDefaults)->setIcon(IconLoader::Load(QStringLiteral("edit-undo")));
   QObject::connect(ui_->button_box->button(QDialogButtonBox::RestoreDefaults), &QPushButton::clicked, this, &OrganizeDialog::RestoreDefaults);
 
-  ui_->aftercopying->setItemIcon(1, IconLoader::Load("edit-delete"));
+  ui_->aftercopying->setItemIcon(1, IconLoader::Load(QStringLiteral("edit-delete")));
 
   // Valid tags
   QMap<QString, QString> tags;
-  tags[tr("Title")] = "title";
-  tags[tr("Album")] = "album";
-  tags[tr("Artist")] = "artist";
-  tags[tr("Artist's initial")] = "artistinitial";
-  tags[tr("Album artist")] = "albumartist";
-  tags[tr("Composer")] = "composer";
-  tags[tr("Performer")] = "performer";
-  tags[tr("Grouping")] = "grouping";
-  tags[tr("Track")] = "track";
-  tags[tr("Disc")] = "disc";
-  tags[tr("Year")] = "year";
-  tags[tr("Original year")] = "originalyear";
-  tags[tr("Genre")] = "genre";
-  tags[tr("Comment")] = "comment";
-  tags[tr("Length")] = "length";
-  tags[tr("Bitrate", "Refers to bitrate in file organize dialog.")] = "bitrate";
-  tags[tr("Sample rate")] = "samplerate";
-  tags[tr("Bit depth")] = "bitdepth";
-  tags[tr("File extension")] = "extension";
+  tags[tr("Title")] = QStringLiteral("title");
+  tags[tr("Album")] = QStringLiteral("album");
+  tags[tr("Artist")] = QStringLiteral("artist");
+  tags[tr("Artist's initial")] = QStringLiteral("artistinitial");
+  tags[tr("Album artist")] = QStringLiteral("albumartist");
+  tags[tr("Composer")] = QStringLiteral("composer");
+  tags[tr("Performer")] = QStringLiteral("performer");
+  tags[tr("Grouping")] = QStringLiteral("grouping");
+  tags[tr("Track")] = QStringLiteral("track");
+  tags[tr("Disc")] = QStringLiteral("disc");
+  tags[tr("Year")] = QStringLiteral("year");
+  tags[tr("Original year")] = QStringLiteral("originalyear");
+  tags[tr("Genre")] = QStringLiteral("genre");
+  tags[tr("Comment")] = QStringLiteral("comment");
+  tags[tr("Length")] = QStringLiteral("length");
+  tags[tr("Bitrate", "Refers to bitrate in file organize dialog.")] = QStringLiteral("bitrate");
+  tags[tr("Sample rate")] = QStringLiteral("samplerate");
+  tags[tr("Bit depth")] = QStringLiteral("bitdepth");
+  tags[tr("File extension")] = QStringLiteral("extension");
 
   // Naming scheme input field
   new OrganizeFormat::SyntaxHighlighter(ui_->naming);
@@ -530,7 +530,7 @@ void OrganizeDialog::UpdatePreviews() {
   if (has_local_destination) {
     for (const Organize::NewSongInfo &song_info : new_songs_info_) {
       QString filename = storage->LocalPath() + "/" + song_info.new_filename_;
-      QListWidgetItem *item = new QListWidgetItem(song_info.unique_filename_ ? IconLoader::Load("dialog-ok-apply") : IconLoader::Load("dialog-warning"), QDir::toNativeSeparators(filename), ui_->preview);
+      QListWidgetItem *item = new QListWidgetItem(song_info.unique_filename_ ? IconLoader::Load(QStringLiteral("dialog-ok-apply")) : IconLoader::Load(QStringLiteral("dialog-warning")), QDir::toNativeSeparators(filename), ui_->preview);
       ui_->preview->addItem(item);
       if (!song_info.unique_filename_) {
         ok = false;

@@ -69,7 +69,7 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
   if (!result.cancelled_) {
     QString fileName = ui_->fileName->text();
     if (fileName.isEmpty()) {
-      fileName = "cover";
+      fileName = QStringLiteral("cover");
     }
     OverwriteMode overwrite_mode = ui_->doNotOverwrite->isChecked() ? OverwriteMode::None : (ui_->overwriteAll->isChecked() ? OverwriteMode::All : OverwriteMode::Smaller);
     bool forceSize = ui_->forceSize->isChecked();

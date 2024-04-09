@@ -63,7 +63,7 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
       ui_(new Ui_ContextSettingsPage) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("view-choose", true, 0, 32));
+  setWindowIcon(IconLoader::Load(QStringLiteral("view-choose"), true, 0, 32));
 
   checkboxes_[static_cast<int>(ContextSettingsOrder::ALBUM)] = ui_->checkbox_album;
   checkboxes_[static_cast<int>(ContextSettingsOrder::TECHNICAL_DATA)] = ui_->checkbox_technical_data;
@@ -103,15 +103,15 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
   QObject::connect(ui_->context_exp_chooser2, &QToolButton::triggered, this, &ContextSettingsPage::InsertVariableSecondLine);
 
   // Icons
-  ui_->context_exp_chooser1->setIcon(IconLoader::Load("list-add"));
-  ui_->context_exp_chooser2->setIcon(IconLoader::Load("list-add"));
+  ui_->context_exp_chooser1->setIcon(IconLoader::Load(QStringLiteral("list-add")));
+  ui_->context_exp_chooser2->setIcon(IconLoader::Load(QStringLiteral("list-add")));
 
   QObject::connect(ui_->font_headline, &QFontComboBox::currentFontChanged, this, &ContextSettingsPage::HeadlineFontChanged);
   QObject::connect(ui_->font_size_headline, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &ContextSettingsPage::HeadlineFontChanged);
   QObject::connect(ui_->font_normal, &QFontComboBox::currentFontChanged, this, &ContextSettingsPage::NormalFontChanged);
   QObject::connect(ui_->font_size_normal, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &ContextSettingsPage::NormalFontChanged);
 
-  QFile file(":/text/ghosts.txt");
+  QFile file(QStringLiteral(":/text/ghosts.txt"));
   if (file.open(QIODevice::ReadOnly)) {
     QString text = file.readAll();
     ui_->preview_headline->setText(text);

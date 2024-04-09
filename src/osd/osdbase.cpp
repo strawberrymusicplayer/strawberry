@@ -146,7 +146,7 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
   else {
     summary = song.PrettyTitle();
     if (!song.artist().isEmpty()) {
-      summary = QString("%1 - %2").arg(song.artist(), summary);
+      summary = QStringLiteral("%1 - %2").arg(song.artist(), summary);
     }
     if (!song.album().isEmpty()) {
       message_parts << song.album();
@@ -168,14 +168,14 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
 #endif
   }
 
-  QString message = message_parts.join(", ");
+  QString message = message_parts.join(QStringLiteral(", "));
   if (html_escaped) message = message.toHtmlEscaped();
 
   if (show_art_) {
-    ShowMessage(summary, message, "notification-audio-play", image);
+    ShowMessage(summary, message, QStringLiteral("notification-audio-play"), image);
   }
   else {
-    ShowMessage(summary, message, "notification-audio-play", QImage());
+    ShowMessage(summary, message, QStringLiteral("notification-audio-play"), QImage());
   }
 
   // Reload the saved settings if they were changed for preview
@@ -378,7 +378,7 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
 #endif
 
   bool html_escaped = false;
-  QString newline = "";
+  QString newline = QLatin1String("");
 
   // We need different strings depending on notification type
   switch (behaviour_) {
@@ -391,12 +391,12 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
       switch (type) {
         case MessageType::Summary:{
           html_escaped = false;
-          newline = "";
+          newline = QLatin1String("");
           break;
         }
         case MessageType::Message: {
           html_escaped = true;
-          newline = "<br />";
+          newline = QStringLiteral("<br />");
           break;
         }
       }
@@ -411,12 +411,12 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
     case Behaviour::TrayPopup:
       qLog(Debug) << "New line not supported by this notification type.";
       html_escaped = false;
-      newline = "";
+      newline = QLatin1String("");
       break;
     case Behaviour::Disabled:  // When notifications are disabled, we force the PrettyOSD
     case Behaviour::Pretty:
       html_escaped = true;
-      newline = "<br />";
+      newline = QStringLiteral("<br />");
       break;
   }
 

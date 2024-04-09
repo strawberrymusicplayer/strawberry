@@ -89,13 +89,13 @@ void DeviceProperties::ShowDevice(const QModelIndex &idx) {
   if (ui_->icon->count() == 0) {
     // Only load the icons the first time the dialog is shown
     QStringList icon_names = QStringList()
-                             << "device"
-                             << "device-usb-drive"
-                             << "device-usb-flash"
-                             << "media-optical"
-                             << "device-ipod"
-                             << "device-ipod-nano"
-                             << "device-phone";
+                             << QStringLiteral("device")
+                             << QStringLiteral("device-usb-drive")
+                             << QStringLiteral("device-usb-flash")
+                             << QStringLiteral("media-optical")
+                             << QStringLiteral("device-ipod")
+                             << QStringLiteral("device-ipod-nano")
+                             << QStringLiteral("device-phone");
 
 
     for (const QString &icon_name : icon_names) {

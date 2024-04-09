@@ -82,15 +82,15 @@ SongLoader::SongLoader(SharedPtr<CollectionBackendInterface> collection_backend,
       success_(false) {
 
   if (sRawUriSchemes.isEmpty()) {
-    sRawUriSchemes << "udp"
-                   << "mms"
-                   << "mmsh"
-                   << "mmst"
-                   << "mmsu"
-                   << "rtsp"
-                   << "rtspu"
-                   << "rtspt"
-                   << "rtsph";
+    sRawUriSchemes << QStringLiteral("udp")
+                   << QStringLiteral("mms")
+                   << QStringLiteral("mmsh")
+                   << QStringLiteral("mmst")
+                   << QStringLiteral("mmsu")
+                   << QStringLiteral("rtsp")
+                   << QStringLiteral("rtspu")
+                   << QStringLiteral("rtspt")
+                   << QStringLiteral("rtsph");
   }
 
   timeout_timer_->setSingleShot(true);
@@ -238,7 +238,7 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
 
   CollectionQuery query(db, collection_backend_->songs_table(), collection_backend_->fts_table());
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-  query.AddWhere("url", url.toEncoded());
+  query.AddWhere(QStringLiteral("url"), url.toEncoded());
 
   if (query.Exec() && query.Next()) {
     // We may have many results when the file has many sections
@@ -700,7 +700,7 @@ void SongLoader::MagicReady() {
   if (parser_->name() == "ASX/INI" && url_.scheme() == "http") {
     // This is actually a weird MS-WMSP stream. Changing the protocol to MMS from HTTP makes it playable.
     parser_ = nullptr;
-    url_.setScheme("mms");
+    url_.setScheme(QStringLiteral("mms"));
     StopTypefindAsync(true);
   }
 

@@ -91,7 +91,7 @@ const int DeviceManager::kDeviceIconOverlaySize = 16;
 DeviceManager::DeviceManager(Application *app, QObject *parent)
     : SimpleTreeModel<DeviceInfo>(new DeviceInfo(this), parent),
       app_(app),
-      not_connected_overlay_(IconLoader::Load("edit-delete")) {
+      not_connected_overlay_(IconLoader::Load(QStringLiteral("edit-delete"))) {
 
   thread_pool_.setMaxThreadCount(1);
   QObject::connect(&*app_->task_manager(), &TaskManager::TasksChanged, this, &DeviceManager::TasksChanged);
@@ -289,7 +289,7 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
       }
 
       if (info->size_ > 0) {
-        text = text + QString(" (%1)").arg(Utilities::PrettySize(info->size_));
+        text = text + QStringLiteral(" (%1)").arg(Utilities::PrettySize(info->size_));
       }
       if (info->device_) info->device_->Refresh();
       return text;
@@ -629,7 +629,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
       url_strings << url.toString();
     }
 
-    app_->AddError(tr("This type of device is not supported: %1").arg(url_strings.join(", ")));
+    app_->AddError(tr("This type of device is not supported: %1").arg(url_strings.join(QStringLiteral(", "))));
     return ret;
   }
 

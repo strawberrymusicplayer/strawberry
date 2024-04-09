@@ -87,7 +87,7 @@ constexpr char TidalService::kAlbumsSongsFtsTable[] = "tidal_albums_songs_fts";
 constexpr char TidalService::kSongsFtsTable[] = "tidal_songs_fts";
 
 TidalService::TidalService(Application *app, QObject *parent)
-    : InternetService(Song::Source::Tidal, "Tidal", "tidal", TidalSettingsPage::kSettingsGroup, SettingsDialog::Page::Tidal, app, parent),
+    : InternetService(Song::Source::Tidal, QStringLiteral("Tidal"), QStringLiteral("tidal"), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page::Tidal, app, parent),
       app_(app),
       network_(app->network()),
       url_handler_(new TidalUrlHandler(app, this)),
@@ -337,13 +337,13 @@ void TidalService::AuthorizationUrlReceived(const QUrl &url) {
 
   QUrlQuery url_query(url);
 
-  if (url_query.hasQueryItem("token_type") && url_query.hasQueryItem("expires_in") && url_query.hasQueryItem("access_token")) {
+  if (url_query.hasQueryItem(QStringLiteral("token_type")) && url_query.hasQueryItem(QStringLiteral("expires_in")) && url_query.hasQueryItem(QStringLiteral("access_token"))) {
 
-    access_token_ = url_query.queryItemValue("access_token").toUtf8();
-    if (url_query.hasQueryItem("refresh_token")) {
-      refresh_token_ = url_query.queryItemValue("refresh_token").toUtf8();
+    access_token_ = url_query.queryItemValue(QStringLiteral("access_token")).toUtf8();
+    if (url_query.hasQueryItem(QStringLiteral("refresh_token"))) {
+      refresh_token_ = url_query.queryItemValue(QStringLiteral("refresh_token")).toUtf8();
     }
-    expires_in_ = url_query.queryItemValue("expires_in").toInt();
+    expires_in_ = url_query.queryItemValue(QStringLiteral("expires_in")).toInt();
     login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
     session_id_.clear();
 
@@ -360,9 +360,9 @@ void TidalService::AuthorizationUrlReceived(const QUrl &url) {
     emit LoginSuccess();
   }
 
-  else if (url_query.hasQueryItem("code") && url_query.hasQueryItem("state")) {
+  else if (url_query.hasQueryItem(QStringLiteral("code")) && url_query.hasQueryItem(QStringLiteral("state"))) {
 
-    QString code = url_query.queryItemValue("code");
+    QString code = url_query.queryItemValue(QStringLiteral("code"));
 
     RequestAccessToken(code);
 
@@ -432,7 +432,7 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      LoginError(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      LoginError(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
       return;
     }
     else {
@@ -442,19 +442,19 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
-          int status = json_obj["status"].toInt();
-          int sub_status = json_obj["subStatus"].toInt();
-          QString user_message = json_obj["userMessage"].toString();
-          login_errors_ << QString("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
+        if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("status")) && json_obj.contains(QStringLiteral("userMessage"))) {
+          int status = json_obj[QStringLiteral("status")].toInt();
+          int sub_status = json_obj[QStringLiteral("subStatus")].toInt();
+          QString user_message = json_obj[QStringLiteral("userMessage")].toString();
+          login_errors_ << QStringLiteral("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
       if (login_errors_.isEmpty()) {
         if (reply->error() != QNetworkReply::NoError) {
-          login_errors_ << QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          login_errors_ << QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
         else {
-          login_errors_ << QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+          login_errors_ << QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
         }
       }
       LoginError();
@@ -467,43 +467,43 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    LoginError("Authentication reply from server missing Json data.");
+    LoginError(QStringLiteral("Authentication reply from server missing Json data."));
     return;
   }
 
   if (json_doc.isEmpty()) {
-    LoginError("Authentication reply from server has empty Json document.");
+    LoginError(QStringLiteral("Authentication reply from server has empty Json document."));
     return;
   }
 
   if (!json_doc.isObject()) {
-    LoginError("Authentication reply from server has Json document that is not an object.", json_doc);
+    LoginError(QStringLiteral("Authentication reply from server has Json document that is not an object."), json_doc);
     return;
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    LoginError("Authentication reply from server has empty Json object.", json_doc);
+    LoginError(QStringLiteral("Authentication reply from server has empty Json object."), json_doc);
     return;
   }
 
-  if (!json_obj.contains("access_token") || !json_obj.contains("expires_in")) {
-    LoginError("Authentication reply from server is missing access_token or expires_in", json_obj);
+  if (!json_obj.contains(QStringLiteral("access_token")) || !json_obj.contains(QStringLiteral("expires_in"))) {
+    LoginError(QStringLiteral("Authentication reply from server is missing access_token or expires_in"), json_obj);
     return;
   }
 
-  access_token_ = json_obj["access_token"].toString();
-  expires_in_ = json_obj["expires_in"].toInt();
-  if (json_obj.contains("refresh_token")) {
-    refresh_token_ = json_obj["refresh_token"].toString();
+  access_token_ = json_obj[QStringLiteral("access_token")].toString();
+  expires_in_ = json_obj[QStringLiteral("expires_in")].toInt();
+  if (json_obj.contains(QStringLiteral("refresh_token"))) {
+    refresh_token_ = json_obj[QStringLiteral("refresh_token")].toString();
   }
   login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
 
-  if (json_obj.contains("user") && json_obj["user"].isObject()) {
-    QJsonObject obj_user = json_obj["user"].toObject();
-    if (obj_user.contains("countryCode") && obj_user.contains("userId")) {
-      country_code_ = obj_user["countryCode"].toString();
-      user_id_ = obj_user["userId"].toInt();
+  if (json_obj.contains(QStringLiteral("user")) && json_obj[QStringLiteral("user")].isObject()) {
+    QJsonObject obj_user = json_obj[QStringLiteral("user")].toObject();
+    if (obj_user.contains(QStringLiteral("countryCode")) && obj_user.contains(QStringLiteral("userId"))) {
+      country_code_ = obj_user[QStringLiteral("countryCode")].toString();
+      user_id_ = obj_user[QStringLiteral("userId")].toInt();
     }
   }
 
@@ -581,7 +581,7 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      LoginError(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      LoginError(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
       login_errors_.clear();
       return;
     }
@@ -592,19 +592,19 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
-          int status = json_obj["status"].toInt();
-          int sub_status = json_obj["subStatus"].toInt();
-          QString user_message = json_obj["userMessage"].toString();
-          login_errors_ << QString("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
+        if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("status")) && json_obj.contains(QStringLiteral("userMessage"))) {
+          int status = json_obj[QStringLiteral("status")].toInt();
+          int sub_status = json_obj[QStringLiteral("subStatus")].toInt();
+          QString user_message = json_obj[QStringLiteral("userMessage")].toString();
+          login_errors_ << QStringLiteral("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
       if (login_errors_.isEmpty()) {
         if (reply->error() != QNetworkReply::NoError) {
-          login_errors_ << QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          login_errors_ << QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
         else {
-          login_errors_ << QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+          login_errors_ << QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
         }
       }
       LoginError();
@@ -620,34 +620,34 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    LoginError("Authentication reply from server missing Json data.");
+    LoginError(QStringLiteral("Authentication reply from server missing Json data."));
     return;
   }
 
   if (json_doc.isEmpty()) {
-    LoginError("Authentication reply from server has empty Json document.");
+    LoginError(QStringLiteral("Authentication reply from server has empty Json document."));
     return;
   }
 
   if (!json_doc.isObject()) {
-    LoginError("Authentication reply from server has Json document that is not an object.", json_doc);
+    LoginError(QStringLiteral("Authentication reply from server has Json document that is not an object."), json_doc);
     return;
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    LoginError("Authentication reply from server has empty Json object.", json_doc);
+    LoginError(QStringLiteral("Authentication reply from server has empty Json object."), json_doc);
     return;
   }
 
-  if (!json_obj.contains("userId") || !json_obj.contains("sessionId") || !json_obj.contains("countryCode")) {
-    LoginError("Authentication reply from server is missing userId, sessionId or countryCode", json_obj);
+  if (!json_obj.contains(QStringLiteral("userId")) || !json_obj.contains(QStringLiteral("sessionId")) || !json_obj.contains(QStringLiteral("countryCode"))) {
+    LoginError(QStringLiteral("Authentication reply from server is missing userId, sessionId or countryCode"), json_obj);
     return;
   }
 
-  country_code_ = json_obj["countryCode"].toString();
-  session_id_ = json_obj["sessionId"].toString();
-  user_id_ = json_obj["userId"].toInt();
+  country_code_ = json_obj[QStringLiteral("countryCode")].toString();
+  session_id_ = json_obj[QStringLiteral("sessionId")].toString();
+  user_id_ = json_obj[QStringLiteral("userId")].toInt();
   access_token_.clear();
   refresh_token_.clear();
 

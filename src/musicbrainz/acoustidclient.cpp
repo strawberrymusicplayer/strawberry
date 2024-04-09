@@ -129,10 +129,10 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
 
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     if (reply->error() != QNetworkReply::NoError) {
-      qLog(Error) << QString("Acoustid: %1 (%2)").arg(reply->errorString()).arg(reply->error());
+      qLog(Error) << QStringLiteral("Acoustid: %1 (%2)").arg(reply->errorString()).arg(reply->error());
     }
     else {
-      qLog(Error) << QString("Acoustid: Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+      qLog(Error) << QStringLiteral("Acoustid: Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
     }
     emit Finished(request_id, QStringList());
     return;
@@ -148,7 +148,7 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
 
   QJsonObject json_object = json_document.object();
 
-  QString status = json_object["status"].toString();
+  QString status = json_object[QStringLiteral("status")].toString();
   if (status != "ok") {
     emit Finished(request_id, QStringList(), status);
     return;
@@ -159,19 +159,19 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   // -then sort results by number of sources (the results are originally
   //  unsorted but results with more sources are likely to be more accurate)
   // -keep only the ids, as sources where useful only to sort the results
-  QJsonArray json_results = json_object["results"].toArray();
+  QJsonArray json_results = json_object[QStringLiteral("results")].toArray();
 
   // List of <id, nb of sources> pairs
   QList<IdSource> id_source_list;
 
   for (const QJsonValueRef v : json_results) {
     QJsonObject r = v.toObject();
-    if (!r["recordings"].isUndefined()) {
-      QJsonArray json_recordings = r["recordings"].toArray();
+    if (!r[QStringLiteral("recordings")].isUndefined()) {
+      QJsonArray json_recordings = r[QStringLiteral("recordings")].toArray();
       for (const QJsonValueRef recording : json_recordings) {
         QJsonObject o = recording.toObject();
-        if (!o["id"].isUndefined()) {
-          id_source_list << IdSource(o["id"].toString(), o["sources"].toInt());
+        if (!o[QStringLiteral("id")].isUndefined()) {
+          id_source_list << IdSource(o[QStringLiteral("id")].toString(), o[QStringLiteral("sources")].toInt());
         }
       }
     }

@@ -78,11 +78,11 @@ QString Chromaprinter::CreateFingerprint() {
     return QString();
   }
 
-  GstElement *src = CreateElement("filesrc", pipeline);
-  GstElement *decode = CreateElement("decodebin", pipeline);
-  GstElement *convert = CreateElement("audioconvert", pipeline);
-  GstElement *resample = CreateElement("audioresample", pipeline);
-  GstElement *sink = CreateElement("appsink", pipeline);
+  GstElement *src = CreateElement(QStringLiteral("filesrc"), pipeline);
+  GstElement *decode = CreateElement(QStringLiteral("decodebin"), pipeline);
+  GstElement *convert = CreateElement(QStringLiteral("audioconvert"), pipeline);
+  GstElement *resample = CreateElement(QStringLiteral("audioresample"), pipeline);
+  GstElement *sink = CreateElement(QStringLiteral("appsink"), pipeline);
 
   if (!src || !decode || !convert || !resample || !sink) {
     gst_object_unref(pipeline);

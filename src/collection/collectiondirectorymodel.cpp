@@ -41,7 +41,7 @@ using std::make_shared;
 
 CollectionDirectoryModel::CollectionDirectoryModel(SharedPtr<CollectionBackend> backend, QObject *parent)
     : QStandardItemModel(parent),
-      dir_icon_(IconLoader::Load("document-open-folder")),
+      dir_icon_(IconLoader::Load(QStringLiteral("document-open-folder"))),
       backend_(backend) {
 
   QObject::connect(&*backend_, &CollectionBackend::DirectoryDiscovered, this, &CollectionDirectoryModel::DirectoryDiscovered);

@@ -48,7 +48,7 @@ const int SmartPlaylistsModel::kSmartPlaylistsVersion = 1;
 SmartPlaylistsModel::SmartPlaylistsModel(SharedPtr<CollectionBackend> collection_backend, QObject *parent)
     : SimpleTreeModel<SmartPlaylistsItem>(new SmartPlaylistsItem(this), parent),
       collection_backend_(collection_backend),
-      icon_(IconLoader::Load("view-media-playlist")) {
+      icon_(IconLoader::Load(QStringLiteral("view-media-playlist"))) {
 
   root_->lazy_loaded = true;
 
@@ -289,7 +289,7 @@ QVariant SmartPlaylistsModel::data(const QModelIndex &idx, const int role) const
 }
 
 QStringList SmartPlaylistsModel::mimeTypes() const {
-  return QStringList() << "text/uri-list";
+  return QStringList() << QStringLiteral("text/uri-list");
 }
 
 QMimeData *SmartPlaylistsModel::mimeData(const QModelIndexList &indexes) const {

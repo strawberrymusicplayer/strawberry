@@ -48,13 +48,13 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
 
   QString data = QString::fromUtf8(device->readAll());
   data.replace('\r', '\n');
-  data.replace("\n\n", "\n");
+  data.replace(QLatin1String("\n\n"), QLatin1String("\n"));
   QByteArray bytes = data.toUtf8();
   QBuffer buffer(&bytes);
   if (!buffer.open(QIODevice::ReadOnly)) return SongList();
 
   QString line = QString::fromUtf8(buffer.readLine()).trimmed();
-  if (line.startsWith("#EXTM3U")) {
+  if (line.startsWith(QLatin1String("#EXTM3U"))) {
     // This is in extended M3U format.
     type = M3UType::EXTENDED;
     line = QString::fromUtf8(buffer.readLine()).trimmed();
@@ -64,7 +64,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
   forever {
     if (line.startsWith('#')) {
       // Extended info or comment.
-      if (type == M3UType::EXTENDED && line.startsWith("#EXT")) {
+      if (type == M3UType::EXTENDED && line.startsWith(QLatin1String("#EXT"))) {
         if (!ParseMetadata(line, &current_metadata)) {
           qLog(Warning) << "Failed to parse metadata: " << line;
         }
@@ -111,7 +111,7 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
   metadata->length = length * kNsecPerSec;
 
   QString track_info = info.section(',', 1);
-  QStringList list = track_info.split(" - ");
+  QStringList list = track_info.split(QStringLiteral(" - "));
   if (list.size() <= 1) {
     metadata->title = track_info;
     return true;
@@ -136,7 +136,7 @@ void M3UParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
       continue;
     }
     if (write_metadata || (song.is_stream() && !song.is_radio())) {
-      QString meta = QString("#EXTINF:%1,%2 - %3\n").arg(song.length_nanosec() / kNsecPerSec).arg(song.artist(), song.title());
+      QString meta = QStringLiteral("#EXTINF:%1,%2 - %3\n").arg(song.length_nanosec() / kNsecPerSec).arg(song.artist(), song.title());
       device->write(meta.toUtf8());
     }
     device->write(URLOrFilename(song.url(), dir, path_type).toUtf8());

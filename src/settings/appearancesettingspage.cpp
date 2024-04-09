@@ -87,9 +87,9 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *
       background_image_type_(BackgroundImageType::Default) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("view-media-visualization", true, 0, 32));
+  setWindowIcon(IconLoader::Load(QStringLiteral("view-media-visualization"), true, 0, 32));
 
-  ui_->combobox_style->addItem("default", "default");
+  ui_->combobox_style->addItem(QStringLiteral("default"), "default");
   for (const QString &style : QStyleFactory::keys()) {
     ui_->combobox_style->addItem(style, style);
   }
@@ -142,7 +142,7 @@ void AppearanceSettingsPage::Load() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
 
-  ComboBoxLoadFromSettings(s, ui_->combobox_style, kStyle, "default");
+  ComboBoxLoadFromSettings(s, ui_->combobox_style, kStyle, QStringLiteral("default"));
 
 #if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
   ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
@@ -290,7 +290,7 @@ void AppearanceSettingsPage::Save() {
 
 void AppearanceSettingsPage::UpdateColorSelectorColor(QWidget *color_selector, const QColor &color) {
 
-  QString css = QString("background-color: rgb(%1, %2, %3); color: rgb(255, 255, 255); border: 1px dotted black;").arg(color.red()).arg(color.green()).arg(color.blue());
+  QString css = QStringLiteral("background-color: rgb(%1, %2, %3); color: rgb(255, 255, 255); border: 1px dotted black;").arg(color.red()).arg(color.green()).arg(color.blue());
   color_selector->setStyleSheet(css);
 
 }
@@ -305,11 +305,11 @@ void AppearanceSettingsPage::SelectBackgroundImage() {
 }
 
 void AppearanceSettingsPage::BlurLevelChanged(int value) {
-  ui_->background_blur_radius_label->setText(QString("%1px").arg(value));
+  ui_->background_blur_radius_label->setText(QStringLiteral("%1px").arg(value));
 }
 
 void AppearanceSettingsPage::OpacityLevelChanged(int percent) {
-  ui_->background_opacity_label->setText(QString("%1%").arg(percent));
+  ui_->background_opacity_label->setText(QStringLiteral("%1%").arg(percent));
 }
 
 void AppearanceSettingsPage::TabBarSystemColor(bool checked) {

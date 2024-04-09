@@ -39,7 +39,7 @@
 
 const char *LoloLyricsProvider::kUrlSearch = "http://api.lololyrics.com/0.5/getLyric";
 
-LoloLyricsProvider::LoloLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider("LoloLyrics", true, false, network, parent) {}
+LoloLyricsProvider::LoloLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider(QStringLiteral("LoloLyrics"), true, false, network, parent) {}
 
 LoloLyricsProvider::~LoloLyricsProvider() {
 
@@ -55,8 +55,8 @@ LoloLyricsProvider::~LoloLyricsProvider() {
 bool LoloLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   QUrlQuery url_query;
-  url_query.addQueryItem("artist", QUrl::toPercentEncoding(request.artist));
-  url_query.addQueryItem("track", QUrl::toPercentEncoding(request.title));
+  url_query.addQueryItem(QStringLiteral("artist"), QUrl::toPercentEncoding(request.artist));
+  url_query.addQueryItem(QStringLiteral("track"), QUrl::toPercentEncoding(request.title));
 
   QUrl url(kUrlSearch);
   url.setQuery(url_query);
@@ -81,7 +81,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
 
   QString failure_reason;
   if (reply->error() != QNetworkReply::NoError) {
-    failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+    failure_reason = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
     if (reply->error() < 200) {
       Error(failure_reason);
       emit SearchFinished(id);
@@ -89,7 +89,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
     }
   }
   else if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    failure_reason = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+    failure_reason = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
   }
 
   QByteArray data = reply->readAll();

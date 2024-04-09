@@ -45,7 +45,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
 
   QString filename = filename_or_url;
 
-  if (filename_or_url.contains(QRegularExpression("^[a-z]{2,}:", QRegularExpression::CaseInsensitiveOption))) {
+  if (filename_or_url.contains(QRegularExpression(QStringLiteral("^[a-z]{2,}:"), QRegularExpression::CaseInsensitiveOption))) {
     QUrl url(filename_or_url);
     song->set_source(Song::SourceFromURL(url));
     if (song->source() == Song::Source::LocalFile) {
@@ -119,7 +119,7 @@ QString ParserBase::URLOrFilename(const QUrl &url, const QDir &dir, const Playli
   if (path_type != PlaylistSettingsPage::PathType::Absolute && QDir::isAbsolutePath(filename)) {
     const QString relative = dir.relativeFilePath(filename);
 
-    if (!relative.startsWith("../") || path_type == PlaylistSettingsPage::PathType::Relative) {
+    if (!relative.startsWith(QLatin1String("../")) || path_type == PlaylistSettingsPage::PathType::Relative) {
       return relative;
     }
   }

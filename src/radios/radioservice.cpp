@@ -42,13 +42,13 @@ RadioService::RadioService(const Song::Source source, const QString &name, const
 QByteArray RadioService::ExtractData(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QString("Failed to retrieve data from %1: %2 (%3)").arg(name_, reply->errorString()).arg(reply->error()));
+    Error(QStringLiteral("Failed to retrieve data from %1: %2 (%3)").arg(name_, reply->errorString()).arg(reply->error()));
     if (reply->error() < 200) {
       return QByteArray();
     }
   }
   else if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    Error(QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
+    Error(QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
   }
 
   return reply->readAll();
@@ -65,23 +65,23 @@ QJsonObject RadioService::ExtractJsonObj(const QByteArray &data) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    Error(QString("Failed to parse Json data from %1: %2").arg(name_, json_error.errorString()));
+    Error(QStringLiteral("Failed to parse Json data from %1: %2").arg(name_, json_error.errorString()));
     return QJsonObject();
   }
 
   if (json_doc.isEmpty()) {
-    Error(QString("%1: Received empty Json document.").arg(name_), data);
+    Error(QStringLiteral("%1: Received empty Json document.").arg(name_), data);
     return QJsonObject();
   }
 
   if (!json_doc.isObject()) {
-    Error(QString("%1: Json document is not an object.").arg(name_), json_doc);
+    Error(QStringLiteral("%1: Json document is not an object.").arg(name_), json_doc);
     return QJsonObject();
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    Error(QString("%1: Received empty Json object.").arg(name_), json_doc);
+    Error(QStringLiteral("%1: Received empty Json object.").arg(name_), json_doc);
     return QJsonObject();
   }
 

@@ -80,7 +80,7 @@ CollectionView::CollectionView(QWidget *parent)
       total_song_count_(-1),
       total_artist_count_(-1),
       total_album_count_(-1),
-      nomusic_(":/pictures/nomusic.png"),
+      nomusic_(QStringLiteral(":/pictures/nomusic.png")),
       context_menu_(nullptr),
       action_load_(nullptr),
       action_add_to_playlist_(nullptr),
@@ -109,7 +109,7 @@ CollectionView::CollectionView(QWidget *parent)
   setDragDropMode(QAbstractItemView::DragOnly);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-  setStyleSheet("QTreeView::item{padding-top:1px;}");
+  setStyleSheet(QStringLiteral("QTreeView::item{padding-top:1px;}"));
 
 }
 
@@ -364,29 +364,29 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    action_add_to_playlist_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &CollectionView::AddToPlaylist);
-    action_load_ = context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &CollectionView::Load);
-    action_open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &CollectionView::OpenInNewPlaylist);
+    action_add_to_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &CollectionView::AddToPlaylist);
+    action_load_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &CollectionView::Load);
+    action_open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &CollectionView::OpenInNewPlaylist);
 
     context_menu_->addSeparator();
-    action_add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &CollectionView::AddToPlaylistEnqueue);
-    action_add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, &CollectionView::AddToPlaylistEnqueueNext);
+    action_add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue track"), this, &CollectionView::AddToPlaylistEnqueue);
+    action_add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue to play next"), this, &CollectionView::AddToPlaylistEnqueueNext);
 
     context_menu_->addSeparator();
 
-    action_search_for_this_ = context_menu_->addAction(IconLoader::Load("edit-find"), tr("Search for this"), this, &CollectionView::SearchForThis);
+    action_search_for_this_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-find")), tr("Search for this"), this, &CollectionView::SearchForThis);
 
     context_menu_->addSeparator();
-    action_organize_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, &CollectionView::Organize);
+    action_organize_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-copy")), tr("Organize files..."), this, &CollectionView::Organize);
 #ifndef Q_OS_WIN
-    action_copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, &CollectionView::CopyToDevice);
+    action_copy_to_device_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("device")), tr("Copy to device..."), this, &CollectionView::CopyToDevice);
 #endif
-    action_delete_files_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from disk..."), this, &CollectionView::Delete);
+    action_delete_files_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Delete from disk..."), this, &CollectionView::Delete);
 
     context_menu_->addSeparator();
-    action_edit_track_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit track information..."), this, &CollectionView::EditTracks);
-    action_edit_tracks_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit tracks information..."), this, &CollectionView::EditTracks);
-    action_show_in_browser_ = context_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, &CollectionView::ShowInBrowser);
+    action_edit_track_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-rename")), tr("Edit track information..."), this, &CollectionView::EditTracks);
+    action_edit_tracks_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-rename")), tr("Edit tracks information..."), this, &CollectionView::EditTracks);
+    action_show_in_browser_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("document-open-folder")), tr("Show in file browser..."), this, &CollectionView::ShowInBrowser);
 
     context_menu_->addSeparator();
 
@@ -582,7 +582,7 @@ void CollectionView::SearchForThis() {
       if (!songs.isEmpty()) {
         last_selected_song_ = songs.last();
       }
-      search = QString("title:%1").arg(last_selected_song_.title());
+      search = QStringLiteral("title:%1").arg(last_selected_song_.title());
       break;
     }
 
@@ -598,53 +598,53 @@ void CollectionView::SearchForThis() {
 
       switch (container_group_by) {
         case CollectionModel::GroupBy::AlbumArtist:
-          search = QString("albumartist:%1").arg(item->metadata.effective_albumartist());
+          search = QStringLiteral("albumartist:%1").arg(item->metadata.effective_albumartist());
           break;
         case CollectionModel::GroupBy::Artist:
-          search = QString("artist:%1").arg(item->metadata.artist());
+          search = QStringLiteral("artist:%1").arg(item->metadata.artist());
           break;
         case CollectionModel::GroupBy::Album:
-          search = QString("album:%1").arg(item->metadata.album());
+          search = QStringLiteral("album:%1").arg(item->metadata.album());
           break;
         case CollectionModel::GroupBy::AlbumDisc:
-          search = QString("album:%1").arg(item->metadata.album());
+          search = QStringLiteral("album:%1").arg(item->metadata.album());
           break;
         case CollectionModel::GroupBy::YearAlbum:
         case CollectionModel::GroupBy::YearAlbumDisc:{
-          search = QString("year:%1 album:%2").arg(item->metadata.year()).arg(item->metadata.album());
+          search = QStringLiteral("year:%1 album:%2").arg(item->metadata.year()).arg(item->metadata.album());
           break;
         }
         case CollectionModel::GroupBy::OriginalYearAlbum:
         case CollectionModel::GroupBy::OriginalYearAlbumDisc:{
-          search = QString("year:%1 album:%2").arg(item->metadata.effective_originalyear()).arg(item->metadata.album());
+          search = QStringLiteral("year:%1 album:%2").arg(item->metadata.effective_originalyear()).arg(item->metadata.album());
           break;
         }
         case CollectionModel::GroupBy::Year:
-          search = QString("year:%1").arg(item->metadata.year());
+          search = QStringLiteral("year:%1").arg(item->metadata.year());
           break;
         case CollectionModel::GroupBy::OriginalYear:
-          search = QString("year:%1").arg(item->metadata.effective_originalyear());
+          search = QStringLiteral("year:%1").arg(item->metadata.effective_originalyear());
           break;
         case CollectionModel::GroupBy::Genre:
-          search = QString("genre:%1").arg(item->metadata.genre());
+          search = QStringLiteral("genre:%1").arg(item->metadata.genre());
           break;
         case CollectionModel::GroupBy::Composer:
-          search = QString("composer:%1").arg(item->metadata.composer());
+          search = QStringLiteral("composer:%1").arg(item->metadata.composer());
           break;
         case CollectionModel::GroupBy::Performer:
-          search = QString("performer:%1").arg(item->metadata.performer());
+          search = QStringLiteral("performer:%1").arg(item->metadata.performer());
           break;
         case CollectionModel::GroupBy::Grouping:
-          search = QString("grouping:%1").arg(item->metadata.grouping());
+          search = QStringLiteral("grouping:%1").arg(item->metadata.grouping());
           break;
         case CollectionModel::GroupBy::Samplerate:
-          search = QString("samplerate:%1").arg(item->metadata.samplerate());
+          search = QStringLiteral("samplerate:%1").arg(item->metadata.samplerate());
           break;
         case CollectionModel::GroupBy::Bitdepth:
-          search = QString("bitdepth:%1").arg(item->metadata.bitdepth());
+          search = QStringLiteral("bitdepth:%1").arg(item->metadata.bitdepth());
           break;
         case CollectionModel::GroupBy::Bitrate:
-          search = QString("bitrate:%1").arg(item->metadata.bitrate());
+          search = QStringLiteral("bitrate:%1").arg(item->metadata.bitrate());
           break;
         default:
           search = model()->data(current, Qt::DisplayRole).toString();

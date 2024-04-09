@@ -70,8 +70,8 @@
 
 using namespace std::chrono_literals;
 
-QStringList CollectionWatcher::sValidImages = QStringList() << "jpg" << "png" << "gif" << "jpeg";
-QStringList CollectionWatcher::kIgnoredExtensions = QStringList() << "tmp" << "tar" << "gz" << "bz2" << "xz" << "tbz" << "tgz" << "z" << "zip" << "rar";
+QStringList CollectionWatcher::sValidImages = QStringList() << QStringLiteral("jpg") << QStringLiteral("png") << QStringLiteral("gif") << QStringLiteral("jpeg");
+QStringList CollectionWatcher::kIgnoredExtensions = QStringList() << QStringLiteral("tmp") << QStringLiteral("tar") << QStringLiteral("gz") << QStringLiteral("bz2") << QStringLiteral("xz") << QStringLiteral("tbz") << QStringLiteral("tgz") << QStringLiteral("z") << QStringLiteral("zip") << QStringLiteral("rar");
 
 CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
     : QObject(parent),
@@ -154,7 +154,7 @@ void CollectionWatcher::ReloadSettings() {
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
   scan_on_startup_ = s.value("startup_scan", true).toBool();
   monitor_ = s.value("monitor", true).toBool();
-  QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
+  QStringList filters = s.value("cover_art_patterns", QStringList() << QStringLiteral("front") << QStringLiteral("cover")).toStringList();
   if (source_ == Song::Source::Collection) {
     song_tracking_ = s.value("song_tracking", false).toBool();
     song_ebur128_loudness_analysis_ = s.value("song_ebur128_loudness_analysis", false).toBool();
@@ -612,7 +612,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
           Chromaprinter chromaprinter(file);
           fingerprint = chromaprinter.CreateFingerprint();
           if (fingerprint.isEmpty()) {
-            fingerprint = "NONE";
+            fingerprint = QStringLiteral("NONE");
           }
         }
 #endif
@@ -639,7 +639,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
         Chromaprinter chromaprinter(file);
         fingerprint = chromaprinter.CreateFingerprint();
         if (fingerprint.isEmpty()) {
-          fingerprint = "NONE";
+          fingerprint = QStringLiteral("NONE");
         }
       }
 #endif
@@ -892,50 +892,50 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
   }
   else {
     if (matching_song.url() != new_song.url()) {
-      changes << "file path";
+      changes << QStringLiteral("file path");
       notify_new = true;
     }
     if (matching_song.fingerprint() != new_song.fingerprint()) {
-      changes << "fingerprint";
+      changes << QStringLiteral("fingerprint");
       notify_new = true;
     }
     if (!matching_song.IsMetadataEqual(new_song)) {
-      changes << "metadata";
+      changes << QStringLiteral("metadata");
       notify_new = true;
     }
     if (!matching_song.IsPlayStatisticsEqual(new_song)) {
-      changes << "play statistics";
+      changes << QStringLiteral("play statistics");
       notify_new = true;
     }
     if (!matching_song.IsRatingEqual(new_song)) {
-      changes << "rating";
+      changes << QStringLiteral("rating");
       notify_new = true;
     }
     if (!matching_song.IsArtEqual(new_song)) {
-      changes << "album art";
+      changes << QStringLiteral("album art");
       notify_new = true;
     }
     if (!matching_song.IsAcoustIdEqual(new_song)) {
-      changes << "acoustid";
+      changes << QStringLiteral("acoustid");
       notify_new = true;
     }
     if (!matching_song.IsMusicBrainzEqual(new_song)) {
-      changes << "musicbrainz";
+      changes << QStringLiteral("musicbrainz");
       notify_new = true;
     }
     if (!matching_song.IsEBUR128Equal(new_song)) {
-      changes << "ebur128 loudness characteristics";
+      changes << QStringLiteral("ebur128 loudness characteristics");
       notify_new = true;
     }
     if (matching_song.mtime() != new_song.mtime()) {
-      changes << "mtime";
+      changes << QStringLiteral("mtime");
     }
 
     if (changes.isEmpty()) {
       qLog(Debug) << "Song" << file << "unchanged.";
     }
     else {
-      qLog(Debug) << "Song" << file << changes.join(", ") << "changed.";
+      qLog(Debug) << "Song" << file << changes.join(QStringLiteral(", ")) << "changed.";
     }
 
   }

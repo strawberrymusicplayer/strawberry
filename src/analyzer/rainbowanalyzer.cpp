@@ -65,8 +65,8 @@ RainbowAnalyzer::RainbowAnalyzer(const RainbowType rbtype, QWidget *parent)
       background_brush_(QColor(0x0f, 0x43, 0x73)) {
 
   rainbowtype = rbtype;
-  cat_dash_[0] = QPixmap(":/pictures/nyancat.png");
-  cat_dash_[1] = QPixmap(":/pictures/rainbowdash.png");
+  cat_dash_[0] = QPixmap(QStringLiteral(":/pictures/nyancat.png"));
+  cat_dash_[1] = QPixmap(QStringLiteral(":/pictures/rainbowdash.png"));
   memset(history_, 0, sizeof(history_));
 
   for (int i = 0; i < kRainbowBands; ++i) {

@@ -115,7 +115,7 @@ void VolumeSlider::paintEvent(QPaintEvent*) {
 
 void VolumeSlider::generateGradient() {
 
-  const QImage mask(":/pictures/volumeslider-gradient.png");
+  const QImage mask(QStringLiteral(":/pictures/volumeslider-gradient.png"));
 
   QImage gradient_image(mask.size(), QImage::Format_ARGB32_Premultiplied);
   QPainter p(&gradient_image);
@@ -177,8 +177,8 @@ QPixmap VolumeSlider::drawVolumePixmap() const {
 
 void VolumeSlider::drawVolumeSliderHandle() {
 
-  QImage pixmapHandle(":/pictures/volumeslider-handle.png");
-  QImage pixmapHandleGlow(":/pictures/volumeslider-handle_glow.png");
+  QImage pixmapHandle(QStringLiteral(":/pictures/volumeslider-handle.png"));
+  QImage pixmapHandleGlow(QStringLiteral(":/pictures/volumeslider-handle_glow.png"));
 
   QImage pixmapHandleGlow_image(pixmapHandleGlow.size(), QImage::Format_ARGB32_Premultiplied);
   QPainter painter(&pixmapHandleGlow_image);
@@ -242,13 +242,13 @@ void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
 
   QHash<QAction*, int> values;
   QMenu menu;
-  menu.setTitle("Volume");
-  values[menu.addAction("100%")] = 100;
-  values[menu.addAction("80%")] = 80;
-  values[menu.addAction("60%")] = 60;
-  values[menu.addAction("40%")] = 40;
-  values[menu.addAction("20%")] = 20;
-  values[menu.addAction("0%")] = 0;
+  menu.setTitle(QStringLiteral("Volume"));
+  values[menu.addAction(QStringLiteral("100%"))] = 100;
+  values[menu.addAction(QStringLiteral("80%"))] = 80;
+  values[menu.addAction(QStringLiteral("60%"))] = 60;
+  values[menu.addAction(QStringLiteral("40%"))] = 40;
+  values[menu.addAction(QStringLiteral("20%"))] = 20;
+  values[menu.addAction(QStringLiteral("0%"))] = 0;
 
   QAction *ret = menu.exec(mapToGlobal(e->pos()));
   if (ret) {

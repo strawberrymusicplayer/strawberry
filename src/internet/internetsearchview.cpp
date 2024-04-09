@@ -114,12 +114,12 @@ InternetSearchView::InternetSearchView(QWidget *parent)
   ui_->search->installEventFilter(this);
   ui_->results_stack->installEventFilter(this);
 
-  ui_->settings->setIcon(IconLoader::Load("configure"));
+  ui_->settings->setIcon(IconLoader::Load(QStringLiteral("configure")));
 
   // Set the appearance of the results list
   ui_->results->setItemDelegate(new InternetSearchItemDelegate(this));
   ui_->results->setAttribute(Qt::WA_MacShowFocusRect, false);
-  ui_->results->setStyleSheet("QTreeView::item{padding-top:1px;}");
+  ui_->results->setStyleSheet(QStringLiteral("QTreeView::item{padding-top:1px;}"));
 
   // Show the help page initially
   ui_->results_stack->setCurrentWidget(ui_->help_page);
@@ -176,7 +176,7 @@ void InternetSearchView::Init(Application *app, InternetServicePtr service) {
   QMenu *settings_menu = new QMenu(this);
   settings_menu->addActions(group_by_actions_->actions());
   settings_menu->addSeparator();
-  settings_menu->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this, &InternetSearchView::OpenSettingsDialog);
+  settings_menu->addAction(IconLoader::Load(QStringLiteral("configure")), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this, &InternetSearchView::OpenSettingsDialog);
   ui_->settings->setMenu(settings_menu);
 
   swap_models_timer_->setSingleShot(true);
@@ -313,36 +313,36 @@ bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    context_actions_ << context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &InternetSearchView::AddSelectedToPlaylist);
-    context_actions_ << context_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &InternetSearchView::LoadSelected);
-    context_actions_ << context_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &InternetSearchView::OpenSelectedInNewPlaylist);
+    context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &InternetSearchView::AddSelectedToPlaylist);
+    context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &InternetSearchView::LoadSelected);
+    context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &InternetSearchView::OpenSelectedInNewPlaylist);
 
     context_menu_->addSeparator();
-    context_actions_ << context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, &InternetSearchView::AddSelectedToPlaylistEnqueue);
+    context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue track"), this, &InternetSearchView::AddSelectedToPlaylistEnqueue);
 
     context_menu_->addSeparator();
 
     if (service_->artists_collection_model() || service_->albums_collection_model() || service_->songs_collection_model()) {
       if (service_->artists_collection_model()) {
-        context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to artists"), this, &InternetSearchView::AddArtists);
+        context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("folder-new")), tr("Add to artists"), this, &InternetSearchView::AddArtists);
       }
       if (service_->albums_collection_model()) {
-        context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to albums"), this, &InternetSearchView::AddAlbums);
+        context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("folder-new")), tr("Add to albums"), this, &InternetSearchView::AddAlbums);
       }
       if (service_->songs_collection_model()) {
-        context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to songs"), this, &InternetSearchView::AddSongs);
+        context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("folder-new")), tr("Add to songs"), this, &InternetSearchView::AddSongs);
       }
       context_menu_->addSeparator();
     }
 
     if (ui_->results->selectionModel() && ui_->results->selectionModel()->selectedRows().length() == 1) {
-      context_actions_ << context_menu_->addAction(IconLoader::Load("search"), tr("Search for this"), this, &InternetSearchView::SearchForThis);
+      context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("search")), tr("Search for this"), this, &InternetSearchView::SearchForThis);
     }
 
     context_menu_->addSeparator();
     context_menu_->addMenu(tr("Group by"))->addActions(group_by_actions_->actions());
 
-    context_menu_->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, &InternetSearchView::OpenSettingsDialog);
+    context_menu_->addAction(IconLoader::Load(QStringLiteral("configure")), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, &InternetSearchView::OpenSettingsDialog);
 
   }
 
@@ -433,14 +433,14 @@ void InternetSearchView::SwapModels() {
 
 QStringList InternetSearchView::TokenizeQuery(const QString &query) {
 
-  QStringList tokens(query.split(QRegularExpression("\\s+")));
+  QStringList tokens(query.split(QRegularExpression(QStringLiteral("\\s+"))));
 
   for (QStringList::iterator it = tokens.begin(); it != tokens.end(); ++it) {
     (*it).remove('(');
     (*it).remove(')');
     (*it).remove('"');
 
-    const qint64 colon = (*it).indexOf(":");
+    const qint64 colon = (*it).indexOf(QLatin1String(":"));
     if (colon != -1) {
       (*it).remove(0, colon + 1);
     }

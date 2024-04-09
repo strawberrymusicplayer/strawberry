@@ -129,11 +129,11 @@ int main(int argc, char *argv[]) {
   QCoreApplication::setApplicationName("Strawberry");
   QCoreApplication::setOrganizationName("Strawberry");
 #else
-  QCoreApplication::setApplicationName("strawberry");
-  QCoreApplication::setOrganizationName("strawberry");
+  QCoreApplication::setApplicationName(QStringLiteral("strawberry"));
+  QCoreApplication::setOrganizationName(QStringLiteral("strawberry"));
 #endif
-  QCoreApplication::setApplicationVersion(STRAWBERRY_VERSION_DISPLAY);
-  QCoreApplication::setOrganizationDomain("strawberrymusicplayer.org");
+  QCoreApplication::setApplicationVersion(QStringLiteral(STRAWBERRY_VERSION_DISPLAY));
+  QCoreApplication::setOrganizationDomain(QStringLiteral("strawberrymusicplayer.org"));
 
   QCoreApplication::setQuitLockEnabled(false);
 
@@ -180,7 +180,7 @@ int main(int argc, char *argv[]) {
 
   // Output the version, so when people attach log output to bug reports they don't have to tell us which version they're using.
   qLog(Info) << "Strawberry" << STRAWBERRY_VERSION_DISPLAY << "Qt" << QLibraryInfo::version().toString();
-  qLog(Info) << QString("%1 %2 - (%3 %4) [%5]").arg(QSysInfo::prettyProductName(), QSysInfo::productVersion(), QSysInfo::kernelType(), QSysInfo::kernelVersion(), QSysInfo::currentCpuArchitecture());
+  qLog(Info) << QStringLiteral("%1 %2 - (%3 %4) [%5]").arg(QSysInfo::prettyProductName(), QSysInfo::productVersion(), QSysInfo::kernelType(), QSysInfo::kernelVersion(), QSysInfo::currentCpuArchitecture());
 
   // Seed the random number generators.
   time_t t = time(nullptr);
@@ -190,8 +190,8 @@ int main(int argc, char *argv[]) {
   Utilities::IncreaseFDLimit();
 #endif
 
-  QGuiApplication::setApplicationDisplayName("Strawberry Music Player");
-  QGuiApplication::setDesktopFileName("org.strawberrymusicplayer.strawberry");
+  QGuiApplication::setApplicationDisplayName(QStringLiteral("Strawberry Music Player"));
+  QGuiApplication::setDesktopFileName(QStringLiteral("org.strawberrymusicplayer.strawberry"));
   QGuiApplication::setQuitOnLastWindowClosed(false);
 
   QApplication a(argc, argv);
@@ -206,7 +206,7 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
-  QGuiApplication::setWindowIcon(IconLoader::Load("strawberry"));
+  QGuiApplication::setWindowIcon(IconLoader::Load(QStringLiteral("strawberry")));
 
 #if defined(USE_BUNDLE)
   qLog(Debug) << "Looking for resources in" << QCoreApplication::libraryPaths();
@@ -220,7 +220,7 @@ int main(int argc, char *argv[]) {
     s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
     QString style = s.value(AppearanceSettingsPage::kStyle).toString();
     if (style.isEmpty()) {
-      style="default";
+      style=QStringLiteral("default");
       s.setValue(AppearanceSettingsPage::kStyle, style);
     }
     s.endGroup();

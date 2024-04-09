@@ -50,7 +50,7 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
   Q_UNUSED(playlist_path);
 
   QMap<int, Song> songs;
-  QRegularExpression n_re("\\d+$");
+  QRegularExpression n_re(QStringLiteral("\\d+$"));
 
   while (!device->atEnd()) {
     QString line = QString::fromUtf8(device->readLine()).trimmed();
@@ -61,7 +61,7 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
     QRegularExpressionMatch re_match = n_re.match(key);
     int n = re_match.captured(0).toInt();
 
-    if (key.startsWith("file")) {
+    if (key.startsWith(QLatin1String("file"))) {
       Song song = LoadSong(value, 0, 0, dir, collection_search);
 
       // Use the title and length we've already loaded if any
@@ -72,10 +72,10 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
 
       songs[n] = song;
     }
-    else if (key.startsWith("title")) {
+    else if (key.startsWith(QLatin1String("title"))) {
       songs[n].set_title(value);
     }
-    else if (key.startsWith("length")) {
+    else if (key.startsWith(QLatin1String("length"))) {
       qint64 seconds = value.toLongLong();
       if (seconds > 0) {
         songs[n].set_length_nanosec(seconds * kNsecPerSec);

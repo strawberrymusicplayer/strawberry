@@ -27,17 +27,17 @@
 namespace Utilities {
 
 QString GetRandomStringWithChars(const int len) {
-  const QString UseCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+  const QString UseCharacters(QStringLiteral("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"));
   return GetRandomString(len, UseCharacters);
 }
 
 QString GetRandomStringWithCharsAndNumbers(const int len) {
-  const QString UseCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+  const QString UseCharacters(QStringLiteral("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"));
   return GetRandomString(len, UseCharacters);
 }
 
 QString CryptographicRandomString(const int len) {
-  const QString UseCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~");
+  const QString UseCharacters(QStringLiteral("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"));
   return GetRandomString(len, UseCharacters);
 }
 

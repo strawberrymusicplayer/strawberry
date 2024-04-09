@@ -72,34 +72,34 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
   ui_->setupUi(this);
 
-  QString available_fields = Song::kFtsColumns.join(", ").replace(QRegularExpression("\\bfts"), "");
-  available_fields += QString(", ") + Song::kNumericalColumns.join(", ");
+  QString available_fields = Song::kFtsColumns.join(QStringLiteral(", ")).replace(QRegularExpression(QStringLiteral("\\bfts")), QLatin1String(""));
+  available_fields += QStringLiteral(", ") + Song::kNumericalColumns.join(QStringLiteral(", "));
 
   ui_->search_field->setToolTip(
-    QString("<html><head/><body><p>") +
+    QStringLiteral("<html><head/><body><p>") +
     tr("Prefix a word with a field name to limit the search to that field, e.g.:") +
-    QString(" ") +
-    QString("<span style=\"font-weight:600;\">") +
+    QStringLiteral(" ") +
+    QStringLiteral("<span style=\"font-weight:600;\">") +
     tr("artist") +
-    QString(":</span><span style=\"font-style:italic;\">Strawbs</span> ") +
-    tr("searches the collection for all artists that contain the word %1. ").arg("Strawbs") +
-    QString("</p><p>") +
+    QStringLiteral(":</span><span style=\"font-style:italic;\">Strawbs</span> ") +
+    tr("searches the collection for all artists that contain the word %1. ").arg(QStringLiteral("Strawbs")) +
+    QStringLiteral("</p><p>") +
     tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")
       .arg(" =, !=, &lt;, &gt;, &lt;=", "&gt;=") +
-    QString("<span style=\"font-weight:600;\">") +
+    QStringLiteral("<span style=\"font-weight:600;\">") +
     tr("rating") +
-    QString("</span>") +
-    QString(":>=") +
-    QString("<span style=\"font-weight:italic;\">4</span>") +
+    QStringLiteral("</span>") +
+    QStringLiteral(":>=") +
+    QStringLiteral("<span style=\"font-weight:italic;\">4</span>") +
 
-    QString("</p><p><span style=\"font-weight:600;\">") +
+    QStringLiteral("</p><p><span style=\"font-weight:600;\">") +
     tr("Available fields") +
-    QString(": ") +
-    QString("</span>") +
-    QString("<span style=\"font-style:italic;\">") +
+    QStringLiteral(": ") +
+    QStringLiteral("</span>") +
+    QStringLiteral("<span style=\"font-style:italic;\">") +
     available_fields +
-    QString("</span>.") +
-    QString("</p></body></html>")
+    QStringLiteral("</span>.") +
+    QStringLiteral("</p></body></html>")
   );
 
   QObject::connect(ui_->search_field, &QSearchField::returnPressed, this, &CollectionFilterWidget::ReturnPressed);
@@ -109,7 +109,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   filter_delay_->setSingleShot(true);
 
   // Icons
-  ui_->options->setIcon(IconLoader::Load("configure"));
+  ui_->options->setIcon(IconLoader::Load(QStringLiteral("configure")));
 
   // Filter by age
   QActionGroup *filter_age_group = new QActionGroup(this);
@@ -229,10 +229,10 @@ void CollectionFilterWidget::ReloadSettings() {
 QString CollectionFilterWidget::group_by_version() const {
 
   if (settings_prefix_.isEmpty()) {
-    return "group_by_version";
+    return QStringLiteral("group_by_version");
   }
   else {
-    return QString("%1_group_by_version").arg(settings_prefix_);
+    return QStringLiteral("%1_group_by_version").arg(settings_prefix_);
   }
 
 }
@@ -240,10 +240,10 @@ QString CollectionFilterWidget::group_by_version() const {
 QString CollectionFilterWidget::group_by_key() const {
 
   if (settings_prefix_.isEmpty()) {
-    return "group_by";
+    return QStringLiteral("group_by");
   }
   else {
-    return QString("%1_group_by").arg(settings_prefix_);
+    return QStringLiteral("%1_group_by").arg(settings_prefix_);
   }
 
 }
@@ -253,10 +253,10 @@ QString CollectionFilterWidget::group_by_key(const int number) const { return gr
 QString CollectionFilterWidget::separate_albums_by_grouping_key() const {
 
   if (settings_prefix_.isEmpty()) {
-    return "separate_albums_by_grouping";
+    return QStringLiteral("separate_albums_by_grouping");
   }
   else {
-    return QString("%1_separate_albums_by_grouping").arg(settings_prefix_);
+    return QStringLiteral("%1_separate_albums_by_grouping").arg(settings_prefix_);
   }
 
 }

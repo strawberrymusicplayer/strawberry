@@ -76,7 +76,7 @@ MtpDevice::~MtpDevice() {
 
 bool MtpDevice::Init() {
 
-  InitBackendDirectory("/", first_time_, false);
+  InitBackendDirectory(QStringLiteral("/"), first_time_, false);
   model_->Init();
 
   loader_ = new MtpLoader(url_, app_->task_manager(), backend_);
@@ -187,7 +187,7 @@ bool MtpDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
   metadata_on_device.InitFromMTP(&track, url_.host());
   metadata_on_device.set_directory_id(1);
   metadata_on_device.set_artist(metadata_on_device.effective_albumartist());
-  metadata_on_device.set_albumartist("");
+  metadata_on_device.set_albumartist(QLatin1String(""));
   songs_to_add_ << metadata_on_device;
 
   // Remove the original if requested

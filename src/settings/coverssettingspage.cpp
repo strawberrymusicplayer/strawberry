@@ -61,7 +61,7 @@ CoversSettingsPage::CoversSettingsPage(SettingsDialog *dialog, QWidget *parent)
       types_selected_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("cdcase", true, 0, 32));
+  setWindowIcon(IconLoader::Load(QStringLiteral("cdcase"), true, 0, 32));
 
   QObject::connect(ui_->providers_up, &QPushButton::clicked, this, &CoversSettingsPage::ProvidersMoveUp);
   QObject::connect(ui_->providers_down, &QPushButton::clicked, this, &CoversSettingsPage::ProvidersMoveDown);
@@ -110,10 +110,10 @@ void CoversSettingsPage::Load() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
 
-  const QStringList all_types = QStringList() << "art_unset"
-                                              << "art_manual"
-                                              << "art_automatic"
-                                              << "art_embedded";
+  const QStringList all_types = QStringList() << QStringLiteral("art_unset")
+                                              << QStringLiteral("art_manual")
+                                              << QStringLiteral("art_automatic")
+                                              << QStringLiteral("art_embedded");
 
   const QStringList types = s.value(kTypes, all_types).toStringList();
 
@@ -369,7 +369,7 @@ void CoversSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
   if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
-  QMessageBox::warning(this, tr("Authentication failed"), errors.join("\n"));
+  QMessageBox::warning(this, tr("Authentication failed"), errors.join(QStringLiteral("\n")));
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_authenticate->setEnabled(true);

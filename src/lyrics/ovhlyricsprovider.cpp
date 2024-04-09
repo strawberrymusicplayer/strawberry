@@ -38,7 +38,7 @@
 
 const char *OVHLyricsProvider::kUrlSearch = "https://api.lyrics.ovh/v1/";
 
-OVHLyricsProvider::OVHLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider("Lyrics.ovh", true, false, network, parent) {}
+OVHLyricsProvider::OVHLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(QStringLiteral("Lyrics.ovh"), true, false, network, parent) {}
 
 OVHLyricsProvider::~OVHLyricsProvider() {
 
@@ -79,20 +79,20 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, co
     return;
   }
 
-  if (json_obj.contains("error")) {
-    Error(json_obj["error"].toString());
+  if (json_obj.contains(QStringLiteral("error"))) {
+    Error(json_obj[QStringLiteral("error")].toString());
     qLog(Debug) << "OVHLyrics: No lyrics for" << request.artist << request.title;
     emit SearchFinished(id);
     return;
   }
 
-  if (!json_obj.contains("lyrics")) {
+  if (!json_obj.contains(QStringLiteral("lyrics"))) {
     emit SearchFinished(id);
     return;
   }
 
   LyricsSearchResult result;
-  result.lyrics = json_obj["lyrics"].toString();
+  result.lyrics = json_obj[QStringLiteral("lyrics")].toString();
 
   if (result.lyrics.isEmpty()) {
     qLog(Debug) << "OVHLyrics: No lyrics for" << request.artist << request.title;

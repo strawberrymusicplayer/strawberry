@@ -363,7 +363,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   // Initialize the UI
   ui_->setupUi(this);
 
-  setWindowIcon(IconLoader::Load("strawberry"));
+  setWindowIcon(IconLoader::Load(QStringLiteral("strawberry")));
 
   album_cover_choice_controller_->Init(app);
 
@@ -375,24 +375,24 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
-  ui_->tabs->AddTab(context_view_, "context", IconLoader::Load("strawberry", true, 0, 32), tr("Context"));
-  ui_->tabs->AddTab(collection_view_, "collection", IconLoader::Load("library-music", true, 0, 32), tr("Collection"));
-  ui_->tabs->AddTab(queue_view_, "queue", IconLoader::Load("footsteps", true, 0, 32), tr("Queue"));
-  ui_->tabs->AddTab(playlist_list_, "playlists", IconLoader::Load("view-media-playlist", true, 0, 32), tr("Playlists"));
-  ui_->tabs->AddTab(smartplaylists_view_, "smartplaylists", IconLoader::Load("view-media-playlist", true, 0, 32), tr("Smart playlists"));
-  ui_->tabs->AddTab(file_view_, "files", IconLoader::Load("document-open", true, 0, 32), tr("Files"));
-  ui_->tabs->AddTab(radio_view_, "radios", IconLoader::Load("radio", true, 0, 32), tr("Radios"));
+  ui_->tabs->AddTab(context_view_, QStringLiteral("context"), IconLoader::Load(QStringLiteral("strawberry"), true, 0, 32), tr("Context"));
+  ui_->tabs->AddTab(collection_view_, QStringLiteral("collection"), IconLoader::Load(QStringLiteral("library-music"), true, 0, 32), tr("Collection"));
+  ui_->tabs->AddTab(queue_view_, QStringLiteral("queue"), IconLoader::Load(QStringLiteral("footsteps"), true, 0, 32), tr("Queue"));
+  ui_->tabs->AddTab(playlist_list_, QStringLiteral("playlists"), IconLoader::Load(QStringLiteral("view-media-playlist"), true, 0, 32), tr("Playlists"));
+  ui_->tabs->AddTab(smartplaylists_view_, QStringLiteral("smartplaylists"), IconLoader::Load(QStringLiteral("view-media-playlist"), true, 0, 32), tr("Smart playlists"));
+  ui_->tabs->AddTab(file_view_, QStringLiteral("files"), IconLoader::Load(QStringLiteral("document-open"), true, 0, 32), tr("Files"));
+  ui_->tabs->AddTab(radio_view_, QStringLiteral("radios"), IconLoader::Load(QStringLiteral("radio"), true, 0, 32), tr("Radios"));
 #ifndef Q_OS_WIN
-  ui_->tabs->AddTab(device_view_, "devices", IconLoader::Load("device", true, 0, 32), tr("Devices"));
+  ui_->tabs->AddTab(device_view_, QStringLiteral("devices"), IconLoader::Load(QStringLiteral("device"), true, 0, 32), tr("Devices"));
 #endif
 #ifdef HAVE_SUBSONIC
-  ui_->tabs->AddTab(subsonic_view_, "subsonic", IconLoader::Load("subsonic", true, 0, 32), tr("Subsonic"));
+  ui_->tabs->AddTab(subsonic_view_, QStringLiteral("subsonic"), IconLoader::Load(QStringLiteral("subsonic"), true, 0, 32), tr("Subsonic"));
 #endif
 #ifdef HAVE_TIDAL
-  ui_->tabs->AddTab(tidal_view_, "tidal", IconLoader::Load("tidal", true, 0, 32), tr("Tidal"));
+  ui_->tabs->AddTab(tidal_view_, QStringLiteral("tidal"), IconLoader::Load(QStringLiteral("tidal"), true, 0, 32), tr("Tidal"));
 #endif
 #ifdef HAVE_QOBUZ
-  ui_->tabs->AddTab(qobuz_view_, "qobuz", IconLoader::Load("qobuz", true, 0, 32), tr("Qobuz"));
+  ui_->tabs->AddTab(qobuz_view_, QStringLiteral("qobuz"), IconLoader::Load(QStringLiteral("qobuz"), true, 0, 32), tr("Qobuz"));
 #endif
 
   // Add the playing widget to the fancy tab widget
@@ -447,59 +447,59 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   // Help menu
 
-  ui_->action_about_strawberry->setIcon(IconLoader::Load("strawberry"));
+  ui_->action_about_strawberry->setIcon(IconLoader::Load(QStringLiteral("strawberry")));
   ui_->action_about_qt->setIcon(QIcon(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
 
   // Music menu
 
-  ui_->action_open_file->setIcon(IconLoader::Load("document-open"));
-  ui_->action_open_cd->setIcon(IconLoader::Load("media-optical"));
-  ui_->action_previous_track->setIcon(IconLoader::Load("media-skip-backward"));
-  ui_->action_play_pause->setIcon(IconLoader::Load("media-playback-start"));
-  ui_->action_stop->setIcon(IconLoader::Load("media-playback-stop"));
-  ui_->action_stop_after_this_track->setIcon(IconLoader::Load("media-playback-stop"));
-  ui_->action_next_track->setIcon(IconLoader::Load("media-skip-forward"));
-  ui_->action_quit->setIcon(IconLoader::Load("application-exit"));
+  ui_->action_open_file->setIcon(IconLoader::Load(QStringLiteral("document-open")));
+  ui_->action_open_cd->setIcon(IconLoader::Load(QStringLiteral("media-optical")));
+  ui_->action_previous_track->setIcon(IconLoader::Load(QStringLiteral("media-skip-backward")));
+  ui_->action_play_pause->setIcon(IconLoader::Load(QStringLiteral("media-playback-start")));
+  ui_->action_stop->setIcon(IconLoader::Load(QStringLiteral("media-playback-stop")));
+  ui_->action_stop_after_this_track->setIcon(IconLoader::Load(QStringLiteral("media-playback-stop")));
+  ui_->action_next_track->setIcon(IconLoader::Load(QStringLiteral("media-skip-forward")));
+  ui_->action_quit->setIcon(IconLoader::Load(QStringLiteral("application-exit")));
 
   // Playlist
 
-  ui_->action_add_file->setIcon(IconLoader::Load("document-open"));
-  ui_->action_add_folder->setIcon(IconLoader::Load("document-open-folder"));
-  ui_->action_add_stream->setIcon(IconLoader::Load("document-open-remote"));
-  ui_->action_shuffle_mode->setIcon(IconLoader::Load("media-playlist-shuffle"));
-  ui_->action_repeat_mode->setIcon(IconLoader::Load("media-playlist-repeat"));
-  ui_->action_new_playlist->setIcon(IconLoader::Load("document-new"));
-  ui_->action_save_playlist->setIcon(IconLoader::Load("document-save"));
-  ui_->action_load_playlist->setIcon(IconLoader::Load("document-open"));
-  ui_->action_jump->setIcon(IconLoader::Load("go-jump"));
-  ui_->action_clear_playlist->setIcon(IconLoader::Load("edit-clear-list"));
-  ui_->action_shuffle->setIcon(IconLoader::Load("media-playlist-shuffle"));
-  ui_->action_remove_duplicates->setIcon(IconLoader::Load("list-remove"));
-  ui_->action_remove_unavailable->setIcon(IconLoader::Load("list-remove"));
-  ui_->action_remove_from_playlist->setIcon(IconLoader::Load("list-remove"));
-  ui_->action_save_all_playlists->setIcon(IconLoader::Load("document-save-all"));
+  ui_->action_add_file->setIcon(IconLoader::Load(QStringLiteral("document-open")));
+  ui_->action_add_folder->setIcon(IconLoader::Load(QStringLiteral("document-open-folder")));
+  ui_->action_add_stream->setIcon(IconLoader::Load(QStringLiteral("document-open-remote")));
+  ui_->action_shuffle_mode->setIcon(IconLoader::Load(QStringLiteral("media-playlist-shuffle")));
+  ui_->action_repeat_mode->setIcon(IconLoader::Load(QStringLiteral("media-playlist-repeat")));
+  ui_->action_new_playlist->setIcon(IconLoader::Load(QStringLiteral("document-new")));
+  ui_->action_save_playlist->setIcon(IconLoader::Load(QStringLiteral("document-save")));
+  ui_->action_load_playlist->setIcon(IconLoader::Load(QStringLiteral("document-open")));
+  ui_->action_jump->setIcon(IconLoader::Load(QStringLiteral("go-jump")));
+  ui_->action_clear_playlist->setIcon(IconLoader::Load(QStringLiteral("edit-clear-list")));
+  ui_->action_shuffle->setIcon(IconLoader::Load(QStringLiteral("media-playlist-shuffle")));
+  ui_->action_remove_duplicates->setIcon(IconLoader::Load(QStringLiteral("list-remove")));
+  ui_->action_remove_unavailable->setIcon(IconLoader::Load(QStringLiteral("list-remove")));
+  ui_->action_remove_from_playlist->setIcon(IconLoader::Load(QStringLiteral("list-remove")));
+  ui_->action_save_all_playlists->setIcon(IconLoader::Load(QStringLiteral("document-save-all")));
 
   // Configure
 
-  ui_->action_cover_manager->setIcon(IconLoader::Load("document-download"));
-  ui_->action_edit_track->setIcon(IconLoader::Load("edit-rename"));
-  ui_->action_edit_value->setIcon(IconLoader::Load("edit-rename"));
-  ui_->action_selection_set_value->setIcon(IconLoader::Load("edit-rename"));
-  ui_->action_equalizer->setIcon(IconLoader::Load("equalizer"));
-  ui_->action_transcoder->setIcon(IconLoader::Load("tools-wizard"));
-  ui_->action_update_collection->setIcon(IconLoader::Load("view-refresh"));
-  ui_->action_full_collection_scan->setIcon(IconLoader::Load("view-refresh"));
-  ui_->action_abort_collection_scan->setIcon(IconLoader::Load("dialog-error"));
-  ui_->action_settings->setIcon(IconLoader::Load("configure"));
-  ui_->action_import_data_from_last_fm->setIcon(IconLoader::Load("scrobble"));
-  ui_->action_console->setIcon(IconLoader::Load("keyboard"));
-  ui_->action_toggle_show_sidebar->setIcon(IconLoader::Load("view-choose"));
-  ui_->action_auto_complete_tags->setIcon(IconLoader::Load("musicbrainz"));
+  ui_->action_cover_manager->setIcon(IconLoader::Load(QStringLiteral("document-download")));
+  ui_->action_edit_track->setIcon(IconLoader::Load(QStringLiteral("edit-rename")));
+  ui_->action_edit_value->setIcon(IconLoader::Load(QStringLiteral("edit-rename")));
+  ui_->action_selection_set_value->setIcon(IconLoader::Load(QStringLiteral("edit-rename")));
+  ui_->action_equalizer->setIcon(IconLoader::Load(QStringLiteral("equalizer")));
+  ui_->action_transcoder->setIcon(IconLoader::Load(QStringLiteral("tools-wizard")));
+  ui_->action_update_collection->setIcon(IconLoader::Load(QStringLiteral("view-refresh")));
+  ui_->action_full_collection_scan->setIcon(IconLoader::Load(QStringLiteral("view-refresh")));
+  ui_->action_abort_collection_scan->setIcon(IconLoader::Load(QStringLiteral("dialog-error")));
+  ui_->action_settings->setIcon(IconLoader::Load(QStringLiteral("configure")));
+  ui_->action_import_data_from_last_fm->setIcon(IconLoader::Load(QStringLiteral("scrobble")));
+  ui_->action_console->setIcon(IconLoader::Load(QStringLiteral("keyboard")));
+  ui_->action_toggle_show_sidebar->setIcon(IconLoader::Load(QStringLiteral("view-choose")));
+  ui_->action_auto_complete_tags->setIcon(IconLoader::Load(QStringLiteral("musicbrainz")));
 
   // Scrobble
 
-  ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled"));
-  ui_->action_love->setIcon(IconLoader::Load("love"));
+  ui_->action_toggle_scrobbling->setIcon(IconLoader::Load(QStringLiteral("scrobble-disabled")));
+  ui_->action_love->setIcon(IconLoader::Load(QStringLiteral("love")));
 
   // File view connections
   QObject::connect(file_view_, &FileView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
@@ -558,7 +558,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(ui_->action_abort_collection_scan, &QAction::triggered, &*app_->collection(), &SCollection::AbortScan);
 #if defined(HAVE_GSTREAMER)
   QObject::connect(ui_->action_add_files_to_transcoder, &QAction::triggered, this, &MainWindow::AddFilesToTranscoder);
-  ui_->action_add_files_to_transcoder->setIcon(IconLoader::Load("tools-wizard"));
+  ui_->action_add_files_to_transcoder->setIcon(IconLoader::Load(QStringLiteral("tools-wizard")));
 #else
   ui_->action_add_files_to_transcoder->setDisabled(true);
 #endif
@@ -568,8 +568,8 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(&*app_->scrobbler(), &AudioScrobbler::ErrorMessage, this, &MainWindow::ShowErrorDialog);
 
   // Playlist view actions
-  ui_->action_next_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString("Ctrl+Tab") << QKeySequence::fromString("Ctrl+PgDown"));
-  ui_->action_previous_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString("Ctrl+Shift+Tab") << QKeySequence::fromString("Ctrl+PgUp"));
+  ui_->action_next_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString(QStringLiteral("Ctrl+Tab")) << QKeySequence::fromString(QStringLiteral("Ctrl+PgDown")));
+  ui_->action_previous_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString(QStringLiteral("Ctrl+Shift+Tab")) << QKeySequence::fromString(QStringLiteral("Ctrl+PgUp")));
 
   // Actions for switching tabs will be global to the entire window, so adding them here
   addAction(ui_->action_next_playlist);
@@ -688,7 +688,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   QObject::connect(collection_view_group, &QActionGroup::triggered, this, &MainWindow::ChangeCollectionFilterMode);
 
-  QAction *collection_config_action = new QAction(IconLoader::Load("configure"), tr("Configure collection..."), this);
+  QAction *collection_config_action = new QAction(IconLoader::Load(QStringLiteral("configure")), tr("Configure collection..."), this);
   QObject::connect(collection_config_action, &QAction::triggered, this, &MainWindow::ShowCollectionConfig);
   collection_view_->filter_widget()->SetSettingsGroup(CollectionSettingsPage::kSettingsGroup);
   collection_view_->filter_widget()->Init(app_->collection()->model());
@@ -731,14 +731,14 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(playlist_menu_, &QMenu::aboutToHide, this, &MainWindow::PlaylistMenuHidden);
   playlist_play_pause_ = playlist_menu_->addAction(tr("Play"), this, &MainWindow::PlaylistPlay);
   playlist_menu_->addAction(ui_->action_stop);
-  playlist_stop_after_ = playlist_menu_->addAction(IconLoader::Load("media-playback-stop"), tr("Stop after this track"), this, &MainWindow::PlaylistStopAfter);
-  playlist_queue_ = playlist_menu_->addAction(IconLoader::Load("go-next"), tr("Toggle queue status"), this, &MainWindow::PlaylistQueue);
-  playlist_queue_->setShortcut(QKeySequence("Ctrl+D"));
+  playlist_stop_after_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-stop")), tr("Stop after this track"), this, &MainWindow::PlaylistStopAfter);
+  playlist_queue_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Toggle queue status"), this, &MainWindow::PlaylistQueue);
+  playlist_queue_->setShortcut(QKeySequence(QStringLiteral("Ctrl+D")));
   ui_->playlist->addAction(playlist_queue_);
-  playlist_queue_play_next_ = playlist_menu_->addAction(IconLoader::Load("go-next"), tr("Queue selected tracks to play next"), this, &MainWindow::PlaylistQueuePlayNext);
-  playlist_queue_play_next_->setShortcut(QKeySequence("Ctrl+Shift+D"));
+  playlist_queue_play_next_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue selected tracks to play next"), this, &MainWindow::PlaylistQueuePlayNext);
+  playlist_queue_play_next_->setShortcut(QKeySequence(QStringLiteral("Ctrl+Shift+D")));
   ui_->playlist->addAction(playlist_queue_play_next_);
-  playlist_skip_ = playlist_menu_->addAction(IconLoader::Load("media-skip-forward"), tr("Toggle skip status"), this, &MainWindow::PlaylistSkip);
+  playlist_skip_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("media-skip-forward")), tr("Toggle skip status"), this, &MainWindow::PlaylistSkip);
   ui_->playlist->addAction(playlist_skip_);
 
   playlist_menu_->addSeparator();
@@ -751,22 +751,22 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #ifdef HAVE_MUSICBRAINZ
   playlist_menu_->addAction(ui_->action_auto_complete_tags);
 #endif
-  playlist_rescan_songs_ = playlist_menu_->addAction(IconLoader::Load("view-refresh"), tr("Rescan song(s)..."), this, &MainWindow::RescanSongs);
+  playlist_rescan_songs_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("view-refresh")), tr("Rescan song(s)..."), this, &MainWindow::RescanSongs);
   playlist_menu_->addAction(playlist_rescan_songs_);
 #ifdef HAVE_GSTREAMER
   playlist_menu_->addAction(ui_->action_add_files_to_transcoder);
 #endif
   playlist_menu_->addSeparator();
-  playlist_copy_url_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy URL(s)..."), this, &MainWindow::PlaylistCopyUrl);
-  playlist_show_in_collection_ = playlist_menu_->addAction(IconLoader::Load("edit-find"), tr("Show in collection..."), this, &MainWindow::ShowInCollection);
-  playlist_open_in_browser_ = playlist_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, &MainWindow::PlaylistOpenInBrowser);
-  playlist_organize_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organize files..."), this, &MainWindow::PlaylistMoveToCollection);
-  playlist_copy_to_collection_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, &MainWindow::PlaylistCopyToCollection);
-  playlist_move_to_collection_ = playlist_menu_->addAction(IconLoader::Load("go-jump"), tr("Move to collection..."), this, &MainWindow::PlaylistMoveToCollection);
+  playlist_copy_url_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("edit-copy")), tr("Copy URL(s)..."), this, &MainWindow::PlaylistCopyUrl);
+  playlist_show_in_collection_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("edit-find")), tr("Show in collection..."), this, &MainWindow::ShowInCollection);
+  playlist_open_in_browser_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("document-open-folder")), tr("Show in file browser..."), this, &MainWindow::PlaylistOpenInBrowser);
+  playlist_organize_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("edit-copy")), tr("Organize files..."), this, &MainWindow::PlaylistMoveToCollection);
+  playlist_copy_to_collection_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("edit-copy")), tr("Copy to collection..."), this, &MainWindow::PlaylistCopyToCollection);
+  playlist_move_to_collection_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("go-jump")), tr("Move to collection..."), this, &MainWindow::PlaylistMoveToCollection);
 #if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
-  playlist_copy_to_device_ = playlist_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, &MainWindow::PlaylistCopyToDevice);
+  playlist_copy_to_device_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("device")), tr("Copy to device..."), this, &MainWindow::PlaylistCopyToDevice);
 #endif
-  playlist_delete_ = playlist_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from disk..."), this, &MainWindow::PlaylistDelete);
+  playlist_delete_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Delete from disk..."), this, &MainWindow::PlaylistDelete);
   playlist_menu_->addSeparator();
   playlistitem_actions_separator_ = playlist_menu_->addSeparator();
   playlist_menu_->addAction(ui_->action_clear_playlist);
@@ -854,7 +854,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(ui_->analyzer, &AnalyzerContainer::WheelEvent, this, &MainWindow::VolumeWheelEvent);
 
   // Statusbar widgets
-  ui_->playlist_summary->setMinimumWidth(QFontMetrics(font()).horizontalAdvance("WW selected of WW tracks - [ WW:WW ]"));
+  ui_->playlist_summary->setMinimumWidth(QFontMetrics(font()).horizontalAdvance(QStringLiteral("WW selected of WW tracks - [ WW:WW ]")));
   ui_->status_bar_stack->setCurrentWidget(ui_->playlist_summary_page);
   QObject::connect(ui_->multi_loading_indicator, &MultiLoadingIndicator::TaskCountChange, this, &MainWindow::TaskCountChanged);
 
@@ -881,7 +881,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   PlayingWidgetPositionChanged(ui_->widget_playing->show_above_status_bar());
 
   StyleSheetLoader *css_loader = new StyleSheetLoader(this);
-  css_loader->SetStyleSheet(this, ":/style/strawberry.css");
+  css_loader->SetStyleSheet(this, QStringLiteral(":/style/strawberry.css"));
 
   // Load playlists
   app_->playlist_manager()->Init(app_->collection_backend(), app_->playlist_backend(), ui_->playlist_sequence, ui_->playlist);
@@ -1008,7 +1008,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(close_window_shortcut, &QShortcut::activated, this, &MainWindow::ToggleHide);
 
   QAction *action_focus_search = new QAction(this);
-  action_focus_search->setShortcuts(QList<QKeySequence>() << QKeySequence("Ctrl+F"));
+  action_focus_search->setShortcuts(QList<QKeySequence>() << QKeySequence(QStringLiteral("Ctrl+F")));
   addAction(action_focus_search);
   QObject::connect(action_focus_search, &QAction::triggered, this, &MainWindow::FocusSearchField);
 
@@ -1034,7 +1034,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #endif
 
 #ifdef Q_OS_LINUX
-  if (!Utilities::GetEnv("SNAP").isEmpty() && !Utilities::GetEnv("SNAP_NAME").isEmpty()) {
+  if (!Utilities::GetEnv(QStringLiteral("SNAP")).isEmpty() && !Utilities::GetEnv(QStringLiteral("SNAP_NAME")).isEmpty()) {
     QSettings s;
     s.beginGroup(kSettingsGroup);
     const bool ignore_snap = s.value("ignore_snap", false).toBool();
@@ -1066,7 +1066,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   {
     QSettings s;
     s.beginGroup(kSettingsGroup);
-    const QString do_not_show_sponsor_message_key = QString("do_not_show_sponsor_message");
+    const QString do_not_show_sponsor_message_key = QStringLiteral("do_not_show_sponsor_message");
     const bool do_not_show_sponsor_message = s.value(do_not_show_sponsor_message_key, false).toBool();
     s.endGroup();
     if (!do_not_show_sponsor_message) {
@@ -1074,7 +1074,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       sponsor_message->set_settings_group(kSettingsGroup);
       sponsor_message->set_do_not_show_message_again(do_not_show_sponsor_message_key);
       sponsor_message->setAttribute(Qt::WA_DeleteOnClose);
-      sponsor_message->ShowMessage(tr("Sponsoring Strawberry"), tr("Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1").arg("<a href= \"https://www.strawberrymusicplayer.org/\">www.strawberrymusicplayer.org</a>"), IconLoader::Load("dialog-information"));
+      sponsor_message->ShowMessage(tr("Sponsoring Strawberry"), tr("Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1").arg(QStringLiteral("<a href= \"https://www.strawberrymusicplayer.org/\">www.strawberrymusicplayer.org</a>")), IconLoader::Load(QStringLiteral("dialog-information")));
     }
   }
 
@@ -1243,7 +1243,7 @@ void MainWindow::ReloadAllSettings() {
 
 void MainWindow::RefreshStyleSheet() {
   QString contents(styleSheet());
-  setStyleSheet("");
+  setStyleSheet(QLatin1String(""));
   setStyleSheet(contents);
 }
 
@@ -1328,11 +1328,11 @@ void MainWindow::EngineChanged(const EngineBase::Type enginetype) {
 
 void MainWindow::MediaStopped() {
 
-  setWindowTitle("Strawberry Music Player");
+  setWindowTitle(QStringLiteral("Strawberry Music Player"));
 
   ui_->action_stop->setEnabled(false);
   ui_->action_stop_after_this_track->setEnabled(false);
-  ui_->action_play_pause->setIcon(IconLoader::Load("media-playback-start"));
+  ui_->action_play_pause->setIcon(IconLoader::Load(QStringLiteral("media-playback-start")));
   ui_->action_play_pause->setText(tr("Play"));
 
   ui_->action_play_pause->setEnabled(true);
@@ -1365,7 +1365,7 @@ void MainWindow::MediaPaused() {
 
   ui_->action_stop->setEnabled(true);
   ui_->action_stop_after_this_track->setEnabled(true);
-  ui_->action_play_pause->setIcon(IconLoader::Load("media-playback-start"));
+  ui_->action_play_pause->setIcon(IconLoader::Load(QStringLiteral("media-playback-start")));
   ui_->action_play_pause->setText(tr("Play"));
 
   ui_->action_play_pause->setEnabled(true);
@@ -1381,7 +1381,7 @@ void MainWindow::MediaPlaying() {
 
   ui_->action_stop->setEnabled(true);
   ui_->action_stop_after_this_track->setEnabled(true);
-  ui_->action_play_pause->setIcon(IconLoader::Load("media-playback-pause"));
+  ui_->action_play_pause->setIcon(IconLoader::Load(QStringLiteral("media-playback-pause")));
   ui_->action_play_pause->setText(tr("Pause"));
 
   bool enable_play_pause(false);
@@ -1784,7 +1784,7 @@ void MainWindow::UpdateTaskbarProgress(const bool visible, const double position
 
   map.insert(QStringLiteral("progress-visible"), visible);
   map.insert(QStringLiteral("progress"), position / length);
-  msg << QString("application://org.strawberrymusicplayer.strawberry.desktop") << map;
+  msg << QStringLiteral("application://org.strawberrymusicplayer.strawberry.desktop") << map;
 
   QDBusConnection::sessionBus().send(msg);
 
@@ -1915,11 +1915,11 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   // Is this song currently playing?
   if (app_->playlist_manager()->current()->current_row() == source_index.row() && app_->player()->GetState() == EngineBase::State::Playing) {
     playlist_play_pause_->setText(tr("Pause"));
-    playlist_play_pause_->setIcon(IconLoader::Load("media-playback-pause"));
+    playlist_play_pause_->setIcon(IconLoader::Load(QStringLiteral("media-playback-pause")));
   }
   else {
     playlist_play_pause_->setText(tr("Play"));
-    playlist_play_pause_->setIcon(IconLoader::Load("media-playback-start"));
+    playlist_play_pause_->setIcon(IconLoader::Load(QStringLiteral("media-playback-start")));
   }
 
   // Are we allowed to pause?
@@ -2033,11 +2033,11 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
     else playlist_skip_->setText(tr("Toggle skip status"));
   }
 
-  if (not_in_queue == 0) playlist_queue_->setIcon(IconLoader::Load("go-previous"));
-  else playlist_queue_->setIcon(IconLoader::Load("go-next"));
+  if (not_in_queue == 0) playlist_queue_->setIcon(IconLoader::Load(QStringLiteral("go-previous")));
+  else playlist_queue_->setIcon(IconLoader::Load(QStringLiteral("go-next")));
 
-  if (in_skipped < selected) playlist_skip_->setIcon(IconLoader::Load("media-skip-forward"));
-  else playlist_skip_->setIcon(IconLoader::Load("media-playback-start"));
+  if (in_skipped < selected) playlist_skip_->setIcon(IconLoader::Load(QStringLiteral("media-skip-forward")));
+  else playlist_skip_->setIcon(IconLoader::Load(QStringLiteral("media-playback-start")));
 
 
   if (!index.isValid()) {
@@ -2100,7 +2100,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   // Create the playlist submenu if songs are selected.
   if (selected > 0) {
     QMenu *add_to_another_menu = new QMenu(tr("Add to another playlist"), this);
-    add_to_another_menu->setIcon(IconLoader::Load("list-add"));
+    add_to_another_menu->setIcon(IconLoader::Load(QStringLiteral("list-add")));
 
     for (const PlaylistBackend::Playlist &playlist : app_->playlist_backend()->GetAllOpenPlaylists()) {
       // don't add the current playlist
@@ -2297,7 +2297,7 @@ void MainWindow::AddFile() {
   PlaylistParser parser(app_->collection_backend());
 
   // Show dialog
-  QStringList file_names = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QString("%1 (%2);;%3;;%4").arg(tr("Music"), FileView::kFileFilter, parser.filters(PlaylistParser::Type::Load), tr(kAllFilesFilterSpec)));
+  QStringList file_names = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QStringLiteral("%1 (%2);;%3;;%4").arg(tr("Music"), FileView::kFileFilter, parser.filters(PlaylistParser::Type::Load), tr(kAllFilesFilterSpec)));
 
   if (file_names.isEmpty()) return;
 
@@ -2587,7 +2587,7 @@ bool MainWindow::LoadUrl(const QString &url) {
     return true;
   }
 #ifdef HAVE_TIDAL
-  else if (url.startsWith("tidal://login")) {
+  else if (url.startsWith(QLatin1String("tidal://login"))) {
     emit AuthorizationUrlReceived(QUrl(url));
     return true;
   }
@@ -3066,10 +3066,10 @@ void MainWindow::HandleNotificationPreview(const OSDBase::Behaviour type, const 
     qLog(Debug) << "The current playlist is empty, showing a fake song";
     // Create a fake song
     Song fake(Song::Source::LocalFile);
-    fake.Init("Title", "Artist", "Album", 123);
-    fake.set_genre("Classical");
-    fake.set_composer("Anonymous");
-    fake.set_performer("Anonymous");
+    fake.Init(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
+    fake.set_genre(QStringLiteral("Classical"));
+    fake.set_composer(QStringLiteral("Anonymous"));
+    fake.set_performer(QStringLiteral("Anonymous"));
     fake.set_track(1);
     fake.set_disc(1);
     fake.set_year(2011);
@@ -3212,12 +3212,12 @@ void MainWindow::SetToggleScrobblingIcon(const bool value) {
 
   if (value) {
     if (app_->playlist_manager()->active() && app_->playlist_manager()->active()->scrobbled())
-      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", true, 22));
+      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load(QStringLiteral("scrobble"), true, 22));
     else
-      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", true, 22));  // TODO: Create a faint version of the icon
+      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load(QStringLiteral("scrobble"), true, 22));  // TODO: Create a faint version of the icon
   }
   else {
-    ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled", true, 22));
+    ui_->action_toggle_scrobbling->setIcon(IconLoader::Load(QStringLiteral("scrobble-disabled"), true, 22));
   }
 
 }

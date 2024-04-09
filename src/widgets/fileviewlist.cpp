@@ -39,18 +39,18 @@ FileViewList::FileViewList(QWidget *parent)
     : QListView(parent),
       menu_(new QMenu(this)) {
 
-  menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, &FileViewList::AddToPlaylistSlot);
-  menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, &FileViewList::LoadSlot);
-  menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, &FileViewList::OpenInNewPlaylistSlot);
+  menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &FileViewList::AddToPlaylistSlot);
+  menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &FileViewList::LoadSlot);
+  menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &FileViewList::OpenInNewPlaylistSlot);
   menu_->addSeparator();
-  menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, &FileViewList::CopyToCollectionSlot);
-  menu_->addAction(IconLoader::Load("go-jump"), tr("Move to collection..."), this, &FileViewList::MoveToCollectionSlot);
-  menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, &FileViewList::CopyToDeviceSlot);
-  menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from disk..."), this, &FileViewList::DeleteSlot);
+  menu_->addAction(IconLoader::Load(QStringLiteral("edit-copy")), tr("Copy to collection..."), this, &FileViewList::CopyToCollectionSlot);
+  menu_->addAction(IconLoader::Load(QStringLiteral("go-jump")), tr("Move to collection..."), this, &FileViewList::MoveToCollectionSlot);
+  menu_->addAction(IconLoader::Load(QStringLiteral("device")), tr("Copy to device..."), this, &FileViewList::CopyToDeviceSlot);
+  menu_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Delete from disk..."), this, &FileViewList::DeleteSlot);
 
   menu_->addSeparator();
-  menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit track information..."), this, &FileViewList::EditTagsSlot);
-  menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, &FileViewList::ShowInBrowser);
+  menu_->addAction(IconLoader::Load(QStringLiteral("edit-rename")), tr("Edit track information..."), this, &FileViewList::EditTagsSlot);
+  menu_->addAction(IconLoader::Load(QStringLiteral("document-open-folder")), tr("Show in file browser..."), this, &FileViewList::ShowInBrowser);
 
   setAttribute(Qt::WA_MacShowFocusRect, false);
 

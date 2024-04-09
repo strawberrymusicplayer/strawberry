@@ -152,16 +152,16 @@ class MusicBrainzClient : public QObject {
     }
 
     void SetStatusFromString(const QString &s) {
-      if (s.compare("Official", Qt::CaseInsensitive) == 0) {
+      if (s.compare(QLatin1String("Official"), Qt::CaseInsensitive) == 0) {
         status_ = Status::Official;
       }
-      else if (s.compare("Promotion", Qt::CaseInsensitive) == 0) {
+      else if (s.compare(QLatin1String("Promotion"), Qt::CaseInsensitive) == 0) {
         status_ = Status::Promotional;
       }
-      else if (s.compare("Bootleg", Qt::CaseInsensitive) == 0) {
+      else if (s.compare(QLatin1String("Bootleg"), Qt::CaseInsensitive) == 0) {
         status_ = Status::Bootleg;
       }
-      else if (s.compare("Pseudo-release", Qt::CaseInsensitive) == 0) {
+      else if (s.compare(QLatin1String("Pseudo-release"), Qt::CaseInsensitive) == 0) {
         status_ = Status::PseudoRelease;
       }
       else {

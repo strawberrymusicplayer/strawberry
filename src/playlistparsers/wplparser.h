@@ -46,9 +46,9 @@ class WplParser : public XMLParser {
  public:
   explicit WplParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
-  QString name() const override { return "WPL"; }
-  QStringList file_extensions() const override { return QStringList() << "wpl"; }
-  QString mime_type() const override { return "application/vnd.ms-wpl"; }
+  QString name() const override { return QStringLiteral("WPL"); }
+  QStringList file_extensions() const override { return QStringList() << QStringLiteral("wpl"); }
+  QString mime_type() const override { return QStringLiteral("application/vnd.ms-wpl"); }
   bool load_supported() const override { return true; }
   bool save_supported() const override { return true; }
 

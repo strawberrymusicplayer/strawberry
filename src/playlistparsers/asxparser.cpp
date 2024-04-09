@@ -48,14 +48,14 @@ SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const 
   QByteArray data = device->readAll();
 
   // Some playlists have unescaped & characters in URLs :(
-  QRegularExpression ex("(href\\s*=\\s*\")([^\"]+)\"", QRegularExpression::CaseInsensitiveOption);
+  QRegularExpression ex(QStringLiteral("(href\\s*=\\s*\")([^\"]+)\""), QRegularExpression::CaseInsensitiveOption);
   qint64 index = 0;
   for (QRegularExpressionMatch re_match = ex.match(data, index); re_match.hasMatch(); re_match = ex.match(data, index)) {
     index = re_match.capturedStart();
     QString url = re_match.captured(2);
-    url.replace(QRegularExpression("&(?!amp;|quot;|apos;|lt;|gt;)"), "&amp;");
+    url.replace(QRegularExpression(QStringLiteral("&(?!amp;|quot;|apos;|lt;|gt;)")), QStringLiteral("&amp;"));
 
-    QByteArray replacement = QString("%1%2\"").arg(re_match.captured(1), url).toLocal8Bit();
+    QByteArray replacement = QStringLiteral("%1%2\"").arg(re_match.captured(1), url).toLocal8Bit();
     data.replace(re_match.captured(0).toLocal8Bit(), replacement);
     index += replacement.length();
   }
@@ -64,13 +64,13 @@ SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const 
   if (!buffer.open(QIODevice::ReadOnly)) return SongList();
 
   QXmlStreamReader reader(&buffer);
-  if (!Utilities::ParseUntilElementCI(&reader, "asx")) {
+  if (!Utilities::ParseUntilElementCI(&reader, QStringLiteral("asx"))) {
     buffer.close();
     return SongList();
   }
 
   SongList ret;
-  while (!reader.atEnd() && Utilities::ParseUntilElementCI(&reader, "entry")) {
+  while (!reader.atEnd() && Utilities::ParseUntilElementCI(&reader, QStringLiteral("entry"))) {
     Song song = ParseTrack(&reader, dir, collection_search);
     if (song.is_valid()) {
       ret << song;
@@ -137,13 +137,13 @@ void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir&, cons
   writer.setAutoFormattingIndent(2);
   writer.writeStartDocument();
   {
-    StreamElement asx("asx", &writer);
+    StreamElement asx(QStringLiteral("asx"), &writer);
     writer.writeAttribute("version", "3.0");
     for (const Song &song : songs) {
-      StreamElement entry("entry", &writer);
+      StreamElement entry(QStringLiteral("entry"), &writer);
       writer.writeTextElement("title", song.title());
       {
-        StreamElement ref("ref", &writer);
+        StreamElement ref(QStringLiteral("ref"), &writer);
         writer.writeAttribute("href", song.url().toString());
       }
       if (!song.artist().isEmpty()) {
