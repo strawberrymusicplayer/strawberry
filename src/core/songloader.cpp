@@ -237,7 +237,7 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   QSqlDatabase db(collection_backend_->db()->Connect());
 
   CollectionQuery query(db, collection_backend_->songs_table(), collection_backend_->fts_table());
-  query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
+  query.SetColumnSpec(QStringLiteral("%songs_table.ROWID, ") + Song::kColumnSpec);
   query.AddWhere(QStringLiteral("url"), url.toEncoded());
 
   if (query.Exec() && query.Next()) {
@@ -302,7 +302,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
     // It's a CUE - create virtual tracks
     QFile cue(matching_cue);
     if (cue.open(QIODevice::ReadOnly)) {
-      const SongList songs = cue_parser_->Load(&cue, matching_cue, QDir(filename.section('/', 0, -2)));
+      const SongList songs = cue_parser_->Load(&cue, matching_cue, QDir(filename.section(QLatin1Char('/'), 0, -2)));
       cue.close();
       for (const Song &song : songs) {
         if (song.is_valid()) songs_ << song;
@@ -542,9 +542,9 @@ void SongLoader::TypeFound(GstElement*, uint, GstCaps *caps, void *self) {
   if (instance->state_ != State::WaitingForType) return;
 
   // Check the mimetype
-  instance->mime_type_ = gst_structure_get_name(gst_caps_get_structure(caps, 0));
+  instance->mime_type_ = QString::fromUtf8(gst_structure_get_name(gst_caps_get_structure(caps, 0)));
   qLog(Debug) << "Mime type is" << instance->mime_type_;
-  if (instance->mime_type_ == "text/plain" || instance->mime_type_ == "text/uri-list") {
+  if (instance->mime_type_ == QStringLiteral("text/plain") || instance->mime_type_ == QStringLiteral("text/uri-list")) {
     // Yeah it might be a playlist, let's get some data and have a better look
     instance->state_ = State::WaitingForMagic;
     return;
@@ -634,12 +634,12 @@ void SongLoader::ErrorMessageReceived(GstMessage *msg) {
   qLog(Error) << error->message;
   qLog(Error) << debugs;
 
-  QString message_str = error->message;
+  QString message_str = QString::fromUtf8(error->message);
 
   g_error_free(error);
   g_free(debugs);
 
-  if (state_ == State::WaitingForType && message_str == gst_error_get_message(GST_STREAM_ERROR, GST_STREAM_ERROR_TYPE_NOT_FOUND)) {
+  if (state_ == State::WaitingForType && message_str == QString::fromUtf8(gst_error_get_message(GST_STREAM_ERROR, GST_STREAM_ERROR_TYPE_NOT_FOUND))) {
     // Don't give up - assume it's a playlist and see if one of our parsers can read it.
     state_ = State::WaitingForMagic;
     return;
@@ -697,7 +697,7 @@ void SongLoader::MagicReady() {
 
   qLog(Debug) << "Magic says" << parser_->name();
 
-  if (parser_->name() == "ASX/INI" && url_.scheme() == "http") {
+  if (parser_->name() == QStringLiteral("ASX/INI") && url_.scheme() == QStringLiteral("http")) {
     // This is actually a weird MS-WMSP stream. Changing the protocol to MMS from HTTP makes it playable.
     parser_ = nullptr;
     url_.setScheme(QStringLiteral("mms"));

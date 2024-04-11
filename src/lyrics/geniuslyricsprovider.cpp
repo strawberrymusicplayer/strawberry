@@ -45,6 +45,7 @@
 #include "core/logging.h"
 #include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
+#include "core/settings.h"
 #include "utilities/randutils.h"
 #include "internet/localredirectserver.h"
 #include "jsonlyricsprovider.h"
@@ -53,17 +54,19 @@
 
 using std::make_shared;
 
-const char *GeniusLyricsProvider::kSettingsGroup = "GeniusLyrics";
-const char *GeniusLyricsProvider::kOAuthAuthorizeUrl = "https://api.genius.com/oauth/authorize";
-const char *GeniusLyricsProvider::kOAuthAccessTokenUrl = "https://api.genius.com/oauth/token";
-const char *GeniusLyricsProvider::kOAuthRedirectUrl = "http://localhost:63111/";  // Genius does not accept a random port number. This port must match the URL of the ClientID.
-const char *GeniusLyricsProvider::kUrlSearch = "https://api.genius.com/search/";
-const char *GeniusLyricsProvider::kClientIDB64 = "RUNTNXU4U1VyMU1KUU5hdTZySEZteUxXY2hkanFiY3lfc2JjdXBpNG5WMU9SNUg4dTBZelEtZTZCdFg2dl91SQ==";
-const char *GeniusLyricsProvider::kClientSecretB64 = "VE9pMU9vUjNtTXZ3eFR3YVN0QVRyUjVoUlhVWDI1Ylp5X240eEt1M0ZkYlNwRG5JUnd0LXFFbHdGZkZkRWY2VzJ1S011UnQzM3c2Y3hqY0tVZ3NGN2c=";
+namespace {
+constexpr char kSettingsGroup[] = "GeniusLyrics";
+constexpr char kOAuthAuthorizeUrl[] = "https://api.genius.com/oauth/authorize";
+constexpr char kOAuthAccessTokenUrl[] = "https://api.genius.com/oauth/token";
+constexpr char kOAuthRedirectUrl[] = "http://localhost:63111/";  // Genius does not accept a random port number. This port must match the URL of the ClientID.
+constexpr char kUrlSearch[] = "https://api.genius.com/search/";
+constexpr char kClientIDB64[] = "RUNTNXU4U1VyMU1KUU5hdTZySEZteUxXY2hkanFiY3lfc2JjdXBpNG5WMU9SNUg4dTBZelEtZTZCdFg2dl91SQ==";
+constexpr char kClientSecretB64[] = "VE9pMU9vUjNtTXZ3eFR3YVN0QVRyUjVoUlhVWDI1Ylp5X240eEt1M0ZkYlNwRG5JUnd0LXFFbHdGZkZkRWY2VzJ1S011UnQzM3c2Y3hqY0tVZ3NGN2c=";
+}  // namespace
 
 GeniusLyricsProvider::GeniusLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(QStringLiteral("Genius"), true, true, network, parent), server_(nullptr) {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   if (s.contains("access_token")) {
     access_token_ = s.value("access_token").toString();
@@ -85,7 +88,7 @@ GeniusLyricsProvider::~GeniusLyricsProvider() {
 
 void GeniusLyricsProvider::Authenticate() {
 
-  QUrl redirect_url(kOAuthRedirectUrl);
+  QUrl redirect_url(QString::fromLatin1(kOAuthRedirectUrl));
 
   if (!server_) {
     server_ = new LocalRedirectServer(this);
@@ -100,19 +103,19 @@ void GeniusLyricsProvider::Authenticate() {
   }
 
   code_verifier_ = Utilities::CryptographicRandomString(44);
-  code_challenge_ = QString(QCryptographicHash::hash(code_verifier_.toUtf8(), QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding));
-  if (code_challenge_.lastIndexOf(QChar('=')) == code_challenge_.length() - 1) {
+  code_challenge_ = QString::fromLatin1(QCryptographicHash::hash(code_verifier_.toUtf8(), QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding));
+  if (code_challenge_.lastIndexOf(QLatin1Char('=')) == code_challenge_.length() - 1) {
     code_challenge_.chop(1);
   }
 
   QUrlQuery url_query;
-  url_query.addQueryItem(QStringLiteral("client_id"), QUrl::toPercentEncoding(QByteArray::fromBase64(kClientIDB64)));
-  url_query.addQueryItem(QStringLiteral("redirect_uri"), QUrl::toPercentEncoding(redirect_url.toString()));
+  url_query.addQueryItem(QStringLiteral("client_id"), QString::fromLatin1(QUrl::toPercentEncoding(QLatin1String(kClientIDB64))));
+  url_query.addQueryItem(QStringLiteral("redirect_uri"), QString::fromLatin1(QUrl::toPercentEncoding(redirect_url.toString())));
   url_query.addQueryItem(QStringLiteral("scope"), QStringLiteral("me"));
-  url_query.addQueryItem(QStringLiteral("state"), QUrl::toPercentEncoding(code_challenge_));
+  url_query.addQueryItem(QStringLiteral("state"), QString::fromLatin1(QUrl::toPercentEncoding(code_challenge_)));
   url_query.addQueryItem(QStringLiteral("response_type"), QStringLiteral("code"));
 
-  QUrl url(kOAuthAuthorizeUrl);
+  QUrl url(QString::fromLatin1(kOAuthAuthorizeUrl));
   url.setQuery(url_query);
 
   const bool result = QDesktopServices::openUrl(url);
@@ -136,7 +139,7 @@ void GeniusLyricsProvider::RedirectArrived() {
         AuthError(QUrlQuery(url).queryItemValue(QStringLiteral("error")));
       }
       else if (url_query.hasQueryItem(QStringLiteral("code"))) {
-        QUrl redirect_url(kOAuthRedirectUrl);
+        QUrl redirect_url(QString::fromLatin1(kOAuthRedirectUrl));
         redirect_url.setPort(server_->url().port());
         RequestAccessToken(url, redirect_url);
       }
@@ -169,14 +172,14 @@ void GeniusLyricsProvider::RequestAccessToken(const QUrl &url, const QUrl &redir
     const QString code = url_query.queryItemValue(QStringLiteral("code"));
 
     QUrlQuery new_url_query;
-    new_url_query.addQueryItem(QStringLiteral("code"), QUrl::toPercentEncoding(code));
-    new_url_query.addQueryItem(QStringLiteral("client_id"), QUrl::toPercentEncoding(QByteArray::fromBase64(kClientIDB64)));
-    new_url_query.addQueryItem(QStringLiteral("client_secret"), QUrl::toPercentEncoding(QByteArray::fromBase64(kClientSecretB64)));
-    new_url_query.addQueryItem(QStringLiteral("redirect_uri"), QUrl::toPercentEncoding(redirect_url.toString()));
+    new_url_query.addQueryItem(QStringLiteral("code"), QString::fromLatin1(QUrl::toPercentEncoding(code)));
+    new_url_query.addQueryItem(QStringLiteral("client_id"), QString::fromLatin1(QUrl::toPercentEncoding(QLatin1String(kClientIDB64))));
+    new_url_query.addQueryItem(QStringLiteral("client_secret"), QString::fromLatin1(QUrl::toPercentEncoding(QLatin1String(kClientSecretB64))));
+    new_url_query.addQueryItem(QStringLiteral("redirect_uri"), QString::fromLatin1(QUrl::toPercentEncoding(redirect_url.toString())));
     new_url_query.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("authorization_code"));
     new_url_query.addQueryItem(QStringLiteral("response_type"), QStringLiteral("code"));
 
-    QUrl new_url(kOAuthAccessTokenUrl);
+    QUrl new_url(QString::fromLatin1(kOAuthAccessTokenUrl));
     QNetworkRequest req(new_url);
     req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
     QByteArray query = new_url_query.toString(QUrl::FullyEncoded).toUtf8();
@@ -218,7 +221,7 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
     }
     else {
       // See if there is Json data containing "status" and "userMessage" then use that instead.
-      QByteArray data = reply->readAll();
+      const QByteArray data = reply->readAll();
       QJsonParseError json_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
@@ -242,7 +245,7 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
     }
   }
 
-  QByteArray data = reply->readAll();
+  const QByteArray data = reply->readAll();
 
   QJsonParseError json_error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
@@ -275,7 +278,7 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
 
   access_token_ = json_obj[QStringLiteral("access_token")].toString();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("access_token", access_token_);
   s.endGroup();
@@ -297,9 +300,9 @@ bool GeniusLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &
   requests_search_.insert(id, search);
 
   QUrlQuery url_query;
-  url_query.addQueryItem(QStringLiteral("q"), QUrl::toPercentEncoding(QStringLiteral("%1 %2").arg(request.artist, request.title)));
+  url_query.addQueryItem(QStringLiteral("q"), QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral("%1 %2").arg(request.artist, request.title))));
 
-  QUrl url(kUrlSearch);
+  QUrl url(QString::fromLatin1(kUrlSearch));
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -460,14 +463,14 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
     return;
   }
 
-  QByteArray data = reply->readAll();
+  const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     Error(QStringLiteral("Empty reply received from server."));
     EndSearch(search, lyric);
     return;
   }
 
-  QString content = QString::fromUtf8(data);
+  const QString content = QString::fromUtf8(data);
   QString lyrics = HtmlLyricsProvider::ParseLyricsFromHTML(content, QRegularExpression(QStringLiteral("<div[^>]*>")), QRegularExpression(QStringLiteral("<\\/div>")), QRegularExpression(QStringLiteral("<div data-lyrics-container=[^>]+>")), true);
   if (lyrics.isEmpty()) {
     lyrics = HtmlLyricsProvider::ParseLyricsFromHTML(content, QRegularExpression(QStringLiteral("<div[^>]*>")), QRegularExpression(QStringLiteral("<\\/div>")), QRegularExpression(QStringLiteral("<div class=\"lyrics\">")), true);

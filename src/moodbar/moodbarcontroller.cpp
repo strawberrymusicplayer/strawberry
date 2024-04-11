@@ -22,6 +22,7 @@
 #include "core/application.h"
 #include "core/player.h"
 #include "core/song.h"
+#include "core/settings.h"
 #include "engine/enginebase.h"
 #include "settings/moodbarsettingspage.h"
 #include "playlist/playlistmanager.h"
@@ -44,7 +45,7 @@ MoodbarController::MoodbarController(Application *app, QObject *parent)
 
 void MoodbarController::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
   enabled_ = s.value("enabled", false).toBool();
   s.endGroup();

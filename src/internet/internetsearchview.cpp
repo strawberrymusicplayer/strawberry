@@ -68,6 +68,7 @@
 #include "core/mimedata.h"
 #include "core/iconloader.h"
 #include "core/song.h"
+#include "core/settings.h"
 #include "collection/collectionfilterwidget.h"
 #include "collection/collectionmodel.h"
 #include "collection/groupbydialog.h"
@@ -209,7 +210,7 @@ void InternetSearchView::Init(Application *app, InternetServicePtr service) {
 
 void InternetSearchView::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
 
   // Collection settings
 
@@ -436,11 +437,11 @@ QStringList InternetSearchView::TokenizeQuery(const QString &query) {
   QStringList tokens(query.split(QRegularExpression(QStringLiteral("\\s+"))));
 
   for (QStringList::iterator it = tokens.begin(); it != tokens.end(); ++it) {
-    (*it).remove('(');
-    (*it).remove(')');
-    (*it).remove('"');
+    (*it).remove(QLatin1Char('('));
+    (*it).remove(QLatin1Char(')'));
+    (*it).remove(QLatin1Char('"'));
 
-    const qint64 colon = (*it).indexOf(QLatin1String(":"));
+    const qint64 colon = (*it).indexOf(QLatin1Char(':'));
     if (colon != -1) {
       (*it).remove(0, colon + 1);
     }
@@ -705,7 +706,7 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping g) {
   back_model_->SetGroupBy(g, false);
 
   // Save the setting
-  QSettings s;
+  Settings s;
   s.beginGroup(service_->settings_group());
   s.setValue("search_group_by_version", 1);
   s.setValue("search_group_by1", static_cast<int>(g.first));
@@ -745,7 +746,7 @@ void InternetSearchView::SetSearchType(const InternetSearchView::SearchType type
 
   search_type_ = type;
 
-  QSettings s;
+  Settings s;
   s.beginGroup(service_->settings_group());
   s.setValue("type", static_cast<int>(search_type_));
   s.endGroup();
@@ -787,13 +788,13 @@ void InternetSearchView::AddSongs() {
 QString InternetSearchView::PixmapCacheKey(const InternetSearchView::Result &result) const {
 
   if (result.metadata_.art_automatic_is_valid()) {
-    return Song::TextForSource(service_->source()) + "/" + result.metadata_.art_automatic().toString();
+    return Song::TextForSource(service_->source()) + QLatin1Char('/') + result.metadata_.art_automatic().toString();
   }
   else if (!result.metadata_.effective_albumartist().isEmpty() && !result.metadata_.album().isEmpty()) {
-    return Song::TextForSource(service_->source()) + "/" + result.metadata_.effective_albumartist() + "/" + result.metadata_.album();
+    return Song::TextForSource(service_->source()) + QLatin1Char('/') + result.metadata_.effective_albumartist() + QLatin1Char('/') + result.metadata_.album();
   }
   else {
-    return Song::TextForSource(service_->source()) + "/" + result.metadata_.url().toString();
+    return Song::TextForSource(service_->source()) + QLatin1Char('/') + result.metadata_.url().toString();
   }
 
 }

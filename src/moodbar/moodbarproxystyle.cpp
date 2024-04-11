@@ -37,6 +37,7 @@
 #include <QContextMenuEvent>
 
 #include "core/application.h"
+#include "core/settings.h"
 
 #include "moodbarproxystyle.h"
 #include "moodbarrenderer.h"
@@ -74,7 +75,7 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject*
 
 void MoodbarProxyStyle::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
   // Get the enabled/disabled setting, and start the timelines if there's a change.
   enabled_ = s.value("show", false).toBool();
@@ -107,7 +108,7 @@ void MoodbarProxyStyle::SetMoodbarEnabled(const bool enabled) {
   enabled_ = enabled;
 
   // Save the enabled setting.
-  QSettings s;
+  Settings s;
   s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
   s.setValue("show", enabled);
   s.endGroup();
@@ -286,7 +287,7 @@ QRect MoodbarProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionCom
         case SC_SliderGroove:
           return opt->rect.adjusted(kMarginSize, kMarginSize, -kMarginSize, -kMarginSize);
 
-        case SC_SliderHandle: {
+        case SC_SliderHandle:{
           const QStyleOptionSlider *slider_opt = qstyleoption_cast<const QStyleOptionSlider*>(opt);
           int x_offset = 0;
 
@@ -403,7 +404,7 @@ void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
 
 void MoodbarProxyStyle::ChangeStyle(QAction *action) {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
   s.setValue("style", action->data().toInt());
   s.endGroup();

@@ -110,7 +110,7 @@ void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect line_rect, const
   smaller.setBold(true);
 
   if (width == -1) {
-    width = QFontMetrics(font).horizontalAdvance(text + "  ");
+    width = QFontMetrics(font).horizontalAdvance(text + QStringLiteral("  "));
   }
 
   QRect rect(line_rect);
@@ -175,19 +175,19 @@ QString PlaylistDelegateBase::displayText(const QVariant &value, const QLocale&)
 #else
   switch (static_cast<QMetaType::Type>(value.type())) {
 #endif
-    case QMetaType::Int: {
+    case QMetaType::Int:{
       int v = value.toInt();
       if (v > 0) text = QString::number(v);
       break;
     }
     case QMetaType::Long:
-    case QMetaType::LongLong: {
+    case QMetaType::LongLong:{
       qint64 v = value.toLongLong();
       if (v > 0) text = QString::number(v);
       break;
     }
     case QMetaType::Float:
-    case QMetaType::Double: {
+    case QMetaType::Double:{
       double v = value.toDouble();
       if (v > 0) text = QString::number(v);
       break;
@@ -197,7 +197,7 @@ QString PlaylistDelegateBase::displayText(const QVariant &value, const QLocale&)
       break;
   }
 
-  if (!text.isNull() && !suffix_.isNull()) text += " " + suffix_;
+  if (!text.isNull() && !suffix_.isNull()) text += QLatin1Char(' ') + suffix_;
   return text;
 
 }
@@ -269,7 +269,7 @@ bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view,
   if (text.isEmpty() || !event) return false;
 
   switch (event->type()) {
-    case QEvent::ToolTip: {
+    case QEvent::ToolTip:{
       QSize real_text = sizeHint(option, idx);
       QRect displayed_text = view->visualRect(idx);
       bool is_elided = displayed_text.width() < real_text.width();

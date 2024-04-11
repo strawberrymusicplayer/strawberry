@@ -126,28 +126,28 @@ void DiscogsCoverProvider::FlushRequests() {
 
 void DiscogsCoverProvider::SendSearchRequest(SharedPtr<DiscogsCoverSearchContext> search) {
 
-  ParamList params = ParamList() << Param("format", "album")
-                                 << Param("artist", search->artist.toLower())
-                                 << Param("release_title", search->album.toLower());
+  ParamList params = ParamList() << Param(QStringLiteral("format"), QStringLiteral("album"))
+                                 << Param(QStringLiteral("artist"), search->artist.toLower())
+                                 << Param(QStringLiteral("release_title"), search->album.toLower());
 
   switch (search->type) {
     case DiscogsCoverType::Master:
-      params << Param("type", "master");
+      params << Param(QStringLiteral("type"), QStringLiteral("master"));
       break;
     case DiscogsCoverType::Release:
-      params << Param("type", "release");
+      params << Param(QStringLiteral("type"), QStringLiteral("release"));
       break;
   }
 
-  QNetworkReply *reply = CreateRequest(QUrl(kUrlSearch), params);
+  QNetworkReply *reply = CreateRequest(QUrl(QString::fromLatin1(kUrlSearch)), params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, search]() { HandleSearchReply(reply, search->id); });
 
 }
 
 QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &params_provided) {
 
-  ParamList params = ParamList() << Param("key", QByteArray::fromBase64(kAccessKeyB64))
-                                 << Param("secret", QByteArray::fromBase64(kSecretKeyB64))
+  ParamList params = ParamList() << Param(QStringLiteral("key"), QString::fromLatin1(QByteArray::fromBase64(kAccessKeyB64)))
+                                 << Param(QStringLiteral("secret"), QString::fromLatin1(QByteArray::fromBase64(kSecretKeyB64)))
                                  << params_provided;
 
   QUrlQuery url_query;
@@ -157,8 +157,8 @@ QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &pa
   using EncodedParam = QPair<QByteArray, QByteArray>;
   for (const Param &param : params) {
     EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    query_items << QString(encoded_param.first + "=" + encoded_param.second);
-    url_query.addQueryItem(encoded_param.first, encoded_param.second);
+    query_items << QString::fromLatin1(encoded_param.first) + QLatin1Char('=') + QString::fromLatin1(encoded_param.second);
+    url_query.addQueryItem(QString::fromLatin1(encoded_param.first), QString::fromLatin1(encoded_param.second));
   }
   url.setQuery(url_query);
 
@@ -167,7 +167,7 @@ QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &pa
   const QByteArray signature(Utilities::HmacSha256(QByteArray::fromBase64(kSecretKeyB64), data_to_sign));
 
   // Add the signature to the request
-  url_query.addQueryItem(QStringLiteral("Signature"), QUrl::toPercentEncoding(signature.toBase64()));
+  url_query.addQueryItem(QStringLiteral("Signature"), QString::fromLatin1(QUrl::toPercentEncoding(QString::fromLatin1(signature.toBase64()))));
 
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -427,7 +427,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
       continue;
     }
     QString type = obj_image[QStringLiteral("type")].toString();
-    if (type != "primary") {
+    if (type != QStringLiteral("primary")) {
       continue;
     }
     int width = obj_image[QStringLiteral("width")].toInt();

@@ -35,9 +35,11 @@
 
 #include "matesettingsdaemon.h"
 
-const char *GlobalShortcutsBackendMate::kService1 = "org.mate.SettingsDaemon.MediaKeys";
-const char *GlobalShortcutsBackendMate::kService2 = "org.mate.SettingsDaemon";
-const char *GlobalShortcutsBackendMate::kPath = "/org/mate/SettingsDaemon/MediaKeys";
+namespace {
+constexpr char kService1[] = "org.mate.SettingsDaemon.MediaKeys";
+constexpr char kService2[] = "org.mate.SettingsDaemon";
+constexpr char kPath[] = "/org/mate/SettingsDaemon/MediaKeys";
+}
 
 GlobalShortcutsBackendMate::GlobalShortcutsBackendMate(GlobalShortcutsManager *manager, QObject *parent)
     : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type::Mate, parent),
@@ -52,7 +54,7 @@ bool GlobalShortcutsBackendMate::IsAvailable() const {
 
 bool GlobalShortcutsBackendMate::IsMateAvailable() {
 
-  return QDBusConnection::sessionBus().interface()->isServiceRegistered(kService1) || QDBusConnection::sessionBus().interface()->isServiceRegistered(kService2);
+  return QDBusConnection::sessionBus().interface()->isServiceRegistered(QLatin1String(kService1)) || QDBusConnection::sessionBus().interface()->isServiceRegistered(QLatin1String(kService2));
 
 }
 
@@ -61,11 +63,11 @@ bool GlobalShortcutsBackendMate::DoRegister() {
   qLog(Debug) << "Registering";
 
   if (!interface_) {
-    if (QDBusConnection::sessionBus().interface()->isServiceRegistered(kService1)) {
-      interface_ = new OrgMateSettingsDaemonMediaKeysInterface(kService1, kPath, QDBusConnection::sessionBus(), this);
+    if (QDBusConnection::sessionBus().interface()->isServiceRegistered(QLatin1String(kService1))) {
+      interface_ = new OrgMateSettingsDaemonMediaKeysInterface(QLatin1String(kService1), QLatin1String(kPath), QDBusConnection::sessionBus(), this);
     }
-    else if (QDBusConnection::sessionBus().interface()->isServiceRegistered(kService2)) {
-      interface_ = new OrgMateSettingsDaemonMediaKeysInterface(kService2, kPath, QDBusConnection::sessionBus(), this);
+    else if (QDBusConnection::sessionBus().interface()->isServiceRegistered(QLatin1String(kService2))) {
+      interface_ = new OrgMateSettingsDaemonMediaKeysInterface(QLatin1String(kService2), QLatin1String(kPath), QDBusConnection::sessionBus(), this);
     }
   }
 
@@ -116,9 +118,9 @@ void GlobalShortcutsBackendMate::DoUnregister() {
 void GlobalShortcutsBackendMate::MateMediaKeyPressed(const QString&, const QString &key) {
 
   auto shortcuts = manager_->shortcuts();
-  if (key == "Play") shortcuts[QStringLiteral("play_pause")].action->trigger();
-  if (key == "Stop") shortcuts[QStringLiteral("stop")].action->trigger();
-  if (key == "Next") shortcuts[QStringLiteral("next_track")].action->trigger();
-  if (key == "Previous") shortcuts[QStringLiteral("prev_track")].action->trigger();
+  if (key == QStringLiteral("Play")) shortcuts[QStringLiteral("play_pause")].action->trigger();
+  if (key == QStringLiteral("Stop")) shortcuts[QStringLiteral("stop")].action->trigger();
+  if (key == QStringLiteral("Next")) shortcuts[QStringLiteral("next_track")].action->trigger();
+  if (key == QStringLiteral("Previous")) shortcuts[QStringLiteral("prev_track")].action->trigger();
 
 }

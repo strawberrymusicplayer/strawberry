@@ -38,6 +38,7 @@
 
 #include "core/iconloader.h"
 #include "core/mainwindow.h"
+#include "core/settings.h"
 #include "settingspage.h"
 #include "settingsdialog.h"
 #include "contextsettingspage.h"
@@ -113,7 +114,7 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
 
   QFile file(QStringLiteral(":/text/ghosts.txt"));
   if (file.open(QIODevice::ReadOnly)) {
-    QString text = file.readAll();
+    QString text = QString::fromUtf8(file.readAll());
     ui_->preview_headline->setText(text);
     ui_->preview_normal->setText(text);
     file.close();
@@ -128,11 +129,11 @@ ContextSettingsPage::~ContextSettingsPage() { delete ui_; }
 
 void ContextSettingsPage::Load() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
-  ui_->context_custom_text1->setText(s.value(kSettingsTitleFmt, "%title% - %artist%").toString());
-  ui_->context_custom_text2->setText(s.value(kSettingsSummaryFmt, "%album%").toString());
+  ui_->context_custom_text1->setText(s.value(kSettingsTitleFmt, QStringLiteral("%title% - %artist%")).toString());
+  ui_->context_custom_text2->setText(s.value(kSettingsSummaryFmt, QStringLiteral("%album%")).toString());
 
   for (int i = 0; i < static_cast<int>(ContextSettingsOrder::NELEMS); ++i) {
     checkboxes_[i]->setChecked(s.value(kSettingsGroupEnable[i], checkboxes_[i]->isChecked()).toBool());
@@ -140,9 +141,9 @@ void ContextSettingsPage::Load() {
 
   // Fonts
   QString default_font;
-  int i = ui_->font_headline->findText(kDefaultFontFamily);
+  int i = ui_->font_headline->findText(QLatin1String(kDefaultFontFamily));
   if (i >= 0) {
-    default_font = kDefaultFontFamily;
+    default_font = QLatin1String(kDefaultFontFamily);
   }
   else {
     default_font = font().family();
@@ -160,13 +161,13 @@ void ContextSettingsPage::Load() {
 
   Init(ui_->layout_contextsettingspage->parentWidget());
 
-  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
 }
 
 void ContextSettingsPage::Save() {
 
-  QSettings s;
+  Settings s;
 
   s.beginGroup(kSettingsGroup);
   s.setValue(kSettingsTitleFmt, ui_->context_custom_text1->text());

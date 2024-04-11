@@ -121,22 +121,22 @@ void TidalStreamURLRequest::GetStreamURL() {
 
   switch (stream_url_method()) {
     case TidalSettingsPage::StreamUrlMethod::StreamUrl:
-      params << Param("soundQuality", quality());
+      params << Param(QStringLiteral("soundQuality"), quality());
       reply_ = CreateRequest(QStringLiteral("tracks/%1/streamUrl").arg(song_id_), params);
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
     case TidalSettingsPage::StreamUrlMethod::UrlPostPaywall:
-      params << Param("audioquality", quality());
-      params << Param("playbackmode", "STREAM");
-      params << Param("assetpresentation", "FULL");
-      params << Param("urlusagemode", "STREAM");
+      params << Param(QStringLiteral("audioquality"), quality());
+      params << Param(QStringLiteral("playbackmode"), QStringLiteral("STREAM"));
+      params << Param(QStringLiteral("assetpresentation"), QStringLiteral("FULL"));
+      params << Param(QStringLiteral("urlusagemode"), QStringLiteral("STREAM"));
       reply_ = CreateRequest(QStringLiteral("tracks/%1/urlpostpaywall").arg(song_id_), params);
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
     case TidalSettingsPage::StreamUrlMethod::PlaybackInfoPostPaywall:
-      params << Param("audioquality", quality());
-      params << Param("playbackmode", "STREAM");
-      params << Param("assetpresentation", "FULL");
+      params << Param(QStringLiteral("audioquality"), quality());
+      params << Param(QStringLiteral("playbackmode"), QStringLiteral("STREAM"));
+      params << Param(QStringLiteral("assetpresentation"), QStringLiteral("FULL"));
       reply_ = CreateRequest(QStringLiteral("tracks/%1/playbackinfopostpaywall").arg(song_id_), params);
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
@@ -233,7 +233,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
       QString mimetype = json_obj[QStringLiteral("mimeType")].toString();
       QMimeDatabase mimedb;
-      QStringList suffixes = mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes();
+      QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
       for (const QString &suffix : suffixes) {
         filetype = Song::FiletypeByExtension(suffix);
         if (filetype != Song::FileType::Unknown) break;

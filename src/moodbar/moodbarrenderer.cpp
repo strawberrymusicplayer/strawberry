@@ -50,7 +50,7 @@ ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle s
       properties = StyleProperties(samples / 360 * 3, 0, 359, 100, 100);
       break;
     case MoodbarStyle::SystemPalette:
-    default: {
+    default:{
       const QColor highlight_color(palette.color(QPalette::Active, QPalette::Highlight));
 
       properties.threshold_ = samples / 360 * 3;

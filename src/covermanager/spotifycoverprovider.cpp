@@ -45,6 +45,7 @@
 #include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
+#include "core/settings.h"
 #include "utilities/randutils.h"
 #include "utilities/timeconstants.h"
 #include "internet/localredirectserver.h"
@@ -52,14 +53,16 @@
 #include "jsoncoverprovider.h"
 #include "spotifycoverprovider.h"
 
-const char *SpotifyCoverProvider::kSettingsGroup = "Spotify";
-const char *SpotifyCoverProvider::kOAuthAuthorizeUrl = "https://accounts.spotify.com/authorize";
-const char *SpotifyCoverProvider::kOAuthAccessTokenUrl = "https://accounts.spotify.com/api/token";
-const char *SpotifyCoverProvider::kOAuthRedirectUrl = "http://localhost:63111/";
-const char *SpotifyCoverProvider::kClientIDB64 = "ZTZjY2Y2OTQ5NzY1NGE3NThjOTAxNWViYzdiMWQzMTc=";
-const char *SpotifyCoverProvider::kClientSecretB64 = "N2ZlMDMxODk1NTBlNDE3ZGI1ZWQ1MzE3ZGZlZmU2MTE=";
-const char *SpotifyCoverProvider::kApiUrl = "https://api.spotify.com/v1";
-const int SpotifyCoverProvider::kLimit = 10;
+namespace {
+constexpr char kSettingsGroup[] = "Spotify";
+constexpr char kOAuthAuthorizeUrl[] = "https://accounts.spotify.com/authorize";
+constexpr char kOAuthAccessTokenUrl[] = "https://accounts.spotify.com/api/token";
+constexpr char kOAuthRedirectUrl[] = "http://localhost:63111/";
+constexpr char kClientIDB64[] = "ZTZjY2Y2OTQ5NzY1NGE3NThjOTAxNWViYzdiMWQzMTc=";
+constexpr char kClientSecretB64[] = "N2ZlMDMxODk1NTBlNDE3ZGI1ZWQ1MzE3ZGZlZmU2MTE=";
+constexpr char kApiUrl[] = "https://api.spotify.com/v1";
+constexpr int kLimit = 10;
+}  // namespace
 
 SpotifyCoverProvider::SpotifyCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(QStringLiteral("Spotify"), true, true, 2.5, true, true, app, network, parent),
@@ -70,7 +73,7 @@ SpotifyCoverProvider::SpotifyCoverProvider(Application *app, SharedPtr<NetworkAc
   refresh_login_timer_.setSingleShot(true);
   QObject::connect(&refresh_login_timer_, &QTimer::timeout, this, &SpotifyCoverProvider::RequestNewAccessToken);
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   access_token_ = s.value("access_token").toString();
   refresh_token_ = s.value("refresh_token").toString();
@@ -100,7 +103,7 @@ SpotifyCoverProvider::~SpotifyCoverProvider() {
 
 void SpotifyCoverProvider::Authenticate() {
 
-  QUrl redirect_url(kOAuthRedirectUrl);
+  QUrl redirect_url(QString::fromLatin1(kOAuthRedirectUrl));
 
   if (!server_) {
     server_ = new LocalRedirectServer(this);
@@ -126,22 +129,22 @@ void SpotifyCoverProvider::Authenticate() {
   }
 
   code_verifier_ = Utilities::CryptographicRandomString(44);
-  code_challenge_ = QString(QCryptographicHash::hash(code_verifier_.toUtf8(), QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding));
-  if (code_challenge_.lastIndexOf(QChar('=')) == code_challenge_.length() - 1) {
+  code_challenge_ = QString::fromLatin1(QCryptographicHash::hash(code_verifier_.toUtf8(), QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding));
+  if (code_challenge_.lastIndexOf(QLatin1Char('=')) == code_challenge_.length() - 1) {
     code_challenge_.chop(1);
   }
 
-  const ParamList params = ParamList() << Param("client_id", QByteArray::fromBase64(kClientIDB64))
-                                       << Param("response_type", "code")
-                                       << Param("redirect_uri", redirect_url.toString())
-                                       << Param("state", code_challenge_);
+  const ParamList params = ParamList() << Param(QStringLiteral("client_id"), QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)))
+                                       << Param(QStringLiteral("response_type"), QStringLiteral("code"))
+                                       << Param(QStringLiteral("redirect_uri"), redirect_url.toString())
+                                       << Param(QStringLiteral("state"), code_challenge_);
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(kOAuthAuthorizeUrl);
+  QUrl url(QString::fromLatin1(kOAuthAuthorizeUrl));
   url.setQuery(url_query);
 
   const bool result = QDesktopServices::openUrl(url);
@@ -160,7 +163,7 @@ void SpotifyCoverProvider::Deauthenticate() {
   expires_in_ = 0;
   login_time_ = 0;
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.remove("access_token");
   s.remove("refresh_token");
@@ -186,7 +189,7 @@ void SpotifyCoverProvider::RedirectArrived() {
       else if (url_query.hasQueryItem(QStringLiteral("code")) && url_query.hasQueryItem(QStringLiteral("state"))) {
         qLog(Debug) << "Spotify: Authorization URL Received" << url;
         QString code = url_query.queryItemValue(QStringLiteral("code"));
-        QUrl redirect_url(kOAuthRedirectUrl);
+        QUrl redirect_url(QString::fromLatin1(kOAuthRedirectUrl));
         redirect_url.setPort(server_->url().port());
         RequestAccessToken(code, redirect_url);
       }
@@ -212,17 +215,17 @@ void SpotifyCoverProvider::RequestAccessToken(const QString &code, const QUrl &r
 
   refresh_login_timer_.stop();
 
-  ParamList params = ParamList() << Param("client_id", QByteArray::fromBase64(kClientIDB64))
-                                 << Param("client_secret", QByteArray::fromBase64(kClientSecretB64));
+  ParamList params = ParamList() << Param(QStringLiteral("client_id"), QLatin1String(kClientIDB64))
+                                 << Param(QStringLiteral("client_secret"), QLatin1String(kClientSecretB64));
 
   if (!code.isEmpty() && !redirect_url.isEmpty()) {
-    params << Param("grant_type", "authorization_code");
-    params << Param("code", code);
-    params << Param("redirect_uri", redirect_url.toString());
+    params << Param(QStringLiteral("grant_type"), QStringLiteral("authorization_code"));
+    params << Param(QStringLiteral("code"), code);
+    params << Param(QStringLiteral("redirect_uri"), redirect_url.toString());
   }
   else if (!refresh_token_.isEmpty() && is_enabled()) {
-    params << Param("grant_type", "refresh_token");
-    params << Param("refresh_token", refresh_token_);
+    params << Param(QStringLiteral("grant_type"), QStringLiteral("refresh_token"));
+    params << Param(QStringLiteral("refresh_token"), refresh_token_);
   }
   else {
     return;
@@ -230,14 +233,14 @@ void SpotifyCoverProvider::RequestAccessToken(const QString &code, const QUrl &r
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl new_url(kOAuthAccessTokenUrl);
+  QUrl new_url(QString::fromLatin1(kOAuthAccessTokenUrl));
   QNetworkRequest req(new_url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  QString auth_header_data = QByteArray::fromBase64(kClientIDB64) + QStringLiteral(":") + QByteArray::fromBase64(kClientSecretB64);
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
+  QString auth_header_data = QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)) + QLatin1Char(':') + QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64));
   req.setRawHeader("Authorization", "Basic " + auth_header_data.toUtf8().toBase64());
 
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
@@ -334,7 +337,7 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
   expires_in_ = json_obj[QStringLiteral("expires_in")].toInt();
   login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("access_token", access_token_);
   s.setValue("refresh_token", refresh_token_);
@@ -366,32 +369,32 @@ bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &alb
   if (album.isEmpty() && !title.isEmpty()) {
     type = QStringLiteral("track");
     extract = QStringLiteral("tracks");
-    if (!query.isEmpty()) query.append(" ");
+    if (!query.isEmpty()) query.append(QLatin1Char(' '));
     query.append(title);
   }
   else {
     type = QStringLiteral("album");
     extract = QStringLiteral("albums");
     if (!album.isEmpty()) {
-      if (!query.isEmpty()) query.append(" ");
+      if (!query.isEmpty()) query.append(QLatin1Char(' '));
       query.append(album);
     }
   }
 
-  ParamList params = ParamList() << Param("q", query)
-                                 << Param("type", type)
-                                 << Param("limit", QString::number(kLimit));
+  ParamList params = ParamList() << Param(QStringLiteral("q"), query)
+                                 << Param(QStringLiteral("type"), type)
+                                 << Param(QStringLiteral("limit"), QString::number(kLimit));
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(kApiUrl + QStringLiteral("/search"));
+  QUrl url(QLatin1String(kApiUrl) + QStringLiteral("/search"));
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
   req.setRawHeader("Authorization", "Bearer " + access_token_.toUtf8());
 
   QNetworkReply *reply = network_->get(req);

@@ -28,7 +28,7 @@
 #include "enginedevice.h"
 #include "core/logging.h"
 
-AsioDeviceFinder::AsioDeviceFinder() : DeviceFinder("asio", { "asiosink" }) {}
+AsioDeviceFinder::AsioDeviceFinder() : DeviceFinder(QStringLiteral("asio"), { QStringLiteral("asiosink") }) {}
 
 EngineDeviceList AsioDeviceFinder::ListDevices() {
 

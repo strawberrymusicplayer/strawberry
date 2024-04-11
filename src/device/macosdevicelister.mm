@@ -138,9 +138,9 @@ bool MacOsDeviceLister::Init() {
     }
 
     MTPDevice d;
-    d.vendor = "SanDisk";
+    d.vendor = QStringLiteral("SanDisk");
     d.vendor_id = 0x781;
-    d.product = "Sansa Clip+";
+    d.product = QStringLiteral("Sansa Clip+");
     d.product_id = 0x74d0;
 
     d.quirks = 0x2 | 0x4 | 0x40 | 0x4000;
@@ -303,7 +303,7 @@ QString GetIconForDevice(io_object_t device) {
     scoped_nsobject<NSURL> bundle_url(reinterpret_cast<NSURL*>(KextManagerCreateURLForBundleIdentifier(kCFAllocatorDefault, reinterpret_cast<CFStringRef>(bundle))));
 
     QString path = QString::fromUtf8([[bundle_url path] UTF8String]);
-    path += "/Contents/Resources/";
+    path += QStringLiteral("/Contents/Resources/");
     path += QString::fromUtf8([file UTF8String]);
     return path;
   }
@@ -314,10 +314,11 @@ QString GetIconForDevice(io_object_t device) {
 
 QString GetSerialForDevice(io_object_t device) {
 
-  QString serial = GetUSBRegistryEntryString(device, CFSTR(kUSBSerialNumberString));
+  const QString serial = GetUSBRegistryEntryString(device, CFSTR(kUSBSerialNumberString));
   if (!serial.isEmpty()) {
-    return "USB/" + serial;
+    return QStringLiteral("USB/") + serial;
   }
+
   return QString();
 
 }
@@ -325,7 +326,7 @@ QString GetSerialForDevice(io_object_t device) {
 QString GetSerialForMTPDevice(io_object_t device) {
 
   scoped_nsobject<NSString> serial(reinterpret_cast<NSString*>(GetPropertyForDevice(device, CFSTR(kUSBSerialNumberString))));
-  return QString(QString("MTP/") + QString::fromUtf8([serial UTF8String]));
+  return QString(QStringLiteral("MTP/") + QString::fromUtf8([serial UTF8String]));
 
 }
 
@@ -336,6 +337,7 @@ QString FindDeviceProperty(const QString &bsd_name, CFStringRef property) {
 
   ScopedIOObject device(DADiskCopyIOMedia(disk.get()));
   QString ret = GetUSBRegistryEntryString(device.get(), property);
+
   return ret;
 
 }
@@ -356,6 +358,7 @@ quint64 MacOsDeviceLister::GetFreeSpace(const QUrl &url) {
     free_bytes += storage->FreeSpaceInBytes;
     storage = storage->next;
   }
+
   return free_bytes;
 
 }
@@ -412,7 +415,7 @@ void MacOsDeviceLister::DiskAddedCallback(DADiskRef disk, void *context) {
         if ([[dict objectForKey:@"Removable"] intValue] == 1) {
           QString serial = GetSerialForDevice(device.get());
           if (!serial.isEmpty()) {
-            me->current_devices_[serial] = QString(DADiskGetBSDName(disk));
+            me->current_devices_[serial] = QString::fromLatin1(DADiskGetBSDName(disk));
             emit me->DeviceAdded(serial);
           }
         }
@@ -467,6 +470,7 @@ bool DeviceRequest(IOUSBDeviceInterface **dev,
     return false;
   }
   data->resize(req.wLenDone);
+
   return true;
 
 }
@@ -596,14 +600,14 @@ void MacOsDeviceLister::USBDeviceAddedCallback(void *refcon, io_iterator_t it) {
       // Because this was designed by MS, the characters are in UTF-16 (LE?).
       QString str = QString::fromUtf16(reinterpret_cast<char16_t*>(data.data() + 2), (data.size() / 2) - 2);
 
-      if (str.startsWith("MSFT100")) {
+      if (str.startsWith(QStringLiteral("MSFT100"))) {
         // We got the OS descriptor!
         char vendor_code = data[16];
         ret = DeviceRequest(dev, kUSBIn, kUSBVendor, kUSBDevice, vendor_code, 0, 4, 256, &data);
         if (!ret || data.at(0) != 0x28)
           continue;
 
-        if (QString::fromLatin1(data.data() + 0x12, 3) != "MTP") {
+        if (QString::fromLatin1(data.data() + 0x12, 3) != QStringLiteral("MTP")) {
           // Not quite.
           continue;
         }
@@ -613,7 +617,7 @@ void MacOsDeviceLister::USBDeviceAddedCallback(void *refcon, io_iterator_t it) {
           continue;
         }
 
-        if (QString::fromLatin1(data.data() + 0x12, 3) != "MTP") {
+        if (QString::fromLatin1(data.data() + 0x12, 3) != QStringLiteral("MTP")) {
           // Not quite.
           continue;
         }
@@ -674,7 +678,7 @@ void MacOsDeviceLister::FoundMTPDevice(const MTPDevice &device, const QString &s
 
 }
 
-bool IsMTPSerial(const QString &serial) { return serial.startsWith("MTP"); }
+bool IsMTPSerial(const QString &serial) { return serial.startsWith(QStringLiteral("MTP")); }
 
 bool MacOsDeviceLister::IsCDDevice(const QString &serial) const {
   return cd_devices_.contains(serial);
@@ -688,7 +692,7 @@ QString MacOsDeviceLister::MakeFriendlyName(const QString &serial) {
       return device.product;
     }
     else {
-      return device.vendor + " " + device.product;
+      return device.vendor + QLatin1Char(' ') + device.product;
     }
   }
 
@@ -711,7 +715,7 @@ QString MacOsDeviceLister::MakeFriendlyName(const QString &serial) {
   if (vendor.isEmpty()) {
     return product;
   }
-  return vendor + " " + product;
+  return vendor + QLatin1Char(' ') + product;
 
 }
 
@@ -721,18 +725,18 @@ QList<QUrl> MacOsDeviceLister::MakeDeviceUrls(const QString &serial) {
     const MTPDevice &device = mtp_devices_[serial];
     QString str = QString::asprintf("gphoto2://usb-%d-%d/", device.bus, device.address);
     QUrlQuery url_query;
-    url_query.addQueryItem("vendor", device.vendor);
-    url_query.addQueryItem("vendor_id", QString::number(device.vendor_id));
-    url_query.addQueryItem("product", device.product);
-    url_query.addQueryItem("product_id", QString::number(device.product_id));
-    url_query.addQueryItem("quirks", QString::number(device.quirks));
+    url_query.addQueryItem(QStringLiteral("vendor"), device.vendor);
+    url_query.addQueryItem(QStringLiteral("vendor_id"), QString::number(device.vendor_id));
+    url_query.addQueryItem(QStringLiteral("product"), device.product);
+    url_query.addQueryItem(QStringLiteral("product_id"), QString::number(device.product_id));
+    url_query.addQueryItem(QStringLiteral("quirks"), QString::number(device.quirks));
     QUrl url(str);
     url.setQuery(url_query);
     return QList<QUrl>() << url;
   }
 
   if (IsCDDevice(serial)) {
-    return QList<QUrl>() << QUrl(QString("cdda:///dev/r" + serial));
+    return QList<QUrl>() << QUrl(QStringLiteral("cdda:///dev/r") + serial);
   }
 
   QString bsd_name = current_devices_[serial];
@@ -760,7 +764,7 @@ QVariantList MacOsDeviceLister::DeviceIcons(const QString &serial) {
   }
 
   if (IsCDDevice(serial)) {
-    return QVariantList() << "media-optical";
+    return QVariantList() << QStringLiteral("media-optical");
   }
 
   QString bsd_name = current_devices_[serial];

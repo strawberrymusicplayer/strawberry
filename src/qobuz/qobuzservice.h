@@ -63,6 +63,7 @@ class QobuzService : public InternetService {
 
   static const Song::Source kSource;
   static const char kApiUrl[];
+  static const int kLoginAttempts;
 
   void Exit() override;
   void ReloadSettings() override;
@@ -146,19 +147,6 @@ class QobuzService : public InternetService {
   QString DecodeAppSecret(const QString &app_secret_base64) const;
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
-
-  static const char kAuthUrl[];
-
-  static const int kLoginAttempts;
-  static const int kTimeResetLoginAttempts;
-
-  static const char kArtistsSongsTable[];
-  static const char kAlbumsSongsTable[];
-  static const char kSongsTable[];
-
-  static const char kArtistsSongsFtsTable[];
-  static const char kAlbumsSongsFtsTable[];
-  static const char kSongsFtsTable[];
 
   Application *app_;
   SharedPtr<NetworkAccessManager> network_;

@@ -39,13 +39,13 @@ FilesystemMusicStorage::FilesystemMusicStorage(const Song::Source source, const 
 bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job, QString &error_text) {
 
   const QFileInfo src = QFileInfo(job.source_);
-  const QFileInfo dest = QFileInfo(root_ + "/" + job.destination_);
+  const QFileInfo dest = QFileInfo(root_ + QLatin1Char('/') + job.destination_);
 
   QFileInfo cover_src;
   QFileInfo cover_dest;
   if (job.albumcover_ && !job.cover_source_.isEmpty() && !job.cover_dest_.isEmpty()) {
     cover_src = QFileInfo(job.cover_source_);
-    cover_dest = QFileInfo(root_ + "/" + job.cover_dest_);
+    cover_dest = QFileInfo(root_ + QLatin1Char('/') + job.cover_dest_);
   }
 
   // Don't do anything if the destination is the same as the source

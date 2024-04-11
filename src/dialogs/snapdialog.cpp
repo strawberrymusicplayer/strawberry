@@ -86,7 +86,7 @@ SnapDialog::SnapDialog(QWidget *parent) : MessageDialog(parent) {
   ui_->label_text->adjustSize();
   adjustSize();
 
-  settings_group_ = MainWindow::kSettingsGroup;
+  settings_group_ = QLatin1String(MainWindow::kSettingsGroup);
   do_not_show_message_again_ = QStringLiteral("ignore_snap");
 
   if (parent) {

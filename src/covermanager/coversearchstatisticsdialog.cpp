@@ -43,7 +43,7 @@ CoverSearchStatisticsDialog::CoverSearchStatisticsDialog(QWidget *parent)
   details_layout_->setSpacing(0);
 
   setStyleSheet(
-      "#details {"
+      QStringLiteral("#details {"
       "  background-color: palette(base);"
       "}"
       "#details QLabel[type=\"label\"] {"
@@ -54,7 +54,7 @@ CoverSearchStatisticsDialog::CoverSearchStatisticsDialog(QWidget *parent)
       "#details QLabel[type=\"value\"] {"
       "  font-weight: bold;"
       "  max-width: 100px;"
-      "}");
+      "}"));
 }
 
 CoverSearchStatisticsDialog::~CoverSearchStatisticsDialog() { delete ui_; }
@@ -92,8 +92,8 @@ void CoverSearchStatisticsDialog::AddLine(const QString &label, const QString &v
   QLabel *label1 = new QLabel(label);
   QLabel *label2 = new QLabel(value);
 
-  label1->setProperty("type", "label");
-  label2->setProperty("type", "value");
+  label1->setProperty("type", QStringLiteral("label"));
+  label2->setProperty("type", QStringLiteral("value"));
 
   QHBoxLayout *layout = new QHBoxLayout;
   layout->addWidget(label1);

@@ -38,8 +38,10 @@
 #include "kglobalaccel.h"
 #include "kglobalaccelcomponent.h"
 
-const char *GlobalShortcutsBackendKDE::kKdeService = "org.kde.kglobalaccel";
-const char *GlobalShortcutsBackendKDE::kKdePath = "/kglobalaccel";
+namespace {
+constexpr char kKdeService[] = "org.kde.kglobalaccel";
+constexpr char kKdePath[] = "/kglobalaccel";
+}
 
 GlobalShortcutsBackendKDE::GlobalShortcutsBackendKDE(GlobalShortcutsManager *manager, QObject *parent)
     : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type::KDE, parent),
@@ -48,7 +50,7 @@ GlobalShortcutsBackendKDE::GlobalShortcutsBackendKDE(GlobalShortcutsManager *man
 
 bool GlobalShortcutsBackendKDE::IsKDEAvailable() {
 
-  return QDBusConnection::sessionBus().interface()->isServiceRegistered(kKdeService);
+  return QDBusConnection::sessionBus().interface()->isServiceRegistered(QLatin1String(kKdeService));
 
 }
 
@@ -72,13 +74,13 @@ bool GlobalShortcutsBackendKDE::DoRegister() {
 
   qLog(Debug) << "Registering";
 
-  if (!QDBusConnection::sessionBus().interface()->isServiceRegistered(kKdeService)) {
+  if (!QDBusConnection::sessionBus().interface()->isServiceRegistered(QLatin1String(kKdeService))) {
     qLog(Warning) << "KGlobalAccel is not registered";
     return false;
   }
 
   if (!interface_) {
-    interface_ = new OrgKdeKGlobalAccelInterface(kKdeService, kKdePath, QDBusConnection::sessionBus(), this);
+    interface_ = new OrgKdeKGlobalAccelInterface(QLatin1String(kKdeService), QLatin1String(kKdePath), QDBusConnection::sessionBus(), this);
   }
 
   QList<GlobalShortcutsManager::Shortcut> shortcuts = manager_->shortcuts().values();
@@ -100,14 +102,14 @@ void GlobalShortcutsBackendKDE::RegisterFinished(QDBusPendingCallWatcher *watche
   watcher->deleteLater();
 
   if (!reply.isValid()) {
-    if (reply.error().name() != "org.kde.kglobalaccel.NoSuchComponent") {
+    if (reply.error().name() != QStringLiteral("org.kde.kglobalaccel.NoSuchComponent")) {
       qLog(Error) << "Failed to register:" << reply.error().name() << reply.error().message();
     }
     return;
   }
 
   if (!component_) {
-    component_ = new org::kde::kglobalaccel::Component(kKdeService, reply.value().path(), QDBusConnection::sessionBus(), interface_);
+    component_ = new org::kde::kglobalaccel::Component(QLatin1String(kKdeService), reply.value().path(), QDBusConnection::sessionBus(), interface_);
   }
 
   if (!component_->isValid()) {
@@ -174,7 +176,7 @@ QStringList GlobalShortcutsBackendKDE::GetActionId(const QString &id, const QAct
   ret << QCoreApplication::applicationName();
   ret << id;
   ret << QCoreApplication::applicationName();
-  ret << action->text().remove('&');
+  ret << action->text().remove(QLatin1Char('&'));
   if (ret.back().isEmpty()) ret.back() = id;
 
   return ret;

@@ -226,7 +226,7 @@ void GME::VGM::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
 #else
   fileTagStream.setCodec("UTF-16");
 #endif
-  QStringList strings = fileTagStream.readLine(0).split(QChar('\0'));
+  QStringList strings = fileTagStream.readLine(0).split(QLatin1Char('\0'));
   if (strings.count() < 10) return;
 
   // VGM standard dictates string tag data exist in specific order.

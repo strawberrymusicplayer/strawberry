@@ -55,31 +55,31 @@ SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *pare
 QUrl SubsonicBaseRequest::CreateUrl(const QUrl &server_url, const SubsonicSettingsPage::AuthMethod auth_method, const QString &username, const QString &password, const QString &ressource_name, const ParamList &params_provided) {
 
   ParamList params = ParamList() << params_provided
-                                 << Param("c", SubsonicService::kClientName)
-                                 << Param("v", SubsonicService::kApiVersion)
-                                 << Param("f", "json")
-                                 << Param("u", username);
+                                 << Param(QStringLiteral("c"), QLatin1String(SubsonicService::kClientName))
+                                 << Param(QStringLiteral("v"), QLatin1String(SubsonicService::kApiVersion))
+                                 << Param(QStringLiteral("f"), QStringLiteral("json"))
+                                 << Param(QStringLiteral("u"), username);
 
   if (auth_method == SubsonicSettingsPage::AuthMethod::Hex) {
-    params << Param("p", QString("enc:" + password.toUtf8().toHex()));
+    params << Param(QStringLiteral("p"), QStringLiteral("enc:") + QString::fromUtf8(password.toUtf8().toHex()));
   }
   else {
     const QString salt = Utilities::CryptographicRandomString(20);
     QCryptographicHash md5(QCryptographicHash::Md5);
     md5.addData(password.toUtf8());
     md5.addData(salt.toUtf8());
-    params << Param("s", salt);
-    params << Param("t", md5.result().toHex());
+    params << Param(QStringLiteral("s"), salt);
+    params << Param(QStringLiteral("t"), QString::fromUtf8(md5.result().toHex()));
   }
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
   QUrl url(server_url);
 
-  if (!url.path().isEmpty() && url.path().right(1) == "/") {
+  if (!url.path().isEmpty() && url.path().right(1) == QStringLiteral("/")) {
     url.setPath(url.path() + QStringLiteral("rest/") + ressource_name + QStringLiteral(".view"));
   }
   else {
@@ -97,13 +97,13 @@ QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_na
   QUrl url = CreateUrl(server_url(), auth_method(), username(), password(), ressource_name, params_provided);
   QNetworkRequest req(url);
 
-  if (url.scheme() == "https" && !verify_certificate()) {
+  if (url.scheme() == QStringLiteral("https") && !verify_certificate()) {
     QSslConfiguration sslconfig = QSslConfiguration::defaultConfiguration();
     sslconfig.setPeerVerifyMode(QSslSocket::VerifyNone);
     req.setSslConfiguration(sslconfig);
   }
 
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -222,7 +222,7 @@ QString SubsonicBaseRequest::ErrorsToHTML(const QStringList &errors) {
 
   QString error_html;
   for (const QString &error : errors) {
-    error_html += error + "<br />";
+    error_html += error + QStringLiteral("<br />");
   }
   return error_html;
 

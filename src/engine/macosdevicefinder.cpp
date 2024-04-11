@@ -63,7 +63,7 @@ std::unique_ptr<T> GetProperty(const AudioDeviceID &device_id, const AudioObject
 }  // namespace
 
 
-MacOsDeviceFinder::MacOsDeviceFinder() : DeviceFinder("osxaudio", { "osxaudio", "osx", "osxaudiosink" }) {}
+MacOsDeviceFinder::MacOsDeviceFinder() : DeviceFinder(QStringLiteral("osxaudio"), { QStringLiteral("osxaudio"), QStringLiteral("osx"), QStringLiteral("osxaudiosink") }) {}
 
 EngineDeviceList MacOsDeviceFinder::ListDevices() {
 
@@ -107,7 +107,7 @@ EngineDeviceList MacOsDeviceFinder::ListDevices() {
     EngineDevice device;
     device.value = id;
     device.description = QString::fromUtf8(CFStringGetCStringPtr(*device_name, CFStringGetSystemEncoding()));
-    if (device.description.isEmpty()) device.description = QString("Unknown device " + device.value.toString());
+    if (device.description.isEmpty()) device.description = QStringLiteral("Unknown device ") + device.value.toString();
     device.iconname = device.GuessIconName();
     device_list.append(device);
   }
@@ -115,4 +115,3 @@ EngineDeviceList MacOsDeviceFinder::ListDevices() {
   return device_list;
 
 }
-

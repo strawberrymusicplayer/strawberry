@@ -37,9 +37,11 @@
 
 #include "gnomesettingsdaemon.h"
 
-const char *GlobalShortcutsBackendGnome::kService1 = "org.gnome.SettingsDaemon.MediaKeys";
-const char *GlobalShortcutsBackendGnome::kService2 = "org.gnome.SettingsDaemon";
-const char *GlobalShortcutsBackendGnome::kPath = "/org/gnome/SettingsDaemon/MediaKeys";
+namespace {
+constexpr char kService1[] = "org.gnome.SettingsDaemon.MediaKeys";
+constexpr char kService2[] = "org.gnome.SettingsDaemon";
+constexpr char kPath[] = "/org/gnome/SettingsDaemon/MediaKeys";
+}  // namespace
 
 GlobalShortcutsBackendGnome::GlobalShortcutsBackendGnome(GlobalShortcutsManager *manager, QObject *parent)
     : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type::Gnome, parent),
@@ -52,7 +54,7 @@ bool GlobalShortcutsBackendGnome::IsAvailable() const {
 
 bool GlobalShortcutsBackendGnome::IsGnomeAvailable() {
 
-  return QDBusConnection::sessionBus().interface()->isServiceRegistered(kService1) || QDBusConnection::sessionBus().interface()->isServiceRegistered(kService2);
+  return QDBusConnection::sessionBus().interface()->isServiceRegistered(QLatin1String(kService1)) || QDBusConnection::sessionBus().interface()->isServiceRegistered(QLatin1String(kService2));
 
 }
 
@@ -61,11 +63,11 @@ bool GlobalShortcutsBackendGnome::DoRegister() {
   qLog(Debug) << "Registering";
 
   if (!interface_) {
-    if (QDBusConnection::sessionBus().interface()->isServiceRegistered(kService1)) {
-      interface_ = new OrgGnomeSettingsDaemonMediaKeysInterface(kService1, kPath, QDBusConnection::sessionBus(), this);
+    if (QDBusConnection::sessionBus().interface()->isServiceRegistered(QLatin1String(kService1))) {
+      interface_ = new OrgGnomeSettingsDaemonMediaKeysInterface(QLatin1String(kService1), QLatin1String(kPath), QDBusConnection::sessionBus(), this);
     }
-    else if (QDBusConnection::sessionBus().interface()->isServiceRegistered(kService2)) {
-      interface_ = new OrgGnomeSettingsDaemonMediaKeysInterface(kService2, kPath, QDBusConnection::sessionBus(), this);
+    else if (QDBusConnection::sessionBus().interface()->isServiceRegistered(QLatin1String(kService2))) {
+      interface_ = new OrgGnomeSettingsDaemonMediaKeysInterface(QLatin1String(kService2), QLatin1String(kPath), QDBusConnection::sessionBus(), this);
     }
   }
 
@@ -116,9 +118,9 @@ void GlobalShortcutsBackendGnome::DoUnregister() {
 void GlobalShortcutsBackendGnome::GnomeMediaKeyPressed(const QString&, const QString &key) {
 
   auto shortcuts = manager_->shortcuts();
-  if (key == "Play") shortcuts[QStringLiteral("play_pause")].action->trigger();
-  if (key == "Stop") shortcuts[QStringLiteral("stop")].action->trigger();
-  if (key == "Next") shortcuts[QStringLiteral("next_track")].action->trigger();
-  if (key == "Previous") shortcuts[QStringLiteral("prev_track")].action->trigger();
+  if (key == QStringLiteral("Play")) shortcuts[QStringLiteral("play_pause")].action->trigger();
+  if (key == QStringLiteral("Stop")) shortcuts[QStringLiteral("stop")].action->trigger();
+  if (key == QStringLiteral("Next")) shortcuts[QStringLiteral("next_track")].action->trigger();
+  if (key == QStringLiteral("Previous")) shortcuts[QStringLiteral("prev_track")].action->trigger();
 
 }

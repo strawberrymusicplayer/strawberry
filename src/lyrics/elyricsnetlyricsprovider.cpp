@@ -28,17 +28,19 @@
 #include "lyricssearchrequest.h"
 #include "elyricsnetlyricsprovider.h"
 
-const char ElyricsNetLyricsProvider::kUrl[] = "https://www.elyrics.net/read/";
-const char ElyricsNetLyricsProvider::kStartTag[] = "<div[^>]*>";
-const char ElyricsNetLyricsProvider::kEndTag[] = "<\\/div>";
-const char ElyricsNetLyricsProvider::kLyricsStart[] = "<div id='inlyr'>";
+namespace {
+constexpr char kUrl[] = "https://www.elyrics.net/read/";
+constexpr char kStartTag[] = "<div[^>]*>";
+constexpr char kEndTag[] = "<\\/div>";
+constexpr char kLyricsStart[] = "<div id='inlyr'>";
+}  // namespace
 
 ElyricsNetLyricsProvider::ElyricsNetLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : HtmlLyricsProvider(QStringLiteral("elyrics.net"), true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
+    : HtmlLyricsProvider(QStringLiteral("elyrics.net"), true, QLatin1String(kStartTag), QLatin1String(kEndTag), QLatin1String(kLyricsStart), false, network, parent) {}
 
 QUrl ElyricsNetLyricsProvider::Url(const LyricsSearchRequest &request) {
 
-  return QUrl(kUrl + request.artist[0].toLower() + "/" + StringFixup(request.artist) + "-lyrics/" + StringFixup(request.title) + "-lyrics.html");
+  return QUrl(QLatin1String(kUrl) + request.artist[0].toLower() + QLatin1Char('/') + StringFixup(request.artist) + QStringLiteral("-lyrics/") + StringFixup(request.title) + QStringLiteral("-lyrics.html"));
 
 }
 
@@ -48,7 +50,7 @@ QString ElyricsNetLyricsProvider::StringFixup(const QString &text) {
     .replace(QRegularExpression(QStringLiteral("[^\\w0-9_,&\\-\\(\\) ]")), QStringLiteral("_"))
     .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
     .simplified()
-    .replace(' ', '-')
+    .replace(QLatin1Char(' '), QLatin1Char('-'))
     .toLower();
 
 }

@@ -56,7 +56,7 @@ bool HtmlLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &re
   QUrl url(Url(request));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (X11; Linux x86_64; rv:122.0) Gecko/20100101 Firefox/122.0");
+  req.setHeader(QNetworkRequest::UserAgentHeader, QStringLiteral("Mozilla/5.0 (X11; Linux x86_64; rv:122.0) Gecko/20100101 Firefox/122.0"));
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleLyricsReply(reply, id, request); });
@@ -154,11 +154,11 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
 
     if (end_lyrics_idx != -1 && start_lyrics_idx < end_lyrics_idx) {
       if (!lyrics.isEmpty()) {
-        lyrics.append("\n");
+        lyrics.append(QLatin1Char('\n'));
       }
       lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx)
-                           .remove('\r')
-                           .remove('\n')
+                           .remove(QLatin1Char('\r'))
+                           .remove(QLatin1Char('\n'))
                            .remove(QRegularExpression(QStringLiteral("<a [^>]*>[^<]*</a>")))
                            .remove(QRegularExpression(QStringLiteral("<script>[^>]*</script>")))
                            .remove(QRegularExpression(QStringLiteral("<div [^>]*>×</div>")))

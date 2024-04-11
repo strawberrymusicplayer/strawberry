@@ -91,9 +91,6 @@ class BackendSettingsPage : public SettingsPage {
   void SelectDevice(const QString &device_new);
 
  private:
-  static const char *kOutputAutomaticallySelect;
-  static const char *kOutputCustom;
-
   Ui_BackendSettingsPage *ui_;
   bool configloaded_;
   bool engineloaded_;

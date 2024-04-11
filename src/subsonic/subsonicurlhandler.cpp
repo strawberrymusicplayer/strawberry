@@ -45,7 +45,7 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
 
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
-  const QUrl stream_url = SubsonicBaseRequest::CreateUrl(server_url(), auth_method(), username(), password(), QStringLiteral("stream"), ParamList() << Param("id", url.path()));
+  const QUrl stream_url = SubsonicBaseRequest::CreateUrl(server_url(), auth_method(), username(), password(), QStringLiteral("stream"), ParamList() << Param(QStringLiteral("id"), url.path()));
 
   return LoadResult(url, LoadResult::Type::TrackAvailable, stream_url);
 

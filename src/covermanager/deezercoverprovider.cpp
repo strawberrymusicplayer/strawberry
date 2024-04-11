@@ -47,8 +47,10 @@
 #include "jsoncoverprovider.h"
 #include "deezercoverprovider.h"
 
-const char *DeezerCoverProvider::kApiUrl = "https://api.deezer.com";
-const int DeezerCoverProvider::kLimit = 10;
+namespace {
+constexpr char kApiUrl[] = "https://api.deezer.com";
+constexpr int kLimit = 10;
+}
 
 DeezerCoverProvider::DeezerCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(QStringLiteral("Deezer"), true, false, 2.0, true, true, app, network, parent) {}
@@ -72,27 +74,27 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
   QString query = artist;
   if (album.isEmpty() && !title.isEmpty()) {
     resource = QStringLiteral("search/track");
-    if (!query.isEmpty()) query.append(" ");
+    if (!query.isEmpty()) query.append(QLatin1Char(' '));
     query.append(title);
   }
   else {
     resource = QStringLiteral("search/album");
     if (!album.isEmpty()) {
-      if (!query.isEmpty()) query.append(" ");
+      if (!query.isEmpty()) query.append(QLatin1Char(' '));
       query.append(album);
     }
   }
 
-  const ParamList params = ParamList() << Param("output", "json")
-                                       << Param("q", query)
-                                       << Param("limit", QString::number(kLimit));
+  const ParamList params = ParamList() << Param(QStringLiteral("output"), QStringLiteral("json"))
+                                       << Param(QStringLiteral("q"), query)
+                                       << Param(QStringLiteral("limit"), QString::number(kLimit));
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(kApiUrl + QStringLiteral("/") + resource);
+  QUrl url(QLatin1String(kApiUrl) + QLatin1Char('/') + resource);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -237,7 +239,7 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
       continue;
     }
     QString type = obj_album[QStringLiteral("type")].toString();
-    if (type != "album") {
+    if (type != QStringLiteral("album")) {
       Error(QStringLiteral("Invalid Json reply, data array value album object has incorrect type returned"), obj_album);
       continue;
     }

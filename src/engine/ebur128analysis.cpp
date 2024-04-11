@@ -208,7 +208,7 @@ class EBUR128AnalysisImpl {
 FrameFormat::FrameFormat(GstCaps *caps) : channels(0), channel_mask(0), samplerate(0) {
 
   GstStructure *structure = gst_caps_get_structure(caps, 0);
-  QString format_str = gst_structure_get_string(structure, "format");
+  QString format_str = QString::fromUtf8(gst_structure_get_string(structure, "format"));
   gst_structure_get_int(structure, "rate", &samplerate);
   gst_structure_get_int(structure, "channels", &channels);
   const GValue *value = gst_structure_get_value(structure, "channel-mask");
@@ -216,16 +216,16 @@ FrameFormat::FrameFormat(GstCaps *caps) : channels(0), channel_mask(0), samplera
     channel_mask = gst_value_get_bitmask(value);
   }
 
-  if (format_str == "S16LE") {
+  if (format_str == QStringLiteral("S16LE")) {
     format = DataFormat::S16;
   }
-  else if (format_str == "S32LE") {
+  else if (format_str == QStringLiteral("S32LE")) {
     format = DataFormat::S32;
   }
-  else if (format_str == "F32LE") {
+  else if (format_str == QStringLiteral("F32LE")) {
     format = DataFormat::FP32;
   }
-  else if (format_str == "F64LE") {
+  else if (format_str == QStringLiteral("F64LE")) {
     format = DataFormat::FP64;
   }
   else {

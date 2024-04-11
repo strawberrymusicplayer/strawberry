@@ -43,6 +43,7 @@
 
 #include "core/application.h"
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
 #include "collection/collection.h"
@@ -112,7 +113,7 @@ CollectionSettingsPage::~CollectionSettingsPage() { delete ui_; }
 
 void CollectionSettingsPage::Add() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   QString path(s.value("last_path", QStandardPaths::writableLocation(QStandardPaths::MusicLocation)).toString());
@@ -173,7 +174,7 @@ void CollectionSettingsPage::Load() {
     QObject::connect(ui_->list->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &CollectionSettingsPage::CurrentRowChanged);
   }
 
-  QSettings s;
+  Settings s;
 
   s.beginGroup(kSettingsGroup);
   ui_->auto_open->setChecked(s.value("auto_open", true).toBool());
@@ -215,13 +216,13 @@ void CollectionSettingsPage::Load() {
   ui_->disk_cache_in_use->setText((dialog()->app()->collection_model()->icon_cache_disk_size() == 0 ? QStringLiteral("empty") : Utilities::PrettySize(dialog()->app()->collection_model()->icon_cache_disk_size())));
 
   Init(ui_->layout_collectionsettingspage->parentWidget());
-  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
 }
 
 void CollectionSettingsPage::Save() {
 
-  QSettings s;
+  Settings s;
 
   s.beginGroup(kSettingsGroup);
   s.setValue("auto_open", ui_->auto_open->isChecked());
@@ -238,9 +239,9 @@ void CollectionSettingsPage::Save() {
   QString filter_text = ui_->cover_art_patterns->text();
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-  QStringList filters = filter_text.split(',', Qt::SkipEmptyParts);
+  QStringList filters = filter_text.split(QLatin1Char(','), Qt::SkipEmptyParts);
 #else
-  QStringList filters = filter_text.split(',', QString::SkipEmptyParts);
+  QStringList filters = filter_text.split(QLatin1Char(','), QString::SkipEmptyParts);
 #endif
 
   s.setValue("cover_art_patterns", filters);

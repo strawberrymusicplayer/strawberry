@@ -32,7 +32,11 @@
 #include "transcoderoptionsspeex.h"
 #include "ui_transcoderoptionsspeex.h"
 
-const char *TranscoderOptionsSpeex::kSettingsGroup = "Transcoder/speexenc";
+#include "core/settings.h"
+
+namespace {
+constexpr char kSettingsGroup[] = "Transcoder/speexenc";
+}
 
 TranscoderOptionsSpeex::TranscoderOptionsSpeex(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsSpeex) {
   ui_->setupUi(this);
@@ -44,8 +48,8 @@ TranscoderOptionsSpeex::~TranscoderOptionsSpeex() {
 
 void TranscoderOptionsSpeex::Load() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
 
   ui_->quality_slider->setValue(s.value("quality", 10).toInt());
   ui_->bitrate_slider->setValue(s.value("bitrate", 0).toInt() / 1000);
@@ -63,8 +67,8 @@ void TranscoderOptionsSpeex::Load() {
 
 void TranscoderOptionsSpeex::Save() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
 
   s.setValue("quality", ui_->quality_slider->value());
   s.setValue("bitrate", ui_->bitrate_slider->value() * 1000);

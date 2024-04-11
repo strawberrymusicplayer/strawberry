@@ -44,10 +44,12 @@
 #include "jsoncoverprovider.h"
 #include "musicbrainzcoverprovider.h"
 
-const char *MusicbrainzCoverProvider::kReleaseSearchUrl = "https://musicbrainz.org/ws/2/release/";
-const char *MusicbrainzCoverProvider::kAlbumCoverUrl = "https://coverartarchive.org/release/%1/front";
-const int MusicbrainzCoverProvider::kLimit = 8;
-const int MusicbrainzCoverProvider::kRequestsDelay = 1000;
+namespace {
+constexpr char kReleaseSearchUrl[] = "https://musicbrainz.org/ws/2/release/";
+constexpr char kAlbumCoverUrl[] = "https://coverartarchive.org/release/%1/front";
+constexpr int kLimit = 8;
+constexpr int kRequestsDelay = 1000;
+}  // namespace
 
 MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(QStringLiteral("MusicBrainz"), true, false, 1.5, true, false, app, network, parent),
@@ -89,14 +91,14 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
 
 void MusicbrainzCoverProvider::SendSearchRequest(const SearchRequest &request) {
 
-  QString query = QStringLiteral("release:\"%1\" AND artist:\"%2\"").arg(request.album.trimmed().replace('"', QLatin1String("\\\"")), request.artist.trimmed().replace('"', QLatin1String("\\\"")));
+  QString query = QStringLiteral("release:\"%1\" AND artist:\"%2\"").arg(request.album.trimmed().replace(QLatin1Char('"'), QLatin1String("\\\"")), request.artist.trimmed().replace(QLatin1Char('"'), QLatin1String("\\\"")));
 
   QUrlQuery url_query;
   url_query.addQueryItem(QStringLiteral("query"), query);
   url_query.addQueryItem(QStringLiteral("limit"), QString::number(kLimit));
   url_query.addQueryItem(QStringLiteral("fmt"), QStringLiteral("json"));
 
-  QUrl url(kReleaseSearchUrl);
+  QUrl url(QString::fromLatin1(kReleaseSearchUrl));
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -214,7 +216,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     QString album = obj_release[QStringLiteral("title")].toString();
 
     CoverProviderSearchResult cover_result;
-    QUrl url(QString(kAlbumCoverUrl).arg(id));
+    QUrl url(QString::fromLatin1(kAlbumCoverUrl).arg(id));
     cover_result.artist = artist;
     cover_result.album = album;
     cover_result.image_url = url;

@@ -172,15 +172,6 @@ class TidalRequest : public TidalBaseRequest {
   static void Warn(const QString &error, const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
-  static const char kResourcesUrl[];
-  static const int kMaxConcurrentArtistsRequests;
-  static const int kMaxConcurrentAlbumsRequests;
-  static const int kMaxConcurrentSongsRequests;
-  static const int kMaxConcurrentArtistAlbumsRequests;
-  static const int kMaxConcurrentAlbumSongsRequests;
-  static const int kMaxConcurrentAlbumCoverRequests;
-  static const int kFlushRequestsDelay;
-
   TidalService *service_;
   TidalUrlHandler *url_handler_;
   Application *app_;

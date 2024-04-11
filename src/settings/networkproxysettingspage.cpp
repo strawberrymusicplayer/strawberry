@@ -32,6 +32,7 @@
 
 #include "core/iconloader.h"
 #include "core/networkproxyfactory.h"
+#include "core/settings.h"
 #include "networkproxysettingspage.h"
 #include "settings/settingspage.h"
 #include "ui_networkproxysettingspage.h"
@@ -53,7 +54,7 @@ NetworkProxySettingsPage::~NetworkProxySettingsPage() { delete ui_; }
 
 void NetworkProxySettingsPage::Load() {
 
-  QSettings s;
+  Settings s;
 
   s.beginGroup(NetworkProxyFactory::kSettingsGroup);
   const NetworkProxyFactory::Mode mode = static_cast<NetworkProxyFactory::Mode>(s.value("mode", static_cast<int>(NetworkProxyFactory::Mode::System)).toInt());
@@ -82,13 +83,13 @@ void NetworkProxySettingsPage::Load() {
 
   Init(ui_->layout_networkproxysettingspage->parentWidget());
 
-  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
 }
 
 void NetworkProxySettingsPage::Save() {
 
-  QSettings s;
+  Settings s;
 
   NetworkProxyFactory::Mode mode = NetworkProxyFactory::Mode::System;
   if (ui_->proxy_direct->isChecked()) mode = NetworkProxyFactory::Mode::Direct;

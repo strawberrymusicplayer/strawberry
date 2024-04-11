@@ -49,8 +49,6 @@ class TranscodeDialog : public QDialog {
   ~TranscodeDialog() override;
 
   static const char *kSettingsGroup;
-  static const int kProgressInterval;
-  static const int kMaxDestinationItems;
 
   void SetFilenames(const QStringList &filenames);
 

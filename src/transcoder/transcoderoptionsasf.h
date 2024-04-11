@@ -40,8 +40,6 @@ class TranscoderOptionsASF : public TranscoderOptionsInterface {
   void Save() override;
 
  private:
-  static const char *kSettingsGroup;
-
   Ui_TranscoderOptionsASF *ui_;
 };
 

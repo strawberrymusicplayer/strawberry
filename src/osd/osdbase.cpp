@@ -34,6 +34,7 @@
 #include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/logging.h"
+#include "core/settings.h"
 #ifdef Q_OS_MACOS
 #  include "core/macsystemtrayicon.h"
 #else
@@ -74,7 +75,7 @@ OSDBase::~OSDBase() {
 
 void OSDBase::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   behaviour_ = static_cast<OSDBase::Behaviour>(s.value("Behaviour", static_cast<int>(Behaviour::Native)).toInt());
   timeout_msec_ = s.value("Timeout", 5000).toInt();
@@ -200,7 +201,7 @@ void OSDBase::Paused() {
     else {
       summary = last_song_.PrettyTitle();
       if (!last_song_.artist().isEmpty()) {
-        summary.prepend(" - ");
+        summary.prepend(QStringLiteral(" - "));
         summary.prepend(last_song_.artist());
       }
       if (behaviour_ == Behaviour::Pretty) {
@@ -245,7 +246,7 @@ void OSDBase::Stopped() {
   else {
     summary = last_song_.PrettyTitle();
     if (!last_song_.artist().isEmpty()) {
-      summary.prepend(" - ");
+      summary.prepend(QStringLiteral(" - "));
       summary.prepend(last_song_.artist());
     }
     if (behaviour_ == Behaviour::Pretty) {
@@ -385,7 +386,7 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
     case Behaviour::Native:
 #if defined(Q_OS_MACOS)
       html_escaped = false;
-      newline = "\n";
+      newline = QStringLiteral("\n");
       break;
 #elif defined(HAVE_DBUS)
       switch (type) {
@@ -394,7 +395,7 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
           newline = QLatin1String("");
           break;
         }
-        case MessageType::Message: {
+        case MessageType::Message:{
           html_escaped = true;
           newline = QStringLiteral("<br />");
           break;

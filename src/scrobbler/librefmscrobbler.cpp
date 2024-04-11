@@ -35,4 +35,4 @@ const char *LibreFMScrobbler::kApiUrl = "https://libre.fm/2.0/";
 const char *LibreFMScrobbler::kCacheFile = "librefmscrobbler.cache";
 
 LibreFMScrobbler::LibreFMScrobbler(SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : ScrobblingAPI20(kName, kSettingsGroup, kAuthUrl, kApiUrl, false, kCacheFile, settings, network, parent) {}
+    : ScrobblingAPI20(QLatin1String(kName), QLatin1String(kSettingsGroup), QLatin1String(kAuthUrl), QLatin1String(kApiUrl), false, QLatin1String(kCacheFile), settings, network, parent) {}

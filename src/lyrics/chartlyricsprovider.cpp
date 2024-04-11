@@ -37,7 +37,9 @@
 #include "lyricssearchresult.h"
 #include "chartlyricsprovider.h"
 
-const char *ChartLyricsProvider::kUrlSearch = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect";
+namespace {
+constexpr char kUrlSearch[] = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect";
+}
 
 ChartLyricsProvider::ChartLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider(QStringLiteral("ChartLyrics"), false, false, network, parent) {}
 
@@ -55,10 +57,10 @@ ChartLyricsProvider::~ChartLyricsProvider() {
 bool ChartLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   QUrlQuery url_query;
-  url_query.addQueryItem(QStringLiteral("artist"), QUrl::toPercentEncoding(request.artist));
-  url_query.addQueryItem(QStringLiteral("song"), QUrl::toPercentEncoding(request.title));
+  url_query.addQueryItem(QStringLiteral("artist"), QString::fromUtf8(QUrl::toPercentEncoding(request.artist)));
+  url_query.addQueryItem(QStringLiteral("song"), QString::fromUtf8(QUrl::toPercentEncoding(request.title)));
 
-  QUrl url(kUrlSearch);
+  QUrl url(QString::fromUtf8(kUrlSearch));
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -99,21 +101,21 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
     QXmlStreamReader::TokenType type = reader.readNext();
     QString name = reader.name().toString();
     if (type == QXmlStreamReader::StartElement) {
-      if (name == "GetLyricResult") {
+      if (name == QStringLiteral("GetLyricResult")) {
         result = LyricsSearchResult();
       }
-      if (name == "LyricArtist") {
+      if (name == QStringLiteral("LyricArtist")) {
         result.artist = reader.readElementText();
       }
-      else if (name == "LyricSong") {
+      else if (name == QStringLiteral("LyricSong")) {
         result.title = reader.readElementText();
       }
-      else if (name == "Lyric") {
+      else if (name == QStringLiteral("Lyric")) {
         result.lyrics = reader.readElementText();
       }
     }
     else if (type == QXmlStreamReader::EndElement) {
-      if (name == "GetLyricResult") {
+      if (name == QStringLiteral("GetLyricResult")) {
         if (!result.artist.isEmpty() && !result.title.isEmpty() && !result.lyrics.isEmpty() &&
             (result.artist.compare(request.albumartist, Qt::CaseInsensitive) == 0 ||
              result.artist.compare(request.artist, Qt::CaseInsensitive) == 0 ||

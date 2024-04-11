@@ -41,7 +41,7 @@ class AlbumCoverImageResult {
   QImage image;
 
   bool is_valid() const { return !image_data.isNull() || !image.isNull(); }
-  bool is_jpeg() const { return mime_type == "image/jpeg" && !image_data.isEmpty(); }
+  bool is_jpeg() const { return mime_type == QStringLiteral("image/jpeg") && !image_data.isEmpty(); }
 };
 
 Q_DECLARE_METATYPE(AlbumCoverImageResult)

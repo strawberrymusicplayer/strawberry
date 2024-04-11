@@ -51,7 +51,7 @@ QString CddaLister::DeviceManufacturer(const QString &id) {
   cdio_hwinfo_t cd_info;
   if (cdio_get_hwinfo(cdio, &cd_info)) {
     cdio_destroy(cdio);
-    return QString(cd_info.psz_vendor);
+    return QString::fromUtf8(cd_info.psz_vendor);
   }
   cdio_destroy(cdio);
   return QString();
@@ -64,7 +64,7 @@ QString CddaLister::DeviceModel(const QString &id) {
   cdio_hwinfo_t cd_info;
   if (cdio_get_hwinfo(cdio, &cd_info)) {
     cdio_destroy(cdio);
-    return QString(cd_info.psz_model);
+    return QString::fromUtf8(cd_info.psz_model);
   }
   cdio_destroy(cdio);
   return QString();
@@ -85,15 +85,15 @@ QString CddaLister::MakeFriendlyName(const QString &id) {
   cdio_hwinfo_t cd_info;
   if (cdio_get_hwinfo(cdio, &cd_info)) {
     cdio_destroy(cdio);
-    return QString(cd_info.psz_model);
+    return QString::fromUtf8(cd_info.psz_model);
   }
   cdio_destroy(cdio);
-  return QStringLiteral("CD (") + id + ")";
+  return QStringLiteral("CD (") + id + QLatin1Char(')');
 
 }
 
 QList<QUrl> CddaLister::MakeDeviceUrls(const QString &id) {
-  return QList<QUrl>() << QUrl("cdda://" + id);
+  return QList<QUrl>() << QUrl(QStringLiteral("cdda://") + id);
 }
 
 void CddaLister::UnmountDevice(const QString &id) {
@@ -116,14 +116,14 @@ bool CddaLister::Init() {
     return false;
   }
   for (; *devices != nullptr; ++devices) {
-    QString device(*devices);
+    QString device = QString::fromUtf8(*devices);
     QFileInfo device_info(device);
     if (device_info.isSymLink()) {
       device = device_info.symLinkTarget();
     }
 #ifdef Q_OS_MACOS
     // Every track is detected as a separate device on Darwin. The raw disk looks like /dev/rdisk1
-    if (!device.contains(QRegularExpression("^/dev/rdisk[0-9]$"))) {
+    if (!device.contains(QRegularExpression(QStringLiteral("^/dev/rdisk[0-9]$")))) {
       continue;
     }
 #endif

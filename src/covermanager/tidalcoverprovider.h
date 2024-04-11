@@ -63,8 +63,6 @@ class TidalCoverProvider : public JsonCoverProvider {
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
-  static const int kLimit;
-
   TidalServicePtr service_;
   QList<QNetworkReply*> replies_;
 };

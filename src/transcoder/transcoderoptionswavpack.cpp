@@ -27,7 +27,11 @@
 #include "transcoderoptionswavpack.h"
 #include "ui_transcoderoptionswavpack.h"
 
-const char *TranscoderOptionsWavPack::kSettingsGroup = "Transcoder/wavpackenc";
+#include "core/settings.h"
+
+namespace {
+constexpr char kSettingsGroup[] = "Transcoder/wavpackenc";
+}
 
 TranscoderOptionsWavPack::TranscoderOptionsWavPack(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsWavPack) {
   ui_->setupUi(this);
@@ -39,16 +43,16 @@ TranscoderOptionsWavPack::~TranscoderOptionsWavPack() {
 
 void TranscoderOptionsWavPack::Load() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
   s.endGroup();
 
 }
 
 void TranscoderOptionsWavPack::Save() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
   s.endGroup();
 
 }

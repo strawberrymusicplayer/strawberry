@@ -142,7 +142,7 @@ QString About::ContributorsHtml() const {
   ret += tr("Author and maintainer");
   ret += QLatin1String("</b>");
   for (const Person &person : strawberry_authors_) {
-    ret += "<br />" + PersonToHtml(person);
+    ret += QStringLiteral("<br />") + PersonToHtml(person);
   }
   ret += QStringLiteral("</p>");
 
@@ -151,7 +151,7 @@ QString About::ContributorsHtml() const {
   ret += tr("Contributors");
   ret += QLatin1String("</b>");
   for (const Person &person : strawberry_contributors_) {
-    ret += "<br />" + PersonToHtml(person);
+    ret += QStringLiteral("<br />") + PersonToHtml(person);
   }
   ret += QStringLiteral("</p>");
 
@@ -160,7 +160,7 @@ QString About::ContributorsHtml() const {
   ret += tr("Clementine authors");
   ret += QLatin1String("</b>");
   for (const Person &person : clementine_authors_) {
-    ret += "<br />" + PersonToHtml(person);
+    ret += QStringLiteral("<br />") + PersonToHtml(person);
   }
   ret += QStringLiteral("</p>");
 
@@ -169,7 +169,7 @@ QString About::ContributorsHtml() const {
   ret += tr("Clementine contributors");
   ret += QLatin1String("</b>");
   for (const Person &person : clementine_contributors_) {
-    ret += "<br />" + PersonToHtml(person);
+    ret += QStringLiteral("<br />") + PersonToHtml(person);
   }
   ret += QStringLiteral("</p>");
 
@@ -178,7 +178,7 @@ QString About::ContributorsHtml() const {
   ret += tr("Thanks to");
   ret += QLatin1String("</b>");
   for (const Person &person : strawberry_thanks_) {
-    ret += "<br />" + PersonToHtml(person);
+    ret += QStringLiteral("<br />") + PersonToHtml(person);
   }
   ret += QStringLiteral("</p>");
 

@@ -41,6 +41,7 @@
 #include "core/filesystemmusicstorage.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
+#include "core/settings.h"
 #include "dialogs/deleteconfirmationdialog.h"
 #include "fileview.h"
 #include "fileviewlist.h"
@@ -93,8 +94,8 @@ FileView::FileView(QWidget *parent)
   QObject::connect(ui_->list, &FileViewList::Delete, this, &FileView::Delete);
   QObject::connect(ui_->list, &FileViewList::EditTags, this, &FileView::EditTags);
 
-  QString filter(FileView::kFileFilter);
-  filter_list_ << filter.split(QStringLiteral(" "));
+  QString filter = QLatin1String(FileView::kFileFilter);
+  filter_list_ << filter.split(QLatin1Char(' '));
 
   ReloadSettings();
 
@@ -106,7 +107,7 @@ FileView::~FileView() {
 
 void FileView::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   int iconsize = s.value(AppearanceSettingsPage::kIconSizeLeftPanelButtons, 22).toInt();
   s.endGroup();

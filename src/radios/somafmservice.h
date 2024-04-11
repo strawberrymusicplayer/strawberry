@@ -53,7 +53,6 @@ class SomaFMService : public RadioService {
   void GetStreamUrlsReply(QNetworkReply *reply, const int task_id, RadioChannel channel);
 
  private:
-  static const char *kApiChannelsUrl;
   QList<QNetworkReply*> replies_;
   RadioChannelList channels_;
 };

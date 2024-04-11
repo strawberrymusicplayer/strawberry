@@ -188,7 +188,7 @@ class SpinBox : public QSpinBox, public ExtendedEditor {
 
   QVariant value() const override { return QSpinBox::value(); }
   void set_value(const QVariant &value) override { QSpinBox::setValue(value.toInt()); }
-  bool is_empty() const override { return text().isEmpty() || text() == "0"; }
+  bool is_empty() const override { return text().isEmpty() || text() == QStringLiteral("0"); }
 
  public slots:
   void set_focus() override { QSpinBox::setFocus(); }
@@ -214,7 +214,7 @@ class CheckBox : public QCheckBox, public ExtendedEditor {
   // ExtendedEditor
   void set_enabled(bool enabled) override { QCheckBox::setEnabled(enabled); }
 
-  bool is_empty() const override { return text().isEmpty() || text() == "0"; }
+  bool is_empty() const override { return text().isEmpty() || text() == QStringLiteral("0"); }
   QVariant value() const override { return QCheckBox::isChecked(); }
   void set_value(const QVariant &value) override { QCheckBox::setCheckState(value.toBool() ? Qt::Checked : Qt::Unchecked); }
   void set_partially() override { QCheckBox::setCheckState(Qt::PartiallyChecked); }

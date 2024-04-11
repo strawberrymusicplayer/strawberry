@@ -202,14 +202,6 @@ class MusicBrainzClient : public QObject {
   static void Error(const QString &error, const QVariant &debug = QVariant());
 
  private:
-
-  static const char *kTrackUrl;
-  static const char *kDiscUrl;
-  static const char *kDateRegex;
-  static const int kRequestsDelay;
-  static const int kDefaultTimeout;
-  static const int kMaxRequestPerTrack;
-
   SharedPtr<NetworkAccessManager> network_;
   NetworkTimeouts *timeouts_;
   QMultiMap<int, Request> requests_pending_;

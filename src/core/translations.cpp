@@ -39,7 +39,7 @@ Translations::~Translations() {
 void Translations::LoadTranslation(const QString &prefix, const QString &path, const QString &language) {
 
   QTranslator *t = new PoTranslator;
-  if (t->load(prefix + "_" + language, path)) {
+  if (t->load(prefix + QLatin1Char('_') + language, path)) {
     QCoreApplication::installTranslator(t);
     translations_ << t;
   }

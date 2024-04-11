@@ -65,7 +65,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
 
   // Strawberry always wants / separators internally.
   // Using QDir::fromNativeSeparators() only works on the same platform the playlist was created on/for, using replace() lets playlists work on any platform.
-  filename = filename.replace('\\', '/');
+  filename = filename.replace(QLatin1Char('\\'), QLatin1Char('/'));
 
   // Make the path absolute
   if (!QDir::isAbsolutePath(filename)) {

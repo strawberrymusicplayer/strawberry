@@ -34,7 +34,9 @@
 #include "somafmservice.h"
 #include "radiochannel.h"
 
-const char *SomaFMService::kApiChannelsUrl = "https://somafm.com/channels.json";
+namespace {
+constexpr char kApiChannelsUrl[] = "https://somafm.com/channels.json";
+}
 
 SomaFMService::SomaFMService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : RadioService(Song::Source::SomaFM, QStringLiteral("SomaFM"), IconLoader::Load(QStringLiteral("somafm")), app, network, parent) {}
@@ -63,7 +65,7 @@ void SomaFMService::GetChannels() {
 
   Abort();
 
-  QUrl url(kApiChannelsUrl);
+  QUrl url(QString::fromLatin1(kApiChannelsUrl));
   QNetworkRequest req(url);
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
@@ -110,13 +112,13 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
       }
       RadioChannel channel;
       QString quality = obj_playlist[QStringLiteral("quality")].toString();
-      if (quality != "highest") continue;
+      if (quality != QStringLiteral("highest")) continue;
       channel.source = source_;
       channel.name = name;
       channel.url.setUrl(obj_playlist[QStringLiteral("url")].toString());
       channel.thumbnail_url.setUrl(image);
       if (obj_playlist.contains(QStringLiteral("format"))) {
-        channel.name.append(" " + obj_playlist[QStringLiteral("format")].toString().toUpper());
+        channel.name.append(QLatin1Char(' ') + obj_playlist[QStringLiteral("format")].toString().toUpper());
       }
       channels << channel;
     }

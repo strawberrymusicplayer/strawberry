@@ -30,7 +30,11 @@
 #include "transcoderoptionsvorbis.h"
 #include "ui_transcoderoptionsvorbis.h"
 
-const char *TranscoderOptionsVorbis::kSettingsGroup = "Transcoder/vorbisenc";
+#include "core/settings.h"
+
+namespace {
+constexpr char kSettingsGroup[] = "Transcoder/vorbisenc";
+}
 
 TranscoderOptionsVorbis::TranscoderOptionsVorbis(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsVorbis) {
   ui_->setupUi(this);
@@ -42,8 +46,8 @@ TranscoderOptionsVorbis::~TranscoderOptionsVorbis() {
 
 void TranscoderOptionsVorbis::Load() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
 
   int bitrate = s.value("bitrate", -1).toInt();
   bitrate = bitrate == -1 ? 0 : bitrate / 1000;
@@ -66,8 +70,8 @@ void TranscoderOptionsVorbis::Load() {
 
 void TranscoderOptionsVorbis::Save() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
 
   int bitrate = ui_->bitrate_slider->value();
   bitrate = bitrate == 0 ? -1 : bitrate * 1000;

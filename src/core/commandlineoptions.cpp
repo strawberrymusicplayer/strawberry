@@ -100,7 +100,7 @@ CommandlineOptions::CommandlineOptions(int argc, char **argv)
       play_track_at_(-1),
       show_osd_(false),
       toggle_pretty_osd_(false),
-      log_levels_(logging::kDefaultLogLevels) {
+      log_levels_(QLatin1String(logging::kDefaultLogLevels)) {
 
 #ifdef Q_OS_WIN32
   Q_UNUSED(argv);
@@ -108,7 +108,7 @@ CommandlineOptions::CommandlineOptions(int argc, char **argv)
 
 #ifdef Q_OS_MACOS
   // Remove -psn_xxx option that Mac passes when opened from Finder.
-  RemoveArg("-psn", 1);
+  RemoveArg(QStringLiteral("-psn"), 1);
 #endif
 
   // Remove the -session option that KDE passes
@@ -212,9 +212,9 @@ bool CommandlineOptions::Parse() {
     if (c == -1) break;
 
     switch (c) {
-      case 'h': {
+      case 'h':{
         QString translated_help_text =
-            QString(kHelpText)
+            QString::fromUtf8(kHelpText)
                 .arg(QObject::tr("Usage"), QObject::tr("options"), QObject::tr("URL(s)"),
                      QObject::tr("Player options"),
                      QObject::tr("Start the playlist currently playing"),
@@ -309,7 +309,7 @@ bool CommandlineOptions::Parse() {
       case LongOptions::LogLevels:
         log_levels_ = OptArgToString(optarg);
         break;
-      case LongOptions::Version: {
+      case LongOptions::Version:{
         QString version_text = QString::fromUtf8(kVersionText).arg(QStringLiteral(STRAWBERRY_VERSION_DISPLAY));
         std::cout << version_text.toLocal8Bit().constData() << std::endl;
         std::exit(0);
@@ -429,7 +429,7 @@ QString CommandlineOptions::DecodeName(wchar_t *opt) {
 #else
 QString CommandlineOptions::OptArgToString(char *opt) {
 
-  return QString(opt);
+  return QString::fromUtf8(opt);
 }
 
 QString CommandlineOptions::DecodeName(char *opt) {

@@ -39,6 +39,7 @@
 #include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
+#include "core/settings.h"
 #include "utilities/timeconstants.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
@@ -112,7 +113,7 @@ void OpenTidalCoverProvider::CancelSearch(const int id) {
 
 void OpenTidalCoverProvider::LoadSession() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   token_type_ = s.value("token_type").toString();
   access_token_ = s.value("access_token").toString();
@@ -155,7 +156,7 @@ void OpenTidalCoverProvider::Login() {
   login_in_progress_ = true;
   last_login_attempt_ = QDateTime::currentDateTime();
 
-  QUrl url(kAuthUrl);
+  QUrl url(QString::fromLatin1(kAuthUrl));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setRawHeader("Authorization", "Basic " + QByteArray(QByteArray::fromBase64(kApiClientIdB64) + ":" + QByteArray::fromBase64(kApiClientSecretB64)).toBase64());
@@ -208,7 +209,7 @@ void OpenTidalCoverProvider::LoginFinished(QNetworkReply *reply) {
   login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
   expires_in_ = json_obj[QStringLiteral("expires_in")].toInt();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("token_type", token_type_);
   s.setValue("access_token", access_token_);
@@ -293,23 +294,23 @@ void OpenTidalCoverProvider::SendSearchRequest(SearchRequestPtr search_request) 
 
   QString query = search_request->artist;
   if (!search_request->album.isEmpty()) {
-    if (!query.isEmpty()) query.append(" ");
+    if (!query.isEmpty()) query.append(QLatin1Char(' '));
     query.append(search_request->album);
   }
   else if (!search_request->title.isEmpty()) {
-    if (!query.isEmpty()) query.append(" ");
+    if (!query.isEmpty()) query.append(QLatin1Char(' '));
     query.append(search_request->title);
   }
 
   QUrlQuery url_query;
-  url_query.addQueryItem(QStringLiteral("query"), QUrl::toPercentEncoding(query));
+  url_query.addQueryItem(QStringLiteral("query"), QString::fromUtf8(QUrl::toPercentEncoding(query)));
   url_query.addQueryItem(QStringLiteral("limit"), QString::number(kLimit));
   url_query.addQueryItem(QStringLiteral("countryCode"), QStringLiteral("US"));
-  QUrl url(QString(kApiUrl) + QStringLiteral("/search"));
+  QUrl url(QLatin1String(kApiUrl) + QStringLiteral("/search"));
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/vnd.tidal.v1+json");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/vnd.tidal.v1+json"));
   req.setRawHeader("Authorization", token_type_.toUtf8() + " " + access_token_.toUtf8());
 
   QNetworkReply *reply = network_->get(req);

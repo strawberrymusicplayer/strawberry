@@ -57,6 +57,10 @@
 using std::make_unique;
 using std::make_shared;
 
+namespace {
+constexpr char kUDisks2Service[] = "org.freedesktop.UDisks2";
+}
+
 Udisks2Lister::Udisks2Lister(QObject *parent) : DeviceLister(parent) {}
 
 Udisks2Lister::~Udisks2Lister() = default;
@@ -116,11 +120,11 @@ QVariantMap Udisks2Lister::DeviceHardwareInfo(const QString &id) {
   QVariantMap result;
 
   const PartitionData &data = device_data_[id];
-  result[QT_TR_NOOP("D-Bus path")] = data.dbus_path;
-  result[QT_TR_NOOP("Serial number")] = data.serial;
-  result[QT_TR_NOOP("Mount points")] = data.mount_paths.join(QStringLiteral(", "));
-  result[QT_TR_NOOP("Partition label")] = data.label;
-  result[QT_TR_NOOP("UUID")] = data.uuid;
+  result[QStringLiteral(QT_TR_NOOP("D-Bus path"))] = data.dbus_path;
+  result[QStringLiteral(QT_TR_NOOP("Serial number"))] = data.serial;
+  result[QStringLiteral(QT_TR_NOOP("Mount points"))] = data.mount_paths.join(QStringLiteral(", "));
+  result[QStringLiteral(QT_TR_NOOP("Partition label"))] = data.label;
+  result[QStringLiteral(QT_TR_NOOP("UUID"))] = data.uuid;
 
   return result;
 
@@ -149,7 +153,7 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
   QReadLocker locker(&device_data_lock_);
   if (!device_data_.contains(id)) return;
 
-  OrgFreedesktopUDisks2FilesystemInterface filesystem(udisks2_service_, device_data_[id].dbus_path, QDBusConnection::systemBus());
+  OrgFreedesktopUDisks2FilesystemInterface filesystem(QLatin1String(kUDisks2Service), device_data_[id].dbus_path, QDBusConnection::systemBus());
 
   if (filesystem.isValid()) {
     auto unmount_result = filesystem.Unmount(QVariantMap());
@@ -160,7 +164,7 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
       return;
     }
 
-    OrgFreedesktopUDisks2DriveInterface drive(udisks2_service_, device_data_[id].dbus_drive_path, QDBusConnection::systemBus());
+    OrgFreedesktopUDisks2DriveInterface drive(QLatin1String(kUDisks2Service), device_data_[id].dbus_drive_path, QDBusConnection::systemBus());
 
     if (drive.isValid()) {
       auto eject_result = drive.Eject(QVariantMap());
@@ -185,7 +189,7 @@ void Udisks2Lister::UpdateDeviceFreeSpace(const QString &id) {
 
 bool Udisks2Lister::Init() {
 
-  udisks2_interface_ = make_unique<OrgFreedesktopDBusObjectManagerInterface>(udisks2_service_, "/org/freedesktop/UDisks2", QDBusConnection::systemBus());
+  udisks2_interface_ = make_unique<OrgFreedesktopDBusObjectManagerInterface>(QLatin1String(kUDisks2Service), QStringLiteral("/org/freedesktop/UDisks2"), QDBusConnection::systemBus());
 
   QDBusPendingReply<ManagedObjectList> reply = udisks2_interface_->GetManagedObjects();
   reply.waitForFinished();
@@ -222,17 +226,17 @@ void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const Interf
 
   for (auto interface = interfaces.constBegin(); interface != interfaces.constEnd(); ++interface) {
 
-    if (interface.key() != "org.freedesktop.UDisks2.Job") continue;
+    if (interface.key() != QStringLiteral("org.freedesktop.UDisks2.Job")) continue;
 
-    SharedPtr<OrgFreedesktopUDisks2JobInterface> job = make_shared<OrgFreedesktopUDisks2JobInterface>(udisks2_service_, path.path(), QDBusConnection::systemBus());
+    SharedPtr<OrgFreedesktopUDisks2JobInterface> job = make_shared<OrgFreedesktopUDisks2JobInterface>(QLatin1String(kUDisks2Service), path.path(), QDBusConnection::systemBus());
 
     if (!job->isValid()) continue;
 
     bool is_mount_job = false;
-    if (job->operation() == "filesystem-mount") {
+    if (job->operation() == QStringLiteral("filesystem-mount")) {
       is_mount_job = true;
     }
-    else if (job->operation() == "filesystem-unmount") {
+    else if (job->operation() == QStringLiteral("filesystem-unmount")) {
       is_mount_job = false;
     }
     else {
@@ -365,11 +369,11 @@ void Udisks2Lister::HandleFinishedUnmountJob(const PartitionData &partition_data
 Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectPath &path) {
 
   PartitionData result;
-  OrgFreedesktopUDisks2FilesystemInterface filesystem(udisks2_service_, path.path(), QDBusConnection::systemBus());
-  OrgFreedesktopUDisks2BlockInterface block(udisks2_service_, path.path(), QDBusConnection::systemBus());
+  OrgFreedesktopUDisks2FilesystemInterface filesystem(QLatin1String(kUDisks2Service), path.path(), QDBusConnection::systemBus());
+  OrgFreedesktopUDisks2BlockInterface block(QLatin1String(kUDisks2Service), path.path(), QDBusConnection::systemBus());
 
   if (filesystem.isValid() && block.isValid() && !filesystem.mountPoints().empty()) {
-    OrgFreedesktopUDisks2DriveInterface drive(udisks2_service_, block.drive().path(), QDBusConnection::systemBus());
+    OrgFreedesktopUDisks2DriveInterface drive(QLatin1String(kUDisks2Service), block.drive().path(), QDBusConnection::systemBus());
 
     if (drive.isValid() && drive.mediaRemovable()) {
       result.dbus_path = path.path();
@@ -384,18 +388,14 @@ Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectP
       result.capacity = drive.size();
 
       if (result.label.isEmpty()) {
-        result.friendly_name = result.model + " " + result.uuid;
+        result.friendly_name = result.model + QLatin1Char(' ') + result.uuid;
       }
       else {
         result.friendly_name = result.label;
       }
 
       for (const QByteArray &p : filesystem.mountPoints()) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)  // Workaround a bytearray to string conversion issue with Qt 6
-        QString mountpoint = QByteArray(p.data(), static_cast<qint64>(strlen(p.data())));
-#else
-        QString mountpoint = p;
-#endif
+        const QString mountpoint = QString::fromUtf8(p.data(), p.size());
         result.mount_paths.push_back(mountpoint);
       }
 

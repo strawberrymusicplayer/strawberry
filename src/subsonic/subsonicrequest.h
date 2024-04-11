@@ -110,11 +110,6 @@ class SubsonicRequest : public SubsonicBaseRequest {
   static void Warn(const QString &error, const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
-  static const int kMaxConcurrentAlbumsRequests;
-  static const int kMaxConcurrentArtistAlbumsRequests;
-  static const int kMaxConcurrentAlbumSongsRequests;
-  static const int kMaxConcurrentAlbumCoverRequests;
-
   SubsonicService *service_;
   SubsonicUrlHandler *url_handler_;
   Application *app_;

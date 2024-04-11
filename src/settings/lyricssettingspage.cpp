@@ -39,6 +39,7 @@
 #include "ui_lyricssettingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/lyricsprovider.h"
 #include "widgets/loginstatewidget.h"
@@ -89,7 +90,7 @@ void LyricsSettingsPage::Load() {
 
   Init(ui_->layout_lyricssettingspage->parentWidget());
 
-  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
 }
 
@@ -101,7 +102,7 @@ void LyricsSettingsPage::Save() {
     if (item->checkState() == Qt::Checked) providers << item->text();  // clazy:exclude=reserve-candidates
   }
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("providers", providers);
   s.endGroup();

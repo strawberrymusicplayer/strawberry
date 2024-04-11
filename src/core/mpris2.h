@@ -232,10 +232,6 @@ class Mpris2 : public QObject {
   QString DesktopEntryAbsolutePath() const;
 
  private:
-  static const char *kMprisObjectPath;
-  static const char *kServiceName;
-  static const char *kFreedesktopPath;
-
   Application *app_;
 
   QString app_name_;

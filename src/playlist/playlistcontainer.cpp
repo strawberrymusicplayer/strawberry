@@ -48,6 +48,7 @@
 
 #include "core/shared_ptr.h"
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "playlist.h"
 #include "playlisttabbar.h"
 #include "playlistview.h"
@@ -135,7 +136,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
     QStringLiteral("</p><p>") +
 
     tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")
-      .arg(" =, !=, &lt;, &gt;, &lt;=", "&gt;=") +
+      .arg(QStringLiteral(" =, !=, &lt;, &gt;, &lt;="), QStringLiteral("&gt;=")) +
     QStringLiteral("<span style=\"font-weight:600;\">") +
     tr("rating") +
     QStringLiteral("</span>") +
@@ -144,7 +145,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
     QStringLiteral("</p><p>") +
 
     tr("Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. ")
-      .arg("AND", "OR") +
+      .arg(QStringLiteral("AND"), QStringLiteral("OR")) +
 
     QStringLiteral("</p><p><span style=\"font-weight:600;\">") +
     tr("Available fields") +
@@ -268,7 +269,7 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
 
 void PlaylistContainer::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   int iconsize = s.value(AppearanceSettingsPage::kIconSizePlaylistButtons, 20).toInt();
   s.endGroup();
@@ -305,11 +306,11 @@ void PlaylistContainer::FocusSearchField() {
 }
 
 void PlaylistContainer::ActivePlaying() {
-  UpdateActiveIcon(QIcon(":/pictures/tiny-play.png"));
+  UpdateActiveIcon(QIcon(QStringLiteral(":/pictures/tiny-play.png")));
 }
 
 void PlaylistContainer::ActivePaused() {
-  UpdateActiveIcon(QIcon(":/pictures/tiny-pause.png"));
+  UpdateActiveIcon(QIcon(QStringLiteral(":/pictures/tiny-pause.png")));
 }
 
 void PlaylistContainer::ActiveStopped() { UpdateActiveIcon(QIcon()); }

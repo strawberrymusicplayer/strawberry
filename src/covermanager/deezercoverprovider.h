@@ -55,9 +55,6 @@ class DeezerCoverProvider : public JsonCoverProvider {
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
-  static const char *kApiUrl;
-  static const int kLimit;
-
   QList<QNetworkReply*> replies_;
 };
 

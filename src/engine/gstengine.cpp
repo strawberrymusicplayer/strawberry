@@ -416,22 +416,22 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
     GstElementFactory *factory = GST_ELEMENT_FACTORY(future->data);
     const QString metadata = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS));
     const QString name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
-    if (metadata.startsWith(QLatin1String("Sink/Audio"), Qt::CaseInsensitive) || name == "pipewiresink" || (metadata.startsWith(QLatin1String("Source/Audio"), Qt::CaseInsensitive) && name.contains(QLatin1String("sink")))) {
+    if (metadata.startsWith(QLatin1String("Sink/Audio"), Qt::CaseInsensitive) || name == QStringLiteral("pipewiresink") || (metadata.startsWith(QLatin1String("Source/Audio"), Qt::CaseInsensitive) && name.contains(QLatin1String("sink")))) {
       QString description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
-      if (name == "wasapi2sink" && description == "Stream audio to an audio capture device through WASAPI") {
-        description.append("2");
+      if (name == QStringLiteral("wasapi2sink") && description == QStringLiteral("Stream audio to an audio capture device through WASAPI")) {
+        description.append(QLatin1Char('2'));
       }
-      else if (name == "pipewiresink" && description == "Send video to PipeWire") {
+      else if (name == QStringLiteral("pipewiresink") && description == QStringLiteral("Send video to PipeWire")) {
         description = QStringLiteral("Send audio to PipeWire");
       }
       OutputDetails output;
       output.name = name;
       output.description = description;
-      if (output.name == kAutoSink) output.iconname = QStringLiteral("soundcard");
-      else if (output.name == kALSASink || output.name == kOSS4Sink) output.iconname = QStringLiteral("alsa");
-      else if (output.name == kJackAudioSink) output.iconname = QStringLiteral("jack");
-      else if (output.name == kPulseSink) output.iconname = QStringLiteral("pulseaudio");
-      else if (output.name == kA2DPSink || output.name == kAVDTPSink) output.iconname = QStringLiteral("bluetooth");
+      if (output.name == QLatin1String(kAutoSink)) output.iconname = QStringLiteral("soundcard");
+      else if (output.name == QLatin1String(kALSASink) || output.name == QLatin1String(kOSS4Sink)) output.iconname = QStringLiteral("alsa");
+      else if (output.name == QLatin1String(kJackAudioSink)) output.iconname = QStringLiteral("jack");
+      else if (output.name == QLatin1String(kPulseSink)) output.iconname = QStringLiteral("pulseaudio");
+      else if (output.name == QLatin1String(kA2DPSink) || output.name == QLatin1String(kAVDTPSink)) output.iconname = QStringLiteral("bluetooth");
       else output.iconname = QStringLiteral("soundcard");
       outputs << output;
     }
@@ -453,22 +453,22 @@ bool GstEngine::ValidOutput(const QString &output) {
 }
 
 bool GstEngine::CustomDeviceSupport(const QString &output) {
-  return (output == kALSASink || output == kOpenALSASink || output == kOSSSink || output == kOSS4Sink || output == kPulseSink || output == kA2DPSink || output == kAVDTPSink || output == kJackAudioSink);
+  return output == QLatin1String(kALSASink) || output == QLatin1String(kOpenALSASink) || output == QLatin1String(kOSSSink) || output == QLatin1String(kOSS4Sink) || output == QLatin1String(kPulseSink) || output == QLatin1String(kA2DPSink) || output == QLatin1String(kAVDTPSink) || output == QLatin1String(kJackAudioSink);
 }
 
 bool GstEngine::ALSADeviceSupport(const QString &output) {
-  return (output == kALSASink);
+  return output == QLatin1String(kALSASink);
 }
 
 bool GstEngine::ExclusiveModeSupport(const QString &output) {
-  return output == kWASAPISink;
+  return output == QLatin1String(kWASAPISink);
 }
 
 void GstEngine::ReloadSettings() {
 
   EngineBase::ReloadSettings();
 
-  if (output_.isEmpty()) output_ = kAutoSink;
+  if (output_.isEmpty()) output_ = QLatin1String(kAutoSink);
 
 }
 
@@ -722,20 +722,20 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
   // QUrl::fromLocalFile does this when given a \\host\share\file path on Windows.
   // Munge it back into a path that gstreamer will recognise.
   if (url.isLocalFile() && !url.host().isEmpty()) {
-    QString str = "file:////" + url.host() + url.path();
+    QString str = QStringLiteral("file:////") + url.host() + url.path();
     uri = str.toUtf8();
   }
-  else if (url.scheme() == "cdda") {
+  else if (url.scheme() == QStringLiteral("cdda")) {
     QString str;
     if (url.path().isEmpty()) {
       str = url.toString();
-      str.remove(str.lastIndexOf(QChar('a')), 1);
+      str.remove(str.lastIndexOf(QLatin1Char('a')), 1);
     }
     else {
       // Currently, Gstreamer can't handle input CD devices inside cdda URL.
       // So we handle them ourselves: we extract the track number and re-create a URL with only cdda:// + the track number (which can be handled by Gstreamer).
       // We keep the device in mind, and we will set it later using SourceSetupCallback
-      QStringList path = url.path().split('/');
+      QStringList path = url.path().split(QLatin1Char('/'));
       str = QStringLiteral("cdda://%1").arg(path.takeLast());
       QString device = path.join(QStringLiteral("/"));
       if (current_pipeline_) current_pipeline_->SetSourceDevice(device);
@@ -918,8 +918,8 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
 
   GstDiscovererResult result = gst_discoverer_info_get_result(info);
   if (result != GST_DISCOVERER_OK) {
-    QString error_message = GSTdiscovererErrorMessage(result);
-    qLog(Error) << QStringLiteral("Stream discovery for %1 failed: %2").arg(discovered_url, error_message);
+    const QString error_message = GSTdiscovererErrorMessage(result);
+    qLog(Error) << QStringLiteral("Stream discovery for %1 failed: %2").arg(QString::fromUtf8(discovered_url), error_message);
     return;
   }
 
@@ -949,8 +949,8 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
     for (guint i = 0; i < caps_size; ++i) {
       GstStructure *gst_structure = gst_caps_get_structure(caps, i);
       if (!gst_structure) continue;
-      QString mimetype = gst_structure_get_name(gst_structure);
-      if (!mimetype.isEmpty() && mimetype != "audio/mpeg") {
+      QString mimetype = QString::fromUtf8(gst_structure_get_name(gst_structure));
+      if (!mimetype.isEmpty() && mimetype != QStringLiteral("audio/mpeg")) {
         engine_metadata.filetype = Song::FiletypeByMimetype(mimetype);
         if (engine_metadata.filetype == Song::FileType::Unknown) {
           qLog(Error) << "Unknown mimetype" << mimetype;
@@ -960,7 +960,7 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
 
     if (engine_metadata.filetype == Song::FileType::Unknown) {
       gchar *codec_description = gst_pb_utils_get_codec_description(caps);
-      QString filetype_description = (codec_description ? QString(codec_description) : QString());
+      QString filetype_description = (codec_description ? QString::fromUtf8(codec_description) : QString());
       g_free(codec_description);
       if (!filetype_description.isEmpty()) {
         engine_metadata.filetype = Song::FiletypeByDescription(filetype_description);

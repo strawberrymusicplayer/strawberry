@@ -36,7 +36,7 @@ QString GetEnv(const QString &key) {
 void SetEnv(const char *key, const QString &value) {
 
 #ifdef Q_OS_WIN32
-  _putenv(QString("%1=%2").arg(key, value).toLocal8Bit().constData());
+  _putenv(QStringLiteral("%1=%2").arg(QLatin1String(key), value).toLocal8Bit().constData());
 #else
   setenv(key, value.toLocal8Bit().constData(), 1);
 #endif
@@ -52,19 +52,19 @@ QString DesktopEnvironment() {
   if (!qEnvironmentVariableIsEmpty("GNOME_DESKTOP_SESSION_ID")) return QStringLiteral("Gnome");
 
   QString session = GetEnv(QStringLiteral("DESKTOP_SESSION"));
-  qint64 slash = session.lastIndexOf('/');
+  qint64 slash = session.lastIndexOf(QLatin1Char('/'));
   if (slash != -1) {
     QSettings desktop_file(QStringLiteral("%1.desktop").arg(session), QSettings::IniFormat);
-    desktop_file.beginGroup("Desktop Entry");
-    QString name = desktop_file.value("DesktopNames").toString();
+    desktop_file.beginGroup(QStringLiteral("Desktop Entry"));
+    QString name = desktop_file.value(QStringLiteral("DesktopNames")).toString();
     desktop_file.endGroup();
     if (!name.isEmpty()) return name;
     session = session.mid(slash + 1);
   }
 
-  if (session == "kde")           return QStringLiteral("KDE");
-  else if (session == "gnome")    return QStringLiteral("Gnome");
-  else if (session == "xfce")     return QStringLiteral("XFCE");
+  if (session == QStringLiteral("kde"))           return QStringLiteral("KDE");
+  else if (session == QStringLiteral("gnome"))    return QStringLiteral("Gnome");
+  else if (session == QStringLiteral("xfce"))     return QStringLiteral("XFCE");
 
   return QStringLiteral("Unknown");
 

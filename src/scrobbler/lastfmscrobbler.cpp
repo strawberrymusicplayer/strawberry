@@ -29,9 +29,12 @@
 
 const char *LastFMScrobbler::kName = "Last.fm";
 const char *LastFMScrobbler::kSettingsGroup = "LastFM";
-const char *LastFMScrobbler::kAuthUrl = "https://www.last.fm/api/auth/";
 const char *LastFMScrobbler::kApiUrl = "https://ws.audioscrobbler.com/2.0/";
-const char *LastFMScrobbler::kCacheFile = "lastfmscrobbler.cache";
+
+namespace {
+constexpr char kAuthUrl[] = "https://www.last.fm/api/auth/";
+constexpr char kCacheFile[] = "lastfmscrobbler.cache";
+}  // namespace
 
 LastFMScrobbler::LastFMScrobbler(SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : ScrobblingAPI20(kName, kSettingsGroup, kAuthUrl, kApiUrl, true, kCacheFile, settings, network, parent) {}
+    : ScrobblingAPI20(QLatin1String(kName), QLatin1String(kSettingsGroup), QLatin1String(kAuthUrl), QLatin1String(kApiUrl), true, QLatin1String(kCacheFile), settings, network, parent) {}

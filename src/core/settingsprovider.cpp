@@ -30,7 +30,7 @@ DefaultSettingsProvider::DefaultSettingsProvider() = default;
 void DefaultSettingsProvider::set_group(const char *group) {
   while (!backend_.group().isEmpty()) backend_.endGroup();
 
-  backend_.beginGroup(group);
+  backend_.beginGroup(QLatin1String(group));
 }
 
 QVariant DefaultSettingsProvider::value(const QString &key, const QVariant &default_value) const {

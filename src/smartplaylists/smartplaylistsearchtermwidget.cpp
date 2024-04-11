@@ -381,7 +381,7 @@ SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
     ret.value_ = ui_->value_text->text();
   }
   else if (value_page == ui_->page_empty) {
-    ret.value_ = "";
+    ret.value_ = QLatin1String("");
   }
   else if (value_page == ui_->page_number) {
     ret.value_ = ui_->value_number->value();

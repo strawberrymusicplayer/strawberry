@@ -32,6 +32,7 @@
 #include <QRect>
 
 #include "core/application.h"
+#include "core/settings.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistview.h"
 #include "playlist/playlistfilter.h"
@@ -59,7 +60,7 @@ MoodbarItemDelegate::MoodbarItemDelegate(Application *app, PlaylistView *view, Q
 
 void MoodbarItemDelegate::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
   enabled_ = s.value("enabled", false).toBool();
   const MoodbarRenderer::MoodbarStyle new_style = static_cast<MoodbarRenderer::MoodbarStyle>(s.value("style", static_cast<int>(MoodbarRenderer::MoodbarStyle::Normal)).toInt());

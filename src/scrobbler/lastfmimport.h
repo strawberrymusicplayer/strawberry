@@ -94,8 +94,6 @@ class LastFMImport : public QObject {
   void GetTopTracksRequestFinished(QNetworkReply *reply, const int page);
 
  private:
-  static const int kRequestsDelay;
-
   SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_flush_requests_;
 

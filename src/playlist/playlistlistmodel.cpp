@@ -100,7 +100,7 @@ void PlaylistListModel::AddRowMappings(const QModelIndex &begin, const QModelInd
 void PlaylistListModel::AddRowItem(QStandardItem *item, const QString &parent_path) {
 
   switch (item->data(Role_Type).toInt()) {
-    case Type_Playlist: {
+    case Type_Playlist:{
       const int id = item->data(Role_PlaylistId).toInt();
 
       playlists_by_id_[id] = item;
@@ -128,7 +128,7 @@ void PlaylistListModel::RowsAboutToBeRemoved(const QModelIndex &parent, const in
     const QStandardItem *item = itemFromIndex(idx);
 
     switch (idx.data(Role_Type).toInt()) {
-      case Type_Playlist: {
+      case Type_Playlist:{
         const int id = idx.data(Role_PlaylistId).toInt();
         QMap<int, QStandardItem*>::iterator it = playlists_by_id_.find(id);
         if (it != playlists_by_id_.end() && it.value() == item) {
@@ -159,9 +159,9 @@ QStandardItem *PlaylistListModel::FolderByPath(const QString &path) {
   QStandardItem *parent = invisibleRootItem();
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-  const QStringList parts = path.split('/', Qt::SkipEmptyParts);
+  const QStringList parts = path.split(QLatin1Char('/'), Qt::SkipEmptyParts);
 #else
-  const QStringList parts = path.split('/', QString::SkipEmptyParts);
+  const QStringList parts = path.split(QLatin1Char('/'), QString::SkipEmptyParts);
 #endif
 
   for (const QString &part : parts) {

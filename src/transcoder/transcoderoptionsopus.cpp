@@ -29,9 +29,13 @@
 #include "transcoderoptionsopus.h"
 #include "ui_transcoderoptionsopus.h"
 
+#include "core/settings.h"
+
 // TODO: Add more options than only bitrate as soon as gst doesn't crash anymore while using the cbr parameter (like cbr=false)
 
-const char *TranscoderOptionsOpus::kSettingsGroup = "Transcoder/opusenc";
+namespace {
+constexpr char kSettingsGroup[] = "Transcoder/opusenc";
+}
 
 TranscoderOptionsOpus::TranscoderOptionsOpus(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsOpus) {
   ui_->setupUi(this);
@@ -43,8 +47,8 @@ TranscoderOptionsOpus::~TranscoderOptionsOpus() {
 
 void TranscoderOptionsOpus::Load() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
   ui_->bitrate_slider->setValue(s.value("bitrate", 320000).toInt() / 1000);
   s.endGroup();
 
@@ -52,8 +56,8 @@ void TranscoderOptionsOpus::Load() {
 
 void TranscoderOptionsOpus::Save() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
   s.setValue("bitrate", ui_->bitrate_slider->value() * 1000);
   s.endGroup();
 

@@ -27,6 +27,7 @@
 #include <QComboBox>
 #include <QSettings>
 
+#include "core/settings.h"
 #include "settings/playlistsettingspage.h"
 #include "playlistsaveoptionsdialog.h"
 #include "ui_playlistsaveoptionsdialog.h"
@@ -48,7 +49,7 @@ PlaylistSaveOptionsDialog::~PlaylistSaveOptionsDialog() { delete ui; }
 void PlaylistSaveOptionsDialog::accept() {
 
   if (ui->remember_user_choice->isChecked()) {
-    QSettings s;
+    Settings s;
     s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
     s.setValue("path_type", ui->filePaths->itemData(ui->filePaths->currentIndex()).toInt());
     s.endGroup();

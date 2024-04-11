@@ -65,6 +65,7 @@ class TidalService : public InternetService {
   static const Song::Source kSource;
   static const char kApiUrl[];
   static const char kResourcesUrl[];
+  static const int kLoginAttempts;
 
   void Exit() override;
   void ReloadSettings() override;
@@ -158,22 +159,6 @@ class TidalService : public InternetService {
   void RequestAccessToken(const QString &code = QString());
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
-
-  static const char kOAuthUrl[];
-  static const char kOAuthAccessTokenUrl[];
-  static const char kOAuthRedirectUrl[];
-  static const char kAuthUrl[];
-
-  static const int kLoginAttempts;
-  static const int kTimeResetLoginAttempts;
-
-  static const char kArtistsSongsTable[];
-  static const char kAlbumsSongsTable[];
-  static const char kSongsTable[];
-
-  static const char kArtistsSongsFtsTable[];
-  static const char kAlbumsSongsFtsTable[];
-  static const char kSongsFtsTable[];
 
   Application *app_;
   SharedPtr<NetworkAccessManager> network_;

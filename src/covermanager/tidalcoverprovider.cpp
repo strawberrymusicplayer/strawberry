@@ -45,7 +45,9 @@
 #include "jsoncoverprovider.h"
 #include "tidalcoverprovider.h"
 
-constexpr int TidalCoverProvider::kLimit = 10;
+namespace {
+constexpr int kLimit = 10;
+}
 
 TidalCoverProvider::TidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(QStringLiteral("Tidal"), true, true, 2.5, true, true, app, network, parent),
@@ -72,31 +74,31 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
   QString query = artist;
   if (album.isEmpty() && !title.isEmpty()) {
     resource = QStringLiteral("search/tracks");
-    if (!query.isEmpty()) query.append(" ");
+    if (!query.isEmpty()) query.append(QLatin1Char(' '));
     query.append(title);
   }
   else {
     resource = QStringLiteral("search/albums");
     if (!album.isEmpty()) {
-      if (!query.isEmpty()) query.append(" ");
+      if (!query.isEmpty()) query.append(QLatin1Char(' '));
       query.append(album);
     }
   }
 
-  ParamList params = ParamList() << Param("query", query)
-                                 << Param("limit", QString::number(kLimit))
-                                 << Param("countryCode", service_->country_code());
+  ParamList params = ParamList() << Param(QStringLiteral("query"), query)
+                                 << Param(QStringLiteral("limit"), QString::number(kLimit))
+                                 << Param(QStringLiteral("countryCode"), service_->country_code());
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(QString(TidalService::kApiUrl) + QStringLiteral("/") + resource);
+  QUrl url(QLatin1String(TidalService::kApiUrl) + QLatin1Char('/') + resource);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
   if (service_->oauth() && !service_->access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + service_->access_token().toUtf8());
   else if (!service_->session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", service_->session_id().toUtf8());
 
@@ -252,7 +254,7 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
                                                                               << qMakePair(QStringLiteral("750x750"), QSize(750, 750))
                                                                               << qMakePair(QStringLiteral("640x640"), QSize(640, 640));
     for (const QPair<QString, QSize> &cover_size : cover_sizes) {
-      QUrl cover_url(QStringLiteral("%1/images/%2/%3.jpg").arg(TidalService::kResourcesUrl, cover, cover_size.first));
+      QUrl cover_url(QStringLiteral("%1/images/%2/%3.jpg").arg(QLatin1String(TidalService::kResourcesUrl), cover).arg(cover_size.first));
       cover_result.image_url = cover_url;
       cover_result.image_size = cover_size.second;
       results << cover_result;

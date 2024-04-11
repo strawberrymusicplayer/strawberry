@@ -52,10 +52,6 @@ class GlobalShortcutsBackendGnome : public GlobalShortcutsBackend {
   void GnomeMediaKeyPressed(const QString &application, const QString &key);
 
  private:
-  static const char *kService1;
-  static const char *kService2;
-  static const char *kPath;
-
   OrgGnomeSettingsDaemonMediaKeysInterface *interface_;
   bool is_connected_;
 };

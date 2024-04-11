@@ -248,7 +248,7 @@ void Organize::ProcessSomeFiles() {
     }
 
     if (!job.cover_source_.isEmpty()) {
-      job.cover_dest_ = QFileInfo(job.destination_).path() + "/" + QFileInfo(job.cover_source_).fileName();
+      job.cover_dest_ = QFileInfo(job.destination_).path() + QLatin1Char('/') + QFileInfo(job.cover_source_).fileName();
     }
 
     job.progress_ = std::bind(&Organize::SetSongProgress, this, std::placeholders::_1, !task.transcoded_filename_.isEmpty());
@@ -258,7 +258,7 @@ void Organize::ProcessSomeFiles() {
       if (job.remove_original_ && song.is_collection_song() && destination_->source() == Song::Source::Collection) {
         // Notify other aspects of system that song has been invalidated
         QString root = destination_->LocalPath();
-        QFileInfo new_file = QFileInfo(root + "/" + task.song_info_.new_filename_);
+        QFileInfo new_file = QFileInfo(root + QLatin1Char('/') + task.song_info_.new_filename_);
         emit SongPathChanged(song, new_file, destination_->collection_directory_id());
       }
     }

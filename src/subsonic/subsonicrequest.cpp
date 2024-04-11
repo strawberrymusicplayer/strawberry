@@ -50,9 +50,11 @@
 #include "subsonicbaserequest.h"
 #include "subsonicrequest.h"
 
-const int SubsonicRequest::kMaxConcurrentAlbumsRequests = 3;
-const int SubsonicRequest::kMaxConcurrentAlbumSongsRequests = 3;
-const int SubsonicRequest::kMaxConcurrentAlbumCoverRequests = 1;
+namespace {
+constexpr int kMaxConcurrentAlbumsRequests = 3;
+constexpr int kMaxConcurrentAlbumSongsRequests = 3;
+constexpr int kMaxConcurrentAlbumCoverRequests = 1;
+}  // namespace
 
 SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent)
     : SubsonicBaseRequest(service, parent),
@@ -145,9 +147,9 @@ void SubsonicRequest::FlushAlbumsRequests() {
     Request request = albums_requests_queue_.dequeue();
     ++albums_requests_active_;
 
-    ParamList params = ParamList() << Param("type", "alphabeticalByName");
-    if (request.size > 0) params << Param("size", QString::number(request.size));
-    if (request.offset > 0) params << Param("offset", QString::number(request.offset));
+    ParamList params = ParamList() << Param(QStringLiteral("type"), QStringLiteral("alphabeticalByName"));
+    if (request.size > 0) params << Param(QStringLiteral("size"), QString::number(request.size));
+    if (request.offset > 0) params << Param(QStringLiteral("offset"), QString::number(request.offset));
 
     QNetworkReply *reply = CreateGetRequest(QStringLiteral("getAlbumList2"), params);
     replies_ << reply;
@@ -341,7 +343,7 @@ void SubsonicRequest::FlushAlbumSongsRequests() {
 
     Request request = album_songs_requests_queue_.dequeue();
     ++album_songs_requests_active_;
-    QNetworkReply *reply = CreateGetRequest(QStringLiteral("getAlbum"), ParamList() << Param("id", request.album_id));
+    QNetworkReply *reply = CreateGetRequest(QStringLiteral("getAlbum"), ParamList() << Param(QStringLiteral("id"), request.album_id));
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.album_artist); });
     timeouts_->AddReply(reply);
@@ -631,7 +633,7 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
       cover_url = cover_urls_[cover_id];
     }
     else {
-      cover_url = CreateUrl(server_url(), auth_method(), username(), password(), QStringLiteral("getCoverArt"), ParamList() << Param("id", cover_id));
+      cover_url = CreateUrl(server_url(), auth_method(), username(), password(), QStringLiteral("getCoverArt"), ParamList() << Param(QStringLiteral("id"), cover_id));
       cover_urls_.insert(cover_id, cover_url);
     }
   }
@@ -639,7 +641,7 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
   Song::FileType filetype(Song::FileType::Stream);
   if (!mimetype.isEmpty()) {
     QMimeDatabase mimedb;
-    QStringList suffixes = mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes();
+    QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
     for (const QString &suffix : suffixes) {
       filetype = Song::FiletypeByExtension(suffix);
       if (filetype != Song::FileType::Unknown) break;
@@ -721,7 +723,7 @@ void SubsonicRequest::AddAlbumCoverRequest(const Song &song) {
   request.album_id = song.album_id();
   request.cover_id = cover_id;
   request.url = cover_url;
-  request.filename = cover_path + "/" + cover_id + ".jpg";
+  request.filename = cover_path + QLatin1Char('/') + cover_id + QStringLiteral(".jpg");
   if (request.filename.isEmpty()) return;
 
   album_covers_requests_sent_.insert(cover_id, song.song_id());
@@ -799,8 +801,8 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverR
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-  if (mimetype.contains(';')) {
-    mimetype = mimetype.left(mimetype.indexOf(';'));
+  if (mimetype.contains(QLatin1Char(';'))) {
+    mimetype = mimetype.left(mimetype.indexOf(QLatin1Char(';')));
   }
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
     Error(QStringLiteral("Unsupported mimetype for image reader %1 for %2").arg(mimetype, request.url.toString()));

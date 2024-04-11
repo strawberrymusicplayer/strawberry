@@ -25,6 +25,7 @@
 
 #include "core/application.h"
 #include "core/song.h"
+#include "core/settings.h"
 #include "settings/settingsdialog.h"
 #include "settings/scrobblersettingspage.h"
 #include "scrobblersettings.h"
@@ -47,7 +48,7 @@ ScrobblerSettings::ScrobblerSettings(Application *app, QObject *parent)
 
 void ScrobblerSettings::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(ScrobblerSettingsPage::kSettingsGroup);
   enabled_ = s.value("enabled", false).toBool();
   offline_ = s.value("offline", false).toBool();
@@ -92,7 +93,7 @@ void ScrobblerSettings::ToggleScrobbling() {
   bool enabled_old_ = enabled_;
   enabled_ = !enabled_;
 
-  QSettings s;
+  Settings s;
   s.beginGroup(ScrobblerSettingsPage::kSettingsGroup);
   s.setValue("enabled", enabled_);
   s.endGroup();
@@ -106,7 +107,7 @@ void ScrobblerSettings::ToggleOffline() {
   bool offline_old_ = offline_;
   offline_ = !offline_;
 
-  QSettings s;
+  Settings s;
   s.beginGroup(ScrobblerSettingsPage::kSettingsGroup);
   s.setValue("offline", offline_);
   s.endGroup();

@@ -34,6 +34,7 @@
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/song.h"
+#include "core/settings.h"
 #include "widgets/loginstatewidget.h"
 
 #include "scrobbler/audioscrobbler.h"
@@ -78,7 +79,7 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *pa
   QObject::connect(ui_->widget_listenbrainz_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::ListenBrainz_Logout);
   ui_->widget_listenbrainz_login_state->AddCredentialGroup(ui_->widget_listenbrainz_login);
 
-  ui_->label_listenbrainz_token->setText("<html><head/><body><p>" + tr("Enter your user token from") + " " + "<a href=\"https://listenbrainz.org/profile/\"><span style=\"text-decoration: underline; color:#0000ff;\">https://listenbrainz.org/profile/</span></a></p></body></html>");
+  ui_->label_listenbrainz_token->setText(QStringLiteral("<html><head/><body><p>") + tr("Enter your user token from") + QLatin1Char(' ') + QStringLiteral("<a href=\"https://listenbrainz.org/profile/\"><span style=\"text-decoration: underline; color:#0000ff;\">https://listenbrainz.org/profile/</span></a></p></body></html>"));
 
   resize(sizeHint());
 
@@ -88,7 +89,7 @@ ScrobblerSettingsPage::~ScrobblerSettingsPage() { delete ui_; }
 
 void ScrobblerSettingsPage::Load() {
 
-  QSettings s;
+  Settings s;
   if (!s.contains(kSettingsGroup)) set_changed();
 
   ui_->checkbox_enable->setChecked(scrobbler_->enabled());
@@ -124,13 +125,13 @@ void ScrobblerSettingsPage::Load() {
 
   Init(ui_->layout_scrobblersettingspage->parentWidget());
 
-  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
 }
 
 void ScrobblerSettingsPage::Save() {
 
-  QSettings s;
+  Settings s;
 
   s.beginGroup(kSettingsGroup);
   s.setValue("enabled", ui_->checkbox_enable->isChecked());

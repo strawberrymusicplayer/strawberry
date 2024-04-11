@@ -40,10 +40,12 @@
 #include "scrobblerservice.h"
 #include "subsonicscrobbler.h"
 
-const char *SubsonicScrobbler::kName = "Subsonic";
+namespace {
+constexpr char kName[] = "Subsonic";
+}
 
 SubsonicScrobbler::SubsonicScrobbler(SharedPtr<ScrobblerSettings> settings, Application *app, QObject *parent)
-    : ScrobblerService(kName, settings, parent),
+    : ScrobblerService(QLatin1String(kName), settings, parent),
       app_(app),
       service_(nullptr),
       enabled_(false),
@@ -58,7 +60,7 @@ SubsonicScrobbler::SubsonicScrobbler(SharedPtr<ScrobblerSettings> settings, Appl
 
 void SubsonicScrobbler::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(SubsonicSettingsPage::kSettingsGroup);
   enabled_ = s.value("serversidescrobbling", false).toBool();
   s.endGroup();

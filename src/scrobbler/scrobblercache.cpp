@@ -47,7 +47,7 @@ using namespace std::chrono_literals;
 ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent)
     : QObject(parent),
       timer_flush_(new QTimer(this)),
-      filename_(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/" + filename),
+      filename_(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QLatin1Char('/') + filename),
       loaded_(false) {
 
   ReadCache();

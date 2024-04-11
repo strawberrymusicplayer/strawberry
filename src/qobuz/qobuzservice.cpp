@@ -45,6 +45,7 @@
 #include "core/networkaccessmanager.h"
 #include "core/database.h"
 #include "core/song.h"
+#include "core/settings.h"
 #include "utilities/macaddrutils.h"
 #include "internet/internetsearchview.h"
 #include "collection/collectionbackend.h"
@@ -62,22 +63,26 @@ using std::make_shared;
 
 const Song::Source QobuzService::kSource = Song::Source::Qobuz;
 const char QobuzService::kApiUrl[] = "https://www.qobuz.com/api.json/0.2";
-
-constexpr char QobuzService::kAuthUrl[] = "https://www.qobuz.com/api.json/0.2/user/login";
-
 const int QobuzService::kLoginAttempts = 2;
-constexpr int QobuzService::kTimeResetLoginAttempts = 60000;
 
-constexpr char QobuzService::kArtistsSongsTable[] = "qobuz_artists_songs";
-constexpr char QobuzService::kAlbumsSongsTable[] = "qobuz_albums_songs";
-constexpr char QobuzService::kSongsTable[] = "qobuz_songs";
+namespace {
 
-constexpr char QobuzService::kArtistsSongsFtsTable[] = "qobuz_artists_songs_fts";
-constexpr char QobuzService::kAlbumsSongsFtsTable[] = "qobuz_albums_songs_fts";
-constexpr char QobuzService::kSongsFtsTable[] = "qobuz_songs_fts";
+constexpr char kAuthUrl[] = "https://www.qobuz.com/api.json/0.2/user/login";
+
+constexpr int kTimeResetLoginAttempts = 60000;
+
+constexpr char kArtistsSongsTable[] = "qobuz_artists_songs";
+constexpr char kAlbumsSongsTable[] = "qobuz_albums_songs";
+constexpr char kSongsTable[] = "qobuz_songs";
+
+constexpr char kArtistsSongsFtsTable[] = "qobuz_artists_songs_fts";
+constexpr char kAlbumsSongsFtsTable[] = "qobuz_albums_songs_fts";
+constexpr char kSongsFtsTable[] = "qobuz_songs_fts";
+
+}  // namespace
 
 QobuzService::QobuzService(Application *app, QObject *parent)
-    : InternetService(Song::Source::Qobuz, QStringLiteral("Qobuz"), QStringLiteral("qobuz"), QobuzSettingsPage::kSettingsGroup, SettingsDialog::Page::Qobuz, app, parent),
+    : InternetService(Song::Source::Qobuz, QStringLiteral("Qobuz"), QStringLiteral("qobuz"), QLatin1String(QobuzSettingsPage::kSettingsGroup), SettingsDialog::Page::Qobuz, app, parent),
       app_(app),
       network_(app->network()),
       url_handler_(new QobuzUrlHandler(app, this)),
@@ -115,15 +120,15 @@ QobuzService::QobuzService(Application *app, QObject *parent)
 
   artists_collection_backend_ = make_shared<CollectionBackend>();
   artists_collection_backend_->moveToThread(app_->database()->thread());
-  artists_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Qobuz, kArtistsSongsTable, kArtistsSongsFtsTable);
+  artists_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Qobuz, QLatin1String(kArtistsSongsTable), QLatin1String(kArtistsSongsFtsTable));
 
   albums_collection_backend_ = make_shared<CollectionBackend>();
   albums_collection_backend_->moveToThread(app_->database()->thread());
-  albums_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Qobuz, kAlbumsSongsTable, kAlbumsSongsFtsTable);
+  albums_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Qobuz, QLatin1String(kAlbumsSongsTable), QLatin1String(kAlbumsSongsFtsTable));
 
   songs_collection_backend_ = make_shared<CollectionBackend>();
   songs_collection_backend_->moveToThread(app_->database()->thread());
-  songs_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Qobuz, kSongsTable, kSongsFtsTable);
+  songs_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Qobuz, QLatin1String(kSongsTable), QLatin1String(kSongsFtsTable));
 
   artists_collection_model_ = new CollectionModel(artists_collection_backend_, app_, this);
   albums_collection_model_ = new CollectionModel(albums_collection_backend_, app_, this);
@@ -229,7 +234,7 @@ void QobuzService::ShowConfig() {
 
 void QobuzService::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(QobuzSettingsPage::kSettingsGroup);
 
   app_id_ = s.value("app_id").toString();
@@ -295,21 +300,21 @@ void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString
   timer_login_attempt_->setInterval(kTimeResetLoginAttempts);
   timer_login_attempt_->start();
 
-  const ParamList params = ParamList() << Param("app_id", app_id)
-                                       << Param("username", username)
-                                       << Param("password", password)
-                                       << Param("device_manufacturer_id", Utilities::MacAddress());
+  const ParamList params = ParamList() << Param(QStringLiteral("app_id"), app_id)
+                                       << Param(QStringLiteral("username"), username)
+                                       << Param(QStringLiteral("password"), password)
+                                       << Param(QStringLiteral("device_manufacturer_id"), Utilities::MacAddress());
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(kAuthUrl);
+  QUrl url(QString::fromLatin1(kAuthUrl));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
 
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
@@ -369,7 +374,7 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
 
   login_errors_.clear();
 
-  QByteArray data = reply->readAll();
+  const QByteArray data = reply->readAll();
   QJsonParseError json_error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
@@ -451,7 +456,7 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
   }
   credential_id_ = obj_credential[QStringLiteral("id")].toInt();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(QobuzSettingsPage::kSettingsGroup);
   s.setValue("user_auth_token", user_auth_token_);
   s.setValue("user_id", user_id_);
@@ -476,7 +481,7 @@ void QobuzService::Logout() {
   user_id_ = -1;
   credential_id_ = -1;
 
-  QSettings s;
+  Settings s;
   s.beginGroup(QobuzSettingsPage::kSettingsGroup);
   s.remove("user_id");
   s.remove("credential_id");
@@ -784,7 +789,7 @@ void QobuzService::LoginError(const QString &error, const QVariant &debug) {
   QString error_html;
   for (const QString &e : login_errors_) {
     qLog(Error) << "Qobuz:" << e;
-    error_html += e + "<br />";
+    error_html += e + QStringLiteral("<br />");
   }
   if (debug.isValid()) qLog(Debug) << debug;
 

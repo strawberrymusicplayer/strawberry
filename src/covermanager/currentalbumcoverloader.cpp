@@ -41,7 +41,7 @@ using std::make_unique;
 CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *parent)
     : QObject(parent),
       app_(app),
-      temp_file_pattern_(QDir::tempPath() + "/strawberry-cover-XXXXXX.jpg"),
+      temp_file_pattern_(QDir::tempPath() + QStringLiteral("/strawberry-cover-XXXXXX.jpg")),
       id_(0) {
 
   options_.options = AlbumCoverLoaderOptions::Option::RawImageData | AlbumCoverLoaderOptions::Option::OriginalImage | AlbumCoverLoaderOptions::Option::ScaledImage;

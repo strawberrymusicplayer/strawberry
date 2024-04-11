@@ -132,13 +132,13 @@ void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
 
 void QobuzFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs) {
 
-  ParamList params = ParamList() << Param("app_id", app_id())
-                                 << Param("user_auth_token", user_auth_token())
-                                 << Param(FavoriteMethod(type), ids_list.join(','));
+  ParamList params = ParamList() << Param(QStringLiteral("app_id"), app_id())
+                                 << Param(QStringLiteral("user_auth_token"), user_auth_token())
+                                 << Param(FavoriteMethod(type), ids_list.join(QLatin1Char(',')));
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
   QNetworkReply *reply = CreateRequest(QStringLiteral("favorite/create"), params);
@@ -227,13 +227,13 @@ void QobuzFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
 
 void QobuzFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs) {
 
-  ParamList params = ParamList() << Param("app_id", app_id())
-                                 << Param("user_auth_token", user_auth_token())
-                                 << Param(FavoriteMethod(type), ids_list.join(','));
+  ParamList params = ParamList() << Param(QStringLiteral("app_id"), app_id())
+                                 << Param(QStringLiteral("user_auth_token"), user_auth_token())
+                                 << Param(FavoriteMethod(type), ids_list.join(QLatin1Char(',')));
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
   QNetworkReply *reply = CreateRequest(QStringLiteral("favorite/delete"), params);

@@ -74,7 +74,7 @@ TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const spb::tagreader::S
   }
   QString cover_mime_type;
   if (request.has_cover_mime_type()) {
-    cover_mime_type = QByteArray(request.cover_mime_type().data(), static_cast<qint64>(request.cover_mime_type().size()));
+    cover_mime_type = QString::fromStdString(request.cover_mime_type());
   }
 
   return LoadCoverFromRequest(song_filename, cover_filename, cover_data, cover_mime_type);
@@ -94,7 +94,7 @@ TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const spb::tagreader::S
   }
   QString cover_mime_type;
   if (request.has_cover_mime_type()) {
-    cover_mime_type = QByteArray(request.cover_mime_type().data(), static_cast<qint64>(request.cover_mime_type().size()));
+    cover_mime_type = QString::fromStdString(request.cover_mime_type());
   }
 
   return LoadCoverFromRequest(song_filename, cover_filename, cover_data, cover_mime_type);
@@ -118,17 +118,21 @@ TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const QString &song_fil
     if (cover_mime_type.isEmpty()) {
       cover_mime_type = QMimeDatabase().mimeTypeForData(cover_data).name();
     }
-    if (cover_mime_type == "image/jpeg") {
+    if (cover_mime_type == QStringLiteral("image/jpeg")) {
       qLog(Debug) << "Using cover from JPEG data for" << song_filename;
       return Cover(cover_data, cover_mime_type);
     }
-    if (cover_mime_type == "image/png") {
+    if (cover_mime_type == QStringLiteral("image/png")) {
       qLog(Debug) << "Using cover from PNG data for" << song_filename;
       return Cover(cover_data, cover_mime_type);
     }
     // Convert image to JPEG.
     qLog(Debug) << "Converting cover to JPEG data for" << song_filename;
-    QImage cover_image(cover_data);
+    QImage cover_image;
+    if (!cover_image.loadFromData(cover_data)) {
+      qLog(Error) << "Failed to load image from cover data for" << song_filename;
+      return Cover();
+    }
     cover_data.clear();
     QBuffer buffer(&cover_data);
     if (buffer.open(QIODevice::WriteOnly)) {

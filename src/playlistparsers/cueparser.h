@@ -45,22 +45,6 @@ class CueParser : public ParserBase {
   Q_OBJECT
 
  public:
-  static const char *kFileLineRegExp;
-  static const char *kIndexRegExp;
-
-  static const char *kPerformer;
-  static const char *kTitle;
-  static const char *kSongWriter;
-  static const char *kComposer;
-  static const char *kFile;
-  static const char *kTrack;
-  static const char *kIndex;
-  static const char *kAudioTrackType;
-  static const char *kRem;
-  static const char *kGenre;
-  static const char *kDate;
-  static const char *kDisc;
-
   explicit CueParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   QString name() const override { return QStringLiteral("CUE"); }

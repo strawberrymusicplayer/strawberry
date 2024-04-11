@@ -46,7 +46,9 @@
 #include "jsoncoverprovider.h"
 #include "qobuzcoverprovider.h"
 
-constexpr int QobuzCoverProvider::kLimit = 10;
+namespace {
+constexpr int kLimit = 10;
+}
 
 QobuzCoverProvider::QobuzCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(QStringLiteral("Qobuz"), true, true, 2.0, true, true, app, network, parent),
@@ -71,34 +73,34 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
   QString query = artist;
   if (album.isEmpty() && !title.isEmpty()) {
     resource = QStringLiteral("track/search");
-    if (!query.isEmpty()) query.append(" ");
+    if (!query.isEmpty()) query.append(QLatin1Char(' '));
     query.append(title);
   }
   else {
     resource = QStringLiteral("album/search");
     if (!album.isEmpty()) {
-      if (!query.isEmpty()) query.append(" ");
+      if (!query.isEmpty()) query.append(QLatin1Char(' '));
       query.append(album);
     }
   }
 
-  ParamList params = ParamList() << Param("query", query)
-                                 << Param("limit", QString::number(kLimit))
-                                 << Param("app_id", service_->app_id().toUtf8());
+  ParamList params = ParamList() << Param(QStringLiteral("query"), query)
+                                 << Param(QStringLiteral("limit"), QString::number(kLimit))
+                                 << Param(QStringLiteral("app_id"), service_->app_id());
 
   std::sort(params.begin(), params.end());
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(QString(QobuzService::kApiUrl) + QStringLiteral("/") + resource);
+  QUrl url(QLatin1String(QobuzService::kApiUrl) + QLatin1Char('/') + resource);
   url.setQuery(url_query);
 
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
   req.setRawHeader("X-App-Id", service_->app_id().toUtf8());
   req.setRawHeader("X-User-Auth-Token", service_->user_auth_token().toUtf8());
   QNetworkReply *reply = network_->get(req);

@@ -39,8 +39,6 @@ class TranscoderOptionsWavPack : public TranscoderOptionsInterface {
   void Save() override;
 
  private:
-  static const char *kSettingsGroup;
-
   Ui_TranscoderOptionsWavPack *ui_;
 };
 

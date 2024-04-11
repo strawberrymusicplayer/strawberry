@@ -35,7 +35,7 @@ QString PrettySize(const quint64 bytes) {
 
   if (bytes > 0) {
     if (bytes <= 1000) {
-      ret = QString::number(bytes) + " bytes";
+      ret = QString::number(bytes) + QStringLiteral(" bytes");
     }
     else if (bytes <= 1000 * 1000) {
       ret = QString::asprintf("%.1f KB", static_cast<float>(bytes) / 1000.0F);
@@ -52,16 +52,16 @@ QString PrettySize(const quint64 bytes) {
 }
 
 QString PrettySize(const QSize size) {
-  return QString::number(size.width()) + "x" + QString::number(size.height());
+  return QString::number(size.width()) + QLatin1Char('x') + QString::number(size.height());
 }
 
 QString PathWithoutFilenameExtension(const QString &filename) {
-  if (filename.section('/', -1, -1).contains('.')) return filename.section('.', 0, -2);
+  if (filename.section(QLatin1Char('/'), -1, -1).contains(QLatin1Char('.'))) return filename.section(QLatin1Char('.'), 0, -2);
   return filename;
 }
 
 QString FiddleFileExtension(const QString &filename, const QString &new_extension) {
-  return PathWithoutFilenameExtension(filename) + "." + new_extension;
+  return PathWithoutFilenameExtension(filename) + QLatin1Char('.') + new_extension;
 }
 
 const char *EnumToString(const QMetaObject &meta, const char *name, const int value) {
@@ -86,7 +86,7 @@ QStringList Prepend(const QString &text, const QStringList &list) {
 QStringList Updateify(const QStringList &list) {
 
   QStringList ret(list);
-  for (int i = 0; i < ret.count(); ++i) ret[i].prepend(ret[i] + " = :");
+  for (int i = 0; i < ret.count(); ++i) ret[i].prepend(ret[i] + QStringLiteral(" = :"));
   return ret;
 
 }
@@ -136,61 +136,61 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
 
   QString value = variable;
 
-  if (variable == "%title%") {
+  if (variable == QStringLiteral("%title%")) {
     value = song.PrettyTitle();
   }
-  else if (variable == "%album%") {
+  else if (variable == QStringLiteral("%album%")) {
     value = song.album();
   }
-  else if (variable == "%artist%") {
+  else if (variable == QStringLiteral("%artist%")) {
     value = song.artist();
   }
-  else if (variable == "%albumartist%") {
+  else if (variable == QStringLiteral("%albumartist%")) {
     value = song.effective_albumartist();
   }
-  else if (variable == "%track%") {
+  else if (variable == QStringLiteral("%track%")) {
     value.setNum(song.track());
   }
-  else if (variable == "%disc%") {
+  else if (variable == QStringLiteral("%disc%")) {
     value.setNum(song.disc());
   }
-  else if (variable == "%year%") {
+  else if (variable == QStringLiteral("%year%")) {
     value = song.PrettyYear();
   }
-  else if (variable == "%originalyear%") {
+  else if (variable == QStringLiteral("%originalyear%")) {
     value = song.PrettyOriginalYear();
   }
-  else if (variable == "%genre%") {
+  else if (variable == QStringLiteral("%genre%")) {
     value = song.genre();
   }
-  else if (variable == "%composer%") {
+  else if (variable == QStringLiteral("%composer%")) {
     value = song.composer();
   }
-  else if (variable == "%performer%") {
+  else if (variable == QStringLiteral("%performer%")) {
     value = song.performer();
   }
-  else if (variable == "%grouping%") {
+  else if (variable == QStringLiteral("%grouping%")) {
     value = song.grouping();
   }
-  else if (variable == "%length%") {
+  else if (variable == QStringLiteral("%length%")) {
     value = song.PrettyLength();
   }
-  else if (variable == "%filename%") {
+  else if (variable == QStringLiteral("%filename%")) {
     value = song.basefilename();
   }
-  else if (variable == "%url%") {
+  else if (variable == QStringLiteral("%url%")) {
     value = song.url().toString();
   }
-  else if (variable == "%playcount%") {
+  else if (variable == QStringLiteral("%playcount%")) {
     value.setNum(song.playcount());
   }
-  else if (variable == "%skipcount%") {
+  else if (variable == QStringLiteral("%skipcount%")) {
     value.setNum(song.skipcount());
   }
-  else if (variable == "%rating%") {
+  else if (variable == QStringLiteral("%rating%")) {
     value = song.PrettyRating();
   }
-  else if (variable == "%newline%") {
+  else if (variable == QStringLiteral("%newline%")) {
     return QString(newline);  // No HTML escaping, return immediately.
   }
 

@@ -87,15 +87,6 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   void HandleLyricReply(QNetworkReply *reply, const int search_id, const QUrl &url);
 
  private:
-  static const char *kSettingsGroup;
-  static const char *kClientIDB64;
-  static const char *kClientSecretB64;
-  static const char *kOAuthAuthorizeUrl;
-  static const char *kOAuthAccessTokenUrl;
-  static const char *kOAuthRedirectUrl;
-  static const char *kUrlSearch;
-
- private:
   LocalRedirectServer *server_;
   QString code_verifier_;
   QString code_challenge_;

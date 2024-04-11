@@ -40,8 +40,6 @@ class TranscoderOptionsAAC : public TranscoderOptionsInterface {
   void Save() override;
 
  private:
-  static const char *kSettingsGroup;
-
   Ui_TranscoderOptionsAAC *ui_;
 };
 

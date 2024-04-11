@@ -52,20 +52,20 @@ QobuzBaseRequest::~QobuzBaseRequest() = default;
 QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, const ParamList &params_provided) {
 
   ParamList params = ParamList() << params_provided
-                                 << Param("app_id", app_id());
+                                 << Param(QStringLiteral("app_id"), app_id());
 
   std::sort(params.begin(), params.end());
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(QString(QobuzService::kApiUrl) + QStringLiteral("/") + ressource_name);
+  QUrl url(QString::fromLatin1(QobuzService::kApiUrl) + QLatin1Char('/') + ressource_name);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
   req.setRawHeader("X-App-Id", app_id().toUtf8());
   if (authenticated()) req.setRawHeader("X-User-Auth-Token", user_auth_token().toUtf8());
 
@@ -182,7 +182,7 @@ QString QobuzBaseRequest::ErrorsToHTML(const QStringList &errors) {
 
   QString error_html;
   for (const QString &error : errors) {
-    error_html += error + "<br />";
+    error_html += error + QStringLiteral("<br />");
   }
   return error_html;
 

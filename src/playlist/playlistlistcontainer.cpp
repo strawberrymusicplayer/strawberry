@@ -49,6 +49,7 @@
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/player.h"
+#include "core/settings.h"
 #include "playlist.h"
 #include "playlistbackend.h"
 #include "playlistlistview.h"
@@ -150,7 +151,7 @@ void PlaylistListContainer::SetApplication(Application *app) {
 
 void PlaylistListContainer::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   int iconsize = s.value(AppearanceSettingsPage::kIconSizeLeftPanelButtons, 22).toInt();
   s.endGroup();
@@ -213,7 +214,7 @@ void PlaylistListContainer::NewFolderClicked() {
     return;
   }
 
-  name.replace(QLatin1String("/"), QLatin1String(" "));
+  name.replace(QLatin1Char('/'), QLatin1Char(' '));
 
   model_->invisibleRootItem()->appendRow(model_->NewFolder(name));
 
@@ -504,7 +505,7 @@ void PlaylistListContainer::ActivePlaying() {
 }
 
 void PlaylistListContainer::ActivePaused() {
-  UpdateActiveIcon(active_playlist_id_, QIcon(":/pictures/tiny-pause.png"));
+  UpdateActiveIcon(active_playlist_id_, QIcon(QStringLiteral(":/pictures/tiny-pause.png")));
 }
 
 void PlaylistListContainer::ActiveStopped() {

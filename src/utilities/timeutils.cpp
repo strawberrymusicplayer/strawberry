@@ -50,7 +50,7 @@ QString PrettyTime(int seconds) {
 }
 
 QString PrettyTimeDelta(const int seconds) {
-  return (seconds >= 0 ? "+" : "-") + PrettyTime(seconds);
+  return (seconds >= 0 ? QStringLiteral("+") : QStringLiteral("-")) + PrettyTime(seconds);
 }
 
 QString PrettyTimeNanosec(const qint64 nanoseconds) {
@@ -67,7 +67,7 @@ QString WordyTime(const quint64 seconds) {
   if (days > 0) parts << (days == 1 ? QObject::tr("1 day") : QObject::tr("%1 days").arg(days));
   parts << PrettyTime(static_cast<int>(seconds - days * 60 * 60 * 24));
 
-  return parts.join(QStringLiteral(" "));
+  return parts.join(QLatin1Char(' '));
 
 }
 
@@ -82,8 +82,8 @@ QString Ago(const qint64 seconds_since_epoch, const QLocale &locale) {
   const qint64 days_ago = then.date().daysTo(now.date());
   const QString time = then.time().toString(locale.timeFormat(QLocale::ShortFormat));
 
-  if (days_ago == 0) return QObject::tr("Today") + " " + time;
-  if (days_ago == 1) return QObject::tr("Yesterday") + " " + time;
+  if (days_ago == 0) return QObject::tr("Today") + QLatin1Char(' ') + time;
+  if (days_ago == 1) return QObject::tr("Yesterday") + QLatin1Char(' ') + time;
   if (days_ago <= 7) return QObject::tr("%1 days ago").arg(days_ago);
 
   return then.date().toString(locale.dateFormat(QLocale::ShortFormat));

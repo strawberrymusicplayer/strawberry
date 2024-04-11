@@ -48,6 +48,7 @@
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/logging.h"
+#include "core/settings.h"
 #include "utilities/timeconstants.h"
 #include "internet/localredirectserver.h"
 #include "settings/scrobblersettingspage.h"
@@ -60,8 +61,11 @@
 #include "scrobblemetadata.h"
 
 const char *ScrobblingAPI20::kApiKey = "211990b4c96782c05d1536e7219eb56e";
-const char *ScrobblingAPI20::kSecret = "80fd738f49596e9709b1bf9319c444a8";
-const int ScrobblingAPI20::kScrobblesPerRequest = 50;
+
+namespace {
+constexpr char kSecret[] = "80fd738f49596e9709b1bf9319c444a8";
+constexpr int kScrobblesPerRequest = 50;
+}
 
 ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : ScrobblerService(name, settings, parent),
@@ -108,7 +112,7 @@ ScrobblingAPI20::~ScrobblingAPI20() {
 
 void ScrobblingAPI20::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
 
   s.beginGroup(settings_group_);
   enabled_ = s.value("enabled", false).toBool();
@@ -122,7 +126,7 @@ void ScrobblingAPI20::ReloadSettings() {
 
 void ScrobblingAPI20::LoadSession() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(settings_group_);
   subscriber_ = s.value("subscriber", false).toBool();
   username_ = s.value("username").toString();
@@ -137,7 +141,7 @@ void ScrobblingAPI20::Logout() {
   username_.clear();
   session_key_.clear();
 
-  QSettings settings;
+  Settings settings;
   settings.beginGroup(settings_group_);
   settings.remove("subscriber");
   settings.remove("username");
@@ -202,7 +206,7 @@ void ScrobblingAPI20::Authenticate() {
   }
 
   QUrlQuery url_query;
-  url_query.addQueryItem(QStringLiteral("api_key"), kApiKey);
+  url_query.addQueryItem(QStringLiteral("api_key"), QLatin1String(kApiKey));
   url_query.addQueryItem(QStringLiteral("cb"), server_->url().toString());
   QUrl url(auth_url_);
   url.setQuery(url_query);
@@ -211,7 +215,7 @@ void ScrobblingAPI20::Authenticate() {
   messagebox.setTextFormat(Qt::RichText);
   int result = messagebox.exec();
   switch (result) {
-    case QMessageBox::Open: {
+    case QMessageBox::Open:{
       bool openurl_result = QDesktopServices::openUrl(url);
       if (openurl_result) {
         break;
@@ -246,7 +250,7 @@ void ScrobblingAPI20::RedirectArrived() {
     if (url.isValid()) {
       QUrlQuery url_query(url);
       if (url_query.hasQueryItem(QStringLiteral("token"))) {
-        QString token = url_query.queryItemValue(QStringLiteral("token")).toUtf8();
+        QString token = url_query.queryItemValue(QStringLiteral("token"));
         RequestSession(token);
       }
       else {
@@ -271,18 +275,18 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
 
   QUrl session_url(api_url_);
   QUrlQuery session_url_query;
-  session_url_query.addQueryItem(QStringLiteral("api_key"), kApiKey);
+  session_url_query.addQueryItem(QStringLiteral("api_key"), QLatin1String(kApiKey));
   session_url_query.addQueryItem(QStringLiteral("method"), QStringLiteral("auth.getSession"));
   session_url_query.addQueryItem(QStringLiteral("token"), token);
   QString data_to_sign;
   for (const Param &param : session_url_query.queryItems()) {
     data_to_sign += param.first + param.second;
   }
-  data_to_sign += kSecret;
+  data_to_sign += QLatin1String(kSecret);
   QByteArray const digest = QCryptographicHash::hash(data_to_sign.toUtf8(), QCryptographicHash::Md5);
-  QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, '0').toLower();
+  const QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, QLatin1Char('0')).toLower();
   session_url_query.addQueryItem(QStringLiteral("api_sig"), signature);
-  session_url_query.addQueryItem(QUrl::toPercentEncoding(QStringLiteral("format")), QUrl::toPercentEncoding(QStringLiteral("json")));
+  session_url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral("format"))), QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral("json"))));
   session_url.setQuery(session_url_query);
 
   QNetworkRequest req(session_url);
@@ -331,7 +335,7 @@ void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
   username_ = json_obj[QStringLiteral("name")].toString();
   session_key_ = json_obj[QStringLiteral("key")].toString();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(settings_group_);
   s.setValue("subscriber", subscriber_);
   s.setValue("username", username_);
@@ -347,9 +351,9 @@ void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
 QNetworkReply *ScrobblingAPI20::CreateRequest(const ParamList &request_params) {
 
   ParamList params = ParamList()
-    << Param("api_key", kApiKey)
-    << Param("sk", session_key_)
-    << Param("lang", QLocale().name().left(2).toLower())
+    << Param(QStringLiteral("api_key"), QLatin1String(kApiKey))
+    << Param(QStringLiteral("sk"), session_key_)
+    << Param(QStringLiteral("lang"), QLocale().name().left(2).toLower())
     << request_params;
 
   std::sort(params.begin(), params.end());
@@ -358,21 +362,21 @@ QNetworkReply *ScrobblingAPI20::CreateRequest(const ParamList &request_params) {
   QString data_to_sign;
   for (const Param &param : params) {
     EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    url_query.addQueryItem(encoded_param.first, encoded_param.second);
+    url_query.addQueryItem(QString::fromLatin1(encoded_param.first), QString::fromLatin1(encoded_param.second));
     data_to_sign += param.first + param.second;
   }
-  data_to_sign += kSecret;
+  data_to_sign += QLatin1String(kSecret);
 
   QByteArray const digest = QCryptographicHash::hash(data_to_sign.toUtf8(), QCryptographicHash::Md5);
-  QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, '0').toLower();
+  const QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, QLatin1Char('0')).toLower();
 
-  url_query.addQueryItem(QStringLiteral("api_sig"), QUrl::toPercentEncoding(signature));
-  url_query.addQueryItem(QStringLiteral("format"), QUrl::toPercentEncoding(QStringLiteral("json")));
+  url_query.addQueryItem(QStringLiteral("api_sig"), QString::fromLatin1(QUrl::toPercentEncoding(signature)));
+  url_query.addQueryItem(QStringLiteral("format"), QStringLiteral("json"));
 
   QUrl url(api_url_);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
   replies_ << reply;
@@ -394,16 +398,16 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
   if (!authenticated() || !song.is_metadata_good() || settings_->offline()) return;
 
   ParamList params = ParamList()
-    << Param("method", "track.updateNowPlaying")
-    << Param("artist", prefer_albumartist_ ? song.effective_albumartist() : song.artist())
-    << Param("track", StripTitle(song.title()));
+    << Param(QStringLiteral("method"), QStringLiteral("track.updateNowPlaying"))
+    << Param(QStringLiteral("artist"), prefer_albumartist_ ? song.effective_albumartist() : song.artist())
+    << Param(QStringLiteral("track"), StripTitle(song.title()));
 
   if (!song.album().isEmpty()) {
-    params << Param("album", StripAlbum(song.album()));
+    params << Param(QStringLiteral("album"), StripAlbum(song.album()));
   }
 
   if (!prefer_albumartist_ && !song.albumartist().isEmpty()) {
-    params << Param("albumArtist", song.albumartist());
+    params << Param(QStringLiteral("albumArtist"), song.albumartist());
   }
 
   QNetworkReply *reply = CreateRequest(params);
@@ -486,7 +490,7 @@ void ScrobblingAPI20::Submit() {
 
   qLog(Debug) << name_ << "Submitting scrobbles.";
 
-  ParamList params = ParamList() << Param("method", "track.scrobble");
+  ParamList params = ParamList() << Param(QStringLiteral("method"), QStringLiteral("track.scrobble"));
 
   int i = 0;
   ScrobblerCacheItemPtrList all_cache_items = cache_->List();
@@ -688,20 +692,20 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
 void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
 
   ParamList params = ParamList()
-    << Param("method", "track.scrobble")
-    << Param("artist", prefer_albumartist_ ? item->metadata.effective_albumartist() : item->metadata.artist)
-    << Param("track", StripTitle(item->metadata.title))
-    << Param("timestamp", QString::number(item->timestamp))
-    << Param("duration", QString::number(item->metadata.length_nanosec / kNsecPerSec));
+    << Param(QStringLiteral("method"), QStringLiteral("track.scrobble"))
+    << Param(QStringLiteral("artist"), prefer_albumartist_ ? item->metadata.effective_albumartist() : item->metadata.artist)
+    << Param(QStringLiteral("track"), StripTitle(item->metadata.title))
+    << Param(QStringLiteral("timestamp"), QString::number(item->timestamp))
+    << Param(QStringLiteral("duration"), QString::number(item->metadata.length_nanosec / kNsecPerSec));
 
   if (!item->metadata.album.isEmpty()) {
-    params << Param("album", StripAlbum(item->metadata.album));
+    params << Param(QStringLiteral("album"), StripAlbum(item->metadata.album));
   }
   if (!prefer_albumartist_ && !item->metadata.albumartist.isEmpty()) {
-    params << Param("albumArtist", item->metadata.albumartist);
+    params << Param(QStringLiteral("albumArtist"), item->metadata.albumartist);
   }
   if (item->metadata.track > 0) {
-    params << Param("trackNumber", QString::number(item->metadata.track));
+    params << Param(QStringLiteral("trackNumber"), QString::number(item->metadata.track));
   }
 
   QNetworkReply *reply = CreateRequest(params);
@@ -825,16 +829,16 @@ void ScrobblingAPI20::Love() {
   qLog(Debug) << name_ << "Sending love for song" << song_playing_.artist() << song_playing_.album() << song_playing_.title();
 
   ParamList params = ParamList()
-    << Param("method", "track.love")
-    << Param("artist", prefer_albumartist_ ? song_playing_.effective_albumartist() : song_playing_.artist())
-    << Param("track", song_playing_.title());
+    << Param(QStringLiteral("method"), QStringLiteral("track.love"))
+    << Param(QStringLiteral("artist"), prefer_albumartist_ ? song_playing_.effective_albumartist() : song_playing_.artist())
+    << Param(QStringLiteral("track"), song_playing_.title());
 
   if (!song_playing_.album().isEmpty()) {
-    params << Param("album", song_playing_.album());
+    params << Param(QStringLiteral("album"), song_playing_.album());
   }
 
   if (!prefer_albumartist_ && !song_playing_.albumartist().isEmpty()) {
-    params << Param("albumArtist", song_playing_.albumartist());
+    params << Param(QStringLiteral("albumArtist"), song_playing_.albumartist());
   }
 
   QNetworkReply *reply = CreateRequest(params);

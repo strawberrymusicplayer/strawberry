@@ -36,6 +36,7 @@
 #include <QSettings>
 
 #include "core/logging.h"
+#include "core/settings.h"
 #include "utilities/timeconstants.h"
 
 #include "scoped_ptr.h"
@@ -94,7 +95,7 @@ Player::Player(Application *app, QObject *parent)
       seek_step_sec_(10),
       play_offset_nanosec_(0) {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
   EngineBase::Type enginetype = EngineBase::TypeFromName(s.value("engine", EngineBase::Name(EngineBase::Type::GStreamer)).toString().toLower());
   s.endGroup();
@@ -139,7 +140,7 @@ EngineBase::Type Player::CreateEngine(EngineBase::Type enginetype) {
   }
 
   if (use_enginetype != enginetype) {  // Engine was set to something else. Reset output and device.
-    QSettings s;
+    Settings s;
     s.beginGroup(BackendSettingsPage::kSettingsGroup);
     s.setValue("engine", EngineBase::Name(use_enginetype));
     s.setValue("output", engine_->DefaultOutput());
@@ -159,7 +160,7 @@ EngineBase::Type Player::CreateEngine(EngineBase::Type enginetype) {
 
 void Player::Init() {
 
-  QSettings s;
+  Settings s;
 
   if (!engine_) {
     s.beginGroup(BackendSettingsPage::kSettingsGroup);
@@ -203,7 +204,7 @@ void Player::Init() {
 
 void Player::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
 
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
   continue_on_error_ = s.value("continue_on_error", false).toBool();
@@ -221,7 +222,7 @@ void Player::ReloadSettings() {
 
 void Player::LoadVolume() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   const uint volume = s.value("volume", 100).toInt();
   s.endGroup();
@@ -232,7 +233,7 @@ void Player::LoadVolume() {
 
 void Player::SaveVolume() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("volume", volume_);
   s.endGroup();
@@ -283,7 +284,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       if (is_current) NextItem(stream_change_type_, autoscroll_);
       break;
 
-    case UrlHandler::LoadResult::Type::TrackAvailable: {
+    case UrlHandler::LoadResult::Type::TrackAvailable:{
 
       qLog(Debug) << "URL handler for" << result.media_url_ << "returned" << result.stream_url_;
 
@@ -497,7 +498,7 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
       emit Resumed();
       break;
 
-    case EngineBase::State::Playing: {
+    case EngineBase::State::Playing:{
       if (current_item_->options() & PlaylistItem::Option::PauseDisabled) {
         Stop();
       }
@@ -511,7 +512,7 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
 
     case EngineBase::State::Empty:
     case EngineBase::State::Error:
-    case EngineBase::State::Idle: {
+    case EngineBase::State::Idle:{
       pause_time_ = QDateTime();
       play_offset_nanosec_ = offset_nanosec;
       app_->playlist_manager()->SetActivePlaylist(app_->playlist_manager()->current_id());

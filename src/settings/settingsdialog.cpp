@@ -49,6 +49,7 @@
 
 #include "core/application.h"
 #include "core/player.h"
+#include "core/settings.h"
 #include "utilities/screenutils.h"
 #include "widgets/groupediconview.h"
 #include "collection/collectionmodel.h"
@@ -237,8 +238,8 @@ void SettingsDialog::reject() {
 
 void SettingsDialog::LoadGeometry() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup));
   if (s.contains("geometry")) {
     restoreGeometry(s.value("geometry").toByteArray());
   }
@@ -251,8 +252,8 @@ void SettingsDialog::LoadGeometry() {
 
 void SettingsDialog::SaveGeometry() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup));
   s.setValue("geometry", saveGeometry());
   s.endGroup();
 
@@ -353,7 +354,7 @@ void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
   }
 
   // Set the title
-  ui_->title->setText("<b>" + item->text(0) + "</b>");
+  ui_->title->setText(QStringLiteral("<b>") + item->text(0) + QStringLiteral("</b>"));
 
   // Display the right page
   QList<PageData> pages = pages_.values();

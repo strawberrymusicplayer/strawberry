@@ -32,7 +32,6 @@
 #include <QMap>
 #include <QSize>
 #include <QString>
-#include <QSettings>
 
 #include "core/shared_ptr.h"
 #include "engine/enginebase.h"

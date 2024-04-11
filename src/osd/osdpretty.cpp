@@ -51,6 +51,8 @@
 #include <QFlags>
 #include <QtEvents>
 
+#include "core/settings.h"
+
 #ifdef HAVE_X11EXTRAS
 #  include <QX11Info>
 #elif defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
@@ -232,12 +234,12 @@ bool OSDPretty::IsTransparencyAvailable() {
 
 void OSDPretty::Load() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   foreground_color_ = QColor(s.value("foreground_color", 0).toInt());
   background_color_ = QColor(s.value("background_color", kPresetBlue).toInt());
   background_opacity_ = s.value("background_opacity", 0.85).toFloat();
-  font_.fromString(s.value("font", "Verdana,9,-1,5,50,0,0,0,0,0").toString());
+  font_.fromString(s.value("font", QStringLiteral("Verdana,9,-1,5,50,0,0,0,0,0")).toString());
   disable_duration_ = s.value("disable_duration", false).toBool();
 #ifdef Q_OS_WIN
   fading_enabled_ = s.value("fading", true).toBool();
@@ -245,7 +247,7 @@ void OSDPretty::Load() {
   fading_enabled_ = s.value("fading", false).toBool();
 #endif
 
-  if (s.contains("popup_screen")) {
+  if (s.contains(QStringLiteral("popup_screen"))) {
     popup_screen_name_ = s.value("popup_screen").toString();
     if (screens_.contains(popup_screen_name_)) {
       popup_screen_ = screens_[popup_screen_name_];
@@ -261,7 +263,7 @@ void OSDPretty::Load() {
     if (current_screen()) popup_screen_name_ = current_screen()->name();
   }
 
-  if (s.contains("popup_pos")) {
+  if (s.contains(QStringLiteral("popup_pos"))) {
     popup_pos_ = s.value("popup_pos").toPoint();
   }
   else {

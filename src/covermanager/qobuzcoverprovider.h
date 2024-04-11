@@ -59,8 +59,6 @@ class QobuzCoverProvider : public JsonCoverProvider {
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
-  static const int kLimit;
-
   QobuzServicePtr service_;
   QList<QNetworkReply*> replies_;
 };

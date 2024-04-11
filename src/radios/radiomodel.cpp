@@ -181,7 +181,7 @@ void RadioModel::AddChannels(const RadioChannelList &channels) {
     RadioItem *item = new RadioItem(RadioItem::Type_Channel, container);
     item->source = channel.source;
     item->display_text = channel.name;
-    item->sort_text = SortText(Song::TextForSource(channel.source) + " - " + channel.name);
+    item->sort_text = SortText(Song::TextForSource(channel.source) + QStringLiteral(" - ") + channel.name);
     item->channel = channel;
     item->lazy_loaded = true;
     items_ << item;
@@ -258,7 +258,7 @@ QString RadioModel::ChannelIconPixmapCacheKey(const QModelIndex &idx) const {
     idx_copy = idx_copy.parent();
   }
 
-  return path.join('/');
+  return path.join(QLatin1Char('/'));
 
 }
 

@@ -64,7 +64,7 @@ void DeviceInfo::InitFromDb(const DeviceDatabaseBackend::Device &dev) {
   transcode_format_ = dev.transcode_format_;
   icon_name_ = dev.icon_name_;
 
-  QStringList unique_ids = dev.unique_id_.split(',');
+  QStringList unique_ids = dev.unique_id_.split(QLatin1Char(','));
   for (const QString &id : unique_ids) {
     backends_ << Backend(nullptr, id);
   }

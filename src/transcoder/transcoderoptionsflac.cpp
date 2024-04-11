@@ -29,7 +29,11 @@
 #include "transcoderoptionsflac.h"
 #include "ui_transcoderoptionsflac.h"
 
-const char *TranscoderOptionsFLAC::kSettingsGroup = "Transcoder/flacenc";
+#include "core/settings.h"
+
+namespace {
+constexpr char kSettingsGroup[] = "Transcoder/flacenc";
+}
 
 TranscoderOptionsFLAC::TranscoderOptionsFLAC(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsFLAC) {
   ui_->setupUi(this);
@@ -41,8 +45,8 @@ TranscoderOptionsFLAC::~TranscoderOptionsFLAC() {
 
 void TranscoderOptionsFLAC::Load() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
   ui_->quality->setValue(s.value("quality", 5).toInt());
   s.endGroup();
 
@@ -50,8 +54,8 @@ void TranscoderOptionsFLAC::Load() {
 
 void TranscoderOptionsFLAC::Save() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
   s.setValue("quality", ui_->quality->value());
   s.endGroup();
 

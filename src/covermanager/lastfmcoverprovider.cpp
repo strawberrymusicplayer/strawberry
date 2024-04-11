@@ -46,9 +46,11 @@
 #include "albumcoverfetcher.h"
 #include "lastfmcoverprovider.h"
 
-const char *LastFmCoverProvider::kUrl = "https://ws.audioscrobbler.com/2.0/";
-const char *LastFmCoverProvider::kApiKey = "211990b4c96782c05d1536e7219eb56e";
-const char *LastFmCoverProvider::kSecret = "80fd738f49596e9709b1bf9319c444a8";
+namespace {
+constexpr char kUrl[] = "https://ws.audioscrobbler.com/2.0/";
+constexpr char kApiKey[] = "211990b4c96782c05d1536e7219eb56e";
+constexpr char kSecret[] = "80fd738f49596e9709b1bf9319c444a8";
+}  // namespace
 
 LastFmCoverProvider::LastFmCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(QStringLiteral("Last.fm"), true, false, 1.0, true, false, app, network, parent) {}
@@ -74,21 +76,21 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
   if (album.isEmpty() && !title.isEmpty()) {
     method = QStringLiteral("track.search");
     type = QStringLiteral("track");
-    if (!query.isEmpty()) query.append(" ");
+    if (!query.isEmpty()) query.append(QLatin1Char(' '));
     query.append(title);
   }
   else {
     method = QStringLiteral("album.search");
     type = QStringLiteral("album");
     if (!album.isEmpty()) {
-      if (!query.isEmpty()) query.append(" ");
+      if (!query.isEmpty()) query.append(QLatin1Char(' '));
       query.append(album);
     }
   }
 
-  ParamList params = ParamList() << Param("api_key", kApiKey)
-                                 << Param("lang", QLocale().name().left(2).toLower())
-                                 << Param("method", method)
+  ParamList params = ParamList() << Param(QStringLiteral("api_key"), QLatin1String(kApiKey))
+                                 << Param(QStringLiteral("lang"), QLocale().name().left(2).toLower())
+                                 << Param(QStringLiteral("method"), method)
                                  << Param(type, query);
 
   std::sort(params.begin(), params.end());
@@ -96,21 +98,21 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
   QUrlQuery url_query;
   QString data_to_sign;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
     data_to_sign += param.first + param.second;
   }
-  data_to_sign += kSecret;
+  data_to_sign += QLatin1String(kSecret);
 
   QByteArray const digest = QCryptographicHash::hash(data_to_sign.toUtf8(), QCryptographicHash::Md5);
-  QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, '0').toLower();
+  QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, QLatin1Char('0')).toLower();
 
-  url_query.addQueryItem(QUrl::toPercentEncoding(QStringLiteral("api_sig")), QUrl::toPercentEncoding(signature));
-  url_query.addQueryItem(QUrl::toPercentEncoding(QStringLiteral("format")), QUrl::toPercentEncoding(QStringLiteral("json")));
+  url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral("api_sig"))), QString::fromLatin1(QUrl::toPercentEncoding(signature)));
+  url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral("format"))), QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral("json"))));
 
-  QUrl url(kUrl);
+  QUrl url(QString::fromLatin1(kUrl));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
   QNetworkReply *reply = network_->post(req, url_query.toString(QUrl::FullyEncoded).toUtf8());
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, type]() { QueryFinished(reply, id, type); });
@@ -172,7 +174,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
 
   QJsonValue value_matches;
 
-  if (type == "album") {
+  if (type == QStringLiteral("album")) {
     if (obj_results.contains(QStringLiteral("albummatches"))) {
       value_matches = obj_results[QStringLiteral("albummatches")];
     }
@@ -182,7 +184,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
       return;
     }
   }
-  else if (type == "track") {
+  else if (type == QStringLiteral("track")) {
     if (obj_results.contains(QStringLiteral("trackmatches"))) {
       value_matches = obj_results[QStringLiteral("trackmatches")];
     }
@@ -234,7 +236,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
     }
     QString artist = obj[QStringLiteral("artist")].toString();
     QString album;
-    if (type == "album") {
+    if (type == QStringLiteral("album")) {
       album = obj[QStringLiteral("name")].toString();
     }
 
@@ -308,7 +310,7 @@ QByteArray LastFmCoverProvider::GetReplyData(QNetworkReply *reply) {
         if (json_obj.contains(QStringLiteral("error")) && json_obj.contains(QStringLiteral("message"))) {
           int code = json_obj[QStringLiteral("error")].toInt();
           QString message = json_obj[QStringLiteral("message")].toString();
-          error = "Error: " + QString::number(code) + ": " + message;
+          error = QStringLiteral("Error: ") + QString::number(code) + QStringLiteral(": ") + message;
         }
       }
       if (error.isEmpty()) {
@@ -337,10 +339,10 @@ void LastFmCoverProvider::Error(const QString &error, const QVariant &debug) {
 
 LastFmCoverProvider::LastFmImageSize LastFmCoverProvider::ImageSizeFromString(const QString &size) {
 
-  if (size == "small") return LastFmImageSize::Small;
-  else if (size == "medium") return LastFmImageSize::Medium;
-  else if (size == "large") return LastFmImageSize::Large;
-  else if (size == "extralarge") return LastFmImageSize::ExtraLarge;
+  if (size == QStringLiteral("small")) return LastFmImageSize::Small;
+  else if (size == QStringLiteral("medium")) return LastFmImageSize::Medium;
+  else if (size == QStringLiteral("large")) return LastFmImageSize::Large;
+  else if (size == QStringLiteral("extralarge")) return LastFmImageSize::ExtraLarge;
   else return LastFmImageSize::Unknown;
 
 }

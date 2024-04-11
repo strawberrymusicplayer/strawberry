@@ -129,7 +129,7 @@ bool VLCEngine::Play(const quint64 offset_nanosec) {
   if (!Initialized()) return false;
 
   // Set audio output
-  if (!output_.isEmpty() && output_ != "auto") {
+  if (!output_.isEmpty() && output_ != QStringLiteral("auto")) {
     int result = libvlc_audio_output_set(player_, output_.toUtf8().constData());
     if (result != 0) qLog(Error) << "Failed to set output to" << output_;
   }
@@ -235,11 +235,11 @@ EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
     OutputDetails output;
     output.name = QString::fromUtf8(audio_output->psz_name);
     output.description = QString::fromUtf8(audio_output->psz_description);
-    if (output.name == "auto") output.iconname = QStringLiteral("soundcard");
-    else if ((output.name == "alsa")||(output.name == "oss")) output.iconname = QStringLiteral("alsa");
-    else if (output.name== "jack") output.iconname = QStringLiteral("jack");
-    else if (output.name == "pulse") output.iconname = QStringLiteral("pulseaudio");
-    else if (output.name == "afile") output.iconname = QStringLiteral("document-new");
+    if (output.name == QStringLiteral("auto")) output.iconname = QStringLiteral("soundcard");
+    else if ((output.name == QStringLiteral("alsa"))||(output.name == QStringLiteral("oss"))) output.iconname = QStringLiteral("alsa");
+    else if (output.name== QStringLiteral("jack")) output.iconname = QStringLiteral("jack");
+    else if (output.name == QStringLiteral("pulse")) output.iconname = QStringLiteral("pulseaudio");
+    else if (output.name == QStringLiteral("afile")) output.iconname = QStringLiteral("document-new");
     else output.iconname = QStringLiteral("soundcard");
     outputs << output;
   }
@@ -257,11 +257,11 @@ bool VLCEngine::ValidOutput(const QString &output) {
 }
 
 bool VLCEngine::CustomDeviceSupport(const QString &output) {
-  return (output != "auto");
+  return (output != QStringLiteral("auto"));
 }
 
 bool VLCEngine::ALSADeviceSupport(const QString &output) {
-  return (output == "alsa");
+  return (output == QStringLiteral("alsa"));
 }
 
 bool VLCEngine::ExclusiveModeSupport(const QString &output) {

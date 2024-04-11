@@ -109,7 +109,7 @@ void VolumeSlider::paintEvent(QPaintEvent*) {
   vol_font.setPixelSize(9);
   p.setFont(vol_font);
   const QRect rect(0, 0, 34, 15);
-  p.drawText(rect, Qt::AlignRight | Qt::AlignVCenter, QString::number(value()) + '%');
+  p.drawText(rect, Qt::AlignRight | Qt::AlignVCenter, QString::number(value()) + QLatin1Char('%'));
 
 }
 

@@ -659,7 +659,7 @@ QString Song::sortable(const QString &v) {
   for (const auto &i : kArticles) {
     if (copy.startsWith(i)) {
       qint64 ilen = i.length();
-      return copy.right(copy.length() - ilen) + ", " + copy.left(ilen - 1);
+      return copy.right(copy.length() - ilen) + QStringLiteral(", ") + copy.left(ilen - 1);
     }
   }
 
@@ -668,7 +668,7 @@ QString Song::sortable(const QString &v) {
 }
 
 QString Song::JoinSpec(const QString &table) {
-  return Utilities::Prepend(table + ".", kColumns).join(QStringLiteral(", "));
+  return Utilities::Prepend(table + QLatin1Char('.'), kColumns).join(QStringLiteral(", "));
 }
 
 QString Song::PrettyTitle() const {
@@ -686,7 +686,7 @@ QString Song::PrettyTitleWithArtist() const {
 
   QString title(PrettyTitle());
 
-  if (!d->artist_.isEmpty()) title = d->artist_ + " - " + title;
+  if (!d->artist_.isEmpty()) title = d->artist_ + QStringLiteral(" - ") + title;
 
   return title;
 
@@ -722,7 +722,7 @@ QString Song::TitleWithCompilationArtist() const {
 
   if (title.isEmpty()) title = d->basefilename_;
 
-  if (is_compilation() && !d->artist_.isEmpty() && !d->artist_.contains(QLatin1String("various"), Qt::CaseInsensitive)) title = d->artist_ + " - " + title;
+  if (is_compilation() && !d->artist_.isEmpty() && !d->artist_.contains(QLatin1String("various"), Qt::CaseInsensitive)) title = d->artist_ + QStringLiteral(" - ") + title;
 
   return title;
 
@@ -894,11 +894,11 @@ bool Song::IsSimilar(const Song &other) const {
 Song::Source Song::SourceFromURL(const QUrl &url) {
 
   if (url.isLocalFile()) return Source::LocalFile;
-  else if (url.scheme() == "cdda") return Source::CDDA;
-  else if (url.scheme() == "tidal") return Source::Tidal;
-  else if (url.scheme() == "subsonic") return Source::Subsonic;
-  else if (url.scheme() == "qobuz") return Source::Qobuz;
-  else if (url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "rtsp") {
+  else if (url.scheme() == QStringLiteral("cdda")) return Source::CDDA;
+  else if (url.scheme() == QStringLiteral("tidal")) return Source::Tidal;
+  else if (url.scheme() == QStringLiteral("subsonic")) return Source::Subsonic;
+  else if (url.scheme() == QStringLiteral("qobuz")) return Source::Qobuz;
+  else if (url.scheme() == QStringLiteral("http") || url.scheme() == QStringLiteral("https") || url.scheme() == QStringLiteral("rtsp")) {
     if (url.host().endsWith(QLatin1String("tidal.com"), Qt::CaseInsensitive)) { return Source::Tidal; }
     if (url.host().endsWith(QLatin1String("qobuz.com"), Qt::CaseInsensitive)) { return Source::Qobuz; }
     if (url.host().endsWith(QLatin1String("somafm.com"), Qt::CaseInsensitive)) { return Source::SomaFM; }
@@ -1075,7 +1075,7 @@ QIcon Song::IconForFiletype(const FileType filetype) {
     case FileType::CDDA:        return IconLoader::Load(QStringLiteral("cd"));
     case FileType::Stream:      return IconLoader::Load(QStringLiteral("applications-internet"));
     case FileType::Unknown:
-    default:                         return IconLoader::Load(QStringLiteral("edit-delete"));
+    default:                    return IconLoader::Load(QStringLiteral("edit-delete"));
   }
 
 }
@@ -1189,22 +1189,22 @@ QString Song::ImageCacheDir(const Source source) {
 
   switch (source) {
     case Source::Collection:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/collectionalbumcovers";
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/collectionalbumcovers");
     case Source::Subsonic:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/subsonicalbumcovers";
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/subsonicalbumcovers");
     case Source::Tidal:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/tidalalbumcovers";
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/tidalalbumcovers");
     case Source::Qobuz:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/qobuzalbumcovers";
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/qobuzalbumcovers");
     case Source::Device:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/devicealbumcovers";
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/devicealbumcovers");
     case Source::LocalFile:
     case Source::CDDA:
     case Source::Stream:
     case Source::SomaFM:
     case Source::RadioParadise:
     case Source::Unknown:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/albumcovers";
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/albumcovers");
   }
 
   return QString();
@@ -1460,8 +1460,8 @@ void Song::InitArtManual() {
 
   // If we don't have cover art, check if we have one in the cache
   if (d->art_manual_.isEmpty() && !effective_albumartist().isEmpty() && !effective_album().isEmpty()) {
-    QString filename(CoverUtils::Sha1CoverHash(effective_albumartist(), effective_album()).toHex() + ".jpg");
-    QString path(ImageCacheDir(d->source_) + "/" + filename);
+    QString filename = QString::fromLatin1(CoverUtils::Sha1CoverHash(effective_albumartist(), effective_album()).toHex()) + QStringLiteral(".jpg");
+    QString path(ImageCacheDir(d->source_) + QLatin1Char('/') + filename);
     if (QFile::exists(path)) {
       d->art_manual_ = QUrl::fromLocalFile(path);
     }
@@ -1509,7 +1509,7 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
 
   d->source_ = Source::Device;
   QString filename = QString::fromLocal8Bit(track->ipod_path);
-  filename.replace(':', '/');
+  filename.replace(QLatin1Char(':'), QLatin1Char('/'));
   if (prefix.contains(QLatin1String("://"))) {
     set_url(QUrl(prefix + filename));
   }
@@ -1533,7 +1533,7 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
       QString cover_path = ImageCacheDir(Source::Device);
       QDir dir(cover_path);
       if (!dir.exists()) dir.mkpath(cover_path);
-      QString cover_file = cover_path + "/" + CoverUtils::Sha1CoverHash(effective_albumartist(), effective_album()).toHex() + ".jpg";
+      QString cover_file = cover_path + QLatin1Char('/') + QString::fromLatin1(CoverUtils::Sha1CoverHash(effective_albumartist(), effective_album()).toHex()) + QStringLiteral(".jpg");
       GError *error = nullptr;
       if (dir.exists() && gdk_pixbuf_save(pixbuf, cover_file.toUtf8().constData(), "jpeg", &error, nullptr)) {
         d->art_manual_ = QUrl::fromLocalFile(cover_file);

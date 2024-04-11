@@ -67,10 +67,6 @@ class AcoustidClient : public QObject {
   void RequestFinished(QNetworkReply *reply, const int id);
 
  private:
-  static const char *kClientId;
-  static const char *kUrl;
-  static const int kDefaultTimeout;
-
   SharedPtr<NetworkAccessManager> network_;
   NetworkTimeouts *timeouts_;
   QMap<int, QNetworkReply*> requests_;

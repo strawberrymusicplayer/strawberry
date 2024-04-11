@@ -49,7 +49,7 @@ int ParseSearchTime(const QString &time_str) {
     if (c.isDigit()) {
       accum = accum * 10 + c.digitValue();
     }
-    else if (c == ':') {
+    else if (c == QLatin1Char(':')) {
       seconds = seconds * 60 + accum;
       accum = 0;
       ++colon_count;
@@ -89,7 +89,7 @@ float ParseSearchRating(const QString &rating_str) {
   }
 
   // check if the search is a float
-  else if (rating_str.at(0) == 'f') {
+  else if (rating_str.at(0) == QLatin1Char('f')) {
     QString rating_float = rating_str;
     rating_float = rating_float.remove(0, 1);
 

@@ -79,12 +79,12 @@ void MusixmatchLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 bool MusixmatchLyricsProvider::SendSearchRequest(LyricsSearchContextPtr search) {
 
   QUrlQuery url_query;
-  url_query.addQueryItem(QStringLiteral("apikey"), QByteArray::fromBase64(kApiKey));
-  url_query.addQueryItem(QStringLiteral("q_artist"), QUrl::toPercentEncoding(search->request.artist));
-  url_query.addQueryItem(QStringLiteral("q_track"), QUrl::toPercentEncoding(search->request.title));
+  url_query.addQueryItem(QStringLiteral("apikey"), QString::fromLatin1(QByteArray::fromBase64(kApiKey)));
+  url_query.addQueryItem(QStringLiteral("q_artist"), QString::fromLatin1(QUrl::toPercentEncoding(search->request.artist)));
+  url_query.addQueryItem(QStringLiteral("q_track"), QString::fromLatin1(QUrl::toPercentEncoding(search->request.title)));
   url_query.addQueryItem(QStringLiteral("f_has_lyrics"), QStringLiteral("1"));
 
-  QUrl url(QString(kApiUrl) + QStringLiteral("/track.search"));
+  QUrl url(QString::fromLatin1(kApiUrl) + QStringLiteral("/track.search"));
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -290,16 +290,16 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
     return;
   }
 
-  QByteArray data = reply->readAll();
+  const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     Error(QStringLiteral("Empty reply received from server."));
     EndSearch(search, url);
     return;
   }
 
-  QString content = data;
-  QString data_begin = QStringLiteral("<script id=\"__NEXT_DATA__\" type=\"application/json\">");
-  QString data_end = QStringLiteral("</script>");
+  const QString content = QString::fromUtf8(data);
+  const QString data_begin = QStringLiteral("<script id=\"__NEXT_DATA__\" type=\"application/json\">");
+  const QString data_end = QStringLiteral("</script>");
   qint64 begin_idx = content.indexOf(data_begin);
   QString content_json;
   if (begin_idx > 0) {

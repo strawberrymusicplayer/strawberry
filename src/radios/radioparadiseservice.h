@@ -48,7 +48,6 @@ class RadioParadiseService : public RadioService {
   void GetChannelsReply(QNetworkReply *reply, const int task_id);
 
  private:
-  static const char *kApiChannelsUrl;
   QList<QNetworkReply*> replies_;
   RadioChannelList channels_;
 };

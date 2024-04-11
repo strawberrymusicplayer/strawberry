@@ -61,7 +61,7 @@ TranscoderOptionsDialog::TranscoderOptionsDialog(Song::FileType type, QWidget *p
   }
 
   if (options_) {
-    setWindowTitle(windowTitle() + " - " + Song::TextForFiletype(type));
+    setWindowTitle(windowTitle() + QStringLiteral(" - ") + Song::TextForFiletype(type));
     options_->layout()->setContentsMargins(0, 0, 0, 0);
     ui_->verticalLayout->insertWidget(0, options_);
     resize(width(), minimumHeight());

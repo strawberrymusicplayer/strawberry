@@ -368,7 +368,7 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
       for (uint i = 0; i < map["COMM"].size(); ++i) {
         const TagLib::ID3v2::CommentsFrame *frame = dynamic_cast<const TagLib::ID3v2::CommentsFrame*>(map["COMM"][i]);
 
-        if (frame && TStringToQString(frame->description()) != "iTunNORM") {
+        if (frame && TStringToQString(frame->description()) != QStringLiteral("iTunNORM")) {
           TStringToStdString(frame->text(), song->mutable_comment());
           break;
         }
@@ -663,7 +663,7 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
   }
 
   if (!disc.isEmpty()) {
-    const qint64 i = disc.indexOf('/');
+    const qint64 i = disc.indexOf(QLatin1Char('/'));
     if (i != -1) {
       // disc.right( i ).toInt() is total number of discs, we don't use this at the moment
       song->set_disc(disc.left(i).toInt());
@@ -1311,10 +1311,10 @@ void TagReaderTagLib::SetEmbeddedArt(TagLib::MP4::File *aac_file, TagLib::MP4::T
   }
   else {
     TagLib::MP4::CoverArt::Format cover_format = TagLib::MP4::CoverArt::Format::JPEG;
-    if (mime_type == "image/jpeg") {
+    if (mime_type == QStringLiteral("image/jpeg")) {
       cover_format = TagLib::MP4::CoverArt::Format::JPEG;
     }
-    else if (mime_type == "image/png") {
+    else if (mime_type == QStringLiteral("image/png")) {
       cover_format = TagLib::MP4::CoverArt::Format::PNG;
     }
     else {

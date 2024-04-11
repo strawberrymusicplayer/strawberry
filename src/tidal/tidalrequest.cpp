@@ -47,14 +47,16 @@
 #include "tidalbaserequest.h"
 #include "tidalrequest.h"
 
-constexpr char TidalRequest::kResourcesUrl[] = "https://resources.tidal.com";
-constexpr int TidalRequest::kMaxConcurrentArtistsRequests = 3;
-constexpr int TidalRequest::kMaxConcurrentAlbumsRequests = 3;
-constexpr int TidalRequest::kMaxConcurrentSongsRequests = 3;
-constexpr int TidalRequest::kMaxConcurrentArtistAlbumsRequests = 3;
-constexpr int TidalRequest::kMaxConcurrentAlbumSongsRequests = 3;
-constexpr int TidalRequest::kMaxConcurrentAlbumCoverRequests = 1;
-constexpr int TidalRequest::kFlushRequestsDelay = 200;
+namespace {
+constexpr char kResourcesUrl[] = "https://resources.tidal.com";
+constexpr int kMaxConcurrentArtistsRequests = 3;
+constexpr int kMaxConcurrentAlbumsRequests = 3;
+constexpr int kMaxConcurrentSongsRequests = 3;
+constexpr int kMaxConcurrentArtistAlbumsRequests = 3;
+constexpr int kMaxConcurrentAlbumSongsRequests = 3;
+constexpr int kMaxConcurrentAlbumCoverRequests = 1;
+constexpr int kFlushRequestsDelay = 200;
+}  // namespace
 
 TidalRequest::TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, SharedPtr<NetworkAccessManager> network, QueryType query_type, QObject *parent)
     : TidalBaseRequest(service, network, parent),
@@ -248,9 +250,9 @@ void TidalRequest::FlushArtistsRequests() {
     Request request = artists_requests_queue_.dequeue();
 
     ParamList parameters;
-    if (query_type_ == QueryType::SearchArtists) parameters << Param("query", search_text_);
-    if (request.limit > 0) parameters << Param("limit", QString::number(request.limit));
-    if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
+    if (query_type_ == QueryType::SearchArtists) parameters << Param(QStringLiteral("query"), search_text_);
+    if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
+    if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == QueryType::Artists) {
       reply = CreateRequest(QStringLiteral("users/%1/favorites/artists").arg(service_->user_id()), parameters);
@@ -296,9 +298,9 @@ void TidalRequest::FlushAlbumsRequests() {
     Request request = albums_requests_queue_.dequeue();
 
     ParamList parameters;
-    if (query_type_ == QueryType::SearchAlbums) parameters << Param("query", search_text_);
-    if (request.limit > 0) parameters << Param("limit", QString::number(request.limit));
-    if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
+    if (query_type_ == QueryType::SearchAlbums) parameters << Param(QStringLiteral("query"), search_text_);
+    if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
+    if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == QueryType::Albums) {
       reply = CreateRequest(QStringLiteral("users/%1/favorites/albums").arg(service_->user_id()), parameters);
@@ -344,9 +346,9 @@ void TidalRequest::FlushSongsRequests() {
     Request request = songs_requests_queue_.dequeue();
 
     ParamList parameters;
-    if (query_type_ == QueryType::SearchSongs) parameters << Param("query", search_text_);
-    if (request.limit > 0) parameters << Param("limit", QString::number(request.limit));
-    if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
+    if (query_type_ == QueryType::SearchSongs) parameters << Param(QStringLiteral("query"), search_text_);
+    if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
+    if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == QueryType::Songs) {
       reply = CreateRequest(QStringLiteral("users/%1/favorites/tracks").arg(service_->user_id()), parameters);
@@ -584,7 +586,7 @@ void TidalRequest::FlushArtistAlbumsRequests() {
     const ArtistAlbumsRequest request = artist_albums_requests_queue_.dequeue();
 
     ParamList parameters;
-    if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
+    if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QStringLiteral("artists/%1/albums").arg(request.artist.artist_id), parameters);
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist, request.offset); });
     replies_ << reply;
@@ -692,7 +694,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
       if (service_->album_explicit() && obj_item.contains(QStringLiteral("explicit"))) {
         album.album_explicit = obj_item[QStringLiteral("explicit")].toVariant().toBool();
         if (album.album_explicit && !album.album.isEmpty()) {
-          album.album.append(" (Explicit)");
+          album.album.append(QStringLiteral(" (Explicit)"));
         }
       }
     }
@@ -717,7 +719,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
       if (service_->album_explicit() && obj_album.contains(QStringLiteral("explicit"))) {
         album.album_explicit = obj_album[QStringLiteral("explicit")].toVariant().toBool();
         if (album.album_explicit && !album.album.isEmpty()) {
-          album.album.append(" (Explicit)");
+          album.album.append(QStringLiteral(" (Explicit)"));
         }
       }
     }
@@ -859,7 +861,7 @@ void TidalRequest::FlushAlbumSongsRequests() {
 
     AlbumSongsRequest request = album_songs_requests_queue_.dequeue();
     ParamList parameters;
-    if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
+    if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QStringLiteral("albums/%1/tracks").arg(request.album.album_id), parameters);
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist, request.album, request.offset); });
@@ -1095,7 +1097,7 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     return;
   }
   QString album_title = obj_album[QStringLiteral("title")].toString();
-  if (album.album_explicit) album_title.append(" (Explicit)");
+  if (album.album_explicit) album_title.append(QStringLiteral(" (Explicit)"));
 
   if (!allow_streaming) {
     Warn(QStringLiteral("Song %1 %2 %3 is not allowStreaming").arg(artist, album_title, title));
@@ -1125,7 +1127,7 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   if (obj_album.contains(QStringLiteral("cover"))) {
     const QString cover = obj_album[QStringLiteral("cover")].toString().replace(QLatin1String("-"), QLatin1String("/"));
     if (!cover.isEmpty()) {
-      cover_url.setUrl(QStringLiteral("%1/images/%2/%3.jpg").arg(kResourcesUrl, cover, coversize_));
+      cover_url.setUrl(QStringLiteral("%1/images/%2/%3.jpg").arg(QLatin1String(kResourcesUrl), cover, coversize_));
     }
   }
 
@@ -1277,8 +1279,8 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-  if (mimetype.contains(';')) {
-    mimetype = mimetype.left(mimetype.indexOf(';'));
+  if (mimetype.contains(QLatin1Char(';'))) {
+    mimetype = mimetype.left(mimetype.indexOf(QLatin1Char(';')));
   }
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
     Error(QStringLiteral("Unsupported mimetype for image reader %1 for %2").arg(mimetype, url.toString()));
@@ -1287,7 +1289,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
     return;
   }
 
-  QByteArray data = reply->readAll();
+  const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     Error(QStringLiteral("Received empty image data for %1").arg(url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);

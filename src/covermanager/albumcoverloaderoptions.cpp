@@ -21,6 +21,7 @@
 
 #include <QSettings>
 
+#include "core/settings.h"
 #include "settings/coverssettingspage.h"
 
 AlbumCoverLoaderOptions::AlbumCoverLoaderOptions(const Options _options, const QSize _desired_scaled_size, const qreal _device_pixel_ratio, const Types &_types)
@@ -33,21 +34,21 @@ AlbumCoverLoaderOptions::Types AlbumCoverLoaderOptions::LoadTypes() {
 
   Types cover_types;
 
-  QSettings s;
+  Settings s;
   s.beginGroup(CoversSettingsPage::kSettingsGroup);
   const QStringList all_cover_types = QStringList() << QStringLiteral("art_unset") << QStringLiteral("art_embedded") << QStringLiteral("art_manual") << QStringLiteral("art_automatic");
   const QStringList cover_types_strlist = s.value(CoversSettingsPage::kTypes, all_cover_types).toStringList();
   for (const QString &cover_type_str : cover_types_strlist) {
-    if (cover_type_str == "art_unset") {
+    if (cover_type_str == QStringLiteral("art_unset")) {
       cover_types << AlbumCoverLoaderOptions::Type::Unset;
     }
-    else if (cover_type_str == "art_embedded") {
+    else if (cover_type_str == QStringLiteral("art_embedded")) {
       cover_types << AlbumCoverLoaderOptions::Type::Embedded;
     }
-    else if (cover_type_str == "art_manual") {
+    else if (cover_type_str == QStringLiteral("art_manual")) {
       cover_types << AlbumCoverLoaderOptions::Type::Manual;
     }
-    else if (cover_type_str == "art_automatic") {
+    else if (cover_type_str == QStringLiteral("art_automatic")) {
       cover_types << AlbumCoverLoaderOptions::Type::Automatic;
     }
   }

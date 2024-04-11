@@ -37,7 +37,9 @@
 #include "lyricssearchresult.h"
 #include "lololyricsprovider.h"
 
-const char *LoloLyricsProvider::kUrlSearch = "http://api.lololyrics.com/0.5/getLyric";
+namespace {
+constexpr char kUrlSearch[] = "http://api.lololyrics.com/0.5/getLyric";
+}
 
 LoloLyricsProvider::LoloLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider(QStringLiteral("LoloLyrics"), true, false, network, parent) {}
 
@@ -55,10 +57,10 @@ LoloLyricsProvider::~LoloLyricsProvider() {
 bool LoloLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   QUrlQuery url_query;
-  url_query.addQueryItem(QStringLiteral("artist"), QUrl::toPercentEncoding(request.artist));
-  url_query.addQueryItem(QStringLiteral("track"), QUrl::toPercentEncoding(request.title));
+  url_query.addQueryItem(QStringLiteral("artist"), QString::fromLatin1(QUrl::toPercentEncoding(request.artist)));
+  url_query.addQueryItem(QStringLiteral("track"), QString::fromLatin1(QUrl::toPercentEncoding(request.title)));
 
-  QUrl url(kUrlSearch);
+  QUrl url(QString::fromLatin1(kUrlSearch));
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -103,15 +105,15 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
       QXmlStreamReader::TokenType type = reader.readNext();
       QString name = reader.name().toString();
       if (type == QXmlStreamReader::StartElement) {
-        if (name == "result") {
+        if (name == QStringLiteral("result")) {
           status.clear();
           result = LyricsSearchResult();
         }
-        else if (name == "status") {
+        else if (name == QStringLiteral("status")) {
           status = reader.readElementText();
         }
-        else if (name == "response") {
-          if (status == "OK") {
+        else if (name == QStringLiteral("response")) {
+          if (status == QStringLiteral("OK")) {
             result.lyrics = reader.readElementText();
           }
           else {
@@ -121,7 +123,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
         }
       }
       else if (type == QXmlStreamReader::EndElement) {
-        if (name == "result") {
+        if (name == QStringLiteral("result")) {
           if (!result.lyrics.isEmpty()) {
             result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
             results << result;

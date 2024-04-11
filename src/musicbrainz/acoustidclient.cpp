@@ -48,9 +48,11 @@
 
 #include "acoustidclient.h"
 
-const char *AcoustidClient::kClientId = "0qjUoxbowg";
-const char *AcoustidClient::kUrl = "https://api.acoustid.org/v2/lookup";
-const int AcoustidClient::kDefaultTimeout = 5000;  // msec
+namespace {
+constexpr char kClientId[] = "0qjUoxbowg";
+constexpr char kUrl[] = "https://api.acoustid.org/v2/lookup";
+constexpr int kDefaultTimeout = 5000;  // msec
+}  // namespace
 
 AcoustidClient::AcoustidClient(SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
@@ -70,15 +72,15 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
 
-  const ParamList params = ParamList() << Param("format", "json")
-                                       << Param("client", kClientId)
-                                       << Param("duration", QString::number(duration_msec / kMsecPerSec))
-                                       << Param("meta", "recordingids+sources")
-                                       << Param("fingerprint", fingerprint);
+  const ParamList params = ParamList() << Param(QStringLiteral("format"), QStringLiteral("json"))
+                                       << Param(QStringLiteral("client"), QLatin1String(kClientId))
+                                       << Param(QStringLiteral("duration"), QString::number(duration_msec / kMsecPerSec))
+                                       << Param(QStringLiteral("meta"), QStringLiteral("recordingids+sources"))
+                                       << Param(QStringLiteral("fingerprint"), fingerprint);
 
   QUrlQuery url_query;
   url_query.setQueryItems(params);
-  QUrl url(kUrl);
+  QUrl url(QString::fromLatin1(kUrl));
   url.setQuery(url_query);
 
   QNetworkRequest req(url);
@@ -149,7 +151,7 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   QJsonObject json_object = json_document.object();
 
   QString status = json_object[QStringLiteral("status")].toString();
-  if (status != "ok") {
+  if (status != QStringLiteral("ok")) {
     emit Finished(request_id, QStringList(), status);
     return;
   }

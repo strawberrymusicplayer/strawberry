@@ -29,6 +29,7 @@
 #include <QSettings>
 #include <QEvent>
 
+#include "core/settings.h"
 #include "utilities/timeutils.h"
 #include "utilities/timeconstants.h"
 #include "trackslider.h"
@@ -57,7 +58,7 @@ TrackSlider::TrackSlider(QWidget *parent)
   UpdateLabelWidth();
 
   // Load settings
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   show_remaining_time_ = s.value("show_remaining_time").toBool();
   s.endGroup();
@@ -142,7 +143,7 @@ void TrackSlider::UpdateTimes(const int elapsed) {
   ui_->elapsed->setText(Utilities::PrettyTime(elapsed));
   // Update normally if showing remaining time
   if (show_remaining_time_) {
-    ui_->remaining->setText("-" + Utilities::PrettyTime(static_cast<int>(ui_->slider->maximum() / kMsecPerSec) - elapsed));
+    ui_->remaining->setText(QLatin1Char('-') + Utilities::PrettyTime(static_cast<int>(ui_->slider->maximum() / kMsecPerSec) - elapsed));
   }
   else {
     // Check if slider maximum value is changed before updating
@@ -214,7 +215,7 @@ void TrackSlider::ToggleTimeDisplay() {
   UpdateTimes(static_cast<int>(ui_->slider->value() / kMsecPerSec));
 
   // Save this setting
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("show_remaining_time", show_remaining_time_);
 

@@ -32,7 +32,9 @@
 #include "radioparadiseservice.h"
 #include "radiochannel.h"
 
-const char *RadioParadiseService::kApiChannelsUrl = "https://api.radioparadise.com/api/list_streams";
+namespace {
+constexpr char kApiChannelsUrl[] = "https://api.radioparadise.com/api/list_streams";
+}
 
 RadioParadiseService::RadioParadiseService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : RadioService(Song::Source::RadioParadise, QStringLiteral("Radio Paradise"), IconLoader::Load(QStringLiteral("radioparadise")), app, network, parent) {}
@@ -57,7 +59,7 @@ void RadioParadiseService::GetChannels() {
 
   Abort();
 
-  QUrl url(kApiChannelsUrl);
+  QUrl url(QString::fromLatin1(kApiChannelsUrl));
   QNetworkRequest req(url);
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
@@ -108,11 +110,11 @@ void RadioParadiseService::GetChannelsReply(QNetworkReply *reply, const int task
       QString label = obj_stream[QStringLiteral("label")].toString();
       QString url = obj_stream[QStringLiteral("url")].toString();
       if (!url.contains(QRegularExpression(QStringLiteral("^[0-9a-zA-Z]*:\\/\\/"), QRegularExpression::CaseInsensitiveOption))) {
-        url.prepend("https://");
+        url.prepend(QStringLiteral("https://"));
       }
       RadioChannel channel;
       channel.source = source_;
-      channel.name = name + " - " + label;
+      channel.name = name + QStringLiteral(" - ") + label;
       channel.url.setUrl(url);
       channels << channel;
     }

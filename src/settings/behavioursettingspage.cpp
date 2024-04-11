@@ -40,6 +40,7 @@
 
 #include "core/iconloader.h"
 #include "core/mainwindow.h"
+#include "core/settings.h"
 #include "settings/settingspage.h"
 #include "behavioursettingspage.h"
 #include "ui_behavioursettingspage.h"
@@ -77,13 +78,13 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
 
 #ifdef HAVE_TRANSLATIONS
   // Populate the language combo box.  We do this by looking at all the compiled in translations.
-  QDir dir1(":/translations/");
-  QDir dir2(TRANSLATIONS_DIR);
-  QStringList codes(dir1.entryList(QStringList() << "*.qm"));
+  QDir dir1(QStringLiteral(":/translations/"));
+  QDir dir2(QStringLiteral(TRANSLATIONS_DIR));
+  QStringList codes(dir1.entryList(QStringList() << QStringLiteral("*.qm")));
   if (dir2.exists()) {
-    codes << dir2.entryList(QStringList() << "*.qm");
+    codes << dir2.entryList(QStringList() << QStringLiteral("*.qm"));
   }
-  QRegularExpression lang_re("^strawberry_(.*).qm$");
+  QRegularExpression lang_re(QStringLiteral("^strawberry_(.*).qm$"));
   for (const QString &filename : codes) {
 
     QRegularExpressionMatch re_match = lang_re.match(filename);
@@ -93,21 +94,21 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
 
     QString code = re_match.captured(1);
     QString lookup_code = QString(code)
-                              .replace("@latin", "_Latn")
-                              .replace("_CN", "_Hans_CN")
-                              .replace("_TW", "_Hant_TW");
+                              .replace(QStringLiteral("@latin"), QStringLiteral("_Latn"))
+                              .replace(QStringLiteral("_CN"), QStringLiteral("_Hans_CN"))
+                              .replace(QStringLiteral("_TW"), QStringLiteral("_Hant_TW"));
 
     QString language_name = QLocale::languageToString(QLocale(lookup_code).language());
     QString native_name = QLocale(lookup_code).nativeLanguageName();
     if (!native_name.isEmpty()) {
       language_name = native_name;
     }
-    QString name = QString("%1 (%2)").arg(language_name, code);
+    QString name = QStringLiteral("%1 (%2)").arg(language_name, code);
 
     language_map_[name] = code;
   }
 
-  language_map_["English (en)"] = "en";
+  language_map_[QStringLiteral("English (en)")] = QStringLiteral("en");
 
   // Sort the names and show them in the UI
   QStringList names = language_map_.keys();
@@ -145,7 +146,7 @@ BehaviourSettingsPage::~BehaviourSettingsPage() {
 
 void BehaviourSettingsPage::Load() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
 #ifdef Q_OS_MACOS
@@ -217,13 +218,13 @@ void BehaviourSettingsPage::Load() {
 
   Init(ui_->layout_behavioursettingspage->parentWidget());
 
-  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
 }
 
 void BehaviourSettingsPage::Save() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   s.setValue("showtrayicon", ui_->checkbox_showtrayicon->isChecked());

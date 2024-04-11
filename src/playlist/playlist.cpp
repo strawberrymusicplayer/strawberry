@@ -64,6 +64,7 @@
 #include "core/mimedata.h"
 #include "core/tagreaderclient.h"
 #include "core/song.h"
+#include "core/settings.h"
 #include "utilities/timeconstants.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
@@ -292,7 +293,7 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
 
     case Qt::EditRole:
     case Qt::ToolTipRole:
-    case Qt::DisplayRole: {
+    case Qt::DisplayRole:{
       PlaylistItemPtr item = items_[idx.row()];
       Song song = item->Metadata();
 
@@ -772,7 +773,7 @@ Qt::ItemFlags Playlist::flags(const QModelIndex &idx) const {
 
 QStringList Playlist::mimeTypes() const {
 
-  return QStringList() << QStringLiteral("text/uri-list") << kRowsMimetype;
+  return QStringList() << QStringLiteral("text/uri-list") << QLatin1String(kRowsMimetype);
 
 }
 
@@ -800,7 +801,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
   if (const SongMimeData *song_data = qobject_cast<const SongMimeData*>(data)) {
     // Dragged from a collection
     // We want to check if these songs are from the actual local file backend, if they are we treat them differently.
-    if (song_data->backend && song_data->backend->songs_table() == SCollection::kSongsTable) {
+    if (song_data->backend && song_data->backend->songs_table() == QLatin1String(SCollection::kSongsTable)) {
       InsertSongItems<CollectionPlaylistItem>(song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
     }
     else {
@@ -819,7 +820,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
   else if (const RadioMimeData *radio_data = qobject_cast<const RadioMimeData*>(data)) {
     InsertRadioItems(radio_data->songs, row, play_now, enqueue_now, enqueue_next_now);
   }
-  else if (data->hasFormat(kRowsMimetype)) {
+  else if (data->hasFormat(QLatin1String(kRowsMimetype))) {
     // Dragged from the playlist
     // Rearranging it is tricky...
 
@@ -829,7 +830,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     qint64 pid = 0;
     qint64 own_pid = QCoreApplication::applicationPid();
 
-    QDataStream stream(data->data(kRowsMimetype));
+    QDataStream stream(data->data(QLatin1String(kRowsMimetype)));
     stream.readRawData(reinterpret_cast<char*>(&source_playlist), sizeof(source_playlist));  // NOLINT(bugprone-sizeof-expression)
     stream >> source_rows;
     if (!stream.atEnd()) {
@@ -868,7 +869,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
       }
     }
   }
-  else if (data->hasFormat(kCddaMimeType)) {
+  else if (data->hasFormat(QLatin1String(kCddaMimeType))) {
     SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_backend_, backend_->app()->player());
     QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
     inserter->LoadAudioCD(this, row, play_now, enqueue_now, enqueue_next_now);
@@ -1291,7 +1292,7 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
   buf.close();
 
   mimedata->setUrls(urls);
-  mimedata->setData(kRowsMimetype, buf.data());
+  mimedata->setData(QLatin1String(kRowsMimetype), buf.data());
 
   return mimedata;
 
@@ -1361,8 +1362,8 @@ bool Playlist::ComparePathDepths(const Qt::SortOrder order, PlaylistItemPtr _a, 
   PlaylistItemPtr a = order == Qt::AscendingOrder ? _a : _b;
   PlaylistItemPtr b = order == Qt::AscendingOrder ? _b : _a;
 
-  qint64 a_dir_level = a->Url().path().count('/');
-  qint64 b_dir_level = b->Url().path().count('/');
+  qint64 a_dir_level = a->Url().path().count(QLatin1Char('/'));
+  qint64 b_dir_level = b->Url().path().count(QLatin1Char('/'));
 
   return a_dir_level < b_dir_level;
 
@@ -1615,7 +1616,7 @@ void Playlist::ItemsLoaded() {
 
   emit RestoreFinished();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   bool greyout = s.value("greyout_songs_startup", true).toBool();
   s.endGroup();

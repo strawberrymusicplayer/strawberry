@@ -175,14 +175,14 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
     case CollectionModel::GroupBy::Year:{
       const int year = qMax(0, s.year());
       display_text = QString::number(year);
-      sort_text = CollectionModel::SortTextForNumber(year) + " ";
+      sort_text = CollectionModel::SortTextForNumber(year) + QLatin1Char(' ');
       break;
     }
 
     case CollectionModel::GroupBy::OriginalYear:{
       const int year = qMax(0, s.effective_originalyear());
       display_text = QString::number(year);
-      sort_text = CollectionModel::SortTextForNumber(year) + " ";
+      sort_text = CollectionModel::SortTextForNumber(year) + QLatin1Char(' ');
       break;
     }
 

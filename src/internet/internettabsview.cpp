@@ -35,6 +35,7 @@
 
 #include "core/application.h"
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilterwidget.h"
@@ -158,21 +159,21 @@ InternetTabsView::InternetTabsView(Application *app, InternetServicePtr service,
     ui_->tabs->removeTab(ui_->tabs->indexOf(ui_->songs));
   }
 
-  QSettings s;
+  Settings s;
   s.beginGroup(settings_group_);
-  QString tab = s.value("tab", "artists").toString().toLower();
+  QString tab = s.value("tab", QStringLiteral("artists")).toString().toLower();
   s.endGroup();
 
-  if (tab == "artists") {
+  if (tab == QStringLiteral("artists")) {
     ui_->tabs->setCurrentWidget(ui_->artists);
   }
-  else if (tab == "albums") {
+  else if (tab == QStringLiteral("albums")) {
     ui_->tabs->setCurrentWidget(ui_->albums);
   }
-  else if (tab == "songs") {
+  else if (tab == QStringLiteral("songs")) {
     ui_->tabs->setCurrentWidget(ui_->songs);
   }
-  else if (tab == "search") {
+  else if (tab == QStringLiteral("search")) {
     ui_->tabs->setCurrentWidget(ui_->search);
   }
 
@@ -182,7 +183,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetServicePtr service,
 
 InternetTabsView::~InternetTabsView() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(settings_group_);
   s.setValue("tab", ui_->tabs->currentWidget()->objectName().toLower());
   s.endGroup();

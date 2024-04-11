@@ -44,6 +44,7 @@
 #include "utilities/colorutils.h"
 #include "core/iconloader.h"
 #include "core/stylehelper.h"
+#include "core/settings.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "settingspage.h"
 #include "settingsdialog.h"
@@ -89,7 +90,7 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(QStringLiteral("view-media-visualization"), true, 0, 32));
 
-  ui_->combobox_style->addItem(QStringLiteral("default"), "default");
+  ui_->combobox_style->addItem(QStringLiteral("default"), QStringLiteral("default"));
   for (const QString &style : QStyleFactory::keys()) {
     ui_->combobox_style->addItem(style, style);
   }
@@ -139,10 +140,10 @@ AppearanceSettingsPage::~AppearanceSettingsPage() {
 
 void AppearanceSettingsPage::Load() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
-  ComboBoxLoadFromSettings(s, ui_->combobox_style, kStyle, QStringLiteral("default"));
+  ComboBoxLoadFromSettings(s, ui_->combobox_style, QLatin1String(kStyle), QStringLiteral("default"));
 
 #if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
   ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
@@ -215,13 +216,13 @@ void AppearanceSettingsPage::Load() {
 
   Init(ui_->layout_appearancesettingspage->parentWidget());
 
-  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
 }
 
 void AppearanceSettingsPage::Save() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   s.setValue("style", ui_->combobox_style->currentText());
@@ -297,7 +298,7 @@ void AppearanceSettingsPage::UpdateColorSelectorColor(QWidget *color_selector, c
 
 void AppearanceSettingsPage::SelectBackgroundImage() {
 
-  QString selected_filename = QFileDialog::getOpenFileName(this, tr("Select background image"), background_image_filename_, tr(AlbumCoverChoiceController::kLoadImageFileFilter) + ";;" + tr(AlbumCoverChoiceController::kAllFilesFilter));
+  QString selected_filename = QFileDialog::getOpenFileName(this, tr("Select background image"), background_image_filename_, tr(AlbumCoverChoiceController::kLoadImageFileFilter) + QStringLiteral(";;") + tr(AlbumCoverChoiceController::kAllFilesFilter));
   if (selected_filename.isEmpty()) return;
   background_image_filename_ = selected_filename;
   ui_->background_image_filename->setText(background_image_filename_);

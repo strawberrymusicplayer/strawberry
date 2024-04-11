@@ -358,7 +358,7 @@ FilterTree *FilterParser::parseAndGroup() {
   do {
     group->add(parseSearchExpression());
     advance();
-    if (iter_ != end_ && *iter_ == QChar(')')) break;
+    if (iter_ != end_ && *iter_ == QLatin1Char(')')) break;
     if (checkOr(false)) {
       break;
     }
@@ -372,16 +372,16 @@ FilterTree *FilterParser::parseAndGroup() {
 bool FilterParser::checkAnd() {
 
   if (iter_ != end_) {
-    if (*iter_ == QChar('A')) {
+    if (*iter_ == QLatin1Char('A')) {
       buf_ += *iter_;
       ++iter_;
-      if (iter_ != end_ && *iter_ == QChar('N')) {
+      if (iter_ != end_ && *iter_ == QLatin1Char('N')) {
         buf_ += *iter_;
         ++iter_;
-        if (iter_ != end_ && *iter_ == QChar('D')) {
+        if (iter_ != end_ && *iter_ == QLatin1Char('D')) {
           buf_ += *iter_;
           ++iter_;
-          if (iter_ != end_ && (iter_->isSpace() || *iter_ == QChar('-') || *iter_ == '(')) {
+          if (iter_ != end_ && (iter_->isSpace() || *iter_ == QLatin1Char('-') || *iter_ == QLatin1Char('('))) {
             advance();
             buf_.clear();
             return true;
@@ -397,7 +397,7 @@ bool FilterParser::checkAnd() {
 bool FilterParser::checkOr(const bool step_over) {
 
   if (!buf_.isEmpty()) {
-    if (buf_ == "OR") {
+    if (buf_ == QLatin1String("OR")) {
       if (step_over) {
         buf_.clear();
         advance();
@@ -407,13 +407,13 @@ bool FilterParser::checkOr(const bool step_over) {
   }
   else {
     if (iter_ != end_) {
-      if (*iter_ == 'O') {
+      if (*iter_ == QLatin1Char('O')) {
         buf_ += *iter_;
         ++iter_;
-        if (iter_ != end_ && *iter_ == 'R') {
+        if (iter_ != end_ && *iter_ == QLatin1Char('R')) {
           buf_ += *iter_;
           ++iter_;
-          if (iter_ != end_ && (iter_->isSpace() || *iter_ == '-' || *iter_ == '(')) {
+          if (iter_ != end_ && (iter_->isSpace() || *iter_ == QLatin1Char('-') || *iter_ == QLatin1Char('('))) {
             if (step_over) {
               buf_.clear();
               advance();
@@ -432,19 +432,19 @@ FilterTree *FilterParser::parseSearchExpression() {
 
   advance();
   if (iter_ == end_) return new NopFilter;
-  if (*iter_ == '(') {
+  if (*iter_ == QLatin1Char('(')) {
     ++iter_;
     advance();
     FilterTree *tree = parseOrGroup();
     advance();
     if (iter_ != end_) {
-      if (*iter_ == ')') {
+      if (*iter_ == QLatin1Char(')')) {
         ++iter_;
       }
     }
     return tree;
   }
-  else if (*iter_ == '-') {
+  else if (*iter_ == QLatin1Char('-')) {
     ++iter_;
     FilterTree *tree = parseSearchExpression();
     if (tree->type() != FilterTree::FilterType::Nop) return new NotFilter(tree);
@@ -464,7 +464,7 @@ FilterTree *FilterParser::parseSearchTerm() {
   bool inQuotes = false;
   for (; iter_ != end_; ++iter_) {
     if (inQuotes) {
-      if (*iter_ == '"') {
+      if (*iter_ == QLatin1Char('"')) {
         inQuotes = false;
       }
       else {
@@ -472,23 +472,23 @@ FilterTree *FilterParser::parseSearchTerm() {
       }
     }
     else {
-      if (*iter_ == '"') {
+      if (*iter_ == QLatin1Char('"')) {
         inQuotes = true;
       }
-      else if (col.isEmpty() && *iter_ == ':') {
+      else if (col.isEmpty() && *iter_ == QLatin1Char(':')) {
         col = buf_.toLower();
         buf_.clear();
         prefix.clear();  // prefix isn't allowed here - let's ignore it
       }
-      else if (iter_->isSpace() || *iter_ == '(' || *iter_ == ')' || *iter_ == '-') {
+      else if (iter_->isSpace() || *iter_ == QLatin1Char('(') || *iter_ == QLatin1Char(')') || *iter_ == QLatin1Char('-')) {
         break;
       }
       else if (buf_.isEmpty()) {
         // we don't know whether there is a column part in this search term thus we assume the latter and just try and read a prefix
-        if (prefix.isEmpty() && (*iter_ == '>' || *iter_ == '<' || *iter_ == '=' || *iter_ == '!')) {
+        if (prefix.isEmpty() && (*iter_ == QLatin1Char('>') || *iter_ == QLatin1Char('<') || *iter_ == QLatin1Char('=') || *iter_ == QLatin1Char('!'))) {
           prefix += *iter_;
         }
-        else if (prefix != "=" && *iter_ == '=') {
+        else if (prefix != QLatin1String("=") && *iter_ == QLatin1Char('=')) {
           prefix += *iter_;
         }
         else {
@@ -510,7 +510,7 @@ FilterTree *FilterParser::parseSearchTerm() {
 
 FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const {
 
-  if (search.isEmpty() && prefix != "=") {
+  if (search.isEmpty() && prefix != QLatin1String("=")) {
     return new NopFilter;
   }
   // here comes a mess :/
@@ -521,29 +521,29 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
   if (columns_[col] == Playlist::Column_Rating) {
     float parsed_search = Utilities::ParseSearchRating(search);
 
-    if (prefix == "=") {
+    if (prefix == QStringLiteral("=")) {
       cmp = new FloatEqComparator(parsed_search);
     }
-    else if (prefix == "!=" || prefix == "<>") {
+    else if (prefix == QStringLiteral("!=") || prefix == QStringLiteral("<>")) {
       cmp = new FloatNeComparator(parsed_search);
     }
-    else if (prefix == ">") {
+    else if (prefix == QStringLiteral(">")) {
       cmp = new FloatGtComparator(parsed_search);
     }
-    else if (prefix == ">=") {
+    else if (prefix == QStringLiteral(">=")) {
       cmp = new FloatGeComparator(parsed_search);
     }
-    else if (prefix == "<") {
+    else if (prefix == QStringLiteral("<")) {
       cmp = new FloatLtComparator(parsed_search);
     }
-    else if (prefix == "<=") {
+    else if (prefix == QStringLiteral("<=")) {
       cmp = new FloatLeComparator(parsed_search);
     }
     else {
       cmp = new FloatEqComparator(parsed_search);
     }
   }
-  else if (prefix == "!=" || prefix == "<>") {
+  else if (prefix == QStringLiteral("!=") || prefix == QStringLiteral("<>")) {
     cmp = new NeComparator(search);
   }
   else if (!col.isEmpty() && columns_.contains(col) && numerical_columns_.contains(columns_[col])) {
@@ -556,16 +556,16 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
       search_value = search.toInt();
     }
     // alright, back to deciding which comparator we'll use
-    if (prefix == ">") {
+    if (prefix == QLatin1String(">")) {
       cmp = new GtComparator(search_value);
     }
-    else if (prefix == ">=") {
+    else if (prefix == QLatin1String(">=")) {
       cmp = new GeComparator(search_value);
     }
-    else if (prefix == "<") {
+    else if (prefix == QLatin1String("<")) {
       cmp = new LtComparator(search_value);
     }
-    else if (prefix == "<=") {
+    else if (prefix == QLatin1String("<=")) {
       cmp = new LeComparator(search_value);
     }
     else {
@@ -574,19 +574,19 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
     }
   }
   else {
-    if (prefix == "=") {
+    if (prefix == QStringLiteral("=")) {
       cmp = new EqComparator(search);
     }
-    else if (prefix == ">") {
+    else if (prefix == QStringLiteral(">")) {
       cmp = new LexicalGtComparator(search);
     }
-    else if (prefix == ">=") {
+    else if (prefix == QStringLiteral(">=")) {
       cmp = new LexicalGeComparator(search);
     }
-    else if (prefix == "<") {
+    else if (prefix == QStringLiteral("<")) {
       cmp = new LexicalLtComparator(search);
     }
-    else if (prefix == "<=") {
+    else if (prefix == QStringLiteral("<=")) {
       cmp = new LexicalLeComparator(search);
     }
     else {

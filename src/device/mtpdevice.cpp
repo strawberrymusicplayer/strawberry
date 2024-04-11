@@ -226,7 +226,7 @@ bool MtpDevice::DeleteFromStorage(const DeleteJob &job) {
 
   // Extract the ID from the song's URL
   QString filename = job.metadata_.url().path();
-  filename.remove('/');
+  filename.remove(QLatin1Char('/'));
 
   bool ok = false;
   uint32_t id = filename.toUInt(&ok);

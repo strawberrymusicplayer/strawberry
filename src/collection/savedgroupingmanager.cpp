@@ -36,6 +36,7 @@
 
 #include "core/logging.h"
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "settings/collectionsettingspage.h"
 #include "collectionmodel.h"
 #include "savedgroupingmanager.h"
@@ -72,11 +73,11 @@ SavedGroupingManager::~SavedGroupingManager() {
 
 QString SavedGroupingManager::GetSavedGroupingsSettingsGroup(const QString &settings_group) {
 
-  if (settings_group.isEmpty() || settings_group == CollectionSettingsPage::kSettingsGroup) {
-    return kSavedGroupingsSettingsGroup;
+  if (settings_group.isEmpty() || settings_group == QLatin1String(CollectionSettingsPage::kSettingsGroup)) {
+    return QLatin1String(kSavedGroupingsSettingsGroup);
   }
   else {
-    return QString(kSavedGroupingsSettingsGroup) + "_" + settings_group;
+    return QLatin1String(kSavedGroupingsSettingsGroup) + QLatin1Char('_') + settings_group;
   }
 
 }
@@ -85,67 +86,67 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy g) 
 
   switch (g) {
     case CollectionModel::GroupBy::None:
-    case CollectionModel::GroupBy::GroupByCount: {
+    case CollectionModel::GroupBy::GroupByCount:{
       return tr("None");
     }
-    case CollectionModel::GroupBy::AlbumArtist: {
+    case CollectionModel::GroupBy::AlbumArtist:{
       return tr("Album artist");
     }
-    case CollectionModel::GroupBy::Artist: {
+    case CollectionModel::GroupBy::Artist:{
       return tr("Artist");
     }
-    case CollectionModel::GroupBy::Album: {
+    case CollectionModel::GroupBy::Album:{
       return tr("Album");
     }
-    case CollectionModel::GroupBy::AlbumDisc: {
+    case CollectionModel::GroupBy::AlbumDisc:{
       return tr("Album - Disc");
     }
-    case CollectionModel::GroupBy::YearAlbum: {
+    case CollectionModel::GroupBy::YearAlbum:{
       return tr("Year - Album");
     }
-    case CollectionModel::GroupBy::YearAlbumDisc: {
+    case CollectionModel::GroupBy::YearAlbumDisc:{
       return tr("Year - Album - Disc");
     }
-    case CollectionModel::GroupBy::OriginalYearAlbum: {
+    case CollectionModel::GroupBy::OriginalYearAlbum:{
       return tr("Original year - Album");
     }
-    case CollectionModel::GroupBy::OriginalYearAlbumDisc: {
+    case CollectionModel::GroupBy::OriginalYearAlbumDisc:{
       return tr("Original year - Album - Disc");
     }
-    case CollectionModel::GroupBy::Disc: {
+    case CollectionModel::GroupBy::Disc:{
       return tr("Disc");
     }
-    case CollectionModel::GroupBy::Year: {
+    case CollectionModel::GroupBy::Year:{
       return tr("Year");
     }
-    case CollectionModel::GroupBy::OriginalYear: {
+    case CollectionModel::GroupBy::OriginalYear:{
       return tr("Original year");
     }
-    case CollectionModel::GroupBy::Genre: {
+    case CollectionModel::GroupBy::Genre:{
       return tr("Genre");
     }
-    case CollectionModel::GroupBy::Composer: {
+    case CollectionModel::GroupBy::Composer:{
       return tr("Composer");
     }
-    case CollectionModel::GroupBy::Performer: {
+    case CollectionModel::GroupBy::Performer:{
       return tr("Performer");
     }
-    case CollectionModel::GroupBy::Grouping: {
+    case CollectionModel::GroupBy::Grouping:{
       return tr("Grouping");
     }
-    case CollectionModel::GroupBy::FileType: {
+    case CollectionModel::GroupBy::FileType:{
       return tr("File type");
     }
-    case CollectionModel::GroupBy::Format: {
+    case CollectionModel::GroupBy::Format:{
       return tr("Format");
     }
-    case CollectionModel::GroupBy::Samplerate: {
+    case CollectionModel::GroupBy::Samplerate:{
       return tr("Sample rate");
     }
-    case CollectionModel::GroupBy::Bitdepth: {
+    case CollectionModel::GroupBy::Bitdepth:{
       return tr("Bit depth");
     }
-    case CollectionModel::GroupBy::Bitrate: {
+    case CollectionModel::GroupBy::Bitrate:{
       return tr("Bitrate");
     }
   }
@@ -157,13 +158,13 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy g) 
 void SavedGroupingManager::UpdateModel() {
 
   model_->setRowCount(0);  // don't use clear, it deletes headers
-  QSettings s;
+  Settings s;
   s.beginGroup(saved_groupings_settings_group_);
   int version = s.value("version").toInt();
   if (version == 1) {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == "version") continue;
+      if (saved.at(i) == QStringLiteral("version")) continue;
       QByteArray bytes = s.value(saved.at(i)).toByteArray();
       QDataStream ds(&bytes, QIODevice::ReadOnly);
       CollectionModel::Grouping g;
@@ -181,7 +182,7 @@ void SavedGroupingManager::UpdateModel() {
   else {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == "version") continue;
+      if (saved.at(i) == QStringLiteral("version")) continue;
       s.remove(saved.at(i));
     }
   }
@@ -192,7 +193,7 @@ void SavedGroupingManager::UpdateModel() {
 void SavedGroupingManager::Remove() {
 
   if (ui_->list->selectionModel()->hasSelection()) {
-    QSettings s;
+    Settings s;
     s.beginGroup(saved_groupings_settings_group_);
     for (const QModelIndex &idx : ui_->list->selectionModel()->selectedRows()) {
       if (idx.isValid()) {

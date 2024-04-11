@@ -52,6 +52,7 @@
 #include "core/mimedata.h"
 #include "core/musicstorage.h"
 #include "core/deletefiles.h"
+#include "core/settings.h"
 #include "utilities/filemanagerutils.h"
 #include "collection.h"
 #include "collectionbackend.h"
@@ -128,7 +129,7 @@ void CollectionView::SaveFocus() {
   last_selected_container_ = QString();
 
   switch (type.toInt()) {
-    case CollectionItem::Type_Song: {
+    case CollectionItem::Type_Song:{
       QModelIndex index = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
       SongList songs = app_->collection_model()->GetChildSongs(index);
       if (!songs.isEmpty()) {
@@ -138,7 +139,7 @@ void CollectionView::SaveFocus() {
     }
 
     case CollectionItem::Type_Container:
-    case CollectionItem::Type_Divider: {
+    case CollectionItem::Type_Divider:{
       QString text = model()->data(current, CollectionModel::Role_SortText).toString();
       last_selected_container_ = text;
       break;
@@ -197,7 +198,7 @@ bool CollectionView::RestoreLevelFocus(const QModelIndex &parent) {
         break;
 
       case CollectionItem::Type_Container:
-      case CollectionItem::Type_Divider: {
+      case CollectionItem::Type_Divider:{
         QString text = model()->data(current, CollectionModel::Role_SortText).toString();
         if (!last_selected_container_.isEmpty() && last_selected_container_ == text) {
           expand(current);
@@ -224,7 +225,7 @@ bool CollectionView::RestoreLevelFocus(const QModelIndex &parent) {
 
 void CollectionView::ReloadSettings() {
 
-  QSettings settings;
+  Settings settings;
 
   settings.beginGroup(CollectionSettingsPage::kSettingsGroup);
   SetAutoOpen(settings.value("auto_open", false).toBool());

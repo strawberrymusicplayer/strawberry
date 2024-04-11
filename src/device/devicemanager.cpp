@@ -245,7 +245,7 @@ void DeviceManager::LoadAllDevices() {
 
 void DeviceManager::AddDeviceFromDB(DeviceInfo *info) {
 
-  QStringList icon_names = info->icon_name_.split(',');
+  QStringList icon_names = info->icon_name_.split(QLatin1Char(','));
   QVariantList icons;
   icons.reserve(icon_names.count());
   for (const QString &icon_name : icon_names) {
@@ -279,7 +279,7 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
   if (!info) return QVariant();
 
   switch (role) {
-    case Qt::DisplayRole: {
+    case Qt::DisplayRole:{
       QString text;
       if (!info->friendly_name_.isEmpty()) {
         text = info->friendly_name_;
@@ -295,7 +295,7 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
       return text;
     }
 
-    case Qt::DecorationRole: {
+    case Qt::DecorationRole:{
       QPixmap pixmap = info->icon_.pixmap(kDeviceIconSize);
 
       if (info->backends_.isEmpty() || !info->BestBackend() || !info->BestBackend()->lister_) {
@@ -360,7 +360,7 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
       if (!info->device_) return QVariant();
       return QVariant::fromValue<SharedPtr<MusicStorage>>(info->device_);
 
-    case Role_MountPath: {
+    case Role_MountPath:{
       if (!info->device_) return QVariant();
 
       QString ret = info->device_->url().path();
@@ -604,17 +604,17 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
 
     // If we get here it means that this URL scheme wasn't supported.
     // If it was "ipod" or "mtp" then the user compiled out support and the device won't work properly.
-    if (url.scheme() == "mtp" || url.scheme() == "gphoto2") {
+    if (url.scheme() == QStringLiteral("mtp") || url.scheme() == QStringLiteral("gphoto2")) {
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
-          tr("This is an MTP device, but you compiled Strawberry without libmtp support.") + "  " +
+          tr("This is an MTP device, but you compiled Strawberry without libmtp support.") + QStringLiteral("  ") +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
               QMessageBox::Abort, QMessageBox::Ignore) == QMessageBox::Abort)
         return ret;
     }
 
-    if (url.scheme() == "ipod") {
+    if (url.scheme() == QStringLiteral("ipod")) {
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
-          tr("This is an iPod, but you compiled Strawberry without libgpod support.") + "  " +
+          tr("This is an iPod, but you compiled Strawberry without libgpod support.") + QStringLiteral("  ") +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
               QMessageBox::Abort, QMessageBox::Ignore) == QMessageBox::Abort)
         return ret;

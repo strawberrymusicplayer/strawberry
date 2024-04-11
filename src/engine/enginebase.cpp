@@ -33,6 +33,7 @@
 #include "utilities/envutils.h"
 #include "utilities/timeconstants.h"
 #include "core/networkproxyfactory.h"
+#include "core/settings.h"
 #include "enginebase.h"
 #include "settings/backendsettingspage.h"
 #include "settings/networkproxysettingspage.h"
@@ -161,7 +162,7 @@ void EngineBase::SetVolume(const uint volume) {
 
 void EngineBase::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
 
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
 

@@ -47,6 +47,7 @@
 #include "core/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
+#include "core/settings.h"
 #include "widgets/favoritewidget.h"
 #include "widgets/renametablineedit.h"
 #include "playlist.h"
@@ -217,14 +218,14 @@ void PlaylistTabBar::CloseSlot() {
 
   const int playlist_id = tabData(menu_index_).toInt();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   const bool ask_for_delete = s.value("warn_close_playlist", true).toBool();
 
   if (ask_for_delete && !manager_->IsPlaylistFavorite(playlist_id) && !manager_->playlist(playlist_id)->GetAllSongs().empty()) {
     QMessageBox confirmation_box;
-    confirmation_box.setWindowIcon(QIcon(":/icons/64x64/strawberry.png"));
+    confirmation_box.setWindowIcon(QIcon(QStringLiteral(":/icons/64x64/strawberry.png")));
     confirmation_box.setWindowTitle(tr("Remove playlist"));
     confirmation_box.setIcon(QMessageBox::Question);
     confirmation_box.setText(
@@ -345,8 +346,8 @@ void PlaylistTabBar::CurrentIndexChanged(const int index) {
 void PlaylistTabBar::InsertTab(const int id, const int index, const QString &text, const bool favorite) {
 
   QString new_text = text;
-  if (new_text.contains('&')) {
-    new_text = new_text.replace('&', QLatin1String("&&"));
+  if (new_text.contains(QLatin1Char('&'))) {
+    new_text = new_text.replace(QLatin1Char('&'), QLatin1String("&&"));
   }
 
   suppress_current_changed_ = true;
@@ -381,7 +382,7 @@ void PlaylistTabBar::TabMoved() {
 }
 
 void PlaylistTabBar::dragEnterEvent(QDragEnterEvent *e) {
-  if (e->mimeData()->hasUrls() || e->mimeData()->hasFormat(Playlist::kRowsMimetype) || qobject_cast<const MimeData*>(e->mimeData())) {
+  if (e->mimeData()->hasUrls() || e->mimeData()->hasFormat(QString::fromLatin1(Playlist::kRowsMimetype)) || qobject_cast<const MimeData*>(e->mimeData())) {
     e->acceptProposedAction();
   }
 }
@@ -445,7 +446,7 @@ void PlaylistTabBar::dropEvent(QDropEvent *e) {
 bool PlaylistTabBar::event(QEvent *e) {
 
   switch (e->type()) {
-    case QEvent::ToolTip: {
+    case QEvent::ToolTip:{
       QHelpEvent *he = static_cast<QHelpEvent*>(e);
 
       QSize real_tab = tabSizeHint(tabAt(he->pos()));

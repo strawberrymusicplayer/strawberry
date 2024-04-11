@@ -69,6 +69,7 @@
 
 #include "core/scoped_ptr.h"
 #include "core/shared_ptr.h"
+#include "core/settings.h"
 
 #include "utilities/envutils.h"
 
@@ -126,8 +127,8 @@ int main(int argc, char *argv[]) {
 #endif
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
-  QCoreApplication::setApplicationName("Strawberry");
-  QCoreApplication::setOrganizationName("Strawberry");
+  QCoreApplication::setApplicationName(QStringLiteral("Strawberry"));
+  QCoreApplication::setOrganizationName(QStringLiteral("Strawberry"));
 #else
   QCoreApplication::setApplicationName(QStringLiteral("strawberry"));
   QCoreApplication::setOrganizationName(QStringLiteral("strawberry"));
@@ -216,7 +217,7 @@ int main(int argc, char *argv[]) {
   QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
 
   {
-    QSettings s;
+    Settings s;
     s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
     QString style = s.value(AppearanceSettingsPage::kStyle).toString();
     if (style.isEmpty()) {
@@ -224,7 +225,7 @@ int main(int argc, char *argv[]) {
       s.setValue(AppearanceSettingsPage::kStyle, style);
     }
     s.endGroup();
-    if (style != "default") {
+    if (style != QStringLiteral("default")) {
       QApplication::setStyle(style);
     }
     if (QApplication::style()) qLog(Debug) << "Style:" << QApplication::style()->objectName();
@@ -234,7 +235,7 @@ int main(int argc, char *argv[]) {
   // On Windows these are stored in the registry instead.
 #ifdef Q_OS_UNIX
   {
-    QSettings s;
+    Settings s;
     if (QFile::exists(s.fileName())) {
       if (!QFile::setPermissions(s.fileName(), QFile::ReadOwner | QFile::WriteOwner)) {
         qLog(Error) << "Could not set permissions for settingsfile" << s.fileName();
@@ -258,7 +259,7 @@ int main(int argc, char *argv[]) {
 #ifdef HAVE_TRANSLATIONS
   QString override_language = options.language();
   if (override_language.isEmpty()) {
-    QSettings s;
+    Settings s;
     s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
     override_language = s.value("language").toString();
     s.endGroup();
@@ -266,21 +267,21 @@ int main(int argc, char *argv[]) {
 
   QString system_language = QLocale::system().uiLanguages().empty() ? QLocale::system().name() : QLocale::system().uiLanguages().first();
   // uiLanguages returns strings with "-" as separators for language/region; however QTranslator needs "_" separators
-  system_language.replace("-", "_");
+  system_language.replace(QLatin1Char('-'), QLatin1Char('_'));
 
   const QString language = override_language.isEmpty() ? system_language : override_language;
 
   ScopedPtr<Translations> translations(new Translations);
 
 #  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  translations->LoadTranslation("qt", QLibraryInfo::path(QLibraryInfo::TranslationsPath), language);
+  translations->LoadTranslation(QStringLiteral("qt"), QLibraryInfo::path(QLibraryInfo::TranslationsPath), language);
 #  else
-  translations->LoadTranslation("qt", QLibraryInfo::location(QLibraryInfo::TranslationsPath), language);
+  translations->LoadTranslation(QStringLiteral("qt"), QLibraryInfo::location(QLibraryInfo::TranslationsPath), language);
 #  endif
-  translations->LoadTranslation("strawberry", ":/translations", language);
-  translations->LoadTranslation("strawberry", TRANSLATIONS_DIR, language);
-  translations->LoadTranslation("strawberry", QCoreApplication::applicationDirPath(), language);
-  translations->LoadTranslation("strawberry", QDir::currentPath(), language);
+  translations->LoadTranslation(QStringLiteral("strawberry"), QStringLiteral(":/translations"), language);
+  translations->LoadTranslation(QStringLiteral("strawberry"), QStringLiteral(TRANSLATIONS_DIR), language);
+  translations->LoadTranslation(QStringLiteral("strawberry"), QCoreApplication::applicationDirPath(), language);
+  translations->LoadTranslation(QStringLiteral("strawberry"), QDir::currentPath(), language);
 
 #  ifdef HAVE_QTSPARKLE
   //qtsparkle::LoadTranslations(language);

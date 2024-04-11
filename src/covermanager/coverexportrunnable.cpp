@@ -84,7 +84,7 @@ void CoverExportRunnable::ProcessAndExportCover() {
         if (dialog_result_.export_downloaded_ && song_.art_manual_is_valid()) {
           const QString cover_path = song_.art_manual().toLocalFile();
           if (image.load(cover_path)) {
-            extension = cover_path.section('.', -1);
+            extension = cover_path.section(QLatin1Char('.'), -1);
           }
         }
         break;
@@ -92,7 +92,7 @@ void CoverExportRunnable::ProcessAndExportCover() {
         if (dialog_result_.export_downloaded_ && song_.art_automatic_is_valid()) {
           const QString cover_path = song_.art_automatic().toLocalFile();
           if (image.load(cover_path)) {
-            extension = cover_path.section('.', -1);
+            extension = cover_path.section(QLatin1Char('.'), -1);
           }
         }
         break;
@@ -110,8 +110,8 @@ void CoverExportRunnable::ProcessAndExportCover() {
     image = image.scaled(QSize(dialog_result_.width_, dialog_result_.height_), Qt::IgnoreAspectRatio);
   }
 
-  QString cover_dir = song_.url().toLocalFile().section('/', 0, -2);
-  QString new_file = cover_dir + '/' + dialog_result_.filename_ + '.' + (song_.art_embedded() ? QStringLiteral("jpg") : extension);
+  QString cover_dir = song_.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
+  QString new_file = cover_dir + QLatin1Char('/') + dialog_result_.filename_ + QLatin1Char('.') + (song_.art_embedded() ? QStringLiteral("jpg") : extension);
 
   // If the file exists, do not override!
   if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode::None && QFile::exists(new_file)) {
@@ -177,7 +177,7 @@ void CoverExportRunnable::ExportCover() {
         if (dialog_result_.export_downloaded_ && song_.art_manual_is_valid()) {
           cover_path = song_.art_manual().toLocalFile();
           if (image.load(cover_path)) {
-            extension = cover_path.section('.', -1);
+            extension = cover_path.section(QLatin1Char('.'), -1);
           }
         }
         break;
@@ -185,7 +185,7 @@ void CoverExportRunnable::ExportCover() {
         if (dialog_result_.export_downloaded_ && song_.art_automatic_is_valid()) {
           cover_path = song_.art_automatic().toLocalFile();
           if (image.load(cover_path)) {
-            extension = cover_path.section('.', -1);
+            extension = cover_path.section(QLatin1Char('.'), -1);
           }
         }
         break;
@@ -198,8 +198,8 @@ void CoverExportRunnable::ExportCover() {
     return;
   }
 
-  QString cover_dir = song_.url().toLocalFile().section('/', 0, -2);
-  QString new_file = cover_dir + '/' + dialog_result_.filename_ + '.' + extension;
+  QString cover_dir = song_.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
+  QString new_file = cover_dir + QLatin1Char('/') + dialog_result_.filename_ + QLatin1Char('.') + extension;
 
   // If the file exists, do not override!
   if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode::None && QFile::exists(new_file)) {

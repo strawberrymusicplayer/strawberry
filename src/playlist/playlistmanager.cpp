@@ -45,6 +45,7 @@
 #include "core/shared_ptr.h"
 #include "core/application.h"
 #include "core/player.h"
+#include "core/settings.h"
 #include "utilities/filenameconstants.h"
 #include "utilities/timeutils.h"
 #include "collection/collectionbackend.h"
@@ -241,7 +242,7 @@ void PlaylistManager::ItemsLoadedForSavePlaylist(const SongList &songs, const QS
 
 void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(Playlist::kSettingsGroup);
   QString last_save_filter = s.value("last_save_filter", parser()->default_filter()).toString();
   QString last_save_path = s.value("last_save_path", QDir::homePath()).toString();
@@ -249,7 +250,7 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   s.endGroup();
 
   QString suggested_filename = playlist_name;
-  QString filename = last_save_path + "/" + suggested_filename.remove(QRegularExpression(QString(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption)) + "." + last_save_extension;
+  QString filename = last_save_path + QLatin1Char('/') + suggested_filename.remove(QRegularExpression(QLatin1String(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption)) + QStringLiteral(".") + last_save_extension;
 
   QFileInfo fileinfo;
   forever {
@@ -441,7 +442,7 @@ void PlaylistManager::UpdateSummaryText() {
 
   QString summary;
   if (selected > 1) {
-    summary += tr("%1 selected of").arg(selected) + " ";
+    summary += tr("%1 selected of").arg(selected) + QLatin1Char(' ');
   }
   else {
     nanoseconds = current()->GetTotalLength();
@@ -450,7 +451,7 @@ void PlaylistManager::UpdateSummaryText() {
   summary += tr("%n track(s)", "", tracks);
 
   if (nanoseconds > 0) {
-    summary += " - [ " + Utilities::WordyTimeNanosec(nanoseconds) + " ]";
+    summary += QStringLiteral(" - [ ") + Utilities::WordyTimeNanosec(nanoseconds) + QStringLiteral(" ]");
   }
 
   emit SummaryTextChanged(summary);
@@ -565,7 +566,7 @@ QString PlaylistManager::GetNameForNewPlaylist(const SongList &songs) {
 
   if (!various_artists && albums.size() == 1) {
     QStringList album_names = albums.values();
-    result += " - " + album_names.first();
+    result += QStringLiteral(" - ") + album_names.first();
   }
 
   return result;
@@ -633,7 +634,7 @@ void PlaylistManager::SaveAllPlaylists() {
   QString extension = dialog.extension();
   if (extension.isEmpty()) extension = parser()->default_extension();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
   PlaylistSettingsPage::PathType path_type = static_cast<PlaylistSettingsPage::PathType>(s.value("path_type", static_cast<int>(PlaylistSettingsPage::PathType::Automatic)).toInt());
   s.endGroup();
@@ -646,7 +647,7 @@ void PlaylistManager::SaveAllPlaylists() {
 
   for (QMap<int, Data>::const_iterator it = playlists_.constBegin(); it != playlists_.constEnd(); ++it) {
     const Data &data = *it;
-    const QString filepath = path + "/" + data.name + "." + extension;
+    const QString filepath = path + QLatin1Char('/') + data.name + QLatin1Char('.') + extension;
     Save(it.key(), filepath, path_type);
   }
 

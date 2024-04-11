@@ -70,15 +70,6 @@ class SpotifyCoverProvider : public JsonCoverProvider {
   void RequestAccessToken(const QString &code = QString(), const QUrl &redirect_url = QUrl());
 
  private:
-  static const char *kSettingsGroup;
-  static const char *kClientIDB64;
-  static const char *kClientSecretB64;
-  static const char *kOAuthAuthorizeUrl;
-  static const char *kOAuthAccessTokenUrl;
-  static const char *kOAuthRedirectUrl;
-  static const char *kApiUrl;
-  static const int kLimit;
-
   LocalRedirectServer *server_;
   QStringList login_errors_;
   QString code_verifier_;

@@ -130,7 +130,7 @@ bool CollectionItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *vie
   if (text.isEmpty()) return false;
 
   switch (event->type()) {
-    case QEvent::ToolTip: {
+    case QEvent::ToolTip:{
 
       QSize real_text = sizeHint(option, idx);
       QRect displayed_text = view->visualRect(idx);

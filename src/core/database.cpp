@@ -47,10 +47,13 @@
 #include "sqlquery.h"
 #include "scopedtransaction.h"
 
-const char *Database::kDatabaseFilename = "strawberry.db";
 const int Database::kSchemaVersion = 18;
-const int Database::kMinSupportedSchemaVersion = 10;
-const char *Database::kMagicAllSongsTables = "%allsongstables";
+
+namespace {
+constexpr char kDatabaseFilename[] = "strawberry.db";
+constexpr int kMinSupportedSchemaVersion = 10;
+constexpr char kMagicAllSongsTables[] = "%allsongstables";
+}  // namespace
 
 int Database::sNextConnectionId = 1;
 QMutex Database::sNextConnectionIdMutex;
@@ -131,14 +134,14 @@ QSqlDatabase Database::Connect() {
   //qLog(Debug) << "Opened database with connection id" << connection_id;
 
   if (injected_database_name_.isNull()) {
-    db.setDatabaseName(directory_ + "/" + kDatabaseFilename);
+    db.setDatabaseName(directory_ + QLatin1Char('/') + QLatin1String(kDatabaseFilename));
   }
   else {
     db.setDatabaseName(injected_database_name_);
   }
 
   if (!db.open()) {
-    app_->AddError("Database: " + db.lastError().text());
+    app_->AddError(QStringLiteral("Database: ") + db.lastError().text());
     return db;
   }
 
@@ -405,16 +408,16 @@ void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_
   for (const QString &command : commands) {
     // There are now lots of "songs" tables that need to have the same schema: songs and device_*_songs.
     // We allow a magic value in the schema files to update all songs tables at once.
-    if (command.contains(kMagicAllSongsTables)) {
+    if (command.contains(QLatin1String(kMagicAllSongsTables))) {
       for (const QString &table : song_tables) {
         // Another horrible hack: device songs tables don't have matching _fts tables, so if this command tries to touch one, ignore it.
-        if (table.startsWith(QLatin1String("device_")) && command.contains(QString(kMagicAllSongsTables) + "_fts")) {
+        if (table.startsWith(QLatin1String("device_")) && command.contains(QLatin1String(kMagicAllSongsTables) + QStringLiteral("_fts"))) {
           continue;
         }
 
         qLog(Info) << "Updating" << table << "for" << kMagicAllSongsTables;
         QString new_command(command);
-        new_command.replace(kMagicAllSongsTables, table);
+        new_command.replace(QLatin1String(kMagicAllSongsTables), table);
         SqlQuery query(db);
         query.prepare(new_command);
         if (!query.Exec()) {
@@ -443,7 +446,7 @@ QStringList Database::SongsTables(QSqlDatabase &db, const int schema_version) {
 
   // look for the tables in the main db
   for (const QString &table : db.tables()) {
-    if (table == "songs" || table.endsWith(QLatin1String("_songs"))) ret << table;
+    if (table == QStringLiteral("songs") || table.endsWith(QLatin1String("_songs"))) ret << table;
   }
 
   // look for the tables in attached dbs
@@ -453,7 +456,7 @@ QStringList Database::SongsTables(QSqlDatabase &db, const int schema_version) {
     q.prepare(QStringLiteral("SELECT NAME FROM %1.sqlite_master WHERE type='table' AND name='songs' OR name LIKE '%songs'").arg(key));
     if (q.Exec()) {
       while (q.next()) {
-        QString tab_name = key + "." + q.value(0).toString();
+        QString tab_name = key + QStringLiteral(".") + q.value(0).toString();
         ret << tab_name;
       }
     }
@@ -495,13 +498,13 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
       QString message = q.value(0).toString();
 
       // If no errors are found, a single row with the value "ok" is returned
-      if (message == "ok") {
+      if (message == QStringLiteral("ok")) {
         ok = true;
         break;
       }
       else {
         if (!error_reported) { app_->AddError(tr("Database corruption detected.")); }
-        app_->AddError("Database: " + message);
+        app_->AddError(QStringLiteral("Database: ") + message);
         error_reported = true;
       }
     }

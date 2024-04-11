@@ -31,7 +31,7 @@ QString MacAddress() {
 
   for (QNetworkInterface &netif : QNetworkInterface::allInterfaces()) {
     if (
-        (netif.hardwareAddress() == "00:00:00:00:00:00") ||
+        (netif.hardwareAddress() == QStringLiteral("00:00:00:00:00:00")) ||
         (netif.flags() & QNetworkInterface::IsLoopBack) ||
         !(netif.flags() & QNetworkInterface::IsUp) ||
         !(netif.flags() & QNetworkInterface::IsRunning)

@@ -61,7 +61,7 @@ ContextAlbum::ContextAlbum(QWidget *parent)
       pixmap_current_opacity_(1.0),
       desired_height_(width()) {
 
-  setObjectName("context-widget-album");
+  setObjectName(QStringLiteral("context-widget-album"));
 
   setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -266,7 +266,7 @@ void ContextAlbum::SearchCoverInProgress() {
   downloading_covers_ = true;
 
   // Show a spinner animation
-  spinner_animation_ = make_unique<QMovie>(":/pictures/spinner.gif", QByteArray(), this);
+  spinner_animation_ = make_unique<QMovie>(QStringLiteral(":/pictures/spinner.gif"), QByteArray(), this);
   QObject::connect(&*spinner_animation_, &QMovie::updated, this, &ContextAlbum::Update);
   spinner_animation_->start();
   update();

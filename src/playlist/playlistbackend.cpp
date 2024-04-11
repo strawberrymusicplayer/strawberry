@@ -116,11 +116,11 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFl
   }
   QString condition;
   if (!condition_list.isEmpty()) {
-    condition = " WHERE " + condition_list.join(QStringLiteral(" OR "));
+    condition = QStringLiteral(" WHERE ") + condition_list.join(QStringLiteral(" OR "));
   }
 
   SqlQuery q(db);
-  q.prepare("SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend FROM playlists " + condition + " ORDER BY ui_order");
+  q.prepare(QStringLiteral("SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend FROM playlists ") + condition + QStringLiteral(" ORDER BY ui_order"));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return ret;
@@ -184,7 +184,7 @@ PlaylistItemPtrList PlaylistBackend::GetPlaylistItems(const int playlist) {
     QMutexLocker l(db_->Mutex());
     QSqlDatabase db(db_->Connect());
 
-    QString query = "SELECT songs.ROWID, " + Song::JoinSpec(QStringLiteral("songs")) + ", p.ROWID, " + Song::JoinSpec(QStringLiteral("p")) + ", p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist";
+    QString query = QStringLiteral("SELECT songs.ROWID, ") + Song::JoinSpec(QStringLiteral("songs")) + QStringLiteral(", p.ROWID, ") + Song::JoinSpec(QStringLiteral("p")) + QStringLiteral(", p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist");
     SqlQuery q(db);
     // Forward iterations only may be faster
     q.setForwardOnly(true);
@@ -219,7 +219,7 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
     QMutexLocker l(db_->Mutex());
     QSqlDatabase db(db_->Connect());
 
-    QString query = "SELECT songs.ROWID, " + Song::JoinSpec(QStringLiteral("songs")) + ", p.ROWID, " + Song::JoinSpec(QStringLiteral("p")) + ", p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist";
+    QString query = QStringLiteral("SELECT songs.ROWID, ") + Song::JoinSpec(QStringLiteral("songs")) + QStringLiteral(", p.ROWID, ") + Song::JoinSpec(QStringLiteral("p")) + QStringLiteral(", p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist");
     SqlQuery q(db);
     // Forward iterations only may be faster
     q.setForwardOnly(true);
@@ -296,7 +296,7 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
       QFile cue_file(cue_path);
       if (!cue_file.open(QIODevice::ReadOnly)) return item;
 
-      song_list = cue_parser.Load(&cue_file, cue_path, QDir(cue_path.section('/', 0, -2)));
+      song_list = cue_parser.Load(&cue_file, cue_path, QDir(cue_path.section(QLatin1Char('/'), 0, -2)));
       cue_file.close();
       state->cached_cues_[cue_path] = song_list;
     }
@@ -348,7 +348,7 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &item
   // Save the new ones
   for (PlaylistItemPtr item : items) {  // clazy:exclude=range-loop-reference
     SqlQuery q(db);
-    q.prepare("INSERT INTO playlist_items (playlist, type, collection_id, " + Song::kColumnSpec + ") VALUES (:playlist, :type, :collection_id, " + Song::kBindSpec + ")");
+    q.prepare(QStringLiteral("INSERT INTO playlist_items (playlist, type, collection_id, ") + Song::kColumnSpec + QStringLiteral(") VALUES (:playlist, :type, :collection_id, ") + Song::kBindSpec + QStringLiteral(")"));
     q.BindValue(QStringLiteral(":playlist"), playlist);
     item->BindToQuery(&q);
 

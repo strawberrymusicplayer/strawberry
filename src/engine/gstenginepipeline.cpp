@@ -321,7 +321,7 @@ QString GstEnginePipeline::GstStateText(const GstState state) {
 
 GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const {
 
-  QString unique_name = QStringLiteral("pipeline") + "-" + QString::number(id_) + "-" + (name.isEmpty() ? factory_name : name);
+  QString unique_name = QStringLiteral("pipeline") + QLatin1Char('-') + QString::number(id_) + QLatin1Char('-') + (name.isEmpty() ? factory_name : name);
 
   GstElement *element = gst_element_factory_make(factory_name.toUtf8().constData(), unique_name.toUtf8().constData());
   if (!element) {
@@ -366,7 +366,7 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
   }
 #else
   if (volume_enabled_ && !volume_) {
-    if (output_ == GstEngine::kAutoSink) {
+    if (output_ == QLatin1String(GstEngine::kAutoSink)) {
       element_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(audiobin_), "deep-element-added", &ElementAddedCallback, this);
       element_removed_cb_id_ = CHECKED_GCONNECT(G_OBJECT(audiobin_), "deep-element-removed", &ElementRemovedCallback, this);
     }
@@ -835,7 +835,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     const bool link_filtered_result = gst_element_link_filtered(audiosinkconverter, audiosink_, caps);
     gst_caps_unref(caps);
     if (!link_filtered_result) {
-      error = "Failed to link audio sink converter to audio sink with filter for " + output_;
+      error = QStringLiteral("Failed to link audio sink converter to audio sink with filter for ") + output_;
       return false;
     }
   }
@@ -923,7 +923,7 @@ void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin*, GstElement *e
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
   gchar *element_name_char = gst_element_get_name(element);
-  const QString element_name(element_name_char);
+  const QString element_name = QString::fromUtf8(element_name_char);
   g_free(element_name_char);
 
   if (bin != GST_BIN(instance->audiobin_) || element_name == QStringLiteral("fake-audio-sink") || GST_ELEMENT(gst_element_get_parent(element)) != instance->audiosink_) return;
@@ -1456,7 +1456,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
 
 #ifdef Q_OS_WIN
   // Ignore non-error received for directsoundsink: "IDirectSoundBuffer_GetStatus The operation completed successfully"
-  if (code == GST_RESOURCE_ERROR_OPEN_WRITE && message.contains("IDirectSoundBuffer_GetStatus The operation completed successfully.")) {
+  if (code == GST_RESOURCE_ERROR_OPEN_WRITE && message.contains(QStringLiteral("IDirectSoundBuffer_GetStatus The operation completed successfully."))) {
     return;
   }
 #endif
@@ -1488,8 +1488,8 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
     if (engine_metadata.title.contains(QLatin1String(" - "))) {
       title_splitted = engine_metadata.title.split(QStringLiteral(" - "));
     }
-    else if (engine_metadata.title.contains('~')) {
-      title_splitted = engine_metadata.title.split('~');
+    else if (engine_metadata.title.contains(QLatin1Char('~'))) {
+      title_splitted = engine_metadata.title.split(QLatin1Char('~'));
     }
     if (!title_splitted.isEmpty() && title_splitted.count() >= 2) {
       int i = 0;

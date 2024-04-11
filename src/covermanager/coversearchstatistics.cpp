@@ -63,6 +63,6 @@ QString CoverSearchStatistics::AverageDimensions() const {
     return QStringLiteral("0x0");
   }
 
-  return QString::number(chosen_width_ / chosen_images_) + "x" + QString::number(chosen_height_ / chosen_images_);
+  return QString::number(chosen_width_ / chosen_images_) + QLatin1Char('x') + QString::number(chosen_height_ / chosen_images_);
 
 }

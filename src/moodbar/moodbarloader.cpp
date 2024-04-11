@@ -40,6 +40,7 @@
 #include "core/logging.h"
 #include "core/scoped_ptr.h"
 #include "core/application.h"
+#include "core/settings.h"
 
 #include "moodbarpipeline.h"
 
@@ -58,7 +59,7 @@ MoodbarLoader::MoodbarLoader(Application *app, QObject *parent)
       kMaxActiveRequests(qMax(1, QThread::idealThreadCount() / 2)),
       save_(false) {
 
-  cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/moodbar");
+  cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QStringLiteral("/moodbar"));
   cache_->setMaximumCacheSize(60 * 1024 * 1024);  // 60MB - enough for 20,000 moodbars
 
   QObject::connect(app, &Application::SettingsChanged, this, &MoodbarLoader::ReloadSettings);
@@ -73,7 +74,7 @@ MoodbarLoader::~MoodbarLoader() {
 
 void MoodbarLoader::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
   save_ = s.value("save", false).toBool();
   s.endGroup();
@@ -86,15 +87,15 @@ QStringList MoodbarLoader::MoodFilenames(const QString &song_filename) {
 
   const QFileInfo file_info(song_filename);
   const QString dir_path(file_info.dir().path());
-  const QString mood_filename = file_info.completeBaseName() + ".mood";
+  const QString mood_filename = file_info.completeBaseName() + QStringLiteral(".mood");
 
-  return QStringList() << dir_path + "/." + mood_filename << dir_path + "/" + mood_filename;
+  return QStringList() << dir_path + QStringLiteral("/.") + mood_filename << dir_path + QLatin1Char('/') + mood_filename;
 
 }
 
 QUrl MoodbarLoader::CacheUrlEntry(const QString &filename) {
 
-  return QUrl(QUrl::toPercentEncoding(filename));
+  return QUrl(QString::fromLatin1(QUrl::toPercentEncoding(filename)));
 
 }
 

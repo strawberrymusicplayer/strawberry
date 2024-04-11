@@ -28,6 +28,7 @@
 #include <QSettings>
 
 #include "core/logging.h"
+#include "core/settings.h"
 
 #include "lyricsprovider.h"
 #include "lyricsproviders.h"
@@ -55,7 +56,7 @@ void LyricsProviders::ReloadSettings() {
     all_providers.insert(provider->order(), provider->name());
   }
 
-  QSettings s;
+  Settings s;
   s.beginGroup(LyricsSettingsPage::kSettingsGroup);
   QStringList providers_enabled = s.value("providers", QStringList() << all_providers.values()).toStringList();
   s.endGroup();

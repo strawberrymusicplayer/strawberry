@@ -45,6 +45,7 @@
 #include "core/logging.h"
 #include "core/shared_ptr.h"
 #include "core/signalchecker.h"
+#include "core/settings.h"
 #include "transcoder.h"
 
 using std::make_shared;
@@ -94,7 +95,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
   if (mime_type.isEmpty()) return nullptr;
 
   // HACK: Force mp4mux because it doesn't set any useful src caps
-  if (mime_type == "audio/mp4") {
+  if (mime_type == QStringLiteral("audio/mp4")) {
     emit LogLine(QStringLiteral("Using '%1' (rank %2)").arg(QStringLiteral("mp4mux")).arg(-1));
     return CreateElement(QStringLiteral("mp4mux"), bin);
   }
@@ -127,7 +128,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
         if (intersection) {
           if (!gst_caps_is_empty(intersection)) {
             int rank = static_cast<int>(gst_plugin_feature_get_rank(GST_PLUGIN_FEATURE(factory)));
-            QString name = GST_OBJECT_NAME(factory);
+            const QString name = QString::fromUtf8(GST_OBJECT_NAME(factory));
 
             if (name.startsWith(QLatin1String("ffmux")) || name.startsWith(QLatin1String("ffenc"))) {
               rank = -1;  // ffmpeg usually sucks
@@ -152,7 +153,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
 
   emit LogLine(QStringLiteral("Using '%1' (rank %2)").arg(best.name_).arg(best.rank_));
 
-  if (best.name_ == "lamemp3enc") {
+  if (best.name_ == QStringLiteral("lamemp3enc")) {
     // Special case: we need to add xingmux and id3v2mux to the pipeline when using lamemp3enc because it doesn't write the VBR or ID3v2 headers itself.
 
     emit LogLine(QStringLiteral("Adding xingmux and id3v2mux to the pipeline"));
@@ -212,8 +213,8 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
     JobFinishedEvent::sEventType = QEvent::registerEventType();
 
   // Initialize some settings for the lamemp3enc element.
-  QSettings s;
-  s.beginGroup("Transcoder/lamemp3enc" + settings_postfix_);
+  Settings s;
+  s.beginGroup(QStringLiteral("Transcoder/lamemp3enc") + settings_postfix_);
 
   if (s.value("target").isNull()) {
     s.setValue("target", 1);  // 1 == bitrate
@@ -301,10 +302,10 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
 
   if (!fileinfo_output.isFile() || fileinfo_output.filePath().isEmpty() || fileinfo_output.path().isEmpty() || fileinfo_output.fileName().isEmpty() || fileinfo_output.suffix().isEmpty()) {
     QFileInfo fileinfo_input(input);
-    QString temp_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/transcoder";
+    QString temp_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QStringLiteral("/transcoder");
     if (!QDir(temp_dir).exists()) QDir().mkpath(temp_dir);
-    QString filename = fileinfo_input.completeBaseName() + "." + preset.extension_;
-    fileinfo_output.setFile(temp_dir + "/" + filename);
+    QString filename = fileinfo_input.completeBaseName() + QLatin1Char('.') + preset.extension_;
+    fileinfo_output.setFile(temp_dir + QLatin1Char('/') + filename);
   }
 
   // Never overwrite existing files
@@ -571,8 +572,8 @@ QMap<QString, float> Transcoder::GetProgress() const {
 
 void Transcoder::SetElementProperties(const QString &name, GObject *object) {
 
-  QSettings s;
-  s.beginGroup("Transcoder/" + name + settings_postfix_);
+  Settings s;
+  s.beginGroup(QStringLiteral("Transcoder/") + name + settings_postfix_);
 
   guint properties_count = 0;
   GParamSpec **properties = g_object_class_list_properties(G_OBJECT_GET_CLASS(object), &properties_count);
@@ -580,16 +581,16 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
   for (uint i = 0; i < properties_count; ++i) {
     GParamSpec *property = properties[i];
 
-    if (!s.contains(property->name)) {
+    if (!s.contains(QString::fromUtf8(property->name))) {
       continue;
     }
 
-    const QVariant value = s.value(property->name);
+    const QVariant value = s.value(QString::fromUtf8(property->name));
     if (value.isNull()) {
       continue;
     }
 
-    emit LogLine(QStringLiteral("Setting %1 property: %2 = %3").arg(name, property->name, value.toString()));
+    emit LogLine(QStringLiteral("Setting %1 property: %2 = %3").arg(name, QString::fromUtf8(property->name), value.toString()));
 
     switch (property->value_type) {
       case G_TYPE_FLOAT:{

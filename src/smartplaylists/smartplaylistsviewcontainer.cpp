@@ -27,6 +27,7 @@
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
+#include "core/settings.h"
 #include "collection/collectionbackend.h"
 #include "settings/appearancesettingspage.h"
 
@@ -109,7 +110,7 @@ void SmartPlaylistsViewContainer::showEvent(QShowEvent *e) {
 
 void SmartPlaylistsViewContainer::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   int iconsize = s.value(AppearanceSettingsPage::kIconSizeLeftPanelButtons, 22).toInt();
   s.endGroup();

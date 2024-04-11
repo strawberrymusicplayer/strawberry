@@ -100,13 +100,13 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  QByteArray data = reply->readAll();
+  const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     Error(QStringLiteral("Empty reply received from server."));
     emit SearchFinished(id, results);
     return;
   }
-  QString content = data;
+  const QString content = QString::fromUtf8(data);
   const QString data_begin = QStringLiteral("<script id=\"__NEXT_DATA__\" type=\"application/json\">");
   const QString data_end = QStringLiteral("</script>");
   if (!content.contains(data_begin) || !content.contains(data_end)) {

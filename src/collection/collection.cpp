@@ -37,6 +37,7 @@
 #include "core/thread.h"
 #include "core/song.h"
 #include "core/logging.h"
+#include "core/settings.h"
 #include "utilities/threadutils.h"
 #include "collection.h"
 #include "collectionwatcher.h"
@@ -69,7 +70,7 @@ SCollection::SCollection(Application *app, QObject *parent)
   backend()->moveToThread(app->database()->thread());
   qLog(Debug) << &*backend_ << "moved to thread" << app->database()->thread();
 
-  backend_->Init(app->database(), app->task_manager(), Song::Source::Collection, kSongsTable, kFtsTable, kDirsTable, kSubdirsTable);
+  backend_->Init(app->database(), app->task_manager(), Song::Source::Collection, QLatin1String(kSongsTable), QLatin1String(kFtsTable), QLatin1String(kDirsTable), QLatin1String(kSubdirsTable));
 
   model_ = new CollectionModel(backend_, app_, this);
 
@@ -179,7 +180,7 @@ void SCollection::ReloadSettings() {
   watcher_->ReloadSettingsAsync();
   model_->ReloadSettings();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
   save_playcounts_to_files_ = s.value("save_playcounts", false).toBool();
   save_ratings_to_files_ = s.value("save_ratings", false).toBool();

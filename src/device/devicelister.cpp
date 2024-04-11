@@ -223,9 +223,9 @@ QUrl DeviceLister::MakeUrlFromLocalPath(const QString &path) const {
 }
 
 bool DeviceLister::IsIpod(const QString &path) const {
-  return QFile::exists(path + "/iTunes_Control") ||
-         QFile::exists(path + "/iPod_Control") ||
-         QFile::exists(path + "/iTunes/iTunes_Control");
+  return QFile::exists(path + QStringLiteral("/iTunes_Control")) ||
+         QFile::exists(path + QStringLiteral("/iPod_Control")) ||
+         QFile::exists(path + QStringLiteral("/iTunes/iTunes_Control"));
 }
 
 QVariantList DeviceLister::GuessIconForPath(const QString &path) {
@@ -239,7 +239,7 @@ QVariantList DeviceLister::GuessIconForPath(const QString &path) {
     const Itdb_IpodInfo *info = itdb_device_get_ipod_info(device);
 
     if (info->ipod_model == ITDB_IPOD_MODEL_INVALID) {
-      ret << "device-ipod";
+      ret << QStringLiteral("device-ipod");
     }
     else {
       QString model = GetIpodModel(info->ipod_model);
@@ -255,7 +255,7 @@ QVariantList DeviceLister::GuessIconForPath(const QString &path) {
       }
 
       if (ret.isEmpty()) {
-        ret << "device-ipod";
+        ret << QStringLiteral("device-ipod");
       }
 
     }
@@ -275,7 +275,7 @@ QVariantList DeviceLister::GuessIconForModel(const QString &vendor, const QStrin
 
   QVariantList ret;
   if (vendor.startsWith(QLatin1String("Google")) && model.contains(QLatin1String("Nexus"))) {
-    ret << "phone-google-nexus-one";
+    ret << QStringLiteral("phone-google-nexus-one");
   }
   return ret;
 

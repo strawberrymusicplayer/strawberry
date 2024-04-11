@@ -247,11 +247,11 @@ void WorkerPool<HandlerType>::DoStart() {
   search_path << QStringLiteral("/usr/local/libexec");
 #endif
 #if defined(Q_OS_MACOS)
-  search_path << QDir::cleanPath(QCoreApplication::applicationDirPath() + "/../PlugIns");
+  search_path << QDir::cleanPath(QCoreApplication::applicationDirPath() + QStringLiteral("/../PlugIns"));
 #endif
 
   for (const QString &path_prefix : search_path) {
-    const QString executable_path = path_prefix + "/" + executable_name_;
+    const QString executable_path = path_prefix + QLatin1Char('/') + executable_name_;
     if (QFile::exists(executable_path)) {
       executable_path_ = executable_path;
       qLog(Debug) << "Using worker" << executable_name_ << "from" << path_prefix;

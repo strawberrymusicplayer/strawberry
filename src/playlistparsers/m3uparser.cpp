@@ -29,6 +29,7 @@
 
 #include "core/shared_ptr.h"
 #include "core/logging.h"
+#include "core/settings.h"
 #include "utilities/timeconstants.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
@@ -47,7 +48,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
   Metadata current_metadata;
 
   QString data = QString::fromUtf8(device->readAll());
-  data.replace('\r', '\n');
+  data.replace(QLatin1Char('\r'), QLatin1Char('\n'));
   data.replace(QLatin1String("\n\n"), QLatin1String("\n"));
   QByteArray bytes = data.toUtf8();
   QBuffer buffer(&bytes);
@@ -62,7 +63,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
 
   SongList ret;
   forever {
-    if (line.startsWith('#')) {
+    if (line.startsWith(QLatin1Char('#'))) {
       // Extended info or comment.
       if (type == M3UType::EXTENDED && line.startsWith(QLatin1String("#EXT"))) {
         if (!ParseMetadata(line, &current_metadata)) {
@@ -101,8 +102,8 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
 
   // Extended info, eg.
   // #EXTINF:123,Sample Artist - Sample title
-  QString info = line.section(':', 1);
-  QString l = info.section(',', 0, 0);
+  QString info = line.section(QLatin1Char(':'), 1);
+  QString l = info.section(QLatin1Char(','), 0, 0);
   bool ok = false;
   int length = l.toInt(&ok);
   if (!ok) {
@@ -110,7 +111,7 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
   }
   metadata->length = length * kNsecPerSec;
 
-  QString track_info = info.section(',', 1);
+  QString track_info = info.section(QLatin1Char(','), 1);
   QStringList list = track_info.split(QStringLiteral(" - "));
   if (list.size() <= 1) {
     metadata->title = track_info;
@@ -126,7 +127,7 @@ void M3UParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
 
   device->write("#EXTM3U\n");
 
-  QSettings s;
+  Settings s;
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
   bool write_metadata = s.value("write_metadata", true).toBool();
   s.endGroup();

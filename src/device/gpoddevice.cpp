@@ -195,12 +195,12 @@ bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
     bool result = false;
     if (!job.cover_image_.isNull()) {
 #ifdef Q_OS_LINUX
-      QString temp_path = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/organize";
+      QString temp_path = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QStringLiteral("/organize");
 #else
       QString temp_path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 #endif
       if (!QDir(temp_path).exists()) QDir().mkpath(temp_path);
-      SharedPtr<QTemporaryFile> cover_file = make_shared<QTemporaryFile>(temp_path + "/track-albumcover-XXXXXX.jpg");
+      SharedPtr<QTemporaryFile> cover_file = make_shared<QTemporaryFile>(temp_path + QStringLiteral("/track-albumcover-XXXXXX.jpg"));
       cover_file->setAutoRemove(true);
       if (cover_file->open()) {
         cover_file->close();
@@ -281,7 +281,7 @@ bool GPodDevice::WriteDatabase(QString &error_text) {
   cover_files_.clear();
   if (!success) {
     if (error) {
-      error_text = tr("Writing database failed: %1").arg(error->message);
+      error_text = tr("Writing database failed: %1").arg(QString::fromUtf8(error->message));
       g_error_free(error);
     }
     else {
@@ -327,17 +327,17 @@ bool GPodDevice::RemoveTrackFromITunesDb(const QString &path, const QString &rel
 
   QString ipod_filename = path;
   if (!relative_to.isEmpty() && path.startsWith(relative_to)) {
-    ipod_filename.remove(0, relative_to.length() + (relative_to.endsWith('/') ? -1 : 0));
+    ipod_filename.remove(0, relative_to.length() + (relative_to.endsWith(QLatin1Char('/')) ? -1 : 0));
   }
 
-  ipod_filename.replace('/', ':');
+  ipod_filename.replace(QLatin1Char('/'), QLatin1Char(':'));
 
   // Find the track in the itdb, identify it by its filename
   Itdb_Track *track = nullptr;
   for (GList *tracks = db_->tracks; tracks != nullptr; tracks = tracks->next) {
     Itdb_Track *t = static_cast<Itdb_Track*>(tracks->data);
 
-    if (t->ipod_path == ipod_filename) {
+    if (QString::fromUtf8(t->ipod_path) == ipod_filename) {
       track = t;
       break;
     }

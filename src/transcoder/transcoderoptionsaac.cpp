@@ -30,7 +30,11 @@
 #include "transcoderoptionsaac.h"
 #include "ui_transcoderoptionsaac.h"
 
-const char *TranscoderOptionsAAC::kSettingsGroup = "Transcoder/faac";
+#include "core/settings.h"
+
+namespace {
+constexpr char kSettingsGroup[] = "Transcoder/faac";
+}
 
 TranscoderOptionsAAC::TranscoderOptionsAAC(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsAAC) {
   ui_->setupUi(this);
@@ -42,8 +46,8 @@ TranscoderOptionsAAC::~TranscoderOptionsAAC() {
 
 void TranscoderOptionsAAC::Load() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
   ui_->bitrate_slider->setValue(s.value("bitrate", 320000).toInt() / 1000);
   ui_->profile->setCurrentIndex(s.value("profile", 2).toInt() - 1);
   ui_->tns->setChecked(s.value("tns", false).toBool());
@@ -55,8 +59,8 @@ void TranscoderOptionsAAC::Load() {
 
 void TranscoderOptionsAAC::Save() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
   s.setValue("bitrate", ui_->bitrate_slider->value() * 1000);
   s.setValue("profile", ui_->profile->currentIndex() + 1);
   s.setValue("tns", ui_->tns->isChecked());

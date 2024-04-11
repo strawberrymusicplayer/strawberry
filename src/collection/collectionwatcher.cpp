@@ -48,6 +48,7 @@
 #include "core/logging.h"
 #include "core/tagreaderclient.h"
 #include "core/taskmanager.h"
+#include "core/settings.h"
 #include "utilities/imageutils.h"
 #include "utilities/timeconstants.h"
 #include "collectiondirectory.h"
@@ -150,7 +151,7 @@ void CollectionWatcher::ReloadSettingsAsync() {
 void CollectionWatcher::ReloadSettings() {
 
   const bool was_monitoring_before = monitor_;
-  QSettings s;
+  Settings s;
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
   scan_on_startup_ = s.value("startup_scan", true).toBool();
   monitor_ = s.value("monitor", true).toBool();
@@ -316,7 +317,7 @@ SongList CollectionWatcher::ScanTransaction::FindSongsInSubdirectory(const QStri
   if (cached_songs_dirty_) {
     const SongList songs = watcher_->backend_->FindSongsInDirectory(dir_);
     for (const Song &song : songs) {
-      const QString p = song.url().toLocalFile().section('/', 0, -2);
+      const QString p = song.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
       cached_songs_.insert(p, song);
     }
     cached_songs_dirty_ = false;
@@ -334,7 +335,7 @@ bool CollectionWatcher::ScanTransaction::HasSongsWithMissingFingerprint(const QS
   if (cached_songs_missing_fingerprint_dirty_) {
     const SongList songs = watcher_->backend_->SongsWithMissingFingerprint(dir_);
     for (const Song &song : songs) {
-      const QString p = song.url().toLocalFile().section('/', 0, -2);
+      const QString p = song.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
       cached_songs_missing_fingerprint_.insert(p, song);
     }
     cached_songs_missing_fingerprint_dirty_ = false;
@@ -349,7 +350,7 @@ bool CollectionWatcher::ScanTransaction::HasSongsWithMissingLoudnessCharacterist
   if (cached_songs_missing_loudness_characteristics_dirty_) {
     const SongList songs = watcher_->backend_->SongsWithMissingLoudnessCharacteristics(dir_);
     for (const Song &song : songs) {
-      const QString p = song.url().toLocalFile().section('/', 0, -2);
+      const QString p = song.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
       cached_songs_missing_loudness_characteristics_.insert(p, song);
     }
     cached_songs_missing_loudness_characteristics_dirty_ = false;
@@ -510,7 +511,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
     else {
       QString ext_part(ExtensionPart(child));
       QString dir_part(DirectoryPart(child));
-      if (kIgnoredExtensions.contains(child_info.suffix(), Qt::CaseInsensitive) || child_info.baseName() == "qt_temp") {
+      if (kIgnoredExtensions.contains(child_info.suffix(), Qt::CaseInsensitive) || child_info.baseName() == QStringLiteral("qt_temp")) {
         t->AddToProgress(1);
       }
       else if (sValidImages.contains(ext_part)) {
@@ -643,7 +644,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
         }
       }
 #endif
-      if (song_tracking_ && !fingerprint.isEmpty() && fingerprint != "NONE" && FindSongsByFingerprint(file, fingerprint, &matching_songs)) {
+      if (song_tracking_ && !fingerprint.isEmpty() && fingerprint != QStringLiteral("NONE") && FindSongsByFingerprint(file, fingerprint, &matching_songs)) {
 
         // The song is in the database and still on disk.
         // Check the mtime to see if it's been changed since it was added.
@@ -1308,7 +1309,7 @@ void CollectionWatcher::RescanSongs(const SongList &songs) {
   QStringList scanned_paths;
   for (const Song &song : songs) {
     if (stop_requested_ || abort_requested_) break;
-    const QString song_path = song.url().toLocalFile().section('/', 0, -2);
+    const QString song_path = song.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
     if (scanned_paths.contains(song_path)) continue;
     ScanTransaction transaction(this, song.directory_id(), false, true, mark_songs_unavailable_);
     CollectionSubdirectoryList subdirs(transaction.GetAllSubdirs());

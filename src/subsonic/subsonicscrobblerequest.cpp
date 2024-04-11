@@ -35,7 +35,9 @@
 #include "subsonicbaserequest.h"
 #include "subsonicscrobblerequest.h"
 
-const int SubsonicScrobbleRequest::kMaxConcurrentScrobbleRequests = 3;
+namespace {
+constexpr int kMaxConcurrentScrobbleRequests = 3;
+}
 
 SubsonicScrobbleRequest::SubsonicScrobbleRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent)
     : SubsonicBaseRequest(service, parent),
@@ -73,9 +75,9 @@ void SubsonicScrobbleRequest::FlushScrobbleRequests() {
     Request request = scrobble_requests_queue_.dequeue();
     ++scrobble_requests_active_;
 
-    ParamList params = ParamList() << Param("id", request.song_id)
-                                   << Param("submission", QVariant(request.submission).toString())
-                                   << Param("time", QVariant(request.time_ms).toString());
+    ParamList params = ParamList() << Param(QStringLiteral("id"), request.song_id)
+                                   << Param(QStringLiteral("submission"), QVariant(request.submission).toString())
+                                   << Param(QStringLiteral("time"), QVariant(request.time_ms).toString());
 
     QNetworkReply *reply = CreateGetRequest(QStringLiteral("scrobble"), params);
     replies_ << reply;

@@ -57,7 +57,7 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
   new_request.setHeader(QNetworkRequest::UserAgentHeader, user_agent);
 
   if (op == QNetworkAccessManager::PostOperation && !new_request.header(QNetworkRequest::ContentTypeHeader).isValid()) {
-    new_request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    new_request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
   }
 
   // Prefer the cache unless the caller has changed the setting already

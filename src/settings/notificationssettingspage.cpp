@@ -46,6 +46,7 @@
 #include <QSettings>
 
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "osd/osdbase.h"
 #include "osd/osdpretty.h"
 #include "settingspage.h"
@@ -151,7 +152,7 @@ void NotificationsSettingsPage::hideEvent(QHideEvent*) {
 
 void NotificationsSettingsPage::Load() {
 
-  QSettings s;
+  Settings s;
 
   s.beginGroup(OSDBase::kSettingsGroup);
   const OSDBase::Behaviour osd_behaviour = static_cast<OSDBase::Behaviour>(s.value("Behaviour", static_cast<int>(OSDBase::Behaviour::Native)).toInt());
@@ -221,13 +222,13 @@ void NotificationsSettingsPage::Load() {
 
   Init(ui_->layout_notificationssettingspage->parentWidget());
 
-  if (!QSettings().childGroups().contains(OSDBase::kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(OSDBase::kSettingsGroup))) set_changed();
 
 }
 
 void NotificationsSettingsPage::Save() {
 
-  QSettings s;
+  Settings s;
 
   OSDBase::Behaviour osd_behaviour = OSDBase::Behaviour::Disabled;
   if      (ui_->notifications_none->isChecked())   osd_behaviour = OSDBase::Behaviour::Disabled;

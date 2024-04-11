@@ -41,12 +41,6 @@ class ElyricsNetLyricsProvider : public HtmlLyricsProvider {
 
  private:
   QString StringFixup(const QString &text);
-
- private:
-  static const char kUrl[];
-  static const char kStartTag[];
-  static const char kEndTag[];
-  static const char kLyricsStart[];
 };
 
 #endif  // ELYRICSNETLYRICSPROVIDER_H

@@ -82,11 +82,6 @@ class EditTagDialog : public QDialog {
   void hideEvent(QHideEvent *e) override;
 
  private:
-  static const char kSettingsGroup[];
-  static const char kTagsDifferentHintText[];
-  static const char kArtDifferentHintText[];
-  static const int kSmallImageSize;
-
   enum class UpdateCoverAction {
     None = 0,
     Clear,

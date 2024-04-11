@@ -25,7 +25,6 @@
 #include "config.h"
 
 #include <QObject>
-#include <QSettings>
 #include <QMap>
 #include <QString>
 #include <QKeySequence>

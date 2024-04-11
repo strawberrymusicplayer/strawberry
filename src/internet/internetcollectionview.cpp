@@ -120,7 +120,7 @@ void InternetCollectionView::SaveFocus() {
   last_selected_container_ = QString();
 
   switch (type.toInt()) {
-    case CollectionItem::Type_Song: {
+    case CollectionItem::Type_Song:{
       QModelIndex idx = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
       SongList songs = collection_model_->GetChildSongs(idx);
       if (!songs.isEmpty()) {
@@ -130,7 +130,7 @@ void InternetCollectionView::SaveFocus() {
     }
 
     case CollectionItem::Type_Container:
-    case CollectionItem::Type_Divider: {
+    case CollectionItem::Type_Divider:{
       QString text = model()->data(current, CollectionModel::Role_SortText).toString();
       last_selected_container_ = text;
       break;
@@ -191,7 +191,7 @@ bool InternetCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
         break;
 
       case CollectionItem::Type_Container:
-      case CollectionItem::Type_Divider: {
+      case CollectionItem::Type_Divider:{
         QString text = model()->data(current, CollectionModel::Role_SortText).toString();
         if (!last_selected_container_.isEmpty() && last_selected_container_ == text) {
           expand(current);

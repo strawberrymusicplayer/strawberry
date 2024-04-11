@@ -62,10 +62,6 @@ class LastFmCoverProvider : public JsonCoverProvider {
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
-  static const char *kUrl;
-  static const char *kApiKey;
-  static const char *kSecret;
-
   QList<QNetworkReply*> replies_;
 };
 

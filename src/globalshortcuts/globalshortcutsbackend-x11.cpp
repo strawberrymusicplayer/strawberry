@@ -45,7 +45,7 @@ bool GlobalShortcutsBackendX11::IsAvailable() const {
 
 bool GlobalShortcutsBackendX11::IsX11Available() {
 
-  return QApplication::platformName() == "xcb";
+  return QApplication::platformName() == QStringLiteral("xcb");
 
 }
 

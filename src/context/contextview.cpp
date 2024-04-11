@@ -51,6 +51,7 @@
 #include "core/application.h"
 #include "core/player.h"
 #include "core/song.h"
+#include "core/settings.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
 #include "widgets/resizabletextedit.h"
@@ -112,25 +113,25 @@ ContextView::ContextView(QWidget *parent)
 
   setLayout(layout_container_);
 
-  layout_container_->setObjectName("context-layout-container");
+  layout_container_->setObjectName(QStringLiteral("context-layout-container"));
   layout_container_->setContentsMargins(0, 0, 0, 0);
   layout_container_->addWidget(scrollarea_);
 
-  scrollarea_->setObjectName("context-scrollarea");
+  scrollarea_->setObjectName(QStringLiteral("context-scrollarea"));
   scrollarea_->setWidgetResizable(true);
   scrollarea_->setWidget(widget_scrollarea_);
   scrollarea_->setContentsMargins(0, 0, 0, 0);
   scrollarea_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   scrollarea_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-  widget_scrollarea_->setObjectName("context-widget-scrollarea");
+  widget_scrollarea_->setObjectName(QStringLiteral("context-widget-scrollarea"));
   widget_scrollarea_->setLayout(layout_scrollarea_);
   widget_scrollarea_->setContentsMargins(0, 0, 0, 0);
 
   textedit_top_->setReadOnly(true);
   textedit_top_->setFrameShape(QFrame::NoFrame);
 
-  layout_scrollarea_->setObjectName("context-layout-scrollarea");
+  layout_scrollarea_->setObjectName(QStringLiteral("context-layout-scrollarea"));
   layout_scrollarea_->setContentsMargins(15, 15, 15, 15);
   layout_scrollarea_->addWidget(textedit_top_);
   layout_scrollarea_->addWidget(widget_album_);
@@ -291,20 +292,20 @@ void ContextView::ReloadSettings() {
 
   QString default_font;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  if (QFontDatabase::families().contains(ContextSettingsPage::kDefaultFontFamily)) {
+  if (QFontDatabase::families().contains(QLatin1String(ContextSettingsPage::kDefaultFontFamily))) {
 #else
-  if (QFontDatabase().families().contains(ContextSettingsPage::kDefaultFontFamily)) {
+  if (QFontDatabase().families().contains(QLatin1String(ContextSettingsPage::kDefaultFontFamily))) {
 #endif
-    default_font = ContextSettingsPage::kDefaultFontFamily;
+    default_font = QLatin1String(ContextSettingsPage::kDefaultFontFamily);
   }
   else {
     default_font = font().family();
   }
 
-  QSettings s;
+  Settings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  title_fmt_ = s.value(ContextSettingsPage::kSettingsTitleFmt, "%title% - %artist%").toString();
-  summary_fmt_ = s.value(ContextSettingsPage::kSettingsSummaryFmt, "%album%").toString();
+  title_fmt_ = s.value(ContextSettingsPage::kSettingsTitleFmt, QStringLiteral("%title% - %artist%")).toString();
+  summary_fmt_ = s.value(ContextSettingsPage::kSettingsSummaryFmt, QStringLiteral("%album%")).toString();
   action_show_album_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::ALBUM)], true).toBool());
   action_show_data_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA)], false).toBool());
   action_show_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS)], true).toBool());
@@ -390,7 +391,7 @@ void ContextView::FadeStopFinished() {
 }
 
 void ContextView::SetLabelText(QLabel *label, int value, const QString &suffix, const QString &def) {
-  label->setText(value <= 0 ? def : (QString::number(value) + " " + suffix));
+  label->setText(value <= 0 ? def : (QString::number(value) + QLatin1Char(' ') + suffix));
 }
 
 void ContextView::UpdateNoSong() {
@@ -635,7 +636,7 @@ void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const 
     lyrics_ = QStringLiteral("No lyrics found.\n");
   }
   else {
-    lyrics_ = lyrics + "\n\n(Lyrics from " + provider + ")\n";
+    lyrics_ = lyrics + QStringLiteral("\n\n(Lyrics from ") + provider + QStringLiteral(")\n");
   }
   lyrics_id_ = -1;
 
@@ -692,7 +693,7 @@ void ContextView::AlbumCoverLoaded(const Song &song, const QImage &image) {
 
 void ContextView::ActionShowAlbum() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
   s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::ALBUM)], action_show_album_->isChecked());
   s.endGroup();
@@ -702,7 +703,7 @@ void ContextView::ActionShowAlbum() {
 
 void ContextView::ActionShowData() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
   s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA)], action_show_data_->isChecked());
   s.endGroup();
@@ -712,7 +713,7 @@ void ContextView::ActionShowData() {
 
 void ContextView::ActionShowLyrics() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
   s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS)], action_show_lyrics_->isChecked());
   s.endGroup();
@@ -725,7 +726,7 @@ void ContextView::ActionShowLyrics() {
 
 void ContextView::ActionSearchLyrics() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
   s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS)], action_search_lyrics_->isChecked());
   s.endGroup();

@@ -142,7 +142,7 @@ class OSDPretty : public QWidget {
 
   Mode mode_;
 
-  // Settings loaded from QSettings
+  // Settings loaded from Settings
   QColor foreground_color_;
   QColor background_color_;
   qreal background_opacity_;

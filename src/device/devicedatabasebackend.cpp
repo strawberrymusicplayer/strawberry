@@ -219,13 +219,13 @@ void DeviceDatabaseBackend::SetDeviceOptions(const int id, const QString &friend
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(
+  q.prepare(QStringLiteral(
       "UPDATE devices"
       " SET friendly_name=:friendly_name,"
       "     icon=:icon_name,"
       "     transcode_mode=:transcode_mode,"
       "     transcode_format=:transcode_format"
-      " WHERE ROWID=:id");
+      " WHERE ROWID=:id"));
   q.BindValue(QStringLiteral(":friendly_name"), friendly_name);
   q.BindValue(QStringLiteral(":icon_name"), icon_name);
   q.BindValue(QStringLiteral(":transcode_mode"), static_cast<int>(mode));

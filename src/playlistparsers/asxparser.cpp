@@ -50,7 +50,7 @@ SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const 
   // Some playlists have unescaped & characters in URLs :(
   QRegularExpression ex(QStringLiteral("(href\\s*=\\s*\")([^\"]+)\""), QRegularExpression::CaseInsensitiveOption);
   qint64 index = 0;
-  for (QRegularExpressionMatch re_match = ex.match(data, index); re_match.hasMatch(); re_match = ex.match(data, index)) {
+  for (QRegularExpressionMatch re_match = ex.match(QString::fromUtf8(data), index); re_match.hasMatch(); re_match = ex.match(QString::fromUtf8(data), index)) {
     index = re_match.capturedStart();
     QString url = re_match.captured(2);
     url.replace(QRegularExpression(QStringLiteral("&(?!amp;|quot;|apos;|lt;|gt;)")), QStringLiteral("&amp;"));
@@ -91,22 +91,22 @@ Song ASXParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool
     QXmlStreamReader::TokenType type = reader->readNext();
 
     switch (type) {
-      case QXmlStreamReader::StartElement: {
-        QString name = reader->name().toString().toLower();
-        if (name == "ref") {
-          ref = reader->attributes().value("href").toString();
+      case QXmlStreamReader::StartElement:{
+        const QString name = reader->name().toString().toLower();
+        if (name == QStringLiteral("ref")) {
+          ref = reader->attributes().value(QStringLiteral("href")).toString();
         }
-        else if (name == "title") {
+        else if (name == QStringLiteral("title")) {
           title = reader->readElementText();
         }
-        else if (name == "author") {
+        else if (name == QStringLiteral("author")) {
           artist = reader->readElementText();
         }
         break;
       }
-      case QXmlStreamReader::EndElement: {
-        QString name = reader->name().toString().toLower();
-        if (name == "entry") {
+      case QXmlStreamReader::EndElement:{
+        const QString name = reader->name().toString().toLower();
+        if (name == QStringLiteral("entry")) {
           goto return_song;
         }
         break;
@@ -138,16 +138,16 @@ void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir&, cons
   writer.writeStartDocument();
   {
     StreamElement asx(QStringLiteral("asx"), &writer);
-    writer.writeAttribute("version", "3.0");
+    writer.writeAttribute(QStringLiteral("version"), QStringLiteral("3.0"));
     for (const Song &song : songs) {
       StreamElement entry(QStringLiteral("entry"), &writer);
-      writer.writeTextElement("title", song.title());
+      writer.writeTextElement(QStringLiteral("title"), song.title());
       {
         StreamElement ref(QStringLiteral("ref"), &writer);
-        writer.writeAttribute("href", song.url().toString());
+        writer.writeAttribute(QStringLiteral("href"), song.url().toString());
       }
       if (!song.artist().isEmpty()) {
-        writer.writeTextElement("author", song.artist());
+        writer.writeTextElement(QStringLiteral("author"), song.artist());
       }
     }
   }

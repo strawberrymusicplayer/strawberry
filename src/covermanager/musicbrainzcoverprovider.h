@@ -64,11 +64,6 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
-  static const char *kReleaseSearchUrl;
-  static const char *kAlbumCoverUrl;
-  static const int kLimit;
-  static const int kRequestsDelay;
-
   QTimer *timer_flush_requests_;
   QQueue<SearchRequest> queue_search_requests_;
   QList<QNetworkReply*> replies_;

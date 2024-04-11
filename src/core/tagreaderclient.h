@@ -48,8 +48,6 @@ class TagReaderClient : public QObject {
   using HandlerType = AbstractMessageHandler<spb::tagreader::Message>;
   using ReplyType = HandlerType::ReplyType;
 
-  static const char *kWorkerExecutableName;
-
   void Start();
   void ExitAsync();
 

@@ -229,7 +229,7 @@ QString FreeSpaceBar::TextForSize(const QString &prefix, const quint64 size) {
     ret = QStringLiteral("0 MB");
   }
 
-  if (!prefix.isEmpty()) ret.prepend(prefix + " ");
+  if (!prefix.isEmpty()) ret.prepend(prefix + QLatin1Char(' '));
 
   return ret;
 

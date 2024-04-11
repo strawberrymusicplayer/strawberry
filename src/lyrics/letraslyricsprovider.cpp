@@ -29,28 +29,30 @@
 #include "lyricssearchrequest.h"
 #include "letraslyricsprovider.h"
 
-const char LetrasLyricsProvider::kUrl[] = "https://www.letras.mus.br/winamp.php";
-const char LetrasLyricsProvider::kStartTag[] = "<div[^>]*>";
-const char LetrasLyricsProvider::kEndTag[] = "<\\/div>";
-const char LetrasLyricsProvider::kLyricsStart[] = "<div id=\"letra-cnt\">";
+namespace {
+constexpr char kUrl[] = "https://www.letras.mus.br/winamp.php";
+constexpr char kStartTag[] = "<div[^>]*>";
+constexpr char kEndTag[] = "<\\/div>";
+constexpr char kLyricsStart[] = "<div id=\"letra-cnt\">";
+}  // namespace
 
 LetrasLyricsProvider::LetrasLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : HtmlLyricsProvider(QStringLiteral("letras.mus.br"), true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
+    : HtmlLyricsProvider(QStringLiteral("letras.mus.br"), true, QLatin1String(kStartTag), QLatin1String(kEndTag), QLatin1String(kLyricsStart), false, network, parent) {}
 
 QUrl LetrasLyricsProvider::Url(const LyricsSearchRequest &request) {
 
-  return QUrl(QString(kUrl) + QStringLiteral("?musica=") + StringFixup(request.artist) + "&artista=" + StringFixup(request.title));
+  return QUrl(QLatin1String(kUrl) + QStringLiteral("?musica=") + StringFixup(request.artist) + QStringLiteral("&artista=") + StringFixup(request.title));
 
 }
 
 QString LetrasLyricsProvider::StringFixup(const QString &text) {
 
-  return QUrl::toPercentEncoding(Utilities::Transliterate(text)
+  return QString::fromLatin1(QUrl::toPercentEncoding(Utilities::Transliterate(text)
     .replace(QRegularExpression(QStringLiteral("[^\\w0-9_,&\\-\\(\\) ]")), QStringLiteral("_"))
     .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
     .simplified()
-    .replace(' ', '-')
+    .replace(QLatin1Char(' '), QLatin1Char('-'))
     .toLower()
-    );
+    ));
 
 }

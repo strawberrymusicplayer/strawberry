@@ -115,7 +115,7 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
   ReplaceColor(&stylesheet, QStringLiteral("LinkVisited"), p, QPalette::LinkVisited);
 
 #ifdef Q_OS_MACOS
-  stylesheet.replace("macos", "*");
+  stylesheet.replace(QStringLiteral("macos"), QStringLiteral("*"));
 #endif
 
   if (stylesheet != styledata->stylesheet_current_) {
@@ -127,9 +127,9 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
 
 void StyleSheetLoader::ReplaceColor(QString *css, const QString &name, const QPalette &palette, const QPalette::ColorRole role) {
 
-  css->replace("%palette-" + name + "-lighter", palette.color(role).lighter().name(), Qt::CaseInsensitive);
-  css->replace("%palette-" + name + "-darker", palette.color(role).darker().name(), Qt::CaseInsensitive);
-  css->replace("%palette-" + name, palette.color(role).name(), Qt::CaseInsensitive);
+  css->replace(QStringLiteral("%palette-") + name + QStringLiteral("-lighter"), palette.color(role).lighter().name(), Qt::CaseInsensitive);
+  css->replace(QStringLiteral("%palette-") + name + QStringLiteral("-darker"), palette.color(role).darker().name(), Qt::CaseInsensitive);
+  css->replace(QStringLiteral("%palette-") + name, palette.color(role).name(), Qt::CaseInsensitive);
 
 }
 

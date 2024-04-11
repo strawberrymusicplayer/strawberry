@@ -85,8 +85,6 @@ class OrganizeFormat {
   };
 
  private:
-  static const char kBlockPattern[];
-  static const char kTagPattern[];
   static const QStringList kKnownTags;
   static const QStringList kUniqueTags;
 

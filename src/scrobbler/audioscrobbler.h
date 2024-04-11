@@ -55,7 +55,7 @@ class AudioScrobbler : public QObject {
   SharedPtr<ScrobblerService> ServiceByName(const QString &name);
   template<typename T>
   SharedPtr<T> Service() {
-    return std::static_pointer_cast<T>(ServiceByName(T::kName));
+    return std::static_pointer_cast<T>(ServiceByName(QLatin1String(T::kName)));
   }
 
   void ReloadSettings();

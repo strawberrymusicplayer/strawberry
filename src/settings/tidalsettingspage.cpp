@@ -36,6 +36,7 @@
 #include "ui_tidalsettingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "internet/internetservices.h"
 #include "tidal/tidalservice.h"
 #include "widgets/loginstatewidget.h"
@@ -62,16 +63,16 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
 
   dialog->installEventFilter(this);
 
-  ui_->quality->addItem(QStringLiteral("Low"), "LOW");
-  ui_->quality->addItem(QStringLiteral("High"), "HIGH");
-  ui_->quality->addItem(QStringLiteral("Lossless"), "LOSSLESS");
-  ui_->quality->addItem(QStringLiteral("Hi resolution"), "HI_RES");
+  ui_->quality->addItem(QStringLiteral("Low"), QStringLiteral("LOW"));
+  ui_->quality->addItem(QStringLiteral("High"), QStringLiteral("HIGH"));
+  ui_->quality->addItem(QStringLiteral("Lossless"), QStringLiteral("LOSSLESS"));
+  ui_->quality->addItem(QStringLiteral("Hi resolution"), QStringLiteral("HI_RES"));
 
-  ui_->coversize->addItem(QStringLiteral("160x160"), "160x160");
-  ui_->coversize->addItem(QStringLiteral("320x320"), "320x320");
-  ui_->coversize->addItem(QStringLiteral("640x640"), "640x640");
-  ui_->coversize->addItem(QStringLiteral("750x750"), "750x750");
-  ui_->coversize->addItem(QStringLiteral("1280x1280"), "1280x1280");
+  ui_->coversize->addItem(QStringLiteral("160x160"), QStringLiteral("160x160"));
+  ui_->coversize->addItem(QStringLiteral("320x320"), QStringLiteral("320x320"));
+  ui_->coversize->addItem(QStringLiteral("640x640"), QStringLiteral("640x640"));
+  ui_->coversize->addItem(QStringLiteral("750x750"), QStringLiteral("750x750"));
+  ui_->coversize->addItem(QStringLiteral("1280x1280"), QStringLiteral("1280x1280"));
 
   ui_->streamurl->addItem(QStringLiteral("streamurl"), static_cast<int>(StreamUrlMethod::StreamUrl));
   ui_->streamurl->addItem(QStringLiteral("urlpostpaywall"), static_cast<int>(StreamUrlMethod::UrlPostPaywall));
@@ -83,7 +84,7 @@ TidalSettingsPage::~TidalSettingsPage() { delete ui_; }
 
 void TidalSettingsPage::Load() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());
   ui_->oauth->setChecked(s.value("oauth", true).toBool());
@@ -114,13 +115,13 @@ void TidalSettingsPage::Load() {
 
   Init(ui_->layout_tidalsettingspage->parentWidget());
 
-  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
 }
 
 void TidalSettingsPage::Save() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("enabled", ui_->enable->isChecked());
   s.setValue("oauth", ui_->oauth->isChecked());

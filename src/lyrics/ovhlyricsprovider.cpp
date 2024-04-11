@@ -36,7 +36,9 @@
 #include "jsonlyricsprovider.h"
 #include "ovhlyricsprovider.h"
 
-const char *OVHLyricsProvider::kUrlSearch = "https://api.lyrics.ovh/v1/";
+namespace {
+constexpr char kUrlSearch[] = "https://api.lyrics.ovh/v1/";
+}
 
 OVHLyricsProvider::OVHLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(QStringLiteral("Lyrics.ovh"), true, false, network, parent) {}
 
@@ -53,7 +55,7 @@ OVHLyricsProvider::~OVHLyricsProvider() {
 
 bool OVHLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
-  QUrl url(kUrlSearch + QString(QUrl::toPercentEncoding(request.artist)) + "/" + QString(QUrl::toPercentEncoding(request.title)));
+  QUrl url(QString::fromLatin1(kUrlSearch) + QString::fromLatin1(QUrl::toPercentEncoding(request.artist)) + QLatin1Char('/') + QString::fromLatin1(QUrl::toPercentEncoding(request.title)));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   QNetworkReply *reply = network_->get(req);

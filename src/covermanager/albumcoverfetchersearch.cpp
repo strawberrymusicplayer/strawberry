@@ -320,8 +320,8 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
   }
   else {
     QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-    if (mimetype.contains(';')) {
-      mimetype = mimetype.left(mimetype.indexOf(';'));
+    if (mimetype.contains(QLatin1Char(';'))) {
+      mimetype = mimetype.left(mimetype.indexOf(QLatin1Char(';')));
     }
     if (ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) || ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
       QByteArray image_data = reply->readAll();

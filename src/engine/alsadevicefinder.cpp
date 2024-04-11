@@ -31,7 +31,7 @@
 #include "alsadevicefinder.h"
 #include "enginedevice.h"
 
-AlsaDeviceFinder::AlsaDeviceFinder() : DeviceFinder(QStringLiteral("alsa"), { "alsa", "alsasink" }) {}
+AlsaDeviceFinder::AlsaDeviceFinder() : DeviceFinder(QStringLiteral("alsa"), { QStringLiteral("alsa"), QStringLiteral("alsasink") }) {}
 
 EngineDeviceList AlsaDeviceFinder::ListDevices() {
 
@@ -91,7 +91,7 @@ EngineDeviceList AlsaDeviceFinder::ListDevices() {
       }
 
       EngineDevice device;
-      device.description = QStringLiteral("%1 %2").arg(snd_ctl_card_info_get_name(cardinfo), snd_pcm_info_get_name(pcminfo));
+      device.description = QStringLiteral("%1 %2").arg(QString::fromUtf8(snd_ctl_card_info_get_name(cardinfo)), QString::fromUtf8(snd_pcm_info_get_name(pcminfo)));
       device.iconname = device.GuessIconName();
       device.card = card;
       device.device = dev;

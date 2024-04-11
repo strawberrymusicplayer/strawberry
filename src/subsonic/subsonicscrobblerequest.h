@@ -69,8 +69,6 @@ class SubsonicScrobbleRequest : public SubsonicBaseRequest {
 
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
-  static const int kMaxConcurrentScrobbleRequests;
-
   SubsonicService *service_;
   SubsonicUrlHandler *url_handler_;
   Application *app_;

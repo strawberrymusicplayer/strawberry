@@ -41,7 +41,7 @@
   DEFINE_GUID(CLSID_MMDeviceEnumerator, 0xbcde0395, 0xe52f, 0x467c, 0x8e, 0x3d, 0xc4, 0x57, 0x92, 0x91, 0x69, 0x2e);
 #endif
 
-MMDeviceFinder::MMDeviceFinder() : DeviceFinder("mmdevice", { "wasapisink" }) {}
+MMDeviceFinder::MMDeviceFinder() : DeviceFinder(QStringLiteral("mmdevice"), { QStringLiteral("wasapisink") }) {}
 
 EngineDeviceList MMDeviceFinder::ListDevices() {
 
@@ -49,7 +49,7 @@ EngineDeviceList MMDeviceFinder::ListDevices() {
 
   EngineDeviceList devices;
   EngineDevice default_device;
-  default_device.description = "Default device";
+  default_device.description = QStringLiteral("Default device");
   default_device.iconname = default_device.GuessIconName();
   devices.append(default_device);
 

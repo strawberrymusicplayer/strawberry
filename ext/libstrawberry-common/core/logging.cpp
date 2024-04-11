@@ -67,8 +67,8 @@ static QIODevice *sNullDevice = nullptr;
 
 const char *kDefaultLogLevels = "*:3";
 
-static const char *kMessageHandlerMagic = "__logging_message__";
-static const size_t kMessageHandlerMagicLength = strlen(kMessageHandlerMagic);
+static constexpr char kMessageHandlerMagic[] = "__logging_message__";
+static const size_t kMessageHandlerMagicLen = strlen(kMessageHandlerMagic);
 static QtMessageHandler sOriginalMessageHandler = nullptr;
 
 template<class T>
@@ -135,9 +135,9 @@ class LoggedDebug : public DebugBase<LoggedDebug> {
 
 static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QString &message) {
 
-  if (message.startsWith(kMessageHandlerMagic)) {
+  if (message.startsWith(QLatin1String(kMessageHandlerMagic))) {
     QByteArray message_data = message.toUtf8();
-    fprintf(type == QtCriticalMsg || type == QtFatalMsg ? stderr : stdout, "%s\n", message_data.constData() + kMessageHandlerMagicLength);
+    fprintf(type == QtCriticalMsg || type == QtFatalMsg ? stderr : stdout, "%s\n", message_data.constData() + kMessageHandlerMagicLen);
     fflush(type == QtCriticalMsg || type == QtFatalMsg ? stderr : stdout);
     return;
   }
@@ -157,7 +157,7 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QStr
       break;
   }
 
-  for (const QString &line : message.split('\n')) {
+  for (const QString &line : message.split(QLatin1Char('\n'))) {
     BufferedDebug d = CreateLogger<BufferedDebug>(level, QStringLiteral("unknown"), -1, nullptr);
     d << line.toLocal8Bit().constData();
     if (d.buf_) {
@@ -193,8 +193,8 @@ void SetLevels(const QString &levels) {
 
   if (!sClassLevels) return;
 
-  for (const QString &item : levels.split(',')) {
-    const QStringList class_level = item.split(':');
+  for (const QString &item : levels.split(QLatin1Char(','))) {
+    const QStringList class_level = item.split(QLatin1Char(':'));
 
     QString class_name;
     bool ok = false;
@@ -212,7 +212,7 @@ void SetLevels(const QString &levels) {
       continue;
     }
 
-    if (class_name.isEmpty() || class_name == "*") {
+    if (class_name.isEmpty() || class_name == QStringLiteral("*")) {
       sDefaultLevel = static_cast<Level>(level);
     }
     else {
@@ -225,8 +225,8 @@ void SetLevels(const QString &levels) {
 static QString ParsePrettyFunction(const char *pretty_function) {
 
   // Get the class name out of the function name.
-  QString class_name = pretty_function;
-  const qint64 paren = class_name.indexOf('(');
+  QString class_name = QLatin1String(pretty_function);
+  const qint64 paren = class_name.indexOf(QLatin1Char('('));
   if (paren != -1) {
     const qint64 colons = class_name.lastIndexOf(QLatin1String("::"), paren);
     if (colons != -1) {
@@ -237,7 +237,7 @@ static QString ParsePrettyFunction(const char *pretty_function) {
     }
   }
 
-  const qint64 space = class_name.lastIndexOf(' ');
+  const qint64 space = class_name.lastIndexOf(QLatin1Char(' '));
   if (space != -1) {
     class_name = class_name.mid(space + 1);
   }
@@ -259,7 +259,7 @@ static T CreateLogger(Level level, const QString &class_name, int line, const ch
     case Level_Fatal:   level_name = " FATAL "; break;
   }
 
-  QString filter_category = (category != nullptr) ? category : class_name;
+  QString filter_category = (category != nullptr) ? QLatin1String(category) : class_name;
   // Check the settings to see if we're meant to show or hide this message.
   Level threshold_level = sDefaultLevel;
   if (sClassLevels && sClassLevels->contains(filter_category)) {
@@ -272,10 +272,10 @@ static T CreateLogger(Level level, const QString &class_name, int line, const ch
 
   QString function_line = class_name;
   if (line != -1) {
-    function_line += ":" + QString::number(line);
+    function_line += QStringLiteral(":") + QString::number(line);
   }
   if (category) {
-    function_line += "(" + QString(category) + ")";
+    function_line += QStringLiteral("(") + QLatin1String(category) + QStringLiteral(")");
   }
 
   QtMsgType type = QtDebugMsg;
@@ -326,9 +326,9 @@ QString DarwinDemangle(const QString &symbol);
 QString DarwinDemangle(const QString &symbol) {
 
 #  if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-  QStringList split = symbol.split(' ', Qt::SkipEmptyParts);
+  QStringList split = symbol.split(QLatin1Char(' '), Qt::SkipEmptyParts);
 #  else
-  QStringList split = symbol.split(' ', QString::SkipEmptyParts);
+  QStringList split = symbol.split(QLatin1Char(' '), QString::SkipEmptyParts);
 #  endif
   QString mangled_function = split[3];
   return CXXDemangle(mangled_function);
@@ -392,7 +392,7 @@ namespace {
 
 template<typename T>
 QString print_duration(T duration, const std::string &unit) {
-  return QStringLiteral("%1%2").arg(duration.count()).arg(unit.c_str());
+  return QStringLiteral("%1%2").arg(duration.count()).arg(QString::fromStdString(unit));
 }
 
 }  // namespace

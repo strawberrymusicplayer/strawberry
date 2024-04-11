@@ -54,7 +54,7 @@ SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, con
 
   while (!device->atEnd()) {
     QString line = QString::fromUtf8(device->readLine()).trimmed();
-    qint64 equals = line.indexOf('=');
+    qint64 equals = line.indexOf(QLatin1Char('='));
     QString key = line.left(equals).toLower();
     QString value = line.mid(equals + 1);
 

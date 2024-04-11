@@ -62,9 +62,6 @@ class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
   void GlobalShortcutPressed(const QString &component_unique, const QString &shortcut_unique, qint64);
 
  private:
-  static const char *kKdeService;
-  static const char *kKdePath;
-
   OrgKdeKGlobalAccelInterface *interface_;
   OrgKdeKglobalaccelComponentInterface *component_;
   QMultiHash<QString, QAction*> actions_;

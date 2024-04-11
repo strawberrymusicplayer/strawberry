@@ -46,11 +46,11 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
   proc.startCommand(QStringLiteral("xdg-mime query default inode/directory"));
 #else
-  proc.start("xdg-mime", QStringList() << "query" << "default" << "inode/directory");
+  proc.start(QStringLiteral("xdg-mime"), QStringList() << QStringLiteral("query") << QStringLiteral("default") << QStringLiteral("inode/directory"));
 #endif
   proc.waitForFinished();
-  QString desktop_file = proc.readLine().simplified();
-  QString xdg_data_dirs = QString(qgetenv("XDG_DATA_DIRS"));
+  QString desktop_file = QString::fromUtf8(proc.readLine()).simplified();
+  QString xdg_data_dirs = QString::fromUtf8(qgetenv("XDG_DATA_DIRS"));
   if (xdg_data_dirs.isEmpty()) {
     xdg_data_dirs = QStringLiteral("/usr/local/share/:/usr/share/");
   }
@@ -62,15 +62,15 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
     QString desktop_file_path = QStringLiteral("%1/applications/%2").arg(data_dir, desktop_file);
     if (!QFile::exists(desktop_file_path)) continue;
     QSettings setting(desktop_file_path, QSettings::IniFormat);
-    setting.beginGroup("Desktop Entry");
-    if (setting.contains("Exec")) {
-      QString cmd = setting.value("Exec").toString();
+    setting.beginGroup(QStringLiteral("Desktop Entry"));
+    if (setting.contains(QStringLiteral("Exec"))) {
+      QString cmd = setting.value(QStringLiteral("Exec")).toString();
       if (cmd.isEmpty()) break;
       cmd = cmd.remove(QRegularExpression(QStringLiteral("[%][a-zA-Z]*( |$)"), QRegularExpression::CaseInsensitiveOption));
 #  if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-      command_params = cmd.split(' ', Qt::SkipEmptyParts);
+      command_params = cmd.split(QLatin1Char(' '), Qt::SkipEmptyParts);
 #  else
-      command_params = cmd.split(' ', QString::SkipEmptyParts);
+      command_params = cmd.split(QLatin1Char(' '), QString::SkipEmptyParts);
 #  endif
       command = command_params.first();
       command_params.removeFirst();
@@ -83,7 +83,7 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
     command = command.split(QStringLiteral("/")).last();
   }
 
-  if (command.isEmpty() || command == "exo-open") {
+  if (command.isEmpty() || command == QStringLiteral("exo-open")) {
     QDesktopServices::openUrl(QUrl::fromLocalFile(path));
   }
   else if (command.startsWith(QLatin1String("nautilus"))) {
@@ -108,14 +108,14 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
 #ifdef Q_OS_MACOS
 // Better than openUrl(dirname(path)) - also highlights file at path
 void RevealFileInFinder(const QString &path) {
-  QProcess::execute("/usr/bin/open", QStringList() << "-R" << path);
+  QProcess::execute(QStringLiteral("/usr/bin/open"), QStringList() << QStringLiteral("-R") << path);
 }
 #endif  // Q_OS_MACOS
 
 #ifdef Q_OS_WIN
 void ShowFileInExplorer(const QString &path);
 void ShowFileInExplorer(const QString &path) {
-  QProcess::execute("explorer.exe", QStringList() << "/select," << QDir::toNativeSeparators(path));
+  QProcess::execute(QStringLiteral("explorer.exe"), QStringList() << QStringLiteral("/select,") << QDir::toNativeSeparators(path));
 }
 #endif
 

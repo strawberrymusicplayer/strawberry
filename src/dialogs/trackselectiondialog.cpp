@@ -176,7 +176,7 @@ void TrackSelectionDialog::UpdateStack() {
 
   if (tag_data.pending_) {
     ui_->stack->setCurrentWidget(ui_->loading_page);
-    ui_->progress->set_text(tag_data.progress_string_ + "...");
+    ui_->progress->set_text(tag_data.progress_string_ + QStringLiteral("..."));
     return;
   }
   else if (tag_data.results_.isEmpty()) {
@@ -286,7 +286,7 @@ void TrackSelectionDialog::SaveData(const QList<Data> &data) {
 void TrackSelectionDialog::accept() {
 
   if (save_on_close_) {
-    SetLoading(tr("Saving tracks") + "...");
+    SetLoading(tr("Saving tracks") + QStringLiteral("..."));
 
     // Save tags in the background
     QFuture<void> future = QtConcurrent::run(&TrackSelectionDialog::SaveData, data_);

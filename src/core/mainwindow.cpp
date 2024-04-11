@@ -104,6 +104,7 @@
 #  include "qtsystemtrayicon.h"
 #endif
 #include "networkaccessmanager.h"
+#include "settings.h"
 #include "utilities/envutils.h"
 #include "utilities/filemanagerutils.h"
 #include "utilities/timeconstants.h"
@@ -301,13 +302,13 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       }),
       smartplaylists_view_(new SmartPlaylistsViewContainer(app, this)),
 #ifdef HAVE_SUBSONIC
-      subsonic_view_(new InternetSongsView(app_, app->internet_services()->ServiceBySource(Song::Source::Subsonic), SubsonicSettingsPage::kSettingsGroup, SettingsDialog::Page::Subsonic, this)),
+      subsonic_view_(new InternetSongsView(app_, app->internet_services()->ServiceBySource(Song::Source::Subsonic), QLatin1String(SubsonicSettingsPage::kSettingsGroup), SettingsDialog::Page::Subsonic, this)),
 #endif
 #ifdef HAVE_TIDAL
-      tidal_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source::Tidal), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page::Tidal, this)),
+      tidal_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source::Tidal), QLatin1String(TidalSettingsPage::kSettingsGroup), SettingsDialog::Page::Tidal, this)),
 #endif
 #ifdef HAVE_QOBUZ
-      qobuz_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source::Qobuz), QobuzSettingsPage::kSettingsGroup, SettingsDialog::Page::Qobuz, this)),
+      qobuz_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source::Qobuz), QLatin1String(QobuzSettingsPage::kSettingsGroup), SettingsDialog::Page::Qobuz, this)),
 #endif
       radio_view_(new RadioViewContainer(this)),
       lastfm_import_dialog_(new LastFMImportDialog(app_->lastfm_import(), this)),
@@ -398,7 +399,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   // Add the playing widget to the fancy tab widget
   ui_->tabs->addBottomWidget(ui_->widget_playing);
   //ui_->tabs->SetBackgroundPixmap(QPixmap(":/pictures/strawberry-background.png"));
-  ui_->tabs->Load(kSettingsGroup);
+  ui_->tabs->Load(QLatin1String(kSettingsGroup));
 
   track_position_timer_->setInterval(kTrackPositionUpdateTimeMs);
   QObject::connect(track_position_timer_, &QTimer::timeout, this, &MainWindow::UpdateTrackPosition);
@@ -448,7 +449,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   // Help menu
 
   ui_->action_about_strawberry->setIcon(IconLoader::Load(QStringLiteral("strawberry")));
-  ui_->action_about_qt->setIcon(QIcon(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
+  ui_->action_about_qt->setIcon(QIcon(QStringLiteral(":/qt-project.org/qmessagebox/images/qtlogo-64.png")));
 
   // Music menu
 
@@ -690,7 +691,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   QAction *collection_config_action = new QAction(IconLoader::Load(QStringLiteral("configure")), tr("Configure collection..."), this);
   QObject::connect(collection_config_action, &QAction::triggered, this, &MainWindow::ShowCollectionConfig);
-  collection_view_->filter_widget()->SetSettingsGroup(CollectionSettingsPage::kSettingsGroup);
+  collection_view_->filter_widget()->SetSettingsGroup(QLatin1String(CollectionSettingsPage::kSettingsGroup));
   collection_view_->filter_widget()->Init(app_->collection()->model());
 
   QAction *separator = new QAction(this);
@@ -952,7 +953,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #else
   BehaviourSettingsPage::StartupBehaviour startupbehaviour = BehaviourSettingsPage::StartupBehaviour::Remember;
   {
-    QSettings s;
+    Settings s;
     s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
     startupbehaviour = static_cast<BehaviourSettingsPage::StartupBehaviour>(s.value("startupbehaviour", static_cast<int>(BehaviourSettingsPage::StartupBehaviour::Remember)).toInt());
     s.endGroup();
@@ -975,7 +976,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       }
       [[fallthrough]];
     case BehaviourSettingsPage::StartupBehaviour::Remember:
-    default: {
+    default:{
 
       was_maximized_ = settings_.value("maximized", true).toBool();
       if (was_maximized_) setWindowState(windowState() | Qt::WindowMaximized);
@@ -1024,18 +1025,18 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   }
 
 #ifdef HAVE_QTSPARKLE
-  QUrl sparkle_url(QTSPARKLE_URL);
+  QUrl sparkle_url(QString::fromLatin1(QTSPARKLE_URL));
   if (!sparkle_url.isEmpty()) {
     qLog(Debug) << "Creating Qt Sparkle updater";
     qtsparkle::Updater *updater = new qtsparkle::Updater(sparkle_url, this);
-    updater->SetVersion(STRAWBERRY_VERSION_PACKAGE);
+    updater->SetVersion(QStringLiteral(STRAWBERRY_VERSION_PACKAGE));
     QObject::connect(check_updates, &QAction::triggered, updater, &qtsparkle::Updater::CheckNow);
   }
 #endif
 
 #ifdef Q_OS_LINUX
   if (!Utilities::GetEnv(QStringLiteral("SNAP")).isEmpty() && !Utilities::GetEnv(QStringLiteral("SNAP_NAME")).isEmpty()) {
-    QSettings s;
+    Settings s;
     s.beginGroup(kSettingsGroup);
     const bool ignore_snap = s.value("ignore_snap", false).toBool();
     s.endGroup();
@@ -1049,30 +1050,30 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
 #if defined(Q_OS_MACOS)
   if (Utilities::ProcessTranslated()) {
-    QSettings s;
+    Settings s;
     s.beginGroup(kSettingsGroup);
     const bool ignore_rosetta = s.value("ignore_rosetta", false).toBool();
     s.endGroup();
     if (!ignore_rosetta) {
       MessageDialog *rosetta_message = new MessageDialog(this);
-      rosetta_message->set_settings_group(kSettingsGroup);
-      rosetta_message->set_do_not_show_message_again("ignore_rosetta");
+      rosetta_message->set_settings_group(QLatin1String(kSettingsGroup));
+      rosetta_message->set_do_not_show_message_again(QStringLiteral("ignore_rosetta"));
       rosetta_message->setAttribute(Qt::WA_DeleteOnClose);
-      rosetta_message->ShowMessage(tr("Strawberry running under Rosetta"), tr("You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1").arg("<a href=\"https://downloads.strawberrymusicplayer.org/\">downloads.strawberrymusicplayer.org</a>"), IconLoader::Load("dialog-warning"));
+      rosetta_message->ShowMessage(tr("Strawberry running under Rosetta"), tr("You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1").arg(QStringLiteral("<a href=\"https://downloads.strawberrymusicplayer.org/\">downloads.strawberrymusicplayer.org</a>")), IconLoader::Load(QStringLiteral("dialog-warning")));
     }
   }
 #endif
 
   {
-    QSettings s;
+    Settings s;
     s.beginGroup(kSettingsGroup);
-    const QString do_not_show_sponsor_message_key = QStringLiteral("do_not_show_sponsor_message");
+    constexpr char do_not_show_sponsor_message_key[] = "do_not_show_sponsor_message";
     const bool do_not_show_sponsor_message = s.value(do_not_show_sponsor_message_key, false).toBool();
     s.endGroup();
     if (!do_not_show_sponsor_message) {
       MessageDialog *sponsor_message = new MessageDialog(this);
-      sponsor_message->set_settings_group(kSettingsGroup);
-      sponsor_message->set_do_not_show_message_again(do_not_show_sponsor_message_key);
+      sponsor_message->set_settings_group(QLatin1String(kSettingsGroup));
+      sponsor_message->set_do_not_show_message_again(QLatin1String(do_not_show_sponsor_message_key));
       sponsor_message->setAttribute(Qt::WA_DeleteOnClose);
       sponsor_message->ShowMessage(tr("Sponsoring Strawberry"), tr("Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1").arg(QStringLiteral("<a href= \"https://www.strawberrymusicplayer.org/\">www.strawberrymusicplayer.org</a>")), IconLoader::Load(QStringLiteral("dialog-information")));
     }
@@ -1089,7 +1090,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
 
 #ifdef Q_OS_MACOS
   constexpr bool keeprunning_available = true;
@@ -1252,7 +1253,7 @@ void MainWindow::SaveSettings() {
   SaveGeometry();
   SavePlaybackStatus();
   app_->player()->SaveVolume();
-  ui_->tabs->SaveSettings(kSettingsGroup);
+  ui_->tabs->SaveSettings(QLatin1String(kSettingsGroup));
   ui_->playlist->view()->SaveSettings();
   app_->scrobbler()->WriteCache();
 
@@ -1507,7 +1508,7 @@ void MainWindow::SaveGeometry() {
 
 void MainWindow::SavePlaybackStatus() {
 
-  QSettings s;
+  Settings s;
 
   s.beginGroup(Player::kSettingsGroup);
   s.setValue("playback_state", static_cast<int>(app_->player()->GetState()));
@@ -1526,7 +1527,7 @@ void MainWindow::SavePlaybackStatus() {
 
 void MainWindow::LoadPlaybackStatus() {
 
-  QSettings s;
+  Settings s;
 
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
   const bool resume_playback = s.value("resumeplayback", false).toBool();
@@ -1550,7 +1551,7 @@ void MainWindow::ResumePlayback() {
 
   qLog(Debug) << "Resuming playback";
 
-  QSettings s;
+  Settings s;
   s.beginGroup(Player::kSettingsGroup);
   const EngineBase::State playback_state = static_cast<EngineBase::State>(s.value("playback_state", static_cast<int>(EngineBase::State::Empty)).toInt());
   int playback_playlist = s.value("playback_playlist", -1).toInt();
@@ -2054,7 +2055,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
 
     QString column_name = Playlist::column_name(column);
     QString column_value = app_->playlist_manager()->current()->data(source_index).toString();
-    if (column_value.length() > 25) column_value = column_value.left(25) + "...";
+    if (column_value.length() > 25) column_value = column_value.left(25) + QStringLiteral("...");
 
     ui_->action_selection_set_value->setText(tr("Set %1 to \"%2\"...").arg(column_name.toLower(), column_value));
     ui_->action_edit_value->setText(tr("Edit tag \"%1\"...").arg(column_name));
@@ -2297,7 +2298,7 @@ void MainWindow::AddFile() {
   PlaylistParser parser(app_->collection_backend());
 
   // Show dialog
-  QStringList file_names = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QStringLiteral("%1 (%2);;%3;;%4").arg(tr("Music"), FileView::kFileFilter, parser.filters(PlaylistParser::Type::Load), tr(kAllFilesFilterSpec)));
+  QStringList file_names = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QStringLiteral("%1 (%2);;%3;;%4").arg(tr("Music"), QLatin1String(FileView::kFileFilter), parser.filters(PlaylistParser::Type::Load), tr(kAllFilesFilterSpec)));
 
   if (file_names.isEmpty()) return;
 
@@ -2341,7 +2342,7 @@ void MainWindow::AddCDTracks() {
   MimeData *mimedata = new MimeData;
   // We are putting empty data, but we specify cdda mimetype to indicate that we want to load audio cd tracks
   mimedata->open_in_new_playlist_ = true;
-  mimedata->setData(Playlist::kCddaMimeType, QByteArray());
+  mimedata->setData(QLatin1String(Playlist::kCddaMimeType), QByteArray());
   AddToPlaylist(mimedata);
 
 }
@@ -2375,7 +2376,7 @@ void MainWindow::ShowInCollection() {
   }
   QString search;
   if (!songs.isEmpty()) {
-    search = "artist:" + songs.first().artist() + " album:" + songs.first().album();
+    search = QStringLiteral("artist:") + songs.first().artist() + QStringLiteral(" album:") + songs.first().album();
   }
   collection_view_->filter_widget()->ShowInCollection(search);
 
@@ -2468,9 +2469,9 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
       break;
 
     case CommandlineOptions::PlayerAction::ResizeWindow:{
-      if (options.window_size().contains('x') && options.window_size().length() >= 4) {
-        QString str_w = options.window_size().left(options.window_size().indexOf('x'));
-        QString str_h = options.window_size().right(options.window_size().length() - options.window_size().indexOf('x') - 1);
+      if (options.window_size().contains(QLatin1Char('x')) && options.window_size().length() >= 4) {
+        QString str_w = options.window_size().left(options.window_size().indexOf(QLatin1Char('x')));
+        QString str_h = options.window_size().right(options.window_size().length() - options.window_size().indexOf(QLatin1Char('x')) - 1);
         bool w_ok = false;
         bool h_ok = false;
         int w = str_w.toInt(&w_ok);
@@ -2509,7 +2510,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
 
 #ifdef HAVE_TIDAL
     for (const QUrl &url : options.urls()) {
-      if (url.scheme() == "tidal" && url.host() == "login") {
+      if (url.scheme() == QStringLiteral("tidal") && url.host() == QStringLiteral("login")) {
         emit AuthorizationUrlReceived(url);
         return;
       }
@@ -2951,11 +2952,11 @@ void MainWindow::CheckFullRescanRevisions() {
 
   // if we have any...
   if (!reasons.isEmpty()) {
-    QString message = tr("The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:") + "<ul>";
+    QString message = tr("The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:") + QStringLiteral("<ul>");
     for (const QString &reason : reasons) {
-      message += ("<li>" + reason + "</li>");
+      message += QStringLiteral("<li>") + reason + QStringLiteral("</li>");
     }
-    message += "</ul>" + tr("Would you like to run a full rescan right now?");
+    message += QStringLiteral("</ul>") + tr("Would you like to run a full rescan right now?");
     if (QMessageBox::question(this, tr("Collection rescan notice"), message, QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes) {
       app_->collection()->FullScan();
     }
@@ -3262,7 +3263,7 @@ void MainWindow::PlaylistDelete() {
     app_->player()->Next();
   }
 
-  SharedPtr<MusicStorage> storage = make_shared<FilesystemMusicStorage>(Song::Source::LocalFile, "/");
+  SharedPtr<MusicStorage> storage = make_shared<FilesystemMusicStorage>(Song::Source::LocalFile, QStringLiteral("/"));
   DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage, true);
   QObject::connect(delete_files, &DeleteFiles::Finished, this, &MainWindow::DeleteFilesFinished);
   delete_files->Start(selected_songs);

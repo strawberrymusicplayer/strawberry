@@ -34,6 +34,7 @@
 
 #include "osd/osdbase.h"
 #include "core/logging.h"
+#include "core/settings.h"
 
 class QCheckBox;
 class QComboBox;
@@ -68,9 +69,9 @@ class SettingsPage : public QWidget {
 
   void set_changed() { changed_ = true; }
 
-  static void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const QString &default_value);
-  static void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value);
-  static void ComboBoxLoadFromSettingsByIndex(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value);
+  static void ComboBoxLoadFromSettings(const Settings &s, QComboBox *combobox, const QString &setting, const QString &default_value);
+  static void ComboBoxLoadFromSettings(const Settings &s, QComboBox *combobox, const QString &setting, const int default_value);
+  static void ComboBoxLoadFromSettingsByIndex(const Settings &s, QComboBox *combobox, const QString &setting, const int default_value);
 
  private:
   virtual void Save() = 0;

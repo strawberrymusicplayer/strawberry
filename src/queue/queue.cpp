@@ -39,7 +39,9 @@
 #include "playlist/playlist.h"
 #include "queue.h"
 
-const char *Queue::kRowsMimetype = "application/x-strawberry-queue-rows";
+namespace {
+constexpr char kRowsMimetype[] = "application/x-strawberry-queue-rows";
+}
 
 Queue::Queue(Playlist *playlist, QObject *parent) : QAbstractProxyModel(parent), playlist_(playlist), total_length_ns_(0) {
 
@@ -153,7 +155,7 @@ QVariant Queue::data(const QModelIndex &proxy_index, int role) const {
     case Playlist::Role_QueuePosition:
       return proxy_index.row();
 
-    case Qt::DisplayRole: {
+    case Qt::DisplayRole:{
       const QString artist = source_index.sibling(source_index.row(), Playlist::Column_Artist).data().toString();
       const QString title = source_index.sibling(source_index.row(), Playlist::Column_Title).data().toString();
 
@@ -252,7 +254,7 @@ void Queue::UpdateSummaryText() {
   summary += tr("%n track(s)", "", tracks);
 
   if (nanoseconds > 0) {
-    summary += " - [ " + Utilities::WordyTimeNanosec(nanoseconds) + " ]";
+    summary += QStringLiteral(" - [ ") + Utilities::WordyTimeNanosec(nanoseconds) + QStringLiteral(" ]");
   }
 
   emit SummaryTextChanged(summary);
@@ -320,7 +322,7 @@ void Queue::MoveDown(int row) {
 }
 
 QStringList Queue::mimeTypes() const {
-  return QStringList() << kRowsMimetype << Playlist::kRowsMimetype;
+  return QStringList() << QLatin1String(kRowsMimetype) << QLatin1String(Playlist::kRowsMimetype);
 }
 
 Qt::DropActions Queue::supportedDropActions() const {
@@ -343,7 +345,7 @@ QMimeData *Queue::mimeData(const QModelIndexList &indexes) const {
     QDataStream stream(&buf);
     stream << rows;
     buf.close();
-    data->setData(kRowsMimetype, buf.data());
+    data->setData(QLatin1String(kRowsMimetype), buf.data());
   }
 
   return data;
@@ -355,11 +357,11 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, 
   if (action == Qt::IgnoreAction)
     return false;
 
-  if (data->hasFormat(kRowsMimetype)) {
+  if (data->hasFormat(QLatin1String(kRowsMimetype))) {
     // Dragged from the queue
 
     QList<int> proxy_rows;
-    QDataStream stream(data->data(kRowsMimetype));
+    QDataStream stream(data->data(QLatin1String(kRowsMimetype)));
     stream >> proxy_rows;
 
     // Make sure we take them in order
@@ -367,12 +369,12 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, 
 
     Move(proxy_rows, row);
   }
-  else if (data->hasFormat(Playlist::kRowsMimetype)) {
+  else if (data->hasFormat(QLatin1String(Playlist::kRowsMimetype))) {
     // Dragged from the playlist
 
     Playlist *playlist = nullptr;
     QList<int> source_rows;
-    QDataStream stream(data->data(Playlist::kRowsMimetype));
+    QDataStream stream(data->data(QLatin1String(Playlist::kRowsMimetype)));
     stream.readRawData(reinterpret_cast<char*>(&playlist), sizeof(Playlist));
     stream >> source_rows;
 

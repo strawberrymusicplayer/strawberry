@@ -35,6 +35,7 @@
 
 #include "core/shared_ptr.h"
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistdelegates.h"
 #include "playlist/playlistmanager.h"
@@ -86,7 +87,7 @@ void QueueView::SetPlaylistManager(SharedPtr<PlaylistManager> playlist_manager) 
 
 void QueueView::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   int iconsize = s.value(AppearanceSettingsPage::kIconSizeLeftPanelButtons, 22).toInt();
   s.endGroup();

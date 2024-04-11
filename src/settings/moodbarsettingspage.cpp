@@ -33,6 +33,7 @@
 
 #include "core/iconloader.h"
 #include "core/logging.h"
+#include "core/settings.h"
 
 #include "settingsdialog.h"
 #include "settingspage.h"
@@ -64,7 +65,7 @@ MoodbarSettingsPage::~MoodbarSettingsPage() { delete ui_; }
 
 void MoodbarSettingsPage::Load() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   ui_->moodbar_enabled->setChecked(s.value("enabled", false).toBool());
   ui_->moodbar_show->setChecked(s.value("show", false).toBool());
@@ -76,13 +77,13 @@ void MoodbarSettingsPage::Load() {
 
   Init(ui_->layout_moodbarsettingspage->parentWidget());
 
-  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
 }
 
 void MoodbarSettingsPage::Save() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("enabled", ui_->moodbar_enabled->isChecked());
   s.setValue("show", ui_->moodbar_show->isChecked());

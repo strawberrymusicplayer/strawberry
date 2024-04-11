@@ -82,7 +82,7 @@ void CddaSongLoader::LoadSongs() {
   GError *error = nullptr;
   cdda_ = gst_element_make_from_uri(GST_URI_SRC, "cdda://", nullptr, &error);
   if (error) {
-    Error(QStringLiteral("%1: %2").arg(error->code).arg(error->message));
+    Error(QStringLiteral("%1: %2").arg(error->code).arg(QString::fromUtf8(error->message)));
   }
   if (!cdda_) return;
 
@@ -199,7 +199,7 @@ void CddaSongLoader::LoadSongs() {
     gst_message_parse_tag(msg_tag, &tags);
     char *string_mb = nullptr;
     if (gst_tag_list_get_string(tags, GST_TAG_CDDA_MUSICBRAINZ_DISCID, &string_mb)) {
-      QString musicbrainz_discid(string_mb);
+      QString musicbrainz_discid = QString::fromUtf8(string_mb);
       qLog(Info) << "MusicBrainz discid: " << musicbrainz_discid;
 
       MusicBrainzClient *musicbrainz_client = new MusicBrainzClient(network_);

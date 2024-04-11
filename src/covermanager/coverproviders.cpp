@@ -30,6 +30,7 @@
 #include <QSettings>
 
 #include "core/logging.h"
+#include "core/settings.h"
 #include "coverprovider.h"
 #include "coverproviders.h"
 
@@ -56,7 +57,7 @@ void CoverProviders::ReloadSettings() {
     all_providers.insert(provider->order(), provider->name());
   }
 
-  QSettings s;
+  Settings s;
   s.beginGroup(CoversSettingsPage::kSettingsGroup);
   QStringList providers_enabled = s.value(CoversSettingsPage::kProviders, QStringList() << all_providers.values()).toStringList();
   s.endGroup();

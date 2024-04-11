@@ -101,15 +101,6 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void StartSubmit(const bool initial = false) override;
   void CheckScrobblePrevSong();
 
-  static const char *kOAuthAuthorizeUrl;
-  static const char *kOAuthAccessTokenUrl;
-  static const char *kOAuthRedirectUrl;
-  static const char *kApiUrl;
-  static const char *kClientIDB64;
-  static const char *kClientSecretB64;
-  static const char *kCacheFile;
-  static const int kScrobblesPerRequest;
-
   SharedPtr<NetworkAccessManager> network_;
   ScrobblerCache *cache_;
   LocalRedirectServer *server_;

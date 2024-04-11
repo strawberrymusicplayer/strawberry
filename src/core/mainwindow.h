@@ -52,6 +52,7 @@
 #include "platforminterface.h"
 #include "song.h"
 #include "tagreaderclient.h"
+#include "settings.h"
 #include "engine/enginebase.h"
 #include "osd/osdbase.h"
 #include "playlist/playlist.h"
@@ -379,7 +380,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   QTimer *track_position_timer_;
   QTimer *track_slider_timer_;
-  QSettings settings_;
+  Settings settings_;
 
   bool keep_running_;
   bool playing_widget_;

@@ -40,8 +40,6 @@ class TranscoderOptionsVorbis : public TranscoderOptionsInterface {
   void Save() override;
 
  private:
-  static const char *kSettingsGroup;
-
   Ui_TranscoderOptionsVorbis *ui_;
 };
 

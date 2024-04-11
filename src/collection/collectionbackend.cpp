@@ -939,7 +939,7 @@ QStringList CollectionBackend::GetAll(const QString &column, const CollectionFil
   QSqlDatabase db(db_->Connect());
 
   CollectionQuery query(db, songs_table_, fts_table_, filter_options);
-  query.SetColumnSpec("DISTINCT " + column);
+  query.SetColumnSpec(QStringLiteral("DISTINCT ") + column);
   query.AddCompilationRequirement(false);
 
   if (!query.Exec()) {
@@ -969,14 +969,14 @@ QStringList CollectionBackend::GetAllArtistsWithAlbums(const CollectionFilterOpt
   CollectionQuery query(db, songs_table_, fts_table_, opt);
   query.SetColumnSpec(QStringLiteral("DISTINCT albumartist"));
   query.AddCompilationRequirement(false);
-  query.AddWhere(QStringLiteral("album"), "", QStringLiteral("!="));
+  query.AddWhere(QStringLiteral("album"), QLatin1String(""), QStringLiteral("!="));
 
   // Albums with no 'albumartist' (extract 'artist'):
   CollectionQuery query2(db, songs_table_, fts_table_, opt);
   query2.SetColumnSpec(QStringLiteral("DISTINCT artist"));
   query2.AddCompilationRequirement(false);
-  query2.AddWhere(QStringLiteral("album"), "", QStringLiteral("!="));
-  query2.AddWhere(QStringLiteral("albumartist"), "", QStringLiteral("="));
+  query2.AddWhere(QStringLiteral("album"), QLatin1String(""), QStringLiteral("!="));
+  query2.AddWhere(QStringLiteral("albumartist"), QLatin1String(""), QStringLiteral("="));
 
   if (!query.Exec()) {
     ReportErrors(query);
@@ -1065,7 +1065,7 @@ SongList CollectionBackend::GetSongsByAlbum(const QString &album, const Collecti
 
 bool CollectionBackend::ExecCollectionQuery(CollectionQuery *query, SongList &songs) {
 
-  query->SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
+  query->SetColumnSpec(QStringLiteral("%songs_table.ROWID, ") + Song::kColumnSpec);
 
   if (!query->Exec()) return false;
 
@@ -1080,7 +1080,7 @@ bool CollectionBackend::ExecCollectionQuery(CollectionQuery *query, SongList &so
 
 bool CollectionBackend::ExecCollectionQuery(CollectionQuery *query, SongMap &songs) {
 
-  query->SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
+  query->SetColumnSpec(QStringLiteral("%songs_table.ROWID, ") + Song::kColumnSpec);
 
   if (!query->Exec()) return false;
 
@@ -1301,9 +1301,9 @@ SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDa
   QStringList song_ids2;
   song_ids2.reserve(song_ids.count());
   for (const QString &song_id : song_ids) {
-    song_ids2 << "'" + song_id + "'";
+    song_ids2 << QLatin1Char('\'') + song_id + QLatin1Char('\'');
   }
-  QString in = song_ids2.join(QStringLiteral(","));
+  QString in = song_ids2.join(QLatin1Char(','));
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE SONG_ID IN (%3)").arg(Song::kColumnSpec, songs_table_, in));
@@ -1358,7 +1358,7 @@ SongList CollectionBackend::GetCompilationSongs(const QString &album, const Coll
   QSqlDatabase db(db_->Connect());
 
   CollectionQuery query(db, songs_table_, fts_table_, opt);
-  query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
+  query.SetColumnSpec(QStringLiteral("%songs_table.ROWID, ") + Song::kColumnSpec);
   query.AddCompilationRequirement(true);
   query.AddWhere(QStringLiteral("album"), album);
 
@@ -1553,7 +1553,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
       key.append(album_info.album_artist);
     }
     if (!album_info.album.isEmpty()) {
-      if (!key.isEmpty()) key.append("-");
+      if (!key.isEmpty()) key.append(QLatin1Char('-'));
       key.append(album_info.album);
     }
     if (!filetype.isEmpty()) {
@@ -1622,7 +1622,7 @@ void CollectionBackend::UpdateEmbeddedAlbumArt(const QString &effective_albumart
 
   // Get the songs before they're updated
   CollectionQuery query(db, songs_table_, fts_table_);
-  query.SetColumnSpec("ROWID, " + Song::kColumnSpec);
+  query.SetColumnSpec(QStringLiteral("ROWID, ") + Song::kColumnSpec);
   query.AddWhere(QStringLiteral("effective_albumartist"), effective_albumartist);
   query.AddWhere(QStringLiteral("album"), album);
 
@@ -1684,7 +1684,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartis
   QSqlDatabase db(db_->Connect());
 
   CollectionQuery query(db, songs_table_, fts_table_);
-  query.SetColumnSpec("ROWID, " + Song::kColumnSpec);
+  query.SetColumnSpec(QStringLiteral("ROWID, ") + Song::kColumnSpec);
   query.AddWhere(QStringLiteral("effective_albumartist"), effective_albumartist);
   query.AddWhere(QStringLiteral("album"), album);
 
@@ -1742,7 +1742,7 @@ void CollectionBackend::UnsetAlbumArt(const QString &effective_albumartist, cons
   QSqlDatabase db(db_->Connect());
 
   CollectionQuery query(db, songs_table_, fts_table_);
-  query.SetColumnSpec("ROWID, " + Song::kColumnSpec);
+  query.SetColumnSpec(QStringLiteral("ROWID, ") + Song::kColumnSpec);
   query.AddWhere(QStringLiteral("effective_albumartist"), effective_albumartist);
   query.AddWhere(QStringLiteral("album"), album);
 
@@ -1799,7 +1799,7 @@ void CollectionBackend::ClearAlbumArt(const QString &effective_albumartist, cons
   QSqlDatabase db(db_->Connect());
 
   CollectionQuery query(db, songs_table_, fts_table_);
-  query.SetColumnSpec("ROWID, " + Song::kColumnSpec);
+  query.SetColumnSpec(QStringLiteral("ROWID, ") + Song::kColumnSpec);
   query.AddWhere(QStringLiteral("effective_albumartist"), effective_albumartist);
   query.AddWhere(QStringLiteral("album"), album);
 
@@ -1854,7 +1854,7 @@ void CollectionBackend::ForceCompilation(const QString &album, const QList<QStri
   for (const QString &artist : artists) {
     // Get the songs before they're updated
     CollectionQuery query(db, songs_table_, fts_table_);
-    query.SetColumnSpec("ROWID, " + Song::kColumnSpec);
+    query.SetColumnSpec(QStringLiteral("ROWID, ") + Song::kColumnSpec);
     query.AddWhere(QStringLiteral("album"), album);
     if (!artist.isEmpty()) query.AddWhere(QStringLiteral("artist"), artist);
 
@@ -2008,7 +2008,7 @@ void CollectionBackend::DeleteAll() {
 
     {
       SqlQuery q(db);
-      q.prepare("DELETE FROM " + songs_table_);
+      q.prepare(QStringLiteral("DELETE FROM ") + songs_table_);
       if (!q.Exec()) {
         db_->ReportErrors(q);
         return;
@@ -2017,7 +2017,7 @@ void CollectionBackend::DeleteAll() {
 
     {
       SqlQuery q(db);
-      q.prepare("DELETE FROM " + fts_table_);
+      q.prepare(QStringLiteral("DELETE FROM ") + fts_table_);
       if (!q.Exec()) {
         db_->ReportErrors(q);
         return;
@@ -2220,7 +2220,7 @@ void CollectionBackend::ExpireSongs(const int directory_id, const int expire_una
     QMutexLocker l(db_->Mutex());
     QSqlDatabase db(db_->Connect());
     SqlQuery q(db);
-    q.prepare(QString("SELECT %1.ROWID, " + Song::JoinSpec(QStringLiteral("%1")) + " FROM %1 LEFT JOIN playlist_items ON %1.ROWID = playlist_items.collection_id WHERE %1.directory_id = :directory_id AND %1.unavailable = 1 AND %1.lastseen > 0 AND %1.lastseen < :time AND playlist_items.collection_id IS NULL").arg(songs_table_));
+    q.prepare(QStringLiteral("SELECT %1.ROWID, ").arg(songs_table_) + Song::JoinSpec(songs_table_) + QStringLiteral(" FROM %1 LEFT JOIN playlist_items ON %1.ROWID = playlist_items.collection_id WHERE %1.directory_id = :directory_id AND %1.unavailable = 1 AND %1.lastseen > 0 AND %1.lastseen < :time AND playlist_items.collection_id IS NULL").arg(songs_table_));
     q.BindValue(QStringLiteral(":directory_id"), directory_id);
     q.BindValue(QStringLiteral(":time"), QDateTime::currentDateTime().toSecsSinceEpoch() - (expire_unavailable_songs_days * 86400));
     if (!q.Exec()) {

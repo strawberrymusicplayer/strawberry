@@ -40,6 +40,7 @@
 
 #include "core/iconloader.h"
 #include "core/logging.h"
+#include "core/settings.h"
 #include "utilities/envutils.h"
 #include "globalshortcuts/globalshortcutgrabber.h"
 #include "globalshortcuts/globalshortcutsmanager.h"
@@ -95,7 +96,7 @@ GlobalShortcutsSettingsPage::~GlobalShortcutsSettingsPage() { delete ui_; }
 
 void GlobalShortcutsSettingsPage::Load() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   GlobalShortcutsManager *manager = dialog()->global_shortcuts_manager();
@@ -205,13 +206,13 @@ void GlobalShortcutsSettingsPage::Load() {
 
   Init(ui_->layout_globalshortcutssettingspage->parentWidget());
 
-  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
 }
 
 void GlobalShortcutsSettingsPage::Save() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   QList<Shortcut> shortcuts = shortcuts_.values();
@@ -344,18 +345,18 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
 void GlobalShortcutsSettingsPage::X11Warning() {
 
   QString de = de_.toLower();
-  if (de == "kde" || de == "gnome" || de == "x-cinnamon" || de == "mate") {
+  if (de == QStringLiteral("kde") || de == QStringLiteral("gnome") || de == QStringLiteral("x-cinnamon") || de == QStringLiteral("mate")) {
     QString text(tr("Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!").arg(de_));
-    if (de == "kde") {
+    if (de == QStringLiteral("kde")) {
       text += tr(" Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.").arg(de_);
     }
-    else if (de == "gnome") {
+    else if (de == QStringLiteral("gnome")) {
       text += tr(" Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.").arg(de_);
     }
-    else if (de == "x-cinnamon") {
+    else if (de == QStringLiteral("x-cinnamon")) {
       text += tr(" Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.").arg(de_);
     }
-    else if (de == "mate") {
+    else if (de == QStringLiteral("mate")) {
       text += tr(" Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.").arg(de_);
     }
     ui_->label_warn_text->setText(text);

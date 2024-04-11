@@ -43,6 +43,7 @@
 #include "core/iconloader.h"
 #include "core/player.h"
 #include "core/logging.h"
+#include "core/settings.h"
 #include "engine/enginebase.h"
 #include "engine/enginedevice.h"
 #include "engine/devicefinders.h"
@@ -55,11 +56,14 @@
 #include "ui_backendsettingspage.h"
 
 const char *BackendSettingsPage::kSettingsGroup = "Backend";
-const char *BackendSettingsPage::kOutputAutomaticallySelect = "Automatically select";
-const char *BackendSettingsPage::kOutputCustom = "Custom";
 const qint64 BackendSettingsPage::kDefaultBufferDuration = 4000;
 const double BackendSettingsPage::kDefaultBufferLowWatermark = 0.33;
 const double BackendSettingsPage::kDefaultBufferHighWatermark = 0.99;
+
+namespace {
+constexpr char kOutputAutomaticallySelect[] = "Automatically select";
+constexpr char kOutputCustom[] = "Custom";
+}  // namespace
 
 BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
@@ -115,7 +119,7 @@ void BackendSettingsPage::Load() {
   configloaded_ = false;
   engineloaded_ = false;
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   EngineBase::Type enginetype = EngineBase::TypeFromName(s.value("engine", EngineBase::Name(EngineBase::Type::None)).toString());
@@ -226,7 +230,7 @@ void BackendSettingsPage::Load() {
 #endif
 
   Init(ui_->layout_backendsettingspage->parentWidget());
-  if (!QSettings().childGroups().contains(kSettingsGroup)) set_changed();
+  if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
   // Check if engine, output or device is set to a different setting than the configured to force saving settings.
 
@@ -241,7 +245,7 @@ void BackendSettingsPage::Load() {
   }
   QVariant device_value;
   if (ui_->combobox_device->currentText().isEmpty()) device_value = QVariant();
-  else if (ui_->combobox_device->currentText() == kOutputCustom) device_value = ui_->lineedit_device->text();
+  else if (ui_->combobox_device->currentText() == QLatin1String(kOutputCustom)) device_value = ui_->lineedit_device->text();
   else device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();
 
   if (enginetype_current_ != enginetype || output_name != output_current_ || device_value != device_current_) {
@@ -364,7 +368,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
 #ifdef Q_OS_WIN
   if (engine()->type() != EngineBase::Type::GStreamer)
 #endif
-    ui_->combobox_device->addItem(IconLoader::Load(QStringLiteral("soundcard")), kOutputAutomaticallySelect, QVariant());
+    ui_->combobox_device->addItem(IconLoader::Load(QStringLiteral("soundcard")), QLatin1String(kOutputAutomaticallySelect), QVariant());
 
   for (DeviceFinder *f : dialog()->app()->device_finders()->ListFinders()) {
     if (!f->outputs().contains(output)) continue;
@@ -376,7 +380,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   }
 
   if (engine()->CustomDeviceSupport(output)) {
-    ui_->combobox_device->addItem(IconLoader::Load(QStringLiteral("soundcard")), kOutputCustom, QVariant());
+    ui_->combobox_device->addItem(IconLoader::Load(QStringLiteral("soundcard")), QLatin1String(kOutputCustom), QVariant());
     ui_->lineedit_device->setEnabled(true);
   }
   else {
@@ -446,8 +450,8 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
     ui_->lineedit_device->setText(device.toString());
     if (!found) {
       for (int i = 0; i < ui_->combobox_device->count(); ++i) {
-        if (ui_->combobox_device->itemText(i) == kOutputCustom) {
-          if (ui_->combobox_device->currentText() != kOutputCustom) ui_->combobox_device->setCurrentIndex(i);
+        if (ui_->combobox_device->itemText(i) == QLatin1String(kOutputCustom)) {
+          if (ui_->combobox_device->currentText() != QLatin1String(kOutputCustom)) ui_->combobox_device->setCurrentIndex(i);
           break;
         }
       }
@@ -478,10 +482,10 @@ void BackendSettingsPage::Save() {
   }
 
   if (ui_->combobox_device->currentText().isEmpty()) device_value = QVariant();
-  else if (ui_->combobox_device->currentText() == kOutputCustom) device_value = ui_->lineedit_device->text();
+  else if (ui_->combobox_device->currentText() == QLatin1String(kOutputCustom)) device_value = ui_->lineedit_device->text();
   else device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   s.setValue("engine", EngineBase::Name(enginetype));
@@ -586,7 +590,7 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
 
   if (engine()->CustomDeviceSupport(output.name)) {
     ui_->lineedit_device->setEnabled(true);
-    if (ui_->combobox_device->currentText() != kOutputCustom) {
+    if (ui_->combobox_device->currentText() != QLatin1String(kOutputCustom)) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
       if (device.metaType().id() == QMetaType::QString)
 #else
@@ -638,7 +642,7 @@ void BackendSettingsPage::DeviceStringChanged() {
 #endif
     QString device_str = device.toString();
     if (device_str.isEmpty()) continue;
-    if (ui_->combobox_device->itemText(i) == kOutputCustom) continue;
+    if (ui_->combobox_device->itemText(i) == QLatin1String(kOutputCustom)) continue;
     if (device_str == ui_->lineedit_device->text()) {
       if (ui_->combobox_device->currentIndex() != i) ui_->combobox_device->setCurrentIndex(i);
       found = true;
@@ -647,15 +651,15 @@ void BackendSettingsPage::DeviceStringChanged() {
 
   if (engine()->CustomDeviceSupport(output.name)) {
     ui_->lineedit_device->setEnabled(true);
-    if ((!found) && (ui_->combobox_device->currentText() != kOutputCustom)) {
+    if ((!found) && (ui_->combobox_device->currentText() != QLatin1String(kOutputCustom))) {
       for (int i = 0; i < ui_->combobox_device->count(); ++i) {
-        if (ui_->combobox_device->itemText(i) == kOutputCustom) {
+        if (ui_->combobox_device->itemText(i) == QLatin1String(kOutputCustom)) {
           ui_->combobox_device->setCurrentIndex(i);
           break;
         }
       }
     }
-    if (ui_->combobox_device->currentText() == kOutputCustom) {
+    if (ui_->combobox_device->currentText() == QLatin1String(kOutputCustom)) {
       if ((ui_->lineedit_device->text().isEmpty()) && (ui_->combobox_device->count() > 0) && (ui_->combobox_device->currentIndex() != 0)) ui_->combobox_device->setCurrentIndex(0);
     }
   }
@@ -806,7 +810,7 @@ void BackendSettingsPage::SelectDevice(const QString &device_new) {
 
   if (device_new.isEmpty()) {
     for (int i = 0; i < ui_->combobox_device->count(); ++i) {
-      if (ui_->combobox_device->itemText(i) == kOutputAutomaticallySelect && ui_->combobox_device->currentIndex() != i) {
+      if (ui_->combobox_device->itemText(i) == QLatin1String(kOutputAutomaticallySelect) && ui_->combobox_device->currentIndex() != i) {
         ui_->combobox_device->setCurrentIndex(i);
         break;
       }
@@ -833,7 +837,7 @@ void BackendSettingsPage::SelectDevice(const QString &device_new) {
     if (!found) {
       ui_->lineedit_device->setText(device_new);
       for (int i = 0; i < ui_->combobox_device->count(); ++i) {
-        if (ui_->combobox_device->itemText(i) == kOutputCustom && ui_->combobox_device->currentIndex() != i) {
+        if (ui_->combobox_device->itemText(i) == QLatin1String(kOutputCustom) && ui_->combobox_device->currentIndex() != i) {
           ui_->combobox_device->setCurrentIndex(i);
           break;
         }

@@ -48,6 +48,7 @@
 #include "core/player.h"
 #include "core/database.h"
 #include "core/song.h"
+#include "core/settings.h"
 #include "utilities/randutils.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -64,12 +65,15 @@ using std::make_shared;
 const Song::Source SubsonicService::kSource = Song::Source::Subsonic;
 const char *SubsonicService::kClientName = "Strawberry";
 const char *SubsonicService::kApiVersion = "1.11.0";
-const char *SubsonicService::kSongsTable = "subsonic_songs";
-const char *SubsonicService::kSongsFtsTable = "subsonic_songs_fts";
-const int SubsonicService::kMaxRedirects = 3;
+
+namespace {
+constexpr char kSongsTable[] = "subsonic_songs";
+constexpr char kSongsFtsTable[] = "subsonic_songs_fts";
+constexpr int kMaxRedirects = 3;
+}  // namespace
 
 SubsonicService::SubsonicService(Application *app, QObject *parent)
-    : InternetService(Song::Source::Subsonic, QStringLiteral("Subsonic"), QStringLiteral("subsonic"), SubsonicSettingsPage::kSettingsGroup, SettingsDialog::Page::Subsonic, app, parent),
+    : InternetService(Song::Source::Subsonic, QStringLiteral("Subsonic"), QStringLiteral("subsonic"), QLatin1String(SubsonicSettingsPage::kSettingsGroup), SettingsDialog::Page::Subsonic, app, parent),
       app_(app),
       url_handler_(new SubsonicUrlHandler(app, this)),
       collection_backend_(nullptr),
@@ -85,9 +89,10 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
 
   // Backend
 
+
   collection_backend_ = make_shared<CollectionBackend>();
   collection_backend_->moveToThread(app_->database()->thread());
-  collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Subsonic, kSongsTable, kSongsFtsTable);
+  collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Subsonic, QLatin1String(kSongsTable), QLatin1String(kSongsFtsTable));
 
   // Model
 
@@ -126,7 +131,7 @@ void SubsonicService::ShowConfig() {
 
 void SubsonicService::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(SubsonicSettingsPage::kSettingsGroup);
 
   server_url_ = s.value("url").toUrl();
@@ -159,30 +164,30 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
 
-  ParamList params = ParamList() << Param("c", kClientName)
-                                 << Param("v", kApiVersion)
-                                 << Param("f", "json")
-                                 << Param("u", username);
+  ParamList params = ParamList() << Param(QStringLiteral("c"), QLatin1String(kClientName))
+                                 << Param(QStringLiteral("v"), QLatin1String(kApiVersion))
+                                 << Param(QStringLiteral("f"), QStringLiteral("json"))
+                                 << Param(QStringLiteral("u"), username);
 
   if (auth_method == SubsonicSettingsPage::AuthMethod::Hex) {
-    params << Param("p", QString("enc:" + password.toUtf8().toHex()));
+    params << Param(QStringLiteral("p"), QStringLiteral("enc:") + QString::fromLatin1(password.toUtf8().toHex()));
   }
   else {
     const QString salt = Utilities::CryptographicRandomString(20);
     QCryptographicHash md5(QCryptographicHash::Md5);
     md5.addData(password.toUtf8());
     md5.addData(salt.toUtf8());
-    params << Param("s", salt);
-    params << Param("t", md5.result().toHex());
+    params << Param(QStringLiteral("s"), salt);
+    params << Param(QStringLiteral("t"), QString::fromLatin1(md5.result().toHex()));
   }
 
   QUrlQuery url_query(url.query());
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
   if (!redirect) {
-    if (!url.path().isEmpty() && url.path().right(1) == "/") {
+    if (!url.path().isEmpty() && url.path().right(1) == QStringLiteral("/")) {
       url.setPath(url.path() + QStringLiteral("rest/ping.view"));
     }
     else {
@@ -194,14 +199,14 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
 
   QNetworkRequest req(url);
 
-  if (url.scheme() == "https" && !verify_certificate_) {
+  if (url.scheme() == QStringLiteral("https") && !verify_certificate_) {
     QSslConfiguration sslconfig = QSslConfiguration::defaultConfiguration();
     sslconfig.setPeerVerifyMode(QSslSocket::VerifyNone);
     req.setSslConfiguration(sslconfig);
   }
 
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   req.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2_);
@@ -263,7 +268,7 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
       }
 
       // See if there is Json data containing "error" - then use that instead.
-      QByteArray data = reply->readAll();
+      const QByteArray data = reply->readAll();
       QJsonParseError parse_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
@@ -358,12 +363,12 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
   QString status = obj_response[QStringLiteral("status")].toString().toLower();
   QString message = obj_response[QStringLiteral("message")].toString();
 
-  if (status == "failed") {
+  if (status == QStringLiteral("failed")) {
     emit TestComplete(false, message);
     emit TestFailure(message);
     return;
   }
-  else if (status == "ok") {
+  else if (status == QStringLiteral("ok")) {
     emit TestComplete(true);
     emit TestSuccess();
     return;
@@ -461,7 +466,7 @@ void SubsonicService::PingError(const QString &error, const QVariant &debug) {
   QString error_html;
   for (const QString &e : errors_) {
     qLog(Error) << "Subsonic:" << e;
-    error_html += e + "<br />";
+    error_html += e + QStringLiteral("<br />");
   }
   if (debug.isValid()) qLog(Debug) << debug;
 

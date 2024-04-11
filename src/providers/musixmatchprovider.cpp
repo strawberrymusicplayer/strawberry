@@ -27,12 +27,12 @@ const char *MusixmatchProvider::kApiKey = "Y2FhMDRlN2Y4OWE5OTIxYmZlOGMzOWQzOGI3Z
 
 QString MusixmatchProvider::StringFixup(QString text) {
 
-  return text.replace('/', '-')
-             .replace('\'', '-')
+  return text.replace(QLatin1Char('/'), QLatin1Char('-'))
+             .replace(QLatin1Char('\''), QLatin1Char('-'))
              .remove(QRegularExpression(QStringLiteral("[^\\w0-9\\- ]"), QRegularExpression::UseUnicodePropertiesOption))
              .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
              .simplified()
-             .replace(' ', '-')
+             .replace(QLatin1Char(' '), QLatin1Char('-'))
              .replace(QRegularExpression(QStringLiteral("(-)\\1+")), QStringLiteral("-"))
              .toLower();
 

@@ -78,7 +78,7 @@ SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionB
   setWizardStyle(QWizard::ClassicStyle);
 #endif
 #ifdef Q_OS_WIN32
-  if (QApplication::style() && QApplication::style()->objectName() == "fusion") {
+  if (QApplication::style() && QApplication::style()->objectName() == QStringLiteral("fusion")) {
     setWizardStyle(QWizard::ClassicStyle);
   }
 #endif
@@ -124,7 +124,7 @@ void SmartPlaylistWizard::SetGenerator(PlaylistGeneratorPtr gen) {
 
   // Set the name
   if (!gen->name().isEmpty()) {
-    setWindowTitle(windowTitle() + " - " + gen->name());
+    setWindowTitle(windowTitle() + QStringLiteral(" - ") + gen->name());
   }
   finish_page_->ui_->name->setText(gen->name());
   finish_page_->ui_->dynamic->setChecked(gen->is_dynamic());

@@ -50,6 +50,8 @@ class Database : public QObject {
   explicit Database(Application *app, QObject *parent = nullptr, const QString &database_name = QString());
   ~Database() override;
 
+  static const int kSchemaVersion;
+
   struct AttachedDatabase {
     AttachedDatabase() {}
     AttachedDatabase(const QString &filename, const QString &schema, bool is_temporary)
@@ -59,11 +61,6 @@ class Database : public QObject {
     QString schema_;
     bool is_temporary_;
   };
-
-  static const int kSchemaVersion;
-  static const int kMinSupportedSchemaVersion;
-  static const char *kDatabaseFilename;
-  static const char *kMagicAllSongsTables;
 
   void ExitAsync();
   QSqlDatabase Connect();

@@ -25,11 +25,15 @@
 #include <QSlider>
 #include <QSettings>
 
-#include "transcoder/transcoderoptionsinterface.h"
+#include "transcoderoptionsinterface.h"
 #include "transcoderoptionsasf.h"
 #include "ui_transcoderoptionsasf.h"
 
-const char *TranscoderOptionsASF::kSettingsGroup = "Transcoder/ffenc_wmav2";
+#include "core/settings.h"
+
+namespace {
+constexpr char kSettingsGroup[] = "Transcoder/ffenc_wmav2";
+}
 
 TranscoderOptionsASF::TranscoderOptionsASF(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsASF) {
   ui_->setupUi(this);
@@ -41,8 +45,8 @@ TranscoderOptionsASF::~TranscoderOptionsASF() {
 
 void TranscoderOptionsASF::Load() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
   ui_->bitrate_slider->setValue(s.value("bitrate", 320000).toInt() / 1000);
   s.endGroup();
 
@@ -50,8 +54,8 @@ void TranscoderOptionsASF::Load() {
 
 void TranscoderOptionsASF::Save() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup + settings_postfix_);
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
   s.setValue("bitrate", ui_->bitrate_slider->value() * 1000);
   s.endGroup();
 

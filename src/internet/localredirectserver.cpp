@@ -151,7 +151,7 @@ void LocalRedirectServer::WriteTemplate() const {
         .pixmap(16)
         .toImage()
         .save(&image_buffer, "PNG");
-    page_data.replace(QLatin1String("@IMAGE_DATA@"), image_buffer.data().toBase64());
+    page_data.replace(QLatin1String("@IMAGE_DATA@"), QString::fromUtf8(image_buffer.data().toBase64()));
     image_buffer.close();
   }
 
@@ -169,7 +169,8 @@ QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray &request) const {
   const QByteArray &request_line = lines[0];
   QByteArray path = request_line.split(' ')[1];
   QUrl base_url = url_;
-  QUrl request_url(base_url.toString() + path.mid(1), QUrl::StrictMode);
+  QUrl request_url(base_url.toString() + QString::fromLatin1(path.mid(1)), QUrl::StrictMode);
+
   return request_url;
 
 }

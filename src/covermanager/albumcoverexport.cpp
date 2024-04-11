@@ -33,6 +33,8 @@
 #include "albumcoverexport.h"
 #include "ui_albumcoverexport.h"
 
+#include "core/settings.h"
+
 const char *AlbumCoverExport::kSettingsGroup = "AlbumCoverExport";
 
 AlbumCoverExport::AlbumCoverExport(QWidget *parent) : QDialog(parent), ui_(new Ui_AlbumCoverExport) {
@@ -47,17 +49,17 @@ AlbumCoverExport::~AlbumCoverExport() { delete ui_; }
 
 AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   // Restore last accepted settings
-  ui_->fileName->setText(s.value("fileName", "cover").toString());
+  ui_->fileName->setText(s.value("fileName", QStringLiteral("cover")).toString());
   ui_->doNotOverwrite->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::None)).toInt()) == OverwriteMode::None);
   ui_->overwriteAll->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::All)).toInt()) == OverwriteMode::All);
   ui_->overwriteSmaller->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::Smaller)).toInt()) == OverwriteMode::Smaller);
   ui_->forceSize->setChecked(s.value("forceSize", false).toBool());
-  ui_->width->setText(s.value("width", "").toString());
-  ui_->height->setText(s.value("height", "").toString());
+  ui_->width->setText(s.value("width", QLatin1String("")).toString());
+  ui_->height->setText(s.value("height", QLatin1String("")).toString());
   ui_->export_downloaded->setChecked(s.value("export_downloaded", true).toBool());
   ui_->export_embedded->setChecked(s.value("export_embedded", false).toBool());
 

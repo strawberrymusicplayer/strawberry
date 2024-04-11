@@ -70,6 +70,7 @@
 #include "core/tagreaderclient.h"
 #include "core/database.h"
 #include "core/sqlrow.h"
+#include "core/settings.h"
 #include "utilities/strutils.h"
 #include "utilities/fileutils.h"
 #include "utilities/imageutils.h"
@@ -218,7 +219,7 @@ void AlbumCoverManager::Init() {
   QObject::connect(ui_->action_load, &QAction::triggered, this, &AlbumCoverManager::LoadSelectedToPlaylist);
 
   // Restore settings
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   if (s.contains("geometry")) {
@@ -279,12 +280,12 @@ void AlbumCoverManager::closeEvent(QCloseEvent *e) {
 
 void AlbumCoverManager::LoadGeometry() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
-  if (s.contains("geometry")) {
+  if (s.contains(QStringLiteral("geometry"))) {
     restoreGeometry(s.value("geometry").toByteArray());
   }
-  if (s.contains("splitter_state")) {
+  if (s.contains(QStringLiteral("splitter_state"))) {
     ui_->splitter->restoreState(s.value("splitter_state").toByteArray());
   }
   else {
@@ -300,7 +301,7 @@ void AlbumCoverManager::LoadGeometry() {
 
 void AlbumCoverManager::SaveSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("geometry", saveGeometry());
   s.setValue("splitter_state", ui_->splitter->saveState());
@@ -397,7 +398,7 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
       display_text = album_info.album;
     }
     else {
-      display_text = album_info.album_artist + " - " + album_info.album;
+      display_text = album_info.album_artist + QStringLiteral(" - ") + album_info.album;
     }
 
     AlbumItem *album_item = new AlbumItem(icon_nocover_item_, display_text, ui_->albums);
@@ -413,7 +414,7 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
       album_item->setToolTip(album_info.album);
     }
     else {
-      album_item->setToolTip(album_info.album_artist + " - " + album_info.album);
+      album_item->setToolTip(album_info.album_artist + QStringLiteral(" - ") + album_info.album);
     }
 
     album_item->setData(Role_ArtEmbedded, album_info.art_embedded);
@@ -497,7 +498,7 @@ bool AlbumCoverManager::ShouldHide(const AlbumItem &album_item, const QString &f
     return false;
   }
 
-  QStringList query = filter.split(' ');
+  QStringList query = filter.split(QLatin1Char(' '));
   for (const QString &s : query) {
     bool in_text = album_item.text().contains(s, Qt::CaseInsensitive);
     bool in_albumartist = album_item.data(Role_AlbumArtist).toString().contains(s, Qt::CaseInsensitive);
@@ -558,7 +559,7 @@ void AlbumCoverManager::UpdateStatusText() {
                         .arg(fetch_statistics_.missing_images_);
 
   if (fetch_statistics_.bytes_transferred_ > 0) {
-    message += ", " + tr("%1 transferred").arg(Utilities::PrettySize(fetch_statistics_.bytes_transferred_));
+    message += QStringLiteral(", ") + tr("%1 transferred").arg(Utilities::PrettySize(fetch_statistics_.bytes_transferred_));
   }
 
   statusBar()->showMessage(message);
@@ -632,7 +633,7 @@ Song AlbumCoverManager::AlbumItemAsSong(AlbumItem *album_item) {
   QString title = album_item->data(Role_Album).toString();
   QString artist_name = album_item->data(Role_AlbumArtist).toString();
   if (!artist_name.isEmpty()) {
-    result.set_title(artist_name + " - " + title);
+    result.set_title(artist_name + QStringLiteral(" - ") + title);
   }
   else {
     result.set_title(title);
@@ -876,7 +877,7 @@ SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &idx) const {
   QSqlDatabase db(collection_backend_->db()->Connect());
 
   CollectionQuery q(db, collection_backend_->songs_table(), collection_backend_->fts_table());
-  q.SetColumnSpec("ROWID," + Song::kColumnSpec);
+  q.SetColumnSpec(QStringLiteral("ROWID,") + Song::kColumnSpec);
   q.AddWhere(QStringLiteral("album"), idx.data(Role_Album).toString());
   q.SetOrderBy(QStringLiteral("disc, track, title"));
 

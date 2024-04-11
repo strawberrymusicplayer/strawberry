@@ -27,28 +27,30 @@
 #include "lyricssearchrequest.h"
 #include "songlyricscomlyricsprovider.h"
 
-const char SongLyricsComLyricsProvider::kUrl[] = "https://www.songlyrics.com/";
-const char SongLyricsComLyricsProvider::kStartTag[] = "<p[^>]*>";
-const char SongLyricsComLyricsProvider::kEndTag[] = "<\\/p>";
-const char SongLyricsComLyricsProvider::kLyricsStart[] = "<p id=\"songLyricsDiv\"[^>]+>";
+namespace {
+constexpr char kUrl[] = "https://www.songlyrics.com/";
+constexpr char kStartTag[] = "<p[^>]*>";
+constexpr char kEndTag[] = "<\\/p>";
+constexpr char kLyricsStart[] = "<p id=\"songLyricsDiv\"[^>]+>";
+}  // namespace
 
 SongLyricsComLyricsProvider::SongLyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : HtmlLyricsProvider(QStringLiteral("songlyrics.com"), true, kStartTag, kEndTag, kLyricsStart, false, network, parent) {}
+    : HtmlLyricsProvider(QStringLiteral("songlyrics.com"), true, QLatin1String(kStartTag), QLatin1String(kEndTag), QLatin1String(kLyricsStart), false, network, parent) {}
 
 QUrl SongLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
-  return QUrl(kUrl + StringFixup(request.artist) + "/" + StringFixup(request.title) + "-lyrics/");
+  return QUrl(QLatin1String(kUrl) + StringFixup(request.artist) + QLatin1Char('/') + StringFixup(request.title) + QStringLiteral("-lyrics/"));
 
 }
 
 QString SongLyricsComLyricsProvider::StringFixup(QString text) {
 
-  return text.replace('/', '-')
-             .replace('\'', '-')
+  return text.replace(QLatin1Char('/'), QLatin1Char('-'))
+             .replace(QLatin1Char('\''), QLatin1Char('-'))
              .remove(QRegularExpression(QStringLiteral("[^\\w0-9\\- ]")))
              .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
              .simplified()
-             .replace(' ', '-')
+             .replace(QLatin1Char(' '), QLatin1Char('-'))
              .replace(QRegularExpression(QStringLiteral("(-)\\1+")), QStringLiteral("-"))
              .toLower();
 

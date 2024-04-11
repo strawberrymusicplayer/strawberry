@@ -32,6 +32,7 @@
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/simpletreemodel.h"
+#include "core/settings.h"
 #include "collection/collectionbackend.h"
 
 #include "smartplaylistsitem.h"
@@ -63,62 +64,62 @@ void SmartPlaylistsModel::Init() {
     << (SmartPlaylistsModel::GeneratorList()
           << PlaylistGeneratorPtr(
               new PlaylistQueryGenerator(
-              QT_TRANSLATE_NOOP("SmartPlaylists", "Newest tracks"),
+              QStringLiteral(QT_TRANSLATE_NOOP("SmartPlaylists", "Newest tracks")),
               SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(),
               SmartPlaylistSearch::SortType::FieldDesc,
               SmartPlaylistSearchTerm::Field::DateCreated)
             )
           )
           << PlaylistGeneratorPtr(new PlaylistQueryGenerator(
-              QT_TRANSLATE_NOOP("SmartPlaylists", "50 random tracks"),
+              QStringLiteral(QT_TRANSLATE_NOOP("SmartPlaylists", "50 random tracks")),
               SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title, 50)
             )
           )
           << PlaylistGeneratorPtr(
               new PlaylistQueryGenerator(
-              QT_TRANSLATE_NOOP("SmartPlaylists", "Ever played"),
+              QStringLiteral(QT_TRANSLATE_NOOP("SmartPlaylists", "Ever played")),
               SmartPlaylistSearch(SmartPlaylistSearch::SearchType::And, SmartPlaylistSearch::TermList() << SmartPlaylistSearchTerm( SmartPlaylistSearchTerm::Field::PlayCount, SmartPlaylistSearchTerm::Operator::GreaterThan, 0), SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title)
             )
           )
           << PlaylistGeneratorPtr(
              new PlaylistQueryGenerator(
-             QT_TRANSLATE_NOOP("SmartPlaylists", "Never played"),
+             QStringLiteral(QT_TRANSLATE_NOOP("SmartPlaylists", "Never played")),
              SmartPlaylistSearch(SmartPlaylistSearch::SearchType::And, SmartPlaylistSearch::TermList() << SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::PlayCount, SmartPlaylistSearchTerm::Operator::Equals, 0), SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title)
             )
           )
           << PlaylistGeneratorPtr(
              new PlaylistQueryGenerator(
-             QT_TRANSLATE_NOOP("SmartPlaylists", "Last played"),
+             QStringLiteral(QT_TRANSLATE_NOOP("SmartPlaylists", "Last played")),
              SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldDesc, SmartPlaylistSearchTerm::Field::LastPlayed)
             )
           )
           << PlaylistGeneratorPtr(
              new PlaylistQueryGenerator(
-             QT_TRANSLATE_NOOP("SmartPlaylists", "Most played"),
+             QStringLiteral(QT_TRANSLATE_NOOP("SmartPlaylists", "Most played")),
              SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldDesc, SmartPlaylistSearchTerm::Field::PlayCount)
             )
           )
           << PlaylistGeneratorPtr(
              new PlaylistQueryGenerator(
-             QT_TRANSLATE_NOOP("SmartPlaylists", "Favourite tracks"),
+             QStringLiteral(QT_TRANSLATE_NOOP("SmartPlaylists", "Favourite tracks")),
              SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldDesc, SmartPlaylistSearchTerm::Field::Rating)
             )
           )
           << PlaylistGeneratorPtr(
              new PlaylistQueryGenerator(
-             QT_TRANSLATE_NOOP("Library", "Least favourite tracks"),
+             QStringLiteral(QT_TRANSLATE_NOOP("Library", "Least favourite tracks")),
                  SmartPlaylistSearch(SmartPlaylistSearch::SearchType::Or, SmartPlaylistSearch::TermList()
                  << SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::Rating, SmartPlaylistSearchTerm::Operator::LessThan, 0.5)
                  << SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::SkipCount, SmartPlaylistSearchTerm::Operator::GreaterThan, 4), SmartPlaylistSearch::SortType::FieldDesc, SmartPlaylistSearchTerm::Field::SkipCount)
              )
            )
          )
-    << (SmartPlaylistsModel::GeneratorList() << PlaylistGeneratorPtr(new PlaylistQueryGenerator(QT_TRANSLATE_NOOP("SmartPlaylists", "All tracks"), SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldAsc, SmartPlaylistSearchTerm::Field::Artist, -1))))
-    << (SmartPlaylistsModel::GeneratorList() << PlaylistGeneratorPtr(new PlaylistQueryGenerator( QT_TRANSLATE_NOOP("SmartPlaylists", "Dynamic random mix"), SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title), true)));
+    << (SmartPlaylistsModel::GeneratorList() << PlaylistGeneratorPtr(new PlaylistQueryGenerator(QStringLiteral(QT_TRANSLATE_NOOP("SmartPlaylists", "All tracks")), SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldAsc, SmartPlaylistSearchTerm::Field::Artist, -1))))
+    << (SmartPlaylistsModel::GeneratorList() << PlaylistGeneratorPtr(new PlaylistQueryGenerator(QStringLiteral(QT_TRANSLATE_NOOP("SmartPlaylists", "Dynamic random mix")), SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title), true)));
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
-  int version = s.value(collection_backend_->songs_table() + "_version", 0).toInt();
+  int version = s.value(collection_backend_->songs_table() + QStringLiteral("_version"), 0).toInt();
 
   // How many defaults do we have to write?
   int unwritten_defaults = 0;
@@ -142,7 +143,7 @@ void SmartPlaylistsModel::Init() {
     s.endArray();
   }
 
-  s.setValue(collection_backend_->songs_table() + "_version", version);
+  s.setValue(collection_backend_->songs_table() + QStringLiteral("_version"), version);
 
   const int count = s.beginReadArray(collection_backend_->songs_table());
   for (int i = 0; i < count; ++i) {
@@ -154,7 +155,7 @@ void SmartPlaylistsModel::Init() {
 
 }
 
-void SmartPlaylistsModel::ItemFromSmartPlaylist(const QSettings &s, const bool notify) {
+void SmartPlaylistsModel::ItemFromSmartPlaylist(const Settings &s, const bool notify) {
 
   SmartPlaylistsItem *item = new SmartPlaylistsItem(SmartPlaylistsItem::Type_SmartPlaylist, notify ? nullptr : root_);
   item->display_text = tr(qPrintable(s.value("name").toString()));
@@ -169,7 +170,7 @@ void SmartPlaylistsModel::ItemFromSmartPlaylist(const QSettings &s, const bool n
 
 void SmartPlaylistsModel::AddGenerator(PlaylistGeneratorPtr gen) {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   // Count the existing items
@@ -195,7 +196,7 @@ void SmartPlaylistsModel::UpdateGenerator(const QModelIndex &idx, PlaylistGenera
   if (!item) return;
 
   // Update the config
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   // Count the existing items
@@ -224,7 +225,7 @@ void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
   // Remove the item from the tree
   root_->DeleteNotify(idx.row());
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   // Rewrite all the items to the settings
@@ -241,7 +242,7 @@ void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
 
 }
 
-void SmartPlaylistsModel::SaveGenerator(QSettings *s, const int i, PlaylistGeneratorPtr generator) {
+void SmartPlaylistsModel::SaveGenerator(Settings *s, const int i, PlaylistGeneratorPtr generator) {
 
   s->setArrayIndex(i);
   s->setValue("name", generator->name());
@@ -300,7 +301,7 @@ QMimeData *SmartPlaylistsModel::mimeData(const QModelIndexList &indexes) const {
   if (!generator) return nullptr;
 
   PlaylistGeneratorMimeData *mimedata = new PlaylistGeneratorMimeData(generator);
-  mimedata->setData(kSmartPlaylistsMimeType, QByteArray());
+  mimedata->setData(QLatin1String(kSmartPlaylistsMimeType), QByteArray());
   mimedata->name_for_new_playlist_ = data(indexes.first()).toString();
   return mimedata;
 

@@ -79,8 +79,8 @@ void LoginStateWidget::SetLoggedIn(const State state, const QString &account_nam
   ui_->signed_out->setVisible(state != State::LoggedIn);
   ui_->busy->setVisible(state == State::LoginInProgress);
 
-  if (account_name.isEmpty()) ui_->signed_in_label->setText("<b>" + tr("You are signed in.") + "</b>");
-  else ui_->signed_in_label->setText(tr("You are signed in as %1.").arg("<b>" + account_name + "</b>"));
+  if (account_name.isEmpty()) ui_->signed_in_label->setText(QStringLiteral("<b>") + tr("You are signed in.") + QStringLiteral("</b>"));
+  else ui_->signed_in_label->setText(tr("You are signed in as %1.").arg(QStringLiteral("<b>") + account_name + QStringLiteral("</b>")));
 
   for (QWidget *widget : credential_groups_) {
     widget->setVisible(state != State::LoggedIn);
@@ -151,7 +151,7 @@ void LoginStateWidget::SetExpires(const QDate expires) {
 
   if (expires.isValid()) {
     const QString expires_text = QLocale().toString(expires, QLocale::LongFormat);
-    ui_->expires_label->setText(tr("Expires on %1").arg("<b>" + expires_text + "</b>"));
+    ui_->expires_label->setText(tr("Expires on %1").arg(QStringLiteral("<b>") + expires_text + QStringLiteral("</b>")));
   }
 
 }

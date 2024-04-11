@@ -69,7 +69,7 @@ void PlaylistListView::selectionChanged(const QItemSelection&, const QItemSelect
 
 void PlaylistListView::dragEnterEvent(QDragEnterEvent *e) {
 
-  if (e->mimeData()->hasFormat(Playlist::kRowsMimetype)) {
+  if (e->mimeData()->hasFormat(QLatin1String(Playlist::kRowsMimetype))) {
     e->acceptProposedAction();
   }
   else {
@@ -86,7 +86,7 @@ void PlaylistListView::dragMoveEvent(QDragMoveEvent *e) {
     QModelIndex drag_hover_tab_ = indexAt(e->pos());
 #endif
 
-  if (e->mimeData()->hasFormat(Playlist::kRowsMimetype)) {
+  if (e->mimeData()->hasFormat(QLatin1String(Playlist::kRowsMimetype))) {
     if (drag_hover_tab_ != currentIndex()) {
       e->setDropAction(Qt::CopyAction);
       e->accept(visualRect(drag_hover_tab_));
@@ -124,7 +124,7 @@ void PlaylistListView::timerEvent(QTimerEvent *e) {
 
 void PlaylistListView::dropEvent(QDropEvent *e) {
 
-  if (e->mimeData()->hasFormat(Playlist::kRowsMimetype)) {
+  if (e->mimeData()->hasFormat(QLatin1String(Playlist::kRowsMimetype))) {
     if (drag_hover_timer_.isActive()) {
       drag_hover_timer_.stop();
     }

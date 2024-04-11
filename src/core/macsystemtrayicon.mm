@@ -70,7 +70,7 @@ class MacSystemTrayIconPrivate {
   MacSystemTrayIconPrivate() {
     dock_menu_ = [[NSMenu alloc] initWithTitle:@"DockMenu"];
 
-    QString title = QT_TR_NOOP("Now Playing");
+    QString title = QT_TR_NOOP(QStringLiteral("Now Playing"));
     NSString *t = [[NSString alloc] initWithUTF8String:title.toUtf8().constData()];
     now_playing_ = [[NSMenuItem alloc] initWithTitle:t action:nullptr keyEquivalent:@""];
     now_playing_artist_ = [[NSMenuItem alloc] initWithTitle:@"Nothing to see here" action:nullptr keyEquivalent:@""];
@@ -89,7 +89,7 @@ class MacSystemTrayIconPrivate {
 
   void AddMenuItem(QAction *action) {
     // Strip accelarators from name.
-    QString text = action->text().remove("&");
+    QString text = action->text().remove(QLatin1Char('&'));
     NSString *title = [[NSString alloc] initWithUTF8String: text.toUtf8().constData()];
     // Create an object that can receive user clicks and pass them on to the QAction.
     Target *target = [[Target alloc] initWithQAction:action];
@@ -152,10 +152,10 @@ class MacSystemTrayIconPrivate {
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent)
     : QObject(parent),
-      normal_icon_(QPixmap(":/pictures/strawberry.png").scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)),
-      grey_icon_(QPixmap(":/pictures/strawberry-grey.png").scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)),
-      playing_icon_(":/pictures/tiny-play.png"),
-      paused_icon_(":/pictures/tiny-pause.png"),
+      normal_icon_(QPixmap(QStringLiteral(":/pictures/strawberry.png")).scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)),
+      grey_icon_(QPixmap(QStringLiteral(":/pictures/strawberry-grey.png")).scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)),
+      playing_icon_(QStringLiteral(":/pictures/tiny-play.png")),
+      paused_icon_(QStringLiteral(":/pictures/tiny-pause.png")),
       trayicon_progress_(false),
       song_progress_(0) {
 

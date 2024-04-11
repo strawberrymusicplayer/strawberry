@@ -139,7 +139,7 @@ void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         status_text = tr("Double click to open");
         break;
 
-      case DeviceManager::State_Connected: {
+      case DeviceManager::State_Connected:{
         QVariant song_count = idx.data(DeviceManager::Role_SongCount);
         if (song_count.isValid()) {
           int count = song_count.toInt();

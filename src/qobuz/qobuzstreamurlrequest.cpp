@@ -115,26 +115,26 @@ void QobuzStreamURLRequest::GetStreamURL() {
 
   quint64 timestamp = QDateTime::currentDateTime().toSecsSinceEpoch();
 
-  ParamList params_to_sign = ParamList() << Param("format_id", QString::number(format()))
-                                         << Param("track_id", QString::number(song_id_));
+  ParamList params_to_sign = ParamList() << Param(QStringLiteral("format_id"), QString::number(format()))
+                                         << Param(QStringLiteral("track_id"), QString::number(song_id_));
 
   std::sort(params_to_sign.begin(), params_to_sign.end());
 
   QString data_to_sign;
-  data_to_sign += QLatin1String("trackgetFileUrl");
+  data_to_sign += QStringLiteral("trackgetFileUrl");
   for (const Param &param : params_to_sign) {
     data_to_sign += param.first + param.second;
   }
   data_to_sign += QString::number(timestamp);
-  data_to_sign += app_secret().toUtf8();
+  data_to_sign += app_secret();
 
   QByteArray const digest = QCryptographicHash::hash(data_to_sign.toUtf8(), QCryptographicHash::Md5);
-  QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, '0').toLower();
+  const QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, QLatin1Char('0')).toLower();
 
   ParamList params = params_to_sign;
-  params << Param("request_ts", QString::number(timestamp));
-  params << Param("request_sig", signature);
-  params << Param("user_auth_token", user_auth_token());
+    params << Param(QStringLiteral("request_ts"), QString::number(timestamp));
+    params << Param(QStringLiteral("request_sig"), signature);
+    params << Param(QStringLiteral("user_auth_token"), user_auth_token());
 
   std::sort(params.begin(), params.end());
 
@@ -192,7 +192,7 @@ void QobuzStreamURLRequest::StreamURLReceived() {
 
   Song::FileType filetype(Song::FileType::Unknown);
   QMimeDatabase mimedb;
-  QStringList suffixes = mimedb.mimeTypeForName(mimetype.toUtf8()).suffixes();
+  QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
   for (const QString &suffix : suffixes) {
     filetype = Song::FiletypeByExtension(suffix);
     if (filetype != Song::FileType::Unknown) break;

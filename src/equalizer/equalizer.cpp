@@ -44,6 +44,7 @@
 #include <QSettings>
 
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "equalizer.h"
 #include "equalizerslider.h"
 #include "ui_equalizer.h"
@@ -70,7 +71,7 @@ Equalizer::Equalizer(QWidget *parent)
   line->setFrameShadow(QFrame::Sunken);
   ui_->slider_container->layout()->addWidget(line);
 
-  for (int i = 0; i < kBands; ++i) gain_[i] = AddSlider(kGainText[i]);
+  for (int i = 0; i < kBands; ++i) gain_[i] = AddSlider(QString::fromLatin1(kGainText[i]));
 
   // Must be done before the signals are connected
   ReloadSettings();
@@ -95,7 +96,7 @@ Equalizer::~Equalizer() {
 
 void Equalizer::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   presets_.clear();
@@ -112,7 +113,7 @@ void Equalizer::ReloadSettings() {
   if (count == 0) LoadDefaultPresets();
 
   // Selected preset
-  QString selected_preset = s.value("selected_preset", "Custom").toString();
+  QString selected_preset = s.value("selected_preset", QStringLiteral("Custom")).toString();
   QString selected_preset_display_name = tr(qPrintable(selected_preset));
   int selected_index = ui_->preset->findText(selected_preset_display_name);
   if (selected_index != -1) ui_->preset->setCurrentIndex(selected_index);
@@ -135,25 +136,25 @@ void Equalizer::ReloadSettings() {
 
 void Equalizer::LoadDefaultPresets() {
 
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Custom"),             Params(0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Classical"),          Params(0, 0, 0, 0, 0, 0, -40, -40, -40, -50));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Club"),               Params(0, 0, 20, 30, 30, 30, 20, 0, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Dance"),              Params(50, 35, 10, 0, 0, -30, -40, -40, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Full Bass"),          Params(70, 70, 70, 40, 20, -45, -50, -55, -55, -55));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Full Treble"),        Params(-50, -50, -50, -25, 15, 55, 80, 80, 80, 85));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Full Bass + Treble"), Params(35, 30, 0, -40, -25, 10, 45, 55, 60, 60));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Laptop/Headphones"),  Params(25, 50, 25, -20, 0, -30, -40, -40, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Large Hall"),         Params(50, 50, 30, 30, 0, -25, -25, -25, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Live"),               Params(-25, 0, 20, 25, 30, 30, 20, 15, 15, 10));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Party"),              Params(35, 35, 0, 0, 0, 0, 0, 0, 35, 35));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Pop"),                Params(-10, 25, 35, 40, 25, -5, -15, -15, -10, -10));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Reggae"),             Params(0, 0, -5, -30, 0, -35, -35, 0, 0, 0));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Rock"),               Params(40, 25, -30, -40, -20, 20, 45, 55, 55, 55));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Soft"),               Params(25, 10, -5, -15, -5, 20, 45, 50, 55, 60));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Ska"),                Params(-15, -25, -25, -5, 20, 30, 45, 50, 55, 50));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Soft Rock"),          Params(20, 20, 10, -5, -25, -30, -20, -5, 15, 45));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Techno"),             Params(40, 30, 0, -30, -25, 0, 40, 50, 50, 45));
-  AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Zero"),               Params(0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Custom")),             Params(0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Classical")),          Params(0, 0, 0, 0, 0, 0, -40, -40, -40, -50));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Club")),               Params(0, 0, 20, 30, 30, 30, 20, 0, 0, 0));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Dance")),              Params(50, 35, 10, 0, 0, -30, -40, -40, 0, 0));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Full Bass")),          Params(70, 70, 70, 40, 20, -45, -50, -55, -55, -55));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Full Treble")),        Params(-50, -50, -50, -25, 15, 55, 80, 80, 80, 85));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Full Bass + Treble")), Params(35, 30, 0, -40, -25, 10, 45, 55, 60, 60));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Laptop/Headphones")),  Params(25, 50, 25, -20, 0, -30, -40, -40, 0, 0));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Large Hall")),         Params(50, 50, 30, 30, 0, -25, -25, -25, 0, 0));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Live")),               Params(-25, 0, 20, 25, 30, 30, 20, 15, 15, 10));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Party")),              Params(35, 35, 0, 0, 0, 0, 0, 0, 35, 35));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Pop")),                Params(-10, 25, 35, 40, 25, -5, -15, -15, -10, -10));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Reggae")),             Params(0, 0, -5, -30, 0, -35, -35, 0, 0, 0));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Rock")),               Params(40, 25, -30, -40, -20, 20, 45, 55, 55, 55));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Soft")),               Params(25, 10, -5, -15, -5, 20, 45, 50, 55, 60));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Ska")),                Params(-15, -25, -25, -5, 20, 30, 45, 50, 55, 50));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Soft Rock")),          Params(20, 20, 10, -5, -25, -30, -20, -5, 15, 45));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Techno")),             Params(40, 30, 0, -30, -25, 0, 40, 50, 50, 45));
+  AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Zero")),               Params(0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 
 }
 
@@ -321,7 +322,7 @@ void Equalizer::EqualizerParametersChangedSlot() {
 
 void Equalizer::Save() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   // Presets

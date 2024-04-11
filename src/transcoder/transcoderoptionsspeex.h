@@ -40,8 +40,6 @@ class TranscoderOptionsSpeex : public TranscoderOptionsInterface {
   void Save() override;
 
  private:
-  static const char *kSettingsGroup;
-
   Ui_TranscoderOptionsSpeex *ui_;
 };
 

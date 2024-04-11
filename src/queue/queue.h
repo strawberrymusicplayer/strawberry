@@ -41,8 +41,6 @@ class Queue : public QAbstractProxyModel {
  public:
   explicit Queue(Playlist *playlist, QObject *parent = nullptr);
 
-  static const char *kRowsMimetype;
-
   // Query the queue
   bool is_empty() const;
   int PositionOf(const QModelIndex &source_index) const;

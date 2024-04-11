@@ -30,6 +30,7 @@
 #include <QCheckBox>
 #include <QSettings>
 
+#include "core/settings.h"
 #include "utilities/screenutils.h"
 #include "messagedialog.h"
 #include "ui_messagedialog.h"
@@ -77,7 +78,7 @@ void MessageDialog::ShowMessage(const QString &title, const QString &message, co
 void MessageDialog::DoNotShowMessageAgain() {
 
   if (!settings_group_.isEmpty() && !do_not_show_message_again_.isEmpty()) {
-    QSettings s;
+    Settings s;
     s.beginGroup(settings_group_);
     s.setValue(do_not_show_message_again_, ui_->checkbox_do_not_show_message_again->isChecked());
     s.endGroup();

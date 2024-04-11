@@ -22,6 +22,7 @@
 #include <QToolButton>
 
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "settings/appearancesettingspage.h"
 #include "radioviewcontainer.h"
 #include "ui_radioviewcontainer.h"
@@ -44,7 +45,7 @@ RadioViewContainer::~RadioViewContainer() { delete ui_; }
 
 void RadioViewContainer::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   int iconsize = s.value(AppearanceSettingsPage::kIconSizeLeftPanelButtons, 22).toInt();
   s.endGroup();

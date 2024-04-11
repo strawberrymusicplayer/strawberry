@@ -29,6 +29,7 @@
 #include <QSettings>
 
 #include "core/logging.h"
+#include "settings.h"
 #include "iconmapper.h"
 #include "settings/appearancesettingspage.h"
 #include "iconloader.h"
@@ -39,14 +40,14 @@ bool IconLoader::custom_icons_ = false;
 void IconLoader::Init() {
 
 #if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
-  QSettings s;
+  Settings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   system_icons_ = s.value("system_icons", false).toBool();
   s.endGroup();
 #endif
 
   QDir dir;
-  if (dir.exists(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/icons")) {
+  if (dir.exists(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/icons"))) {
     custom_icons_ = true;
   }
 
@@ -118,7 +119,7 @@ QIcon IconLoader::Load(const QString &name, const bool system_icon, const int fi
   }
 
   if (custom_icons_) {
-    QString custom_icon_path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/icons/%1x%2/%3.png";
+    QString custom_icon_path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/icons/%1x%2/%3.png");
     for (int s : sizes) {
       QString filename(custom_icon_path.arg(s).arg(s).arg(name));
       if (QFile::exists(filename)) ret.addFile(filename, QSize(s, s));

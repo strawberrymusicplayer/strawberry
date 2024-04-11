@@ -69,7 +69,7 @@ bool GioLister::DeviceInfo::is_suitable() const {
 
   if (filesystem_type.isEmpty()) return true;
 
-  return filesystem_type != "udf" && filesystem_type != "smb" && filesystem_type != "cifs" && filesystem_type != "ssh" && filesystem_type != "isofs";
+  return filesystem_type != QStringLiteral("udf") && filesystem_type != QStringLiteral("smb") && filesystem_type != QStringLiteral("cifs") && filesystem_type != QStringLiteral("ssh") && filesystem_type != QStringLiteral("isofs");
 
 }
 
@@ -189,9 +189,9 @@ QVariantMap GioLister::DeviceHardwareInfo(const QString &id) {
   if (!devices_.contains(id)) return ret;
   const DeviceInfo &info = devices_[id];
 
-  ret[QT_TR_NOOP("Mount point")] = info.mount_path;
-  ret[QT_TR_NOOP("Device")] = info.volume_unix_device;
-  ret[QT_TR_NOOP("URI")] = info.mount_uri;
+  ret[QStringLiteral(QT_TR_NOOP("Mount point"))] = info.mount_path;
+  ret[QStringLiteral(QT_TR_NOOP("Device"))] = info.volume_unix_device;
+  ret[QStringLiteral(QT_TR_NOOP("URI"))] = info.mount_uri;
   return ret;
 
 }
@@ -503,7 +503,7 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
 
   // Query the file's info for a filesystem ID
   // Only afc devices (that I know of) give reliably unique IDs
-  if (filesystem_type == "afc") {
+  if (filesystem_type == QStringLiteral("afc")) {
     error = nullptr;
     info = g_file_query_info(root, G_FILE_ATTRIBUTE_ID_FILESYSTEM, G_FILE_QUERY_INFO_NONE, nullptr, &error);
     if (error) {
@@ -528,7 +528,7 @@ void GioLister::DeviceInfo::ReadVolumeInfo(GVolume *volume) {
 
   GFile *root = g_volume_get_activation_root(volume);
   if (root) {
-    volume_root_uri = g_file_get_uri(root);
+    volume_root_uri = QString::fromUtf8(g_file_get_uri(root));
     g_object_unref(root);
   }
 

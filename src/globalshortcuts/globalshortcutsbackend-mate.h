@@ -50,10 +50,6 @@ class GlobalShortcutsBackendMate : public GlobalShortcutsBackend {
   void MateMediaKeyPressed(const QString &application, const QString &key);
 
  private:
-  static const char *kService1;
-  static const char *kService2;
-  static const char *kPath;
-
   OrgMateSettingsDaemonMediaKeysInterface *interface_;
   bool is_connected_;
 };

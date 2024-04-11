@@ -59,6 +59,7 @@
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
 #include "core/tagreaderclient.h"
+#include "core/settings.h"
 #include "utilities/strutils.h"
 #include "utilities/screenutils.h"
 #include "widgets/freespacebar.h"
@@ -75,8 +76,10 @@
 
 using std::make_unique;
 
-constexpr char OrganizeDialog::kSettingsGroup[] = "OrganizeDialog";
-constexpr char OrganizeDialog::kDefaultFormat[] = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
+namespace {
+constexpr char kSettingsGroup[] = "OrganizeDialog";
+constexpr char kDefaultFormat[] = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
+}
 
 OrganizeDialog::OrganizeDialog(SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend, QWidget *parentwindow, QWidget *parent)
     : QDialog(parent),
@@ -213,7 +216,7 @@ void OrganizeDialog::LoadGeometry() {
     AdjustSize();
   }
   else {
-    QSettings s;
+    Settings s;
     s.beginGroup(kSettingsGroup);
     if (s.contains("geometry")) {
       restoreGeometry(s.value("geometry").toByteArray());
@@ -231,7 +234,7 @@ void OrganizeDialog::LoadGeometry() {
 void OrganizeDialog::SaveGeometry() {
 
   if (parentwindow_) {
-    QSettings s;
+    Settings s;
     s.beginGroup(kSettingsGroup);
     s.setValue("geometry", saveGeometry());
     s.endGroup();
@@ -270,7 +273,7 @@ void OrganizeDialog::AdjustSize() {
 
 void OrganizeDialog::RestoreDefaults() {
 
-  ui_->naming->setPlainText(kDefaultFormat);
+  ui_->naming->setPlainText(QLatin1String(kDefaultFormat));
   ui_->remove_problematic->setChecked(true);
   ui_->remove_non_fat->setChecked(false);
   ui_->remove_non_ascii->setChecked(false);
@@ -284,9 +287,9 @@ void OrganizeDialog::RestoreDefaults() {
 
 void OrganizeDialog::LoadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
-  ui_->naming->setPlainText(s.value("format", kDefaultFormat).toString());
+  ui_->naming->setPlainText(s.value("format", QLatin1String(kDefaultFormat)).toString());
   ui_->remove_problematic->setChecked(s.value("remove_problematic", true).toBool());
   ui_->remove_non_fat->setChecked(s.value("remove_non_fat", false).toBool());
   ui_->remove_non_ascii->setChecked(s.value("remove_non_ascii", false).toBool());
@@ -310,7 +313,7 @@ void OrganizeDialog::LoadSettings() {
 
 void OrganizeDialog::SaveSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("format", ui_->naming->toPlainText());
   s.setValue("remove_problematic", ui_->remove_problematic->isChecked());
@@ -430,7 +433,7 @@ void OrganizeDialog::SetPlaylist(const QString &playlist) {
 }
 
 void OrganizeDialog::InsertTag(const QString &tag) {
-  ui_->naming->insertPlainText("%" + tag);
+  ui_->naming->insertPlainText(QLatin1Char('%') + tag);
 }
 
 Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongList &songs, const OrganizeFormat &format, const QString &extension) {
@@ -449,7 +452,7 @@ Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongLis
     if (result.unique_filename) {
       if (filenames.contains(result.filename)) {
         QString song_number = QString::number(++filenames[result.filename]);
-        result.filename = Utilities::PathWithoutFilenameExtension(result.filename) + "(" + song_number + ")." + QFileInfo(result.filename).suffix();
+        result.filename = Utilities::PathWithoutFilenameExtension(result.filename) + QStringLiteral("(") + song_number + QStringLiteral(").") + QFileInfo(result.filename).suffix();
       }
       else {
         filenames.insert(result.filename, 1);
@@ -529,7 +532,7 @@ void OrganizeDialog::UpdatePreviews() {
   ui_->groupbox_naming->setVisible(has_local_destination);
   if (has_local_destination) {
     for (const Organize::NewSongInfo &song_info : new_songs_info_) {
-      QString filename = storage->LocalPath() + "/" + song_info.new_filename_;
+      QString filename = storage->LocalPath() + QLatin1Char('/') + song_info.new_filename_;
       QListWidgetItem *item = new QListWidgetItem(song_info.unique_filename_ ? IconLoader::Load(QStringLiteral("dialog-ok-apply")) : IconLoader::Load(QStringLiteral("dialog-warning")), QDir::toNativeSeparators(filename), ui_->preview);
       ui_->preview->addItem(item);
       if (!song_info.unique_filename_) {

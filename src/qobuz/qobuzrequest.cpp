@@ -47,13 +47,15 @@
 #include "qobuzbaserequest.h"
 #include "qobuzrequest.h"
 
-constexpr int QobuzRequest::kMaxConcurrentArtistsRequests = 3;
-constexpr int QobuzRequest::kMaxConcurrentAlbumsRequests = 3;
-constexpr int QobuzRequest::kMaxConcurrentSongsRequests = 3;
-constexpr int QobuzRequest::kMaxConcurrentArtistAlbumsRequests = 3;
-constexpr int QobuzRequest::kMaxConcurrentAlbumSongsRequests = 3;
-constexpr int QobuzRequest::kMaxConcurrentAlbumCoverRequests = 1;
-constexpr int QobuzRequest::kFlushRequestsDelay = 200;
+namespace {
+constexpr int kMaxConcurrentArtistsRequests = 3;
+constexpr int kMaxConcurrentAlbumsRequests = 3;
+constexpr int kMaxConcurrentSongsRequests = 3;
+constexpr int kMaxConcurrentArtistAlbumsRequests = 3;
+constexpr int kMaxConcurrentAlbumSongsRequests = 3;
+constexpr int kMaxConcurrentAlbumCoverRequests = 1;
+constexpr int kFlushRequestsDelay = 200;
+}  // namespace
 
 QobuzRequest::QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, SharedPtr<NetworkAccessManager> network, const QueryType query_type, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
@@ -225,12 +227,12 @@ void QobuzRequest::FlushArtistsRequests() {
 
     ParamList params;
     if (query_type_ == QueryType::Artists) {
-      params << Param("type", "artists");
-      params << Param("user_auth_token", user_auth_token());
+      params << Param(QStringLiteral("type"), QStringLiteral("artists"));
+      params << Param(QStringLiteral("user_auth_token"), user_auth_token());
     }
-    else if (query_type_ == QueryType::SearchArtists) params << Param("query", search_text_);
-    if (request.limit > 0) params << Param("limit", QString::number(request.limit));
-    if (request.offset > 0) params << Param("offset", QString::number(request.offset));
+    else if (query_type_ == QueryType::SearchArtists) params << Param(QStringLiteral("query"), search_text_);
+    if (request.limit > 0) params << Param(QStringLiteral("limit"), QString::number(request.limit));
+    if (request.offset > 0) params << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == QueryType::Artists) {
       reply = CreateRequest(QStringLiteral("favorite/getUserFavorites"), params);
@@ -277,12 +279,12 @@ void QobuzRequest::FlushAlbumsRequests() {
 
     ParamList params;
     if (query_type_ == QueryType::Albums) {
-      params << Param("type", "albums");
-      params << Param("user_auth_token", user_auth_token());
+      params << Param(QStringLiteral("type"), QStringLiteral("albums"));
+      params << Param(QStringLiteral("user_auth_token"), user_auth_token());
     }
-    else if (query_type_ == QueryType::SearchAlbums) params << Param("query", search_text_);
-    if (request.limit > 0) params << Param("limit", QString::number(request.limit));
-    if (request.offset > 0) params << Param("offset", QString::number(request.offset));
+    else if (query_type_ == QueryType::SearchAlbums) params << Param(QStringLiteral("query"), search_text_);
+    if (request.limit > 0) params << Param(QStringLiteral("limit"), QString::number(request.limit));
+    if (request.offset > 0) params << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == QueryType::Albums) {
       reply = CreateRequest(QStringLiteral("favorite/getUserFavorites"), params);
@@ -329,12 +331,12 @@ void QobuzRequest::FlushSongsRequests() {
 
     ParamList params;
     if (query_type_ == QueryType::Songs) {
-      params << Param("type", "tracks");
-      params << Param("user_auth_token", user_auth_token());
+      params << Param(QStringLiteral("type"), QStringLiteral("tracks"));
+      params << Param(QStringLiteral("user_auth_token"), user_auth_token());
     }
-    else if (query_type_ == QueryType::SearchSongs) params << Param("query", search_text_);
-    if (request.limit > 0) params << Param("limit", QString::number(request.limit));
-    if (request.offset > 0) params << Param("offset", QString::number(request.offset));
+    else if (query_type_ == QueryType::SearchSongs) params << Param(QStringLiteral("query"), search_text_);
+    if (request.limit > 0) params << Param(QStringLiteral("limit"), QString::number(request.limit));
+    if (request.offset > 0) params << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == QueryType::Songs) {
       reply = CreateRequest(QStringLiteral("favorite/getUserFavorites"), params);
@@ -585,10 +587,10 @@ void QobuzRequest::FlushArtistAlbumsRequests() {
 
     const ArtistAlbumsRequest request = artist_albums_requests_queue_.dequeue();
 
-    ParamList params = ParamList() << Param("artist_id", request.artist.artist_id)
-                                   << Param("extra", "albums");
+    ParamList params = ParamList() << Param(QStringLiteral("artist_id"), request.artist.artist_id)
+                                   << Param(QStringLiteral("extra"), QStringLiteral("albums"));
 
-    if (request.offset > 0) params << Param("offset", QString::number(request.offset));
+    if (request.offset > 0) params << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QStringLiteral("artist/get"), params);
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist, request.offset); });
     replies_ << reply;
@@ -842,8 +844,8 @@ void QobuzRequest::FlushAlbumSongsRequests() {
   while (!album_songs_requests_queue_.isEmpty() && album_songs_requests_active_ < kMaxConcurrentAlbumSongsRequests) {
 
     AlbumSongsRequest request = album_songs_requests_queue_.dequeue();
-    ParamList params = ParamList() << Param("album_id", request.album.album_id);
-    if (request.offset > 0) params << Param("offset", QString::number(request.offset));
+    ParamList params = ParamList() << Param(QStringLiteral("album_id"), request.album.album_id);
+    if (request.offset > 0) params << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QStringLiteral("album/get"), params);
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist, request.album, request.offset); });
@@ -1341,8 +1343,8 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
   }
 
   QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-  if (mimetype.contains(';')) {
-    mimetype = mimetype.left(mimetype.indexOf(';'));
+  if (mimetype.contains(QLatin1Char(';'))) {
+    mimetype = mimetype.left(mimetype.indexOf(QLatin1Char(';')));
   }
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
     Error(QStringLiteral("Unsupported mimetype for image reader %1 for %2").arg(mimetype, cover_url.toString()));
@@ -1351,7 +1353,7 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
     return;
   }
 
-  QByteArray data = reply->readAll();
+  const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     Error(QStringLiteral("Received empty image data for %1").arg(cover_url.toString()));
     if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);

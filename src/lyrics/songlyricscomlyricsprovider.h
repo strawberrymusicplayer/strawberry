@@ -41,12 +41,6 @@ class SongLyricsComLyricsProvider : public HtmlLyricsProvider {
 
  private:
   QString StringFixup(QString text);
-
- private:
-  static const char kUrl[];
-  static const char kStartTag[];
-  static const char kEndTag[];
-  static const char kLyricsStart[];
 };
 
 #endif  // SONGLYRICSCOMLYRICSPROVIDER_H

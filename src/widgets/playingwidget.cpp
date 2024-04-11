@@ -40,6 +40,7 @@
 #include <QtEvents>
 
 #include "core/application.h"
+#include "core/settings.h"
 #include "utilities/imageutils.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "playingwidget.h"
@@ -87,7 +88,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
   SetHeight(0);
 
   // Load settings
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   mode_ = static_cast<Mode>(s.value("mode", static_cast<int>(Mode::LargeSongDetails)).toInt());
   fit_width_ = s.value("fit_cover_width", false).toBool();
@@ -139,7 +140,7 @@ void PlayingWidget::Init(Application *app, AlbumCoverChoiceController *album_cov
 
   above_statusbar_action_ = menu_->addAction(tr("Show above status bar"));
   above_statusbar_action_->setCheckable(true);
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   above_statusbar_action_->setChecked(s.value("above_status_bar", false).toBool());
   s.endGroup();
@@ -229,7 +230,7 @@ void PlayingWidget::SetMode(const Mode mode) {
   UpdateDetailsText();
   update();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("mode", static_cast<int>(mode_));
   s.endGroup();
@@ -242,7 +243,7 @@ void PlayingWidget::FitCoverWidth(const bool fit) {
   UpdateHeight();
   update();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("fit_cover_width", fit_width_);
   s.endGroup();
@@ -251,7 +252,7 @@ void PlayingWidget::FitCoverWidth(const bool fit) {
 
 void PlayingWidget::ShowAboveStatusBar(const bool above) {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("above_status_bar", above);
   s.endGroup();
@@ -547,7 +548,7 @@ void PlayingWidget::SearchCoverInProgress() {
   downloading_covers_ = true;
 
   // Show a spinner animation
-  spinner_animation_ = make_unique<QMovie>(":/pictures/spinner.gif", QByteArray(), this);
+  spinner_animation_ = make_unique<QMovie>(QStringLiteral(":/pictures/spinner.gif"), QByteArray(), this);
   QObject::connect(&*spinner_animation_, &QMovie::updated, this, &PlayingWidget::Update);
   spinner_animation_->start();
   update();

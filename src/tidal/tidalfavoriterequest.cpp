@@ -134,18 +134,18 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
 
 void TidalFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QStringList &id_list, const SongList &songs) {
 
-  ParamList params = ParamList() << Param("countryCode", country_code())
-                                 << Param(FavoriteMethod(type), id_list.join(','));
+  ParamList params = ParamList() << Param(QStringLiteral("countryCode"), country_code())
+                                 << Param(FavoriteMethod(type), id_list.join(QLatin1Char(',')));
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(QString(TidalService::kApiUrl) + QStringLiteral("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type));
+  QUrl url(QLatin1String(TidalService::kApiUrl) + QLatin1Char('/') + QStringLiteral("users/") + QString::number(service_->user_id()) + QStringLiteral("/favorites/") + FavoriteText(type));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
   if (oauth() && !access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
   else if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
@@ -244,18 +244,18 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
 
 void TidalFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const QString &id, const SongList &songs) {
 
-  ParamList params = ParamList() << Param("countryCode", country_code());
+  ParamList params = ParamList() << Param(QStringLiteral("countryCode"), country_code());
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(QString(TidalService::kApiUrl) + QStringLiteral("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type) + QStringLiteral("/") + id);
+  QUrl url(QLatin1String(TidalService::kApiUrl) + QStringLiteral("/users/") + QString::number(service_->user_id()) + QStringLiteral("/favorites/") + FavoriteText(type) + QStringLiteral("/") + id);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
   if (oauth() && !access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
   else if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
   QNetworkReply *reply = network_->deleteResource(req);

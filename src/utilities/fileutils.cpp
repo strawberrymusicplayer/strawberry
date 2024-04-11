@@ -86,21 +86,21 @@ bool Copy(QIODevice *source, QIODevice *destination) {
 bool CopyRecursive(const QString &source, const QString &destination) {
 
   // Make the destination directory
-  QString dir_name = source.section('/', -1, -1);
-  QString dest_path = destination + "/" + dir_name;
+  QString dir_name = source.section(QLatin1Char('/'), -1, -1);
+  QString dest_path = destination + QLatin1Char('/') + dir_name;
   QDir().mkpath(dest_path);
 
   QDir dir(source);
   for (const QString &child : dir.entryList(QDir::NoDotAndDotDot | QDir::Dirs)) {
-    if (!CopyRecursive(source + "/" + child, dest_path)) {
-      qLog(Warning) << "Failed to copy dir" << source + "/" + child << "to" << dest_path;
+    if (!CopyRecursive(source + QLatin1Char('/') + child, dest_path)) {
+      qLog(Warning) << "Failed to copy dir" << source + QLatin1Char('/') + child << "to" << dest_path;
       return false;
     }
   }
 
   for (const QString &child : dir.entryList(QDir::NoDotAndDotDot | QDir::Files)) {
-    if (!QFile::copy(source + "/" + child, dest_path + "/" + child)) {
-      qLog(Warning) << "Failed to copy file" << source + "/" + child << "to" << dest_path;
+    if (!QFile::copy(source + QLatin1Char('/') + child, dest_path + QLatin1Char('/') + child)) {
+      qLog(Warning) << "Failed to copy file" << source + QLatin1Char('/') + child << "to" << dest_path;
       return false;
     }
   }
@@ -112,13 +112,13 @@ bool RemoveRecursive(const QString &path) {
 
   QDir dir(path);
   for (const QString &child : dir.entryList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Hidden)) {
-    if (!RemoveRecursive(path + "/" + child)) {
+    if (!RemoveRecursive(path + QLatin1Char('/') + child)) {
       return false;
     }
   }
 
   for (const QString &child : dir.entryList(QDir::NoDotAndDotDot | QDir::Files | QDir::Hidden)) {
-    if (!QFile::remove(path + "/" + child)) {
+    if (!QFile::remove(path + QLatin1Char('/') + child)) {
       return false;
     }
   }

@@ -61,6 +61,7 @@
 
 #include "fancytabwidget.h"
 #include "core/stylehelper.h"
+#include "core/settings.h"
 #include "settings/appearancesettingspage.h"
 
 using namespace std::chrono_literals;
@@ -480,11 +481,11 @@ FancyTabWidget::~FancyTabWidget() {
 
 void FancyTabWidget::Load(const QString &kSettingsGroup) {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   QMultiMap <int, TabData*> tabs;
   for (TabData *tab : std::as_const(tabs_)) {
-    int idx = s.value("tab_" + tab->name(), tab->index()).toInt();
+    int idx = s.value(QStringLiteral("tab_") + tab->name(), tab->index()).toInt();
     while (tabs.contains(idx)) { ++idx; }
     tabs.insert(idx, tab);
   }
@@ -505,14 +506,14 @@ int FancyTabWidget::insertTab(const int idx, QWidget *page, const QIcon &icon, c
 
 void FancyTabWidget::SaveSettings(const QString &kSettingsGroup) {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
 
   s.setValue("tab_mode", static_cast<int>(mode_));
   s.setValue("current_tab", currentIndex());
 
   for (TabData *tab : std::as_const(tabs_)) {
-    QString k = "tab_" + tab->name();
+    QString k = QStringLiteral("tab_") + tab->name();
     int idx = QTabWidget::indexOf(tab->page());
     if (idx < 0) {
       if (s.contains(k)) s.remove(k);
@@ -528,7 +529,7 @@ void FancyTabWidget::SaveSettings(const QString &kSettingsGroup) {
 
 void FancyTabWidget::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   bg_color_system_ = s.value(AppearanceSettingsPage::kTabBarSystemColor, false).toBool();
   bg_gradient_ = s.value(AppearanceSettingsPage::kTabBarGradient, true).toBool();

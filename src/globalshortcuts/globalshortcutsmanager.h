@@ -36,6 +36,8 @@
 
 #include "globalshortcutsbackend.h"
 
+#include "core/settings.h"
+
 class QShortcut;
 class QAction;
 
@@ -103,7 +105,7 @@ class GlobalShortcutsManager : public QWidget {
 
  private:
   QList<GlobalShortcutsBackend*> backends_;
-  QSettings settings_;
+  Settings settings_;
   QList<GlobalShortcutsBackend::Type> backends_enabled_;
   QMap<QString, Shortcut> shortcuts_;
 };

@@ -24,6 +24,7 @@ set(SOURCES
   core/networktimeouts.cpp
   core/networkproxyfactory.cpp
   core/qtfslistener.cpp
+  core/settings.cpp
   core/settingsprovider.cpp
   core/signalchecker.cpp
   core/song.cpp
@@ -307,6 +308,7 @@ set(HEADERS
   core/threadsafenetworkdiskcache.h
   core/networktimeouts.h
   core/qtfslistener.h
+  core/settings.h
   core/songloader.h
   core/tagreaderclient.h
   core/taskmanager.h

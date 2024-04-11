@@ -60,13 +60,12 @@
 #include <QDir>
 #include <QEvent>
 #include <QFile>
-#include <QSettings>
 
 #include <QtDebug>
 
 QDebug operator<<(QDebug dbg, NSObject *object) {
 
-  QString ns_format = [[NSString stringWithFormat:@"%@", object] UTF8String];
+  const QString ns_format = QString::fromUtf8([[NSString stringWithFormat:@"%@", object] UTF8String]);
   dbg.nospace() << ns_format;
   return dbg.space();
 

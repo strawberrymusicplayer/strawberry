@@ -51,7 +51,6 @@ class ChartLyricsProvider : public LyricsProvider {
   void HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);
 
  private:
-  static const char *kUrlSearch;
   QList<QNetworkReply*> replies_;
 };
 

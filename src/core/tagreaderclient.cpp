@@ -29,7 +29,6 @@
 #include <QByteArray>
 #include <QString>
 #include <QImage>
-#include <QSettings>
 
 #include "core/logging.h"
 #include "core/workerpool.h"
@@ -37,7 +36,10 @@
 #include "song.h"
 #include "tagreaderclient.h"
 
-const char *TagReaderClient::kWorkerExecutableName = "strawberry-tagreader";
+namespace {
+constexpr char kWorkerExecutableName[] = "strawberry-tagreader";
+}
+
 TagReaderClient *TagReaderClient::sInstance = nullptr;
 
 TagReaderClient::TagReaderClient(QObject *parent) : QObject(parent), worker_pool_(new WorkerPool<HandlerType>(this)) {
@@ -45,7 +47,7 @@ TagReaderClient::TagReaderClient(QObject *parent) : QObject(parent), worker_pool
   sInstance = this;
   original_thread_ = thread();
 
-  worker_pool_->SetExecutableName(kWorkerExecutableName);
+  worker_pool_->SetExecutableName(QLatin1String(kWorkerExecutableName));
   QObject::connect(worker_pool_, &WorkerPool<HandlerType>::WorkerFailedToStart, this, &TagReaderClient::WorkerFailedToStart);
 
 }

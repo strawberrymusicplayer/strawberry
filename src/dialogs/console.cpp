@@ -69,7 +69,7 @@ void Console::RunQuery() {
     return;
   }
 
-  ui_.output->append("<b>&gt; " + query.executedQuery() + "</b>");
+  ui_.output->append(QStringLiteral("<b>&gt; ") + query.executedQuery() + QStringLiteral("</b>"));
 
   while (query.next() && query.isValid()) {
     QSqlRecord record = query.record();

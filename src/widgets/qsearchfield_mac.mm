@@ -130,24 +130,20 @@ public:
   if ([firstResponder isKindOfClass:[NSText class]] && reinterpret_cast<NSSearchField*>([reinterpret_cast<NSText*>(firstResponder) delegate]) == self) {
 
     if ([event type] == NSEventTypeKeyDown && [event modifierFlags] & NSEventModifierFlagCommand) {
-      QString keyString = toQString([event characters]);
-      if (keyString == "a")  // Cmd+a
-      {
+      const QString keyString = toQString([event characters]);
+      if (keyString == QStringLiteral("a")) {  // Cmd+a
         [self performSelector:@selector(selectText:)];
         return YES;
       }
-      else if (keyString == "c")  // Cmd+c
-      {
+      else if (keyString == QStringLiteral("c")) {  // Cmd+c
         [[self currentEditor] copy: nil];
         return YES;
       }
-      else if (keyString == "v")  // Cmd+v
-      {
+      else if (keyString == QStringLiteral("v")) {  // Cmd+v
         [[self currentEditor] paste: nil];
         return YES;
       }
-      else if (keyString == "x")  // Cmd+x
-      {
+      else if (keyString == QStringLiteral("x")) {  // Cmd+x
         [[self currentEditor] cut: nil];
         return YES;
       }

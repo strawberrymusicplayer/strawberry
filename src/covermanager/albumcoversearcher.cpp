@@ -220,7 +220,7 @@ void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverProviderSea
 
     QStandardItem *item = new QStandardItem;
     item->setIcon(no_cover_icon_);
-    item->setText(result.artist + " - " + result.album);
+    item->setText(result.artist + QStringLiteral(" - ") + result.album);
     item->setData(result.image_url, Role_ImageURL);
     item->setData(new_id, Role_ImageRequestId);
     item->setData(false, Role_ImageFetchFinished);

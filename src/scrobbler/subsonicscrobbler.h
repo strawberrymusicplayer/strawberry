@@ -44,8 +44,6 @@ class SubsonicScrobbler : public ScrobblerService {
  public:
   explicit SubsonicScrobbler(SharedPtr<ScrobblerSettings> settings, Application *app, QObject *parent = nullptr);
 
-  static const char *kName;
-
   void ReloadSettings() override;
 
   bool enabled() const override { return enabled_; }

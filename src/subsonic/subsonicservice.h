@@ -103,10 +103,6 @@ class SubsonicService : public InternetService {
  private:
   void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  static const char *kSongsTable;
-  static const char *kSongsFtsTable;
-  static const int kMaxRedirects;
-
   Application *app_;
   ScopedPtr<QNetworkAccessManager> network_;
   SubsonicUrlHandler *url_handler_;

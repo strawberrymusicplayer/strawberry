@@ -44,6 +44,7 @@
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/logging.h"
+#include "core/settings.h"
 #include "utilities/timeconstants.h"
 #include "internet/localredirectserver.h"
 #include "settings/scrobblersettingspage.h"
@@ -57,19 +58,22 @@
 
 const char *ListenBrainzScrobbler::kName = "ListenBrainz";
 const char *ListenBrainzScrobbler::kSettingsGroup = "ListenBrainz";
-const char *ListenBrainzScrobbler::kOAuthAuthorizeUrl = "https://musicbrainz.org/oauth2/authorize";
-const char *ListenBrainzScrobbler::kOAuthAccessTokenUrl = "https://musicbrainz.org/oauth2/token";
-const char *ListenBrainzScrobbler::kOAuthRedirectUrl = "http://localhost";
-const char *ListenBrainzScrobbler::kApiUrl = "https://api.listenbrainz.org";
-const char *ListenBrainzScrobbler::kClientIDB64 = "b2VBVU53cVNRZXIwZXIwOUZpcWkwUQ==";
-const char *ListenBrainzScrobbler::kClientSecretB64 = "Uk9GZ2hrZVEzRjNvUHlFaHFpeVdQQQ==";
-const char *ListenBrainzScrobbler::kCacheFile = "listenbrainzscrobbler.cache";
-const int ListenBrainzScrobbler::kScrobblesPerRequest = 10;
+
+namespace {
+constexpr char kOAuthAuthorizeUrl[] = "https://musicbrainz.org/oauth2/authorize";
+constexpr char kOAuthAccessTokenUrl[] = "https://musicbrainz.org/oauth2/token";
+constexpr char kOAuthRedirectUrl[] = "http://localhost";
+constexpr char kApiUrl[] = "https://api.listenbrainz.org";
+constexpr char kClientIDB64[] = "b2VBVU53cVNRZXIwZXIwOUZpcWkwUQ==";
+constexpr char kClientSecretB64[] = "Uk9GZ2hrZVEzRjNvUHlFaHFpeVdQQQ==";
+constexpr char kCacheFile[] = "listenbrainzscrobbler.cache";
+constexpr int kScrobblesPerRequest = 10;
+}  // namespace
 
 ListenBrainzScrobbler::ListenBrainzScrobbler(SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : ScrobblerService(kName, settings, parent),
+    : ScrobblerService(QLatin1String(kName), settings, parent),
       network_(network),
-      cache_(new ScrobblerCache(kCacheFile, this)),
+      cache_(new ScrobblerCache(QLatin1String(kCacheFile), this)),
       server_(nullptr),
       enabled_(false),
       expires_in_(-1),
@@ -110,7 +114,7 @@ ListenBrainzScrobbler::~ListenBrainzScrobbler() {
 
 void ListenBrainzScrobbler::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   enabled_ = s.value("enabled", false).toBool();
   user_token_ = s.value("user_token").toString();
@@ -124,7 +128,7 @@ void ListenBrainzScrobbler::ReloadSettings() {
 
 void ListenBrainzScrobbler::LoadSession() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   access_token_ = s.value("access_token").toString();
   expires_in_ = s.value("expires_in", -1).toInt();
@@ -150,13 +154,13 @@ void ListenBrainzScrobbler::Logout() {
   expires_in_ = -1;
   login_time_ = 0;
 
-  QSettings settings;
-  settings.beginGroup(kSettingsGroup);
-  settings.remove("access_token");
-  settings.remove("expires_in");
-  settings.remove("token_type");
-  settings.remove("refresh_token");
-  settings.endGroup();
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  s.remove("access_token");
+  s.remove("expires_in");
+  s.remove("token_type");
+  s.remove("refresh_token");
+  s.endGroup();
 
 }
 
@@ -173,15 +177,15 @@ void ListenBrainzScrobbler::Authenticate() {
     QObject::connect(server_, &LocalRedirectServer::Finished, this, &ListenBrainzScrobbler::RedirectArrived);
   }
 
-  QUrl redirect_url(kOAuthRedirectUrl);
+  QUrl redirect_url(QString::fromLatin1(kOAuthRedirectUrl));
   redirect_url.setPort(server_->url().port());
 
   QUrlQuery url_query;
   url_query.addQueryItem(QStringLiteral("response_type"), QStringLiteral("code"));
-  url_query.addQueryItem(QStringLiteral("client_id"), QByteArray::fromBase64(kClientIDB64));
+  url_query.addQueryItem(QStringLiteral("client_id"), QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)));
   url_query.addQueryItem(QStringLiteral("redirect_uri"), redirect_url.toString());
   url_query.addQueryItem(QStringLiteral("scope"), QStringLiteral("profile;email;tag;rating;collection;submit_isrc;submit_barcode"));
-  QUrl url(kOAuthAuthorizeUrl);
+  QUrl url(QString::fromLatin1(kOAuthAuthorizeUrl));
   url.setQuery(url_query);
 
   bool result = QDesktopServices::openUrl(url);
@@ -268,17 +272,17 @@ void ListenBrainzScrobbler::RequestAccessToken(const QUrl &redirect_url, const Q
 
   refresh_login_timer_.stop();
 
-  ParamList params = ParamList() << Param("client_id", QByteArray::fromBase64(kClientIDB64))
-                                 << Param("client_secret", QByteArray::fromBase64(kClientSecretB64));
+  ParamList params = ParamList() << Param(QStringLiteral("client_id"), QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)))
+                                 << Param(QStringLiteral("client_secret"), QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64)));
 
   if (!code.isEmpty() && !redirect_url.isEmpty()) {
-    params << Param("grant_type", "authorization_code");
-    params << Param("code", code);
-    params << Param("redirect_uri", redirect_url.toString());
+    params << Param(QStringLiteral("grant_type"), QStringLiteral("authorization_code"));
+    params << Param(QStringLiteral("code"), code);
+    params << Param(QStringLiteral("redirect_uri"), redirect_url.toString());
   }
   else if (!refresh_token_.isEmpty() && enabled_) {
-    params << Param("grant_type", "refresh_token");
-    params << Param("refresh_token", refresh_token_);
+    params << Param(QStringLiteral("grant_type"), QStringLiteral("refresh_token"));
+    params << Param(QStringLiteral("refresh_token"), refresh_token_);
   }
   else {
     return;
@@ -286,14 +290,14 @@ void ListenBrainzScrobbler::RequestAccessToken(const QUrl &redirect_url, const Q
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl session_url(kOAuthAccessTokenUrl);
+  QUrl session_url(QString::fromLatin1(kOAuthAccessTokenUrl));
 
   QNetworkRequest req(session_url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
   replies_ << reply;
@@ -328,7 +332,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
   }
   login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("access_token", access_token_);
   s.setValue("expires_in", expires_in_);
@@ -354,7 +358,7 @@ QNetworkReply *ListenBrainzScrobbler::CreateRequest(const QUrl &url, const QJson
 
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/json"));
   req.setRawHeader("Authorization", QStringLiteral("Token %1").arg(user_token_).toUtf8());
   QNetworkReply *reply = network_->post(req, json_doc.toJson());
   replies_ << reply;
@@ -398,13 +402,13 @@ QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &met
 
   QStringList artist_mbids_list;
   if (!metadata.musicbrainz_album_artist_id.isEmpty()) {
-    artist_mbids_list << metadata.musicbrainz_album_artist_id.split('/');
+    artist_mbids_list << metadata.musicbrainz_album_artist_id.split(QLatin1Char('/'));
   }
   if (!metadata.musicbrainz_artist_id.isEmpty()) {
-    artist_mbids_list << metadata.musicbrainz_artist_id.split('/');
+    artist_mbids_list << metadata.musicbrainz_artist_id.split(QLatin1Char('/'));
   }
   if (!metadata.musicbrainz_original_artist_id.isEmpty()) {
-    artist_mbids_list << metadata.musicbrainz_original_artist_id.split('/');
+    artist_mbids_list << metadata.musicbrainz_original_artist_id.split(QLatin1Char('/'));
   }
   if (!artist_mbids_list.isEmpty()) {
     QJsonArray artist_mbids_array;
@@ -456,11 +460,11 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   QJsonArray array_payload;
   array_payload.append(object_listen);
   QJsonObject object;
-  object.insert(QStringLiteral("listen_type"), "playing_now");
+  object.insert(QStringLiteral("listen_type"), QStringLiteral("playing_now"));
   object.insert(QStringLiteral("payload"), array_payload);
   QJsonDocument doc(object);
 
-  QUrl url(QStringLiteral("%1/1/submit-listens").arg(kApiUrl));
+  QUrl url(QStringLiteral("%1/1/submit-listens").arg(QLatin1String(kApiUrl)));
   QNetworkReply *reply = CreateRequest(url, doc);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { UpdateNowPlayingRequestFinished(reply); });
 
@@ -559,11 +563,11 @@ void ListenBrainzScrobbler::Submit() {
   submitted_ = true;
 
   QJsonObject object;
-  object.insert(QStringLiteral("listen_type"), "import");
+  object.insert(QStringLiteral("listen_type"), QStringLiteral("import"));
   object.insert(QStringLiteral("payload"), array);
   QJsonDocument doc(object);
 
-  QUrl url(QStringLiteral("%1/1/submit-listens").arg(kApiUrl));
+  QUrl url(QStringLiteral("%1/1/submit-listens").arg(QLatin1String(kApiUrl)));
   QNetworkReply *reply = CreateRequest(url, doc);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, cache_items_sent]() { ScrobbleRequestFinished(reply, cache_items_sent); });
 
@@ -633,7 +637,7 @@ void ListenBrainzScrobbler::Love() {
   object.insert(QStringLiteral("recording_mbid"), song_playing_.musicbrainz_recording_id());
   object.insert(QStringLiteral("score"), 1);
 
-  QUrl url(QStringLiteral("%1/1/feedback/recording-feedback").arg(kApiUrl));
+  QUrl url(QStringLiteral("%1/1/feedback/recording-feedback").arg(QLatin1String(kApiUrl)));
   QNetworkReply *reply = CreateRequest(url, QJsonDocument(object));
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { LoveRequestFinished(reply); });
 

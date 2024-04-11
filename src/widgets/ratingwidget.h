@@ -30,8 +30,9 @@ class RatingPainter {
  public:
   RatingPainter();
 
-  static const int kStarCount = 5;
-  static const int kStarSize = 16;
+  static constexpr int kStarCount = 5;
+  static constexpr int kStarSize = 16;
+
   static QRect Contents(const QRect rect);
   static float RatingForPos(const QPoint pos, const QRect rect);
 

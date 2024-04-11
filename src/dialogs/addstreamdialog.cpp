@@ -20,7 +20,6 @@
 #include "addstreamdialog.h"
 #include "ui_addstreamdialog.h"
 
-#include <QSettings>
 #include <QUrl>
 #include <QLabel>
 #include <QLineEdit>

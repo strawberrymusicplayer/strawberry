@@ -41,13 +41,16 @@
 #include "core/logging.h"
 #include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
+#include "core/settings.h"
 
 #include "lastfmimport.h"
 
 #include "scrobblingapi20.h"
 #include "lastfmscrobbler.h"
 
-const int LastFMImport::kRequestsDelay = 2000;
+namespace {
+constexpr int kRequestsDelay = 2000;
+}
 
 LastFMImport::LastFMImport(SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
@@ -94,7 +97,7 @@ void LastFMImport::AbortAll() {
 
 void LastFMImport::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(LastFMScrobbler::kSettingsGroup);
   username_ = s.value("username").toString();
   s.endGroup();
@@ -104,24 +107,24 @@ void LastFMImport::ReloadSettings() {
 QNetworkReply *LastFMImport::CreateRequest(const ParamList &request_params) {
 
   ParamList params = ParamList()
-    << Param("api_key", ScrobblingAPI20::kApiKey)
-    << Param("user", username_)
-    << Param("lang", QLocale().name().left(2).toLower())
-    << Param("format", "json")
+    << Param(QStringLiteral("api_key"), QLatin1String(ScrobblingAPI20::kApiKey))
+    << Param(QStringLiteral("user"), username_)
+    << Param(QStringLiteral("lang"), QLocale().name().left(2).toLower())
+    << Param(QStringLiteral("format"), QStringLiteral("json"))
     << request_params;
 
   std::sort(params.begin(), params.end());
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(LastFMScrobbler::kApiUrl);
+  QUrl url(QString::fromLatin1(LastFMScrobbler::kApiUrl));
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
 
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
@@ -251,15 +254,15 @@ void LastFMImport::AddGetRecentTracksRequest(const int page) {
 
 void LastFMImport::SendGetRecentTracksRequest(GetRecentTracksRequest request) {
 
-  ParamList params = ParamList() << Param("method", "user.getRecentTracks");
+  ParamList params = ParamList() << Param(QStringLiteral("method"), QStringLiteral("user.getRecentTracks"));
 
   if (request.page == 0) {
-    params << Param("page", "1");
-    params << Param("limit", "1");
+    params << Param(QStringLiteral("page"), QStringLiteral("1"));
+    params << Param(QStringLiteral("limit"), QStringLiteral("1"));
   }
   else {
-    params << Param("page", QString::number(request.page));
-    params << Param("limit", "500");
+    params << Param(QStringLiteral("page"), QString::number(request.page));
+    params << Param(QStringLiteral("limit"), QStringLiteral("500"));
   }
 
   QNetworkReply *reply = CreateRequest(params);
@@ -414,15 +417,15 @@ void LastFMImport::AddGetTopTracksRequest(const int page) {
 
 void LastFMImport::SendGetTopTracksRequest(GetTopTracksRequest request) {
 
-  ParamList params = ParamList() << Param("method", "user.getTopTracks");
+  ParamList params = ParamList() << Param(QStringLiteral("method"), QStringLiteral("user.getTopTracks"));
 
   if (request.page == 0) {
-    params << Param("page", "1");
-    params << Param("limit", "1");
+    params << Param(QStringLiteral("page"), QStringLiteral("1"));
+    params << Param(QStringLiteral("limit"), QStringLiteral("1"));
   }
   else {
-    params << Param("page", QString::number(request.page));
-    params << Param("limit", "500");
+    params << Param(QStringLiteral("page"), QString::number(request.page));
+    params << Param(QStringLiteral("limit"), QStringLiteral("500"));
   }
 
   QNetworkReply *reply = CreateRequest(params);

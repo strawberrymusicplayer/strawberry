@@ -46,6 +46,7 @@
 #include "core/iconloader.h"
 #include "core/song.h"
 #include "core/logging.h"
+#include "core/settings.h"
 #include "collectionfilteroptions.h"
 #include "collectionmodel.h"
 #include "savedgroupingmanager.h"
@@ -85,7 +86,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
     tr("searches the collection for all artists that contain the word %1. ").arg(QStringLiteral("Strawbs")) +
     QStringLiteral("</p><p>") +
     tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")
-      .arg(" =, !=, &lt;, &gt;, &lt;=", "&gt;=") +
+      .arg(QStringLiteral(" =, !=, &lt;, &gt;, &lt;="), QStringLiteral("&gt;=")) +
     QStringLiteral("<span style=\"font-weight:600;\">") +
     tr("rating") +
     QStringLiteral("</span>") +
@@ -181,7 +182,7 @@ void CollectionFilterWidget::Init(CollectionModel *model) {
 
   // Load settings
   if (!settings_group_.isEmpty()) {
-    QSettings s;
+    Settings s;
     s.beginGroup(settings_group_);
     int version = 0;
     if (s.contains(group_by_version())) version = s.value(group_by_version(), 0).toInt();
@@ -217,7 +218,7 @@ void CollectionFilterWidget::SetSettingsPrefix(const QString &prefix) {
 
 void CollectionFilterWidget::ReloadSettings() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   int iconsize = s.value(AppearanceSettingsPage::kIconSizeConfigureButtons, 20).toInt();
   s.endGroup();
@@ -306,13 +307,13 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(const QString &saved_
   ret->addAction(sep1);
 
   // Read saved groupings
-  QSettings s;
+  Settings s;
   s.beginGroup(saved_groupings_settings_group);
   int version = s.value("version").toInt();
   if (version == 1) {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == "version") continue;
+      if (saved.at(i) == QStringLiteral("version")) continue;
       QByteArray bytes = s.value(saved.at(i)).toByteArray();
       QDataStream ds(&bytes, QIODevice::ReadOnly);
       CollectionModel::Grouping g;
@@ -323,7 +324,7 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(const QString &saved_
   else {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == "version") continue;
+      if (saved.at(i) == QStringLiteral("version")) continue;
       s.remove(saved.at(i));
     }
   }
@@ -361,17 +362,17 @@ void CollectionFilterWidget::SaveGroupBy() {
 
   qLog(Debug) << "Saving current grouping to" << name;
 
-  QSettings s;
-  if (settings_group_.isEmpty() || settings_group_ == CollectionSettingsPage::kSettingsGroup) {
+  Settings s;
+  if (settings_group_.isEmpty() || settings_group_ == QLatin1String(CollectionSettingsPage::kSettingsGroup)) {
     s.beginGroup(SavedGroupingManager::kSavedGroupingsSettingsGroup);
   }
   else {
-    s.beginGroup(QString(SavedGroupingManager::kSavedGroupingsSettingsGroup) + "_" + settings_group_);
+    s.beginGroup(QLatin1String(SavedGroupingManager::kSavedGroupingsSettingsGroup) + QLatin1Char('_') + settings_group_);
   }
   QByteArray buffer;
   QDataStream datastream(&buffer, QIODevice::WriteOnly);
   datastream << model_->GetGroupBy();
-  s.setValue("version", "1");
+  s.setValue("version", QStringLiteral("1"));
   s.setValue(name, buffer);
   s.endGroup();
 
@@ -425,7 +426,7 @@ void CollectionFilterWidget::GroupByClicked(QAction *action) {
 void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping) {
 
   if (!settings_group_.isEmpty()) {
-    QSettings s;
+    Settings s;
     s.beginGroup(settings_group_);
     s.setValue(group_by_version(), 1);
     s.setValue(group_by_key(1), static_cast<int>(g[0]));

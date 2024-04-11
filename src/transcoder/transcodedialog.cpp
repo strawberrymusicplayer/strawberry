@@ -57,6 +57,7 @@
 
 #include "core/iconloader.h"
 #include "core/mainwindow.h"
+#include "core/settings.h"
 #include "utilities/screenutils.h"
 #include "widgets/fileview.h"
 #include "transcodedialog.h"
@@ -71,8 +72,11 @@
 #endif
 
 const char *TranscodeDialog::kSettingsGroup = "Transcoder";
-const int TranscodeDialog::kProgressInterval = 500;
-const int TranscodeDialog::kMaxDestinationItems = 10;
+
+namespace {
+constexpr int kProgressInterval = 500;
+constexpr int kMaxDestinationItems = 10;
+}
 
 static bool ComparePresetsByName(const TranscoderPreset &left, const TranscoderPreset &right) {
   return left.name_ < right.name_;
@@ -107,11 +111,11 @@ TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
   }
 
   // Load settings
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   last_add_dir_ = s.value("last_add_dir", QDir::homePath()).toString();
   last_import_dir_ = s.value("last_import_dir", QDir::homePath()).toString();
-  QString last_output_format = s.value("last_output_format", "audio/x-vorbis").toString();
+  QString last_output_format = s.value("last_output_format", QStringLiteral("audio/x-vorbis")).toString();
   s.endGroup();
 
   for (int i = 0; i < ui_->format->count(); ++i) {
@@ -186,7 +190,7 @@ void TranscodeDialog::reject() {
 
 void TranscodeDialog::LoadGeometry() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   if (s.contains("geometry")) {
     restoreGeometry(s.value("geometry").toByteArray());
@@ -200,7 +204,7 @@ void TranscodeDialog::LoadGeometry() {
 
 void TranscodeDialog::SaveGeometry() {
 
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("geometry", saveGeometry());
   s.endGroup();
@@ -253,7 +257,7 @@ void TranscodeDialog::Start() {
   transcoder_->Start();
 
   // Save the last output format
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("last_output_format", preset.codec_mimetype_);
   s.endGroup();
@@ -299,15 +303,15 @@ void TranscodeDialog::UpdateStatusText() {
   QStringList sections;
 
   if (queued_) {
-    sections << "<font color=\"#3467c8\">" + tr("%n remaining", "", queued_) + "</font>";
+    sections << QStringLiteral("<font color=\"#3467c8\">") + tr("%n remaining", "", queued_) + QStringLiteral("</font>");
   }
 
   if (finished_success_) {
-    sections << "<font color=\"#02b600\">" + tr("%n finished", "", finished_success_) + "</font>";
+    sections << QStringLiteral("<font color=\"#02b600\">") + tr("%n finished", "", finished_success_) + QStringLiteral("</font>");
   }
 
   if (finished_failed_) {
-    sections << "<font color=\"#b60000\">" + tr("%n failed", "", finished_failed_) + "</font>";
+    sections << QStringLiteral("<font color=\"#b60000\">") + tr("%n failed", "", finished_failed_) + QStringLiteral("</font>");
   }
 
   ui_->progress_text->setText(sections.join(QStringLiteral(", ")));
@@ -322,14 +326,14 @@ void TranscodeDialog::Add() {
 
   QStringList filenames = QFileDialog::getOpenFileNames(
       this, tr("Add files to transcode"), last_add_dir_,
-      QStringLiteral("%1 (%2);;%3").arg(tr("Music"), FileView::kFileFilter, tr(MainWindow::kAllFilesFilterSpec)));
+      QStringLiteral("%1 (%2);;%3").arg(tr("Music"), QLatin1String(FileView::kFileFilter), tr(MainWindow::kAllFilesFilterSpec)));
 
   if (filenames.isEmpty()) return;
 
   SetFilenames(filenames);
 
   last_add_dir_ = filenames[0];
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("last_add_dir", last_add_dir_);
   s.endGroup();
@@ -345,9 +349,9 @@ void TranscodeDialog::Import() {
   QStringList filenames;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-  QStringList audioTypes = QString(FileView::kFileFilter).split(QStringLiteral(" "), Qt::SkipEmptyParts);
+  QStringList audioTypes = QString::fromLatin1(FileView::kFileFilter).split(QLatin1Char(' '), Qt::SkipEmptyParts);
 #else
-  QStringList audioTypes = QString(FileView::kFileFilter).split(" ", QString::SkipEmptyParts);
+  QStringList audioTypes = QString::fromLatin1(FileView::kFileFilter).split(QLatin1Char(' '), QString::SkipEmptyParts);
 #endif
 
   QDirIterator files(path, audioTypes, QDir::Files | QDir::Readable, QDirIterator::Subdirectories);
@@ -359,7 +363,7 @@ void TranscodeDialog::Import() {
   SetFilenames(filenames);
 
   last_import_dir_ = path;
-  QSettings s;
+  Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("last_import_dir", last_import_dir_);
   s.endGroup();
@@ -369,8 +373,8 @@ void TranscodeDialog::Import() {
 void TranscodeDialog::SetFilenames(const QStringList &filenames) {
 
   for (const QString &filename : filenames) {
-    QString name = filename.section('/', -1, -1);
-    QString path = filename.section('/', 0, -2);
+    QString name = filename.section(QLatin1Char('/'), -1, -1);
+    QString path = filename.section(QLatin1Char('/'), 0, -2);
 
     QTreeWidgetItem *item = new QTreeWidgetItem(ui_->files, QStringList() << name << path);
     item->setData(0, Qt::UserRole, filename);
@@ -438,7 +442,7 @@ void TranscodeDialog::AddDestination() {
 
 // Returns the rightmost non-empty part of 'path'.
 QString TranscodeDialog::TrimPath(const QString &path) {
-  return path.section('/', -1, -1, QString::SectionSkipEmpty);
+  return path.section(QLatin1Char('/'), -1, -1, QString::SectionSkipEmpty);
 }
 
 QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const TranscoderPreset &preset) const {
@@ -447,12 +451,12 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
   QString output_filepath;
   if (destination_path.isEmpty()) {
     // Keep the original path.
-    output_filepath = input_filepath.section('.', 0, -2) + '.' + preset.extension_;
+    output_filepath = input_filepath.section(QLatin1Char('.'), 0, -2) + QLatin1Char('.') + preset.extension_;
   }
   else {
     QString filename = TrimPath(input_filepath);
-    filename = filename.section('.', 0, -2);
-    output_filepath = destination_path + '/' + filename + '.' + preset.extension_;
+    filename = filename.section(QLatin1Char('.'), 0, -2);
+    output_filepath = destination_path + QLatin1Char('/') + filename + QLatin1Char('.') + preset.extension_;
   }
 
   if (output_filepath.isEmpty()) return QString();

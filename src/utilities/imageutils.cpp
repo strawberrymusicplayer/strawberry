@@ -38,7 +38,7 @@ QStringList ImageUtils::SupportedImageMimeTypes() {
 
   if (kSupportedImageMimeTypes.isEmpty()) {
     for (const QByteArray &mimetype : QImageReader::supportedMimeTypes()) {
-      kSupportedImageMimeTypes << mimetype;
+      kSupportedImageMimeTypes << QString::fromUtf8(mimetype);
     }
   }
 
@@ -50,7 +50,7 @@ QStringList ImageUtils::SupportedImageFormats() {
 
   if (kSupportedImageFormats.isEmpty()) {
     for (const QByteArray &filetype : QImageReader::supportedImageFormats()) {
-      kSupportedImageFormats << filetype;
+      kSupportedImageFormats << QString::fromUtf8(filetype);
     }
   }
 
@@ -78,7 +78,7 @@ QByteArray ImageUtils::FileToJpegData(const QString &filename) {
   if (filename.isEmpty()) return QByteArray();
 
   QByteArray image_data = Utilities::ReadDataFromFile(filename);
-  if (Utilities::MimeTypeFromData(image_data) == "image/jpeg") return image_data;
+  if (Utilities::MimeTypeFromData(image_data) == QStringLiteral("image/jpeg")) return image_data;
   else {
     QImage image;
     if (image.loadFromData(image_data)) {

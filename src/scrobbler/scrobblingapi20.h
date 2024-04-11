@@ -120,9 +120,6 @@ class ScrobblingAPI20 : public ScrobblerService {
     RateLimitExceeded = 29,
   };
 
-  static const char *kSecret;
-  static const int kScrobblesPerRequest;
-
   QNetworkReply *CreateRequest(const ParamList &request_params);
   ReplyResult GetJsonObject(QNetworkReply *reply, QJsonObject &json_obj, QString &error_description);
 

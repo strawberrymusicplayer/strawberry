@@ -35,7 +35,7 @@
 #include "enginedevice.h"
 #include "core/logging.h"
 
-DirectSoundDeviceFinder::DirectSoundDeviceFinder() : DeviceFinder("directsound", { "directsound", "dsound", "directsoundsink", "directx", "directx2", "waveformsink" }) {}
+DirectSoundDeviceFinder::DirectSoundDeviceFinder() : DeviceFinder(QStringLiteral("directsound"), { QStringLiteral("directsound"), QStringLiteral("dsound"), QStringLiteral("directsoundsink"), QStringLiteral("directx"), QStringLiteral("directx2"), QStringLiteral("waveformsink") }) {}
 
 EngineDeviceList DirectSoundDeviceFinder::ListDevices() {
   State state;
