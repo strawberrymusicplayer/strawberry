@@ -398,7 +398,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   // Add the playing widget to the fancy tab widget
   ui_->tabs->addBottomWidget(ui_->widget_playing);
-  //ui_->tabs->SetBackgroundPixmap(QPixmap(":/pictures/strawberry-background.png"));
+  ui_->tabs->setBackgroundPixmap(QPixmap(QStringLiteral(":/pictures/sidebar-background.png")));
   ui_->tabs->Load(QLatin1String(kSettingsGroup));
 
   track_position_timer_->setInterval(kTrackPositionUpdateTimeMs);

@@ -42,5 +42,6 @@
         <file>pictures/star-off.png</file>
         <file>mood/sample.mood</file>
         <file>text/ghosts.txt</file>
+        <file>pictures/sidebar-background.png</file>
     </qresource>
 </RCC>
