@@ -1249,7 +1249,7 @@ msgstr "CUE"
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr "Annulé"
+msgstr "Annuler"
 
 #: tidal/tidalstreamurlrequest.cpp:105 qobuz/qobuzstreamurlrequest.cpp:101
 msgid "Cancelled."
