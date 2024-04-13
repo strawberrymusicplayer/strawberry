@@ -162,11 +162,13 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   pimpl = delegate->pimpl = new QSearchFieldPrivate(this, search);
   [search setDelegate:static_cast<id<NSSearchFieldDelegate>>(delegate)];
 
-  new QVBoxLayout(this);
-  layout()->setContentsMargins(0, 0, 0, 0);
   setAttribute(Qt::WA_NativeWindow);
   setFixedHeight(24);
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+  new QVBoxLayout(this);
+  layout()->setContentsMargins(0, 0, 0, 0);
+  layout()->addWidget(QWidget::createWindowContainer(QWindow::fromWinId(WId(pimpl->nsSearchField)), this));
 
   [pool drain];
 
@@ -225,21 +227,6 @@ void QSearchField::setFocus(Qt::FocusReason) {}
 
 void QSearchField::setFocus() {
   setFocus(Qt::OtherFocusReason);
-}
-
-void QSearchField::showEvent(QShowEvent *e) {
-
-  if (!e->spontaneous()) {
-    for (int i = 0; i < layout()->count(); ++i) {
-      QWidget *widget = layout()->itemAt(i)->widget();
-      layout()->removeWidget(widget);
-      delete widget;
-    }
-    layout()->addWidget(QWidget::createWindowContainer(QWindow::fromWinId(WId(pimpl->nsSearchField)), this));
-  }
-
-  QWidget::showEvent(e);
-
 }
 
 void QSearchField::resizeEvent(QResizeEvent *resizeEvent) {

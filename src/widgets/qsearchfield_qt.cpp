@@ -172,12 +172,6 @@ QString QSearchField::text() const {
 
 }
 
-void QSearchField::showEvent(QShowEvent *e) {
-
-  QWidget::showEvent(e);
-
-}
-
 void QSearchField::resizeEvent(QResizeEvent *resizeEvent) {
 
   Q_ASSERT(pimpl && pimpl->clearbutton_ && pimpl->lineedit_);
