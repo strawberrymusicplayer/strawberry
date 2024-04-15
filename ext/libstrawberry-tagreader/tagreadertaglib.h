@@ -68,6 +68,7 @@ class TagReaderTagLib : public TagReaderBase {
  private:
   spb::tagreader::SongMetadata_FileType GuessFileType(TagLib::FileRef *fileref) const;
 
+  void ParseID3v2Tag(TagLib::ID3v2::Tag *tag, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const;
   void ParseOggTag(const TagLib::Ogg::FieldListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const;
   void ParseAPETag(const TagLib::APE::ItemListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const;
 
