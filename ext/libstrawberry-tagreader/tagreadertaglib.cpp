@@ -579,7 +579,16 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
 
 }
 
+void TagReaderTagLib::TStringToStdString(const TagLib::String &tag, std::string *output) {
+
+  const QString tmp = TStringToQString(tag).trimmed();
+  const QByteArray data = tmp.toUtf8();
+  output->assign(data.constData(), data.size());
+
+}
+
 void TagReaderTagLib::ParseID3v2Tag(TagLib::ID3v2::Tag *tag, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const {
+
   TagLib::ID3v2::FrameListMap map = tag->frameListMap();
 
   if (map.contains("TPOS")) *disc = TStringToQString(map["TPOS"].front()->toString()).trimmed();
@@ -708,14 +717,6 @@ void TagReaderTagLib::ParseID3v2Tag(TagLib::ID3v2::Tag *tag, QString *disc, QStr
       }
     }
   }
-
-}
-
-void TagReaderTagLib::TStringToStdString(const TagLib::String &tag, std::string *output) {
-
-  const QString tmp = TStringToQString(tag).trimmed();
-  const QByteArray data = tmp.toUtf8();
-  output->assign(data.constData(), data.size());
 
 }
 
