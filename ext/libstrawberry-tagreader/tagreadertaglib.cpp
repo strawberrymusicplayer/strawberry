@@ -529,6 +529,12 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
     if (tag) TStringToStdString(tag->comment(), song->mutable_comment());
   }
 
+  else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
+    if (file_wav->hasID3v2Tag()) {
+      ParseID3v2Tag(file_wav->ID3v2Tag(), &disc, &compilation, song);
+    }
+  }
+
   else if (tag) {
     TStringToStdString(tag->comment(), song->mutable_comment());
   }
