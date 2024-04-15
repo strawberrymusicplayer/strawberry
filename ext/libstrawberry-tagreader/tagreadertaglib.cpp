@@ -328,137 +328,8 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
   }
 
   else if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
-
-    if (file_mpeg->ID3v2Tag()) {
-      const TagLib::ID3v2::FrameListMap &map = file_mpeg->ID3v2Tag()->frameListMap();
-
-      if (map.contains("TPOS")) disc = TStringToQString(map["TPOS"].front()->toString()).trimmed();
-      if (map.contains("TCOM")) TStringToStdString(map["TCOM"].front()->toString(), song->mutable_composer());
-
-      // content group
-      if (map.contains("TIT1")) TStringToStdString(map["TIT1"].front()->toString(), song->mutable_grouping());
-
-      // original artist/performer
-      if (map.contains("TOPE")) TStringToStdString(map["TOPE"].front()->toString(), song->mutable_performer());
-
-      // Skip TPE1 (which is the artist) here because we already fetched it
-
-      // non-standard: Apple, Microsoft
-      if (map.contains("TPE2")) TStringToStdString(map["TPE2"].front()->toString(), song->mutable_albumartist());
-
-      if (map.contains("TCMP")) compilation = TStringToQString(map["TCMP"].front()->toString()).trimmed();
-
-      if (map.contains("TDOR")) {
-        song->set_originalyear(map["TDOR"].front()->toString().substr(0, 4).toInt());
-      }
-      else if (map.contains("TORY")) {
-        song->set_originalyear(map["TORY"].front()->toString().substr(0, 4).toInt());
-      }
-
-      if (map.contains("USLT")) {
-        TStringToStdString(map["USLT"].front()->toString(), song->mutable_lyrics());
-      }
-      else if (map.contains("SYLT")) {
-        TStringToStdString(map["SYLT"].front()->toString(), song->mutable_lyrics());
-      }
-
-      if (map.contains("APIC")) song->set_art_embedded(true);
-
-      // Find a suitable comment tag.  For now we ignore iTunNORM comments.
-      for (uint i = 0; i < map["COMM"].size(); ++i) {
-        const TagLib::ID3v2::CommentsFrame *frame = dynamic_cast<const TagLib::ID3v2::CommentsFrame*>(map["COMM"][i]);
-
-        if (frame && TStringToQString(frame->description()) != QStringLiteral("iTunNORM")) {
-          TStringToStdString(frame->text(), song->mutable_comment());
-          break;
-        }
-      }
-
-      if (TagLib::ID3v2::UserTextIdentificationFrame *frame_fmps_playcount = TagLib::ID3v2::UserTextIdentificationFrame::find(file_mpeg->ID3v2Tag(), "FMPS_Playcount")) {
-        TagLib::StringList frame_field_list = frame_fmps_playcount->fieldList();
-        if (frame_field_list.size() > 1) {
-          int playcount = TStringToQString(frame_field_list[1]).toInt();
-          if (song->playcount() <= 0 && playcount > 0) {
-            song->set_playcount(playcount);
-          }
-        }
-      }
-
-      if (TagLib::ID3v2::UserTextIdentificationFrame *frame_fmps_rating = TagLib::ID3v2::UserTextIdentificationFrame::find(file_mpeg->ID3v2Tag(), "FMPS_Rating")) {
-        TagLib::StringList frame_field_list = frame_fmps_rating->fieldList();
-        if (frame_field_list.size() > 1) {
-          float rating = TStringToQString(frame_field_list[1]).toFloat();
-          if (song->rating() <= 0 && rating > 0 && rating <= 1.0) {
-            song->set_rating(rating);
-          }
-        }
-      }
-
-      if (map.contains("POPM")) {
-        const TagLib::ID3v2::PopularimeterFrame *frame = dynamic_cast<const TagLib::ID3v2::PopularimeterFrame*>(map["POPM"].front());
-        if (frame) {
-          if (song->playcount() <= 0 && frame->counter() > 0) {
-            song->set_playcount(frame->counter());
-          }
-          if (song->rating() <= 0 && frame->rating() > 0) {
-            song->set_rating(ConvertPOPMRating(frame->rating()));
-          }
-        }
-      }
-
-      if (map.contains("UFID")) {
-        for (uint i = 0; i < map["UFID"].size(); ++i) {
-          if (TagLib::ID3v2::UniqueFileIdentifierFrame *frame = dynamic_cast<TagLib::ID3v2::UniqueFileIdentifierFrame*>(map["UFID"][i])) {
-            const TagLib::PropertyMap property_map = frame->asProperties();
-            if (property_map.contains(kID3v2_MusicBrainz_RecordingID)) {
-              TStringToStdString(property_map[kID3v2_MusicBrainz_RecordingID].toString(), song->mutable_musicbrainz_recording_id());
-            }
-          }
-        }
-      }
-
-      if (map.contains("TXXX")) {
-        for (uint i = 0; i < map["TXXX"].size(); ++i) {
-          if (TagLib::ID3v2::UserTextIdentificationFrame *frame = dynamic_cast<TagLib::ID3v2::UserTextIdentificationFrame*>(map["TXXX"][i])) {
-            const TagLib::StringList frame_field_list = frame->fieldList();
-            if (frame_field_list.size() != 2) continue;
-            if (frame->description() == kID3v2_AcoustID_ID) {
-              TStringToStdString(frame_field_list.back(), song->mutable_acoustid_id());
-            }
-            if (frame->description() == kID3v2_AcoustID_Fingerprint) {
-              TStringToStdString(frame_field_list.back(), song->mutable_acoustid_fingerprint());
-            }
-            if (frame->description() == kID3v2_MusicBrainz_AlbumArtistID) {
-              TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_album_artist_id());
-            }
-            if (frame->description() == kID3v2_MusicBrainz_ArtistID) {
-              TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_artist_id());
-            }
-            if (frame->description() == kID3v2_MusicBrainz_OriginalArtistID) {
-              TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_original_artist_id());
-            }
-            if (frame->description() == kID3v2_MusicBrainz_AlbumID) {
-              TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_album_id());
-            }
-            if (frame->description() == kID3v2_MusicBrainz_OriginalAlbumID) {
-              TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_original_album_id());
-            }
-            if (frame->description() == kID3v2_MusicBrainz_TrackID) {
-              TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_track_id());
-            }
-            if (frame->description() == kID3v2_MusicBrainz_DiscID) {
-              TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_disc_id());
-            }
-            if (frame->description() == kID3v2_MusicBrainz_ReleaseGroupID) {
-              TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_release_group_id());
-            }
-            if (frame->description() == kID3v2_MusicBrainz_WorkID) {
-              TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_work_id());
-            }
-          }
-        }
-      }
-
+    if (file_mpeg->hasID3v2Tag()) {
+      ParseID3v2Tag(file_mpeg->ID3v2Tag(), &disc, &compilation, song);
     }
   }
 
@@ -699,6 +570,138 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
   if (song->lastplayed() <= 0) { song->set_lastplayed(-1); }
 
   return song->filetype() != spb::tagreader::SongMetadata_FileType_UNKNOWN;
+
+}
+
+void TagReaderTagLib::ParseID3v2Tag(TagLib::ID3v2::Tag *tag, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const {
+  TagLib::ID3v2::FrameListMap map = tag->frameListMap();
+
+  if (map.contains("TPOS")) *disc = TStringToQString(map["TPOS"].front()->toString()).trimmed();
+  if (map.contains("TCOM")) TStringToStdString(map["TCOM"].front()->toString(), song->mutable_composer());
+
+  // content group
+  if (map.contains("TIT1")) TStringToStdString(map["TIT1"].front()->toString(), song->mutable_grouping());
+
+  // original artist/performer
+  if (map.contains("TOPE")) TStringToStdString(map["TOPE"].front()->toString(), song->mutable_performer());
+
+  // Skip TPE1 (which is the artist) here because we already fetched it
+
+  // non-standard: Apple, Microsoft
+  if (map.contains("TPE2")) TStringToStdString(map["TPE2"].front()->toString(), song->mutable_albumartist());
+
+  if (map.contains("TCMP")) *compilation = TStringToQString(map["TCMP"].front()->toString()).trimmed();
+
+  if (map.contains("TDOR")) {
+    song->set_originalyear(map["TDOR"].front()->toString().substr(0, 4).toInt());
+  }
+  else if (map.contains("TORY")) {
+    song->set_originalyear(map["TORY"].front()->toString().substr(0, 4).toInt());
+  }
+
+  if (map.contains("USLT")) {
+    TStringToStdString(map["USLT"].front()->toString(), song->mutable_lyrics());
+  }
+  else if (map.contains("SYLT")) {
+    TStringToStdString(map["SYLT"].front()->toString(), song->mutable_lyrics());
+  }
+
+  if (map.contains("APIC")) song->set_art_embedded(true);
+
+  // Find a suitable comment tag.  For now we ignore iTunNORM comments.
+  for (uint i = 0; i < map["COMM"].size(); ++i) {
+    const TagLib::ID3v2::CommentsFrame *frame = dynamic_cast<const TagLib::ID3v2::CommentsFrame*>(map["COMM"][i]);
+
+    if (frame && TStringToQString(frame->description()) != QStringLiteral("iTunNORM")) {
+      TStringToStdString(frame->text(), song->mutable_comment());
+      break;
+    }
+  }
+
+  if (TagLib::ID3v2::UserTextIdentificationFrame *frame_fmps_playcount = TagLib::ID3v2::UserTextIdentificationFrame::find(tag, "FMPS_Playcount")) {
+    TagLib::StringList frame_field_list = frame_fmps_playcount->fieldList();
+    if (frame_field_list.size() > 1) {
+      int playcount = TStringToQString(frame_field_list[1]).toInt();
+      if (song->playcount() <= 0 && playcount > 0) {
+        song->set_playcount(playcount);
+      }
+    }
+  }
+
+  if (TagLib::ID3v2::UserTextIdentificationFrame *frame_fmps_rating = TagLib::ID3v2::UserTextIdentificationFrame::find(tag, "FMPS_Rating")) {
+    TagLib::StringList frame_field_list = frame_fmps_rating->fieldList();
+    if (frame_field_list.size() > 1) {
+      float rating = TStringToQString(frame_field_list[1]).toFloat();
+      if (song->rating() <= 0 && rating > 0 && rating <= 1.0) {
+        song->set_rating(rating);
+      }
+    }
+  }
+
+  if (map.contains("POPM")) {
+    const TagLib::ID3v2::PopularimeterFrame *frame = dynamic_cast<const TagLib::ID3v2::PopularimeterFrame*>(map["POPM"].front());
+    if (frame) {
+      if (song->playcount() <= 0 && frame->counter() > 0) {
+        song->set_playcount(frame->counter());
+      }
+      if (song->rating() <= 0 && frame->rating() > 0) {
+        song->set_rating(ConvertPOPMRating(frame->rating()));
+      }
+    }
+  }
+
+  if (map.contains("UFID")) {
+    for (uint i = 0; i < map["UFID"].size(); ++i) {
+      if (TagLib::ID3v2::UniqueFileIdentifierFrame *frame = dynamic_cast<TagLib::ID3v2::UniqueFileIdentifierFrame*>(map["UFID"][i])) {
+        const TagLib::PropertyMap property_map = frame->asProperties();
+        if (property_map.contains(kID3v2_MusicBrainz_RecordingID)) {
+          TStringToStdString(property_map[kID3v2_MusicBrainz_RecordingID].toString(), song->mutable_musicbrainz_recording_id());
+        }
+      }
+    }
+  }
+
+  if (map.contains("TXXX")) {
+    for (uint i = 0; i < map["TXXX"].size(); ++i) {
+      if (TagLib::ID3v2::UserTextIdentificationFrame *frame = dynamic_cast<TagLib::ID3v2::UserTextIdentificationFrame*>(map["TXXX"][i])) {
+        const TagLib::StringList frame_field_list = frame->fieldList();
+        if (frame_field_list.size() != 2) continue;
+        if (frame->description() == kID3v2_AcoustID_ID) {
+          TStringToStdString(frame_field_list.back(), song->mutable_acoustid_id());
+        }
+        if (frame->description() == kID3v2_AcoustID_Fingerprint) {
+          TStringToStdString(frame_field_list.back(), song->mutable_acoustid_fingerprint());
+        }
+        if (frame->description() == kID3v2_MusicBrainz_AlbumArtistID) {
+          TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_album_artist_id());
+        }
+        if (frame->description() == kID3v2_MusicBrainz_ArtistID) {
+          TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_artist_id());
+        }
+        if (frame->description() == kID3v2_MusicBrainz_OriginalArtistID) {
+          TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_original_artist_id());
+        }
+        if (frame->description() == kID3v2_MusicBrainz_AlbumID) {
+          TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_album_id());
+        }
+        if (frame->description() == kID3v2_MusicBrainz_OriginalAlbumID) {
+          TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_original_album_id());
+        }
+        if (frame->description() == kID3v2_MusicBrainz_TrackID) {
+          TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_track_id());
+        }
+        if (frame->description() == kID3v2_MusicBrainz_DiscID) {
+          TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_disc_id());
+        }
+        if (frame->description() == kID3v2_MusicBrainz_ReleaseGroupID) {
+          TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_release_group_id());
+        }
+        if (frame->description() == kID3v2_MusicBrainz_WorkID) {
+          TStringToStdString(frame_field_list.back(), song->mutable_musicbrainz_work_id());
+        }
+      }
+    }
+  }
 
 }
 
