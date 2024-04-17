@@ -953,14 +953,7 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
     TagLib::ID3v2::Tag *tag = file_mpeg->ID3v2Tag(true);
     if (!tag) return false;
     if (save_tags) {
-      SetTextFrame("TPOS", song.disc() <= 0 ? QString() : QString::number(song.disc()), tag);
-      SetTextFrame("TCOM", song.composer().empty() ? std::string() : song.composer(), tag);
-      SetTextFrame("TIT1", song.grouping().empty() ? std::string() : song.grouping(), tag);
-      SetTextFrame("TOPE", song.performer().empty() ? std::string() : song.performer(), tag);
-      // Skip TPE1 (which is the artist) here because we already set it
-      SetTextFrame("TPE2", song.albumartist().empty() ? std::string() : song.albumartist(), tag);
-      SetTextFrame("TCMP", song.compilation() ? QString::number(1) : QString(), tag);
-      SetUnsyncLyricsFrame(song.lyrics().empty() ? std::string() : song.lyrics(), tag);
+      SaveID3v2Tag(tag, song);
     }
     if (save_playcount) {
       SetPlaycount(tag, song);
@@ -1023,6 +1016,19 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
 #endif  // Q_OS_LINUX
 
   return success;
+
+}
+
+void TagReaderTagLib::SaveID3v2Tag(TagLib::ID3v2::Tag *tag, const spb::tagreader::SongMetadata &song) const {
+
+  SetTextFrame("TPOS", song.disc() <= 0 ? QString() : QString::number(song.disc()), tag);
+  SetTextFrame("TCOM", song.composer().empty() ? std::string() : song.composer(), tag);
+  SetTextFrame("TIT1", song.grouping().empty() ? std::string() : song.grouping(), tag);
+  SetTextFrame("TOPE", song.performer().empty() ? std::string() : song.performer(), tag);
+  // Skip TPE1 (which is the artist) here because we already set it
+  SetTextFrame("TPE2", song.albumartist().empty() ? std::string() : song.albumartist(), tag);
+  SetTextFrame("TCMP", song.compilation() ? QString::number(1) : QString(), tag);
+  SetUnsyncLyricsFrame(song.lyrics().empty() ? std::string() : song.lyrics(), tag);
 
 }
 
