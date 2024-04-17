@@ -570,7 +570,8 @@ bool Song::write_tags_supported() const {
          d->filetype_ == FileType::TrueAudio ||
          d->filetype_ == FileType::APE ||
          d->filetype_ == FileType::DSF ||
-         d->filetype_ == FileType::DSDIFF;
+         d->filetype_ == FileType::DSDIFF ||
+         d->filetype_ == FileType::WAV;
 
 }
 
@@ -585,7 +586,8 @@ bool Song::additional_tags_supported() const {
     d->filetype_ == FileType::MPEG ||
     d->filetype_ == FileType::MP4 ||
     d->filetype_ == FileType::MPC ||
-    d->filetype_ == FileType::APE;
+    d->filetype_ == FileType::APE ||
+    d->filetype_ == FileType::WAV;
 
 }
 
@@ -607,7 +609,8 @@ bool Song::performer_supported() const {
     d->filetype_ == FileType::OggSpeex ||
     d->filetype_ == FileType::MPEG ||
     d->filetype_ == FileType::MPC ||
-    d->filetype_ == FileType::APE;
+    d->filetype_ == FileType::APE ||
+    d->filetype_ == FileType::WAV;
 
 }
 
