@@ -73,6 +73,7 @@ class TagReaderTagLib : public TagReaderBase {
   void ParseAPETag(const TagLib::APE::ItemListMap &map, QString *disc, QString *compilation, spb::tagreader::SongMetadata *song) const;
 
   void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const spb::tagreader::SongMetadata &song) const;
+  void SaveID3v2Tag(TagLib::ID3v2::Tag *tag, const spb::tagreader::SongMetadata &song) const;
   void SaveAPETag(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const;
 
   void SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const;
