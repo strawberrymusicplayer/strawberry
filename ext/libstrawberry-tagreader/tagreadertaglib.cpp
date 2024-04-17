@@ -988,6 +988,25 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
     }
   }
 
+  else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
+    if (file_wav->hasID3v2Tag()) {
+      TagLib::ID3v2::Tag *tag = file_wav->ID3v2Tag();
+      if (!tag) return false;
+      if (save_tags) {
+        SaveID3v2Tag(tag, song);
+      }
+      if (save_playcount) {
+        SetPlaycount(tag, song);
+      }
+      if (save_rating) {
+        SetRating(tag, song);
+      }
+      if (save_cover) {
+        SetEmbeddedArt(file_mpeg, tag, cover.data, cover.mime_type);
+      }
+    }
+  }
+
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
   // apart, so we keep specific behavior for some formats by adding another "else if" block above.
   if (!is_flac) {
