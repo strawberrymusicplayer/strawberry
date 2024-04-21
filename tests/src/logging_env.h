@@ -30,7 +30,7 @@ class LoggingEnvironment : public ::testing::Environment {
   LoggingEnvironment() = default;
   void SetUp() override {
     logging::Init();
-    logging::SetLevels("*:4");
+    logging::SetLevels(QStringLiteral("*:4"));
   }
  private:
   Q_DISABLE_COPY(LoggingEnvironment)

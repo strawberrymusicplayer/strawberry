@@ -41,7 +41,7 @@ namespace {
 
 class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
  protected:
-  SongPlaylistItemTest() : temp_file_(GetParam()) {}
+  SongPlaylistItemTest() : temp_file_(QString::fromUtf8(GetParam())) {}
 
   void SetUp() override {
     // SongPlaylistItem::Url() checks if the file exists, so we need a real file
@@ -49,13 +49,13 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
 
     absolute_file_name_ = QFileInfo(temp_file_.fileName()).absoluteFilePath();
 
-    song_.Init("Title", "Artist", "Album", 123);
+    song_.Init(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
     song_.set_url(QUrl::fromLocalFile(absolute_file_name_));
 
     item_ = make_unique<SongPlaylistItem>(song_);
 
-    if (!absolute_file_name_.startsWith('/'))
-      absolute_file_name_.prepend('/');
+    if (!absolute_file_name_.startsWith(QLatin1Char('/')))
+      absolute_file_name_.prepend(QLatin1Char('/'));
   }
 
   Song song_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
@@ -73,7 +73,7 @@ INSTANTIATE_TEST_SUITE_P(RealFiles, SongPlaylistItemTest, testing::Values(  // c
 
 TEST_P(SongPlaylistItemTest, Url) {
   QUrl expected;
-  expected.setScheme("file");
+  expected.setScheme(QStringLiteral("file"));
   expected.setPath(absolute_file_name_);
 
   EXPECT_EQ(expected, item_->Url());

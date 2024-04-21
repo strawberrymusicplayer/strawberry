@@ -92,7 +92,7 @@ class TagReaderTest : public ::testing::Test {
         hash.addData(buffer);
       }
       file.close();
-      return hash.result().toHex();
+      return QString::fromLatin1(hash.result().toHex());
     }
     return QString();
   }
@@ -123,7 +123,7 @@ class TagReaderTest : public ::testing::Test {
 
 TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
 
-  TemporaryResource r(":/audio/strawberry.flac");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.flac"));
 
   QString sha256sum_notags = SHA256SUM(r.fileName());
   EXPECT_FALSE(sha256sum_notags.isEmpty());
@@ -132,7 +132,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
     QByteArray orig_file_data;
     QByteArray temp_file_data;
     {
-      QFile orig_file(":/audio/strawberry.flac");
+      QFile orig_file(QStringLiteral(":/audio/strawberry.flac"));
       orig_file.open(QIODevice::ReadOnly);
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
@@ -157,16 +157,16 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
 
   {  // Write tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -179,16 +179,16 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
 
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -197,16 +197,16 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
 
   { // Write new tags
     Song song;
-    song.set_title("new title");
-    song.set_artist("new artist");
-    song.set_album("new album");
-    song.set_albumartist("new album artist");
-    song.set_composer("new composer");
-    song.set_performer("new performer");
-    song.set_grouping("new grouping");
-    song.set_genre("new genre");
-    song.set_comment("new comment");
-    song.set_lyrics("new lyrics");
+    song.set_title(QStringLiteral("new title"));
+    song.set_artist(QStringLiteral("new artist"));
+    song.set_album(QStringLiteral("new album"));
+    song.set_albumartist(QStringLiteral("new album artist"));
+    song.set_composer(QStringLiteral("new composer"));
+    song.set_performer(QStringLiteral("new performer"));
+    song.set_grouping(QStringLiteral("new grouping"));
+    song.set_genre(QStringLiteral("new genre"));
+    song.set_comment(QStringLiteral("new comment"));
+    song.set_lyrics(QStringLiteral("new lyrics"));
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -215,16 +215,16 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
 
   { // Read new tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("new title", song.title());
-    EXPECT_EQ("new artist", song.artist());
-    EXPECT_EQ("new album", song.album());
-    EXPECT_EQ("new album artist", song.albumartist());
-    EXPECT_EQ("new composer", song.composer());
-    EXPECT_EQ("new performer", song.performer());
-    EXPECT_EQ("new grouping", song.grouping());
-    EXPECT_EQ("new genre", song.genre());
-    EXPECT_EQ("new comment", song.comment());
-    EXPECT_EQ("new lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("new title"), song.title());
+    EXPECT_EQ(QStringLiteral("new artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("new album"), song.album());
+    EXPECT_EQ(QStringLiteral("new album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("new composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("new performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("new grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("new genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("new comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("new lyrics"), song.lyrics());
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
@@ -232,16 +232,16 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
 
   { // Write original tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -250,16 +250,16 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
 
   { // Read original tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -283,7 +283,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
 
 TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
 
-  TemporaryResource r(":/audio/strawberry.wv");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.wv"));
 
   QString sha256sum_notags = SHA256SUM(r.fileName());
   EXPECT_FALSE(sha256sum_notags.isEmpty());
@@ -292,7 +292,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
     QByteArray orig_file_data;
     QByteArray temp_file_data;
     {
-      QFile orig_file(":/audio/strawberry.wv");
+      QFile orig_file(QStringLiteral(":/audio/strawberry.wv"));
       orig_file.open(QIODevice::ReadOnly);
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
@@ -317,16 +317,16 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
 
   { // Write tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -339,16 +339,16 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
 
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -356,16 +356,16 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
 
   { // Write new tags
     Song song;
-    song.set_title("new title");
-    song.set_artist("new artist");
-    song.set_album("new album");
-    song.set_albumartist("new album artist");
-    song.set_composer("new composer");
-    song.set_performer("new performer");
-    song.set_grouping("new grouping");
-    song.set_genre("new genre");
-    song.set_comment("new comment");
-    song.set_lyrics("new lyrics");
+    song.set_title(QStringLiteral("new title"));
+    song.set_artist(QStringLiteral("new artist"));
+    song.set_album(QStringLiteral("new album"));
+    song.set_albumartist(QStringLiteral("new album artist"));
+    song.set_composer(QStringLiteral("new composer"));
+    song.set_performer(QStringLiteral("new performer"));
+    song.set_grouping(QStringLiteral("new grouping"));
+    song.set_genre(QStringLiteral("new genre"));
+    song.set_comment(QStringLiteral("new comment"));
+    song.set_lyrics(QStringLiteral("new lyrics"));
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -374,16 +374,16 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
 
   { // Read new tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("new title", song.title());
-    EXPECT_EQ("new artist", song.artist());
-    EXPECT_EQ("new album", song.album());
-    EXPECT_EQ("new album artist", song.albumartist());
-    EXPECT_EQ("new composer", song.composer());
-    EXPECT_EQ("new performer", song.performer());
-    EXPECT_EQ("new grouping", song.grouping());
-    EXPECT_EQ("new genre", song.genre());
-    EXPECT_EQ("new comment", song.comment());
-    EXPECT_EQ("new lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("new title"), song.title());
+    EXPECT_EQ(QStringLiteral("new artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("new album"), song.album());
+    EXPECT_EQ(QStringLiteral("new album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("new composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("new performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("new grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("new genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("new comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("new lyrics"), song.lyrics());
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
@@ -391,16 +391,16 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
 
   { // Write original tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -409,16 +409,16 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
 
   { // Read original tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -442,7 +442,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
 
 TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
 
-  TemporaryResource r(":/audio/strawberry.oga");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.oga"));
 
   QString sha256sum_notags = SHA256SUM(r.fileName());
   EXPECT_FALSE(sha256sum_notags.isEmpty());
@@ -451,7 +451,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
     QByteArray orig_file_data;
     QByteArray temp_file_data;
     {
-      QFile orig_file(":/audio/strawberry.oga");
+      QFile orig_file(QStringLiteral(":/audio/strawberry.oga"));
       orig_file.open(QIODevice::ReadOnly);
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
@@ -476,16 +476,16 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
 
   { // Write tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -498,16 +498,16 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
 
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -515,16 +515,16 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
 
   { // Write new tags
     Song song;
-    song.set_title("new title");
-    song.set_artist("new artist");
-    song.set_album("new album");
-    song.set_albumartist("new album artist");
-    song.set_composer("new composer");
-    song.set_performer("new performer");
-    song.set_grouping("new grouping");
-    song.set_genre("new genre");
-    song.set_comment("new comment");
-    song.set_lyrics("new lyrics");
+    song.set_title(QStringLiteral("new title"));
+    song.set_artist(QStringLiteral("new artist"));
+    song.set_album(QStringLiteral("new album"));
+    song.set_albumartist(QStringLiteral("new album artist"));
+    song.set_composer(QStringLiteral("new composer"));
+    song.set_performer(QStringLiteral("new performer"));
+    song.set_grouping(QStringLiteral("new grouping"));
+    song.set_genre(QStringLiteral("new genre"));
+    song.set_comment(QStringLiteral("new comment"));
+    song.set_lyrics(QStringLiteral("new lyrics"));
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -533,16 +533,16 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
 
   {  // Read new tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("new title", song.title());
-    EXPECT_EQ("new artist", song.artist());
-    EXPECT_EQ("new album", song.album());
-    EXPECT_EQ("new album artist", song.albumartist());
-    EXPECT_EQ("new composer", song.composer());
-    EXPECT_EQ("new performer", song.performer());
-    EXPECT_EQ("new grouping", song.grouping());
-    EXPECT_EQ("new genre", song.genre());
-    EXPECT_EQ("new comment", song.comment());
-    EXPECT_EQ("new lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("new title"), song.title());
+    EXPECT_EQ(QStringLiteral("new artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("new album"), song.album());
+    EXPECT_EQ(QStringLiteral("new album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("new composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("new performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("new grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("new genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("new comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("new lyrics"), song.lyrics());
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
@@ -550,16 +550,16 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
 
   { // Write original tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -568,16 +568,16 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
 
   { // Read original tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -601,7 +601,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
 
 TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
 
-  TemporaryResource r(":/audio/strawberry.ogg");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.ogg"));
 
   QString sha256sum_notags = SHA256SUM(r.fileName());
   EXPECT_FALSE(sha256sum_notags.isEmpty());
@@ -610,7 +610,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
     QByteArray orig_file_data;
     QByteArray temp_file_data;
     {
-      QFile orig_file(":/audio/strawberry.ogg");
+      QFile orig_file(QStringLiteral(":/audio/strawberry.ogg"));
       orig_file.open(QIODevice::ReadOnly);
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
@@ -635,16 +635,16 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
 
   { // Write tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -657,16 +657,16 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
 
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -675,16 +675,16 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
 
   { // Write new tags
     Song song;
-    song.set_title("new title");
-    song.set_artist("new artist");
-    song.set_album("new album");
-    song.set_albumartist("new album artist");
-    song.set_composer("new composer");
-    song.set_performer("new performer");
-    song.set_grouping("new grouping");
-    song.set_genre("new genre");
-    song.set_comment("new comment");
-    song.set_lyrics("new lyrics");
+    song.set_title(QStringLiteral("new title"));
+    song.set_artist(QStringLiteral("new artist"));
+    song.set_album(QStringLiteral("new album"));
+    song.set_albumartist(QStringLiteral("new album artist"));
+    song.set_composer(QStringLiteral("new composer"));
+    song.set_performer(QStringLiteral("new performer"));
+    song.set_grouping(QStringLiteral("new grouping"));
+    song.set_genre(QStringLiteral("new genre"));
+    song.set_comment(QStringLiteral("new comment"));
+    song.set_lyrics(QStringLiteral("new lyrics"));
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -693,15 +693,15 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
 
   { // Read new tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("new title", song.title());
-    EXPECT_EQ("new artist", song.artist());
-    EXPECT_EQ("new album", song.album());
-    EXPECT_EQ("new album artist", song.albumartist());
-    EXPECT_EQ("new composer", song.composer());
-    EXPECT_EQ("new performer", song.performer());
-    EXPECT_EQ("new grouping", song.grouping());
-    EXPECT_EQ("new genre", song.genre());
-    EXPECT_EQ("new comment", song.comment());
+    EXPECT_EQ(QStringLiteral("new title"), song.title());
+    EXPECT_EQ(QStringLiteral("new artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("new album"), song.album());
+    EXPECT_EQ(QStringLiteral("new album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("new composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("new performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("new grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("new genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("new comment"), song.comment());
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
@@ -709,16 +709,16 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
 
   { // Write original tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -727,16 +727,16 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
 
   { // Read original tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -760,7 +760,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
 
 TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
 
-  TemporaryResource r(":/audio/strawberry.opus");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.opus"));
 
   QString sha256sum_notags = SHA256SUM(r.fileName());
   EXPECT_FALSE(sha256sum_notags.isEmpty());
@@ -769,7 +769,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
     QByteArray orig_file_data;
     QByteArray temp_file_data;
     {
-      QFile orig_file(":/audio/strawberry.opus");
+      QFile orig_file(QStringLiteral(":/audio/strawberry.opus"));
       orig_file.open(QIODevice::ReadOnly);
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
@@ -794,16 +794,16 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
 
   { // Write tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -816,16 +816,16 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
 
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -834,16 +834,16 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
 
   { // Write new tags
     Song song;
-    song.set_title("new title");
-    song.set_artist("new artist");
-    song.set_album("new album");
-    song.set_albumartist("new album artist");
-    song.set_composer("new composer");
-    song.set_performer("new performer");
-    song.set_grouping("new grouping");
-    song.set_genre("new genre");
-    song.set_comment("new comment");
-    song.set_lyrics("new lyrics");
+    song.set_title(QStringLiteral("new title"));
+    song.set_artist(QStringLiteral("new artist"));
+    song.set_album(QStringLiteral("new album"));
+    song.set_albumartist(QStringLiteral("new album artist"));
+    song.set_composer(QStringLiteral("new composer"));
+    song.set_performer(QStringLiteral("new performer"));
+    song.set_grouping(QStringLiteral("new grouping"));
+    song.set_genre(QStringLiteral("new genre"));
+    song.set_comment(QStringLiteral("new comment"));
+    song.set_lyrics(QStringLiteral("new lyrics"));
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -852,16 +852,16 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
 
   { // Read new tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("new title", song.title());
-    EXPECT_EQ("new artist", song.artist());
-    EXPECT_EQ("new album", song.album());
-    EXPECT_EQ("new album artist", song.albumartist());
-    EXPECT_EQ("new composer", song.composer());
-    EXPECT_EQ("new performer", song.performer());
-    EXPECT_EQ("new grouping", song.grouping());
-    EXPECT_EQ("new genre", song.genre());
-    EXPECT_EQ("new comment", song.comment());
-    EXPECT_EQ("new lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("new title"), song.title());
+    EXPECT_EQ(QStringLiteral("new artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("new album"), song.album());
+    EXPECT_EQ(QStringLiteral("new album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("new composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("new performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("new grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("new genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("new comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("new lyrics"), song.lyrics());
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
@@ -869,16 +869,16 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
 
   { // Write original tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -887,16 +887,16 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
 
   { // Read original tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -920,7 +920,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
 
 TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
 
-  TemporaryResource r(":/audio/strawberry.spx");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.spx"));
 
   QString sha256sum_notags = SHA256SUM(r.fileName());
   EXPECT_FALSE(sha256sum_notags.isEmpty());
@@ -929,7 +929,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
     QByteArray orig_file_data;
     QByteArray temp_file_data;
     {
-      QFile orig_file(":/audio/strawberry.spx");
+      QFile orig_file(QStringLiteral(":/audio/strawberry.spx"));
       orig_file.open(QIODevice::ReadOnly);
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
@@ -954,16 +954,16 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
 
   { // Write tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -976,16 +976,16 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
 
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -994,16 +994,16 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
 
   { // Write new tags
     Song song;
-    song.set_title("new title");
-    song.set_artist("new artist");
-    song.set_album("new album");
-    song.set_albumartist("new album artist");
-    song.set_composer("new composer");
-    song.set_performer("new performer");
-    song.set_grouping("new grouping");
-    song.set_genre("new genre");
-    song.set_comment("new comment");
-    song.set_lyrics("new lyrics");
+    song.set_title(QStringLiteral("new title"));
+    song.set_artist(QStringLiteral("new artist"));
+    song.set_album(QStringLiteral("new album"));
+    song.set_albumartist(QStringLiteral("new album artist"));
+    song.set_composer(QStringLiteral("new composer"));
+    song.set_performer(QStringLiteral("new performer"));
+    song.set_grouping(QStringLiteral("new grouping"));
+    song.set_genre(QStringLiteral("new genre"));
+    song.set_comment(QStringLiteral("new comment"));
+    song.set_lyrics(QStringLiteral("new lyrics"));
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -1012,16 +1012,16 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
 
   { // Read new tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("new title", song.title());
-    EXPECT_EQ("new artist", song.artist());
-    EXPECT_EQ("new album", song.album());
-    EXPECT_EQ("new album artist", song.albumartist());
-    EXPECT_EQ("new composer", song.composer());
-    EXPECT_EQ("new performer", song.performer());
-    EXPECT_EQ("new grouping", song.grouping());
-    EXPECT_EQ("new genre", song.genre());
-    EXPECT_EQ("new comment", song.comment());
-    EXPECT_EQ("new lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("new title"), song.title());
+    EXPECT_EQ(QStringLiteral("new artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("new album"), song.album());
+    EXPECT_EQ(QStringLiteral("new album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("new composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("new performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("new grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("new genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("new comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("new lyrics"), song.lyrics());
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
@@ -1029,16 +1029,16 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
 
   { // Write original tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1047,16 +1047,16 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
 
   { // Read original tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -1080,7 +1080,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
 
 TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
 
-  TemporaryResource r(":/audio/strawberry.aif");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.aif"));
 
   QString sha256sum_notags = SHA256SUM(r.fileName());
   EXPECT_FALSE(sha256sum_notags.isEmpty());
@@ -1089,7 +1089,7 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
     QByteArray orig_file_data;
     QByteArray temp_file_data;
     {
-      QFile orig_file(":/audio/strawberry.aif");
+      QFile orig_file(QStringLiteral(":/audio/strawberry.aif"));
       orig_file.open(QIODevice::ReadOnly);
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
@@ -1114,16 +1114,16 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
 
   { // Write tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1136,16 +1136,16 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
 
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    //EXPECT_EQ("strawberry album artist", song.albumartist());
-    //EXPECT_EQ("strawberry composer", song.composer());
-    //EXPECT_EQ("strawberry performer", song.performer());
-    //EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    //EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    //EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    //EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    //EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    //EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    //EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     //EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -1153,16 +1153,16 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
 
   { // Write new tags
     Song song;
-    song.set_title("new title");
-    song.set_artist("new artist");
-    song.set_album("new album");
-    song.set_albumartist("new album artist");
-    song.set_composer("new composer");
-    song.set_performer("new performer");
-    song.set_grouping("new grouping");
-    song.set_genre("new genre");
-    song.set_comment("new comment");
-    song.set_lyrics("new lyrics");
+    song.set_title(QStringLiteral("new title"));
+    song.set_artist(QStringLiteral("new artist"));
+    song.set_album(QStringLiteral("new album"));
+    song.set_albumartist(QStringLiteral("new album artist"));
+    song.set_composer(QStringLiteral("new composer"));
+    song.set_performer(QStringLiteral("new performer"));
+    song.set_grouping(QStringLiteral("new grouping"));
+    song.set_genre(QStringLiteral("new genre"));
+    song.set_comment(QStringLiteral("new comment"));
+    song.set_lyrics(QStringLiteral("new lyrics"));
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -1171,16 +1171,16 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
 
   { // Read new tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("new title", song.title());
-    EXPECT_EQ("new artist", song.artist());
-    EXPECT_EQ("new album", song.album());
-    //EXPECT_EQ("new album artist", song.albumartist());
-    //EXPECT_EQ("new composer", song.composer());
-    //EXPECT_EQ("new performer", song.performer());
-    //EXPECT_EQ("new grouping", song.grouping());
-    EXPECT_EQ("new genre", song.genre());
-    EXPECT_EQ("new comment", song.comment());
-    //EXPECT_EQ("new lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("new title"), song.title());
+    EXPECT_EQ(QStringLiteral("new artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("new album"), song.album());
+    //EXPECT_EQ(QStringLiteral("new album artist"), song.albumartist());
+    //EXPECT_EQ(QStringLiteral("new composer"), song.composer());
+    //EXPECT_EQ(QStringLiteral("new performer"), song.performer());
+    //EXPECT_EQ(QStringLiteral("new grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("new genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("new comment"), song.comment());
+    //EXPECT_EQ(QStringLiteral("new lyrics"), song.lyrics());
     EXPECT_EQ(21, song.track());
     //EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
@@ -1188,16 +1188,16 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
 
   {  // Write original tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1206,16 +1206,16 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
 
   {  // Read original tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    //EXPECT_EQ("strawberry album artist", song.albumartist());
-    //EXPECT_EQ("strawberry composer", song.composer());
-    //EXPECT_EQ("strawberry performer", song.performer());
-    //EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    //EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    //EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    //EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    //EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    //EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    //EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     //EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -1239,7 +1239,7 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
 
 TEST_F(TagReaderTest, TestASFAudioFileTagging) {
 
-  TemporaryResource r(":/audio/strawberry.asf");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.asf"));
 
   QString sha256sum_notags = SHA256SUM(r.fileName());
   EXPECT_FALSE(sha256sum_notags.isEmpty());
@@ -1248,7 +1248,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     QByteArray orig_file_data;
     QByteArray temp_file_data;
     {
-      QFile orig_file(":/audio/strawberry.asf");
+      QFile orig_file(QStringLiteral(":/audio/strawberry.asf"));
       orig_file.open(QIODevice::ReadOnly);
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
@@ -1273,16 +1273,16 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
 
   { // Write tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1295,16 +1295,16 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
 
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    //EXPECT_EQ("strawberry album artist", song.albumartist());
-    //EXPECT_EQ("strawberry composer", song.composer());
-    //EXPECT_EQ("strawberry performer", song.performer());
-    //EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    //EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    //EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    //EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    //EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    //EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    //EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     //EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -1313,16 +1313,16 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
 
   { // Write new tags
     Song song;
-    song.set_title("new title");
-    song.set_artist("new artist");
-    song.set_album("new album");
-    song.set_albumartist("new album artist");
-    song.set_composer("new composer");
-    song.set_performer("new performer");
-    song.set_grouping("new grouping");
-    song.set_genre("new genre");
-    song.set_comment("new comment");
-    song.set_lyrics("new lyrics");
+    song.set_title(QStringLiteral("new title"));
+    song.set_artist(QStringLiteral("new artist"));
+    song.set_album(QStringLiteral("new album"));
+    song.set_albumartist(QStringLiteral("new album artist"));
+    song.set_composer(QStringLiteral("new composer"));
+    song.set_performer(QStringLiteral("new performer"));
+    song.set_grouping(QStringLiteral("new grouping"));
+    song.set_genre(QStringLiteral("new genre"));
+    song.set_comment(QStringLiteral("new comment"));
+    song.set_lyrics(QStringLiteral("new lyrics"));
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -1331,16 +1331,16 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
 
   { // Read new tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("new title", song.title());
-    EXPECT_EQ("new artist", song.artist());
-    EXPECT_EQ("new album", song.album());
-    //EXPECT_EQ("new album artist", song.albumartist());
-    //EXPECT_EQ("new composer", song.composer());
-    //EXPECT_EQ("new performer", song.performer());
-    //EXPECT_EQ("new grouping", song.grouping());
-    EXPECT_EQ("new genre", song.genre());
-    EXPECT_EQ("new comment", song.comment());
-    //EXPECT_EQ("new lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("new title"), song.title());
+    EXPECT_EQ(QStringLiteral("new artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("new album"), song.album());
+    //EXPECT_EQ(QStringLiteral("new album artist"), song.albumartist());
+    //EXPECT_EQ(QStringLiteral("new composer"), song.composer());
+    //EXPECT_EQ(QStringLiteral("new performer"), song.performer());
+    //EXPECT_EQ(QStringLiteral("new grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("new genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("new comment"), song.comment());
+    //EXPECT_EQ(QStringLiteral("new lyrics"), song.lyrics());
     EXPECT_EQ(21, song.track());
     //EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
@@ -1348,16 +1348,16 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
 
   { // Write original tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1366,16 +1366,16 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
 
   { // Read original tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    //EXPECT_EQ("strawberry album artist", song.albumartist());
-    //EXPECT_EQ("strawberry composer", song.composer());
-    //EXPECT_EQ("strawberry performer", song.performer());
-    //EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    //EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    //EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    //EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    //EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    //EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    //EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     //EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -1399,7 +1399,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
 
 TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
 
-  TemporaryResource r(":/audio/strawberry.mp3");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.mp3"));
 
   QString sha256sum_notags = SHA256SUM(r.fileName());
   EXPECT_FALSE(sha256sum_notags.isEmpty());
@@ -1408,7 +1408,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
     QByteArray orig_file_data;
     QByteArray temp_file_data;
     {
-      QFile orig_file(":/audio/strawberry.mp3");
+      QFile orig_file(QStringLiteral(":/audio/strawberry.mp3"));
       orig_file.open(QIODevice::ReadOnly);
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
@@ -1433,16 +1433,16 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
 
   { // Write tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1455,16 +1455,16 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
 
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -1472,16 +1472,16 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
 
   { // Write new tags
     Song song;
-    song.set_title("new title");
-    song.set_artist("new artist");
-    song.set_album("new album");
-    song.set_albumartist("new album artist");
-    song.set_composer("new composer");
-    song.set_performer("new performer");
-    song.set_grouping("new grouping");
-    song.set_genre("new genre");
-    song.set_comment("new comment");
-    song.set_lyrics("new lyrics");
+    song.set_title(QStringLiteral("new title"));
+    song.set_artist(QStringLiteral("new artist"));
+    song.set_album(QStringLiteral("new album"));
+    song.set_albumartist(QStringLiteral("new album artist"));
+    song.set_composer(QStringLiteral("new composer"));
+    song.set_performer(QStringLiteral("new performer"));
+    song.set_grouping(QStringLiteral("new grouping"));
+    song.set_genre(QStringLiteral("new genre"));
+    song.set_comment(QStringLiteral("new comment"));
+    song.set_lyrics(QStringLiteral("new lyrics"));
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -1490,33 +1490,33 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
 
   { // Read new tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("new title", song.title());
-    EXPECT_EQ("new artist", song.artist());
-    EXPECT_EQ("new album", song.album());
-    EXPECT_EQ("new album artist", song.albumartist());
-    EXPECT_EQ("new composer", song.composer());
-    EXPECT_EQ("new performer", song.performer());
-    EXPECT_EQ("new grouping", song.grouping());
+    EXPECT_EQ(QStringLiteral("new title"), song.title());
+    EXPECT_EQ(QStringLiteral("new artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("new album"), song.album());
+    EXPECT_EQ(QStringLiteral("new album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("new composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("new performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("new grouping"), song.grouping());
     EXPECT_EQ(4321, song.disc());
-    EXPECT_EQ("new genre", song.genre());
-    EXPECT_EQ("new comment", song.comment());
-    EXPECT_EQ("new lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("new genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("new comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("new lyrics"), song.lyrics());
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(9102, song.year());
   }
 
   { // Write original tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1525,16 +1525,16 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
 
   { // Read original tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -1558,7 +1558,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
 
 TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
 
-  TemporaryResource r(":/audio/strawberry.m4a");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.m4a"));
 
   QString sha256sum_notags = SHA256SUM(r.fileName());
   EXPECT_FALSE(sha256sum_notags.isEmpty());
@@ -1567,7 +1567,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     QByteArray orig_file_data;
     QByteArray temp_file_data;
     {
-      QFile orig_file(":/audio/strawberry.m4a");
+      QFile orig_file(QStringLiteral(":/audio/strawberry.m4a"));
       orig_file.open(QIODevice::ReadOnly);
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
@@ -1592,16 +1592,16 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
 
   { // Write tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1614,16 +1614,16 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
 
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    //EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    //EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -1632,16 +1632,16 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
 
   { // Write new tags
     Song song;
-    song.set_title("new title");
-    song.set_artist("new artist");
-    song.set_album("new album");
-    song.set_albumartist("new album artist");
-    song.set_composer("new composer");
-    song.set_performer("new performer");
-    song.set_grouping("new grouping");
-    song.set_genre("new genre");
-    song.set_comment("new comment");
-    song.set_lyrics("new lyrics");
+    song.set_title(QStringLiteral("new title"));
+    song.set_artist(QStringLiteral("new artist"));
+    song.set_album(QStringLiteral("new album"));
+    song.set_albumartist(QStringLiteral("new album artist"));
+    song.set_composer(QStringLiteral("new composer"));
+    song.set_performer(QStringLiteral("new performer"));
+    song.set_grouping(QStringLiteral("new grouping"));
+    song.set_genre(QStringLiteral("new genre"));
+    song.set_comment(QStringLiteral("new comment"));
+    song.set_lyrics(QStringLiteral("new lyrics"));
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -1650,16 +1650,16 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
 
   { // Read new tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("new title", song.title());
-    EXPECT_EQ("new artist", song.artist());
-    EXPECT_EQ("new album", song.album());
-    EXPECT_EQ("new album artist", song.albumartist());
-    EXPECT_EQ("new composer", song.composer());
-    //EXPECT_EQ("new performer", song.performer());
-    EXPECT_EQ("new grouping", song.grouping());
-    EXPECT_EQ("new genre", song.genre());
-    EXPECT_EQ("new comment", song.comment());
-    EXPECT_EQ("new lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("new title"), song.title());
+    EXPECT_EQ(QStringLiteral("new artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("new album"), song.album());
+    EXPECT_EQ(QStringLiteral("new album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("new composer"), song.composer());
+    //EXPECT_EQ(QStringLiteral("new performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("new grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("new genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("new comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("new lyrics"), song.lyrics());
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
@@ -1667,16 +1667,16 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
 
   { // Write original tags
     Song song;
-    song.set_title("strawberry title");
-    song.set_artist("strawberry artist");
-    song.set_album("strawberry album");
-    song.set_albumartist("strawberry album artist");
-    song.set_composer("strawberry composer");
-    song.set_performer("strawberry performer");
-    song.set_grouping("strawberry grouping");
-    song.set_genre("strawberry genre");
-    song.set_comment("strawberry comment");
-    song.set_lyrics("strawberry lyrics");
+    song.set_title(QStringLiteral("strawberry title"));
+    song.set_artist(QStringLiteral("strawberry artist"));
+    song.set_album(QStringLiteral("strawberry album"));
+    song.set_albumartist(QStringLiteral("strawberry album artist"));
+    song.set_composer(QStringLiteral("strawberry composer"));
+    song.set_performer(QStringLiteral("strawberry performer"));
+    song.set_grouping(QStringLiteral("strawberry grouping"));
+    song.set_genre(QStringLiteral("strawberry genre"));
+    song.set_comment(QStringLiteral("strawberry comment"));
+    song.set_lyrics(QStringLiteral("strawberry lyrics"));
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1685,16 +1685,16 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
 
   { // Read original tags
     Song song = ReadSongFromFile(r.fileName());
-    EXPECT_EQ("strawberry title", song.title());
-    EXPECT_EQ("strawberry artist", song.artist());
-    EXPECT_EQ("strawberry album", song.album());
-    EXPECT_EQ("strawberry album artist", song.albumartist());
-    EXPECT_EQ("strawberry composer", song.composer());
-    //EXPECT_EQ("strawberry performer", song.performer());
-    EXPECT_EQ("strawberry grouping", song.grouping());
-    EXPECT_EQ("strawberry genre", song.genre());
-    EXPECT_EQ("strawberry comment", song.comment());
-    EXPECT_EQ("strawberry lyrics", song.lyrics());
+    EXPECT_EQ(QStringLiteral("strawberry title"), song.title());
+    EXPECT_EQ(QStringLiteral("strawberry artist"), song.artist());
+    EXPECT_EQ(QStringLiteral("strawberry album"), song.album());
+    EXPECT_EQ(QStringLiteral("strawberry album artist"), song.albumartist());
+    EXPECT_EQ(QStringLiteral("strawberry composer"), song.composer());
+    //EXPECT_EQ(QStringLiteral("strawberry performer"), song.performer());
+    EXPECT_EQ(QStringLiteral("strawberry grouping"), song.grouping());
+    EXPECT_EQ(QStringLiteral("strawberry genre"), song.genre());
+    EXPECT_EQ(QStringLiteral("strawberry comment"), song.comment());
+    EXPECT_EQ(QStringLiteral("strawberry lyrics"), song.lyrics());
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
@@ -1718,7 +1718,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
 
 TEST_F(TagReaderTest, TestFLACAudioFileCompilation) {
 
-  TemporaryResource r(":/audio/strawberry.flac");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.flac"));
 
   {
     Song song;
@@ -1746,7 +1746,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileCompilation) {
 
 TEST_F(TagReaderTest, TestWavPackAudioFileCompilation) {
 
-  TemporaryResource r(":/audio/strawberry.wv");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.wv"));
 
   {
     Song song;
@@ -1774,7 +1774,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileCompilation) {
 
 TEST_F(TagReaderTest, TestOggFLACAudioFileCompilation) {
 
-  TemporaryResource r(":/audio/strawberry.oga");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.oga"));
 
   {
     Song song;
@@ -1802,7 +1802,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileCompilation) {
 
 TEST_F(TagReaderTest, TestOggVorbisAudioFileCompilation) {
 
-  TemporaryResource r(":/audio/strawberry.ogg");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.ogg"));
 
   {
     Song song;
@@ -1830,7 +1830,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileCompilation) {
 
 TEST_F(TagReaderTest, TestOggOpusAudioFileCompilation) {
 
-  TemporaryResource r(":/audio/strawberry.opus");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.opus"));
 
   {
     Song song;
@@ -1858,7 +1858,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileCompilation) {
 
 TEST_F(TagReaderTest, TestOggSpeexAudioFileCompilation) {
 
-  TemporaryResource r(":/audio/strawberry.spx");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.spx"));
 
   {
     Song song;
@@ -1886,7 +1886,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileCompilation) {
 
 TEST_F(TagReaderTest, TestMP3AudioFileCompilation) {
 
-  TemporaryResource r(":/audio/strawberry.mp3");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.mp3"));
 
   {
     Song song;
@@ -1914,7 +1914,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileCompilation) {
 
 TEST_F(TagReaderTest, TestMP4AudioFileCompilation) {
 
-  TemporaryResource r(":/audio/strawberry.m4a");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.m4a"));
 
   {
     Song song;
@@ -1944,7 +1944,7 @@ TEST_F(TagReaderTest, TestMP4AudioFileCompilation) {
 
 TEST_F(TagReaderTest, TestFLACAudioFilePlaycount) {
 
-  TemporaryResource r(":/audio/strawberry.flac");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.flac"));
 
   {
     Song song;
@@ -1961,7 +1961,7 @@ TEST_F(TagReaderTest, TestFLACAudioFilePlaycount) {
 
 TEST_F(TagReaderTest, TestWavPackAudioFilePlaycount) {
 
-  TemporaryResource r(":/audio/strawberry.wv");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.wv"));
 
   {
     Song song;
@@ -1978,7 +1978,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFilePlaycount) {
 
 TEST_F(TagReaderTest, TestOggFLACAudioFilePlaycount) {
 
-  TemporaryResource r(":/audio/strawberry.oga");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.oga"));
 
   {
     Song song;
@@ -1995,7 +1995,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFilePlaycount) {
 
 TEST_F(TagReaderTest, TestOggVorbisAudioFilePlaycount) {
 
-  TemporaryResource r(":/audio/strawberry.ogg");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.ogg"));
 
   {
     Song song;
@@ -2012,7 +2012,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFilePlaycount) {
 
 TEST_F(TagReaderTest, TestOggOpusAudioFilePlaycount) {
 
-  TemporaryResource r(":/audio/strawberry.opus");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.opus"));
 
   {
     Song song;
@@ -2029,7 +2029,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFilePlaycount) {
 
 TEST_F(TagReaderTest, TestOggSpeexAudioFilePlaycount) {
 
-  TemporaryResource r(":/audio/strawberry.spx");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.spx"));
 
   {
     Song song;
@@ -2046,7 +2046,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFilePlaycount) {
 
 TEST_F(TagReaderTest, TestOggASFAudioFilePlaycount) {
 
-  TemporaryResource r(":/audio/strawberry.asf");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.asf"));
 
   {
     Song song;
@@ -2063,7 +2063,7 @@ TEST_F(TagReaderTest, TestOggASFAudioFilePlaycount) {
 
 TEST_F(TagReaderTest, TestMP3AudioFilePlaycount) {
 
-  TemporaryResource r(":/audio/strawberry.mp3");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.mp3"));
 
   {
     Song song;
@@ -2080,7 +2080,7 @@ TEST_F(TagReaderTest, TestMP3AudioFilePlaycount) {
 
 TEST_F(TagReaderTest, TestMP4AudioFilePlaycount) {
 
-  TemporaryResource r(":/audio/strawberry.m4a");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.m4a"));
 
   {
     Song song;
@@ -2099,7 +2099,7 @@ TEST_F(TagReaderTest, TestMP4AudioFilePlaycount) {
 
 TEST_F(TagReaderTest, TestFLACAudioFileRating) {
 
-  TemporaryResource r(":/audio/strawberry.flac");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.flac"));
 
   {
     Song song;
@@ -2116,7 +2116,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileRating) {
 
 TEST_F(TagReaderTest, TestWavPackAudioFileRating) {
 
-  TemporaryResource r(":/audio/strawberry.wv");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.wv"));
 
   {
     Song song;
@@ -2133,7 +2133,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileRating) {
 
 TEST_F(TagReaderTest, TestOggFLACAudioFileRating) {
 
-  TemporaryResource r(":/audio/strawberry.oga");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.oga"));
 
   {
     Song song;
@@ -2150,7 +2150,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileRating) {
 
 TEST_F(TagReaderTest, TestOggVorbisAudioFileRating) {
 
-  TemporaryResource r(":/audio/strawberry.ogg");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.ogg"));
 
   {
     Song song;
@@ -2167,7 +2167,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileRating) {
 
 TEST_F(TagReaderTest, TestOggOpusAudioFileRating) {
 
-  TemporaryResource r(":/audio/strawberry.opus");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.opus"));
 
   {
     Song song;
@@ -2184,7 +2184,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileRating) {
 
 TEST_F(TagReaderTest, TestOggSpeexAudioFileRating) {
 
-  TemporaryResource r(":/audio/strawberry.spx");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.spx"));
 
   {
     Song song;
@@ -2201,7 +2201,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileRating) {
 
 TEST_F(TagReaderTest, TestASFAudioFileRating) {
 
-  TemporaryResource r(":/audio/strawberry.asf");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.asf"));
 
   {
     Song song;
@@ -2218,7 +2218,7 @@ TEST_F(TagReaderTest, TestASFAudioFileRating) {
 
 TEST_F(TagReaderTest, TestMP3AudioFileRating) {
 
-  TemporaryResource r(":/audio/strawberry.mp3");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.mp3"));
 
   {
     Song song;
@@ -2235,7 +2235,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileRating) {
 
 TEST_F(TagReaderTest, TestMP4AudioFileRating) {
 
-  TemporaryResource r(":/audio/strawberry.m4a");
+  TemporaryResource r(QStringLiteral(":/audio/strawberry.m4a"));
 
   {
     Song song;
