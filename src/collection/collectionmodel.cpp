@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1291,7 +1291,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy group_by, const boo
     case GroupBy::Album:{
       item->metadata.set_album(row.value(0).toString());
       item->metadata.set_album_id(row.value(1).toString());
-      item->metadata.set_grouping(row.value(2).toString());
+      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(2).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = TextOrUnknown(item->metadata.album());
       item->sort_text = SortTextForArtist(item->metadata.album(), sort_skips_articles_);
@@ -1301,7 +1301,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy group_by, const boo
       item->metadata.set_album(row.value(0).toString());
       item->metadata.set_album_id(row.value(1).toString());
       item->metadata.set_disc(row.value(2).toInt());
-      item->metadata.set_grouping(row.value(3).toString());
+      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(3).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = PrettyAlbumDisc(item->metadata.album(), item->metadata.disc());
       item->sort_text = item->metadata.album() + SortTextForNumber(std::max(0, item->metadata.disc()));
@@ -1311,7 +1311,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy group_by, const boo
       item->metadata.set_year(row.value(0).toInt());
       item->metadata.set_album(row.value(1).toString());
       item->metadata.set_album_id(row.value(2).toString());
-      item->metadata.set_grouping(row.value(3).toString());
+      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(3).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = PrettyYearAlbum(item->metadata.year(), item->metadata.album());
       item->sort_text = SortTextForNumber(std::max(0, item->metadata.year())) + item->metadata.grouping() + item->metadata.album();
@@ -1322,7 +1322,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy group_by, const boo
       item->metadata.set_album(row.value(1).toString());
       item->metadata.set_album_id(row.value(2).toString());
       item->metadata.set_disc(row.value(3).toInt());
-      item->metadata.set_grouping(row.value(4).toString());
+      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(4).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = PrettyYearAlbumDisc(item->metadata.year(), item->metadata.album(), item->metadata.disc());
       item->sort_text = SortTextForNumber(std::max(0, item->metadata.year())) + item->metadata.album() + SortTextForNumber(std::max(0, item->metadata.disc()));
@@ -1333,7 +1333,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy group_by, const boo
       item->metadata.set_originalyear(row.value(1).toInt());
       item->metadata.set_album(row.value(2).toString());
       item->metadata.set_album_id(row.value(3).toString());
-      item->metadata.set_grouping(row.value(4).toString());
+      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(4).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = PrettyYearAlbum(item->metadata.effective_originalyear(), item->metadata.album());
       item->sort_text = SortTextForNumber(std::max(0, item->metadata.effective_originalyear())) + item->metadata.grouping() + item->metadata.album();
@@ -1345,7 +1345,7 @@ CollectionItem *CollectionModel::ItemFromQuery(const GroupBy group_by, const boo
       item->metadata.set_album(row.value(2).toString());
       item->metadata.set_album_id(row.value(3).toString());
       item->metadata.set_disc(row.value(4).toInt());
-      item->metadata.set_grouping(row.value(5).toString());
+      if (separate_albums_by_grouping) item->metadata.set_grouping(row.value(5).toString());
       item->key.append(ContainerKey(group_by, separate_albums_by_grouping, item->metadata));
       item->display_text = PrettyYearAlbumDisc(item->metadata.effective_originalyear(), item->metadata.album(), item->metadata.disc());
       item->sort_text = SortTextForNumber(std::max(0, item->metadata.effective_originalyear())) + item->metadata.album() + SortTextForNumber(std::max(0, item->metadata.disc()));
