@@ -877,7 +877,7 @@ SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &idx) const {
   QSqlDatabase db(collection_backend_->db()->Connect());
 
   CollectionQuery q(db, collection_backend_->songs_table(), collection_backend_->fts_table());
-  q.SetColumnSpec(QStringLiteral("ROWID,") + Song::kColumnSpec);
+  q.SetColumnSpec(Song::kRowIdColumnSpec);
   q.AddWhere(QStringLiteral("album"), idx.data(Role_Album).toString());
   q.SetOrderBy(QStringLiteral("disc, track, title"));
 

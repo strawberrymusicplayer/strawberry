@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@
 #include <QIcon>
 
 class SqlQuery;
+class QSqlRecord;
 
 class EngineMetadata;
 
@@ -112,7 +113,9 @@ class Song {
   };
 
   static const QStringList kColumns;
+  static const QStringList kRowIdColumns;
   static const QString kColumnSpec;
+  static const QString kRowIdColumnSpec;
   static const QString kBindSpec;
   static const QString kUpdateSpec;
 
@@ -416,7 +419,9 @@ class Song {
   void Init(const QString &title, const QString &artist, const QString &album, const qint64 length_nanosec);
   void Init(const QString &title, const QString &artist, const QString &album, const qint64 beginning, const qint64 end);
   void InitFromProtobuf(const spb::tagreader::SongMetadata &pb);
-  void InitFromQuery(const SqlRow &query, const bool reliable_metadata);
+  void InitFromQuery(const QSqlRecord &r, const bool reliable_metadata, const int col = 0);
+  void InitFromQuery(const SqlQuery &query, const bool reliable_metadata, const int col = 0);
+  void InitFromQuery(const SqlRow &row, const bool reliable_metadata, const int col = 0);
   void InitFromFilePartial(const QString &filename, const QFileInfo &fileinfo);
   void InitArtManual();
   void InitArtAutomatic();

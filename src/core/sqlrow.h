@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,33 +24,23 @@
 
 #include <QList>
 #include <QVariant>
-#include <QUrl>
-#include <QSqlQuery>
+#include <QSqlRecord>
+
+#include "sqlquery.h"
 
 class SqlRow {
 
  public:
-  SqlRow(const QSqlQuery &query);
+  explicit SqlRow(const SqlQuery &query);
 
-  const QVariant value(const int number) const;
-  const QVariant value(const QString &name) const;
-
-  QString ValueToString(const QString &n) const;
-  QUrl ValueToUrl(const QString &n) const;
-  int ValueToInt(const QString &n) const;
-  uint ValueToUInt(const QString &n) const;
-  qint64 ValueToLongLong(const QString &n) const;
-  float ValueToFloat(const QString &n) const;
-  bool ValueToBool(const QString& n) const;
+  int columns() const { return record_.count(); }
+  const QSqlRecord &record() const { return record_; }
+  const QVariant value(const int n) const;
 
  private:
-  SqlRow();
+  void Init(const SqlQuery &query);
 
-  void Init(const QSqlQuery &query);
-
-  QMap<int, QVariant> columns_by_number_;
-  QMap<QString, QVariant> columns_by_name_;
-
+  QSqlRecord record_;
 };
 
 using SqlRowList = QList<SqlRow>;

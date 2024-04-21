@@ -51,7 +51,7 @@ void SmartPlaylistSearch::Reset() {
 
 QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
 
-  QString sql = QStringLiteral("SELECT ROWID,") + Song::kColumnSpec + QStringLiteral(" FROM ") + songs_table;
+  QString sql = QStringLiteral("SELECT %1 FROM %2").arg(Song::kRowIdColumnSpec, songs_table);
 
   // Add search terms
   QStringList where_clauses;

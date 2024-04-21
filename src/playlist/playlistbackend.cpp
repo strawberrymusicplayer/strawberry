@@ -184,7 +184,8 @@ PlaylistItemPtrList PlaylistBackend::GetPlaylistItems(const int playlist) {
     QMutexLocker l(db_->Mutex());
     QSqlDatabase db(db_->Connect());
 
-    QString query = QStringLiteral("SELECT songs.ROWID, ") + Song::JoinSpec(QStringLiteral("songs")) + QStringLiteral(", p.ROWID, ") + Song::JoinSpec(QStringLiteral("p")) + QStringLiteral(", p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist");
+    QString query = QStringLiteral("SELECT %1, %2, p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist").arg(Song::JoinSpec(QStringLiteral("songs")), Song::JoinSpec(QStringLiteral("p")));
+
     SqlQuery q(db);
     // Forward iterations only may be faster
     q.setForwardOnly(true);
@@ -219,7 +220,8 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
     QMutexLocker l(db_->Mutex());
     QSqlDatabase db(db_->Connect());
 
-    QString query = QStringLiteral("SELECT songs.ROWID, ") + Song::JoinSpec(QStringLiteral("songs")) + QStringLiteral(", p.ROWID, ") + Song::JoinSpec(QStringLiteral("p")) + QStringLiteral(", p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist");
+    QString query = QStringLiteral("SELECT %1, %2, p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist").arg(Song::JoinSpec(QStringLiteral("songs")), Song::JoinSpec(QStringLiteral("p")));
+
     SqlQuery q(db);
     // Forward iterations only may be faster
     q.setForwardOnly(true);
@@ -249,7 +251,7 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
 PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state) {
 
   // The song tables get joined first, plus one each for the song ROWIDs
-  const int playlist_row = static_cast<int>(Song::kColumns.count() + 1) * kSongTableJoins;
+  const int playlist_row = static_cast<int>(Song::kRowIdColumns.count()) * kSongTableJoins;
 
   PlaylistItemPtr item(PlaylistItem::NewFromSource(static_cast<Song::Source>(row.value(playlist_row).toInt())));
   if (item) {

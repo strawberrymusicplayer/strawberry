@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,11 +29,12 @@
 #include <QString>
 #include <QStringList>
 #include <QSqlDatabase>
-#include <QSqlQuery>
+
+#include "core/sqlquery.h"
 
 #include "collectionfilteroptions.h"
 
-class CollectionQuery : public QSqlQuery {
+class CollectionQuery : public SqlQuery {
  public:
   explicit CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const QString &fts_table, const CollectionFilterOptions &filter_options = CollectionFilterOptions());
 
@@ -41,7 +42,7 @@ class CollectionQuery : public QSqlQuery {
   QVariant value(const int column) const { return Value(column); }
 
   bool Exec();
-  bool exec() { return QSqlQuery::exec(); }
+  bool exec() { return SqlQuery::exec(); }
 
   bool Next();
 

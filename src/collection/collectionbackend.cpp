@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -401,7 +401,7 @@ SongList CollectionBackend::FindSongsInDirectory(const int id) {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE directory_id = :directory_id").arg(Song::kColumnSpec, songs_table_));
+  q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE directory_id = :directory_id").arg(Song::kRowIdColumnSpec, songs_table_));
   q.BindValue(QStringLiteral(":directory_id"), id);
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -424,7 +424,7 @@ SongList CollectionBackend::SongsWithMissingFingerprint(const int id) {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE directory_id = :directory_id AND unavailable = 0 AND (fingerprint IS NULL OR fingerprint = '')").arg(Song::kColumnSpec, songs_table_));
+  q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE directory_id = :directory_id AND unavailable = 0 AND (fingerprint IS NULL OR fingerprint = '')").arg(Song::kRowIdColumnSpec, songs_table_));
   q.BindValue(QStringLiteral(":directory_id"), id);
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -447,7 +447,7 @@ SongList CollectionBackend::SongsWithMissingLoudnessCharacteristics(const int id
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE directory_id = :directory_id AND unavailable = 0 AND (ebur128_integrated_loudness_lufs IS NULL OR ebur128_loudness_range_lu IS NULL)").arg(Song::kColumnSpec, songs_table_));
+  q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE directory_id = :directory_id AND unavailable = 0 AND (ebur128_integrated_loudness_lufs IS NULL OR ebur128_loudness_range_lu IS NULL)").arg(Song::kRowIdColumnSpec, songs_table_));
   q.BindValue(QStringLiteral(":directory_id"), id);
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -548,7 +548,7 @@ SongList CollectionBackend::GetAllSongs() {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2").arg(Song::kColumnSpec, songs_table_));
+  q.prepare(QStringLiteral("SELECT %1 FROM %2").arg(Song::kRowIdColumnSpec, songs_table_));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return SongList();
@@ -1164,7 +1164,7 @@ SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &d
   QString in = ids.join(QStringLiteral(","));
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE ROWID IN (%3)").arg(Song::kColumnSpec, songs_table_, in));
+  q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE ROWID IN (%3)").arg(Song::kRowIdColumnSpec, songs_table_, in));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return SongList();
@@ -1186,7 +1186,7 @@ Song CollectionBackend::GetSongByUrl(const QUrl &url, const qint64 beginning) {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND beginning = :beginning AND unavailable = 0").arg(Song::kColumnSpec, songs_table_));
+  q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND beginning = :beginning AND unavailable = 0").arg(Song::kRowIdColumnSpec, songs_table_));
 
   q.BindValue(QStringLiteral(":url1"), url);
   q.BindValue(QStringLiteral(":url2"), url.toString());
@@ -1216,7 +1216,7 @@ Song CollectionBackend::GetSongByUrlAndTrack(const QUrl &url, const int track) {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND track = :track AND unavailable = 0").arg(Song::kColumnSpec, songs_table_));
+  q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND track = :track AND unavailable = 0").arg(Song::kRowIdColumnSpec, songs_table_));
 
   q.BindValue(QStringLiteral(":url1"), url);
   q.BindValue(QStringLiteral(":url2"), url.toString());
@@ -1246,7 +1246,7 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url, const bool unavailabl
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = :unavailable").arg(Song::kColumnSpec, songs_table_));
+  q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = :unavailable").arg(Song::kRowIdColumnSpec, songs_table_));
 
   q.BindValue(QStringLiteral(":url1"), url);
   q.BindValue(QStringLiteral(":url2"), url.toString());
@@ -1306,7 +1306,7 @@ SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDa
   QString in = song_ids2.join(QLatin1Char(','));
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE SONG_ID IN (%3)").arg(Song::kColumnSpec, songs_table_, in));
+  q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE SONG_ID IN (%3)").arg(Song::kRowIdColumnSpec, songs_table_, in));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return SongList();
@@ -1329,7 +1329,7 @@ SongList CollectionBackend::GetSongsByFingerprint(const QString &fingerprint) {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE fingerprint = :fingerprint").arg(Song::kColumnSpec, songs_table_));
+  q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE fingerprint = :fingerprint").arg(Song::kRowIdColumnSpec, songs_table_));
   q.BindValue(QStringLiteral(":fingerprint"), fingerprint);
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -1452,7 +1452,7 @@ bool CollectionBackend::UpdateCompilations(const QSqlDatabase &db, SongList &del
 
   {  // Get song, so we can tell the model its updated
     SqlQuery q(db);
-    q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = 0").arg(Song::kColumnSpec, songs_table_));
+    q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = 0").arg(Song::kRowIdColumnSpec, songs_table_));
     q.BindValue(QStringLiteral(":url1"), url);
     q.BindValue(QStringLiteral(":url2"), url.toString());
     q.BindValue(QStringLiteral(":url3"), url.toString(QUrl::FullyEncoded));
@@ -1622,7 +1622,7 @@ void CollectionBackend::UpdateEmbeddedAlbumArt(const QString &effective_albumart
 
   // Get the songs before they're updated
   CollectionQuery query(db, songs_table_, fts_table_);
-  query.SetColumnSpec(QStringLiteral("ROWID, ") + Song::kColumnSpec);
+  query.SetColumnSpec(Song::kRowIdColumnSpec);
   query.AddWhere(QStringLiteral("effective_albumartist"), effective_albumartist);
   query.AddWhere(QStringLiteral("album"), album);
 
@@ -1684,7 +1684,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartis
   QSqlDatabase db(db_->Connect());
 
   CollectionQuery query(db, songs_table_, fts_table_);
-  query.SetColumnSpec(QStringLiteral("ROWID, ") + Song::kColumnSpec);
+  query.SetColumnSpec(Song::kRowIdColumnSpec);
   query.AddWhere(QStringLiteral("effective_albumartist"), effective_albumartist);
   query.AddWhere(QStringLiteral("album"), album);
 
@@ -1742,7 +1742,7 @@ void CollectionBackend::UnsetAlbumArt(const QString &effective_albumartist, cons
   QSqlDatabase db(db_->Connect());
 
   CollectionQuery query(db, songs_table_, fts_table_);
-  query.SetColumnSpec(QStringLiteral("ROWID, ") + Song::kColumnSpec);
+  query.SetColumnSpec(Song::kRowIdColumnSpec);
   query.AddWhere(QStringLiteral("effective_albumartist"), effective_albumartist);
   query.AddWhere(QStringLiteral("album"), album);
 
@@ -1799,7 +1799,7 @@ void CollectionBackend::ClearAlbumArt(const QString &effective_albumartist, cons
   QSqlDatabase db(db_->Connect());
 
   CollectionQuery query(db, songs_table_, fts_table_);
-  query.SetColumnSpec(QStringLiteral("ROWID, ") + Song::kColumnSpec);
+  query.SetColumnSpec(Song::kRowIdColumnSpec);
   query.AddWhere(QStringLiteral("effective_albumartist"), effective_albumartist);
   query.AddWhere(QStringLiteral("album"), album);
 
@@ -1854,7 +1854,7 @@ void CollectionBackend::ForceCompilation(const QString &album, const QList<QStri
   for (const QString &artist : artists) {
     // Get the songs before they're updated
     CollectionQuery query(db, songs_table_, fts_table_);
-    query.SetColumnSpec(QStringLiteral("ROWID, ") + Song::kColumnSpec);
+    query.SetColumnSpec(Song::kRowIdColumnSpec);
     query.AddWhere(QStringLiteral("album"), album);
     if (!artist.isEmpty()) query.AddWhere(QStringLiteral("artist"), artist);
 
@@ -2073,10 +2073,10 @@ SongList CollectionBackend::GetSongsBy(const QString &artist, const QString &alb
   SongList songs;
   SqlQuery q(db);
   if (album.isEmpty()) {
-    q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE artist = :artist COLLATE NOCASE AND title = :title COLLATE NOCASE").arg(Song::kColumnSpec, songs_table_));
+    q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE artist = :artist COLLATE NOCASE AND title = :title COLLATE NOCASE").arg(Song::kRowIdColumnSpec, songs_table_));
   }
   else {
-    q.prepare(QStringLiteral("SELECT ROWID, %1 FROM %2 WHERE artist = :artist COLLATE NOCASE AND album = :album COLLATE NOCASE AND title = :title COLLATE NOCASE").arg(Song::kColumnSpec, songs_table_));
+    q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE artist = :artist COLLATE NOCASE AND album = :album COLLATE NOCASE AND title = :title COLLATE NOCASE").arg(Song::kRowIdColumnSpec, songs_table_));
   }
   q.BindValue(QStringLiteral(":artist"), artist);
   if (!album.isEmpty()) q.BindValue(QStringLiteral(":album"), album);
@@ -2220,7 +2220,7 @@ void CollectionBackend::ExpireSongs(const int directory_id, const int expire_una
     QMutexLocker l(db_->Mutex());
     QSqlDatabase db(db_->Connect());
     SqlQuery q(db);
-    q.prepare(QStringLiteral("SELECT %1.ROWID, ").arg(songs_table_) + Song::JoinSpec(songs_table_) + QStringLiteral(" FROM %1 LEFT JOIN playlist_items ON %1.ROWID = playlist_items.collection_id WHERE %1.directory_id = :directory_id AND %1.unavailable = 1 AND %1.lastseen > 0 AND %1.lastseen < :time AND playlist_items.collection_id IS NULL").arg(songs_table_));
+    q.prepare(QStringLiteral("SELECT %1 FROM %2 LEFT JOIN playlist_items ON %2.ROWID = playlist_items.collection_id WHERE %2.directory_id = :directory_id AND %2.unavailable = 1 AND %2.lastseen > 0 AND %2.lastseen < :time AND playlist_items.collection_id IS NULL").arg(Song::JoinSpec(songs_table_), songs_table_));
     q.BindValue(QStringLiteral(":directory_id"), directory_id);
     q.BindValue(QStringLiteral(":time"), QDateTime::currentDateTime().toSecsSinceEpoch() - (expire_unavailable_songs_days * 86400));
     if (!q.Exec()) {
