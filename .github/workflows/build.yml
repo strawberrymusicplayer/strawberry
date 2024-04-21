@@ -368,8 +368,14 @@ jobs:
     container:
       image: mageia:${{matrix.mageia_version}}
     steps:
+      - name: Set media
+        run: |
+          urpmi.removemedia "Core Release"
+          urpmi.removemedia "Core Updates"
+          urpmi.addmedia "Core Release" "https://mirrors.kernel.org/mageia/distrib/${{matrix.mageia_version}}/x86_64/media/core/release/"
+          urpmi.addmedia "Core Updates" "https://mirrors.kernel.org/mageia/distrib/${{matrix.mageia_version}}/x86_64/media/core/updates/"
       - name: Update repositories
-        run: urpmi.update --auto -a
+        run: urpmi.update -a
       - name: Upgrade packages
         run: urpmi --auto --auto-update
       - name: Install dependencies
