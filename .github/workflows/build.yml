@@ -15,11 +15,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        opensuse_version: [ 'tumbleweed', 'leap:15.6' ]
+        opensuse_version: [ 'tumbleweed', 'leap:15.5', 'leap:15.6' ]
         qt_version: [ '5', '6' ]
     container:
       image: opensuse/${{matrix.opensuse_version}}
     steps:
+      - name: Add devel tools building repo
+        if: matrix.opensuse_version != 'tumbleweed'
+        run: zypper -n ar -c -f -n 'devel-tools-building' https://download.opensuse.org/repositories/devel:tools:building/$(echo "${{matrix.opensuse_version}}" | cut -d ':' -f 2)/ devel-tools-building
       - name: Add tagparser repo
         if: matrix.opensuse_version == 'tumbleweed'
         run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Tumbleweed/ repo-tagparser
