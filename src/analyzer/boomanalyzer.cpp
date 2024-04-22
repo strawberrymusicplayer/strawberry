@@ -78,7 +78,7 @@ void BoomAnalyzer::resizeEvent(QResizeEvent *e) {
   bands_ = qMin(static_cast<int>(static_cast<double>(width() + 1) / (kColumnWidth + 1)) + 1, kMaxBandCount);
   scope_.resize(bands_);
 
-  F_ = static_cast<double>(HEIGHT) / (log10(256) * static_cast<double>(1.1) /*<- max. amplitude*/);
+  F_ = static_cast<double>(HEIGHT) / (log10(256) * 1.1 /*<- max. amplitude*/);
 
   barPixmap_ = QPixmap(kColumnWidth - 2, HEIGHT);
   canvas_ = QPixmap(size());

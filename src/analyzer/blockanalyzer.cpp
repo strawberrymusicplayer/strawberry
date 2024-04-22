@@ -266,12 +266,12 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
 
   // value is the best measure of contrast
   // if there is enough difference in value already, return fg unchanged
-  if (dv > static_cast<int>(amount)) return fg;
+  if (dv > amount) return fg;
 
   int ds = abs(bs - fs);
 
   // saturation is good enough too. But not as good. TODO adapt this a little
-  if (ds > static_cast<int>(amount)) return fg;
+  if (ds > amount) return fg;
 
   int dh = abs(bh - fh);
 
@@ -294,7 +294,7 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
     // low saturation on a low saturation is sad
     const int tmp = 50 - fs;
     fs = 50;
-    if (static_cast<int>(amount) > tmp) {
+    if (amount > tmp) {
       amount -= tmp;
     }
     else {
@@ -310,25 +310,25 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
     if (amount > 0) adjustToLimits(bs, fs, amount);
 
     // see if we need to adjust the hue
-    if (static_cast<int>(amount) > 0)
-      fh += static_cast<int>(amount);  // cycles around;
+    if (amount > 0)
+      fh += amount;  // cycles around;
 
     return QColor::fromHsv(fh, fs, fv);
   }
 
-  if (fv > bv && bv > static_cast<int>(amount)) {
-    return QColor::fromHsv(fh, fs, bv - static_cast<int>(amount));
+  if (fv > bv && bv > amount) {
+    return QColor::fromHsv(fh, fs, bv - amount);
   }
 
-  if (fv < bv && fv > static_cast<int>(amount)) {
+  if (fv < bv && fv > amount) {
     return QColor::fromHsv(fh, fs, fv - amount);
   }
 
-  if (fv > bv && (255 - fv > static_cast<int>(amount))) {
+  if (fv > bv && (255 - fv > amount)) {
     return QColor::fromHsv(fh, fs, fv + amount);
   }
 
-  if (fv < bv && (255 - bv > static_cast<int>(amount))) {
+  if (fv < bv && (255 - bv > amount)) {
     return QColor::fromHsv(fh, fs, bv + amount);
   }
 
