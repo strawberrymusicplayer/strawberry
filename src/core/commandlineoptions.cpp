@@ -416,7 +416,7 @@ void CommandlineOptions::Load(const QByteArray &serialized) {
 }
 
 #ifdef Q_OS_WIN32
-QString CommandlineOptions::OptArgToString(wchar_t *opt) {
+QString CommandlineOptions::OptArgToString(const wchar_t *opt) {
 
   return QString::fromWCharArray(opt);
 
@@ -427,7 +427,7 @@ QString CommandlineOptions::DecodeName(wchar_t *opt) {
   return QString::fromWCharArray(opt);
 }
 #else
-QString CommandlineOptions::OptArgToString(char *opt) {
+QString CommandlineOptions::OptArgToString(const char *opt) {
 
   return QString::fromUtf8(opt);
 }

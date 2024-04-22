@@ -108,10 +108,10 @@ class CommandlineOptions {
   void RemoveArg(const QString &starts_with, int count);
 
 #ifdef Q_OS_WIN32
-  static QString OptArgToString(wchar_t *opt);
+  static QString OptArgToString(const wchar_t *opt);
   static QString DecodeName(wchar_t *opt);
 #else
-  static QString OptArgToString(char *opt);
+  static QString OptArgToString(const char *opt);
   static QString DecodeName(char *opt);
 #endif
 
