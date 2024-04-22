@@ -89,6 +89,7 @@ CollectionView::CollectionView(QWidget *parent)
       action_add_to_playlist_enqueue_next_(nullptr),
       action_open_in_new_playlist_(nullptr),
       action_organize_(nullptr),
+      action_search_for_this_(nullptr),
 #ifndef Q_OS_WIN
       action_copy_to_device_(nullptr),
 #endif
