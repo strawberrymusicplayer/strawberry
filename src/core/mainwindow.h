@@ -294,7 +294,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void SetToggleScrobblingIcon(const bool value);
 
 #ifdef HAVE_DBUS
-  void UpdateTaskbarProgress(const bool visible, const double position = 0, const double length = 0);
+  void UpdateTaskbarProgress(const bool visible, const double progress = 0);
 #endif
 
  private:

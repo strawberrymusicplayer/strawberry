@@ -1727,7 +1727,7 @@ void MainWindow::Seeked(const qint64 microseconds) {
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_) {
-    UpdateTaskbarProgress(true, position, length);
+    UpdateTaskbarProgress(true, static_cast<double>(position) / static_cast<double>(length));
   }
 #endif
 
@@ -1747,7 +1747,7 @@ void MainWindow::UpdateTrackPosition() {
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_) {
-    UpdateTaskbarProgress(true, position, length);
+    UpdateTaskbarProgress(true, static_cast<double>(position) / static_cast<double>(length));
   }
 #endif
 
@@ -1778,13 +1778,13 @@ void MainWindow::UpdateTrackSliderPosition() {
 }
 
 #ifdef HAVE_DBUS
-void MainWindow::UpdateTaskbarProgress(const bool visible, const double position, const double length) {
+void MainWindow::UpdateTaskbarProgress(const bool visible, const double progress) {
 
   QVariantMap map;
   QDBusMessage msg = QDBusMessage::createSignal(QStringLiteral("/org/strawberrymusicplayer/strawberry"), QStringLiteral("com.canonical.Unity.LauncherEntry"), QStringLiteral("Update"));
 
   map.insert(QStringLiteral("progress-visible"), visible);
-  map.insert(QStringLiteral("progress"), position / length);
+  map.insert(QStringLiteral("progress"), progress);
   msg << QStringLiteral("application://org.strawberrymusicplayer.strawberry.desktop") << map;
 
   QDBusConnection::sessionBus().send(msg);
