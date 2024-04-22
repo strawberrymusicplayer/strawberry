@@ -353,6 +353,7 @@ class Song {
   static bool save_embedded_cover_supported(const FileType filetype);
   bool save_embedded_cover_supported() const { return url().isLocalFile() && save_embedded_cover_supported(filetype()) && !has_cue(); };
 
+  static int ColumnIndex(const QString &field);
   static QString JoinSpec(const QString &table);
 
   // Pretty accessors

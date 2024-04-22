@@ -672,6 +672,12 @@ QString Song::sortable(const QString &v) {
 
 }
 
+int Song::ColumnIndex(const QString &field) {
+
+  return static_cast<int>(kRowIdColumns.indexOf(field));
+
+}
+
 QString Song::JoinSpec(const QString &table) {
   return Utilities::Prepend(table + QLatin1Char('.'), kRowIdColumns).join(QStringLiteral(", "));
 }
@@ -1373,76 +1379,76 @@ void Song::InitFromQuery(const QSqlRecord &r, const bool reliable_metadata, cons
 
   Q_ASSERT(kRowIdColumns.count() + col <= r.count());
 
-  d->id_ = SqlHelper::ValueToInt(r, kRowIdColumns.indexOf(QStringLiteral("ROWID")) + col);
+  d->id_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("ROWID")) + col);
 
-  set_title(SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("title")) + col));
-  set_album(SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("album")) + col));
-  set_artist(SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("artist")) + col));
-  set_albumartist(SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("albumartist")) + col));
-  d->track_ = SqlHelper::ValueToInt(r, kRowIdColumns.indexOf(QStringLiteral("track")) + col);
-  d->disc_ = SqlHelper::ValueToInt(r, kRowIdColumns.indexOf(QStringLiteral("disc")) + col);
-  d->year_ = SqlHelper::ValueToInt(r, kRowIdColumns.indexOf(QStringLiteral("year")) + col);
-  d->originalyear_ = SqlHelper::ValueToInt(r, kRowIdColumns.indexOf(QStringLiteral("originalyear")) + col);
-  d->genre_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("genre")) + col);
-  d->compilation_ = r.value(kRowIdColumns.indexOf(QStringLiteral("compilation")) + col).toBool();
-  d->composer_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("composer")) + col);
-  d->performer_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("performer")) + col);
-  d->grouping_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("grouping")) + col);
-  d->comment_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("comment")) + col);
-  d->lyrics_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("lyrics")) + col);
-  d->artist_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("artist_id")) + col);
-  d->album_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("album_id")) + col);
-  d->song_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("song_id")) + col);
-  d->beginning_ = r.value(kRowIdColumns.indexOf(QStringLiteral("beginning")) + col).isNull() ? 0 : r.value(kRowIdColumns.indexOf(QStringLiteral("beginning")) + col).toLongLong();
-  set_length_nanosec(SqlHelper::ValueToLongLong(r, kRowIdColumns.indexOf(QStringLiteral("length"))) + col);
-  d->bitrate_ = SqlHelper::ValueToInt(r, kRowIdColumns.indexOf(QStringLiteral("bitrate")) + col);
-  d->samplerate_ = SqlHelper::ValueToInt(r, kRowIdColumns.indexOf(QStringLiteral("samplerate")) + col);
-  d->bitdepth_ = SqlHelper::ValueToInt(r, kRowIdColumns.indexOf(QStringLiteral("bitdepth")) + col);
-  if (!r.value(kRowIdColumns.indexOf(QStringLiteral("ebur128_integrated_loudness_lufs")) + col).isNull()) {
-    d->ebur128_integrated_loudness_lufs_ = r.value(kRowIdColumns.indexOf(QStringLiteral("ebur128_integrated_loudness_lufs")) + col).toDouble();
+  set_title(SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("title")) + col));
+  set_album(SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("album")) + col));
+  set_artist(SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("artist")) + col));
+  set_albumartist(SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("albumartist")) + col));
+  d->track_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("track")) + col);
+  d->disc_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("disc")) + col);
+  d->year_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("year")) + col);
+  d->originalyear_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("originalyear")) + col);
+  d->genre_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("genre")) + col);
+  d->compilation_ = r.value(ColumnIndex(QStringLiteral("compilation")) + col).toBool();
+  d->composer_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("composer")) + col);
+  d->performer_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("performer")) + col);
+  d->grouping_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("grouping")) + col);
+  d->comment_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("comment")) + col);
+  d->lyrics_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("lyrics")) + col);
+  d->artist_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("artist_id")) + col);
+  d->album_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("album_id")) + col);
+  d->song_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("song_id")) + col);
+  d->beginning_ = r.value(ColumnIndex(QStringLiteral("beginning")) + col).isNull() ? 0 : r.value(ColumnIndex(QStringLiteral("beginning")) + col).toLongLong();
+  set_length_nanosec(SqlHelper::ValueToLongLong(r, ColumnIndex(QStringLiteral("length"))) + col);
+  d->bitrate_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("bitrate")) + col);
+  d->samplerate_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("samplerate")) + col);
+  d->bitdepth_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("bitdepth")) + col);
+  if (!r.value(ColumnIndex(QStringLiteral("ebur128_integrated_loudness_lufs")) + col).isNull()) {
+    d->ebur128_integrated_loudness_lufs_ = r.value(ColumnIndex(QStringLiteral("ebur128_integrated_loudness_lufs")) + col).toDouble();
   }
-  if (!r.value(kRowIdColumns.indexOf(QStringLiteral("ebur128_loudness_range_lu")) + col).isNull()) {
-    d->ebur128_loudness_range_lu_ = r.value(kRowIdColumns.indexOf(QStringLiteral("ebur128_loudness_range_lu")) + col).toDouble();
+  if (!r.value(ColumnIndex(QStringLiteral("ebur128_loudness_range_lu")) + col).isNull()) {
+    d->ebur128_loudness_range_lu_ = r.value(ColumnIndex(QStringLiteral("ebur128_loudness_range_lu")) + col).toDouble();
   }
-  d->source_ = static_cast<Source>(r.value(kRowIdColumns.indexOf(QStringLiteral("source")) + col).isNull() ? 0 : r.value(kRowIdColumns.indexOf(QStringLiteral("source")) + col).toInt());
-  d->directory_id_ = SqlHelper::ValueToInt(r, kRowIdColumns.indexOf(QStringLiteral("directory_id")) + col);
-  set_url(QUrl::fromEncoded(SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("url")) + col).toUtf8()));
+  d->source_ = static_cast<Source>(r.value(ColumnIndex(QStringLiteral("source")) + col).isNull() ? 0 : r.value(ColumnIndex(QStringLiteral("source")) + col).toInt());
+  d->directory_id_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("directory_id")) + col);
+  set_url(QUrl::fromEncoded(SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("url")) + col).toUtf8()));
   d->basefilename_ = QFileInfo(d->url_.toLocalFile()).fileName();
-  d->filetype_ = FileType(r.value(kRowIdColumns.indexOf(QStringLiteral("filetype")) + col).isNull() ? 0 : r.value(kRowIdColumns.indexOf(QStringLiteral("filetype")) + col).toInt());
-  d->filesize_ = SqlHelper::ValueToLongLong(r, kRowIdColumns.indexOf(QStringLiteral("filesize")) + col);
-  d->mtime_ = SqlHelper::ValueToLongLong(r, kRowIdColumns.indexOf(QStringLiteral("mtime")) + col);
-  d->ctime_ = SqlHelper::ValueToLongLong(r, kRowIdColumns.indexOf(QStringLiteral("ctime")) + col);
-  d->unavailable_ = r.value(kRowIdColumns.indexOf(QStringLiteral("unavailable")) + col).toBool();
-  d->fingerprint_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("fingerprint")) + col);
-  d->playcount_ = SqlHelper::ValueToUInt(r, kRowIdColumns.indexOf(QStringLiteral("playcount")) + col);
-  d->skipcount_ = SqlHelper::ValueToUInt(r, kRowIdColumns.indexOf(QStringLiteral("skipcount")) + col);
-  d->lastplayed_ = SqlHelper::ValueToLongLong(r, kRowIdColumns.indexOf(QStringLiteral("lastplayed")) + col);
-  d->lastseen_ = SqlHelper::ValueToLongLong(r, kRowIdColumns.indexOf(QStringLiteral("lastseen")) + col);
-  d->compilation_detected_ = SqlHelper::ValueToBool(r, kRowIdColumns.indexOf(QStringLiteral("compilation_detected")) + col);
-  d->compilation_on_ = SqlHelper::ValueToBool(r, kRowIdColumns.indexOf(QStringLiteral("compilation_on")) + col);
-  d->compilation_off_ = SqlHelper::ValueToBool(r, kRowIdColumns.indexOf(QStringLiteral("compilation_off")) + col);
+  d->filetype_ = FileType(r.value(ColumnIndex(QStringLiteral("filetype")) + col).isNull() ? 0 : r.value(ColumnIndex(QStringLiteral("filetype")) + col).toInt());
+  d->filesize_ = SqlHelper::ValueToLongLong(r, ColumnIndex(QStringLiteral("filesize")) + col);
+  d->mtime_ = SqlHelper::ValueToLongLong(r, ColumnIndex(QStringLiteral("mtime")) + col);
+  d->ctime_ = SqlHelper::ValueToLongLong(r, ColumnIndex(QStringLiteral("ctime")) + col);
+  d->unavailable_ = r.value(ColumnIndex(QStringLiteral("unavailable")) + col).toBool();
+  d->fingerprint_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("fingerprint")) + col);
+  d->playcount_ = SqlHelper::ValueToUInt(r, ColumnIndex(QStringLiteral("playcount")) + col);
+  d->skipcount_ = SqlHelper::ValueToUInt(r, ColumnIndex(QStringLiteral("skipcount")) + col);
+  d->lastplayed_ = SqlHelper::ValueToLongLong(r, ColumnIndex(QStringLiteral("lastplayed")) + col);
+  d->lastseen_ = SqlHelper::ValueToLongLong(r, ColumnIndex(QStringLiteral("lastseen")) + col);
+  d->compilation_detected_ = SqlHelper::ValueToBool(r, ColumnIndex(QStringLiteral("compilation_detected")) + col);
+  d->compilation_on_ = SqlHelper::ValueToBool(r, ColumnIndex(QStringLiteral("compilation_on")) + col);
+  d->compilation_off_ = SqlHelper::ValueToBool(r, ColumnIndex(QStringLiteral("compilation_off")) + col);
 
-  d->art_embedded_ = SqlHelper::ValueToBool(r, kRowIdColumns.indexOf(QStringLiteral("art_embedded")) + col);
-  d->art_automatic_ = QUrl::fromEncoded(SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("art_automatic")) + col).toUtf8());
-  d->art_manual_ = QUrl::fromEncoded(SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("art_manual")) + col).toUtf8());
-  d->art_unset_ = SqlHelper::ValueToBool(r, kRowIdColumns.indexOf(QStringLiteral("art_unset")) + col);
+  d->art_embedded_ = SqlHelper::ValueToBool(r, ColumnIndex(QStringLiteral("art_embedded")) + col);
+  d->art_automatic_ = QUrl::fromEncoded(SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("art_automatic")) + col).toUtf8());
+  d->art_manual_ = QUrl::fromEncoded(SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("art_manual")) + col).toUtf8());
+  d->art_unset_ = SqlHelper::ValueToBool(r, ColumnIndex(QStringLiteral("art_unset")) + col);
 
-  d->cue_path_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("cue_path")) + col);
-  d->rating_ = SqlHelper::ValueToFloat(r, kRowIdColumns.indexOf(QStringLiteral("rating")) + col);
+  d->cue_path_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("cue_path")) + col);
+  d->rating_ = SqlHelper::ValueToFloat(r, ColumnIndex(QStringLiteral("rating")) + col);
 
-  d->acoustid_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("acoustid_id")) + col);
-  d->acoustid_fingerprint_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("acoustid_fingerprint")) + col);
+  d->acoustid_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("acoustid_id")) + col);
+  d->acoustid_fingerprint_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("acoustid_fingerprint")) + col);
 
-  d->musicbrainz_album_artist_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("musicbrainz_album_artist_id")) + col);
-  d->musicbrainz_artist_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("musicbrainz_artist_id")) + col);
-  d->musicbrainz_original_artist_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("musicbrainz_original_artist_id")) + col);
-  d->musicbrainz_album_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("musicbrainz_album_id")) + col);
-  d->musicbrainz_original_album_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("musicbrainz_original_album_id")) + col);
-  d->musicbrainz_recording_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("musicbrainz_recording_id")) + col);
-  d->musicbrainz_track_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("musicbrainz_track_id")) + col);
-  d->musicbrainz_disc_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("musicbrainz_disc_id")) + col);
-  d->musicbrainz_release_group_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("musicbrainz_release_group_id")) + col);
-  d->musicbrainz_work_id_ = SqlHelper::ValueToString(r, kRowIdColumns.indexOf(QStringLiteral("musicbrainz_work_id")) + col);
+  d->musicbrainz_album_artist_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("musicbrainz_album_artist_id")) + col);
+  d->musicbrainz_artist_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("musicbrainz_artist_id")) + col);
+  d->musicbrainz_original_artist_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("musicbrainz_original_artist_id")) + col);
+  d->musicbrainz_album_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("musicbrainz_album_id")) + col);
+  d->musicbrainz_original_album_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("musicbrainz_original_album_id")) + col);
+  d->musicbrainz_recording_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("musicbrainz_recording_id")) + col);
+  d->musicbrainz_track_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("musicbrainz_track_id")) + col);
+  d->musicbrainz_disc_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("musicbrainz_disc_id")) + col);
+  d->musicbrainz_release_group_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("musicbrainz_release_group_id")) + col);
+  d->musicbrainz_work_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("musicbrainz_work_id")) + col);
 
   d->valid_ = true;
   d->init_from_file_ = reliable_metadata;
