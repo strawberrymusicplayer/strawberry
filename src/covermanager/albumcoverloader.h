@@ -120,7 +120,7 @@ class AlbumCoverLoader : public QObject {
  private slots:
   void Exit();
   void ProcessTasks();
-  void LoadRemoteImageFinished(QNetworkReply *reply, TaskPtr task, const AlbumCoverLoaderResult::Type result_type, const QUrl &cover_url);
+  void LoadRemoteImageFinished(QNetworkReply *reply, AlbumCoverLoader::TaskPtr task, const AlbumCoverLoaderResult::Type result_type, const QUrl &cover_url);
 
  private:
   static const int kMaxRedirects = 3;
