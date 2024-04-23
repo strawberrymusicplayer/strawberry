@@ -989,21 +989,18 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
   }
 
   else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
-    if (file_wav->hasID3v2Tag()) {
-      TagLib::ID3v2::Tag *tag = file_wav->ID3v2Tag();
-      if (!tag) return false;
-      if (save_tags) {
-        SaveID3v2Tag(tag, song);
-      }
-      if (save_playcount) {
-        SetPlaycount(tag, song);
-      }
-      if (save_rating) {
-        SetRating(tag, song);
-      }
-      if (save_cover) {
-        SetEmbeddedArt(tag, cover.data, cover.mime_type);
-      }
+    TagLib::ID3v2::Tag *tag = file_wav->ID3v2Tag();
+    if (save_tags) {
+      SaveID3v2Tag(tag, song);
+    }
+    if (save_playcount) {
+      SetPlaycount(tag, song);
+    }
+    if (save_rating) {
+      SetRating(tag, song);
+    }
+    if (save_cover) {
+      SetEmbeddedArt(tag, cover.data, cover.mime_type);
     }
   }
 
