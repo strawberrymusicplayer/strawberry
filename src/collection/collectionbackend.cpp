@@ -1914,7 +1914,7 @@ void CollectionBackend::IncrementPlayCount(const int id) {
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("UPDATE %1 SET playcount = playcount + 1, lastplayed = :now WHERE ROWID = :id").arg(songs_table_));
-  q.BindValue(QStringLiteral(":now"), QDateTime::currentDateTime().toSecsSinceEpoch());
+  q.BindValue(QStringLiteral(":now"), QDateTime::currentSecsSinceEpoch());
   q.BindValue(QStringLiteral(":id"), id);
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -2201,7 +2201,7 @@ void CollectionBackend::UpdateLastSeen(const int directory_id, const int expire_
 
     SqlQuery q(db);
     q.prepare(QStringLiteral("UPDATE %1 SET lastseen = :lastseen WHERE directory_id = :directory_id AND unavailable = 0").arg(songs_table_));
-    q.BindValue(QStringLiteral(":lastseen"), QDateTime::currentDateTime().toSecsSinceEpoch());
+    q.BindValue(QStringLiteral(":lastseen"), QDateTime::currentSecsSinceEpoch());
     q.BindValue(QStringLiteral(":directory_id"), directory_id);
     if (!q.Exec()) {
       db_->ReportErrors(q);
@@ -2222,7 +2222,7 @@ void CollectionBackend::ExpireSongs(const int directory_id, const int expire_una
     SqlQuery q(db);
     q.prepare(QStringLiteral("SELECT %1 FROM %2 LEFT JOIN playlist_items ON %2.ROWID = playlist_items.collection_id WHERE %2.directory_id = :directory_id AND %2.unavailable = 1 AND %2.lastseen > 0 AND %2.lastseen < :time AND playlist_items.collection_id IS NULL").arg(Song::JoinSpec(songs_table_), songs_table_));
     q.BindValue(QStringLiteral(":directory_id"), directory_id);
-    q.BindValue(QStringLiteral(":time"), QDateTime::currentDateTime().toSecsSinceEpoch() - (expire_unavailable_songs_days * 86400));
+    q.BindValue(QStringLiteral(":time"), QDateTime::currentSecsSinceEpoch() - (expire_unavailable_songs_days * 86400));
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return;

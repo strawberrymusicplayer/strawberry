@@ -68,7 +68,7 @@ TEST(UtilitiesTest, WordyTimeNanosec) {}
 
 TEST(UtilitiesTest, Ago) {
 
-  ASSERT_EQ(Utilities::Ago(QDateTime::currentDateTime().toSecsSinceEpoch() - 604800, QLocale()), QStringLiteral("7 days ago"));
+  ASSERT_EQ(Utilities::Ago(QDateTime::currentSecsSinceEpoch() - 604800, QLocale()), QStringLiteral("7 days ago"));
 
 }
 

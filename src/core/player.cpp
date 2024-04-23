@@ -532,7 +532,7 @@ void Player::UnPause() {
   if (current_item_ && pause_time_.isValid()) {
     const Song &song = current_item_->Metadata();
     if (url_handlers_.contains(song.url().scheme()) && song.stream_url_can_expire()) {
-      const quint64 time = QDateTime::currentDateTime().toSecsSinceEpoch() - pause_time_.toSecsSinceEpoch();
+      const quint64 time = QDateTime::currentSecsSinceEpoch() - pause_time_.toSecsSinceEpoch();
       if (time >= 30) {  // Stream URL might be expired.
         qLog(Debug) << "Re-requesting stream URL for" << song.url();
         play_offset_nanosec_ = engine_->position_nanosec();

@@ -248,7 +248,7 @@ bool TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
     song->set_ctime(song->mtime());
   }
 
-  song->set_lastseen(QDateTime::currentDateTime().toSecsSinceEpoch());
+  song->set_lastseen(QDateTime::currentSecsSinceEpoch());
 
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   if (fileref->isNull()) {

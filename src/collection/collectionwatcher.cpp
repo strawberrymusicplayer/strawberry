@@ -417,7 +417,7 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
     transaction.SetKnownSubdirs(subdirs);
     transaction.AddToProgressMax(files_count);
     ScanSubdirectory(dir.path, CollectionSubdirectory(), files_count, &transaction);
-    last_scan_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
+    last_scan_time_ = QDateTime::currentSecsSinceEpoch();
   }
   else {
     // We can do an incremental scan - looking at the mtimes of each subdirectory and only rescan if the directory has changed.
@@ -434,7 +434,7 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
       if (monitor_) AddWatch(dir, subdir.path);
     }
 
-    last_scan_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
+    last_scan_time_ = QDateTime::currentSecsSinceEpoch();
 
   }
 
@@ -1198,7 +1198,7 @@ void CollectionWatcher::FullScanAsync() {
 
 void CollectionWatcher::IncrementalScanCheck() {
 
-  qint64 duration = QDateTime::currentDateTime().toSecsSinceEpoch() - last_scan_time_;
+  qint64 duration = QDateTime::currentSecsSinceEpoch() - last_scan_time_;
   if (duration >= 86400) {
     qLog(Debug) << "Performing periodic incremental scan.";
     IncrementalScanNow();
@@ -1240,7 +1240,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 
   }
 
-  last_scan_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
+  last_scan_time_ = QDateTime::currentSecsSinceEpoch();
 
   emit CompilationsNeedUpdating();
 

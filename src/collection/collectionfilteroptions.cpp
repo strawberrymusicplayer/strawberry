@@ -29,7 +29,7 @@ CollectionFilterOptions::CollectionFilterOptions() : filter_mode_(FilterMode::Al
 bool CollectionFilterOptions::Matches(const Song &song) const {
 
   if (max_age_ != -1) {
-    const qint64 cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - max_age_;
+    const qint64 cutoff = QDateTime::currentSecsSinceEpoch() - max_age_;
     if (song.ctime() <= cutoff) return false;
   }
 
