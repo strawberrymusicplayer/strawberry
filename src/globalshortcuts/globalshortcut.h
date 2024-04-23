@@ -22,6 +22,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractNativeEventFilter>
@@ -74,7 +76,7 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
 
   GlobalShortcutsBackend *backend_;
   QKeySequence shortcut_;
-  Qt::Key qt_key_;
+  std::optional<Qt::Key> qt_key_;
   Qt::KeyboardModifiers qt_mods_;
   int native_key_;
   int native_key2_;

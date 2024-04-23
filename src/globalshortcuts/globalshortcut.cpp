@@ -40,7 +40,6 @@ QHash<QPair<quint32, quint32>, GlobalShortcut*> GlobalShortcut::internal_shortcu
 GlobalShortcut::GlobalShortcut(QObject *parent)
     : QObject(parent),
       backend_(nullptr),
-      qt_key_(static_cast<Qt::Key>(0)),
       qt_mods_(Qt::NoModifier),
       native_key_(0),
       native_key2_(0),
@@ -57,7 +56,6 @@ GlobalShortcut::GlobalShortcut(const QKeySequence &shortcut, GlobalShortcutsBack
     : QObject(parent),
       backend_(backend),
       shortcut_(shortcut),
-      qt_key_(static_cast<Qt::Key>(0)),
       qt_mods_(Qt::NoModifier),
       native_key_(0),
       native_key2_(0),
@@ -97,7 +95,7 @@ bool GlobalShortcut::setShortcut(const QKeySequence &shortcut) {
   qt_mods_ = Qt::KeyboardModifiers(shortcut[0] & all_mods);
 #endif
 
-  native_key_ = nativeKeycode(qt_key_);
+  native_key_ = nativeKeycode(qt_key_.value());
   if (native_key_ == 0) return false;
   native_mods_ = nativeModifiers(qt_mods_);
 
@@ -105,7 +103,7 @@ bool GlobalShortcut::setShortcut(const QKeySequence &shortcut) {
   if (success) {
     internal_shortcuts_.insert(qMakePair(native_key_, native_mods_), this);
     qLog(Info) << "Registered shortcut" << shortcut_.toString();
-    native_key2_ = nativeKeycode2(qt_key_);
+    native_key2_ = nativeKeycode2(qt_key_.value());
     if (native_key2_ > 0 && registerShortcut(native_key2_, native_mods_)) {
       internal_shortcuts_.insert(qMakePair(native_key2_, native_mods_), this);
     }
@@ -149,7 +147,7 @@ bool GlobalShortcut::unsetShortcut() {
     qLog(Error) << "Failed to unregister shortcut" << shortcut_.toString();
   }
 
-  qt_key_ = static_cast<Qt::Key>(0);
+  qt_key_.reset();
   qt_mods_ = Qt::KeyboardModifiers();
   native_key_ = 0;
   native_mods_ = 0;
