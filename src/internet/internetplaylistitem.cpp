@@ -48,7 +48,7 @@ InternetPlaylistItem::InternetPlaylistItem(InternetServicePtr service, const Son
 
 bool InternetPlaylistItem::InitFromQuery(const SqlRow &query) {
 
-  metadata_.InitFromQuery(query, false, static_cast<int>(Song::kRowIdColumns.count()) * 3);
+  metadata_.InitFromQuery(query, false, static_cast<int>(Song::kRowIdColumns.count()));
   InitMetadata();
   return true;
 

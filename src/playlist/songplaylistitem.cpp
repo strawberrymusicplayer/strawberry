@@ -33,7 +33,7 @@ SongPlaylistItem::SongPlaylistItem(const Song::Source source) : PlaylistItem(sou
 SongPlaylistItem::SongPlaylistItem(const Song &song) : PlaylistItem(song.source()), song_(song) {}
 
 bool SongPlaylistItem::InitFromQuery(const SqlRow &query) {
-  song_.InitFromQuery(query, false, static_cast<int>(Song::kRowIdColumns.count()) * 3);
+  song_.InitFromQuery(query, false, static_cast<int>(Song::kRowIdColumns.count()));
   return true;
 }
 
