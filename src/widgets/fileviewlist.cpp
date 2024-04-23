@@ -94,7 +94,7 @@ MimeData *FileViewList::MimeDataFromSelection() const {
   MimeData *mimedata = new MimeData;
   mimedata->setUrls(UrlListFromSelection());
 
-  QList<QString> filenames = FilenamesFromSelection();
+  const QStringList filenames = FilenamesFromSelection();
 
   // if just one folder selected - use its path as the new playlist's name
   if (filenames.size() == 1 && QFileInfo(filenames.first()).isDir()) {

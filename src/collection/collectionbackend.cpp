@@ -1845,7 +1845,7 @@ void CollectionBackend::ClearAlbumArt(const QString &effective_albumartist, cons
 
 }
 
-void CollectionBackend::ForceCompilation(const QString &album, const QList<QString> &artists, const bool on) {
+void CollectionBackend::ForceCompilation(const QString &album, const QStringList &artists, const bool on) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());

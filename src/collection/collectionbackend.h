@@ -250,7 +250,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateManualAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &art_manual);
   void UnsetAlbumArt(const QString &effective_albumartist, const QString &album);
   void ClearAlbumArt(const QString &effective_albumartist, const QString &album, const bool art_unset);
-  void ForceCompilation(const QString &album, const QList<QString> &artists, const bool on);
+  void ForceCompilation(const QString &album, const QStringList &artists, const bool on);
   void IncrementPlayCount(const int id);
   void IncrementSkipCount(const int id, const float progress);
   void ResetPlayStatistics(const int id, const bool save_tags = false);
