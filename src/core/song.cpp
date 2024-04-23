@@ -1400,7 +1400,7 @@ void Song::InitFromQuery(const QSqlRecord &r, const bool reliable_metadata, cons
   d->album_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("album_id")) + col);
   d->song_id_ = SqlHelper::ValueToString(r, ColumnIndex(QStringLiteral("song_id")) + col);
   d->beginning_ = r.value(ColumnIndex(QStringLiteral("beginning")) + col).isNull() ? 0 : r.value(ColumnIndex(QStringLiteral("beginning")) + col).toLongLong();
-  set_length_nanosec(SqlHelper::ValueToLongLong(r, ColumnIndex(QStringLiteral("length"))) + col);
+  set_length_nanosec(SqlHelper::ValueToLongLong(r, ColumnIndex(QStringLiteral("length")) + col));
   d->bitrate_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("bitrate")) + col);
   d->samplerate_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("samplerate")) + col);
   d->bitdepth_ = SqlHelper::ValueToInt(r, ColumnIndex(QStringLiteral("bitdepth")) + col);
