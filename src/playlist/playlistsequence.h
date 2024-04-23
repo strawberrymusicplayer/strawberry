@@ -60,8 +60,6 @@ class PlaylistSequence : public QWidget {
     Albums = 3
   };
 
-  static const char *kSettingsGroup;
-
   RepeatMode repeat_mode() const;
   ShuffleMode shuffle_mode() const;
 

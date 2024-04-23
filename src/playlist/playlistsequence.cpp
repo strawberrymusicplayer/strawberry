@@ -37,7 +37,9 @@
 #include "playlistsequence.h"
 #include "ui_playlistsequence.h"
 
-const char *PlaylistSequence::kSettingsGroup = "PlaylistSequence";
+namespace {
+constexpr char kSettingsGroup[] = "PlaylistSequence";
+}
 
 PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
     : QWidget(parent),
