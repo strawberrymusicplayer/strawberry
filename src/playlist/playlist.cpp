@@ -975,7 +975,7 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
   if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
     const QList<int> old_virtual_items = virtual_items_;
     for (int i = 0; i < virtual_items_.count(); ++i) {
-      virtual_items_[i] = items_.indexOf(old_items[old_virtual_items[i]]);
+      virtual_items_[i] = static_cast<int>(items_.indexOf(old_items[old_virtual_items[i]]));
     }
   }
 
@@ -1047,7 +1047,7 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
   if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
     const QList<int> old_virtual_items = virtual_items_;
     for (int i = 0; i < virtual_items_.count(); ++i) {
-      virtual_items_[i] = items_.indexOf(old_items[old_virtual_items[i]]);
+      virtual_items_[i] = static_cast<int>(items_.indexOf(old_items[old_virtual_items[i]]));
     }
   }
 
@@ -1486,7 +1486,7 @@ void Playlist::ReOrderWithoutUndo(const PlaylistItemPtrList &new_items) {
   if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
     const QList<int> old_virtual_items = virtual_items_;
     for (int i = 0; i < virtual_items_.count(); ++i) {
-      virtual_items_[i] = items_.indexOf(old_items[old_virtual_items[i]]);
+      virtual_items_[i] = static_cast<int>(items_.indexOf(old_items[old_virtual_items[i]]));
     }
   }
 
