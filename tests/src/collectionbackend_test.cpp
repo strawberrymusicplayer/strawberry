@@ -54,7 +54,7 @@ class CollectionBackendTest : public ::testing::Test {
     // Returns a valid song with all the required fields set
     Song ret;
     ret.set_directory_id(directory_id);
-    ret.set_url(QUrl::fromLocalFile(QLatin1String("foo.flac")));
+    ret.set_url(QUrl::fromLocalFile(QStringLiteral("foo.flac")));
     ret.set_mtime(1);
     ret.set_ctime(1);
     ret.set_filesize(1);

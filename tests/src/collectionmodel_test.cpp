@@ -177,7 +177,7 @@ TEST_F(CollectionModelTest, MixedCaseHeaders) {
 
 TEST_F(CollectionModelTest, UnknownArtists) {
 
-  AddSong(QStringLiteral("Title"), QStringLiteral(""), QStringLiteral("Album"), 123);
+  AddSong(QStringLiteral("Title"), QLatin1String(""), QStringLiteral("Album"), 123);
   model_->Init(false);
   model_->fetchMore(model_->index(0, 0));
 
@@ -192,7 +192,7 @@ TEST_F(CollectionModelTest, UnknownArtists) {
 
 TEST_F(CollectionModelTest, UnknownAlbums) {
 
-  AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral(""), 123);
+  AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QLatin1String(""), 123);
   AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
   model_->Init(false);
   model_->fetchMore(model_->index(0, 0));
