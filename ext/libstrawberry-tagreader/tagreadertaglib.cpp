@@ -962,7 +962,7 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
       SetRating(tag, song);
     }
     if (save_cover) {
-      SetEmbeddedArt(file_mpeg, tag, cover.data, cover.mime_type);
+      SetEmbeddedArt(tag, cover.data, cover.mime_type);
     }
   }
 
@@ -1002,7 +1002,7 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
         SetRating(tag, song);
       }
       if (save_cover) {
-        SetEmbeddedArt(file_mpeg, tag, cover.data, cover.mime_type);
+        SetEmbeddedArt(tag, cover.data, cover.mime_type);
       }
     }
   }
@@ -1313,9 +1313,7 @@ void TagReaderTagLib::SetEmbeddedArt(TagLib::Ogg::XiphComment *xiph_comment, con
 
 }
 
-void TagReaderTagLib::SetEmbeddedArt(TagLib::MPEG::File *file_mp3, TagLib::ID3v2::Tag *tag, const QByteArray &data, const QString &mime_type) const {
-
-  (void)file_mp3;
+void TagReaderTagLib::SetEmbeddedArt(TagLib::ID3v2::Tag *tag, const QByteArray &data, const QString &mime_type) const {
 
   // Remove existing covers
   TagLib::ID3v2::FrameList apiclist = tag->frameListMap()["APIC"];
@@ -1395,7 +1393,7 @@ bool TagReaderTagLib::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtReque
   else if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(fileref.file())) {
     TagLib::ID3v2::Tag *tag = file_mp3->ID3v2Tag();
     if (!tag) return false;
-    SetEmbeddedArt(file_mp3, tag, cover.data, cover.mime_type);
+    SetEmbeddedArt(tag, cover.data, cover.mime_type);
   }
 
   // MP4/AAC
