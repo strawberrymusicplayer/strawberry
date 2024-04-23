@@ -25,6 +25,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <chrono>
 
 #include <QtGlobal>
 #include <QObject>
@@ -68,6 +69,8 @@
 #include "settings/behavioursettingspage.h"
 #include "settings/playlistsettingspage.h"
 
+using namespace std::chrono_literals;
+
 using std::make_shared;
 
 const char *Player::kSettingsGroup = "Player";
@@ -103,7 +106,7 @@ Player::Player(Application *app, QObject *parent)
   CreateEngine(enginetype);
 
   timer_save_volume_->setSingleShot(true);
-  timer_save_volume_->setInterval(5000);
+  timer_save_volume_->setInterval(5s);
   QObject::connect(timer_save_volume_, &QTimer::timeout, this, &Player::SaveVolume);
 
 }
