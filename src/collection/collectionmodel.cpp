@@ -2013,7 +2013,7 @@ void CollectionModel::ExpandAll(CollectionItem *item) const {
   if (!root_) return;
 
   if (!item) item = root_;
-  const_cast<CollectionModel*>(this)->LazyPopulate(const_cast<CollectionItem*>(item), false);
+  const_cast<CollectionModel*>(this)->LazyPopulate(item, false);
   for (CollectionItem *child : item->children) {
     ExpandAll(child);
   }
