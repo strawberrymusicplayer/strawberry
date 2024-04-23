@@ -166,7 +166,7 @@ QString Chromaprinter::CreateFingerprint() {
     int encoded_size = 0;
     ret = chromaprint_encode_fingerprint(fprint, size, CHROMAPRINT_ALGORITHM_DEFAULT, &encoded, &encoded_size, 1);
     if (ret == 1) {
-      fingerprint.append(reinterpret_cast<char*>(encoded), encoded_size);
+      fingerprint.append(encoded, encoded_size);
       chromaprint_dealloc(encoded);
     }
     chromaprint_dealloc(fprint);
