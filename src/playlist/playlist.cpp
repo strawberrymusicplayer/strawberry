@@ -332,9 +332,9 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
           if (role == Qt::DisplayRole)  return song.comment().simplified();
           return song.comment();
 
-        case Column_EBUR128IntegratedLoudness: return song.ebur128_integrated_loudness_lufs() ? *song.ebur128_integrated_loudness_lufs() : QVariant();
+        case Column_EBUR128IntegratedLoudness: return song.ebur128_integrated_loudness_lufs().has_value() ? song.ebur128_integrated_loudness_lufs().value() : QVariant();
 
-        case Column_EBUR128LoudnessRange: return song.ebur128_loudness_range_lu() ? *song.ebur128_loudness_range_lu() : QVariant();
+        case Column_EBUR128LoudnessRange: return song.ebur128_loudness_range_lu().has_value() ? song.ebur128_loudness_range_lu().value() : QVariant();
 
         case Column_Source:             return QVariant::fromValue(song.source());
 
