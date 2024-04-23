@@ -192,7 +192,7 @@ void SettingsDialog::showEvent(QShowEvent *e) {
     LoadGeometry();
     // Load settings
     loading_settings_ = true;
-    QList<PageData> pages = pages_.values();
+    const QList<PageData> pages = pages_.values();
     for (const PageData &page : pages) {
       page.page_->Load();
     }
@@ -211,7 +211,7 @@ void SettingsDialog::closeEvent(QCloseEvent*) {
 
 void SettingsDialog::accept() {
 
-  QList<PageData> pages = pages_.values();
+  const QList<PageData> pages = pages_.values();
   for (const PageData &page : pages) {
     page.page_->Accept();
   }
@@ -226,7 +226,7 @@ void SettingsDialog::accept() {
 void SettingsDialog::reject() {
 
   // Notify each page that user clicks on Cancel
-  QList<PageData> pages = pages_.values();
+  const QList<PageData> pages = pages_.values();
   for (const PageData &page : pages) {
     page.page_->Reject();
   }
@@ -314,7 +314,7 @@ void SettingsDialog::AddPage(const Page id, SettingsPage *page, QTreeWidgetItem 
 
 void SettingsDialog::Save() {
 
-  QList<PageData> pages = pages_.values();
+  const QList<PageData> pages = pages_.values();
   for (const PageData &page : pages) {
     page.page_->Apply();
   }
@@ -327,7 +327,7 @@ void SettingsDialog::DialogButtonClicked(QAbstractButton *button) {
 
   // While we only connect Apply at the moment, this might change in the future
   if (ui_->buttonBox->button(QDialogButtonBox::Apply) == button) {
-    QList<PageData> pages = pages_.values();
+    const QList<PageData> pages = pages_.values();
     for (const PageData &page : pages) {
       page.page_->Apply();
     }
@@ -357,7 +357,7 @@ void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
   ui_->title->setText(QStringLiteral("<b>") + item->text(0) + QStringLiteral("</b>"));
 
   // Display the right page
-  QList<PageData> pages = pages_.values();
+  const QList<PageData> pages = pages_.values();
   for (const PageData &page : pages) {
     if (page.item_ == item) {
       ui_->stacked_widget->setCurrentWidget(page.scroll_area_);

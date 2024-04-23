@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QList>
@@ -81,7 +82,7 @@ void LyricsSettingsPage::Load() {
   QList<LyricsProvider*> lyrics_providers_sorted = dialog()->app()->lyrics_providers()->List();
   std::stable_sort(lyrics_providers_sorted.begin(), lyrics_providers_sorted.end(), ProviderCompareOrder);
 
-  for (LyricsProvider *provider : lyrics_providers_sorted) {
+  for (LyricsProvider *provider : std::as_const(lyrics_providers_sorted)) {
     QListWidgetItem *item = new QListWidgetItem(ui_->providers);
     item->setText(provider->name());
     item->setCheckState(provider->is_enabled() ? Qt::Checked : Qt::Unchecked);

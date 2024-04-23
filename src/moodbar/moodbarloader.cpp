@@ -114,7 +114,8 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, Q
   // Check if a mood file exists for this file already
   const QString filename(url.toLocalFile());
 
-  for (const QString &possible_mood_file : MoodFilenames(filename)) {
+  const QStringList possible_mood_files = MoodFilenames(filename);
+  for (const QString &possible_mood_file : possible_mood_files) {
     QFile f(possible_mood_file);
     if (f.exists()) {
       if (f.open(QIODevice::ReadOnly)) {

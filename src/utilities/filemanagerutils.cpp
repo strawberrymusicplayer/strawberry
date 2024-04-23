@@ -54,7 +54,7 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
   if (xdg_data_dirs.isEmpty()) {
     xdg_data_dirs = QStringLiteral("/usr/local/share/:/usr/share/");
   }
-  QStringList data_dirs = xdg_data_dirs.split(QStringLiteral(":"));
+  const QStringList data_dirs = xdg_data_dirs.split(QStringLiteral(":"));
 
   QString command;
   QStringList command_params;

@@ -165,7 +165,8 @@ OSDPretty::~OSDPretty() {
 void OSDPretty::showEvent(QShowEvent *e) {
 
   screens_.clear();
-  for (QScreen *screen : QGuiApplication::screens()) {
+  const QList<QScreen*> screens = QGuiApplication::screens();
+  for (QScreen *screen : screens) {
     screens_.insert(screen->name(), screen);
   }
 

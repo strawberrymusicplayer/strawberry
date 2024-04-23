@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <functional>
+#include <utility>
 
 #include <glib.h>
 #include <glib-object.h>
@@ -128,7 +129,7 @@ bool GioLister::Init() {
 }
 
 GioLister::~GioLister() {
-  for (gulong signal : signals_) {
+  for (gulong signal : std::as_const(signals_)) {
     g_signal_handler_disconnect(monitor_, signal);
   }
 }
@@ -222,7 +223,7 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
 
   QList<QUrl> ret;
 
-  for (QString uri : uris) {
+  for (QString uri : std::as_const(uris)) {
 
     // gphoto2 gives invalid hostnames with []:, characters in
     uri.replace(QRegularExpression(QStringLiteral("//\\[usb:(\\d+),(\\d+)\\]")), QStringLiteral("//usb-\\1-\\2"));
@@ -355,7 +356,7 @@ void GioLister::MountAdded(GMount *mount) {
     QMutexLocker l(&mutex_);
 
     // The volume might already exist - either mounted or unmounted.
-    QStringList ids = devices_.keys();
+    const QStringList ids = devices_.keys();
     for (const QString &id : ids) {
       if (devices_[id].volume_ptr == info.volume_ptr) {
         old_id = id;

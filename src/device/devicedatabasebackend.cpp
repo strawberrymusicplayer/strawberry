@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QObject>
 #include <QThread>
 #include <QMutex>
@@ -105,7 +107,7 @@ DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
     }
   }
 
-  for (const Device &dev : old_devices) {
+  for (const Device &dev : std::as_const(old_devices)) {
     RemoveDevice(dev.id_);
   }
 

@@ -16,6 +16,7 @@
 */
 
 #include <algorithm>
+#include <utility>
 
 #include <QApplication>
 #include <QtConcurrentRun>
@@ -177,7 +178,8 @@ bool MoodbarItemDelegate::RemoveFromCacheIfIndexesInvalid(const QUrl &url, Data 
 
 void MoodbarItemDelegate::ReloadAllColors() {
 
-  for (const QUrl &url : data_.keys()) {
+  const QList<QUrl> urls = data_.keys();
+  for (const QUrl &url : urls) {
     Data *data = data_[url];
 
     if (data->state_ == Data::State::Loaded) {

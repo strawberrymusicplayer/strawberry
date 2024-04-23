@@ -402,8 +402,8 @@ bool CueParser::TryMagic(const QByteArray &data) const {
 
 QString CueParser::FindCueFilename(const QString &filename) {
 
-  QStringList cue_files = QStringList() << filename + QStringLiteral(".cue")
-                                        << filename.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".cue");
+  const QStringList cue_files = QStringList() << filename + QStringLiteral(".cue")
+                                              << filename.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".cue");
 
   for (const QString &cuefile : cue_files) {
     if (QFileInfo::exists(cuefile)) return cuefile;

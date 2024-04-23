@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QtConcurrentMap>
@@ -75,7 +76,7 @@ void TagFetcher::StartFetch(const SongList &songs) {
     fingerprint_watcher_ = new QFutureWatcher<QString>(this);
     QObject::connect(fingerprint_watcher_, &QFutureWatcher<QString>::resultReadyAt, this, &TagFetcher::FingerprintFound);
     fingerprint_watcher_->setFuture(future);
-    for (const Song &song : songs_) {
+    for (const Song &song : std::as_const(songs_)) {
       emit Progress(song, tr("Fingerprinting song"));
     }
   }

@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QFile>
 #include <QSize>
 #include <QString>
@@ -64,7 +66,7 @@ void CoverExportRunnable::ProcessAndExportCover() {
   QImage image;
   QString extension;
 
-  for (const AlbumCoverLoaderOptions::Type cover_type : cover_types_) {
+  for (const AlbumCoverLoaderOptions::Type cover_type : std::as_const(cover_types_)) {
     switch (cover_type) {
       case AlbumCoverLoaderOptions::Type::Unset:
         if (song_.art_unset()) {
@@ -156,7 +158,7 @@ void CoverExportRunnable::ExportCover() {
   QString cover_path;
   bool embedded_cover = false;
 
-  for (const AlbumCoverLoaderOptions::Type cover_type : cover_types_) {
+  for (const AlbumCoverLoaderOptions::Type cover_type : std::as_const(cover_types_)) {
     switch (cover_type) {
       case AlbumCoverLoaderOptions::Type::Unset:
         if (song_.art_unset()) {

@@ -52,7 +52,7 @@ AlbumCoverFetcher::AlbumCoverFetcher(SharedPtr<CoverProviders> cover_providers, 
 
 AlbumCoverFetcher::~AlbumCoverFetcher() {
 
-  QList<AlbumCoverFetcherSearch*> searches = active_requests_.values();
+  const QList<AlbumCoverFetcherSearch*> searches = active_requests_.values();
   for (AlbumCoverFetcherSearch *search : searches) {
     search->disconnect();
     search->deleteLater();
@@ -105,7 +105,7 @@ void AlbumCoverFetcher::Clear() {
 
   queued_requests_.clear();
 
-  QList<AlbumCoverFetcherSearch*> searches = active_requests_.values();
+  const QList<AlbumCoverFetcherSearch*> searches = active_requests_.values();
   for (AlbumCoverFetcherSearch *search : searches) {
     search->Cancel();
     search->deleteLater();

@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QtConcurrentRun>
 #include <QWidget>
 #include <QDialog>
@@ -299,7 +301,7 @@ void TrackSelectionDialog::accept() {
 
   QDialog::accept();
 
-  for (const Data &tag_data : data_) {
+  for (const Data &tag_data : std::as_const(data_)) {
     if (tag_data.pending_ || tag_data.results_.isEmpty() || tag_data.selected_result_ == -1) {
       continue;
     }

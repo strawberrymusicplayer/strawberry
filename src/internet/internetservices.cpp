@@ -69,7 +69,7 @@ InternetServicePtr InternetServices::ServiceBySource(const Song::Source source) 
 
 void InternetServices::ReloadSettings() {
 
-  QList<InternetServicePtr> services = services_.values();
+  const QList<InternetServicePtr> services = services_.values();
   for (InternetServicePtr service : services) {
     service->ReloadSettings();
   }
@@ -78,7 +78,7 @@ void InternetServices::ReloadSettings() {
 
 void InternetServices::Exit() {
 
-  QList<InternetServicePtr> services = services_.values();
+  const QList<InternetServicePtr> services = services_.values();
   for (InternetServicePtr service : services) {
     wait_for_exit_ << &*service;
     QObject::connect(&*service, &InternetService::ExitFinished, this, &InternetServices::ExitReceived);

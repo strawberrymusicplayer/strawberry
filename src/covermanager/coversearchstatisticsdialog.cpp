@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QtGlobal>
 #include <QWidget>
@@ -69,7 +70,7 @@ void CoverSearchStatisticsDialog::Show(const CoverSearchStatistics &statistics) 
           .arg(statistics.chosen_images_ + statistics.missing_images_)
           .arg(statistics.missing_images_));
 
-  for (const QString &provider : providers) {
+  for (const QString &provider : std::as_const(providers)) {
     AddLine(tr("Covers from %1").arg(provider), QString::number(statistics.chosen_images_by_provider_[provider]));
   }
 

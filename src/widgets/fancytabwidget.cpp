@@ -187,7 +187,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
 
     // if LargeSidebar, restore spacers
     if (tabWidget->mode() == FancyTabWidget::Mode::LargeSidebar && spacers.count() > 0) {
-      QList<int> keys = spacers.keys();
+      const QList<int> keys = spacers.keys();
       for (const int index : keys) {
         tabWidget->insertTab(index, spacers[index], QIcon(), QString());
         tabWidget->setTabEnabled(index, false);

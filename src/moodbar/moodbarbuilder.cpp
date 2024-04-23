@@ -88,6 +88,8 @@ void MoodbarBuilder::AddFrame(const double *magnitudes, int size) {
 
 void MoodbarBuilder::Normalize(QList<Rgb> *vals, double Rgb::*member) {
 
+  const QList<Rgb> rgb_vals = *vals;
+
   double mini = vals->at(0).*member;
   double maxi = vals->at(0).*member;
   for (int i = 1; i < vals->count(); i++) {
@@ -101,7 +103,7 @@ void MoodbarBuilder::Normalize(QList<Rgb> *vals, double Rgb::*member) {
   }
 
   double avg = 0;
-  for (const Rgb &rgb : *vals) {
+  for (const Rgb &rgb : rgb_vals) {
     const double value = rgb.*member;
     if (value != mini && value != maxi) {
       avg += value / static_cast<double>(vals->count());
@@ -112,7 +114,7 @@ void MoodbarBuilder::Normalize(QList<Rgb> *vals, double Rgb::*member) {
   double tb = 0;
   double avgu = 0;
   double avgb = 0;
-  for (const Rgb &rgb : *vals) {
+  for (const Rgb &rgb : rgb_vals) {
     const double value = rgb.*member;
     if (value != mini && value != maxi) {
       if (value > avg) {
@@ -132,7 +134,7 @@ void MoodbarBuilder::Normalize(QList<Rgb> *vals, double Rgb::*member) {
   tb = 0;
   double avguu = 0;
   double avgbb = 0;
-  for (const Rgb &rgb : *vals) {
+  for (const Rgb &rgb : rgb_vals) {
     const double value = rgb.*member;
     if (value != mini && value != maxi) {
       if (value > avgu) {

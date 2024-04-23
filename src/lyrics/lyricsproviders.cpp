@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QObject>
 #include <QMutex>
 #include <QList>
@@ -51,14 +53,14 @@ void LyricsProviders::ReloadSettings() {
 
   QMap<int, QString> all_providers;
   QList<LyricsProvider*> old_providers = lyrics_providers_.keys();
-  for (LyricsProvider *provider : old_providers) {
+  for (LyricsProvider *provider : std::as_const(old_providers)) {
     if (!provider->is_enabled()) continue;
     all_providers.insert(provider->order(), provider->name());
   }
 
   Settings s;
   s.beginGroup(LyricsSettingsPage::kSettingsGroup);
-  QStringList providers_enabled = s.value("providers", QStringList() << all_providers.values()).toStringList();
+  const QStringList providers_enabled = s.value("providers", QStringList() << all_providers.values()).toStringList();
   s.endGroup();
 
   int i = 0;
@@ -73,7 +75,7 @@ void LyricsProviders::ReloadSettings() {
   }
 
   old_providers = lyrics_providers_.keys();
-  for (LyricsProvider *provider : old_providers) {
+  for (LyricsProvider *provider : std::as_const(old_providers)) {
     if (!new_providers.contains(provider)) {
       provider->set_enabled(false);
       provider->set_order(++i);
@@ -84,7 +86,7 @@ void LyricsProviders::ReloadSettings() {
 
 LyricsProvider *LyricsProviders::ProviderByName(const QString &name) const {
 
-  QList<LyricsProvider*> providers = lyrics_providers_.keys();
+  const QList<LyricsProvider*> providers = lyrics_providers_.keys();
   for (LyricsProvider *provider : providers) {
     if (provider->name() == name) return provider;
   }

@@ -25,6 +25,7 @@
 #include <cmath>
 #include <algorithm>
 #include <optional>
+#include <utility>
 #include <memory>
 
 #include <glib.h>
@@ -815,7 +816,7 @@ SharedPtr<GstEnginePipeline> GstEngine::CreatePipeline() {
   ret->set_fading_enabled(fadeout_enabled_ || autocrossfade_enabled_ || fadeout_pause_enabled_);
 
   ret->AddBufferConsumer(this);
-  for (GstBufferConsumer *consumer : buffer_consumers_) {
+  for (GstBufferConsumer *consumer : std::as_const(buffer_consumers_)) {
     ret->AddBufferConsumer(consumer);
   }
 

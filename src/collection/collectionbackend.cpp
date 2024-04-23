@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <optional>
+#include <utility>
 
 #include <QtGlobal>
 #include <QObject>
@@ -155,7 +156,7 @@ void CollectionBackend::ResetPlayStatisticsAsync(const QList<int> &id_list, cons
 
 void CollectionBackend::LoadDirectories() {
 
-  CollectionDirectoryList dirs = GetAllDirectories();
+  const CollectionDirectoryList dirs = GetAllDirectories();
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -740,7 +741,7 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
   }
 
   // Add or update songs.
-  QList new_songs_list = new_songs.values();
+  const QList new_songs_list = new_songs.values();
   for (const Song &new_song : new_songs_list) {
     if (old_songs.contains(new_song.song_id())) {
 
@@ -811,7 +812,7 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
   }
 
   // Delete songs
-  QList old_songs_list = old_songs.values();
+  const QList old_songs_list = old_songs.values();
   for (const Song &old_song : old_songs_list) {
     if (!new_songs.contains(old_song.song_id())) {
       {
@@ -2097,7 +2098,7 @@ SongList CollectionBackend::GetSongsBy(const QString &artist, const QString &alb
 
 void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const qint64 lastplayed) {
 
-  SongList songs = GetSongsBy(artist, album, title);
+  const SongList songs = GetSongsBy(artist, album, title);
   if (songs.isEmpty()) {
     qLog(Debug) << "Could not find a matching song in the database for" << artist << album << title;
     return;
@@ -2126,7 +2127,7 @@ void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &a
 
 void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &title, const int playcount, const bool save_tags) {
 
-  SongList songs = GetSongsBy(artist, QString(), title);
+  const SongList songs = GetSongsBy(artist, QString(), title);
   if (songs.isEmpty()) {
     qLog(Debug) << "Could not find a matching song in the database for" << artist << title;
     return;

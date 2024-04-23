@@ -23,6 +23,7 @@
 
 #include <cstdio>
 #include <cstddef>
+#include <utility>
 
 #include <QtGlobal>
 #include <QObject>
@@ -250,7 +251,7 @@ void WorkerPool<HandlerType>::DoStart() {
   search_path << QDir::cleanPath(QCoreApplication::applicationDirPath() + QStringLiteral("/../PlugIns"));
 #endif
 
-  for (const QString &path_prefix : search_path) {
+  for (const QString &path_prefix : std::as_const(search_path)) {
     const QString executable_path = path_prefix + QLatin1Char('/') + executable_name_;
     if (QFile::exists(executable_path)) {
       executable_path_ = executable_path;

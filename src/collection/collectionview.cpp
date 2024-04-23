@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <memory>
 
 #include <QtGlobal>
@@ -414,7 +415,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   context_menu_index_ = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(context_menu_index_);
 
-  QModelIndexList selected_indexes = qobject_cast<QSortFilterProxyModel*>(model())->mapSelectionToSource(selectionModel()->selection()).indexes();
+  const QModelIndexList selected_indexes = qobject_cast<QSortFilterProxyModel*>(model())->mapSelectionToSource(selectionModel()->selection()).indexes();
 
   int regular_elements = 0;
   int regular_editable = 0;
@@ -485,7 +486,8 @@ void CollectionView::SetShowInVarious(const bool on) {
   // We put through "Various Artists" changes one album at a time,
   // to make sure the old album node gets removed (due to all children removed), before the new one gets added
   QMultiMap<QString, QString> albums;
-  for (const Song &song : GetSelectedSongs()) {
+  const SongList songs = GetSelectedSongs();
+  for (const Song &song : songs) {
     if (albums.find(song.album(), song.artist()) == albums.end())
       albums.insert(song.album(), song.artist());
   }
@@ -495,7 +497,7 @@ void CollectionView::SetShowInVarious(const bool on) {
   if (on && albums.keys().count() == 1) {
     const QStringList albums_list = albums.keys();
     const QString album = albums_list.first();
-    SongList all_of_album = app_->collection_backend()->GetSongsByAlbum(album);
+    const SongList all_of_album = app_->collection_backend()->GetSongsByAlbum(album);
     QSet<QString> other_artists;
     for (const Song &s : all_of_album) {
       if (!albums.contains(album, s.artist()) && !other_artists.contains(s.artist())) {
@@ -512,9 +514,9 @@ void CollectionView::SetShowInVarious(const bool on) {
   }
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-  QSet<QString> albums_set = QSet<QString>(albums.keyBegin(), albums.keyEnd());
+  const QSet<QString> albums_set = QSet<QString>(albums.keyBegin(), albums.keyEnd());
 #else
-  QSet<QString> albums_set = QSet<QString>::fromList(albums.keys());
+  const QSet<QString> albums_set = QSet<QString>::fromList(albums.keys());
 #endif
   for (const QString &album : albums_set) {
     app_->collection_backend()->ForceCompilation(album, albums.values(album), on);
@@ -763,7 +765,7 @@ void CollectionView::FilterReturnPressed() {
 
 void CollectionView::ShowInBrowser() const {
 
-  SongList songs = GetSelectedSongs();
+  const SongList songs = GetSelectedSongs();
   QList<QUrl> urls;
   urls.reserve(songs.count());
   for (const Song &song : songs) {
@@ -788,7 +790,7 @@ void CollectionView::Delete() {
 
   if (!delete_files_) return;
 
-  SongList selected_songs = GetSelectedSongs();
+  const SongList selected_songs = GetSelectedSongs();
 
   SongList songs;
   QStringList files;

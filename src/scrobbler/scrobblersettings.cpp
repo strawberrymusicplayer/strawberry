@@ -58,7 +58,7 @@ void ScrobblerSettings::ReloadSettings() {
   prefer_albumartist_ = s.value("albumartist", false).toBool();
   show_error_dialog_ = s.value("show_error_dialog", true).toBool();
   strip_remastered_ = s.value("strip_remastered", true).toBool();
-  QStringList sources = s.value("sources").toStringList();
+  const QStringList sources = s.value("sources").toStringList();
   s.endGroup();
 
   sources_.clear();

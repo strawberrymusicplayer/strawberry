@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <sqlite3.h>
 
 #include <QObject>
@@ -87,7 +89,8 @@ Database::~Database() {
 
   QMutexLocker l(&connect_mutex_);
 
-  for (const QString &connection_id : QSqlDatabase::connectionNames()) {
+  const QStringList connection_names = QSqlDatabase::connectionNames();
+  for (const QString &connection_id : connection_names) {
     qLog(Error) << "Connection" << connection_id << "is still open!";
   }
 
@@ -157,7 +160,7 @@ QSqlDatabase Database::Connect() {
 
   // Attach external databases
   QStringList keys = attached_databases_.keys();
-  for (const QString &key : keys) {
+  for (const QString &key : std::as_const(keys)) {
     QString filename = attached_databases_[key].filename_;
 
     if (!injected_database_name_.isNull()) filename = injected_database_name_;
@@ -178,7 +181,7 @@ QSqlDatabase Database::Connect() {
 
   // We might have to initialize the schema in some attached databases now, if they were deleted and don't match up with the main schema version.
   keys = attached_databases_.keys();
-  for (const QString &key : keys) {
+  for (const QString &key : std::as_const(keys)) {
     if (attached_databases_[key].is_temporary_ && attached_databases_[key].schema_.isEmpty()) {
       continue;
     }
@@ -276,7 +279,8 @@ void Database::RecreateAttachedDb(const QString &database_name) {
 
   // We can't just re-attach the database now because it needs to be done for each thread.
   // Close all the database connections, so each thread will re-attach it when they next connect.
-  for (const QString &name : QSqlDatabase::connectionNames()) {
+  const QStringList connection_names = QSqlDatabase::connectionNames();
+  for (const QString &name : connection_names) {
     QSqlDatabase::removeDatabase(name);
   }
 
@@ -384,8 +388,7 @@ void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
 void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int schema_version, bool in_transaction) {
 
   // Run each command
-  QStringList commands;
-  commands = schema.split(QRegularExpression(QStringLiteral("; *\n\n")));
+  QStringList commands = schema.split(QRegularExpression(QStringLiteral("; *\n\n")));
 
   // We don't want this list to reflect possible DB schema changes, so we initialize it before executing any statements.
   // If no outer transaction is provided the song tables need to be queried before beginning an inner transaction!
@@ -445,12 +448,13 @@ QStringList Database::SongsTables(QSqlDatabase &db, const int schema_version) {
   QStringList ret;
 
   // look for the tables in the main db
-  for (const QString &table : db.tables()) {
+  const QStringList &tables = db.tables();
+  for (const QString &table : tables) {
     if (table == QStringLiteral("songs") || table.endsWith(QLatin1String("_songs"))) ret << table;
   }
 
   // look for the tables in attached dbs
-  QStringList keys = attached_databases_.keys();
+  const QStringList keys = attached_databases_.keys();
   for (const QString &key : keys) {
     SqlQuery q(db);
     q.prepare(QStringLiteral("SELECT NAME FROM %1.sqlite_master WHERE type='table' AND name='songs' OR name LIKE '%songs'").arg(key));

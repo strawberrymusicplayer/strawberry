@@ -153,7 +153,7 @@ void GlobalShortcutsSettingsPage::Load() {
     }
 #endif  // HAVE_X11_GLOBALSHORTCUTS
 
-    QList<GlobalShortcutsManager::Shortcut> shortcuts = manager->shortcuts().values();
+    const QList<GlobalShortcutsManager::Shortcut> shortcuts = manager->shortcuts().values();
     for (const GlobalShortcutsManager::Shortcut &i : shortcuts) {
       Shortcut shortcut;
       shortcut.s = i;
@@ -167,7 +167,7 @@ void GlobalShortcutsSettingsPage::Load() {
     ItemClicked(ui_->list->topLevelItem(0));
   }
 
-  QList<Shortcut> shortcuts = shortcuts_.values();
+  const QList<Shortcut> shortcuts = shortcuts_.values();
   for (const Shortcut &shortcut : shortcuts) {
     SetShortcut(shortcut.s.id, shortcut.s.action->shortcut());
   }
@@ -215,7 +215,7 @@ void GlobalShortcutsSettingsPage::Save() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  QList<Shortcut> shortcuts = shortcuts_.values();
+  const QList<Shortcut> shortcuts = shortcuts_.values();
   for (const Shortcut &shortcut : shortcuts) {
     shortcut.s.action->setShortcut(shortcut.key);
     shortcut.s.shortcut->setKey(shortcut.key);
@@ -330,7 +330,7 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
   if (key.isEmpty()) return;
 
   // Check if this key sequence is used by any other actions
-  QStringList ids = shortcuts_.keys();
+  const QStringList ids = shortcuts_.keys();
   for (const QString &id : ids) {
     if (shortcuts_[id].key == key) SetShortcut(id, QKeySequence());
   }

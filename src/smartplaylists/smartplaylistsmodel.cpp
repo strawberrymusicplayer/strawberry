@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QAbstractListModel>
 #include <QVariant>
 #include <QStringList>
@@ -136,7 +138,7 @@ void SmartPlaylistsModel::Init() {
     // Append the new ones
     s.beginWriteArray(collection_backend_->songs_table(), playlist_index + unwritten_defaults);
     for (; version < default_smart_playlists_.count(); ++version) {
-      for (PlaylistGeneratorPtr gen : default_smart_playlists_[version]) {  // clazy:exclude=range-loop-reference
+      for (PlaylistGeneratorPtr gen : std::as_const(default_smart_playlists_[version])) {
         SaveGenerator(&s, playlist_index++, gen);
       }
     }
@@ -231,7 +233,8 @@ void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
   // Rewrite all the items to the settings
   s.beginWriteArray(collection_backend_->songs_table(), static_cast<int>(root_->children.count()));
   int i = 0;
-  for (SmartPlaylistsItem *item : root_->children) {
+  const QList<SmartPlaylistsItem*> children = root_->children;
+  for (SmartPlaylistsItem *item : children) {
     s.setArrayIndex(i++);
     s.setValue("name", item->display_text);
     s.setValue("type", static_cast<int>(item->smart_playlist_type));

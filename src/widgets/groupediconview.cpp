@@ -18,6 +18,8 @@
  *
  */
 
+#include <utility>
+
 #include <QWidget>
 #include <QListView>
 #include <QAbstractItemModel>
@@ -305,7 +307,7 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
   }
 
   // Draw headers
-  for (const Header &header : headers_) {
+  for (const Header &header : std::as_const(headers_)) {
     const QRect header_rect = QRect(header_indent_, header.y, viewport()->width() - header_indent_ * 2, header_height());
 
     // Is this header contained in the area we're drawing?
@@ -325,7 +327,7 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
 
 void GroupedIconView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) {
 
-  QVector<QModelIndex> indexes(IntersectingItems(rect.translated(horizontalOffset(), verticalOffset())));
+  const QVector<QModelIndex> indexes(IntersectingItems(rect.translated(horizontalOffset(), verticalOffset())));
 
   QItemSelection selection;
   selection.reserve(indexes.count());
@@ -356,7 +358,8 @@ QVector<QModelIndex> GroupedIconView::IntersectingItems(const QRect rect) const 
 QRegion GroupedIconView::visualRegionForSelection(const QItemSelection &selection) const {
 
   QRegion ret;
-  for (const QModelIndex &idx : selection.indexes()) {
+  const QModelIndexList indexes = selection.indexes();
+  for (const QModelIndex &idx : indexes) {
     ret += visual_rects_[idx.row()];
   }
   return ret;

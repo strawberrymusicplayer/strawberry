@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QWidget>
 #include <QTreeView>
 #include <QSortFilterProxyModel>
@@ -180,7 +182,7 @@ bool InternetCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
       case CollectionItem::Type_Song:
         if (!last_selected_song_.url().isEmpty()) {
           QModelIndex idx = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
-          SongList songs = collection_model_->GetChildSongs(idx);
+          const SongList songs = collection_model_->GetChildSongs(idx);
           for (const Song &song : songs) {
             if (song == last_selected_song_) {
               setCurrentIndex(current);

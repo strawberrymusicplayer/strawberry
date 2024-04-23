@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QWidget>
 #include <QString>
 #include <QIcon>
@@ -79,7 +81,7 @@ void ErrorDialog::closeEvent(QCloseEvent *e) {
 void ErrorDialog::UpdateContent() {
 
   QString html;
-  for (const QString &message : current_messages_) {
+  for (const QString &message : std::as_const(current_messages_)) {
     if (!html.isEmpty()) {
       html += QLatin1String("<hr/>");
     }

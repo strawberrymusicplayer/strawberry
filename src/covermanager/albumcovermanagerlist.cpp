@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QWidget>
 #include <QStringList>
 #include <QUrl>
@@ -57,7 +59,7 @@ QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem*> items) 
   // Get URLs from the songs
   QList<QUrl> urls;
   urls.reserve(songs.count());
-  for (const Song &song : songs) {
+  for (const Song &song : std::as_const(songs)) {
     urls << song.url();
   }
 

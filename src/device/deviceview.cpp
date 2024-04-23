@@ -377,7 +377,7 @@ void DeviceView::mouseDoubleClickEvent(QMouseEvent *e) {
 
 SongList DeviceView::GetSelectedSongs() const {
 
-  QModelIndexList selected_merged_indexes = selectionModel()->selectedRows();
+  const QModelIndexList selected_merged_indexes = selectionModel()->selectedRows();
   SongList songs;
   for (const QModelIndex &merged_index : selected_merged_indexes) {
     QModelIndex collection_index = MapToCollection(merged_index);

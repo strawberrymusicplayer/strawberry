@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QList>
@@ -101,7 +102,7 @@ void CoversSettingsPage::Load() {
   QList<CoverProvider*> cover_providers_sorted = dialog()->app()->cover_providers()->List();
   std::stable_sort(cover_providers_sorted.begin(), cover_providers_sorted.end(), ProviderCompareOrder);
 
-  for (CoverProvider *provider : cover_providers_sorted) {
+  for (CoverProvider *provider : std::as_const(cover_providers_sorted)) {
     QListWidgetItem *item = new QListWidgetItem(ui_->providers);
     item->setText(provider->name());
     item->setCheckState(provider->is_enabled() ? Qt::Checked : Qt::Unchecked);

@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QTimer>
@@ -49,7 +50,7 @@ LyricsFetcherSearch::LyricsFetcherSearch(const quint64 id, const LyricsSearchReq
 
 void LyricsFetcherSearch::TerminateSearch() {
 
-  QList<int> keys = pending_requests_.keys();
+  const QList<int> keys = pending_requests_.keys();
   for (const int id : keys) {
     pending_requests_.take(id)->CancelSearch(id);
   }
@@ -68,7 +69,7 @@ void LyricsFetcherSearch::Start(SharedPtr<LyricsProviders> lyrics_providers) {
   QList<LyricsProvider*> lyrics_providers_sorted = lyrics_providers->List();
   std::stable_sort(lyrics_providers_sorted.begin(), lyrics_providers_sorted.end(), ProviderCompareOrder);
 
-  for (LyricsProvider *provider : lyrics_providers_sorted) {
+  for (LyricsProvider *provider : std::as_const(lyrics_providers_sorted)) {
     if (!provider->is_enabled() || !provider->IsAuthenticated()) continue;
     QObject::connect(provider, &LyricsProvider::SearchFinished, this, &LyricsFetcherSearch::ProviderSearchFinished);
     const int id = lyrics_providers->NextId();

@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QtGlobal>
 #include <QWidget>
@@ -106,7 +107,7 @@ TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
   // Get presets
   QList<TranscoderPreset> presets = Transcoder::GetAllPresets();
   std::sort(presets.begin(), presets.end(), ComparePresetsByName);
-  for (const TranscoderPreset &preset : presets) {
+  for (const TranscoderPreset &preset : std::as_const(presets)) {
     ui_->format->addItem(QStringLiteral("%1 (.%2)").arg(preset.name_, preset.extension_), QVariant::fromValue(preset));
   }
 
@@ -289,7 +290,7 @@ void TranscodeDialog::UpdateProgress() {
   int progress = (finished_success_ + finished_failed_) * 100;
 
   QMap<QString, float> current_jobs = transcoder_->GetProgress();
-  QList<float> values = current_jobs.values();
+  const QList<float> values = current_jobs.values();
   for (const float value : values) {
     progress += qBound(0, static_cast<int>(value * 100), 99);
   }

@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QtGlobal>
 #include <QString>
 
@@ -39,11 +41,11 @@ CoverSearchStatistics &CoverSearchStatistics::operator+=(const CoverSearchStatis
   bytes_transferred_ += other.bytes_transferred_;
 
   QStringList keys = other.chosen_images_by_provider_.keys();
-  for (const QString &key : keys) {
+  for (const QString &key : std::as_const(keys)) {
     chosen_images_by_provider_[key] += other.chosen_images_by_provider_[key];
   }
   keys = other.total_images_by_provider_.keys();
-  for (const QString &key : keys) {
+  for (const QString &key : std::as_const(keys)) {
     total_images_by_provider_[key] += other.total_images_by_provider_[key];
   }
 

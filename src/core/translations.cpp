@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QCoreApplication>
 #include <QTranslator>
 #include <QString>
@@ -29,7 +31,7 @@
 Translations::Translations(QObject *parent) : QObject(parent) {}
 Translations::~Translations() {
 
-  for (QTranslator *t : translations_) {
+  for (QTranslator *t : std::as_const(translations_)) {
     QCoreApplication::removeTranslator(t);
     delete t;
   }

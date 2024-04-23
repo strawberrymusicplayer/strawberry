@@ -18,6 +18,8 @@
  *
  */
 
+#include <utility>
+
 #include <QtGlobal>
 #include <QWidget>
 #include <QList>
@@ -195,7 +197,7 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
   labels << Label(TextForSize(free_text_, free_ - additional_), kColorBg2);
 
   int text_width = 0;
-  for (const Label &label : labels) {
+  for (const Label &label : std::as_const(labels)) {
     text_width += kLabelBoxSize + kLabelBoxPadding + kLabelSpacing + small_metrics.horizontalAdvance(label.text);
   }
 
@@ -203,7 +205,7 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
   int x = (r.width() - text_width) / 2;
 
   p->setRenderHint(QPainter::Antialiasing, false);
-  for (const Label &label : labels) {
+  for (const Label &label : std::as_const(labels)) {
     const bool light = palette().color(QPalette::Base).value() > 128;
 
     QRect box(x, r.top() + (r.height() - kLabelBoxSize) / 2, kLabelBoxSize, kLabelBoxSize);

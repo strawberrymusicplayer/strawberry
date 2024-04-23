@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QtGlobal>
 #include <QList>
 #include <QUndoStack>
@@ -92,7 +94,7 @@ bool RemoveItems::mergeWith(const QUndoCommand *other) {
   ranges_.append(remove_command->ranges_);
 
   int sum = 0;
-  for (const Range &range : ranges_) sum += range.count_;
+  for (const Range &range : std::as_const(ranges_)) sum += range.count_;
   setText(tr("remove %n songs", "", sum));
 
   return true;

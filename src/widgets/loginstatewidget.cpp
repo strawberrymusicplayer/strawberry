@@ -22,6 +22,8 @@
 #include "ui_loginstatewidget.h"
 #include "core/iconloader.h"
 
+#include <utility>
+
 #include <QWidget>
 #include <QLocale>
 #include <QDate>
@@ -82,7 +84,7 @@ void LoginStateWidget::SetLoggedIn(const State state, const QString &account_nam
   if (account_name.isEmpty()) ui_->signed_in_label->setText(QStringLiteral("<b>") + tr("You are signed in.") + QStringLiteral("</b>"));
   else ui_->signed_in_label->setText(tr("You are signed in as %1.").arg(QStringLiteral("<b>") + account_name + QStringLiteral("</b>")));
 
-  for (QWidget *widget : credential_groups_) {
+  for (QWidget *widget : std::as_const(credential_groups_)) {
     widget->setVisible(state != State::LoggedIn);
     widget->setEnabled(state != State::LoginInProgress);
   }

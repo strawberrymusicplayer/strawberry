@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QDialog>
 #include <QStandardItemModel>
 #include <QItemSelectionModel>
@@ -195,7 +197,8 @@ void SavedGroupingManager::Remove() {
   if (ui_->list->selectionModel()->hasSelection()) {
     Settings s;
     s.beginGroup(saved_groupings_settings_group_);
-    for (const QModelIndex &idx : ui_->list->selectionModel()->selectedRows()) {
+    const QModelIndexList indexes = ui_->list->selectionModel()->selectedRows();
+    for (const QModelIndex &idx : indexes) {
       if (idx.isValid()) {
         qLog(Debug) << "Remove saved grouping: " << model_->item(idx.row(), 0)->text();
         s.remove(model_->item(idx.row(), 0)->text());

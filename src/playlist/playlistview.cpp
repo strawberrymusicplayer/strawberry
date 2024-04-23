@@ -865,7 +865,8 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
           if (selectedIndexes().contains(idx)) {
             // Update all the selected item ratings
             QModelIndexList src_index_list;
-            for (const QModelIndex &i : selectedIndexes()) {
+            const QModelIndexList indexes = selectedIndexes();
+            for (const QModelIndex &i : indexes) {
               if (i.data(Playlist::Role_CanSetRating).toBool()) {
                 src_index_list << playlist_->filter()->mapToSource(i);
               }
@@ -1548,7 +1549,8 @@ void PlaylistView::RatingHoverIn(const QModelIndex &idx, const QPoint pos) {
 
   update(idx);
   update(old_index);
-  for (const QModelIndex &i : selectedIndexes()) {
+  const QModelIndexList indexes = selectedIndexes();
+  for (const QModelIndex &i : indexes) {
     if (i.column() == Playlist::Column_Rating) update(i);
   }
 
@@ -1569,7 +1571,8 @@ void PlaylistView::RatingHoverOut() {
   setCursor(QCursor());
 
   update(old_index);
-  for (const QModelIndex &i : selectedIndexes()) {
+  const QModelIndexList indexes = selectedIndexes();
+  for (const QModelIndex &i : indexes) {
     if (i.column() == Playlist::Column_Rating) {
       update(i);
     }

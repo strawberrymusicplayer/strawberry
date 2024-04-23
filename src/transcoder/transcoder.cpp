@@ -279,11 +279,7 @@ Song::FileType Transcoder::PickBestFormat(const QList<Song::FileType> &supported
 
   if (supported.isEmpty()) return Song::FileType::Unknown;
 
-  QList<Song::FileType> best_formats;
-  best_formats << Song::FileType::FLAC;
-  best_formats << Song::FileType::OggFlac;
-  best_formats << Song::FileType::WavPack;
-
+  const QList<Song::FileType> best_formats = QList<Song::FileType>() << Song::FileType::FLAC << Song::FileType::OggFlac << Song::FileType::WavPack;
   for (Song::FileType type : best_formats) {
     if (supported.contains(type)) return type;
   }

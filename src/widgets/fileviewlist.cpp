@@ -19,6 +19,7 @@
  */
 
 #include <algorithm>
+#include <utility>
 
 #include <QWidget>
 #include <QAbstractItemModel>
@@ -81,7 +82,7 @@ QList<QUrl> FileViewList::UrlListFromSelection() const {
 
   QList<QUrl> urls;
   urls.reserve(filenames.count());
-  for (const QString &filename : filenames) {
+  for (const QString &filename : std::as_const(filenames)) {
     urls << QUrl::fromLocalFile(filename);
   }
 

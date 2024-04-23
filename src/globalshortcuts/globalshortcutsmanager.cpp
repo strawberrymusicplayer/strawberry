@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <functional>
+#include <utility>
 
 #include <QApplication>
 #include <QWidget>
@@ -197,7 +198,7 @@ bool GlobalShortcutsManager::IsX11Available() {
 
 bool GlobalShortcutsManager::Register() {
 
-  for (GlobalShortcutsBackend *backend : backends_) {
+  for (GlobalShortcutsBackend *backend : std::as_const(backends_)) {
     if (backend->IsAvailable() && backends_enabled_.contains(backend->type())) {
       return backend->Register();
     }
@@ -211,7 +212,7 @@ bool GlobalShortcutsManager::Register() {
 
 void GlobalShortcutsManager::Unregister() {
 
-  for (GlobalShortcutsBackend *backend : backends_) {
+  for (GlobalShortcutsBackend *backend : std::as_const(backends_)) {
     if (backend->is_active()) {
       backend->Unregister();
     }

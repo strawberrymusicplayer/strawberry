@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <functional>
+#include <utility>
 
 #include <QtGlobal>
 #include <QWidget>
@@ -88,14 +89,13 @@ void DeviceProperties::ShowDevice(const QModelIndex &idx) {
 
   if (ui_->icon->count() == 0) {
     // Only load the icons the first time the dialog is shown
-    QStringList icon_names = QStringList()
-                             << QStringLiteral("device")
-                             << QStringLiteral("device-usb-drive")
-                             << QStringLiteral("device-usb-flash")
-                             << QStringLiteral("media-optical")
-                             << QStringLiteral("device-ipod")
-                             << QStringLiteral("device-ipod-nano")
-                             << QStringLiteral("device-phone");
+    const QStringList icon_names = QStringList() << QStringLiteral("device")
+                                                 << QStringLiteral("device-usb-drive")
+                                                 << QStringLiteral("device-usb-flash")
+                                                 << QStringLiteral("media-optical")
+                                                 << QStringLiteral("device-ipod")
+                                                 << QStringLiteral("device-ipod-nano")
+                                                 << QStringLiteral("device-phone");
 
 
     for (const QString &icon_name : icon_names) {
@@ -105,7 +105,8 @@ void DeviceProperties::ShowDevice(const QModelIndex &idx) {
 
 #ifdef HAVE_GSTREAMER
     // Load the transcode formats the first time the dialog is shown
-    for (const TranscoderPreset &preset : Transcoder::GetAllPresets()) {
+    const QList<TranscoderPreset> presets = Transcoder::GetAllPresets();
+    for (const TranscoderPreset &preset : presets) {
       ui_->transcode_format->addItem(preset.name_, QVariant::fromValue(preset.filetype_));
     }
     ui_->transcode_format->model()->sort(0);
@@ -161,7 +162,7 @@ void DeviceProperties::UpdateHardwareInfo() {
 
     // Remove empty items
     QStringList keys = info.keys();
-    for (const QString &key : keys) {
+    for (const QString &key : std::as_const(keys)) {
       if (info[key].isNull() || info[key].toString().isEmpty())
         info.remove(key);
     }
@@ -174,7 +175,7 @@ void DeviceProperties::UpdateHardwareInfo() {
     AddHardwareInfo(row++, tr("Model"), lister->DeviceModel(id));
     AddHardwareInfo(row++, tr("Manufacturer"), lister->DeviceManufacturer(id));
     keys = info.keys();
-    for (const QString &key : keys) {
+    for (const QString &key : std::as_const(keys)) {
       AddHardwareInfo(row++, key, info[key].toString());
     }
 
@@ -307,7 +308,7 @@ void DeviceProperties::UpdateFormatsFinished() {
 
   // Populate supported types list
   ui_->supported_formats->clear();
-  for (Song::FileType type : supported_formats_) {
+  for (Song::FileType type : std::as_const(supported_formats_)) {
     QListWidgetItem *item = new QListWidgetItem(Song::TextForFiletype(type));
     ui_->supported_formats->addItem(item);
   }

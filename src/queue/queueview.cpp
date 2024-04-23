@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QWidget>
 #include <QAbstractItemModel>
@@ -133,7 +134,7 @@ void QueueView::MoveUp() {
 
   if (indexes.isEmpty() || indexes.first().row() == 0) return;
 
-  for (const QModelIndex &idx : indexes) {
+  for (const QModelIndex &idx : std::as_const(indexes)) {
     current_playlist_->queue()->MoveUp(idx.row());
   }
 
@@ -162,7 +163,8 @@ void QueueView::Remove() {
 
   // collect the rows to be removed
   QList<int> row_list;
-  for (const QModelIndex &idx : ui_->list->selectionModel()->selectedRows()) {
+  const QModelIndexList indexes = ui_->list->selectionModel()->selectedRows();
+  for (const QModelIndex &idx : indexes) {
     if (idx.isValid()) row_list << idx.row();
   }
 

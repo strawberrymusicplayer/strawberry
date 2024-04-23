@@ -365,7 +365,7 @@ TEST_F(TestUrls, TestUrls) {
                                       << QStringLiteral("file:///mnt/music/03 - Vazelina Bilopphøggers - Bomull i øra.flac")
                                       << QStringLiteral("file:///mnt/music/Test !#$%&'()-@^_`{}~..flac");
 
-  QList<QUrl> urls = QUrl::fromStringList(strings);
+  const QList<QUrl> urls = QUrl::fromStringList(strings);
   SongList songs;
   songs.reserve(urls.count());
   for (const QUrl &url : urls) {
@@ -441,12 +441,12 @@ class UpdateSongsBySongID : public CollectionBackendTest {
 
 TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
-    QStringList song_ids = QStringList() << QStringLiteral("song1")
-                                         << QStringLiteral("song2")
-                                         << QStringLiteral("song3")
-                                         << QStringLiteral("song4")
-                                         << QStringLiteral("song5")
-                                         << QStringLiteral("song6");
+    const QStringList song_ids = QStringList() << QStringLiteral("song1")
+                                               << QStringLiteral("song2")
+                                               << QStringLiteral("song3")
+                                               << QStringLiteral("song4")
+                                               << QStringLiteral("song5")
+                                               << QStringLiteral("song6");
 
   { // Add songs
     SongMap songs;
@@ -517,10 +517,10 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
     SongMap songs;
 
-    QStringList song_ids2 = QStringList() << QStringLiteral("song1")
-                                          << QStringLiteral("song4")
-                                          << QStringLiteral("song5")
-                                          << QStringLiteral("song6");
+    const QStringList song_ids2 = QStringList() << QStringLiteral("song1")
+                                                << QStringLiteral("song4")
+                                                << QStringLiteral("song5")
+                                                << QStringLiteral("song6");
 
     for (const QString &song_id : song_ids2) {
 
@@ -562,10 +562,10 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
     SongMap songs;
 
-    QStringList song_ids2 = QStringList() << QStringLiteral("song1")
-                                          << QStringLiteral("song4")
-                                          << QStringLiteral("song5")
-                                          << QStringLiteral("song6");
+    const QStringList song_ids2 = QStringList() << QStringLiteral("song1")
+                                                << QStringLiteral("song4")
+                                                << QStringLiteral("song5")
+                                                << QStringLiteral("song6");
 
     for (const QString &song_id : song_ids2) {
 

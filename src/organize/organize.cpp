@@ -22,6 +22,7 @@
 #include <QtGlobal>
 
 #include <functional>
+#include <utility>
 #include <chrono>
 
 #include <QThread>
@@ -125,7 +126,7 @@ void Organize::ProcessSomeFiles() {
   if (!started_) {
     if (!destination_->StartCopy(&supported_filetypes_)) {
       // Failed to start - mark everything as failed :(
-      for (const Task &task : tasks_pending_) {
+      for (const Task &task : std::as_const(tasks_pending_)) {
         files_with_errors_ << task.song_info_.song_.url().toLocalFile();
       }
       tasks_pending_.clear();
@@ -329,7 +330,7 @@ void Organize::UpdateProgress() {
 #ifdef HAVE_GSTREAMER
   // Update transcoding progress
   QMap<QString, float> transcode_progress = transcoder_->GetProgress();
-  QStringList filenames = transcode_progress.keys();
+  const QStringList filenames = transcode_progress.keys();
   for (const QString &filename : filenames) {
     if (!tasks_transcoding_.contains(filename)) continue;
     tasks_transcoding_[filename].transcode_progress_ = transcode_progress[filename];
@@ -340,11 +341,11 @@ void Organize::UpdateProgress() {
   // Files that need transcoding total 50 for the transcode and 50 for the copy, files that only need to be copied total 100.
   int progress = tasks_complete_ * 100;
 
-  for (const Task &task : tasks_pending_) {
+  for (const Task &task : std::as_const(tasks_pending_)) {
     progress += qBound(0, static_cast<int>(task.transcode_progress_ * 50), 50);
   }
 #ifdef HAVE_GSTREAMER
-  QList<Task> tasks_transcoding = tasks_transcoding_.values();
+  const QList<Task> tasks_transcoding = tasks_transcoding_.values();
   for (const Task &task : tasks_transcoding) {
     progress += qBound(0, static_cast<int>(task.transcode_progress_ * 50), 50);
   }

@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QObject>
 #include <QMutex>
 #include <QList>
@@ -52,14 +54,14 @@ void CoverProviders::ReloadSettings() {
 
   QMap<int, QString> all_providers;
   QList<CoverProvider*> old_providers = cover_providers_.keys();
-  for (CoverProvider *provider : old_providers) {
+  for (CoverProvider *provider : std::as_const(old_providers)) {
     if (!provider->is_enabled()) continue;
     all_providers.insert(provider->order(), provider->name());
   }
 
   Settings s;
   s.beginGroup(CoversSettingsPage::kSettingsGroup);
-  QStringList providers_enabled = s.value(CoversSettingsPage::kProviders, QStringList() << all_providers.values()).toStringList();
+  const QStringList providers_enabled = s.value(CoversSettingsPage::kProviders, QStringList() << all_providers.values()).toStringList();
   s.endGroup();
 
   int i = 0;
@@ -74,7 +76,7 @@ void CoverProviders::ReloadSettings() {
   }
 
   old_providers = cover_providers_.keys();
-  for (CoverProvider *provider : old_providers) {
+  for (CoverProvider *provider : std::as_const(old_providers)) {
     if (!new_providers.contains(provider)) {
       provider->set_enabled(false);
       provider->set_order(++i);
@@ -85,7 +87,7 @@ void CoverProviders::ReloadSettings() {
 
 CoverProvider *CoverProviders::ProviderByName(const QString &name) const {
 
-  QList<CoverProvider*> cover_providers = cover_providers_.keys();
+  const QList<CoverProvider*> cover_providers = cover_providers_.keys();
   for (CoverProvider *provider : cover_providers) {
     if (provider->name() == name) return provider;
   }

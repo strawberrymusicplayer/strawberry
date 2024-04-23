@@ -349,7 +349,7 @@ bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
 
   const bool enable_context_actions = ui_->results->selectionModel() && ui_->results->selectionModel()->hasSelection();
 
-  for (QAction *action : context_actions_) {
+  for (QAction *action : std::as_const(context_actions_)) {
     action->setEnabled(enable_context_actions);
   }
 
@@ -607,7 +607,7 @@ MimeData *InternetSearchView::SelectedMimeData() {
 
   // Get items for these indexes
   QList<QStandardItem*> items;
-  for (const QModelIndex &idx : indexes) {
+  for (const QModelIndex &idx : std::as_const(indexes)) {
     items << (front_model_->itemFromIndex(front_proxy_->mapToSource(idx)));  // clazy:exclude=reserve-candidates
   }
 
@@ -715,7 +715,8 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping g) {
   s.endGroup();
 
   // Make sure the correct action is checked.
-  for (QAction *action : group_by_actions_->actions()) {
+  const QList<QAction*> actions = group_by_actions_->actions();
+  for (QAction *action : actions) {
     if (action->property("group_by").isNull()) continue;
 
     if (g == action->property("group_by").value<CollectionModel::Grouping>()) {
@@ -725,7 +726,6 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping g) {
   }
 
   // Check the advanced action
-  QList<QAction*> actions = group_by_actions_->actions();
   actions.last()->setChecked(true);
 
 }

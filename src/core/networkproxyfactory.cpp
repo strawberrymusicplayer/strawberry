@@ -44,11 +44,10 @@ NetworkProxyFactory::NetworkProxyFactory()
 #ifdef Q_OS_LINUX
   // Linux uses environment variables to pass proxy configuration information, which systemProxyForQuery doesn't support for some reason.
 
-  QStringList urls;
-  urls << QString::fromLocal8Bit(qgetenv("HTTP_PROXY"));
-  urls << QString::fromLocal8Bit(qgetenv("http_proxy"));
-  urls << QString::fromLocal8Bit(qgetenv("ALL_PROXY"));
-  urls << QString::fromLocal8Bit(qgetenv("all_proxy"));
+  const QStringList urls = QStringList() << QString::fromLocal8Bit(qgetenv("HTTP_PROXY"))
+                                         << QString::fromLocal8Bit(qgetenv("http_proxy"))
+                                         << QString::fromLocal8Bit(qgetenv("ALL_PROXY"))
+                                         << QString::fromLocal8Bit(qgetenv("all_proxy"));
 
   qLog(Debug) << "Detected system proxy URLs:" << urls;
 

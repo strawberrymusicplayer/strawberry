@@ -66,7 +66,7 @@ void MultiLoadingIndicator::SetTaskManager(SharedPtr<TaskManager> task_manager) 
 
 void MultiLoadingIndicator::UpdateText() {
 
-  QList<TaskManager::Task> tasks = task_manager_->GetTasks();
+  const QList<TaskManager::Task> tasks = task_manager_->GetTasks();
 
   QStringList strings;
   strings.reserve(tasks.count());

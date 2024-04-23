@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QIODevice>
@@ -230,7 +231,7 @@ void Queue::UpdateTotalLength() {
 
   quint64 total = 0;
 
-  for (const QPersistentModelIndex &row : source_indexes_) {
+  for (const QPersistentModelIndex &row : std::as_const(source_indexes_)) {
     int id = row.row();
 
     Q_ASSERT(playlist_->has_item_at(id));
@@ -292,7 +293,8 @@ void Queue::Move(const QList<int> &proxy_rows, int pos) {
   }
 
   // Update persistent indexes
-  for (const QModelIndex &pidx : persistentIndexList()) {
+  const QModelIndexList pindexes = persistentIndexList();
+  for (const QModelIndex &pidx : pindexes) {
     const int dest_offset = static_cast<int>(proxy_rows.indexOf(pidx.row()));
     if (dest_offset != -1) {
       // This index was moved
@@ -379,7 +381,7 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, 
     stream >> source_rows;
 
     QModelIndexList source_indexes;
-    for (int source_row : source_rows) {
+    for (int source_row : std::as_const(source_rows)) {
       const QModelIndex source_index = sourceModel()->index(source_row, 0);
       const QModelIndex proxy_index = mapFromSource(source_index);
       if (proxy_index.isValid()) {

@@ -437,7 +437,8 @@ void Player::PlayPlaylistInternal(const EngineBase::TrackChangeFlags change, con
   play_offset_nanosec_ = 0;
 
   Playlist *playlist = nullptr;
-  for (Playlist *p : app_->playlist_manager()->GetAllPlaylists()) {
+  const QList<Playlist*> playlists = app_->playlist_manager()->GetAllPlaylists();
+  for (Playlist *p : playlists) {
     if (playlist_name == app_->playlist_manager()->GetPlaylistName(p->id())) {
       playlist = p;
       break;
