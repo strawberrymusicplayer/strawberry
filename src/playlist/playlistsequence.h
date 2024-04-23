@@ -98,7 +98,6 @@ class PlaylistSequence : public QWidget {
   bool loading_;
   RepeatMode repeat_mode_;
   ShuffleMode shuffle_mode_;
-  bool dynamic_;
 };
 
 #endif  // PLAYLISTSEQUENCE_H
