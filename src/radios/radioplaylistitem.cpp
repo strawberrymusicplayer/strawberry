@@ -38,7 +38,7 @@ RadioPlaylistItem::RadioPlaylistItem(const Song &metadata)
 
 bool RadioPlaylistItem::InitFromQuery(const SqlRow &query) {
 
-  metadata_.InitFromQuery(query, false);
+  metadata_.InitFromQuery(query, false, static_cast<int>(Song::kRowIdColumns.count()));
   InitMetadata();
   return true;
 
