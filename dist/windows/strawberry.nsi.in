@@ -109,7 +109,11 @@
 
 Unicode True
 
+!ifdef debug
+SetCompressor lzma
+!else
 SetCompressor /SOLID lzma
+!endif
 
 !include "MUI2.nsh"
 !include "FileAssociation.nsh"
