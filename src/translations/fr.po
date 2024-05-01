@@ -43,13 +43,14 @@
 # Papoteur <yves.brungard_mageia@gadz.org>, 2022. #zanata
 # David Geiger <geiger.david68210@gmail.com>, 2023. #zanata
 # Peter Blackman <peter@pblackman.plus.com>, 2023. #zanata
+# Wedone <wedoneofficiel@outlook.fr>, 2024.
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
 "PO-Revision-Date: 2023-12-11 11:29-0500\n"
-"Last-Translator: hatstand <john.maguire@gmail.com>\n"
+"Last-Translator: Wedone <wedoneofficiel@outlook.fr>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -1417,7 +1418,7 @@ msgstr "Compilation"
 
 #: ../build/src/ui_edittagdialog.h:935
 msgid "Complete lyrics automatically"
-msgstr ""
+msgstr "Compléter les paroles automatiquement"
 
 #: ../build/src/ui_edittagdialog.h:926
 msgid "Complete tags automatically"
@@ -1527,12 +1528,12 @@ msgstr ""
 #: device/gpoddevice.cpp:241
 #, qt-format
 msgid "Could not copy %1 to %2: %3"
-msgstr ""
+msgstr "Impossible de copier %1 dans %2 : %3"
 
 #: core/filesystemmusicstorage.cpp:98
 #, qt-format
 msgid "Could not copy file %1 to %2."
-msgstr ""
+msgstr "Impossible de copier le fichier %1 vers %2."
 
 #: transcoder/transcoder.cpp:72
 #, qt-format
@@ -1550,7 +1551,7 @@ msgstr "Impossible d'ouvrir le fichier CUE %1 pour la lecture : %2"
 
 #: device/mtpconnection.cpp:75 device/mtpconnection.cpp:109
 msgid "Could not open MTP device."
-msgstr ""
+msgstr "Impossible d'ouvrir le périphérique MTP."
 
 #: scrobbler/scrobblingapi20.cpp:220
 msgid "Could not open URL. Please open this URL in your browser"
@@ -1885,12 +1886,12 @@ msgstr "Destination"
 #: core/filesystemmusicstorage.cpp:92
 #, qt-format
 msgid "Destination file %1 exists, but not allowed to overwrite"
-msgstr ""
+msgstr "Le fichier de destination %1 existe, mais il n'est pas autorisé à l'écraser."
 
 #: core/filesystemmusicstorage.cpp:73
 #, qt-format
 msgid "Destination file %1 exists, but not allowed to overwrite."
-msgstr ""
+msgstr "Le fichier de destination %1 existe, mais il n'est pas autorisé à l'écraser."
 
 #: ../build/src/ui_transcodedialog.h:235
 msgid "Details..."
@@ -2256,7 +2257,7 @@ msgstr "Erreur lors de la connexion au périphérique MTP %1"
 #: device/mtploader.cpp:77
 #, qt-format
 msgid "Error connecting MTP device %1: %2"
-msgstr ""
+msgstr "Erreur de connexion du dispositif MTP %1 : %2"
 
 #: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
@@ -2297,7 +2298,7 @@ msgstr "Excepté entre les pistes d'un même album ou d'une même CUE sheet"
 
 #: ../build/src/ui_backendsettingspage.h:677
 msgid "Exclusive mode (Experimental)"
-msgstr ""
+msgstr "Mode exclusif (Expérimental)"
 
 #: ../build/src/ui_albumcoverexport.h:205
 msgid "Existing covers"
@@ -2391,7 +2392,7 @@ msgstr "Échec de la requête SQL : %1"
 #: core/filesystemmusicstorage.cpp:57
 #, qt-format
 msgid "Failed to create directory %1."
-msgstr ""
+msgstr "Échec de la création du répertoire %1."
 
 #: covermanager/albumcoverchoicecontroller.cpp:379
 #: covermanager/albumcoverchoicecontroller.cpp:396
@@ -2951,7 +2952,7 @@ msgstr "Installer strawberry via PPA :"
 
 #: playlist/playlist.cpp:1409
 msgid "Integrated Loudness"
-msgstr ""
+msgstr "Intensité sonore intégrée"
 
 #: core/database.cpp:486
 msgid "Integrity check"
@@ -2972,7 +2973,7 @@ msgstr "Introduction des pistes"
 #: device/mtpconnection.cpp:57
 #, qt-format
 msgid "Invalid MTP device: %1"
-msgstr ""
+msgstr "Dispositif MTP non valide : %1"
 
 #: scrobbler/scrobblingapi20.cpp:254
 msgid "Invalid reply from web browser. Missing token."
@@ -3176,7 +3177,7 @@ msgstr "Profil de prédiction à long terme (PLT)"
 
 #: playlist/playlist.cpp:1410
 msgid "Loudness Range"
-msgstr ""
+msgstr "Plage d'intensité sonore"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:79
 #: ../build/src/ui_mainwindow.h:634
@@ -3611,7 +3612,7 @@ msgstr "Déconnecté"
 
 #: dialogs/edittagdialog.cpp:1438
 msgid "Not found."
-msgstr ""
+msgstr "Non trouvé"
 
 #: device/deviceview.cpp:135
 msgid "Not mounted - double click to mount"
@@ -5961,12 +5962,12 @@ msgstr "Écrire des métadonnées lors de la sauvegarde des listes de lecture"
 
 #: device/gpoddevice.cpp:288
 msgid "Writing database failed."
-msgstr ""
+msgstr "L'écriture de la base de données a échoué"
 
 #: device/gpoddevice.cpp:284
 #, qt-format
 msgid "Writing database failed: %1"
-msgstr ""
+msgstr "L'écriture de la base de données a échoué : %1"
 
 #: collection/savedgroupingmanager.cpp:119 playlist/playlist.cpp:1380
 #: organize/organizedialog.cpp:114 ../build/src/ui_groupbydialog.h:199
@@ -6203,7 +6204,7 @@ msgstr "moins que"
 
 #: dialogs/edittagdialog.cpp:1426
 msgid "loading..."
-msgstr ""
+msgstr "chargement..."
 
 #: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "longest first"
