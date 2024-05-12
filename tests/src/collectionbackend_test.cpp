@@ -85,7 +85,7 @@ TEST_F(CollectionBackendTest, AddDirectory) {
   // Check the signal was emitted correctly
   ASSERT_EQ(1, spy.count());
   CollectionDirectory dir = spy[0][0].value<CollectionDirectory>();
-  EXPECT_EQ(QFileInfo(QStringLiteral("/tmp")).canonicalFilePath(), dir.path);
+  EXPECT_EQ(QStringLiteral("/tmp"), dir.path);
   EXPECT_EQ(1, dir.id);
   EXPECT_EQ(0, spy[0][1].value<CollectionSubdirectoryList>().size());
 
