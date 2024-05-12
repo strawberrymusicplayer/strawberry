@@ -160,7 +160,7 @@ void SmartPlaylistsModel::Init() {
 void SmartPlaylistsModel::ItemFromSmartPlaylist(const Settings &s, const bool notify) {
 
   SmartPlaylistsItem *item = new SmartPlaylistsItem(SmartPlaylistsItem::Type_SmartPlaylist, notify ? nullptr : root_);
-  item->display_text = tr(qPrintable(s.value("name").toString()));
+  item->display_text = tr(qUtf8Printable(s.value("name").toString()));
   item->sort_text = item->display_text;
   item->smart_playlist_type = PlaylistGenerator::Type(s.value("type").toInt());
   item->smart_playlist_data = s.value("data").toByteArray();

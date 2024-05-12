@@ -114,7 +114,7 @@ void Equalizer::ReloadSettings() {
 
   // Selected preset
   QString selected_preset = s.value("selected_preset", QStringLiteral("Custom")).toString();
-  QString selected_preset_display_name = tr(qPrintable(selected_preset));
+  QString selected_preset_display_name = tr(qUtf8Printable(selected_preset));
   int selected_index = ui_->preset->findText(selected_preset_display_name);
   if (selected_index != -1) ui_->preset->setCurrentIndex(selected_index);
 
@@ -160,7 +160,7 @@ void Equalizer::LoadDefaultPresets() {
 
 void Equalizer::AddPreset(const QString &name, const Params &params) {
 
-  QString name_displayed = tr(qPrintable(name));
+  QString name_displayed = tr(qUtf8Printable(name));
   presets_[name] = params;
 
   if (ui_->preset->findText(name_displayed) == -1) {
@@ -201,14 +201,14 @@ void Equalizer::SavePreset() {
   QString name = SaveCurrentPreset();
   if (!name.isEmpty()) {
     last_preset_ = name;
-    ui_->preset->setCurrentIndex(ui_->preset->findText(tr(qPrintable(name))));
+    ui_->preset->setCurrentIndex(ui_->preset->findText(tr(qUtf8Printable(name))));
   }
 
 }
 
 QString Equalizer::SaveCurrentPreset() {
 
-  QString name = QInputDialog::getText(this, tr("Save preset"), tr("Name"), QLineEdit::Normal, tr(qPrintable(last_preset_)));
+  QString name = QInputDialog::getText(this, tr("Save preset"), tr("Name"), QLineEdit::Normal, tr(qUtf8Printable(last_preset_)));
   if (name.isEmpty()) {
     return QString();
   }
