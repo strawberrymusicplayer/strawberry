@@ -4,6 +4,11 @@ if(RPM_DISTRO AND RPM_DATE)
 endif(RPM_DISTRO AND RPM_DATE)
 
 if(APPLE)
+  if(DEFINED ENV{MACOSX_DEPLOYMENT_TARGET})
+    set(LSMinimumSystemVersion $ENV{MACOSX_DEPLOYMENT_TARGET})
+  else()
+    set(LSMinimumSystemVersion 11.0)
+  endif()
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist)
 endif(APPLE)
 
