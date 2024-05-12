@@ -72,7 +72,7 @@ QList<QUrl> FileViewList::UrlListFromSelection() const {
   const QModelIndexList indexes = menu_selection_.indexes();
   for (const QModelIndex &index : indexes) {
     if (index.column() == 0) {
-      filenames << qobject_cast<QFileSystemModel*>(model())->fileInfo(index).canonicalFilePath();
+      filenames << QDir::cleanPath(qobject_cast<QFileSystemModel*>(model())->fileInfo(index).filePath());
     }
   }
 
