@@ -185,7 +185,7 @@ jobs:
         run: dnf -y upgrade
       - name: Install dependencies
         run: >
-            dnf -y --skip-broken install
+            dnf -y install
             @development-tools
             redhat-lsb-core
             which
