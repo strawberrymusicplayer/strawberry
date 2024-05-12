@@ -34,6 +34,7 @@
 #include <QIODevice>
 #include <QDataStream>
 #include <QBuffer>
+#include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QByteArray>
@@ -364,7 +365,7 @@ bool CommandlineOptions::Parse() {
     const QString value = DecodeName(argv_[i]);
     QFileInfo fileinfo(value);
     if (fileinfo.exists()) {
-      urls_ << QUrl::fromLocalFile(fileinfo.canonicalFilePath());
+      urls_ << QUrl::fromLocalFile(QDir::cleanPath(fileinfo.filePath()));
     }
     else {
       urls_ << QUrl::fromUserInput(value);
