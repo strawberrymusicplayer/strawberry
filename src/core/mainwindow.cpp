@@ -2298,18 +2298,18 @@ void MainWindow::AddFile() {
   PlaylistParser parser(app_->collection_backend());
 
   // Show dialog
-  QStringList file_names = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QStringLiteral("%1 (%2);;%3;;%4").arg(tr("Music"), QLatin1String(FileView::kFileFilter), parser.filters(PlaylistParser::Type::Load), tr(kAllFilesFilterSpec)));
+  QStringList filenames = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QStringLiteral("%1 (%2);;%3;;%4").arg(tr("Music"), QLatin1String(FileView::kFileFilter), parser.filters(PlaylistParser::Type::Load), tr(kAllFilesFilterSpec)));
 
-  if (file_names.isEmpty()) return;
+  if (filenames.isEmpty()) return;
 
   // Save last used directory
-  settings_.setValue("add_media_path", file_names[0]);
+  settings_.setValue("add_media_path", filenames[0]);
 
   // Convert to URLs
   QList<QUrl> urls;
-  urls.reserve(file_names.count());
-  for (const QString &path : file_names) {
-    urls << QUrl::fromLocalFile(QFileInfo(path).canonicalFilePath());
+  urls.reserve(filenames.count());
+  for (const QString &path : filenames) {
+    urls << QUrl::fromLocalFile(QDir::cleanPath(path));
   }
 
   MimeData *mimedata = new MimeData;
@@ -2332,7 +2332,7 @@ void MainWindow::AddFolder() {
 
   // Add media
   MimeData *mimedata = new MimeData;
-  mimedata->setUrls(QList<QUrl>() << QUrl::fromLocalFile(QFileInfo(directory).canonicalFilePath()));
+  mimedata->setUrls(QList<QUrl>() << QUrl::fromLocalFile(QDir::cleanPath(directory)));
   AddToPlaylist(mimedata);
 
 }
