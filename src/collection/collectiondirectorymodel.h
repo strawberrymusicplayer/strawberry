@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,15 +27,17 @@
 #include <QObject>
 #include <QStandardItemModel>
 #include <QList>
+#include <QMap>
 #include <QVariant>
 #include <QString>
+#include <QStringList>
 #include <QIcon>
 
 #include "core/shared_ptr.h"
+#include "collectiondirectory.h"
 
 class QModelIndex;
 
-struct CollectionDirectory;
 class CollectionBackend;
 class MusicStorage;
 
@@ -44,22 +47,24 @@ class CollectionDirectoryModel : public QStandardItemModel {
  public:
   explicit CollectionDirectoryModel(SharedPtr<CollectionBackend> collection_backend, QObject *parent = nullptr);
 
-  // To be called by GUIs
-  void AddDirectory(const QString &path);
-  void RemoveDirectory(const QModelIndex &idx);
-
   QVariant data(const QModelIndex &idx, int role) const override;
 
+  SharedPtr<CollectionBackend> backend() const { return backend_; }
+
+  QMap<int, CollectionDirectory> directories() const { return directories_; }
+  QStringList paths() const { return paths_; }
+
  private slots:
-  // To be called by the backend
-  void DirectoryDiscovered(const CollectionDirectory &directories);
-  void DirectoryDeleted(const CollectionDirectory &directories);
+  void AddDirectory(const CollectionDirectory &directory);
+  void RemoveDirectory(const CollectionDirectory &directory);
 
  private:
   static const int kIdRole = Qt::UserRole + 1;
 
   QIcon dir_icon_;
   SharedPtr<CollectionBackend> backend_;
+  QMap<int, CollectionDirectory> directories_;
+  QStringList paths_;
   QList<SharedPtr<MusicStorage>> storage_;
 };
 

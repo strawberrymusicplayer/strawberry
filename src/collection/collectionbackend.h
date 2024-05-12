@@ -132,8 +132,8 @@ class CollectionBackendInterface : public QObject {
   virtual Song GetSongByUrl(const QUrl &url, const qint64 beginning = 0) = 0;
   virtual Song GetSongByUrlAndTrack(const QUrl &url, const int track) = 0;
 
-  virtual void AddDirectory(const QString &path) = 0;
-  virtual void RemoveDirectory(const CollectionDirectory &dir) = 0;
+  virtual void AddDirectoryAsync(const QString &path) = 0;
+  virtual void RemoveDirectoryAsync(const CollectionDirectory &dir) = 0;
 };
 
 class CollectionBackend : public CollectionBackendInterface {
@@ -206,8 +206,8 @@ class CollectionBackend : public CollectionBackendInterface {
   Song GetSongByUrl(const QUrl &url, qint64 beginning = 0) override;
   Song GetSongByUrlAndTrack(const QUrl &url, const int track) override;
 
-  void AddDirectory(const QString &path) override;
-  void RemoveDirectory(const CollectionDirectory &dir) override;
+  void AddDirectoryAsync(const QString &path) override;
+  void RemoveDirectoryAsync(const CollectionDirectory &dir) override;
 
   bool ExecCollectionQuery(CollectionQuery *query, SongList &songs);
   bool ExecCollectionQuery(CollectionQuery *query, SongMap &songs);
@@ -239,6 +239,8 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateTotalSongCount();
   void UpdateTotalArtistCount();
   void UpdateTotalAlbumCount();
+  void AddDirectory(const QString &path);
+  void RemoveDirectory(const CollectionDirectory &dir);
   void AddOrUpdateSongs(const SongList &songs);
   void UpdateSongsBySongID(const SongMap &new_songs);
   void UpdateMTimesOnly(const SongList &songs);
@@ -270,7 +272,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void ExpireSongs(const int directory_id, const int expire_unavailable_songs_days);
 
  signals:
-  void DirectoryDiscovered(const CollectionDirectory &dir, const CollectionSubdirectoryList &subdir);
+  void DirectoryAdded(const CollectionDirectory &dir, const CollectionSubdirectoryList &subdir);
   void DirectoryDeleted(const CollectionDirectory &dir);
 
   void SongsDiscovered(const SongList &songs);

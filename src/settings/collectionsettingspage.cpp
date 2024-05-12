@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #include <QItemSelectionModel>
 #include <QString>
 #include <QStringList>
+#include <QDir>
 #include <QFileDialog>
 #include <QCheckBox>
 #include <QLineEdit>
@@ -47,9 +48,12 @@
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
 #include "collection/collection.h"
+#include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
+#include "collection/collectiondirectory.h"
 #include "collection/collectiondirectorymodel.h"
 #include "collectionsettingspage.h"
+#include "collectionsettingsdirectorymodel.h"
 #include "playlist/playlistdelegates.h"
 #include "settings/settingsdialog.h"
 #include "settings/settingspage.h"
@@ -67,6 +71,9 @@ const int CollectionSettingsPage::kSettingsDiskCacheSizeDefault = 360;
 CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_CollectionSettingsPage),
+      collection_backend_(dialog->app()->collection_backend()),
+      collectionsettings_directory_model_(new CollectionSettingsDirectoryModel(this)),
+      collection_directory_model_(dialog->collection_directory_model()),
       initialized_model_(false) {
 
   ui_->setupUi(this);
@@ -74,7 +81,7 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
 
   // Icons
   setWindowIcon(IconLoader::Load(QStringLiteral("library-music"), true, 0, 32));
-  ui_->add->setIcon(IconLoader::Load(QStringLiteral("document-open-folder")));
+  ui_->add_directory->setIcon(IconLoader::Load(QStringLiteral("document-open-folder")));
 
   ui_->combobox_cache_size->addItem(QStringLiteral("KB"), static_cast<int>(CacheSizeUnit::KB));
   ui_->combobox_cache_size->addItem(QStringLiteral("MB"), static_cast<int>(CacheSizeUnit::MB));
@@ -83,8 +90,8 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
   ui_->combobox_disk_cache_size->addItem(QStringLiteral("MB"), static_cast<int>(CacheSizeUnit::MB));
   ui_->combobox_disk_cache_size->addItem(QStringLiteral("GB"), static_cast<int>(CacheSizeUnit::GB));
 
-  QObject::connect(ui_->add, &QPushButton::clicked, this, &CollectionSettingsPage::Add);
-  QObject::connect(ui_->remove, &QPushButton::clicked, this, &CollectionSettingsPage::Remove);
+  QObject::connect(ui_->add_directory, &QPushButton::clicked, this, &CollectionSettingsPage::AddDirectory);
+  QObject::connect(ui_->remove_directory, &QPushButton::clicked, this, &CollectionSettingsPage::RemoveDirectory);
 
 #ifdef HAVE_SONGFINGERPRINTING
   QObject::connect(ui_->song_tracking, &QCheckBox::toggled, this, &CollectionSettingsPage::SongTrackingToggled);
@@ -111,56 +118,6 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
 
 CollectionSettingsPage::~CollectionSettingsPage() { delete ui_; }
 
-void CollectionSettingsPage::Add() {
-
-  Settings s;
-  s.beginGroup(kSettingsGroup);
-
-  QString path(s.value("last_path", QStandardPaths::writableLocation(QStandardPaths::MusicLocation)).toString());
-  path = QFileDialog::getExistingDirectory(this, tr("Add directory..."), path);
-
-  if (!path.isEmpty()) {
-    dialog()->collection_directory_model()->AddDirectory(path);
-  }
-
-  s.setValue("last_path", path);
-
-  set_changed();
-
-}
-
-void CollectionSettingsPage::Remove() {
-
-  dialog()->collection_directory_model()->RemoveDirectory(ui_->list->currentIndex());
-  set_changed();
-
-}
-
-void CollectionSettingsPage::CurrentRowChanged(const QModelIndex &idx) {
-  ui_->remove->setEnabled(idx.isValid());
-}
-
-void CollectionSettingsPage::SongTrackingToggled() {
-
-  ui_->mark_songs_unavailable->setEnabled(!ui_->song_tracking->isChecked());
-  if (ui_->song_tracking->isChecked()) {
-    ui_->mark_songs_unavailable->setChecked(true);
-  }
-
-}
-
-void CollectionSettingsPage::DiskCacheEnable(const int state) {
-
-  bool checked = state == Qt::Checked;
-  ui_->label_disk_cache_size->setEnabled(checked);
-  ui_->spinbox_disk_cache_size->setEnabled(checked);
-  ui_->combobox_disk_cache_size->setEnabled(checked);
-  ui_->label_disk_cache_in_use->setEnabled(checked);
-  ui_->disk_cache_in_use->setEnabled(checked);
-  ui_->button_clear_disk_cache->setEnabled(checked);
-
-}
-
 void CollectionSettingsPage::Load() {
 
   if (!initialized_model_) {
@@ -168,10 +125,15 @@ void CollectionSettingsPage::Load() {
       QObject::disconnect(ui_->list->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &CollectionSettingsPage::CurrentRowChanged);
     }
 
-    ui_->list->setModel(dialog()->collection_directory_model());
+    ui_->list->setModel(collectionsettings_directory_model_);
     initialized_model_ = true;
 
     QObject::connect(ui_->list->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &CollectionSettingsPage::CurrentRowChanged);
+  }
+
+  ui_->list->model()->removeRows(0, ui_->list->model()->rowCount());
+  for (const QString &path : collection_directory_model_->paths()) {
+    collectionsettings_directory_model_->AddDirectory(path);
   }
 
   Settings s;
@@ -260,6 +222,69 @@ void CollectionSettingsPage::Save() {
   s.setValue("delete_files", ui_->checkbox_delete_files->isChecked());
 
   s.endGroup();
+
+  for (const CollectionDirectory &dir : collection_directory_model_->directories()) {
+    if (!collectionsettings_directory_model_->paths().contains(dir.path)) {
+      collection_backend_->RemoveDirectoryAsync(dir);
+    }
+  }
+
+  for (const QString &path : collectionsettings_directory_model_->paths()) {
+    if (!collection_directory_model_->paths().contains(path)) {
+      collection_backend_->AddDirectoryAsync(path);
+    }
+  }
+
+}
+
+void CollectionSettingsPage::AddDirectory() {
+
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+
+  QString path = s.value("last_path", QStandardPaths::writableLocation(QStandardPaths::MusicLocation)).toString();
+  path = QDir::cleanPath(QFileDialog::getExistingDirectory(this, tr("Add directory..."), path));
+
+  if (!path.isEmpty()) {
+    collectionsettings_directory_model_->AddDirectory(path);
+  }
+
+  s.setValue("last_path", path);
+
+  set_changed();
+
+}
+
+void CollectionSettingsPage::RemoveDirectory() {
+
+  collectionsettings_directory_model_->RemoveDirectory(ui_->list->currentIndex());
+
+  set_changed();
+
+}
+
+void CollectionSettingsPage::CurrentRowChanged(const QModelIndex &idx) {
+  ui_->remove_directory->setEnabled(idx.isValid());
+}
+
+void CollectionSettingsPage::SongTrackingToggled() {
+
+  ui_->mark_songs_unavailable->setEnabled(!ui_->song_tracking->isChecked());
+  if (ui_->song_tracking->isChecked()) {
+    ui_->mark_songs_unavailable->setChecked(true);
+  }
+
+}
+
+void CollectionSettingsPage::DiskCacheEnable(const int state) {
+
+  bool checked = state == Qt::Checked;
+  ui_->label_disk_cache_size->setEnabled(checked);
+  ui_->spinbox_disk_cache_size->setEnabled(checked);
+  ui_->combobox_disk_cache_size->setEnabled(checked);
+  ui_->label_disk_cache_in_use->setEnabled(checked);
+  ui_->disk_cache_in_use->setEnabled(checked);
+  ui_->button_clear_disk_cache->setEnabled(checked);
 
 }
 

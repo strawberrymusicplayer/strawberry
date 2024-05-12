@@ -37,6 +37,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QDir>
 #include <QFileInfo>
 #include <QDateTime>
 #include <QRegularExpression>
@@ -162,7 +163,7 @@ void CollectionBackend::LoadDirectories() {
   QSqlDatabase db(db_->Connect());
 
   for (const CollectionDirectory &dir : dirs) {
-    emit DirectoryDiscovered(dir, SubdirsInDirectory(dir.id, db));
+    emit DirectoryAdded(dir, SubdirsInDirectory(dir.id, db));
   }
 
 }
@@ -334,37 +335,55 @@ void CollectionBackend::UpdateTotalAlbumCount() {
 
 }
 
-void CollectionBackend::AddDirectory(const QString &path) {
+void CollectionBackend::AddDirectoryAsync(const QString &path) {
+  QMetaObject::invokeMethod(this, "AddDirectory", Qt::QueuedConnection, Q_ARG(QString, path));
+}
 
-  QString canonical_path = QFileInfo(path).canonicalFilePath();
-  QString db_path = canonical_path;
+void CollectionBackend::AddDirectory(const QString &path) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
+  {
+    SqlQuery q(db);
+    q.prepare(QStringLiteral("SELECT ROWID FROM %1 WHERE path = :path").arg(dirs_table_));
+    q.BindValue(QStringLiteral(":path"), path);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
+    if (q.next()) {
+      return;
+    }
+  }
+
   SqlQuery q(db);
   q.prepare(QStringLiteral("INSERT INTO %1 (path, subdirs) VALUES (:path, 1)").arg(dirs_table_));
-  q.BindValue(QStringLiteral(":path"), db_path);
+  q.BindValue(QStringLiteral(":path"), path);
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return;
   }
 
   CollectionDirectory dir;
-  dir.path = canonical_path;
+  dir.path = path;
   dir.id = q.lastInsertId().toInt();
 
-  emit DirectoryDiscovered(dir, CollectionSubdirectoryList());
+  emit DirectoryAdded(dir, CollectionSubdirectoryList());
 
+}
+
+void CollectionBackend::RemoveDirectoryAsync(const CollectionDirectory &dir) {
+  QMetaObject::invokeMethod(this, "RemoveDirectory", Qt::QueuedConnection, Q_ARG(CollectionDirectory, dir));
 }
 
 void CollectionBackend::RemoveDirectory(const CollectionDirectory &dir) {
 
-  QMutexLocker l(db_->Mutex());
-  QSqlDatabase db(db_->Connect());
-
   // Remove songs first
   DeleteSongs(FindSongsInDirectory(dir.id));
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
 
   ScopedTransaction transaction(&db);
 
@@ -390,9 +409,9 @@ void CollectionBackend::RemoveDirectory(const CollectionDirectory &dir) {
     }
   }
 
-  emit DirectoryDeleted(dir);
-
   transaction.Commit();
+
+  emit DirectoryDeleted(dir);
 
 }
 
@@ -470,7 +489,7 @@ void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_f
   // Take a song and update its path
   Song updated_song = song;
   updated_song.set_source(source_);
-  updated_song.set_url(QUrl::fromLocalFile(new_file.absoluteFilePath()));
+  updated_song.set_url(QUrl::fromLocalFile(QDir::cleanPath(new_file.filePath())));
   updated_song.set_basefilename(new_file.fileName());
   updated_song.InitArtManual();
   if (updated_song.is_collection_song() && new_collection_directory_id) {

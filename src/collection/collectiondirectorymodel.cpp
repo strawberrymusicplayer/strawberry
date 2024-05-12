@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,12 +45,15 @@ CollectionDirectoryModel::CollectionDirectoryModel(SharedPtr<CollectionBackend> 
       dir_icon_(IconLoader::Load(QStringLiteral("document-open-folder"))),
       backend_(backend) {
 
-  QObject::connect(&*backend_, &CollectionBackend::DirectoryDiscovered, this, &CollectionDirectoryModel::DirectoryDiscovered);
-  QObject::connect(&*backend_, &CollectionBackend::DirectoryDeleted, this, &CollectionDirectoryModel::DirectoryDeleted);
+  QObject::connect(&*backend_, &CollectionBackend::DirectoryAdded, this, &CollectionDirectoryModel::AddDirectory);
+  QObject::connect(&*backend_, &CollectionBackend::DirectoryDeleted, this, &CollectionDirectoryModel::RemoveDirectory);
 
 }
 
-void CollectionDirectoryModel::DirectoryDiscovered(const CollectionDirectory &dir) {
+void CollectionDirectoryModel::AddDirectory(const CollectionDirectory &dir) {
+
+  directories_.insert(dir.id, dir);
+  paths_.append(dir.path);
 
   QStandardItem *item = new QStandardItem(dir.path);
   item->setData(dir.id, kIdRole);
@@ -59,7 +63,10 @@ void CollectionDirectoryModel::DirectoryDiscovered(const CollectionDirectory &di
 
 }
 
-void CollectionDirectoryModel::DirectoryDeleted(const CollectionDirectory &dir) {
+void CollectionDirectoryModel::RemoveDirectory(const CollectionDirectory &dir) {
+
+  directories_.remove(dir.id);
+  paths_.removeAll(dir.path);
 
   for (int i = 0; i < rowCount(); ++i) {
     if (item(i, 0)->data(kIdRole).toInt() == dir.id) {
@@ -68,26 +75,6 @@ void CollectionDirectoryModel::DirectoryDeleted(const CollectionDirectory &dir) 
       break;
     }
   }
-
-}
-
-void CollectionDirectoryModel::AddDirectory(const QString &path) {
-
-  if (!backend_) return;
-
-  backend_->AddDirectory(path);
-
-}
-
-void CollectionDirectoryModel::RemoveDirectory(const QModelIndex &idx) {
-
-  if (!backend_ || !idx.isValid()) return;
-
-  CollectionDirectory dir;
-  dir.path = idx.data().toString();
-  dir.id = idx.data(kIdRole).toInt();
-
-  backend_->RemoveDirectory(dir);
 
 }
 

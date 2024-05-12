@@ -53,7 +53,7 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
   watcher_->set_backend(backend_);
   watcher_->set_task_manager(app_->task_manager());
 
-  QObject::connect(&*backend_, &CollectionBackend::DirectoryDiscovered, watcher_, &CollectionWatcher::AddDirectory);
+  QObject::connect(&*backend_, &CollectionBackend::DirectoryAdded, watcher_, &CollectionWatcher::AddDirectory);
   QObject::connect(&*backend_, &CollectionBackend::DirectoryDeleted, watcher_, &CollectionWatcher::RemoveDirectory);
   QObject::connect(watcher_, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
   QObject::connect(watcher_, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);

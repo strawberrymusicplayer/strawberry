@@ -198,6 +198,7 @@ set(SOURCES
   settings/settingspage.cpp
   settings/behavioursettingspage.cpp
   settings/collectionsettingspage.cpp
+  settings/collectionsettingsdirectorymodel.cpp
   settings/backendsettingspage.cpp
   settings/playlistsettingspage.cpp
   settings/scrobblersettingspage.cpp
@@ -441,6 +442,7 @@ set(HEADERS
   settings/settingspage.h
   settings/behavioursettingspage.h
   settings/collectionsettingspage.h
+  settings/collectionsettingsdirectorymodel.h
   settings/backendsettingspage.h
   settings/playlistsettingspage.h
   settings/scrobblersettingspage.h

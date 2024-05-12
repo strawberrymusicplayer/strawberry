@@ -78,7 +78,7 @@ TEST_F(CollectionBackendTest, EmptyDatabase) {
 
 TEST_F(CollectionBackendTest, AddDirectory) {
 
-  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryDiscovered);
+  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryAdded);
 
   backend_->AddDirectory(QStringLiteral("/tmp"));
 

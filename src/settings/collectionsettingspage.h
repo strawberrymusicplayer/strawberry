@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,8 +30,13 @@
 
 #include "settingspage.h"
 
+#include "core/shared_ptr.h"
+
 class QModelIndex;
 class SettingsDialog;
+class CollectionBackend;
+class CollectionDirectoryModel;
+class CollectionSettingsDirectoryModel;
 class Ui_CollectionSettingsPage;
 
 class CollectionSettingsPage : public SettingsPage {
@@ -61,8 +66,8 @@ class CollectionSettingsPage : public SettingsPage {
   void Save() override;
 
  private slots:
-  void Add();
-  void Remove();
+  void AddDirectory();
+  void RemoveDirectory();
 
   void CurrentRowChanged(const QModelIndex &idx);
   void SongTrackingToggled();
@@ -74,6 +79,9 @@ class CollectionSettingsPage : public SettingsPage {
 
  private:
   Ui_CollectionSettingsPage *ui_;
+  SharedPtr<CollectionBackend> collection_backend_;
+  CollectionSettingsDirectoryModel *collectionsettings_directory_model_;
+  CollectionDirectoryModel *collection_directory_model_;
   bool initialized_model_;
 };
 

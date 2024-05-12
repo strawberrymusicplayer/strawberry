@@ -108,7 +108,7 @@ void SCollection::Init() {
   watcher_->set_task_manager(app_->task_manager());
 
   QObject::connect(&*backend_, &CollectionBackend::Error, this, &SCollection::Error);
-  QObject::connect(&*backend_, &CollectionBackend::DirectoryDiscovered, watcher_, &CollectionWatcher::AddDirectory);
+  QObject::connect(&*backend_, &CollectionBackend::DirectoryAdded, watcher_, &CollectionWatcher::AddDirectory);
   QObject::connect(&*backend_, &CollectionBackend::DirectoryDeleted, watcher_, &CollectionWatcher::RemoveDirectory);
   QObject::connect(&*backend_, &CollectionBackend::SongsRatingChanged, this, &SCollection::SongsRatingChanged);
   QObject::connect(&*backend_, &CollectionBackend::SongsStatisticsChanged, this, &SCollection::SongsPlaycountChanged);
