@@ -63,23 +63,10 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     }
   }
 
-  // Strawberry always wants / separators internally.
-  // Using QDir::fromNativeSeparators() only works on the same platform the playlist was created on/for, using replace() lets playlists work on any platform.
-  filename = filename.replace(QLatin1Char('\\'), QLatin1Char('/'));
-
-  // Make the path absolute
-  if (!QDir::isAbsolutePath(filename)) {
-    filename = dir.absoluteFilePath(filename);
-  }
-
-  // Use the canonical path
-  if (QFile::exists(filename)) {
-    filename = QFileInfo(filename).canonicalFilePath();
-  }
-
+  filename = QDir::cleanPath(filename);
   const QUrl url = QUrl::fromLocalFile(filename);
 
-  // Search in the collection
+  // Search the collection
   if (collection_backend_ && collection_search) {
     Song collection_song;
     if (track > 0) {
@@ -87,6 +74,19 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     }
     if (!collection_song.is_valid()) {
       collection_song = collection_backend_->GetSongByUrl(url, beginning);
+    }
+    // Try absolute path
+    if (!collection_song.is_valid() && !QDir::isAbsolutePath(filename)) {
+      QString absolute_filename = dir.absoluteFilePath(filename);
+      if (absolute_filename != filename) {
+        const QUrl absolute_url = QUrl::fromLocalFile(absolute_filename);
+        if (track > 0) {
+          collection_song = collection_backend_->GetSongByUrlAndTrack(absolute_url, track);
+        }
+        if (!collection_song.is_valid()) {
+          collection_song = collection_backend_->GetSongByUrl(absolute_url, beginning);
+        }
+      }
     }
     // If it was found in the collection then use it, otherwise load metadata from disk.
     if (collection_song.is_valid()) {
