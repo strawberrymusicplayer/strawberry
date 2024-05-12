@@ -192,7 +192,7 @@ void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
     disk_cache_metadata.setSaveToDisk(true);
     disk_cache_metadata.setUrl(CacheUrlEntry(filename));
     // Qt 6 now ignores any entry without headers, so add a fake header.
-    disk_cache_metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray(), QByteArray()));
+    disk_cache_metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray("moodbar"), QByteArray("moodbar")));
 
     QIODevice *device_cache_file = cache_->prepare(disk_cache_metadata);
     if (device_cache_file) {
