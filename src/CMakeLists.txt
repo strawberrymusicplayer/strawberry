@@ -995,13 +995,8 @@ link_directories(
   ${SQLITE_LIBRARY_DIRS}
   ${PROTOBUF_LIBRARY_DIRS}
   ${SINGLEAPPLICATION_LIBRARY_DIRS}
+  ${ICU_LIBRARY_DIRS}
 )
-
-if(HAVE_ICU)
-  link_directories(${ICU_LIBRARY_DIRS})
-else()
-  link_directories(${Iconv_LIBRARY_DIRS})
-endif()
 
 if(HAVE_ALSA)
   link_directories(${ALSA_LIBRARY_DIRS})
@@ -1086,6 +1081,7 @@ target_include_directories(strawberry_lib SYSTEM PUBLIC
   ${GOBJECT_INCLUDE_DIRS}
   ${SQLITE_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
+  ${ICU_INCLUDE_DIRS}
 )
 
 if(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
@@ -1108,6 +1104,7 @@ target_link_libraries(strawberry_lib PUBLIC
   ${GLIB_LIBRARIES}
   ${GOBJECT_LIBRARIES}
   ${SQLITE_LIBRARIES}
+  ${ICU_LIBRARIES}
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Concurrent
   Qt${QT_VERSION_MAJOR}::Gui
@@ -1126,17 +1123,6 @@ endif()
 
 if(HAVE_X11_GLOBALSHORTCUTS AND HAVE_X11EXTRAS)
   target_link_libraries(strawberry_lib PUBLIC Qt${QT_VERSION_MAJOR}::X11Extras)
-endif()
-
-if(HAVE_ICU)
-  target_include_directories(strawberry_lib SYSTEM PRIVATE ${ICU_INCLUDE_DIRS})
-  target_link_libraries(strawberry_lib PRIVATE ${ICU_LIBRARIES})
-else()
-  if(FREEBSD AND NOT Iconv_LIBRARIES)
-    set(Iconv_LIBRARIES iconv)
-  endif()
-  target_include_directories(strawberry_lib SYSTEM PRIVATE ${Iconv_INCLUDE_DIRS})
-  target_link_libraries(strawberry_lib PRIVATE ${Iconv_LIBRARIES})
 endif()
 
 if(HAVE_ALSA)

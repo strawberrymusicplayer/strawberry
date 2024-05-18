@@ -151,15 +151,11 @@ TEST_F(OrganizeFormatTest, ReplaceNonAscii) {
   song_.set_artist(QLatin1String(""));
   EXPECT_EQ(QLatin1String(""), format_.GetFilenameForSong(song_).filename);
 
-#ifdef HAVE_ICU
-
   song_.set_artist(QStringLiteral("Владимир Высоцкий"));
   EXPECT_EQ(QStringLiteral("Vladimir_Vysockij"), format_.GetFilenameForSong(song_).filename);
 
   song_.set_artist(QStringLiteral("エックス・ジャパン"));
   EXPECT_EQ(QStringLiteral("ekkusujapan"), format_.GetFilenameForSong(song_).filename);
-
-#endif
 
 }
 

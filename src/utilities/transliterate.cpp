@@ -22,11 +22,7 @@
 #include <cstdio>
 #include <string>
 
-#ifdef HAVE_ICU
-#  include <unicode/translit.h>
-#else
-#  include <iconv.h>
-#endif
+#include <unicode/translit.h>
 
 #include <QByteArray>
 #include <QString>
@@ -37,8 +33,6 @@
 namespace Utilities {
 
 QString Transliterate(const QString &accented_str) {
-
-#ifdef HAVE_ICU
 
   UErrorCode errorcode = U_ZERO_ERROR;
   ScopedPtr<icu::Transliterator> transliterator;
@@ -54,40 +48,6 @@ QString Transliterate(const QString &accented_str) {
   ustring.toUTF8String(unaccented_str);
 
   return QString::fromStdString(unaccented_str);
-
-#else
-
-#ifdef LC_ALL
-  setlocale(LC_ALL, "");
-#endif
-
-  iconv_t conv = iconv_open("ASCII//TRANSLIT", "UTF-8");
-  if (conv == reinterpret_cast<iconv_t>(-1)) return accented_str;
-
-  QByteArray utf8 = accented_str.toUtf8();
-
-  size_t input_len = utf8.length() + 1;
-  char *input_ptr = new char[input_len];
-  char *input = input_ptr;
-
-  size_t output_len = input_len * 2;
-  char *output_ptr = new char[output_len];
-  char *output = output_ptr;
-
-  snprintf(input, input_len, "%s", utf8.constData());
-
-  iconv(conv, &input, &input_len, &output, &output_len);
-  iconv_close(conv);
-
-  QString ret(output_ptr);
-  ret = ret.replace('?', '_');
-
-  delete[] input_ptr;
-  delete[] output_ptr;
-
-  return ret;
-
-#endif  // HAVE_ICU
 
 }  // Transliterate
 
