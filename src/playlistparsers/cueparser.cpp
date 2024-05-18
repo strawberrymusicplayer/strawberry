@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,11 +32,14 @@
 #include <QTextStream>
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
 #  include <QStringConverter>
+#else
+#  include <QTextCodec>
 #endif
 
 #include "core/shared_ptr.h"
 #include "core/logging.h"
 #include "utilities/timeconstants.h"
+#include "utilities/textencodingutils.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
 #include "cueparser.h"
@@ -71,10 +74,26 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
   QTextStream text_stream(device);
 
+  const QByteArray data_chunk = device->peek(1024);
+
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
-  const std::optional<QStringConverter::Encoding> encoding = QStringConverter::encodingForData(device->peek(1024));
+  std::optional<QStringConverter::Encoding> encoding = QStringConverter::encodingForData(data_chunk);
   if (encoding.has_value()) {
     text_stream.setEncoding(encoding.value());
+  }
+  else {
+    const QByteArray encoding_name = Utilities::TextEncodingFromData(data_chunk);
+    if (!encoding_name.isEmpty()) {
+      encoding = QStringConverter::encodingForName(encoding_name.constData());
+      if (encoding.has_value()) {
+        text_stream.setEncoding(encoding.value());
+      }
+    }
+  }
+#else
+  const QByteArray encoding_name = Utilities::TextEncodingFromData(data_chunk);
+  if (!encoding_name.isEmpty()) {
+    text_stream.setCodec(encoding_name.constData());
   }
 #endif
 
