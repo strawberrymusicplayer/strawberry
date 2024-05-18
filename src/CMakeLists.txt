@@ -59,6 +59,7 @@ set(SOURCES
   utilities/coverutils.cpp
   utilities/screenutils.cpp
   utilities/searchparserutils.cpp
+  utilities/textencodingutils.cpp
 
   engine/enginebase.cpp
   engine/enginedevice.cpp
