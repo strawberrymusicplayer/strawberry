@@ -97,7 +97,11 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
   QObject::connect(ui_->song_tracking, &QCheckBox::toggled, this, &CollectionSettingsPage::SongTrackingToggled);
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+  QObject::connect(ui_->checkbox_disk_cache, &QCheckBox::checkStateChanged, this, &CollectionSettingsPage::DiskCacheEnable);
+#else
   QObject::connect(ui_->checkbox_disk_cache, &QCheckBox::stateChanged, this, &CollectionSettingsPage::DiskCacheEnable);
+#endif
   QObject::connect(ui_->button_clear_disk_cache, &QPushButton::clicked, dialog->app(), &Application::ClearPixmapDiskCache);
   QObject::connect(ui_->button_clear_disk_cache, &QPushButton::clicked, this, &CollectionSettingsPage::ClearPixmapDiskCache);
 
@@ -276,9 +280,13 @@ void CollectionSettingsPage::SongTrackingToggled() {
 
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+void CollectionSettingsPage::DiskCacheEnable(const Qt::CheckState state) {
+#else
 void CollectionSettingsPage::DiskCacheEnable(const int state) {
+#endif
 
-  bool checked = state == Qt::Checked;
+  const bool checked = state == Qt::Checked;
   ui_->label_disk_cache_size->setEnabled(checked);
   ui_->spinbox_disk_cache_size->setEnabled(checked);
   ui_->combobox_disk_cache_size->setEnabled(checked);

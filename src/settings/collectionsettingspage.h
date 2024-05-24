@@ -71,7 +71,11 @@ class CollectionSettingsPage : public SettingsPage {
 
   void CurrentRowChanged(const QModelIndex &idx);
   void SongTrackingToggled();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+  void DiskCacheEnable(const Qt::CheckState state);
+#else
   void DiskCacheEnable(const int state);
+#endif
   void ClearPixmapDiskCache();
   void CacheSizeUnitChanged(int index);
   void DiskCacheSizeUnitChanged(int index);

@@ -51,8 +51,13 @@ LastFMImportDialog::LastFMImportDialog(SharedPtr<LastFMImport> lastfm_import, QW
   QObject::connect(ui_->button_go, &QPushButton::clicked, this, &LastFMImportDialog::Start);
   QObject::connect(ui_->button_cancel, &QPushButton::clicked, this, &LastFMImportDialog::Cancel);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+  QObject::connect(ui_->checkbox_last_played, &QCheckBox::checkStateChanged, this, &LastFMImportDialog::UpdateGoButtonState);
+  QObject::connect(ui_->checkbox_playcounts, &QCheckBox::checkStateChanged, this, &LastFMImportDialog::UpdateGoButtonState);
+#else
   QObject::connect(ui_->checkbox_last_played, &QCheckBox::stateChanged, this, &LastFMImportDialog::UpdateGoButtonState);
   QObject::connect(ui_->checkbox_playcounts, &QCheckBox::stateChanged, this, &LastFMImportDialog::UpdateGoButtonState);
+#endif
 
 }
 

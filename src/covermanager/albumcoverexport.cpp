@@ -41,7 +41,11 @@ AlbumCoverExport::AlbumCoverExport(QWidget *parent) : QDialog(parent), ui_(new U
 
   ui_->setupUi(this);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+  QObject::connect(ui_->forceSize, &QCheckBox::checkStateChanged, this, &AlbumCoverExport::ForceSizeToggled);
+#else
   QObject::connect(ui_->forceSize, &QCheckBox::stateChanged, this, &AlbumCoverExport::ForceSizeToggled);
+#endif
 
 }
 
@@ -99,7 +103,11 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
 
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+void AlbumCoverExport::ForceSizeToggled(Qt::CheckState state) {
+#else
 void AlbumCoverExport::ForceSizeToggled(int state) {
+#endif
   ui_->width->setEnabled(state == Qt::Checked);
   ui_->height->setEnabled(state == Qt::Checked);
 }

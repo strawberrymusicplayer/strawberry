@@ -172,7 +172,11 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
         QObject::connect(spinbox, &SpinBox::Reset, this, &EditTagDialog::ResetField);
       }
       else if (CheckBox *checkbox = qobject_cast<CheckBox*>(widget)) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        QObject::connect(checkbox, &QCheckBox::checkStateChanged, this, &EditTagDialog::FieldValueEdited);
+#else
         QObject::connect(checkbox, &QCheckBox::stateChanged, this, &EditTagDialog::FieldValueEdited);
+#endif
         QObject::connect(checkbox, &CheckBox::Reset, this, &EditTagDialog::ResetField);
       }
       else if (RatingBox *ratingbox = qobject_cast<RatingBox*>(widget)) {
