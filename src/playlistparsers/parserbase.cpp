@@ -64,6 +64,12 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
   }
 
   filename = QDir::cleanPath(filename);
+
+  // Make the path absolute
+  if (!QDir::isAbsolutePath(filename)) {
+    filename = dir.absoluteFilePath(filename);
+  }
+
   const QUrl url = QUrl::fromLocalFile(filename);
 
   // Search the collection
@@ -75,16 +81,16 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     if (!collection_song.is_valid()) {
       collection_song = collection_backend_->GetSongByUrl(url, beginning);
     }
-    // Try absolute path
-    if (!collection_song.is_valid() && !QDir::isAbsolutePath(filename)) {
-      QString absolute_filename = dir.absoluteFilePath(filename);
-      if (absolute_filename != filename) {
-        const QUrl absolute_url = QUrl::fromLocalFile(absolute_filename);
+    // Try canonical path
+    if (!collection_song.is_valid()) {
+      const QString canonical_filepath = QFileInfo(filename).canonicalFilePath();
+      if (canonical_filepath != filename) {
+        const QUrl canonical_filepath_url = QUrl::fromLocalFile(canonical_filepath);
         if (track > 0) {
-          collection_song = collection_backend_->GetSongByUrlAndTrack(absolute_url, track);
+          collection_song = collection_backend_->GetSongByUrlAndTrack(canonical_filepath_url, track);
         }
         if (!collection_song.is_valid()) {
-          collection_song = collection_backend_->GetSongByUrl(absolute_url, beginning);
+          collection_song = collection_backend_->GetSongByUrl(canonical_filepath_url, beginning);
         }
       }
     }
