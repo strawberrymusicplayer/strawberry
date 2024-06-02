@@ -736,7 +736,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ 'macos-11' ]
+        runner: [ 'macos-12' ]
         buildtype: [ 'release' ]
 
     runs-on: ${{ matrix.runner }}
@@ -790,7 +790,7 @@ jobs:
 
       - name: Configure CMake
         env:
-          MACOSX_DEPLOYMENT_TARGET: 11.0
+          MACOSX_DEPLOYMENT_TARGET: 12.0
           PKG_CONFIG_PATH: ${{env.prefix_path}}/lib/pkgconfig
           LDFLAGS: -L${{env.prefix_path}}/lib -Wl,-rpath,${{env.prefix_path}}/lib
         run: >
