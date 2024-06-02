@@ -520,7 +520,7 @@ SongLoader::Result SongLoader::LoadRemote() {
   }
 
   QEventLoop loop;
-  loop.connect(this, &SongLoader::LoadRemoteFinished, &loop, &QEventLoop::quit);
+  QObject::connect(this, &SongLoader::LoadRemoteFinished, &loop, &QEventLoop::quit);
 
   // Start "playing"
   pipeline_ = pipeline;
