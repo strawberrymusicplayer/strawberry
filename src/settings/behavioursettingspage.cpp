@@ -214,6 +214,8 @@ void BehaviourSettingsPage::Load() {
 
   ui_->spinbox_seekstepsec->setValue(s.value("seek_step_sec", 10).toInt());
 
+  ui_->spinbox_volumeincrement->setValue(s.value("volume_increment", 5).toInt());
+
   s.endGroup();
 
   Init(ui_->layout_behavioursettingspage->parentWidget());
@@ -262,6 +264,8 @@ void BehaviourSettingsPage::Save() {
   s.setValue("doubleclick_playlist_addmode", static_cast<int>(doubleclick_playlist_addmode));
 
   s.setValue("seek_step_sec", ui_->spinbox_seekstepsec->value());
+
+  s.setValue("volume_increment", ui_->spinbox_volumeincrement->value());
 
   s.endGroup();
 

@@ -244,6 +244,7 @@ class Player : public PlayerInterface {
   bool greyout_;
   BehaviourSettingsPage::PreviousBehaviour menu_previousmode_;
   int seek_step_sec_;
+  uint volume_increment_;
 
   QDateTime pause_time_;
   quint64 play_offset_nanosec_;

@@ -96,6 +96,7 @@ Player::Player(Application *app, QObject *parent)
       greyout_(true),
       menu_previousmode_(BehaviourSettingsPage::PreviousBehaviour::DontRestart),
       seek_step_sec_(10),
+      volume_increment_(5),
       play_offset_nanosec_(0) {
 
   Settings s;
@@ -217,6 +218,7 @@ void Player::ReloadSettings() {
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
   menu_previousmode_ = static_cast<BehaviourSettingsPage::PreviousBehaviour>(s.value("menu_previousmode", static_cast<int>(BehaviourSettingsPage::PreviousBehaviour::DontRestart)).toInt());
   seek_step_sec_ = s.value("seek_step_sec", 10).toInt();
+  volume_increment_ = s.value("volume_increment", 5).toUInt();
   s.endGroup();
 
   engine_->ReloadSettings();
@@ -700,7 +702,7 @@ void Player::SetVolume(const uint volume) {
 void Player::VolumeUp() {
 
   uint old_volume = GetVolume();
-  uint new_volume = std::min(old_volume + 5, static_cast<uint>(100));
+  uint new_volume = std::min(old_volume + volume_increment_, static_cast<uint>(100));
   if (new_volume == old_volume) return;
   SetVolume(new_volume);
 
@@ -709,7 +711,7 @@ void Player::VolumeUp() {
 void Player::VolumeDown() {
 
   uint old_volume = GetVolume();
-  uint new_volume = static_cast<uint>(std::max(static_cast<int>(old_volume) - 5, 0));
+  uint new_volume = static_cast<uint>(std::max(static_cast<int>(old_volume) - static_cast<int>(volume_increment_), 0));
   if (new_volume == old_volume) return;
   SetVolume(new_volume);
 
