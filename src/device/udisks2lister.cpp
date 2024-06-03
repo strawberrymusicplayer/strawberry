@@ -395,7 +395,7 @@ Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectP
       }
 
       for (const QByteArray &p : filesystem.mountPoints()) {
-        const QString mountpoint = QString::fromUtf8(p.data(), p.size());
+        const QString mountpoint = QString::fromUtf8(p.data(), qstrlen(p.data()));
         result.mount_paths.push_back(mountpoint);
       }
 
