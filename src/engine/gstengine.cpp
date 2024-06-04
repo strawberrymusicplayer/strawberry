@@ -417,7 +417,8 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
     GstElementFactory *factory = GST_ELEMENT_FACTORY(future->data);
     const QString metadata = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS));
     const QString name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
-    if (metadata.startsWith(QLatin1String("Sink/Audio"), Qt::CaseInsensitive) || name == QStringLiteral("pipewiresink") || (metadata.startsWith(QLatin1String("Source/Audio"), Qt::CaseInsensitive) && name.contains(QLatin1String("sink")))) {
+    const QStringList classes = metadata.split(QLatin1Char('/'));
+    if (classes.contains(QStringLiteral("Audio"), Qt::CaseInsensitive) && (classes.contains(QStringLiteral("Sink"), Qt::CaseInsensitive) || (classes.contains(QStringLiteral("Source"), Qt::CaseInsensitive) && name.contains(QStringLiteral("sink"))))) {
       QString description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
       if (name == QStringLiteral("wasapi2sink") && description == QStringLiteral("Stream audio to an audio capture device through WASAPI")) {
         description.append(QLatin1Char('2'));
