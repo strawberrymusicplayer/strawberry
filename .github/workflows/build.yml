@@ -1248,7 +1248,6 @@ jobs:
           arch: ${{matrix.arch}}
           sdk: 10.0.20348.0
           vsversion: 2022
-          toolset: 14.3
 
       - name: Checkout
         uses: actions/checkout@v4
