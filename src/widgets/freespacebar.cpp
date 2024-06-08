@@ -66,6 +66,7 @@ FreeSpaceBar::FreeSpaceBar(QWidget *parent)
       total_(100),
       free_text_(tr("Available")),
       additional_text_(tr("New songs")),
+      exceeded_text_(tr("Exceeded by")),
       used_text_(tr("Used")) {
 
   setMinimumHeight(FreeSpaceBar::sizeHint().height());
@@ -194,7 +195,12 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
   if (additional_ > 0) {
     labels << Label(TextForSize(additional_text_, additional_), kColorAdd1);
   }
-  labels << Label(TextForSize(free_text_, free_ - additional_), kColorBg2);
+  if (free_ > additional_ || additional_ == 0) {
+    labels << Label(TextForSize(free_text_, free_ - additional_), kColorBg2);
+  }
+  else {
+    labels << Label(TextForSize(exceeded_text_, additional_ - free_), kColorBar2);
+  }
 
   int text_width = 0;
   for (const Label &label : std::as_const(labels)) {
