@@ -1140,7 +1140,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     }
     gst_buffer_unmap(buf, &map_info);
     buf16 = gst_buffer_new_wrapped(d, buf16_size);
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) / channels, rate);
     buf = buf16;
 
     instance->logged_unsupported_analyzer_format_ = false;
@@ -1162,7 +1162,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     }
     gst_buffer_unmap(buf, &map_info);
     buf16 = gst_buffer_new_wrapped(d, buf16_size);
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) / channels, rate);
     buf = buf16;
 
     instance->logged_unsupported_analyzer_format_ = false;
@@ -1185,7 +1185,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     }
     gst_buffer_unmap(buf, &map_info);
     buf16 = gst_buffer_new_wrapped(s16, buf16_size);
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) / channels, rate);
     buf = buf16;
 
     instance->logged_unsupported_analyzer_format_ = false;
@@ -1210,7 +1210,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     }
     gst_buffer_unmap(buf, &map_info);
     buf16 = gst_buffer_new_wrapped(s16, buf16_size);
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) / channels, rate);
     buf = buf16;
 
     instance->logged_unsupported_analyzer_format_ = false;
