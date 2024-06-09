@@ -74,6 +74,7 @@ set(SOURCES
   analyzer/boomanalyzer.cpp
   analyzer/rainbowanalyzer.cpp
   analyzer/sonogram.cpp
+  analyzer/waverubber.cpp
 
   equalizer/equalizer.cpp
   equalizer/equalizerslider.cpp
@@ -331,6 +332,7 @@ set(HEADERS
   analyzer/boomanalyzer.h
   analyzer/rainbowanalyzer.h
   analyzer/sonogram.h
+  analyzer/waverubber.h
 
   equalizer/equalizer.h
   equalizer/equalizerslider.h
