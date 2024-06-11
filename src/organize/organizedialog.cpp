@@ -38,7 +38,6 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QString>
-#include <QStringBuilder>
 #include <QStringList>
 #include <QUrl>
 #include <QAction>

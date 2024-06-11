@@ -27,7 +27,6 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QStringBuilder>
 #include <QRegularExpression>
 #include <QSqlDatabase>
 

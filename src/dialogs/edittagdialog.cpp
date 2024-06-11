@@ -42,7 +42,6 @@
 #include <QMap>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
 #include <QUrl>
 #include <QPixmap>
 #include <QPalette>
