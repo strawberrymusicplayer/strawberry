@@ -59,7 +59,7 @@ QString PrettyTimeNanosec(const qint64 nanoseconds) {
 
 QString WordyTime(const quint64 seconds) {
 
-  quint64 days = seconds / (60 * 60 * 24);
+  quint64 days = seconds / (60LL * 60LL * 24LL);
 
   // TODO: Make the plural rules translatable
   QStringList parts;

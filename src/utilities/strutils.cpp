@@ -33,14 +33,14 @@ QString PrettySize(const quint64 bytes) {
 
   QString ret;
 
-  if (bytes > 0) {
-    if (bytes <= 1000) {
+  if (bytes > 0LL) {
+    if (bytes <= 1000LL) {
       ret = QString::number(bytes) + QStringLiteral(" bytes");
     }
-    else if (bytes <= 1000 * 1000) {
+    else if (bytes <= 1000LL * 1000LL) {
       ret = QString::asprintf("%.1f KB", static_cast<float>(bytes) / 1000.0F);
     }
-    else if (bytes <= 1000 * 1000 * 1000) {
+    else if (bytes <= 1000LL * 1000LL * 1000LL) {
       ret = QString::asprintf("%.1f MB", static_cast<float>(bytes) / (1000.0F * 1000.0F));
     }
     else {

@@ -60,7 +60,7 @@ MoodbarLoader::MoodbarLoader(Application *app, QObject *parent)
       save_(false) {
 
   cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QStringLiteral("/moodbar"));
-  cache_->setMaximumCacheSize(60 * 1024 * 1024);  // 60MB - enough for 20,000 moodbars
+  cache_->setMaximumCacheSize(60LL * 1024LL * 1024LL);  // 60MB - enough for 20,000 moodbars
 
   QObject::connect(app, &Application::SettingsChanged, this, &MoodbarLoader::ReloadSettings);
   ReloadSettings();
