@@ -267,7 +267,7 @@ bool GME::VGM::GetPlaybackLength(const QByteArray &sample_count_bytes, const QBy
 }
 
 TagReaderGME::TagReaderGME() = default;
-TagReaderGME::~TagReaderGME() = default;
+
 
 bool TagReaderGME::IsMediaFile(const QString &filename) const {
   QFileInfo fileinfo(filename);

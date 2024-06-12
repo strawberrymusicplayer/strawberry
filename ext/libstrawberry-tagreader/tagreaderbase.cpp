@@ -31,7 +31,7 @@
 #include "tagreaderbase.h"
 
 TagReaderBase::TagReaderBase() = default;
-TagReaderBase::~TagReaderBase() = default;
+
 
 float TagReaderBase::ConvertPOPMRating(const int POPM_rating) {
 

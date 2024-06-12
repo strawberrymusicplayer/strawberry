@@ -34,7 +34,7 @@
 class TagReaderBase {
  public:
   explicit TagReaderBase();
-  ~TagReaderBase();
+  ~TagReaderBase() = default;
 
   class Cover {
    public:
