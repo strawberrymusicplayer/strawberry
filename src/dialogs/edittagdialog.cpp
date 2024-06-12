@@ -116,6 +116,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       results_dialog_(new TrackSelectionDialog(this)),
 #endif
       lyrics_fetcher_(new LyricsFetcher(app->lyrics_providers(), this)),
+      cover_menu_(new QMenu(this)),
       image_no_cover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(128, 128), devicePixelRatioF())),
       loading_(false),
       ignore_edits_(false),
@@ -204,9 +205,6 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   QObject::connect(ui_->fetch_tag, &QPushButton::clicked, this, &EditTagDialog::FetchTag);
 #endif
   QObject::connect(ui_->fetch_lyrics, &QPushButton::clicked, this, &EditTagDialog::FetchLyrics);
-
-  // Set up the album cover menu
-  cover_menu_ = new QMenu(this);
 
   QList<QAction*> actions = album_cover_choice_controller_->GetAllActions();
 

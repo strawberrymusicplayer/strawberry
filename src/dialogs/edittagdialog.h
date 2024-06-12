@@ -185,6 +185,8 @@ class EditTagDialog : public QDialog {
 #endif
   LyricsFetcher *lyrics_fetcher_;
 
+  QMenu *cover_menu_;
+
   const QImage image_no_cover_thumbnail_;
 
   bool loading_;
@@ -198,8 +200,6 @@ class EditTagDialog : public QDialog {
   quint64 summary_cover_art_id_;
   quint64 tags_cover_art_id_;
   bool cover_art_is_set_;
-
-  QMenu *cover_menu_;
 
   QPushButton *previous_button_;
   QPushButton *next_button_;
