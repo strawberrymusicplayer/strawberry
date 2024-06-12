@@ -672,6 +672,7 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
   if (!result.image_data.isEmpty() && result.is_jpeg()) {
     if (file.open(QIODevice::WriteOnly)) {
       if (file.write(result.image_data) > 0) {
+        file.close();
         return QUrl::fromLocalFile(filepath);
       }
       else {
