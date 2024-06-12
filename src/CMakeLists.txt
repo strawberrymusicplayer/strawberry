@@ -40,7 +40,7 @@ set(SOURCES
   core/scopedtransaction.cpp
   core/translations.cpp
   core/systemtrayicon.cpp
-
+  core/localredirectserver.cpp
   utilities/strutils.cpp
   utilities/envutils.cpp
   utilities/colorutils.cpp
@@ -263,7 +263,6 @@ set(SOURCES
   internet/internetsearchmodel.cpp
   internet/internetsearchsortmodel.cpp
   internet/internetsearchitemdelegate.cpp
-  internet/localredirectserver.cpp
   internet/internetsongsview.cpp
   internet/internettabsview.cpp
   internet/internetcollectionview.cpp
@@ -324,6 +323,7 @@ set(HEADERS
   core/potranslator.h
   core/mimedata.h
   core/stylesheetloader.h
+  core/localredirectserver.h
 
   engine/enginebase.h
   engine/devicefinders.h
@@ -510,7 +510,6 @@ set(HEADERS
   internet/internetsearchsortmodel.h
   internet/internetsearchitemdelegate.h
   internet/internetsearchview.h
-  internet/localredirectserver.h
   internet/internetsongsview.h
   internet/internettabsview.h
   internet/internetcollectionview.h

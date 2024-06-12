@@ -45,8 +45,8 @@
 #include "core/song.h"
 #include "core/logging.h"
 #include "core/settings.h"
+#include "core/localredirectserver.h"
 #include "utilities/timeconstants.h"
-#include "internet/localredirectserver.h"
 #include "settings/scrobblersettingspage.h"
 
 #include "scrobblersettings.h"
