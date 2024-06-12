@@ -88,7 +88,7 @@ void AnalyzerBase::ChangeTimeout(const int timeout) {
 void AnalyzerBase::transform(Scope &scope) {
 
   QVector<float> aux(fht_->size());
-  if (static_cast<unsigned long int>(aux.size()) >= scope.size()) {
+  if (aux.size() >= scope.size()) {
     std::copy(scope.begin(), scope.end(), aux.begin());
   }
   else {
