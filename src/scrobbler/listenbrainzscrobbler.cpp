@@ -464,7 +464,7 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   object.insert(QLatin1String("payload"), array_payload);
   QJsonDocument doc(object);
 
-  QUrl url(QLatin1String("%1/1/submit-listens").arg(QLatin1String(kApiUrl)));
+  QUrl url(QStringLiteral("%1/1/submit-listens").arg(QLatin1String(kApiUrl)));
   QNetworkReply *reply = CreateRequest(url, doc);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { UpdateNowPlayingRequestFinished(reply); });
 
