@@ -604,7 +604,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
 
     // If we get here it means that this URL scheme wasn't supported.
     // If it was "ipod" or "mtp" then the user compiled out support and the device won't work properly.
-    if (url.scheme() == QStringLiteral("mtp") || url.scheme() == QStringLiteral("gphoto2")) {
+    if (url.scheme() == QLatin1String("mtp") || url.scheme() == QLatin1String("gphoto2")) {
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
           tr("This is an MTP device, but you compiled Strawberry without libmtp support.") + QStringLiteral("  ") +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
@@ -612,9 +612,9 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
         return ret;
     }
 
-    if (url.scheme() == QStringLiteral("ipod")) {
+    if (url.scheme() == QLatin1String("ipod")) {
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
-          tr("This is an iPod, but you compiled Strawberry without libgpod support.") + QStringLiteral("  ") +
+          tr("This is an iPod, but you compiled Strawberry without libgpod support.") + QLatin1String("  ") +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
               QMessageBox::Abort, QMessageBox::Ignore) == QMessageBox::Abort)
         return ret;

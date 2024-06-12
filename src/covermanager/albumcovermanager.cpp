@@ -281,10 +281,10 @@ void AlbumCoverManager::LoadGeometry() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  if (s.contains(QStringLiteral("geometry"))) {
+  if (s.contains(QLatin1String("geometry"))) {
     restoreGeometry(s.value("geometry").toByteArray());
   }
-  if (s.contains(QStringLiteral("splitter_state"))) {
+  if (s.contains(QLatin1String("splitter_state"))) {
     ui_->splitter->restoreState(s.value("splitter_state").toByteArray());
   }
   else {
@@ -397,7 +397,7 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
       display_text = album_info.album;
     }
     else {
-      display_text = album_info.album_artist + QStringLiteral(" - ") + album_info.album;
+      display_text = album_info.album_artist + QLatin1String(" - ") + album_info.album;
     }
 
     AlbumItem *album_item = new AlbumItem(icon_nocover_item_, display_text, ui_->albums);
@@ -413,7 +413,7 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
       album_item->setToolTip(album_info.album);
     }
     else {
-      album_item->setToolTip(album_info.album_artist + QStringLiteral(" - ") + album_info.album);
+      album_item->setToolTip(album_info.album_artist + QLatin1String(" - ") + album_info.album);
     }
 
     album_item->setData(Role_ArtEmbedded, album_info.art_embedded);
@@ -558,7 +558,7 @@ void AlbumCoverManager::UpdateStatusText() {
                         .arg(fetch_statistics_.missing_images_);
 
   if (fetch_statistics_.bytes_transferred_ > 0) {
-    message += QStringLiteral(", ") + tr("%1 transferred").arg(Utilities::PrettySize(fetch_statistics_.bytes_transferred_));
+    message += QLatin1String(", ") + tr("%1 transferred").arg(Utilities::PrettySize(fetch_statistics_.bytes_transferred_));
   }
 
   statusBar()->showMessage(message);
@@ -632,7 +632,7 @@ Song AlbumCoverManager::AlbumItemAsSong(AlbumItem *album_item) {
   QString title = album_item->data(Role_Album).toString();
   QString artist_name = album_item->data(Role_AlbumArtist).toString();
   if (!artist_name.isEmpty()) {
-    result.set_title(artist_name + QStringLiteral(" - ") + title);
+    result.set_title(artist_name + QLatin1String(" - ") + title);
   }
   else {
     result.set_title(title);

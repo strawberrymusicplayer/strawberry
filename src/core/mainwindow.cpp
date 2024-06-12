@@ -1049,7 +1049,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       rosetta_message->set_settings_group(QLatin1String(kSettingsGroup));
       rosetta_message->set_do_not_show_message_again(QStringLiteral("ignore_rosetta"));
       rosetta_message->setAttribute(Qt::WA_DeleteOnClose);
-      rosetta_message->ShowMessage(tr("Strawberry running under Rosetta"), tr("You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1").arg(QStringLiteral("<a href=\"https://downloads.strawberrymusicplayer.org/\">downloads.strawberrymusicplayer.org</a>")), IconLoader::Load(QStringLiteral("dialog-warning")));
+      rosetta_message->ShowMessage(tr("Strawberry running under Rosetta"), tr("You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1").arg(QLatin1String("<a href=\"https://downloads.strawberrymusicplayer.org/\">downloads.strawberrymusicplayer.org</a>")), IconLoader::Load(QStringLiteral("dialog-warning")));
     }
   }
 #endif
@@ -2366,7 +2366,7 @@ void MainWindow::ShowInCollection() {
   }
   QString search;
   if (!songs.isEmpty()) {
-    search = QStringLiteral("artist:") + songs.first().artist() + QStringLiteral(" album:") + songs.first().album();
+    search = QLatin1String("artist:") + songs.first().artist() + QLatin1String(" album:") + songs.first().album();
   }
   collection_view_->filter_widget()->ShowInCollection(search);
 
@@ -2500,7 +2500,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
 
 #ifdef HAVE_TIDAL
     for (const QUrl &url : options.urls()) {
-      if (url.scheme() == QStringLiteral("tidal") && url.host() == QStringLiteral("login")) {
+      if (url.scheme() == QLatin1String("tidal") && url.host() == QLatin1String("login")) {
         emit AuthorizationUrlReceived(url);
         return;
       }
@@ -2943,9 +2943,9 @@ void MainWindow::CheckFullRescanRevisions() {
   if (!reasons.isEmpty()) {
     QString message = tr("The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:") + QStringLiteral("<ul>");
     for (const QString &reason : reasons) {
-      message += QStringLiteral("<li>") + reason + QStringLiteral("</li>");
+      message += QLatin1String("<li>") + reason + QLatin1String("</li>");
     }
-    message += QStringLiteral("</ul>") + tr("Would you like to run a full rescan right now?");
+    message += QLatin1String("</ul>") + tr("Would you like to run a full rescan right now?");
     if (QMessageBox::question(this, tr("Collection rescan notice"), message, QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes) {
       app_->collection()->FullScan();
     }

@@ -165,7 +165,7 @@ void SavedGroupingManager::UpdateModel() {
   if (version == 1) {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == QStringLiteral("version")) continue;
+      if (saved.at(i) == QLatin1String("version")) continue;
       QByteArray bytes = s.value(saved.at(i)).toByteArray();
       QDataStream ds(&bytes, QIODevice::ReadOnly);
       CollectionModel::Grouping g;
@@ -183,7 +183,7 @@ void SavedGroupingManager::UpdateModel() {
   else {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == QStringLiteral("version")) continue;
+      if (saved.at(i) == QLatin1String("version")) continue;
       s.remove(saved.at(i));
     }
   }

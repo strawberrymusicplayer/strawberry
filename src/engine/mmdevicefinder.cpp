@@ -49,7 +49,7 @@ EngineDeviceList MMDeviceFinder::ListDevices() {
 
   EngineDeviceList devices;
   EngineDevice default_device;
-  default_device.description = QStringLiteral("Default device");
+  default_device.description = QLatin1String("Default device");
   default_device.iconname = default_device.GuessIconName();
   devices.append(default_device);
 

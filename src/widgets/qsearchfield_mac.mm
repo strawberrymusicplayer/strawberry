@@ -131,19 +131,19 @@ public:
 
     if ([event type] == NSEventTypeKeyDown && [event modifierFlags] & NSEventModifierFlagCommand) {
       const QString keyString = toQString([event characters]);
-      if (keyString == QStringLiteral("a")) {  // Cmd+a
+      if (keyString == QLatin1String("a")) {  // Cmd+a
         [self performSelector:@selector(selectText:)];
         return YES;
       }
-      else if (keyString == QStringLiteral("c")) {  // Cmd+c
+      else if (keyString == QLatin1String("c")) {  // Cmd+c
         [[self currentEditor] copy: nil];
         return YES;
       }
-      else if (keyString == QStringLiteral("v")) {  // Cmd+v
+      else if (keyString == QLatin1String("v")) {  // Cmd+v
         [[self currentEditor] paste: nil];
         return YES;
       }
-      else if (keyString == QStringLiteral("x")) {  // Cmd+x
+      else if (keyString == QLatin1String("x")) {  // Cmd+x
         [[self currentEditor] cut: nil];
         return YES;
       }

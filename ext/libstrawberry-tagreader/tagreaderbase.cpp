@@ -118,11 +118,11 @@ TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const QString &song_fil
     if (cover_mime_type.isEmpty()) {
       cover_mime_type = QMimeDatabase().mimeTypeForData(cover_data).name();
     }
-    if (cover_mime_type == QStringLiteral("image/jpeg")) {
+    if (cover_mime_type == QLatin1String("image/jpeg")) {
       qLog(Debug) << "Using cover from JPEG data for" << song_filename;
       return Cover(cover_data, cover_mime_type);
     }
-    if (cover_mime_type == QStringLiteral("image/png")) {
+    if (cover_mime_type == QLatin1String("image/png")) {
       qLog(Debug) << "Using cover from PNG data for" << song_filename;
       return Cover(cover_data, cover_mime_type);
     }

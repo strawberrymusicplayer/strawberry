@@ -728,7 +728,7 @@ void CollectionModel::CreateDividerItem(const QString &divider_key, const QStrin
   CollectionItem *divider = new CollectionItem(CollectionItem::Type::Divider, root_);
   divider->container_key = divider_key;
   divider->display_text = display_text;
-  divider->sort_text = divider_key + QStringLiteral("  ");
+  divider->sort_text = divider_key + QLatin1String("  ");
   divider_nodes_[divider_key] = divider;
 
   endInsertRows();
@@ -772,7 +772,7 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(CollectionItem *par
   if (parent != root_ && !parent->container_key.isEmpty()) parent->compilation_artist_node_->container_key.append(parent->container_key);
   parent->compilation_artist_node_->container_key.append(QLatin1String(kVariousArtists));
   parent->compilation_artist_node_->display_text = QLatin1String(kVariousArtists);
-  parent->compilation_artist_node_->sort_text = QStringLiteral(" various");
+  parent->compilation_artist_node_->sort_text = QLatin1String(" various");
   parent->compilation_artist_node_->container_level = parent->container_level + 1;
 
   endInsertRows();
@@ -1031,14 +1031,14 @@ QString CollectionModel::TextOrUnknown(const QString &text) {
 QString CollectionModel::PrettyYearAlbum(const int year, const QString &album) {
 
   if (year <= 0) return TextOrUnknown(album);
-  return QString::number(year) + QStringLiteral(" - ") + TextOrUnknown(album);
+  return QString::number(year) + QLatin1String(" - ") + TextOrUnknown(album);
 
 }
 
 QString CollectionModel::PrettyAlbumDisc(const QString &album, const int disc) {
 
   if (disc <= 0 || Song::AlbumContainsDisc(album)) return TextOrUnknown(album);
-  return TextOrUnknown(album) + QStringLiteral(" - (Disc ") + QString::number(disc) + QStringLiteral(")");
+  return TextOrUnknown(album) + QLatin1String(" - (Disc ") + QString::number(disc) + QLatin1String(")");
 
 }
 
@@ -1047,9 +1047,9 @@ QString CollectionModel::PrettyYearAlbumDisc(const int year, const QString &albu
   QString str;
 
   if (year <= 0) str = TextOrUnknown(album);
-  else str = QString::number(year) + QStringLiteral(" - ") + TextOrUnknown(album);
+  else str = QString::number(year) + QLatin1String(" - ") + TextOrUnknown(album);
 
-  if (!Song::AlbumContainsDisc(album) && disc > 0) str += QStringLiteral(" - (Disc ") + QString::number(disc) + QStringLiteral(")");
+  if (!Song::AlbumContainsDisc(album) && disc > 0) str += QLatin1String(" - (Disc ") + QString::number(disc) + QLatin1String(")");
 
   return str;
 
@@ -1057,7 +1057,7 @@ QString CollectionModel::PrettyYearAlbumDisc(const int year, const QString &albu
 
 QString CollectionModel::PrettyDisc(const int disc) {
 
-  return QStringLiteral("Disc ") + QString::number(std::max(1, disc));
+  return QLatin1String("Disc ") + QString::number(std::max(1, disc));
 
 }
 
@@ -1134,7 +1134,7 @@ QString CollectionModel::SortText(const GroupBy group_by, const int container_le
 QString CollectionModel::SortText(QString text) {
 
   if (text.isEmpty()) {
-    text = QStringLiteral(" unknown");
+    text = QLatin1String(" unknown");
   }
   else {
     text = text.toLower();
@@ -1153,7 +1153,7 @@ QString CollectionModel::SortTextForArtist(QString artist, const bool skip_artic
     for (const auto &i : Song::kArticles) {
       if (artist.startsWith(i)) {
         qint64 ilen = i.length();
-        artist = artist.right(artist.length() - ilen) + QStringLiteral(", ") + i.left(ilen - 1);
+        artist = artist.right(artist.length() - ilen) + QLatin1String(", ") + i.left(ilen - 1);
         break;
       }
     }

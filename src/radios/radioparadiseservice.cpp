@@ -110,11 +110,11 @@ void RadioParadiseService::GetChannelsReply(QNetworkReply *reply, const int task
       QString label = obj_stream[QLatin1String("label")].toString();
       QString url = obj_stream[QLatin1String("url")].toString();
       if (!url.contains(QRegularExpression(QStringLiteral("^[0-9a-zA-Z]*:\\/\\/"), QRegularExpression::CaseInsensitiveOption))) {
-        url.prepend(QStringLiteral("https://"));
+        url.prepend(QLatin1String("https://"));
       }
       RadioChannel channel;
       channel.source = source_;
-      channel.name = name + QStringLiteral(" - ") + label;
+      channel.name = name + QLatin1String(" - ") + label;
       channel.url.setUrl(url);
       channels << channel;
     }

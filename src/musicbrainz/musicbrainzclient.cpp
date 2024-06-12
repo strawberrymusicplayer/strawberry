@@ -325,7 +325,7 @@ bool MusicBrainzClient::MediumHasDiscid(const QString &discid, QXmlStreamReader 
     QXmlStreamReader::TokenType type = reader->readNext();
     QString name = reader->name().toString();
 
-    if (type == QXmlStreamReader::StartElement && name == QLatin1String("disc") && reader->attributes().value(QStringLiteral("id")).toString() == discid) {
+    if (type == QXmlStreamReader::StartElement && name == QLatin1String("disc") && reader->attributes().value(QLatin1String("id")).toString() == discid) {
       return true;
     }
     if (type == QXmlStreamReader::EndElement && name == QLatin1String("disc-list")) {
@@ -442,7 +442,7 @@ void MusicBrainzClient::ParseArtist(QXmlStreamReader *reader, QString *artist) {
     QXmlStreamReader::TokenType type = reader->readNext();
     QString name = reader->name().toString();
     if (type == QXmlStreamReader::StartElement && name == QLatin1String("name-credit")) {
-      join_phrase = reader->attributes().value(QStringLiteral("joinphrase")).toString();
+      join_phrase = reader->attributes().value(QLatin1String("joinphrase")).toString();
     }
 
     if (type == QXmlStreamReader::StartElement && name == QLatin1String("name")) {
@@ -478,7 +478,7 @@ MusicBrainzClient::Release MusicBrainzClient::ParseRelease(QXmlStreamReader *rea
         }
       }
       else if (name == QLatin1String("track-list")) {
-        ret.track_ = reader->attributes().value(QStringLiteral("offset")).toString().toInt() + 1;
+        ret.track_ = reader->attributes().value(QLatin1String("offset")).toString().toInt() + 1;
         Utilities::ConsumeCurrentElement(reader);
       }
     }

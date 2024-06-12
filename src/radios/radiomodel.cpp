@@ -177,7 +177,7 @@ void RadioModel::AddChannels(const RadioChannelList &channels) {
     RadioItem *item = new RadioItem(RadioItem::Type::Channel, container);
     item->source = channel.source;
     item->display_text = channel.name;
-    item->sort_text = SortText(Song::TextForSource(channel.source) + QStringLiteral(" - ") + channel.name);
+    item->sort_text = SortText(Song::TextForSource(channel.source) + QLatin1String(" - ") + channel.name);
     item->channel = channel;
     items_ << item;
     endInsertRows();
@@ -325,7 +325,7 @@ void RadioModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult
 QString RadioModel::SortText(QString text) {
 
   if (text.isEmpty()) {
-    text = QStringLiteral(" unknown");
+    text = QLatin1String(" unknown");
   }
   else {
     text = text.toLower();

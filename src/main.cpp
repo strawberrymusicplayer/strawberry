@@ -221,11 +221,11 @@ int main(int argc, char *argv[]) {
     s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
     QString style = s.value(AppearanceSettingsPage::kStyle).toString();
     if (style.isEmpty()) {
-      style=QStringLiteral("default");
+      style = QLatin1String("default");
       s.setValue(AppearanceSettingsPage::kStyle, style);
     }
     s.endGroup();
-    if (style != QStringLiteral("default")) {
+    if (style != QLatin1String("default")) {
       QApplication::setStyle(style);
     }
     if (QApplication::style()) qLog(Debug) << "Style:" << QApplication::style()->objectName();

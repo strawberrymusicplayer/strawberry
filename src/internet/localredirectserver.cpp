@@ -86,7 +86,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
   if (!tcp_socket->setSocketDescriptor(socket_descriptor)) {
     delete tcp_socket;
     close();
-    error_ = QStringLiteral("Unable to set socket descriptor");
+    error_ = QLatin1String("Unable to set socket descriptor");
     emit Finished();
     return;
   }

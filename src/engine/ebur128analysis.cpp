@@ -216,16 +216,16 @@ FrameFormat::FrameFormat(GstCaps *caps) : channels(0), channel_mask(0), samplera
     channel_mask = gst_value_get_bitmask(value);
   }
 
-  if (format_str == QStringLiteral("S16LE")) {
+  if (format_str == QLatin1String("S16LE")) {
     format = DataFormat::S16;
   }
-  else if (format_str == QStringLiteral("S32LE")) {
+  else if (format_str == QLatin1String("S32LE")) {
     format = DataFormat::S32;
   }
-  else if (format_str == QStringLiteral("F32LE")) {
+  else if (format_str == QLatin1String("F32LE")) {
     format = DataFormat::FP32;
   }
-  else if (format_str == QStringLiteral("F64LE")) {
+  else if (format_str == QLatin1String("F64LE")) {
     format = DataFormat::FP64;
   }
   else {

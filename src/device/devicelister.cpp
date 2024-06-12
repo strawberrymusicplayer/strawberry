@@ -223,9 +223,9 @@ QUrl DeviceLister::MakeUrlFromLocalPath(const QString &path) const {
 }
 
 bool DeviceLister::IsIpod(const QString &path) {
-  return QFile::exists(path + QStringLiteral("/iTunes_Control")) ||
-         QFile::exists(path + QStringLiteral("/iPod_Control")) ||
-         QFile::exists(path + QStringLiteral("/iTunes/iTunes_Control"));
+  return QFile::exists(path + QLatin1String("/iTunes_Control")) ||
+         QFile::exists(path + QLatin1String("/iPod_Control")) ||
+         QFile::exists(path + QLatin1String("/iTunes/iTunes_Control"));
 }
 
 QVariantList DeviceLister::GuessIconForPath(const QString &path) {

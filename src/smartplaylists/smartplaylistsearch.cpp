@@ -62,7 +62,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   }
 
   if (!terms_.isEmpty() && search_type_ != SearchType::All) {
-    QString boolean_op = search_type_ == SearchType::And ? QStringLiteral(" AND ") : QStringLiteral(" OR ");
+    QString boolean_op = search_type_ == SearchType::And ? QLatin1String(" AND ") : QLatin1String(" OR ");
     where_clauses << QStringLiteral("(") + term_where_clauses.join(boolean_op) + QStringLiteral(")");
   }
 
@@ -80,7 +80,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   where_clauses << QStringLiteral("unavailable = 0");
 
   if (!where_clauses.isEmpty()) {
-    sql += QStringLiteral(" WHERE ") + where_clauses.join(QLatin1String(" AND "));
+    sql += QLatin1String(" WHERE ") + where_clauses.join(QLatin1String(" AND "));
   }
 
   // Add sort by
@@ -88,7 +88,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
     sql += QLatin1String(" ORDER BY random()");
   }
   else {
-    sql += QStringLiteral(" ORDER BY ") + SmartPlaylistSearchTerm::FieldColumnName(sort_field_) + (sort_type_ == SortType::FieldAsc ? QStringLiteral(" ASC") : QStringLiteral(" DESC"));
+    sql += QLatin1String(" ORDER BY ") + SmartPlaylistSearchTerm::FieldColumnName(sort_field_) + (sort_type_ == SortType::FieldAsc ? QLatin1String(" ASC") : QLatin1String(" DESC"));
   }
 
   // Add limit
@@ -96,7 +96,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
     sql += QStringLiteral(" LIMIT %1 OFFSET %2").arg(limit_).arg(first_item_);
   }
   else if (limit_ != -1) {
-    sql += QStringLiteral(" LIMIT ") + QString::number(limit_);
+    sql += QLatin1String(" LIMIT ") + QString::number(limit_);
   }
   //qLog(Debug) << sql;
 

@@ -107,7 +107,7 @@ EngineDeviceList MacOsDeviceFinder::ListDevices() {
     EngineDevice device;
     device.value = id;
     device.description = QString::fromUtf8(CFStringGetCStringPtr(*device_name, CFStringGetSystemEncoding()));
-    if (device.description.isEmpty()) device.description = QStringLiteral("Unknown device ") + device.value.toString();
+    if (device.description.isEmpty()) device.description = QLatin1String("Unknown device ") + device.value.toString();
     device.iconname = device.GuessIconName();
     device_list.append(device);
   }

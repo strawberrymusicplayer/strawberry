@@ -250,7 +250,7 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   s.endGroup();
 
   QString suggested_filename = playlist_name;
-  QString filename = last_save_path + QLatin1Char('/') + suggested_filename.remove(QRegularExpression(QLatin1String(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption)) + QStringLiteral(".") + last_save_extension;
+  QString filename = last_save_path + QLatin1Char('/') + suggested_filename.remove(QRegularExpression(QLatin1String(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption)) + QLatin1Char('.') + last_save_extension;
 
   QFileInfo fileinfo;
   forever {
@@ -451,7 +451,7 @@ void PlaylistManager::UpdateSummaryText() {
   summary += tr("%n track(s)", "", tracks);
 
   if (nanoseconds > 0) {
-    summary += QStringLiteral(" - [ ") + Utilities::WordyTimeNanosec(nanoseconds) + QStringLiteral(" ]");
+    summary += QLatin1String(" - [ ") + Utilities::WordyTimeNanosec(nanoseconds) + QLatin1String(" ]");
   }
 
   emit SummaryTextChanged(summary);
@@ -566,7 +566,7 @@ QString PlaylistManager::GetNameForNewPlaylist(const SongList &songs) {
 
   if (!various_artists && albums.size() == 1) {
     QStringList album_names = albums.values();
-    result += QStringLiteral(" - ") + album_names.first();
+    result += QLatin1String(" - ") + album_names.first();
   }
 
   return result;

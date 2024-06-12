@@ -311,7 +311,7 @@ bool CommandlineOptions::Parse() {
         log_levels_ = OptArgToString(optarg);
         break;
       case LongOptions::Version:{
-        QString version_text = QString::fromUtf8(kVersionText).arg(QStringLiteral(STRAWBERRY_VERSION_DISPLAY));
+        QString version_text = QString::fromUtf8(kVersionText).arg(QLatin1String(STRAWBERRY_VERSION_DISPLAY));
         std::cout << version_text.toLocal8Bit().constData() << std::endl;
         std::exit(0);
       }

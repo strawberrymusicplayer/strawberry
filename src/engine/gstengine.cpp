@@ -418,23 +418,23 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
     const QString metadata = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS));
     const QString name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
     const QStringList classes = metadata.split(QLatin1Char('/'));
-    if (classes.contains(QStringLiteral("Audio"), Qt::CaseInsensitive) && (classes.contains(QStringLiteral("Sink"), Qt::CaseInsensitive) || (classes.contains(QStringLiteral("Source"), Qt::CaseInsensitive) && name.contains(QStringLiteral("sink"))))) {
+    if (classes.contains(QLatin1String("Audio"), Qt::CaseInsensitive) && (classes.contains(QLatin1String("Sink"), Qt::CaseInsensitive) || (classes.contains(QLatin1String("Source"), Qt::CaseInsensitive) && name.contains(QLatin1String("sink"))))) {
       QString description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
-      if (name == QStringLiteral("wasapi2sink") && description == QStringLiteral("Stream audio to an audio capture device through WASAPI")) {
+      if (name == QLatin1String("wasapi2sink") && description == QLatin1String("Stream audio to an audio capture device through WASAPI")) {
         description.append(QLatin1Char('2'));
       }
-      else if (name == QStringLiteral("pipewiresink") && description == QStringLiteral("Send video to PipeWire")) {
-        description = QStringLiteral("Send audio to PipeWire");
+      else if (name == QLatin1String("pipewiresink") && description == QLatin1String("Send video to PipeWire")) {
+        description = QLatin1String("Send audio to PipeWire");
       }
       OutputDetails output;
       output.name = name;
       output.description = description;
-      if (output.name == QLatin1String(kAutoSink)) output.iconname = QStringLiteral("soundcard");
-      else if (output.name == QLatin1String(kALSASink) || output.name == QLatin1String(kOSS4Sink)) output.iconname = QStringLiteral("alsa");
-      else if (output.name == QLatin1String(kJackAudioSink)) output.iconname = QStringLiteral("jack");
-      else if (output.name == QLatin1String(kPulseSink)) output.iconname = QStringLiteral("pulseaudio");
-      else if (output.name == QLatin1String(kA2DPSink) || output.name == QLatin1String(kAVDTPSink)) output.iconname = QStringLiteral("bluetooth");
-      else output.iconname = QStringLiteral("soundcard");
+      if (output.name == QLatin1String(kAutoSink)) output.iconname = QLatin1String("soundcard");
+      else if (output.name == QLatin1String(kALSASink) || output.name == QLatin1String(kOSS4Sink)) output.iconname = QLatin1String("alsa");
+      else if (output.name == QLatin1String(kJackAudioSink)) output.iconname = QLatin1String("jack");
+      else if (output.name == QLatin1String(kPulseSink)) output.iconname = QLatin1String("pulseaudio");
+      else if (output.name == QLatin1String(kA2DPSink) || output.name == QLatin1String(kAVDTPSink)) output.iconname = QLatin1String("bluetooth");
+      else output.iconname = QLatin1String("soundcard");
       outputs << output;
     }
   }
@@ -724,10 +724,10 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
   // QUrl::fromLocalFile does this when given a \\host\share\file path on Windows.
   // Munge it back into a path that gstreamer will recognise.
   if (url.isLocalFile() && !url.host().isEmpty()) {
-    QString str = QStringLiteral("file:////") + url.host() + url.path();
+    QString str = QLatin1String("file:////") + url.host() + url.path();
     uri = str.toUtf8();
   }
-  else if (url.scheme() == QStringLiteral("cdda")) {
+  else if (url.scheme() == QLatin1String("cdda")) {
     QString str;
     if (url.path().isEmpty()) {
       str = url.toString();
@@ -952,7 +952,7 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
       GstStructure *gst_structure = gst_caps_get_structure(caps, i);
       if (!gst_structure) continue;
       QString mimetype = QString::fromUtf8(gst_structure_get_name(gst_structure));
-      if (!mimetype.isEmpty() && mimetype != QStringLiteral("audio/mpeg")) {
+      if (!mimetype.isEmpty() && mimetype != QLatin1String("audio/mpeg")) {
         engine_metadata.filetype = Song::FiletypeByMimetype(mimetype);
         if (engine_metadata.filetype == Song::FileType::Unknown) {
           qLog(Error) << "Unknown mimetype" << mimetype;

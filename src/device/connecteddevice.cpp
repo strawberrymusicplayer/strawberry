@@ -60,7 +60,7 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
   backend_->moveToThread(app_->database()->thread());
   qLog(Debug) << &*backend_ << "for device" << unique_id_ << "moved to thread" << app_->database()->thread();
 
-  if (url_.scheme() != QStringLiteral("cdda")) {
+  if (url_.scheme() != QLatin1String("cdda")) {
     QObject::connect(&*backend_, &CollectionBackend::TotalSongCountUpdated, this, &ConnectedDevice::BackendTotalSongCountUpdated);
   }
 

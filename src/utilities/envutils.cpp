@@ -62,9 +62,9 @@ QString DesktopEnvironment() {
     session = session.mid(slash + 1);
   }
 
-  if (session == QStringLiteral("kde"))           return QStringLiteral("KDE");
-  else if (session == QStringLiteral("gnome"))    return QStringLiteral("Gnome");
-  else if (session == QStringLiteral("xfce"))     return QStringLiteral("XFCE");
+  if (session == QLatin1String("kde"))           return QStringLiteral("KDE");
+  else if (session == QLatin1String("gnome"))    return QStringLiteral("Gnome");
+  else if (session == QLatin1String("xfce"))     return QStringLiteral("XFCE");
 
   return QStringLiteral("Unknown");
 

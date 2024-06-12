@@ -321,7 +321,7 @@ QString GstEnginePipeline::GstStateText(const GstState state) {
 
 GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const {
 
-  QString unique_name = QStringLiteral("pipeline") + QLatin1Char('-') + QString::number(id_) + QLatin1Char('-') + (name.isEmpty() ? factory_name : name);
+  QString unique_name = QLatin1String("pipeline") + QLatin1Char('-') + QString::number(id_) + QLatin1Char('-') + (name.isEmpty() ? factory_name : name);
 
   GstElement *element = gst_element_factory_make(factory_name.toUtf8().constData(), unique_name.toUtf8().constData());
   if (!element) {
@@ -751,7 +751,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link replaygain elements if enabled.
   if (rg_enabled_ && rgvolume && rglimiter && rgconverter) {
     if (!gst_element_link_many(element_link, rgvolume, rglimiter, rgconverter, nullptr)) {
-      error = QStringLiteral("Failed to link replaygain volume, limiter and converter elements.");
+      error = QLatin1String("Failed to link replaygain volume, limiter and converter elements.");
       return false;
     }
     element_link = rgconverter;
@@ -764,7 +764,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       "format = (string) { F32LE, F64LE }");
     GstCaps *raw_fp_audio_caps = gst_static_caps_get(&static_raw_fp_audio_caps);
     if (!gst_element_link_filtered(element_link, volume_ebur128_, raw_fp_audio_caps)) {
-      error = QStringLiteral("Failed to link EBU R 128 volume element.");
+      error = QLatin1String("Failed to link EBU R 128 volume element.");
       return false;
     }
     gst_caps_unref(raw_fp_audio_caps);
@@ -774,7 +774,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link equalizer elements if enabled.
   if (eq_enabled_ && equalizer_ && equalizer_preamp_) {
     if (!gst_element_link_many(element_link, equalizer_preamp_, equalizer_, nullptr)) {
-      error = QStringLiteral("Failed to link equalizer and equalizer preamp elements.");
+      error = QLatin1String("Failed to link equalizer and equalizer preamp elements.");
       return false;
     }
     element_link = equalizer_;
@@ -783,7 +783,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link stereo balancer elements if enabled.
   if (stereo_balancer_enabled_ && audiopanorama_) {
     if (!gst_element_link(element_link, audiopanorama_)) {
-      error = QStringLiteral("Failed to link audio panorama (stereo balancer).");
+      error = QLatin1String("Failed to link audio panorama (stereo balancer).");
       return false;
     }
     element_link = audiopanorama_;
@@ -792,7 +792,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link software volume element if enabled.
   if (volume_enabled_ && volume_sw_) {
     if (!gst_element_link(element_link, volume_sw_)) {
-      error = QStringLiteral("Failed to link software volume.");
+      error = QLatin1String("Failed to link software volume.");
       return false;
     }
     element_link = volume_sw_;
@@ -801,7 +801,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link fading volume element if enabled.
   if (fading_enabled_ && volume_fading_) {
     if (!gst_element_link(element_link, volume_fading_)) {
-      error = QStringLiteral("Failed to link fading volume.");
+      error = QLatin1String("Failed to link fading volume.");
       return false;
     }
     element_link = volume_fading_;
@@ -811,21 +811,21 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   if (bs2b_enabled_ && bs2b) {
     qLog(Debug) << "Enabling bs2b";
     if (!gst_element_link(element_link, bs2b)) {
-      error = QStringLiteral("Failed to link bs2b.");
+      error = QLatin1String("Failed to link bs2b.");
       return false;
     }
     element_link = bs2b;
   }
 
   if (!gst_element_link(element_link, audiosinkconverter)) {
-    error = QStringLiteral("Failed to link audio sink converter.");
+    error = QLatin1String("Failed to link audio sink converter.");
     return false;
   }
 
   {
     GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
     if (!caps) {
-      error = QStringLiteral("Failed to create caps for raw audio.");
+      error = QLatin1String("Failed to create caps for raw audio.");
       return false;
     }
     if (channels_enabled_ && channels_ > 0) {
@@ -835,7 +835,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     const bool link_filtered_result = gst_element_link_filtered(audiosinkconverter, audiosink_, caps);
     gst_caps_unref(caps);
     if (!link_filtered_result) {
-      error = QStringLiteral("Failed to link audio sink converter to audio sink with filter for ") + output_;
+      error = QLatin1String("Failed to link audio sink converter to audio sink with filter for ") + output_;
       return false;
     }
   }
@@ -926,7 +926,7 @@ void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin*, GstElement *e
   const QString element_name = QString::fromUtf8(element_name_char);
   g_free(element_name_char);
 
-  if (bin != GST_BIN(instance->audiobin_) || element_name == QStringLiteral("fake-audio-sink") || GST_ELEMENT(gst_element_get_parent(element)) != instance->audiosink_) return;
+  if (bin != GST_BIN(instance->audiobin_) || element_name == QLatin1String("fake-audio-sink") || GST_ELEMENT(gst_element_get_parent(element)) != instance->audiosink_) return;
 
   GstElement *volume = nullptr;
   if (GST_IS_STREAM_VOLUME(element)) {
@@ -1456,7 +1456,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
 
 #ifdef Q_OS_WIN
   // Ignore non-error received for directsoundsink: "IDirectSoundBuffer_GetStatus The operation completed successfully"
-  if (code == GST_RESOURCE_ERROR_OPEN_WRITE && message.contains(QStringLiteral("IDirectSoundBuffer_GetStatus The operation completed successfully."))) {
+  if (code == GST_RESOURCE_ERROR_OPEN_WRITE && message.contains(QLatin1String("IDirectSoundBuffer_GetStatus The operation completed successfully."))) {
     return;
   }
 #endif
@@ -1486,7 +1486,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   if (!engine_metadata.title.isEmpty() && engine_metadata.artist.isEmpty() && engine_metadata.album.isEmpty()) {
     QStringList title_splitted;
     if (engine_metadata.title.contains(QLatin1String(" - "))) {
-      title_splitted = engine_metadata.title.split(QStringLiteral(" - "));
+      title_splitted = engine_metadata.title.split(QLatin1String(" - "));
     }
     else if (engine_metadata.title.contains(QLatin1Char('~'))) {
       title_splitted = engine_metadata.title.split(QLatin1Char('~'));

@@ -95,8 +95,8 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
   if (mime_type.isEmpty()) return nullptr;
 
   // HACK: Force mp4mux because it doesn't set any useful src caps
-  if (mime_type == QStringLiteral("audio/mp4")) {
-    emit LogLine(QStringLiteral("Using '%1' (rank %2)").arg(QStringLiteral("mp4mux")).arg(-1));
+  if (mime_type == QLatin1String("audio/mp4")) {
+    emit LogLine(QStringLiteral("Using '%1' (rank %2)").arg(QLatin1String("mp4mux")).arg(-1));
     return CreateElement(QStringLiteral("mp4mux"), bin);
   }
 
@@ -153,7 +153,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
 
   emit LogLine(QStringLiteral("Using '%1' (rank %2)").arg(best.name_).arg(best.rank_));
 
-  if (best.name_ == QStringLiteral("lamemp3enc")) {
+  if (best.name_ == QLatin1String("lamemp3enc")) {
     // Special case: we need to add xingmux and id3v2mux to the pipeline when using lamemp3enc because it doesn't write the VBR or ID3v2 headers itself.
 
     emit LogLine(QStringLiteral("Adding xingmux and id3v2mux to the pipeline"));
@@ -214,7 +214,7 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
 
   // Initialize some settings for the lamemp3enc element.
   Settings s;
-  s.beginGroup(QStringLiteral("Transcoder/lamemp3enc") + settings_postfix_);
+  s.beginGroup(QLatin1String("Transcoder/lamemp3enc") + settings_postfix_);
 
   if (s.value("target").isNull()) {
     s.setValue("target", 1);  // 1 == bitrate
@@ -298,7 +298,7 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
 
   if (!fileinfo_output.isFile() || fileinfo_output.filePath().isEmpty() || fileinfo_output.path().isEmpty() || fileinfo_output.fileName().isEmpty() || fileinfo_output.suffix().isEmpty()) {
     QFileInfo fileinfo_input(input);
-    QString temp_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QStringLiteral("/transcoder");
+    QString temp_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QLatin1String("/transcoder");
     if (!QDir(temp_dir).exists()) QDir().mkpath(temp_dir);
     QString filename = fileinfo_input.completeBaseName() + QLatin1Char('.') + preset.extension_;
     fileinfo_output.setFile(temp_dir + QLatin1Char('/') + filename);
@@ -569,7 +569,7 @@ QMap<QString, float> Transcoder::GetProgress() const {
 void Transcoder::SetElementProperties(const QString &name, GObject *object) {
 
   Settings s;
-  s.beginGroup(QStringLiteral("Transcoder/") + name + settings_postfix_);
+  s.beginGroup(QLatin1String("Transcoder/") + name + settings_postfix_);
 
   guint properties_count = 0;
   GParamSpec **properties = g_object_class_list_properties(G_OBJECT_GET_CLASS(object), &properties_count);

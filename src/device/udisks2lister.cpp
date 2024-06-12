@@ -226,17 +226,17 @@ void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const Interf
 
   for (auto interface = interfaces.constBegin(); interface != interfaces.constEnd(); ++interface) {
 
-    if (interface.key() != QStringLiteral("org.freedesktop.UDisks2.Job")) continue;
+    if (interface.key() != QLatin1String("org.freedesktop.UDisks2.Job")) continue;
 
     SharedPtr<OrgFreedesktopUDisks2JobInterface> job = make_shared<OrgFreedesktopUDisks2JobInterface>(QLatin1String(kUDisks2Service), path.path(), QDBusConnection::systemBus());
 
     if (!job->isValid()) continue;
 
     bool is_mount_job = false;
-    if (job->operation() == QStringLiteral("filesystem-mount")) {
+    if (job->operation() == QLatin1String("filesystem-mount")) {
       is_mount_job = true;
     }
-    else if (job->operation() == QStringLiteral("filesystem-unmount")) {
+    else if (job->operation() == QLatin1String("filesystem-unmount")) {
       is_mount_job = false;
     }
     else {

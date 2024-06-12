@@ -91,7 +91,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
     case CollectionModel::GroupBy::AlbumArtist:
       if (s.is_compilation()) {
         display_text = tr("Various artists");
-        sort_text = QStringLiteral("aaaaaa");
+        sort_text = QLatin1String("aaaaaa");
       }
       else {
         display_text = CollectionModel::TextOrUnknown(s.effective_albumartist());
@@ -103,7 +103,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
     case CollectionModel::GroupBy::Artist:
       if (s.is_compilation()) {
         display_text = tr("Various artists");
-        sort_text = QStringLiteral("aaaaaa");
+        sort_text = QLatin1String("aaaaaa");
       }
       else {
         display_text = CollectionModel::TextOrUnknown(s.artist());
@@ -250,8 +250,9 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       return parent;
   }
 
-  if (display_text.isEmpty()) display_text = QStringLiteral("Unknown");
-  if (sort_text.isEmpty()) sort_text = QStringLiteral("Unknown");
+  if (display_text.isEmpty() || sort_text.isEmpty()) {
+    display_text = QLatin1String("Unknown");
+  }
 
   // Find a container for this level
   key->group_[level] = display_text + unique_tag;

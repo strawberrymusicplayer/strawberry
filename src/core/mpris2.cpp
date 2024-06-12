@@ -325,13 +325,13 @@ void Mpris2::SetLoopStatus(const QString &value) {
 
   PlaylistSequence::RepeatMode mode = PlaylistSequence::RepeatMode::Off;
 
-  if (value == QStringLiteral("None")) {
+  if (value == QLatin1String("None")) {
     mode = PlaylistSequence::RepeatMode::Off;
   }
-  else if (value == QStringLiteral("Track")) {
+  else if (value == QLatin1String("Track")) {
     mode = PlaylistSequence::RepeatMode::Track;
   }
-  else if (value == QStringLiteral("Playlist")) {
+  else if (value == QLatin1String("Playlist")) {
     mode = PlaylistSequence::RepeatMode::Playlist;
   }
 

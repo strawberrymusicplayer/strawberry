@@ -248,7 +248,7 @@ void OSDPretty::Load() {
   fading_enabled_ = s.value("fading", false).toBool();
 #endif
 
-  if (s.contains(QStringLiteral("popup_screen"))) {
+  if (s.contains(QLatin1String("popup_screen"))) {
     popup_screen_name_ = s.value("popup_screen").toString();
     if (screens_.contains(popup_screen_name_)) {
       popup_screen_ = screens_[popup_screen_name_];
@@ -264,7 +264,7 @@ void OSDPretty::Load() {
     if (current_screen()) popup_screen_name_ = current_screen()->name();
   }
 
-  if (s.contains(QStringLiteral("popup_pos"))) {
+  if (s.contains(QLatin1String("popup_pos"))) {
     popup_pos_ = s.value("popup_pos").toPoint();
   }
   else {

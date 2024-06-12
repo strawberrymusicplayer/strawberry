@@ -81,30 +81,30 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   available_fields += QLatin1String(", ") + Song::kNumericalSearchColumns.join(QLatin1String(", "));
 
   ui_->search_field->setToolTip(
-    QStringLiteral("<html><head/><body><p>") +
+    QLatin1String("<html><head/><body><p>") +
     tr("Prefix a word with a field name to limit the search to that field, e.g.:") +
-    QStringLiteral(" ") +
-    QStringLiteral("<span style=\"font-weight:600;\">") +
+    QLatin1Char(' ') +
+    QLatin1String("<span style=\"font-weight:600;\">") +
     tr("artist") +
-    QStringLiteral(":</span><span style=\"font-style:italic;\">Strawbs</span> ") +
-    tr("searches the collection for all artists that contain the word %1. ").arg(QStringLiteral("Strawbs")) +
-    QStringLiteral("</p><p>") +
+    QLatin1String(":</span><span style=\"font-style:italic;\">Strawbs</span> ") +
+    tr("searches the collection for all artists that contain the word %1. ").arg(QLatin1String("Strawbs")) +
+    QLatin1String("</p><p>") +
     tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")
-      .arg(QStringLiteral(" =, !=, &lt;, &gt;, &lt;="), QStringLiteral("&gt;=")) +
-    QStringLiteral("<span style=\"font-weight:600;\">") +
+      .arg(QLatin1String(" =, !=, &lt;, &gt;, &lt;="), QLatin1String("&gt;=")) +
+    QLatin1String("<span style=\"font-weight:600;\">") +
     tr("rating") +
-    QStringLiteral("</span>") +
-    QStringLiteral(":>=") +
-    QStringLiteral("<span style=\"font-weight:italic;\">4</span>") +
+    QLatin1String("</span>") +
+    QLatin1String(":>=") +
+    QLatin1String("<span style=\"font-weight:italic;\">4</span>") +
 
-    QStringLiteral("</p><p><span style=\"font-weight:600;\">") +
+    QLatin1String("</p><p><span style=\"font-weight:600;\">") +
     tr("Available fields") +
-    QStringLiteral(": ") +
-    QStringLiteral("</span>") +
-    QStringLiteral("<span style=\"font-style:italic;\">") +
+    QLatin1String(": ") +
+    QLatin1String("</span>") +
+    QLatin1String("<span style=\"font-style:italic;\">") +
     available_fields +
-    QStringLiteral("</span>.") +
-    QStringLiteral("</p></body></html>")
+    QLatin1String("</span>.") +
+    QLatin1String("</p></body></html>")
   );
 
   QObject::connect(ui_->search_field, &QSearchField::returnPressed, this, &CollectionFilterWidget::ReturnPressed);
@@ -319,7 +319,7 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(const QString &saved_
   if (version == 1) {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == QStringLiteral("version")) continue;
+      if (saved.at(i) == QLatin1String("version")) continue;
       QByteArray bytes = s.value(saved.at(i)).toByteArray();
       QDataStream ds(&bytes, QIODevice::ReadOnly);
       CollectionModel::Grouping g;
@@ -330,7 +330,7 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(const QString &saved_
   else {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == QStringLiteral("version")) continue;
+      if (saved.at(i) == QLatin1String("version")) continue;
       s.remove(saved.at(i));
     }
   }

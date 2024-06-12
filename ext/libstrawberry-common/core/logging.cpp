@@ -212,7 +212,7 @@ void SetLevels(const QString &levels) {
       continue;
     }
 
-    if (class_name.isEmpty() || class_name == QStringLiteral("*")) {
+    if (class_name.isEmpty() || class_name == QLatin1Char('*')) {
       sDefaultLevel = static_cast<Level>(level);
     }
     else {
@@ -272,10 +272,10 @@ static T CreateLogger(Level level, const QString &class_name, int line, const ch
 
   QString function_line = class_name;
   if (line != -1) {
-    function_line += QStringLiteral(":") + QString::number(line);
+    function_line += QLatin1Char(':') + QString::number(line);
   }
   if (category) {
-    function_line += QStringLiteral("(") + QLatin1String(category) + QStringLiteral(")");
+    function_line += QLatin1Char('(') + QLatin1String(category) + QLatin1Char(')');
   }
 
   QtMsgType type = QtDebugMsg;

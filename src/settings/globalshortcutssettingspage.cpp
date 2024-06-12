@@ -260,7 +260,7 @@ void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
 
   if (!QProcess::startDetached(QStringLiteral("gnome-keybinding-properties"), QStringList())) {
     if (!QProcess::startDetached(QStringLiteral("gnome-control-center"), QStringList() << QStringLiteral("keyboard"))) {
-      QMessageBox::warning(this, QStringLiteral("Error"), tr("The \"%1\" command could not be started.").arg(QStringLiteral("gnome-keybinding-properties")));
+      QMessageBox::warning(this, QStringLiteral("Error"), tr("The \"%1\" command could not be started.").arg(QLatin1String("gnome-keybinding-properties")));
     }
   }
 
@@ -270,7 +270,7 @@ void GlobalShortcutsSettingsPage::OpenMateKeybindingProperties() {
 
   if (!QProcess::startDetached(QStringLiteral("mate-keybinding-properties"), QStringList())) {
     if (!QProcess::startDetached(QStringLiteral("mate-control-center"), QStringList() << QStringLiteral("keyboard"))) {
-      QMessageBox::warning(this, QStringLiteral("Error"), tr("The \"%1\" command could not be started.").arg(QStringLiteral("mate-keybinding-properties")));
+      QMessageBox::warning(this, QStringLiteral("Error"), tr("The \"%1\" command could not be started.").arg(QLatin1String("mate-keybinding-properties")));
     }
   }
 
@@ -345,18 +345,18 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
 void GlobalShortcutsSettingsPage::X11Warning() {
 
   QString de = de_.toLower();
-  if (de == QStringLiteral("kde") || de == QStringLiteral("gnome") || de == QStringLiteral("x-cinnamon") || de == QStringLiteral("mate")) {
+  if (de == QLatin1String("kde") || de == QLatin1String("gnome") || de == QLatin1String("x-cinnamon") || de == QLatin1String("mate")) {
     QString text(tr("Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!").arg(de_));
-    if (de == QStringLiteral("kde")) {
+    if (de == QLatin1String("kde")) {
       text += tr(" Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.").arg(de_);
     }
-    else if (de == QStringLiteral("gnome")) {
+    else if (de == QLatin1String("gnome")) {
       text += tr(" Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.").arg(de_);
     }
-    else if (de == QStringLiteral("x-cinnamon")) {
+    else if (de == QLatin1String("x-cinnamon")) {
       text += tr(" Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.").arg(de_);
     }
-    else if (de == QStringLiteral("mate")) {
+    else if (de == QLatin1String("mate")) {
       text += tr(" Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.").arg(de_);
     }
     ui_->label_warn_text->setText(text);

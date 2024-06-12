@@ -1913,7 +1913,7 @@ void Song::MergeUserSetData(const Song &other, const bool merge_playcount, const
 }
 
 QString Song::AlbumKey() const {
-  return QStringLiteral("%1|%2|%3").arg(is_compilation() ? QStringLiteral("_compilation") : effective_albumartist(), has_cue() ? cue_path() : QLatin1String(""), effective_album());
+  return QStringLiteral("%1|%2|%3").arg(is_compilation() ? QLatin1String("_compilation") : effective_albumartist(), has_cue() ? cue_path() : QLatin1String(""), effective_album());
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)

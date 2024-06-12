@@ -69,7 +69,7 @@ bool GioLister::DeviceInfo::is_suitable() const {
 
   if (filesystem_type.isEmpty()) return true;
 
-  return filesystem_type != QStringLiteral("udf") && filesystem_type != QStringLiteral("smb") && filesystem_type != QStringLiteral("cifs") && filesystem_type != QStringLiteral("ssh") && filesystem_type != QStringLiteral("isofs");
+  return filesystem_type != QLatin1String("udf") && filesystem_type != QLatin1String("smb") && filesystem_type != QLatin1String("cifs") && filesystem_type != QLatin1String("ssh") && filesystem_type != QLatin1String("isofs");
 
 }
 
@@ -503,7 +503,7 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
 
   // Query the file's info for a filesystem ID
   // Only afc devices (that I know of) give reliably unique IDs
-  if (filesystem_type == QStringLiteral("afc")) {
+  if (filesystem_type == QLatin1String("afc")) {
     error = nullptr;
     info = g_file_query_info(root, G_FILE_ATTRIBUTE_ID_FILESYSTEM, G_FILE_QUERY_INFO_NONE, nullptr, &error);
     if (error) {

@@ -90,7 +90,7 @@ const DeviceInfo::Backend *DeviceInfo::BestBackend() const {
 
 void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
 
-  icon_name_ = QStringLiteral("device");
+  icon_name_ = QLatin1String("device");
 
   if (icons.isEmpty()) {
     icon_ = IconLoader::Load(icon_name_);
@@ -121,10 +121,10 @@ void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
       QString icon_name = icon.toString();
       if (!icon_name.isEmpty()) {
         QString hint = icons.first().toString().toLower() + name_hint.toLower();
-        if (hint.contains(QLatin1String("phone"))) icon_name_ = QStringLiteral("device-phone");
-        else if (hint.contains(QLatin1String("ipod")) || hint.contains(QLatin1String("apple"))) icon_name_ = QStringLiteral("device-ipod");
-        else if ((hint.contains(QLatin1String("usb"))) && (hint.contains(QLatin1String("reader")))) icon_name_ = QStringLiteral("device-usb-flash");
-        else if (hint.contains(QLatin1String("usb"))) icon_name_ = QStringLiteral("device-usb-drive");
+        if (hint.contains(QLatin1String("phone"))) icon_name_ = QLatin1String("device-phone");
+        else if (hint.contains(QLatin1String("ipod")) || hint.contains(QLatin1String("apple"))) icon_name_ = QLatin1String("device-ipod");
+        else if ((hint.contains(QLatin1String("usb"))) && (hint.contains(QLatin1String("reader")))) icon_name_ = QLatin1String("device-usb-flash");
+        else if (hint.contains(QLatin1String("usb"))) icon_name_ = QLatin1String("device-usb-drive");
         icon_ = IconLoader::Load(icon_name_);
         if (!icon_.isNull()) {
           return;
@@ -133,7 +133,7 @@ void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
     }
   }
 
-  icon_name_ = QStringLiteral("device");
+  icon_name_ = QLatin1String("device");
   icon_ = IconLoader::Load(icon_name_);
 
 }

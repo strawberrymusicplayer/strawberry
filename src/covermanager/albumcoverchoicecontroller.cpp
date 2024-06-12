@@ -231,12 +231,12 @@ QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
 
 void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const AlbumCoverImageResult &result) {
 
-  QString initial_file_name = QStringLiteral("/");
+  QString initial_file_name = QLatin1String("/");
 
   if (!song.effective_albumartist().isEmpty()) {
     initial_file_name = initial_file_name + song.effective_albumartist();
   }
-  initial_file_name = initial_file_name + QLatin1Char('-') + (song.effective_album().isEmpty() ? tr("unknown") : song.effective_album()) + QStringLiteral(".jpg");
+  initial_file_name = initial_file_name + QLatin1Char('-') + (song.effective_album().isEmpty() ? tr("unknown") : song.effective_album()) + QLatin1String(".jpg");
   initial_file_name = initial_file_name.toLower();
   initial_file_name.replace(QRegularExpression(QStringLiteral("\\s")), QStringLiteral("-"));
   initial_file_name.remove(QRegularExpression(QLatin1String(kInvalidFatCharactersRegex), QRegularExpression::CaseInsensitiveOption));
@@ -247,12 +247,12 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
 
   QFileInfo fileinfo(save_filename);
   if (fileinfo.suffix().isEmpty()) {
-    save_filename.append(QStringLiteral(".jpg"));
+    save_filename.append(QLatin1String(".jpg"));
     fileinfo.setFile(save_filename);
   }
 
   if (!QImageWriter::supportedImageFormats().contains(fileinfo.completeSuffix().toUtf8().toLower())) {
-    save_filename = Utilities::PathWithoutFilenameExtension(save_filename) + QStringLiteral(".jpg");
+    save_filename = Utilities::PathWithoutFilenameExtension(save_filename) + QLatin1String(".jpg");
     fileinfo.setFile(save_filename);
   }
 
@@ -473,13 +473,13 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixm
 
   // Use Artist - Album as the window title
   QString title_text(song.effective_albumartist());
-  if (!song.effective_album().isEmpty()) title_text += QStringLiteral(" - ") + song.effective_album();
+  if (!song.effective_album().isEmpty()) title_text += QLatin1String(" - ") + song.effective_album();
 
   QLabel *label = new QLabel(dialog);
   label->setPixmap(pixmap);
 
   // Add (WxHpx) to the title before possibly resizing
-  title_text += QStringLiteral(" (") + QString::number(pixmap.width()) + QLatin1Char('x') + QString::number(pixmap.height()) + QStringLiteral("px)");
+  title_text += QLatin1String(" (") + QString::number(pixmap.width()) + QLatin1Char('x') + QString::number(pixmap.height()) + QLatin1String("px)");
 
   // If the cover is larger than the screen, resize the window 85% seems to be enough to account for title bar and taskbar etc.
   QScreen *screen = Utilities::GetScreen(this);
@@ -656,7 +656,7 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
                                                           const AlbumCoverImageResult &result,
                                                           const bool force_overwrite) {
 
-  QString filepath = CoverUtils::CoverFilePath(cover_options_, source, artist, album, album_id, album_dir, result.cover_url, QStringLiteral("jpg"));
+  QString filepath = CoverUtils::CoverFilePath(cover_options_, source, artist, album, album_id, album_dir, result.cover_url, QLatin1String("jpg"));
   if (filepath.isEmpty()) return QUrl();
 
   QFile file(filepath);
@@ -664,7 +664,7 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
   if (source == Song::Source::Collection && !cover_options_.cover_overwrite && !force_overwrite && get_save_album_cover_type() == CoverOptions::CoverType::Album && cover_options_.cover_filename == CoverOptions::CoverFilename::Pattern && file.exists()) {
     while (file.exists()) {
       QFileInfo fileinfo(file.fileName());
-      file.setFileName(fileinfo.path() + QStringLiteral("/0") + fileinfo.fileName());
+      file.setFileName(fileinfo.path() + QLatin1String("/0") + fileinfo.fileName());
     }
     filepath = file.fileName();
   }

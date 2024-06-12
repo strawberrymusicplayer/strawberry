@@ -62,12 +62,12 @@ QString SmartPlaylistSearchTerm::ToSql() const {
   if (TypeOf(field_) == Type::Date) {
     if (special_date_query) {
       // We have a numeric date, consider also the time for more precision
-      col = QStringLiteral("DATETIME(") + col + QStringLiteral(", 'unixepoch', 'localtime')");
+      col = QLatin1String("DATETIME(") + col + QLatin1String(", 'unixepoch', 'localtime')");
       second_value = second_value_.toString();
       second_value.replace(QLatin1Char('\''), QLatin1String("''"));
-      if (date == QStringLiteral("weeks")) {
+      if (date == QLatin1String("weeks")) {
         // Sqlite doesn't know weeks, transform them to days
-        date = QStringLiteral("days");
+        date = QLatin1String("days");
         value = QString::number(value_.toInt() * 7);
         second_value = QString::number(second_value_.toInt() * 7);
       }
@@ -76,13 +76,13 @@ QString SmartPlaylistSearchTerm::ToSql() const {
       // We have the exact date
       // The calendar widget specifies no time so ditch the possible time part
       // from integers representing the dates.
-      col = QStringLiteral("DATE(") + col + QStringLiteral(", 'unixepoch', 'localtime')");
-      value = QStringLiteral("DATE(") + value + QStringLiteral(", 'unixepoch', 'localtime')");
+      col = QLatin1String("DATE(") + col + QLatin1String(", 'unixepoch', 'localtime')");
+      value = QLatin1String("DATE(") + value + QLatin1String(", 'unixepoch', 'localtime')");
     }
   }
   else if (TypeOf(field_) == Type::Time) {
     // Convert seconds to nanoseconds
-    value = QStringLiteral("CAST (") + value + QStringLiteral(" *1000000000 AS INTEGER)");
+    value = QLatin1String("CAST (") + value + QLatin1String(" *1000000000 AS INTEGER)");
   }
 
   // File paths need some extra processing since they are stored as encoded urls in the database.
@@ -95,61 +95,61 @@ QString SmartPlaylistSearchTerm::ToSql() const {
     }
   }
   else if (TypeOf(field_) == Type::Rating) {
-    col = QStringLiteral("CAST ((replace(") + col + QStringLiteral(", -1, 0) + 0.05) * 10 AS INTEGER)");
-    value = QStringLiteral("CAST ((") + value + QStringLiteral(" + 0.05) * 10 AS INTEGER)");
+    col = QLatin1String("CAST ((replace(") + col + QLatin1String(", -1, 0) + 0.05) * 10 AS INTEGER)");
+    value = QLatin1String("CAST ((") + value + QLatin1String(" + 0.05) * 10 AS INTEGER)");
   }
 
   switch (operator_) {
     case Operator::Contains:
-      return col + QStringLiteral(" LIKE '%") + value + QStringLiteral("%'");
+      return col + QLatin1String(" LIKE '%") + value + QLatin1String("%'");
     case Operator::NotContains:
-      return col + QStringLiteral(" NOT LIKE '%") + value + QStringLiteral("%'");
+      return col + QLatin1String(" NOT LIKE '%") + value + QLatin1String("%'");
     case Operator::StartsWith:
-      return col + QStringLiteral(" LIKE '") + value + QStringLiteral("%'");
+      return col + QLatin1String(" LIKE '") + value + QLatin1String("%'");
     case Operator::EndsWith:
-      return col + QStringLiteral(" LIKE '%") + value + QLatin1Char('\'');
+      return col + QLatin1String(" LIKE '%") + value + QLatin1Char('\'');
     case Operator::Equals:
       if (TypeOf(field_) == Type::Text) {
-        return col + QStringLiteral(" LIKE '") + value + QLatin1Char('\'');
+        return col + QLatin1String(" LIKE '") + value + QLatin1Char('\'');
       }
       else if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
-        return col + QStringLiteral(" = ") + value;
+        return col + QLatin1String(" = ") + value;
       }
       else {
-        return col + QStringLiteral(" = '") + value + QLatin1Char('\'');
+        return col + QLatin1String(" = '") + value + QLatin1Char('\'');
       }
     case Operator::GreaterThan:
       if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
-        return col + QStringLiteral(" > ") + value;
+        return col + QLatin1String(" > ") + value;
       }
       else {
-        return col + QStringLiteral(" > '") + value + QLatin1Char('\'');
+        return col + QLatin1String(" > '") + value + QLatin1Char('\'');
       }
     case Operator::LessThan:
       if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
-        return col + QStringLiteral(" < ") + value;
+        return col + QLatin1String(" < ") + value;
       }
       else {
-        return col + QStringLiteral(" < '") + value + QLatin1Char('\'');
+        return col + QLatin1String(" < '") + value + QLatin1Char('\'');
       }
     case Operator::NumericDate:
-      return col + QStringLiteral(" > ") + QStringLiteral("DATETIME('now', '-") + value + QLatin1Char(' ') + date + QStringLiteral("', 'localtime')");
+      return col + QLatin1String(" > ") + QLatin1String("DATETIME('now', '-") + value + QLatin1Char(' ') + date + QLatin1String("', 'localtime')");
     case Operator::NumericDateNot:
-      return col + QStringLiteral(" < ") + QStringLiteral("DATETIME('now', '-") + value + QLatin1Char(' ') + date + QStringLiteral("', 'localtime')");
+      return col + QLatin1String(" < ") + QLatin1String("DATETIME('now', '-") + value + QLatin1Char(' ') + date + QLatin1String("', 'localtime')");
     case Operator::RelativeDate:
       // Consider the time range before the first date but after the second one
-      return QStringLiteral("(") + col + QStringLiteral(" < ") + QStringLiteral("DATETIME('now', '-") + value + QLatin1Char(' ') + date + QStringLiteral("', 'localtime') AND ") + col + QStringLiteral(" > ") + QStringLiteral("DATETIME('now', '-") + second_value + QLatin1Char(' ') + date + QStringLiteral("', 'localtime'))");
+      return QLatin1String("(") + col + QLatin1String(" < ") + QLatin1String("DATETIME('now', '-") + value + QLatin1Char(' ') + date + QLatin1String("', 'localtime') AND ") + col + QLatin1String(" > ") + QLatin1String("DATETIME('now', '-") + second_value + QLatin1Char(' ') + date + QLatin1String("', 'localtime'))");
     case Operator::NotEquals:
       if (TypeOf(field_) == Type::Text) {
-        return col + QStringLiteral(" <> '") + value + QLatin1Char('\'');
+        return col + QLatin1String(" <> '") + value + QLatin1Char('\'');
       }
       else {
-        return col + QStringLiteral(" <> ") + value;
+        return col + QLatin1String(" <> ") + value;
       }
     case Operator::Empty:
-      return col + QStringLiteral(" = ''");
+      return col + QLatin1String(" = ''");
     case Operator::NotEmpty:
-      return col + QStringLiteral(" <> ''");
+      return col + QLatin1String(" <> ''");
   }
 
   return QString();

@@ -414,7 +414,7 @@ void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_
     if (command.contains(QLatin1String(kMagicAllSongsTables))) {
       for (const QString &table : song_tables) {
         // Another horrible hack: device songs tables don't have matching _fts tables, so if this command tries to touch one, ignore it.
-        if (table.startsWith(QLatin1String("device_")) && command.contains(QLatin1String(kMagicAllSongsTables) + QStringLiteral("_fts"))) {
+        if (table.startsWith(QLatin1String("device_")) && command.contains(QLatin1String(kMagicAllSongsTables) + QLatin1String("_fts"))) {
           continue;
         }
 
@@ -450,7 +450,7 @@ QStringList Database::SongsTables(QSqlDatabase &db, const int schema_version) {
   // look for the tables in the main db
   const QStringList &tables = db.tables();
   for (const QString &table : tables) {
-    if (table == QStringLiteral("songs") || table.endsWith(QLatin1String("_songs"))) ret << table;
+    if (table == QLatin1String("songs") || table.endsWith(QLatin1String("_songs"))) ret << table;
   }
 
   // look for the tables in attached dbs
@@ -460,7 +460,7 @@ QStringList Database::SongsTables(QSqlDatabase &db, const int schema_version) {
     q.prepare(QStringLiteral("SELECT NAME FROM %1.sqlite_master WHERE type='table' AND name='songs' OR name LIKE '%songs'").arg(key));
     if (q.Exec()) {
       while (q.next()) {
-        QString tab_name = key + QStringLiteral(".") + q.value(0).toString();
+        QString tab_name = key + QLatin1Char('.') + q.value(0).toString();
         ret << tab_name;
       }
     }

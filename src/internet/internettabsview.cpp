@@ -165,16 +165,16 @@ InternetTabsView::InternetTabsView(Application *app, InternetServicePtr service,
   QString tab = s.value("tab", QStringLiteral("artists")).toString().toLower();
   s.endGroup();
 
-  if (tab == QStringLiteral("artists")) {
+  if (tab == QLatin1String("artists")) {
     ui_->tabs->setCurrentWidget(ui_->artists);
   }
-  else if (tab == QStringLiteral("albums")) {
+  else if (tab == QLatin1String("albums")) {
     ui_->tabs->setCurrentWidget(ui_->albums);
   }
-  else if (tab == QStringLiteral("songs")) {
+  else if (tab == QLatin1String("songs")) {
     ui_->tabs->setCurrentWidget(ui_->songs);
   }
-  else if (tab == QStringLiteral("search")) {
+  else if (tab == QLatin1String("search")) {
     ui_->tabs->setCurrentWidget(ui_->search);
   }
 

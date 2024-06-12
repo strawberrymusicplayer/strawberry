@@ -115,28 +115,28 @@ void GstStartup::SetEnvironment() {
   // Set plugin root path
   QString plugin_root_path;
 #  if defined(Q_OS_MACOS)
-  plugin_root_path = QDir::cleanPath(app_path + QStringLiteral("/../PlugIns"));
+  plugin_root_path = QDir::cleanPath(app_path + QLatin1String("/../PlugIns"));
 #  elif defined(Q_OS_UNIX)
-  plugin_root_path = QDir::cleanPath(app_path + QStringLiteral("/../plugins"));
+  plugin_root_path = QDir::cleanPath(app_path + QLatin1String("/../plugins"));
 #  elif defined(Q_OS_WIN32)
   plugin_root_path = app_path;
 #  endif
 
   // Set GIO module path
-  const QString gio_module_path = plugin_root_path + QStringLiteral("/gio-modules");
+  const QString gio_module_path = plugin_root_path + QLatin1String("/gio-modules");
 
   // Set GStreamer plugin scanner path
   QString gst_plugin_scanner;
 #  if defined(Q_OS_UNIX)
-  gst_plugin_scanner = plugin_root_path + QStringLiteral("/gst-plugin-scanner");
+  gst_plugin_scanner = plugin_root_path + QLatin1String("/gst-plugin-scanner");
 #  endif
 
   // Set GStreamer plugin path
   QString gst_plugin_path;
 #  if defined(Q_OS_WIN32)
-  gst_plugin_path = plugin_root_path + QStringLiteral("/gstreamer-plugins");
+  gst_plugin_path = plugin_root_path + QLatin1String("/gstreamer-plugins");
 #  else
-  gst_plugin_path = plugin_root_path + QStringLiteral("/gstreamer");
+  gst_plugin_path = plugin_root_path + QLatin1String("/gstreamer");
 #  endif
 
   if (!gio_module_path.isEmpty()) {

@@ -627,7 +627,7 @@ void TagReaderTagLib::ParseID3v2Tag(TagLib::ID3v2::Tag *tag, QString *disc, QStr
   for (uint i = 0; i < map["COMM"].size(); ++i) {
     const TagLib::ID3v2::CommentsFrame *frame = dynamic_cast<const TagLib::ID3v2::CommentsFrame*>(map["COMM"][i]);
 
-    if (frame && TStringToQString(frame->description()) != QStringLiteral("iTunNORM")) {
+    if (frame && TStringToQString(frame->description()) != QLatin1String("iTunNORM")) {
       TStringToStdString(frame->text(), song->mutable_comment());
       break;
     }
@@ -871,7 +871,7 @@ bool TagReaderTagLib::SaveFile(const spb::tagreader::SaveFileRequest &request) c
     save_tags_options << QStringLiteral("embedded cover");
   }
 
-  qLog(Debug) << "Saving" << save_tags_options.join(QStringLiteral(", ")) << "to" << filename;
+  qLog(Debug) << "Saving" << save_tags_options.join(QLatin1String(", ")) << "to" << filename;
 
   const Cover cover = LoadCoverFromRequest(request);
 
@@ -1341,10 +1341,10 @@ void TagReaderTagLib::SetEmbeddedArt(TagLib::MP4::File *aac_file, TagLib::MP4::T
   }
   else {
     TagLib::MP4::CoverArt::Format cover_format = TagLib::MP4::CoverArt::Format::JPEG;
-    if (mime_type == QStringLiteral("image/jpeg")) {
+    if (mime_type == QLatin1String("image/jpeg")) {
       cover_format = TagLib::MP4::CoverArt::Format::JPEG;
     }
-    else if (mime_type == QStringLiteral("image/png")) {
+    else if (mime_type == QLatin1String("image/png")) {
       cover_format = TagLib::MP4::CoverArt::Format::PNG;
     }
     else {

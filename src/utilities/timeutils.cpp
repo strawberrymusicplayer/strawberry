@@ -50,7 +50,7 @@ QString PrettyTime(int seconds) {
 }
 
 QString PrettyTimeDelta(const int seconds) {
-  return (seconds >= 0 ? QStringLiteral("+") : QStringLiteral("-")) + PrettyTime(seconds);
+  return (seconds >= 0 ? QLatin1Char('+') : QLatin1Char('-')) + PrettyTime(seconds);
 }
 
 QString PrettyTimeNanosec(const qint64 nanoseconds) {

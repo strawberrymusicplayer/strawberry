@@ -112,7 +112,7 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
       }
       RadioChannel channel;
       QString quality = obj_playlist[QLatin1String("quality")].toString();
-      if (quality != QStringLiteral("highest")) continue;
+      if (quality != QLatin1String("highest")) continue;
       channel.source = source_;
       channel.name = name;
       channel.url.setUrl(obj_playlist[QLatin1String("url")].toString());

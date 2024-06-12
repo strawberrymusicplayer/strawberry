@@ -129,7 +129,7 @@ bool VLCEngine::Play(const quint64 offset_nanosec) {
   if (!Initialized()) return false;
 
   // Set audio output
-  if (!output_.isEmpty() && output_ != QStringLiteral("auto")) {
+  if (!output_.isEmpty() && output_ != QLatin1String("auto")) {
     int result = libvlc_audio_output_set(player_, output_.toUtf8().constData());
     if (result != 0) qLog(Error) << "Failed to set output to" << output_;
   }
@@ -225,8 +225,8 @@ EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
 
   OutputDetailsList outputs;
   OutputDetails output_auto;
-  output_auto.name = QStringLiteral("auto");
-  output_auto.description = QStringLiteral("Automatically detected");
+  output_auto.name = QLatin1String("auto");
+  output_auto.description = QLatin1String("Automatically detected");
   outputs << output_auto;
 
   libvlc_audio_output_t *audio_output_list = libvlc_audio_output_list_get(instance_);
@@ -234,12 +234,12 @@ EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
     OutputDetails output;
     output.name = QString::fromUtf8(audio_output->psz_name);
     output.description = QString::fromUtf8(audio_output->psz_description);
-    if (output.name == QStringLiteral("auto")) output.iconname = QStringLiteral("soundcard");
-    else if ((output.name == QStringLiteral("alsa"))||(output.name == QStringLiteral("oss"))) output.iconname = QStringLiteral("alsa");
-    else if (output.name== QStringLiteral("jack")) output.iconname = QStringLiteral("jack");
-    else if (output.name == QStringLiteral("pulse")) output.iconname = QStringLiteral("pulseaudio");
-    else if (output.name == QStringLiteral("afile")) output.iconname = QStringLiteral("document-new");
-    else output.iconname = QStringLiteral("soundcard");
+    if (output.name == QLatin1String("auto")) output.iconname = QLatin1String("soundcard");
+    else if ((output.name == QLatin1String("alsa"))||(output.name == QLatin1String("oss"))) output.iconname = QLatin1String("alsa");
+    else if (output.name== QLatin1String("jack")) output.iconname = QLatin1String("jack");
+    else if (output.name == QLatin1String("pulse")) output.iconname = QLatin1String("pulseaudio");
+    else if (output.name == QLatin1String("afile")) output.iconname = QLatin1String("document-new");
+    else output.iconname = QLatin1String("soundcard");
     outputs << output;
   }
   libvlc_audio_output_list_release(audio_output_list);
@@ -256,11 +256,11 @@ bool VLCEngine::ValidOutput(const QString &output) {
 }
 
 bool VLCEngine::CustomDeviceSupport(const QString &output) {
-  return (output != QStringLiteral("auto"));
+  return (output != QLatin1String("auto"));
 }
 
 bool VLCEngine::ALSADeviceSupport(const QString &output) {
-  return (output == QStringLiteral("alsa"));
+  return (output == QLatin1String("alsa"));
 }
 
 bool VLCEngine::ExclusiveModeSupport(const QString &output) {

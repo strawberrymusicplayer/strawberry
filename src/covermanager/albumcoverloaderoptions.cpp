@@ -39,16 +39,16 @@ AlbumCoverLoaderOptions::Types AlbumCoverLoaderOptions::LoadTypes() {
   const QStringList all_cover_types = QStringList() << QStringLiteral("art_unset") << QStringLiteral("art_embedded") << QStringLiteral("art_manual") << QStringLiteral("art_automatic");
   const QStringList cover_types_strlist = s.value(CoversSettingsPage::kTypes, all_cover_types).toStringList();
   for (const QString &cover_type_str : cover_types_strlist) {
-    if (cover_type_str == QStringLiteral("art_unset")) {
+    if (cover_type_str == QLatin1String("art_unset")) {
       cover_types << AlbumCoverLoaderOptions::Type::Unset;
     }
-    else if (cover_type_str == QStringLiteral("art_embedded")) {
+    else if (cover_type_str == QLatin1String("art_embedded")) {
       cover_types << AlbumCoverLoaderOptions::Type::Embedded;
     }
-    else if (cover_type_str == QStringLiteral("art_manual")) {
+    else if (cover_type_str == QLatin1String("art_manual")) {
       cover_types << AlbumCoverLoaderOptions::Type::Manual;
     }
-    else if (cover_type_str == QStringLiteral("art_automatic")) {
+    else if (cover_type_str == QLatin1String("art_automatic")) {
       cover_types << AlbumCoverLoaderOptions::Type::Automatic;
     }
   }

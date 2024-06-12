@@ -93,20 +93,20 @@ Song ASXParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool
     switch (type) {
       case QXmlStreamReader::StartElement:{
         const QString name = reader->name().toString().toLower();
-        if (name == QStringLiteral("ref")) {
-          ref = reader->attributes().value(QStringLiteral("href")).toString();
+        if (name == QLatin1String("ref")) {
+          ref = reader->attributes().value(QLatin1String("href")).toString();
         }
-        else if (name == QStringLiteral("title")) {
+        else if (name == QLatin1String("title")) {
           title = reader->readElementText();
         }
-        else if (name == QStringLiteral("author")) {
+        else if (name == QLatin1String("author")) {
           artist = reader->readElementText();
         }
         break;
       }
       case QXmlStreamReader::EndElement:{
         const QString name = reader->name().toString().toLower();
-        if (name == QStringLiteral("entry")) {
+        if (name == QLatin1String("entry")) {
           goto return_song;
         }
         break;
@@ -138,16 +138,16 @@ void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir&, cons
   writer.writeStartDocument();
   {
     StreamElement asx(QStringLiteral("asx"), &writer);
-    writer.writeAttribute(QStringLiteral("version"), QStringLiteral("3.0"));
+    writer.writeAttribute(QLatin1String("version"), QLatin1String("3.0"));
     for (const Song &song : songs) {
       StreamElement entry(QStringLiteral("entry"), &writer);
-      writer.writeTextElement(QStringLiteral("title"), song.title());
+      writer.writeTextElement(QLatin1String("title"), song.title());
       {
         StreamElement ref(QStringLiteral("ref"), &writer);
-        writer.writeAttribute(QStringLiteral("href"), song.url().toString());
+        writer.writeAttribute(QLatin1String("href"), song.url().toString());
       }
       if (!song.artist().isEmpty()) {
-        writer.writeTextElement(QStringLiteral("author"), song.artist());
+        writer.writeTextElement(QLatin1String("author"), song.artist());
       }
     }
   }

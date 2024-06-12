@@ -67,7 +67,7 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
     QStringList final_values;
     final_values.reserve(values.count());
     for (const QString &single_value : values) {
-      final_values.append(QLatin1String("?"));
+      final_values.append(QStringLiteral("?"));
       bound_values_ << single_value;
     }
 

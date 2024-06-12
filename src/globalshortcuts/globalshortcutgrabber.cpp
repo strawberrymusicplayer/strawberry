@@ -110,7 +110,7 @@ bool GlobalShortcutGrabber::event(QEvent *e) {
 }
 
 void GlobalShortcutGrabber::UpdateText() {
-  ui_->label_key->setText(QStringLiteral("<b>") + ret_.toString(QKeySequence::NativeText) + QStringLiteral("</b>"));
+  ui_->label_key->setText(QLatin1String("<b>") + ret_.toString(QKeySequence::NativeText) + QLatin1String("</b>"));
 }
 
 void GlobalShortcutGrabber::Accepted() {

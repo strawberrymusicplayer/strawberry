@@ -138,9 +138,9 @@ bool MacOsDeviceLister::Init() {
     }
 
     MTPDevice d;
-    d.vendor = QStringLiteral("SanDisk");
+    d.vendor = QLatin1String("SanDisk");
     d.vendor_id = 0x781;
-    d.product = QStringLiteral("Sansa Clip+");
+    d.product = QLatin1String("Sansa Clip+");
     d.product_id = 0x74d0;
 
     d.quirks = 0x2 | 0x4 | 0x40 | 0x4000;
@@ -303,7 +303,7 @@ QString GetIconForDevice(io_object_t device) {
     scoped_nsobject<NSURL> bundle_url(reinterpret_cast<NSURL*>(KextManagerCreateURLForBundleIdentifier(kCFAllocatorDefault, reinterpret_cast<CFStringRef>(bundle))));
 
     QString path = QString::fromUtf8([[bundle_url path] UTF8String]);
-    path += QStringLiteral("/Contents/Resources/");
+    path += QLatin1String("/Contents/Resources/");
     path += QString::fromUtf8([file UTF8String]);
     return path;
   }
@@ -316,7 +316,7 @@ QString GetSerialForDevice(io_object_t device) {
 
   const QString serial = GetUSBRegistryEntryString(device, CFSTR(kUSBSerialNumberString));
   if (!serial.isEmpty()) {
-    return QStringLiteral("USB/") + serial;
+    return QLatin1String("USB/") + serial;
   }
 
   return QString();
@@ -326,7 +326,7 @@ QString GetSerialForDevice(io_object_t device) {
 QString GetSerialForMTPDevice(io_object_t device) {
 
   scoped_nsobject<NSString> serial(reinterpret_cast<NSString*>(GetPropertyForDevice(device, CFSTR(kUSBSerialNumberString))));
-  return QString(QStringLiteral("MTP/") + QString::fromUtf8([serial UTF8String]));
+  return QLatin1String("MTP/") + QString::fromUtf8([serial UTF8String]);
 
 }
 
@@ -600,14 +600,14 @@ void MacOsDeviceLister::USBDeviceAddedCallback(void *refcon, io_iterator_t it) {
       // Because this was designed by MS, the characters are in UTF-16 (LE?).
       QString str = QString::fromUtf16(reinterpret_cast<char16_t*>(data.data() + 2), (data.size() / 2) - 2);
 
-      if (str.startsWith(QStringLiteral("MSFT100"))) {
+      if (str.startsWith(QLatin1String("MSFT100"))) {
         // We got the OS descriptor!
         char vendor_code = data[16];
         ret = DeviceRequest(dev, kUSBIn, kUSBVendor, kUSBDevice, vendor_code, 0, 4, 256, &data);
         if (!ret || data.at(0) != 0x28)
           continue;
 
-        if (QString::fromLatin1(data.data() + 0x12, 3) != QStringLiteral("MTP")) {
+        if (QString::fromLatin1(data.data() + 0x12, 3) != QLatin1String("MTP")) {
           // Not quite.
           continue;
         }
@@ -617,7 +617,7 @@ void MacOsDeviceLister::USBDeviceAddedCallback(void *refcon, io_iterator_t it) {
           continue;
         }
 
-        if (QString::fromLatin1(data.data() + 0x12, 3) != QStringLiteral("MTP")) {
+        if (QString::fromLatin1(data.data() + 0x12, 3) != QLatin1String("MTP")) {
           // Not quite.
           continue;
         }
@@ -678,7 +678,7 @@ void MacOsDeviceLister::FoundMTPDevice(const MTPDevice &device, const QString &s
 
 }
 
-bool IsMTPSerial(const QString &serial) { return serial.startsWith(QStringLiteral("MTP")); }
+bool IsMTPSerial(const QString &serial) { return serial.startsWith(QLatin1String("MTP")); }
 
 bool MacOsDeviceLister::IsCDDevice(const QString &serial) const {
   return cd_devices_.contains(serial);

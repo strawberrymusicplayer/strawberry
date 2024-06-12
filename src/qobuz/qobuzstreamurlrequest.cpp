@@ -121,7 +121,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
   std::sort(params_to_sign.begin(), params_to_sign.end());
 
   QString data_to_sign;
-  data_to_sign += QStringLiteral("trackgetFileUrl");
+  data_to_sign += QLatin1String("trackgetFileUrl");
   for (const Param &param : params_to_sign) {
     data_to_sign += param.first + param.second;
   }

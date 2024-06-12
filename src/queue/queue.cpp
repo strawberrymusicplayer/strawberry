@@ -255,7 +255,7 @@ void Queue::UpdateSummaryText() {
   summary += tr("%n track(s)", "", tracks);
 
   if (nanoseconds > 0) {
-    summary += QStringLiteral(" - [ ") + Utilities::WordyTimeNanosec(nanoseconds) + QStringLiteral(" ]");
+    summary += QLatin1String(" - [ ") + Utilities::WordyTimeNanosec(nanoseconds) + QLatin1String(" ]");
   }
 
   emit SummaryTextChanged(summary);
