@@ -195,7 +195,7 @@ OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(cons
   if (replace_spaces_) filepath.replace(QRegularExpression(QStringLiteral("\\s")), QStringLiteral("_"));
 
   if (!extension.isEmpty()) {
-    filepath.append(QLatin1String(".%1").arg(extension));
+    filepath.append(QStringLiteral(".%1").arg(extension));
   }
 
   return GetFilenameForSongResult(filepath, unique_filename);
