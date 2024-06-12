@@ -21,8 +21,6 @@
 #include "gstfastspectrum.h"
 #include "gstmoodbarplugin.h"
 
-namespace {
-
 static gboolean gst_moodbar_plugin_init(GstPlugin *plugin) {
 
   if (!gst_element_register(plugin, "fastspectrum", GST_RANK_NONE, GST_TYPE_FASTSPECTRUM)) {
@@ -31,8 +29,6 @@ static gboolean gst_moodbar_plugin_init(GstPlugin *plugin) {
 
   return TRUE;
 }
-
-}  // namespace
 
 int gstfastspectrum_register_static() {
 
