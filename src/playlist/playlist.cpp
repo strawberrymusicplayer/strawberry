@@ -484,7 +484,7 @@ int Playlist::current_row() const {
   return current_item_index_.isValid() ? current_item_index_.row() : -1;
 }
 
-const QModelIndex Playlist::current_index() const {
+QModelIndex Playlist::current_index() const {
   return current_item_index_;
 }
 

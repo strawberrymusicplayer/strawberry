@@ -35,7 +35,7 @@ class SqlRow {
 
   int columns() const { return record_.count(); }
   const QSqlRecord &record() const { return record_; }
-  const QVariant value(const int n) const;
+  QVariant value(const int n) const;
 
  private:
   void Init(const SqlQuery &query);

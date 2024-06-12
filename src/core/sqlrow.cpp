@@ -32,7 +32,7 @@ void SqlRow::Init(const SqlQuery &query) {
 
 }
 
-const QVariant SqlRow::value(const int n) const {
+QVariant SqlRow::value(const int n) const {
 
   Q_ASSERT(n < record_.count());
 

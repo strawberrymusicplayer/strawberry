@@ -186,7 +186,7 @@ class Playlist : public QAbstractListModel {
   int next_row(const bool ignore_repeat_track = false);
   int previous_row(const bool ignore_repeat_track = false);
 
-  const QModelIndex current_index() const;
+  QModelIndex current_index() const;
 
   bool stop_after_current() const;
   bool is_dynamic() const { return static_cast<bool>(dynamic_playlist_); }
