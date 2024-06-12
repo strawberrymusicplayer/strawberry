@@ -285,7 +285,7 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
     if (ds > amount / 2 && (bs > 125 && fs > 125)) {
       return fg;
     }
-    else if (dv > amount / 2 && (bv > 125 && fv > 125)) {
+    if (dv > amount / 2 && (bv > 125 && fv > 125)) {
       return fg;
     }
   }

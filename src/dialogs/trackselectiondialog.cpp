@@ -181,7 +181,7 @@ void TrackSelectionDialog::UpdateStack() {
     ui_->progress->set_text(tag_data.progress_string_ + QStringLiteral("..."));
     return;
   }
-  else if (tag_data.results_.isEmpty()) {
+  if (tag_data.results_.isEmpty()) {
     ui_->stack->setCurrentWidget(ui_->error_page);
     return;
   }

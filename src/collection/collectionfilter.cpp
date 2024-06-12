@@ -280,19 +280,19 @@ bool CollectionFilter::FieldNumericalValueMatchesData(const T value, const QStri
   if (foperator == QLatin1Char('=') || foperator == QLatin1String("==")) {
     return data == value;
   }
-  else if (foperator == QLatin1String("!=") || foperator == QLatin1String("<>")) {
+  if (foperator == QLatin1String("!=") || foperator == QLatin1String("<>")) {
     return data != value;
   }
-  else if (foperator == QLatin1Char('<')) {
+  if (foperator == QLatin1Char('<')) {
     return data < value;
   }
-  else if (foperator == QLatin1Char('>')) {
+  if (foperator == QLatin1Char('>')) {
     return data > value;
   }
-  else if (foperator == QLatin1String(">=")) {
+  if (foperator == QLatin1String(">=")) {
     return data >= value;
   }
-  else if (foperator == QLatin1String("<=")) {
+  if (foperator == QLatin1String("<=")) {
     return data <= value;
   }
 

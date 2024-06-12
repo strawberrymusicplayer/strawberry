@@ -259,9 +259,8 @@ PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, Sha
     item->InitFromQuery(row);
     return RestoreCueData(item, state);
   }
-  else {
-    return item;
-  }
+
+  return item;
 
 }
 

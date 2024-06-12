@@ -340,9 +340,10 @@ void LastFmCoverProvider::Error(const QString &error, const QVariant &debug) {
 LastFmCoverProvider::LastFmImageSize LastFmCoverProvider::ImageSizeFromString(const QString &size) {
 
   if (size == QLatin1String("small")) return LastFmImageSize::Small;
-  else if (size == QLatin1String("medium")) return LastFmImageSize::Medium;
-  else if (size == QLatin1String("large")) return LastFmImageSize::Large;
-  else if (size == QLatin1String("extralarge")) return LastFmImageSize::ExtraLarge;
-  else return LastFmImageSize::Unknown;
+  if (size == QLatin1String("medium")) return LastFmImageSize::Medium;
+  if (size == QLatin1String("large")) return LastFmImageSize::Large;
+  if (size == QLatin1String("extralarge")) return LastFmImageSize::ExtraLarge;
+
+  return LastFmImageSize::Unknown;
 
 }

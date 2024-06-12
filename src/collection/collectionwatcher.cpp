@@ -326,7 +326,8 @@ SongList CollectionWatcher::ScanTransaction::FindSongsInSubdirectory(const QStri
   if (cached_songs_.contains(path)) {
     return cached_songs_.values(path);
   }
-  else return SongList();
+
+  return SongList();
 
 }
 

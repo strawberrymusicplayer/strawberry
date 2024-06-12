@@ -306,7 +306,7 @@ AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadUrlImage(TaskPtr task, c
     if (cover_url.isLocalFile()) {
       return LoadLocalUrlImage(task, result_type, cover_url);
     }
-    else if (network_->supportedSchemes().contains(cover_url.scheme())) {
+    if (network_->supportedSchemes().contains(cover_url.scheme())) {
       return LoadRemoteUrlImage(task, result_type, cover_url);
     }
   }

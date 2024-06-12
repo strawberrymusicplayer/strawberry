@@ -78,13 +78,14 @@ QByteArray ImageUtils::FileToJpegData(const QString &filename) {
   if (filename.isEmpty()) return QByteArray();
 
   QByteArray image_data = Utilities::ReadDataFromFile(filename);
-  if (Utilities::MimeTypeFromData(image_data) == QStringLiteral("image/jpeg")) return image_data;
-  else {
-    QImage image;
-    if (image.loadFromData(image_data)) {
-      if (!image.isNull()) {
-        image_data = SaveImageToJpegData(image);
-      }
+  if (Utilities::MimeTypeFromData(image_data) == QStringLiteral("image/jpeg")) {
+    return image_data;
+  }
+
+  QImage image;
+  if (image.loadFromData(image_data)) {
+    if (!image.isNull()) {
+      image_data = SaveImageToJpegData(image);
     }
   }
 

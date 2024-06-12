@@ -211,7 +211,7 @@ bool InternetCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
           setCurrentIndex(current);
           return true;
         }
-        else if (last_selected_path_.contains(text)) {
+        if (last_selected_path_.contains(text)) {
           expand(current);
           // If a selected container or song were not found, we've got into a wrong subtree (happens with "unknown" all the time)
           if (!RestoreLevelFocus(current)) {

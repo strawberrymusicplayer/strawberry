@@ -215,10 +215,9 @@ qint64 VLCEngine::length_nanosec() const {
   if (result > 0) {
     return result;
   }
-  else {
-    // Get the length from the pipeline if we don't know.
-    return (length() * kNsecPerMsec);
-  }
+
+  // Get the length from the pipeline if we don't know.
+  return (length() * kNsecPerMsec);
 
 }
 

@@ -94,7 +94,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     emit SearchFinished(id, results);
     return;
   }
-  else if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     Error(QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
     emit SearchFinished(id, results);
     return;

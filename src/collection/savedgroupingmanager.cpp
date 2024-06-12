@@ -78,9 +78,8 @@ QString SavedGroupingManager::GetSavedGroupingsSettingsGroup(const QString &sett
   if (settings_group.isEmpty() || settings_group == QLatin1String(CollectionSettingsPage::kSettingsGroup)) {
     return QLatin1String(kSavedGroupingsSettingsGroup);
   }
-  else {
-    return QLatin1String(kSavedGroupingsSettingsGroup) + QLatin1Char('_') + settings_group;
-  }
+
+  return QLatin1String(kSavedGroupingsSettingsGroup) + QLatin1Char('_') + settings_group;
 
 }
 

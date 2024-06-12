@@ -328,7 +328,7 @@ bool MusicBrainzClient::MediumHasDiscid(const QString &discid, QXmlStreamReader 
     if (type == QXmlStreamReader::StartElement && name == QLatin1String("disc") && reader->attributes().value(QStringLiteral("id")).toString() == discid) {
       return true;
     }
-    else if (type == QXmlStreamReader::EndElement && name == QLatin1String("disc-list")) {
+    if (type == QXmlStreamReader::EndElement && name == QLatin1String("disc-list")) {
       return false;
     }
   }

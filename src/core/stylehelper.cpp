@@ -109,23 +109,13 @@ QPalette StyleHelper::sidebarFontPalette(const QPalette &original) {
 
 QColor StyleHelper::panelTextColor(bool lightColored) {
 
-  if (lightColored) {
-    return Qt::black;
-  }
-  else {
-    return Qt::white;
-  }
+  return lightColored ? Qt::black : Qt::white;
 
 }
 
 QColor StyleHelper::baseColor(bool lightColored) {
 
-  if (lightColored) {
-    return m_baseColor.lighter(230);
-  }
-  else {
-    return m_baseColor;
-  }
+  return lightColored ? m_baseColor.lighter(230) : m_baseColor;
 
 }
 

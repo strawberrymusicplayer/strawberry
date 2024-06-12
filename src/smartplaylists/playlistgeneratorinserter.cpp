@@ -52,9 +52,8 @@ PlaylistItemPtrList PlaylistGeneratorInserter::Generate(PlaylistGeneratorPtr gen
   if (dynamic_count > 0) {
     return generator->GenerateMore(dynamic_count);
   }
-  else {
-    return generator->Generate();
-  }
+
+  return generator->Generate();
 
 }
 

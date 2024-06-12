@@ -47,7 +47,7 @@ bool MultiSortFilterProxy::lessThan(const QModelIndex &left, const QModelIndex &
     if (ret < 0) {
       return spec.second == Qt::AscendingOrder;
     }
-    else if (ret > 0) {
+    if (ret > 0) {
       return spec.second != Qt::AscendingOrder;
     }
   }

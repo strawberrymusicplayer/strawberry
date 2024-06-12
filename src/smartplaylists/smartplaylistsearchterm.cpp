@@ -161,7 +161,7 @@ bool SmartPlaylistSearchTerm::is_valid() const {
   if (operator_ == Operator::NumericDate) {
     return value_.toInt() >= 0;
   }
-  else if (operator_ == Operator::RelativeDate) {
+  if (operator_ == Operator::RelativeDate) {
     return (value_.toInt() >= 0 && value_.toInt() < second_value_.toInt());
   }
 

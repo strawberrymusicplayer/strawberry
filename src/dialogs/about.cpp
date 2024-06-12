@@ -194,7 +194,7 @@ QString About::PersonToHtml(const Person &person) {
   if (person.email.isEmpty()) {
     return person.name;
   }
-  else {
-    return QStringLiteral("%1 &lt;<a href=\"mailto:%2\">%3</a>&gt;").arg(person.name, person.email, person.email);
-  }
+
+  return QStringLiteral("%1 &lt;<a href=\"mailto:%2\">%3</a>&gt;").arg(person.name, person.email, person.email);
+
 }

@@ -765,9 +765,8 @@ Qt::ItemFlags Playlist::flags(const QModelIndex &idx) const {
     if (item_at(idx.row())->Metadata().IsEditable() && column_is_editable(static_cast<Column>(idx.column()))) flags |= Qt::ItemIsEditable;
     return flags;
   }
-  else {
-    return Qt::ItemIsDropEnabled;
-  }
+
+  return Qt::ItemIsDropEnabled;
 
 }
 

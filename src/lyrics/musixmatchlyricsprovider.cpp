@@ -68,9 +68,8 @@ bool MusixmatchLyricsProvider::StartSearch(const int id, const LyricsSearchReque
   if (use_api_) {
     return SendSearchRequest(search);
   }
-  else {
-    return CreateLyricsRequest(search);
-  }
+
+  return CreateLyricsRequest(search);
 
 }
 
@@ -284,7 +283,7 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
     EndSearch(search, url);
     return;
   }
-  else if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     Error(QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
     EndSearch(search, url);
     return;

@@ -355,15 +355,13 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
     emit TestFailure(message);
     return;
   }
-  else if (status == QLatin1String("ok")) {
+  if (status == QLatin1String("ok")) {
     emit TestComplete(true);
     emit TestSuccess();
     return;
   }
-  else {
-    PingError(QStringLiteral("Ping reply status from server is unknown"), json_obj);
-    return;
-  }
+
+  PingError(QStringLiteral("Ping reply status from server is unknown"), json_obj);
 
 }
 

@@ -241,9 +241,8 @@ QString CollectionFilterWidget::group_by_version() const {
   if (settings_prefix_.isEmpty()) {
     return QStringLiteral("group_by_version");
   }
-  else {
-    return QStringLiteral("%1_group_by_version").arg(settings_prefix_);
-  }
+
+  return QStringLiteral("%1_group_by_version").arg(settings_prefix_);
 
 }
 
@@ -252,9 +251,8 @@ QString CollectionFilterWidget::group_by_key() const {
   if (settings_prefix_.isEmpty()) {
     return QStringLiteral("group_by");
   }
-  else {
-    return QStringLiteral("%1_group_by").arg(settings_prefix_);
-  }
+
+  return QStringLiteral("%1_group_by").arg(settings_prefix_);
 
 }
 
@@ -265,9 +263,8 @@ QString CollectionFilterWidget::separate_albums_by_grouping_key() const {
   if (settings_prefix_.isEmpty()) {
     return QStringLiteral("separate_albums_by_grouping");
   }
-  else {
-    return QStringLiteral("%1_separate_albums_by_grouping").arg(settings_prefix_);
-  }
+
+  return QStringLiteral("%1_separate_albums_by_grouping").arg(settings_prefix_);
 
 }
 

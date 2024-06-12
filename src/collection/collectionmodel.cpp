@@ -360,19 +360,15 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
         if (item->children.isEmpty()) {
           return false;
         }
-        else if (std::any_of(item->children.begin(), item->children.end(), [this, role](CollectionItem *child) { return !data(child, role).toBool(); })) {
+        if (std::any_of(item->children.begin(), item->children.end(), [this, role](CollectionItem *child) { return !data(child, role).toBool(); })) {
           return false;
         }
-        else {
-          return true;
-        }
+        return true;
       }
-      else if (item->type == CollectionItem::Type::Song) {
+      if (item->type == CollectionItem::Type::Song) {
         return item->metadata.IsEditable();
       }
-      else {
-        return false;
-      }
+      return false;
     }
 
     case Role_SortText:
@@ -1042,7 +1038,7 @@ QString CollectionModel::PrettyYearAlbum(const int year, const QString &album) {
 QString CollectionModel::PrettyAlbumDisc(const QString &album, const int disc) {
 
   if (disc <= 0 || Song::AlbumContainsDisc(album)) return TextOrUnknown(album);
-  else return TextOrUnknown(album) + QStringLiteral(" - (Disc ") + QString::number(disc) + QStringLiteral(")");
+  return TextOrUnknown(album) + QStringLiteral(" - (Disc ") + QString::number(disc) + QStringLiteral(")");
 
 }
 
@@ -1070,14 +1066,12 @@ QString CollectionModel::PrettyFormat(const Song &song) {
   if (song.samplerate() <= 0) {
     return song.TextForFiletype();
   }
-  else {
-    if (song.bitdepth() <= 0) {
-      return QStringLiteral("%1 (%2)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5));
-    }
-    else {
-      return QStringLiteral("%1 (%2/%3)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5)).arg(song.bitdepth());
-    }
+
+  if (song.bitdepth() <= 0) {
+    return QStringLiteral("%1 (%2)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5));
   }
+
+  return QStringLiteral("%1 (%2/%3)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5)).arg(song.bitdepth());
 
 }
 
@@ -1129,10 +1123,7 @@ QString CollectionModel::SortText(const GroupBy group_by, const int container_le
       if (container_level == 1 && !IsAlbumGroupBy(options_active_.group_by[0])) {
         return SortText(song.title());
       }
-      else {
-        return SortTextForSong(song);
-      }
-      break;
+      return SortTextForSong(song);
     }
   }
 

@@ -790,12 +790,11 @@ QString InternetSearchView::PixmapCacheKey(const InternetSearchView::Result &res
   if (result.metadata_.art_automatic_is_valid()) {
     return Song::TextForSource(service_->source()) + QLatin1Char('/') + result.metadata_.art_automatic().toString();
   }
-  else if (!result.metadata_.effective_albumartist().isEmpty() && !result.metadata_.album().isEmpty()) {
+  if (!result.metadata_.effective_albumartist().isEmpty() && !result.metadata_.album().isEmpty()) {
     return Song::TextForSource(service_->source()) + QLatin1Char('/') + result.metadata_.effective_albumartist() + QLatin1Char('/') + result.metadata_.album();
   }
-  else {
-    return Song::TextForSource(service_->source()) + QLatin1Char('/') + result.metadata_.url().toString();
-  }
+
+  return Song::TextForSource(service_->source()) + QLatin1Char('/') + result.metadata_.url().toString();
 
 }
 

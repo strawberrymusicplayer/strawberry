@@ -61,34 +61,34 @@ bool TagReaderWorker::HandleMessage(const spb::tagreader::Message &message, spb:
     reply.mutable_is_media_file_response()->set_success(success);
     return success;
   }
-  else if (message.has_read_file_request()) {
+  if (message.has_read_file_request()) {
     const QString filename = QString::fromUtf8(message.read_file_request().filename().data(), static_cast<qint64>(message.read_file_request().filename().size()));
     bool success = reader->ReadFile(filename, reply.mutable_read_file_response()->mutable_metadata());
     return success;
   }
-  else if (message.has_save_file_request()) {
+  if (message.has_save_file_request()) {
     bool success = reader->SaveFile(message.save_file_request());
     reply.mutable_save_file_response()->set_success(success);
     return success;
   }
-  else if (message.has_load_embedded_art_request()) {
+  if (message.has_load_embedded_art_request()) {
     const QString filename = QString::fromUtf8(message.load_embedded_art_request().filename().data(), static_cast<qint64>(message.load_embedded_art_request().filename().size()));
     QByteArray data = reader->LoadEmbeddedArt(filename);
     reply.mutable_load_embedded_art_response()->set_data(data.constData(), data.size());
     return true;
   }
-  else if (message.has_save_embedded_art_request()) {
+  if (message.has_save_embedded_art_request()) {
     bool success = reader->SaveEmbeddedArt(message.save_embedded_art_request());
     reply.mutable_save_embedded_art_response()->set_success(success);
     return success;
   }
-  else if (message.has_save_song_playcount_to_file_request()) {
+  if (message.has_save_song_playcount_to_file_request()) {
     const QString filename = QString::fromUtf8(message.save_song_playcount_to_file_request().filename().data(), static_cast<qint64>(message.save_song_playcount_to_file_request().filename().size()));
     bool success = reader->SaveSongPlaycountToFile(filename, message.save_song_playcount_to_file_request().metadata());
     reply.mutable_save_song_playcount_to_file_response()->set_success(success);
     return success;
   }
-  else if (message.has_save_song_rating_to_file_request()) {
+  if (message.has_save_song_rating_to_file_request()) {
     const QString filename = QString::fromUtf8(message.save_song_rating_to_file_request().filename().data(), static_cast<qint64>(message.save_song_rating_to_file_request().filename().size()));
     bool success = reader->SaveSongRatingToFile(filename, message.save_song_rating_to_file_request().metadata());
     reply.mutable_save_song_rating_to_file_response()->set_success(success);

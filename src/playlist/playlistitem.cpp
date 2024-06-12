@@ -142,10 +142,9 @@ QColor PlaylistItem::GetCurrentBackgroundColor() const {
   if (background_colors_.isEmpty()) {
     return QColor();
   }
-  else {
-    QList<short> background_colors_keys = background_colors_.keys();
-    return background_colors_[background_colors_keys.last()];
-  }
+
+  QList<short> background_colors_keys = background_colors_.keys();
+  return background_colors_[background_colors_keys.last()];
 
 }
 bool PlaylistItem::HasCurrentBackgroundColor() const {
@@ -164,10 +163,9 @@ void PlaylistItem::RemoveForegroundColor(const short priority) {
 QColor PlaylistItem::GetCurrentForegroundColor() const {
 
   if (foreground_colors_.isEmpty()) return QColor();
-  else {
-    QList<short> foreground_colors_keys = foreground_colors_.keys();
-    return foreground_colors_[foreground_colors_keys.last()];
-  }
+
+  QList<short> foreground_colors_keys = foreground_colors_.keys();
+  return foreground_colors_[foreground_colors_keys.last()];
 
 }
 bool PlaylistItem::HasCurrentForegroundColor() const {

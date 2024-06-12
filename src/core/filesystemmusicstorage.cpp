@@ -124,8 +124,7 @@ bool FilesystemMusicStorage::DeleteFromStorage(const DeleteJob &job) {
   if (fileInfo.isDir()) {
     return Utilities::RemoveRecursive(path);
   }
-  else {
-    return QFile::remove(path);
-  }
+
+  return QFile::remove(path);
 
 }

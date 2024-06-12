@@ -86,10 +86,10 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
   if (command.isEmpty() || command == QLatin1String("exo-open")) {
     QDesktopServices::openUrl(QUrl::fromLocalFile(path));
   }
-  else if (command.startsWith(QLatin1String("nautilus"))) {
-    proc.startDetached(command, QStringList() << command_params << QStringLiteral("--select") << url.toLocalFile());
-  }
-  else if (command.startsWith(QLatin1String("dolphin")) || command.startsWith(QLatin1String("konqueror")) || command.startsWith(QLatin1String("kfmclient"))) {
+  else if (command.startsWith(QLatin1String("nautilus")) ||
+           command.startsWith(QLatin1String("dolphin")) ||
+           command.startsWith(QLatin1String("konqueror")) ||
+           command.startsWith(QLatin1String("kfmclient"))) {
     proc.startDetached(command, QStringList() << command_params << QStringLiteral("--select") << url.toLocalFile());
   }
   else if (command.startsWith(QLatin1String("caja"))) {

@@ -2578,14 +2578,13 @@ bool MainWindow::LoadUrl(const QString &url) {
     return true;
   }
 #ifdef HAVE_TIDAL
-  else if (url.startsWith(QLatin1String("tidal://login"))) {
+  if (url.startsWith(QLatin1String("tidal://login"))) {
     emit AuthorizationUrlReceived(QUrl(url));
     return true;
   }
 #endif
-  else {
-    qLog(Error) << "Can't open" << url;
-  }
+
+  qLog(Error) << "Can't open" << url;
 
   return false;
 
