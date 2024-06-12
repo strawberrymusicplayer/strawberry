@@ -54,9 +54,8 @@ QString GioLister::DeviceInfo::unique_id() const {
   if (mount_ptr) {
     return QStringLiteral("Gio/%1/%2/%3").arg(mount_uuid, filesystem_type).arg(filesystem_size);
   }
-  else {
-    return QStringLiteral("Gio/unmounted/%1").arg(reinterpret_cast<qulonglong>(volume_ptr.get()));
-  }
+
+  return QStringLiteral("Gio/unmounted/%1").arg(reinterpret_cast<qulonglong>(volume_ptr.get()));
 
 }
 
