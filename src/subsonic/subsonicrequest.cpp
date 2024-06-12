@@ -696,7 +696,7 @@ void SubsonicRequest::GetAlbumCovers() {
 
 void SubsonicRequest::AddAlbumCoverRequest(const Song &song) {
 
-  QUrl cover_url(song.art_automatic());
+  const QUrl cover_url = song.art_automatic();
 
   if (!cover_url.isValid()) {
     return;
