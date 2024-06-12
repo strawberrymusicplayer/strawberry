@@ -37,6 +37,7 @@
 #include "collection/collection.h"
 
 using std::make_unique;
+using std::make_shared;
 
 // clazy:excludeall=non-pod-global-static,returning-void-expression
 
@@ -45,7 +46,7 @@ namespace {
 class CollectionBackendTest : public ::testing::Test {
  protected:
   void SetUp() override {
-    database_.reset(new MemoryDatabase(nullptr));
+    database_ = make_shared<MemoryDatabase>(nullptr);
     backend_ = make_unique<CollectionBackend>();
     backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(SCollection::kSongsTable), QLatin1String(SCollection::kDirsTable), QLatin1String(SCollection::kSubdirsTable));
   }
