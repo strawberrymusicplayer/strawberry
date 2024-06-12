@@ -40,7 +40,7 @@ class ElyricsNetLyricsProvider : public HtmlLyricsProvider {
   QUrl Url(const LyricsSearchRequest &request) override;
 
  private:
-  QString StringFixup(const QString &text);
+  static QString StringFixup(const QString &text);
 };
 
 #endif  // ELYRICSNETLYRICSPROVIDER_H

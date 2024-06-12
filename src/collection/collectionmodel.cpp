@@ -848,7 +848,7 @@ QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
 
 }
 
-QUrl CollectionModel::AlbumIconPixmapDiskCacheKey(const QString &cache_key) const {
+QUrl CollectionModel::AlbumIconPixmapDiskCacheKey(const QString &cache_key) {
 
   return QUrl(QString::fromLatin1(QUrl::toPercentEncoding(cache_key)));
 

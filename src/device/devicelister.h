@@ -91,10 +91,10 @@ class DeviceLister : public QObject {
  protected:
   virtual bool Init() = 0;
   QUrl MakeUrlFromLocalPath(const QString &path) const;
-  bool IsIpod(const QString &path) const;
+  static bool IsIpod(const QString &path);
 
   QVariantList GuessIconForPath(const QString &path);
-  QVariantList GuessIconForModel(const QString &vendor, const QString &model);
+  static QVariantList GuessIconForModel(const QString &vendor, const QString &model);
 
  protected:
   QThread *thread_;
