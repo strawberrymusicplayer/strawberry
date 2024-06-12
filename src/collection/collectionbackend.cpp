@@ -121,7 +121,7 @@ void CollectionBackend::ReportErrors(const CollectionQuery &query) {
 }
 
 void CollectionBackend::GetAllSongsAsync(const int id) {
-  metaObject()->invokeMethod(this, "GetAllSongs", Qt::QueuedConnection, Q_ARG(int, id));
+  QMetaObject::invokeMethod(this, "GetAllSongs", Qt::QueuedConnection, Q_ARG(int, id));
 }
 
 void CollectionBackend::GetAllSongs(const int id) {
