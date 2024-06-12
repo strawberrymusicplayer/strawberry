@@ -47,7 +47,7 @@ float *FHT::buf_() { return buf_vector_.data(); }
 float *FHT::tab_() { return tab_vector_.data(); }
 int *FHT::log_() { return log_vector_.data(); }
 
-void FHT::makeCasTable(void) {
+void FHT::makeCasTable() {
 
   float *costab = tab_();
   float *sintab = tab_() + num_ / 2 + 1;
