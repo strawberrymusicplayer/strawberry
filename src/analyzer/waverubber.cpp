@@ -35,7 +35,7 @@ void WaveRubber::resizeEvent(QResizeEvent *e) {
 
 }
 
-void WaveRubber::analyze(QPainter &p, const Scope &s, bool new_frame) {
+void WaveRubber::analyze(QPainter &p, const Scope &s, const bool new_frame) {
 
   if (!new_frame || engine_->state() == EngineBase::State::Paused) {
     p.drawPixmap(0, 0, canvas_);
@@ -53,28 +53,28 @@ void WaveRubber::analyze(QPainter &p, const Scope &s, bool new_frame) {
   // Get pointer to amplitude data
   const float *amplitude_data = s.data();
 
-  int mid_y = height() / 4;
-  int num_samples = s.size();
+  const int mid_y = height() / 4;
+  const int num_samples = static_cast<int>(s.size());
 
-  float x_scale = static_cast<float>(width()) / num_samples;
-  float prev_y = mid_y;
+  const float x_scale = static_cast<float>(width()) / static_cast<float>(num_samples);
+  float prev_y = static_cast<float>(mid_y);
 
   // Draw the waveform
   for (int i = 0; i < num_samples; ++i) {
 
     // Normalize amplitude to 0-1 range
-    float color_factor = amplitude_data[i] / 2.0f + 0.5f;
-    int rgb_value = static_cast<int>(255 - color_factor * 255);
+    const float color_factor = amplitude_data[i] / 2.0F + 0.5F;
+    const int rgb_value = static_cast<int>(255 - color_factor * 255);
     QColor highlight_color = palette().color(QPalette::Highlight);
     // Blend blue and green with highlight color from QT palette based on amplitude
     QColor blended_color = QColor(rgb_value, highlight_color.green(), highlight_color.blue());
     canvas_painter.setPen(blended_color);
 
-    int x = static_cast<int>(i * x_scale);
-    int y = static_cast<int>(mid_y - (s[i] * mid_y));
+    const int x = static_cast<int>(static_cast<float>(i) * x_scale);
+    const int y = static_cast<int>(static_cast<float>(mid_y) - (s[i] * static_cast<float>(mid_y)));
 
-    canvas_painter.drawLine(x, prev_y + mid_y, x + x_scale, y + mid_y);  // Draw
-    prev_y = y;
+    canvas_painter.drawLine(x, static_cast<int>(prev_y + static_cast<float>(mid_y)), static_cast<int>(static_cast<float>(x) + x_scale), static_cast<int>(static_cast<float>(y + mid_y)));  // Draw
+    prev_y = static_cast<float>(y);
   }
 
   canvas_painter.end();
