@@ -24,11 +24,12 @@
 const char *WaveRubber::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "WaveRubber");
 
 WaveRubber::WaveRubber(QWidget *parent)
-  : AnalyzerBase(parent, 9) {}
+    : AnalyzerBase(parent, 9) {}
 
 void WaveRubber::resizeEvent(QResizeEvent *e) {
 
   Q_UNUSED(e)
+
   canvas_ = QPixmap(size());
   canvas_.fill(palette().color(QPalette::AlternateBase));
 
@@ -49,12 +50,12 @@ void WaveRubber::analyze(QPainter &p, const Scope &s, bool new_frame) {
 
   // Set the pen color to the QT palette highlight color
   canvas_painter.setPen(palette().color(QPalette::Highlight));
-  // Get pointer to amplitude data 
+  // Get pointer to amplitude data
   const float *amplitude_data = s.data();
-    
+
   int mid_y = height() / 4;
   int num_samples = s.size();
-  
+
   float x_scale = static_cast<float>(width()) / num_samples;
   float prev_y = mid_y;
 
@@ -68,13 +69,12 @@ void WaveRubber::analyze(QPainter &p, const Scope &s, bool new_frame) {
     // Blend blue and green with highlight color from QT palette based on amplitude
     QColor blended_color = QColor(rgb_value, highlight_color.green(), highlight_color.blue());
     canvas_painter.setPen(blended_color);
-    
-    int x = static_cast<int>(i * x_scale ); 
-    int y = static_cast<int>(mid_y - (s[i] * mid_y)); 
 
-    canvas_painter.drawLine(x, prev_y + mid_y, x + x_scale, y + mid_y); // Draw
+    int x = static_cast<int>(i * x_scale);
+    int y = static_cast<int>(mid_y - (s[i] * mid_y));
+
+    canvas_painter.drawLine(x, prev_y + mid_y, x + x_scale, y + mid_y);  // Draw
     prev_y = y;
-  
   }
 
   canvas_painter.end();
@@ -90,4 +90,3 @@ void WaveRubber::transform(Scope &s) {
 void WaveRubber::demo(QPainter &p) {
   analyze(p, Scope(fht_->size(), 0), new_frame_);
 }
-

@@ -23,8 +23,8 @@
 #include "analyzerbase.h"
 
 class WaveRubber : public AnalyzerBase {
-
   Q_OBJECT
+
  public:
   Q_INVOKABLE explicit WaveRubber(QWidget *parent);
 
@@ -38,6 +38,4 @@ class WaveRubber : public AnalyzerBase {
 
  private:
   QPixmap canvas_;
-
 };
-
