@@ -502,7 +502,7 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
       QString message = q.value(0).toString();
 
       // If no errors are found, a single row with the value "ok" is returned
-      if (message == QStringLiteral("ok")) {
+      if (message == QLatin1String("ok")) {
         ok = true;
         break;
       }

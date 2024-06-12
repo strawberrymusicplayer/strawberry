@@ -1358,31 +1358,25 @@ QString CollectionModel::DividerDisplayText(const GroupBy group_by, const QStrin
     case GroupBy::Genre:
     case GroupBy::FileType:
     case GroupBy::Format:
-      if (key == QStringLiteral("0")) return QStringLiteral("0-9");
+      if (key == QLatin1String("0")) return QStringLiteral("0-9");
       return key.toUpper();
 
     case GroupBy::YearAlbum:
     case GroupBy::YearAlbumDisc:
     case GroupBy::OriginalYearAlbum:
     case GroupBy::OriginalYearAlbumDisc:
-      if (key == QStringLiteral("0000")) return tr("Unknown");
+      if (key == QLatin1String("0000")) return tr("Unknown");
       return key.toUpper();
 
     case GroupBy::Year:
     case GroupBy::OriginalYear:
-      if (key == QStringLiteral("0000")) return tr("Unknown");
+      if (key == QLatin1String("0000")) return tr("Unknown");
       return QString::number(key.toInt());  // To remove leading 0s
 
     case GroupBy::Samplerate:
-      if (key == QStringLiteral("000")) return tr("Unknown");
-      return QString::number(key.toInt());  // To remove leading 0s
-
     case GroupBy::Bitdepth:
-      if (key == QStringLiteral("000")) return tr("Unknown");
-      return QString::number(key.toInt());  // To remove leading 0s
-
     case GroupBy::Bitrate:
-      if (key == QStringLiteral("000")) return tr("Unknown");
+      if (key == QLatin1String("000")) return tr("Unknown");
       return QString::number(key.toInt());  // To remove leading 0s
 
     case GroupBy::None:

@@ -218,7 +218,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
         if (!line_additional.isEmpty()) {
 
           // If there's none "01" index, we'll just take the first one also, we'll take the "01" index even if it's the last one
-          if (line_value == QStringLiteral("01") || index.isEmpty()) {
+          if (line_value == QLatin1String("01") || index.isEmpty()) {
 
             index = line_additional;
           }
