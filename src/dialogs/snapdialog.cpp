@@ -51,7 +51,7 @@ SnapDialog::SnapDialog(QWidget *parent) : MessageDialog(parent) {
   text += QLatin1String("</p>");
 
   text += QLatin1String("<p>");
-  text += tr("For Ubuntu there is an official PPA repository available at %1.").arg(QLatin1String("<a style=\"color:%1;\" href=\"https://launchpad.net/~jonaski/+archive/ubuntu/strawberry\">https://launchpad.net/~jonaski/+archive/ubuntu/strawberry</a>").arg(palette().text().color().name()));
+  text += tr("For Ubuntu there is an official PPA repository available at %1.").arg(QStringLiteral("<a style=\"color:%1;\" href=\"https://launchpad.net/~jonaski/+archive/ubuntu/strawberry\">https://launchpad.net/~jonaski/+archive/ubuntu/strawberry</a>").arg(palette().text().color().name()));
   text += QLatin1String("</p>");
 
   text += QLatin1String("<p>");
