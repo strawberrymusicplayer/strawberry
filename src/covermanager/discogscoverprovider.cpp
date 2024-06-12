@@ -283,7 +283,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     QString title = obj_result[QLatin1String("title")].toString();
 
     if (title.contains(QLatin1String(" - "))) {
-      QStringList title_splitted = title.split(QLatin1String(" - "));
+      QStringList title_splitted = title.split(QStringLiteral(" - "));
       if (title_splitted.count() == 2) {
         QString artist = title_splitted.first();
         title = title_splitted.last();

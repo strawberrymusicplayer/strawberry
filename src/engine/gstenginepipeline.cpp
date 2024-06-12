@@ -1486,7 +1486,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   if (!engine_metadata.title.isEmpty() && engine_metadata.artist.isEmpty() && engine_metadata.album.isEmpty()) {
     QStringList title_splitted;
     if (engine_metadata.title.contains(QLatin1String(" - "))) {
-      title_splitted = engine_metadata.title.split(QLatin1String(" - "));
+      title_splitted = engine_metadata.title.split(QStringLiteral(" - "));
     }
     else if (engine_metadata.title.contains(QLatin1Char('~'))) {
       title_splitted = engine_metadata.title.split(QLatin1Char('~'));

@@ -112,7 +112,7 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
   metadata->length = length * kNsecPerSec;
 
   QString track_info = info.section(QLatin1Char(','), 1);
-  QStringList list = track_info.split(QLatin1String(" - "));
+  QStringList list = track_info.split(QStringLiteral(" - "));
   if (list.size() <= 1) {
     metadata->title = track_info;
     return true;
