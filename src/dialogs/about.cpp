@@ -114,17 +114,17 @@ QString About::MainHtml() const {
   ret += QLatin1String("</p>");
 
   ret += QLatin1String("<p>");
-  ret += tr("Strawberry is free software released under GPL. The source code is available on %1").arg(QLatin1String("<a style=\"color:%1;\" href=\"https://github.com/strawberrymusicplayer/strawberry\">GitHub</a>.").arg(palette().text().color().name()));
+  ret += tr("Strawberry is free software released under GPL. The source code is available on %1").arg(QStringLiteral("<a style=\"color:%1;\" href=\"https://github.com/strawberrymusicplayer/strawberry\">GitHub</a>.").arg(palette().text().color().name()));
   ret += QLatin1String("<br />");
-  ret += tr("You should have received a copy of the GNU General Public License along with this program.  If not, see %1").arg(QLatin1String("<a style=\"color:%1;\" href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>").arg(palette().text().color().name()));
+  ret += tr("You should have received a copy of the GNU General Public License along with this program.  If not, see %1").arg(QStringLiteral("<a style=\"color:%1;\" href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>").arg(palette().text().color().name()));
   ret += QLatin1String("</p>");
 
   ret += QLatin1String("<p>");
   ret += tr("If you like Strawberry and can make use of it, consider sponsoring or donating.");
   ret += QLatin1String("<br />");
   ret += tr("You can sponsor the author on %1. You can also make a one-time payment through %2.").arg(
-    QLatin1String("<a style=\"color:%1;\" href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>").arg(palette().text().color().name()),
-    QLatin1String("<a style=\"color:%1;\" href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>").arg(palette().text().color().name())
+    QStringLiteral("<a style=\"color:%1;\" href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>").arg(palette().text().color().name()),
+    QStringLiteral("<a style=\"color:%1;\" href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>").arg(palette().text().color().name())
   );
 
   ret += QLatin1String("</p>");
