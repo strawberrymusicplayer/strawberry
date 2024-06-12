@@ -186,7 +186,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
 
   EnsureInitialized();
 
-  EngineBase::Load(stream_url, media_url, change, force_stop_at_end, beginning_nanosec, end_nanosec, ebur128_integrated_loudness_lufs);
+  EngineBase::Load(media_url, stream_url, change, force_stop_at_end, beginning_nanosec, end_nanosec, ebur128_integrated_loudness_lufs);
 
   const QByteArray gst_url = FixupUrl(stream_url);
 
