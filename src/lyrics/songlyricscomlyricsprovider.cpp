@@ -39,7 +39,7 @@ SongLyricsComLyricsProvider::SongLyricsComLyricsProvider(SharedPtr<NetworkAccess
 
 QUrl SongLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
-  return QUrl(QLatin1String(kUrl) + StringFixup(request.artist) + QLatin1Char('/') + StringFixup(request.title) + QStringLiteral("-lyrics/"));
+  return QUrl(QLatin1String(kUrl) + StringFixup(request.artist) + QLatin1Char('/') + StringFixup(request.title) + QLatin1String("-lyrics/"));
 
 }
 

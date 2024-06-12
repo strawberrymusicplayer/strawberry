@@ -333,7 +333,7 @@ void PlaylistTabBar::RemoveTab(const int id) {
 void PlaylistTabBar::set_text_by_id(const int id, const QString &text) {
 
   QString new_text = text;
-  new_text = new_text.replace(QLatin1String("&"), QLatin1String("&&"));
+  new_text = new_text.replace(QLatin1Char('&'), QLatin1String("&&"));
   setTabText(index_of(id), new_text);
   setTabToolTip(index_of(id), text);
 

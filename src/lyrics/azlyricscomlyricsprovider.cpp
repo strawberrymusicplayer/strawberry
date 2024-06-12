@@ -40,7 +40,7 @@ AzLyricsComLyricsProvider::AzLyricsComLyricsProvider(SharedPtr<NetworkAccessMana
 
 QUrl AzLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
-  return QUrl(QLatin1String(kUrl) + StringFixup(request.artist) + QStringLiteral("/") + StringFixup(request.title) + QStringLiteral(".html"));
+  return QUrl(QLatin1String(kUrl) + StringFixup(request.artist) + QLatin1Char('/') + StringFixup(request.title) + QStringLiteral(".html"));
 
 }
 

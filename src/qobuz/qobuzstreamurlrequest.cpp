@@ -168,27 +168,27 @@ void QobuzStreamURLRequest::StreamURLReceived() {
     return;
   }
 
-  if (!json_obj.contains(QStringLiteral("track_id"))) {
+  if (!json_obj.contains(QLatin1String("track_id"))) {
     Error(QStringLiteral("Invalid Json reply, stream url is missing track_id."), json_obj);
     emit StreamURLFailure(id_, media_url_, errors_.first());
     return;
   }
 
-  int track_id = json_obj[QStringLiteral("track_id")].toInt();
+  int track_id = json_obj[QLatin1String("track_id")].toInt();
   if (track_id != song_id_) {
     Error(QStringLiteral("Incorrect track ID returned."), json_obj);
     emit StreamURLFailure(id_, media_url_, errors_.first());
     return;
   }
 
-  if (!json_obj.contains(QStringLiteral("mime_type")) || !json_obj.contains(QStringLiteral("url"))) {
+  if (!json_obj.contains(QLatin1String("mime_type")) || !json_obj.contains(QLatin1String("url"))) {
     Error(QStringLiteral("Invalid Json reply, stream url is missing url or mime_type."), json_obj);
     emit StreamURLFailure(id_, media_url_, errors_.first());
     return;
   }
 
-  QUrl url(json_obj[QStringLiteral("url")].toString());
-  QString mimetype = json_obj[QStringLiteral("mime_type")].toString();
+  QUrl url(json_obj[QLatin1String("url")].toString());
+  QString mimetype = json_obj[QLatin1String("mime_type")].toString();
 
   Song::FileType filetype(Song::FileType::Unknown);
   QMimeDatabase mimedb;
@@ -209,16 +209,16 @@ void QobuzStreamURLRequest::StreamURLReceived() {
   }
 
   qint64 duration = -1;
-  if (json_obj.contains(QStringLiteral("duration"))) {
-    duration = json_obj[QStringLiteral("duration")].toInt() * kNsecPerSec;
+  if (json_obj.contains(QLatin1String("duration"))) {
+    duration = json_obj[QLatin1String("duration")].toInt() * kNsecPerSec;
   }
   int samplerate = -1;
-  if (json_obj.contains(QStringLiteral("sampling_rate"))) {
-    samplerate = static_cast<int>(json_obj[QStringLiteral("sampling_rate")].toDouble()) * 1000;
+  if (json_obj.contains(QLatin1String("sampling_rate"))) {
+    samplerate = static_cast<int>(json_obj[QLatin1String("sampling_rate")].toDouble()) * 1000;
   }
   int bit_depth = -1;
-  if (json_obj.contains(QStringLiteral("bit_depth"))) {
-    bit_depth = static_cast<int>(json_obj[QStringLiteral("bit_depth")].toDouble());
+  if (json_obj.contains(QLatin1String("bit_depth"))) {
+    bit_depth = static_cast<int>(json_obj[QLatin1String("bit_depth")].toDouble());
   }
 
   emit StreamURLSuccess(id_, media_url_, url, filetype, samplerate, bit_depth, duration);

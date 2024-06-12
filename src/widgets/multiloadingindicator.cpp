@@ -82,7 +82,7 @@ void MultiLoadingIndicator::UpdateText() {
     strings << task_text;
   }
 
-  text_ = strings.join(QStringLiteral(", "));
+  text_ = strings.join(QLatin1String(", "));
   if (!text_.isEmpty()) {
     text_[0] = text_[0].toUpper();
     text_ += QLatin1String("...");

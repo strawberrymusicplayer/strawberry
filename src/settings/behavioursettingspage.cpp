@@ -94,9 +94,9 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
 
     QString code = re_match.captured(1);
     QString lookup_code = QString(code)
-                              .replace(QStringLiteral("@latin"), QStringLiteral("_Latn"))
-                              .replace(QStringLiteral("_CN"), QStringLiteral("_Hans_CN"))
-                              .replace(QStringLiteral("_TW"), QStringLiteral("_Hant_TW"));
+                              .replace(QLatin1String("@latin"), QLatin1String("_Latn"))
+                              .replace(QLatin1String("_CN"), QLatin1String("_Hans_CN"))
+                              .replace(QLatin1String("_TW"), QLatin1String("_Hant_TW"));
 
     QString language_name = QLocale::languageToString(QLocale(lookup_code).language());
     QString native_name = QLocale(lookup_code).nativeLanguageName();

@@ -150,8 +150,8 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
 
   QJsonObject json_object = json_document.object();
 
-  QString status = json_object[QStringLiteral("status")].toString();
-  if (status != QStringLiteral("ok")) {
+  QString status = json_object[QLatin1String("status")].toString();
+  if (status != QLatin1String("ok")) {
     emit Finished(request_id, QStringList(), status);
     return;
   }
@@ -161,19 +161,19 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   // -then sort results by number of sources (the results are originally
   //  unsorted but results with more sources are likely to be more accurate)
   // -keep only the ids, as sources where useful only to sort the results
-  QJsonArray json_results = json_object[QStringLiteral("results")].toArray();
+  QJsonArray json_results = json_object[QLatin1String("results")].toArray();
 
   // List of <id, nb of sources> pairs
   QList<IdSource> id_source_list;
 
   for (const QJsonValueRef v : json_results) {
     QJsonObject r = v.toObject();
-    if (!r[QStringLiteral("recordings")].isUndefined()) {
-      QJsonArray json_recordings = r[QStringLiteral("recordings")].toArray();
+    if (!r[QLatin1String("recordings")].isUndefined()) {
+      QJsonArray json_recordings = r[QLatin1String("recordings")].toArray();
       for (const QJsonValueRef recording : json_recordings) {
         QJsonObject o = recording.toObject();
-        if (!o[QStringLiteral("id")].isUndefined()) {
-          id_source_list << IdSource(o[QStringLiteral("id")].toString(), o[QStringLiteral("sources")].toInt());
+        if (!o[QLatin1String("id")].isUndefined()) {
+          id_source_list << IdSource(o[QLatin1String("id")].toString(), o[QLatin1String("sources")].toInt());
         }
       }
     }

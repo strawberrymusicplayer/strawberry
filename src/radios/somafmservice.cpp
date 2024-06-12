@@ -86,39 +86,39 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
     return;
   }
 
-  if (!object.contains(QStringLiteral("channels")) || !object[QStringLiteral("channels")].isArray()) {
+  if (!object.contains(QLatin1String("channels")) || !object[QLatin1String("channels")].isArray()) {
     Error(QStringLiteral("Missing JSON channels array."), object);
     app_->task_manager()->SetTaskFinished(task_id);
     emit NewChannels();
     return;
   }
-  QJsonArray array_channels = object[QStringLiteral("channels")].toArray();
+  QJsonArray array_channels = object[QLatin1String("channels")].toArray();
 
   RadioChannelList channels;
   for (const QJsonValueRef value_channel : array_channels) {
     if (!value_channel.isObject()) continue;
     QJsonObject obj_channel = value_channel.toObject();
-    if (!obj_channel.contains(QStringLiteral("title")) || !obj_channel.contains(QStringLiteral("image"))) {
+    if (!obj_channel.contains(QLatin1String("title")) || !obj_channel.contains(QLatin1String("image"))) {
       continue;
     }
-    QString name = obj_channel[QStringLiteral("title")].toString();
-    QString image = obj_channel[QStringLiteral("image")].toString();
-    QJsonArray playlists = obj_channel[QStringLiteral("playlists")].toArray();
+    QString name = obj_channel[QLatin1String("title")].toString();
+    QString image = obj_channel[QLatin1String("image")].toString();
+    QJsonArray playlists = obj_channel[QLatin1String("playlists")].toArray();
     for (const QJsonValueRef playlist : playlists) {
       if (!playlist.isObject()) continue;
       QJsonObject obj_playlist = playlist.toObject();
-      if (!obj_playlist.contains(QStringLiteral("url")) || !obj_playlist.contains(QStringLiteral("quality"))) {
+      if (!obj_playlist.contains(QLatin1String("url")) || !obj_playlist.contains(QLatin1String("quality"))) {
         continue;
       }
       RadioChannel channel;
-      QString quality = obj_playlist[QStringLiteral("quality")].toString();
+      QString quality = obj_playlist[QLatin1String("quality")].toString();
       if (quality != QStringLiteral("highest")) continue;
       channel.source = source_;
       channel.name = name;
-      channel.url.setUrl(obj_playlist[QStringLiteral("url")].toString());
+      channel.url.setUrl(obj_playlist[QLatin1String("url")].toString());
       channel.thumbnail_url.setUrl(image);
-      if (obj_playlist.contains(QStringLiteral("format"))) {
-        channel.name.append(QLatin1Char(' ') + obj_playlist[QStringLiteral("format")].toString().toUpper());
+      if (obj_playlist.contains(QLatin1String("format"))) {
+        channel.name.append(QLatin1Char(' ') + obj_playlist[QLatin1String("format")].toString().toUpper());
       }
       channels << channel;
     }

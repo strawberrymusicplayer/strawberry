@@ -315,7 +315,7 @@ void TranscodeDialog::UpdateStatusText() {
     sections << QStringLiteral("<font color=\"#b60000\">") + tr("%n failed", "", finished_failed_) + QStringLiteral("</font>");
   }
 
-  ui_->progress_text->setText(sections.join(QStringLiteral(", ")));
+  ui_->progress_text->setText(sections.join(QLatin1String(", ")));
 
 }
 

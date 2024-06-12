@@ -117,7 +117,7 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFl
   }
   QString condition;
   if (!condition_list.isEmpty()) {
-    condition = QStringLiteral(" WHERE ") + condition_list.join(QStringLiteral(" OR "));
+    condition = QLatin1String(" WHERE ") + condition_list.join(QLatin1String(" OR "));
   }
 
   SqlQuery q(db);

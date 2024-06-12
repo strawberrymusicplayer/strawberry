@@ -133,11 +133,11 @@ Mpris2::Mpris2(Application *app, QObject *parent)
 
   QStringList data_dirs = QString::fromUtf8(qgetenv("XDG_DATA_DIRS")).split(QLatin1Char(':'));
 
-  if (!data_dirs.contains(QStringLiteral("/usr/local/share"))) {
+  if (!data_dirs.contains(QLatin1String("/usr/local/share"))) {
     data_dirs.append(QStringLiteral("/usr/local/share"));
   }
 
-  if (!data_dirs.contains(QStringLiteral("/usr/share"))) {
+  if (!data_dirs.contains(QLatin1String("/usr/share"))) {
     data_dirs.append(QStringLiteral("/usr/share"));
   }
 
@@ -207,18 +207,18 @@ void Mpris2::EmitNotification(const QString &name, const QVariant &value, const 
 void Mpris2::EmitNotification(const QString &name) {
 
   QVariant value;
-  if (name == QStringLiteral("PlaybackStatus")) value = PlaybackStatus();
-  else if (name == QStringLiteral("LoopStatus")) value = LoopStatus();
-  else if (name == QStringLiteral("Shuffle")) value = Shuffle();
-  else if (name == QStringLiteral("Metadata")) value = Metadata();
-  else if (name == QStringLiteral("Rating")) value = Rating();
-  else if (name == QStringLiteral("Volume")) value = Volume();
-  else if (name == QStringLiteral("Position")) value = Position();
-  else if (name == QStringLiteral("CanPlay")) value = CanPlay();
-  else if (name == QStringLiteral("CanPause")) value = CanPause();
-  else if (name == QStringLiteral("CanSeek")) value = CanSeek();
-  else if (name == QStringLiteral("CanGoNext")) value = CanGoNext();
-  else if (name == QStringLiteral("CanGoPrevious")) value = CanGoPrevious();
+  if (name == QLatin1String("PlaybackStatus")) value = PlaybackStatus();
+  else if (name == QLatin1String("LoopStatus")) value = LoopStatus();
+  else if (name == QLatin1String("Shuffle")) value = Shuffle();
+  else if (name == QLatin1String("Metadata")) value = Metadata();
+  else if (name == QLatin1String("Rating")) value = Rating();
+  else if (name == QLatin1String("Volume")) value = Volume();
+  else if (name == QLatin1String("Position")) value = Position();
+  else if (name == QLatin1String("CanPlay")) value = CanPlay();
+  else if (name == QLatin1String("CanPause")) value = CanPause();
+  else if (name == QLatin1String("CanSeek")) value = CanSeek();
+  else if (name == QLatin1String("CanGoNext")) value = CanGoNext();
+  else if (name == QLatin1String("CanGoPrevious")) value = CanGoPrevious();
 
   if (value.isValid()) EmitNotification(name, value);
 
@@ -240,7 +240,7 @@ QString Mpris2::DesktopEntryAbsolutePath() const {
 
 }
 
-QString Mpris2::DesktopEntry() const { return QGuiApplication::desktopFileName() + QStringLiteral(".desktop"); }
+QString Mpris2::DesktopEntry() const { return QGuiApplication::desktopFileName() + QLatin1String(".desktop"); }
 
 QStringList Mpris2::SupportedUriSchemes() const {
 
@@ -460,7 +460,7 @@ bool Mpris2::CanPlay() const {
 
 // This one's a bit different than MPRIS 1 - we want this to be true even when the song is already paused or stopped.
 bool Mpris2::CanPause() const {
-  return (app_->player()->GetCurrentItem() && app_->player()->GetState() == EngineBase::State::Playing && !(app_->player()->GetCurrentItem()->options() & PlaylistItem::Option::PauseDisabled)) || PlaybackStatus() == QStringLiteral("Paused") || PlaybackStatus() == QStringLiteral("Stopped");
+  return (app_->player()->GetCurrentItem() && app_->player()->GetState() == EngineBase::State::Playing && !(app_->player()->GetCurrentItem()->options() & PlaylistItem::Option::PauseDisabled)) || PlaybackStatus() == QLatin1String("Paused") || PlaybackStatus() == QLatin1String("Stopped");
 }
 
 bool Mpris2::CanSeek() const { return CanSeek(app_->player()->GetState()); }

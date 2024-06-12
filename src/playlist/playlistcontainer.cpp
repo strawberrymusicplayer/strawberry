@@ -124,7 +124,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   QObject::connect(ui_->playlist, &PlaylistView::FocusOnFilterSignal, this, &PlaylistContainer::FocusOnFilter);
   ui_->search_field->installEventFilter(this);
 
-  QString available_fields = PlaylistFilter().column_names().keys().join(QStringLiteral(", "));
+  QString available_fields = PlaylistFilter().column_names().keys().join(QLatin1String(", "));
   ui_->search_field->setToolTip(
     QStringLiteral("<html><head/><body><p>") +
     tr("Prefix a search term with a field name to limit the search to that field, e.g.:") +
@@ -136,7 +136,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
     QStringLiteral("</p><p>") +
 
     tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")
-      .arg(QStringLiteral(" =, !=, &lt;, &gt;, &lt;="), QStringLiteral("&gt;=")) +
+      .arg(QLatin1String(" =, !=, &lt;, &gt;, &lt;="), QStringLiteral("&gt;=")) +
     QStringLiteral("<span style=\"font-weight:600;\">") +
     tr("rating") +
     QStringLiteral("</span>") +
@@ -145,7 +145,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
     QStringLiteral("</p><p>") +
 
     tr("Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. ")
-      .arg(QStringLiteral("AND"), QStringLiteral("OR")) +
+      .arg(QLatin1String("AND"), QLatin1String("OR")) +
 
     QStringLiteral("</p><p><span style=\"font-weight:600;\">") +
     tr("Available fields") +

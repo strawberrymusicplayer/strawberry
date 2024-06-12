@@ -1103,7 +1103,7 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  QString in = ids.join(QStringLiteral(","));
+  QString in = ids.join(QLatin1Char(','));
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("SELECT %3.ROWID, %2, %3.%4 FROM %3, %1 WHERE %3.%4 IN (in) AND %1.ROWID = %3.ROWID AND unavailable = 0").arg(songs_table_, Song::kColumnSpec, table, column, in));
@@ -1134,7 +1134,7 @@ Song CollectionBackend::GetSongById(const int id, QSqlDatabase &db) {
 
 SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &db) {
 
-  QString in = ids.join(QStringLiteral(","));
+  QString in = ids.join(QLatin1Char(','));
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE ROWID IN (%3)").arg(Song::kRowIdColumnSpec, songs_table_, in));
@@ -1885,7 +1885,7 @@ bool CollectionBackend::ResetPlayStatistics(const QStringList &id_str_list) {
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("UPDATE %1 SET playcount = 0, skipcount = 0, lastplayed = -1 WHERE ROWID IN (:ids)").arg(songs_table_));
-  q.BindValue(QStringLiteral(":ids"), id_str_list.join(QStringLiteral(",")));
+  q.BindValue(QStringLiteral(":ids"), id_str_list.join(QLatin1Char(',')));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return false;
@@ -2063,7 +2063,7 @@ void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const float
   for (int i : id_list) {
     id_str_list << QString::number(i);
   }
-  QString ids = id_str_list.join(QStringLiteral(","));
+  QString ids = id_str_list.join(QLatin1Char(','));
   SqlQuery q(db);
   q.prepare(QStringLiteral("UPDATE %1 SET rating = :rating WHERE ROWID IN (%2)").arg(songs_table_, ids));
   q.BindValue(QStringLiteral(":rating"), rating);

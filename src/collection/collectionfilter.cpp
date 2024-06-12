@@ -140,11 +140,11 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
               continue;
             }
           }
-          else if (field.compare(QStringLiteral("length"), Qt::CaseInsensitive) == 0) {
+          else if (field.compare(QLatin1String("length"), Qt::CaseInsensitive) == 0) {
             filters.insert(field, Filter(field, static_cast<qint64>(Utilities::ParseSearchTime(value)) * kNsecPerSec, foperator));
             continue;
           }
-          else if (field.compare(QStringLiteral("rating"), Qt::CaseInsensitive) == 0) {
+          else if (field.compare(QLatin1String("rating"), Qt::CaseInsensitive) == 0) {
             filters.insert(field, Filter(field, Utilities::ParseSearchRating(value), foperator));
           }
         }
@@ -218,24 +218,24 @@ bool CollectionFilter::ItemMetadataMatchesFilterText(const Song &metadata, const
 
 QVariant CollectionFilter::DataFromField(const QString &field, const Song &metadata) {
 
-  if (field == QStringLiteral("albumartist")) return metadata.effective_albumartist();
-  if (field == QStringLiteral("artist"))      return metadata.artist();
-  if (field == QStringLiteral("album"))       return metadata.album();
-  if (field == QStringLiteral("title"))       return metadata.title();
-  if (field == QStringLiteral("composer"))    return metadata.composer();
-  if (field == QStringLiteral("performer"))   return metadata.performer();
-  if (field == QStringLiteral("grouping"))    return metadata.grouping();
-  if (field == QStringLiteral("genre"))       return metadata.genre();
-  if (field == QStringLiteral("comment"))     return metadata.comment();
-  if (field == QStringLiteral("track"))       return metadata.track();
-  if (field == QStringLiteral("year"))        return metadata.year();
-  if (field == QStringLiteral("length"))      return metadata.length_nanosec();
-  if (field == QStringLiteral("samplerate"))  return metadata.samplerate();
-  if (field == QStringLiteral("bitdepth"))    return metadata.bitdepth();
-  if (field == QStringLiteral("bitrate"))     return metadata.bitrate();
-  if (field == QStringLiteral("rating"))      return metadata.rating();
-  if (field == QStringLiteral("playcount"))   return metadata.playcount();
-  if (field == QStringLiteral("skipcount"))   return metadata.skipcount();
+  if (field == QLatin1String("albumartist")) return metadata.effective_albumartist();
+  if (field == QLatin1String("artist"))      return metadata.artist();
+  if (field == QLatin1String("album"))       return metadata.album();
+  if (field == QLatin1String("title"))       return metadata.title();
+  if (field == QLatin1String("composer"))    return metadata.composer();
+  if (field == QLatin1String("performer"))   return metadata.performer();
+  if (field == QLatin1String("grouping"))    return metadata.grouping();
+  if (field == QLatin1String("genre"))       return metadata.genre();
+  if (field == QLatin1String("comment"))     return metadata.comment();
+  if (field == QLatin1String("track"))       return metadata.track();
+  if (field == QLatin1String("year"))        return metadata.year();
+  if (field == QLatin1String("length"))      return metadata.length_nanosec();
+  if (field == QLatin1String("samplerate"))  return metadata.samplerate();
+  if (field == QLatin1String("bitdepth"))    return metadata.bitdepth();
+  if (field == QLatin1String("bitrate"))     return metadata.bitrate();
+  if (field == QLatin1String("rating"))      return metadata.rating();
+  if (field == QLatin1String("playcount"))   return metadata.playcount();
+  if (field == QLatin1String("skipcount"))   return metadata.skipcount();
 
   return QVariant();
 
@@ -277,22 +277,22 @@ bool CollectionFilter::FieldValueMatchesData(const QVariant &value, const QVaria
 template<typename T>
 bool CollectionFilter::FieldNumericalValueMatchesData(const T value, const QString &foperator, const T data) {
 
-  if (foperator == QStringLiteral("=") || foperator == QStringLiteral("==")) {
+  if (foperator == QLatin1Char('=') || foperator == QLatin1String("==")) {
     return data == value;
   }
-  else if (foperator == QStringLiteral("!=") || foperator == QStringLiteral("<>")) {
+  else if (foperator == QLatin1String("!=") || foperator == QLatin1String("<>")) {
     return data != value;
   }
-  else if (foperator == QStringLiteral("<")) {
+  else if (foperator == QLatin1Char('<')) {
     return data < value;
   }
-  else if (foperator == QStringLiteral(">")) {
+  else if (foperator == QLatin1Char('>')) {
     return data > value;
   }
-  else if (foperator == QStringLiteral(">=")) {
+  else if (foperator == QLatin1String(">=")) {
     return data >= value;
   }
-  else if (foperator == QStringLiteral("<=")) {
+  else if (foperator == QLatin1String("<=")) {
     return data <= value;
   }
 

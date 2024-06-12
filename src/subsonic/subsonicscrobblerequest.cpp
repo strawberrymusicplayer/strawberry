@@ -111,17 +111,17 @@ void SubsonicScrobbleRequest::ScrobbleReplyReceived(QNetworkReply *reply) {
     return;
   }
 
-  if (json_obj.contains(QStringLiteral("error"))) {
-    QJsonValue json_error = json_obj[QStringLiteral("error")];
+  if (json_obj.contains(QLatin1String("error"))) {
+    QJsonValue json_error = json_obj[QLatin1String("error")];
     if (!json_error.isObject()) {
       Error(QStringLiteral("Json error is not an object."), json_obj);
       FinishCheck();
       return;
     }
     json_obj = json_error.toObject();
-    if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("code")) && json_obj.contains(QStringLiteral("message"))) {
-      int code = json_obj[QStringLiteral("code")].toInt();
-      QString message = json_obj[QStringLiteral("message")].toString();
+    if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("code")) && json_obj.contains(QLatin1String("message"))) {
+      int code = json_obj[QLatin1String("code")].toInt();
+      QString message = json_obj[QLatin1String("message")].toString();
       Error(QStringLiteral("%1 (%2)").arg(message).arg(code));
       FinishCheck();
     }

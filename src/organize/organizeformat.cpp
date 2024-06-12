@@ -170,14 +170,14 @@ OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(cons
       extension = info.suffix();
     }
   }
-  if (!info.path().isEmpty() && info.path() != QStringLiteral(".")) {
+  if (!info.path().isEmpty() && info.path() != QLatin1Char('.')) {
     filepath.append(info.path());
     filepath.append(QLatin1Char('/'));
   }
   filepath.append(info.completeBaseName());
 
   // Fix any parts of the path that start with dots.
-  QStringList parts_old = filepath.split(QStringLiteral("/"));
+  QStringList parts_old = filepath.split(QLatin1Char('/'));
   QStringList parts_new;
   for (int i = 0; i < parts_old.count(); ++i) {
     QString part = parts_old[i];
@@ -190,12 +190,12 @@ OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(cons
     part = part.trimmed();
     parts_new.append(part);
   }
-  filepath = parts_new.join(QStringLiteral("/"));
+  filepath = parts_new.join(QLatin1Char('/'));
 
   if (replace_spaces_) filepath.replace(QRegularExpression(QStringLiteral("\\s")), QStringLiteral("_"));
 
   if (!extension.isEmpty()) {
-    filepath.append(QStringLiteral(".%1").arg(extension));
+    filepath.append(QLatin1String(".%1").arg(extension));
   }
 
   return GetFilenameForSongResult(filepath, unique_filename);
@@ -251,75 +251,75 @@ QString OrganizeFormat::TagValue(const QString &tag, const Song &song) const {
 
   QString value;
 
-  if (tag == QStringLiteral("title")) {
+  if (tag == QLatin1String("title")) {
     value = song.title();
   }
-  else if (tag == QStringLiteral("album")) {
+  else if (tag == QLatin1String("album")) {
     value = song.album();
   }
-  else if (tag == QStringLiteral("artist")) {
+  else if (tag == QLatin1String("artist")) {
     value = song.artist();
   }
-  else if (tag == QStringLiteral("composer")) {
+  else if (tag == QLatin1String("composer")) {
     value = song.composer();
   }
-  else if (tag == QStringLiteral("performer")) {
+  else if (tag == QLatin1String("performer")) {
     value = song.performer();
   }
-  else if (tag == QStringLiteral("grouping")) {
+  else if (tag == QLatin1String("grouping")) {
     value = song.grouping();
   }
-  else if (tag == QStringLiteral("lyrics")) {
+  else if (tag == QLatin1String("lyrics")) {
     value = song.lyrics();
   }
-  else if (tag == QStringLiteral("genre")) {
+  else if (tag == QLatin1String("genre")) {
     value = song.genre();
   }
-  else if (tag == QStringLiteral("comment")) {
+  else if (tag == QLatin1String("comment")) {
     value = song.comment();
   }
-  else if (tag == QStringLiteral("year")) {
+  else if (tag == QLatin1String("year")) {
     value = QString::number(song.year());
   }
-  else if (tag == QStringLiteral("originalyear")) {
+  else if (tag == QLatin1String("originalyear")) {
     value = QString::number(song.effective_originalyear());
   }
-  else if (tag == QStringLiteral("track")) {
+  else if (tag == QLatin1String("track")) {
     value = QString::number(song.track());
   }
-  else if (tag == QStringLiteral("disc")) {
+  else if (tag == QLatin1String("disc")) {
     value = QString::number(song.disc());
   }
-  else if (tag == QStringLiteral("length")) {
+  else if (tag == QLatin1String("length")) {
     value = QString::number(song.length_nanosec() / kNsecPerSec);
   }
-  else if (tag == QStringLiteral("bitrate")) {
+  else if (tag == QLatin1String("bitrate")) {
     value = QString::number(song.bitrate());
   }
-  else if (tag == QStringLiteral("samplerate")) {
+  else if (tag == QLatin1String("samplerate")) {
     value = QString::number(song.samplerate());
   }
-  else if (tag == QStringLiteral("bitdepth")) {
+  else if (tag == QLatin1String("bitdepth")) {
     value = QString::number(song.bitdepth());
   }
-  else if (tag == QStringLiteral("extension")) {
+  else if (tag == QLatin1String("extension")) {
     value = QFileInfo(song.url().toLocalFile()).suffix();
   }
-  else if (tag == QStringLiteral("artistinitial")) {
+  else if (tag == QLatin1String("artistinitial")) {
     value = song.effective_albumartist().trimmed();
     if (!value.isEmpty()) {
       value.replace(QRegularExpression(QStringLiteral("^the\\s+"), QRegularExpression::CaseInsensitiveOption), QLatin1String(""));
       value = value[0].toUpper();
     }
   }
-  else if (tag == QStringLiteral("albumartist")) {
+  else if (tag == QLatin1String("albumartist")) {
     value = song.is_compilation() ? QStringLiteral("Various Artists") : song.effective_albumartist();
   }
 
-  if (value == QStringLiteral("0") || value == QStringLiteral("-1")) value = QLatin1String("");
+  if (value == QLatin1Char('0') || value == QLatin1String("-1")) value = QLatin1String("");
 
   // Prepend a 0 to single-digit track numbers
-  if (tag == QStringLiteral("track") && value.length() == 1) value.prepend(QLatin1Char('0'));
+  if (tag == QLatin1String("track") && value.length() == 1) value.prepend(QLatin1Char('0'));
 
   // Replace characters that really shouldn't be in paths
   value = value.remove(QRegularExpression(QString::fromLatin1(kInvalidDirCharactersRegex), QRegularExpression::PatternOption::CaseInsensitiveOption));

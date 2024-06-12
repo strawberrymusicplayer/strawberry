@@ -40,7 +40,7 @@ ElyricsNetLyricsProvider::ElyricsNetLyricsProvider(SharedPtr<NetworkAccessManage
 
 QUrl ElyricsNetLyricsProvider::Url(const LyricsSearchRequest &request) {
 
-  return QUrl(QLatin1String(kUrl) + request.artist[0].toLower() + QLatin1Char('/') + StringFixup(request.artist) + QStringLiteral("-lyrics/") + StringFixup(request.title) + QStringLiteral("-lyrics.html"));
+  return QUrl(QLatin1String(kUrl) + request.artist[0].toLower() + QLatin1Char('/') + StringFixup(request.artist) + QLatin1String("-lyrics/") + StringFixup(request.title) + QLatin1String("-lyrics.html"));
 
 }
 

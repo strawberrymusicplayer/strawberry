@@ -169,7 +169,7 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
 #endif
   }
 
-  QString message = message_parts.join(QStringLiteral(", "));
+  QString message = message_parts.join(QLatin1String(", "));
   if (html_escaped) message = message.toHtmlEscaped();
 
   if (show_art_) {
@@ -201,7 +201,7 @@ void OSDBase::Paused() {
     else {
       summary = last_song_.PrettyTitle();
       if (!last_song_.artist().isEmpty()) {
-        summary.prepend(QStringLiteral(" - "));
+        summary.prepend(QLatin1String(" - "));
         summary.prepend(last_song_.artist());
       }
       if (behaviour_ == Behaviour::Pretty) {
@@ -246,7 +246,7 @@ void OSDBase::Stopped() {
   else {
     summary = last_song_.PrettyTitle();
     if (!last_song_.artist().isEmpty()) {
-      summary.prepend(QStringLiteral(" - "));
+      summary.prepend(QLatin1String(" - "));
       summary.prepend(last_song_.artist());
     }
     if (behaviour_ == Behaviour::Pretty) {
@@ -386,7 +386,7 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
     case Behaviour::Native:
 #if defined(Q_OS_MACOS)
       html_escaped = false;
-      newline = QStringLiteral("\n");
+      newline = QLatin1String("\n");
       break;
 #elif defined(HAVE_DBUS)
       switch (type) {
@@ -397,7 +397,7 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
         }
         case MessageType::Message:{
           html_escaped = true;
-          newline = QStringLiteral("<br />");
+          newline = QLatin1String("<br />");
           break;
         }
       }
@@ -417,7 +417,7 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
     case Behaviour::Disabled:  // When notifications are disabled, we force the PrettyOSD
     case Behaviour::Pretty:
       html_escaped = true;
-      newline = QStringLiteral("<br />");
+      newline = QLatin1String("<br />");
       break;
   }
 

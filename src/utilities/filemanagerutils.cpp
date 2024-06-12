@@ -52,9 +52,9 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
   QString desktop_file = QString::fromUtf8(proc.readLine()).simplified();
   QString xdg_data_dirs = QString::fromUtf8(qgetenv("XDG_DATA_DIRS"));
   if (xdg_data_dirs.isEmpty()) {
-    xdg_data_dirs = QStringLiteral("/usr/local/share/:/usr/share/");
+    xdg_data_dirs = QLatin1String("/usr/local/share/:/usr/share/");
   }
-  const QStringList data_dirs = xdg_data_dirs.split(QStringLiteral(":"));
+  const QStringList data_dirs = xdg_data_dirs.split(QLatin1Char(':'));
 
   QString command;
   QStringList command_params;
@@ -63,7 +63,7 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
     if (!QFile::exists(desktop_file_path)) continue;
     QSettings setting(desktop_file_path, QSettings::IniFormat);
     setting.beginGroup(QStringLiteral("Desktop Entry"));
-    if (setting.contains(QStringLiteral("Exec"))) {
+    if (setting.contains(QLatin1String("Exec"))) {
       QString cmd = setting.value(QStringLiteral("Exec")).toString();
       if (cmd.isEmpty()) break;
       cmd = cmd.remove(QRegularExpression(QStringLiteral("[%][a-zA-Z]*( |$)"), QRegularExpression::CaseInsensitiveOption));
@@ -80,10 +80,10 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
   }
 
   if (command.startsWith(QLatin1String("/usr/bin/"))) {
-    command = command.split(QStringLiteral("/")).last();
+    command = command.split(QLatin1Char('/')).last();
   }
 
-  if (command.isEmpty() || command == QStringLiteral("exo-open")) {
+  if (command.isEmpty() || command == QLatin1String("exo-open")) {
     QDesktopServices::openUrl(QUrl::fromLocalFile(path));
   }
   else if (command.startsWith(QLatin1String("nautilus"))) {

@@ -205,7 +205,7 @@ void EngineBase::ReloadSettings() {
   if (http2_enabled != http2_enabled_) {
     http2_enabled_ = http2_enabled;
     Utilities::SetEnv("SOUP_FORCE_HTTP1", http2_enabled_ ? QLatin1String("") : QStringLiteral("1"));
-    qLog(Debug) << "SOUP_FORCE_HTTP1:" << (http2_enabled_ ? QLatin1String("OFF") : QLatin1String("ON"));
+    qLog(Debug) << "SOUP_FORCE_HTTP1:" << (http2_enabled_ ? "OFF" : "ON");
   }
 
   strict_ssl_enabled_ = s.value("strict_ssl", false).toBool();

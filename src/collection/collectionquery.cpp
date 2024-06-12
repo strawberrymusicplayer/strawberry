@@ -62,12 +62,12 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
 void CollectionQuery::AddWhere(const QString &column, const QVariant &value, const QString &op) {
 
   // Ignore 'literal' for IN
-  if (op.compare(QStringLiteral("IN"), Qt::CaseInsensitive) == 0) {
+  if (op.compare(QLatin1String("IN"), Qt::CaseInsensitive) == 0) {
     QStringList values = value.toStringList();
     QStringList final_values;
     final_values.reserve(values.count());
     for (const QString &single_value : values) {
-      final_values.append(QStringLiteral("?"));
+      final_values.append(QLatin1String("?"));
       bound_values_ << single_value;
     }
 
@@ -124,13 +124,13 @@ bool CollectionQuery::Exec() {
     where_clauses << QStringLiteral("unavailable = 0");
   }
 
-  if (!where_clauses.isEmpty()) sql += QStringLiteral(" WHERE ") + where_clauses.join(QStringLiteral(" AND "));
+  if (!where_clauses.isEmpty()) sql += QLatin1String(" WHERE ") + where_clauses.join(QLatin1String(" AND "));
 
-  if (!order_by_.isEmpty()) sql += QStringLiteral(" ORDER BY ") + order_by_;
+  if (!order_by_.isEmpty()) sql += QLatin1String(" ORDER BY ") + order_by_;
 
-  if (limit_ != -1) sql += QStringLiteral(" LIMIT ") + QString::number(limit_);
+  if (limit_ != -1) sql += QLatin1String(" LIMIT ") + QString::number(limit_);
 
-  sql.replace(QStringLiteral("%songs_table"), songs_table_);
+  sql.replace(QLatin1String("%songs_table"), songs_table_);
 
   if (!QSqlQuery::prepare(sql)) return false;
 

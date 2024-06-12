@@ -222,11 +222,11 @@ void CoversSettingsPage::ProvidersCurrentItemChanged(QListWidgetItem *item_curre
     CoverProvider *provider = dialog()->app()->cover_providers()->ProviderByName(item_current->text());
     if (provider) {
       if (provider->AuthenticationRequired()) {
-        if (provider->name() == QStringLiteral("Tidal") && !provider->IsAuthenticated()) {
+        if (provider->name() == QLatin1String("Tidal") && !provider->IsAuthenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
         }
-        else if (provider->name() == QStringLiteral("Qobuz") && !provider->IsAuthenticated()) {
+        else if (provider->name() == QLatin1String("Qobuz") && !provider->IsAuthenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
         }
@@ -335,11 +335,11 @@ void CoversSettingsPage::LogoutClicked() {
   if (!provider) return;
   provider->Deauthenticate();
 
-  if (provider->name() == QStringLiteral("Tidal")) {
+  if (provider->name() == QLatin1String("Tidal")) {
     DisableAuthentication();
     ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
   }
-  else if (provider->name() == QStringLiteral("Qobuz")) {
+  else if (provider->name() == QLatin1String("Qobuz")) {
     DisableAuthentication();
     ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
   }
@@ -371,7 +371,7 @@ void CoversSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
   if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
-  QMessageBox::warning(this, tr("Authentication failed"), errors.join(QStringLiteral("\n")));
+  QMessageBox::warning(this, tr("Authentication failed"), errors.join(QLatin1Char('\n')));
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_authenticate->setEnabled(true);
@@ -421,16 +421,16 @@ void CoversSettingsPage::AddAlbumCoverArtType(const QString &name, const QString
 
 QString CoversSettingsPage::AlbumCoverArtTypeDescription(const QString &type) const {
 
-  if (type == QStringLiteral("art_unset")) {
+  if (type == QLatin1String("art_unset")) {
     return tr("Manually unset (%1)").arg(type);
   }
-  if (type == QStringLiteral("art_manual")) {
+  if (type == QLatin1String("art_manual")) {
     return tr("Set through album cover search (%1)").arg(type);
   }
-  if (type == QStringLiteral("art_automatic")) {
+  if (type == QLatin1String("art_automatic")) {
     return tr("Automatically picked up from album directory (%1)").arg(type);
   }
-  if (type == QStringLiteral("art_embedded")) {
+  if (type == QLatin1String("art_embedded")) {
     return tr("Embedded album cover art (%1)").arg(type);
   }
 

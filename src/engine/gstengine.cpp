@@ -739,7 +739,7 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
       // We keep the device in mind, and we will set it later using SourceSetupCallback
       QStringList path = url.path().split(QLatin1Char('/'));
       str = QStringLiteral("cdda://%1").arg(path.takeLast());
-      QString device = path.join(QStringLiteral("/"));
+      QString device = path.join(QLatin1Char('/'));
       if (current_pipeline_) current_pipeline_->SetSourceDevice(device);
     }
     uri = str.toUtf8();

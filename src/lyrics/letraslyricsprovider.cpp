@@ -41,7 +41,7 @@ LetrasLyricsProvider::LetrasLyricsProvider(SharedPtr<NetworkAccessManager> netwo
 
 QUrl LetrasLyricsProvider::Url(const LyricsSearchRequest &request) {
 
-  return QUrl(QLatin1String(kUrl) + QStringLiteral("?musica=") + StringFixup(request.artist) + QStringLiteral("&artista=") + StringFixup(request.title));
+  return QUrl(QLatin1String(kUrl) + QLatin1String("?musica=") + StringFixup(request.artist) + QLatin1String("&artista=") + StringFixup(request.title));
 
 }
 

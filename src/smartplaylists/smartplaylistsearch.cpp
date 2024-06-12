@@ -70,7 +70,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   if (!id_not_in_.isEmpty()) {
     QString numbers;
     for (int id : id_not_in_) {
-      numbers += (numbers.isEmpty() ? QLatin1String("") : QStringLiteral(",")) + QString::number(id);
+      numbers += (numbers.isEmpty() ? QLatin1String("") : QLatin1String(",")) + QString::number(id);
     }
     where_clauses << QStringLiteral("(ROWID NOT IN (") + numbers + QStringLiteral("))");
   }
@@ -80,7 +80,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   where_clauses << QStringLiteral("unavailable = 0");
 
   if (!where_clauses.isEmpty()) {
-    sql += QStringLiteral(" WHERE ") + where_clauses.join(QStringLiteral(" AND "));
+    sql += QStringLiteral(" WHERE ") + where_clauses.join(QLatin1String(" AND "));
   }
 
   // Add sort by

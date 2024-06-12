@@ -1399,7 +1399,7 @@ void PlaylistView::CopyCurrentSongToClipboard() const {
 
   QMimeData *mime_data = new QMimeData;
   mime_data->setUrls(QList<QUrl>() << url);
-  mime_data->setText(columns.join(QStringLiteral(" - ")));
+  mime_data->setText(columns.join(QLatin1String(" - ")));
 
   QApplication::clipboard()->setMimeData(mime_data);
 

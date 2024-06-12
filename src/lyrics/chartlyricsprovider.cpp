@@ -101,21 +101,21 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
     QXmlStreamReader::TokenType type = reader.readNext();
     QString name = reader.name().toString();
     if (type == QXmlStreamReader::StartElement) {
-      if (name == QStringLiteral("GetLyricResult")) {
+      if (name == QLatin1String("GetLyricResult")) {
         result = LyricsSearchResult();
       }
-      if (name == QStringLiteral("LyricArtist")) {
+      if (name == QLatin1String("LyricArtist")) {
         result.artist = reader.readElementText();
       }
-      else if (name == QStringLiteral("LyricSong")) {
+      else if (name == QLatin1String("LyricSong")) {
         result.title = reader.readElementText();
       }
-      else if (name == QStringLiteral("Lyric")) {
+      else if (name == QLatin1String("Lyric")) {
         result.lyrics = reader.readElementText();
       }
     }
     else if (type == QXmlStreamReader::EndElement) {
-      if (name == QStringLiteral("GetLyricResult")) {
+      if (name == QLatin1String("GetLyricResult")) {
         if (!result.artist.isEmpty() && !result.title.isEmpty() && !result.lyrics.isEmpty() &&
             (result.artist.compare(request.albumartist, Qt::CaseInsensitive) == 0 ||
              result.artist.compare(request.artist, Qt::CaseInsensitive) == 0 ||

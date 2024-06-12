@@ -174,11 +174,11 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
   }
 
   if (!redirect) {
-    if (!url.path().isEmpty() && url.path().right(1) == QStringLiteral("/")) {
-      url.setPath(url.path() + QStringLiteral("rest/ping.view"));
+    if (!url.path().isEmpty() && url.path().right(1) == QLatin1Char('/')) {
+      url.setPath(url.path() + QLatin1String("rest/ping.view"));
     }
     else {
-      url.setPath(url.path() + QStringLiteral("/rest/ping.view"));
+      url.setPath(url.path() + QLatin1String("/rest/ping.view"));
     }
   }
 
@@ -186,7 +186,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
 
   QNetworkRequest req(url);
 
-  if (url.scheme() == QStringLiteral("https") && !verify_certificate_) {
+  if (url.scheme() == QLatin1String("https") && !verify_certificate_) {
     QSslConfiguration sslconfig = QSslConfiguration::defaultConfiguration();
     sslconfig.setPeerVerifyMode(QSslSocket::VerifyNone);
     req.setSslConfiguration(sslconfig);
@@ -260,13 +260,13 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("error"))) {
-          QJsonValue json_error = json_obj[QStringLiteral("error")];
+        if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("error"))) {
+          QJsonValue json_error = json_obj[QLatin1String("error")];
           if (json_error.isObject()) {
             json_obj = json_error.toObject();
-            if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("code")) && json_obj.contains(QStringLiteral("message"))) {
-              int code = json_obj[QStringLiteral("code")].toInt();
-              QString message = json_obj[QStringLiteral("message")].toString();
+            if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("code")) && json_obj.contains(QLatin1String("message"))) {
+              int code = json_obj[QLatin1String("code")].toInt();
+              QString message = json_obj[QLatin1String("message")].toString();
               errors_ << QStringLiteral("%1 (%2)").arg(message).arg(code);
             }
           }
@@ -313,49 +313,49 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
     return;
   }
 
-  if (!json_obj.contains(QStringLiteral("subsonic-response"))) {
+  if (!json_obj.contains(QLatin1String("subsonic-response"))) {
     PingError(QStringLiteral("Ping reply from server is missing subsonic-response"), json_obj);
     return;
   }
-  QJsonValue value_response = json_obj[QStringLiteral("subsonic-response")];
+  QJsonValue value_response = json_obj[QLatin1String("subsonic-response")];
   if (!value_response.isObject()) {
     PingError(QStringLiteral("Ping reply from server subsonic-response is not an object"), value_response);
     return;
   }
   QJsonObject obj_response = value_response.toObject();
 
-  if (obj_response.contains(QStringLiteral("error"))) {
-    QJsonValue value_error = obj_response[QStringLiteral("error")];
+  if (obj_response.contains(QLatin1String("error"))) {
+    QJsonValue value_error = obj_response[QLatin1String("error")];
     if (!value_error.isObject()) {
       PingError(QStringLiteral("Authentication error reply from server is not an object"), value_error);
       return;
     }
     QJsonObject obj_error = value_error.toObject();
-    if (!obj_error.contains(QStringLiteral("code")) || !obj_error.contains(QStringLiteral("message"))) {
+    if (!obj_error.contains(QLatin1String("code")) || !obj_error.contains(QLatin1String("message"))) {
       PingError(QStringLiteral("Authentication error reply from server is missing status or message"), json_obj);
       return;
     }
     //int status = obj_error["code"].toInt();
-    QString message = obj_error[QStringLiteral("message")].toString();
+    QString message = obj_error[QLatin1String("message")].toString();
     emit TestComplete(false, message);
     emit TestFailure(message);
     return;
   }
 
-  if (!obj_response.contains(QStringLiteral("status"))) {
+  if (!obj_response.contains(QLatin1String("status"))) {
     PingError(QStringLiteral("Ping reply from server is missing status"), obj_response);
     return;
   }
 
-  QString status = obj_response[QStringLiteral("status")].toString().toLower();
-  QString message = obj_response[QStringLiteral("message")].toString();
+  QString status = obj_response[QLatin1String("status")].toString().toLower();
+  QString message = obj_response[QLatin1String("message")].toString();
 
-  if (status == QStringLiteral("failed")) {
+  if (status == QLatin1String("failed")) {
     emit TestComplete(false, message);
     emit TestFailure(message);
     return;
   }
-  else if (status == QStringLiteral("ok")) {
+  else if (status == QLatin1String("ok")) {
     emit TestComplete(true);
     emit TestSuccess();
     return;
@@ -453,7 +453,7 @@ void SubsonicService::PingError(const QString &error, const QVariant &debug) {
   QString error_html;
   for (const QString &e : errors_) {
     qLog(Error) << "Subsonic:" << e;
-    error_html += e + QStringLiteral("<br />");
+    error_html += e + QLatin1String("<br />");
   }
   if (debug.isValid()) qLog(Debug) << debug;
 

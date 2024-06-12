@@ -81,20 +81,20 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, co
     return;
   }
 
-  if (json_obj.contains(QStringLiteral("error"))) {
-    Error(json_obj[QStringLiteral("error")].toString());
+  if (json_obj.contains(QLatin1String("error"))) {
+    Error(json_obj[QLatin1String("error")].toString());
     qLog(Debug) << "OVHLyrics: No lyrics for" << request.artist << request.title;
     emit SearchFinished(id);
     return;
   }
 
-  if (!json_obj.contains(QStringLiteral("lyrics"))) {
+  if (!json_obj.contains(QLatin1String("lyrics"))) {
     emit SearchFinished(id);
     return;
   }
 
   LyricsSearchResult result;
-  result.lyrics = json_obj[QStringLiteral("lyrics")].toString();
+  result.lyrics = json_obj[QLatin1String("lyrics")].toString();
 
   if (result.lyrics.isEmpty()) {
     qLog(Debug) << "OVHLyrics: No lyrics for" << request.artist << request.title;

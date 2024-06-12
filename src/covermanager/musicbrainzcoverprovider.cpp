@@ -140,9 +140,9 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     return;
   }
 
-  if (!json_obj.contains(QStringLiteral("releases"))) {
-    if (json_obj.contains(QStringLiteral("error"))) {
-      QString error = json_obj[QStringLiteral("error")].toString();
+  if (!json_obj.contains(QLatin1String("releases"))) {
+    if (json_obj.contains(QLatin1String("error"))) {
+      QString error = json_obj[QLatin1String("error")].toString();
       Error(error);
     }
     else {
@@ -151,7 +151,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     emit SearchFinished(search_id, results);
     return;
   }
-  QJsonValue value_releases = json_obj[QStringLiteral("releases")];
+  QJsonValue value_releases = json_obj[QLatin1String("releases")];
 
   if (!value_releases.isArray()) {
     Error(QStringLiteral("Json releases is not an array."), value_releases);
@@ -172,12 +172,12 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
       continue;
     }
     QJsonObject obj_release = value_release.toObject();
-    if (!obj_release.contains(QStringLiteral("id")) || !obj_release.contains(QStringLiteral("artist-credit")) || !obj_release.contains(QStringLiteral("title"))) {
+    if (!obj_release.contains(QLatin1String("id")) || !obj_release.contains(QLatin1String("artist-credit")) || !obj_release.contains(QLatin1String("title"))) {
       Error(QStringLiteral("Invalid Json reply, releases array object is missing id, artist-credit or title."), obj_release);
       continue;
     }
 
-    QJsonValue json_artists = obj_release[QStringLiteral("artist-credit")];
+    QJsonValue json_artists = obj_release[QLatin1String("artist-credit")];
     if (!json_artists.isArray()) {
       Error(QStringLiteral("Invalid Json reply, artist-credit is not a array."), json_artists);
       continue;
@@ -192,28 +192,28 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
       }
       QJsonObject obj_artist = value_artist.toObject();
 
-      if (!obj_artist.contains(QStringLiteral("artist"))) {
+      if (!obj_artist.contains(QLatin1String("artist"))) {
         Error(QStringLiteral("Invalid Json reply, artist is missing."), obj_artist);
         continue;
       }
-      QJsonValue value_artist2 = obj_artist[QStringLiteral("artist")];
+      QJsonValue value_artist2 = obj_artist[QLatin1String("artist")];
       if (!value_artist2.isObject()) {
         Error(QStringLiteral("Invalid Json reply, artist is not an object."), value_artist2);
         continue;
       }
       QJsonObject obj_artist2 = value_artist2.toObject();
 
-      if (!obj_artist2.contains(QStringLiteral("name"))) {
+      if (!obj_artist2.contains(QLatin1String("name"))) {
         Error(QStringLiteral("Invalid Json reply, artist is missing name."), value_artist2);
         continue;
       }
-      artist = obj_artist2[QStringLiteral("name")].toString();
+      artist = obj_artist2[QLatin1String("name")].toString();
       ++i;
     }
-    if (i > 1) artist = QStringLiteral("Various artists");
+    if (i > 1) artist = QLatin1String("Various artists");
 
-    QString id = obj_release[QStringLiteral("id")].toString();
-    QString album = obj_release[QStringLiteral("title")].toString();
+    QString id = obj_release[QLatin1String("id")].toString();
+    QString album = obj_release[QLatin1String("title")].toString();
 
     CoverProviderSearchResult cover_result;
     QUrl url(QString::fromLatin1(kAlbumCoverUrl).arg(id));
@@ -247,8 +247,8 @@ QByteArray MusicbrainzCoverProvider::GetReplyData(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (json_obj.contains(QStringLiteral("error"))) {
-          error = json_obj[QStringLiteral("error")].toString();
+        if (json_obj.contains(QLatin1String("error"))) {
+          error = json_obj[QLatin1String("error")].toString();
         }
       }
       if (error.isEmpty()) {

@@ -46,7 +46,7 @@ QString CoverUtils::AlbumCoverFilename(QString artist, QString album, const QStr
   artist.remove(QLatin1Char('/')).remove(QLatin1Char('\\'));
   album.remove(QLatin1Char('/')).remove(QLatin1Char('\\'));
 
-  QString filename = artist + QStringLiteral("-") + album;
+  QString filename = artist + QLatin1Char('-') + album;
   filename = Utilities::Transliterate(filename.toLower());
   filename = filename.replace(QLatin1Char(' '), QLatin1Char('-'))
                .replace(QLatin1String("--"), QLatin1String("-"))
@@ -76,7 +76,7 @@ QString CoverUtils::CoverFilePath(const CoverOptions &options, const Song::Sourc
     path = Song::ImageCacheDir(source);
   }
 
-  if (path.right(1) == QDir::separator() || path.right(1) == QLatin1String("/")) {
+  if (path.right(1) == QDir::separator() || path.right(1) == QLatin1Char('/')) {
     path.chop(1);
   }
 
@@ -105,7 +105,7 @@ QString CoverUtils::CoverFilePath(const CoverOptions &options, const Song::Sourc
     filename = CoverFilenameFromSource(source, cover_url, artist, album, album_id, extension);
   }
 
-  QString filepath(path + QStringLiteral("/") + filename);
+  QString filepath(path + QLatin1Char('/') + filename);
 
   return filepath;
 
@@ -118,7 +118,7 @@ QString CoverUtils::CoverFilenameFromSource(const Song::Source source, const QUr
   switch (source) {
     case Song::Source::Tidal:
       if (!album_id.isEmpty()) {
-        filename = album_id + QStringLiteral("-") + cover_url.fileName();
+        filename = album_id + QLatin1Char('-') + cover_url.fileName();
         break;
       }
       [[fallthrough]];

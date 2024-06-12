@@ -142,7 +142,7 @@ void TidalFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QS
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(QLatin1String(TidalService::kApiUrl) + QLatin1Char('/') + QStringLiteral("users/") + QString::number(service_->user_id()) + QStringLiteral("/favorites/") + FavoriteText(type));
+  QUrl url(QLatin1String(TidalService::kApiUrl) + QLatin1Char('/') + QLatin1String("users/") + QString::number(service_->user_id()) + QLatin1String("/favorites/") + FavoriteText(type));
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
@@ -251,7 +251,7 @@ void TidalFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(QLatin1String(TidalService::kApiUrl) + QStringLiteral("/users/") + QString::number(service_->user_id()) + QStringLiteral("/favorites/") + FavoriteText(type) + QStringLiteral("/") + id);
+  QUrl url(QLatin1String(TidalService::kApiUrl) + QLatin1String("/users/") + QString::number(service_->user_id()) + QLatin1String("/favorites/") + FavoriteText(type) + QLatin1String("/") + id);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);

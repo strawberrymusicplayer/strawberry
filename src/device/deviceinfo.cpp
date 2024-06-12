@@ -49,7 +49,7 @@ DeviceDatabaseBackend::Device DeviceInfo::SaveToDb() const {
   for (const Backend &backend : backends_) {
     unique_ids << backend.unique_id_;
   }
-  ret.unique_id_ = unique_ids.join(QStringLiteral(","));
+  ret.unique_id_ = unique_ids.join(QLatin1Char(','));
 
   return ret;
 

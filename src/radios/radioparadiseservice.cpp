@@ -80,35 +80,35 @@ void RadioParadiseService::GetChannelsReply(QNetworkReply *reply, const int task
     return;
   }
 
-  if (!object.contains(QStringLiteral("channels")) || !object[QStringLiteral("channels")].isArray()) {
+  if (!object.contains(QLatin1String("channels")) || !object[QLatin1String("channels")].isArray()) {
     Error(QStringLiteral("Missing JSON channels array."), object);
     app_->task_manager()->SetTaskFinished(task_id);
     emit NewChannels();
     return;
   }
-  QJsonArray array_channels = object[QStringLiteral("channels")].toArray();
+  QJsonArray array_channels = object[QLatin1String("channels")].toArray();
 
   RadioChannelList channels;
   for (const QJsonValueRef value_channel : array_channels) {
     if (!value_channel.isObject()) continue;
     QJsonObject obj_channel = value_channel.toObject();
-    if (!obj_channel.contains(QStringLiteral("chan_name")) || !obj_channel.contains(QStringLiteral("streams"))) {
+    if (!obj_channel.contains(QLatin1String("chan_name")) || !obj_channel.contains(QLatin1String("streams"))) {
       continue;
     }
-    QString name = obj_channel[QStringLiteral("chan_name")].toString();
-    QJsonValue value_streams = obj_channel[QStringLiteral("streams")];
+    QString name = obj_channel[QLatin1String("chan_name")].toString();
+    QJsonValue value_streams = obj_channel[QLatin1String("streams")];
     if (!value_streams.isArray()) {
       continue;
     }
-    QJsonArray array_streams = obj_channel[QStringLiteral("streams")].toArray();
+    QJsonArray array_streams = obj_channel[QLatin1String("streams")].toArray();
     for (const QJsonValueRef value_stream : array_streams) {
       if (!value_stream.isObject()) continue;
       QJsonObject obj_stream = value_stream.toObject();
-      if (!obj_stream.contains(QStringLiteral("label")) || !obj_stream.contains(QStringLiteral("url"))) {
+      if (!obj_stream.contains(QLatin1String("label")) || !obj_stream.contains(QLatin1String("url"))) {
         continue;
       }
-      QString label = obj_stream[QStringLiteral("label")].toString();
-      QString url = obj_stream[QStringLiteral("url")].toString();
+      QString label = obj_stream[QLatin1String("label")].toString();
+      QString url = obj_stream[QLatin1String("url")].toString();
       if (!url.contains(QRegularExpression(QStringLiteral("^[0-9a-zA-Z]*:\\/\\/"), QRegularExpression::CaseInsensitiveOption))) {
         url.prepend(QStringLiteral("https://"));
       }

@@ -106,9 +106,9 @@ QByteArray QobuzBaseRequest::GetReplyData(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("status")) && json_obj.contains(QStringLiteral("code")) && json_obj.contains(QStringLiteral("message"))) {
-          int code = json_obj[QStringLiteral("code")].toInt();
-          QString message = json_obj[QStringLiteral("message")].toString();
+        if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("status")) && json_obj.contains(QLatin1String("code")) && json_obj.contains(QLatin1String("message"))) {
+          int code = json_obj[QLatin1String("code")].toInt();
+          QString message = json_obj[QLatin1String("message")].toString();
           error = QStringLiteral("%1 (%2)").arg(message).arg(code);
         }
       }
@@ -169,11 +169,11 @@ QJsonValue QobuzBaseRequest::ExtractItems(QByteArray &data) {
 
 QJsonValue QobuzBaseRequest::ExtractItems(QJsonObject &json_obj) {
 
-  if (!json_obj.contains(QStringLiteral("items"))) {
+  if (!json_obj.contains(QLatin1String("items"))) {
     Error(QStringLiteral("Json reply is missing items."), json_obj);
     return QJsonArray();
   }
-  QJsonValue json_items = json_obj[QStringLiteral("items")];
+  QJsonValue json_items = json_obj[QLatin1String("items")];
   return json_items;
 
 }

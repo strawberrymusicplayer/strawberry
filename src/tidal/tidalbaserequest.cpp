@@ -102,10 +102,10 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
       int sub_status = 0;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("status")) && json_obj.contains(QStringLiteral("userMessage"))) {
-          status = json_obj[QStringLiteral("status")].toInt();
-          sub_status = json_obj[QStringLiteral("subStatus")].toInt();
-          QString user_message = json_obj[QStringLiteral("userMessage")].toString();
+        if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("status")) && json_obj.contains(QLatin1String("userMessage"))) {
+          status = json_obj[QLatin1String("status")].toInt();
+          sub_status = json_obj[QLatin1String("subStatus")].toInt();
+          QString user_message = json_obj[QLatin1String("userMessage")].toString();
           error = QStringLiteral("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
@@ -185,11 +185,11 @@ QJsonValue TidalBaseRequest::ExtractItems(const QByteArray &data) {
 
 QJsonValue TidalBaseRequest::ExtractItems(const QJsonObject &json_obj) {
 
-  if (!json_obj.contains(QStringLiteral("items"))) {
+  if (!json_obj.contains(QLatin1String("items"))) {
     Error(QStringLiteral("Json reply is missing items."), json_obj);
     return QJsonArray();
   }
-  QJsonValue json_items = json_obj[QStringLiteral("items")];
+  QJsonValue json_items = json_obj[QLatin1String("items")];
   return json_items;
 
 }
@@ -198,7 +198,7 @@ QString TidalBaseRequest::ErrorsToHTML(const QStringList &errors) {
 
   QString error_html;
   for (const QString &error : errors) {
-    error_html += error + QStringLiteral("<br />");
+    error_html += error + QLatin1String("<br />");
   }
   return error_html;
 

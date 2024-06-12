@@ -155,9 +155,9 @@ QByteArray LastFMImport::GetReplyData(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (json_obj.contains(QStringLiteral("error")) && json_obj.contains(QStringLiteral("message"))) {
-          int error_code = json_obj[QStringLiteral("error")].toInt();
-          QString error_message = json_obj[QStringLiteral("message")].toString();
+        if (json_obj.contains(QLatin1String("error")) && json_obj.contains(QLatin1String("message"))) {
+          int error_code = json_obj[QLatin1String("error")].toInt();
+          QString error_message = json_obj[QLatin1String("message")].toString();
           error = QStringLiteral("%1 (%2)").arg(error_message).arg(error_code);
         }
       }
@@ -287,62 +287,62 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
     return;
   }
 
-  if (json_obj.contains(QStringLiteral("error")) && json_obj.contains(QStringLiteral("message"))) {
-    int error_code = json_obj[QStringLiteral("error")].toInt();
-    QString error_message = json_obj[QStringLiteral("message")].toString();
+  if (json_obj.contains(QLatin1String("error")) && json_obj.contains(QLatin1String("message"))) {
+    int error_code = json_obj[QLatin1String("error")].toInt();
+    QString error_message = json_obj[QLatin1String("message")].toString();
     QString error_reason = QStringLiteral("%1 (%2)").arg(error_message).arg(error_code);
     Error(error_reason);
     return;
   }
 
-  if (!json_obj.contains(QStringLiteral("recenttracks"))) {
+  if (!json_obj.contains(QLatin1String("recenttracks"))) {
     Error(QStringLiteral("JSON reply from server is missing recenttracks."), json_obj);
     return;
   }
 
-  if (!json_obj[QStringLiteral("recenttracks")].isObject()) {
+  if (!json_obj[QLatin1String("recenttracks")].isObject()) {
     Error(QStringLiteral("Failed to parse JSON: recenttracks is not an object!"), json_obj);
     return;
   }
-  json_obj = json_obj[QStringLiteral("recenttracks")].toObject();
+  json_obj = json_obj[QLatin1String("recenttracks")].toObject();
 
-  if (!json_obj.contains(QStringLiteral("@attr"))) {
+  if (!json_obj.contains(QLatin1String("@attr"))) {
     Error(QStringLiteral("JSON reply from server is missing @attr."), json_obj);
     return;
   }
 
-  if (!json_obj.contains(QStringLiteral("track"))) {
+  if (!json_obj.contains(QLatin1String("track"))) {
     Error(QStringLiteral("JSON reply from server is missing track."), json_obj);
     return;
   }
 
-  if (!json_obj[QStringLiteral("@attr")].isObject()) {
+  if (!json_obj[QLatin1String("@attr")].isObject()) {
     Error(QStringLiteral("Failed to parse JSON: @attr is not an object."), json_obj);
     return;
   }
 
-  if (!json_obj[QStringLiteral("track")].isArray()) {
+  if (!json_obj[QLatin1String("track")].isArray()) {
     Error(QStringLiteral("Failed to parse JSON: track is not an object."), json_obj);
     return;
   }
 
-  QJsonObject obj_attr = json_obj[QStringLiteral("@attr")].toObject();
+  QJsonObject obj_attr = json_obj[QLatin1String("@attr")].toObject();
 
-  if (!obj_attr.contains(QStringLiteral("page"))) {
+  if (!obj_attr.contains(QLatin1String("page"))) {
     Error(QStringLiteral("Failed to parse JSON: attr object is missing page."), json_obj);
     return;
   }
-  if (!obj_attr.contains(QStringLiteral("totalPages"))) {
+  if (!obj_attr.contains(QLatin1String("totalPages"))) {
     Error(QStringLiteral("Failed to parse JSON: attr object is missing totalPages."), json_obj);
     return;
   }
-  if (!obj_attr.contains(QStringLiteral("total"))) {
+  if (!obj_attr.contains(QLatin1String("total"))) {
     Error(QStringLiteral("Failed to parse JSON: attr object is missing total."), json_obj);
     return;
   }
 
-  int total = obj_attr[QStringLiteral("total")].toString().toInt();
-  int pages = obj_attr[QStringLiteral("totalPages")].toString().toInt();
+  int total = obj_attr[QLatin1String("total")].toString().toInt();
+  int pages = obj_attr[QLatin1String("totalPages")].toString().toInt();
 
   if (page == 0) {
     lastplayed_total_ = total;
@@ -351,7 +351,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
   }
   else {
 
-    QJsonArray array_track = json_obj[QStringLiteral("track")].toArray();
+    QJsonArray array_track = json_obj[QLatin1String("track")].toArray();
 
     for (const QJsonValueRef value_track : array_track) {
 
@@ -361,29 +361,29 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
         continue;
       }
       QJsonObject obj_track = value_track.toObject();
-      if (!obj_track.contains(QStringLiteral("artist")) ||
-          !obj_track.contains(QStringLiteral("album")) ||
-          !obj_track.contains(QStringLiteral("name")) ||
-          !obj_track.contains(QStringLiteral("date")) ||
-          !obj_track[QStringLiteral("artist")].isObject() ||
-          !obj_track[QStringLiteral("album")].isObject() ||
-          !obj_track[QStringLiteral("date")].isObject()
+      if (!obj_track.contains(QLatin1String("artist")) ||
+          !obj_track.contains(QLatin1String("album")) ||
+          !obj_track.contains(QLatin1String("name")) ||
+          !obj_track.contains(QLatin1String("date")) ||
+          !obj_track[QLatin1String("artist")].isObject() ||
+          !obj_track[QLatin1String("album")].isObject() ||
+          !obj_track[QLatin1String("date")].isObject()
       ) {
         continue;
       }
 
-      QJsonObject obj_artist = obj_track[QStringLiteral("artist")].toObject();
-      QJsonObject obj_album = obj_track[QStringLiteral("album")].toObject();
-      QJsonObject obj_date = obj_track[QStringLiteral("date")].toObject();
+      QJsonObject obj_artist = obj_track[QLatin1String("artist")].toObject();
+      QJsonObject obj_album = obj_track[QLatin1String("album")].toObject();
+      QJsonObject obj_date = obj_track[QLatin1String("date")].toObject();
 
-      if (!obj_artist.contains(QStringLiteral("#text")) || !obj_album.contains(QStringLiteral("#text")) || !obj_date.contains(QStringLiteral("#text"))) {
+      if (!obj_artist.contains(QLatin1String("#text")) || !obj_album.contains(QLatin1String("#text")) || !obj_date.contains(QLatin1String("#text"))) {
         continue;
       }
 
-      QString artist = obj_artist[QStringLiteral("#text")].toString();
-      QString album = obj_album[QStringLiteral("#text")].toString();
-      QString date = obj_date[QStringLiteral("#text")].toString();
-      QString title = obj_track[QStringLiteral("name")].toString();
+      QString artist = obj_artist[QLatin1String("#text")].toString();
+      QString album = obj_album[QLatin1String("#text")].toString();
+      QString date = obj_date[QLatin1String("#text")].toString();
+      QString title = obj_track[QLatin1String("name")].toString();
       QDateTime datetime = QDateTime::fromString(date, QStringLiteral("dd MMM yyyy, hh:mm"));
       if (datetime.isValid()) {
         emit UpdateLastPlayed(artist, album, title, datetime.toSecsSinceEpoch());
@@ -450,62 +450,62 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
     return;
   }
 
-  if (json_obj.contains(QStringLiteral("error")) && json_obj.contains(QStringLiteral("message"))) {
-    int error_code = json_obj[QStringLiteral("error")].toInt();
-    QString error_message = json_obj[QStringLiteral("message")].toString();
+  if (json_obj.contains(QLatin1String("error")) && json_obj.contains(QLatin1String("message"))) {
+    int error_code = json_obj[QLatin1String("error")].toInt();
+    QString error_message = json_obj[QLatin1String("message")].toString();
     QString error_reason = QStringLiteral("%1 (%2)").arg(error_message).arg(error_code);
     Error(error_reason);
     return;
   }
 
-  if (!json_obj.contains(QStringLiteral("toptracks"))) {
+  if (!json_obj.contains(QLatin1String("toptracks"))) {
     Error(QStringLiteral("JSON reply from server is missing toptracks."), json_obj);
     return;
   }
 
-  if (!json_obj[QStringLiteral("toptracks")].isObject()) {
+  if (!json_obj[QLatin1String("toptracks")].isObject()) {
     Error(QStringLiteral("Failed to parse JSON: toptracks is not an object!"), json_obj);
     return;
   }
-  json_obj = json_obj[QStringLiteral("toptracks")].toObject();
+  json_obj = json_obj[QLatin1String("toptracks")].toObject();
 
-  if (!json_obj.contains(QStringLiteral("@attr"))) {
+  if (!json_obj.contains(QLatin1String("@attr"))) {
     Error(QStringLiteral("JSON reply from server is missing @attr."), json_obj);
     return;
   }
 
-  if (!json_obj.contains(QStringLiteral("track"))) {
+  if (!json_obj.contains(QLatin1String("track"))) {
     Error(QStringLiteral("JSON reply from server is missing track."), json_obj);
     return;
   }
 
-  if (!json_obj[QStringLiteral("@attr")].isObject()) {
+  if (!json_obj[QLatin1String("@attr")].isObject()) {
     Error(QStringLiteral("Failed to parse JSON: @attr is not an object."), json_obj);
     return;
   }
 
-  if (!json_obj[QStringLiteral("track")].isArray()) {
+  if (!json_obj[QLatin1String("track")].isArray()) {
     Error(QStringLiteral("Failed to parse JSON: track is not an object."), json_obj);
     return;
   }
 
-  QJsonObject obj_attr = json_obj[QStringLiteral("@attr")].toObject();
+  QJsonObject obj_attr = json_obj[QLatin1String("@attr")].toObject();
 
-  if (!obj_attr.contains(QStringLiteral("page"))) {
+  if (!obj_attr.contains(QLatin1String("page"))) {
     Error(QStringLiteral("Failed to parse JSON: attr object is missing page."), json_obj);
     return;
   }
-  if (!obj_attr.contains(QStringLiteral("totalPages"))) {
+  if (!obj_attr.contains(QLatin1String("totalPages"))) {
     Error(QStringLiteral("Failed to parse JSON: attr object is missing page."), json_obj);
     return;
   }
-  if (!obj_attr.contains(QStringLiteral("total"))) {
+  if (!obj_attr.contains(QLatin1String("total"))) {
     Error(QStringLiteral("Failed to parse JSON: attr object is missing total."), json_obj);
     return;
   }
 
-  int pages = obj_attr[QStringLiteral("totalPages")].toString().toInt();
-  int total = obj_attr[QStringLiteral("total")].toString().toInt();
+  int pages = obj_attr[QLatin1String("totalPages")].toString().toInt();
+  int total = obj_attr[QLatin1String("total")].toString().toInt();
 
   if (page == 0) {
     playcount_total_ = total;
@@ -514,7 +514,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
   }
   else {
 
-    QJsonArray array_track = json_obj[QStringLiteral("track")].toArray();
+    QJsonArray array_track = json_obj[QLatin1String("track")].toArray();
     for (QJsonArray::iterator it = array_track.begin(); it != array_track.end(); ++it) {
 
       const QJsonValue &value_track = *it;
@@ -526,22 +526,22 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
       }
 
       QJsonObject obj_track = value_track.toObject();
-      if (!obj_track.contains(QStringLiteral("artist")) ||
-          !obj_track.contains(QStringLiteral("name")) ||
-          !obj_track.contains(QStringLiteral("playcount")) ||
-          !obj_track[QStringLiteral("artist")].isObject()
+      if (!obj_track.contains(QLatin1String("artist")) ||
+          !obj_track.contains(QLatin1String("name")) ||
+          !obj_track.contains(QLatin1String("playcount")) ||
+          !obj_track[QLatin1String("artist")].isObject()
       ) {
         continue;
       }
 
-      QJsonObject obj_artist = obj_track[QStringLiteral("artist")].toObject();
-      if (!obj_artist.contains(QStringLiteral("name"))) {
+      QJsonObject obj_artist = obj_track[QLatin1String("artist")].toObject();
+      if (!obj_artist.contains(QLatin1String("name"))) {
         continue;
       }
 
-      QString artist = obj_artist[QStringLiteral("name")].toString();
-      QString title = obj_track[QStringLiteral("name")].toString();
-      int playcount = obj_track[QStringLiteral("playcount")].toString().toInt();
+      QString artist = obj_artist[QLatin1String("name")].toString();
+      QString title = obj_track[QLatin1String("name")].toString();
+      int playcount = obj_track[QLatin1String("playcount")].toString().toInt();
 
       if (playcount <= 0) continue;
 

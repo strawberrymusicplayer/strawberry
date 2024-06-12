@@ -511,7 +511,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
     else {
       QString ext_part(ExtensionPart(child));
       QString dir_part(DirectoryPart(child));
-      if (kIgnoredExtensions.contains(child_info.suffix(), Qt::CaseInsensitive) || child_info.baseName() == QStringLiteral("qt_temp")) {
+      if (kIgnoredExtensions.contains(child_info.suffix(), Qt::CaseInsensitive) || child_info.baseName() == QLatin1String("qt_temp")) {
         t->AddToProgress(1);
       }
       else if (sValidImages.contains(ext_part)) {
@@ -613,7 +613,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
           Chromaprinter chromaprinter(file);
           fingerprint = chromaprinter.CreateFingerprint();
           if (fingerprint.isEmpty()) {
-            fingerprint = QStringLiteral("NONE");
+            fingerprint = QLatin1String("NONE");
           }
         }
 #endif
@@ -640,11 +640,11 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
         Chromaprinter chromaprinter(file);
         fingerprint = chromaprinter.CreateFingerprint();
         if (fingerprint.isEmpty()) {
-          fingerprint = QStringLiteral("NONE");
+          fingerprint = QLatin1String("NONE");
         }
       }
 #endif
-      if (song_tracking_ && !fingerprint.isEmpty() && fingerprint != QStringLiteral("NONE") && FindSongsByFingerprint(file, fingerprint, &matching_songs)) {
+      if (song_tracking_ && !fingerprint.isEmpty() && fingerprint != QLatin1String("NONE") && FindSongsByFingerprint(file, fingerprint, &matching_songs)) {
 
         // The song is in the database and still on disk.
         // Check the mtime to see if it's been changed since it was added.
@@ -936,7 +936,7 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
       qLog(Debug) << "Song" << file << "unchanged.";
     }
     else {
-      qLog(Debug) << "Song" << file << changes.join(QStringLiteral(", ")) << "changed.";
+      qLog(Debug) << "Song" << file << changes.join(QLatin1String(", ")) << "changed.";
     }
 
   }

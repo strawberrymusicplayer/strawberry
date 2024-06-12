@@ -100,10 +100,10 @@ QString PlaylistParser::filters(const Type type) const {
   }
 
   if (type == Type::Load) {
-    filters.prepend(tr("All playlists (%1)").arg(all_extensions.join(QStringLiteral(" "))));
+    filters.prepend(tr("All playlists (%1)").arg(all_extensions.join(QLatin1Char(' '))));
   }
 
-  return filters.join(QStringLiteral(";;"));
+  return filters.join(QLatin1String(";;"));
 
 }
 
@@ -118,7 +118,7 @@ QString PlaylistParser::FilterForParser(const ParserBase *parser, QStringList *a
 
   if (all_extensions) *all_extensions << extensions;
 
-  return tr("%1 playlists (%2)").arg(parser->name(), extensions.join(QStringLiteral(" ")));
+  return tr("%1 playlists (%2)").arg(parser->name(), extensions.join(QLatin1Char(' ')));
 
 }
 

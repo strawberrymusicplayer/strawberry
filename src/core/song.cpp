@@ -144,10 +144,10 @@ const QStringList Song::kColumns = QStringList() << QStringLiteral("title")
 
 const QStringList Song::kRowIdColumns = QStringList() << QStringLiteral("ROWID") << kColumns;
 
-const QString Song::kColumnSpec = kColumns.join(QStringLiteral(", "));
-const QString Song::kRowIdColumnSpec = kRowIdColumns.join(QStringLiteral(", "));
-const QString Song::kBindSpec = Utilities::Prepend(QStringLiteral(":"), kColumns).join(QStringLiteral(", "));
-const QString Song::kUpdateSpec = Utilities::Updateify(kColumns).join(QStringLiteral(", "));
+const QString Song::kColumnSpec = kColumns.join(QLatin1String(", "));
+const QString Song::kRowIdColumnSpec = kRowIdColumns.join(QLatin1String(", "));
+const QString Song::kBindSpec = Utilities::Prepend(QStringLiteral(":"), kColumns).join(QLatin1String(", "));
+const QString Song::kUpdateSpec = Utilities::Updateify(kColumns).join(QLatin1String(", "));
 
 const QStringList Song::kTextSearchColumns = QStringList()      << QStringLiteral("title")
                                                                 << QStringLiteral("album")
@@ -711,7 +711,7 @@ int Song::ColumnIndex(const QString &field) {
 }
 
 QString Song::JoinSpec(const QString &table) {
-  return Utilities::Prepend(table + QLatin1Char('.'), kRowIdColumns).join(QStringLiteral(", "));
+  return Utilities::Prepend(table + QLatin1Char('.'), kRowIdColumns).join(QLatin1String(", "));
 }
 
 QString Song::PrettyTitle() const {

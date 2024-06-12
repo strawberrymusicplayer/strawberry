@@ -105,15 +105,15 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
       QXmlStreamReader::TokenType type = reader.readNext();
       QString name = reader.name().toString();
       if (type == QXmlStreamReader::StartElement) {
-        if (name == QStringLiteral("result")) {
+        if (name == QLatin1String("result")) {
           status.clear();
           result = LyricsSearchResult();
         }
-        else if (name == QStringLiteral("status")) {
+        else if (name == QLatin1String("status")) {
           status = reader.readElementText();
         }
-        else if (name == QStringLiteral("response")) {
-          if (status == QStringLiteral("OK")) {
+        else if (name == QLatin1String("response")) {
+          if (status == QLatin1String("OK")) {
             result.lyrics = reader.readElementText();
           }
           else {
@@ -123,7 +123,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
         }
       }
       else if (type == QXmlStreamReader::EndElement) {
-        if (name == QStringLiteral("result")) {
+        if (name == QLatin1String("result")) {
           if (!result.lyrics.isEmpty()) {
             result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
             results << result;

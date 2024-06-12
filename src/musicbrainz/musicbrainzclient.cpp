@@ -95,8 +95,8 @@ QByteArray MusicBrainzClient::GetReplyData(QNetworkReply *reply, QString &error)
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains(QStringLiteral("error"))) {
-          error = json_obj[QStringLiteral("error")].toString();
+        if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("error"))) {
+          error = json_obj[QLatin1String("error")].toString();
         }
       }
       if (error.isEmpty()) {
@@ -212,7 +212,7 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, cons
     QXmlStreamReader reader(data);
     ResultList res;
     while (!reader.atEnd()) {
-      if (reader.readNext() == QXmlStreamReader::StartElement && reader.name().toString() == QStringLiteral("recording")) {
+      if (reader.readNext() == QXmlStreamReader::StartElement && reader.name().toString() == QLatin1String("recording")) {
         ResultList tracks = ParseTrack(&reader);
         for (const Result &track : tracks) {
           if (!track.title_.isEmpty()) {
@@ -267,20 +267,20 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
     QXmlStreamReader::TokenType type = reader.readNext();
     if (type == QXmlStreamReader::StartElement) {
       QString name = reader.name().toString();
-      if (name == QStringLiteral("title")) {
+      if (name == QLatin1String("title")) {
         album = reader.readElementText();
       }
-      else if (name == QStringLiteral("date")) {
+      else if (name == QLatin1String("date")) {
         QRegularExpression regex(QString::fromLatin1(kDateRegex));
         QRegularExpressionMatch re_match = regex.match(reader.readElementText());
         if (re_match.capturedStart() == 0) {
           year = re_match.captured(0).toInt();
         }
       }
-      else if (name == QStringLiteral("artist-credit")) {
+      else if (name == QLatin1String("artist-credit")) {
         ParseArtist(&reader, &artist);
       }
-      else if (name == QStringLiteral("medium-list")) {
+      else if (name == QLatin1String("medium-list")) {
         break;
       }
     }
@@ -289,7 +289,7 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
   while (!reader.atEnd()) {
     QXmlStreamReader::TokenType token = reader.readNext();
     QString name = reader.name().toString();
-    if (token == QXmlStreamReader::StartElement && name == QStringLiteral("medium")) {
+    if (token == QXmlStreamReader::StartElement && name == QLatin1String("medium")) {
       // Get the medium with a matching discid.
       if (MediumHasDiscid(discid, &reader)) {
         ResultList tracks = ParseMedium(&reader);
@@ -303,7 +303,7 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
         Utilities::ConsumeCurrentElement(&reader);
       }
     }
-    else if (token == QXmlStreamReader::EndElement && name == QStringLiteral("medium-list")) {
+    else if (token == QXmlStreamReader::EndElement && name == QLatin1String("medium-list")) {
       break;
     }
   }
@@ -325,10 +325,10 @@ bool MusicBrainzClient::MediumHasDiscid(const QString &discid, QXmlStreamReader 
     QXmlStreamReader::TokenType type = reader->readNext();
     QString name = reader->name().toString();
 
-    if (type == QXmlStreamReader::StartElement && name == QStringLiteral("disc") && reader->attributes().value(QStringLiteral("id")).toString() == discid) {
+    if (type == QXmlStreamReader::StartElement && name == QLatin1String("disc") && reader->attributes().value(QStringLiteral("id")).toString() == discid) {
       return true;
     }
-    else if (type == QXmlStreamReader::EndElement && name == QStringLiteral("disc-list")) {
+    else if (type == QXmlStreamReader::EndElement && name == QLatin1String("disc-list")) {
       return false;
     }
   }
@@ -345,14 +345,14 @@ MusicBrainzClient::ResultList MusicBrainzClient::ParseMedium(QXmlStreamReader *r
     QString name = reader->name().toString();
 
     if (type == QXmlStreamReader::StartElement) {
-      if (name == QStringLiteral("track")) {
+      if (name == QLatin1String("track")) {
         Result result;
         result = ParseTrackFromDisc(reader);
         ret << result;
       }
     }
 
-    if (type == QXmlStreamReader::EndElement && name == QStringLiteral("track-list")) {
+    if (type == QXmlStreamReader::EndElement && name == QLatin1String("track-list")) {
       break;
     }
   }
@@ -370,18 +370,18 @@ MusicBrainzClient::Result MusicBrainzClient::ParseTrackFromDisc(QXmlStreamReader
     QString name = reader->name().toString();
 
     if (type == QXmlStreamReader::StartElement) {
-      if (name == QStringLiteral("position")) {
+      if (name == QLatin1String("position")) {
         result.track_ = reader->readElementText().toInt();
       }
-      else if (name == QStringLiteral("length")) {
+      else if (name == QLatin1String("length")) {
         result.duration_msec_ = reader->readElementText().toInt();
       }
-      else if (name == QStringLiteral("title")) {
+      else if (name == QLatin1String("title")) {
         result.title_ = reader->readElementText();
       }
     }
 
-    if (type == QXmlStreamReader::EndElement && name == QStringLiteral("track")) {
+    if (type == QXmlStreamReader::EndElement && name == QLatin1String("track")) {
       break;
     }
   }
@@ -400,21 +400,21 @@ MusicBrainzClient::ResultList MusicBrainzClient::ParseTrack(QXmlStreamReader *re
 
     if (type == QXmlStreamReader::StartElement) {
 
-      if (name == QStringLiteral("title")) {
+      if (name == QLatin1String("title")) {
         result.title_ = reader->readElementText();
       }
-      else if (name == QStringLiteral("length")) {
+      else if (name == QLatin1String("length")) {
         result.duration_msec_ = reader->readElementText().toInt();
       }
-      else if (name == QStringLiteral("artist-credit")) {
+      else if (name == QLatin1String("artist-credit")) {
         ParseArtist(reader, &result.artist_);
       }
-      else if (name == QStringLiteral("release")) {
+      else if (name == QLatin1String("release")) {
         releases << ParseRelease(reader);
       }
     }
 
-    if (type == QXmlStreamReader::EndElement && name == QStringLiteral("recording")) {
+    if (type == QXmlStreamReader::EndElement && name == QLatin1String("recording")) {
       break;
     }
   }
@@ -441,15 +441,15 @@ void MusicBrainzClient::ParseArtist(QXmlStreamReader *reader, QString *artist) {
   while (!reader->atEnd()) {
     QXmlStreamReader::TokenType type = reader->readNext();
     QString name = reader->name().toString();
-    if (type == QXmlStreamReader::StartElement && name == QStringLiteral("name-credit")) {
+    if (type == QXmlStreamReader::StartElement && name == QLatin1String("name-credit")) {
       join_phrase = reader->attributes().value(QStringLiteral("joinphrase")).toString();
     }
 
-    if (type == QXmlStreamReader::StartElement && name == QStringLiteral("name")) {
+    if (type == QXmlStreamReader::StartElement && name == QLatin1String("name")) {
       *artist += reader->readElementText() + join_phrase;
     }
 
-    if (type == QXmlStreamReader::EndElement && name == QStringLiteral("artist-credit")) {
+    if (type == QXmlStreamReader::EndElement && name == QLatin1String("artist-credit")) {
       return;
     }
   }
@@ -464,26 +464,26 @@ MusicBrainzClient::Release MusicBrainzClient::ParseRelease(QXmlStreamReader *rea
     QString name = reader->name().toString();
 
     if (type == QXmlStreamReader::StartElement) {
-      if (name == QStringLiteral("title")) {
+      if (name == QLatin1String("title")) {
         ret.album_ = reader->readElementText();
       }
-      else if (name == QStringLiteral("status")) {
+      else if (name == QLatin1String("status")) {
         ret.SetStatusFromString(reader->readElementText());
       }
-      else if (name == QStringLiteral("date")) {
+      else if (name == QLatin1String("date")) {
         QRegularExpression regex(QString::fromLatin1(kDateRegex));
         QRegularExpressionMatch re_match = regex.match(reader->readElementText());
         if (re_match.capturedStart() == 0) {
           ret.year_ = re_match.captured(0).toInt();
         }
       }
-      else if (name == QStringLiteral("track-list")) {
+      else if (name == QLatin1String("track-list")) {
         ret.track_ = reader->attributes().value(QStringLiteral("offset")).toString().toInt() + 1;
         Utilities::ConsumeCurrentElement(reader);
       }
     }
 
-    if (type == QXmlStreamReader::EndElement && name == QStringLiteral("release")) {
+    if (type == QXmlStreamReader::EndElement && name == QLatin1String("release")) {
       break;
     }
   }

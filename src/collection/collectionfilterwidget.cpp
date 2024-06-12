@@ -77,8 +77,8 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
   ui_->setupUi(this);
 
-  QString available_fields = Song::kTextSearchColumns.join(QStringLiteral(", "));
-  available_fields += QStringLiteral(", ") + Song::kNumericalSearchColumns.join(QStringLiteral(", "));
+  QString available_fields = Song::kTextSearchColumns.join(QLatin1String(", "));
+  available_fields += QLatin1String(", ") + Song::kNumericalSearchColumns.join(QLatin1String(", "));
 
   ui_->search_field->setToolTip(
     QStringLiteral("<html><head/><body><p>") +

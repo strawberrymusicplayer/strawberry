@@ -629,7 +629,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
       url_strings << url.toString();
     }
 
-    app_->AddError(tr("This type of device is not supported: %1").arg(url_strings.join(QStringLiteral(", "))));
+    app_->AddError(tr("This type of device is not supported: %1").arg(url_strings.join(QLatin1String(", "))));
     return ret;
   }
 
