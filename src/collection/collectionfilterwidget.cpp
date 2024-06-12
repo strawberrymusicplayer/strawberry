@@ -515,6 +515,9 @@ void CollectionFilterWidget::keyReleaseEvent(QKeyEvent *e) {
       ui_->search_field->clear();
       e->accept();
       break;
+
+    default:
+      break;
   }
 
   QWidget::keyReleaseEvent(e);

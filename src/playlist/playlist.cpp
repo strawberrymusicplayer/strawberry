@@ -342,6 +342,8 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
 
         case Column_HasCUE:             return song.has_cue();
 
+        default: break;
+
       }
 
       return QVariant();

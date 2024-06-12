@@ -203,6 +203,9 @@ void PlaylistListContainer::RecursivelySetIcons(QStandardItem *parent) const {
       case PlaylistListModel::Type_Playlist:
         child->setIcon(model_->playlist_icon());
         break;
+
+      default:
+        break;
     }
   }
 
@@ -423,6 +426,9 @@ void PlaylistListContainer::Delete() {
         RecursivelyFindPlaylists(idx, &ids);
         folders_to_delete << idx;
         break;
+
+      default:
+        break;
     }
   }
 
@@ -460,6 +466,8 @@ void PlaylistListContainer::RecursivelyFindPlaylists(const QModelIndex &parent, 
       for (int i = 0; i < parent.model()->rowCount(parent); ++i) {
         RecursivelyFindPlaylists(parent.model()->index(i, 0, parent), ids);
       }
+      break;
+    default:
       break;
   }
 

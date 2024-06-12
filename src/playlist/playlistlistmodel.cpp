@@ -117,6 +117,9 @@ void PlaylistListModel::AddRowItem(QStandardItem *item, const QString &parent_pa
         AddRowItem(child_item, parent_path);
       }
       break;
+
+    default:
+      break;
   }
 
 }
@@ -138,6 +141,9 @@ void PlaylistListModel::RowsAboutToBeRemoved(const QModelIndex &parent, const in
       }
 
       case Type_Folder:
+        break;
+
+      default:
         break;
     }
   }
@@ -227,6 +233,9 @@ bool PlaylistListModel::setData(const QModelIndex &idx, const QVariant &value, i
     case Type_Folder:
       // Walk all the children and modify their paths.
       UpdatePathsRecursive(idx);
+      break;
+
+    default:
       break;
   }
 

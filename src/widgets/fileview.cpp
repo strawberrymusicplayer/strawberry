@@ -300,6 +300,8 @@ void FileView::keyPressEvent(QKeyEvent *e) {
     case Qt::Key_Return:
       ItemDoubleClick(ui_->list->currentIndex());
       break;
+    default:
+      break;
   }
 
   QWidget::keyPressEvent(e);

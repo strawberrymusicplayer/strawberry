@@ -363,6 +363,8 @@ void CollectionView::keyPressEvent(QKeyEvent *e) {
       }
       e->accept();
       break;
+    default:
+      break;
   }
 
   AutoExpandingTreeView::keyPressEvent(e);
@@ -619,21 +621,17 @@ void CollectionView::SearchForThis() {
           search = QStringLiteral("artist:%1").arg(item->metadata.artist());
           break;
         case CollectionModel::GroupBy::Album:
-          search = QStringLiteral("album:%1").arg(item->metadata.album());
-          break;
         case CollectionModel::GroupBy::AlbumDisc:
           search = QStringLiteral("album:%1").arg(item->metadata.album());
           break;
         case CollectionModel::GroupBy::YearAlbum:
-        case CollectionModel::GroupBy::YearAlbumDisc:{
+        case CollectionModel::GroupBy::YearAlbumDisc:
           search = QStringLiteral("year:%1 album:%2").arg(item->metadata.year()).arg(item->metadata.album());
           break;
-        }
         case CollectionModel::GroupBy::OriginalYearAlbum:
-        case CollectionModel::GroupBy::OriginalYearAlbumDisc:{
+        case CollectionModel::GroupBy::OriginalYearAlbumDisc:
           search = QStringLiteral("year:%1 album:%2").arg(item->metadata.effective_originalyear()).arg(item->metadata.album());
           break;
-        }
         case CollectionModel::GroupBy::Year:
           search = QStringLiteral("year:%1").arg(item->metadata.year());
           break;
