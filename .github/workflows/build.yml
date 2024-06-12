@@ -1185,21 +1185,6 @@ jobs:
         working-directory: downloads
         run: tar -C /c -xf strawberry-msvc-${{matrix.arch}}-${{matrix.buildtype}}.tar.xz
 
-      - name: Download Windows MSVC dependencies (debug)
-        if: matrix.buildtype == 'release'
-        shell: cmd
-        working-directory: downloads
-        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-msvc-dependencies/releases/latest/download/strawberry-msvc-${{matrix.arch}}-debug.tar.xz
-
-      - name: Use protoc from debug
-        if: matrix.buildtype == 'release'
-        shell: bash
-        working-directory: downloads
-        run: |
-          mv -v /c/strawberry_msvc_${{matrix.arch}}_${{matrix.buildtype}}/bin/abseil_dll.dll /c/strawberry_msvc_${{matrix.arch}}_${{matrix.buildtype}}/bin/abseil_dll.dll_
-          tar -xvf strawberry-msvc-${{matrix.arch}}-debug.tar.xz strawberry_msvc_${{matrix.arch}}_debug/bin/{libprotobufd.dll,libprotocd.dll,protoc.exe,abseil_dll.dll,zlibd.dll}
-          cp -v strawberry_msvc_${{matrix.arch}}_debug/bin/{libprotobufd.dll,libprotocd.dll,protoc.exe,abseil_dll.dll,zlibd.dll} /c/strawberry_msvc_${{matrix.arch}}_${{matrix.buildtype}}/bin/
-
       - name: Update PATH
         run: echo "${{env.prefix_path_backslash}}\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
@@ -1311,11 +1296,6 @@ jobs:
         env:
           CL: "/MP"
         run: cmake --build build --config "${{env.cmake_buildtype}}" --parallel 4
-
-      - name: Move back abseil dll
-        if: matrix.buildtype == 'release'
-        shell: bash
-        run: mv -v /c/strawberry_msvc_${{matrix.arch}}_${{matrix.buildtype}}/bin/abseil_dll.dll_ /c/strawberry_msvc_${{matrix.arch}}_${{matrix.buildtype}}/bin/abseil_dll.dll
 
       - name: Copy extra binaries
         shell: cmd
