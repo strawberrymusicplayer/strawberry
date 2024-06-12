@@ -66,7 +66,7 @@
 #  include "dbus/metatypes.h"
 #endif
 
-#include "internet/internetsearchview.h"
+#include "streaming/streamingsearchview.h"
 
 #include "smartplaylists/playlistgenerator_fwd.h"
 
@@ -147,8 +147,8 @@ void RegisterMetaTypes() {
   qDBusRegisterMetaType<ManagedObjectList>();
 #endif
 
-  qRegisterMetaType<InternetSearchView::Result>("InternetSearchView::Result");
-  qRegisterMetaType<InternetSearchView::ResultList>("InternetSearchView::ResultList");
+  qRegisterMetaType<StreamingSearchView::Result>("StreamingSearchView::Result");
+  qRegisterMetaType<StreamingSearchView::ResultList>("StreamingSearchView::ResultList");
 
   qRegisterMetaType<RadioChannel>("RadioChannel");
   qRegisterMetaType<RadioChannelList>("RadioChannelList");

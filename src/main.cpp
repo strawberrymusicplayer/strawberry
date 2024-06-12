@@ -231,7 +231,7 @@ int main(int argc, char *argv[]) {
     if (QApplication::style()) qLog(Debug) << "Style:" << QApplication::style()->objectName();
   }
 
-  // Set the permissions on the config file on Unix - it can contain passwords for internet services, so it's important that other users can't read it.
+  // Set the permissions on the config file on Unix - it can contain passwords for streaming services, so it's important that other users can't read it.
   // On Windows these are stored in the registry instead.
 #ifdef Q_OS_UNIX
   {

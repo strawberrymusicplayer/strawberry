@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef INTERNETSEARCHVIEW_H
-#define INTERNETSEARCHVIEW_H
+#ifndef STREAMINGSEARCHVIEW_H
+#define STREAMINGSEARCHVIEW_H
 
 #include "config.h"
 
@@ -59,16 +59,16 @@ class QTimerEvent;
 class Application;
 class MimeData;
 class GroupByDialog;
-class InternetService;
-class InternetSearchModel;
-class Ui_InternetSearchView;
+class StreamingService;
+class StreamingSearchModel;
+class Ui_StreamingSearchView;
 
-class InternetSearchView : public QWidget {
+class StreamingSearchView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit InternetSearchView(QWidget *parent = nullptr);
-  ~InternetSearchView() override;
+  explicit StreamingSearchView(QWidget *parent = nullptr);
+  ~StreamingSearchView() override;
 
   enum class SearchType {
     Artists = 1,
@@ -81,7 +81,7 @@ class InternetSearchView : public QWidget {
   };
   using ResultList = QList<Result>;
 
-  void Init(Application *app, SharedPtr<InternetService> service);
+  void Init(Application *app, SharedPtr<StreamingService> service);
 
   bool SearchFieldHasFocus() const;
   void FocusSearchField();
@@ -151,7 +151,7 @@ class InternetSearchView : public QWidget {
   void UpdateStatus(const int service_id, const QString &text);
   void ProgressSetMaximum(const int service_id, const int max);
   void UpdateProgress(const int service_id, const int progress);
-  void AddResults(const int service_id, const InternetSearchView::ResultList &results);
+  void AddResults(const int service_id, const StreamingSearchView::ResultList &results);
 
   void FocusOnFilter(QKeyEvent *e);
 
@@ -183,8 +183,8 @@ class InternetSearchView : public QWidget {
 
  private:
   Application *app_;
-  SharedPtr<InternetService> service_;
-  Ui_InternetSearchView *ui_;
+  SharedPtr<StreamingService> service_;
+  Ui_StreamingSearchView *ui_;
   ScopedPtr<GroupByDialog> group_by_dialog_;
 
   QMenu *context_menu_;
@@ -194,9 +194,9 @@ class InternetSearchView : public QWidget {
   // Like graphics APIs have a front buffer and a back buffer, there's a front model and a back model
   // The front model is the one that's shown in the UI and the back model is the one that lies in wait.
   // current_model_ will point to either the front or the back model.
-  InternetSearchModel *front_model_;
-  InternetSearchModel *back_model_;
-  InternetSearchModel *current_model_;
+  StreamingSearchModel *front_model_;
+  StreamingSearchModel *back_model_;
+  StreamingSearchModel *current_model_;
 
   QSortFilterProxyModel *front_proxy_;
   QSortFilterProxyModel *back_proxy_;
@@ -215,7 +215,7 @@ class InternetSearchView : public QWidget {
 
   QMap<quint64, QPair<QModelIndex, QString>> cover_loader_tasks_;
 };
-Q_DECLARE_METATYPE(InternetSearchView::Result)
-Q_DECLARE_METATYPE(InternetSearchView::ResultList)
+Q_DECLARE_METATYPE(StreamingSearchView::Result)
+Q_DECLARE_METATYPE(StreamingSearchView::ResultList)
 
-#endif  // INTERNETSEARCHVIEW_H
+#endif  // STREAMINGSEARCHVIEW_H

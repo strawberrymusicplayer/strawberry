@@ -35,22 +35,22 @@
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilter.h"
-#include "internetservice.h"
-#include "internetsongsview.h"
-#include "internetcollectionview.h"
-#include "ui_internetcollectionviewcontainer.h"
+#include "streamingservice.h"
+#include "streamingsongsview.h"
+#include "streamingcollectionview.h"
+#include "ui_streamingcollectionviewcontainer.h"
 
-InternetSongsView::InternetSongsView(Application *app, InternetServicePtr service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
+StreamingSongsView::StreamingSongsView(Application *app, StreamingServicePtr service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
     : QWidget(parent),
       app_(app),
       service_(service),
       settings_group_(settings_group),
       settings_page_(settings_page),
-      ui_(new Ui_InternetCollectionViewContainer) {
+      ui_(new Ui_StreamingCollectionViewContainer) {
 
   ui_->setupUi(this);
 
-  ui_->stacked->setCurrentWidget(ui_->internetcollection_page);
+  ui_->stacked->setCurrentWidget(ui_->streamingcollection_page);
   ui_->view->Init(app_, service_->songs_collection_backend(), service_->songs_collection_model(), false);
   ui_->view->setModel(service_->songs_collection_filter_model());
   ui_->view->SetFilter(ui_->filter_widget);
@@ -58,45 +58,45 @@ InternetSongsView::InternetSongsView(Application *app, InternetServicePtr servic
   ui_->filter_widget->Init(service_->songs_collection_model(), service_->songs_collection_filter_model());
 
   QAction *action_configure = new QAction(IconLoader::Load(QStringLiteral("configure")), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this);
-  QObject::connect(action_configure, &QAction::triggered, this, &InternetSongsView::OpenSettingsDialog);
+  QObject::connect(action_configure, &QAction::triggered, this, &StreamingSongsView::OpenSettingsDialog);
   ui_->filter_widget->AddMenuAction(action_configure);
 
-  QObject::connect(ui_->view, &InternetCollectionView::GetSongs, this, &InternetSongsView::GetSongs);
-  QObject::connect(ui_->view, &InternetCollectionView::RemoveSongs, &*service_, &InternetService::RemoveSongsByList);
+  QObject::connect(ui_->view, &StreamingCollectionView::GetSongs, this, &StreamingSongsView::GetSongs);
+  QObject::connect(ui_->view, &StreamingCollectionView::RemoveSongs, &*service_, &StreamingService::RemoveSongsByList);
 
-  QObject::connect(ui_->refresh, &QPushButton::clicked, this, &InternetSongsView::GetSongs);
-  QObject::connect(ui_->close, &QPushButton::clicked, this, &InternetSongsView::AbortGetSongs);
-  QObject::connect(ui_->abort, &QPushButton::clicked, this, &InternetSongsView::AbortGetSongs);
-  QObject::connect(&*service_, &InternetService::SongsResults, this, &InternetSongsView::SongsFinished);
-  QObject::connect(&*service_, &InternetService::SongsUpdateStatus, ui_->status, &QLabel::setText);
-  QObject::connect(&*service_, &InternetService::SongsProgressSetMaximum, ui_->progressbar, &QProgressBar::setMaximum);
-  QObject::connect(&*service_, &InternetService::SongsUpdateProgress, ui_->progressbar, &QProgressBar::setValue);
+  QObject::connect(ui_->refresh, &QPushButton::clicked, this, &StreamingSongsView::GetSongs);
+  QObject::connect(ui_->close, &QPushButton::clicked, this, &StreamingSongsView::AbortGetSongs);
+  QObject::connect(ui_->abort, &QPushButton::clicked, this, &StreamingSongsView::AbortGetSongs);
+  QObject::connect(&*service_, &StreamingService::SongsResults, this, &StreamingSongsView::SongsFinished);
+  QObject::connect(&*service_, &StreamingService::SongsUpdateStatus, ui_->status, &QLabel::setText);
+  QObject::connect(&*service_, &StreamingService::SongsProgressSetMaximum, ui_->progressbar, &QProgressBar::setMaximum);
+  QObject::connect(&*service_, &StreamingService::SongsUpdateProgress, ui_->progressbar, &QProgressBar::setValue);
 
-  QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalArtistCountUpdated, ui_->view, &InternetCollectionView::TotalArtistCountUpdated);
-  QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalAlbumCountUpdated, ui_->view, &InternetCollectionView::TotalAlbumCountUpdated);
-  QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalSongCountUpdated, ui_->view, &InternetCollectionView::TotalSongCountUpdated);
-  QObject::connect(service_->songs_collection_model(), &CollectionModel::modelAboutToBeReset, ui_->view, &InternetCollectionView::SaveFocus);
-  QObject::connect(service_->songs_collection_model(), &CollectionModel::modelReset, ui_->view, &InternetCollectionView::RestoreFocus);
+  QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalArtistCountUpdated, ui_->view, &StreamingCollectionView::TotalArtistCountUpdated);
+  QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalAlbumCountUpdated, ui_->view, &StreamingCollectionView::TotalAlbumCountUpdated);
+  QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalSongCountUpdated, ui_->view, &StreamingCollectionView::TotalSongCountUpdated);
+  QObject::connect(service_->songs_collection_model(), &CollectionModel::modelAboutToBeReset, ui_->view, &StreamingCollectionView::SaveFocus);
+  QObject::connect(service_->songs_collection_model(), &CollectionModel::modelReset, ui_->view, &StreamingCollectionView::RestoreFocus);
 
   ReloadSettings();
 
 }
 
-InternetSongsView::~InternetSongsView() { delete ui_; }
+StreamingSongsView::~StreamingSongsView() { delete ui_; }
 
-void InternetSongsView::ReloadSettings() {
+void StreamingSongsView::ReloadSettings() {
 
   ui_->filter_widget->ReloadSettings();
   ui_->view->ReloadSettings();
 
 }
 
-void InternetSongsView::OpenSettingsDialog() {
+void StreamingSongsView::OpenSettingsDialog() {
   app_->OpenSettingsDialogAtPage(service_->settings_page());
 }
 
 
-void InternetSongsView::GetSongs() {
+void StreamingSongsView::GetSongs() {
 
   if (!service_->authenticated() && service_->oauth()) {
     service_->ShowConfig();
@@ -112,16 +112,16 @@ void InternetSongsView::GetSongs() {
 
 }
 
-void InternetSongsView::AbortGetSongs() {
+void StreamingSongsView::AbortGetSongs() {
 
   service_->ResetSongsRequest();
   ui_->progressbar->setValue(0);
   ui_->status->clear();
-  ui_->stacked->setCurrentWidget(ui_->internetcollection_page);
+  ui_->stacked->setCurrentWidget(ui_->streamingcollection_page);
 
 }
 
-void InternetSongsView::SongsFinished(const SongMap &songs, const QString &error) {
+void StreamingSongsView::SongsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
     ui_->status->setText(error);
@@ -131,7 +131,7 @@ void InternetSongsView::SongsFinished(const SongMap &songs, const QString &error
     ui_->close->show();
   }
   else {
-    ui_->stacked->setCurrentWidget(ui_->internetcollection_page);
+    ui_->stacked->setCurrentWidget(ui_->streamingcollection_page);
     ui_->status->clear();
     service_->songs_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }

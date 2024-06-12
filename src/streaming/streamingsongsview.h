@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef INTERNETSONGSVIEW_H
-#define INTERNETSONGSVIEW_H
+#ifndef STREAMINGSONGSVIEW_H
+#define STREAMINGSONGSVIEW_H
 
 #include "config.h"
 
@@ -30,24 +30,24 @@
 #include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/settingsdialog.h"
-#include "ui_internetcollectionviewcontainer.h"
+#include "ui_streamingcollectionviewcontainer.h"
 
 class QContextMenuEvent;
 
 class Application;
-class InternetService;
-class InternetCollectionView;
+class StreamingService;
+class StreamingCollectionView;
 
-class InternetSongsView : public QWidget {
+class StreamingSongsView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit InternetSongsView(Application *app, SharedPtr<InternetService> service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
-  ~InternetSongsView() override;
+  explicit StreamingSongsView(Application *app, SharedPtr<StreamingService> service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  ~StreamingSongsView() override;
 
   void ReloadSettings();
 
-  InternetCollectionView *view() const { return ui_->view; }
+  StreamingCollectionView *view() const { return ui_->view; }
 
   bool SearchFieldHasFocus() const { return ui_->filter_widget->SearchFieldHasFocus(); }
   void FocusSearchField() { ui_->filter_widget->FocusSearchField(); }
@@ -60,10 +60,10 @@ class InternetSongsView : public QWidget {
 
  private:
   Application *app_;
-  SharedPtr<InternetService> service_;
+  SharedPtr<StreamingService> service_;
   QString settings_group_;
   SettingsDialog::Page settings_page_;
-  Ui_InternetCollectionViewContainer *ui_;
+  Ui_StreamingCollectionViewContainer *ui_;
 };
 
-#endif  // INTERNETSONGSVIEW_H
+#endif  // STREAMINGSONGSVIEW_H

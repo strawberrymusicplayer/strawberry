@@ -48,7 +48,7 @@
 #include "playlistitem.h"
 #include "playlistsequence.h"
 #include "smartplaylists/playlistgenerator_fwd.h"
-#include <internet/internetservice.h>
+#include <streaming/streamingservice.h>
 
 class QMimeData;
 class QUndoStack;
@@ -229,7 +229,7 @@ class Playlist : public QAbstractListModel {
   void InsertSongs(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertSongsOrCollectionItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertSmartPlaylist(PlaylistGeneratorPtr gen, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
-  void InsertInternetItems(InternetServicePtr service, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertStreamingItems(StreamingServicePtr service, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
   void InsertRadioItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
 
   void ReshuffleIndices();

@@ -87,9 +87,9 @@
 #include "smartplaylists/playlistgeneratorinserter.h"
 #include "smartplaylists/playlistgeneratormimedata.h"
 
-#include "internet/internetplaylistitem.h"
-#include "internet/internetsongmimedata.h"
-#include "internet/internetservice.h"
+#include "streaming/streamplaylistitem.h"
+#include "streaming/streamsongmimedata.h"
+#include "streaming/streamingservice.h"
 
 #include "radios/radiomimedata.h"
 #include "radios/radioplaylistitem.h"
@@ -815,8 +815,8 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
   else if (const PlaylistGeneratorMimeData *generator_data = qobject_cast<const PlaylistGeneratorMimeData*>(data)) {
     InsertSmartPlaylist(generator_data->generator_, row, play_now, enqueue_now, enqueue_next_now);
   }
-  else if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
-    InsertInternetItems(internet_song_data->service, internet_song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
+  else if (const StreamSongMimeData *stream_song_data = qobject_cast<const StreamSongMimeData*>(data)) {
+    InsertStreamingItems(stream_song_data->service, stream_song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (const RadioMimeData *radio_data = qobject_cast<const RadioMimeData*>(data)) {
     InsertRadioItems(radio_data->songs, row, play_now, enqueue_now, enqueue_next_now);
@@ -1168,7 +1168,7 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos
         items << make_shared<RadioPlaylistItem>(song);
       }
       else {
-        items << make_shared<InternetPlaylistItem>(song);
+        items << make_shared<StreamPlaylistItem>(song);
       }
     }
   }
@@ -1176,12 +1176,12 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos
 
 }
 
-void Playlist::InsertInternetItems(InternetServicePtr service, const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
+void Playlist::InsertStreamingItems(StreamingServicePtr service, const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
   PlaylistItemPtrList playlist_items;
   playlist_items.reserve(songs.count());
   for (const Song &song : songs) {
-    playlist_items << make_shared<InternetPlaylistItem>(service, song);
+    playlist_items << make_shared<StreamPlaylistItem>(service, song);
   }
 
   InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
@@ -1233,7 +1233,7 @@ void Playlist::UpdateItems(SongList songs) {
             new_item = make_shared<RadioPlaylistItem>(song);
           }
           else {
-            new_item = make_shared<InternetPlaylistItem>(song);
+            new_item = make_shared<StreamPlaylistItem>(song);
           }
         }
         items_[i] = new_item;

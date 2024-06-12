@@ -58,7 +58,7 @@ class CoverProviders;
 class LyricsProviders;
 class AudioScrobbler;
 class LastFMImport;
-class InternetServices;
+class StreamingServices;
 class RadioServices;
 #ifdef HAVE_MOODBAR
 class MoodbarController;
@@ -97,7 +97,7 @@ class Application : public QObject {
 
   SharedPtr<AudioScrobbler> scrobbler() const;
 
-  SharedPtr<InternetServices> internet_services() const;
+  SharedPtr<StreamingServices> streaming_services() const;
   SharedPtr<RadioServices> radio_services() const;
 
 #ifdef HAVE_MOODBAR

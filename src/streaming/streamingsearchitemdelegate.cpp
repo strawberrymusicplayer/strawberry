@@ -21,17 +21,17 @@
 #include <QStyleOptionViewItem>
 #include <QPainter>
 
-#include "internetsearchitemdelegate.h"
-#include "internetsearchview.h"
+#include "streamingsearchitemdelegate.h"
+#include "streamingsearchview.h"
 
-InternetSearchItemDelegate::InternetSearchItemDelegate(InternetSearchView *view)
+StreamingSearchItemDelegate::StreamingSearchItemDelegate(StreamingSearchView *view)
     : CollectionItemDelegate(view),
       view_(view) {}
 
-void InternetSearchItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
+void StreamingSearchItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
   // Tell the view we painted this item, so it can lazy load some art.
-  const_cast<InternetSearchView*>(view_)->LazyLoadAlbumCover(idx);
+  const_cast<StreamingSearchView*>(view_)->LazyLoadAlbumCover(idx);
 
   CollectionItemDelegate::paint(painter, option, idx);
 

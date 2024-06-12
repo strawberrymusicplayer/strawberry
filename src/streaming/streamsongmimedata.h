@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
- * This code was part of Clementine (GlobalSearch)
- * Copyright 2012, David Sansome <me@davidsansome.com>
+ * This file was part of Clementine.
+ * Copyright 2011, David Sansome <me@davidsansome.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,28 +18,23 @@
  *
  */
 
-#ifndef INTERNETSEARCHITEMDELEGATE_H
-#define INTERNETSEARCHITEMDELEGATE_H
+#ifndef STREAMSONGMIMEDATA_H
+#define STREAMSONGMIMEDATA_H
 
-#include <QStyleOptionViewItem>
-#include <QStyleOption>
+#include "core/shared_ptr.h"
+#include "core/mimedata.h"
+#include "core/song.h"
 
-#include "collection/collectionitemdelegate.h"
+class StreamingService;
 
-class QPainter;
-class QModelIndex;
-class InternetSearchView;
-
-class InternetSearchItemDelegate : public CollectionItemDelegate {
+class StreamSongMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  explicit InternetSearchItemDelegate(InternetSearchView *view);
+  explicit StreamSongMimeData(SharedPtr<StreamingService> _service, QObject* = nullptr) : service(_service) {}
 
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
-
- private:
-  InternetSearchView *view_;
+  SharedPtr<StreamingService> service;
+  SongList songs;
 };
 
-#endif  // INTERNETSEARCHITEMDELEGATE_H
+#endif  // STREAMSONGMIMEDATA_H

@@ -26,21 +26,21 @@
 #include <QContextMenuEvent>
 
 #include "collection/collectionfilterwidget.h"
-#include "internetcollectionview.h"
-#include "internetcollectionviewcontainer.h"
-#include "ui_internetcollectionviewcontainer.h"
+#include "streamingcollectionview.h"
+#include "streamingcollectionviewcontainer.h"
+#include "ui_streamingcollectionviewcontainer.h"
 
-InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent)
+StreamingCollectionViewContainer::StreamingCollectionViewContainer(QWidget *parent)
     : QWidget(parent),
-      ui_(new Ui_InternetCollectionViewContainer) {
+      ui_(new Ui_StreamingCollectionViewContainer) {
 
   ui_->setupUi(this);
   ui_->view->SetFilter(ui_->filter_widget);
 
-  QObject::connect(ui_->filter_widget, &CollectionFilterWidget::UpPressed, ui_->view, &InternetCollectionView::UpAndFocus);
-  QObject::connect(ui_->filter_widget, &CollectionFilterWidget::DownPressed, ui_->view, &InternetCollectionView::DownAndFocus);
-  QObject::connect(ui_->filter_widget, &CollectionFilterWidget::ReturnPressed, ui_->view, &InternetCollectionView::FilterReturnPressed);
-  QObject::connect(ui_->view, &InternetCollectionView::FocusOnFilterSignal, ui_->filter_widget, &CollectionFilterWidget::FocusOnFilter);
+  QObject::connect(ui_->filter_widget, &CollectionFilterWidget::UpPressed, ui_->view, &StreamingCollectionView::UpAndFocus);
+  QObject::connect(ui_->filter_widget, &CollectionFilterWidget::DownPressed, ui_->view, &StreamingCollectionView::DownAndFocus);
+  QObject::connect(ui_->filter_widget, &CollectionFilterWidget::ReturnPressed, ui_->view, &StreamingCollectionView::FilterReturnPressed);
+  QObject::connect(ui_->view, &StreamingCollectionView::FocusOnFilterSignal, ui_->filter_widget, &CollectionFilterWidget::FocusOnFilter);
 
   ui_->progressbar->hide();
 
@@ -48,21 +48,21 @@ InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent
 
 }
 
-InternetCollectionViewContainer::~InternetCollectionViewContainer() { delete ui_; }
+StreamingCollectionViewContainer::~StreamingCollectionViewContainer() { delete ui_; }
 
-void InternetCollectionViewContainer::ReloadSettings() const {
+void StreamingCollectionViewContainer::ReloadSettings() const {
 
   ui_->filter_widget->ReloadSettings();
   ui_->view->ReloadSettings();
 
 }
 
-bool InternetCollectionViewContainer::SearchFieldHasFocus() const {
+bool StreamingCollectionViewContainer::SearchFieldHasFocus() const {
   return ui_->filter_widget->SearchFieldHasFocus();
 }
 
-void InternetCollectionViewContainer::FocusSearchField() {
+void StreamingCollectionViewContainer::FocusSearchField() {
   ui_->filter_widget->FocusSearchField();
 }
 
-void InternetCollectionViewContainer::contextMenuEvent(QContextMenuEvent *e) { Q_UNUSED(e); }
+void StreamingCollectionViewContainer::contextMenuEvent(QContextMenuEvent *e) { Q_UNUSED(e); }

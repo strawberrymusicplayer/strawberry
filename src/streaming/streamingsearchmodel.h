@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef INTERNETSEARCHMODEL_H
-#define INTERNETSEARCHMODEL_H
+#ifndef STREAMINGSEARCHMODEL_H
+#define STREAMINGSEARCHMODEL_H
 
 #include "config.h"
 
@@ -39,19 +39,19 @@
 #include "core/shared_ptr.h"
 #include "core/song.h"
 #include "collection/collectionmodel.h"
-#include "internetsearchview.h"
+#include "streamingsearchview.h"
 
 class QMimeData;
 class QSortFilterProxyModel;
 
 class MimeData;
-class InternetService;
+class StreamingService;
 
-class InternetSearchModel : public QStandardItemModel {
+class StreamingSearchModel : public QStandardItemModel {
   Q_OBJECT
 
  public:
-  explicit InternetSearchModel(SharedPtr<InternetService> service, QObject *parent = nullptr);
+  explicit StreamingSearchModel(SharedPtr<StreamingService> service, QObject *parent = nullptr);
 
   enum Role {
     Role_Result = CollectionModel::LastRole,
@@ -69,24 +69,24 @@ class InternetSearchModel : public QStandardItemModel {
 
   void Clear();
 
-  InternetSearchView::ResultList GetChildResults(const QModelIndexList &indexes) const;
-  InternetSearchView::ResultList GetChildResults(const QList<QStandardItem*> &items) const;
+  StreamingSearchView::ResultList GetChildResults(const QModelIndexList &indexes) const;
+  StreamingSearchView::ResultList GetChildResults(const QList<QStandardItem*> &items) const;
 
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
   // Loads tracks for results that were previously emitted by ResultsAvailable.
   // The implementation creates a SongMimeData with one Song for each Result.
-  MimeData *LoadTracks(const InternetSearchView::ResultList &results) const;
+  MimeData *LoadTracks(const StreamingSearchView::ResultList &results) const;
 
  public slots:
-  void AddResults(const InternetSearchView::ResultList &results);
+  void AddResults(const StreamingSearchView::ResultList &results);
 
  private:
   QStandardItem *BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, const int level = 0);
-  void GetChildResults(const QStandardItem *item, InternetSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const;
+  void GetChildResults(const QStandardItem *item, StreamingSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const;
 
  private:
-  SharedPtr<InternetService> service_;
+  SharedPtr<StreamingService> service_;
   QSortFilterProxyModel *proxy_;
   bool use_pretty_covers_;
   QIcon artist_icon_;
@@ -97,14 +97,14 @@ class InternetSearchModel : public QStandardItemModel {
 };
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-inline size_t qHash(const InternetSearchModel::ContainerKey &key) {
+inline size_t qHash(const StreamingSearchModel::ContainerKey &key) {
 #else
-inline uint qHash(const InternetSearchModel::ContainerKey &key) {
+inline uint qHash(const StreamingSearchModel::ContainerKey &key) {
 #endif
   return qHash(key.group_[0]) ^ qHash(key.group_[1]) ^ qHash(key.group_[2]);
 }
 
-inline bool operator<(const InternetSearchModel::ContainerKey &left, const InternetSearchModel::ContainerKey &right) {
+inline bool operator<(const StreamingSearchModel::ContainerKey &left, const StreamingSearchModel::ContainerKey &right) {
 #define CMP(field)                           \
   if (left.field < right.field) return true; \
   if (left.field > right.field) return false
@@ -117,4 +117,4 @@ inline bool operator<(const InternetSearchModel::ContainerKey &left, const Inter
 #undef CMP
 }
 
-#endif  // INTERNETSEARCHMODEL_H
+#endif  // STREAMINGSEARCHMODEL_H

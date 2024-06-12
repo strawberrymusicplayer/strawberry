@@ -26,71 +26,71 @@
 #include <QString>
 
 #include "core/logging.h"
-#include "internetservices.h"
-#include "internetservice.h"
+#include "streamingservices.h"
+#include "streamingservice.h"
 
-InternetServices::InternetServices(QObject *parent) : QObject(parent) {}
+StreamingServices::StreamingServices(QObject *parent) : QObject(parent) {}
 
-InternetServices::~InternetServices() {
+StreamingServices::~StreamingServices() {
 
   while (!services_.isEmpty()) {
-    InternetServicePtr service = services_.first();
+    StreamingServicePtr service = services_.first();
     RemoveService(service);
   }
 
 }
 
-void InternetServices::AddService(InternetServicePtr service) {
+void StreamingServices::AddService(StreamingServicePtr service) {
 
   services_.insert(service->source(), service);
   if (service->has_initial_load_settings()) service->InitialLoadSettings();
   else service->ReloadSettings();
 
-  qLog(Debug) << "Added internet service" << service->name();
+  qLog(Debug) << "Added streaming service" << service->name();
 
 }
 
-void InternetServices::RemoveService(InternetServicePtr service) {
+void StreamingServices::RemoveService(StreamingServicePtr service) {
 
   if (!services_.contains(service->source())) return;
   services_.remove(service->source());
   QObject::disconnect(&*service, nullptr, this, nullptr);
 
-  qLog(Debug) << "Removed internet service" << service->name();
+  qLog(Debug) << "Removed streaming service" << service->name();
 
 }
 
-InternetServicePtr InternetServices::ServiceBySource(const Song::Source source) const {
+StreamingServicePtr StreamingServices::ServiceBySource(const Song::Source source) const {
 
   if (services_.contains(source)) return services_.value(source);
   return nullptr;
 
 }
 
-void InternetServices::ReloadSettings() {
+void StreamingServices::ReloadSettings() {
 
-  const QList<InternetServicePtr> services = services_.values();
-  for (InternetServicePtr service : services) {
+  const QList<StreamingServicePtr> services = services_.values();
+  for (StreamingServicePtr service : services) {
     service->ReloadSettings();
   }
 
 }
 
-void InternetServices::Exit() {
+void StreamingServices::Exit() {
 
-  const QList<InternetServicePtr> services = services_.values();
-  for (InternetServicePtr service : services) {
+  const QList<StreamingServicePtr> services = services_.values();
+  for (StreamingServicePtr service : services) {
     wait_for_exit_ << &*service;
-    QObject::connect(&*service, &InternetService::ExitFinished, this, &InternetServices::ExitReceived);
+    QObject::connect(&*service, &StreamingService::ExitFinished, this, &StreamingServices::ExitReceived);
     service->Exit();
   }
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
 
 }
 
-void InternetServices::ExitReceived() {
+void StreamingServices::ExitReceived() {
 
-  InternetService *service = qobject_cast<InternetService*>(sender());
+  StreamingService *service = qobject_cast<StreamingService*>(sender());
   wait_for_exit_.removeAll(service);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
 

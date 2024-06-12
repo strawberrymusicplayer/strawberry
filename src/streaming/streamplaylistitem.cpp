@@ -24,29 +24,29 @@
 #include <QApplication>
 #include <QVariant>
 
-#include "internetplaylistitem.h"
-#include "internetservice.h"
+#include "streamplaylistitem.h"
+#include "streamingservice.h"
 #include "core/sqlrow.h"
 
-InternetPlaylistItem::InternetPlaylistItem(const Song::Source source)
+StreamPlaylistItem::StreamPlaylistItem(const Song::Source source)
     : PlaylistItem(source),
       source_(source) {}
 
-InternetPlaylistItem::InternetPlaylistItem(const Song &metadata)
+StreamPlaylistItem::StreamPlaylistItem(const Song &metadata)
     : PlaylistItem(metadata.source()),
       source_(metadata.source()),
       metadata_(metadata) {
   InitMetadata();
 }
 
-InternetPlaylistItem::InternetPlaylistItem(InternetServicePtr service, const Song &metadata)
+StreamPlaylistItem::StreamPlaylistItem(StreamingServicePtr service, const Song &metadata)
     : PlaylistItem(metadata.source()),
       source_(service->source()),
       metadata_(metadata) {
   InitMetadata();
 }
 
-bool InternetPlaylistItem::InitFromQuery(const SqlRow &query) {
+bool StreamPlaylistItem::InitFromQuery(const SqlRow &query) {
 
   metadata_.InitFromQuery(query, false, static_cast<int>(Song::kRowIdColumns.count()));
   InitMetadata();
@@ -54,11 +54,11 @@ bool InternetPlaylistItem::InitFromQuery(const SqlRow &query) {
 
 }
 
-QVariant InternetPlaylistItem::DatabaseValue(DatabaseColumn column) const {
+QVariant StreamPlaylistItem::DatabaseValue(DatabaseColumn column) const {
   return PlaylistItem::DatabaseValue(column);
 }
 
-void InternetPlaylistItem::InitMetadata() {
+void StreamPlaylistItem::InitMetadata() {
 
   if (metadata_.title().isEmpty()) metadata_.set_title(metadata_.url().toString());
   if (metadata_.source() == Song::Source::Unknown) metadata_.set_source(Song::Source::Stream);
@@ -67,16 +67,16 @@ void InternetPlaylistItem::InitMetadata() {
 
 }
 
-Song InternetPlaylistItem::Metadata() const {
+Song StreamPlaylistItem::Metadata() const {
 
   if (HasTemporaryMetadata()) return temp_metadata_;
   return metadata_;
 
 }
 
-QUrl InternetPlaylistItem::Url() const { return metadata_.url(); }
+QUrl StreamPlaylistItem::Url() const { return metadata_.url(); }
 
-void InternetPlaylistItem::SetArtManual(const QUrl &cover_url) {
+void StreamPlaylistItem::SetArtManual(const QUrl &cover_url) {
 
   metadata_.set_art_manual(cover_url);
   temp_metadata_.set_art_manual(cover_url);

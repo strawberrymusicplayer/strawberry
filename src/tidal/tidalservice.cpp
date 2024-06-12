@@ -51,7 +51,7 @@
 #include "core/settings.h"
 #include "utilities/randutils.h"
 #include "utilities/timeconstants.h"
-#include "internet/internetsearchview.h"
+#include "streaming/streamingsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilter.h"
@@ -89,7 +89,7 @@ constexpr char kSongsTable[] = "tidal_songs";
 }  // namespace
 
 TidalService::TidalService(Application *app, QObject *parent)
-    : InternetService(Song::Source::Tidal, QStringLiteral("Tidal"), QStringLiteral("tidal"), QLatin1String(TidalSettingsPage::kSettingsGroup), SettingsDialog::Page::Tidal, app, parent),
+    : StreamingService(Song::Source::Tidal, QStringLiteral("Tidal"), QStringLiteral("tidal"), QLatin1String(TidalSettingsPage::kSettingsGroup), SettingsDialog::Page::Tidal, app, parent),
       app_(app),
       network_(app->network()),
       url_handler_(new TidalUrlHandler(app, this)),
@@ -117,7 +117,7 @@ TidalService::TidalService(Application *app, QObject *parent)
       login_time_(0),
       pending_search_id_(0),
       next_pending_search_id_(1),
-      pending_search_type_(InternetSearchView::SearchType::Artists),
+      pending_search_type_(StreamingSearchView::SearchType::Artists),
       search_id_(0),
       login_sent_(false),
       login_attempts_(0),
@@ -871,7 +871,7 @@ void TidalService::SongsUpdateProgressReceived(const int id, const int progress)
   emit SongsUpdateProgress(progress);
 }
 
-int TidalService::Search(const QString &text, InternetSearchView::SearchType type) {
+int TidalService::Search(const QString &text, StreamingSearchView::SearchType type) {
 
   pending_search_id_ = next_pending_search_id_;
   pending_search_text_ = text;
@@ -919,13 +919,13 @@ void TidalService::SendSearch() {
   TidalBaseRequest::QueryType query_type = TidalBaseRequest::QueryType::None;
 
   switch (pending_search_type_) {
-    case InternetSearchView::SearchType::Artists:
+    case StreamingSearchView::SearchType::Artists:
       query_type = TidalBaseRequest::QueryType::SearchArtists;
       break;
-    case InternetSearchView::SearchType::Albums:
+    case StreamingSearchView::SearchType::Albums:
       query_type = TidalBaseRequest::QueryType::SearchAlbums;
       break;
-    case InternetSearchView::SearchType::Songs:
+    case StreamingSearchView::SearchType::Songs:
       query_type = TidalBaseRequest::QueryType::SearchSongs;
       break;
     default:

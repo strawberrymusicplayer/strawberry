@@ -47,9 +47,9 @@
 #include "collection/collectionfilterwidget.h"
 #include "collection/collectionitem.h"
 #include "collection/collectionitemdelegate.h"
-#include "internetcollectionview.h"
+#include "streamingcollectionview.h"
 
-InternetCollectionView::InternetCollectionView(QWidget *parent)
+StreamingCollectionView::StreamingCollectionView(QWidget *parent)
     : AutoExpandingTreeView(parent),
       app_(nullptr),
       collection_backend_(nullptr),
@@ -82,7 +82,7 @@ InternetCollectionView::InternetCollectionView(QWidget *parent)
 
 }
 
-void InternetCollectionView::Init(Application *app, SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, const bool favorite) {
+void StreamingCollectionView::Init(Application *app, SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, const bool favorite) {
 
   app_ = app;
   collection_backend_ = collection_backend;
@@ -93,20 +93,20 @@ void InternetCollectionView::Init(Application *app, SharedPtr<CollectionBackend>
 
 }
 
-void InternetCollectionView::SetFilter(CollectionFilterWidget *filter) {
+void StreamingCollectionView::SetFilter(CollectionFilterWidget *filter) {
 
   filter_ = filter;
 
 }
 
-void InternetCollectionView::ReloadSettings() {
+void StreamingCollectionView::ReloadSettings() {
 
   if (collection_model_) collection_model_->ReloadSettings();
   if (filter_) filter_->ReloadSettings();
 
 }
 
-void InternetCollectionView::SaveFocus() {
+void StreamingCollectionView::SaveFocus() {
 
   const QModelIndex current = currentIndex();
   const QVariant role_type = model()->data(current, CollectionModel::Role_Type);
@@ -147,7 +147,7 @@ void InternetCollectionView::SaveFocus() {
 
 }
 
-void InternetCollectionView::SaveContainerPath(const QModelIndex &child) {
+void StreamingCollectionView::SaveContainerPath(const QModelIndex &child) {
 
   const QModelIndex current = model()->parent(child);
   const QVariant role_type = model()->data(current, CollectionModel::Role_Type);
@@ -165,7 +165,7 @@ void InternetCollectionView::SaveContainerPath(const QModelIndex &child) {
 
 }
 
-void InternetCollectionView::RestoreFocus() {
+void StreamingCollectionView::RestoreFocus() {
 
   if (last_selected_container_.isEmpty() && last_selected_song_.url().isEmpty()) {
     return;
@@ -174,7 +174,7 @@ void InternetCollectionView::RestoreFocus() {
 
 }
 
-bool InternetCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
+bool StreamingCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
 
   if (model()->canFetchMore(parent)) {
     model()->fetchMore(parent);
@@ -229,7 +229,7 @@ bool InternetCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
 
 }
 
-void InternetCollectionView::TotalSongCountUpdated(int count) {
+void StreamingCollectionView::TotalSongCountUpdated(int count) {
 
   int old = total_song_count_;
   total_song_count_ = count;
@@ -246,7 +246,7 @@ void InternetCollectionView::TotalSongCountUpdated(int count) {
 
 }
 
-void InternetCollectionView::TotalArtistCountUpdated(int count) {
+void StreamingCollectionView::TotalArtistCountUpdated(int count) {
 
   int old = total_artist_count_;
   total_artist_count_ = count;
@@ -263,7 +263,7 @@ void InternetCollectionView::TotalArtistCountUpdated(int count) {
 
 }
 
-void InternetCollectionView::TotalAlbumCountUpdated(int count) {
+void StreamingCollectionView::TotalAlbumCountUpdated(int count) {
 
   int old = total_album_count_;
   total_album_count_ = count;
@@ -280,7 +280,7 @@ void InternetCollectionView::TotalAlbumCountUpdated(int count) {
 
 }
 
-void InternetCollectionView::paintEvent(QPaintEvent *event) {
+void StreamingCollectionView::paintEvent(QPaintEvent *event) {
 
   if (total_song_count_ == 0) {
     QPainter p(viewport());
@@ -298,7 +298,7 @@ void InternetCollectionView::paintEvent(QPaintEvent *event) {
     QFontMetrics metrics(bold_font);
 
     QRect title_rect(0, image_rect.bottom() + 20, rect.width(), metrics.height());
-    p.drawText(title_rect, Qt::AlignHCenter, tr("The internet collection is empty!"));
+    p.drawText(title_rect, Qt::AlignHCenter, tr("The streaming collection is empty!"));
 
     // Draw the other text
     p.setFont(QFont());
@@ -312,7 +312,7 @@ void InternetCollectionView::paintEvent(QPaintEvent *event) {
 
 }
 
-void InternetCollectionView::mouseReleaseEvent(QMouseEvent *e) {
+void StreamingCollectionView::mouseReleaseEvent(QMouseEvent *e) {
 
   QTreeView::mouseReleaseEvent(e);
 
@@ -322,22 +322,22 @@ void InternetCollectionView::mouseReleaseEvent(QMouseEvent *e) {
 
 }
 
-void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
+void StreamingCollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    add_to_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &InternetCollectionView::AddToPlaylist);
-    load_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &InternetCollectionView::Load);
-    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &InternetCollectionView::OpenInNewPlaylist);
+    add_to_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &StreamingCollectionView::AddToPlaylist);
+    load_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &StreamingCollectionView::Load);
+    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &StreamingCollectionView::OpenInNewPlaylist);
 
     context_menu_->addSeparator();
-    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue track"), this, &InternetCollectionView::AddToPlaylistEnqueue);
-    add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue to play next"), this, &InternetCollectionView::AddToPlaylistEnqueueNext);
+    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue track"), this, &StreamingCollectionView::AddToPlaylistEnqueue);
+    add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue to play next"), this, &StreamingCollectionView::AddToPlaylistEnqueueNext);
 
     context_menu_->addSeparator();
 
     if (favorite_) {
-      remove_songs_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Remove from favorites"), this, &InternetCollectionView::RemoveSelectedSongs);
+      remove_songs_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Remove from favorites"), this, &StreamingCollectionView::RemoveSelectedSongs);
       context_menu_->addSeparator();
     }
 
@@ -363,7 +363,7 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
 }
 
-void InternetCollectionView::Load() {
+void StreamingCollectionView::Load() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
@@ -373,13 +373,13 @@ void InternetCollectionView::Load() {
 
 }
 
-void InternetCollectionView::AddToPlaylist() {
+void StreamingCollectionView::AddToPlaylist() {
 
   emit AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
 
 }
 
-void InternetCollectionView::AddToPlaylistEnqueue() {
+void StreamingCollectionView::AddToPlaylistEnqueue() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
@@ -389,7 +389,7 @@ void InternetCollectionView::AddToPlaylistEnqueue() {
 
 }
 
-void InternetCollectionView::AddToPlaylistEnqueueNext() {
+void StreamingCollectionView::AddToPlaylistEnqueueNext() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
@@ -399,7 +399,7 @@ void InternetCollectionView::AddToPlaylistEnqueueNext() {
 
 }
 
-void InternetCollectionView::OpenInNewPlaylist() {
+void StreamingCollectionView::OpenInNewPlaylist() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
@@ -409,13 +409,13 @@ void InternetCollectionView::OpenInNewPlaylist() {
 
 }
 
-void InternetCollectionView::RemoveSelectedSongs() {
+void StreamingCollectionView::RemoveSelectedSongs() {
 
   emit RemoveSongs(GetSelectedSongs());
 
 }
 
-void InternetCollectionView::keyboardSearch(const QString &search) {
+void StreamingCollectionView::keyboardSearch(const QString &search) {
 
   is_in_keyboard_search_ = true;
   QTreeView::keyboardSearch(search);
@@ -423,7 +423,7 @@ void InternetCollectionView::keyboardSearch(const QString &search) {
 
 }
 
-void InternetCollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
+void StreamingCollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
 
   if (is_in_keyboard_search_) {
     QTreeView::scrollTo(idx, QAbstractItemView::PositionAtTop);
@@ -434,14 +434,14 @@ void InternetCollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
 
 }
 
-SongList InternetCollectionView::GetSelectedSongs() const {
+SongList StreamingCollectionView::GetSelectedSongs() const {
 
   QModelIndexList selected_indexes = qobject_cast<QSortFilterProxyModel*>(model())->mapSelectionToSource(selectionModel()->selection()).indexes();
   return collection_model_->GetChildSongs(selected_indexes);
 
 }
 
-void InternetCollectionView::FilterReturnPressed() {
+void StreamingCollectionView::FilterReturnPressed() {
 
   if (!currentIndex().isValid()) {
     // Pick the first thing that isn't a divider
@@ -463,12 +463,12 @@ void InternetCollectionView::FilterReturnPressed() {
 
 }
 
-int InternetCollectionView::TotalSongs() const {
+int StreamingCollectionView::TotalSongs() const {
   return total_song_count_;
 }
-int InternetCollectionView::TotalArtists() const {
+int StreamingCollectionView::TotalArtists() const {
   return total_artist_count_;
 }
-int InternetCollectionView::TotalAlbums() const {
+int StreamingCollectionView::TotalAlbums() const {
   return total_album_count_;
 }

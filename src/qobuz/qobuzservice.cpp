@@ -46,7 +46,7 @@
 #include "core/song.h"
 #include "core/settings.h"
 #include "utilities/macaddrutils.h"
-#include "internet/internetsearchview.h"
+#include "streaming/streamingsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilter.h"
@@ -78,7 +78,7 @@ constexpr char kSongsTable[] = "qobuz_songs";
 }  // namespace
 
 QobuzService::QobuzService(Application *app, QObject *parent)
-    : InternetService(Song::Source::Qobuz, QStringLiteral("Qobuz"), QStringLiteral("qobuz"), QLatin1String(QobuzSettingsPage::kSettingsGroup), SettingsDialog::Page::Qobuz, app, parent),
+    : StreamingService(Song::Source::Qobuz, QStringLiteral("Qobuz"), QStringLiteral("qobuz"), QLatin1String(QobuzSettingsPage::kSettingsGroup), SettingsDialog::Page::Qobuz, app, parent),
       app_(app),
       network_(app->network()),
       url_handler_(new QobuzUrlHandler(app, this)),
@@ -101,7 +101,7 @@ QobuzService::QobuzService(Application *app, QObject *parent)
       credential_id_(-1),
       pending_search_id_(0),
       next_pending_search_id_(1),
-      pending_search_type_(InternetSearchView::SearchType::Artists),
+      pending_search_type_(StreamingSearchView::SearchType::Artists),
       search_id_(0),
       login_sent_(false),
       login_attempts_(0),
@@ -646,7 +646,7 @@ void QobuzService::SongsUpdateProgressReceived(const int id, const int progress)
   emit SongsUpdateProgress(progress);
 }
 
-int QobuzService::Search(const QString &text, InternetSearchView::SearchType type) {
+int QobuzService::Search(const QString &text, StreamingSearchView::SearchType type) {
 
   pending_search_id_ = next_pending_search_id_;
   pending_search_text_ = text;
@@ -687,13 +687,13 @@ void QobuzService::SendSearch() {
   QobuzBaseRequest::QueryType query_type = QobuzBaseRequest::QueryType::None;
 
   switch (pending_search_type_) {
-    case InternetSearchView::SearchType::Artists:
+    case StreamingSearchView::SearchType::Artists:
       query_type = QobuzBaseRequest::QueryType::SearchArtists;
       break;
-    case InternetSearchView::SearchType::Albums:
+    case StreamingSearchView::SearchType::Albums:
       query_type = QobuzBaseRequest::QueryType::SearchAlbums;
       break;
-    case InternetSearchView::SearchType::Songs:
+    case StreamingSearchView::SearchType::Songs:
       query_type = QobuzBaseRequest::QueryType::SearchSongs;
       break;
   }

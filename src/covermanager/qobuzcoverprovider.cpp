@@ -40,7 +40,7 @@
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
 #include "core/song.h"
-#include "internet/internetservices.h"
+#include "streaming/streamingservices.h"
 #include "qobuz/qobuzservice.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
@@ -52,7 +52,7 @@ constexpr int kLimit = 10;
 
 QobuzCoverProvider::QobuzCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(QStringLiteral("Qobuz"), true, true, 2.0, true, true, app, network, parent),
-      service_(app->internet_services()->Service<QobuzService>()) {}
+      service_(app->streaming_services()->Service<QobuzService>()) {}
 
 QobuzCoverProvider::~QobuzCoverProvider() {
 

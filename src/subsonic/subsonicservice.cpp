@@ -72,7 +72,7 @@ constexpr int kMaxRedirects = 3;
 }  // namespace
 
 SubsonicService::SubsonicService(Application *app, QObject *parent)
-    : InternetService(Song::Source::Subsonic, QStringLiteral("Subsonic"), QStringLiteral("subsonic"), QLatin1String(SubsonicSettingsPage::kSettingsGroup), SettingsDialog::Page::Subsonic, app, parent),
+    : StreamingService(Song::Source::Subsonic, QStringLiteral("Subsonic"), QStringLiteral("subsonic"), QLatin1String(SubsonicSettingsPage::kSettingsGroup), SettingsDialog::Page::Subsonic, app, parent),
       app_(app),
       url_handler_(new SubsonicUrlHandler(app, this)),
       collection_backend_(nullptr),

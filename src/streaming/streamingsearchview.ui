@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>InternetSearchView</class>
- <widget class="QWidget" name="InternetSearchView">
+ <class>StreamingSearchView</class>
+ <widget class="QWidget" name="StreamingSearchView">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Internet Search View</string>
+   <string>Streaming Search View</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">

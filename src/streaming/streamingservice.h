@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef INTERNETSERVICE_H
-#define INTERNETSERVICE_H
+#ifndef STREAMINGSERVICE_H
+#define STREAMINGSERVICE_H
 
 #include <QtGlobal>
 #include <QObject>
@@ -31,20 +31,20 @@
 #include "core/shared_ptr.h"
 #include "core/song.h"
 #include "settings/settingsdialog.h"
-#include "internetsearchview.h"
+#include "streamingsearchview.h"
 
 class Application;
 class CollectionBackend;
 class CollectionModel;
 class CollectionFilter;
 
-class InternetService : public QObject {
+class StreamingService : public QObject {
   Q_OBJECT
 
  public:
-  explicit InternetService(const Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, const SettingsDialog::Page settings_page, Application *app, QObject *parent = nullptr);
+  explicit StreamingService(const Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, const SettingsDialog::Page settings_page, Application *app, QObject *parent = nullptr);
 
-  ~InternetService() override {}
+  ~StreamingService() override {}
   virtual void Exit() {}
 
   virtual Song::Source source() const { return source_; }
@@ -58,7 +58,7 @@ class InternetService : public QObject {
   virtual QIcon Icon() const { return Song::IconForSource(source_); }
   virtual bool oauth() const { return false; }
   virtual bool authenticated() const { return false; }
-  virtual int Search(const QString &query, InternetSearchView::SearchType type) { Q_UNUSED(query); Q_UNUSED(type); return 0; }
+  virtual int Search(const QString &query, StreamingSearchView::SearchType type) { Q_UNUSED(query); Q_UNUSED(type); return 0; }
   virtual void CancelSearch() {}
 
   virtual SharedPtr<CollectionBackend> artists_collection_backend() { return nullptr; }
@@ -144,9 +144,9 @@ class InternetService : public QObject {
   SettingsDialog::Page settings_page_;
 };
 
-using InternetServicePtr = SharedPtr<InternetService>;
+using StreamingServicePtr = SharedPtr<StreamingService>;
 
-Q_DECLARE_METATYPE(InternetService*)
-Q_DECLARE_METATYPE(InternetServicePtr)
+Q_DECLARE_METATYPE(StreamingService*)
+Q_DECLARE_METATYPE(StreamingServicePtr)
 
-#endif  // INTERNETSERVICE_H
+#endif  // STREAMINGSERVICE_H

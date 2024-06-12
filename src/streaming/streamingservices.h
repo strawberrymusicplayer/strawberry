@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef INTERNETSERVICES_H
-#define INTERNETSERVICES_H
+#ifndef STREAMINGSERVICES_H
+#define STREAMINGSERVICES_H
 
 #include "config.h"
 
@@ -34,24 +34,24 @@
 #include <core/shared_ptr.h>
 #include "core/song.h"
 
-class InternetService;
+class StreamingService;
 
-class InternetServices : public QObject {
+class StreamingServices : public QObject {
   Q_OBJECT
 
  public:
-  explicit InternetServices(QObject *parent = nullptr);
-  ~InternetServices() override;
+  explicit StreamingServices(QObject *parent = nullptr);
+  ~StreamingServices() override;
 
-  SharedPtr<InternetService> ServiceBySource(const Song::Source source) const;
+  SharedPtr<StreamingService> ServiceBySource(const Song::Source source) const;
 
   template <typename T>
   SharedPtr<T> Service() {
     return std::static_pointer_cast<T>(ServiceBySource(T::kSource));
   }
 
-  void AddService(SharedPtr<InternetService> service);
-  void RemoveService(SharedPtr<InternetService> service);
+  void AddService(SharedPtr<StreamingService> service);
+  void RemoveService(SharedPtr<StreamingService> service);
   void ReloadSettings();
   void Exit();
 
@@ -62,8 +62,8 @@ class InternetServices : public QObject {
   void ExitReceived();
 
  private:
-  QMap<Song::Source, SharedPtr<InternetService>> services_;
-  QList<InternetService*> wait_for_exit_;
+  QMap<Song::Source, SharedPtr<StreamingService>> services_;
+  QList<StreamingService*> wait_for_exit_;
 };
 
-#endif  // INTERNETSERVICES_H
+#endif  // STREAMINGSERVICES_H

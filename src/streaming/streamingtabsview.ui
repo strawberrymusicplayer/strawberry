@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>InternetTabsView</class>
- <widget class="QWidget" name="InternetTabsView">
+ <class>StreamingTabsView</class>
+ <widget class="QWidget" name="StreamingTabsView">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,9 +11,9 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Internet Tabs View</string>
+   <string>Streaming Tabs View</string>
   </property>
-  <layout class="QVBoxLayout" name="layout_internettabsview">
+  <layout class="QVBoxLayout" name="layout_streamingtabsview">
    <item>
     <widget class="QTabWidget" name="tabs">
      <property name="sizePolicy">
@@ -43,7 +43,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="InternetCollectionViewContainer" name="artists_collection" native="true"/>
+        <widget class="StreamingCollectionViewContainer" name="artists_collection" native="true"/>
        </item>
       </layout>
      </widget>
@@ -65,7 +65,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="InternetCollectionViewContainer" name="albums_collection" native="true"/>
+        <widget class="StreamingCollectionViewContainer" name="albums_collection" native="true"/>
        </item>
       </layout>
      </widget>
@@ -87,7 +87,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="InternetCollectionViewContainer" name="songs_collection" native="true"/>
+        <widget class="StreamingCollectionViewContainer" name="songs_collection" native="true"/>
        </item>
       </layout>
      </widget>
@@ -109,7 +109,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="InternetSearchView" name="search_view" native="true"/>
+        <widget class="StreamingSearchView" name="search_view" native="true"/>
        </item>
       </layout>
      </widget>
@@ -119,15 +119,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>InternetSearchView</class>
+   <class>StreamingSearchView</class>
    <extends>QWidget</extends>
-   <header>internet/internetsearchview.h</header>
+   <header>streaming/streamingsearchview.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>InternetCollectionViewContainer</class>
+   <class>StreamingCollectionViewContainer</class>
    <extends>QWidget</extends>
-   <header>internet/internetcollectionviewcontainer.h</header>
+   <header>streaming/streamingcollectionviewcontainer.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

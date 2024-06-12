@@ -182,12 +182,12 @@
 #  include "settings/qobuzsettingspage.h"
 #endif
 
-#include "internet/internetservices.h"
-#include "internet/internetservice.h"
-#include "internet/internetsongsview.h"
-#include "internet/internettabsview.h"
-#include "internet/internetcollectionview.h"
-#include "internet/internetsearchview.h"
+#include "streaming/streamingservices.h"
+#include "streaming/streamingservice.h"
+#include "streaming/streamingsongsview.h"
+#include "streaming/streamingtabsview.h"
+#include "streaming/streamingcollectionview.h"
+#include "streaming/streamingsearchview.h"
 
 #include "radios/radioservices.h"
 #include "radios/radioviewcontainer.h"
@@ -303,13 +303,13 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       }),
       smartplaylists_view_(new SmartPlaylistsViewContainer(app, this)),
 #ifdef HAVE_SUBSONIC
-      subsonic_view_(new InternetSongsView(app_, app->internet_services()->ServiceBySource(Song::Source::Subsonic), QLatin1String(SubsonicSettingsPage::kSettingsGroup), SettingsDialog::Page::Subsonic, this)),
+      subsonic_view_(new StreamingSongsView(app_, app->streaming_services()->ServiceBySource(Song::Source::Subsonic), QLatin1String(SubsonicSettingsPage::kSettingsGroup), SettingsDialog::Page::Subsonic, this)),
 #endif
 #ifdef HAVE_TIDAL
-      tidal_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source::Tidal), QLatin1String(TidalSettingsPage::kSettingsGroup), SettingsDialog::Page::Tidal, this)),
+      tidal_view_(new StreamingTabsView(app_, app->streaming_services()->ServiceBySource(Song::Source::Tidal), QLatin1String(TidalSettingsPage::kSettingsGroup), SettingsDialog::Page::Tidal, this)),
 #endif
 #ifdef HAVE_QOBUZ
-      qobuz_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source::Qobuz), QLatin1String(QobuzSettingsPage::kSettingsGroup), SettingsDialog::Page::Qobuz, this)),
+      qobuz_view_(new StreamingTabsView(app_, app->streaming_services()->ServiceBySource(Song::Source::Qobuz), QLatin1String(QobuzSettingsPage::kSettingsGroup), SettingsDialog::Page::Qobuz, this)),
 #endif
       radio_view_(new RadioViewContainer(this)),
       lastfm_import_dialog_(new LastFMImportDialog(app_->lastfm_import(), this)),
@@ -694,24 +694,24 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   collection_view_->filter_widget()->AddMenuAction(collection_config_action);
 
 #ifdef HAVE_SUBSONIC
-  QObject::connect(subsonic_view_->view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(subsonic_view_->view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
 #endif
 
 #ifdef HAVE_TIDAL
-  QObject::connect(tidal_view_->artists_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
-  QObject::connect(tidal_view_->albums_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
-  QObject::connect(tidal_view_->songs_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
-  QObject::connect(tidal_view_->search_view(), &InternetSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
-  if (TidalServicePtr tidalservice = app_->internet_services()->Service<TidalService>()) {
+  QObject::connect(tidal_view_->artists_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(tidal_view_->albums_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(tidal_view_->songs_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(tidal_view_->search_view(), &StreamingSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
+  if (TidalServicePtr tidalservice = app_->streaming_services()->Service<TidalService>()) {
     QObject::connect(this, &MainWindow::AuthorizationUrlReceived, &*tidalservice, &TidalService::AuthorizationUrlReceived);
   }
 #endif
 
 #ifdef HAVE_QOBUZ
-  QObject::connect(qobuz_view_->artists_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
-  QObject::connect(qobuz_view_->albums_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
-  QObject::connect(qobuz_view_->songs_collection_view(), &InternetCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
-  QObject::connect(qobuz_view_->search_view(), &InternetSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
+  QObject::connect(qobuz_view_->artists_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(qobuz_view_->albums_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(qobuz_view_->songs_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(qobuz_view_->search_view(), &StreamingSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
 #endif
 
   QObject::connect(radio_view_, &RadioViewContainer::Refresh, &*app_->radio_services(), &RadioServices::RefreshChannels);
@@ -1213,7 +1213,7 @@ void MainWindow::ReloadAllSettings() {
   playlist_list_->ReloadSettings();
   smartplaylists_view_->ReloadSettings();
   radio_view_->ReloadSettings();
-  app_->internet_services()->ReloadSettings();
+  app_->streaming_services()->ReloadSettings();
   app_->radio_services()->ReloadSettings();
   app_->cover_providers()->ReloadSettings();
   app_->lyrics_providers()->ReloadSettings();

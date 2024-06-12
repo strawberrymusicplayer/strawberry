@@ -39,7 +39,7 @@
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
 #include "core/song.h"
-#include "internet/internetservices.h"
+#include "streaming/streamingservices.h"
 #include "tidal/tidalservice.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
@@ -51,7 +51,7 @@ constexpr int kLimit = 10;
 
 TidalCoverProvider::TidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(QStringLiteral("Tidal"), true, true, 2.5, true, true, app, network, parent),
-      service_(app->internet_services()->Service<TidalService>()) {}
+      service_(app->streaming_services()->Service<TidalService>()) {}
 
 TidalCoverProvider::~TidalCoverProvider() {
 

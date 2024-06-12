@@ -37,7 +37,7 @@
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
-#include "internet/internetservices.h"
+#include "streaming/streamingservices.h"
 #include "subsonic/subsonicservice.h"
 
 const char *SubsonicSettingsPage::kSettingsGroup = "Subsonic";
@@ -45,7 +45,7 @@ const char *SubsonicSettingsPage::kSettingsGroup = "Subsonic";
 SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::SubsonicSettingsPage),
-      service_(dialog->app()->internet_services()->Service<SubsonicService>()) {
+      service_(dialog->app()->streaming_services()->Service<SubsonicService>()) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(QStringLiteral("subsonic"), true, 0, 32));

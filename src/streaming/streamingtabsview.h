@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef INTERNETTABSVIEW_H
-#define INTERNETTABSVIEW_H
+#ifndef STREAMINGTABSVIEW_H
+#define STREAMINGTABSVIEW_H
 
 #include "config.h"
 
@@ -29,30 +29,30 @@
 
 #include "core/shared_ptr.h"
 #include "settings/settingsdialog.h"
-#include "internetcollectionviewcontainer.h"
-#include "ui_internettabsview.h"
+#include "streamingcollectionviewcontainer.h"
+#include "ui_streamingtabsview.h"
 #include "core/song.h"
 
 class QContextMenuEvent;
 
 class Application;
-class InternetService;
-class InternetCollectionView;
-class InternetSearchView;
+class StreamingService;
+class StreamingCollectionView;
+class StreamingSearchView;
 
-class InternetTabsView : public QWidget {
+class StreamingTabsView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit InternetTabsView(Application *app, SharedPtr<InternetService> service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
-  ~InternetTabsView() override;
+  explicit StreamingTabsView(Application *app, SharedPtr<StreamingService> service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  ~StreamingTabsView() override;
 
   void ReloadSettings();
 
-  InternetCollectionView *artists_collection_view() const { return ui_->artists_collection->view(); }
-  InternetCollectionView *albums_collection_view() const { return ui_->albums_collection->view(); }
-  InternetCollectionView *songs_collection_view() const { return ui_->songs_collection->view(); }
-  InternetSearchView *search_view() const { return ui_->search_view; }
+  StreamingCollectionView *artists_collection_view() const { return ui_->artists_collection->view(); }
+  StreamingCollectionView *albums_collection_view() const { return ui_->albums_collection->view(); }
+  StreamingCollectionView *songs_collection_view() const { return ui_->songs_collection->view(); }
+  StreamingSearchView *search_view() const { return ui_->search_view; }
 
   bool SearchFieldHasFocus() const;
   void FocusSearchField();
@@ -71,10 +71,10 @@ class InternetTabsView : public QWidget {
 
  private:
   Application *app_;
-  SharedPtr <InternetService> service_;
+  SharedPtr <StreamingService> service_;
   QString settings_group_;
   SettingsDialog::Page settings_page_;
-  Ui_InternetTabsView *ui_;
+  Ui_StreamingTabsView *ui_;
 };
 
-#endif  // INTERNETTABSVIEW_H
+#endif  // STREAMINGTABSVIEW_H

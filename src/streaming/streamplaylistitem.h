@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef INTERNETPLAYLISTITEM_H
-#define INTERNETPLAYLISTITEM_H
+#ifndef STREAMPLAYLISTITEM_H
+#define STREAMPLAYLISTITEM_H
 
 #include "config.h"
 
@@ -32,14 +32,14 @@
 #include "core/sqlrow.h"
 #include "playlist/playlistitem.h"
 
-class InternetService;
+class StreamingService;
 
-class InternetPlaylistItem : public PlaylistItem {
+class StreamPlaylistItem : public PlaylistItem {
 
  public:
-  explicit InternetPlaylistItem(const Song::Source source);
-  explicit InternetPlaylistItem(const Song &metadata);
-  explicit InternetPlaylistItem(SharedPtr<InternetService> service, const Song &metadata);
+  explicit StreamPlaylistItem(const Song::Source source);
+  explicit StreamPlaylistItem(const Song &metadata);
+  explicit StreamPlaylistItem(SharedPtr<StreamingService> service, const Song &metadata);
 
   bool InitFromQuery(const SqlRow &query) override;
   Song Metadata() const override;
@@ -60,7 +60,7 @@ class InternetPlaylistItem : public PlaylistItem {
   Song::Source source_;
   Song metadata_;
 
-  Q_DISABLE_COPY(InternetPlaylistItem)
+  Q_DISABLE_COPY(StreamPlaylistItem)
 };
 
-#endif  // INTERNETPLAYLISTITEM_H
+#endif  // STREAMPLAYLISTITEM_H

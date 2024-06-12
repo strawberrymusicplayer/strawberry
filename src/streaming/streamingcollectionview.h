@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef INTERNETCOLLECTIONVIEW_H
-#define INTERNETCOLLECTIONVIEW_H
+#ifndef STREAMINGCOLLECTIONVIEW_H
+#define STREAMINGCOLLECTIONVIEW_H
 
 #include "config.h"
 
@@ -49,11 +49,11 @@ class CollectionBackend;
 class CollectionModel;
 class CollectionFilterWidget;
 
-class InternetCollectionView : public AutoExpandingTreeView {
+class StreamingCollectionView : public AutoExpandingTreeView {
   Q_OBJECT
 
  public:
-  explicit InternetCollectionView(QWidget *parent = nullptr);
+  explicit StreamingCollectionView(QWidget *parent = nullptr);
 
   void Init(Application *app, SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, const bool favorite = false);
 
@@ -140,4 +140,4 @@ class InternetCollectionView : public AutoExpandingTreeView {
   QSet<QString> last_selected_path_;
 };
 
-#endif  // INTERNETCOLLECTIONVIEW_H
+#endif  // STREAMINGCOLLECTIONVIEW_H

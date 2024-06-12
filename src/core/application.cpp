@@ -79,7 +79,7 @@
 #  include "scrobbler/subsonicscrobbler.h"
 #endif
 
-#include "internet/internetservices.h"
+#include "streaming/streamingservices.h"
 
 #ifdef HAVE_SUBSONIC
 #  include "subsonic/subsonicservice.h"
@@ -175,18 +175,18 @@ class ApplicationImpl {
           lyrics_providers->ReloadSettings();
           return lyrics_providers;
         }),
-        internet_services_([app]() {
-          InternetServices *internet_services = new InternetServices();
+        streaming_services_([app]() {
+          StreamingServices *streaming_services = new StreamingServices();
 #ifdef HAVE_SUBSONIC
-          internet_services->AddService(make_shared<SubsonicService>(app));
+          streaming_services->AddService(make_shared<SubsonicService>(app));
 #endif
 #ifdef HAVE_TIDAL
-          internet_services->AddService(make_shared<TidalService>(app));
+          streaming_services->AddService(make_shared<TidalService>(app));
 #endif
 #ifdef HAVE_QOBUZ
-          internet_services->AddService(make_shared<QobuzService>(app));
+          streaming_services->AddService(make_shared<QobuzService>(app));
 #endif
-          return internet_services;
+          return streaming_services;
         }),
         radio_services_([app]() { return new RadioServices(app); }),
         scrobbler_([app]() {
@@ -222,7 +222,7 @@ class ApplicationImpl {
   Lazy<AlbumCoverLoader> album_cover_loader_;
   Lazy<CurrentAlbumCoverLoader> current_albumcover_loader_;
   Lazy<LyricsProviders> lyrics_providers_;
-  Lazy<InternetServices> internet_services_;
+  Lazy<StreamingServices> streaming_services_;
   Lazy<RadioServices> radio_services_;
   Lazy<AudioScrobbler> scrobbler_;
 #ifdef HAVE_MOODBAR
@@ -287,7 +287,7 @@ void Application::Exit() {
 #ifndef Q_OS_WIN
                  << &*device_manager()
 #endif
-                 << &*internet_services()
+                 << &*streaming_services()
                  << &*radio_services()->radio_backend();
 
   QObject::connect(&*tag_reader_client(), &TagReaderClient::ExitFinished, this, &Application::ExitReceived);
@@ -307,8 +307,8 @@ void Application::Exit() {
   device_manager()->Exit();
 #endif
 
-  QObject::connect(&*internet_services(), &InternetServices::ExitFinished, this, &Application::ExitReceived);
-  internet_services()->Exit();
+  QObject::connect(&*streaming_services(), &StreamingServices::ExitFinished, this, &Application::ExitReceived);
+  streaming_services()->Exit();
 
   QObject::connect(&*radio_services()->radio_backend(), &RadioBackend::ExitFinished, this, &Application::ExitReceived);
   radio_services()->radio_backend()->ExitAsync();
@@ -353,7 +353,7 @@ SharedPtr<CurrentAlbumCoverLoader> Application::current_albumcover_loader() cons
 SharedPtr<LyricsProviders> Application::lyrics_providers() const { return p_->lyrics_providers_.ptr(); }
 SharedPtr<PlaylistBackend> Application::playlist_backend() const { return p_->playlist_backend_.ptr(); }
 SharedPtr<PlaylistManager> Application::playlist_manager() const { return p_->playlist_manager_.ptr(); }
-SharedPtr<InternetServices> Application::internet_services() const { return p_->internet_services_.ptr(); }
+SharedPtr<StreamingServices> Application::streaming_services() const { return p_->streaming_services_.ptr(); }
 SharedPtr<RadioServices> Application::radio_services() const { return p_->radio_services_.ptr(); }
 SharedPtr<AudioScrobbler> Application::scrobbler() const { return p_->scrobbler_.ptr(); }
 SharedPtr<LastFMImport> Application::lastfm_import() const { return p_->lastfm_import_.ptr(); }

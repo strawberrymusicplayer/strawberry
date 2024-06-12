@@ -26,13 +26,13 @@
 #include <QString>
 
 #include "collection/collectionmodel.h"
-#include "internetsearchmodel.h"
-#include "internetsearchsortmodel.h"
-#include "internetsearchview.h"
+#include "streamingsearchmodel.h"
+#include "streamingsearchsortmodel.h"
+#include "streamingsearchview.h"
 
-InternetSearchSortModel::InternetSearchSortModel(QObject *parent) : QSortFilterProxyModel(parent) {}
+StreamingSearchSortModel::StreamingSearchSortModel(QObject *parent) : QSortFilterProxyModel(parent) {}
 
-bool InternetSearchSortModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
+bool StreamingSearchSortModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
 
   // Dividers always go first
   if (left.data(CollectionModel::Role_IsDivider).toBool()) return true;
@@ -50,8 +50,8 @@ bool InternetSearchSortModel::lessThan(const QModelIndex &left, const QModelInde
   }
 
   // Otherwise we're comparing songs.  Sort by disc, track, then title.
-  const InternetSearchView::Result r1 = left.data(InternetSearchModel::Role_Result).value<InternetSearchView::Result>();
-  const InternetSearchView::Result r2 = right.data(InternetSearchModel::Role_Result).value<InternetSearchView::Result>();
+  const StreamingSearchView::Result r1 = left.data(StreamingSearchModel::Role_Result).value<StreamingSearchView::Result>();
+  const StreamingSearchView::Result r2 = right.data(StreamingSearchModel::Role_Result).value<StreamingSearchView::Result>();
 
   if (r1.metadata_.disc() < r2.metadata_.disc()) return true;
   if (r1.metadata_.disc() > r2.metadata_.disc()) return false;

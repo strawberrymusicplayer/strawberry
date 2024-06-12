@@ -34,7 +34,7 @@
 #include "playlistitem.h"
 #include "songplaylistitem.h"
 
-#include "internet/internetplaylistitem.h"
+#include "streaming/streamplaylistitem.h"
 #include "radios/radioplaylistitem.h"
 
 using std::make_shared;
@@ -47,7 +47,7 @@ PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
     case Song::Source::Subsonic:
     case Song::Source::Tidal:
     case Song::Source::Qobuz:
-      return make_shared<InternetPlaylistItem>(source);
+      return make_shared<StreamPlaylistItem>(source);
     case Song::Source::Stream:
     case Song::Source::RadioParadise:
     case Song::Source::SomaFM:
@@ -71,7 +71,7 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
     case Song::Source::Subsonic:
     case Song::Source::Tidal:
     case Song::Source::Qobuz:
-      return make_shared<InternetPlaylistItem>(song);
+      return make_shared<StreamPlaylistItem>(song);
     case Song::Source::Stream:
     case Song::Source::RadioParadise:
     case Song::Source::SomaFM:

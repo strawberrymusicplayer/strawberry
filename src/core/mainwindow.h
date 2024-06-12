@@ -92,8 +92,8 @@ class TrackSelectionDialog;
 class TranscodeDialog;
 #endif
 class Ui_MainWindow;
-class InternetSongsView;
-class InternetTabsView;
+class StreamingSongsView;
+class StreamingTabsView;
 class SmartPlaylistsViewContainer;
 #ifdef Q_OS_WIN
 class Windows7ThumbBar;
@@ -341,9 +341,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   SmartPlaylistsViewContainer *smartplaylists_view_;
 
-  InternetSongsView *subsonic_view_;
-  InternetTabsView *tidal_view_;
-  InternetTabsView *qobuz_view_;
+  StreamingSongsView *subsonic_view_;
+  StreamingTabsView *tidal_view_;
+  StreamingTabsView *qobuz_view_;
 
   RadioViewContainer *radio_view_;
 

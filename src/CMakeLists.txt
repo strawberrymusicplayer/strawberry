@@ -256,18 +256,18 @@ set(SOURCES
   osd/osdbase.cpp
   osd/osdpretty.cpp
 
-  internet/internetservices.cpp
-  internet/internetservice.cpp
-  internet/internetplaylistitem.cpp
-  internet/internetsearchview.cpp
-  internet/internetsearchmodel.cpp
-  internet/internetsearchsortmodel.cpp
-  internet/internetsearchitemdelegate.cpp
-  internet/internetsongsview.cpp
-  internet/internettabsview.cpp
-  internet/internetcollectionview.cpp
-  internet/internetcollectionviewcontainer.cpp
-  internet/internetsearchview.cpp
+  streaming/streamingservices.cpp
+  streaming/streamingservice.cpp
+  streaming/streamplaylistitem.cpp
+  streaming/streamingsearchview.cpp
+  streaming/streamingsearchmodel.cpp
+  streaming/streamingsearchsortmodel.cpp
+  streaming/streamingsearchitemdelegate.cpp
+  streaming/streamingsongsview.cpp
+  streaming/streamingtabsview.cpp
+  streaming/streamingcollectionview.cpp
+  streaming/streamingcollectionviewcontainer.cpp
+  streaming/streamingsearchview.cpp
 
   radios/radioservices.cpp
   radios/radiobackend.cpp
@@ -503,17 +503,17 @@ set(HEADERS
   osd/osdbase.h
   osd/osdpretty.h
 
-  internet/internetservices.h
-  internet/internetservice.h
-  internet/internetsongmimedata.h
-  internet/internetsearchmodel.h
-  internet/internetsearchsortmodel.h
-  internet/internetsearchitemdelegate.h
-  internet/internetsearchview.h
-  internet/internetsongsview.h
-  internet/internettabsview.h
-  internet/internetcollectionview.h
-  internet/internetcollectionviewcontainer.h
+  streaming/streamingservices.h
+  streaming/streamingservice.h
+  streaming/streamsongmimedata.h
+  streaming/streamingsearchmodel.h
+  streaming/streamingsearchsortmodel.h
+  streaming/streamingsearchitemdelegate.h
+  streaming/streamingsearchview.h
+  streaming/streamingsongsview.h
+  streaming/streamingtabsview.h
+  streaming/streamingcollectionview.h
+  streaming/streamingcollectionviewcontainer.h
 
   radios/radioservices.h
   radios/radiobackend.h
@@ -604,9 +604,9 @@ set(UI
 
   osd/osdpretty.ui
 
-  internet/internettabsview.ui
-  internet/internetcollectionviewcontainer.ui
-  internet/internetsearchview.ui
+  streaming/streamingtabsview.ui
+  streaming/streamingcollectionviewcontainer.ui
+  streaming/streamingsearchview.ui
 
   radios/radioviewcontainer.ui
 

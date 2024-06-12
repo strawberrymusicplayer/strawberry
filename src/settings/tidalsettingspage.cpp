@@ -37,7 +37,7 @@
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
-#include "internet/internetservices.h"
+#include "streaming/streamingservices.h"
 #include "tidal/tidalservice.h"
 #include "widgets/loginstatewidget.h"
 
@@ -46,7 +46,7 @@ const char *TidalSettingsPage::kSettingsGroup = "Tidal";
 TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::TidalSettingsPage),
-      service_(dialog->app()->internet_services()->Service<TidalService>()) {
+      service_(dialog->app()->streaming_services()->Service<TidalService>()) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(QStringLiteral("tidal"), true, 0, 32));
@@ -58,8 +58,8 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
   QObject::connect(this, &TidalSettingsPage::Authorize, &*service_, &TidalService::StartAuthorization);
   QObject::connect(this, &TidalSettingsPage::Login, &*service_, &TidalService::SendLoginWithCredentials);
 
-  QObject::connect(&*service_, &InternetService::LoginFailure, this, &TidalSettingsPage::LoginFailure);
-  QObject::connect(&*service_, &InternetService::LoginSuccess, this, &TidalSettingsPage::LoginSuccess);
+  QObject::connect(&*service_, &StreamingService::LoginFailure, this, &TidalSettingsPage::LoginFailure);
+  QObject::connect(&*service_, &StreamingService::LoginSuccess, this, &TidalSettingsPage::LoginSuccess);
 
   dialog->installEventFilter(this);
 

@@ -38,8 +38,8 @@
 
 #include "core/shared_ptr.h"
 #include "core/song.h"
-#include "internet/internetservice.h"
-#include "internet/internetsearchview.h"
+#include "streaming/streamingservice.h"
+#include "streaming/streamingsearchview.h"
 #include "settings/tidalsettingspage.h"
 
 class QNetworkReply;
@@ -55,7 +55,7 @@ class CollectionBackend;
 class CollectionModel;
 class CollectionFilter;
 
-class TidalService : public InternetService {
+class TidalService : public StreamingService {
   Q_OBJECT
 
  public:
@@ -71,7 +71,7 @@ class TidalService : public InternetService {
   void ReloadSettings() override;
 
   void Logout();
-  int Search(const QString &text, InternetSearchView::SearchType type) override;
+  int Search(const QString &text, StreamingSearchView::SearchType type) override;
   void CancelSearch() override;
 
   int max_login_attempts() const { return kLoginAttempts; }
@@ -209,7 +209,7 @@ class TidalService : public InternetService {
   int pending_search_id_;
   int next_pending_search_id_;
   QString pending_search_text_;
-  InternetSearchView::SearchType pending_search_type_;
+  StreamingSearchView::SearchType pending_search_type_;
 
   int search_id_;
   QString search_text_;

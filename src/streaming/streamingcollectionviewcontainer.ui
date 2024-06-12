@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>InternetCollectionViewContainer</class>
- <widget class="QWidget" name="InternetCollectionViewContainer">
+ <class>StreamingCollectionViewContainer</class>
+ <widget class="QWidget" name="StreamingCollectionViewContainer">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -111,7 +111,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="internetcollection_page">
+     <widget class="QWidget" name="streamingcollection_page">
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <property name="spacing">
         <number>0</number>
@@ -139,7 +139,7 @@
         </widget>
        </item>
        <item>
-        <widget class="InternetCollectionView" name="view"/>
+        <widget class="StreamingCollectionView" name="view"/>
        </item>
       </layout>
      </widget>
@@ -155,9 +155,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>InternetCollectionView</class>
+   <class>StreamingCollectionView</class>
    <extends>QTreeView</extends>
-   <header location="global">internet/internetcollectionview.h</header>
+   <header location="global">streaming/streamingcollectionview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

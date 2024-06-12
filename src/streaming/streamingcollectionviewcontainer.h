@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef INTERNETCOLLECTIONVIEWCONTAINER_H
-#define INTERNETCOLLECTIONVIEWCONTAINER_H
+#ifndef STREAMINGCOLLECTIONVIEWCONTAINER_H
+#define STREAMINGCOLLECTIONVIEWCONTAINER_H
 
 #include "config.h"
 
@@ -26,8 +26,8 @@
 #include <QWidget>
 #include <QString>
 
-#include "internetcollectionview.h"
-#include "ui_internetcollectionviewcontainer.h"
+#include "streamingcollectionview.h"
+#include "ui_streamingcollectionviewcontainer.h"
 
 class QStackedWidget;
 class QPushButton;
@@ -36,12 +36,12 @@ class QProgressBar;
 class QContextMenuEvent;
 class CollectionFilterWidget;
 
-class InternetCollectionViewContainer : public QWidget {
+class StreamingCollectionViewContainer : public QWidget {
   Q_OBJECT
 
  public:
-  explicit InternetCollectionViewContainer(QWidget *parent = nullptr);
-  ~InternetCollectionViewContainer() override;
+  explicit StreamingCollectionViewContainer(QWidget *parent = nullptr);
+  ~StreamingCollectionViewContainer() override;
 
   void ReloadSettings() const;
   bool SearchFieldHasFocus() const;
@@ -49,8 +49,8 @@ class InternetCollectionViewContainer : public QWidget {
 
   QStackedWidget *stacked() const { return ui_->stacked; }
   QWidget *help_page() const { return ui_->help_page; }
-  QWidget *internetcollection_page() const { return ui_->internetcollection_page; }
-  InternetCollectionView *view() const { return ui_->view; }
+  QWidget *streamingcollection_page() const { return ui_->streamingcollection_page; }
+  StreamingCollectionView *view() const { return ui_->view; }
   CollectionFilterWidget *filter_widget() const { return ui_->filter_widget; }
   QPushButton *button_refresh() const { return ui_->refresh; }
   QPushButton *button_close() const { return ui_->close; }
@@ -62,8 +62,8 @@ class InternetCollectionViewContainer : public QWidget {
   void contextMenuEvent(QContextMenuEvent *e) override;
 
  private:
-  Ui_InternetCollectionViewContainer *ui_;
+  Ui_StreamingCollectionViewContainer *ui_;
 
 };
 
-#endif  // INTERNETCOLLECTIONVIEWCONTAINER_H
+#endif  // STREAMINGCOLLECTIONVIEWCONTAINER_H

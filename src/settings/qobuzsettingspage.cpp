@@ -38,7 +38,7 @@
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "widgets/loginstatewidget.h"
-#include "internet/internetservices.h"
+#include "streaming/streamingservices.h"
 #include "qobuz/qobuzservice.h"
 
 const char *QobuzSettingsPage::kSettingsGroup = "Qobuz";
@@ -46,7 +46,7 @@ const char *QobuzSettingsPage::kSettingsGroup = "Qobuz";
 QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::QobuzSettingsPage),
-      service_(dialog->app()->internet_services()->Service<QobuzService>()) {
+      service_(dialog->app()->streaming_services()->Service<QobuzService>()) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(QStringLiteral("qobuz"), true, 0, 32));
@@ -54,10 +54,10 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, QWidget *parent)
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &QobuzSettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &QobuzSettingsPage::LogoutClicked);
 
-  QObject::connect(this, &QobuzSettingsPage::Login, &*service_, &InternetService::LoginWithCredentials);
+  QObject::connect(this, &QobuzSettingsPage::Login, &*service_, &StreamingService::LoginWithCredentials);
 
-  QObject::connect(&*service_, &InternetService::LoginFailure, this, &QobuzSettingsPage::LoginFailure);
-  QObject::connect(&*service_, &InternetService::LoginSuccess, this, &QobuzSettingsPage::LoginSuccess);
+  QObject::connect(&*service_, &StreamingService::LoginFailure, this, &QobuzSettingsPage::LoginFailure);
+  QObject::connect(&*service_, &StreamingService::LoginSuccess, this, &QobuzSettingsPage::LoginSuccess);
 
   dialog->installEventFilter(this);
 

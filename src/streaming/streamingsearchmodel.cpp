@@ -32,12 +32,12 @@
 
 #include "core/mimedata.h"
 #include "core/iconloader.h"
-#include "internetsongmimedata.h"
-#include "internetservice.h"
-#include "internetsearchmodel.h"
-#include "internetsearchview.h"
+#include "streamsongmimedata.h"
+#include "streamingservice.h"
+#include "streamingsearchmodel.h"
+#include "streamingsearchview.h"
 
-InternetSearchModel::InternetSearchModel(InternetServicePtr service, QObject *parent)
+StreamingSearchModel::StreamingSearchModel(StreamingServicePtr service, QObject *parent)
     : QStandardItemModel(parent),
       service_(service),
       proxy_(nullptr),
@@ -54,9 +54,9 @@ InternetSearchModel::InternetSearchModel(InternetServicePtr service, QObject *pa
 
 }
 
-void InternetSearchModel::AddResults(const InternetSearchView::ResultList &results) {
+void StreamingSearchModel::AddResults(const StreamingSearchView::ResultList &results) {
 
-  for (const InternetSearchView::Result &result : results) {
+  for (const StreamingSearchView::Result &result : results) {
     QStandardItem *parent = invisibleRootItem();
 
     // Find (or create) the container nodes for this result if we can.
@@ -74,7 +74,7 @@ void InternetSearchModel::AddResults(const InternetSearchView::ResultList &resul
 
 }
 
-QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, const int level) {
+QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, const int level) {
 
   if (level >= 3) {
     return parent;
@@ -286,14 +286,14 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
 
 }
 
-void InternetSearchModel::Clear() {
+void StreamingSearchModel::Clear() {
 
   containers_.clear();
   clear();
 
 }
 
-InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QModelIndexList &indexes) const {
+StreamingSearchView::ResultList StreamingSearchModel::GetChildResults(const QModelIndexList &indexes) const {
 
   QList<QStandardItem*> items;
   items.reserve(indexes.count());
@@ -304,9 +304,9 @@ InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QModel
 
 }
 
-InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QList<QStandardItem*> &items) const {
+StreamingSearchView::ResultList StreamingSearchModel::GetChildResults(const QList<QStandardItem*> &items) const {
 
-  InternetSearchView::ResultList results;
+  StreamingSearchView::ResultList results;
   QSet<const QStandardItem*> visited;
 
   for (QStandardItem *item : items) {
@@ -317,7 +317,7 @@ InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QList<
 
 }
 
-void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const {
+void StreamingSearchModel::GetChildResults(const QStandardItem *item, StreamingSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const {
 
   if (visited->contains(item)) {
     return;
@@ -339,13 +339,13 @@ void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSea
     // No - maybe it's a song, add its result if valid
     QVariant result = item->data(Role_Result);
     if (result.isValid()) {
-      results->append(result.value<InternetSearchView::Result>());
+      results->append(result.value<StreamingSearchView::Result>());
     }
   }
 
 }
 
-QMimeData *InternetSearchModel::mimeData(const QModelIndexList &indexes) const {
+QMimeData *StreamingSearchModel::mimeData(const QModelIndexList &indexes) const {
 
   return LoadTracks(GetChildResults(indexes));
 
@@ -353,11 +353,11 @@ QMimeData *InternetSearchModel::mimeData(const QModelIndexList &indexes) const {
 
 namespace {
 
-void GatherResults(const QStandardItem *parent, InternetSearchView::ResultList *results) {
+void GatherResults(const QStandardItem *parent, StreamingSearchView::ResultList *results) {
 
-  QVariant result_variant = parent->data(InternetSearchModel::Role_Result);
+  QVariant result_variant = parent->data(StreamingSearchModel::Role_Result);
   if (result_variant.isValid()) {
-    InternetSearchView::Result result = result_variant.value<InternetSearchView::Result>();
+    StreamingSearchView::Result result = result_variant.value<StreamingSearchView::Result>();
     (*results).append(result);
   }
 
@@ -369,14 +369,14 @@ void GatherResults(const QStandardItem *parent, InternetSearchView::ResultList *
 
 }  // namespace
 
-void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping grouping, const bool regroup_now) {
+void StreamingSearchModel::SetGroupBy(const CollectionModel::Grouping grouping, const bool regroup_now) {
 
   const CollectionModel::Grouping old_group_by = group_by_;
   group_by_ = grouping;
 
   if (regroup_now && group_by_ != old_group_by) {
     // Walk the tree gathering the results we have already
-    InternetSearchView::ResultList results;
+    StreamingSearchView::ResultList results;
     GatherResults(invisibleRootItem(), &results);
 
     // Reset the model and re-add all the results using the new grouping.
@@ -386,7 +386,7 @@ void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping grouping, c
 
 }
 
-MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &results) const {
+MimeData *StreamingSearchModel::LoadTracks(const StreamingSearchView::ResultList &results) const {
 
   if (results.isEmpty()) {
     return nullptr;
@@ -396,14 +396,14 @@ MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &
   QList<QUrl> urls;
   songs.reserve(results.count());
   urls.reserve(results.count());
-  for (const InternetSearchView::Result &result : results) {
+  for (const StreamingSearchView::Result &result : results) {
     songs.append(result.metadata_);
     urls << result.metadata_.url();
   }
 
-  InternetSongMimeData *internet_song_mime_data = new InternetSongMimeData(service_);
-  internet_song_mime_data->songs = songs;
-  MimeData *mime_data = internet_song_mime_data;
+  StreamSongMimeData *streaming_song_mime_data = new StreamSongMimeData(service_);
+  streaming_song_mime_data->songs = songs;
+  MimeData *mime_data = streaming_song_mime_data;
 
   mime_data->setUrls(urls);
 

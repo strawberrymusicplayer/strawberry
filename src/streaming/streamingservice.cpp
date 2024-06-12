@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This code was part of Clementine (GlobalSearch)
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,22 +17,20 @@
  *
  */
 
-#ifndef INTERNETSEARCHSORTMODEL_H
-#define INTERNETSEARCHSORTMODEL_H
+#include <QObject>
+#include <QString>
 
-#include <QSortFilterProxyModel>
+#include "streamingservice.h"
+#include "core/song.h"
+#include "settings/settingsdialog.h"
 
-class QObject;
-class QModelIndex;
+class Application;
 
-class InternetSearchSortModel : public QSortFilterProxyModel {
-  Q_OBJECT
-
- public:
-  explicit InternetSearchSortModel(QObject *parent = nullptr);
-
- protected:
-  bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
-};
-
-#endif  // INTERNETSEARCHSORTMODEL_H
+StreamingService::StreamingService(const Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, const SettingsDialog::Page settings_page, Application *app, QObject *parent)
+    : QObject(parent),
+      app_(app),
+      source_(source),
+      name_(name),
+      url_scheme_(url_scheme),
+      settings_group_(settings_group),
+      settings_page_(settings_page) {}

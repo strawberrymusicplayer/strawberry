@@ -39,7 +39,7 @@
 #include "core/scoped_ptr.h"
 #include "core/shared_ptr.h"
 #include "core/song.h"
-#include "internet/internetservice.h"
+#include "streaming/streamingservice.h"
 #include "settings/subsonicsettingspage.h"
 
 class QNetworkReply;
@@ -52,7 +52,7 @@ class CollectionBackend;
 class CollectionModel;
 class CollectionFilter;
 
-class SubsonicService : public InternetService {
+class SubsonicService : public StreamingService {
   Q_OBJECT
 
  public:

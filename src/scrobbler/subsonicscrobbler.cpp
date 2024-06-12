@@ -33,7 +33,7 @@
 #include "core/logging.h"
 #include "utilities/timeconstants.h"
 #include "settings/subsonicsettingspage.h"
-#include "internet/internetservices.h"
+#include "streaming/streamingservices.h"
 #include "subsonic/subsonicservice.h"
 
 #include "scrobblersettings.h"
@@ -70,7 +70,7 @@ void SubsonicScrobbler::ReloadSettings() {
 SubsonicServicePtr SubsonicScrobbler::service() {
 
   if (!service_) {
-    service_ = app_->internet_services()->Service<SubsonicService>();
+    service_ = app_->streaming_services()->Service<SubsonicService>();
   }
 
   return service_;
