@@ -1171,6 +1171,11 @@ jobs:
         shell: bash
         run: echo "cmake_buildtype=$(echo ${{matrix.buildtype}} | sed 's/.*/\u&/')" >> $GITHUB_ENV
 
+      - name: Cleanup PATH
+        uses: egor-tensin/cleanup-path@v4
+        with:
+          dirs: ${{env.prefix_path_backslash}}\bin;C:\Windows;C:\Windows\system32;C:\Program Files\Git\bin;C:\Program Files\CMake\bin;C:\Program Files\GitHub CLI;C:\ProgramData\Chocolatey\bin;C:\Program Files (x86)\NSIS
+
       - name: Create downloads directory
         shell: cmd
         run: mkdir downloads
@@ -1194,13 +1199,11 @@ jobs:
 
       - name: Delete conflicting files
         shell: bash
-        run: rm -rf /c/msys64 /c/mingw32 /c/mingw64 /c/strawberry/c "/c/program files/OpenSSL" "/c/program files/postgresql"
+        run: rm -rf /c/{msys64,mingw32,mingw64} /c/strawberry/c "/c/program files/OpenSSL"
 
       - name: Delete conflicting icu
         shell: bash
-        run: |
-          find "/c/program files (x86)/windows kits/" -iname 'icu*.lib' -delete
-          find "/c/program files (x86)/windows kits/" -iname 'icu*.h' -delete
+        run: find "/c/program files (x86)/windows kits/" -type f \( -iname 'icu*.lib' -o -iname 'icu*.h' \) -print -delete
 
       - name: Download NSIS LockedList plugin
         shell: cmd
