@@ -1267,12 +1267,12 @@ jobs:
         run: cmake -E make_directory build
 
       - name: Set ENABLE_WIN32_CONSOLE (debug)
-        if: matrix.build_type == 'debug'
+        if: matrix.buildtype == 'debug'
         shell: bash
         run: echo "win32_console=ON" >> $GITHUB_ENV
 
       - name: Set ENABLE_WIN32_CONSOLE (release)
-        if: matrix.build_type == 'release'
+        if: matrix.buildtype == 'release'
         shell: bash
         run: echo "win32_console=OFF" >> $GITHUB_ENV
 
