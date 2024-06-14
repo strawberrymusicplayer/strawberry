@@ -278,10 +278,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
     // Overwrite the stuff, we may have read from the file or collection, using the current .cue metadata
 
-    // Set track number only in single-file mode
-    if (files == 1) {
-      song.set_track(i + 1);
-    }
+    song.set_track(i + 1);
 
     // The last TRACK for every FILE gets it's 'end' marker from the media file's length
     if (i + 1 < entries.size() && entries.at(i).file == entries.at(i + 1).file) {
