@@ -101,9 +101,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     }
   }
 
-  if (!song->has_cue()) {
-    TagReaderClient::Instance()->ReadFileBlocking(filename, song);
-  }
+  TagReaderClient::Instance()->ReadFileBlocking(filename, song);
 
 }
 
