@@ -95,7 +95,8 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
       use_disk_cache_(false),
       total_song_count_(0),
       total_artist_count_(0),
-      total_album_count_(0) {
+      total_album_count_(0),
+      loading_(false) {
 
   filter_->setSourceModel(this);
   filter_->setSortRole(Role_SortText);
@@ -195,6 +196,12 @@ void CollectionModel::EndReset() {
 }
 
 void CollectionModel::Reload() {
+
+  loading_ = true;
+  if (timer_reload_->isActive()) {
+    timer_reload_->stop();
+  }
+  updates_.clear();
 
   options_active_ = options_current_;
 
@@ -467,7 +474,7 @@ void CollectionModel::ScheduleRemoveSongs(const SongList &songs) {
 
 void CollectionModel::ProcessUpdate() {
 
-  if (updates_.isEmpty()) {
+  if (loading_ || updates_.isEmpty()) {
     timer_update_->stop();
     return;
   }
@@ -496,6 +503,8 @@ void CollectionModel::ProcessUpdate() {
 }
 
 void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
+
+  if (loading_) return;
 
   SongList songs_added;
   SongList songs_removed;
@@ -534,6 +543,8 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
 }
 
 void CollectionModel::AddSongsInternal(const SongList &songs) {
+
+  if (loading_) return;
 
   for (const Song &song : songs) {
 
@@ -576,6 +587,8 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
 
 void CollectionModel::UpdateSongsInternal(const SongList &songs) {
 
+  if (loading_) return;
+
   QList<CollectionItem*> album_parents;
 
   for (const Song &new_song : songs) {
@@ -617,6 +630,8 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
 }
 
 void CollectionModel::RemoveSongsInternal(const SongList &songs) {
+
+  if (loading_) return;
 
   // Delete the actual song nodes first, keeping track of each parent so we might check to see if they're empty later.
   QSet<CollectionItem*> parents;
@@ -832,6 +847,12 @@ void CollectionModel::LoadSongsFromSqlAsyncFinished() {
   BeginReset();
   ScheduleAddSongs(songs);
   EndReset();
+
+  loading_ = false;
+
+  if (!updates_.isEmpty() && !timer_update_->isActive()) {
+    timer_update_->start();
+  }
 
 }
 

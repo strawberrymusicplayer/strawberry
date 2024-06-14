@@ -292,6 +292,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   int total_artist_count_;
   int total_album_count_;
 
+  bool loading_;
+
   QQueue<CollectionModelUpdate> updates_;
 
   // Keyed on database ID
