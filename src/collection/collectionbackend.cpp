@@ -1160,7 +1160,7 @@ Song CollectionBackend::GetSongByUrl(const QUrl &url, const qint64 beginning) {
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND beginning = :beginning AND unavailable = 0").arg(Song::kRowIdColumnSpec, songs_table_));
-  q.BindValue(QStringLiteral(":url1"), url.toString(QUrl::FullyDecoded));
+  q.BindValue(QStringLiteral(":url1"), url.toString());
   q.BindValue(QStringLiteral(":url2"), url.toString(QUrl::FullyEncoded));
   q.BindValue(QStringLiteral(":url3"), url.toEncoded(QUrl::FullyDecoded));
   q.BindValue(QStringLiteral(":url4"), url.toEncoded(QUrl::FullyEncoded));
@@ -1189,7 +1189,7 @@ Song CollectionBackend::GetSongByUrlAndTrack(const QUrl &url, const int track) {
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND track = :track AND unavailable = 0").arg(Song::kRowIdColumnSpec, songs_table_));
-  q.BindValue(QStringLiteral(":url1"), url.toString(QUrl::FullyDecoded));
+  q.BindValue(QStringLiteral(":url1"), url.toString());
   q.BindValue(QStringLiteral(":url2"), url.toString(QUrl::FullyEncoded));
   q.BindValue(QStringLiteral(":url3"), url.toEncoded(QUrl::FullyDecoded));
   q.BindValue(QStringLiteral(":url4"), url.toEncoded(QUrl::FullyEncoded));
@@ -1218,7 +1218,7 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url, const bool unavailabl
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = :unavailable").arg(Song::kRowIdColumnSpec, songs_table_));
-  q.BindValue(QStringLiteral(":url1"), url.toString(QUrl::FullyDecoded));
+  q.BindValue(QStringLiteral(":url1"), url.toString());
   q.BindValue(QStringLiteral(":url2"), url.toString(QUrl::FullyEncoded));
   q.BindValue(QStringLiteral(":url3"), url.toEncoded(QUrl::FullyDecoded));
   q.BindValue(QStringLiteral(":url4"), url.toEncoded(QUrl::FullyEncoded));
@@ -1420,7 +1420,7 @@ bool CollectionBackend::UpdateCompilations(const QSqlDatabase &db, SongList &cha
   {  // Get song, so we can tell the model its updated
     SqlQuery q(db);
     q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = 0").arg(Song::kRowIdColumnSpec, songs_table_));
-    q.BindValue(QStringLiteral(":url1"), url.toString(QUrl::FullyDecoded));
+    q.BindValue(QStringLiteral(":url1"), url.toString());
     q.BindValue(QStringLiteral(":url2"), url.toString(QUrl::FullyEncoded));
     q.BindValue(QStringLiteral(":url3"), url.toEncoded(QUrl::FullyDecoded));
     q.BindValue(QStringLiteral(":url4"), url.toEncoded(QUrl::FullyEncoded));
@@ -1442,7 +1442,7 @@ bool CollectionBackend::UpdateCompilations(const QSqlDatabase &db, SongList &cha
   SqlQuery q(db);
   q.prepare(QStringLiteral("UPDATE %1 SET compilation_detected = :compilation_detected, compilation_effective = ((compilation OR :compilation_detected OR compilation_on) AND NOT compilation_off) + 0 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = 0").arg(songs_table_));
   q.BindValue(QStringLiteral(":compilation_detected"), static_cast<int>(compilation_detected));
-  q.BindValue(QStringLiteral(":url1"), url.toString(QUrl::FullyDecoded));
+  q.BindValue(QStringLiteral(":url1"), url.toString());
   q.BindValue(QStringLiteral(":url2"), url.toString(QUrl::FullyEncoded));
   q.BindValue(QStringLiteral(":url3"), url.toEncoded(QUrl::FullyDecoded));
   q.BindValue(QStringLiteral(":url4"), url.toEncoded(QUrl::FullyEncoded));
