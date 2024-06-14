@@ -104,17 +104,18 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
   QList<CueEntry> entries;
   int files = 0;
 
+  QString album_artist;
+  QString album;
+  QString album_composer;
+  QString album_genre;
+  QString album_date;
+  QString disc;
+
   // -- whole file
   while (!text_stream.atEnd()) {
 
-    QString album_artist;
-    QString album;
-    QString album_composer;
     QString file;
     QString file_type;
-    QString album_genre;
-    QString album_date;
-    QString disc;
 
     // -- FILE section
     do {
