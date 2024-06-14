@@ -98,7 +98,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 #endif
 
   QString dir_path = dir.absolutePath();
-  // read the first line already
+  // Read the first line already
   QString line = text_stream.readLine();
 
   QList<CueEntry> entries;
@@ -120,14 +120,20 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
     do {
       QStringList splitted = SplitCueLine(line);
 
-      // uninteresting or incorrect line
+      // Uninteresting or incorrect line
       if (splitted.size() < 2) {
         continue;
       }
       const QString &line_name = splitted[0];
       const QString &line_value = splitted[1];
 
-      if (line_name.compare(QLatin1String(kPerformer), Qt::CaseInsensitive) == 0) {
+      if (line_name.compare(QLatin1String(kFile), Qt::CaseInsensitive) == 0) {
+        file = QDir::isAbsolutePath(line_value) ? line_value : dir.absoluteFilePath(line_value);
+        if (splitted.size() > 2) {
+          file_type = splitted[2];
+        }
+      }
+      else if (line_name.compare(QLatin1String(kPerformer), Qt::CaseInsensitive) == 0) {
         album_artist = line_value;
       }
       else if (line_name.compare(QLatin1String(kTitle), Qt::CaseInsensitive) == 0) {
@@ -138,12 +144,6 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
       }
       else if (line_name.compare(QLatin1String(kComposer), Qt::CaseInsensitive) == 0) {
         album_composer = line_value;
-      }
-      else if (line_name.compare(QLatin1String(kFile), Qt::CaseInsensitive) == 0) {
-        file = QDir::isAbsolutePath(line_value) ? line_value : dir.absoluteFilePath(line_value);
-        if (splitted.size() > 2) {
-          file_type = splitted[2];
-        }
       }
       else if (line_name.compare(QLatin1String(kRem), Qt::CaseInsensitive) == 0) {
         if (splitted.size() < 3) {
@@ -159,20 +159,20 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
           disc = splitted[2];
         }
       }
-      // end of the header -> go into the track mode
+      // End of the header -> go into the track mode
       else if (line_name.compare(QLatin1String(kTrack), Qt::CaseInsensitive) == 0) {
         files++;
         break;
       }
-      // just ignore the rest of possible field types for now...
+      // Ignore the rest of possible field types for now...
     } while (!(line = text_stream.readLine()).isNull());
 
     if (line.isNull()) {
-      qLog(Warning) << "the .cue file from " << dir_path << " defines no tracks!";
+      qLog(Warning) << "The .cue file from" << dir_path << "defines no tracks!";
       return ret;
     }
 
-    // if this is a data file, all of its tracks will be ignored
+    // If this is a data file, all of its tracks will be ignored
     bool valid_file = file_type.compare(QLatin1String("BINARY"), Qt::CaseInsensitive) != 0 && file_type.compare(QLatin1String("MOTOROLA"), Qt::CaseInsensitive) != 0;
 
     QString track_type;
@@ -187,7 +187,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
     do {
       QStringList splitted = SplitCueLine(line);
 
-      // uninteresting or incorrect line
+      // Uninteresting or incorrect line
       if (splitted.size() < 2) {
         continue;
       }
@@ -198,13 +198,13 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
       if (line_name.compare(QLatin1String(kTrack), Qt::CaseInsensitive) == 0) {
 
-        // the beginning of another track's definition - we're saving the current one for later (if it's valid of course)
+        // The beginning of another track's definition - we're saving the current one for later (if it's valid of course)
         // please note that the same code is repeated just after this 'do-while' loop
         if (valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type.compare(QLatin1String(kAudioTrackType), Qt::CaseInsensitive) == 0)) {
           entries.append(CueEntry(file, index, title, artist, album_artist, album, composer, album_composer, (genre.isEmpty() ? album_genre : genre), (date.isEmpty() ? album_date : date), disc));
         }
 
-        // clear the state
+        // Clear the state
         track_type = index = artist = composer = title = date = genre = QLatin1String("");
 
         if (!line_additional.isEmpty()) {
@@ -284,13 +284,13 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
     // The last TRACK for every FILE gets it's 'end' marker from the media file's length
     if (i + 1 < entries.size() && entries.at(i).file == entries.at(i + 1).file) {
-      // incorrect indices?
+      // Incorrect indices?
       if (!UpdateSong(entry, entries.at(i + 1).index, &song)) {
         continue;
       }
     }
     else {
-      // incorrect index?
+      // Incorrect index?
       if (!UpdateLastSong(entry, &song)) {
         continue;
       }
