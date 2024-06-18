@@ -362,16 +362,16 @@ void PlaylistView::RestoreHeaderState() {
 
     header_->SetStretchEnabled(true);
 
-    header_->SetColumnWidth(Playlist::Column_Track, 0.04);
-    header_->SetColumnWidth(Playlist::Column_Title, 0.26);
-    header_->SetColumnWidth(Playlist::Column_Artist, 0.20);
-    header_->SetColumnWidth(Playlist::Column_Album, 0.14);
-    header_->SetColumnWidth(Playlist::Column_Length, 0.03);
-    header_->SetColumnWidth(Playlist::Column_Samplerate, 0.07);
-    header_->SetColumnWidth(Playlist::Column_Bitdepth, 0.07);
-    header_->SetColumnWidth(Playlist::Column_Bitrate, 0.07);
-    header_->SetColumnWidth(Playlist::Column_Filetype, 0.06);
-    header_->SetColumnWidth(Playlist::Column_Source, 0.06);
+    header_->SetColumnWidth(Playlist::Column_Track, 0.03);
+    header_->SetColumnWidth(Playlist::Column_Title, 0.24);
+    header_->SetColumnWidth(Playlist::Column_Artist, 0.24);
+    header_->SetColumnWidth(Playlist::Column_Album, 0.24);
+    header_->SetColumnWidth(Playlist::Column_Length, 0.04);
+    header_->SetColumnWidth(Playlist::Column_Samplerate, 0.05);
+    header_->SetColumnWidth(Playlist::Column_Bitdepth, 0.04);
+    header_->SetColumnWidth(Playlist::Column_Bitrate, 0.04);
+    header_->SetColumnWidth(Playlist::Column_Filetype, 0.04);
+    header_->SetColumnWidth(Playlist::Column_Source, 0.04);
 
     header_state_ = header_->SaveState();
     header_->RestoreState(header_state_);
