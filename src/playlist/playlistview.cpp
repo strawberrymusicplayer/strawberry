@@ -1399,7 +1399,7 @@ void PlaylistView::SongChanged(const Song &song) {
 
   if (select_track_ && playlist_) {
     clearSelection();
-    QItemSelection selection(playlist_->index(playlist_->current_row(), 0), playlist_->index(playlist_->current_row(), static_cast<int>(playlist_->Column::ColumnCount) - 1));
+    QItemSelection selection(playlist_->index(playlist_->current_row(), 0), playlist_->index(playlist_->current_row(), Playlist::ColumnCount - 1));
     selectionModel()->select(selection, QItemSelectionModel::Select);
   }
 
