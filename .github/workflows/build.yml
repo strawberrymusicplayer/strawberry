@@ -804,6 +804,7 @@ jobs:
           -DICU_ROOT="${{env.prefix_path}}"
           -DFFTW3_DIR="${{env.prefix_path}}"
           -DAPPLE_DEVELOPER_ID=$(test '${{github.repository}}' = 'strawberrymusicplayer/strawberry' && test '${{github.event.pull_request.base.repo.full_name}}' = '${{github.event.pull_request.head.repo.full_name}}' && echo "383J84DVB6" || echo "")
+          -DENABLE_SPOTIFY=OFF
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
@@ -926,6 +927,7 @@ jobs:
           -DICU_ROOT="${{env.prefix_path}}"
           -DFFTW3_DIR="${{env.prefix_path}}"
           -DAPPLE_DEVELOPER_ID="383J84DVB6"
+          -DENABLE_SPOTIFY=OFF
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
@@ -1025,6 +1027,7 @@ jobs:
           -DENABLE_LIBGPOD=OFF
           -DENABLE_LIBMTP=OFF
           -DENABLE_AUDIOCD=OFF
+          -DENABLE_SPOTIFY=OFF
           -DProtobuf_PROTOC_EXECUTABLE="/strawberry-mxe/usr/x86_64-pc-linux-gnu/bin/protoc"
 
       - name: Run Make
