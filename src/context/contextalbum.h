@@ -63,7 +63,7 @@ class ContextAlbum : public QWidget {
  private:
 
   struct PreviousCover {
-    PreviousCover() : opacity(0.0) {}
+    explicit PreviousCover() : opacity(0.0) {}
     QImage image;
     QPixmap pixmap;
     qreal opacity;
