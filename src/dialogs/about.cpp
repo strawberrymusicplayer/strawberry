@@ -47,7 +47,10 @@ About::About(QWidget *parent) : QDialog(parent), ui_{} {
 
   strawberry_contributors_ \
            << Person(QStringLiteral("Gavin D. Howard"))
-           << Person(QStringLiteral("Martin Delille"));
+           << Person(QStringLiteral("Martin Delille"))
+           << Person(QStringLiteral("Roman Lebedev"))
+           << Person(QStringLiteral("Daniel Ostertag"))
+           << Person(QStringLiteral("Gustavo L Conte"));
 
   clementine_authors_
            << Person(QStringLiteral("David Sansome"))
