@@ -47,7 +47,9 @@
 using std::make_unique;
 using std::make_shared;
 
-const int ContextAlbum::kFadeTimeLineMs = 1000;
+namespace {
+constexpr int kFadeTimeLineMs = 1000;
+}
 
 ContextAlbum::ContextAlbum(QWidget *parent)
     : QWidget(parent),

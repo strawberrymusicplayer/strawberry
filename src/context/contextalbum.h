@@ -93,9 +93,6 @@ class ContextAlbum : public QWidget {
   void SearchCoverInProgress();
 
  private:
-  static const int kFadeTimeLineMs;
-
- private:
   QMenu *menu_;
   ContextView *context_view_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
