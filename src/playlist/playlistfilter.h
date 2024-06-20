@@ -42,11 +42,11 @@ class PlaylistFilter : public QSortFilterProxyModel {
   ~PlaylistFilter() override;
 
   // QAbstractItemModel
-  void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
+  void sort(const int column, const Qt::SortOrder order = Qt::AscendingOrder) override;
 
   // QSortFilterProxyModel
   // public so Playlist::NextVirtualIndex and friends can get at it
-  bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
+  bool filterAcceptsRow(const int source_row, const QModelIndex &source_parent) const override;
 
   void SetFilterText(const QString &filter_text);
 

@@ -252,8 +252,12 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
   }
 
   // Might've been an async load, so check we're still on the same item
-  PlaylistItemPtr item = app_->playlist_manager()->active()->current_item();
-  if (!item) {
+  const int current_row = app_->playlist_manager()->active()->current_row();
+  if (current_row == -1) {
+    return;
+  }
+  PlaylistItemPtr current_item = app_->playlist_manager()->active()->current_item();
+  if (!current_item) {
     return;
   }
   int next_row = app_->playlist_manager()->active()->next_row();
@@ -263,10 +267,10 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
     next_item = app_->playlist_manager()->active()->item_at(next_row);
   }
 
-  bool is_current(false);
-  bool is_next(false);
+  bool is_current = false;
+  bool is_next = false;
 
-  if (result.media_url_ == item->Url()) {
+  if (result.media_url_ == current_item->Url()) {
     is_current = true;
   }
   else if (has_next_row && next_item->Url() == result.media_url_) {
@@ -294,10 +298,10 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       qLog(Debug) << "URL handler for" << result.media_url_ << "returned" << result.stream_url_;
 
       Song song;
-      if (is_current) song = item->Metadata();
+      if (is_current) song = current_item->Metadata();
       else if (is_next) song = next_item->Metadata();
 
-      bool update(false);
+      bool update = false;
 
       // Set the stream url in the temporary metadata.
       if (
@@ -341,23 +345,20 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       if (update) {
         if (is_current) {
-          item->SetTemporaryMetadata(song);
-          app_->playlist_manager()->active()->InformOfCurrentSongChange(autoscroll_, true);
-          app_->playlist_manager()->active()->UpdateScrobblePoint();
+          app_->playlist_manager()->active()->UpdateItemMetadata(current_row, current_item, song, true);
         }
         else if (is_next) {
-          next_item->SetTemporaryMetadata(song);
-          app_->playlist_manager()->active()->ItemChanged(next_row);
+          app_->playlist_manager()->active()->UpdateItemMetadata(next_row, next_item, song, true);
         }
       }
 
       if (is_current) {
-        qLog(Debug) << "Playing song" << item->Metadata().title() << result.stream_url_ << "position" << play_offset_nanosec_;
+        qLog(Debug) << "Playing song" << current_item->Metadata().title() << result.stream_url_ << "position" << play_offset_nanosec_;
         engine_->Play(result.media_url_, result.stream_url_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec(), play_offset_nanosec_, song.ebur128_integrated_loudness_lufs());
-        current_item_ = item;
+        current_item_ = current_item;
         play_offset_nanosec_ = 0;
       }
-      else if (is_next && !item->Metadata().is_module_music()) {
+      else if (is_next && !current_item->Metadata().is_module_music()) {
         qLog(Debug) << "Preloading next song" << next_item->Metadata().title() << result.stream_url_;
         engine_->StartPreloading(next_item->Url(), result.stream_url_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec());
       }
@@ -783,7 +784,7 @@ void Player::SeekTo(const quint64 seconds) {
   emit Seeked(nanosec / 1000);
 
   if (seconds == 0) {
-    app_->playlist_manager()->active()->InformOfCurrentSongChange(Playlist::AutoScroll::Maybe, false);
+    app_->playlist_manager()->active()->InformOfCurrentSongChange(false);
   }
 
 }
@@ -799,24 +800,26 @@ void Player::SeekBackward() {
 void Player::EngineMetadataReceived(const EngineMetadata &engine_metadata) {
 
   if (engine_metadata.type == EngineMetadata::Type::Any || engine_metadata.type == EngineMetadata::Type::Current) {
-    PlaylistItemPtr item = app_->playlist_manager()->active()->current_item();
-    if (item && engine_metadata.media_url == item->Url()) {
-      Song song = item->Metadata();
-      bool minor = song.MergeFromEngineMetadata(engine_metadata);
-      app_->playlist_manager()->active()->SetStreamMetadata(item->Url(), song, minor);
-      return;
+    const int current_row = app_->playlist_manager()->active()->current_row();
+    if (current_row != -1) {
+      PlaylistItemPtr item = app_->playlist_manager()->active()->current_item();
+      if (item && engine_metadata.media_url == item->Url()) {
+        Song song = item->Metadata();
+        song.MergeFromEngineMetadata(engine_metadata);
+        app_->playlist_manager()->active()->UpdateItemMetadata(current_row, item, song, true);
+        return;
+      }
     }
   }
 
   if (engine_metadata.type == EngineMetadata::Type::Any || engine_metadata.type == EngineMetadata::Type::Next) {
-    int next_row = app_->playlist_manager()->active()->next_row();
+    const int next_row = app_->playlist_manager()->active()->next_row();
     if (next_row != -1) {
       PlaylistItemPtr next_item = app_->playlist_manager()->active()->item_at(next_row);
       if (engine_metadata.media_url == next_item->Url()) {
         Song song = next_item->Metadata();
         song.MergeFromEngineMetadata(engine_metadata);
-        next_item->SetTemporaryMetadata(song);
-        app_->playlist_manager()->active()->ItemChanged(next_row);
+        app_->playlist_manager()->active()->UpdateItemMetadata(next_row, next_item, song, true);
       }
     }
   }

@@ -27,9 +27,8 @@
 #include <QList>
 #include <QUndoStack>
 
+#include "playlist.h"
 #include "playlistitem.h"
-
-class Playlist;
 
 namespace PlaylistUndoCommands {
 
@@ -49,7 +48,7 @@ namespace PlaylistUndoCommands {
 
   class InsertItems : public Base {
    public:
-    explicit InsertItems(Playlist *playlist, const PlaylistItemPtrList &items, int pos, bool enqueue = false, bool enqueue_next = false);
+    explicit InsertItems(Playlist *playlist, const PlaylistItemPtrList &items, const int pos, const bool enqueue = false, const bool enqueue_next = false);
 
     void undo() override;
     void redo() override;
@@ -67,7 +66,7 @@ namespace PlaylistUndoCommands {
 
   class RemoveItems : public Base {
    public:
-    explicit RemoveItems(Playlist *playlist, int pos, int count);
+    explicit RemoveItems(Playlist *playlist, const int pos, const int count);
 
     int id() const override { return Type_RemoveItems; }
 
@@ -77,7 +76,7 @@ namespace PlaylistUndoCommands {
 
    private:
     struct Range {
-      Range(int pos, int count) : pos_(pos), count_(count) {}
+      Range(const int pos, const int count) : pos_(pos), count_(count) {}
       int pos_;
       int count_;
       PlaylistItemPtrList items_;
@@ -88,7 +87,7 @@ namespace PlaylistUndoCommands {
 
   class MoveItems : public Base {
    public:
-    explicit MoveItems(Playlist *playlist, const QList<int> &source_rows, int pos);
+    explicit MoveItems(Playlist *playlist, const QList<int> &source_rows, const int pos);
 
     void undo() override;
     void redo() override;
@@ -112,7 +111,7 @@ namespace PlaylistUndoCommands {
 
   class SortItems : public ReOrderItems {
    public:
-    explicit SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemPtrList &new_items);
+    explicit SortItems(Playlist *playlist, const Playlist::Column column, const Qt::SortOrder order, const PlaylistItemPtrList &new_items);
 
   };
 

@@ -81,7 +81,7 @@ const float QueuedItemDelegate::kQueueOpacityLowerBound = 0.4F;
 
 const int PlaylistDelegateBase::kMinHeight = 19;
 
-QueuedItemDelegate::QueuedItemDelegate(QObject *parent, int indicator_column)
+QueuedItemDelegate::QueuedItemDelegate(QObject *parent, const int indicator_column)
     : QStyledItemDelegate(parent),
       indicator_column_(indicator_column) {}
 
@@ -215,7 +215,7 @@ void PlaylistDelegateBase::paint(QPainter *painter, const QStyleOptionViewItem &
   QueuedItemDelegate::paint(painter, Adjusted(option, idx), idx);
 
   // Stop after indicator
-  if (idx.column() == Playlist::Column_Title) {
+  if (idx.column() == static_cast<int>(Playlist::Column::Title)) {
     if (idx.data(Playlist::Role_StopAfter).toBool()) {
       QRect rect(option.rect);
       rect.setRight(rect.right() - queue_indicator_size(idx));
@@ -258,7 +258,7 @@ bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view,
   QString text = displayText(idx.data(), QLocale::system());
 
   // Special case: we want newlines in the comment tooltip
-  if (idx.column() == Playlist::Column_Comment) {
+  if (idx.column() == static_cast<int>(Playlist::Column::Comment)) {
     text = idx.data(Qt::ToolTipRole).toString().toHtmlEscaped();
     text.replace(QLatin1String("\\r\\n"), QLatin1String("<br />"));
     text.replace(QLatin1String("\\n"), QLatin1String("<br />"));
@@ -378,18 +378,18 @@ TagCompletionModel::TagCompletionModel(SharedPtr<CollectionBackend> backend, con
 
 }
 
-QString TagCompletionModel::database_column(Playlist::Column column) {
+QString TagCompletionModel::database_column(const Playlist::Column column) {
 
   switch (column) {
-    case Playlist::Column_Artist:       return QStringLiteral("artist");
-    case Playlist::Column_Album:        return QStringLiteral("album");
-    case Playlist::Column_AlbumArtist:  return QStringLiteral("albumartist");
-    case Playlist::Column_Composer:     return QStringLiteral("composer");
-    case Playlist::Column_Performer:    return QStringLiteral("performer");
-    case Playlist::Column_Grouping:     return QStringLiteral("grouping");
-    case Playlist::Column_Genre:        return QStringLiteral("genre");
+    case Playlist::Column::Artist:       return QStringLiteral("artist");
+    case Playlist::Column::Album:        return QStringLiteral("album");
+    case Playlist::Column::AlbumArtist:  return QStringLiteral("albumartist");
+    case Playlist::Column::Composer:     return QStringLiteral("composer");
+    case Playlist::Column::Performer:    return QStringLiteral("performer");
+    case Playlist::Column::Grouping:     return QStringLiteral("grouping");
+    case Playlist::Column::Genre:        return QStringLiteral("genre");
     default:
-      qLog(Warning) << "Unknown column" << column;
+      qLog(Warning) << "Unknown column" << static_cast<int>(column);
       return QString();
   }
 
@@ -401,7 +401,7 @@ static TagCompletionModel *InitCompletionModel(SharedPtr<CollectionBackend> back
 
 }
 
-TagCompleter::TagCompleter(SharedPtr<CollectionBackend> backend, Playlist::Column column, QLineEdit *editor) : QCompleter(editor), editor_(editor) {
+TagCompleter::TagCompleter(SharedPtr<CollectionBackend> backend, const Playlist::Column column, QLineEdit *editor) : QCompleter(editor), editor_(editor) {
 
   QFuture<TagCompletionModel*> future = QtConcurrent::run(&InitCompletionModel, backend, column);
   QFutureWatcher<TagCompletionModel*> *watcher = new QFutureWatcher<TagCompletionModel*>();

@@ -37,39 +37,39 @@ PlaylistFilter::PlaylistFilter(QObject *parent)
 
   setDynamicSortFilter(true);
 
-  column_names_[QStringLiteral("title")] = Playlist::Column_Title;
-  column_names_[QStringLiteral("name")] = Playlist::Column_Title;
-  column_names_[QStringLiteral("artist")] = Playlist::Column_Artist;
-  column_names_[QStringLiteral("album")] = Playlist::Column_Album;
-  column_names_[QStringLiteral("albumartist")] = Playlist::Column_AlbumArtist;
-  column_names_[QStringLiteral("performer")] = Playlist::Column_Performer;
-  column_names_[QStringLiteral("composer")] = Playlist::Column_Composer;
-  column_names_[QStringLiteral("year")] = Playlist::Column_Year;
-  column_names_[QStringLiteral("originalyear")] = Playlist::Column_OriginalYear;
-  column_names_[QStringLiteral("track")] = Playlist::Column_Track;
-  column_names_[QStringLiteral("disc")] = Playlist::Column_Disc;
-  column_names_[QStringLiteral("length")] = Playlist::Column_Length;
-  column_names_[QStringLiteral("genre")] = Playlist::Column_Genre;
-  column_names_[QStringLiteral("samplerate")] = Playlist::Column_Samplerate;
-  column_names_[QStringLiteral("bitdepth")] = Playlist::Column_Bitdepth;
-  column_names_[QStringLiteral("bitrate")] = Playlist::Column_Bitrate;
-  column_names_[QStringLiteral("filename")] = Playlist::Column_Filename;
-  column_names_[QStringLiteral("grouping")] = Playlist::Column_Grouping;
-  column_names_[QStringLiteral("comment")] = Playlist::Column_Comment;
-  column_names_[QStringLiteral("rating")] = Playlist::Column_Rating;
-  column_names_[QStringLiteral("playcount")] = Playlist::Column_PlayCount;
-  column_names_[QStringLiteral("skipcount")] = Playlist::Column_SkipCount;
+  column_names_[QStringLiteral("title")] = static_cast<int>(Playlist::Column::Title);
+  column_names_[QStringLiteral("name")] = static_cast<int>(Playlist::Column::Title);
+  column_names_[QStringLiteral("artist")] = static_cast<int>(Playlist::Column::Artist);
+  column_names_[QStringLiteral("album")] = static_cast<int>(Playlist::Column::Album);
+  column_names_[QStringLiteral("albumartist")] = static_cast<int>(Playlist::Column::AlbumArtist);
+  column_names_[QStringLiteral("performer")] = static_cast<int>(Playlist::Column::Performer);
+  column_names_[QStringLiteral("composer")] = static_cast<int>(Playlist::Column::Composer);
+  column_names_[QStringLiteral("year")] = static_cast<int>(Playlist::Column::Year);
+  column_names_[QStringLiteral("originalyear")] = static_cast<int>(Playlist::Column::OriginalYear);
+  column_names_[QStringLiteral("track")] = static_cast<int>(Playlist::Column::Track);
+  column_names_[QStringLiteral("disc")] = static_cast<int>(Playlist::Column::Disc);
+  column_names_[QStringLiteral("length")] = static_cast<int>(Playlist::Column::Length);
+  column_names_[QStringLiteral("genre")] = static_cast<int>(Playlist::Column::Genre);
+  column_names_[QStringLiteral("samplerate")] = static_cast<int>(Playlist::Column::Samplerate);
+  column_names_[QStringLiteral("bitdepth")] = static_cast<int>(Playlist::Column::Bitdepth);
+  column_names_[QStringLiteral("bitrate")] = static_cast<int>(Playlist::Column::Bitrate);
+  column_names_[QStringLiteral("filename")] = static_cast<int>(Playlist::Column::Filename);
+  column_names_[QStringLiteral("grouping")] = static_cast<int>(Playlist::Column::Grouping);
+  column_names_[QStringLiteral("comment")] = static_cast<int>(Playlist::Column::Comment);
+  column_names_[QStringLiteral("rating")] = static_cast<int>(Playlist::Column::Rating);
+  column_names_[QStringLiteral("playcount")] = static_cast<int>(Playlist::Column::PlayCount);
+  column_names_[QStringLiteral("skipcount")] = static_cast<int>(Playlist::Column::SkipCount);
 
-  numerical_columns_ << Playlist::Column_Year
-                     << Playlist::Column_OriginalYear
-                     << Playlist::Column_Track
-                     << Playlist::Column_Disc
-                     << Playlist::Column_Length
-                     << Playlist::Column_Samplerate
-                     << Playlist::Column_Bitdepth
-                     << Playlist::Column_Bitrate
-                     << Playlist::Column_PlayCount
-                     << Playlist::Column_SkipCount;
+  numerical_columns_ << static_cast<int>(Playlist::Column::Year)
+                     << static_cast<int>(Playlist::Column::OriginalYear)
+                     << static_cast<int>(Playlist::Column::Track)
+                     << static_cast<int>(Playlist::Column::Disc)
+                     << static_cast<int>(Playlist::Column::Length)
+                     << static_cast<int>(Playlist::Column::Samplerate)
+                     << static_cast<int>(Playlist::Column::Bitdepth)
+                     << static_cast<int>(Playlist::Column::Bitrate)
+                     << static_cast<int>(Playlist::Column::PlayCount)
+                     << static_cast<int>(Playlist::Column::SkipCount);
 
 }
 
@@ -80,7 +80,7 @@ void PlaylistFilter::sort(int column, Qt::SortOrder order) {
   sourceModel()->sort(column, order);
 }
 
-bool PlaylistFilter::filterAcceptsRow(int row, const QModelIndex &parent) const {
+bool PlaylistFilter::filterAcceptsRow(const int row, const QModelIndex &parent) const {
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   size_t hash = qHash(filter_text_);

@@ -157,8 +157,8 @@ QVariant Queue::data(const QModelIndex &proxy_index, int role) const {
       return proxy_index.row();
 
     case Qt::DisplayRole:{
-      const QString artist = source_index.sibling(source_index.row(), Playlist::Column_Artist).data().toString();
-      const QString title = source_index.sibling(source_index.row(), Playlist::Column_Title).data().toString();
+      const QString artist = source_index.sibling(source_index.row(), static_cast<int>(Playlist::Column::Artist)).data().toString();
+      const QString title = source_index.sibling(source_index.row(), static_cast<int>(Playlist::Column::Title)).data().toString();
 
       if (artist.isEmpty()) return title;
       return QStringLiteral("%1 - %2").arg(artist, title);

@@ -518,7 +518,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
   SearchTermComparator *cmp = nullptr;
 
   // Handle the float based Rating Column
-  if (columns_[col] == Playlist::Column_Rating) {
+  if (columns_[col] == static_cast<int>(Playlist::Column::Rating)) {
     float parsed_search = Utilities::ParseSearchRating(search);
 
     if (prefix == QLatin1Char('=')) {
@@ -549,7 +549,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
   else if (!col.isEmpty() && columns_.contains(col) && numerical_columns_.contains(columns_[col])) {
     // the length column contains the time in seconds (nanoseconds, actually - the "nano" part is handled by the DropTailComparatorDecorator,  though).
     int search_value = 0;
-    if (columns_[col] == Playlist::Column_Length) {
+    if (columns_[col] == static_cast<int>(Playlist::Column::Length)) {
       search_value = Utilities::ParseSearchTime(search);
     }
     else {
@@ -595,7 +595,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
   }
 
   if (columns_.contains(col)) {
-    if (columns_[col] == Playlist::Column_Length) {
+    if (columns_[col] == static_cast<int>(Playlist::Column::Length)) {
       cmp = new DropTailComparatorDecorator(cmp);
     }
     return new FilterColumnTerm(columns_[col], cmp);

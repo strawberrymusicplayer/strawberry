@@ -34,7 +34,7 @@ namespace PlaylistUndoCommands {
 
 Base::Base(Playlist *playlist) : QUndoCommand(nullptr), playlist_(playlist) {}
 
-InsertItems::InsertItems(Playlist *playlist, const PlaylistItemPtrList &items, int pos, bool enqueue, bool enqueue_next)
+InsertItems::InsertItems(Playlist *playlist, const PlaylistItemPtrList &items, const int pos, const bool enqueue, const bool enqueue_next)
     : Base(playlist),
       items_(items),
       pos_(pos),
@@ -55,6 +55,7 @@ void InsertItems::undo() {
 }
 
 bool InsertItems::UpdateItem(const PlaylistItemPtr &updated_item) {
+
   for (int i = 0; i < items_.size(); i++) {
     PlaylistItemPtr item = items_[i];
     if (item->Metadata().url() == updated_item->Metadata().url()) {
@@ -63,10 +64,11 @@ bool InsertItems::UpdateItem(const PlaylistItemPtr &updated_item) {
     }
   }
   return false;
+
 }
 
 
-RemoveItems::RemoveItems(Playlist *playlist, int pos, int count) : Base(playlist) {
+RemoveItems::RemoveItems(Playlist *playlist, const int pos, const int count) : Base(playlist) {
   setText(tr("remove %n songs", "", count));
 
   ranges_ << Range(pos, count);
@@ -102,7 +104,7 @@ bool RemoveItems::mergeWith(const QUndoCommand *other) {
 }
 
 
-MoveItems::MoveItems(Playlist *playlist, const QList<int> &source_rows, int pos)
+MoveItems::MoveItems(Playlist *playlist, const QList<int> &source_rows, const int pos)
     : Base(playlist),
       source_rows_(source_rows),
       pos_(pos) {
@@ -126,7 +128,7 @@ void ReOrderItems::undo() { playlist_->ReOrderWithoutUndo(old_items_); }
 
 void ReOrderItems::redo() { playlist_->ReOrderWithoutUndo(new_items_); }
 
-SortItems::SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemPtrList &new_items)
+SortItems::SortItems(Playlist *playlist, const Playlist::Column column, const Qt::SortOrder order, const PlaylistItemPtrList &new_items)
     : ReOrderItems(playlist, new_items) {
 
   Q_UNUSED(column);

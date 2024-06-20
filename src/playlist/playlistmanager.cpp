@@ -96,9 +96,9 @@ void PlaylistManager::Init(SharedPtr<CollectionBackend> collection_backend, Shar
   parser_ = new PlaylistParser(collection_backend, this);
   playlist_container_ = playlist_container;
 
-  QObject::connect(&*collection_backend_, &CollectionBackend::SongsChanged, this, &PlaylistManager::UpdateSongs);
-  QObject::connect(&*collection_backend_, &CollectionBackend::SongsStatisticsChanged, this, &PlaylistManager::UpdateSongs);
-  QObject::connect(&*collection_backend_, &CollectionBackend::SongsRatingChanged, this, &PlaylistManager::UpdateSongs);
+  QObject::connect(&*collection_backend_, &CollectionBackend::SongsChanged, this, &PlaylistManager::UpdateCollectionSongs);
+  QObject::connect(&*collection_backend_, &CollectionBackend::SongsStatisticsChanged, this, &PlaylistManager::UpdateCollectionSongs);
+  QObject::connect(&*collection_backend_, &CollectionBackend::SongsRatingChanged, this, &PlaylistManager::UpdateCollectionSongs);
 
   for (const PlaylistBackend::Playlist &p : playlist_backend->GetAllOpenPlaylists()) {
     ++playlists_loading_;
@@ -151,7 +151,7 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
   ret->set_ui_path(ui_path);
 
   QObject::connect(ret, &Playlist::CurrentSongChanged, this, &PlaylistManager::CurrentSongChanged);
-  QObject::connect(ret, &Playlist::SongMetadataChanged, this, &PlaylistManager::SongMetadataChanged);
+  QObject::connect(ret, &Playlist::CurrentSongMetadataChanged, this, &PlaylistManager::CurrentSongMetadataChanged);
   QObject::connect(ret, &Playlist::PlaylistChanged, this, &PlaylistManager::OneOfPlaylistsChanged);
   QObject::connect(ret, &Playlist::PlaylistChanged, this, &PlaylistManager::UpdateSummaryText);
   QObject::connect(ret, &Playlist::EditingFinished, this, &PlaylistManager::EditingFinished);
@@ -433,7 +433,7 @@ void PlaylistManager::UpdateSummaryText() {
 
     selected += range.bottom() - range.top() + 1;
     for (int i = range.top(); i <= range.bottom(); ++i) {
-      qint64 length = range.model()->index(i, Playlist::Column_Length).data().toLongLong();
+      qint64 length = range.model()->index(i, static_cast<int>(Playlist::Column::Length)).data().toLongLong();
       if (length > 0) {
         nanoseconds += length;
       }
@@ -463,7 +463,7 @@ void PlaylistManager::SelectionChanged(const QItemSelection &selection) {
   UpdateSummaryText();
 }
 
-void PlaylistManager::UpdateSongs(const SongList &songs) {
+void PlaylistManager::UpdateCollectionSongs(const SongList &songs) {
 
   // Some songs might've changed in the collection, let's update any playlist items we have that match those songs
 
@@ -472,9 +472,7 @@ void PlaylistManager::UpdateSongs(const SongList &songs) {
       PlaylistItemPtrList items = data.p->collection_items_by_id(song.id());
       for (PlaylistItemPtr item : items) {
         if (item->Metadata().directory_id() != song.directory_id()) continue;
-        item->SetMetadata(song);
-        if (item->HasTemporaryMetadata()) item->UpdateTemporaryMetadata(song);
-        data.p->ItemChanged(item);
+        data.p->UpdateItemMetadata(item, song, false);
       }
     }
   }

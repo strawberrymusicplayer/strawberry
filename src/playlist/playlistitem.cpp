@@ -108,7 +108,7 @@ void PlaylistItem::UpdateTemporaryMetadata(const Song &metadata) {
 
   if (!temp_metadata_.is_valid()) return;
 
-  Song old_metadata = temp_metadata_;
+  const Song old_metadata = temp_metadata_;
   temp_metadata_ = metadata;
 
   // Keep samplerate, bitdepth and bitrate from the old metadata if it's not present in the new.

@@ -58,7 +58,7 @@ class QueuedItemDelegate : public QStyledItemDelegate {
   Q_OBJECT
 
  public:
-  explicit QueuedItemDelegate(QObject *parent, int indicator_column = Playlist::Column_Title);
+  explicit QueuedItemDelegate(QObject *parent, const int indicator_column = static_cast<int>(Playlist::Column::Title));
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
   static void DrawBox(QPainter *painter, const QRect line_rect, const QFont &font, const QString &text, int width = -1, const float opacity = 1.0);
@@ -154,14 +154,14 @@ class TagCompletionModel : public QStringListModel {
   explicit TagCompletionModel(SharedPtr<CollectionBackend> backend, const Playlist::Column column, QObject *parent = nullptr);
 
  private:
-  static QString database_column(Playlist::Column column);
+  static QString database_column(const Playlist::Column column);
 };
 
 class TagCompleter : public QCompleter {
   Q_OBJECT
 
  public:
-  explicit TagCompleter(SharedPtr<CollectionBackend> backend, Playlist::Column column, QLineEdit *editor);
+  explicit TagCompleter(SharedPtr<CollectionBackend> backend, const Playlist::Column column, QLineEdit *editor);
   ~TagCompleter() override;
 
  private slots:

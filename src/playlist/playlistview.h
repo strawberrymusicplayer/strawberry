@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -103,7 +103,6 @@ class PlaylistView : public QTreeView {
   void SaveSettings();
   void SetColumnAlignment(const int section, const Qt::Alignment alignment);
   void JumpToCurrentlyPlayingTrack();
-  void edit(const QModelIndex &idx) { QAbstractItemView::edit(idx); }
 
  signals:
   void PlayItem(const QModelIndex idx, const Playlist::AutoScroll autoscroll);
@@ -139,12 +138,11 @@ class PlaylistView : public QTreeView {
   void drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
   // QAbstractScrollArea
-  void scrollContentsBy(int dx, int dy) override;
+  void scrollContentsBy(const int dx, const int dy) override;
 
   // QAbstractItemView
-  void rowsInserted(const QModelIndex &parent, int start, int end) override;
-  bool edit(const QModelIndex &idx, QAbstractItemView::EditTrigger trigger, QEvent *event) override;
-  void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
+  void rowsInserted(const QModelIndex &parent, const int start, const int end) override;
+  void closeEditor(QWidget *editor, const QAbstractItemDelegate::EndEditHint hint) override;
 
  private slots:
   void Update() { update(); }

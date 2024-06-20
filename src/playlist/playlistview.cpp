@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -142,7 +142,7 @@ PlaylistView::PlaylistView(QWidget *parent)
   setHeader(header_);
   header_->setSectionsMovable(true);
   header_->setFirstSectionMovable(true);
-  header_->setSortIndicator(Playlist::Column_Title, Qt::AscendingOrder);
+  header_->setSortIndicator(static_cast<int>(Playlist::Column::Title), Qt::AscendingOrder);
 
   setStyle(style_);
   setMouseTracking(true);
@@ -206,38 +206,38 @@ void PlaylistView::SetItemDelegates() {
 
   setItemDelegate(new PlaylistDelegateBase(this));
 
-  setItemDelegateForColumn(Playlist::Column_Title, new TextItemDelegate(this));
-  setItemDelegateForColumn(Playlist::Column_Album, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Album));
-  setItemDelegateForColumn(Playlist::Column_Artist, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Artist));
-  setItemDelegateForColumn(Playlist::Column_AlbumArtist, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_AlbumArtist));
-  setItemDelegateForColumn(Playlist::Column_Genre, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Genre));
-  setItemDelegateForColumn(Playlist::Column_Composer, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Composer));
-  setItemDelegateForColumn(Playlist::Column_Performer, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Performer));
-  setItemDelegateForColumn(Playlist::Column_Grouping, new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column_Grouping));
-  setItemDelegateForColumn(Playlist::Column_Length, new LengthItemDelegate(this));
-  setItemDelegateForColumn(Playlist::Column_Filesize, new SizeItemDelegate(this));
-  setItemDelegateForColumn(Playlist::Column_Filetype, new FileTypeItemDelegate(this));
-  setItemDelegateForColumn(Playlist::Column_DateCreated, new DateItemDelegate(this));
-  setItemDelegateForColumn(Playlist::Column_DateModified, new DateItemDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Title), new TextItemDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Album), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Album));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Artist), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Artist));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::AlbumArtist), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::AlbumArtist));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Genre), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Genre));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Composer), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Composer));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Performer), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Performer));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Grouping), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Grouping));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Length), new LengthItemDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Filesize), new SizeItemDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Filetype), new FileTypeItemDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::DateCreated), new DateItemDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::DateModified), new DateItemDelegate(this));
 
-  setItemDelegateForColumn(Playlist::Column_Samplerate, new PlaylistDelegateBase(this, tr("Hz")));
-  setItemDelegateForColumn(Playlist::Column_Bitdepth, new PlaylistDelegateBase(this, tr("Bit")));
-  setItemDelegateForColumn(Playlist::Column_Bitrate, new PlaylistDelegateBase(this, tr("kbps")));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Samplerate), new PlaylistDelegateBase(this, tr("Hz")));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Bitdepth), new PlaylistDelegateBase(this, tr("Bit")));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Bitrate), new PlaylistDelegateBase(this, tr("kbps")));
 
-  setItemDelegateForColumn(Playlist::Column_Filename, new NativeSeparatorsDelegate(this));
-  setItemDelegateForColumn(Playlist::Column_LastPlayed, new LastPlayedItemDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Filename), new NativeSeparatorsDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::LastPlayed), new LastPlayedItemDelegate(this));
 
-  setItemDelegateForColumn(Playlist::Column_Source, new SongSourceDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Source), new SongSourceDelegate(this));
 
 #ifdef HAVE_MOODBAR
-  setItemDelegateForColumn(Playlist::Column_Mood, new MoodbarItemDelegate(app_, this, this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Mood), new MoodbarItemDelegate(app_, this, this));
 #endif
 
   rating_delegate_ = new RatingItemDelegate(this);
-  setItemDelegateForColumn(Playlist::Column_Rating, rating_delegate_);
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Rating), rating_delegate_);
 
-  setItemDelegateForColumn(Playlist::Column_EBUR128IntegratedLoudness, new Ebur128LoudnessLUFSItemDelegate(this));
-  setItemDelegateForColumn(Playlist::Column_EBUR128LoudnessRange, new Ebur128LoudnessRangeLUItemDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::EBUR128IntegratedLoudness), new Ebur128LoudnessLUFSItemDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::EBUR128LoudnessRange), new Ebur128LoudnessRangeLUItemDelegate(this));
 }
 
 void PlaylistView::setModel(QAbstractItemModel *m) {
@@ -335,43 +335,43 @@ void PlaylistView::RestoreHeaderState() {
 
   if (set_initial_header_layout_) {
 
-    header_->HideSection(Playlist::Column_AlbumArtist);
-    header_->HideSection(Playlist::Column_Performer);
-    header_->HideSection(Playlist::Column_Composer);
-    header_->HideSection(Playlist::Column_Year);
-    header_->HideSection(Playlist::Column_OriginalYear);
-    header_->HideSection(Playlist::Column_Disc);
-    header_->HideSection(Playlist::Column_Genre);
-    header_->HideSection(Playlist::Column_Filename);
-    header_->HideSection(Playlist::Column_BaseFilename);
-    header_->HideSection(Playlist::Column_Filesize);
-    header_->HideSection(Playlist::Column_DateCreated);
-    header_->HideSection(Playlist::Column_DateModified);
-    header_->HideSection(Playlist::Column_PlayCount);
-    header_->HideSection(Playlist::Column_SkipCount);
-    header_->HideSection(Playlist::Column_LastPlayed);
-    header_->HideSection(Playlist::Column_Comment);
-    header_->HideSection(Playlist::Column_Grouping);
-    header_->HideSection(Playlist::Column_Mood);
-    header_->HideSection(Playlist::Column_Rating);
-    header_->HideSection(Playlist::Column_HasCUE);
-    header_->HideSection(Playlist::Column_EBUR128IntegratedLoudness);
-    header_->HideSection(Playlist::Column_EBUR128LoudnessRange);
+    header_->HideSection(static_cast<int>(Playlist::Column::AlbumArtist));
+    header_->HideSection(static_cast<int>(Playlist::Column::Performer));
+    header_->HideSection(static_cast<int>(Playlist::Column::Composer));
+    header_->HideSection(static_cast<int>(Playlist::Column::Year));
+    header_->HideSection(static_cast<int>(Playlist::Column::OriginalYear));
+    header_->HideSection(static_cast<int>(Playlist::Column::Disc));
+    header_->HideSection(static_cast<int>(Playlist::Column::Genre));
+    header_->HideSection(static_cast<int>(Playlist::Column::Filename));
+    header_->HideSection(static_cast<int>(Playlist::Column::BaseFilename));
+    header_->HideSection(static_cast<int>(Playlist::Column::Filesize));
+    header_->HideSection(static_cast<int>(Playlist::Column::DateCreated));
+    header_->HideSection(static_cast<int>(Playlist::Column::DateModified));
+    header_->HideSection(static_cast<int>(Playlist::Column::PlayCount));
+    header_->HideSection(static_cast<int>(Playlist::Column::SkipCount));
+    header_->HideSection(static_cast<int>(Playlist::Column::LastPlayed));
+    header_->HideSection(static_cast<int>(Playlist::Column::Comment));
+    header_->HideSection(static_cast<int>(Playlist::Column::Grouping));
+    header_->HideSection(static_cast<int>(Playlist::Column::Mood));
+    header_->HideSection(static_cast<int>(Playlist::Column::Rating));
+    header_->HideSection(static_cast<int>(Playlist::Column::HasCUE));
+    header_->HideSection(static_cast<int>(Playlist::Column::EBUR128IntegratedLoudness));
+    header_->HideSection(static_cast<int>(Playlist::Column::EBUR128LoudnessRange));
 
-    header_->moveSection(header_->visualIndex(Playlist::Column_Track), 0);
+    header_->moveSection(header_->visualIndex(static_cast<int>(Playlist::Column::Track)), 0);
 
     header_->SetStretchEnabled(true);
 
-    header_->SetColumnWidth(Playlist::Column_Track, 0.03);
-    header_->SetColumnWidth(Playlist::Column_Title, 0.24);
-    header_->SetColumnWidth(Playlist::Column_Artist, 0.24);
-    header_->SetColumnWidth(Playlist::Column_Album, 0.24);
-    header_->SetColumnWidth(Playlist::Column_Length, 0.04);
-    header_->SetColumnWidth(Playlist::Column_Samplerate, 0.05);
-    header_->SetColumnWidth(Playlist::Column_Bitdepth, 0.04);
-    header_->SetColumnWidth(Playlist::Column_Bitrate, 0.04);
-    header_->SetColumnWidth(Playlist::Column_Filetype, 0.04);
-    header_->SetColumnWidth(Playlist::Column_Source, 0.04);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Track), 0.03);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Title), 0.24);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Artist), 0.24);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Album), 0.24);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Length), 0.04);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Samplerate), 0.05);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Bitdepth), 0.04);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Bitrate), 0.04);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Filetype), 0.04);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Source), 0.04);
 
     header_state_ = header_->SaveState();
     header_->RestoreState(header_state_);
@@ -381,7 +381,7 @@ void PlaylistView::RestoreHeaderState() {
   }
 
   if (header_state_version_ < 1) {
-    header_->HideSection(Playlist::Column_Rating);
+    header_->HideSection(static_cast<int>(Playlist::Column::Rating));
     header_state_version_ = 1;
   }
 
@@ -394,7 +394,7 @@ void PlaylistView::RestoreHeaderState() {
     }
   }
   if (all_hidden) {
-    header_->ShowSection(Playlist::Column_Title);
+    header_->ShowSection(static_cast<int>(Playlist::Column::Title));
   }
 
   header_state_restored_ = true;
@@ -771,17 +771,7 @@ QModelIndex PlaylistView::PrevEditableIndex(const QModelIndex &current) {
 
 }
 
-bool PlaylistView::edit(const QModelIndex &idx, QAbstractItemView::EditTrigger trigger, QEvent *event) {
-
-  bool result = QAbstractItemView::edit(idx, trigger, event);
-  if (result && trigger == QAbstractItemView::AllEditTriggers && !event) {
-    playlist_->set_editing(idx.row());
-  }
-  return result;
-
-}
-
-void PlaylistView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) {
+void PlaylistView::closeEditor(QWidget *editor, const QAbstractItemDelegate::EndEditHint hint) {
 
   if (hint == QAbstractItemDelegate::NoHint) {
     QTreeView::closeEditor(editor, QAbstractItemDelegate::SubmitModelCache);
@@ -808,8 +798,6 @@ void PlaylistView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHi
   else {
     QTreeView::closeEditor(editor, hint);
   }
-
-  playlist_->set_editing(-1);
 
 }
 
@@ -894,7 +882,7 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
 
 }
 
-void PlaylistView::scrollContentsBy(int dx, int dy) {
+void PlaylistView::scrollContentsBy(const int dx, const int dy) {
 
   if (dx != 0) {
     InvalidateCachedCurrentPixmap();
@@ -1326,7 +1314,7 @@ bool PlaylistView::eventFilter(QObject *object, QEvent *event) {
 
 }
 
-void PlaylistView::rowsInserted(const QModelIndex &parent, int start, int end) {
+void PlaylistView::rowsInserted(const QModelIndex &parent, const int start, const int end) {
 
   const bool at_end = end == model()->rowCount(parent) - 1;
 
@@ -1343,17 +1331,17 @@ ColumnAlignmentMap PlaylistView::DefaultColumnAlignment() {
 
   ColumnAlignmentMap ret;
 
-  ret[Playlist::Column_Year] =
-  ret[Playlist::Column_OriginalYear] =
-  ret[Playlist::Column_Track] =
-  ret[Playlist::Column_Disc] =
-  ret[Playlist::Column_Length] =
-  ret[Playlist::Column_Samplerate] =
-  ret[Playlist::Column_Bitdepth] =
-  ret[Playlist::Column_Bitrate] =
-  ret[Playlist::Column_Filesize] =
-  ret[Playlist::Column_PlayCount] =
-  ret[Playlist::Column_SkipCount] =
+  ret[static_cast<int>(Playlist::Column::Year)] =
+  ret[static_cast<int>(Playlist::Column::OriginalYear)] =
+  ret[static_cast<int>(Playlist::Column::Track)] =
+  ret[static_cast<int>(Playlist::Column::Disc)] =
+  ret[static_cast<int>(Playlist::Column::Length)] =
+  ret[static_cast<int>(Playlist::Column::Samplerate)] =
+  ret[static_cast<int>(Playlist::Column::Bitdepth)] =
+  ret[static_cast<int>(Playlist::Column::Bitrate)] =
+  ret[static_cast<int>(Playlist::Column::Filesize)] =
+  ret[static_cast<int>(Playlist::Column::PlayCount)] =
+  ret[static_cast<int>(Playlist::Column::SkipCount)] =
  (Qt::AlignRight | Qt::AlignVCenter);
 
   return ret;
@@ -1395,7 +1383,7 @@ void PlaylistView::CopyCurrentSongToClipboard() const {
   }
 
   // Get the song's URL
-  const QUrl url = model()->data(currentIndex().sibling(currentIndex().row(), Playlist::Column_Filename)).toUrl();
+  const QUrl url = model()->data(currentIndex().sibling(currentIndex().row(), static_cast<int>(Playlist::Column::Filename))).toUrl();
 
   QMimeData *mime_data = new QMimeData;
   mime_data->setUrls(QList<QUrl>() << url);
@@ -1411,7 +1399,7 @@ void PlaylistView::SongChanged(const Song &song) {
 
   if (select_track_ && playlist_) {
     clearSelection();
-    QItemSelection selection(playlist_->index(playlist_->current_row(), 0), playlist_->index(playlist_->current_row(), playlist_->ColumnCount - 1));
+    QItemSelection selection(playlist_->index(playlist_->current_row(), 0), playlist_->index(playlist_->current_row(), static_cast<int>(playlist_->Column::ColumnCount) - 1));
     selectionModel()->select(selection, QItemSelectionModel::Select);
   }
 
@@ -1510,7 +1498,7 @@ void PlaylistView::focusInEvent(QFocusEvent *event) {
 
 }
 
-void PlaylistView::DynamicModeChanged(bool dynamic) {
+void PlaylistView::DynamicModeChanged(const bool dynamic) {
 
   if (dynamic) {
     RepositionDynamicControls();
@@ -1551,7 +1539,7 @@ void PlaylistView::RatingHoverIn(const QModelIndex &idx, const QPoint pos) {
   update(old_index);
   const QModelIndexList indexes = selectedIndexes();
   for (const QModelIndex &i : indexes) {
-    if (i.column() == Playlist::Column_Rating) update(i);
+    if (i.column() == static_cast<int>(Playlist::Column::Rating)) update(i);
   }
 
   if (idx.data(Playlist::Role_IsCurrent).toBool() || old_index.data(Playlist::Role_IsCurrent).toBool()) {
@@ -1573,7 +1561,7 @@ void PlaylistView::RatingHoverOut() {
   update(old_index);
   const QModelIndexList indexes = selectedIndexes();
   for (const QModelIndex &i : indexes) {
-    if (i.column() == Playlist::Column_Rating) {
+    if (i.column() == static_cast<int>(Playlist::Column::Rating)) {
       update(i);
     }
   }

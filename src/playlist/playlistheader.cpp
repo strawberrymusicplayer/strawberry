@@ -108,7 +108,7 @@ void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
     else if (alignment & Qt::AlignRight)   action_align_right_->setChecked(true);
 
     // Show rating lock action only for ratings section
-    action_rating_lock_->setVisible(menu_section_ == Playlist::Column_Rating);
+    action_rating_lock_->setVisible(menu_section_ == static_cast<int>(Playlist::Column::Rating));
 
   }
 
@@ -122,10 +122,10 @@ void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
 
 }
 
-void PlaylistHeader::AddColumnAction(int index) {
+void PlaylistHeader::AddColumnAction(const int index) {
 
 #ifndef HAVE_MOODBAR
-  if (index == Playlist::Column_Mood) {
+  if (index == Playlist::Column::Mood) {
     return;
   }
 #endif

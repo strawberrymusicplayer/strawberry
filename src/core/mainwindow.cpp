@@ -848,7 +848,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   // Context
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, context_view_, &ContextView::SongChanged);
-  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::SongMetadataChanged, context_view_, &ContextView::SongChanged);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongMetadataChanged, context_view_, &ContextView::SongChanged);
   QObject::connect(&*app_->player(), &Player::PlaylistFinished, context_view_, &ContextView::Stopped);
   QObject::connect(&*app_->player(), &Player::Playing, context_view_, &ContextView::Playing);
   QObject::connect(&*app_->player(), &Player::Stopped, context_view_, &ContextView::Stopped);
@@ -2008,7 +2008,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
 
   playlist_open_in_browser_->setVisible(selected > 0 && local_songs == selected);
 
-  bool track_column = (index.column() == Playlist::Column_Track);
+  const bool track_column = (index.column() == static_cast<int>(Playlist::Column::Track));
   ui_->action_renumber_tracks->setVisible(local_songs > 0 && !cue_selected && editable >= 2 && track_column);
   ui_->action_selection_set_value->setVisible(editable >= 2 && !cue_selected && !track_column);
   ui_->action_edit_value->setVisible(editable > 0 && !cue_selected);
@@ -2770,7 +2770,7 @@ void MainWindow::PlaylistOpenInBrowser() {
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
     const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
-    urls << QUrl(source_index.sibling(source_index.row(), Playlist::Column_Filename).data().toString());
+    urls << QUrl(source_index.sibling(source_index.row(), static_cast<int>(Playlist::Column::Filename)).data().toString());
   }
 
   Utilities::OpenInFileBrowser(urls);

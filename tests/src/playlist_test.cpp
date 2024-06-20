@@ -85,10 +85,10 @@ TEST_F(PlaylistTest, InsertItems) {
   ASSERT_EQ(1, playlist_.rowCount(QModelIndex()));
 
   // Get the metadata
-  EXPECT_EQ(QStringLiteral("Title"), playlist_.data(playlist_.index(0, Playlist::Column_Title)));
-  EXPECT_EQ(QStringLiteral("Artist"), playlist_.data(playlist_.index(0, Playlist::Column_Artist)));
-  EXPECT_EQ(QStringLiteral("Album"), playlist_.data(playlist_.index(0, Playlist::Column_Album)));
-  EXPECT_EQ(123, playlist_.data(playlist_.index(0, Playlist::Column_Length)));
+  EXPECT_EQ(QStringLiteral("Title"), playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(QStringLiteral("Artist"), playlist_.data(playlist_.index(0, static_cast<int>(static_cast<int>(Playlist::Column::Artist)))));
+  EXPECT_EQ(QStringLiteral("Album"), playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Album))));
+  EXPECT_EQ(123, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Length))));
 
 }
 
@@ -242,8 +242,8 @@ TEST_F(PlaylistTest, InsertBeforeCurrent) {
   EXPECT_EQ(1, playlist_.previous_row());
   EXPECT_EQ(3, playlist_.next_row());
 
-  EXPECT_EQ(QStringLiteral("Four"), playlist_.data(playlist_.index(0, Playlist::Column_Title)));
-  EXPECT_EQ(QStringLiteral("One"), playlist_.data(playlist_.index(1, Playlist::Column_Title)));
+  EXPECT_EQ(QStringLiteral("Four"), playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(QStringLiteral("One"), playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
 
 }
 
@@ -262,9 +262,9 @@ TEST_F(PlaylistTest, InsertAfterCurrent) {
   EXPECT_EQ(0, playlist_.previous_row());
   EXPECT_EQ(2, playlist_.next_row());
 
-  EXPECT_EQ(QStringLiteral("Two"), playlist_.data(playlist_.index(1, Playlist::Column_Title)));
-  EXPECT_EQ(QStringLiteral("Four"), playlist_.data(playlist_.index(2, Playlist::Column_Title)));
-  EXPECT_EQ(QStringLiteral("Three"), playlist_.data(playlist_.index(3, Playlist::Column_Title)));
+  EXPECT_EQ(QStringLiteral("Two"), playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(QStringLiteral("Four"), playlist_.data(playlist_.index(2, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(QStringLiteral("Three"), playlist_.data(playlist_.index(3, static_cast<int>(Playlist::Column::Title))));
 
 }
 
@@ -305,7 +305,7 @@ TEST_F(PlaylistTest, UndoAdd) {
   EXPECT_FALSE(playlist_.undo_stack()->canRedo());
   EXPECT_TRUE(playlist_.undo_stack()->canUndo());
 
-  EXPECT_EQ(QStringLiteral("Title"), playlist_.data(playlist_.index(0, Playlist::Column_Title)));
+  EXPECT_EQ(QStringLiteral("Title"), playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
 
 }
 
@@ -351,7 +351,7 @@ TEST_F(PlaylistTest, UndoRemove) {
   EXPECT_EQ(1, playlist_.rowCount(QModelIndex()));
   ASSERT_TRUE(playlist_.undo_stack()->canRedo());
 
-  EXPECT_EQ(QStringLiteral("Title"), playlist_.data(playlist_.index(0, Playlist::Column_Title)));
+  EXPECT_EQ(QStringLiteral("Title"), playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
 
   playlist_.undo_stack()->redo();
   EXPECT_EQ(0, playlist_.rowCount(QModelIndex()));
@@ -454,7 +454,7 @@ TEST_F(PlaylistTest, ShuffleThenNext) {
 
   int index = playlist_.current_row();
   EXPECT_EQ(QStringLiteral("Item 0"), playlist_.current_item()->Metadata().title());
-  EXPECT_EQ(QStringLiteral("Item 0"), playlist_.data(playlist_.index(index, Playlist::Column_Title)));
+  EXPECT_EQ(QStringLiteral("Item 0"), playlist_.data(playlist_.index(index, static_cast<int>(Playlist::Column::Title))));
   EXPECT_EQ(index, playlist_.last_played_row());
   //EXPECT_EQ(index + 1, playlist_.next_row());
 
@@ -467,7 +467,7 @@ TEST_F(PlaylistTest, ShuffleThenNext) {
 
   index = playlist_.current_row();
   EXPECT_EQ(QStringLiteral("Item 0"), playlist_.current_item()->Metadata().title());
-  EXPECT_EQ(QStringLiteral("Item 0"), playlist_.data(playlist_.index(index, Playlist::Column_Title)));
+  EXPECT_EQ(QStringLiteral("Item 0"), playlist_.data(playlist_.index(index, static_cast<int>(Playlist::Column::Title))));
   EXPECT_EQ(index, playlist_.last_played_row());
   //EXPECT_EQ(-1, playlist_.next_row());
   //EXPECT_EQ(index-1, playlist_.previous_row());

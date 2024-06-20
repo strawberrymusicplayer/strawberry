@@ -190,11 +190,11 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   // Maybe set a tag completer
   switch (field) {
     case SmartPlaylistSearchTerm::Field::Artist:
-      new TagCompleter(collection_backend_, Playlist::Column_Artist, ui_->value_text);
+      new TagCompleter(collection_backend_, Playlist::Column::Artist, ui_->value_text);
       break;
 
     case SmartPlaylistSearchTerm::Field::Album:
-      new TagCompleter(collection_backend_, Playlist::Column_Album, ui_->value_text);
+      new TagCompleter(collection_backend_, Playlist::Column::Album, ui_->value_text);
       break;
 
     default:

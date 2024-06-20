@@ -131,7 +131,7 @@ class PlaylistManagerInterface : public QObject {
 
   // Forwarded from individual playlists
   void CurrentSongChanged(const Song &song);
-  void SongMetadataChanged(const Song &song);
+  void CurrentSongMetadataChanged(const Song &song);
 
   // Signals that one of manager's playlists has changed (new items, new ordering etc.) - the argument shows which.
   void PlaylistChanged(Playlist *playlist);
@@ -233,7 +233,7 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   void OneOfPlaylistsChanged();
   void UpdateSummaryText();
-  void UpdateSongs(const SongList &songs);
+  void UpdateCollectionSongs(const SongList &songs);
   void ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const PlaylistSettingsPage::PathType path_type);
   void PlaylistLoaded();
 

@@ -253,13 +253,13 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       QKeySequence(QKeySequence::Forward).toString(QKeySequence::NativeText),
       QKeySequence(QKeySequence::MoveToNextPage).toString(QKeySequence::NativeText)));
 
-  new TagCompleter(app_->collection_backend(), Playlist::Column_Artist, ui_->artist);
-  new TagCompleter(app_->collection_backend(), Playlist::Column_Album, ui_->album);
-  new TagCompleter(app_->collection_backend(), Playlist::Column_AlbumArtist, ui_->albumartist);
-  new TagCompleter(app_->collection_backend(), Playlist::Column_Genre, ui_->genre);
-  new TagCompleter(app_->collection_backend(), Playlist::Column_Composer, ui_->composer);
-  new TagCompleter(app_->collection_backend(), Playlist::Column_Performer, ui_->performer);
-  new TagCompleter(app_->collection_backend(), Playlist::Column_Grouping, ui_->grouping);
+  new TagCompleter(app_->collection_backend(), Playlist::Column::Artist, ui_->artist);
+  new TagCompleter(app_->collection_backend(), Playlist::Column::Album, ui_->album);
+  new TagCompleter(app_->collection_backend(), Playlist::Column::AlbumArtist, ui_->albumartist);
+  new TagCompleter(app_->collection_backend(), Playlist::Column::Genre, ui_->genre);
+  new TagCompleter(app_->collection_backend(), Playlist::Column::Composer, ui_->composer);
+  new TagCompleter(app_->collection_backend(), Playlist::Column::Performer, ui_->performer);
+  new TagCompleter(app_->collection_backend(), Playlist::Column::Grouping, ui_->grouping);
 
 }
 

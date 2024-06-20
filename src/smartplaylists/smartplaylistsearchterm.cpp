@@ -364,60 +364,61 @@ QString SmartPlaylistSearchTerm::FieldName(const Field field) {
 
   switch (field) {
     case Field::AlbumArtist:
-      return Playlist::column_name(Playlist::Column_AlbumArtist);
+      return Playlist::column_name(Playlist::Column::AlbumArtist);
     case Field::Artist:
-      return Playlist::column_name(Playlist::Column_Artist);
+      return Playlist::column_name(Playlist::Column::Artist);
     case Field::Album:
-      return Playlist::column_name(Playlist::Column_Album);
+      return Playlist::column_name(Playlist::Column::Album);
     case Field::Title:
-      return Playlist::column_name(Playlist::Column_Title);
+      return Playlist::column_name(Playlist::Column::Title);
     case Field::Track:
-      return Playlist::column_name(Playlist::Column_Track);
+      return Playlist::column_name(Playlist::Column::Track);
     case Field::Disc:
-      return Playlist::column_name(Playlist::Column_Disc);
+      return Playlist::column_name(Playlist::Column::Disc);
     case Field::Year:
-      return Playlist::column_name(Playlist::Column_Year);
+      return Playlist::column_name(Playlist::Column::Year);
     case Field::OriginalYear:
-      return Playlist::column_name(Playlist::Column_OriginalYear);
+      return Playlist::column_name(Playlist::Column::OriginalYear);
     case Field::Genre:
-      return Playlist::column_name(Playlist::Column_Genre);
+      return Playlist::column_name(Playlist::Column::Genre);
     case Field::Composer:
-      return Playlist::column_name(Playlist::Column_Composer);
+      return Playlist::column_name(Playlist::Column::Composer);
     case Field::Performer:
-      return Playlist::column_name(Playlist::Column_Performer);
+      return Playlist::column_name(Playlist::Column::Performer);
     case Field::Grouping:
-      return Playlist::column_name(Playlist::Column_Grouping);
+      return Playlist::column_name(Playlist::Column::Grouping);
     case Field::Comment:
       return QObject::tr("Comment");
     case Field::Length:
-      return Playlist::column_name(Playlist::Column_Length);
+      return Playlist::column_name(Playlist::Column::Length);
     case Field::Filepath:
-      return Playlist::column_name(Playlist::Column_Filename);
+      return Playlist::column_name(Playlist::Column::Filename);
     case Field::Filetype:
-      return Playlist::column_name(Playlist::Column_Filetype);
+      return Playlist::column_name(Playlist::Column::Filetype);
     case Field::Filesize:
-      return Playlist::column_name(Playlist::Column_Filesize);
+      return Playlist::column_name(Playlist::Column::Filesize);
     case Field::DateCreated:
-      return Playlist::column_name(Playlist::Column_DateCreated);
+      return Playlist::column_name(Playlist::Column::DateCreated);
     case Field::DateModified:
-      return Playlist::column_name(Playlist::Column_DateModified);
+      return Playlist::column_name(Playlist::Column::DateModified);
     case Field::PlayCount:
-      return Playlist::column_name(Playlist::Column_PlayCount);
+      return Playlist::column_name(Playlist::Column::PlayCount);
     case Field::SkipCount:
-      return Playlist::column_name(Playlist::Column_SkipCount);
+      return Playlist::column_name(Playlist::Column::SkipCount);
     case Field::LastPlayed:
-      return Playlist::column_name(Playlist::Column_LastPlayed);
+      return Playlist::column_name(Playlist::Column::LastPlayed);
     case Field::Rating:
-      return Playlist::column_name(Playlist::Column_Rating);
+      return Playlist::column_name(Playlist::Column::Rating);
     case Field::Samplerate:
-      return Playlist::column_name(Playlist::Column_Samplerate);
+      return Playlist::column_name(Playlist::Column::Samplerate);
     case Field::Bitdepth:
-      return Playlist::column_name(Playlist::Column_Bitdepth);
+      return Playlist::column_name(Playlist::Column::Bitdepth);
     case Field::Bitrate:
-      return Playlist::column_name(Playlist::Column_Bitrate);
+      return Playlist::column_name(Playlist::Column::Bitrate);
     case Field::FieldCount:
       Q_ASSERT(0);
   }
+
   return QString();
 
 }
@@ -437,6 +438,7 @@ QString SmartPlaylistSearchTerm::FieldSortOrderText(const Type type, const bool 
     case Type::Invalid:
       return QString();
   }
+
   return QString();
 
 }
@@ -456,6 +458,7 @@ QString SmartPlaylistSearchTerm::DateName(const DateType datetype, const bool fo
     case DateType::Year:
       return (forQuery ? QStringLiteral("years") : QObject::tr("Years"));
   }
+
   return QString();
 
 }
