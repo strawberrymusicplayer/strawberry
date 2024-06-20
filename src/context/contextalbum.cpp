@@ -163,7 +163,7 @@ void ContextAlbum::SetImage(QImage image) {
   if (!pixmap_previous.isNull()) {
     SharedPtr<PreviousCover> previous_cover = make_shared<PreviousCover>();
     previous_cover->image = image_previous;
-    previous_cover->pixmap =  pixmap_previous;
+    previous_cover->pixmap = pixmap_previous;
     previous_cover->opacity = opacity_previous;
     previous_cover->timeline.reset(new QTimeLine(kFadeTimeLineMs), [](QTimeLine *timeline) { timeline->deleteLater(); });
     previous_cover->timeline->setDirection(QTimeLine::Backward);
