@@ -235,6 +235,7 @@ void ContextAlbum::FadePreviousCover(SharedPtr<PreviousCover> previous_cover) {
 
 void ContextAlbum::FadePreviousCoverFinished(SharedPtr<PreviousCover> previous_cover) {
 
+  previous_cover->timeline.reset();
   previous_covers_.removeAll(previous_cover);
 
 }
