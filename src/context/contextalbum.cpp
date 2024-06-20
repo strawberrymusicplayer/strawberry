@@ -141,11 +141,7 @@ void ContextAlbum::UpdateWidth(const int new_width) {
 
 }
 
-void ContextAlbum::SetImage(QImage image) {
-
-  if (image.isNull()) {
-    image = image_strawberry_;
-  }
+void ContextAlbum::SetImage(const QImage &image) {
 
   if (downloading_covers_) {
     downloading_covers_ = false;
@@ -156,7 +152,13 @@ void ContextAlbum::SetImage(QImage image) {
   QPixmap pixmap_previous = pixmap_current_;
   qreal opacity_previous = pixmap_current_opacity_;
 
-  image_original_ = image;
+  if (image.isNull()) {
+    image_original_ = image_strawberry_;
+  }
+  else {
+    image_original_ = image;
+  }
+
   pixmap_current_opacity_ = 0.0;
   ScaleCover();
 

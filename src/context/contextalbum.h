@@ -51,7 +51,7 @@ class ContextAlbum : public QWidget {
   explicit ContextAlbum(QWidget *parent = nullptr);
 
   void Init(ContextView *context_view, AlbumCoverChoiceController *album_cover_choice_controller);
-  void SetImage(QImage image = QImage());
+  void SetImage(const QImage &image = QImage());
   void UpdateWidth(const int width);
 
  protected:
