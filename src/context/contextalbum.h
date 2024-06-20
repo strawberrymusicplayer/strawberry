@@ -77,7 +77,6 @@ class ContextAlbum : public QWidget {
   void DrawPreviousCovers(QPainter *p);
   void ScaleCover();
   void ScalePreviousCovers();
-  void GetCoverAutomatically();
 
  signals:
   void FadeStopFinished();
