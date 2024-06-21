@@ -125,7 +125,7 @@ void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
 void PlaylistHeader::AddColumnAction(const int index) {
 
 #ifndef HAVE_MOODBAR
-  if (index == Playlist::Column::Mood) {
+  if (index == static_cast<int>(Playlist::Column::Mood)) {
     return;
   }
 #endif
