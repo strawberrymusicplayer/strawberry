@@ -46,7 +46,6 @@ class AnalyzerContainer : public QWidget {
   explicit AnalyzerContainer(QWidget *parent);
 
   void SetEngine(SharedPtr<EngineBase> engine);
-  void SetActions(QAction *visualisation);
 
   static const char *kSettingsGroup;
   static const char *kSettingsFramerate;
