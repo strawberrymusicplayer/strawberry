@@ -521,6 +521,7 @@
     <addaction name="action_cover_manager"/>
     <addaction name="action_equalizer"/>
     <addaction name="action_transcoder"/>
+    <addaction name="action_visualizations"/>
     <addaction name="separator"/>
     <addaction name="action_update_collection"/>
     <addaction name="action_full_collection_scan"/>
@@ -863,6 +864,11 @@
    <property name="text">
     <string>Import data from last.fm...</string>
    </property>
+  </action>
+  <action name="action_visualizations">
+    <property name="text">
+      <string>Visualizations</string>
+    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
