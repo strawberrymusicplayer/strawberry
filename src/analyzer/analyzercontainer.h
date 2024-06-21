@@ -54,7 +54,7 @@ class AnalyzerContainer : public QWidget {
   void WheelEvent(const int delta);
 
  protected:
-  void mouseReleaseEvent(QMouseEvent*) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
   void wheelEvent(QWheelEvent *e) override;
 
  private slots:
