@@ -72,7 +72,8 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
       double_click_timer_(new QTimer(this)),
       ignore_next_click_(false),
       current_analyzer_(nullptr),
-      engine_(nullptr) {
+      engine_(nullptr),
+      action_visualization_(nullptr) {
 
   QHBoxLayout *layout = new QHBoxLayout(this);
   setLayout(layout);
@@ -122,6 +123,17 @@ void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
     context_menu_->popup(e->globalPos());
 #endif
   }
+
+}
+
+void AnalyzerContainer::mouseDoubleClickEvent(QMouseEvent *e) {
+
+  Q_UNUSED(e);
+
+  double_click_timer_->stop();
+  ignore_next_click_ = true;
+
+  if (action_visualization_) action_visualization_->trigger();
 
 }
 
@@ -245,5 +257,12 @@ void AnalyzerContainer::AddFramerate(const QString &name, const int framerate) {
   framerate_list_ << framerate;
   action->setCheckable(true);
   QObject::connect(action, &QAction::triggered, this, [this, framerate]() { ChangeFramerate(framerate); } );
+
+}
+
+void AnalyzerContainer::SetVisualizationsAction(QAction *visualization) {
+
+  action_visualization_ = visualization;
+  context_menu_->addAction(action_visualization_);
 
 }

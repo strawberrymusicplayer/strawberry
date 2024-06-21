@@ -474,7 +474,9 @@ void GstEngine::ReloadSettings() {
 
 }
 
-void GstEngine::ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) {
+void GstEngine::ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format, const int channels) {
+
+  Q_UNUSED(channels);
 
   // Schedule this to run in the GUI thread.  The buffer gets added to the queue and unreffed by UpdateScope.
   if (!QMetaObject::invokeMethod(this, "AddBufferToScope", Q_ARG(GstBuffer*, buffer), Q_ARG(int, pipeline_id), Q_ARG(QString, format))) {

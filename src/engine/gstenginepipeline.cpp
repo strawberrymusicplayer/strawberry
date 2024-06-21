@@ -1248,7 +1248,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
 
   for (GstBufferConsumer *consumer : consumers) {
     gst_buffer_ref(buf);
-    consumer->ConsumeBuffer(buf, instance->id(), format);
+    consumer->ConsumeBuffer(buf, instance->id(), format, channels);
   }
 
   if (buf16) {

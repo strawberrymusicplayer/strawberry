@@ -86,7 +86,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   void SetStartup(GstStartup *gst_startup) { gst_startup_ = gst_startup; }
   void EnsureInitialized() { gst_startup_->EnsureInitialized(); }
 
-  void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) override;
+  void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format, const int channels) override;
 
  public slots:
   void ReloadSettings() override;

@@ -70,6 +70,7 @@ jobs:
             libchromaprint-devel
             fftw3-devel
             libebur128-devel
+            projectM-devel
             desktop-file-utils
             update-desktop-files
             appstream-glib
@@ -85,6 +86,7 @@ jobs:
             libQt5Network-devel
             libQt5Sql-devel
             libQt5DBus-devel
+            libQt5OpenGL-devel
             libQt5Test-devel
             libqt5-qtbase-common-devel
             libQt5Sql5-sqlite
@@ -105,6 +107,7 @@ jobs:
             qt6-base-common-devel
             qt6-sql-sqlite
             qt6-linguist-devel
+            qt6-opengl-devel
       - name: Install tagparser
         if: matrix.opensuse_version == 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys in tagparser-devel
@@ -219,6 +222,7 @@ jobs:
             libchromaprint-devel
             libebur128-devel
             fftw-devel
+            libprojectM-devel
             desktop-file-utils
             libappstream-glib
             hicolor-icon-theme
@@ -310,6 +314,7 @@ jobs:
           lib64Qt6DBus-devel
           lib64Qt6Gui-devel
           lib64Qt6Widgets-devel
+          lib64Qt6OpenGL-devel
           lib64Qt6Test-devel
           qt6-cmake
           qt6-qtbase-tools
@@ -406,6 +411,7 @@ jobs:
           lib64fftw-devel
           lib64dbus-devel
           lib64appstream-devel
+          lib64projectm-devel
           lib64qt6core-devel
           lib64qt6gui-devel
           lib64qt6widgets-devel
@@ -415,6 +421,7 @@ jobs:
           lib64qt6dbus-devel
           lib64qt6help-devel
           lib64qt6test-devel
+          lib64qt6opengl-devel
           protobuf-compiler
           desktop-file-utils
           appstream-util
@@ -505,11 +512,12 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+            libprojectm-dev
       - name: Install Qt 5
         if: matrix.debian_version == 'bullseye'
         env:
           DEBIAN_FRONTEND: noninteractive
-        run: apt install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev
+        run: apt install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev libqt5opengl5-dev
       - name: Install Qt 6
         if: matrix.debian_version != 'bullseye'
         env:
@@ -592,11 +600,12 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+            libprojectm-dev
       - name: Install Qt 5
         if: matrix.ubuntu_version == 'focal'
         env:
           DEBIAN_FRONTEND: noninteractive
-        run: apt install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev
+        run: apt install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev libqt5opengl5-dev
       - name: Install Qt 6
         if: matrix.ubuntu_version != 'focal'
         env:
@@ -678,6 +687,7 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+            libprojectm-dev
             gstreamer1.0-alsa
             gstreamer1.0-pulseaudio
             protobuf-compiler
@@ -690,7 +700,7 @@ jobs:
         if: matrix.ubuntu_version == 'focal'
         env:
           DEBIAN_FRONTEND: noninteractive
-        run: apt install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev
+        run: apt install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev libqt5opengl5-dev
       - name: Install Qt 6
         if: matrix.ubuntu_version != 'focal'
         env:

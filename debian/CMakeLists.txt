@@ -6,7 +6,7 @@ if(LSB_RELEASE_EXEC AND DPKG_BUILDPACKAGE)
   if(DEB_CODENAME AND DEB_DATE)
 
     if(QT_VERSION_MAJOR EQUAL 5)
-      set(DEBIAN_BUILD_DEPENDS_QT_PACKAGES qtbase5-dev,qtbase5-dev-tools,qttools5-dev,qttools5-dev-tools,libqt5x11extras5-dev)
+      set(DEBIAN_BUILD_DEPENDS_QT_PACKAGES qtbase5-dev,qtbase5-dev-tools,qttools5-dev,qttools5-dev-tools,libqt5x11extras5-dev,libqt5opengl5-dev)
       set(DEBIAN_DEPENDS_QT_PACKAGES libqt5sql5-sqlite)
     endif()
     if(QT_VERSION_MAJOR EQUAL 6)
