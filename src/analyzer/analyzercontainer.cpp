@@ -54,10 +54,12 @@ const char *AnalyzerContainer::kSettingsGroup = "Analyzer";
 const char *AnalyzerContainer::kSettingsFramerate = "framerate";
 
 // Framerates
-const int AnalyzerContainer::kLowFramerate = 20;
-const int AnalyzerContainer::kMediumFramerate = 25;
-const int AnalyzerContainer::kHighFramerate = 30;
-const int AnalyzerContainer::kSuperHighFramerate = 60;
+namespace {
+constexpr int kLowFramerate = 20;
+constexpr int kMediumFramerate = 25;
+constexpr int kHighFramerate = 30;
+constexpr int kSuperHighFramerate = 60;
+} // namespace
 
 AnalyzerContainer::AnalyzerContainer(QWidget *parent)
     : QWidget(parent),
