@@ -83,7 +83,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   bool ALSADeviceSupport(const QString &output) const override;
   bool ExclusiveModeSupport(const QString &output) const override;
 
-  void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) override;
+  void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format, const int channels) override;
 
  public Q_SLOTS:
   void ReloadSettings() override;
