@@ -99,9 +99,12 @@ class WinSystemMediaTransportControls;
 #endif
 class AddStreamDialog;
 class RadioViewContainer;
+
 #if QT_CONFIG(sessionmanager)
 class QSessionManager;
 #endif
+
+class VisualizationContainer;
 
 #ifdef HAVE_DISCORD_RPC
 class DiscordRichPresence;
@@ -288,9 +291,12 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();
   void Exit();
+
 #if QT_CONFIG(sessionmanager)
   void CommitData(QSessionManager &manager);
 #endif
+
+  void ShowVisualizations();
 
  private:
   void SaveSettings();
@@ -368,6 +374,10 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #endif
 
   RadioViewContainer *radio_view_;
+
+#ifdef HAVE_VISUALIZATIONS
+  ScopedPtr<VisualizationContainer> visualization_;
+#endif
 
   QAction *collection_show_all_;
   QAction *collection_show_duplicates_;
