@@ -66,6 +66,7 @@ const char *GstEngine::kAutoSink = "autoaudiosink";
 const char *GstEngine::kALSASink = "alsasink";
 
 namespace {
+
 constexpr char kOpenALSASink[] = "openalsink";
 constexpr char kOSSSink[] = "osssink";
 constexpr char kOSS4Sink[] = "oss4sink";
@@ -81,6 +82,7 @@ constexpr int kDiscoveryTimeoutS = 10;
 constexpr qint64 kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
 constexpr qint64 kPreloadGapNanosec = 8000 * kNsecPerMsec;     // 8s
 constexpr qint64 kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
+
 }  // namespace
 
 GstEngine::GstEngine(SharedPtr<TaskManager> task_manager, QObject *parent)
@@ -256,11 +258,11 @@ bool GstEngine::Play(const quint64 offset_nanosec) {
     watcher->deleteLater();
     PlayDone(ret, offset_nanosec, pipeline_id);
   });
-  QFuture<GstStateChangeReturn> future = current_pipeline_->SetState(GST_STATE_PLAYING);
+  QFuture<GstStateChangeReturn> future = current_pipeline_->SetTargetState(GST_STATE_PLAYING);
   watcher->setFuture(future);
 
   if (is_fading_out_to_pause_) {
-    current_pipeline_->SetState(GST_STATE_PAUSED);
+    current_pipeline_->SetTargetState(GST_STATE_PAUSED);
   }
 
   return true;
@@ -312,8 +314,9 @@ void GstEngine::Pause() {
       StartFadeoutPause();
     }
     else {
-      current_pipeline_->SetState(GST_STATE_PAUSED);
+      current_pipeline_->SetTargetState(GST_STATE_PAUSED);
       emit StateChanged(State::Paused);
+      emit StateChanged(EngineBase::State::Paused);
       StopTimers();
     }
   }
@@ -325,7 +328,7 @@ void GstEngine::Unpause() {
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return;
 
   if (current_pipeline_->state() == GST_STATE_PAUSED) {
-    current_pipeline_->SetState(GST_STATE_PLAYING);
+    current_pipeline_->SetTargetState(GST_STATE_PLAYING);
 
     // Check if we faded out last time. If yes, fade in no matter what the settings say.
     // If we pause with fadeout, deactivate fadeout and resume playback, the player would be muted if not faded in.
@@ -630,8 +633,8 @@ void GstEngine::FadeoutFinished() {
 
 void GstEngine::FadeoutPauseFinished() {
 
-  fadeout_pause_pipeline_->SetState(GST_STATE_PAUSED);
-  current_pipeline_->SetState(GST_STATE_PAUSED);
+  fadeout_pause_pipeline_->SetTargetState(GST_STATE_PAUSED);
+  current_pipeline_->SetTargetState(GST_STATE_PAUSED);
   emit StateChanged(State::Paused);
   StopTimers();
 
