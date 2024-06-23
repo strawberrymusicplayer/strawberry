@@ -63,22 +63,27 @@
 using std::make_shared;
 
 const char *GstEngine::kAutoSink = "autoaudiosink";
-const char *GstEngine::kALSASink = "alsasink";
-const char *GstEngine::kOpenALSASink = "openalsink";
-const char *GstEngine::kOSSSink = "osssink";
-const char *GstEngine::kOSS4Sink = "oss4sink";
-const char *GstEngine::kJackAudioSink = "jackaudiosink";
-const char *GstEngine::kPulseSink = "pulsesink";
-const char *GstEngine::kA2DPSink = "a2dpsink";
-const char *GstEngine::kAVDTPSink = "avdtpsink";
-const char *GstEngine::InterAudiosink = "interaudiosink";
-const char *GstEngine::kDirectSoundSink = "directsoundsink";
-const char *GstEngine::kOSXAudioSink = "osxaudiosink";
-const char *GstEngine::kWASAPISink = "wasapisink";
-const int GstEngine::kDiscoveryTimeoutS = 10;
-const qint64 GstEngine::kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
-const qint64 GstEngine::kPreloadGapNanosec = 8000 * kNsecPerMsec;     // 8s
-const qint64 GstEngine::kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
+
+namespace {
+
+constexpr char kALSASink[] = "alsasink";
+constexpr char kOpenALSASink[] = "openalsink";
+constexpr char kOSSSink[] = "osssink";
+constexpr char kOSS4Sink[] = "oss4sink";
+constexpr char kJackAudioSink[] = "jackaudiosink";
+constexpr char kPulseSink[] = "pulsesink";
+constexpr char kA2DPSink[] = "a2dpsink";
+constexpr char kAVDTPSink[] = "avdtpsink";
+constexpr char InterAudiosink[] = "interaudiosink";
+constexpr char kDirectSoundSink[] = "directsoundsink";
+constexpr char kOSXAudioSink[] = "osxaudiosink";
+constexpr char kWASAPISink[] = "wasapisink";
+constexpr int kDiscoveryTimeoutS = 10;
+constexpr qint64 kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
+constexpr qint64 kPreloadGapNanosec = 8000 * kNsecPerMsec;     // 8s
+constexpr qint64 kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
+
+}  // namespace
 
 GstEngine::GstEngine(SharedPtr<TaskManager> task_manager, QObject *parent)
     : EngineBase(parent),
@@ -253,11 +258,11 @@ bool GstEngine::Play(const quint64 offset_nanosec) {
     watcher->deleteLater();
     PlayDone(ret, offset_nanosec, pipeline_id);
   });
-  QFuture<GstStateChangeReturn> future = current_pipeline_->SetState(GST_STATE_PLAYING);
+  QFuture<GstStateChangeReturn> future = current_pipeline_->SetTargetState(GST_STATE_PLAYING);
   watcher->setFuture(future);
 
   if (is_fading_out_to_pause_) {
-    current_pipeline_->SetState(GST_STATE_PAUSED);
+    current_pipeline_->SetTargetState(GST_STATE_PAUSED);
   }
 
   return true;
@@ -309,7 +314,7 @@ void GstEngine::Pause() {
       StartFadeoutPause();
     }
     else {
-      current_pipeline_->SetState(GST_STATE_PAUSED);
+      current_pipeline_->SetTargetState(GST_STATE_PAUSED);
       emit StateChanged(EngineBase::State::Paused);
       StopTimers();
     }
@@ -322,7 +327,7 @@ void GstEngine::Unpause() {
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return;
 
   if (current_pipeline_->state() == GST_STATE_PAUSED) {
-    current_pipeline_->SetState(GST_STATE_PLAYING);
+    current_pipeline_->SetTargetState(GST_STATE_PLAYING);
 
     // Check if we faded out last time. If yes, fade in no matter what the settings say.
     // If we pause with fadeout, deactivate fadeout and resume playback, the player would be muted if not faded in.
@@ -627,8 +632,8 @@ void GstEngine::FadeoutFinished() {
 
 void GstEngine::FadeoutPauseFinished() {
 
-  fadeout_pause_pipeline_->SetState(GST_STATE_PAUSED);
-  current_pipeline_->SetState(GST_STATE_PAUSED);
+  fadeout_pause_pipeline_->SetTargetState(GST_STATE_PAUSED);
+  current_pipeline_->SetTargetState(GST_STATE_PAUSED);
   emit StateChanged(EngineBase::State::Paused);
   StopTimers();
 

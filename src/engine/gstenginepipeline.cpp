@@ -62,11 +62,20 @@
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
 
-constexpr int GstEnginePipeline::kGstStateTimeoutNanosecs = 10000000;
-constexpr int GstEnginePipeline::kFaderFudgeMsec = 2000;
+namespace {
 
-constexpr int GstEnginePipeline::kEqBandCount = 10;
-constexpr int GstEnginePipeline::kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
+constexpr int GST_PLAY_FLAG_VIDEO = 0x00000001;
+constexpr int GST_PLAY_FLAG_AUDIO = 0x00000002;
+constexpr int GST_PLAY_FLAG_DOWNLOAD = 0x00000080;
+constexpr int GST_PLAY_FLAG_BUFFERING = 0x00000100;
+constexpr int GST_PLAY_FLAG_SOFT_VOLUME = 0x00000010;
+
+constexpr int kGstStateTimeoutNanosecs = 10000000;
+constexpr int kFaderFudgeMsec = 2000;
+
+constexpr int kEqBandCount = 10;
+constexpr int kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
+}
 
 int GstEnginePipeline::sId = 1;
 
@@ -90,7 +99,6 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       buffer_duration_nanosec_(BackendSettingsPage::kDefaultBufferDuration * kNsecPerMsec),
       buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
       buffer_high_watermark_(BackendSettingsPage::kDefaultBufferHighWatermark),
-      buffering_(false),
       proxy_authentication_(false),
       channels_enabled_(false),
       channels_(0),
@@ -107,6 +115,12 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       pipeline_is_connected_(false),
       pending_seek_nanosec_(-1),
       last_known_position_ns_(0),
+      target_state_(GST_STATE_NULL),
+      current_state_(GST_STATE_NULL),
+      active_state_(GST_STATE_NULL),
+      buffering_(false),
+      buffering_finished_(false),
+      live_stream_(false),
       next_uri_set_(false),
       next_uri_reset_(false),
       ebur128_loudness_normalizing_gain_db_(0.0),
@@ -392,6 +406,8 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
   gint flags = 0;
   g_object_get(G_OBJECT(pipeline_), "flags", &flags, nullptr);
   flags |= 0x00000002;
+  flags |= 0x00000080;
+  flags |= 0x00000100;
   flags &= ~0x00000001;
   flags &= ~0x00000010;
   g_object_set(G_OBJECT(pipeline_), "flags", flags, nullptr);
@@ -1017,10 +1033,10 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
 #endif
 
   // If the pipeline was buffering we stop that now.
-  if (instance->buffering_) {
+  if (!instance->buffer_timeout_running_ && instance->buffering_ && instance->target_state_ == GST_STATE_PLAYING) {
     instance->buffering_ = false;
     emit instance->BufferingFinished();
-    instance->SetState(GST_STATE_PLAYING);
+    instance->SetCurrentState(GST_STATE_PLAYING);
   }
 
 }
@@ -1329,6 +1345,10 @@ GstBusSyncReply GstEnginePipeline::BusSyncCallback(GstBus *bus, GstMessage *msg,
       instance->BufferingMessageReceived(msg);
       break;
 
+    case GST_MESSAGE_ASYNC_DONE:
+      instance->AsyncDoneMessageReceived(msg);
+      break;
+
     case GST_MESSAGE_STREAM_STATUS:
       instance->StreamStatusMessageReceived(msg);
       break;
@@ -1574,6 +1594,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   gst_message_parse_state_changed(msg, &old_state, &new_state, &pending);
 
   qLog(Debug) << "Pipeline state changed from" << GstStateText(old_state) << "to" << GstStateText(new_state);
+  active_state_ = new_state;
 
   if (!pipeline_is_active_ && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
     qLog(Debug) << "Pipeline is active";
@@ -1602,14 +1623,14 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
     if (next_uri_set_ && new_state == GST_STATE_READY) {
       next_uri_set_ = false;
       g_object_set(G_OBJECT(pipeline_), "uri", gst_url_.constData(), nullptr);
-      if (pending_seek_nanosec_ == -1) {
-        qLog(Debug) << "Reverting next uri and going to playing state.";
-        SetState(GST_STATE_PLAYING);
+      if (pending_seek_nanosec_ == -1 && active_state_ != target_state_) {
+        qLog(Debug) << "Reverting next uri and going to target state.";
+        SetCurrentState(target_state_);
       }
       else {
         qLog(Debug) << "Reverting next uri and going to paused state.";
         next_uri_reset_ = true;
-        SetState(GST_STATE_PAUSED);
+        SetCurrentState(GST_STATE_PAUSED);
       }
     }
   }
@@ -1623,26 +1644,120 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
     return;
   }
 
-  int percent = 0;
-  gst_message_parse_buffering(msg, &percent);
+  int buffering_percent = 0;
+  gst_message_parse_buffering(msg, &buffering_percent);
 
-  const GstState current_state = state();
-
-  if (percent == 0 && current_state == GST_STATE_PLAYING && !buffering_) {
+  if (buffering_ && buffering_percent == 100) {
+    if (!buffer_timeout_running_) {
+      buffering_finished_ = true;
+    }
+    //if (current_state_ != GST_STATE_PLAYING && target_state_ == GST_STATE_PLAYING) {
+      //SetCurrentState(GST_STATE_PLAYING);
+    //}
+    //emit BufferingFinished();
+  }
+  else if (!buffering_ && buffering_percent < 100) {
+    buffering_finished_ = false;
     buffering_ = true;
+    if (current_state_ != GST_STATE_PAUSED && target_state_ == GST_STATE_PLAYING) {
+      SetCurrentState(GST_STATE_PAUSED);
+    }
     emit BufferingStarted();
+  }
+  else {
+    qLog(Debug) << "Buffering" << buffering_percent;
+    emit BufferingProgress(buffering_percent);
+  }
 
-    SetState(GST_STATE_PAUSED);
-  }
-  else if (percent == 100 && buffering_) {
-    buffering_ = false;
-    emit BufferingFinished();
+}
 
-    SetState(GST_STATE_PLAYING);
+
+void GstEnginePipeline::AsyncDoneMessageReceived(GstMessage *msg) {
+
+  qLog(Debug) << __PRETTY_FUNCTION__ << GST_ELEMENT(GST_MESSAGE_SRC(msg));
+
+  // Only handle buffering messages from the queue2 element in audiobin - not the one that's created automatically by playbin.
+  if (GST_ELEMENT(GST_MESSAGE_SRC(msg)) != audioqueue_) {
+    //return;
   }
-  else if (buffering_) {
-    emit BufferingProgress(percent);
+
+  qLog(Debug) << __PRETTY_FUNCTION__;
+
+  if (buffering_) {
+    if (!buffer_timeout_running_) {
+      buffering_finished_ = false;
+      buffer_timeout_running_ = true;
+      g_timeout_add(500, GstEnginePipeline::BufferTimeoutCallback, this);
+    }
   }
+  else {
+    if (current_state_ != target_state_) {
+      SetCurrentState(target_state_);
+    }
+  }
+
+}
+
+gboolean GstEnginePipeline::BufferTimeoutCallback(gpointer self) {
+
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+
+  GstQuery *query = gst_query_new_buffering(GST_FORMAT_TIME);
+  if (!query) {
+    return FALSE;
+  }
+
+  if (!gst_element_query(instance->audioqueue_, query)) {
+    return TRUE;
+  }
+
+  gboolean busy = FALSE;
+  gint percent = 0;
+  gst_query_parse_buffering_percent(query, &busy, &percent);
+
+  gint64 estimated_total = 0;
+  gst_query_parse_buffering_range(query, nullptr, nullptr, nullptr, &estimated_total);
+
+  if (estimated_total == -1) estimated_total = 0;
+
+  // Calculate the remaining playback time
+  gint64 position = 0;
+  if (!gst_element_query_position(instance->audioqueue_, GST_FORMAT_TIME, &position)) {
+    position = -1;
+  }
+  gint64 duration = 0;
+  if (!gst_element_query_duration(instance->audioqueue_, GST_FORMAT_TIME, &duration)) {
+    duration = -1;
+  }
+
+  guint64 duration_left = 0;
+  if (duration != -1 && position != -1) {
+    duration_left = GST_TIME_AS_MSECONDS(duration - position);
+  }
+  else {
+    duration_left = 0;
+  }
+
+  qLog(Debug) << "Play duration left" << duration_left << "estimated total:" << estimated_total << "precent:" << percent;
+
+  // We are buffering or the estimated download time is bigger than the remaining playback time. We keep buffering.
+  const bool buffering_needed = (busy || estimated_total * 1.1 > duration_left);
+  instance->buffer_timeout_running_ = buffering_needed;
+  instance->buffering_finished_ = !buffering_needed;
+  instance->buffering_ = buffering_needed;
+
+  if (buffering_needed) {
+    qLog(Debug) << "Buffering is active.";
+  }
+  else {
+    qLog(Debug) << "Buffering is finished." << instance->current_state_ << instance->current_state_;
+    if (instance->current_state_ != instance->target_state_) {
+      instance->SetCurrentState(instance->target_state_);
+    }
+    emit instance->BufferingFinished();
+  }
+
+  return instance->buffering_;
 
 }
 
@@ -1672,24 +1787,72 @@ GstState GstEnginePipeline::state() const {
 
   GstState s = GST_STATE_NULL, sp = GST_STATE_NULL;
   if (!pipeline_ || gst_element_get_state(pipeline_, &s, &sp, kGstStateTimeoutNanosecs) == GST_STATE_CHANGE_FAILURE) {
-    return GST_STATE_NULL;
+    return active_state_;
   }
 
   return s;
 
 }
 
-QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) {
+QFuture<GstStateChangeReturn> GstEnginePipeline::SetTargetState(const GstState state) {
 
-  qLog(Debug) << "Setting pipeline state to" << GstStateText(state);
-  return QtConcurrent::run(&set_state_threadpool_, &gst_element_set_state, pipeline_, state);
+  qLog(Debug) << "Setting pipeline target state to" << GstStateText(state) << buffering_finished_;
+
+  target_state_ = state;
+
+  return SetCurrentState(state == GST_STATE_PLAYING && !buffering_finished_ ? GST_STATE_PAUSED : state);
+
+}
+
+QFuture<GstStateChangeReturn> GstEnginePipeline::SetCurrentState(const GstState state) {
+
+  qLog(Debug) << "Setting pipeline current state to" << GstStateText(state);
+
+  current_state_ = state;
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  QFuture<GstStateChangeReturn> future = QtConcurrent::run(&set_state_threadpool_, &gst_element_set_state, pipeline_, state);
+#else
+  QFuture<GstStateChangeReturn> future = QtConcurrent::run(this, &gst_element_set_state, pipeline_, state);
+#endif
+  QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>(sender());
+  QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, state](){
+    const GstStateChangeReturn state_change = watcher->result();
+    watcher->deleteLater();
+    SetStateFinished(state, state_change);
+  });
+  watcher->setFuture(future);
+
+  return future;
+
+}
+
+void GstEnginePipeline::SetStateFinished(const GstState state, const GstStateChangeReturn state_change) {
+
+  switch (state_change) {
+    case GST_STATE_CHANGE_SUCCESS:
+    case GST_STATE_CHANGE_ASYNC:
+    case GST_STATE_CHANGE_NO_PREROLL:
+      qLog(Debug) << "Pipeline state successfully set to" << GstStateText(state);
+      active_state_ = state;
+      if (state == GST_STATE_PAUSED) {
+        live_stream_ = state_change == GST_STATE_CHANGE_NO_PREROLL;
+        qLog(Debug) << "Live stream:" << live_stream_;
+      }
+      break;
+    case GST_STATE_CHANGE_FAILURE:
+      qLog(Error) << "Failed to set pipeline to state" << GstStateText(state);
+      break;
+  }
 
 }
 
 void GstEnginePipeline::SetStateDelayed(const GstState state) {
 
+  if (state == target_state_) return;
+
   QMetaObject::invokeMethod(this, [this, state]() {
-    QTimer::singleShot(300, this, [this, state]() { SetState(state); });
+    QTimer::singleShot(300, this, [this, state]() { SetTargetState(state); });
   }, Qt::QueuedConnection);
 
 }
@@ -1708,7 +1871,9 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
   if (next_uri_set_) {
     pending_seek_nanosec_ = nanosec;
-    SetState(GST_STATE_READY);
+    if (target_state_ != GST_STATE_READY) {
+      SetTargetState(GST_STATE_READY);
+    }
     return true;
   }
 

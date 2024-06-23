@@ -89,7 +89,8 @@ class GstEnginePipeline : public QObject {
   void RemoveAllBufferConsumers();
 
   // Control the music playback
-  Q_INVOKABLE QFuture<GstStateChangeReturn> SetState(const GstState state);
+  Q_INVOKABLE QFuture<GstStateChangeReturn> SetTargetState(const GstState state);
+  Q_INVOKABLE QFuture<GstStateChangeReturn> SetCurrentState(const GstState state);
   void SetStateDelayed(const GstState state);
   Q_INVOKABLE bool Seek(const qint64 nanosec);
   void SeekQueued(const qint64 nanosec);
@@ -173,12 +174,14 @@ class GstEnginePipeline : public QObject {
   static GstBusSyncReply BusSyncCallback(GstBus *bus, GstMessage *msg, gpointer self);
   static gboolean BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self);
   static void TaskEnterCallback(GstTask *task, GThread *thread, gpointer self);
+  static gboolean BufferTimeoutCallback(gpointer self);
 
   void TagMessageReceived(GstMessage *msg);
   void ErrorMessageReceived(GstMessage *msg);
   void ElementMessageReceived(GstMessage *msg);
   void StateChangedMessageReceived(GstMessage *msg);
   void BufferingMessageReceived(GstMessage *msg);
+  void AsyncDoneMessageReceived(GstMessage *msg);
   void StreamStatusMessageReceived(GstMessage *msg);
   void StreamStartMessageReceived();
 
@@ -190,14 +193,10 @@ class GstEnginePipeline : public QObject {
   void UpdateEqualizer();
 
  private slots:
+  void SetStateFinished(const GstState state, const GstStateChangeReturn state_change);
   void FaderTimelineFinished();
 
  private:
-  static const int kGstStateTimeoutNanosecs;
-  static const int kFaderFudgeMsec;
-  static const int kEqBandCount;
-  static const int kEqBandFrequencies[];
-
   // Using == to compare two pipelines is a bad idea, because new ones often get created in the same address as old ones.  This ID will be unique for each pipeline.
   // Threading warning: access to the static ID field isn't protected by a mutex because all pipeline creation is currently done in the main thread.
   static int sId;
@@ -236,7 +235,6 @@ class GstEnginePipeline : public QObject {
   quint64 buffer_duration_nanosec_;
   double buffer_low_watermark_;
   double buffer_high_watermark_;
-  bool buffering_;
 
   // Proxy
   QString proxy_address_;
@@ -301,6 +299,14 @@ class GstEnginePipeline : public QObject {
   // PAUSED nor PLAYING state. Whenever we get a new position (e.g. after a correct call to gst_element_query_position() or after a seek), we store
   // it here so that we can use it when using gst_element_query_position() is not possible.
   mutable gint64 last_known_position_ns_;
+
+  GstState target_state_;
+  GstState current_state_;
+  GstState active_state_;
+  bool buffering_;
+  bool buffering_finished_;
+  bool buffer_timeout_running_;
+  bool live_stream_;
 
   // Complete the transition to the next song when it starts playing
   bool next_uri_set_;
