@@ -517,14 +517,21 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
     }
     const Song &old_song = song_nodes_[new_song.id()]->metadata;
     bool container_key_changed = false;
+    bool has_unique_album_identifier = false;
     for (int i = 0; i < 3; ++i) {
-      if (IsArtistGroupBy(options_active_.group_by[i]) && new_song.is_compilation() != old_song.is_compilation()) {
-        container_key_changed = true;
+      const GroupBy group_by = options_active_.group_by[i];
+      if (group_by == GroupBy::None) break;
+      if (options_active_.show_various_artists && IsArtistGroupBy(group_by) && (new_song.is_compilation() || old_song.is_compilation())) {
+        has_unique_album_identifier = true;
+        if (new_song.is_compilation() != old_song.is_compilation()) {
+          container_key_changed = true;
+        }
       }
-      if (options_active_.group_by[i] != GroupBy::None && ContainerKey(options_active_.group_by[i], new_song) != ContainerKey(options_active_.group_by[i], old_song)) {
+      else if (ContainerKey(group_by, new_song, has_unique_album_identifier) != ContainerKey(group_by, old_song, has_unique_album_identifier)) {
         container_key_changed = true;
       }
     }
+
     if (container_key_changed) {
       qLog(Debug) << "Container key for" << new_song.id() << new_song.PrettyTitleWithArtist() << "was changed, re-adding song.";
       songs_removed << old_song;
@@ -559,11 +566,12 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
 
     CollectionItem *container = root_;
     QString container_key;
+    bool has_unique_album_identifier = false;
     for (int i = 0; i < 3; ++i) {
       const GroupBy group_by = options_active_.group_by[i];
       if (group_by == GroupBy::None) break;
-      if (!container_key.isEmpty()) container_key.append(QLatin1Char('-'));
-      if (IsArtistGroupBy(group_by) && song.is_compilation() && options_active_.show_various_artists) {
+      if (options_active_.show_various_artists && IsArtistGroupBy(group_by) && song.is_compilation()) {
+        has_unique_album_identifier = true;
         if (container->compilation_artist_node_ == nullptr) {
           CreateCompilationArtistNode(container);
         }
@@ -571,7 +579,8 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
         container_key = container->container_key;
       }
       else {
-        container_key.append(ContainerKey(group_by, song));
+        if (!container_key.isEmpty()) container_key.append(QLatin1Char('-'));
+        container_key.append(ContainerKey(group_by, song, has_unique_album_identifier));
         if (container_nodes_[i].contains(container_key)) {
           container = container_nodes_[i][container_key];
         }
@@ -858,14 +867,7 @@ void CollectionModel::LoadSongsFromSqlAsyncFinished() {
 
 QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
 
-  QStringList path;
-  QModelIndex idx_copy(idx);
-  while (idx_copy.isValid()) {
-    path.prepend(idx_copy.data().toString());
-    idx_copy = idx_copy.parent();
-  }
-
-  return Song::TextForSource(backend_->source()) + QLatin1Char('/') + path.join(QLatin1Char('/'));
+  return Song::TextForSource(backend_->source()) + QLatin1Char('/') + idx.data(Role_ContainerKey).toString();
 
 }
 
@@ -1222,16 +1224,18 @@ bool CollectionModel::IsSongTitleDataChanged(const Song &song1, const Song &song
 
 }
 
-QString CollectionModel::ContainerKey(const GroupBy group_by, const Song &song) const {
+QString CollectionModel::ContainerKey(const GroupBy group_by, const Song &song, bool &has_unique_album_identifier) const {
 
   QString key;
 
   switch (group_by) {
     case GroupBy::AlbumArtist:
       key = TextOrUnknown(song.effective_albumartist());
+      has_unique_album_identifier = true;
       break;
     case GroupBy::Artist:
       key = TextOrUnknown(song.artist());
+      has_unique_album_identifier = true;
       break;
     case GroupBy::Album:
       key = TextOrUnknown(song.album());
@@ -1277,9 +1281,11 @@ QString CollectionModel::ContainerKey(const GroupBy group_by, const Song &song) 
       break;
     case GroupBy::Composer:
       key = TextOrUnknown(song.composer());
+      has_unique_album_identifier = true;
       break;
     case GroupBy::Performer:
       key = TextOrUnknown(song.performer());
+      has_unique_album_identifier = true;
       break;
     case GroupBy::Grouping:
       key = TextOrUnknown(song.grouping());
@@ -1300,9 +1306,17 @@ QString CollectionModel::ContainerKey(const GroupBy group_by, const Song &song) 
       key = PrettyFormat(song);
       break;
     case GroupBy::None:
-    case GroupBy::GroupByCount:
       qLog(Error) << "GroupBy::None";
       break;
+    case GroupBy::GroupByCount:
+      qLog(Error) << "GroupBy::GroupByCount";
+      break;
+  }
+
+  // Make sure we distinguish albums by different artists if the parent group by is not including artist.
+  if (!has_unique_album_identifier && !song.effective_albumartist().isEmpty()) {
+    key.prepend(QLatin1Char('-'));
+    key.prepend(TextOrUnknown(song.effective_albumartist()));
   }
 
   return key;

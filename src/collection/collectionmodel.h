@@ -191,7 +191,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static QString SortTextForYear(const int year);
   static QString SortTextForBitrate(const int bitrate);
   static bool IsSongTitleDataChanged(const Song &song1, const Song &song2);
-  QString ContainerKey(const GroupBy group_by, const Song &song) const;
+  QString ContainerKey(const GroupBy group_by, const Song &song, bool &has_unique_album_identifier) const;
 
   // Get information about the collection
   void GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const;
