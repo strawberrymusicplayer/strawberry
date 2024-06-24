@@ -193,7 +193,7 @@ void CollectionWatcher::ReloadSettings() {
   if (monitor_ && scan_on_startup_ && mark_songs_unavailable_ && !periodic_scan_timer_->isActive()) {
     periodic_scan_timer_->start();
   }
-  else if (!mark_songs_unavailable_ && periodic_scan_timer_->isActive()) {
+  else if ((!monitor_ || !scan_on_startup_ || !mark_songs_unavailable_) && periodic_scan_timer_->isActive()) {
     periodic_scan_timer_->stop();
   }
 
