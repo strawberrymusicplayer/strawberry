@@ -61,6 +61,9 @@ class ParserBase : public QObject {
   virtual SongList Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_lookup = true) const = 0;
   virtual void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType::Automatic) const = 0;
 
+ signals:
+  void Error(const QString &error) const;
+
  protected:
   // Loads a song.  If filename_or_url is a URL (with a scheme other than "file") then it is set on the song and the song marked as a stream.
   // Also sets the song's metadata by searching in the Collection, or loading from the file as a fallback.

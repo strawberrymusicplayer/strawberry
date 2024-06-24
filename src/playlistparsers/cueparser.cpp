@@ -394,6 +394,8 @@ void CueParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
   Q_UNUSED(dir);
   Q_UNUSED(path_type);
 
+  emit Error(tr("Saving CUE files is not supported."));
+
   // TODO
 
 }

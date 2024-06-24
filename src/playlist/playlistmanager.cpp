@@ -100,6 +100,8 @@ void PlaylistManager::Init(SharedPtr<CollectionBackend> collection_backend, Shar
   QObject::connect(&*collection_backend_, &CollectionBackend::SongsStatisticsChanged, this, &PlaylistManager::UpdateCollectionSongs);
   QObject::connect(&*collection_backend_, &CollectionBackend::SongsRatingChanged, this, &PlaylistManager::UpdateCollectionSongs);
 
+  QObject::connect(parser_, &PlaylistParser::Error, this, &PlaylistManager::Error);
+
   for (const PlaylistBackend::Playlist &p : playlist_backend->GetAllOpenPlaylists()) {
     ++playlists_loading_;
     Playlist *ret = AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);

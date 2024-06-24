@@ -44,16 +44,26 @@
 
 const int PlaylistParser::kMagicSize = 512;
 
-PlaylistParser::PlaylistParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent) : QObject(parent) {
+PlaylistParser::PlaylistParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent) : QObject(parent), default_parser_(nullptr) {
 
-  default_parser_ = new XSPFParser(collection_backend, this);
-  parsers_ << default_parser_;
-  parsers_ << new M3UParser(collection_backend, this);
-  parsers_ << new PLSParser(collection_backend, this);
-  parsers_ << new ASXParser(collection_backend, this);
-  parsers_ << new AsxIniParser(collection_backend, this);
-  parsers_ << new CueParser(collection_backend, this);
-  parsers_ << new WplParser(collection_backend, this);
+  AddParser(new XSPFParser(collection_backend, this));
+  AddParser(new M3UParser(collection_backend, this));
+  AddParser(new PLSParser(collection_backend, this));
+  AddParser(new ASXParser(collection_backend, this));
+  AddParser(new AsxIniParser(collection_backend, this));
+  AddParser(new CueParser(collection_backend, this));
+  AddParser(new WplParser(collection_backend, this));
+
+}
+
+void PlaylistParser::AddParser(ParserBase *parser) {
+
+  if (!default_parser_) {
+    default_parser_ = parser;
+  }
+
+  parsers_ << parser;
+  QObject::connect(parser, &ParserBase::Error, this, &PlaylistParser::Error);
 
 }
 
@@ -171,7 +181,8 @@ SongList PlaylistParser::LoadFromFile(const QString &filename) const {
   // Find a parser that supports this file extension
   ParserBase *parser = ParserForExtension(Type::Load, fileinfo.suffix());
   if (!parser) {
-    qLog(Warning) << "Unknown filetype:" << filename;
+    qLog(Error) << "Unknown filetype:" << filename;
+    emit Error(tr("Unknown filetype: %1").arg(filename));
     return SongList();
   }
 
@@ -204,14 +215,16 @@ void PlaylistParser::Save(const SongList &songs, const QString &filename, const 
   QDir dir(fileinfo.path());
 
   if (!dir.exists()) {
-    qLog(Warning) << "Directory does not exist" << dir.path();
+    qLog(Error) << "Directory" << dir.path() << "does not exist";
+    emit Error(tr("Directory %1 does not exist.").arg(dir.path()));
     return;
   }
 
   // Find a parser that supports this file extension
   ParserBase *parser = ParserForExtension(Type::Save, fileinfo.suffix());
   if (!parser) {
-    qLog(Warning) << "Unknown filetype" << filename;
+    qLog(Error) << "Unknown filetype" << filename;
+    emit Error(tr("Unknown filetype: %1").arg(filename));
     return;
   }
 
@@ -225,7 +238,8 @@ void PlaylistParser::Save(const SongList &songs, const QString &filename, const 
   // Open the file
   QFile file(fileinfo.absoluteFilePath());
   if (!file.open(QIODevice::WriteOnly)) {
-    qLog(Warning) << "Failed to open" << filename << "for writing.";
+    qLog(Error) << "Failed to open" << filename << "for writing.";
+    emit Error(tr("Failed to open %1 for writing.").arg(filename));
     return;
   }
 
