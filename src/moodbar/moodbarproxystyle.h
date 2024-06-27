@@ -65,11 +65,6 @@ class MoodbarProxyStyle : public QProxyStyle {
   void SetMoodbarEnabled(const bool enabled);
 
  private:
-  static const int kMarginSize;
-  static const int kBorderSize;
-  static const int kArrowWidth;
-  static const int kArrowHeight;
-
   enum class State {
     MoodbarOn,
     MoodbarOff,

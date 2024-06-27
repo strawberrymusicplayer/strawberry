@@ -43,10 +43,12 @@
 #include "moodbarrenderer.h"
 #include "settings/moodbarsettingspage.h"
 
-const int MoodbarProxyStyle::kMarginSize = 3;
-const int MoodbarProxyStyle::kBorderSize = 1;
-const int MoodbarProxyStyle::kArrowWidth = 17;
-const int MoodbarProxyStyle::kArrowHeight = 13;
+namespace {
+constexpr int kMarginSize = 3;
+constexpr int kBorderSize = 1;
+constexpr int kArrowWidth = 17;
+constexpr int kArrowHeight = 13;
+}  // namespace
 
 MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject*)
     : QProxyStyle(nullptr),
@@ -145,8 +147,7 @@ void MoodbarProxyStyle::NextState() {
     fade_target_ = QPixmap();
   }
   else {
-    // Stop an existing fade and start fading the other direction from the
-    // same place.
+    // Stop an existing fade and start fading the other direction from the same place.
     fade_timeline_->stop();
     fade_timeline_->setDirection(direction);
     fade_timeline_->resume();
@@ -291,8 +292,7 @@ QRect MoodbarProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionCom
           const QStyleOptionSlider *slider_opt = qstyleoption_cast<const QStyleOptionSlider*>(opt);
           int x_offset = 0;
 
-          /* slider_opt->{maximum,minimum} can have the value 0 (their default
-             values), so this check avoids a division by 0. */
+          // slider_opt->{maximum,minimum} can have the value 0 (their default values), so this check avoids a division by 0.
           if (slider_opt->maximum > slider_opt->minimum) {
             qint64 slider_delta = slider_opt->sliderValue - slider_opt->minimum;
             qint64 slider_range = slider_opt->maximum - slider_opt->minimum;
@@ -311,6 +311,7 @@ QRect MoodbarProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionCom
   }
 
   return QProxyStyle::subControlRect(cc, opt, sc, widget);
+
 }
 
 void MoodbarProxyStyle::DrawArrow(const QStyleOptionSlider *option, QPainter *painter) const {

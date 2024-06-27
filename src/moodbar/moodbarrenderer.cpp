@@ -87,16 +87,13 @@ ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle s
 
   total = qMax(total, 1);
 
-  // Remap the hue values to be between rangeStart and
-  // rangeStart + rangeDelta.  Every time we see an input hue
-  // above the threshold, increment the output hue by
-  // (1/total) * rangeDelta.
+  // Remap the hue values to be between rangeStart and rangeStart + rangeDelta.
+  // Every time we see an input hue above the threshold, increment the output hue by (1/total) * rangeDelta.
   for (int i = 0, n = 0; i < 360; i++) {
     hue_distribution[i] = ((hue_distribution[i] > properties.threshold_ ? n++ : n) * properties.range_delta_ / total + properties.range_start_) % 360;
   }
 
-  // Now huedist is a hue mapper: huedist[h] is the new hue value
-  // for a bar with hue h
+  // Now huedist is a hue mapper: huedist[h] is the new hue value for a bar with hue h
   for (ColorVector::iterator it = colors.begin(); it != colors.end(); ++it) {
     const int hue = qMax(0, it->hue());
 
@@ -104,6 +101,7 @@ ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle s
   }
 
   return colors;
+
 }
 
 void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect rect) {
@@ -148,6 +146,7 @@ void MoodbarRenderer::Render(const ColorVector &colors, QPainter *p, const QRect
       p->drawPoint(rect.left() + x, rect.top() + rect.height() - 1 - y);
     }
   }
+
 }
 
 QImage MoodbarRenderer::RenderToImage(const ColorVector &colors, const QSize size) {
