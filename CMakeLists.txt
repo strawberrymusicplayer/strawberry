@@ -455,9 +455,11 @@ if(NOT CMAKE_CROSSCOMPILING)
   set(CMAKE_REQUIRED_FLAGS "-std=c++17")
   set(CMAKE_REQUIRED_LIBRARIES Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Sql)
   check_cxx_source_runs("
+    #include <QCoreApplication>
     #include <QSqlDatabase>
     #include <QSqlQuery>
-    int main() {
+    int main(int argc, char *argv[]) {
+      QCoreApplication app(argc, argv);
       QSqlDatabase db = QSqlDatabase::addDatabase(\"QSQLITE\");
       db.setDatabaseName(\":memory:\");
       if (!db.open()) { return 1; }
