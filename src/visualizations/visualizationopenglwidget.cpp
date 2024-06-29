@@ -21,6 +21,7 @@
 
 #include <QPainter>
 
+#include "core/logging.h"
 #include "visualizationopenglwidget.h"
 #include "projectmvisualization.h"
 
@@ -43,5 +44,37 @@ void VisualizationOpenGLWidget::paintGL() {
   projectm_visualization_->RenderFrame(width(), height());
   p.endNativePainting();
   update();
+
+  qLog(Debug) << __PRETTY_FUNCTION__ << glGetError();
+
+}
+
+void VisualizationOpenGLWidget::resizeGL(const int width, const int height) {
+
+  Setup(width, height);
+  projectm_visualization_->Resize(width, height);
+
+}
+
+void VisualizationOpenGLWidget::Setup(const int width, const int height) {
+
+  glShadeModel(GL_SMOOTH);
+  glClearColor(0, 0, 0, 0);
+  glViewport(0, 0, width, height);
+  glMatrixMode(GL_TEXTURE);
+  glLoadIdentity();
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  glDrawBuffer(GL_BACK);
+  glReadBuffer(GL_BACK);
+  glEnable(GL_BLEND);
+
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_LINE_SMOOTH);
+  glEnable(GL_POINT_SMOOTH);
+  glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
+  glLineStipple(2, 0xAAAA);
 
 }

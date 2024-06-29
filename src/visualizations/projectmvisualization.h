@@ -66,6 +66,7 @@ class ProjectMVisualization : public QObject, public GstBufferConsumer {
 
   void Init();
   void RenderFrame(const int width, const int height);
+  void Resize(const int width, const int height);
 
   // BufferConsumer
   void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) override;

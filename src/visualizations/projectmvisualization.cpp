@@ -144,7 +144,7 @@ void ProjectMVisualization::Init() {
   projectm_set_preset_duration(projectm_instance_, duration_);
   projectm_set_mesh_size(projectm_instance_, 32, 24);
   projectm_set_fps(projectm_instance_, 35);
-  projectm_set_window_size(projectm_instance_, 512, 512);
+  //projectm_set_window_size(projectm_instance_, 512, 512);
   projectm_playlist_instance_ = projectm_playlist_create(projectm_instance_);
 #else
   projectM::Settings s;
@@ -204,12 +204,26 @@ void ProjectMVisualization::RenderFrame(const int width, const int height) {
   Q_ASSERT(projectm_);
 #endif
 
+  //Resize(width, height);
+
 #ifdef HAVE_PROJECTM4
-  projectm_set_window_size(projectm_instance_, static_cast<size_t>(width * pixel_ratio_), static_cast<size_t>(height * pixel_ratio_));
   projectm_opengl_render_frame(projectm_instance_);
 #else
-  projectm_->projectM_resetGL(static_cast<int>(width * pixel_ratio_), static_cast<int>(height * pixel_ratio_));
   projectm_->renderFrame();
+#endif
+
+}
+
+void ProjectMVisualization::Resize(const int width, const int height) {
+
+#ifdef HAVE_PROJECTM4
+  if (projectm_instance_) {
+    projectm_set_window_size(projectm_instance_, static_cast<size_t>(width * pixel_ratio_), static_cast<size_t>(height * pixel_ratio_));
+  }
+#else
+  if (projectm_) {
+    projectm_->projectM_resetGL(static_cast<int>(width * pixel_ratio_), static_cast<int>(height * pixel_ratio_));
+  }
 #endif  // HAVE_PROJECTM4
 
 }
@@ -220,15 +234,7 @@ void ProjectMVisualization::SceneRectChanged(const QRectF &rect) {
   // Accessing the QScreen becomes a lot easier in Qt 5.14 with QWidget::screen().
   pixel_ratio_ = container_->devicePixelRatio();
 
-#ifdef HAVE_PROJECTM4
-  if (projectm_instance_) {
-    projectm_set_window_size(projectm_instance_, static_cast<size_t>(rect.width() * pixel_ratio_), static_cast<size_t>(rect.height() * pixel_ratio_));
-  }
-#else
-  if (projectm_) {
-    projectm_->projectM_resetGL(static_cast<int>(rect.width() * pixel_ratio_), static_cast<int>(rect.height() * pixel_ratio_));
-  }
-#endif  // HAVE_PROJECTM4
+  //Resize(rect.width(), rect.height());
 
 }
 
