@@ -34,9 +34,10 @@
 #  include <libprojectM/projectM.hpp>
 #endif
 
+#include <QObject>
 #include <QString>
 #include <QStringList>
-#include <QGraphicsScene>
+#include <QRectF>
 
 #include "engine/gstbufferconsumer.h"
 
@@ -45,7 +46,7 @@ class QPainter;
 class ProjectMPresetModel;
 class VisualizationContainer;
 
-class ProjectMVisualization : public QGraphicsScene, public GstBufferConsumer {
+class ProjectMVisualization : public QObject, public GstBufferConsumer {
   Q_OBJECT
 
  public:
@@ -64,6 +65,7 @@ class ProjectMVisualization : public QGraphicsScene, public GstBufferConsumer {
   int duration() const { return duration_; }
 
   void Init();
+  void RenderFrame(const int width, const int height);
 
   // BufferConsumer
   void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) override;
@@ -79,10 +81,6 @@ class ProjectMVisualization : public QGraphicsScene, public GstBufferConsumer {
   void SetMode(const Mode mode);
 
   void Lock(const bool lock);
-
- protected:
-  // QGraphicsScene
-  void drawBackground(QPainter *painter, const QRectF &rect) override;
 
  private slots:
   void SceneRectChanged(const QRectF &rect);

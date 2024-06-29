@@ -62,7 +62,7 @@ constexpr int kDefaultTextureSize = 512;
 }  // namespace
 
 VisualizationContainer::VisualizationContainer(QWidget *parent)
-    : QGraphicsView(parent),
+    : QMainWindow(parent),
       projectm_visualization_(new ProjectMVisualization(this)),
       overlay_(new VisualizationOverlay),
       selector_(new VisualizationSelector(this)),
@@ -91,19 +91,10 @@ VisualizationContainer::VisualizationContainer(QWidget *parent)
   QObject::connect(close, &QShortcut::activated, this, &VisualizationContainer::close);
 
   // Set up the graphics view
-  setScene(projectm_visualization_);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  setViewport(new VisualizationOpenGLWidget(projectm_visualization_));
-#else
-  setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
-#endif
-  setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-  setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  setFrameStyle(QFrame::NoFrame);
+  setCentralWidget(new VisualizationOpenGLWidget(projectm_visualization_));
 
   // Add the overlay
-  overlay_proxy_ = scene()->addWidget(overlay_);
+  //overlay_proxy_ = scene()->addWidget(overlay_);
   QObject::connect(overlay_, &VisualizationOverlay::OpacityChanged, this, &VisualizationContainer::ChangeOverlayOpacity);
   QObject::connect(overlay_, &VisualizationOverlay::ShowPopupMenu, this, &VisualizationContainer::ShowPopupMenu);
   ChangeOverlayOpacity(0.0);
@@ -170,7 +161,7 @@ void VisualizationContainer::showEvent(QShowEvent *e) {
 
   qLog(Debug) << "Showing visualization";
 
-  QGraphicsView::showEvent(e);
+  QMainWindow::showEvent(e);
 
   update_timer_.start(1000 / fps_, this);
 
@@ -182,7 +173,7 @@ void VisualizationContainer::hideEvent(QHideEvent *e) {
 
   qLog(Debug) << "Hiding visualization";
 
-  QGraphicsView::hideEvent(e);
+  QMainWindow::hideEvent(e);
 
   update_timer_.stop();
 
@@ -201,7 +192,7 @@ void VisualizationContainer::closeEvent(QCloseEvent *e) {
 }
 
 void VisualizationContainer::resizeEvent(QResizeEvent *e) {
-  QGraphicsView::resizeEvent(e);
+  QMainWindow::resizeEvent(e);
   SizeChanged();
 }
 
@@ -213,7 +204,7 @@ void VisualizationContainer::SizeChanged() {
   s.setValue("geometry", saveGeometry());
 
   // Resize the scene
-  if (scene()) scene()->setSceneRect(QRect(QPoint(0, 0), size()));
+  //if (scene()) scene()->setSceneRect(QRect(QPoint(0, 0), size()));
 
   // Resize the overlay
   if (overlay_) overlay_->resize(size());
@@ -222,8 +213,8 @@ void VisualizationContainer::SizeChanged() {
 
 void VisualizationContainer::timerEvent(QTimerEvent *e) {
 
-  QGraphicsView::timerEvent(e);
-  if (e->timerId() == update_timer_.timerId()) scene()->update();
+  QMainWindow::timerEvent(e);
+  //if (e->timerId() == update_timer_.timerId()) scene()->update();
 
 }
 
@@ -241,14 +232,15 @@ void VisualizationContainer::Stopped() {
 
 void VisualizationContainer::ChangeOverlayOpacity(const qreal value) {
 
-  overlay_proxy_->setOpacity(value);
+  if (overlay_proxy_)
+    overlay_proxy_->setOpacity(value);
 
   // Hide the cursor if the overlay is hidden
   if (value < 0.5) {
-    viewport()->setCursor(Qt::BlankCursor);
+    //viewport()->setCursor(Qt::BlankCursor);
   }
   else {
-    viewport()->unsetCursor();
+    //viewport()->unsetCursor();
   }
 
 
@@ -260,29 +252,29 @@ void VisualizationContainer::enterEvent(QEnterEvent *e) {
 void VisualizationContainer::enterEvent(QEvent *e) {
 #endif
 
-  QGraphicsView::enterEvent(e);
+  QMainWindow::enterEvent(e);
 
   overlay_->SetVisible(true);
 
 }
 
 void VisualizationContainer::leaveEvent(QEvent *e) {
-  QGraphicsView::leaveEvent(e);
+  QMainWindow::leaveEvent(e);
   overlay_->SetVisible(false);
 }
 
 void VisualizationContainer::mouseMoveEvent(QMouseEvent *e) {
-  QGraphicsView::mouseMoveEvent(e);
+  QMainWindow::mouseMoveEvent(e);
   overlay_->SetVisible(true);
 }
 
 void VisualizationContainer::mouseDoubleClickEvent(QMouseEvent *e) {
-  QGraphicsView::mouseDoubleClickEvent(e);
+  QMainWindow::mouseDoubleClickEvent(e);
   ToggleFullscreen();
 }
 
 void VisualizationContainer::contextMenuEvent(QContextMenuEvent *event) {
-  QGraphicsView::contextMenuEvent(event);
+  QMainWindow::contextMenuEvent(event);
   ShowPopupMenu(event->pos());
 }
 
@@ -298,7 +290,7 @@ void VisualizationContainer::keyReleaseEvent(QKeyEvent *event) {
     return;
   }
 
-  QGraphicsView::keyReleaseEvent(event);
+  QMainWindow::keyReleaseEvent(event);
 
 }
 

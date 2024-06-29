@@ -41,7 +41,6 @@
 #endif  // HAVE_PROJECTM4
 
 #include <QCoreApplication>
-#include <QGraphicsScene>
 #include <QString>
 #include <QStringList>
 #include <QDir>
@@ -59,7 +58,7 @@
 #include "visualizationcontainer.h"
 
 ProjectMVisualization::ProjectMVisualization(VisualizationContainer *container)
-    : QGraphicsScene(container),
+    : QObject(container),
       container_(container),
       preset_model_(nullptr),
 #ifdef HAVE_PROJECTM4
@@ -70,8 +69,6 @@ ProjectMVisualization::ProjectMVisualization(VisualizationContainer *container)
       duration_(15),
       texture_size_(512),
       pixel_ratio_(container->devicePixelRatio()) {
-
-  QObject::connect(this, &QGraphicsScene::sceneRectChanged, this, &ProjectMVisualization::SceneRectChanged);
 
 #ifndef HAVE_PROJECTM4
   for (int i = 0; i < TOTAL_RATING_TYPES; ++i) {
@@ -193,11 +190,7 @@ void ProjectMVisualization::Init() {
 
 }
 
-void ProjectMVisualization::drawBackground(QPainter *p, const QRectF &rect) {
-
-  Q_UNUSED(rect);
-
-  p->beginNativePainting();
+void ProjectMVisualization::RenderFrame(const int width, const int height) {
 
 #ifdef HAVE_PROJECTM4
   if (!projectm_instance_) {
@@ -212,14 +205,12 @@ void ProjectMVisualization::drawBackground(QPainter *p, const QRectF &rect) {
 #endif
 
 #ifdef HAVE_PROJECTM4
-  projectm_set_window_size(projectm_instance_, static_cast<size_t>(sceneRect().width() * pixel_ratio_), static_cast<size_t>(sceneRect().height() * pixel_ratio_));
+  projectm_set_window_size(projectm_instance_, static_cast<size_t>(width * pixel_ratio_), static_cast<size_t>(height * pixel_ratio_));
   projectm_opengl_render_frame(projectm_instance_);
 #else
-  projectm_->projectM_resetGL(static_cast<int>(sceneRect().width() * pixel_ratio_), static_cast<int>(sceneRect().height() * pixel_ratio_));
+  projectm_->projectM_resetGL(static_cast<int>(width * pixel_ratio_), static_cast<int>(height * pixel_ratio_));
   projectm_->renderFrame();
 #endif  // HAVE_PROJECTM4
-
-  p->endNativePainting();
 
 }
 

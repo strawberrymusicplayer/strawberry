@@ -19,7 +19,7 @@
 
 #include "config.h"
 
-#include <QtGlobal>
+#include <QPainter>
 
 #include "visualizationopenglwidget.h"
 #include "projectmvisualization.h"
@@ -33,5 +33,15 @@ void VisualizationOpenGLWidget::initializeGL() {
   projectm_visualization_->Init();
 
   QOpenGLWidget::initializeGL();
+
+}
+
+void VisualizationOpenGLWidget::paintGL() {
+
+  QPainter p(this);
+  p.beginNativePainting();
+  projectm_visualization_->RenderFrame(width(), height());
+  p.endNativePainting();
+  update();
 
 }

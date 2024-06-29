@@ -34,6 +34,7 @@ class VisualizationOpenGLWidget : public QOpenGLWidget {
 
  protected:
   void initializeGL() override;
+  void paintGL() override;
 
  private:
   ProjectMVisualization *projectm_visualization_;

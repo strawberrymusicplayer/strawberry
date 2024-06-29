@@ -25,7 +25,7 @@
 #include "config.h"
 
 #include <QBasicTimer>
-#include <QGraphicsView>
+#include <QMainWindow>
 
 #include "core/song.h"
 
@@ -49,7 +49,7 @@ class QKeyEvent;
 class QEnterEvent;
 #endif
 
-class VisualizationContainer : public QGraphicsView {
+class VisualizationContainer : public QMainWindow {
   Q_OBJECT
 
  public:
