@@ -102,7 +102,6 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
   QString line = text_stream.readLine();
 
   QList<CueEntry> entries;
-  int files = 0;
 
   QString album_artist;
   QString album;
@@ -162,7 +161,6 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
       }
       // End of the header -> go into the track mode
       else if (line_name.compare(QLatin1String(kTrack), Qt::CaseInsensitive) == 0) {
-        files++;
         break;
       }
       // Ignore the rest of possible field types for now...
