@@ -23,10 +23,11 @@
 #include "config.h"
 
 #include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 
 class ProjectMVisualization;
 
-class VisualizationOpenGLWidget : public QOpenGLWidget {
+class VisualizationOpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   Q_OBJECT
 
  public:

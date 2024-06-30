@@ -145,6 +145,8 @@ void ProjectMVisualization::Init() {
   projectm_set_mesh_size(projectm_instance_, 32, 24);
   projectm_set_fps(projectm_instance_, 35);
   //projectm_set_window_size(projectm_instance_, 512, 512);
+  const char *texture_search_paths[] = { "/usr/local/share/projectM/textures" };
+  projectm_set_texture_search_paths(projectm_instance_, texture_search_paths, 1);
   projectm_playlist_instance_ = projectm_playlist_create(projectm_instance_);
 #else
   projectM::Settings s;
@@ -185,7 +187,7 @@ void ProjectMVisualization::Init() {
 
   if (preset_path_.isEmpty()) {
     qWarning("ProjectM presets could not be found, search path was:\n  %s", preset_paths.join(QLatin1String("\n  ")).toLocal8Bit().constData());
-    QMessageBox::warning(nullptr, tr("Missing projectM presets"), tr("Strawberry could not load any projectM visualizations.  Check that you have installed Clementine properly."));
+    QMessageBox::warning(nullptr, tr("Missing projectM presets"), tr("Strawberry could not load any projectM visualizations.  Check that you have installed Strawberry properly."));
   }
 
 }

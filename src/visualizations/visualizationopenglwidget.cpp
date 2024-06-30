@@ -34,6 +34,7 @@ void VisualizationOpenGLWidget::initializeGL() {
   projectm_visualization_->Init();
 
   QOpenGLWidget::initializeGL();
+  QOpenGLFunctions::initializeOpenGLFunctions();
 
 }
 
