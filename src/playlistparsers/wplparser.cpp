@@ -44,7 +44,7 @@ bool WplParser::TryMagic(const QByteArray &data) const {
   return data.contains("<?wpl") || data.contains("<smil>");
 }
 
-SongList WplParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
+SongList WplParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
   Q_UNUSED(playlist_path);
 
@@ -56,13 +56,13 @@ SongList WplParser::Load(QIODevice *device, const QString &playlist_path, const 
   }
 
   while (!reader.atEnd() && Utilities::ParseUntilElement(&reader, QStringLiteral("seq"))) {
-    ParseSeq(dir, &reader, &ret, collection_search);
+    ParseSeq(dir, &reader, &ret, collection_lookup);
   }
   return ret;
 
 }
 
-void WplParser::ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *songs, const bool collection_search) const {
+void WplParser::ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *songs, const bool collection_lookup) const {
 
   while (!reader->atEnd()) {
     QXmlStreamReader::TokenType type = reader->readNext();
@@ -72,7 +72,7 @@ void WplParser::ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *so
         if (name == QLatin1String("media")) {
           QString src = reader->attributes().value(QLatin1String("src")).toString();
           if (!src.isEmpty()) {
-            Song song = LoadSong(src, 0, 0, dir, collection_search);
+            Song song = LoadSong(src, 0, 0, dir, collection_lookup);
             if (song.is_valid()) {
               songs->append(song);
             }

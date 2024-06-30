@@ -37,7 +37,7 @@
 ParserBase::ParserBase(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : QObject(parent), collection_backend_(collection_backend) {}
 
-void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning, const int track, const QDir &dir, Song *song, const bool collection_search) const {
+void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning, const int track, const QDir &dir, Song *song, const bool collection_lookup) const {
 
   if (filename_or_url.isEmpty()) {
     return;
@@ -74,7 +74,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
   const QUrl url = QUrl::fromLocalFile(filename);
 
   // Search the collection
-  if (collection_backend_ && collection_search) {
+  if (collection_backend_ && collection_lookup) {
     Song collection_song;
     if (track > 0) {
       collection_song = collection_backend_->GetSongByUrlAndTrack(url, track);
@@ -106,10 +106,10 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
 
 }
 
-Song ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning, const int track, const QDir &dir, const bool collection_search) const {
+Song ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning, const int track, const QDir &dir, const bool collection_lookup) const {
 
   Song song(Song::Source::LocalFile);
-  LoadSong(filename_or_url, beginning, track, dir, &song, collection_search);
+  LoadSong(filename_or_url, beginning, track, dir, &song, collection_lookup);
 
   return song;
 

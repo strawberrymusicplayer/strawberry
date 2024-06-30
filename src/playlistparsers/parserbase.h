@@ -68,8 +68,8 @@ class ParserBase : public QObject {
   // Loads a song.  If filename_or_url is a URL (with a scheme other than "file") then it is set on the song and the song marked as a stream.
   // Also sets the song's metadata by searching in the Collection, or loading from the file as a fallback.
   // This function should always be used when loading a playlist.
-  Song LoadSong(const QString &filename_or_url, const qint64 beginning, const int track, const QDir &dir, const bool collection_search) const;
-  void LoadSong(const QString &filename_or_url, const qint64 beginning, const int track, const QDir &dir, Song *song, const bool collection_search) const;
+  Song LoadSong(const QString &filename_or_url, const qint64 beginning, const int track, const QDir &dir, const bool collection_lookup) const;
+  void LoadSong(const QString &filename_or_url, const qint64 beginning, const int track, const QDir &dir, Song *song, const bool collection_lookup) const;
 
   // If the URL is a file:// URL then returns its path, absolute or relative to the directory depending on the path_type option.
   // Otherwise, returns the URL as is. This function should always be used when saving a playlist.

@@ -40,7 +40,7 @@ class CollectionBackendInterface;
 M3UParser::M3UParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : ParserBase(collection_backend, parent) {}
 
-SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
+SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
   Q_UNUSED(playlist_path);
 
@@ -72,7 +72,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
       }
     }
     else if (!line.isEmpty()) {
-      Song song = LoadSong(line, 0, 0, dir, collection_search);
+      Song song = LoadSong(line, 0, 0, dir, collection_lookup);
       if (!current_metadata.title.isEmpty()) {
         song.set_title(current_metadata.title);
       }

@@ -68,7 +68,7 @@ constexpr char kDisc[] = "discnumber";
 CueParser::CueParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : ParserBase(collection_backend, parent) {}
 
-SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
+SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
   SongList ret;
 
@@ -266,7 +266,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
   for (int i = 0; i < entries.length(); i++) {
     CueEntry entry = entries.at(i);
 
-    Song song = LoadSong(entry.file, IndexToMarker(entry.index), 0, dir, collection_search);
+    Song song = LoadSong(entry.file, IndexToMarker(entry.index), 0, dir, collection_lookup);
 
     // Cue song has mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
     if (cue_mtime.isValid()) {

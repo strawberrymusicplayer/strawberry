@@ -42,28 +42,29 @@ class CollectionBackendInterface;
 XSPFParser::XSPFParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : XMLParser(collection_backend, parent) {}
 
-SongList XSPFParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
+SongList XSPFParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
   Q_UNUSED(playlist_path);
 
-  SongList ret;
+  SongList songs;
 
   QXmlStreamReader reader(device);
   if (!Utilities::ParseUntilElement(&reader, QStringLiteral("playlist")) || !Utilities::ParseUntilElement(&reader, QStringLiteral("trackList"))) {
-    return ret;
+    return songs;
   }
 
   while (!reader.atEnd() && Utilities::ParseUntilElement(&reader, QStringLiteral("track"))) {
-    Song song = ParseTrack(&reader, dir, collection_search);
+    const Song song = ParseTrack(&reader, dir, collection_lookup);
     if (song.is_valid()) {
-      ret << song;
+      songs << song;
     }
   }
-  return ret;
+
+  return songs;
 
 }
 
-Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_search) const {
+Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_lookup) const {
 
   QString title, artist, album, location, art;
   qint64 nanosec = -1;
@@ -121,7 +122,7 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const boo
   }
 
 return_song:
-  Song song = LoadSong(location, 0, track_num, dir, collection_search);
+  Song song = LoadSong(location, 0, track_num, dir, collection_lookup);
 
   // Override metadata with what was in the playlist
   if (song.source() != Song::Source::Collection) {

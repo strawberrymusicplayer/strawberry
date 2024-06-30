@@ -46,7 +46,7 @@ bool AsxIniParser::TryMagic(const QByteArray &data) const {
   return data.toLower().contains("[reference]");
 }
 
-SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_search) const {
+SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
   Q_UNUSED(playlist_path);
 
@@ -59,7 +59,7 @@ SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, con
     QString value = line.mid(equals + 1);
 
     if (key.startsWith(QLatin1String("ref"))) {
-      Song song = LoadSong(value, 0, 0, dir, collection_search);
+      Song song = LoadSong(value, 0, 0, dir, collection_lookup);
       if (song.is_valid()) {
         ret << song;
       }
