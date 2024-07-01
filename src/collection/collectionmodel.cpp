@@ -517,17 +517,19 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
     }
     const Song &old_song = song_nodes_[new_song.id()]->metadata;
     bool container_key_changed = false;
-    bool has_unique_album_identifier = false;
+    bool has_unique_album_identifier_1 = false;
+    bool has_unique_album_identifier_2 = false;
     for (int i = 0; i < 3; ++i) {
       const GroupBy group_by = options_active_.group_by[i];
       if (group_by == GroupBy::None) break;
       if (options_active_.show_various_artists && IsArtistGroupBy(group_by) && (new_song.is_compilation() || old_song.is_compilation())) {
-        has_unique_album_identifier = true;
+        has_unique_album_identifier_1 = true;
+        has_unique_album_identifier_2 = true;
         if (new_song.is_compilation() != old_song.is_compilation()) {
           container_key_changed = true;
         }
       }
-      else if (ContainerKey(group_by, new_song, has_unique_album_identifier) != ContainerKey(group_by, old_song, has_unique_album_identifier)) {
+      else if (ContainerKey(group_by, new_song, has_unique_album_identifier_1) != ContainerKey(group_by, old_song, has_unique_album_identifier_2)) {
         container_key_changed = true;
       }
     }
@@ -1314,9 +1316,10 @@ QString CollectionModel::ContainerKey(const GroupBy group_by, const Song &song, 
   }
 
   // Make sure we distinguish albums by different artists if the parent group by is not including artist.
-  if (!has_unique_album_identifier && !song.effective_albumartist().isEmpty()) {
+  if (IsAlbumGroupBy(group_by) && !has_unique_album_identifier && !song.effective_albumartist().isEmpty()) {
     key.prepend(QLatin1Char('-'));
     key.prepend(TextOrUnknown(song.effective_albumartist()));
+    has_unique_album_identifier = true;
   }
 
   return key;
