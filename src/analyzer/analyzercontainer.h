@@ -46,6 +46,7 @@ class AnalyzerContainer : public QWidget {
   explicit AnalyzerContainer(QWidget *parent);
 
   void SetEngine(SharedPtr<EngineBase> engine);
+  void SetVisualizationsAction(QAction *visualization);
 
   static const char *kSettingsGroup;
   static const char *kSettingsFramerate;
@@ -55,6 +56,7 @@ class AnalyzerContainer : public QWidget {
 
  protected:
   void mouseReleaseEvent(QMouseEvent *e) override;
+  void mouseDoubleClickEvent(QMouseEvent *e) override;
   void wheelEvent(QWheelEvent *e) override;
 
  private slots:
@@ -89,6 +91,8 @@ class AnalyzerContainer : public QWidget {
 
   AnalyzerBase *current_analyzer_;
   SharedPtr<EngineBase> engine_;
+
+  QAction *action_visualization_;
 };
 
 template<typename T>
