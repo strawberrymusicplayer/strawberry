@@ -415,8 +415,13 @@ SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) {
       continue;
     }
 
-    TagReaderClient::Instance()->ReadFileBlocking(filename, &song);
-    if (song.is_valid()) songs << song;
+    const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(filename, &song);
+    if (result.success() && song.is_valid()) {
+      songs << song;
+    }
+    else {
+      qLog(Error) << "Could not read file" << filename << result.error;
+    }
   }
 
   return songs;

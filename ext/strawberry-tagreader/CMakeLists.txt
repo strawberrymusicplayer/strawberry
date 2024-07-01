@@ -9,11 +9,11 @@ qt_wrap_cpp(MOC ${HEADERS})
 
 link_directories(${GLIB_LIBRARY_DIRS})
 
-if(USE_TAGLIB AND TAGLIB_FOUND)
+if(HAVE_TAGLIB)
   link_directories(${TAGLIB_LIBRARY_DIRS})
 endif()
 
-if(USE_TAGPARSER AND TAGPARSER_FOUND)
+if(HAVE_TAGPARSER)
   link_directories(${TAGPARSER_LIBRARY_DIRS})
 endif()
 
@@ -39,12 +39,12 @@ target_link_libraries(strawberry-tagreader PRIVATE
   libstrawberry-tagreader
 )
 
-if(USE_TAGLIB AND TAGLIB_FOUND)
+if(HAVE_TAGLIB)
   target_include_directories(strawberry-tagreader SYSTEM PRIVATE ${TAGLIB_INCLUDE_DIRS})
   target_link_libraries(strawberry-tagreader PRIVATE ${TAGLIB_LIBRARIES})
 endif()
 
-if(USE_TAGPARSER AND TAGPARSER_FOUND)
+if(HAVE_TAGPARSER)
   target_include_directories(strawberry-tagreader SYSTEM PRIVATE ${TAGPARSER_INCLUDE_DIRS})
   target_link_libraries(strawberry-tagreader PRIVATE ${TAGPARSER_LIBRARIES})
 endif()

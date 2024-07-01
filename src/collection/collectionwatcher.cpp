@@ -817,8 +817,8 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
   }
 
   Song song_on_disk(source_);
-  TagReaderClient::Instance()->ReadFileBlocking(file, &song_on_disk);
-  if (song_on_disk.is_valid()) {
+  const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(file, &song_on_disk);
+  if (result.success() && song_on_disk.is_valid()) {
     song_on_disk.set_source(source_);
     song_on_disk.set_directory_id(t->dir());
     song_on_disk.set_id(matching_song.id());
@@ -870,8 +870,8 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
   }
   else {  // It's a normal media file
     Song song(source_);
-    TagReaderClient::Instance()->ReadFileBlocking(file, &song);
-    if (song.is_valid()) {
+    const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(file, &song);
+    if (result.success() && song.is_valid()) {
       song.set_source(source_);
       PerformEBUR128Analysis(song);
       song.set_fingerprint(fingerprint);

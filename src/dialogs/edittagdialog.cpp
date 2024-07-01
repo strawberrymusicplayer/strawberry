@@ -399,8 +399,8 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) {
     if (song.IsEditable()) {
       // Try reloading the tags from file
       Song copy(song);
-      TagReaderClient::Instance()->ReadFileBlocking(copy.url().toLocalFile(), &copy);
-      if (copy.is_valid()) {
+      const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(copy.url().toLocalFile(), &copy);
+      if (result.success() && copy.is_valid()) {
         copy.MergeUserSetData(song, false, false);
         ret << Data(copy);
       }
@@ -1295,7 +1295,7 @@ void EditTagDialog::SaveData() {
       if (save_embedded_cover) {
         save_types |= TagReaderClient::SaveType::Cover;
       }
-      TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(ref.current_.url().toLocalFile(), ref.current_, save_types, savecover_options);
+      TagReaderReply *reply = TagReaderClient::Instance()->WriteFile(ref.current_.url().toLocalFile(), ref.current_, save_types, savecover_options);
       QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() { SongSaveTagsComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_); }, Qt::QueuedConnection);
     }
     // If the cover was changed, but no tags written, make sure to update the collection.
@@ -1450,7 +1450,11 @@ void EditTagDialog::UpdateLyrics(const quint64 id, const QString &provider, cons
 void EditTagDialog::SongSaveTagsComplete(TagReaderReply *reply, const QString &filename, Song song, const UpdateCoverAction cover_action) {
 
   --save_tag_pending_;
-  const bool success = reply->message().save_file_response().success();
+  const bool success = reply->message().write_file_response().success();
+  QString error;
+  if (!success && reply->message().write_file_response().has_error()) {
+    error = QString::fromStdString(reply->message().write_file_response().error());
+  }
   reply->deleteLater();
 
   if (success) {
@@ -1483,7 +1487,12 @@ void EditTagDialog::SongSaveTagsComplete(TagReaderReply *reply, const QString &f
     }
   }
   else {
-    emit Error(tr("An error occurred writing metadata to '%1'").arg(filename));
+    if (error.isEmpty()) {
+      emit Error(tr("Could not write metadata to %1").arg(filename));
+    }
+    else {
+      emit Error(tr("Could not write metadata to %1: %2").arg(filename, error));
+    }
   }
 
   if (save_tag_pending_ <= 0) SaveDataFinished();

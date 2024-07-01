@@ -1,6 +1,6 @@
 /* This file is part of Strawberry.
    Copyright 2013, David Sansome <me@davidsansome.com>
-   Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+   Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
 
    Strawberry is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -54,14 +54,14 @@ class TagReaderTagLib : public TagReaderBase {
 
   bool IsMediaFile(const QString &filename) const override;
 
-  bool ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
-  bool SaveFile(const spb::tagreader::SaveFileRequest &request) const override;
+  Result ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
+  Result WriteFile(const QString &filename, const spb::tagreader::WriteFileRequest &request) const override;
 
-  QByteArray LoadEmbeddedArt(const QString &filename) const override;
-  bool SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest &request) const override;
+  Result LoadEmbeddedArt(const QString &filename, QByteArray &data) const;
+  Result SaveEmbeddedArt(const QString &filename, const spb::tagreader::SaveEmbeddedArtRequest &request) const override;
 
-  bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
-  bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+  Result SaveSongPlaycountToFile(const QString &filename, const uint playcount) const override;
+  Result SaveSongRatingToFile(const QString &filename, const float rating) const override;
 
   static void TStringToStdString(const TagLib::String &tag, std::string *output);
 
@@ -86,17 +86,17 @@ class TagReaderTagLib : public TagReaderBase {
 
   static TagLib::ID3v2::PopularimeterFrame *GetPOPMFrameFromTag(TagLib::ID3v2::Tag *tag);
 
-  void SetPlaycount(TagLib::Ogg::XiphComment *xiph_comment, const spb::tagreader::SongMetadata &song) const;
-  void SetPlaycount(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const;
-  void SetPlaycount(TagLib::ID3v2::Tag *tag, const spb::tagreader::SongMetadata &song) const;
-  void SetPlaycount(TagLib::MP4::Tag *tag, const spb::tagreader::SongMetadata &song) const;
-  void SetPlaycount(TagLib::ASF::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+  void SetPlaycount(TagLib::Ogg::XiphComment *xiph_comment, const uint playcount) const;
+  void SetPlaycount(TagLib::APE::Tag *tag, const uint playcount) const;
+  void SetPlaycount(TagLib::ID3v2::Tag *tag, const uint playcount) const;
+  void SetPlaycount(TagLib::MP4::Tag *tag, const uint playcount) const;
+  void SetPlaycount(TagLib::ASF::Tag *tag, const uint playcount) const;
 
-  void SetRating(TagLib::Ogg::XiphComment *xiph_comment, const spb::tagreader::SongMetadata &song) const;
-  void SetRating(TagLib::APE::Tag *tag, const spb::tagreader::SongMetadata &song) const;
-  void SetRating(TagLib::ID3v2::Tag *tag, const spb::tagreader::SongMetadata &song) const;
-  void SetRating(TagLib::MP4::Tag *tag, const spb::tagreader::SongMetadata &song) const;
-  void SetRating(TagLib::ASF::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+  void SetRating(TagLib::Ogg::XiphComment *xiph_comment, const float rating) const;
+  void SetRating(TagLib::APE::Tag *tag, const float rating) const;
+  void SetRating(TagLib::ID3v2::Tag *tag, const float rating) const;
+  void SetRating(TagLib::MP4::Tag *tag, const float rating) const;
+  void SetRating(TagLib::ASF::Tag *tag, const float rating) const;
 
   void SetEmbeddedArt(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data, const QString &mime_type) const;
   void SetEmbeddedArt(TagLib::Ogg::XiphComment *xiph_comment, const QByteArray &data, const QString &mime_type) const;

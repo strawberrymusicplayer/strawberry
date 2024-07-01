@@ -1,6 +1,6 @@
 /* This file is part of Strawberry.
    Copyright 2011, David Sansome <me@davidsansome.com>
-   Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+   Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
 
    Strawberry is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,19 +21,19 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QObject>
+#include <QList>
 
 #include "core/messagehandler.h"
-#if defined(USE_TAGLIB)
-#  include "tagreadertaglib.h"
-#  include "tagreadergme.h"
-#elif defined(USE_TAGPARSER)
-#  include "tagreadertagparser.h"
-#endif
 
 #include "tagreadermessages.pb.h"
 
 class QIODevice;
+class TagReaderBase;
+
+using std::shared_ptr;
 
 class TagReaderWorker : public AbstractMessageHandler<spb::tagreader::Message> {
   Q_OBJECT
@@ -46,15 +46,9 @@ class TagReaderWorker : public AbstractMessageHandler<spb::tagreader::Message> {
   void DeviceClosed() override;
 
  private:
-  // Handle message using specific TagReaderBase implementation. Returns true on successful message handle.
-  bool HandleMessage(const spb::tagreader::Message &message, spb::tagreader::Message &reply, TagReaderBase* reader);
+  void HandleMessage(const spb::tagreader::Message &message, spb::tagreader::Message &reply);
 
-#if defined(USE_TAGLIB)
-  TagReaderTagLib tag_reader_;
-  TagReaderGME tag_reader_gme_;
-#elif defined(USE_TAGPARSER)
-  TagReaderTagParser tag_reader_;
-#endif
+  QList<shared_ptr<TagReaderBase>> tagreaders_;
 };
 
 #endif  // TAGREADERWORKER_H

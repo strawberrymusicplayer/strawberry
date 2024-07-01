@@ -37,8 +37,10 @@
 #cmakedefine HAVE_KEYSYMDEF_H
 #cmakedefine HAVE_XF86KEYSYM_H
 
+#cmakedefine HAVE_TAGLIB
 #cmakedefine HAVE_TAGLIB_DSFFILE
 #cmakedefine HAVE_TAGLIB_DSDIFFFILE
+#cmakedefine HAVE_TAGPARSER
 
 #cmakedefine USE_BUNDLE
 
@@ -50,9 +52,6 @@
 #cmakedefine HAVE_X11EXTRAS
 
 #cmakedefine ENABLE_WIN32_CONSOLE
-
-#cmakedefine USE_TAGLIB
-#cmakedefine USE_TAGPARSER
 
 #cmakedefine HAVE_QX11APPLICATION
 

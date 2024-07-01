@@ -1,5 +1,5 @@
 /* This file is part of Strawberry.
-   Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+   Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
 
    Strawberry is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,6 +36,23 @@ class TagReaderBase {
   explicit TagReaderBase();
   ~TagReaderBase() = default;
 
+  class Result {
+   public:
+    enum class ErrorCode {
+      Success,
+      Unsupported,
+      FilenameMissing,
+      FileOpenError,
+      FileParseError,
+      FileSaveError,
+      CustomError,
+    };
+    Result(const ErrorCode _error_code, const QString &_error = QString()) : error_code(_error_code), error(_error) {}
+    ErrorCode error_code;
+    QString error;
+    bool success() const { return error_code == ErrorCode::Success; }
+  };
+
   class Cover {
    public:
     explicit Cover(const QByteArray &_data = QByteArray(), const QString &_mime_type = QString()) : data(_data), mime_type(_mime_type) {}
@@ -44,22 +61,25 @@ class TagReaderBase {
     QString error;
   };
 
+  static QString ErrorString(const Result &result);
+
   virtual bool IsMediaFile(const QString &filename) const = 0;
 
-  virtual bool ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const = 0;
-  virtual bool SaveFile(const spb::tagreader::SaveFileRequest &request) const = 0;
+  virtual Result ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const = 0;
+  virtual Result WriteFile(const QString &filename, const spb::tagreader::WriteFileRequest &request) const = 0;
 
-  virtual QByteArray LoadEmbeddedArt(const QString &filename) const = 0;
-  virtual bool SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest &request) const = 0;
+  virtual Result LoadEmbeddedArt(const QString &filename, QByteArray &data) const = 0;
+  virtual Result SaveEmbeddedArt(const QString &filename, const spb::tagreader::SaveEmbeddedArtRequest &request) const = 0;
 
-  virtual bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const = 0;
-  virtual bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const = 0;
+  virtual Result SaveSongPlaycountToFile(const QString &filename, const uint playcount) const = 0;
+  virtual Result SaveSongRatingToFile(const QString &filename, const float rating) const = 0;
 
+ protected:
   static float ConvertPOPMRating(const int POPM_rating);
   static int ConvertToPOPMRating(const float rating);
 
-  static Cover LoadCoverFromRequest(const spb::tagreader::SaveFileRequest &request);
-  static Cover LoadCoverFromRequest(const spb::tagreader::SaveEmbeddedArtRequest &request);
+  static Cover LoadCoverFromRequest(const QString &song_filename, const spb::tagreader::WriteFileRequest &request);
+  static Cover LoadCoverFromRequest(const QString &song_filename, const spb::tagreader::SaveEmbeddedArtRequest &request);
 
  private:
   static Cover LoadCoverFromRequest(const QString &song_filename, const QString &cover_filename, QByteArray cover_data, QString cover_mime_type);

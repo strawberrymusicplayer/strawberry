@@ -717,7 +717,10 @@ void AlbumCoverManager::SaveCoverToFile() {
         return;
       case AlbumCoverLoaderOptions::Type::Embedded:
         if (song.art_embedded()) {
-          result.image_data = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(song.url().toLocalFile());
+          const TagReaderClient::Result tagreaderclient_result = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(song.url().toLocalFile(), result.image_data);
+          if (!tagreaderclient_result.success()) {
+            qLog(Error) << "Could not load embedded art from" << song.url() << tagreaderclient_result.error;
+          }
         }
         break;
       case AlbumCoverLoaderOptions::Type::Automatic:

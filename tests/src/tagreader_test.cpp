@@ -29,9 +29,9 @@
 
 #include "core/song.h"
 
-#if defined(USE_TAGLIB)
+#if defined(HAVE_TAGLIB)
 #  include "tagreadertaglib.h"
-#elif defined(USE_TAGPARSER)
+#elif defined(HAVE_TAGPARSER)
 #  include "tagreadertagparser.h"
 #endif
 
@@ -45,15 +45,15 @@ class TagReaderTest : public ::testing::Test {
  protected:
   static void SetUpTestCase() {
     // Return something from uninteresting mock functions.
-#if defined(USE_TAGLIB)
+#if defined(HAVE_TAGLIB)
     testing::DefaultValue<TagLib::String>::Set("foobarbaz");
 #endif
   }
 
   static Song ReadSongFromFile(const QString& filename) {
-#if defined(USE_TAGLIB)
+#if defined(HAVE_TAGLIB)
     TagReaderTagLib tag_reader;
-#elif defined(USE_TAGPARSER)
+#elif defined(HAVE_TAGPARSER)
     TagReaderTagParser tag_reader;
 #endif
     Song song;
@@ -67,17 +67,16 @@ class TagReaderTest : public ::testing::Test {
   }
 
   static void WriteSongToFile(const Song &song, const QString &filename) {
-#if defined(USE_TAGLIB)
+#if defined(HAVE_TAGLIB)
     TagReaderTagLib tag_reader;
-#elif defined(USE_TAGPARSER)
+#elif defined(HAVE_TAGPARSER)
     TagReaderTagParser tag_reader;
 #endif
-    ::spb::tagreader::SaveFileRequest request;
-    const QByteArray filename_data = filename.toUtf8();
-    request.set_filename(filename_data.constData(), filename_data.length());
+    ::spb::tagreader::WriteFileRequest request;
+    request.set_filename(filename.toStdString());
     request.set_save_tags(true);
     song.ToProtobuf(request.mutable_metadata());
-    tag_reader.SaveFile(request);
+    tag_reader.WriteFile(filename, request);
   }
 
   static QString SHA256SUM(const QString &filename) {
@@ -98,25 +97,25 @@ class TagReaderTest : public ::testing::Test {
   }
 
   static void WriteSongPlaycountToFile(const Song &song, const QString &filename) {
-#if defined(USE_TAGLIB)
+#if defined(HAVE_TAGLIB)
     TagReaderTagLib tag_reader;
-#elif defined(USE_TAGPARSER)
+#elif defined(HAVE_TAGPARSER)
     TagReaderTagParser tag_reader;
 #endif
     spb::tagreader::SongMetadata pb_song;
     song.ToProtobuf(&pb_song);
-    tag_reader.SaveSongPlaycountToFile(filename, pb_song);
+    tag_reader.SaveSongPlaycountToFile(filename, pb_song.playcount());
   }
 
   static void WriteSongRatingToFile(const Song &song, const QString &filename) {
-#if defined(USE_TAGLIB)
+#if defined(HAVE_TAGLIB)
     TagReaderTagLib tag_reader;
-#elif defined(USE_TAGPARSER)
+#elif defined(HAVE_TAGPARSER)
     TagReaderTagParser tag_reader;
 #endif
     spb::tagreader::SongMetadata pb_song;
     song.ToProtobuf(&pb_song);
-    tag_reader.SaveSongRatingToFile(filename, pb_song);
+    tag_reader.SaveSongRatingToFile(filename, pb_song.rating());
   }
 
 };
@@ -1940,7 +1939,7 @@ TEST_F(TagReaderTest, TestMP4AudioFileCompilation) {
 
 }
 
-#ifndef USE_TAGPARSER
+#ifndef HAVE_TAGPARSER
 
 TEST_F(TagReaderTest, TestFLACAudioFilePlaycount) {
 
@@ -2095,7 +2094,7 @@ TEST_F(TagReaderTest, TestMP4AudioFilePlaycount) {
 
 }
 
-#endif  // USE_TAGPARSER
+#endif  // HAVE_TAGPARSER
 
 TEST_F(TagReaderTest, TestFLACAudioFileRating) {
 

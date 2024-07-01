@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2011, David Sansome <me@davidsansome.com>
- * Copyright 2019-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,24 +70,45 @@ class TagReaderClient : public QObject {
     QString mime_type;
   };
 
+  class Result {
+   public:
+    enum class ErrorCode {
+      Success,
+      Unsupported,
+      Failure,
+    };
+    Result(const ErrorCode _error_code, const QString &_error = QString()) : error_code(_error_code), error(_error) {}
+    ErrorCode error_code;
+    QString error;
+    bool success() const { return error_code == TagReaderClient::Result::ErrorCode::Success; }
+  };
+
+  class Cover {
+   public:
+    explicit Cover(const QByteArray &_data = QByteArray(), const QString &_mime_type = QString()) : data(_data), mime_type(_mime_type) {}
+    QByteArray data;
+    QString mime_type;
+    QString error;
+  };
+
   ReplyType *IsMediaFile(const QString &filename);
   ReplyType *ReadFile(const QString &filename);
-  ReplyType *SaveFile(const QString &filename, const Song &metadata, const SaveTypes types = SaveType::Tags, const SaveCoverOptions &save_cover_options = SaveCoverOptions());
+  ReplyType *WriteFile(const QString &filename, const Song &metadata, const SaveTypes types = SaveType::Tags, const SaveCoverOptions &save_cover_options = SaveCoverOptions());
   ReplyType *LoadEmbeddedArt(const QString &filename);
   ReplyType *SaveEmbeddedArt(const QString &filename, const SaveCoverOptions &save_cover_options);
-  ReplyType *UpdateSongPlaycount(const Song &metadata);
-  ReplyType *UpdateSongRating(const Song &metadata);
+  ReplyType *SaveSongPlaycount(const QString &filename, const uint playcount);
+  ReplyType *SaveSongRating(const QString &filename, const float rating);
 
   // Convenience functions that call the above functions and wait for a response.
   // These block the calling thread with a semaphore, and must NOT be called from the TagReaderClient's thread.
-  void ReadFileBlocking(const QString &filename, Song *song);
-  bool SaveFileBlocking(const QString &filename, const Song &metadata,  const SaveTypes types = SaveType::Tags, const SaveCoverOptions &save_cover_options = SaveCoverOptions());
+  Result ReadFileBlocking(const QString &filename, Song *song);
+  Result WriteFileBlocking(const QString &filename, const Song &metadata, const SaveTypes types = SaveType::Tags, const SaveCoverOptions &save_cover_options = SaveCoverOptions());
   bool IsMediaFileBlocking(const QString &filename);
-  QByteArray LoadEmbeddedArtBlocking(const QString &filename);
-  QImage LoadEmbeddedArtAsImageBlocking(const QString &filename);
-  bool SaveEmbeddedArtBlocking(const QString &filename, const SaveCoverOptions &save_cover_options);
-  bool UpdateSongPlaycountBlocking(const Song &metadata);
-  bool UpdateSongRatingBlocking(const Song &metadata);
+  Result LoadEmbeddedArtBlocking(const QString &filename, QByteArray &data);
+  Result LoadEmbeddedArtAsImageBlocking(const QString &filename, QImage &image);
+  Result SaveEmbeddedArtBlocking(const QString &filename, const SaveCoverOptions &save_cover_options);
+  Result SaveSongPlaycountBlocking(const QString &filename, const uint playcount);
+  Result SaveSongRatingBlocking(const QString &filename, const float rating);
 
   // TODO: Make this not a singleton
   static TagReaderClient *Instance() { return sInstance; }
@@ -100,8 +121,8 @@ class TagReaderClient : public QObject {
   void WorkerFailedToStart();
 
  public slots:
-  void UpdateSongsPlaycount(const SongList &songs);
-  void UpdateSongsRating(const SongList &songs);
+  void SaveSongsPlaycount(const SongList &songs);
+  void SaveSongsRating(const SongList &songs);
 
  private:
   static TagReaderClient *sInstance;

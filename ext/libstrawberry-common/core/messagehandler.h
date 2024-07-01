@@ -120,13 +120,13 @@ template<typename MT>
 void AbstractMessageHandler<MT>::SendMessage(const MessageType &message) {
   Q_ASSERT(QThread::currentThread() == thread());
 
-  std::string data = message.SerializeAsString();
+  const std::string data = message.SerializeAsString();
   WriteMessage(QByteArray(data.data(), data.size()));
 }
 
 template<typename MT>
 void AbstractMessageHandler<MT>::SendMessageAsync(const MessageType &message) {
-  std::string data = message.SerializeAsString();
+  const std::string data = message.SerializeAsString();
   QMetaObject::invokeMethod(this, "WriteMessage", Qt::QueuedConnection, Q_ARG(QByteArray, QByteArray(data.data(), data.size())));
 }
 

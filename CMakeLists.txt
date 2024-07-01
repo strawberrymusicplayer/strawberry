@@ -271,16 +271,22 @@ if(USE_TAGLIB)
   else()
     pkg_check_modules(TAGLIB REQUIRED taglib>=1.11.1)
   endif()
+  set(HAVE_TAGLIB ON)
+else()
+  set(HAVE_TAGLIB OFF)
 endif()
 
 # TAGPARSER
 if(USE_TAGPARSER)
   pkg_check_modules(TAGPARSER REQUIRED tagparser)
+  set(HAVE_TAGPARSER ON)
+else()
+  set(HAVE_TAGPARSER OFF)
 endif()
 
 pkg_check_modules(LIBEBUR128 IMPORTED_TARGET libebur128)
 
-if(NOT TAGLIB_FOUND AND NOT TAGPARSER_FOUND)
+if(NOT HAVE_TAGLIB AND NOT HAVE_TAGPARSER)
   message(FATAL_ERROR "You need either TagLib or TagParser!")
 endif()
 
@@ -535,6 +541,6 @@ if(NOT CMAKE_CROSSCOMPILING)
   endif()
 endif()
 
-if(USE_TAGLIB AND TAGLIB_FOUND AND NOT TAGLIB_VERSION VERSION_GREATER_EQUAL 1.12)
+if(HAVE_TAGLIB AND TAGLIB_FOUND AND NOT TAGLIB_VERSION VERSION_GREATER_EQUAL 1.12)
   message(WARNING "There is a critical bug in TagLib (1.11.1) that can result in corrupt Ogg files, see: https://github.com/taglib/taglib/issues/864, please consider updating TagLib to the newest version.")
 endif()

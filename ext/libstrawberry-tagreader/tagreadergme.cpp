@@ -35,22 +35,20 @@
 #include "tagreaderbase.h"
 #include "tagreadertaglib.h"
 
-bool GME::IsSupportedFormat(const QFileInfo &file_info) {
-  return file_info.exists() && (file_info.completeSuffix().endsWith(QLatin1String("spc"), Qt::CaseInsensitive) || file_info.completeSuffix().endsWith(QLatin1String("vgm")), Qt::CaseInsensitive);
+bool GME::IsSupportedFormat(const QFileInfo &fileinfo) {
+  return fileinfo.exists() && (fileinfo.completeSuffix().endsWith(QLatin1String("spc"), Qt::CaseInsensitive) || fileinfo.completeSuffix().endsWith(QLatin1String("vgm")), Qt::CaseInsensitive);
 }
 
-bool GME::ReadFile(const QFileInfo &file_info, spb::tagreader::SongMetadata *song_info) {
+TagReaderBase::Result GME::ReadFile(const QFileInfo &fileinfo, spb::tagreader::SongMetadata *song) {
 
-  if (file_info.completeSuffix().endsWith(QLatin1String("spc")), Qt::CaseInsensitive) {
-    SPC::Read(file_info, song_info);
-    return true;
+  if (fileinfo.completeSuffix().endsWith(QLatin1String("spc")), Qt::CaseInsensitive) {
+    return SPC::Read(fileinfo, song);
   }
-  if (file_info.completeSuffix().endsWith(QLatin1String("vgm"), Qt::CaseInsensitive)) {
-    VGM::Read(file_info, song_info);
-    return true;
+  if (fileinfo.completeSuffix().endsWith(QLatin1String("vgm"), Qt::CaseInsensitive)) {
+    return VGM::Read(fileinfo, song);
   }
 
-  return false;
+  return TagReaderBase::Result::ErrorCode::Unsupported;
 
 }
 
@@ -67,15 +65,19 @@ quint32 GME::UnpackBytes32(const char *const bytes, size_t length) {
 
 }
 
-void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *song_info) {
+TagReaderBase::Result GME::SPC::Read(const QFileInfo &fileinfo, spb::tagreader::SongMetadata *song) {
 
-  QFile file(file_info.filePath());
-  if (!file.open(QIODevice::ReadOnly)) return;
+  QFile file(fileinfo.filePath());
+  if (!file.open(QIODevice::ReadOnly)) {
+    return TagReaderBase::Result(TagReaderBase::Result::ErrorCode::FileOpenError, file.errorString());
+  }
 
-  qLog(Debug) << "Reading tags from SPC file" << file_info.fileName();
+  qLog(Debug) << "Reading tags from SPC file" << fileinfo.fileName();
 
   // Check for header -- more reliable than file name alone.
-  if (!file.read(33).startsWith(QStringLiteral("SNES-SPC700").toLatin1())) return;
+  if (!file.read(33).startsWith(QStringLiteral("SNES-SPC700").toLatin1())) {
+    return TagReaderBase::Result::ErrorCode::Unsupported;
+  }
 
   // First order of business -- get any tag values that exist within the core file information.
   // These only allow for a certain number of bytes per field,
@@ -88,13 +90,13 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
   const bool has_id6 = id6_status.length() >= 1 && id6_status[0] == static_cast<char>(xID6_STATUS::ON);
 
   file.seek(SONG_TITLE_OFFSET);
-  song_info->set_title(QString::fromLatin1(file.read(32)).toStdString());
+  song->set_title(QString::fromLatin1(file.read(32)).toStdString());
 
   file.seek(GAME_TITLE_OFFSET);
-  song_info->set_album(QString::fromLatin1(file.read(32)).toStdString());
+  song->set_album(QString::fromLatin1(file.read(32)).toStdString());
 
   file.seek(ARTIST_OFFSET);
-  song_info->set_artist(QString::fromLatin1(file.read(32)).toStdString());
+  song->set_artist(QString::fromLatin1(file.read(32)).toStdString());
 
   file.seek(INTRO_LENGTH_OFFSET);
   QByteArray length_bytes = file.read(INTRO_LENGTH_SIZE);
@@ -107,7 +109,7 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
     }
 
     if (length_in_sec < 0x1FFF) {
-      song_info->set_length_nanosec(length_in_sec * kNsecPerSec);
+      song->set_length_nanosec(length_in_sec * kNsecPerSec);
     }
   }
 
@@ -131,7 +133,7 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
       qint64 xid6_size = xid6_head_data[0] | (xid6_head_data[1] << 8) | (xid6_head_data[2] << 16) | xid6_head_data[3];
       // This should be the size remaining for entire ID6 block, but it seems that most files treat this as the size of the remaining header space...
 
-      qLog(Debug) << file_info.fileName() << "has ID6 tag.";
+      qLog(Debug) << fileinfo.fileName() << "has ID6 tag.";
 
       while ((file.pos()) + 4 < XID6_OFFSET + xid6_size) {
         QByteArray arr = file.read(4);
@@ -152,21 +154,25 @@ void GME::SPC::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
   // an APETAG entry at the bottom of the file instead of writing into the xid6 tagging space.
   // This is where a lot of the extra data for a file is stored, such as genre or replaygain data.
   // This data is currently supported by TagLib, so we will simply use that for the remaining values.
-  TagLib::APE::File ape(file_info.filePath().toStdString().data());
+  TagLib::APE::File ape(fileinfo.filePath().toStdString().data());
   if (ape.hasAPETag()) {
     TagLib::Tag *tag = ape.tag();
-    if (!tag) return;
+    if (!tag) {
+      return TagReaderBase::Result::ErrorCode::FileParseError;
+    }
 
-    TagReaderTagLib::TStringToStdString(tag->artist(), song_info->mutable_artist());
-    TagReaderTagLib::TStringToStdString(tag->album(), song_info->mutable_album());
-    TagReaderTagLib::TStringToStdString(tag->title(), song_info->mutable_title());
-    TagReaderTagLib::TStringToStdString(tag->genre(), song_info->mutable_genre());
-    song_info->set_track(static_cast<std::int32_t>(tag->track()));
-    song_info->set_year(static_cast<std::int32_t>(tag->year()));
+    TagReaderTagLib::TStringToStdString(tag->artist(), song->mutable_artist());
+    TagReaderTagLib::TStringToStdString(tag->album(), song->mutable_album());
+    TagReaderTagLib::TStringToStdString(tag->title(), song->mutable_title());
+    TagReaderTagLib::TStringToStdString(tag->genre(), song->mutable_genre());
+    song->set_track(static_cast<std::int32_t>(tag->track()));
+    song->set_year(static_cast<std::int32_t>(tag->year()));
   }
 
-  song_info->set_valid(true);
-  song_info->set_filetype(spb::tagreader::SongMetadata_FileType_SPC);
+  song->set_valid(true);
+  song->set_filetype(spb::tagreader::SongMetadata_FileType_SPC);
+
+  return TagReaderBase::Result::ErrorCode::Success;
 
 }
 
@@ -188,18 +194,24 @@ quint64 GME::SPC::ConvertSPCStringToNum(const QByteArray &arr) {
 
 }
 
-void GME::VGM::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *song_info) {
+TagReaderBase::Result GME::VGM::Read(const QFileInfo &fileinfo, spb::tagreader::SongMetadata *song) {
 
-  QFile file(file_info.filePath());
-  if (!file.open(QIODevice::ReadOnly)) return;
+  QFile file(fileinfo.filePath());
+  if (!file.open(QIODevice::ReadOnly)) {
+    return TagReaderBase::Result(TagReaderBase::Result::ErrorCode::FileOpenError, file.errorString());
+  }
 
-  qLog(Debug) << "Reading tags from VGM file" << file_info.fileName();
+  qLog(Debug) << "Reading tags from VGM file" << fileinfo.filePath();
 
-  if (!file.read(4).startsWith(QStringLiteral("Vgm ").toLatin1())) return;
+  if (!file.read(4).startsWith(QStringLiteral("Vgm ").toLatin1())) {
+    return TagReaderBase::Result::ErrorCode::Unsupported;
+  }
 
   file.seek(GD3_TAG_PTR);
   QByteArray gd3_head = file.read(4);
-  if (gd3_head.size() < 4) return;
+  if (gd3_head.size() < 4) {
+    return TagReaderBase::Result::ErrorCode::FileParseError;
+  }
 
   quint64 pt = GME::UnpackBytes32(gd3_head.constData(), gd3_head.size());
 
@@ -209,7 +221,9 @@ void GME::VGM::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
   QByteArray loop_count_bytes = file.read(4);
   quint64 length = 0;
 
-  if (!GetPlaybackLength(sample_count_bytes, loop_count_bytes, length)) return;
+  if (!GetPlaybackLength(sample_count_bytes, loop_count_bytes, length)) {
+    return TagReaderBase::Result::ErrorCode::FileParseError;
+  }
 
   file.seek(static_cast<qint64>(GD3_TAG_PTR + pt));
   QByteArray gd3_version = file.read(4);
@@ -227,18 +241,22 @@ void GME::VGM::Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *so
   fileTagStream.setCodec("UTF-16");
 #endif
   QStringList strings = fileTagStream.readLine(0).split(QLatin1Char('\0'));
-  if (strings.count() < 10) return;
+  if (strings.count() < 10) {
+    return TagReaderBase::Result::ErrorCode::FileParseError;
+  }
 
   // VGM standard dictates string tag data exist in specific order.
   // Order alternates between English and Japanese version of data.
   // Read GD3 tag standard for more details.
-  song_info->set_title(strings[0].toStdString());
-  song_info->set_album(strings[2].toStdString());
-  song_info->set_artist(strings[6].toStdString());
-  song_info->set_year(strings[8].left(4).toInt());
-  song_info->set_length_nanosec(length * kNsecPerMsec);
-  song_info->set_valid(true);
-  song_info->set_filetype(spb::tagreader::SongMetadata_FileType_VGM);
+  song->set_title(strings[0].toStdString());
+  song->set_album(strings[2].toStdString());
+  song->set_artist(strings[6].toStdString());
+  song->set_year(strings[8].left(4).toInt());
+  song->set_length_nanosec(length * kNsecPerMsec);
+  song->set_valid(true);
+  song->set_filetype(spb::tagreader::SongMetadata_FileType_VGM);
+
+  return TagReaderBase::Result::ErrorCode::Success;
 
 }
 
@@ -270,31 +288,60 @@ TagReaderGME::TagReaderGME() = default;
 
 
 bool TagReaderGME::IsMediaFile(const QString &filename) const {
+
   QFileInfo fileinfo(filename);
   return GME::IsSupportedFormat(fileinfo);
+
 }
 
-bool TagReaderGME::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
+TagReaderBase::Result TagReaderGME::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
+
   QFileInfo fileinfo(filename);
   return GME::ReadFile(fileinfo, song);
+
 }
 
-bool TagReaderGME::SaveFile(const spb::tagreader::SaveFileRequest&) const {
-  return false;
+TagReaderBase::Result TagReaderGME::WriteFile(const QString &filename, const spb::tagreader::WriteFileRequest &request) const {
+
+  Q_UNUSED(filename);
+  Q_UNUSED(request);
+
+  return Result::ErrorCode::Unsupported;
+
 }
 
-QByteArray TagReaderGME::LoadEmbeddedArt(const QString&) const {
-  return QByteArray();
+TagReaderBase::Result TagReaderGME::LoadEmbeddedArt(const QString &filename, QByteArray &data) const {
+
+  Q_UNUSED(filename);
+  Q_UNUSED(data);
+
+  return Result::ErrorCode::Unsupported;
+
 }
 
-bool TagReaderGME::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest&) const {
-  return false;
+TagReaderBase::Result TagReaderGME::SaveEmbeddedArt(const QString &filename, const spb::tagreader::SaveEmbeddedArtRequest &request) const {
+
+  Q_UNUSED(filename);
+  Q_UNUSED(request);
+
+  return Result::ErrorCode::Unsupported;
+
 }
 
-bool TagReaderGME::SaveSongPlaycountToFile(const QString&, const spb::tagreader::SongMetadata&) const {
-  return false;
+TagReaderBase::Result TagReaderGME::SaveSongPlaycountToFile(const QString &filename, const uint playcount) const {
+
+  Q_UNUSED(filename);
+  Q_UNUSED(playcount);
+
+  return Result::ErrorCode::Unsupported;
+
 }
 
-bool TagReaderGME::SaveSongRatingToFile(const QString&, const spb::tagreader::SongMetadata&) const {
-  return false;
+TagReaderBase::Result TagReaderGME::SaveSongRatingToFile(const QString &filename, const float rating) const {
+
+  Q_UNUSED(filename);
+  Q_UNUSED(rating);
+
+  return Result::ErrorCode::Unsupported;
+
 }

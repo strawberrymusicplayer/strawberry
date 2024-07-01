@@ -1,4 +1,4 @@
-syntax = "proto2";
+syntax = "proto3";
 
 package spb.tagreader;
 
@@ -97,7 +97,6 @@ message IsMediaFileRequest {
 
 message IsMediaFileResponse {
   optional bool success = 1;
-  optional string error = 2;
 }
 
 message ReadFileRequest {
@@ -105,11 +104,12 @@ message ReadFileRequest {
 }
 
 message ReadFileResponse {
-  optional SongMetadata metadata = 1;
-  optional string error = 2;
+  optional bool success = 1;
+  optional SongMetadata metadata = 2;
+  optional string error = 3;
 }
 
-message SaveFileRequest {
+message WriteFileRequest {
   optional string filename = 1;
   optional bool save_tags = 2;
   optional bool save_playcount = 3;
@@ -121,7 +121,7 @@ message SaveFileRequest {
   optional string cover_mime_type = 9;
 }
 
-message SaveFileResponse {
+message WriteFileResponse {
   optional bool success = 1;
   optional string error = 2;
 }
@@ -131,8 +131,9 @@ message LoadEmbeddedArtRequest {
 }
 
 message LoadEmbeddedArtResponse {
-  optional bytes data = 1;
-  optional string error = 2;
+  optional bool success = 1;
+  optional bytes data = 2;
+  optional string error = 3;
 }
 
 message SaveEmbeddedArtRequest {
@@ -149,7 +150,7 @@ message SaveEmbeddedArtResponse {
 
 message SaveSongPlaycountToFileRequest {
   optional string filename = 1;
-  optional SongMetadata metadata = 2;
+  optional uint32 playcount = 2;
 }
 
 message SaveSongPlaycountToFileResponse {
@@ -159,7 +160,7 @@ message SaveSongPlaycountToFileResponse {
 
 message SaveSongRatingToFileRequest {
   optional string filename = 1;
-  optional SongMetadata metadata = 2;
+  optional float rating = 2;
 }
 
 message SaveSongRatingToFileResponse {
@@ -173,8 +174,8 @@ message Message {
   optional ReadFileRequest read_file_request = 2;
   optional ReadFileResponse read_file_response = 3;
 
-  optional SaveFileRequest save_file_request = 4;
-  optional SaveFileResponse save_file_response = 5;
+  optional WriteFileRequest write_file_request = 4;
+  optional WriteFileResponse write_file_response = 5;
 
   optional IsMediaFileRequest is_media_file_request = 6;
   optional IsMediaFileResponse is_media_file_response = 7;

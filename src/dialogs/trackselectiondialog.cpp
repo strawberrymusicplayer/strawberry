@@ -278,8 +278,9 @@ void TrackSelectionDialog::SaveData(const QList<Data> &data) {
     copy.set_track(new_metadata.track());
     copy.set_year(new_metadata.year());
 
-    if (!TagReaderClient::Instance()->SaveFileBlocking(copy.url().toLocalFile(), copy)) {
-      qLog(Warning) << "Failed to write new auto-tags to" << copy.url().toLocalFile();
+    const TagReaderClient::Result result = TagReaderClient::Instance()->WriteFileBlocking(copy.url().toLocalFile(), copy, TagReaderClient::SaveType::Tags, TagReaderClient::SaveCoverOptions());
+    if (!result.success()) {
+      qLog(Error) << "Failed to write new auto-tags to" << copy.url().toLocalFile() << result.error;
     }
   }
 

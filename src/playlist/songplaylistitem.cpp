@@ -42,7 +42,12 @@ QUrl SongPlaylistItem::Url() const { return song_.url(); }
 void SongPlaylistItem::Reload() {
 
   if (!song_.url().isLocalFile()) return;
-  TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
+
+  const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
+  if (!result.success()) {
+    qLog(Error) << "Could not reload file" << song_.url() << result.error;
+  }
+
   UpdateTemporaryMetadata(song_);
 
 }

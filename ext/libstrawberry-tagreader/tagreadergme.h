@@ -31,8 +31,8 @@
 
 
 namespace GME {
-bool IsSupportedFormat(const QFileInfo &file_info);
-bool ReadFile(const QFileInfo &file_info, spb::tagreader::SongMetadata *song_info);
+bool IsSupportedFormat(const QFileInfo &fileinfo);
+TagReaderBase::Result ReadFile(const QFileInfo &fileinfo, spb::tagreader::SongMetadata *song);
 
 uint32_t UnpackBytes32(const char *const bytes, size_t length);
 
@@ -72,7 +72,7 @@ enum class xID6_TYPE {
   Integer = 0x4
 };
 
-void Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *song_info);
+TagReaderBase::Result Read(const QFileInfo &fileinfo, spb::tagreader::SongMetadata *song);
 qint16 GetNextMemAddressAlign32bit(qint16 input);
 quint64 ConvertSPCStringToNum(const QByteArray &arr);
 }  // namespace SPC
@@ -88,7 +88,7 @@ constexpr int LOOP_SAMPLE_COUNT = 0x20;
 constexpr int SAMPLE_TIMEBASE = 44100;
 constexpr int GST_GME_LOOP_TIME_MS = 8000;
 
-void Read(const QFileInfo &file_info, spb::tagreader::SongMetadata *song_info);
+TagReaderBase::Result Read(const QFileInfo &fileinfo, spb::tagreader::SongMetadata *song);
 // Takes in two QByteArrays, expected to be 4 bytes long. Desired length is returned via output parameter out_length. Returns false on error.
 bool GetPlaybackLength(const QByteArray &sample_count_bytes, const QByteArray &loop_count_bytes, quint64 &out_length);
 
@@ -106,14 +106,14 @@ class TagReaderGME : public TagReaderBase {
 
   bool IsMediaFile(const QString &filename) const override;
 
-  bool ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
-  bool SaveFile(const spb::tagreader::SaveFileRequest &request) const override;
+  Result ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
+  Result WriteFile(const QString &filename, const spb::tagreader::WriteFileRequest &request) const override;
 
-  QByteArray LoadEmbeddedArt(const QString &filename) const override;
-  bool SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest &request) const override;
+  Result LoadEmbeddedArt(const QString &filename, QByteArray &data) const override;
+  Result SaveEmbeddedArt(const QString &filename, const spb::tagreader::SaveEmbeddedArtRequest &request) const override;
 
-  bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
-  bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+  Result SaveSongPlaycountToFile(const QString &filename, const uint playcount) const override;
+  Result SaveSongRatingToFile(const QString &filename, const float rating) const override;
 };
 
 #endif  // TAGREADERGME_H

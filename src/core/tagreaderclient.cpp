@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,11 +73,7 @@ void TagReaderClient::WorkerFailedToStart() {
 TagReaderReply *TagReaderClient::IsMediaFile(const QString &filename) {
 
   spb::tagreader::Message message;
-  spb::tagreader::IsMediaFileRequest *request = message.mutable_is_media_file_request();
-
-  const QByteArray filename_data = filename.toUtf8();
-  request->set_filename(filename_data.constData(), filename_data.length());
-
+  message.mutable_is_media_file_request()->set_filename(filename.toStdString());
   return worker_pool_->SendMessageWithReply(&message);
 
 }
@@ -85,39 +81,33 @@ TagReaderReply *TagReaderClient::IsMediaFile(const QString &filename) {
 TagReaderReply *TagReaderClient::ReadFile(const QString &filename) {
 
   spb::tagreader::Message message;
-  spb::tagreader::ReadFileRequest *request = message.mutable_read_file_request();
-
-  const QByteArray filename_data = filename.toUtf8();
-  request->set_filename(filename_data.constData(), filename_data.length());
-
+  message.mutable_read_file_request()->set_filename(filename.toStdString());
   return worker_pool_->SendMessageWithReply(&message);
 
 }
 
-TagReaderReply *TagReaderClient::SaveFile(const QString &filename, const Song &metadata, const SaveTypes save_types, const SaveCoverOptions &save_cover_options) {
+TagReaderReply *TagReaderClient::WriteFile(const QString &filename, const Song &metadata, const SaveTypes save_types, const SaveCoverOptions &save_cover_options) {
 
   spb::tagreader::Message message;
-  spb::tagreader::SaveFileRequest *request = message.mutable_save_file_request();
+  spb::tagreader::WriteFileRequest *request = message.mutable_write_file_request();
 
-  const QByteArray filename_data = filename.toUtf8();
-  request->set_filename(filename_data.constData(), filename_data.length());
+  request->set_filename(filename.toStdString());
 
   request->set_save_tags(save_types.testFlag(SaveType::Tags));
   request->set_save_playcount(save_types.testFlag(SaveType::PlayCount));
   request->set_save_rating(save_types.testFlag(SaveType::Rating));
   request->set_save_cover(save_types.testFlag(SaveType::Cover));
 
-  if (save_cover_options.cover_filename.length() > 0) {
-    const QByteArray cover_filename = save_cover_options.cover_filename.toUtf8();
-    request->set_cover_filename(cover_filename.constData(), cover_filename.length());
+  if (!save_cover_options.cover_filename.isEmpty()) {
+    request->set_cover_filename(save_cover_options.cover_filename.toStdString());
   }
-  if (save_cover_options.cover_data.length() > 0) {
-    request->set_cover_data(save_cover_options.cover_data.constData(), save_cover_options.cover_data.length());
+  if (!save_cover_options.cover_data.isEmpty()) {
+    request->set_cover_data(save_cover_options.cover_data.toStdString());
   }
-  if (save_cover_options.mime_type.length() > 0) {
-    const QByteArray cover_mime_type = save_cover_options.mime_type.toUtf8();
-    request->set_cover_mime_type(cover_mime_type.constData(), cover_mime_type.length());
+  if (!save_cover_options.mime_type.isEmpty()) {
+    request->set_cover_mime_type(save_cover_options.mime_type.toStdString());
   }
+
   metadata.ToProtobuf(request->mutable_metadata());
 
   ReplyType *reply = worker_pool_->SendMessageWithReply(&message);
@@ -131,8 +121,7 @@ TagReaderReply *TagReaderClient::LoadEmbeddedArt(const QString &filename) {
   spb::tagreader::Message message;
   spb::tagreader::LoadEmbeddedArtRequest *request = message.mutable_load_embedded_art_request();
 
-  const QByteArray filename_data = filename.toUtf8();
-  request->set_filename(filename_data.constData(), filename_data.length());
+  request->set_filename(filename.toStdString());
 
   return worker_pool_->SendMessageWithReply(&message);
 
@@ -143,63 +132,59 @@ TagReaderReply *TagReaderClient::SaveEmbeddedArt(const QString &filename, const 
   spb::tagreader::Message message;
   spb::tagreader::SaveEmbeddedArtRequest *request = message.mutable_save_embedded_art_request();
 
-  const QByteArray filename_data = filename.toUtf8();
-  request->set_filename(filename_data.constData(), filename_data.length());
-  if (save_cover_options.cover_filename.length() > 0) {
-    const QByteArray cover_filename = save_cover_options.cover_filename.toUtf8();
-    request->set_cover_filename(cover_filename.constData(), cover_filename.length());
+  request->set_filename(filename.toStdString());
+
+  if (!save_cover_options.cover_filename.isEmpty()) {
+    request->set_cover_filename(save_cover_options.cover_filename.toStdString());
   }
-  if (save_cover_options.cover_data.length() > 0) {
-    request->set_cover_data(save_cover_options.cover_data.constData(), save_cover_options.cover_data.length());
+  if (!save_cover_options.cover_data.isEmpty()) {
+    request->set_cover_data(save_cover_options.cover_data.toStdString());
   }
-  if (save_cover_options.mime_type.length() > 0) {
-    const QByteArray cover_mime_type = save_cover_options.mime_type.toUtf8();
-    request->set_cover_mime_type(cover_mime_type.constData(), cover_mime_type.length());
+  if (!save_cover_options.mime_type.isEmpty()) {
+    request->set_cover_mime_type(save_cover_options.mime_type.toStdString());
   }
 
   return worker_pool_->SendMessageWithReply(&message);
 
 }
 
-TagReaderReply *TagReaderClient::UpdateSongPlaycount(const Song &metadata) {
+TagReaderReply *TagReaderClient::SaveSongPlaycount(const QString &filename, const uint playcount) {
 
   spb::tagreader::Message message;
   spb::tagreader::SaveSongPlaycountToFileRequest *request = message.mutable_save_song_playcount_to_file_request();
 
-  const QByteArray filename_data = metadata.url().toLocalFile().toUtf8();
-  request->set_filename(filename_data.constData(), filename_data.length());
-  metadata.ToProtobuf(request->mutable_metadata());
+  request->set_filename(filename.toStdString());
+  request->set_playcount(playcount);
 
   return worker_pool_->SendMessageWithReply(&message);
 
 }
 
-void TagReaderClient::UpdateSongsPlaycount(const SongList &songs) {
+void TagReaderClient::SaveSongsPlaycount(const SongList &songs) {
 
   for (const Song &song : songs) {
-    TagReaderReply *reply = UpdateSongPlaycount(song);
+    TagReaderReply *reply = SaveSongPlaycount(song.url().toLocalFile(), song.playcount());
     QObject::connect(reply, &TagReaderReply::Finished, reply, &TagReaderReply::deleteLater);
   }
 
 }
 
-TagReaderReply *TagReaderClient::UpdateSongRating(const Song &metadata) {
+TagReaderReply *TagReaderClient::SaveSongRating(const QString &filename, const float rating) {
 
   spb::tagreader::Message message;
   spb::tagreader::SaveSongRatingToFileRequest *request = message.mutable_save_song_rating_to_file_request();
 
-  const QByteArray filename_data = metadata.url().toLocalFile().toUtf8();
-  request->set_filename(filename_data.constData(), filename_data.length());
-  metadata.ToProtobuf(request->mutable_metadata());
+  request->set_filename(filename.toStdString());
+  request->set_rating(rating);
 
   return worker_pool_->SendMessageWithReply(&message);
 
 }
 
-void TagReaderClient::UpdateSongsRating(const SongList &songs) {
+void TagReaderClient::SaveSongsRating(const SongList &songs) {
 
   for (const Song &song : songs) {
-    TagReaderReply *reply = UpdateSongRating(song);
+    TagReaderReply *reply = SaveSongRating(song.url().toLocalFile(), song.rating());
     QObject::connect(reply, &TagReaderReply::Finished, reply, &TagReaderReply::deleteLater);
   }
 
@@ -209,124 +194,180 @@ bool TagReaderClient::IsMediaFileBlocking(const QString &filename) {
 
   Q_ASSERT(QThread::currentThread() != thread());
 
-  bool ret = false;
+  bool success = false;
 
   TagReaderReply *reply = IsMediaFile(filename);
   if (reply->WaitForFinished()) {
-    ret = reply->message().is_media_file_response().success();
+    const spb::tagreader::IsMediaFileResponse &response = reply->message().is_media_file_response();
+    if (response.has_success()) {
+      success = response.success();
+    }
   }
   reply->deleteLater();
 
-  return ret;
+  return success;
 
 }
 
-void TagReaderClient::ReadFileBlocking(const QString &filename, Song *song) {
+TagReaderClient::Result TagReaderClient::ReadFileBlocking(const QString &filename, Song *song) {
 
   Q_ASSERT(QThread::currentThread() != thread());
+
+  Result result(Result::ErrorCode::Failure);
 
   TagReaderReply *reply = ReadFile(filename);
   if (reply->WaitForFinished()) {
-    song->InitFromProtobuf(reply->message().read_file_response().metadata());
+    const spb::tagreader::ReadFileResponse &response = reply->message().read_file_response();
+    if (response.has_success()) {
+      if (response.success()) {
+        result.error_code = Result::ErrorCode::Success;
+        if (response.has_metadata()) {
+          song->InitFromProtobuf(response.metadata());
+        }
+      }
+      else {
+        result.error_code = Result::ErrorCode::Failure;
+        if (response.has_error()) {
+          result.error = QString::fromStdString(response.error());
+        }
+      }
+    }
   }
   reply->deleteLater();
 
+  return result;
+
 }
 
-bool TagReaderClient::SaveFileBlocking(const QString &filename, const Song &metadata, const SaveTypes save_types, const SaveCoverOptions &save_cover_options) {
+TagReaderClient::Result TagReaderClient::WriteFileBlocking(const QString &filename, const Song &metadata, const SaveTypes save_types, const SaveCoverOptions &save_cover_options) {
 
   Q_ASSERT(QThread::currentThread() != thread());
 
-  bool ret = false;
+  Result result(Result::ErrorCode::Failure);
 
-  TagReaderReply *reply = SaveFile(filename, metadata, save_types, save_cover_options);
+  TagReaderReply *reply = WriteFile(filename, metadata, save_types, save_cover_options);
   if (reply->WaitForFinished()) {
-    ret = reply->message().save_file_response().success();
+    const spb::tagreader::WriteFileResponse &response = reply->message().write_file_response();
+    if (response.has_success()) {
+      result.error_code = response.success() ? Result::ErrorCode::Success : Result::ErrorCode::Failure;
+      if (response.has_error()) {
+        result.error = QString::fromStdString(response.error());
+      }
+    }
   }
   reply->deleteLater();
 
-  return ret;
+  return result;
 
 }
 
-QByteArray TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename) {
+TagReaderClient::Result TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename, QByteArray &data) {
 
   Q_ASSERT(QThread::currentThread() != thread());
 
-  QByteArray ret;
+  Result result(Result::ErrorCode::Failure);
 
   TagReaderReply *reply = LoadEmbeddedArt(filename);
   if (reply->WaitForFinished()) {
-    const std::string &data_str = reply->message().load_embedded_art_response().data();
-    ret = QByteArray(data_str.data(), static_cast<qint64>(data_str.size()));
+    const spb::tagreader::LoadEmbeddedArtResponse &response = reply->message().load_embedded_art_response();
+    if (response.has_success()) {
+      if (response.success()) {
+        result.error_code = Result::ErrorCode::Success;
+        if (response.has_data()) {
+          data = QByteArray(response.data().data(), static_cast<qint64>(response.data().size()));
+        }
+      }
+      else {
+        result.error_code = Result::ErrorCode::Failure;
+        if (response.has_error()) {
+          result.error = QString::fromStdString(response.error());
+        }
+      }
+    }
   }
   reply->deleteLater();
 
-  return ret;
+  return result;
 
 }
 
-QImage TagReaderClient::LoadEmbeddedArtAsImageBlocking(const QString &filename) {
+TagReaderClient::Result TagReaderClient::LoadEmbeddedArtAsImageBlocking(const QString &filename, QImage &image) {
 
   Q_ASSERT(QThread::currentThread() != thread());
 
-  QImage ret;
-
-  TagReaderReply *reply = LoadEmbeddedArt(filename);
-  if (reply->WaitForFinished()) {
-    const std::string &data_str = reply->message().load_embedded_art_response().data();
-    ret.loadFromData(QByteArray(data_str.data(), static_cast<qint64>(data_str.size())));
+  QByteArray data;
+  Result result = LoadEmbeddedArtBlocking(filename, data);
+  if (result.error_code == Result::ErrorCode::Success && !image.loadFromData(data)) {
+    result.error_code = Result::ErrorCode::Failure;
+    result.error = QObject::tr("Failed to load image from data for %1").arg(filename);
   }
-  reply->deleteLater();
 
-  return ret;
+  return result;
 
 }
 
-bool TagReaderClient::SaveEmbeddedArtBlocking(const QString &filename, const SaveCoverOptions &save_cover_options) {
+TagReaderClient::Result TagReaderClient::SaveEmbeddedArtBlocking(const QString &filename, const SaveCoverOptions &save_cover_options) {
 
   Q_ASSERT(QThread::currentThread() != thread());
 
-  bool success = false;
+  Result result(Result::ErrorCode::Failure);
 
   TagReaderReply *reply = SaveEmbeddedArt(filename, save_cover_options);
   if (reply->WaitForFinished()) {
-    success = reply->message().save_embedded_art_response().success();
+    const spb::tagreader::SaveEmbeddedArtResponse &response = reply->message().save_embedded_art_response();
+    if (response.has_success()) {
+      result.error_code = response.success() ? Result::ErrorCode::Success : Result::ErrorCode::Failure;
+      if (response.has_error()) {
+        result.error = QString::fromStdString(response.error());
+      }
+    }
   }
   reply->deleteLater();
 
-  return success;
+  return result;
 
 }
 
-bool TagReaderClient::UpdateSongPlaycountBlocking(const Song &metadata) {
+TagReaderClient::Result TagReaderClient::SaveSongPlaycountBlocking(const QString &filename, const uint playcount) {
 
   Q_ASSERT(QThread::currentThread() != thread());
 
-  bool success = false;
+  Result result(Result::ErrorCode::Failure);
 
-  TagReaderReply *reply = UpdateSongPlaycount(metadata);
+  TagReaderReply *reply = SaveSongPlaycount(filename, playcount);
   if (reply->WaitForFinished()) {
-    success = reply->message().save_song_playcount_to_file_response().success();
+    const spb::tagreader::SaveSongPlaycountToFileResponse &response = reply->message().save_song_playcount_to_file_response();
+    if (response.has_success()) {
+      result.error_code = response.success() ? Result::ErrorCode::Success : Result::ErrorCode::Failure;
+      if (response.has_error()) {
+        result.error = QString::fromStdString(response.error());
+      }
+    }
   }
   reply->deleteLater();
 
-  return success;
+  return result;
 
 }
 
-bool TagReaderClient::UpdateSongRatingBlocking(const Song &metadata) {
+TagReaderClient::Result TagReaderClient::SaveSongRatingBlocking(const QString &filename, const float rating) {
 
   Q_ASSERT(QThread::currentThread() != thread());
 
-  bool success = false;
+  Result result(Result::ErrorCode::Failure);
 
-  TagReaderReply *reply = UpdateSongRating(metadata);
+  TagReaderReply *reply = SaveSongRating(filename, rating);
   if (reply->WaitForFinished()) {
-    success = reply->message().save_song_rating_to_file_response().success();
+    const spb::tagreader::SaveSongRatingToFileResponse &response = reply->message().save_song_rating_to_file_response();
+    if (response.has_success()) {
+      result.error_code = response.success() ? Result::ErrorCode::Success : Result::ErrorCode::Failure;
+      if (response.has_error()) {
+        result.error = QString::fromStdString(response.error());
+      }
+    }
   }
   reply->deleteLater();
 
-  return success;
+  return result;
 
 }

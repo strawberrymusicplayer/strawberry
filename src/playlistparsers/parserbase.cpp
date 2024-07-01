@@ -102,7 +102,10 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     }
   }
 
-  TagReaderClient::Instance()->ReadFileBlocking(filename, song);
+  const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(filename, song);
+  if (!result.success()) {
+    qLog(Error) << "Could not read file" << filename << result.error;
+  }
 
 }
 

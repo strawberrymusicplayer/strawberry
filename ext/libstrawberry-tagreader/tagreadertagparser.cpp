@@ -1,5 +1,5 @@
 /* This file is part of Strawberry.
-   Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+   Copyright 2021-2024, Jonas Kvinge <jonas@jkvinge.net>
 
    Strawberry is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ bool TagReaderTagParser::IsMediaFile(const QString &filename) const {
   qLog(Debug) << "Checking for valid file" << filename;
 
   QFileInfo fileinfo(filename);
-  if (!fileinfo.exists() || fileinfo.suffix().compare("bak", Qt::CaseInsensitive) == 0) return false;
+  if (!fileinfo.exists() || fileinfo.suffix().compare(QLatin1String("bak"), Qt::CaseInsensitive) == 0) return false;
 
   try {
     TagParser::MediaFileInfo taginfo;
@@ -94,13 +94,13 @@ bool TagReaderTagParser::IsMediaFile(const QString &filename) const {
 
 }
 
-bool TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
+TagReaderBase::Result TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const {
 
   qLog(Debug) << "Reading tags from" << filename;
 
   const QFileInfo fileinfo(filename);
 
-  if (!fileinfo.exists() || fileinfo.suffix().compare("bak", Qt::CaseInsensitive) == 0) return false;
+  if (!fileinfo.exists() || fileinfo.suffix().compare(QLatin1String("bak"), Qt::CaseInsensitive) == 0) return Result::ErrorCode::FileParseError;
 
   const QByteArray url(QUrl::fromLocalFile(filename).toEncoded());
   const QByteArray basefilename = fileinfo.fileName().toUtf8();
@@ -134,19 +134,19 @@ bool TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
     taginfo.parseContainerFormat(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return false;
+      return Result::ErrorCode::FileParseError;
     }
 
     taginfo.parseTracks(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return false;
+      return Result::ErrorCode::FileParseError;
     }
 
     taginfo.parseTags(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return false;
+      return Result::ErrorCode::FileParseError;
     }
 
     for (const TagParser::DiagMessage &msg : diag) {
@@ -205,7 +205,7 @@ bool TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
 
     if (song->filetype() == spb::tagreader::SongMetadata_FileType::SongMetadata_FileType_UNKNOWN) {
       taginfo.close();
-      return false;
+      return Result::ErrorCode::Unsupported;
     }
 
     for (TagParser::Tag *tag : taginfo.tags()) {
@@ -246,21 +246,20 @@ bool TagReaderTagParser::ReadFile(const QString &filename, spb::tagreader::SongM
 
     taginfo.close();
 
-    return true;
+    return Result::ErrorCode::Success;
 
   }
   catch(...) {
-    return false;
+    return Result::ErrorCode::FileParseError;
   }
 
 }
 
-bool TagReaderTagParser::SaveFile(const spb::tagreader::SaveFileRequest &request) const {
+TagReaderBase::Result TagReaderTagParser::WriteFile(const QString &filename, const spb::tagreader::WriteFileRequest &request) const {
 
-  if (request.filename().empty()) return false;
+  if (request.filename().empty()) return Result::ErrorCode::FilenameMissing;
 
-  const QString filename = QString::fromUtf8(request.filename().data(), request.filename().size());
-  const spb::tagreader::SongMetadata song = request.metadata();
+  const spb::tagreader::SongMetadata &song = request.metadata();
   const bool save_tags = request.has_save_tags() && request.save_tags();
   const bool save_playcount = request.has_save_playcount() && request.save_playcount();
   const bool save_rating = request.has_save_rating() && request.save_rating();
@@ -268,21 +267,21 @@ bool TagReaderTagParser::SaveFile(const spb::tagreader::SaveFileRequest &request
 
   QStringList save_tags_options;
   if (save_tags) {
-    save_tags_options << "tags";
+    save_tags_options << QStringLiteral("tags");
   }
   if (save_playcount) {
-    save_tags_options << "playcount";
+    save_tags_options << QStringLiteral("playcount");
   }
   if (save_rating) {
-    save_tags_options << "rating";
+    save_tags_options << QStringLiteral("rating");
   }
   if (save_cover) {
-    save_tags_options << "embedded cover";
+    save_tags_options << QStringLiteral("embedded cover");
   }
 
-  qLog(Debug) << "Saving" << save_tags_options.join(", ") << "to" << filename;
+  qLog(Debug) << "Saving" << save_tags_options.join(QLatin1String(", ")) << "to" << filename;
 
-  const QByteArray cover_data = LoadCoverDataFromRequest(request);
+  const Cover cover = LoadCoverFromRequest(filename, request);
 
   try {
     TagParser::MediaFileInfo taginfo;
@@ -298,19 +297,19 @@ bool TagReaderTagParser::SaveFile(const spb::tagreader::SaveFileRequest &request
     taginfo.parseContainerFormat(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return false;
+      return Result::ErrorCode::FileParseError;
     }
 
     taginfo.parseTracks(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return false;
+      return Result::ErrorCode::FileParseError;
     }
 
     taginfo.parseTags(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return false;
+      return Result::ErrorCode::FileParseError;
     }
 
     if (taginfo.tags().size() <= 0) {
@@ -335,13 +334,13 @@ bool TagReaderTagParser::SaveFile(const spb::tagreader::SaveFileRequest &request
         tag->setValue(TagParser::KnownField::ReleaseDate, TagParser::TagValue(song.originalyear()));
       }
       if (save_playcount) {
-        SaveSongPlaycountToFile(tag, song);
+        SaveSongPlaycountToFile(tag, song.playcount());
       }
       if (save_rating) {
-        SaveSongRatingToFile(tag, song);
+        SaveSongRatingToFile(tag, song.rating());
       }
       if (save_cover) {
-        SaveEmbeddedArt(tag, cover_data);
+        SaveEmbeddedArt(tag, cover.data);
       }
     }
 
@@ -352,17 +351,17 @@ bool TagReaderTagParser::SaveFile(const spb::tagreader::SaveFileRequest &request
       qLog(Debug) << QString::fromStdString(msg.message());
     }
 
-    return true;
+    return Result::ErrorCode::Success;
   }
   catch(...) {}
 
-  return false;
+  return Result::ErrorCode::FileParseError;
 
 }
 
-QByteArray TagReaderTagParser::LoadEmbeddedArt(const QString &filename) const {
+TagReaderBase::Result TagReaderTagParser::LoadEmbeddedArt(const QString &filename, QByteArray &data) const {
 
-  if (filename.isEmpty()) return QByteArray();
+  if (filename.isEmpty()) return Result::ErrorCode::FilenameMissing;
 
   qLog(Debug) << "Loading art from" << filename;
 
@@ -383,20 +382,20 @@ QByteArray TagReaderTagParser::LoadEmbeddedArt(const QString &filename) const {
     taginfo.parseContainerFormat(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return QByteArray();
+      return Result::ErrorCode::FileParseError;
     }
 
     taginfo.parseTags(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return QByteArray();
+      return Result::ErrorCode::FileParseError;
     }
 
     for (TagParser::Tag *tag : taginfo.tags()) {
       if (!tag->value(TagParser::KnownField::Cover).empty() && tag->value(TagParser::KnownField::Cover).dataSize() > 0) {
-        QByteArray data(tag->value(TagParser::KnownField::Cover).dataPointer(), tag->value(TagParser::KnownField::Cover).dataSize());
+        data = QByteArray(tag->value(TagParser::KnownField::Cover).dataPointer(), tag->value(TagParser::KnownField::Cover).dataSize());
         taginfo.close();
-        return data;
+        return Result::ErrorCode::Success;
       }
     }
 
@@ -409,7 +408,7 @@ QByteArray TagReaderTagParser::LoadEmbeddedArt(const QString &filename) const {
   }
   catch(...) {}
 
-  return QByteArray();
+  return Result::ErrorCode::FileParseError;
 
 }
 
@@ -419,15 +418,13 @@ void TagReaderTagParser::SaveEmbeddedArt(TagParser::Tag *tag, const QByteArray &
 
 }
 
-bool TagReaderTagParser::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest &request) const {
+TagReaderBase::Result TagReaderTagParser::SaveEmbeddedArt(const QString &filename, const spb::tagreader::SaveEmbeddedArtRequest &request) const {
 
-  if (request.filename().empty()) return false;
-
-  const QString filename = QString::fromUtf8(request.filename().data(), request.filename().size());
+  if (request.filename().empty()) return Result::ErrorCode::FilenameMissing;
 
   qLog(Debug) << "Saving art to" << filename;
 
-  const QByteArray cover_data = LoadCoverDataFromRequest(request);
+  const Cover cover = LoadCoverFromRequest(filename, request);
 
   try {
 
@@ -446,13 +443,13 @@ bool TagReaderTagParser::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRe
     taginfo.parseContainerFormat(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return false;
+      return Result::ErrorCode::FileParseError;
     }
 
     taginfo.parseTags(diag, progress);
     if (progress.isAborted()) {
       taginfo.close();
-      return false;
+      return Result::ErrorCode::FileParseError;
     }
 
     if (taginfo.tags().size() <= 0) {
@@ -460,7 +457,7 @@ bool TagReaderTagParser::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRe
     }
 
     for (TagParser::Tag *tag : taginfo.tags()) {
-      SaveEmbeddedArt(tag, cover_data);
+      SaveEmbeddedArt(tag, cover.data);
     }
 
     taginfo.applyChanges(diag, progress);
@@ -470,28 +467,40 @@ bool TagReaderTagParser::SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRe
       qLog(Debug) << QString::fromStdString(msg.message());
     }
 
-    return true;
+    return Result::ErrorCode::Success;
 
   }
   catch(...) {}
 
-  return false;
+  return Result::ErrorCode::FileParseError;
 
 }
 
-void TagReaderTagParser::SaveSongPlaycountToFile(TagParser::Tag*, const spb::tagreader::SongMetadata&) const {}
+void TagReaderTagParser::SaveSongPlaycountToFile(TagParser::Tag *tag, const uint playcount) const {
 
-bool TagReaderTagParser::SaveSongPlaycountToFile(const QString&, const spb::tagreader::SongMetadata&) const { return false; }
-
-void TagReaderTagParser::SaveSongRatingToFile(TagParser::Tag *tag, const spb::tagreader::SongMetadata &song) const {
-
-  tag->setValue(TagParser::KnownField::Rating, TagParser::TagValue(ConvertToPOPMRating(song.rating())));
+  Q_UNUSED(tag);
+  Q_UNUSED(playcount);
 
 }
 
-bool TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const {
+TagReaderBase::Result TagReaderTagParser::SaveSongPlaycountToFile(const QString &filename, const uint playcount) const {
 
-    if (filename.isEmpty()) return false;
+  Q_UNUSED(filename);
+  Q_UNUSED(playcount);
+
+  return Result::ErrorCode::Unsupported;
+
+}
+
+void TagReaderTagParser::SaveSongRatingToFile(TagParser::Tag *tag, const float rating) const {
+
+  tag->setValue(TagParser::KnownField::Rating, TagParser::TagValue(ConvertToPOPMRating(rating)));
+
+}
+
+TagReaderBase::Result TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const float rating) const {
+
+    if (filename.isEmpty()) return Result::ErrorCode::FilenameMissing;
 
     qLog(Debug) << "Saving song rating to" << filename;
 
@@ -509,19 +518,19 @@ bool TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const spb
       taginfo.parseContainerFormat(diag, progress);
       if (progress.isAborted()) {
         taginfo.close();
-        return false;
+        return Result::ErrorCode::FileParseError;
       }
 
       taginfo.parseTracks(diag, progress);
       if (progress.isAborted()) {
         taginfo.close();
-        return false;
+        return Result::ErrorCode::FileParseError;
       }
 
       taginfo.parseTags(diag, progress);
       if (progress.isAborted()) {
         taginfo.close();
-        return false;
+        return Result::ErrorCode::FileParseError;
       }
 
       if (taginfo.tags().size() <= 0) {
@@ -529,7 +538,7 @@ bool TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const spb
       }
 
       for (TagParser::Tag *tag : taginfo.tags()) {
-        SaveSongRatingToFile(tag, song);
+        SaveSongRatingToFile(tag, rating);
       }
 
       taginfo.applyChanges(diag, progress);
@@ -539,10 +548,10 @@ bool TagReaderTagParser::SaveSongRatingToFile(const QString &filename, const spb
         qLog(Debug) << QString::fromStdString(msg.message());
       }
 
-      return true;
+      return Result::ErrorCode::Success;
     }
     catch(...) {}
 
-    return false;
+    return Result::ErrorCode::FileParseError;
 
 }

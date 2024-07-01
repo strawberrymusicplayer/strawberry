@@ -415,7 +415,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
   if (!set_column_value(song, static_cast<Column>(idx.column()), value)) return false;
 
   if (song.url().isLocalFile()) {
-    TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
+    TagReaderReply *reply = TagReaderClient::Instance()->WriteFile(song.url().toLocalFile(), song);
     QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
     QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item]() { SongSaveComplete(reply, persistent_index, item->OriginalMetadata()); }, Qt::QueuedConnection);
   }
@@ -431,11 +431,16 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx, const Song &old_metadata) {
 
   if (reply->is_successful() && idx.isValid()) {
-    if (reply->message().save_file_response().success()) {
+    if (reply->message().write_file_response().success()) {
       ItemReload(idx, old_metadata, true);
     }
     else {
-      emit Error(tr("An error occurred writing metadata to '%1'").arg(QString::fromStdString(reply->request_message().save_file_request().filename())));
+      if (reply->request_message().write_file_response().has_error()) {
+        emit Error(tr("Could not write metadata to %1: %2").arg(QString::fromStdString(reply->request_message().write_file_request().filename()), QString::fromStdString(reply->request_message().write_file_response().error())));
+      }
+      else {
+        emit Error(tr("Could not write metadata to %1").arg(QString::fromStdString(reply->request_message().write_file_request().filename())));
+      }
     }
   }
 

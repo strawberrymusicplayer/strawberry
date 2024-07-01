@@ -11,11 +11,11 @@ endif()
 
 set(SOURCES tagreaderbase.cpp tagreadermessages.proto)
 
-if(USE_TAGLIB AND TAGLIB_FOUND)
+if(HAVE_TAGLIB)
   list(APPEND SOURCES tagreadertaglib.cpp tagreadergme.cpp)
 endif()
 
-if(USE_TAGPARSER AND TAGPARSER_FOUND)
+if(HAVE_TAGPARSER)
   list(APPEND SOURCES tagreadertagparser.cpp)
 endif()
 
@@ -24,11 +24,11 @@ link_directories(
   ${PROTOBUF_LIBRARY_DIRS}
 )
 
-if(USE_TAGLIB AND TAGLIB_FOUND)
+if(HAVE_TAGLIB)
   link_directories(${TAGLIB_LIBRARY_DIRS})
 endif()
 
-if(USE_TAGPARSER AND TAGPARSER_FOUND)
+if(HAVE_TAGPARSER)
   link_directories(${TAGPARSER_LIBRARY_DIRS})
 endif()
 
@@ -56,12 +56,12 @@ target_link_libraries(libstrawberry-tagreader PRIVATE
   libstrawberry-common
 )
 
-if(USE_TAGLIB AND TAGLIB_FOUND)
+if(HAVE_TAGLIB)
   target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE ${TAGLIB_INCLUDE_DIRS})
   target_link_libraries(libstrawberry-tagreader PRIVATE ${TAGLIB_LIBRARIES})
 endif()
 
-if(USE_TAGPARSER AND TAGPARSER_FOUND)
+if(HAVE_TAGPARSER)
   target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE ${TAGPARSER_INCLUDE_DIRS})
   target_link_libraries(libstrawberry-tagreader PRIVATE ${TAGPARSER_LIBRARIES})
 endif()

@@ -354,8 +354,11 @@ void SongLoader::EffectiveSongLoad(Song *song) {
   }
   else {
     // It's a normal media file
-    QString filename = song->url().toLocalFile();
-    TagReaderClient::Instance()->ReadFileBlocking(filename, song);
+    const QString filename = song->url().toLocalFile();
+    const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(filename, song);
+    if (!result.success()) {
+      qLog(Error) << "Could not read file" << song->url() << result.error;
+    }
   }
 
 }

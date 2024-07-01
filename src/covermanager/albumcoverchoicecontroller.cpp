@@ -440,8 +440,9 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage &image
       }
       case AlbumCoverLoaderOptions::Type::Embedded:{
         if (song.art_embedded() && !song.url().isEmpty() && song.url().isValid() && song.url().isLocalFile()) {
-          const QImage image_embedded_cover = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(song.url().toLocalFile());
-          if (!image_embedded_cover.isNull()) {
+          QImage image_embedded_cover;
+          const TagReaderClient::Result result = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(song.url().toLocalFile(), image_embedded_cover);
+          if (result.success() && !image_embedded_cover.isNull()) {
             QPixmap pixmap = QPixmap::fromImage(image_embedded_cover);
             if (!pixmap.isNull()) {
               pixmap.setDevicePixelRatio(devicePixelRatioF());

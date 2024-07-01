@@ -188,12 +188,15 @@ SongList PlaylistParser::LoadFromFile(const QString &filename) const {
 
   // Open the file
   QFile file(filename);
-  if (!file.open(QIODevice::ReadOnly)) return SongList();
+  if (!file.open(QIODevice::ReadOnly)) {
+    emit Error(tr("Could not open file %1").arg(filename));
+    return SongList();
+  }
 
-  SongList ret = parser->Load(&file, filename, fileinfo.absolutePath());
+  const SongList songs = parser->Load(&file, filename, fileinfo.absolutePath(), true);
   file.close();
 
-  return ret;
+  return songs;
 
 }
 

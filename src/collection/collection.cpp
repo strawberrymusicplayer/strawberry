@@ -206,8 +206,8 @@ void SCollection::SyncPlaycountAndRatingToFiles() {
   const qint64 nb_songs = songs.size();
   int i = 0;
   for (const Song &song : songs) {
-    TagReaderClient::Instance()->UpdateSongPlaycountBlocking(song);
-    TagReaderClient::Instance()->UpdateSongRatingBlocking(song);
+    (void)TagReaderClient::Instance()->SaveSongPlaycountBlocking(song.url().toLocalFile(), song.playcount());
+    (void)TagReaderClient::Instance()->SaveSongRatingBlocking(song.url().toLocalFile(), song.rating());
     app_->task_manager()->SetTaskProgress(task_id, ++i, nb_songs);
   }
   app_->task_manager()->SetTaskFinished(task_id);
@@ -217,7 +217,7 @@ void SCollection::SyncPlaycountAndRatingToFiles() {
 void SCollection::SongsPlaycountChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_playcounts_to_files_) {
-    app_->tag_reader_client()->UpdateSongsPlaycount(songs);
+    app_->tag_reader_client()->SaveSongsPlaycount(songs);
   }
 
 }
@@ -225,7 +225,7 @@ void SCollection::SongsPlaycountChanged(const SongList &songs, const bool save_t
 void SCollection::SongsRatingChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_ratings_to_files_) {
-    app_->tag_reader_client()->UpdateSongsRating(songs);
+    app_->tag_reader_client()->SaveSongsRating(songs);
   }
 
 }

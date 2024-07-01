@@ -1,5 +1,5 @@
 /* This file is part of Strawberry.
-   Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+   Copyright 2021-2024, Jonas Kvinge <jonas@jkvinge.net>
 
    Strawberry is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,18 +41,18 @@ class TagReaderTagParser : public TagReaderBase {
 
   bool IsMediaFile(const QString &filename) const override;
 
-  bool ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
-  bool SaveFile(const spb::tagreader::SaveFileRequest &request) const override;
+  Result ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
+  Result WriteFile(const QString &filename, const spb::tagreader::WriteFileRequest &request) const override;
 
-  QByteArray LoadEmbeddedArt(const QString &filename) const override;
-  bool SaveEmbeddedArt(const spb::tagreader::SaveEmbeddedArtRequest &request) const override;
+  Result LoadEmbeddedArt(const QString &filename, QByteArray &data) const override;
+  Result SaveEmbeddedArt(const QString &filename, const spb::tagreader::SaveEmbeddedArtRequest &request) const override;
 
-  bool SaveSongPlaycountToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
-  bool SaveSongRatingToFile(const QString &filename, const spb::tagreader::SongMetadata &song) const override;
+  Result SaveSongPlaycountToFile(const QString &filename, const uint playcount) const override;
+  Result SaveSongRatingToFile(const QString &filename, const float rating) const override;
 
  private:
-  void SaveSongPlaycountToFile(TagParser::Tag *tag, const spb::tagreader::SongMetadata &song) const;
-  void SaveSongRatingToFile(TagParser::Tag *tag, const spb::tagreader::SongMetadata &song) const;
+  void SaveSongPlaycountToFile(TagParser::Tag *tag, const uint playcount) const;
+  void SaveSongRatingToFile(TagParser::Tag *tag, const float rating) const;
   void SaveEmbeddedArt(TagParser::Tag *tag, const QByteArray &data) const;
 
  public:

@@ -1,5 +1,5 @@
 /* This file is part of Strawberry.
-   Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+   Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
 
    Strawberry is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 #include <string>
 
+#include <QObject>
 #include <QByteArray>
 #include <QString>
 #include <QIODevice>
@@ -32,6 +33,28 @@
 
 TagReaderBase::TagReaderBase() = default;
 
+QString TagReaderBase::ErrorString(const Result &result) {
+
+  switch (result.error_code) {
+    case Result::ErrorCode::Success:
+      return QObject::tr("Success");
+    case Result::ErrorCode::Unsupported:
+      return QObject::tr("File is unsupported");
+    case Result::ErrorCode::FilenameMissing:
+      return QObject::tr("Filename is missing");
+    case Result::ErrorCode::FileOpenError:
+      return QObject::tr("File can not be opened");
+    case Result::ErrorCode::FileParseError:
+      return QObject::tr("Could not parse file");
+    case Result::ErrorCode::FileSaveError:
+      return QObject::tr("Could save file");
+    case Result::ErrorCode::CustomError:
+      return result.error;
+  }
+
+  return QObject::tr("Unknown error");
+
+}
 
 float TagReaderBase::ConvertPOPMRating(const int POPM_rating) {
 
@@ -57,16 +80,15 @@ int TagReaderBase::ConvertToPOPMRating(const float rating) {
 
 }
 
-TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const spb::tagreader::SaveFileRequest &request) {
+TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const QString &song_filename, const spb::tagreader::WriteFileRequest &request) {
 
   if (!request.has_save_cover() || !request.save_cover()) {
     return Cover();
   }
 
-  const QString song_filename = QString::fromUtf8(request.filename().data(), static_cast<qint64>(request.filename().size()));
   QString cover_filename;
   if (request.has_cover_filename()) {
-    cover_filename = QString::fromUtf8(request.cover_filename().data(), static_cast<qint64>(request.cover_filename().size()));
+    cover_filename = QString::fromStdString(request.cover_filename());
   }
   QByteArray cover_data;
   if (request.has_cover_data()) {
@@ -81,12 +103,11 @@ TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const spb::tagreader::S
 
 }
 
-TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const spb::tagreader::SaveEmbeddedArtRequest &request) {
+TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const QString &song_filename, const spb::tagreader::SaveEmbeddedArtRequest &request) {
 
-  const QString song_filename = QString::fromUtf8(request.filename().data(), static_cast<qint64>(request.filename().size()));
   QString cover_filename;
   if (request.has_cover_filename()) {
-    cover_filename = QString::fromUtf8(request.cover_filename().data(), static_cast<qint64>(request.cover_filename().size()));
+    cover_filename = QString::fromStdString(request.cover_filename());
   }
   QByteArray cover_data;
   if (request.has_cover_data()) {

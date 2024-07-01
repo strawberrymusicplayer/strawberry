@@ -290,8 +290,8 @@ AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadImage(TaskPtr task, cons
 AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadEmbeddedImage(TaskPtr task) {
 
   if (task->art_embedded && task->song_url.isValid() && task->song_url.isLocalFile()) {
-    task->album_cover.image_data = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(task->song_url.toLocalFile());
-    if (!task->album_cover.image_data.isEmpty() && task->album_cover.image.loadFromData(task->album_cover.image_data)) {
+    const TagReaderClient::Result result = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(task->song_url.toLocalFile(), task->album_cover.image_data);
+    if (result.success() && !task->album_cover.image_data.isEmpty() && task->album_cover.image.loadFromData(task->album_cover.image_data)) {
       return LoadImageResult(AlbumCoverLoaderResult::Type::Embedded, LoadImageResult::Status::Success);
     }
   }

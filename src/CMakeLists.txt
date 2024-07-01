@@ -1075,11 +1075,11 @@ if(HAVE_LIBMTP)
   link_directories(${LIBMTP_LIBRARY_DIRS})
 endif()
 
-if(USE_TAGLIB AND TAGLIB_FOUND)
+if(HAVE_TAGLIB)
   link_directories(${TAGLIB_LIBRARY_DIRS})
 endif()
 
-if(USE_TAGPARSER AND TAGPARSER_FOUND)
+if(HAVE_TAGPARSER)
   link_directories(${TAGPARSER_LIBRARY_DIRS})
 endif()
 
