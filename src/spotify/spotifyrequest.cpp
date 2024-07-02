@@ -726,7 +726,7 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
     album.album_id = obj_item[QLatin1String("id")].toString();
     album.album = obj_item[QLatin1String("name")].toString();
 
-    if (artist_artist.artist_id.isEmpty() && obj_item.contains(QLatin1String("artists")) && obj_item[QLatin1String("artists")].isArray()) {
+    if (obj_item.contains(QLatin1String("artists")) && obj_item[QLatin1String("artists")].isArray()) {
       QJsonArray array_artists = obj_item[QLatin1String("artists")].toArray();
       for (const QJsonValueRef value : array_artists) {
         if (!value.isObject()) {
@@ -739,7 +739,8 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
         break;
       }
     }
-    else {
+
+    if (artist.artist_id.isEmpty()) {
       artist = artist_artist;
     }
 
