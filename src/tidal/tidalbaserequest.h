@@ -72,25 +72,25 @@ class TidalBaseRequest : public QObject {
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
   static QString ErrorsToHTML(const QStringList &errors);
 
-  bool oauth() { return service_->oauth(); }
-  QString client_id() { return service_->client_id(); }
-  QString api_token() { return service_->api_token(); }
-  quint64 user_id() { return service_->user_id(); }
-  QString country_code() { return service_->country_code(); }
-  QString username() { return service_->username(); }
-  QString password() { return service_->password(); }
-  QString quality() { return service_->quality(); }
-  int artistssearchlimit() { return service_->artistssearchlimit(); }
-  int albumssearchlimit() { return service_->albumssearchlimit(); }
-  int songssearchlimit() { return service_->songssearchlimit(); }
+  bool oauth() const { return service_->oauth(); }
+  QString client_id() const { return service_->client_id(); }
+  QString api_token() const { return service_->api_token(); }
+  quint64 user_id() const { return service_->user_id(); }
+  QString country_code() const { return service_->country_code(); }
+  QString username() const { return service_->username(); }
+  QString password() const { return service_->password(); }
+  QString quality() const { return service_->quality(); }
+  int artistssearchlimit() const { return service_->artistssearchlimit(); }
+  int albumssearchlimit() const { return service_->albumssearchlimit(); }
+  int songssearchlimit() const { return service_->songssearchlimit(); }
 
-  QString access_token() { return service_->access_token(); }
-  QString session_id() { return service_->session_id(); }
+  QString access_token() const { return service_->access_token(); }
+  QString session_id() const { return service_->session_id(); }
 
-  bool authenticated() { return service_->authenticated(); }
-  bool login_sent() { return service_->login_sent(); }
-  int max_login_attempts() { return service_->max_login_attempts(); }
-  int login_attempts() { return service_->login_attempts(); }
+  bool authenticated() const { return service_->authenticated(); }
+  bool login_sent() const { return service_->login_sent(); }
+  int max_login_attempts() const { return service_->max_login_attempts(); }
+  int login_attempts() const { return service_->login_attempts(); }
 
   virtual void set_need_login() = 0;
 

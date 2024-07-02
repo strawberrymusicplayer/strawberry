@@ -73,13 +73,13 @@ class SpotifyService : public StreamingService {
 
   Application *app() { return app_; }
 
-  int artistssearchlimit() { return artistssearchlimit_; }
-  int albumssearchlimit() { return albumssearchlimit_; }
-  int songssearchlimit() { return songssearchlimit_; }
-  bool fetchalbums() { return fetchalbums_; }
-  bool download_album_covers() { return download_album_covers_; }
+  int artistssearchlimit() const { return artistssearchlimit_; }
+  int albumssearchlimit() const { return albumssearchlimit_; }
+  int songssearchlimit() const { return songssearchlimit_; }
+  bool fetchalbums() const { return fetchalbums_; }
+  bool download_album_covers() const { return download_album_covers_; }
 
-  QString access_token() { return access_token_; }
+  QString access_token() const { return access_token_; }
 
   bool authenticated() const override { return !access_token_.isEmpty(); }
 

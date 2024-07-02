@@ -71,13 +71,13 @@ class SpotifyBaseRequest : public QObject {
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
   static QString ErrorsToHTML(const QStringList &errors);
 
-  int artistssearchlimit() { return service_->artistssearchlimit(); }
-  int albumssearchlimit() { return service_->albumssearchlimit(); }
-  int songssearchlimit() { return service_->songssearchlimit(); }
+  int artistssearchlimit() const { return service_->artistssearchlimit(); }
+  int albumssearchlimit() const { return service_->albumssearchlimit(); }
+  int songssearchlimit() const { return service_->songssearchlimit(); }
 
-  QString access_token() { return service_->access_token(); }
+  QString access_token() const { return service_->access_token(); }
 
-  bool authenticated() { return service_->authenticated(); }
+  bool authenticated() const { return service_->authenticated(); }
 
  private slots:
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);

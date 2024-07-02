@@ -49,13 +49,13 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   void Process();
   void Cancel();
 
-  bool oauth() { return service_->oauth(); }
-  TidalSettingsPage::StreamUrlMethod stream_url_method() { return service_->stream_url_method(); }
-  QUrl media_url() { return media_url_; }
-  int song_id() { return song_id_; }
+  bool oauth() const { return service_->oauth(); }
+  TidalSettingsPage::StreamUrlMethod stream_url_method() const { return service_->stream_url_method(); }
+  QUrl media_url() const { return media_url_; }
+  int song_id() const { return song_id_; }
 
   void set_need_login() override { need_login_ = true; }
-  bool need_login() { return need_login_; }
+  bool need_login() const { return need_login_; }
 
  signals:
   void TryLogin();

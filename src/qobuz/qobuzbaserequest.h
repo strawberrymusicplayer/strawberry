@@ -72,24 +72,24 @@ class QobuzBaseRequest : public QObject {
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
   static QString ErrorsToHTML(const QStringList &errors);
 
-  QString app_id() { return service_->app_id(); }
-  QString app_secret() { return service_->app_secret(); }
-  QString username() { return service_->username(); }
-  QString password() { return service_->password(); }
-  int format() { return service_->format(); }
-  int artistssearchlimit() { return service_->artistssearchlimit(); }
-  int albumssearchlimit() { return service_->albumssearchlimit(); }
-  int songssearchlimit() { return service_->songssearchlimit(); }
+  QString app_id() const { return service_->app_id(); }
+  QString app_secret() const { return service_->app_secret(); }
+  QString username() const { return service_->username(); }
+  QString password() const { return service_->password(); }
+  int format() const { return service_->format(); }
+  int artistssearchlimit() const { return service_->artistssearchlimit(); }
+  int albumssearchlimit() const { return service_->albumssearchlimit(); }
+  int songssearchlimit() const { return service_->songssearchlimit(); }
 
-  qint64 user_id() { return service_->user_id(); }
-  QString user_auth_token() { return service_->user_auth_token(); }
-  QString device_id() { return service_->device_id(); }
-  qint64 credential_id() { return service_->credential_id(); }
+  qint64 user_id() const { return service_->user_id(); }
+  QString user_auth_token() const { return service_->user_auth_token(); }
+  QString device_id() const { return service_->device_id(); }
+  qint64 credential_id() const { return service_->credential_id(); }
 
-  bool authenticated() { return service_->authenticated(); }
-  bool login_sent() { return service_->login_sent(); }
-  int max_login_attempts() { return service_->max_login_attempts(); }
-  int login_attempts() { return service_->login_attempts(); }
+  bool authenticated() const { return service_->authenticated(); }
+  bool login_sent() const { return service_->login_sent(); }
+  int max_login_attempts() const { return service_->max_login_attempts(); }
+  int login_attempts() const { return service_->login_attempts(); }
 
  private slots:
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);

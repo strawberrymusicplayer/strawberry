@@ -49,9 +49,9 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   void NeedLogin() { need_login_ = true; }
   void Cancel();
 
-  QUrl media_url() { return media_url_; }
-  int song_id() { return song_id_; }
-  bool need_login() { return need_login_; }
+  QUrl media_url() const { return media_url_; }
+  int song_id() const { return song_id_; }
+  bool need_login() const { return need_login_; }
 
  signals:
   void TryLogin();

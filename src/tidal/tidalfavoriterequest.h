@@ -43,7 +43,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   explicit TidalFavoriteRequest(TidalService *service, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~TidalFavoriteRequest() override;
 
-  bool need_login() { return need_login_; }
+  bool need_login() const { return need_login_; }
   void set_need_login() override { need_login_ = true; }
 
  private:
