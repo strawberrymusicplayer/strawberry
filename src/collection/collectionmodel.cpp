@@ -535,12 +535,12 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
     }
 
     if (container_key_changed) {
-      qLog(Debug) << "Container key for" << new_song.id() << new_song.PrettyTitleWithArtist() << "was changed, re-adding song.";
+      qLog(Debug) << "Container key for" << new_song.id() << new_song.PrettyTitleWithArtist() << "is changed, re-adding song.";
       songs_removed << old_song;
       songs_added << new_song;
     }
     else {
-      qLog(Debug) << "Container key for" << new_song.id() << new_song.PrettyTitleWithArtist() << "was not changed, only updating song metadata.";
+      qLog(Debug) << "Container key for" << new_song.id() << new_song.PrettyTitleWithArtist() << "is uchanged, only updating song metadata.";
       songs_updated << new_song;
     }
   }
