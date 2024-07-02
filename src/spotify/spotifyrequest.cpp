@@ -291,6 +291,9 @@ void SpotifyRequest::FlushAlbumsRequests() {
       parameters << Param(QStringLiteral("type"), QStringLiteral("album"));
       parameters << Param(QStringLiteral("q"), search_text_);
     }
+    else {
+      parameters << Param(QStringLiteral("include_groups"), QStringLiteral("album,single"));
+    }
     if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
     if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
