@@ -1165,6 +1165,8 @@ void SpotifyRequest::GetAlbumCoversCheck() {
 
   if (
       !finished_ &&
+      service_->download_album_covers() &&
+      IsQuery() &&
       artists_requests_queue_.isEmpty() &&
       albums_requests_queue_.isEmpty() &&
       songs_requests_queue_.isEmpty() &&
