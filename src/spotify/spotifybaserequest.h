@@ -47,7 +47,7 @@ class SpotifyBaseRequest : public QObject {
  public:
   explicit SpotifyBaseRequest(SpotifyService *service, NetworkAccessManager *network, QObject *parent = nullptr);
 
-  enum class QueryType {
+  enum class Type {
     None,
     Artists,
     Albums,

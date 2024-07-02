@@ -53,7 +53,7 @@ const int kMaxConcurrentAlbumCoverRequests = 10;
 const int kFlushRequestsDelay = 200;
 }
 
-SpotifyRequest::SpotifyRequest(SpotifyService *service, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent)
+SpotifyRequest::SpotifyRequest(SpotifyService *service, Application *app, NetworkAccessManager *network, Type type, QObject *parent)
     : SpotifyBaseRequest(service, network, parent),
       service_(service),
       app_(app),
@@ -129,22 +129,22 @@ void SpotifyRequest::Process() {
   }
 
   switch (type_) {
-    case QueryType::Artists:
+    case Type::Artists:
       GetArtists();
       break;
-    case QueryType::Albums:
+    case Type::Albums:
       GetAlbums();
       break;
-    case QueryType::Songs:
+    case Type::Songs:
       GetSongs();
       break;
-    case QueryType::SearchArtists:
+    case Type::SearchArtists:
       ArtistsSearch();
       break;
-    case QueryType::SearchAlbums:
+    case Type::SearchAlbums:
       AlbumsSearch();
       break;
-    case QueryType::SearchSongs:
+    case Type::SearchSongs:
       SongsSearch();
       break;
     default:
@@ -233,7 +233,7 @@ void SpotifyRequest::FlushArtistsRequests() {
     Request request = artists_requests_queue_.dequeue();
 
     ParamList parameters = ParamList() << Param(QStringLiteral("type"), QStringLiteral("artist"));
-    if (type_ == QueryType::SearchArtists) {
+    if (type_ == Type::SearchArtists) {
       parameters << Param(QStringLiteral("q"), search_text_);
     }
     if (request.limit > 0) {
@@ -243,10 +243,10 @@ void SpotifyRequest::FlushArtistsRequests() {
       parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     }
     QNetworkReply *reply = nullptr;
-    if (type_ == QueryType::Artists) {
+    if (type_ == Type::Artists) {
       reply = CreateRequest(QStringLiteral("me/following"), parameters);
     }
-    if (type_ == QueryType::SearchArtists) {
+    if (type_ == Type::SearchArtists) {
       reply = CreateRequest(QStringLiteral("search"), parameters);
     }
     if (!reply) continue;
@@ -287,7 +287,7 @@ void SpotifyRequest::FlushAlbumsRequests() {
     Request request = albums_requests_queue_.dequeue();
 
     ParamList parameters;
-    if (type_ == QueryType::SearchAlbums) {
+    if (type_ == Type::SearchAlbums) {
       parameters << Param(QStringLiteral("type"), QStringLiteral("album"));
       parameters << Param(QStringLiteral("q"), search_text_);
     }
@@ -297,10 +297,10 @@ void SpotifyRequest::FlushAlbumsRequests() {
     if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
     if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
-    if (type_ == QueryType::Albums) {
+    if (type_ == Type::Albums) {
       reply = CreateRequest(QStringLiteral("me/albums"), parameters);
     }
-    if (type_ == QueryType::SearchAlbums) {
+    if (type_ == Type::SearchAlbums) {
       reply = CreateRequest(QStringLiteral("search"), parameters);
     }
     if (!reply) continue;
@@ -341,7 +341,7 @@ void SpotifyRequest::FlushSongsRequests() {
     Request request = songs_requests_queue_.dequeue();
 
     ParamList parameters;
-    if (type_ == QueryType::SearchSongs) {
+    if (type_ == Type::SearchSongs) {
       parameters << Param(QStringLiteral("type"), QStringLiteral("track"));
       parameters << Param(QStringLiteral("q"), search_text_);
     }
@@ -352,10 +352,10 @@ void SpotifyRequest::FlushSongsRequests() {
       parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     }
     QNetworkReply *reply = nullptr;
-    if (type_ == QueryType::Songs) {
+    if (type_ == Type::Songs) {
       reply = CreateRequest(QStringLiteral("me/tracks"), parameters);
     }
-    if (type_ == QueryType::SearchSongs) {
+    if (type_ == Type::SearchSongs) {
       reply = CreateRequest(QStringLiteral("search"), parameters);
     }
     if (!reply) continue;
@@ -539,8 +539,8 @@ void SpotifyRequest::ArtistsFinishCheck(const int limit, const int offset, const
   if ((limit == 0 || limit > artists_received) && artists_received_ < artists_total_) {
     int offset_next = offset + artists_received;
     if (offset_next > 0 && offset_next < artists_total_) {
-      if (type_ == QueryType::Artists) AddArtistsRequest(offset_next);
-      else if (type_ == QueryType::SearchArtists) AddArtistsSearchRequest(offset_next);
+      if (type_ == Type::Artists) AddArtistsRequest(offset_next);
+      else if (type_ == Type::SearchArtists) AddArtistsSearchRequest(offset_next);
     }
   }
 
@@ -655,7 +655,7 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
   int offset = json_obj[QLatin1String("offset")].toInt();
   int albums_total = json_obj[QLatin1String("total")].toInt();
 
-  if (type_ == QueryType::Albums || type_ == QueryType::SearchAlbums) {
+  if (type_ == Type::Albums || type_ == Type::SearchAlbums) {
     albums_total_ = albums_total;
   }
 
@@ -672,7 +672,7 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
   }
   QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
-    if ((type_ == QueryType::Albums || type_ == QueryType::SearchAlbums || (type_ == QueryType::SearchSongs && fetchalbums_)) && offset_requested == 0) {
+    if ((type_ == Type::Albums || type_ == Type::SearchAlbums || (type_ == Type::SearchSongs && fetchalbums_)) && offset_requested == 0) {
       no_results_ = true;
     }
     AlbumsFinishCheck(artist_artist);
@@ -801,7 +801,7 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
 
   }
 
-  if (type_ == QueryType::Albums || type_ == QueryType::SearchAlbums) {
+  if (type_ == Type::Albums || type_ == Type::SearchAlbums) {
     albums_received_ += albums_received;
     emit UpdateProgress(query_id_, GetProgress(albums_received_, albums_total_));
   }
@@ -818,14 +818,14 @@ void SpotifyRequest::AlbumsFinishCheck(const Artist &artist, const int limit, co
     int offset_next = offset + albums_received;
     if (offset_next > 0 && offset_next < albums_total) {
       switch (type_) {
-        case QueryType::Albums:
+        case Type::Albums:
           AddAlbumsRequest(offset_next);
           break;
-        case QueryType::SearchAlbums:
+        case Type::SearchAlbums:
           AddAlbumsSearchRequest(offset_next);
           break;
-        case QueryType::Artists:
-        case QueryType::SearchArtists:
+        case Type::Artists:
+        case Type::SearchArtists:
           AddArtistAlbumsRequest(artist, offset_next);
           break;
         default:
@@ -868,7 +868,7 @@ void SpotifyRequest::SongsReplyReceived(QNetworkReply *reply, const int limit_re
 
   --songs_requests_active_;
   ++songs_requests_received_;
-  if (type_ == QueryType::SearchSongs && fetchalbums_) {
+  if (type_ == Type::SearchSongs && fetchalbums_) {
     AlbumsReceived(reply, Artist(), limit_requested, offset_requested);
   }
   else {
@@ -956,7 +956,7 @@ void SpotifyRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, c
   int offset = json_obj[QLatin1String("offset")].toInt();
   int songs_total = json_obj[QLatin1String("total")].toInt();
 
-  if (type_ == QueryType::Songs || type_ == QueryType::SearchSongs) {
+  if (type_ == Type::Songs || type_ == Type::SearchSongs) {
     songs_total_ = songs_total;
   }
 
@@ -974,7 +974,7 @@ void SpotifyRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, c
 
   QJsonArray array_items = json_value.toArray();
   if (array_items.isEmpty()) {
-    if ((type_ == QueryType::Songs || type_ == QueryType::SearchSongs) && offset_requested == 0) {
+    if ((type_ == Type::Songs || type_ == Type::SearchSongs) && offset_requested == 0) {
       no_results_ = true;
     }
     SongsFinishCheck(artist, album, limit_requested, offset_requested, songs_total, 0);
@@ -1016,7 +1016,7 @@ void SpotifyRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, c
     songs_.insert(song.song_id(), song);
   }
 
-  if (type_ == QueryType::Songs || type_ == QueryType::SearchSongs) {
+  if (type_ == Type::Songs || type_ == Type::SearchSongs) {
     songs_received_ += songs_received;
     emit UpdateProgress(query_id_, GetProgress(songs_received_, songs_total_));
   }
@@ -1033,20 +1033,20 @@ void SpotifyRequest::SongsFinishCheck(const Artist &artist, const Album &album, 
     int offset_next = offset + songs_received;
     if (offset_next > 0 && offset_next < songs_total) {
       switch (type_) {
-        case QueryType::Songs:
+        case Type::Songs:
           AddSongsRequest(offset_next);
           break;
-        case QueryType::SearchSongs:
+        case Type::SearchSongs:
           // If artist_id and album_id isn't zero it means that it's a songs search where we fetch all albums too. So fallthrough.
           if (artist.artist_id.isEmpty() && album.album_id.isEmpty()) {
             AddSongsSearchRequest(offset_next);
             break;
           }
           // fallthrough
-        case QueryType::Artists:
-        case QueryType::SearchArtists:
-        case QueryType::Albums:
-        case QueryType::SearchAlbums:
+        case Type::Artists:
+        case Type::SearchArtists:
+        case Type::Albums:
+        case Type::SearchAlbums:
           AddAlbumSongsRequest(artist, album, offset_next);
           break;
         default:

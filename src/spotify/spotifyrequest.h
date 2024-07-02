@@ -49,7 +49,7 @@ class SpotifyRequest : public SpotifyBaseRequest {
   Q_OBJECT
 
  public:
-  explicit SpotifyRequest(SpotifyService *service, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent);
+  explicit SpotifyRequest(SpotifyService *service, Application *app, NetworkAccessManager *network, Type type, QObject *parent);
   ~SpotifyRequest() override;
 
   void ReloadSettings();
@@ -117,8 +117,8 @@ class SpotifyRequest : public SpotifyBaseRequest {
  private:
   void StartRequests();
 
-  bool IsQuery() const { return (type_ == QueryType::Artists || type_ == QueryType::Albums || type_ == QueryType::Songs); }
-  bool IsSearch() const { return (type_ == QueryType::SearchArtists || type_ == QueryType::SearchAlbums || type_ == QueryType::SearchSongs); }
+  bool IsQuery() const { return (type_ == Type::Artists || type_ == Type::Albums || type_ == Type::Songs); }
+  bool IsSearch() const { return (type_ == Type::SearchArtists || type_ == Type::SearchAlbums || type_ == Type::SearchSongs); }
 
   void GetArtists();
   void GetAlbums();
@@ -167,7 +167,7 @@ class SpotifyRequest : public SpotifyBaseRequest {
   NetworkAccessManager *network_;
   QTimer *timer_flush_requests_;
 
-  QueryType type_;
+  Type type_;
   bool fetchalbums_;
   QString coversize_;
 

@@ -48,7 +48,7 @@ class TidalBaseRequest : public QObject {
  public:
   explicit TidalBaseRequest(TidalService *service, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
-  enum class QueryType {
+  enum class Type {
     None,
     Artists,
     Albums,

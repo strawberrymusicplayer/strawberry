@@ -732,7 +732,7 @@ void TidalService::GetArtists() {
   }
 
   ResetArtistsRequest();
-  artists_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType::Artists, this), [](TidalRequest *request) { request->deleteLater(); });
+  artists_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::Artists, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(&*artists_request_, &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(&*artists_request_, &TidalRequest::Results, this, &TidalService::ArtistsResultsReceived);
   QObject::connect(&*artists_request_, &TidalRequest::UpdateStatus, this, &TidalService::ArtistsUpdateStatusReceived);
@@ -787,7 +787,7 @@ void TidalService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType::Albums, this), [](TidalRequest *request) { request->deleteLater(); });
+  albums_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::Albums, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(&*albums_request_, &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(&*albums_request_, &TidalRequest::Results, this, &TidalService::AlbumsResultsReceived);
   QObject::connect(&*albums_request_, &TidalRequest::UpdateStatus, this, &TidalService::AlbumsUpdateStatusReceived);
@@ -842,7 +842,7 @@ void TidalService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType::Songs, this), [](TidalRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::Songs, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(&*songs_request_, &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(&*songs_request_, &TidalRequest::Results, this, &TidalService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &TidalRequest::UpdateStatus, this, &TidalService::SongsUpdateStatusReceived);
@@ -916,17 +916,17 @@ void TidalService::CancelSearch() {
 
 void TidalService::SendSearch() {
 
-  TidalBaseRequest::QueryType query_type = TidalBaseRequest::QueryType::None;
+  TidalBaseRequest::Type query_type = TidalBaseRequest::Type::None;
 
   switch (pending_search_type_) {
     case StreamingSearchView::SearchType::Artists:
-      query_type = TidalBaseRequest::QueryType::SearchArtists;
+      query_type = TidalBaseRequest::Type::SearchArtists;
       break;
     case StreamingSearchView::SearchType::Albums:
-      query_type = TidalBaseRequest::QueryType::SearchAlbums;
+      query_type = TidalBaseRequest::Type::SearchAlbums;
       break;
     case StreamingSearchView::SearchType::Songs:
-      query_type = TidalBaseRequest::QueryType::SearchSongs;
+      query_type = TidalBaseRequest::Type::SearchSongs;
       break;
     default:
       //Error("Invalid search type.");

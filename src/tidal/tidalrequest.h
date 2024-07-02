@@ -53,7 +53,7 @@ class TidalRequest : public TidalBaseRequest {
   Q_OBJECT
 
  public:
-  explicit TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, SharedPtr<NetworkAccessManager> network, QueryType query_type, QObject *parent);
+  explicit TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, SharedPtr<NetworkAccessManager> network, Type query_type, QObject *parent);
   ~TidalRequest() override;
 
   void ReloadSettings();
@@ -124,8 +124,8 @@ class TidalRequest : public TidalBaseRequest {
   void LoginComplete(const bool success, const QString &error = QString());
 
  private:
-  bool IsQuery() { return (query_type_ == QueryType::Artists || query_type_ == QueryType::Albums || query_type_ == QueryType::Songs); }
-  bool IsSearch() { return (query_type_ == QueryType::SearchArtists || query_type_ == QueryType::SearchAlbums || query_type_ == QueryType::SearchSongs); }
+  bool IsQuery() const { return (query_type_ == Type::Artists || query_type_ == Type::Albums || query_type_ == Type::Songs); }
+  bool IsSearch() const { return (query_type_ == Type::SearchArtists || query_type_ == Type::SearchAlbums || query_type_ == Type::SearchSongs); }
 
   void StartRequests();
   void FlushRequests();
@@ -178,7 +178,7 @@ class TidalRequest : public TidalBaseRequest {
   SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_flush_requests_;
 
-  const QueryType query_type_;
+  const Type query_type_;
   const bool fetchalbums_;
   const QString coversize_;
 
