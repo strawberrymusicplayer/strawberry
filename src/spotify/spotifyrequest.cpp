@@ -1126,8 +1126,6 @@ void SpotifyRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Ar
     cover_url = album.cover_url;
   }
 
-  QJsonValue json_duration = json_obj[QLatin1String("duration")];
-
   QString song_id = json_obj[QLatin1String("id")].toString();
   QString title = json_obj[QLatin1String("name")].toString();
   QString uri = json_obj[QLatin1String("uri")].toString();
