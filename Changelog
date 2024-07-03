@@ -22,6 +22,8 @@ Unreleased:
     * Fixed reading common metadata CUE's with multiple files (#1463).
     * Fixed playlist header stretch mode to only resize the right column of the column being resized.
     * Fixed adding columns to playlist header not working when not using stretch mode (#1085).
+    * Fixed severe memory leak (!) in context album cover fading (#1464).
+    * Separate albums by different artist in album groupings (#1276).
     * Removed -new-window parameter from dolphin command for open in file manager (#1412).
     * Only use playbin3 with GStreamer 1.24 and higher, not with GStreamer 1.22 or lower.
     * (macOS/Windows) Fixed dash and hls streaming, plugins were missing.
@@ -45,14 +47,15 @@ Unreleased:
     * Only apply added/removed collection directories when settings are saved.
     * Detect and handle different text encodings when reading CUE files (#1429).
     * The collection has been rewritten and improved (model/filter/search) (#392).
+    * Improve error messages from tag reader.
     * (Unix) Add experimental GStreamer pipewire support.
     * (Windows) Add experimental exclusive mode for WASAPI.
-    * (Windows MSVC) Add ASIO support.
+    * (Windows MSVC) Added experimental ASIO support.
     * (Windows MSVC) Add back WASAPI2.
 
   New features:
     * WaveRubber analyzer.
-    * Spotify support.
+    * Spotify streaming support.
 
   Removed features:
     * Removed now broken lyricsmode.com lyrics provider because of website changes.
