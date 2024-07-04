@@ -1142,11 +1142,30 @@ jobs:
         working-directory: build
         run: makensis strawberry.nsi
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+      - name: Set Upload path
+        id: set-upload-path
+        if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/windows')))
+        run: |
+          if [ "${{github.event_name}}" = "release" ]; then
+            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/stable_releases/windows/mingw" >> $GITHUB_OUTPUT
+          else
+            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/development_releases/windows/mingw" >> $GITHUB_OUTPUT
+          fi
+
+      - name: SSH Setup
+        if: steps.set-upload-path.outputs.upload_path != ''
+        uses: shimataro/ssh-key-action@v2
         with:
-          name: windows-mingw-${{matrix.arch}}-${{matrix.buildtype}}
-          path: build/StrawberrySetup*.exe
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+
+      - name: Create server path
+        if: steps.set-upload-path.outputs.upload_path != ''
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
+
+      - name: rsync
+        if: steps.set-upload-path.outputs.upload_path != ''
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
 
 
   build-windows-msvc:
@@ -1170,6 +1189,10 @@ jobs:
       - name: Set cmake buildtype
         shell: bash
         run: echo "cmake_buildtype=$(echo ${{matrix.buildtype}} | sed 's/.*/\u&/')" >> $GITHUB_ENV
+
+      - name: Install rsync
+        shell: cmd
+        run: choco install --no-progress rsync
 
       - name: Cleanup PATH
         uses: egor-tensin/cleanup-path@v4
@@ -1432,11 +1455,34 @@ jobs:
         working-directory: build
         run: makensis strawberry.nsi
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-msvc-${{matrix.arch}}-${{matrix.buildtype}}
-          path: build/StrawberrySetup*.exe
+      - name: Set Upload path
+        id: set-upload-path
+        shell: bash
+        if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/windows')))
+        run: |
+          if [ "${{github.event_name}}" = "release" ]; then
+            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/stable_releases/windows/msvc" >> $GITHUB_OUTPUT
+          else
+            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/development_releases/windows/msvc" >> $GITHUB_OUTPUT
+          fi
+
+      - name: SSH Setup
+        if: steps.set-upload-path.outputs.upload_path != ''
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{secrets.SSH_KNOWN_HOSTS}}" > ~/.ssh/known_hosts
+          echo "${{secrets.SSH_KEY}}" > ~/.ssh/id_rsa
+
+      - name: Create server path
+        if: steps.set-upload-path.outputs.upload_path != ''
+        shell: bash
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
+
+      - name: rsync
+        if: steps.set-upload-path.outputs.upload_path != ''
+        shell: bash
+        run: rsync -e "/c/ProgramData/chocolatey/lib/rsync/tools/bin/ssh.exe -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
 
 
   upload:
@@ -1448,8 +1494,6 @@ jobs:
       - build-fedora
       - build-debian
       - build-ubuntu
-      - build-windows-mingw
-      - build-windows-msvc
     steps:
       - name: Install packages
         env:
