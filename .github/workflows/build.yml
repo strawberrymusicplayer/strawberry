@@ -48,7 +48,6 @@ jobs:
             cmake
             gettext-tools
             openssh-clients
-            rsync
             glibc-devel
             libboost_headers-devel
             boost-devel
@@ -286,7 +285,6 @@ jobs:
           lsb-release
           rpmdevtools
           rpm-build
-          rsync
           glibc-devel
           boost-devel
           dbus-devel
@@ -391,7 +389,6 @@ jobs:
           tar
           rpmdevtools
           gettext
-          rsync
           lib64boost-devel
           lib64protobuf-devel
           lib64sqlite3-devel
@@ -840,7 +837,7 @@ jobs:
         working-directory: build
         run: make dmg
 
-      - name: SSH key setup
+      - name: SSH Setup
         if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))
         uses: shimataro/ssh-key-action@v2
         with:
@@ -1492,6 +1489,7 @@ jobs:
     needs:
       - build-opensuse
       - build-fedora
+      - build-mageia
       - build-debian
       - build-ubuntu
     steps:
@@ -1507,7 +1505,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
-      - name: SSH key setup
+      - name: SSH Setup
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
@@ -1542,8 +1540,6 @@ jobs:
       - build-mageia
       - build-debian
       - build-ubuntu
-      - build-windows-mingw
-      - build-windows-msvc
     steps:
       - name: Install packages
         env:
