@@ -20,15 +20,12 @@
 #ifndef TAGREADERGME_H
 #define TAGREADERGME_H
 
-#include <taglib/tstring.h>
-
 #include <QByteArray>
 #include <QString>
 #include <QFileInfo>
 
 #include "tagreaderbase.h"
 #include "tagreadermessages.pb.h"
-
 
 namespace GME {
 bool IsSupportedFormat(const QFileInfo &fileinfo);

@@ -42,6 +42,7 @@ class TagReaderBase {
       Success,
       Unsupported,
       FilenameMissing,
+      FileDoesNotExist,
       FileOpenError,
       FileParseError,
       FileSaveError,

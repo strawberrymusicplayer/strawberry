@@ -23,6 +23,8 @@
 
 #include <string>
 
+#include <boost/algorithm/string/trim.hpp>
+
 #include <QByteArray>
 #include <QString>
 
@@ -41,6 +43,9 @@
 #include "tagreaderbase.h"
 #include "tagreadermessages.pb.h"
 
+#undef TStringToQString
+#undef QStringToTString
+
 class FileRefFactory;
 
 /*
@@ -52,6 +57,30 @@ class TagReaderTagLib : public TagReaderBase {
   explicit TagReaderTagLib();
   ~TagReaderTagLib();
 
+  static inline TagLib::String StdStringToTagLibString(const std::string &s) {
+    return TagLib::String(s.c_str(), TagLib::String::UTF8);
+  }
+
+  static inline std::string TagLibStringToStdString(const TagLib::String &s) {
+    return std::string(s.toCString(), s.length());
+  }
+
+  static inline TagLib::String QStringToTagLibString(const QString &s) {
+    return TagLib::String(s.toUtf8().constData(), TagLib::String::UTF8);
+  }
+
+  static inline QString TagLibStringToQString(const TagLib::String &s) {
+    return QString::fromUtf8((s).toCString(true));
+  }
+
+  static inline void AssignTagLibStringToStdString(const TagLib::String &tstr, std::string *output) {
+
+    std::string stdstr = TagLibStringToStdString(tstr);
+    boost::trim(stdstr);
+    output->assign(stdstr);
+
+  }
+
   bool IsMediaFile(const QString &filename) const override;
 
   Result ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
@@ -62,8 +91,6 @@ class TagReaderTagLib : public TagReaderBase {
 
   Result SaveSongPlaycountToFile(const QString &filename, const uint playcount) const override;
   Result SaveSongRatingToFile(const QString &filename, const float rating) const override;
-
-  static void TStringToStdString(const TagLib::String &tag, std::string *output);
 
  private:
   spb::tagreader::SongMetadata_FileType GuessFileType(TagLib::FileRef *fileref) const;

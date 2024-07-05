@@ -42,8 +42,10 @@ QString TagReaderBase::ErrorString(const Result &result) {
       return QObject::tr("File is unsupported");
     case Result::ErrorCode::FilenameMissing:
       return QObject::tr("Filename is missing");
+    case Result::ErrorCode::FileDoesNotExist:
+      return QObject::tr("File does not exist");
     case Result::ErrorCode::FileOpenError:
-      return QObject::tr("File can not be opened");
+      return QObject::tr("File could not be opened");
     case Result::ErrorCode::FileParseError:
       return QObject::tr("Could not parse file");
     case Result::ErrorCode::FileSaveError:

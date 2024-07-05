@@ -19,8 +19,7 @@
 
 #include "tagreadergme.h"
 
-#include <tag.h>
-#include <apefile.h>
+#include <taglib/apefile.h>
 
 #include <QByteArray>
 #include <QString>
@@ -34,6 +33,9 @@
 #include "core/messagehandler.h"
 #include "tagreaderbase.h"
 #include "tagreadertaglib.h"
+
+#undef TStringToQString
+#undef QStringToTString
 
 bool GME::IsSupportedFormat(const QFileInfo &fileinfo) {
   return fileinfo.exists() && (fileinfo.completeSuffix().endsWith(QLatin1String("spc"), Qt::CaseInsensitive) || fileinfo.completeSuffix().endsWith(QLatin1String("vgm")), Qt::CaseInsensitive);
@@ -161,10 +163,10 @@ TagReaderBase::Result GME::SPC::Read(const QFileInfo &fileinfo, spb::tagreader::
       return TagReaderBase::Result::ErrorCode::FileParseError;
     }
 
-    TagReaderTagLib::TStringToStdString(tag->artist(), song->mutable_artist());
-    TagReaderTagLib::TStringToStdString(tag->album(), song->mutable_album());
-    TagReaderTagLib::TStringToStdString(tag->title(), song->mutable_title());
-    TagReaderTagLib::TStringToStdString(tag->genre(), song->mutable_genre());
+    TagReaderTagLib::AssignTagLibStringToStdString(tag->artist(), song->mutable_artist());
+    TagReaderTagLib::AssignTagLibStringToStdString(tag->album(), song->mutable_album());
+    TagReaderTagLib::AssignTagLibStringToStdString(tag->title(), song->mutable_title());
+    TagReaderTagLib::AssignTagLibStringToStdString(tag->genre(), song->mutable_genre());
     song->set_track(static_cast<std::int32_t>(tag->track()));
     song->set_year(static_cast<std::int32_t>(tag->year()));
   }
