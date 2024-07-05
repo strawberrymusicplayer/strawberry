@@ -621,11 +621,11 @@ bool Song::additional_tags_supported() const {
 }
 
 bool Song::albumartist_supported() const {
-  return additional_tags_supported();
+  return additional_tags_supported() || d->filetype_ == FileType::ASF;
 }
 
 bool Song::composer_supported() const {
-  return additional_tags_supported();
+  return additional_tags_supported() || d->filetype_ == FileType::ASF;
 }
 
 bool Song::performer_supported() const {
@@ -648,7 +648,7 @@ bool Song::grouping_supported() const {
 }
 
 bool Song::genre_supported() const {
-  return additional_tags_supported();
+  return additional_tags_supported() || d->filetype_ == FileType::ASF;
 }
 
 bool Song::compilation_supported() const {
@@ -676,7 +676,7 @@ bool Song::comment_supported() const {
 }
 
 bool Song::lyrics_supported() const {
-  return additional_tags_supported();
+  return additional_tags_supported() || d->filetype_ == FileType::ASF;
 }
 
 bool Song::save_embedded_cover_supported(const FileType filetype) {
