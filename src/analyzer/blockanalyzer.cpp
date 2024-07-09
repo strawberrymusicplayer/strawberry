@@ -136,7 +136,7 @@ void BlockAnalyzer::transform(Scope &s) {
 
 }
 
-void BlockAnalyzer::analyze(QPainter &p, const Scope &s, bool new_frame) {
+void BlockAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame) {
 
   // y = 2 3 2 1 0 2
   //     . . . . # .

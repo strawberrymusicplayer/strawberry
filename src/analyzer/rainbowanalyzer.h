@@ -49,44 +49,37 @@ class RainbowAnalyzer : public AnalyzerBase {
     Dash = 1
   };
 
-  RainbowAnalyzer(const RainbowType rbtype, QWidget *parent);
+  explicit RainbowAnalyzer(const RainbowType rbtype, QWidget *parent);
 
  protected:
-  void transform(Scope&) override;
-  void analyze(QPainter &p, const Scope&, bool new_frame) override;
+  void transform(Scope &s) override;
+  void analyze(QPainter &p, const Scope &s, const bool new_frame) override;
 
   void timerEvent(QTimerEvent *e) override;
   void resizeEvent(QResizeEvent *e) override;
 
  private:
+  static const int kRainbowBands = 6;
+  static const int kHistorySize = 128;
+  static RainbowType rainbowtype;
   static const int kHeight[];
   static const int kWidth[];
   static const int kFrameCount[];
-  static const int kRainbowHeight[];
-  static const int kRainbowOverlap[];
   static const int kSleepingHeight[];
 
-  static const int kHistorySize = 128;
-  static const int kRainbowBands = 6;
-  static const float kPixelScale;
-
-  static const int kFrameIntervalMs = 150;
-
-  static RainbowType rainbowtype;
-
-  inline QRect SourceRect(RainbowType _rainbowtype) const {
+  inline QRect SourceRect(const RainbowType _rainbowtype) const {
     return QRect(0, kHeight[_rainbowtype] * frame_, kWidth[_rainbowtype], kHeight[_rainbowtype]);
   }
 
-  inline QRect SleepingSourceRect(RainbowType _rainbowtype) const {
+  inline QRect SleepingSourceRect(const RainbowType _rainbowtype) const {
     return QRect(0, kHeight[_rainbowtype] * kFrameCount[_rainbowtype], kWidth[_rainbowtype], kSleepingHeight[_rainbowtype]);
   }
 
-  inline QRect DestRect(RainbowType _rainbowtype) const {
+  inline QRect DestRect(const RainbowType _rainbowtype) const {
     return QRect(width() - kWidth[_rainbowtype], (height() - kHeight[_rainbowtype]) / 2, kWidth[_rainbowtype], kHeight[_rainbowtype]);
   }
 
-  inline QRect SleepingDestRect(RainbowType _rainbowtype) const {
+  inline QRect SleepingDestRect(const RainbowType _rainbowtype) const {
     return QRect(width() - kWidth[_rainbowtype], (height() - kSleepingHeight[_rainbowtype]) / 2, kWidth[_rainbowtype], kSleepingHeight[_rainbowtype]);
   }
 

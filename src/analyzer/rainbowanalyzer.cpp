@@ -41,18 +41,21 @@
 #include "fht.h"
 #include "analyzerbase.h"
 
+const char *NyanCatAnalyzer::kName = "Nyanalyzer Cat";
+const char *RainbowDashAnalyzer::kName = "Rainbow Dash";
+
+RainbowAnalyzer::RainbowType RainbowAnalyzer::rainbowtype;
 const int RainbowAnalyzer::kHeight[] = { 21, 33 };
 const int RainbowAnalyzer::kWidth[] = { 34, 53 };
 const int RainbowAnalyzer::kFrameCount[] = { 6, 16 };
-const int RainbowAnalyzer::kRainbowHeight[] = { 21, 16 };
-const int RainbowAnalyzer::kRainbowOverlap[] = { 13, 15 };
 const int RainbowAnalyzer::kSleepingHeight[] = { 24, 33 };
 
-const char *NyanCatAnalyzer::kName = "Nyanalyzer Cat";
-const char *RainbowDashAnalyzer::kName = "Rainbow Dash";
-const float RainbowAnalyzer::kPixelScale = 0.02F;
-
-RainbowAnalyzer::RainbowType RainbowAnalyzer::rainbowtype;
+namespace {
+constexpr int kFrameIntervalMs = 150;
+constexpr int kRainbowHeight[] = { 21, 16 };
+constexpr int kRainbowOverlap[] = { 13, 15 };
+constexpr float kPixelScale = 0.02F;
+}  // namespace
 
 RainbowAnalyzer::RainbowAnalyzer(const RainbowType rbtype, QWidget *parent)
     : AnalyzerBase(parent, 9),
@@ -106,7 +109,7 @@ void RainbowAnalyzer::resizeEvent(QResizeEvent *e) {
 
 }
 
-void RainbowAnalyzer::analyze(QPainter &p, const Scope &s, bool new_frame) {
+void RainbowAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame) {
 
   // Discard the second half of the transform
   const int scope_size = static_cast<int>(s.size() / 2);

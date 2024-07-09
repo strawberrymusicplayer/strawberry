@@ -39,9 +39,10 @@
 #include "analyzerbase.h"
 #include "blockanalyzer.h"
 #include "boomanalyzer.h"
+#include "turbineanalyzer.h"
+#include "sonogramanalyzer.h"
+#include "waverubberanalyzer.h"
 #include "rainbowanalyzer.h"
-#include "sonogram.h"
-#include "waverubber.h"
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
@@ -88,10 +89,11 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
 
   AddAnalyzerType<BlockAnalyzer>();
   AddAnalyzerType<BoomAnalyzer>();
-  AddAnalyzerType<NyanCatAnalyzer>();
+  AddAnalyzerType<TurbineAnalyzer>();
+  AddAnalyzerType<SonogramAnalyzer>();
+  AddAnalyzerType<WaveRubberAnalyzer>();
   AddAnalyzerType<RainbowDashAnalyzer>();
-  AddAnalyzerType<Sonogram>();
-  AddAnalyzerType<WaveRubber>();
+  AddAnalyzerType<NyanCatAnalyzer>();
 
   disable_action_ = context_menu_->addAction(tr("No analyzer"), this, &AnalyzerContainer::DisableAnalyzer);
   disable_action_->setCheckable(true);

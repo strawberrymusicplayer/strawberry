@@ -1,11 +1,6 @@
 /*
    Strawberry Music Player
-   This file was part of Clementine.
-   Copyright 2004, Melchior FRANZ <mfranz@kde.org>
-   Copyright 2009-2010, David Sansome <davidsansome@gmail.com>
-   Copyright 2014, Krzysztof Sobiecki <sobkas@gmail.com>
-   Copyright 2014, John Maguire <john.maguire@gmail.com>
-   Copyright 2015, Mark Furneaux <mark@furneaux.ca>
+   Copyright 2024, Gustavo L Conte <suporte@gu.pro.br>
 
    Strawberry is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,29 +16,26 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SONOGRAM_H
-#define SONOGRAM_H
 
 #include <QPixmap>
 #include <QPainter>
 
 #include "analyzerbase.h"
 
-class Sonogram : public AnalyzerBase {
+class WaveRubberAnalyzer : public AnalyzerBase {
   Q_OBJECT
+
  public:
-  Q_INVOKABLE explicit Sonogram(QWidget *parent);
+  Q_INVOKABLE explicit WaveRubberAnalyzer(QWidget *parent);
 
   static const char *kName;
 
  protected:
   void resizeEvent(QResizeEvent *e) override;
-  void analyze(QPainter &p, const Scope &s, bool new_frame) override;
+  void analyze(QPainter &p, const Scope &s, const bool new_frame) override;
   void transform(Scope &scope) override;
   void demo(QPainter &p) override;
 
  private:
   QPixmap canvas_;
 };
-
-#endif  // SONOGRAM_H

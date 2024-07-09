@@ -54,7 +54,7 @@ class BlockAnalyzer : public AnalyzerBase {
 
  protected:
   void transform(Scope&) override;
-  void analyze(QPainter &p, const Scope&, bool new_frame) override;
+  void analyze(QPainter &p, const Scope &s, const bool new_frame) override;
   void resizeEvent(QResizeEvent*) override;
   virtual void paletteChange(const QPalette&);
   void framerateChanged() override;

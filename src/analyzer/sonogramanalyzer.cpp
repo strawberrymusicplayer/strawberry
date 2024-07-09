@@ -26,14 +26,14 @@
 
 #include "engine/enginebase.h"
 
-#include "sonogram.h"
+#include "sonogramanalyzer.h"
 
-const char *Sonogram::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Sonogram");
+const char *SonogramAnalyzer::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Sonogram");
 
-Sonogram::Sonogram(QWidget *parent)
+SonogramAnalyzer::SonogramAnalyzer(QWidget *parent)
     : AnalyzerBase(parent, 9) {}
 
-void Sonogram::resizeEvent(QResizeEvent *e) {
+void SonogramAnalyzer::resizeEvent(QResizeEvent *e) {
 
   Q_UNUSED(e)
 
@@ -42,7 +42,7 @@ void Sonogram::resizeEvent(QResizeEvent *e) {
 
 }
 
-void Sonogram::analyze(QPainter &p, const Scope &s, bool new_frame) {
+void SonogramAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame) {
 
   if (!new_frame || engine_->state() == EngineBase::State::Paused) {
     p.drawPixmap(0, 0, canvas_);
@@ -81,7 +81,7 @@ void Sonogram::analyze(QPainter &p, const Scope &s, bool new_frame) {
 
 }
 
-void Sonogram::transform(Scope &scope) {
+void SonogramAnalyzer::transform(Scope &scope) {
 
   fht_->power2(scope.data());
   fht_->scale(scope.data(), 1.0 / 256);
@@ -89,6 +89,6 @@ void Sonogram::transform(Scope &scope) {
 
 }
 
-void Sonogram::demo(QPainter &p) {
+void SonogramAnalyzer::demo(QPainter &p) {
   analyze(p, Scope(fht_->size(), 0), new_frame_);
 }

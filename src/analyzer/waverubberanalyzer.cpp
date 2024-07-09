@@ -19,14 +19,14 @@
 #include <QPainter>
 #include <QResizeEvent>
 #include "engine/enginebase.h"
-#include "waverubber.h"
+#include "waverubberanalyzer.h"
 
-const char *WaveRubber::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "WaveRubber");
+const char *WaveRubberAnalyzer::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "WaveRubber");
 
-WaveRubber::WaveRubber(QWidget *parent)
+WaveRubberAnalyzer::WaveRubberAnalyzer(QWidget *parent)
     : AnalyzerBase(parent, 9) {}
 
-void WaveRubber::resizeEvent(QResizeEvent *e) {
+void WaveRubberAnalyzer::resizeEvent(QResizeEvent *e) {
 
   Q_UNUSED(e)
 
@@ -35,7 +35,7 @@ void WaveRubber::resizeEvent(QResizeEvent *e) {
 
 }
 
-void WaveRubber::analyze(QPainter &p, const Scope &s, const bool new_frame) {
+void WaveRubberAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame) {
 
   if (!new_frame || engine_->state() == EngineBase::State::Paused) {
     p.drawPixmap(0, 0, canvas_);
@@ -82,11 +82,11 @@ void WaveRubber::analyze(QPainter &p, const Scope &s, const bool new_frame) {
 
 }
 
-void WaveRubber::transform(Scope &s) {
+void WaveRubberAnalyzer::transform(Scope &s) {
   // No need transformation for waveform analyzer
   Q_UNUSED(s);
 }
 
-void WaveRubber::demo(QPainter &p) {
+void WaveRubberAnalyzer::demo(QPainter &p) {
   analyze(p, Scope(fht_->size(), 0), new_frame_);
 }
