@@ -332,40 +332,43 @@ void StretchHeaderView::SectionResized(const int logical_index, const int old_si
     return;
   }
 
-  if (in_mouse_move_event_) {
-    bool resized = false;
-    if (new_size >= minimumSectionSize()) {
-      // Find the visible section to the right of the section that's being resized
-      const int visual_index = visualIndex(logical_index);
-      int right_section_logical_index = -1;
-      int right_section_visual_index = -1;
-      for (int i = 0; i <= count(); ++i) {
-        if (!isSectionHidden(i) &&
-            visualIndex(i) > visual_index &&
-            (right_section_visual_index == -1 || visualIndex(i) < right_section_visual_index)) {
-          right_section_logical_index = i;
-          right_section_visual_index = visualIndex(i);
-        }
-      }
-      if (right_section_logical_index != -1) {
-        const int right_section_size = sectionSize(right_section_logical_index) + (old_size - new_size);
-        if (right_section_size >= minimumSectionSize()) {
-          column_widths_[logical_index] = static_cast<ColumnWidthType>(new_size) / width();
-          column_widths_[right_section_logical_index] = static_cast<ColumnWidthType>(right_section_size) / width();
-          in_mouse_move_event_ = false;
-          NormaliseWidths(QList<int>() << right_section_logical_index);
-          ResizeSections(QList<int>() << right_section_logical_index);
-          in_mouse_move_event_ = true;
-          resized = true;
-        }
+  if (!in_mouse_move_event_) {
+    return;
+  }
+
+  bool resized = false;
+  if (new_size >= minimumSectionSize()) {
+    // Find the visible section to the right of the section that's being resized
+    const int visual_index = visualIndex(logical_index);
+    int right_section_logical_index = -1;
+    int right_section_visual_index = -1;
+    for (int i = 0; i <= count(); ++i) {
+      if (!isSectionHidden(i) &&
+          visualIndex(i) > visual_index &&
+          (right_section_visual_index == -1 || visualIndex(i) < right_section_visual_index)) {
+        right_section_logical_index = i;
+        right_section_visual_index = visualIndex(i);
       }
     }
-    if (!resized) {
-      in_mouse_move_event_ = true;
-      forced_resize_logical_index_ = logical_index;
-      resizeSection(logical_index, old_size);
-      in_mouse_move_event_ = false;
+    if (right_section_logical_index != -1) {
+      const int right_section_size = sectionSize(right_section_logical_index) + (old_size - new_size);
+      if (right_section_size >= minimumSectionSize()) {
+        column_widths_[logical_index] = static_cast<ColumnWidthType>(new_size) / width();
+        column_widths_[right_section_logical_index] = static_cast<ColumnWidthType>(right_section_size) / width();
+        in_mouse_move_event_ = false;
+        NormaliseWidths(QList<int>() << right_section_logical_index);
+        ResizeSections(QList<int>() << right_section_logical_index);
+        in_mouse_move_event_ = true;
+        resized = true;
+      }
     }
+  }
+
+  if (!resized) {
+    forced_resize_logical_index_ = logical_index;
+    in_mouse_move_event_ = false;
+    resizeSection(logical_index, old_size);
+    in_mouse_move_event_ = true;
   }
 
 }
