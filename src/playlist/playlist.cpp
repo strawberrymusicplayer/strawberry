@@ -710,6 +710,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
 
   if (current_item_index_.isValid() && !is_stopping) {
     InformOfCurrentSongChange(false);
+    emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
     emit MaybeAutoscroll(autoscroll);
   }
 
