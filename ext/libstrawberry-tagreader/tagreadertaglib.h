@@ -64,7 +64,7 @@ class TagReaderTagLib : public TagReaderBase {
   }
 
   static inline std::string TagLibStringToStdString(const TagLib::String &s) {
-    return std::string(s.toCString(), s.length());
+    return std::string(s.toCString(true), s.length());
   }
 
   static inline TagLib::String QStringToTagLibString(const QString &s) {
