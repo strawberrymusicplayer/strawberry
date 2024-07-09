@@ -64,19 +64,17 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
 
   if (filter_text.isEmpty()) return true;
 
-  filter_text = filter_text.replace(QRegularExpression(QStringLiteral("\\s*:\\s*")), QStringLiteral(":"))
-                           .replace(QRegularExpression(QStringLiteral("\\s*=\\s*")), QStringLiteral("="))
-                           .replace(QRegularExpression(QStringLiteral("\\s*==\\s*")), QStringLiteral("=="))
-                           .replace(QRegularExpression(QStringLiteral("\\s*<>\\s*")), QStringLiteral("<>"))
-                           .replace(QRegularExpression(QStringLiteral("\\s*<\\s*")), QStringLiteral("<"))
-                           .replace(QRegularExpression(QStringLiteral("\\s*>\\s*")), QStringLiteral(">"))
-                           .replace(QRegularExpression(QStringLiteral("\\s*<=\\s*")), QStringLiteral("<="))
-                           .replace(QRegularExpression(QStringLiteral("\\s*>=\\s*")), QStringLiteral(">="));
+  for (const QString &foperator : Operators) {
+    if (filter_text.contains(foperator)) {
+      QRegularExpression regex(QStringLiteral("\\s*") + foperator + QStringLiteral("\\s*"));
+      filter_text = filter_text.replace(regex, foperator);
+    }
+  }
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-  const QStringList tokens = filter_text.split(QRegularExpression(QStringLiteral("\\s+")), Qt::SkipEmptyParts);
+  const QStringList tokens = filter_text.split(QLatin1Char(' '), Qt::SkipEmptyParts);
 #else
-  const QStringList tokens = filter_text.split(QRegularExpression(QStringLiteral("\\s+")), QString::SkipEmptyParts);
+  const QStringList tokens = filter_text.split(QLatin1Char(' '), QString::SkipEmptyParts);
 #endif
 
   filter_text.clear();
