@@ -42,7 +42,8 @@ constexpr int kMagicNumber = 0x502C9510;
 StretchHeaderView::StretchHeaderView(const Qt::Orientation orientation, QWidget *parent)
     : QHeaderView(orientation, parent),
       stretch_enabled_(false),
-      in_mouse_move_event_(false) {
+      in_mouse_move_event_(false),
+      forced_resize_logical_index_(-1) {
 
   setDefaultSectionSize(100);
   setMinimumSectionSize(30);
@@ -326,6 +327,11 @@ void StretchHeaderView::SectionResized(const int logical_index, const int old_si
     return;
   }
 
+  if (logical_index == forced_resize_logical_index_) {
+    forced_resize_logical_index_ = -1;
+    return;
+  }
+
   if (in_mouse_move_event_) {
     bool resized = false;
     if (new_size >= minimumSectionSize()) {
@@ -356,6 +362,7 @@ void StretchHeaderView::SectionResized(const int logical_index, const int old_si
     }
     if (!resized) {
       in_mouse_move_event_ = true;
+      forced_resize_logical_index_ = logical_index;
       resizeSection(logical_index, old_size);
       in_mouse_move_event_ = false;
     }
