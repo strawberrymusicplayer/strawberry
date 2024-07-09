@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (19);
+INSERT INTO schema_version (version) VALUES (20);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
