@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QSortFilterProxyModel>
 #include <QVariant>
 #include <QString>
@@ -326,7 +328,7 @@ bool CollectionFilter::FieldFloatValueMatchesData(const float value, const QStri
 
 bool CollectionFilter::ContainsOperators(const QString &token) {
 
-  for (const QString &foperator : Operators) {
+  for (const QString &foperator : std::as_const(Operators)) {
     if (token.contains(foperator, Qt::CaseInsensitive)) return true;
   }
 
