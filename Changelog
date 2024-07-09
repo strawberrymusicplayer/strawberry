@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Version 1.1.0-rc1:
+Version 1.1.0-rc2 (2024.07.09):
 
   Bugfixes:
     * Fixed crash when pressing CTRL + C (#1359).
@@ -54,6 +54,7 @@ Version 1.1.0-rc1:
     * (Windows MSVC) Add back WASAPI2.
 
   New features:
+    * Turbine analyzer.
     * WaveRubber analyzer.
     * Spotify streaming support.
 
