@@ -23,8 +23,6 @@
 
 #include <string>
 
-#include <boost/algorithm/string/trim.hpp>
-
 #include <QByteArray>
 #include <QString>
 
@@ -77,9 +75,9 @@ class TagReaderTagLib : public TagReaderBase {
 
   static inline void AssignTagLibStringToStdString(const TagLib::String &tstr, std::string *output) {
 
-    std::string stdstr = TagLibStringToStdString(tstr);
-    boost::trim(stdstr);
-    output->assign(stdstr);
+    const QString qstr = TagLibStringToQString(tstr).trimmed();
+    const QByteArray data = qstr.toUtf8();
+    output->assign(data.constData(), data.size());
 
   }
 
