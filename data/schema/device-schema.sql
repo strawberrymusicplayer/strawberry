@@ -94,9 +94,4 @@ CREATE INDEX idx_device_%deviceid_songs_album ON device_%deviceid_songs (album);
 
 CREATE INDEX idx_device_%deviceid_songs_comp_artist ON device_%deviceid_songs (compilation_effective, artist);
 
-CREATE VIRTUAL TABLE device_%deviceid_fts USING fts5(
-  ftstitle, ftsalbum, ftsartist, ftsalbumartist, ftscomposer, ftsperformer, ftsgrouping, ftsgenre, ftscomment,
-  tokenize = "unicode61 remove_diacritics 1"
-);
-
 UPDATE devices SET schema_version=5 WHERE ROWID=%deviceid;
