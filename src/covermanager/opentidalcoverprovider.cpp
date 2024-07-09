@@ -126,7 +126,10 @@ void OpenTidalCoverProvider::LoadSession() {
   }
 
   qint64 time = expires_in_ - (QDateTime::currentDateTime().toSecsSinceEpoch() - login_time_) - 30;
-  if (time < 2) time = 2000;
+  if (time < 10) {
+    have_login_ = false;
+    time = 10;
+  }
   login_timer_->setInterval(static_cast<int>(time * kMsecPerSec));
   login_timer_->start();
 
@@ -150,7 +153,21 @@ void OpenTidalCoverProvider::FlushRequests() {
 
 }
 
+void OpenTidalCoverProvider::LoginCheck() {
+
+  if (!login_in_progress_ && (!last_login_attempt_.isValid() || QDateTime::currentDateTime().toSecsSinceEpoch() - last_login_attempt_.toSecsSinceEpoch() > 120)) {
+    Login();
+  }
+
+}
+
 void OpenTidalCoverProvider::Login() {
+
+  qLog(Debug) << "Authenticating...";
+
+  if (login_timer_->isActive()) {
+    login_timer_->stop();
+  }
 
   have_login_ = false;
   login_in_progress_ = true;
@@ -230,6 +247,8 @@ void OpenTidalCoverProvider::LoginFinished(QNetworkReply *reply) {
     timer_flush_requests_->start();
   }
 
+  qLog(Debug) << "Authentication successful";
+
 }
 
 QJsonObject OpenTidalCoverProvider::ExtractJsonObj(const QByteArray &data) {
@@ -249,14 +268,20 @@ QJsonObject OpenTidalCoverProvider::ExtractJsonObj(const QByteArray &data) {
 
 QJsonObject OpenTidalCoverProvider::GetJsonObject(QNetworkReply *reply) {
 
-  if (reply->error() != QNetworkReply::NoError) {
-    qLog(Error) << "OpenTidal:" << reply->errorString() << reply->error();
-    return QJsonObject();
-  }
-
   const int http_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-  if (http_code != 200 && http_code != 207) {
-    qLog(Error) << "OpenTidal: Received HTTP code" << http_code;
+  if (reply->error() != QNetworkReply::NoError || (http_code != 200 && http_code != 207)) {
+    if (reply->error() != QNetworkReply::NoError) {
+      qLog(Error) << "OpenTidal:" << reply->errorString();
+      if (reply->error() < 200) {
+        return QJsonObject();
+      }
+      if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
+        LoginCheck();
+      }
+    }
+    else if (http_code != 200 && http_code != 207) {
+      qLog(Error) << "OpenTidal: Received HTTP code" << http_code;
+    }
     const QByteArray data = reply->readAll();
     if (data.isEmpty()) {
       return QJsonObject();
@@ -276,6 +301,9 @@ QJsonObject OpenTidalCoverProvider::GetJsonObject(QNetworkReply *reply) {
         QString code = obj[QLatin1String("code")].toString();
         QString detail = obj[QLatin1String("detail")].toString();
         qLog(Error) << "OpenTidal:" << category << code << detail;
+        if (category == QLatin1String("AUTHENTICATION_ERROR")) {
+          LoginCheck();
+        }
       }
     }
     return QJsonObject();
@@ -328,7 +356,12 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
 
   QJsonObject json_obj = GetJsonObject(reply);
   if (json_obj.isEmpty()) {
-    emit SearchFinished(search_request->id, CoverProviderSearchResults());
+    if (login_in_progress_) {
+      search_requests_queue_.prepend(search_request);
+    }
+    else {
+      emit SearchFinished(search_request->id, CoverProviderSearchResults());
+    }
     return;
   }
 

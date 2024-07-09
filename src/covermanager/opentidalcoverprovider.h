@@ -62,6 +62,7 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
 
  private:
   void LoadSession();
+  void LoginCheck();
   void Login();
   QJsonObject GetJsonObject(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(const QByteArray &data);
