@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 
 PlaylistFilter::PlaylistFilter(QObject *parent)
     : QSortFilterProxyModel(parent),
-      filter_tree_(new NopFilter),
+      filter_tree_(new PlaylistNopFilter),
       query_hash_(0) {
 
   setDynamicSortFilter(true);
@@ -89,7 +89,7 @@ bool PlaylistFilter::filterAcceptsRow(const int row, const QModelIndex &parent) 
 #endif
   if (hash != query_hash_) {
     // Parse the query
-    FilterParser p(filter_text_, column_names_, numerical_columns_);
+    PlaylistFilterParser p(filter_text_, column_names_, numerical_columns_);
     filter_tree_.reset(p.parse());
 
     query_hash_ = hash;

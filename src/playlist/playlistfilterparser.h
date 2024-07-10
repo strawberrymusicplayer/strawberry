@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,11 +32,11 @@ class QAbstractItemModel;
 class QModelIndex;
 
 // Structure for filter parse tree
-class FilterTree {
+class PlaylistFilterTree {
  public:
-  FilterTree() = default;
-  virtual ~FilterTree() {}
-  virtual bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const = 0;
+  PlaylistFilterTree() = default;
+  virtual ~PlaylistFilterTree() {}
+  virtual bool accept(const int row, const QModelIndex &parent, const QAbstractItemModel *const model) const = 0;
   enum class FilterType {
     Nop = 0,
     Or,
@@ -46,13 +47,13 @@ class FilterTree {
   };
   virtual FilterType type() = 0;
  private:
-  Q_DISABLE_COPY(FilterTree)
+  Q_DISABLE_COPY(PlaylistFilterTree)
 };
 
 // Trivial filter that accepts *anything*
-class NopFilter : public FilterTree {
+class PlaylistNopFilter : public PlaylistFilterTree {
  public:
-  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override { Q_UNUSED(row); Q_UNUSED(parent); Q_UNUSED(model); return true; }
+  bool accept(const int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override { Q_UNUSED(row); Q_UNUSED(parent); Q_UNUSED(model); return true; }
   FilterType type() override { return FilterType::Nop; }
 };
 
@@ -70,24 +71,24 @@ class NopFilter : public FilterTree {
 //     string    ::= [^:-()" ]+ | '"' [^"]+ '"'
 //     prefix    ::= '=' | '<' | '>' | '<=' | '>='
 //     col       ::= "title" | "artist" | ...
-class FilterParser {
+class PlaylistFilterParser {
  public:
-  explicit FilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols);
+  explicit PlaylistFilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols);
 
-  FilterTree *parse();
+  PlaylistFilterTree *parse();
 
  private:
   void advance();
-  FilterTree *parseOrGroup();
-  FilterTree *parseAndGroup();
+  PlaylistFilterTree *parseOrGroup();
+  PlaylistFilterTree *parseAndGroup();
   // Check if iter is at the start of 'AND' if so, step over it and return true if not, return false and leave iter where it was
   bool checkAnd();
   // Check if iter is at the start of 'OR'
-  bool checkOr(bool step_over = true);
-  FilterTree *parseSearchExpression();
-  FilterTree *parseSearchTerm();
+  bool checkOr(const bool step_over = true);
+  PlaylistFilterTree *parseSearchExpression();
+  PlaylistFilterTree *parseSearchTerm();
 
-  FilterTree *createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const;
+  PlaylistFilterTree *createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const;
 
   QString::const_iterator iter_;
   QString::const_iterator end_;

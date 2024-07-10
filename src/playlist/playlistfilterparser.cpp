@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,31 +37,31 @@
 #include "playlistfilterparser.h"
 #include "utilities/searchparserutils.h"
 
-class SearchTermComparator {
+class PlaylistSearchTermComparator {
  public:
-  SearchTermComparator() = default;
-  virtual ~SearchTermComparator() = default;
+  PlaylistSearchTermComparator() = default;
+  virtual ~PlaylistSearchTermComparator() = default;
   virtual bool Matches(const QString &element) const = 0;
  private:
-  Q_DISABLE_COPY(SearchTermComparator)
+  Q_DISABLE_COPY(PlaylistSearchTermComparator)
 };
 
 // "compares" by checking if the field contains the search term
-class DefaultComparator : public SearchTermComparator {
+class PlaylistDefaultComparator : public PlaylistSearchTermComparator {
  public:
-  explicit DefaultComparator(const QString &value) : search_term_(value) {}
+  explicit PlaylistDefaultComparator(const QString &value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.contains(search_term_);
   }
  private:
   QString search_term_;
 
-  Q_DISABLE_COPY(DefaultComparator)
+  Q_DISABLE_COPY(PlaylistDefaultComparator)
 };
 
-class EqComparator : public SearchTermComparator {
+class PlaylistEqComparator : public PlaylistSearchTermComparator {
  public:
-  explicit EqComparator(const QString &value) : search_term_(value) {}
+  explicit PlaylistEqComparator(const QString &value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return search_term_ == element;
   }
@@ -68,9 +69,9 @@ class EqComparator : public SearchTermComparator {
   QString search_term_;
 };
 
-class NeComparator : public SearchTermComparator {
+class PlaylistNeComparator : public PlaylistSearchTermComparator {
  public:
-  explicit NeComparator(const QString &value) : search_term_(value) {}
+  explicit PlaylistNeComparator(const QString &value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return search_term_ != element;
   }
@@ -78,9 +79,9 @@ class NeComparator : public SearchTermComparator {
   QString search_term_;
 };
 
-class LexicalGtComparator : public SearchTermComparator {
+class PlaylistLexicalGtComparator : public PlaylistSearchTermComparator {
  public:
-  explicit LexicalGtComparator(const QString &value) : search_term_(value) {}
+  explicit PlaylistLexicalGtComparator(const QString &value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element > search_term_;
   }
@@ -88,9 +89,9 @@ class LexicalGtComparator : public SearchTermComparator {
   QString search_term_;
 };
 
-class LexicalGeComparator : public SearchTermComparator {
+class PlaylistLexicalGeComparator : public PlaylistSearchTermComparator {
  public:
-  explicit LexicalGeComparator(const QString &value) : search_term_(value) {}
+  explicit PlaylistLexicalGeComparator(const QString &value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element >= search_term_;
   }
@@ -98,9 +99,9 @@ class LexicalGeComparator : public SearchTermComparator {
   QString search_term_;
 };
 
-class LexicalLtComparator : public SearchTermComparator {
+class PlaylistLexicalLtComparator : public PlaylistSearchTermComparator {
  public:
-  explicit LexicalLtComparator(const QString &value) : search_term_(value) {}
+  explicit PlaylistLexicalLtComparator(const QString &value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element < search_term_;
   }
@@ -108,9 +109,9 @@ class LexicalLtComparator : public SearchTermComparator {
   QString search_term_;
 };
 
-class LexicalLeComparator : public SearchTermComparator {
+class PlaylistLexicalLeComparator : public PlaylistSearchTermComparator {
  public:
-  explicit LexicalLeComparator(const QString &value) : search_term_(value) {}
+  explicit PlaylistLexicalLeComparator(const QString &value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element <= search_term_;
   }
@@ -119,9 +120,9 @@ class LexicalLeComparator : public SearchTermComparator {
 };
 
 // Float Comparators are for the rating
-class FloatEqComparator : public SearchTermComparator {
+class PlaylistFloatEqComparator : public PlaylistSearchTermComparator {
  public:
-  explicit FloatEqComparator(const float value) : search_term_(value) {}
+  explicit PlaylistFloatEqComparator(const float value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return search_term_ == element.toFloat();
   }
@@ -129,9 +130,9 @@ class FloatEqComparator : public SearchTermComparator {
   float search_term_;
 };
 
-class FloatNeComparator : public SearchTermComparator {
+class PlaylistFloatNeComparator : public PlaylistSearchTermComparator {
  public:
-  explicit FloatNeComparator(const float value) : search_term_(value) {}
+  explicit PlaylistFloatNeComparator(const float value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return search_term_ != element.toFloat();
   }
@@ -139,9 +140,9 @@ class FloatNeComparator : public SearchTermComparator {
   float search_term_;
 };
 
-class FloatGtComparator : public SearchTermComparator {
+class PlaylistFloatGtComparator : public PlaylistSearchTermComparator {
  public:
-  explicit FloatGtComparator(const float value) : search_term_(value) {}
+  explicit PlaylistFloatGtComparator(const float value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toFloat() > search_term_;
   }
@@ -149,9 +150,9 @@ class FloatGtComparator : public SearchTermComparator {
   float search_term_;
 };
 
-class FloatGeComparator : public SearchTermComparator {
+class PlaylistFloatGeComparator : public PlaylistSearchTermComparator {
  public:
-  explicit FloatGeComparator(const float value) : search_term_(value) {}
+  explicit PlaylistFloatGeComparator(const float value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toFloat() >= search_term_;
   }
@@ -159,9 +160,9 @@ class FloatGeComparator : public SearchTermComparator {
   float search_term_;
 };
 
-class FloatLtComparator : public SearchTermComparator {
+class PlaylistFloatLtComparator : public PlaylistSearchTermComparator {
  public:
-  explicit FloatLtComparator(const float value) : search_term_(value) {}
+  explicit PlaylistFloatLtComparator(const float value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toFloat() < search_term_;
   }
@@ -169,9 +170,9 @@ class FloatLtComparator : public SearchTermComparator {
   float search_term_;
 };
 
-class FloatLeComparator : public SearchTermComparator {
+class PlaylistFloatLeComparator : public PlaylistSearchTermComparator {
  public:
-  explicit FloatLeComparator(const float value) : search_term_(value) {}
+  explicit PlaylistFloatLeComparator(const float value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toFloat() <= search_term_;
   }
@@ -179,9 +180,9 @@ class FloatLeComparator : public SearchTermComparator {
   float search_term_;
 };
 
-class GtComparator : public SearchTermComparator {
+class PlaylistGtComparator : public PlaylistSearchTermComparator {
  public:
-  explicit GtComparator(const int value) : search_term_(value) {}
+  explicit PlaylistGtComparator(const int value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toInt() > search_term_;
   }
@@ -189,9 +190,9 @@ class GtComparator : public SearchTermComparator {
   int search_term_;
 };
 
-class GeComparator : public SearchTermComparator {
+class PlaylistGeComparator : public PlaylistSearchTermComparator {
  public:
-  explicit GeComparator(const int value) : search_term_(value) {}
+  explicit PlaylistGeComparator(const int value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toInt() >= search_term_;
   }
@@ -199,9 +200,9 @@ class GeComparator : public SearchTermComparator {
   int search_term_;
 };
 
-class LtComparator : public SearchTermComparator {
+class PlaylistLtComparator : public PlaylistSearchTermComparator {
  public:
-  explicit LtComparator(const int value) : search_term_(value) {}
+  explicit PlaylistLtComparator(const int value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toInt() < search_term_;
   }
@@ -209,9 +210,9 @@ class LtComparator : public SearchTermComparator {
   int search_term_;
 };
 
-class LeComparator : public SearchTermComparator {
+class PlaylistLeComparator : public PlaylistSearchTermComparator {
  public:
-  explicit LeComparator(const int value) : search_term_(value) {}
+  explicit PlaylistLeComparator(const int value) : search_term_(value) {}
   bool Matches(const QString &element) const override {
     return element.toInt() <= search_term_;
   }
@@ -222,9 +223,9 @@ class LeComparator : public SearchTermComparator {
 // The length field of the playlist (entries) contains a song's running time in nanoseconds.
 // However, We don't really care about nanoseconds, just seconds.
 // Thus, with this decorator we drop the last 9 digits, if that many are present.
-class DropTailComparatorDecorator : public SearchTermComparator {
+class PlaylistDropTailComparatorDecorator : public PlaylistSearchTermComparator {
  public:
-  explicit DropTailComparatorDecorator(SearchTermComparator *cmp) : cmp_(cmp) {}
+  explicit PlaylistDropTailComparatorDecorator(PlaylistSearchTermComparator *cmp) : cmp_(cmp) {}
 
   bool Matches(const QString &element) const override {
     if (element.length() > 9) {
@@ -235,97 +236,97 @@ class DropTailComparatorDecorator : public SearchTermComparator {
     }
   }
  private:
-  QScopedPointer<SearchTermComparator> cmp_;
+  QScopedPointer<PlaylistSearchTermComparator> cmp_;
 };
 
-class RatingComparatorDecorator : public SearchTermComparator {
+class PlaylistRatingComparatorDecorator : public PlaylistSearchTermComparator {
  public:
-  explicit RatingComparatorDecorator(SearchTermComparator *cmp) : cmp_(cmp) {}
+  explicit PlaylistRatingComparatorDecorator(PlaylistSearchTermComparator *cmp) : cmp_(cmp) {}
   bool Matches(const QString &element) const override {
     return cmp_->Matches(QString::number(lround(element.toDouble() * 10.0)));
   }
  private:
-  QScopedPointer<SearchTermComparator> cmp_;
+  QScopedPointer<PlaylistSearchTermComparator> cmp_;
 };
 
-// filter that applies a SearchTermComparator to all fields of a playlist entry
-class FilterTerm : public FilterTree {
+// Filter that applies a SearchTermComparator to all fields of a playlist entry
+class PlaylistFilterTerm : public PlaylistFilterTree {
  public:
-  explicit FilterTerm(SearchTermComparator *comparator, const QList<int> &columns) : cmp_(comparator), columns_(columns) {}
+  explicit PlaylistFilterTerm(PlaylistSearchTermComparator *comparator, const QList<int> &columns) : cmp_(comparator), columns_(columns) {}
 
-  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
-    for (int i : columns_) {
-      QModelIndex idx(model->index(row, i, parent));
+  bool accept(const int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
+    for (const int i : columns_) {
+      const QModelIndex idx = model->index(row, i, parent);
       if (cmp_->Matches(idx.data().toString().toLower())) return true;
     }
     return false;
   }
   FilterType type() override { return FilterType::Term; }
  private:
-  QScopedPointer<SearchTermComparator> cmp_;
+  QScopedPointer<PlaylistSearchTermComparator> cmp_;
   QList<int> columns_;
 };
 
-// filter that applies a SearchTermComparator to one specific field of a playlist entry
-class FilterColumnTerm : public FilterTree {
+// Filter that applies a SearchTermComparator to one specific field of a playlist entry
+class PlaylistFilterColumnTerm : public PlaylistFilterTree {
  public:
-  FilterColumnTerm(const int column, SearchTermComparator *comparator) : col(column), cmp_(comparator) {}
+  PlaylistFilterColumnTerm(const int column, PlaylistSearchTermComparator *comparator) : col(column), cmp_(comparator) {}
 
-  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
-    QModelIndex idx(model->index(row, col, parent));
+  bool accept(const int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
+    const QModelIndex idx = model->index(row, col, parent);
     return cmp_->Matches(idx.data().toString().toLower());
   }
   FilterType type() override { return FilterType::Column; }
  private:
   int col;
-  QScopedPointer<SearchTermComparator> cmp_;
+  QScopedPointer<PlaylistSearchTermComparator> cmp_;
 };
 
-class NotFilter : public FilterTree {
+class PlaylistNotFilter : public PlaylistFilterTree {
  public:
-  explicit NotFilter(const FilterTree *inv) : child_(inv) {}
+  explicit PlaylistNotFilter(const PlaylistFilterTree *inv) : child_(inv) {}
 
-  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
+  bool accept(const int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
     return !child_->accept(row, parent, model);
   }
   FilterType type() override { return FilterType::Not; }
  private:
-  QScopedPointer<const FilterTree> child_;
+  QScopedPointer<const PlaylistFilterTree> child_;
 };
 
-class OrFilter : public FilterTree {
+class PlaylistOrFilter : public PlaylistFilterTree {
  public:
-  ~OrFilter() override { qDeleteAll(children_); }
-  virtual void add(FilterTree *child) { children_.append(child); }
-  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
-    return std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return child->accept(row, parent, model); });
+  ~PlaylistOrFilter() override { qDeleteAll(children_); }
+  virtual void add(PlaylistFilterTree *child) { children_.append(child); }
+  bool accept(const int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
+    return std::any_of(children_.begin(), children_.end(), [row, parent, model](PlaylistFilterTree *child) { return child->accept(row, parent, model); });
   }
   FilterType type() override { return FilterType::Or; }
  private:
-  QList<FilterTree*> children_;
+  QList<PlaylistFilterTree*> children_;
 };
 
-class AndFilter : public FilterTree {
+class PlaylistAndFilter : public PlaylistFilterTree {
  public:
-  ~AndFilter() override { qDeleteAll(children_); }
-  virtual void add(FilterTree *child) { children_.append(child); }
-  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
-    return !std::any_of(children_.begin(), children_.end(), [row, parent, model](FilterTree *child) { return !child->accept(row, parent, model); });
+  ~PlaylistAndFilter() override { qDeleteAll(children_); }
+  virtual void add(PlaylistFilterTree *child) { children_.append(child); }
+  bool accept(const int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
+    return !std::any_of(children_.begin(), children_.end(), [row, parent, model](PlaylistFilterTree *child) { return !child->accept(row, parent, model); });
   }
   FilterType type() override { return FilterType::And; }
  private:
-  QList<FilterTree*> children_;
+  QList<PlaylistFilterTree*> children_;
 };
 
-FilterParser::FilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols) : iter_{}, end_{}, filterstring_(filter), columns_(columns), numerical_columns_(numerical_cols) {}
+PlaylistFilterParser::PlaylistFilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols) : iter_{}, end_{}, filterstring_(filter), columns_(columns), numerical_columns_(numerical_cols) {}
 
-FilterTree *FilterParser::parse() {
+PlaylistFilterTree *PlaylistFilterParser::parse() {
   iter_ = filterstring_.constBegin();
   end_ = filterstring_.constEnd();
   return parseOrGroup();
 }
 
-void FilterParser::advance() {
+void PlaylistFilterParser::advance() {
 
   while (iter_ != end_ && iter_->isSpace()) {
     ++iter_;
@@ -333,28 +334,29 @@ void FilterParser::advance() {
 
 }
 
-FilterTree *FilterParser::parseOrGroup() {
+PlaylistFilterTree *PlaylistFilterParser::parseOrGroup() {
 
   advance();
-  if (iter_ == end_) return new NopFilter;
+  if (iter_ == end_) return new PlaylistNopFilter;
 
-  OrFilter *group = new OrFilter;
+  PlaylistOrFilter *group = new PlaylistOrFilter;
   group->add(parseAndGroup());
   advance();
   while (checkOr()) {
     group->add(parseAndGroup());
     advance();
   }
+
   return group;
 
 }
 
-FilterTree *FilterParser::parseAndGroup() {
+PlaylistFilterTree *PlaylistFilterParser::parseAndGroup() {
 
   advance();
-  if (iter_ == end_) return new NopFilter;
+  if (iter_ == end_) return new PlaylistNopFilter;
 
-  AndFilter *group = new AndFilter();
+  PlaylistAndFilter *group = new PlaylistAndFilter();
   do {
     group->add(parseSearchExpression());
     advance();
@@ -369,7 +371,7 @@ FilterTree *FilterParser::parseAndGroup() {
 
 }
 
-bool FilterParser::checkAnd() {
+bool PlaylistFilterParser::checkAnd() {
 
   if (iter_ != end_) {
     if (*iter_ == QLatin1Char('A')) {
@@ -390,11 +392,12 @@ bool FilterParser::checkAnd() {
       }
     }
   }
+
   return false;
 
 }
 
-bool FilterParser::checkOr(const bool step_over) {
+bool PlaylistFilterParser::checkOr(const bool step_over) {
 
   if (!buf_.isEmpty()) {
     if (buf_ == QLatin1String("OR")) {
@@ -424,18 +427,19 @@ bool FilterParser::checkOr(const bool step_over) {
       }
     }
   }
+
   return false;
 
 }
 
-FilterTree *FilterParser::parseSearchExpression() {
+PlaylistFilterTree *PlaylistFilterParser::parseSearchExpression() {
 
   advance();
-  if (iter_ == end_) return new NopFilter;
+  if (iter_ == end_) return new PlaylistNopFilter;
   if (*iter_ == QLatin1Char('(')) {
     ++iter_;
     advance();
-    FilterTree *tree = parseOrGroup();
+    PlaylistFilterTree *tree = parseOrGroup();
     advance();
     if (iter_ != end_) {
       if (*iter_ == QLatin1Char(')')) {
@@ -446,8 +450,8 @@ FilterTree *FilterParser::parseSearchExpression() {
   }
   else if (*iter_ == QLatin1Char('-')) {
     ++iter_;
-    FilterTree *tree = parseSearchExpression();
-    if (tree->type() != FilterTree::FilterType::Nop) return new NotFilter(tree);
+    PlaylistFilterTree *tree = parseSearchExpression();
+    if (tree->type() != PlaylistFilterTree::FilterType::Nop) return new PlaylistNotFilter(tree);
     return tree;
   }
   else {
@@ -456,7 +460,7 @@ FilterTree *FilterParser::parseSearchExpression() {
 
 }
 
-FilterTree *FilterParser::parseSearchTerm() {
+PlaylistFilterTree *PlaylistFilterParser::parseSearchTerm() {
 
   QString col;
   QString search;
@@ -508,46 +512,45 @@ FilterTree *FilterParser::parseSearchTerm() {
 
 }
 
-FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const {
+PlaylistFilterTree *PlaylistFilterParser::createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const {
 
   if (search.isEmpty() && prefix != QLatin1Char('=')) {
-    return new NopFilter;
+    return new PlaylistNopFilter;
   }
-  // here comes a mess :/
-  // well, not that much of a mess, but so many options -_-
-  SearchTermComparator *cmp = nullptr;
+
+  PlaylistSearchTermComparator *cmp = nullptr;
 
   // Handle the float based Rating Column
   if (columns_[col] == static_cast<int>(Playlist::Column::Rating)) {
     float parsed_search = Utilities::ParseSearchRating(search);
 
     if (prefix == QLatin1Char('=')) {
-      cmp = new FloatEqComparator(parsed_search);
+      cmp = new PlaylistFloatEqComparator(parsed_search);
     }
     else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
-      cmp = new FloatNeComparator(parsed_search);
+      cmp = new PlaylistFloatNeComparator(parsed_search);
     }
     else if (prefix == QLatin1Char('>')) {
-      cmp = new FloatGtComparator(parsed_search);
+      cmp = new PlaylistFloatGtComparator(parsed_search);
     }
     else if (prefix == QLatin1String(">=")) {
-      cmp = new FloatGeComparator(parsed_search);
+      cmp = new PlaylistFloatGeComparator(parsed_search);
     }
     else if (prefix == QLatin1Char('<')) {
-      cmp = new FloatLtComparator(parsed_search);
+      cmp = new PlaylistFloatLtComparator(parsed_search);
     }
     else if (prefix == QLatin1String("<=")) {
-      cmp = new FloatLeComparator(parsed_search);
+      cmp = new PlaylistFloatLeComparator(parsed_search);
     }
     else {
-      cmp = new FloatEqComparator(parsed_search);
+      cmp = new PlaylistFloatEqComparator(parsed_search);
     }
   }
   else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
-    cmp = new NeComparator(search);
+    cmp = new PlaylistNeComparator(search);
   }
   else if (!col.isEmpty() && columns_.contains(col) && numerical_columns_.contains(columns_[col])) {
-    // the length column contains the time in seconds (nanoseconds, actually - the "nano" part is handled by the DropTailComparatorDecorator,  though).
+    // The length column contains the time in seconds (nanoseconds, actually - the "nano" part is handled by the DropTailComparatorDecorator,  though).
     int search_value = 0;
     if (columns_[col] == static_cast<int>(Playlist::Column::Length)) {
       search_value = Utilities::ParseSearchTime(search);
@@ -555,53 +558,53 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QSt
     else {
       search_value = search.toInt();
     }
-    // alright, back to deciding which comparator we'll use
+    // Alright, back to deciding which comparator we'll use
     if (prefix == QLatin1Char('>')) {
-      cmp = new GtComparator(search_value);
+      cmp = new PlaylistGtComparator(search_value);
     }
     else if (prefix == QLatin1String(">=")) {
-      cmp = new GeComparator(search_value);
+      cmp = new PlaylistGeComparator(search_value);
     }
     else if (prefix == QLatin1Char('<')) {
-      cmp = new LtComparator(search_value);
+      cmp = new PlaylistLtComparator(search_value);
     }
     else if (prefix == QLatin1String("<=")) {
-      cmp = new LeComparator(search_value);
+      cmp = new PlaylistLeComparator(search_value);
     }
     else {
-      // convert back because for time/rating
-      cmp = new EqComparator(QString::number(search_value));
+      // Convert back because for time/rating
+      cmp = new PlaylistEqComparator(QString::number(search_value));
     }
   }
   else {
     if (prefix == QLatin1Char('=')) {
-      cmp = new EqComparator(search);
+      cmp = new PlaylistEqComparator(search);
     }
     else if (prefix == QLatin1Char('>')) {
-      cmp = new LexicalGtComparator(search);
+      cmp = new PlaylistLexicalGtComparator(search);
     }
     else if (prefix == QLatin1String(">=")) {
-      cmp = new LexicalGeComparator(search);
+      cmp = new PlaylistLexicalGeComparator(search);
     }
     else if (prefix == QLatin1Char('<')) {
-      cmp = new LexicalLtComparator(search);
+      cmp = new PlaylistLexicalLtComparator(search);
     }
     else if (prefix == QLatin1String("<=")) {
-      cmp = new LexicalLeComparator(search);
+      cmp = new PlaylistLexicalLeComparator(search);
     }
     else {
-      cmp = new DefaultComparator(search);
+      cmp = new PlaylistDefaultComparator(search);
     }
   }
 
   if (columns_.contains(col)) {
     if (columns_[col] == static_cast<int>(Playlist::Column::Length)) {
-      cmp = new DropTailComparatorDecorator(cmp);
+      cmp = new PlaylistDropTailComparatorDecorator(cmp);
     }
-    return new FilterColumnTerm(columns_[col], cmp);
+    return new PlaylistFilterColumnTerm(columns_[col], cmp);
   }
   else {
-    return new FilterTerm(cmp, columns_.values());
+    return new PlaylistFilterTerm(cmp, columns_.values());
   }
 
 }

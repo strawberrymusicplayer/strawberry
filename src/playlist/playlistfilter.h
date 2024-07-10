@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 #include <QString>
 #include <QSortFilterProxyModel>
 
-class FilterTree;
+class PlaylistFilterTree;
 
 class PlaylistFilter : public QSortFilterProxyModel {
   Q_OBJECT
@@ -55,7 +55,7 @@ class PlaylistFilter : public QSortFilterProxyModel {
 
  private:
   // Mutable because they're modified from filterAcceptsRow() const
-  mutable QScopedPointer<FilterTree> filter_tree_;
+  mutable QScopedPointer<PlaylistFilterTree> filter_tree_;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   mutable size_t query_hash_;
 #else
