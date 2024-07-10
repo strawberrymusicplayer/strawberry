@@ -52,6 +52,7 @@
 #include "collectionmodel.h"
 #include "collectionfilter.h"
 #include "collectionquery.h"
+#include "filterparser/filterparser.h"
 #include "savedgroupingmanager.h"
 #include "collectionfilterwidget.h"
 #include "groupbydialog.h"
@@ -71,47 +72,19 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
       group_by_menu_(nullptr),
       collection_menu_(nullptr),
       group_by_group_(nullptr),
-      filter_delay_(new QTimer(this)),
+      timer_filter_delay_(new QTimer(this)),
       filter_applies_to_model_(true),
       delay_behaviour_(DelayBehaviour::DelayedOnLargeLibraries) {
 
   ui_->setupUi(this);
 
-  QString available_fields = Song::kTextSearchColumns.join(QLatin1String(", "));
-  available_fields += QLatin1String(", ") + Song::kNumericalSearchColumns.join(QLatin1String(", "));
-
-  ui_->search_field->setToolTip(
-    QLatin1String("<html><head/><body><p>") +
-    tr("Prefix a word with a field name to limit the search to that field, e.g.:") +
-    QLatin1Char(' ') +
-    QLatin1String("<span style=\"font-weight:600;\">") +
-    tr("artist") +
-    QLatin1String(":</span><span style=\"font-style:italic;\">Strawbs</span> ") +
-    tr("searches the collection for all artists that contain the word %1. ").arg(QLatin1String("Strawbs")) +
-    QLatin1String("</p><p>") +
-    tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")
-      .arg(QLatin1String(" =, !=, &lt;, &gt;, &lt;="), QLatin1String("&gt;=")) +
-    QLatin1String("<span style=\"font-weight:600;\">") +
-    tr("rating") +
-    QLatin1String("</span>") +
-    QLatin1String(":>=") +
-    QLatin1String("<span style=\"font-weight:italic;\">4</span>") +
-
-    QLatin1String("</p><p><span style=\"font-weight:600;\">") +
-    tr("Available fields") +
-    QLatin1String(": ") +
-    QLatin1String("</span>") +
-    QLatin1String("<span style=\"font-style:italic;\">") +
-    available_fields +
-    QLatin1String("</span>.") +
-    QLatin1String("</p></body></html>")
-  );
+  ui_->search_field->setToolTip(FilterParser::ToolTip());
 
   QObject::connect(ui_->search_field, &QSearchField::returnPressed, this, &CollectionFilterWidget::ReturnPressed);
-  QObject::connect(filter_delay_, &QTimer::timeout, this, &CollectionFilterWidget::FilterDelayTimeout);
+  QObject::connect(timer_filter_delay_, &QTimer::timeout, this, &CollectionFilterWidget::FilterDelayTimeout);
 
-  filter_delay_->setInterval(kFilterDelay);
-  filter_delay_->setSingleShot(true);
+  timer_filter_delay_->setInterval(kFilterDelay);
+  timer_filter_delay_->setSingleShot(true);
 
   // Icons
   ui_->options->setIcon(IconLoader::Load(QStringLiteral("configure")));
@@ -529,10 +502,10 @@ void CollectionFilterWidget::FilterTextChanged(const QString &text) {
   const bool delay = (delay_behaviour_ == DelayBehaviour::AlwaysDelayed) || (delay_behaviour_ == DelayBehaviour::DelayedOnLargeLibraries && !text.isEmpty() && text.length() < 3 && model_->total_song_count() >= 100000);
 
   if (delay) {
-    filter_delay_->start();
+    timer_filter_delay_->start();
   }
   else {
-    filter_delay_->stop();
+    timer_filter_delay_->stop();
     FilterDelayTimeout();
   }
 
@@ -541,7 +514,7 @@ void CollectionFilterWidget::FilterTextChanged(const QString &text) {
 void CollectionFilterWidget::FilterDelayTimeout() {
 
   if (filter_applies_to_model_) {
-    filter_->setFilterFixedString(ui_->search_field->text());
+    filter_->SetFilterString(ui_->search_field->text());
   }
 
 }

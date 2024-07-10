@@ -58,8 +58,10 @@ set(SOURCES
   utilities/filemanagerutils.cpp
   utilities/coverutils.cpp
   utilities/screenutils.cpp
-  utilities/searchparserutils.cpp
   utilities/textencodingutils.cpp
+
+  filterparser/filterparser.cpp
+  filterparser/filtertree.cpp
 
   engine/enginebase.cpp
   engine/enginedevice.cpp
@@ -106,7 +108,6 @@ set(SOURCES
   playlist/playlistcontainer.cpp
   playlist/playlistdelegates.cpp
   playlist/playlistfilter.cpp
-  playlist/playlistfilterparser.cpp
   playlist/playlistheader.cpp
   playlist/playlistitem.cpp
   playlist/playlistlistcontainer.cpp

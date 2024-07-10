@@ -128,7 +128,7 @@ class CollectionFilterWidget : public QWidget {
   QActionGroup *group_by_group_;
   QHash<QAction*, int> filter_max_ages_;
 
-  QTimer *filter_delay_;
+  QTimer *timer_filter_delay_;
 
   bool filter_applies_to_model_;
   DelayBehaviour delay_behaviour_;

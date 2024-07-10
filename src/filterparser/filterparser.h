@@ -3,6 +3,7 @@
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
  * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2023, Daniel Ostertag <daniel.ostertag@dakes.de>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,47 +20,17 @@
  *
  */
 
-#ifndef PLAYLISTFILTERPARSER_H
-#define PLAYLISTFILTERPARSER_H
+#ifndef FILTERPARSER_H
+#define FILTERPARSER_H
 
 #include "config.h"
 
-#include <QSet>
-#include <QMap>
 #include <QString>
 
-class QAbstractItemModel;
-class QModelIndex;
-
-// Structure for filter parse tree
-class PlaylistFilterTree {
- public:
-  PlaylistFilterTree() = default;
-  virtual ~PlaylistFilterTree() {}
-  virtual bool accept(const int row, const QModelIndex &parent, const QAbstractItemModel *const model) const = 0;
-  enum class FilterType {
-    Nop = 0,
-    Or,
-    And,
-    Not,
-    Column,
-    Term
-  };
-  virtual FilterType type() = 0;
- private:
-  Q_DISABLE_COPY(PlaylistFilterTree)
-};
-
-// Trivial filter that accepts *anything*
-class PlaylistNopFilter : public PlaylistFilterTree {
- public:
-  bool accept(const int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override { Q_UNUSED(row); Q_UNUSED(parent); Q_UNUSED(model); return true; }
-  FilterType type() override { return FilterType::Nop; }
-};
-
+class FilterTree;
 
 // A utility class to parse search filter strings into a decision tree
-// that can decide whether a playlist entry matches the filter.
+// that can decide whether a song matches the filter.
 //
 // Here's a grammar describing the filters we expect:
 //   　expr      ::= or-group
@@ -71,31 +42,35 @@ class PlaylistNopFilter : public PlaylistFilterTree {
 //     string    ::= [^:-()" ]+ | '"' [^"]+ '"'
 //     prefix    ::= '=' | '<' | '>' | '<=' | '>='
 //     col       ::= "title" | "artist" | ...
-class PlaylistFilterParser {
+class FilterParser {
  public:
-  explicit PlaylistFilterParser(const QString &filter, const QMap<QString, int> &columns, const QSet<int> &numerical_cols);
+  explicit FilterParser(const QString &filter_string);
 
-  PlaylistFilterTree *parse();
+  FilterTree *parse();
 
- private:
+  static QString ToolTip();
+
+ protected:
   void advance();
-  PlaylistFilterTree *parseOrGroup();
-  PlaylistFilterTree *parseAndGroup();
   // Check if iter is at the start of 'AND' if so, step over it and return true if not, return false and leave iter where it was
   bool checkAnd();
   // Check if iter is at the start of 'OR'
   bool checkOr(const bool step_over = true);
-  PlaylistFilterTree *parseSearchExpression();
-  PlaylistFilterTree *parseSearchTerm();
 
-  PlaylistFilterTree *createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const;
+  FilterTree *parseOrGroup();
+  FilterTree *parseAndGroup();
+  FilterTree *parseSearchExpression();
+  FilterTree *parseSearchTerm();
 
+  FilterTree *createSearchTermTreeNode(const QString &column, const QString &prefix, const QString &value) const;
+
+  static qint64 ParseTime(const QString &time_str);
+  static float ParseRating(const QString &rating_str);
+
+  const QString filter_string_;
   QString::const_iterator iter_;
   QString::const_iterator end_;
   QString buf_;
-  const QString filterstring_;
-  const QMap<QString, int> columns_;
-  const QSet<int> numerical_columns_;
 };
 
-#endif  // PLAYLISTFILTERPARSER_H
+#endif  // FILTERPARSER_H

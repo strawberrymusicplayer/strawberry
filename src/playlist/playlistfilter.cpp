@@ -23,53 +23,19 @@
 
 #include <QObject>
 #include <QString>
-#include <QAbstractItemModel>
-#include <QSortFilterProxyModel>
 
 #include "playlist/playlist.h"
+#include "playlist/playlistitem.h"
+#include "filterparser/filterparser.h"
+#include "filterparser/filtertree.h"
 #include "playlistfilter.h"
-#include "playlistfilterparser.h"
 
 PlaylistFilter::PlaylistFilter(QObject *parent)
     : QSortFilterProxyModel(parent),
-      filter_tree_(new PlaylistNopFilter),
+      filter_tree_(new NopFilter),
       query_hash_(0) {
 
   setDynamicSortFilter(true);
-
-  column_names_[QStringLiteral("title")] = static_cast<int>(Playlist::Column::Title);
-  column_names_[QStringLiteral("name")] = static_cast<int>(Playlist::Column::Title);
-  column_names_[QStringLiteral("artist")] = static_cast<int>(Playlist::Column::Artist);
-  column_names_[QStringLiteral("album")] = static_cast<int>(Playlist::Column::Album);
-  column_names_[QStringLiteral("albumartist")] = static_cast<int>(Playlist::Column::AlbumArtist);
-  column_names_[QStringLiteral("performer")] = static_cast<int>(Playlist::Column::Performer);
-  column_names_[QStringLiteral("composer")] = static_cast<int>(Playlist::Column::Composer);
-  column_names_[QStringLiteral("year")] = static_cast<int>(Playlist::Column::Year);
-  column_names_[QStringLiteral("originalyear")] = static_cast<int>(Playlist::Column::OriginalYear);
-  column_names_[QStringLiteral("track")] = static_cast<int>(Playlist::Column::Track);
-  column_names_[QStringLiteral("disc")] = static_cast<int>(Playlist::Column::Disc);
-  column_names_[QStringLiteral("length")] = static_cast<int>(Playlist::Column::Length);
-  column_names_[QStringLiteral("genre")] = static_cast<int>(Playlist::Column::Genre);
-  column_names_[QStringLiteral("samplerate")] = static_cast<int>(Playlist::Column::Samplerate);
-  column_names_[QStringLiteral("bitdepth")] = static_cast<int>(Playlist::Column::Bitdepth);
-  column_names_[QStringLiteral("bitrate")] = static_cast<int>(Playlist::Column::Bitrate);
-  column_names_[QStringLiteral("filename")] = static_cast<int>(Playlist::Column::Filename);
-  column_names_[QStringLiteral("grouping")] = static_cast<int>(Playlist::Column::Grouping);
-  column_names_[QStringLiteral("comment")] = static_cast<int>(Playlist::Column::Comment);
-  column_names_[QStringLiteral("rating")] = static_cast<int>(Playlist::Column::Rating);
-  column_names_[QStringLiteral("playcount")] = static_cast<int>(Playlist::Column::PlayCount);
-  column_names_[QStringLiteral("skipcount")] = static_cast<int>(Playlist::Column::SkipCount);
-
-  numerical_columns_ << static_cast<int>(Playlist::Column::Year)
-                     << static_cast<int>(Playlist::Column::OriginalYear)
-                     << static_cast<int>(Playlist::Column::Track)
-                     << static_cast<int>(Playlist::Column::Disc)
-                     << static_cast<int>(Playlist::Column::Length)
-                     << static_cast<int>(Playlist::Column::Samplerate)
-                     << static_cast<int>(Playlist::Column::Bitdepth)
-                     << static_cast<int>(Playlist::Column::Bitrate)
-                     << static_cast<int>(Playlist::Column::PlayCount)
-                     << static_cast<int>(Playlist::Column::SkipCount);
 
 }
 
@@ -80,29 +46,35 @@ void PlaylistFilter::sort(int column, Qt::SortOrder order) {
   sourceModel()->sort(column, order);
 }
 
-bool PlaylistFilter::filterAcceptsRow(const int row, const QModelIndex &parent) const {
+bool PlaylistFilter::filterAcceptsRow(const int source_row, const QModelIndex &source_parent) const {
+
+  Playlist *playlist = qobject_cast<Playlist*>(sourceModel());
+  if (!playlist) return false;
+  const QModelIndex idx = sourceModel()->index(source_row, 0, source_parent);
+  if (!idx.isValid()) return false;
+  PlaylistItemPtr item = playlist->item_at(idx.row());
+  if (!item) return false;
+
+  if (filter_string_.isEmpty()) return true;
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  size_t hash = qHash(filter_text_);
+  const size_t hash = qHash(filter_string_);
 #else
-  uint hash = qHash(filter_text_);
+  const uint hash = qHash(filter_string_);
 #endif
   if (hash != query_hash_) {
-    // Parse the query
-    PlaylistFilterParser p(filter_text_, column_names_, numerical_columns_);
+    FilterParser p(filter_string_);
     filter_tree_.reset(p.parse());
-
     query_hash_ = hash;
   }
 
-  // Test the row
-  return filter_tree_->accept(row, parent, sourceModel());
+  return filter_tree_->accept(item->Metadata());
 
 }
 
-void PlaylistFilter::SetFilterText(const QString &filter_text) {
+void PlaylistFilter::SetFilterString(const QString &filter_string) {
 
-  filter_text_ = filter_text;
-  setFilterFixedString(filter_text);
+  filter_string_ = filter_string;
+  setFilterFixedString(filter_string);
 
 }

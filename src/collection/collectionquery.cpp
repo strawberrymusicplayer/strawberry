@@ -35,7 +35,6 @@
 
 #include "collectionquery.h"
 #include "collectionfilteroptions.h"
-#include "utilities/searchparserutils.h"
 
 CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const CollectionFilterOptions &filter_options)
     : SqlQuery(db),

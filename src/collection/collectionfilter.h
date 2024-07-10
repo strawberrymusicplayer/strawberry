@@ -22,16 +22,10 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
 #include <QSortFilterProxyModel>
-#include <QVariant>
-#include <QString>
-#include <QStringList>
+#include <QScopedPointer>
 
-#include "core/song.h"
-
-class CollectionItem;
+#include "filterparser/filtertree.h"
 
 class CollectionFilter : public QSortFilterProxyModel {
   Q_OBJECT
@@ -39,30 +33,20 @@ class CollectionFilter : public QSortFilterProxyModel {
  public:
   explicit CollectionFilter(QObject *parent = nullptr);
 
+  void SetFilterString(const QString &filter_string);
+  QString filter_string() const { return filter_string_; }
+
  protected:
   bool filterAcceptsRow(const int source_row, const QModelIndex &source_parent) const override;
 
  private:
-  static const QStringList Operators;
-  struct Filter {
-   public:
-    Filter(const QString &_field = QString(), const QVariant &_value = QVariant(), const QString &_foperator = QString()) : field(_field), value(_value), foperator(_foperator) {}
-    QString field;
-    QVariant value;
-    QString foperator;
-  };
-  using FilterList = QMap<QString, Filter>;
-  static bool ItemMetadataMatchesFilters(const Song &metadata, const FilterList &filters, const QStringList &filter_strings);
-  static bool ItemMetadataMatchesFilterText(const Song &metadata, const QStringList &filter_strings);
-  static QVariant DataFromField(const QString &field, const Song &metadata);
-  static bool FieldValueMatchesData(const QVariant &value, const QVariant &data, const QString &foperator);
-  template<typename T>
-  static bool FieldNumericalValueMatchesData(const T value, const QString &foperator, const T data);
-  static bool FieldIntValueMatchesData(const int value, const QString &foperator, const int data);
-  static bool FieldUIntValueMatchesData(const uint value, const QString &foperator, const uint data);
-  static bool FieldLongLongValueMatchesData(const qint64 value, const QString &foperator, const qint64 data);
-  static bool FieldFloatValueMatchesData(const float value, const QString &foperator, const float data);
-  static bool ContainsOperators(const QString &token);
+  mutable QScopedPointer<FilterTree> filter_tree_;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  mutable size_t query_hash_;
+#else
+  mutable uint query_hash_;
+#endif
+  QString filter_string_;
 };
 
 #endif  // COLLECTIONFILTER_H
