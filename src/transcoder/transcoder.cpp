@@ -90,7 +90,7 @@ struct SuitableElement {
 
 };
 
-GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, const QString &mime_type, GstElement *bin) {
+GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType element_type, const QString &mime_type, GstElement *bin) {
 
   if (mime_type.isEmpty()) return nullptr;
 
@@ -113,31 +113,15 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
     GstElementFactory *factory = GST_ELEMENT_FACTORY(f->data);
 
     // Is this the right type of plugin?
-    if (QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS)).contains(element_type)) {
-      const GList *const templates = gst_element_factory_get_static_pad_templates(factory);
-      for (const GList *t = templates; t; t = g_list_next(t)) {
-        // Only interested in source pads
-        GstStaticPadTemplate *pad_template = reinterpret_cast<GstStaticPadTemplate*>(t->data);
-        if (pad_template->direction != GST_PAD_SRC) continue;
-
-        // Does this pad support the mime type we want?
-        GstCaps *caps = gst_static_pad_template_get_caps(pad_template);
-        GstCaps *intersection = gst_caps_intersect(caps, target_caps);
-        gst_caps_unref(caps);
-
-        if (intersection) {
-          if (!gst_caps_is_empty(intersection)) {
-            int rank = static_cast<int>(gst_plugin_feature_get_rank(GST_PLUGIN_FEATURE(factory)));
-            const QString name = QString::fromUtf8(GST_OBJECT_NAME(factory));
-
-            if (name.startsWith(QLatin1String("ffmux")) || name.startsWith(QLatin1String("ffenc"))) {
-              rank = -1;  // ffmpeg usually sucks
-            }
-
-            suitable_elements_ << SuitableElement(name, rank);
-          }
-          gst_caps_unref(intersection);
+    if (gst_element_factory_list_is_type(factory, element_type)) {
+      // check if the element factory supports the target caps
+      if (gst_element_factory_can_src_any_caps(factory, target_caps)) {
+        const QString name = QString::fromUtf8(GST_OBJECT_NAME(factory));
+        int rank = static_cast<int>(gst_plugin_feature_get_rank(GST_PLUGIN_FEATURE(factory)));
+        if (name.startsWith(QLatin1String("avmux")) || name.startsWith(QLatin1String("avenc"))) {
+          rank = -1;  // ffmpeg usually sucks
         }
+        suitable_elements_ << SuitableElement(name, rank);
       }
     }
   }
@@ -432,8 +416,8 @@ bool Transcoder::StartJob(const Job &job) {
   GstElement *decode   = CreateElement(QStringLiteral("decodebin"), state->pipeline_);
   GstElement *convert  = CreateElement(QStringLiteral("audioconvert"), state->pipeline_);
   GstElement *resample = CreateElement(QStringLiteral("audioresample"), state->pipeline_);
-  GstElement *codec    = CreateElementForMimeType(QStringLiteral("Codec/Encoder/Audio"), job.preset.codec_mimetype_, state->pipeline_);
-  GstElement *muxer    = CreateElementForMimeType(QStringLiteral("Codec/Muxer"), job.preset.muxer_mimetype_, state->pipeline_);
+  GstElement *codec    = CreateElementForMimeType(GST_ELEMENT_FACTORY_TYPE_AUDIO_ENCODER, job.preset.codec_mimetype_, state->pipeline_);
+  GstElement *muxer    = CreateElementForMimeType(GST_ELEMENT_FACTORY_TYPE_MUXER, job.preset.muxer_mimetype_, state->pipeline_);
   GstElement *sink     = CreateElement(QStringLiteral("filesink"), state->pipeline_);
 
   if (!src || !decode || !convert || !sink) return false;
