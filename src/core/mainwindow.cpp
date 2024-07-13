@@ -1071,17 +1071,25 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #endif
 
   {
+    bool asked_permission = true;
     Settings s;
-    s.beginGroup(kSettingsGroup);
-    constexpr char do_not_show_sponsor_message_key[] = "do_not_show_sponsor_message";
-    const bool do_not_show_sponsor_message = s.value(do_not_show_sponsor_message_key, false).toBool();
+#ifdef HAVE_QTSPARKLE
+    s.beginGroup("QtSparkle");
+    asked_permission = s.value("asked_permission", false).toBool();
     s.endGroup();
-    if (!do_not_show_sponsor_message) {
-      MessageDialog *sponsor_message = new MessageDialog(this);
-      sponsor_message->set_settings_group(QLatin1String(kSettingsGroup));
-      sponsor_message->set_do_not_show_message_again(QLatin1String(do_not_show_sponsor_message_key));
-      sponsor_message->setAttribute(Qt::WA_DeleteOnClose);
-      sponsor_message->ShowMessage(tr("Sponsoring Strawberry"), tr("Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1").arg(QStringLiteral("<a href= \"https://www.strawberrymusicplayer.org/\">www.strawberrymusicplayer.org</a>")), IconLoader::Load(QStringLiteral("dialog-information")));
+#endif
+    if (asked_permission) {
+      s.beginGroup(kSettingsGroup);
+      constexpr char do_not_show_sponsor_message_key[] = "do_not_show_sponsor_message";
+      const bool do_not_show_sponsor_message = s.value(do_not_show_sponsor_message_key, false).toBool();
+      s.endGroup();
+      if (!do_not_show_sponsor_message) {
+        MessageDialog *sponsor_message = new MessageDialog(this);
+        sponsor_message->set_settings_group(QLatin1String(kSettingsGroup));
+        sponsor_message->set_do_not_show_message_again(QLatin1String(do_not_show_sponsor_message_key));
+        sponsor_message->setAttribute(Qt::WA_DeleteOnClose);
+        sponsor_message->ShowMessage(tr("Sponsoring Strawberry"), tr("Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1").arg(QStringLiteral("<a href= \"https://www.strawberrymusicplayer.org/\">www.strawberrymusicplayer.org</a>")), IconLoader::Load(QStringLiteral("dialog-information")));
+      }
     }
   }
 
