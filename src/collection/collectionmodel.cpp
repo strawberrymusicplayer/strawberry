@@ -1316,7 +1316,7 @@ QString CollectionModel::ContainerKey(const GroupBy group_by, const Song &song, 
   }
 
   // Make sure we distinguish albums by different artists if the parent group by is not including artist.
-  if (IsAlbumGroupBy(group_by) && !has_unique_album_identifier && !song.effective_albumartist().isEmpty()) {
+  if (IsAlbumGroupBy(group_by) && !has_unique_album_identifier && !song.is_compilation() && !song.effective_albumartist().isEmpty()) {
     key.prepend(QLatin1Char('-'));
     key.prepend(TextOrUnknown(song.effective_albumartist()));
     has_unique_album_identifier = true;
