@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Version 1.1.0-rc4 (2024.07.10):
+Version 1.1.0 (2024.07.14):
 
   Bugfixes:
     * Fixed crash when pressing CTRL + C (#1359).
