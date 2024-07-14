@@ -64,7 +64,7 @@ Funding developers is a way to contribute to open source projects you appreciate
 
 It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
 
-**macOS releases are currently limited to sponsors. This is because Strawberry mainly has one contributor/developer and supporting macOS requires Apple hardware, building libraries Strawberry depends and a Apple developer account for signing releases. If you are sponsoring strawberry through Patreon, releases are available directly on Patreon, if you are sponsoring through GitHub, Ko-fi or Paypal, please e-mail support@strawberrymusicplayer.org for access to downloads.**
+**Access to macOS and Windows releases are currently restricted to sponsors, a 5 USD monthly sponsorship is required. You can sponsor strawberry through <a href="https://www.patreon.com/jonaskvinge">Patreon</a> for direct access to new releases. If you are sponsoring through GitHub, Ko-fi or PayPal, please e-mail support AT strawberrymusicplayer.org for access to downloads.**
 
 ### :heavy_exclamation_mark: Requirements
 
