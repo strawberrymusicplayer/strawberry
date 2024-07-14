@@ -28,14 +28,13 @@ Version 1.1.0-rc4 (2024.07.10):
     * Only use playbin3 with GStreamer 1.24 and higher, not with GStreamer 1.22 or lower.
     * (macOS/Windows) Fixed dash and hls streaming, plugins were missing.
     * (Windows) Fixed incorrect colors in smart playlist wizard with Fusion in dark mode (#1399).
+    * (Windows) Fixed update window blocking sponsor window on startup.
 
   Enhancements:
     * Improve error messages when connecting and copying to devices.
     * Allow enter to be used with multiselection to add songs to playlist (#1360)
     * Add song progress to taskbar using D-Bus.
     * Use API to receive Radio Paradise channels.
-    * Added letras lyrics provider.
-    * Added Open Tidal API (openapi.tidal.com) cover provider.
     * Added button for fetching lyrics to tag editor (#1391).
     * Added option not to skip "A", "An" and "The” when sorting artist names in collection (#1393).
     * Improved album and title disc, remastered, etc matching and stripping (#1387).
@@ -54,6 +53,8 @@ Version 1.1.0-rc4 (2024.07.10):
     * (Windows MSVC) Add back WASAPI2.
 
   New features:
+    * Letras lyrics provider.
+    * Open Tidal API (openapi.tidal.com) cover provider.
     * Turbine analyzer.
     * WaveRubber analyzer.
     * Spotify streaming support.
