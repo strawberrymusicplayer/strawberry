@@ -100,8 +100,6 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
 
   filter_->setSourceModel(this);
   filter_->setSortRole(Role_SortText);
-  filter_->setDynamicSortFilter(true);
-  filter_->setSortLocaleAware(true);
   filter_->sort(0);
 
   if (app_) {

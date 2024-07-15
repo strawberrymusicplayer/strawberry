@@ -52,7 +52,6 @@ class CollectionFilter : public QSortFilterProxyModel {
     QString foperator;
   };
   using FilterList = QMap<QString, Filter>;
-  static bool ItemMatchesFilters(CollectionItem *item, const FilterList &filters, const QString &filter_text);
   static bool ItemMetadataMatchesFilters(const Song &metadata, const FilterList &filters, const QString &filter_text);
   static bool ItemMetadataMatchesFilterText(const Song &metadata, const QString &filter_text);
   static QVariant DataFromField(const QString &field, const Song &metadata);

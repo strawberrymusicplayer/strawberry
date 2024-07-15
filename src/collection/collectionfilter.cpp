@@ -43,7 +43,13 @@ const QStringList CollectionFilter::Operators = QStringList() << QStringLiteral(
                                                               << QStringLiteral(">")
                                                               << QStringLiteral(">=");
 
-CollectionFilter::CollectionFilter(QObject *parent) : QSortFilterProxyModel(parent) {}
+CollectionFilter::CollectionFilter(QObject *parent) : QSortFilterProxyModel(parent) {
+
+  setSortLocaleAware(true);
+  setDynamicSortFilter(true);
+  setRecursiveFilteringEnabled(true);
+
+}
 
 bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex &source_parent) const {
 
@@ -54,7 +60,9 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
   CollectionItem *item = model->IndexToItem(idx);
   if (!item) return false;
 
-  if (item->type == CollectionItem::Type::LoadingIndicator) return true;
+  if (item->type != CollectionItem::Type::Song) {
+    return item->type == CollectionItem::Type::LoadingIndicator;
+  }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QString filter_text = filterRegularExpression().pattern().remove(QLatin1Char('\\'));
@@ -65,9 +73,11 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
   if (filter_text.isEmpty()) return true;
 
   for (const QString &foperator : Operators) {
-    if (filter_text.contains(foperator)) {
-      QRegularExpression regex(QStringLiteral("\\s*") + foperator + QStringLiteral("\\s*"));
-      filter_text = filter_text.replace(regex, foperator);
+    if (filter_text.contains(foperator + QLatin1Char(' '))) {
+      filter_text = filter_text.replace(foperator + QLatin1Char(' '), foperator);
+    }
+    if (filter_text.contains(QLatin1Char(' ') + foperator)) {
+      filter_text = filter_text.replace(QLatin1Char(' ') + foperator, foperator);
     }
   }
 
@@ -156,23 +166,7 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
 
   if (filter_text.isEmpty() && filters.isEmpty()) return true;
 
-  return ItemMatchesFilters(item, filters, filter_text);
-
-}
-
-bool CollectionFilter::ItemMatchesFilters(CollectionItem *item, const FilterList &filters, const QString &filter_text) {
-
- if (item->type == CollectionItem::Type::Song &&
-     item->metadata.is_valid() &&
-     ItemMetadataMatchesFilters(item->metadata, filters, filter_text)) {
-    return true;
- }
-
-  for (CollectionItem *child : std::as_const(item->children)) {
-    if (ItemMatchesFilters(child, filters, filter_text)) return true;
-  }
-
-  return false;
+  return item->metadata.is_valid() && ItemMetadataMatchesFilters(item->metadata, filters, filter_text);
 
 }
 
