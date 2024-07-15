@@ -389,12 +389,13 @@ QVariant CollectionModel::data(const CollectionItem *item, const int role) const
 Qt::ItemFlags CollectionModel::flags(const QModelIndex &idx) const {
 
   switch (IndexToItem(idx)->type) {
-    case CollectionItem::Type::Song:
-    case CollectionItem::Type::Container:
-      return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
-    case CollectionItem::Type::Divider:
-    case CollectionItem::Type::Root:
     case CollectionItem::Type::LoadingIndicator:
+    case CollectionItem::Type::Divider:
+      return Qt::ItemIsEnabled | Qt::ItemNeverHasChildren;
+    case CollectionItem::Type::Container:
+    case CollectionItem::Type::Song:
+      return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
+    case CollectionItem::Type::Root:
     default:
       return Qt::ItemIsEnabled;
   }
