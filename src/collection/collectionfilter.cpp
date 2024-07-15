@@ -60,10 +60,6 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
   CollectionItem *item = model->IndexToItem(idx);
   if (!item) return false;
 
-  if (item->type != CollectionItem::Type::Song) {
-    return item->type == CollectionItem::Type::LoadingIndicator;
-  }
-
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QString filter_text = filterRegularExpression().pattern().remove(QLatin1Char('\\'));
 #else
@@ -71,6 +67,10 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
 #endif
 
   if (filter_text.isEmpty()) return true;
+
+  if (item->type != CollectionItem::Type::Song) {
+    return item->type == CollectionItem::Type::LoadingIndicator;
+  }
 
   for (const QString &foperator : Operators) {
     if (filter_text.contains(foperator + QLatin1Char(' '))) {
