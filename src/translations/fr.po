@@ -49,8 +49,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2023-12-11 11:29-0500\n"
-"Last-Translator: Wedone <wedoneofficiel@outlook.fr>\n"
+"PO-Revision-Date: 2024-07-15 19:44+0200\n"
+"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -1886,7 +1886,7 @@ msgstr "Destination"
 #: core/filesystemmusicstorage.cpp:92
 #, qt-format
 msgid "Destination file %1 exists, but not allowed to overwrite"
-msgstr "Le fichier de destination %1 existe, mais il n'est pas autorisé à l'écraser."
+msgstr "Le fichier de destination %1 existe, mais il n'est pas autorisé à l'écraser"
 
 #: core/filesystemmusicstorage.cpp:73
 #, qt-format
@@ -2257,7 +2257,7 @@ msgstr "Erreur lors de la connexion au périphérique MTP %1"
 #: device/mtploader.cpp:77
 #, qt-format
 msgid "Error connecting MTP device %1: %2"
-msgstr "Erreur de connexion du dispositif MTP %1 : %2"
+msgstr "Erreur lors de la connexion au périphérique MTP %1 : %2"
 
 #: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
@@ -2973,7 +2973,7 @@ msgstr "Introduction des pistes"
 #: device/mtpconnection.cpp:57
 #, qt-format
 msgid "Invalid MTP device: %1"
-msgstr "Dispositif MTP non valide : %1"
+msgstr "Périphérique MTP non valide : %1"
 
 #: scrobbler/scrobblingapi20.cpp:254
 msgid "Invalid reply from web browser. Missing token."
@@ -3211,7 +3211,7 @@ msgstr "Fournisseurs des paroles"
 
 #: ../build/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token (Recommended)"
-msgstr ""
+msgstr "Jeton MD5 (recommandé)"
 
 #: ../build/src/ui_transcodersettingspage.h:194
 msgid "MP3"
@@ -3219,12 +3219,12 @@ msgstr "MP3"
 
 #: device/mtpconnection.cpp:100
 msgid "MTP device not found."
-msgstr ""
+msgstr "Périphérique MTP non trouvé."
 
 #: device/mtpconnection.cpp:86
 #, qt-format
 msgid "MTP error: %1"
-msgstr ""
+msgstr "Erreur MTP : %1"
 
 #: ../build/src/ui_transcoderoptionsaac.h:135
 msgid "Main profile (MAIN)"
@@ -3442,7 +3442,7 @@ msgid ""
 "as well as grouped with parentheses. "
 msgstr ""
 "Plusieurs termes de recherche peuvent également être combinés avec \"%1\" "
-"(par défaut) et \"%2\", ainsi que regroupés entre parenthèses."
+"(par défaut) et \"%2\", ainsi que regroupés entre parenthèses. "
 
 #: core/mainwindow.cpp:2275 transcoder/transcodedialog.cpp:325
 msgid "Music"
@@ -3612,7 +3612,7 @@ msgstr "Déconnecté"
 
 #: dialogs/edittagdialog.cpp:1438
 msgid "Not found."
-msgstr "Non trouvé"
+msgstr "Non trouvé."
 
 #: device/deviceview.cpp:135
 msgid "Not mounted - double click to mount"
@@ -4677,7 +4677,7 @@ msgid ""
 "the search, e.g.: "
 msgstr ""
 "Les termes de recherche pour les champs numériques peuvent être préfixés par "
-"%1 ou %2 pour affiner la recherche, par exemple :"
+"%1 ou %2 pour affiner la recherche, par exemple : "
 
 #: tidal/tidalrequest.cpp:369 tidal/tidalrequest.cpp:383
 #: tidal/tidalrequest.cpp:397 qobuz/qobuzrequest.cpp:357
@@ -5011,6 +5011,8 @@ msgstr "Lire la piste suivante"
 #: ../build/src/ui_collectionsettingspage.h:450
 msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
 msgstr ""
+"Ignorer les articles principaux (« le », « un », « une ») lors du tri des noms "
+"d'artistes"
 
 #: core/mainwindow.cpp:2007
 msgid "Skip selected tracks"
@@ -5962,7 +5964,7 @@ msgstr "Écrire des métadonnées lors de la sauvegarde des listes de lecture"
 
 #: device/gpoddevice.cpp:288
 msgid "Writing database failed."
-msgstr "L'écriture de la base de données a échoué"
+msgstr "L'écriture de la base de données a échouée."
 
 #: device/gpoddevice.cpp:284
 #, qt-format
@@ -6274,13 +6276,13 @@ msgstr "enlever %n morceaux"
 #: collection/collectionfilterwidget.cpp:85
 #, qt-format
 msgid "searches the collection for all artists that contain the word %1. "
-msgstr "recherche dans la collection tous les artistes contenant le mot %1."
+msgstr "recherche dans la collection tous les artistes contenant le mot %1. "
 
 #: playlist/playlistcontainer.cpp:134
 #, qt-format
 msgid "searches the playlist for all artists that contain the word %1. "
 msgstr ""
-"recherche dans la liste de lecture tous les artistes contenant le mot %1."
+"recherche dans la liste de lecture tous les artistes contenant le mot %1. "
 
 #: smartplaylists/smartplaylistsearchterm.cpp:433
 msgid "shortest first"
