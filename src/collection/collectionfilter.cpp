@@ -61,33 +61,32 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
   if (!item) return false;
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  QString filter_text = filterRegularExpression().pattern().remove(QLatin1Char('\\'));
+  QString filter_string = filterRegularExpression().pattern().remove(QLatin1Char('\\'));
 #else
-  QString filter_text = filterRegExp().pattern();
+  QString filter_string = filterRegExp().pattern();
 #endif
 
-  if (filter_text.isEmpty()) return true;
+  if (filter_string.isEmpty()) return true;
 
   if (item->type != CollectionItem::Type::Song) {
     return item->type == CollectionItem::Type::LoadingIndicator;
   }
 
   for (const QString &foperator : Operators) {
-    if (filter_text.contains(foperator + QLatin1Char(' '))) {
-      filter_text = filter_text.replace(foperator + QLatin1Char(' '), foperator);
+    if (filter_string.contains(foperator + QLatin1Char(' '))) {
+      filter_string = filter_string.replace(foperator + QLatin1Char(' '), foperator);
     }
-    if (filter_text.contains(QLatin1Char(' ') + foperator)) {
-      filter_text = filter_text.replace(QLatin1Char(' ') + foperator, foperator);
+    if (filter_string.contains(QLatin1Char(' ') + foperator)) {
+      filter_string = filter_string.replace(QLatin1Char(' ') + foperator, foperator);
     }
   }
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-  const QStringList tokens = filter_text.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+  const QStringList tokens = filter_string.split(QLatin1Char(' '), Qt::SkipEmptyParts);
 #else
-  const QStringList tokens = filter_text.split(QLatin1Char(' '), QString::SkipEmptyParts);
+  const QStringList tokens = filter_string.split(QLatin1Char(' '), QString::SkipEmptyParts);
 #endif
-
-  filter_text.clear();
+  QStringList filter_strings;
 
   FilterList filters;
   static QRegularExpression operator_regex(QStringLiteral("(=|<[>=]?|>=?|!=)"));
@@ -160,17 +159,16 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
         }
       }
     }
-    if (!filter_text.isEmpty()) filter_text.append(QLatin1Char(' '));
-    filter_text += token;
+    filter_strings << token;
   }
 
-  if (filter_text.isEmpty() && filters.isEmpty()) return true;
+  if (filters.isEmpty() && filter_strings.isEmpty()) return true;
 
-  return item->metadata.is_valid() && ItemMetadataMatchesFilters(item->metadata, filters, filter_text);
+  return item->metadata.is_valid() && ItemMetadataMatchesFilters(item->metadata, filters, filter_strings);
 
 }
 
-bool CollectionFilter::ItemMetadataMatchesFilters(const Song &metadata, const FilterList &filters, const QString &filter_text) {
+bool CollectionFilter::ItemMetadataMatchesFilters(const Song &metadata, const FilterList &filters, const QStringList &filter_strings) {
 
   for (FilterList::const_iterator it = filters.begin() ; it != filters.end() ; ++it) {
     const QString &field = it.key();
@@ -192,21 +190,27 @@ bool CollectionFilter::ItemMetadataMatchesFilters(const Song &metadata, const Fi
     }
   }
 
-  return filter_text.isEmpty() || ItemMetadataMatchesFilterText(metadata, filter_text);
+  return filter_strings.isEmpty() || ItemMetadataMatchesFilterText(metadata, filter_strings);
 
 }
 
-bool CollectionFilter::ItemMetadataMatchesFilterText(const Song &metadata, const QString &filter_text) {
+bool CollectionFilter::ItemMetadataMatchesFilterText(const Song &metadata, const QStringList &filter_strings) {
 
-  return metadata.effective_albumartist().contains(filter_text, Qt::CaseInsensitive) ||
-         metadata.artist().contains(filter_text, Qt::CaseInsensitive) ||
-         metadata.album().contains(filter_text, Qt::CaseInsensitive) ||
-         metadata.title().contains(filter_text, Qt::CaseInsensitive) ||
-         metadata.composer().contains(filter_text, Qt::CaseInsensitive) ||
-         metadata.performer().contains(filter_text, Qt::CaseInsensitive) ||
-         metadata.grouping().contains(filter_text, Qt::CaseInsensitive) ||
-         metadata.genre().contains(filter_text, Qt::CaseInsensitive) ||
-         metadata.comment().contains(filter_text, Qt::CaseInsensitive);
+  for (const QString &filter_string : filter_strings) {
+    if (!metadata.effective_albumartist().contains(filter_string, Qt::CaseInsensitive) &&
+        !metadata.artist().contains(filter_string, Qt::CaseInsensitive) &&
+        !metadata.album().contains(filter_string, Qt::CaseInsensitive) &&
+        !metadata.title().contains(filter_string, Qt::CaseInsensitive) &&
+        !metadata.composer().contains(filter_string, Qt::CaseInsensitive) &&
+        !metadata.performer().contains(filter_string, Qt::CaseInsensitive) &&
+        !metadata.grouping().contains(filter_string, Qt::CaseInsensitive) &&
+        !metadata.genre().contains(filter_string, Qt::CaseInsensitive) &&
+        !metadata.comment().contains(filter_string, Qt::CaseInsensitive)) {
+      return false;
+    }
+  }
+
+  return true;
 
 }
 
