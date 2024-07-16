@@ -57,8 +57,8 @@ class Ui_EditTagDialog;
 #ifdef HAVE_MUSICBRAINZ
 class TrackSelectionDialog;
 class TagFetcher;
-class LyricsFetcher;
 #endif
+class LyricsFetcher;
 
 class EditTagDialog : public QDialog {
   Q_OBJECT
