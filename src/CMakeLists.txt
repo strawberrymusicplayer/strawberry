@@ -96,7 +96,6 @@ set(SOURCES
   collection/collectionfilter.cpp
   collection/collectionplaylistitem.cpp
   collection/collectionquery.cpp
-  collection/collectionqueryoptions.cpp
   collection/savedgroupingmanager.cpp
   collection/groupbydialog.cpp
   collection/collectiontask.cpp
