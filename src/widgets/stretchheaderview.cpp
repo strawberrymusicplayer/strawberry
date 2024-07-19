@@ -145,7 +145,7 @@ bool StretchHeaderView::RestoreState(const QByteArray &state) {
     if (i < visual_indices.count()) {
       moveSection(visualIndex(visual_indices[i]), i);
     }
-    if (i < column_pixel_widths.count()) {
+    if (i < column_pixel_widths.count() && column_pixel_widths[i] > 0) {
       resizeSection(i, column_pixel_widths[i]);
     }
     setSectionHidden(i, !columns_visible.contains(i));
@@ -282,6 +282,12 @@ void StretchHeaderView::ShowSection(const int logical_index) {
     NormaliseWidths();
     ResizeSections();
 
+  }
+
+  else {
+    if (sectionSize(logical_index) == 0) {
+      resizeSection(logical_index, defaultSectionSize());
+    }
   }
 
 }
