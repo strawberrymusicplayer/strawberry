@@ -24,8 +24,14 @@
 
 #include <QSortFilterProxyModel>
 #include <QScopedPointer>
+#include <QSet>
+#include <QList>
+#include <QUrl>
 
+#include "core/song.h"
 #include "filterparser/filtertree.h"
+
+class CollectionItem;
 
 class CollectionFilter : public QSortFilterProxyModel {
   Q_OBJECT
@@ -38,6 +44,10 @@ class CollectionFilter : public QSortFilterProxyModel {
 
  protected:
   bool filterAcceptsRow(const int source_row, const QModelIndex &source_parent) const override;
+  QMimeData *mimeData(const QModelIndexList &indexes) const override;
+
+ private:
+  void GetChildSongs(CollectionItem *item, QSet<int> &song_ids, QList<QUrl> &urls, SongList &songs) const;
 
  private:
   mutable QScopedPointer<FilterTree> filter_tree_;

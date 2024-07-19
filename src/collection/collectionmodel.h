@@ -142,6 +142,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     CollectionFilterOptions filter_options;
   };
 
+  SharedPtr<CollectionBackend> backend() const { return backend_; }
   CollectionFilter *filter() const { return filter_; }
 
   void Init();
@@ -200,6 +201,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   void ExpandAll(CollectionItem *item = nullptr) const;
 
+  bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
+
  signals:
   void TotalSongCountUpdated(const int count);
   void TotalArtistCountUpdated(const int count);
@@ -250,7 +253,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static QUrl AlbumIconPixmapDiskCacheKey(const QString &cache_key);
   QVariant AlbumIcon(const QModelIndex &idx);
   void ClearItemPixmapCache(CollectionItem *item);
-  bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
   static qint64 MaximumCacheSize(Settings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default);
 
  private slots:

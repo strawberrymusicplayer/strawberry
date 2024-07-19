@@ -19,12 +19,20 @@
 
 #include "config.h"
 
+#include <algorithm>
+#include <functional>
+
+#include <QSet>
+#include <QList>
 #include <QString>
+#include <QUrl>
 
-#include "core/logging.h"
-
+#include "core/song.h"
 #include "filterparser/filterparser.h"
 #include "filterparser/filtertree.h"
+#include "playlist/songmimedata.h"
+#include "playlist/playlistmanager.h"
+#include "collectionbackend.h"
 #include "collectionfilter.h"
 #include "collectionmodel.h"
 #include "collectionitem.h"
@@ -71,5 +79,58 @@ void CollectionFilter::SetFilterString(const QString &filter_string) {
 
   filter_string_ = filter_string;
   setFilterFixedString(filter_string);
+
+}
+
+QMimeData *CollectionFilter::mimeData(const QModelIndexList &indexes) const {
+
+  if (indexes.isEmpty()) return nullptr;
+
+  CollectionModel *collection_model = qobject_cast<CollectionModel*>(sourceModel());
+  SongMimeData *data = new SongMimeData;
+  data->backend = collection_model->backend();
+
+  QSet<int> song_ids;
+  QList<QUrl> urls;
+  for (const QModelIndex &idx : indexes) {
+    const QModelIndex source_index = mapToSource(idx);
+    CollectionItem *item = collection_model->IndexToItem(source_index);
+    GetChildSongs(item, song_ids, urls, data->songs);
+  }
+
+  data->setUrls(urls);
+  data->name_for_new_playlist_ = PlaylistManager::GetNameForNewPlaylist(data->songs);
+
+  return data;
+
+}
+
+void CollectionFilter::GetChildSongs(CollectionItem *item, QSet<int> &song_ids, QList<QUrl> &urls, SongList &songs) const {
+
+  CollectionModel *collection_model = qobject_cast<CollectionModel*>(sourceModel());
+
+  switch (item->type) {
+    case CollectionItem::Type::Container:{
+      QList<CollectionItem*> children = item->children;
+      std::sort(children.begin(), children.end(), std::bind(&CollectionModel::CompareItems, collection_model, std::placeholders::_1, std::placeholders::_2));
+      for (CollectionItem *child : children) {
+        GetChildSongs(child, song_ids, urls, songs);
+      }
+      break;
+    }
+    case CollectionItem::Type::Song:{
+      const QModelIndex idx = collection_model->ItemToIndex(item);
+      if (filterAcceptsRow(idx.row(), idx.parent())) {
+        urls << item->metadata.url();
+        if (!song_ids.contains(item->metadata.id())) {
+          song_ids.insert(item->metadata.id());
+          songs << item->metadata;
+        }
+      }
+      break;
+    }
+    default:
+      break;
+  }
 
 }
