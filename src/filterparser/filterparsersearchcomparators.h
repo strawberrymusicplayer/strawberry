@@ -311,14 +311,4 @@ class FilterParserFloatLeComparator : public FilterParserSearchTermComparator {
   float search_term_;
 };
 
-class FilterParserRatingComparatorDecorator : public FilterParserSearchTermComparator {
- public:
-  explicit FilterParserRatingComparatorDecorator(FilterParserSearchTermComparator *cmp) : cmp_(cmp) {}
-  bool Matches(const QVariant &value) const override {
-    return cmp_->Matches(QString::number(lround(value.toDouble() * 10.0)));
-  }
- private:
-  QScopedPointer<FilterParserSearchTermComparator> cmp_;
-};
-
 #endif  // FILTERPARSERSEARCHCOMPARATORS_H
