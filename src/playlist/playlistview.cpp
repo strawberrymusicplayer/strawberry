@@ -335,6 +335,8 @@ void PlaylistView::RestoreHeaderState() {
 
   if (set_initial_header_layout_) {
 
+    header_->SetStretchEnabled(true);
+
     header_->HideSection(static_cast<int>(Playlist::Column::AlbumArtist));
     header_->HideSection(static_cast<int>(Playlist::Column::Performer));
     header_->HideSection(static_cast<int>(Playlist::Column::Composer));
@@ -358,14 +360,22 @@ void PlaylistView::RestoreHeaderState() {
     header_->HideSection(static_cast<int>(Playlist::Column::EBUR128IntegratedLoudness));
     header_->HideSection(static_cast<int>(Playlist::Column::EBUR128LoudnessRange));
 
+    header_->ShowSection(static_cast<int>(Playlist::Column::Track));
+    header_->ShowSection(static_cast<int>(Playlist::Column::Title));
+    header_->ShowSection(static_cast<int>(Playlist::Column::Artist));
+    header_->ShowSection(static_cast<int>(Playlist::Column::Album));
+    header_->ShowSection(static_cast<int>(Playlist::Column::Samplerate));
+    header_->ShowSection(static_cast<int>(Playlist::Column::Bitdepth));
+    header_->ShowSection(static_cast<int>(Playlist::Column::Bitrate));
+    header_->ShowSection(static_cast<int>(Playlist::Column::Filetype));
+    header_->ShowSection(static_cast<int>(Playlist::Column::Source));
+
     header_->moveSection(header_->visualIndex(static_cast<int>(Playlist::Column::Track)), 0);
 
-    header_->SetStretchEnabled(true);
-
-    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Track), 0.03);
-    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Title), 0.24);
-    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Artist), 0.24);
-    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Album), 0.24);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Track), 0.06);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Title), 0.23);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Artist), 0.23);
+    header_->SetColumnWidth(static_cast<int>(Playlist::Column::Album), 0.23);
     header_->SetColumnWidth(static_cast<int>(Playlist::Column::Length), 0.04);
     header_->SetColumnWidth(static_cast<int>(Playlist::Column::Samplerate), 0.05);
     header_->SetColumnWidth(static_cast<int>(Playlist::Column::Bitdepth), 0.04);
