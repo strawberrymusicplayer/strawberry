@@ -171,11 +171,19 @@ bool StretchHeaderView::RestoreState(const QByteArray &state) {
 
 QByteArray StretchHeaderView::ResetState() {
 
-  stretch_enabled_ = true;
+  stretch_enabled_ = false;
+  column_widths_.resize(count());
+  std::fill(column_widths_.begin(), column_widths_.end(), 1.0 / count());
 
-  setSortIndicator(0, Qt::AscendingOrder);
+  setSortIndicator(-1, Qt::AscendingOrder);
 
-  return QByteArray();
+  for (int i = 0; i < count(); ++i) {
+    setSectionHidden(i, false);
+    resizeSection(i, defaultSectionSize());
+    moveSection(visualIndex(i), i);
+  }
+
+  return SaveState();
 
 }
 
