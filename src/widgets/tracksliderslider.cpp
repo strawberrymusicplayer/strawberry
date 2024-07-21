@@ -42,7 +42,8 @@ TrackSliderSlider::TrackSliderSlider(QWidget *parent)
 #ifndef Q_OS_MACOS
       popup_(new TrackSliderPopup(window())),
 #endif
-      mouse_hover_seconds_(0) {
+      mouse_hover_seconds_(0),
+      wheel_accumulator_(0) {
 
   setMouseTracking(true);
 #ifndef Q_OS_MACOS
@@ -122,10 +123,14 @@ void TrackSliderSlider::mouseMoveEvent(QMouseEvent *e) {
 
 void TrackSliderSlider::wheelEvent(QWheelEvent *e) {
 
-  if (e->angleDelta().y() < 0) {
+  const int scroll_state = wheel_accumulator_ + e->angleDelta().y();
+  const int steps = scroll_state / WHEEL_ROTATION_TO_SEEK;
+  wheel_accumulator_ = scroll_state % WHEEL_ROTATION_TO_SEEK;
+
+  if (steps < 0) {
     emit SeekBackward();
   }
-  else {
+  else if (steps > 0) {
     emit SeekForward();
   }
   e->accept();
