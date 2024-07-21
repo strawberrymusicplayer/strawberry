@@ -66,11 +66,16 @@ class TrackSliderSlider : public QSlider {
   void UpdateDeltaTime();
 
  private:
+  // Units are eighths of a degree
+  static const int WHEEL_ROTATION_TO_SEEK = 120;
+
 #ifndef Q_OS_MACOS
   TrackSliderPopup *popup_;
 #endif
 
   int mouse_hover_seconds_;
+
+  int wheel_accumulator_;
 };
 
 #endif  // TRACKSLIDERSLIDER_H
