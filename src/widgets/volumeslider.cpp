@@ -54,6 +54,7 @@
 
 VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
     : SliderSlider(Qt::Horizontal, parent, static_cast<int>(max)),
+      wheel_accumulator_(0),
       anim_enter_(false),
       anim_count_(0),
       timer_anim_(new QTimer(this)),
@@ -78,6 +79,23 @@ VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
 void VolumeSlider::SetEnabled(const bool enabled) {
   QSlider::setEnabled(enabled);
   QSlider::setVisible(enabled);
+}
+
+void VolumeSlider::HandleWheel(const int delta) {
+
+  const int scroll_state = wheel_accumulator_ + delta;
+  const int steps = scroll_state / WHEEL_ROTATION_PER_STEP;
+  wheel_accumulator_ = scroll_state % WHEEL_ROTATION_PER_STEP;
+
+  if (steps != 0) {
+    wheeling_ = true;
+
+    QSlider::setValue(SliderSlider::value() + steps);
+    emit SliderReleased(value());
+
+    wheeling_ = false;
+  }
+
 }
 
 void VolumeSlider::paintEvent(QPaintEvent*) {
@@ -272,13 +290,5 @@ void VolumeSlider::mousePressEvent(QMouseEvent *e) {
 }
 
 void VolumeSlider::wheelEvent(QWheelEvent *e) {
-
-  wheeling_ = true;
-
-  const int step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
-  QSlider::setValue(SliderSlider::value() + step);
-  emit SliderReleased(value());
-
-  wheeling_ = false;
-
+  HandleWheel(e->angleDelta().y());
 }

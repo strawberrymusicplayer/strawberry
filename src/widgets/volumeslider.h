@@ -48,6 +48,7 @@ class VolumeSlider : public SliderSlider {
  public:
   explicit VolumeSlider(QWidget *parent, uint max = 0);
   void SetEnabled(const bool enabled);
+  void HandleWheel(const int delta);
 
  protected:
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -70,12 +71,17 @@ class VolumeSlider : public SliderSlider {
   static const int ANIM_INTERVAL = 18;
   static const int ANIM_MAX = 18;
 
+  // Units are eighths of a degree
+  static const int WHEEL_ROTATION_PER_STEP = 30;
+
   VolumeSlider(const VolumeSlider&);
   VolumeSlider &operator=(const VolumeSlider&);
 
   void generateGradient();
   QPixmap drawVolumePixmap() const;
   void drawVolumeSliderHandle();
+
+  int wheel_accumulator_;
 
   bool anim_enter_;
   int anim_count_;

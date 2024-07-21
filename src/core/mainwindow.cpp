@@ -1652,7 +1652,7 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &idx) {
 }
 
 void MainWindow::VolumeWheelEvent(const int delta) {
-  ui_->volume->setValue(ui_->volume->value() + delta / 30);
+  ui_->volume->HandleWheel(delta);
 }
 
 void MainWindow::ToggleShowHide() {
