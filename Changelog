@@ -2,6 +2,18 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed compilation songs being split into different albums when using album grouping.
+    * Fixed adding playlist columns not working when stretch mode is disabled (#1085).
+    * Fixed resetting playlist columns.
+    * Fixed adding songs to playlist adding all songs instead of filtered songs.
+    * Fixed collection filter matching entire text instead of individual words.
+
+  Enhancements:
+    * Use same code for collection and playlist filter search.
+
 Version 1.1.0 (2024.07.14):
 
   Bugfixes:
