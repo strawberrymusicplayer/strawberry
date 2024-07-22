@@ -68,13 +68,20 @@
       </item>
       <item row="2" column="1">
        <widget class="QLineEdit" name="password">
+        <property name="text">
+         <string notr="true"/>
+        </property>
         <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
+         <enum>QLineEdit::EchoMode::Password</enum>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="username"/>
+       <widget class="QLineEdit" name="username">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -119,7 +126,7 @@
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See: &lt;a href=&quot;https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -247,7 +254,7 @@
    <item>
     <spacer name="spacer_middle">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -262,7 +269,7 @@
      <item>
       <spacer name="spacer_bottom">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -314,7 +321,6 @@
   <tabstop>checkbox_fetchalbums</tabstop>
  </tabstops>
  <resources>
-  <include location="../../data/data.qrc"/>
   <include location="../../data/icons.qrc"/>
  </resources>
  <connections/>

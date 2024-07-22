@@ -67,7 +67,11 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="client_id"/>
+       <widget class="QLineEdit" name="client_id">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_api_token">
@@ -90,6 +94,9 @@
           <height>0</height>
          </size>
         </property>
+        <property name="text">
+         <string notr="true"/>
+        </property>
        </widget>
       </item>
       <item row="3" column="0">
@@ -102,7 +109,11 @@
       <item row="3" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLineEdit" name="username"/>
+         <widget class="QLineEdit" name="username">
+          <property name="text">
+           <string notr="true"/>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -115,8 +126,11 @@
       </item>
       <item row="4" column="1">
        <widget class="QLineEdit" name="password">
+        <property name="text">
+         <string notr="true"/>
+        </property>
         <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
+         <enum>QLineEdit::EchoMode::Password</enum>
         </property>
        </widget>
       </item>
@@ -147,7 +161,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QComboBox" name="quality"/>
+       <widget class="QComboBox" name="quality">
+        <property name="currentText">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_searchdelay">
@@ -237,7 +255,11 @@
        </widget>
       </item>
       <item row="7" column="1">
-       <widget class="QComboBox" name="coversize"/>
+       <widget class="QComboBox" name="coversize">
+        <property name="currentText">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
       <item row="7" column="0">
        <widget class="QLabel" name="label_coversize">
@@ -267,7 +289,11 @@
        </widget>
       </item>
       <item row="8" column="1">
-       <widget class="QComboBox" name="streamurl"/>
+       <widget class="QComboBox" name="streamurl">
+        <property name="currentText">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
       <item row="9" column="0">
        <widget class="QCheckBox" name="checkbox_album_explicit">
@@ -282,7 +308,7 @@
    <item>
     <spacer name="spacer_middle">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -297,7 +323,7 @@
      <item>
       <spacer name="spacer_bottom">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -357,7 +383,6 @@
   <tabstop>streamurl</tabstop>
  </tabstops>
  <resources>
-  <include location="../../data/data.qrc"/>
   <include location="../../data/icons.qrc"/>
  </resources>
  <connections/>

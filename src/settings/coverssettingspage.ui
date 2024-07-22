@@ -66,7 +66,7 @@
           <item>
            <spacer name="spacer_providers_updown">
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Orientation::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -126,7 +126,7 @@
         <item>
          <spacer name="spacer_button_authenticate">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -176,7 +176,7 @@
         <item>
          <spacer name="spacer_types_updown">
           <property name="orientation">
-           <enum>Qt::Vertical</enum>
+           <enum>Qt::Orientation::Vertical</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -268,7 +268,7 @@
             <item>
              <spacer name="spacer_cover_filename_bttons">
               <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+               <enum>Qt::Orientation::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -284,7 +284,7 @@
          <item>
           <widget class="QLineEdit" name="lineedit_cover_pattern">
            <property name="text">
-            <string>%albumartist-%album</string>
+            <string notr="true">%albumartist-%album</string>
            </property>
           </widget>
          </item>
@@ -318,7 +318,7 @@
    <item>
     <spacer name="spacer_bottom">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -338,9 +338,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../data/data.qrc"/>
-  <include location="../../data/icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

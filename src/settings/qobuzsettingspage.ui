@@ -60,7 +60,11 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="app_id"/>
+       <widget class="QLineEdit" name="app_id">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
       <item row="4" column="0">
        <widget class="QLabel" name="label_username">
@@ -72,7 +76,11 @@
       <item row="4" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLineEdit" name="username"/>
+         <widget class="QLineEdit" name="username">
+          <property name="text">
+           <string notr="true"/>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -85,8 +93,11 @@
       </item>
       <item row="5" column="1">
        <widget class="QLineEdit" name="password">
+        <property name="text">
+         <string notr="true"/>
+        </property>
         <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
+         <enum>QLineEdit::EchoMode::Password</enum>
         </property>
        </widget>
       </item>
@@ -98,7 +109,11 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLineEdit" name="app_secret"/>
+       <widget class="QLineEdit" name="app_secret">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -127,7 +142,11 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QComboBox" name="format"/>
+       <widget class="QComboBox" name="format">
+        <property name="currentText">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_searchdelay">
@@ -235,7 +254,7 @@
    <item>
     <spacer name="spacer_middle">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -250,7 +269,7 @@
      <item>
       <spacer name="spacer_bottom">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

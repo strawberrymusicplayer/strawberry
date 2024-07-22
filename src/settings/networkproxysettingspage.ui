@@ -64,7 +64,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="proxy_hostname"/>
+         <widget class="QLineEdit" name="proxy_hostname">
+          <property name="text">
+           <string notr="true"/>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_port">
@@ -98,7 +102,7 @@
         </property>
         <layout class="QFormLayout" name="formLayout_7">
          <property name="fieldGrowthPolicy">
-          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+          <enum>QFormLayout::FieldGrowthPolicy::AllNonFixedFieldsGrow</enum>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="label_username">
@@ -108,7 +112,11 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="proxy_username"/>
+          <widget class="QLineEdit" name="proxy_username">
+           <property name="text">
+            <string notr="true"/>
+           </property>
+          </widget>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_password">
@@ -119,8 +127,11 @@
          </item>
          <item row="1" column="1">
           <widget class="QLineEdit" name="proxy_password">
+           <property name="text">
+            <string notr="true"/>
+           </property>
            <property name="echoMode">
-            <enum>QLineEdit::Password</enum>
+            <enum>QLineEdit::EchoMode::Password</enum>
            </property>
           </widget>
          </item>
@@ -140,7 +151,7 @@
    <item>
     <spacer name="spacer_bottom">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>

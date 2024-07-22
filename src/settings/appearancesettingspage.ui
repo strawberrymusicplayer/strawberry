@@ -30,12 +30,16 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="combobox_style"/>
+         <widget class="QComboBox" name="combobox_style">
+          <property name="placeholderText">
+           <string notr="true"/>
+          </property>
+         </widget>
         </item>
         <item>
          <spacer name="spacer_style">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -109,7 +113,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string/>
+           <string notr="true"/>
           </property>
          </widget>
         </item>
@@ -168,6 +172,9 @@
          <widget class="QLineEdit" name="background_image_filename">
           <property name="enabled">
            <bool>false</bool>
+          </property>
+          <property name="text">
+           <string notr="true"/>
           </property>
          </widget>
         </item>
@@ -266,7 +273,7 @@
             <item>
              <spacer name="spacer_position">
               <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+               <enum>Qt::Orientation::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -318,7 +325,7 @@
             <item>
              <spacer name="spacer_background_image_stretch">
               <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+               <enum>Qt::Orientation::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -352,10 +359,10 @@
               <number>100</number>
              </property>
              <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+              <enum>Qt::Orientation::Horizontal</enum>
              </property>
              <property name="tickPosition">
-              <enum>QSlider::TicksBelow</enum>
+              <enum>QSlider::TickPosition::TicksBelow</enum>
              </property>
              <property name="tickInterval">
               <number>10</number>
@@ -388,10 +395,10 @@
               <number>10</number>
              </property>
              <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+              <enum>Qt::Orientation::Horizontal</enum>
              </property>
              <property name="tickPosition">
-              <enum>QSlider::TicksBelow</enum>
+              <enum>QSlider::TickPosition::TicksBelow</enum>
              </property>
              <property name="tickInterval">
               <number>10</number>
@@ -528,7 +535,7 @@
       <item>
        <spacer name="spacer_icon_sizes">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -585,7 +592,7 @@
    <item>
     <spacer name="spacer_bottom">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
