@@ -30,11 +30,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="combobox_style">
-          <property name="placeholderText">
-           <string notr="true"/>
-          </property>
-         </widget>
+         <widget class="QComboBox" name="combobox_style"/>
         </item>
         <item>
          <spacer name="spacer_style">
