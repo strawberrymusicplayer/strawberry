@@ -155,7 +155,7 @@
       <item>
        <widget class="QRadioButton" name="use_strawbs_background">
         <property name="text">
-         <string>A Taste of Strawbs</string>
+         <string notr="true">A Taste of Strawbs</string>
         </property>
        </widget>
       </item>
