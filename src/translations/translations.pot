@@ -54,9 +54,9 @@ msgstr ""
 msgid " kbps"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:689
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:686
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:711
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:714
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:717
 msgid " ms"
 msgstr ""
 
@@ -70,7 +70,7 @@ msgid " s"
 msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:411
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:486
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:484
 msgid " seconds"
 msgstr ""
 
@@ -181,8 +181,17 @@ msgstr ""
 msgid "%1 transferred"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:405
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:466
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:427
+msgid "%album%"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:324
+#, c-format
+msgid "%albumartist-%album"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:403
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:464
 msgid "%filename%"
 msgstr ""
 
@@ -210,17 +219,21 @@ msgctxt ""
 msgid "%n track(s)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:417
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:474
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:415
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:472
 msgid "%originalyear%"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:413
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:411
 msgid "%rating%"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:409
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:470
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:420
+msgid "%title - %artist%"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:407
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:468
 msgid "%url%"
 msgstr ""
 
@@ -289,7 +302,7 @@ msgstr ""
 msgid "&Lock rating"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:176
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:173
 msgid "&Manual proxy configuration"
 msgstr ""
 
@@ -309,7 +322,7 @@ msgstr ""
 msgid "&Next track"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:529
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:527
 msgid "&No background image"
 msgstr ""
 
@@ -373,11 +386,11 @@ msgstr ""
 msgid "&Update changed collection folders"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:523
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:520
 msgid "&Use the system default color"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:174
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:171
 msgid "&Use the system proxy settings"
 msgstr ""
 
@@ -402,7 +415,7 @@ msgstr ""
 msgid "0:00:00"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:548
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:547
 msgid "0px"
 msgstr ""
 
@@ -410,7 +423,7 @@ msgstr ""
 msgid "1 day"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:550
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:549
 msgid "40%"
 msgstr ""
 
@@ -418,7 +431,7 @@ msgstr ""
 msgid "50 random tracks"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:272
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:270
 msgid ""
 "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will "
 "not be able to stream songs from Spotify without it. See: <a href=\"https://"
@@ -434,6 +447,10 @@ msgid ""
 "\n"
 "<p>If you surround sections of text that contain a token with curly-braces, "
 "that section will be hidden if the token is empty.</p>"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:532
+msgid "A Taste of Strawbs"
 msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:88
@@ -459,11 +476,11 @@ msgstr ""
 msgid "AAC"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:676
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:673
 msgid "ALSA plugin:"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:331
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:324
 msgid "API Token"
 msgstr ""
 
@@ -514,8 +531,8 @@ msgstr ""
 msgid "Add Stream"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:403
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:464
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:401
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:462
 msgid "Add a new line if supported by the notification type"
 msgstr ""
 
@@ -555,93 +572,93 @@ msgstr ""
 msgid "Add search term"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:411
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:472
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:409
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:364
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:422
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:362
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:420
 msgid "Add song album tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:370
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:428
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:368
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:426
 msgid "Add song albumartist tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:361
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:419
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:359
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:417
 msgid "Add song artist tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:376
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:434
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:374
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:432
 msgid "Add song composer tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:385
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:443
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:383
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:441
 msgid "Add song disc tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:407
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:468
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:405
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:466
 msgid "Add song filename"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:391
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:449
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:389
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:447
 msgid "Add song genre tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:382
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:440
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:380
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:438
 msgid "Add song grouping tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:394
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:452
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:392
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:450
 msgid "Add song length tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:419
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:476
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:417
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:474
 msgid "Add song original year tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:379
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:437
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:377
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:397
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:455
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:395
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:453
 msgid "Add song play count"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:415
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:461
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:413
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:459
 msgid "Add song rating"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:400
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:458
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:398
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:456
 msgid "Add song skip count"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:367
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:425
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:365
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:423
 msgid "Add song title tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:388
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:446
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:386
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:444
 msgid "Add song track tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:373
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:431
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:371
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:429
 msgid "Add song year tag"
 msgstr ""
 
@@ -707,7 +724,7 @@ msgstr ""
 msgid "After copying..."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:533
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:531
 msgid "Albu&m cover"
 msgstr ""
 
@@ -724,7 +741,7 @@ msgstr ""
 msgid "Album"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:700
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:697
 msgid "Album (ideal loudness for all tracks)"
 msgstr ""
 
@@ -755,11 +772,11 @@ msgstr ""
 msgid "Album cover pixmap cache"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:344
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:337
 msgid "Album cover size"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:314
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:313
 msgid "Album cover types"
 msgstr ""
 
@@ -767,9 +784,9 @@ msgstr ""
 msgid "Albums"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:340
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:277
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:295
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:333
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:275
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:290
 msgid "Albums search limit"
 msgstr ""
 
@@ -831,19 +848,19 @@ msgstr ""
 msgid "Angry"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:285
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:280
 msgid "App ID"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:288
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:283
 msgid "App Secret"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:517
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:514
 msgid "Appearance"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:346
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:339
 msgid "Append explicit to album title for explicit albums"
 msgstr ""
 
@@ -863,7 +880,7 @@ msgstr ""
 msgid "Append to the playlist"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:703
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:700
 msgid "Apply compression to prevent clipping"
 msgstr ""
 
@@ -922,9 +939,9 @@ msgstr ""
 msgid "Artists"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:339
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:276
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:294
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:332
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:274
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:289
 msgid "Artists search limit"
 msgstr ""
 
@@ -933,23 +950,23 @@ msgid "As&k when saving"
 msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:228
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:291
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:286
 msgid "Audio format"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:694
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:691
 msgid "Audio normalization"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:671
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:668
 msgid "Audio output"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:336
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:329
 msgid "Audio quality"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:267
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:265
 msgid "Authenticate"
 msgstr ""
 
@@ -958,11 +975,11 @@ msgstr ""
 msgid "Authenticating..."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:311
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:310
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:167
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:246
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:328
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:284
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:321
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:279
 msgid "Authentication"
 msgstr ""
 
@@ -1034,19 +1051,19 @@ msgstr ""
 msgid "Average image size"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:670
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:667
 msgid "Backend"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:507
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:505
 msgid "Background color"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:527
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:525
 msgid "Background image"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:511
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:509
 msgid "Background opacity"
 msgstr ""
 
@@ -1058,15 +1075,15 @@ msgstr ""
 msgid "Balance"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:298
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:293
 msgid "Base64 encoded secret"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:512
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:510
 msgid "Basic Blue"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:266
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:264
 msgid "Basic authentication"
 msgstr ""
 
@@ -1124,11 +1141,11 @@ msgstr ""
 msgid "Block type"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:547
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:546
 msgid "Blur amount"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:501
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:499
 msgid "Body"
 msgstr ""
 
@@ -1136,23 +1153,23 @@ msgstr ""
 msgid "Boom analyzer"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:540
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:539
 msgid "Bottom Left"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:541
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:540
 msgid "Bottom Right"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:535
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:534
 msgid "Browse..."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:688
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:685
 msgid "Buffer"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:690
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:687
 msgid "Buffer duration"
 msgstr ""
 
@@ -1216,7 +1233,7 @@ msgstr ""
 msgid "Choose a name for your smart playlist"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:510
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:508
 msgid "Choose color..."
 msgstr ""
 
@@ -1224,7 +1241,7 @@ msgstr ""
 msgid "Choose data to import from last.fm"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:509
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:507
 msgid "Choose font..."
 msgstr ""
 
@@ -1232,7 +1249,7 @@ msgstr ""
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:308
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:307
 msgid "Choose the providers you want to use when searching for covers."
 msgstr ""
 
@@ -1281,7 +1298,7 @@ msgstr ""
 msgid "Click to toggle between remaining time and total time"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:330
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:323
 msgid "Client ID"
 msgstr ""
 
@@ -1376,7 +1393,7 @@ msgstr ""
 msgid "Configure %1..."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:555
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:554
 msgid "Configure buttons"
 msgstr ""
 
@@ -1396,7 +1413,7 @@ msgstr ""
 msgid "Constant bitrate"
 msgstr ""
 
-#: core/mainwindow.cpp:385 ../../build-qt6dev/src/ui_contextsettingspage.h:359
+#: core/mainwindow.cpp:385 ../../build-qt6dev/src/ui_contextsettingspage.h:357
 msgid "Context"
 msgstr ""
 
@@ -1586,11 +1603,11 @@ msgstr ""
 msgid "Cover is unset."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:307
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:306
 msgid "Cover providers"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:306
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:305
 msgid "Covers"
 msgstr ""
 
@@ -1604,11 +1621,11 @@ msgstr ""
 msgid "Create a new playlist with files"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:711
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:708
 msgid "Cross-fade when changing tracks automatically"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:710
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:707
 msgid "Cross-fade when changing tracks manually"
 msgstr ""
 
@@ -1682,23 +1699,23 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:560
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:559
 msgid "Custom color"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:534
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:533
 msgid "Custom image:"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:493
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:491
 msgid "Custom message settings"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:421
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:419
 msgid "Custom text settings"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:514
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:512
 msgid "Custom..."
 msgstr ""
 
@@ -1750,11 +1767,11 @@ msgstr ""
 msgid "Decrease volume"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:528
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:526
 msgid "Default bac&kground image"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:693
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:690
 msgid "Defaults"
 msgstr ""
 
@@ -1828,7 +1845,7 @@ msgstr ""
 msgid "Details..."
 msgstr ""
 
-#: device/giolister.cpp:193 ../../build-qt6dev/src/ui_backendsettingspage.h:672
+#: device/giolister.cpp:193 ../../build-qt6dev/src/ui_backendsettingspage.h:669
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr ""
@@ -1837,7 +1854,7 @@ msgstr ""
 msgid "Device Properties"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:268
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:266
 msgid "Device credentials"
 msgstr ""
 
@@ -1853,7 +1870,7 @@ msgstr ""
 msgid "Different art across multiple songs."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:175
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:172
 msgid "Direct internet connection"
 msgstr ""
 
@@ -1870,11 +1887,11 @@ msgstr ""
 msgid "Directory does not exist."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:487
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:480
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:478
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr ""
@@ -1909,7 +1926,7 @@ msgstr ""
 msgid "Do not convert any music"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:546
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:545
 msgid "Do not cut image"
 msgstr ""
 
@@ -1965,9 +1982,9 @@ msgid ""
 msgstr ""
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:255
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:342
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:279
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:297
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:335
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:277
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:292
 msgid "Download album covers"
 msgstr ""
 
@@ -1987,7 +2004,7 @@ msgstr ""
 msgid "EBU R 128 Integrated Loudness"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:705
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:702
 msgid "EBU R 128 Loudness Normalization"
 msgstr ""
 
@@ -2047,9 +2064,9 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:433
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:436
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:244
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:326
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:265
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:282
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:319
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:263
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:277
 msgid "Enable"
 msgstr ""
 
@@ -2057,7 +2074,7 @@ msgstr ""
 msgid "Enable Disk Cache"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:686
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:683
 msgid "Enable HTTP/2 for streaming"
 msgstr ""
 
@@ -2074,7 +2091,7 @@ msgstr ""
 msgid "Enable equalizer"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:516
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:514
 msgid "Enable fading"
 msgstr ""
 
@@ -2098,7 +2115,7 @@ msgstr ""
 msgid "Enable stereo balancer"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:682
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:679
 msgid "Enable volume control"
 msgstr ""
 
@@ -2106,7 +2123,7 @@ msgstr ""
 msgid "Enable/disable scrobbling"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:98
+#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
 msgstr ""
 
@@ -2122,7 +2139,7 @@ msgstr ""
 msgid "Encoding mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:675
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:672
 msgid "Engine"
 msgstr ""
 
@@ -2233,11 +2250,11 @@ msgstr ""
 msgid "Exceeded by"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:712
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:709
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:680
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:677
 msgid "Exclusive mode (Experimental)"
 msgstr ""
 
@@ -2308,20 +2325,20 @@ msgstr ""
 msgid "FLAC"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:715
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:712
 msgid "Fade out on pause / fade in on resume"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:709
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:706
 msgid "Fade out when stopping a track"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:708
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:705
 msgid "Fading"
 msgstr ""
 
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:710
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:713
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:716
 msgid "Fading duration"
 msgstr ""
 
@@ -2377,7 +2394,7 @@ msgstr ""
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:704
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:701
 msgid "Fallback-gain"
 msgstr ""
 
@@ -2402,8 +2419,8 @@ msgstr ""
 msgid "Fetch completed"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:343
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:280
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:336
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:278
 msgid "Fetch entire albums when searching songs"
 msgstr ""
 
@@ -2467,7 +2484,7 @@ msgstr ""
 msgid "Filename"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:322
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:321
 msgid "Filename:"
 msgstr ""
 
@@ -2479,7 +2496,7 @@ msgstr ""
 msgid "Files to transcode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:556
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:555
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
@@ -2606,7 +2623,7 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:484
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:482
 msgid "General settings"
 msgstr ""
 
@@ -2741,7 +2758,7 @@ msgstr ""
 msgid "Grouping name:"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:177
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:174
 msgid "HTTP proxy"
 msgstr ""
 
@@ -2778,7 +2795,7 @@ msgstr ""
 msgid "High (%1 fps)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:691
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:688
 msgid "High watermark"
 msgstr ""
 
@@ -2794,7 +2811,7 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:551
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:550
 msgid "Icon sizes"
 msgstr ""
 
@@ -2840,7 +2857,7 @@ msgstr ""
 msgid "Import..."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:685
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:682
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
@@ -2860,7 +2877,7 @@ msgid ""
 "time a song finishes."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:492
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:490
 msgid "Include album art in the notification"
 msgstr ""
 
@@ -2927,7 +2944,7 @@ msgstr ""
 msgid "Jump to previous song right away"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:545
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:544
 msgid "Keep aspect ratio"
 msgstr ""
 
@@ -3091,10 +3108,10 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:431
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:434
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:439
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:313
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:312
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:169
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:334
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:289
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:327
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:284
 msgid "Login"
 msgstr ""
 
@@ -3120,7 +3137,7 @@ msgstr ""
 msgid "Low complexity profile (LC)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:692
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:689
 msgid "Low watermark"
 msgstr ""
 
@@ -3183,7 +3200,7 @@ msgstr ""
 msgid "Match one or more search terms (OR)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:543
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:542
 msgid "Max cover size"
 msgstr ""
 
@@ -3207,10 +3224,10 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_mainwindow.h:729
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:104
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:218
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:423
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:422
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:429
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:497
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:503
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:495
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:501
 #: ../../build-qt6dev/src/ui_edittagdialog.h:914
 #: ../../build-qt6dev/src/ui_streamingsearchview.h:226
 msgid "MenuPopupToolButton"
@@ -3224,7 +3241,7 @@ msgstr ""
 msgid "Metadata"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:539
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:538
 msgid "Middle"
 msgstr ""
 
@@ -3325,13 +3342,13 @@ msgstr ""
 msgid "Mood"
 msgstr ""
 
+#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:92
 #: ../../build-qt6dev/src/ui_moodbarsettingspage.h:93
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:94
 msgid "Moodbar"
 msgstr ""
 
 #: moodbar/moodbarproxystyle.cpp:378
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:96
+#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:95
 msgid "Moodbar style"
 msgstr ""
 
@@ -3348,8 +3365,8 @@ msgid "Mount points"
 msgstr ""
 
 #: ../../build-qt6dev/src/ui_queueview.h:125
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:310
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:316
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:309
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:315
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:166
 msgid "Move down"
 msgstr ""
@@ -3359,8 +3376,8 @@ msgid "Move to collection..."
 msgstr ""
 
 #: ../../build-qt6dev/src/ui_queueview.h:131
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:309
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:315
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:308
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:314
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:165
 msgid "Move up"
 msgstr ""
@@ -3394,7 +3411,7 @@ msgstr ""
 msgid "Narrow band (NB)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:173
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:170
 msgid "Network Proxy"
 msgstr ""
 
@@ -3460,7 +3477,7 @@ msgstr ""
 msgid "No analyzer"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:695
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:692
 msgid "No audio normalization"
 msgstr ""
 
@@ -3547,11 +3564,11 @@ msgstr ""
 msgid "Not mounted - double click to mount"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:479
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:477
 msgid "Notification type"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:417
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:415
 msgid "Notifications"
 msgstr ""
 
@@ -3586,7 +3603,7 @@ msgstr ""
 msgid "Only show the first"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:549
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:548
 msgid "Opacity"
 msgstr ""
 
@@ -3633,7 +3650,7 @@ msgstr ""
 msgid "Optimize for &quality"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:681
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:678
 msgid "Options"
 msgstr ""
 
@@ -3688,7 +3705,7 @@ msgid "Other options"
 msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:201
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:674
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:671
 msgid "Output"
 msgstr ""
 
@@ -3728,12 +3745,12 @@ msgstr ""
 msgid "Party"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:183
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:180
 #: ../../build-qt6dev/src/ui_userpassdialog.h:93
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:248
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:333
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:270
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:287
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:326
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:268
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:282
 msgid "Password"
 msgstr ""
 
@@ -3741,7 +3758,7 @@ msgstr ""
 msgid "Path"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:323
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:322
 msgid "Pattern"
 msgstr ""
 
@@ -3764,7 +3781,7 @@ msgid ""
 "normalization)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:706
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:703
 msgid "Perform track loudness normalization"
 msgstr ""
 
@@ -3795,7 +3812,7 @@ msgstr ""
 msgid "Play Count"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:554
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:553
 msgid "Play control buttons"
 msgstr ""
 
@@ -3854,7 +3871,7 @@ msgstr ""
 msgid "Playlist"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:552
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:551
 msgid "Playlist buttons"
 msgstr ""
 
@@ -3878,7 +3895,7 @@ msgstr ""
 msgid "Playlist options"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:558
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:557
 msgid "Playlist playing song color"
 msgstr ""
 
@@ -3903,20 +3920,20 @@ msgstr ""
 msgid "Pop"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:485
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:483
 msgid "Popup duration"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:180
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:177
 msgid "Port"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:536
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:535
 msgid "Position"
 msgstr ""
 
 #: equalizer/equalizer.cpp:67
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:702
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:699
 msgid "Pre-amp"
 msgstr ""
 
@@ -3925,9 +3942,9 @@ msgid "Prefer album artist when sending scrobbles"
 msgstr ""
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:252
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:335
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:273
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:290
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:328
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:271
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:285
 msgid "Preferences"
 msgstr ""
 
@@ -3973,14 +3990,14 @@ msgstr ""
 msgid "Pressing \"Previous\" in player will..."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:506
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:504
 msgid "Pretty OSD options"
 msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:102
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:442
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:447
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:495
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:493
 #: ../../build-qt6dev/src/ui_organizedialog.h:280
 msgid "Preview"
 msgstr ""
@@ -4012,11 +4029,11 @@ msgstr ""
 
 #: core/mainwindow.cpp:405
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:423
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:281
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:283
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:278
 msgid ""
 "Qobuz support is not official and requires an API app ID and secret from a "
 "registered application to work. We can't help you getting these."
@@ -4062,7 +4079,7 @@ msgstr ""
 msgid "QueueView"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:699
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:696
 msgid "Radio (equal loudness for all tracks)"
 msgstr ""
 
@@ -4074,7 +4091,7 @@ msgstr ""
 msgid "Radios"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:324
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:323
 msgid "Random"
 msgstr ""
 
@@ -4308,11 +4325,11 @@ msgstr ""
 msgid "Replace the playlist"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:696
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:693
 msgid "Replay Gain"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:698
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:695
 msgid "Replay Gain mode"
 msgstr ""
 
@@ -4413,7 +4430,7 @@ msgstr ""
 msgid "S&huffle playlist"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:178
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:175
 msgid "SOCKS proxy"
 msgstr ""
 
@@ -4449,15 +4466,15 @@ msgstr ""
 msgid "Save album cover"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:321
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:320
 msgid "Save album covers as embedded cover"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:319
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:318
 msgid "Save album covers in album directory"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:320
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:319
 msgid "Save album covers in cache directory"
 msgstr ""
 
@@ -4499,7 +4516,7 @@ msgstr ""
 msgid "Save ratings to song tags when possible"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:97
+#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:96
 msgid "Save the .mood files directly in the songs folders"
 msgstr ""
 
@@ -4511,7 +4528,7 @@ msgstr ""
 msgid "Saving CUE files is not supported."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:317
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:316
 msgid "Saving album covers"
 msgstr ""
 
@@ -4556,9 +4573,9 @@ msgstr ""
 msgid "Search automatically"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:337
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:274
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:292
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:330
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:272
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:287
 msgid "Search delay"
 msgstr ""
 
@@ -4642,11 +4659,11 @@ msgstr ""
 msgid "Select directory for the playlists"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:561
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:560
 msgid "Select playlist playing song color:"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:526
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:523
 msgid "Select tabbar color:"
 msgstr ""
 
@@ -4696,7 +4713,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:521
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:518
 msgid "Settings require restart."
 msgstr ""
 
@@ -4718,7 +4735,7 @@ msgstr ""
 msgid "Show OSD"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:481
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
 msgstr ""
 
@@ -4726,31 +4743,31 @@ msgstr ""
 msgid "Show a glowing animation on the currently playing track"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:95
+#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:94
 msgid "Show a moodbar in the track progress bar"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:489
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:487
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:488
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:486
 msgid "Show a notification when I change the volume"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:490
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I pause playback"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:491
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I resume playback"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:483
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:481
 msgid "Show a popup fro&m the system tray"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:482
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:480
 msgid "Show a pretty OSD"
 msgstr ""
 
@@ -4988,9 +5005,9 @@ msgid ""
 "(whichever occurs earlier)."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:341
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:278
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:296
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:334
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:276
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:291
 msgid "Songs search limit"
 msgstr ""
 
@@ -5022,7 +5039,7 @@ msgstr ""
 msgid "Sponsoring Strawberry"
 msgstr ""
 
-#: core/mainwindow.cpp:402 ../../build-qt6dev/src/ui_spotifysettingspage.h:264
+#: core/mainwindow.cpp:402 ../../build-qt6dev/src/ui_spotifysettingspage.h:262
 msgid "Spotify"
 msgstr ""
 
@@ -5096,7 +5113,7 @@ msgstr ""
 msgid "Strawberry Music Player"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:513
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:511
 msgid "Strawberry Red"
 msgstr ""
 
@@ -5106,7 +5123,7 @@ msgid ""
 "a format that it can play."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:478
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:476
 msgid "Strawberry can show a message when the track changes."
 msgstr ""
 
@@ -5152,7 +5169,7 @@ msgstr ""
 msgid "Stream"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:345
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:338
 msgid "Stream URL method"
 msgstr ""
 
@@ -5168,7 +5185,7 @@ msgstr ""
 msgid "Streaming Tabs View"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:544
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:543
 msgid "Stretch image to fill playlist"
 msgstr ""
 
@@ -5176,8 +5193,8 @@ msgstr ""
 msgid "Strip \"remastered\" and similar from album and title"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:518
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:519
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:515
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:516
 msgid "Style"
 msgstr ""
 
@@ -5208,8 +5225,8 @@ msgstr ""
 msgid "Suggested tags"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:427
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:500
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:426
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:498
 #: ../../build-qt6dev/src/ui_edittagdialog.h:911
 msgid "Summary"
 msgstr ""
@@ -5227,19 +5244,19 @@ msgstr ""
 msgid "System colors"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:559
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:558
 msgid "System highlight color"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:522
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:519
 msgid "Tabbar colors"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:553
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:552
 msgid "Tabbar large mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:557
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:556
 msgid "Tabbar small mode"
 msgstr ""
 
@@ -5255,7 +5272,7 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:707
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:704
 msgid "Target Level"
 msgstr ""
 
@@ -5283,7 +5300,7 @@ msgstr ""
 msgid "Test successful!"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:508
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:506
 msgid "Text options"
 msgstr ""
 
@@ -5301,7 +5318,7 @@ msgstr ""
 msgid "The \"%1\" command could not be started."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:531
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:529
 msgid "The album cover of the currently playing song"
 msgstr ""
 
@@ -5415,11 +5432,11 @@ msgstr ""
 
 #: core/mainwindow.cpp:399
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:421
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:325
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:327
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:320
 msgid ""
 "Tidal support is not official and requires a API token from a registered "
 "application to work. We can't help you getting these."
@@ -5430,7 +5447,7 @@ msgid "Time step"
 msgstr ""
 
 #: playlist/playlist.cpp:1387 organize/organizedialog.cpp:106
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:426
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:425
 #: ../../build-qt6dev/src/ui_edittagdialog.h:923
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:210
 msgid "Title"
@@ -5621,15 +5638,15 @@ msgstr ""
 msgid "Updating collection"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:683
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:680
 msgid "Upmix / downmix to"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:537
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:536
 msgid "Upper Left"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:538
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:537
 msgid "Upper Right"
 msgstr ""
 
@@ -5653,7 +5670,7 @@ msgstr ""
 msgid "Use MATE shortcuts when available"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:329
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
 msgstr ""
 
@@ -5661,7 +5678,7 @@ msgstr ""
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:697
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:694
 msgid "Use Replay Gain metadata if it is available"
 msgstr ""
 
@@ -5677,7 +5694,7 @@ msgstr ""
 msgid "Use X11 shortcuts when available"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:494
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
 msgstr ""
 
@@ -5685,7 +5702,7 @@ msgstr ""
 msgid "Use alternating row colors"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:181
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:178
 msgid "Use authentication"
 msgstr ""
 
@@ -5693,7 +5710,7 @@ msgstr ""
 msgid "Use bitrate management engine"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:524
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:521
 msgid "Use custom color"
 msgstr ""
 
@@ -5701,19 +5718,19 @@ msgstr ""
 msgid "Use dynamic mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:525
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:522
 msgid "Use gradient background"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:184
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:687
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:684
 msgid "Use strict SSL mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:520
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:517
 msgid "Use system theme icons"
 msgstr ""
 
@@ -5741,12 +5758,12 @@ msgstr ""
 msgid "User token:"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:182
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:179
 #: ../../build-qt6dev/src/ui_userpassdialog.h:92
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:247
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:332
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:269
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:286
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:325
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:267
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:281
 msgid "Username"
 msgstr ""
 
@@ -6037,7 +6054,7 @@ msgstr ""
 msgid "biggest first"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:684
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:681
 msgid "channels"
 msgstr ""
 
@@ -6080,7 +6097,7 @@ msgstr ""
 msgid "greater than"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:677
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:674
 msgid "hw"
 msgstr ""
 
@@ -6111,9 +6128,9 @@ msgctxt ""
 msgid "move %n songs"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:338
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:275
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:293
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:331
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:273
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:288
 msgid "ms"
 msgstr ""
 
@@ -6149,11 +6166,11 @@ msgstr ""
 msgid "options"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:678
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:675
 msgid "p&lughw"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:679
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:676
 msgid "pcm"
 msgstr ""
 
