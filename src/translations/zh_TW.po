@@ -2,24 +2,22 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: strawberrymusicplayer\n"
 "X-Crowdin-Project-ID: 668188\n"
-"X-Crowdin-Language: ca\n"
+"X-Crowdin-Language: zh-TW\n"
 "X-Crowdin-File: /master/src/translations/translations.pot\n"
 "X-Crowdin-File-ID: 38\n"
 "Project-Id-Version: strawberrymusicplayer\n"
-"Language-Team: Catalan\n"
-"Language: ca_ES\n"
-"PO-Revision-Date: 2024-07-24 23:57\n"
+"Language-Team: Chinese Traditional\n"
+"Language: zh_TW\n"
+"PO-Revision-Date: 2024-07-24 23:36\n"
 
 #: playlist/playlistlistview.cpp:51
 msgid "\n\n"
 "You can favorite playlists by clicking the star icon next to a playlist name\n\n"
 "Favorited playlists will be saved here"
-msgstr "\n\n"
-"Podeu marcar llistes de reproducció com a preferides fent clic a la icona de l’estrella al costat del nom de la llista corresponent.\n\n"
-"Les vostres llistes preferides es desaran aquí"
+msgstr ""
 
 #: settings/globalshortcutssettingspage.cpp:357
 #, qt-format
@@ -51,7 +49,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:76
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:195
 msgid " kbps"
-msgstr " kb/s"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:689
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:714
@@ -62,7 +60,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:441
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:446
 msgid " pt"
-msgstr "pt"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:356
 msgid " s"
@@ -71,36 +69,36 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:411
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:486
 msgid " seconds"
-msgstr " segons"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
-msgstr "cançons"
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:214 scrobbler/scrobblingapi20.cpp:223
 #, qt-format
 msgid "%1 Scrobbler Authentication"
-msgstr "%1 Autenticació d'Scrobbler"
+msgstr ""
 
 #: context/contextview.cpp:419
 #, qt-format
 msgid "%1 album"
-msgstr "%1 àlbum"
+msgstr ""
 
 #: context/contextview.cpp:420
 #, qt-format
 msgid "%1 albums"
-msgstr "%1 àlbums"
+msgstr ""
 
 #: context/contextview.cpp:415
 #, qt-format
 msgid "%1 artist"
-msgstr "%1 artista"
+msgstr ""
 
 #: context/contextview.cpp:416
 #, qt-format
 msgid "%1 artists"
-msgstr "%1 artistes"
+msgstr ""
 
 #: equalizer/equalizerslider.cpp:41 equalizer/equalizerslider.cpp:42
 #: equalizer/equalizerslider.cpp:59
@@ -111,57 +109,57 @@ msgstr ""
 #: utilities/timeutils.cpp:67
 #, qt-format
 msgid "%1 days"
-msgstr "%1 dies"
+msgstr ""
 
 #: utilities/timeutils.cpp:87
 #, qt-format
 msgid "%1 days ago"
-msgstr "fa %1 dies"
+msgstr ""
 
 #: settings/coverssettingspage.cpp:247
 #, qt-format
 msgid "%1 does not need authentication."
-msgstr "%1 no necessita autenticació."
+msgstr ""
 
 #: settings/coverssettingspage.cpp:242
 #, qt-format
 msgid "%1 needs authentication."
-msgstr "%1 necessita autenticació."
+msgstr ""
 
 #: playlistparsers/playlistparser.cpp:131
 #, qt-format
 msgid "%1 playlists (%2)"
-msgstr "%1 llistes de reproducció (%2)"
+msgstr ""
 
 #: playlist/playlistmanager.cpp:447
 #, qt-format
 msgid "%1 selected of"
-msgstr "%1 seleccionades de"
+msgstr ""
 
 #: context/contextview.cpp:411
 #, qt-format
 msgid "%1 song"
-msgstr "%1 cançó"
+msgstr ""
 
 #: device/deviceview.cpp:146
 #, qt-format
 msgid "%1 song%2"
-msgstr "%1 cançó%2"
+msgstr ""
 
 #: context/contextview.cpp:412
 #, qt-format
 msgid "%1 songs"
-msgstr "%1 cançons"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:156
 #, qt-format
 msgid "%1 songs found"
-msgstr "S’han trobat %1 cançons"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:153
 #, qt-format
 msgid "%1 songs found (showing %2)"
-msgstr "S’han trobat %1 cançons (se’n mostren %2)"
+msgstr ""
 
 #: utilities/filemanagerutils.cpp:145
 #, qt-format
@@ -171,12 +169,12 @@ msgstr ""
 #: dialogs/edittagdialog.cpp:698
 #, qt-format
 msgid "%1 songs selected."
-msgstr "%1 cançons seleccionades."
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:561
 #, qt-format
 msgid "%1 transferred"
-msgstr "%1 transferit"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:405
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:466
@@ -186,17 +184,17 @@ msgstr ""
 #: transcoder/transcodedialog.cpp:315
 #, c-format, qt-plural-format
 msgid "%n failed"
-msgstr "%n han fallat"
+msgstr ""
 
 #: transcoder/transcodedialog.cpp:311
 #, c-format, qt-plural-format
 msgid "%n finished"
-msgstr "%n han acabat"
+msgstr ""
 
 #: transcoder/transcodedialog.cpp:307
 #, c-format, qt-plural-format
 msgid "%n remaining"
-msgstr "%n restants"
+msgstr ""
 
 #: playlist/playlistmanager.cpp:453 queue/queue.cpp:255
 #, c-format, qt-plural-format
@@ -219,35 +217,35 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
-msgstr "&Quant a l’Strawberry"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:661
 msgid "&Add file..."
-msgstr "&Afegeix un fitxer..."
+msgstr ""
 
 #: playlist/playlistheader.cpp:64
 msgid "&Align text"
-msgstr "&Alinea el text"
+msgstr ""
 
 #: playlist/playlistheader.cpp:67
 msgid "&Center"
-msgstr "&Centre"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:635
 msgid "&Clear playlist"
-msgstr "&Neteja la llista de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
-msgstr "Gestor de &cobertes"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
-msgstr "&Personalitzades"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:285
 msgid "&Default"
-msgstr "Per &defecte"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:700
 msgid "&Do a full collection rescan"
@@ -255,16 +253,16 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:672
 msgid "&Equalizer"
-msgstr "&Equalitzador"
+msgstr ""
 
 #: playlist/playlistheader.cpp:103
 #, qt-format
 msgid "&Hide %1"
-msgstr "&Amaga «%1»"
+msgstr ""
 
 #: playlist/playlistheader.cpp:57
 msgid "&Hide..."
-msgstr "&Amaga…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:675
 msgid "&Jump to the currently playing track"
@@ -272,7 +270,7 @@ msgstr ""
 
 #: playlist/playlistheader.cpp:66
 msgid "&Left"
-msgstr "&Esquerra"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
@@ -288,7 +286,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:732
 msgid "&Music"
-msgstr "&Música"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:696
 msgid "&Mute"
@@ -308,23 +306,23 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:284
 msgid "&None"
-msgstr "&Cap"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:665
 msgid "&Open file..."
-msgstr "&Obre un fitxer…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:614
 msgid "&Play"
-msgstr "&Reprodueix"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:626
 msgid "&Quit"
-msgstr "&Surt"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:670
 msgid "&Repeat mode"
-msgstr "Mode de repetició"
+msgstr ""
 
 #: playlist/playlistheader.cpp:59
 msgid "&Reset columns to default"
@@ -332,7 +330,7 @@ msgstr ""
 
 #: playlist/playlistheader.cpp:68
 msgid "&Right"
-msgstr "&Dreta"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:691
 msgid "&Save all playlists..."
@@ -340,11 +338,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:649
 msgid "&Settings..."
-msgstr "&Paràmetres…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
-msgstr "Mode de me&scla"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:618
 msgid "&Stop"
@@ -352,11 +350,11 @@ msgstr ""
 
 #: playlist/playlistheader.cpp:58
 msgid "&Stretch columns to fit window"
-msgstr "&Encabeix les columnes a la finestra"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:735
 msgid "&Tools"
-msgstr "&Eines"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
@@ -380,7 +378,7 @@ msgstr ""
 
 #: dialogs/edittagdialog.cpp:103
 msgid "(different across multiple songs)"
-msgstr "(diferents a les diverses cançons)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:223
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:224
@@ -398,15 +396,15 @@ msgstr ""
 
 #: utilities/timeutils.cpp:67
 msgid "1 day"
-msgstr "1 dia"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:550
 msgid "40%"
-msgstr "40 %"
+msgstr ""
 
 #: smartplaylists/smartplaylistsmodel.cpp:72
 msgid "50 random tracks"
-msgstr "50 peces a l’atzar"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:272
 msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See: <a href=\"https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin\"><span style=\" text-decoration: underline; color:#0000ff;\">https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin</span></a> for instructions on how to install the plugin.</p></body></html>"
@@ -415,8 +413,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_organizedialog.h:268
 msgid "<p>Tokens start with %, for example: %artist %album %title </p>\n\n"
 "<p>If you surround sections of text that contain a token with curly-braces, that section will be hidden if the token is empty.</p>"
-msgstr "<p>Les fitxes de reemplaçament comencen amb %, per exemple: %artist %album %title </p>\n\n"
-"<p>Si demarqueu entre claus una secció de text que contingui una fitxa de remplaçament, aquesta secció no es mostrarà si la fitxa de remplaçament es troba buida.</p>"
+msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:88
 msgid "A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs."
@@ -428,7 +425,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:191
 msgid "A&utomatic"
-msgstr "Automàtic"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "A-Z"
@@ -440,11 +437,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:676
 msgid "ALSA plugin:"
-msgstr "Connector de l’ALSA:"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:331
 msgid "API Token"
-msgstr "Testimoni de l’API"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:193
 msgid "ASF (WMA)"
@@ -454,7 +451,7 @@ msgstr ""
 #: covermanager/albumcoversearcher.cpp:184
 #: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:139
 msgid "Abort"
-msgstr "Interromp"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:701
 msgid "Abort collection scan"
@@ -462,15 +459,15 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_about.h:152
 msgid "About"
-msgstr "Quant a"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:695
 msgid "About &Qt"
-msgstr "Quant al &Qt"
+msgstr ""
 
 #: dialogs/about.cpp:43
 msgid "About Strawberry"
-msgstr "Quant a l’Strawberry"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:192
 msgid "Absolu&te"
@@ -478,12 +475,12 @@ msgstr ""
 
 #: playlist/playlistsaveoptionsdialog.cpp:43
 msgid "Absolute"
-msgstr "Absoluts"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:282
 msgctxt "Category label"
 msgid "Action"
-msgstr "Acció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:674
 msgid "Add &folder..."
@@ -496,39 +493,39 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:403
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:464
 msgid "Add a new line if supported by the notification type"
-msgstr "Afegeix una línia nova si és compatible amb el tipus de notificació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:224
 msgid "Add all tracks from a directory and all its subdirectories"
-msgstr "Afegeix totes les peces des d’una carpeta y las seves subcarpetes"
+msgstr ""
 
 #: settings/collectionsettingspage.cpp:252
 msgid "Add directory..."
-msgstr "Afegeix un directori…"
+msgstr ""
 
 #: core/mainwindow.cpp:2330
 msgid "Add file"
-msgstr "Afegeix un fitxer"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:711
 msgid "Add file to transcoder"
-msgstr "Afegeix un fitxer al convertidor"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:709
 msgid "Add file(s) to transcoder"
-msgstr "Afegeix fitxer(s) al convertidor"
+msgstr ""
 
 #: transcoder/transcodedialog.cpp:329
 msgid "Add files to transcode"
-msgstr "Afegeix fitxers per a convertir-los"
+msgstr ""
 
 #: core/mainwindow.cpp:2356 transcoder/transcodedialog.cpp:421
 msgid "Add folder"
-msgstr "Afegeix una carpeta"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:444
 msgid "Add new folder..."
-msgstr "Afegeix una carpeta nova…"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:432
 msgid "Add search term"
@@ -542,47 +539,47 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:364
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:422
 msgid "Add song album tag"
-msgstr "Afegeix l’etiqueta d’àlbum a la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:370
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:428
 msgid "Add song albumartist tag"
-msgstr "Afegeix l’etiqueta «albumartist» a la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:361
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:419
 msgid "Add song artist tag"
-msgstr "Afegeix l’etiqueta d’artista a la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:376
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:434
 msgid "Add song composer tag"
-msgstr "Afegeix l’etiqueta de compositor a la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:385
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:443
 msgid "Add song disc tag"
-msgstr "Afegeix l’etiqueta de disc a la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:407
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:468
 msgid "Add song filename"
-msgstr "Afegeix el nom de fitxer de la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:391
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:449
 msgid "Add song genre tag"
-msgstr "Afegeix l’etiqueta de gènere a la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:382
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:440
 msgid "Add song grouping tag"
-msgstr "Afegeix etiqueta d’agrupació de la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:394
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:452
 msgid "Add song length tag"
-msgstr "Afegeix l’etiqueta de durada a la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:419
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:476
@@ -592,37 +589,37 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:379
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:437
 msgid "Add song performer tag"
-msgstr "Afegeix etiqueta d’intèrpret de la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:397
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:455
 msgid "Add song play count"
-msgstr "Afegeix el nombre de reproduccions"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:415
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:461
 msgid "Add song rating"
-msgstr "Afegeix una valoració a la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:400
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:458
 msgid "Add song skip count"
-msgstr "Afegeix comptador de passades de cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:367
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:425
 msgid "Add song title tag"
-msgstr "Afegeix l’etiqueta de títol a la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:388
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:446
 msgid "Add song track tag"
-msgstr "Afegeix l’etiqueta de número de peça a la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:373
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:431
 msgid "Add song year tag"
-msgstr "Afegeix l’etiqueta d’any a la cançó"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:713
 msgid "Add stream..."
@@ -634,7 +631,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:2132
 msgid "Add to another playlist"
-msgstr "Afegeix a una altra llista de reproducció"
+msgstr ""
 
 #: streaming/streamingsearchview.cpp:328
 msgid "Add to artists"
@@ -642,7 +639,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:215
 msgid "Add to playlist"
-msgstr "Afegeix a la llista de reproducció"
+msgstr ""
 
 #: streaming/streamingsearchview.cpp:334
 msgid "Add to songs"
@@ -651,40 +648,40 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:344
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:352
 msgid "Add to the queue"
-msgstr "Afegeix a la cua"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:221
 msgid "Add..."
-msgstr "Afegeix..."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:99
 msgid "Added this month"
-msgstr "Afegides aquest mes"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:93
 msgid "Added this week"
-msgstr "Afegides aquesta setmana"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:98
 msgid "Added this year"
-msgstr "Afegides aquest any"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:92
 msgid "Added today"
-msgstr "Afegides avui"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:94
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:96
 msgid "Added within three months"
-msgstr "Afegides els últims tres mesos"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:316
 msgid "Advanced grouping..."
-msgstr "Agrupament avançat…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:262
 msgid "After copying..."
-msgstr "Després de copiar…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:533
 msgid "Albu&m cover"
@@ -701,11 +698,11 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_edittagdialog.h:921
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:208
 msgid "Album"
-msgstr "Àlbum"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:700
 msgid "Album (ideal loudness for all tracks)"
-msgstr "Àlbum (volum ideal per a totes les peces)"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:103
 #: ../../build-qt6dev/src/ui_groupbydialog.h:195
@@ -724,7 +721,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:237
 #: ../../build-qt6dev/src/ui_edittagdialog.h:920
 msgid "Album artist"
-msgstr "Artista de l’àlbum"
+msgstr ""
 
 #: dialogs/edittagdialog.cpp:867
 msgid "Album cover editing is only available for collection songs."
@@ -744,7 +741,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:114
 msgid "Albums"
-msgstr "Àlbums"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:340
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:277
@@ -754,36 +751,36 @@ msgstr ""
 
 #: covermanager/albumcovermanager.cpp:171
 msgid "Albums with covers"
-msgstr "Àlbums amb caràtules"
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:172
 msgid "Albums without covers"
-msgstr "Àlbums sense caràtules"
+msgstr ""
 
 #: core/mainwindow.cpp:231
 msgid "All Files (*)"
-msgstr "Tots els fitxers (*)"
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:170
 msgid "All albums"
-msgstr "Tots els àlbums"
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:346
 msgid "All artists"
-msgstr "Tots els artistes"
+msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:82
 msgid "All files (*)"
-msgstr "Tots els fitxers (*)"
+msgstr ""
 
 #: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "All playlists (%1)"
-msgstr "Totes les llistes de reproducció (%1)"
+msgstr ""
 
 #: smartplaylists/smartplaylistsmodel.cpp:115
 msgid "All tracks"
-msgstr "Totes les peces"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:276
 msgid "Allow extended ASCII characters"
@@ -791,20 +788,20 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:141
 msgid "Allow mid/side encoding"
-msgstr "Permet la codificació centre/costats"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:231
 msgid "Alongside the originals"
-msgstr "Al costat dels originals"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:334
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:348
 msgid "Always start playing"
-msgstr "Comença sempre la reproducció"
+msgstr ""
 
 #: device/gpodloader.cpp:81
 msgid "An error occurred loading the iTunes database"
-msgstr "S’ha produït un error en carregar la base de dades de l’iTunes"
+msgstr ""
 
 #: moodbar/moodbarrenderer.cpp:168
 msgid "Angry"
@@ -812,15 +809,15 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:285
 msgid "App ID"
-msgstr "Id. de l’aplicació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:288
 msgid "App Secret"
-msgstr "Secret de l’aplicació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:517
 msgid "Appearance"
-msgstr "Aparença"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:346
 msgid "Append explicit to album title for explicit albums"
@@ -828,7 +825,7 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:237
 msgid "Append files/URLs to the playlist"
-msgstr "Afegeix fitxers/URL a la llista de reproducció"
+msgstr ""
 
 #: collection/collectionview.cpp:378
 #: smartplaylists/smartplaylistsviewcontainer.cpp:66
@@ -836,15 +833,15 @@ msgstr "Afegeix fitxers/URL a la llista de reproducció"
 #: streaming/streamingcollectionview.cpp:329 radios/radioview.cpp:69
 #: device/deviceview.cpp:244
 msgid "Append to current playlist"
-msgstr "Afegeix a la llista de reproducció actual"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:341
 msgid "Append to the playlist"
-msgstr "Afegeix a la llista de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:703
 msgid "Apply compression to prevent clipping"
-msgstr "Aplica compressió per evitar el «clipping»"
+msgstr ""
 
 #: dialogs/deleteconfirmationdialog.cpp:73
 msgid "Are you sure you want to continue?"
@@ -853,7 +850,7 @@ msgstr ""
 #: equalizer/equalizer.cpp:230
 #, qt-format
 msgid "Are you sure you want to delete the \"%1\" preset?"
-msgstr "Esteu segur que voleu suprimir la predefinició «%1»?"
+msgstr ""
 
 #: dialogs/edittagdialog.cpp:1338
 msgid "Are you sure you want to reset this song's play statistics?"
@@ -889,11 +886,11 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_edittagdialog.h:924
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:209
 msgid "Artist"
-msgstr "Artista"
+msgstr ""
 
 #: organize/organizedialog.cpp:109
 msgid "Artist's initial"
-msgstr "Inicials de l’artista"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:113
 msgid "Artists"
@@ -907,12 +904,12 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:194
 msgid "As&k when saving"
-msgstr "&Pregunta en desar"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:228
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:291
 msgid "Audio format"
-msgstr "Format d’àudio"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:694
 msgid "Audio normalization"
@@ -920,11 +917,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:671
 msgid "Audio output"
-msgstr "Sortida d’àudio"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:336
 msgid "Audio quality"
-msgstr "Qualitat d’àudio"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:267
 msgid "Authenticate"
@@ -933,7 +930,7 @@ msgstr ""
 #: tidal/tidalrequest.cpp:144 spotify/spotifyrequest.cpp:127
 #: qobuz/qobuzservice.cpp:270
 msgid "Authenticating..."
-msgstr "S’està autenticant…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:311
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:167
@@ -941,13 +938,13 @@ msgstr "S’està autenticant…"
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:328
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:284
 msgid "Authentication"
-msgstr "Autenticació"
+msgstr ""
 
 #: settings/coverssettingspage.cpp:382 settings/lyricssettingspage.cpp:256
 #: settings/tidalsettingspage.cpp:214 settings/spotifysettingspage.cpp:167
 #: settings/qobuzsettingspage.cpp:177
 msgid "Authentication failed"
-msgstr "Ha fallat l’autenticació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
@@ -963,15 +960,15 @@ msgstr ""
 
 #: playlist/playlistsaveoptionsdialog.cpp:41
 msgid "Automatic"
-msgstr "Automàtic"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:446
 msgid "Automatic updating"
-msgstr "Actualització automàtica"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:460
 msgid "Automatically open single categories in the collection tree"
-msgstr "Expandeix automàticament les categories úniques en l’arbre de la col·lecció"
+msgstr ""
 
 #: settings/coverssettingspage.cpp:439
 #, qt-format
@@ -997,7 +994,7 @@ msgstr ""
 
 #: widgets/freespacebar.cpp:67
 msgid "Available"
-msgstr "Disponible"
+msgstr ""
 
 #: filterparser/filterparser.cpp:481
 msgid "Available fields"
@@ -1005,11 +1002,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:221
 msgid "Average bitrate"
-msgstr "Taxa de bits mitjana"
+msgstr ""
 
 #: covermanager/coversearchstatisticsdialog.cpp:82
 msgid "Average image size"
-msgstr "Mida d’imatge mitjana"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:670
 msgid "Backend"
@@ -1017,23 +1014,23 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:507
 msgid "Background color"
-msgstr "Color de fons"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:527
 msgid "Background image"
-msgstr "Imatge de fons"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:511
 msgid "Background opacity"
-msgstr "Opacitat del fons"
+msgstr ""
 
 #: core/database.cpp:564
 msgid "Backing up database"
-msgstr "S’està fent una còpia de seguretat de la base de dades"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_equalizer.h:177
 msgid "Balance"
-msgstr "Balanç"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:298
 msgid "Base64 encoded secret"
@@ -1041,7 +1038,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:512
 msgid "Basic Blue"
-msgstr "Blau bàsic"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:266
 msgid "Basic authentication"
@@ -1049,11 +1046,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:314
 msgid "Behavior"
-msgstr "Comportament"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:79
 msgid "Best"
-msgstr "Millor"
+msgstr ""
 
 #: playlist/playlistview.cpp:224
 msgid "Bit"
@@ -1074,7 +1071,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:899
 msgid "Bit rate"
-msgstr "Taxa de bits"
+msgstr ""
 
 #: context/contextview.cpp:167 collection/savedgroupingmanager.cpp:151
 #: playlist/playlist.cpp:1407 ../../build-qt6dev/src/ui_groupbydialog.h:210
@@ -1086,7 +1083,7 @@ msgstr "Taxa de bits"
 #: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:75
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
-msgstr "Taxa de bits"
+msgstr ""
 
 #: organize/organizedialog.cpp:121
 msgctxt "Refers to bitrate in file organize dialog."
@@ -1095,23 +1092,23 @@ msgstr ""
 
 #: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
-msgstr "Analitzador de blocs"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:142
 msgid "Block type"
-msgstr "Tipus de bloc"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:547
 msgid "Blur amount"
-msgstr "Quantitat de difuminació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:501
 msgid "Body"
-msgstr "Cos"
+msgstr ""
 
 #: analyzer/boomanalyzer.cpp:43
 msgid "Boom analyzer"
-msgstr "Analitzador de ressonància"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:540
 msgid "Bottom Left"
@@ -1123,7 +1120,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:535
 msgid "Browse..."
-msgstr "Explora…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:688
 msgid "Buffer"
@@ -1131,11 +1128,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:690
 msgid "Buffer duration"
-msgstr "Durada de la memòria intermèdia"
+msgstr ""
 
 #: engine/gstengine.cpp:699
 msgid "Buffering"
-msgstr "Emplenant la memòria intermèdia"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:668
 msgid "C&onsole"
@@ -1155,15 +1152,15 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr "Cancel·la"
+msgstr ""
 
 #: tidal/tidalstreamurlrequest.cpp:105 qobuz/qobuzstreamurlrequest.cpp:101
 msgid "Cancelled."
-msgstr "S’ha cancel·lat."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:916
 msgid "Change art"
-msgstr "Canvia la coberta"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Change repeat mode"
@@ -1171,7 +1168,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
-msgstr "Canvia la drecera…"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:77
 msgid "Change shuffle mode"
@@ -1179,23 +1176,23 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:351
 msgid "Change the currently playing song"
-msgstr "Canvia la cançó que s’està reproduint ara"
+msgstr ""
 
 #: core/commandlineoptions.cpp:243
 msgid "Change the language"
-msgstr "Canvia la llengua"
+msgstr ""
 
 #: core/mainwindow.cpp:821
 msgid "Check for updates..."
-msgstr "Comprova si hi ha actualitzacions…"
+msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:94
 msgid "Choose a name for your smart playlist"
-msgstr "Trieu un nom per a la llista intel·ligent"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:510
 msgid "Choose color..."
-msgstr "Tria el color…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
@@ -1203,7 +1200,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:509
 msgid "Choose font..."
-msgstr "Tria el tipus de lletra…"
+msgstr ""
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Choose how the playlist is sorted and how many songs it will contain."
@@ -1219,12 +1216,12 @@ msgstr ""
 
 #: equalizer/equalizer.cpp:140
 msgid "Classical"
-msgstr "Clàssica"
+msgstr ""
 
 #: widgets/lineedit.cpp:58 transcoder/transcodedialog.cpp:104
 #: ../../build-qt6dev/src/ui_queueview.h:141
 msgid "Clear"
-msgstr "Neteja"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:471
 msgid "Clear Disk Cache"
@@ -1236,7 +1233,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:2421 ../../build-qt6dev/src/ui_mainwindow.h:637
 msgid "Clear playlist"
-msgstr "Neteja la llista de reproducció"
+msgstr ""
 
 #: dialogs/about.cpp:163
 msgid "Clementine authors"
@@ -1248,7 +1245,7 @@ msgstr ""
 
 #: collection/collectionview.cpp:338
 msgid "Click here to add some music"
-msgstr "Feu clic aquí per afegir música"
+msgstr ""
 
 #: streaming/streamingcollectionview.cpp:307
 msgid "Click here to retrieve music"
@@ -1256,24 +1253,24 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_trackslider.h:68
 msgid "Click to toggle between remaining time and total time"
-msgstr "Feu-hi clic per a alternar entre el temps de reproducció restant i el total"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:330
 msgid "Client ID"
-msgstr "Id. del client"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:156
 #: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:138
 msgid "Close"
-msgstr "Tanca"
+msgstr ""
 
 #: playlist/playlisttabbar.cpp:80
 msgid "Close playlist"
-msgstr "Tanca la llista de reproducció"
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:259
 msgid "Closing this window will stop searching for album covers."
-msgstr "En tancar aquesta finestra es detindrà la cerca de les caràtules dels àlbums."
+msgstr ""
 
 #: equalizer/equalizer.cpp:141
 msgid "Club"
@@ -1283,7 +1280,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:442
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
-msgstr "Col·lecció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:90
 msgid "Collection Filter"
@@ -1291,29 +1288,29 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:187
 msgid "Collection advanced grouping"
-msgstr "Agrupació avançada de la col·lecció"
+msgstr ""
 
 #: core/mainwindow.cpp:2988
 msgid "Collection rescan notice"
-msgstr "Avís de reescaneig de la col·lecció"
+msgstr ""
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:95
 msgid "Collection search"
-msgstr "Cerca a la col·lecció"
+msgstr ""
 
 #: core/commandlineoptions.cpp:247
 msgid "Comma separated list of class:level, level is 0-3"
-msgstr "Llista separada per comes de classe:nivell, el nivell és 0-3"
+msgstr ""
 
 #: playlist/playlist.cpp:1416 smartplaylists/smartplaylistsearchterm.cpp:391
 #: organize/organizedialog.cpp:119
 #: ../../build-qt6dev/src/ui_edittagdialog.h:928
 msgid "Comment"
-msgstr "Comentari"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:930
 msgid "Compilation"
-msgstr "Compilació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:935
 msgid "Complete lyrics automatically"
@@ -1321,11 +1318,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:926
 msgid "Complete tags automatically"
-msgstr "Completa les etiquetes automàticament"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:702
 msgid "Complete tags automatically..."
-msgstr "Completa les etiquetes automàticament…"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1397
 #: organize/organizedialog.cpp:111
@@ -1334,7 +1331,7 @@ msgstr "Completa les etiquetes automàticament…"
 #: ../../build-qt6dev/src/ui_groupbydialog.h:248
 #: ../../build-qt6dev/src/ui_edittagdialog.h:925
 msgid "Composer"
-msgstr "Compositor"
+msgstr ""
 
 #: settings/subsonicsettingspage.cpp:131 settings/tidalsettingspage.cpp:152
 #: settings/tidalsettingspage.cpp:159 settings/tidalsettingspage.cpp:163
@@ -1351,7 +1348,7 @@ msgstr ""
 #: streaming/streamingsongsview.cpp:60 streaming/streamingtabsview.cpp:64
 #, qt-format
 msgid "Configure %1..."
-msgstr "Configura %1…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:555
 msgid "Configure buttons"
@@ -1359,19 +1356,19 @@ msgstr ""
 
 #: core/mainwindow.cpp:691
 msgid "Configure collection..."
-msgstr "Configura la col·lecció…"
+msgstr ""
 
 #: device/devicemanager.cpp:352 device/devicemanager.cpp:353
 msgid "Connect device"
-msgstr "Connecta el dispositiu"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_console.h:76
 msgid "Console"
-msgstr "Terminal"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
-msgstr "Taxa de bits constant"
+msgstr ""
 
 #: core/mainwindow.cpp:385 ../../build-qt6dev/src/ui_contextsettingspage.h:359
 msgid "Context"
@@ -1387,11 +1384,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:381
 msgid "Convert all music"
-msgstr "Converteix tota la música"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:380
 msgid "Convert any music that the device can't play"
-msgstr "Convertir qualsevol música que el dispositiu no pugui reproduir"
+msgstr ""
 
 #: core/mainwindow.cpp:767
 msgid "Copy URL(s)..."
@@ -1404,7 +1401,7 @@ msgstr ""
 #: core/mainwindow.cpp:771 widgets/fileviewlist.cpp:47
 #: device/deviceview.cpp:249
 msgid "Copy to collection..."
-msgstr "Copia a la col·lecció…"
+msgstr ""
 
 #: playlist/playlistlistcontainer.cpp:386
 msgid "Copy to device"
@@ -1413,7 +1410,7 @@ msgstr ""
 #: core/mainwindow.cpp:774 collection/collectionview.cpp:393
 #: playlist/playlistlistcontainer.cpp:93 widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
-msgstr "Copia al dispositiu…"
+msgstr ""
 
 #: dialogs/snapdialog.cpp:66
 msgid "Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:"
@@ -1432,7 +1429,7 @@ msgstr ""
 #: transcoder/transcoder.cpp:73
 #, qt-format
 msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
-msgstr "No s’ha pogut crear l’element «%1» de GStreamer. Comproveu que teniu tots els connectors requerits de GStramer instal·lats"
+msgstr ""
 
 #: core/songloader.cpp:313
 #, qt-format
@@ -1495,17 +1492,17 @@ msgstr ""
 
 #: playlist/playlistmanager.cpp:207
 msgid "Couldn't create playlist"
-msgstr "No s’ha pogut crear la llista de reproducció"
+msgstr ""
 
 #: transcoder/transcoder.cpp:431
 #, qt-format
 msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
-msgstr "No s’ha pogut trobar un muxer per %1. Comproveu que teniu els connectors adequats de GStreamer instal·lats"
+msgstr ""
 
 #: transcoder/transcoder.cpp:426
 #, qt-format
 msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
-msgstr "No s’ha pogut trobar un codificador per %1. Comproveu que teniu els connectors adequats de GStreamer instal·lats"
+msgstr ""
 
 #: core/songloader.cpp:505
 #, qt-format
@@ -1515,11 +1512,11 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:212
 #: ../../build-qt6dev/src/ui_albumcoversearcher.h:102
 msgid "Cover Manager"
-msgstr "Gestor de caràtules"
+msgstr ""
 
 #: dialogs/edittagdialog.cpp:862
 msgid "Cover art not set"
-msgstr "No s’ha definit la coberta"
+msgstr ""
 
 #: dialogs/edittagdialog.cpp:878
 msgid "Cover changed: Will be cleared when saved."
@@ -1567,7 +1564,7 @@ msgstr ""
 #: covermanager/coversearchstatisticsdialog.cpp:74
 #, qt-format
 msgid "Covers from %1"
-msgstr "Caràtules de %1"
+msgstr ""
 
 #: core/commandlineoptions.cpp:236
 msgid "Create a new playlist with files"
@@ -1575,11 +1572,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:711
 msgid "Cross-fade when changing tracks automatically"
-msgstr "Fusiona el so quan es canviï la peça automàticament"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:710
 msgid "Cross-fade when changing tracks manually"
-msgstr "Fusiona el so quan es canviï la peça manualment"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:632
 msgid "Ctrl+Alt+V"
@@ -1641,7 +1638,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_savedgroupingmanager.h:106
 #: ../../build-qt6dev/src/ui_queueview.h:128
 msgid "Ctrl+Up"
-msgstr "Ctrl+Amunt"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:469
 msgid "Current disk cache in use:"
@@ -1649,7 +1646,7 @@ msgstr ""
 
 #: equalizer/equalizer.cpp:139
 msgid "Custom"
-msgstr "Personalitzat"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:560
 msgid "Custom color"
@@ -1657,11 +1654,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:534
 msgid "Custom image:"
-msgstr "Imatge personalitzada:"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:493
 msgid "Custom message settings"
-msgstr "Configuració personalitzada dels missatges"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:421
 msgid "Custom text settings"
@@ -1669,11 +1666,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:514
 msgid "Custom..."
-msgstr "Personalitza..."
+msgstr ""
 
 #: device/udisks2lister.cpp:123
 msgid "D-Bus path"
-msgstr "Camí del D-Bus"
+msgstr ""
 
 #: equalizer/equalizer.cpp:142
 msgid "Dance"
@@ -1697,15 +1694,15 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:888
 msgid "Date created"
-msgstr "Data de creació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:891
 msgid "Date modified"
-msgstr "Data de modificació"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:453
 msgid "Days"
-msgstr "Dies"
+msgstr ""
 
 #: core/commandlineoptions.cpp:229
 msgid "Decrease the volume by 4 percent"
@@ -1713,7 +1710,7 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:231
 msgid "Decrease the volume by <value> percent"
-msgstr "Redueix el volum <value> per cent"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:70
 msgid "Decrease volume"
@@ -1730,33 +1727,33 @@ msgstr ""
 #: playlist/playlistlistcontainer.cpp:90
 #: ../../build-qt6dev/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
-msgstr "Eliminar"
+msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Delete cover"
-msgstr "Suprimeix la coberta"
+msgstr ""
 
 #: dialogs/deleteconfirmationdialog.cpp:46 device/deviceview.cpp:429
 msgid "Delete files"
-msgstr "Suprimeix els fitxers"
+msgstr ""
 
 #: device/deviceview.cpp:250
 msgid "Delete from device..."
-msgstr "Suprimeix del dispositiu…"
+msgstr ""
 
 #: core/mainwindow.cpp:776 collection/collectionview.cpp:395
 #: widgets/fileviewlist.cpp:50
 msgid "Delete from disk..."
-msgstr "Suprimeix del disc…"
+msgstr ""
 
 #: equalizer/equalizer.cpp:229 ../../build-qt6dev/src/ui_equalizer.h:172
 msgid "Delete preset"
-msgstr "Elimina la predefinició"
+msgstr ""
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:78
 #: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
-msgstr "Suprimeix la llista intel·ligent"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:259
 msgid "Delete songs"
@@ -1764,24 +1761,24 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:264
 msgid "Delete the original files"
-msgstr "Suprimeix els fitxers originals"
+msgstr ""
 
 #: core/deletefiles.cpp:59
 msgid "Deleting files"
-msgstr "S’estan suprimint els fitxers"
+msgstr ""
 
 #: core/mainwindow.cpp:2047
 msgid "Dequeue selected tracks"
-msgstr "Treu de la cua les peces seleccionades"
+msgstr ""
 
 #: core/mainwindow.cpp:2046
 msgid "Dequeue track"
-msgstr "Treu de la cua la peça"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:261
 #: ../../build-qt6dev/src/ui_transcodedialog.h:230
 msgid "Destination"
-msgstr "Destí"
+msgstr ""
 
 #: core/filesystemmusicstorage.cpp:92
 #, qt-format
@@ -1795,16 +1792,16 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:235
 msgid "Details..."
-msgstr "Detalls…"
+msgstr ""
 
 #: device/giolister.cpp:193 ../../build-qt6dev/src/ui_backendsettingspage.h:672
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:422
 msgid "Device"
-msgstr "Dispositiu"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:370
 msgid "Device Properties"
-msgstr "Propietats del dispositiu"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:268
 msgid "Device credentials"
@@ -1812,11 +1809,11 @@ msgstr ""
 
 #: device/deviceview.cpp:241
 msgid "Device properties..."
-msgstr "Propietats del dispositiu…"
+msgstr ""
 
 #: core/mainwindow.cpp:393
 msgid "Devices"
-msgstr "Dispositius"
+msgstr ""
 
 #: dialogs/edittagdialog.cpp:104
 msgid "Different art across multiple songs."
@@ -1824,11 +1821,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:175
 msgid "Direct internet connection"
-msgstr "Connexió directa a Internet"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:219
 msgid "Directory"
-msgstr "Directori"
+msgstr ""
 
 #: playlistparsers/playlistparser.cpp:222
 #, qt-format
@@ -1841,12 +1838,12 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:487
 msgid "Disable duration"
-msgstr "Inhabilita la durada"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:480
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
-msgstr "Inhabilitat"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1391
 #: organize/organizedialog.cpp:115
@@ -1859,24 +1856,24 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:232
 msgid "Discontinuous transmission"
-msgstr "Transmissió discontínua"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:468
 msgid "Disk Cache Size"
-msgstr "Mida de la memòria cau al disc"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:117
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:459
 msgid "Display options"
-msgstr "Opcions de visualització"
+msgstr ""
 
 #: core/commandlineoptions.cpp:241
 msgid "Display the on-screen-display"
-msgstr "Mostra la indicació a pantalla"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:379
 msgid "Do not convert any music"
-msgstr "No converteixis cap musica"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:546
 msgid "Do not cut image"
@@ -1884,7 +1881,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:206
 msgid "Do not overwrite"
-msgstr "No ho sobreescriguis"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_messagedialog.h:121
 msgid "Do not show this message again."
@@ -1897,19 +1894,19 @@ msgstr ""
 
 #: osd/osdbase.cpp:363 ../../build-qt6dev/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
-msgstr "Sense repetició"
+msgstr ""
 
 #: collection/collectionview.cpp:408
 msgid "Don't show in various artists"
-msgstr "No ho mostris a Artistes diversos"
+msgstr ""
 
 #: osd/osdbase.cpp:348 ../../build-qt6dev/src/ui_playlistsequence.h:114
 msgid "Don't shuffle"
-msgstr "Sense mesclar"
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:260
 msgid "Don't stop!"
-msgstr "No aturar!"
+msgstr ""
 
 #: radios/radioview.cpp:85
 msgid "Donate"
@@ -1917,15 +1914,15 @@ msgstr ""
 
 #: device/deviceview.cpp:139
 msgid "Double click to open"
-msgstr "Feu doble clic per obrir"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:350
 msgid "Double clicking a song in the playlist will..."
-msgstr "En fer doble clic a una cançó de la llista…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:340
 msgid "Double clicking a song will..."
-msgstr "En fer doble clic a una cançó..."
+msgstr ""
 
 #: playlist/playlisttabbar.cpp:358
 msgid "Double-click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"
@@ -1940,7 +1937,7 @@ msgstr ""
 
 #: settings/notificationssettingspage.cpp:68
 msgid "Drag to reposition"
-msgstr "Arrossegueu per canviar de posició"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:105
 msgid "Dynamic mode is on"
@@ -1981,24 +1978,24 @@ msgstr ""
 #: core/mainwindow.cpp:2090
 #, qt-format
 msgid "Edit tag \"%1\"..."
-msgstr "Edita l’etiqueta «%1»…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:648
 msgid "Edit tag..."
-msgstr "Edita l’etiqueta…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:886
 msgid "Edit track information"
-msgstr "Edita la informació de la peça"
+msgstr ""
 
 #: collection/collectionview.cpp:398 widgets/fileviewlist.cpp:53
 #: ../../build-qt6dev/src/ui_mainwindow.h:642
 msgid "Edit track information..."
-msgstr "Edita la informació de la peça…"
+msgstr ""
 
 #: collection/collectionview.cpp:399
 msgid "Edit tracks information..."
-msgstr "Edita la informació de les peces..."
+msgstr ""
 
 #: settings/coverssettingspage.cpp:442
 #, qt-format
@@ -2039,7 +2036,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_equalizer.h:174
 msgid "Enable equalizer"
-msgstr "Habilita l’equalitzador"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:516
 msgid "Enable fading"
@@ -2059,11 +2056,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:199
 msgid "Enable song metadata inline edition with click"
-msgstr "Edita les metadades d’una cançó amb un clic"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_equalizer.h:175
 msgid "Enable stereo balancer"
-msgstr "Activa l’equilibrador estèreo"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:682
 msgid "Enable volume control"
@@ -2079,31 +2076,31 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:233
 msgid "Encoding complexity"
-msgstr "Complexitat de la codificació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
-msgstr "Qualitat del motor de codificació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:224
 msgid "Encoding mode"
-msgstr "Mode de codificació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:675
 msgid "Engine"
-msgstr "Motor"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_coverfromurldialog.h:101
 msgid "Enter a URL to download a cover from the Internet:"
-msgstr "Introduïu un URL per a baixar una coberta de la Internet:"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:202
 msgid "Enter a filename for exported covers (no extension):"
-msgstr "Introduïu un nom de fitxer per les caràtules exportades (sense extensió):"
+msgstr ""
 
 #: playlist/playlisttabbar.cpp:181
 msgid "Enter a new name for this playlist"
-msgstr "Introduïu un nom per aquesta llista de reproducció"
+msgstr ""
 
 #: streaming/streamingsearchview.cpp:405
 #: ../../build-qt6dev/src/ui_streamingsearchview.h:232
@@ -2113,7 +2110,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:102
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:216
 msgid "Enter search terms here"
-msgstr "Introduïu els termes de la cerca"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_addstreamdialog.h:77
 msgid "Enter the URL of a stream:"
@@ -2121,7 +2118,7 @@ msgstr ""
 
 #: playlist/playlistlistcontainer.cpp:216
 msgid "Enter the name of the folder"
-msgstr "Introduïu el nom de la carpeta"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_userpassdialog.h:91
 msgid "Enter username and password"
@@ -2133,20 +2130,20 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:91
 msgid "Entire collection"
-msgstr "Tota la col·lecció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_equalizer.h:166
 #: ../../build-qt6dev/src/ui_equalizerslider.h:95
 msgid "Equalizer"
-msgstr "Equalitzador"
+msgstr ""
 
 #: core/commandlineoptions.cpp:245
 msgid "Equivalent to --log-levels *:1"
-msgstr "Equivalent a --log-levels *:1"
+msgstr ""
 
 #: core/commandlineoptions.cpp:246
 msgid "Equivalent to --log-levels *:3"
-msgstr "Equivalent a --log-levels *:3"
+msgstr ""
 
 #: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
 #: collection/collectionview.cpp:715
@@ -2165,16 +2162,16 @@ msgstr ""
 
 #: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
-msgstr "S’ha produït un error en copiar les cançons"
+msgstr ""
 
 #: organize/organizeerrordialog.cpp:76
 msgid "Error deleting songs"
-msgstr "S’ha produït un error en suprimir les cançons"
+msgstr ""
 
 #: transcoder/transcoder.cpp:399
 #, qt-format
 msgid "Error processing %1: %2"
-msgstr "S’ha produït un error en processar %1: %2"
+msgstr ""
 
 #: playlist/songloaderinserter.cpp:114
 msgid "Error while loading audio CD."
@@ -2202,7 +2199,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:712
 msgid "Except between tracks on the same album or in the same CUE sheet"
-msgstr "Excepte entre peces del mateix àlbum o del mateix full CUE"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:680
 msgid "Exclusive mode (Experimental)"
@@ -2210,7 +2207,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:205
 msgid "Existing covers"
-msgstr "Caràtules existents"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
@@ -2223,33 +2220,33 @@ msgstr ""
 #: widgets/loginstatewidget.cpp:156
 #, qt-format
 msgid "Expires on %1"
-msgstr "Caduca el %1"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:226
 msgid "Export Covers"
-msgstr "Exporta les caràtules"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:200
 msgid "Export covers"
-msgstr "Exporta les caràtules"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:203
 msgid "Export downloaded covers"
-msgstr "Exporta les caràtules baixades"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:204
 msgid "Export embedded covers"
-msgstr "Exporta les caràtules incrustades"
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:1019
 #: covermanager/albumcovermanager.cpp:1045
 msgid "Export finished"
-msgstr "Ha finalitzat l’exportació"
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:1030
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
-msgstr "S’han exportat %1 caràtules de %2 (s’han omès %3)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:655
 msgid "F1"
@@ -2277,20 +2274,20 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:715
 msgid "Fade out on pause / fade in on resume"
-msgstr "Atenua el volum en pausar i en reprendre"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:709
 msgid "Fade out when stopping a track"
-msgstr "Esvaeix el so en parar una peça"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:708
 msgid "Fading"
-msgstr "Esvaïment"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:713
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:716
 msgid "Fading duration"
-msgstr "Durada de l’esvaïment"
+msgstr ""
 
 #: core/database.cpp:485 collection/collectionbackend.cpp:118
 #, qt-format
@@ -2351,7 +2348,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:78
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
-msgstr "Ràpid"
+msgstr ""
 
 #: smartplaylists/smartplaylistsmodel.cpp:102
 msgid "Favourite tracks"
@@ -2359,15 +2356,15 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:225
 msgid "Fetch Missing Covers"
-msgstr "Recull les caràtules que falten"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:213
 msgid "Fetch automatically"
-msgstr "Recull automàticament"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:72
 msgid "Fetch completed"
-msgstr "S'han acabat d'obtenir les dades"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:343
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:280
@@ -2377,7 +2374,7 @@ msgstr ""
 #: covermanager/coverfromurldialog.cpp:90
 #: covermanager/coverfromurldialog.cpp:100
 msgid "Fetching cover error"
-msgstr "S’ha produït un error en obtenir la coberta"
+msgstr ""
 
 #: core/songloader.cpp:164 core/songloader.cpp:268
 #, qt-format
@@ -2407,19 +2404,19 @@ msgstr ""
 
 #: organize/organizedialog.cpp:124
 msgid "File extension"
-msgstr "Extensió del fitxer"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:386
 msgid "File formats"
-msgstr "Format dels fitxers"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:93
 msgid "File paths"
-msgstr "Camins dels fitxers"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:905
 msgid "File size"
-msgstr "Mida del fitxer"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:139
 #: ../../build-qt6dev/src/ui_groupbydialog.h:207
@@ -2427,12 +2424,12 @@ msgstr "Mida del fitxer"
 #: ../../build-qt6dev/src/ui_groupbydialog.h:251
 #: ../../build-qt6dev/src/ui_edittagdialog.h:894
 msgid "File type"
-msgstr "Tipus de fitxer"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:903
 #: ../../build-qt6dev/src/ui_transcodedialog.h:220
 msgid "Filename"
-msgstr "Nom de fitxer"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:322
 msgid "Filename:"
@@ -2444,7 +2441,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:217
 msgid "Files to transcode"
-msgstr "Fitxers per convertir"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:556
 msgid "Files, playlists and queue buttons"
@@ -2452,7 +2449,7 @@ msgstr ""
 
 #: context/contextview.cpp:163
 msgid "Filetype"
-msgstr "Tipus de fitxer"
+msgstr ""
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:98
 msgid "Find songs in your collection that match the criteria you specify."
@@ -2460,21 +2457,21 @@ msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:93
 msgid "Finish"
-msgstr "Finalitza"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:58
 #: ../../build-qt6dev/src/ui_groupbydialog.h:190
 msgid "First level"
-msgstr "Primer nivell"
+msgstr ""
 
 #: widgets/playingwidget.cpp:106
 msgid "Fit cover to width"
-msgstr "Ajusta la coberta a l’amplada"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:439
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:444
 msgid "Font"
-msgstr "Lletra tipogràfica"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:443
 msgid "Font for data and lyrics"
@@ -2500,16 +2497,16 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
-msgstr "Força la codificació mono"
+msgstr ""
 
 #: device/deviceview.cpp:239 device/deviceview.cpp:346
 #: device/deviceview.cpp:349
 msgid "Forget device"
-msgstr "Oblida el dispositiu"
+msgstr ""
 
 #: device/deviceview.cpp:347
 msgid "Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."
-msgstr "Oblidar un dispositiu l'eliminarà de la llista i Strawberry haurà de tornar a examinar totes les cançons el proper cop que el connecti."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionviewcontainer.h:55
 #: ../../build-qt6dev/src/ui_playlistcontainer.h:148
@@ -2534,7 +2531,7 @@ msgstr "Oblidar un dispositiu l'eliminarà de la llista i Strawberry haurà de t
 #: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:74
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
-msgstr "Formulari"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:142
 #: ../../build-qt6dev/src/ui_groupbydialog.h:197
@@ -2545,11 +2542,11 @@ msgstr ""
 
 #: analyzer/analyzercontainer.cpp:69
 msgid "Framerate"
-msgstr "Taxa de mostreig"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:234
 msgid "Frames per buffer"
-msgstr "Trames per espai de memòria intermèdia"
+msgstr ""
 
 #: moodbar/moodbarrenderer.cpp:170
 msgid "Frozen"
@@ -2557,15 +2554,15 @@ msgstr ""
 
 #: equalizer/equalizer.cpp:143
 msgid "Full Bass"
-msgstr "Baixos complets"
+msgstr ""
 
 #: equalizer/equalizer.cpp:145
 msgid "Full Bass + Treble"
-msgstr "Baixos i aguts complets"
+msgstr ""
 
 #: equalizer/equalizer.cpp:144
 msgid "Full Treble"
-msgstr "Aguts complets"
+msgstr ""
 
 #: settings/settingsdialog.cpp:135
 msgid "General"
@@ -2573,11 +2570,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:484
 msgid "General settings"
-msgstr "Configuració general"
+msgstr ""
 
 #: lyrics/geniuslyricsprovider.cpp:123
 msgid "Genius Authentication"
-msgstr "Autenticació amb el Genius"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1395
 #: organize/organizedialog.cpp:118
@@ -2586,7 +2583,7 @@ msgstr "Autenticació amb el Genius"
 #: ../../build-qt6dev/src/ui_groupbydialog.h:242
 #: ../../build-qt6dev/src/ui_edittagdialog.h:927
 msgid "Genre"
-msgstr "Estil"
+msgstr ""
 
 #: radios/somafmservice.cpp:72 radios/radioparadiseservice.cpp:66
 #, qt-format
@@ -2595,26 +2592,26 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:268
 msgid "Global Shortcuts"
-msgstr "Dreceres globals"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:692
 msgid "Go to next playlist tab"
-msgstr "Vés a la pestanya de la següent llista de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:693
 msgid "Go to previous playlist tab"
-msgstr "Vés a la pestanya de l'anterior llista de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr "Vés-hi"
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:555
 #: covermanager/coversearchstatisticsdialog.cpp:68
 #: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:73
 #, qt-format
 msgid "Got %1 covers out of %2 (%3 failed)"
-msgstr "S’han trobat %1 caràtules de %2 (%3 han fallat)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:183
 msgid "Grey out unavailable songs in playlists on playback"
@@ -2626,16 +2623,16 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:189
 msgid "Group Collection by..."
-msgstr "Agrupa la col·lecció per…"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:111
 #: streaming/streamingsearchview.cpp:344
 msgid "Group by"
-msgstr "Agrupa per"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:281
 msgid "Group by Album"
-msgstr "Agrupa per àlbum"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album Artist"
@@ -2643,7 +2640,7 @@ msgstr ""
 
 #: collection/collectionfilterwidget.cpp:265
 msgid "Group by Album artist/Album"
-msgstr "Agrupa per artista de l'àlbum/àlbum"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:266
 msgid "Group by Album artist/Album - Disc"
@@ -2659,11 +2656,11 @@ msgstr ""
 
 #: collection/collectionfilterwidget.cpp:279
 msgid "Group by Artist"
-msgstr "Agrupa per artista"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:270
 msgid "Group by Artist/Album"
-msgstr "Agrupa per artista/àlbum"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:271
 msgid "Group by Artist/Album - Disc"
@@ -2671,7 +2668,7 @@ msgstr ""
 
 #: collection/collectionfilterwidget.cpp:272
 msgid "Group by Artist/Year - Album"
-msgstr "Agrupa per artista/any–àlbum"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:273
 msgid "Group by Artist/Year - Album - Disc"
@@ -2679,7 +2676,7 @@ msgstr ""
 
 #: collection/collectionfilterwidget.cpp:282
 msgid "Group by Genre/Album"
-msgstr "Agrupa per gènere/àlbum"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:275
 msgid "Group by Genre/Album artist/Album"
@@ -2687,7 +2684,7 @@ msgstr ""
 
 #: collection/collectionfilterwidget.cpp:276
 msgid "Group by Genre/Artist/Album"
-msgstr "Agrupa per gènere/artista/àlbum"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1399
 #: organize/organizedialog.cpp:113
@@ -2696,19 +2693,19 @@ msgstr "Agrupa per gènere/artista/àlbum"
 #: ../../build-qt6dev/src/ui_groupbydialog.h:250
 #: ../../build-qt6dev/src/ui_edittagdialog.h:919
 msgid "Grouping"
-msgstr "Agrupació"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:339
 msgid "Grouping Name"
-msgstr "Nom d’agrupació"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:339
 msgid "Grouping name:"
-msgstr "Nom d’agrupació:"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:177
 msgid "HTTP proxy"
-msgstr "Servidor intermediari per a l’HTTP"
+msgstr ""
 
 #: moodbar/moodbarrenderer.cpp:172
 msgid "Happy"
@@ -2716,11 +2713,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:373
 msgid "Hardware information"
-msgstr "Informació del maquinari"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:374
 msgid "Hardware information is only available while the device is connected."
-msgstr "La informació del maquinari només està disponible mentre el dispositiu està endollat."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:734
 msgid "Help"
@@ -2736,12 +2733,12 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
-msgstr "Alt"
+msgstr ""
 
 #: analyzer/analyzercontainer.cpp:84
 #, qt-format
 msgid "High (%1 fps)"
-msgstr "Alta (%1 fps)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:691
 msgid "High watermark"
@@ -2757,7 +2754,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:372
 msgid "Icon"
-msgstr "Icona"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:551
 msgid "Icon sizes"
@@ -2765,15 +2762,15 @@ msgstr ""
 
 #: widgets/fancytabwidget.cpp:733
 msgid "Icons on top"
-msgstr "Icones a la part superior"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:197
 msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
-msgstr "En habilitar aquesta opció, podreu fer clic en la cançó seleccionada de la llista de reproducció i editar els valors directament"
+msgstr ""
 
 #: device/devicemanager.cpp:610 device/devicemanager.cpp:618
 msgid "If you continue, this device will work slowly and songs copied to it may not work."
-msgstr "Si continueu, aquest dispositiu funcionarà lentament i les cançons que hi copieu podrien no reproduïr-se."
+msgstr ""
 
 #: dialogs/about.cpp:126
 msgid "If you like Strawberry and can make use of it, consider sponsoring or donating."
@@ -2781,11 +2778,11 @@ msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:80
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
-msgstr "Imatges (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:81
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
-msgstr "Imatges (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
@@ -2797,7 +2794,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:226
 msgid "Import..."
-msgstr "Importa..."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:685
 msgid "Improve headphone listening of stereo audio records (bs2b)"
@@ -2806,12 +2803,12 @@ msgstr ""
 #: utilities/timeutils.cpp:101
 #, qt-format
 msgid "In %1 days"
-msgstr "D’aquí a %1 dies"
+msgstr ""
 
 #: utilities/timeutils.cpp:104
 #, qt-format
 msgid "In %1 weeks"
-msgstr "D’aquí a %1 setmanes"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:82
 msgid "In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes."
@@ -2819,7 +2816,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:492
 msgid "Include album art in the notification"
-msgstr "Inclou la coberta a la notificació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
@@ -2831,7 +2828,7 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:230
 msgid "Increase the volume by <value> percent"
-msgstr "Augmenta el volum <value> per cent"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:69
 msgid "Increase volume"
@@ -2839,11 +2836,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:375
 msgid "Information"
-msgstr "Informació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:272
 msgid "Insert..."
-msgstr "Insereix…"
+msgstr ""
 
 #: dialogs/snapdialog.cpp:77
 msgid "Install strawberry through PPA:"
@@ -2855,11 +2852,11 @@ msgstr ""
 
 #: core/database.cpp:493
 msgid "Integrity check"
-msgstr "Comprovació d’integritat"
+msgstr ""
 
 #: osd/osdbase.cpp:368 ../../build-qt6dev/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
-msgstr "Peces d’introducció"
+msgstr ""
 
 #: device/mtpconnection.cpp:57
 #, qt-format
@@ -2880,7 +2877,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:337
 msgid "Jump to previous song right away"
-msgstr "Vés a la peça anterior"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:545
 msgid "Keep aspect ratio"
@@ -2888,11 +2885,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:316
 msgid "Keep running in the background when the window is closed"
-msgstr "Conserva l’aplicació executant-se en segon pla quan tanqueu la finestra"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:263
 msgid "Keep the original files"
-msgstr "Conserva els fitxers originals"
+msgstr ""
 
 #: core/song.cpp:799
 msgid "LU"
@@ -2904,23 +2901,23 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:327
 msgid "Language"
-msgstr "Llengua"
+msgstr ""
 
 #: equalizer/equalizer.cpp:146
 msgid "Laptop/Headphones"
-msgstr "Portàtil/auriculars"
+msgstr ""
 
 #: equalizer/equalizer.cpp:147
 msgid "Large Hall"
-msgstr "Saló gran"
+msgstr ""
 
 #: widgets/playingwidget.cpp:103
 msgid "Large album cover"
-msgstr "Coberta d’àlbum gran"
+msgstr ""
 
 #: widgets/fancytabwidget.cpp:729
 msgid "Large sidebar"
-msgstr "Barra lateral gran"
+msgstr ""
 
 #: playlist/playlist.cpp:1403
 msgid "Last Played"
@@ -2929,12 +2926,12 @@ msgstr ""
 #: smartplaylists/smartplaylistsmodel.cpp:90
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
-msgstr "Reproduïdes l’última vegada"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:893
 msgctxt "A playlist's tag."
 msgid "Last played"
-msgstr "Darrera reproducció"
+msgstr ""
 
 #: dialogs/lastfmimportdialog.cpp:163
 #, qt-format
@@ -2951,13 +2948,13 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_equalizer.h:176
 msgid "Left"
-msgstr "Esquerra"
+msgstr ""
 
 #: context/contextview.cpp:164 playlist/playlist.cpp:1392
 #: organize/organizedialog.cpp:120
 #: ../../build-qt6dev/src/ui_edittagdialog.h:895
 msgid "Length"
-msgstr "Durada"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:432
 msgid "Libre.fm"
@@ -2982,40 +2979,40 @@ msgstr ""
 
 #: equalizer/equalizer.cpp:148
 msgid "Live"
-msgstr "En directe"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:214
 msgid "Load"
-msgstr "Carregar"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_coverfromurldialog.h:100
 msgid "Load cover from URL"
-msgstr "Carrega la coberta des d’un URL"
+msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Load cover from URL..."
-msgstr "Carrega la coberta des d’un URL…"
+msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:179
 #: covermanager/albumcoverchoicecontroller.cpp:210
 msgid "Load cover from disk"
-msgstr "Carrega la portada des del disc dur"
+msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:106
 msgid "Load cover from disk..."
-msgstr "Carrega la coberta des d’un disc…"
+msgstr ""
 
 #: playlist/playlistcontainer.cpp:347
 msgid "Load playlist"
-msgstr "Carrega la llista de reproducció"
+msgstr ""
 
 #: device/mtploader.cpp:55
 msgid "Loading MTP device"
-msgstr "S’està carregant el dispositiu MTP"
+msgstr ""
 
 #: device/gpodloader.cpp:54
 msgid "Loading iPod database"
-msgstr "S’està carregant la base de dades de l’iPod"
+msgstr ""
 
 #: smartplaylists/playlistgeneratorinserter.cpp:62
 msgid "Loading smart playlist"
@@ -3023,21 +3020,21 @@ msgstr ""
 
 #: playlist/songloaderinserter.cpp:171 dialogs/edittagdialog.cpp:417
 msgid "Loading tracks"
-msgstr "S’estan carregant les peces"
+msgstr ""
 
 #: playlist/songloaderinserter.cpp:201
 msgid "Loading tracks info"
-msgstr "S’està carregant la informació de les peces"
+msgstr ""
 
 #: collection/collectionmodel.cpp:209
 #: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:103
 #: ../../build-qt6dev/src/ui_organizedialog.h:281
 msgid "Loading..."
-msgstr "S’està carregant…"
+msgstr ""
 
 #: core/commandlineoptions.cpp:238
 msgid "Loads files/URLs, replacing current playlist"
-msgstr "Carregar fitxers/URLs, substituïnt l'actual llista de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:420
 msgid "Local file"
@@ -3051,11 +3048,11 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:334
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:289
 msgid "Login"
-msgstr "Entra"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:138
 msgid "Long term prediction profile (LTP)"
-msgstr "Perfil de predicció a llarg termini (LTP)"
+msgstr ""
 
 #: playlist/playlist.cpp:1423
 msgid "Loudness Range"
@@ -3069,11 +3066,11 @@ msgstr ""
 #: analyzer/analyzercontainer.cpp:82
 #, qt-format
 msgid "Low (%1 fps)"
-msgstr "Baixa (%1 fps)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:136
 msgid "Low complexity profile (LC)"
-msgstr "Perfil de baixa complexitat (LC)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:692
 msgid "Low watermark"
@@ -3111,11 +3108,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:135
 msgid "Main profile (MAIN)"
-msgstr "Perfil principal (MAIN)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:101
 msgid "Manage saved groupings"
-msgstr "Gestiona agrupacions guardades"
+msgstr ""
 
 #: settings/coverssettingspage.cpp:433
 #, qt-format
@@ -3124,7 +3121,7 @@ msgstr ""
 
 #: device/deviceproperties.cpp:176
 msgid "Manufacturer"
-msgstr "Fabricant"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:450
 msgid "Mark disappeared songs unavailable"
@@ -3144,7 +3141,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:205
 msgid "Maximum bitrate"
-msgstr "Màxima taxa de bits"
+msgstr ""
 
 #: qobuz/qobuzservice.cpp:479
 msgid "Maximum number of login attempts reached."
@@ -3153,7 +3150,7 @@ msgstr ""
 #: analyzer/analyzercontainer.cpp:83
 #, qt-format
 msgid "Medium (%1 fps)"
-msgstr "Mitja (%1 fps)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:717
 #: ../../build-qt6dev/src/ui_mainwindow.h:720
@@ -3177,7 +3174,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
-msgstr "Metadades"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:539
 msgid "Middle"
@@ -3185,7 +3182,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:202
 msgid "Minimum bitrate"
-msgstr "Taxa de bits mínima"
+msgstr ""
 
 #: settings/tidalsettingspage.cpp:159
 msgid "Missing API token."
@@ -3270,11 +3267,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:448
 msgid "Monitor the collection for changes"
-msgstr "Monitoritza els canvis a la col·lecció"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:457
 msgid "Months"
-msgstr "Mesos"
+msgstr ""
 
 #: playlist/playlist.cpp:1418
 msgid "Mood"
@@ -3296,29 +3293,29 @@ msgstr ""
 
 #: device/giolister.cpp:192
 msgid "Mount point"
-msgstr "Punt de muntatge"
+msgstr ""
 
 #: device/udisks2lister.cpp:125
 msgid "Mount points"
-msgstr "Punts de muntatge"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_queueview.h:125
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:310
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:316
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:166
 msgid "Move down"
-msgstr "Mou cap avall"
+msgstr ""
 
 #: core/mainwindow.cpp:772 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
-msgstr "Mou a la col·lecció…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_queueview.h:131
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:309
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:315
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:165
 msgid "Move up"
-msgstr "Mou cap amunt"
+msgstr ""
 
 #: filterparser/filterparser.cpp:477
 #, qt-format
@@ -3327,33 +3324,33 @@ msgstr ""
 
 #: core/mainwindow.cpp:2330 transcoder/transcodedialog.cpp:330
 msgid "Music"
-msgstr "Música"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:71
 msgid "Mute"
-msgstr "Silenci"
+msgstr ""
 
 #: equalizer/equalizer.cpp:211 collection/savedgroupingmanager.cpp:57
 #: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:80
 #: ../../build-qt6dev/src/ui_deviceproperties.h:371
 msgid "Name"
-msgstr "Nom"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:266
 msgid "Naming options"
-msgstr "Opcions d’anomenament"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:228
 msgid "Narrow band (NB)"
-msgstr "Banda estreta (BE)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:173
 msgid "Network Proxy"
-msgstr "Servidor intermediari de xarxa"
+msgstr ""
 
 #: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:897
 msgid "Never"
-msgstr "Mai"
+msgstr ""
 
 #: smartplaylists/smartplaylistsmodel.cpp:84
 msgid "Never played"
@@ -3362,16 +3359,16 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:332
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:346
 msgid "Never start playing"
-msgstr "Mai no comencis a reproduir"
+msgstr ""
 
 #: playlist/playlistlistcontainer.cpp:89 playlist/playlistlistcontainer.cpp:216
 #: ../../build-qt6dev/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
-msgstr "Carpeta nova"
+msgstr ""
 
 #: core/mainwindow.cpp:2148
 msgid "New playlist"
-msgstr "Llista de reproducció nova"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
@@ -3383,7 +3380,7 @@ msgstr ""
 
 #: widgets/freespacebar.cpp:68
 msgid "New songs"
-msgstr "Cançons noves:"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
@@ -3395,7 +3392,7 @@ msgstr ""
 
 #: dialogs/edittagdialog.cpp:233 dialogs/trackselectiondialog.cpp:72
 msgid "Next"
-msgstr "Següent"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:67
 msgid "Next track"
@@ -3403,7 +3400,7 @@ msgstr ""
 
 #: utilities/timeutils.cpp:102
 msgid "Next week"
-msgstr "La setmana vinent"
+msgstr ""
 
 #: dialogs/edittagdialog.cpp:820 dialogs/edittagdialog.cpp:836
 msgid "No"
@@ -3411,7 +3408,7 @@ msgstr ""
 
 #: analyzer/analyzercontainer.cpp:98
 msgid "No analyzer"
-msgstr "Sense analitzador"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:695
 msgid "No audio normalization"
@@ -3419,11 +3416,11 @@ msgstr ""
 
 #: covermanager/albumcovermanager.cpp:1020
 msgid "No covers to export."
-msgstr "No hi ha cap coberta que exportar."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:145
 msgid "No long blocks"
-msgstr "No utilitzis blocs llargs"
+msgstr ""
 
 #: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1367
 #: qobuz/qobuzrequest.cpp:1426
@@ -3432,7 +3429,7 @@ msgstr ""
 
 #: playlist/playlistcontainer.cpp:441
 msgid "No matches found.  Clear the search box to show the whole playlist again."
-msgstr "No s’han trobat coincidències. Netegeu el quadre de cerca per mostrar de nou la llista de reproducció completa."
+msgstr ""
 
 #: settings/coverssettingspage.cpp:303 settings/lyricssettingspage.cpp:191
 msgid "No provider selected."
@@ -3440,7 +3437,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
-msgstr "No utilitzis blocs curs"
+msgstr ""
 
 #: context/contextview.cpp:408
 msgid "No song playing"
@@ -3451,12 +3448,12 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:213
 #: ../../build-qt6dev/src/ui_groupbydialog.h:235
 msgid "None"
-msgstr "Cap"
+msgstr ""
 
 #: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
 #: collection/collectionview.cpp:715
 msgid "None of the selected songs were suitable for copying to a device"
-msgstr "Cap de les cançons seleccionades són adequades per copiar-les a un dispositiu"
+msgstr ""
 
 #: moodbar/moodbarrenderer.cpp:166
 msgid "Normal"
@@ -3464,7 +3461,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:143
 msgid "Normal block type"
-msgstr "Tipus de bloc normal"
+msgstr ""
 
 #: qobuz/qobuzservice.cpp:517 qobuz/qobuzservice.cpp:567
 #: qobuz/qobuzservice.cpp:617
@@ -3488,7 +3485,7 @@ msgstr ""
 
 #: device/deviceview.cpp:131
 msgid "Not connected"
-msgstr "No connectat"
+msgstr ""
 
 #: dialogs/edittagdialog.cpp:1442
 msgid "Not found."
@@ -3496,15 +3493,15 @@ msgstr ""
 
 #: device/deviceview.cpp:135
 msgid "Not mounted - double click to mount"
-msgstr "No s’ha muntat. Feu doble clic per muntar-ho"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:479
 msgid "Notification type"
-msgstr "Tipus de notificació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:417
 msgid "Notifications"
-msgstr "Notificacions"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:207
 msgid "O&verwrite all"
@@ -3512,11 +3509,11 @@ msgstr ""
 
 #: settings/notificationssettingspage.cpp:68
 msgid "OSD Preview"
-msgstr "Vista prèvia OSD"
+msgstr ""
 
 #: osd/osdbase.cpp:271
 msgid "Off"
-msgstr "Inactiu"
+msgstr ""
 
 #: dialogs/snapdialog.cpp:58
 #, qt-format
@@ -3525,7 +3522,7 @@ msgstr ""
 
 #: osd/osdbase.cpp:271
 msgid "On"
-msgstr "Actiu"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:321
 msgid "On startup"
@@ -3537,7 +3534,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:549
 msgid "Opacity"
-msgstr "Opacitat"
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:214
 msgid "Open URL in web browser?"
@@ -3545,7 +3542,7 @@ msgstr ""
 
 #: transcoder/transcodedialog.cpp:346
 msgid "Open a directory to import music from"
-msgstr "Obriu una carpeta des d’on s’importarà la música"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
@@ -3553,7 +3550,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:384
 msgid "Open device"
-msgstr "Obrir dispositiu"
+msgstr ""
 
 #: radios/radioview.cpp:81
 msgid "Open homepage"
@@ -3566,13 +3563,13 @@ msgstr ""
 #: device/deviceview.cpp:246
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:343
 msgid "Open in new playlist"
-msgstr "Obre en una llista de reproducció nova"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:270
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:272
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:279
 msgid "Open..."
-msgstr "Obre…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
@@ -3588,7 +3585,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:229
 msgid "Options..."
-msgstr "Opcions…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:190
 msgid "Opus"
@@ -3612,21 +3609,21 @@ msgstr ""
 
 #: dialogs/trackselectiondialog.cpp:194
 msgid "Original tags"
-msgstr "Etiquetes originals"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:124 organize/organizedialog.cpp:117
 #: ../../build-qt6dev/src/ui_groupbydialog.h:202
 #: ../../build-qt6dev/src/ui_groupbydialog.h:224
 #: ../../build-qt6dev/src/ui_groupbydialog.h:246
 msgid "Original year"
-msgstr "Any original"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:112
 #: ../../build-qt6dev/src/ui_groupbydialog.h:203
 #: ../../build-qt6dev/src/ui_groupbydialog.h:225
 #: ../../build-qt6dev/src/ui_groupbydialog.h:247
 msgid "Original year - Album"
-msgstr "Any original - àlbum"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:115
 msgid "Original year - Album - Disc"
@@ -3634,16 +3631,16 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:241
 msgid "Other options"
-msgstr "Altres opcions"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:201
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:674
 msgid "Output"
-msgstr "Sortida"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:227
 msgid "Output options"
-msgstr "Opcions de sortida"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:475
 msgid "Overwrite database playcount when songs are re-read from disk"
@@ -3659,7 +3656,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:278
 msgid "Overwrite existing files"
-msgstr "Sobreescriu els fitxers existents"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:208
 msgid "Overwrite s&maller ones only"
@@ -3671,11 +3668,11 @@ msgstr ""
 
 #: device/udisks2lister.cpp:126
 msgid "Partition label"
-msgstr "Etiqueta de la partició"
+msgstr ""
 
 #: equalizer/equalizer.cpp:149
 msgid "Party"
-msgstr "Festa"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:183
 #: ../../build-qt6dev/src/ui_userpassdialog.h:93
@@ -3684,7 +3681,7 @@ msgstr "Festa"
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:270
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:287
 msgid "Password"
-msgstr "Contrasenya"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:902
 msgid "Path"
@@ -3697,15 +3694,15 @@ msgstr ""
 #: core/mainwindow.cpp:1415 core/mainwindow.cpp:1947
 #: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Pause"
-msgstr "Pausa"
+msgstr ""
 
 #: core/commandlineoptions.cpp:223
 msgid "Pause playback"
-msgstr "Pausa la reproducció"
+msgstr ""
 
 #: osd/osdbase.cpp:212 osd/osdbase.cpp:215
 msgid "Paused"
-msgstr "En pausa"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:451
 msgid "Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)"
@@ -3722,21 +3719,21 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:249
 #: ../../build-qt6dev/src/ui_edittagdialog.h:929
 msgid "Performer"
-msgstr "Intèrpret"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:212
 msgid "Pixel"
-msgstr "Píxel"
+msgstr ""
 
 #: widgets/fancytabwidget.cpp:731
 msgid "Plain sidebar"
-msgstr "Barra lateral senzilla"
+msgstr ""
 
 #: core/mainwindow.cpp:739 core/mainwindow.cpp:1366 core/mainwindow.cpp:1399
 #: core/mainwindow.cpp:1951 core/qtsystemtrayicon.cpp:160
 #: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Play"
-msgstr "Reprodueix"
+msgstr ""
 
 #: playlist/playlist.cpp:1401
 msgid "Play Count"
@@ -3748,7 +3745,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:896
 msgid "Play count"
-msgstr "Comptador de reproduccions"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
@@ -3760,12 +3757,12 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:222
 msgid "Play if stopped, pause if playing"
-msgstr "Reprodueix si esta parat, pausa si esta reproduïnt"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:333
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:347
 msgid "Play if there is nothing already playing"
-msgstr "Reprodueix si encara no hi ha res reproduint-se"
+msgstr ""
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 msgid "Play next"
@@ -3773,7 +3770,7 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:239
 msgid "Play the <n>th track in the playlist"
-msgstr "Reprodueix la <n>a cançó de la llista de reproducció"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Play/Pause"
@@ -3791,7 +3788,7 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:220
 msgid "Player options"
-msgstr "Opcions del reproductor"
+msgstr ""
 
 #: playlist/playlistcontainer.cpp:342 playlist/playlistlistcontainer.cpp:281
 #: playlist/playlistlistcontainer.cpp:391 playlist/playlistmanager.cpp:112
@@ -3799,7 +3796,7 @@ msgstr "Opcions del reproductor"
 #: playlist/playlisttabbar.cpp:434
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
-msgstr "Llista de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:552
 msgid "Playlist buttons"
@@ -3807,7 +3804,7 @@ msgstr ""
 
 #: osd/osdbase.cpp:279
 msgid "Playlist finished"
-msgstr "Llista de reproducció finalitzada"
+msgstr ""
 
 #: core/mainwindow.cpp:2421
 #, qt-format
@@ -3821,7 +3818,7 @@ msgstr ""
 #: core/commandlineoptions.cpp:235
 #: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:92
 msgid "Playlist options"
-msgstr "Opcions de la llista de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:558
 msgid "Playlist playing song color"
@@ -3837,7 +3834,7 @@ msgstr ""
 
 #: ../data/html/oauthsuccess.html:38
 msgid "Please close your browser and return to Strawberry."
-msgstr "Tanqueu el navegador i torneu a l’Strawberry."
+msgstr ""
 
 #: lyrics/geniuslyricsprovider.cpp:123 scrobbler/listenbrainzscrobbler.cpp:193
 #: spotify/spotifyservice.cpp:295
@@ -3850,7 +3847,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:485
 msgid "Popup duration"
-msgstr "Duració de la finestra emergent"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:180
 msgid "Port"
@@ -3858,12 +3855,12 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:536
 msgid "Position"
-msgstr "Posició"
+msgstr ""
 
 #: equalizer/equalizer.cpp:67
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:702
 msgid "Pre-amp"
-msgstr "Preamplificador"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:414
 msgid "Prefer album artist when sending scrobbles"
@@ -3874,15 +3871,15 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:273
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:290
 msgid "Preferences"
-msgstr "Preferències"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:454
 msgid "Preferred album art filenames (comma separated)"
-msgstr "Noms de fitxer preferits per a les caràtules dels àlbums (separats per comes)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:382
 msgid "Preferred format"
-msgstr "Format preferit"
+msgstr ""
 
 #: filterparser/filterparser.cpp:460
 msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
@@ -3894,29 +3891,29 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_equalizer.h:167
 msgid "Preset:"
-msgstr "Predefinició:"
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:214
 msgid "Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."
-msgstr "Feu clic a «Desa» per a copiar l’URL al porta-retalls i obriu-lo manualment amb un navegador web."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_globalshortcutgrabber.h:69
 msgid "Press a key"
-msgstr "Premeu una tecla"
+msgstr ""
 
 #: globalshortcuts/globalshortcutgrabber.cpp:57
 #: ../../build-qt6dev/src/ui_globalshortcutgrabber.h:70
 #, qt-format
 msgid "Press a key combination to use for %1..."
-msgstr "Premeu una combinació de tecles per utilitzar amb %1…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:336
 msgid "Pressing \"Previous\" in player will..."
-msgstr "En fer clic al botó «Anterior» del reproductor…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:506
 msgid "Pretty OSD options"
-msgstr "Opcions de l'OSD bonic"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:102
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:442
@@ -3924,28 +3921,28 @@ msgstr "Opcions de l'OSD bonic"
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:495
 #: ../../build-qt6dev/src/ui_organizedialog.h:280
 msgid "Preview"
-msgstr "Previsualitza"
+msgstr ""
 
 #: dialogs/edittagdialog.cpp:232 dialogs/trackselectiondialog.cpp:71
 msgid "Previous"
-msgstr "Anterior"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:68
 #: ../../build-qt6dev/src/ui_mainwindow.h:610
 msgid "Previous track"
-msgstr "Peça anterior"
+msgstr ""
 
 #: core/commandlineoptions.cpp:248
 msgid "Print out version information"
-msgstr "Mostra la informació de la versió"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:134
 msgid "Profile"
-msgstr "Perfil"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:234
 msgid "Progress"
-msgstr "Progrés"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:135
 msgid "Put songs in a random order"
@@ -3967,11 +3964,11 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
-msgstr "Qualitat"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:385
 msgid "Querying device..."
-msgstr "S’està consultant el dispositiu…"
+msgstr ""
 
 #: core/mainwindow.cpp:387
 msgid "Queue"
@@ -3979,7 +3976,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:2049
 msgid "Queue selected tracks"
-msgstr "Afegeix les peces seleccionades a la cua"
+msgstr ""
 
 #: core/mainwindow.cpp:745 core/mainwindow.cpp:2053
 msgid "Queue selected tracks to play next"
@@ -3995,7 +3992,7 @@ msgstr ""
 #: streaming/streamingsearchview.cpp:322
 #: streaming/streamingcollectionview.cpp:334
 msgid "Queue track"
-msgstr "Afegeix la peça a la cua"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_queueview.h:123
 msgid "QueueView"
@@ -4003,7 +4000,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:699
 msgid "Radio (equal loudness for all tracks)"
-msgstr "Ràdio (mateix volum per a totes les peces)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:427
 msgid "Radio Paradise"
@@ -4027,7 +4024,7 @@ msgstr ""
 
 #: covermanager/albumcovermanager.cpp:259
 msgid "Really cancel?"
-msgstr "Realment voleu cancel·lar?"
+msgstr ""
 
 #: tidal/tidalstreamurlrequest.cpp:222
 #, qt-format
@@ -4147,21 +4144,21 @@ msgstr ""
 
 #: playlist/playlistsaveoptionsdialog.cpp:42
 msgid "Relative"
-msgstr "Relatius"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:322
 msgid "Remember from &last time"
-msgstr "Recorda de l'últim cop"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:97
 msgid "Remember my choice"
-msgstr "Recorda la meva elecció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_savedgroupingmanager.h:103
 #: ../../build-qt6dev/src/ui_queueview.h:137
 #: ../../build-qt6dev/src/ui_transcodedialog.h:222
 msgid "Remove"
-msgstr "Suprimeix"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:707
 msgid "Remove &duplicates from playlist"
@@ -4173,7 +4170,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:445
 msgid "Remove folder"
-msgstr "Suprimeix carpeta"
+msgstr ""
 
 #: streaming/streamingcollectionview.cpp:340
 msgid "Remove from favorites"
@@ -4181,15 +4178,15 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
-msgstr "Suprimeix de la llista de reproducció"
+msgstr ""
 
 #: playlist/playlisttabbar.cpp:229
 msgid "Remove playlist"
-msgstr "Esborra la llista de reproducció"
+msgstr ""
 
 #: playlist/playlistlistcontainer.cpp:437
 msgid "Remove playlists"
-msgstr "Suprimeix llistes de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:273
 msgid "Remove problematic characters from filenames"
@@ -4197,31 +4194,31 @@ msgstr ""
 
 #: playlist/playlisttabbar.cpp:181
 msgid "Rename playlist"
-msgstr "Renombra de la llista de reproducció"
+msgstr ""
 
 #: playlist/playlisttabbar.cpp:81
 msgid "Rename playlist..."
-msgstr "Renombra de la llista de reproducció..."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:646
 msgid "Renumber tracks in this order..."
-msgstr "Posa els números de les peces en aquest ordre..."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsequence.h:119
 msgid "Repeat"
-msgstr "Repeteix"
+msgstr ""
 
 #: osd/osdbase.cpp:365 ../../build-qt6dev/src/ui_playlistsequence.h:110
 msgid "Repeat album"
-msgstr "Repeteix l'àlbum"
+msgstr ""
 
 #: osd/osdbase.cpp:366 ../../build-qt6dev/src/ui_playlistsequence.h:111
 msgid "Repeat playlist"
-msgstr "Repeteix la llista de reproducció"
+msgstr ""
 
 #: osd/osdbase.cpp:364 ../../build-qt6dev/src/ui_playlistsequence.h:109
 msgid "Repeat track"
-msgstr "Repeteix la peça"
+msgstr ""
 
 #: collection/collectionview.cpp:379
 #: smartplaylists/smartplaylistsviewcontainer.cpp:67
@@ -4229,7 +4226,7 @@ msgstr "Repeteix la peça"
 #: streaming/streamingcollectionview.cpp:330 radios/radioview.cpp:73
 #: device/deviceview.cpp:245
 msgid "Replace current playlist"
-msgstr "Substitueix la llista de reproducció actual"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:327
 msgid "Replace spaces with dashes"
@@ -4241,7 +4238,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:342
 msgid "Replace the playlist"
-msgstr "Substitueix la llista de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:696
 msgid "Replay Gain"
@@ -4249,7 +4246,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:698
 msgid "Replay Gain mode"
-msgstr "Mode de l’Replay Gain"
+msgstr ""
 
 #: tidal/tidalservice.cpp:354
 msgid "Reply from Tidal is missing query items."
@@ -4269,11 +4266,11 @@ msgstr ""
 
 #: widgets/lineedit.cpp:68
 msgid "Reset"
-msgstr "Posa a zero"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:910
 msgid "Reset play counts"
-msgstr "Posa a zero el comptador de reproduccions"
+msgstr ""
 
 #: dialogs/edittagdialog.cpp:1338
 msgid "Reset song play statistics"
@@ -4285,11 +4282,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:338
 msgid "Restart song, then jump to previous if pressed again"
-msgstr "Reinicia la peça i salta a l’anterior en fer clic un altre cop"
+msgstr ""
 
 #: core/commandlineoptions.cpp:234
 msgid "Restart the track, or play the previous track if within 8 seconds of start."
-msgstr "Reinicia la peça, o canvia a l’anterior si no han transcorregut 8 segons des de l’inici."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:275
 msgid "Restrict characters to ASCII"
@@ -4301,7 +4298,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:319
 msgid "Resume playback on start"
-msgstr "Reprèn la reproducció en l’inici"
+msgstr ""
 
 #: subsonic/subsonicrequest.cpp:690
 #, qt-format
@@ -4329,11 +4326,11 @@ msgstr ""
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
-msgstr "Torna a l’Strawberry"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_equalizer.h:178
 msgid "Right"
-msgstr "Dreta"
+msgstr ""
 
 #: equalizer/equalizer.cpp:152
 msgid "Rock"
@@ -4341,7 +4338,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_console.h:77
 msgid "Run"
-msgstr "Executa"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
@@ -4349,15 +4346,15 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:178
 msgid "SOCKS proxy"
-msgstr "Servidor intermediari per al SOCKS"
+msgstr ""
 
 #: device/deviceview.cpp:238
 msgid "Safely remove device"
-msgstr "Treure el dispositiu amb seguretat"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:282
 msgid "Safely remove the device after copying"
-msgstr "Treure el dispositiu amb seguretat després de copiar"
+msgstr ""
 
 #: playlist/playlist.cpp:1405
 msgid "Sample Rate"
@@ -4369,11 +4366,11 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:252
 #: ../../build-qt6dev/src/ui_edittagdialog.h:901
 msgid "Sample rate"
-msgstr "Freqüència de mostreig"
+msgstr ""
 
 #: context/contextview.cpp:165
 msgid "Samplerate"
-msgstr "Freqüència de mostreig"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:683
 msgid "Save &playlist..."
@@ -4381,7 +4378,7 @@ msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:244
 msgid "Save album cover"
-msgstr "Desa la coberta de l’àlbum"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:321
 msgid "Save album covers as embedded cover"
@@ -4397,11 +4394,11 @@ msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Save cover to disk..."
-msgstr "Desa la coberta al disc dur…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:100
 msgid "Save current grouping"
-msgstr "Desa l'agrupació actual"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:477
 msgid "Save playcounts and ratings to files now"
@@ -4414,20 +4411,20 @@ msgstr ""
 #: playlist/playlistlistcontainer.cpp:91
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
-msgstr "Desa la llista de reproducció"
+msgstr ""
 
 #: playlist/playlistmanager.cpp:259
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
-msgstr "Desa la llista de reproducció"
+msgstr ""
 
 #: playlist/playlisttabbar.cpp:82
 msgid "Save playlist..."
-msgstr "Desa la llista de reproducció..."
+msgstr ""
 
 #: equalizer/equalizer.cpp:211 ../../build-qt6dev/src/ui_equalizer.h:169
 msgid "Save preset"
-msgstr "Desa els valors"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:474
 msgid "Save ratings to song tags when possible"
@@ -4439,7 +4436,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_savedgroupingmanager.h:101
 msgid "Saved Grouping Manager"
-msgstr "Gestor d'agrupacions desades"
+msgstr ""
 
 #: playlistparsers/cueparser.cpp:395
 msgid "Saving CUE files is not supported."
@@ -4455,15 +4452,15 @@ msgstr ""
 
 #: dialogs/edittagdialog.cpp:312 dialogs/trackselectiondialog.cpp:292
 msgid "Saving tracks"
-msgstr "S’estan desant les peces"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:137
 msgid "Scalable sampling rate profile (SSR)"
-msgstr "Perfil de freqüència de mostreig escalable (SSR)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:210
 msgid "Scale size"
-msgstr "Mida de l’escala"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:404
 msgid "Scrobbler"
@@ -4484,11 +4481,11 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_albumcoversearcher.h:111
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:116
 msgid "Search"
-msgstr "Cerca"
+msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:117
 msgid "Search automatically"
-msgstr "Cerca automàticament"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:337
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:274
@@ -4498,24 +4495,24 @@ msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Search for album covers..."
-msgstr "Cerca cobertes dels àlbums…"
+msgstr ""
 
 #: collection/collectionview.cpp:388 streaming/streamingsearchview.cpp:340
 msgid "Search for this"
-msgstr "Cerca-ho"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
-msgstr "Mode de cerca"
+msgstr ""
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid "Search options"
-msgstr "Opcions de cerca"
+msgstr ""
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:161
 #: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
-msgstr "Termes de cerca"
+msgstr ""
 
 #: filterparser/filterparser.cpp:468
 #, qt-format
@@ -4528,15 +4525,15 @@ msgstr ""
 #: qobuz/qobuzrequest.cpp:359 qobuz/qobuzrequest.cpp:373
 #: qobuz/qobuzrequest.cpp:387
 msgid "Searching..."
-msgstr "S’està cercant…"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:59
 msgid "Second Level"
-msgstr "Segon nivell"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:212
 msgid "Second level"
-msgstr "Segon nivell"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:73
 msgid "Seek backward"
@@ -4548,23 +4545,23 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:233
 msgid "Seek the currently playing track by a relative amount"
-msgstr "Mou-te per la peça en reproducció a una posició relativa"
+msgstr ""
 
 #: core/commandlineoptions.cpp:232
 msgid "Seek the currently playing track to an absolute position"
-msgstr "Mou-te per la peça en reproducció a una posició absoluta"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:354
 msgid "Seeking using a keyboard shortcut or mouse wheel"
-msgstr "Moure's dins la peça amb una tecla de drecera o la roda del ratolí"
+msgstr ""
 
 #: settings/appearancesettingspage.cpp:301
 msgid "Select background image"
-msgstr "Seleccioneu la imatge de fons"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:206
 msgid "Select best possible match"
-msgstr "Selecciona la millor coincidència possible"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_saveplaylistsdialog.h:118
 msgid "Select directory for saving playlists"
@@ -4584,7 +4581,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:233
 msgid "Select..."
-msgstr "Navega…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:256
 msgid "Separate albums by grouping tag"
@@ -4592,7 +4589,7 @@ msgstr ""
 
 #: device/udisks2lister.cpp:124
 msgid "Serial number"
-msgstr "Número de sèrie"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:245
 msgid "Server URL"
@@ -4609,11 +4606,11 @@ msgstr ""
 #: core/mainwindow.cpp:2089
 #, qt-format
 msgid "Set %1 to \"%2\"..."
-msgstr "Estableix %1 a «%2»…"
+msgstr ""
 
 #: core/commandlineoptions.cpp:227
 msgid "Set the volume to <value> percent"
-msgstr "Estableix el volum al <value> percent"
+msgstr ""
 
 #: settings/coverssettingspage.cpp:436
 #, qt-format
@@ -4622,11 +4619,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
-msgstr "Estableix valor per a totes les peces seleccionades…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_settingsdialog.h:114
 msgid "Settings"
-msgstr "Paràmetres"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:521
 msgid "Settings require restart."
@@ -4634,17 +4631,17 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:281
 msgid "Shortcut"
-msgstr "Drecera"
+msgstr ""
 
 #: settings/globalshortcutssettingspage.cpp:295
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:283
 #, qt-format
 msgid "Shortcut for %1"
-msgstr "Drecera per a «%1»"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:101
 msgid "Show"
-msgstr "Mostrar"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Show OSD"
@@ -4664,15 +4661,15 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I change the repeat/shuffle mode"
-msgstr "Mostra una notificació quan canviï entre el modes de repetició i de mescla aleatòria"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I change the volume"
-msgstr "Mostra una notificació quan canvia el volum"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:490
 msgid "Show a notification when I pause playback"
-msgstr "Mostra una notificació en aturar la reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:491
 msgid "Show a notification when I resume playback"
@@ -4684,11 +4681,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:482
 msgid "Show a pretty OSD"
-msgstr "Mostra un OSD bonic"
+msgstr ""
 
 #: widgets/playingwidget.cpp:141
 msgid "Show above status bar"
-msgstr "Mostra sota la barra d'estat"
+msgstr ""
 
 #: context/contextview.cpp:260
 msgid "Show album cover"
@@ -4700,7 +4697,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:680
 msgid "Show all songs"
-msgstr "Mostra totes les cançons"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
@@ -4716,15 +4713,15 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:461
 msgid "Show dividers"
-msgstr "Mostra els separadors"
+msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:115
 msgid "Show fullsize..."
-msgstr "Mostra a mida completa..."
+msgstr ""
 
 #: core/mainwindow.cpp:768
 msgid "Show in collection..."
-msgstr "Mostra a la col·lecció…"
+msgstr ""
 
 #: utilities/filemanagerutils.cpp:139 utilities/filemanagerutils.cpp:145
 msgid "Show in file browser"
@@ -4733,11 +4730,11 @@ msgstr ""
 #: core/mainwindow.cpp:769 collection/collectionview.cpp:400
 #: widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
-msgstr "Mostra al gestor de fitxers"
+msgstr ""
 
 #: collection/collectionview.cpp:407
 msgid "Show in various artists"
-msgstr "Mostra en Artistes diversos"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:409
 msgid "Show love button"
@@ -4749,11 +4746,11 @@ msgstr ""
 
 #: core/mainwindow.cpp:681
 msgid "Show only duplicates"
-msgstr "Mostra només els duplicats"
+msgstr ""
 
 #: core/mainwindow.cpp:682
 msgid "Show only untagged"
-msgstr "Mostra només les peces sense etiquetar"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:320
 msgid "Show playing widget"
@@ -4805,36 +4802,36 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsequence.h:122
 msgid "Shuffle"
-msgstr "Mescla"
+msgstr ""
 
 #: osd/osdbase.cpp:351 ../../build-qt6dev/src/ui_playlistsequence.h:117
 msgid "Shuffle albums"
-msgstr "Mescla els àlbums"
+msgstr ""
 
 #: osd/osdbase.cpp:349 ../../build-qt6dev/src/ui_playlistsequence.h:116
 msgid "Shuffle all"
-msgstr "Mescla-ho tot"
+msgstr ""
 
 #: osd/osdbase.cpp:350 ../../build-qt6dev/src/ui_playlistsequence.h:115
 msgid "Shuffle tracks in this album"
-msgstr "Mescla les peces d’aquest àlbum"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_loginstatewidget.h:166
 msgid "Sign out"
-msgstr "Finalitza la sessió"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_loginstatewidget.h:168
 msgid "Signing in..."
-msgstr "S’està iniciant la sessió…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:209
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:466
 msgid "Size"
-msgstr "Mida"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:211
 msgid "Size:"
-msgstr "Mida:"
+msgstr ""
 
 #: equalizer/equalizer.cpp:154
 msgid "Ska"
@@ -4846,15 +4843,15 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:225
 msgid "Skip backwards in playlist"
-msgstr "Salta enrere en la llista de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:900
 msgid "Skip count"
-msgstr "Comptador d’omissions"
+msgstr ""
 
 #: core/commandlineoptions.cpp:226
 msgid "Skip forwards in playlist"
-msgstr "Salta endavant en la llista de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:464
 msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
@@ -4862,19 +4859,19 @@ msgstr ""
 
 #: core/mainwindow.cpp:2062
 msgid "Skip selected tracks"
-msgstr "Omet les peces seleccionades"
+msgstr ""
 
 #: core/mainwindow.cpp:2061
 msgid "Skip track"
-msgstr "Omet la peça"
+msgstr ""
 
 #: widgets/playingwidget.cpp:102
 msgid "Small album cover"
-msgstr "Coberta d’àlbum petita"
+msgstr ""
 
 #: widgets/fancytabwidget.cpp:730
 msgid "Small sidebar"
-msgstr "Barra lateral petita"
+msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:72
 msgid "Smart playlist"
@@ -4886,11 +4883,11 @@ msgstr ""
 
 #: equalizer/equalizer.cpp:153
 msgid "Soft"
-msgstr "Suau"
+msgstr ""
 
 #: equalizer/equalizer.cpp:155
 msgid "Soft Rock"
-msgstr "Rock suau"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:425
 msgid "SomaFM"
@@ -4928,7 +4925,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
-msgstr "Ho lamentem"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:136
 msgid "Sort songs by"
@@ -4940,7 +4937,7 @@ msgstr ""
 
 #: playlist/playlist.cpp:1417
 msgid "Source"
-msgstr "Font"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:191
 msgid "Speex"
@@ -4960,7 +4957,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
-msgstr "Estàndard"
+msgstr ""
 
 #: playlist/playlisttabbar.cpp:79
 msgid "Star playlist"
@@ -4968,16 +4965,16 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:221
 msgid "Start the playlist currently playing"
-msgstr "Inicia la llista de reproducció que s'està reproduint"
+msgstr ""
 
 #: transcoder/transcodedialog.cpp:130
 msgid "Start transcoding"
-msgstr "Inicia la conversió"
+msgstr ""
 
 #: transcoder/transcoder.cpp:407
 #, qt-format
 msgid "Starting %1"
-msgstr "S’està començant %1"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:65
 msgid "Stop"
@@ -4985,23 +4982,23 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
-msgstr "Atura després de cada peça"
+msgstr ""
 
 #: osd/osdbase.cpp:367
 msgid "Stop after every track"
-msgstr "Atura després de cada peça"
+msgstr ""
 
 #: core/mainwindow.cpp:741 ../../build-qt6dev/src/ui_mainwindow.h:630
 msgid "Stop after this track"
-msgstr "Atura després d’aquesta peça"
+msgstr ""
 
 #: core/commandlineoptions.cpp:223
 msgid "Stop playback"
-msgstr "Atura la reproducció"
+msgstr ""
 
 #: core/commandlineoptions.cpp:224
 msgid "Stop playback after current track"
-msgstr "Atura la reproducció després de la peça actual"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:66
 msgid "Stop playing after current track"
@@ -5010,35 +5007,35 @@ msgstr ""
 #: osd/osdbase.cpp:271
 #, qt-format
 msgid "Stop playing after track: %1"
-msgstr "Atura la reproducció després de: %1"
+msgstr ""
 
 #: osd/osdbase.cpp:258 osd/osdbase.cpp:261
 msgid "Stopped"
-msgstr "Aturat"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_errordialog.h:91
 msgid "Strawberry Error"
-msgstr "Error de l’Strawberry"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:609
 msgid "Strawberry Music Player"
-msgstr "Reproductor de música Strawberry"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:513
 msgid "Strawberry Red"
-msgstr "Vermell maduixa"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:378
 msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
-msgstr "L’Strawberry pot convertir automàticament la música que copieu en aquest dispositiu a un format que pugui reproduir."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:478
 msgid "Strawberry can show a message when the track changes."
-msgstr "L’Strawberry pot mostrar un missatge quan la peça canviï."
+msgstr ""
 
 #: dialogs/about.cpp:114
 msgid "Strawberry is a music player and music collection organizer."
-msgstr "L’Strawberry és un reproductor de música i un organitzador de col·leccions musicals."
+msgstr ""
 
 #: core/mainwindow.cpp:1091
 #, qt-format
@@ -5052,7 +5049,7 @@ msgstr ""
 
 #: dialogs/snapdialog.cpp:30
 msgid "Strawberry is running as a Snap"
-msgstr "L’Strawberry s’executa com a «snap»"
+msgstr ""
 
 #: dialogs/snapdialog.cpp:46
 msgid "Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares."
@@ -5064,11 +5061,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
-msgstr "L’Strawberry no ha trobat resultats per a aquest fitxer"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:426
 msgid "Stream"
-msgstr "Flux de dades"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:345
 msgid "Stream URL method"
@@ -5097,7 +5094,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:518
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:519
 msgid "Style"
-msgstr "Estil"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:410
 msgid "Submit scrobbles every"
@@ -5111,47 +5108,47 @@ msgstr ""
 
 #: subsonic/subsonicurlhandler.cpp:39
 msgid "Subsonic server URL is invalid."
-msgstr "L’URL del servidor Subsonic no és vàlid."
+msgstr ""
 
 #: ../data/html/oauthsuccess.html:36
 msgid "Success!"
-msgstr "Correcte!"
+msgstr ""
 
 #: transcoder/transcoder.cpp:184
 #, qt-format
 msgid "Successfully written %1"
-msgstr "Escrit satisfactòriament %1"
+msgstr ""
 
 #: dialogs/trackselectiondialog.cpp:198
 msgid "Suggested tags"
-msgstr "Etiquetes suggerides"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:427
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:500
 #: ../../build-qt6dev/src/ui_edittagdialog.h:911
 msgid "Summary"
-msgstr "Resum"
+msgstr ""
 
 #: analyzer/analyzercontainer.cpp:85
 #, qt-format
 msgid "Super high (%1 fps)"
-msgstr "Molt alta (%1 fps)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:376
 msgid "Supported formats"
-msgstr "Formats compatibles"
+msgstr ""
 
 #: moodbar/moodbarrenderer.cpp:174
 msgid "System colors"
-msgstr "Colors del sistema"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:559
 msgid "System highlight color"
-msgstr "Color de realçament del sistema"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:522
 msgid "Tabbar colors"
-msgstr "Colors de la barra de pestanyes"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:553
 msgid "Tabbar large mode"
@@ -5163,11 +5160,11 @@ msgstr ""
 
 #: widgets/fancytabwidget.cpp:732
 msgid "Tabs on top"
-msgstr "Pestanyes a dalt de tot"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:203
 msgid "Tag fetcher"
-msgstr "Recolector d'etiquetes"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:933
 msgid "Tags"
@@ -5179,7 +5176,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
-msgstr "Taxa de bits desitjada"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:434
 msgid "Technical Data"
@@ -5203,7 +5200,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:508
 msgid "Text options"
-msgstr "Opcions del text"
+msgstr ""
 
 #: dialogs/about.cpp:181
 msgid "Thanks to"
@@ -5217,11 +5214,11 @@ msgstr ""
 #: settings/globalshortcutssettingspage.cpp:273
 #, qt-format
 msgid "The \"%1\" command could not be started."
-msgstr "No s’ha pogut iniciar l’ordre «%1»."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:531
 msgid "The album cover of the currently playing song"
-msgstr "La coberta de l’àlbum de la cançó en reproducció"
+msgstr ""
 
 #: dialogs/deleteconfirmationdialog.cpp:60
 msgid "The following files will be deleted from disk:"
@@ -5233,11 +5230,11 @@ msgstr ""
 
 #: covermanager/coverfromurldialog.cpp:90
 msgid "The site you requested does not exist!"
-msgstr "L’adreça que heu sol·licitat no existeix."
+msgstr ""
 
 #: covermanager/coverfromurldialog.cpp:100
 msgid "The site you requested is not an image!"
-msgstr "L’adreça que heu sol·licitat no conté cap imatge."
+msgstr ""
 
 #: streaming/streamingcollectionview.cpp:301
 msgid "The streaming collection is empty!"
@@ -5245,76 +5242,76 @@ msgstr ""
 
 #: core/mainwindow.cpp:2983
 msgid "The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:"
-msgstr "La versió de Strawberry a la que us acabeu d’actualitzar necessita tornar a analitzar tota la col·lecció perquè incorpora les següents funcions noves:"
+msgstr ""
 
 #: collection/collectionview.cpp:516
 msgid "There are other songs in this album"
-msgstr "Hi ha altres cançons en aquest àlbum"
+msgstr ""
 
 #: organize/organizeerrordialog.cpp:72
 msgid "There were problems copying some songs.  The following files could not be copied:"
-msgstr "Hi ha hagut problemes en copiar algunes cançons. Els fitxers següents no s’han pogut copiar:"
+msgstr ""
 
 #: organize/organizeerrordialog.cpp:77
 msgid "There were problems deleting some songs.  The following files could not be deleted:"
-msgstr "S’han produït problemes en suprimir algunes cançons. No s’han pogut suprimir els fitxers següents:"
+msgstr ""
 
 #: device/deviceview.cpp:429
 msgid "These files will be deleted from the device, are you sure you want to continue?"
-msgstr "Se suprimiran aquests fitxers del dispositiu, esteu segur que voleu continuar?"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:443
 msgid "These folders will be scanned for music to make up your collection"
-msgstr "S’analitzaran aquestes carpetes a la recerca de música per confeccionar la vostra col·lecció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:186
 msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
-msgstr "Aquesta configuració s’usa en el diàleg «Converteix música», i quan es converteix la música abans de copiar-la a un dispositiu."
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:60
 msgid "Third Level"
-msgstr "Tercer nivell"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:234
 msgid "Third level"
-msgstr "Tercer nivell"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:95
 msgid "This can be changed later through the preferences"
-msgstr "Aquesta opció es pot modificar més tard a Preferències"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:383
 msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
-msgstr "Aquest dispositiu ha de connectar-se i obrir-se abans que l’Strawberry pugui veure quins formats de fitxers admet."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:377
 msgid "This device supports the following file formats:"
-msgstr "Aquest dispositiu és compatible amb els següents formats de fitxers:"
+msgstr ""
 
 #: device/devicemanager.cpp:608 device/devicemanager.cpp:616
 msgid "This device will not work properly"
-msgstr "Aquest dispositiu no funcionarà correctament"
+msgstr ""
 
 #: device/devicemanager.cpp:609
 msgid "This is an MTP device, but you compiled Strawberry without libmtp support."
-msgstr "Aquest és un dispositiu MTP, però s’ha compilat l’Strawberry sense compatibilitat amb libmtp."
+msgstr ""
 
 #: device/devicemanager.cpp:617
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
-msgstr "Aquest dispositiu és un iPod, però s’ha compilat l’Strawberry sense compatibilitat amb libgpod."
+msgstr ""
 
 #: device/devicemanager.cpp:352
 msgid "This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."
-msgstr "Aquest es el primer cop que connecteu aquest dispositiu. L’Strawberry analitzarà el dispositiu per a trobar música. Això pot trigar un mica."
+msgstr ""
 
 #: playlist/playlisttabbar.cpp:241
 msgid "This option can be changed in the \"Behavior\" preferences"
-msgstr "Podeu modificar aquesta opció a la pestanya «Comportament» a Preferències"
+msgstr ""
 
 #: device/devicemanager.cpp:632
 #, qt-format
 msgid "This type of device is not supported: %1"
-msgstr "Aquest tipus de dispositiu no és compatible: %1"
+msgstr ""
 
 #: core/mainwindow.cpp:399
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:421
@@ -5328,18 +5325,18 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:355
 msgid "Time step"
-msgstr "Salt en el temps"
+msgstr ""
 
 #: playlist/playlist.cpp:1387 organize/organizedialog.cpp:106
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:426
 #: ../../build-qt6dev/src/ui_edittagdialog.h:923
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:210
 msgid "Title"
-msgstr "Títol"
+msgstr ""
 
 #: utilities/timeutils.cpp:85 utilities/timeutils.cpp:99
 msgid "Today"
-msgstr "Avui"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:76
 msgid "Toggle Pretty OSD"
@@ -5347,11 +5344,11 @@ msgstr ""
 
 #: core/mainwindow.cpp:742 core/mainwindow.cpp:2050
 msgid "Toggle queue status"
-msgstr "Commuta l’estat de la cua"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:706
 msgid "Toggle scrobbling"
-msgstr "Commuta l’«scrobbling»"
+msgstr ""
 
 #: core/mainwindow.cpp:748 core/mainwindow.cpp:2063
 msgid "Toggle skip status"
@@ -5359,11 +5356,11 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:242
 msgid "Toggle visibility for the pretty on-screen-display"
-msgstr "Canvia la visibilitat del OSD estètic"
+msgstr ""
 
 #: utilities/timeutils.cpp:100
 msgid "Tomorrow"
-msgstr "Demà"
+msgstr ""
 
 #: utilities/filemanagerutils.cpp:139
 msgid "Too many songs selected."
@@ -5371,42 +5368,42 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:221
 msgid "Total albums:"
-msgstr "Total d’àlbums:"
+msgstr ""
 
 #: covermanager/coversearchstatisticsdialog.cpp:83
 msgid "Total bytes transferred"
-msgstr "Bytes totals transferits"
+msgstr ""
 
 #: covermanager/coversearchstatisticsdialog.cpp:81
 msgid "Total network requests made"
-msgstr "Total de sol·licituds de xarxa fetes"
+msgstr ""
 
 #: playlist/playlist.cpp:1390 organize/organizedialog.cpp:114
 #: ../../build-qt6dev/src/ui_edittagdialog.h:931
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:212
 msgid "Track"
-msgstr "Peça"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:216
 msgid "Transcode Music"
-msgstr "Converteix música"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodelogdialog.h:61
 msgid "Transcoder Log"
-msgstr "Registre del convertidor"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:185
 msgid "Transcoding"
-msgstr "Conversió"
+msgstr ""
 
 #: transcoder/transcoder.cpp:322
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
-msgstr "S’estan convertint %1 fitxers emprant %2 fils"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsdialog.h:51
 msgid "Transcoding options"
-msgstr "Opcions de conversió"
+msgstr ""
 
 #: analyzer/turbineanalyzer.cpp:35
 msgid "Turbine"
@@ -5434,7 +5431,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:226
 msgid "Ultra wide band (UWB)"
-msgstr "Banda ultra ampla (UWB)"
+msgstr ""
 
 #: core/database.cpp:484
 #, qt-format
@@ -5467,7 +5464,7 @@ msgstr ""
 #: dialogs/edittagdialog.cpp:774 dialogs/edittagdialog.cpp:803
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
-msgstr "Desconegut"
+msgstr ""
 
 #: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1432
 msgid "Unknown error"
@@ -5489,24 +5486,24 @@ msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Unset cover"
-msgstr "Esborra’n la coberta"
+msgstr ""
 
 #: core/mainwindow.cpp:2060
 msgid "Unskip selected tracks"
-msgstr "No ometis les peces seleccionades"
+msgstr ""
 
 #: core/mainwindow.cpp:2059
 msgid "Unskip track"
-msgstr "No ometis la peça"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:447
 msgid "Update the collection when Strawberry starts"
-msgstr "Actualitza la col·lecció quan l’Strawberry s’iniciï"
+msgstr ""
 
 #: collection/collectionwatcher.cpp:222
 #, qt-format
 msgid "Updating %1"
-msgstr "S’està actualitzant %1"
+msgstr ""
 
 #: collection/collectionbackend.cpp:738
 #, qt-format
@@ -5516,11 +5513,11 @@ msgstr ""
 #: device/deviceview.cpp:126
 #, qt-format
 msgid "Updating %1%..."
-msgstr "S’està actualitzant %1%…"
+msgstr ""
 
 #: collection/collectionwatcher.cpp:219
 msgid "Updating collection"
-msgstr "S’està actualitzant la col·lecció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:683
 msgid "Upmix / downmix to"
@@ -5536,7 +5533,7 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:219
 msgid "Usage"
-msgstr "Ús"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:269
 msgid "Use Gnome (GSD) shortcuts when available"
@@ -5564,7 +5561,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:697
 msgid "Use Replay Gain metadata if it is available"
-msgstr "Utilitza les metadades Replay Gain si estan disponibles"
+msgstr ""
 
 #: settings/coverssettingspage.cpp:231 settings/coverssettingspage.cpp:348
 msgid "Use Spotify settings to authenticate."
@@ -5580,7 +5577,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:494
 msgid "Use a custom message for notifications"
-msgstr "Utilitza un missatge personalitzat per les notificacions"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:178
 msgid "Use alternating row colors"
@@ -5588,11 +5585,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:181
 msgid "Use authentication"
-msgstr "Empra autentificació"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:199
 msgid "Use bitrate management engine"
-msgstr "Usa el motor de gestió de flux de bits"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:524
 msgid "Use custom color"
@@ -5620,11 +5617,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:140
 msgid "Use temporal noise shaping"
-msgstr "Usa el modelatge de soroll temporal"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:328
 msgid "Use the system default"
-msgstr "Utilitza el valor per defecte del sistema"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:463
 msgid "Use various artists for compilation albums"
@@ -5632,15 +5629,15 @@ msgstr ""
 
 #: widgets/freespacebar.cpp:70
 msgid "Used"
-msgstr "Usat"
+msgstr ""
 
 #: settings/settingsdialog.cpp:148
 msgid "User interface"
-msgstr "Interfície d’usuari"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:437
 msgid "User token:"
-msgstr "Testimoni d’usuari:"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:182
 #: ../../build-qt6dev/src/ui_userpassdialog.h:92
@@ -5649,7 +5646,7 @@ msgstr "Testimoni d’usuari:"
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:269
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:286
 msgid "Username"
-msgstr "﻿Nom d’usuari"
+msgstr ""
 
 #: settings/globalshortcutssettingspage.cpp:349
 #, qt-format
@@ -5658,39 +5655,39 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:331
 msgid "Using the menu to add a song will..."
-msgstr "En emprar el menú per a afegir una cançó…"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:230
 msgid "Variable bit rate"
-msgstr "Taxa de bits variable"
+msgstr ""
 
 #: collection/collectionmodel.cpp:81 playlist/playlistmanager.cpp:560
 #: covermanager/albumcovermanager.cpp:347 streaming/streamingsearchmodel.cpp:93
 #: streaming/streamingsearchmodel.cpp:105
 msgid "Various artists"
-msgstr "Artistes diversos"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:254
 msgid "Verify server certificate"
-msgstr "Verifica el certificat del servidor"
+msgstr ""
 
 #: dialogs/about.cpp:110
 #, qt-format
 msgid "Version %1"
-msgstr "Versió %1"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:220
 msgid "View"
-msgstr "Vista"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:231
 msgid "Voice activity detection"
-msgstr "Detecció de veu"
+msgstr ""
 
 #: osd/osdbase.cpp:287
 #, qt-format
 msgid "Volume %1%"
-msgstr "Volumen %1%"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:358
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:359
@@ -5704,7 +5701,7 @@ msgstr ""
 #: playlist/playlisttabbar.cpp:238
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:181
 msgid "Warn me when closing a playlist tab"
-msgstr "Avisa’m abans de tancar una pestanya de llista de reproducció"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:152
 msgid "Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start."
@@ -5725,20 +5722,19 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:456
 msgid "When looking for album art Strawberry will first look for picture files that contain one of these words.\n"
 "If there are no matches then it will use the largest image in the directory."
-msgstr "En la cerca de caràtules d’àlbum, Strawberry primer cercarà imatges que contenen una d’aquestes paraules.\n"
-"Si no hi ha resultats, s’usarà la imatge més gran en el directori."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:190
 msgid "When saving a playlist, file paths should be"
-msgstr "En desar una llista de reproducció, els camins dels fitxers han de ser"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:227
 msgid "Wide band (WB)"
-msgstr "Banda ampla (WB)"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:222
 msgid "Without cover:"
-msgstr "Sense coberta:"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:407
 msgid "Work in offline mode (Only cache scrobbles)"
@@ -5750,7 +5746,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:2987
 msgid "Would you like to run a full rescan right now?"
-msgstr "Voleu fer de nou un escaneig complet ara?"
+msgstr ""
 
 #: settings/collectionsettingspage.cpp:339
 msgid "Write all playcounts and ratings to files"
@@ -5777,14 +5773,14 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_edittagdialog.h:922
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:211
 msgid "Year"
-msgstr "Any"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:106
 #: ../../build-qt6dev/src/ui_groupbydialog.h:200
 #: ../../build-qt6dev/src/ui_groupbydialog.h:222
 #: ../../build-qt6dev/src/ui_groupbydialog.h:244
 msgid "Year - Album"
-msgstr "Any - Àlbum"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:109
 #: ../../build-qt6dev/src/ui_groupbydialog.h:201
@@ -5795,7 +5791,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:459
 msgid "Years"
-msgstr "Anys"
+msgstr ""
 
 #: dialogs/edittagdialog.cpp:820 dialogs/edittagdialog.cpp:836
 msgid "Yes"
@@ -5803,22 +5799,21 @@ msgstr ""
 
 #: utilities/timeutils.cpp:86
 msgid "Yesterday"
-msgstr "Ahir"
+msgstr ""
 
 #: playlist/playlistlistcontainer.cpp:437
 #, qt-format
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
-msgstr "Esteu segur que voleu suprimir %1 llistes de reproducció de les vostres llistes favorites?"
+msgstr ""
 
 #: playlist/playlisttabbar.cpp:232
 msgid "You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). \n"
 "Are you sure you want to continue?"
-msgstr "Sou a punt de suprimir una llista de reproducció que no heu desat com a favorita: la llista de reproducció se suprimirà (aquesta acció és irreversible).\n"
-"Esteu segur que voleu continuar?"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_loginstatewidget.h:165
 msgid "You are not signed in."
-msgstr "No heu iniciat la sessió."
+msgstr ""
 
 #: core/mainwindow.cpp:1068
 #, qt-format
@@ -5828,11 +5823,11 @@ msgstr ""
 #: widgets/loginstatewidget.cpp:85
 #, qt-format
 msgid "You are signed in as %1."
-msgstr "Heu iniciat la sessió com a %1."
+msgstr ""
 
 #: widgets/loginstatewidget.cpp:84
 msgid "You are signed in."
-msgstr "Heu iniciat la sessió."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:188
 msgid "You can change the way the songs in the collection are organized."
@@ -5845,11 +5840,11 @@ msgstr ""
 
 #: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
-msgstr "Us cal el GStreamer per a aquest URL."
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:278
 msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
-msgstr "Obriu Preferències del sistema i permeteu que l’Strawberry «<span style=\"font-style:italic\">controli l’ordinador</span>» per a utilitzar les dreceres globals a l’Strawberry."
+msgstr ""
 
 #: dialogs/about.cpp:122
 #, qt-format
@@ -5858,11 +5853,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:330
 msgid "You will need to restart Strawberry if you change the language."
-msgstr "Si canvieu la llengua haureu de reiniciar l’Strawberry."
+msgstr ""
 
 #: collection/collectionview.cpp:332
 msgid "Your collection is empty!"
-msgstr "La vostra col·lecció està buida."
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "Z-A"
@@ -5875,7 +5870,7 @@ msgstr ""
 #: playlist/playlistundocommands.cpp:44
 #, c-format, qt-plural-format
 msgid "add %n songs"
-msgstr "afegeix %n cançons"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:254
 msgid "after"
@@ -5887,31 +5882,31 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_streamingsearchview.h:229
 msgid "albums"
-msgstr "àlbums"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
-msgstr "i"
+msgstr ""
 
 #: filterparser/filterparser.cpp:463
 msgid "artist"
-msgstr "artista"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_streamingsearchview.h:228
 msgid "artists"
-msgstr "artistes"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:219
 msgid "automatic"
-msgstr "automàtic"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "before"
-msgstr "abans"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:266
 msgid "between"
-msgstr "entre"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:437
 msgid "biggest first"
@@ -5919,11 +5914,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:684
 msgid "channels"
-msgstr "canals"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:274
 msgid "contains"
-msgstr "conté"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:453
 msgid "days"
@@ -5933,7 +5928,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:206
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:222
 msgid "disabled"
-msgstr "deshabilitat"
+msgstr ""
 
 #: osd/osdbase.cpp:156
 #, qt-format
@@ -5946,7 +5941,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:290
 msgid "empty"
-msgstr "buit"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:280
 msgid "ends with"
@@ -5971,7 +5966,7 @@ msgstr ""
 #: context/contextview.cpp:498 context/contextview.cpp:599
 #: playlist/playlistview.cpp:225 dialogs/edittagdialog.cpp:796
 msgid "kbps"
-msgstr "kb/s"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:284
 msgid "less than"
@@ -5988,7 +5983,7 @@ msgstr ""
 #: playlist/playlistundocommands.cpp:112
 #, c-format, qt-plural-format
 msgid "move %n songs"
-msgstr "mou %n cançons"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:338
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:275
@@ -6026,7 +6021,7 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:219
 msgid "options"
-msgstr "opcions"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:678
 msgid "p&lughw"
@@ -6043,7 +6038,7 @@ msgstr ""
 #: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:100
 #, c-format, qt-plural-format
 msgid "remove %n songs"
-msgstr "elimina %n cançons"
+msgstr ""
 
 #: filterparser/filterparser.cpp:465
 #, qt-format
@@ -6056,7 +6051,7 @@ msgstr ""
 
 #: playlist/playlistundocommands.cpp:145
 msgid "shuffle songs"
-msgstr "mescla les cançons"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:437
 msgid "smallest first"
@@ -6064,11 +6059,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_streamingsearchview.h:230
 msgid "songs"
-msgstr "cançons"
+msgstr ""
 
 #: playlist/playlistundocommands.cpp:137
 msgid "sort songs"
-msgstr "ordena les cançons"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:278
 msgid "starts with"
@@ -6076,14 +6071,14 @@ msgstr ""
 
 #: playlist/playlistdelegates.cpp:223
 msgid "stop"
-msgstr "atura"
+msgstr ""
 
 #: osd/osdbase.cpp:159
 #, qt-format
 msgid "track %1"
-msgstr "peça %1"
+msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:239
 msgid "unknown"
-msgstr "desconegut"
+msgstr ""
 
