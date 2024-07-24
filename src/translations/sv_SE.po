@@ -11,33 +11,35 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
-"PO-Revision-Date: 2024-07-24 23:08\n"
+"PO-Revision-Date: 2024-07-24 23:27\n"
 
 #: playlist/playlistlistview.cpp:51
 msgid "\n\n"
 "You can favorite playlists by clicking the star icon next to a playlist name\n\n"
 "Favorited playlists will be saved here"
-msgstr ""
+msgstr "\n\n"
+"Du kan göra spellistor till favoriter genom att klicka på stjärnikonen intill ett namn på en spellista\n\n"
+"Favoritspellistor sparas här"
 
 #: settings/globalshortcutssettingspage.cpp:357
 #, qt-format
 msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead."
-msgstr ""
+msgstr " Genvägar till %1 används vanligtvis via Gnome-inställningsdemon och ska istället anpassas i cinnamon-settings-daemon."
 
 #: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
 msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead."
-msgstr ""
+msgstr " Genvägar till %1 används vanligtvis via Gnome-inställningsdemon och ska istället anpassas i gnome-settings-daemon."
 
 #: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
-msgstr ""
+msgstr " Genvägar till %1 används vanligtvis via Mate-inställningsdemon och ska istället anpassas där."
 
 #: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
-msgstr ""
+msgstr " Genvägar på %1 används vanligtvis via MPRIS och KGlobalAccel."
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:133
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:201
@@ -69,16 +71,16 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:411
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:486
 msgid " seconds"
-msgstr ""
+msgstr " sekunder"
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
-msgstr ""
+msgstr " låtar"
 
 #: scrobbler/scrobblingapi20.cpp:214 scrobbler/scrobblingapi20.cpp:223
 #, qt-format
 msgid "%1 Scrobbler Authentication"
-msgstr ""
+msgstr "%1 skrobblarautentisering"
 
 #: context/contextview.cpp:419
 #, qt-format
@@ -88,7 +90,7 @@ msgstr ""
 #: context/contextview.cpp:420
 #, qt-format
 msgid "%1 albums"
-msgstr ""
+msgstr "%1 album"
 
 #: context/contextview.cpp:415
 #, qt-format
@@ -98,7 +100,7 @@ msgstr ""
 #: context/contextview.cpp:416
 #, qt-format
 msgid "%1 artists"
-msgstr ""
+msgstr "%1 artister"
 
 #: equalizer/equalizerslider.cpp:41 equalizer/equalizerslider.cpp:42
 #: equalizer/equalizerslider.cpp:59
@@ -109,72 +111,72 @@ msgstr ""
 #: utilities/timeutils.cpp:67
 #, qt-format
 msgid "%1 days"
-msgstr ""
+msgstr "%1 dagar"
 
 #: utilities/timeutils.cpp:87
 #, qt-format
 msgid "%1 days ago"
-msgstr ""
+msgstr "%1 dagar sedan"
 
 #: settings/coverssettingspage.cpp:247
 #, qt-format
 msgid "%1 does not need authentication."
-msgstr ""
+msgstr "%1 behöver inte autentisering."
 
 #: settings/coverssettingspage.cpp:242
 #, qt-format
 msgid "%1 needs authentication."
-msgstr ""
+msgstr "%1 behöver autentisering."
 
 #: playlistparsers/playlistparser.cpp:131
 #, qt-format
 msgid "%1 playlists (%2)"
-msgstr ""
+msgstr "%1 spellistor (%2)"
 
 #: playlist/playlistmanager.cpp:447
 #, qt-format
 msgid "%1 selected of"
-msgstr ""
+msgstr "%1 valda av"
 
 #: context/contextview.cpp:411
 #, qt-format
 msgid "%1 song"
-msgstr ""
+msgstr "%1 låt"
 
 #: device/deviceview.cpp:146
 #, qt-format
 msgid "%1 song%2"
-msgstr ""
+msgstr "%1 låt%2"
 
 #: context/contextview.cpp:412
 #, qt-format
 msgid "%1 songs"
-msgstr ""
+msgstr "%1 låtar"
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:156
 #, qt-format
 msgid "%1 songs found"
-msgstr ""
+msgstr "%1 låtar hittades"
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:153
 #, qt-format
 msgid "%1 songs found (showing %2)"
-msgstr ""
+msgstr "%1 låtar hittades (visar %2)"
 
 #: utilities/filemanagerutils.cpp:145
 #, qt-format
 msgid "%1 songs in %2 different directories selected, are you sure you want to open them all?"
-msgstr ""
+msgstr "%1 låtar i %2 olika valda mappar, är du säker på att du vill öppna dem alla?"
 
 #: dialogs/edittagdialog.cpp:698
 #, qt-format
 msgid "%1 songs selected."
-msgstr ""
+msgstr "%1 låtar valda."
 
 #: covermanager/albumcovermanager.cpp:561
 #, qt-format
 msgid "%1 transferred"
-msgstr ""
+msgstr "%1 överfört"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:405
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:466
@@ -184,17 +186,17 @@ msgstr ""
 #: transcoder/transcodedialog.cpp:315
 #, c-format, qt-plural-format
 msgid "%n failed"
-msgstr ""
+msgstr "%n misslyckades"
 
 #: transcoder/transcodedialog.cpp:311
 #, c-format, qt-plural-format
 msgid "%n finished"
-msgstr ""
+msgstr "%n är klar"
 
 #: transcoder/transcodedialog.cpp:307
 #, c-format, qt-plural-format
 msgid "%n remaining"
-msgstr ""
+msgstr "%n återstår"
 
 #: playlist/playlistmanager.cpp:453 queue/queue.cpp:255
 #, c-format, qt-plural-format
@@ -217,168 +219,168 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
-msgstr ""
+msgstr "&Om Strawberry"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:661
 msgid "&Add file..."
-msgstr ""
+msgstr "&Lägg till fil..."
 
 #: playlist/playlistheader.cpp:64
 msgid "&Align text"
-msgstr ""
+msgstr "&Justera text"
 
 #: playlist/playlistheader.cpp:67
 msgid "&Center"
-msgstr ""
+msgstr "&Centrera"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:635
 msgid "&Clear playlist"
-msgstr ""
+msgstr "&Rensa spellista"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
-msgstr ""
+msgstr "&Omslagshanterare"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
-msgstr ""
+msgstr "A&npassad"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:285
 msgid "&Default"
-msgstr ""
+msgstr "&Standard"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:700
 msgid "&Do a full collection rescan"
-msgstr ""
+msgstr "&Gör en fullständig omskanning av samling"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:672
 msgid "&Equalizer"
-msgstr ""
+msgstr "&Frekvenskorrigerare"
 
 #: playlist/playlistheader.cpp:103
 #, qt-format
 msgid "&Hide %1"
-msgstr ""
+msgstr "&Dölj %1"
 
 #: playlist/playlistheader.cpp:57
 msgid "&Hide..."
-msgstr ""
+msgstr "&Dölj..."
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:675
 msgid "&Jump to the currently playing track"
-msgstr ""
+msgstr "&Hoppa till spår som nu spelas"
 
 #: playlist/playlistheader.cpp:66
 msgid "&Left"
-msgstr ""
+msgstr "&Vänster"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
-msgstr ""
+msgstr "&Läs in spellista..."
 
 #: playlist/playlistheader.cpp:60
 msgid "&Lock rating"
-msgstr ""
+msgstr "&Lås betyg"
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:176
 msgid "&Manual proxy configuration"
-msgstr ""
+msgstr "&Manuell proxykonfiguration"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:732
 msgid "&Music"
-msgstr ""
+msgstr "&Musik"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:696
 msgid "&Mute"
-msgstr ""
+msgstr "&Ljud av"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:679
 msgid "&New playlist"
-msgstr ""
+msgstr "&Ny spellista"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:622
 msgid "&Next track"
-msgstr ""
+msgstr "&Nästa spår"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:529
 msgid "&No background image"
-msgstr ""
+msgstr "&Ingen bakgrundsbild"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:284
 msgid "&None"
-msgstr ""
+msgstr "I&ngen"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:665
 msgid "&Open file..."
-msgstr ""
+msgstr "&Öppna fil..."
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:614
 msgid "&Play"
-msgstr ""
+msgstr "&Spela"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:626
 msgid "&Quit"
-msgstr ""
+msgstr "A&vsluta"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:670
 msgid "&Repeat mode"
-msgstr ""
+msgstr "&Upprepningsläge"
 
 #: playlist/playlistheader.cpp:59
 msgid "&Reset columns to default"
-msgstr ""
+msgstr "&Återställ kolumner till standard"
 
 #: playlist/playlistheader.cpp:68
 msgid "&Right"
-msgstr ""
+msgstr "&Höger"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:691
 msgid "&Save all playlists..."
-msgstr ""
+msgstr "&Spara alla spellistor..."
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:649
 msgid "&Settings..."
-msgstr ""
+msgstr "&Inställningar..."
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
-msgstr ""
+msgstr "&Blandningsläge"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:618
 msgid "&Stop"
-msgstr ""
+msgstr "&Stoppa"
 
 #: playlist/playlistheader.cpp:58
 msgid "&Stretch columns to fit window"
-msgstr ""
+msgstr "&Sträck ut kolumner så de passar i fönstret"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:735
 msgid "&Tools"
-msgstr ""
+msgstr "&Verktyg"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
-msgstr ""
+msgstr "&Omkoda musik"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:694
 msgid "&Update changed collection folders"
-msgstr ""
+msgstr "&Uppdatera ändrade samlingsmappar"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:523
 msgid "&Use the system default color"
-msgstr ""
+msgstr "&Använd systemets standardfärg"
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:174
 msgid "&Use the system proxy settings"
-msgstr ""
+msgstr "&Använd systemets proxyinställningar"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:413
 msgid "(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately)."
-msgstr ""
+msgstr "(Det här är fördröjningen mellan när en låt skrobblas och när skrobblingar skickas till servern. Om tiden ställs in på 0 sekunder skickas skrobblingar direkt)."
 
 #: dialogs/edittagdialog.cpp:103
 msgid "(different across multiple songs)"
-msgstr ""
+msgstr "(olika över flera låtar)"
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:223
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:224
@@ -396,7 +398,7 @@ msgstr ""
 
 #: utilities/timeutils.cpp:67
 msgid "1 day"
-msgstr ""
+msgstr "1 dag"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:550
 msgid "40%"
@@ -404,7 +406,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsmodel.cpp:72
 msgid "50 random tracks"
-msgstr ""
+msgstr "50 slumpmässiga spår"
 
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:272
 msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See: <a href=\"https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin\"><span style=\" text-decoration: underline; color:#0000ff;\">https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin</span></a> for instructions on how to install the plugin.</p></body></html>"
@@ -413,23 +415,24 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_organizedialog.h:268
 msgid "<p>Tokens start with %, for example: %artist %album %title </p>\n\n"
 "<p>If you surround sections of text that contain a token with curly-braces, that section will be hidden if the token is empty.</p>"
-msgstr ""
+msgstr "<p>En variabel påbörjas med %, till exempel: %artist %album %title </p>\n\n"
+"<p>Om du omgärdar en variabel med klammerparenteser (måsvingar), så kommer den inte att visas om variabeln är tom.</p>"
 
 #: smartplaylists/smartplaylistwizard.cpp:88
 msgid "A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs."
-msgstr ""
+msgstr "En smart spellista är en dynamisk lista över låtar som finns i ditt bibliotek.  Det finns olika typer av smarta spellistor som väljer låtar på olika sätt."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:162
 msgid "A song will be included in the playlist if it matches these conditions."
-msgstr ""
+msgstr "En låt kommer att inkluderas i spellistan om den matchar dessa villkor."
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:191
 msgid "A&utomatic"
-msgstr ""
+msgstr "A&utomatiska"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "A-Z"
-msgstr ""
+msgstr "A-Ö"
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:192
 msgid "AAC"
@@ -437,11 +440,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:676
 msgid "ALSA plugin:"
-msgstr ""
+msgstr "ALSA-insticksmodul:"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:331
 msgid "API Token"
-msgstr ""
+msgstr "API-token"
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:193
 msgid "ASF (WMA)"
@@ -451,241 +454,241 @@ msgstr ""
 #: covermanager/albumcoversearcher.cpp:184
 #: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:139
 msgid "Abort"
-msgstr ""
+msgstr "Avbryt"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:701
 msgid "Abort collection scan"
-msgstr ""
+msgstr "Avbryt skanning av samling"
 
 #: ../../build-qt6dev/src/ui_about.h:152
 msgid "About"
-msgstr ""
+msgstr "Om"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:695
 msgid "About &Qt"
-msgstr ""
+msgstr "Om &Qt"
 
 #: dialogs/about.cpp:43
 msgid "About Strawberry"
-msgstr ""
+msgstr "Om Strawberry"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:192
 msgid "Absolu&te"
-msgstr ""
+msgstr "Absolu&ta"
 
 #: playlist/playlistsaveoptionsdialog.cpp:43
 msgid "Absolute"
-msgstr ""
+msgstr "Absolut"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:282
 msgctxt "Category label"
 msgid "Action"
-msgstr ""
+msgstr "Åtgärd"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:674
 msgid "Add &folder..."
-msgstr ""
+msgstr "Lägg till &mapp..."
 
 #: ../../build-qt6dev/src/ui_addstreamdialog.h:76
 msgid "Add Stream"
-msgstr ""
+msgstr "Lägg till flöde"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:403
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:464
 msgid "Add a new line if supported by the notification type"
-msgstr ""
+msgstr "Lägg till en ny rad om det stöds av aviseringstypen"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:224
 msgid "Add all tracks from a directory and all its subdirectories"
-msgstr ""
+msgstr "Lägg till alla låtar från en mapp och alla dess undermappar"
 
 #: settings/collectionsettingspage.cpp:252
 msgid "Add directory..."
-msgstr ""
+msgstr "Lägg till mapp..."
 
 #: core/mainwindow.cpp:2330
 msgid "Add file"
-msgstr ""
+msgstr "Lägg till fil"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:711
 msgid "Add file to transcoder"
-msgstr ""
+msgstr "Lägg till fil i omkodaren"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:709
 msgid "Add file(s) to transcoder"
-msgstr ""
+msgstr "Lägg till fil(er) i omkodaren"
 
 #: transcoder/transcodedialog.cpp:329
 msgid "Add files to transcode"
-msgstr ""
+msgstr "Lägg till filer för omkodning"
 
 #: core/mainwindow.cpp:2356 transcoder/transcodedialog.cpp:421
 msgid "Add folder"
-msgstr ""
+msgstr "Lägg till mapp"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:444
 msgid "Add new folder..."
-msgstr ""
+msgstr "Lägg till ny mapp..."
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:432
 msgid "Add search term"
-msgstr ""
+msgstr "Lägg till sökterm"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:411
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:472
 msgid "Add song URL"
-msgstr ""
+msgstr "Lägg till låtens webbadress"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:364
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:422
 msgid "Add song album tag"
-msgstr ""
+msgstr "Lägg till tagg för låtens album"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:370
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:428
 msgid "Add song albumartist tag"
-msgstr ""
+msgstr "Lägg till tagg för låtens albumartist"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:361
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:419
 msgid "Add song artist tag"
-msgstr ""
+msgstr "Lägg till tagg för låtens artist"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:376
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:434
 msgid "Add song composer tag"
-msgstr ""
+msgstr "Lägg till tagg för låtens kompositör"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:385
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:443
 msgid "Add song disc tag"
-msgstr ""
+msgstr "Lägg till tagg för skivnummer"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:407
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:468
 msgid "Add song filename"
-msgstr ""
+msgstr "Lägg till låtens filnamn"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:391
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:449
 msgid "Add song genre tag"
-msgstr ""
+msgstr "Lägg till tagg för låtgenre"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:382
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:440
 msgid "Add song grouping tag"
-msgstr ""
+msgstr "Lägg till tagg för låtgruppering"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:394
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:452
 msgid "Add song length tag"
-msgstr ""
+msgstr "Lägg till tagg för låtens längd"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:419
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:476
 msgid "Add song original year tag"
-msgstr ""
+msgstr "Lägg till låtens originalårstagg"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:379
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:437
 msgid "Add song performer tag"
-msgstr ""
+msgstr "Lägg till tagg för aktör"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:397
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:455
 msgid "Add song play count"
-msgstr ""
+msgstr "Lägg till antal spelningar av låtar"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:415
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:461
 msgid "Add song rating"
-msgstr ""
+msgstr "Lägg till låtbetyg"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:400
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:458
 msgid "Add song skip count"
-msgstr ""
+msgstr "Lägg till antal överhoppningar"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:367
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:425
 msgid "Add song title tag"
-msgstr ""
+msgstr "Lägg till tagg för låtens titel"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:388
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:446
 msgid "Add song track tag"
-msgstr ""
+msgstr "Lägg till tagg för spårnummer"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:373
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:431
 msgid "Add song year tag"
-msgstr ""
+msgstr "Lägg till tagg för år"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:713
 msgid "Add stream..."
-msgstr ""
+msgstr "Lägg till flöde..."
 
 #: streaming/streamingsearchview.cpp:331
 msgid "Add to albums"
-msgstr ""
+msgstr "Lägg till i album"
 
 #: core/mainwindow.cpp:2132
 msgid "Add to another playlist"
-msgstr ""
+msgstr "Lägg till i en annan spellista"
 
 #: streaming/streamingsearchview.cpp:328
 msgid "Add to artists"
-msgstr ""
+msgstr "Lägg till i artister"
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:215
 msgid "Add to playlist"
-msgstr ""
+msgstr "Lägg till i spellista"
 
 #: streaming/streamingsearchview.cpp:334
 msgid "Add to songs"
-msgstr ""
+msgstr "Lägg till låtar"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:344
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:352
 msgid "Add to the queue"
-msgstr ""
+msgstr "Lägga till i kön"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:221
 msgid "Add..."
-msgstr ""
+msgstr "Lägg till..."
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:99
 msgid "Added this month"
-msgstr ""
+msgstr "Tillagda den här månaden"
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:93
 msgid "Added this week"
-msgstr ""
+msgstr "Tillagda den här veckan"
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:98
 msgid "Added this year"
-msgstr ""
+msgstr "Tillagda i år"
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:92
 msgid "Added today"
-msgstr ""
+msgstr "Tillagda idag"
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:94
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:96
 msgid "Added within three months"
-msgstr ""
+msgstr "Tillagda inom tre månader"
 
 #: collection/collectionfilterwidget.cpp:316
 msgid "Advanced grouping..."
-msgstr ""
+msgstr "Avancerad gruppering..."
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:262
 msgid "After copying..."
-msgstr ""
+msgstr "Efter kopiering..."
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:533
 msgid "Albu&m cover"
-msgstr ""
+msgstr "Albu&momslag"
 
 #: collection/savedgroupingmanager.cpp:100 playlist/playlist.cpp:1389
 #: organize/organizedialog.cpp:107
@@ -702,18 +705,18 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:700
 msgid "Album (ideal loudness for all tracks)"
-msgstr ""
+msgstr "Album (lämplig ljudstyrka för alla spår)"
 
 #: collection/savedgroupingmanager.cpp:103
 #: ../../build-qt6dev/src/ui_groupbydialog.h:195
 #: ../../build-qt6dev/src/ui_groupbydialog.h:217
 #: ../../build-qt6dev/src/ui_groupbydialog.h:239
 msgid "Album - Disc"
-msgstr ""
+msgstr "Album - Skiva"
 
 #: playlist/playlist.cpp:1396
 msgid "Album Artist"
-msgstr ""
+msgstr "Albumartist"
 
 #: collection/savedgroupingmanager.cpp:94 organize/organizedialog.cpp:110
 #: ../../build-qt6dev/src/ui_groupbydialog.h:193
@@ -721,111 +724,111 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:237
 #: ../../build-qt6dev/src/ui_edittagdialog.h:920
 msgid "Album artist"
-msgstr ""
+msgstr "Albumartist"
 
 #: dialogs/edittagdialog.cpp:867
 msgid "Album cover editing is only available for collection songs."
-msgstr ""
+msgstr "Redigering av albumomslag är endast tillgänglig för samlingslåtar."
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:465
 msgid "Album cover pixmap cache"
-msgstr ""
+msgstr "Albumomslag pixmap-cache"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:344
 msgid "Album cover size"
-msgstr ""
+msgstr "Albumomslagets storlek"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:314
 msgid "Album cover types"
-msgstr ""
+msgstr "Typer av skivomslag"
 
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:114
 msgid "Albums"
-msgstr ""
+msgstr "Album"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:340
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:277
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:295
 msgid "Albums search limit"
-msgstr ""
+msgstr "Sökgräns för album"
 
 #: covermanager/albumcovermanager.cpp:171
 msgid "Albums with covers"
-msgstr ""
+msgstr "Album med omslag"
 
 #: covermanager/albumcovermanager.cpp:172
 msgid "Albums without covers"
-msgstr ""
+msgstr "Album utan omslag"
 
 #: core/mainwindow.cpp:231
 msgid "All Files (*)"
-msgstr ""
+msgstr "Alla filer (*)"
 
 #: covermanager/albumcovermanager.cpp:170
 msgid "All albums"
-msgstr ""
+msgstr "Alla album"
 
 #: covermanager/albumcovermanager.cpp:346
 msgid "All artists"
-msgstr ""
+msgstr "Alla artister"
 
 #: covermanager/albumcoverchoicecontroller.cpp:82
 msgid "All files (*)"
-msgstr ""
+msgstr "Alla filer (*)"
 
 #: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "All playlists (%1)"
-msgstr ""
+msgstr "Alla spellistor (%1)"
 
 #: smartplaylists/smartplaylistsmodel.cpp:115
 msgid "All tracks"
-msgstr ""
+msgstr "Alla spår"
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:276
 msgid "Allow extended ASCII characters"
-msgstr ""
+msgstr "Tillåt utökade ASCII-tecken"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:141
 msgid "Allow mid/side encoding"
-msgstr ""
+msgstr "Tillåt mellan-/sidokodning"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:231
 msgid "Alongside the originals"
-msgstr ""
+msgstr "Vid sidan av originalen"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:334
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:348
 msgid "Always start playing"
-msgstr ""
+msgstr "Alltid starta uppspelning"
 
 #: device/gpodloader.cpp:81
 msgid "An error occurred loading the iTunes database"
-msgstr ""
+msgstr "Ett fel uppstod vid inläsning av iTunes-databasen"
 
 #: moodbar/moodbarrenderer.cpp:168
 msgid "Angry"
-msgstr ""
+msgstr "Arg"
 
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:285
 msgid "App ID"
-msgstr ""
+msgstr "App-ID"
 
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:288
 msgid "App Secret"
-msgstr ""
+msgstr "Apphemlighet"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:517
 msgid "Appearance"
-msgstr ""
+msgstr "Utseende"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:346
 msgid "Append explicit to album title for explicit albums"
-msgstr ""
+msgstr "Lägg uttryckligen till albumtitel för explicita album"
 
 #: core/commandlineoptions.cpp:237
 msgid "Append files/URLs to the playlist"
-msgstr ""
+msgstr "Lägg till filer/webbadresser till spellistan"
 
 #: collection/collectionview.cpp:378
 #: smartplaylists/smartplaylistsviewcontainer.cpp:66
@@ -833,48 +836,48 @@ msgstr ""
 #: streaming/streamingcollectionview.cpp:329 radios/radioview.cpp:69
 #: device/deviceview.cpp:244
 msgid "Append to current playlist"
-msgstr ""
+msgstr "Lägg till i aktuell spellista"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:341
 msgid "Append to the playlist"
-msgstr ""
+msgstr "Lägga till i spellistan"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:703
 msgid "Apply compression to prevent clipping"
-msgstr ""
+msgstr "Tillämpa komprimering för att förhindra klippning"
 
 #: dialogs/deleteconfirmationdialog.cpp:73
 msgid "Are you sure you want to continue?"
-msgstr ""
+msgstr "Är du säker på att du vill fortsätta?"
 
 #: equalizer/equalizer.cpp:230
 #, qt-format
 msgid "Are you sure you want to delete the \"%1\" preset?"
-msgstr ""
+msgstr "Är du säker på att du vill ta bort förinställningen \"%1\"?"
 
 #: dialogs/edittagdialog.cpp:1338
 msgid "Are you sure you want to reset this song's play statistics?"
-msgstr ""
+msgstr "Är du säker på att du vill återställa den här låtens spelstatistik?"
 
 #: settings/collectionsettingspage.cpp:339
 msgid "Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"
-msgstr ""
+msgstr "Är du säker på att du vill skriva antal spelningar och betyg för alla låtar i din samling?"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:890
 msgid "Art Automatic"
-msgstr ""
+msgstr "Automatiska omslag"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:892
 msgid "Art Embedded"
-msgstr ""
+msgstr "Omslaget inbäddat"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:906
 msgid "Art Manual"
-msgstr ""
+msgstr "Manuella omslag"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:904
 msgid "Art Unset"
-msgstr ""
+msgstr "Omslaget inte inställt"
 
 #: collection/savedgroupingmanager.cpp:97 playlist/playlist.cpp:1388
 #: organize/organizedialog.cpp:108
@@ -890,38 +893,38 @@ msgstr ""
 
 #: organize/organizedialog.cpp:109
 msgid "Artist's initial"
-msgstr ""
+msgstr "Artistens initialer"
 
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:113
 msgid "Artists"
-msgstr ""
+msgstr "Artister"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:339
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:276
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:294
 msgid "Artists search limit"
-msgstr ""
+msgstr "Sökgräns för artister"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:194
 msgid "As&k when saving"
-msgstr ""
+msgstr "Frå&ga när du sparar"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:228
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:291
 msgid "Audio format"
-msgstr ""
+msgstr "Ljudformat"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:694
 msgid "Audio normalization"
-msgstr ""
+msgstr "Ljudnormalisering"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:671
 msgid "Audio output"
-msgstr ""
+msgstr "Ljudutgång"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:336
 msgid "Audio quality"
-msgstr ""
+msgstr "Ljudkvalitet"
 
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:267
 msgid "Authenticate"
@@ -930,7 +933,7 @@ msgstr ""
 #: tidal/tidalrequest.cpp:144 spotify/spotifyrequest.cpp:127
 #: qobuz/qobuzservice.cpp:270
 msgid "Authenticating..."
-msgstr ""
+msgstr "Autentisering..."
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:311
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:167
@@ -938,21 +941,21 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:328
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:284
 msgid "Authentication"
-msgstr ""
+msgstr "Autentisering"
 
 #: settings/coverssettingspage.cpp:382 settings/lyricssettingspage.cpp:256
 #: settings/tidalsettingspage.cpp:214 settings/spotifysettingspage.cpp:167
 #: settings/qobuzsettingspage.cpp:177
 msgid "Authentication failed"
-msgstr ""
+msgstr "Autentisering misslyckades"
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
-msgstr ""
+msgstr "Autentiseringsmetod:"
 
 #: dialogs/about.cpp:145
 msgid "Author and maintainer"
-msgstr ""
+msgstr "Upphovsman och underhållare"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:225
 msgid "Auto"
@@ -960,53 +963,53 @@ msgstr ""
 
 #: playlist/playlistsaveoptionsdialog.cpp:41
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisk"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:446
 msgid "Automatic updating"
-msgstr ""
+msgstr "Automatisk uppdatering"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:460
 msgid "Automatically open single categories in the collection tree"
-msgstr ""
+msgstr "Öppna enskilda kategorier automatiskt i samlingsträdet"
 
 #: settings/coverssettingspage.cpp:439
 #, qt-format
 msgid "Automatically picked up from album directory (%1)"
-msgstr ""
+msgstr "Hämtas automatiskt från albummappen (%1)"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:436
 msgid "Automatically search for album cover"
-msgstr ""
+msgstr "Sök automatiskt efter albumomslag"
 
 #: context/contextview.cpp:272
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:437
 msgid "Automatically search for song lyrics"
-msgstr ""
+msgstr "Sök automatiskt efter låttexter"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:185
 msgid "Automatically select current playing track"
-msgstr ""
+msgstr "Välj automatiskt spår som nu spelas"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:189
 msgid "Automatically sort playlist when inserting songs"
-msgstr ""
+msgstr "Sortera spellistan automatiskt när du lägger in låtar"
 
 #: widgets/freespacebar.cpp:67
 msgid "Available"
-msgstr ""
+msgstr "Tillgängligt"
 
 #: filterparser/filterparser.cpp:481
 msgid "Available fields"
-msgstr ""
+msgstr "Tillgängliga fält"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:221
 msgid "Average bitrate"
-msgstr ""
+msgstr "Genomsnittlig bitfrekvens"
 
 #: covermanager/coversearchstatisticsdialog.cpp:82
 msgid "Average image size"
-msgstr ""
+msgstr "Genomsnittlig bildstorlek"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:670
 msgid "Backend"
@@ -1014,31 +1017,31 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:507
 msgid "Background color"
-msgstr ""
+msgstr "Bakgrundsfärg"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:527
 msgid "Background image"
-msgstr ""
+msgstr "Bakgrundsbild"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:511
 msgid "Background opacity"
-msgstr ""
+msgstr "Bakgrundsopacitet"
 
 #: core/database.cpp:564
 msgid "Backing up database"
-msgstr ""
+msgstr "Säkerhetskopierar databas"
 
 #: ../../build-qt6dev/src/ui_equalizer.h:177
 msgid "Balance"
-msgstr ""
+msgstr "Balans"
 
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:298
 msgid "Base64 encoded secret"
-msgstr ""
+msgstr "Base64-kodad hemlighet"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:512
 msgid "Basic Blue"
-msgstr ""
+msgstr "Basblå"
 
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:266
 msgid "Basic authentication"
@@ -1046,11 +1049,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:314
 msgid "Behavior"
-msgstr ""
+msgstr "Beteende"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:79
 msgid "Best"
-msgstr ""
+msgstr "Bästa"
 
 #: playlist/playlistview.cpp:224
 msgid "Bit"
@@ -1067,11 +1070,11 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:253
 #: ../../build-qt6dev/src/ui_edittagdialog.h:897
 msgid "Bit depth"
-msgstr ""
+msgstr "Bitdjup"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:899
 msgid "Bit rate"
-msgstr ""
+msgstr "Bithastighet"
 
 #: context/contextview.cpp:167 collection/savedgroupingmanager.cpp:151
 #: playlist/playlist.cpp:1407 ../../build-qt6dev/src/ui_groupbydialog.h:210
@@ -1083,68 +1086,68 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:75
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
-msgstr ""
+msgstr "Bitfrekvens"
 
 #: organize/organizedialog.cpp:121
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr ""
+msgstr "Bitfrekvens"
 
 #: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
-msgstr ""
+msgstr "Blockanalysator"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:142
 msgid "Block type"
-msgstr ""
+msgstr "Blocktyp"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:547
 msgid "Blur amount"
-msgstr ""
+msgstr "Suddighet"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:501
 msgid "Body"
-msgstr ""
+msgstr "Brödtext"
 
 #: analyzer/boomanalyzer.cpp:43
 msgid "Boom analyzer"
-msgstr ""
+msgstr "Boom-analysator"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:540
 msgid "Bottom Left"
-msgstr ""
+msgstr "Nedre vänstra"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:541
 msgid "Bottom Right"
-msgstr ""
+msgstr "Nedre högra"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:535
 msgid "Browse..."
-msgstr ""
+msgstr "Bläddra..."
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:688
 msgid "Buffer"
-msgstr ""
+msgstr "Buffert"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:690
 msgid "Buffer duration"
-msgstr ""
+msgstr "Buffert varaktighet"
 
 #: engine/gstengine.cpp:699
 msgid "Buffering"
-msgstr ""
+msgstr "Buffrar"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:668
 msgid "C&onsole"
-msgstr ""
+msgstr "K&onsol"
 
 #: core/songloader.cpp:201
 msgid "CD playback is only available with the GStreamer engine."
-msgstr ""
+msgstr "CD-uppspelning är endast tillgänglig med GStreamer-motorn."
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:424
 msgid "CDDA"
-msgstr ""
+msgstr "CD-ljud"
 
 #: playlist/playlist.cpp:1420
 msgid "CUE"
@@ -1152,165 +1155,165 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: tidal/tidalstreamurlrequest.cpp:105 qobuz/qobuzstreamurlrequest.cpp:101
 msgid "Cancelled."
-msgstr ""
+msgstr "Avbruten."
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:916
 msgid "Change art"
-msgstr ""
+msgstr "Byt omslag"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Change repeat mode"
-msgstr ""
+msgstr "Ändra upprepningsläge"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
-msgstr ""
+msgstr "Byt genväg..."
 
 #: globalshortcuts/globalshortcutsmanager.cpp:77
 msgid "Change shuffle mode"
-msgstr ""
+msgstr "Ändra blandningsläge"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:351
 msgid "Change the currently playing song"
-msgstr ""
+msgstr "Byta låt som nu spelas"
 
 #: core/commandlineoptions.cpp:243
 msgid "Change the language"
-msgstr ""
+msgstr "Ändra språket"
 
 #: core/mainwindow.cpp:821
 msgid "Check for updates..."
-msgstr ""
+msgstr "Sök efter uppdateringar..."
 
 #: smartplaylists/smartplaylistwizard.cpp:94
 msgid "Choose a name for your smart playlist"
-msgstr ""
+msgstr "Välj ett namn för din smarta spellista"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:510
 msgid "Choose color..."
-msgstr ""
+msgstr "Välj färg..."
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
-msgstr ""
+msgstr "Välj data att importera från last.fm"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:509
 msgid "Choose font..."
-msgstr ""
+msgstr "Välj teckensnitt..."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Choose how the playlist is sorted and how many songs it will contain."
-msgstr ""
+msgstr "Välj hur spellistan ska sorteras och hur många låtar den ska innehålla."
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:308
 msgid "Choose the providers you want to use when searching for covers."
-msgstr ""
+msgstr "Välj leverantörerna du vill använda vid sökning efter omslag."
 
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
-msgstr ""
+msgstr "Välj leverantörerna du vill använda vid sökning efter låttexter."
 
 #: equalizer/equalizer.cpp:140
 msgid "Classical"
-msgstr ""
+msgstr "Klassisk"
 
 #: widgets/lineedit.cpp:58 transcoder/transcodedialog.cpp:104
 #: ../../build-qt6dev/src/ui_queueview.h:141
 msgid "Clear"
-msgstr ""
+msgstr "Rensa"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:471
 msgid "Clear Disk Cache"
-msgstr ""
+msgstr "Rensa diskcache"
 
 #: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Clear cover"
-msgstr ""
+msgstr "Rensa omslag"
 
 #: core/mainwindow.cpp:2421 ../../build-qt6dev/src/ui_mainwindow.h:637
 msgid "Clear playlist"
-msgstr ""
+msgstr "Rensa spellista"
 
 #: dialogs/about.cpp:163
 msgid "Clementine authors"
-msgstr ""
+msgstr "Clementine-upphovsmän"
 
 #: dialogs/about.cpp:172
 msgid "Clementine contributors"
-msgstr ""
+msgstr "Clementine-bidragsgivare"
 
 #: collection/collectionview.cpp:338
 msgid "Click here to add some music"
-msgstr ""
+msgstr "Klicka här för att lägga till musik"
 
 #: streaming/streamingcollectionview.cpp:307
 msgid "Click here to retrieve music"
-msgstr ""
+msgstr "Klicka här för att hämta musik"
 
 #: ../../build-qt6dev/src/ui_trackslider.h:68
 msgid "Click to toggle between remaining time and total time"
-msgstr ""
+msgstr "Klicka för att växla mellan återstående tid och total tid"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:330
 msgid "Client ID"
-msgstr ""
+msgstr "Klient-ID"
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:156
 #: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:138
 msgid "Close"
-msgstr ""
+msgstr "Stäng"
 
 #: playlist/playlisttabbar.cpp:80
 msgid "Close playlist"
-msgstr ""
+msgstr "Stäng spellista"
 
 #: covermanager/albumcovermanager.cpp:259
 msgid "Closing this window will stop searching for album covers."
-msgstr ""
+msgstr "Stängning av det här fönstret kommer att stoppa sökningen efter albumomslag."
 
 #: equalizer/equalizer.cpp:141
 msgid "Club"
-msgstr ""
+msgstr "Klubb"
 
 #: core/mainwindow.cpp:386
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:442
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
-msgstr ""
+msgstr "Samling"
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:90
 msgid "Collection Filter"
-msgstr ""
+msgstr "Samlingsfilter"
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:187
 msgid "Collection advanced grouping"
-msgstr ""
+msgstr "Samling avancerad gruppering"
 
 #: core/mainwindow.cpp:2988
 msgid "Collection rescan notice"
-msgstr ""
+msgstr "Notis om omskanning av samling"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:95
 msgid "Collection search"
-msgstr ""
+msgstr "Samlingssökning"
 
 #: core/commandlineoptions.cpp:247
 msgid "Comma separated list of class:level, level is 0-3"
-msgstr ""
+msgstr "Kommaseparerad lista över class:level; level är 0-3"
 
 #: playlist/playlist.cpp:1416 smartplaylists/smartplaylistsearchterm.cpp:391
 #: organize/organizedialog.cpp:119
 #: ../../build-qt6dev/src/ui_edittagdialog.h:928
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:930
 msgid "Compilation"
-msgstr ""
+msgstr "Sammanställning"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:935
 msgid "Complete lyrics automatically"
@@ -1318,11 +1321,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:926
 msgid "Complete tags automatically"
-msgstr ""
+msgstr "Fyll i taggar automatiskt"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:702
 msgid "Complete tags automatically..."
-msgstr ""
+msgstr "Fyll i taggar automatiskt..."
 
 #: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1397
 #: organize/organizedialog.cpp:111
@@ -1331,90 +1334,90 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:248
 #: ../../build-qt6dev/src/ui_edittagdialog.h:925
 msgid "Composer"
-msgstr ""
+msgstr "Kompositör"
 
 #: settings/subsonicsettingspage.cpp:131 settings/tidalsettingspage.cpp:152
 #: settings/tidalsettingspage.cpp:159 settings/tidalsettingspage.cpp:163
 #: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:131
 #: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Konfigurationen ofullständig"
 
 #: settings/subsonicsettingspage.cpp:137
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Konfiguration felaktig"
 
 #: streaming/streamingsearchview.cpp:180 streaming/streamingsearchview.cpp:346
 #: streaming/streamingsongsview.cpp:60 streaming/streamingtabsview.cpp:64
 #, qt-format
 msgid "Configure %1..."
-msgstr ""
+msgstr "Anpassa %1..."
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:555
 msgid "Configure buttons"
-msgstr ""
+msgstr "Anpassa knappar"
 
 #: core/mainwindow.cpp:691
 msgid "Configure collection..."
-msgstr ""
+msgstr "Anpassa samling..."
 
 #: device/devicemanager.cpp:352 device/devicemanager.cpp:353
 msgid "Connect device"
-msgstr ""
+msgstr "Anslut enhet"
 
 #: ../../build-qt6dev/src/ui_console.h:76
 msgid "Console"
-msgstr ""
+msgstr "Konsol"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
-msgstr ""
+msgstr "Konstant bitfrekvens"
 
 #: core/mainwindow.cpp:385 ../../build-qt6dev/src/ui_contextsettingspage.h:359
 msgid "Context"
-msgstr ""
+msgstr "Kontext"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:182
 msgid "Continue to the next item in the playlist if a song is unavailable"
-msgstr ""
+msgstr "Fortsätt till nästa post i spellistan om en låt inte är tillgänglig"
 
 #: dialogs/about.cpp:154
 msgid "Contributors"
-msgstr ""
+msgstr "Bidragsgivare"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:381
 msgid "Convert all music"
-msgstr ""
+msgstr "Konvertera all musik"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:380
 msgid "Convert any music that the device can't play"
-msgstr ""
+msgstr "Konvertera all musik som inte kan spelas av enheten"
 
 #: core/mainwindow.cpp:767
 msgid "Copy URL(s)..."
-msgstr ""
+msgstr "Kopiera webbadress(er)..."
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:279
 msgid "Copy album cover artwork"
-msgstr ""
+msgstr "Kopiera albumomslag"
 
 #: core/mainwindow.cpp:771 widgets/fileviewlist.cpp:47
 #: device/deviceview.cpp:249
 msgid "Copy to collection..."
-msgstr ""
+msgstr "Kopiera till samling..."
 
 #: playlist/playlistlistcontainer.cpp:386
 msgid "Copy to device"
-msgstr ""
+msgstr "Kopiera till enhet"
 
 #: core/mainwindow.cpp:774 collection/collectionview.cpp:393
 #: playlist/playlistlistcontainer.cpp:93 widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
-msgstr ""
+msgstr "Kopiera till enhet..."
 
 #: dialogs/snapdialog.cpp:66
 msgid "Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:"
-msgstr ""
+msgstr "Kopiera din strawberry.conf och strawberry.db från din ~/snap-mapp för att undvika att förlora konfigurationen innan du avinstallerar snap:"
 
 #: device/gpoddevice.cpp:241
 #, qt-format
@@ -1429,12 +1432,12 @@ msgstr ""
 #: transcoder/transcoder.cpp:73
 #, qt-format
 msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
-msgstr ""
+msgstr "Kunde inte skapa GStreamer-elementet \"%1\" - kontrollera att du har alla GStreamer-insticksmoduler som krävs installerade"
 
 #: core/songloader.cpp:313
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
-msgstr ""
+msgstr "Det gick inte att öppna CUE-filen %1 för läsning: %2"
 
 #: device/mtpconnection.cpp:75 device/mtpconnection.cpp:109
 msgid "Could not open MTP device."
@@ -1442,7 +1445,7 @@ msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:223
 msgid "Could not open URL. Please open this URL in your browser"
-msgstr ""
+msgstr "Det gick inte att öppna webbadressen. Öppna den här webbadressen i din webbläsare"
 
 #: playlistparsers/playlistparser.cpp:192
 #, qt-format
@@ -1452,18 +1455,18 @@ msgstr ""
 #: core/songloader.cpp:281
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
-msgstr ""
+msgstr "Det gick inte att öppna filen %1 för läsning: %2"
 
 #: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
-msgstr ""
+msgstr "Det gick inte att öppna spellistefilen %1 för läsning: %2"
 
 #: covermanager/albumcovermanager.cpp:1063
 #: covermanager/albumcoverchoicecontroller.cpp:827
 #, qt-format
 msgid "Could not save cover to file %1."
-msgstr ""
+msgstr "Det gick inte att spara omslag till filen %1."
 
 #: playlist/playlist.cpp:442 dialogs/edittagdialog.cpp:1491
 #, qt-format
@@ -1478,105 +1481,105 @@ msgstr ""
 #: core/songloader.cpp:499
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
-msgstr ""
+msgstr "Det gick inte att skapa GStreamer fakesink-element för %1"
 
 #: core/songloader.cpp:482
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
-msgstr ""
+msgstr "Det gick inte att skapa GStreamer-källelementet för %1"
 
 #: core/songloader.cpp:492
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
-msgstr ""
+msgstr "Det gick inte att skapa GStreamer typfind-element för %1"
 
 #: playlist/playlistmanager.cpp:207
 msgid "Couldn't create playlist"
-msgstr ""
+msgstr "Kunde inte skapa spellista"
 
 #: transcoder/transcoder.cpp:431
 #, qt-format
 msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
-msgstr ""
+msgstr "Kunde inte hitta en muxer för %1, kontrollera att du har de korrekta GStreamer-insticksmodulerna installerade"
 
 #: transcoder/transcoder.cpp:426
 #, qt-format
 msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
-msgstr ""
+msgstr "Kunde inte hitta en kodare för %1, kontrollera att du har de korrekta GStreamer-insticksmodulerna installerade"
 
 #: core/songloader.cpp:505
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
-msgstr ""
+msgstr "Det gick inte att länka GStreamer-källa, typfind och fakesink-element för %1"
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:212
 #: ../../build-qt6dev/src/ui_albumcoversearcher.h:102
 msgid "Cover Manager"
-msgstr ""
+msgstr "Omslagshanterare"
 
 #: dialogs/edittagdialog.cpp:862
 msgid "Cover art not set"
-msgstr ""
+msgstr "Omslagsbild är inte inställd"
 
 #: dialogs/edittagdialog.cpp:878
 msgid "Cover changed: Will be cleared when saved."
-msgstr ""
+msgstr "Omslaget bytt: kommer att rensas när det sparas. "
 
 #: dialogs/edittagdialog.cpp:882
 msgid "Cover changed: Will be deleted when saved."
-msgstr ""
+msgstr "Omslaget bytt: kommer att tas bort när det sparas. "
 
 #: dialogs/edittagdialog.cpp:880
 msgid "Cover changed: Will be unset when saved."
-msgstr ""
+msgstr "Omslaget bytt: återställs när det sparas. "
 
 #: dialogs/edittagdialog.cpp:884
 msgid "Cover changed: Will set new when saved."
-msgstr ""
+msgstr "Omslaget bytt: ställer in nytt när det sparas. "
 
 #: covermanager/albumcoverchoicecontroller.cpp:193
 #, qt-format
 msgid "Cover file %1 is empty."
-msgstr ""
+msgstr "Omslagsfilen %1 är tom."
 
 #: dialogs/edittagdialog.cpp:854 dialogs/edittagdialog.cpp:857
 #, qt-format
 msgid "Cover from %1"
-msgstr ""
+msgstr "Omslag från %1"
 
 #: dialogs/edittagdialog.cpp:851
 msgid "Cover from embedded image."
-msgstr ""
+msgstr "Omslag från inbäddad bild."
 
 #: dialogs/edittagdialog.cpp:848
 msgid "Cover is unset."
-msgstr ""
+msgstr "Omslaget är inte inställt."
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:307
 msgid "Cover providers"
-msgstr ""
+msgstr "Omslagsleverantörer"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:306
 msgid "Covers"
-msgstr ""
+msgstr "Omslag"
 
 #: covermanager/albumcoversearcher.cpp:126
 #: covermanager/coversearchstatisticsdialog.cpp:74
 #, qt-format
 msgid "Covers from %1"
-msgstr ""
+msgstr "Omslag från %1"
 
 #: core/commandlineoptions.cpp:236
 msgid "Create a new playlist with files"
-msgstr ""
+msgstr "Skapa en ny spellista med filer"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:711
 msgid "Cross-fade when changing tracks automatically"
-msgstr ""
+msgstr "Övertona vid automatiskt byte av spår"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:710
 msgid "Cross-fade when changing tracks manually"
-msgstr ""
+msgstr "Övertona vid manuellt byte av spår"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:632
 msgid "Ctrl+Alt+V"
@@ -1584,7 +1587,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_queueview.h:134
 msgid "Ctrl+Down"
-msgstr ""
+msgstr "Ctrl+Ner"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:644
 msgid "Ctrl+E"
@@ -1625,11 +1628,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:663
 msgid "Ctrl+Shift+A"
-msgstr ""
+msgstr "Ctrl+Skift+A"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:689
 msgid "Ctrl+Shift+O"
-msgstr ""
+msgstr "Ctrl+Skift+O"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:704
 msgid "Ctrl+T"
@@ -1638,43 +1641,43 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_savedgroupingmanager.h:106
 #: ../../build-qt6dev/src/ui_queueview.h:128
 msgid "Ctrl+Up"
-msgstr ""
+msgstr "Ctrl+Upp"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:469
 msgid "Current disk cache in use:"
-msgstr ""
+msgstr "Aktuell diskcache i användning:"
 
 #: equalizer/equalizer.cpp:139
 msgid "Custom"
-msgstr ""
+msgstr "Anpassad"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:560
 msgid "Custom color"
-msgstr ""
+msgstr "Anpassad färg"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:534
 msgid "Custom image:"
-msgstr ""
+msgstr "Anpassad bild:"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:493
 msgid "Custom message settings"
-msgstr ""
+msgstr "Anpassade meddelandeinställningar"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:421
 msgid "Custom text settings"
-msgstr ""
+msgstr "Anpassade textinställningar"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:514
 msgid "Custom..."
-msgstr ""
+msgstr "Anpassad..."
 
 #: device/udisks2lister.cpp:123
 msgid "D-Bus path"
-msgstr ""
+msgstr "D-Bus sökväg"
 
 #: equalizer/equalizer.cpp:142
 msgid "Dance"
-msgstr ""
+msgstr "Dans"
 
 #: spotify/spotifyrequest.cpp:1373
 msgid "Data missing error"
@@ -1682,98 +1685,98 @@ msgstr ""
 
 #: core/database.cpp:510
 msgid "Database corruption detected."
-msgstr ""
+msgstr "Databasskada upptäcktes."
 
 #: playlist/playlist.cpp:1414
 msgid "Date Created"
-msgstr ""
+msgstr "Datum skapat"
 
 #: playlist/playlist.cpp:1413
 msgid "Date Modified"
-msgstr ""
+msgstr "Datum ändrat"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:888
 msgid "Date created"
-msgstr ""
+msgstr "Datum skapad"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:891
 msgid "Date modified"
-msgstr ""
+msgstr "Datum ändrad"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:453
 msgid "Days"
-msgstr ""
+msgstr "Dagar"
 
 #: core/commandlineoptions.cpp:229
 msgid "Decrease the volume by 4 percent"
-msgstr ""
+msgstr "Sänk volymen med 4 procent"
 
 #: core/commandlineoptions.cpp:231
 msgid "Decrease the volume by <value> percent"
-msgstr ""
+msgstr "Sänk volymen med <value> procent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:70
 msgid "Decrease volume"
-msgstr ""
+msgstr "Sänk volymen"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:528
 msgid "Default bac&kground image"
-msgstr ""
+msgstr "Standardba&kgrundsbild"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:693
 msgid "Defaults"
-msgstr ""
+msgstr "Standardvärden"
 
 #: playlist/playlistlistcontainer.cpp:90
 #: ../../build-qt6dev/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
-msgstr ""
+msgstr "Ta bort"
 
 #: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Delete cover"
-msgstr ""
+msgstr "Ta bort omslag"
 
 #: dialogs/deleteconfirmationdialog.cpp:46 device/deviceview.cpp:429
 msgid "Delete files"
-msgstr ""
+msgstr "Ta bort filer"
 
 #: device/deviceview.cpp:250
 msgid "Delete from device..."
-msgstr ""
+msgstr "Ta bort från enhet..."
 
 #: core/mainwindow.cpp:776 collection/collectionview.cpp:395
 #: widgets/fileviewlist.cpp:50
 msgid "Delete from disk..."
-msgstr ""
+msgstr "Ta bort från disk..."
 
 #: equalizer/equalizer.cpp:229 ../../build-qt6dev/src/ui_equalizer.h:172
 msgid "Delete preset"
-msgstr ""
+msgstr "Ta bort förinställning"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:78
 #: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
-msgstr ""
+msgstr "Ta bort smart spellista"
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:259
 msgid "Delete songs"
-msgstr ""
+msgstr "Ta bort låtar"
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:264
 msgid "Delete the original files"
-msgstr ""
+msgstr "Ta bort originalfiler"
 
 #: core/deletefiles.cpp:59
 msgid "Deleting files"
-msgstr ""
+msgstr "Tar bort filer"
 
 #: core/mainwindow.cpp:2047
 msgid "Dequeue selected tracks"
-msgstr ""
+msgstr "Ta bort valda spår från kön"
 
 #: core/mainwindow.cpp:2046
 msgid "Dequeue track"
-msgstr ""
+msgstr "Ta bort spår från kön"
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:261
 #: ../../build-qt6dev/src/ui_transcodedialog.h:230
@@ -1792,16 +1795,16 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:235
 msgid "Details..."
-msgstr ""
+msgstr "Detaljer..."
 
 #: device/giolister.cpp:193 ../../build-qt6dev/src/ui_backendsettingspage.h:672
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:422
 msgid "Device"
-msgstr ""
+msgstr "Enhet"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:370
 msgid "Device Properties"
-msgstr ""
+msgstr "Enhetsegenskaper"
 
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:268
 msgid "Device credentials"
@@ -1809,23 +1812,23 @@ msgstr ""
 
 #: device/deviceview.cpp:241
 msgid "Device properties..."
-msgstr ""
+msgstr "Enhetsegenskaper..."
 
 #: core/mainwindow.cpp:393
 msgid "Devices"
-msgstr ""
+msgstr "Enheter"
 
 #: dialogs/edittagdialog.cpp:104
 msgid "Different art across multiple songs."
-msgstr ""
+msgstr "Olika omslag över flera låtar."
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:175
 msgid "Direct internet connection"
-msgstr ""
+msgstr "Direkt internetanslutning"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:219
 msgid "Directory"
-msgstr ""
+msgstr "Mapp"
 
 #: playlistparsers/playlistparser.cpp:222
 #, qt-format
@@ -1834,16 +1837,16 @@ msgstr ""
 
 #: dialogs/saveplaylistsdialog.cpp:79
 msgid "Directory does not exist."
-msgstr ""
+msgstr "Mappen finns inte."
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:487
 msgid "Disable duration"
-msgstr ""
+msgstr "Inaktivera varaktighet"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:480
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
-msgstr ""
+msgstr "Inaktiverad"
 
 #: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1391
 #: organize/organizedialog.cpp:115
@@ -1852,40 +1855,40 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:240
 #: ../../build-qt6dev/src/ui_edittagdialog.h:918
 msgid "Disc"
-msgstr ""
+msgstr "Skiva"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:232
 msgid "Discontinuous transmission"
-msgstr ""
+msgstr "Icke-kontinuerlig sändning"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:468
 msgid "Disk Cache Size"
-msgstr ""
+msgstr "Diskcache storlek"
 
 #: collection/collectionfilterwidget.cpp:117
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:459
 msgid "Display options"
-msgstr ""
+msgstr "Visningsalternativ"
 
 #: core/commandlineoptions.cpp:241
 msgid "Display the on-screen-display"
-msgstr ""
+msgstr "Visa avisering"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:379
 msgid "Do not convert any music"
-msgstr ""
+msgstr "Konvertera inte någon musik"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:546
 msgid "Do not cut image"
-msgstr ""
+msgstr "Klipp inte av bilden"
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:206
 msgid "Do not overwrite"
-msgstr ""
+msgstr "Skriv inte över"
 
 #: ../../build-qt6dev/src/ui_messagedialog.h:121
 msgid "Do not show this message again."
-msgstr ""
+msgstr "Visa inte det här meddelandet igen."
 
 #: playlistparsers/parserbase.cpp:62
 #, qt-format
@@ -1894,117 +1897,117 @@ msgstr ""
 
 #: osd/osdbase.cpp:363 ../../build-qt6dev/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
-msgstr ""
+msgstr "Upprepa inte"
 
 #: collection/collectionview.cpp:408
 msgid "Don't show in various artists"
-msgstr ""
+msgstr "Visa inte i diverse artister"
 
 #: osd/osdbase.cpp:348 ../../build-qt6dev/src/ui_playlistsequence.h:114
 msgid "Don't shuffle"
-msgstr ""
+msgstr "Blanda inte"
 
 #: covermanager/albumcovermanager.cpp:260
 msgid "Don't stop!"
-msgstr ""
+msgstr "Stoppa inte!"
 
 #: radios/radioview.cpp:85
 msgid "Donate"
-msgstr ""
+msgstr "Donera"
 
 #: device/deviceview.cpp:139
 msgid "Double click to open"
-msgstr ""
+msgstr "Dubbelklicka för att öppna"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:350
 msgid "Double clicking a song in the playlist will..."
-msgstr ""
+msgstr "Dubbelklicka på en låt i spellistan kommer att..."
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:340
 msgid "Double clicking a song will..."
-msgstr ""
+msgstr "Dubbelklicka på en låt kommer att..."
 
 #: playlist/playlisttabbar.cpp:358
 msgid "Double-click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"
-msgstr ""
+msgstr "Dubbelklicka här för att favorisera den här spellistan så att den sparas och förblir tillgänglig från panelen \"Spellistor\" på det vänstra sidofältet"
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:255
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:342
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:279
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:297
 msgid "Download album covers"
-msgstr ""
+msgstr "Hämta albumomslag"
 
 #: settings/notificationssettingspage.cpp:68
 msgid "Drag to reposition"
-msgstr ""
+msgstr "Dra för att ändra position"
 
 #: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:105
 msgid "Dynamic mode is on"
-msgstr ""
+msgstr "Dynamiskt läge är på"
 
 #: smartplaylists/smartplaylistsmodel.cpp:116
 msgid "Dynamic random mix"
-msgstr ""
+msgstr "Dynamisk slumpmässig mixning"
 
 #: context/contextview.cpp:168
 msgid "EBU R 128 Integrated Loudness"
-msgstr ""
+msgstr "EBU R 128 integrerad ljudstyrka"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:705
 msgid "EBU R 128 Loudness Normalization"
-msgstr ""
+msgstr "EBU R 128 ljudstyrkenormalisering"
 
 #: context/contextview.cpp:169
 msgid "EBU R 128 Loudness Range"
-msgstr ""
+msgstr "EBU R 128 ljudstyrkeintervall"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:898
 msgid "EBU R 128 integrated loudness"
-msgstr ""
+msgstr "EBU R 128 integrerad ljudstyrka"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:907
 msgid "EBU R 128 loudness range"
-msgstr ""
+msgstr "EBU R 128 ljudstyrkeintervall"
 
 #: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
-msgstr ""
+msgstr "Redigera smart spellista"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:77
 msgid "Edit smart playlist..."
-msgstr ""
+msgstr "Redigera smart spellista..."
 
 #: core/mainwindow.cpp:2090
 #, qt-format
 msgid "Edit tag \"%1\"..."
-msgstr ""
+msgstr "Redigera taggen \"%1\"..."
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:648
 msgid "Edit tag..."
-msgstr ""
+msgstr "Redigera tagg..."
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:886
 msgid "Edit track information"
-msgstr ""
+msgstr "Redigera spårinformation"
 
 #: collection/collectionview.cpp:398 widgets/fileviewlist.cpp:53
 #: ../../build-qt6dev/src/ui_mainwindow.h:642
 msgid "Edit track information..."
-msgstr ""
+msgstr "Redigera spårinformation..."
 
 #: collection/collectionview.cpp:399
 msgid "Edit tracks information..."
-msgstr ""
+msgstr "Redigera spårinformation..."
 
 #: settings/coverssettingspage.cpp:442
 #, qt-format
 msgid "Embedded album cover art (%1)"
-msgstr ""
+msgstr "Inbäddat albumomslag (%1)"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:917
 msgid "Embedded cover"
-msgstr ""
+msgstr "Inbäddat omslag"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:405
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:430
@@ -2015,145 +2018,145 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:265
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:282
 msgid "Enable"
-msgstr ""
+msgstr "Aktivera"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:467
 msgid "Enable Disk Cache"
-msgstr ""
+msgstr "Aktivera diskcache"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:686
 msgid "Enable HTTP/2 for streaming"
-msgstr ""
+msgstr "Aktivera HTTP/2 för att flöda"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
-msgstr ""
+msgstr "Aktivera poster"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:478
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
-msgstr ""
+msgstr "Aktivera att ta bort filer i högerklickssnabbmenyn"
 
 #: ../../build-qt6dev/src/ui_equalizer.h:174
 msgid "Enable equalizer"
-msgstr ""
+msgstr "Aktivera frekvenskorrigerare"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:516
 msgid "Enable fading"
-msgstr ""
+msgstr "Aktivera toning"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:187
 msgid "Enable playlist clear button"
-msgstr ""
+msgstr "Aktivera spellistans rensningsknapp"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:186
 msgid "Enable playlist toolbar"
-msgstr ""
+msgstr "Aktivera verktygsfältet för spellistan"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:417
 msgid "Enable scrobbling for the following sources:"
-msgstr ""
+msgstr "Aktivera skrobbling för följande källor:"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:199
 msgid "Enable song metadata inline edition with click"
-msgstr ""
+msgstr "Aktivera redigering av låtmetadata genom klick"
 
 #: ../../build-qt6dev/src/ui_equalizer.h:175
 msgid "Enable stereo balancer"
-msgstr ""
+msgstr "Aktivera stereo-balanserare"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:682
 msgid "Enable volume control"
-msgstr ""
+msgstr "Aktivera volymkontroll"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:79
 msgid "Enable/disable scrobbling"
-msgstr ""
+msgstr "Aktivera/inaktivera skrobbling"
 
 #: ../../build-qt6dev/src/ui_moodbarsettingspage.h:98
 msgid "Enabled"
-msgstr ""
+msgstr "Aktiverad"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:233
 msgid "Encoding complexity"
-msgstr ""
+msgstr "Kodningskomplexitet"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
-msgstr ""
+msgstr "Kodningsmotorns kvalitet"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:224
 msgid "Encoding mode"
-msgstr ""
+msgstr "Kodningsläge"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:675
 msgid "Engine"
-msgstr ""
+msgstr "Motor"
 
 #: ../../build-qt6dev/src/ui_coverfromurldialog.h:101
 msgid "Enter a URL to download a cover from the Internet:"
-msgstr ""
+msgstr "Ange en webbadress för att hämta ett omslag från Internet:"
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:202
 msgid "Enter a filename for exported covers (no extension):"
-msgstr ""
+msgstr "Ange ett filnamn för exporterade omslag (utan ändelse):"
 
 #: playlist/playlisttabbar.cpp:181
 msgid "Enter a new name for this playlist"
-msgstr ""
+msgstr "Ange ett nytt namn för den här spellistan"
 
 #: streaming/streamingsearchview.cpp:405
 #: ../../build-qt6dev/src/ui_streamingsearchview.h:232
 msgid "Enter search terms above to find music"
-msgstr ""
+msgstr "Ange söktermer ovan för att hitta musik"
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:102
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:216
 msgid "Enter search terms here"
-msgstr ""
+msgstr "Ange söktermer här"
 
 #: ../../build-qt6dev/src/ui_addstreamdialog.h:77
 msgid "Enter the URL of a stream:"
-msgstr ""
+msgstr "Ange webbadressen till ett flöde:"
 
 #: playlist/playlistlistcontainer.cpp:216
 msgid "Enter the name of the folder"
-msgstr ""
+msgstr "Ange mappens namn"
 
 #: ../../build-qt6dev/src/ui_userpassdialog.h:91
 msgid "Enter username and password"
-msgstr ""
+msgstr "Ange användarnamn och lösenord"
 
 #: settings/scrobblersettingspage.cpp:82
 msgid "Enter your user token from"
-msgstr ""
+msgstr "Ange din användartoken från"
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:91
 msgid "Entire collection"
-msgstr ""
+msgstr "Hela samlingen"
 
 #: ../../build-qt6dev/src/ui_equalizer.h:166
 #: ../../build-qt6dev/src/ui_equalizerslider.h:95
 msgid "Equalizer"
-msgstr ""
+msgstr "Frekvenskorrigerare"
 
 #: core/commandlineoptions.cpp:245
 msgid "Equivalent to --log-levels *:1"
-msgstr ""
+msgstr "Motsvarar --log-levels *:1"
 
 #: core/commandlineoptions.cpp:246
 msgid "Equivalent to --log-levels *:3"
-msgstr ""
+msgstr "Motsvarar --log-levels *:3"
 
 #: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
 #: collection/collectionview.cpp:715
 msgid "Error"
-msgstr ""
+msgstr "Fel"
 
 #: device/mtploader.cpp:72
 #, qt-format
 msgid "Error connecting MTP device %1"
-msgstr ""
+msgstr "Fel vid anslutning av MTP-enhet %1"
 
 #: device/mtploader.cpp:77
 #, qt-format
@@ -2162,36 +2165,36 @@ msgstr ""
 
 #: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
-msgstr ""
+msgstr "Fel vid kopiering av låtar"
 
 #: organize/organizeerrordialog.cpp:76
 msgid "Error deleting songs"
-msgstr ""
+msgstr "Fel vid borttagning av låtar"
 
 #: transcoder/transcoder.cpp:399
 #, qt-format
 msgid "Error processing %1: %2"
-msgstr ""
+msgstr "Fel vid bearbetning av %1: %2"
 
 #: playlist/songloaderinserter.cpp:114
 msgid "Error while loading audio CD."
-msgstr ""
+msgstr "Fel vid inläsning av ljud-CD."
 
 #: device/cddasongloader.cpp:120 device/cddasongloader.cpp:129
 msgid "Error while querying CDDA tracks."
-msgstr ""
+msgstr "Fel vid förfrågan om CDDA-spår."
 
 #: device/cddasongloader.cpp:108
 msgid "Error while setting CDDA device to pause state."
-msgstr ""
+msgstr "Fel när CDDA-enheten ställdes till pausläge."
 
 #: device/cddasongloader.cpp:100
 msgid "Error while setting CDDA device to ready state."
-msgstr ""
+msgstr "Fel när CDDA-enheten ställdes till klartillstånd."
 
 #: smartplaylists/smartplaylistsmodel.cpp:78
 msgid "Ever played"
-msgstr ""
+msgstr "Någonsin spelade"
 
 #: widgets/freespacebar.cpp:69
 msgid "Exceeded by"
@@ -2199,7 +2202,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:712
 msgid "Except between tracks on the same album or in the same CUE sheet"
-msgstr ""
+msgstr "Förutom mellan spår på samma album eller i samma CUE-fil"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:680
 msgid "Exclusive mode (Experimental)"
@@ -2207,46 +2210,46 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:205
 msgid "Existing covers"
-msgstr ""
+msgstr "Befintliga omslag"
 
 #: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
-msgstr ""
+msgstr "Expandera"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:452
 msgid "Expire unavailable songs after"
-msgstr ""
+msgstr "Utgå otillgängliga låtar efter"
 
 #: widgets/loginstatewidget.cpp:156
 #, qt-format
 msgid "Expires on %1"
-msgstr ""
+msgstr "Går ut den %1"
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:226
 msgid "Export Covers"
-msgstr ""
+msgstr "Exportera omslag"
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:200
 msgid "Export covers"
-msgstr ""
+msgstr "Exportera omslag"
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:203
 msgid "Export downloaded covers"
-msgstr ""
+msgstr "Exportera hämtade omslag"
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:204
 msgid "Export embedded covers"
-msgstr ""
+msgstr "Exportera inbäddade omslag"
 
 #: covermanager/albumcovermanager.cpp:1019
 #: covermanager/albumcovermanager.cpp:1045
 msgid "Export finished"
-msgstr ""
+msgstr "Exporten är klar"
 
 #: covermanager/albumcovermanager.cpp:1030
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
-msgstr ""
+msgstr "Exporterat %1 omslag av %2 (%3 överhoppade)"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:655
 msgid "F1"
@@ -2274,25 +2277,25 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:715
 msgid "Fade out on pause / fade in on resume"
-msgstr ""
+msgstr "Tona ut vid pausning / tona in vid återupptagning"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:709
 msgid "Fade out when stopping a track"
-msgstr ""
+msgstr "Tona ut när ett spår stoppas"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:708
 msgid "Fading"
-msgstr ""
+msgstr "Toning"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:713
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:716
 msgid "Fading duration"
-msgstr ""
+msgstr "Toningsvaraktighet"
 
 #: core/database.cpp:485 collection/collectionbackend.cpp:118
 #, qt-format
 msgid "Failed SQL query: %1"
-msgstr ""
+msgstr "Misslyckad SQL-förfråga: %1"
 
 #: core/filesystemmusicstorage.cpp:57
 #, qt-format
@@ -2303,7 +2306,7 @@ msgstr ""
 #: covermanager/albumcoverchoicecontroller.cpp:397
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
-msgstr ""
+msgstr "Det gick inte att ta bort omslagsfilen %1: %2"
 
 #: core/tagreaderclient.cpp:302
 #, qt-format
@@ -2318,28 +2321,28 @@ msgstr ""
 #: covermanager/albumcoverchoicecontroller.cpp:185
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
-msgstr ""
+msgstr "Det gick inte att öppna omslagsfilen %1 för läsning: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:263
 #: covermanager/albumcoverchoicecontroller.cpp:688
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
-msgstr ""
+msgstr "Det gick inte att öppna omslagsfilen %1 för att skriva: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:682
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
-msgstr ""
+msgstr "Det gick inte att skriva omslaget till filen %1: %2"
 
 #: covermanager/albumcoverchoicecontroller.cpp:278
 #, qt-format
 msgid "Failed writing cover to file %1."
-msgstr ""
+msgstr "Det gick inte att skriva omslaget till filen %1."
 
 #: covermanager/albumcoverchoicecontroller.cpp:269
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
-msgstr ""
+msgstr "Det gick inte att skriva omslaget till filen %1: %2"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:704
 msgid "Fallback-gain"
@@ -2348,75 +2351,75 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:78
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
-msgstr ""
+msgstr "Snabb"
 
 #: smartplaylists/smartplaylistsmodel.cpp:102
 msgid "Favourite tracks"
-msgstr ""
+msgstr "Favoritspår"
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:225
 msgid "Fetch Missing Covers"
-msgstr ""
+msgstr "Hämta omslag som saknas"
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:213
 msgid "Fetch automatically"
-msgstr ""
+msgstr "Hämta automatiskt"
 
 #: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:72
 msgid "Fetch completed"
-msgstr ""
+msgstr "Hämtning klar"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:343
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:280
 msgid "Fetch entire albums when searching songs"
-msgstr ""
+msgstr "Hämta hela album vid sökning av låtar"
 
 #: covermanager/coverfromurldialog.cpp:90
 #: covermanager/coverfromurldialog.cpp:100
 msgid "Fetching cover error"
-msgstr ""
+msgstr "Fel vid hämtning av omslag"
 
 #: core/songloader.cpp:164 core/songloader.cpp:268
 #, qt-format
 msgid "File %1 does not exist."
-msgstr ""
+msgstr "Filen %1 finns inte."
 
 #: core/songloader.cpp:184 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
-msgstr ""
+msgstr "Filen %1 känns inte igen som en giltig ljudfil."
 
 #: playlist/playlist.cpp:1409
 msgid "File Name"
-msgstr ""
+msgstr "Filnamn"
 
 #: playlist/playlist.cpp:1410
 msgid "File Name (without path)"
-msgstr ""
+msgstr "Filnamn (utan sökväg)"
 
 #: playlist/playlist.cpp:1411
 msgid "File Size"
-msgstr ""
+msgstr "Filstorlek"
 
 #: playlist/playlist.cpp:1412
 msgid "File Type"
-msgstr ""
+msgstr "Filtyp"
 
 #: organize/organizedialog.cpp:124
 msgid "File extension"
-msgstr ""
+msgstr "Filändelse"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:386
 msgid "File formats"
-msgstr ""
+msgstr "Filformat"
 
 #: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:93
 msgid "File paths"
-msgstr ""
+msgstr "Filsökvägar"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:905
 msgid "File size"
-msgstr ""
+msgstr "Filstorlek"
 
 #: collection/savedgroupingmanager.cpp:139
 #: ../../build-qt6dev/src/ui_groupbydialog.h:207
@@ -2424,89 +2427,89 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:251
 #: ../../build-qt6dev/src/ui_edittagdialog.h:894
 msgid "File type"
-msgstr ""
+msgstr "Filtyp"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:903
 #: ../../build-qt6dev/src/ui_transcodedialog.h:220
 msgid "Filename"
-msgstr ""
+msgstr "Filnamn"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:322
 msgid "Filename:"
-msgstr ""
+msgstr "Filnamn:"
 
 #: core/mainwindow.cpp:390
 msgid "Files"
-msgstr ""
+msgstr "Filer"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:217
 msgid "Files to transcode"
-msgstr ""
+msgstr "Filer att omkoda"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:556
 msgid "Files, playlists and queue buttons"
-msgstr ""
+msgstr "Filer, spellistor och köknappar"
 
 #: context/contextview.cpp:163
 msgid "Filetype"
-msgstr ""
+msgstr "Filtyp"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:98
 msgid "Find songs in your collection that match the criteria you specify."
-msgstr ""
+msgstr "Hitta låtar i ditt bibliotek som matchar de kriterier du anger."
 
 #: smartplaylists/smartplaylistwizard.cpp:93
 msgid "Finish"
-msgstr ""
+msgstr "Avsluta"
 
 #: collection/savedgroupingmanager.cpp:58
 #: ../../build-qt6dev/src/ui_groupbydialog.h:190
 msgid "First level"
-msgstr ""
+msgstr "Första nivå"
 
 #: widgets/playingwidget.cpp:106
 msgid "Fit cover to width"
-msgstr ""
+msgstr "Passa omslag till bredd"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:439
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:444
 msgid "Font"
-msgstr ""
+msgstr "Teckensnitt"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:443
 msgid "Font for data and lyrics"
-msgstr ""
+msgstr "Teckensnitt för data och låttexter"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:438
 msgid "Font for headline"
-msgstr ""
+msgstr "Teckensnitt för rubrik"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:440
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:445
 msgid "Font size"
-msgstr ""
+msgstr "Teckensnittsstorlek"
 
 #: dialogs/snapdialog.cpp:54
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr ""
+msgstr "För Ubuntu finns ett officiellt PPA-förråd tillgängligt på %1."
 
 #: dialogs/snapdialog.cpp:62
 msgid "For a better experience please consider the other options above."
-msgstr ""
+msgstr "För en bättre upplevelse, överväg de andra alternativen ovan."
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
-msgstr ""
+msgstr "Tvinga monokodning"
 
 #: device/deviceview.cpp:239 device/deviceview.cpp:346
 #: device/deviceview.cpp:349
 msgid "Forget device"
-msgstr ""
+msgstr "Glöm enhet"
 
 #: device/deviceview.cpp:347
 msgid "Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."
-msgstr ""
+msgstr "Om en enhet glöms kommer den att tas bort från den här listan och Strawberry kommer att behöva skanna om alla låtar nästa gång du ansluter den."
 
 #: ../../build-qt6dev/src/ui_collectionviewcontainer.h:55
 #: ../../build-qt6dev/src/ui_playlistcontainer.h:148
@@ -2531,7 +2534,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:74
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
-msgstr ""
+msgstr "Formulär"
 
 #: collection/savedgroupingmanager.cpp:142
 #: ../../build-qt6dev/src/ui_groupbydialog.h:197
@@ -2542,39 +2545,39 @@ msgstr ""
 
 #: analyzer/analyzercontainer.cpp:69
 msgid "Framerate"
-msgstr ""
+msgstr "Bildfrekvens"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:234
 msgid "Frames per buffer"
-msgstr ""
+msgstr "Ramar per buffert"
 
 #: moodbar/moodbarrenderer.cpp:170
 msgid "Frozen"
-msgstr ""
+msgstr "Frusen"
 
 #: equalizer/equalizer.cpp:143
 msgid "Full Bass"
-msgstr ""
+msgstr "Hel bas"
 
 #: equalizer/equalizer.cpp:145
 msgid "Full Bass + Treble"
-msgstr ""
+msgstr "Hel bas + diskant"
 
 #: equalizer/equalizer.cpp:144
 msgid "Full Treble"
-msgstr ""
+msgstr "Hel diskant"
 
 #: settings/settingsdialog.cpp:135
 msgid "General"
-msgstr ""
+msgstr "Allmänt"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:484
 msgid "General settings"
-msgstr ""
+msgstr "Allmänna inställningar"
 
 #: lyrics/geniuslyricsprovider.cpp:123
 msgid "Genius Authentication"
-msgstr ""
+msgstr "Genius-autentisering"
 
 #: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1395
 #: organize/organizedialog.cpp:118
@@ -2588,103 +2591,103 @@ msgstr ""
 #: radios/somafmservice.cpp:72 radios/radioparadiseservice.cpp:66
 #, qt-format
 msgid "Getting %1 channels"
-msgstr ""
+msgstr "Hämtar %1 kanaler"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:268
 msgid "Global Shortcuts"
-msgstr ""
+msgstr "Globala genvägar"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:692
 msgid "Go to next playlist tab"
-msgstr ""
+msgstr "Gå till nästa spellisteflik"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:693
 msgid "Go to previous playlist tab"
-msgstr ""
+msgstr "Gå till föregående spellisteflik"
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr ""
+msgstr "Starta!"
 
 #: covermanager/albumcovermanager.cpp:555
 #: covermanager/coversearchstatisticsdialog.cpp:68
 #: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:73
 #, qt-format
 msgid "Got %1 covers out of %2 (%3 failed)"
-msgstr ""
+msgstr "Erhöll %1 omslag av %2 (%3 misslyckades)"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:183
 msgid "Grey out unavailable songs in playlists on playback"
-msgstr ""
+msgstr "Grå text för saknade låtar i mina spellistor vid uppspelning"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:184
 msgid "Grey out unavailable songs in playlists on startup"
-msgstr ""
+msgstr "Grå text för saknade låtar i mina spellistor vid uppstart"
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:189
 msgid "Group Collection by..."
-msgstr ""
+msgstr "Gruppera samling av..."
 
 #: collection/collectionfilterwidget.cpp:111
 #: streaming/streamingsearchview.cpp:344
 msgid "Group by"
-msgstr ""
+msgstr "Gruppera efter"
 
 #: collection/collectionfilterwidget.cpp:281
 msgid "Group by Album"
-msgstr ""
+msgstr "Gruppera efter album"
 
 #: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album Artist"
-msgstr ""
+msgstr "Gruppera efter Albumartist"
 
 #: collection/collectionfilterwidget.cpp:265
 msgid "Group by Album artist/Album"
-msgstr ""
+msgstr "Gruppera efter artist/album"
 
 #: collection/collectionfilterwidget.cpp:266
 msgid "Group by Album artist/Album - Disc"
-msgstr ""
+msgstr "Gruppera efter albumartist/album - Skiva"
 
 #: collection/collectionfilterwidget.cpp:267
 msgid "Group by Album artist/Year - Album"
-msgstr ""
+msgstr "Gruppera efter albumartist/år - album"
 
 #: collection/collectionfilterwidget.cpp:268
 msgid "Group by Album artist/Year - Album - Disc"
-msgstr ""
+msgstr "Gruppera efter albumartist/år - album - skiva"
 
 #: collection/collectionfilterwidget.cpp:279
 msgid "Group by Artist"
-msgstr ""
+msgstr "Gruppera efter artist"
 
 #: collection/collectionfilterwidget.cpp:270
 msgid "Group by Artist/Album"
-msgstr ""
+msgstr "Gruppera efter artist/album"
 
 #: collection/collectionfilterwidget.cpp:271
 msgid "Group by Artist/Album - Disc"
-msgstr ""
+msgstr "Gruppera efter artist/album - skiva"
 
 #: collection/collectionfilterwidget.cpp:272
 msgid "Group by Artist/Year - Album"
-msgstr ""
+msgstr "Gruppera efter artist/år - album"
 
 #: collection/collectionfilterwidget.cpp:273
 msgid "Group by Artist/Year - Album - Disc"
-msgstr ""
+msgstr "Gruppera efter artist/år - album - skiva"
 
 #: collection/collectionfilterwidget.cpp:282
 msgid "Group by Genre/Album"
-msgstr ""
+msgstr "Gruppera efter genre/album"
 
 #: collection/collectionfilterwidget.cpp:275
 msgid "Group by Genre/Album artist/Album"
-msgstr ""
+msgstr "Gruppera efter genre/albumartist/album"
 
 #: collection/collectionfilterwidget.cpp:276
 msgid "Group by Genre/Artist/Album"
-msgstr ""
+msgstr "Gruppera efter genre/artist/album"
 
 #: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1399
 #: organize/organizedialog.cpp:113
@@ -2693,35 +2696,35 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:250
 #: ../../build-qt6dev/src/ui_edittagdialog.h:919
 msgid "Grouping"
-msgstr ""
+msgstr "Gruppering"
 
 #: collection/collectionfilterwidget.cpp:339
 msgid "Grouping Name"
-msgstr ""
+msgstr "Grupperingsnamn"
 
 #: collection/collectionfilterwidget.cpp:339
 msgid "Grouping name:"
-msgstr ""
+msgstr "Grupperingsnamn:"
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:177
 msgid "HTTP proxy"
-msgstr ""
+msgstr "HTTP-proxy"
 
 #: moodbar/moodbarrenderer.cpp:172
 msgid "Happy"
-msgstr ""
+msgstr "Glad"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:373
 msgid "Hardware information"
-msgstr ""
+msgstr "Hårdvaruinformation"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:374
 msgid "Hardware information is only available while the device is connected."
-msgstr ""
+msgstr "Hårdvaruinformation är endast tillgänglig när enheten är ansluten."
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:734
 msgid "Help"
-msgstr ""
+msgstr "Hjälp"
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
@@ -2729,24 +2732,24 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:324
 msgid "Hide the main window"
-msgstr ""
+msgstr "Dölj huvudfönstret"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
-msgstr ""
+msgstr "Hög"
 
 #: analyzer/analyzercontainer.cpp:84
 #, qt-format
 msgid "High (%1 fps)"
-msgstr ""
+msgstr "Hög (%1 fps)"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:691
 msgid "High watermark"
-msgstr ""
+msgstr "Hög vattenstämpel"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:451
 msgid "Hours"
-msgstr ""
+msgstr "Timmar"
 
 #: playlist/playlistview.cpp:223
 msgid "Hz"
@@ -2754,85 +2757,85 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:372
 msgid "Icon"
-msgstr ""
+msgstr "Ikon"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:551
 msgid "Icon sizes"
-msgstr ""
+msgstr "Ikonstorlekar"
 
 #: widgets/fancytabwidget.cpp:733
 msgid "Icons on top"
-msgstr ""
+msgstr "Ikoner längst upp"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:197
 msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
-msgstr ""
+msgstr "Om aktiverad så kan du klicka på en markerad sång i spellistan för att redigera taggvärdet direkt"
 
 #: device/devicemanager.cpp:610 device/devicemanager.cpp:618
 msgid "If you continue, this device will work slowly and songs copied to it may not work."
-msgstr ""
+msgstr "Om du fortsätter kommer den här enheten att arbeta långsamt och låtar som kopierats till den kanske inte fungerar."
 
 #: dialogs/about.cpp:126
 msgid "If you like Strawberry and can make use of it, consider sponsoring or donating."
-msgstr ""
+msgstr "Om du gillar Strawberry och har nytta av det, överväg att sponsra eller donera."
 
 #: covermanager/albumcoverchoicecontroller.cpp:80
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
-msgstr ""
+msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
 #: covermanager/albumcoverchoicecontroller.cpp:81
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
-msgstr ""
+msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
-msgstr ""
+msgstr "Importera data från last.fm"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:715
 msgid "Import data from last.fm..."
-msgstr ""
+msgstr "Importera data från last.fm..."
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:226
 msgid "Import..."
-msgstr ""
+msgstr "Importera..."
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:685
 msgid "Improve headphone listening of stereo audio records (bs2b)"
-msgstr ""
+msgstr "Förbättra hörlurslyssning av stereoljudskivor (bs2b)"
 
 #: utilities/timeutils.cpp:101
 #, qt-format
 msgid "In %1 days"
-msgstr ""
+msgstr "Om %1 dagar"
 
 #: utilities/timeutils.cpp:104
 #, qt-format
 msgid "In %1 weeks"
-msgstr ""
+msgstr "Om %1 veckor"
 
 #: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:82
 msgid "In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes."
-msgstr ""
+msgstr "I dynamiskt läge kommer nya spår väljas och läggas till i spellistan varje gång en låt tar slut."
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:492
 msgid "Include album art in the notification"
-msgstr ""
+msgstr "Inkludera albumomslag i aviseringen"
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
-msgstr ""
+msgstr "Inkludera alla spår"
 
 #: core/commandlineoptions.cpp:228
 msgid "Increase the volume by 4 percent"
-msgstr ""
+msgstr "Höj volymen med 4 procent"
 
 #: core/commandlineoptions.cpp:230
 msgid "Increase the volume by <value> percent"
-msgstr ""
+msgstr "Höj volymen med <value> procent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:69
 msgid "Increase volume"
-msgstr ""
+msgstr "Höj volymen"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:375
 msgid "Information"
@@ -2840,23 +2843,23 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:272
 msgid "Insert..."
-msgstr ""
+msgstr "Infoga..."
 
 #: dialogs/snapdialog.cpp:77
 msgid "Install strawberry through PPA:"
-msgstr ""
+msgstr "Installera strawberry via PPA:"
 
 #: playlist/playlist.cpp:1422
 msgid "Integrated Loudness"
-msgstr ""
+msgstr "Integrerad ljudstyrka"
 
 #: core/database.cpp:493
 msgid "Integrity check"
-msgstr ""
+msgstr "Integritetskontroll"
 
 #: osd/osdbase.cpp:368 ../../build-qt6dev/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
-msgstr ""
+msgstr "Introduktionsspår"
 
 #: device/mtpconnection.cpp:57
 #, qt-format
@@ -2865,31 +2868,31 @@ msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:257
 msgid "Invalid reply from web browser. Missing token."
-msgstr ""
+msgstr "Ogiltigt svar från webbläsaren. Saknar token."
 
 #: dialogs/about.cpp:116
 msgid "It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles."
-msgstr ""
+msgstr "Det är en förgrening av Clementine som släpptes 2018 riktad till musiksamlare och audiofiler."
 
 #: dialogs/snapdialog.cpp:42
 msgid "It is detected that Strawberry is running as a Snap"
-msgstr ""
+msgstr "Det upptäcktes att Strawberry körs som en Snap"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:337
 msgid "Jump to previous song right away"
-msgstr ""
+msgstr "Hoppa till föregående låt direkt"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:545
 msgid "Keep aspect ratio"
-msgstr ""
+msgstr "Bevara bildförhållandet"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:316
 msgid "Keep running in the background when the window is closed"
-msgstr ""
+msgstr "Fortsätt köra i bakgrunden när fönstret är stängt"
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:263
 msgid "Keep the original files"
-msgstr ""
+msgstr "Behåll originalfiler"
 
 #: core/song.cpp:799
 msgid "LU"
@@ -2901,42 +2904,42 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:327
 msgid "Language"
-msgstr ""
+msgstr "Språk"
 
 #: equalizer/equalizer.cpp:146
 msgid "Laptop/Headphones"
-msgstr ""
+msgstr "Bärbar dator/hörlurar"
 
 #: equalizer/equalizer.cpp:147
 msgid "Large Hall"
-msgstr ""
+msgstr "Stor sal"
 
 #: widgets/playingwidget.cpp:103
 msgid "Large album cover"
-msgstr ""
+msgstr "Stort albumomslag"
 
 #: widgets/fancytabwidget.cpp:729
 msgid "Large sidebar"
-msgstr ""
+msgstr "Stort sidofält"
 
 #: playlist/playlist.cpp:1403
 msgid "Last Played"
-msgstr ""
+msgstr "Senast spelade"
 
 #: smartplaylists/smartplaylistsmodel.cpp:90
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
-msgstr ""
+msgstr "Senast spelade"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:893
 msgctxt "A playlist's tag."
 msgid "Last played"
-msgstr ""
+msgstr "Senast spelad"
 
 #: dialogs/lastfmimportdialog.cpp:163
 #, qt-format
 msgid "Last played for %1 songs received."
-msgstr ""
+msgstr "Senast spelad för %1 mottagna låtar."
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:429
 msgid "Last.fm"
@@ -2944,17 +2947,17 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsmodel.cpp:108
 msgid "Least favourite tracks"
-msgstr ""
+msgstr "Minst omtyckta spår"
 
 #: ../../build-qt6dev/src/ui_equalizer.h:176
 msgid "Left"
-msgstr ""
+msgstr "Vänster"
 
 #: context/contextview.cpp:164 playlist/playlist.cpp:1392
 #: organize/organizedialog.cpp:120
 #: ../../build-qt6dev/src/ui_edittagdialog.h:895
 msgid "Length"
-msgstr ""
+msgstr "Längd"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:432
 msgid "Libre.fm"
@@ -2962,16 +2965,16 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:137
 msgid "Limits"
-msgstr ""
+msgstr "Begränsningar"
 
 #: scrobbler/listenbrainzscrobbler.cpp:193
 msgid "ListenBrainz Authentication"
-msgstr ""
+msgstr "ListenBrainz-autentisering"
 
 #: scrobbler/listenbrainzscrobbler.cpp:679
 #, qt-format
 msgid "ListenBrainz error: %1"
-msgstr ""
+msgstr "ListenBrainz-fel: %1"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:435
 msgid "Listenbrainz"
@@ -2983,62 +2986,62 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:214
 msgid "Load"
-msgstr ""
+msgstr "Läs in"
 
 #: ../../build-qt6dev/src/ui_coverfromurldialog.h:100
 msgid "Load cover from URL"
-msgstr ""
+msgstr "Läs in omslag från webbadress"
 
 #: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Load cover from URL..."
-msgstr ""
+msgstr "Läs in omslag från webbadress..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:179
 #: covermanager/albumcoverchoicecontroller.cpp:210
 msgid "Load cover from disk"
-msgstr ""
+msgstr "Läs in omslag från disk"
 
 #: covermanager/albumcoverchoicecontroller.cpp:106
 msgid "Load cover from disk..."
-msgstr ""
+msgstr "Läs in omslag från disk..."
 
 #: playlist/playlistcontainer.cpp:347
 msgid "Load playlist"
-msgstr ""
+msgstr "Läs in spellista"
 
 #: device/mtploader.cpp:55
 msgid "Loading MTP device"
-msgstr ""
+msgstr "Läser in MTP-enhet"
 
 #: device/gpodloader.cpp:54
 msgid "Loading iPod database"
-msgstr ""
+msgstr "Läser in iPod-databas"
 
 #: smartplaylists/playlistgeneratorinserter.cpp:62
 msgid "Loading smart playlist"
-msgstr ""
+msgstr "Läser in smart spellista"
 
 #: playlist/songloaderinserter.cpp:171 dialogs/edittagdialog.cpp:417
 msgid "Loading tracks"
-msgstr ""
+msgstr "Läser in spår"
 
 #: playlist/songloaderinserter.cpp:201
 msgid "Loading tracks info"
-msgstr ""
+msgstr "Läser in låtinformation"
 
 #: collection/collectionmodel.cpp:209
 #: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:103
 #: ../../build-qt6dev/src/ui_organizedialog.h:281
 msgid "Loading..."
-msgstr ""
+msgstr "Läser in..."
 
 #: core/commandlineoptions.cpp:238
 msgid "Loads files/URLs, replacing current playlist"
-msgstr ""
+msgstr "Läser in filer/webbadresser, ersätter aktuell spellista"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:420
 msgid "Local file"
-msgstr ""
+msgstr "Lokal fil"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:431
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:434
@@ -3048,46 +3051,46 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:334
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:289
 msgid "Login"
-msgstr ""
+msgstr "Logga in"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:138
 msgid "Long term prediction profile (LTP)"
-msgstr ""
+msgstr "Långsiktig förutsägelseprofil (LTP)"
 
 #: playlist/playlist.cpp:1423
 msgid "Loudness Range"
-msgstr ""
+msgstr "Ljudstyrkeintervall"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:80
 #: ../../build-qt6dev/src/ui_mainwindow.h:634
 msgid "Love"
-msgstr ""
+msgstr "Älska"
 
 #: analyzer/analyzercontainer.cpp:82
 #, qt-format
 msgid "Low (%1 fps)"
-msgstr ""
+msgstr "Låg (%1 fps)"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:136
 msgid "Low complexity profile (LC)"
-msgstr ""
+msgstr "Låg komplexitetprofil (LC)"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:692
 msgid "Low watermark"
-msgstr ""
+msgstr "Låg vattenstämpel"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:326
 msgid "Lowercase filename"
-msgstr ""
+msgstr "Filnamn med gemener"
 
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:162
 #: ../../build-qt6dev/src/ui_edittagdialog.h:936
 msgid "Lyrics"
-msgstr ""
+msgstr "Låttexter"
 
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:163
 msgid "Lyrics providers"
-msgstr ""
+msgstr "Låttextleverantörer"
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token (Recommended)"
@@ -3108,49 +3111,49 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:135
 msgid "Main profile (MAIN)"
-msgstr ""
+msgstr "Huvudprofil (MAIN)"
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:101
 msgid "Manage saved groupings"
-msgstr ""
+msgstr "Hantera sparade grupperingar"
 
 #: settings/coverssettingspage.cpp:433
 #, qt-format
 msgid "Manually unset (%1)"
-msgstr ""
+msgstr "Inaktivera manuellt (%1)"
 
 #: device/deviceproperties.cpp:176
 msgid "Manufacturer"
-msgstr ""
+msgstr "Tillverkare"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:450
 msgid "Mark disappeared songs unavailable"
-msgstr ""
+msgstr "Markera försvunna låtar som otillgängliga"
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:110
 msgid "Match every search term (AND)"
-msgstr ""
+msgstr "Matcha varje sökterm (OCH)"
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:111
 msgid "Match one or more search terms (OR)"
-msgstr ""
+msgstr "Matcha en eller flera söktermer (ELLER)"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:543
 msgid "Max cover size"
-msgstr ""
+msgstr "Största omslagsstorleken"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:205
 msgid "Maximum bitrate"
-msgstr ""
+msgstr "Högsta bitfrekvensen"
 
 #: qobuz/qobuzservice.cpp:479
 msgid "Maximum number of login attempts reached."
-msgstr ""
+msgstr "Högsta antalet inloggningsförsök har uppnåtts."
 
 #: analyzer/analyzercontainer.cpp:83
 #, qt-format
 msgid "Medium (%1 fps)"
-msgstr ""
+msgstr "Mellan (%1 fps)"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:717
 #: ../../build-qt6dev/src/ui_mainwindow.h:720
@@ -3170,7 +3173,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_messagedialog.h:118
 msgid "Message Dialog"
-msgstr ""
+msgstr "Meddelandedialogruta"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
@@ -3178,282 +3181,282 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:539
 msgid "Middle"
-msgstr ""
+msgstr "Mellan"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:202
 msgid "Minimum bitrate"
-msgstr ""
+msgstr "Lägsta bitfrekvensen"
 
 #: settings/tidalsettingspage.cpp:159
 msgid "Missing API token."
-msgstr ""
+msgstr "API-token saknas."
 
 #: scrobbler/listenbrainzscrobbler.cpp:630
 #, qt-format
 msgid "Missing MusicBrainz recording ID for %1 %2 %3"
-msgstr ""
+msgstr "MusicBrainz-inspelnings-ID saknas för %1 %2 %3"
 
 #: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:82
 msgid "Missing Qobuz app ID or secret."
-msgstr ""
+msgstr "Qobuz-app-ID eller hemlighet saknas."
 
 #: qobuz/qobuzservice.cpp:483 qobuz/qobuzservice.cpp:512
 #: qobuz/qobuzservice.cpp:562 qobuz/qobuzservice.cpp:612
 #: qobuz/qobuzservice.cpp:674
 msgid "Missing Qobuz app ID."
-msgstr ""
+msgstr "Qobuz-app-id saknas."
 
 #: qobuz/qobuzservice.cpp:491
 msgid "Missing Qobuz password."
-msgstr ""
+msgstr "Qobuz-lösenord saknas."
 
 #: qobuz/qobuzservice.cpp:487
 msgid "Missing Qobuz username."
-msgstr ""
+msgstr "Qobuz-användarnamn saknas."
 
 #: subsonic/subsonicurlhandler.cpp:43
 msgid "Missing Subsonic username or password."
-msgstr ""
+msgstr "Användarnamn eller lösenord saknas för Subsonic."
 
 #: tidal/tidalservice.cpp:728 tidal/tidalservice.cpp:783
 #: tidal/tidalservice.cpp:838 tidal/tidalservice.cpp:901
 #: tidal/tidalservice.cpp:964 tidal/tidalstreamurlrequest.cpp:87
 msgid "Missing Tidal API token, username or password."
-msgstr ""
+msgstr "Användarnamn eller lösenord saknas för Tidal API-token."
 
 #: tidal/tidalservice.cpp:689
 msgid "Missing Tidal API token."
-msgstr ""
+msgstr "Tidal-API-token saknas."
 
 #: settings/tidalsettingspage.cpp:152
 msgid "Missing Tidal client ID."
-msgstr ""
+msgstr "Tidal-klient-ID saknas."
 
 #: tidal/tidalservice.cpp:697
 msgid "Missing Tidal password."
-msgstr ""
+msgstr "Tidal-lösenord saknas."
 
 #: tidal/tidalservice.cpp:693
 msgid "Missing Tidal username."
-msgstr ""
+msgstr "Tidal-användarnamn saknas."
 
 #: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
-msgstr ""
+msgstr "App-id saknas."
 
 #: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
-msgstr ""
+msgstr "Lösenord saknas."
 
 #: settings/subsonicsettingspage.cpp:131
 msgid "Missing server url, username or password."
-msgstr ""
+msgstr "Serveradress, användarnamn eller lösenord saknas."
 
 #: subsonic/subsonicservice.cpp:418
 msgid "Missing username or password."
-msgstr ""
+msgstr "Användarnamn eller lösenord saknas."
 
 #: scrobbler/lastfmimport.cpp:215
 msgid "Missing username, please login to last.fm first!"
-msgstr ""
+msgstr "Användarnamn saknas, logga in på last.fm först!"
 
 #: settings/tidalsettingspage.cpp:163 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
-msgstr ""
+msgstr "Användarnamn saknas."
 
 #: device/deviceproperties.cpp:175
 msgid "Model"
-msgstr ""
+msgstr "Modell"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:448
 msgid "Monitor the collection for changes"
-msgstr ""
+msgstr "Bevaka ändringar i samlingen"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:457
 msgid "Months"
-msgstr ""
+msgstr "Månader"
 
 #: playlist/playlist.cpp:1418
 msgid "Mood"
-msgstr ""
+msgstr "Stämning"
 
 #: ../../build-qt6dev/src/ui_moodbarsettingspage.h:93
 #: ../../build-qt6dev/src/ui_moodbarsettingspage.h:94
 msgid "Moodbar"
-msgstr ""
+msgstr "Stämningsdiagram"
 
 #: moodbar/moodbarproxystyle.cpp:378
 #: ../../build-qt6dev/src/ui_moodbarsettingspage.h:96
 msgid "Moodbar style"
-msgstr ""
+msgstr "Format på stämningsdiagrammet"
 
 #: smartplaylists/smartplaylistsmodel.cpp:96
 msgid "Most played"
-msgstr ""
+msgstr "Mest spelade"
 
 #: device/giolister.cpp:192
 msgid "Mount point"
-msgstr ""
+msgstr "Monteringspunkt"
 
 #: device/udisks2lister.cpp:125
 msgid "Mount points"
-msgstr ""
+msgstr "Monteringspunkter"
 
 #: ../../build-qt6dev/src/ui_queueview.h:125
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:310
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:316
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:166
 msgid "Move down"
-msgstr ""
+msgstr "Flytta nedåt"
 
 #: core/mainwindow.cpp:772 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
-msgstr ""
+msgstr "Flytta till samling..."
 
 #: ../../build-qt6dev/src/ui_queueview.h:131
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:309
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:315
 #: ../../build-qt6dev/src/ui_lyricssettingspage.h:165
 msgid "Move up"
-msgstr ""
+msgstr "Flytta uppåt"
 
 #: filterparser/filterparser.cpp:477
 #, qt-format
 msgid "Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. "
-msgstr ""
+msgstr "Flera söktermer kan också kombineras med \"%1\" (standard) och \"%2\", samt grupperas med parenteser."
 
 #: core/mainwindow.cpp:2330 transcoder/transcodedialog.cpp:330
 msgid "Music"
-msgstr ""
+msgstr "Musik"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:71
 msgid "Mute"
-msgstr ""
+msgstr "Ljud av"
 
 #: equalizer/equalizer.cpp:211 collection/savedgroupingmanager.cpp:57
 #: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:80
 #: ../../build-qt6dev/src/ui_deviceproperties.h:371
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:266
 msgid "Naming options"
-msgstr ""
+msgstr "Namngivningsalternativ"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:228
 msgid "Narrow band (NB)"
-msgstr ""
+msgstr "Snävt band (NB)"
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:173
 msgid "Network Proxy"
-msgstr ""
+msgstr "Nätverksproxy"
 
 #: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:897
 msgid "Never"
-msgstr ""
+msgstr "Aldrig"
 
 #: smartplaylists/smartplaylistsmodel.cpp:84
 msgid "Never played"
-msgstr ""
+msgstr "Aldrig spelade"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:332
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:346
 msgid "Never start playing"
-msgstr ""
+msgstr "Aldrig starta uppspelning"
 
 #: playlist/playlistlistcontainer.cpp:89 playlist/playlistlistcontainer.cpp:216
 #: ../../build-qt6dev/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
-msgstr ""
+msgstr "Ny mapp"
 
 #: core/mainwindow.cpp:2148
 msgid "New playlist"
-msgstr ""
+msgstr "Ny spellista"
 
 #: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
-msgstr ""
+msgstr "Ny smart spellista"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:64
 msgid "New smart playlist..."
-msgstr ""
+msgstr "Ny smart spellista..."
 
 #: widgets/freespacebar.cpp:68
 msgid "New songs"
-msgstr ""
+msgstr "Nya låtar"
 
 #: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
-msgstr ""
+msgstr "Nya spår läggs till automatiskt."
 
 #: smartplaylists/smartplaylistsmodel.cpp:65
 msgid "Newest tracks"
-msgstr ""
+msgstr "Nyaste spåren"
 
 #: dialogs/edittagdialog.cpp:233 dialogs/trackselectiondialog.cpp:72
 msgid "Next"
-msgstr ""
+msgstr "Nästa"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:67
 msgid "Next track"
-msgstr ""
+msgstr "Nästa spår"
 
 #: utilities/timeutils.cpp:102
 msgid "Next week"
-msgstr ""
+msgstr "Nästa vecka"
 
 #: dialogs/edittagdialog.cpp:820 dialogs/edittagdialog.cpp:836
 msgid "No"
-msgstr ""
+msgstr "Nej"
 
 #: analyzer/analyzercontainer.cpp:98
 msgid "No analyzer"
-msgstr ""
+msgstr "Ingen analysator"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:695
 msgid "No audio normalization"
-msgstr ""
+msgstr "Ingen ljudnormalisering"
 
 #: covermanager/albumcovermanager.cpp:1020
 msgid "No covers to export."
-msgstr ""
+msgstr "Inga omslag att exportera."
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:145
 msgid "No long blocks"
-msgstr ""
+msgstr "Inga långa block"
 
 #: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1367
 #: qobuz/qobuzrequest.cpp:1426
 msgid "No match."
-msgstr ""
+msgstr "Ingen matchning."
 
 #: playlist/playlistcontainer.cpp:441
 msgid "No matches found.  Clear the search box to show the whole playlist again."
-msgstr ""
+msgstr "Inga träffar hittades.  Töm sökrutan för att visa hela spellistan igen."
 
 #: settings/coverssettingspage.cpp:303 settings/lyricssettingspage.cpp:191
 msgid "No provider selected."
-msgstr ""
+msgstr "Ingen leverantör vald."
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
-msgstr ""
+msgstr "Inga korta block"
 
 #: context/contextview.cpp:408
 msgid "No song playing"
-msgstr ""
+msgstr "Ingen låt spelas"
 
 #: collection/savedgroupingmanager.cpp:91 dialogs/edittagdialog.cpp:823
 #: dialogs/edittagdialog.cpp:830 ../../build-qt6dev/src/ui_groupbydialog.h:191
 #: ../../build-qt6dev/src/ui_groupbydialog.h:213
 #: ../../build-qt6dev/src/ui_groupbydialog.h:235
 msgid "None"
-msgstr ""
+msgstr "Ingen"
 
 #: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
 #: collection/collectionview.cpp:715
 msgid "None of the selected songs were suitable for copying to a device"
-msgstr ""
+msgstr "Ingen av de valda låtarna lämpar sig för kopiering till en enhet"
 
 #: moodbar/moodbarrenderer.cpp:166
 msgid "Normal"
@@ -3461,12 +3464,12 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:143
 msgid "Normal block type"
-msgstr ""
+msgstr "Normal blocktyp"
 
 #: qobuz/qobuzservice.cpp:517 qobuz/qobuzservice.cpp:567
 #: qobuz/qobuzservice.cpp:617
 msgid "Not authenticated with Qobuz."
-msgstr ""
+msgstr "Inte autentiserad med Qobuz."
 
 #: spotify/spotifyservice.cpp:516 spotify/spotifyservice.cpp:568
 #: spotify/spotifyservice.cpp:620 spotify/spotifyservice.cpp:680
@@ -3475,17 +3478,17 @@ msgstr ""
 
 #: tidal/tidalservice.cpp:701
 msgid "Not authenticated with Tidal and reached maximum number of login attempts."
-msgstr ""
+msgstr "Inte autentiserad med Tidal och nådde högsta antalet inloggningsförsök."
 
 #: tidal/tidalservice.cpp:723 tidal/tidalservice.cpp:778
 #: tidal/tidalservice.cpp:833 tidal/tidalservice.cpp:896
 #: tidal/tidalservice.cpp:960 tidal/tidalstreamurlrequest.cpp:83
 msgid "Not authenticated with Tidal."
-msgstr ""
+msgstr "Inte autentiserad med Tidal."
 
 #: device/deviceview.cpp:131
 msgid "Not connected"
-msgstr ""
+msgstr "Inte ansluten"
 
 #: dialogs/edittagdialog.cpp:1442
 msgid "Not found."
@@ -3493,68 +3496,68 @@ msgstr ""
 
 #: device/deviceview.cpp:135
 msgid "Not mounted - double click to mount"
-msgstr ""
+msgstr "Inte monterad - dubbelklicka för att montera"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:479
 msgid "Notification type"
-msgstr ""
+msgstr "Aviseringstyp"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:417
 msgid "Notifications"
-msgstr ""
+msgstr "Aviseringar"
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:207
 msgid "O&verwrite all"
-msgstr ""
+msgstr "S&kriv över alla"
 
 #: settings/notificationssettingspage.cpp:68
 msgid "OSD Preview"
-msgstr ""
+msgstr "Förhandsvisning av avisering"
 
 #: osd/osdbase.cpp:271
 msgid "Off"
-msgstr ""
+msgstr "Av"
 
 #: dialogs/snapdialog.cpp:58
 #, qt-format
 msgid "Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information."
-msgstr ""
+msgstr "Officiella versioner är tillgängliga för Debian och Ubuntu som också fungerar på de flesta av deras derivat. Se %1 för mer information."
 
 #: osd/osdbase.cpp:271
 msgid "On"
-msgstr ""
+msgstr "På"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:321
 msgid "On startup"
-msgstr ""
+msgstr "Vid start"
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:139
 msgid "Only show the first"
-msgstr ""
+msgstr "Visa endast de första"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:549
 msgid "Opacity"
-msgstr ""
+msgstr "Opacitet"
 
 #: scrobbler/scrobblingapi20.cpp:214
 msgid "Open URL in web browser?"
-msgstr ""
+msgstr "Öppna webbadress i webbläsaren?"
 
 #: transcoder/transcodedialog.cpp:346
 msgid "Open a directory to import music from"
-msgstr ""
+msgstr "Öppna en mapp att importera musik från"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
-msgstr ""
+msgstr "Öppna &ljud-CD..."
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:384
 msgid "Open device"
-msgstr ""
+msgstr "Öppna enhet"
 
 #: radios/radioview.cpp:81
 msgid "Open homepage"
-msgstr ""
+msgstr "Öppna webbplats"
 
 #: collection/collectionview.cpp:380
 #: smartplaylists/smartplaylistsviewcontainer.cpp:68
@@ -3563,29 +3566,29 @@ msgstr ""
 #: device/deviceview.cpp:246
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:343
 msgid "Open in new playlist"
-msgstr ""
+msgstr "Öppna i ny spellista"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:270
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:272
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:279
 msgid "Open..."
-msgstr ""
+msgstr "Öppna..."
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
-msgstr ""
+msgstr "Optimera för bitfrekvens"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
-msgstr ""
+msgstr "Optimera för &kvalitet"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:681
 msgid "Options"
-msgstr ""
+msgstr "Alternativ"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:229
 msgid "Options..."
-msgstr ""
+msgstr "Alternativ..."
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:190
 msgid "Opus"
@@ -3593,86 +3596,86 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:260
 msgid "Organize Files"
-msgstr ""
+msgstr "Organisera filer"
 
 #: core/mainwindow.cpp:770 collection/collectionview.cpp:391
 msgid "Organize files..."
-msgstr ""
+msgstr "Organisera filer..."
 
 #: organize/organize.cpp:107
 msgid "Organizing files"
-msgstr ""
+msgstr "Organiserar filer"
 
 #: playlist/playlist.cpp:1394
 msgid "Original Year"
-msgstr ""
+msgstr "Originalår"
 
 #: dialogs/trackselectiondialog.cpp:194
 msgid "Original tags"
-msgstr ""
+msgstr "Ursprungliga taggar"
 
 #: collection/savedgroupingmanager.cpp:124 organize/organizedialog.cpp:117
 #: ../../build-qt6dev/src/ui_groupbydialog.h:202
 #: ../../build-qt6dev/src/ui_groupbydialog.h:224
 #: ../../build-qt6dev/src/ui_groupbydialog.h:246
 msgid "Original year"
-msgstr ""
+msgstr "Originalår"
 
 #: collection/savedgroupingmanager.cpp:112
 #: ../../build-qt6dev/src/ui_groupbydialog.h:203
 #: ../../build-qt6dev/src/ui_groupbydialog.h:225
 #: ../../build-qt6dev/src/ui_groupbydialog.h:247
 msgid "Original year - Album"
-msgstr ""
+msgstr "Originalår - Album"
 
 #: collection/savedgroupingmanager.cpp:115
 msgid "Original year - Album - Disc"
-msgstr ""
+msgstr "Originalår - Album - Skiva"
 
 #: core/commandlineoptions.cpp:241
 msgid "Other options"
-msgstr ""
+msgstr "Övriga flaggor"
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:201
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:674
 msgid "Output"
-msgstr ""
+msgstr "Utgång"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:227
 msgid "Output options"
-msgstr ""
+msgstr "Alternativ för utgång"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:475
 msgid "Overwrite database playcount when songs are re-read from disk"
-msgstr ""
+msgstr "Skriv över databasspelningsantal när låtar läses om från disken"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:476
 msgid "Overwrite database rating when songs are re-read from disk"
-msgstr ""
+msgstr "Skriv över databasbetyg när låtar läses om från disk"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:325
 msgid "Overwrite existing file"
-msgstr ""
+msgstr "Skriv över befintlig fil"
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:278
 msgid "Overwrite existing files"
-msgstr ""
+msgstr "Skriv över befintliga filer"
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:208
 msgid "Overwrite s&maller ones only"
-msgstr ""
+msgstr "Skriv endast över m&indre"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:733
 msgid "P&laylist"
-msgstr ""
+msgstr "&Spellista"
 
 #: device/udisks2lister.cpp:126
 msgid "Partition label"
-msgstr ""
+msgstr "Partitionsnamn"
 
 #: equalizer/equalizer.cpp:149
 msgid "Party"
-msgstr ""
+msgstr "Fest"
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:183
 #: ../../build-qt6dev/src/ui_userpassdialog.h:93
@@ -3681,36 +3684,36 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:270
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:287
 msgid "Password"
-msgstr ""
+msgstr "Lösenord"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:902
 msgid "Path"
-msgstr ""
+msgstr "Sökväg"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:323
 msgid "Pattern"
-msgstr ""
+msgstr "Mönster"
 
 #: core/mainwindow.cpp:1415 core/mainwindow.cpp:1947
 #: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 #: core/commandlineoptions.cpp:223
 msgid "Pause playback"
-msgstr ""
+msgstr "Pausa uppspelning"
 
 #: osd/osdbase.cpp:212 osd/osdbase.cpp:215
 msgid "Paused"
-msgstr ""
+msgstr "Pausad"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:451
 msgid "Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)"
-msgstr ""
+msgstr "Utför låt EBU R 128 analys (krävs för EBU R 128 ljudstyrkenormalisering)"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:706
 msgid "Perform track loudness normalization"
-msgstr ""
+msgstr "Utför normalisering av spårets ljudstyrka"
 
 #: collection/savedgroupingmanager.cpp:133 playlist/playlist.cpp:1398
 #: organize/organizedialog.cpp:112
@@ -3719,7 +3722,7 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:249
 #: ../../build-qt6dev/src/ui_edittagdialog.h:929
 msgid "Performer"
-msgstr ""
+msgstr "Aktör"
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:212
 msgid "Pixel"
@@ -3727,68 +3730,68 @@ msgstr ""
 
 #: widgets/fancytabwidget.cpp:731
 msgid "Plain sidebar"
-msgstr ""
+msgstr "Vanligt sidofält"
 
 #: core/mainwindow.cpp:739 core/mainwindow.cpp:1366 core/mainwindow.cpp:1399
 #: core/mainwindow.cpp:1951 core/qtsystemtrayicon.cpp:160
 #: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Play"
-msgstr ""
+msgstr "Spela"
 
 #: playlist/playlist.cpp:1401
 msgid "Play Count"
-msgstr ""
+msgstr "Antal spelningar"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:554
 msgid "Play control buttons"
-msgstr ""
+msgstr "Spela kontrollknappar"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:896
 msgid "Play count"
-msgstr ""
+msgstr "Antal spelningar"
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
-msgstr ""
+msgstr "Antal spelningar"
 
 #: core/commandlineoptions.cpp:240
 msgid "Play given playlist"
-msgstr ""
+msgstr "Spela given spellista"
 
 #: core/commandlineoptions.cpp:222
 msgid "Play if stopped, pause if playing"
-msgstr ""
+msgstr "Spela om stoppad, pausa vid spelning"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:333
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:347
 msgid "Play if there is nothing already playing"
-msgstr ""
+msgstr "Spela om ingenting redan spelas"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:72
 msgid "Play next"
-msgstr ""
+msgstr "Spela nästa"
 
 #: core/commandlineoptions.cpp:239
 msgid "Play the <n>th track in the playlist"
-msgstr ""
+msgstr "Spela det <n> spåret i spellistan"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Play/Pause"
-msgstr ""
+msgstr "Spela/pausa"
 
 #: dialogs/lastfmimportdialog.cpp:160
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
-msgstr ""
+msgstr "Antal spelningar för %1 låtar och senast spelat för %2 mottagna låtar."
 
 #: dialogs/lastfmimportdialog.cpp:166
 #, qt-format
 msgid "Playcounts for %1 songs received."
-msgstr ""
+msgstr "Antal spelningar för %1 mottagna låtar."
 
 #: core/commandlineoptions.cpp:220
 msgid "Player options"
-msgstr ""
+msgstr "Spelaralternativ"
 
 #: playlist/playlistcontainer.cpp:342 playlist/playlistlistcontainer.cpp:281
 #: playlist/playlistlistcontainer.cpp:391 playlist/playlistmanager.cpp:112
@@ -3796,50 +3799,50 @@ msgstr ""
 #: playlist/playlisttabbar.cpp:434
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
-msgstr ""
+msgstr "Spellista"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:552
 msgid "Playlist buttons"
-msgstr ""
+msgstr "Spellistknappar"
 
 #: osd/osdbase.cpp:279
 msgid "Playlist finished"
-msgstr ""
+msgstr "Spellistan är klar"
 
 #: core/mainwindow.cpp:2421
 #, qt-format
 msgid "Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?"
-msgstr ""
+msgstr "Spellistan har %1 låtar, för stora för att ångra, är du säker på att du vill rensa spellistan?"
 
 #: playlist/playlistlistcontainer.cpp:386
 msgid "Playlist must be open first."
-msgstr ""
+msgstr "Spellistan måste vara öppen först."
 
 #: core/commandlineoptions.cpp:235
 #: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:92
 msgid "Playlist options"
-msgstr ""
+msgstr "Alternativ för spellista"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:558
 msgid "Playlist playing song color"
-msgstr ""
+msgstr "Låtfärg för uppspelning av spellista "
 
 #: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Playlist type"
-msgstr ""
+msgstr "Spellistetyp"
 
 #: core/mainwindow.cpp:388
 msgid "Playlists"
-msgstr ""
+msgstr "Spellistor"
 
 #: ../data/html/oauthsuccess.html:38
 msgid "Please close your browser and return to Strawberry."
-msgstr ""
+msgstr "Stäng din webbläsare och återgå till Strawberry."
 
 #: lyrics/geniuslyricsprovider.cpp:123 scrobbler/listenbrainzscrobbler.cpp:193
 #: spotify/spotifyservice.cpp:295
 msgid "Please open this URL in your browser"
-msgstr ""
+msgstr "Öppna den här webbadressen i din webbläsare"
 
 #: equalizer/equalizer.cpp:150
 msgid "Pop"
@@ -3847,7 +3850,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:485
 msgid "Popup duration"
-msgstr ""
+msgstr "Popup-varaktighet"
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:180
 msgid "Port"
@@ -3860,60 +3863,60 @@ msgstr ""
 #: equalizer/equalizer.cpp:67
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:702
 msgid "Pre-amp"
-msgstr ""
+msgstr "Förförstärkare"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:414
 msgid "Prefer album artist when sending scrobbles"
-msgstr ""
+msgstr "Föredra albumartist vid sändning av skrobblingar"
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:252
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:335
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:273
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:290
 msgid "Preferences"
-msgstr ""
+msgstr "Inställningar"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:454
 msgid "Preferred album art filenames (comma separated)"
-msgstr ""
+msgstr "Föredragna filnamn för albumomslagsbilder (kommaseparerade)"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:382
 msgid "Preferred format"
-msgstr ""
+msgstr "Önskat format"
 
 #: filterparser/filterparser.cpp:460
 msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
-msgstr ""
+msgstr "Prefix en sökterm med ett fältnamn för att begränsa sökningen till det fältet, t.ex.:"
 
 #: core/songloader.cpp:151
 msgid "Preload function was not set for blocking operation."
-msgstr ""
+msgstr "Förinläsningsfunktionen var inte inställd för blockering."
 
 #: ../../build-qt6dev/src/ui_equalizer.h:167
 msgid "Preset:"
-msgstr ""
+msgstr "Förval:"
 
 #: scrobbler/scrobblingapi20.cpp:214
 msgid "Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."
-msgstr ""
+msgstr "Tryck på \"Spara\" för att kopiera webbadressen till urklipp och öppna den manuellt i en webbläsare."
 
 #: ../../build-qt6dev/src/ui_globalshortcutgrabber.h:69
 msgid "Press a key"
-msgstr ""
+msgstr "Tryck på en tangent"
 
 #: globalshortcuts/globalshortcutgrabber.cpp:57
 #: ../../build-qt6dev/src/ui_globalshortcutgrabber.h:70
 #, qt-format
 msgid "Press a key combination to use for %1..."
-msgstr ""
+msgstr "Tryck en tangentkombination att använda för %1..."
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:336
 msgid "Pressing \"Previous\" in player will..."
-msgstr ""
+msgstr "Klicka på \"Föregående\" i spelaren kommer att..."
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:506
 msgid "Pretty OSD options"
-msgstr ""
+msgstr "Alternativ för snygg avisering"
 
 #: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:102
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:442
@@ -3921,32 +3924,32 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:495
 #: ../../build-qt6dev/src/ui_organizedialog.h:280
 msgid "Preview"
-msgstr ""
+msgstr "Förhandsvisning"
 
 #: dialogs/edittagdialog.cpp:232 dialogs/trackselectiondialog.cpp:71
 msgid "Previous"
-msgstr ""
+msgstr "Föregående"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:68
 #: ../../build-qt6dev/src/ui_mainwindow.h:610
 msgid "Previous track"
-msgstr ""
+msgstr "Föregående spår"
 
 #: core/commandlineoptions.cpp:248
 msgid "Print out version information"
-msgstr ""
+msgstr "Visa versionsinformation"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:134
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:234
 msgid "Progress"
-msgstr ""
+msgstr "Förlopp"
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:135
 msgid "Put songs in a random order"
-msgstr ""
+msgstr "Lägg till låtar i slumpmässig ordning"
 
 #: core/mainwindow.cpp:405
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:423
@@ -3956,7 +3959,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:283
 msgid "Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can't help you getting these."
-msgstr ""
+msgstr "Qobuz stöds inte officiellt och kräver ett API-app-ID och hemlighet från en registrerad applikation för att fungera. Vi kan inte hjälpa dig att få dessa."
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:77
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:198
@@ -3964,35 +3967,35 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
-msgstr ""
+msgstr "Kvalitet"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:385
 msgid "Querying device..."
-msgstr ""
+msgstr "Kommunicerar med enhet..."
 
 #: core/mainwindow.cpp:387
 msgid "Queue"
-msgstr ""
+msgstr "Kö"
 
 #: core/mainwindow.cpp:2049
 msgid "Queue selected tracks"
-msgstr ""
+msgstr "Lägg till valda spår i kön"
 
 #: core/mainwindow.cpp:745 core/mainwindow.cpp:2053
 msgid "Queue selected tracks to play next"
-msgstr ""
+msgstr "Lägg till valda spår i kön för att spela som nästa"
 
 #: core/mainwindow.cpp:2056 collection/collectionview.cpp:384
 #: streaming/streamingcollectionview.cpp:335
 msgid "Queue to play next"
-msgstr ""
+msgstr "Lägg till i kön för att spela som nästa"
 
 #: core/mainwindow.cpp:2048 collection/collectionview.cpp:383
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
 #: streaming/streamingsearchview.cpp:322
 #: streaming/streamingcollectionview.cpp:334
 msgid "Queue track"
-msgstr ""
+msgstr "Lägg till spår i kön"
 
 #: ../../build-qt6dev/src/ui_queueview.h:123
 msgid "QueueView"
@@ -4000,7 +4003,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:699
 msgid "Radio (equal loudness for all tracks)"
-msgstr ""
+msgstr "Radio (samma ljudstyrka för alla spår"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:427
 msgid "Radio Paradise"
@@ -4008,135 +4011,135 @@ msgstr ""
 
 #: core/mainwindow.cpp:391
 msgid "Radios"
-msgstr ""
+msgstr "Radiokanaler"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:324
 msgid "Random"
-msgstr ""
+msgstr "Slumpat"
 
 #: playlist/playlist.cpp:1419 ../../build-qt6dev/src/ui_edittagdialog.h:932
 msgid "Rating"
-msgstr ""
+msgstr "Betyg"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:193
 msgid "Re&lative"
-msgstr ""
+msgstr "Re&lativa"
 
 #: covermanager/albumcovermanager.cpp:259
 msgid "Really cancel?"
-msgstr ""
+msgstr "Verkligen avbryta?"
 
 #: tidal/tidalstreamurlrequest.cpp:222
 #, qt-format
 msgid "Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
-msgstr ""
+msgstr "Mottagen webbadress med %1 krypterad ström från Tidal. Strawberry stöder för närvarande inte krypterade flöden."
 
 #: tidal/tidalstreamurlrequest.cpp:275 tidal/tidalstreamurlrequest.cpp:285
 msgid "Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
-msgstr ""
+msgstr "Mottagen webbadress med krypterad ström från Tidal. Strawberry stöder för närvarande inte krypterade flöden."
 
 #: lyrics/geniuslyricsprovider.cpp:151 scrobbler/listenbrainzscrobbler.cpp:219
 #: spotify/spotifyservice.cpp:344
 msgid "Received invalid reply from web browser."
-msgstr ""
+msgstr "Tog emot ogiltigt svar från webbläsaren."
 
 #: scrobbler/scrobblingapi20.cpp:261
 msgid "Received invalid reply from web browser. Try another browser."
-msgstr ""
+msgstr "Fick ogiltigt svar från webbläsaren. Prova en annan webbläsare."
 
 #: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1202
 #: qobuz/qobuzrequest.cpp:1259
 #, qt-format
 msgid "Receiving album cover for %1 album..."
-msgstr ""
+msgstr "Tar emot albumomslag för %1 album..."
 
 #: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1203
 #: qobuz/qobuzrequest.cpp:1260
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
-msgstr ""
+msgstr "Tar emot albumomslag för %1 album..."
 
 #: tidal/tidalrequest.cpp:550 spotify/spotifyrequest.cpp:557
 #: qobuz/qobuzrequest.cpp:552
 #, qt-format
 msgid "Receiving albums for %1 artist..."
-msgstr ""
+msgstr "Tar emot album för %1 artist..."
 
 #: tidal/tidalrequest.cpp:551 spotify/spotifyrequest.cpp:558
 #: qobuz/qobuzrequest.cpp:553
 #, qt-format
 msgid "Receiving albums for %1 artists..."
-msgstr ""
+msgstr "Tar emot album för %1 artister..."
 
 #: tidal/tidalrequest.cpp:275 spotify/spotifyrequest.cpp:264
 #: qobuz/qobuzrequest.cpp:255
 msgid "Receiving albums..."
-msgstr ""
+msgstr "Tar emot album..."
 
 #: tidal/tidalrequest.cpp:227 spotify/spotifyrequest.cpp:210
 #: qobuz/qobuzrequest.cpp:203
 msgid "Receiving artists..."
-msgstr ""
+msgstr "Tar emot artister..."
 
 #: dialogs/lastfmimportdialog.cpp:80
 msgid "Receiving initial data from last.fm..."
-msgstr ""
+msgstr "Tar emot initiala data från last.fm..."
 
 #: dialogs/lastfmimportdialog.cpp:140
 #, qt-format
 msgid "Receiving last played for %1 songs."
-msgstr ""
+msgstr "Tar emot senast spelade för %1 låtar."
 
 #: dialogs/lastfmimportdialog.cpp:137
 #, qt-format
 msgid "Receiving playcount for %1 songs and last played for %2 songs."
-msgstr ""
+msgstr "Tar emot antal spelningar för %1 låtar och spelades senast för %2 låtar."
 
 #: dialogs/lastfmimportdialog.cpp:143
 #, qt-format
 msgid "Receiving playcounts for %1 songs."
-msgstr ""
+msgstr "Tar emot antal spelningar för %1 låtar."
 
 #: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:855
 #: qobuz/qobuzrequest.cpp:809
 #, qt-format
 msgid "Receiving songs for %1 album..."
-msgstr ""
+msgstr "Tar emot låtar för %1 album..."
 
 #: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:856
 #: qobuz/qobuzrequest.cpp:810
 #, qt-format
 msgid "Receiving songs for %1 albums..."
-msgstr ""
+msgstr "Tar emot låtar för %1 album..."
 
 #: tidal/tidalrequest.cpp:323 spotify/spotifyrequest.cpp:318
 #: qobuz/qobuzrequest.cpp:307
 msgid "Receiving songs..."
-msgstr ""
+msgstr "Tar emot låtar..."
 
 #: lyrics/geniuslyricsprovider.cpp:195
 msgid "Redirect from Genius is missing query items code or state."
-msgstr ""
+msgstr "Omdirigering från Genius saknar förfrågningsobjektkod eller tillstånd."
 
 #: spotify/spotifyservice.cpp:340
 msgid "Redirect missing token code or state!"
-msgstr ""
+msgstr "Omdirigering saknar tokenkod eller tillstånd!"
 
 #: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:215
 msgid "Redirect missing token code!"
-msgstr ""
+msgstr "Omdirigering saknar token-kod!"
 
 #: playlist/playlistcontainer.cpp:228
 msgid "Redo"
-msgstr ""
+msgstr "Gör om"
 
 #: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
-msgstr ""
+msgstr "Uppdatera katalog"
 
 #: radios/radioview.cpp:89
 msgid "Refresh channels"
-msgstr ""
+msgstr "Uppdatera kanaler"
 
 #: equalizer/equalizer.cpp:151
 msgid "Reggae"
@@ -4144,81 +4147,81 @@ msgstr ""
 
 #: playlist/playlistsaveoptionsdialog.cpp:42
 msgid "Relative"
-msgstr ""
+msgstr "Relativ"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:322
 msgid "Remember from &last time"
-msgstr ""
+msgstr "Kom ihåg från &förra gången"
 
 #: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:97
 msgid "Remember my choice"
-msgstr ""
+msgstr "Kom ihåg mitt val"
 
 #: ../../build-qt6dev/src/ui_savedgroupingmanager.h:103
 #: ../../build-qt6dev/src/ui_queueview.h:137
 #: ../../build-qt6dev/src/ui_transcodedialog.h:222
 msgid "Remove"
-msgstr ""
+msgstr "Ta bort"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:707
 msgid "Remove &duplicates from playlist"
-msgstr ""
+msgstr "Ta bort &dubbletter från spellista"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:708
 msgid "Remove &unavailable tracks from playlist"
-msgstr ""
+msgstr "Ta bort &otillgängliga spår från spellista"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:445
 msgid "Remove folder"
-msgstr ""
+msgstr "Ta bort mapp"
 
 #: streaming/streamingcollectionview.cpp:340
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Ta bort från favoriter"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
-msgstr ""
+msgstr "Ta bort från spellista"
 
 #: playlist/playlisttabbar.cpp:229
 msgid "Remove playlist"
-msgstr ""
+msgstr "Ta bort spellista"
 
 #: playlist/playlistlistcontainer.cpp:437
 msgid "Remove playlists"
-msgstr ""
+msgstr "Ta bort spellistor"
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:273
 msgid "Remove problematic characters from filenames"
-msgstr ""
+msgstr "Ta bort problematiska tecken från filnamn"
 
 #: playlist/playlisttabbar.cpp:181
 msgid "Rename playlist"
-msgstr ""
+msgstr "Byt namn på spellista"
 
 #: playlist/playlisttabbar.cpp:81
 msgid "Rename playlist..."
-msgstr ""
+msgstr "Byt namn på spellista..."
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:646
 msgid "Renumber tracks in this order..."
-msgstr ""
+msgstr "Omnumrera spår i den här ordningen..."
 
 #: ../../build-qt6dev/src/ui_playlistsequence.h:119
 msgid "Repeat"
-msgstr ""
+msgstr "Upprepa"
 
 #: osd/osdbase.cpp:365 ../../build-qt6dev/src/ui_playlistsequence.h:110
 msgid "Repeat album"
-msgstr ""
+msgstr "Upprepa album"
 
 #: osd/osdbase.cpp:366 ../../build-qt6dev/src/ui_playlistsequence.h:111
 msgid "Repeat playlist"
-msgstr ""
+msgstr "Upprepa spellista"
 
 #: osd/osdbase.cpp:364 ../../build-qt6dev/src/ui_playlistsequence.h:109
 msgid "Repeat track"
-msgstr ""
+msgstr "Upprepa spår"
 
 #: collection/collectionview.cpp:379
 #: smartplaylists/smartplaylistsviewcontainer.cpp:67
@@ -4226,19 +4229,19 @@ msgstr ""
 #: streaming/streamingcollectionview.cpp:330 radios/radioview.cpp:73
 #: device/deviceview.cpp:245
 msgid "Replace current playlist"
-msgstr ""
+msgstr "Ersätt aktuell spellista"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:327
 msgid "Replace spaces with dashes"
-msgstr ""
+msgstr "Ersätter mellanslag med understreck"
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:277
 msgid "Replace spaces with underscores"
-msgstr ""
+msgstr "Ersätter mellanslag med understreck"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:342
 msgid "Replace the playlist"
-msgstr ""
+msgstr "Ersätta spellistan"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:696
 msgid "Replay Gain"
@@ -4246,91 +4249,91 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:698
 msgid "Replay Gain mode"
-msgstr ""
+msgstr "Replay Gain-läge"
 
 #: tidal/tidalservice.cpp:354
 msgid "Reply from Tidal is missing query items."
-msgstr ""
+msgstr "Svar från Tidal saknar förfrågningsobjekt."
 
 #: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:108
 msgid "Repopulate"
-msgstr ""
+msgstr "Skapa en ny blandning"
 
 #: collection/collectionview.cpp:404
 msgid "Rescan song(s)"
-msgstr ""
+msgstr "Skanna om av låt(ar)..."
 
 #: core/mainwindow.cpp:761
 msgid "Rescan song(s)..."
-msgstr ""
+msgstr "Skanna om låt(ar)..."
 
 #: widgets/lineedit.cpp:68
 msgid "Reset"
-msgstr ""
+msgstr "Återställ"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:910
 msgid "Reset play counts"
-msgstr ""
+msgstr "Återställ antal spelningar"
 
 #: dialogs/edittagdialog.cpp:1338
 msgid "Reset song play statistics"
-msgstr ""
+msgstr "Återställ låtuppspelningsstatistik"
 
 #: core/commandlineoptions.cpp:244
 msgid "Resize the window"
-msgstr ""
+msgstr "Ändra storlek på fönstret"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:338
 msgid "Restart song, then jump to previous if pressed again"
-msgstr ""
+msgstr "Starta om låten, hoppa till föregående låt vid dubbelklickning"
 
 #: core/commandlineoptions.cpp:234
 msgid "Restart the track, or play the previous track if within 8 seconds of start."
-msgstr ""
+msgstr "Starta om spåret, eller spela föregående spår om inom 8 sekunder efter start."
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:275
 msgid "Restrict characters to ASCII"
-msgstr ""
+msgstr "Begränsa tecken till ASCII"
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:274
 msgid "Restrict to characters allowed on FAT filesystems"
-msgstr ""
+msgstr "Begränsa till tecken som är tillåtna i FAT-filsystem"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:319
 msgid "Resume playback on start"
-msgstr ""
+msgstr "Fortsätt uppspelning vid start"
 
 #: subsonic/subsonicrequest.cpp:690
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
-msgstr ""
+msgstr "Hämtar albumomslag för %1 album..."
 
 #: subsonic/subsonicrequest.cpp:691
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr ""
+msgstr "Hämtar albumomslag för %1 album..."
 
 #: subsonic/subsonicrequest.cpp:127
 msgid "Retrieving albums..."
-msgstr ""
+msgstr "Hämtar album..."
 
 #: subsonic/subsonicrequest.cpp:316
 #, qt-format
 msgid "Retrieving songs for %1 album..."
-msgstr ""
+msgstr "Hämtar låtar för %1 album..."
 
 #: subsonic/subsonicrequest.cpp:317
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
-msgstr ""
+msgstr "Hämtar låtar för %1 album..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
-msgstr ""
+msgstr "Återgå till Strawberry"
 
 #: ../../build-qt6dev/src/ui_equalizer.h:178
 msgid "Right"
-msgstr ""
+msgstr "Höger"
 
 #: equalizer/equalizer.cpp:152
 msgid "Rock"
@@ -4338,27 +4341,27 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_console.h:77
 msgid "Run"
-msgstr ""
+msgstr "Kör"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
-msgstr ""
+msgstr "B&landa spellista"
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:178
 msgid "SOCKS proxy"
-msgstr ""
+msgstr "SOCKS-proxy"
 
 #: device/deviceview.cpp:238
 msgid "Safely remove device"
-msgstr ""
+msgstr "Säker borttagning av enhet"
 
 #: ../../build-qt6dev/src/ui_organizedialog.h:282
 msgid "Safely remove the device after copying"
-msgstr ""
+msgstr "Säker borttagning av enheten efter kopiering"
 
 #: playlist/playlist.cpp:1405
 msgid "Sample Rate"
-msgstr ""
+msgstr "Samplingsfrekvens"
 
 #: collection/savedgroupingmanager.cpp:145 organize/organizedialog.cpp:122
 #: ../../build-qt6dev/src/ui_groupbydialog.h:208
@@ -4366,77 +4369,77 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_groupbydialog.h:252
 #: ../../build-qt6dev/src/ui_edittagdialog.h:901
 msgid "Sample rate"
-msgstr ""
+msgstr "Samplingsfrekvens"
 
 #: context/contextview.cpp:165
 msgid "Samplerate"
-msgstr ""
+msgstr "Samplingsfrekvens"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:683
 msgid "Save &playlist..."
-msgstr ""
+msgstr "Spara &spellista..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:244
 msgid "Save album cover"
-msgstr ""
+msgstr "Spara albumomslag"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:321
 msgid "Save album covers as embedded cover"
-msgstr ""
+msgstr "Spara albumomslag som inbäddat omslag"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:319
 msgid "Save album covers in album directory"
-msgstr ""
+msgstr "Spara albumomslag i albummappen"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:320
 msgid "Save album covers in cache directory"
-msgstr ""
+msgstr "Spara albumomslag i cachemappen"
 
 #: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Save cover to disk..."
-msgstr ""
+msgstr "Spara omslag till disk..."
 
 #: ../../build-qt6dev/src/ui_collectionfilterwidget.h:100
 msgid "Save current grouping"
-msgstr ""
+msgstr "Spara aktuell gruppering"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:477
 msgid "Save playcounts and ratings to files now"
-msgstr ""
+msgstr "Spara antal spelningar och betyg till filer nu"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:473
 msgid "Save playcounts to song tags when possible"
-msgstr ""
+msgstr "Spara antal spelningar till låttaggar när det är möjligt "
 
 #: playlist/playlistlistcontainer.cpp:91
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
-msgstr ""
+msgstr "Spara spellista"
 
 #: playlist/playlistmanager.cpp:259
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
-msgstr ""
+msgstr "Spara spellista"
 
 #: playlist/playlisttabbar.cpp:82
 msgid "Save playlist..."
-msgstr ""
+msgstr "Spara spellista..."
 
 #: equalizer/equalizer.cpp:211 ../../build-qt6dev/src/ui_equalizer.h:169
 msgid "Save preset"
-msgstr ""
+msgstr "Spara förinställning"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:474
 msgid "Save ratings to song tags when possible"
-msgstr ""
+msgstr "Spara betyg till låttaggar när det är möjligt"
 
 #: ../../build-qt6dev/src/ui_moodbarsettingspage.h:97
 msgid "Save the .mood files directly in the songs folders"
-msgstr ""
+msgstr "Spara .mood-filerna direkt i låtmapparna"
 
 #: ../../build-qt6dev/src/ui_savedgroupingmanager.h:101
 msgid "Saved Grouping Manager"
-msgstr ""
+msgstr "Sparad grupperingshanterare"
 
 #: playlistparsers/cueparser.cpp:395
 msgid "Saving CUE files is not supported."
@@ -4444,80 +4447,80 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:317
 msgid "Saving album covers"
-msgstr ""
+msgstr "Spara albumomslag"
 
 #: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
-msgstr ""
+msgstr "Sparar antal spelningar och betyg"
 
 #: dialogs/edittagdialog.cpp:312 dialogs/trackselectiondialog.cpp:292
 msgid "Saving tracks"
-msgstr ""
+msgstr "Sparar spår"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:137
 msgid "Scalable sampling rate profile (SSR)"
-msgstr ""
+msgstr "Skalbar samplingsfrekvensprofil (SSR)"
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:210
 msgid "Scale size"
-msgstr ""
+msgstr "Skalningsstorlek"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:404
 msgid "Scrobbler"
-msgstr ""
+msgstr "Skrobbling"
 
 #: scrobbler/scrobblingapi20.cpp:910
 #, qt-format
 msgid "Scrobbler %1 error: %2"
-msgstr ""
+msgstr "Skrobblare %1 fel: %2"
 
 #: scrobbler/scrobblingapi20.cpp:461
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
-msgstr ""
+msgstr "Skrobblare %1 är inte autentiserad!"
 
 #: covermanager/albumcoversearcher.cpp:192
 #: covermanager/albumcoversearcher.cpp:210
 #: ../../build-qt6dev/src/ui_albumcoversearcher.h:111
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:116
 msgid "Search"
-msgstr ""
+msgstr "Sök"
 
 #: covermanager/albumcoverchoicecontroller.cpp:117
 msgid "Search automatically"
-msgstr ""
+msgstr "Sök automatiskt"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:337
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:274
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:292
 msgid "Search delay"
-msgstr ""
+msgstr "Sökfördröjning"
 
 #: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Search for album covers..."
-msgstr ""
+msgstr "Sök efter albumomslag..."
 
 #: collection/collectionview.cpp:388 streaming/streamingsearchview.cpp:340
 msgid "Search for this"
-msgstr ""
+msgstr "Sök efter det här"
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
-msgstr ""
+msgstr "Sökläge"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid "Search options"
-msgstr ""
+msgstr "Sökalternativ"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:161
 #: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
-msgstr ""
+msgstr "Söktermer"
 
 #: filterparser/filterparser.cpp:468
 #, qt-format
 msgid "Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: "
-msgstr ""
+msgstr "Söktermer för numeriska fält kan prefixas med %1 eller %2 för att förfina sökningen, t.ex.:"
 
 #: tidal/tidalrequest.cpp:371 tidal/tidalrequest.cpp:385
 #: tidal/tidalrequest.cpp:399 spotify/spotifyrequest.cpp:373
@@ -4525,252 +4528,252 @@ msgstr ""
 #: qobuz/qobuzrequest.cpp:359 qobuz/qobuzrequest.cpp:373
 #: qobuz/qobuzrequest.cpp:387
 msgid "Searching..."
-msgstr ""
+msgstr "Söker..."
 
 #: collection/savedgroupingmanager.cpp:59
 msgid "Second Level"
-msgstr ""
+msgstr "Andra nivå"
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:212
 msgid "Second level"
-msgstr ""
+msgstr "Andra nivå"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:73
 msgid "Seek backward"
-msgstr ""
+msgstr "Sök bakåt"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:72
 msgid "Seek forward"
-msgstr ""
+msgstr "Sök framåt"
 
 #: core/commandlineoptions.cpp:233
 msgid "Seek the currently playing track by a relative amount"
-msgstr ""
+msgstr "Hoppa till en relativ position i spår som nu spelas"
 
 #: core/commandlineoptions.cpp:232
 msgid "Seek the currently playing track to an absolute position"
-msgstr ""
+msgstr "Hoppa till en absolut position i spår som nu spelas"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:354
 msgid "Seeking using a keyboard shortcut or mouse wheel"
-msgstr ""
+msgstr "Tidshopp vid sökning med tangentbordsgenväg eller mushjul"
 
 #: settings/appearancesettingspage.cpp:301
 msgid "Select background image"
-msgstr ""
+msgstr "Väl en bakgrundsbild"
 
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:206
 msgid "Select best possible match"
-msgstr ""
+msgstr "Välj bästa möjliga matchning"
 
 #: ../../build-qt6dev/src/ui_saveplaylistsdialog.h:118
 msgid "Select directory for saving playlists"
-msgstr ""
+msgstr "Välj mapp för att spara spellistor"
 
 #: dialogs/saveplaylistsdialog.cpp:63
 msgid "Select directory for the playlists"
-msgstr ""
+msgstr "Välj mapp för spellistorna"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:561
 msgid "Select playlist playing song color:"
-msgstr ""
+msgstr "Välj låtfärg för uppspelning av spellista:"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:526
 msgid "Select tabbar color:"
-msgstr ""
+msgstr "Välj färg för flikfält:"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:233
 msgid "Select..."
-msgstr ""
+msgstr "Välj..."
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:256
 msgid "Separate albums by grouping tag"
-msgstr ""
+msgstr "Separera album genom att gruppera tagg"
 
 #: device/udisks2lister.cpp:124
 msgid "Serial number"
-msgstr ""
+msgstr "Serienummer"
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:245
 msgid "Server URL"
-msgstr ""
+msgstr "Serverwebbadress"
 
 #: subsonic/subsonicservice.cpp:413 settings/subsonicsettingspage.cpp:137
 msgid "Server URL is invalid."
-msgstr ""
+msgstr "Serverwebbadressen är ogiltig."
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:256
 msgid "Server-side scrobbling"
-msgstr ""
+msgstr "Skrobbling på serversidan"
 
 #: core/mainwindow.cpp:2089
 #, qt-format
 msgid "Set %1 to \"%2\"..."
-msgstr ""
+msgstr "Ställ in %1 till \"%2\"..."
 
 #: core/commandlineoptions.cpp:227
 msgid "Set the volume to <value> percent"
-msgstr ""
+msgstr "Ställ in volymen till <value> procent"
 
 #: settings/coverssettingspage.cpp:436
 #, qt-format
 msgid "Set through album cover search (%1)"
-msgstr ""
+msgstr "Ställ in genom albumomslagssökning (%1)"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
-msgstr ""
+msgstr "Ställ in värde för alla valda spår..."
 
 #: ../../build-qt6dev/src/ui_settingsdialog.h:114
 msgid "Settings"
-msgstr ""
+msgstr "Inställningar"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:521
 msgid "Settings require restart."
-msgstr ""
+msgstr "Inställningar kräver omstart."
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:281
 msgid "Shortcut"
-msgstr ""
+msgstr "Genväg"
 
 #: settings/globalshortcutssettingspage.cpp:295
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:283
 #, qt-format
 msgid "Shortcut for %1"
-msgstr ""
+msgstr "Genväg för %1"
 
 #: collection/collectionfilterwidget.cpp:101
 msgid "Show"
-msgstr ""
+msgstr "Visa"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Show OSD"
-msgstr ""
+msgstr "Visa avisering"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:481
 msgid "Show a &native desktop notification"
-msgstr ""
+msgstr "Visa en &naturlig skrivbordsavisering"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
-msgstr ""
+msgstr "Visa en lysande animation på det spår som spelas för närvarande"
 
 #: ../../build-qt6dev/src/ui_moodbarsettingspage.h:95
 msgid "Show a moodbar in the track progress bar"
-msgstr ""
+msgstr "Visa ett stämningsdiagram i spårets förloppsfält"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I change the repeat/shuffle mode"
-msgstr ""
+msgstr "Visa en avisering när jag ändrar upprepnings-/blandningsläge"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I change the volume"
-msgstr ""
+msgstr "Visa en avisering när jag ändrar volymen"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:490
 msgid "Show a notification when I pause playback"
-msgstr ""
+msgstr "Visa en avisering när jag pausar uppspelningen"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:491
 msgid "Show a notification when I resume playback"
-msgstr ""
+msgstr "Visa en avisering när jag återupptar uppspelningen"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:483
 msgid "Show a popup fro&m the system tray"
-msgstr ""
+msgstr "Visa en popup fr&ån systemfältet"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:482
 msgid "Show a pretty OSD"
-msgstr ""
+msgstr "Visa en snygg avisering"
 
 #: widgets/playingwidget.cpp:141
 msgid "Show above status bar"
-msgstr ""
+msgstr "Visa ovanför statusraden"
 
 #: context/contextview.cpp:260
 msgid "Show album cover"
-msgstr ""
+msgstr "Visa albumomslag"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:462
 msgid "Show album cover art in collection"
-msgstr ""
+msgstr "Visa omslagsbilder i samlingen"
 
 #: core/mainwindow.cpp:680
 msgid "Show all songs"
-msgstr ""
+msgstr "Visa alla låtar"
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
-msgstr ""
+msgstr "Visa alla låtarna"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:179
 msgid "Show bars on the currently playing track"
-msgstr ""
+msgstr "Visa staplar på det spår som spelas för närvarande"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:415
 msgid "Show dialog for errors"
-msgstr ""
+msgstr "Visa dialogruta vid fel"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:461
 msgid "Show dividers"
-msgstr ""
+msgstr "Visa avdelare"
 
 #: covermanager/albumcoverchoicecontroller.cpp:115
 msgid "Show fullsize..."
-msgstr ""
+msgstr "Visa i full storlek..."
 
 #: core/mainwindow.cpp:768
 msgid "Show in collection..."
-msgstr ""
+msgstr "Visa i samlingen..."
 
 #: utilities/filemanagerutils.cpp:139 utilities/filemanagerutils.cpp:145
 msgid "Show in file browser"
-msgstr ""
+msgstr "Visa i filhanteraren"
 
 #: core/mainwindow.cpp:769 collection/collectionview.cpp:400
 #: widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
-msgstr ""
+msgstr "Visa i filhanterare..."
 
 #: collection/collectionview.cpp:407
 msgid "Show in various artists"
-msgstr ""
+msgstr "Visa i diverse artister"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:409
 msgid "Show love button"
-msgstr ""
+msgstr "Visa knappen älska"
 
 #: moodbar/moodbarproxystyle.cpp:373
 msgid "Show moodbar"
-msgstr ""
+msgstr "Visa stämningsdiagram"
 
 #: core/mainwindow.cpp:681
 msgid "Show only duplicates"
-msgstr ""
+msgstr "Visa endast dubbletter"
 
 #: core/mainwindow.cpp:682
 msgid "Show only untagged"
-msgstr ""
+msgstr "Visa endast utan taggar"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:320
 msgid "Show playing widget"
-msgstr ""
+msgstr "Visa spelande gränssnittskomponent"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:408
 msgid "Show scrobble button"
-msgstr ""
+msgstr "Visa knappen skrobbla"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:714
 msgid "Show sidebar"
-msgstr ""
+msgstr "Visa sidofält"
 
 #: context/contextview.cpp:268
 msgid "Show song lyrics"
-msgstr ""
+msgstr "Visa låttexter"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:317
 msgid "Show song progress on system tray icon"
-msgstr ""
+msgstr "Visa sångförlopp på systemfältikonen"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:318
 msgid "Show song progress on taskbar"
@@ -4778,60 +4781,60 @@ msgstr ""
 
 #: context/contextview.cpp:264
 msgid "Show song technical data"
-msgstr ""
+msgstr "Visa låttekniska data"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:315
 msgid "Show system tray icon"
-msgstr ""
+msgstr "Visa ikon i systemfältet"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:323
 msgid "Show the main window"
-msgstr ""
+msgstr "Visa huvudfönstret"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:325
 msgid "Show the main window maximized"
-msgstr ""
+msgstr "Visa huvudfönstret som maximerat"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:326
 msgid "Show the main window minimized"
-msgstr ""
+msgstr "Visa huvudfönstret som minimerat"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:74
 msgid "Show/Hide"
-msgstr ""
+msgstr "Visa/dölj"
 
 #: ../../build-qt6dev/src/ui_playlistsequence.h:122
 msgid "Shuffle"
-msgstr ""
+msgstr "Blanda"
 
 #: osd/osdbase.cpp:351 ../../build-qt6dev/src/ui_playlistsequence.h:117
 msgid "Shuffle albums"
-msgstr ""
+msgstr "Blanda album"
 
 #: osd/osdbase.cpp:349 ../../build-qt6dev/src/ui_playlistsequence.h:116
 msgid "Shuffle all"
-msgstr ""
+msgstr "Blanda alla"
 
 #: osd/osdbase.cpp:350 ../../build-qt6dev/src/ui_playlistsequence.h:115
 msgid "Shuffle tracks in this album"
-msgstr ""
+msgstr "Blanda låtar i det här albumet"
 
 #: ../../build-qt6dev/src/ui_loginstatewidget.h:166
 msgid "Sign out"
-msgstr ""
+msgstr "Logga ut"
 
 #: ../../build-qt6dev/src/ui_loginstatewidget.h:168
 msgid "Signing in..."
-msgstr ""
+msgstr "Loggar in..."
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:209
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:466
 msgid "Size"
-msgstr ""
+msgstr "Storlek"
 
 #: ../../build-qt6dev/src/ui_albumcoverexport.h:211
 msgid "Size:"
-msgstr ""
+msgstr "Storlek:"
 
 #: equalizer/equalizer.cpp:154
 msgid "Ska"
@@ -4839,19 +4842,19 @@ msgstr ""
 
 #: playlist/playlist.cpp:1402
 msgid "Skip Count"
-msgstr ""
+msgstr "Hoppa över räkning"
 
 #: core/commandlineoptions.cpp:225
 msgid "Skip backwards in playlist"
-msgstr ""
+msgstr "Hoppa bakåt i spellista"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:900
 msgid "Skip count"
-msgstr ""
+msgstr "Antal överhoppningar"
 
 #: core/commandlineoptions.cpp:226
 msgid "Skip forwards in playlist"
-msgstr ""
+msgstr "Hoppa framåt i spellista"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:464
 msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
@@ -4859,27 +4862,27 @@ msgstr ""
 
 #: core/mainwindow.cpp:2062
 msgid "Skip selected tracks"
-msgstr ""
+msgstr "Hoppa över valda spår"
 
 #: core/mainwindow.cpp:2061
 msgid "Skip track"
-msgstr ""
+msgstr "Hoppa över spår"
 
 #: widgets/playingwidget.cpp:102
 msgid "Small album cover"
-msgstr ""
+msgstr "Litet albumomslag"
 
 #: widgets/fancytabwidget.cpp:730
 msgid "Small sidebar"
-msgstr ""
+msgstr "Litet sidofält"
 
 #: smartplaylists/smartplaylistwizard.cpp:72
 msgid "Smart playlist"
-msgstr ""
+msgstr "Smart spellista"
 
 #: core/mainwindow.cpp:389
 msgid "Smart playlists"
-msgstr ""
+msgstr "Smarta spellistor"
 
 #: equalizer/equalizer.cpp:153
 msgid "Soft"
@@ -4895,29 +4898,29 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:435
 msgid "Song Lyrics"
-msgstr ""
+msgstr "Låttexter"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:449
 msgid "Song fingerprinting and tracking"
-msgstr ""
+msgstr "Fingeravtryck och spårning av låtar"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:472
 msgid "Song playcounts and ratings"
-msgstr ""
+msgstr "Antal spelningar och betyg för låtar"
 
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:115
 msgid "Songs"
-msgstr ""
+msgstr "Låtar"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:406
 msgid "Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier)."
-msgstr ""
+msgstr "Låtar skrobblas om de har giltiga metadata och är längre än 30 sekunder, har spelats under minst halva dess varaktighet eller i 4 minuter (beroende på vilket som inträffar först)."
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:341
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:278
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:296
 msgid "Songs search limit"
-msgstr ""
+msgstr "Sökgräns för låtar"
 
 #: analyzer/sonogramanalyzer.cpp:31
 msgid "Sonogram"
@@ -4925,19 +4928,19 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
-msgstr ""
+msgstr "Tyvärr"
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:136
 msgid "Sort songs by"
-msgstr ""
+msgstr "Sortera låtar efter"
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:134
 msgid "Sorting"
-msgstr ""
+msgstr "Sortering"
 
 #: playlist/playlist.cpp:1417
 msgid "Source"
-msgstr ""
+msgstr "Källa"
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:191
 msgid "Speex"
@@ -4945,7 +4948,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:1091
 msgid "Sponsoring Strawberry"
-msgstr ""
+msgstr "Sponsring av Strawberry"
 
 #: core/mainwindow.cpp:402 ../../build-qt6dev/src/ui_spotifysettingspage.h:264
 msgid "Spotify"
@@ -4953,7 +4956,7 @@ msgstr ""
 
 #: spotify/spotifyservice.cpp:295
 msgid "Spotify Authentication"
-msgstr ""
+msgstr "Spotify-autentisering"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
@@ -4961,61 +4964,61 @@ msgstr ""
 
 #: playlist/playlisttabbar.cpp:79
 msgid "Star playlist"
-msgstr ""
+msgstr "Stjärnmarkera spellista"
 
 #: core/commandlineoptions.cpp:221
 msgid "Start the playlist currently playing"
-msgstr ""
+msgstr "Starta spellistan som nu spelas"
 
 #: transcoder/transcodedialog.cpp:130
 msgid "Start transcoding"
-msgstr ""
+msgstr "Starta omkodning"
 
 #: transcoder/transcoder.cpp:407
 #, qt-format
 msgid "Starting %1"
-msgstr ""
+msgstr "Startar %1"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:65
 msgid "Stop"
-msgstr ""
+msgstr "Stoppa"
 
 #: ../../build-qt6dev/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
-msgstr ""
+msgstr "Stoppa efter varje låt"
 
 #: osd/osdbase.cpp:367
 msgid "Stop after every track"
-msgstr ""
+msgstr "Stoppa efter varje låt"
 
 #: core/mainwindow.cpp:741 ../../build-qt6dev/src/ui_mainwindow.h:630
 msgid "Stop after this track"
-msgstr ""
+msgstr "Stoppa efter det här spåret"
 
 #: core/commandlineoptions.cpp:223
 msgid "Stop playback"
-msgstr ""
+msgstr "Stoppa uppspelning"
 
 #: core/commandlineoptions.cpp:224
 msgid "Stop playback after current track"
-msgstr ""
+msgstr "Stoppa uppspelning efter aktuellt spår"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:66
 msgid "Stop playing after current track"
-msgstr ""
+msgstr "Stoppa spelning efter aktuellt spår"
 
 #: osd/osdbase.cpp:271
 #, qt-format
 msgid "Stop playing after track: %1"
-msgstr ""
+msgstr "Sluta spela efter spår: %1"
 
 #: osd/osdbase.cpp:258 osd/osdbase.cpp:261
 msgid "Stopped"
-msgstr ""
+msgstr "Stoppad"
 
 #: ../../build-qt6dev/src/ui_errordialog.h:91
 msgid "Strawberry Error"
-msgstr ""
+msgstr "Strawberry-fel"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:609
 msgid "Strawberry Music Player"
@@ -5023,57 +5026,57 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:513
 msgid "Strawberry Red"
-msgstr ""
+msgstr "Jordgubbsröd"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:378
 msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
-msgstr ""
+msgstr "Strawberry kan automatiskt konvertera musiken du kopierar till den här enheten till ett format som den kan spela."
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:478
 msgid "Strawberry can show a message when the track changes."
-msgstr ""
+msgstr "Strawberry kan visa ett meddelande vid byte av spår."
 
 #: dialogs/about.cpp:114
 msgid "Strawberry is a music player and music collection organizer."
-msgstr ""
+msgstr "Strawberry är en musikspelare och musiksamlingsorganisatör."
 
 #: core/mainwindow.cpp:1091
 #, qt-format
 msgid "Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1"
-msgstr ""
+msgstr "Strawberry är gratis programvara med öppen källkod. Om du gillar Strawberry, överväg att sponsra projektet. För mer information om sponsring, se vår webbplats %1"
 
 #: dialogs/about.cpp:120
 #, qt-format
 msgid "Strawberry is free software released under GPL. The source code is available on %1"
-msgstr ""
+msgstr "Strawberry är fri programvara som släpps under GPL. Källkoden är tillgänglig på %1"
 
 #: dialogs/snapdialog.cpp:30
 msgid "Strawberry is running as a Snap"
-msgstr ""
+msgstr "Strawberry körs som en Snap"
 
 #: dialogs/snapdialog.cpp:46
 msgid "Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares."
-msgstr ""
+msgstr "Strawberry är långsammare och har begränsningar när den körs som en Snap. Åtkomst till rotfilsystemet (/) fungerar inte. Det kan också finnas andra begränsningar som att komma åt vissa enheter eller nätverksresurser."
 
 #: core/mainwindow.cpp:1068
 msgid "Strawberry running under Rosetta"
-msgstr ""
+msgstr "Strawberry körs under Rosetta"
 
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
-msgstr ""
+msgstr "Strawberry kunde inte hitta resultat för den här filen"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:426
 msgid "Stream"
-msgstr ""
+msgstr "Flöde"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:345
 msgid "Stream URL method"
-msgstr ""
+msgstr "Metod för flödeswebbadress"
 
 #: settings/settingsdialog.cpp:162
 msgid "Streaming"
-msgstr ""
+msgstr "Flöden"
 
 #: ../../build-qt6dev/src/ui_streamingsearchview.h:223
 msgid "Streaming Search View"
@@ -5085,7 +5088,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:544
 msgid "Stretch image to fill playlist"
-msgstr ""
+msgstr "Sträck ut bilden för att fylla spellista"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:416
 msgid "Strip \"remastered\" and similar from album and title"
@@ -5094,11 +5097,11 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:518
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:519
 msgid "Style"
-msgstr ""
+msgstr "Format"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:410
 msgid "Submit scrobbles every"
-msgstr ""
+msgstr "Skicka skrobblingar varje"
 
 #: core/mainwindow.cpp:396
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:419
@@ -5108,79 +5111,79 @@ msgstr ""
 
 #: subsonic/subsonicurlhandler.cpp:39
 msgid "Subsonic server URL is invalid."
-msgstr ""
+msgstr "Subsonic-serverwebbadress är ogiltig."
 
 #: ../data/html/oauthsuccess.html:36
 msgid "Success!"
-msgstr ""
+msgstr "Lyckades!"
 
 #: transcoder/transcoder.cpp:184
 #, qt-format
 msgid "Successfully written %1"
-msgstr ""
+msgstr "Skrev %1 med lyckat resultat"
 
 #: dialogs/trackselectiondialog.cpp:198
 msgid "Suggested tags"
-msgstr ""
+msgstr "Föreslagna taggar"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:427
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:500
 #: ../../build-qt6dev/src/ui_edittagdialog.h:911
 msgid "Summary"
-msgstr ""
+msgstr "Sammandrag"
 
 #: analyzer/analyzercontainer.cpp:85
 #, qt-format
 msgid "Super high (%1 fps)"
-msgstr ""
+msgstr "Väldigt hög (%1 fps)"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:376
 msgid "Supported formats"
-msgstr ""
+msgstr "Format som stöds"
 
 #: moodbar/moodbarrenderer.cpp:174
 msgid "System colors"
-msgstr ""
+msgstr "Systemfärger"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:559
 msgid "System highlight color"
-msgstr ""
+msgstr "Systemets markeringsfärg"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:522
 msgid "Tabbar colors"
-msgstr ""
+msgstr "Färger för flikfält"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:553
 msgid "Tabbar large mode"
-msgstr ""
+msgstr "Stort läge för flikfält"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:557
 msgid "Tabbar small mode"
-msgstr ""
+msgstr "Litet läge för flikfält"
 
 #: widgets/fancytabwidget.cpp:732
 msgid "Tabs on top"
-msgstr ""
+msgstr "Flikar längst upp"
 
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:203
 msgid "Tag fetcher"
-msgstr ""
+msgstr "Tagghämtare"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:933
 msgid "Tags"
-msgstr ""
+msgstr "Taggar"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:707
 msgid "Target Level"
-msgstr ""
+msgstr "Målnivå"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
-msgstr ""
+msgstr "Önskad bitfrekvens"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:434
 msgid "Technical Data"
-msgstr ""
+msgstr "Tekniska data"
 
 #: equalizer/equalizer.cpp:156
 msgid "Techno"
@@ -5188,53 +5191,53 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:258
 msgid "Test"
-msgstr ""
+msgstr "Testa"
 
 #: settings/subsonicsettingspage.cpp:170
 msgid "Test failed!"
-msgstr ""
+msgstr "Testet misslyckades!"
 
 #: settings/subsonicsettingspage.cpp:161
 msgid "Test successful!"
-msgstr ""
+msgstr "Testet lyckades!"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:508
 msgid "Text options"
-msgstr ""
+msgstr "Textalternativ"
 
 #: dialogs/about.cpp:181
 msgid "Thanks to"
-msgstr ""
+msgstr "Tack till"
 
 #: dialogs/about.cpp:189
 msgid "Thanks to all the other Amarok and Clementine contributors."
-msgstr ""
+msgstr "Tack till alla andra Amarok- och Clementine-bidragsgivare."
 
 #: settings/globalshortcutssettingspage.cpp:263
 #: settings/globalshortcutssettingspage.cpp:273
 #, qt-format
 msgid "The \"%1\" command could not be started."
-msgstr ""
+msgstr "Kommandot \"%1\" kunde inte startas."
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:531
 msgid "The album cover of the currently playing song"
-msgstr ""
+msgstr "Albumomslaget för låt som nu spelas"
 
 #: dialogs/deleteconfirmationdialog.cpp:60
 msgid "The following files will be deleted from disk:"
-msgstr ""
+msgstr "Följande filer tas bort från hårddisken:"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:421
 msgid "The second value must be greater than the first one!"
-msgstr ""
+msgstr "Det andra värdet måste vara större än det första!"
 
 #: covermanager/coverfromurldialog.cpp:90
 msgid "The site you requested does not exist!"
-msgstr ""
+msgstr "Webbplatsen du söker finns inte!"
 
 #: covermanager/coverfromurldialog.cpp:100
 msgid "The site you requested is not an image!"
-msgstr ""
+msgstr "Webbplatsen du söker är inte en bild!"
 
 #: streaming/streamingcollectionview.cpp:301
 msgid "The streaming collection is empty!"
@@ -5242,76 +5245,76 @@ msgstr ""
 
 #: core/mainwindow.cpp:2983
 msgid "The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:"
-msgstr ""
+msgstr "Den version av Strawberry som du just har uppdaterat till kräver en fullständig omskanning av samlingen på grund av de nya funktionerna nedan:"
 
 #: collection/collectionview.cpp:516
 msgid "There are other songs in this album"
-msgstr ""
+msgstr "Det finns andra låtar i det här albumet"
 
 #: organize/organizeerrordialog.cpp:72
 msgid "There were problems copying some songs.  The following files could not be copied:"
-msgstr ""
+msgstr "Fel uppstod vid kopiering av några låtar. Följande filer kunde inte kopieras:"
 
 #: organize/organizeerrordialog.cpp:77
 msgid "There were problems deleting some songs.  The following files could not be deleted:"
-msgstr ""
+msgstr "Fel uppstod vid borttagning av några låtar. Följande filer kunde inte kopieras:"
 
 #: device/deviceview.cpp:429
 msgid "These files will be deleted from the device, are you sure you want to continue?"
-msgstr ""
+msgstr "Filerna kommer att tas bort från enheten, är du säker på att du vill fortsätta?"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:443
 msgid "These folders will be scanned for music to make up your collection"
-msgstr ""
+msgstr "Dessa mappar kommer att skannas för musik för att fylla upp ditt bibliotek"
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:186
 msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
-msgstr ""
+msgstr "Dessa inställningar används i dialogrutan \"Omkoda musik\" och vid konvertering av musik innan den kopieras till en enhet."
 
 #: collection/savedgroupingmanager.cpp:60
 msgid "Third Level"
-msgstr ""
+msgstr "Tredje nivå"
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:234
 msgid "Third level"
-msgstr ""
+msgstr "Tredje nivå"
 
 #: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:95
 msgid "This can be changed later through the preferences"
-msgstr ""
+msgstr "Det här kan ändras senare genom inställningarna"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:383
 msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
-msgstr ""
+msgstr "Den här enheten måste vara ansluten och öppnad innan Strawberry kan se vilka filformat den stöder."
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:377
 msgid "This device supports the following file formats:"
-msgstr ""
+msgstr "Den här enheten stöder följande filformat:"
 
 #: device/devicemanager.cpp:608 device/devicemanager.cpp:616
 msgid "This device will not work properly"
-msgstr ""
+msgstr "Den här enheten kommer inte att fungera ordentligt"
 
 #: device/devicemanager.cpp:609
 msgid "This is an MTP device, but you compiled Strawberry without libmtp support."
-msgstr ""
+msgstr "Det här är en MTP-enhet, men du kompilerade Strawberry utan stöd av libmtp."
 
 #: device/devicemanager.cpp:617
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
-msgstr ""
+msgstr "Det här är en iPod, men du har kompilerade Strawberry utan stöd av libgpod."
 
 #: device/devicemanager.cpp:352
 msgid "This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."
-msgstr ""
+msgstr "Det här är första gången du ansluter den här enheten.  Strawberry kommer nu att skanna enheten för att hitta musikfiler - det kan ta lite tid."
 
 #: playlist/playlisttabbar.cpp:241
 msgid "This option can be changed in the \"Behavior\" preferences"
-msgstr ""
+msgstr "Det här alternativet kan ändras i inställningarna för \"Beteende\""
 
 #: device/devicemanager.cpp:632
 #, qt-format
 msgid "This type of device is not supported: %1"
-msgstr ""
+msgstr "Den här typen av enhet stöds inte: %1"
 
 #: core/mainwindow.cpp:399
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:421
@@ -5321,89 +5324,89 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:327
 msgid "Tidal support is not official and requires a API token from a registered application to work. We can't help you getting these."
-msgstr ""
+msgstr "Tidal stöds inte officiellt och kräver en API-token från en registrerad applikation för att fungera. Vi kan inte hjälpa dig att få dessa."
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:355
 msgid "Time step"
-msgstr ""
+msgstr "Tidssteg"
 
 #: playlist/playlist.cpp:1387 organize/organizedialog.cpp:106
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:426
 #: ../../build-qt6dev/src/ui_edittagdialog.h:923
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:210
 msgid "Title"
-msgstr ""
+msgstr "Titel"
 
 #: utilities/timeutils.cpp:85 utilities/timeutils.cpp:99
 msgid "Today"
-msgstr ""
+msgstr "Idag"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:76
 msgid "Toggle Pretty OSD"
-msgstr ""
+msgstr "Växla snygg avisering"
 
 #: core/mainwindow.cpp:742 core/mainwindow.cpp:2050
 msgid "Toggle queue status"
-msgstr ""
+msgstr "Växla köstatus"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:706
 msgid "Toggle scrobbling"
-msgstr ""
+msgstr "Växla skrobbling"
 
 #: core/mainwindow.cpp:748 core/mainwindow.cpp:2063
 msgid "Toggle skip status"
-msgstr ""
+msgstr "Växla status för hoppa över"
 
 #: core/commandlineoptions.cpp:242
 msgid "Toggle visibility for the pretty on-screen-display"
-msgstr ""
+msgstr "Växla synlighet för snygg avisering"
 
 #: utilities/timeutils.cpp:100
 msgid "Tomorrow"
-msgstr ""
+msgstr "Imorgon"
 
 #: utilities/filemanagerutils.cpp:139
 msgid "Too many songs selected."
-msgstr ""
+msgstr "För många låtar valda."
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:221
 msgid "Total albums:"
-msgstr ""
+msgstr "Album totalt:"
 
 #: covermanager/coversearchstatisticsdialog.cpp:83
 msgid "Total bytes transferred"
-msgstr ""
+msgstr "Totalt överförda byte"
 
 #: covermanager/coversearchstatisticsdialog.cpp:81
 msgid "Total network requests made"
-msgstr ""
+msgstr "Totalt antal nätverksförfrågningar"
 
 #: playlist/playlist.cpp:1390 organize/organizedialog.cpp:114
 #: ../../build-qt6dev/src/ui_edittagdialog.h:931
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:212
 msgid "Track"
-msgstr ""
+msgstr "Spår"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:216
 msgid "Transcode Music"
-msgstr ""
+msgstr "Omkoda musik"
 
 #: ../../build-qt6dev/src/ui_transcodelogdialog.h:61
 msgid "Transcoder Log"
-msgstr ""
+msgstr "Omkodningslogg"
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:185
 msgid "Transcoding"
-msgstr ""
+msgstr "Omkodning"
 
 #: transcoder/transcoder.cpp:322
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
-msgstr ""
+msgstr "Omkodar %1 filer med %2 trådar"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsdialog.h:51
 msgid "Transcoding options"
-msgstr ""
+msgstr "Alternativ för omkodning"
 
 #: analyzer/turbineanalyzer.cpp:35
 msgid "Turbine"
@@ -5411,11 +5414,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
-msgstr ""
+msgstr "Stäng av"
 
 #: ../../build-qt6dev/src/ui_saveplaylistsdialog.h:120
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: device/giolister.cpp:194
 msgid "URI"
@@ -5423,7 +5426,7 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:219
 msgid "URL(s)"
-msgstr ""
+msgstr "Webbadress(er)"
 
 #: device/udisks2lister.cpp:127
 msgid "UUID"
@@ -5431,30 +5434,30 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:226
 msgid "Ultra wide band (UWB)"
-msgstr ""
+msgstr "Ultrabredband (UWB)"
 
 #: core/database.cpp:484
 #, qt-format
 msgid "Unable to execute SQL query: %1"
-msgstr ""
+msgstr "Det gick inte att köra SQL-förfråga: %1"
 
 #: collection/collectionbackend.cpp:117
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
-msgstr ""
+msgstr "Det gick inte att köra samlings-SQL-förfråga: %1"
 
 #: scrobbler/listenbrainzscrobbler.cpp:604
 #, qt-format
 msgid "Unable to scrobble %1 - %2 because of error: %3"
-msgstr ""
+msgstr "Det gick inte att skrobbla %1 - %2 på grund av fel: %3"
 
 #: playlist/playlistcontainer.cpp:227
 msgid "Undo"
-msgstr ""
+msgstr "Ångra"
 
 #: dialogs/snapdialog.cpp:72
 msgid "Uninstall the snap with:"
-msgstr ""
+msgstr "Avinstallera snap med:"
 
 #: core/song.cpp:785 core/song.cpp:797 core/song.cpp:1064
 #: collection/collectionmodel.cpp:1050 collection/collectionmodel.cpp:1405
@@ -5464,15 +5467,15 @@ msgstr ""
 #: dialogs/edittagdialog.cpp:774 dialogs/edittagdialog.cpp:803
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
-msgstr ""
+msgstr "Okänt"
 
 #: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1432
 msgid "Unknown error"
-msgstr ""
+msgstr "Okänt fel"
 
 #: playlist/playlistmanager.cpp:264
 msgid "Unknown file extension for playlist."
-msgstr ""
+msgstr "Okänd filändelse för spellista."
 
 #: playlistparsers/playlistparser.cpp:185
 #: playlistparsers/playlistparser.cpp:230
@@ -5482,86 +5485,86 @@ msgstr ""
 
 #: playlist/playlistmanager.cpp:264
 msgid "Unknown playlist extension"
-msgstr ""
+msgstr "Okänd ändelse för spellista"
 
 #: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Unset cover"
-msgstr ""
+msgstr "Ta bort omslag"
 
 #: core/mainwindow.cpp:2060
 msgid "Unskip selected tracks"
-msgstr ""
+msgstr "Hoppa inte över valda spår"
 
 #: core/mainwindow.cpp:2059
 msgid "Unskip track"
-msgstr ""
+msgstr "Hoppa inte över valt spår"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:447
 msgid "Update the collection when Strawberry starts"
-msgstr ""
+msgstr "Uppdatera samlingen när Strawberry startar"
 
 #: collection/collectionwatcher.cpp:222
 #, qt-format
 msgid "Updating %1"
-msgstr ""
+msgstr "Uppdaterar %1"
 
 #: collection/collectionbackend.cpp:738
 #, qt-format
 msgid "Updating %1 database."
-msgstr ""
+msgstr "Uppdaterar %1-databasen."
 
 #: device/deviceview.cpp:126
 #, qt-format
 msgid "Updating %1%..."
-msgstr ""
+msgstr "Uppdaterar %1%..."
 
 #: collection/collectionwatcher.cpp:219
 msgid "Updating collection"
-msgstr ""
+msgstr "Uppdaterar samlingen"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:683
 msgid "Upmix / downmix to"
-msgstr ""
+msgstr "Uppmixa / nedmixa till"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:537
 msgid "Upper Left"
-msgstr ""
+msgstr "Övre vänster"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:538
 msgid "Upper Right"
-msgstr ""
+msgstr "Övre högra"
 
 #: core/commandlineoptions.cpp:219
 msgid "Usage"
-msgstr ""
+msgstr "Användning"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:269
 msgid "Use Gnome (GSD) shortcuts when available"
-msgstr ""
+msgstr "Använd Gnome (GSD)-genvägar när de är tillgängliga"
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:253
 msgid "Use HTTP/2 when possible"
-msgstr ""
+msgstr "Använd HTTP/2 när det är möjligt"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:273
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr ""
+msgstr "Använd KDE (KGlobalAccel) genvägar när de är tillgängliga"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:271
 msgid "Use MATE shortcuts when available"
-msgstr ""
+msgstr "Använd MATE-genvägar när de är tillgängliga"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:329
 msgid "Use OAuth"
-msgstr ""
+msgstr "Använd OAuth"
 
 #: settings/coverssettingspage.cpp:235 settings/coverssettingspage.cpp:352
 msgid "Use Qobuz settings to authenticate."
-msgstr ""
+msgstr "Använd Qobuz-inställningar för att autentisera."
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:697
 msgid "Use Replay Gain metadata if it is available"
-msgstr ""
+msgstr "Använd Replay Gain-metadata om det finns tillgängligt"
 
 #: settings/coverssettingspage.cpp:231 settings/coverssettingspage.cpp:348
 msgid "Use Spotify settings to authenticate."
@@ -5569,59 +5572,59 @@ msgstr ""
 
 #: settings/coverssettingspage.cpp:227 settings/coverssettingspage.cpp:344
 msgid "Use Tidal settings to authenticate."
-msgstr ""
+msgstr "Använd Tidal-inställningar för att autentisera."
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:274
 msgid "Use X11 shortcuts when available"
-msgstr ""
+msgstr "Använd X11-genvägar när de är tillgängliga"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:494
 msgid "Use a custom message for notifications"
-msgstr ""
+msgstr "Använd ett eget meddelande för aviseringar"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:178
 msgid "Use alternating row colors"
-msgstr ""
+msgstr "Använd alternerande radfärger"
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:181
 msgid "Use authentication"
-msgstr ""
+msgstr "Använd autentisering"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:199
 msgid "Use bitrate management engine"
-msgstr ""
+msgstr "Använd motor för hantering av bitfrekvens"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:524
 msgid "Use custom color"
-msgstr ""
+msgstr "Använd anpassad färg"
 
 #: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:81
 msgid "Use dynamic mode"
-msgstr ""
+msgstr "Aktivera dynamiskt läge"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:525
 msgid "Use gradient background"
-msgstr ""
+msgstr "Använd tonad bakgrund"
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:184
 msgid "Use proxy settings for streaming"
-msgstr ""
+msgstr "Använd proxyinställningar för att flöda"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:687
 msgid "Use strict SSL mode"
-msgstr ""
+msgstr "Använd strikt SSL-läge"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:520
 msgid "Use system theme icons"
-msgstr ""
+msgstr "Använd systemtemaikoner"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:140
 msgid "Use temporal noise shaping"
-msgstr ""
+msgstr "Använd tidsbaserad brusformning"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:328
 msgid "Use the system default"
-msgstr ""
+msgstr "Använd systemets standard"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:463
 msgid "Use various artists for compilation albums"
@@ -5629,15 +5632,15 @@ msgstr ""
 
 #: widgets/freespacebar.cpp:70
 msgid "Used"
-msgstr ""
+msgstr "Använt"
 
 #: settings/settingsdialog.cpp:148
 msgid "User interface"
-msgstr ""
+msgstr "Användargränssnitt"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:437
 msgid "User token:"
-msgstr ""
+msgstr "Användartoken:"
 
 #: ../../build-qt6dev/src/ui_networkproxysettingspage.h:182
 #: ../../build-qt6dev/src/ui_userpassdialog.h:92
@@ -5646,30 +5649,30 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:269
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:286
 msgid "Username"
-msgstr ""
+msgstr "Användarnamn"
 
 #: settings/globalshortcutssettingspage.cpp:349
 #, qt-format
 msgid "Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!"
-msgstr ""
+msgstr "Användning av X11-genvägar på %1 rekommenderas inte och kan orsaka att tangentbordet inte svarar!"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:331
 msgid "Using the menu to add a song will..."
-msgstr ""
+msgstr "Använda menyn för att lägga till en låt kommer att..."
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:230
 msgid "Variable bit rate"
-msgstr ""
+msgstr "Variabel bithastighet"
 
 #: collection/collectionmodel.cpp:81 playlist/playlistmanager.cpp:560
 #: covermanager/albumcovermanager.cpp:347 streaming/streamingsearchmodel.cpp:93
 #: streaming/streamingsearchmodel.cpp:105
 msgid "Various artists"
-msgstr ""
+msgstr "Diverse artister"
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:254
 msgid "Verify server certificate"
-msgstr ""
+msgstr "Verifiera servercertifikat"
 
 #: dialogs/about.cpp:110
 #, qt-format
@@ -5678,16 +5681,16 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:220
 msgid "View"
-msgstr ""
+msgstr "Visa"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:231
 msgid "Voice activity detection"
-msgstr ""
+msgstr "Upptäckt av röstaktivitet"
 
 #: osd/osdbase.cpp:287
 #, qt-format
 msgid "Volume %1%"
-msgstr ""
+msgstr "Volym %1%"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:358
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:359
@@ -5701,11 +5704,11 @@ msgstr ""
 #: playlist/playlisttabbar.cpp:238
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:181
 msgid "Warn me when closing a playlist tab"
-msgstr ""
+msgstr "Varna mig när jag stänger en spellisteflik"
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:152
 msgid "Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start."
-msgstr ""
+msgstr "Varning: antal spelningar och senast spelade från last.fm ersätter samma data för matchade låtar. Antal spelningar kommer att ersätta data baserat på artist och låttitel för samma album! Säkerhetskopiera din databas innan du börjar."
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:188
 msgid "WavPack"
@@ -5717,44 +5720,45 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:455
 msgid "Weeks"
-msgstr ""
+msgstr "Veckor"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:456
 msgid "When looking for album art Strawberry will first look for picture files that contain one of these words.\n"
 "If there are no matches then it will use the largest image in the directory."
-msgstr ""
+msgstr "Vid sökning efter albumomslag letar Strawberry först efter bildfiler som innehåller ett av dessa ord.\n"
+"Om det inte finns några matchningar så kommer den största bilden i mappen att användas."
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:190
 msgid "When saving a playlist, file paths should be"
-msgstr ""
+msgstr "När en spellista sparas ska sökvägarna vara"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:227
 msgid "Wide band (WB)"
-msgstr ""
+msgstr "Bredband (WB)"
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:222
 msgid "Without cover:"
-msgstr ""
+msgstr "Utan omslag:"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:407
 msgid "Work in offline mode (Only cache scrobbles)"
-msgstr ""
+msgstr "Arbeta i frånkopplat läge (cacha endast skrobblingar)"
 
 #: collection/collectionview.cpp:516
 msgid "Would you like to move the other songs on this album to Various Artists as well?"
-msgstr ""
+msgstr "Vill du flytta de andra låtarna i det här albumet till diverse artister också?"
 
 #: core/mainwindow.cpp:2987
 msgid "Would you like to run a full rescan right now?"
-msgstr ""
+msgstr "Vill du köra en fullständig omskanning nu?"
 
 #: settings/collectionsettingspage.cpp:339
 msgid "Write all playcounts and ratings to files"
-msgstr ""
+msgstr "Skriv alla antal spelningar och betyg till filer"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:200
 msgid "Write metadata when saving playlists"
-msgstr ""
+msgstr "Skriv metadata när spellistor sparas"
 
 #: device/gpoddevice.cpp:288
 msgid "Writing database failed."
@@ -5773,120 +5777,121 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_edittagdialog.h:922
 #: ../../build-qt6dev/src/ui_trackselectiondialog.h:211
 msgid "Year"
-msgstr ""
+msgstr "År"
 
 #: collection/savedgroupingmanager.cpp:106
 #: ../../build-qt6dev/src/ui_groupbydialog.h:200
 #: ../../build-qt6dev/src/ui_groupbydialog.h:222
 #: ../../build-qt6dev/src/ui_groupbydialog.h:244
 msgid "Year - Album"
-msgstr ""
+msgstr "År - Album"
 
 #: collection/savedgroupingmanager.cpp:109
 #: ../../build-qt6dev/src/ui_groupbydialog.h:201
 #: ../../build-qt6dev/src/ui_groupbydialog.h:223
 #: ../../build-qt6dev/src/ui_groupbydialog.h:245
 msgid "Year - Album - Disc"
-msgstr ""
+msgstr "År - Album - Skiva"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:459
 msgid "Years"
-msgstr ""
+msgstr "År"
 
 #: dialogs/edittagdialog.cpp:820 dialogs/edittagdialog.cpp:836
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: utilities/timeutils.cpp:86
 msgid "Yesterday"
-msgstr ""
+msgstr "Igår"
 
 #: playlist/playlistlistcontainer.cpp:437
 #, qt-format
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
-msgstr ""
+msgstr "Du är på väg att ta bort %1 spellistor från dina favoriter, är du säker?"
 
 #: playlist/playlisttabbar.cpp:232
 msgid "You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). \n"
 "Are you sure you want to continue?"
-msgstr ""
+msgstr "Du är på väg att ta bort en spellista som inte ingår i dina favoritspellistor: spellistan kommer att tas bort (den här åtgärden kan inte ångras).\n"
+"Är du säker på att du vill fortsätta?"
 
 #: ../../build-qt6dev/src/ui_loginstatewidget.h:165
 msgid "You are not signed in."
-msgstr ""
+msgstr "Du är inte inloggad."
 
 #: core/mainwindow.cpp:1068
 #, qt-format
 msgid "You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1"
-msgstr ""
+msgstr "Du kör Strawberry under Rosetta. Att köra Strawberry under Rosetta stöds inte och är känt för att ha problem. Du bör hämta Strawberry för korrekt CPU-arkitektur från %1"
 
 #: widgets/loginstatewidget.cpp:85
 #, qt-format
 msgid "You are signed in as %1."
-msgstr ""
+msgstr "Du är inloggad som %1."
 
 #: widgets/loginstatewidget.cpp:84
 msgid "You are signed in."
-msgstr ""
+msgstr "Du är inloggad."
 
 #: ../../build-qt6dev/src/ui_groupbydialog.h:188
 msgid "You can change the way the songs in the collection are organized."
-msgstr ""
+msgstr "Du kan ändra hur låtarna i biblioteket är organiserade."
 
 #: dialogs/about.cpp:128
 #, qt-format
 msgid "You can sponsor the author on %1. You can also make a one-time payment through %2."
-msgstr ""
+msgstr "Du kan sponsra upphovsmannen på %1. Du kan också göra en engångsbetalning genom %2."
 
 #: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
-msgstr ""
+msgstr "Du behöver GStreamer för den här webbadressen."
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:278
 msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
-msgstr ""
+msgstr "Du behöver starta Systeminställningar och tillåta Strawberry att \"<span style=\"font-style:italic\">kontrollera din dator</span>\" för att använda globala genvägar i Strawberry."
 
 #: dialogs/about.cpp:122
 #, qt-format
 msgid "You should have received a copy of the GNU General Public License along with this program.  If not, see %1"
-msgstr ""
+msgstr "Du borde ha fått en kopia av GNU General Public License tillsammans med det här programmet. Om inte, se %1"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:330
 msgid "You will need to restart Strawberry if you change the language."
-msgstr ""
+msgstr "Du måste starta om Strawberry om du ändrar språket."
 
 #: collection/collectionview.cpp:332
 msgid "Your collection is empty!"
-msgstr ""
+msgstr "Din samling är tom!"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "Z-A"
-msgstr ""
+msgstr "Ö-A"
 
 #: equalizer/equalizer.cpp:157
 msgid "Zero"
-msgstr ""
+msgstr "Noll"
 
 #: playlist/playlistundocommands.cpp:44
 #, c-format, qt-plural-format
 msgid "add %n songs"
-msgstr ""
+msgstr "lägg till %n låtar"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:254
 msgid "after"
-msgstr ""
+msgstr "efter"
 
 #: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:273
 msgid "ago"
-msgstr ""
+msgstr "sedan"
 
 #: ../../build-qt6dev/src/ui_streamingsearchview.h:229
 msgid "albums"
-msgstr ""
+msgstr "album"
 
 #: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
-msgstr ""
+msgstr "och"
 
 #: filterparser/filterparser.cpp:463
 msgid "artist"
@@ -5894,66 +5899,66 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_streamingsearchview.h:228
 msgid "artists"
-msgstr ""
+msgstr "artister"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:219
 msgid "automatic"
-msgstr ""
+msgstr "automatisk"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "before"
-msgstr ""
+msgstr "före"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:266
 msgid "between"
-msgstr ""
+msgstr "mellan"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:437
 msgid "biggest first"
-msgstr ""
+msgstr "största först"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:684
 msgid "channels"
-msgstr ""
+msgstr "kanaler"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:274
 msgid "contains"
-msgstr ""
+msgstr "som innehåller"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:453
 msgid "days"
-msgstr ""
+msgstr "dagar"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:203
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:206
 #: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:222
 msgid "disabled"
-msgstr ""
+msgstr "inaktiverad"
 
 #: osd/osdbase.cpp:156
 #, qt-format
 msgid "disc %1"
-msgstr ""
+msgstr "skiva %1"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:276
 msgid "does not contain"
-msgstr ""
+msgstr "som inte innehåller"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:290
 msgid "empty"
-msgstr ""
+msgstr "tom"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:280
 msgid "ends with"
-msgstr ""
+msgstr "som slutar med"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:286
 msgid "equals"
-msgstr ""
+msgstr "som är lika med"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:282
 msgid "greater than"
-msgstr ""
+msgstr "som är större än"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:677
 msgid "hw"
@@ -5961,7 +5966,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:262
 msgid "in the last"
-msgstr ""
+msgstr "de senaste"
 
 #: context/contextview.cpp:498 context/contextview.cpp:599
 #: playlist/playlistview.cpp:225 dialogs/edittagdialog.cpp:796
@@ -5970,7 +5975,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:284
 msgid "less than"
-msgstr ""
+msgstr "som är mindre än"
 
 #: dialogs/edittagdialog.cpp:1430
 msgid "loading..."
@@ -5978,12 +5983,12 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:434
 msgid "longest first"
-msgstr ""
+msgstr "längsta först"
 
 #: playlist/playlistundocommands.cpp:112
 #, c-format, qt-plural-format
 msgid "move %n songs"
-msgstr ""
+msgstr "flytta %n låtar"
 
 #: ../../build-qt6dev/src/ui_tidalsettingspage.h:338
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:275
@@ -5993,35 +5998,35 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "newest first"
-msgstr ""
+msgstr "nyaste först"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:292
 msgid "not empty"
-msgstr ""
+msgstr "inte tom"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:288
 msgid "not equals"
-msgstr ""
+msgstr "inte lika med"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:264
 msgid "not in the last"
-msgstr ""
+msgstr "inte de senaste"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:260
 msgid "not on"
-msgstr ""
+msgstr "inte den"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "oldest first"
-msgstr ""
+msgstr "äldsta först"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:258
 msgid "on"
-msgstr ""
+msgstr "på"
 
 #: core/commandlineoptions.cpp:219
 msgid "options"
-msgstr ""
+msgstr "alternativ"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:678
 msgid "p&lughw"
@@ -6033,12 +6038,12 @@ msgstr ""
 
 #: filterparser/filterparser.cpp:471
 msgid "rating"
-msgstr ""
+msgstr "betyg"
 
 #: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:100
 #, c-format, qt-plural-format
 msgid "remove %n songs"
-msgstr ""
+msgstr "ta bort %n låtar"
 
 #: filterparser/filterparser.cpp:465
 #, qt-format
@@ -6047,38 +6052,38 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:434
 msgid "shortest first"
-msgstr ""
+msgstr "korstaste först"
 
 #: playlist/playlistundocommands.cpp:145
 msgid "shuffle songs"
-msgstr ""
+msgstr "blanda låtar"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:437
 msgid "smallest first"
-msgstr ""
+msgstr "minsta först"
 
 #: ../../build-qt6dev/src/ui_streamingsearchview.h:230
 msgid "songs"
-msgstr ""
+msgstr "låtar"
 
 #: playlist/playlistundocommands.cpp:137
 msgid "sort songs"
-msgstr ""
+msgstr "sortera låtar"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:278
 msgid "starts with"
-msgstr ""
+msgstr "som börjar med"
 
 #: playlist/playlistdelegates.cpp:223
 msgid "stop"
-msgstr ""
+msgstr "stoppa"
 
 #: osd/osdbase.cpp:159
 #, qt-format
 msgid "track %1"
-msgstr ""
+msgstr "spår %1"
 
 #: covermanager/albumcoverchoicecontroller.cpp:239
 msgid "unknown"
-msgstr ""
+msgstr "okänt"
 
