@@ -1,22 +1,26 @@
-# Strawberry.
+# Strawberry
 # 
 # Translators:
-# Roger Pueyo Centelles <transifex@rogerpueyo.com>, 2011-2014,2017
-# Adolfo Jayme Barrientos, 2012-2018
-# Juanjo, 2016-2018
+# Jiří Vírava <appukonrad@gmail.com>, 2012
+# arnaudbienner <arnaud.bienner@gmail.com>, 2011
+# David Kolibáč <david@kolibac.cz>, 2011,2013
+# mandarinki <this.mail.sucks@mail.bg>, 2011
+# Miroslav Kucera <vvendigo@seznam.cz>, 2016
+# Pavel Fric <fripohled@blogspot.com>, 2010
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
-# Adolfo Jayme <fitoschido@gmail.com>, 2021. #zanata
-# Andrés <andresqsa@gmail.com>, 2021. #zanata
+# Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
+# Rostislav Medvěd <rostik.medved@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2021-06-22 06:16-0400\n"
-"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
-"Language-Team: Catalan\n"
-"Language: ca\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"PO-Revision-Date: 2020-12-20 09:20-0500\n"
+"Last-Translator: Rostislav Medvěd <rostik.medved@gmail.com>\n"
+"Language-Team: Czech\n"
+"Language: cs_CZ\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <="
+" 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 "X-Generator: Zanata 4.6.2\n"
 
 #: playlist/playlistlistview.cpp:51
@@ -29,10 +33,10 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Podeu marcar llistes de reproducció com a preferides fent clic a la icona de "
-"l’estrella al costat del nom de la llista corresponent.\n"
+"Seznamy skladeb můžete označit jako oblíbený klepnutím na hvězdičku vedle "
+"názvu seznamu skladeb\n"
 "\n"
-"Les vostres llistes preferides es desaran aquí"
+"Oblíbené seznamy skladeb budou uloženy zde"
 
 #: settings/globalshortcutssettingspage.cpp:356
 #, qt-format
@@ -58,7 +62,7 @@ msgstr ""
 #: settings/globalshortcutssettingspage.cpp:350
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
-msgstr ""
+msgstr "Zkratky na %1 jsou většinou používány přes MPRIS a KGlobalAccel."
 
 #: ../build/src/ui_transcoderoptionsaac.h:133
 #: ../build/src/ui_transcoderoptionsvorbis.h:201
@@ -81,7 +85,7 @@ msgstr " ms"
 #: ../build/src/ui_contextsettingspage.h:441
 #: ../build/src/ui_contextsettingspage.h:446
 msgid " pt"
-msgstr "pt"
+msgstr " bodů"
 
 #: ../build/src/ui_behavioursettingspage.h:320
 msgid " s"
@@ -90,36 +94,36 @@ msgstr " s"
 #: ../build/src/ui_scrobblersettingspage.h:405
 #: ../build/src/ui_notificationssettingspage.h:484
 msgid " seconds"
-msgstr " segons"
+msgstr " sekund"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
-msgstr "cançons"
+msgstr "skladby"
 
 #: scrobbler/scrobblingapi20.cpp:211 scrobbler/scrobblingapi20.cpp:220
 #, qt-format
 msgid "%1 Scrobbler Authentication"
-msgstr "%1 Autenticació d'Scrobbler"
+msgstr "%1 Ověření systému pro doporučování hudby (scrobbler)"
 
 #: context/contextview.cpp:418
 #, qt-format
 msgid "%1 album"
-msgstr "%1 àlbum"
+msgstr "%1 album"
 
 #: context/contextview.cpp:419
 #, qt-format
 msgid "%1 albums"
-msgstr "%1 àlbums"
+msgstr "%1 alba"
 
 #: context/contextview.cpp:414
 #, qt-format
 msgid "%1 artist"
-msgstr "%1 artista"
+msgstr "%1 umělec"
 
 #: context/contextview.cpp:415
 #, qt-format
 msgid "%1 artists"
-msgstr "%1 artistes"
+msgstr "%1 umělci"
 
 #: equalizer/equalizerslider.cpp:41 equalizer/equalizerslider.cpp:42
 #: equalizer/equalizerslider.cpp:59
@@ -130,57 +134,57 @@ msgstr "%1 dB"
 #: utilities/timeutils.cpp:67
 #, qt-format
 msgid "%1 days"
-msgstr "%1 dies"
+msgstr "%1 dnů"
 
 #: utilities/timeutils.cpp:87
 #, qt-format
 msgid "%1 days ago"
-msgstr "fa %1 dies"
+msgstr "před %1 dny"
 
 #: settings/coverssettingspage.cpp:241
 #, qt-format
 msgid "%1 does not need authentication."
-msgstr "%1 no necessita autenticació."
+msgstr "%1 nevyžaduje ověření."
 
 #: settings/coverssettingspage.cpp:236
 #, qt-format
 msgid "%1 needs authentication."
-msgstr "%1 necessita autenticació."
+msgstr "%1 vyžaduje ověření."
 
 #: playlistparsers/playlistparser.cpp:121
 #, qt-format
 msgid "%1 playlists (%2)"
-msgstr "%1 llistes de reproducció (%2)"
+msgstr "%1 seznamů skladeb (%2)"
 
 #: playlist/playlistmanager.cpp:444
 #, qt-format
 msgid "%1 selected of"
-msgstr "%1 seleccionades de"
+msgstr "%1 vybráno z"
 
 #: context/contextview.cpp:410
 #, qt-format
 msgid "%1 song"
-msgstr "%1 cançó"
+msgstr "%1 skladba"
 
 #: device/deviceview.cpp:146
 #, qt-format
 msgid "%1 song%2"
-msgstr "%1 cançó%2"
+msgstr "%1 skladba%2"
 
 #: context/contextview.cpp:411
 #, qt-format
 msgid "%1 songs"
-msgstr "%1 cançons"
+msgstr "%1 skladby"
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:156
 #, qt-format
 msgid "%1 songs found"
-msgstr "S’han trobat %1 cançons"
+msgstr "%1 skladeb nalezeno"
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:153
 #, qt-format
 msgid "%1 songs found (showing %2)"
-msgstr "S’han trobat %1 cançons (se’n mostren %2)"
+msgstr "%1 skladeb nalezeno (%2 zobrazeno)"
 
 #: utilities/filemanagerutils.cpp:141
 #, qt-format
@@ -188,16 +192,18 @@ msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
 msgstr ""
+"Je vybráno %1 skladeb obsažených v %2 různých složkách, chcete je všechny "
+"otevřít?"
 
 #: dialogs/edittagdialog.cpp:694
 #, qt-format
 msgid "%1 songs selected."
-msgstr "%1 cançons seleccionades."
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:561
 #, qt-format
 msgid "%1 transferred"
-msgstr "%1 transferit"
+msgstr "%1 přeneseno"
 
 #: ../build/src/ui_contextsettingspage.h:427
 msgid "%album%"
@@ -217,19 +223,19 @@ msgstr "%filename%"
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n failed"
-msgstr "%n han fallat"
+msgstr "nepodařilo se %n"
 
 #: transcoder/transcodedialog.cpp:306
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n finished"
-msgstr "%n han acabat"
+msgstr "dokončeno %n"
 
 #: transcoder/transcodedialog.cpp:302
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n remaining"
-msgstr "%n restants"
+msgstr "zůstávají %n"
 
 #: playlist/playlistmanager.cpp:450 queue/queue.cpp:252
 #, c-format, qt-plural-format
@@ -244,77 +250,77 @@ msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:411
 msgid "%rating%"
-msgstr ""
+msgstr "%hodnocení%"
 
 #: ../build/src/ui_contextsettingspage.h:420
 msgid "%title - %artist%"
-msgstr ""
+msgstr "%title - %artist%"
 
 #: ../build/src/ui_contextsettingspage.h:407
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
-msgstr "%url%"
+msgstr "%adresa%"
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
-msgstr "&Quant a l’Strawberry"
+msgstr "&O Strawberry"
 
 #: ../build/src/ui_mainwindow.h:661
 msgid "&Add file..."
-msgstr "&Afegeix un fitxer..."
+msgstr "&Přidat soubor..."
 
 #: playlist/playlistheader.cpp:63
 msgid "&Align text"
-msgstr "&Alinea el text"
+msgstr "&Zarovnat text"
 
 #: playlist/playlistheader.cpp:66
 msgid "&Center"
-msgstr "&Centre"
+msgstr "&Na střed"
 
 #: ../build/src/ui_mainwindow.h:635
 msgid "&Clear playlist"
-msgstr "&Neteja la llista de reproducció"
+msgstr "&Vyčistit seznam skladeb"
 
 #: ../build/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
-msgstr "Gestor de &cobertes"
+msgstr "&Správce obalů"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
-msgstr "&Personalitzades"
+msgstr "Vl&astní"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:285
 msgid "&Default"
-msgstr "Per &defecte"
+msgstr "&Výchozí"
 
 #: ../build/src/ui_mainwindow.h:700
 msgid "&Do a full collection rescan"
-msgstr ""
+msgstr "&Provést úplné nové prohledání sbírky"
 
 #: ../build/src/ui_mainwindow.h:672
 msgid "&Equalizer"
-msgstr "&Equalitzador"
+msgstr "&Ekvalizér"
 
 #: playlist/playlistheader.cpp:102
 #, qt-format
 msgid "&Hide %1"
-msgstr "&Amaga «%1»"
+msgstr "Skrýt %1"
 
 #: playlist/playlistheader.cpp:56
 msgid "&Hide..."
-msgstr "&Amaga…"
+msgstr "Skrýt..."
 
 #: ../build/src/ui_mainwindow.h:675
 msgid "&Jump to the currently playing track"
-msgstr ""
+msgstr "&Skočit na aktuálně přehrávanou skladbu"
 
 #: playlist/playlistheader.cpp:65
 msgid "&Left"
-msgstr "&Esquerra"
+msgstr "&Vlevo"
 
 #: ../build/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
-msgstr ""
+msgstr "&Načíst seznam skladeb"
 
 #: playlist/playlistheader.cpp:59
 msgid "&Lock rating"
@@ -322,55 +328,55 @@ msgstr ""
 
 #: ../build/src/ui_networkproxysettingspage.h:173
 msgid "&Manual proxy configuration"
-msgstr ""
+msgstr "&Ruční nastavení proxy"
 
 #: ../build/src/ui_mainwindow.h:732
 msgid "&Music"
-msgstr "&Música"
+msgstr "Hudba"
 
 #: ../build/src/ui_mainwindow.h:696
 msgid "&Mute"
-msgstr ""
+msgstr "&Ztlumit"
 
 #: ../build/src/ui_mainwindow.h:679
 msgid "&New playlist"
-msgstr ""
+msgstr "&Nový seznam skladeb"
 
 #: ../build/src/ui_mainwindow.h:622
 msgid "&Next track"
-msgstr ""
+msgstr "&Další skladba"
 
 #: ../build/src/ui_appearancesettingspage.h:527
 msgid "&No background image"
-msgstr ""
+msgstr "&Chybějící obrázek na pozadí"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:284
 msgid "&None"
-msgstr "&Cap"
+msgstr "Žád&né"
 
 #: ../build/src/ui_mainwindow.h:665
 msgid "&Open file..."
-msgstr "&Obre un fitxer…"
+msgstr "&Otevřít soubor"
 
 #: ../build/src/ui_mainwindow.h:614
 msgid "&Play"
-msgstr "&Reprodueix"
+msgstr "&Přehrát"
 
 #: ../build/src/ui_mainwindow.h:626
 msgid "&Quit"
-msgstr "&Surt"
+msgstr "&Ukončit"
 
 #: ../build/src/ui_mainwindow.h:670
 msgid "&Repeat mode"
-msgstr "Mode de repetició"
+msgstr "Režim opakování"
 
 #: playlist/playlistheader.cpp:58
 msgid "&Reset columns to default"
-msgstr ""
+msgstr "&Původní nastavení sloupců"
 
 #: playlist/playlistheader.cpp:67
 msgid "&Right"
-msgstr "&Dreta"
+msgstr "&Vpravo"
 
 #: ../build/src/ui_mainwindow.h:691
 msgid "&Save all playlists..."
@@ -378,39 +384,39 @@ msgstr ""
 
 #: ../build/src/ui_mainwindow.h:649
 msgid "&Settings..."
-msgstr "&Paràmetres…"
+msgstr "&Nastavení"
 
 #: ../build/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
-msgstr "Mode de me&scla"
+msgstr "Režim míchání"
 
 #: ../build/src/ui_mainwindow.h:618
 msgid "&Stop"
-msgstr ""
+msgstr "&Zastavit"
 
 #: playlist/playlistheader.cpp:57
 msgid "&Stretch columns to fit window"
-msgstr "&Encabeix les columnes a la finestra"
+msgstr "Roztáhnout sloupce tak, aby se vešly do okna"
 
 #: ../build/src/ui_mainwindow.h:735
 msgid "&Tools"
-msgstr "&Eines"
+msgstr "Nástroje"
 
 #: ../build/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
-msgstr ""
+msgstr "&Převést hudbu"
 
 #: ../build/src/ui_mainwindow.h:694
 msgid "&Update changed collection folders"
-msgstr ""
+msgstr "&Aktualizovat změny ve složkách kolekce"
 
 #: ../build/src/ui_appearancesettingspage.h:520
 msgid "&Use the system default color"
-msgstr ""
+msgstr "&Použít nastavení barvu systému"
 
 #: ../build/src/ui_networkproxysettingspage.h:171
 msgid "&Use the system proxy settings"
-msgstr ""
+msgstr "&Použít nastavení systému"
 
 #: ../build/src/ui_scrobblersettingspage.h:407
 msgid ""
@@ -421,7 +427,7 @@ msgstr ""
 
 #: dialogs/edittagdialog.cpp:102
 msgid "(different across multiple songs)"
-msgstr "(diferents a les diverses cançons)"
+msgstr "(liší se u jednotlivých písní)"
 
 #: ../build/src/ui_albumcovermanager.h:223
 #: ../build/src/ui_albumcovermanager.h:224
@@ -434,19 +440,19 @@ msgstr "0:00:00"
 
 #: ../build/src/ui_appearancesettingspage.h:547
 msgid "0px"
-msgstr "0px"
+msgstr "0 px"
 
 #: utilities/timeutils.cpp:67
 msgid "1 day"
-msgstr "1 dia"
+msgstr "1 den"
 
 #: ../build/src/ui_appearancesettingspage.h:549
 msgid "40%"
-msgstr "40 %"
+msgstr "40%"
 
 #: smartplaylists/smartplaylistsmodel.cpp:73
 msgid "50 random tracks"
-msgstr "50 peces a l’atzar"
+msgstr "50 náhodných skladeb"
 
 #: ../build/src/ui_organizedialog.h:268
 msgid ""
@@ -455,16 +461,14 @@ msgid ""
 "<p>If you surround sections of text that contain a token with curly-braces, "
 "that section will be hidden if the token is empty.</p>"
 msgstr ""
-"<p>Les fitxes de reemplaçament comencen amb %, per exemple: %artist %album "
-"%title </p>\n"
+"<p>Symboly začínají %, například: %artist %album %title </p>\n"
 "\n"
-"<p>Si demarqueu entre claus una secció de text que contingui una fitxa de "
-"remplaçament, aquesta secció no es mostrarà si la fitxa de remplaçament es "
-"troba buida.</p>"
+"<p>Pokud obklopíte části textu obsahující symbol složenými závorkami, tato "
+"část bude skryta, je-li symbol prázdný.</p>"
 
 #: ../build/src/ui_appearancesettingspage.h:532
 msgid "A Taste of Strawbs"
-msgstr "A Taste of Strawbs"
+msgstr "Chuť Jahod"
 
 #: smartplaylists/smartplaylistwizard.cpp:82
 msgid ""
@@ -472,15 +476,17 @@ msgid ""
 "There are different types of smart playlist that offer different ways of "
 "selecting songs."
 msgstr ""
+"Chytrý playlist je dynamický seznam skladeb z vaší kolekce. Existuje několik "
+"různých typů chytrých playlistů. Každý nabízí jiný způsob výběru skladeb."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:162
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
-msgstr ""
+msgstr "Skladba bude zahrnuta v seznamu skladeb, pokud splňuje tyto podmínky."
 
 #: ../build/src/ui_playlistsettingspage.h:191
 msgid "A&utomatic"
-msgstr "Automàtic"
+msgstr "A&utomaticky"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "A-Z"
@@ -492,11 +498,11 @@ msgstr "AAC"
 
 #: ../build/src/ui_backendsettingspage.h:673
 msgid "ALSA plugin:"
-msgstr "Connector de l’ALSA:"
+msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
-msgstr "Testimoni de l’API"
+msgstr "API Token"
 
 #: ../build/src/ui_transcodersettingspage.h:193
 msgid "ASF (WMA)"
@@ -506,135 +512,135 @@ msgstr "ASF (WMA)"
 #: covermanager/albumcoversearcher.cpp:184
 #: ../build/src/ui_internetcollectionviewcontainer.h:139
 msgid "Abort"
-msgstr "Interromp"
+msgstr "Přerušit"
 
 #: ../build/src/ui_mainwindow.h:701
 msgid "Abort collection scan"
-msgstr ""
+msgstr "Zrušit aktualizaci kolekce"
 
 #: ../build/src/ui_about.h:152
 msgid "About"
-msgstr "Quant a"
+msgstr "O programu"
 
 #: ../build/src/ui_mainwindow.h:695
 msgid "About &Qt"
-msgstr "Quant al &Qt"
+msgstr "O &Qt"
 
 #: dialogs/about.cpp:43
 msgid "About Strawberry"
-msgstr "Quant a l’Strawberry"
+msgstr "O Strawberry"
 
 #: ../build/src/ui_playlistsettingspage.h:192
 msgid "Absolu&te"
-msgstr ""
+msgstr "Absolut&ní"
 
 #: playlist/playlistsaveoptionsdialog.cpp:42
 msgid "Absolute"
-msgstr "Absoluts"
+msgstr "Absolutní"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:282
 msgctxt "Category label"
 msgid "Action"
-msgstr "Acció"
+msgstr "Činnost"
 
 #: ../build/src/ui_mainwindow.h:674
 msgid "Add &folder..."
-msgstr ""
+msgstr "Přidat &složku"
 
 #: ../build/src/ui_addstreamdialog.h:76
 msgid "Add Stream"
-msgstr ""
+msgstr "Přidat přenos"
 
 #: ../build/src/ui_contextsettingspage.h:401
 #: ../build/src/ui_notificationssettingspage.h:462
 msgid "Add a new line if supported by the notification type"
-msgstr "Afegeix una línia nova si és compatible amb el tipus de notificació"
+msgstr "Přidat nový řádek, je-li to podporováno typem oznámení"
 
 #: ../build/src/ui_transcodedialog.h:224
 msgid "Add all tracks from a directory and all its subdirectories"
-msgstr "Afegeix totes les peces des d’una carpeta y las seves subcarpetes"
+msgstr "Přidat všechny skladby z adresáři a všech jeho podadresářů"
 
 #: settings/collectionsettingspage.cpp:119
 msgid "Add directory..."
-msgstr "Afegeix un directori…"
+msgstr "Přidat složku..."
 
 #: core/mainwindow.cpp:2275
 msgid "Add file"
-msgstr "Afegeix un fitxer"
+msgstr "Přidat soubor"
 
 #: ../build/src/ui_mainwindow.h:711
 msgid "Add file to transcoder"
-msgstr "Afegeix un fitxer al convertidor"
+msgstr "Přidat soubor k překódování"
 
 #: ../build/src/ui_mainwindow.h:709
 msgid "Add file(s) to transcoder"
-msgstr "Afegeix fitxer(s) al convertidor"
+msgstr "Přidat soubor(y) k překódování"
 
 #: transcoder/transcodedialog.cpp:324
 msgid "Add files to transcode"
-msgstr "Afegeix fitxers per a convertir-los"
+msgstr "Přidat soubory pro překódování"
 
 #: core/mainwindow.cpp:2301 transcoder/transcodedialog.cpp:416
 msgid "Add folder"
-msgstr "Afegeix una carpeta"
+msgstr "Přidat složku"
 
 #: ../build/src/ui_collectionsettingspage.h:431
 msgid "Add new folder..."
-msgstr "Afegeix una carpeta nova…"
+msgstr "Přidat novou složku..."
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:432
 msgid "Add search term"
-msgstr ""
+msgstr "Přidat hledaný výraz"
 
 #: ../build/src/ui_contextsettingspage.h:409
 #: ../build/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
-msgstr ""
+msgstr "Přidat URL skladby"
 
 #: ../build/src/ui_contextsettingspage.h:362
 #: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song album tag"
-msgstr "Afegeix l’etiqueta d’àlbum a la cançó"
+msgstr "Přidat značku album písně"
 
 #: ../build/src/ui_contextsettingspage.h:368
 #: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song albumartist tag"
-msgstr "Afegeix l’etiqueta «albumartist» a la cançó"
+msgstr "Přidat značku umělec alba písně"
 
 #: ../build/src/ui_contextsettingspage.h:359
 #: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song artist tag"
-msgstr "Afegeix l’etiqueta d’artista a la cançó"
+msgstr "Přidat značku umělec písně"
 
 #: ../build/src/ui_contextsettingspage.h:374
 #: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song composer tag"
-msgstr "Afegeix l’etiqueta de compositor a la cançó"
+msgstr "Přidat značku skladatel písně"
 
 #: ../build/src/ui_contextsettingspage.h:383
 #: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song disc tag"
-msgstr "Afegeix l’etiqueta de disc a la cançó"
+msgstr "Přidat značku disk písně"
 
 #: ../build/src/ui_contextsettingspage.h:405
 #: ../build/src/ui_notificationssettingspage.h:466
 msgid "Add song filename"
-msgstr "Afegeix el nom de fitxer de la cançó"
+msgstr "Přidat název souboru písně"
 
 #: ../build/src/ui_contextsettingspage.h:389
 #: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song genre tag"
-msgstr "Afegeix l’etiqueta de gènere a la cançó"
+msgstr "Přidat značku žánr písně"
 
 #: ../build/src/ui_contextsettingspage.h:380
 #: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song grouping tag"
-msgstr "Afegeix etiqueta d’agrupació de la cançó"
+msgstr "Přidat značku seskupení písně"
 
 #: ../build/src/ui_contextsettingspage.h:392
 #: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song length tag"
-msgstr "Afegeix l’etiqueta de durada a la cançó"
+msgstr "Přidat značku délka písně"
 
 #: ../build/src/ui_contextsettingspage.h:417
 #: ../build/src/ui_notificationssettingspage.h:474
@@ -644,103 +650,103 @@ msgstr ""
 #: ../build/src/ui_contextsettingspage.h:377
 #: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
-msgstr "Afegeix etiqueta d’intèrpret de la cançó"
+msgstr "Přidat značku účinkující písně"
 
 #: ../build/src/ui_contextsettingspage.h:395
 #: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song play count"
-msgstr "Afegeix el nombre de reproduccions"
+msgstr "Přidat počet přehrání písně"
 
 #: ../build/src/ui_contextsettingspage.h:413
 #: ../build/src/ui_notificationssettingspage.h:459
 msgid "Add song rating"
-msgstr "Afegeix una valoració a la cançó"
+msgstr "Přidat hodnocení písně"
 
 #: ../build/src/ui_contextsettingspage.h:398
 #: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add song skip count"
-msgstr "Afegeix comptador de passades de cançó"
+msgstr "Přidat počet přeskočení písně"
 
 #: ../build/src/ui_contextsettingspage.h:365
 #: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song title tag"
-msgstr "Afegeix l’etiqueta de títol a la cançó"
+msgstr "Přidat značku název písně"
 
 #: ../build/src/ui_contextsettingspage.h:386
 #: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song track tag"
-msgstr "Afegeix l’etiqueta de número de peça a la cançó"
+msgstr "Přidat značku pořadí písně"
 
 #: ../build/src/ui_contextsettingspage.h:371
 #: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song year tag"
-msgstr "Afegeix l’etiqueta d’any a la cançó"
+msgstr "Přidat značku rok písně"
 
 #: ../build/src/ui_mainwindow.h:713
 msgid "Add stream..."
-msgstr ""
+msgstr "Přidat přenos..."
 
 #: internet/internetsearchview.cpp:330
 msgid "Add to albums"
-msgstr ""
+msgstr "Přidat do alb"
 
 #: core/mainwindow.cpp:2077
 msgid "Add to another playlist"
-msgstr "Afegeix a una altra llista de reproducció"
+msgstr "Přidat do jiného seznamu skladeb"
 
 #: internet/internetsearchview.cpp:327
 msgid "Add to artists"
-msgstr ""
+msgstr "Přidat k umělcům"
 
 #: ../build/src/ui_albumcovermanager.h:215
 msgid "Add to playlist"
-msgstr "Afegeix a la llista de reproducció"
+msgstr "Přidat do seznamu skladeb"
 
 #: internet/internetsearchview.cpp:333
 msgid "Add to songs"
-msgstr ""
+msgstr "Přidat ke skladbám"
 
 #: ../build/src/ui_behavioursettingspage.h:308
 #: ../build/src/ui_behavioursettingspage.h:316
 msgid "Add to the queue"
-msgstr "Afegeix a la cua"
+msgstr "Přidat do řady"
 
 #: ../build/src/ui_transcodedialog.h:221
 msgid "Add..."
-msgstr "Afegeix..."
+msgstr "Přidat..."
 
 #: ../build/src/ui_collectionfilterwidget.h:99
 msgid "Added this month"
-msgstr "Afegides aquest mes"
+msgstr "Přidána tento měsíc"
 
 #: ../build/src/ui_collectionfilterwidget.h:93
 msgid "Added this week"
-msgstr "Afegides aquesta setmana"
+msgstr "Přidána tento týden"
 
 #: ../build/src/ui_collectionfilterwidget.h:98
 msgid "Added this year"
-msgstr "Afegides aquest any"
+msgstr "Přidána tento rok"
 
 #: ../build/src/ui_collectionfilterwidget.h:92
 msgid "Added today"
-msgstr "Afegides avui"
+msgstr "Přidána dnes"
 
 #: ../build/src/ui_collectionfilterwidget.h:94
 #: ../build/src/ui_collectionfilterwidget.h:96
 msgid "Added within three months"
-msgstr "Afegides els últims tres mesos"
+msgstr "Přidána během tří měsíců"
 
 #: collection/collectionfilterwidget.cpp:336
 msgid "Advanced grouping..."
-msgstr "Agrupament avançat…"
+msgstr "Pokročilé seskupování..."
 
 #: ../build/src/ui_organizedialog.h:262
 msgid "After copying..."
-msgstr "Després de copiar…"
+msgstr "Po zkopírování..."
 
 #: ../build/src/ui_appearancesettingspage.h:531
 msgid "Albu&m cover"
-msgstr ""
+msgstr "Obal alb&a"
 
 #: collection/savedgroupingmanager.cpp:98 playlist/playlist.cpp:1376
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:194
@@ -751,16 +757,16 @@ msgstr ""
 #: ../build/src/ui_edittagdialog.h:921
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Album"
-msgstr "Àlbum"
+msgstr "Album"
 
 #: ../build/src/ui_backendsettingspage.h:697
 msgid "Album (ideal loudness for all tracks)"
-msgstr "Àlbum (volum ideal per a totes les peces)"
+msgstr "Album (ideální hlasitost pro všechny skladby)"
 
 #: collection/savedgroupingmanager.cpp:101 ../build/src/ui_groupbydialog.h:195
 #: ../build/src/ui_groupbydialog.h:217 ../build/src/ui_groupbydialog.h:239
 msgid "Album - Disc"
-msgstr ""
+msgstr "Album - Disk"
 
 #: playlist/playlist.cpp:1383
 msgid "Album Artist"
@@ -770,7 +776,7 @@ msgstr ""
 #: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_groupbydialog.h:215
 #: ../build/src/ui_groupbydialog.h:237 ../build/src/ui_edittagdialog.h:920
 msgid "Album artist"
-msgstr "Artista de l’àlbum"
+msgstr "Umělec alba"
 
 #: dialogs/edittagdialog.cpp:863
 msgid "Album cover editing is only available for collection songs."
@@ -778,11 +784,11 @@ msgstr ""
 
 #: ../build/src/ui_collectionsettingspage.h:451
 msgid "Album cover pixmap cache"
-msgstr ""
+msgstr "Mezipaměť obalů alb"
 
 #: ../build/src/ui_tidalsettingspage.h:337
 msgid "Album cover size"
-msgstr ""
+msgstr "Velikost obalu alba"
 
 #: ../build/src/ui_coverssettingspage.h:313
 msgid "Album cover types"
@@ -790,87 +796,87 @@ msgstr ""
 
 #: ../build/src/ui_internettabsview.h:114
 msgid "Albums"
-msgstr "Àlbums"
+msgstr "Alba"
 
 #: ../build/src/ui_tidalsettingspage.h:333
 #: ../build/src/ui_qobuzsettingspage.h:290
 msgid "Albums search limit"
-msgstr ""
+msgstr "Limit vyhledávaných alb"
 
 #: covermanager/albumcovermanager.cpp:171
 msgid "Albums with covers"
-msgstr "Àlbums amb caràtules"
+msgstr "Alba s obaly"
 
 #: covermanager/albumcovermanager.cpp:172
 msgid "Albums without covers"
-msgstr "Àlbums sense caràtules"
+msgstr "Alba bez obalů"
 
 #: core/mainwindow.cpp:224
 msgid "All Files (*)"
-msgstr "Tots els fitxers (*)"
+msgstr "Všechny soubory (*)"
 
 #: covermanager/albumcovermanager.cpp:170
 msgid "All albums"
-msgstr "Tots els àlbums"
+msgstr "Všechna alba"
 
 #: covermanager/albumcovermanager.cpp:346
 msgid "All artists"
-msgstr "Tots els artistes"
+msgstr "Všichni umělci"
 
 #: covermanager/albumcoverchoicecontroller.cpp:81
 msgid "All files (*)"
-msgstr "Tots els fitxers (*)"
+msgstr "Všechny soubory (*)"
 
 #: playlistparsers/playlistparser.cpp:103
 #, qt-format
 msgid "All playlists (%1)"
-msgstr "Totes les llistes de reproducció (%1)"
+msgstr "Všechny seznamy skladeb (%1)"
 
 #: smartplaylists/smartplaylistsmodel.cpp:116
 msgid "All tracks"
-msgstr "Totes les peces"
+msgstr "Všechny skladby"
 
 #: ../build/src/ui_organizedialog.h:276
 msgid "Allow extended ASCII characters"
-msgstr ""
+msgstr "Povolit rozšířené ASCII znaky"
 
 #: ../build/src/ui_transcoderoptionsaac.h:141
 msgid "Allow mid/side encoding"
-msgstr "Permet la codificació centre/costats"
+msgstr "Povolit kódování střed/kraj"
 
 #: ../build/src/ui_transcodedialog.h:231
 msgid "Alongside the originals"
-msgstr "Al costat dels originals"
+msgstr "Vedle původních"
 
 #: ../build/src/ui_behavioursettingspage.h:298
 #: ../build/src/ui_behavioursettingspage.h:312
 msgid "Always start playing"
-msgstr "Comença sempre la reproducció"
+msgstr "Vždy začít přehrávat"
 
 #: device/gpodloader.cpp:81
 msgid "An error occurred loading the iTunes database"
-msgstr "S’ha produït un error en carregar la base de dades de l’iTunes"
+msgstr "Při nahrávání databáze iTunes nastala chyba"
 
 #: playlist/playlist.cpp:431 dialogs/edittagdialog.cpp:1482
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
-msgstr "S’ha produït un error en escriure les metadades a «%1»"
+msgstr "Při zápisu údajů do '%1' se vyskytla chyba"
 
 #: moodbar/moodbarrenderer.cpp:169
 msgid "Angry"
-msgstr ""
+msgstr "Naštvaný"
 
 #: ../build/src/ui_qobuzsettingspage.h:280
 msgid "App ID"
-msgstr "Id. de l’aplicació"
+msgstr "ID aplikace"
 
 #: ../build/src/ui_qobuzsettingspage.h:283
 msgid "App Secret"
-msgstr "Secret de l’aplicació"
+msgstr "Tajemství aplikace"
 
 #: ../build/src/ui_appearancesettingspage.h:514
 msgid "Appearance"
-msgstr "Aparença"
+msgstr "Vzhled"
 
 #: ../build/src/ui_tidalsettingspage.h:339
 msgid "Append explicit to album title for explicit albums"
@@ -878,7 +884,7 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:236
 msgid "Append files/URLs to the playlist"
-msgstr "Afegeix fitxers/URL a la llista de reproducció"
+msgstr "Přidat soubory/adresy do seznamu skladeb"
 
 #: collection/collectionview.cpp:367
 #: smartplaylists/smartplaylistsviewcontainer.cpp:65
@@ -886,24 +892,24 @@ msgstr "Afegeix fitxers/URL a la llista de reproducció"
 #: internet/internetcollectionview.cpp:316 radios/radioview.cpp:69
 #: device/deviceview.cpp:244
 msgid "Append to current playlist"
-msgstr "Afegeix a la llista de reproducció actual"
+msgstr "Přidat do současného seznamu skladeb"
 
 #: ../build/src/ui_behavioursettingspage.h:305
 msgid "Append to the playlist"
-msgstr "Afegeix a la llista de reproducció"
+msgstr "Přidat do seznamu skladeb"
 
 #: ../build/src/ui_backendsettingspage.h:700
 msgid "Apply compression to prevent clipping"
-msgstr "Aplica compressió per evitar el «clipping»"
+msgstr "Použít kompresi, aby se zabránilo ořezávání zvuku (clippingu)"
 
 #: dialogs/deleteconfirmationdialog.cpp:73
 msgid "Are you sure you want to continue?"
-msgstr ""
+msgstr "Opravdu chcete pokračovat?"
 
 #: equalizer/equalizer.cpp:229
 #, qt-format
 msgid "Are you sure you want to delete the \"%1\" preset?"
-msgstr "Esteu segur que voleu suprimir la predefinició «%1»?"
+msgstr "Opravdu chcete smazat nastavení \"%1\"?"
 
 #: dialogs/edittagdialog.cpp:1334
 msgid "Are you sure you want to reset this song's play statistics?"
@@ -938,29 +944,29 @@ msgstr ""
 #: ../build/src/ui_albumcoversearcher.h:106 ../build/src/ui_edittagdialog.h:924
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Artist"
-msgstr "Artista"
+msgstr "Umělec"
 
 #: organize/organizedialog.cpp:107
 msgid "Artist's initial"
-msgstr "Inicials de l’artista"
+msgstr "Začáteční písmena umělce"
 
 #: ../build/src/ui_internettabsview.h:113
 msgid "Artists"
-msgstr ""
+msgstr "Umělci"
 
 #: ../build/src/ui_tidalsettingspage.h:332
 #: ../build/src/ui_qobuzsettingspage.h:289
 msgid "Artists search limit"
-msgstr ""
+msgstr "Limit vyhledávaných umělců"
 
 #: ../build/src/ui_playlistsettingspage.h:194
 msgid "As&k when saving"
-msgstr "&Pregunta en desar"
+msgstr "Ze&ptat se při ukládání"
 
 #: ../build/src/ui_transcodedialog.h:228
 #: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Audio format"
-msgstr "Format d’àudio"
+msgstr "Zvukový formát"
 
 #: ../build/src/ui_backendsettingspage.h:691
 msgid "Audio normalization"
@@ -968,15 +974,15 @@ msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:668
 msgid "Audio output"
-msgstr "Sortida d’àudio"
+msgstr "Zvukový výstup"
 
 #: ../build/src/ui_tidalsettingspage.h:329
 msgid "Audio quality"
-msgstr "Qualitat d’àudio"
+msgstr "Kvalita zvuku"
 
 #: tidal/tidalrequest.cpp:142 qobuz/qobuzservice.cpp:289
 msgid "Authenticating..."
-msgstr "S’està autenticant…"
+msgstr "Probíhá ověření..."
 
 #: ../build/src/ui_coverssettingspage.h:310
 #: ../build/src/ui_lyricssettingspage.h:167
@@ -984,12 +990,12 @@ msgstr "S’està autenticant…"
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Authentication"
-msgstr "Autenticació"
+msgstr "Ověření"
 
 #: settings/coverssettingspage.cpp:372 settings/lyricssettingspage.cpp:254
 #: settings/tidalsettingspage.cpp:213 settings/qobuzsettingspage.cpp:176
 msgid "Authentication failed"
-msgstr "Ha fallat l’autenticació"
+msgstr "Ověření selhalo"
 
 #: ../build/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
@@ -997,24 +1003,23 @@ msgstr ""
 
 #: dialogs/about.cpp:142
 msgid "Author and maintainer"
-msgstr ""
+msgstr "Autor a vedoucí"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:225
 msgid "Auto"
-msgstr "Auto"
+msgstr "Automaticky"
 
 #: playlist/playlistsaveoptionsdialog.cpp:40
 msgid "Automatic"
-msgstr "Automàtic"
+msgstr "Automaticky"
 
 #: ../build/src/ui_collectionsettingspage.h:433
 msgid "Automatic updating"
-msgstr "Actualització automàtica"
+msgstr "Automatická aktualizace"
 
 #: ../build/src/ui_collectionsettingspage.h:447
 msgid "Automatically open single categories in the collection tree"
-msgstr ""
-"Expandeix automàticament les categories úniques en l’arbre de la col·lecció"
+msgstr "Automaticky otevřít jednotlivé skupiny ve stromu sbírky"
 
 #: settings/coverssettingspage.cpp:429
 #, qt-format
@@ -1023,59 +1028,59 @@ msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:436
 msgid "Automatically search for album cover"
-msgstr ""
+msgstr "Automaticky vyhledat obal alba"
 
 #: context/contextview.cpp:271 ../build/src/ui_contextsettingspage.h:437
 msgid "Automatically search for song lyrics"
-msgstr ""
+msgstr "Automaticky najít texty skladeb"
 
 #: ../build/src/ui_playlistsettingspage.h:185
 msgid "Automatically select current playing track"
-msgstr ""
+msgstr "Automaticky vybrat aktuálně přehrávanou skladbu"
 
 #: ../build/src/ui_playlistsettingspage.h:189
 msgid "Automatically sort playlist when inserting songs"
-msgstr ""
+msgstr "Automaticky seřadit seznam skladeb po vložení nových skladeb"
 
 #: widgets/freespacebar.cpp:65
 msgid "Available"
-msgstr "Disponible"
+msgstr "Dostupné"
 
 #: collection/collectionfilterwidget.cpp:96 playlist/playlistcontainer.cpp:150
 msgid "Available fields"
-msgstr ""
+msgstr "Dostupná pole"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:221
 msgid "Average bitrate"
-msgstr "Taxa de bits mitjana"
+msgstr "Průměrný datový tok"
 
 #: covermanager/coversearchstatisticsdialog.cpp:81
 msgid "Average image size"
-msgstr "Mida d’imatge mitjana"
+msgstr "Průměrná velikost obrázku"
 
 #: ../build/src/ui_backendsettingspage.h:667
 msgid "Backend"
-msgstr ""
+msgstr "Backend"
 
 #: ../build/src/ui_notificationssettingspage.h:505
 msgid "Background color"
-msgstr "Color de fons"
+msgstr "Barva pozadí"
 
 #: ../build/src/ui_appearancesettingspage.h:525
 msgid "Background image"
-msgstr "Imatge de fons"
+msgstr "Obrázek na pozadí"
 
 #: ../build/src/ui_notificationssettingspage.h:509
 msgid "Background opacity"
-msgstr "Opacitat del fons"
+msgstr "Neprůhlednost pozadí"
 
 #: core/database.cpp:557
 msgid "Backing up database"
-msgstr "S’està fent una còpia de seguretat de la base de dades"
+msgstr "Záloha databáze"
 
 #: ../build/src/ui_equalizer.h:177
 msgid "Balance"
-msgstr "Balanç"
+msgstr "Vyvážení"
 
 #: ../build/src/ui_qobuzsettingspage.h:293
 msgid "Base64 encoded secret"
@@ -1083,15 +1088,15 @@ msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:510
 msgid "Basic Blue"
-msgstr "Blau bàsic"
+msgstr "Jednoduchá modrá"
 
 #: ../build/src/ui_behavioursettingspage.h:279
 msgid "Behavior"
-msgstr "Comportament"
+msgstr "Chování"
 
 #: ../build/src/ui_transcoderoptionsflac.h:79
 msgid "Best"
-msgstr "Millor"
+msgstr "Nejlepší"
 
 #: playlist/playlist.cpp:1393
 msgid "Bit Depth"
@@ -1102,11 +1107,11 @@ msgstr ""
 #: ../build/src/ui_groupbydialog.h:231 ../build/src/ui_groupbydialog.h:253
 #: ../build/src/ui_edittagdialog.h:897
 msgid "Bit depth"
-msgstr ""
+msgstr "Bitová hloubka"
 
 #: ../build/src/ui_edittagdialog.h:899
 msgid "Bit rate"
-msgstr "Taxa de bits"
+msgstr "Datový tok"
 
 #: context/contextview.cpp:166 collection/savedgroupingmanager.cpp:149
 #: playlist/playlist.cpp:1394 ../build/src/ui_groupbydialog.h:210
@@ -1117,64 +1122,65 @@ msgstr "Taxa de bits"
 #: ../build/src/ui_transcoderoptionsasf.h:75
 #: ../build/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
-msgstr "Taxa de bits"
+msgstr "Datový tok"
 
 #: organize/organizedialog.cpp:119
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr ""
+msgstr "Datový tok"
 
 #: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
-msgstr "Analitzador de blocs"
+msgstr "Blokový analyzátor"
 
 #: ../build/src/ui_transcoderoptionsaac.h:142
 msgid "Block type"
-msgstr "Tipus de bloc"
+msgstr "Typ bloku"
 
 #: ../build/src/ui_appearancesettingspage.h:546
 msgid "Blur amount"
-msgstr "Quantitat de difuminació"
+msgstr "Velikost rozmazání"
 
 #: ../build/src/ui_notificationssettingspage.h:499
 msgid "Body"
-msgstr "Cos"
+msgstr "Tělo"
 
 #: analyzer/boomanalyzer.cpp:43
 msgid "Boom analyzer"
-msgstr "Analitzador de ressonància"
+msgstr "Růstový analyzátor"
 
 #: ../build/src/ui_appearancesettingspage.h:539
 msgid "Bottom Left"
-msgstr ""
+msgstr "Vlevo dole"
 
 #: ../build/src/ui_appearancesettingspage.h:540
 msgid "Bottom Right"
-msgstr ""
+msgstr "Vpravo dole"
 
 #: ../build/src/ui_appearancesettingspage.h:534
 msgid "Browse..."
-msgstr "Explora…"
+msgstr "Procházet…"
 
 #: ../build/src/ui_backendsettingspage.h:685
 msgid "Buffer"
-msgstr ""
+msgstr "Mezipaměť"
 
 #: ../build/src/ui_backendsettingspage.h:687
 msgid "Buffer duration"
-msgstr "Durada de la memòria intermèdia"
+msgstr "Délka vyrovnávací paměti"
 
 #: engine/gstengine.cpp:697
 msgid "Buffering"
-msgstr "Emplenant la memòria intermèdia"
+msgstr "Ukládá se do vyrovnávací paměti"
 
 #: ../build/src/ui_mainwindow.h:668
+#, fuzzy
 msgid "C&onsole"
-msgstr ""
+msgstr "&Konzola"
 
 #: core/songloader.cpp:201
 msgid "CD playback is only available with the GStreamer engine."
-msgstr ""
+msgstr "Přehrávání disků CD je možné pouze za použití GStreamer enginu."
 
 #: ../build/src/ui_scrobblersettingspage.h:417
 msgid "CDDA"
@@ -1186,15 +1192,15 @@ msgstr ""
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr "Cancel·la"
+msgstr "Zrušit"
 
 #: tidal/tidalstreamurlrequest.cpp:105 qobuz/qobuzstreamurlrequest.cpp:101
 msgid "Cancelled."
-msgstr "S’ha cancel·lat."
+msgstr "Zrušeno."
 
 #: ../build/src/ui_edittagdialog.h:916
 msgid "Change art"
-msgstr "Canvia la coberta"
+msgstr ""
 
 #: globalshortcuts/globalshortcutsmanager.cpp:77
 msgid "Change repeat mode"
@@ -1202,7 +1208,7 @@ msgstr ""
 
 #: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
-msgstr "Canvia la drecera…"
+msgstr "Změnit klávesovou zkratku..."
 
 #: globalshortcuts/globalshortcutsmanager.cpp:76
 msgid "Change shuffle mode"
@@ -1210,56 +1216,57 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:315
 msgid "Change the currently playing song"
-msgstr "Canvia la cançó que s’està reproduint ara"
+msgstr "Změnit nyní přehrávanou píseň"
 
 #: core/commandlineoptions.cpp:242
 msgid "Change the language"
-msgstr "Canvia la llengua"
+msgstr "Změnit jazyk"
 
 #: core/mainwindow.cpp:809
 msgid "Check for updates..."
-msgstr "Comprova si hi ha actualitzacions…"
+msgstr "Zkontrolovat aktualizace"
 
 #: smartplaylists/smartplaylistwizard.cpp:88
 msgid "Choose a name for your smart playlist"
-msgstr "Trieu un nom per a la llista intel·ligent"
+msgstr "Zvolte jméno pro váš chytrý seznam skladeb"
 
 #: ../build/src/ui_notificationssettingspage.h:508
 msgid "Choose color..."
-msgstr "Tria el color…"
+msgstr "Vybrat barvu..."
 
 #: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
-msgstr ""
+msgstr "Zvolte data pro import z last.fm"
 
 #: ../build/src/ui_notificationssettingspage.h:507
 msgid "Choose font..."
-msgstr "Tria el tipus de lletra…"
+msgstr "Vybrat písmo..."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
+"Zvolte jak bude seznam skladeb seřazen a kolik skladeb bude obsahovat."
 
 #: ../build/src/ui_coverssettingspage.h:307
 msgid "Choose the providers you want to use when searching for covers."
-msgstr ""
+msgstr "Vyberte poskytovatele vyhledávání obalů alb."
 
 #: ../build/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
-msgstr ""
+msgstr "Vyberte poskytovatele vyhledávání textů skladeb."
 
 #: equalizer/equalizer.cpp:139
 msgid "Classical"
-msgstr "Clàssica"
+msgstr "Klasická"
 
 #: widgets/lineedit.cpp:58 transcoder/transcodedialog.cpp:99
 #: ../build/src/ui_queueview.h:141
 msgid "Clear"
-msgstr "Neteja"
+msgstr "Smazat"
 
 #: ../build/src/ui_collectionsettingspage.h:457
 msgid "Clear Disk Cache"
-msgstr ""
+msgstr "Vyčistit mezipaměť na disku"
 
 #: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Clear cover"
@@ -1267,85 +1274,82 @@ msgstr ""
 
 #: core/mainwindow.cpp:2366 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
-msgstr "Neteja la llista de reproducció"
+msgstr "Vyprázdnit seznam skladeb"
 
 #: dialogs/about.cpp:160
 msgid "Clementine authors"
-msgstr ""
+msgstr "Autoři Clementine"
 
 #: dialogs/about.cpp:169
 msgid "Clementine contributors"
-msgstr ""
+msgstr "Přispěvatelé Clementine"
 
 #: collection/collectionview.cpp:329
 msgid "Click here to add some music"
-msgstr "Feu clic aquí per afegir música"
+msgstr "Klepněte sem pro přidání nějaké hudby"
 
 #: internet/internetcollectionview.cpp:294
 msgid "Click here to retrieve music"
-msgstr ""
+msgstr "Klikněte zde pro načtení hudby"
 
 #: ../build/src/ui_trackslider.h:68
 msgid "Click to toggle between remaining time and total time"
-msgstr ""
-"Feu-hi clic per a alternar entre el temps de reproducció restant i el total"
+msgstr "Klepněte pro přepnutí mezi zbývajícím časem a celkovým časem"
 
 #: ../build/src/ui_tidalsettingspage.h:323
 msgid "Client ID"
-msgstr "Id. del client"
+msgstr "ID Klienta"
 
 #: ../build/src/ui_lastfmimportdialog.h:156
 #: ../build/src/ui_internetcollectionviewcontainer.h:138
 msgid "Close"
-msgstr "Tanca"
+msgstr "Zavřít"
 
 #: playlist/playlisttabbar.cpp:79
 msgid "Close playlist"
-msgstr "Tanca la llista de reproducció"
+msgstr "Zavřít seznam skladeb"
 
 #: covermanager/albumcovermanager.cpp:259
 msgid "Closing this window will stop searching for album covers."
-msgstr ""
-"En tancar aquesta finestra es detindrà la cerca de les caràtules dels àlbums."
-""
+msgstr "Zavření tohoto okna zastaví hledání obalů alb."
 
 #: equalizer/equalizer.cpp:140
 msgid "Club"
-msgstr "Club"
+msgstr "Klub"
 
 #: core/mainwindow.cpp:374 ../build/src/ui_collectionsettingspage.h:429
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Collection"
-msgstr "Col·lecció"
+msgstr "Sbírka"
 
 #: ../build/src/ui_collectionfilterwidget.h:90
 msgid "Collection Filter"
-msgstr ""
+msgstr "Filtr Kolekce"
 
 #: ../build/src/ui_groupbydialog.h:187
 msgid "Collection advanced grouping"
-msgstr "Agrupació avançada de la col·lecció"
+msgstr "Pokročilé seskupování sbírky"
 
 #: core/mainwindow.cpp:2934
 msgid "Collection rescan notice"
-msgstr "Avís de reescaneig de la col·lecció"
+msgstr "Zpráva o prohledání sbírky"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:95
 msgid "Collection search"
-msgstr "Cerca a la col·lecció"
+msgstr "Hledání v kolekci"
 
 #: core/commandlineoptions.cpp:246
 msgid "Comma separated list of class:level, level is 0-3"
-msgstr "Llista separada per comes de classe:nivell, el nivell és 0-3"
+msgstr "Čárkou oddělený seznam class:level, level je 0-3"
 
 #: playlist/playlist.cpp:1403 smartplaylists/smartplaylistsearchterm.cpp:391
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:928
 msgid "Comment"
-msgstr "Comentari"
+msgstr "Poznámka"
 
 #: ../build/src/ui_edittagdialog.h:930
 msgid "Compilation"
-msgstr "Compilació"
+msgstr "Kompilace"
 
 #: ../build/src/ui_edittagdialog.h:935
 msgid "Complete lyrics automatically"
@@ -1353,97 +1357,97 @@ msgstr ""
 
 #: ../build/src/ui_edittagdialog.h:926
 msgid "Complete tags automatically"
-msgstr "Completa les etiquetes automàticament"
+msgstr "Doplnit značky automaticky"
 
 #: ../build/src/ui_mainwindow.h:702
 msgid "Complete tags automatically..."
-msgstr "Completa les etiquetes automàticament…"
+msgstr "Doplnit značky automaticky..."
 
 #: collection/savedgroupingmanager.cpp:128 playlist/playlist.cpp:1384
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:204
 #: ../build/src/ui_groupbydialog.h:226 ../build/src/ui_groupbydialog.h:248
 #: ../build/src/ui_edittagdialog.h:925
 msgid "Composer"
-msgstr "Compositor"
+msgstr "Skladatel"
 
 #: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:151
 #: settings/tidalsettingspage.cpp:158 settings/tidalsettingspage.cpp:162
 #: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:130
 #: settings/qobuzsettingspage.cpp:134 settings/qobuzsettingspage.cpp:138
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Konfigurace není hotová"
 
 #: settings/subsonicsettingspage.cpp:136
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Konfigurace není správná"
 
 #: internet/internetsearchview.cpp:179 internet/internetsearchview.cpp:345
 #: internet/internetsongsview.cpp:59 internet/internettabsview.cpp:62
 #, qt-format
 msgid "Configure %1..."
-msgstr "Configura %1…"
+msgstr "Nastavit %1..."
 
 #: ../build/src/ui_appearancesettingspage.h:554
 msgid "Configure buttons"
-msgstr ""
+msgstr "Nastavit tlačítka"
 
 #: core/mainwindow.cpp:686
 msgid "Configure collection..."
-msgstr "Configura la col·lecció…"
+msgstr "Nastavit sbírku..."
 
 #: device/devicemanager.cpp:352 device/devicemanager.cpp:353
 msgid "Connect device"
-msgstr "Connecta el dispositiu"
+msgstr "Připojit zařízení"
 
 #: ../build/src/ui_console.h:76
 msgid "Console"
-msgstr "Terminal"
+msgstr "Konzole"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
-msgstr "Taxa de bits constant"
+msgstr "Stálý datový tok"
 
 #: core/mainwindow.cpp:373 ../build/src/ui_contextsettingspage.h:357
 msgid "Context"
-msgstr ""
+msgstr "Kontext"
 
 #: ../build/src/ui_playlistsettingspage.h:182
 msgid "Continue to the next item in the playlist if a song is unavailable"
-msgstr ""
+msgstr "Pokračovat na další položku když skladba v seznamu není dostupná"
 
 #: dialogs/about.cpp:151
 msgid "Contributors"
-msgstr ""
+msgstr "Přispěvatelé"
 
 #: ../build/src/ui_deviceproperties.h:381
 msgid "Convert all music"
-msgstr "Converteix tota la música"
+msgstr "Převést všechnu hudbu"
 
 #: ../build/src/ui_deviceproperties.h:380
 msgid "Convert any music that the device can't play"
-msgstr "Convertir qualsevol música que el dispositiu no pugui reproduir"
+msgstr "Převést veškerou hudbu, kterou zařízení nedokáže přehrát"
 
 #: core/mainwindow.cpp:755
 msgid "Copy URL(s)..."
-msgstr ""
+msgstr "Kopírovat odkaz(y)..."
 
 #: ../build/src/ui_organizedialog.h:279
 msgid "Copy album cover artwork"
-msgstr ""
+msgstr "Kopírovat obrázek alba"
 
 #: core/mainwindow.cpp:759 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:249
 msgid "Copy to collection..."
-msgstr "Copia a la col·lecció…"
+msgstr "Zkopírovat do sbírky..."
 
 #: playlist/playlistlistcontainer.cpp:381
 msgid "Copy to device"
-msgstr ""
+msgstr "Zkopírovat na zařízení"
 
 #: core/mainwindow.cpp:762 collection/collectionview.cpp:382
 #: playlist/playlistlistcontainer.cpp:92 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
-msgstr "Copia al dispositiu…"
+msgstr "Zkopírovat do zařízení..."
 
 #: dialogs/snapdialog.cpp:66
 msgid ""
@@ -1467,8 +1471,8 @@ msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
 "required GStreamer plugins installed"
 msgstr ""
-"No s’ha pogut crear l’element «%1» de GStreamer. Comproveu que teniu tots "
-"els connectors requerits de GStramer instal·lats"
+"Nepodařilo se vytvořit prvek GStreamer \"%1\" - ujistěte se, že máte "
+"nainstalovány všechny požadované přídavné moduly GStreamer"
 
 #: core/songloader.cpp:313
 #, qt-format
@@ -1482,6 +1486,7 @@ msgstr ""
 #: scrobbler/scrobblingapi20.cpp:220
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
+"Nelze otevřít adresu URL. Prosím otevřete tuto URL ve vašem prohlížeči"
 
 #: core/songloader.cpp:281
 #, qt-format
@@ -1516,7 +1521,7 @@ msgstr ""
 
 #: playlist/playlistmanager.cpp:204
 msgid "Couldn't create playlist"
-msgstr "No s’ha pogut crear la llista de reproducció"
+msgstr "Nepodařilo se vytvořit seznam skladeb"
 
 #: transcoder/transcoder.cpp:450
 #, qt-format
@@ -1524,8 +1529,8 @@ msgid ""
 "Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
 "installed"
 msgstr ""
-"No s’ha pogut trobar un muxer per %1. Comproveu que teniu els connectors "
-"adequats de GStreamer instal·lats"
+"Nepodařilo se najít multiplexer pro \"%1\" - ujistěte se, že máte "
+"nainstalovány správné přídavné moduly GStreamer"
 
 #: transcoder/transcoder.cpp:445
 #, qt-format
@@ -1533,8 +1538,8 @@ msgid ""
 "Couldn't find an encoder for %1, check you have the correct GStreamer "
 "plugins installed"
 msgstr ""
-"No s’ha pogut trobar un codificador per %1. Comproveu que teniu els "
-"connectors adequats de GStreamer instal·lats"
+"Nepodařilo se najít kodér \"%1\" - ujistěte se, že máte nainstalovány "
+"správné přídavné moduly GStreamer"
 
 #: core/songloader.cpp:502
 #, qt-format
@@ -1544,11 +1549,11 @@ msgstr ""
 #: ../build/src/ui_albumcovermanager.h:212
 #: ../build/src/ui_albumcoversearcher.h:102
 msgid "Cover Manager"
-msgstr "Gestor de caràtules"
+msgstr "Správce obalů"
 
 #: dialogs/edittagdialog.cpp:858
 msgid "Cover art not set"
-msgstr "No s’ha definit la coberta"
+msgstr "Obal nenastaven"
 
 #: dialogs/edittagdialog.cpp:874
 msgid "Cover changed: Will be cleared when saved."
@@ -1586,49 +1591,49 @@ msgstr ""
 
 #: ../build/src/ui_coverssettingspage.h:306
 msgid "Cover providers"
-msgstr ""
+msgstr "Poskytovatel obalů alb"
 
 #: ../build/src/ui_coverssettingspage.h:305
 msgid "Covers"
-msgstr ""
+msgstr "Obaly alb"
 
 #: covermanager/albumcoversearcher.cpp:126
 #: covermanager/coversearchstatisticsdialog.cpp:73
 #, qt-format
 msgid "Covers from %1"
-msgstr "Caràtules de %1"
+msgstr "Obaly od %1"
 
 #: core/commandlineoptions.cpp:235
 msgid "Create a new playlist with files"
-msgstr ""
+msgstr "Vytvořit nový seznam skladeb se soubory"
 
 #: ../build/src/ui_backendsettingspage.h:708
 msgid "Cross-fade when changing tracks automatically"
-msgstr "Fusiona el so quan es canviï la peça automàticament"
+msgstr "Prolínání při automatické změně skladby"
 
 #: ../build/src/ui_backendsettingspage.h:707
 msgid "Cross-fade when changing tracks manually"
-msgstr "Fusiona el so quan es canviï la peça manualment"
+msgstr "Prolínání při ruční změně skladby"
 
 #: ../build/src/ui_mainwindow.h:632
 msgid "Ctrl+Alt+V"
-msgstr ""
+msgstr "Ctrl+Alt+V"
 
 #: ../build/src/ui_queueview.h:134
 msgid "Ctrl+Down"
-msgstr ""
+msgstr "Ctrl+Šipka dolů"
 
 #: ../build/src/ui_mainwindow.h:644
 msgid "Ctrl+E"
-msgstr ""
+msgstr "Ctrl+E"
 
 #: ../build/src/ui_mainwindow.h:659
 msgid "Ctrl+H"
-msgstr ""
+msgstr "Ctrl+H"
 
 #: ../build/src/ui_mainwindow.h:677
 msgid "Ctrl+J"
-msgstr ""
+msgstr "Ctrl+J"
 
 #: ../build/src/ui_mainwindow.h:640 ../build/src/ui_queueview.h:144
 msgid "Ctrl+K"
@@ -1636,47 +1641,47 @@ msgstr "Ctrl+K"
 
 #: ../build/src/ui_mainwindow.h:698
 msgid "Ctrl+M"
-msgstr ""
+msgstr "Ctrl+M"
 
 #: ../build/src/ui_mainwindow.h:681
 msgid "Ctrl+N"
-msgstr ""
+msgstr "Ctrl+N"
 
 #: ../build/src/ui_mainwindow.h:651
 msgid "Ctrl+P"
-msgstr ""
+msgstr "Ctrl+P"
 
 #: ../build/src/ui_mainwindow.h:628
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: ../build/src/ui_mainwindow.h:685
 msgid "Ctrl+S"
-msgstr ""
+msgstr "Ctrl+S"
 
 #: ../build/src/ui_mainwindow.h:663
 msgid "Ctrl+Shift+A"
-msgstr ""
+msgstr "Ctrl+Shift+A"
 
 #: ../build/src/ui_mainwindow.h:689
 msgid "Ctrl+Shift+O"
-msgstr ""
+msgstr "Ctrl+Shift+O"
 
 #: ../build/src/ui_mainwindow.h:704
 msgid "Ctrl+T"
-msgstr ""
+msgstr "Ctrl+T"
 
 #: ../build/src/ui_savedgroupingmanager.h:106 ../build/src/ui_queueview.h:128
 msgid "Ctrl+Up"
-msgstr "Ctrl+Amunt"
+msgstr "Ctrl+Up"
 
 #: ../build/src/ui_collectionsettingspage.h:455
 msgid "Current disk cache in use:"
-msgstr ""
+msgstr "Využití mezipaměti na disku:"
 
 #: equalizer/equalizer.cpp:138
 msgid "Custom"
-msgstr "Personalitzat"
+msgstr "Vlastní"
 
 #: ../build/src/ui_appearancesettingspage.h:559
 msgid "Custom color"
@@ -1684,31 +1689,31 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:533
 msgid "Custom image:"
-msgstr "Imatge personalitzada:"
+msgstr "Vlastní obrázek:"
 
 #: ../build/src/ui_notificationssettingspage.h:491
 msgid "Custom message settings"
-msgstr "Configuració personalitzada dels missatges"
+msgstr "Nastavení vlastní zprávy"
 
 #: ../build/src/ui_contextsettingspage.h:419
 msgid "Custom text settings"
-msgstr ""
+msgstr "Vlastní nastavení textu"
 
 #: ../build/src/ui_notificationssettingspage.h:512
 msgid "Custom..."
-msgstr "Personalitza..."
+msgstr "Vlastní..."
 
 #: device/udisks2lister.cpp:119
 msgid "D-Bus path"
-msgstr "Camí del D-Bus"
+msgstr "Cesta k D-Bus"
 
 #: equalizer/equalizer.cpp:141
 msgid "Dance"
-msgstr "Dance"
+msgstr "Taneční hudba"
 
 #: core/database.cpp:503
 msgid "Database corruption detected."
-msgstr ""
+msgstr "Databáze je poškozená."
 
 #: playlist/playlist.cpp:1401
 msgid "Date Created"
@@ -1720,23 +1725,23 @@ msgstr ""
 
 #: ../build/src/ui_edittagdialog.h:888
 msgid "Date created"
-msgstr "Data de creació"
+msgstr "Datum vytvoření"
 
 #: ../build/src/ui_edittagdialog.h:891
 msgid "Date modified"
-msgstr "Data de modificació"
+msgstr "Datum změny"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:451
 msgid "Days"
-msgstr "Dies"
+msgstr "Dny"
 
 #: core/commandlineoptions.cpp:228
 msgid "Decrease the volume by 4 percent"
-msgstr ""
+msgstr "Snížit hlasitost o 4 procenta"
 
 #: core/commandlineoptions.cpp:230
 msgid "Decrease the volume by <value> percent"
-msgstr "Redueix el volum <value> per cent"
+msgstr "Snížit hlasitost o <value> procent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:69
 msgid "Decrease volume"
@@ -1744,42 +1749,42 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:526
 msgid "Default bac&kground image"
-msgstr ""
+msgstr "Výchozí obrázek poza&dí"
 
 #: ../build/src/ui_backendsettingspage.h:690
 msgid "Defaults"
-msgstr ""
+msgstr "Výchozí nastavení"
 
 #: playlist/playlistlistcontainer.cpp:89
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Smazat"
 
 #: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Delete cover"
-msgstr "Suprimeix la coberta"
+msgstr ""
 
 #: dialogs/deleteconfirmationdialog.cpp:46 device/deviceview.cpp:429
 msgid "Delete files"
-msgstr "Suprimeix els fitxers"
+msgstr "Smazat soubory"
 
 #: device/deviceview.cpp:250
 msgid "Delete from device..."
-msgstr "Suprimeix del dispositiu…"
+msgstr "Smazat ze zařízení..."
 
 #: core/mainwindow.cpp:764 collection/collectionview.cpp:384
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
-msgstr "Suprimeix del disc…"
+msgstr "Smazat z disku..."
 
 #: equalizer/equalizer.cpp:228 ../build/src/ui_equalizer.h:172
 msgid "Delete preset"
-msgstr "Elimina la predefinició"
+msgstr "Smazat předvolbu"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:77
 #: ../build/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
-msgstr "Suprimeix la llista intel·ligent"
+msgstr "Odstranit chytrý playlist"
 
 #: ../build/src/ui_subsonicsettingspage.h:259
 msgid "Delete songs"
@@ -1787,23 +1792,23 @@ msgstr ""
 
 #: ../build/src/ui_organizedialog.h:264
 msgid "Delete the original files"
-msgstr "Suprimeix els fitxers originals"
+msgstr "Smazat původní soubory"
 
 #: core/deletefiles.cpp:59
 msgid "Deleting files"
-msgstr "S’estan suprimint els fitxers"
+msgstr "Probíhá mazání souborů"
 
 #: core/mainwindow.cpp:1992
 msgid "Dequeue selected tracks"
-msgstr "Treu de la cua les peces seleccionades"
+msgstr "Odstranit vybrané skladby z řady"
 
 #: core/mainwindow.cpp:1991
 msgid "Dequeue track"
-msgstr "Treu de la cua la peça"
+msgstr "Odstranit skladbu z řady"
 
 #: ../build/src/ui_organizedialog.h:261 ../build/src/ui_transcodedialog.h:230
 msgid "Destination"
-msgstr "Destí"
+msgstr "Cíl"
 
 #: core/filesystemmusicstorage.cpp:92
 #, qt-format
@@ -1817,24 +1822,24 @@ msgstr ""
 
 #: ../build/src/ui_transcodedialog.h:235
 msgid "Details..."
-msgstr "Detalls…"
+msgstr "Podrobnosti..."
 
 #: device/giolister.cpp:193 ../build/src/ui_backendsettingspage.h:669
 #: ../build/src/ui_scrobblersettingspage.h:415
 msgid "Device"
-msgstr "Dispositiu"
+msgstr "Zařízení"
 
 #: ../build/src/ui_deviceproperties.h:370
 msgid "Device Properties"
-msgstr "Propietats del dispositiu"
+msgstr "Vlastnosti zařízení"
 
 #: device/deviceview.cpp:241
 msgid "Device properties..."
-msgstr "Propietats del dispositiu…"
+msgstr "Vlastnosti zařízení..."
 
 #: core/mainwindow.cpp:381
 msgid "Devices"
-msgstr "Dispositius"
+msgstr "Zařízení"
 
 #: dialogs/edittagdialog.cpp:103
 msgid "Different art across multiple songs."
@@ -1842,11 +1847,11 @@ msgstr ""
 
 #: ../build/src/ui_networkproxysettingspage.h:172
 msgid "Direct internet connection"
-msgstr "Connexió directa a Internet"
+msgstr "Přímé připojení k internetu"
 
 #: ../build/src/ui_transcodedialog.h:219
 msgid "Directory"
-msgstr "Directori"
+msgstr "Složka"
 
 #: dialogs/saveplaylistsdialog.cpp:78
 msgid "Directory does not exist."
@@ -1854,68 +1859,68 @@ msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
-msgstr "Inhabilita la durada"
+msgstr "Zakázat délku"
 
 #: ../build/src/ui_notificationssettingspage.h:478
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
-msgstr "Inhabilitat"
+msgstr "Zakázáno"
 
 #: collection/savedgroupingmanager.cpp:116 playlist/playlist.cpp:1378
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:918
 msgid "Disc"
-msgstr "Disc"
+msgstr "Disk"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:232
 msgid "Discontinuous transmission"
-msgstr "Transmissió discontínua"
+msgstr "Nesouvislý přenos"
 
 #: ../build/src/ui_collectionsettingspage.h:454
 msgid "Disk Cache Size"
-msgstr "Mida de la memòria cau al disc"
+msgstr "Velikost mezipaměti na disku"
 
 #: collection/collectionfilterwidget.cpp:139
 #: ../build/src/ui_collectionsettingspage.h:446
 msgid "Display options"
-msgstr "Opcions de visualització"
+msgstr "Volby zobrazení"
 
 #: core/commandlineoptions.cpp:240
 msgid "Display the on-screen-display"
-msgstr "Mostra la indicació a pantalla"
+msgstr "Zobrazovat informace na obrazovce (OSD)"
 
 #: ../build/src/ui_deviceproperties.h:379
 msgid "Do not convert any music"
-msgstr "No converteixis cap musica"
+msgstr "Nepřevádět žádnou hudbu"
 
 #: ../build/src/ui_appearancesettingspage.h:545
 msgid "Do not cut image"
-msgstr ""
+msgstr "Neořezávat obrázek"
 
 #: ../build/src/ui_albumcoverexport.h:206
 msgid "Do not overwrite"
-msgstr "No ho sobreescriguis"
+msgstr "Nepřepisovat"
 
 #: ../build/src/ui_messagedialog.h:121
 msgid "Do not show this message again."
-msgstr ""
+msgstr "Tuto zprávu již nezobrazovat."
 
 #: osd/osdbase.cpp:362 ../build/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
-msgstr "Sense repetició"
+msgstr "Neopakovat"
 
 #: collection/collectionview.cpp:397
 msgid "Don't show in various artists"
-msgstr "No ho mostris a Artistes diversos"
+msgstr "Nezobrazovat pod různými umělci"
 
 #: osd/osdbase.cpp:347 ../build/src/ui_playlistsequence.h:114
 msgid "Don't shuffle"
-msgstr "Sense mesclar"
+msgstr "Nemíchat"
 
 #: covermanager/albumcovermanager.cpp:260
 msgid "Don't stop!"
-msgstr "No aturar!"
+msgstr "Nezastavovat!"
 
 #: radios/radioview.cpp:85
 msgid "Donate"
@@ -1923,15 +1928,15 @@ msgstr ""
 
 #: device/deviceview.cpp:139
 msgid "Double click to open"
-msgstr "Feu doble clic per obrir"
+msgstr "Klepnout dvakrát pro otevření"
 
 #: ../build/src/ui_behavioursettingspage.h:314
 msgid "Double clicking a song in the playlist will..."
-msgstr "En fer doble clic a una cançó de la llista…"
+msgstr "Dvojité klepnutí na píseň v seznamu skladeb způsobí..."
 
 #: ../build/src/ui_behavioursettingspage.h:304
 msgid "Double clicking a song will..."
-msgstr "En fer doble clic a una cançó..."
+msgstr "Dvojité klepnutí na píseň..."
 
 #: playlist/playlisttabbar.cpp:357
 msgid ""
@@ -1943,23 +1948,23 @@ msgstr ""
 #: ../build/src/ui_tidalsettingspage.h:335
 #: ../build/src/ui_qobuzsettingspage.h:292
 msgid "Download album covers"
-msgstr ""
+msgstr "Stahovat obaly alb"
 
 #: musicbrainz/tagfetcher.cpp:131
 msgid "Downloading metadata"
-msgstr "S’estan baixant les metadades"
+msgstr "Stahují se popisná data"
 
 #: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
-msgstr "Arrossegueu per canviar de posició"
+msgstr "Tažením přemístěte"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:105
 msgid "Dynamic mode is on"
-msgstr ""
+msgstr "Dynamický režim je zapnutý"
 
 #: smartplaylists/smartplaylistsmodel.cpp:117
 msgid "Dynamic random mix"
-msgstr ""
+msgstr "Dynamické míchání skladeb"
 
 #: context/contextview.cpp:167
 msgid "EBU R 128 Integrated Loudness"
@@ -1983,33 +1988,33 @@ msgstr ""
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
-msgstr ""
+msgstr "Upravit chytrý playlist"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:76
 msgid "Edit smart playlist..."
-msgstr ""
+msgstr "Upravit chytrý playlist..."
 
 #: core/mainwindow.cpp:2035
 #, qt-format
 msgid "Edit tag \"%1\"..."
-msgstr "Edita l’etiqueta «%1»…"
+msgstr "Upravit značku \"%1\"..."
 
 #: ../build/src/ui_mainwindow.h:648
 msgid "Edit tag..."
-msgstr "Edita l’etiqueta…"
+msgstr "Upravit značku..."
 
 #: ../build/src/ui_edittagdialog.h:886
 msgid "Edit track information"
-msgstr "Edita la informació de la peça"
+msgstr "Upravit informace o skladbě"
 
 #: collection/collectionview.cpp:387 widgets/fileviewlist.cpp:52
 #: ../build/src/ui_mainwindow.h:642
 msgid "Edit track information..."
-msgstr "Edita la informació de la peça…"
+msgstr "Upravit informace o skladbě..."
 
 #: collection/collectionview.cpp:388
 msgid "Edit tracks information..."
-msgstr "Edita la informació de les peces..."
+msgstr "Upravit informace o skladbách..."
 
 #: settings/coverssettingspage.cpp:432
 #, qt-format
@@ -2028,11 +2033,11 @@ msgstr ""
 #: ../build/src/ui_tidalsettingspage.h:319
 #: ../build/src/ui_qobuzsettingspage.h:277
 msgid "Enable"
-msgstr ""
+msgstr "Povolit"
 
 #: ../build/src/ui_collectionsettingspage.h:453
 msgid "Enable Disk Cache"
-msgstr ""
+msgstr "Povolit mezipaměť na disku"
 
 #: ../build/src/ui_backendsettingspage.h:683
 msgid "Enable HTTP/2 for streaming"
@@ -2040,16 +2045,16 @@ msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
-msgstr ""
+msgstr "Povolit Položky"
 
 #: ../build/src/ui_collectionsettingspage.h:464
 #: ../build/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
-msgstr ""
+msgstr "Povolit mazání souborů v kontextové nabídce pravého kliknutí"
 
 #: ../build/src/ui_equalizer.h:174
 msgid "Enable equalizer"
-msgstr "Habilita l’equalitzador"
+msgstr "Povolit ekvalizér"
 
 #: ../build/src/ui_notificationssettingspage.h:514
 msgid "Enable fading"
@@ -2057,7 +2062,7 @@ msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:187
 msgid "Enable playlist clear button"
-msgstr ""
+msgstr "Zobrazit tlačítko pro vyčištění seznamu skladeb"
 
 #: ../build/src/ui_playlistsettingspage.h:186
 msgid "Enable playlist toolbar"
@@ -2065,19 +2070,19 @@ msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Enable scrobbling for the following sources:"
-msgstr ""
+msgstr "Zapnout scrobbling pro následující zdroje:"
 
 #: ../build/src/ui_playlistsettingspage.h:199
 msgid "Enable song metadata inline edition with click"
-msgstr "Edita les metadades d’una cançó amb un clic"
+msgstr "Povolit upravování popisných dat písně klepnutím v řádku"
 
 #: ../build/src/ui_equalizer.h:175
 msgid "Enable stereo balancer"
-msgstr "Activa l’equilibrador estèreo"
+msgstr "Zapnout vyrovnávání sterea"
 
 #: ../build/src/ui_backendsettingspage.h:679
 msgid "Enable volume control"
-msgstr ""
+msgstr "Povolit ovládání hlasitosti"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Enable/disable scrobbling"
@@ -2085,87 +2090,86 @@ msgstr ""
 
 #: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
-msgstr ""
+msgstr "Povoleno"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:233
 msgid "Encoding complexity"
-msgstr "Complexitat de la codificació"
+msgstr "Složitost kódování"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
-msgstr "Qualitat del motor de codificació"
+msgstr "Kvalita kódovacího stroje"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:224
 msgid "Encoding mode"
-msgstr "Mode de codificació"
+msgstr "Režim kódování"
 
 #: ../build/src/ui_backendsettingspage.h:672
 msgid "Engine"
-msgstr "Motor"
+msgstr "Engine"
 
 #: ../build/src/ui_coverfromurldialog.h:101
 msgid "Enter a URL to download a cover from the Internet:"
-msgstr "Introduïu un URL per a baixar una coberta de la Internet:"
+msgstr "Zadejte adresu (URL) ke stažení obalu z internetu:"
 
 #: ../build/src/ui_albumcoverexport.h:202
 msgid "Enter a filename for exported covers (no extension):"
-msgstr ""
-"Introduïu un nom de fitxer per les caràtules exportades (sense extensió):"
+msgstr "Zadejte souborový název pro uložené obaly (bez přípony):"
 
 #: playlist/playlisttabbar.cpp:180
 msgid "Enter a new name for this playlist"
-msgstr "Introduïu un nom per aquesta llista de reproducció"
+msgstr "Zadejte název tohoto seznamu skladeb"
 
 #: internet/internetsearchview.cpp:404 ../build/src/ui_internetsearchview.h:232
 msgid "Enter search terms above to find music"
-msgstr ""
+msgstr "Výše zadejte hledaný výraz pro vyhledání hudby"
 
 #: ../build/src/ui_collectionfilterwidget.h:102
 #: ../build/src/ui_albumcovermanager.h:216
 msgid "Enter search terms here"
-msgstr "Introduïu els termes de la cerca"
+msgstr "Zde zadejte hledané výrazy"
 
 #: ../build/src/ui_addstreamdialog.h:77
 msgid "Enter the URL of a stream:"
-msgstr ""
+msgstr "Zadejte URL streamu:"
 
 #: playlist/playlistlistcontainer.cpp:211
 msgid "Enter the name of the folder"
-msgstr "Introduïu el nom de la carpeta"
+msgstr "Zadejte název složky"
 
 #: ../build/src/ui_userpassdialog.h:91
 msgid "Enter username and password"
-msgstr ""
+msgstr "Zadejte uživatelské jméno a heslo"
 
 #: settings/scrobblersettingspage.cpp:81
 msgid "Enter your user token from"
-msgstr ""
+msgstr "Zadejte uživatelský token z"
 
 #: ../build/src/ui_collectionfilterwidget.h:91
 msgid "Entire collection"
-msgstr "Tota la col·lecció"
+msgstr "Celá sbírka"
 
 #: ../build/src/ui_equalizer.h:166 ../build/src/ui_equalizerslider.h:95
 msgid "Equalizer"
-msgstr "Equalitzador"
+msgstr "Ekvalizér"
 
 #: core/commandlineoptions.cpp:244
 msgid "Equivalent to --log-levels *:1"
-msgstr "Equivalent a --log-levels *:1"
+msgstr "Rovnocenné s --log-levels *:1"
 
 #: core/commandlineoptions.cpp:245
 msgid "Equivalent to --log-levels *:3"
-msgstr "Equivalent a --log-levels *:3"
+msgstr "Rovnocenné s --log-levels *:3"
 
 #: core/mainwindow.cpp:2665 core/mainwindow.cpp:2816
 #: collection/collectionview.cpp:702
 msgid "Error"
-msgstr "Error"
+msgstr "Chyba"
 
 #: device/mtploader.cpp:72
 #, qt-format
 msgid "Error connecting MTP device %1"
-msgstr ""
+msgstr "Chyba při připojování k MTP zařízení %1"
 
 #: device/mtploader.cpp:77
 #, qt-format
@@ -2174,32 +2178,32 @@ msgstr ""
 
 #: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
-msgstr "S’ha produït un error en copiar les cançons"
+msgstr "Chyba při kopírování písní"
 
 #: organize/organizeerrordialog.cpp:76
 msgid "Error deleting songs"
-msgstr "S’ha produït un error en suprimir les cançons"
+msgstr "Chyba při mazání písní"
 
 #: transcoder/transcoder.cpp:418
 #, qt-format
 msgid "Error processing %1: %2"
-msgstr "S’ha produït un error en processar %1: %2"
+msgstr "Chyba při zpracovávání %1: %2"
 
 #: playlist/songloaderinserter.cpp:114
 msgid "Error while loading audio CD."
-msgstr ""
+msgstr "Chyba při načítání zvukového CD"
 
 #: device/cddasongloader.cpp:121 device/cddasongloader.cpp:130
 msgid "Error while querying CDDA tracks."
-msgstr ""
+msgstr "Chyba při dotazování na CDDA stopy."
 
 #: device/cddasongloader.cpp:109
 msgid "Error while setting CDDA device to pause state."
-msgstr ""
+msgstr "Chyba při přenastavování CCDA zařízení do pozastaveného stavu."
 
 #: device/cddasongloader.cpp:101
 msgid "Error while setting CDDA device to ready state."
-msgstr ""
+msgstr "Chyba při přenastavování CCDA zařízení do připraveného stavu."
 
 #: smartplaylists/smartplaylistsmodel.cpp:79
 msgid "Ever played"
@@ -2207,7 +2211,7 @@ msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:709
 msgid "Except between tracks on the same album or in the same CUE sheet"
-msgstr "Excepte entre peces del mateix àlbum o del mateix full CUE"
+msgstr "Kromě mezistop na tom samém albu nebo v tom samém listu CUE"
 
 #: ../build/src/ui_backendsettingspage.h:677
 msgid "Exclusive mode (Experimental)"
@@ -2215,11 +2219,11 @@ msgstr ""
 
 #: ../build/src/ui_albumcoverexport.h:205
 msgid "Existing covers"
-msgstr "Caràtules existents"
+msgstr "Stávající obaly"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
-msgstr ""
+msgstr "Rozbalit"
 
 #: ../build/src/ui_collectionsettingspage.h:439
 msgid "Expire unavailable songs after"
@@ -2228,53 +2232,53 @@ msgstr ""
 #: widgets/loginstatewidget.cpp:154
 #, qt-format
 msgid "Expires on %1"
-msgstr "Caduca el %1"
+msgstr "Vyprší %1"
 
 #: ../build/src/ui_albumcovermanager.h:226
 msgid "Export Covers"
-msgstr "Exporta les caràtules"
+msgstr "Uložit obaly"
 
 #: ../build/src/ui_albumcoverexport.h:200
 msgid "Export covers"
-msgstr "Exporta les caràtules"
+msgstr "Uložit obaly"
 
 #: ../build/src/ui_albumcoverexport.h:203
 msgid "Export downloaded covers"
-msgstr "Exporta les caràtules baixades"
+msgstr "Uložit stažené obaly"
 
 #: ../build/src/ui_albumcoverexport.h:204
 msgid "Export embedded covers"
-msgstr "Exporta les caràtules incrustades"
+msgstr "Uložit vložené obaly"
 
 #: covermanager/albumcovermanager.cpp:1016
 #: covermanager/albumcovermanager.cpp:1042
 msgid "Export finished"
-msgstr "Ha finalitzat l’exportació"
+msgstr "Uložení dokončeno"
 
 #: covermanager/albumcovermanager.cpp:1027
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
-msgstr "S’han exportat %1 caràtules de %2 (s’han omès %3)"
+msgstr "Uloženo %1 obalů z %2 (%3 přeskočeno)"
 
 #: ../build/src/ui_mainwindow.h:655
 msgid "F1"
-msgstr ""
+msgstr "F1"
 
 #: ../build/src/ui_mainwindow.h:612
 msgid "F5"
-msgstr ""
+msgstr "F5"
 
 #: ../build/src/ui_mainwindow.h:616
 msgid "F6"
-msgstr ""
+msgstr "F6"
 
 #: ../build/src/ui_mainwindow.h:620
 msgid "F7"
-msgstr ""
+msgstr "F7"
 
 #: ../build/src/ui_mainwindow.h:624
 msgid "F8"
-msgstr ""
+msgstr "F8"
 
 #: ../build/src/ui_transcodersettingspage.h:187
 msgid "FLAC"
@@ -2282,20 +2286,20 @@ msgstr "FLAC"
 
 #: ../build/src/ui_backendsettingspage.h:712
 msgid "Fade out on pause / fade in on resume"
-msgstr "Atenua el volum en pausar i en reprendre"
+msgstr "Zeslabení při pozastavení/Zesílení při obnovení přehrávání"
 
 #: ../build/src/ui_backendsettingspage.h:706
 msgid "Fade out when stopping a track"
-msgstr "Esvaeix el so en parar una peça"
+msgstr "Zeslabit při zastavování skladby"
 
 #: ../build/src/ui_backendsettingspage.h:705
 msgid "Fading"
-msgstr "Esvaïment"
+msgstr "Slábnutí"
 
 #: ../build/src/ui_backendsettingspage.h:710
 #: ../build/src/ui_backendsettingspage.h:713
 msgid "Fading duration"
-msgstr "Durada de l’esvaïment"
+msgstr "Doba slábnutí"
 
 #: core/database.cpp:478 collection/collectionbackend.cpp:119
 #, qt-format
@@ -2346,32 +2350,32 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsflac.h:78
 #: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
-msgstr "Ràpid"
+msgstr "Rychlý"
 
 #: smartplaylists/smartplaylistsmodel.cpp:103
 msgid "Favourite tracks"
-msgstr ""
+msgstr "Oblíbené skladby"
 
 #: ../build/src/ui_albumcovermanager.h:225
 msgid "Fetch Missing Covers"
-msgstr "Recull les caràtules que falten"
+msgstr "Stáhnout chybějící obaly"
 
 #: ../build/src/ui_albumcovermanager.h:213
 msgid "Fetch automatically"
-msgstr "Recull automàticament"
+msgstr "Stáhnout automaticky"
 
 #: ../build/src/ui_coversearchstatisticsdialog.h:72
 msgid "Fetch completed"
-msgstr "S'han acabat d'obtenir les dades"
+msgstr "Stahování dokončeno"
 
 #: ../build/src/ui_tidalsettingspage.h:336
 msgid "Fetch entire albums when searching songs"
-msgstr ""
+msgstr "Načítat celá alba při vyhledávání"
 
 #: covermanager/coverfromurldialog.cpp:90
 #: covermanager/coverfromurldialog.cpp:100
 msgid "Fetching cover error"
-msgstr "S’ha produït un error en obtenir la coberta"
+msgstr "Chyba při stahování obalu"
 
 #: core/songloader.cpp:164 core/songloader.cpp:268
 #, qt-format
@@ -2381,7 +2385,7 @@ msgstr ""
 #: core/songloader.cpp:184 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
-msgstr ""
+msgstr "Soubor %1 nebyl rozpoznán jako platný zvukový soubor."
 
 #: playlist/playlist.cpp:1396
 msgid "File Name"
@@ -2401,113 +2405,114 @@ msgstr ""
 
 #: organize/organizedialog.cpp:122
 msgid "File extension"
-msgstr "Extensió del fitxer"
+msgstr "Přípona souboru"
 
 #: ../build/src/ui_deviceproperties.h:386
 msgid "File formats"
-msgstr "Format dels fitxers"
+msgstr "Formáty souborů"
 
 #: ../build/src/ui_playlistsaveoptionsdialog.h:93
 msgid "File paths"
-msgstr "Camins dels fitxers"
+msgstr "Souborové cesty"
 
 #: ../build/src/ui_edittagdialog.h:905
 msgid "File size"
-msgstr "Mida del fitxer"
+msgstr "Velikost souboru"
 
 #: collection/savedgroupingmanager.cpp:137 ../build/src/ui_groupbydialog.h:207
 #: ../build/src/ui_groupbydialog.h:229 ../build/src/ui_groupbydialog.h:251
 #: ../build/src/ui_edittagdialog.h:894
 msgid "File type"
-msgstr "Tipus de fitxer"
+msgstr "Typ souboru"
 
 #: ../build/src/ui_edittagdialog.h:903 ../build/src/ui_transcodedialog.h:220
 msgid "Filename"
-msgstr "Nom de fitxer"
+msgstr "Název souboru"
 
 #: ../build/src/ui_coverssettingspage.h:321
 msgid "Filename:"
-msgstr ""
+msgstr "Název souboru:"
 
 #: core/mainwindow.cpp:378
 msgid "Files"
-msgstr ""
+msgstr "Soubory"
 
 #: ../build/src/ui_transcodedialog.h:217
 msgid "Files to transcode"
-msgstr "Fitxers per convertir"
+msgstr "Soubory k překódování"
 
 #: ../build/src/ui_appearancesettingspage.h:555
 msgid "Files, playlists and queue buttons"
-msgstr ""
+msgstr "Soubory, playlisty a tlačítka fronty"
 
 #: context/contextview.cpp:162
 msgid "Filetype"
-msgstr "Tipus de fitxer"
+msgstr "Typ souboru"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:98
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
+" Najít skladby z kolekce, které odpovídají kritériům, která specifikujete."
 
 #: musicbrainz/tagfetcher.cpp:79
 msgid "Fingerprinting song"
-msgstr "S’està identificant la cançó"
+msgstr "Určení písně"
 
 #: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Finish"
-msgstr "Finalitza"
+msgstr "Dokončit"
 
 #: collection/savedgroupingmanager.cpp:55 ../build/src/ui_groupbydialog.h:190
 msgid "First level"
-msgstr "Primer nivell"
+msgstr "První úroveň"
 
 #: widgets/playingwidget.cpp:105
 msgid "Fit cover to width"
-msgstr "Ajusta la coberta a l’amplada"
+msgstr "Přizpůsobit obal šířce"
 
 #: ../build/src/ui_contextsettingspage.h:439
 #: ../build/src/ui_contextsettingspage.h:444
 msgid "Font"
-msgstr "Lletra tipogràfica"
+msgstr "Font"
 
 #: ../build/src/ui_contextsettingspage.h:443
 msgid "Font for data and lyrics"
-msgstr ""
+msgstr "Font pro data a texty skladeb"
 
 #: ../build/src/ui_contextsettingspage.h:438
 msgid "Font for headline"
-msgstr ""
+msgstr "Font nadpisu"
 
 #: ../build/src/ui_contextsettingspage.h:440
 #: ../build/src/ui_contextsettingspage.h:445
 msgid "Font size"
-msgstr ""
+msgstr "Velikost fontu"
 
 #: dialogs/snapdialog.cpp:54
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr ""
+msgstr "Pro Ubuntu je na %1 dostupné oficiální PPA."
 
 #: dialogs/snapdialog.cpp:62
 msgid "For a better experience please consider the other options above."
-msgstr ""
+msgstr "Pro lepší zážitek, prosím zvažte ostatní dostupné možnosti."
 
 #: ../build/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
-msgstr "Força la codificació mono"
+msgstr "Vynutit jednokanálové kódování"
 
 #: device/deviceview.cpp:239 device/deviceview.cpp:346
 #: device/deviceview.cpp:349
 msgid "Forget device"
-msgstr "Oblida el dispositiu"
+msgstr "Zapomenout zařízení"
 
 #: device/deviceview.cpp:347
 msgid ""
 "Forgetting a device will remove it from this list and Strawberry will have "
 "to rescan all the songs again next time you connect it."
 msgstr ""
-"Oblidar un dispositiu l'eliminarà de la llista i Strawberry haurà de tornar "
-"a examinar totes les cançons el proper cop que el connecti."
+"Zařízení bude odstraněno z tohoto seznamu. Po opětovném připojení je "
+"Strawberry bude muset znovu celé prohledat."
 
 #: ../build/src/ui_collectionviewcontainer.h:55
 #: ../build/src/ui_playlistcontainer.h:148
@@ -2531,55 +2536,56 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsasf.h:74
 #: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
-msgstr "Formulari"
+msgstr "Formulář"
 
 #: collection/savedgroupingmanager.cpp:140 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 msgid "Format"
-msgstr "Format"
+msgstr "Formát"
 
 #: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
-msgstr "Taxa de mostreig"
+msgstr "Počet snímků"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:234
 msgid "Frames per buffer"
-msgstr "Trames per espai de memòria intermèdia"
+msgstr "Snímků na vyrovnávací paměť"
 
 #: moodbar/moodbarrenderer.cpp:171
 msgid "Frozen"
-msgstr ""
+msgstr "Zamrznutý"
 
 #: equalizer/equalizer.cpp:142
 msgid "Full Bass"
-msgstr "Baixos complets"
+msgstr "Plné basy"
 
 #: equalizer/equalizer.cpp:144
 msgid "Full Bass + Treble"
-msgstr "Baixos i aguts complets"
+msgstr "Plné basy + výšky"
 
 #: equalizer/equalizer.cpp:143
 msgid "Full Treble"
-msgstr "Aguts complets"
+msgstr "Plné výšky"
 
 #: settings/settingsdialog.cpp:131
 msgid "General"
-msgstr "General"
+msgstr "Obecné"
 
 #: ../build/src/ui_notificationssettingspage.h:482
 msgid "General settings"
-msgstr "Configuració general"
+msgstr "Obecná nastavení"
 
 #: lyrics/geniuslyricsprovider.cpp:120
+#, fuzzy
 msgid "Genius Authentication"
-msgstr "Autenticació amb el Genius"
+msgstr "Ověření Genius"
 
 #: collection/savedgroupingmanager.cpp:125 playlist/playlist.cpp:1382
 #: organize/organizedialog.cpp:116 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:927
 msgid "Genre"
-msgstr "Estil"
+msgstr "Žánr"
 
 #: radios/somafmservice.cpp:70 radios/radioparadiseservice.cpp:64
 #, qt-format
@@ -2588,136 +2594,135 @@ msgstr ""
 
 #: ../build/src/ui_globalshortcutssettingspage.h:268
 msgid "Global Shortcuts"
-msgstr "Dreceres globals"
+msgstr ""
 
 #: ../build/src/ui_mainwindow.h:692
 msgid "Go to next playlist tab"
-msgstr "Vés a la pestanya de la següent llista de reproducció"
+msgstr "Jít na další kartu seznamu skladeb"
 
 #: ../build/src/ui_mainwindow.h:693
 msgid "Go to previous playlist tab"
-msgstr "Vés a la pestanya de l'anterior llista de reproducció"
+msgstr "Jít na předchozí kartu seznamu skladeb"
 
 #: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr "Vés-hi"
+msgstr "Importovat!"
 
 #: covermanager/albumcovermanager.cpp:555
 #: covermanager/coversearchstatisticsdialog.cpp:67
 #: ../build/src/ui_coversearchstatisticsdialog.h:73
 #, qt-format
 msgid "Got %1 covers out of %2 (%3 failed)"
-msgstr "S’han trobat %1 caràtules de %2 (%3 han fallat)"
+msgstr "Získáno %1 obalů z %2 (%3 nezískáno)"
 
 #: ../build/src/ui_playlistsettingspage.h:183
 msgid "Grey out unavailable songs in playlists on playback"
-msgstr ""
+msgstr "Zšednout nedostupné skladby v seznamu skladeb při jejich přehrání"
 
 #: ../build/src/ui_playlistsettingspage.h:184
 msgid "Grey out unavailable songs in playlists on startup"
-msgstr ""
+msgstr "Zšednout nedostupné skladby v seznamu skladeb při startu"
 
 #: ../build/src/ui_groupbydialog.h:189
 msgid "Group Collection by..."
-msgstr "Agrupa la col·lecció per…"
+msgstr "Seskupovat v hudební sbírce podle..."
 
 #: collection/collectionfilterwidget.cpp:133
 #: internet/internetsearchview.cpp:343
 msgid "Group by"
-msgstr "Agrupa per"
+msgstr "Seskupovat podle"
 
 #: collection/collectionfilterwidget.cpp:301
 msgid "Group by Album"
-msgstr "Agrupa per àlbum"
+msgstr "Seskupovat podle alba"
 
 #: collection/collectionfilterwidget.cpp:298
 msgid "Group by Album Artist"
-msgstr ""
+msgstr "Seskupit dle Autora alba"
 
 #: collection/collectionfilterwidget.cpp:285
 msgid "Group by Album artist/Album"
-msgstr "Agrupa per artista de l'àlbum/àlbum"
+msgstr "Seskupovat podle umělce alba/alba"
 
 #: collection/collectionfilterwidget.cpp:286
 msgid "Group by Album artist/Album - Disc"
-msgstr ""
+msgstr "Seskupit jako Autor alba/Album - Disk"
 
 #: collection/collectionfilterwidget.cpp:287
 msgid "Group by Album artist/Year - Album"
-msgstr ""
+msgstr "Seskupit jako Autor alba/Rok - Album"
 
 #: collection/collectionfilterwidget.cpp:288
 msgid "Group by Album artist/Year - Album - Disc"
-msgstr ""
+msgstr "Seskupit jako Autor alba/Rok - Album - Disk"
 
 #: collection/collectionfilterwidget.cpp:299
 msgid "Group by Artist"
-msgstr "Agrupa per artista"
+msgstr "Seskupovat podle umělce"
 
 #: collection/collectionfilterwidget.cpp:290
 msgid "Group by Artist/Album"
-msgstr "Agrupa per artista/àlbum"
+msgstr "Seskupovat podle umělce/alba"
 
 #: collection/collectionfilterwidget.cpp:291
 msgid "Group by Artist/Album - Disc"
-msgstr ""
+msgstr "Seskupit jako Umělec/Album - Disk"
 
 #: collection/collectionfilterwidget.cpp:292
 msgid "Group by Artist/Year - Album"
-msgstr "Agrupa per artista/any–àlbum"
+msgstr "Seskupovat podle umělce/roku - alba"
 
 #: collection/collectionfilterwidget.cpp:293
 msgid "Group by Artist/Year - Album - Disc"
-msgstr ""
+msgstr "Seskupit jako Umělec/Rok - Album - Disk"
 
 #: collection/collectionfilterwidget.cpp:302
 msgid "Group by Genre/Album"
-msgstr "Agrupa per gènere/àlbum"
+msgstr "Seskupovat podle žánru/alba"
 
 #: collection/collectionfilterwidget.cpp:295
 msgid "Group by Genre/Album artist/Album"
-msgstr ""
+msgstr "Seskupit jako Žánr/Autor alba/Album"
 
 #: collection/collectionfilterwidget.cpp:296
 msgid "Group by Genre/Artist/Album"
-msgstr "Agrupa per gènere/artista/àlbum"
+msgstr "Seskupovat podle žánru/umělce/alba"
 
 #: collection/savedgroupingmanager.cpp:134 playlist/playlist.cpp:1386
 #: organize/organizedialog.cpp:111 ../build/src/ui_groupbydialog.h:206
 #: ../build/src/ui_groupbydialog.h:228 ../build/src/ui_groupbydialog.h:250
 #: ../build/src/ui_edittagdialog.h:919
 msgid "Grouping"
-msgstr "Agrupació"
+msgstr "Seskupení"
 
 #: collection/collectionfilterwidget.cpp:359
 msgid "Grouping Name"
-msgstr "Nom d’agrupació"
+msgstr "Název seskupení"
 
 #: collection/collectionfilterwidget.cpp:359
 msgid "Grouping name:"
-msgstr "Nom d’agrupació:"
+msgstr "Název seskupení:"
 
 #: ../build/src/ui_networkproxysettingspage.h:174
 msgid "HTTP proxy"
-msgstr "Servidor intermediari per a l’HTTP"
+msgstr "Proxy HTTP"
 
 #: moodbar/moodbarrenderer.cpp:173
 msgid "Happy"
-msgstr ""
+msgstr "Šťastný"
 
 #: ../build/src/ui_deviceproperties.h:373
 msgid "Hardware information"
-msgstr "Informació del maquinari"
+msgstr "Informace o vybavení"
 
 #: ../build/src/ui_deviceproperties.h:374
 msgid "Hardware information is only available while the device is connected."
 msgstr ""
-"La informació del maquinari només està disponible mentre el dispositiu està "
-"endollat."
+"Informace o vybavení jsou dostupné pouze tehdy, když je zařízení připojeno."
 
 #: ../build/src/ui_mainwindow.h:734
 msgid "Help"
-msgstr ""
+msgstr "Pomoc"
 
 #: ../build/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
@@ -2725,83 +2730,84 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
-msgstr ""
+msgstr "Skrýt hlavní okno"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
-msgstr "Alt"
+msgstr "Vysoká"
 
 #: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
-msgstr "Alta (%1 fps)"
+msgstr "Vysoký (%1 fps)"
 
 #: ../build/src/ui_backendsettingspage.h:688
+#, fuzzy
 msgid "High watermark"
-msgstr ""
+msgstr "Vysoký vodoznak"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:449
 msgid "Hours"
-msgstr ""
+msgstr "Hodiny"
 
 #: ../build/src/ui_deviceproperties.h:372
 msgid "Icon"
-msgstr "Icona"
+msgstr "Ikona"
 
 #: ../build/src/ui_appearancesettingspage.h:550
 msgid "Icon sizes"
-msgstr ""
+msgstr "Velikosti ikon"
 
 #: widgets/fancytabwidget.cpp:732
 msgid "Icons on top"
-msgstr "Icones a la part superior"
+msgstr "Ikony nahoře"
 
 #: musicbrainz/tagfetcher.cpp:69 musicbrainz/tagfetcher.cpp:113
 msgid "Identifying song"
-msgstr "S’està identificant la cançó"
+msgstr "Určuje se píseň"
 
 #: ../build/src/ui_playlistsettingspage.h:197
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
 msgstr ""
-"En habilitar aquesta opció, podreu fer clic en la cançó seleccionada de la "
-"llista de reproducció i editar els valors directament"
+"Pokud je zapnuto, po klepnutí na vybranou píseň v seznamu skladeb můžete "
+"upravit hodnotu značky přímo"
 
 #: device/devicemanager.cpp:610 device/devicemanager.cpp:618
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
 msgstr ""
-"Si continueu, aquest dispositiu funcionarà lentament i les cançons que hi "
-"copieu podrien no reproduïr-se."
+"Budete-li pokračovat, toto zařízení bude pracovat pomalu a písně na něj "
+"kopírované nemusí fungovat."
 
 #: dialogs/about.cpp:123
 msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
-msgstr ""
+msgstr "Líbí se a vyhovuje vám-li Strawberry, zvažte příspěvek."
 
 #: covermanager/albumcoverchoicecontroller.cpp:79
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr ""
-"Imatges (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+"Obrázky (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
 #: covermanager/albumcoverchoicecontroller.cpp:80
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
-msgstr "Imatges (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+msgstr "Obrázky (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
 #: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
-msgstr ""
+msgstr "Importovat data z last.fm"
 
 #: ../build/src/ui_mainwindow.h:715
 msgid "Import data from last.fm..."
-msgstr ""
+msgstr "Importovat data z last.fm..."
 
 #: ../build/src/ui_transcodedialog.h:226
 msgid "Import..."
-msgstr "Importa..."
+msgstr "Importovat..."
 
 #: ../build/src/ui_backendsettingspage.h:682
 msgid "Improve headphone listening of stereo audio records (bs2b)"
@@ -2810,34 +2816,37 @@ msgstr ""
 #: utilities/timeutils.cpp:101
 #, qt-format
 msgid "In %1 days"
-msgstr "D’aquí a %1 dies"
+msgstr "Za %1 dny(ů)"
 
 #: utilities/timeutils.cpp:104
 #, qt-format
 msgid "In %1 weeks"
-msgstr "D’aquí a %1 setmanes"
+msgstr "Za %1 týdny(ů)"
 
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:82
+#, fuzzy
 msgid ""
 "In dynamic mode new tracks will be chosen and added to the playlist every "
 "time a song finishes."
 msgstr ""
+"V dynamickém režimu se do playlistu přidají nové skladby pokaždé když jedna "
+"dohraje."
 
 #: ../build/src/ui_notificationssettingspage.h:490
 msgid "Include album art in the notification"
-msgstr "Inclou la coberta a la notificació"
+msgstr "Zahrnout obal alba do oznámení"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
-msgstr ""
+msgstr "Zahrnout všechny skladby"
 
 #: core/commandlineoptions.cpp:227
 msgid "Increase the volume by 4 percent"
-msgstr ""
+msgstr "Zvýšit hlasitost o 4 procenta"
 
 #: core/commandlineoptions.cpp:229
 msgid "Increase the volume by <value> percent"
-msgstr "Augmenta el volum <value> per cent"
+msgstr "Zvýšit hlasitost o <value> procent"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:68
 msgid "Increase volume"
@@ -2845,11 +2854,11 @@ msgstr ""
 
 #: ../build/src/ui_deviceproperties.h:375
 msgid "Information"
-msgstr "Informació"
+msgstr "Informace"
 
 #: ../build/src/ui_organizedialog.h:272
 msgid "Insert..."
-msgstr "Insereix…"
+msgstr "Vložit..."
 
 #: dialogs/snapdialog.cpp:77
 msgid "Install strawberry through PPA:"
@@ -2861,19 +2870,19 @@ msgstr ""
 
 #: core/database.cpp:486
 msgid "Integrity check"
-msgstr "Comprovació d’integritat"
+msgstr "Ověření celistvosti"
 
 #: ../build/src/ui_internetsearchview.h:223
 msgid "Internet Search View"
-msgstr ""
+msgstr "Zobrazení vyhledávání na internetu"
 
 #: ../build/src/ui_internettabsview.h:112
 msgid "Internet Tabs View"
-msgstr ""
+msgstr "Zobrazení karet Internetu"
 
 #: osd/osdbase.cpp:367 ../build/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
-msgstr "Peces d’introducció"
+msgstr "Skladby úvodu"
 
 #: device/mtpconnection.cpp:57
 #, qt-format
@@ -2882,34 +2891,35 @@ msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:254
 msgid "Invalid reply from web browser. Missing token."
-msgstr ""
+msgstr "Špatná odpověď od prohlížeče. Token chybí."
 
 #: dialogs/about.cpp:113
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
 msgstr ""
+"Je to větev přehrávače Clementine z roku 2018 zaměřený na sběratele hudby a "
+"audiofily."
 
 #: dialogs/snapdialog.cpp:42
 msgid "It is detected that Strawberry is running as a Snap"
-msgstr ""
+msgstr "Bylo zjištěno, že Strawberry běží jako Snap"
 
 #: ../build/src/ui_behavioursettingspage.h:301
 msgid "Jump to previous song right away"
-msgstr "Vés a la peça anterior"
+msgstr "Skočit ihned na předchozí píseň"
 
 #: ../build/src/ui_appearancesettingspage.h:544
 msgid "Keep aspect ratio"
-msgstr ""
+msgstr "Zachovat poměr stran"
 
 #: ../build/src/ui_behavioursettingspage.h:281
 msgid "Keep running in the background when the window is closed"
-msgstr ""
-"Conserva l’aplicació executant-se en segon pla quan tanqueu la finestra"
+msgstr "Při zavření okna nechat běžet na pozadí"
 
 #: ../build/src/ui_organizedialog.h:263
 msgid "Keep the original files"
-msgstr "Conserva els fitxers originals"
+msgstr "Zachovat původní soubory"
 
 #: core/song.cpp:736
 msgid "LU"
@@ -2921,23 +2931,23 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:291
 msgid "Language"
-msgstr "Llengua"
+msgstr "Jazyk"
 
 #: equalizer/equalizer.cpp:145
 msgid "Laptop/Headphones"
-msgstr "Portàtil/auriculars"
+msgstr "Přenosný počítač/Sluchátka"
 
 #: equalizer/equalizer.cpp:146
 msgid "Large Hall"
-msgstr "Saló gran"
+msgstr "Velký sál"
 
 #: widgets/playingwidget.cpp:102
 msgid "Large album cover"
-msgstr "Coberta d’àlbum gran"
+msgstr "Velký obal alba"
 
 #: widgets/fancytabwidget.cpp:728
 msgid "Large sidebar"
-msgstr "Barra lateral gran"
+msgstr "Velký postranní panel"
 
 #: playlist/playlist.cpp:1390
 msgid "Last Played"
@@ -2946,17 +2956,17 @@ msgstr ""
 #: smartplaylists/smartplaylistsmodel.cpp:91
 #: ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
-msgstr "Reproduïdes l’última vegada"
+msgstr "Naposledy hrané"
 
 #: ../build/src/ui_edittagdialog.h:893
 msgctxt "A playlist's tag."
 msgid "Last played"
-msgstr "Darrera reproducció"
+msgstr "Naposledy hráno"
 
 #: dialogs/lastfmimportdialog.cpp:158
 #, qt-format
 msgid "Last played for %1 songs received."
-msgstr ""
+msgstr "Hodnota \"Naposledy přehráno\" pro %1 skladeb bylo přijato."
 
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Last.fm"
@@ -2964,28 +2974,28 @@ msgstr "Last.fm"
 
 #: smartplaylists/smartplaylistsmodel.cpp:109
 msgid "Least favourite tracks"
-msgstr ""
+msgstr "Nejméně oblíbené skladby"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Left"
-msgstr "Esquerra"
+msgstr "Vlevo"
 
 #: context/contextview.cpp:163 playlist/playlist.cpp:1379
 #: organize/organizedialog.cpp:118 ../build/src/ui_edittagdialog.h:895
 msgid "Length"
-msgstr "Durada"
+msgstr "Délka"
 
 #: ../build/src/ui_scrobblersettingspage.h:425
 msgid "Libre.fm"
-msgstr ""
+msgstr "Libre.fm"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:137
 msgid "Limits"
-msgstr ""
+msgstr "Omezení"
 
 #: scrobbler/listenbrainzscrobbler.cpp:190
 msgid "ListenBrainz Authentication"
-msgstr ""
+msgstr "Přihlášení na ListenBrainz"
 
 #: scrobbler/listenbrainzscrobbler.cpp:676
 #, qt-format
@@ -2994,74 +3004,74 @@ msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:428
 msgid "Listenbrainz"
-msgstr ""
+msgstr "Listenbrainz"
 
 #: equalizer/equalizer.cpp:147
 msgid "Live"
-msgstr "En directe"
+msgstr "Živě"
 
 #: ../build/src/ui_albumcovermanager.h:214
 msgid "Load"
-msgstr "Carregar"
+msgstr "Načíst"
 
 #: ../build/src/ui_coverfromurldialog.h:100
 msgid "Load cover from URL"
-msgstr "Carrega la coberta des d’un URL"
+msgstr "Nahrát obal z adresy (URL)"
 
 #: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Load cover from URL..."
-msgstr "Carrega la coberta des d’un URL…"
+msgstr "Nahrát obal z adresy (URL)..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:178
 #: covermanager/albumcoverchoicecontroller.cpp:209
 msgid "Load cover from disk"
-msgstr "Carrega la portada des del disc dur"
+msgstr "Nahrát obal z disku"
 
 #: covermanager/albumcoverchoicecontroller.cpp:105
 msgid "Load cover from disk..."
-msgstr "Carrega la coberta des d’un disc…"
+msgstr "Nahrát obal na disku..."
 
 #: playlist/playlistcontainer.cpp:375
 msgid "Load playlist"
-msgstr "Carrega la llista de reproducció"
+msgstr "Nahrát seznam skladeb"
 
 #: device/mtploader.cpp:55
 msgid "Loading MTP device"
-msgstr "S’està carregant el dispositiu MTP"
+msgstr "Nahrává se zařízení MTP"
 
 #: device/gpodloader.cpp:54
 msgid "Loading iPod database"
-msgstr "S’està carregant la base de dades de l’iPod"
+msgstr "Nahrává se databáze iPod"
 
 #: smartplaylists/playlistgeneratorinserter.cpp:63
 msgid "Loading smart playlist"
-msgstr ""
+msgstr "Nahrávání chytrého playlistu"
 
 #: collection/collectionmodel.cpp:212
 msgid "Loading songs"
-msgstr "S’estan carregant les cançons"
+msgstr "Nahrávají se písně"
 
 #: playlist/songloaderinserter.cpp:171 dialogs/edittagdialog.cpp:413
 msgid "Loading tracks"
-msgstr "S’estan carregant les peces"
+msgstr "Nahrávají se skladby"
 
 #: playlist/songloaderinserter.cpp:201
 msgid "Loading tracks info"
-msgstr "S’està carregant la informació de les peces"
+msgstr "Nahrávají se informace o skladbě"
 
 #: collection/collectionmodel.cpp:205
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:281
 msgid "Loading..."
-msgstr "S’està carregant…"
+msgstr "Nahrává se..."
 
 #: core/commandlineoptions.cpp:237
 msgid "Loads files/URLs, replacing current playlist"
-msgstr "Carregar fitxers/URLs, substituïnt l'actual llista de reproducció"
+msgstr "Nahraje soubory/adresy (URL), nahradí současný seznam skladeb"
 
 #: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Local file"
-msgstr ""
+msgstr "Místní soubor"
 
 #: ../build/src/ui_scrobblersettingspage.h:424
 #: ../build/src/ui_scrobblersettingspage.h:427
@@ -3071,11 +3081,11 @@ msgstr ""
 #: ../build/src/ui_tidalsettingspage.h:327
 #: ../build/src/ui_qobuzsettingspage.h:284
 msgid "Login"
-msgstr "Entra"
+msgstr "Přihlášení"
 
 #: ../build/src/ui_transcoderoptionsaac.h:138
 msgid "Long term prediction profile (LTP)"
-msgstr "Perfil de predicció a llarg termini (LTP)"
+msgstr "Dlouhodobý předpověďní profil"
 
 #: playlist/playlist.cpp:1410
 msgid "Loudness Range"
@@ -3084,32 +3094,33 @@ msgstr ""
 #: globalshortcuts/globalshortcutsmanager.cpp:79
 #: ../build/src/ui_mainwindow.h:634
 msgid "Love"
-msgstr ""
+msgstr "To Miluju!"
 
 #: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
-msgstr "Baixa (%1 fps)"
+msgstr "Nízký (%1 fps)"
 
 #: ../build/src/ui_transcoderoptionsaac.h:136
 msgid "Low complexity profile (LC)"
-msgstr "Perfil de baixa complexitat (LC)"
+msgstr "Nízkosložitostní profil"
 
 #: ../build/src/ui_backendsettingspage.h:689
+#, fuzzy
 msgid "Low watermark"
-msgstr ""
+msgstr "Nízký vodoznak"
 
 #: ../build/src/ui_coverssettingspage.h:326
 msgid "Lowercase filename"
-msgstr ""
+msgstr "Název souboru malými písmeny"
 
 #: ../build/src/ui_lyricssettingspage.h:162 ../build/src/ui_edittagdialog.h:936
 msgid "Lyrics"
-msgstr ""
+msgstr "Texty"
 
 #: ../build/src/ui_lyricssettingspage.h:163
 msgid "Lyrics providers"
-msgstr ""
+msgstr "Poskytovatelé textů"
 
 #: ../build/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token (Recommended)"
@@ -3130,11 +3141,11 @@ msgstr ""
 
 #: ../build/src/ui_transcoderoptionsaac.h:135
 msgid "Main profile (MAIN)"
-msgstr "Perfil principal (MAIN)"
+msgstr "Hlavní profil"
 
 #: ../build/src/ui_collectionfilterwidget.h:101
 msgid "Manage saved groupings"
-msgstr "Gestiona agrupacions guardades"
+msgstr "Spravovat uložená seskupení"
 
 #: settings/coverssettingspage.cpp:423
 #, qt-format
@@ -3143,11 +3154,11 @@ msgstr ""
 
 #: device/deviceproperties.cpp:175
 msgid "Manufacturer"
-msgstr "Fabricant"
+msgstr "Výrobce"
 
 #: ../build/src/ui_collectionsettingspage.h:437
 msgid "Mark disappeared songs unavailable"
-msgstr ""
+msgstr "Označit zmizelé skladby jako nedostupné"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:110
 msgid "Match every search term (AND)"
@@ -3159,20 +3170,20 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:542
 msgid "Max cover size"
-msgstr ""
+msgstr "Maximální velikost obalu alba"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:205
 msgid "Maximum bitrate"
-msgstr "Màxima taxa de bits"
+msgstr "Nejvyšší datový tok"
 
 #: qobuz/qobuzservice.cpp:498
 msgid "Maximum number of login attempts reached."
-msgstr ""
+msgstr "Byl dosažen maximální počet pokusů o přihlášení."
 
 #: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
-msgstr "Mitja (%1 fps)"
+msgstr "Střední (%1 fps)"
 
 #: ../build/src/ui_mainwindow.h:717 ../build/src/ui_mainwindow.h:720
 #: ../build/src/ui_mainwindow.h:723 ../build/src/ui_mainwindow.h:726
@@ -3193,19 +3204,19 @@ msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
-msgstr "Metadades"
+msgstr "Metadata"
 
 #: ../build/src/ui_appearancesettingspage.h:538
 msgid "Middle"
-msgstr ""
+msgstr "Střed"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:202
 msgid "Minimum bitrate"
-msgstr "Taxa de bits mínima"
+msgstr "Nejnižší datový tok"
 
 #: settings/tidalsettingspage.cpp:158
 msgid "Missing API token."
-msgstr ""
+msgstr "Chybějící API token."
 
 #: scrobbler/listenbrainzscrobbler.cpp:627
 #, qt-format
@@ -3214,71 +3225,71 @@ msgstr ""
 
 #: qobuz/qobuzservice.cpp:741 qobuz/qobuzstreamurlrequest.cpp:82
 msgid "Missing Qobuz app ID or secret."
-msgstr ""
+msgstr "Chybějící ID aplikace, nebo tajemství služby Qobuz."
 
 #: qobuz/qobuzservice.cpp:502 qobuz/qobuzservice.cpp:531
 #: qobuz/qobuzservice.cpp:581 qobuz/qobuzservice.cpp:631
 #: qobuz/qobuzservice.cpp:693
 msgid "Missing Qobuz app ID."
-msgstr ""
+msgstr "Chybějící ID aplikace Qobuz."
 
 #: qobuz/qobuzservice.cpp:510
 msgid "Missing Qobuz password."
-msgstr ""
+msgstr "Chybějící Qobuz heslo."
 
 #: qobuz/qobuzservice.cpp:506
 msgid "Missing Qobuz username."
-msgstr ""
+msgstr "Chybějící Qobuz uživatelské jméno."
 
 #: subsonic/subsonicurlhandler.cpp:43
 msgid "Missing Subsonic username or password."
-msgstr ""
+msgstr "Chybějící uživatelské jméno nebo heslo pro Subsonic."
 
 #: tidal/tidalservice.cpp:746 tidal/tidalservice.cpp:801
 #: tidal/tidalservice.cpp:856 tidal/tidalservice.cpp:919
 #: tidal/tidalservice.cpp:982 tidal/tidalstreamurlrequest.cpp:87
 msgid "Missing Tidal API token, username or password."
-msgstr ""
+msgstr "Chybějící API token, uživatelské jméno nebo heslo pro Tidal."
 
 #: tidal/tidalservice.cpp:707
 msgid "Missing Tidal API token."
-msgstr ""
+msgstr "Chybějící API token pro Tidal."
 
 #: settings/tidalsettingspage.cpp:151
 msgid "Missing Tidal client ID."
-msgstr ""
+msgstr "Chybějící ID klienta pro Tidal."
 
 #: tidal/tidalservice.cpp:715
 msgid "Missing Tidal password."
-msgstr ""
+msgstr "Chybějící heslo k Tidal."
 
 #: tidal/tidalservice.cpp:711
 msgid "Missing Tidal username."
-msgstr ""
+msgstr "Chybějící uživatelské jméno k Tidal."
 
 #: settings/qobuzsettingspage.cpp:130
 msgid "Missing app id."
-msgstr ""
+msgstr "Chybějící ID aplikace."
 
 #: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:138
 msgid "Missing password."
-msgstr ""
+msgstr "Chybějící heslo."
 
 #: settings/subsonicsettingspage.cpp:130
 msgid "Missing server url, username or password."
-msgstr ""
+msgstr "Chybějící URL serveru, uživatelské jméno nebo heslo."
 
 #: subsonic/subsonicservice.cpp:428
 msgid "Missing username or password."
-msgstr ""
+msgstr "Chybějící uživatelské jméno nebo heslo."
 
 #: scrobbler/lastfmimport.cpp:212
 msgid "Missing username, please login to last.fm first!"
-msgstr ""
+msgstr "Chybějící jméno, prosím, nejdříve se přihlašte k last.fm!"
 
 #: settings/tidalsettingspage.cpp:162 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
-msgstr ""
+msgstr "Chybějící uživatelské jméno."
 
 #: device/deviceproperties.cpp:174
 msgid "Model"
@@ -3286,52 +3297,52 @@ msgstr "Model"
 
 #: ../build/src/ui_collectionsettingspage.h:435
 msgid "Monitor the collection for changes"
-msgstr "Monitoritza els canvis a la col·lecció"
+msgstr "Sledovat změny ve sbírce"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:455
 msgid "Months"
-msgstr "Mesos"
+msgstr "Měsíce"
 
 #: playlist/playlist.cpp:1405
 msgid "Mood"
-msgstr ""
+msgstr "Nálada"
 
 #: ../build/src/ui_moodbarsettingspage.h:92
 #: ../build/src/ui_moodbarsettingspage.h:93
 msgid "Moodbar"
-msgstr ""
+msgstr "Ukazatel nálady"
 
 #: moodbar/moodbarproxystyle.cpp:376 ../build/src/ui_moodbarsettingspage.h:95
 msgid "Moodbar style"
-msgstr ""
+msgstr "Styl Ukazatele nálady"
 
 #: smartplaylists/smartplaylistsmodel.cpp:97
 msgid "Most played"
-msgstr ""
+msgstr "Nejčastěji přehrávané"
 
 #: device/giolister.cpp:192
 msgid "Mount point"
-msgstr "Punt de muntatge"
+msgstr "Přípojný bod"
 
 #: device/udisks2lister.cpp:121
 msgid "Mount points"
-msgstr "Punts de muntatge"
+msgstr "Přípojné body"
 
 #: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:309
 #: ../build/src/ui_coverssettingspage.h:315
 #: ../build/src/ui_lyricssettingspage.h:166
 msgid "Move down"
-msgstr "Mou cap avall"
+msgstr "Posunout dolů"
 
 #: core/mainwindow.cpp:760 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
-msgstr "Mou a la col·lecció…"
+msgstr "Přesunout do sbírky..."
 
 #: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:308
 #: ../build/src/ui_coverssettingspage.h:314
 #: ../build/src/ui_lyricssettingspage.h:165
 msgid "Move up"
-msgstr "Mou cap amunt"
+msgstr "Posunout nahoru"
 
 #: playlist/playlistcontainer.cpp:146
 #, qt-format
@@ -3342,75 +3353,75 @@ msgstr ""
 
 #: core/mainwindow.cpp:2275 transcoder/transcodedialog.cpp:325
 msgid "Music"
-msgstr "Música"
+msgstr "Hudba"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:70
 msgid "Mute"
-msgstr "Silenci"
+msgstr "Ztlumit"
 
 #: equalizer/equalizer.cpp:210 collection/savedgroupingmanager.cpp:54
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:80
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Name"
-msgstr "Nom"
+msgstr "Název"
 
 #: ../build/src/ui_organizedialog.h:266
 msgid "Naming options"
-msgstr "Opcions d’anomenament"
+msgstr "Volby pro pojmenování"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:228
 msgid "Narrow band (NB)"
-msgstr "Banda estreta (BE)"
+msgstr "Úzké pásmo"
 
 #: ../build/src/ui_networkproxysettingspage.h:170
 msgid "Network Proxy"
-msgstr "Servidor intermediari de xarxa"
+msgstr "Síťová proxy"
 
 #: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:893
 msgid "Never"
-msgstr "Mai"
+msgstr "Nikdy"
 
 #: smartplaylists/smartplaylistsmodel.cpp:85
 msgid "Never played"
-msgstr ""
+msgstr "Nikdy nepřehrané"
 
 #: ../build/src/ui_behavioursettingspage.h:296
 #: ../build/src/ui_behavioursettingspage.h:310
 msgid "Never start playing"
-msgstr "Mai no comencis a reproduir"
+msgstr "Nikdy nezačít přehrávání"
 
 #: playlist/playlistlistcontainer.cpp:88 playlist/playlistlistcontainer.cpp:211
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
-msgstr "Carpeta nova"
+msgstr "Nová složka"
 
 #: core/mainwindow.cpp:2093
 msgid "New playlist"
-msgstr "Llista de reproducció nova"
+msgstr "Nový seznam skladeb"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
-msgstr ""
+msgstr "Nový chytrý playlist"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:63
 msgid "New smart playlist..."
-msgstr ""
+msgstr "Nový chytrý playlist..."
 
 #: widgets/freespacebar.cpp:66
 msgid "New songs"
-msgstr "Cançons noves:"
+msgstr "Nové písně"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
-msgstr ""
+msgstr "Nové skladby budou přidány automaticky."
 
 #: smartplaylists/smartplaylistsmodel.cpp:66
 msgid "Newest tracks"
-msgstr ""
+msgstr "Nejnovější skladby"
 
 #: dialogs/edittagdialog.cpp:229 dialogs/trackselectiondialog.cpp:70
 msgid "Next"
-msgstr "Següent"
+msgstr "Další"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:66
 msgid "Next track"
@@ -3418,7 +3429,7 @@ msgstr ""
 
 #: utilities/timeutils.cpp:102
 msgid "Next week"
-msgstr "La setmana vinent"
+msgstr "Příští týden"
 
 #: dialogs/edittagdialog.cpp:816 dialogs/edittagdialog.cpp:832
 msgid "No"
@@ -3426,7 +3437,7 @@ msgstr ""
 
 #: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
-msgstr "Sense analitzador"
+msgstr "Žádný analyzátor"
 
 #: ../build/src/ui_backendsettingspage.h:692
 msgid "No audio normalization"
@@ -3434,75 +3445,74 @@ msgstr ""
 
 #: covermanager/albumcovermanager.cpp:1017
 msgid "No covers to export."
-msgstr "No hi ha cap coberta que exportar."
+msgstr "Žádné obaly k uložení"
 
 #: ../build/src/ui_transcoderoptionsaac.h:145
 msgid "No long blocks"
-msgstr "No utilitzis blocs llargs"
+msgstr "Žádné dlouhé bloky"
 
 #: tidal/tidalrequest.cpp:1362 qobuz/qobuzrequest.cpp:1424
 msgid "No match."
-msgstr ""
+msgstr "Žádná shoda."
 
 #: playlist/playlistcontainer.cpp:469
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
-"No s’han trobat coincidències. Netegeu el quadre de cerca per mostrar de nou "
-"la llista de reproducció completa."
+"Nebyly nalezeny žádné shody. Smažte obsah vyhledávacího pole, aby se znovu "
+"zobrazil celý seznam skladeb."
 
 #: settings/coverssettingspage.cpp:297 settings/lyricssettingspage.cpp:189
 msgid "No provider selected."
-msgstr ""
+msgstr "Žádný poskytovatel nebyl zvolen."
 
 #: ../build/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
-msgstr "No utilitzis blocs curs"
+msgstr "Žádné krátké bloky"
 
 #: context/contextview.cpp:407
 msgid "No song playing"
-msgstr ""
+msgstr "Žádná skladba se nepřehrává"
 
 #: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:819
 #: dialogs/edittagdialog.cpp:826 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 msgid "None"
-msgstr "Cap"
+msgstr "Žádná"
 
 #: core/mainwindow.cpp:2665 core/mainwindow.cpp:2816
 #: collection/collectionview.cpp:702
 msgid "None of the selected songs were suitable for copying to a device"
-msgstr ""
-"Cap de les cançons seleccionades són adequades per copiar-les a un "
-"dispositiu"
+msgstr "Žádná z vybraných písní nebyla vhodná ke zkopírování do zařízení"
 
 #: moodbar/moodbarrenderer.cpp:167
 msgid "Normal"
-msgstr ""
+msgstr "Normální"
 
 #: ../build/src/ui_transcoderoptionsaac.h:143
 msgid "Normal block type"
-msgstr "Tipus de bloc normal"
+msgstr "Běžný typ bloku"
 
 #: qobuz/qobuzservice.cpp:536 qobuz/qobuzservice.cpp:586
 #: qobuz/qobuzservice.cpp:636
 msgid "Not authenticated with Qobuz."
-msgstr ""
+msgstr "Nejste přihlášeni ke službě Qobuz."
 
 #: tidal/tidalservice.cpp:719
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
+"Nejste přihlášeni k Tidal a byl dosažen maximální počet pokusů o přihlášení."
 
 #: tidal/tidalservice.cpp:741 tidal/tidalservice.cpp:796
 #: tidal/tidalservice.cpp:851 tidal/tidalservice.cpp:914
 #: tidal/tidalservice.cpp:978 tidal/tidalstreamurlrequest.cpp:83
 msgid "Not authenticated with Tidal."
-msgstr ""
+msgstr "Nejste přihlášeni k Tidal."
 
 #: device/deviceview.cpp:131
 msgid "Not connected"
-msgstr "No connectat"
+msgstr "Nepřipojeno"
 
 #: dialogs/edittagdialog.cpp:1438
 msgid "Not found."
@@ -3510,27 +3520,27 @@ msgstr ""
 
 #: device/deviceview.cpp:135
 msgid "Not mounted - double click to mount"
-msgstr "No s’ha muntat. Feu doble clic per muntar-ho"
+msgstr "Nepřipojeno - dvojitým klepnutím připojíte"
 
 #: ../build/src/ui_notificationssettingspage.h:477
 msgid "Notification type"
-msgstr "Tipus de notificació"
+msgstr "Druh oznámení"
 
 #: ../build/src/ui_notificationssettingspage.h:415
 msgid "Notifications"
-msgstr "Notificacions"
+msgstr "Oznámení"
 
 #: ../build/src/ui_albumcoverexport.h:207
 msgid "O&verwrite all"
-msgstr ""
+msgstr "Přeps&at vše"
 
 #: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
-msgstr "Vista prèvia OSD"
+msgstr "Náhled OSD"
 
 #: osd/osdbase.cpp:270
 msgid "Off"
-msgstr "Inactiu"
+msgstr "Vypnuto"
 
 #: dialogs/snapdialog.cpp:58
 #, qt-format
@@ -3538,38 +3548,40 @@ msgid ""
 "Official releases are available for Debian and Ubuntu which also work on "
 "most of their derivatives. See %1 for more information."
 msgstr ""
+"Jsou dostupná oficiální vydání pro Debian a Ubuntu. Tato vydání také fungují "
+"s většinou jejich derivátů. Navštivte %1 pro více informací."
 
 #: osd/osdbase.cpp:270
 msgid "On"
-msgstr "Actiu"
+msgstr "Zapnuto"
 
 #: ../build/src/ui_behavioursettingspage.h:285
 msgid "On startup"
-msgstr ""
+msgstr "Při startu"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:139
 msgid "Only show the first"
-msgstr ""
+msgstr "Zobrazit pouze první"
 
 #: ../build/src/ui_appearancesettingspage.h:548
 msgid "Opacity"
-msgstr "Opacitat"
+msgstr "Neprůhlednost"
 
 #: scrobbler/scrobblingapi20.cpp:211
 msgid "Open URL in web browser?"
-msgstr ""
+msgstr "Otevřít URL v prohlížeči?"
 
 #: transcoder/transcodedialog.cpp:341
 msgid "Open a directory to import music from"
-msgstr "Obriu una carpeta des d’on s’importarà la música"
+msgstr "Otevřít adresář a zavést hudbu v něm"
 
 #: ../build/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
-msgstr ""
+msgstr "Otevřít zvukové CD"
 
 #: ../build/src/ui_deviceproperties.h:384
 msgid "Open device"
-msgstr "Obrir dispositiu"
+msgstr "Otevřít zařízení"
 
 #: radios/radioview.cpp:81
 msgid "Open homepage"
@@ -3581,21 +3593,21 @@ msgstr ""
 #: internet/internetcollectionview.cpp:318 radios/radioview.cpp:77
 #: device/deviceview.cpp:246 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
-msgstr "Obre en una llista de reproducció nova"
+msgstr "Otevřít v novém seznamu skladeb"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:270
 #: ../build/src/ui_globalshortcutssettingspage.h:272
 #: ../build/src/ui_globalshortcutssettingspage.h:279
 msgid "Open..."
-msgstr "Obre…"
+msgstr "Otevřít..."
 
 #: ../build/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
-msgstr ""
+msgstr "Optimal&izovat pro datový tok"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
-msgstr ""
+msgstr "Optimalizovat pro &kvalitu"
 
 #: ../build/src/ui_backendsettingspage.h:678
 msgid "Options"
@@ -3603,7 +3615,7 @@ msgstr ""
 
 #: ../build/src/ui_transcodedialog.h:229
 msgid "Options..."
-msgstr "Opcions…"
+msgstr "Volby..."
 
 #: ../build/src/ui_transcodersettingspage.h:190
 msgid "Opus"
@@ -3611,15 +3623,15 @@ msgstr "Opus"
 
 #: ../build/src/ui_organizedialog.h:260
 msgid "Organize Files"
-msgstr ""
+msgstr "Uspořádat Soubory"
 
 #: core/mainwindow.cpp:758 collection/collectionview.cpp:380
 msgid "Organize files..."
-msgstr ""
+msgstr "Uspořádat soubory..."
 
 #: organize/organize.cpp:106
 msgid "Organizing files"
-msgstr ""
+msgstr "Organizace souborů"
 
 #: playlist/playlist.cpp:1381
 msgid "Original Year"
@@ -3627,18 +3639,18 @@ msgstr ""
 
 #: dialogs/trackselectiondialog.cpp:192
 msgid "Original tags"
-msgstr "Etiquetes originals"
+msgstr "Původní značky"
 
 #: collection/savedgroupingmanager.cpp:122 organize/organizedialog.cpp:115
 #: ../build/src/ui_groupbydialog.h:202 ../build/src/ui_groupbydialog.h:224
 #: ../build/src/ui_groupbydialog.h:246
 msgid "Original year"
-msgstr "Any original"
+msgstr "Původní rok"
 
 #: collection/savedgroupingmanager.cpp:110 ../build/src/ui_groupbydialog.h:203
 #: ../build/src/ui_groupbydialog.h:225 ../build/src/ui_groupbydialog.h:247
 msgid "Original year - Album"
-msgstr "Any original - àlbum"
+msgstr "Původní rok - Album"
 
 #: collection/savedgroupingmanager.cpp:113
 msgid "Original year - Album - Disc"
@@ -3646,16 +3658,16 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:240
 msgid "Other options"
-msgstr "Altres opcions"
+msgstr "Další volby"
 
 #: ../build/src/ui_albumcoverexport.h:201
 #: ../build/src/ui_backendsettingspage.h:671
 msgid "Output"
-msgstr "Sortida"
+msgstr "Výstup"
 
 #: ../build/src/ui_transcodedialog.h:227
 msgid "Output options"
-msgstr "Opcions de sortida"
+msgstr "Možnosti výstupu"
 
 #: ../build/src/ui_collectionsettingspage.h:461
 msgid "Overwrite database playcount when songs are re-read from disk"
@@ -3667,27 +3679,27 @@ msgstr ""
 
 #: ../build/src/ui_coverssettingspage.h:325
 msgid "Overwrite existing file"
-msgstr ""
+msgstr "Přepsat existující soubor"
 
 #: ../build/src/ui_organizedialog.h:278
 msgid "Overwrite existing files"
-msgstr "Sobreescriu els fitxers existents"
+msgstr "Přepsat existující soubory"
 
 #: ../build/src/ui_albumcoverexport.h:208
 msgid "Overwrite s&maller ones only"
-msgstr ""
+msgstr "Přepsat pouze menší"
 
 #: ../build/src/ui_mainwindow.h:733
 msgid "P&laylist"
-msgstr ""
+msgstr "Seznam sklad&eb"
 
 #: device/udisks2lister.cpp:122
 msgid "Partition label"
-msgstr "Etiqueta de la partició"
+msgstr "Štítek oddílu"
 
 #: equalizer/equalizer.cpp:148
 msgid "Party"
-msgstr "Festa"
+msgstr "Oslava"
 
 #: ../build/src/ui_networkproxysettingspage.h:180
 #: ../build/src/ui_userpassdialog.h:93
@@ -3695,7 +3707,7 @@ msgstr "Festa"
 #: ../build/src/ui_tidalsettingspage.h:326
 #: ../build/src/ui_qobuzsettingspage.h:282
 msgid "Password"
-msgstr "Contrasenya"
+msgstr "Heslo"
 
 #: ../build/src/ui_edittagdialog.h:902
 msgid "Path"
@@ -3708,15 +3720,15 @@ msgstr ""
 #: core/mainwindow.cpp:1366 core/mainwindow.cpp:1892
 #: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
-msgstr "Pausa"
+msgstr "Pozastavit"
 
 #: core/commandlineoptions.cpp:222
 msgid "Pause playback"
-msgstr "Pausa la reproducció"
+msgstr "Pozastavit přehrávání"
 
 #: osd/osdbase.cpp:211 osd/osdbase.cpp:214
 msgid "Paused"
-msgstr "En pausa"
+msgstr "Pozastaveno"
 
 #: ../build/src/ui_collectionsettingspage.h:438
 msgid ""
@@ -3733,21 +3745,21 @@ msgstr ""
 #: ../build/src/ui_groupbydialog.h:227 ../build/src/ui_groupbydialog.h:249
 #: ../build/src/ui_edittagdialog.h:929
 msgid "Performer"
-msgstr "Intèrpret"
+msgstr "Účinkující"
 
 #: ../build/src/ui_albumcoverexport.h:212
 msgid "Pixel"
-msgstr "Píxel"
+msgstr "Pixel"
 
 #: widgets/fancytabwidget.cpp:730
 msgid "Plain sidebar"
-msgstr "Barra lateral senzilla"
+msgstr "Prostý postranní panel"
 
 #: core/mainwindow.cpp:727 core/mainwindow.cpp:1319 core/mainwindow.cpp:1350
 #: core/mainwindow.cpp:1896 core/qtsystemtrayicon.cpp:160
 #: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
-msgstr "Reprodueix"
+msgstr "Přehrát"
 
 #: playlist/playlist.cpp:1388
 msgid "Play Count"
@@ -3755,11 +3767,11 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:553
 msgid "Play control buttons"
-msgstr ""
+msgstr "Tlačítka pro ovládání přehrávání"
 
 #: ../build/src/ui_edittagdialog.h:896
 msgid "Play count"
-msgstr "Comptador de reproduccions"
+msgstr "Počet přehrání"
 
 #: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
@@ -3771,20 +3783,20 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:221
 msgid "Play if stopped, pause if playing"
-msgstr "Reprodueix si esta parat, pausa si esta reproduïnt"
+msgstr "Přehrát, pokud je zastaveno, pozastavit, pokud je přehráváno"
 
 #: ../build/src/ui_behavioursettingspage.h:297
 #: ../build/src/ui_behavioursettingspage.h:311
 msgid "Play if there is nothing already playing"
-msgstr "Reprodueix si encara no hi ha res reproduint-se"
+msgstr "Hrát, pokud se již něco nepřehrává"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
 msgid "Play next"
-msgstr ""
+msgstr "Přehrát další"
 
 #: core/commandlineoptions.cpp:238
 msgid "Play the <n>th track in the playlist"
-msgstr "Reprodueix la <n>a cançó de la llista de reproducció"
+msgstr "Přehrát <n>. skladbu v seznamu se skladbami"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Play/Pause"
@@ -3798,26 +3810,26 @@ msgstr ""
 #: dialogs/lastfmimportdialog.cpp:161
 #, qt-format
 msgid "Playcounts for %1 songs received."
-msgstr ""
+msgstr "Hodnota \"Počet přehrání\" pro %1 skladeb byla přijata."
 
 #: core/commandlineoptions.cpp:219
 msgid "Player options"
-msgstr "Opcions del reproductor"
+msgstr "Nastavení přehrávače"
 
 #: playlist/playlistcontainer.cpp:370 playlist/playlistlistcontainer.cpp:276
 #: playlist/playlistlistcontainer.cpp:386 playlist/playlistmanager.cpp:109
 #: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:539
 #: playlist/playlisttabbar.cpp:433 ../build/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
-msgstr "Llista de reproducció"
+msgstr "Seznam skladeb"
 
 #: ../build/src/ui_appearancesettingspage.h:551
 msgid "Playlist buttons"
-msgstr ""
+msgstr "Tlačítka playlistů"
 
 #: osd/osdbase.cpp:278
 msgid "Playlist finished"
-msgstr "Llista de reproducció finalitzada"
+msgstr "Seznam skladeb dokončen"
 
 #: core/mainwindow.cpp:2366
 #, qt-format
@@ -3825,15 +3837,17 @@ msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
 "playlist?"
 msgstr ""
+"Seznam skladeb obsahuje %1 skladeb. Jste si jisti že chcete seznam vyčistit? "
+"Nelze to vrátit zpátky!"
 
 #: playlist/playlistlistcontainer.cpp:381
 msgid "Playlist must be open first."
-msgstr ""
+msgstr "Seznam skladeb musí být nejdřív otevřen."
 
 #: core/commandlineoptions.cpp:234
 #: ../build/src/ui_playlistsaveoptionsdialog.h:92
 msgid "Playlist options"
-msgstr "Opcions de la llista de reproducció"
+msgstr "Nastavení seznamu skladeb"
 
 #: ../build/src/ui_appearancesettingspage.h:557
 msgid "Playlist playing song color"
@@ -3841,20 +3855,20 @@ msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:81
 msgid "Playlist type"
-msgstr ""
+msgstr "Typ seznamu skladeb"
 
 #: core/mainwindow.cpp:376
 msgid "Playlists"
-msgstr ""
+msgstr "Seznamy skladeb"
 
 #: ../data/html/oauthsuccess.html:38
 msgid "Please close your browser and return to Strawberry."
-msgstr "Tanqueu el navegador i torneu a l’Strawberry."
+msgstr "Zavřete, prosím, svůj prohlížeč a vraťte se do Strawberry."
 
 #: covermanager/spotifycoverprovider.cpp:149
 #: lyrics/geniuslyricsprovider.cpp:120 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
-msgstr ""
+msgstr "Prosím navštivte tuto adresu URL ve vašem prohlížeči."
 
 #: equalizer/equalizer.cpp:149
 msgid "Pop"
@@ -3862,7 +3876,7 @@ msgstr "Pop"
 
 #: ../build/src/ui_notificationssettingspage.h:483
 msgid "Popup duration"
-msgstr "Duració de la finestra emergent"
+msgstr "Doba zobrazení oznámení"
 
 #: ../build/src/ui_networkproxysettingspage.h:177
 msgid "Port"
@@ -3870,31 +3884,29 @@ msgstr "Port"
 
 #: ../build/src/ui_appearancesettingspage.h:535
 msgid "Position"
-msgstr "Posició"
+msgstr "Pozice"
 
 #: equalizer/equalizer.cpp:66 ../build/src/ui_backendsettingspage.h:699
 msgid "Pre-amp"
-msgstr "Preamplificador"
+msgstr "Předzesílení"
 
 #: ../build/src/ui_scrobblersettingspage.h:408
 msgid "Prefer album artist when sending scrobbles"
-msgstr ""
+msgstr "Preferovat autory alb při odesílání na server"
 
 #: ../build/src/ui_subsonicsettingspage.h:252
 #: ../build/src/ui_tidalsettingspage.h:328
 #: ../build/src/ui_qobuzsettingspage.h:285
 msgid "Preferences"
-msgstr "Preferències"
+msgstr "Nastavení"
 
 #: ../build/src/ui_collectionsettingspage.h:441
 msgid "Preferred album art filenames (comma separated)"
-msgstr ""
-"Noms de fitxer preferits per a les caràtules dels àlbums (separats per "
-"comes)"
+msgstr "Upřednostňované názvy souborů s obaly alb (oddělené čárkou)"
 
 #: ../build/src/ui_deviceproperties.h:382
 msgid "Preferred format"
-msgstr "Format preferit"
+msgstr "Upřednostňovaný formát"
 
 #: playlist/playlistcontainer.cpp:129
 msgid ""
@@ -3906,40 +3918,42 @@ msgstr ""
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
+"Zadejte jméno pole před slovo abyste limitovali vyhledávání na zadané pole, "
+"např.:"
 
 #: core/songloader.cpp:151
 msgid "Preload function was not set for blocking operation."
-msgstr ""
+msgstr "Funkce přednačítání nebyla nastavena pro operaci blokování."
 
 #: ../build/src/ui_equalizer.h:167
 msgid "Preset:"
-msgstr "Predefinició:"
+msgstr "Předvolba:"
 
 #: scrobbler/scrobblingapi20.cpp:211
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
 msgstr ""
-"Feu clic a «Desa» per a copiar l’URL al porta-retalls i obriu-lo manualment "
-"amb un navegador web."
+"Klikněte na \"Uložit\" pro zkopírování URL do schránky a ruční otevření v "
+"prohlížeči."
 
 #: ../build/src/ui_globalshortcutgrabber.h:69
 msgid "Press a key"
-msgstr "Premeu una tecla"
+msgstr "Stiskněte klávesu"
 
 #: globalshortcuts/globalshortcutgrabber.cpp:57
 #: ../build/src/ui_globalshortcutgrabber.h:70
 #, qt-format
 msgid "Press a key combination to use for %1..."
-msgstr "Premeu una combinació de tecles per utilitzar amb %1…"
+msgstr "Stiskněte klávesovou zkratku, která se použije pro %1..."
 
 #: ../build/src/ui_behavioursettingspage.h:300
 msgid "Pressing \"Previous\" in player will..."
-msgstr "En fer clic al botó «Anterior» del reproductor…"
+msgstr "Po stisknutí Předchozí v přehrávači nastane..."
 
 #: ../build/src/ui_notificationssettingspage.h:504
 msgid "Pretty OSD options"
-msgstr "Opcions de l'OSD bonic"
+msgstr "Možnosti vzhledu OSD"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
 #: ../build/src/ui_contextsettingspage.h:442
@@ -3947,28 +3961,28 @@ msgstr "Opcions de l'OSD bonic"
 #: ../build/src/ui_notificationssettingspage.h:493
 #: ../build/src/ui_organizedialog.h:280
 msgid "Preview"
-msgstr "Previsualitza"
+msgstr "Náhled"
 
 #: dialogs/edittagdialog.cpp:228 dialogs/trackselectiondialog.cpp:69
 msgid "Previous"
-msgstr "Anterior"
+msgstr "Předchozí"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:67
 #: ../build/src/ui_mainwindow.h:610
 msgid "Previous track"
-msgstr "Peça anterior"
+msgstr "Předchozí skladba"
 
 #: core/commandlineoptions.cpp:247
 msgid "Print out version information"
-msgstr "Mostra la informació de la versió"
+msgstr "Vypsat informaci o verzi"
 
 #: ../build/src/ui_transcoderoptionsaac.h:134
 msgid "Profile"
-msgstr "Perfil"
+msgstr "Profil"
 
 #: ../build/src/ui_transcodedialog.h:234
 msgid "Progress"
-msgstr "Progrés"
+msgstr "Průběh"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:135
 msgid "Put songs in a random order"
@@ -3977,7 +3991,7 @@ msgstr ""
 #: core/mainwindow.cpp:390 ../build/src/ui_scrobblersettingspage.h:416
 #: ../build/src/ui_qobuzsettingspage.h:276
 msgid "Qobuz"
-msgstr ""
+msgstr "Qobuz"
 
 #: ../build/src/ui_qobuzsettingspage.h:278
 msgid ""
@@ -3991,42 +4005,42 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
-msgstr "Qualitat"
+msgstr "Kvalita"
 
 #: ../build/src/ui_deviceproperties.h:385
 msgid "Querying device..."
-msgstr "S’està consultant el dispositiu…"
+msgstr "Dotazování se zařízení..."
 
 #: core/mainwindow.cpp:375
 msgid "Queue"
-msgstr ""
+msgstr "Fronta"
 
 #: core/mainwindow.cpp:1994
 msgid "Queue selected tracks"
-msgstr "Afegeix les peces seleccionades a la cua"
+msgstr "Přidat vybrané skladby do řady"
 
 #: core/mainwindow.cpp:733 core/mainwindow.cpp:1998
 msgid "Queue selected tracks to play next"
-msgstr ""
+msgstr "Přidat vybrané skladby do fronty"
 
 #: core/mainwindow.cpp:2001 collection/collectionview.cpp:373
 #: internet/internetcollectionview.cpp:322
 msgid "Queue to play next"
-msgstr ""
+msgstr "Do fronty jako další"
 
 #: core/mainwindow.cpp:1993 collection/collectionview.cpp:372
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
 #: internet/internetsearchview.cpp:321 internet/internetcollectionview.cpp:321
 msgid "Queue track"
-msgstr "Afegeix la peça a la cua"
+msgstr "Přidat skladbu do řady"
 
 #: ../build/src/ui_queueview.h:123
 msgid "QueueView"
-msgstr ""
+msgstr "Zobrazení fronty"
 
 #: ../build/src/ui_backendsettingspage.h:696
 msgid "Radio (equal loudness for all tracks)"
-msgstr "Ràdio (mateix volum per a totes les peces)"
+msgstr "Rádio (shodná hlasitost pro všechny skladby)"
 
 #: ../build/src/ui_scrobblersettingspage.h:420
 msgid "Radio Paradise"
@@ -4042,15 +4056,15 @@ msgstr ""
 
 #: playlist/playlist.cpp:1406 ../build/src/ui_edittagdialog.h:932
 msgid "Rating"
-msgstr ""
+msgstr "Hodnocení"
 
 #: ../build/src/ui_playlistsettingspage.h:193
 msgid "Re&lative"
-msgstr ""
+msgstr "Re&lativní"
 
 #: covermanager/albumcovermanager.cpp:259
 msgid "Really cancel?"
-msgstr "Realment voleu cancel·lar?"
+msgstr "Opravdu zrušit?"
 
 #: tidal/tidalstreamurlrequest.cpp:222
 #, qt-format
@@ -4068,7 +4082,7 @@ msgstr ""
 #: covermanager/spotifycoverprovider.cpp:198
 #: lyrics/geniuslyricsprovider.cpp:148 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
-msgstr ""
+msgstr "Obdržena špatná odpověď od prohlížeče."
 
 #: scrobbler/scrobblingapi20.cpp:258
 msgid "Received invalid reply from web browser. Try another browser."
@@ -4137,15 +4151,15 @@ msgstr ""
 
 #: lyrics/geniuslyricsprovider.cpp:192
 msgid "Redirect from Genius is missing query items code or state."
-msgstr ""
+msgstr "Přesměrování z Genius chybí kód položek dotazu nebo stav."
 
 #: covermanager/spotifycoverprovider.cpp:194
 msgid "Redirect missing token code or state!"
-msgstr ""
+msgstr "Přesměrování chybí kód tokenu nebo stav!"
 
 #: lyrics/geniuslyricsprovider.cpp:144 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
-msgstr ""
+msgstr "Přesměrování chybí kód tokenu!"
 
 #: playlist/playlistcontainer.cpp:256
 msgid "Redo"
@@ -4153,7 +4167,7 @@ msgstr ""
 
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
-msgstr ""
+msgstr "Obnovit katalog"
 
 #: radios/radioview.cpp:89
 msgid "Refresh channels"
@@ -4165,80 +4179,80 @@ msgstr "Reggae"
 
 #: playlist/playlistsaveoptionsdialog.cpp:41
 msgid "Relative"
-msgstr "Relatius"
+msgstr "Relativní"
 
 #: ../build/src/ui_behavioursettingspage.h:286
 msgid "Remember from &last time"
-msgstr "Recorda de l'últim cop"
+msgstr "&Obnovit předchozí stav"
 
 #: ../build/src/ui_playlistsaveoptionsdialog.h:97
 msgid "Remember my choice"
-msgstr "Recorda la meva elecció"
+msgstr "Zapamatovat si moji volbu"
 
 #: ../build/src/ui_savedgroupingmanager.h:103 ../build/src/ui_queueview.h:137
 #: ../build/src/ui_transcodedialog.h:222
 msgid "Remove"
-msgstr "Suprimeix"
+msgstr "Odstranit"
 
 #: ../build/src/ui_mainwindow.h:707
 msgid "Remove &duplicates from playlist"
-msgstr ""
+msgstr "Odstranit &duplikáty ze seznamu skladeb"
 
 #: ../build/src/ui_mainwindow.h:708
 msgid "Remove &unavailable tracks from playlist"
-msgstr ""
+msgstr "Odstranit &nedostupné skladby ze seznamu skladeb"
 
 #: ../build/src/ui_collectionsettingspage.h:432
 msgid "Remove folder"
-msgstr "Suprimeix carpeta"
+msgstr "Odstranit složku"
 
 #: internet/internetcollectionview.cpp:327
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Odstranit z oblíbených"
 
 #: ../build/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
-msgstr "Suprimeix de la llista de reproducció"
+msgstr "Odstranit ze seznamu skladeb"
 
 #: playlist/playlisttabbar.cpp:228
 msgid "Remove playlist"
-msgstr "Esborra la llista de reproducció"
+msgstr "Odstranit seznam skladeb"
 
 #: playlist/playlistlistcontainer.cpp:428
 msgid "Remove playlists"
-msgstr "Suprimeix llistes de reproducció"
+msgstr "Odstranit seznamy skladeb"
 
 #: ../build/src/ui_organizedialog.h:273
 msgid "Remove problematic characters from filenames"
-msgstr ""
+msgstr "Odstranit problémové znaky z názvů souborů"
 
 #: playlist/playlisttabbar.cpp:180
 msgid "Rename playlist"
-msgstr "Renombra de la llista de reproducció"
+msgstr "Přejmenovat seznam skladeb"
 
 #: playlist/playlisttabbar.cpp:80
 msgid "Rename playlist..."
-msgstr "Renombra de la llista de reproducció..."
+msgstr "Přejmenovat seznam skladeb..."
 
 #: ../build/src/ui_mainwindow.h:646
 msgid "Renumber tracks in this order..."
-msgstr "Posa els números de les peces en aquest ordre..."
+msgstr "Přečíslovat skladby v tomto pořadí..."
 
 #: ../build/src/ui_playlistsequence.h:119
 msgid "Repeat"
-msgstr "Repeteix"
+msgstr "Opakovat"
 
 #: osd/osdbase.cpp:364 ../build/src/ui_playlistsequence.h:110
 msgid "Repeat album"
-msgstr "Repeteix l'àlbum"
+msgstr "Opakovat album"
 
 #: osd/osdbase.cpp:365 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat playlist"
-msgstr "Repeteix la llista de reproducció"
+msgstr "Opakovat seznam skladeb"
 
 #: osd/osdbase.cpp:363 ../build/src/ui_playlistsequence.h:109
 msgid "Repeat track"
-msgstr "Repeteix la peça"
+msgstr "Opakovat skladbu"
 
 #: collection/collectionview.cpp:368
 #: smartplaylists/smartplaylistsviewcontainer.cpp:66
@@ -4246,31 +4260,31 @@ msgstr "Repeteix la peça"
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:73
 #: device/deviceview.cpp:245
 msgid "Replace current playlist"
-msgstr "Substitueix la llista de reproducció actual"
+msgstr "Nahradit současný seznam skladeb"
 
 #: ../build/src/ui_coverssettingspage.h:327
 msgid "Replace spaces with dashes"
-msgstr ""
+msgstr "Nahradit mezery pomlčkami"
 
 #: ../build/src/ui_organizedialog.h:277
 msgid "Replace spaces with underscores"
-msgstr ""
+msgstr "Nahradit mezery podtržítky"
 
 #: ../build/src/ui_behavioursettingspage.h:306
 msgid "Replace the playlist"
-msgstr "Substitueix la llista de reproducció"
+msgstr "Nahradit seznam skladeb"
 
 #: ../build/src/ui_backendsettingspage.h:693
 msgid "Replay Gain"
-msgstr "Replay Gain"
+msgstr "Zesílení přehrávaných skladeb"
 
 #: ../build/src/ui_backendsettingspage.h:695
 msgid "Replay Gain mode"
-msgstr "Mode de l’Replay Gain"
+msgstr "Režim zesílení přehrávaných skladeb"
 
 #: tidal/tidalservice.cpp:372
 msgid "Reply from Tidal is missing query items."
-msgstr ""
+msgstr "Odpověď od Tidal neobsahuje dotazové položky."
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:108
 msgid "Repopulate"
@@ -4278,7 +4292,7 @@ msgstr ""
 
 #: collection/collectionview.cpp:393
 msgid "Rescan song(s)"
-msgstr ""
+msgstr "Prohledat skladbu"
 
 #: core/mainwindow.cpp:749
 msgid "Rescan song(s)..."
@@ -4286,11 +4300,11 @@ msgstr ""
 
 #: widgets/lineedit.cpp:68
 msgid "Reset"
-msgstr "Posa a zero"
+msgstr "Obnovit výchozí"
 
 #: ../build/src/ui_edittagdialog.h:910
 msgid "Reset play counts"
-msgstr "Posa a zero el comptador de reproduccions"
+msgstr "Vynulovat počty přehrání"
 
 #: dialogs/edittagdialog.cpp:1334
 msgid "Reset song play statistics"
@@ -4302,58 +4316,60 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:302
 msgid "Restart song, then jump to previous if pressed again"
-msgstr "Reinicia la peça i salta a l’anterior en fer clic un altre cop"
+msgstr ""
+"Spustit píseň znovu, potom, v případě že je tlačítko opět stisknuto, skočit "
+"na předchozí"
 
 #: core/commandlineoptions.cpp:233
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr ""
-"Reinicia la peça, o canvia a l’anterior si no han transcorregut 8 segons des "
-"de l’inici."
+"Spustit znovu přehrávání skladby, nebo přehrávat předchozí skladbu, jestliže "
+"ještě neuběhlo osm sekund od začátku skladby."
 
 #: ../build/src/ui_organizedialog.h:275
 msgid "Restrict characters to ASCII"
-msgstr ""
+msgstr "Omezit na ASCII znaky"
 
 #: ../build/src/ui_organizedialog.h:274
 msgid "Restrict to characters allowed on FAT filesystems"
-msgstr ""
+msgstr "Omezit na znaky dostupné na FAT systémech souborů"
 
 #: ../build/src/ui_behavioursettingspage.h:283
 msgid "Resume playback on start"
-msgstr "Reprèn la reproducció en l’inici"
+msgstr "Obnovit přehrávání při spuštění"
 
 #: subsonic/subsonicrequest.cpp:688
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
-msgstr ""
+msgstr "Načítání obalů alb pro %1 album..."
 
 #: subsonic/subsonicrequest.cpp:689
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr ""
+msgstr "Načítání obalů alb pro %1 alb..."
 
 #: subsonic/subsonicrequest.cpp:125
 msgid "Retrieving albums..."
-msgstr ""
+msgstr "Načítání alb..."
 
 #: subsonic/subsonicrequest.cpp:314
 #, qt-format
 msgid "Retrieving songs for %1 album..."
-msgstr ""
+msgstr "Načítání skladeb z %1 alba..."
 
 #: subsonic/subsonicrequest.cpp:315
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
-msgstr ""
+msgstr "Načítání skladeb z %1 alb..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
-msgstr "Torna a l’Strawberry"
+msgstr "Návrat do Strawberry"
 
 #: ../build/src/ui_equalizer.h:178
 msgid "Right"
-msgstr "Dreta"
+msgstr "Vpravo"
 
 #: equalizer/equalizer.cpp:151
 msgid "Rock"
@@ -4361,23 +4377,23 @@ msgstr "Rock"
 
 #: ../build/src/ui_console.h:77
 msgid "Run"
-msgstr "Executa"
+msgstr "Spustit"
 
 #: ../build/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
-msgstr ""
+msgstr "Z&amíchat seznam skladeb"
 
 #: ../build/src/ui_networkproxysettingspage.h:175
 msgid "SOCKS proxy"
-msgstr "Servidor intermediari per al SOCKS"
+msgstr "Proxy SOCKS"
 
 #: device/deviceview.cpp:238
 msgid "Safely remove device"
-msgstr "Treure el dispositiu amb seguretat"
+msgstr "Bezpečně odebrat zařízení"
 
 #: ../build/src/ui_organizedialog.h:282
 msgid "Safely remove the device after copying"
-msgstr "Treure el dispositiu amb seguretat després de copiar"
+msgstr "Po dokončení kopírování bezpečně odebrat zařízení"
 
 #: playlist/playlist.cpp:1392
 msgid "Sample Rate"
@@ -4387,19 +4403,19 @@ msgstr ""
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:901
 msgid "Sample rate"
-msgstr "Freqüència de mostreig"
+msgstr "Vzorkovací kmitočet"
 
 #: context/contextview.cpp:164
 msgid "Samplerate"
-msgstr "Freqüència de mostreig"
+msgstr "Vzorkovací frekvence"
 
 #: ../build/src/ui_mainwindow.h:683
 msgid "Save &playlist..."
-msgstr ""
+msgstr "Uložit seznam skladeb..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:243
 msgid "Save album cover"
-msgstr "Desa la coberta de l’àlbum"
+msgstr "Uložit obal alba"
 
 #: ../build/src/ui_coverssettingspage.h:320
 msgid "Save album covers as embedded cover"
@@ -4407,7 +4423,7 @@ msgstr ""
 
 #: ../build/src/ui_coverssettingspage.h:318
 msgid "Save album covers in album directory"
-msgstr ""
+msgstr "Ukládat obaly alb ve složce alba"
 
 #: ../build/src/ui_coverssettingspage.h:319
 msgid "Save album covers in cache directory"
@@ -4415,11 +4431,11 @@ msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:106
 msgid "Save cover to disk..."
-msgstr "Desa la coberta al disc dur…"
+msgstr "Uložit obal na disk..."
 
 #: ../build/src/ui_collectionfilterwidget.h:100
 msgid "Save current grouping"
-msgstr "Desa l'agrupació actual"
+msgstr "Uložit nynější seskupení"
 
 #: ../build/src/ui_collectionsettingspage.h:463
 msgid "Save playcounts and ratings to files now"
@@ -4432,20 +4448,20 @@ msgstr ""
 #: playlist/playlistlistcontainer.cpp:90
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
-msgstr "Desa la llista de reproducció"
+msgstr "Uložit seznam skladeb"
 
 #: playlist/playlistmanager.cpp:256
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
-msgstr "Desa la llista de reproducció"
+msgstr "Uložit seznam skladeb"
 
 #: playlist/playlisttabbar.cpp:81
 msgid "Save playlist..."
-msgstr "Desa la llista de reproducció..."
+msgstr "Uložit seznam skladeb..."
 
 #: equalizer/equalizer.cpp:210 ../build/src/ui_equalizer.h:169
 msgid "Save preset"
-msgstr "Desa els valors"
+msgstr "Uložit předvolbu"
 
 #: ../build/src/ui_collectionsettingspage.h:460
 msgid "Save ratings to song tags when possible"
@@ -4453,15 +4469,15 @@ msgstr ""
 
 #: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Save the .mood files directly in the songs folders"
-msgstr ""
+msgstr "Ukládat .mood soubory přímo ve složkách skladeb"
 
 #: ../build/src/ui_savedgroupingmanager.h:101
 msgid "Saved Grouping Manager"
-msgstr "Gestor d'agrupacions desades"
+msgstr "Spravce uložených seskupení"
 
 #: ../build/src/ui_coverssettingspage.h:316
 msgid "Saving album covers"
-msgstr ""
+msgstr "Ukládání obalů alb"
 
 #: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
@@ -4469,19 +4485,19 @@ msgstr ""
 
 #: dialogs/edittagdialog.cpp:308 dialogs/trackselectiondialog.cpp:289
 msgid "Saving tracks"
-msgstr "S’estan desant les peces"
+msgstr "Ukládají se skladby"
 
 #: ../build/src/ui_transcoderoptionsaac.h:137
 msgid "Scalable sampling rate profile (SSR)"
-msgstr "Perfil de freqüència de mostreig escalable (SSR)"
+msgstr "Profil škálovatelného vzorkovacího kmitočtu"
 
 #: ../build/src/ui_albumcoverexport.h:210
 msgid "Scale size"
-msgstr "Mida de l’escala"
+msgstr "Velikost měřítka"
 
 #: ../build/src/ui_scrobblersettingspage.h:398
 msgid "Scrobbler"
-msgstr ""
+msgstr "doporučování hudby"
 
 #: scrobbler/scrobblingapi20.cpp:907
 #, qt-format
@@ -4491,44 +4507,44 @@ msgstr ""
 #: scrobbler/scrobblingapi20.cpp:458
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
-msgstr ""
+msgstr "Systém pro doporučování hudby %1 není přihlášen!"
 
 #: covermanager/albumcoversearcher.cpp:192
 #: covermanager/albumcoversearcher.cpp:210
 #: ../build/src/ui_albumcoversearcher.h:111
 #: ../build/src/ui_internettabsview.h:116
 msgid "Search"
-msgstr "Cerca"
+msgstr "Hledat"
 
 #: covermanager/albumcoverchoicecontroller.cpp:116
 msgid "Search automatically"
-msgstr "Cerca automàticament"
+msgstr "Hledat automaticky"
 
 #: ../build/src/ui_tidalsettingspage.h:330
 #: ../build/src/ui_qobuzsettingspage.h:287
 msgid "Search delay"
-msgstr ""
+msgstr "Zpožděné vyhledávání"
 
 #: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Search for album covers..."
-msgstr "Cerca cobertes dels àlbums…"
+msgstr "Hledat obaly alb..."
 
 #: collection/collectionview.cpp:377 internet/internetsearchview.cpp:339
 msgid "Search for this"
-msgstr "Cerca-ho"
+msgstr "Hledat toto"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
-msgstr "Mode de cerca"
+msgstr ""
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid "Search options"
-msgstr "Opcions de cerca"
+msgstr ""
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:161
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
-msgstr "Termes de cerca"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:87 playlist/playlistcontainer.cpp:137
 #, qt-format
@@ -4541,15 +4557,15 @@ msgstr ""
 #: tidal/tidalrequest.cpp:397 qobuz/qobuzrequest.cpp:357
 #: qobuz/qobuzrequest.cpp:371 qobuz/qobuzrequest.cpp:385
 msgid "Searching..."
-msgstr "S’està cercant…"
+msgstr "Vyhlevávání..."
 
 #: collection/savedgroupingmanager.cpp:56
 msgid "Second Level"
-msgstr "Segon nivell"
+msgstr "Druhá úroveň"
 
 #: ../build/src/ui_groupbydialog.h:212
 msgid "Second level"
-msgstr "Segon nivell"
+msgstr "Druhá úroveň"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:72
 msgid "Seek backward"
@@ -4561,23 +4577,23 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:232
 msgid "Seek the currently playing track by a relative amount"
-msgstr "Mou-te per la peça en reproducció a una posició relativa"
+msgstr "Přetočit v nyní přehrávané skladbě"
 
 #: core/commandlineoptions.cpp:231
 msgid "Seek the currently playing track to an absolute position"
-msgstr "Mou-te per la peça en reproducció a una posició absoluta"
+msgstr "Skočit v nyní přehrávané skladbě na určité místo"
 
 #: ../build/src/ui_behavioursettingspage.h:318
 msgid "Seeking using a keyboard shortcut or mouse wheel"
-msgstr "Moure's dins la peça amb una tecla de drecera o la roda del ratolí"
+msgstr "Posunování pomocí klávesové zkratky nebo kolečka myši"
 
 #: settings/appearancesettingspage.cpp:300
 msgid "Select background image"
-msgstr "Seleccioneu la imatge de fons"
+msgstr "Vybrat obrázek na pozadí"
 
 #: ../build/src/ui_trackselectiondialog.h:206
 msgid "Select best possible match"
-msgstr "Selecciona la millor coincidència possible"
+msgstr "Vyberte nejlepší možnou shodu"
 
 #: ../build/src/ui_saveplaylistsdialog.h:118
 msgid "Select directory for saving playlists"
@@ -4592,12 +4608,13 @@ msgid "Select playlist playing song color:"
 msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:523
+#, fuzzy
 msgid "Select tabbar color:"
-msgstr ""
+msgstr "Vybrat barvu tabbar:"
 
 #: ../build/src/ui_transcodedialog.h:233
 msgid "Select..."
-msgstr "Navega…"
+msgstr "Vybrat..."
 
 #: ../build/src/ui_groupbydialog.h:256
 msgid "Separate albums by grouping tag"
@@ -4605,15 +4622,15 @@ msgstr ""
 
 #: device/udisks2lister.cpp:120
 msgid "Serial number"
-msgstr "Número de sèrie"
+msgstr "Sériové číslo"
 
 #: ../build/src/ui_subsonicsettingspage.h:245
 msgid "Server URL"
-msgstr ""
+msgstr "URL serveru"
 
 #: subsonic/subsonicservice.cpp:423 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
-msgstr ""
+msgstr "Adresa serveru není správná."
 
 #: ../build/src/ui_subsonicsettingspage.h:256
 msgid "Server-side scrobbling"
@@ -4622,11 +4639,11 @@ msgstr ""
 #: core/mainwindow.cpp:2034
 #, qt-format
 msgid "Set %1 to \"%2\"..."
-msgstr "Estableix %1 a «%2»…"
+msgstr "Nastavit %1 na \"%2\"..."
 
 #: core/commandlineoptions.cpp:226
 msgid "Set the volume to <value> percent"
-msgstr "Estableix el volum al <value> percent"
+msgstr "Nastavit hlasitost na <value> procent"
 
 #: settings/coverssettingspage.cpp:426
 #, qt-format
@@ -4635,11 +4652,11 @@ msgstr ""
 
 #: ../build/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
-msgstr "Estableix valor per a totes les peces seleccionades…"
+msgstr "Nastavit hodnotu pro vybrané skladby..."
 
 #: ../build/src/ui_settingsdialog.h:114
 msgid "Settings"
-msgstr "Paràmetres"
+msgstr "Nastavení"
 
 #: ../build/src/ui_appearancesettingspage.h:518
 msgid "Settings require restart."
@@ -4647,17 +4664,17 @@ msgstr ""
 
 #: ../build/src/ui_globalshortcutssettingspage.h:281
 msgid "Shortcut"
-msgstr "Drecera"
+msgstr "Klávesová zkratka"
 
 #: settings/globalshortcutssettingspage.cpp:294
 #: ../build/src/ui_globalshortcutssettingspage.h:283
 #, qt-format
 msgid "Shortcut for %1"
-msgstr "Drecera per a «%1»"
+msgstr "Klávesová zkratka pro %1"
 
 #: collection/collectionfilterwidget.cpp:123
 msgid "Show"
-msgstr "Mostrar"
+msgstr "Ukázat"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:74
 msgid "Show OSD"
@@ -4665,57 +4682,57 @@ msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
-msgstr ""
+msgstr "Zobrazit &nativní upozornění na ploše"
 
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
 msgstr ""
 
 #: ../build/src/ui_moodbarsettingspage.h:94
+#, fuzzy
 msgid "Show a moodbar in the track progress bar"
-msgstr ""
+msgstr "Zobrazit Ukazatel nálady v progress baru"
 
 #: ../build/src/ui_notificationssettingspage.h:487
 msgid "Show a notification when I change the repeat/shuffle mode"
-msgstr ""
-"Mostra una notificació quan canviï entre el modes de repetició i de mescla "
-"aleatòria"
+msgstr "Ukazovat oznámení při změně režimu opakování/míchání"
 
 #: ../build/src/ui_notificationssettingspage.h:486
 msgid "Show a notification when I change the volume"
-msgstr "Mostra una notificació quan canvia el volum"
+msgstr "Zobrazovat oznámení při změně hlasitosti"
 
 #: ../build/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I pause playback"
-msgstr "Mostra una notificació en aturar la reproducció"
+msgstr "Ukazovat oznámení při pozastavení přehrávání"
 
 #: ../build/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I resume playback"
-msgstr ""
+msgstr "Zobrazit oznámení při pokračování v přehrávání"
 
 #: ../build/src/ui_notificationssettingspage.h:481
+#, fuzzy
 msgid "Show a popup fro&m the system tray"
-msgstr ""
+msgstr "Ukázat popup &ze systémové lišty"
 
 #: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a pretty OSD"
-msgstr "Mostra un OSD bonic"
+msgstr "Ukazovat OSD"
 
 #: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
-msgstr "Mostra sota la barra d'estat"
+msgstr "Ukazovat nad stavovým řádkem"
 
 #: context/contextview.cpp:259
 msgid "Show album cover"
-msgstr ""
+msgstr "Ukazovat obal alba"
 
 #: ../build/src/ui_collectionsettingspage.h:448
 msgid "Show album cover art in collection"
-msgstr ""
+msgstr "Ukazovat obaly alb v kolekci"
 
 #: core/mainwindow.cpp:675
 msgid "Show all songs"
-msgstr "Mostra totes les cançons"
+msgstr "Ukázat všechny písně"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
@@ -4731,60 +4748,60 @@ msgstr ""
 
 #: ../build/src/ui_collectionsettingspage.h:449
 msgid "Show dividers"
-msgstr "Mostra els separadors"
+msgstr "Ukazovat oddělovače"
 
 #: covermanager/albumcoverchoicecontroller.cpp:114
 msgid "Show fullsize..."
-msgstr "Mostra a mida completa..."
+msgstr "Ukázat v plné velikosti..."
 
 #: core/mainwindow.cpp:756
 msgid "Show in collection..."
-msgstr "Mostra a la col·lecció…"
+msgstr "Ukazovat ve sbírce..."
 
 #: utilities/filemanagerutils.cpp:135 utilities/filemanagerutils.cpp:141
 msgid "Show in file browser"
-msgstr ""
+msgstr "Zobrazit v průzkumníku souborů"
 
 #: core/mainwindow.cpp:757 collection/collectionview.cpp:389
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
-msgstr "Mostra al gestor de fitxers"
+msgstr "Ukázat v prohlížeči souborů..."
 
 #: collection/collectionview.cpp:396
 msgid "Show in various artists"
-msgstr "Mostra en Artistes diversos"
+msgstr "Ukázat pod různými umělci"
 
 #: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Show love button"
-msgstr ""
+msgstr "Zobrazit tlačítko To Miluju!"
 
 #: moodbar/moodbarproxystyle.cpp:371
 msgid "Show moodbar"
-msgstr ""
+msgstr "Zobrazit ukazatel nálady"
 
 #: core/mainwindow.cpp:676
 msgid "Show only duplicates"
-msgstr "Mostra només els duplicats"
+msgstr "Ukázat pouze zdvojené"
 
 #: core/mainwindow.cpp:677
 msgid "Show only untagged"
-msgstr "Mostra només les peces sense etiquetar"
+msgstr "Ukázat pouze neoznačené"
 
 #: ../build/src/ui_behavioursettingspage.h:284
 msgid "Show playing widget"
-msgstr ""
+msgstr "Zobrazit widget s přehráváním"
 
 #: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Show scrobble button"
-msgstr ""
+msgstr "Zobrazit tlačítko pro doporučování hudby"
 
 #: ../build/src/ui_mainwindow.h:714
 msgid "Show sidebar"
-msgstr ""
+msgstr "Zobrazovat boční panel"
 
 #: context/contextview.cpp:267
 msgid "Show song lyrics"
-msgstr ""
+msgstr "Zobrazovat texty skladeb"
 
 #: ../build/src/ui_behavioursettingspage.h:282
 msgid "Show song progress on system tray icon"
@@ -4792,11 +4809,11 @@ msgstr ""
 
 #: context/contextview.cpp:263
 msgid "Show song technical data"
-msgstr ""
+msgstr "Zobrazovat technická data"
 
 #: ../build/src/ui_behavioursettingspage.h:280
 msgid "Show system tray icon"
-msgstr ""
+msgstr "Zobrazovat ikonu v systémové oblasti"
 
 #: ../build/src/ui_behavioursettingspage.h:287
 msgid "Show the main window"
@@ -4816,36 +4833,36 @@ msgstr ""
 
 #: ../build/src/ui_playlistsequence.h:122
 msgid "Shuffle"
-msgstr "Mescla"
+msgstr "Zamíchat"
 
 #: osd/osdbase.cpp:350 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle albums"
-msgstr "Mescla els àlbums"
+msgstr "Zamíchat alba"
 
 #: osd/osdbase.cpp:348 ../build/src/ui_playlistsequence.h:116
 msgid "Shuffle all"
-msgstr "Mescla-ho tot"
+msgstr "Zamíchat vše"
 
 #: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:115
 msgid "Shuffle tracks in this album"
-msgstr "Mescla les peces d’aquest àlbum"
+msgstr "Zamíchat skladby na tomto albu"
 
 #: ../build/src/ui_loginstatewidget.h:166
 msgid "Sign out"
-msgstr "Finalitza la sessió"
+msgstr "Odhlásit"
 
 #: ../build/src/ui_loginstatewidget.h:168
 msgid "Signing in..."
-msgstr "S’està iniciant la sessió…"
+msgstr "Přihlašuje se..."
 
 #: ../build/src/ui_albumcoverexport.h:209
 #: ../build/src/ui_collectionsettingspage.h:452
 msgid "Size"
-msgstr "Mida"
+msgstr "Velikost"
 
 #: ../build/src/ui_albumcoverexport.h:211
 msgid "Size:"
-msgstr "Mida:"
+msgstr "Velikost:"
 
 #: equalizer/equalizer.cpp:153
 msgid "Ska"
@@ -4857,15 +4874,15 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:224
 msgid "Skip backwards in playlist"
-msgstr "Salta enrere en la llista de reproducció"
+msgstr "Předchozí skladba v seznamu skladeb"
 
 #: ../build/src/ui_edittagdialog.h:900
 msgid "Skip count"
-msgstr "Comptador d’omissions"
+msgstr "Počet přeskočení"
 
 #: core/commandlineoptions.cpp:225
 msgid "Skip forwards in playlist"
-msgstr "Salta endavant en la llista de reproducció"
+msgstr "Další skladba v seznamu skladeb"
 
 #: ../build/src/ui_collectionsettingspage.h:450
 msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
@@ -4873,19 +4890,19 @@ msgstr ""
 
 #: core/mainwindow.cpp:2007
 msgid "Skip selected tracks"
-msgstr "Omet les peces seleccionades"
+msgstr "Přeskočit vybrané skladby"
 
 #: core/mainwindow.cpp:2006
 msgid "Skip track"
-msgstr "Omet la peça"
+msgstr "Přeskočit skladbu"
 
 #: widgets/playingwidget.cpp:101
 msgid "Small album cover"
-msgstr "Coberta d’àlbum petita"
+msgstr "Malý obal alba"
 
 #: widgets/fancytabwidget.cpp:729
 msgid "Small sidebar"
-msgstr "Barra lateral petita"
+msgstr "Malý postranní panel"
 
 #: smartplaylists/smartplaylistwizard.cpp:71
 msgid "Smart playlist"
@@ -4897,11 +4914,11 @@ msgstr ""
 
 #: equalizer/equalizer.cpp:152
 msgid "Soft"
-msgstr "Suau"
+msgstr "Měkké"
 
 #: equalizer/equalizer.cpp:154
 msgid "Soft Rock"
-msgstr "Rock suau"
+msgstr "Soft rock"
 
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "SomaFM"
@@ -4909,7 +4926,7 @@ msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:435
 msgid "Song Lyrics"
-msgstr ""
+msgstr "Texty skladeb"
 
 #: ../build/src/ui_collectionsettingspage.h:436
 msgid "Song fingerprinting and tracking"
@@ -4921,19 +4938,23 @@ msgstr ""
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Songs"
-msgstr ""
+msgstr "Skladby"
 
 #: ../build/src/ui_scrobblersettingspage.h:400
+#, fuzzy
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
 "(whichever occurs earlier)."
 msgstr ""
+"Přehrané skladby jsou odeslány pokud mají správná metadata, jsou delší než "
+"30 sekund. Také musí být přehrány alespoň do poloviny, nebo po dobu 4 minut "
+"(kterékoli se stane dříve)."
 
 #: ../build/src/ui_tidalsettingspage.h:334
 #: ../build/src/ui_qobuzsettingspage.h:291
 msgid "Songs search limit"
-msgstr ""
+msgstr "Limit vyhledaných skladeb"
 
 #: analyzer/sonogram.cpp:31
 msgid "Sonogram"
@@ -4941,7 +4962,7 @@ msgstr ""
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
-msgstr "Ho lamentem"
+msgstr "Promiňte"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:136
 msgid "Sort songs by"
@@ -4953,7 +4974,7 @@ msgstr ""
 
 #: playlist/playlist.cpp:1404
 msgid "Source"
-msgstr "Font"
+msgstr "Zdroj"
 
 #: ../build/src/ui_transcodersettingspage.h:191
 msgid "Speex"
@@ -4965,11 +4986,11 @@ msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:149
 msgid "Spotify Authentication"
-msgstr ""
+msgstr "Přihlášení ke Spotify"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
-msgstr "Estàndard"
+msgstr "Obvyklý"
 
 #: playlist/playlisttabbar.cpp:78
 msgid "Star playlist"
@@ -4977,16 +4998,16 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:220
 msgid "Start the playlist currently playing"
-msgstr "Inicia la llista de reproducció que s'està reproduint"
+msgstr "Přehrát současnou skladbu v seznamu skladeb"
 
 #: transcoder/transcodedialog.cpp:125
 msgid "Start transcoding"
-msgstr "Inicia la conversió"
+msgstr "Převést"
 
 #: transcoder/transcoder.cpp:426
 #, qt-format
 msgid "Starting %1"
-msgstr "S’està començant %1"
+msgstr "Spouští se %1"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Stop"
@@ -4994,23 +5015,23 @@ msgstr ""
 
 #: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
-msgstr "Atura després de cada peça"
+msgstr "Zastavit po každé skladbě"
 
 #: osd/osdbase.cpp:366
 msgid "Stop after every track"
-msgstr "Atura després de cada peça"
+msgstr "Zastavit po každé skladbě"
 
 #: core/mainwindow.cpp:729 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
-msgstr "Atura després d’aquesta peça"
+msgstr "Zastavit po této skladbě"
 
 #: core/commandlineoptions.cpp:222
 msgid "Stop playback"
-msgstr "Atura la reproducció"
+msgstr "Zastavit přehrávání"
 
 #: core/commandlineoptions.cpp:223
 msgid "Stop playback after current track"
-msgstr "Atura la reproducció després de la peça actual"
+msgstr "Zastavit přehrávání po současné skladbě"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:65
 msgid "Stop playing after current track"
@@ -5019,41 +5040,39 @@ msgstr ""
 #: osd/osdbase.cpp:270
 #, qt-format
 msgid "Stop playing after track: %1"
-msgstr "Atura la reproducció després de: %1"
+msgstr "Zastavit přehrávání po skladbě: %1"
 
 #: osd/osdbase.cpp:257 osd/osdbase.cpp:260
 msgid "Stopped"
-msgstr "Aturat"
+msgstr "Zastaveno"
 
 #: ../build/src/ui_errordialog.h:91
 msgid "Strawberry Error"
-msgstr "Error de l’Strawberry"
+msgstr "Chyba Clemetine"
 
 #: ../build/src/ui_mainwindow.h:609
 msgid "Strawberry Music Player"
-msgstr "Reproductor de música Strawberry"
+msgstr "Přehrávač hudby Strawberry"
 
 #: ../build/src/ui_notificationssettingspage.h:511
 msgid "Strawberry Red"
-msgstr "Vermell maduixa"
+msgstr "Jahodově Červená"
 
 #: ../build/src/ui_deviceproperties.h:378
 msgid ""
 "Strawberry can automatically convert the music you copy to this device into "
 "a format that it can play."
 msgstr ""
-"L’Strawberry pot convertir automàticament la música que copieu en aquest "
-"dispositiu a un format que pugui reproduir."
+"Strawberry může automaticky převést hudbu kopírovanou do tohoto zařízení do "
+"formátu, který dokáže přehrát."
 
 #: ../build/src/ui_notificationssettingspage.h:476
 msgid "Strawberry can show a message when the track changes."
-msgstr "L’Strawberry pot mostrar un missatge quan la peça canviï."
+msgstr "Strawberry může při změně skladby ukázat zprávu."
 
 #: dialogs/about.cpp:111
 msgid "Strawberry is a music player and music collection organizer."
-msgstr ""
-"L’Strawberry és un reproductor de música i un organitzador de col·leccions "
-"musicals."
+msgstr "Strawberry je hudební přehrávač a organizér hudební kolekce."
 
 #: core/mainwindow.cpp:1072
 #, qt-format
@@ -5069,10 +5088,12 @@ msgid ""
 "Strawberry is free software released under GPL. The source code is available "
 "on %1"
 msgstr ""
+"Strawberry je svobodný software vydávaný pod licencí GPL. Zdrojový kód je "
+"dostupný na %1"
 
 #: dialogs/snapdialog.cpp:30
 msgid "Strawberry is running as a Snap"
-msgstr "L’Strawberry s’executa com a «snap»"
+msgstr ""
 
 #: dialogs/snapdialog.cpp:46
 msgid ""
@@ -5087,32 +5108,32 @@ msgstr ""
 
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
-msgstr "L’Strawberry no ha trobat resultats per a aquest fitxer"
+msgstr "Strawberry se pro tento soubor výsledky najít nepodařilo"
 
 #: ../build/src/ui_scrobblersettingspage.h:419
 msgid "Stream"
-msgstr "Flux de dades"
+msgstr "Proud"
 
 #: ../build/src/ui_tidalsettingspage.h:338
 msgid "Stream URL method"
-msgstr ""
+msgstr "Metoda URL streamu"
 
 #: settings/settingsdialog.cpp:158
 msgid "Streaming"
-msgstr ""
+msgstr "Streamování"
 
 #: ../build/src/ui_appearancesettingspage.h:543
 msgid "Stretch image to fill playlist"
-msgstr ""
+msgstr "Roztáhnout obrázek aby vyplnil seznam skladeb"
 
 #: ../build/src/ui_appearancesettingspage.h:515
 #: ../build/src/ui_appearancesettingspage.h:516
 msgid "Style"
-msgstr "Estil"
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Submit scrobbles every"
-msgstr ""
+msgstr "Odeslat přehrané skladby každých"
 
 #: core/mainwindow.cpp:384 ../build/src/ui_scrobblersettingspage.h:412
 #: ../build/src/ui_subsonicsettingspage.h:243
@@ -5121,47 +5142,48 @@ msgstr "Subsonic"
 
 #: subsonic/subsonicurlhandler.cpp:39
 msgid "Subsonic server URL is invalid."
-msgstr "L’URL del servidor Subsonic no és vàlid."
+msgstr "Adresa serveru Subsonic není správná."
 
 #: ../data/html/oauthsuccess.html:36
 msgid "Success!"
-msgstr "Correcte!"
+msgstr "Úspěch"
 
 #: transcoder/transcoder.cpp:199
 #, qt-format
 msgid "Successfully written %1"
-msgstr "Escrit satisfactòriament %1"
+msgstr "%1 úspěšně zapsán"
 
 #: dialogs/trackselectiondialog.cpp:196
 msgid "Suggested tags"
-msgstr "Etiquetes suggerides"
+msgstr "Navrhované značky"
 
 #: ../build/src/ui_contextsettingspage.h:426
 #: ../build/src/ui_notificationssettingspage.h:498
 #: ../build/src/ui_edittagdialog.h:911
 msgid "Summary"
-msgstr "Resum"
+msgstr "Shrnutí"
 
 #: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
-msgstr "Molt alta (%1 fps)"
+msgstr "Nadmíru vysoké (%1 fps)"
 
 #: ../build/src/ui_deviceproperties.h:376
 msgid "Supported formats"
-msgstr "Formats compatibles"
+msgstr "Podporované formáty"
 
 #: moodbar/moodbarrenderer.cpp:175
 msgid "System colors"
-msgstr "Colors del sistema"
+msgstr "Systémové barvy"
 
 #: ../build/src/ui_appearancesettingspage.h:558
 msgid "System highlight color"
-msgstr "Color de realçament del sistema"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:519
+#, fuzzy
 msgid "Tabbar colors"
-msgstr "Colors de la barra de pestanyes"
+msgstr "Barvy tabbaru"
 
 #: ../build/src/ui_appearancesettingspage.h:552
 msgid "Tabbar large mode"
@@ -5173,11 +5195,11 @@ msgstr ""
 
 #: widgets/fancytabwidget.cpp:731
 msgid "Tabs on top"
-msgstr "Pestanyes a dalt de tot"
+msgstr "Karty nahoře"
 
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Tag fetcher"
-msgstr "Recolector d'etiquetes"
+msgstr "Stahování značek"
 
 #: ../build/src/ui_edittagdialog.h:933
 msgid "Tags"
@@ -5189,11 +5211,11 @@ msgstr ""
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
-msgstr "Taxa de bits desitjada"
+msgstr "Cílový datový tok"
 
 #: ../build/src/ui_contextsettingspage.h:434
 msgid "Technical Data"
-msgstr ""
+msgstr "Technická data"
 
 #: equalizer/equalizer.cpp:155
 msgid "Techno"
@@ -5201,37 +5223,37 @@ msgstr "Techno"
 
 #: ../build/src/ui_subsonicsettingspage.h:258
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #: settings/subsonicsettingspage.cpp:169
 msgid "Test failed!"
-msgstr ""
+msgstr "Test selhal!"
 
 #: settings/subsonicsettingspage.cpp:160
 msgid "Test successful!"
-msgstr ""
+msgstr "Test uspěl!"
 
 #: ../build/src/ui_notificationssettingspage.h:506
 msgid "Text options"
-msgstr "Opcions del text"
+msgstr "Volby pro text"
 
 #: dialogs/about.cpp:178
 msgid "Thanks to"
-msgstr ""
+msgstr "Díky"
 
 #: dialogs/about.cpp:186
 msgid "Thanks to all the other Amarok and Clementine contributors."
-msgstr ""
+msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
 
 #: settings/globalshortcutssettingspage.cpp:262
 #: settings/globalshortcutssettingspage.cpp:272
 #, qt-format
 msgid "The \"%1\" command could not be started."
-msgstr "No s’ha pogut iniciar l’ordre «%1»."
+msgstr "Příkaz \"%1\" se nepodařilo provést."
 
 #: ../build/src/ui_appearancesettingspage.h:529
 msgid "The album cover of the currently playing song"
-msgstr "La coberta de l’àlbum de la cançó en reproducció"
+msgstr "Obal alba nyní přehrávané písně"
 
 #: dialogs/deleteconfirmationdialog.cpp:60
 msgid "The following files will be deleted from disk:"
@@ -5239,7 +5261,7 @@ msgstr ""
 
 #: internet/internetcollectionview.cpp:288
 msgid "The internet collection is empty!"
-msgstr ""
+msgstr "Internetová kolekce je prázdná!"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:421
 msgid "The second value must be greater than the first one!"
@@ -5247,146 +5269,141 @@ msgstr ""
 
 #: covermanager/coverfromurldialog.cpp:90
 msgid "The site you requested does not exist!"
-msgstr "L’adreça que heu sol·licitat no existeix."
+msgstr "Požadovaná stránka neexistuje!"
 
 #: covermanager/coverfromurldialog.cpp:100
 msgid "The site you requested is not an image!"
-msgstr "L’adreça que heu sol·licitat no conté cap imatge."
+msgstr "Požadovaná stránka není obrázek!"
 
 #: core/mainwindow.cpp:2929
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
 msgstr ""
-"La versió de Strawberry a la que us acabeu d’actualitzar necessita tornar a "
-"analitzar tota la col·lecció perquè incorpora les següents funcions noves:"
+"Verze Strawberry, na kterou jste právě povýšili, vyžaduje z důvodu nových "
+"vlastností vypsaných níže úplné nové prohledání sbírky:"
 
 #: collection/collectionview.cpp:504
 msgid "There are other songs in this album"
-msgstr "Hi ha altres cançons en aquest àlbum"
+msgstr "Na tomto albu jsou další písně"
 
 #: organize/organizeerrordialog.cpp:72
 msgid ""
 "There were problems copying some songs.  The following files could not be "
 "copied:"
 msgstr ""
-"Hi ha hagut problemes en copiar algunes cançons. Els fitxers següents no "
-"s’han pogut copiar:"
+"Při kopírování některých písní nastaly potíže. Nepodařilo se zkopírovat "
+"následující soubory:"
 
 #: organize/organizeerrordialog.cpp:77
 msgid ""
 "There were problems deleting some songs.  The following files could not be "
 "deleted:"
 msgstr ""
-"S’han produït problemes en suprimir algunes cançons. No s’han pogut suprimir "
-"els fitxers següents:"
+"Při mazání některých písní nastaly potíže. Nepodařilo se smazat následující "
+"soubory:"
 
 #: device/deviceview.cpp:429
 msgid ""
 "These files will be deleted from the device, are you sure you want to "
 "continue?"
-msgstr ""
-"Se suprimiran aquests fitxers del dispositiu, esteu segur que voleu "
-"continuar?"
+msgstr "Tyto soubory budou smazány ze zařízení. Opravdu chcete pokračovat?"
 
 #: ../build/src/ui_collectionsettingspage.h:430
 msgid "These folders will be scanned for music to make up your collection"
-msgstr ""
-"S’analitzaran aquestes carpetes a la recerca de música per confeccionar la "
-"vostra col·lecció"
+msgstr "Strawberry bude novou hudbu pro vaši sbírku hledat v těchto složkách"
 
 #: ../build/src/ui_transcodersettingspage.h:186
 msgid ""
 "These settings are used in the \"Transcode Music\" dialog, and when "
 "converting music before copying it to a device."
 msgstr ""
-"Aquesta configuració s’usa en el diàleg «Converteix música», i quan es "
-"converteix la música abans de copiar-la a un dispositiu."
+"Tato nastavení se používají v dialogu pro překódování hudby a když je hudba "
+"před kopírováním do zařízení převáděna."
 
 #: collection/savedgroupingmanager.cpp:57
 msgid "Third Level"
-msgstr "Tercer nivell"
+msgstr "Třetí úroveň"
 
 #: ../build/src/ui_groupbydialog.h:234
 msgid "Third level"
-msgstr "Tercer nivell"
+msgstr "Třetí úroveň"
 
 #: ../build/src/ui_playlistsaveoptionsdialog.h:95
 msgid "This can be changed later through the preferences"
-msgstr "Aquesta opció es pot modificar més tard a Preferències"
+msgstr "Toto lze změnit později v nastavení"
 
 #: ../build/src/ui_deviceproperties.h:383
 msgid ""
 "This device must be connected and opened before Strawberry can see what file "
 "formats it supports."
 msgstr ""
-"Aquest dispositiu ha de connectar-se i obrir-se abans que l’Strawberry pugui "
-"veure quins formats de fitxers admet."
+"Pro zjištění podporovaných formátů souborů je zařízení nejdřív nutno "
+"připojit a otevřít."
 
 #: ../build/src/ui_deviceproperties.h:377
 msgid "This device supports the following file formats:"
-msgstr "Aquest dispositiu és compatible amb els següents formats de fitxers:"
+msgstr "Toto zařízení podporuje následující formáty souborů:"
 
 #: device/devicemanager.cpp:608 device/devicemanager.cpp:616
 msgid "This device will not work properly"
-msgstr "Aquest dispositiu no funcionarà correctament"
+msgstr "Toto zařízení nebude pracovat správně"
 
 #: device/devicemanager.cpp:609
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr ""
-"Aquest és un dispositiu MTP, però s’ha compilat l’Strawberry sense "
-"compatibilitat amb libmtp."
+"Toto je zařízení MTP, ale Strawberry byl sestaven bez podpory pro libmtp."
 
 #: device/devicemanager.cpp:617
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr ""
-"Aquest dispositiu és un iPod, però s’ha compilat l’Strawberry sense "
-"compatibilitat amb libgpod."
+"Toto je zařízení iPod, ale Strawberry byl sestaven bez podpory pro libgpod."
 
 #: device/devicemanager.cpp:352
 msgid ""
 "This is the first time you have connected this device.  Strawberry will now "
 "scan the device to find music files - this may take some time."
 msgstr ""
-"Aquest es el primer cop que connecteu aquest dispositiu. L’Strawberry "
-"analitzarà el dispositiu per a trobar música. Això pot trigar un mica."
+"Toto zařízení bylo připojeno poprvé. Strawberry na něm nyní hledá hudební "
+"soubory - může to chvíli trvat."
 
 #: playlist/playlisttabbar.cpp:240
 msgid "This option can be changed in the \"Behavior\" preferences"
-msgstr ""
-"Podeu modificar aquesta opció a la pestanya «Comportament» a Preferències"
+msgstr "Tuto volbu lze změnit v nastavení Chování"
 
 #: device/devicemanager.cpp:632
 #, qt-format
 msgid "This type of device is not supported: %1"
-msgstr "Aquest tipus de dispositiu no és compatible: %1"
+msgstr "Tento typ zařízení není podporován: %1"
 
 #: core/mainwindow.cpp:387 ../build/src/ui_scrobblersettingspage.h:414
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Tidal"
-msgstr ""
+msgstr "Tidal"
 
 #: ../build/src/ui_tidalsettingspage.h:320
 msgid ""
 "Tidal support is not official and requires a API token from a registered "
 "application to work. We can't help you getting these."
 msgstr ""
+"Podpora Tidal není oficiální a vyžaduje API token z registrované aplikace. S "
+"tímto vám nemůžeme pomoct."
 
 #: ../build/src/ui_behavioursettingspage.h:319
 msgid "Time step"
-msgstr "Salt en el temps"
+msgstr "Časový krok"
 
 #: playlist/playlist.cpp:1374 organize/organizedialog.cpp:104
 #: ../build/src/ui_contextsettingspage.h:425
 #: ../build/src/ui_edittagdialog.h:923
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
-msgstr "Títol"
+msgstr "Název"
 
 #: utilities/timeutils.cpp:85 utilities/timeutils.cpp:99
 msgid "Today"
-msgstr "Avui"
+msgstr "Dnes"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Toggle Pretty OSD"
@@ -5394,66 +5411,66 @@ msgstr ""
 
 #: core/mainwindow.cpp:730 core/mainwindow.cpp:1995
 msgid "Toggle queue status"
-msgstr "Commuta l’estat de la cua"
+msgstr "Přepnout stav řady"
 
 #: ../build/src/ui_mainwindow.h:706
 msgid "Toggle scrobbling"
-msgstr "Commuta l’«scrobbling»"
+msgstr "Přepnout odesílání informací o přehrávání"
 
 #: core/mainwindow.cpp:736 core/mainwindow.cpp:2008
 msgid "Toggle skip status"
-msgstr ""
+msgstr "Přepnout stav přeskakování"
 
 #: core/commandlineoptions.cpp:241
 msgid "Toggle visibility for the pretty on-screen-display"
-msgstr "Canvia la visibilitat del OSD estètic"
+msgstr "Přepnout viditelnost hezkých oznámení na obrazovce (OSD)"
 
 #: utilities/timeutils.cpp:100
 msgid "Tomorrow"
-msgstr "Demà"
+msgstr "Zítra"
 
 #: utilities/filemanagerutils.cpp:135
 msgid "Too many songs selected."
-msgstr ""
+msgstr "Je vybráno příliš mnoho skladeb."
 
 #: ../build/src/ui_albumcovermanager.h:221
 msgid "Total albums:"
-msgstr "Total d’àlbums:"
+msgstr "Alb celkem:"
 
 #: covermanager/coversearchstatisticsdialog.cpp:82
 msgid "Total bytes transferred"
-msgstr "Bytes totals transferits"
+msgstr "Celkem přeneseno bajtů"
 
 #: covermanager/coversearchstatisticsdialog.cpp:80
 msgid "Total network requests made"
-msgstr "Total de sol·licituds de xarxa fetes"
+msgstr "Celkem uskutečněno síťových požadavků"
 
 #: playlist/playlist.cpp:1377 organize/organizedialog.cpp:112
 #: ../build/src/ui_edittagdialog.h:931
 #: ../build/src/ui_trackselectiondialog.h:212
 msgid "Track"
-msgstr "Peça"
+msgstr "Skladba"
 
 #: ../build/src/ui_transcodedialog.h:216
 msgid "Transcode Music"
-msgstr "Converteix música"
+msgstr "Převést hudbu"
 
 #: ../build/src/ui_transcodelogdialog.h:61
 msgid "Transcoder Log"
-msgstr "Registre del convertidor"
+msgstr "Záznam o převodu"
 
 #: ../build/src/ui_transcodersettingspage.h:185
 msgid "Transcoding"
-msgstr "Conversió"
+msgstr "Překódování"
 
 #: transcoder/transcoder.cpp:341
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
-msgstr "S’estan convertint %1 fitxers emprant %2 fils"
+msgstr "Převádí se %1 souborů s %2 procesy"
 
 #: ../build/src/ui_transcoderoptionsdialog.h:51
 msgid "Transcoding options"
-msgstr "Opcions de conversió"
+msgstr "Volby překódování"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
@@ -5469,7 +5486,7 @@ msgstr "URI"
 
 #: core/commandlineoptions.cpp:218
 msgid "URL(s)"
-msgstr "URL(s)"
+msgstr "Adresa (URL)"
 
 #: device/udisks2lister.cpp:123
 msgid "UUID"
@@ -5477,7 +5494,7 @@ msgstr "UUID"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Ultra wide band (UWB)"
-msgstr "Banda ultra ampla (UWB)"
+msgstr "Ultra široké pásmo"
 
 #: core/database.cpp:477
 #, qt-format
@@ -5511,11 +5528,11 @@ msgstr ""
 #: dialogs/edittagdialog.cpp:770 dialogs/edittagdialog.cpp:799
 #: ../build/src/ui_scrobblersettingspage.h:421
 msgid "Unknown"
-msgstr "Desconegut"
+msgstr "Neznámý"
 
 #: subsonic/subsonicrequest.cpp:881 qobuz/qobuzrequest.cpp:1430
 msgid "Unknown error"
-msgstr ""
+msgstr "Neznámá chyba"
 
 #: playlist/playlistmanager.cpp:261
 msgid "Unknown file extension for playlist."
@@ -5527,24 +5544,24 @@ msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Unset cover"
-msgstr "Esborra’n la coberta"
+msgstr "Odebrat obal"
 
 #: core/mainwindow.cpp:2005
 msgid "Unskip selected tracks"
-msgstr "No ometis les peces seleccionades"
+msgstr "Zrušit přeskočení vybraných skladeb"
 
 #: core/mainwindow.cpp:2004
 msgid "Unskip track"
-msgstr "No ometis la peça"
+msgstr "Zrušit přeskočení skladby"
 
 #: ../build/src/ui_collectionsettingspage.h:434
 msgid "Update the collection when Strawberry starts"
-msgstr "Actualitza la col·lecció quan l’Strawberry s’iniciï"
+msgstr "Při spuštění Strawberry obnovit hudební sbírku"
 
 #: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
-msgstr "S’està actualitzant %1"
+msgstr "Obnovuje se %1"
 
 #: collection/collectionbackend.cpp:727
 #, qt-format
@@ -5554,11 +5571,11 @@ msgstr ""
 #: device/deviceview.cpp:126
 #, qt-format
 msgid "Updating %1%..."
-msgstr "S’està actualitzant %1%…"
+msgstr "Obnovuje se %1%..."
 
 #: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
-msgstr "S’està actualitzant la col·lecció"
+msgstr "Obnovuje se hudební sbírka"
 
 #: ../build/src/ui_backendsettingspage.h:680
 msgid "Upmix / downmix to"
@@ -5566,15 +5583,15 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:536
 msgid "Upper Left"
-msgstr ""
+msgstr "Vlevo nahoře"
 
 #: ../build/src/ui_appearancesettingspage.h:537
 msgid "Upper Right"
-msgstr ""
+msgstr "Vpravo nahoře"
 
 #: core/commandlineoptions.cpp:218
 msgid "Usage"
-msgstr "Ús"
+msgstr "Zacházení"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:269
 msgid "Use Gnome (GSD) shortcuts when available"
@@ -5594,7 +5611,7 @@ msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
-msgstr ""
+msgstr "Použijte OAuth"
 
 #: settings/coverssettingspage.cpp:229 settings/coverssettingspage.cpp:342
 msgid "Use Qobuz settings to authenticate."
@@ -5602,11 +5619,11 @@ msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:694
 msgid "Use Replay Gain metadata if it is available"
-msgstr "Utilitza les metadades Replay Gain si estan disponibles"
+msgstr "Používat metadata pro zesílení přehrávaných skladeb, jsou-li dostupná"
 
 #: settings/coverssettingspage.cpp:225 settings/coverssettingspage.cpp:338
 msgid "Use Tidal settings to authenticate."
-msgstr ""
+msgstr "Použijte nastavení Tidal pro přihlášení."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:274
 msgid "Use X11 shortcuts when available"
@@ -5614,7 +5631,7 @@ msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
-msgstr "Utilitza un missatge personalitzat per les notificacions"
+msgstr "Použít vlastní zprávu pro oznámení"
 
 #: ../build/src/ui_playlistsettingspage.h:178
 msgid "Use alternating row colors"
@@ -5622,15 +5639,15 @@ msgstr ""
 
 #: ../build/src/ui_networkproxysettingspage.h:178
 msgid "Use authentication"
-msgstr "Empra autentificació"
+msgstr "Použít ověření"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:199
 msgid "Use bitrate management engine"
-msgstr "Usa el motor de gestió de flux de bits"
+msgstr "Použít stroj na správu datového toku"
 
 #: ../build/src/ui_appearancesettingspage.h:521
 msgid "Use custom color"
-msgstr ""
+msgstr "Použít vlastní barvy"
 
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:81
 msgid "Use dynamic mode"
@@ -5638,7 +5655,7 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:522
 msgid "Use gradient background"
-msgstr ""
+msgstr "Použít gradientu"
 
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
@@ -5650,27 +5667,27 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:517
 msgid "Use system theme icons"
-msgstr ""
+msgstr "Použít ikony ze systémového motivu"
 
 #: ../build/src/ui_transcoderoptionsaac.h:140
 msgid "Use temporal noise shaping"
-msgstr "Usa el modelatge de soroll temporal"
+msgstr "Použít časové tvarování šumu"
 
 #: ../build/src/ui_behavioursettingspage.h:292
 msgid "Use the system default"
-msgstr "Utilitza el valor per defecte del sistema"
+msgstr "Použít výchozí nastavení systému"
 
 #: widgets/freespacebar.cpp:67
 msgid "Used"
-msgstr "Usat"
+msgstr "Použito"
 
 #: settings/settingsdialog.cpp:144
 msgid "User interface"
-msgstr "Interfície d’usuari"
+msgstr "Uživatelské rozhraní"
 
 #: ../build/src/ui_scrobblersettingspage.h:430
 msgid "User token:"
-msgstr "Testimoni d’usuari:"
+msgstr "Uživatelský token:"
 
 #: ../build/src/ui_networkproxysettingspage.h:179
 #: ../build/src/ui_userpassdialog.h:92
@@ -5678,7 +5695,7 @@ msgstr "Testimoni d’usuari:"
 #: ../build/src/ui_tidalsettingspage.h:325
 #: ../build/src/ui_qobuzsettingspage.h:281
 msgid "Username"
-msgstr "﻿Nom d’usuari"
+msgstr "Uživatelské jméno"
 
 #: settings/globalshortcutssettingspage.cpp:348
 #, qt-format
@@ -5686,42 +5703,44 @@ msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
 "become unresponsive!"
 msgstr ""
+"Použití klávesových zkratek X11 na %1 není doporučeno a může zapříčinit "
+"nereagující klávesnici!"
 
 #: ../build/src/ui_behavioursettingspage.h:295
 msgid "Using the menu to add a song will..."
-msgstr "En emprar el menú per a afegir una cançó…"
+msgstr "Použití nabídky pro přidání písně..."
 
 #: ../build/src/ui_transcoderoptionsspeex.h:230
 msgid "Variable bit rate"
-msgstr "Taxa de bits variable"
+msgstr "Proměnlivý datový tok"
 
 #: collection/collectionmodel.cpp:302 collection/collectionmodel.cpp:303
 #: playlist/playlistmanager.cpp:559 covermanager/albumcovermanager.cpp:347
 #: internet/internetsearchmodel.cpp:93 internet/internetsearchmodel.cpp:105
 msgid "Various artists"
-msgstr "Artistes diversos"
+msgstr "Různí umělci"
 
 #: ../build/src/ui_subsonicsettingspage.h:254
 msgid "Verify server certificate"
-msgstr "Verifica el certificat del servidor"
+msgstr "Ověřovat certifikát serveru"
 
 #: dialogs/about.cpp:107
 #, qt-format
 msgid "Version %1"
-msgstr "Versió %1"
+msgstr "Verze %1"
 
 #: ../build/src/ui_albumcovermanager.h:220
 msgid "View"
-msgstr "Vista"
+msgstr "Pohled"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:231
 msgid "Voice activity detection"
-msgstr "Detecció de veu"
+msgstr "Zjištění hlasové činnosti"
 
 #: osd/osdbase.cpp:286
 #, qt-format
 msgid "Volume %1%"
-msgstr "Volumen %1%"
+msgstr "Hlasitost %1 %"
 
 #: ../build/src/ui_transcodersettingspage.h:189
 msgid "Vorbis"
@@ -5729,7 +5748,7 @@ msgstr "Vorbis"
 
 #: playlist/playlisttabbar.cpp:237 ../build/src/ui_playlistsettingspage.h:181
 msgid "Warn me when closing a playlist tab"
-msgstr "Avisa’m abans de tancar una pestanya de llista de reproducció"
+msgstr "Varovat při zavření karty se seznamem skladeb"
 
 #: ../build/src/ui_lastfmimportdialog.h:152
 msgid ""
@@ -5753,26 +5772,26 @@ msgid ""
 "contain one of these words.\n"
 "If there are no matches then it will use the largest image in the directory."
 msgstr ""
-"En la cerca de caràtules d’àlbum, Strawberry primer cercarà imatges que "
-"contenen una d’aquestes paraules.\n"
-"Si no hi ha resultats, s’usarà la imatge més gran en el directori."
+"Při hledání obalu alba se Strawberry nejprve podívá po obrázkových "
+"souborech, jež obsahují jedno z těchto slov.\n"
+"Pokud nenajde žádné, které by se shodovaly, potom použije největší obrázek v "
+"adresáři."
 
 #: ../build/src/ui_playlistsettingspage.h:190
 msgid "When saving a playlist, file paths should be"
-msgstr ""
-"En desar una llista de reproducció, els camins dels fitxers han de ser"
+msgstr "Při ukládání seznamu skladeb mají být cesty k souborům"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:227
 msgid "Wide band (WB)"
-msgstr "Banda ampla (WB)"
+msgstr "Široké pásmo"
 
 #: ../build/src/ui_albumcovermanager.h:222
 msgid "Without cover:"
-msgstr "Sense coberta:"
+msgstr "Bez obalu:"
 
 #: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Work in offline mode (Only cache scrobbles)"
-msgstr ""
+msgstr "Pracovat v režimu offline (pouze ukládat přehrané skladby)"
 
 #: collection/collectionview.cpp:504
 msgid ""
@@ -5782,7 +5801,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:2933
 msgid "Would you like to run a full rescan right now?"
-msgstr "Voleu fer de nou un escaneig complet ara?"
+msgstr "Chcete spustit toto úplné nové prohledání hned teď?"
 
 #: settings/collectionsettingspage.cpp:303
 msgid "Write all playcounts and ratings to files"
@@ -5790,7 +5809,7 @@ msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:200
 msgid "Write metadata when saving playlists"
-msgstr ""
+msgstr "Zapisovat metadata při ukládání seznamů skladeb"
 
 #: device/gpoddevice.cpp:288
 msgid "Writing database failed."
@@ -5807,21 +5826,21 @@ msgstr ""
 #: ../build/src/ui_edittagdialog.h:922
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Year"
-msgstr "Any"
+msgstr "Rok"
 
 #: collection/savedgroupingmanager.cpp:104 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 msgid "Year - Album"
-msgstr "Any - Àlbum"
+msgstr "Rok - Album"
 
 #: collection/savedgroupingmanager.cpp:107 ../build/src/ui_groupbydialog.h:201
 #: ../build/src/ui_groupbydialog.h:223 ../build/src/ui_groupbydialog.h:245
 msgid "Year - Album - Disc"
-msgstr ""
+msgstr "Rok - Album - Disk"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:457
 msgid "Years"
-msgstr "Anys"
+msgstr ""
 
 #: dialogs/edittagdialog.cpp:816 dialogs/edittagdialog.cpp:832
 msgid "Yes"
@@ -5829,15 +5848,14 @@ msgstr ""
 
 #: utilities/timeutils.cpp:86
 msgid "Yesterday"
-msgstr "Ahir"
+msgstr "Včera"
 
 #: playlist/playlistlistcontainer.cpp:428
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr ""
-"Esteu segur que voleu suprimir %1 llistes de reproducció de les vostres "
-"llistes favorites?"
+"Chystáte se odstranit %1 seznamů skladeb z vašich oblíbených. Jste si jisti?"
 
 #: playlist/playlisttabbar.cpp:231
 msgid ""
@@ -5845,14 +5863,14 @@ msgid ""
 "playlists: the playlist will be deleted (this action cannot be undone). \n"
 "Are you sure you want to continue?"
 msgstr ""
-"Sou a punt de suprimir una llista de reproducció que no heu desat com a "
-"favorita: la llista de reproducció se suprimirà (aquesta acció és "
-"irreversible).\n"
-"Esteu segur que voleu continuar?"
+"Chystáte se odstranit seznam skladeb, který není součástí vašich oblíbených "
+"seznamů skladeb: Seznam skladeb bude nenávratně odstraněn (tento krok nelze "
+"vrátit zpět). \n"
+"Opravdu chcete pokračovat?"
 
 #: ../build/src/ui_loginstatewidget.h:165
 msgid "You are not signed in."
-msgstr "No heu iniciat la sessió."
+msgstr "Nejste přihlášen."
 
 #: core/mainwindow.cpp:1056
 #, qt-format
@@ -5865,11 +5883,11 @@ msgstr ""
 #: widgets/loginstatewidget.cpp:83
 #, qt-format
 msgid "You are signed in as %1."
-msgstr "Heu iniciat la sessió com a %1."
+msgstr "Jste přihlášen jako %1."
 
 #: widgets/loginstatewidget.cpp:82
 msgid "You are signed in."
-msgstr "Heu iniciat la sessió."
+msgstr "Jste přihlášen."
 
 #: ../build/src/ui_groupbydialog.h:188
 msgid "You can change the way the songs in the collection are organized."
@@ -5881,10 +5899,11 @@ msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
 "through %2."
 msgstr ""
+"Můžete podpořit autora na %1. Také můžete jednorázově přispět pomocí %2."
 
 #: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
-msgstr "Us cal el GStreamer per a aquest URL."
+msgstr "Pro tento odkaz je potřeba GStreamer."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:278
 msgid ""
@@ -5892,9 +5911,9 @@ msgid ""
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
 "in Strawberry."
 msgstr ""
-"Obriu Preferències del sistema i permeteu que l’Strawberry «<span style="
-"\"font-style:italic\">controli l’ordinador</span>» per a utilitzar les "
-"dreceres globals a l’Strawberry."
+"Aby bylo možné v Strawberry používat globální klávesové zkratky, je nutné "
+"spustit Nastavení Systému a povolit Strawberry \"<span style=\"font-style:"
+"italic\">ovládat váš počítač</span>\"."
 
 #: dialogs/about.cpp:119
 #, qt-format
@@ -5902,28 +5921,30 @@ msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program.  If not, see %1"
 msgstr ""
+"S tímto programem jste měli obdržet kopii licence GNU GPL. Pokud ne, "
+"navštivte %1"
 
 #: ../build/src/ui_behavioursettingspage.h:294
 msgid "You will need to restart Strawberry if you change the language."
-msgstr "Si canvieu la llengua haureu de reiniciar l’Strawberry."
+msgstr "Pokud změníte jazyk, budete muset Strawberry spustit znovu."
 
 #: collection/collectionview.cpp:323
 msgid "Your collection is empty!"
-msgstr "La vostra col·lecció està buida."
+msgstr "Vaše hudební sbírka je prázdná!"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "Z-A"
-msgstr "Z-A"
+msgstr ""
 
 #: equalizer/equalizer.cpp:156
 msgid "Zero"
-msgstr "Zero"
+msgstr "Vynulovat"
 
 #: playlist/playlistundocommands.cpp:42
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
-msgstr "afegeix %n cançons"
+msgstr "přidat %n skladeb"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:254
 msgid "after"
@@ -5935,31 +5956,31 @@ msgstr ""
 
 #: ../build/src/ui_internetsearchview.h:229
 msgid "albums"
-msgstr "àlbums"
+msgstr "alba"
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
-msgstr "i"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:83 playlist/playlistcontainer.cpp:132
 msgid "artist"
-msgstr "artista"
+msgstr "umělec"
 
 #: ../build/src/ui_internetsearchview.h:228
 msgid "artists"
-msgstr "artistes"
+msgstr "umělci"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:219
 msgid "automatic"
-msgstr "automàtic"
+msgstr "automatický"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "before"
-msgstr "abans"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:266
 msgid "between"
-msgstr "entre"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "biggest first"
@@ -5967,11 +5988,11 @@ msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:681
 msgid "channels"
-msgstr "canals"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:274
 msgid "contains"
-msgstr "conté"
+msgstr ""
 
 #: ../build/src/ui_collectionsettingspage.h:440
 msgid "days"
@@ -5981,12 +6002,12 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
 #: ../build/src/ui_transcoderoptionsspeex.h:222
 msgid "disabled"
-msgstr "deshabilitat"
+msgstr "zakázáno"
 
 #: osd/osdbase.cpp:155
 #, qt-format
 msgid "disc %1"
-msgstr "disc %1"
+msgstr "disk %1"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:276
 msgid "does not contain"
@@ -5994,7 +6015,7 @@ msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:290
 msgid "empty"
-msgstr "buit"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:280
 msgid "ends with"
@@ -6010,7 +6031,7 @@ msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:674
 msgid "hw"
-msgstr ""
+msgstr "hardware"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:262
 msgid "in the last"
@@ -6037,12 +6058,12 @@ msgstr ""
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "move %n songs"
-msgstr "mou %n cançons"
+msgstr "Přesunout %n skladeb"
 
 #: ../build/src/ui_tidalsettingspage.h:331
 #: ../build/src/ui_qobuzsettingspage.h:288
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:431
 msgid "newest first"
@@ -6074,11 +6095,12 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:218
 msgid "options"
-msgstr "opcions"
+msgstr "volby"
 
 #: ../build/src/ui_backendsettingspage.h:675
+#, fuzzy
 msgid "p&lughw"
-msgstr ""
+msgstr "p&lughw"
 
 #: ../build/src/ui_backendsettingspage.h:676
 msgid "pcm"
@@ -6092,7 +6114,7 @@ msgstr ""
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
-msgstr "elimina %n cançons"
+msgstr "odstranit %n skladeb"
 
 #: collection/collectionfilterwidget.cpp:85
 #, qt-format
@@ -6110,7 +6132,7 @@ msgstr ""
 
 #: playlist/playlistundocommands.cpp:141
 msgid "shuffle songs"
-msgstr "mescla les cançons"
+msgstr "Zamíchat skladby"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "smallest first"
@@ -6118,11 +6140,11 @@ msgstr ""
 
 #: ../build/src/ui_internetsearchview.h:230
 msgid "songs"
-msgstr "cançons"
+msgstr "skladby"
 
 #: playlist/playlistundocommands.cpp:133
 msgid "sort songs"
-msgstr "ordena les cançons"
+msgstr "Třídit skladby"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:278
 msgid "starts with"
@@ -6130,13 +6152,13 @@ msgstr ""
 
 #: playlist/playlistdelegates.cpp:223
 msgid "stop"
-msgstr "atura"
+msgstr "zastavit"
 
 #: osd/osdbase.cpp:158
 #, qt-format
 msgid "track %1"
-msgstr "peça %1"
+msgstr "skladba %1"
 
 #: covermanager/albumcoverchoicecontroller.cpp:238
 msgid "unknown"
-msgstr "desconegut"
+msgstr "neznámý"

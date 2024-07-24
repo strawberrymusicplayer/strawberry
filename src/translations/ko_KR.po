@@ -1,26 +1,31 @@
 # Strawberry
 # 
 # Translators:
-# Jiří Vírava <appukonrad@gmail.com>, 2012
-# arnaudbienner <arnaud.bienner@gmail.com>, 2011
-# David Kolibáč <david@kolibac.cz>, 2011,2013
-# mandarinki <this.mail.sucks@mail.bg>, 2011
-# Miroslav Kucera <vvendigo@seznam.cz>, 2016
-# Pavel Fric <fripohled@blogspot.com>, 2010
+# 며소 <>, 2012
+# 사월 <>, 2012
+# orange2141 <ataraxia90@gmail.com>, 2014
+# 현구 임 <bradlim980@gmail.com>, 2012
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011
+# Ji yul Kim <kjy00302@gmail.com>, 2015
+# 박정규(Jung-Kyu Park) <bagjunggyu@gmail.com>, 2016
+# 야생참치 <kladess@gmail.com>, 2013-2017
+# Sungrak Choi <srak.choi@gmail.com>, 2017
+# Thomas Min <thomas.min.v2@gmail.com>, 2013
+# VSFe <klm03025@gmail.com>, 2015
+# whdgmawkd <whdgmawkd@naver.com>, 2014-2015
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
-# Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
-# Rostislav Medvěd <rostik.medved@gmail.com>, 2020. #zanata
+# Shinjo Park <peremen@gmail.com>, 2020. #zanata
+# zlzleking <zlzleking@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-12-20 09:20-0500\n"
-"Last-Translator: Rostislav Medvěd <rostik.medved@gmail.com>\n"
-"Language-Team: Czech\n"
-"Language: cs\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <="
-" 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+"PO-Revision-Date: 2020-11-29 09:13-0500\n"
+"Last-Translator: zlzleking <zlzleking@gmail.com>\n"
+"Language-Team: Korean\n"
+"Language: ko_KR\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Zanata 4.6.2\n"
 
 #: playlist/playlistlistview.cpp:51
@@ -30,13 +35,11 @@ msgid ""
 "You can favorite playlists by clicking the star icon next to a playlist name\n"
 "\n"
 "Favorited playlists will be saved here"
-msgstr ""
+msgstr "\n"
 "\n"
+"재생 목록 왼쪽의 별 모양 아이콘을 클릭해서 즐겨찾기에 추가할 수 있습니다.\n"
 "\n"
-"Seznamy skladeb můžete označit jako oblíbený klepnutím na hvězdičku vedle "
-"názvu seznamu skladeb\n"
-"\n"
-"Oblíbené seznamy skladeb budou uloženy zde"
+"즐겨찾는 재생 목록은 여기에 저장됩니다"
 
 #: settings/globalshortcutssettingspage.cpp:356
 #, qt-format
@@ -62,7 +65,7 @@ msgstr ""
 #: settings/globalshortcutssettingspage.cpp:350
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
-msgstr "Zkratky na %1 jsou většinou používány přes MPRIS a KGlobalAccel."
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsaac.h:133
 #: ../build/src/ui_transcoderoptionsvorbis.h:201
@@ -74,7 +77,7 @@ msgstr "Zkratky na %1 jsou většinou používány přes MPRIS a KGlobalAccel."
 #: ../build/src/ui_transcoderoptionsasf.h:76
 #: ../build/src/ui_transcoderoptionsmp3.h:195
 msgid " kbps"
-msgstr " kb/s"
+msgstr " kbps"
 
 #: ../build/src/ui_backendsettingspage.h:686
 #: ../build/src/ui_backendsettingspage.h:711
@@ -85,7 +88,7 @@ msgstr " ms"
 #: ../build/src/ui_contextsettingspage.h:441
 #: ../build/src/ui_contextsettingspage.h:446
 msgid " pt"
-msgstr " bodů"
+msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:320
 msgid " s"
@@ -94,36 +97,36 @@ msgstr " s"
 #: ../build/src/ui_scrobblersettingspage.h:405
 #: ../build/src/ui_notificationssettingspage.h:484
 msgid " seconds"
-msgstr " sekund"
+msgstr " 초"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
-msgstr "skladby"
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:211 scrobbler/scrobblingapi20.cpp:220
 #, qt-format
 msgid "%1 Scrobbler Authentication"
-msgstr "%1 Ověření systému pro doporučování hudby (scrobbler)"
+msgstr "%1 스크로블러 인증"
 
 #: context/contextview.cpp:418
 #, qt-format
 msgid "%1 album"
-msgstr "%1 album"
+msgstr "앨범 %1개"
 
 #: context/contextview.cpp:419
 #, qt-format
 msgid "%1 albums"
-msgstr "%1 alba"
+msgstr "앨범 %1개"
 
 #: context/contextview.cpp:414
 #, qt-format
 msgid "%1 artist"
-msgstr "%1 umělec"
+msgstr "아티스트 %1명"
 
 #: context/contextview.cpp:415
 #, qt-format
 msgid "%1 artists"
-msgstr "%1 umělci"
+msgstr "아티스트 %1명"
 
 #: equalizer/equalizerslider.cpp:41 equalizer/equalizerslider.cpp:42
 #: equalizer/equalizerslider.cpp:59
@@ -134,57 +137,57 @@ msgstr "%1 dB"
 #: utilities/timeutils.cpp:67
 #, qt-format
 msgid "%1 days"
-msgstr "%1 dnů"
+msgstr "%1일"
 
 #: utilities/timeutils.cpp:87
 #, qt-format
 msgid "%1 days ago"
-msgstr "před %1 dny"
+msgstr "%1일 전"
 
 #: settings/coverssettingspage.cpp:241
 #, qt-format
 msgid "%1 does not need authentication."
-msgstr "%1 nevyžaduje ověření."
+msgstr ""
 
 #: settings/coverssettingspage.cpp:236
 #, qt-format
 msgid "%1 needs authentication."
-msgstr "%1 vyžaduje ověření."
+msgstr ""
 
 #: playlistparsers/playlistparser.cpp:121
 #, qt-format
 msgid "%1 playlists (%2)"
-msgstr "%1 seznamů skladeb (%2)"
+msgstr "재생 목록 %1개(%2)"
 
 #: playlist/playlistmanager.cpp:444
 #, qt-format
 msgid "%1 selected of"
-msgstr "%1 vybráno z"
+msgstr "%1개 선택됨,"
 
 #: context/contextview.cpp:410
 #, qt-format
 msgid "%1 song"
-msgstr "%1 skladba"
+msgstr "노래 %1곡"
 
 #: device/deviceview.cpp:146
 #, qt-format
 msgid "%1 song%2"
-msgstr "%1 skladba%2"
+msgstr "노래 %1곡"
 
 #: context/contextview.cpp:411
 #, qt-format
 msgid "%1 songs"
-msgstr "%1 skladby"
+msgstr "노래 %1곡"
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:156
 #, qt-format
 msgid "%1 songs found"
-msgstr "%1 skladeb nalezeno"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchpreview.cpp:153
 #, qt-format
 msgid "%1 songs found (showing %2)"
-msgstr "%1 skladeb nalezeno (%2 zobrazeno)"
+msgstr ""
 
 #: utilities/filemanagerutils.cpp:141
 #, qt-format
@@ -192,8 +195,6 @@ msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
 msgstr ""
-"Je vybráno %1 skladeb obsažených v %2 různých složkách, chcete je všechny "
-"otevřít?"
 
 #: dialogs/edittagdialog.cpp:694
 #, qt-format
@@ -203,7 +204,7 @@ msgstr ""
 #: covermanager/albumcovermanager.cpp:561
 #, qt-format
 msgid "%1 transferred"
-msgstr "%1 přeneseno"
+msgstr "%1개 전송됨"
 
 #: ../build/src/ui_contextsettingspage.h:427
 msgid "%album%"
@@ -223,19 +224,19 @@ msgstr "%filename%"
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n failed"
-msgstr "nepodařilo se %n"
+msgstr "%n개 실패함"
 
 #: transcoder/transcodedialog.cpp:306
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n finished"
-msgstr "dokončeno %n"
+msgstr "%n개 완료됨"
 
 #: transcoder/transcodedialog.cpp:302
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "%n remaining"
-msgstr "zůstávají %n"
+msgstr "%n개 남음"
 
 #: playlist/playlistmanager.cpp:450 queue/queue.cpp:252
 #, c-format, qt-plural-format
@@ -250,7 +251,7 @@ msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:411
 msgid "%rating%"
-msgstr "%hodnocení%"
+msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:420
 msgid "%title - %artist%"
@@ -259,68 +260,68 @@ msgstr "%title - %artist%"
 #: ../build/src/ui_contextsettingspage.h:407
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "%url%"
-msgstr "%adresa%"
+msgstr ""
 
 #: ../build/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
-msgstr "&O Strawberry"
+msgstr "Strawberry 정보(&A)"
 
 #: ../build/src/ui_mainwindow.h:661
 msgid "&Add file..."
-msgstr "&Přidat soubor..."
+msgstr "파일 추가(&A)..."
 
 #: playlist/playlistheader.cpp:63
 msgid "&Align text"
-msgstr "&Zarovnat text"
+msgstr "텍스트 정렬(&A)"
 
 #: playlist/playlistheader.cpp:66
 msgid "&Center"
-msgstr "&Na střed"
+msgstr "가운데(&C)"
 
 #: ../build/src/ui_mainwindow.h:635
 msgid "&Clear playlist"
-msgstr "&Vyčistit seznam skladeb"
+msgstr "재생 목록 비우기(&C)"
 
 #: ../build/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
-msgstr "&Správce obalů"
+msgstr "앨범아트 관리자(&C)"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
-msgstr "Vl&astní"
+msgstr "사용자 정의(&C)"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:285
 msgid "&Default"
-msgstr "&Výchozí"
+msgstr "기본값(&D)"
 
 #: ../build/src/ui_mainwindow.h:700
 msgid "&Do a full collection rescan"
-msgstr "&Provést úplné nové prohledání sbírky"
+msgstr "전체 라이브러리 재탐색(&D)"
 
 #: ../build/src/ui_mainwindow.h:672
 msgid "&Equalizer"
-msgstr "&Ekvalizér"
+msgstr "이퀄라이저(&E)"
 
 #: playlist/playlistheader.cpp:102
 #, qt-format
 msgid "&Hide %1"
-msgstr "Skrýt %1"
+msgstr "%1 숨기기(&H)"
 
 #: playlist/playlistheader.cpp:56
 msgid "&Hide..."
-msgstr "Skrýt..."
+msgstr "숨기기(&H)..."
 
 #: ../build/src/ui_mainwindow.h:675
 msgid "&Jump to the currently playing track"
-msgstr "&Skočit na aktuálně přehrávanou skladbu"
+msgstr "현재 재생 중인 트랙으로 이동(&J)"
 
 #: playlist/playlistheader.cpp:65
 msgid "&Left"
-msgstr "&Vlevo"
+msgstr "왼쪽(&L)"
 
 #: ../build/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
-msgstr "&Načíst seznam skladeb"
+msgstr "재생 목록 불러오기(&L)..."
 
 #: playlist/playlistheader.cpp:59
 msgid "&Lock rating"
@@ -328,55 +329,55 @@ msgstr ""
 
 #: ../build/src/ui_networkproxysettingspage.h:173
 msgid "&Manual proxy configuration"
-msgstr "&Ruční nastavení proxy"
+msgstr "수동 프록시 설정(&M)"
 
 #: ../build/src/ui_mainwindow.h:732
 msgid "&Music"
-msgstr "Hudba"
+msgstr "음악(&M)"
 
 #: ../build/src/ui_mainwindow.h:696
 msgid "&Mute"
-msgstr "&Ztlumit"
+msgstr "음소거(&M)"
 
 #: ../build/src/ui_mainwindow.h:679
 msgid "&New playlist"
-msgstr "&Nový seznam skladeb"
+msgstr "새 재생 목록(&N)"
 
 #: ../build/src/ui_mainwindow.h:622
 msgid "&Next track"
-msgstr "&Další skladba"
+msgstr "다음 트랙(&N)"
 
 #: ../build/src/ui_appearancesettingspage.h:527
 msgid "&No background image"
-msgstr "&Chybějící obrázek na pozadí"
+msgstr "배경 없음(&N)"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:284
 msgid "&None"
-msgstr "Žád&né"
+msgstr "없음(&N)"
 
 #: ../build/src/ui_mainwindow.h:665
 msgid "&Open file..."
-msgstr "&Otevřít soubor"
+msgstr "파일 열기(&O)..."
 
 #: ../build/src/ui_mainwindow.h:614
 msgid "&Play"
-msgstr "&Přehrát"
+msgstr "재생(&P)"
 
 #: ../build/src/ui_mainwindow.h:626
 msgid "&Quit"
-msgstr "&Ukončit"
+msgstr "끝내기(&Q)"
 
 #: ../build/src/ui_mainwindow.h:670
 msgid "&Repeat mode"
-msgstr "Režim opakování"
+msgstr "반복 모드(&R)"
 
 #: playlist/playlistheader.cpp:58
 msgid "&Reset columns to default"
-msgstr "&Původní nastavení sloupců"
+msgstr "기본값으로 열 초기화(&R)"
 
 #: playlist/playlistheader.cpp:67
 msgid "&Right"
-msgstr "&Vpravo"
+msgstr "오른쪽(&R)"
 
 #: ../build/src/ui_mainwindow.h:691
 msgid "&Save all playlists..."
@@ -384,39 +385,39 @@ msgstr ""
 
 #: ../build/src/ui_mainwindow.h:649
 msgid "&Settings..."
-msgstr "&Nastavení"
+msgstr "설정(&S)..."
 
 #: ../build/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
-msgstr "Režim míchání"
+msgstr "셔플 재생 모드(&S)"
 
 #: ../build/src/ui_mainwindow.h:618
 msgid "&Stop"
-msgstr "&Zastavit"
+msgstr "정지(&S)"
 
 #: playlist/playlistheader.cpp:57
 msgid "&Stretch columns to fit window"
-msgstr "Roztáhnout sloupce tak, aby se vešly do okna"
+msgstr "창 크기에 맞게 열 너비 조정(&S)"
 
 #: ../build/src/ui_mainwindow.h:735
 msgid "&Tools"
-msgstr "Nástroje"
+msgstr "도구(&T)"
 
 #: ../build/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
-msgstr "&Převést hudbu"
+msgstr "음악 변환(&T)"
 
 #: ../build/src/ui_mainwindow.h:694
 msgid "&Update changed collection folders"
-msgstr "&Aktualizovat změny ve složkách kolekce"
+msgstr "라이브러리 변경 사항 업데이트(&U)"
 
 #: ../build/src/ui_appearancesettingspage.h:520
 msgid "&Use the system default color"
-msgstr "&Použít nastavení barvu systému"
+msgstr "시스템 기본 색 사용(&U)"
 
 #: ../build/src/ui_networkproxysettingspage.h:171
 msgid "&Use the system proxy settings"
-msgstr "&Použít nastavení systému"
+msgstr "시스템 프록시 설정 사용(&U)"
 
 #: ../build/src/ui_scrobblersettingspage.h:407
 msgid ""
@@ -427,7 +428,7 @@ msgstr ""
 
 #: dialogs/edittagdialog.cpp:102
 msgid "(different across multiple songs)"
-msgstr "(liší se u jednotlivých písní)"
+msgstr "(여러 곡마다 다름)"
 
 #: ../build/src/ui_albumcovermanager.h:223
 #: ../build/src/ui_albumcovermanager.h:224
@@ -440,11 +441,11 @@ msgstr "0:00:00"
 
 #: ../build/src/ui_appearancesettingspage.h:547
 msgid "0px"
-msgstr "0 px"
+msgstr "0px"
 
 #: utilities/timeutils.cpp:67
 msgid "1 day"
-msgstr "1 den"
+msgstr "1일"
 
 #: ../build/src/ui_appearancesettingspage.h:549
 msgid "40%"
@@ -452,7 +453,7 @@ msgstr "40%"
 
 #: smartplaylists/smartplaylistsmodel.cpp:73
 msgid "50 random tracks"
-msgstr "50 náhodných skladeb"
+msgstr "랜덤 곡 50곡"
 
 #: ../build/src/ui_organizedialog.h:268
 msgid ""
@@ -461,14 +462,13 @@ msgid ""
 "<p>If you surround sections of text that contain a token with curly-braces, "
 "that section will be hidden if the token is empty.</p>"
 msgstr ""
-"<p>Symboly začínají %, například: %artist %album %title </p>\n"
+"<p>토큰은 %로 시작합니다. 예: %artist %album %title </p>\n"
 "\n"
-"<p>Pokud obklopíte části textu obsahující symbol složenými závorkami, tato "
-"část bude skryta, je-li symbol prázdný.</p>"
+"<p>토큰을 포함하는 텍스트를 중괄호로 둘러싸면 토큰이 비어 있을 때 해당 부분은 표시되지 않습니다.</p>"
 
 #: ../build/src/ui_appearancesettingspage.h:532
 msgid "A Taste of Strawbs"
-msgstr "Chuť Jahod"
+msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:82
 msgid ""
@@ -476,17 +476,17 @@ msgid ""
 "There are different types of smart playlist that offer different ways of "
 "selecting songs."
 msgstr ""
-"Chytrý playlist je dynamický seznam skladeb z vaší kolekce. Existuje několik "
-"různých typů chytrých playlistů. Každý nabízí jiný způsob výběru skladeb."
+"스마트 재생 목록은 조건에 맞는 곡들을 라이브러리에서 찾아 자동으로 생성됩니다. 다양한 스마트 재생 목록과 스마트 재생 목록을 만드는 "
+"규칙들이 있습니다."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:162
 msgid ""
 "A song will be included in the playlist if it matches these conditions."
-msgstr "Skladba bude zahrnuta v seznamu skladeb, pokud splňuje tyto podmínky."
+msgstr "이 조건에 맞는 곡들이 재생 목록에 들어갑니다."
 
 #: ../build/src/ui_playlistsettingspage.h:191
 msgid "A&utomatic"
-msgstr "A&utomaticky"
+msgstr "자동(&U)"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "A-Z"
@@ -502,145 +502,145 @@ msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "API Token"
-msgstr "API Token"
+msgstr "API 토큰"
 
 #: ../build/src/ui_transcodersettingspage.h:193
 msgid "ASF (WMA)"
-msgstr "ASF (WMA)"
+msgstr "ASF(WMA)"
 
 #: covermanager/albumcovermanager.cpp:146
 #: covermanager/albumcoversearcher.cpp:184
 #: ../build/src/ui_internetcollectionviewcontainer.h:139
 msgid "Abort"
-msgstr "Přerušit"
+msgstr "중지"
 
 #: ../build/src/ui_mainwindow.h:701
 msgid "Abort collection scan"
-msgstr "Zrušit aktualizaci kolekce"
+msgstr "라이브러리 검색 중지"
 
 #: ../build/src/ui_about.h:152
 msgid "About"
-msgstr "O programu"
+msgstr ""
 
 #: ../build/src/ui_mainwindow.h:695
 msgid "About &Qt"
-msgstr "O &Qt"
+msgstr "Qt 정보(&Q)"
 
 #: dialogs/about.cpp:43
 msgid "About Strawberry"
-msgstr "O Strawberry"
+msgstr "Strawberry 정보"
 
 #: ../build/src/ui_playlistsettingspage.h:192
 msgid "Absolu&te"
-msgstr "Absolut&ní"
+msgstr "절대 경로(&T)"
 
 #: playlist/playlistsaveoptionsdialog.cpp:42
 msgid "Absolute"
-msgstr "Absolutní"
+msgstr "절대 경로"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:282
 msgctxt "Category label"
 msgid "Action"
-msgstr "Činnost"
+msgstr "동작"
 
 #: ../build/src/ui_mainwindow.h:674
 msgid "Add &folder..."
-msgstr "Přidat &složku"
+msgstr "폴더 추가(&F)..."
 
 #: ../build/src/ui_addstreamdialog.h:76
 msgid "Add Stream"
-msgstr "Přidat přenos"
+msgstr "스트림 추가"
 
 #: ../build/src/ui_contextsettingspage.h:401
 #: ../build/src/ui_notificationssettingspage.h:462
 msgid "Add a new line if supported by the notification type"
-msgstr "Přidat nový řádek, je-li to podporováno typem oznámení"
+msgstr "알림 형식이 지원한다면 새로운 줄 추가"
 
 #: ../build/src/ui_transcodedialog.h:224
 msgid "Add all tracks from a directory and all its subdirectories"
-msgstr "Přidat všechny skladby z adresáři a všech jeho podadresářů"
+msgstr "디렉터리와 모든 하위 디렉터리의 트랙을 추가합니다"
 
 #: settings/collectionsettingspage.cpp:119
 msgid "Add directory..."
-msgstr "Přidat složku..."
+msgstr "디렉터리 추가..."
 
 #: core/mainwindow.cpp:2275
 msgid "Add file"
-msgstr "Přidat soubor"
+msgstr "파일 추가"
 
 #: ../build/src/ui_mainwindow.h:711
 msgid "Add file to transcoder"
-msgstr "Přidat soubor k překódování"
+msgstr "변환할 파일 추가"
 
 #: ../build/src/ui_mainwindow.h:709
 msgid "Add file(s) to transcoder"
-msgstr "Přidat soubor(y) k překódování"
+msgstr "변환할 파일 추가"
 
 #: transcoder/transcodedialog.cpp:324
 msgid "Add files to transcode"
-msgstr "Přidat soubory pro překódování"
+msgstr "변환할 파일 추가"
 
 #: core/mainwindow.cpp:2301 transcoder/transcodedialog.cpp:416
 msgid "Add folder"
-msgstr "Přidat složku"
+msgstr "폴더 추가"
 
 #: ../build/src/ui_collectionsettingspage.h:431
 msgid "Add new folder..."
-msgstr "Přidat novou složku..."
+msgstr "새로운 폴더 추가..."
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:432
 msgid "Add search term"
-msgstr "Přidat hledaný výraz"
+msgstr "검색 조건 추가"
 
 #: ../build/src/ui_contextsettingspage.h:409
 #: ../build/src/ui_notificationssettingspage.h:470
 msgid "Add song URL"
-msgstr "Přidat URL skladby"
+msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:362
 #: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song album tag"
-msgstr "Přidat značku album písně"
+msgstr "앨범 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:368
 #: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song albumartist tag"
-msgstr "Přidat značku umělec alba písně"
+msgstr "앨범 아티스트 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:359
 #: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song artist tag"
-msgstr "Přidat značku umělec písně"
+msgstr "아티스트 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:374
 #: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song composer tag"
-msgstr "Přidat značku skladatel písně"
+msgstr "작곡가 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:383
 #: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song disc tag"
-msgstr "Přidat značku disk písně"
+msgstr "음악 디스크 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:405
 #: ../build/src/ui_notificationssettingspage.h:466
 msgid "Add song filename"
-msgstr "Přidat název souboru písně"
+msgstr "음악 파일 이름 추가"
 
 #: ../build/src/ui_contextsettingspage.h:389
 #: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song genre tag"
-msgstr "Přidat značku žánr písně"
+msgstr "장르 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:380
 #: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song grouping tag"
-msgstr "Přidat značku seskupení písně"
+msgstr "음악 그룹화 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:392
 #: ../build/src/ui_notificationssettingspage.h:450
 msgid "Add song length tag"
-msgstr "Přidat značku délka písně"
+msgstr "음악 길이 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:417
 #: ../build/src/ui_notificationssettingspage.h:474
@@ -650,103 +650,103 @@ msgstr ""
 #: ../build/src/ui_contextsettingspage.h:377
 #: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song performer tag"
-msgstr "Přidat značku účinkující písně"
+msgstr "음악 연주가 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:395
 #: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song play count"
-msgstr "Přidat počet přehrání písně"
+msgstr "재생 횟수 추가"
 
 #: ../build/src/ui_contextsettingspage.h:413
 #: ../build/src/ui_notificationssettingspage.h:459
 msgid "Add song rating"
-msgstr "Přidat hodnocení písně"
+msgstr "음악 별점 추가"
 
 #: ../build/src/ui_contextsettingspage.h:398
 #: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add song skip count"
-msgstr "Přidat počet přeskočení písně"
+msgstr "건너뛴 횟수 추가"
 
 #: ../build/src/ui_contextsettingspage.h:365
 #: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song title tag"
-msgstr "Přidat značku název písně"
+msgstr "제목 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:386
 #: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song track tag"
-msgstr "Přidat značku pořadí písně"
+msgstr "트랙 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:371
 #: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song year tag"
-msgstr "Přidat značku rok písně"
+msgstr "년도 태그 추가"
 
 #: ../build/src/ui_mainwindow.h:713
 msgid "Add stream..."
-msgstr "Přidat přenos..."
+msgstr "스트림 추가"
 
 #: internet/internetsearchview.cpp:330
 msgid "Add to albums"
-msgstr "Přidat do alb"
+msgstr "앨범에 추가"
 
 #: core/mainwindow.cpp:2077
 msgid "Add to another playlist"
-msgstr "Přidat do jiného seznamu skladeb"
+msgstr "다른 재생 목록에 추가"
 
 #: internet/internetsearchview.cpp:327
 msgid "Add to artists"
-msgstr "Přidat k umělcům"
+msgstr "아티스트에 추가"
 
 #: ../build/src/ui_albumcovermanager.h:215
 msgid "Add to playlist"
-msgstr "Přidat do seznamu skladeb"
+msgstr "재생 목록에 추가"
 
 #: internet/internetsearchview.cpp:333
 msgid "Add to songs"
-msgstr "Přidat ke skladbám"
+msgstr "노래에 추가"
 
 #: ../build/src/ui_behavioursettingspage.h:308
 #: ../build/src/ui_behavioursettingspage.h:316
 msgid "Add to the queue"
-msgstr "Přidat do řady"
+msgstr "대기열에 추가"
 
 #: ../build/src/ui_transcodedialog.h:221
 msgid "Add..."
-msgstr "Přidat..."
+msgstr "추가..."
 
 #: ../build/src/ui_collectionfilterwidget.h:99
 msgid "Added this month"
-msgstr "Přidána tento měsíc"
+msgstr "이번 달에 추가됨"
 
 #: ../build/src/ui_collectionfilterwidget.h:93
 msgid "Added this week"
-msgstr "Přidána tento týden"
+msgstr "이번 주에 추가됨"
 
 #: ../build/src/ui_collectionfilterwidget.h:98
 msgid "Added this year"
-msgstr "Přidána tento rok"
+msgstr "올해 추가됨"
 
 #: ../build/src/ui_collectionfilterwidget.h:92
 msgid "Added today"
-msgstr "Přidána dnes"
+msgstr "오늘 추가됨"
 
 #: ../build/src/ui_collectionfilterwidget.h:94
 #: ../build/src/ui_collectionfilterwidget.h:96
 msgid "Added within three months"
-msgstr "Přidána během tří měsíců"
+msgstr "3개월 이내에 추가됨"
 
 #: collection/collectionfilterwidget.cpp:336
 msgid "Advanced grouping..."
-msgstr "Pokročilé seskupování..."
+msgstr "고급 그룹..."
 
 #: ../build/src/ui_organizedialog.h:262
 msgid "After copying..."
-msgstr "Po zkopírování..."
+msgstr "복사한 후..."
 
 #: ../build/src/ui_appearancesettingspage.h:531
 msgid "Albu&m cover"
-msgstr "Obal alb&a"
+msgstr "앨범아트(&M)"
 
 #: collection/savedgroupingmanager.cpp:98 playlist/playlist.cpp:1376
 #: organize/organizedialog.cpp:105 ../build/src/ui_groupbydialog.h:194
@@ -757,16 +757,16 @@ msgstr "Obal alb&a"
 #: ../build/src/ui_edittagdialog.h:921
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Album"
-msgstr "Album"
+msgstr "앨범"
 
 #: ../build/src/ui_backendsettingspage.h:697
 msgid "Album (ideal loudness for all tracks)"
-msgstr "Album (ideální hlasitost pro všechny skladby)"
+msgstr "앨범(모든 트랙에 이상적인 음량)"
 
 #: collection/savedgroupingmanager.cpp:101 ../build/src/ui_groupbydialog.h:195
 #: ../build/src/ui_groupbydialog.h:217 ../build/src/ui_groupbydialog.h:239
 msgid "Album - Disc"
-msgstr "Album - Disk"
+msgstr "앨범 - 디스크"
 
 #: playlist/playlist.cpp:1383
 msgid "Album Artist"
@@ -776,7 +776,7 @@ msgstr ""
 #: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_groupbydialog.h:215
 #: ../build/src/ui_groupbydialog.h:237 ../build/src/ui_edittagdialog.h:920
 msgid "Album artist"
-msgstr "Umělec alba"
+msgstr "앨범 아티스트"
 
 #: dialogs/edittagdialog.cpp:863
 msgid "Album cover editing is only available for collection songs."
@@ -784,11 +784,11 @@ msgstr ""
 
 #: ../build/src/ui_collectionsettingspage.h:451
 msgid "Album cover pixmap cache"
-msgstr "Mezipaměť obalů alb"
+msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:337
 msgid "Album cover size"
-msgstr "Velikost obalu alba"
+msgstr "앨범아트 크기"
 
 #: ../build/src/ui_coverssettingspage.h:313
 msgid "Album cover types"
@@ -796,87 +796,87 @@ msgstr ""
 
 #: ../build/src/ui_internettabsview.h:114
 msgid "Albums"
-msgstr "Alba"
+msgstr "앨범"
 
 #: ../build/src/ui_tidalsettingspage.h:333
 #: ../build/src/ui_qobuzsettingspage.h:290
 msgid "Albums search limit"
-msgstr "Limit vyhledávaných alb"
+msgstr "앨범 검색 제한"
 
 #: covermanager/albumcovermanager.cpp:171
 msgid "Albums with covers"
-msgstr "Alba s obaly"
+msgstr "앨범아트가 있는 앨범"
 
 #: covermanager/albumcovermanager.cpp:172
 msgid "Albums without covers"
-msgstr "Alba bez obalů"
+msgstr "앨범아트가 없는 앨범"
 
 #: core/mainwindow.cpp:224
 msgid "All Files (*)"
-msgstr "Všechny soubory (*)"
+msgstr "모든 파일 (*)"
 
 #: covermanager/albumcovermanager.cpp:170
 msgid "All albums"
-msgstr "Všechna alba"
+msgstr "모든 앨범"
 
 #: covermanager/albumcovermanager.cpp:346
 msgid "All artists"
-msgstr "Všichni umělci"
+msgstr "모든 아티스트"
 
 #: covermanager/albumcoverchoicecontroller.cpp:81
 msgid "All files (*)"
-msgstr "Všechny soubory (*)"
+msgstr "모든 파일 (*)"
 
 #: playlistparsers/playlistparser.cpp:103
 #, qt-format
 msgid "All playlists (%1)"
-msgstr "Všechny seznamy skladeb (%1)"
+msgstr "모든 재생 목록(%1)"
 
 #: smartplaylists/smartplaylistsmodel.cpp:116
 msgid "All tracks"
-msgstr "Všechny skladby"
+msgstr "모든 트랙"
 
 #: ../build/src/ui_organizedialog.h:276
 msgid "Allow extended ASCII characters"
-msgstr "Povolit rozšířené ASCII znaky"
+msgstr "확장 ASCII 글자 허용"
 
 #: ../build/src/ui_transcoderoptionsaac.h:141
 msgid "Allow mid/side encoding"
-msgstr "Povolit kódování střed/kraj"
+msgstr "미드/사이드 인코딩 적용"
 
 #: ../build/src/ui_transcodedialog.h:231
 msgid "Alongside the originals"
-msgstr "Vedle původních"
+msgstr "원본과 함께"
 
 #: ../build/src/ui_behavioursettingspage.h:298
 #: ../build/src/ui_behavioursettingspage.h:312
 msgid "Always start playing"
-msgstr "Vždy začít přehrávat"
+msgstr "항상 재생 시작"
 
 #: device/gpodloader.cpp:81
 msgid "An error occurred loading the iTunes database"
-msgstr "Při nahrávání databáze iTunes nastala chyba"
+msgstr "iTunes 데이터베이스를 불러오는 중 오류 발생"
 
 #: playlist/playlist.cpp:431 dialogs/edittagdialog.cpp:1482
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
-msgstr "Při zápisu údajů do '%1' se vyskytla chyba"
+msgstr "'%1'에 메타데이터를 쓰는 중 오류 발생"
 
 #: moodbar/moodbarrenderer.cpp:169
 msgid "Angry"
-msgstr "Naštvaný"
+msgstr "화남"
 
 #: ../build/src/ui_qobuzsettingspage.h:280
 msgid "App ID"
-msgstr "ID aplikace"
+msgstr "앱 ID"
 
 #: ../build/src/ui_qobuzsettingspage.h:283
 msgid "App Secret"
-msgstr "Tajemství aplikace"
+msgstr "앱 비밀 값"
 
 #: ../build/src/ui_appearancesettingspage.h:514
 msgid "Appearance"
-msgstr "Vzhled"
+msgstr "모양"
 
 #: ../build/src/ui_tidalsettingspage.h:339
 msgid "Append explicit to album title for explicit albums"
@@ -884,7 +884,7 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:236
 msgid "Append files/URLs to the playlist"
-msgstr "Přidat soubory/adresy do seznamu skladeb"
+msgstr "재생 목록에 파일/URL 추가"
 
 #: collection/collectionview.cpp:367
 #: smartplaylists/smartplaylistsviewcontainer.cpp:65
@@ -892,24 +892,24 @@ msgstr "Přidat soubory/adresy do seznamu skladeb"
 #: internet/internetcollectionview.cpp:316 radios/radioview.cpp:69
 #: device/deviceview.cpp:244
 msgid "Append to current playlist"
-msgstr "Přidat do současného seznamu skladeb"
+msgstr "현재 재생 목록에 추가"
 
 #: ../build/src/ui_behavioursettingspage.h:305
 msgid "Append to the playlist"
-msgstr "Přidat do seznamu skladeb"
+msgstr "재생 목록에 추가"
 
 #: ../build/src/ui_backendsettingspage.h:700
 msgid "Apply compression to prevent clipping"
-msgstr "Použít kompresi, aby se zabránilo ořezávání zvuku (clippingu)"
+msgstr "압축을 적용하여 클리핑 방지"
 
 #: dialogs/deleteconfirmationdialog.cpp:73
 msgid "Are you sure you want to continue?"
-msgstr "Opravdu chcete pokračovat?"
+msgstr "계속하시겠습니까?"
 
 #: equalizer/equalizer.cpp:229
 #, qt-format
 msgid "Are you sure you want to delete the \"%1\" preset?"
-msgstr "Opravdu chcete smazat nastavení \"%1\"?"
+msgstr "\"%1\" 사전 설정을 지우시겠습니까?"
 
 #: dialogs/edittagdialog.cpp:1334
 msgid "Are you sure you want to reset this song's play statistics?"
@@ -944,29 +944,29 @@ msgstr ""
 #: ../build/src/ui_albumcoversearcher.h:106 ../build/src/ui_edittagdialog.h:924
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Artist"
-msgstr "Umělec"
+msgstr "아티스트"
 
 #: organize/organizedialog.cpp:107
 msgid "Artist's initial"
-msgstr "Začáteční písmena umělce"
+msgstr "아티스트 이니셜"
 
 #: ../build/src/ui_internettabsview.h:113
 msgid "Artists"
-msgstr "Umělci"
+msgstr "아티스트"
 
 #: ../build/src/ui_tidalsettingspage.h:332
 #: ../build/src/ui_qobuzsettingspage.h:289
 msgid "Artists search limit"
-msgstr "Limit vyhledávaných umělců"
+msgstr "아티스트 검색 제한"
 
 #: ../build/src/ui_playlistsettingspage.h:194
 msgid "As&k when saving"
-msgstr "Ze&ptat se při ukládání"
+msgstr "저장할 때 묻기(&K)"
 
 #: ../build/src/ui_transcodedialog.h:228
 #: ../build/src/ui_qobuzsettingspage.h:286
 msgid "Audio format"
-msgstr "Zvukový formát"
+msgstr "오디오 형식"
 
 #: ../build/src/ui_backendsettingspage.h:691
 msgid "Audio normalization"
@@ -974,15 +974,15 @@ msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:668
 msgid "Audio output"
-msgstr "Zvukový výstup"
+msgstr "오디오 출력"
 
 #: ../build/src/ui_tidalsettingspage.h:329
 msgid "Audio quality"
-msgstr "Kvalita zvuku"
+msgstr "오디오 품질"
 
 #: tidal/tidalrequest.cpp:142 qobuz/qobuzservice.cpp:289
 msgid "Authenticating..."
-msgstr "Probíhá ověření..."
+msgstr "인증 중..."
 
 #: ../build/src/ui_coverssettingspage.h:310
 #: ../build/src/ui_lyricssettingspage.h:167
@@ -990,12 +990,12 @@ msgstr "Probíhá ověření..."
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:279
 msgid "Authentication"
-msgstr "Ověření"
+msgstr "인증"
 
 #: settings/coverssettingspage.cpp:372 settings/lyricssettingspage.cpp:254
 #: settings/tidalsettingspage.cpp:213 settings/qobuzsettingspage.cpp:176
 msgid "Authentication failed"
-msgstr "Ověření selhalo"
+msgstr "인증 실패"
 
 #: ../build/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
@@ -1003,23 +1003,23 @@ msgstr ""
 
 #: dialogs/about.cpp:142
 msgid "Author and maintainer"
-msgstr "Autor a vedoucí"
+msgstr "제작자 및 메인테이너"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:225
 msgid "Auto"
-msgstr "Automaticky"
+msgstr "자동"
 
 #: playlist/playlistsaveoptionsdialog.cpp:40
 msgid "Automatic"
-msgstr "Automaticky"
+msgstr "자동"
 
 #: ../build/src/ui_collectionsettingspage.h:433
 msgid "Automatic updating"
-msgstr "Automatická aktualizace"
+msgstr "자동 업데이트 중"
 
 #: ../build/src/ui_collectionsettingspage.h:447
 msgid "Automatically open single categories in the collection tree"
-msgstr "Automaticky otevřít jednotlivé skupiny ve stromu sbírky"
+msgstr "한 개의 하위 항목만 있을 때 자동으로 열기"
 
 #: settings/coverssettingspage.cpp:429
 #, qt-format
@@ -1028,59 +1028,59 @@ msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:436
 msgid "Automatically search for album cover"
-msgstr "Automaticky vyhledat obal alba"
+msgstr "자동으로 앨범아트 찾기"
 
 #: context/contextview.cpp:271 ../build/src/ui_contextsettingspage.h:437
 msgid "Automatically search for song lyrics"
-msgstr "Automaticky najít texty skladeb"
+msgstr "자동으로 가사 찾기"
 
 #: ../build/src/ui_playlistsettingspage.h:185
 msgid "Automatically select current playing track"
-msgstr "Automaticky vybrat aktuálně přehrávanou skladbu"
+msgstr "현재 재생 중인 트랙을 자동으로 선택"
 
 #: ../build/src/ui_playlistsettingspage.h:189
 msgid "Automatically sort playlist when inserting songs"
-msgstr "Automaticky seřadit seznam skladeb po vložení nových skladeb"
+msgstr "곡을 추가하면 자동으로 재생목록 정렬"
 
 #: widgets/freespacebar.cpp:65
 msgid "Available"
-msgstr "Dostupné"
+msgstr "사용 가능"
 
 #: collection/collectionfilterwidget.cpp:96 playlist/playlistcontainer.cpp:150
 msgid "Available fields"
-msgstr "Dostupná pole"
+msgstr "사용 가능한 필드"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:221
 msgid "Average bitrate"
-msgstr "Průměrný datový tok"
+msgstr "평균 비트 전송률"
 
 #: covermanager/coversearchstatisticsdialog.cpp:81
 msgid "Average image size"
-msgstr "Průměrná velikost obrázku"
+msgstr "평균 그림 크기"
 
 #: ../build/src/ui_backendsettingspage.h:667
 msgid "Backend"
-msgstr "Backend"
+msgstr "백엔드"
 
 #: ../build/src/ui_notificationssettingspage.h:505
 msgid "Background color"
-msgstr "Barva pozadí"
+msgstr "배경 색상"
 
 #: ../build/src/ui_appearancesettingspage.h:525
 msgid "Background image"
-msgstr "Obrázek na pozadí"
+msgstr "배경 그림"
 
 #: ../build/src/ui_notificationssettingspage.h:509
 msgid "Background opacity"
-msgstr "Neprůhlednost pozadí"
+msgstr "배경 불투명도"
 
 #: core/database.cpp:557
 msgid "Backing up database"
-msgstr "Záloha databáze"
+msgstr "데이터베이스 백업 중"
 
 #: ../build/src/ui_equalizer.h:177
 msgid "Balance"
-msgstr "Vyvážení"
+msgstr "균형"
 
 #: ../build/src/ui_qobuzsettingspage.h:293
 msgid "Base64 encoded secret"
@@ -1088,15 +1088,15 @@ msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:510
 msgid "Basic Blue"
-msgstr "Jednoduchá modrá"
+msgstr "기본 파랑"
 
 #: ../build/src/ui_behavioursettingspage.h:279
 msgid "Behavior"
-msgstr "Chování"
+msgstr "행동"
 
 #: ../build/src/ui_transcoderoptionsflac.h:79
 msgid "Best"
-msgstr "Nejlepší"
+msgstr "최고"
 
 #: playlist/playlist.cpp:1393
 msgid "Bit Depth"
@@ -1107,11 +1107,11 @@ msgstr ""
 #: ../build/src/ui_groupbydialog.h:231 ../build/src/ui_groupbydialog.h:253
 #: ../build/src/ui_edittagdialog.h:897
 msgid "Bit depth"
-msgstr "Bitová hloubka"
+msgstr "비트 해상도"
 
 #: ../build/src/ui_edittagdialog.h:899
 msgid "Bit rate"
-msgstr "Datový tok"
+msgstr "비트 전송률"
 
 #: context/contextview.cpp:166 collection/savedgroupingmanager.cpp:149
 #: playlist/playlist.cpp:1394 ../build/src/ui_groupbydialog.h:210
@@ -1122,65 +1122,64 @@ msgstr "Datový tok"
 #: ../build/src/ui_transcoderoptionsasf.h:75
 #: ../build/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
-msgstr "Datový tok"
+msgstr "비트 전송률"
 
 #: organize/organizedialog.cpp:119
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
-msgstr "Datový tok"
+msgstr "비트레이트"
 
 #: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
-msgstr "Blokový analyzátor"
+msgstr "블록 분석기"
 
 #: ../build/src/ui_transcoderoptionsaac.h:142
 msgid "Block type"
-msgstr "Typ bloku"
+msgstr "블록 형식"
 
 #: ../build/src/ui_appearancesettingspage.h:546
 msgid "Blur amount"
-msgstr "Velikost rozmazání"
+msgstr "블러 정도"
 
 #: ../build/src/ui_notificationssettingspage.h:499
 msgid "Body"
-msgstr "Tělo"
+msgstr "본문"
 
 #: analyzer/boomanalyzer.cpp:43
 msgid "Boom analyzer"
-msgstr "Růstový analyzátor"
+msgstr "붐 분석기"
 
 #: ../build/src/ui_appearancesettingspage.h:539
 msgid "Bottom Left"
-msgstr "Vlevo dole"
+msgstr "왼쪽 아래"
 
 #: ../build/src/ui_appearancesettingspage.h:540
 msgid "Bottom Right"
-msgstr "Vpravo dole"
+msgstr "오른쪽 아래"
 
 #: ../build/src/ui_appearancesettingspage.h:534
 msgid "Browse..."
-msgstr "Procházet…"
+msgstr "찾아보기..."
 
 #: ../build/src/ui_backendsettingspage.h:685
 msgid "Buffer"
-msgstr "Mezipaměť"
+msgstr "버퍼"
 
 #: ../build/src/ui_backendsettingspage.h:687
 msgid "Buffer duration"
-msgstr "Délka vyrovnávací paměti"
+msgstr "버퍼 시간"
 
 #: engine/gstengine.cpp:697
 msgid "Buffering"
-msgstr "Ukládá se do vyrovnávací paměti"
+msgstr "버퍼링"
 
 #: ../build/src/ui_mainwindow.h:668
-#, fuzzy
 msgid "C&onsole"
-msgstr "&Konzola"
+msgstr "콘솔(&O)"
 
 #: core/songloader.cpp:201
 msgid "CD playback is only available with the GStreamer engine."
-msgstr "Přehrávání disků CD je možné pouze za použití GStreamer enginu."
+msgstr "CD 재생은 GStreamer 엔진에서만 지원합니다."
 
 #: ../build/src/ui_scrobblersettingspage.h:417
 msgid "CDDA"
@@ -1192,11 +1191,11 @@ msgstr ""
 
 #: ../build/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
-msgstr "Zrušit"
+msgstr "취소"
 
 #: tidal/tidalstreamurlrequest.cpp:105 qobuz/qobuzstreamurlrequest.cpp:101
 msgid "Cancelled."
-msgstr "Zrušeno."
+msgstr "취소됨."
 
 #: ../build/src/ui_edittagdialog.h:916
 msgid "Change art"
@@ -1208,7 +1207,7 @@ msgstr ""
 
 #: ../build/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
-msgstr "Změnit klávesovou zkratku..."
+msgstr "단축키 변경..."
 
 #: globalshortcuts/globalshortcutsmanager.cpp:76
 msgid "Change shuffle mode"
@@ -1216,57 +1215,56 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:315
 msgid "Change the currently playing song"
-msgstr "Změnit nyní přehrávanou píseň"
+msgstr "지금 재생 중인 음악 변경"
 
 #: core/commandlineoptions.cpp:242
 msgid "Change the language"
-msgstr "Změnit jazyk"
+msgstr "언어 변경"
 
 #: core/mainwindow.cpp:809
 msgid "Check for updates..."
-msgstr "Zkontrolovat aktualizace"
+msgstr "업데이트 확인..."
 
 #: smartplaylists/smartplaylistwizard.cpp:88
 msgid "Choose a name for your smart playlist"
-msgstr "Zvolte jméno pro váš chytrý seznam skladeb"
+msgstr "스마트 재생 목록 이름을 정하세요"
 
 #: ../build/src/ui_notificationssettingspage.h:508
 msgid "Choose color..."
-msgstr "Vybrat barvu..."
+msgstr "색상 선택..."
 
 #: ../build/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
-msgstr "Zvolte data pro import z last.fm"
+msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:507
 msgid "Choose font..."
-msgstr "Vybrat písmo..."
+msgstr "글꼴 선택..."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Choose how the playlist is sorted and how many songs it will contain."
-msgstr ""
-"Zvolte jak bude seznam skladeb seřazen a kolik skladeb bude obsahovat."
+msgstr "재생목록 정렬 조건과 최대로 들어갈 곡 수를 정하세요."
 
 #: ../build/src/ui_coverssettingspage.h:307
 msgid "Choose the providers you want to use when searching for covers."
-msgstr "Vyberte poskytovatele vyhledávání obalů alb."
+msgstr "앨범 아트를 검색할 때 가져올 곳을 선택해 주세요."
 
 #: ../build/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
-msgstr "Vyberte poskytovatele vyhledávání textů skladeb."
+msgstr "가사를 검색할 때 가져올 곳을 선택해 주세요."
 
 #: equalizer/equalizer.cpp:139
 msgid "Classical"
-msgstr "Klasická"
+msgstr "클래식"
 
 #: widgets/lineedit.cpp:58 transcoder/transcodedialog.cpp:99
 #: ../build/src/ui_queueview.h:141
 msgid "Clear"
-msgstr "Smazat"
+msgstr "비우기"
 
 #: ../build/src/ui_collectionsettingspage.h:457
 msgid "Clear Disk Cache"
-msgstr "Vyčistit mezipaměť na disku"
+msgstr "디스크 캐시 비우기"
 
 #: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Clear cover"
@@ -1274,82 +1272,82 @@ msgstr ""
 
 #: core/mainwindow.cpp:2366 ../build/src/ui_mainwindow.h:637
 msgid "Clear playlist"
-msgstr "Vyprázdnit seznam skladeb"
+msgstr "재생 목록 비우기"
 
 #: dialogs/about.cpp:160
 msgid "Clementine authors"
-msgstr "Autoři Clementine"
+msgstr "Clementine 작성자"
 
 #: dialogs/about.cpp:169
 msgid "Clementine contributors"
-msgstr "Přispěvatelé Clementine"
+msgstr "Clementine 기여자"
 
 #: collection/collectionview.cpp:329
 msgid "Click here to add some music"
-msgstr "Klepněte sem pro přidání nějaké hudby"
+msgstr "음악을 추가하려면 여기를 클릭하십시오"
 
 #: internet/internetcollectionview.cpp:294
 msgid "Click here to retrieve music"
-msgstr "Klikněte zde pro načtení hudby"
+msgstr "음악을 가져오려면 여기를 클릭하십시오"
 
 #: ../build/src/ui_trackslider.h:68
 msgid "Click to toggle between remaining time and total time"
-msgstr "Klepněte pro přepnutí mezi zbývajícím časem a celkovým časem"
+msgstr "남은 시간과 전체 시간을 전환하려면 클릭하십시오"
 
 #: ../build/src/ui_tidalsettingspage.h:323
 msgid "Client ID"
-msgstr "ID Klienta"
+msgstr "클라이언트 ID"
 
 #: ../build/src/ui_lastfmimportdialog.h:156
 #: ../build/src/ui_internetcollectionviewcontainer.h:138
 msgid "Close"
-msgstr "Zavřít"
+msgstr "닫기"
 
 #: playlist/playlisttabbar.cpp:79
 msgid "Close playlist"
-msgstr "Zavřít seznam skladeb"
+msgstr "재생 목록 닫기"
 
 #: covermanager/albumcovermanager.cpp:259
 msgid "Closing this window will stop searching for album covers."
-msgstr "Zavření tohoto okna zastaví hledání obalů alb."
+msgstr "이 창을 닫으면 앨범아트 검색을 정지합니다."
 
 #: equalizer/equalizer.cpp:140
 msgid "Club"
-msgstr "Klub"
+msgstr "클럽"
 
 #: core/mainwindow.cpp:374 ../build/src/ui_collectionsettingspage.h:429
 #: ../build/src/ui_scrobblersettingspage.h:411
 msgid "Collection"
-msgstr "Sbírka"
+msgstr "라이브러리"
 
 #: ../build/src/ui_collectionfilterwidget.h:90
 msgid "Collection Filter"
-msgstr "Filtr Kolekce"
+msgstr "라이브러리 필터"
 
 #: ../build/src/ui_groupbydialog.h:187
 msgid "Collection advanced grouping"
-msgstr "Pokročilé seskupování sbírky"
+msgstr "라이브러리 고급 그룹"
 
 #: core/mainwindow.cpp:2934
 msgid "Collection rescan notice"
-msgstr "Zpráva o prohledání sbírky"
+msgstr "라이브러리 재탐색 알림"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:95
 msgid "Collection search"
-msgstr "Hledání v kolekci"
+msgstr "라이브러리 검색"
 
 #: core/commandlineoptions.cpp:246
 msgid "Comma separated list of class:level, level is 0-3"
-msgstr "Čárkou oddělený seznam class:level, level je 0-3"
+msgstr "쉼표로 구분된 class:level 목록, level은 0-3"
 
 #: playlist/playlist.cpp:1403 smartplaylists/smartplaylistsearchterm.cpp:391
 #: organize/organizedialog.cpp:117 ../build/src/ui_edittagdialog.h:928
 msgid "Comment"
-msgstr "Poznámka"
+msgstr "설명"
 
 #: ../build/src/ui_edittagdialog.h:930
 msgid "Compilation"
-msgstr "Kompilace"
+msgstr ""
 
 #: ../build/src/ui_edittagdialog.h:935
 msgid "Complete lyrics automatically"
@@ -1357,97 +1355,97 @@ msgstr ""
 
 #: ../build/src/ui_edittagdialog.h:926
 msgid "Complete tags automatically"
-msgstr "Doplnit značky automaticky"
+msgstr "자동으로 태그 완성"
 
 #: ../build/src/ui_mainwindow.h:702
 msgid "Complete tags automatically..."
-msgstr "Doplnit značky automaticky..."
+msgstr "자동으로 태그 완성..."
 
 #: collection/savedgroupingmanager.cpp:128 playlist/playlist.cpp:1384
 #: organize/organizedialog.cpp:109 ../build/src/ui_groupbydialog.h:204
 #: ../build/src/ui_groupbydialog.h:226 ../build/src/ui_groupbydialog.h:248
 #: ../build/src/ui_edittagdialog.h:925
 msgid "Composer"
-msgstr "Skladatel"
+msgstr "작곡가"
 
 #: settings/subsonicsettingspage.cpp:130 settings/tidalsettingspage.cpp:151
 #: settings/tidalsettingspage.cpp:158 settings/tidalsettingspage.cpp:162
 #: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:130
 #: settings/qobuzsettingspage.cpp:134 settings/qobuzsettingspage.cpp:138
 msgid "Configuration incomplete"
-msgstr "Konfigurace není hotová"
+msgstr "설정이 불완전함"
 
 #: settings/subsonicsettingspage.cpp:136
 msgid "Configuration incorrect"
-msgstr "Konfigurace není správná"
+msgstr "설정이 잘못됨"
 
 #: internet/internetsearchview.cpp:179 internet/internetsearchview.cpp:345
 #: internet/internetsongsview.cpp:59 internet/internettabsview.cpp:62
 #, qt-format
 msgid "Configure %1..."
-msgstr "Nastavit %1..."
+msgstr "%1 설정..."
 
 #: ../build/src/ui_appearancesettingspage.h:554
 msgid "Configure buttons"
-msgstr "Nastavit tlačítka"
+msgstr ""
 
 #: core/mainwindow.cpp:686
 msgid "Configure collection..."
-msgstr "Nastavit sbírku..."
+msgstr "라이브러리 설정..."
 
 #: device/devicemanager.cpp:352 device/devicemanager.cpp:353
 msgid "Connect device"
-msgstr "Připojit zařízení"
+msgstr "장치 연결"
 
 #: ../build/src/ui_console.h:76
 msgid "Console"
-msgstr "Konzole"
+msgstr "콘솔"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
-msgstr "Stálý datový tok"
+msgstr "고정 비트 전송률"
 
 #: core/mainwindow.cpp:373 ../build/src/ui_contextsettingspage.h:357
 msgid "Context"
-msgstr "Kontext"
+msgstr "지금 재생"
 
 #: ../build/src/ui_playlistsettingspage.h:182
 msgid "Continue to the next item in the playlist if a song is unavailable"
-msgstr "Pokračovat na další položku když skladba v seznamu není dostupná"
+msgstr "재생 목록에 있는 노래를 사용할 수 없을 때 다음 곡으로 진행"
 
 #: dialogs/about.cpp:151
 msgid "Contributors"
-msgstr "Přispěvatelé"
+msgstr "기여자"
 
 #: ../build/src/ui_deviceproperties.h:381
 msgid "Convert all music"
-msgstr "Převést všechnu hudbu"
+msgstr "모든 곡 변환"
 
 #: ../build/src/ui_deviceproperties.h:380
 msgid "Convert any music that the device can't play"
-msgstr "Převést veškerou hudbu, kterou zařízení nedokáže přehrát"
+msgstr "장치에서 재생할 수 없는 곡 변환"
 
 #: core/mainwindow.cpp:755
 msgid "Copy URL(s)..."
-msgstr "Kopírovat odkaz(y)..."
+msgstr "URL 복사"
 
 #: ../build/src/ui_organizedialog.h:279
 msgid "Copy album cover artwork"
-msgstr "Kopírovat obrázek alba"
+msgstr "앨범아트 복사"
 
 #: core/mainwindow.cpp:759 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:249
 msgid "Copy to collection..."
-msgstr "Zkopírovat do sbírky..."
+msgstr "라이브러리로 복사..."
 
 #: playlist/playlistlistcontainer.cpp:381
 msgid "Copy to device"
-msgstr "Zkopírovat na zařízení"
+msgstr "디바이스에 복사"
 
 #: core/mainwindow.cpp:762 collection/collectionview.cpp:382
 #: playlist/playlistlistcontainer.cpp:92 widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
-msgstr "Zkopírovat do zařízení..."
+msgstr "장치로 복사..."
 
 #: dialogs/snapdialog.cpp:66
 msgid ""
@@ -1471,8 +1469,7 @@ msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
 "required GStreamer plugins installed"
 msgstr ""
-"Nepodařilo se vytvořit prvek GStreamer \"%1\" - ujistěte se, že máte "
-"nainstalovány všechny požadované přídavné moduly GStreamer"
+"GStreamer 엘리먼트 \"%1\"을(를) 찾을 수 없습니다. 필요한 모든 GStreamer 플러그인 설치 상태를 확인하십시오"
 
 #: core/songloader.cpp:313
 #, qt-format
@@ -1485,8 +1482,7 @@ msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:220
 msgid "Could not open URL. Please open this URL in your browser"
-msgstr ""
-"Nelze otevřít adresu URL. Prosím otevřete tuto URL ve vašem prohlížeči"
+msgstr "URL을 열 수 없습니다. 웹 브라우저에서 여십시오"
 
 #: core/songloader.cpp:281
 #, qt-format
@@ -1521,25 +1517,21 @@ msgstr ""
 
 #: playlist/playlistmanager.cpp:204
 msgid "Couldn't create playlist"
-msgstr "Nepodařilo se vytvořit seznam skladeb"
+msgstr "재생 목록을 생성할 수 없음"
 
 #: transcoder/transcoder.cpp:450
 #, qt-format
 msgid ""
 "Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
 "installed"
-msgstr ""
-"Nepodařilo se najít multiplexer pro \"%1\" - ujistěte se, že máte "
-"nainstalovány správné přídavné moduly GStreamer"
+msgstr "%1 먹서를 찾을 수 없습니다. GStreamer 플러그인 설치 상태를 확인하십시오"
 
 #: transcoder/transcoder.cpp:445
 #, qt-format
 msgid ""
 "Couldn't find an encoder for %1, check you have the correct GStreamer "
 "plugins installed"
-msgstr ""
-"Nepodařilo se najít kodér \"%1\" - ujistěte se, že máte nainstalovány "
-"správné přídavné moduly GStreamer"
+msgstr "%1 인코더를 찾을 수 없습니다. GStreamer 플러그인 설치 상태를 확인하십시오"
 
 #: core/songloader.cpp:502
 #, qt-format
@@ -1549,11 +1541,11 @@ msgstr ""
 #: ../build/src/ui_albumcovermanager.h:212
 #: ../build/src/ui_albumcoversearcher.h:102
 msgid "Cover Manager"
-msgstr "Správce obalů"
+msgstr "표지 관리자"
 
 #: dialogs/edittagdialog.cpp:858
 msgid "Cover art not set"
-msgstr "Obal nenastaven"
+msgstr "표지 그림을 설정하지 않았음"
 
 #: dialogs/edittagdialog.cpp:874
 msgid "Cover changed: Will be cleared when saved."
@@ -1591,29 +1583,29 @@ msgstr ""
 
 #: ../build/src/ui_coverssettingspage.h:306
 msgid "Cover providers"
-msgstr "Poskytovatel obalů alb"
+msgstr "앨범 아트 가져오기"
 
 #: ../build/src/ui_coverssettingspage.h:305
 msgid "Covers"
-msgstr "Obaly alb"
+msgstr "앨범아트"
 
 #: covermanager/albumcoversearcher.cpp:126
 #: covermanager/coversearchstatisticsdialog.cpp:73
 #, qt-format
 msgid "Covers from %1"
-msgstr "Obaly od %1"
+msgstr "%1의 표지"
 
 #: core/commandlineoptions.cpp:235
 msgid "Create a new playlist with files"
-msgstr "Vytvořit nový seznam skladeb se soubory"
+msgstr "지정한 파일을 포함하는 새 재생 목록 만들기"
 
 #: ../build/src/ui_backendsettingspage.h:708
 msgid "Cross-fade when changing tracks automatically"
-msgstr "Prolínání při automatické změně skladby"
+msgstr "트랙을 자동으로 바꿀 때 크로스페이드"
 
 #: ../build/src/ui_backendsettingspage.h:707
 msgid "Cross-fade when changing tracks manually"
-msgstr "Prolínání při ruční změně skladby"
+msgstr "트랙을 직접 바꿀 때 크로스페이드"
 
 #: ../build/src/ui_mainwindow.h:632
 msgid "Ctrl+Alt+V"
@@ -1621,7 +1613,7 @@ msgstr "Ctrl+Alt+V"
 
 #: ../build/src/ui_queueview.h:134
 msgid "Ctrl+Down"
-msgstr "Ctrl+Šipka dolů"
+msgstr "Ctrl+Down"
 
 #: ../build/src/ui_mainwindow.h:644
 msgid "Ctrl+E"
@@ -1677,11 +1669,11 @@ msgstr "Ctrl+Up"
 
 #: ../build/src/ui_collectionsettingspage.h:455
 msgid "Current disk cache in use:"
-msgstr "Využití mezipaměti na disku:"
+msgstr "현재 사용중인 디스크 캐시 :"
 
 #: equalizer/equalizer.cpp:138
 msgid "Custom"
-msgstr "Vlastní"
+msgstr "사용자 정의"
 
 #: ../build/src/ui_appearancesettingspage.h:559
 msgid "Custom color"
@@ -1689,31 +1681,31 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:533
 msgid "Custom image:"
-msgstr "Vlastní obrázek:"
+msgstr "사용자 정의 이미지:"
 
 #: ../build/src/ui_notificationssettingspage.h:491
 msgid "Custom message settings"
-msgstr "Nastavení vlastní zprávy"
+msgstr "사용자 정의 메시지 설정"
 
 #: ../build/src/ui_contextsettingspage.h:419
 msgid "Custom text settings"
-msgstr "Vlastní nastavení textu"
+msgstr "사용자 정의 텍스트 설정"
 
 #: ../build/src/ui_notificationssettingspage.h:512
 msgid "Custom..."
-msgstr "Vlastní..."
+msgstr "사용자 정의..."
 
 #: device/udisks2lister.cpp:119
 msgid "D-Bus path"
-msgstr "Cesta k D-Bus"
+msgstr "D-Bus 경로"
 
 #: equalizer/equalizer.cpp:141
 msgid "Dance"
-msgstr "Taneční hudba"
+msgstr "댄스"
 
 #: core/database.cpp:503
 msgid "Database corruption detected."
-msgstr "Databáze je poškozená."
+msgstr "데이터베이스가 손상되었습니다."
 
 #: playlist/playlist.cpp:1401
 msgid "Date Created"
@@ -1725,23 +1717,23 @@ msgstr ""
 
 #: ../build/src/ui_edittagdialog.h:888
 msgid "Date created"
-msgstr "Datum vytvoření"
+msgstr "생성한 날짜"
 
 #: ../build/src/ui_edittagdialog.h:891
 msgid "Date modified"
-msgstr "Datum změny"
+msgstr "수정한 날짜"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:451
 msgid "Days"
-msgstr "Dny"
+msgstr ""
 
 #: core/commandlineoptions.cpp:228
 msgid "Decrease the volume by 4 percent"
-msgstr "Snížit hlasitost o 4 procenta"
+msgstr "4퍼센트만큼 음량 내리기"
 
 #: core/commandlineoptions.cpp:230
 msgid "Decrease the volume by <value> percent"
-msgstr "Snížit hlasitost o <value> procent"
+msgstr "<value>%만큼 음량 내리기"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:69
 msgid "Decrease volume"
@@ -1749,16 +1741,16 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:526
 msgid "Default bac&kground image"
-msgstr "Výchozí obrázek poza&dí"
+msgstr "기본 배경 그림(&K)"
 
 #: ../build/src/ui_backendsettingspage.h:690
 msgid "Defaults"
-msgstr "Výchozí nastavení"
+msgstr "기본 설정"
 
 #: playlist/playlistlistcontainer.cpp:89
 #: ../build/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
-msgstr "Smazat"
+msgstr "삭제"
 
 #: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Delete cover"
@@ -1766,25 +1758,25 @@ msgstr ""
 
 #: dialogs/deleteconfirmationdialog.cpp:46 device/deviceview.cpp:429
 msgid "Delete files"
-msgstr "Smazat soubory"
+msgstr "파일 삭제"
 
 #: device/deviceview.cpp:250
 msgid "Delete from device..."
-msgstr "Smazat ze zařízení..."
+msgstr "장치에서 삭제..."
 
 #: core/mainwindow.cpp:764 collection/collectionview.cpp:384
 #: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
-msgstr "Smazat z disku..."
+msgstr "디스크에서 삭제..."
 
 #: equalizer/equalizer.cpp:228 ../build/src/ui_equalizer.h:172
 msgid "Delete preset"
-msgstr "Smazat předvolbu"
+msgstr "사전 설정 삭제"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:77
 #: ../build/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
-msgstr "Odstranit chytrý playlist"
+msgstr "스마트 재생 목록 제거"
 
 #: ../build/src/ui_subsonicsettingspage.h:259
 msgid "Delete songs"
@@ -1792,23 +1784,23 @@ msgstr ""
 
 #: ../build/src/ui_organizedialog.h:264
 msgid "Delete the original files"
-msgstr "Smazat původní soubory"
+msgstr "원본 파일 삭제"
 
 #: core/deletefiles.cpp:59
 msgid "Deleting files"
-msgstr "Probíhá mazání souborů"
+msgstr "파일 삭제 중"
 
 #: core/mainwindow.cpp:1992
 msgid "Dequeue selected tracks"
-msgstr "Odstranit vybrané skladby z řady"
+msgstr "선택한 트랙을 대기열에서 삭제"
 
 #: core/mainwindow.cpp:1991
 msgid "Dequeue track"
-msgstr "Odstranit skladbu z řady"
+msgstr "대기열에서 트랙 삭제"
 
 #: ../build/src/ui_organizedialog.h:261 ../build/src/ui_transcodedialog.h:230
 msgid "Destination"
-msgstr "Cíl"
+msgstr "대상"
 
 #: core/filesystemmusicstorage.cpp:92
 #, qt-format
@@ -1822,24 +1814,24 @@ msgstr ""
 
 #: ../build/src/ui_transcodedialog.h:235
 msgid "Details..."
-msgstr "Podrobnosti..."
+msgstr "자세히..."
 
 #: device/giolister.cpp:193 ../build/src/ui_backendsettingspage.h:669
 #: ../build/src/ui_scrobblersettingspage.h:415
 msgid "Device"
-msgstr "Zařízení"
+msgstr "장치"
 
 #: ../build/src/ui_deviceproperties.h:370
 msgid "Device Properties"
-msgstr "Vlastnosti zařízení"
+msgstr "장치 속성"
 
 #: device/deviceview.cpp:241
 msgid "Device properties..."
-msgstr "Vlastnosti zařízení..."
+msgstr "장치 속성..."
 
 #: core/mainwindow.cpp:381
 msgid "Devices"
-msgstr "Zařízení"
+msgstr "장치"
 
 #: dialogs/edittagdialog.cpp:103
 msgid "Different art across multiple songs."
@@ -1847,11 +1839,11 @@ msgstr ""
 
 #: ../build/src/ui_networkproxysettingspage.h:172
 msgid "Direct internet connection"
-msgstr "Přímé připojení k internetu"
+msgstr "직접 인터넷 연결"
 
 #: ../build/src/ui_transcodedialog.h:219
 msgid "Directory"
-msgstr "Složka"
+msgstr "디렉터리"
 
 #: dialogs/saveplaylistsdialog.cpp:78
 msgid "Directory does not exist."
@@ -1859,68 +1851,68 @@ msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:485
 msgid "Disable duration"
-msgstr "Zakázat délku"
+msgstr "비활성화 시간"
 
 #: ../build/src/ui_notificationssettingspage.h:478
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
-msgstr "Zakázáno"
+msgstr "사용 안 함"
 
 #: collection/savedgroupingmanager.cpp:116 playlist/playlist.cpp:1378
 #: organize/organizedialog.cpp:113 ../build/src/ui_groupbydialog.h:196
 #: ../build/src/ui_groupbydialog.h:218 ../build/src/ui_groupbydialog.h:240
 #: ../build/src/ui_edittagdialog.h:918
 msgid "Disc"
-msgstr "Disk"
+msgstr "디스크"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:232
 msgid "Discontinuous transmission"
-msgstr "Nesouvislý přenos"
+msgstr "불연속적인 전송"
 
 #: ../build/src/ui_collectionsettingspage.h:454
 msgid "Disk Cache Size"
-msgstr "Velikost mezipaměti na disku"
+msgstr "디스크 캐시 크기"
 
 #: collection/collectionfilterwidget.cpp:139
 #: ../build/src/ui_collectionsettingspage.h:446
 msgid "Display options"
-msgstr "Volby zobrazení"
+msgstr "옵션 표시"
 
 #: core/commandlineoptions.cpp:240
 msgid "Display the on-screen-display"
-msgstr "Zobrazovat informace na obrazovce (OSD)"
+msgstr "OSD 표시"
 
 #: ../build/src/ui_deviceproperties.h:379
 msgid "Do not convert any music"
-msgstr "Nepřevádět žádnou hudbu"
+msgstr "어떤 곡도 변환하지 않기"
 
 #: ../build/src/ui_appearancesettingspage.h:545
 msgid "Do not cut image"
-msgstr "Neořezávat obrázek"
+msgstr "이미지 자르지 않기"
 
 #: ../build/src/ui_albumcoverexport.h:206
 msgid "Do not overwrite"
-msgstr "Nepřepisovat"
+msgstr "덮어쓰지 않기"
 
 #: ../build/src/ui_messagedialog.h:121
 msgid "Do not show this message again."
-msgstr "Tuto zprávu již nezobrazovat."
+msgstr "메세지 다시 보지 않기"
 
 #: osd/osdbase.cpp:362 ../build/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
-msgstr "Neopakovat"
+msgstr "반복하지 않기"
 
 #: collection/collectionview.cpp:397
 msgid "Don't show in various artists"
-msgstr "Nezobrazovat pod různými umělci"
+msgstr "여러 아티스로 표시하지 않기"
 
 #: osd/osdbase.cpp:347 ../build/src/ui_playlistsequence.h:114
 msgid "Don't shuffle"
-msgstr "Nemíchat"
+msgstr "섞지 않기"
 
 #: covermanager/albumcovermanager.cpp:260
 msgid "Don't stop!"
-msgstr "Nezastavovat!"
+msgstr "멈추지 마세요!"
 
 #: radios/radioview.cpp:85
 msgid "Donate"
@@ -1928,15 +1920,15 @@ msgstr ""
 
 #: device/deviceview.cpp:139
 msgid "Double click to open"
-msgstr "Klepnout dvakrát pro otevření"
+msgstr "두 번 클릭해서 열기"
 
 #: ../build/src/ui_behavioursettingspage.h:314
 msgid "Double clicking a song in the playlist will..."
-msgstr "Dvojité klepnutí na píseň v seznamu skladeb způsobí..."
+msgstr "재생 목록의 노래를 두 번 클릭했을 때..."
 
 #: ../build/src/ui_behavioursettingspage.h:304
 msgid "Double clicking a song will..."
-msgstr "Dvojité klepnutí na píseň..."
+msgstr "노래를 두 번 클릭했을 때..."
 
 #: playlist/playlisttabbar.cpp:357
 msgid ""
@@ -1948,23 +1940,23 @@ msgstr ""
 #: ../build/src/ui_tidalsettingspage.h:335
 #: ../build/src/ui_qobuzsettingspage.h:292
 msgid "Download album covers"
-msgstr "Stahovat obaly alb"
+msgstr "앨범아트 다운로드 중"
 
 #: musicbrainz/tagfetcher.cpp:131
 msgid "Downloading metadata"
-msgstr "Stahují se popisná data"
+msgstr "메타데이터 다운로드 중"
 
 #: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
-msgstr "Tažením přemístěte"
+msgstr "위치를 바꾸려면 드래그하십시오"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:105
 msgid "Dynamic mode is on"
-msgstr "Dynamický režim je zapnutý"
+msgstr "자동 모드가 켜졌습니다"
 
 #: smartplaylists/smartplaylistsmodel.cpp:117
 msgid "Dynamic random mix"
-msgstr "Dynamické míchání skladeb"
+msgstr "모든 곡 랜덤 믹스"
 
 #: context/contextview.cpp:167
 msgid "EBU R 128 Integrated Loudness"
@@ -1988,33 +1980,33 @@ msgstr ""
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
-msgstr "Upravit chytrý playlist"
+msgstr "스마트 재생 목록 수정"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:76
 msgid "Edit smart playlist..."
-msgstr "Upravit chytrý playlist..."
+msgstr "스마트 재생 목록 수정"
 
 #: core/mainwindow.cpp:2035
 #, qt-format
 msgid "Edit tag \"%1\"..."
-msgstr "Upravit značku \"%1\"..."
+msgstr "\"%1\" 태그 편집..."
 
 #: ../build/src/ui_mainwindow.h:648
 msgid "Edit tag..."
-msgstr "Upravit značku..."
+msgstr "태그 편집..."
 
 #: ../build/src/ui_edittagdialog.h:886
 msgid "Edit track information"
-msgstr "Upravit informace o skladbě"
+msgstr "트랙 정보 편집"
 
 #: collection/collectionview.cpp:387 widgets/fileviewlist.cpp:52
 #: ../build/src/ui_mainwindow.h:642
 msgid "Edit track information..."
-msgstr "Upravit informace o skladbě..."
+msgstr "트랙 정보 편집..."
 
 #: collection/collectionview.cpp:388
 msgid "Edit tracks information..."
-msgstr "Upravit informace o skladbách..."
+msgstr "트랙 정보 편집..."
 
 #: settings/coverssettingspage.cpp:432
 #, qt-format
@@ -2033,11 +2025,11 @@ msgstr ""
 #: ../build/src/ui_tidalsettingspage.h:319
 #: ../build/src/ui_qobuzsettingspage.h:277
 msgid "Enable"
-msgstr "Povolit"
+msgstr "활성화"
 
 #: ../build/src/ui_collectionsettingspage.h:453
 msgid "Enable Disk Cache"
-msgstr "Povolit mezipaměť na disku"
+msgstr "디스크 캐시 활성화"
 
 #: ../build/src/ui_backendsettingspage.h:683
 msgid "Enable HTTP/2 for streaming"
@@ -2045,16 +2037,16 @@ msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
-msgstr "Povolit Položky"
+msgstr "항목 활성화"
 
 #: ../build/src/ui_collectionsettingspage.h:464
 #: ../build/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
-msgstr "Povolit mazání souborů v kontextové nabídce pravého kliknutí"
+msgstr "마우스 우클릭 메뉴로부터 파일 제거 활성화"
 
 #: ../build/src/ui_equalizer.h:174
 msgid "Enable equalizer"
-msgstr "Povolit ekvalizér"
+msgstr "이퀄라이저 활성화"
 
 #: ../build/src/ui_notificationssettingspage.h:514
 msgid "Enable fading"
@@ -2062,7 +2054,7 @@ msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:187
 msgid "Enable playlist clear button"
-msgstr "Zobrazit tlačítko pro vyčištění seznamu skladeb"
+msgstr "재생 목록 비우기 단추 활성화"
 
 #: ../build/src/ui_playlistsettingspage.h:186
 msgid "Enable playlist toolbar"
@@ -2070,19 +2062,19 @@ msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:410
 msgid "Enable scrobbling for the following sources:"
-msgstr "Zapnout scrobbling pro následující zdroje:"
+msgstr "이 소스로부터 스크로블링 켜기"
 
 #: ../build/src/ui_playlistsettingspage.h:199
 msgid "Enable song metadata inline edition with click"
-msgstr "Povolit upravování popisných dat písně klepnutím v řádku"
+msgstr "클릭하여 음악 메타데이터를 바로 편집하려면 활성화"
 
 #: ../build/src/ui_equalizer.h:175
 msgid "Enable stereo balancer"
-msgstr "Zapnout vyrovnávání sterea"
+msgstr "스테레오 균형 맞추기 활성화"
 
 #: ../build/src/ui_backendsettingspage.h:679
 msgid "Enable volume control"
-msgstr "Povolit ovládání hlasitosti"
+msgstr "음량 제어 활성화"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Enable/disable scrobbling"
@@ -2090,86 +2082,86 @@ msgstr ""
 
 #: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Enabled"
-msgstr "Povoleno"
+msgstr "활성화"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:233
 msgid "Encoding complexity"
-msgstr "Složitost kódování"
+msgstr "인코딩 복잡도"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
-msgstr "Kvalita kódovacího stroje"
+msgstr "인코딩 엔진 품질"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:224
 msgid "Encoding mode"
-msgstr "Režim kódování"
+msgstr "인코딩 모드"
 
 #: ../build/src/ui_backendsettingspage.h:672
 msgid "Engine"
-msgstr "Engine"
+msgstr "엔진"
 
 #: ../build/src/ui_coverfromurldialog.h:101
 msgid "Enter a URL to download a cover from the Internet:"
-msgstr "Zadejte adresu (URL) ke stažení obalu z internetu:"
+msgstr "인터넷에서 표지를 다운로드할 URL 입력:"
 
 #: ../build/src/ui_albumcoverexport.h:202
 msgid "Enter a filename for exported covers (no extension):"
-msgstr "Zadejte souborový název pro uložené obaly (bez přípony):"
+msgstr "내보낼 표지 파일 이름 입력(확장자 제외):"
 
 #: playlist/playlisttabbar.cpp:180
 msgid "Enter a new name for this playlist"
-msgstr "Zadejte název tohoto seznamu skladeb"
+msgstr "재생 목록의 새로운 이름 입력"
 
 #: internet/internetsearchview.cpp:404 ../build/src/ui_internetsearchview.h:232
 msgid "Enter search terms above to find music"
-msgstr "Výše zadejte hledaný výraz pro vyhledání hudby"
+msgstr "음악을 찾으려면 위에 검색어를 입력하십시오"
 
 #: ../build/src/ui_collectionfilterwidget.h:102
 #: ../build/src/ui_albumcovermanager.h:216
 msgid "Enter search terms here"
-msgstr "Zde zadejte hledané výrazy"
+msgstr "여기에 검색어 입력"
 
 #: ../build/src/ui_addstreamdialog.h:77
 msgid "Enter the URL of a stream:"
-msgstr "Zadejte URL streamu:"
+msgstr "스트림 URL 입력"
 
 #: playlist/playlistlistcontainer.cpp:211
 msgid "Enter the name of the folder"
-msgstr "Zadejte název složky"
+msgstr "폴더 이름 입력"
 
 #: ../build/src/ui_userpassdialog.h:91
 msgid "Enter username and password"
-msgstr "Zadejte uživatelské jméno a heslo"
+msgstr "계정명과 패스워드 입력"
 
 #: settings/scrobblersettingspage.cpp:81
 msgid "Enter your user token from"
-msgstr "Zadejte uživatelský token z"
+msgstr "다음에 있는 사용자 토큰 입력: "
 
 #: ../build/src/ui_collectionfilterwidget.h:91
 msgid "Entire collection"
-msgstr "Celá sbírka"
+msgstr "전체 라이브러리"
 
 #: ../build/src/ui_equalizer.h:166 ../build/src/ui_equalizerslider.h:95
 msgid "Equalizer"
-msgstr "Ekvalizér"
+msgstr "이퀄라이저"
 
 #: core/commandlineoptions.cpp:244
 msgid "Equivalent to --log-levels *:1"
-msgstr "Rovnocenné s --log-levels *:1"
+msgstr "--log-levels *:1과 동일함"
 
 #: core/commandlineoptions.cpp:245
 msgid "Equivalent to --log-levels *:3"
-msgstr "Rovnocenné s --log-levels *:3"
+msgstr "--log-levels *:3과 동일함"
 
 #: core/mainwindow.cpp:2665 core/mainwindow.cpp:2816
 #: collection/collectionview.cpp:702
 msgid "Error"
-msgstr "Chyba"
+msgstr "오류"
 
 #: device/mtploader.cpp:72
 #, qt-format
 msgid "Error connecting MTP device %1"
-msgstr "Chyba při připojování k MTP zařízení %1"
+msgstr "MTP 장치 %1 연결 오류"
 
 #: device/mtploader.cpp:77
 #, qt-format
@@ -2178,40 +2170,40 @@ msgstr ""
 
 #: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
-msgstr "Chyba při kopírování písní"
+msgstr "노래 복사 오류"
 
 #: organize/organizeerrordialog.cpp:76
 msgid "Error deleting songs"
-msgstr "Chyba při mazání písní"
+msgstr "노래 삭제 오류"
 
 #: transcoder/transcoder.cpp:418
 #, qt-format
 msgid "Error processing %1: %2"
-msgstr "Chyba při zpracovávání %1: %2"
+msgstr "%1 처리 오류: %2"
 
 #: playlist/songloaderinserter.cpp:114
 msgid "Error while loading audio CD."
-msgstr "Chyba při načítání zvukového CD"
+msgstr "오디오 CD를 불러오는 중 오류가 발생했습니다."
 
 #: device/cddasongloader.cpp:121 device/cddasongloader.cpp:130
 msgid "Error while querying CDDA tracks."
-msgstr "Chyba při dotazování na CDDA stopy."
+msgstr "CDDA 트랙을 로딩하는데 오류가 있습니다."
 
 #: device/cddasongloader.cpp:109
 msgid "Error while setting CDDA device to pause state."
-msgstr "Chyba při přenastavování CCDA zařízení do pozastaveného stavu."
+msgstr "CDDA 디바이스를 일시정지하는데 오류가 있습니다."
 
 #: device/cddasongloader.cpp:101
 msgid "Error while setting CDDA device to ready state."
-msgstr "Chyba při přenastavování CCDA zařízení do připraveného stavu."
+msgstr "CDDA 디바이스를 준비하는데 오류가 있습니다."
 
 #: smartplaylists/smartplaylistsmodel.cpp:79
 msgid "Ever played"
-msgstr ""
+msgstr "재생된 적 있음"
 
 #: ../build/src/ui_backendsettingspage.h:709
 msgid "Except between tracks on the same album or in the same CUE sheet"
-msgstr "Kromě mezistop na tom samém albu nebo v tom samém listu CUE"
+msgstr "같은 앨범이나 같은 CUE 시트의 트랙 사이에서는 제외"
 
 #: ../build/src/ui_backendsettingspage.h:677
 msgid "Exclusive mode (Experimental)"
@@ -2219,11 +2211,11 @@ msgstr ""
 
 #: ../build/src/ui_albumcoverexport.h:205
 msgid "Existing covers"
-msgstr "Stávající obaly"
+msgstr "존재하는 표지"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
-msgstr "Rozbalit"
+msgstr "확장"
 
 #: ../build/src/ui_collectionsettingspage.h:439
 msgid "Expire unavailable songs after"
@@ -2232,33 +2224,33 @@ msgstr ""
 #: widgets/loginstatewidget.cpp:154
 #, qt-format
 msgid "Expires on %1"
-msgstr "Vyprší %1"
+msgstr "만료 일자: %1"
 
 #: ../build/src/ui_albumcovermanager.h:226
 msgid "Export Covers"
-msgstr "Uložit obaly"
+msgstr "표지 내보내기"
 
 #: ../build/src/ui_albumcoverexport.h:200
 msgid "Export covers"
-msgstr "Uložit obaly"
+msgstr "표지 내보내기"
 
 #: ../build/src/ui_albumcoverexport.h:203
 msgid "Export downloaded covers"
-msgstr "Uložit stažené obaly"
+msgstr "다운로드한 표지 내보내기"
 
 #: ../build/src/ui_albumcoverexport.h:204
 msgid "Export embedded covers"
-msgstr "Uložit vložené obaly"
+msgstr "내장된 표지 내보내기"
 
 #: covermanager/albumcovermanager.cpp:1016
 #: covermanager/albumcovermanager.cpp:1042
 msgid "Export finished"
-msgstr "Uložení dokončeno"
+msgstr "내보내기 완료"
 
 #: covermanager/albumcovermanager.cpp:1027
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
-msgstr "Uloženo %1 obalů z %2 (%3 přeskočeno)"
+msgstr "앨범아트 %2개 중 %1개 내보냄(%3개 건너뜀)"
 
 #: ../build/src/ui_mainwindow.h:655
 msgid "F1"
@@ -2286,20 +2278,20 @@ msgstr "FLAC"
 
 #: ../build/src/ui_backendsettingspage.h:712
 msgid "Fade out on pause / fade in on resume"
-msgstr "Zeslabení při pozastavení/Zesílení při obnovení přehrávání"
+msgstr "일시 정지 시 페이드 아웃/다시 시작 시 페이드 인"
 
 #: ../build/src/ui_backendsettingspage.h:706
 msgid "Fade out when stopping a track"
-msgstr "Zeslabit při zastavování skladby"
+msgstr "트랙 정지 시 페이드 아웃"
 
 #: ../build/src/ui_backendsettingspage.h:705
 msgid "Fading"
-msgstr "Slábnutí"
+msgstr "페이드"
 
 #: ../build/src/ui_backendsettingspage.h:710
 #: ../build/src/ui_backendsettingspage.h:713
 msgid "Fading duration"
-msgstr "Doba slábnutí"
+msgstr "페이드 시간"
 
 #: core/database.cpp:478 collection/collectionbackend.cpp:119
 #, qt-format
@@ -2350,32 +2342,32 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsflac.h:78
 #: ../build/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
-msgstr "Rychlý"
+msgstr "빠름"
 
 #: smartplaylists/smartplaylistsmodel.cpp:103
 msgid "Favourite tracks"
-msgstr "Oblíbené skladby"
+msgstr "좋아요 표시된 곡"
 
 #: ../build/src/ui_albumcovermanager.h:225
 msgid "Fetch Missing Covers"
-msgstr "Stáhnout chybějící obaly"
+msgstr "누락된 표지 가져오기"
 
 #: ../build/src/ui_albumcovermanager.h:213
 msgid "Fetch automatically"
-msgstr "Stáhnout automaticky"
+msgstr "자동으로 가져오기"
 
 #: ../build/src/ui_coversearchstatisticsdialog.h:72
 msgid "Fetch completed"
-msgstr "Stahování dokončeno"
+msgstr "가져오기 완료"
 
 #: ../build/src/ui_tidalsettingspage.h:336
 msgid "Fetch entire albums when searching songs"
-msgstr "Načítat celá alba při vyhledávání"
+msgstr "곡을 검색할 때 전체 앨범 가져오기"
 
 #: covermanager/coverfromurldialog.cpp:90
 #: covermanager/coverfromurldialog.cpp:100
 msgid "Fetching cover error"
-msgstr "Chyba při stahování obalu"
+msgstr "표지 가져오기 오류"
 
 #: core/songloader.cpp:164 core/songloader.cpp:268
 #, qt-format
@@ -2385,7 +2377,7 @@ msgstr ""
 #: core/songloader.cpp:184 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
-msgstr "Soubor %1 nebyl rozpoznán jako platný zvukový soubor."
+msgstr "%1 파일은 올바른 오디오 파일이 아닌 것 같습니다."
 
 #: playlist/playlist.cpp:1396
 msgid "File Name"
@@ -2405,114 +2397,112 @@ msgstr ""
 
 #: organize/organizedialog.cpp:122
 msgid "File extension"
-msgstr "Přípona souboru"
+msgstr "파일 확장자"
 
 #: ../build/src/ui_deviceproperties.h:386
 msgid "File formats"
-msgstr "Formáty souborů"
+msgstr "파일 형식"
 
 #: ../build/src/ui_playlistsaveoptionsdialog.h:93
 msgid "File paths"
-msgstr "Souborové cesty"
+msgstr "파일 경로"
 
 #: ../build/src/ui_edittagdialog.h:905
 msgid "File size"
-msgstr "Velikost souboru"
+msgstr "파일 크기"
 
 #: collection/savedgroupingmanager.cpp:137 ../build/src/ui_groupbydialog.h:207
 #: ../build/src/ui_groupbydialog.h:229 ../build/src/ui_groupbydialog.h:251
 #: ../build/src/ui_edittagdialog.h:894
 msgid "File type"
-msgstr "Typ souboru"
+msgstr "파일 형식"
 
 #: ../build/src/ui_edittagdialog.h:903 ../build/src/ui_transcodedialog.h:220
 msgid "Filename"
-msgstr "Název souboru"
+msgstr "파일 이름"
 
 #: ../build/src/ui_coverssettingspage.h:321
 msgid "Filename:"
-msgstr "Název souboru:"
+msgstr "파일 이름:"
 
 #: core/mainwindow.cpp:378
 msgid "Files"
-msgstr "Soubory"
+msgstr "파일"
 
 #: ../build/src/ui_transcodedialog.h:217
 msgid "Files to transcode"
-msgstr "Soubory k překódování"
+msgstr "변환할 파일"
 
 #: ../build/src/ui_appearancesettingspage.h:555
 msgid "Files, playlists and queue buttons"
-msgstr "Soubory, playlisty a tlačítka fronty"
+msgstr ""
 
 #: context/contextview.cpp:162
 msgid "Filetype"
-msgstr "Typ souboru"
+msgstr "파일 형식"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:98
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
-" Najít skladby z kolekce, které odpovídají kritériům, která specifikujete."
 
 #: musicbrainz/tagfetcher.cpp:79
 msgid "Fingerprinting song"
-msgstr "Určení písně"
+msgstr "노래 정보 추출 중"
 
 #: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Finish"
-msgstr "Dokončit"
+msgstr "완료"
 
 #: collection/savedgroupingmanager.cpp:55 ../build/src/ui_groupbydialog.h:190
 msgid "First level"
-msgstr "První úroveň"
+msgstr "첫 단계"
 
 #: widgets/playingwidget.cpp:105
 msgid "Fit cover to width"
-msgstr "Přizpůsobit obal šířce"
+msgstr "앨범아트를 너비에 맞춤"
 
 #: ../build/src/ui_contextsettingspage.h:439
 #: ../build/src/ui_contextsettingspage.h:444
 msgid "Font"
-msgstr "Font"
+msgstr "폰트"
 
 #: ../build/src/ui_contextsettingspage.h:443
 msgid "Font for data and lyrics"
-msgstr "Font pro data a texty skladeb"
+msgstr "내용과 가사 폰트 설정"
 
 #: ../build/src/ui_contextsettingspage.h:438
 msgid "Font for headline"
-msgstr "Font nadpisu"
+msgstr "제목 폰트 설정"
 
 #: ../build/src/ui_contextsettingspage.h:440
 #: ../build/src/ui_contextsettingspage.h:445
 msgid "Font size"
-msgstr "Velikost fontu"
+msgstr "글자 크기"
 
 #: dialogs/snapdialog.cpp:54
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr "Pro Ubuntu je na %1 dostupné oficiální PPA."
+msgstr "우분투용 공식 PPA 저장소는 %1 에서 찾을 수 있습니다."
 
 #: dialogs/snapdialog.cpp:62
 msgid "For a better experience please consider the other options above."
-msgstr "Pro lepší zážitek, prosím zvažte ostatní dostupné možnosti."
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
-msgstr "Vynutit jednokanálové kódování"
+msgstr "모노 인코딩 강제"
 
 #: device/deviceview.cpp:239 device/deviceview.cpp:346
 #: device/deviceview.cpp:349
 msgid "Forget device"
-msgstr "Zapomenout zařízení"
+msgstr "장치 삭제"
 
 #: device/deviceview.cpp:347
 msgid ""
 "Forgetting a device will remove it from this list and Strawberry will have "
 "to rescan all the songs again next time you connect it."
 msgstr ""
-"Zařízení bude odstraněno z tohoto seznamu. Po opětovném připojení je "
-"Strawberry bude muset znovu celé prohledat."
+"장치를 삭제하면 이 목록에 표시되지 않고 다음에 장치를 다시 연결했을 때 Strawberry에서 모든 음악을 다시 검색합니다."
 
 #: ../build/src/ui_collectionviewcontainer.h:55
 #: ../build/src/ui_playlistcontainer.h:148
@@ -2536,56 +2526,55 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsasf.h:74
 #: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
-msgstr "Formulář"
+msgstr "폼"
 
 #: collection/savedgroupingmanager.cpp:140 ../build/src/ui_groupbydialog.h:197
 #: ../build/src/ui_groupbydialog.h:219 ../build/src/ui_groupbydialog.h:241
 msgid "Format"
-msgstr "Formát"
+msgstr "형식"
 
 #: analyzer/analyzercontainer.cpp:64
 msgid "Framerate"
-msgstr "Počet snímků"
+msgstr "프레임레이트"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:234
 msgid "Frames per buffer"
-msgstr "Snímků na vyrovnávací paměť"
+msgstr "버퍼당 프레임 수"
 
 #: moodbar/moodbarrenderer.cpp:171
 msgid "Frozen"
-msgstr "Zamrznutý"
+msgstr "얼어붙음"
 
 #: equalizer/equalizer.cpp:142
 msgid "Full Bass"
-msgstr "Plné basy"
+msgstr "저음 강화"
 
 #: equalizer/equalizer.cpp:144
 msgid "Full Bass + Treble"
-msgstr "Plné basy + výšky"
+msgstr "저음+고음 강화"
 
 #: equalizer/equalizer.cpp:143
 msgid "Full Treble"
-msgstr "Plné výšky"
+msgstr "고음 강화"
 
 #: settings/settingsdialog.cpp:131
 msgid "General"
-msgstr "Obecné"
+msgstr "일반"
 
 #: ../build/src/ui_notificationssettingspage.h:482
 msgid "General settings"
-msgstr "Obecná nastavení"
+msgstr "일반 설정"
 
 #: lyrics/geniuslyricsprovider.cpp:120
-#, fuzzy
 msgid "Genius Authentication"
-msgstr "Ověření Genius"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:125 playlist/playlist.cpp:1382
 #: organize/organizedialog.cpp:116 ../build/src/ui_groupbydialog.h:198
 #: ../build/src/ui_groupbydialog.h:220 ../build/src/ui_groupbydialog.h:242
 #: ../build/src/ui_edittagdialog.h:927
 msgid "Genre"
-msgstr "Žánr"
+msgstr "장르"
 
 #: radios/somafmservice.cpp:70 radios/radioparadiseservice.cpp:64
 #, qt-format
@@ -2598,131 +2587,130 @@ msgstr ""
 
 #: ../build/src/ui_mainwindow.h:692
 msgid "Go to next playlist tab"
-msgstr "Jít na další kartu seznamu skladeb"
+msgstr "다음 재생 목록 탭으로 이동"
 
 #: ../build/src/ui_mainwindow.h:693
 msgid "Go to previous playlist tab"
-msgstr "Jít na předchozí kartu seznamu skladeb"
+msgstr "이전 재생 목록 탭으로 이동"
 
 #: ../build/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr "Importovat!"
+msgstr ""
 
 #: covermanager/albumcovermanager.cpp:555
 #: covermanager/coversearchstatisticsdialog.cpp:67
 #: ../build/src/ui_coversearchstatisticsdialog.h:73
 #, qt-format
 msgid "Got %1 covers out of %2 (%3 failed)"
-msgstr "Získáno %1 obalů z %2 (%3 nezískáno)"
+msgstr "앨범아트 %2개 중 %1개 가져옴(%3개 실패)"
 
 #: ../build/src/ui_playlistsettingspage.h:183
 msgid "Grey out unavailable songs in playlists on playback"
-msgstr "Zšednout nedostupné skladby v seznamu skladeb při jejich přehrání"
+msgstr "재생할 때 재생 목록에서 사용할 수 없는 곡을 회색으로 표시"
 
 #: ../build/src/ui_playlistsettingspage.h:184
 msgid "Grey out unavailable songs in playlists on startup"
-msgstr "Zšednout nedostupné skladby v seznamu skladeb při startu"
+msgstr "시작할 때 재생 목록에서 사용할 수 없는 곡을 회색으로 표시"
 
 #: ../build/src/ui_groupbydialog.h:189
 msgid "Group Collection by..."
-msgstr "Seskupovat v hudební sbírce podle..."
+msgstr "라이브러리 그룹 방식..."
 
 #: collection/collectionfilterwidget.cpp:133
 #: internet/internetsearchview.cpp:343
 msgid "Group by"
-msgstr "Seskupovat podle"
+msgstr "그룹 방식"
 
 #: collection/collectionfilterwidget.cpp:301
 msgid "Group by Album"
-msgstr "Seskupovat podle alba"
+msgstr "앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:298
 msgid "Group by Album Artist"
-msgstr "Seskupit dle Autora alba"
+msgstr "앨범 아티스트로 그룹"
 
 #: collection/collectionfilterwidget.cpp:285
 msgid "Group by Album artist/Album"
-msgstr "Seskupovat podle umělce alba/alba"
+msgstr "앨범 아티스트/앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:286
 msgid "Group by Album artist/Album - Disc"
-msgstr "Seskupit jako Autor alba/Album - Disk"
+msgstr "앨범 아티스트/앨범 - 디스크로 그룹"
 
 #: collection/collectionfilterwidget.cpp:287
 msgid "Group by Album artist/Year - Album"
-msgstr "Seskupit jako Autor alba/Rok - Album"
+msgstr "앨범 아티스트/년도 - 앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:288
 msgid "Group by Album artist/Year - Album - Disc"
-msgstr "Seskupit jako Autor alba/Rok - Album - Disk"
+msgstr "앨범 아티스트/년도 - 앨범 - 디스크로 그룹"
 
 #: collection/collectionfilterwidget.cpp:299
 msgid "Group by Artist"
-msgstr "Seskupovat podle umělce"
+msgstr "아티스트로 그룹"
 
 #: collection/collectionfilterwidget.cpp:290
 msgid "Group by Artist/Album"
-msgstr "Seskupovat podle umělce/alba"
+msgstr "아티스트/앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:291
 msgid "Group by Artist/Album - Disc"
-msgstr "Seskupit jako Umělec/Album - Disk"
+msgstr "아티스트/앨범 - 디스크로 그룹"
 
 #: collection/collectionfilterwidget.cpp:292
 msgid "Group by Artist/Year - Album"
-msgstr "Seskupovat podle umělce/roku - alba"
+msgstr "아티스트/년도 - 앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:293
 msgid "Group by Artist/Year - Album - Disc"
-msgstr "Seskupit jako Umělec/Rok - Album - Disk"
+msgstr "아티스트/년도 - 앨범 - 디스크로 그룹"
 
 #: collection/collectionfilterwidget.cpp:302
 msgid "Group by Genre/Album"
-msgstr "Seskupovat podle žánru/alba"
+msgstr "장르/앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:295
 msgid "Group by Genre/Album artist/Album"
-msgstr "Seskupit jako Žánr/Autor alba/Album"
+msgstr "장르/앨범 아티스트/앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:296
 msgid "Group by Genre/Artist/Album"
-msgstr "Seskupovat podle žánru/umělce/alba"
+msgstr "장르/아티스트/앨범으로 그룹"
 
 #: collection/savedgroupingmanager.cpp:134 playlist/playlist.cpp:1386
 #: organize/organizedialog.cpp:111 ../build/src/ui_groupbydialog.h:206
 #: ../build/src/ui_groupbydialog.h:228 ../build/src/ui_groupbydialog.h:250
 #: ../build/src/ui_edittagdialog.h:919
 msgid "Grouping"
-msgstr "Seskupení"
+msgstr "그룹"
 
 #: collection/collectionfilterwidget.cpp:359
 msgid "Grouping Name"
-msgstr "Název seskupení"
+msgstr "그룹 이름"
 
 #: collection/collectionfilterwidget.cpp:359
 msgid "Grouping name:"
-msgstr "Název seskupení:"
+msgstr "그룹 이름:"
 
 #: ../build/src/ui_networkproxysettingspage.h:174
 msgid "HTTP proxy"
-msgstr "Proxy HTTP"
+msgstr "HTTP 프록시"
 
 #: moodbar/moodbarrenderer.cpp:173
 msgid "Happy"
-msgstr "Šťastný"
+msgstr "행복함"
 
 #: ../build/src/ui_deviceproperties.h:373
 msgid "Hardware information"
-msgstr "Informace o vybavení"
+msgstr "하드웨어 정보"
 
 #: ../build/src/ui_deviceproperties.h:374
 msgid "Hardware information is only available while the device is connected."
-msgstr ""
-"Informace o vybavení jsou dostupné pouze tehdy, když je zařízení připojeno."
+msgstr "장치가 연결되어 있는 동안에만 하드웨어 정보를 볼 수 있습니다."
 
 #: ../build/src/ui_mainwindow.h:734
 msgid "Help"
-msgstr "Pomoc"
+msgstr "도움말"
 
 #: ../build/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
@@ -2730,84 +2718,78 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:288
 msgid "Hide the main window"
-msgstr "Skrýt hlavní okno"
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
-msgstr "Vysoká"
+msgstr "높음"
 
 #: analyzer/analyzercontainer.cpp:79
 #, qt-format
 msgid "High (%1 fps)"
-msgstr "Vysoký (%1 fps)"
+msgstr "높음(%1 fps)"
 
 #: ../build/src/ui_backendsettingspage.h:688
-#, fuzzy
 msgid "High watermark"
-msgstr "Vysoký vodoznak"
+msgstr ""
 
 #: smartplaylists/smartplaylistsearchterm.cpp:449
 msgid "Hours"
-msgstr "Hodiny"
+msgstr ""
 
 #: ../build/src/ui_deviceproperties.h:372
 msgid "Icon"
-msgstr "Ikona"
+msgstr "아이콘"
 
 #: ../build/src/ui_appearancesettingspage.h:550
 msgid "Icon sizes"
-msgstr "Velikosti ikon"
+msgstr "아이콘 크기"
 
 #: widgets/fancytabwidget.cpp:732
 msgid "Icons on top"
-msgstr "Ikony nahoře"
+msgstr "상단에 아이콘"
 
 #: musicbrainz/tagfetcher.cpp:69 musicbrainz/tagfetcher.cpp:113
 msgid "Identifying song"
-msgstr "Určuje se píseň"
+msgstr "음악 식별 중"
 
 #: ../build/src/ui_playlistsettingspage.h:197
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
-msgstr ""
-"Pokud je zapnuto, po klepnutí na vybranou píseň v seznamu skladeb můžete "
-"upravit hodnotu značky přímo"
+msgstr "활성화하면 재생 목록에서 선택한 노래를 클릭하여 태그 값을 직접 수정할 수 있습니다."
 
 #: device/devicemanager.cpp:610 device/devicemanager.cpp:618
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
-msgstr ""
-"Budete-li pokračovat, toto zařízení bude pracovat pomalu a písně na něj "
-"kopírované nemusí fungovat."
+msgstr "계속 진행하면 이 장치가 느리게 작동하거나 복사된 음악을 재생하지 못할 수도 있습니다."
 
 #: dialogs/about.cpp:123
 msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
-msgstr "Líbí se a vyhovuje vám-li Strawberry, zvažte příspěvek."
+msgstr "Strawberry가 마음에 들었다면 스폰서쉽과 기부를 할 수 있습니다."
 
 #: covermanager/albumcoverchoicecontroller.cpp:79
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
-msgstr ""
-"Obrázky (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+msgstr "그림 (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
 #: covermanager/albumcoverchoicecontroller.cpp:80
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
-msgstr "Obrázky (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+msgstr "그림 (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
 #: ../build/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
-msgstr "Importovat data z last.fm"
+msgstr "last.fm으로부터 데이터 가져오기"
 
 #: ../build/src/ui_mainwindow.h:715
 msgid "Import data from last.fm..."
-msgstr "Importovat data z last.fm..."
+msgstr "last.fm으로부터 데이터 가져오기"
 
 #: ../build/src/ui_transcodedialog.h:226
 msgid "Import..."
-msgstr "Importovat..."
+msgstr "가져오기..."
 
 #: ../build/src/ui_backendsettingspage.h:682
 msgid "Improve headphone listening of stereo audio records (bs2b)"
@@ -2816,37 +2798,34 @@ msgstr ""
 #: utilities/timeutils.cpp:101
 #, qt-format
 msgid "In %1 days"
-msgstr "Za %1 dny(ů)"
+msgstr "%1일 후"
 
 #: utilities/timeutils.cpp:104
 #, qt-format
 msgid "In %1 weeks"
-msgstr "Za %1 týdny(ů)"
+msgstr "%1주 후"
 
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:82
-#, fuzzy
 msgid ""
 "In dynamic mode new tracks will be chosen and added to the playlist every "
 "time a song finishes."
-msgstr ""
-"V dynamickém režimu se do playlistu přidají nové skladby pokaždé když jedna "
-"dohraje."
+msgstr "다이나믹 모드일 때는 곡이 끝날 때마다 새 곡이 재생목록에 추가됩니다."
 
 #: ../build/src/ui_notificationssettingspage.h:490
 msgid "Include album art in the notification"
-msgstr "Zahrnout obal alba do oznámení"
+msgstr "알림에 앨범 커버 포함"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
-msgstr "Zahrnout všechny skladby"
+msgstr "모든 곡 추가"
 
 #: core/commandlineoptions.cpp:227
 msgid "Increase the volume by 4 percent"
-msgstr "Zvýšit hlasitost o 4 procenta"
+msgstr "4퍼센트만큼 음량 올리기"
 
 #: core/commandlineoptions.cpp:229
 msgid "Increase the volume by <value> percent"
-msgstr "Zvýšit hlasitost o <value> procent"
+msgstr "<value>%만큼 음량 올리기"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:68
 msgid "Increase volume"
@@ -2854,11 +2833,11 @@ msgstr ""
 
 #: ../build/src/ui_deviceproperties.h:375
 msgid "Information"
-msgstr "Informace"
+msgstr "정보"
 
 #: ../build/src/ui_organizedialog.h:272
 msgid "Insert..."
-msgstr "Vložit..."
+msgstr "삽입..."
 
 #: dialogs/snapdialog.cpp:77
 msgid "Install strawberry through PPA:"
@@ -2870,19 +2849,19 @@ msgstr ""
 
 #: core/database.cpp:486
 msgid "Integrity check"
-msgstr "Ověření celistvosti"
+msgstr "무결성 검사"
 
 #: ../build/src/ui_internetsearchview.h:223
 msgid "Internet Search View"
-msgstr "Zobrazení vyhledávání na internetu"
+msgstr ""
 
 #: ../build/src/ui_internettabsview.h:112
 msgid "Internet Tabs View"
-msgstr "Zobrazení karet Internetu"
+msgstr ""
 
 #: osd/osdbase.cpp:367 ../build/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
-msgstr "Skladby úvodu"
+msgstr "인트로 트랙"
 
 #: device/mtpconnection.cpp:57
 #, qt-format
@@ -2891,35 +2870,33 @@ msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:254
 msgid "Invalid reply from web browser. Missing token."
-msgstr "Špatná odpověď od prohlížeče. Token chybí."
+msgstr "웹 브라우저에서 잘못된 응답을 받았습니다. 토큰이 없습니다."
 
 #: dialogs/about.cpp:113
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
-msgstr ""
-"Je to větev přehrávače Clementine z roku 2018 zaměřený na sběratele hudby a "
-"audiofily."
+msgstr "이 프로그램은 2018년에 음악 컬렉터들과 오디오파일을 위해 Clementine으로부터 포크되었습니다."
 
 #: dialogs/snapdialog.cpp:42
 msgid "It is detected that Strawberry is running as a Snap"
-msgstr "Bylo zjištěno, že Strawberry běží jako Snap"
+msgstr "Strawberry가 Snap에서 실행되고 있는 것을 감지하였습니다."
 
 #: ../build/src/ui_behavioursettingspage.h:301
 msgid "Jump to previous song right away"
-msgstr "Skočit ihned na předchozí píseň"
+msgstr "바로 이전 곡으로 이동"
 
 #: ../build/src/ui_appearancesettingspage.h:544
 msgid "Keep aspect ratio"
-msgstr "Zachovat poměr stran"
+msgstr "종횡비 유지"
 
 #: ../build/src/ui_behavioursettingspage.h:281
 msgid "Keep running in the background when the window is closed"
-msgstr "Při zavření okna nechat běžet na pozadí"
+msgstr "창을 닫아도 백그라운드에서 계속 실행"
 
 #: ../build/src/ui_organizedialog.h:263
 msgid "Keep the original files"
-msgstr "Zachovat původní soubory"
+msgstr "원본 파일 유지"
 
 #: core/song.cpp:736
 msgid "LU"
@@ -2931,23 +2908,23 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:291
 msgid "Language"
-msgstr "Jazyk"
+msgstr "언어"
 
 #: equalizer/equalizer.cpp:145
 msgid "Laptop/Headphones"
-msgstr "Přenosný počítač/Sluchátka"
+msgstr "노트북/헤드폰"
 
 #: equalizer/equalizer.cpp:146
 msgid "Large Hall"
-msgstr "Velký sál"
+msgstr "거대한 홀"
 
 #: widgets/playingwidget.cpp:102
 msgid "Large album cover"
-msgstr "Velký obal alba"
+msgstr "큰 앨범아트"
 
 #: widgets/fancytabwidget.cpp:728
 msgid "Large sidebar"
-msgstr "Velký postranní panel"
+msgstr "큰 사이드바"
 
 #: playlist/playlist.cpp:1390
 msgid "Last Played"
@@ -2956,17 +2933,17 @@ msgstr ""
 #: smartplaylists/smartplaylistsmodel.cpp:91
 #: ../build/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
-msgstr "Naposledy hrané"
+msgstr "마지막 재생"
 
 #: ../build/src/ui_edittagdialog.h:893
 msgctxt "A playlist's tag."
 msgid "Last played"
-msgstr "Naposledy hráno"
+msgstr "마지막 재생"
 
 #: dialogs/lastfmimportdialog.cpp:158
 #, qt-format
 msgid "Last played for %1 songs received."
-msgstr "Hodnota \"Naposledy přehráno\" pro %1 skladeb bylo přijato."
+msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:422
 msgid "Last.fm"
@@ -2974,16 +2951,16 @@ msgstr "Last.fm"
 
 #: smartplaylists/smartplaylistsmodel.cpp:109
 msgid "Least favourite tracks"
-msgstr "Nejméně oblíbené skladby"
+msgstr ""
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Left"
-msgstr "Vlevo"
+msgstr "왼쪽"
 
 #: context/contextview.cpp:163 playlist/playlist.cpp:1379
 #: organize/organizedialog.cpp:118 ../build/src/ui_edittagdialog.h:895
 msgid "Length"
-msgstr "Délka"
+msgstr "길이"
 
 #: ../build/src/ui_scrobblersettingspage.h:425
 msgid "Libre.fm"
@@ -2991,11 +2968,11 @@ msgstr "Libre.fm"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:137
 msgid "Limits"
-msgstr "Omezení"
+msgstr ""
 
 #: scrobbler/listenbrainzscrobbler.cpp:190
 msgid "ListenBrainz Authentication"
-msgstr "Přihlášení na ListenBrainz"
+msgstr "ListenBrainz 인증"
 
 #: scrobbler/listenbrainzscrobbler.cpp:676
 #, qt-format
@@ -3008,70 +2985,70 @@ msgstr "Listenbrainz"
 
 #: equalizer/equalizer.cpp:147
 msgid "Live"
-msgstr "Živě"
+msgstr "라이브"
 
 #: ../build/src/ui_albumcovermanager.h:214
 msgid "Load"
-msgstr "Načíst"
+msgstr "불러오기"
 
 #: ../build/src/ui_coverfromurldialog.h:100
 msgid "Load cover from URL"
-msgstr "Nahrát obal z adresy (URL)"
+msgstr "URL에서 표지 불러오기"
 
 #: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Load cover from URL..."
-msgstr "Nahrát obal z adresy (URL)..."
+msgstr "URL에서 표지 불러오기..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:178
 #: covermanager/albumcoverchoicecontroller.cpp:209
 msgid "Load cover from disk"
-msgstr "Nahrát obal z disku"
+msgstr "디스크에서 표지 불러오기"
 
 #: covermanager/albumcoverchoicecontroller.cpp:105
 msgid "Load cover from disk..."
-msgstr "Nahrát obal na disku..."
+msgstr "디스크에서 표지 불러오기..."
 
 #: playlist/playlistcontainer.cpp:375
 msgid "Load playlist"
-msgstr "Nahrát seznam skladeb"
+msgstr "재생 목록 불러오기"
 
 #: device/mtploader.cpp:55
 msgid "Loading MTP device"
-msgstr "Nahrává se zařízení MTP"
+msgstr "MTP 장치 불러오는 중"
 
 #: device/gpodloader.cpp:54
 msgid "Loading iPod database"
-msgstr "Nahrává se databáze iPod"
+msgstr "iPod 데이터베이스 불러오는 중"
 
 #: smartplaylists/playlistgeneratorinserter.cpp:63
 msgid "Loading smart playlist"
-msgstr "Nahrávání chytrého playlistu"
+msgstr "스마트 재생 목록 로딩"
 
 #: collection/collectionmodel.cpp:212
 msgid "Loading songs"
-msgstr "Nahrávají se písně"
+msgstr "노래 불러오는 중"
 
 #: playlist/songloaderinserter.cpp:171 dialogs/edittagdialog.cpp:413
 msgid "Loading tracks"
-msgstr "Nahrávají se skladby"
+msgstr "트랙 불러오는 중"
 
 #: playlist/songloaderinserter.cpp:201
 msgid "Loading tracks info"
-msgstr "Nahrávají se informace o skladbě"
+msgstr "트랙 정보 불러오는 중"
 
 #: collection/collectionmodel.cpp:205
 #: ../build/src/ui_smartplaylistsearchpreview.h:103
 #: ../build/src/ui_organizedialog.h:281
 msgid "Loading..."
-msgstr "Nahrává se..."
+msgstr "불러오는 중..."
 
 #: core/commandlineoptions.cpp:237
 msgid "Loads files/URLs, replacing current playlist"
-msgstr "Nahraje soubory/adresy (URL), nahradí současný seznam skladeb"
+msgstr "불러올 파일이나 URL, 현재 재생 목록을 대체함"
 
 #: ../build/src/ui_scrobblersettingspage.h:413
 msgid "Local file"
-msgstr "Místní soubor"
+msgstr "로컬 파일"
 
 #: ../build/src/ui_scrobblersettingspage.h:424
 #: ../build/src/ui_scrobblersettingspage.h:427
@@ -3081,11 +3058,11 @@ msgstr "Místní soubor"
 #: ../build/src/ui_tidalsettingspage.h:327
 #: ../build/src/ui_qobuzsettingspage.h:284
 msgid "Login"
-msgstr "Přihlášení"
+msgstr "로그인"
 
 #: ../build/src/ui_transcoderoptionsaac.h:138
 msgid "Long term prediction profile (LTP)"
-msgstr "Dlouhodobý předpověďní profil"
+msgstr "장기 예측 프로필(LTP)"
 
 #: playlist/playlist.cpp:1410
 msgid "Loudness Range"
@@ -3094,33 +3071,32 @@ msgstr ""
 #: globalshortcuts/globalshortcutsmanager.cpp:79
 #: ../build/src/ui_mainwindow.h:634
 msgid "Love"
-msgstr "To Miluju!"
+msgstr "좋아요"
 
 #: analyzer/analyzercontainer.cpp:77
 #, qt-format
 msgid "Low (%1 fps)"
-msgstr "Nízký (%1 fps)"
+msgstr "낮음(%1 fps)"
 
 #: ../build/src/ui_transcoderoptionsaac.h:136
 msgid "Low complexity profile (LC)"
-msgstr "Nízkosložitostní profil"
+msgstr "낮은 복잡도 프로필(LC)"
 
 #: ../build/src/ui_backendsettingspage.h:689
-#, fuzzy
 msgid "Low watermark"
-msgstr "Nízký vodoznak"
+msgstr ""
 
 #: ../build/src/ui_coverssettingspage.h:326
 msgid "Lowercase filename"
-msgstr "Název souboru malými písmeny"
+msgstr "소문자 파일 이름"
 
 #: ../build/src/ui_lyricssettingspage.h:162 ../build/src/ui_edittagdialog.h:936
 msgid "Lyrics"
-msgstr "Texty"
+msgstr "가사"
 
 #: ../build/src/ui_lyricssettingspage.h:163
 msgid "Lyrics providers"
-msgstr "Poskytovatelé textů"
+msgstr "가사 가져오기"
 
 #: ../build/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token (Recommended)"
@@ -3141,11 +3117,11 @@ msgstr ""
 
 #: ../build/src/ui_transcoderoptionsaac.h:135
 msgid "Main profile (MAIN)"
-msgstr "Hlavní profil"
+msgstr "메인 프로필(MAIN)"
 
 #: ../build/src/ui_collectionfilterwidget.h:101
 msgid "Manage saved groupings"
-msgstr "Spravovat uložená seskupení"
+msgstr "저장한 그룹 관리"
 
 #: settings/coverssettingspage.cpp:423
 #, qt-format
@@ -3154,36 +3130,36 @@ msgstr ""
 
 #: device/deviceproperties.cpp:175
 msgid "Manufacturer"
-msgstr "Výrobce"
+msgstr "제조사"
 
 #: ../build/src/ui_collectionsettingspage.h:437
 msgid "Mark disappeared songs unavailable"
-msgstr "Označit zmizelé skladby jako nedostupné"
+msgstr "사라진 곡을 사용할 수 없는 것으로 표시"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:110
 msgid "Match every search term (AND)"
-msgstr ""
+msgstr "모든 조건에 맞는 곡 (AND)"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:111
 msgid "Match one or more search terms (OR)"
-msgstr ""
+msgstr "조건 중 하나라도 맞는 곡 (OR)"
 
 #: ../build/src/ui_appearancesettingspage.h:542
 msgid "Max cover size"
-msgstr "Maximální velikost obalu alba"
+msgstr "최대 표지 크기"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:205
 msgid "Maximum bitrate"
-msgstr "Nejvyšší datový tok"
+msgstr "최대 비트 전송률"
 
 #: qobuz/qobuzservice.cpp:498
 msgid "Maximum number of login attempts reached."
-msgstr "Byl dosažen maximální počet pokusů o přihlášení."
+msgstr "최대 로그인 시도 횟수에 도달했습니다."
 
 #: analyzer/analyzercontainer.cpp:78
 #, qt-format
 msgid "Medium (%1 fps)"
-msgstr "Střední (%1 fps)"
+msgstr "중간(%1 fps)"
 
 #: ../build/src/ui_mainwindow.h:717 ../build/src/ui_mainwindow.h:720
 #: ../build/src/ui_mainwindow.h:723 ../build/src/ui_mainwindow.h:726
@@ -3204,19 +3180,19 @@ msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
-msgstr "Metadata"
+msgstr "메타데이터"
 
 #: ../build/src/ui_appearancesettingspage.h:538
 msgid "Middle"
-msgstr "Střed"
+msgstr "중간"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:202
 msgid "Minimum bitrate"
-msgstr "Nejnižší datový tok"
+msgstr "최소 비트 전송률"
 
 #: settings/tidalsettingspage.cpp:158
 msgid "Missing API token."
-msgstr "Chybějící API token."
+msgstr "API 토큰이 없습니다."
 
 #: scrobbler/listenbrainzscrobbler.cpp:627
 #, qt-format
@@ -3225,124 +3201,124 @@ msgstr ""
 
 #: qobuz/qobuzservice.cpp:741 qobuz/qobuzstreamurlrequest.cpp:82
 msgid "Missing Qobuz app ID or secret."
-msgstr "Chybějící ID aplikace, nebo tajemství služby Qobuz."
+msgstr "Qobuz 앱 ID나 비밀 값이 없습니다."
 
 #: qobuz/qobuzservice.cpp:502 qobuz/qobuzservice.cpp:531
 #: qobuz/qobuzservice.cpp:581 qobuz/qobuzservice.cpp:631
 #: qobuz/qobuzservice.cpp:693
 msgid "Missing Qobuz app ID."
-msgstr "Chybějící ID aplikace Qobuz."
+msgstr "Qobuz 앱 ID가 없습니다."
 
 #: qobuz/qobuzservice.cpp:510
 msgid "Missing Qobuz password."
-msgstr "Chybějící Qobuz heslo."
+msgstr "Qobuz 암호가 없습니다."
 
 #: qobuz/qobuzservice.cpp:506
 msgid "Missing Qobuz username."
-msgstr "Chybějící Qobuz uživatelské jméno."
+msgstr "Qobuz 사용자 이름이 없습니다."
 
 #: subsonic/subsonicurlhandler.cpp:43
 msgid "Missing Subsonic username or password."
-msgstr "Chybějící uživatelské jméno nebo heslo pro Subsonic."
+msgstr "Subsonic 사용자 이름이나 암호가 없습니다."
 
 #: tidal/tidalservice.cpp:746 tidal/tidalservice.cpp:801
 #: tidal/tidalservice.cpp:856 tidal/tidalservice.cpp:919
 #: tidal/tidalservice.cpp:982 tidal/tidalstreamurlrequest.cpp:87
 msgid "Missing Tidal API token, username or password."
-msgstr "Chybějící API token, uživatelské jméno nebo heslo pro Tidal."
+msgstr "타이달 API토큰, 계정 혹은 비밀번호가 없습니다."
 
 #: tidal/tidalservice.cpp:707
 msgid "Missing Tidal API token."
-msgstr "Chybějící API token pro Tidal."
+msgstr "Tidal API 토큰이 없습니다."
 
 #: settings/tidalsettingspage.cpp:151
 msgid "Missing Tidal client ID."
-msgstr "Chybějící ID klienta pro Tidal."
+msgstr "Tidal 클라이언트 ID가 없습니다."
 
 #: tidal/tidalservice.cpp:715
 msgid "Missing Tidal password."
-msgstr "Chybějící heslo k Tidal."
+msgstr "Tidal 암호가 없습니다."
 
 #: tidal/tidalservice.cpp:711
 msgid "Missing Tidal username."
-msgstr "Chybějící uživatelské jméno k Tidal."
+msgstr "Tidal 사용자 이름이 없습니다."
 
 #: settings/qobuzsettingspage.cpp:130
 msgid "Missing app id."
-msgstr "Chybějící ID aplikace."
+msgstr "app_id가 없습니다."
 
 #: settings/tidalsettingspage.cpp:166 settings/qobuzsettingspage.cpp:138
 msgid "Missing password."
-msgstr "Chybějící heslo."
+msgstr "패스워드가 없습니다."
 
 #: settings/subsonicsettingspage.cpp:130
 msgid "Missing server url, username or password."
-msgstr "Chybějící URL serveru, uživatelské jméno nebo heslo."
+msgstr "서버 URL, 사용자 이름이나 암호가 없습니다."
 
 #: subsonic/subsonicservice.cpp:428
 msgid "Missing username or password."
-msgstr "Chybějící uživatelské jméno nebo heslo."
+msgstr "사용자 이름이나 암호가 없습니다."
 
 #: scrobbler/lastfmimport.cpp:212
 msgid "Missing username, please login to last.fm first!"
-msgstr "Chybějící jméno, prosím, nejdříve se přihlašte k last.fm!"
+msgstr "계정명이 없습니다. last.fm에 먼저 로그인해주세요."
 
 #: settings/tidalsettingspage.cpp:162 settings/qobuzsettingspage.cpp:134
 msgid "Missing username."
-msgstr "Chybějící uživatelské jméno."
+msgstr "계정명이 없습니다."
 
 #: device/deviceproperties.cpp:174
 msgid "Model"
-msgstr "Model"
+msgstr "모델"
 
 #: ../build/src/ui_collectionsettingspage.h:435
 msgid "Monitor the collection for changes"
-msgstr "Sledovat změny ve sbírce"
+msgstr "라이브러리 변화 감지"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:455
 msgid "Months"
-msgstr "Měsíce"
+msgstr ""
 
 #: playlist/playlist.cpp:1405
 msgid "Mood"
-msgstr "Nálada"
+msgstr "무드"
 
 #: ../build/src/ui_moodbarsettingspage.h:92
 #: ../build/src/ui_moodbarsettingspage.h:93
 msgid "Moodbar"
-msgstr "Ukazatel nálady"
+msgstr "무드바"
 
 #: moodbar/moodbarproxystyle.cpp:376 ../build/src/ui_moodbarsettingspage.h:95
 msgid "Moodbar style"
-msgstr "Styl Ukazatele nálady"
+msgstr "무드바 스타일"
 
 #: smartplaylists/smartplaylistsmodel.cpp:97
 msgid "Most played"
-msgstr "Nejčastěji přehrávané"
+msgstr "많이 재생된 곡"
 
 #: device/giolister.cpp:192
 msgid "Mount point"
-msgstr "Přípojný bod"
+msgstr "마운트 지점"
 
 #: device/udisks2lister.cpp:121
 msgid "Mount points"
-msgstr "Přípojné body"
+msgstr "마운트 지점"
 
 #: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:309
 #: ../build/src/ui_coverssettingspage.h:315
 #: ../build/src/ui_lyricssettingspage.h:166
 msgid "Move down"
-msgstr "Posunout dolů"
+msgstr "아래로 이동"
 
 #: core/mainwindow.cpp:760 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
-msgstr "Přesunout do sbírky..."
+msgstr "라이브러리로 이동..."
 
 #: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:308
 #: ../build/src/ui_coverssettingspage.h:314
 #: ../build/src/ui_lyricssettingspage.h:165
 msgid "Move up"
-msgstr "Posunout nahoru"
+msgstr "위로 이동"
 
 #: playlist/playlistcontainer.cpp:146
 #, qt-format
@@ -3353,75 +3329,75 @@ msgstr ""
 
 #: core/mainwindow.cpp:2275 transcoder/transcodedialog.cpp:325
 msgid "Music"
-msgstr "Hudba"
+msgstr "음악"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:70
 msgid "Mute"
-msgstr "Ztlumit"
+msgstr "음소거"
 
 #: equalizer/equalizer.cpp:210 collection/savedgroupingmanager.cpp:54
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:80
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Name"
-msgstr "Název"
+msgstr "이름"
 
 #: ../build/src/ui_organizedialog.h:266
 msgid "Naming options"
-msgstr "Volby pro pojmenování"
+msgstr "이름 짓기 옵션"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:228
 msgid "Narrow band (NB)"
-msgstr "Úzké pásmo"
+msgstr "협대역(NB)"
 
 #: ../build/src/ui_networkproxysettingspage.h:170
 msgid "Network Proxy"
-msgstr "Síťová proxy"
+msgstr "네트워크 프록시"
 
 #: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:893
 msgid "Never"
-msgstr "Nikdy"
+msgstr "없음"
 
 #: smartplaylists/smartplaylistsmodel.cpp:85
 msgid "Never played"
-msgstr "Nikdy nepřehrané"
+msgstr "한번도 재생하지 않은 곡"
 
 #: ../build/src/ui_behavioursettingspage.h:296
 #: ../build/src/ui_behavioursettingspage.h:310
 msgid "Never start playing"
-msgstr "Nikdy nezačít přehrávání"
+msgstr "재생을 시작하지 않음"
 
 #: playlist/playlistlistcontainer.cpp:88 playlist/playlistlistcontainer.cpp:211
 #: ../build/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
-msgstr "Nová složka"
+msgstr "새 폴더"
 
 #: core/mainwindow.cpp:2093
 msgid "New playlist"
-msgstr "Nový seznam skladeb"
+msgstr "새로운 재생 목록"
 
 #: ../build/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
-msgstr "Nový chytrý playlist"
+msgstr "새 스마트 재생 목록"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:63
 msgid "New smart playlist..."
-msgstr "Nový chytrý playlist..."
+msgstr "새 스마트 재생 목록"
 
 #: widgets/freespacebar.cpp:66
 msgid "New songs"
-msgstr "Nové písně"
+msgstr "새로운 음악"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
-msgstr "Nové skladby budou přidány automaticky."
+msgstr "새 곡들이 자동으로 추가됩니다."
 
 #: smartplaylists/smartplaylistsmodel.cpp:66
 msgid "Newest tracks"
-msgstr "Nejnovější skladby"
+msgstr "새로 추가된 곡"
 
 #: dialogs/edittagdialog.cpp:229 dialogs/trackselectiondialog.cpp:70
 msgid "Next"
-msgstr "Další"
+msgstr "다음"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:66
 msgid "Next track"
@@ -3429,7 +3405,7 @@ msgstr ""
 
 #: utilities/timeutils.cpp:102
 msgid "Next week"
-msgstr "Příští týden"
+msgstr "다음 주"
 
 #: dialogs/edittagdialog.cpp:816 dialogs/edittagdialog.cpp:832
 msgid "No"
@@ -3437,7 +3413,7 @@ msgstr ""
 
 #: analyzer/analyzercontainer.cpp:91
 msgid "No analyzer"
-msgstr "Žádný analyzátor"
+msgstr "분석기 없음"
 
 #: ../build/src/ui_backendsettingspage.h:692
 msgid "No audio normalization"
@@ -3445,74 +3421,71 @@ msgstr ""
 
 #: covermanager/albumcovermanager.cpp:1017
 msgid "No covers to export."
-msgstr "Žádné obaly k uložení"
+msgstr "내보낼 표지가 없습니다."
 
 #: ../build/src/ui_transcoderoptionsaac.h:145
 msgid "No long blocks"
-msgstr "Žádné dlouhé bloky"
+msgstr "긴 블록 없음"
 
 #: tidal/tidalrequest.cpp:1362 qobuz/qobuzrequest.cpp:1424
 msgid "No match."
-msgstr "Žádná shoda."
+msgstr "일치하는 결과가 없습니다."
 
 #: playlist/playlistcontainer.cpp:469
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
-msgstr ""
-"Nebyly nalezeny žádné shody. Smažte obsah vyhledávacího pole, aby se znovu "
-"zobrazil celý seznam skladeb."
+msgstr "일치하는 결과를 찾을 수 없습니다. 검색어를 비우면 전체 재생 목록을 볼 수 있습니다."
 
 #: settings/coverssettingspage.cpp:297 settings/lyricssettingspage.cpp:189
 msgid "No provider selected."
-msgstr "Žádný poskytovatel nebyl zvolen."
+msgstr "아무 곳도 선택되지 않았습니다."
 
 #: ../build/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
-msgstr "Žádné krátké bloky"
+msgstr "짧은 블록 없음"
 
 #: context/contextview.cpp:407
 msgid "No song playing"
-msgstr "Žádná skladba se nepřehrává"
+msgstr "재생 중인 곡 없음"
 
 #: collection/savedgroupingmanager.cpp:89 dialogs/edittagdialog.cpp:819
 #: dialogs/edittagdialog.cpp:826 ../build/src/ui_groupbydialog.h:191
 #: ../build/src/ui_groupbydialog.h:213 ../build/src/ui_groupbydialog.h:235
 msgid "None"
-msgstr "Žádná"
+msgstr "없음"
 
 #: core/mainwindow.cpp:2665 core/mainwindow.cpp:2816
 #: collection/collectionview.cpp:702
 msgid "None of the selected songs were suitable for copying to a device"
-msgstr "Žádná z vybraných písní nebyla vhodná ke zkopírování do zařízení"
+msgstr "선택한 음악을 장치에 복사하기에 적합하지 않음"
 
 #: moodbar/moodbarrenderer.cpp:167
 msgid "Normal"
-msgstr "Normální"
+msgstr "일반"
 
 #: ../build/src/ui_transcoderoptionsaac.h:143
 msgid "Normal block type"
-msgstr "Běžný typ bloku"
+msgstr "일반 블록 형식"
 
 #: qobuz/qobuzservice.cpp:536 qobuz/qobuzservice.cpp:586
 #: qobuz/qobuzservice.cpp:636
 msgid "Not authenticated with Qobuz."
-msgstr "Nejste přihlášeni ke službě Qobuz."
+msgstr "Qobuz에 인증되지 않았습니다."
 
 #: tidal/tidalservice.cpp:719
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
-msgstr ""
-"Nejste přihlášeni k Tidal a byl dosažen maximální počet pokusů o přihlášení."
+msgstr "Tidal에 인증되지 않았으며 최대 로그인 시도 횟수에 도달했습니다."
 
 #: tidal/tidalservice.cpp:741 tidal/tidalservice.cpp:796
 #: tidal/tidalservice.cpp:851 tidal/tidalservice.cpp:914
 #: tidal/tidalservice.cpp:978 tidal/tidalstreamurlrequest.cpp:83
 msgid "Not authenticated with Tidal."
-msgstr "Nejste přihlášeni k Tidal."
+msgstr "Tidal에 인증되지 않았습니다."
 
 #: device/deviceview.cpp:131
 msgid "Not connected"
-msgstr "Nepřipojeno"
+msgstr "연결되지 않음"
 
 #: dialogs/edittagdialog.cpp:1438
 msgid "Not found."
@@ -3520,68 +3493,66 @@ msgstr ""
 
 #: device/deviceview.cpp:135
 msgid "Not mounted - double click to mount"
-msgstr "Nepřipojeno - dvojitým klepnutím připojíte"
+msgstr "마운트되지 않음 - 마운트하려면 두 번 클릭"
 
 #: ../build/src/ui_notificationssettingspage.h:477
 msgid "Notification type"
-msgstr "Druh oznámení"
+msgstr "알림 종류"
 
 #: ../build/src/ui_notificationssettingspage.h:415
 msgid "Notifications"
-msgstr "Oznámení"
+msgstr "알림"
 
 #: ../build/src/ui_albumcoverexport.h:207
 msgid "O&verwrite all"
-msgstr "Přeps&at vše"
+msgstr "모두 덮어쓰기(&V)"
 
 #: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
-msgstr "Náhled OSD"
+msgstr "OSD 미리 보기"
 
 #: osd/osdbase.cpp:270
 msgid "Off"
-msgstr "Vypnuto"
+msgstr "꺼짐"
 
 #: dialogs/snapdialog.cpp:58
 #, qt-format
 msgid ""
 "Official releases are available for Debian and Ubuntu which also work on "
 "most of their derivatives. See %1 for more information."
-msgstr ""
-"Jsou dostupná oficiální vydání pro Debian a Ubuntu. Tato vydání také fungují "
-"s většinou jejich derivátů. Navštivte %1 pro více informací."
+msgstr "공식 릴리즈가 데비안, 우분투 혹은 파생 배포판에서 제공됩니다. %1을 참조하십시오."
 
 #: osd/osdbase.cpp:270
 msgid "On"
-msgstr "Zapnuto"
+msgstr "켜짐"
 
 #: ../build/src/ui_behavioursettingspage.h:285
 msgid "On startup"
-msgstr "Při startu"
+msgstr "시작할 때"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:139
 msgid "Only show the first"
-msgstr "Zobrazit pouze první"
+msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:548
 msgid "Opacity"
-msgstr "Neprůhlednost"
+msgstr "불투명도"
 
 #: scrobbler/scrobblingapi20.cpp:211
 msgid "Open URL in web browser?"
-msgstr "Otevřít URL v prohlížeči?"
+msgstr "웹 브라우저에서 URL을 여시겠습니까?"
 
 #: transcoder/transcodedialog.cpp:341
 msgid "Open a directory to import music from"
-msgstr "Otevřít adresář a zavést hudbu v něm"
+msgstr "음악을 가져올 폴더 선택"
 
 #: ../build/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
-msgstr "Otevřít zvukové CD"
+msgstr "오디오 CD 열기(&C)..."
 
 #: ../build/src/ui_deviceproperties.h:384
 msgid "Open device"
-msgstr "Otevřít zařízení"
+msgstr "장치 열기"
 
 #: radios/radioview.cpp:81
 msgid "Open homepage"
@@ -3593,21 +3564,21 @@ msgstr ""
 #: internet/internetcollectionview.cpp:318 radios/radioview.cpp:77
 #: device/deviceview.cpp:246 ../build/src/ui_behavioursettingspage.h:307
 msgid "Open in new playlist"
-msgstr "Otevřít v novém seznamu skladeb"
+msgstr "새 재생 목록에서 열기"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:270
 #: ../build/src/ui_globalshortcutssettingspage.h:272
 #: ../build/src/ui_globalshortcutssettingspage.h:279
 msgid "Open..."
-msgstr "Otevřít..."
+msgstr "열기..."
 
 #: ../build/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
-msgstr "Optimal&izovat pro datový tok"
+msgstr "비트 전송률 최적화(&M)"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
-msgstr "Optimalizovat pro &kvalitu"
+msgstr "품질 최적화(&Q)"
 
 #: ../build/src/ui_backendsettingspage.h:678
 msgid "Options"
@@ -3615,7 +3586,7 @@ msgstr ""
 
 #: ../build/src/ui_transcodedialog.h:229
 msgid "Options..."
-msgstr "Volby..."
+msgstr "옵션..."
 
 #: ../build/src/ui_transcodersettingspage.h:190
 msgid "Opus"
@@ -3623,15 +3594,15 @@ msgstr "Opus"
 
 #: ../build/src/ui_organizedialog.h:260
 msgid "Organize Files"
-msgstr "Uspořádat Soubory"
+msgstr ""
 
 #: core/mainwindow.cpp:758 collection/collectionview.cpp:380
 msgid "Organize files..."
-msgstr "Uspořádat soubory..."
+msgstr ""
 
 #: organize/organize.cpp:106
 msgid "Organizing files"
-msgstr "Organizace souborů"
+msgstr ""
 
 #: playlist/playlist.cpp:1381
 msgid "Original Year"
@@ -3639,18 +3610,18 @@ msgstr ""
 
 #: dialogs/trackselectiondialog.cpp:192
 msgid "Original tags"
-msgstr "Původní značky"
+msgstr "원본 태그"
 
 #: collection/savedgroupingmanager.cpp:122 organize/organizedialog.cpp:115
 #: ../build/src/ui_groupbydialog.h:202 ../build/src/ui_groupbydialog.h:224
 #: ../build/src/ui_groupbydialog.h:246
 msgid "Original year"
-msgstr "Původní rok"
+msgstr "원본 년도"
 
 #: collection/savedgroupingmanager.cpp:110 ../build/src/ui_groupbydialog.h:203
 #: ../build/src/ui_groupbydialog.h:225 ../build/src/ui_groupbydialog.h:247
 msgid "Original year - Album"
-msgstr "Původní rok - Album"
+msgstr "원본 년도 - 앨범"
 
 #: collection/savedgroupingmanager.cpp:113
 msgid "Original year - Album - Disc"
@@ -3658,16 +3629,16 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:240
 msgid "Other options"
-msgstr "Další volby"
+msgstr "기타 옵션"
 
 #: ../build/src/ui_albumcoverexport.h:201
 #: ../build/src/ui_backendsettingspage.h:671
 msgid "Output"
-msgstr "Výstup"
+msgstr "출력"
 
 #: ../build/src/ui_transcodedialog.h:227
 msgid "Output options"
-msgstr "Možnosti výstupu"
+msgstr "저장 옵션"
 
 #: ../build/src/ui_collectionsettingspage.h:461
 msgid "Overwrite database playcount when songs are re-read from disk"
@@ -3679,27 +3650,27 @@ msgstr ""
 
 #: ../build/src/ui_coverssettingspage.h:325
 msgid "Overwrite existing file"
-msgstr "Přepsat existující soubor"
+msgstr "기존 파일 덮어쓰기"
 
 #: ../build/src/ui_organizedialog.h:278
 msgid "Overwrite existing files"
-msgstr "Přepsat existující soubory"
+msgstr "기존 파일 덮어쓰기"
 
 #: ../build/src/ui_albumcoverexport.h:208
 msgid "Overwrite s&maller ones only"
-msgstr "Přepsat pouze menší"
+msgstr "더 작은 것만 덮어쓰기(&M)"
 
 #: ../build/src/ui_mainwindow.h:733
 msgid "P&laylist"
-msgstr "Seznam sklad&eb"
+msgstr "재생 목록(&L)"
 
 #: device/udisks2lister.cpp:122
 msgid "Partition label"
-msgstr "Štítek oddílu"
+msgstr "파티션 레이블"
 
 #: equalizer/equalizer.cpp:148
 msgid "Party"
-msgstr "Oslava"
+msgstr "파티"
 
 #: ../build/src/ui_networkproxysettingspage.h:180
 #: ../build/src/ui_userpassdialog.h:93
@@ -3707,7 +3678,7 @@ msgstr "Oslava"
 #: ../build/src/ui_tidalsettingspage.h:326
 #: ../build/src/ui_qobuzsettingspage.h:282
 msgid "Password"
-msgstr "Heslo"
+msgstr "암호"
 
 #: ../build/src/ui_edittagdialog.h:902
 msgid "Path"
@@ -3720,15 +3691,15 @@ msgstr ""
 #: core/mainwindow.cpp:1366 core/mainwindow.cpp:1892
 #: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Pause"
-msgstr "Pozastavit"
+msgstr "일시 정지"
 
 #: core/commandlineoptions.cpp:222
 msgid "Pause playback"
-msgstr "Pozastavit přehrávání"
+msgstr "재생 일시 정지"
 
 #: osd/osdbase.cpp:211 osd/osdbase.cpp:214
 msgid "Paused"
-msgstr "Pozastaveno"
+msgstr "일시 정지됨"
 
 #: ../build/src/ui_collectionsettingspage.h:438
 msgid ""
@@ -3745,21 +3716,21 @@ msgstr ""
 #: ../build/src/ui_groupbydialog.h:227 ../build/src/ui_groupbydialog.h:249
 #: ../build/src/ui_edittagdialog.h:929
 msgid "Performer"
-msgstr "Účinkující"
+msgstr "연주가"
 
 #: ../build/src/ui_albumcoverexport.h:212
 msgid "Pixel"
-msgstr "Pixel"
+msgstr "픽셀"
 
 #: widgets/fancytabwidget.cpp:730
 msgid "Plain sidebar"
-msgstr "Prostý postranní panel"
+msgstr "일반 사이드바"
 
 #: core/mainwindow.cpp:727 core/mainwindow.cpp:1319 core/mainwindow.cpp:1350
 #: core/mainwindow.cpp:1896 core/qtsystemtrayicon.cpp:160
 #: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:61
 msgid "Play"
-msgstr "Přehrát"
+msgstr "재생"
 
 #: playlist/playlist.cpp:1388
 msgid "Play Count"
@@ -3767,15 +3738,15 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:553
 msgid "Play control buttons"
-msgstr "Tlačítka pro ovládání přehrávání"
+msgstr ""
 
 #: ../build/src/ui_edittagdialog.h:896
 msgid "Play count"
-msgstr "Počet přehrání"
+msgstr "재생 횟수"
 
 #: ../build/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
-msgstr ""
+msgstr "재생 횟수"
 
 #: core/commandlineoptions.cpp:239
 msgid "Play given playlist"
@@ -3783,20 +3754,20 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:221
 msgid "Play if stopped, pause if playing"
-msgstr "Přehrát, pokud je zastaveno, pozastavit, pokud je přehráváno"
+msgstr "정지 상태라면 재생, 재생 상태라면 일시 정지"
 
 #: ../build/src/ui_behavioursettingspage.h:297
 #: ../build/src/ui_behavioursettingspage.h:311
 msgid "Play if there is nothing already playing"
-msgstr "Hrát, pokud se již něco nepřehrává"
+msgstr "재생 중인 곡이 없다면 재생"
 
 #: smartplaylists/smartplaylistsviewcontainer.cpp:71
 msgid "Play next"
-msgstr "Přehrát další"
+msgstr "다음 재생"
 
 #: core/commandlineoptions.cpp:238
 msgid "Play the <n>th track in the playlist"
-msgstr "Přehrát <n>. skladbu v seznamu se skladbami"
+msgstr "재생 목록의 <n>번째 곡 재생"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Play/Pause"
@@ -3810,44 +3781,42 @@ msgstr ""
 #: dialogs/lastfmimportdialog.cpp:161
 #, qt-format
 msgid "Playcounts for %1 songs received."
-msgstr "Hodnota \"Počet přehrání\" pro %1 skladeb byla přijata."
+msgstr ""
 
 #: core/commandlineoptions.cpp:219
 msgid "Player options"
-msgstr "Nastavení přehrávače"
+msgstr "재생기 옵션"
 
 #: playlist/playlistcontainer.cpp:370 playlist/playlistlistcontainer.cpp:276
 #: playlist/playlistlistcontainer.cpp:386 playlist/playlistmanager.cpp:109
 #: playlist/playlistmanager.cpp:191 playlist/playlistmanager.cpp:539
 #: playlist/playlisttabbar.cpp:433 ../build/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
-msgstr "Seznam skladeb"
+msgstr "재생 목록"
 
 #: ../build/src/ui_appearancesettingspage.h:551
 msgid "Playlist buttons"
-msgstr "Tlačítka playlistů"
+msgstr ""
 
 #: osd/osdbase.cpp:278
 msgid "Playlist finished"
-msgstr "Seznam skladeb dokončen"
+msgstr "재생 목록 끝남"
 
 #: core/mainwindow.cpp:2366
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
 "playlist?"
-msgstr ""
-"Seznam skladeb obsahuje %1 skladeb. Jste si jisti že chcete seznam vyčistit? "
-"Nelze to vrátit zpátky!"
+msgstr "재생 목록에 %1곡이 있습니다. 실행 취소하기에는 너무 큽니다. 재생 목록을 비우시겠습니까?"
 
 #: playlist/playlistlistcontainer.cpp:381
 msgid "Playlist must be open first."
-msgstr "Seznam skladeb musí být nejdřív otevřen."
+msgstr ""
 
 #: core/commandlineoptions.cpp:234
 #: ../build/src/ui_playlistsaveoptionsdialog.h:92
 msgid "Playlist options"
-msgstr "Nastavení seznamu skladeb"
+msgstr "재생 목록 옵션"
 
 #: ../build/src/ui_appearancesettingspage.h:557
 msgid "Playlist playing song color"
@@ -3855,58 +3824,58 @@ msgstr ""
 
 #: smartplaylists/smartplaylistwizard.cpp:81
 msgid "Playlist type"
-msgstr "Typ seznamu skladeb"
+msgstr ""
 
 #: core/mainwindow.cpp:376
 msgid "Playlists"
-msgstr "Seznamy skladeb"
+msgstr "재생 목록"
 
 #: ../data/html/oauthsuccess.html:38
 msgid "Please close your browser and return to Strawberry."
-msgstr "Zavřete, prosím, svůj prohlížeč a vraťte se do Strawberry."
+msgstr "브라우저를 닫고 Strawberry로 돌아오십시오."
 
 #: covermanager/spotifycoverprovider.cpp:149
 #: lyrics/geniuslyricsprovider.cpp:120 scrobbler/listenbrainzscrobbler.cpp:190
 msgid "Please open this URL in your browser"
-msgstr "Prosím navštivte tuto adresu URL ve vašem prohlížeči."
+msgstr "웹 브라우저에서 다음 URL을 여십시오"
 
 #: equalizer/equalizer.cpp:149
 msgid "Pop"
-msgstr "Pop"
+msgstr "팝"
 
 #: ../build/src/ui_notificationssettingspage.h:483
 msgid "Popup duration"
-msgstr "Doba zobrazení oznámení"
+msgstr "팝업 시간"
 
 #: ../build/src/ui_networkproxysettingspage.h:177
 msgid "Port"
-msgstr "Port"
+msgstr "포트"
 
 #: ../build/src/ui_appearancesettingspage.h:535
 msgid "Position"
-msgstr "Pozice"
+msgstr "위치"
 
 #: equalizer/equalizer.cpp:66 ../build/src/ui_backendsettingspage.h:699
 msgid "Pre-amp"
-msgstr "Předzesílení"
+msgstr "프리앰프"
 
 #: ../build/src/ui_scrobblersettingspage.h:408
 msgid "Prefer album artist when sending scrobbles"
-msgstr "Preferovat autory alb při odesílání na server"
+msgstr "스크로블을 보낼 때 앨범 아티스트 선호"
 
 #: ../build/src/ui_subsonicsettingspage.h:252
 #: ../build/src/ui_tidalsettingspage.h:328
 #: ../build/src/ui_qobuzsettingspage.h:285
 msgid "Preferences"
-msgstr "Nastavení"
+msgstr "설정"
 
 #: ../build/src/ui_collectionsettingspage.h:441
 msgid "Preferred album art filenames (comma separated)"
-msgstr "Upřednostňované názvy souborů s obaly alb (oddělené čárkou)"
+msgstr "선호하는 앨범아트 파일 이름(쉼표로 구분)"
 
 #: ../build/src/ui_deviceproperties.h:382
 msgid "Preferred format"
-msgstr "Upřednostňovaný formát"
+msgstr "선호하는 형식"
 
 #: playlist/playlistcontainer.cpp:129
 msgid ""
@@ -3917,43 +3886,39 @@ msgstr ""
 #: collection/collectionfilterwidget.cpp:80
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
-msgstr ""
-"Zadejte jméno pole před slovo abyste limitovali vyhledávání na zadané pole, "
-"např.:"
+msgstr "검색어 앞에 필드 이름을 입력하면 해당 필드에서만 검색합니다. 예:"
 
 #: core/songloader.cpp:151
 msgid "Preload function was not set for blocking operation."
-msgstr "Funkce přednačítání nebyla nastavena pro operaci blokování."
+msgstr "차단하는 작업의 프리로드 함수를 설정하지 않았습니다."
 
 #: ../build/src/ui_equalizer.h:167
 msgid "Preset:"
-msgstr "Předvolba:"
+msgstr "사전 설정:"
 
 #: scrobbler/scrobblingapi20.cpp:211
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
-msgstr ""
-"Klikněte na \"Uložit\" pro zkopírování URL do schránky a ruční otevření v "
-"prohlížeči."
+msgstr "클립보드에 URL을 복사하고 웹 브라우저에서 직접 열려면 \"저장\"을 누르십시오."
 
 #: ../build/src/ui_globalshortcutgrabber.h:69
 msgid "Press a key"
-msgstr "Stiskněte klávesu"
+msgstr "키를 누르십시오"
 
 #: globalshortcuts/globalshortcutgrabber.cpp:57
 #: ../build/src/ui_globalshortcutgrabber.h:70
 #, qt-format
 msgid "Press a key combination to use for %1..."
-msgstr "Stiskněte klávesovou zkratku, která se použije pro %1..."
+msgstr "%1에 사용할 단축키를 누르십시오..."
 
 #: ../build/src/ui_behavioursettingspage.h:300
 msgid "Pressing \"Previous\" in player will..."
-msgstr "Po stisknutí Předchozí v přehrávači nastane..."
+msgstr "재생기에서 \"이전\"을 눌렀을 때..."
 
 #: ../build/src/ui_notificationssettingspage.h:504
 msgid "Pretty OSD options"
-msgstr "Možnosti vzhledu OSD"
+msgstr "예쁜 OSD 옵션"
 
 #: ../build/src/ui_smartplaylistsearchpreview.h:102
 #: ../build/src/ui_contextsettingspage.h:442
@@ -3961,28 +3926,28 @@ msgstr "Možnosti vzhledu OSD"
 #: ../build/src/ui_notificationssettingspage.h:493
 #: ../build/src/ui_organizedialog.h:280
 msgid "Preview"
-msgstr "Náhled"
+msgstr "미리 보기"
 
 #: dialogs/edittagdialog.cpp:228 dialogs/trackselectiondialog.cpp:69
 msgid "Previous"
-msgstr "Předchozí"
+msgstr "이전"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:67
 #: ../build/src/ui_mainwindow.h:610
 msgid "Previous track"
-msgstr "Předchozí skladba"
+msgstr "이전 트랙"
 
 #: core/commandlineoptions.cpp:247
 msgid "Print out version information"
-msgstr "Vypsat informaci o verzi"
+msgstr "버전 정보 표시"
 
 #: ../build/src/ui_transcoderoptionsaac.h:134
 msgid "Profile"
-msgstr "Profil"
+msgstr "프로필"
 
 #: ../build/src/ui_transcodedialog.h:234
 msgid "Progress"
-msgstr "Průběh"
+msgstr "진행"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:135
 msgid "Put songs in a random order"
@@ -4005,42 +3970,42 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
-msgstr "Kvalita"
+msgstr "음질"
 
 #: ../build/src/ui_deviceproperties.h:385
 msgid "Querying device..."
-msgstr "Dotazování se zařízení..."
+msgstr "장치 질의 중..."
 
 #: core/mainwindow.cpp:375
 msgid "Queue"
-msgstr "Fronta"
+msgstr "대기열"
 
 #: core/mainwindow.cpp:1994
 msgid "Queue selected tracks"
-msgstr "Přidat vybrané skladby do řady"
+msgstr "선택한 트랙을 대기열에 추가"
 
 #: core/mainwindow.cpp:733 core/mainwindow.cpp:1998
 msgid "Queue selected tracks to play next"
-msgstr "Přidat vybrané skladby do fronty"
+msgstr "선택한 트랙을 다음에 재생하도록 대기열에 추가"
 
 #: core/mainwindow.cpp:2001 collection/collectionview.cpp:373
 #: internet/internetcollectionview.cpp:322
 msgid "Queue to play next"
-msgstr "Do fronty jako další"
+msgstr "다음에 재생할 대기열에 추가"
 
 #: core/mainwindow.cpp:1993 collection/collectionview.cpp:372
 #: smartplaylists/smartplaylistsviewcontainer.cpp:70
 #: internet/internetsearchview.cpp:321 internet/internetcollectionview.cpp:321
 msgid "Queue track"
-msgstr "Přidat skladbu do řady"
+msgstr "대기열에 트랙 추가"
 
 #: ../build/src/ui_queueview.h:123
 msgid "QueueView"
-msgstr "Zobrazení fronty"
+msgstr "대기열 보기"
 
 #: ../build/src/ui_backendsettingspage.h:696
 msgid "Radio (equal loudness for all tracks)"
-msgstr "Rádio (shodná hlasitost pro všechny skladby)"
+msgstr "라디오(모든 트랙을 같은 음량으로)"
 
 #: ../build/src/ui_scrobblersettingspage.h:420
 msgid "Radio Paradise"
@@ -4056,15 +4021,15 @@ msgstr ""
 
 #: playlist/playlist.cpp:1406 ../build/src/ui_edittagdialog.h:932
 msgid "Rating"
-msgstr "Hodnocení"
+msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:193
 msgid "Re&lative"
-msgstr "Re&lativní"
+msgstr "상대 경로(&L)"
 
 #: covermanager/albumcovermanager.cpp:259
 msgid "Really cancel?"
-msgstr "Opravdu zrušit?"
+msgstr "정말로 취소하시겠습니까?"
 
 #: tidal/tidalstreamurlrequest.cpp:222
 #, qt-format
@@ -4082,7 +4047,7 @@ msgstr ""
 #: covermanager/spotifycoverprovider.cpp:198
 #: lyrics/geniuslyricsprovider.cpp:148 scrobbler/listenbrainzscrobbler.cpp:216
 msgid "Received invalid reply from web browser."
-msgstr "Obdržena špatná odpověď od prohlížeče."
+msgstr "웹 브라우저에서 잘못된 응답을 받았습니다."
 
 #: scrobbler/scrobblingapi20.cpp:258
 msgid "Received invalid reply from web browser. Try another browser."
@@ -4151,15 +4116,15 @@ msgstr ""
 
 #: lyrics/geniuslyricsprovider.cpp:192
 msgid "Redirect from Genius is missing query items code or state."
-msgstr "Přesměrování z Genius chybí kód položek dotazu nebo stav."
+msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:194
 msgid "Redirect missing token code or state!"
-msgstr "Přesměrování chybí kód tokenu nebo stav!"
+msgstr ""
 
 #: lyrics/geniuslyricsprovider.cpp:144 scrobbler/listenbrainzscrobbler.cpp:212
 msgid "Redirect missing token code!"
-msgstr "Přesměrování chybí kód tokenu!"
+msgstr "넘겨주기 응답에 토큰 코드가 없습니다!"
 
 #: playlist/playlistcontainer.cpp:256
 msgid "Redo"
@@ -4167,7 +4132,7 @@ msgstr ""
 
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
-msgstr "Obnovit katalog"
+msgstr "카탈로그 새로 고침"
 
 #: radios/radioview.cpp:89
 msgid "Refresh channels"
@@ -4175,84 +4140,84 @@ msgstr ""
 
 #: equalizer/equalizer.cpp:150
 msgid "Reggae"
-msgstr "Reggae"
+msgstr "레게"
 
 #: playlist/playlistsaveoptionsdialog.cpp:41
 msgid "Relative"
-msgstr "Relativní"
+msgstr "상대 경로"
 
 #: ../build/src/ui_behavioursettingspage.h:286
 msgid "Remember from &last time"
-msgstr "&Obnovit předchozí stav"
+msgstr "마지막으로 사용한 값 기억(&L)"
 
 #: ../build/src/ui_playlistsaveoptionsdialog.h:97
 msgid "Remember my choice"
-msgstr "Zapamatovat si moji volbu"
+msgstr "내 선택 기억"
 
 #: ../build/src/ui_savedgroupingmanager.h:103 ../build/src/ui_queueview.h:137
 #: ../build/src/ui_transcodedialog.h:222
 msgid "Remove"
-msgstr "Odstranit"
+msgstr "삭제"
 
 #: ../build/src/ui_mainwindow.h:707
 msgid "Remove &duplicates from playlist"
-msgstr "Odstranit &duplikáty ze seznamu skladeb"
+msgstr "재생 목록에서 중복 항목 삭제(&D)"
 
 #: ../build/src/ui_mainwindow.h:708
 msgid "Remove &unavailable tracks from playlist"
-msgstr "Odstranit &nedostupné skladby ze seznamu skladeb"
+msgstr "재생 목록에서 사용할 수 없는 트랙 삭제(&U)"
 
 #: ../build/src/ui_collectionsettingspage.h:432
 msgid "Remove folder"
-msgstr "Odstranit složku"
+msgstr "폴더 삭제"
 
 #: internet/internetcollectionview.cpp:327
 msgid "Remove from favorites"
-msgstr "Odstranit z oblíbených"
+msgstr "즐겨찾기에서 삭제"
 
 #: ../build/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
-msgstr "Odstranit ze seznamu skladeb"
+msgstr "재생 목록에서 제거"
 
 #: playlist/playlisttabbar.cpp:228
 msgid "Remove playlist"
-msgstr "Odstranit seznam skladeb"
+msgstr "재생 목록 삭제"
 
 #: playlist/playlistlistcontainer.cpp:428
 msgid "Remove playlists"
-msgstr "Odstranit seznamy skladeb"
+msgstr "재생 목록 삭제"
 
 #: ../build/src/ui_organizedialog.h:273
 msgid "Remove problematic characters from filenames"
-msgstr "Odstranit problémové znaky z názvů souborů"
+msgstr ""
 
 #: playlist/playlisttabbar.cpp:180
 msgid "Rename playlist"
-msgstr "Přejmenovat seznam skladeb"
+msgstr "재생 목록 이름 바꾸기"
 
 #: playlist/playlisttabbar.cpp:80
 msgid "Rename playlist..."
-msgstr "Přejmenovat seznam skladeb..."
+msgstr "재생 목록 이름 바꾸기..."
 
 #: ../build/src/ui_mainwindow.h:646
 msgid "Renumber tracks in this order..."
-msgstr "Přečíslovat skladby v tomto pořadí..."
+msgstr "다음 순서로 트랙 번호 다시 매기기..."
 
 #: ../build/src/ui_playlistsequence.h:119
 msgid "Repeat"
-msgstr "Opakovat"
+msgstr "반복"
 
 #: osd/osdbase.cpp:364 ../build/src/ui_playlistsequence.h:110
 msgid "Repeat album"
-msgstr "Opakovat album"
+msgstr "앨범 반복"
 
 #: osd/osdbase.cpp:365 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat playlist"
-msgstr "Opakovat seznam skladeb"
+msgstr "재생 목록 반복"
 
 #: osd/osdbase.cpp:363 ../build/src/ui_playlistsequence.h:109
 msgid "Repeat track"
-msgstr "Opakovat skladbu"
+msgstr "한 곡 반복"
 
 #: collection/collectionview.cpp:368
 #: smartplaylists/smartplaylistsviewcontainer.cpp:66
@@ -4260,51 +4225,51 @@ msgstr "Opakovat skladbu"
 #: internet/internetcollectionview.cpp:317 radios/radioview.cpp:73
 #: device/deviceview.cpp:245
 msgid "Replace current playlist"
-msgstr "Nahradit současný seznam skladeb"
+msgstr "현재 재생 목록 대체"
 
 #: ../build/src/ui_coverssettingspage.h:327
 msgid "Replace spaces with dashes"
-msgstr "Nahradit mezery pomlčkami"
+msgstr "공백을 줄표로 대체"
 
 #: ../build/src/ui_organizedialog.h:277
 msgid "Replace spaces with underscores"
-msgstr "Nahradit mezery podtržítky"
+msgstr "공백을 밑줄로 대체"
 
 #: ../build/src/ui_behavioursettingspage.h:306
 msgid "Replace the playlist"
-msgstr "Nahradit seznam skladeb"
+msgstr "재생 목록 대체"
 
 #: ../build/src/ui_backendsettingspage.h:693
 msgid "Replay Gain"
-msgstr "Zesílení přehrávaných skladeb"
+msgstr "리플레이게인"
 
 #: ../build/src/ui_backendsettingspage.h:695
 msgid "Replay Gain mode"
-msgstr "Režim zesílení přehrávaných skladeb"
+msgstr "리플레이게인 모드"
 
 #: tidal/tidalservice.cpp:372
 msgid "Reply from Tidal is missing query items."
-msgstr "Odpověď od Tidal neobsahuje dotazové položky."
+msgstr "Tidal 응답에 쿼리 항목이 없습니다."
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:108
 msgid "Repopulate"
-msgstr ""
+msgstr "다시 가져오기"
 
 #: collection/collectionview.cpp:393
 msgid "Rescan song(s)"
-msgstr "Prohledat skladbu"
+msgstr "노래 다시 검색"
 
 #: core/mainwindow.cpp:749
 msgid "Rescan song(s)..."
-msgstr ""
+msgstr "다시 곡 검색"
 
 #: widgets/lineedit.cpp:68
 msgid "Reset"
-msgstr "Obnovit výchozí"
+msgstr "초기화"
 
 #: ../build/src/ui_edittagdialog.h:910
 msgid "Reset play counts"
-msgstr "Vynulovat počty přehrání"
+msgstr "재생 횟수 초기화"
 
 #: dialogs/edittagdialog.cpp:1334
 msgid "Reset song play statistics"
@@ -4316,84 +4281,80 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:302
 msgid "Restart song, then jump to previous if pressed again"
-msgstr ""
-"Spustit píseň znovu, potom, v případě že je tlačítko opět stisknuto, skočit "
-"na předchozí"
+msgstr "트랙을 다시 시작하고 다시 누르면 이전 트랙을 재생합니다"
 
 #: core/commandlineoptions.cpp:233
 msgid ""
 "Restart the track, or play the previous track if within 8 seconds of start."
-msgstr ""
-"Spustit znovu přehrávání skladby, nebo přehrávat předchozí skladbu, jestliže "
-"ještě neuběhlo osm sekund od začátku skladby."
+msgstr "트랙을 다시 시작하거나, 재생한 지 8초 이내라면 이전 트랙을 재생합니다."
 
 #: ../build/src/ui_organizedialog.h:275
 msgid "Restrict characters to ASCII"
-msgstr "Omezit na ASCII znaky"
+msgstr "ASCII로 글자 제한"
 
 #: ../build/src/ui_organizedialog.h:274
 msgid "Restrict to characters allowed on FAT filesystems"
-msgstr "Omezit na znaky dostupné na FAT systémech souborů"
+msgstr "FAT 파일 시스템에서 사용할 수 있는 글자로 제한"
 
 #: ../build/src/ui_behavioursettingspage.h:283
 msgid "Resume playback on start"
-msgstr "Obnovit přehrávání při spuštění"
+msgstr "시작할 때 재생 다시 시작"
 
 #: subsonic/subsonicrequest.cpp:688
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
-msgstr "Načítání obalů alb pro %1 album..."
+msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
 #: subsonic/subsonicrequest.cpp:689
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr "Načítání obalů alb pro %1 alb..."
+msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
 #: subsonic/subsonicrequest.cpp:125
 msgid "Retrieving albums..."
-msgstr "Načítání alb..."
+msgstr "앨범 가져오는 중..."
 
 #: subsonic/subsonicrequest.cpp:314
 #, qt-format
 msgid "Retrieving songs for %1 album..."
-msgstr "Načítání skladeb z %1 alba..."
+msgstr "앨범 %1개의 노래 가져오는 중..."
 
 #: subsonic/subsonicrequest.cpp:315
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
-msgstr "Načítání skladeb z %1 alb..."
+msgstr "앨범 %1개의 노래 가져오는 중..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
-msgstr "Návrat do Strawberry"
+msgstr "Strawberry로 되돌아가기"
 
 #: ../build/src/ui_equalizer.h:178
 msgid "Right"
-msgstr "Vpravo"
+msgstr "오른쪽"
 
 #: equalizer/equalizer.cpp:151
 msgid "Rock"
-msgstr "Rock"
+msgstr "록"
 
 #: ../build/src/ui_console.h:77
 msgid "Run"
-msgstr "Spustit"
+msgstr "실행"
 
 #: ../build/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
-msgstr "Z&amíchat seznam skladeb"
+msgstr "재생 목록 섞기(&H)"
 
 #: ../build/src/ui_networkproxysettingspage.h:175
 msgid "SOCKS proxy"
-msgstr "Proxy SOCKS"
+msgstr "SOCKS 프록시"
 
 #: device/deviceview.cpp:238
 msgid "Safely remove device"
-msgstr "Bezpečně odebrat zařízení"
+msgstr "안전하게 장치 제거"
 
 #: ../build/src/ui_organizedialog.h:282
 msgid "Safely remove the device after copying"
-msgstr "Po dokončení kopírování bezpečně odebrat zařízení"
+msgstr "복사 후 안전하게 장치 제거"
 
 #: playlist/playlist.cpp:1392
 msgid "Sample Rate"
@@ -4403,19 +4364,19 @@ msgstr ""
 #: ../build/src/ui_groupbydialog.h:208 ../build/src/ui_groupbydialog.h:230
 #: ../build/src/ui_groupbydialog.h:252 ../build/src/ui_edittagdialog.h:901
 msgid "Sample rate"
-msgstr "Vzorkovací kmitočet"
+msgstr "샘플링 레이트"
 
 #: context/contextview.cpp:164
 msgid "Samplerate"
-msgstr "Vzorkovací frekvence"
+msgstr "샘플링 레이트"
 
 #: ../build/src/ui_mainwindow.h:683
 msgid "Save &playlist..."
-msgstr "Uložit seznam skladeb..."
+msgstr "재생 목록 저장(&P)..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:243
 msgid "Save album cover"
-msgstr "Uložit obal alba"
+msgstr "앨범아트 저장"
 
 #: ../build/src/ui_coverssettingspage.h:320
 msgid "Save album covers as embedded cover"
@@ -4423,7 +4384,7 @@ msgstr ""
 
 #: ../build/src/ui_coverssettingspage.h:318
 msgid "Save album covers in album directory"
-msgstr "Ukládat obaly alb ve složce alba"
+msgstr "앨범아트를 앨범 디렉터리에 저장"
 
 #: ../build/src/ui_coverssettingspage.h:319
 msgid "Save album covers in cache directory"
@@ -4431,11 +4392,11 @@ msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:106
 msgid "Save cover to disk..."
-msgstr "Uložit obal na disk..."
+msgstr "디스크에 표지 저장..."
 
 #: ../build/src/ui_collectionfilterwidget.h:100
 msgid "Save current grouping"
-msgstr "Uložit nynější seskupení"
+msgstr "현재 그룹 저장"
 
 #: ../build/src/ui_collectionsettingspage.h:463
 msgid "Save playcounts and ratings to files now"
@@ -4448,20 +4409,20 @@ msgstr ""
 #: playlist/playlistlistcontainer.cpp:90
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
-msgstr "Uložit seznam skladeb"
+msgstr "재생 목록 저장"
 
 #: playlist/playlistmanager.cpp:256
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
-msgstr "Uložit seznam skladeb"
+msgstr "재생 목록 저장"
 
 #: playlist/playlisttabbar.cpp:81
 msgid "Save playlist..."
-msgstr "Uložit seznam skladeb..."
+msgstr "재생 목록 저장..."
 
 #: equalizer/equalizer.cpp:210 ../build/src/ui_equalizer.h:169
 msgid "Save preset"
-msgstr "Uložit předvolbu"
+msgstr "사전 설정 저장"
 
 #: ../build/src/ui_collectionsettingspage.h:460
 msgid "Save ratings to song tags when possible"
@@ -4469,15 +4430,15 @@ msgstr ""
 
 #: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Save the .mood files directly in the songs folders"
-msgstr "Ukládat .mood soubory přímo ve složkách skladeb"
+msgstr "노래 폴더에 .mood 파일 직접 저장"
 
 #: ../build/src/ui_savedgroupingmanager.h:101
 msgid "Saved Grouping Manager"
-msgstr "Spravce uložených seskupení"
+msgstr "그룹 관리자 저장됨"
 
 #: ../build/src/ui_coverssettingspage.h:316
 msgid "Saving album covers"
-msgstr "Ukládání obalů alb"
+msgstr "앨범아트 저장 중"
 
 #: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
@@ -4485,19 +4446,19 @@ msgstr ""
 
 #: dialogs/edittagdialog.cpp:308 dialogs/trackselectiondialog.cpp:289
 msgid "Saving tracks"
-msgstr "Ukládají se skladby"
+msgstr "트랙 저장 중"
 
 #: ../build/src/ui_transcoderoptionsaac.h:137
 msgid "Scalable sampling rate profile (SSR)"
-msgstr "Profil škálovatelného vzorkovacího kmitočtu"
+msgstr "확장 가능한 샘플링 레이트 프로필(SSR)"
 
 #: ../build/src/ui_albumcoverexport.h:210
 msgid "Scale size"
-msgstr "Velikost měřítka"
+msgstr "크기 조정"
 
 #: ../build/src/ui_scrobblersettingspage.h:398
 msgid "Scrobbler"
-msgstr "doporučování hudby"
+msgstr "스크로블러"
 
 #: scrobbler/scrobblingapi20.cpp:907
 #, qt-format
@@ -4507,44 +4468,44 @@ msgstr ""
 #: scrobbler/scrobblingapi20.cpp:458
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
-msgstr "Systém pro doporučování hudby %1 není přihlášen!"
+msgstr "스크로블러 %1이(가) 인증되지 않았습니다!"
 
 #: covermanager/albumcoversearcher.cpp:192
 #: covermanager/albumcoversearcher.cpp:210
 #: ../build/src/ui_albumcoversearcher.h:111
 #: ../build/src/ui_internettabsview.h:116
 msgid "Search"
-msgstr "Hledat"
+msgstr "검색"
 
 #: covermanager/albumcoverchoicecontroller.cpp:116
 msgid "Search automatically"
-msgstr "Hledat automaticky"
+msgstr "자동으로 검색"
 
 #: ../build/src/ui_tidalsettingspage.h:330
 #: ../build/src/ui_qobuzsettingspage.h:287
 msgid "Search delay"
-msgstr "Zpožděné vyhledávání"
+msgstr "검색 지연 시간"
 
 #: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Search for album covers..."
-msgstr "Hledat obaly alb..."
+msgstr "앨범아트 검색..."
 
 #: collection/collectionview.cpp:377 internet/internetsearchview.cpp:339
 msgid "Search for this"
-msgstr "Hledat toto"
+msgstr "다음 항목 검색"
 
 #: ../build/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
-msgstr ""
+msgstr "검색 모드"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid "Search options"
-msgstr ""
+msgstr "검색 옵션"
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:161
 #: ../build/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
-msgstr ""
+msgstr "검색 조건"
 
 #: collection/collectionfilterwidget.cpp:87 playlist/playlistcontainer.cpp:137
 #, qt-format
@@ -4557,15 +4518,15 @@ msgstr ""
 #: tidal/tidalrequest.cpp:397 qobuz/qobuzrequest.cpp:357
 #: qobuz/qobuzrequest.cpp:371 qobuz/qobuzrequest.cpp:385
 msgid "Searching..."
-msgstr "Vyhlevávání..."
+msgstr "검색 중..."
 
 #: collection/savedgroupingmanager.cpp:56
 msgid "Second Level"
-msgstr "Druhá úroveň"
+msgstr "두 번째 단계"
 
 #: ../build/src/ui_groupbydialog.h:212
 msgid "Second level"
-msgstr "Druhá úroveň"
+msgstr "두 번째 단계"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:72
 msgid "Seek backward"
@@ -4577,23 +4538,23 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:232
 msgid "Seek the currently playing track by a relative amount"
-msgstr "Přetočit v nyní přehrávané skladbě"
+msgstr "현재 재생 중인 트랙을 상대적 양만큼 이동"
 
 #: core/commandlineoptions.cpp:231
 msgid "Seek the currently playing track to an absolute position"
-msgstr "Skočit v nyní přehrávané skladbě na určité místo"
+msgstr "현재 재생 중인 트랙의 절대적 위치로 이동"
 
 #: ../build/src/ui_behavioursettingspage.h:318
 msgid "Seeking using a keyboard shortcut or mouse wheel"
-msgstr "Posunování pomocí klávesové zkratky nebo kolečka myši"
+msgstr "키보드 단축키 또는 마우스 휠을 사용하여 이동"
 
 #: settings/appearancesettingspage.cpp:300
 msgid "Select background image"
-msgstr "Vybrat obrázek na pozadí"
+msgstr "배경 그림 선택"
 
 #: ../build/src/ui_trackselectiondialog.h:206
 msgid "Select best possible match"
-msgstr "Vyberte nejlepší možnou shodu"
+msgstr "가장 유사한 일치 선택"
 
 #: ../build/src/ui_saveplaylistsdialog.h:118
 msgid "Select directory for saving playlists"
@@ -4608,13 +4569,12 @@ msgid "Select playlist playing song color:"
 msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:523
-#, fuzzy
 msgid "Select tabbar color:"
-msgstr "Vybrat barvu tabbar:"
+msgstr "탭 표시줄 색상 선택:"
 
 #: ../build/src/ui_transcodedialog.h:233
 msgid "Select..."
-msgstr "Vybrat..."
+msgstr "선택..."
 
 #: ../build/src/ui_groupbydialog.h:256
 msgid "Separate albums by grouping tag"
@@ -4622,28 +4582,28 @@ msgstr ""
 
 #: device/udisks2lister.cpp:120
 msgid "Serial number"
-msgstr "Sériové číslo"
+msgstr "일련 번호"
 
 #: ../build/src/ui_subsonicsettingspage.h:245
 msgid "Server URL"
-msgstr "URL serveru"
+msgstr "서버 URL"
 
 #: subsonic/subsonicservice.cpp:423 settings/subsonicsettingspage.cpp:136
 msgid "Server URL is invalid."
-msgstr "Adresa serveru není správná."
+msgstr "서버 URL이 잘못되었습니다."
 
 #: ../build/src/ui_subsonicsettingspage.h:256
 msgid "Server-side scrobbling"
-msgstr ""
+msgstr "서버 사이드 스크로블링"
 
 #: core/mainwindow.cpp:2034
 #, qt-format
 msgid "Set %1 to \"%2\"..."
-msgstr "Nastavit %1 na \"%2\"..."
+msgstr "%1을(를) \"%2\"(으)로 설정..."
 
 #: core/commandlineoptions.cpp:226
 msgid "Set the volume to <value> percent"
-msgstr "Nastavit hlasitost na <value> procent"
+msgstr "음량을 <value> 퍼센트로 설정"
 
 #: settings/coverssettingspage.cpp:426
 #, qt-format
@@ -4652,29 +4612,29 @@ msgstr ""
 
 #: ../build/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
-msgstr "Nastavit hodnotu pro vybrané skladby..."
+msgstr "선택한 모든 트랙의 값 설정..."
 
 #: ../build/src/ui_settingsdialog.h:114
 msgid "Settings"
-msgstr "Nastavení"
+msgstr "설정"
 
 #: ../build/src/ui_appearancesettingspage.h:518
 msgid "Settings require restart."
-msgstr ""
+msgstr "설정을 적용하려면 재시작이 필요합니다."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:281
 msgid "Shortcut"
-msgstr "Klávesová zkratka"
+msgstr "단축키"
 
 #: settings/globalshortcutssettingspage.cpp:294
 #: ../build/src/ui_globalshortcutssettingspage.h:283
 #, qt-format
 msgid "Shortcut for %1"
-msgstr "Klávesová zkratka pro %1"
+msgstr "%1 단축키"
 
 #: collection/collectionfilterwidget.cpp:123
 msgid "Show"
-msgstr "Ukázat"
+msgstr "표시"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:74
 msgid "Show OSD"
@@ -4682,61 +4642,59 @@ msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:479
 msgid "Show a &native desktop notification"
-msgstr "Zobrazit &nativní upozornění na ploše"
+msgstr "네이티브 데스크톱 알림 표시(&N)"
 
 #: ../build/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
 msgstr ""
 
 #: ../build/src/ui_moodbarsettingspage.h:94
-#, fuzzy
 msgid "Show a moodbar in the track progress bar"
-msgstr "Zobrazit Ukazatel nálady v progress baru"
+msgstr "트랙 진행 표시줄에 무드바 표시"
 
 #: ../build/src/ui_notificationssettingspage.h:487
 msgid "Show a notification when I change the repeat/shuffle mode"
-msgstr "Ukazovat oznámení při změně režimu opakování/míchání"
+msgstr "반복/셔플 모드 변경 시 알림 표시"
 
 #: ../build/src/ui_notificationssettingspage.h:486
 msgid "Show a notification when I change the volume"
-msgstr "Zobrazovat oznámení při změně hlasitosti"
+msgstr "음량을 변경할 때 알림 표시"
 
 #: ../build/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I pause playback"
-msgstr "Ukazovat oznámení při pozastavení přehrávání"
+msgstr "재생을 일시 정지할 때 알림 표시"
 
 #: ../build/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I resume playback"
-msgstr "Zobrazit oznámení při pokračování v přehrávání"
+msgstr "재생을 다시 시작할 때 알림 표시"
 
 #: ../build/src/ui_notificationssettingspage.h:481
-#, fuzzy
 msgid "Show a popup fro&m the system tray"
-msgstr "Ukázat popup &ze systémové lišty"
+msgstr "시스템 트레이에서 팝업 표시(&M)"
 
 #: ../build/src/ui_notificationssettingspage.h:480
 msgid "Show a pretty OSD"
-msgstr "Ukazovat OSD"
+msgstr "예쁜 OSD 표시"
 
 #: widgets/playingwidget.cpp:140
 msgid "Show above status bar"
-msgstr "Ukazovat nad stavovým řádkem"
+msgstr "상태 표시줄 위에 표시"
 
 #: context/contextview.cpp:259
 msgid "Show album cover"
-msgstr "Ukazovat obal alba"
+msgstr "앨범아트 보기"
 
 #: ../build/src/ui_collectionsettingspage.h:448
 msgid "Show album cover art in collection"
-msgstr "Ukazovat obaly alb v kolekci"
+msgstr "앨범 목록에 앨범아트 표시"
 
 #: core/mainwindow.cpp:675
 msgid "Show all songs"
-msgstr "Ukázat všechny písně"
+msgstr "모든 곡 표시"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
-msgstr ""
+msgstr "모든 곡 보기"
 
 #: ../build/src/ui_playlistsettingspage.h:179
 msgid "Show bars on the currently playing track"
@@ -4744,88 +4702,88 @@ msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:409
 msgid "Show dialog for errors"
-msgstr ""
+msgstr "에러 내용 보기"
 
 #: ../build/src/ui_collectionsettingspage.h:449
 msgid "Show dividers"
-msgstr "Ukazovat oddělovače"
+msgstr "구분자 표시"
 
 #: covermanager/albumcoverchoicecontroller.cpp:114
 msgid "Show fullsize..."
-msgstr "Ukázat v plné velikosti..."
+msgstr "전체 크기 표시..."
 
 #: core/mainwindow.cpp:756
 msgid "Show in collection..."
-msgstr "Ukazovat ve sbírce..."
+msgstr "라이브러리에 표시..."
 
 #: utilities/filemanagerutils.cpp:135 utilities/filemanagerutils.cpp:141
 msgid "Show in file browser"
-msgstr "Zobrazit v průzkumníku souborů"
+msgstr "파일 탐색기에 표시"
 
 #: core/mainwindow.cpp:757 collection/collectionview.cpp:389
 #: widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
-msgstr "Ukázat v prohlížeči souborů..."
+msgstr "파일 탐색기에 표시..."
 
 #: collection/collectionview.cpp:396
 msgid "Show in various artists"
-msgstr "Ukázat pod různými umělci"
+msgstr "편집 음반으로 표시"
 
 #: ../build/src/ui_scrobblersettingspage.h:403
 msgid "Show love button"
-msgstr "Zobrazit tlačítko To Miluju!"
+msgstr "좋아요 단추 표시"
 
 #: moodbar/moodbarproxystyle.cpp:371
 msgid "Show moodbar"
-msgstr "Zobrazit ukazatel nálady"
+msgstr "무드바 표시"
 
 #: core/mainwindow.cpp:676
 msgid "Show only duplicates"
-msgstr "Ukázat pouze zdvojené"
+msgstr "복사본만 표시"
 
 #: core/mainwindow.cpp:677
 msgid "Show only untagged"
-msgstr "Ukázat pouze neoznačené"
+msgstr "태그되지 않은 것만 표시"
 
 #: ../build/src/ui_behavioursettingspage.h:284
 msgid "Show playing widget"
-msgstr "Zobrazit widget s přehráváním"
+msgstr "재생 위젯 표시"
 
 #: ../build/src/ui_scrobblersettingspage.h:402
 msgid "Show scrobble button"
-msgstr "Zobrazit tlačítko pro doporučování hudby"
+msgstr "스크로블 단추 표시"
 
 #: ../build/src/ui_mainwindow.h:714
 msgid "Show sidebar"
-msgstr "Zobrazovat boční panel"
+msgstr "사이드바 표시"
 
 #: context/contextview.cpp:267
 msgid "Show song lyrics"
-msgstr "Zobrazovat texty skladeb"
+msgstr "노래 가사 표시"
 
 #: ../build/src/ui_behavioursettingspage.h:282
 msgid "Show song progress on system tray icon"
-msgstr ""
+msgstr "트레이 아이콘에 곡 재생 상황 표시"
 
 #: context/contextview.cpp:263
 msgid "Show song technical data"
-msgstr "Zobrazovat technická data"
+msgstr "노래의 기술적 데이터 표시"
 
 #: ../build/src/ui_behavioursettingspage.h:280
 msgid "Show system tray icon"
-msgstr "Zobrazovat ikonu v systémové oblasti"
+msgstr "시스템 트레이 아이콘 표시"
 
 #: ../build/src/ui_behavioursettingspage.h:287
 msgid "Show the main window"
-msgstr ""
+msgstr "메인 창 표시"
 
 #: ../build/src/ui_behavioursettingspage.h:289
 msgid "Show the main window maximized"
-msgstr ""
+msgstr "최대화 상태로 실행"
 
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Show the main window minimized"
-msgstr ""
+msgstr "최소화 상태로 실행"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:73
 msgid "Show/Hide"
@@ -4833,40 +4791,40 @@ msgstr ""
 
 #: ../build/src/ui_playlistsequence.h:122
 msgid "Shuffle"
-msgstr "Zamíchat"
+msgstr "셔플 재생"
 
 #: osd/osdbase.cpp:350 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle albums"
-msgstr "Zamíchat alba"
+msgstr "앨범 셔플"
 
 #: osd/osdbase.cpp:348 ../build/src/ui_playlistsequence.h:116
 msgid "Shuffle all"
-msgstr "Zamíchat vše"
+msgstr "모두 셔플"
 
 #: osd/osdbase.cpp:349 ../build/src/ui_playlistsequence.h:115
 msgid "Shuffle tracks in this album"
-msgstr "Zamíchat skladby na tomto albu"
+msgstr "이 앨범에 있는 곡만 셔플"
 
 #: ../build/src/ui_loginstatewidget.h:166
 msgid "Sign out"
-msgstr "Odhlásit"
+msgstr "로그아웃"
 
 #: ../build/src/ui_loginstatewidget.h:168
 msgid "Signing in..."
-msgstr "Přihlašuje se..."
+msgstr "로그인 중..."
 
 #: ../build/src/ui_albumcoverexport.h:209
 #: ../build/src/ui_collectionsettingspage.h:452
 msgid "Size"
-msgstr "Velikost"
+msgstr "크기"
 
 #: ../build/src/ui_albumcoverexport.h:211
 msgid "Size:"
-msgstr "Velikost:"
+msgstr "크기:"
 
 #: equalizer/equalizer.cpp:153
 msgid "Ska"
-msgstr "Ska"
+msgstr "스카"
 
 #: playlist/playlist.cpp:1389
 msgid "Skip Count"
@@ -4874,15 +4832,15 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:224
 msgid "Skip backwards in playlist"
-msgstr "Předchozí skladba v seznamu skladeb"
+msgstr "재생 목록의 이전 곡으로 전환"
 
 #: ../build/src/ui_edittagdialog.h:900
 msgid "Skip count"
-msgstr "Počet přeskočení"
+msgstr "건너뛴 횟수"
 
 #: core/commandlineoptions.cpp:225
 msgid "Skip forwards in playlist"
-msgstr "Další skladba v seznamu skladeb"
+msgstr "재생 목록의 다음 곡으로 전환"
 
 #: ../build/src/ui_collectionsettingspage.h:450
 msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
@@ -4890,35 +4848,35 @@ msgstr ""
 
 #: core/mainwindow.cpp:2007
 msgid "Skip selected tracks"
-msgstr "Přeskočit vybrané skladby"
+msgstr "선택한 트랙 건너뛰기"
 
 #: core/mainwindow.cpp:2006
 msgid "Skip track"
-msgstr "Přeskočit skladbu"
+msgstr "트랙 건너뛰기"
 
 #: widgets/playingwidget.cpp:101
 msgid "Small album cover"
-msgstr "Malý obal alba"
+msgstr "작은 앨범아트"
 
 #: widgets/fancytabwidget.cpp:729
 msgid "Small sidebar"
-msgstr "Malý postranní panel"
+msgstr "작은 사이드바"
 
 #: smartplaylists/smartplaylistwizard.cpp:71
 msgid "Smart playlist"
-msgstr ""
+msgstr "스마트 재생 목록"
 
 #: core/mainwindow.cpp:377
 msgid "Smart playlists"
-msgstr ""
+msgstr "스마트 재생 목록"
 
 #: equalizer/equalizer.cpp:152
 msgid "Soft"
-msgstr "Měkké"
+msgstr "소프트"
 
 #: equalizer/equalizer.cpp:154
 msgid "Soft Rock"
-msgstr "Soft rock"
+msgstr "소프트 록"
 
 #: ../build/src/ui_scrobblersettingspage.h:418
 msgid "SomaFM"
@@ -4926,7 +4884,7 @@ msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:435
 msgid "Song Lyrics"
-msgstr "Texty skladeb"
+msgstr "노래 가사"
 
 #: ../build/src/ui_collectionsettingspage.h:436
 msgid "Song fingerprinting and tracking"
@@ -4938,23 +4896,21 @@ msgstr ""
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Songs"
-msgstr "Skladby"
+msgstr "노래"
 
 #: ../build/src/ui_scrobblersettingspage.h:400
-#, fuzzy
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
 "(whichever occurs earlier)."
 msgstr ""
-"Přehrané skladby jsou odeslány pokud mají správná metadata, jsou delší než "
-"30 sekund. Také musí být přehrány alespoň do poloviny, nebo po dobu 4 minut "
-"(kterékoli se stane dříve)."
+"곡에 올바른 메타데이터가 있고, 재생 시간이 30초보다 길고, 재생 시간의 절반 이상 재생(최대 4분)되었을 때 스크로블 기록에 "
+"추가됩니다."
 
 #: ../build/src/ui_tidalsettingspage.h:334
 #: ../build/src/ui_qobuzsettingspage.h:291
 msgid "Songs search limit"
-msgstr "Limit vyhledaných skladeb"
+msgstr "노래 검색 제한"
 
 #: analyzer/sonogram.cpp:31
 msgid "Sonogram"
@@ -4962,7 +4918,7 @@ msgstr ""
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
-msgstr "Promiňte"
+msgstr "죄송합니다"
 
 #: ../build/src/ui_smartplaylistquerysortpage.h:136
 msgid "Sort songs by"
@@ -4974,7 +4930,7 @@ msgstr ""
 
 #: playlist/playlist.cpp:1404
 msgid "Source"
-msgstr "Zdroj"
+msgstr "출처"
 
 #: ../build/src/ui_transcodersettingspage.h:191
 msgid "Speex"
@@ -4986,11 +4942,11 @@ msgstr ""
 
 #: covermanager/spotifycoverprovider.cpp:149
 msgid "Spotify Authentication"
-msgstr "Přihlášení ke Spotify"
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
-msgstr "Obvyklý"
+msgstr "표준"
 
 #: playlist/playlisttabbar.cpp:78
 msgid "Star playlist"
@@ -4998,16 +4954,16 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:220
 msgid "Start the playlist currently playing"
-msgstr "Přehrát současnou skladbu v seznamu skladeb"
+msgstr "현재 재생 중인 재생 목록 시작"
 
 #: transcoder/transcodedialog.cpp:125
 msgid "Start transcoding"
-msgstr "Převést"
+msgstr "변환 시작"
 
 #: transcoder/transcoder.cpp:426
 #, qt-format
 msgid "Starting %1"
-msgstr "Spouští se %1"
+msgstr "%1 시작 중"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Stop"
@@ -5015,23 +4971,23 @@ msgstr ""
 
 #: ../build/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
-msgstr "Zastavit po každé skladbě"
+msgstr "각각 트랙이 끝난 후 정지"
 
 #: osd/osdbase.cpp:366
 msgid "Stop after every track"
-msgstr "Zastavit po každé skladbě"
+msgstr "모든 트랙 이후에 정지"
 
 #: core/mainwindow.cpp:729 ../build/src/ui_mainwindow.h:630
 msgid "Stop after this track"
-msgstr "Zastavit po této skladbě"
+msgstr "현재 트랙 이후 정지"
 
 #: core/commandlineoptions.cpp:222
 msgid "Stop playback"
-msgstr "Zastavit přehrávání"
+msgstr "재생 정지"
 
 #: core/commandlineoptions.cpp:223
 msgid "Stop playback after current track"
-msgstr "Zastavit přehrávání po současné skladbě"
+msgstr "현재 트랙 이후에 재생 정지"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:65
 msgid "Stop playing after current track"
@@ -5040,39 +4996,37 @@ msgstr ""
 #: osd/osdbase.cpp:270
 #, qt-format
 msgid "Stop playing after track: %1"
-msgstr "Zastavit přehrávání po skladbě: %1"
+msgstr "트랙 재생 후 정지: %1"
 
 #: osd/osdbase.cpp:257 osd/osdbase.cpp:260
 msgid "Stopped"
-msgstr "Zastaveno"
+msgstr "정지됨"
 
 #: ../build/src/ui_errordialog.h:91
 msgid "Strawberry Error"
-msgstr "Chyba Clemetine"
+msgstr "Strawberry 오류"
 
 #: ../build/src/ui_mainwindow.h:609
 msgid "Strawberry Music Player"
-msgstr "Přehrávač hudby Strawberry"
+msgstr "Strawberry 음악 재생기"
 
 #: ../build/src/ui_notificationssettingspage.h:511
 msgid "Strawberry Red"
-msgstr "Jahodově Červená"
+msgstr "Strawberry Red"
 
 #: ../build/src/ui_deviceproperties.h:378
 msgid ""
 "Strawberry can automatically convert the music you copy to this device into "
 "a format that it can play."
-msgstr ""
-"Strawberry může automaticky převést hudbu kopírovanou do tohoto zařízení do "
-"formátu, který dokáže přehrát."
+msgstr "Strawberry는 장치로 곡을 복사할 때 장치에서 재생 가능한 형식으로 자동 변환할 수 있습니다."
 
 #: ../build/src/ui_notificationssettingspage.h:476
 msgid "Strawberry can show a message when the track changes."
-msgstr "Strawberry může při změně skladby ukázat zprávu."
+msgstr "Strawberry에서 재생 중인 곡을 전환할 때 메시지를 표시할 수 있습니다."
 
 #: dialogs/about.cpp:111
 msgid "Strawberry is a music player and music collection organizer."
-msgstr "Strawberry je hudební přehrávač a organizér hudební kolekce."
+msgstr "Strawberry는 음악 재생기 및 음악 라이브러리 관리 도구입니다."
 
 #: core/mainwindow.cpp:1072
 #, qt-format
@@ -5087,13 +5041,11 @@ msgstr ""
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
 "on %1"
-msgstr ""
-"Strawberry je svobodný software vydávaný pod licencí GPL. Zdrojový kód je "
-"dostupný na %1"
+msgstr "Strawberry는 GPL로 라이선스되는 자유 소프트웨어이고 소스 코드는 %1에서 볼 수 있습니다."
 
 #: dialogs/snapdialog.cpp:30
 msgid "Strawberry is running as a Snap"
-msgstr ""
+msgstr "Strawberry는 Snap에서 실행되고 있습니다."
 
 #: dialogs/snapdialog.cpp:46
 msgid ""
@@ -5108,23 +5060,23 @@ msgstr ""
 
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
-msgstr "Strawberry se pro tento soubor výsledky najít nepodařilo"
+msgstr "Strawberry에서 이 파일의 결과를 찾을 수 없습니다"
 
 #: ../build/src/ui_scrobblersettingspage.h:419
 msgid "Stream"
-msgstr "Proud"
+msgstr "스트림"
 
 #: ../build/src/ui_tidalsettingspage.h:338
 msgid "Stream URL method"
-msgstr "Metoda URL streamu"
+msgstr "스트림 URL 메서드"
 
 #: settings/settingsdialog.cpp:158
 msgid "Streaming"
-msgstr "Streamování"
+msgstr "스트리밍"
 
 #: ../build/src/ui_appearancesettingspage.h:543
 msgid "Stretch image to fill playlist"
-msgstr "Roztáhnout obrázek aby vyplnil seznam skladeb"
+msgstr "이미지를 재생 목록 크기로 늘려서 맞춤"
 
 #: ../build/src/ui_appearancesettingspage.h:515
 #: ../build/src/ui_appearancesettingspage.h:516
@@ -5133,7 +5085,7 @@ msgstr ""
 
 #: ../build/src/ui_scrobblersettingspage.h:404
 msgid "Submit scrobbles every"
-msgstr "Odeslat přehrané skladby každých"
+msgstr "스크로블 제출 주기"
 
 #: core/mainwindow.cpp:384 ../build/src/ui_scrobblersettingspage.h:412
 #: ../build/src/ui_subsonicsettingspage.h:243
@@ -5142,48 +5094,47 @@ msgstr "Subsonic"
 
 #: subsonic/subsonicurlhandler.cpp:39
 msgid "Subsonic server URL is invalid."
-msgstr "Adresa serveru Subsonic není správná."
+msgstr "Subsonic 서버 URL이 잘못되었습니다."
 
 #: ../data/html/oauthsuccess.html:36
 msgid "Success!"
-msgstr "Úspěch"
+msgstr "성공!"
 
 #: transcoder/transcoder.cpp:199
 #, qt-format
 msgid "Successfully written %1"
-msgstr "%1 úspěšně zapsán"
+msgstr "%1 기록 완료"
 
 #: dialogs/trackselectiondialog.cpp:196
 msgid "Suggested tags"
-msgstr "Navrhované značky"
+msgstr "제안된 태그"
 
 #: ../build/src/ui_contextsettingspage.h:426
 #: ../build/src/ui_notificationssettingspage.h:498
 #: ../build/src/ui_edittagdialog.h:911
 msgid "Summary"
-msgstr "Shrnutí"
+msgstr "요약"
 
 #: analyzer/analyzercontainer.cpp:80
 #, qt-format
 msgid "Super high (%1 fps)"
-msgstr "Nadmíru vysoké (%1 fps)"
+msgstr "아주 높음(%1 fps)"
 
 #: ../build/src/ui_deviceproperties.h:376
 msgid "Supported formats"
-msgstr "Podporované formáty"
+msgstr "지원하는 형식"
 
 #: moodbar/moodbarrenderer.cpp:175
 msgid "System colors"
-msgstr "Systémové barvy"
+msgstr "시스템 색상"
 
 #: ../build/src/ui_appearancesettingspage.h:558
 msgid "System highlight color"
 msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:519
-#, fuzzy
 msgid "Tabbar colors"
-msgstr "Barvy tabbaru"
+msgstr "탭 표시줄 색상"
 
 #: ../build/src/ui_appearancesettingspage.h:552
 msgid "Tabbar large mode"
@@ -5195,11 +5146,11 @@ msgstr ""
 
 #: widgets/fancytabwidget.cpp:731
 msgid "Tabs on top"
-msgstr "Karty nahoře"
+msgstr "위쪽에 탭 표시"
 
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Tag fetcher"
-msgstr "Stahování značek"
+msgstr "태그 가져오기"
 
 #: ../build/src/ui_edittagdialog.h:933
 msgid "Tags"
@@ -5211,171 +5162,157 @@ msgstr ""
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
-msgstr "Cílový datový tok"
+msgstr "목표 비트 전송률"
 
 #: ../build/src/ui_contextsettingspage.h:434
 msgid "Technical Data"
-msgstr "Technická data"
+msgstr "기술적 데이터"
 
 #: equalizer/equalizer.cpp:155
 msgid "Techno"
-msgstr "Techno"
+msgstr "테크노"
 
 #: ../build/src/ui_subsonicsettingspage.h:258
 msgid "Test"
-msgstr "Test"
+msgstr "테스트"
 
 #: settings/subsonicsettingspage.cpp:169
 msgid "Test failed!"
-msgstr "Test selhal!"
+msgstr "테스트 실패!"
 
 #: settings/subsonicsettingspage.cpp:160
 msgid "Test successful!"
-msgstr "Test uspěl!"
+msgstr "테스트 성공!"
 
 #: ../build/src/ui_notificationssettingspage.h:506
 msgid "Text options"
-msgstr "Volby pro text"
+msgstr "텍스트 옵션"
 
 #: dialogs/about.cpp:178
 msgid "Thanks to"
-msgstr "Díky"
+msgstr "감사"
 
 #: dialogs/about.cpp:186
 msgid "Thanks to all the other Amarok and Clementine contributors."
-msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
+msgstr "Amarok과 Clementine 기여자들에게 감사를 전합니다."
 
 #: settings/globalshortcutssettingspage.cpp:262
 #: settings/globalshortcutssettingspage.cpp:272
 #, qt-format
 msgid "The \"%1\" command could not be started."
-msgstr "Příkaz \"%1\" se nepodařilo provést."
+msgstr "\"%1\" 명령을 시작할 수 없습니다."
 
 #: ../build/src/ui_appearancesettingspage.h:529
 msgid "The album cover of the currently playing song"
-msgstr "Obal alba nyní přehrávané písně"
+msgstr "재생 중인 음악의 앨범아트"
 
 #: dialogs/deleteconfirmationdialog.cpp:60
 msgid "The following files will be deleted from disk:"
-msgstr ""
+msgstr "이 파일들이 디스크에서 제거됩니다."
 
 #: internet/internetcollectionview.cpp:288
 msgid "The internet collection is empty!"
-msgstr "Internetová kolekce je prázdná!"
+msgstr "인터넷 라이브러리가 비어 있습니다!"
 
 #: smartplaylists/smartplaylistsearchtermwidget.cpp:421
 msgid "The second value must be greater than the first one!"
-msgstr ""
+msgstr "두번째 값은 첫번째보다 커야 합니다."
 
 #: covermanager/coverfromurldialog.cpp:90
 msgid "The site you requested does not exist!"
-msgstr "Požadovaná stránka neexistuje!"
+msgstr "요청한 사이트가 존재하지 않습니다!"
 
 #: covermanager/coverfromurldialog.cpp:100
 msgid "The site you requested is not an image!"
-msgstr "Požadovaná stránka není obrázek!"
+msgstr "요청한 사이트는 이미지가 아닙니다!"
 
 #: core/mainwindow.cpp:2929
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
-msgstr ""
-"Verze Strawberry, na kterou jste právě povýšili, vyžaduje z důvodu nových "
-"vlastností vypsaných níže úplné nové prohledání sbírky:"
+msgstr "Strawberry의 업데이트한 버전에 다음 기능이 추가되어 전체 라이브러리를 재검색해야 합니다:"
 
 #: collection/collectionview.cpp:504
 msgid "There are other songs in this album"
-msgstr "Na tomto albu jsou další písně"
+msgstr "이 앨범에 다른 곡이 있습니다"
 
 #: organize/organizeerrordialog.cpp:72
 msgid ""
 "There were problems copying some songs.  The following files could not be "
 "copied:"
-msgstr ""
-"Při kopírování některých písní nastaly potíže. Nepodařilo se zkopírovat "
-"následující soubory:"
+msgstr "일부 곡을 복사하는 중 문제가 발생했습니다. 다음 파일을 복사할 수 없습니다: "
 
 #: organize/organizeerrordialog.cpp:77
 msgid ""
 "There were problems deleting some songs.  The following files could not be "
 "deleted:"
-msgstr ""
-"Při mazání některých písní nastaly potíže. Nepodařilo se smazat následující "
-"soubory:"
+msgstr "일부 곡을 삭제하는 중 문제가 발생했습니다. 다음 파일을 삭제할 수 없습니다: "
 
 #: device/deviceview.cpp:429
 msgid ""
 "These files will be deleted from the device, are you sure you want to "
 "continue?"
-msgstr "Tyto soubory budou smazány ze zařízení. Opravdu chcete pokračovat?"
+msgstr "장치에서 다음 파일을 삭제합니다. 계속 진행하시겠습니까?"
 
 #: ../build/src/ui_collectionsettingspage.h:430
 msgid "These folders will be scanned for music to make up your collection"
-msgstr "Strawberry bude novou hudbu pro vaši sbírku hledat v těchto složkách"
+msgstr "라이브러리를 생성할 때 다음 폴더를 검색합니다"
 
 #: ../build/src/ui_transcodersettingspage.h:186
 msgid ""
 "These settings are used in the \"Transcode Music\" dialog, and when "
 "converting music before copying it to a device."
-msgstr ""
-"Tato nastavení se používají v dialogu pro překódování hudby a když je hudba "
-"před kopírováním do zařízení převáděna."
+msgstr "여기에 있는 설정은 \"음악 변환\" 대화 상자에서 사용되며, 장치에 음악을 복사하기 전에 변환할 때에도 사용됩니다."
 
 #: collection/savedgroupingmanager.cpp:57
 msgid "Third Level"
-msgstr "Třetí úroveň"
+msgstr "세 번째 단계"
 
 #: ../build/src/ui_groupbydialog.h:234
 msgid "Third level"
-msgstr "Třetí úroveň"
+msgstr "세 번째 단계"
 
 #: ../build/src/ui_playlistsaveoptionsdialog.h:95
 msgid "This can be changed later through the preferences"
-msgstr "Toto lze změnit později v nastavení"
+msgstr "설정에서 나중에 변경할 수 있습니다"
 
 #: ../build/src/ui_deviceproperties.h:383
 msgid ""
 "This device must be connected and opened before Strawberry can see what file "
 "formats it supports."
-msgstr ""
-"Pro zjištění podporovaných formátů souborů je zařízení nejdřív nutno "
-"připojit a otevřít."
+msgstr "Strawberry에서 이 장치가 지원하는 파일 형식을 파악하려면 장치를 연결하고 열어야 합니다."
 
 #: ../build/src/ui_deviceproperties.h:377
 msgid "This device supports the following file formats:"
-msgstr "Toto zařízení podporuje následující formáty souborů:"
+msgstr "이 장치는 다음 파일 형식을 지원합니다:"
 
 #: device/devicemanager.cpp:608 device/devicemanager.cpp:616
 msgid "This device will not work properly"
-msgstr "Toto zařízení nebude pracovat správně"
+msgstr "이 장치는 올바르게 작동하지 않을 수 있음"
 
 #: device/devicemanager.cpp:609
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
-msgstr ""
-"Toto je zařízení MTP, ale Strawberry byl sestaven bez podpory pro libmtp."
+msgstr "이 장치는 MTP 장치이지만 Strawberry를 컴파일할 때 libmtp 지원이 빠졌습니다."
 
 #: device/devicemanager.cpp:617
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
-msgstr ""
-"Toto je zařízení iPod, ale Strawberry byl sestaven bez podpory pro libgpod."
+msgstr "이 장치는 iPod이지만 Strawberry를 컴파일할 때 libgpod 지원이 빠졌습니다."
 
 #: device/devicemanager.cpp:352
 msgid ""
 "This is the first time you have connected this device.  Strawberry will now "
 "scan the device to find music files - this may take some time."
-msgstr ""
-"Toto zařízení bylo připojeno poprvé. Strawberry na něm nyní hledá hudební "
-"soubory - může to chvíli trvat."
+msgstr "이 장치를 처음 연결했습니다. Strawberry에서 장치에 있는 음악 파일을 검색하는 동안 기다려 주십시오."
 
 #: playlist/playlisttabbar.cpp:240
 msgid "This option can be changed in the \"Behavior\" preferences"
-msgstr "Tuto volbu lze změnit v nastavení Chování"
+msgstr "이 옵션은 \"행동\" 설정에서 변경할 수 있습니다"
 
 #: device/devicemanager.cpp:632
 #, qt-format
 msgid "This type of device is not supported: %1"
-msgstr "Tento typ zařízení není podporován: %1"
+msgstr "다음 장치의 형식은 지원하지 않습니다: %1"
 
 #: core/mainwindow.cpp:387 ../build/src/ui_scrobblersettingspage.h:414
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -5387,23 +5324,21 @@ msgid ""
 "Tidal support is not official and requires a API token from a registered "
 "application to work. We can't help you getting these."
 msgstr ""
-"Podpora Tidal není oficiální a vyžaduje API token z registrované aplikace. S "
-"tímto vám nemůžeme pomoct."
 
 #: ../build/src/ui_behavioursettingspage.h:319
 msgid "Time step"
-msgstr "Časový krok"
+msgstr "시간 간격"
 
 #: playlist/playlist.cpp:1374 organize/organizedialog.cpp:104
 #: ../build/src/ui_contextsettingspage.h:425
 #: ../build/src/ui_edittagdialog.h:923
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
-msgstr "Název"
+msgstr "제목"
 
 #: utilities/timeutils.cpp:85 utilities/timeutils.cpp:99
 msgid "Today"
-msgstr "Dnes"
+msgstr "오늘"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Toggle Pretty OSD"
@@ -5411,66 +5346,66 @@ msgstr ""
 
 #: core/mainwindow.cpp:730 core/mainwindow.cpp:1995
 msgid "Toggle queue status"
-msgstr "Přepnout stav řady"
+msgstr "대기열 상태 전환"
 
 #: ../build/src/ui_mainwindow.h:706
 msgid "Toggle scrobbling"
-msgstr "Přepnout odesílání informací o přehrávání"
+msgstr "스크로블 전환"
 
 #: core/mainwindow.cpp:736 core/mainwindow.cpp:2008
 msgid "Toggle skip status"
-msgstr "Přepnout stav přeskakování"
+msgstr "건너뛰기 상태 전환"
 
 #: core/commandlineoptions.cpp:241
 msgid "Toggle visibility for the pretty on-screen-display"
-msgstr "Přepnout viditelnost hezkých oznámení na obrazovce (OSD)"
+msgstr "예쁜 OSD 표시 여부 전환"
 
 #: utilities/timeutils.cpp:100
 msgid "Tomorrow"
-msgstr "Zítra"
+msgstr "내일"
 
 #: utilities/filemanagerutils.cpp:135
 msgid "Too many songs selected."
-msgstr "Je vybráno příliš mnoho skladeb."
+msgstr "너무 많은 곡을 선택했습니다."
 
 #: ../build/src/ui_albumcovermanager.h:221
 msgid "Total albums:"
-msgstr "Alb celkem:"
+msgstr "총 앨범 개수:"
 
 #: covermanager/coversearchstatisticsdialog.cpp:82
 msgid "Total bytes transferred"
-msgstr "Celkem přeneseno bajtů"
+msgstr "전송된 총 바이트"
 
 #: covermanager/coversearchstatisticsdialog.cpp:80
 msgid "Total network requests made"
-msgstr "Celkem uskutečněno síťových požadavků"
+msgstr "총 네트워크 요청 수"
 
 #: playlist/playlist.cpp:1377 organize/organizedialog.cpp:112
 #: ../build/src/ui_edittagdialog.h:931
 #: ../build/src/ui_trackselectiondialog.h:212
 msgid "Track"
-msgstr "Skladba"
+msgstr "트랙"
 
 #: ../build/src/ui_transcodedialog.h:216
 msgid "Transcode Music"
-msgstr "Převést hudbu"
+msgstr "음악 변환"
 
 #: ../build/src/ui_transcodelogdialog.h:61
 msgid "Transcoder Log"
-msgstr "Záznam o převodu"
+msgstr "변환기 기록"
 
 #: ../build/src/ui_transcodersettingspage.h:185
 msgid "Transcoding"
-msgstr "Překódování"
+msgstr "변환"
 
 #: transcoder/transcoder.cpp:341
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
-msgstr "Převádí se %1 souborů s %2 procesy"
+msgstr "스레드 %2개로 파일 %1개 변환 중"
 
 #: ../build/src/ui_transcoderoptionsdialog.h:51
 msgid "Transcoding options"
-msgstr "Volby překódování"
+msgstr "변환 옵션"
 
 #: ../build/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
@@ -5486,7 +5421,7 @@ msgstr "URI"
 
 #: core/commandlineoptions.cpp:218
 msgid "URL(s)"
-msgstr "Adresa (URL)"
+msgstr "URL"
 
 #: device/udisks2lister.cpp:123
 msgid "UUID"
@@ -5494,7 +5429,7 @@ msgstr "UUID"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Ultra wide band (UWB)"
-msgstr "Ultra široké pásmo"
+msgstr "초광대역(UWB)"
 
 #: core/database.cpp:477
 #, qt-format
@@ -5528,11 +5463,11 @@ msgstr ""
 #: dialogs/edittagdialog.cpp:770 dialogs/edittagdialog.cpp:799
 #: ../build/src/ui_scrobblersettingspage.h:421
 msgid "Unknown"
-msgstr "Neznámý"
+msgstr "알 수 없음"
 
 #: subsonic/subsonicrequest.cpp:881 qobuz/qobuzrequest.cpp:1430
 msgid "Unknown error"
-msgstr "Neznámá chyba"
+msgstr "알 수 없는 오류"
 
 #: playlist/playlistmanager.cpp:261
 msgid "Unknown file extension for playlist."
@@ -5544,24 +5479,24 @@ msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Unset cover"
-msgstr "Odebrat obal"
+msgstr "표지 설정 해제"
 
 #: core/mainwindow.cpp:2005
 msgid "Unskip selected tracks"
-msgstr "Zrušit přeskočení vybraných skladeb"
+msgstr "선택한 트랙 건너뛰기 해제"
 
 #: core/mainwindow.cpp:2004
 msgid "Unskip track"
-msgstr "Zrušit přeskočení skladby"
+msgstr "트랙 건너뛰기 해제"
 
 #: ../build/src/ui_collectionsettingspage.h:434
 msgid "Update the collection when Strawberry starts"
-msgstr "Při spuštění Strawberry obnovit hudební sbírku"
+msgstr "Strawberry 시작 시 라이브러리 업데이트"
 
 #: collection/collectionwatcher.cpp:221
 #, qt-format
 msgid "Updating %1"
-msgstr "Obnovuje se %1"
+msgstr "%1 업데이트 중"
 
 #: collection/collectionbackend.cpp:727
 #, qt-format
@@ -5571,11 +5506,11 @@ msgstr ""
 #: device/deviceview.cpp:126
 #, qt-format
 msgid "Updating %1%..."
-msgstr "Obnovuje se %1%..."
+msgstr "%1% 업데이트 중..."
 
 #: collection/collectionwatcher.cpp:218
 msgid "Updating collection"
-msgstr "Obnovuje se hudební sbírka"
+msgstr "라이브러리 업데이트 중"
 
 #: ../build/src/ui_backendsettingspage.h:680
 msgid "Upmix / downmix to"
@@ -5583,15 +5518,15 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:536
 msgid "Upper Left"
-msgstr "Vlevo nahoře"
+msgstr "왼쪽 위"
 
 #: ../build/src/ui_appearancesettingspage.h:537
 msgid "Upper Right"
-msgstr "Vpravo nahoře"
+msgstr "오른쪽 위"
 
 #: core/commandlineoptions.cpp:218
 msgid "Usage"
-msgstr "Zacházení"
+msgstr "사용"
 
 #: ../build/src/ui_globalshortcutssettingspage.h:269
 msgid "Use Gnome (GSD) shortcuts when available"
@@ -5611,7 +5546,7 @@ msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:322
 msgid "Use OAuth"
-msgstr "Použijte OAuth"
+msgstr "OAuth 사용"
 
 #: settings/coverssettingspage.cpp:229 settings/coverssettingspage.cpp:342
 msgid "Use Qobuz settings to authenticate."
@@ -5619,11 +5554,11 @@ msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:694
 msgid "Use Replay Gain metadata if it is available"
-msgstr "Používat metadata pro zesílení přehrávaných skladeb, jsou-li dostupná"
+msgstr "사용 가능한 경우 리플레이게인 메타데이터 사용"
 
 #: settings/coverssettingspage.cpp:225 settings/coverssettingspage.cpp:338
 msgid "Use Tidal settings to authenticate."
-msgstr "Použijte nastavení Tidal pro přihlášení."
+msgstr ""
 
 #: ../build/src/ui_globalshortcutssettingspage.h:274
 msgid "Use X11 shortcuts when available"
@@ -5631,7 +5566,7 @@ msgstr ""
 
 #: ../build/src/ui_notificationssettingspage.h:492
 msgid "Use a custom message for notifications"
-msgstr "Použít vlastní zprávu pro oznámení"
+msgstr "알림에 표시할 사용자 정의 메시지 설정"
 
 #: ../build/src/ui_playlistsettingspage.h:178
 msgid "Use alternating row colors"
@@ -5639,15 +5574,15 @@ msgstr ""
 
 #: ../build/src/ui_networkproxysettingspage.h:178
 msgid "Use authentication"
-msgstr "Použít ověření"
+msgstr "인증 사용"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:199
 msgid "Use bitrate management engine"
-msgstr "Použít stroj na správu datového toku"
+msgstr "비트레이트 관리 엔진 사용"
 
 #: ../build/src/ui_appearancesettingspage.h:521
 msgid "Use custom color"
-msgstr "Použít vlastní barvy"
+msgstr "사용자 정의 색상 사용"
 
 #: ../build/src/ui_smartplaylistwizardfinishpage.h:81
 msgid "Use dynamic mode"
@@ -5655,7 +5590,7 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:522
 msgid "Use gradient background"
-msgstr "Použít gradientu"
+msgstr "그라디언트 배경 사용"
 
 #: ../build/src/ui_networkproxysettingspage.h:181
 msgid "Use proxy settings for streaming"
@@ -5667,27 +5602,27 @@ msgstr ""
 
 #: ../build/src/ui_appearancesettingspage.h:517
 msgid "Use system theme icons"
-msgstr "Použít ikony ze systémového motivu"
+msgstr "시스템 테마 아이콘 사용"
 
 #: ../build/src/ui_transcoderoptionsaac.h:140
 msgid "Use temporal noise shaping"
-msgstr "Použít časové tvarování šumu"
+msgstr "시계층 잡음 조절(TNS) 사용"
 
 #: ../build/src/ui_behavioursettingspage.h:292
 msgid "Use the system default"
-msgstr "Použít výchozí nastavení systému"
+msgstr "시스템 기본값 사용"
 
 #: widgets/freespacebar.cpp:67
 msgid "Used"
-msgstr "Použito"
+msgstr "사용됨"
 
 #: settings/settingsdialog.cpp:144
 msgid "User interface"
-msgstr "Uživatelské rozhraní"
+msgstr "사용자 인터페이스"
 
 #: ../build/src/ui_scrobblersettingspage.h:430
 msgid "User token:"
-msgstr "Uživatelský token:"
+msgstr "사용자 토큰:"
 
 #: ../build/src/ui_networkproxysettingspage.h:179
 #: ../build/src/ui_userpassdialog.h:92
@@ -5695,52 +5630,50 @@ msgstr "Uživatelský token:"
 #: ../build/src/ui_tidalsettingspage.h:325
 #: ../build/src/ui_qobuzsettingspage.h:281
 msgid "Username"
-msgstr "Uživatelské jméno"
+msgstr "사용자 이름"
 
 #: settings/globalshortcutssettingspage.cpp:348
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
 "become unresponsive!"
-msgstr ""
-"Použití klávesových zkratek X11 na %1 není doporučeno a může zapříčinit "
-"nereagující klávesnici!"
+msgstr "%1에서 X11 단축키를 사용하는 것은 추천하지 않으며 키보드가 작동하지 않을 수도 있습니다!"
 
 #: ../build/src/ui_behavioursettingspage.h:295
 msgid "Using the menu to add a song will..."
-msgstr "Použití nabídky pro přidání písně..."
+msgstr "메뉴에서 음악을 추가했을 때..."
 
 #: ../build/src/ui_transcoderoptionsspeex.h:230
 msgid "Variable bit rate"
-msgstr "Proměnlivý datový tok"
+msgstr "가변 비트 전송률"
 
 #: collection/collectionmodel.cpp:302 collection/collectionmodel.cpp:303
 #: playlist/playlistmanager.cpp:559 covermanager/albumcovermanager.cpp:347
 #: internet/internetsearchmodel.cpp:93 internet/internetsearchmodel.cpp:105
 msgid "Various artists"
-msgstr "Různí umělci"
+msgstr "편집 음반"
 
 #: ../build/src/ui_subsonicsettingspage.h:254
 msgid "Verify server certificate"
-msgstr "Ověřovat certifikát serveru"
+msgstr "서버 인증서 확인"
 
 #: dialogs/about.cpp:107
 #, qt-format
 msgid "Version %1"
-msgstr "Verze %1"
+msgstr "버전 %1"
 
 #: ../build/src/ui_albumcovermanager.h:220
 msgid "View"
-msgstr "Pohled"
+msgstr "보기"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:231
 msgid "Voice activity detection"
-msgstr "Zjištění hlasové činnosti"
+msgstr "음성 활동 감지"
 
 #: osd/osdbase.cpp:286
 #, qt-format
 msgid "Volume %1%"
-msgstr "Hlasitost %1 %"
+msgstr "음량 %1%"
 
 #: ../build/src/ui_transcodersettingspage.h:189
 msgid "Vorbis"
@@ -5748,7 +5681,7 @@ msgstr "Vorbis"
 
 #: playlist/playlisttabbar.cpp:237 ../build/src/ui_playlistsettingspage.h:181
 msgid "Warn me when closing a playlist tab"
-msgstr "Varovat při zavření karty se seznamem skladeb"
+msgstr "재생 목록 탭을 닫을 때 알리기"
 
 #: ../build/src/ui_lastfmimportdialog.h:152
 msgid ""
@@ -5772,26 +5705,24 @@ msgid ""
 "contain one of these words.\n"
 "If there are no matches then it will use the largest image in the directory."
 msgstr ""
-"Při hledání obalu alba se Strawberry nejprve podívá po obrázkových "
-"souborech, jež obsahují jedno z těchto slov.\n"
-"Pokud nenajde žádné, které by se shodovaly, potom použije největší obrázek v "
-"adresáři."
+"Strawberry에서 앨범 아트를 찾을 때 다음 단어를 포함하는 그림 파일을 먼저 찾습니다.\n"
+"일치하는 파일이 없으면 디렉터리에 있는 가장 큰 그림을 사용합니다."
 
 #: ../build/src/ui_playlistsettingspage.h:190
 msgid "When saving a playlist, file paths should be"
-msgstr "Při ukládání seznamu skladeb mají být cesty k souborům"
+msgstr "재생 목록을 저장할 때 파일 경로 처리 방식"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:227
 msgid "Wide band (WB)"
-msgstr "Široké pásmo"
+msgstr "광대역(WB)"
 
 #: ../build/src/ui_albumcovermanager.h:222
 msgid "Without cover:"
-msgstr "Bez obalu:"
+msgstr "표지 없음:"
 
 #: ../build/src/ui_scrobblersettingspage.h:401
 msgid "Work in offline mode (Only cache scrobbles)"
-msgstr "Pracovat v režimu offline (pouze ukládat přehrané skladby)"
+msgstr "오프라인 모드로 작업(스크로블을 캐시에만 추가)"
 
 #: collection/collectionview.cpp:504
 msgid ""
@@ -5801,7 +5732,7 @@ msgstr ""
 
 #: core/mainwindow.cpp:2933
 msgid "Would you like to run a full rescan right now?"
-msgstr "Chcete spustit toto úplné nové prohledání hned teď?"
+msgstr "지금 전부 다시 검색하시겠습니까?"
 
 #: settings/collectionsettingspage.cpp:303
 msgid "Write all playcounts and ratings to files"
@@ -5809,7 +5740,7 @@ msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:200
 msgid "Write metadata when saving playlists"
-msgstr "Zapisovat metadata při ukládání seznamů skladeb"
+msgstr "재생 목록을 저장할 때 메타데이터 쓰기"
 
 #: device/gpoddevice.cpp:288
 msgid "Writing database failed."
@@ -5826,17 +5757,17 @@ msgstr ""
 #: ../build/src/ui_edittagdialog.h:922
 #: ../build/src/ui_trackselectiondialog.h:211
 msgid "Year"
-msgstr "Rok"
+msgstr "년도"
 
 #: collection/savedgroupingmanager.cpp:104 ../build/src/ui_groupbydialog.h:200
 #: ../build/src/ui_groupbydialog.h:222 ../build/src/ui_groupbydialog.h:244
 msgid "Year - Album"
-msgstr "Rok - Album"
+msgstr "년도 - 앨범"
 
 #: collection/savedgroupingmanager.cpp:107 ../build/src/ui_groupbydialog.h:201
 #: ../build/src/ui_groupbydialog.h:223 ../build/src/ui_groupbydialog.h:245
 msgid "Year - Album - Disc"
-msgstr "Rok - Album - Disk"
+msgstr "년도 - 앨범 - 디스크"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:457
 msgid "Years"
@@ -5848,29 +5779,25 @@ msgstr ""
 
 #: utilities/timeutils.cpp:86
 msgid "Yesterday"
-msgstr "Včera"
+msgstr "어제"
 
 #: playlist/playlistlistcontainer.cpp:428
 #, qt-format
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
-msgstr ""
-"Chystáte se odstranit %1 seznamů skladeb z vašich oblíbených. Jste si jisti?"
+msgstr "즐겨찾기에서 재생 목록 %1개를 삭제할 것입니다. 계속 진행하시겠습니까?"
 
 #: playlist/playlisttabbar.cpp:231
 msgid ""
 "You are about to remove a playlist which is not part of your favorite "
 "playlists: the playlist will be deleted (this action cannot be undone). \n"
 "Are you sure you want to continue?"
-msgstr ""
-"Chystáte se odstranit seznam skladeb, který není součástí vašich oblíbených "
-"seznamů skladeb: Seznam skladeb bude nenávratně odstraněn (tento krok nelze "
-"vrátit zpět). \n"
-"Opravdu chcete pokračovat?"
+msgstr "즐겨찾는 재생 목록에 없는 재생 목록을 삭제하려고 합니다. 이 작업은 취소할 수 없습니다.\n"
+"계속 진행하시겠습니까?"
 
 #: ../build/src/ui_loginstatewidget.h:165
 msgid "You are not signed in."
-msgstr "Nejste přihlášen."
+msgstr "로그인하지 않았습니다."
 
 #: core/mainwindow.cpp:1056
 #, qt-format
@@ -5883,11 +5810,11 @@ msgstr ""
 #: widgets/loginstatewidget.cpp:83
 #, qt-format
 msgid "You are signed in as %1."
-msgstr "Jste přihlášen jako %1."
+msgstr "%1(으)로 로그인했습니다."
 
 #: widgets/loginstatewidget.cpp:82
 msgid "You are signed in."
-msgstr "Jste přihlášen."
+msgstr "로그인했습니다."
 
 #: ../build/src/ui_groupbydialog.h:188
 msgid "You can change the way the songs in the collection are organized."
@@ -5899,11 +5826,10 @@ msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
 "through %2."
 msgstr ""
-"Můžete podpořit autora na %1. Také můžete jednorázově přispět pomocí %2."
 
 #: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
-msgstr "Pro tento odkaz je potřeba GStreamer."
+msgstr "이 URL에 접근하려면 GStreamer가 필요합니다."
 
 #: ../build/src/ui_globalshortcutssettingspage.h:278
 msgid ""
@@ -5911,40 +5837,37 @@ msgid ""
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
 "in Strawberry."
 msgstr ""
-"Aby bylo možné v Strawberry používat globální klávesové zkratky, je nutné "
-"spustit Nastavení Systému a povolit Strawberry \"<span style=\"font-style:"
-"italic\">ovládat váš počítač</span>\"."
+"시스템 설정을 실행한 다음 Strawberry에서 \"<span style=\" font-style:italic;\">컴퓨터 제어 허용</"
+"span>\"을 활성화해야 Strawberry에서 전역 단축키를 사용할 수 있습니다."
 
 #: dialogs/about.cpp:119
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program.  If not, see %1"
-msgstr ""
-"S tímto programem jste měli obdržet kopii licence GNU GPL. Pokud ne, "
-"navštivte %1"
+msgstr "GPL 라이선스가 프로그램과 함께 제공됩니다. 만약 그렇지 않았다면 %1에서 볼 수 있습니다."
 
 #: ../build/src/ui_behavioursettingspage.h:294
 msgid "You will need to restart Strawberry if you change the language."
-msgstr "Pokud změníte jazyk, budete muset Strawberry spustit znovu."
+msgstr "언어를 변경한 후에는 Strawberry를 다시 시작해야 합니다."
 
 #: collection/collectionview.cpp:323
 msgid "Your collection is empty!"
-msgstr "Vaše hudební sbírka je prázdná!"
+msgstr "라이브러리가 비어 있습니다!"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:429
 msgid "Z-A"
-msgstr ""
+msgstr "Z-A"
 
 #: equalizer/equalizer.cpp:156
 msgid "Zero"
-msgstr "Vynulovat"
+msgstr "제로"
 
 #: playlist/playlistundocommands.cpp:42
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
-msgstr "přidat %n skladeb"
+msgstr "%n곡 추가"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:254
 msgid "after"
@@ -5956,7 +5879,7 @@ msgstr ""
 
 #: ../build/src/ui_internetsearchview.h:229
 msgid "albums"
-msgstr "alba"
+msgstr ""
 
 #: ../build/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
@@ -5964,15 +5887,15 @@ msgstr ""
 
 #: collection/collectionfilterwidget.cpp:83 playlist/playlistcontainer.cpp:132
 msgid "artist"
-msgstr "umělec"
+msgstr "아티스트"
 
 #: ../build/src/ui_internetsearchview.h:228
 msgid "artists"
-msgstr "umělci"
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsspeex.h:219
 msgid "automatic"
-msgstr "automatický"
+msgstr "자동"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "before"
@@ -6002,12 +5925,12 @@ msgstr ""
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
 #: ../build/src/ui_transcoderoptionsspeex.h:222
 msgid "disabled"
-msgstr "zakázáno"
+msgstr "사용 안 함"
 
 #: osd/osdbase.cpp:155
 #, qt-format
 msgid "disc %1"
-msgstr "disk %1"
+msgstr "디스크 %1"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:276
 msgid "does not contain"
@@ -6031,7 +5954,7 @@ msgstr ""
 
 #: ../build/src/ui_backendsettingspage.h:674
 msgid "hw"
-msgstr "hardware"
+msgstr "hw"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:262
 msgid "in the last"
@@ -6040,7 +5963,7 @@ msgstr ""
 #: context/contextview.cpp:497 context/contextview.cpp:598
 #: playlist/playlistview.cpp:224 dialogs/edittagdialog.cpp:792
 msgid "kbps"
-msgstr "kb/s"
+msgstr "kbps"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:284
 msgid "less than"
@@ -6058,7 +5981,7 @@ msgstr ""
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "move %n songs"
-msgstr "Přesunout %n skladeb"
+msgstr "%n곡 이동"
 
 #: ../build/src/ui_tidalsettingspage.h:331
 #: ../build/src/ui_qobuzsettingspage.h:288
@@ -6095,12 +6018,11 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:218
 msgid "options"
-msgstr "volby"
+msgstr "옵션"
 
 #: ../build/src/ui_backendsettingspage.h:675
-#, fuzzy
 msgid "p&lughw"
-msgstr "p&lughw"
+msgstr "plughw(&L)"
 
 #: ../build/src/ui_backendsettingspage.h:676
 msgid "pcm"
@@ -6114,7 +6036,7 @@ msgstr ""
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
-msgstr "odstranit %n skladeb"
+msgstr "%n곡 삭제"
 
 #: collection/collectionfilterwidget.cpp:85
 #, qt-format
@@ -6132,7 +6054,7 @@ msgstr ""
 
 #: playlist/playlistundocommands.cpp:141
 msgid "shuffle songs"
-msgstr "Zamíchat skladby"
+msgstr "노래 섞기"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:436
 msgid "smallest first"
@@ -6140,11 +6062,11 @@ msgstr ""
 
 #: ../build/src/ui_internetsearchview.h:230
 msgid "songs"
-msgstr "skladby"
+msgstr ""
 
 #: playlist/playlistundocommands.cpp:133
 msgid "sort songs"
-msgstr "Třídit skladby"
+msgstr "음악 정렬"
 
 #: smartplaylists/smartplaylistsearchterm.cpp:278
 msgid "starts with"
@@ -6152,13 +6074,13 @@ msgstr ""
 
 #: playlist/playlistdelegates.cpp:223
 msgid "stop"
-msgstr "zastavit"
+msgstr "정지"
 
 #: osd/osdbase.cpp:158
 #, qt-format
 msgid "track %1"
-msgstr "skladba %1"
+msgstr "트랙 %1"
 
 #: covermanager/albumcoverchoicecontroller.cpp:238
 msgid "unknown"
-msgstr "neznámý"
+msgstr "알 수 없음"
