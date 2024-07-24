@@ -1553,18 +1553,6 @@ void CollectionModel::ClearDiskCache() {
   if (sIconCache) sIconCache->clear();
 }
 
-void CollectionModel::ExpandAll(CollectionItem *item) const {
-
-  if (!root_) return;
-
-  if (!item) item = root_;
-
-  for (CollectionItem *child : item->children) {
-    ExpandAll(child);
-  }
-
-}
-
 void CollectionModel::RowsInserted(const QModelIndex &parent, const int first, const int last) {
 
   SongList songs;

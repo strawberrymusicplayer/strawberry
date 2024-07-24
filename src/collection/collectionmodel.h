@@ -199,8 +199,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   SongList GetChildSongs(const QModelIndex &idx) const;
   SongList GetChildSongs(const QModelIndexList &indexes) const;
 
-  void ExpandAll(CollectionItem *item = nullptr) const;
-
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
 
  signals:
