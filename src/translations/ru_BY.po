@@ -1,0 +1,6089 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: strawberrymusicplayer\n"
+"X-Crowdin-Project-ID: 668188\n"
+"X-Crowdin-Language: ru-BY\n"
+"X-Crowdin-File: /master/src/translations/translations.pot\n"
+"X-Crowdin-File-ID: 22\n"
+"Project-Id-Version: strawberrymusicplayer\n"
+"Language-Team: Russian, Belarus\n"
+"Language: ru_BY\n"
+"PO-Revision-Date: 2024-07-24 21:22\n"
+
+#: playlist/playlistlistview.cpp:51
+msgid "\n\n"
+"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
+"Favorited playlists will be saved here"
+msgstr "\n\n"
+"Вы можете занести плейлист в избранные двойным щелчком по звезде возле имени списка\n\n"
+"Избранные плейлисты будут храниться здесь"
+
+#: settings/globalshortcutssettingspage.cpp:357
+#, qt-format
+msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead."
+msgstr " Горячие клавиши на %1 обычно работают через Gnome Settings Daemon и должны быть настроены в cinnamon-settings-daemon."
+
+#: settings/globalshortcutssettingspage.cpp:354
+#, qt-format
+msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead."
+msgstr " Горячие клавиши на %1 обычно работают через Gnome Settings Daemon и должны быть настроены в gnome-settings-daemon."
+
+#: settings/globalshortcutssettingspage.cpp:360
+#, qt-format
+msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
+msgstr " Горячие клавиши на %1 обычно работают через MATE Settings Daemon и должны быть настроены в нём."
+
+#: settings/globalshortcutssettingspage.cpp:351
+#, qt-format
+msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
+msgstr " Горячие клавиши на %1 обычно работают через MPRIS и KGlobalAccel."
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:133
+#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:201
+#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:204
+#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:207
+#: ../../build-qt6dev/src/ui_transcoderoptionsopus.h:77
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:220
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:223
+#: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:76
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:195
+msgid " kbps"
+msgstr " кбит/с"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:689
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:714
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:717
+msgid " ms"
+msgstr " мс"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:441
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:446
+msgid " pt"
+msgstr " пт"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:356
+msgid " s"
+msgstr " с"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:411
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:486
+msgid " seconds"
+msgstr " секунд"
+
+#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:140
+msgid " songs"
+msgstr " песен"
+
+#: scrobbler/scrobblingapi20.cpp:214 scrobbler/scrobblingapi20.cpp:223
+#, qt-format
+msgid "%1 Scrobbler Authentication"
+msgstr "Аутентификация скробблера %1"
+
+#: context/contextview.cpp:419
+#, qt-format
+msgid "%1 album"
+msgstr "%1 альбом"
+
+#: context/contextview.cpp:420
+#, qt-format
+msgid "%1 albums"
+msgstr "%1 альбомов"
+
+#: context/contextview.cpp:415
+#, qt-format
+msgid "%1 artist"
+msgstr "%1 артист"
+
+#: context/contextview.cpp:416
+#, qt-format
+msgid "%1 artists"
+msgstr "%1 артистов"
+
+#: equalizer/equalizerslider.cpp:41 equalizer/equalizerslider.cpp:42
+#: equalizer/equalizerslider.cpp:59
+#, qt-format
+msgid "%1 dB"
+msgstr "%1 дБ"
+
+#: utilities/timeutils.cpp:67
+#, qt-format
+msgid "%1 days"
+msgstr "%1 дн."
+
+#: utilities/timeutils.cpp:87
+#, qt-format
+msgid "%1 days ago"
+msgstr "%1 дн. назад"
+
+#: settings/coverssettingspage.cpp:247
+#, qt-format
+msgid "%1 does not need authentication."
+msgstr "%1 не требует аутентификации."
+
+#: settings/coverssettingspage.cpp:242
+#, qt-format
+msgid "%1 needs authentication."
+msgstr "%1 требует аутентификации."
+
+#: playlistparsers/playlistparser.cpp:131
+#, qt-format
+msgid "%1 playlists (%2)"
+msgstr "%1 плейлистов (%2)"
+
+#: playlist/playlistmanager.cpp:447
+#, qt-format
+msgid "%1 selected of"
+msgstr "%1 выбрано из"
+
+#: context/contextview.cpp:411
+#, qt-format
+msgid "%1 song"
+msgstr "%1 песня"
+
+#: device/deviceview.cpp:146
+#, qt-format
+msgid "%1 song%2"
+msgstr "%1 песня%2"
+
+#: context/contextview.cpp:412
+#, qt-format
+msgid "%1 songs"
+msgstr "%1 композиций"
+
+#: smartplaylists/smartplaylistsearchpreview.cpp:156
+#, qt-format
+msgid "%1 songs found"
+msgstr "Найдено %1 песен"
+
+#: smartplaylists/smartplaylistsearchpreview.cpp:153
+#, qt-format
+msgid "%1 songs found (showing %2)"
+msgstr "Найдено %1 песен (отображается %2)"
+
+#: utilities/filemanagerutils.cpp:145
+#, qt-format
+msgid "%1 songs in %2 different directories selected, are you sure you want to open them all?"
+msgstr "Выбрано %1 песен из %2 разных каталогов. Уверены, что хотите открыть их все?"
+
+#: dialogs/edittagdialog.cpp:698
+#, qt-format
+msgid "%1 songs selected."
+msgstr "%1 песен выбрано."
+
+#: covermanager/albumcovermanager.cpp:561
+#, qt-format
+msgid "%1 transferred"
+msgstr "%1 передано"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:405
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:466
+msgid "%filename%"
+msgstr ""
+
+#: transcoder/transcodedialog.cpp:315
+#, c-format, qt-plural-format
+msgid "%n failed"
+msgstr "%n с ошибкой"
+
+#: transcoder/transcodedialog.cpp:311
+#, c-format, qt-plural-format
+msgid "%n finished"
+msgstr "%n завершено"
+
+#: transcoder/transcodedialog.cpp:307
+#, c-format, qt-plural-format
+msgid "%n remaining"
+msgstr "%n осталось"
+
+#: playlist/playlistmanager.cpp:453 queue/queue.cpp:255
+#, c-format, qt-plural-format
+msgid "%n track(s)"
+msgstr "%n трек(ов)"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:417
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:474
+msgid "%originalyear%"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:413
+msgid "%rating%"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:409
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:470
+msgid "%url%"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:653
+msgid "&About Strawberry"
+msgstr "&О Strawberry"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:661
+msgid "&Add file..."
+msgstr "&Добавить файл…"
+
+#: playlist/playlistheader.cpp:64
+msgid "&Align text"
+msgstr "Выровнять &текст"
+
+#: playlist/playlistheader.cpp:67
+msgid "&Center"
+msgstr "По &центру"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:635
+msgid "&Clear playlist"
+msgstr "&Очистить плейлист"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:667
+msgid "&Cover Manager"
+msgstr "&Менеджер обложек"
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:286
+msgid "&Custom"
+msgstr "&Другое"
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:285
+msgid "&Default"
+msgstr "&По умолчанию"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:700
+msgid "&Do a full collection rescan"
+msgstr "&Полное пересканирование фонотеки"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:672
+msgid "&Equalizer"
+msgstr "&Эквалайзер"
+
+#: playlist/playlistheader.cpp:103
+#, qt-format
+msgid "&Hide %1"
+msgstr "&Скрыть «%1»"
+
+#: playlist/playlistheader.cpp:57
+msgid "&Hide..."
+msgstr "&Скрыть…"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:675
+msgid "&Jump to the currently playing track"
+msgstr "Перейти к &активному треку"
+
+#: playlist/playlistheader.cpp:66
+msgid "&Left"
+msgstr "С&лева"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:687
+msgid "&Load playlist..."
+msgstr "&Загрузить плейлист…"
+
+#: playlist/playlistheader.cpp:60
+msgid "&Lock rating"
+msgstr "&Заблокировать оценку"
+
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:176
+msgid "&Manual proxy configuration"
+msgstr "&Ручная настройка прокси"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:732
+msgid "&Music"
+msgstr "&Музыка"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:696
+msgid "&Mute"
+msgstr "&Приглушить звук"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:679
+msgid "&New playlist"
+msgstr "&Новый плейлист"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:622
+msgid "&Next track"
+msgstr "С&ледующий трек"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:529
+msgid "&No background image"
+msgstr "&Без фонового изображения"
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:284
+msgid "&None"
+msgstr "&Нет"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:665
+msgid "&Open file..."
+msgstr "&Открыть файл…"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:614
+msgid "&Play"
+msgstr "&Играть"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:626
+msgid "&Quit"
+msgstr "&Выход"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:670
+msgid "&Repeat mode"
+msgstr "Ре&жим повторения"
+
+#: playlist/playlistheader.cpp:59
+msgid "&Reset columns to default"
+msgstr "С&бросить вид столбцов"
+
+#: playlist/playlistheader.cpp:68
+msgid "&Right"
+msgstr "С&права"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:691
+msgid "&Save all playlists..."
+msgstr "Сохранить все плейлист&ы…"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:649
+msgid "&Settings..."
+msgstr "&Настройки…"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:669
+msgid "&Shuffle mode"
+msgstr "&Режим перемешивания"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:618
+msgid "&Stop"
+msgstr "&Стоп"
+
+#: playlist/playlistheader.cpp:58
+msgid "&Stretch columns to fit window"
+msgstr "&Подгонять к размеру окна"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:735
+msgid "&Tools"
+msgstr "С&ервис"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:673
+msgid "&Transcode Music"
+msgstr "&Конвертер музыки"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:694
+msgid "&Update changed collection folders"
+msgstr "&Обновить изменения папок фонотеки"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:523
+msgid "&Use the system default color"
+msgstr "&Использовать стандартный цвет системы"
+
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:174
+msgid "&Use the system proxy settings"
+msgstr "&Использовать системные настройки прокси"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:413
+msgid "(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately)."
+msgstr "(Это задержка между моментами, когда песня заскробблится и когда скроббл отправится на сервер. Установка времени в 0 секунд сделает отправку скроббла мгновенной)."
+
+#: dialogs/edittagdialog.cpp:103
+msgid "(different across multiple songs)"
+msgstr "(различный через несколько композиций)"
+
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:223
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:224
+msgid "0"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_trackslider.h:66
+#: ../../build-qt6dev/src/ui_trackslider.h:70
+msgid "0:00:00"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:548
+msgid "0px"
+msgstr "0 пикс"
+
+#: utilities/timeutils.cpp:67
+msgid "1 day"
+msgstr "1 день"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:550
+msgid "40%"
+msgstr ""
+
+#: smartplaylists/smartplaylistsmodel.cpp:72
+msgid "50 random tracks"
+msgstr "50 случайных треков"
+
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:272
+msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See: <a href=\"https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin\"><span style=\" text-decoration: underline; color:#0000ff;\">https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin</span></a> for instructions on how to install the plugin.</p></body></html>"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:268
+msgid "<p>Tokens start with %, for example: %artist %album %title </p>\n\n"
+"<p>If you surround sections of text that contain a token with curly-braces, that section will be hidden if the token is empty.</p>"
+msgstr "<p>Токены начинаются со знака %, например: %artist %album %title </p>\n\n"
+"<p>Если вы окружили часть текста фигурными скобками, то эта часть текста не будет видна при пустом токене</p>"
+
+#: smartplaylists/smartplaylistwizard.cpp:88
+msgid "A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs."
+msgstr "Умный плейлист — это динамический список композиций из вашей фонотеки. Существуют разные типы умных плейлистов с различными способами подбора треков."
+
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:162
+msgid "A song will be included in the playlist if it matches these conditions."
+msgstr "Композиция будет добавлена в плейлист, если соответствует этим условиям."
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:191
+msgid "A&utomatic"
+msgstr "А&втоматические"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:430
+msgid "A-Z"
+msgstr "А-Я (A-Z)"
+
+#: ../../build-qt6dev/src/ui_transcodersettingspage.h:192
+msgid "AAC"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:676
+msgid "ALSA plugin:"
+msgstr "Модуль ALSA:"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:331
+msgid "API Token"
+msgstr "Токен API"
+
+#: ../../build-qt6dev/src/ui_transcodersettingspage.h:193
+msgid "ASF (WMA)"
+msgstr ""
+
+#: covermanager/albumcovermanager.cpp:146
+#: covermanager/albumcoversearcher.cpp:184
+#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:139
+msgid "Abort"
+msgstr "Прервать"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:701
+msgid "Abort collection scan"
+msgstr "Прервать сканирование фонотеки"
+
+#: ../../build-qt6dev/src/ui_about.h:152
+msgid "About"
+msgstr "О программе"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:695
+msgid "About &Qt"
+msgstr "О &фреймворке Qt"
+
+#: dialogs/about.cpp:43
+msgid "About Strawberry"
+msgstr "О Strawberry"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:192
+msgid "Absolu&te"
+msgstr "Абсолю&тные"
+
+#: playlist/playlistsaveoptionsdialog.cpp:43
+msgid "Absolute"
+msgstr "Абсолютные"
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:282
+msgctxt "Category label"
+msgid "Action"
+msgstr "Действие"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:674
+msgid "Add &folder..."
+msgstr "Добавить &папку…"
+
+#: ../../build-qt6dev/src/ui_addstreamdialog.h:76
+msgid "Add Stream"
+msgstr "Добавить поток"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:403
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:464
+msgid "Add a new line if supported by the notification type"
+msgstr "Добавить новую строку, если поддерживается типом уведомления"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:224
+msgid "Add all tracks from a directory and all its subdirectories"
+msgstr "Добавить все треки из каталога и всех его подкаталогов"
+
+#: settings/collectionsettingspage.cpp:252
+msgid "Add directory..."
+msgstr "Добавить каталог…"
+
+#: core/mainwindow.cpp:2330
+msgid "Add file"
+msgstr "Добавить файл"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:711
+msgid "Add file to transcoder"
+msgstr "Добавить в конвертер"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:709
+msgid "Add file(s) to transcoder"
+msgstr "Конвертировать файлы"
+
+#: transcoder/transcodedialog.cpp:329
+msgid "Add files to transcode"
+msgstr "Добавить файлы для конвертирования"
+
+#: core/mainwindow.cpp:2356 transcoder/transcodedialog.cpp:421
+msgid "Add folder"
+msgstr "Добавление папки"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:444
+msgid "Add new folder..."
+msgstr "Добавить новую папку…"
+
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:432
+msgid "Add search term"
+msgstr "Добавить условие поиска"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:411
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:472
+msgid "Add song URL"
+msgstr "Добавить адрес песни"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:364
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:422
+msgid "Add song album tag"
+msgstr "Добавить тег «Альбом»"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:370
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:428
+msgid "Add song albumartist tag"
+msgstr "Добавить тег «Артист альбома»"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:361
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:419
+msgid "Add song artist tag"
+msgstr "Добавить тег «Артист»"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:376
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:434
+msgid "Add song composer tag"
+msgstr "Добавить тег «Композитор»"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:385
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:443
+msgid "Add song disc tag"
+msgstr "Добавить тег «Диск»"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:407
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:468
+msgid "Add song filename"
+msgstr "Добавить имя файла для песни"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:391
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:449
+msgid "Add song genre tag"
+msgstr "Добавить тег «Жанр»"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:382
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:440
+msgid "Add song grouping tag"
+msgstr "Добавить тег «Группа»"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:394
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:452
+msgid "Add song length tag"
+msgstr "Добавить тег «Длина»"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:419
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:476
+msgid "Add song original year tag"
+msgstr "Добавить тег «Год оригинала»"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:379
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:437
+msgid "Add song performer tag"
+msgstr "Добавить тег «Исполнитель»"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:397
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:455
+msgid "Add song play count"
+msgstr "Добавить число прослушиваний песни"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:415
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:461
+msgid "Add song rating"
+msgstr "Оценить песню"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:400
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:458
+msgid "Add song skip count"
+msgstr "Добавить число пропусков песни"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:367
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:425
+msgid "Add song title tag"
+msgstr "Добавить тег «Название»"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:388
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:446
+msgid "Add song track tag"
+msgstr "Добавить тег «Трек» песни"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:373
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:431
+msgid "Add song year tag"
+msgstr "Добавить тег «Год»"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:713
+msgid "Add stream..."
+msgstr "Добавить поток…"
+
+#: streaming/streamingsearchview.cpp:331
+msgid "Add to albums"
+msgstr "Добавить в альбомы"
+
+#: core/mainwindow.cpp:2132
+msgid "Add to another playlist"
+msgstr "Добавить в другой плейлист"
+
+#: streaming/streamingsearchview.cpp:328
+msgid "Add to artists"
+msgstr "Добавить в артисты"
+
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:215
+msgid "Add to playlist"
+msgstr "Добавить в плейлист"
+
+#: streaming/streamingsearchview.cpp:334
+msgid "Add to songs"
+msgstr "Добавить в песни"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:344
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:352
+msgid "Add to the queue"
+msgstr "Добавить в очередь"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:221
+msgid "Add..."
+msgstr "Добавить…"
+
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:99
+msgid "Added this month"
+msgstr "Добавлено за месяц"
+
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:93
+msgid "Added this week"
+msgstr "Добавлено за неделю"
+
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:98
+msgid "Added this year"
+msgstr "Добавлено за год"
+
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:92
+msgid "Added today"
+msgstr "Добавлено сегодня"
+
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:94
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:96
+msgid "Added within three months"
+msgstr "Добавлено за три месяца"
+
+#: collection/collectionfilterwidget.cpp:316
+msgid "Advanced grouping..."
+msgstr "Расширенная группировка…"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:262
+msgid "After copying..."
+msgstr "После копирования…"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:533
+msgid "Albu&m cover"
+msgstr "О&бложка альбома"
+
+#: collection/savedgroupingmanager.cpp:100 playlist/playlist.cpp:1389
+#: organize/organizedialog.cpp:107
+#: ../../build-qt6dev/src/ui_groupbydialog.h:194
+#: ../../build-qt6dev/src/ui_groupbydialog.h:216
+#: ../../build-qt6dev/src/ui_groupbydialog.h:238
+#: ../../build-qt6dev/src/ui_albumcoversearcher.h:108
+#: ../../build-qt6dev/src/ui_albumcoversearcher.h:110
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:433
+#: ../../build-qt6dev/src/ui_edittagdialog.h:921
+#: ../../build-qt6dev/src/ui_trackselectiondialog.h:208
+msgid "Album"
+msgstr "Альбом"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:700
+msgid "Album (ideal loudness for all tracks)"
+msgstr "Альбом (идеальная громкость всех треков)"
+
+#: collection/savedgroupingmanager.cpp:103
+#: ../../build-qt6dev/src/ui_groupbydialog.h:195
+#: ../../build-qt6dev/src/ui_groupbydialog.h:217
+#: ../../build-qt6dev/src/ui_groupbydialog.h:239
+msgid "Album - Disc"
+msgstr "Альбом - Диск"
+
+#: playlist/playlist.cpp:1396
+msgid "Album Artist"
+msgstr "Артист альбома"
+
+#: collection/savedgroupingmanager.cpp:94 organize/organizedialog.cpp:110
+#: ../../build-qt6dev/src/ui_groupbydialog.h:193
+#: ../../build-qt6dev/src/ui_groupbydialog.h:215
+#: ../../build-qt6dev/src/ui_groupbydialog.h:237
+#: ../../build-qt6dev/src/ui_edittagdialog.h:920
+msgid "Album artist"
+msgstr "Артист альбома"
+
+#: dialogs/edittagdialog.cpp:867
+msgid "Album cover editing is only available for collection songs."
+msgstr "Правка обложки альбома доступна только для песен из фонотеки."
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:465
+msgid "Album cover pixmap cache"
+msgstr "Кэш обложек альбомов в формате Pixmap"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:344
+msgid "Album cover size"
+msgstr "Размер обложки альбома"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:314
+msgid "Album cover types"
+msgstr "Типы обложек альбомов"
+
+#: ../../build-qt6dev/src/ui_streamingtabsview.h:114
+msgid "Albums"
+msgstr "Альбомы"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:340
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:277
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:295
+msgid "Albums search limit"
+msgstr "Предел поиска по альбомам"
+
+#: covermanager/albumcovermanager.cpp:171
+msgid "Albums with covers"
+msgstr "Альбомы с обложками"
+
+#: covermanager/albumcovermanager.cpp:172
+msgid "Albums without covers"
+msgstr "Альбомы без обложек"
+
+#: core/mainwindow.cpp:231
+msgid "All Files (*)"
+msgstr "Все файлы (*)"
+
+#: covermanager/albumcovermanager.cpp:170
+msgid "All albums"
+msgstr "Все альбомы"
+
+#: covermanager/albumcovermanager.cpp:346
+msgid "All artists"
+msgstr "Все артисты"
+
+#: covermanager/albumcoverchoicecontroller.cpp:82
+msgid "All files (*)"
+msgstr "Все файлы (*)"
+
+#: playlistparsers/playlistparser.cpp:113
+#, qt-format
+msgid "All playlists (%1)"
+msgstr "Все плейлисты (%1)"
+
+#: smartplaylists/smartplaylistsmodel.cpp:115
+msgid "All tracks"
+msgstr "Все треки"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:276
+msgid "Allow extended ASCII characters"
+msgstr "Разрешить расширенные символы ASCII"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:141
+msgid "Allow mid/side encoding"
+msgstr "Разрешить кодирование в виде суммы и разности двух каналов"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:231
+msgid "Alongside the originals"
+msgstr "Рядом с исходными"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:334
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:348
+msgid "Always start playing"
+msgstr "Всегда начинать воспроизведение"
+
+#: device/gpodloader.cpp:81
+msgid "An error occurred loading the iTunes database"
+msgstr "Произошла ошибка при загрузке базы данных iTunes"
+
+#: moodbar/moodbarrenderer.cpp:168
+msgid "Angry"
+msgstr "Сердитый"
+
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:285
+msgid "App ID"
+msgstr "ИД приложения"
+
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:288
+msgid "App Secret"
+msgstr "Секретный ключ приложения"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:517
+msgid "Appearance"
+msgstr "Внешний вид"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:346
+msgid "Append explicit to album title for explicit albums"
+msgstr "Добавлять «Explicit» в имена альбомов с нецензурной лексикой"
+
+#: core/commandlineoptions.cpp:237
+msgid "Append files/URLs to the playlist"
+msgstr "Добавить файлы/адреса в плейлист"
+
+#: collection/collectionview.cpp:378
+#: smartplaylists/smartplaylistsviewcontainer.cpp:66
+#: widgets/fileviewlist.cpp:43 streaming/streamingsearchview.cpp:317
+#: streaming/streamingcollectionview.cpp:329 radios/radioview.cpp:69
+#: device/deviceview.cpp:244
+msgid "Append to current playlist"
+msgstr "Добавить в текущий плейлист"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:341
+msgid "Append to the playlist"
+msgstr "Добавить в плейлист"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:703
+msgid "Apply compression to prevent clipping"
+msgstr "Применять сжатие для предотвращения искажений"
+
+#: dialogs/deleteconfirmationdialog.cpp:73
+msgid "Are you sure you want to continue?"
+msgstr "Уверены, что хотите продолжить?"
+
+#: equalizer/equalizer.cpp:230
+#, qt-format
+msgid "Are you sure you want to delete the \"%1\" preset?"
+msgstr "Вы действительно хотите удалить предустановку «%1»?"
+
+#: dialogs/edittagdialog.cpp:1338
+msgid "Are you sure you want to reset this song's play statistics?"
+msgstr "Уверены, что хотите сбросить статистику воспроизведения этой песни?"
+
+#: settings/collectionsettingspage.cpp:339
+msgid "Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"
+msgstr "Вы действительно хотите записать счётчики прослушивания и оценки во все файлы песен вашей фонотеки?"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:890
+msgid "Art Automatic"
+msgstr "Обложка автоматическая"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:892
+msgid "Art Embedded"
+msgstr "Вложенная обложка"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:906
+msgid "Art Manual"
+msgstr "Обложка ручная"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:904
+msgid "Art Unset"
+msgstr "Обложка не задана"
+
+#: collection/savedgroupingmanager.cpp:97 playlist/playlist.cpp:1388
+#: organize/organizedialog.cpp:108
+#: ../../build-qt6dev/src/ui_groupbydialog.h:192
+#: ../../build-qt6dev/src/ui_groupbydialog.h:214
+#: ../../build-qt6dev/src/ui_groupbydialog.h:236
+#: ../../build-qt6dev/src/ui_albumcoversearcher.h:104
+#: ../../build-qt6dev/src/ui_albumcoversearcher.h:106
+#: ../../build-qt6dev/src/ui_edittagdialog.h:924
+#: ../../build-qt6dev/src/ui_trackselectiondialog.h:209
+msgid "Artist"
+msgstr "Артист"
+
+#: organize/organizedialog.cpp:109
+msgid "Artist's initial"
+msgstr "Инициалы артиста"
+
+#: ../../build-qt6dev/src/ui_streamingtabsview.h:113
+msgid "Artists"
+msgstr "Артисты"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:339
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:276
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:294
+msgid "Artists search limit"
+msgstr "Предел поиска артистов"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:194
+msgid "As&k when saving"
+msgstr "Сп&рашивать при сохранении"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:228
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:291
+msgid "Audio format"
+msgstr "Формат аудио"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:694
+msgid "Audio normalization"
+msgstr "Нормализация звука"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:671
+msgid "Audio output"
+msgstr "Вывод звука"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:336
+msgid "Audio quality"
+msgstr "Качество звука"
+
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:267
+msgid "Authenticate"
+msgstr ""
+
+#: tidal/tidalrequest.cpp:144 spotify/spotifyrequest.cpp:127
+#: qobuz/qobuzservice.cpp:270
+msgid "Authenticating..."
+msgstr "Аутентификация…"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:311
+#: ../../build-qt6dev/src/ui_lyricssettingspage.h:167
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:246
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:328
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:284
+msgid "Authentication"
+msgstr "Аутентификация"
+
+#: settings/coverssettingspage.cpp:382 settings/lyricssettingspage.cpp:256
+#: settings/tidalsettingspage.cpp:214 settings/spotifysettingspage.cpp:167
+#: settings/qobuzsettingspage.cpp:177
+msgid "Authentication failed"
+msgstr "Ошибка аутентификации"
+
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:249
+msgid "Authentication method:"
+msgstr "Метод аутентификации:"
+
+#: dialogs/about.cpp:145
+msgid "Author and maintainer"
+msgstr "Автор и куратор"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:225
+msgid "Auto"
+msgstr "Авто"
+
+#: playlist/playlistsaveoptionsdialog.cpp:41
+msgid "Automatic"
+msgstr "Автоматические"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:446
+msgid "Automatic updating"
+msgstr "Автоматическое обновление"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:460
+msgid "Automatically open single categories in the collection tree"
+msgstr "Автоматически раскрывать одиночные категории в дереве фонотеки"
+
+#: settings/coverssettingspage.cpp:439
+#, qt-format
+msgid "Automatically picked up from album directory (%1)"
+msgstr "Автовыбранная из каталога с альбомом (%1)"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:436
+msgid "Automatically search for album cover"
+msgstr "Автоматический поиск обложки альбома"
+
+#: context/contextview.cpp:272
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:437
+msgid "Automatically search for song lyrics"
+msgstr "Автоматический поиск текста песни"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:185
+msgid "Automatically select current playing track"
+msgstr "Автоматически выбирать текущий проигрываемый трек"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:189
+msgid "Automatically sort playlist when inserting songs"
+msgstr "Автоматически сортировать плейлист при добавлении песен"
+
+#: widgets/freespacebar.cpp:67
+msgid "Available"
+msgstr "Доступно"
+
+#: filterparser/filterparser.cpp:481
+msgid "Available fields"
+msgstr "Доступные поля"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:221
+msgid "Average bitrate"
+msgstr "Средний битрейт"
+
+#: covermanager/coversearchstatisticsdialog.cpp:82
+msgid "Average image size"
+msgstr "Средний размер изображений"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:670
+msgid "Backend"
+msgstr "Звук"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:507
+msgid "Background color"
+msgstr "Цвет фона"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:527
+msgid "Background image"
+msgstr "Фоновое изображение"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:511
+msgid "Background opacity"
+msgstr "Прозрачность фона"
+
+#: core/database.cpp:564
+msgid "Backing up database"
+msgstr "Резервное копирование базы данных"
+
+#: ../../build-qt6dev/src/ui_equalizer.h:177
+msgid "Balance"
+msgstr "Баланс"
+
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:298
+msgid "Base64 encoded secret"
+msgstr "Секретный ключ в кодировке Base64"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:512
+msgid "Basic Blue"
+msgstr "Стандартный голубой"
+
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:266
+msgid "Basic authentication"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:314
+msgid "Behavior"
+msgstr "Поведение"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:79
+msgid "Best"
+msgstr "Лучшее"
+
+#: playlist/playlistview.cpp:224
+msgid "Bit"
+msgstr ""
+
+#: playlist/playlist.cpp:1406
+msgid "Bit Depth"
+msgstr "Разрядность"
+
+#: context/contextview.cpp:166 collection/savedgroupingmanager.cpp:148
+#: organize/organizedialog.cpp:123
+#: ../../build-qt6dev/src/ui_groupbydialog.h:209
+#: ../../build-qt6dev/src/ui_groupbydialog.h:231
+#: ../../build-qt6dev/src/ui_groupbydialog.h:253
+#: ../../build-qt6dev/src/ui_edittagdialog.h:897
+msgid "Bit depth"
+msgstr "Разрядность"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:899
+msgid "Bit rate"
+msgstr "Битрейт"
+
+#: context/contextview.cpp:167 collection/savedgroupingmanager.cpp:151
+#: playlist/playlist.cpp:1407 ../../build-qt6dev/src/ui_groupbydialog.h:210
+#: ../../build-qt6dev/src/ui_groupbydialog.h:232
+#: ../../build-qt6dev/src/ui_groupbydialog.h:254
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:132
+#: ../../build-qt6dev/src/ui_transcoderoptionsopus.h:76
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:218
+#: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:75
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:194
+msgid "Bitrate"
+msgstr "Битрейт"
+
+#: organize/organizedialog.cpp:121
+msgctxt "Refers to bitrate in file organize dialog."
+msgid "Bitrate"
+msgstr "Битрейт"
+
+#: analyzer/blockanalyzer.cpp:46
+msgid "Block analyzer"
+msgstr "Блоковый анализатор"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:142
+msgid "Block type"
+msgstr "Тип блока"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:547
+msgid "Blur amount"
+msgstr "Степень размытия"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:501
+msgid "Body"
+msgstr "Содержимое"
+
+#: analyzer/boomanalyzer.cpp:43
+msgid "Boom analyzer"
+msgstr "Подъёмный анализатор"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:540
+msgid "Bottom Left"
+msgstr "Слева внизу"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:541
+msgid "Bottom Right"
+msgstr "Справа внизу"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:535
+msgid "Browse..."
+msgstr "Обзор…"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:688
+msgid "Buffer"
+msgstr "Буфер"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:690
+msgid "Buffer duration"
+msgstr "Размер буфера"
+
+#: engine/gstengine.cpp:699
+msgid "Buffering"
+msgstr "Буферизация"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:668
+msgid "C&onsole"
+msgstr "&Консоль"
+
+#: core/songloader.cpp:201
+msgid "CD playback is only available with the GStreamer engine."
+msgstr "Воспроизведение CD доступно только с движком GStreamer."
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:424
+msgid "CDDA"
+msgstr ""
+
+#: playlist/playlist.cpp:1420
+msgid "CUE"
+msgstr "CUE-файл"
+
+#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:157
+msgid "Cancel"
+msgstr "Отмена"
+
+#: tidal/tidalstreamurlrequest.cpp:105 qobuz/qobuzstreamurlrequest.cpp:101
+msgid "Cancelled."
+msgstr "Отменено."
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:916
+msgid "Change art"
+msgstr "Сменить обложку"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:78
+msgid "Change repeat mode"
+msgstr "Сменить режим повторения"
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:287
+msgid "Change shortcut..."
+msgstr "Изменить сочетание…"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:77
+msgid "Change shuffle mode"
+msgstr "Сменить режим перемешивания"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:351
+msgid "Change the currently playing song"
+msgstr "Сменить активный трек"
+
+#: core/commandlineoptions.cpp:243
+msgid "Change the language"
+msgstr "Сменить язык"
+
+#: core/mainwindow.cpp:821
+msgid "Check for updates..."
+msgstr "Проверить обновления…"
+
+#: smartplaylists/smartplaylistwizard.cpp:94
+msgid "Choose a name for your smart playlist"
+msgstr "Выберите название вашего умного плейлиста"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:510
+msgid "Choose color..."
+msgstr "Выбрать цвет…"
+
+#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:149
+msgid "Choose data to import from last.fm"
+msgstr "Выберите данные для импорта из Last.fm"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:509
+msgid "Choose font..."
+msgstr "Выбрать шрифт…"
+
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:164
+msgid "Choose how the playlist is sorted and how many songs it will contain."
+msgstr "Настройка сортировки плейлиста и числа песен в нём."
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:308
+msgid "Choose the providers you want to use when searching for covers."
+msgstr "Выберите поставщиков для поиска обложек."
+
+#: ../../build-qt6dev/src/ui_lyricssettingspage.h:164
+msgid "Choose the providers you want to use when searching for lyrics."
+msgstr "Выберите поставщиков для поиска текста песен."
+
+#: equalizer/equalizer.cpp:140
+msgid "Classical"
+msgstr "Классика"
+
+#: widgets/lineedit.cpp:58 transcoder/transcodedialog.cpp:104
+#: ../../build-qt6dev/src/ui_queueview.h:141
+msgid "Clear"
+msgstr "Очистить"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:471
+msgid "Clear Disk Cache"
+msgstr "Очистить дисковый кэш"
+
+#: covermanager/albumcoverchoicecontroller.cpp:112
+msgid "Clear cover"
+msgstr "Очистить обложку"
+
+#: core/mainwindow.cpp:2421 ../../build-qt6dev/src/ui_mainwindow.h:637
+msgid "Clear playlist"
+msgstr "Очистить плейлист"
+
+#: dialogs/about.cpp:163
+msgid "Clementine authors"
+msgstr "Авторы Clementine"
+
+#: dialogs/about.cpp:172
+msgid "Clementine contributors"
+msgstr "Разработчики Clementine"
+
+#: collection/collectionview.cpp:338
+msgid "Click here to add some music"
+msgstr "Нажмите сюда для добавления музыки"
+
+#: streaming/streamingcollectionview.cpp:307
+msgid "Click here to retrieve music"
+msgstr "Щёлкните сюда, чтобы получить музыку"
+
+#: ../../build-qt6dev/src/ui_trackslider.h:68
+msgid "Click to toggle between remaining time and total time"
+msgstr "Щёлкните для переключения между оставшимся и полным временем"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:330
+msgid "Client ID"
+msgstr "ИД клиента"
+
+#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:156
+#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:138
+msgid "Close"
+msgstr "Закрыть"
+
+#: playlist/playlisttabbar.cpp:80
+msgid "Close playlist"
+msgstr "Закрыть плейлист"
+
+#: covermanager/albumcovermanager.cpp:259
+msgid "Closing this window will stop searching for album covers."
+msgstr "Закрытие этого окна остановит поиск обложек для альбомов."
+
+#: equalizer/equalizer.cpp:141
+msgid "Club"
+msgstr "Клуб"
+
+#: core/mainwindow.cpp:386
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:442
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:418
+msgid "Collection"
+msgstr "Фонотека"
+
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:90
+msgid "Collection Filter"
+msgstr "Фильтр фонотеки"
+
+#: ../../build-qt6dev/src/ui_groupbydialog.h:187
+msgid "Collection advanced grouping"
+msgstr "Расширенная группировка фонотеки"
+
+#: core/mainwindow.cpp:2988
+msgid "Collection rescan notice"
+msgstr "Уведомление о пересканировании фонотеки"
+
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:95
+msgid "Collection search"
+msgstr "Поиск фонотеки"
+
+#: core/commandlineoptions.cpp:247
+msgid "Comma separated list of class:level, level is 0-3"
+msgstr "Разделённый запятыми список «класс:уровень», где уровень от 0 до 3"
+
+#: playlist/playlist.cpp:1416 smartplaylists/smartplaylistsearchterm.cpp:391
+#: organize/organizedialog.cpp:119
+#: ../../build-qt6dev/src/ui_edittagdialog.h:928
+msgid "Comment"
+msgstr "Комментарий"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:930
+msgid "Compilation"
+msgstr "Сборник"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:935
+msgid "Complete lyrics automatically"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:926
+msgid "Complete tags automatically"
+msgstr "Автозаполнение тегов"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:702
+msgid "Complete tags automatically..."
+msgstr "Автозаполнение тегов…"
+
+#: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1397
+#: organize/organizedialog.cpp:111
+#: ../../build-qt6dev/src/ui_groupbydialog.h:204
+#: ../../build-qt6dev/src/ui_groupbydialog.h:226
+#: ../../build-qt6dev/src/ui_groupbydialog.h:248
+#: ../../build-qt6dev/src/ui_edittagdialog.h:925
+msgid "Composer"
+msgstr "Композитор"
+
+#: settings/subsonicsettingspage.cpp:131 settings/tidalsettingspage.cpp:152
+#: settings/tidalsettingspage.cpp:159 settings/tidalsettingspage.cpp:163
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:131
+#: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
+msgid "Configuration incomplete"
+msgstr "Конфигурация не завершена"
+
+#: settings/subsonicsettingspage.cpp:137
+msgid "Configuration incorrect"
+msgstr "Некорректная конфигурация"
+
+#: streaming/streamingsearchview.cpp:180 streaming/streamingsearchview.cpp:346
+#: streaming/streamingsongsview.cpp:60 streaming/streamingtabsview.cpp:64
+#, qt-format
+msgid "Configure %1..."
+msgstr "Настроить %1…"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:555
+msgid "Configure buttons"
+msgstr "Настройка кнопок"
+
+#: core/mainwindow.cpp:691
+msgid "Configure collection..."
+msgstr "Настроить фонотеку…"
+
+#: device/devicemanager.cpp:352 device/devicemanager.cpp:353
+msgid "Connect device"
+msgstr "Подключить устройство"
+
+#: ../../build-qt6dev/src/ui_console.h:76
+msgid "Console"
+msgstr "Консоль"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:196
+msgid "Constant bitrate"
+msgstr "Постоянный битрейт"
+
+#: core/mainwindow.cpp:385 ../../build-qt6dev/src/ui_contextsettingspage.h:359
+msgid "Context"
+msgstr "Эфир"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:182
+msgid "Continue to the next item in the playlist if a song is unavailable"
+msgstr "Переходить к следующей позиции плейлиста, если песня недоступна"
+
+#: dialogs/about.cpp:154
+msgid "Contributors"
+msgstr "Участники"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:381
+msgid "Convert all music"
+msgstr "Конвертировать всю музыку"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:380
+msgid "Convert any music that the device can't play"
+msgstr "Конвертировать всю музыку, которую не может проигрывать устройство"
+
+#: core/mainwindow.cpp:767
+msgid "Copy URL(s)..."
+msgstr "Копировать адрес(а)…"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:279
+msgid "Copy album cover artwork"
+msgstr "Копировать обложку альбома"
+
+#: core/mainwindow.cpp:771 widgets/fileviewlist.cpp:47
+#: device/deviceview.cpp:249
+msgid "Copy to collection..."
+msgstr "Копировать в фонотеку…"
+
+#: playlist/playlistlistcontainer.cpp:386
+msgid "Copy to device"
+msgstr "Копировать на устройство"
+
+#: core/mainwindow.cpp:774 collection/collectionview.cpp:393
+#: playlist/playlistlistcontainer.cpp:93 widgets/fileviewlist.cpp:49
+msgid "Copy to device..."
+msgstr "Копировать на устройство…"
+
+#: dialogs/snapdialog.cpp:66
+msgid "Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:"
+msgstr "Скопируйте ваши strawberry.conf и strawberry.db из вашего каталога ~/snap, чтобы избежать потери настроек, перед удалением snap:"
+
+#: device/gpoddevice.cpp:241
+#, qt-format
+msgid "Could not copy %1 to %2: %3"
+msgstr ""
+
+#: core/filesystemmusicstorage.cpp:98
+#, qt-format
+msgid "Could not copy file %1 to %2."
+msgstr ""
+
+#: transcoder/transcoder.cpp:73
+#, qt-format
+msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
+msgstr "Не удалось создать элемент GStreamer «%1» — убедитесь, что у вас установлены все необходимые модули GStreamer"
+
+#: core/songloader.cpp:313
+#, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr "Не удалось открыть CUE-файл %1 для чтения: %2"
+
+#: device/mtpconnection.cpp:75 device/mtpconnection.cpp:109
+msgid "Could not open MTP device."
+msgstr ""
+
+#: scrobbler/scrobblingapi20.cpp:223
+msgid "Could not open URL. Please open this URL in your browser"
+msgstr "Не удалось открыть адрес. Пожалуйста, откройте эту ссылку в вашем браузере"
+
+#: playlistparsers/playlistparser.cpp:192
+#, qt-format
+msgid "Could not open file %1"
+msgstr ""
+
+#: core/songloader.cpp:281
+#, qt-format
+msgid "Could not open file %1 for reading: %2"
+msgstr "Не удалось открыть файл %1 для чтения: %2"
+
+#: core/songloader.cpp:374
+#, qt-format
+msgid "Could not open playlist file %1 for reading: %2"
+msgstr "Не удалось открыть файл плейлиста %1 для чтения: %2"
+
+#: covermanager/albumcovermanager.cpp:1063
+#: covermanager/albumcoverchoicecontroller.cpp:827
+#, qt-format
+msgid "Could not save cover to file %1."
+msgstr "Не удалось сохранить обложку в файл %1."
+
+#: playlist/playlist.cpp:442 dialogs/edittagdialog.cpp:1491
+#, qt-format
+msgid "Could not write metadata to %1"
+msgstr ""
+
+#: playlist/playlist.cpp:439 dialogs/edittagdialog.cpp:1494
+#, qt-format
+msgid "Could not write metadata to %1: %2"
+msgstr ""
+
+#: core/songloader.cpp:499
+#, qt-format
+msgid "Couldn't create GStreamer fakesink element for %1"
+msgstr "Не удалось создать элемент GStreamer fakesink для %1"
+
+#: core/songloader.cpp:482
+#, qt-format
+msgid "Couldn't create GStreamer source element for %1"
+msgstr "Не удалось создать объект источника GStreamer для %1"
+
+#: core/songloader.cpp:492
+#, qt-format
+msgid "Couldn't create GStreamer typefind element for %1"
+msgstr "Не удалось создать элемент GStreamer typefind для %1"
+
+#: playlist/playlistmanager.cpp:207
+msgid "Couldn't create playlist"
+msgstr "Невозможно создать плейлист"
+
+#: transcoder/transcoder.cpp:431
+#, qt-format
+msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
+msgstr "Не удалось найти мультиплексор для %1. Убедитесь, что у вас установлены необходимые модули GStreamer"
+
+#: transcoder/transcoder.cpp:426
+#, qt-format
+msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
+msgstr "Не удалось найти кодировщик для %1, проверьте, что у вас установлены все необходимые модули GStreamer"
+
+#: core/songloader.cpp:505
+#, qt-format
+msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
+msgstr "Не удалось связать элементы GStreamer источник, typefind и fakesink для %1"
+
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:212
+#: ../../build-qt6dev/src/ui_albumcoversearcher.h:102
+msgid "Cover Manager"
+msgstr "Менеджер обложек"
+
+#: dialogs/edittagdialog.cpp:862
+msgid "Cover art not set"
+msgstr "Обложка не задана"
+
+#: dialogs/edittagdialog.cpp:878
+msgid "Cover changed: Will be cleared when saved."
+msgstr "Смена обложки: будет очищена при сохранении."
+
+#: dialogs/edittagdialog.cpp:882
+msgid "Cover changed: Will be deleted when saved."
+msgstr "Смена обложки: будет удалена при сохранении."
+
+#: dialogs/edittagdialog.cpp:880
+msgid "Cover changed: Will be unset when saved."
+msgstr "Смена обложки: будет снята при сохранении."
+
+#: dialogs/edittagdialog.cpp:884
+msgid "Cover changed: Will set new when saved."
+msgstr "Смена обложки: будет обновлена при сохранении."
+
+#: covermanager/albumcoverchoicecontroller.cpp:193
+#, qt-format
+msgid "Cover file %1 is empty."
+msgstr "Файл обложки %1 пуст."
+
+#: dialogs/edittagdialog.cpp:854 dialogs/edittagdialog.cpp:857
+#, qt-format
+msgid "Cover from %1"
+msgstr "Обложка из %1"
+
+#: dialogs/edittagdialog.cpp:851
+msgid "Cover from embedded image."
+msgstr "Обложка из вложенного изображения."
+
+#: dialogs/edittagdialog.cpp:848
+msgid "Cover is unset."
+msgstr "Обложка не задана."
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:307
+msgid "Cover providers"
+msgstr "Поставщики обложек"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:306
+msgid "Covers"
+msgstr "Обложки"
+
+#: covermanager/albumcoversearcher.cpp:126
+#: covermanager/coversearchstatisticsdialog.cpp:74
+#, qt-format
+msgid "Covers from %1"
+msgstr "Обложки из %1"
+
+#: core/commandlineoptions.cpp:236
+msgid "Create a new playlist with files"
+msgstr "Создать новый плейлист с файлами"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:711
+msgid "Cross-fade when changing tracks automatically"
+msgstr "Перекрёстное затухание при автоматической смене трека"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:710
+msgid "Cross-fade when changing tracks manually"
+msgstr "Перекрёстное затухание при ручной смене трека"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:632
+msgid "Ctrl+Alt+V"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_queueview.h:134
+msgid "Ctrl+Down"
+msgstr "Ctrl+Вниз"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:644
+msgid "Ctrl+E"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:659
+msgid "Ctrl+H"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:677
+msgid "Ctrl+J"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:640
+#: ../../build-qt6dev/src/ui_queueview.h:144
+msgid "Ctrl+K"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:698
+msgid "Ctrl+M"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:681
+msgid "Ctrl+N"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:651
+msgid "Ctrl+P"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:628
+msgid "Ctrl+Q"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:685
+msgid "Ctrl+S"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:663
+msgid "Ctrl+Shift+A"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:689
+msgid "Ctrl+Shift+O"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:704
+msgid "Ctrl+T"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_savedgroupingmanager.h:106
+#: ../../build-qt6dev/src/ui_queueview.h:128
+msgid "Ctrl+Up"
+msgstr "Ctrl+Вверх"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:469
+msgid "Current disk cache in use:"
+msgstr "Используемый сейчас дисковый кэш:"
+
+#: equalizer/equalizer.cpp:139
+msgid "Custom"
+msgstr "Пользовательская"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:560
+msgid "Custom color"
+msgstr "Собственный цвет"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:534
+msgid "Custom image:"
+msgstr "Своё изображение:"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:493
+msgid "Custom message settings"
+msgstr "Настройки сообщения"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:421
+msgid "Custom text settings"
+msgstr "Собственные настройки текста"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:514
+msgid "Custom..."
+msgstr "Пользовательский…"
+
+#: device/udisks2lister.cpp:123
+msgid "D-Bus path"
+msgstr "Путь D-Bus"
+
+#: equalizer/equalizer.cpp:142
+msgid "Dance"
+msgstr "Танец"
+
+#: spotify/spotifyrequest.cpp:1373
+msgid "Data missing error"
+msgstr ""
+
+#: core/database.cpp:510
+msgid "Database corruption detected."
+msgstr "Обнаружено повреждение базы данных."
+
+#: playlist/playlist.cpp:1414
+msgid "Date Created"
+msgstr "Дата создания"
+
+#: playlist/playlist.cpp:1413
+msgid "Date Modified"
+msgstr "Дата изменения"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:888
+msgid "Date created"
+msgstr "Дата создания"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:891
+msgid "Date modified"
+msgstr "Дата изменения"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:453
+msgid "Days"
+msgstr "Дни"
+
+#: core/commandlineoptions.cpp:229
+msgid "Decrease the volume by 4 percent"
+msgstr "Уменьшить громкость на 4 процента"
+
+#: core/commandlineoptions.cpp:231
+msgid "Decrease the volume by <value> percent"
+msgstr "Уменьшить громкость на <value> процентов"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:70
+msgid "Decrease volume"
+msgstr "Уменьшить громкость"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:528
+msgid "Default bac&kground image"
+msgstr "&Стандартное фоновое изображение"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:693
+msgid "Defaults"
+msgstr "По умолчанию"
+
+#: playlist/playlistlistcontainer.cpp:90
+#: ../../build-qt6dev/src/ui_playlistlistcontainer.h:131
+msgid "Delete"
+msgstr "Удалить"
+
+#: covermanager/albumcoverchoicecontroller.cpp:111
+msgid "Delete cover"
+msgstr "Удалить обложку"
+
+#: dialogs/deleteconfirmationdialog.cpp:46 device/deviceview.cpp:429
+msgid "Delete files"
+msgstr "Удалить файлы"
+
+#: device/deviceview.cpp:250
+msgid "Delete from device..."
+msgstr "Удалить с носителя…"
+
+#: core/mainwindow.cpp:776 collection/collectionview.cpp:395
+#: widgets/fileviewlist.cpp:50
+msgid "Delete from disk..."
+msgstr "Удалить с диска…"
+
+#: equalizer/equalizer.cpp:229 ../../build-qt6dev/src/ui_equalizer.h:172
+msgid "Delete preset"
+msgstr "Удалить предустановку"
+
+#: smartplaylists/smartplaylistsviewcontainer.cpp:78
+#: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:107
+msgid "Delete smart playlist"
+msgstr "Удалить умный плейлист"
+
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:259
+msgid "Delete songs"
+msgstr "Удалить песни"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:264
+msgid "Delete the original files"
+msgstr "Удалять исходные файлы"
+
+#: core/deletefiles.cpp:59
+msgid "Deleting files"
+msgstr "Удаление файлов"
+
+#: core/mainwindow.cpp:2047
+msgid "Dequeue selected tracks"
+msgstr "Убрать выбранные треки из очереди"
+
+#: core/mainwindow.cpp:2046
+msgid "Dequeue track"
+msgstr "Убрать трек из очереди"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:261
+#: ../../build-qt6dev/src/ui_transcodedialog.h:230
+msgid "Destination"
+msgstr "Назначение"
+
+#: core/filesystemmusicstorage.cpp:92
+#, qt-format
+msgid "Destination file %1 exists, but not allowed to overwrite"
+msgstr ""
+
+#: core/filesystemmusicstorage.cpp:73
+#, qt-format
+msgid "Destination file %1 exists, but not allowed to overwrite."
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:235
+msgid "Details..."
+msgstr "Подробнее…"
+
+#: device/giolister.cpp:193 ../../build-qt6dev/src/ui_backendsettingspage.h:672
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:422
+msgid "Device"
+msgstr "Устройство"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:370
+msgid "Device Properties"
+msgstr "Свойства носителя"
+
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:268
+msgid "Device credentials"
+msgstr ""
+
+#: device/deviceview.cpp:241
+msgid "Device properties..."
+msgstr "Свойства носителя…"
+
+#: core/mainwindow.cpp:393
+msgid "Devices"
+msgstr "Носители"
+
+#: dialogs/edittagdialog.cpp:104
+msgid "Different art across multiple songs."
+msgstr "Разные обложки для нескольких песен."
+
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:175
+msgid "Direct internet connection"
+msgstr "Прямое интернет-подключение"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:219
+msgid "Directory"
+msgstr "Каталог"
+
+#: playlistparsers/playlistparser.cpp:222
+#, qt-format
+msgid "Directory %1 does not exist."
+msgstr ""
+
+#: dialogs/saveplaylistsdialog.cpp:79
+msgid "Directory does not exist."
+msgstr "Каталог не существует."
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:487
+msgid "Disable duration"
+msgstr "Отключить длительность"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:480
+msgctxt "Refers to a disabled notification type in Notification settings."
+msgid "Disabled"
+msgstr "Отключено"
+
+#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1391
+#: organize/organizedialog.cpp:115
+#: ../../build-qt6dev/src/ui_groupbydialog.h:196
+#: ../../build-qt6dev/src/ui_groupbydialog.h:218
+#: ../../build-qt6dev/src/ui_groupbydialog.h:240
+#: ../../build-qt6dev/src/ui_edittagdialog.h:918
+msgid "Disc"
+msgstr "Диск"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:232
+msgid "Discontinuous transmission"
+msgstr "Непрерывная передача"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:468
+msgid "Disk Cache Size"
+msgstr "Размер кэша диска"
+
+#: collection/collectionfilterwidget.cpp:117
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:459
+msgid "Display options"
+msgstr "Настройки вида"
+
+#: core/commandlineoptions.cpp:241
+msgid "Display the on-screen-display"
+msgstr "Показывать экранное уведомление"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:379
+msgid "Do not convert any music"
+msgstr "Не конвертировать какую-либо музыку"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:546
+msgid "Do not cut image"
+msgstr "Не обрезать изображение"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:206
+msgid "Do not overwrite"
+msgstr "Не перезаписывать"
+
+#: ../../build-qt6dev/src/ui_messagedialog.h:121
+msgid "Do not show this message again."
+msgstr "Не показывать это сообщение снова."
+
+#: playlistparsers/parserbase.cpp:62
+#, qt-format
+msgid "Don't know how to handle %1"
+msgstr ""
+
+#: osd/osdbase.cpp:363 ../../build-qt6dev/src/ui_playlistsequence.h:108
+msgid "Don't repeat"
+msgstr "Не повторять"
+
+#: collection/collectionview.cpp:408
+msgid "Don't show in various artists"
+msgstr "Не показывать в «Различных артистах»"
+
+#: osd/osdbase.cpp:348 ../../build-qt6dev/src/ui_playlistsequence.h:114
+msgid "Don't shuffle"
+msgstr "Не перемешивать"
+
+#: covermanager/albumcovermanager.cpp:260
+msgid "Don't stop!"
+msgstr "Не останавливать!"
+
+#: radios/radioview.cpp:85
+msgid "Donate"
+msgstr "Пожертвовать"
+
+#: device/deviceview.cpp:139
+msgid "Double click to open"
+msgstr "Щёлкните дважды для открытия"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:350
+msgid "Double clicking a song in the playlist will..."
+msgstr "Двойной щелчок по песне в плейлисте…"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:340
+msgid "Double clicking a song will..."
+msgstr "Двойной щелчок по песне…"
+
+#: playlist/playlisttabbar.cpp:358
+msgid "Double-click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"
+msgstr "Щёлкните сюда дважды для добавления плейлиста в избранное, он будет сохранён в разделе «Списки» левой боковой панели"
+
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:255
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:342
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:279
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:297
+msgid "Download album covers"
+msgstr "Скачивать обложки альбомов"
+
+#: settings/notificationssettingspage.cpp:68
+msgid "Drag to reposition"
+msgstr "Перетащите для размещения"
+
+#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:105
+msgid "Dynamic mode is on"
+msgstr "Динамический режим включён"
+
+#: smartplaylists/smartplaylistsmodel.cpp:116
+msgid "Dynamic random mix"
+msgstr "Динамичный случайный микс"
+
+#: context/contextview.cpp:168
+msgid "EBU R 128 Integrated Loudness"
+msgstr "Встроенная громкость EBU R 128"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:705
+msgid "EBU R 128 Loudness Normalization"
+msgstr "Нормализация громкости EBU R 128"
+
+#: context/contextview.cpp:169
+msgid "EBU R 128 Loudness Range"
+msgstr "Диапазон громкости EBU R 128"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:898
+msgid "EBU R 128 integrated loudness"
+msgstr "Встроенная громкость EBU R 128"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:907
+msgid "EBU R 128 loudness range"
+msgstr "Диапазон громкости EBU R 128"
+
+#: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:104
+msgid "Edit smart playlist"
+msgstr "Править умный плейлист"
+
+#: smartplaylists/smartplaylistsviewcontainer.cpp:77
+msgid "Edit smart playlist..."
+msgstr "Править умный плейлист…"
+
+#: core/mainwindow.cpp:2090
+#, qt-format
+msgid "Edit tag \"%1\"..."
+msgstr "Править тег «%1»…"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:648
+msgid "Edit tag..."
+msgstr "Править тег…"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:886
+msgid "Edit track information"
+msgstr "Правка сведений о треке"
+
+#: collection/collectionview.cpp:398 widgets/fileviewlist.cpp:53
+#: ../../build-qt6dev/src/ui_mainwindow.h:642
+msgid "Edit track information..."
+msgstr "Править сведения о треке…"
+
+#: collection/collectionview.cpp:399
+msgid "Edit tracks information..."
+msgstr "Править сведения о треках…"
+
+#: settings/coverssettingspage.cpp:442
+#, qt-format
+msgid "Embedded album cover art (%1)"
+msgstr "Вложенная обложка альбома (%1)"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:917
+msgid "Embedded cover"
+msgstr "Вложенная обложка"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:405
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:430
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:433
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:436
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:244
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:326
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:265
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:282
+msgid "Enable"
+msgstr "Включить"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:467
+msgid "Enable Disk Cache"
+msgstr "Включить дисковый кэш"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:686
+msgid "Enable HTTP/2 for streaming"
+msgstr "Включить HTTP/2 для потокового вещания"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:432
+msgid "Enable Items"
+msgstr "Задействовать элементы"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:478
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:188
+msgid "Enable delete files in the right click context menu"
+msgstr "Включить удаление файлов в контекстное меню правого щелчка"
+
+#: ../../build-qt6dev/src/ui_equalizer.h:174
+msgid "Enable equalizer"
+msgstr "Включить эквалайзер"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:516
+msgid "Enable fading"
+msgstr "Включить исчезание"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:187
+msgid "Enable playlist clear button"
+msgstr "Включить кнопку очистки плейлиста"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:186
+msgid "Enable playlist toolbar"
+msgstr "Включить панель управления плейлиста"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:417
+msgid "Enable scrobbling for the following sources:"
+msgstr "Включить скробблинг для следующих источников:"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:199
+msgid "Enable song metadata inline edition with click"
+msgstr "Включить встроенную правку метаданных песни по щелчку"
+
+#: ../../build-qt6dev/src/ui_equalizer.h:175
+msgid "Enable stereo balancer"
+msgstr "Включить баланс стерео"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:682
+msgid "Enable volume control"
+msgstr "Включить управление громкостью"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:79
+msgid "Enable/disable scrobbling"
+msgstr "Включить/отключить скробблинг"
+
+#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:98
+msgid "Enabled"
+msgstr "Включено"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:233
+msgid "Encoding complexity"
+msgstr "Сложность кодирования"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:197
+msgid "Encoding engine quality"
+msgstr "Качество кодирования"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:224
+msgid "Encoding mode"
+msgstr "Режим кодирования"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:675
+msgid "Engine"
+msgstr "Движок"
+
+#: ../../build-qt6dev/src/ui_coverfromurldialog.h:101
+msgid "Enter a URL to download a cover from the Internet:"
+msgstr "Введите адрес для скачивания обложки из Интернета:"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:202
+msgid "Enter a filename for exported covers (no extension):"
+msgstr "Введите имя файла для экспортируемых обложек (без расширения):"
+
+#: playlist/playlisttabbar.cpp:181
+msgid "Enter a new name for this playlist"
+msgstr "Введите новое имя для этого плейлиста"
+
+#: streaming/streamingsearchview.cpp:405
+#: ../../build-qt6dev/src/ui_streamingsearchview.h:232
+msgid "Enter search terms above to find music"
+msgstr "Введите условия поиска выше, чтобы найти музыку"
+
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:102
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:216
+msgid "Enter search terms here"
+msgstr "Введите критерии поиска"
+
+#: ../../build-qt6dev/src/ui_addstreamdialog.h:77
+msgid "Enter the URL of a stream:"
+msgstr "Введите адрес потока:"
+
+#: playlist/playlistlistcontainer.cpp:216
+msgid "Enter the name of the folder"
+msgstr "Введите имя папки"
+
+#: ../../build-qt6dev/src/ui_userpassdialog.h:91
+msgid "Enter username and password"
+msgstr "Укажите имя пользователя и пароль"
+
+#: settings/scrobblersettingspage.cpp:82
+msgid "Enter your user token from"
+msgstr "Укажите ваш пользовательский токен из"
+
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:91
+msgid "Entire collection"
+msgstr "Вся фонотека"
+
+#: ../../build-qt6dev/src/ui_equalizer.h:166
+#: ../../build-qt6dev/src/ui_equalizerslider.h:95
+msgid "Equalizer"
+msgstr "Эквалайзер"
+
+#: core/commandlineoptions.cpp:245
+msgid "Equivalent to --log-levels *:1"
+msgstr "Аналогично --log-levels *:1"
+
+#: core/commandlineoptions.cpp:246
+msgid "Equivalent to --log-levels *:3"
+msgstr "Аналогично --log-levels *:3"
+
+#: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
+#: collection/collectionview.cpp:715
+msgid "Error"
+msgstr "Ошибка"
+
+#: device/mtploader.cpp:72
+#, qt-format
+msgid "Error connecting MTP device %1"
+msgstr "Ошибка подключения устройства MTP %1"
+
+#: device/mtploader.cpp:77
+#, qt-format
+msgid "Error connecting MTP device %1: %2"
+msgstr ""
+
+#: organize/organizeerrordialog.cpp:71
+msgid "Error copying songs"
+msgstr "Ошибка копирования композиций"
+
+#: organize/organizeerrordialog.cpp:76
+msgid "Error deleting songs"
+msgstr "Ошибка удаления композиций"
+
+#: transcoder/transcoder.cpp:399
+#, qt-format
+msgid "Error processing %1: %2"
+msgstr "Ошибка при обработке %1: %2"
+
+#: playlist/songloaderinserter.cpp:114
+msgid "Error while loading audio CD."
+msgstr "Ошибка при загрузке аудио-CD."
+
+#: device/cddasongloader.cpp:120 device/cddasongloader.cpp:129
+msgid "Error while querying CDDA tracks."
+msgstr "Ошибка при запросе треков CDDA."
+
+#: device/cddasongloader.cpp:108
+msgid "Error while setting CDDA device to pause state."
+msgstr "Ошибка при установке устройства CDDA в состояние паузы."
+
+#: device/cddasongloader.cpp:100
+msgid "Error while setting CDDA device to ready state."
+msgstr "Ошибка при установке устройства CDDA в состояние готовности."
+
+#: smartplaylists/smartplaylistsmodel.cpp:78
+msgid "Ever played"
+msgstr "Любые прослушанные"
+
+#: widgets/freespacebar.cpp:69
+msgid "Exceeded by"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:712
+msgid "Except between tracks on the same album or in the same CUE sheet"
+msgstr "Кроме треков с одного и того же альбома или CUE-файла"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:680
+msgid "Exclusive mode (Experimental)"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:205
+msgid "Existing covers"
+msgstr "Существующие обложки"
+
+#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:107
+msgid "Expand"
+msgstr "Расширить"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:452
+msgid "Expire unavailable songs after"
+msgstr "Забывать недоступные песни после"
+
+#: widgets/loginstatewidget.cpp:156
+#, qt-format
+msgid "Expires on %1"
+msgstr "Истекает %1"
+
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:226
+msgid "Export Covers"
+msgstr "Экспорт обложек"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:200
+msgid "Export covers"
+msgstr "Экспорт обложек"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:203
+msgid "Export downloaded covers"
+msgstr "Экспорт загруженных обложек"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:204
+msgid "Export embedded covers"
+msgstr "Экспорт вложенных обложек"
+
+#: covermanager/albumcovermanager.cpp:1019
+#: covermanager/albumcovermanager.cpp:1045
+msgid "Export finished"
+msgstr "Экспорт завершён"
+
+#: covermanager/albumcovermanager.cpp:1030
+#, qt-format
+msgid "Exported %1 covers out of %2 (%3 skipped)"
+msgstr "Экспортировано %1 обложек из %2 (%3 пропущено)"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:655
+msgid "F1"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:612
+msgid "F5"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:616
+msgid "F6"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:620
+msgid "F7"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:624
+msgid "F8"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_transcodersettingspage.h:187
+msgid "FLAC"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:715
+msgid "Fade out on pause / fade in on resume"
+msgstr "Затухание при паузе / нарастание при продолжении воспроизведения"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:709
+msgid "Fade out when stopping a track"
+msgstr "Затухание при остановке трека"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:708
+msgid "Fading"
+msgstr "Затухание звука"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:713
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:716
+msgid "Fading duration"
+msgstr "Длительность затухания"
+
+#: core/database.cpp:485 collection/collectionbackend.cpp:118
+#, qt-format
+msgid "Failed SQL query: %1"
+msgstr "Ошибка запроса SQL: %1"
+
+#: core/filesystemmusicstorage.cpp:57
+#, qt-format
+msgid "Failed to create directory %1."
+msgstr ""
+
+#: covermanager/albumcoverchoicecontroller.cpp:380
+#: covermanager/albumcoverchoicecontroller.cpp:397
+#, qt-format
+msgid "Failed to delete cover file %1: %2"
+msgstr "Не удалось удалить файл обложки %1: %2"
+
+#: core/tagreaderclient.cpp:302
+#, qt-format
+msgid "Failed to load image from data for %1"
+msgstr ""
+
+#: playlistparsers/playlistparser.cpp:245
+#, qt-format
+msgid "Failed to open %1 for writing."
+msgstr ""
+
+#: covermanager/albumcoverchoicecontroller.cpp:185
+#, qt-format
+msgid "Failed to open cover file %1 for reading: %2"
+msgstr "Не удалось открыть файл обложки %1 для чтения: %2"
+
+#: covermanager/albumcoverchoicecontroller.cpp:263
+#: covermanager/albumcoverchoicecontroller.cpp:688
+#, qt-format
+msgid "Failed to open cover file %1 for writing: %2"
+msgstr "Не удалось открыть файл обложки %1 для записи: %2"
+
+#: covermanager/albumcoverchoicecontroller.cpp:682
+#, qt-format
+msgid "Failed to write cover to file %1: %2"
+msgstr "Не удалось записать обложку в файл %1: %2"
+
+#: covermanager/albumcoverchoicecontroller.cpp:278
+#, qt-format
+msgid "Failed writing cover to file %1."
+msgstr "Не удалось записать обложку в файл %1."
+
+#: covermanager/albumcoverchoicecontroller.cpp:269
+#, qt-format
+msgid "Failed writing cover to file %1: %2"
+msgstr "Не удалось записать обложку в файл %1: %2"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:704
+msgid "Fallback-gain"
+msgstr "Стандартное усиление"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:78
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:198
+msgid "Fast"
+msgstr "Быстрое"
+
+#: smartplaylists/smartplaylistsmodel.cpp:102
+msgid "Favourite tracks"
+msgstr "Любимые треки"
+
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:225
+msgid "Fetch Missing Covers"
+msgstr "Получить недостающие обложки"
+
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:213
+msgid "Fetch automatically"
+msgstr "Получать автоматически"
+
+#: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:72
+msgid "Fetch completed"
+msgstr "Получение завершено"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:343
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:280
+msgid "Fetch entire albums when searching songs"
+msgstr "Получать весь альбом при поиске песен"
+
+#: covermanager/coverfromurldialog.cpp:90
+#: covermanager/coverfromurldialog.cpp:100
+msgid "Fetching cover error"
+msgstr "Ошибка получения обложки"
+
+#: core/songloader.cpp:164 core/songloader.cpp:268
+#, qt-format
+msgid "File %1 does not exist."
+msgstr "Файл %1 не существует."
+
+#: core/songloader.cpp:184 core/songloader.cpp:328
+#, qt-format
+msgid "File %1 is not recognized as a valid audio file."
+msgstr "Файл %1 не распознан как допустимый аудиофайл."
+
+#: playlist/playlist.cpp:1409
+msgid "File Name"
+msgstr "Имя файла"
+
+#: playlist/playlist.cpp:1410
+msgid "File Name (without path)"
+msgstr "Имя файла (без пути)"
+
+#: playlist/playlist.cpp:1411
+msgid "File Size"
+msgstr "Размер файла"
+
+#: playlist/playlist.cpp:1412
+msgid "File Type"
+msgstr "Тип файла"
+
+#: organize/organizedialog.cpp:124
+msgid "File extension"
+msgstr "Расширение файла"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:386
+msgid "File formats"
+msgstr "Форматы файлов"
+
+#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:93
+msgid "File paths"
+msgstr "Пути файлов"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:905
+msgid "File size"
+msgstr "Размер файла"
+
+#: collection/savedgroupingmanager.cpp:139
+#: ../../build-qt6dev/src/ui_groupbydialog.h:207
+#: ../../build-qt6dev/src/ui_groupbydialog.h:229
+#: ../../build-qt6dev/src/ui_groupbydialog.h:251
+#: ../../build-qt6dev/src/ui_edittagdialog.h:894
+msgid "File type"
+msgstr "Тип файла"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:903
+#: ../../build-qt6dev/src/ui_transcodedialog.h:220
+msgid "Filename"
+msgstr "Имя файла"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:322
+msgid "Filename:"
+msgstr "Имя файла:"
+
+#: core/mainwindow.cpp:390
+msgid "Files"
+msgstr "Файлы"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:217
+msgid "Files to transcode"
+msgstr "Файлы для конвертации"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:556
+msgid "Files, playlists and queue buttons"
+msgstr "Кнопки файлов, плейлистов и очереди"
+
+#: context/contextview.cpp:163
+msgid "Filetype"
+msgstr "Тип файла"
+
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:98
+msgid "Find songs in your collection that match the criteria you specify."
+msgstr "Найти композиции в фонотеке по указанным вами критериям."
+
+#: smartplaylists/smartplaylistwizard.cpp:93
+msgid "Finish"
+msgstr "Готово"
+
+#: collection/savedgroupingmanager.cpp:58
+#: ../../build-qt6dev/src/ui_groupbydialog.h:190
+msgid "First level"
+msgstr "Первый уровень"
+
+#: widgets/playingwidget.cpp:106
+msgid "Fit cover to width"
+msgstr "Подогнать обложку по ширине"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:439
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:444
+msgid "Font"
+msgstr "Шрифт"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:443
+msgid "Font for data and lyrics"
+msgstr "Шрифт данных и текста песни"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:438
+msgid "Font for headline"
+msgstr "Шрифт заголовка"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:440
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:445
+msgid "Font size"
+msgstr "Размер шрифта"
+
+#: dialogs/snapdialog.cpp:54
+#, qt-format
+msgid "For Ubuntu there is an official PPA repository available at %1."
+msgstr "Для Ubuntu доступен официальный репозиторий PPA в %1."
+
+#: dialogs/snapdialog.cpp:62
+msgid "For a better experience please consider the other options above."
+msgstr "Для лучшего опыта, пожалуйста, рассмотрите другие варианты выше."
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:202
+msgid "Force mono encoding"
+msgstr "Принудительно кодировать в моно"
+
+#: device/deviceview.cpp:239 device/deviceview.cpp:346
+#: device/deviceview.cpp:349
+msgid "Forget device"
+msgstr "Забыть устройство"
+
+#: device/deviceview.cpp:347
+msgid "Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."
+msgstr "Команда «Забыть устройство» удалит его из этого списка и заставит Strawberry пересканировать все песни на нём при следующем подключении."
+
+#: ../../build-qt6dev/src/ui_collectionviewcontainer.h:55
+#: ../../build-qt6dev/src/ui_playlistcontainer.h:148
+#: ../../build-qt6dev/src/ui_playlistlistcontainer.h:126
+#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:108
+#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:133
+#: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:101
+#: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:271
+#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:79
+#: ../../build-qt6dev/src/ui_trackslider.h:65
+#: ../../build-qt6dev/src/ui_fileview.h:103
+#: ../../build-qt6dev/src/ui_loginstatewidget.h:164
+#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:136
+#: ../../build-qt6dev/src/ui_radioviewcontainer.h:80
+#: ../../build-qt6dev/src/ui_deviceviewcontainer.h:48
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:131
+#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:76
+#: ../../build-qt6dev/src/ui_transcoderoptionswavpack.h:46
+#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:197
+#: ../../build-qt6dev/src/ui_transcoderoptionsopus.h:75
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:216
+#: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:74
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:190
+msgid "Form"
+msgstr "Форма"
+
+#: collection/savedgroupingmanager.cpp:142
+#: ../../build-qt6dev/src/ui_groupbydialog.h:197
+#: ../../build-qt6dev/src/ui_groupbydialog.h:219
+#: ../../build-qt6dev/src/ui_groupbydialog.h:241
+msgid "Format"
+msgstr "Формат"
+
+#: analyzer/analyzercontainer.cpp:69
+msgid "Framerate"
+msgstr "Частота кадров"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:234
+msgid "Frames per buffer"
+msgstr "Фреймов на буфер"
+
+#: moodbar/moodbarrenderer.cpp:170
+msgid "Frozen"
+msgstr "Холодный"
+
+#: equalizer/equalizer.cpp:143
+msgid "Full Bass"
+msgstr "Бас"
+
+#: equalizer/equalizer.cpp:145
+msgid "Full Bass + Treble"
+msgstr "Бас + высокие частоты"
+
+#: equalizer/equalizer.cpp:144
+msgid "Full Treble"
+msgstr "Высокие частоты"
+
+#: settings/settingsdialog.cpp:135
+msgid "General"
+msgstr "Общие"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:484
+msgid "General settings"
+msgstr "Общие настройки"
+
+#: lyrics/geniuslyricsprovider.cpp:123
+msgid "Genius Authentication"
+msgstr "Аутентификация Genius"
+
+#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1395
+#: organize/organizedialog.cpp:118
+#: ../../build-qt6dev/src/ui_groupbydialog.h:198
+#: ../../build-qt6dev/src/ui_groupbydialog.h:220
+#: ../../build-qt6dev/src/ui_groupbydialog.h:242
+#: ../../build-qt6dev/src/ui_edittagdialog.h:927
+msgid "Genre"
+msgstr "Жанр"
+
+#: radios/somafmservice.cpp:72 radios/radioparadiseservice.cpp:66
+#, qt-format
+msgid "Getting %1 channels"
+msgstr "Получение %1 каналов"
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:268
+msgid "Global Shortcuts"
+msgstr "Глобальные клавиши"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:692
+msgid "Go to next playlist tab"
+msgstr "Перейти к следующему плейлисту"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:693
+msgid "Go to previous playlist tab"
+msgstr "Перейти к предыдущему плейлисту"
+
+#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:155
+msgid "Go!"
+msgstr "Пуск!"
+
+#: covermanager/albumcovermanager.cpp:555
+#: covermanager/coversearchstatisticsdialog.cpp:68
+#: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:73
+#, qt-format
+msgid "Got %1 covers out of %2 (%3 failed)"
+msgstr "Получено %1 обложек из %2 (%3 загрузить не удалось)"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:183
+msgid "Grey out unavailable songs in playlists on playback"
+msgstr "Помечать серым недоступные песни в плейлистах при воспроизведении"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:184
+msgid "Grey out unavailable songs in playlists on startup"
+msgstr "Помечать недоступные песни в плейлистах при запуске"
+
+#: ../../build-qt6dev/src/ui_groupbydialog.h:189
+msgid "Group Collection by..."
+msgstr "Группировать фонотеку по…"
+
+#: collection/collectionfilterwidget.cpp:111
+#: streaming/streamingsearchview.cpp:344
+msgid "Group by"
+msgstr "Группировать по"
+
+#: collection/collectionfilterwidget.cpp:281
+msgid "Group by Album"
+msgstr "Группировать по альбомам"
+
+#: collection/collectionfilterwidget.cpp:278
+msgid "Group by Album Artist"
+msgstr "Группировать по артисту альбома"
+
+#: collection/collectionfilterwidget.cpp:265
+msgid "Group by Album artist/Album"
+msgstr "Группировать по артисту альбома/альбому"
+
+#: collection/collectionfilterwidget.cpp:266
+msgid "Group by Album artist/Album - Disc"
+msgstr "Группировать по артисту альбома/альбому - диску"
+
+#: collection/collectionfilterwidget.cpp:267
+msgid "Group by Album artist/Year - Album"
+msgstr "Группировать по артисту альбома/году - альбому"
+
+#: collection/collectionfilterwidget.cpp:268
+msgid "Group by Album artist/Year - Album - Disc"
+msgstr "Группировать по артисту альбома/году - альбому - диску"
+
+#: collection/collectionfilterwidget.cpp:279
+msgid "Group by Artist"
+msgstr "Группировать по артисту"
+
+#: collection/collectionfilterwidget.cpp:270
+msgid "Group by Artist/Album"
+msgstr "Группировать по артисту/альбому"
+
+#: collection/collectionfilterwidget.cpp:271
+msgid "Group by Artist/Album - Disc"
+msgstr "Группировать по артисту/альбому - диску"
+
+#: collection/collectionfilterwidget.cpp:272
+msgid "Group by Artist/Year - Album"
+msgstr "Группировать по артисту/году - альбому"
+
+#: collection/collectionfilterwidget.cpp:273
+msgid "Group by Artist/Year - Album - Disc"
+msgstr "Группировать по артисту/году - альбому - диску"
+
+#: collection/collectionfilterwidget.cpp:282
+msgid "Group by Genre/Album"
+msgstr "Группировать по жанру/альбому"
+
+#: collection/collectionfilterwidget.cpp:275
+msgid "Group by Genre/Album artist/Album"
+msgstr "Группировать по жанру/артисту альбома/альбому"
+
+#: collection/collectionfilterwidget.cpp:276
+msgid "Group by Genre/Artist/Album"
+msgstr "Группировать по жанру/артисту/альбому"
+
+#: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1399
+#: organize/organizedialog.cpp:113
+#: ../../build-qt6dev/src/ui_groupbydialog.h:206
+#: ../../build-qt6dev/src/ui_groupbydialog.h:228
+#: ../../build-qt6dev/src/ui_groupbydialog.h:250
+#: ../../build-qt6dev/src/ui_edittagdialog.h:919
+msgid "Grouping"
+msgstr "Группа"
+
+#: collection/collectionfilterwidget.cpp:339
+msgid "Grouping Name"
+msgstr "Имя группы"
+
+#: collection/collectionfilterwidget.cpp:339
+msgid "Grouping name:"
+msgstr "Имя группы:"
+
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:177
+msgid "HTTP proxy"
+msgstr "HTTP-прокси"
+
+#: moodbar/moodbarrenderer.cpp:172
+msgid "Happy"
+msgstr "Счастливый"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:373
+msgid "Hardware information"
+msgstr "Сведения об оборудовании"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:374
+msgid "Hardware information is only available while the device is connected."
+msgstr "Сведения об оборудовании доступны только при подключении устройства."
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:734
+msgid "Help"
+msgstr "&Справка"
+
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:250
+msgid "Hex"
+msgstr "Шестнадцатеричный"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:324
+msgid "Hide the main window"
+msgstr "Скрыть главное окно"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:200
+msgid "High"
+msgstr "Высокое"
+
+#: analyzer/analyzercontainer.cpp:84
+#, qt-format
+msgid "High (%1 fps)"
+msgstr "Высокая (%1 к/с)"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:691
+msgid "High watermark"
+msgstr "Верхний уровень"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:451
+msgid "Hours"
+msgstr "Часы"
+
+#: playlist/playlistview.cpp:223
+msgid "Hz"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:372
+msgid "Icon"
+msgstr "Значок"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:551
+msgid "Icon sizes"
+msgstr "Размер значков"
+
+#: widgets/fancytabwidget.cpp:733
+msgid "Icons on top"
+msgstr "Значки сверху"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:197
+msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
+msgstr "Если включить, то щелчок по выбранной песне в плейлисте позволит править тег напрямую"
+
+#: device/devicemanager.cpp:610 device/devicemanager.cpp:618
+msgid "If you continue, this device will work slowly and songs copied to it may not work."
+msgstr "При продолжении, устройство будет работать медленно и скопированные песни не будут работать."
+
+#: dialogs/about.cpp:126
+msgid "If you like Strawberry and can make use of it, consider sponsoring or donating."
+msgstr "Если вам приглянулся Strawberry, пожалуйста, рассмотрите возможность спонсорства или пожертвования."
+
+#: covermanager/albumcoverchoicecontroller.cpp:80
+msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+msgstr "Изображения (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+
+#: covermanager/albumcoverchoicecontroller.cpp:81
+msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+msgstr "Изображения (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+
+#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:148
+msgid "Import data from last.fm"
+msgstr "Импорт данных из Last.fm"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:715
+msgid "Import data from last.fm..."
+msgstr "Импорт данных из Last.fm…"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:226
+msgid "Import..."
+msgstr "Импорт…"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:685
+msgid "Improve headphone listening of stereo audio records (bs2b)"
+msgstr "Улучшить прослушивание стереозаписей через наушники (bs2b)"
+
+#: utilities/timeutils.cpp:101
+#, qt-format
+msgid "In %1 days"
+msgstr "В течение %1 дн."
+
+#: utilities/timeutils.cpp:104
+#, qt-format
+msgid "In %1 weeks"
+msgstr "В течение %1 недель"
+
+#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:82
+msgid "In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes."
+msgstr "В динамическом режиме новые треки подбираются и добавляются в плейлист каждый раз, когда заканчивается очередная песня."
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:492
+msgid "Include album art in the notification"
+msgstr "Показывать обложку альбома в уведомлении"
+
+#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:112
+msgid "Include all songs"
+msgstr "Включить все песни"
+
+#: core/commandlineoptions.cpp:228
+msgid "Increase the volume by 4 percent"
+msgstr "Увеличить громкость на 4 процента"
+
+#: core/commandlineoptions.cpp:230
+msgid "Increase the volume by <value> percent"
+msgstr "Увеличить громкость на <value> процентов"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:69
+msgid "Increase volume"
+msgstr "Увеличить громкость"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:375
+msgid "Information"
+msgstr "Информация"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:272
+msgid "Insert..."
+msgstr "Вставить…"
+
+#: dialogs/snapdialog.cpp:77
+msgid "Install strawberry through PPA:"
+msgstr "Установить Strawberry через PPA:"
+
+#: playlist/playlist.cpp:1422
+msgid "Integrated Loudness"
+msgstr "Встроенная громкость"
+
+#: core/database.cpp:493
+msgid "Integrity check"
+msgstr "Проверка целостности"
+
+#: osd/osdbase.cpp:368 ../../build-qt6dev/src/ui_playlistsequence.h:113
+msgid "Intro tracks"
+msgstr "Вступительные треки"
+
+#: device/mtpconnection.cpp:57
+#, qt-format
+msgid "Invalid MTP device: %1"
+msgstr ""
+
+#: scrobbler/scrobblingapi20.cpp:257
+msgid "Invalid reply from web browser. Missing token."
+msgstr "Неверный ответ от веб-браузера. Отсутствует токен."
+
+#: dialogs/about.cpp:116
+msgid "It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles."
+msgstr "Это форк Clementine, выпущенный в 2018 году, специально для коллекционеров музыки и меломанов."
+
+#: dialogs/snapdialog.cpp:42
+msgid "It is detected that Strawberry is running as a Snap"
+msgstr "Обнаружено, что Strawberry работает через Snap"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:337
+msgid "Jump to previous song right away"
+msgstr "Немедленный переход к предыдущей песне"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:545
+msgid "Keep aspect ratio"
+msgstr "Сохранять пропорции"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:316
+msgid "Keep running in the background when the window is closed"
+msgstr "Продолжать работу в фоне по закрытии окна"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:263
+msgid "Keep the original files"
+msgstr "Сохранять исходные файлы"
+
+#: core/song.cpp:799
+msgid "LU"
+msgstr "Eдиница громкости (LU)"
+
+#: core/song.cpp:787
+msgid "LUFS"
+msgstr "Единица громкости относительно полной шкалы (LUFS)"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:327
+msgid "Language"
+msgstr "Язык"
+
+#: equalizer/equalizer.cpp:146
+msgid "Laptop/Headphones"
+msgstr "Наушники/ноутбук"
+
+#: equalizer/equalizer.cpp:147
+msgid "Large Hall"
+msgstr "Большой зал"
+
+#: widgets/playingwidget.cpp:103
+msgid "Large album cover"
+msgstr "Крупная обложка альбома"
+
+#: widgets/fancytabwidget.cpp:729
+msgid "Large sidebar"
+msgstr "Широкая боковая панель"
+
+#: playlist/playlist.cpp:1403
+msgid "Last Played"
+msgstr "Последний раз"
+
+#: smartplaylists/smartplaylistsmodel.cpp:90
+#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:150
+msgid "Last played"
+msgstr "Последний раз"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:893
+msgctxt "A playlist's tag."
+msgid "Last played"
+msgstr "Последний раз"
+
+#: dialogs/lastfmimportdialog.cpp:163
+#, qt-format
+msgid "Last played for %1 songs received."
+msgstr "Последнее прослушивание для %1 песен получено."
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:429
+msgid "Last.fm"
+msgstr ""
+
+#: smartplaylists/smartplaylistsmodel.cpp:108
+msgid "Least favourite tracks"
+msgstr "Нелюбимые треки"
+
+#: ../../build-qt6dev/src/ui_equalizer.h:176
+msgid "Left"
+msgstr "Левый канал"
+
+#: context/contextview.cpp:164 playlist/playlist.cpp:1392
+#: organize/organizedialog.cpp:120
+#: ../../build-qt6dev/src/ui_edittagdialog.h:895
+msgid "Length"
+msgstr "Длина"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:432
+msgid "Libre.fm"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:137
+msgid "Limits"
+msgstr "Ограничения"
+
+#: scrobbler/listenbrainzscrobbler.cpp:193
+msgid "ListenBrainz Authentication"
+msgstr "Аутентификация ListenBrainz"
+
+#: scrobbler/listenbrainzscrobbler.cpp:679
+#, qt-format
+msgid "ListenBrainz error: %1"
+msgstr "Ошибка ListenBrainz: %1"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:435
+msgid "Listenbrainz"
+msgstr ""
+
+#: equalizer/equalizer.cpp:148
+msgid "Live"
+msgstr "Лайв"
+
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:214
+msgid "Load"
+msgstr "Загрузить"
+
+#: ../../build-qt6dev/src/ui_coverfromurldialog.h:100
+msgid "Load cover from URL"
+msgstr "Загрузка обложки из адреса"
+
+#: covermanager/albumcoverchoicecontroller.cpp:108
+msgid "Load cover from URL..."
+msgstr "Загрузить обложку из адреса…"
+
+#: covermanager/albumcoverchoicecontroller.cpp:179
+#: covermanager/albumcoverchoicecontroller.cpp:210
+msgid "Load cover from disk"
+msgstr "Загрузка обложки с диска"
+
+#: covermanager/albumcoverchoicecontroller.cpp:106
+msgid "Load cover from disk..."
+msgstr "Загрузить обложку с диска…"
+
+#: playlist/playlistcontainer.cpp:347
+msgid "Load playlist"
+msgstr "Загрузить плейлист"
+
+#: device/mtploader.cpp:55
+msgid "Loading MTP device"
+msgstr "Загрузка устройства MTP"
+
+#: device/gpodloader.cpp:54
+msgid "Loading iPod database"
+msgstr "Загружается база данных iPod"
+
+#: smartplaylists/playlistgeneratorinserter.cpp:62
+msgid "Loading smart playlist"
+msgstr "Загрузка умного плейлиста"
+
+#: playlist/songloaderinserter.cpp:171 dialogs/edittagdialog.cpp:417
+msgid "Loading tracks"
+msgstr "Загрузка композиций"
+
+#: playlist/songloaderinserter.cpp:201
+msgid "Loading tracks info"
+msgstr "Загрузка сведений о треках"
+
+#: collection/collectionmodel.cpp:209
+#: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:103
+#: ../../build-qt6dev/src/ui_organizedialog.h:281
+msgid "Loading..."
+msgstr "Загрузка…"
+
+#: core/commandlineoptions.cpp:238
+msgid "Loads files/URLs, replacing current playlist"
+msgstr "Загрузка файлов/ссылок с заменой текущего плейлиста"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:420
+msgid "Local file"
+msgstr "Локальный файл"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:431
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:434
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:439
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:313
+#: ../../build-qt6dev/src/ui_lyricssettingspage.h:169
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:334
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:289
+msgid "Login"
+msgstr "Вход"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:138
+msgid "Long term prediction profile (LTP)"
+msgstr "Профиль Long term prediction (LTP)"
+
+#: playlist/playlist.cpp:1423
+msgid "Loudness Range"
+msgstr "Диапазон громкости"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:80
+#: ../../build-qt6dev/src/ui_mainwindow.h:634
+msgid "Love"
+msgstr "В любимые"
+
+#: analyzer/analyzercontainer.cpp:82
+#, qt-format
+msgid "Low (%1 fps)"
+msgstr "Низкая (%1 к/с)"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:136
+msgid "Low complexity profile (LC)"
+msgstr "Профиль низкой сложности (LC)"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:692
+msgid "Low watermark"
+msgstr "Нижний уровень"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:326
+msgid "Lowercase filename"
+msgstr "Строчные имена файлов"
+
+#: ../../build-qt6dev/src/ui_lyricssettingspage.h:162
+#: ../../build-qt6dev/src/ui_edittagdialog.h:936
+msgid "Lyrics"
+msgstr "Текст песни"
+
+#: ../../build-qt6dev/src/ui_lyricssettingspage.h:163
+msgid "Lyrics providers"
+msgstr "Поставщики текста песен"
+
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:251
+msgid "MD5 token (Recommended)"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_transcodersettingspage.h:194
+msgid "MP3"
+msgstr ""
+
+#: device/mtpconnection.cpp:100
+msgid "MTP device not found."
+msgstr ""
+
+#: device/mtpconnection.cpp:86
+#, qt-format
+msgid "MTP error: %1"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:135
+msgid "Main profile (MAIN)"
+msgstr "Основной профиль (MAIN)"
+
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:101
+msgid "Manage saved groupings"
+msgstr "Менеджер сохранённых групп"
+
+#: settings/coverssettingspage.cpp:433
+#, qt-format
+msgid "Manually unset (%1)"
+msgstr "Вручную не задана (%1)"
+
+#: device/deviceproperties.cpp:176
+msgid "Manufacturer"
+msgstr "Производитель"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:450
+msgid "Mark disappeared songs unavailable"
+msgstr "Помечать пропавшие песни недоступными"
+
+#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:110
+msgid "Match every search term (AND)"
+msgstr "Совпадает с каждым условием поиска (И)"
+
+#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:111
+msgid "Match one or more search terms (OR)"
+msgstr "Совпадает с одним или несколькими условиями (ИЛИ)"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:543
+msgid "Max cover size"
+msgstr "Максимальный размер обложки"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:205
+msgid "Maximum bitrate"
+msgstr "Максимальный битрейт"
+
+#: qobuz/qobuzservice.cpp:479
+msgid "Maximum number of login attempts reached."
+msgstr "Достигнут максимум попыток входа в систему."
+
+#: analyzer/analyzercontainer.cpp:83
+#, qt-format
+msgid "Medium (%1 fps)"
+msgstr "Средняя (%1 к/с)"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:717
+#: ../../build-qt6dev/src/ui_mainwindow.h:720
+#: ../../build-qt6dev/src/ui_mainwindow.h:723
+#: ../../build-qt6dev/src/ui_mainwindow.h:726
+#: ../../build-qt6dev/src/ui_mainwindow.h:729
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:104
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:218
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:423
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:429
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:497
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:503
+#: ../../build-qt6dev/src/ui_edittagdialog.h:914
+#: ../../build-qt6dev/src/ui_streamingsearchview.h:226
+msgid "MenuPopupToolButton"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_messagedialog.h:118
+msgid "Message Dialog"
+msgstr "Диалог сообщения"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:195
+msgid "Metadata"
+msgstr "Метаданные"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:539
+msgid "Middle"
+msgstr "Середина"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:202
+msgid "Minimum bitrate"
+msgstr "Минимальный битрейт"
+
+#: settings/tidalsettingspage.cpp:159
+msgid "Missing API token."
+msgstr "Отсутствует токен API."
+
+#: scrobbler/listenbrainzscrobbler.cpp:630
+#, qt-format
+msgid "Missing MusicBrainz recording ID for %1 %2 %3"
+msgstr "Отсутствует идентификатор записи MusicBrainz для %1 %2 %3"
+
+#: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:82
+msgid "Missing Qobuz app ID or secret."
+msgstr "Отсутствует идентификатор приложения Qobuz или секрет."
+
+#: qobuz/qobuzservice.cpp:483 qobuz/qobuzservice.cpp:512
+#: qobuz/qobuzservice.cpp:562 qobuz/qobuzservice.cpp:612
+#: qobuz/qobuzservice.cpp:674
+msgid "Missing Qobuz app ID."
+msgstr "Отсутствует идентификатор приложения Qobuz."
+
+#: qobuz/qobuzservice.cpp:491
+msgid "Missing Qobuz password."
+msgstr "Отсутствует пароль Qobuz."
+
+#: qobuz/qobuzservice.cpp:487
+msgid "Missing Qobuz username."
+msgstr "Отсутствует имя пользователя Qobuz."
+
+#: subsonic/subsonicurlhandler.cpp:43
+msgid "Missing Subsonic username or password."
+msgstr "Отсутствует имя пользователя или пароль Subsonic."
+
+#: tidal/tidalservice.cpp:728 tidal/tidalservice.cpp:783
+#: tidal/tidalservice.cpp:838 tidal/tidalservice.cpp:901
+#: tidal/tidalservice.cpp:964 tidal/tidalstreamurlrequest.cpp:87
+msgid "Missing Tidal API token, username or password."
+msgstr "Отсутствуют токен API, имя пользователя или пароль."
+
+#: tidal/tidalservice.cpp:689
+msgid "Missing Tidal API token."
+msgstr "Отсутствует токен API Tidal."
+
+#: settings/tidalsettingspage.cpp:152
+msgid "Missing Tidal client ID."
+msgstr "Отсутствует идентификатор клиента Tidal."
+
+#: tidal/tidalservice.cpp:697
+msgid "Missing Tidal password."
+msgstr "Отсутствует Tidal пароль."
+
+#: tidal/tidalservice.cpp:693
+msgid "Missing Tidal username."
+msgstr "Отсутствует имя пользователя Tidal."
+
+#: settings/qobuzsettingspage.cpp:131
+msgid "Missing app id."
+msgstr "Отсутствуют ИД приложения."
+
+#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:139
+msgid "Missing password."
+msgstr "Отсутствует пароль."
+
+#: settings/subsonicsettingspage.cpp:131
+msgid "Missing server url, username or password."
+msgstr "Отсутствует адрес сервера, имя пользователя или пароль."
+
+#: subsonic/subsonicservice.cpp:418
+msgid "Missing username or password."
+msgstr "Отсутствует имя пользователя или пароль."
+
+#: scrobbler/lastfmimport.cpp:215
+msgid "Missing username, please login to last.fm first!"
+msgstr "Отсутствует имя пользователя, пожалуйста, сперва авторизируйтесь в Last.fm!"
+
+#: settings/tidalsettingspage.cpp:163 settings/qobuzsettingspage.cpp:135
+msgid "Missing username."
+msgstr "Отсутствует имя пользователя."
+
+#: device/deviceproperties.cpp:175
+msgid "Model"
+msgstr "Модель"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:448
+msgid "Monitor the collection for changes"
+msgstr "Следить за изменениями фонотеки"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:457
+msgid "Months"
+msgstr "Месяцы"
+
+#: playlist/playlist.cpp:1418
+msgid "Mood"
+msgstr "Тон"
+
+#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:93
+#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:94
+msgid "Moodbar"
+msgstr "Индикатор тона"
+
+#: moodbar/moodbarproxystyle.cpp:378
+#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:96
+msgid "Moodbar style"
+msgstr "Стиль индикатора тона"
+
+#: smartplaylists/smartplaylistsmodel.cpp:96
+msgid "Most played"
+msgstr "Часто прослушиваемые"
+
+#: device/giolister.cpp:192
+msgid "Mount point"
+msgstr "Точка монтирования"
+
+#: device/udisks2lister.cpp:125
+msgid "Mount points"
+msgstr "Точки монтирования"
+
+#: ../../build-qt6dev/src/ui_queueview.h:125
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:310
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:316
+#: ../../build-qt6dev/src/ui_lyricssettingspage.h:166
+msgid "Move down"
+msgstr "Вниз"
+
+#: core/mainwindow.cpp:772 widgets/fileviewlist.cpp:48
+msgid "Move to collection..."
+msgstr "Перенести в фонотеку…"
+
+#: ../../build-qt6dev/src/ui_queueview.h:131
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:309
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:315
+#: ../../build-qt6dev/src/ui_lyricssettingspage.h:165
+msgid "Move up"
+msgstr "Вверх"
+
+#: filterparser/filterparser.cpp:477
+#, qt-format
+msgid "Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. "
+msgstr "Несколько поисковых терминов можно объединить с помощью символов «%1» (по умолчанию) и «%2», а сгруппировать с помощью круглых скобок."
+
+#: core/mainwindow.cpp:2330 transcoder/transcodedialog.cpp:330
+msgid "Music"
+msgstr "Музыка"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:71
+msgid "Mute"
+msgstr "Приглушить звук"
+
+#: equalizer/equalizer.cpp:211 collection/savedgroupingmanager.cpp:57
+#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:80
+#: ../../build-qt6dev/src/ui_deviceproperties.h:371
+msgid "Name"
+msgstr "Имя"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:266
+msgid "Naming options"
+msgstr "Параметры именования"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:228
+msgid "Narrow band (NB)"
+msgstr "Узкая полоса пропускания (NB)"
+
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:173
+msgid "Network Proxy"
+msgstr "Прокси-сервер"
+
+#: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:897
+msgid "Never"
+msgstr "Никогда"
+
+#: smartplaylists/smartplaylistsmodel.cpp:84
+msgid "Never played"
+msgstr "Никогда не прослушивались"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:332
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:346
+msgid "Never start playing"
+msgstr "Никогда не начинать воспроизведение"
+
+#: playlist/playlistlistcontainer.cpp:89 playlist/playlistlistcontainer.cpp:216
+#: ../../build-qt6dev/src/ui_playlistlistcontainer.h:128
+msgid "New folder"
+msgstr "Новая папка"
+
+#: core/mainwindow.cpp:2148
+msgid "New playlist"
+msgstr "Новый плейлист"
+
+#: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:101
+msgid "New smart playlist"
+msgstr "Новый умный плейлист"
+
+#: smartplaylists/smartplaylistsviewcontainer.cpp:64
+msgid "New smart playlist..."
+msgstr "Новый умный плейлист…"
+
+#: widgets/freespacebar.cpp:68
+msgid "New songs"
+msgstr "Новые композиции"
+
+#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:106
+msgid "New tracks will be added automatically."
+msgstr "Новые треки добавляются автоматически."
+
+#: smartplaylists/smartplaylistsmodel.cpp:65
+msgid "Newest tracks"
+msgstr "Свежие треки"
+
+#: dialogs/edittagdialog.cpp:233 dialogs/trackselectiondialog.cpp:72
+msgid "Next"
+msgstr "Следующий"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:67
+msgid "Next track"
+msgstr "Следующий трек"
+
+#: utilities/timeutils.cpp:102
+msgid "Next week"
+msgstr "На следующей неделе"
+
+#: dialogs/edittagdialog.cpp:820 dialogs/edittagdialog.cpp:836
+msgid "No"
+msgstr "Нет"
+
+#: analyzer/analyzercontainer.cpp:98
+msgid "No analyzer"
+msgstr "Без анализатора"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:695
+msgid "No audio normalization"
+msgstr "Без нормализации звука"
+
+#: covermanager/albumcovermanager.cpp:1020
+msgid "No covers to export."
+msgstr "Нет обложек для экспорта."
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:145
+msgid "No long blocks"
+msgstr "Без длинных блоков"
+
+#: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1367
+#: qobuz/qobuzrequest.cpp:1426
+msgid "No match."
+msgstr "Не совпадает."
+
+#: playlist/playlistcontainer.cpp:441
+msgid "No matches found.  Clear the search box to show the whole playlist again."
+msgstr "Совпадения не найдены. Очистите строку поиска, чтобы увидеть плейлист снова."
+
+#: settings/coverssettingspage.cpp:303 settings/lyricssettingspage.cpp:191
+msgid "No provider selected."
+msgstr "Поставщик не выбран."
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:144
+msgid "No short blocks"
+msgstr "Без коротких блоков"
+
+#: context/contextview.cpp:408
+msgid "No song playing"
+msgstr "Ничего не играет"
+
+#: collection/savedgroupingmanager.cpp:91 dialogs/edittagdialog.cpp:823
+#: dialogs/edittagdialog.cpp:830 ../../build-qt6dev/src/ui_groupbydialog.h:191
+#: ../../build-qt6dev/src/ui_groupbydialog.h:213
+#: ../../build-qt6dev/src/ui_groupbydialog.h:235
+msgid "None"
+msgstr "Нет"
+
+#: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
+#: collection/collectionview.cpp:715
+msgid "None of the selected songs were suitable for copying to a device"
+msgstr "Ни одна из выбранных песен не подходит для копирования на устройство"
+
+#: moodbar/moodbarrenderer.cpp:166
+msgid "Normal"
+msgstr "Спокойный"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:143
+msgid "Normal block type"
+msgstr "Обычный тип блоков"
+
+#: qobuz/qobuzservice.cpp:517 qobuz/qobuzservice.cpp:567
+#: qobuz/qobuzservice.cpp:617
+msgid "Not authenticated with Qobuz."
+msgstr "Не аутентифицирован с помощью Qobuz."
+
+#: spotify/spotifyservice.cpp:516 spotify/spotifyservice.cpp:568
+#: spotify/spotifyservice.cpp:620 spotify/spotifyservice.cpp:680
+msgid "Not authenticated with Spotify."
+msgstr ""
+
+#: tidal/tidalservice.cpp:701
+msgid "Not authenticated with Tidal and reached maximum number of login attempts."
+msgstr "Не аутентифицировано с Tidal и достигнуто максимум попыток входа в систему."
+
+#: tidal/tidalservice.cpp:723 tidal/tidalservice.cpp:778
+#: tidal/tidalservice.cpp:833 tidal/tidalservice.cpp:896
+#: tidal/tidalservice.cpp:960 tidal/tidalstreamurlrequest.cpp:83
+msgid "Not authenticated with Tidal."
+msgstr "Не аутентифицировано с Tidal."
+
+#: device/deviceview.cpp:131
+msgid "Not connected"
+msgstr "Не подключено"
+
+#: dialogs/edittagdialog.cpp:1442
+msgid "Not found."
+msgstr ""
+
+#: device/deviceview.cpp:135
+msgid "Not mounted - double click to mount"
+msgstr "Не подключено — щёлкните дважды для подключения"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:479
+msgid "Notification type"
+msgstr "Тип уведомления"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:417
+msgid "Notifications"
+msgstr "Уведомления"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:207
+msgid "O&verwrite all"
+msgstr "&Перезаписать все"
+
+#: settings/notificationssettingspage.cpp:68
+msgid "OSD Preview"
+msgstr "Предпросмотр экранного меню"
+
+#: osd/osdbase.cpp:271
+msgid "Off"
+msgstr "Откл."
+
+#: dialogs/snapdialog.cpp:58
+#, qt-format
+msgid "Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information."
+msgstr "Официальные выпуски доступны для Debian и Ubuntu, они также работают с большинством их производных. См. подробности на %1."
+
+#: osd/osdbase.cpp:271
+msgid "On"
+msgstr "Вкл."
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:321
+msgid "On startup"
+msgstr "При запуске"
+
+#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:139
+msgid "Only show the first"
+msgstr "Показывать только первый"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:549
+msgid "Opacity"
+msgstr "Непрозрачность"
+
+#: scrobbler/scrobblingapi20.cpp:214
+msgid "Open URL in web browser?"
+msgstr "Открыть адрес в веб-браузере?"
+
+#: transcoder/transcodedialog.cpp:346
+msgid "Open a directory to import music from"
+msgstr "Открыть папку для импорта музыки"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:666
+msgid "Open audio &CD..."
+msgstr "Открыть &аудио-CD…"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:384
+msgid "Open device"
+msgstr "Открыть устройство"
+
+#: radios/radioview.cpp:81
+msgid "Open homepage"
+msgstr "Открыть домашнюю страницу"
+
+#: collection/collectionview.cpp:380
+#: smartplaylists/smartplaylistsviewcontainer.cpp:68
+#: widgets/fileviewlist.cpp:45 streaming/streamingsearchview.cpp:319
+#: streaming/streamingcollectionview.cpp:331 radios/radioview.cpp:77
+#: device/deviceview.cpp:246
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:343
+msgid "Open in new playlist"
+msgstr "Открыть в новом плейлисте"
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:270
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:272
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:279
+msgid "Open..."
+msgstr "Открыть…"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:193
+msgid "Opti&mize for bitrate"
+msgstr "Опти&мизировать по битрейту"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:191
+msgid "Optimize for &quality"
+msgstr "Оптимизировать по &качеству"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:681
+msgid "Options"
+msgstr "Параметры"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:229
+msgid "Options..."
+msgstr "Настройки…"
+
+#: ../../build-qt6dev/src/ui_transcodersettingspage.h:190
+msgid "Opus"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:260
+msgid "Organize Files"
+msgstr "Организовать файлы"
+
+#: core/mainwindow.cpp:770 collection/collectionview.cpp:391
+msgid "Organize files..."
+msgstr "Организовать файлы…"
+
+#: organize/organize.cpp:107
+msgid "Organizing files"
+msgstr "Организация файлов"
+
+#: playlist/playlist.cpp:1394
+msgid "Original Year"
+msgstr "Год оригинала"
+
+#: dialogs/trackselectiondialog.cpp:194
+msgid "Original tags"
+msgstr "Исходные теги"
+
+#: collection/savedgroupingmanager.cpp:124 organize/organizedialog.cpp:117
+#: ../../build-qt6dev/src/ui_groupbydialog.h:202
+#: ../../build-qt6dev/src/ui_groupbydialog.h:224
+#: ../../build-qt6dev/src/ui_groupbydialog.h:246
+msgid "Original year"
+msgstr "Год оригинала"
+
+#: collection/savedgroupingmanager.cpp:112
+#: ../../build-qt6dev/src/ui_groupbydialog.h:203
+#: ../../build-qt6dev/src/ui_groupbydialog.h:225
+#: ../../build-qt6dev/src/ui_groupbydialog.h:247
+msgid "Original year - Album"
+msgstr "Год оригинала - Альбом"
+
+#: collection/savedgroupingmanager.cpp:115
+msgid "Original year - Album - Disc"
+msgstr "Год оригинала - Альбом - Диск"
+
+#: core/commandlineoptions.cpp:241
+msgid "Other options"
+msgstr "Прочие настройки"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:201
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:674
+msgid "Output"
+msgstr "Вывод"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:227
+msgid "Output options"
+msgstr "Выходные параметры"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:475
+msgid "Overwrite database playcount when songs are re-read from disk"
+msgstr "Обновлять счётчик прослушивания базы данных при повторном чтении песен с диска"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:476
+msgid "Overwrite database rating when songs are re-read from disk"
+msgstr "Перезаписывать оценки в базе данных при повторном чтении песен с диска"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:325
+msgid "Overwrite existing file"
+msgstr "Перезаписать существующий файл"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:278
+msgid "Overwrite existing files"
+msgstr "Перезаписать существующие файлы"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:208
+msgid "Overwrite s&maller ones only"
+msgstr "Перезаписать только более маленькие"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:733
+msgid "P&laylist"
+msgstr "&Плейлист"
+
+#: device/udisks2lister.cpp:126
+msgid "Partition label"
+msgstr "Метка раздела"
+
+#: equalizer/equalizer.cpp:149
+msgid "Party"
+msgstr "Вечеринка"
+
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:183
+#: ../../build-qt6dev/src/ui_userpassdialog.h:93
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:248
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:333
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:270
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:287
+msgid "Password"
+msgstr "Пароль"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:902
+msgid "Path"
+msgstr "Путь"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:323
+msgid "Pattern"
+msgstr "Шаблон"
+
+#: core/mainwindow.cpp:1415 core/mainwindow.cpp:1947
+#: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:63
+msgid "Pause"
+msgstr "Пауза"
+
+#: core/commandlineoptions.cpp:223
+msgid "Pause playback"
+msgstr "Приостановить воспроизведение"
+
+#: osd/osdbase.cpp:212 osd/osdbase.cpp:215
+msgid "Paused"
+msgstr "Приостановлен"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:451
+msgid "Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)"
+msgstr "Выполнить анализ композиции EBU R 128 (требуется для нормализации громкости EBU R 128)"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:706
+msgid "Perform track loudness normalization"
+msgstr "Выполнять нормализацию громкости дорожки"
+
+#: collection/savedgroupingmanager.cpp:133 playlist/playlist.cpp:1398
+#: organize/organizedialog.cpp:112
+#: ../../build-qt6dev/src/ui_groupbydialog.h:205
+#: ../../build-qt6dev/src/ui_groupbydialog.h:227
+#: ../../build-qt6dev/src/ui_groupbydialog.h:249
+#: ../../build-qt6dev/src/ui_edittagdialog.h:929
+msgid "Performer"
+msgstr "Исполнитель"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:212
+msgid "Pixel"
+msgstr "Пиксель"
+
+#: widgets/fancytabwidget.cpp:731
+msgid "Plain sidebar"
+msgstr "Обычная боковая панель"
+
+#: core/mainwindow.cpp:739 core/mainwindow.cpp:1366 core/mainwindow.cpp:1399
+#: core/mainwindow.cpp:1951 core/qtsystemtrayicon.cpp:160
+#: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:62
+msgid "Play"
+msgstr "Играть"
+
+#: playlist/playlist.cpp:1401
+msgid "Play Count"
+msgstr "Разы"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:554
+msgid "Play control buttons"
+msgstr "Кнопки управления проигрыванием"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:896
+msgid "Play count"
+msgstr "Разы"
+
+#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:151
+msgid "Play counts"
+msgstr "Счётчики прослушивания"
+
+#: core/commandlineoptions.cpp:240
+msgid "Play given playlist"
+msgstr "Проиграть данный плейлист"
+
+#: core/commandlineoptions.cpp:222
+msgid "Play if stopped, pause if playing"
+msgstr "Играть если остановлено, пауза если воспроизводится"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:333
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:347
+msgid "Play if there is nothing already playing"
+msgstr "Проиграть, если ничего не играет"
+
+#: smartplaylists/smartplaylistsviewcontainer.cpp:72
+msgid "Play next"
+msgstr "Играть следующий"
+
+#: core/commandlineoptions.cpp:239
+msgid "Play the <n>th track in the playlist"
+msgstr "Играть <n> трек в плейлисте"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:64
+msgid "Play/Pause"
+msgstr "Играть/пауза"
+
+#: dialogs/lastfmimportdialog.cpp:160
+#, qt-format
+msgid "Playcounts for %1 songs and last played for %2 songs received."
+msgstr "Получены счётчики прослушивания для %1 песен и последнее прослушивание для %2 песен."
+
+#: dialogs/lastfmimportdialog.cpp:166
+#, qt-format
+msgid "Playcounts for %1 songs received."
+msgstr "Получены счётчики прослушивания для %1 песен."
+
+#: core/commandlineoptions.cpp:220
+msgid "Player options"
+msgstr "Настройки проигрывателя"
+
+#: playlist/playlistcontainer.cpp:342 playlist/playlistlistcontainer.cpp:281
+#: playlist/playlistlistcontainer.cpp:391 playlist/playlistmanager.cpp:112
+#: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:540
+#: playlist/playlisttabbar.cpp:434
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:177
+msgid "Playlist"
+msgstr "Плейлист"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:552
+msgid "Playlist buttons"
+msgstr "Кнопки плейлиста"
+
+#: osd/osdbase.cpp:279
+msgid "Playlist finished"
+msgstr "Плейлист закончился"
+
+#: core/mainwindow.cpp:2421
+#, qt-format
+msgid "Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?"
+msgstr "Плейлист содержит %1 песен, что слишком много для отмены. Уверены, что хотите очистить плейлист?"
+
+#: playlist/playlistlistcontainer.cpp:386
+msgid "Playlist must be open first."
+msgstr "Сначала надо открыть плейлист."
+
+#: core/commandlineoptions.cpp:235
+#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:92
+msgid "Playlist options"
+msgstr "Настройки плейлиста"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:558
+msgid "Playlist playing song color"
+msgstr "Цвет текущей песни в плейлисте"
+
+#: smartplaylists/smartplaylistwizard.cpp:87
+msgid "Playlist type"
+msgstr "Тип плейлиста"
+
+#: core/mainwindow.cpp:388
+msgid "Playlists"
+msgstr "Списки"
+
+#: ../data/html/oauthsuccess.html:38
+msgid "Please close your browser and return to Strawberry."
+msgstr "Пожалуйста, закройте браузер и вернитесь в Strawberry."
+
+#: lyrics/geniuslyricsprovider.cpp:123 scrobbler/listenbrainzscrobbler.cpp:193
+#: spotify/spotifyservice.cpp:295
+msgid "Please open this URL in your browser"
+msgstr "Пожалуйста, откройте эту ссылку в вашем браузере"
+
+#: equalizer/equalizer.cpp:150
+msgid "Pop"
+msgstr "Поп"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:485
+msgid "Popup duration"
+msgstr "Длительность отображения"
+
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:180
+msgid "Port"
+msgstr "Порт"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:536
+msgid "Position"
+msgstr "Позиция"
+
+#: equalizer/equalizer.cpp:67
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:702
+msgid "Pre-amp"
+msgstr "Предусиление"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:414
+msgid "Prefer album artist when sending scrobbles"
+msgstr "Предпочитать артиста альбома при отправке скробблов"
+
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:252
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:335
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:273
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:290
+msgid "Preferences"
+msgstr "Настройки"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:454
+msgid "Preferred album art filenames (comma separated)"
+msgstr "Приоритетные имена файлов обложек (через запятую)"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:382
+msgid "Preferred format"
+msgstr "Предпочитаемый формат"
+
+#: filterparser/filterparser.cpp:460
+msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
+msgstr "Приставка имени поля в поисковом термине позволяет ограничить поиск этим полем, например:"
+
+#: core/songloader.cpp:151
+msgid "Preload function was not set for blocking operation."
+msgstr "Функция предварительной нагрузки не была установлена ​​для операции блокировки."
+
+#: ../../build-qt6dev/src/ui_equalizer.h:167
+msgid "Preset:"
+msgstr "Предустановка:"
+
+#: scrobbler/scrobblingapi20.cpp:214
+msgid "Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."
+msgstr "Нажмите «Сохранить», чтобы скопировать адрес в буфер обмена и вручную открыть его в веб-браузере."
+
+#: ../../build-qt6dev/src/ui_globalshortcutgrabber.h:69
+msgid "Press a key"
+msgstr "Нажмите клавиши"
+
+#: globalshortcuts/globalshortcutgrabber.cpp:57
+#: ../../build-qt6dev/src/ui_globalshortcutgrabber.h:70
+#, qt-format
+msgid "Press a key combination to use for %1..."
+msgstr "Нажмите сочетание клавиш для: «%1»…"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:336
+msgid "Pressing \"Previous\" in player will..."
+msgstr "Нажатие кнопки «Предыдущий» осуществит…"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:506
+msgid "Pretty OSD options"
+msgstr "Параметры модного экранного меню"
+
+#: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:102
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:442
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:447
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:495
+#: ../../build-qt6dev/src/ui_organizedialog.h:280
+msgid "Preview"
+msgstr "Предпросмотр"
+
+#: dialogs/edittagdialog.cpp:232 dialogs/trackselectiondialog.cpp:71
+msgid "Previous"
+msgstr "Предыдущий"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:68
+#: ../../build-qt6dev/src/ui_mainwindow.h:610
+msgid "Previous track"
+msgstr "Предыдущий трек"
+
+#: core/commandlineoptions.cpp:248
+msgid "Print out version information"
+msgstr "Вывести информацию о версии"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:134
+msgid "Profile"
+msgstr "Профиль"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:234
+msgid "Progress"
+msgstr "Ход выполнения"
+
+#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:135
+msgid "Put songs in a random order"
+msgstr "Перемешать порядок песен"
+
+#: core/mainwindow.cpp:405
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:423
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:281
+msgid "Qobuz"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:283
+msgid "Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can't help you getting these."
+msgstr "Поддержка Qobuz не является официальной, для работы требуется идентификатор приложения API и секретный ключ зарегистрированного приложения. Мы не можем помочь вам в их получении."
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:77
+#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:198
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:217
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:192
+msgctxt "Sound quality"
+msgid "Quality"
+msgstr "Качество"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:385
+msgid "Querying device..."
+msgstr "Производится опрос носителя…"
+
+#: core/mainwindow.cpp:387
+msgid "Queue"
+msgstr "Очередь"
+
+#: core/mainwindow.cpp:2049
+msgid "Queue selected tracks"
+msgstr "Выбранные треки в очередь"
+
+#: core/mainwindow.cpp:745 core/mainwindow.cpp:2053
+msgid "Queue selected tracks to play next"
+msgstr "Очередь выбранных треков для последующего воспроизведения"
+
+#: core/mainwindow.cpp:2056 collection/collectionview.cpp:384
+#: streaming/streamingcollectionview.cpp:335
+msgid "Queue to play next"
+msgstr "Добавить в начало очереди"
+
+#: core/mainwindow.cpp:2048 collection/collectionview.cpp:383
+#: smartplaylists/smartplaylistsviewcontainer.cpp:71
+#: streaming/streamingsearchview.cpp:322
+#: streaming/streamingcollectionview.cpp:334
+msgid "Queue track"
+msgstr "Добавить трек в очередь"
+
+#: ../../build-qt6dev/src/ui_queueview.h:123
+msgid "QueueView"
+msgstr "Обзор очереди"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:699
+msgid "Radio (equal loudness for all tracks)"
+msgstr "Радио (равная громкость для всех треков)"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:427
+msgid "Radio Paradise"
+msgstr "Радио Paradise"
+
+#: core/mainwindow.cpp:391
+msgid "Radios"
+msgstr "Радио"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:324
+msgid "Random"
+msgstr "Случайное"
+
+#: playlist/playlist.cpp:1419 ../../build-qt6dev/src/ui_edittagdialog.h:932
+msgid "Rating"
+msgstr "Оценка"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:193
+msgid "Re&lative"
+msgstr "&Относительные"
+
+#: covermanager/albumcovermanager.cpp:259
+msgid "Really cancel?"
+msgstr "Действительно отменить?"
+
+#: tidal/tidalstreamurlrequest.cpp:222
+#, qt-format
+msgid "Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
+msgstr "Получен адрес с шифрованным потоком %1 от Tidal. Strawberry в настоящее время не поддерживает шифрованные потоки."
+
+#: tidal/tidalstreamurlrequest.cpp:275 tidal/tidalstreamurlrequest.cpp:285
+msgid "Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
+msgstr "Получен адрес с шифрованным потоком от Tidal. Strawberry в настоящее время не поддерживает шифрованные потоки."
+
+#: lyrics/geniuslyricsprovider.cpp:151 scrobbler/listenbrainzscrobbler.cpp:219
+#: spotify/spotifyservice.cpp:344
+msgid "Received invalid reply from web browser."
+msgstr "Получен неверный ответ от веб-браузера."
+
+#: scrobbler/scrobblingapi20.cpp:261
+msgid "Received invalid reply from web browser. Try another browser."
+msgstr "Получен неверный ответ от веб-браузера. Попробуйте другой браузер."
+
+#: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1202
+#: qobuz/qobuzrequest.cpp:1259
+#, qt-format
+msgid "Receiving album cover for %1 album..."
+msgstr "Получение обложки для %1 альбома…"
+
+#: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1203
+#: qobuz/qobuzrequest.cpp:1260
+#, qt-format
+msgid "Receiving album covers for %1 albums..."
+msgstr "Получение обложек для %1 альбомов…"
+
+#: tidal/tidalrequest.cpp:550 spotify/spotifyrequest.cpp:557
+#: qobuz/qobuzrequest.cpp:552
+#, qt-format
+msgid "Receiving albums for %1 artist..."
+msgstr "Получение альбомов для %1 артиста…"
+
+#: tidal/tidalrequest.cpp:551 spotify/spotifyrequest.cpp:558
+#: qobuz/qobuzrequest.cpp:553
+#, qt-format
+msgid "Receiving albums for %1 artists..."
+msgstr "Получение альбомов для %1 артиста…"
+
+#: tidal/tidalrequest.cpp:275 spotify/spotifyrequest.cpp:264
+#: qobuz/qobuzrequest.cpp:255
+msgid "Receiving albums..."
+msgstr "Получение альбомов…"
+
+#: tidal/tidalrequest.cpp:227 spotify/spotifyrequest.cpp:210
+#: qobuz/qobuzrequest.cpp:203
+msgid "Receiving artists..."
+msgstr "Получение артистов…"
+
+#: dialogs/lastfmimportdialog.cpp:80
+msgid "Receiving initial data from last.fm..."
+msgstr "Получение исходных данных от Last.fm…"
+
+#: dialogs/lastfmimportdialog.cpp:140
+#, qt-format
+msgid "Receiving last played for %1 songs."
+msgstr "Получение последнего прослушивание для %1 песен."
+
+#: dialogs/lastfmimportdialog.cpp:137
+#, qt-format
+msgid "Receiving playcount for %1 songs and last played for %2 songs."
+msgstr "Получение счётчиков прослушивания для %1 песен и последнее прослушивание для %2 песен."
+
+#: dialogs/lastfmimportdialog.cpp:143
+#, qt-format
+msgid "Receiving playcounts for %1 songs."
+msgstr "Получение счётчиков прослушивания для %1 песен."
+
+#: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:855
+#: qobuz/qobuzrequest.cpp:809
+#, qt-format
+msgid "Receiving songs for %1 album..."
+msgstr "Получение песен для %1 альбома…"
+
+#: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:856
+#: qobuz/qobuzrequest.cpp:810
+#, qt-format
+msgid "Receiving songs for %1 albums..."
+msgstr "Получение песен для %1 альбомов…"
+
+#: tidal/tidalrequest.cpp:323 spotify/spotifyrequest.cpp:318
+#: qobuz/qobuzrequest.cpp:307
+msgid "Receiving songs..."
+msgstr "Получение песен…"
+
+#: lyrics/geniuslyricsprovider.cpp:195
+msgid "Redirect from Genius is missing query items code or state."
+msgstr "В перенаправлении с Genius отсутствует код или состояние элементов запроса."
+
+#: spotify/spotifyservice.cpp:340
+msgid "Redirect missing token code or state!"
+msgstr "В перенаправлении отсутствует код или состояние токена!"
+
+#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:215
+msgid "Redirect missing token code!"
+msgstr "В перенаправлении отсутствует код токена!"
+
+#: playlist/playlistcontainer.cpp:228
+msgid "Redo"
+msgstr "Вернуть"
+
+#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:140
+msgid "Refresh catalogue"
+msgstr "Обновить каталог"
+
+#: radios/radioview.cpp:89
+msgid "Refresh channels"
+msgstr "Обновить каналы"
+
+#: equalizer/equalizer.cpp:151
+msgid "Reggae"
+msgstr "Регги"
+
+#: playlist/playlistsaveoptionsdialog.cpp:42
+msgid "Relative"
+msgstr "Относительные"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:322
+msgid "Remember from &last time"
+msgstr "Вернуть преды&дущее состояние"
+
+#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:97
+msgid "Remember my choice"
+msgstr "Запомнить мой выбор"
+
+#: ../../build-qt6dev/src/ui_savedgroupingmanager.h:103
+#: ../../build-qt6dev/src/ui_queueview.h:137
+#: ../../build-qt6dev/src/ui_transcodedialog.h:222
+msgid "Remove"
+msgstr "Удалить"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:707
+msgid "Remove &duplicates from playlist"
+msgstr "Убрать по&вторы из плейлиста"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:708
+msgid "Remove &unavailable tracks from playlist"
+msgstr "Уб&рать недоступные треки"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:445
+msgid "Remove folder"
+msgstr "Удалить папку"
+
+#: streaming/streamingcollectionview.cpp:340
+msgid "Remove from favorites"
+msgstr "Удалить из избранного"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:671
+msgid "Remove from playlist"
+msgstr "Убрать из плейлиста"
+
+#: playlist/playlisttabbar.cpp:229
+msgid "Remove playlist"
+msgstr "Удалить плейлист"
+
+#: playlist/playlistlistcontainer.cpp:437
+msgid "Remove playlists"
+msgstr "Удалить плейлисты"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:273
+msgid "Remove problematic characters from filenames"
+msgstr "Удалить проблемные символы из имён файлов"
+
+#: playlist/playlisttabbar.cpp:181
+msgid "Rename playlist"
+msgstr "Переименовать плейлист"
+
+#: playlist/playlisttabbar.cpp:81
+msgid "Rename playlist..."
+msgstr "Переименовать плейлист…"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:646
+msgid "Renumber tracks in this order..."
+msgstr "Перенумеровать треки в данном порядке…"
+
+#: ../../build-qt6dev/src/ui_playlistsequence.h:119
+msgid "Repeat"
+msgstr "Повторять"
+
+#: osd/osdbase.cpp:365 ../../build-qt6dev/src/ui_playlistsequence.h:110
+msgid "Repeat album"
+msgstr "Повторять альбом"
+
+#: osd/osdbase.cpp:366 ../../build-qt6dev/src/ui_playlistsequence.h:111
+msgid "Repeat playlist"
+msgstr "Повторять плейлист"
+
+#: osd/osdbase.cpp:364 ../../build-qt6dev/src/ui_playlistsequence.h:109
+msgid "Repeat track"
+msgstr "Повторять трек"
+
+#: collection/collectionview.cpp:379
+#: smartplaylists/smartplaylistsviewcontainer.cpp:67
+#: widgets/fileviewlist.cpp:44 streaming/streamingsearchview.cpp:318
+#: streaming/streamingcollectionview.cpp:330 radios/radioview.cpp:73
+#: device/deviceview.cpp:245
+msgid "Replace current playlist"
+msgstr "Заменить текущий плейлист"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:327
+msgid "Replace spaces with dashes"
+msgstr "Заменить пробелы на тире"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:277
+msgid "Replace spaces with underscores"
+msgstr "Заменять пробелы на нижнее подчёркивание"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:342
+msgid "Replace the playlist"
+msgstr "Заменить плейлист"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:696
+msgid "Replay Gain"
+msgstr "Нормализация громкости"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:698
+msgid "Replay Gain mode"
+msgstr "Режим нормализации"
+
+#: tidal/tidalservice.cpp:354
+msgid "Reply from Tidal is missing query items."
+msgstr "В ответе от Tidal отсутствуют элементы запроса."
+
+#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:108
+msgid "Repopulate"
+msgstr "Пересоздать"
+
+#: collection/collectionview.cpp:404
+msgid "Rescan song(s)"
+msgstr "Пересканировать песню(и)"
+
+#: core/mainwindow.cpp:761
+msgid "Rescan song(s)..."
+msgstr "Пересканировать песни…"
+
+#: widgets/lineedit.cpp:68
+msgid "Reset"
+msgstr "Сброс"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:910
+msgid "Reset play counts"
+msgstr "Сбросить счётчики прослушивания"
+
+#: dialogs/edittagdialog.cpp:1338
+msgid "Reset song play statistics"
+msgstr "Сбросить статистику воспроизведения песни"
+
+#: core/commandlineoptions.cpp:244
+msgid "Resize the window"
+msgstr "Изменить размер окна"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:338
+msgid "Restart song, then jump to previous if pressed again"
+msgstr "Перезапуск песни, при повторном нажатии — переход к предыдущей"
+
+#: core/commandlineoptions.cpp:234
+msgid "Restart the track, or play the previous track if within 8 seconds of start."
+msgstr "Перезапустить трек или проиграть предыдущий, если не прошло 8 секунд от начала."
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:275
+msgid "Restrict characters to ASCII"
+msgstr "Ограничить символы до ASCII"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:274
+msgid "Restrict to characters allowed on FAT filesystems"
+msgstr "Ограничить разрешёнными символами в файловых системах FAT"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:319
+msgid "Resume playback on start"
+msgstr "Продолжить воспроизведение при запуске"
+
+#: subsonic/subsonicrequest.cpp:690
+#, qt-format
+msgid "Retrieving album cover for %1 album..."
+msgstr "Получение обложки альбома для %1…"
+
+#: subsonic/subsonicrequest.cpp:691
+#, qt-format
+msgid "Retrieving album covers for %1 albums..."
+msgstr "Получение обложек альбомов для %1…"
+
+#: subsonic/subsonicrequest.cpp:127
+msgid "Retrieving albums..."
+msgstr "Получение альбомов…"
+
+#: subsonic/subsonicrequest.cpp:316
+#, qt-format
+msgid "Retrieving songs for %1 album..."
+msgstr "Получение песен для альбома %1…"
+
+#: subsonic/subsonicrequest.cpp:317
+#, qt-format
+msgid "Retrieving songs for %1 albums..."
+msgstr "Получение песен для альбомов %1…"
+
+#: ../data/html/oauthsuccess.html:5
+msgid "Return to Strawberry"
+msgstr "Вернитесь в Strawberry"
+
+#: ../../build-qt6dev/src/ui_equalizer.h:178
+msgid "Right"
+msgstr "Правый канал"
+
+#: equalizer/equalizer.cpp:152
+msgid "Rock"
+msgstr "Рок"
+
+#: ../../build-qt6dev/src/ui_console.h:77
+msgid "Run"
+msgstr "Выполнить"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:657
+msgid "S&huffle playlist"
+msgstr "Пере&мешать плейлист"
+
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:178
+msgid "SOCKS proxy"
+msgstr "Прокси SOCKS"
+
+#: device/deviceview.cpp:238
+msgid "Safely remove device"
+msgstr "Безопасно извлечь устройство"
+
+#: ../../build-qt6dev/src/ui_organizedialog.h:282
+msgid "Safely remove the device after copying"
+msgstr "Безопасно извлечь устройство после копирования"
+
+#: playlist/playlist.cpp:1405
+msgid "Sample Rate"
+msgstr "Частота"
+
+#: collection/savedgroupingmanager.cpp:145 organize/organizedialog.cpp:122
+#: ../../build-qt6dev/src/ui_groupbydialog.h:208
+#: ../../build-qt6dev/src/ui_groupbydialog.h:230
+#: ../../build-qt6dev/src/ui_groupbydialog.h:252
+#: ../../build-qt6dev/src/ui_edittagdialog.h:901
+msgid "Sample rate"
+msgstr "Частота"
+
+#: context/contextview.cpp:165
+msgid "Samplerate"
+msgstr "Частота"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:683
+msgid "Save &playlist..."
+msgstr "&Сохранить плейлист…"
+
+#: covermanager/albumcoverchoicecontroller.cpp:244
+msgid "Save album cover"
+msgstr "Сохранить обложку альбома"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:321
+msgid "Save album covers as embedded cover"
+msgstr "Сохранять обложки альбомов в качестве вложенных"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:319
+msgid "Save album covers in album directory"
+msgstr "Сохранять обложки альбомов в каталоге альбомов"
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:320
+msgid "Save album covers in cache directory"
+msgstr "Сохранять обложки альбомов в каталоге кэша"
+
+#: covermanager/albumcoverchoicecontroller.cpp:107
+msgid "Save cover to disk..."
+msgstr "Сохранить обложку на диск…"
+
+#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:100
+msgid "Save current grouping"
+msgstr "Сохранить текущую группу"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:477
+msgid "Save playcounts and ratings to files now"
+msgstr "Записать счётчики прослушивания и оценки в файлы сейчас"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:473
+msgid "Save playcounts to song tags when possible"
+msgstr "Записывать счётчики прослушивания и оценки в теги песен по возможности"
+
+#: playlist/playlistlistcontainer.cpp:91
+msgctxt "Save playlist menu action."
+msgid "Save playlist"
+msgstr "Сохранить плейлист"
+
+#: playlist/playlistmanager.cpp:259
+msgctxt "Title of the playlist save dialog."
+msgid "Save playlist"
+msgstr "Сохранить плейлист"
+
+#: playlist/playlisttabbar.cpp:82
+msgid "Save playlist..."
+msgstr "Сохранить плейлист…"
+
+#: equalizer/equalizer.cpp:211 ../../build-qt6dev/src/ui_equalizer.h:169
+msgid "Save preset"
+msgstr "Сохранить предустановку"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:474
+msgid "Save ratings to song tags when possible"
+msgstr "Записывать оценки в теги песен по возможности"
+
+#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:97
+msgid "Save the .mood files directly in the songs folders"
+msgstr "Сохранять файлы тона .mood в папках песен"
+
+#: ../../build-qt6dev/src/ui_savedgroupingmanager.h:101
+msgid "Saved Grouping Manager"
+msgstr "Менеджер сохранённых групп"
+
+#: playlistparsers/cueparser.cpp:395
+msgid "Saving CUE files is not supported."
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_coverssettingspage.h:317
+msgid "Saving album covers"
+msgstr "Сохранение обложек альбомов"
+
+#: collection/collection.cpp:202
+msgid "Saving playcounts and ratings"
+msgstr "Сохранение счётчиков прослушивания и оценок"
+
+#: dialogs/edittagdialog.cpp:312 dialogs/trackselectiondialog.cpp:292
+msgid "Saving tracks"
+msgstr "Сохранение треков"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:137
+msgid "Scalable sampling rate profile (SSR)"
+msgstr "Профиль Scalable sampling rate (SSR)"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:210
+msgid "Scale size"
+msgstr "Размер масштабирования"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:404
+msgid "Scrobbler"
+msgstr "Скробблер"
+
+#: scrobbler/scrobblingapi20.cpp:910
+#, qt-format
+msgid "Scrobbler %1 error: %2"
+msgstr "Ошибка %1 скробблера: %2"
+
+#: scrobbler/scrobblingapi20.cpp:461
+#, qt-format
+msgid "Scrobbler %1 is not authenticated!"
+msgstr "Скробблер %1 не аутентифицирован!"
+
+#: covermanager/albumcoversearcher.cpp:192
+#: covermanager/albumcoversearcher.cpp:210
+#: ../../build-qt6dev/src/ui_albumcoversearcher.h:111
+#: ../../build-qt6dev/src/ui_streamingtabsview.h:116
+msgid "Search"
+msgstr "Поиск"
+
+#: covermanager/albumcoverchoicecontroller.cpp:117
+msgid "Search automatically"
+msgstr "Искать автоматически"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:337
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:274
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:292
+msgid "Search delay"
+msgstr "Задержка поиска"
+
+#: covermanager/albumcoverchoicecontroller.cpp:109
+msgid "Search for album covers..."
+msgstr "Поиск обложек альбомов…"
+
+#: collection/collectionview.cpp:388 streaming/streamingsearchview.cpp:340
+msgid "Search for this"
+msgstr "Поиск этого"
+
+#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:109
+msgid "Search mode"
+msgstr "Режим поиска"
+
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:163
+msgid "Search options"
+msgstr "Параметры поиска"
+
+#: smartplaylists/smartplaylistquerywizardplugin.cpp:161
+#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:114
+msgid "Search terms"
+msgstr "Условия поиска"
+
+#: filterparser/filterparser.cpp:468
+#, qt-format
+msgid "Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: "
+msgstr "Для уточнения поиска в числовых полях можно использовать приставки %1 или %2, например:"
+
+#: tidal/tidalrequest.cpp:371 tidal/tidalrequest.cpp:385
+#: tidal/tidalrequest.cpp:399 spotify/spotifyrequest.cpp:373
+#: spotify/spotifyrequest.cpp:387 spotify/spotifyrequest.cpp:401
+#: qobuz/qobuzrequest.cpp:359 qobuz/qobuzrequest.cpp:373
+#: qobuz/qobuzrequest.cpp:387
+msgid "Searching..."
+msgstr "Поиск…"
+
+#: collection/savedgroupingmanager.cpp:59
+msgid "Second Level"
+msgstr "Второй уровень"
+
+#: ../../build-qt6dev/src/ui_groupbydialog.h:212
+msgid "Second level"
+msgstr "Второй уровень"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:73
+msgid "Seek backward"
+msgstr "Перемотка назад"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:72
+msgid "Seek forward"
+msgstr "Перемотка вперёд"
+
+#: core/commandlineoptions.cpp:233
+msgid "Seek the currently playing track by a relative amount"
+msgstr "Перемотать активный трек на относительную позицию"
+
+#: core/commandlineoptions.cpp:232
+msgid "Seek the currently playing track to an absolute position"
+msgstr "Перемотать активный трек на абсолютную позицию"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:354
+msgid "Seeking using a keyboard shortcut or mouse wheel"
+msgstr "Перемотка с помощью горячих клавиш клавиатуры или колеса мыши"
+
+#: settings/appearancesettingspage.cpp:301
+msgid "Select background image"
+msgstr "Выбрать фоновое изображение"
+
+#: ../../build-qt6dev/src/ui_trackselectiondialog.h:206
+msgid "Select best possible match"
+msgstr "Выберите наиболее подходящее совпадение"
+
+#: ../../build-qt6dev/src/ui_saveplaylistsdialog.h:118
+msgid "Select directory for saving playlists"
+msgstr "Выберите каталог для сохранения плейлистов"
+
+#: dialogs/saveplaylistsdialog.cpp:63
+msgid "Select directory for the playlists"
+msgstr "Выбрать каталог для плейлистов"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:561
+msgid "Select playlist playing song color:"
+msgstr "Выбрать цвет активной песни в плейлисте:"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:526
+msgid "Select tabbar color:"
+msgstr "Выбрать цвет панели вкладок:"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:233
+msgid "Select..."
+msgstr "Выбрать…"
+
+#: ../../build-qt6dev/src/ui_groupbydialog.h:256
+msgid "Separate albums by grouping tag"
+msgstr "Разделять альбому по тегу группировки"
+
+#: device/udisks2lister.cpp:124
+msgid "Serial number"
+msgstr "Серийный номер"
+
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:245
+msgid "Server URL"
+msgstr "Адрес сервера"
+
+#: subsonic/subsonicservice.cpp:413 settings/subsonicsettingspage.cpp:137
+msgid "Server URL is invalid."
+msgstr "Адрес сервера недействителен."
+
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:256
+msgid "Server-side scrobbling"
+msgstr "Скробблинг на стороне сервера"
+
+#: core/mainwindow.cpp:2089
+#, qt-format
+msgid "Set %1 to \"%2\"..."
+msgstr "Установить %1 в «%2»…"
+
+#: core/commandlineoptions.cpp:227
+msgid "Set the volume to <value> percent"
+msgstr "Установить громкость в <value> процентов"
+
+#: settings/coverssettingspage.cpp:436
+#, qt-format
+msgid "Set through album cover search (%1)"
+msgstr "Задать с помощью поиска обложек альбомов (%1)"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:647
+msgid "Set value for all selected tracks..."
+msgstr "Установить значение для всех выделенных треков…"
+
+#: ../../build-qt6dev/src/ui_settingsdialog.h:114
+msgid "Settings"
+msgstr "Настройки"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:521
+msgid "Settings require restart."
+msgstr "Применение настроек требует перезапуска."
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:281
+msgid "Shortcut"
+msgstr "Сочетание клавиш"
+
+#: settings/globalshortcutssettingspage.cpp:295
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:283
+#, qt-format
+msgid "Shortcut for %1"
+msgstr "Сочетание клавиш «%1»"
+
+#: collection/collectionfilterwidget.cpp:101
+msgid "Show"
+msgstr "Показать"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:75
+msgid "Show OSD"
+msgstr "Показать экранное меню"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:481
+msgid "Show a &native desktop notification"
+msgstr "Показыва&ть встроенные уведомления рабочего стола"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:180
+msgid "Show a glowing animation on the currently playing track"
+msgstr "Подсвечивать активный трек анимацией"
+
+#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:95
+msgid "Show a moodbar in the track progress bar"
+msgstr "Показывать индикатор тона в полосе прогресса"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:489
+msgid "Show a notification when I change the repeat/shuffle mode"
+msgstr "Уведомлять о смене режимов повторения/перемешивания"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:488
+msgid "Show a notification when I change the volume"
+msgstr "Уведомлять о смене громкости"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:490
+msgid "Show a notification when I pause playback"
+msgstr "Уведомлять о приостановке проигрывания"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:491
+msgid "Show a notification when I resume playback"
+msgstr "Уведомлять о возобновлении воспроизведения"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:483
+msgid "Show a popup fro&m the system tray"
+msgstr "&Показывать всплывающее окно из трея"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:482
+msgid "Show a pretty OSD"
+msgstr "Показывать модное экранное меню"
+
+#: widgets/playingwidget.cpp:141
+msgid "Show above status bar"
+msgstr "Показать над строкой состояния"
+
+#: context/contextview.cpp:260
+msgid "Show album cover"
+msgstr "Показать обложку альбома"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:462
+msgid "Show album cover art in collection"
+msgstr "Показывать обложку альбома в фонотеке"
+
+#: core/mainwindow.cpp:680
+msgid "Show all songs"
+msgstr "Показывать все композиции"
+
+#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:138
+msgid "Show all the songs"
+msgstr "Показать все песни"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:179
+msgid "Show bars on the currently playing track"
+msgstr "Показывать полоски на активном треке"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:415
+msgid "Show dialog for errors"
+msgstr "Показывать окно ошибок"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:461
+msgid "Show dividers"
+msgstr "Показывать разделители"
+
+#: covermanager/albumcoverchoicecontroller.cpp:115
+msgid "Show fullsize..."
+msgstr "Открыть в полный размер…"
+
+#: core/mainwindow.cpp:768
+msgid "Show in collection..."
+msgstr "Показать в фонотеке…"
+
+#: utilities/filemanagerutils.cpp:139 utilities/filemanagerutils.cpp:145
+msgid "Show in file browser"
+msgstr "Показать в проводнике"
+
+#: core/mainwindow.cpp:769 collection/collectionview.cpp:400
+#: widgets/fileviewlist.cpp:54
+msgid "Show in file browser..."
+msgstr "Показать в проводнике…"
+
+#: collection/collectionview.cpp:407
+msgid "Show in various artists"
+msgstr "Показывать в «Различных артистах»"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:409
+msgid "Show love button"
+msgstr "Показывать кнопку «В любимые»"
+
+#: moodbar/moodbarproxystyle.cpp:373
+msgid "Show moodbar"
+msgstr "Показывать индикатор тона"
+
+#: core/mainwindow.cpp:681
+msgid "Show only duplicates"
+msgstr "Показывать только повторяющиеся"
+
+#: core/mainwindow.cpp:682
+msgid "Show only untagged"
+msgstr "Показывать только без тегов"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:320
+msgid "Show playing widget"
+msgstr "Показывать виджет воспроизведения"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:408
+msgid "Show scrobble button"
+msgstr "Показывать кнопку скробблинга"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:714
+msgid "Show sidebar"
+msgstr "Показывать боковую панель"
+
+#: context/contextview.cpp:268
+msgid "Show song lyrics"
+msgstr "Показать текст песни"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:317
+msgid "Show song progress on system tray icon"
+msgstr "Показывать ход проигрывания песни на значке в трее"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:318
+msgid "Show song progress on taskbar"
+msgstr ""
+
+#: context/contextview.cpp:264
+msgid "Show song technical data"
+msgstr "Показать технические данные песни"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:315
+msgid "Show system tray icon"
+msgstr "Показывать значок в трее"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:323
+msgid "Show the main window"
+msgstr "Показать главное окно"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:325
+msgid "Show the main window maximized"
+msgstr "Показать главное окно развёрнутым"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:326
+msgid "Show the main window minimized"
+msgstr "Показать главное окно свёрнутым"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:74
+msgid "Show/Hide"
+msgstr "Показать/скрыть"
+
+#: ../../build-qt6dev/src/ui_playlistsequence.h:122
+msgid "Shuffle"
+msgstr "Перемешать"
+
+#: osd/osdbase.cpp:351 ../../build-qt6dev/src/ui_playlistsequence.h:117
+msgid "Shuffle albums"
+msgstr "Перемешать альбомы"
+
+#: osd/osdbase.cpp:349 ../../build-qt6dev/src/ui_playlistsequence.h:116
+msgid "Shuffle all"
+msgstr "Перемешать все"
+
+#: osd/osdbase.cpp:350 ../../build-qt6dev/src/ui_playlistsequence.h:115
+msgid "Shuffle tracks in this album"
+msgstr "Перемешать треки в этом альбоме"
+
+#: ../../build-qt6dev/src/ui_loginstatewidget.h:166
+msgid "Sign out"
+msgstr "Выйти"
+
+#: ../../build-qt6dev/src/ui_loginstatewidget.h:168
+msgid "Signing in..."
+msgstr "Выполняется вход…"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:209
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:466
+msgid "Size"
+msgstr "Размер"
+
+#: ../../build-qt6dev/src/ui_albumcoverexport.h:211
+msgid "Size:"
+msgstr "Размер:"
+
+#: equalizer/equalizer.cpp:154
+msgid "Ska"
+msgstr "Ска"
+
+#: playlist/playlist.cpp:1402
+msgid "Skip Count"
+msgstr "Пропуски"
+
+#: core/commandlineoptions.cpp:225
+msgid "Skip backwards in playlist"
+msgstr "Переместить назад в плейлисте"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:900
+msgid "Skip count"
+msgstr "Пропуски"
+
+#: core/commandlineoptions.cpp:226
+msgid "Skip forwards in playlist"
+msgstr "Переместить вперёд в плейлисте"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:464
+msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
+msgstr ""
+
+#: core/mainwindow.cpp:2062
+msgid "Skip selected tracks"
+msgstr "Пропустить выбранные треки"
+
+#: core/mainwindow.cpp:2061
+msgid "Skip track"
+msgstr "Пропустить трек"
+
+#: widgets/playingwidget.cpp:102
+msgid "Small album cover"
+msgstr "Маленькая обложка альбома"
+
+#: widgets/fancytabwidget.cpp:730
+msgid "Small sidebar"
+msgstr "Узкая боковая панель"
+
+#: smartplaylists/smartplaylistwizard.cpp:72
+msgid "Smart playlist"
+msgstr "Умный плейлист"
+
+#: core/mainwindow.cpp:389
+msgid "Smart playlists"
+msgstr "Умные списки"
+
+#: equalizer/equalizer.cpp:153
+msgid "Soft"
+msgstr "Лёгкая"
+
+#: equalizer/equalizer.cpp:155
+msgid "Soft Rock"
+msgstr "Софт-рок"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:425
+msgid "SomaFM"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:435
+msgid "Song Lyrics"
+msgstr "Тексты песен"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:449
+msgid "Song fingerprinting and tracking"
+msgstr "Отпечаток и отслеживание песни"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:472
+msgid "Song playcounts and ratings"
+msgstr "Счётчики прослушивания и оценки песни"
+
+#: ../../build-qt6dev/src/ui_streamingtabsview.h:115
+msgid "Songs"
+msgstr "Песни"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:406
+msgid "Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier)."
+msgstr "Песни скробблятся, если они содержат допустимые метаданные, длятся более 30 секунд и воспроизводятся не менее половины своей длительности или в течение 4 минут (в зависимости от того, что произойдёт раньше)."
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:341
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:278
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:296
+msgid "Songs search limit"
+msgstr "Предел поиска песен"
+
+#: analyzer/sonogramanalyzer.cpp:31
+msgid "Sonogram"
+msgstr "Сонограмма"
+
+#: ../../build-qt6dev/src/ui_trackselectiondialog.h:204
+msgid "Sorry"
+msgstr "Извините"
+
+#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:136
+msgid "Sort songs by"
+msgstr "Сортировать песни по"
+
+#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:134
+msgid "Sorting"
+msgstr "Сортировка"
+
+#: playlist/playlist.cpp:1417
+msgid "Source"
+msgstr "Источник"
+
+#: ../../build-qt6dev/src/ui_transcodersettingspage.h:191
+msgid "Speex"
+msgstr ""
+
+#: core/mainwindow.cpp:1091
+msgid "Sponsoring Strawberry"
+msgstr "Поддержать Strawberry"
+
+#: core/mainwindow.cpp:402 ../../build-qt6dev/src/ui_spotifysettingspage.h:264
+msgid "Spotify"
+msgstr ""
+
+#: spotify/spotifyservice.cpp:295
+msgid "Spotify Authentication"
+msgstr "Аутентификация Spotify"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:199
+msgid "Standard"
+msgstr "Стандартное"
+
+#: playlist/playlisttabbar.cpp:79
+msgid "Star playlist"
+msgstr "Убрать/добавить в избранное"
+
+#: core/commandlineoptions.cpp:221
+msgid "Start the playlist currently playing"
+msgstr "Запустить проигрываемый сейчас плейлист"
+
+#: transcoder/transcodedialog.cpp:130
+msgid "Start transcoding"
+msgstr "Конвертировать"
+
+#: transcoder/transcoder.cpp:407
+#, qt-format
+msgid "Starting %1"
+msgstr "Запуск %1"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:65
+msgid "Stop"
+msgstr "Стоп"
+
+#: ../../build-qt6dev/src/ui_playlistsequence.h:112
+msgid "Stop after each track"
+msgstr "Стоп после каждого трека"
+
+#: osd/osdbase.cpp:367
+msgid "Stop after every track"
+msgstr "Стоп после каждого трека"
+
+#: core/mainwindow.cpp:741 ../../build-qt6dev/src/ui_mainwindow.h:630
+msgid "Stop after this track"
+msgstr "Стоп после этого трека"
+
+#: core/commandlineoptions.cpp:223
+msgid "Stop playback"
+msgstr "Остановить воспроизведение"
+
+#: core/commandlineoptions.cpp:224
+msgid "Stop playback after current track"
+msgstr "Остановить после текущего трека"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:66
+msgid "Stop playing after current track"
+msgstr "Остановить после текущего трека"
+
+#: osd/osdbase.cpp:271
+#, qt-format
+msgid "Stop playing after track: %1"
+msgstr "Остановить воспроизведение после трека: %1"
+
+#: osd/osdbase.cpp:258 osd/osdbase.cpp:261
+msgid "Stopped"
+msgstr "Остановлено"
+
+#: ../../build-qt6dev/src/ui_errordialog.h:91
+msgid "Strawberry Error"
+msgstr "Ошибка Strawberry"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:609
+msgid "Strawberry Music Player"
+msgstr "Музыкальный проигрыватель Strawberry"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:513
+msgid "Strawberry Red"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:378
+msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
+msgstr "Strawberry может автоматически конвертировать музыку при копировании на это устройство в формат, который оно поддерживает."
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:478
+msgid "Strawberry can show a message when the track changes."
+msgstr "Strawberry может показывать уведомление при смене трека."
+
+#: dialogs/about.cpp:114
+msgid "Strawberry is a music player and music collection organizer."
+msgstr "Strawberry — музыкальный проигрыватель и органайзер фонотеки."
+
+#: core/mainwindow.cpp:1091
+#, qt-format
+msgid "Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1"
+msgstr "Strawberry — это бесплатное и открытое программное обеспечение. Если вам приглянулось оно, пожалуйста, рассмотрите возможность пожертвования. Для подробностей о спонсорстве посетите наш сайт %1"
+
+#: dialogs/about.cpp:120
+#, qt-format
+msgid "Strawberry is free software released under GPL. The source code is available on %1"
+msgstr "Strawberry — бесплатное программное обеспечение, выпущенное под лицензией GPL. Исходный код доступен на %1"
+
+#: dialogs/snapdialog.cpp:30
+msgid "Strawberry is running as a Snap"
+msgstr "Strawberry работает через Snap"
+
+#: dialogs/snapdialog.cpp:46
+msgid "Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares."
+msgstr "Strawberry работает медленно и ограниченно при запуске через Snap. Доступ к корневой файловой системе (/) не будет работать. Также могут существовать другие ограничения, связанные с доступом к определённым устройствам или общим сетевым ресурсам."
+
+#: core/mainwindow.cpp:1068
+msgid "Strawberry running under Rosetta"
+msgstr "Strawberry запущен под управлением Rosetta"
+
+#: ../../build-qt6dev/src/ui_trackselectiondialog.h:205
+msgid "Strawberry was unable to find results for this file"
+msgstr "Strawberry не смог найти результаты по запросу для этого файла"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:426
+msgid "Stream"
+msgstr "Поток"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:345
+msgid "Stream URL method"
+msgstr "Метод адреса потока"
+
+#: settings/settingsdialog.cpp:162
+msgid "Streaming"
+msgstr "Проигрывание потоков"
+
+#: ../../build-qt6dev/src/ui_streamingsearchview.h:223
+msgid "Streaming Search View"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_streamingtabsview.h:112
+msgid "Streaming Tabs View"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:544
+msgid "Stretch image to fill playlist"
+msgstr "Подгонять к размеру плейлиста"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:416
+msgid "Strip \"remastered\" and similar from album and title"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:518
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:519
+msgid "Style"
+msgstr "Стиль"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:410
+msgid "Submit scrobbles every"
+msgstr "Отправлять скробблы каждые"
+
+#: core/mainwindow.cpp:396
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:419
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:243
+msgid "Subsonic"
+msgstr ""
+
+#: subsonic/subsonicurlhandler.cpp:39
+msgid "Subsonic server URL is invalid."
+msgstr "Адрес сервера Subsonic неверен."
+
+#: ../data/html/oauthsuccess.html:36
+msgid "Success!"
+msgstr "Успешно!"
+
+#: transcoder/transcoder.cpp:184
+#, qt-format
+msgid "Successfully written %1"
+msgstr "Успешно записано %1"
+
+#: dialogs/trackselectiondialog.cpp:198
+msgid "Suggested tags"
+msgstr "Предлагаемые теги"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:427
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:500
+#: ../../build-qt6dev/src/ui_edittagdialog.h:911
+msgid "Summary"
+msgstr "Сводка"
+
+#: analyzer/analyzercontainer.cpp:85
+#, qt-format
+msgid "Super high (%1 fps)"
+msgstr "Очень высокая (%1 к/с)"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:376
+msgid "Supported formats"
+msgstr "Поддерживаемые форматы"
+
+#: moodbar/moodbarrenderer.cpp:174
+msgid "System colors"
+msgstr "Системные цвета"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:559
+msgid "System highlight color"
+msgstr "Системный цвет подсвечивания"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:522
+msgid "Tabbar colors"
+msgstr "Цвета вкладок"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:553
+msgid "Tabbar large mode"
+msgstr "Режим широкой боковой панели"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:557
+msgid "Tabbar small mode"
+msgstr "Режим узкой боковой панели"
+
+#: widgets/fancytabwidget.cpp:732
+msgid "Tabs on top"
+msgstr "Вкладки сверху"
+
+#: ../../build-qt6dev/src/ui_trackselectiondialog.h:203
+msgid "Tag fetcher"
+msgstr "Сборщик тегов"
+
+#: ../../build-qt6dev/src/ui_edittagdialog.h:933
+msgid "Tags"
+msgstr "Теги"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:707
+msgid "Target Level"
+msgstr "Целевой уровень"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:200
+msgid "Target bitrate"
+msgstr "Целевой битрейт"
+
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:434
+msgid "Technical Data"
+msgstr "Технические данные"
+
+#: equalizer/equalizer.cpp:156
+msgid "Techno"
+msgstr "Техно"
+
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:258
+msgid "Test"
+msgstr "Проверить"
+
+#: settings/subsonicsettingspage.cpp:170
+msgid "Test failed!"
+msgstr "Проверка не пройдена!"
+
+#: settings/subsonicsettingspage.cpp:161
+msgid "Test successful!"
+msgstr "Проверка прошла успешно!"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:508
+msgid "Text options"
+msgstr "Свойства текста"
+
+#: dialogs/about.cpp:181
+msgid "Thanks to"
+msgstr "Благодарности"
+
+#: dialogs/about.cpp:189
+msgid "Thanks to all the other Amarok and Clementine contributors."
+msgstr "Спасибо всем прочим разработчикам Amarok и Clementine."
+
+#: settings/globalshortcutssettingspage.cpp:263
+#: settings/globalshortcutssettingspage.cpp:273
+#, qt-format
+msgid "The \"%1\" command could not be started."
+msgstr "Команда «%1» не может быть выполнена."
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:531
+msgid "The album cover of the currently playing song"
+msgstr "Обложка альбома активной композиции"
+
+#: dialogs/deleteconfirmationdialog.cpp:60
+msgid "The following files will be deleted from disk:"
+msgstr "Следующие файлы будут удалены с диска:"
+
+#: smartplaylists/smartplaylistsearchtermwidget.cpp:421
+msgid "The second value must be greater than the first one!"
+msgstr "Второе значение должно быть выше первого!"
+
+#: covermanager/coverfromurldialog.cpp:90
+msgid "The site you requested does not exist!"
+msgstr "Запрошенный сайт не существует!"
+
+#: covermanager/coverfromurldialog.cpp:100
+msgid "The site you requested is not an image!"
+msgstr "Запрошенная ссылка не является изображением!"
+
+#: streaming/streamingcollectionview.cpp:301
+msgid "The streaming collection is empty!"
+msgstr ""
+
+#: core/mainwindow.cpp:2983
+msgid "The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:"
+msgstr "Обновлённая версия Strawberry требует повторного сканирования фонотеки из-за следующих новых возможностей:"
+
+#: collection/collectionview.cpp:516
+msgid "There are other songs in this album"
+msgstr "В альбоме присутствуют другие композиции"
+
+#: organize/organizeerrordialog.cpp:72
+msgid "There were problems copying some songs.  The following files could not be copied:"
+msgstr "В процессе копирования некоторых композиций возникли проблемы. Следующие файлы не могут быть скопированы:"
+
+#: organize/organizeerrordialog.cpp:77
+msgid "There were problems deleting some songs.  The following files could not be deleted:"
+msgstr "В процессе удаления некоторых композиций возникли проблемы. Следующие файлы не могут быть удалены:"
+
+#: device/deviceview.cpp:429
+msgid "These files will be deleted from the device, are you sure you want to continue?"
+msgstr "Эти файлы будут удалены с устройства. Вы действительно хотите продолжить?"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:443
+msgid "These folders will be scanned for music to make up your collection"
+msgstr "В этих папках происходит поиск музыки для создания вашей фонотеки"
+
+#: ../../build-qt6dev/src/ui_transcodersettingspage.h:186
+msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
+msgstr "Эти настройки используются в окне «Конвертация музыки» и при конвертировании музыки перед копированием на устройство."
+
+#: collection/savedgroupingmanager.cpp:60
+msgid "Third Level"
+msgstr "Третий уровень"
+
+#: ../../build-qt6dev/src/ui_groupbydialog.h:234
+msgid "Third level"
+msgstr "Третий уровень"
+
+#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:95
+msgid "This can be changed later through the preferences"
+msgstr "В дальнейшем это может быть изменено в настройках"
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:383
+msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
+msgstr "Устройство должно быть подключено и открыто перед тем, как Strawberry определит, какой формат оно поддерживает."
+
+#: ../../build-qt6dev/src/ui_deviceproperties.h:377
+msgid "This device supports the following file formats:"
+msgstr "Это устройство поддерживает следующие форматы:"
+
+#: device/devicemanager.cpp:608 device/devicemanager.cpp:616
+msgid "This device will not work properly"
+msgstr "Это устройство не будет работать правильно"
+
+#: device/devicemanager.cpp:609
+msgid "This is an MTP device, but you compiled Strawberry without libmtp support."
+msgstr "Это устройство MTP, а вы собрали Strawberry без поддержки libmtp."
+
+#: device/devicemanager.cpp:617
+msgid "This is an iPod, but you compiled Strawberry without libgpod support."
+msgstr "Это iPod, а вы собрали Strawberry без поддержки libgpod."
+
+#: device/devicemanager.cpp:352
+msgid "This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."
+msgstr "Это устройство подключено впервые. Strawberry выполнит поиск музыкальных файлов на устройстве. Это может занять некоторое время."
+
+#: playlist/playlisttabbar.cpp:241
+msgid "This option can be changed in the \"Behavior\" preferences"
+msgstr "Этот параметр можно изменить в настройках раздела «Поведение»"
+
+#: device/devicemanager.cpp:632
+#, qt-format
+msgid "This type of device is not supported: %1"
+msgstr "Не поддерживаемый тип устройства: %1"
+
+#: core/mainwindow.cpp:399
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:421
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:325
+msgid "Tidal"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:327
+msgid "Tidal support is not official and requires a API token from a registered application to work. We can't help you getting these."
+msgstr "Поддержка Tidal не является официальной и для работы требует токен API из зарегистрированного приложения. Мы не можем помочь вам в его получении."
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:355
+msgid "Time step"
+msgstr "Шаг времени"
+
+#: playlist/playlist.cpp:1387 organize/organizedialog.cpp:106
+#: ../../build-qt6dev/src/ui_contextsettingspage.h:426
+#: ../../build-qt6dev/src/ui_edittagdialog.h:923
+#: ../../build-qt6dev/src/ui_trackselectiondialog.h:210
+msgid "Title"
+msgstr "Название"
+
+#: utilities/timeutils.cpp:85 utilities/timeutils.cpp:99
+msgid "Today"
+msgstr "Сегодня"
+
+#: globalshortcuts/globalshortcutsmanager.cpp:76
+msgid "Toggle Pretty OSD"
+msgstr "Показать/скрыть модное экранное меню"
+
+#: core/mainwindow.cpp:742 core/mainwindow.cpp:2050
+msgid "Toggle queue status"
+msgstr "Переключить состояние очереди"
+
+#: ../../build-qt6dev/src/ui_mainwindow.h:706
+msgid "Toggle scrobbling"
+msgstr "Вкл./откл. скробблинг"
+
+#: core/mainwindow.cpp:748 core/mainwindow.cpp:2063
+msgid "Toggle skip status"
+msgstr "Переключить статус пропуска"
+
+#: core/commandlineoptions.cpp:242
+msgid "Toggle visibility for the pretty on-screen-display"
+msgstr "Переключить видимость модного экранного меню"
+
+#: utilities/timeutils.cpp:100
+msgid "Tomorrow"
+msgstr "Завтра"
+
+#: utilities/filemanagerutils.cpp:139
+msgid "Too many songs selected."
+msgstr "Слишком много песен выбрано."
+
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:221
+msgid "Total albums:"
+msgstr "Всего альбомов:"
+
+#: covermanager/coversearchstatisticsdialog.cpp:83
+msgid "Total bytes transferred"
+msgstr "Всего передано байт"
+
+#: covermanager/coversearchstatisticsdialog.cpp:81
+msgid "Total network requests made"
+msgstr "Всего выполнено сетевых запросов"
+
+#: playlist/playlist.cpp:1390 organize/organizedialog.cpp:114
+#: ../../build-qt6dev/src/ui_edittagdialog.h:931
+#: ../../build-qt6dev/src/ui_trackselectiondialog.h:212
+msgid "Track"
+msgstr "Трек"
+
+#: ../../build-qt6dev/src/ui_transcodedialog.h:216
+msgid "Transcode Music"
+msgstr "Конвертер музыки"
+
+#: ../../build-qt6dev/src/ui_transcodelogdialog.h:61
+msgid "Transcoder Log"
+msgstr "Журнал конвертера"
+
+#: ../../build-qt6dev/src/ui_transcodersettingspage.h:185
+msgid "Transcoding"
+msgstr "Конвертер"
+
+#: transcoder/transcoder.cpp:322
+#, qt-format
+msgid "Transcoding %1 files using %2 threads"
+msgstr "Конвертировано %1 файлов в %2 потока"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsdialog.h:51
+msgid "Transcoding options"
+msgstr "Настройки конвертации"
+
+#: analyzer/turbineanalyzer.cpp:35
+msgid "Turbine"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:109
+msgid "Turn off"
+msgstr "Отключить"
+
+#: ../../build-qt6dev/src/ui_saveplaylistsdialog.h:120
+msgid "Type"
+msgstr "Тип"
+
+#: device/giolister.cpp:194
+msgid "URI"
+msgstr "Ссылка"
+
+#: core/commandlineoptions.cpp:219
+msgid "URL(s)"
+msgstr "Ссылки"
+
+#: device/udisks2lister.cpp:127
+msgid "UUID"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:226
+msgid "Ultra wide band (UWB)"
+msgstr "Сверхширокая полоса пропускания (UWB)"
+
+#: core/database.cpp:484
+#, qt-format
+msgid "Unable to execute SQL query: %1"
+msgstr "Невозможно выполнить запрос SQL: %1"
+
+#: collection/collectionbackend.cpp:117
+#, qt-format
+msgid "Unable to execute collection SQL query: %1"
+msgstr "Невозможно выполнить запрос SQL к фонотеке: %1"
+
+#: scrobbler/listenbrainzscrobbler.cpp:604
+#, qt-format
+msgid "Unable to scrobble %1 - %2 because of error: %3"
+msgstr "Не удаётся заскробблить %1 — %2 из-за ошибки: %3"
+
+#: playlist/playlistcontainer.cpp:227
+msgid "Undo"
+msgstr "Отменить"
+
+#: dialogs/snapdialog.cpp:72
+msgid "Uninstall the snap with:"
+msgstr "Удалить Snap с помощью:"
+
+#: core/song.cpp:785 core/song.cpp:797 core/song.cpp:1064
+#: collection/collectionmodel.cpp:1050 collection/collectionmodel.cpp:1405
+#: collection/collectionmodel.cpp:1410 collection/collectionmodel.cpp:1416
+#: collection/savedgroupingmanager.cpp:155 playlist/playlistdelegates.cpp:356
+#: playlist/playlistmanager.cpp:548 playlist/playlistmanager.cpp:549
+#: dialogs/edittagdialog.cpp:774 dialogs/edittagdialog.cpp:803
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:428
+msgid "Unknown"
+msgstr "Неизвестный"
+
+#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1432
+msgid "Unknown error"
+msgstr "Неизвестная ошибка"
+
+#: playlist/playlistmanager.cpp:264
+msgid "Unknown file extension for playlist."
+msgstr "Неизвестное расширение файла плейлиста."
+
+#: playlistparsers/playlistparser.cpp:185
+#: playlistparsers/playlistparser.cpp:230
+#, qt-format
+msgid "Unknown filetype: %1"
+msgstr ""
+
+#: playlist/playlistmanager.cpp:264
+msgid "Unknown playlist extension"
+msgstr "Неизвестное расширение плейлиста"
+
+#: covermanager/albumcoverchoicecontroller.cpp:110
+msgid "Unset cover"
+msgstr "Удалить обложку"
+
+#: core/mainwindow.cpp:2060
+msgid "Unskip selected tracks"
+msgstr "Не пропускать выбранные треки"
+
+#: core/mainwindow.cpp:2059
+msgid "Unskip track"
+msgstr "Не пропускать трек"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:447
+msgid "Update the collection when Strawberry starts"
+msgstr "Обновлять фонотеку при запуске Strawberry"
+
+#: collection/collectionwatcher.cpp:222
+#, qt-format
+msgid "Updating %1"
+msgstr "Идёт обновление %1"
+
+#: collection/collectionbackend.cpp:738
+#, qt-format
+msgid "Updating %1 database."
+msgstr "Идёт обновление базы данных %1."
+
+#: device/deviceview.cpp:126
+#, qt-format
+msgid "Updating %1%..."
+msgstr "Идёт обновление %1%…"
+
+#: collection/collectionwatcher.cpp:219
+msgid "Updating collection"
+msgstr "Обновляется фонотека"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:683
+msgid "Upmix / downmix to"
+msgstr "Преобразовать до"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:537
+msgid "Upper Left"
+msgstr "Сверху слева"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:538
+msgid "Upper Right"
+msgstr "Сверху справа"
+
+#: core/commandlineoptions.cpp:219
+msgid "Usage"
+msgstr "Использование"
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:269
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr "Использовать сочетания клавиш Gnome (GSD) по возможности"
+
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:253
+msgid "Use HTTP/2 when possible"
+msgstr "Использовать HTTP/2 по возможности"
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:273
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
+msgstr "Использовать сочетания клавиш KDE (KGlobalAccel) по возможности"
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:271
+msgid "Use MATE shortcuts when available"
+msgstr "Использовать сочетания клавиш MATE по возможности"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:329
+msgid "Use OAuth"
+msgstr "Использовать OAuth"
+
+#: settings/coverssettingspage.cpp:235 settings/coverssettingspage.cpp:352
+msgid "Use Qobuz settings to authenticate."
+msgstr "Использовать настройки Qobuz для аутентификации."
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:697
+msgid "Use Replay Gain metadata if it is available"
+msgstr "Использовать метаданные нормализации по возможности"
+
+#: settings/coverssettingspage.cpp:231 settings/coverssettingspage.cpp:348
+msgid "Use Spotify settings to authenticate."
+msgstr ""
+
+#: settings/coverssettingspage.cpp:227 settings/coverssettingspage.cpp:344
+msgid "Use Tidal settings to authenticate."
+msgstr "Использовать настройки Tidal для аутентификации."
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:274
+msgid "Use X11 shortcuts when available"
+msgstr "Использовать сочетания клавиш X11 по возможности"
+
+#: ../../build-qt6dev/src/ui_notificationssettingspage.h:494
+msgid "Use a custom message for notifications"
+msgstr "Использовать собственное сообщение для уведомлений"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:178
+msgid "Use alternating row colors"
+msgstr "Чередовать цвета строк"
+
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:181
+msgid "Use authentication"
+msgstr "Использовать аутентификацию"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:199
+msgid "Use bitrate management engine"
+msgstr "Использовать движок управления битрейтом"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:524
+msgid "Use custom color"
+msgstr "Использовать собственный цвет"
+
+#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:81
+msgid "Use dynamic mode"
+msgstr "Использовать динамический режим"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:525
+msgid "Use gradient background"
+msgstr "Использовать градиентный фон"
+
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:184
+msgid "Use proxy settings for streaming"
+msgstr "Использовать настройки прокси для потокового прослушивания"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:687
+msgid "Use strict SSL mode"
+msgstr "Использовать строгий режим SSL"
+
+#: ../../build-qt6dev/src/ui_appearancesettingspage.h:520
+msgid "Use system theme icons"
+msgstr "Использовать системную тему значков"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:140
+msgid "Use temporal noise shaping"
+msgstr "Использовать временнóе сглаживание шумов"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:328
+msgid "Use the system default"
+msgstr "Использовать язык системы"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:463
+msgid "Use various artists for compilation albums"
+msgstr ""
+
+#: widgets/freespacebar.cpp:70
+msgid "Used"
+msgstr "Использовано"
+
+#: settings/settingsdialog.cpp:148
+msgid "User interface"
+msgstr "Интерфейс"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:437
+msgid "User token:"
+msgstr "Пользовательский токен:"
+
+#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:182
+#: ../../build-qt6dev/src/ui_userpassdialog.h:92
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:247
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:332
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:269
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:286
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: settings/globalshortcutssettingspage.cpp:349
+#, qt-format
+msgid "Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!"
+msgstr "Использование сочетаний клавиш X11 на %1 не рекомендуется и может привести к тому, что клавиатура перестанет отвечать!"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:331
+msgid "Using the menu to add a song will..."
+msgstr "После добавления песни через меню…"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:230
+msgid "Variable bit rate"
+msgstr "Переменный битрейт"
+
+#: collection/collectionmodel.cpp:81 playlist/playlistmanager.cpp:560
+#: covermanager/albumcovermanager.cpp:347 streaming/streamingsearchmodel.cpp:93
+#: streaming/streamingsearchmodel.cpp:105
+msgid "Various artists"
+msgstr "Различные артисты"
+
+#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:254
+msgid "Verify server certificate"
+msgstr "Проверять сертификат сервера"
+
+#: dialogs/about.cpp:110
+#, qt-format
+msgid "Version %1"
+msgstr "Версия %1"
+
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:220
+msgid "View"
+msgstr "Просмотр"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:231
+msgid "Voice activity detection"
+msgstr "Обнаружение голосовой активности"
+
+#: osd/osdbase.cpp:287
+#, qt-format
+msgid "Volume %1%"
+msgstr "Громкость %1%"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:358
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:359
+msgid "Volume Increment"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_transcodersettingspage.h:189
+msgid "Vorbis"
+msgstr ""
+
+#: playlist/playlisttabbar.cpp:238
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:181
+msgid "Warn me when closing a playlist tab"
+msgstr "Спрашивать при закрытии вкладки плейлиста"
+
+#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:152
+msgid "Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start."
+msgstr "Предупреждение: Счётчики прослушиваний и последнее проигрывание с Last.fm полностью заменят те же данные в соответствующих песнях. Счётчики прослушиваний заменят данные, основанные на артисте и названии песни для тех же альбомов! Пожалуйста, сделайте резервную копию вашей базы данных перед началом работы."
+
+#: ../../build-qt6dev/src/ui_transcodersettingspage.h:188
+msgid "WavPack"
+msgstr ""
+
+#: analyzer/waverubberanalyzer.cpp:24
+msgid "WaveRubber"
+msgstr ""
+
+#: smartplaylists/smartplaylistsearchterm.cpp:455
+msgid "Weeks"
+msgstr "Недели"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:456
+msgid "When looking for album art Strawberry will first look for picture files that contain one of these words.\n"
+"If there are no matches then it will use the largest image in the directory."
+msgstr "При поиске обложек альбомов Strawberry будет искать файлы изображений с одним из этих слов.\n"
+"При отсутствии совпадений будет использовано наибольшее изображение в каталоге."
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:190
+msgid "When saving a playlist, file paths should be"
+msgstr "При сохранении плейлистов пути файлов должны быть"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:227
+msgid "Wide band (WB)"
+msgstr "Шировая полоса пропускания (WB)"
+
+#: ../../build-qt6dev/src/ui_albumcovermanager.h:222
+msgid "Without cover:"
+msgstr "Без обложек:"
+
+#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:407
+msgid "Work in offline mode (Only cache scrobbles)"
+msgstr "Работать в автономном режиме (только кэшировать скробблы)"
+
+#: collection/collectionview.cpp:516
+msgid "Would you like to move the other songs on this album to Various Artists as well?"
+msgstr "Хотите ли вы переместить и другие песни из этого альбома в «Различные артисты»?"
+
+#: core/mainwindow.cpp:2987
+msgid "Would you like to run a full rescan right now?"
+msgstr "Хотите выполнить полное пересканирование сейчас?"
+
+#: settings/collectionsettingspage.cpp:339
+msgid "Write all playcounts and ratings to files"
+msgstr "Записать счётчики прослушивания и оценки в файлы"
+
+#: ../../build-qt6dev/src/ui_playlistsettingspage.h:200
+msgid "Write metadata when saving playlists"
+msgstr "Записывать метаданные при сохранении плейлистов"
+
+#: device/gpoddevice.cpp:288
+msgid "Writing database failed."
+msgstr ""
+
+#: device/gpoddevice.cpp:284
+#, qt-format
+msgid "Writing database failed: %1"
+msgstr ""
+
+#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1393
+#: organize/organizedialog.cpp:116
+#: ../../build-qt6dev/src/ui_groupbydialog.h:199
+#: ../../build-qt6dev/src/ui_groupbydialog.h:221
+#: ../../build-qt6dev/src/ui_groupbydialog.h:243
+#: ../../build-qt6dev/src/ui_edittagdialog.h:922
+#: ../../build-qt6dev/src/ui_trackselectiondialog.h:211
+msgid "Year"
+msgstr "Год"
+
+#: collection/savedgroupingmanager.cpp:106
+#: ../../build-qt6dev/src/ui_groupbydialog.h:200
+#: ../../build-qt6dev/src/ui_groupbydialog.h:222
+#: ../../build-qt6dev/src/ui_groupbydialog.h:244
+msgid "Year - Album"
+msgstr "Год - Альбом"
+
+#: collection/savedgroupingmanager.cpp:109
+#: ../../build-qt6dev/src/ui_groupbydialog.h:201
+#: ../../build-qt6dev/src/ui_groupbydialog.h:223
+#: ../../build-qt6dev/src/ui_groupbydialog.h:245
+msgid "Year - Album - Disc"
+msgstr "Год - Альбом - Диск"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:459
+msgid "Years"
+msgstr "Годы"
+
+#: dialogs/edittagdialog.cpp:820 dialogs/edittagdialog.cpp:836
+msgid "Yes"
+msgstr "Да"
+
+#: utilities/timeutils.cpp:86
+msgid "Yesterday"
+msgstr "Вчера"
+
+#: playlist/playlistlistcontainer.cpp:437
+#, qt-format
+msgid "You are about to remove %1 playlists from your favorites, are you sure?"
+msgstr "Вы хотите удалить %1 плейлистов из избранных, уверены?"
+
+#: playlist/playlisttabbar.cpp:232
+msgid "You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). \n"
+"Are you sure you want to continue?"
+msgstr "Вы хотите убрать плейлист, не являющийся избранным: список удалится полностью (действие необратимо).\n"
+"Продолжить?"
+
+#: ../../build-qt6dev/src/ui_loginstatewidget.h:165
+msgid "You are not signed in."
+msgstr "Вход не выполнен."
+
+#: core/mainwindow.cpp:1068
+#, qt-format
+msgid "You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1"
+msgstr "Вы запустили Strawberry под управлением Rosetta. Работа проигрывателя в Rosetta не поддерживается и вызывает проблемы. Вам следует скачать Strawberry для нужной архитектуры ЦП из %1"
+
+#: widgets/loginstatewidget.cpp:85
+#, qt-format
+msgid "You are signed in as %1."
+msgstr "Вы вошли в систему как %1."
+
+#: widgets/loginstatewidget.cpp:84
+msgid "You are signed in."
+msgstr "Вы вошли в систему."
+
+#: ../../build-qt6dev/src/ui_groupbydialog.h:188
+msgid "You can change the way the songs in the collection are organized."
+msgstr "Вы можете изменить способ организации композиций в фонотеке."
+
+#: dialogs/about.cpp:128
+#, qt-format
+msgid "You can sponsor the author on %1. You can also make a one-time payment through %2."
+msgstr "Вы можете материально поддержать автора на %1. Также можно произвести единовременный платёж на %2."
+
+#: core/songloader.cpp:132 core/songloader.cpp:137
+msgid "You need GStreamer for this URL."
+msgstr "Вам нужен GStreamer для этого адреса."
+
+#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:278
+msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
+msgstr "Вы должны запустить «Параметры системы» и позволить Clemetine «<span style=\" font-style:italic;\">управлять вашим компьютером</span>» для использования глобальных горячих клавиш в Strawberry."
+
+#: dialogs/about.cpp:122
+#, qt-format
+msgid "You should have received a copy of the GNU General Public License along with this program.  If not, see %1"
+msgstr "Вы должны были получить копию GNU General Public License вместе с этой программой. Если нет, смотрите раздел %1"
+
+#: ../../build-qt6dev/src/ui_behavioursettingspage.h:330
+msgid "You will need to restart Strawberry if you change the language."
+msgstr "Для применения языка потребуется перезапуск Strawberry."
+
+#: collection/collectionview.cpp:332
+msgid "Your collection is empty!"
+msgstr "Ваша фонотека пуста!"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:430
+msgid "Z-A"
+msgstr "Я-А (Z-A)"
+
+#: equalizer/equalizer.cpp:157
+msgid "Zero"
+msgstr "Стандартная"
+
+#: playlist/playlistundocommands.cpp:44
+#, c-format, qt-plural-format
+msgid "add %n songs"
+msgstr "добавку %n песен"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:254
+msgid "after"
+msgstr "после"
+
+#: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:273
+msgid "ago"
+msgstr "тому назад"
+
+#: ../../build-qt6dev/src/ui_streamingsearchview.h:229
+msgid "albums"
+msgstr "альбомы"
+
+#: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:272
+msgid "and"
+msgstr "и"
+
+#: filterparser/filterparser.cpp:463
+msgid "artist"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_streamingsearchview.h:228
+msgid "artists"
+msgstr "артисты"
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:219
+msgid "automatic"
+msgstr "автоматически"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:256
+msgid "before"
+msgstr "до"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:266
+msgid "between"
+msgstr "между"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:437
+msgid "biggest first"
+msgstr "наибольшие сначала"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:684
+msgid "channels"
+msgstr "каналов"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:274
+msgid "contains"
+msgstr "содержит"
+
+#: ../../build-qt6dev/src/ui_collectionsettingspage.h:453
+msgid "days"
+msgstr "дн."
+
+#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:203
+#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:206
+#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:222
+msgid "disabled"
+msgstr "отключён"
+
+#: osd/osdbase.cpp:156
+#, qt-format
+msgid "disc %1"
+msgstr "диск %1"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:276
+msgid "does not contain"
+msgstr "не содержит"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:290
+msgid "empty"
+msgstr "пусто"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:280
+msgid "ends with"
+msgstr "оканчивается на"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:286
+msgid "equals"
+msgstr "совпадает с"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:282
+msgid "greater than"
+msgstr "больше чем"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:677
+msgid "hw"
+msgstr ""
+
+#: smartplaylists/smartplaylistsearchterm.cpp:262
+msgid "in the last"
+msgstr "в последние"
+
+#: context/contextview.cpp:498 context/contextview.cpp:599
+#: playlist/playlistview.cpp:225 dialogs/edittagdialog.cpp:796
+msgid "kbps"
+msgstr "кбит/с"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:284
+msgid "less than"
+msgstr "меньше чем"
+
+#: dialogs/edittagdialog.cpp:1430
+msgid "loading..."
+msgstr ""
+
+#: smartplaylists/smartplaylistsearchterm.cpp:434
+msgid "longest first"
+msgstr "сначала самые длинные"
+
+#: playlist/playlistundocommands.cpp:112
+#, c-format, qt-plural-format
+msgid "move %n songs"
+msgstr "перемещение %n песен"
+
+#: ../../build-qt6dev/src/ui_tidalsettingspage.h:338
+#: ../../build-qt6dev/src/ui_spotifysettingspage.h:275
+#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:293
+msgid "ms"
+msgstr " мс"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:432
+msgid "newest first"
+msgstr "сначала самые новые"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:292
+msgid "not empty"
+msgstr "не пусто"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:288
+msgid "not equals"
+msgstr "не совпадает с"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:264
+msgid "not in the last"
+msgstr "не в последние"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:260
+msgid "not on"
+msgstr "не на"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:432
+msgid "oldest first"
+msgstr "сначала самые старые"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:258
+msgid "on"
+msgstr "на"
+
+#: core/commandlineoptions.cpp:219
+msgid "options"
+msgstr "параметры"
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:678
+msgid "p&lughw"
+msgstr ""
+
+#: ../../build-qt6dev/src/ui_backendsettingspage.h:679
+msgid "pcm"
+msgstr ""
+
+#: filterparser/filterparser.cpp:471
+msgid "rating"
+msgstr "оценка"
+
+#: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:100
+#, c-format, qt-plural-format
+msgid "remove %n songs"
+msgstr "удаление %n песен"
+
+#: filterparser/filterparser.cpp:465
+#, qt-format
+msgid "searches for all artists containing the word %1. "
+msgstr ""
+
+#: smartplaylists/smartplaylistsearchterm.cpp:434
+msgid "shortest first"
+msgstr "сначала короткий"
+
+#: playlist/playlistundocommands.cpp:145
+msgid "shuffle songs"
+msgstr "перемешивание песен"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:437
+msgid "smallest first"
+msgstr "сначала наименьший"
+
+#: ../../build-qt6dev/src/ui_streamingsearchview.h:230
+msgid "songs"
+msgstr "песен"
+
+#: playlist/playlistundocommands.cpp:137
+msgid "sort songs"
+msgstr "сортировку песен"
+
+#: smartplaylists/smartplaylistsearchterm.cpp:278
+msgid "starts with"
+msgstr "начинается с"
+
+#: playlist/playlistdelegates.cpp:223
+msgid "stop"
+msgstr "стоп"
+
+#: osd/osdbase.cpp:159
+#, qt-format
+msgid "track %1"
+msgstr "трек %1"
+
+#: covermanager/albumcoverchoicecontroller.cpp:239
+msgid "unknown"
+msgstr "неизвестно"
+
