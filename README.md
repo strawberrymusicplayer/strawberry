@@ -19,6 +19,7 @@ Resources:
   * openSUSE buildservice: https://build.opensuse.org/package/show/home:jonaski:audio/strawberry
   * Ubuntu PPA: https://launchpad.net/~jonaski/+archive/ubuntu/strawberry
   * Ubuntu Unstable PPA: https://launchpad.net/~jonaski/+archive/ubuntu/strawberry-unstable
+  * Translations: https://crowdin.com/project/strawberrymusicplayer/
 
 ### :bangbang: Opening an issue
 
