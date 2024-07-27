@@ -185,9 +185,6 @@ class AlbumCoverManager : public QMainWindow {
   void SaveEmbeddedCoverFinished(TagReaderReply *reply, AlbumItem *album_item, const QUrl &url, const bool art_embedded);
 
  private:
-  static const char *kSettingsGroup;
-  static const int kThumbnailSize;
-
   Ui_CoverManager *ui_;
   QMainWindow *mainwindow_;
   Application *app_;

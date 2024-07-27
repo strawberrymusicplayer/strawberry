@@ -29,7 +29,9 @@
 #include "albumcoverexporter.h"
 #include "coverexportrunnable.h"
 
-const int AlbumCoverExporter::kMaxConcurrentRequests = 3;
+namespace {
+constexpr int kMaxConcurrentRequests = 3;
+}
 
 AlbumCoverExporter::AlbumCoverExporter(QObject *parent)
     : QObject(parent),

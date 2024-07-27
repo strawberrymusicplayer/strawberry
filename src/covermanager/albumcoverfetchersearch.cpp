@@ -47,10 +47,12 @@
 #include "coverproviders.h"
 #include "albumcoverimageresult.h"
 
-const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 20000;
-const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 6000;
-const int AlbumCoverFetcherSearch::kTargetSize = 500;
-const float AlbumCoverFetcherSearch::kGoodScore = 4.0;
+namespace {
+constexpr int kSearchTimeoutMs = 20000;
+constexpr int kImageLoadTimeoutMs = 6000;
+constexpr int kTargetSize = 500;
+constexpr float kGoodScore = 4.0;
+}  // namespace
 
 AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(const CoverSearchRequest &request, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),

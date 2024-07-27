@@ -55,14 +55,6 @@ class SizeOverlayDelegate : public QStyledItemDelegate {
   Q_OBJECT
 
  public:
-  static const int kMargin;
-  static const int kPaddingX;
-  static const int kPaddingY;
-  static const qreal kBorder;
-  static const qreal kFontPointSize;
-  static const int kBorderAlpha;
-  static const int kBackgroundAlpha;
-
   explicit SizeOverlayDelegate(QObject *parent = nullptr);
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;

@@ -36,7 +36,9 @@
 
 using namespace std::chrono_literals;
 
-const int AlbumCoverFetcher::kMaxConcurrentRequests = 5;
+namespace {
+constexpr int kMaxConcurrentRequests = 5;
+}
 
 AlbumCoverFetcher::AlbumCoverFetcher(SharedPtr<CoverProviders> cover_providers, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),

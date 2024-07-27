@@ -112,8 +112,6 @@ class AlbumCoverFetcher : public QObject {
   explicit AlbumCoverFetcher(SharedPtr<CoverProviders> cover_providers, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~AlbumCoverFetcher() override;
 
-  static const int kMaxConcurrentRequests;
-
   quint64 SearchForCovers(const QString &artist, const QString &album, const QString &title = QString());
   quint64 FetchAlbumCover(const QString &artist, const QString &album, const QString &title, const bool batch);
 

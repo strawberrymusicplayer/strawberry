@@ -95,8 +95,10 @@
 
 #include "ui_albumcovermanager.h"
 
-const char *AlbumCoverManager::kSettingsGroup = "CoverManager";
-constexpr int AlbumCoverManager::kThumbnailSize = 120;
+namespace {
+constexpr char kSettingsGroup[] = "CoverManager";
+constexpr int kThumbnailSize = 120;
+}
 
 AlbumCoverManager::AlbumCoverManager(Application *app, SharedPtr<CollectionBackend> collection_backend, QMainWindow *mainwindow, QWidget *parent)
     : QMainWindow(parent),

@@ -62,13 +62,15 @@
 #include "albumcoverimageresult.h"
 #include "ui_albumcoversearcher.h"
 
-const int SizeOverlayDelegate::kMargin = 4;
-const int SizeOverlayDelegate::kPaddingX = 3;
-const int SizeOverlayDelegate::kPaddingY = 1;
-const qreal SizeOverlayDelegate::kBorder = 5.0;
-const qreal SizeOverlayDelegate::kFontPointSize = 7.5;
-const int SizeOverlayDelegate::kBorderAlpha = 200;
-const int SizeOverlayDelegate::kBackgroundAlpha = 175;
+namespace {
+constexpr int kMargin = 4;
+constexpr int kPaddingX = 3;
+constexpr int kPaddingY = 1;
+constexpr qreal kBorder = 5.0;
+constexpr qreal kFontPointSize = 7.5;
+constexpr int kBorderAlpha = 200;
+constexpr int kBackgroundAlpha = 175;
+}  // namespace
 
 SizeOverlayDelegate::SizeOverlayDelegate(QObject *parent)
     : QStyledItemDelegate(parent) {}

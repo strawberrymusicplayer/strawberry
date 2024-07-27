@@ -90,11 +90,6 @@ class AlbumCoverFetcherSearch : public QObject {
   static bool CoverProviderSearchResultCompareScore(const CoverProviderSearchResult &a, const CoverProviderSearchResult &b);
 
  private:
-  static const int kSearchTimeoutMs;
-  static const int kImageLoadTimeoutMs;
-  static const int kTargetSize;
-  static const float kGoodScore;
-
   CoverSearchStatistics statistics_;
 
   // Search request encapsulated by this AlbumCoverFetcherSearch.
