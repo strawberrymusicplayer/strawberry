@@ -121,21 +121,17 @@ void OpenTidalCoverProvider::LoadSession() {
   login_time_ = s.value("login_time", 0).toLongLong();
   s.endGroup();
 
-  if (!token_type_.isEmpty() && !access_token_.isEmpty() && login_time_ > 0 && expires_in_ > 0) {
+  if (!token_type_.isEmpty() && !access_token_.isEmpty() && (login_time_ + expires_in_) > (QDateTime::currentDateTime().toSecsSinceEpoch() + 30)) {
     have_login_ = true;
   }
-
-  qint64 time = expires_in_ - (QDateTime::currentDateTime().toSecsSinceEpoch() - login_time_) - 30;
-  if (time < 10) {
-    have_login_ = false;
-    time = 10;
-  }
-  login_timer_->setInterval(static_cast<int>(time * kMsecPerSec));
-  login_timer_->start();
 
 }
 
 void OpenTidalCoverProvider::FlushRequests() {
+
+  if (have_login_ && (login_time_ + expires_in_) < QDateTime::currentDateTime().toSecsSinceEpoch()) {
+    have_login_ = false;
+  }
 
   if (!have_login_) {
     if (!login_in_progress_) {
