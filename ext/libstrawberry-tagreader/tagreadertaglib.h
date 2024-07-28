@@ -86,7 +86,7 @@ class TagReaderTagLib : public TagReaderBase {
   Result ReadFile(const QString &filename, spb::tagreader::SongMetadata *song) const override;
   Result WriteFile(const QString &filename, const spb::tagreader::WriteFileRequest &request) const override;
 
-  Result LoadEmbeddedArt(const QString &filename, QByteArray &data) const;
+  Result LoadEmbeddedArt(const QString &filename, QByteArray &data) const override;
   Result SaveEmbeddedArt(const QString &filename, const spb::tagreader::SaveEmbeddedArtRequest &request) const override;
 
   Result SaveSongPlaycountToFile(const QString &filename, const uint playcount) const override;
