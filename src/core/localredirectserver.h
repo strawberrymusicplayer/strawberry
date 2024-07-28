@@ -57,7 +57,6 @@ class LocalRedirectServer : public QTcpServer {
   void ReadyRead();
 
  private:
-  bool GenerateCertificate();
   void WriteTemplate() const;
   QUrl ParseUrlFromRequest(const QByteArray &request) const;
 
