@@ -768,7 +768,6 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
         bool compilation = false;
         bool multidisc = false;
         SongList songs;
-        int songs_received = 0;
         for (const QJsonValueRef value : array_tracks) {
           if (!value.isObject()) {
             continue;
@@ -777,7 +776,6 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
           if (obj_track.contains(QLatin1String("track")) && obj_track[QLatin1String("track")].isObject()) {
             obj_track = obj_track[QLatin1String("track")].toObject();
           }
-          ++songs_received;
           Song song(Song::Source::Spotify);
           ParseSong(song, obj_track, artist, album);
           if (!song.is_valid()) continue;
