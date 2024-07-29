@@ -1958,7 +1958,7 @@ msgstr ""
 msgid "Double clicking a song will..."
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:358
+#: playlist/playlisttabbar.cpp:356
 msgid ""
 "Double-click here to favorite this playlist so it will be saved and remain "
 "accessible through the \"Playlists\" panel on the left side bar"
@@ -2138,7 +2138,7 @@ msgstr ""
 msgid "Enter a filename for exported covers (no extension):"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:181
+#: playlist/playlisttabbar.cpp:179
 msgid "Enter a new name for this playlist"
 msgstr ""
 
@@ -2186,7 +2186,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr ""
 
 #: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
-#: collection/collectionview.cpp:715
+#: collection/collectionview.cpp:716
 msgid "Error"
 msgstr ""
 
@@ -2806,7 +2806,7 @@ msgstr ""
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:733
+#: widgets/fancytabwidget.cpp:387
 msgid "Icons on top"
 msgstr ""
 
@@ -2975,7 +2975,7 @@ msgstr ""
 msgid "Large album cover"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:729
+#: widgets/fancytabwidget.cpp:383
 msgid "Large sidebar"
 msgstr ""
 
@@ -3514,7 +3514,7 @@ msgid "None"
 msgstr ""
 
 #: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
-#: collection/collectionview.cpp:715
+#: collection/collectionview.cpp:716
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
 
@@ -3793,7 +3793,7 @@ msgstr ""
 msgid "Pixel"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:731
+#: widgets/fancytabwidget.cpp:385
 msgid "Plain sidebar"
 msgstr ""
 
@@ -3861,7 +3861,7 @@ msgstr ""
 #: playlist/playlistcontainer.cpp:342 playlist/playlistlistcontainer.cpp:281
 #: playlist/playlistlistcontainer.cpp:391 playlist/playlistmanager.cpp:112
 #: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:540
-#: playlist/playlisttabbar.cpp:434
+#: playlist/playlisttabbar.cpp:432
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr ""
@@ -4260,7 +4260,7 @@ msgstr ""
 msgid "Remove from playlist"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:229
+#: playlist/playlisttabbar.cpp:227
 msgid "Remove playlist"
 msgstr ""
 
@@ -4272,7 +4272,7 @@ msgstr ""
 msgid "Remove problematic characters from filenames"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:181
+#: playlist/playlisttabbar.cpp:179
 msgid "Rename playlist"
 msgstr ""
 
@@ -4953,7 +4953,7 @@ msgstr ""
 msgid "Small album cover"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:730
+#: widgets/fancytabwidget.cpp:384
 msgid "Small sidebar"
 msgstr ""
 
@@ -5255,7 +5255,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:732
+#: widgets/fancytabwidget.cpp:386
 msgid "Tabs on top"
 msgstr ""
 
@@ -5416,7 +5416,7 @@ msgid ""
 "scan the device to find music files - this may take some time."
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:241
+#: playlist/playlisttabbar.cpp:239
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr ""
 
@@ -5814,7 +5814,7 @@ msgstr ""
 msgid "Vorbis"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:238
+#: playlist/playlisttabbar.cpp:236
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:181
 msgid "Warn me when closing a playlist tab"
 msgstr ""
@@ -5930,7 +5930,7 @@ msgstr ""
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:232
+#: playlist/playlisttabbar.cpp:230
 msgid ""
 "You are about to remove a playlist which is not part of your favorite "
 "playlists: the playlist will be deleted (this action cannot be undone). \n"

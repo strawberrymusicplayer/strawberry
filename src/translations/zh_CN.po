@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-07-24 23:57\n"
+"PO-Revision-Date: 2024-07-30 07:44\n"
 
 #: playlist/playlistlistview.cpp:51
 msgid "\n\n"
@@ -173,7 +173,7 @@ msgstr "已选择 %2 个不同文件夹中的 %1 首歌曲，确定要全部打�
 msgid "%1 songs selected."
 msgstr "已选择 %1 首歌曲。"
 
-#: covermanager/albumcovermanager.cpp:561
+#: covermanager/albumcovermanager.cpp:563
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 已传输"
@@ -450,8 +450,8 @@ msgstr "API 令牌"
 msgid "ASF (WMA)"
 msgstr "ASF（WMA）"
 
-#: covermanager/albumcovermanager.cpp:146
-#: covermanager/albumcoversearcher.cpp:184
+#: covermanager/albumcovermanager.cpp:148
+#: covermanager/albumcoversearcher.cpp:186
 #: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "中止"
@@ -752,11 +752,11 @@ msgstr "专辑"
 msgid "Albums search limit"
 msgstr "专辑搜索限制"
 
-#: covermanager/albumcovermanager.cpp:171
+#: covermanager/albumcovermanager.cpp:173
 msgid "Albums with covers"
 msgstr "有封面的专辑"
 
-#: covermanager/albumcovermanager.cpp:172
+#: covermanager/albumcovermanager.cpp:174
 msgid "Albums without covers"
 msgstr "无封面的专辑"
 
@@ -764,11 +764,11 @@ msgstr "无封面的专辑"
 msgid "All Files (*)"
 msgstr "全部文件 (*)"
 
-#: covermanager/albumcovermanager.cpp:170
+#: covermanager/albumcovermanager.cpp:172
 msgid "All albums"
 msgstr "全部专辑"
 
-#: covermanager/albumcovermanager.cpp:346
+#: covermanager/albumcovermanager.cpp:348
 msgid "All artists"
 msgstr "全部艺人"
 
@@ -1061,7 +1061,7 @@ msgstr ""
 
 #: playlist/playlist.cpp:1406
 msgid "Bit Depth"
-msgstr ""
+msgstr "位深"
 
 #: context/contextview.cpp:166 collection/savedgroupingmanager.cpp:148
 #: organize/organizedialog.cpp:123
@@ -1147,11 +1147,11 @@ msgstr "只有 GStreamer 引擎可使用 CD 回放。"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:424
 msgid "CDDA"
-msgstr ""
+msgstr "CDDA"
 
 #: playlist/playlist.cpp:1420
 msgid "CUE"
-msgstr ""
+msgstr "CUE"
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
@@ -1271,7 +1271,7 @@ msgstr "关闭"
 msgid "Close playlist"
 msgstr "关闭播放列表"
 
-#: covermanager/albumcovermanager.cpp:259
+#: covermanager/albumcovermanager.cpp:261
 msgid "Closing this window will stop searching for album covers."
 msgstr "关闭此窗口将停止寻找专辑封面。"
 
@@ -1313,11 +1313,11 @@ msgstr "备注"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:930
 msgid "Compilation"
-msgstr ""
+msgstr "编译"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:935
 msgid "Complete lyrics automatically"
-msgstr ""
+msgstr "自动填写歌词"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:926
 msgid "Complete tags automatically"
@@ -1375,11 +1375,11 @@ msgstr "固定位速率"
 
 #: core/mainwindow.cpp:385 ../../build-qt6dev/src/ui_contextsettingspage.h:359
 msgid "Context"
-msgstr ""
+msgstr "上下文"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:182
 msgid "Continue to the next item in the playlist if a song is unavailable"
-msgstr ""
+msgstr "如果歌曲不可用，继续播放列表中的下一项目"
 
 #: dialogs/about.cpp:154
 msgid "Contributors"
@@ -1422,7 +1422,7 @@ msgstr ""
 #: device/gpoddevice.cpp:241
 #, qt-format
 msgid "Could not copy %1 to %2: %3"
-msgstr ""
+msgstr "无法将 %1 复制到 %2: %3"
 
 #: core/filesystemmusicstorage.cpp:98
 #, qt-format
@@ -1462,7 +1462,7 @@ msgstr ""
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:1063
+#: covermanager/albumcovermanager.cpp:1065
 #: covermanager/albumcoverchoicecontroller.cpp:827
 #, qt-format
 msgid "Could not save cover to file %1."
@@ -1563,7 +1563,7 @@ msgstr "封面提供方"
 msgid "Covers"
 msgstr "封面"
 
-#: covermanager/albumcoversearcher.cpp:126
+#: covermanager/albumcoversearcher.cpp:128
 #: covermanager/coversearchstatisticsdialog.cpp:74
 #, qt-format
 msgid "Covers from %1"
@@ -1583,65 +1583,65 @@ msgstr "手动换曲时淡入淡出"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:632
 msgid "Ctrl+Alt+V"
-msgstr ""
+msgstr "Ctrl+Alt+V"
 
 #: ../../build-qt6dev/src/ui_queueview.h:134
 msgid "Ctrl+Down"
-msgstr ""
+msgstr "Ctrl+下"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:644
 msgid "Ctrl+E"
-msgstr ""
+msgstr "Ctrl+E"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:659
 msgid "Ctrl+H"
-msgstr ""
+msgstr "Ctrl+H"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:677
 msgid "Ctrl+J"
-msgstr ""
+msgstr "Ctrl+J"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:640
 #: ../../build-qt6dev/src/ui_queueview.h:144
 msgid "Ctrl+K"
-msgstr ""
+msgstr "Ctrl+K"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:698
 msgid "Ctrl+M"
-msgstr ""
+msgstr "Ctrl+M"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:681
 msgid "Ctrl+N"
-msgstr ""
+msgstr "Ctrl+N"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:651
 msgid "Ctrl+P"
-msgstr ""
+msgstr "Ctrl+P"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:628
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:685
 msgid "Ctrl+S"
-msgstr ""
+msgstr "Ctrl+S"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:663
 msgid "Ctrl+Shift+A"
-msgstr ""
+msgstr "Ctrl+Shift+A"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:689
 msgid "Ctrl+Shift+O"
-msgstr ""
+msgstr "Ctrl+Shift+O"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:704
 msgid "Ctrl+T"
-msgstr ""
+msgstr "Ctrl+T"
 
 #: ../../build-qt6dev/src/ui_savedgroupingmanager.h:106
 #: ../../build-qt6dev/src/ui_queueview.h:128
 msgid "Ctrl+Up"
-msgstr ""
+msgstr "Ctrl+上"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:469
 msgid "Current disk cache in use:"
@@ -1679,9 +1679,9 @@ msgstr "D-Bus 路径"
 msgid "Dance"
 msgstr "舞曲"
 
-#: spotify/spotifyrequest.cpp:1373
+#: spotify/spotifyrequest.cpp:1371
 msgid "Data missing error"
-msgstr ""
+msgstr "数据缺失错误"
 
 #: core/database.cpp:510
 msgid "Database corruption detected."
@@ -1689,11 +1689,11 @@ msgstr "检测到数据库损坏。"
 
 #: playlist/playlist.cpp:1414
 msgid "Date Created"
-msgstr ""
+msgstr "创建日期"
 
 #: playlist/playlist.cpp:1413
 msgid "Date Modified"
-msgstr ""
+msgstr "修改日期"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:888
 msgid "Date created"
@@ -1786,12 +1786,12 @@ msgstr "目标"
 #: core/filesystemmusicstorage.cpp:92
 #, qt-format
 msgid "Destination file %1 exists, but not allowed to overwrite"
-msgstr ""
+msgstr "目标文件 %1 存在，但不允许覆盖"
 
 #: core/filesystemmusicstorage.cpp:73
 #, qt-format
 msgid "Destination file %1 exists, but not allowed to overwrite."
-msgstr ""
+msgstr "目标文件 %1 存在，但不允许覆盖。"
 
 #: ../../build-qt6dev/src/ui_transcodedialog.h:235
 msgid "Details..."
@@ -1808,7 +1808,7 @@ msgstr "设备属性"
 
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:268
 msgid "Device credentials"
-msgstr ""
+msgstr "设备凭据"
 
 #: device/deviceview.cpp:241
 msgid "Device properties..."
@@ -1833,11 +1833,11 @@ msgstr "目录"
 #: playlistparsers/playlistparser.cpp:222
 #, qt-format
 msgid "Directory %1 does not exist."
-msgstr ""
+msgstr "目录 %1 不存在。"
 
 #: dialogs/saveplaylistsdialog.cpp:79
 msgid "Directory does not exist."
-msgstr ""
+msgstr "目录不存在。"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:487
 msgid "Disable duration"
@@ -1907,7 +1907,7 @@ msgstr "不在群星中显示"
 msgid "Don't shuffle"
 msgstr "不随机播放"
 
-#: covermanager/albumcovermanager.cpp:260
+#: covermanager/albumcovermanager.cpp:262
 msgid "Don't stop!"
 msgstr "不要停止！"
 
@@ -1937,6 +1937,10 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:297
 msgid "Download album covers"
 msgstr "下载专辑封面"
+
+#: musicbrainz/tagfetcher.cpp:132
+msgid "Downloading metadata"
+msgstr ""
 
 #: settings/notificationssettingspage.cpp:68
 msgid "Drag to reposition"
@@ -2241,12 +2245,12 @@ msgstr "导出下载的封面"
 msgid "Export embedded covers"
 msgstr "导出内嵌封面"
 
-#: covermanager/albumcovermanager.cpp:1019
-#: covermanager/albumcovermanager.cpp:1045
+#: covermanager/albumcovermanager.cpp:1021
+#: covermanager/albumcovermanager.cpp:1047
 msgid "Export finished"
 msgstr "导出完成"
 
-#: covermanager/albumcovermanager.cpp:1030
+#: covermanager/albumcovermanager.cpp:1032
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "已导出 %1 个封面，共 %2 个(跳过 %3 个)"
@@ -2273,7 +2277,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_transcodersettingspage.h:187
 msgid "FLAC"
-msgstr ""
+msgstr "FLAC"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:715
 msgid "Fade out on pause / fade in on resume"
@@ -2391,19 +2395,19 @@ msgstr ""
 
 #: playlist/playlist.cpp:1409
 msgid "File Name"
-msgstr ""
+msgstr "文件名"
 
 #: playlist/playlist.cpp:1410
 msgid "File Name (without path)"
-msgstr ""
+msgstr "文件名(无路径)"
 
 #: playlist/playlist.cpp:1411
 msgid "File Size"
-msgstr ""
+msgstr "文件大小"
 
 #: playlist/playlist.cpp:1412
 msgid "File Type"
-msgstr ""
+msgstr "文件类型"
 
 #: organize/organizedialog.cpp:124
 msgid "File extension"
@@ -2448,7 +2452,7 @@ msgstr "要转换的文件"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:556
 msgid "Files, playlists and queue buttons"
-msgstr ""
+msgstr "文件、播放列表和队列按钮"
 
 #: context/contextview.cpp:163
 msgid "Filetype"
@@ -2458,9 +2462,13 @@ msgstr "文件类型"
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
+#: musicbrainz/tagfetcher.cpp:80
+msgid "Fingerprinting song"
+msgstr "歌曲指纹"
+
 #: smartplaylists/smartplaylistwizard.cpp:93
 msgid "Finish"
-msgstr ""
+msgstr "完成"
 
 #: collection/savedgroupingmanager.cpp:58
 #: ../../build-qt6dev/src/ui_groupbydialog.h:190
@@ -2478,11 +2486,11 @@ msgstr "字体"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:443
 msgid "Font for data and lyrics"
-msgstr ""
+msgstr "数据与歌词字体"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:438
 msgid "Font for headline"
-msgstr ""
+msgstr "标题字体"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:440
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:445
@@ -2492,11 +2500,11 @@ msgstr "字体大小"
 #: dialogs/snapdialog.cpp:54
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr ""
+msgstr "对于Ubuntu来说，有一个官方的PPA仓库，可在 %1 上使用。"
 
 #: dialogs/snapdialog.cpp:62
 msgid "For a better experience please consider the other options above."
-msgstr ""
+msgstr "为了更好的体验，请考虑上述其他选项。"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
@@ -2541,7 +2549,7 @@ msgstr "表格"
 #: ../../build-qt6dev/src/ui_groupbydialog.h:219
 #: ../../build-qt6dev/src/ui_groupbydialog.h:241
 msgid "Format"
-msgstr ""
+msgstr "格式"
 
 #: analyzer/analyzercontainer.cpp:69
 msgid "Framerate"
@@ -2553,7 +2561,7 @@ msgstr "每次缓冲帧数"
 
 #: moodbar/moodbarrenderer.cpp:170
 msgid "Frozen"
-msgstr ""
+msgstr "冻结"
 
 #: equalizer/equalizer.cpp:143
 msgid "Full Bass"
@@ -2577,7 +2585,7 @@ msgstr "常规设置"
 
 #: lyrics/geniuslyricsprovider.cpp:123
 msgid "Genius Authentication"
-msgstr ""
+msgstr "Genius 身份验证"
 
 #: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1395
 #: organize/organizedialog.cpp:118
@@ -2591,7 +2599,7 @@ msgstr "流派"
 #: radios/somafmservice.cpp:72 radios/radioparadiseservice.cpp:66
 #, qt-format
 msgid "Getting %1 channels"
-msgstr ""
+msgstr "正在获取 %1 频道"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:268
 msgid "Global Shortcuts"
@@ -2607,9 +2615,9 @@ msgstr "转到上一播放列表标签"
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
-msgstr ""
+msgstr "启动！"
 
-#: covermanager/albumcovermanager.cpp:555
+#: covermanager/albumcovermanager.cpp:557
 #: covermanager/coversearchstatisticsdialog.cpp:68
 #: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:73
 #, qt-format
@@ -2728,7 +2736,7 @@ msgstr "帮助"
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
-msgstr ""
+msgstr "十六进制"
 
 #: ../../build-qt6dev/src/ui_behavioursettingspage.h:324
 msgid "Hide the main window"
@@ -2753,7 +2761,7 @@ msgstr "小时"
 
 #: playlist/playlistview.cpp:223
 msgid "Hz"
-msgstr ""
+msgstr "赫兹"
 
 #: ../../build-qt6dev/src/ui_deviceproperties.h:372
 msgid "Icon"
@@ -2766,6 +2774,10 @@ msgstr "图标大小"
 #: widgets/fancytabwidget.cpp:733
 msgid "Icons on top"
 msgstr "图标在上"
+
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
+msgid "Identifying song"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:197
 msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
@@ -2823,7 +2835,7 @@ msgstr "在通知中加入专辑封面"
 
 #: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
-msgstr ""
+msgstr "包括所有歌曲"
 
 #: core/commandlineoptions.cpp:228
 msgid "Increase the volume by 4 percent"
@@ -3417,7 +3429,7 @@ msgstr "无均衡器"
 msgid "No audio normalization"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:1020
+#: covermanager/albumcovermanager.cpp:1022
 msgid "No covers to export."
 msgstr "无封面可供导出。"
 
@@ -3425,7 +3437,7 @@ msgstr "无封面可供导出。"
 msgid "No long blocks"
 msgstr "无长块"
 
-#: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1367
+#: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1365
 #: qobuz/qobuzrequest.cpp:1426
 msgid "No match."
 msgstr "没有匹配项。"
@@ -4025,7 +4037,7 @@ msgstr ""
 msgid "Re&lative"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:259
+#: covermanager/albumcovermanager.cpp:261
 msgid "Really cancel?"
 msgstr "确实取消？"
 
@@ -4047,13 +4059,13 @@ msgstr ""
 msgid "Received invalid reply from web browser. Try another browser."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1202
+#: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1200
 #: qobuz/qobuzrequest.cpp:1259
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1203
+#: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1201
 #: qobuz/qobuzrequest.cpp:1260
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
@@ -4100,13 +4112,13 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:855
+#: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:853
 #: qobuz/qobuzrequest.cpp:809
 #, qt-format
 msgid "Receiving songs for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:856
+#: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:854
 #: qobuz/qobuzrequest.cpp:810
 #, qt-format
 msgid "Receiving songs for %1 albums..."
@@ -4479,8 +4491,8 @@ msgstr ""
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
 
-#: covermanager/albumcoversearcher.cpp:192
-#: covermanager/albumcoversearcher.cpp:210
+#: covermanager/albumcoversearcher.cpp:194
+#: covermanager/albumcoversearcher.cpp:212
 #: ../../build-qt6dev/src/ui_albumcoversearcher.h:111
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:116
 msgid "Search"
@@ -5665,7 +5677,7 @@ msgid "Variable bit rate"
 msgstr "可变比特率"
 
 #: collection/collectionmodel.cpp:81 playlist/playlistmanager.cpp:560
-#: covermanager/albumcovermanager.cpp:347 streaming/streamingsearchmodel.cpp:93
+#: covermanager/albumcovermanager.cpp:349 streaming/streamingsearchmodel.cpp:93
 #: streaming/streamingsearchmodel.cpp:105
 msgid "Various artists"
 msgstr "群星"
