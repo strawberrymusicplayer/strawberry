@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2018, Vikram Ambrose <ambroseworks@gmail.com>
- * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,16 +70,52 @@ const int FancyTabWidget::IconSize_LargeSidebar = 40;
 const int FancyTabWidget::IconSize_SmallSidebar = 32;
 const int FancyTabWidget::TabSize_LargeSidebarMinWidth = 70;
 
-class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
+class TabData : public QObject {
+ public:
+  TabData(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label, const int idx, QWidget *parent)
+      : QObject(parent),
+        widget_view_(widget_view),
+        name_(name), icon_(icon),
+        label_(label),
+        index_(idx),
+        page_(new QWidget()) {
+    // In order to achieve the same effect as the "Bottom Widget" of the old Nokia based FancyTabWidget a VBoxLayout is used on each page
+    QVBoxLayout *layout = new QVBoxLayout(page_);
+    layout->setSpacing(0);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(widget_view_);
+    page_->setLayout(layout);
+  }
+
+  QWidget *widget_view() const { return widget_view_; }
+  QString name() const { return name_; }
+  QIcon icon() const { return icon_; }
+  QString label() const { return label_; }
+  QWidget *page() const { return page_; }
+  int index() const { return index_; }
+
+ private:
+  QWidget *widget_view_;
+  QString name_;
+  QIcon icon_;
+  QString label_;
+  int index_;
+  QWidget *page_;
+
+};
+
+class FancyTabBar : public QTabBar {
 
  private:
   int mouseHoverTabIndex = -1;
-  QHash<QWidget*, QString> labelCache;
-  QMap<int, QWidget*> spacers;
 
  public:
   explicit FancyTabBar(QWidget *parent = nullptr) : QTabBar(parent) {
     setMouseTracking(true);
+  }
+
+  QString TabText(const int index) const {
+    return tabText(index).isEmpty() ? QLatin1String("") : tabData(index).value<TabData*>()->label();
   }
 
   QSize sizeHint() const override {
@@ -130,12 +166,12 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
       // If the text of any tab is wider than the set width then use that instead.
       int w = std::max(FancyTabWidget::TabSize_LargeSidebarMinWidth, tabWidget->iconsize_largesidebar() + 22);
       for (int i = 0; i < count(); ++i) {
-        QRect rect = fm.boundingRect(QRect(0, 0, std::max(FancyTabWidget::TabSize_LargeSidebarMinWidth, tabWidget->iconsize_largesidebar() + 22), height()), Qt::TextWordWrap, QTabBar::tabText(i));
+        QRect rect = fm.boundingRect(QRect(0, 0, std::max(FancyTabWidget::TabSize_LargeSidebarMinWidth, tabWidget->iconsize_largesidebar() + 22), height()), Qt::TextWordWrap, TabText(i));
         rect.setWidth(rect.width() + 10);
         if (rect.width() > w) w = rect.width();
       }
 
-      QRect rect = fm.boundingRect(QRect(0, 0, w, height()), Qt::TextWordWrap, QTabBar::tabText(index));
+      QRect rect = fm.boundingRect(QRect(0, 0, w, height()), Qt::TextWordWrap, TabText(index));
       size = QSize(w, tabWidget->iconsize_largesidebar() + rect.height() + 10);
     }
     else if (tabWidget->mode() == FancyTabWidget::Mode::SmallSidebar) {
@@ -144,7 +180,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
       bold_font.setBold(true);
       QFontMetrics fm(bold_font);
 
-      QRect rect = fm.boundingRect(QRect(0, 0, 100, tabWidget->height()), Qt::AlignHCenter, QTabBar::tabText(index));
+      QRect rect = fm.boundingRect(QRect(0, 0, 100, tabWidget->height()), Qt::AlignHCenter, TabText(index));
       int w = std::max(tabWidget->iconsize_smallsidebar(), rect.height()) + 15;
       int h = tabWidget->iconsize_smallsidebar() + rect.width() + 20;
       size = QSize(w, h);
@@ -179,53 +215,12 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
 
     FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
 
-    bool verticalTextTabs = false;
-
-    if (tabWidget->mode() == FancyTabWidget::Mode::SmallSidebar) {
-      verticalTextTabs = true;
-    }
-
-    // if LargeSidebar, restore spacers
-    if (tabWidget->mode() == FancyTabWidget::Mode::LargeSidebar && spacers.count() > 0) {
-      const QList<int> keys = spacers.keys();
-      for (const int index : keys) {
-        tabWidget->insertTab(index, spacers[index], QIcon(), QString());
-        tabWidget->setTabEnabled(index, false);
-      }
-      spacers.clear();
-    }
-    else if (tabWidget->mode() != FancyTabWidget::Mode::LargeSidebar) {
-      // traverse in the opposite order to save indices of spacers
-      for (int i = count() - 1; i >= 0; --i) {
-        // spacers are disabled tabs
-        if (!isTabEnabled(i) && !spacers.contains(i)) {
-          spacers[i] = tabWidget->widget(i);
-          tabWidget->removeTab(i);
-          --i;
-        }
-      }
-    }
-
-    // Restore any label text that was hidden/cached for the IconOnlyTabs mode
-    if (labelCache.count() > 0 && tabWidget->mode() != FancyTabWidget::Mode::IconOnlyTabs) {
-      for (int i = 0; i < count(); ++i) {
-        setTabToolTip(i, QLatin1String(""));
-        setTabText(i, labelCache[tabWidget->widget(i)]);
-      }
-      labelCache.clear();
-    }
     if (tabWidget->mode() != FancyTabWidget::Mode::LargeSidebar && tabWidget->mode() != FancyTabWidget::Mode::SmallSidebar) {
-      // Cache and hide label text for IconOnlyTabs mode
-      if (tabWidget->mode() == FancyTabWidget::Mode::IconOnlyTabs && labelCache.count() == 0) {
-        for (int i = 0; i < count(); ++i) {
-          labelCache[tabWidget->widget(i)] = tabText(i);
-          setTabToolTip(i, tabText(i));
-          setTabText(i, QLatin1String(""));
-        }
-      }
       QTabBar::paintEvent(pe);
       return;
     }
+
+    const bool vertical_text_tabs = tabWidget->mode() == FancyTabWidget::Mode::SmallSidebar;
 
     QStylePainter p(this);
 
@@ -284,7 +279,7 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
         QRect tabrectText;
         QRect tabrectLabel;
 
-        if (verticalTextTabs) {
+        if (vertical_text_tabs) {
           m = QTransform::fromTranslate(tabrect.left(), tabrect.bottom());
           m.rotate(-90);
           textFlags = Qt::AlignVCenter;
@@ -315,17 +310,17 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
         // Text drop shadow color
         p.setPen(selected ? QColor(255, 255, 255, 160) : QColor(0, 0, 0, 110));
         p.translate(0, 3);
-        p.drawText(tabrectText, textFlags, tabText(index));
+        p.drawText(tabrectText, textFlags, TabText(index));
 
         // Text foreground color
         p.translate(0, -1);
         p.setPen(selected ? QColor(60, 60, 60) : StyleHelper::panelTextColor());
-        p.drawText(tabrectText, textFlags, tabText(index));
+        p.drawText(tabrectText, textFlags, TabText(index));
 
 
         // Draw the icon
         QRect tabrectIcon;
-        if (verticalTextTabs) {
+        if (vertical_text_tabs) {
           tabrectIcon = tabrectLabel;
           tabrectIcon.setSize(QSize(tabWidget->iconsize_smallsidebar(), tabWidget->iconsize_smallsidebar()));
           // Center the icon
@@ -344,40 +339,6 @@ class FancyTabBar : public QTabBar {  // clazy:exclude=missing-qobject-macro
       }
     }
   }
-
-};
-
-class TabData : public QObject {  // clazy:exclude=missing-qobject-macro
- public:
-  TabData(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label, const int idx, QWidget *parent)
-      : QObject(parent),
-        widget_view_(widget_view),
-        name_(name), icon_(icon),
-        label_(label),
-        index_(idx),
-        page_(new QWidget()) {
-    // In order to achieve the same effect as the "Bottom Widget" of the old Nokia based FancyTabWidget a VBoxLayout is used on each page
-    QVBoxLayout *layout = new QVBoxLayout(page_);
-    layout->setSpacing(0);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(widget_view_);
-    page_->setLayout(layout);
-  }
-
-  QWidget *widget_view() const { return widget_view_; }
-  QString name() const { return name_; }
-  QIcon icon() const { return icon_; }
-  QString label() const { return label_; }
-  QWidget *page() const { return page_; }
-  int index() const { return index_; }
-
- private:
-  QWidget *widget_view_;
-  QString name_;
-  QIcon icon_;
-  QString label_;
-  int index_;
-  QWidget *page_;
 
 };
 
@@ -423,7 +384,7 @@ void FancyTabWidget::currentTabChanged(const int idx) {
 // The adwaita style is causing the contents of the tabbar to be stretched from top to bottom with space between icons and text.
 // You can see this on the default Fedora (Gnome) installation.
 
-class FancyTabWidgetProxyStyle : public QProxyStyle {  // clazy:exclude=missing-qobject-macro
+class FancyTabWidgetProxyStyle : public QProxyStyle {
 
  public:
   explicit FancyTabWidgetProxyStyle(const QString &style) : QProxyStyle(style), common_style_(new QCommonStyle()) {}
@@ -495,7 +456,7 @@ void FancyTabWidget::Load(const QString &kSettingsGroup) {
   for (i = tabs.begin(); i != tabs.end(); ++i) {
     TabData *tab = i.value();
     const int idx = insertTab(i.key(), tab->page(), tab->icon(), tab->label());
-    tabBar()->setTabData(idx, QVariant(tab->name()));
+    tabBar()->setTabData(idx, QVariant::fromValue<TabData*>(tab));
   }
 
 }
@@ -676,7 +637,9 @@ void FancyTabWidget::tabBarUpdateGeometry() {
   tabBar()->updateGeometry();
 }
 
-void FancyTabWidget::SetMode(FancyTabWidget::Mode mode) {
+void FancyTabWidget::SetMode(const FancyTabWidget::Mode mode) {
+
+  const FancyTabWidget::Mode previous_mode = mode_;
 
   mode_ = mode;
 
@@ -695,6 +658,19 @@ void FancyTabWidget::SetMode(FancyTabWidget::Mode mode) {
     setIconSize(QSize(iconsize_smallsidebar_, iconsize_smallsidebar_));
   }
 #endif
+
+  if (previous_mode == FancyTabWidget::Mode::IconOnlyTabs && mode != FancyTabWidget::Mode::IconOnlyTabs) {
+    for (int i = 0; i < count(); ++i) {
+      tabBar()->setTabText(i, tabBar()->tabData(i).value<TabData*>()->label());
+      tabBar()->setTabToolTip(i, QLatin1String(""));
+    }
+  }
+  else if (previous_mode != FancyTabWidget::Mode::IconOnlyTabs && mode == FancyTabWidget::Mode::IconOnlyTabs) {
+    for (int i = 0; i < count(); ++i) {
+      tabBar()->setTabText(i, QLatin1String(""));
+      tabBar()->setTabToolTip(i, tabBar()->tabData(i).value<TabData*>()->label());
+    }
+  }
 
   tabBar()->updateGeometry();
   updateGeometry();

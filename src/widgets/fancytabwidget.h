@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2018, Vikram Ambrose <ambroseworks@gmail.com>
- * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,9 +83,7 @@ class FancyTabWidget : public QTabWidget {
 
  public slots:
   void setCurrentIndex(int idx);
-  void SetMode(FancyTabWidget::Mode mode);
-  // Mapper mapped signal needs this convenience function
-  void SetMode(int mode) { SetMode(Mode(mode)); }
+  void SetMode(const FancyTabWidget::Mode mode);
 
  private slots:
   void tabBarUpdateGeometry();
