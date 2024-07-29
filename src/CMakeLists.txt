@@ -230,6 +230,8 @@ set(SOURCES
   widgets/busyindicator.cpp
   widgets/clickablelabel.cpp
   widgets/fancytabwidget.cpp
+  widgets/fancytabbar.cpp
+  widgets/fancytabdata.cpp
   widgets/favoritewidget.cpp
   widgets/fileview.cpp
   widgets/fileviewlist.cpp
@@ -476,6 +478,8 @@ set(HEADERS
   widgets/busyindicator.h
   widgets/clickablelabel.h
   widgets/fancytabwidget.h
+  widgets/fancytabbar.h
+  widgets/fancytabdata.h
   widgets/favoritewidget.h
   widgets/fileview.h
   widgets/fileviewlist.h

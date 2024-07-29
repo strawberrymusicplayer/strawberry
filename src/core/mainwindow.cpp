@@ -406,9 +406,9 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #endif
 
   // Add the playing widget to the fancy tab widget
-  ui_->tabs->addBottomWidget(ui_->widget_playing);
-  ui_->tabs->setBackgroundPixmap(QPixmap(QStringLiteral(":/pictures/sidebar-background.png")));
-  ui_->tabs->Load(QLatin1String(kSettingsGroup));
+  ui_->tabs->AddBottomWidget(ui_->widget_playing);
+  ui_->tabs->SetBackgroundPixmap(QPixmap(QStringLiteral(":/pictures/sidebar-background.png")));
+  ui_->tabs->LoadSettings(QLatin1String(kSettingsGroup));
 
   track_position_timer_->setInterval(kTrackPositionUpdateTimeMs);
   QObject::connect(track_position_timer_, &QTimer::timeout, this, &MainWindow::UpdateTrackPosition);
@@ -844,7 +844,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #endif
 
   // Fancy tabs
-  QObject::connect(ui_->tabs, &FancyTabWidget::CurrentChanged, this, &MainWindow::TabSwitched);
+  QObject::connect(ui_->tabs, &FancyTabWidget::CurrentTabChanged, this, &MainWindow::TabSwitched);
 
   // Context
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, context_view_, &ContextView::SongChanged);
