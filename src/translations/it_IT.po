@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
-"PO-Revision-Date: 2024-07-24 23:57\n"
+"PO-Revision-Date: 2024-07-29 11:14\n"
 
 #: playlist/playlistlistview.cpp:51
 msgid "\n\n"
@@ -173,7 +173,7 @@ msgstr "'%1' brani in '%2' diverse cartelle selezionate, sei sicuro di volerli a
 msgid "%1 songs selected."
 msgstr "'%1' brani selezionati."
 
-#: covermanager/albumcovermanager.cpp:561
+#: covermanager/albumcovermanager.cpp:563
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 trasferiti"
@@ -451,8 +451,8 @@ msgstr "Token API"
 msgid "ASF (WMA)"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:146
-#: covermanager/albumcoversearcher.cpp:184
+#: covermanager/albumcovermanager.cpp:148
+#: covermanager/albumcoversearcher.cpp:186
 #: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "Interrompi"
@@ -753,11 +753,11 @@ msgstr "Album"
 msgid "Albums search limit"
 msgstr "Limite di ricerca album"
 
-#: covermanager/albumcovermanager.cpp:171
+#: covermanager/albumcovermanager.cpp:173
 msgid "Albums with covers"
 msgstr "Album con copertina"
 
-#: covermanager/albumcovermanager.cpp:172
+#: covermanager/albumcovermanager.cpp:174
 msgid "Albums without covers"
 msgstr "Album senza copertina"
 
@@ -765,11 +765,11 @@ msgstr "Album senza copertina"
 msgid "All Files (*)"
 msgstr "Tutti i file (*)"
 
-#: covermanager/albumcovermanager.cpp:170
+#: covermanager/albumcovermanager.cpp:172
 msgid "All albums"
 msgstr "Tutti gli album"
 
-#: covermanager/albumcovermanager.cpp:346
+#: covermanager/albumcovermanager.cpp:348
 msgid "All artists"
 msgstr "Tutti gli artisti"
 
@@ -1272,7 +1272,7 @@ msgstr "Chiudi"
 msgid "Close playlist"
 msgstr "Chiudi playlist"
 
-#: covermanager/albumcovermanager.cpp:259
+#: covermanager/albumcovermanager.cpp:261
 msgid "Closing this window will stop searching for album covers."
 msgstr "La chiusura di questa finestra fermerà la ricerca delle copertine."
 
@@ -1463,7 +1463,7 @@ msgstr "Impossibile aprire il file '%1' in lettura: '%2'"
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr "Impossibile aprire il file della playlist '%1' in lettura: '%2'"
 
-#: covermanager/albumcovermanager.cpp:1063
+#: covermanager/albumcovermanager.cpp:1065
 #: covermanager/albumcoverchoicecontroller.cpp:827
 #, qt-format
 msgid "Could not save cover to file %1."
@@ -1564,7 +1564,7 @@ msgstr "Fornitori copertine"
 msgid "Covers"
 msgstr "Copertine"
 
-#: covermanager/albumcoversearcher.cpp:126
+#: covermanager/albumcoversearcher.cpp:128
 #: covermanager/coversearchstatisticsdialog.cpp:74
 #, qt-format
 msgid "Covers from %1"
@@ -1680,7 +1680,7 @@ msgstr "Percorso D-Bus"
 msgid "Dance"
 msgstr ""
 
-#: spotify/spotifyrequest.cpp:1373
+#: spotify/spotifyrequest.cpp:1371
 msgid "Data missing error"
 msgstr ""
 
@@ -1908,7 +1908,7 @@ msgstr "Non mostrare in artisti vari"
 msgid "Don't shuffle"
 msgstr "Non mescolare"
 
-#: covermanager/albumcovermanager.cpp:260
+#: covermanager/albumcovermanager.cpp:262
 msgid "Don't stop!"
 msgstr "Non fermare!"
 
@@ -1938,6 +1938,10 @@ msgstr "Doppio clic qui per aggiungere questa playlist ai preferiti in modo che 
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:297
 msgid "Download album covers"
 msgstr "Scarica copertine album"
+
+#: musicbrainz/tagfetcher.cpp:132
+msgid "Downloading metadata"
+msgstr ""
 
 #: settings/notificationssettingspage.cpp:68
 msgid "Drag to reposition"
@@ -2242,12 +2246,12 @@ msgstr "Esporta copertine scaricate"
 msgid "Export embedded covers"
 msgstr "Esporta copertine integrate"
 
-#: covermanager/albumcovermanager.cpp:1019
-#: covermanager/albumcovermanager.cpp:1045
+#: covermanager/albumcovermanager.cpp:1021
+#: covermanager/albumcovermanager.cpp:1047
 msgid "Export finished"
 msgstr "Esportazione completata"
 
-#: covermanager/albumcovermanager.cpp:1030
+#: covermanager/albumcovermanager.cpp:1032
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Esportate '%1' copertine di '%2' (%3 saltate)"
@@ -2459,6 +2463,10 @@ msgstr "Tipo di file"
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr "Trova i brani nella raccolta che corrispondono ai criteri specificati."
 
+#: musicbrainz/tagfetcher.cpp:80
+msgid "Fingerprinting song"
+msgstr ""
+
 #: smartplaylists/smartplaylistwizard.cpp:93
 msgid "Finish"
 msgstr "Fine"
@@ -2610,7 +2618,7 @@ msgstr "Vai alla scheda della playlist precedente"
 msgid "Go!"
 msgstr "Vai!"
 
-#: covermanager/albumcovermanager.cpp:555
+#: covermanager/albumcovermanager.cpp:557
 #: covermanager/coversearchstatisticsdialog.cpp:68
 #: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:73
 #, qt-format
@@ -2767,6 +2775,10 @@ msgstr "Dimensioni icona"
 #: widgets/fancytabwidget.cpp:733
 msgid "Icons on top"
 msgstr "Icone in alto"
+
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
+msgid "Identifying song"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:197
 msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
@@ -3418,7 +3430,7 @@ msgstr "Nessun analizzatore"
 msgid "No audio normalization"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:1020
+#: covermanager/albumcovermanager.cpp:1022
 msgid "No covers to export."
 msgstr "Nessuna copertina da esportare."
 
@@ -3426,7 +3438,7 @@ msgstr "Nessuna copertina da esportare."
 msgid "No long blocks"
 msgstr "Nessun blocco lungo"
 
-#: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1367
+#: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1365
 #: qobuz/qobuzrequest.cpp:1426
 msgid "No match."
 msgstr "Nessuna corrispondenza."
@@ -4028,7 +4040,7 @@ msgstr "Valutazione"
 msgid "Re&lative"
 msgstr "Re&lativo"
 
-#: covermanager/albumcovermanager.cpp:259
+#: covermanager/albumcovermanager.cpp:261
 msgid "Really cancel?"
 msgstr "Vuoi davvero annullare?"
 
@@ -4052,13 +4064,13 @@ msgstr "Ricevuta una risposta non valida dal browser web."
 msgid "Received invalid reply from web browser. Try another browser."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1202
+#: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1200
 #: qobuz/qobuzrequest.cpp:1259
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr "Ricezione copertina album per '%1' album..."
 
-#: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1203
+#: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1201
 #: qobuz/qobuzrequest.cpp:1260
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
@@ -4105,13 +4117,13 @@ msgstr "Ricezione numero riproduzioni per '%1' brani e ultima riproduzione per '
 msgid "Receiving playcounts for %1 songs."
 msgstr "Ricezione numero riproduzioni per '%1' brani."
 
-#: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:855
+#: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:853
 #: qobuz/qobuzrequest.cpp:809
 #, qt-format
 msgid "Receiving songs for %1 album..."
 msgstr "Ricezione brani per '%1' album..."
 
-#: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:856
+#: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:854
 #: qobuz/qobuzrequest.cpp:810
 #, qt-format
 msgid "Receiving songs for %1 albums..."
@@ -4484,8 +4496,8 @@ msgstr "Scrobbler '%1' errore: '%2'"
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler '%1' non è autenticato!"
 
-#: covermanager/albumcoversearcher.cpp:192
-#: covermanager/albumcoversearcher.cpp:210
+#: covermanager/albumcoversearcher.cpp:194
+#: covermanager/albumcoversearcher.cpp:212
 #: ../../build-qt6dev/src/ui_albumcoversearcher.h:111
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:116
 msgid "Search"
@@ -5677,7 +5689,7 @@ msgid "Variable bit rate"
 msgstr "Bitrate variabile"
 
 #: collection/collectionmodel.cpp:81 playlist/playlistmanager.cpp:560
-#: covermanager/albumcovermanager.cpp:347 streaming/streamingsearchmodel.cpp:93
+#: covermanager/albumcovermanager.cpp:349 streaming/streamingsearchmodel.cpp:93
 #: streaming/streamingsearchmodel.cpp:105
 msgid "Various artists"
 msgstr "Artisti vari"

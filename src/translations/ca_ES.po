@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
-"PO-Revision-Date: 2024-07-24 23:57\n"
+"PO-Revision-Date: 2024-07-29 11:14\n"
 
 #: playlist/playlistlistview.cpp:51
 msgid "\n\n"
@@ -173,7 +173,7 @@ msgstr ""
 msgid "%1 songs selected."
 msgstr "%1 cançons seleccionades."
 
-#: covermanager/albumcovermanager.cpp:561
+#: covermanager/albumcovermanager.cpp:563
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 transferit"
@@ -450,8 +450,8 @@ msgstr "Testimoni de l’API"
 msgid "ASF (WMA)"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:146
-#: covermanager/albumcoversearcher.cpp:184
+#: covermanager/albumcovermanager.cpp:148
+#: covermanager/albumcoversearcher.cpp:186
 #: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "Interromp"
@@ -752,11 +752,11 @@ msgstr "Àlbums"
 msgid "Albums search limit"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:171
+#: covermanager/albumcovermanager.cpp:173
 msgid "Albums with covers"
 msgstr "Àlbums amb caràtules"
 
-#: covermanager/albumcovermanager.cpp:172
+#: covermanager/albumcovermanager.cpp:174
 msgid "Albums without covers"
 msgstr "Àlbums sense caràtules"
 
@@ -764,11 +764,11 @@ msgstr "Àlbums sense caràtules"
 msgid "All Files (*)"
 msgstr "Tots els fitxers (*)"
 
-#: covermanager/albumcovermanager.cpp:170
+#: covermanager/albumcovermanager.cpp:172
 msgid "All albums"
 msgstr "Tots els àlbums"
 
-#: covermanager/albumcovermanager.cpp:346
+#: covermanager/albumcovermanager.cpp:348
 msgid "All artists"
 msgstr "Tots els artistes"
 
@@ -1271,7 +1271,7 @@ msgstr "Tanca"
 msgid "Close playlist"
 msgstr "Tanca la llista de reproducció"
 
-#: covermanager/albumcovermanager.cpp:259
+#: covermanager/albumcovermanager.cpp:261
 msgid "Closing this window will stop searching for album covers."
 msgstr "En tancar aquesta finestra es detindrà la cerca de les caràtules dels àlbums."
 
@@ -1462,7 +1462,7 @@ msgstr ""
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:1063
+#: covermanager/albumcovermanager.cpp:1065
 #: covermanager/albumcoverchoicecontroller.cpp:827
 #, qt-format
 msgid "Could not save cover to file %1."
@@ -1563,7 +1563,7 @@ msgstr ""
 msgid "Covers"
 msgstr ""
 
-#: covermanager/albumcoversearcher.cpp:126
+#: covermanager/albumcoversearcher.cpp:128
 #: covermanager/coversearchstatisticsdialog.cpp:74
 #, qt-format
 msgid "Covers from %1"
@@ -1679,7 +1679,7 @@ msgstr "Camí del D-Bus"
 msgid "Dance"
 msgstr ""
 
-#: spotify/spotifyrequest.cpp:1373
+#: spotify/spotifyrequest.cpp:1371
 msgid "Data missing error"
 msgstr ""
 
@@ -1907,7 +1907,7 @@ msgstr "No ho mostris a Artistes diversos"
 msgid "Don't shuffle"
 msgstr "Sense mesclar"
 
-#: covermanager/albumcovermanager.cpp:260
+#: covermanager/albumcovermanager.cpp:262
 msgid "Don't stop!"
 msgstr "No aturar!"
 
@@ -1936,6 +1936,10 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_spotifysettingspage.h:279
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:297
 msgid "Download album covers"
+msgstr ""
+
+#: musicbrainz/tagfetcher.cpp:132
+msgid "Downloading metadata"
 msgstr ""
 
 #: settings/notificationssettingspage.cpp:68
@@ -2241,12 +2245,12 @@ msgstr "Exporta les caràtules baixades"
 msgid "Export embedded covers"
 msgstr "Exporta les caràtules incrustades"
 
-#: covermanager/albumcovermanager.cpp:1019
-#: covermanager/albumcovermanager.cpp:1045
+#: covermanager/albumcovermanager.cpp:1021
+#: covermanager/albumcovermanager.cpp:1047
 msgid "Export finished"
 msgstr "Ha finalitzat l’exportació"
 
-#: covermanager/albumcovermanager.cpp:1030
+#: covermanager/albumcovermanager.cpp:1032
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "S’han exportat %1 caràtules de %2 (s’han omès %3)"
@@ -2458,6 +2462,10 @@ msgstr "Tipus de fitxer"
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
+#: musicbrainz/tagfetcher.cpp:80
+msgid "Fingerprinting song"
+msgstr ""
+
 #: smartplaylists/smartplaylistwizard.cpp:93
 msgid "Finish"
 msgstr "Finalitza"
@@ -2609,7 +2617,7 @@ msgstr "Vés a la pestanya de l'anterior llista de reproducció"
 msgid "Go!"
 msgstr "Vés-hi"
 
-#: covermanager/albumcovermanager.cpp:555
+#: covermanager/albumcovermanager.cpp:557
 #: covermanager/coversearchstatisticsdialog.cpp:68
 #: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:73
 #, qt-format
@@ -2766,6 +2774,10 @@ msgstr ""
 #: widgets/fancytabwidget.cpp:733
 msgid "Icons on top"
 msgstr "Icones a la part superior"
+
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
+msgid "Identifying song"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:197
 msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
@@ -3417,7 +3429,7 @@ msgstr "Sense analitzador"
 msgid "No audio normalization"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:1020
+#: covermanager/albumcovermanager.cpp:1022
 msgid "No covers to export."
 msgstr "No hi ha cap coberta que exportar."
 
@@ -3425,7 +3437,7 @@ msgstr "No hi ha cap coberta que exportar."
 msgid "No long blocks"
 msgstr "No utilitzis blocs llargs"
 
-#: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1367
+#: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1365
 #: qobuz/qobuzrequest.cpp:1426
 msgid "No match."
 msgstr ""
@@ -4025,7 +4037,7 @@ msgstr ""
 msgid "Re&lative"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:259
+#: covermanager/albumcovermanager.cpp:261
 msgid "Really cancel?"
 msgstr "Realment voleu cancel·lar?"
 
@@ -4047,13 +4059,13 @@ msgstr ""
 msgid "Received invalid reply from web browser. Try another browser."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1202
+#: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1200
 #: qobuz/qobuzrequest.cpp:1259
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1203
+#: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1201
 #: qobuz/qobuzrequest.cpp:1260
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
@@ -4100,13 +4112,13 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:855
+#: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:853
 #: qobuz/qobuzrequest.cpp:809
 #, qt-format
 msgid "Receiving songs for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:856
+#: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:854
 #: qobuz/qobuzrequest.cpp:810
 #, qt-format
 msgid "Receiving songs for %1 albums..."
@@ -4479,8 +4491,8 @@ msgstr ""
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
 
-#: covermanager/albumcoversearcher.cpp:192
-#: covermanager/albumcoversearcher.cpp:210
+#: covermanager/albumcoversearcher.cpp:194
+#: covermanager/albumcoversearcher.cpp:212
 #: ../../build-qt6dev/src/ui_albumcoversearcher.h:111
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:116
 msgid "Search"
@@ -5665,7 +5677,7 @@ msgid "Variable bit rate"
 msgstr "Taxa de bits variable"
 
 #: collection/collectionmodel.cpp:81 playlist/playlistmanager.cpp:560
-#: covermanager/albumcovermanager.cpp:347 streaming/streamingsearchmodel.cpp:93
+#: covermanager/albumcovermanager.cpp:349 streaming/streamingsearchmodel.cpp:93
 #: streaming/streamingsearchmodel.cpp:105
 msgid "Various artists"
 msgstr "Artistes diversos"

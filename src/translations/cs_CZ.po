@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
-"PO-Revision-Date: 2024-07-24 23:57\n"
+"PO-Revision-Date: 2024-07-29 11:14\n"
 
 #: playlist/playlistlistview.cpp:51
 msgid "\n\n"
@@ -173,7 +173,7 @@ msgstr "Je vybráno %1 skladeb obsažených v %2 různých složkách, chcete je
 msgid "%1 songs selected."
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:561
+#: covermanager/albumcovermanager.cpp:563
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 přeneseno"
@@ -450,8 +450,8 @@ msgstr ""
 msgid "ASF (WMA)"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:146
-#: covermanager/albumcoversearcher.cpp:184
+#: covermanager/albumcovermanager.cpp:148
+#: covermanager/albumcoversearcher.cpp:186
 #: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "Přerušit"
@@ -752,11 +752,11 @@ msgstr "Alba"
 msgid "Albums search limit"
 msgstr "Limit vyhledávaných alb"
 
-#: covermanager/albumcovermanager.cpp:171
+#: covermanager/albumcovermanager.cpp:173
 msgid "Albums with covers"
 msgstr "Alba s obaly"
 
-#: covermanager/albumcovermanager.cpp:172
+#: covermanager/albumcovermanager.cpp:174
 msgid "Albums without covers"
 msgstr "Alba bez obalů"
 
@@ -764,11 +764,11 @@ msgstr "Alba bez obalů"
 msgid "All Files (*)"
 msgstr "Všechny soubory (*)"
 
-#: covermanager/albumcovermanager.cpp:170
+#: covermanager/albumcovermanager.cpp:172
 msgid "All albums"
 msgstr "Všechna alba"
 
-#: covermanager/albumcovermanager.cpp:346
+#: covermanager/albumcovermanager.cpp:348
 msgid "All artists"
 msgstr "Všichni umělci"
 
@@ -1271,7 +1271,7 @@ msgstr "Zavřít"
 msgid "Close playlist"
 msgstr "Zavřít seznam skladeb"
 
-#: covermanager/albumcovermanager.cpp:259
+#: covermanager/albumcovermanager.cpp:261
 msgid "Closing this window will stop searching for album covers."
 msgstr "Zavření tohoto okna zastaví hledání obalů alb."
 
@@ -1462,7 +1462,7 @@ msgstr ""
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:1063
+#: covermanager/albumcovermanager.cpp:1065
 #: covermanager/albumcoverchoicecontroller.cpp:827
 #, qt-format
 msgid "Could not save cover to file %1."
@@ -1563,7 +1563,7 @@ msgstr "Poskytovatel obalů alb"
 msgid "Covers"
 msgstr "Obaly alb"
 
-#: covermanager/albumcoversearcher.cpp:126
+#: covermanager/albumcoversearcher.cpp:128
 #: covermanager/coversearchstatisticsdialog.cpp:74
 #, qt-format
 msgid "Covers from %1"
@@ -1679,7 +1679,7 @@ msgstr "Cesta k D-Bus"
 msgid "Dance"
 msgstr "Taneční hudba"
 
-#: spotify/spotifyrequest.cpp:1373
+#: spotify/spotifyrequest.cpp:1371
 msgid "Data missing error"
 msgstr ""
 
@@ -1907,7 +1907,7 @@ msgstr "Nezobrazovat pod různými umělci"
 msgid "Don't shuffle"
 msgstr "Nemíchat"
 
-#: covermanager/albumcovermanager.cpp:260
+#: covermanager/albumcovermanager.cpp:262
 msgid "Don't stop!"
 msgstr "Nezastavovat!"
 
@@ -1937,6 +1937,10 @@ msgstr ""
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:297
 msgid "Download album covers"
 msgstr "Stahovat obaly alb"
+
+#: musicbrainz/tagfetcher.cpp:132
+msgid "Downloading metadata"
+msgstr ""
 
 #: settings/notificationssettingspage.cpp:68
 msgid "Drag to reposition"
@@ -2241,12 +2245,12 @@ msgstr "Uložit stažené obaly"
 msgid "Export embedded covers"
 msgstr "Uložit vložené obaly"
 
-#: covermanager/albumcovermanager.cpp:1019
-#: covermanager/albumcovermanager.cpp:1045
+#: covermanager/albumcovermanager.cpp:1021
+#: covermanager/albumcovermanager.cpp:1047
 msgid "Export finished"
 msgstr "Uložení dokončeno"
 
-#: covermanager/albumcovermanager.cpp:1030
+#: covermanager/albumcovermanager.cpp:1032
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Uloženo %1 obalů z %2 (%3 přeskočeno)"
@@ -2458,6 +2462,10 @@ msgstr "Typ souboru"
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr " Najít skladby z kolekce, které odpovídají kritériům, která specifikujete."
 
+#: musicbrainz/tagfetcher.cpp:80
+msgid "Fingerprinting song"
+msgstr ""
+
 #: smartplaylists/smartplaylistwizard.cpp:93
 msgid "Finish"
 msgstr "Dokončit"
@@ -2609,7 +2617,7 @@ msgstr "Jít na předchozí kartu seznamu skladeb"
 msgid "Go!"
 msgstr "Importovat!"
 
-#: covermanager/albumcovermanager.cpp:555
+#: covermanager/albumcovermanager.cpp:557
 #: covermanager/coversearchstatisticsdialog.cpp:68
 #: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:73
 #, qt-format
@@ -2766,6 +2774,10 @@ msgstr "Velikosti ikon"
 #: widgets/fancytabwidget.cpp:733
 msgid "Icons on top"
 msgstr "Ikony nahoře"
+
+#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
+msgid "Identifying song"
+msgstr ""
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:197
 msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
@@ -3417,7 +3429,7 @@ msgstr "Žádný analyzátor"
 msgid "No audio normalization"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:1020
+#: covermanager/albumcovermanager.cpp:1022
 msgid "No covers to export."
 msgstr "Žádné obaly k uložení"
 
@@ -3425,7 +3437,7 @@ msgstr "Žádné obaly k uložení"
 msgid "No long blocks"
 msgstr "Žádné dlouhé bloky"
 
-#: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1367
+#: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1365
 #: qobuz/qobuzrequest.cpp:1426
 msgid "No match."
 msgstr "Žádná shoda."
@@ -4025,7 +4037,7 @@ msgstr "Hodnocení"
 msgid "Re&lative"
 msgstr "Re&lativní"
 
-#: covermanager/albumcovermanager.cpp:259
+#: covermanager/albumcovermanager.cpp:261
 msgid "Really cancel?"
 msgstr "Opravdu zrušit?"
 
@@ -4047,13 +4059,13 @@ msgstr "Obdržena špatná odpověď od prohlížeče."
 msgid "Received invalid reply from web browser. Try another browser."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1202
+#: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1200
 #: qobuz/qobuzrequest.cpp:1259
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1203
+#: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1201
 #: qobuz/qobuzrequest.cpp:1260
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
@@ -4100,13 +4112,13 @@ msgstr ""
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:855
+#: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:853
 #: qobuz/qobuzrequest.cpp:809
 #, qt-format
 msgid "Receiving songs for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:856
+#: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:854
 #: qobuz/qobuzrequest.cpp:810
 #, qt-format
 msgid "Receiving songs for %1 albums..."
@@ -4479,8 +4491,8 @@ msgstr ""
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Systém pro doporučování hudby %1 není přihlášen!"
 
-#: covermanager/albumcoversearcher.cpp:192
-#: covermanager/albumcoversearcher.cpp:210
+#: covermanager/albumcoversearcher.cpp:194
+#: covermanager/albumcoversearcher.cpp:212
 #: ../../build-qt6dev/src/ui_albumcoversearcher.h:111
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:116
 msgid "Search"
@@ -5665,7 +5677,7 @@ msgid "Variable bit rate"
 msgstr "Proměnlivý datový tok"
 
 #: collection/collectionmodel.cpp:81 playlist/playlistmanager.cpp:560
-#: covermanager/albumcovermanager.cpp:347 streaming/streamingsearchmodel.cpp:93
+#: covermanager/albumcovermanager.cpp:349 streaming/streamingsearchmodel.cpp:93
 #: streaming/streamingsearchmodel.cpp:105
 msgid "Various artists"
 msgstr "Různí umělci"
