@@ -580,7 +580,7 @@ void CollectionView::OpenInNewPlaylist() {
 
 void CollectionView::SearchForThis() {
 
-  QModelIndex current = currentIndex();
+  const QModelIndex current = currentIndex();
   const QVariant role_type = model()->data(current, CollectionModel::Role_Type);
   if (!role_type.isValid()) {
     return;
@@ -599,7 +599,7 @@ void CollectionView::SearchForThis() {
       if (!songs.isEmpty()) {
         last_selected_song_ = songs.last();
       }
-      search = QStringLiteral("title:%1").arg(last_selected_song_.title());
+      search = QStringLiteral("title:\"%1\"").arg(last_selected_song_.title());
       break;
     }
 
@@ -609,28 +609,29 @@ void CollectionView::SearchForThis() {
 
     case CollectionItem::Type::Container:{
       CollectionItem *item = app_->collection_model()->IndexToItem(index);
+      const CollectionModel::GroupBy group_by = app_->collection_model()->GetGroupBy()[item->container_level];
+      while (!item->children.isEmpty()) {
+        item = item->children.first();
+      }
 
-      int container_level = item->container_level;
-      CollectionModel::GroupBy container_group_by = app_->collection_model()->GetGroupBy()[container_level];
-
-      switch (container_group_by) {
+      switch (group_by) {
         case CollectionModel::GroupBy::AlbumArtist:
-          search = QStringLiteral("albumartist:%1").arg(item->metadata.effective_albumartist());
+          search = QStringLiteral("albumartist:\"%1\"").arg(item->metadata.effective_albumartist());
           break;
         case CollectionModel::GroupBy::Artist:
-          search = QStringLiteral("artist:%1").arg(item->metadata.artist());
+          search = QStringLiteral("artist:\"%1\"").arg(item->metadata.artist());
           break;
         case CollectionModel::GroupBy::Album:
         case CollectionModel::GroupBy::AlbumDisc:
-          search = QStringLiteral("album:%1").arg(item->metadata.album());
+          search = QStringLiteral("album:\"%1\"").arg(item->metadata.album());
           break;
         case CollectionModel::GroupBy::YearAlbum:
         case CollectionModel::GroupBy::YearAlbumDisc:
-          search = QStringLiteral("year:%1 album:%2").arg(item->metadata.year()).arg(item->metadata.album());
+          search = QStringLiteral("year:%1 album:\"%2\"").arg(item->metadata.year()).arg(item->metadata.album());
           break;
         case CollectionModel::GroupBy::OriginalYearAlbum:
         case CollectionModel::GroupBy::OriginalYearAlbumDisc:
-          search = QStringLiteral("year:%1 album:%2").arg(item->metadata.effective_originalyear()).arg(item->metadata.album());
+          search = QStringLiteral("year:%1 album:\"%2\"").arg(item->metadata.effective_originalyear()).arg(item->metadata.album());
           break;
         case CollectionModel::GroupBy::Year:
           search = QStringLiteral("year:%1").arg(item->metadata.year());
@@ -639,16 +640,16 @@ void CollectionView::SearchForThis() {
           search = QStringLiteral("year:%1").arg(item->metadata.effective_originalyear());
           break;
         case CollectionModel::GroupBy::Genre:
-          search = QStringLiteral("genre:%1").arg(item->metadata.genre());
+          search = QStringLiteral("genre:\"%1\"").arg(item->metadata.genre());
           break;
         case CollectionModel::GroupBy::Composer:
-          search = QStringLiteral("composer:%1").arg(item->metadata.composer());
+          search = QStringLiteral("composer:\"%1\"").arg(item->metadata.composer());
           break;
         case CollectionModel::GroupBy::Performer:
-          search = QStringLiteral("performer:%1").arg(item->metadata.performer());
+          search = QStringLiteral("performer:\"%1\"").arg(item->metadata.performer());
           break;
         case CollectionModel::GroupBy::Grouping:
-          search = QStringLiteral("grouping:%1").arg(item->metadata.grouping());
+          search = QStringLiteral("grouping:\"%1\"").arg(item->metadata.grouping());
           break;
         case CollectionModel::GroupBy::Samplerate:
           search = QStringLiteral("samplerate:%1").arg(item->metadata.samplerate());
