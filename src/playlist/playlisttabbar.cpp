@@ -159,10 +159,8 @@ void PlaylistTabBar::mouseDoubleClickEvent(QMouseEvent *e) {
     }
     else {
       menu_index_ = index;
-      QString new_text = tabText(index);
-      new_text = new_text.replace(QLatin1String("&&"), QLatin1String("&"));
       rename_editor_->setGeometry(tabRect(index));
-      rename_editor_->setText(new_text);
+      rename_editor_->setText(manager_->GetPlaylistName(tabData(index).toInt()));
       rename_editor_->setVisible(true);
       rename_editor_->setFocus();
     }
@@ -176,13 +174,13 @@ void PlaylistTabBar::RenameSlot() {
 
   if (menu_index_ == -1) return;
 
-  QString name = tabText(menu_index_);
-  name = name.replace(QLatin1String("&&"), QLatin1String("&"));
-  QString new_name = QInputDialog::getText(this, tr("Rename playlist"), tr("Enter a new name for this playlist"), QLineEdit::Normal, name);
+  const int playlist_id = tabData(menu_index_).toInt();
+  const QString old_name = manager_->GetPlaylistName(playlist_id);
+  const QString new_name = QInputDialog::getText(this, tr("Rename playlist"), tr("Enter a new name for this playlist"), QLineEdit::Normal, old_name);
 
-  if (new_name.isEmpty()) return;
+  if (new_name.isEmpty() || new_name == old_name) return;
 
-  emit Rename(tabData(menu_index_).toInt(), new_name);
+  emit Rename(playlist_id, new_name);
 
 }
 
