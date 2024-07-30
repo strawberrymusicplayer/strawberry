@@ -34,7 +34,7 @@
 class TagReaderBase {
  public:
   explicit TagReaderBase();
-  ~TagReaderBase() = default;
+  virtual ~TagReaderBase();
 
   class Result {
    public:

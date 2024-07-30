@@ -46,8 +46,6 @@
 
 TagReaderTagParser::TagReaderTagParser() = default;
 
-TagReaderTagParser::~TagReaderTagParser() = default;
-
 bool TagReaderTagParser::IsMediaFile(const QString &filename) const {
 
   qLog(Debug) << "Checking for valid file" << filename;

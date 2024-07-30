@@ -37,7 +37,6 @@
 class TagReaderTagParser : public TagReaderBase {
  public:
   explicit TagReaderTagParser();
-  ~TagReaderTagParser();
 
   bool IsMediaFile(const QString &filename) const override;
 

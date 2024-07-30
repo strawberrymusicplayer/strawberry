@@ -99,7 +99,6 @@ class TagReaderGME : public TagReaderBase {
 
  public:
   explicit TagReaderGME();
-  ~TagReaderGME() = default;
 
   bool IsMediaFile(const QString &filename) const override;
 

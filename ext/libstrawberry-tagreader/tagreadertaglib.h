@@ -55,7 +55,7 @@ class FileRefFactory;
 class TagReaderTagLib : public TagReaderBase {
  public:
   explicit TagReaderTagLib();
-  ~TagReaderTagLib();
+  ~TagReaderTagLib() override;
 
   static inline TagLib::String StdStringToTagLibString(const std::string &s) {
     return TagLib::String(s.c_str(), TagLib::String::UTF8);

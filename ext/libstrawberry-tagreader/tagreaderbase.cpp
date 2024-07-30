@@ -32,6 +32,7 @@
 #include "tagreaderbase.h"
 
 TagReaderBase::TagReaderBase() = default;
+TagReaderBase::~TagReaderBase() = default;
 
 QString TagReaderBase::ErrorString(const Result &result) {
 
