@@ -111,6 +111,7 @@ libgstrtsp
 libgstsoup
 libgstspectrum
 libgstspeex
+libgstspotify
 libgsttaglib
 libgsttcp
 libgsttwolame
