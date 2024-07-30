@@ -120,4 +120,4 @@ To compile on Windows with Visual Studio 2019 or 2022, see https://github.com/st
 
 ### :penguin: Packaging status
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/strawberry.svg?exclude_unsupported=1)](https://repology.org/metapackage/strawberry/versions)
+[![Packaging status](https://repology.org/badge/vertical-allrepos/strawberry.svg?columns=3&header=Strawberry&exclude_unsupported=1)](https://repology.org/metapackage/strawberry/versions)
