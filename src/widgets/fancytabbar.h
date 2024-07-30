@@ -40,7 +40,7 @@ class FancyTabBar : public QTabBar {
   int width() const;
 
  protected:
-  QSize tabSizeHint(const int index) const;
+  QSize tabSizeHint(const int index) const override;
   void leaveEvent(QEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
   void paintEvent(QPaintEvent *pe) override;
