@@ -730,12 +730,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ 'macos-12' ]
+        runner: [ 'macos-13', 'macos-14' ]
         buildtype: [ 'release' ]
 
     runs-on: ${{ matrix.runner }}
 
     steps:
+
+      - name: Set MACOSX_DEPLOYMENT_TARGET
+        run: |
+          for i in 12 13 14 15; do
+            if [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX${i}.sdk" ]; then
+              echo "Using macOS SDK ${i}"
+              echo "MACOSX_DEPLOYMENT_TARGET=${i}.0" >> $GITHUB_ENV
+              break
+            fi
+          done
+
+      - name: Verify MACOSX_DEPLOYMENT_TARGET
+        run: |
+          test "${MACOSX_DEPLOYMENT_TARGET}" = "" && false || echo "MACOSX_DEPLOYMENT_TARGET: ${MACOSX_DEPLOYMENT_TARGET}"
 
       - name: Set arch
         shell: bash
@@ -784,7 +798,6 @@ jobs:
 
       - name: Configure CMake
         env:
-          MACOSX_DEPLOYMENT_TARGET: 12.0
           PKG_CONFIG_PATH: ${{env.prefix_path}}/lib/pkgconfig
           LDFLAGS: -L${{env.prefix_path}}/lib -Wl,-rpath,${{env.prefix_path}}/lib
         run: >
@@ -801,7 +814,7 @@ jobs:
           -DICU_ROOT="${{env.prefix_path}}"
           -DFFTW3_DIR="${{env.prefix_path}}"
           -DAPPLE_DEVELOPER_ID=$(test '${{github.repository}}' = 'strawberrymusicplayer/strawberry' && test '${{github.event.pull_request.base.repo.full_name}}' = '${{github.event.pull_request.head.repo.full_name}}' && echo "383J84DVB6" || echo "")
-          -DENABLE_SPOTIFY=ON
+          -DENABLE_SPOTIFY=$(test -f "${{env.prefix_path}}/lib/gstreamer-1.0/libgstspotify.dylib" && echo "ON" || echo "OFF")
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
@@ -877,6 +890,20 @@ jobs:
 
     steps:
 
+      - name: Set MACOSX_DEPLOYMENT_TARGET
+        run: |
+          for i in 12 13 14 15; do
+            if [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX${i}.sdk" ]; then
+              echo "Using macOS SDK ${i}"
+              echo "MACOSX_DEPLOYMENT_TARGET=${i}.0" >> $GITHUB_ENV
+              break
+            fi
+          done
+
+      - name: Verify MACOSX_DEPLOYMENT_TARGET
+        run: |
+          test "${MACOSX_DEPLOYMENT_TARGET}" = "" && false || echo "MACOSX_DEPLOYMENT_TARGET: ${MACOSX_DEPLOYMENT_TARGET}"
+
       - name: Set arch
         shell: bash
         run: echo "arch=$(uname -m)" >> $GITHUB_ENV
@@ -907,7 +934,6 @@ jobs:
 
       - name: Configure CMake
         env:
-          MACOSX_DEPLOYMENT_TARGET: 11.0
           PKG_CONFIG_PATH: ${{env.prefix_path}}/lib/pkgconfig
           LDFLAGS: -L${{env.prefix_path}}/lib -Wl,-rpath,${{env.prefix_path}}/lib
         run: >
@@ -924,7 +950,7 @@ jobs:
           -DICU_ROOT="${{env.prefix_path}}"
           -DFFTW3_DIR="${{env.prefix_path}}"
           -DAPPLE_DEVELOPER_ID="383J84DVB6"
-          -DENABLE_SPOTIFY=OFF
+          -DENABLE_SPOTIFY=$(test -f "${{env.prefix_path}}/lib/gstreamer-1.0/libgstspotify.dylib" && echo "ON" || echo "OFF")
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
