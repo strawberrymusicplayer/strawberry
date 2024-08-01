@@ -1006,13 +1006,17 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
   }
 
 #ifdef HAVE_SPOTIFY
-  if (instance->media_url_.scheme() == QStringLiteral("spotify") &&
-      !instance->spotify_username_.isEmpty() &&
-      !instance->spotify_password_.isEmpty() &&
-      g_object_class_find_property(G_OBJECT_GET_CLASS(source), "username") &&
-      g_object_class_find_property(G_OBJECT_GET_CLASS(source), "password")) {
-    g_object_set(source, "username", instance->spotify_username_.toUtf8().constData(), nullptr);
-    g_object_set(source, "password", instance->spotify_password_.toUtf8().constData(), nullptr);
+  if (instance->media_url_.scheme() == QStringLiteral("spotify")) {
+    if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "bitrate")) {
+      g_object_set(source, "bitrate", 2, nullptr);
+    }
+    if (!instance->spotify_username_.isEmpty() &&
+        !instance->spotify_password_.isEmpty() &&
+        g_object_class_find_property(G_OBJECT_GET_CLASS(source), "username") &&
+        g_object_class_find_property(G_OBJECT_GET_CLASS(source), "password")) {
+      g_object_set(source, "username", instance->spotify_username_.toUtf8().constData(), nullptr);
+      g_object_set(source, "password", instance->spotify_password_.toUtf8().constData(), nullptr);
+    }
   }
 #endif
 
