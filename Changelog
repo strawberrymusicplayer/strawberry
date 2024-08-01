@@ -2,6 +2,18 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed Tidal Open API cover provider to only login when needed instead of on startup.
+    * Fixed KDE added keyboard accelerator characters (ampersands) appearing in sidebar (#1400, #1389, #1476).
+    * Fixed KDE added keyboard accelerator characters (ampersands) appearing when editing playlist name (#1499).
+    * Fixed collection "Search for this" adding prefix without value (#1510).
+    * (macOS) Fixed missing Spotify.
+
+  Enhancements:
+    * Improved volume adjustment and track seeking using touchpad (#1498).
+
 Version 1.1.1 (2024.07.22):
 
   Bugfixes:
