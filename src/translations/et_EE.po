@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
-"PO-Revision-Date: 2024-07-31 17:51\n"
+"PO-Revision-Date: 2024-08-01 07:53\n"
 
 #: playlist/playlistlistview.cpp:51
 msgid "\n\n"
@@ -1203,7 +1203,7 @@ msgstr "Vali andmed saidilt last.fm importimiseks"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:509
 msgid "Choose font..."
-msgstr "Vali kirjastiil..."
+msgstr "Vali kirjatüüp..."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Choose how the playlist is sorted and how many songs it will contain."
@@ -2486,16 +2486,16 @@ msgstr "Kirjatüüp"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:443
 msgid "Font for data and lyrics"
-msgstr "Andmete ja laulusõnade font"
+msgstr "Andmete ja laulusõnade kirjatüüp"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:438
 msgid "Font for headline"
-msgstr "Pealkirja font"
+msgstr "Pealkirja kirjatüüp"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:440
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:445
 msgid "Font size"
-msgstr "Fondi suurus"
+msgstr "Kirjatüübi suurus"
 
 #: dialogs/snapdialog.cpp:54
 #, qt-format
@@ -5861,7 +5861,7 @@ msgstr "Selle URL-i jaoks vajad GStreamerit."
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:278
 msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
-msgstr "Tuleb käivitada süsteemieelistused ja lubada Strawberryl „<span style=\"font-style:italic\">juhi oma arvutit</span>, et kasutada Strawberrys globaalseid otseteid."
+msgstr "Et Strawberry saaks üldiseid kiirklahve kasutada, ava süsteemi seadistused ja märgi eelistus „<span style=\"font-style:italic\">juhi oma arvutit</span>“."
 
 #: dialogs/about.cpp:122
 #, qt-format
