@@ -67,10 +67,10 @@ class VLCEngine : public EngineBase {
 
   OutputDetailsList GetOutputsList() const override;
   bool ValidOutput(const QString &output) override;
-  QString DefaultOutput() override { return QLatin1String(""); }
-  bool CustomDeviceSupport(const QString &output) override;
-  bool ALSADeviceSupport(const QString &output) override;
-  bool ExclusiveModeSupport(const QString &output) override;
+  QString DefaultOutput() const override { return QLatin1String(""); }
+  bool CustomDeviceSupport(const QString &output) const override;
+  bool ALSADeviceSupport(const QString &output) const override;
+  bool ExclusiveModeSupport(const QString &output) const override;
 
  private:
   libvlc_instance_t *instance_;

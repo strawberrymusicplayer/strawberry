@@ -454,15 +454,15 @@ bool GstEngine::ValidOutput(const QString &output) {
 
 }
 
-bool GstEngine::CustomDeviceSupport(const QString &output) {
+bool GstEngine::CustomDeviceSupport(const QString &output) const {
   return output == QLatin1String(kALSASink) || output == QLatin1String(kOpenALSASink) || output == QLatin1String(kOSSSink) || output == QLatin1String(kOSS4Sink) || output == QLatin1String(kPulseSink) || output == QLatin1String(kA2DPSink) || output == QLatin1String(kAVDTPSink) || output == QLatin1String(kJackAudioSink);
 }
 
-bool GstEngine::ALSADeviceSupport(const QString &output) {
+bool GstEngine::ALSADeviceSupport(const QString &output) const {
   return output == QLatin1String(kALSASink);
 }
 
-bool GstEngine::ExclusiveModeSupport(const QString &output) {
+bool GstEngine::ExclusiveModeSupport(const QString &output) const {
   return output == QLatin1String(kWASAPISink);
 }
 

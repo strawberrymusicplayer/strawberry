@@ -255,15 +255,15 @@ bool VLCEngine::ValidOutput(const QString &output) {
 
 }
 
-bool VLCEngine::CustomDeviceSupport(const QString &output) {
-  return (output != QLatin1String("auto"));
+bool VLCEngine::CustomDeviceSupport(const QString &output) const {
+  return output != QLatin1String("auto");
 }
 
-bool VLCEngine::ALSADeviceSupport(const QString &output) {
-  return (output == QLatin1String("alsa"));
+bool VLCEngine::ALSADeviceSupport(const QString &output) const {
+  return output == QLatin1String("alsa");
 }
 
-bool VLCEngine::ExclusiveModeSupport(const QString &output) {
+bool VLCEngine::ExclusiveModeSupport(const QString &output) const {
   Q_UNUSED(output);
   return false;
 }

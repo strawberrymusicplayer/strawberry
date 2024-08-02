@@ -126,10 +126,10 @@ class EngineBase : public QObject {
 
   virtual OutputDetailsList GetOutputsList() const = 0;
   virtual bool ValidOutput(const QString &output) = 0;
-  virtual QString DefaultOutput() = 0;
-  virtual bool CustomDeviceSupport(const QString &output) = 0;
-  virtual bool ALSADeviceSupport(const QString &output) = 0;
-  virtual bool ExclusiveModeSupport(const QString &output) = 0;
+  virtual QString DefaultOutput() const = 0;
+  virtual bool CustomDeviceSupport(const QString &output) const = 0;
+  virtual bool ALSADeviceSupport(const QString &output) const = 0;
+  virtual bool ExclusiveModeSupport(const QString &output) const = 0;
 
   // Plays a media stream represented with the URL 'u' from the given 'beginning' to the given 'end' (usually from 0 to a song's length).
   // Both markers should be passed in nanoseconds. 'end' can be negative, indicating that the real length of 'u' stream is unknown.
