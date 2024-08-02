@@ -1371,8 +1371,12 @@ void MainWindow::MediaStopped() {
   ui_->button_love->setEnabled(false);
   tray_icon_->LoveStateChanged(false);
 
-  track_position_timer_->stop();
-  track_slider_timer_->stop();
+  if (track_position_timer_->isActive()) {
+    track_position_timer_->stop();
+  }
+  if (track_slider_timer_->isActive()) {
+    track_slider_timer_->stop();
+  }
   ui_->track_slider->SetStopped();
   tray_icon_->SetProgress(0);
   tray_icon_->SetStopped();
@@ -1400,8 +1404,12 @@ void MainWindow::MediaPaused() {
 
   ui_->action_play_pause->setEnabled(true);
 
-  track_position_timer_->stop();
-  track_slider_timer_->stop();
+  if (!track_position_timer_->isActive()) {
+    track_position_timer_->start();
+  }
+  if (!track_slider_timer_->isActive()) {
+    track_slider_timer_->start();
+  }
 
   tray_icon_->SetPaused();
 
@@ -1426,8 +1434,13 @@ void MainWindow::MediaPlaying() {
   ui_->track_slider->SetCanSeek(can_seek);
   tray_icon_->SetPlaying(enable_play_pause);
 
-  track_position_timer_->start();
-  track_slider_timer_->start();
+  if (!track_position_timer_->isActive()) {
+    track_position_timer_->start();
+  }
+  if (!track_slider_timer_->isActive()) {
+    track_slider_timer_->start();
+  }
+
   UpdateTrackPosition();
 
 }
@@ -1566,7 +1579,7 @@ void MainWindow::LoadPlaybackStatus() {
   const EngineBase::State playback_state = static_cast<EngineBase::State>(s.value("playback_state", static_cast<int>(EngineBase::State::Empty)).toInt());
   s.endGroup();
 
-  if (resume_playback && playback_state != EngineBase::State::Empty && playback_state != EngineBase::State::Idle) {
+  if (resume_playback && (playback_state == EngineBase::State::Playing || playback_state == EngineBase::State::Paused)) {
     SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
     *connection = QObject::connect(&*app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, [this, connection]() {
       QObject::disconnect(*connection);
@@ -1583,21 +1596,19 @@ void MainWindow::ResumePlayback() {
   Settings s;
   s.beginGroup(Player::kSettingsGroup);
   const EngineBase::State playback_state = static_cast<EngineBase::State>(s.value("playback_state", static_cast<int>(EngineBase::State::Empty)).toInt());
-  int playback_playlist = s.value("playback_playlist", -1).toInt();
-  int playback_position = s.value("playback_position", 0).toInt();
+  const int playback_playlist = s.value("playback_playlist", -1).toInt();
+  const int playback_position = s.value("playback_position", 0).toInt();
   s.endGroup();
 
   if (playback_playlist == app_->playlist_manager()->current()->id()) {
     // Set active to current to resume playback on correct playlist.
     app_->playlist_manager()->SetActiveToCurrent();
-    if (playback_state == EngineBase::State::Paused) {
-      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(&*app_->player(), &Player::Playing, &*app_->player(), [this, connection]() {
-        QObject::disconnect(*connection);
-        QTimer::singleShot(300, &*app_->player(), &Player::PlayPauseHelper);
-      });
+    if (playback_state == EngineBase::State::Playing) {
+      app_->player()->Play(playback_position * kNsecPerSec);
     }
-    app_->player()->Play(playback_position * kNsecPerSec);
+    else if (playback_state == EngineBase::State::Paused) {
+      app_->player()->PlayWithPause(playback_position * kNsecPerSec);
+    }
   }
 
   // Reset saved playback status so we don't resume again from the same position.
@@ -1620,7 +1631,7 @@ void MainWindow::PlayIndex(const QModelIndex &idx, Playlist::AutoScroll autoscro
   }
 
   app_->playlist_manager()->SetActiveToCurrent();
-  app_->player()->PlayAt(row, 0, EngineBase::TrackChangeType::Manual, autoscroll, true);
+  app_->player()->PlayAt(row, false, 0, EngineBase::TrackChangeType::Manual, autoscroll, true);
 
 }
 
@@ -1637,14 +1648,14 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &idx) {
   switch (doubleclick_playlist_addmode_) {
     case BehaviourSettingsPage::PlaylistAddBehaviour::Play:
       app_->playlist_manager()->SetActiveToCurrent();
-      app_->player()->PlayAt(source_idx.row(), 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Never, true, true);
+      app_->player()->PlayAt(source_idx.row(), false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Never, true, true);
       break;
 
     case BehaviourSettingsPage::PlaylistAddBehaviour::Enqueue:
       app_->playlist_manager()->current()->queue()->ToggleTracks(QModelIndexList() << source_idx);
       if (app_->player()->GetState() != EngineBase::State::Playing) {
         app_->playlist_manager()->SetActiveToCurrent();
-        app_->player()->PlayAt(app_->playlist_manager()->current()->queue()->TakeNext(), 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Never, true);
+        app_->player()->PlayAt(app_->playlist_manager()->current()->queue()->TakeNext(), false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Never, true);
       }
       break;
   }
@@ -2585,7 +2596,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
     app_->player()->SeekTo(app_->player()->engine()->position_nanosec() / kNsecPerSec + options.seek_by());
   }
 
-  if (options.play_track_at() != -1) app_->player()->PlayAt(options.play_track_at(), 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Maybe, true);
+  if (options.play_track_at() != -1) app_->player()->PlayAt(options.play_track_at(), false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Maybe, true);
 
   if (options.show_osd()) app_->player()->ShowOSD();
 

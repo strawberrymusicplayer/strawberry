@@ -52,7 +52,7 @@ class VLCEngine : public EngineBase {
   bool Init() override;
   EngineBase::State state() const override { return state_; }
   bool Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) override;
-  bool Play(const quint64 offset_nanosec) override;
+  bool Play(const bool pause, const quint64 offset_nanosec) override;
   void Stop(const bool stop_after = false) override;
   void Pause() override;
   void Unpause() override;
