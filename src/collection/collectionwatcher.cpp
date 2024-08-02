@@ -421,22 +421,26 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
     last_scan_time_ = QDateTime::currentSecsSinceEpoch();
   }
   else {
-    // We can do an incremental scan - looking at the mtimes of each subdirectory and only rescan if the directory has changed.
-    ScanTransaction transaction(this, dir.id, true, false, mark_songs_unavailable_);
-    QMap<QString, quint64> subdir_files_count;
-    const quint64 files_count = FilesCountForSubdirs(&transaction, subdirs, subdir_files_count);
-    transaction.SetKnownSubdirs(subdirs);
-    transaction.AddToProgressMax(files_count);
-    for (const CollectionSubdirectory &subdir : subdirs) {
-      if (stop_requested_ || abort_requested_) break;
-
-      if (scan_on_startup_) ScanSubdirectory(subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
-
-      if (monitor_) AddWatch(dir, subdir.path);
+    if (monitor_) {
+      for (const CollectionSubdirectory &subdir : subdirs) {
+        AddWatch(dir, subdir.path);
+      }
     }
-
-    last_scan_time_ = QDateTime::currentSecsSinceEpoch();
-
+    if (scan_on_startup_) {
+      // We can do an incremental scan - looking at the mtimes of each subdirectory and only rescan if the directory has changed.
+      ScanTransaction transaction(this, dir.id, true, false, mark_songs_unavailable_);
+      QMap<QString, quint64> subdir_files_count;
+      const quint64 files_count = FilesCountForSubdirs(&transaction, subdirs, subdir_files_count);
+      transaction.SetKnownSubdirs(subdirs);
+      transaction.AddToProgressMax(files_count);
+      for (const CollectionSubdirectory &subdir : subdirs) {
+        if (stop_requested_ || abort_requested_) break;
+        ScanSubdirectory(subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
+      }
+      if (!stop_requested_ && !abort_requested_) {
+        last_scan_time_ = QDateTime::currentSecsSinceEpoch();
+      }
+    }
   }
 
   emit CompilationsNeedUpdating();
