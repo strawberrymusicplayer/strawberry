@@ -70,7 +70,7 @@ class PlayerInterface : public QObject {
   virtual void SaveVolume() = 0;
 
   // Manual track change to the specified track
-  virtual void PlayAt(const int index, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) = 0;
+  virtual void PlayAt(const int index, const bool pause, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) = 0;
 
   // If there's currently a song playing, pause it, otherwise play the track that was playing last, or the first one on the playlist
   virtual void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Always) = 0;
@@ -98,6 +98,7 @@ class PlayerInterface : public QObject {
   virtual void Pause() = 0;
   virtual void Stop(const bool stop_after = false) = 0;
   virtual void Play(const quint64 offset_nanosec = 0) = 0;
+  virtual void PlayWithPause(const quint64 offset_nanosec) = 0;
   virtual void PlayHelper() = 0;
   virtual void ShowOSD() = 0;
 
@@ -159,7 +160,7 @@ class Player : public PlayerInterface {
   void LoadVolume() override;
   void SaveVolume() override;
 
-  void PlayAt(const int index, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
+  void PlayAt(const int index, const bool pause, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
   void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Always) override;
   void PlayPauseHelper() override { PlayPause(play_offset_nanosec_); }
   void RestartOrPrevious() override;
@@ -182,6 +183,7 @@ class Player : public PlayerInterface {
   void Stop(const bool stop_after = false) override;
   void StopAfterCurrent();
   void Play(const quint64 offset_nanosec = 0) override;
+  void PlayWithPause(const quint64 offset_nanosec) override;
   void PlayHelper() override { Play(); }
   void ShowOSD() override;
   void TogglePrettyOSD();
@@ -228,6 +230,7 @@ class Player : public PlayerInterface {
 
   PlaylistItemPtr current_item_;
 
+  bool pause_;
   EngineBase::TrackChangeFlags stream_change_type_;
   Playlist::AutoScroll autoscroll_;
   EngineBase::State last_state_;

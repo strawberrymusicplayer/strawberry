@@ -354,7 +354,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       if (is_current) {
         qLog(Debug) << "Playing song" << current_item->Metadata().title() << result.stream_url_ << "position" << play_offset_nanosec_;
-        engine_->Play(result.media_url_, result.stream_url_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec(), play_offset_nanosec_, song.ebur128_integrated_loudness_lufs());
+        engine_->Play(result.media_url_, result.stream_url_, pause_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec(), play_offset_nanosec_, song.ebur128_integrated_loudness_lufs());
         current_item_ = current_item;
         play_offset_nanosec_ = 0;
       }
@@ -426,7 +426,7 @@ void Player::NextItem(const EngineBase::TrackChangeFlags change, const Playlist:
     return;
   }
 
-  PlayAt(i, 0, change, autoscroll, false, true);
+  PlayAt(i, false, 0, change, autoscroll, false, true);
 
 }
 
@@ -461,10 +461,9 @@ void Player::PlayPlaylistInternal(const EngineBase::TrackChangeFlags change, con
   if (i == -1) i = app_->playlist_manager()->active()->last_played_row();
   if (i == -1) i = 0;
 
-  PlayAt(i, 0, change, autoscroll, true);
+  PlayAt(i, false, 0, change, autoscroll, true);
 
 }
-
 
 bool Player::HandleStopAfter(const Playlist::AutoScroll autoscroll) {
 
@@ -527,7 +526,7 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
       int i = app_->playlist_manager()->active()->current_row();
       if (i == -1) i = app_->playlist_manager()->active()->last_played_row();
       if (i == -1) i = 0;
-      PlayAt(i, offset_nanosec, EngineBase::TrackChangeType::First, autoscroll, true);
+      PlayAt(i, false, offset_nanosec, EngineBase::TrackChangeType::First, autoscroll, true);
       break;
     }
   }
@@ -606,7 +605,7 @@ void Player::PreviousItem(const EngineBase::TrackChangeFlags change) {
     QDateTime now = QDateTime::currentDateTime();
     if (last_pressed_previous_.isValid() && last_pressed_previous_.secsTo(now) >= 2) {
       last_pressed_previous_ = now;
-      PlayAt(app_->playlist_manager()->active()->current_row(), 0, change, Playlist::AutoScroll::Always, false, true);
+      PlayAt(app_->playlist_manager()->active()->current_row(), false, 0, change, Playlist::AutoScroll::Always, false, true);
       return;
     }
     last_pressed_previous_ = now;
@@ -616,11 +615,11 @@ void Player::PreviousItem(const EngineBase::TrackChangeFlags change) {
   app_->playlist_manager()->active()->set_current_row(i, Playlist::AutoScroll::Always, false);
   if (i == -1) {
     Stop();
-    PlayAt(i, 0, change, Playlist::AutoScroll::Always, true);
+    PlayAt(i, false, 0, change, Playlist::AutoScroll::Always, true);
     return;
   }
 
-  PlayAt(i, 0, change, Playlist::AutoScroll::Always, false);
+  PlayAt(i, false, 0, change, Playlist::AutoScroll::Always, false);
 
 }
 
@@ -718,9 +717,9 @@ void Player::VolumeDown() {
 
 }
 
-void Player::PlayAt(const int index, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform) {
+void Player::PlayAt(const int index, const bool pause, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform) {
 
-  pause_time_ = QDateTime();
+  pause_time_ = pause ? QDateTime::currentDateTime() : QDateTime();
   play_offset_nanosec_ = offset_nanosec;
 
   if (current_item_ && change & EngineBase::TrackChangeType::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
@@ -748,13 +747,14 @@ void Player::PlayAt(const int index, const quint64 offset_nanosec, EngineBase::T
       return;
     }
 
+    pause_ = pause;
     stream_change_type_ = change;
     autoscroll_ = autoscroll;
     HandleLoadResult(url_handlers_[url.scheme()]->StartLoading(url));
   }
   else {
     qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url << "position" << offset_nanosec;
-    engine_->Play(current_item_->Url(), url, change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec(), offset_nanosec, current_item_->effective_ebur128_integrated_loudness_lufs());
+    engine_->Play(current_item_->Url(), url, pause, change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec(), offset_nanosec, current_item_->effective_ebur128_integrated_loudness_lufs());
   }
 
 }
@@ -863,6 +863,19 @@ void Player::Play(const quint64 offset_nanosec) {
       PlayPause(offset_nanosec);
       break;
   }
+
+}
+
+void Player::PlayWithPause(const quint64 offset_nanosec) {
+
+  pause_time_ = QDateTime();
+  play_offset_nanosec_ = offset_nanosec;
+  app_->playlist_manager()->SetActivePlaylist(app_->playlist_manager()->current_id());
+  if (app_->playlist_manager()->active()->rowCount() == 0) return;
+  int i = app_->playlist_manager()->active()->current_row();
+  if (i == -1) i = app_->playlist_manager()->active()->last_played_row();
+  if (i == -1) i = 0;
+  PlayAt(i, true, offset_nanosec, EngineBase::TrackChangeType::First, Playlist::AutoScroll::Always, true);
 
 }
 

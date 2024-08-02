@@ -139,13 +139,13 @@ bool EngineBase::Load(const QUrl &media_url, const QUrl &stream_url, const Track
 
 }
 
-bool EngineBase::Play(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const quint64 offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
+bool EngineBase::Play(const QUrl &media_url, const QUrl &stream_url, const bool pause, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const quint64 offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
 
   if (!Load(media_url, stream_url, flags, force_stop_at_end, beginning_nanosec, end_nanosec, ebur128_integrated_loudness_lufs)) {
     return false;
   }
 
-  return Play(offset_nanosec);
+  return Play(pause, offset_nanosec);
 
 }
 

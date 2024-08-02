@@ -46,6 +46,7 @@
 #include "core/shared_ptr.h"
 #include "enginemetadata.h"
 
+class QTimer;
 class QTimerEvent;
 class GstBufferConsumer;
 struct GstPlayBin;
@@ -80,6 +81,8 @@ class GstEnginePipeline : public QObject {
   void set_spotify_login(const QString &spotify_username, const QString &spotify_password);
 #endif
 
+  bool Finish();
+
   // Creates the pipeline, returns false on error
   bool InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db, QString &error);
 
@@ -89,10 +92,10 @@ class GstEnginePipeline : public QObject {
   void RemoveAllBufferConsumers();
 
   // Control the music playback
-  Q_INVOKABLE QFuture<GstStateChangeReturn> SetState(const GstState state);
-  void SetStateDelayed(const GstState state);
+  Q_INVOKABLE QFuture<GstStateChangeReturn> SetStateAsync(const GstState state);
+  Q_INVOKABLE QFuture<GstStateChangeReturn> Play(const bool pause, const quint64 offset_nanosec);
   Q_INVOKABLE bool Seek(const qint64 nanosec);
-  void SeekQueued(const qint64 nanosec);
+  void SeekAsync(const qint64 nanosec);
   void SeekDelayed(const qint64 nanosec);
   void SetEBUR128LoudnessNormalizingGain_dB(const double ebur128_loudness_normalizing_gain_db);
   void SetVolume(const uint volume_percent);
@@ -133,6 +136,8 @@ class GstEnginePipeline : public QObject {
 
   QString source_device() const { return source_device_; }
 
+  bool exclusive_mode() const { return exclusive_mode_; }
+
  public slots:
   void SetFaderVolume(const qreal volume);
 
@@ -143,13 +148,17 @@ class GstEnginePipeline : public QObject {
   void MetadataFound(const int pipeline_id, const EngineMetadata &bundle);
 
   void VolumeChanged(const uint volume);
-  void FaderFinished();
+  void FaderFinished(const int pipeline_id);
 
   void BufferingStarted();
   void BufferingProgress(const int percent);
   void BufferingFinished();
 
   void AboutToFinish();
+
+  void Finished();
+
+  void SetStateFinished(const GstStateChangeReturn state);
 
  protected:
   void timerEvent(QTimerEvent*) override;
@@ -189,7 +198,12 @@ class GstEnginePipeline : public QObject {
   void UpdateStereoBalance();
   void UpdateEqualizer();
 
+  void Disconnect();
+
+  void ResumeFaderAsync();
+
  private slots:
+  void SetStateAsyncFinished(const GstState state, const GstStateChangeReturn state_change);
   void FaderTimelineFinished();
 
  private:
@@ -290,6 +304,8 @@ class GstEnginePipeline : public QObject {
   // Also, we have to wait for the playbin to be connected.
   bool pipeline_connected_;
   bool pipeline_active_;
+
+  GstState pending_state_;
   qint64 pending_seek_nanosec_;
 
   // We can only use gst_element_query_position() when the pipeline is in
@@ -342,6 +358,10 @@ class GstEnginePipeline : public QObject {
 
   bool about_to_finish_;
 
+  bool finish_requested_;
+  bool finished_;
 };
+
+using GstEnginePipelinePtr = SharedPtr<GstEnginePipeline>;
 
 #endif  // GSTENGINEPIPELINE_H

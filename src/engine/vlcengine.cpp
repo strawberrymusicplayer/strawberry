@@ -124,7 +124,9 @@ bool VLCEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
 
 }
 
-bool VLCEngine::Play(const quint64 offset_nanosec) {
+bool VLCEngine::Play(const bool pause, const quint64 offset_nanosec) {
+
+  Q_UNUSED(pause);
 
   if (!Initialized()) return false;
 
