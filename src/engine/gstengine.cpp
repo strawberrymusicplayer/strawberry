@@ -104,7 +104,9 @@ GstEngine::GstEngine(SharedPtr<TaskManager> task_manager, QObject *parent)
       have_new_buffer_(false),
       scope_chunks_(0),
       discovery_finished_cb_id_(-1),
-      discovery_discovered_cb_id_(-1) {
+      discovery_discovered_cb_id_(-1),
+      delayed_state_(State::Empty),
+      delayed_state_offset_nanosec_(0) {
 
   seek_timer_->setSingleShot(true);
   seek_timer_->setInterval(kSeekDelayNanosec / kNsecPerMsec);
@@ -205,20 +207,27 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
     return true;
   }
 
-  SharedPtr<GstEnginePipeline> pipeline = CreatePipeline(media_url, stream_url, gst_url, force_stop_at_end ? end_nanosec : 0, ebur128_loudness_normalizing_gain_db_);
+  GstEnginePipelinePtr pipeline = CreatePipeline(media_url, stream_url, gst_url, force_stop_at_end ? end_nanosec : 0, ebur128_loudness_normalizing_gain_db_);
   if (!pipeline) return false;
 
-  if (crossfade) StartFadeout();
+  if (crossfade && current_pipeline_ && !ExclusivePipelineActive() && !fadeout_pipelines_.contains(current_pipeline_->id())) {
+    StartFadeout();
+  }
 
   BufferingFinished();
+
+  GstEnginePipelinePtr old_pipeline = current_pipeline_;
   current_pipeline_ = pipeline;
+  if (old_pipeline && !fadeout_pipelines_.contains(old_pipeline->id())) {
+    StopPipeline(old_pipeline);
+  }
 
   SetVolume(volume_);
   SetStereoBalance(stereo_balance_);
   SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
 
   // Maybe fade in this track
-  if (crossfade) {
+  if (crossfade && !ExclusivePipelineActive()) {
     current_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Forward);
   }
 
@@ -245,9 +254,21 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
 
 bool GstEngine::Play(const quint64 offset_nanosec) {
 
+  qLog(Debug) << "Play" << offset_nanosec;
+
   EnsureInitialized();
 
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return false;
+
+  if (ExclusivePipelineActive()) {
+    qLog(Debug) << "Delaying play...";
+    delayed_state_ = State::Playing;
+    delayed_state_offset_nanosec_ = offset_nanosec;
+    return true;
+  }
+
+  delayed_state_ = State::Empty;
+  delayed_state_offset_nanosec_ = 0;
 
   QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>();
   const int pipeline_id = current_pipeline_->id();
@@ -256,12 +277,8 @@ bool GstEngine::Play(const quint64 offset_nanosec) {
     watcher->deleteLater();
     PlayDone(ret, offset_nanosec, pipeline_id);
   });
-  QFuture<GstStateChangeReturn> future = current_pipeline_->SetState(GST_STATE_PLAYING);
+  QFuture<GstStateChangeReturn> future = current_pipeline_->Play(offset_nanosec == 0 && beginning_nanosec_ == 0 ? 0 : offset_nanosec);
   watcher->setFuture(future);
-
-  if (is_fading_out_to_pause_) {
-    current_pipeline_->SetState(GST_STATE_PAUSED);
-  }
 
   return true;
 
@@ -270,6 +287,9 @@ bool GstEngine::Play(const quint64 offset_nanosec) {
 void GstEngine::Stop(const bool stop_after) {
 
   StopTimers();
+
+  delayed_state_ = State::Empty;
+  delayed_state_offset_nanosec_ = 0;
 
   media_url_.clear();
   stream_url_.clear();  // To ensure we return Empty from state()
@@ -280,15 +300,23 @@ void GstEngine::Stop(const bool stop_after) {
     QObject::disconnect(&*current_pipeline_, &GstEnginePipeline::FaderFinished, nullptr, nullptr);
     is_fading_out_to_pause_ = false;
     has_faded_out_ = true;
-
     fadeout_pause_pipeline_.reset();
-    fadeout_pipeline_.reset();
   }
 
-  if (fadeout_enabled_ && current_pipeline_ && !stop_after) StartFadeout();
+  if (current_pipeline_) {
+    if (fadeout_enabled_ && !stop_after && !ExclusivePipelineActive()) {
+      StartFadeout();
+      current_pipeline_ = GstEnginePipelinePtr();
+    }
+    else {
+      GstEnginePipelinePtr old_pipeline = current_pipeline_;
+      current_pipeline_ = GstEnginePipelinePtr();
+      StopPipeline(old_pipeline);
+    }
+  }
 
-  current_pipeline_.reset();
   BufferingFinished();
+
   emit StateChanged(State::Empty);
 
 }
@@ -296,6 +324,16 @@ void GstEngine::Stop(const bool stop_after) {
 void GstEngine::Pause() {
 
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return;
+
+  if (ExclusivePipelineActive()) {
+    qLog(Debug) << "Delaying pause...";
+    delayed_state_ = State::Paused;
+    delayed_state_offset_nanosec_ = 0;
+    return;
+  }
+
+  delayed_state_ = State::Empty;
+  delayed_state_offset_nanosec_ = 0;
 
   // Check if we started a fade out. If it isn't finished yet and the user pressed play, we inverse the fader and resume the playback.
   if (is_fading_out_to_pause_) {
@@ -308,11 +346,11 @@ void GstEngine::Pause() {
   }
 
   if (current_pipeline_->state() == GST_STATE_PLAYING) {
-    if (fadeout_pause_enabled_) {
+    if (fadeout_pause_enabled_ && !ExclusivePipelineActive()) {
       StartFadeoutPause();
     }
     else {
-      current_pipeline_->SetState(GST_STATE_PAUSED);
+      current_pipeline_->SetStateAsync(GST_STATE_PAUSED);
       emit StateChanged(State::Paused);
       StopTimers();
     }
@@ -325,11 +363,11 @@ void GstEngine::Unpause() {
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return;
 
   if (current_pipeline_->state() == GST_STATE_PAUSED) {
-    current_pipeline_->SetState(GST_STATE_PLAYING);
+    current_pipeline_->SetStateAsync(GST_STATE_PLAYING);
 
     // Check if we faded out last time. If yes, fade in no matter what the settings say.
     // If we pause with fadeout, deactivate fadeout and resume playback, the player would be muted if not faded in.
-    if (has_faded_out_) {
+    if (has_faded_out_ && !ExclusivePipelineActive()) {
       QObject::disconnect(&*current_pipeline_, &GstEnginePipeline::FaderFinished, nullptr, nullptr);
       current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QEasingCurve::InOutQuad, false);
       has_faded_out_ = false;
@@ -339,6 +377,7 @@ void GstEngine::Unpause() {
 
     StartTimers();
   }
+
 }
 
 void GstEngine::Seek(const quint64 offset_nanosec) {
@@ -352,6 +391,7 @@ void GstEngine::Seek(const quint64 offset_nanosec) {
     SeekNow();
     seek_timer_->start();  // Stop us from seeking again for a little while
   }
+
 }
 
 void GstEngine::SetVolumeSW(const uint volume) {
@@ -621,24 +661,31 @@ void GstEngine::AddBufferToScope(GstBuffer *buf, const int pipeline_id, const QS
 
 }
 
-void GstEngine::FadeoutFinished() {
+void GstEngine::FadeoutFinished(const int pipeline_id) {
 
-  fadeout_pipeline_.reset();
+  if (!fadeout_pipelines_.contains(pipeline_id)) {
+    return;
+  }
+
+  GstEnginePipelinePtr pipeline = fadeout_pipelines_.value(pipeline_id);
+  fadeout_pipelines_.remove(pipeline_id);
+  StopPipeline(pipeline);
+
   emit FadeoutFinishedSignal();
 
 }
 
 void GstEngine::FadeoutPauseFinished() {
 
-  fadeout_pause_pipeline_->SetState(GST_STATE_PAUSED);
-  current_pipeline_->SetState(GST_STATE_PAUSED);
+  fadeout_pause_pipeline_->SetStateAsync(GST_STATE_PAUSED);
+  current_pipeline_->SetStateAsync(GST_STATE_PAUSED);
+
   emit StateChanged(State::Paused);
   StopTimers();
 
   is_fading_out_to_pause_ = false;
   has_faded_out_ = true;
   fadeout_pause_pipeline_.reset();
-  fadeout_pipeline_.reset();
 
   emit FadeoutFinishedSignal();
 
@@ -668,6 +715,11 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const quint64 offset_na
     const QByteArray redirect_url = current_pipeline_->redirect_url();
     if (!redirect_url.isEmpty() && redirect_url != current_pipeline_->gst_url()) {
       qLog(Info) << "Redirecting to" << redirect_url;
+      GstEnginePipelinePtr old_pipeline = current_pipeline_;
+      current_pipeline_ = GstEnginePipelinePtr();
+      if (old_pipeline) {
+        StopPipeline(old_pipeline);
+      }
       current_pipeline_ = CreatePipeline(current_pipeline_->media_url(), current_pipeline_->stream_url(), redirect_url, end_nanosec_, current_pipeline_->ebur128_loudness_normalizing_gain_db());
       Play(offset_nanosec);
       return;
@@ -675,19 +727,19 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const quint64 offset_na
 
     // Failure - give up
     qLog(Warning) << "Could not set thread to PLAYING.";
-    current_pipeline_.reset();
+    GstEnginePipelinePtr old_pipeline = current_pipeline_;
+    current_pipeline_ = GstEnginePipelinePtr();
+    if (old_pipeline) {
+      StopPipeline(old_pipeline);
+    }
     BufferingFinished();
     return;
   }
 
   StartTimers();
 
-  // Initial offset
-  if (offset_nanosec != 0 || beginning_nanosec_ != 0) {
-    Seek(offset_nanosec);
-  }
-
   emit StateChanged(State::Playing);
+
   // We've successfully started playing a media stream with this url
   emit ValidSongRequested(stream_url_);
 
@@ -757,14 +809,17 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
 
 void GstEngine::StartFadeout() {
 
-  if (is_fading_out_to_pause_) return;
+  GstEnginePipelinePtr pipeline = current_pipeline_;
 
-  fadeout_pipeline_ = current_pipeline_;
-  QObject::disconnect(&*fadeout_pipeline_, nullptr, nullptr, nullptr);
-  fadeout_pipeline_->RemoveAllBufferConsumers();
+  if (fadeout_pipelines_.contains(pipeline->id())) {
+    return;
+  }
 
-  fadeout_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward);
-  QObject::connect(&*fadeout_pipeline_, &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutFinished);
+  fadeout_pipelines_.insert(pipeline->id(), pipeline);
+  pipeline->RemoveAllBufferConsumers();
+
+  pipeline->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward);
+  QObject::connect(&*pipeline, &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutFinished);
 
 }
 
@@ -773,11 +828,8 @@ void GstEngine::StartFadeoutPause() {
   fadeout_pause_pipeline_ = current_pipeline_;
   QObject::disconnect(&*fadeout_pause_pipeline_, &GstEnginePipeline::FaderFinished, nullptr, nullptr);
 
-  fadeout_pause_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QEasingCurve::InOutQuad, false);
-  if (fadeout_pipeline_ && fadeout_pipeline_->state() == GST_STATE_PLAYING) {
-    fadeout_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QEasingCurve::Linear, false);
-  }
   QObject::connect(&*fadeout_pause_pipeline_, &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutPauseFinished);
+  fadeout_pause_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QEasingCurve::InOutQuad, false);
   is_fading_out_to_pause_ = true;
 
 }
@@ -798,11 +850,11 @@ void GstEngine::StopTimers() {
 
 }
 
-SharedPtr<GstEnginePipeline> GstEngine::CreatePipeline() {
+GstEnginePipelinePtr GstEngine::CreatePipeline() {
 
   EnsureInitialized();
 
-  SharedPtr<GstEnginePipeline> ret = make_shared<GstEnginePipeline>();
+  GstEnginePipelinePtr ret = make_shared<GstEnginePipeline>();
   ret->set_output_device(output_, device_);
   ret->set_exclusive_mode(exclusive_mode_);
   ret->set_volume_enabled(volume_control_);
@@ -841,9 +893,9 @@ SharedPtr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
 }
 
-SharedPtr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db) {
+GstEnginePipelinePtr GstEngine::CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db) {
 
-  SharedPtr<GstEnginePipeline> ret = CreatePipeline();
+  GstEnginePipelinePtr ret = CreatePipeline();
   QString error;
   if (!ret->InitFromUrl(media_url, stream_url, gst_url, end_nanosec, ebur128_loudness_normalizing_gain_db, error)) {
     ret.reset();
@@ -853,6 +905,34 @@ SharedPtr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &media_url, co
   }
 
   return ret;
+
+}
+
+void GstEngine::StopPipeline(GstEnginePipelinePtr pipeline) {
+
+  const int pipeline_id = pipeline->id();
+  const bool stop_result = pipeline->Stop();
+  if (!stop_result) {
+    old_pipelines_.insert(pipeline_id, pipeline);
+    QObject::connect(&*pipeline, &GstEnginePipeline::Stopped, this, [this, pipeline_id]() {
+      qLog(Debug) << "Pipeline" << pipeline_id << "stopped";
+      old_pipelines_.remove(pipeline_id);
+      if (current_pipeline_ && old_pipelines_.isEmpty() && delayed_state_ != State::Empty) {
+        switch (delayed_state_) {
+          case State::Playing:
+            Play(delayed_state_offset_nanosec_);
+            break;
+          case State::Paused:
+            Pause();
+            break;
+          default:
+            break;
+        }
+        delayed_state_ = State::Empty;
+        delayed_state_offset_nanosec_ = 0;
+      }
+    });
+  }
 
 }
 
@@ -1005,5 +1085,25 @@ QString GstEngine::GSTdiscovererErrorMessage(GstDiscovererResult result) {
     case GST_DISCOVERER_ERROR:
     default:                             return QStringLiteral("An error happened and the GError is set");
   }
+
+}
+
+bool GstEngine::ExclusivePipelineActive() const {
+
+  if (old_pipelines_.isEmpty()) {
+    return false;
+  }
+
+  if (current_pipeline_ && current_pipeline_->exclusive_mode()) {
+    return true;
+  }
+
+  for (const GstEnginePipelinePtr &pipeline : std::as_const(old_pipelines_)) {
+    if (pipeline->exclusive_mode()) {
+      return true;
+    }
+  }
+
+  return false;
 
 }
