@@ -728,15 +728,25 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
 
     if (obj_item.contains(QLatin1String("artists")) && obj_item[QLatin1String("artists")].isArray()) {
       QJsonArray array_artists = obj_item[QLatin1String("artists")].toArray();
+      bool artist_matches = false;
       for (const QJsonValueRef value : array_artists) {
         if (!value.isObject()) {
           continue;
         }
         QJsonObject obj_artist = value.toObject();
         if (obj_artist.isEmpty() || !obj_artist.contains(QLatin1String("id")) || !obj_artist.contains(QLatin1String("name"))) continue;
-        artist.artist_id = obj_artist[QLatin1String("id")].toString();
-        artist.artist = obj_artist[QLatin1String("name")].toString();
-        break;
+        if (artist.artist_id.isEmpty() || artist.artist_id == artist_artist.artist_id) {
+          artist.artist_id = obj_artist[QLatin1String("id")].toString();
+          artist.artist = obj_artist[QLatin1String("name")].toString();
+          if (artist.artist_id == artist_artist.artist_id) {
+            artist_matches = true;
+            break;
+          }
+        }
+      }
+      if (!artist_matches && (type_ == Type::FavouriteArtists || type_ == Type::SearchArtists)) {
+        AlbumsFinishCheck(artist_artist);
+        return;
       }
     }
 
