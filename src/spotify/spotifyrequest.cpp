@@ -129,13 +129,13 @@ void SpotifyRequest::Process() {
   }
 
   switch (type_) {
-    case Type::Artists:
+    case Type::FavouriteArtists:
       GetArtists();
       break;
-    case Type::Albums:
+    case Type::FavouriteAlbums:
       GetAlbums();
       break;
-    case Type::Songs:
+    case Type::FavouriteSongs:
       GetSongs();
       break;
     case Type::SearchArtists:
@@ -243,7 +243,7 @@ void SpotifyRequest::FlushArtistsRequests() {
       parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     }
     QNetworkReply *reply = nullptr;
-    if (type_ == Type::Artists) {
+    if (type_ == Type::FavouriteArtists) {
       reply = CreateRequest(QStringLiteral("me/following"), parameters);
     }
     if (type_ == Type::SearchArtists) {
@@ -297,7 +297,7 @@ void SpotifyRequest::FlushAlbumsRequests() {
     if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
     if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
-    if (type_ == Type::Albums) {
+    if (type_ == Type::FavouriteAlbums) {
       reply = CreateRequest(QStringLiteral("me/albums"), parameters);
     }
     if (type_ == Type::SearchAlbums) {
@@ -352,7 +352,7 @@ void SpotifyRequest::FlushSongsRequests() {
       parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     }
     QNetworkReply *reply = nullptr;
-    if (type_ == Type::Songs) {
+    if (type_ == Type::FavouriteSongs) {
       reply = CreateRequest(QStringLiteral("me/tracks"), parameters);
     }
     if (type_ == Type::SearchSongs) {
@@ -539,7 +539,7 @@ void SpotifyRequest::ArtistsFinishCheck(const int limit, const int offset, const
   if ((limit == 0 || limit > artists_received) && artists_received_ < artists_total_) {
     int offset_next = offset + artists_received;
     if (offset_next > 0 && offset_next < artists_total_) {
-      if (type_ == Type::Artists) AddArtistsRequest(offset_next);
+      if (type_ == Type::FavouriteArtists) AddArtistsRequest(offset_next);
       else if (type_ == Type::SearchArtists) AddArtistsSearchRequest(offset_next);
     }
   }
@@ -655,7 +655,7 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
   int offset = json_obj[QLatin1String("offset")].toInt();
   int albums_total = json_obj[QLatin1String("total")].toInt();
 
-  if (type_ == Type::Albums || type_ == Type::SearchAlbums) {
+  if (type_ == Type::FavouriteAlbums || type_ == Type::SearchAlbums) {
     albums_total_ = albums_total;
   }
 
@@ -672,7 +672,7 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
   }
   QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
-    if ((type_ == Type::Albums || type_ == Type::SearchAlbums || (type_ == Type::SearchSongs && fetchalbums_)) && offset_requested == 0) {
+    if ((type_ == Type::FavouriteAlbums || type_ == Type::SearchAlbums || (type_ == Type::SearchSongs && fetchalbums_)) && offset_requested == 0) {
       no_results_ = true;
     }
     AlbumsFinishCheck(artist_artist);
@@ -799,7 +799,7 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
 
   }
 
-  if (type_ == Type::Albums || type_ == Type::SearchAlbums) {
+  if (type_ == Type::FavouriteAlbums || type_ == Type::SearchAlbums) {
     albums_received_ += albums_received;
     emit UpdateProgress(query_id_, GetProgress(albums_received_, albums_total_));
   }
@@ -816,13 +816,13 @@ void SpotifyRequest::AlbumsFinishCheck(const Artist &artist, const int limit, co
     int offset_next = offset + albums_received;
     if (offset_next > 0 && offset_next < albums_total) {
       switch (type_) {
-        case Type::Albums:
+        case Type::FavouriteAlbums:
           AddAlbumsRequest(offset_next);
           break;
         case Type::SearchAlbums:
           AddAlbumsSearchRequest(offset_next);
           break;
-        case Type::Artists:
+        case Type::FavouriteArtists:
         case Type::SearchArtists:
           AddArtistAlbumsRequest(artist, offset_next);
           break;
@@ -954,7 +954,7 @@ void SpotifyRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, c
   int offset = json_obj[QLatin1String("offset")].toInt();
   int songs_total = json_obj[QLatin1String("total")].toInt();
 
-  if (type_ == Type::Songs || type_ == Type::SearchSongs) {
+  if (type_ == Type::FavouriteSongs || type_ == Type::SearchSongs) {
     songs_total_ = songs_total;
   }
 
@@ -972,7 +972,7 @@ void SpotifyRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, c
 
   QJsonArray array_items = json_value.toArray();
   if (array_items.isEmpty()) {
-    if ((type_ == Type::Songs || type_ == Type::SearchSongs) && offset_requested == 0) {
+    if ((type_ == Type::FavouriteSongs || type_ == Type::SearchSongs) && offset_requested == 0) {
       no_results_ = true;
     }
     SongsFinishCheck(artist, album, limit_requested, offset_requested, songs_total, 0);
@@ -1014,7 +1014,7 @@ void SpotifyRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, c
     songs_.insert(song.song_id(), song);
   }
 
-  if (type_ == Type::Songs || type_ == Type::SearchSongs) {
+  if (type_ == Type::FavouriteSongs || type_ == Type::SearchSongs) {
     songs_received_ += songs_received;
     emit UpdateProgress(query_id_, GetProgress(songs_received_, songs_total_));
   }
@@ -1031,7 +1031,7 @@ void SpotifyRequest::SongsFinishCheck(const Artist &artist, const Album &album, 
     int offset_next = offset + songs_received;
     if (offset_next > 0 && offset_next < songs_total) {
       switch (type_) {
-        case Type::Songs:
+        case Type::FavouriteSongs:
           AddSongsRequest(offset_next);
           break;
         case Type::SearchSongs:
@@ -1041,9 +1041,9 @@ void SpotifyRequest::SongsFinishCheck(const Artist &artist, const Album &album, 
             break;
           }
           // fallthrough
-        case Type::Artists:
+        case Type::FavouriteArtists:
         case Type::SearchArtists:
-        case Type::Albums:
+        case Type::FavouriteAlbums:
         case Type::SearchAlbums:
           AddAlbumSongsRequest(artist, album, offset_next);
           break;

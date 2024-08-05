@@ -732,7 +732,7 @@ void TidalService::GetArtists() {
   }
 
   ResetArtistsRequest();
-  artists_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::Artists, this), [](TidalRequest *request) { request->deleteLater(); });
+  artists_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::FavouriteArtists, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(&*artists_request_, &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(&*artists_request_, &TidalRequest::Results, this, &TidalService::ArtistsResultsReceived);
   QObject::connect(&*artists_request_, &TidalRequest::UpdateStatus, this, &TidalService::ArtistsUpdateStatusReceived);
@@ -787,7 +787,7 @@ void TidalService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::Albums, this), [](TidalRequest *request) { request->deleteLater(); });
+  albums_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::FavouriteAlbums, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(&*albums_request_, &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(&*albums_request_, &TidalRequest::Results, this, &TidalService::AlbumsResultsReceived);
   QObject::connect(&*albums_request_, &TidalRequest::UpdateStatus, this, &TidalService::AlbumsUpdateStatusReceived);
@@ -842,7 +842,7 @@ void TidalService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::Songs, this), [](TidalRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::FavouriteSongs, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(&*songs_request_, &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(&*songs_request_, &TidalRequest::Results, this, &TidalService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &TidalRequest::UpdateStatus, this, &TidalService::SongsUpdateStatusReceived);

@@ -121,7 +121,7 @@ class QobuzRequest : public QobuzBaseRequest {
 
  private:
 
-  bool IsQuery() const { return (query_type_ == Type::Artists || query_type_ == Type::Albums || query_type_ == Type::Songs); }
+  bool IsQuery() const { return (query_type_ == Type::FavouriteArtists || query_type_ == Type::FavouriteAlbums || query_type_ == Type::FavouriteSongs); }
   bool IsSearch() const { return (query_type_ == Type::SearchArtists || query_type_ == Type::SearchAlbums || query_type_ == Type::SearchSongs); }
 
   void StartRequests();

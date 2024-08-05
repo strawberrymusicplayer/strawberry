@@ -519,7 +519,7 @@ void SpotifyService::GetArtists() {
   }
 
   ResetArtistsRequest();
-  artists_request_.reset(new SpotifyRequest(this, app_, network_, SpotifyBaseRequest::Type::Artists, this), [](SpotifyRequest *request) { request->deleteLater(); });
+  artists_request_.reset(new SpotifyRequest(this, app_, network_, SpotifyBaseRequest::Type::FavouriteArtists, this), [](SpotifyRequest *request) { request->deleteLater(); });
   QObject::connect(&*artists_request_, &SpotifyRequest::Results, this, &SpotifyService::ArtistsResultsReceived);
   QObject::connect(&*artists_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::ArtistsUpdateStatusReceived);
   QObject::connect(&*artists_request_, &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::ArtistsProgressSetMaximumReceived);
@@ -571,7 +571,7 @@ void SpotifyService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_.reset(new SpotifyRequest(this, app_, network_, SpotifyBaseRequest::Type::Albums, this), [](SpotifyRequest *request) { request->deleteLater(); });
+  albums_request_.reset(new SpotifyRequest(this, app_, network_, SpotifyBaseRequest::Type::FavouriteAlbums, this), [](SpotifyRequest *request) { request->deleteLater(); });
   QObject::connect(&*albums_request_, &SpotifyRequest::Results, this, &SpotifyService::AlbumsResultsReceived);
   QObject::connect(&*albums_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::AlbumsUpdateStatusReceived);
   QObject::connect(&*albums_request_, &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::AlbumsProgressSetMaximumReceived);
@@ -623,7 +623,7 @@ void SpotifyService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new SpotifyRequest(this, app_, network_, SpotifyBaseRequest::Type::Songs, this), [](SpotifyRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new SpotifyRequest(this, app_, network_, SpotifyBaseRequest::Type::FavouriteSongs, this), [](SpotifyRequest *request) { request->deleteLater(); });
   QObject::connect(&*songs_request_, &SpotifyRequest::Results, this, &SpotifyService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::SongsUpdateStatusReceived);
   QObject::connect(&*songs_request_, &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::SongsProgressSetMaximumReceived);

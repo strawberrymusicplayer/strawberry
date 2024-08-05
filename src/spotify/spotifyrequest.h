@@ -117,7 +117,7 @@ class SpotifyRequest : public SpotifyBaseRequest {
  private:
   void StartRequests();
 
-  bool IsQuery() const { return (type_ == Type::Artists || type_ == Type::Albums || type_ == Type::Songs); }
+  bool IsQuery() const { return (type_ == Type::FavouriteArtists || type_ == Type::FavouriteAlbums || type_ == Type::FavouriteSongs); }
   bool IsSearch() const { return (type_ == Type::SearchArtists || type_ == Type::SearchAlbums || type_ == Type::SearchSongs); }
 
   void GetArtists();

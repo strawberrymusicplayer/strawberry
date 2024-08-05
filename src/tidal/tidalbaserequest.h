@@ -50,9 +50,9 @@ class TidalBaseRequest : public QObject {
 
   enum class Type {
     None,
-    Artists,
-    Albums,
-    Songs,
+    FavouriteArtists,
+    FavouriteAlbums,
+    FavouriteSongs,
     SearchArtists,
     SearchAlbums,
     SearchSongs,

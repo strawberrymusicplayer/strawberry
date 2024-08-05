@@ -148,13 +148,13 @@ void TidalRequest::Process() {
   }
 
   switch (query_type_) {
-    case Type::Artists:
+    case Type::FavouriteArtists:
       GetArtists();
       break;
-    case Type::Albums:
+    case Type::FavouriteAlbums:
       GetAlbums();
       break;
-    case Type::Songs:
+    case Type::FavouriteSongs:
       GetSongs();
       break;
     case Type::SearchArtists:
@@ -254,7 +254,7 @@ void TidalRequest::FlushArtistsRequests() {
     if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
     if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
-    if (query_type_ == Type::Artists) {
+    if (query_type_ == Type::FavouriteArtists) {
       reply = CreateRequest(QStringLiteral("users/%1/favorites/artists").arg(service_->user_id()), parameters);
     }
     if (query_type_ == Type::SearchArtists) {
@@ -302,7 +302,7 @@ void TidalRequest::FlushAlbumsRequests() {
     if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
     if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
-    if (query_type_ == Type::Albums) {
+    if (query_type_ == Type::FavouriteAlbums) {
       reply = CreateRequest(QStringLiteral("users/%1/favorites/albums").arg(service_->user_id()), parameters);
     }
     if (query_type_ == Type::SearchAlbums) {
@@ -350,7 +350,7 @@ void TidalRequest::FlushSongsRequests() {
     if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
     if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
     QNetworkReply *reply = nullptr;
-    if (query_type_ == Type::Songs) {
+    if (query_type_ == Type::FavouriteSongs) {
       reply = CreateRequest(QStringLiteral("users/%1/favorites/tracks").arg(service_->user_id()), parameters);
     }
     if (query_type_ == Type::SearchSongs) {
@@ -532,7 +532,7 @@ void TidalRequest::ArtistsFinishCheck(const int limit, const int offset, const i
   if ((limit == 0 || limit > artists_received) && artists_received_ < artists_total_) {
     int offset_next = offset + artists_received;
     if (offset_next > 0 && offset_next < artists_total_) {
-      if (query_type_ == Type::Artists) AddArtistsRequest(offset_next);
+      if (query_type_ == Type::FavouriteArtists) AddArtistsRequest(offset_next);
       else if (query_type_ == Type::SearchArtists) AddArtistsSearchRequest(offset_next);
     }
   }
@@ -766,7 +766,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
 
   }
 
-  if (query_type_ == Type::Albums || query_type_ == Type::SearchAlbums) {
+  if (query_type_ == Type::FavouriteAlbums || query_type_ == Type::SearchAlbums) {
     albums_received_ += albums_received;
     emit UpdateProgress(query_id_, GetProgress(albums_received_, albums_total_));
   }
@@ -783,13 +783,13 @@ void TidalRequest::AlbumsFinishCheck(const Artist &artist, const int limit, cons
     int offset_next = offset + albums_received;
     if (offset_next > 0 && offset_next < albums_total) {
       switch (query_type_) {
-        case Type::Albums:
+        case Type::FavouriteAlbums:
           AddAlbumsRequest(offset_next);
           break;
         case Type::SearchAlbums:
           AddAlbumsSearchRequest(offset_next);
           break;
-        case Type::Artists:
+        case Type::FavouriteArtists:
         case Type::SearchArtists:
           AddArtistAlbumsRequest(artist, offset_next);
           break;
@@ -972,7 +972,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
     songs_.insert(song.song_id(), song);
   }
 
-  if (query_type_ == Type::Songs || query_type_ == Type::SearchSongs) {
+  if (query_type_ == Type::FavouriteSongs || query_type_ == Type::SearchSongs) {
     songs_received_ += songs_received;
     emit UpdateProgress(query_id_, GetProgress(songs_received_, songs_total_));
   }
@@ -989,7 +989,7 @@ void TidalRequest::SongsFinishCheck(const Artist &artist, const Album &album, co
     int offset_next = offset + songs_received;
     if (offset_next > 0 && offset_next < songs_total) {
       switch (query_type_) {
-        case Type::Songs:
+        case Type::FavouriteSongs:
           AddSongsRequest(offset_next);
           break;
         case Type::SearchSongs:
@@ -999,9 +999,9 @@ void TidalRequest::SongsFinishCheck(const Artist &artist, const Album &album, co
             break;
           }
           [[fallthrough]];
-        case Type::Artists:
+        case Type::FavouriteArtists:
         case Type::SearchArtists:
-        case Type::Albums:
+        case Type::FavouriteAlbums:
         case Type::SearchAlbums:
           AddAlbumSongsRequest(artist, album, offset_next);
           break;
