@@ -30,7 +30,9 @@
 
 #include "favoritewidget.h"
 
-const int FavoriteWidget::kStarSize = 15;
+namespace {
+constexpr int kStarSize = 15;
+}
 
 FavoriteWidget::FavoriteWidget(const int tab_index, const bool favorite, QWidget *parent)
     : QWidget(parent),

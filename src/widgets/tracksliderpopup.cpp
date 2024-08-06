@@ -36,11 +36,13 @@
 #include "core/qt_blurimage.h"
 #include "tracksliderpopup.h"
 
-const int TrackSliderPopup::kTextMargin = 4;
-const int TrackSliderPopup::kPointLength = 16;
-const int TrackSliderPopup::kPointWidth = 4;
-const int TrackSliderPopup::kBorderRadius = 4;
-const qreal TrackSliderPopup::kBlurRadius = 20.0;
+namespace {
+constexpr int kTextMargin = 4;
+constexpr int kPointLength = 16;
+constexpr int kPointWidth = 4;
+constexpr int kBorderRadius = 4;
+constexpr qreal kBlurRadius = 20.0;
+}  // namespace
 
 TrackSliderPopup::TrackSliderPopup(QWidget *parent)
     : QWidget(parent),

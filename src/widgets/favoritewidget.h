@@ -51,8 +51,6 @@ class FavoriteWidget : public QWidget {
   void mouseDoubleClickEvent(QMouseEvent*) override;
 
  private:
-  static const int kStarSize;
-
   // The playlist's id this widget belongs to
   int tab_index_;
   bool favorite_;

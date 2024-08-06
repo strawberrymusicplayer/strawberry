@@ -123,7 +123,6 @@ class AlbumCoverLoader : public QObject {
   void LoadRemoteImageFinished(QNetworkReply *reply, AlbumCoverLoader::TaskPtr task, const AlbumCoverLoaderResult::Type result_type, const QUrl &cover_url);
 
  private:
-  static const int kMaxRedirects = 3;
   SharedPtr<NetworkAccessManager> network_;
   bool stop_requested_;
   QMutex mutex_load_image_async_;

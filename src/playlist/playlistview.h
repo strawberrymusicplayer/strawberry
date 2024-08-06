@@ -186,11 +186,6 @@ class PlaylistView : public QTreeView {
   void GlowIntensityChanged();
 
  private:
-  static const int kGlowIntensitySteps;
-  static const int kAutoscrollGraceTimeout;
-  static const int kDropIndicatorWidth;
-  static const int kDropIndicatorGradientWidth;
-
   QList<int> GetEditableColumns();
   QModelIndex NextEditableIndex(const QModelIndex &current);
   QModelIndex PrevEditableIndex(const QModelIndex &current);

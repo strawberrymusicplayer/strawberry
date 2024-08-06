@@ -34,9 +34,11 @@
 #include "lyricsprovider.h"
 #include "lyricsproviders.h"
 
-const int LyricsFetcherSearch::kSearchTimeoutMs = 3000;
-const int LyricsFetcherSearch::kGoodLyricsLength = 60;
-const float LyricsFetcherSearch::kHighScore = 2.5;
+namespace {
+constexpr int kSearchTimeoutMs = 3000;
+constexpr int kGoodLyricsLength = 60;
+constexpr float kHighScore = 2.5;
+}  // namespace
 
 LyricsFetcherSearch::LyricsFetcherSearch(const quint64 id, const LyricsSearchRequest &request, QObject *parent)
     : QObject(parent),

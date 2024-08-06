@@ -64,8 +64,6 @@ class PlaylistBackend : public QObject {
   };
   using PlaylistList = QList<Playlist>;
 
-  static const int kSongTableJoins;
-
   void Close();
   void ExitAsync();
 

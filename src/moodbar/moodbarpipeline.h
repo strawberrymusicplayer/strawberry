@@ -63,8 +63,6 @@ class MoodbarPipeline : public QObject {
   static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage *msg, gpointer data);
 
  private:
-  static const int kBands;
-
   QUrl url_;
   GstElement *pipeline_;
   GstElement *convert_element_;

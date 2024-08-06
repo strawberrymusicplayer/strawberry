@@ -34,7 +34,9 @@
 #include "deletefiles.h"
 #include "musicstorage.h"
 
-const int DeleteFiles::kBatchSize = 50;
+namespace {
+constexpr int kBatchSize = 50;
+}
 
 DeleteFiles::DeleteFiles(SharedPtr<TaskManager> task_manager, SharedPtr<MusicStorage> storage, const bool use_trash, QObject *parent)
     : QObject(parent),

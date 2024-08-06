@@ -36,12 +36,14 @@
 #include "analyzerbase.h"
 #include "fht.h"
 
-const int BlockAnalyzer::kHeight = 2;
-const int BlockAnalyzer::kWidth = 4;
-const int BlockAnalyzer::kMinRows = 3;       // arbitrary
-const int BlockAnalyzer::kMinColumns = 32;   // arbitrary
-const int BlockAnalyzer::kMaxColumns = 256;  // must be 2**n
-const int BlockAnalyzer::kFadeSize = 90;
+namespace {
+constexpr int kHeight = 2;
+constexpr int kWidth = 4;
+constexpr int kMinRows = 3;       // arbitrary
+constexpr int kMinColumns = 32;   // arbitrary
+constexpr int kMaxColumns = 256;  // must be 2**n
+constexpr int kFadeSize = 90;
+}  // namespace
 
 const char *BlockAnalyzer::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Block analyzer");
 

@@ -37,8 +37,10 @@ extern HICON qt_pixmapToWinHICON(const QPixmap &p);
 #include "core/logging.h"
 #include "windows7thumbbar.h"
 
-const int Windows7ThumbBar::kIconSize = 16;
-const int Windows7ThumbBar::kMaxButtonCount = 7;
+namespace {
+constexpr int kIconSize = 16;
+constexpr int kMaxButtonCount = 7;
+}  // namespace
 
 Windows7ThumbBar::Windows7ThumbBar(QWidget *widget)
     : QObject(widget),

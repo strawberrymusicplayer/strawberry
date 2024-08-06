@@ -81,10 +81,12 @@
 #  include "moodbar/moodbaritemdelegate.h"
 #endif
 
-const int PlaylistView::kGlowIntensitySteps = 24;
-const int PlaylistView::kAutoscrollGraceTimeout = 30;  // seconds
-const int PlaylistView::kDropIndicatorWidth = 2;
-const int PlaylistView::kDropIndicatorGradientWidth = 5;
+namespace {
+constexpr int kGlowIntensitySteps = 24;
+constexpr int kAutoscrollGraceTimeout = 30;  // seconds
+constexpr int kDropIndicatorWidth = 2;
+constexpr int kDropIndicatorGradientWidth = 5;
+}  // namespace
 
 PlaylistView::PlaylistView(QWidget *parent)
     : QTreeView(parent),

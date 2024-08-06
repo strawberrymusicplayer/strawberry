@@ -35,7 +35,9 @@
 
 using namespace std::chrono_literals;
 
-const int LyricsFetcher::kMaxConcurrentRequests = 5;
+namespace {
+constexpr int kMaxConcurrentRequests = 5;
+}
 
 LyricsFetcher::LyricsFetcher(SharedPtr<LyricsProviders> lyrics_providers, QObject *parent)
     : QObject(parent),

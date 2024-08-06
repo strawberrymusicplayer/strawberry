@@ -54,7 +54,10 @@
 #include "playlistmanager.h"
 #include "playlisttabbar.h"
 
-const char *PlaylistTabBar::kSettingsGroup = "PlaylistTabBar";
+namespace {
+constexpr char kSettingsGroup[] = "PlaylistTabBar";
+constexpr int kDragHoverTimeout = 500;
+}  // namespace
 
 PlaylistTabBar::PlaylistTabBar(QWidget *parent)
     : QTabBar(parent),

@@ -41,7 +41,9 @@
 
 using std::make_unique;
 
-const int MoodbarPipeline::kBands = 128;
+namespace {
+constexpr int kBands = 128;
+}
 
 MoodbarPipeline::MoodbarPipeline(const QUrl &url, QObject *parent)
     : QObject(parent),

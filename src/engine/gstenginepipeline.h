@@ -193,11 +193,6 @@ class GstEnginePipeline : public QObject {
   void FaderTimelineFinished();
 
  private:
-  static const int kGstStateTimeoutNanosecs;
-  static const int kFaderFudgeMsec;
-  static const int kEqBandCount;
-  static const int kEqBandFrequencies[];
-
   // Using == to compare two pipelines is a bad idea, because new ones often get created in the same address as old ones.  This ID will be unique for each pipeline.
   // Threading warning: access to the static ID field isn't protected by a mutex because all pipeline creation is currently done in the main thread.
   static int sId;

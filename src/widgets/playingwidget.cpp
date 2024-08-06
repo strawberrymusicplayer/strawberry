@@ -47,21 +47,25 @@
 
 using std::make_unique;
 
-const char *PlayingWidget::kSettingsGroup = "PlayingWidget";
+namespace {
+
+constexpr char kSettingsGroup[] = "PlayingWidget";
 
 // Space between the cover and the details in small mode
-const int PlayingWidget::kPadding = 2;
+constexpr int kPadding = 2;
 
 // Width of the transparent to black gradient above and below the text in large mode
-const int PlayingWidget::kGradientHead = 40;
-const int PlayingWidget::kGradientTail = 20;
+constexpr int kGradientHead = 40;
+constexpr int kGradientTail = 20;
 
 // Maximum height of the cover in large mode, and offset between the bottom of the cover and bottom of the widget
-const int PlayingWidget::kMaxCoverSize = 260;
-const int PlayingWidget::kBottomOffset = 0;
+constexpr int kMaxCoverSize = 260;
+constexpr int kBottomOffset = 0;
 
 // Border for large mode
-const int PlayingWidget::kTopBorder = 4;
+constexpr int kTopBorder = 4;
+
+}  // namespace
 
 PlayingWidget::PlayingWidget(QWidget *parent)
     : QWidget(parent),

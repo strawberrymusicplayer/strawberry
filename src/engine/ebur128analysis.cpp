@@ -47,9 +47,9 @@
 
 using std::unique_ptr;
 
-static const int kTimeoutSecs = 60;
-
 namespace {
+
+constexpr int kTimeoutSecs = 60;
 
 struct ebur128_state_deleter {
   void operator()(ebur128_state *p) const { ebur128_destroy(&p); };

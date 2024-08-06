@@ -54,9 +54,6 @@ class PlaylistTabBar : public QTabBar {
  public:
   explicit PlaylistTabBar(QWidget *parent = nullptr);
 
-  static const int kDragHoverTimeout = 500;
-  static const char *kSettingsGroup;
-
   void SetActions(QAction *new_playlist, QAction *load_playlist);
   void SetManager(SharedPtr<PlaylistManager> manager);
 

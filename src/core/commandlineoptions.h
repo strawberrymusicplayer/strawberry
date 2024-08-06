@@ -41,9 +41,6 @@ class CommandlineOptions {
  public:
   explicit CommandlineOptions(int argc = 0, char **argv = nullptr);
 
-  static const char *kHelpText;
-  static const char *kVersionText;
-
   // Don't change the values or order, these get serialised and sent to
   // possibly a different version of Strawberry
   enum class UrlListAction {

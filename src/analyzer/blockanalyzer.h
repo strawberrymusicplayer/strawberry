@@ -43,13 +43,6 @@ class BlockAnalyzer : public AnalyzerBase {
  public:
   Q_INVOKABLE explicit BlockAnalyzer(QWidget*);
 
-  static const int kHeight;
-  static const int kWidth;
-  static const int kMinRows;
-  static const int kMinColumns;
-  static const int kMaxColumns;
-  static const int kFadeSize;
-
   static const char *kName;
 
  protected:

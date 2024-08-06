@@ -54,8 +54,6 @@ class PlaylistContainer : public QWidget {
   explicit PlaylistContainer(QWidget *parent = nullptr);
   ~PlaylistContainer() override;
 
-  static const char *kSettingsGroup;
-
   void SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist, QAction *save_all_playlists);
   void SetManager(SharedPtr<PlaylistManager> manager);
   void ReloadSettings();
@@ -113,9 +111,6 @@ class PlaylistContainer : public QWidget {
   void RepositionNoMatchesLabel(bool force = false);
 
  private:
-  static const int kFilterDelayMs;
-  static const int kFilterDelayPlaylistSizeThreshold;
-
   Ui_PlaylistContainer *ui_;
 
   SharedPtr<PlaylistManager> manager_;

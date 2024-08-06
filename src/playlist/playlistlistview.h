@@ -62,8 +62,6 @@ class PlaylistListView : public AutoExpandingTreeView {
   void timerEvent(QTimerEvent *e) override;
 
  private:
-  static const int kDragHoverTimeout = 500;
-
   QBasicTimer drag_hover_timer_;
 };
 

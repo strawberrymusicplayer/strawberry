@@ -66,11 +66,6 @@ class Organize : public QObject {
   explicit Organize(SharedPtr<TaskManager> task_manager, SharedPtr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool albumcover, const NewSongInfoList &songs, const bool eject_after, const QString &playlist = QString(), QObject *parent = nullptr);
   ~Organize() override;
 
-  static const int kBatchSize;
-#ifdef HAVE_GSTREAMER
-  static const int kTranscodeProgressInterval;
-#endif
-
   void Start();
 
  signals:

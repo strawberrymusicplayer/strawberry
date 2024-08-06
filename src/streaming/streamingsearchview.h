@@ -177,11 +177,6 @@ class StreamingSearchView : public QWidget {
   void ReloadSettings();
 
  private:
-  static const int kSwapModelsTimeoutMsec;
-  static const int kDelayedSearchTimeoutMs;
-  static const int kArtHeight;
-
- private:
   Application *app_;
   SharedPtr<StreamingService> service_;
   Ui_StreamingSearchView *ui_;

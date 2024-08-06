@@ -49,9 +49,10 @@
 #include "equalizerslider.h"
 #include "ui_equalizer.h"
 
-const char *Equalizer::kGainText[] = { "60", "170", "310", "600", "1k", "3k", "6k", "12k", "14k", "16k" };
-
-const char *Equalizer::kSettingsGroup = "Equalizer";
+namespace {
+constexpr char kSettingsGroup[] = "Equalizer";
+const char *kGainText[] = { "60", "170", "310", "600", "1k", "3k", "6k", "12k", "14k", "16k" };
+}  // namespace
 
 Equalizer::Equalizer(QWidget *parent)
     : QDialog(parent),

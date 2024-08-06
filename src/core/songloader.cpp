@@ -62,8 +62,11 @@
 #  include "device/cddasongloader.h"
 #endif
 
+namespace {
+constexpr int kDefaultTimeout = 5000;
+}
+
 QSet<QString> SongLoader::sRawUriSchemes;
-const int SongLoader::kDefaultTimeout = 5000;
 
 SongLoader::SongLoader(SharedPtr<CollectionBackendInterface> collection_backend, const SharedPtr<Player> player, QObject *parent)
     : QObject(parent),

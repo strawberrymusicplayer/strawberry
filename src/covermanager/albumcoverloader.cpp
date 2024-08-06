@@ -46,6 +46,10 @@
 
 using std::make_shared;
 
+namespace {
+constexpr int kMaxRedirects = 3;
+}
+
 AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
     : QObject(parent),
       network_(new NetworkAccessManager(this)),

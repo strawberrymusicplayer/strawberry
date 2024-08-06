@@ -39,7 +39,9 @@
 #include "radiomimedata.h"
 #include "radiochannel.h"
 
-const int RadioModel::kTreeIconSize = 22;
+namespace {
+constexpr int kTreeIconSize = 22;
+}
 
 RadioModel::RadioModel(Application *app, QObject *parent)
     : SimpleTreeModel<RadioItem>(new RadioItem(this), parent),

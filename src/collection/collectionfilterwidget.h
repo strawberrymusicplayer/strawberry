@@ -51,8 +51,6 @@ class CollectionFilterWidget : public QWidget {
   explicit CollectionFilterWidget(QWidget *parent = nullptr);
   ~CollectionFilterWidget() override;
 
-  static const int kFilterDelay = 500;  // msec
-
   enum class DelayBehaviour {
     AlwaysInstant,
     DelayedOnLargeLibraries,

@@ -48,12 +48,6 @@ class TrackSliderPopup : public QWidget {
   void paintEvent(QPaintEvent*) override;
 
  private:
-  static const int kTextMargin;
-  static const int kPointLength;
-  static const int kPointWidth;
-  static const int kBorderRadius;
-  static const qreal kBlurRadius;
-
   void UpdatePixmap();
   void UpdatePosition();
   void SendMouseEventToParent(QMouseEvent *e);

@@ -71,13 +71,15 @@
 #include "playlist/playlist.h"
 #include "playlistdelegates.h"
 
-const int QueuedItemDelegate::kQueueBoxBorder = 1;
-const int QueuedItemDelegate::kQueueBoxCornerRadius = 3;
-const int QueuedItemDelegate::kQueueBoxLength = 30;
-const QRgb QueuedItemDelegate::kQueueBoxGradientColor1 = qRgb(102, 150, 227);
-const QRgb QueuedItemDelegate::kQueueBoxGradientColor2 = qRgb(77, 121, 200);
-const int QueuedItemDelegate::kQueueOpacitySteps = 10;
-const float QueuedItemDelegate::kQueueOpacityLowerBound = 0.4F;
+namespace {
+constexpr int kQueueBoxBorder = 1;
+constexpr int kQueueBoxCornerRadius = 3;
+constexpr int kQueueBoxLength = 30;
+constexpr QRgb kQueueBoxGradientColor1 = qRgb(102, 150, 227);
+constexpr QRgb kQueueBoxGradientColor2 = qRgb(77, 121, 200);
+constexpr int kQueueOpacitySteps = 10;
+constexpr float kQueueOpacityLowerBound = 0.4F;
+}  // namespace
 
 const int PlaylistDelegateBase::kMinHeight = 19;
 

@@ -29,7 +29,9 @@
 #include "autoexpandingtreeview.h"
 #include "core/mimedata.h"
 
-const int AutoExpandingTreeView::kRowsToShow = 50;
+namespace {
+constexpr int kRowsToShow = 50;
+}
 
 AutoExpandingTreeView::AutoExpandingTreeView(QWidget *parent)
     : QTreeView(parent),

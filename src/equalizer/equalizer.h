@@ -44,9 +44,7 @@ class Equalizer : public QDialog {
   explicit Equalizer(QWidget *parent = nullptr);
   ~Equalizer() override;
 
-  static const int kBands = 10;
-  static const char *kGainText[kBands];
-  static const char *kSettingsGroup;
+  static constexpr int kBands = 10;
 
   struct Params {
     Params();

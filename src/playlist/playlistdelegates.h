@@ -66,14 +66,6 @@ class QueuedItemDelegate : public QStyledItemDelegate {
   int queue_indicator_size(const QModelIndex &idx) const;
 
  private:
-  static const int kQueueBoxBorder;
-  static const int kQueueBoxCornerRadius;
-  static const int kQueueBoxLength;
-  static const QRgb kQueueBoxGradientColor1;
-  static const QRgb kQueueBoxGradientColor2;
-  static const int kQueueOpacitySteps;
-  static const float kQueueOpacityLowerBound;
-
   int indicator_column_;
 };
 

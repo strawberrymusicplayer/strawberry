@@ -51,10 +51,10 @@ using namespace std::chrono_literals;
 
 class OrganizeFormat;
 
-const int Organize::kBatchSize = 10;
-#ifdef HAVE_GSTREAMER
-const int Organize::kTranscodeProgressInterval = 500;
-#endif
+namespace {
+constexpr int kBatchSize = 10;
+constexpr int kTranscodeProgressInterval = 500;
+}  // namespace
 
 Organize::Organize(SharedPtr<TaskManager> task_manager, SharedPtr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool albumcover, const NewSongInfoList &songs_info, const bool eject_after, const QString &playlist, QObject *parent)
     : QObject(parent),

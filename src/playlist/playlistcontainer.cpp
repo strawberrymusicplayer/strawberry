@@ -61,9 +61,11 @@
 #include "widgets/qsearchfield.h"
 #include "settings/appearancesettingspage.h"
 
-const char *PlaylistContainer::kSettingsGroup = "Playlist";
-const int PlaylistContainer::kFilterDelayMs = 100;
-const int PlaylistContainer::kFilterDelayPlaylistSizeThreshold = 5000;
+namespace {
+constexpr char kSettingsGroup[] = "Playlist";
+constexpr int kFilterDelayMs = 100;
+constexpr int kFilterDelayPlaylistSizeThreshold = 5000;
+}  // namespace
 
 PlaylistContainer::PlaylistContainer(QWidget *parent)
     : QWidget(parent),

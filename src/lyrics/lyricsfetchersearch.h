@@ -57,10 +57,6 @@ class LyricsFetcherSearch : public QObject {
   static bool LyricsSearchResultCompareScore(const LyricsSearchResult &a, const LyricsSearchResult &b);
 
  private:
-  static const int kSearchTimeoutMs;
-  static const int kGoodLyricsLength;
-  static const float kHighScore;
-
   quint64 id_;
   LyricsSearchRequest request_;
   LyricsSearchResults results_;

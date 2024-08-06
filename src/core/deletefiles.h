@@ -41,8 +41,6 @@ class DeleteFiles : public QObject {
   explicit DeleteFiles(SharedPtr<TaskManager> task_manager, SharedPtr<MusicStorage> storage, const bool use_trash, QObject *parent = nullptr);
   ~DeleteFiles() override;
 
-  static const int kBatchSize;
-
   void Start(const SongList &songs);
   void Start(const QStringList &filenames);
 

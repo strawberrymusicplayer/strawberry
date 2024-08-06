@@ -56,8 +56,6 @@ class DeviceDatabaseBackend : public QObject {
   };
   using DeviceList = QList<Device>;
 
-  static const int kDeviceSchemaVersion;
-
   void Init(SharedPtr<Database> db);
   void Close();
   void ExitAsync();

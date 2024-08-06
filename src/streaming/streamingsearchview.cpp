@@ -86,9 +86,11 @@
 
 using std::make_unique;
 
-const int StreamingSearchView::kSwapModelsTimeoutMsec = 250;
-const int StreamingSearchView::kDelayedSearchTimeoutMs = 200;
-const int StreamingSearchView::kArtHeight = 32;
+namespace {
+constexpr int kSwapModelsTimeoutMsec = 250;
+constexpr int kDelayedSearchTimeoutMs = 200;
+constexpr int kArtHeight = 32;
+}  // namespace
 
 StreamingSearchView::StreamingSearchView(QWidget *parent)
     : QWidget(parent),

@@ -55,7 +55,9 @@
 
 using std::make_shared;
 
-const int PlaylistBackend::kSongTableJoins = 2;
+namespace {
+constexpr int kSongTableJoins = 2;
+}
 
 PlaylistBackend::PlaylistBackend(Application *app, QObject *parent)
     : QObject(parent),

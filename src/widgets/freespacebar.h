@@ -39,21 +39,6 @@ class FreeSpaceBar : public QWidget {
  public:
   explicit FreeSpaceBar(QWidget *parent = nullptr);
 
-  static const int kBarHeight;
-  static const int kBarBorderRadius;
-  static const int kMarkerSpacing;
-  static const int kLabelBoxSize;
-  static const int kLabelBoxPadding;
-  static const int kLabelSpacing;
-
-  static const QRgb kColorBg1;
-  static const QRgb kColorBg2;
-  static const QRgb kColorAdd1;
-  static const QRgb kColorAdd2;
-  static const QRgb kColorBar1;
-  static const QRgb kColorBar2;
-  static const QRgb kColorBorder;
-
   void set_free_bytes(const quint64 bytes) { free_ = bytes; update(); }
   void set_additional_bytes(const quint64 bytes) { additional_ = bytes; update(); }
   void set_total_bytes(const quint64 bytes) { total_ = bytes; update(); }

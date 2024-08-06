@@ -47,8 +47,10 @@
 #include "core/multisortfilterproxy.h"
 #include "groupediconview.h"
 
-const int GroupedIconView::kBarThickness = 2;
-const int GroupedIconView::kBarMarginTop = 3;
+namespace {
+constexpr int kBarThickness = 2;
+constexpr int kBarMarginTop = 3;
+}  // namespace
 
 GroupedIconView::GroupedIconView(QWidget *parent)
     : QListView(parent),

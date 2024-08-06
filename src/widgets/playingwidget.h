@@ -102,14 +102,6 @@ class PlayingWidget : public QWidget {
   void FadePreviousTrack(const qreal value);
 
  private:
-  static const char *kSettingsGroup;
-  static const int kPadding;
-  static const int kGradientHead;
-  static const int kGradientTail;
-  static const int kMaxCoverSize;
-  static const int kBottomOffset;
-  static const int kTopBorder;
-
   Application *app_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
   Mode mode_;

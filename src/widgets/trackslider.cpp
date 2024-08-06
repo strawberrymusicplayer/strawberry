@@ -41,7 +41,9 @@
 #  include "moodbar/moodbarproxystyle.h"
 #endif
 
-const char *TrackSlider::kSettingsGroup = "MainWindow";
+namespace {
+constexpr char kSettingsGroup[] = "MainWindow";
+}
 
 TrackSlider::TrackSlider(QWidget *parent)
     : QWidget(parent),

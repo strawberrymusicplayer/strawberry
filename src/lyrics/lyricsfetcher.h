@@ -69,8 +69,6 @@ class LyricsFetcher : public QObject {
   void StartRequests();
 
  private:
-  static const int kMaxConcurrentRequests;
-
   SharedPtr<LyricsProviders> lyrics_providers_;
   quint64 next_id_;
 

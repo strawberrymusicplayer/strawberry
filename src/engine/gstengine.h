@@ -56,6 +56,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   ~GstEngine() override;
 
   static const char *kAutoSink;
+  static const char *kALSASink;
 
   Type type() const override { return Type::GStreamer; }
   bool Init() override;
@@ -142,23 +143,6 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
 
  private:
-  static const char *kALSASink;
-  static const char *kOpenALSASink;
-  static const char *kOSSSink;
-  static const char *kOSS4Sink;
-  static const char *kJackAudioSink;
-  static const char *kPulseSink;
-  static const char *kA2DPSink;
-  static const char *kAVDTPSink;
-  static const char *InterAudiosink;
-  static const char *kDirectSoundSink;
-  static const char *kOSXAudioSink;
-  static const char *kWASAPISink;
-  static const int kDiscoveryTimeoutS;
-  static const qint64 kTimerIntervalNanosec;
-  static const qint64 kPreloadGapNanosec;
-  static const qint64 kSeekDelayNanosec;
-
   SharedPtr<TaskManager> task_manager_;
   GstStartup *gst_startup_;
   GstDiscoverer *discoverer_;

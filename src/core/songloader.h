@@ -68,8 +68,6 @@ class SongLoader : public QObject {
     BlockingLoadRequired
   };
 
-  static const int kDefaultTimeout;
-
   const QUrl &url() const { return url_; }
   const SongList &songs() const { return songs_; }
 

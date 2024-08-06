@@ -61,6 +61,10 @@
 #include "settings/collectionsettingspage.h"
 #include "settings/appearancesettingspage.h"
 
+namespace {
+constexpr int kFilterDelay = 500;  // msec
+}
+
 CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_CollectionFilterWidget),

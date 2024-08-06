@@ -101,8 +101,6 @@ class ContextView : public QWidget {
   void AlbumCoverLoaded(const Song &song, const QImage &image);
 
  private:
-  static const int kWidgetSpacing;
-
   Application *app_;
   CollectionView *collectionview_;
   AlbumCoverChoiceController *album_cover_choice_controller_;

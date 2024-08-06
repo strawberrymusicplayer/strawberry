@@ -46,7 +46,9 @@
 
 #include <getopt.h>
 
-const char *CommandlineOptions::kHelpText =
+namespace {
+
+constexpr char kHelpText[] =
     "%1: strawberry [%2] [%3]\n"
     "\n"
     "%4:\n"
@@ -83,7 +85,9 @@ const char *CommandlineOptions::kHelpText =
     "      --log-levels <levels>  %33\n"
     "      --version              %34\n";
 
-const char *CommandlineOptions::kVersionText = "Strawberry %1";
+constexpr char kVersionText[] = "Strawberry %1";
+
+}  // namespace
 
 CommandlineOptions::CommandlineOptions(int argc, char **argv)
     : argc_(argc),

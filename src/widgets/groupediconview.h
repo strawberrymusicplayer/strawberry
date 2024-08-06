@@ -100,9 +100,6 @@ class GroupedIconView : public QListView {
   void LayoutItems();
 
  private:
-  static const int kBarThickness;
-  static const int kBarMarginTop;
-
   struct Header {
     int y;
     int first_row;

@@ -33,6 +33,10 @@
 #include "playlistlistview.h"
 #include "playlist.h"
 
+namespace {
+constexpr int kDragHoverTimeout = 500;
+}
+
 PlaylistListView::PlaylistListView(QWidget *parent) : AutoExpandingTreeView(parent) {}
 
 void PlaylistListView::paintEvent(QPaintEvent *event) {

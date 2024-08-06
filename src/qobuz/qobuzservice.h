@@ -72,7 +72,7 @@ class QobuzService : public StreamingService {
   int Search(const QString &text, StreamingSearchView::SearchType type) override;
   void CancelSearch() override;
 
-  int max_login_attempts() { return kLoginAttempts; }
+  int max_login_attempts() const { return kLoginAttempts; }
 
   Application *app() const { return app_; }
   QString app_id() const { return app_id_; }

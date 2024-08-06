@@ -34,9 +34,11 @@
 #include "multiloadingindicator.h"
 #include "widgets/busyindicator.h"
 
-const int MultiLoadingIndicator::kVerticalPadding = 4;
-const int MultiLoadingIndicator::kHorizontalPadding = 6;
-const int MultiLoadingIndicator::kSpacing = 6;
+namespace {
+constexpr int kVerticalPadding = 4;
+constexpr int kHorizontalPadding = 6;
+constexpr int kSpacing = 6;
+}
 
 MultiLoadingIndicator::MultiLoadingIndicator(QWidget *parent)
     : QWidget(parent),

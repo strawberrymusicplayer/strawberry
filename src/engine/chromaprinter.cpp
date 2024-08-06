@@ -43,10 +43,12 @@
 using u_int32_t = unsigned int;
 #endif
 
-static const int kDecodeRate = 11025;
-static const int kDecodeChannels = 1;
-static const int kPlayLengthSecs = 30;
-static const int kTimeoutSecs = 10;
+namespace {
+constexpr int kDecodeRate = 11025;
+constexpr int kDecodeChannels = 1;
+constexpr int kPlayLengthSecs = 30;
+constexpr int kTimeoutSecs = 10;
+}  // namespace
 
 Chromaprinter::Chromaprinter(const QString &filename)
     : filename_(filename),

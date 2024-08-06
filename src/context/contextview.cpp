@@ -65,7 +65,9 @@
 #include "contextview.h"
 #include "contextalbum.h"
 
-const int ContextView::kWidgetSpacing = 50;
+namespace {
+constexpr int kWidgetSpacing = 50;
+}
 
 ContextView::ContextView(QWidget *parent)
     : QWidget(parent),

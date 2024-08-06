@@ -44,20 +44,23 @@
 
 class QPaintEvent;
 
-const int FreeSpaceBar::kBarHeight = 20;
-const int FreeSpaceBar::kBarBorderRadius = 8;
-const int FreeSpaceBar::kMarkerSpacing = 32;
-const int FreeSpaceBar::kLabelBoxSize = 12;
-const int FreeSpaceBar::kLabelBoxPadding = 4;
-const int FreeSpaceBar::kLabelSpacing = 16;
+namespace {
+constexpr int kBarHeight = 20;
+constexpr int kBarBorderRadius = 8;
+constexpr int kMarkerSpacing = 32;
+constexpr int kLabelBoxSize = 12;
+constexpr int kLabelBoxPadding = 4;
+constexpr int kLabelSpacing = 16;
 
-const QRgb FreeSpaceBar::kColorBg1 = qRgb(214, 207, 200);
-const QRgb FreeSpaceBar::kColorBg2 = qRgb(234, 226, 218);
-const QRgb FreeSpaceBar::kColorAdd1 = qRgb(136, 180, 229);
-const QRgb FreeSpaceBar::kColorAdd2 = qRgb(72, 146, 229);
-const QRgb FreeSpaceBar::kColorBar1 = qRgb(250, 148, 76);
-const QRgb FreeSpaceBar::kColorBar2 = qRgb(214, 102, 24);
-const QRgb FreeSpaceBar::kColorBorder = qRgb(174, 168, 162);
+constexpr QRgb kColorBg1 = qRgb(214, 207, 200);
+constexpr QRgb kColorBg2 = qRgb(234, 226, 218);
+constexpr QRgb kColorAdd1 = qRgb(136, 180, 229);
+constexpr QRgb kColorAdd2 = qRgb(72, 146, 229);
+constexpr QRgb kColorBar1 = qRgb(250, 148, 76);
+constexpr QRgb kColorBar2 = qRgb(214, 102, 24);
+constexpr QRgb kColorBorder = qRgb(174, 168, 162);
+
+}  // namespace
 
 FreeSpaceBar::FreeSpaceBar(QWidget *parent)
     : QWidget(parent),
