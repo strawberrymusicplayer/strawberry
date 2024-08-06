@@ -204,6 +204,10 @@ void AnalyzerContainer::Load() {
         break;
       }
     }
+    if (!current_analyzer_) {
+      ChangeAnalyzer(0);
+      actions_[0]->setChecked(true);
+    }
   }
 
   // Framerate
