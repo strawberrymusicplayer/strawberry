@@ -547,7 +547,10 @@ void ContextView::SetSong() {
 
 void ContextView::UpdateSong(const Song &song) {
 
-  textedit_top_->SetText(QStringLiteral("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, QStringLiteral("<br />"), true), Utilities::ReplaceMessage(summary_fmt_, song, QStringLiteral("<br />"), true)));
+  const QString top_text = QStringLiteral("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, QStringLiteral("<br />"), true), Utilities::ReplaceMessage(summary_fmt_, song, QStringLiteral("<br />"), true));
+  if (top_text != textedit_top_->Text()) {
+    textedit_top_->SetText(top_text);
+  }
 
   if (action_show_data_->isChecked()) {
     if (song.filetype() != song_playing_.filetype()) label_filetype_->setText(song.TextForFiletype());
