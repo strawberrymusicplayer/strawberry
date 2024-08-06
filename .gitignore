@@ -13,4 +13,3 @@
 /dist/scripts/maketarball.sh
 /dist/unix/strawberry.spec
 /dist/windows/strawberry.nsi
-src/translations/translations.pot
