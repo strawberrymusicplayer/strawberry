@@ -46,6 +46,8 @@ void ResizableTextEdit::resizeEvent(QResizeEvent *e) {
 
 void ResizableTextEdit::SetText(const QString &text) {
 
+  text_ = text;
+
   QTextEdit::setText(text);
 
   updateGeometry();
