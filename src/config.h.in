@@ -57,4 +57,7 @@
 
 #cmakedefine HAVE_EBUR128
 
+#cmakedefine HAVE_VISUALIZATIONS
+#cmakedefine HAVE_PROJECTM4
+
 #endif // CONFIG_H_IN

@@ -211,6 +211,11 @@
 
 #include "organize/organizeerrordialog.h"
 
+#ifdef HAVE_VISUALIZATIONS
+#  include "visualizations/visualizationcontainer.h"
+#  include "engine/gstengine.h"
+#endif
+
 #ifdef Q_OS_WIN
 #  include "windows7thumbbar.h"
 #endif
@@ -594,6 +599,12 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   stop_menu->addAction(ui_->action_stop_after_this_track);
   ui_->stop_button->setMenu(stop_menu);
 
+#ifdef HAVE_VISUALIZATIONS
+  QObject::connect(ui_->action_visualizations, &QAction::triggered, this, &MainWindow::ShowVisualizations);
+#else
+  ui_->action_visualizations->setEnabled(false);
+#endif
+
   // Player connections
   QObject::connect(ui_->volume, &VolumeSlider::valueChanged, &*app_->player(), &Player::SetVolumeFromSlider);
 
@@ -859,6 +870,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   // Analyzer
   QObject::connect(ui_->analyzer, &AnalyzerContainer::WheelEvent, this, &MainWindow::VolumeWheelEvent);
+  ui_->analyzer->SetVisualizationsAction(ui_->action_visualizations);
 
   // Statusbar widgets
   ui_->playlist_summary->setMinimumWidth(QFontMetrics(font()).horizontalAdvance(QStringLiteral("WW selected of WW tracks - [ WW:WW ]")));
@@ -3336,5 +3348,26 @@ void MainWindow::FocusSearchField() {
   else if (!ui_->playlist->SearchFieldHasFocus()) {
     ui_->playlist->FocusSearchField();
   }
+
+}
+
+void MainWindow::ShowVisualizations() {
+
+#ifdef HAVE_VISUALIZATIONS
+
+  if (!visualization_) {
+    visualization_.reset(new VisualizationContainer);
+
+    visualization_->SetActions(ui_->action_previous_track, ui_->action_play_pause, ui_->action_stop, ui_->action_next_track);
+    connect(&*app_->player(), &Player::Stopped, &*visualization_, &VisualizationContainer::Stopped);
+    connect(&*app_->player(), &Player::ForceShowOSD, &*visualization_, &VisualizationContainer::SongMetadataChanged);
+    connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*visualization_, &VisualizationContainer::SongMetadataChanged);
+
+    visualization_->SetEngine(qobject_cast<GstEngine*>(&*app_->player()->engine()));
+  }
+
+  visualization_->show();
+
+#endif  // HAVE_VISUALIZATIONS
 
 }
