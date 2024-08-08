@@ -245,7 +245,7 @@ class CollectionWatcher : public QObject {
   CueParser *cue_parser_;
 
   static QStringList sValidImages;
-  static QStringList kIgnoredExtensions;
+  static const QStringList kIgnoredExtensions;
 
   qint64 last_scan_time_;
 

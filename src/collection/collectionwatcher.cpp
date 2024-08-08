@@ -72,7 +72,7 @@
 using namespace std::chrono_literals;
 
 QStringList CollectionWatcher::sValidImages = QStringList() << QStringLiteral("jpg") << QStringLiteral("png") << QStringLiteral("gif") << QStringLiteral("jpeg");
-QStringList CollectionWatcher::kIgnoredExtensions = QStringList() << QStringLiteral("tmp") << QStringLiteral("tar") << QStringLiteral("gz") << QStringLiteral("bz2") << QStringLiteral("xz") << QStringLiteral("tbz") << QStringLiteral("tgz") << QStringLiteral("z") << QStringLiteral("zip") << QStringLiteral("rar");
+const QStringList CollectionWatcher::kIgnoredExtensions = QStringList() << QStringLiteral("tmp") << QStringLiteral("tar") << QStringLiteral("gz") << QStringLiteral("bz2") << QStringLiteral("xz") << QStringLiteral("tbz") << QStringLiteral("tgz") << QStringLiteral("z") << QStringLiteral("zip") << QStringLiteral("rar");
 
 CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
     : QObject(parent),
@@ -1013,8 +1013,8 @@ void CollectionWatcher::RemoveDirectory(const CollectionDirectory &dir) {
   watched_dirs_.remove(dir.id);
 
   // Stop watching the directory's subdirectories
-  QStringList subdir_paths = subdir_mapping_.keys(dir);
-  for (const QString &subdir_path : std::as_const(subdir_paths)) {
+  const QStringList subdir_paths = subdir_mapping_.keys(dir);
+  for (const QString &subdir_path : subdir_paths) {
     fs_watcher_->RemovePath(subdir_path);
     subdir_mapping_.remove(subdir_path);
   }
@@ -1035,8 +1035,8 @@ bool CollectionWatcher::FindSongsByPath(const SongList &songs, const QString &pa
 
 bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const QString &fingerprint, SongList *out) {
 
-  SongList songs = backend_->GetSongsByFingerprint(fingerprint);
-  for (const Song &song : std::as_const(songs)) {
+  const SongList songs = backend_->GetSongsByFingerprint(fingerprint);
+  for (const Song &song : songs) {
     QString filename = song.url().toLocalFile();
     QFileInfo info(filename);
     // Allow mulitiple songs in different directories with the same fingerprint.
