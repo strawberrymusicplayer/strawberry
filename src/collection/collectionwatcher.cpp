@@ -801,6 +801,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
       t->deleted_songs << old_cue;
     }
   }
+
 }
 
 void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
@@ -1226,7 +1227,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
     if (stop_requested_ || abort_requested_) break;
 
     ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes, mark_songs_unavailable_);
-    CollectionSubdirectoryList subdirs(transaction.GetAllSubdirs());
+    CollectionSubdirectoryList subdirs = transaction.GetAllSubdirs();
 
     if (subdirs.isEmpty()) {
       qLog(Debug) << "Collection directory wasn't in subdir list.";
