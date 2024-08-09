@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
-"PO-Revision-Date: 2024-07-31 11:38\n"
+"PO-Revision-Date: 2024-08-01 07:53\n"
 
 #: playlist/playlistlistview.cpp:51
 msgid "\n\n"
@@ -1203,7 +1203,7 @@ msgstr "Vali andmed saidilt last.fm importimiseks"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:509
 msgid "Choose font..."
-msgstr "Vali kirjastiil..."
+msgstr "Vali kirjatüüp..."
 
 #: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Choose how the playlist is sorted and how many songs it will contain."
@@ -1927,7 +1927,7 @@ msgstr "Topeltklõpsuga lool esitusloendis..."
 msgid "Double clicking a song will..."
 msgstr "Topeltklõpsuga lool..."
 
-#: playlist/playlisttabbar.cpp:358
+#: playlist/playlisttabbar.cpp:356
 msgid "Double-click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"
 msgstr "Selle esitusloendi lemmikuks lisamiseks topeltklõpsa siin. See salvestatakse ja jääb juurdepääsetavaks vasakpoolsel küljeribal oleva paneeli \"Esitusloendid\" kaudu"
 
@@ -2105,7 +2105,7 @@ msgstr "Kaanepiltide laadimiseks internetist sisesta aadress:"
 msgid "Enter a filename for exported covers (no extension):"
 msgstr "Sisesta failinimi eksporditud kaanepiltidele (laiendita):"
 
-#: playlist/playlisttabbar.cpp:181
+#: playlist/playlisttabbar.cpp:179
 msgid "Enter a new name for this playlist"
 msgstr "Sisesta sellele esitusloendile uus nimi"
 
@@ -2153,7 +2153,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Võrdne käivitusvõtmega --log-levels *:3"
 
 #: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
-#: collection/collectionview.cpp:715
+#: collection/collectionview.cpp:716
 msgid "Error"
 msgstr "Viga"
 
@@ -2486,16 +2486,16 @@ msgstr "Kirjatüüp"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:443
 msgid "Font for data and lyrics"
-msgstr "Andmete ja laulusõnade font"
+msgstr "Andmete ja laulusõnade kirjatüüp"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:438
 msgid "Font for headline"
-msgstr "Pealkirja font"
+msgstr "Pealkirja kirjatüüp"
 
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:440
 #: ../../build-qt6dev/src/ui_contextsettingspage.h:445
 msgid "Font size"
-msgstr "Fondi suurus"
+msgstr "Kirjatüübi suurus"
 
 #: dialogs/snapdialog.cpp:54
 #, qt-format
@@ -2771,7 +2771,7 @@ msgstr "Ikoon"
 msgid "Icon sizes"
 msgstr "Ikoonide suurus"
 
-#: widgets/fancytabwidget.cpp:733
+#: widgets/fancytabwidget.cpp:387
 msgid "Icons on top"
 msgstr "Ikoonid üleval"
 
@@ -2930,7 +2930,7 @@ msgstr "Suur ruum"
 msgid "Large album cover"
 msgstr "Suur kaanepilt"
 
-#: widgets/fancytabwidget.cpp:729
+#: widgets/fancytabwidget.cpp:383
 msgid "Large sidebar"
 msgstr "Suur külgriba"
 
@@ -3466,7 +3466,7 @@ msgid "None"
 msgstr "Puudub"
 
 #: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
-#: collection/collectionview.cpp:715
+#: collection/collectionview.cpp:716
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Valitud lood ei olnud sobilikud seadmesse kopeerimiseks"
 
@@ -3490,7 +3490,7 @@ msgstr "Pole Spotifyga autenditud."
 
 #: tidal/tidalservice.cpp:701
 msgid "Not authenticated with Tidal and reached maximum number of login attempts."
-msgstr "Tidalis ei autentitud ja maksimaalne sisselogimiskatsete arv on täis."
+msgstr "Tidalis autentimata ja maksimaalne sisselogimiskatsete arv on täis."
 
 #: tidal/tidalservice.cpp:723 tidal/tidalservice.cpp:778
 #: tidal/tidalservice.cpp:833 tidal/tidalservice.cpp:896
@@ -3533,7 +3533,7 @@ msgstr "Väljas"
 #: dialogs/snapdialog.cpp:58
 #, qt-format
 msgid "Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information."
-msgstr "Ametlikud väljalasked on saadaval Debiani ja Ubuntu jaoks, mis töötavad ka enamiku nende derivaatidega.  Lisateabe saamiseks vaata %1."
+msgstr "Ametlikud versioonid on saadaval Debiani ja Ubuntu jaoks, mis töötavad ka enamiku nende derivaatidega. Lisateabe saamiseks vaata %1."
 
 #: osd/osdbase.cpp:271
 msgid "On"
@@ -3740,7 +3740,7 @@ msgstr "Esineja"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:731
+#: widgets/fancytabwidget.cpp:385
 msgid "Plain sidebar"
 msgstr "Lihtne külgriba"
 
@@ -3752,7 +3752,7 @@ msgstr "Mängi"
 
 #: playlist/playlist.cpp:1401
 msgid "Play Count"
-msgstr "Esituskorrad"
+msgstr "Esituskordi"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:554
 msgid "Play control buttons"
@@ -3760,11 +3760,11 @@ msgstr "Esituse juhtnupud"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:896
 msgid "Play count"
-msgstr "Esituskorrad"
+msgstr "Esituskordi"
 
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
-msgstr "Esituskorrad"
+msgstr "Esituskordi"
 
 #: core/commandlineoptions.cpp:240
 msgid "Play given playlist"
@@ -3803,12 +3803,12 @@ msgstr "%1 loo esituskorrad on vastu võetud."
 
 #: core/commandlineoptions.cpp:220
 msgid "Player options"
-msgstr "Pleieri valikud"
+msgstr "Meediamängija valikud"
 
 #: playlist/playlistcontainer.cpp:342 playlist/playlistlistcontainer.cpp:281
 #: playlist/playlistlistcontainer.cpp:391 playlist/playlistmanager.cpp:112
 #: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:540
-#: playlist/playlisttabbar.cpp:434
+#: playlist/playlisttabbar.cpp:432
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr "Esitusloend"
@@ -4195,7 +4195,7 @@ msgstr "Eemalda lemmikutest"
 msgid "Remove from playlist"
 msgstr "Eemalda esitusloendist"
 
-#: playlist/playlisttabbar.cpp:229
+#: playlist/playlisttabbar.cpp:227
 msgid "Remove playlist"
 msgstr "Eemalda esitusloend"
 
@@ -4207,7 +4207,7 @@ msgstr "Eemalda esitusloendid"
 msgid "Remove problematic characters from filenames"
 msgstr "Eemalda failinimedest probleemsed tähemärgid"
 
-#: playlist/playlisttabbar.cpp:181
+#: playlist/playlisttabbar.cpp:179
 msgid "Rename playlist"
 msgstr "Nimeta esitusloend ümber"
 
@@ -4463,7 +4463,7 @@ msgstr "Kaanepiltide salvestamine"
 
 #: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
-msgstr "Esituskordade ja hinnangute salvestamine"
+msgstr "Salvestame esituskordi ja hinnanguid"
 
 #: dialogs/edittagdialog.cpp:312 dialogs/trackselectiondialog.cpp:292
 msgid "Saving tracks"
@@ -4854,7 +4854,7 @@ msgstr "Ska"
 
 #: playlist/playlist.cpp:1402
 msgid "Skip Count"
-msgstr "Vahelejätmiste arv"
+msgstr "Vahelejätmisi"
 
 #: core/commandlineoptions.cpp:225
 msgid "Skip backwards in playlist"
@@ -4862,7 +4862,7 @@ msgstr "Hüppa esitusloendis tagasi"
 
 #: ../../build-qt6dev/src/ui_edittagdialog.h:900
 msgid "Skip count"
-msgstr "Vahelejätmiste arv"
+msgstr "Vahelejätmisi"
 
 #: core/commandlineoptions.cpp:226
 msgid "Skip forwards in playlist"
@@ -4884,7 +4884,7 @@ msgstr "Jäta vahele"
 msgid "Small album cover"
 msgstr "Väike kaanepilt"
 
-#: widgets/fancytabwidget.cpp:730
+#: widgets/fancytabwidget.cpp:384
 msgid "Small sidebar"
 msgstr "Väike külgriba"
 
@@ -5173,7 +5173,7 @@ msgstr "Suur kaardiriba"
 msgid "Tabbar small mode"
 msgstr "Väike kaardiriba"
 
-#: widgets/fancytabwidget.cpp:732
+#: widgets/fancytabwidget.cpp:386
 msgid "Tabs on top"
 msgstr "Kaardid üleval"
 
@@ -5319,7 +5319,7 @@ msgstr "See on iPod, kuid kompileerisid Strawberry libgpod toeta."
 msgid "This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."
 msgstr "Ühendasid selle seadme esimest korda.  Strawberry skaneerib nüüd seadet muusikafailide leidmiseks – selleks võib kuluda veidi aega."
 
-#: playlist/playlisttabbar.cpp:241
+#: playlist/playlisttabbar.cpp:239
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "Seda valikut saab muuta eelistustes \"Käitumine\""
 
@@ -5713,7 +5713,7 @@ msgstr "Helivaljuse samm"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:238
+#: playlist/playlisttabbar.cpp:236
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:181
 msgid "Warn me when closing a playlist tab"
 msgstr "Hoiata esitusloendi vahekaardi sulgemisel"
@@ -5822,7 +5822,7 @@ msgstr "Eile"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Oled eemaldamas oma lemmikutest %1 esitusloendit. Kas oled kindel?"
 
-#: playlist/playlisttabbar.cpp:232
+#: playlist/playlisttabbar.cpp:230
 msgid "You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). \n"
 "Are you sure you want to continue?"
 msgstr "Oled eemaldamas esitusloendit, mis ei kuulu lemmikesitusloendite hulka: esitusloend kustutatakse (seda toimingut ei saa tagasi võtta). \n"
@@ -5861,7 +5861,7 @@ msgstr "Selle URL-i jaoks vajad GStreamerit."
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:278
 msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
-msgstr "Tuleb käivitada süsteemieelistused ja lubada Strawberryl „<span style=\"font-style:italic\">juhi oma arvutit</span>, et kasutada Strawberrys globaalseid otseteid."
+msgstr "Et Strawberry saaks üldiseid kiirklahve kasutada, ava süsteemi seadistused ja märgi eelistus „<span style=\"font-style:italic\">juhi oma arvutit</span>“."
 
 #: dialogs/about.cpp:122
 #, qt-format
