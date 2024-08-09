@@ -35,18 +35,19 @@
 #include <QFuture>
 #include <QByteArray>
 #include <QList>
+#include <QMap>
 #include <QString>
 #include <QUrl>
 
 #include "core/shared_ptr.h"
 #include "enginebase.h"
 #include "gststartup.h"
+#include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
 
 class QTimer;
 class QTimerEvent;
 class TaskManager;
-class GstEnginePipeline;
 
 class GstEngine : public EngineBase, public GstBufferConsumer {
   Q_OBJECT
@@ -115,7 +116,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   void HandlePipelineError(const int pipeline_id, const int domain, const int error_code, const QString &message, const QString &debugstr);
   void NewMetaData(const int pipeline_id, const EngineMetadata &engine_metadata);
   void AddBufferToScope(GstBuffer *buf, const int pipeline_id, const QString &format);
-  void FadeoutFinished();
+  void FadeoutFinished(const int pipeline_id);
   void FadeoutPauseFinished();
   void SeekNow();
   void PlayDone(const GstStateChangeReturn ret, const quint64, const int);
@@ -133,14 +134,18 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   void StartTimers();
   void StopTimers();
 
-  SharedPtr<GstEnginePipeline> CreatePipeline();
-  SharedPtr<GstEnginePipeline> CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db);
+  GstEnginePipelinePtr CreatePipeline();
+  GstEnginePipelinePtr CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db);
+
+  void StopPipeline(GstEnginePipelinePtr pipeline);
 
   void UpdateScope(int chunk_length);
 
   static void StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError*, gpointer self);
   static void StreamDiscoveryFinished(GstDiscoverer*, gpointer);
   static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
+
+  bool ExclusivePipelineActive() const;
 
  private:
   SharedPtr<TaskManager> task_manager_;
@@ -149,9 +154,10 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
 
   int buffering_task_id_;
 
-  SharedPtr<GstEnginePipeline> current_pipeline_;
-  SharedPtr<GstEnginePipeline> fadeout_pipeline_;
-  SharedPtr<GstEnginePipeline> fadeout_pause_pipeline_;
+  GstEnginePipelinePtr current_pipeline_;
+  QMap<int, GstEnginePipelinePtr> fadeout_pipelines_;
+  GstEnginePipelinePtr fadeout_pause_pipeline_;
+  QMap<int, GstEnginePipelinePtr> old_pipelines_;
 
   QList<GstBufferConsumer*> buffer_consumers_;
 
@@ -181,6 +187,9 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
 
   int discovery_finished_cb_id_;
   int discovery_discovered_cb_id_;
+
+  State delayed_state_;
+  quint64 delayed_state_offset_nanosec_;
 };
 
 #endif  // GSTENGINE_H
