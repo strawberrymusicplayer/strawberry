@@ -60,7 +60,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
 
   Type type() const override { return Type::GStreamer; }
   bool Init() override;
-  EngineBase::State state() const override;
+  State state() const override;
   void StartPreloading(const QUrl &media_url, const QUrl &stream_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec) override;
   bool Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) override;
   bool Play(const quint64 offset_nanosec) override;

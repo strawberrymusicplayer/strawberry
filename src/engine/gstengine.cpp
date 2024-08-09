@@ -149,19 +149,19 @@ bool GstEngine::Init() {
 
 EngineBase::State GstEngine::state() const {
 
-  if (!current_pipeline_) return stream_url_.isEmpty() ? EngineBase::State::Empty : EngineBase::State::Idle;
+  if (!current_pipeline_) return stream_url_.isEmpty() ? State::Empty : State::Idle;
 
   switch (current_pipeline_->state()) {
     case GST_STATE_NULL:
-      return EngineBase::State::Empty;
+      return State::Empty;
     case GST_STATE_READY:
-      return EngineBase::State::Idle;
+      return State::Idle;
     case GST_STATE_PLAYING:
-      return EngineBase::State::Playing;
+      return State::Playing;
     case GST_STATE_PAUSED:
-      return EngineBase::State::Paused;
+      return State::Paused;
     default:
-      return EngineBase::State::Empty;
+      return State::Empty;
   }
 
 }
@@ -289,7 +289,7 @@ void GstEngine::Stop(const bool stop_after) {
 
   current_pipeline_.reset();
   BufferingFinished();
-  emit StateChanged(EngineBase::State::Empty);
+  emit StateChanged(State::Empty);
 
 }
 
@@ -303,7 +303,7 @@ void GstEngine::Pause() {
     current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QEasingCurve::InOutQuad, false);
     is_fading_out_to_pause_ = false;
     has_faded_out_ = false;
-    emit StateChanged(EngineBase::State::Playing);
+    emit StateChanged(State::Playing);
     return;
   }
 
@@ -313,7 +313,7 @@ void GstEngine::Pause() {
     }
     else {
       current_pipeline_->SetState(GST_STATE_PAUSED);
-      emit StateChanged(EngineBase::State::Paused);
+      emit StateChanged(State::Paused);
       StopTimers();
     }
   }
@@ -335,7 +335,7 @@ void GstEngine::Unpause() {
       has_faded_out_ = false;
     }
 
-    emit StateChanged(EngineBase::State::Playing);
+    emit StateChanged(State::Playing);
 
     StartTimers();
   }
@@ -576,7 +576,7 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, con
 
   current_pipeline_.reset();
   BufferingFinished();
-  emit StateChanged(EngineBase::State::Error);
+  emit StateChanged(State::Error);
 
   if (
       (domain == static_cast<int>(GST_RESOURCE_ERROR) && (
@@ -632,7 +632,7 @@ void GstEngine::FadeoutPauseFinished() {
 
   fadeout_pause_pipeline_->SetState(GST_STATE_PAUSED);
   current_pipeline_->SetState(GST_STATE_PAUSED);
-  emit StateChanged(EngineBase::State::Paused);
+  emit StateChanged(State::Paused);
   StopTimers();
 
   is_fading_out_to_pause_ = false;
@@ -687,7 +687,7 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const quint64 offset_na
     Seek(offset_nanosec);
   }
 
-  emit StateChanged(EngineBase::State::Playing);
+  emit StateChanged(State::Playing);
   // We've successfully started playing a media stream with this url
   emit ValidSongRequested(stream_url_);
 
@@ -848,7 +848,7 @@ SharedPtr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &media_url, co
   if (!ret->InitFromUrl(media_url, stream_url, gst_url, end_nanosec, ebur128_loudness_normalizing_gain_db, error)) {
     ret.reset();
     emit Error(error);
-    emit StateChanged(EngineBase::State::Error);
+    emit StateChanged(State::Error);
     emit FatalError();
   }
 
