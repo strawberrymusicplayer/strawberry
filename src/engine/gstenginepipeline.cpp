@@ -107,8 +107,8 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       next_end_offset_nanosec_(-1),
       ignore_next_seek_(false),
       ignore_tags_(false),
-      pipeline_is_active_(false),
-      pipeline_is_connected_(false),
+      pipeline_connected_(false),
+      pipeline_active_(false),
       pending_seek_nanosec_(-1),
       last_known_position_ns_(0),
       next_uri_set_(false),
@@ -214,7 +214,7 @@ GstEnginePipeline::~GstEnginePipeline() {
 
     pipeline_ = nullptr;
 
-    if (audiobin_ && !pipeline_is_connected_) {
+    if (audiobin_ && !pipeline_connected_) {
       gst_object_unref(GST_OBJECT(audiobin_));
     }
 
@@ -402,7 +402,7 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
 
   g_object_set(G_OBJECT(pipeline_), "uri", gst_url.constData(), nullptr);
 
-  pipeline_is_connected_ = true;
+  pipeline_connected_ = true;
 
   return true;
 
@@ -1077,8 +1077,8 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
   // Add a probe to the pad so we can update last_playbin_segment_.
   instance->playbin_probe_cb_id_ = gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM | GST_PAD_PROBE_TYPE_EVENT_FLUSH), PlaybinProbeCallback, instance, nullptr);
 
-  instance->pipeline_is_connected_ = true;
-  if (instance->pending_seek_nanosec_ != -1 && instance->pipeline_is_active_) {
+  instance->pipeline_connected_ = true;
+  if (instance->pending_seek_nanosec_ != -1 && instance->pipeline_active_) {
     QMetaObject::invokeMethod(instance, "Seek", Qt::QueuedConnection, Q_ARG(qint64, instance->pending_seek_nanosec_));
   }
 
@@ -1463,7 +1463,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   g_error_free(error);
   g_free(debugs);
 
-  if (pipeline_is_active_ && next_uri_set_ && (domain == GST_CORE_ERROR || domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
+  if (pipeline_active_ && next_uri_set_ && (domain == GST_CORE_ERROR || domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
     // A track is still playing and the next uri is not playable. We ignore the error here so it can play until the end.
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
     qLog(Info) << "Ignoring error" << domain << code << message << debugstr << "when loading next track";
@@ -1583,10 +1583,10 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
 
   qLog(Debug) << "Pipeline state changed from" << GstStateText(old_state) << "to" << GstStateText(new_state);
 
-  if (!pipeline_is_active_ && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
+  if (!pipeline_active_ && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
     qLog(Debug) << "Pipeline is active";
-    pipeline_is_active_ = true;
-    if (pipeline_is_connected_) {
+    pipeline_active_ = true;
+    if (pipeline_connected_) {
       if (!volume_set_) {
         SetVolume(volume_percent_);
       }
@@ -1604,9 +1604,9 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
     }
   }
 
-  else if (pipeline_is_active_ && new_state != GST_STATE_PAUSED && new_state != GST_STATE_PLAYING) {
+  else if (pipeline_active_ && new_state != GST_STATE_PAUSED && new_state != GST_STATE_PLAYING) {
     qLog(Debug) << "Pipeline is inactive";
-    pipeline_is_active_ = false;
+    pipeline_active_ = false;
     if (next_uri_set_ && new_state == GST_STATE_READY) {
       next_uri_set_ = false;
       g_object_set(G_OBJECT(pipeline_), "uri", gst_url_.constData(), nullptr);
@@ -1656,7 +1656,7 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 
 qint64 GstEnginePipeline::position() const {
 
-  if (pipeline_is_active_) {
+  if (pipeline_active_) {
     gint64 current_position = 0;
     if (gst_element_query_position(pipeline_, GST_FORMAT_TIME, &current_position)) {
       last_known_position_ns_ = current_position;
@@ -1709,7 +1709,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
     return true;
   }
 
-  if (!pipeline_is_connected_ || !pipeline_is_active_) {
+  if (!pipeline_connected_ || !pipeline_active_) {
     pending_seek_nanosec_ = nanosec;
     return true;
   }
@@ -1767,7 +1767,7 @@ void GstEnginePipeline::SetVolume(const uint volume_percent) {
     if (!volume_set_ || volume_internal != volume_internal_) {
       volume_internal_ = volume_internal;
       g_object_set(G_OBJECT(volume_), "volume", volume_internal, nullptr);
-      if (pipeline_is_active_) {
+      if (pipeline_active_) {
         volume_set_ = true;
       }
     }
