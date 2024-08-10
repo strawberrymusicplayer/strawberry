@@ -157,7 +157,9 @@ const QStringList Song::kTextSearchColumns = QStringList()      << QStringLitera
                                                                 << QStringLiteral("performer")
                                                                 << QStringLiteral("grouping")
                                                                 << QStringLiteral("genre")
-                                                                << QStringLiteral("comment");
+                                                                << QStringLiteral("comment")
+                                                                << QStringLiteral("filename")
+                                                                << QStringLiteral("url");
 
 const QStringList Song::kIntSearchColumns = QStringList()       << QStringLiteral("track")
                                                                 << QStringLiteral("year")
