@@ -31,7 +31,7 @@ QVariant FilterTree::DataFromColumn(const QString &column, const Song &metadata)
   if (column == QLatin1String("albumartist")) return metadata.effective_albumartist();
   if (column == QLatin1String("artist"))      return metadata.artist();
   if (column == QLatin1String("album"))       return metadata.album();
-  if (column == QLatin1String("title"))       return metadata.title();
+  if (column == QLatin1String("title"))       return metadata.PrettyTitle();
   if (column == QLatin1String("composer"))    return metadata.composer();
   if (column == QLatin1String("performer"))   return metadata.performer();
   if (column == QLatin1String("grouping"))    return metadata.grouping();
