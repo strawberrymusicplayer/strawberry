@@ -41,6 +41,8 @@ set(SOURCES
   core/translations.cpp
   core/systemtrayicon.cpp
   core/localredirectserver.cpp
+  core/mimedata.cpp
+  core/potranslator.cpp
   utilities/strutils.cpp
   utilities/envutils.cpp
   utilities/colorutils.cpp
@@ -110,8 +112,10 @@ set(SOURCES
   playlist/playlistfilter.cpp
   playlist/playlistheader.cpp
   playlist/playlistitem.cpp
+  playlist/playlistitemmimedata.cpp
   playlist/playlistlistcontainer.cpp
   playlist/playlistlistmodel.cpp
+  playlist/playlistlistsortfiltermodel.cpp
   playlist/playlistlistview.cpp
   playlist/playlistmanager.cpp
   playlist/playlistsaveoptionsdialog.cpp
@@ -120,6 +124,7 @@ set(SOURCES
   playlist/playlistundocommands.cpp
   playlist/playlistview.cpp
   playlist/playlistproxystyle.cpp
+  playlist/songmimedata.cpp
   playlist/songloaderinserter.cpp
   playlist/songplaylistitem.cpp
   playlist/dynamicplaylistcontrols.cpp
@@ -140,6 +145,7 @@ set(SOURCES
 
   smartplaylists/playlistgenerator.cpp
   smartplaylists/playlistgeneratorinserter.cpp
+  smartplaylists/playlistgeneratormimedata.cpp
   smartplaylists/playlistquerygenerator.cpp
   smartplaylists/smartplaylistquerywizardplugin.cpp
   smartplaylists/smartplaylistsearch.cpp
@@ -270,6 +276,7 @@ set(SOURCES
   streaming/streamingcollectionview.cpp
   streaming/streamingcollectionviewcontainer.cpp
   streaming/streamingsearchview.cpp
+  streaming/streamsongmimedata.cpp
 
   radios/radioservices.cpp
   radios/radiobackend.cpp
@@ -281,6 +288,7 @@ set(SOURCES
   radios/radiochannel.cpp
   radios/somafmservice.cpp
   radios/radioparadiseservice.cpp
+  radios/radiomimedata.cpp
 
   scrobbler/audioscrobbler.cpp
   scrobbler/scrobblersettings.cpp
@@ -764,6 +772,7 @@ optional_source(HAVE_LIBPULSE SOURCES engine/pulsedevicefinder.cpp)
 optional_source(HAVE_GSTREAMER
 SOURCES
   transcoder/transcoder.cpp
+  transcoder/transcoderoptionsinterface.cpp
   transcoder/transcodedialog.cpp
   transcoder/transcoderoptionsdialog.cpp
   transcoder/transcoderoptionsflac.cpp

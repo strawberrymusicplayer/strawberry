@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,25 +19,19 @@
  *
  */
 
-#ifndef TRANSCODEROPTIONSINTERFACE_H
-#define TRANSCODEROPTIONSINTERFACE_H
+#include "playlistitemmimedata.h"
+#include "playlistitem.h"
 
-#include "config.h"
+PlaylistItemMimeData::PlaylistItemMimeData(const PlaylistItemPtr &item, QObject *parent)
+    : items_(PlaylistItemPtrList() << item) {
 
-#include <QWidget>
-#include <QString>
+  Q_UNUSED(parent);
 
-class TranscoderOptionsInterface : public QWidget {
-  Q_OBJECT
+}
 
- public:
-  explicit TranscoderOptionsInterface(QWidget *parent);
-  ~TranscoderOptionsInterface() override;
+PlaylistItemMimeData::PlaylistItemMimeData(const PlaylistItemPtrList &items, QObject *parent)
+    : items_(items) {
 
-  virtual void Load() = 0;
-  virtual void Save() = 0;
+  Q_UNUSED(parent);
 
-  QString settings_postfix_;
-};
-
-#endif  // TRANSCODEROPTIONSINTERFACE_H
+}

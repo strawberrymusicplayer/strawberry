@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +23,7 @@
 #define POTRANSLATOR_H
 
 #include <QTranslator>
+#include <QString>
 
 // We convert from .po files to .qm files, which loses context information.
 // This translator tries loading strings with an empty context if it can't find any others.
@@ -30,12 +32,8 @@ class PoTranslator : public QTranslator {
   Q_OBJECT
 
  public:
-  PoTranslator(QObject *parent = nullptr) : QTranslator(parent) {}
-  QString translate(const char *context, const char *source_text, const char *disambiguation = nullptr, int n = -1) const override {
-    QString ret = QTranslator::translate(context, source_text, disambiguation, n);
-    if (!ret.isEmpty()) return ret;
-    return QTranslator::translate(nullptr, source_text, disambiguation, n);
-  }
+  explicit PoTranslator(QObject *parent = nullptr);
+  QString translate(const char *context, const char *source_text, const char *disambiguation = nullptr, int n = -1) const override;
 };
 
 #endif  // POTRANSLATOR_H

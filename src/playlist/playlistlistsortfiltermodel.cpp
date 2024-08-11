@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,25 +19,18 @@
  *
  */
 
-#ifndef TRANSCODEROPTIONSINTERFACE_H
-#define TRANSCODEROPTIONSINTERFACE_H
+#include "playlistlistsortfiltermodel.h"
 
-#include "config.h"
+PlaylistListSortFilterModel::PlaylistListSortFilterModel(QObject *parent)
+      : QSortFilterProxyModel(parent) {}
 
-#include <QWidget>
-#include <QString>
+bool PlaylistListSortFilterModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
 
-class TranscoderOptionsInterface : public QWidget {
-  Q_OBJECT
+    // Compare the display text first.
+    const int ret = left.data().toString().localeAwareCompare(right.data().toString());
+    if (ret < 0) return true;
+    if (ret > 0) return false;
 
- public:
-  explicit TranscoderOptionsInterface(QWidget *parent);
-  ~TranscoderOptionsInterface() override;
-
-  virtual void Load() = 0;
-  virtual void Save() = 0;
-
-  QString settings_postfix_;
-};
-
-#endif  // TRANSCODEROPTIONSINTERFACE_H
+    // Now use the source model row order to ensure we always get a deterministic sorting even when two items are named the same.
+    return left.row() < right.row();
+}

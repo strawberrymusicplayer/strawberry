@@ -29,7 +29,7 @@ class RadioMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  explicit RadioMimeData(QObject* = nullptr) {}
+  explicit RadioMimeData(QObject *parent = nullptr);
   SongList songs;
 };
 

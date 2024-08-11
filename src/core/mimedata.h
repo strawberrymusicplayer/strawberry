@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +22,6 @@
 #ifndef MIMEDATA_H
 #define MIMEDATA_H
 
-#include "config.h"
-
-#include <QObject>
 #include <QMimeData>
 #include <QString>
 
@@ -31,15 +29,7 @@ class MimeData : public QMimeData {
   Q_OBJECT
 
  public:
-  explicit MimeData(const bool clear = false, const bool play_now = false, const bool enqueue = false, const bool enqueue_next_now = false, const bool open_in_new_playlist = false, QObject* = nullptr)
-      : override_user_settings_(false),
-        clear_first_(clear),
-        play_now_(play_now),
-        enqueue_now_(enqueue),
-        enqueue_next_now_(enqueue_next_now),
-        open_in_new_playlist_(open_in_new_playlist),
-        name_for_new_playlist_(QString()),
-        from_doubleclick_(false) {}
+  explicit MimeData(const bool clear = false, const bool play_now = false, const bool enqueue = false, const bool enqueue_next_now = false, const bool open_in_new_playlist = false, QObject *parent = nullptr);
 
   // If this is set then MainWindow will not touch any of the other flags.
   bool override_user_settings_;
@@ -69,9 +59,7 @@ class MimeData : public QMimeData {
 
   // Returns a pretty name for a playlist containing songs described by this MimeData object.
   // By pretty name we mean the value of 'name_for_new_playlist_' or generic "Playlist" string if the 'name_for_new_playlist_' attribute is empty.
-  QString get_name_for_new_playlist() {
-    return name_for_new_playlist_.isEmpty() ? tr("Playlist") : name_for_new_playlist_;
-  }
+  QString get_name_for_new_playlist() const;
 };
 
 #endif  // MIMEDATA_H

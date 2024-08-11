@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,8 +33,8 @@ class PlaylistItemMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  explicit PlaylistItemMimeData(const PlaylistItemPtr &item, QObject* = nullptr) : MimeData(), items_(PlaylistItemPtrList() << item) {}
-  explicit PlaylistItemMimeData(const PlaylistItemPtrList &items, QObject* = nullptr) : MimeData(), items_(items) {}
+  explicit PlaylistItemMimeData(const PlaylistItemPtr &item, QObject *parent = nullptr);
+  explicit PlaylistItemMimeData(const PlaylistItemPtrList &items, QObject *parent = nullptr);
 
   PlaylistItemPtrList items_;
 };

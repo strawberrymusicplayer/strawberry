@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,25 +19,16 @@
  *
  */
 
-#ifndef TRANSCODEROPTIONSINTERFACE_H
-#define TRANSCODEROPTIONSINTERFACE_H
-
-#include "config.h"
-
-#include <QWidget>
 #include <QString>
 
-class TranscoderOptionsInterface : public QWidget {
-  Q_OBJECT
+#include "potranslator.h"
 
- public:
-  explicit TranscoderOptionsInterface(QWidget *parent);
-  ~TranscoderOptionsInterface() override;
+PoTranslator::PoTranslator(QObject *parent) : QTranslator(parent) {}
 
-  virtual void Load() = 0;
-  virtual void Save() = 0;
+QString PoTranslator::translate(const char *context, const char *source_text, const char *disambiguation, const int n) const {
 
-  QString settings_postfix_;
-};
+  QString ret = QTranslator::translate(context, source_text, disambiguation, n);
+  if (!ret.isEmpty()) return ret;
+  return QTranslator::translate(nullptr, source_text, disambiguation, n);
 
-#endif  // TRANSCODEROPTIONSINTERFACE_H
+}

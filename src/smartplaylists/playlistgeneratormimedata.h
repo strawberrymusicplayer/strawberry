@@ -23,9 +23,6 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QMimeData>
-
 #include "core/mimedata.h"
 #include "playlistgenerator_fwd.h"
 
@@ -33,7 +30,7 @@ class PlaylistGeneratorMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  PlaylistGeneratorMimeData(PlaylistGeneratorPtr generator, QObject* = nullptr) : generator_(generator) {}
+  PlaylistGeneratorMimeData(PlaylistGeneratorPtr generator, QObject *parent = nullptr);
 
   PlaylistGeneratorPtr generator_;
 };

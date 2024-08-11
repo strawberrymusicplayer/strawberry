@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,9 +24,6 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QMimeData>
-
 #include "core/shared_ptr.h"
 #include "core/mimedata.h"
 #include "core/song.h"
@@ -36,7 +34,7 @@ class SongMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  explicit SongMimeData(QObject* = nullptr) : MimeData(), backend(nullptr) {}
+  explicit SongMimeData(QObject *parent = nullptr);
 
   SharedPtr<CollectionBackendInterface> backend;
   SongList songs;

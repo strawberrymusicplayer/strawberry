@@ -18,25 +18,12 @@
  *
  */
 
-#ifndef TRANSCODEROPTIONSINTERFACE_H
-#define TRANSCODEROPTIONSINTERFACE_H
+#include "playlistgeneratormimedata.h"
+#include "playlistgenerator_fwd.h"
 
-#include "config.h"
+PlaylistGeneratorMimeData::PlaylistGeneratorMimeData(PlaylistGeneratorPtr generator, QObject *parent)
+    : generator_(generator) {
 
-#include <QWidget>
-#include <QString>
+  Q_UNUSED(parent);
 
-class TranscoderOptionsInterface : public QWidget {
-  Q_OBJECT
-
- public:
-  explicit TranscoderOptionsInterface(QWidget *parent);
-  ~TranscoderOptionsInterface() override;
-
-  virtual void Load() = 0;
-  virtual void Save() = 0;
-
-  QString settings_postfix_;
-};
-
-#endif  // TRANSCODEROPTIONSINTERFACE_H
+}

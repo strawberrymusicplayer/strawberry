@@ -18,25 +18,11 @@
  *
  */
 
-#ifndef TRANSCODEROPTIONSINTERFACE_H
-#define TRANSCODEROPTIONSINTERFACE_H
-
-#include "config.h"
-
 #include <QWidget>
 #include <QString>
 
-class TranscoderOptionsInterface : public QWidget {
-  Q_OBJECT
+#include "transcoderoptionsinterface.h"
 
- public:
-  explicit TranscoderOptionsInterface(QWidget *parent);
-  ~TranscoderOptionsInterface() override;
+TranscoderOptionsInterface::TranscoderOptionsInterface(QWidget *parent) : QWidget(parent) {}
 
-  virtual void Load() = 0;
-  virtual void Save() = 0;
-
-  QString settings_postfix_;
-};
-
-#endif  // TRANSCODEROPTIONSINTERFACE_H
+TranscoderOptionsInterface::~TranscoderOptionsInterface() = default;

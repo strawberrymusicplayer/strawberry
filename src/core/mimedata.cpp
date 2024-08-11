@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,25 +19,26 @@
  *
  */
 
-#ifndef TRANSCODEROPTIONSINTERFACE_H
-#define TRANSCODEROPTIONSINTERFACE_H
-
 #include "config.h"
 
-#include <QWidget>
 #include <QString>
 
-class TranscoderOptionsInterface : public QWidget {
-  Q_OBJECT
+#include "mimedata.h"
 
- public:
-  explicit TranscoderOptionsInterface(QWidget *parent);
-  ~TranscoderOptionsInterface() override;
+MimeData::MimeData(const bool clear, const bool play_now, const bool enqueue, const bool enqueue_next_now, const bool open_in_new_playlist, QObject *parent)
+      : override_user_settings_(false),
+        clear_first_(clear),
+        play_now_(play_now),
+        enqueue_now_(enqueue),
+        enqueue_next_now_(enqueue_next_now),
+        open_in_new_playlist_(open_in_new_playlist),
+        name_for_new_playlist_(QString()),
+        from_doubleclick_(false) {
 
-  virtual void Load() = 0;
-  virtual void Save() = 0;
+  Q_UNUSED(parent);
 
-  QString settings_postfix_;
-};
+}
 
-#endif  // TRANSCODEROPTIONSINTERFACE_H
+QString MimeData::get_name_for_new_playlist() const {
+  return name_for_new_playlist_.isEmpty() ? tr("Playlist") : name_for_new_playlist_;
+}

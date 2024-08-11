@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,25 +19,8 @@
  *
  */
 
-#ifndef TRANSCODEROPTIONSINTERFACE_H
-#define TRANSCODEROPTIONSINTERFACE_H
+#include "songmimedata.h"
 
-#include "config.h"
-
-#include <QWidget>
-#include <QString>
-
-class TranscoderOptionsInterface : public QWidget {
-  Q_OBJECT
-
- public:
-  explicit TranscoderOptionsInterface(QWidget *parent);
-  ~TranscoderOptionsInterface() override;
-
-  virtual void Load() = 0;
-  virtual void Save() = 0;
-
-  QString settings_postfix_;
-};
-
-#endif  // TRANSCODEROPTIONSINTERFACE_H
+SongMimeData::SongMimeData(QObject *parent) : backend(nullptr) {
+  Q_UNUSED(parent);
+}
