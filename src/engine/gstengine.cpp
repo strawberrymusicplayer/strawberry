@@ -856,42 +856,42 @@ GstEnginePipelinePtr GstEngine::CreatePipeline() {
 
   EnsureInitialized();
 
-  GstEnginePipelinePtr ret = make_shared<GstEnginePipeline>();
-  ret->set_output_device(output_, device_);
-  ret->set_exclusive_mode(exclusive_mode_);
-  ret->set_volume_enabled(volume_control_);
-  ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
-  ret->set_equalizer_enabled(equalizer_enabled_);
-  ret->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_fallbackgain_, rg_compression_);
-  ret->set_ebur128_loudness_normalization(ebur128_loudness_normalization_);
-  ret->set_buffer_duration_nanosec(buffer_duration_nanosec_);
-  ret->set_buffer_low_watermark(buffer_low_watermark_);
-  ret->set_buffer_high_watermark(buffer_high_watermark_);
-  ret->set_proxy_settings(proxy_address_, proxy_authentication_, proxy_user_, proxy_pass_);
-  ret->set_channels(channels_enabled_, channels_);
-  ret->set_bs2b_enabled(bs2b_enabled_);
-  ret->set_strict_ssl_enabled(strict_ssl_enabled_);
-  ret->set_fading_enabled(fadeout_enabled_ || autocrossfade_enabled_ || fadeout_pause_enabled_);
+  GstEnginePipelinePtr pipeline = make_shared<GstEnginePipeline>();
+  pipeline->set_output_device(output_, device_);
+  pipeline->set_exclusive_mode(exclusive_mode_);
+  pipeline->set_volume_enabled(volume_control_);
+  pipeline->set_stereo_balancer_enabled(stereo_balancer_enabled_);
+  pipeline->set_equalizer_enabled(equalizer_enabled_);
+  pipeline->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_fallbackgain_, rg_compression_);
+  pipeline->set_ebur128_loudness_normalization(ebur128_loudness_normalization_);
+  pipeline->set_buffer_duration_nanosec(buffer_duration_nanosec_);
+  pipeline->set_buffer_low_watermark(buffer_low_watermark_);
+  pipeline->set_buffer_high_watermark(buffer_high_watermark_);
+  pipeline->set_proxy_settings(proxy_address_, proxy_authentication_, proxy_user_, proxy_pass_);
+  pipeline->set_channels(channels_enabled_, channels_);
+  pipeline->set_bs2b_enabled(bs2b_enabled_);
+  pipeline->set_strict_ssl_enabled(strict_ssl_enabled_);
+  pipeline->set_fading_enabled(fadeout_enabled_ || autocrossfade_enabled_ || fadeout_pause_enabled_);
 
 #ifdef HAVE_SPOTIFY
-  ret->set_spotify_login(spotify_username_, spotify_password_);
+  pipeline->set_spotify_login(spotify_username_, spotify_password_);
 #endif
 
-  ret->AddBufferConsumer(this);
+  pipeline->AddBufferConsumer(this);
   for (GstBufferConsumer *consumer : std::as_const(buffer_consumers_)) {
-    ret->AddBufferConsumer(consumer);
+    pipeline->AddBufferConsumer(consumer);
   }
 
-  QObject::connect(&*ret, &GstEnginePipeline::EndOfStreamReached, this, &GstEngine::EndOfStreamReached);
-  QObject::connect(&*ret, &GstEnginePipeline::Error, this, &GstEngine::HandlePipelineError);
-  QObject::connect(&*ret, &GstEnginePipeline::MetadataFound, this, &GstEngine::NewMetaData);
-  QObject::connect(&*ret, &GstEnginePipeline::BufferingStarted, this, &GstEngine::BufferingStarted);
-  QObject::connect(&*ret, &GstEnginePipeline::BufferingProgress, this, &GstEngine::BufferingProgress);
-  QObject::connect(&*ret, &GstEnginePipeline::BufferingFinished, this, &GstEngine::BufferingFinished);
-  QObject::connect(&*ret, &GstEnginePipeline::VolumeChanged, this, &EngineBase::UpdateVolume);
-  QObject::connect(&*ret, &GstEnginePipeline::AboutToFinish, this, &EngineBase::EmitAboutToFinish);
+  QObject::connect(&*pipeline, &GstEnginePipeline::EndOfStreamReached, this, &GstEngine::EndOfStreamReached);
+  QObject::connect(&*pipeline, &GstEnginePipeline::Error, this, &GstEngine::HandlePipelineError);
+  QObject::connect(&*pipeline, &GstEnginePipeline::MetadataFound, this, &GstEngine::NewMetaData);
+  QObject::connect(&*pipeline, &GstEnginePipeline::BufferingStarted, this, &GstEngine::BufferingStarted);
+  QObject::connect(&*pipeline, &GstEnginePipeline::BufferingProgress, this, &GstEngine::BufferingProgress);
+  QObject::connect(&*pipeline, &GstEnginePipeline::BufferingFinished, this, &GstEngine::BufferingFinished);
+  QObject::connect(&*pipeline, &GstEnginePipeline::VolumeChanged, this, &EngineBase::UpdateVolume);
+  QObject::connect(&*pipeline, &GstEnginePipeline::AboutToFinish, this, &EngineBase::EmitAboutToFinish);
 
-  return ret;
+  return pipeline;
 
 }
 
