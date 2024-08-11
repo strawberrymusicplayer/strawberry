@@ -591,7 +591,7 @@ void GstEngine::EndOfStreamReached(const int pipeline_id, const bool has_next_tr
   }
 
   if (!has_next_track) {
-    current_pipeline_.reset();
+    current_pipeline_ = GstEnginePipelinePtr();
     BufferingFinished();
   }
 
@@ -803,6 +803,8 @@ void GstEngine::StartFadeout() {
     return;
   }
 
+  QObject::disconnect(&*pipeline, nullptr, this, nullptr);
+
   fadeout_pipelines_.insert(pipeline->id(), pipeline);
   pipeline->RemoveAllBufferConsumers();
 
@@ -908,6 +910,8 @@ GstEnginePipelinePtr GstEngine::CreatePipeline(const QUrl &media_url, const QUrl
 void GstEngine::FinishPipeline(GstEnginePipelinePtr pipeline) {
 
   const int pipeline_id = pipeline->id();
+
+  QObject::disconnect(&*pipeline, nullptr, this, nullptr);
 
   if (!pipeline->Finish() && !old_pipelines_.contains(pipeline->id())) {
     old_pipelines_.insert(pipeline_id, pipeline);
