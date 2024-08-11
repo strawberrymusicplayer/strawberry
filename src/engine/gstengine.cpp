@@ -210,24 +210,26 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
   GstEnginePipelinePtr pipeline = CreatePipeline(media_url, stream_url, gst_url, force_stop_at_end ? end_nanosec : 0, ebur128_loudness_normalizing_gain_db_);
   if (!pipeline) return false;
 
-  if (crossfade && current_pipeline_ && !ExclusivePipelineActive() && !fadeout_pipelines_.contains(current_pipeline_->id())) {
-    StartFadeout();
+  GstEnginePipelinePtr old_pipeline = current_pipeline_;
+  current_pipeline_ = pipeline;
+
+  if (old_pipeline) {
+    if (crossfade && !old_pipeline->exclusive_mode() && !AnyExclusivePipelineActive() && !fadeout_pipelines_.contains(old_pipeline->id())) {
+      StartFadeout(old_pipeline);
+    }
+    else {
+      FinishPipeline(old_pipeline);
+    }
   }
 
   BufferingFinished();
-
-  GstEnginePipelinePtr old_pipeline = current_pipeline_;
-  current_pipeline_ = pipeline;
-  if (old_pipeline && !fadeout_pipelines_.contains(old_pipeline->id())) {
-    FinishPipeline(old_pipeline);
-  }
 
   SetVolume(volume_);
   SetStereoBalance(stereo_balance_);
   SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
 
   // Maybe fade in this track
-  if (crossfade && !ExclusivePipelineActive()) {
+  if (crossfade && (!old_pipeline || !old_pipeline->exclusive_mode()) && !AnyExclusivePipelineActive()) {
     current_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Forward);
   }
 
@@ -258,7 +260,7 @@ bool GstEngine::Play(const bool pause, const quint64 offset_nanosec) {
 
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return false;
 
-  if (ExclusivePipelineActive()) {
+  if (OldExclusivePipelineActive()) {
     qLog(Debug) << "Delaying play because a exclusive pipeline is already active...";
     delayed_state_ = pause ? State::Paused : State::Playing;
     delayed_state_pause_ = pause;
@@ -306,9 +308,10 @@ void GstEngine::Stop(const bool stop_after) {
   }
 
   if (current_pipeline_) {
-    if (fadeout_enabled_ && !stop_after && !ExclusivePipelineActive()) {
-      StartFadeout();
+    if (fadeout_enabled_ && !stop_after && !AnyExclusivePipelineActive()) {
+      GstEnginePipelinePtr old_pipeline = current_pipeline_;
       current_pipeline_ = GstEnginePipelinePtr();
+      StartFadeout(old_pipeline);
     }
     else {
       GstEnginePipelinePtr old_pipeline = current_pipeline_;
@@ -336,7 +339,7 @@ void GstEngine::Pause() {
   }
 
   if (current_pipeline_->state() == GST_STATE_PLAYING) {
-    if (fadeout_pause_enabled_ && !ExclusivePipelineActive()) {
+    if (fadeout_pause_enabled_ && !AnyExclusivePipelineActive()) {
       StartFadeoutPause();
     }
     else {
@@ -356,7 +359,7 @@ void GstEngine::Unpause() {
 
     // Check if we faded out last time. If yes, fade in no matter what the settings say.
     // If we pause with fadeout, deactivate fadeout and resume playback, the player would be muted if not faded in.
-    if (has_faded_out_to_pause_ && !ExclusivePipelineActive()) {
+    if (has_faded_out_to_pause_ && !AnyExclusivePipelineActive()) {
       QObject::disconnect(&*current_pipeline_, &GstEnginePipeline::FaderFinished, nullptr, nullptr);
       current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QEasingCurve::Linear, false);
       has_faded_out_to_pause_ = false;
@@ -605,7 +608,9 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, con
 
   qLog(Error) << "GStreamer error:" << domain << error_code << message;
 
-  current_pipeline_.reset();
+  FinishPipeline(current_pipeline_);
+  current_pipeline_ = GstEnginePipelinePtr();
+
   BufferingFinished();
   emit StateChanged(State::Error);
 
@@ -795,9 +800,7 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
 
 }
 
-void GstEngine::StartFadeout() {
-
-  GstEnginePipelinePtr pipeline = current_pipeline_;
+void GstEngine::StartFadeout(GstEnginePipelinePtr pipeline) {
 
   if (fadeout_pipelines_.contains(pipeline->id())) {
     return;
@@ -1105,14 +1108,16 @@ QString GstEngine::GSTdiscovererErrorMessage(GstDiscovererResult result) {
 
 }
 
-bool GstEngine::ExclusivePipelineActive() const {
+bool GstEngine::OldExclusivePipelineActive() const {
 
-  if (old_pipelines_.isEmpty()) {
-    return false;
+  if (current_pipeline_ && current_pipeline_->exclusive_mode() && (!fadeout_pipelines_.isEmpty() || !old_pipelines_.isEmpty())) {
+    return true;
   }
 
-  if (current_pipeline_ && current_pipeline_->exclusive_mode()) {
-    return true;
+  for (const GstEnginePipelinePtr &pipeline : std::as_const(fadeout_pipelines_)) {
+    if (pipeline->exclusive_mode()) {
+      return true;
+    }
   }
 
   for (const GstEnginePipelinePtr &pipeline : std::as_const(old_pipelines_)) {
@@ -1122,5 +1127,11 @@ bool GstEngine::ExclusivePipelineActive() const {
   }
 
   return false;
+
+}
+
+bool GstEngine::AnyExclusivePipelineActive() const {
+
+  return (current_pipeline_ && current_pipeline_->exclusive_mode()) || OldExclusivePipelineActive();
 
 }

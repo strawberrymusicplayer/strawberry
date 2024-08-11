@@ -130,7 +130,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
  private:
   QByteArray FixupUrl(const QUrl &url);
 
-  void StartFadeout();
+  void StartFadeout(GstEnginePipelinePtr pipeline);
   void StartFadeoutPause();
   void StopFadeoutPause();
 
@@ -148,7 +148,8 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   static void StreamDiscoveryFinished(GstDiscoverer*, gpointer);
   static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
 
-  bool ExclusivePipelineActive() const;
+  bool OldExclusivePipelineActive() const;
+  bool AnyExclusivePipelineActive() const;
 
  private:
   SharedPtr<TaskManager> task_manager_;
