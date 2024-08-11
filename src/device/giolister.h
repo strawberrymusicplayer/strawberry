@@ -24,11 +24,6 @@
 
 #include "config.h"
 
-// Work around compile issue with glib >= 2.25
-#ifdef signals
-#  undef signals
-#endif
-
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>
