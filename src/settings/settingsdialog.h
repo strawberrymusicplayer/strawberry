@@ -137,7 +137,7 @@ class SettingsDialog : public QDialog {
   void Apply();
   void Save();
 
- signals:
+ Q_SIGNALS:
   void ReloadSettings();
   void NotificationPreview(const OSDBase::Behaviour, const QString&, const QString&);
 

@@ -68,7 +68,7 @@ class SystemTrayIcon : public QSystemTrayIcon {
   QPixmap CreateIcon(const QPixmap &icon, const QPixmap &grey_icon);
   void UpdateIcon();
 
- signals:
+ Q_SIGNALS:
   void ChangeVolume(const int delta);
   void SeekForward();
   void SeekBackward();

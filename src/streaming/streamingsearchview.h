@@ -136,7 +136,7 @@ class StreamingSearchView : public QWidget {
   bool FindCachedPixmap(const Result &result, QPixmap *pixmap) const;
   int LoadAlbumCoverAsync(const Result &result);
 
- signals:
+ Q_SIGNALS:
   void AddToPlaylist(QMimeData*);
   void AddArtistsSignal(const SongList &songs);
   void AddAlbumsSignal(const SongList &songs);

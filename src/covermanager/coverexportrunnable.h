@@ -40,7 +40,7 @@ class CoverExportRunnable : public QObject, public QRunnable {
 
   void run() override;
 
- signals:
+ Q_SIGNALS:
   void CoverExported();
   void CoverSkipped();
 

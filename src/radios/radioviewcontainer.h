@@ -37,7 +37,7 @@ class RadioViewContainer : public QWidget {
 
   RadioView *view() const { return ui_->view; }
 
- signals:
+ Q_SIGNALS:
   void Refresh();
 
  private:

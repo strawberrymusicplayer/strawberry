@@ -47,7 +47,7 @@ class SpotifySettingsPage : public SettingsPage {
 
   bool eventFilter(QObject *object, QEvent *event) override;
 
- signals:
+ Q_SIGNALS:
   void Authorize();
 
  private slots:

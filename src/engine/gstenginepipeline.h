@@ -141,7 +141,7 @@ class GstEnginePipeline : public QObject {
  public slots:
   void SetFaderVolume(const qreal volume);
 
- signals:
+ Q_SIGNALS:
   void Error(const int pipeline_id, const int domain, const int error_code, const QString &message, const QString &debug);
 
   void EndOfStreamReached(const int pipeline_id, const bool has_next_track);

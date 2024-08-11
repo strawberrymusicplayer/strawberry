@@ -43,7 +43,7 @@ class TrackSliderSlider : public QSlider {
  public:
   explicit TrackSliderSlider(QWidget *parent = nullptr);
 
- signals:
+ Q_SIGNALS:
   void SeekForward();
   void SeekBackward();
   void Previous();

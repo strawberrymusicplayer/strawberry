@@ -60,7 +60,7 @@ class AcoustidClient : public QObject {
   // Cancels all requests.  Finished() will never be emitted for any pending requests.
   void CancelAll();
 
- signals:
+ Q_SIGNALS:
   void Finished(const int id, const QStringList &mbid_list, const QString &error = QString());
 
  private slots:

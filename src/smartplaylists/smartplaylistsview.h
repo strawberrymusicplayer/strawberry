@@ -38,7 +38,7 @@ class SmartPlaylistsView : public QListView {
   void selectionChanged(const QItemSelection&, const QItemSelection&) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
 
- signals:
+ Q_SIGNALS:
   void ItemsSelectedChanged();
   void RightClicked(const QPoint global_pos, const QModelIndex idx);
 

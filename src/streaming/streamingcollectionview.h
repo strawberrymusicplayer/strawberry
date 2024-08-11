@@ -83,7 +83,7 @@ class StreamingCollectionView : public AutoExpandingTreeView {
   void SaveFocus();
   void RestoreFocus();
 
- signals:
+ Q_SIGNALS:
   void GetSongs();
   void TotalSongCountUpdated_();
   void TotalArtistCountUpdated_();

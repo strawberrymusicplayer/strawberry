@@ -56,7 +56,7 @@ class LyricsProvider : public QObject {
 
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
 
- signals:
+ Q_SIGNALS:
   void AuthenticationComplete(const bool success, const QStringList &errors = QStringList());
   void AuthenticationSuccess();
   void AuthenticationFailure(const QStringList &errors);

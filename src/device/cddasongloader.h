@@ -59,7 +59,7 @@ class CddaSongLoader : public QObject {
   void Error(const QString &error);
   QUrl GetUrlFromTrack(const int track_number) const;
 
- signals:
+ Q_SIGNALS:
   void SongsLoadError(const QString &error);
   void SongsLoaded(const SongList &songs);
   void SongsDurationLoaded(const SongList &songs, const QString &error = QString());

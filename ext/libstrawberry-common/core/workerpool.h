@@ -52,7 +52,7 @@ class _WorkerPoolBase : public QObject {
  public:
   explicit _WorkerPoolBase(QObject *parent = nullptr);
 
- signals:
+ Q_SIGNALS:
   // Emitted when a worker failed to start.  This usually happens when the worker wasn't found, or couldn't be executed.
   void WorkerFailedToStart();
 

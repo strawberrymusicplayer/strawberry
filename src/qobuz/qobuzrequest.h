@@ -98,7 +98,7 @@ class QobuzRequest : public QobuzBaseRequest {
     QString filename;
   };
 
- signals:
+ Q_SIGNALS:
   void LoginSuccess();
   void LoginFailure(const QString &failure_reason);
   void Results(const int id, const SongMap &songs, const QString &error);

@@ -69,7 +69,7 @@ class TaskManager : public QObject {
   void SetTaskFinished(const int id);
   quint64 GetTaskProgress(const int id);
 
- signals:
+ Q_SIGNALS:
   void TasksChanged();
 
   void PauseCollectionWatchers();

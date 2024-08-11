@@ -113,7 +113,7 @@ class TagReaderClient : public QObject {
   // TODO: Make this not a singleton
   static TagReaderClient *Instance() { return sInstance; }
 
- signals:
+ Q_SIGNALS:
   void ExitFinished();
 
  private slots:

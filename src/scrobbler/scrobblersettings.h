@@ -57,7 +57,7 @@ class ScrobblerSettings : public QObject {
   void ToggleOffline();
   void ErrorReceived(const QString &error);
 
- signals:
+ Q_SIGNALS:
   void ErrorMessage(const QString &error);
   void ScrobblingEnabledChanged(const bool value);
   void ScrobblingOfflineChanged(const bool value);

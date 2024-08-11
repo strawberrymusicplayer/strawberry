@@ -52,7 +52,7 @@ class PlaylistHeader : public StretchHeaderView {
   void enterEvent(QEvent*) override;
 #endif
 
- signals:
+ Q_SIGNALS:
   void SectionVisibilityChanged(const int logical_index, const bool visible);
   void MouseEntered();
   void SectionRatingLockStatusChanged(const bool);

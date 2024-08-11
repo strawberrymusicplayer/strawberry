@@ -162,7 +162,7 @@ class AlbumCoverChoiceController : public QWidget {
   void AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics);
   void SaveEmbeddedCoverFinished(TagReaderReply *reply, Song song, const bool art_embedded);
 
- signals:
+ Q_SIGNALS:
   void Error(const QString &error);
   void AutomaticCoverSearchDone();
 

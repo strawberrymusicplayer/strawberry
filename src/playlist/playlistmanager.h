@@ -114,7 +114,7 @@ class PlaylistManagerInterface : public QObject {
   // Rate current song using 0 - 5 scale.
   virtual void RateCurrentSong2(const int rating) = 0;
 
- signals:
+ Q_SIGNALS:
   void PlaylistManagerInitialized();
   void AllPlaylistsLoaded();
 

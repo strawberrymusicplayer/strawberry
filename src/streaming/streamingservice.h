@@ -82,7 +82,7 @@ class StreamingService : public QObject {
   virtual void ResetAlbumsRequest() {}
   virtual void ResetSongsRequest() {}
 
- signals:
+ Q_SIGNALS:
   void ExitFinished();
   void RequestLogin();
   void RequestLogout();

@@ -86,7 +86,7 @@ class OrganizeDialog : public QDialog {
   static SongList LoadSongsBlocking(const QStringList &filenames);
   void SetLoadingSongs(const bool loading);
 
- signals:
+ Q_SIGNALS:
   void FileCopied(const int);
 
  public slots:

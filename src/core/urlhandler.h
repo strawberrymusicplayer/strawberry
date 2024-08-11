@@ -90,7 +90,7 @@ class UrlHandler : public QObject {
   // Called by the Player when a song starts loading - gives the handler a chance to do something clever to get a playable track.
   virtual LoadResult StartLoading(const QUrl &url) { return LoadResult(url); }
 
- signals:
+ Q_SIGNALS:
   void AsyncLoadComplete(const UrlHandler::LoadResult &result);
 
 };

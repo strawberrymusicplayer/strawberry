@@ -56,7 +56,7 @@ class CddaDevice : public ConnectedDevice {
 
   static QStringList url_schemes() { return QStringList() << QStringLiteral("cdda"); }
 
- signals:
+ Q_SIGNALS:
   void SongsDiscovered(const SongList &songs);
 
  private slots:

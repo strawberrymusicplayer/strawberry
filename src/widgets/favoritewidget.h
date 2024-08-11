@@ -43,7 +43,7 @@ class FavoriteWidget : public QWidget {
 
   QSize sizeHint() const override;
 
- signals:
+ Q_SIGNALS:
   void FavoriteStateChanged(const int, const bool);
 
  protected:

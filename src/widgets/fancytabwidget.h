@@ -84,7 +84,7 @@ class FancyTabWidget : public QTabWidget {
  private:
   void addMenuItem(QActionGroup *group, const QString &text, Mode mode);
 
- signals:
+ Q_SIGNALS:
   void ModeChanged(const Mode mode);
   void CurrentTabChanged(const int idx);
 

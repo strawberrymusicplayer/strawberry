@@ -47,7 +47,7 @@ class GroupByDialog : public QDialog {
   void CollectionGroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
   void accept() override;
 
- signals:
+ Q_SIGNALS:
   void Accepted(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
 
  private slots:

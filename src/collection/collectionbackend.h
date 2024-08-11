@@ -275,7 +275,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days);
   void ExpireSongs(const int directory_id, const int expire_unavailable_songs_days);
 
- signals:
+ Q_SIGNALS:
   void DirectoryAdded(const CollectionDirectory &dir, const CollectionSubdirectoryList &subdir);
   void DirectoryDeleted(const CollectionDirectory &dir);
 

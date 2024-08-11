@@ -82,7 +82,7 @@ class CollectionView : public AutoExpandingTreeView {
 
   void EditTagError(const QString &message);
 
- signals:
+ Q_SIGNALS:
   void ShowConfigDialog();
 
   void TotalSongCountUpdated_();

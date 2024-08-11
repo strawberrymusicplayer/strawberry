@@ -59,7 +59,7 @@ class AlbumCoverLoader : public QObject {
   void CancelTask(const quint64 id);
   void CancelTasks(const QSet<quint64> &ids);
 
- signals:
+ Q_SIGNALS:
   void ExitFinished();
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 

@@ -106,7 +106,7 @@ class OSDPretty : public QWidget {
   bool toggle_mode() const { return toggle_mode_; }
   void set_toggle_mode(const bool toggle_mode) { toggle_mode_ = toggle_mode; }
 
- signals:
+ Q_SIGNALS:
   void PositionChanged();
 
  public slots:

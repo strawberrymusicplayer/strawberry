@@ -92,7 +92,7 @@ class SpotifyRequest : public SpotifyBaseRequest {
     QString filename;
   };
 
- signals:
+ Q_SIGNALS:
   void Results(int id, SongMap songs, QString error);
   void UpdateStatus(int id, QString text);
   void ProgressSetMaximum(int id, int max);

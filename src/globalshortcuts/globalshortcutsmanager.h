@@ -77,7 +77,7 @@ class GlobalShortcutsManager : public QWidget {
   void ReloadSettings();
   void ShowMacAccessibilityDialog();
 
- signals:
+ Q_SIGNALS:
   void Play();
   void Pause();
   void PlayPause();

@@ -48,7 +48,7 @@ class AutoExpandingTreeView : public QTreeView {
   void UpAndFocus();
   void DownAndFocus();
 
- signals:
+ Q_SIGNALS:
   void AddToPlaylistSignal(QMimeData *data);
   void FocusOnFilterSignal(QKeyEvent *event);
 

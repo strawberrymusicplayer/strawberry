@@ -49,7 +49,7 @@ class SpotifyFavoriteRequest : public SpotifyBaseRequest {
     FavoriteType_Songs
   };
 
- signals:
+ Q_SIGNALS:
   void ArtistsAdded(SongList);
   void AlbumsAdded(SongList);
   void SongsAdded(SongList);

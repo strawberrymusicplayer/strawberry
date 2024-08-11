@@ -53,7 +53,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
     Songs
   };
 
- signals:
+ Q_SIGNALS:
   void ArtistsAdded(const SongList &songs);
   void AlbumsAdded(const SongList &songs);
   void SongsAdded(const SongList &songs);

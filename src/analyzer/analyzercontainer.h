@@ -50,7 +50,7 @@ class AnalyzerContainer : public QWidget {
   static const char *kSettingsGroup;
   static const char *kSettingsFramerate;
 
- signals:
+ Q_SIGNALS:
   void WheelEvent(const int delta);
 
  protected:

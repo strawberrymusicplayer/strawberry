@@ -118,7 +118,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
  public slots:
   void Unmount(const QModelIndex &idx);
 
- signals:
+ Q_SIGNALS:
   void ExitFinished();
   void DeviceConnected(const QModelIndex idx);
   void DeviceDisconnected(const QModelIndex idx);

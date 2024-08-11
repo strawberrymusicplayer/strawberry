@@ -68,7 +68,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   void Submit() override;
   void Love() override;
 
- signals:
+ Q_SIGNALS:
   void AuthenticationComplete(const bool success, const QString &error = QString());
 
  public slots:

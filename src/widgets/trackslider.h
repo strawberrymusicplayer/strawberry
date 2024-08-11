@@ -62,7 +62,7 @@ class TrackSlider : public QWidget {
   void SetCanSeek(const bool can_seek);
   void Seek(const int gap);
 
- signals:
+ Q_SIGNALS:
   void ValueChanged(const int value);
   void ValueChangedSeconds(const quint64 value);
 

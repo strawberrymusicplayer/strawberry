@@ -65,7 +65,7 @@ class AlbumCoverFetcherSearch : public QObject {
 
   static bool CoverProviderSearchResultCompareNumber(const CoverProviderSearchResult &a, const CoverProviderSearchResult &b);
 
- signals:
+ Q_SIGNALS:
   // It's the end of search (when there was no fetch-me-a-cover request).
   void SearchFinished(quint64, const CoverProviderSearchResults &results);
 

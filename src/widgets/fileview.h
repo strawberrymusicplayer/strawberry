@@ -63,7 +63,7 @@ class FileView : public QWidget {
   void showEvent(QShowEvent*) override;
   void keyPressEvent(QKeyEvent *e) override;
 
- signals:
+ Q_SIGNALS:
   void PathChanged(const QString &path);
 
   void AddToPlaylist(QMimeData *data);

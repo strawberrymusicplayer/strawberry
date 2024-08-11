@@ -91,7 +91,7 @@ class CollectionFilterWidget : public QWidget {
   void SetFilterMode(CollectionFilterOptions::FilterMode filter_mode);
   void FocusOnFilter(QKeyEvent *e);
 
- signals:
+ Q_SIGNALS:
   void UpPressed();
   void DownPressed();
   void ReturnPressed();

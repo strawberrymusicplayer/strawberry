@@ -72,7 +72,7 @@ class PlaylistSequence : public QWidget {
   void CycleShuffleMode();
   void CycleRepeatMode();
 
- signals:
+ Q_SIGNALS:
   void RepeatModeChanged(const PlaylistSequence::RepeatMode mode);
   void ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode);
 

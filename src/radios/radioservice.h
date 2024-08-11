@@ -53,7 +53,7 @@ class RadioService : public QObject {
   virtual QUrl Homepage() = 0;
   virtual QUrl Donate() = 0;
 
- signals:
+ Q_SIGNALS:
   void NewChannels(const RadioChannelList &channels = RadioChannelList());
 
  public slots:

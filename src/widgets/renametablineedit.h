@@ -35,7 +35,7 @@ class RenameTabLineEdit : public QLineEdit {
  public:
   explicit RenameTabLineEdit(QWidget *parent = nullptr);
 
- signals:
+ Q_SIGNALS:
   void EditingCanceled();
 
  protected:

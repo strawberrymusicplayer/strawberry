@@ -78,7 +78,7 @@ class ContextAlbum : public QWidget {
   void ScaleCover();
   void ScalePreviousCovers();
 
- signals:
+ Q_SIGNALS:
   void FadeStopFinished();
 
  private slots:

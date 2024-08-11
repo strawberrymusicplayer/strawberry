@@ -55,7 +55,7 @@ class SmartPlaylistSearchTermWidget : public QWidget {
   void SetTerm(const SmartPlaylistSearchTerm &term);
   SmartPlaylistSearchTerm Term() const;
 
- signals:
+ Q_SIGNALS:
   void Clicked();
   void RemoveClicked();
 

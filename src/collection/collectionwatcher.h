@@ -71,7 +71,7 @@ class CollectionWatcher : public QObject {
 
   void RescanSongsAsync(const SongList &songs);
 
- signals:
+ Q_SIGNALS:
   void NewOrUpdatedSongs(const SongList &songs);
   void SongsMTimeUpdated(const SongList &songs);
   void SongsDeleted(const SongList &songs);

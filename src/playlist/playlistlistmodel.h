@@ -80,7 +80,7 @@ class PlaylistListModel : public QStandardItemModel {
   // QStandardItemModel
   bool setData(const QModelIndex &idx, const QVariant &value, int role) override;
 
- signals:
+ Q_SIGNALS:
   void PlaylistPathChanged(const int id, const QString &new_path);
   void PlaylistRenamed(const int id, const QString &new_name);
 

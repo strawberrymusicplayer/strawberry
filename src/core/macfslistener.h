@@ -44,7 +44,7 @@ class MacFSListener : public FileSystemWatcherInterface {
   void RemovePath(const QString &path);
   void Clear();
 
- signals:
+ Q_SIGNALS:
   void PathChanged(const QString &path);
 
  private slots:

@@ -86,7 +86,7 @@ class SongLoader : public QObject {
 
   QStringList errors() { return errors_; }
 
- signals:
+ Q_SIGNALS:
   void AudioCDTracksLoadFinished();
   void LoadAudioCDFinished(const bool success);
   void LoadRemoteFinished();

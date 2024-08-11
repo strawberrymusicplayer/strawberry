@@ -80,7 +80,7 @@ class ContextView : public QWidget {
   void SearchLyrics();
   void UpdateFonts();
 
- signals:
+ Q_SIGNALS:
   void AlbumEnabledChanged();
 
  private slots:

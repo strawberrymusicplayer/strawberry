@@ -149,7 +149,7 @@ class AlbumCoverManager : public QMainWindow {
 
   void LoadAlbumCoverAsync(AlbumItem *album_item);
 
- signals:
+ Q_SIGNALS:
   void Error(const QString &error);
   void AddToPlaylist(QMimeData *data);
 

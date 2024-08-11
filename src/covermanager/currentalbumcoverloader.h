@@ -53,7 +53,7 @@ class CurrentAlbumCoverLoader : public QObject {
   void ReloadSettings();
   void LoadAlbumCover(const Song &song);
 
- signals:
+ Q_SIGNALS:
   void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
   void ThumbnailLoaded(const Song &song, const QUrl &thumbnail_uri, const QImage &image);
 

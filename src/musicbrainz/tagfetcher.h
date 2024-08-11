@@ -49,7 +49,7 @@ class TagFetcher : public QObject {
  public slots:
   void Cancel();
 
- signals:
+ Q_SIGNALS:
   void Progress(const Song &original_song, const QString &stage);
   void ResultAvailable(const Song &original_song, const SongList &songs_guessed, const QString &error = QString());
 

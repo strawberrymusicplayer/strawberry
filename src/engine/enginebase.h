@@ -162,7 +162,7 @@ class EngineBase : public QObject {
   virtual void SetEqualizerEnabled(const bool) {}
   virtual void SetEqualizerParameters(const int, const QList<int>&) {}
 
- signals:
+ Q_SIGNALS:
   // Emitted when crossfading is enabled and the track is crossfade_duration_ away from finishing
   void TrackAboutToEnd();
 

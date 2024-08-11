@@ -31,7 +31,7 @@ class ClickableLabel : public QLabel {
  public:
   explicit ClickableLabel(QWidget *parent = nullptr);
 
- signals:
+ Q_SIGNALS:
   void Clicked();
 
  protected:

@@ -45,7 +45,7 @@ class QobuzSettingsPage : public SettingsPage {
 
   bool eventFilter(QObject *object, QEvent *event) override;
 
- signals:
+ Q_SIGNALS:
   void Login(const QString &username, const QString &password, const QString &token);
 
  private slots:

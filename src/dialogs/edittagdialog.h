@@ -73,7 +73,7 @@ class EditTagDialog : public QDialog {
 
   void accept() override;
 
- signals:
+ Q_SIGNALS:
   void Error(const QString &message);
 
  protected:

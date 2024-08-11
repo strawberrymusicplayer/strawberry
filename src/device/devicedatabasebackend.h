@@ -71,7 +71,7 @@ class DeviceDatabaseBackend : public QObject {
  private slots:
   void Exit();
 
- signals:
+ Q_SIGNALS:
   void ExitFinished();
 
  private:

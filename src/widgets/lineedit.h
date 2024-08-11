@@ -140,7 +140,7 @@ class LineEdit : public QLineEdit, public ExtendedEditor {
  private slots:
   void text_changed(const QString &text);
 
- signals:
+ Q_SIGNALS:
   void Reset();
 };
 
@@ -167,7 +167,7 @@ class TextEdit : public QPlainTextEdit, public ExtendedEditor {
   void paintEvent(QPaintEvent*) override;
   void resizeEvent(QResizeEvent*) override;
 
- signals:
+ Q_SIGNALS:
   void Reset();
 };
 
@@ -198,7 +198,7 @@ class SpinBox : public QSpinBox, public ExtendedEditor {
   void paintEvent(QPaintEvent*) override;
   void resizeEvent(QResizeEvent*) override;
 
- signals:
+ Q_SIGNALS:
   void Reset();
 };
 
@@ -227,7 +227,7 @@ class CheckBox : public QCheckBox, public ExtendedEditor {
   void paintEvent(QPaintEvent*) override;
   void resizeEvent(QResizeEvent*) override;
 
- signals:
+ Q_SIGNALS:
   void Reset();
 };
 

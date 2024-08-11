@@ -65,7 +65,7 @@ class PlayingWidget : public QWidget {
   QSize sizeHint() const override;
   bool show_above_status_bar() const { return above_statusbar_action_->isChecked(); }
 
- signals:
+ Q_SIGNALS:
   void ShowAboveStatusBarChanged(const bool above);
 
  public slots:

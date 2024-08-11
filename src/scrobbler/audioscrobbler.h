@@ -85,7 +85,7 @@ class AudioScrobbler : public QObject {
   void Love();
   void WriteCache();
 
- signals:
+ Q_SIGNALS:
   void ErrorMessage(const QString &error);
 
  private:

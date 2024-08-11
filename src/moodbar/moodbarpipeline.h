@@ -46,7 +46,7 @@ class MoodbarPipeline : public QObject {
  public slots:
   void Start();
 
- signals:
+ Q_SIGNALS:
   void Finished(const bool success);
 
  private:

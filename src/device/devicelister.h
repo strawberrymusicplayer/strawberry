@@ -81,7 +81,7 @@ class DeviceLister : public QObject {
   virtual void UnmountDevice(const QString &id) { Q_UNUSED(id); }
   virtual void Exit();
 
- signals:
+ Q_SIGNALS:
   void DeviceAdded(const QString &id);
   void DeviceRemoved(const QString &id);
   void DeviceChanged(const QString &id);

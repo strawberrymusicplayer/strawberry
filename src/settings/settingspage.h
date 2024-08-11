@@ -80,7 +80,7 @@ class SettingsPage : public QWidget {
  protected:
   bool eventFilter(QObject *obj, QEvent *e) override;
 
- signals:
+ Q_SIGNALS:
   void NotificationPreview(const OSDBase::Behaviour, const QString&, const QString&);
 
  private:

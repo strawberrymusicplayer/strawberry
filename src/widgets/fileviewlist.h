@@ -45,7 +45,7 @@ class FileViewList : public QListView {
 
   void mousePressEvent(QMouseEvent *e) override;
 
- signals:
+ Q_SIGNALS:
   void AddToPlaylist(QMimeData *data);
   void CopyToCollection(const QList<QUrl> &urls);
   void MoveToCollection(const QList<QUrl> &urls);

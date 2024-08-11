@@ -64,7 +64,7 @@ class Equalizer : public QDialog {
   Params current_params() const;
   float stereo_balance() const;
 
- signals:
+ Q_SIGNALS:
   void StereoBalancerEnabledChanged(const bool enabled);
   void StereoBalanceChanged(const float balance);
   void EqualizerEnabledChanged(const bool enabled);

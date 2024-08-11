@@ -53,7 +53,7 @@ class TrackSelectionDialog : public QDialog {
   // QDialog
   void accept() override;
 
- signals:
+ Q_SIGNALS:
   void Error(const QString &error);
   void SongChosen(const Song &original_song, const Song &new_metadata);
 

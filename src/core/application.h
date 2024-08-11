@@ -120,7 +120,7 @@ class Application : public QObject {
   void ReloadSettings();
   void OpenSettingsDialogAtPage(SettingsDialog::Page page);
 
- signals:
+ Q_SIGNALS:
   void ErrorAdded(const QString &message);
   void SettingsChanged();
   void SettingsDialogRequested(const SettingsDialog::Page page);

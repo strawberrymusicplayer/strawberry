@@ -101,7 +101,7 @@ class MusicBrainzClient : public QObject {
   // Cancels all requests.  Finished() will never be emitted for any pending requests.
   void CancelAll();
 
- signals:
+ Q_SIGNALS:
   // Finished signal emitted when fechting songs tags
   void Finished(const int id, const MusicBrainzClient::ResultList &result, const QString &error = QString());
   // Finished signal emitted when fechting album's songs tags using DiscId

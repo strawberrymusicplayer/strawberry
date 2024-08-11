@@ -43,7 +43,7 @@ class MultiLoadingIndicator : public QWidget {
 
   QSize sizeHint() const override;
 
- signals:
+ Q_SIGNALS:
   void TaskCountChange(const int tasks);
 
  protected:

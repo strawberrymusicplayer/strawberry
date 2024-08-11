@@ -70,7 +70,7 @@ class PlaylistTabBar : public QTabBar {
   void RemoveTab(const int id);
   void InsertTab(const int id, const int index, const QString &text, const bool favorite);
 
- signals:
+ Q_SIGNALS:
   void CurrentIdChanged(const int id);
   void Rename(const int id, const QString &name);
   void Close(const int id);

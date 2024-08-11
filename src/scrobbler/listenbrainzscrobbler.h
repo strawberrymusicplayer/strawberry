@@ -77,7 +77,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
     APIError
   };
 
- signals:
+ Q_SIGNALS:
   void AuthenticationComplete(const bool success, const QString &error = QString());
 
  public slots:

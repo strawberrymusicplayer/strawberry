@@ -50,7 +50,7 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
   bool setShortcut(const QKeySequence &shortcut);
   bool unsetShortcut();
 
- signals:
+ Q_SIGNALS:
   void activated();
 
  private:

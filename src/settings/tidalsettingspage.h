@@ -53,7 +53,7 @@ class TidalSettingsPage : public SettingsPage {
 
   bool eventFilter(QObject *object, QEvent *event) override;
 
- signals:
+ Q_SIGNALS:
   void Authorize(const QString &client_id);
   void Login(const QString &api_token, const QString &username, const QString &password);
 

@@ -45,7 +45,7 @@ class _MessageReplyBase : public QObject {
 
   void Abort();
 
- signals:
+ Q_SIGNALS:
   void Finished();
 
  protected:

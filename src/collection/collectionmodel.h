@@ -201,7 +201,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
 
- signals:
+ Q_SIGNALS:
   void TotalSongCountUpdated(const int count);
   void TotalArtistCountUpdated(const int count);
   void TotalAlbumCountUpdated(const int count);

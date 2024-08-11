@@ -65,7 +65,7 @@ class PlaylistContainer : public QWidget {
 
   bool eventFilter(QObject *objectWatched, QEvent *event) override;
 
- signals:
+ Q_SIGNALS:
   void UndoRedoActionsChanged(QAction *undo, QAction *redo);
   void ViewSelectionModelChanged();
 

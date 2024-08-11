@@ -74,7 +74,7 @@ class SystemTrayIcon : public QObject {
  private slots:
   void ActionChanged();
 
- signals:
+ Q_SIGNALS:
   void ChangeVolume(const int delta);
   void SeekForward();
   void SeekBackward();

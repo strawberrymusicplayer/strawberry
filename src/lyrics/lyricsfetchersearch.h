@@ -43,7 +43,7 @@ class LyricsFetcherSearch : public QObject {
   void Start(SharedPtr<LyricsProviders> lyrics_providers);
   void Cancel();
 
- signals:
+ Q_SIGNALS:
   void SearchFinished(const quint64 id, const LyricsSearchResults &results);
   void LyricsFetched(const quint64 id, const QString &provider, const QString &lyrics);
 

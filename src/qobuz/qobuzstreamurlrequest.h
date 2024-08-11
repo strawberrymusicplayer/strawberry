@@ -53,7 +53,7 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   int song_id() const { return song_id_; }
   bool need_login() const { return need_login_; }
 
- signals:
+ Q_SIGNALS:
   void TryLogin();
   void StreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
   void StreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);

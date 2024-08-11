@@ -94,7 +94,7 @@ class TidalBaseRequest : public QObject {
 
   virtual void set_need_login() = 0;
 
- signals:
+ Q_SIGNALS:
   void RequestLogin();
 
  private slots:

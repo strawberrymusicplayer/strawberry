@@ -87,7 +87,7 @@ class PlaylistGenerator : public QObject, public enable_shared_from_this<Playlis
   virtual int GetDynamicHistory() { return kDefaultDynamicHistory; }
   virtual int GetDynamicFuture() { return kDefaultDynamicFuture; }
 
- signals:
+ Q_SIGNALS:
   void Error(const QString &message);
 
  protected:

@@ -77,7 +77,7 @@ class TestQObject : public QObject {
 
   int invoked() const { return invoked_; }
 
- signals:
+ Q_SIGNALS:
   void Emitted();
 
  public slots:

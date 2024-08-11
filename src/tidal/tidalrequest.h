@@ -99,7 +99,7 @@ class TidalRequest : public TidalBaseRequest {
     QString filename;
   };
 
- signals:
+ Q_SIGNALS:
   void LoginSuccess();
   void LoginFailure(const QString &failure_reason);
   void Results(const int id, const SongMap &songs = SongMap(), const QString &error = QString());

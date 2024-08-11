@@ -83,7 +83,7 @@ class Database : public QObject {
   void AttachDatabaseOnDbConnection(const QString &database_name, const AttachedDatabase &database, QSqlDatabase &db);
   void DetachDatabase(const QString &database_name);
 
- signals:
+ Q_SIGNALS:
   void ExitFinished();
   void Error(const QString &error);
   void Errors(const QStringList &errors);

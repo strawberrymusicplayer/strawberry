@@ -102,7 +102,7 @@ class PlayerInterface : public QObject {
   virtual void PlayHelper() = 0;
   virtual void ShowOSD() = 0;
 
- signals:
+ Q_SIGNALS:
   void Playing();
   void Paused();
   // Emitted only when playback is manually resumed
@@ -190,7 +190,7 @@ class Player : public PlayerInterface {
 
   void HandleAuthentication();
 
- signals:
+ Q_SIGNALS:
   void EngineChanged(const EngineBase::Type Type);
 
  private slots:

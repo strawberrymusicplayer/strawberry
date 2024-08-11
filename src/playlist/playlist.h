@@ -304,7 +304,7 @@ class Playlist : public QAbstractListModel {
 
   void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
 
- signals:
+ Q_SIGNALS:
   void RestoreFinished();
   void PlaylistLoaded();
   void CurrentSongChanged(const Song &metadata);

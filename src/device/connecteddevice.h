@@ -76,7 +76,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public enab
  public slots:
   void BackendCloseFinished();
 
- signals:
+ Q_SIGNALS:
   void TaskStarted(const int id);
   void SongCountUpdated(const int count);
   void DeviceConnectFinished(const QString &id, const bool success);

@@ -191,7 +191,7 @@ class Mpris2 : public QObject {
   void ActivatePlaylist(const QDBusObjectPath &playlist_id);
   MprisPlaylistList GetPlaylists(quint32 index, quint32 max_count, const QString &order, bool reverse_order);
 
- signals:
+ Q_SIGNALS:
   // Player
   void Seeked(const qint64 position);
 

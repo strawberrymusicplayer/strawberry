@@ -55,7 +55,7 @@ class StreamingServices : public QObject {
   void ReloadSettings();
   void Exit();
 
- signals:
+ Q_SIGNALS:
   void ExitFinished();
 
  private slots:

@@ -117,7 +117,7 @@ class AlbumCoverFetcher : public QObject {
 
   void Clear();
 
- signals:
+ Q_SIGNALS:
   void AlbumCoverFetched(const quint64 request_id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics);
   void SearchFinished(const quint64 request_id, const CoverProviderSearchResults &results, const CoverSearchStatistics &statistics);
 

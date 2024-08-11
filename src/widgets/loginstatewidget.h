@@ -66,7 +66,7 @@ class LoginStateWidget : public QWidget {
 
   void SetExpires(const QDate expires);
 
- signals:
+ Q_SIGNALS:
   void LogoutClicked();
   void LoginClicked();
 

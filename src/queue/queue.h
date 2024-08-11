@@ -80,7 +80,7 @@ class Queue : public QAbstractProxyModel {
  public slots:
   void UpdateSummaryText();
 
- signals:
+ Q_SIGNALS:
   void TotalLengthChanged(const quint64 length);
   void ItemCountChanged(const int count);
   void SummaryTextChanged(const QString &message);

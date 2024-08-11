@@ -77,7 +77,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
     QString filename;
   };
 
- signals:
+ Q_SIGNALS:
   void Results(const SongMap &songs, const QString &error);
   void UpdateStatus(const QString &text);
   void ProgressSetMaximum(const int max);
