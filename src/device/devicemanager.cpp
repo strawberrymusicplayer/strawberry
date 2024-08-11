@@ -61,6 +61,9 @@
 #include "devicestatefiltermodel.h"
 #include "deviceinfo.h"
 
+#ifdef HAVE_GIO
+#  include "giolister.h"
+#endif
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
 #  include "cddalister.h"
 #  include "cddadevice.h"
@@ -78,9 +81,6 @@
 #endif
 #ifdef HAVE_LIBGPOD
 #  include "gpoddevice.h"
-#endif
-#ifdef HAVE_GIO
-#  include "giolister.h"  // Needs to be last because of #undef signals.
 #endif
 
 using std::make_unique;
