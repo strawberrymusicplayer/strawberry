@@ -1132,6 +1132,7 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
   instance->pipeline_connected_ = true;
   if (instance->pending_seek_nanosec_ != -1 && instance->pipeline_active_) {
     QMetaObject::invokeMethod(instance, "Seek", Qt::QueuedConnection, Q_ARG(qint64, instance->pending_seek_nanosec_));
+    instance->pending_seek_nanosec_ = -1;
   }
 
 }
@@ -1676,9 +1677,10 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
     }
   }
 
-  if (pipeline_active_) {
+  if (pipeline_active_ && !buffering_) {
     if (pending_seek_nanosec_ != -1 && new_state == GST_STATE_PAUSED) {
       SeekAsync(pending_seek_nanosec_);
+      pending_seek_nanosec_ = -1;
     }
     else if (pending_state_ != GST_STATE_NULL) {
       SetStateAsync(pending_state_);
@@ -1704,19 +1706,29 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 
   const GstState current_state = state();
 
-  if (percent == 0 && current_state == GST_STATE_PLAYING && !buffering_) {
+  if (percent < 100 && !buffering_) {
     qLog(Debug) << "Buffering started";
     buffering_ = true;
     emit BufferingStarted();
-
-    SetStateAsync(GST_STATE_PAUSED);
+    if (current_state == GST_STATE_PLAYING) {
+      SetStateAsync(GST_STATE_PAUSED);
+      if (pending_state_ == GST_STATE_NULL) {
+        pending_state_ = current_state;
+      }
+    }
   }
   else if (percent == 100 && buffering_) {
     qLog(Debug) << "Buffering finished";
     buffering_ = false;
     emit BufferingFinished();
-
-    SetStateAsync(GST_STATE_PLAYING);
+    if (pending_seek_nanosec_ != -1) {
+      SeekAsync(pending_seek_nanosec_);
+      pending_seek_nanosec_ = -1;
+    }
+    else if (pending_state_ != GST_STATE_NULL) {
+      SetStateAsync(pending_state_);
+      pending_state_ = GST_STATE_NULL;
+    }
   }
   else if (buffering_) {
     emit BufferingProgress(percent);
