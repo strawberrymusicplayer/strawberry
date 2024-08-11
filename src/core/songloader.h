@@ -91,7 +91,7 @@ class SongLoader : public QObject {
   void LoadAudioCDFinished(const bool success);
   void LoadRemoteFinished();
 
- private slots:
+ private Q_SLOTS:
   void ScheduleTimeout();
   void Timeout();
   void StopTypefind();

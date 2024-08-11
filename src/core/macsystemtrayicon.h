@@ -71,7 +71,7 @@ class SystemTrayIcon : public QObject {
   QPixmap CreateIcon(const QPixmap &icon, const QPixmap &grey_icon);
   void UpdateIcon();
 
- private slots:
+ private Q_SLOTS:
   void ActionChanged();
 
  Q_SIGNALS:

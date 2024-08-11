@@ -40,7 +40,7 @@ class CollectionItemDelegate : public QStyledItemDelegate {
   explicit CollectionItemDelegate(QObject *parent);
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
- public slots:
+ public Q_SLOTS:
   bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &idx) override;
 };
 

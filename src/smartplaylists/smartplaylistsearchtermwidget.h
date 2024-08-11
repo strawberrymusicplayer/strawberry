@@ -71,7 +71,7 @@ class SmartPlaylistSearchTermWidget : public QWidget {
   void leaveEvent(QEvent*) override;
   void resizeEvent(QResizeEvent*) override;
 
- private slots:
+ private Q_SLOTS:
   void FieldChanged(const int index);
   void OpChanged(const int idx);
   void RelativeValueChanged();

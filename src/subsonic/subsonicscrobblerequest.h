@@ -49,7 +49,7 @@ class SubsonicScrobbleRequest : public SubsonicBaseRequest {
 
   void CreateScrobbleRequest(const QString &song_id, const bool submission, const QDateTime &start_time);
 
- private slots:
+ private Q_SLOTS:
   void ScrobbleReplyReceived(QNetworkReply *reply);
 
  private:

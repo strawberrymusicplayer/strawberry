@@ -70,7 +70,7 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
   void FinishAllSearches();
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
- private slots:
+ private Q_SLOTS:
   void FlushRequests();
   void LoginFinished(QNetworkReply *reply);
   void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);

@@ -57,7 +57,7 @@ class MoodbarProxyStyle : public QProxyStyle {
   // QObject
   bool eventFilter(QObject *object, QEvent *event) override;
 
- public slots:
+ public Q_SLOTS:
   // An empty byte array means there's no moodbar, so just show a normal slider.
   void SetMoodbarData(const QByteArray &data);
 
@@ -82,7 +82,7 @@ class MoodbarProxyStyle : public QProxyStyle {
 
   static QPixmap MoodbarPixmap(const ColorVector &colors, const QSize size, const QPalette &palette, const QStyleOptionSlider *opt);
 
- private slots:
+ private Q_SLOTS:
   void ReloadSettings();
   void FaderValueChanged(qreal value);
   void ChangeStyle(QAction *action);

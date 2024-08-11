@@ -76,7 +76,7 @@ class DeviceView : public AutoExpandingTreeView {
   void contextMenuEvent(QContextMenuEvent*) override;
   void mouseDoubleClickEvent(QMouseEvent *e) override;
 
- private slots:
+ private Q_SLOTS:
   // Device menu actions
   void Connect();
   void Unmount();

@@ -47,7 +47,7 @@ class DeleteFiles : public QObject {
  Q_SIGNALS:
   void Finished(const SongList &songs_with_errors);
 
- private slots:
+ private Q_SLOTS:
   void ProcessSomeFiles();
 
  private:

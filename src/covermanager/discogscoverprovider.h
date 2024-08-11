@@ -84,7 +84,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   void EndSearch(SharedPtr<DiscogsCoverSearchContext> search, const quint64 release_id = 0);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
- private slots:
+ private Q_SLOTS:
   void FlushRequests();
   void HandleSearchReply(QNetworkReply *reply, const int id);
   void HandleReleaseReply(QNetworkReply *reply, const int search_id, const quint64 release_id);

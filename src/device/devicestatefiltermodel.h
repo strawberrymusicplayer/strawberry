@@ -47,7 +47,7 @@ class DeviceStateFilterModel : public QSortFilterProxyModel {
  protected:
   bool filterAcceptsRow(int row, const QModelIndex &parent) const override;
 
- private slots:
+ private Q_SLOTS:
   void ProxyReset();
   void ProxyRowCountChanged(const QModelIndex &idx, const int first, const int last);
 

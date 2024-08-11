@@ -50,7 +50,7 @@ class SpotifySettingsPage : public SettingsPage {
  Q_SIGNALS:
   void Authorize();
 
- private slots:
+ private Q_SLOTS:
   void LoginClicked();
   void LogoutClicked();
   void LoginSuccess();

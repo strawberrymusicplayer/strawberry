@@ -41,10 +41,10 @@ class RadioParadiseService : public RadioService {
 
   void Abort();
 
- public slots:
+ public Q_SLOTS:
   void GetChannels() override;
 
- private slots:
+ private Q_SLOTS:
   void GetChannelsReply(QNetworkReply *reply, const int task_id);
 
  private:

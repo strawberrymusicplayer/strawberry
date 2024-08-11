@@ -59,7 +59,7 @@ class GlobalShortcutGrabber : public QDialog {
   void grabKeyboard();
   void releaseKeyboard();
 
- private slots:
+ private Q_SLOTS:
   void Accepted();
   void Rejected();
 

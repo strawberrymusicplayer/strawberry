@@ -56,7 +56,7 @@ class _WorkerPoolBase : public QObject {
   // Emitted when a worker failed to start.  This usually happens when the worker wasn't found, or couldn't be executed.
   void WorkerFailedToStart();
 
- protected slots:
+ protected Q_SLOTS:
   virtual void DoStart() {}
   virtual void NewConnection() {}
   virtual void ProcessReadyReadStandardOutput() {}

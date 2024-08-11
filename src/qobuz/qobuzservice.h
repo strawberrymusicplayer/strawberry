@@ -109,7 +109,7 @@ class QobuzService : public StreamingService {
   CollectionFilter *albums_collection_filter_model() override { return albums_collection_model_->filter(); }
   CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
 
- public slots:
+ public Q_SLOTS:
   void ShowConfig() override;
   void TryLogin();
   void SendLogin();
@@ -121,7 +121,7 @@ class QobuzService : public StreamingService {
   void ResetAlbumsRequest() override;
   void ResetSongsRequest() override;
 
- private slots:
+ private Q_SLOTS:
   void ExitReceived();
   void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);
   void HandleAuthReply(QNetworkReply *reply);

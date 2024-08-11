@@ -82,7 +82,7 @@ class PlaylistManagerInterface : public QObject {
 
   virtual void PlaySmartPlaylist(PlaylistGeneratorPtr generator, const bool as_new, const bool clear) = 0;
 
- public slots:
+ public Q_SLOTS:
   virtual void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) = 0;
   virtual void Load(const QString &filename) = 0;
   virtual void Save(const int id, const QString &filename, const PlaylistSettingsPage::PathType path_type) = 0;
@@ -180,7 +180,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   PlaylistParser *parser() const override { return parser_; }
   PlaylistContainer *playlist_container() const override { return playlist_container_; }
 
- public slots:
+ public Q_SLOTS:
   void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) override;
   void Load(const QString &filename) override;
   void Save(const int id, const QString &filename, const PlaylistSettingsPage::PathType path_type) override;
@@ -226,7 +226,7 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   void SaveAllPlaylists();
 
- private slots:
+ private Q_SLOTS:
   void SetActivePlaying() override;
   void SetActivePaused() override;
   void SetActiveStopped() override;

@@ -45,7 +45,7 @@ class RadioView : public AutoExpandingTreeView {
  Q_SIGNALS:
   void GetChannels();
 
- private slots:
+ private Q_SLOTS:
   void AddToPlaylist();
   void ReplacePlaylist();
   void OpenInNewPlaylist();

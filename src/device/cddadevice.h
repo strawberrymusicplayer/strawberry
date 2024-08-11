@@ -59,7 +59,7 @@ class CddaDevice : public ConnectedDevice {
  Q_SIGNALS:
   void SongsDiscovered(const SongList &songs);
 
- private slots:
+ private Q_SLOTS:
   void SongsLoaded(const SongList &songs);
 
  private:

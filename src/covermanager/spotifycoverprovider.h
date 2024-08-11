@@ -57,7 +57,7 @@ class SpotifyCoverProvider : public JsonCoverProvider {
     if (service_) service_->Deauthenticate();
   }
 
- private slots:
+ private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id, const QString &extract);
 
  private:

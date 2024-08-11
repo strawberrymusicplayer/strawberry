@@ -104,7 +104,7 @@ class EditTagDialog : public QDialog {
     AlbumCoverImageResult cover_result_;
   };
 
- private slots:
+ private Q_SLOTS:
   void SetSongsFinished();
   void SaveDataFinished();
 

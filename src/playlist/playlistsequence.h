@@ -66,7 +66,7 @@ class PlaylistSequence : public QWidget {
   QMenu *repeat_menu() const { return repeat_menu_; }
   QMenu *shuffle_menu() const { return shuffle_menu_; }
 
- public slots:
+ public Q_SLOTS:
   void SetRepeatMode(const PlaylistSequence::RepeatMode mode);
   void SetShuffleMode(const PlaylistSequence::ShuffleMode mode);
   void CycleShuffleMode();
@@ -76,7 +76,7 @@ class PlaylistSequence : public QWidget {
   void RepeatModeChanged(const PlaylistSequence::RepeatMode mode);
   void ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode);
 
- private slots:
+ private Q_SLOTS:
   void RepeatActionTriggered(QAction *action);
   void ShuffleActionTriggered(QAction *action);
 

@@ -83,7 +83,7 @@ class ContextView : public QWidget {
  Q_SIGNALS:
   void AlbumEnabledChanged();
 
- private slots:
+ private Q_SLOTS:
   void ActionShowAlbum();
   void ActionShowData();
   void ActionShowLyrics();
@@ -92,7 +92,7 @@ class ContextView : public QWidget {
   void FadeStopFinished();
   void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
 
- public slots:
+ public Q_SLOTS:
   void ReloadSettings();
   void Playing();
   void Stopped();

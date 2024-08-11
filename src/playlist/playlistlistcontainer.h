@@ -59,7 +59,7 @@ class PlaylistListContainer : public QWidget {
   void showEvent(QShowEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
 
- private slots:
+ private Q_SLOTS:
   // From the UI
   void NewFolderClicked();
   void ItemDoubleClicked(const QModelIndex &proxy_idx);

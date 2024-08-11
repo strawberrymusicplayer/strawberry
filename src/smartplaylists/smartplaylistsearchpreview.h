@@ -56,7 +56,7 @@ class SmartPlaylistSearchPreview : public QWidget {
  private:
   void RunSearch(const SmartPlaylistSearch &search);
 
- private slots:
+ private Q_SLOTS:
   void SearchFinished();
 
  private:

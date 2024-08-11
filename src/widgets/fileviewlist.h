@@ -63,7 +63,7 @@ class FileViewList : public QListView {
   QList<QUrl> UrlListFromSelection() const;
   MimeData *MimeDataFromSelection() const;
 
- private slots:
+ private Q_SLOTS:
   void LoadSlot();
   void AddToPlaylistSlot();
   void OpenInNewPlaylistSlot();

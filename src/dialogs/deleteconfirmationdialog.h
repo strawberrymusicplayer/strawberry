@@ -32,7 +32,7 @@ class DeleteConfirmationDialog : public QDialog {
 
   static QDialogButtonBox::StandardButton warning(const QStringList &files, QWidget *parent = nullptr);
 
- private slots:
+ private Q_SLOTS:
   void ButtonClicked(QAbstractButton *button);
 
  private:

@@ -51,7 +51,7 @@ class QobuzCoverProvider : public JsonCoverProvider {
   bool IsAuthenticated() const override { return service_ && service_->authenticated(); }
   void Deauthenticate() override { if (service_) service_->Logout(); }
 
- private slots:
+ private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id);
 
  private:

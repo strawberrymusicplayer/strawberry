@@ -51,7 +51,7 @@ class ScrobblerCache : public QObject {
   void SetError(ScrobblerCacheItemPtrList cache_items);
   void Flush(ScrobblerCacheItemPtrList cache_items);
 
- public slots:
+ public Q_SLOTS:
   void WriteCache();
 
  private:

@@ -57,7 +57,7 @@ class TidalSettingsPage : public SettingsPage {
   void Authorize(const QString &client_id);
   void Login(const QString &api_token, const QString &username, const QString &password);
 
- private slots:
+ private Q_SLOTS:
   void OAuthClicked(const bool enabled);
   void LoginClicked();
   void LogoutClicked();

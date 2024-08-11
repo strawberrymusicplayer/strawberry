@@ -70,7 +70,7 @@ class SubsonicBaseRequest : public QObject {
   bool verify_certificate() const { return service_->verify_certificate(); }
   bool download_album_covers() const { return service_->download_album_covers(); }
 
- private slots:
+ private Q_SLOTS:
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 
  private:

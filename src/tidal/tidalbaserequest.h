@@ -97,7 +97,7 @@ class TidalBaseRequest : public QObject {
  Q_SIGNALS:
   void RequestLogin();
 
- private slots:
+ private Q_SLOTS:
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 
  private:

@@ -99,7 +99,7 @@ class SpotifyRequest : public SpotifyBaseRequest {
   void UpdateProgress(int id, int max);
   void StreamURLFinished(QUrl original_url, QUrl url, Song::FileType, QString error = QString());
 
- private slots:
+ private Q_SLOTS:
   void FlushRequests();
 
   void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);

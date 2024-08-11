@@ -89,11 +89,11 @@ class OrganizeDialog : public QDialog {
  Q_SIGNALS:
   void FileCopied(const int);
 
- public slots:
+ public Q_SLOTS:
   void accept() override;
   void reject() override;
 
- private slots:
+ private Q_SLOTS:
   void SaveSettings();
   void RestoreDefaults();
 

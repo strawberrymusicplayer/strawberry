@@ -49,7 +49,7 @@ class SmartPlaylistsViewContainer : public QWidget {
  protected:
   void showEvent(QShowEvent *e) override;
 
- private slots:
+ private Q_SLOTS:
   void ItemsSelectedChanged();
   void ItemDoubleClicked(const QModelIndex &idx);
 

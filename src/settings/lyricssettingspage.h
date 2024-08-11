@@ -53,7 +53,7 @@ class LyricsSettingsPage : public SettingsPage {
   void DisconnectAuthentication(LyricsProvider *provider) const;
   static bool ProviderCompareOrder(LyricsProvider *a, LyricsProvider *b);
 
- private slots:
+ private Q_SLOTS:
   void CurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous);
   void ItemSelectionChanged();
   void ItemChanged(QListWidgetItem *item);

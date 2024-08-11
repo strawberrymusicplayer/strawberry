@@ -59,7 +59,7 @@ class CoverProviders : public QObject {
 
   int NextId();
 
- private slots:
+ private Q_SLOTS:
   void ProviderDestroyed();
 
  private:

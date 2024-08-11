@@ -43,14 +43,14 @@ class GroupByDialog : public QDialog {
   explicit GroupByDialog(QWidget *parent = nullptr);
   ~GroupByDialog() override;
 
- public slots:
+ public Q_SLOTS:
   void CollectionGroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
   void accept() override;
 
  Q_SIGNALS:
   void Accepted(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
 
- private slots:
+ private Q_SLOTS:
   void Reset();
 
  private:

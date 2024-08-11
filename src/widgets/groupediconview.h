@@ -96,7 +96,7 @@ class GroupedIconView : public QListView {
   QRect visualRect(const QModelIndex &idx) const override;
   QRegion visualRegionForSelection(const QItemSelection &selection) const override;
 
- private slots:
+ private Q_SLOTS:
   void LayoutItems();
 
  private:

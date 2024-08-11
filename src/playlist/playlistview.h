@@ -98,7 +98,7 @@ class PlaylistView : public QTreeView {
   // QTreeView
   void setModel(QAbstractItemModel *model) override;
 
- public slots:
+ public Q_SLOTS:
   void ReloadSettings();
   void SaveSettings();
   void SetColumnAlignment(const int section, const Qt::Alignment alignment);
@@ -144,7 +144,7 @@ class PlaylistView : public QTreeView {
   void rowsInserted(const QModelIndex &parent, const int start, const int end) override;
   void closeEditor(QWidget *editor, const QAbstractItemDelegate::EndEditHint hint) override;
 
- private slots:
+ private Q_SLOTS:
   void Update() { update(); }
   void SetHeaderState();
   void InhibitAutoscrollTimeout();

@@ -86,7 +86,7 @@ class CollectionFilterWidget : public QWidget {
   bool SearchFieldHasFocus() const;
   void FocusSearchField();
 
- public slots:
+ public Q_SLOTS:
   void UpdateGroupByActions();
   void SetFilterMode(CollectionFilterOptions::FilterMode filter_mode);
   void FocusOnFilter(QKeyEvent *e);
@@ -99,7 +99,7 @@ class CollectionFilterWidget : public QWidget {
  protected:
   void keyReleaseEvent(QKeyEvent *e) override;
 
- private slots:
+ private Q_SLOTS:
   void GroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
   void GroupByClicked(QAction *action);
   void SaveGroupBy();

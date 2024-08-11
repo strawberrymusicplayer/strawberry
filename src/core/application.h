@@ -112,10 +112,10 @@ class Application : public QObject {
   QThread *MoveToNewThread(QObject *object);
   static void MoveToThread(QObject *object, QThread *thread);
 
- private slots:
+ private Q_SLOTS:
   void ExitReceived();
 
- public slots:
+ public Q_SLOTS:
   void AddError(const QString &message);
   void ReloadSettings();
   void OpenSettingsDialogAtPage(SettingsDialog::Page page);

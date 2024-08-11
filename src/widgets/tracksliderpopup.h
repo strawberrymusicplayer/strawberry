@@ -39,7 +39,7 @@ class TrackSliderPopup : public QWidget {
  public:
   explicit TrackSliderPopup(QWidget *parent);
 
- public slots:
+ public Q_SLOTS:
   void SetText(const QString &text);
   void SetSmallText(const QString &small_text);
   void SetPopupPosition(const QPoint pos);

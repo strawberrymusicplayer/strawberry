@@ -52,7 +52,7 @@ class ScrobblerSettings : public QObject {
 
   void ShowConfig();
 
- public slots:
+ public Q_SLOTS:
   void ToggleScrobbling();
   void ToggleOffline();
   void ErrorReceived(const QString &error);

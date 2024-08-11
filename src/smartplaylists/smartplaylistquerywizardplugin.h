@@ -53,7 +53,7 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
   void SetGenerator(PlaylistGeneratorPtr) override;
   PlaylistGeneratorPtr CreateGenerator() const override;
 
- private slots:
+ private Q_SLOTS:
   void AddSearchTerm();
   void RemoveSearchTerm();
 

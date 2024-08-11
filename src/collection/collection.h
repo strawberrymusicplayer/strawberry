@@ -64,7 +64,7 @@ class SCollection : public QObject {
  private:
   void SyncPlaycountAndRatingToFiles();
 
- public slots:
+ public Q_SLOTS:
   void ReloadSettings();
 
   void PauseWatcher();
@@ -76,7 +76,7 @@ class SCollection : public QObject {
 
   void IncrementalScan();
 
- private slots:
+ private Q_SLOTS:
   void ExitReceived();
   void SongsPlaycountChanged(const SongList &songs, const bool save_tags = false);
   void SongsRatingChanged(const SongList &songs, const bool save_tags = false);

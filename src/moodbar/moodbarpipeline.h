@@ -43,7 +43,7 @@ class MoodbarPipeline : public QObject {
   bool success() const { return success_; }
   const QByteArray &data() const { return data_; }
 
- public slots:
+ public Q_SLOTS:
   void Start();
 
  Q_SIGNALS:

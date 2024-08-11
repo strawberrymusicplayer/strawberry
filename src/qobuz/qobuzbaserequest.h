@@ -91,7 +91,7 @@ class QobuzBaseRequest : public QObject {
   int max_login_attempts() const { return service_->max_login_attempts(); }
   int login_attempts() const { return service_->login_attempts(); }
 
- private slots:
+ private Q_SLOTS:
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 
  private:

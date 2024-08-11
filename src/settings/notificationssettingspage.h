@@ -51,7 +51,7 @@ class NotificationsSettingsPage : public SettingsPage {
   void hideEvent(QHideEvent*) override;
   void showEvent(QShowEvent*) override;
 
- private slots:
+ private Q_SLOTS:
   void NotificationTypeChanged();
   void NotificationCustomTextChanged(bool enabled);
   void PrepareNotificationPreview();

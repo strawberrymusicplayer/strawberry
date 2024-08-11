@@ -209,7 +209,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void SongsAdded(const SongList &songs);
   void SongsRemoved(const SongList &songs);
 
- public slots:
+ public Q_SLOTS:
   void SetFilterMode(const CollectionFilterOptions::FilterMode filter_mode);
   void SetFilterMaxAge(const int filter_max_age);
 
@@ -253,7 +253,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void ClearItemPixmapCache(CollectionItem *item);
   static qint64 MaximumCacheSize(Settings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default);
 
- private slots:
+ private Q_SLOTS:
   void Reload();
   void ScheduleReset();
   void ProcessUpdate();

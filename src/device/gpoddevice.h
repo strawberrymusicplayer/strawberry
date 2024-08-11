@@ -71,7 +71,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   bool DeleteFromStorage(const DeleteJob &job) override;
   bool FinishDelete(bool success, QString &error_text) override;
 
- protected slots:
+ protected Q_SLOTS:
   void LoadFinished(Itdb_iTunesDB *db, const bool success);
   void LoaderError(const QString &message);
 

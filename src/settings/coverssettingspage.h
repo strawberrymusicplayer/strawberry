@@ -64,7 +64,7 @@ class CoversSettingsPage : public SettingsPage {
   QString AlbumCoverArtTypeDescription(const QString &type) const;
   void TypesMove(const int d);
 
- private slots:
+ private Q_SLOTS:
   void ProvidersCurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous);
   void ProvidersItemSelectionChanged();
   void ProvidersItemChanged(QListWidgetItem *item);

@@ -70,7 +70,7 @@ class MtpDevice : public ConnectedDevice {
   bool DeleteFromStorage(const DeleteJob &job) override;
   bool FinishDelete(const bool success, QString &error_text) override;
 
- private slots:
+ private Q_SLOTS:
   void LoadFinished(bool success, MtpConnection *connection);
   void LoaderError(const QString &message);
 

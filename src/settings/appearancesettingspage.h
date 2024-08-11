@@ -96,7 +96,7 @@ class AppearanceSettingsPage : public SettingsPage {
 
   static QColor DefaultTabbarBgColor();
 
- private slots:
+ private Q_SLOTS:
   void SelectBackgroundImage();
   void BlurLevelChanged(int);
   void OpacityLevelChanged(int);

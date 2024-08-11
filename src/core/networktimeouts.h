@@ -42,7 +42,7 @@ class NetworkTimeouts : public QObject {
  protected:
   void timerEvent(QTimerEvent *e) override;
 
- private slots:
+ private Q_SLOTS:
   void ReplyFinished();
 
  private:

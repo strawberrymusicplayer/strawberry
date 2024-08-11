@@ -48,7 +48,7 @@ class QobuzSettingsPage : public SettingsPage {
  Q_SIGNALS:
   void Login(const QString &username, const QString &password, const QString &token);
 
- private slots:
+ private Q_SLOTS:
   void LoginClicked();
   void LogoutClicked();
   void LoginSuccess();

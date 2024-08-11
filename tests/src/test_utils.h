@@ -80,7 +80,7 @@ class TestQObject : public QObject {
  Q_SIGNALS:
   void Emitted();
 
- public slots:
+ public Q_SLOTS:
   void Invoke();
 
  private:

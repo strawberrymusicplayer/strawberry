@@ -142,7 +142,7 @@ class StreamingSearchView : public QWidget {
   void AddAlbumsSignal(const SongList &songs);
   void AddSongsSignal(const SongList &songs);
 
- private slots:
+ private Q_SLOTS:
   void SwapModels();
   void TextEdited(const QString &text);
   void StartSearch(const QString &query);
@@ -173,7 +173,7 @@ class StreamingSearchView : public QWidget {
 
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &albumcover_result);
 
- public slots:
+ public Q_SLOTS:
   void ReloadSettings();
 
  private:

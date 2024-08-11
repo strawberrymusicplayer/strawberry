@@ -55,7 +55,7 @@ class TidalCoverProvider : public JsonCoverProvider {
     if (service_) service_->Logout();
   }
 
- private slots:
+ private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id);
 
  private:

@@ -48,7 +48,7 @@ class ScrobblerSettingsPage : public SettingsPage {
   void Load() override;
   void Save() override;
 
- private slots:
+ private Q_SLOTS:
   void LastFM_Login();
   void LastFM_Logout();
   void LastFM_AuthenticationComplete(const bool success, const QString &error = QString());

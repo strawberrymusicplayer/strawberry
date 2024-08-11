@@ -53,7 +53,7 @@ class SongLoaderInserter : public QObject {
   void PreloadFinished();
   void EffectiveLoadFinished(const SongList &songs);
 
- private slots:
+ private Q_SLOTS:
   void DestinationDestroyed();
   void AudioCDTracksLoadFinished(SongLoader *loader);
   void AudioCDTagsLoaded(const bool success);

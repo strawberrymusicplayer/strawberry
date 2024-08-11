@@ -109,7 +109,7 @@ class OSDPretty : public QWidget {
  Q_SIGNALS:
   void PositionChanged();
 
- public slots:
+ public Q_SLOTS:
   void ReloadSettings();
 
  protected:
@@ -131,7 +131,7 @@ class OSDPretty : public QWidget {
 
   QRect BoxBorder() const;
 
- private slots:
+ private Q_SLOTS:
   void FaderValueChanged(const qreal value);
   void FaderFinished();
   void ScreenAdded(QScreen *screen);

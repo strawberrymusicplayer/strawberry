@@ -107,7 +107,7 @@ class TidalRequest : public TidalBaseRequest {
   void UpdateProgress(const int id, const int max);
   void StreamURLFinished(const QUrl &media_url, const QUrl &url, const Song::FileType filetype, const QString &error = QString());
 
- private slots:
+ private Q_SLOTS:
   void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
 
   void AlbumsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
@@ -120,7 +120,7 @@ class TidalRequest : public TidalBaseRequest {
   void AlbumSongsReplyReceived(QNetworkReply *reply, const Artist &artist, const Album &album, const int offset_requested);
   void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
 
- public slots:
+ public Q_SLOTS:
   void LoginComplete(const bool success, const QString &error = QString());
 
  private:

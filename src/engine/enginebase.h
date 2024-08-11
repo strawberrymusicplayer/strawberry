@@ -136,7 +136,7 @@ class EngineBase : public QObject {
   bool Play(const QUrl &media_url, const QUrl &stream_url, const bool pause, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const quint64 offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs);
   void SetVolume(const uint volume);
 
- public slots:
+ public Q_SLOTS:
   virtual void ReloadSettings();
   void UpdateVolume(const uint volume);
   void EmitAboutToFinish();
@@ -156,7 +156,7 @@ class EngineBase : public QObject {
 
   QVariant device() { return device_; }
 
- public slots:
+ public Q_SLOTS:
   virtual void SetStereoBalancerEnabled(const bool) {}
   virtual void SetStereoBalance(const float) {}
   virtual void SetEqualizerEnabled(const bool) {}

@@ -139,7 +139,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void AuthorizationUrlReceived(const QUrl &url);
 
- private slots:
+ private Q_SLOTS:
   void FilePathChanged(const QString &path);
 
   void EngineChanged(const EngineBase::Type enginetype);
@@ -274,7 +274,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void DeleteFilesFinished(const SongList &songs_with_errors);
 
- public slots:
+ public Q_SLOTS:
   void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();
 

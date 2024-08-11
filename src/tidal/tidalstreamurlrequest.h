@@ -62,10 +62,10 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   void StreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
   void StreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate = -1, const int bit_depth = -1, const qint64 duration = -1);
 
- private slots:
+ private Q_SLOTS:
   void StreamURLReceived();
 
- public slots:
+ public Q_SLOTS:
   void LoginComplete(const bool success, const QString &error = QString());
 
  private:

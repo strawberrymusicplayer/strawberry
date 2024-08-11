@@ -85,7 +85,7 @@ class CollectionWatcher : public QObject {
 
   void ScanStarted(const int task_id);
 
- public slots:
+ public Q_SLOTS:
   void AddDirectory(const CollectionDirectory &dir, const CollectionSubdirectoryList &subdirs);
   void RemoveDirectory(const CollectionDirectory &dir);
   void SetRescanPaused(bool pause);
@@ -166,7 +166,7 @@ class CollectionWatcher : public QObject {
     bool known_subdirs_dirty_;
   };
 
- private slots:
+ private Q_SLOTS:
   void ReloadSettings();
   void Exit();
   void DirectoryChanged(const QString &subdir);

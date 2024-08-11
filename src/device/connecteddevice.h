@@ -73,7 +73,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public enab
   void Eject() override;
   virtual void Close();
 
- public slots:
+ public Q_SLOTS:
   void BackendCloseFinished();
 
  Q_SIGNALS:
@@ -100,7 +100,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public enab
 
   qint64 song_count_;
 
- private slots:
+ private Q_SLOTS:
   void BackendTotalSongCountUpdated(int count);
 };
 

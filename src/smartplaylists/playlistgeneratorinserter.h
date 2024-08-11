@@ -52,7 +52,7 @@ class PlaylistGeneratorInserter : public QObject {
   void Error(const QString &message);
   void PlayRequested(const QModelIndex idx, const Playlist::AutoScroll autoscroll);
 
- private slots:
+ private Q_SLOTS:
   void Finished();
 
  private:

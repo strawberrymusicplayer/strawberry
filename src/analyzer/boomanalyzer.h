@@ -47,7 +47,7 @@ class BoomAnalyzer : public AnalyzerBase {
   void transform(Scope &s) override;
   void analyze(QPainter &p, const Scope &scope, const bool new_frame) override;
 
- public slots:
+ public Q_SLOTS:
   void changeK_barHeight(int);
   void changeF_peakSpeed(int);
 

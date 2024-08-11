@@ -49,7 +49,7 @@ class GPodLoader : public QObject {
 
   void Abort() { abort_ = true; }
 
- public slots:
+ public Q_SLOTS:
   void LoadDatabase();
 
  Q_SIGNALS:

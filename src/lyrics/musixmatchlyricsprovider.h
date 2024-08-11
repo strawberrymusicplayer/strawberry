@@ -66,7 +66,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchPro
   void EndSearch(LyricsSearchContextPtr search, const QUrl &url = QUrl());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
- private slots:
+ private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, LyricsSearchContextPtr search);
   void HandleLyricsReply(QNetworkReply *reply, LyricsSearchContextPtr search, const QUrl &url);
 

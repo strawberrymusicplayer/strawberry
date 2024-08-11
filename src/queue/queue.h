@@ -77,7 +77,7 @@ class Queue : public QAbstractProxyModel {
   bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
   Qt::ItemFlags flags(const QModelIndex &idx) const override;
 
- public slots:
+ public Q_SLOTS:
   void UpdateSummaryText();
 
  Q_SIGNALS:
@@ -85,7 +85,7 @@ class Queue : public QAbstractProxyModel {
   void ItemCountChanged(const int count);
   void SummaryTextChanged(const QString &message);
 
- private slots:
+ private Q_SLOTS:
   void SourceDataChanged(const QModelIndex &top_left, const QModelIndex &bottom_right);
   void SourceLayoutChanged();
   void UpdateTotalLength();

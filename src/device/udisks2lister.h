@@ -65,14 +65,14 @@ class Udisks2Lister : public DeviceLister {
   QString MakeFriendlyName(const QString &id) override;
   QList<QUrl> MakeDeviceUrls(const QString &id) override;
 
- public slots:
+ public Q_SLOTS:
   void UnmountDevice(const QString &id) override;
   void UpdateDeviceFreeSpace(const QString &id) override;
 
  protected:
   bool Init() override;
 
- private slots:
+ private Q_SLOTS:
   void DBusInterfaceAdded(const QDBusObjectPath &path, const InterfacesAndProperties &interfaces);
   void DBusInterfaceRemoved(const QDBusObjectPath &path, const QStringList &interfaces);
   void JobCompleted(const bool success, const QString &message);

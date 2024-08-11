@@ -49,7 +49,7 @@ class Windows7ThumbBar : public QObject {
   ITaskbarList3 *CreateTaskbarList();
   void SetupButton(const QAction *action, THUMBBUTTON *button);
 
- private slots:
+ private Q_SLOTS:
   void ActionChangedTriggered();
   void ActionChanged();
 

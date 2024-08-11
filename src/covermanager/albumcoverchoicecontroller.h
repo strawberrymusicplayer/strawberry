@@ -155,10 +155,10 @@ class AlbumCoverChoiceController : public QWidget {
 
   static bool CanAcceptDrag(const QDragEnterEvent *e);
 
- public slots:
+ public Q_SLOTS:
   void set_save_embedded_cover_override(const bool value) { save_embedded_cover_override_ = value; }
 
- private slots:
+ private Q_SLOTS:
   void AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics);
   void SaveEmbeddedCoverFinished(TagReaderReply *reply, Song song, const bool art_embedded);
 

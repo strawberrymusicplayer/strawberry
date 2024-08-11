@@ -50,7 +50,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   void Load() override;
   void Save() override;
 
- private slots:
+ private Q_SLOTS:
   void ShortcutOptionsChanged();
   void OpenGnomeKeybindingProperties();
   void OpenMateKeybindingProperties();

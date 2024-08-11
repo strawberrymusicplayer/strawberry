@@ -79,7 +79,7 @@ class SpotifyBaseRequest : public QObject {
 
   bool authenticated() const { return service_->authenticated(); }
 
- private slots:
+ private Q_SLOTS:
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 
  private:

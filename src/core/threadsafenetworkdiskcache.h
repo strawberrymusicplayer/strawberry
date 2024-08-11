@@ -49,7 +49,7 @@ class ThreadSafeNetworkDiskCache : public QAbstractNetworkCache {
   bool remove(const QUrl &url) override;
   void updateMetaData(const QNetworkCacheMetaData &metaData) override;
 
- public slots:
+ public Q_SLOTS:
   void clear() override;
 
  private:

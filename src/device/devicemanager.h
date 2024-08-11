@@ -115,7 +115,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   // QAbstractItemModel
   QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
 
- public slots:
+ public Q_SLOTS:
   void Unmount(const QModelIndex &idx);
 
  Q_SIGNALS:
@@ -124,7 +124,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void DeviceDisconnected(const QModelIndex idx);
   void DeviceCreatedFromDB(DeviceInfo *info);
 
- private slots:
+ private Q_SLOTS:
   void PhysicalDeviceAdded(const QString &id);
   void PhysicalDeviceRemoved(const QString &id);
   void PhysicalDeviceChanged(const QString &id);

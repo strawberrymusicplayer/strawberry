@@ -138,7 +138,7 @@ class GstEnginePipeline : public QObject {
 
   bool exclusive_mode() const { return exclusive_mode_; }
 
- public slots:
+ public Q_SLOTS:
   void SetFaderVolume(const qreal volume);
 
  Q_SIGNALS:
@@ -202,7 +202,7 @@ class GstEnginePipeline : public QObject {
 
   void ResumeFaderAsync();
 
- private slots:
+ private Q_SLOTS:
   void SetStateAsyncFinished(const GstState state, const GstStateChangeReturn state_change);
   void FaderTimelineFinished();
 

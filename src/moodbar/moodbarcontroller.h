@@ -38,7 +38,7 @@ class MoodbarController : public QObject {
  Q_SIGNALS:
   void CurrentMoodbarDataChanged(const QByteArray &data);
 
- private slots:
+ private Q_SLOTS:
   void CurrentSongChanged(const Song &song);
   void PlaybackStopped();
   void AsyncLoadComplete(MoodbarPipeline *pipeline, const QUrl &url);

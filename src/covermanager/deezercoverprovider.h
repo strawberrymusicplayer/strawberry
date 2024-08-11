@@ -46,7 +46,7 @@ class DeezerCoverProvider : public JsonCoverProvider {
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
   void CancelSearch(const int id) override;
 
- private slots:
+ private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id);
 
  private:

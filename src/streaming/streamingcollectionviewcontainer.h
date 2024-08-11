@@ -58,7 +58,7 @@ class StreamingCollectionViewContainer : public QWidget {
   QLabel *status() const { return ui_->status; }
   QProgressBar *progressbar() const { return ui_->progressbar; }
 
- private slots:
+ private Q_SLOTS:
   void contextMenuEvent(QContextMenuEvent *e) override;
 
  private:

@@ -43,7 +43,7 @@ class AutoExpandingTreeView : public QTreeView {
   void SetExpandOnReset(bool v) { expand_on_reset_ = v; }
   void SetAddOnDoubleClick(bool v) { add_on_double_click_ = v; }
 
- public slots:
+ public Q_SLOTS:
   void RecursivelyExpandSlot(const QModelIndex &idx);
   void UpAndFocus();
   void DownAndFocus();
@@ -63,7 +63,7 @@ class AutoExpandingTreeView : public QTreeView {
 
   virtual bool CanRecursivelyExpand(const QModelIndex &idx) const { Q_UNUSED(idx); return true; }
 
- private slots:
+ private Q_SLOTS:
   void ItemExpanded(const QModelIndex &idx);
   void ItemClicked(const QModelIndex &idx);
   void ItemDoubleClicked(const QModelIndex &idx);

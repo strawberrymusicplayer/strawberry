@@ -50,7 +50,7 @@ class _MessageHandlerBase : public QObject {
   // After this is true, messages cannot be sent to the handler any more.
   bool is_device_closed() const { return is_device_closed_; }
 
- protected slots:
+ protected Q_SLOTS:
   void WriteMessage(const QByteArray &data);
   void DeviceReadyRead();
   virtual void DeviceClosed();

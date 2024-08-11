@@ -73,7 +73,7 @@ class StreamingService : public QObject {
   virtual CollectionFilter *albums_collection_filter_model() { return nullptr; }
   virtual CollectionFilter *songs_collection_filter_model() { return nullptr; }
 
- public slots:
+ public Q_SLOTS:
   virtual void ShowConfig() {}
   virtual void GetArtists() {}
   virtual void GetAlbums() {}

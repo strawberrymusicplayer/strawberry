@@ -56,7 +56,7 @@ class RadioService : public QObject {
  Q_SIGNALS:
   void NewChannels(const RadioChannelList &channels = RadioChannelList());
 
- public slots:
+ public Q_SLOTS:
   virtual void GetChannels() = 0;
 
  protected:

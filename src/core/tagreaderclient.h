@@ -116,11 +116,11 @@ class TagReaderClient : public QObject {
  Q_SIGNALS:
   void ExitFinished();
 
- private slots:
+ private Q_SLOTS:
   void Exit();
   void WorkerFailedToStart();
 
- public slots:
+ public Q_SLOTS:
   void SaveSongsPlaycount(const SongList &songs);
   void SaveSongsRating(const SongList &songs);
 

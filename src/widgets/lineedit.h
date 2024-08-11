@@ -125,7 +125,7 @@ class LineEdit : public QLineEdit, public ExtendedEditor {
   QVariant value() const override { return QLineEdit::text(); }
   void set_value(const QVariant &value) override { QLineEdit::setText(value.toString()); }
 
- public slots:
+ public Q_SLOTS:
   void set_focus() override { QLineEdit::setFocus(); }
   void clear() override { QLineEdit::clear(); }
 
@@ -137,7 +137,7 @@ class LineEdit : public QLineEdit, public ExtendedEditor {
   bool is_rtl() const { return is_rtl_; }
   void set_rtl(bool rtl) { is_rtl_ = rtl; }
 
- private slots:
+ private Q_SLOTS:
   void text_changed(const QString &text);
 
  Q_SIGNALS:
@@ -159,7 +159,7 @@ class TextEdit : public QPlainTextEdit, public ExtendedEditor {
   QVariant value() const override { return QPlainTextEdit::toPlainText(); }
   void set_value(const QVariant &value) override { QPlainTextEdit::setPlainText(value.toString()); }
 
- public slots:
+ public Q_SLOTS:
   void set_focus() override { QPlainTextEdit::setFocus(); }
   void clear() override { QPlainTextEdit::clear(); }
 
@@ -190,7 +190,7 @@ class SpinBox : public QSpinBox, public ExtendedEditor {
   void set_value(const QVariant &value) override { QSpinBox::setValue(value.toInt()); }
   bool is_empty() const override { return text().isEmpty() || text() == QStringLiteral("0"); }
 
- public slots:
+ public Q_SLOTS:
   void set_focus() override { QSpinBox::setFocus(); }
   void clear() override { QSpinBox::clear(); }
 
@@ -219,7 +219,7 @@ class CheckBox : public QCheckBox, public ExtendedEditor {
   void set_value(const QVariant &value) override { QCheckBox::setCheckState(value.toBool() ? Qt::Checked : Qt::Unchecked); }
   void set_partially() override { QCheckBox::setCheckState(Qt::PartiallyChecked); }
 
- public slots:
+ public Q_SLOTS:
   void set_focus() override { QCheckBox::setFocus(); }
   void clear() override { QCheckBox::setChecked(false); }
 
@@ -246,7 +246,7 @@ class RatingBox : public RatingWidget, public ExtendedEditor {
 
   void set_partially() override { RatingWidget::set_rating(0.0F); }
 
- public slots:
+ public Q_SLOTS:
   void set_focus() override { RatingWidget::setFocus(); }
   void clear() override {}
 

@@ -72,7 +72,7 @@ class FileView : public QWidget {
   void CopyToDevice(const QList<QUrl> &urls);
   void EditTags(const QList<QUrl> &urls);
 
- private slots:
+ private Q_SLOTS:
   void FileUp();
   void FileHome();
   void ChangeFilePath(const QString &new_path);

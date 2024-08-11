@@ -89,7 +89,7 @@ class PlaylistTabBar : public QTabBar {
   void timerEvent(QTimerEvent *e) override;
   bool event(QEvent *e) override;
 
- private slots:
+ private Q_SLOTS:
   void CurrentIndexChanged(const int index);
   void RenameSlot();
   void RenameInline();

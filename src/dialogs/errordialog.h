@@ -39,7 +39,7 @@ class ErrorDialog : public QDialog {
   explicit ErrorDialog(QWidget *parent = nullptr);
   ~ErrorDialog() override;
 
- public slots:
+ public Q_SLOTS:
   void ShowMessage(const QString &message);
 
  protected:

@@ -56,7 +56,7 @@ class TrackSlider : public QWidget {
   MoodbarProxyStyle *moodbar_style() const { return moodbar_style_; }
 #endif
 
- public slots:
+ public Q_SLOTS:
   void SetValue(const int elapsed, const int total);
   void SetStopped();
   void SetCanSeek(const bool can_seek);
@@ -71,7 +71,7 @@ class TrackSlider : public QWidget {
   void Next();
   void Previous();
 
- private slots:
+ private Q_SLOTS:
   void ValueMaybeChanged(const int value);
   void ToggleTimeDisplay();
 

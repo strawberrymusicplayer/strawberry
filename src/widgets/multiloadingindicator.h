@@ -49,7 +49,7 @@ class MultiLoadingIndicator : public QWidget {
  protected:
   void paintEvent(QPaintEvent*) override;
 
- private slots:
+ private Q_SLOTS:
   void UpdateText();
 
  private:

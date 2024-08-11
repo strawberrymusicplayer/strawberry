@@ -77,7 +77,7 @@ class SystemTrayIcon : public QSystemTrayIcon {
   void ShowHide();
   void PlayPause();
 
- private slots:
+ private Q_SLOTS:
   void Clicked(const QSystemTrayIcon::ActivationReason);
 
  private:

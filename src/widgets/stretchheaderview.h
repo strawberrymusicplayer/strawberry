@@ -65,7 +65,7 @@ class StretchHeaderView : public QHeaderView {
   // width is the proportion of the entire width from 0.0 to 1.0.
   void SetColumnWidth(const int logical_index, const ColumnWidthType width);
 
- public slots:
+ public Q_SLOTS:
   // Changes the stretch mode.
   // Enabling stretch mode will initialize the proportional column widths from the current state of the header.
   void ToggleStretchEnabled();
@@ -87,7 +87,7 @@ class StretchHeaderView : public QHeaderView {
   // Resizes the actual columns to make them match the proportional values in column_widths_.
   void ResizeSections(const QList<int> &sections = QList<int>());
 
- private slots:
+ private Q_SLOTS:
   void SectionResized(const int logical, const int old_size, const int new_size);
 
  private:

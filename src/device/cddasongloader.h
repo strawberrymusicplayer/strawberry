@@ -65,7 +65,7 @@ class CddaSongLoader : public QObject {
   void SongsDurationLoaded(const SongList &songs, const QString &error = QString());
   void SongsMetadataLoaded(const SongList &songs);
 
- private slots:
+ private Q_SLOTS:
 #ifdef HAVE_MUSICBRAINZ
   void AudioCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results);
 #endif

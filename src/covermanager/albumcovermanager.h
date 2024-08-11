@@ -153,7 +153,7 @@ class AlbumCoverManager : public QMainWindow {
   void Error(const QString &error);
   void AddToPlaylist(QMimeData *data);
 
- private slots:
+ private Q_SLOTS:
   void ArtistChanged(QListWidgetItem *current);
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
   void UpdateFilter();

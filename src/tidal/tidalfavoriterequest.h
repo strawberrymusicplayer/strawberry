@@ -61,11 +61,11 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   void AlbumsRemoved(const SongList &songs);
   void SongsRemoved(const SongList &songs);
 
- private slots:
+ private Q_SLOTS:
   void AddFavoritesReply(QNetworkReply *reply, const TidalFavoriteRequest::FavoriteType type, const SongList &songs);
   void RemoveFavoritesReply(QNetworkReply *reply, const TidalFavoriteRequest::FavoriteType type, const SongList &songs);
 
- public slots:
+ public Q_SLOTS:
   void AddArtists(const SongList &songs);
   void AddAlbums(const SongList &songs);
   void AddSongs(const SongList &songs);

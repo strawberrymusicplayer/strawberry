@@ -236,7 +236,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateSongRatingAsync(const int id, const float rating, const bool save_tags = false);
   void UpdateSongsRatingAsync(const QList<int> &ids, const float rating, const bool save_tags = false);
 
- public slots:
+ public Q_SLOTS:
   void Exit();
   void GetAllSongs(const int id);
   void LoadDirectories();

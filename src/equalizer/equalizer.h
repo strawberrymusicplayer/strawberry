@@ -73,7 +73,7 @@ class Equalizer : public QDialog {
  protected:
   void closeEvent(QCloseEvent*) override;
 
- private slots:
+ private Q_SLOTS:
   void StereoBalancerEnabledChangedSlot(const bool enabled);
   void StereoBalanceSliderChanged(const int value);
   void EqualizerEnabledChangedSlot(const bool enabled);

@@ -52,7 +52,7 @@ class StreamingSongsView : public QWidget {
   bool SearchFieldHasFocus() const { return ui_->filter_widget->SearchFieldHasFocus(); }
   void FocusSearchField() { ui_->filter_widget->FocusSearchField(); }
 
- private slots:
+ private Q_SLOTS:
   void OpenSettingsDialog();
   void GetSongs();
   void AbortGetSongs();

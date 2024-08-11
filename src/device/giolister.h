@@ -67,7 +67,7 @@ class GioLister : public DeviceLister {
   QString MakeFriendlyName(const QString &id) override;
   QList<QUrl> MakeDeviceUrls(const QString &id) override;
 
- public slots:
+ public Q_SLOTS:
   void MountDevice(const QString &id, const int request_id) override;
   void UnmountDevice(const QString &id) override;
   void UpdateDeviceFreeSpace(const QString &id) override;

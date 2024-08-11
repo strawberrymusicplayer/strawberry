@@ -58,7 +58,7 @@ class OSDDBus : public OSDBase {
   void Init();
   void ShowMessageNative(const QString &summary, const QString &message, const QString &icon = QString(), const QImage &image = QImage()) override;
 
- private slots:
+ private Q_SLOTS:
   void CallFinished(QDBusPendingCallWatcher *watcher);
 
  private:

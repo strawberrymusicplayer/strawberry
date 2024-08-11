@@ -85,7 +85,7 @@ class AlbumCoverSearcher : public QDialog {
  protected:
   void keyPressEvent(QKeyEvent*) override;
 
- private slots:
+ private Q_SLOTS:
   void Search();
   void SearchFinished(const quint64 id, const CoverProviderSearchResults &results);
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);

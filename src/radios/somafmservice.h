@@ -42,13 +42,13 @@ class SomaFMService : public RadioService {
 
   void Abort();
 
- public slots:
+ public Q_SLOTS:
   void GetChannels() override;
 
  private:
   void GetStreamUrl(const int task_id, const RadioChannel &channel);
 
- private slots:
+ private Q_SLOTS:
   void GetChannelsReply(QNetworkReply *reply, const int task_id);
   void GetStreamUrlsReply(QNetworkReply *reply, const int task_id, RadioChannel channel);
 

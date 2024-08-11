@@ -41,7 +41,7 @@ class RadioBackend : public QObject {
   void GetChannelsAsync();
   void DeleteChannelsAsync();
 
- private slots:
+ private Q_SLOTS:
   void AddChannels(const RadioChannelList &channels);
   void GetChannels();
   void DeleteChannels();
@@ -50,7 +50,7 @@ class RadioBackend : public QObject {
   void NewChannels(const RadioChannelList &channels);
   void ExitFinished();
 
- private slots:
+ private Q_SLOTS:
   void Exit();
 
  private:

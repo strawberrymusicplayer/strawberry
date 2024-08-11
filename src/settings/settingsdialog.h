@@ -141,7 +141,7 @@ class SettingsDialog : public QDialog {
   void ReloadSettings();
   void NotificationPreview(const OSDBase::Behaviour, const QString&, const QString&);
 
- private slots:
+ private Q_SLOTS:
   void CurrentItemChanged(QTreeWidgetItem *item);
   void DialogButtonClicked(QAbstractButton *button);
 

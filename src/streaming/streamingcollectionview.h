@@ -72,7 +72,7 @@ class StreamingCollectionView : public AutoExpandingTreeView {
   int TotalArtists() const;
   int TotalAlbums() const;
 
- public slots:
+ public Q_SLOTS:
   void TotalSongCountUpdated(int count);
   void TotalArtistCountUpdated(int count);
   void TotalAlbumCountUpdated(int count);
@@ -97,7 +97,7 @@ class StreamingCollectionView : public AutoExpandingTreeView {
   void mouseReleaseEvent(QMouseEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
 
- private slots:
+ private Q_SLOTS:
   void Load();
   void AddToPlaylist();
   void AddToPlaylistEnqueue();

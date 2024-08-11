@@ -52,7 +52,7 @@ class HtmlLyricsProvider : public LyricsProvider {
   virtual QUrl Url(const LyricsSearchRequest &request) = 0;
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
- protected slots:
+ protected Q_SLOTS:
   virtual void HandleLyricsReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);
 
  protected:

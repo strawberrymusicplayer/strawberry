@@ -47,7 +47,7 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
 
- private slots:
+ private Q_SLOTS:
   void FlushRequests();
   void HandleSearchReply(QNetworkReply *reply, const int search_id);
 

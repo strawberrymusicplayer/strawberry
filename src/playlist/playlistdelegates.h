@@ -83,7 +83,7 @@ class PlaylistDelegateBase : public QueuedItemDelegate {
 
   static const int kMinHeight;
 
- public slots:
+ public Q_SLOTS:
   bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &idx) override;
 
  protected:
@@ -156,7 +156,7 @@ class TagCompleter : public QCompleter {
   explicit TagCompleter(SharedPtr<CollectionBackend> backend, const Playlist::Column column, QLineEdit *editor);
   ~TagCompleter() override;
 
- private slots:
+ private Q_SLOTS:
   void ModelReady();
 
  private:

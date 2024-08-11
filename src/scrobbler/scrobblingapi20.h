@@ -71,10 +71,10 @@ class ScrobblingAPI20 : public ScrobblerService {
  Q_SIGNALS:
   void AuthenticationComplete(const bool success, const QString &error = QString());
 
- public slots:
+ public Q_SLOTS:
   void WriteCache() override { cache_->WriteCache(); }
 
- private slots:
+ private Q_SLOTS:
   void RedirectArrived();
   void AuthenticateReplyFinished(QNetworkReply *reply);
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);

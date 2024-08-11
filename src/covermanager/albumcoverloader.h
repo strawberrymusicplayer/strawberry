@@ -117,7 +117,7 @@ class AlbumCoverLoader : public QObject {
   LoadImageResult LoadRemoteUrlImage(TaskPtr task, const AlbumCoverLoaderResult::Type result_type, const QUrl &cover_url);
   void FinishTask(TaskPtr task, const AlbumCoverLoaderResult::Type result_type);
 
- private slots:
+ private Q_SLOTS:
   void Exit();
   void ProcessTasks();
   void LoadRemoteImageFinished(QNetworkReply *reply, AlbumCoverLoader::TaskPtr task, const AlbumCoverLoaderResult::Type result_type, const QUrl &cover_url);

@@ -54,7 +54,7 @@ class MoodbarLoader : public QObject {
 
   Result Load(const QUrl &url, const bool has_cue, QByteArray *data, MoodbarPipeline **async_pipeline);
 
- private slots:
+ private Q_SLOTS:
   void ReloadSettings();
 
   void RequestFinished(MoodbarPipeline *request, const QUrl &url);

@@ -57,7 +57,7 @@ class PlaylistHeader : public StretchHeaderView {
   void MouseEntered();
   void SectionRatingLockStatusChanged(const bool);
 
- private slots:
+ private Q_SLOTS:
   void HideCurrent();
   void ToggleVisible(const int section);
   void ResetColumns();

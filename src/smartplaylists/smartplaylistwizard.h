@@ -52,7 +52,7 @@ class SmartPlaylistWizard : public QWizard {
 
   void AddPlugin(SmartPlaylistWizardPlugin *plugin);
 
- private slots:
+ private Q_SLOTS:
   void TypeChanged(const int index);
 
  private:

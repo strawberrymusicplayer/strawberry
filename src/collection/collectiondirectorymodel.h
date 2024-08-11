@@ -54,7 +54,7 @@ class CollectionDirectoryModel : public QStandardItemModel {
   QMap<int, CollectionDirectory> directories() const { return directories_; }
   QStringList paths() const { return paths_; }
 
- private slots:
+ private Q_SLOTS:
   void AddDirectory(const CollectionDirectory &directory);
   void RemoveDirectory(const CollectionDirectory &directory);
 

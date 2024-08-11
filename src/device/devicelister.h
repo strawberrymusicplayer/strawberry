@@ -74,7 +74,7 @@ class DeviceLister : public QObject {
 
   virtual bool CopyMusic() { return true; }
 
- public slots:
+ public Q_SLOTS:
   virtual void UpdateDeviceFreeSpace(const QString &id) = 0;
   virtual void ShutDown() {}
   virtual void MountDevice(const QString &id, const int request_id);
@@ -101,7 +101,7 @@ class DeviceLister : public QObject {
   QThread *original_thread_;
   int next_mount_request_id_;
 
- private slots:
+ private Q_SLOTS:
   void ThreadStarted();
 
  private:

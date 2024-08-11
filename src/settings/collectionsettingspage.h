@@ -65,7 +65,7 @@ class CollectionSettingsPage : public SettingsPage {
   void Load() override;
   void Save() override;
 
- private slots:
+ private Q_SLOTS:
   void AddDirectory();
   void RemoveDirectory();
 

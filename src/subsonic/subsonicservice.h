@@ -87,7 +87,7 @@ class SubsonicService : public StreamingService {
   void CheckConfiguration();
   void Scrobble(const QString &song_id, const bool submission, const QDateTime &time);
 
- public slots:
+ public Q_SLOTS:
   void ShowConfig() override;
   void SendPing();
   void SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method, const bool redirect = false);
@@ -95,7 +95,7 @@ class SubsonicService : public StreamingService {
   void DeleteSongs();
   void ResetSongsRequest() override;
 
- private slots:
+ private Q_SLOTS:
   void HandlePingSSLErrors(const QList<QSslError> &ssl_errors);
   void HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method);
   void SongsResultsReceived(const SongMap &songs, const QString &error);

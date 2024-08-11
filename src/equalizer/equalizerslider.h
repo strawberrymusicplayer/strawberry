@@ -43,7 +43,7 @@ class EqualizerSlider : public QWidget {
  Q_SIGNALS:
   void ValueChanged(const int value);
 
- public slots:
+ public Q_SLOTS:
   void OnValueChanged(const int value);
 
  private:

@@ -58,7 +58,7 @@ class SubsonicScrobbler : public ScrobblerService {
 
   SharedPtr<SubsonicService> service();
 
- public slots:
+ public Q_SLOTS:
   void WriteCache() override {}
   void Submit() override;
 

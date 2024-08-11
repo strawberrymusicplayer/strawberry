@@ -88,10 +88,10 @@ class Database : public QObject {
   void Error(const QString &error);
   void Errors(const QStringList &errors);
 
- private slots:
+ private Q_SLOTS:
   void Exit();
 
- public slots:
+ public Q_SLOTS:
   void DoBackup();
 
  private:

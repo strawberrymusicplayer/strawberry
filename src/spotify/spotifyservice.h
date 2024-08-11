@@ -95,7 +95,7 @@ class SpotifyService : public StreamingService {
   CollectionFilter *albums_collection_filter_model() override { return albums_collection_model_->filter(); }
   CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
 
- public slots:
+ public Q_SLOTS:
   void ShowConfig() override;
   void Authenticate();
   void Deauthenticate();
@@ -106,7 +106,7 @@ class SpotifyService : public StreamingService {
   void ResetAlbumsRequest() override;
   void ResetSongsRequest() override;
 
- private slots:
+ private Q_SLOTS:
   void ExitReceived();
   void RedirectArrived();
   void RequestNewAccessToken() { RequestAccessToken(); }

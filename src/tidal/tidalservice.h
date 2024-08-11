@@ -116,7 +116,7 @@ class TidalService : public StreamingService {
   CollectionFilter *albums_collection_filter_model() override { return albums_collection_model_->filter(); }
   CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
 
- public slots:
+ public Q_SLOTS:
   void ShowConfig() override;
   void StartAuthorization(const QString &client_id);
   void TryLogin();
@@ -130,7 +130,7 @@ class TidalService : public StreamingService {
   void ResetSongsRequest() override;
   void AuthorizationUrlReceived(const QUrl &url);
 
- private slots:
+ private Q_SLOTS:
   void ExitReceived();
   void RequestNewAccessToken() { RequestAccessToken(); }
   void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);

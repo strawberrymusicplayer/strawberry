@@ -46,7 +46,7 @@ class GlobalShortcutsBackendGnome : public GlobalShortcutsBackend {
   bool DoRegister() override;
   void DoUnregister() override;
 
- private slots:
+ private Q_SLOTS:
   void RegisterFinished(QDBusPendingCallWatcher *watcher);
 
   void GnomeMediaKeyPressed(const QString &application, const QString &key);

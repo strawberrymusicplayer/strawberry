@@ -41,7 +41,7 @@ class TranscoderOptionsMP3 : public TranscoderOptionsInterface {
   void Load() override;
   void Save() override;
 
- private slots:
+ private Q_SLOTS:
   void QualitySliderChanged(const int value);
   void QualitySpinboxChanged(const double value);
 

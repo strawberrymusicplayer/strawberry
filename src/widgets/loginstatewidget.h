@@ -54,7 +54,7 @@ class LoginStateWidget : public QWidget {
   // QObject
   bool eventFilter(QObject *object, QEvent *event) override;
 
- public slots:
+ public Q_SLOTS:
   // Changes the "You are logged in/out" label, shows/hides any QGroupBoxes added with AddCredentialGroup.
   void SetLoggedIn(const LoginStateWidget::State state, const QString &account_name = QString());
 
@@ -70,7 +70,7 @@ class LoginStateWidget : public QWidget {
   void LogoutClicked();
   void LoginClicked();
 
- private slots:
+ private Q_SLOTS:
   void Logout();
   void FocusLastCredentialField();
 

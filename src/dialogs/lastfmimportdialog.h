@@ -47,13 +47,13 @@ class LastFMImportDialog : public QDialog {
   void ResetFinished();
   void Reset();
 
- private slots:
+ private Q_SLOTS:
   void Start();
   void Cancel();
   void Close();
   void UpdateGoButtonState();
 
- public slots:
+ public Q_SLOTS:
   void Finished();
   void FinishedWithError(const QString &error);
   void UpdateTotal(const int lastplayed_total, const int playcount_total);

@@ -56,7 +56,7 @@ class SubsonicSettingsPage : public SettingsPage {
  Q_SIGNALS:
   void Test(const QUrl &url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method, const bool redirect = false);
 
- private slots:
+ private Q_SLOTS:
   void TestClicked();
   void TestSuccess();
   void TestFailure(const QString &failure_reason);

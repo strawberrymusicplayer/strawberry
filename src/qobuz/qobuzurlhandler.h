@@ -44,7 +44,7 @@ class QobuzUrlHandler : public UrlHandler {
  private:
   void CancelTask(const int task_id);
 
- private slots:
+ private Q_SLOTS:
   void GetStreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
   void GetStreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 

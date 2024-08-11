@@ -77,7 +77,7 @@ class BehaviourSettingsPage : public SettingsPage {
   void Load() override;
   void Save() override;
 
- private slots:
+ private Q_SLOTS:
   void ShowTrayIconToggled(bool on);
 
  private:

@@ -66,7 +66,7 @@ class ScrobblerService : public QObject {
   QString StripAlbum(const QString &album) const;
   QString StripTitle(const QString &title) const;
 
- public slots:
+ public Q_SLOTS:
   virtual void Submit() = 0;
   virtual void WriteCache() = 0;
 

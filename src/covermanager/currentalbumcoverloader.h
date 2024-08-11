@@ -49,7 +49,7 @@ class CurrentAlbumCoverLoader : public QObject {
 
   void ReloadSettingsAsync();
 
- public slots:
+ public Q_SLOTS:
   void ReloadSettings();
   void LoadAlbumCover(const Song &song);
 
@@ -57,7 +57,7 @@ class CurrentAlbumCoverLoader : public QObject {
   void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
   void ThumbnailLoaded(const Song &song, const QUrl &thumbnail_uri, const QImage &image);
 
- private slots:
+ private Q_SLOTS:
   void AlbumCoverReady(const quint64 id, AlbumCoverLoaderResult result);
 
  private:

@@ -57,7 +57,7 @@ class AnalyzerContainer : public QWidget {
   void mouseReleaseEvent(QMouseEvent *e) override;
   void wheelEvent(QWheelEvent *e) override;
 
- private slots:
+ private Q_SLOTS:
   void ChangeAnalyzer(const int id);
   void ChangeFramerate(int new_framerate);
   void DisableAnalyzer();

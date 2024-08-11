@@ -54,7 +54,7 @@ class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicS
 
   static QStringList url_schemes() { return QStringList() << QStringLiteral("file"); }
 
- private slots:
+ private Q_SLOTS:
   void Close() override;
   void ExitFinished();
 

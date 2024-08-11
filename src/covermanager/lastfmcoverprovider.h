@@ -45,7 +45,7 @@ class LastFmCoverProvider : public JsonCoverProvider {
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
 
- private slots:
+ private Q_SLOTS:
   void QueryFinished(QNetworkReply *reply, const int id, const QString &type);
 
  private:

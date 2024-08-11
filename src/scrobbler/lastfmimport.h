@@ -88,7 +88,7 @@ class LastFMImport : public QObject {
   void Finished();
   void FinishedWithError(const QString&);
 
- private slots:
+ private Q_SLOTS:
   void FlushRequests();
   void GetRecentTracksRequestFinished(QNetworkReply *reply, const int page);
   void GetTopTracksRequestFinished(QNetworkReply *reply, const int page);

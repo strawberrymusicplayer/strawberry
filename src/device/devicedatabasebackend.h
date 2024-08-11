@@ -68,7 +68,7 @@ class DeviceDatabaseBackend : public QObject {
 
   void SetDeviceOptions(const int id, const QString &friendly_name, const QString &icon_name, const MusicStorage::TranscodeMode mode, const Song::FileType format);
 
- private slots:
+ private Q_SLOTS:
   void Exit();
 
  Q_SIGNALS:

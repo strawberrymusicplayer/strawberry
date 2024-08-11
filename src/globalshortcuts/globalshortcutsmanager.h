@@ -73,7 +73,7 @@ class GlobalShortcutsManager : public QWidget {
   bool Register();
   void Unregister();
 
- public slots:
+ public Q_SLOTS:
   void ReloadSettings();
   void ShowMacAccessibilityDialog();
 

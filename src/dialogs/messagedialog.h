@@ -38,7 +38,7 @@ class MessageDialog : public QDialog {
 
   void ShowMessage(const QString &title, const QString &message, const QIcon &icon = QIcon());
 
- private slots:
+ private Q_SLOTS:
   void DoNotShowMessageAgain();
 
  protected:

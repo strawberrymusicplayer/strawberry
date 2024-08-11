@@ -68,7 +68,7 @@ class PlayingWidget : public QWidget {
  Q_SIGNALS:
   void ShowAboveStatusBarChanged(const bool above);
 
- public slots:
+ public Q_SLOTS:
   void Playing();
   void Stopped();
   void Error();
@@ -90,7 +90,7 @@ class PlayingWidget : public QWidget {
     LargeSongDetails = 1
   };
 
- private slots:
+ private Q_SLOTS:
   void Update() { update(); }
   void SetMode(const Mode mode);
   void ShowAboveStatusBar(const bool above);

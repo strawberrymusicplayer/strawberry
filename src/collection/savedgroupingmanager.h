@@ -54,7 +54,7 @@ class SavedGroupingManager : public QDialog {
  Q_SIGNALS:
   void UpdateGroupByActions();
 
- private slots:
+ private Q_SLOTS:
   void UpdateButtonState();
   void Remove();
 

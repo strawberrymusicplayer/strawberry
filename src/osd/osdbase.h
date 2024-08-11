@@ -64,7 +64,7 @@ class OSDBase : public QObject {
 
   QString app_name() { return app_name_; }
 
- public slots:
+ public Q_SLOTS:
   void ReloadSettings();
 
   void SongChanged(const Song &song);
@@ -91,7 +91,7 @@ class OSDBase : public QObject {
   QString ReplaceMessage(const MessageType type, const QString &message, const Song &song);
   virtual void ShowMessageNative(const QString &summary, const QString &message, const QString &icon = QString(), const QImage &image = QImage());
 
- private slots:
+ private Q_SLOTS:
   void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
 
  private:

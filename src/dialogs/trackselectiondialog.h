@@ -46,7 +46,7 @@ class TrackSelectionDialog : public QDialog {
 
   void Init(const SongList &songs);
 
- public slots:
+ public Q_SLOTS:
   void FetchTagProgress(const Song &original_song, const QString &progress);
   void FetchTagFinished(const Song &original_song, const SongList &songs_guessed);
 
@@ -57,7 +57,7 @@ class TrackSelectionDialog : public QDialog {
   void Error(const QString &error);
   void SongChosen(const Song &original_song, const Song &new_metadata);
 
- private slots:
+ private Q_SLOTS:
   void UpdateStack();
 
   void NextSong();

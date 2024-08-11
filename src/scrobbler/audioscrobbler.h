@@ -77,7 +77,7 @@ class AudioScrobbler : public QObject {
   void ClearPlaying();
   void Scrobble(const Song &song, const qint64 scrobble_point);
 
- public slots:
+ public Q_SLOTS:
   void ToggleScrobbling();
   void ToggleOffline();
   void ErrorReceived(const QString &error);

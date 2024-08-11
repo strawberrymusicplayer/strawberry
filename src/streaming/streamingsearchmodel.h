@@ -78,7 +78,7 @@ class StreamingSearchModel : public QStandardItemModel {
   // The implementation creates a SongMimeData with one Song for each Result.
   MimeData *LoadTracks(const StreamingSearchView::ResultList &results) const;
 
- public slots:
+ public Q_SLOTS:
   void AddResults(const StreamingSearchView::ResultList &results);
 
  private:

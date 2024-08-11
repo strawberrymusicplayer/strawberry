@@ -73,7 +73,7 @@ class PlaylistContainer : public QWidget {
   // QWidget
   void resizeEvent(QResizeEvent*) override;
 
- private slots:
+ private Q_SLOTS:
   void NewPlaylist();
   void LoadPlaylist();
   void SaveCurrentPlaylist() { SavePlaylist(-1); }
@@ -101,7 +101,7 @@ class PlaylistContainer : public QWidget {
 
   void UpdateNoMatchesLabel();
 
- public slots:
+ public Q_SLOTS:
   void ActivePlaying();
   void ActivePaused();
   void ActiveStopped();

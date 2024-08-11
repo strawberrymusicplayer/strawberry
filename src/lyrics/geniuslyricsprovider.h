@@ -79,7 +79,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   void EndSearch(GeniusLyricsSearchContextPtr search, const GeniusLyricsLyricContext &lyric = GeniusLyricsLyricContext());
 
- private slots:
+ private Q_SLOTS:
   void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);
   void RedirectArrived();
   void AccessTokenRequestFinished(QNetworkReply *reply);

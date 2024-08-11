@@ -48,7 +48,7 @@ class MusixmatchCoverProvider : public JsonCoverProvider, MusixmatchProvider {
  private:
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
- private slots:
+ private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album);
 
  private:

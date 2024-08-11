@@ -48,7 +48,7 @@ class LyricsProviders : public QObject {
   bool HasAnyProviders() const { return !lyrics_providers_.isEmpty(); }
   int NextId();
 
- private slots:
+ private Q_SLOTS:
   void ProviderDestroyed();
 
  private:

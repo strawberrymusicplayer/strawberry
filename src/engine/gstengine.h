@@ -90,7 +90,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
 
   void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) override;
 
- public slots:
+ public Q_SLOTS:
   void ReloadSettings() override;
 
   // Set whether stereo balancer is enabled
@@ -111,7 +111,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
  protected:
   void timerEvent(QTimerEvent *e) override;
 
- private slots:
+ private Q_SLOTS:
   void EndOfStreamReached(const int pipeline_id, const bool has_next_track);
   void HandlePipelineError(const int pipeline_id, const int domain, const int error_code, const QString &message, const QString &debugstr);
   void NewMetaData(const int pipeline_id, const EngineMetadata &engine_metadata);

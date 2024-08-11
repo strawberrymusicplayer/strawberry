@@ -64,7 +64,7 @@ class VolumeSlider : public SliderSlider {
   void mousePressEvent(QMouseEvent*) override;
   void wheelEvent(QWheelEvent *e) override;
 
- private slots:
+ private Q_SLOTS:
   virtual void slotAnimTimer();
 
  private:

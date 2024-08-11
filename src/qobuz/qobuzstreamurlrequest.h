@@ -58,10 +58,10 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   void StreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
   void StreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
- private slots:
+ private Q_SLOTS:
   void StreamURLReceived();
 
- public slots:
+ public Q_SLOTS:
   void LoginComplete(const bool success, const QString &error = QString());
 
  private:

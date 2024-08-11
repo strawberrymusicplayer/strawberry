@@ -82,7 +82,7 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
   QPixmap ChannelIcon(const QModelIndex &idx);
   QString SortText(QString text);
 
- private slots:
+ private Q_SLOTS:
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 
  private:

@@ -56,12 +56,12 @@ class RadioServices : public QObject {
   SharedPtr<RadioBackend> radio_backend() const { return backend_; }
   QSortFilterProxyModel *sort_model() const { return sort_model_; }
 
- private slots:
+ private Q_SLOTS:
   void ServiceDeleted();
   void GotChannelsFromBackend(const RadioChannelList &channels);
   void GotChannelsFromService(const RadioChannelList &channels);
 
- public slots:
+ public Q_SLOTS:
   void GetChannels();
   void RefreshChannels();
 

@@ -46,7 +46,7 @@ class MtpLoader : public QObject {
   bool Init();
   void Abort() { abort_ = true; }
 
- public slots:
+ public Q_SLOTS:
   void LoadDatabase();
 
  Q_SIGNALS:

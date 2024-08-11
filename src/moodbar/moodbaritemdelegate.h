@@ -47,7 +47,7 @@ class MoodbarItemDelegate : public QItemDelegate {
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
- private slots:
+ private Q_SLOTS:
   void ReloadSettings();
 
   void DataLoaded(const QUrl &url, MoodbarPipeline *pipeline);

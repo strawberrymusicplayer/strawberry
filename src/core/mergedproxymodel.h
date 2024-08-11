@@ -88,7 +88,7 @@ class MergedProxyModel : public QAbstractProxyModel {
  Q_SIGNALS:
   void SubModelReset(const QModelIndex root, QAbstractItemModel *model);
 
- private slots:
+ private Q_SLOTS:
   void SourceModelReset();
   void SubModelAboutToBeReset();
   void SubModelResetSlot();

@@ -40,7 +40,7 @@ class SavePlaylistsDialog : public QDialog {
  protected:
   void accept() override;
 
- private slots:
+ private Q_SLOTS:
   void SelectPath();
 
  private:

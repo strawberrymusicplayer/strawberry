@@ -69,11 +69,11 @@ class FancyTabWidget : public QTabWidget {
   void SetBackgroundPixmap(const QPixmap &pixmap);
   int IndexOfTab(QWidget *widget);
 
- public slots:
+ public Q_SLOTS:
   void SetMode(const Mode mode);
   void SetCurrentIndex(int idx);
 
- private slots:
+ private Q_SLOTS:
   void TabBarUpdateGeometry();
   void CurrentTabChangedSlot(const int idx);
 

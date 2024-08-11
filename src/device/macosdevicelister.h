@@ -77,7 +77,7 @@ class MacOsDeviceLister : public DeviceLister {
 
   void ExitAsync();
 
- public slots:
+ public Q_SLOTS:
   void UnmountDevice(const QString &id);
   void ShutDown();
 

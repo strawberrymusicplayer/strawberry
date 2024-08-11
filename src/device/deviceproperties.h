@@ -51,7 +51,7 @@ class DeviceProperties : public QDialog {
   void SetDeviceManager(SharedPtr<DeviceManager> manager);
   void ShowDevice(const QModelIndex &idx);
 
- public slots:
+ public Q_SLOTS:
   void accept() override;
 
  private:
@@ -59,7 +59,7 @@ class DeviceProperties : public QDialog {
   void AddHardwareInfo(const int row, const QString &key, const QString &value);
   void UpdateFormats();
 
- private slots:
+ private Q_SLOTS:
   void ModelChanged();
   void OpenDevice();
   void UpdateFormatsFinished();

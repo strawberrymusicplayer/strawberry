@@ -64,7 +64,7 @@ class PlayerInterface : public QObject {
   virtual void RegisterUrlHandler(UrlHandler *handler) = 0;
   virtual void UnregisterUrlHandler(UrlHandler *handler) = 0;
 
- public slots:
+ public Q_SLOTS:
   virtual void ReloadSettings() = 0;
   virtual void LoadVolume() = 0;
   virtual void SaveVolume() = 0;
@@ -155,7 +155,7 @@ class Player : public PlayerInterface {
   void SetAnalyzer(AnalyzerContainer *analyzer) { analyzer_ = analyzer; }
   void SetEqualizer(SharedPtr<Equalizer> equalizer) { equalizer_ = equalizer; }
 
- public slots:
+ public Q_SLOTS:
   void ReloadSettings() override;
   void LoadVolume() override;
   void SaveVolume() override;
@@ -193,7 +193,7 @@ class Player : public PlayerInterface {
  Q_SIGNALS:
   void EngineChanged(const EngineBase::Type Type);
 
- private slots:
+ private Q_SLOTS:
   void EngineStateChanged(const EngineBase::State);
   void EngineMetadataReceived(const EngineMetadata &engine_metadata);
   void TrackAboutToEnd();

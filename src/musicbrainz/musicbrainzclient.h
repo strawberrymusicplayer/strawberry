@@ -107,7 +107,7 @@ class MusicBrainzClient : public QObject {
   // Finished signal emitted when fechting album's songs tags using DiscId
   void DiscIdFinished(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &result, const QString &error = QString());
 
- private slots:
+ private Q_SLOTS:
   void FlushRequests();
   // id identifies the track, and request_number means it's the 'request_number'th request for this track
   void RequestFinished(QNetworkReply *reply, const int id, const int request_number);

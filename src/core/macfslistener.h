@@ -47,7 +47,7 @@ class MacFSListener : public FileSystemWatcherInterface {
  Q_SIGNALS:
   void PathChanged(const QString &path);
 
- private slots:
+ private Q_SLOTS:
   void UpdateStream();
 
  private:

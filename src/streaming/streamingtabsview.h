@@ -57,7 +57,7 @@ class StreamingTabsView : public QWidget {
   bool SearchFieldHasFocus() const;
   void FocusSearchField();
 
- private slots:
+ private Q_SLOTS:
   void OpenSettingsDialog();
   void GetArtists();
   void GetAlbums();

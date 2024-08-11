@@ -206,7 +206,7 @@ class Mpris2 : public QObject {
   // Playlist
   void PlaylistChanged(const MprisPlaylist &playlist);
 
- private slots:
+ private Q_SLOTS:
   void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result = AlbumCoverLoaderResult());
   void EngineStateChanged(EngineBase::State newState);
   void VolumeChanged();

@@ -58,7 +58,7 @@ class StreamingServices : public QObject {
  Q_SIGNALS:
   void ExitFinished();
 
- private slots:
+ private Q_SLOTS:
   void ExitReceived();
 
  private:

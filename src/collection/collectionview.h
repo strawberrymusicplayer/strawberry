@@ -69,7 +69,7 @@ class CollectionView : public AutoExpandingTreeView {
   int TotalArtists() const;
   int TotalAlbums() const;
 
- public slots:
+ public Q_SLOTS:
   void TotalSongCountUpdated(const int count);
   void TotalArtistCountUpdated(const int count);
   void TotalAlbumCountUpdated(const int count);
@@ -97,7 +97,7 @@ class CollectionView : public AutoExpandingTreeView {
   void mouseReleaseEvent(QMouseEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
 
- private slots:
+ private Q_SLOTS:
   void Load();
   void AddToPlaylist();
   void AddToPlaylistEnqueue();

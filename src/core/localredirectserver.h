@@ -48,7 +48,7 @@ class LocalRedirectServer : public QTcpServer {
  Q_SIGNALS:
   void Finished();
 
- public slots:
+ public Q_SLOTS:
   void NewConnection();
   void incomingConnection(qintptr socket_descriptor) override;
   void Encrypted();

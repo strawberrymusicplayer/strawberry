@@ -51,7 +51,7 @@ class AlbumCoverExporter : public QObject {
  Q_SIGNALS:
   void AlbumCoversExportUpdate(const int exported, const int skipped, const int all);
 
- private slots:
+ private Q_SLOTS:
   void CoverExported();
   void CoverSkipped();
 

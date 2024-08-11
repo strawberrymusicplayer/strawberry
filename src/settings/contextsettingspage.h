@@ -61,7 +61,7 @@ class ContextSettingsPage : public SettingsPage {
   void Load() override;
   void Save() override;
 
- private slots:
+ private Q_SLOTS:
   void InsertVariableFirstLine(QAction *action);
   void InsertVariableSecondLine(QAction *action);
   static void ShowMenuTooltip(QAction *action);

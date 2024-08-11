@@ -275,7 +275,7 @@ class Playlist : public QAbstractListModel {
 
   void ItemReload(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit);
 
- public slots:
+ public Q_SLOTS:
   void set_current_row(const int i, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Maybe, const bool is_stopping = false, const bool force_inform = false);
   void Paused();
   void Playing();
@@ -347,7 +347,7 @@ class Playlist : public QAbstractListModel {
   void TurnOnDynamicPlaylist(PlaylistGeneratorPtr gen);
   void InsertDynamicItems(const int count);
 
- private slots:
+ private Q_SLOTS:
   void TracksAboutToBeDequeued(const QModelIndex&, const int begin, const int end);
   void TracksDequeued();
   void TracksEnqueued(const QModelIndex&, const int begin, const int end);

@@ -62,7 +62,7 @@ class BackendSettingsPage : public SettingsPage {
   };
 #endif
 
- private slots:
+ private Q_SLOTS:
   void EngineChanged(const int index);
   void OutputChanged(const int index);
   void DeviceSelectionChanged(const int index);

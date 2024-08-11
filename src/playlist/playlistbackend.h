@@ -86,7 +86,7 @@ class PlaylistBackend : public QObject {
 
   Application *app() const { return app_; }
 
- public slots:
+ public Q_SLOTS:
   void Exit();
   void SavePlaylist(const int playlist, const PlaylistItemPtrList &items, const int last_played, PlaylistGeneratorPtr dynamic);
 
