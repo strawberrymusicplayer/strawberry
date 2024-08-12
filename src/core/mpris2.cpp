@@ -241,7 +241,7 @@ QString Mpris2::DesktopEntryAbsolutePath() const {
 
 }
 
-QString Mpris2::DesktopEntry() const { return QGuiApplication::desktopFileName() + QLatin1String(".desktop"); }
+QString Mpris2::DesktopEntry() const { return QGuiApplication::desktopFileName(); }
 
 QStringList Mpris2::SupportedUriSchemes() const {
 
